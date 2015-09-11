@@ -1,0 +1,9 @@
+﻿DELETE FROM T_Menus;
+
+INSERT INTO T_Menus VALUES('f13f2a8ff0cd46cdba41c5a3b85306bf',NULL,'SYS','系统管理','glyphicon glyphicon-cog',NULL,'100',1);
+INSERT INTO T_Menus VALUES('4f064f3f28c9498395ff6317dfbc0339','f13f2a8ff0cd46cdba41c5a3b85306bf','SYS01','系统设置',NULL,'Sys/Setting.ascx','101',1);
+INSERT INTO T_Menus VALUES('f932ba10eec6424a895edcb26a58377d','f13f2a8ff0cd46cdba41c5a3b85306bf','SYS02','功能管理',NULL,'Sys/MenuManage.ascx','102',1);
+INSERT INTO T_Menus VALUES('ed66b85ed05a4ae0b2826ced14f1d280','f13f2a8ff0cd46cdba41c5a3b85306bf','SYS03','角色管理',NULL,'Sys/RoleManage.ascx','103',1);
+INSERT INTO T_Menus VALUES('3f97b3b3da8545acb87fe5e25c7633ba','f13f2a8ff0cd46cdba41c5a3b85306bf','SYS04','用户管理',NULL,'Sys/UserManage.ascx','104',1);
+INSERT INTO T_Menus VALUES('28c0215579004fe18b18b0f1b749e45f','f13f2a8ff0cd46cdba41c5a3b85306bf','SYS05','代码管理',NULL,'Sys/CodeManage.ascx','105',1);
+INSERT INTO T_Menus VALUES('f21f1bbb6fe848f98895cb02fa0135ac','f13f2a8ff0cd46cdba41c5a3b85306bf','SYS06','系统日志',NULL,'Sys/LogView.ascx','106',1);

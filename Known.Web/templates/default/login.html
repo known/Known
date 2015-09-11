@@ -1,0 +1,25 @@
+﻿#parse("_header.html")
+
+<div class="container">
+    <form method="post" style="width:360px;">
+        <p>
+            <label for="userMobile">手机号码</label>
+            <input type="text" id="userMobile" name="userMobile">
+        </p>
+        <p>
+            <label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+            <input type="password" id="password" name="password">
+        </p>
+        <p>
+            <label></label>
+            <button>登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+        </p>
+        <p>
+            <label></label>
+            <a href="${siteurl}getpassword">忘记密码</a>&nbsp;
+            没有帐号，请<a href="${siteurl}register">注册</a>！
+        </p>
+    </form>
+</div>
+
+#parse("_footer.html")
