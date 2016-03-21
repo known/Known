@@ -1,0 +1,90 @@
+﻿#parse("_header.html")
+
+<div id="submitorder" class="container">
+    <form method="post" style="width:960px;">
+        <div class="area">
+            <p class="title">◆ 装货地址</p>
+            <p>
+                <label for="from"><span class="red">*</span> 地址</label>
+                <input type="text" id="from" name="from" maxlength="80" placeholder="货物所在小区/街道/建筑物/商圈" style="width:825px;">
+            </p>
+            <p>
+                <label for="fromUser"><span class="red">*</span> 联系人</label>
+                <input type="text" id="fromUser" name="fromUser" maxlength="10" placeholder="联系人姓名，仅限中文!" style="width:280px;">
+                <label for="fromPhone" style="margin-left:20px;"><span class="red">*</span> 联系电话</label>
+                <input type="text" id="fromPhone" name="fromPhone" maxlength="13" placeholder="移动电话或固定电话号码（可带区号）" style="width:280px;">
+                <a href="#TB_inline?height=300&width=500&inlineId=fromAddress&modal=true" class="btn thickbox">常用地址</a>
+            </p>
+        </div>
+        <div class="area">
+            <p class="title">◆ 卸货地址</p>
+            <p>
+                <label for="to"><span class="red">*</span> 地址</label>
+                <input type="text" id="to" name="to" maxlength="80" placeholder="货物所在小区/街道/建筑物/商圈" style="width:825px;">
+            </p>
+            <p>
+                <label for="toUser"><span class="red">*</span> 联系人</label>
+                <input type="text" id="toUser" name="toUser" maxlength="10" placeholder="联系人姓名，仅限中文!" style="width:280px;">
+                <label for="toPhone" style="margin-left:20px;"><span class="red">*</span> 联系电话</label>
+                <input type="text" id="toPhone" name="toPhone" maxlength="13" placeholder="移动电话或固定电话号码（可带区号）" style="width:280px;">
+                <a href="#TB_inline?height=300&width=500&inlineId=toAddress&modal=true" class="btn thickbox">常用地址</a>
+            </p>
+        </div>
+        <div class="area">
+            <p class="title">◆ 货物信息</p>
+            <p>
+                <label for="description"><span class="red">*</span> 描述</label>
+                <input type="text" id="description" name="description" placeholder="简单描述一下货物" style="width:825px;">
+            </p>
+            <p>
+                <label for="weight"><span class="red">&nbsp;</span> 重量</label>
+                <input type="text" id="weight" name="weight">
+                <label for="volume" style="margin-left:30px;width:65px;">体积</label>
+                <input type="text" id="volume" name="volume">
+                <label for="length" style="margin-left:20px;width:65px;">长度</label>
+                <input type="text" id="length" name="length">
+            </p>
+        </div>
+        <p class="center" style="margin-top:20px;">
+            <button>提 交 订 单</button>
+        </p>
+    </form>
+</div>
+
+<div id="fromAddress" class="hide">
+    <div class="box-address">
+        <h3>常用装货地址</h3>
+        <p onclick="selectAddress('from', '张三', '18922335656', '江苏 苏州 新区 竹园路1号 苏州AAA有限公司');">
+            <span class="name">张三（18922335656）</span>
+            <span class="address">江苏 苏州 新区 竹园路1号 苏州AAA有限公司</span>
+        </p>
+        <p onclick="selectAddress('from', '李四', '15912125656', '江苏 苏州 新区 竹园路100号 苏州BBB有限公司');">
+            <span class="name">李四（15912125656）</span>
+            <span class="address">江苏 苏州 新区 竹园路100号 苏州BBB有限公司</span>
+        </p>
+    </div>
+</div>
+<div id="toAddress" class="hide">
+    <div class="box-address">
+        <h3>常用装货地址</h3>
+        <p onclick="selectAddress('to', '张三', '18922335656', '江苏 苏州 新区 竹园路1号 苏州AAA有限公司');">
+            <span class="name">张三（18922335656）</span>
+            <span class="address">江苏 苏州 新区 竹园路1号 苏州AAA有限公司</span>
+        </p>
+        <p onclick="selectAddress('to', '李四', '15912125656', '江苏 苏州 新区 竹园路100号 苏州BBB有限公司');">
+            <span class="name">李四（15912125656）</span>
+            <span class="address">江苏 苏州 新区 竹园路100号 苏州BBB有限公司</span>
+        </p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function selectAddress(type, name, phone, address) {
+        $('#' + type).val(address);
+        $('#' + type + 'User').val(name);
+        $('#' + type + 'Phone').val(phone);
+        tb_remove();
+    }
+</script>
+
+#parse("_footer.html")

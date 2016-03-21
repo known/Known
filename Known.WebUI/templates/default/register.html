@@ -1,0 +1,33 @@
+﻿#parse("_header.html")
+
+<div class="container">
+    <form method="post" style="width:360px;">
+        <p>
+            <label for="realName"><span class="red">*</span> 真实姓名</label>
+            <input type="text" id="realName" name="realName">
+        </p>
+        <p>
+            <label for="userMobile"><span class="red">*</span> 手机号码</label>
+            <input type="text" id="userMobile" name="userMobile">
+        </p>
+        <p>
+            <label for="password"><span class="red">*</span> 设置密码</label>
+            <input type="password" id="password" name="password">
+        </p>
+        <p>
+            <label for="password1"><span class="red">*</span> 确认密码</label>
+            <input type="password" id="password1" name="password1">
+        </p>
+        <p>
+            <label></label>
+            <button>同意协议并注册</button>
+        </p>
+        <p>
+            <label></label>
+            <a href="${siteurl}agreement" target="_blank">服务协议</a>&nbsp;
+            我已注册，请<a href="${siteurl}login">登录</a>！
+        </p>
+    </form>
+</div>
+
+#parse("_footer.html")

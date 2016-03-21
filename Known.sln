@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known", "Known\Known.csproj", "{D30F3CE4-BFC2-4551-95B6-1E6A64B5EECC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Web", "Known.Web\Known.Web.csproj", "{FB7301D4-0662-4FF5-A694-2463285B6B0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.WebUI", "Known.WebUI\Known.WebUI.csproj", "{FB7301D4-0662-4FF5-A694-2463285B6B0A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.SLite", "Known.SLite\Known.SLite.csproj", "{2D07A441-7261-4C5A-809E-44734DF26845}"
 EndProject
