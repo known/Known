@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace System
+namespace Known.Extensions
 {
     public static class DictionaryExtension
     {
@@ -18,6 +15,7 @@ namespace System
             {
                 return dictionary[key];
             }
+
             return defaultValue;
         }
     }

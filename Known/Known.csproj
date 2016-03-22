@@ -30,98 +30,42 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net35\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database.cs" />
-    <Compile Include="KItem.cs" />
-    <Compile Include="Models\ActionInfo.cs" />
+    <Compile Include="CodeInfo.cs" />
+    <Compile Include="Data\Database.cs" />
+    <Compile Include="Data\DbContext.cs" />
+    <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Extensions\TypeExtension.cs" />
     <Compile Include="AppContext.cs" />
     <Compile Include="KCache.cs" />
-    <Compile Include="Models\CodeInfo.cs" />
-    <Compile Include="Models\RoleInfo.cs" />
-    <Compile Include="Services\CodeService.cs" />
     <Compile Include="ValidateResult.cs" />
-    <Compile Include="Services\ActionService.cs" />
-    <Compile Include="Services\SettingService.cs" />
     <Compile Include="KConfig.cs" />
-    <Compile Include="Command.cs" />
-    <Compile Include="DbHelper.cs" />
+    <Compile Include="Data\Command.cs" />
+    <Compile Include="Data\DbHelper.cs" />
     <Compile Include="Extensions\DataTableExtension.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Extensions\EnumerableExtension.cs" />
     <Compile Include="Extensions\ObjectExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
-    <Compile Include="Models\FieldInfo.cs" />
-    <Compile Include="IFieldControl.cs" />
-    <Compile Include="Models\MenuInfo.cs" />
     <Compile Include="PagedResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceLoader.cs" />
-    <Compile Include="Models\SettingInfo.cs" />
-    <Compile Include="Services\FieldService.cs" />
-    <Compile Include="KSettings.cs" />
-    <Compile Include="Models\UserInfo.cs" />
-    <Compile Include="Services\MenuService.cs" />
-    <Compile Include="Services\RoleService.cs" />
-    <Compile Include="Services\UserService.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="Web\AdminPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\Admin\AjaxHandler.cs" />
-    <Compile Include="Web\Admin\Controls\CodeManage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\Admin\Controls\LogView.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\Admin\Controls\MenuManage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\Admin\Controls\RoleManage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\Admin\Controls\Setting.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\Admin\Controls\UserManage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\Admin\Handlers\RoleHandler.cs" />
-    <Compile Include="Web\Admin\Handlers\UserHandler.cs" />
-    <Compile Include="Web\Controls\AspNetPager.cs" />
-    <Compile Include="Web\ControlType.cs" />
-    <Compile Include="Web\Admin\Default.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\Extensions\ControlExtension.cs" />
-    <Compile Include="Web\Extensions\GridViewExtension.cs" />
-    <Compile Include="Web\Extensions\HttpRequestExtension.cs" />
-    <Compile Include="Web\Extensions\HttpResponseExtension.cs" />
-    <Compile Include="Web\Extensions\ListControlExtension.cs" />
-    <Compile Include="Web\Extensions\PageExtension.cs" />
-    <Compile Include="Web\Admin\Login.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\PageBase.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\UrlRewriter.cs" />
-    <Compile Include="Web\UserControlBase.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

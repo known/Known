@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace System
+namespace Known.Extensions
 {
     public static class EnumerableExtension
     {

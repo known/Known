@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -7,11 +8,9 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Script.Serialization;
 using System.Xml.Serialization;
 
-namespace System
+namespace Known.Extensions
 {
     public static class StringExtension
     {
@@ -54,18 +53,6 @@ namespace System
             return value.Trim();
         }
 
-        public static string HtmlEncode(this string value)
-        {
-            if (string.IsNullOrEmpty(value))
-                return string.Empty;
-
-            value = HttpUtility.HtmlEncode(value);
-            value = value.Replace("\r\n", "<br/>");
-            value = value.Replace("\r", "<br/>");
-            value = value.Replace("\n", "<br/>");
-            return value;
-        }
-
         public static string ToMd5(this string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -78,38 +65,19 @@ namespace System
             return sb.ToString();
         }
 
+        public static List<T> JsonToList<T>(this string json)
+        {
+            return json.FromJson<List<T>>();
+        }
+
         public static T FromJson<T>(this string json)
         {
             if (string.IsNullOrEmpty(json))
                 return default(T);
 
-            var serializer = new JavaScriptSerializer();
-            if (typeof(T) == typeof(DataTable))
-            {
-                var dt = new DataTable();
-                var list = serializer.Deserialize<ArrayList>(json);
-                if (list.Count > 0)
-                {
-                    foreach (Dictionary<string, object> row in list)
-                    {
-                        if (dt.Columns.Count == 0)
-                        {
-                            foreach (string key in row.Keys)
-                            {
-                                dt.Columns.Add(key);
-                            }
-                        }
-                        var dr = dt.NewRow();
-                        foreach (string key in row.Keys)
-                        {
-                            dr[key] = row[key];
-                        }
-                        dt.Rows.Add(dr);
-                    }
-                }
-                return (T)Convert.ChangeType(dt, typeof(T));
-            }
-            return serializer.Deserialize<T>(json);
+            var settings = new JsonSerializerSettings();
+            settings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+            return JsonConvert.DeserializeObject<T>(json, settings);
         }
 
         public static T FromXml<T>(this string xml) where T : class

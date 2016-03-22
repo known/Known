@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Known.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 
-namespace Known
+namespace Known.Data
 {
     public class DbHelper : IDisposable
     {

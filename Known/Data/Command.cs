@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Known.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
-namespace Known
+namespace Known.Data
 {
     public class Command
     {

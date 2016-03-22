@@ -1,90 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-
-using Known.Models;
-using Known.Services;
+using System.Collections;
 
 namespace Known
 {
-    public class AppContext
+    public interface IAppContext
     {
-        public static UserInfo CurrentUser
-        {
-            get { return GetValue<UserInfo>("CurrentUser"); }
-            set { SetValue("CurrentUser", value); }
-        }
+        void Clear();
+        T GetValue<T>(string key);
+        void SetValue<T>(string key, T value);
+    }
 
-        public static MenuInfo CurrentMenu
-        {
-            get { return GetValue<MenuInfo>("CurrentMenu"); }
-            set { SetValue("CurrentMenu", value); }
-        }
-
-        public static string AlertMessage
-        {
-            get { return GetValue<string>("AlertMessage"); }
-            set { SetValue("AlertMessage", value); }
-        }
-
-        public static ISettingService SettingService
-        {
-            get { return LoadService<ISettingService>(); }
-        }
-
-        public static ICodeService CodeService
-        {
-            get { return LoadService<ICodeService>(); }
-        }
-
-        public static IMenuService MenuService
-        {
-            get { return LoadService<IMenuService>(); }
-        }
-
-        public static IRoleService RoleService
-        {
-            get { return LoadService<IRoleService>(); }
-        }
-
-        public static IUserService UserService
-        {
-            get { return LoadService<IUserService>(); }
-        }
+    public abstract class AppContext : IAppContext
+    {
+        public abstract void Clear();
+        public abstract T GetValue<T>(string key);
+        public abstract void SetValue<T>(string key, T value);
 
         public static T LoadService<T>()
         {
             return ServiceLoader.Load<T>();
         }
 
-        public static T GetValue<T>(string key)
+        public static void RegisterService<T, TService>() where TService : T
         {
-            if (HttpContext.Current != null)
-            {
-                return (T)HttpContext.Current.Session[key];
-            }
-            return default(T);
+            ServiceLoader.Register<T, TService>();
         }
 
-        public static void SetValue<T>(string key, T value)
+        static class ServiceLoader
         {
-            if (HttpContext.Current != null)
-            {
-                HttpContext.Current.Session[key] = value;
-            }
-        }
+            private static Hashtable cachedServices = new Hashtable();
 
-        public static void RegisterServices()
-        {
-            ServiceLoader.Register<ISettingService, SettingService>();
-            ServiceLoader.Register<ICodeService, CodeService>();
-            ServiceLoader.Register<IMenuService, MenuService>();
-            ServiceLoader.Register<IRoleService, RoleService>();
-            ServiceLoader.Register<IUserService, UserService>();
-            ServiceLoader.Register<IActionService, ActionService>();
-            ServiceLoader.Register<IFieldService, FieldService>();
+            public static void Register<T, TService>() where TService : T
+            {
+                var key = typeof(T);
+                if (!cachedServices.ContainsKey(key))
+                {
+                    lock (cachedServices.SyncRoot)
+                    {
+                        cachedServices[key] = Activator.CreateInstance<TService>();
+                    }
+                }
+            }
+
+            public static T Load<T>()
+            {
+                var key = typeof(T);
+                if (cachedServices.ContainsKey(key))
+                {
+                    return (T)cachedServices[key];
+                }
+
+                return default(T);
+            }
         }
     }
 }
