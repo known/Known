@@ -22,15 +22,16 @@ namespace Known.PLite
         {
             get
             {
-                var key = KConfig.KeyPrefix + "actioninfos";
-                var actions = KCache.Get<List<ActionInfo>>(key);
-                if (actions == null)
-                {
-                    var service = ServiceLoader.Load<IPrototypeService>();
-                    actions = service.GetActions();
-                    KCache.Insert(key, actions);
-                }
-                return actions;
+                //var key = KConfig.KeyPrefix + "actioninfos";
+                //var actions = KCache.Get<List<ActionInfo>>(key);
+                //if (actions == null)
+                //{
+                //    var service = ServiceLoader.Load<IPrototypeService>();
+                //    actions = service.GetActions();
+                //    KCache.Insert(key, actions);
+                //}
+                //return actions;
+                return new List<ActionInfo>();
             }
         }
 

@@ -29,15 +29,16 @@ namespace Known.PLite
         {
             get
             {
-                var key = KConfig.KeyPrefix + "fieldinfos";
-                var fields = KCache.Get<List<FieldInfo>>(key);
-                if (fields == null)
-                {
-                    var service = ServiceLoader.Load<IPrototypeService>();
-                    fields = service.GetFields();
-                    KCache.Insert(key, fields);
-                }
-                return fields;
+                //var key = KConfig.KeyPrefix + "fieldinfos";
+                //var fields = KCache.Get<List<FieldInfo>>(key);
+                //if (fields == null)
+                //{
+                //    var service = ServiceLoader.Load<IPrototypeService>();
+                //    fields = service.GetFields();
+                //    KCache.Insert(key, fields);
+                //}
+                //return fields;
+                return new List<FieldInfo>();
             }
         }
 

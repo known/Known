@@ -47,6 +47,10 @@
     <Compile Include="PrototypeService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Known.Web\Known.Web.csproj">
+      <Project>{cd9d2a60-6775-4315-8240-72b1c410a28c}</Project>
+      <Name>Known.Web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Known\Known.csproj">
       <Project>{d30f3ce4-bfc2-4551-95b6-1e6a64b5eecc}</Project>
       <Name>Known</Name>
