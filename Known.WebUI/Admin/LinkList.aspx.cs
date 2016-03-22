@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using Known.SLite;
+using Known.Web.Extensions;
 
 namespace Known.Web.Admin
 {

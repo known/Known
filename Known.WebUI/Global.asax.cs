@@ -1,10 +1,6 @@
 ﻿using Known.PLite;
+using Known.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.SessionState;
 
 namespace Known.Web
 {
@@ -13,8 +9,11 @@ namespace Known.Web
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            AppContext.RegisterServices();
-            ServiceLoader.Register<IPrototypeService, PrototypeService>();
+            AppContext.RegisterService<IActionService, ActionService>();
+            AppContext.RegisterService<ICodeService, CodeService>();
+            AppContext.RegisterService<IFieldService, FieldService>();
+            AppContext.RegisterService<IMenuService, MenuService>();
+            AppContext.RegisterService<IPrototypeService, PrototypeService>();
         }
 
         protected void Session_Start(object sender, EventArgs e)

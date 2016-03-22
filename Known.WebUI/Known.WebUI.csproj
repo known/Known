@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -371,6 +372,10 @@
     <Content Include="Admin\Admin.Master" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Known.Core\Known.Core.csproj">
+      <Project>{97366f4b-d966-4a3b-afad-7b81dff37327}</Project>
+      <Name>Known.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Known.PLite\Known.PLite.csproj">
       <Project>{900d37ad-e855-4d99-a1b8-6ad6eff56329}</Project>
       <Name>Known.PLite</Name>
@@ -378,6 +383,10 @@
     <ProjectReference Include="..\Known.SLite\Known.SLite.csproj">
       <Project>{2d07a441-7261-4c5a-809e-44734df26845}</Project>
       <Name>Known.SLite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Known.Web\Known.Web.csproj">
+      <Project>{cd9d2a60-6775-4315-8240-72b1c410a28c}</Project>
+      <Name>Known.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\Known\Known.csproj">
       <Project>{d30f3ce4-bfc2-4551-95b6-1e6a64b5eecc}</Project>

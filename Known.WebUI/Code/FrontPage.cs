@@ -11,7 +11,7 @@ namespace Known.Web
     {
         public string FormatUrl(string url)
         {
-            return url.Replace("${siteurl}", KConfig.SiteUrl);
+            return url.Replace("${siteurl}", SiteUrl); //KConfig.SiteUrl);
         }
 
         public string FormatEnum(Enum type)

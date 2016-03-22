@@ -7,6 +7,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using Known.SLite;
+using Known.Web.Extensions;
+using Known.Extensions;
 
 namespace Known.Web
 {
@@ -21,10 +23,10 @@ namespace Known.Web
             }
 
             var pageType = Request.Get<string>("pagetype", "default");
-            var templatePath = Server.MapPath(string.Format("{0}/templates/{1}/", KConfig.SitePath, "default"));
+            var templatePath = Server.MapPath(string.Format("{0}/templates/{1}/", SitePath, "default")); //KConfig.SitePath, "default"));
             if (!Directory.Exists(templatePath))
             {
-                templatePath = Server.MapPath(string.Format("{0}/templates/default/", KConfig.SitePath));
+                templatePath = Server.MapPath(string.Format("{0}/templates/default/", SitePath)); //KConfig.SitePath));
             }
             var te = new TemplateEngine(templatePath);
             SetFields(te, pageType);
@@ -39,8 +41,8 @@ namespace Known.Web
             te.Put(TagFields.SiteName, SiteSetting.Instance.SiteName ?? "");
             te.Put(TagFields.MetaKeywords, SiteSetting.Instance.MetaKeywords ?? "");
             te.Put(TagFields.MetaDescription, SiteSetting.Instance.MetaDescription ?? "");
-            te.Put(TagFields.SitePath, KConfig.SitePath);
-            te.Put(TagFields.SiteUrl, KConfig.SiteUrl);
+            te.Put(TagFields.SitePath, SitePath); //KConfig.SitePath);
+            te.Put(TagFields.SiteUrl, SiteUrl); //KConfig.SiteUrl);
             te.Put(TagFields.Errors, "");
             te.Put(TagFields.FooterHtml, FormatUrl(SiteSetting.Instance.FooterHtml ?? ""));
             var navLinks = Link.GetNavigationLinks();

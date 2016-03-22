@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 
 using Known.SLite;
+using Known.Web.Extensions;
 
 namespace Known.Web
 {
@@ -61,10 +62,10 @@ namespace Known.Web
             get { return Page.Master as Known.Web.Admin.Admin; }
         }
 
-        public string SitePath
-        {
-            get { return KConfig.SitePath; }
-        }
+        //public string SitePath
+        //{
+        //    get { return KConfig.SitePath; }
+        //}
 
         protected void SetPageTitle(string title)
         {
@@ -93,7 +94,7 @@ namespace Known.Web
 
         public string FormatUrl(string url)
         {
-            return url.Replace("${siteurl}", KConfig.SiteUrl);
+            return url.Replace("${siteurl}", SiteUrl); //KConfig.SiteUrl);
         }
 
         public string FormatEnum(Enum type)
