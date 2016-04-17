@@ -1,4 +1,5 @@
-﻿using Known.Extensions;
+﻿using Dapper;
+using Known.Extensions;
 using System.Configuration;
 
 namespace Known
