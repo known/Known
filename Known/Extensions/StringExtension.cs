@@ -1,96 +1,87 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml.Serialization;
+﻿using System.Text;
+using System.Xml;
 
 namespace Known.Extensions
 {
+    /// <summary>
+    /// 字符串扩展类。
+    /// </summary>
     public static class StringExtension
     {
-        #region Validation
-        public static bool IsIPAddress(this string value)
+        /// <summary>
+        /// 在字符串建造者对象末尾追加一行格式化的字符串。
+        /// </summary>
+        /// <param name="sb">字符串建造者。</param>
+        /// <param name="format">格式化。</param>
+        /// <param name="args">参数。</param>
+        /// <returns>字符串建造者。</returns>
+        public static StringBuilder AppendLine(this StringBuilder sb, string format, params object[] args)
         {
-            return Regex.IsMatch(value, @"^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])((\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}|(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){5})$");
+            return sb.AppendLine(string.Format(format, args));
         }
 
-        public static bool IsEmail(this string value)
+        /// <summary>
+        /// 获取字符串字节长度。
+        /// </summary>
+        /// <param name="value">字符串值。</param>
+        /// <returns>字符串字节长度。</returns>
+        public static int ByteLength(this string value)
         {
-            return Regex.IsMatch(value, @"^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$");
+            return Encoding.Default.GetBytes(value).Length;
         }
-        #endregion
 
-        public static string ToSql(this string value)
+        /// <summary>
+        /// 根据字节位置截取字符串，从开始位置一直到末尾。
+        /// </summary>
+        /// <param name="value">字符串值。</param>
+        /// <param name="startIndex">开始位置。</param>
+        /// <returns>截取后的字符串。</returns>
+        public static string ByteSubstring(this string value, int startIndex)
         {
             if (string.IsNullOrEmpty(value))
                 return string.Empty;
 
-            return value.Replace("'", "''");
+            var length = value.ByteLength();
+            return value.ByteSubstring(startIndex, length);
         }
 
-        public static string StripHtml(this string value)
+        /// <summary>
+        /// 根据字节位置截取字符串，从开始位置一直到指定长度。
+        /// </summary>
+        /// <param name="value">字符串值。</param>
+        /// <param name="startIndex">开始位置。</param>
+        /// <param name="length">截取长度。</param>
+        /// <returns>截取后的字符串。</returns>
+        public static string ByteSubstring(this string value, int startIndex, int length)
         {
             if (string.IsNullOrEmpty(value))
                 return string.Empty;
 
-            value = new Regex("<[^>]*>", RegexOptions.Compiled).Replace(value, string.Empty);
-            return value.Trim();
+            var actualLength = value.ByteLength();
+            var count = length > (actualLength - startIndex) 
+                      ? actualLength - startIndex 
+                      : length;
+            var encoding = Encoding.GetEncoding("GB2312");
+            var bytes = encoding.GetBytes(value);
+            return encoding.GetString(bytes, startIndex, count);
         }
 
-        public static string RemoveHtmlWhitespace(this string value)
+        /// <summary>
+        /// 格式化XML字符串。
+        /// </summary>
+        /// <param name="xml">XML字符串值。</param>
+        /// <returns>格式化后的XML字符串值。</returns>
+        public static string FormatXml(this string xml)
         {
-            if (string.IsNullOrEmpty(value))
-                return string.Empty;
-
-            value = new Regex(@">\s+", RegexOptions.Compiled).Replace(value, ">");
-            //value = new Regex(@"\n\s+", RegexOptions.Compiled).Replace(value, string.Empty);
-            return value.Trim();
-        }
-
-        public static string ToMd5(this string value)
-        {
-            if (string.IsNullOrEmpty(value))
-                return string.Empty;
-
-            var md5 = MD5.Create();
-            var bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(value));
+            var doc = new XmlDocument();
+            doc.LoadXml(xml);
             var sb = new StringBuilder();
-            bytes.ForEach(b => sb.Append(b.ToString("x2")));
-            return sb.ToString();
-        }
-
-        public static List<T> JsonToList<T>(this string json)
-        {
-            return json.FromJson<List<T>>();
-        }
-
-        public static T FromJson<T>(this string json)
-        {
-            if (string.IsNullOrEmpty(json))
-                return default(T);
-
-            var settings = new JsonSerializerSettings();
-            settings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-            return JsonConvert.DeserializeObject<T>(json, settings);
-        }
-
-        public static T FromXml<T>(this string xml) where T : class
-        {
-            if (string.IsNullOrEmpty(xml))
-                return default(T);
-
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
-            using (var reader = new StreamReader(stream, Encoding.UTF8))
+            var settings = new XmlWriterSettings { Indent = true, Encoding = Encoding.UTF8 };
+            using (var xtw = XmlWriter.Create(sb, settings))
             {
-                var serializer = new XmlSerializer(typeof(T));
-                return (T)serializer.Deserialize(reader);
+                doc.WriteTo(xtw);
             }
+            return sb.ToString();
         }
     }
 }

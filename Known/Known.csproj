@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D30F3CE4-BFC2-4551-95B6-1E6A64B5EECC}</ProjectGuid>
+    <ProjectGuid>{F4C9A8C8-EAF9-4EA8-B186-C4B843762D45}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Known</RootNamespace>
     <AssemblyName>Known</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,52 +32,94 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.42\lib\net35\Dapper.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net35\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.DataAccess">
+      <HintPath>..\Library\Oracle.DataAccess.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.105.2, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.105.2\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeInfo.cs" />
-    <Compile Include="Data\Database.cs" />
-    <Compile Include="Data\DbContext.cs" />
-    <Compile Include="Extensions\EnumExtension.cs" />
-    <Compile Include="Extensions\TypeExtension.cs" />
-    <Compile Include="AppContext.cs" />
-    <Compile Include="KCache.cs" />
-    <Compile Include="ValidateResult.cs" />
-    <Compile Include="KConfig.cs" />
+    <Compile Include="Cache\DefaultCache.cs" />
+    <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Context.cs" />
     <Compile Include="Data\Command.cs" />
-    <Compile Include="Data\DbHelper.cs" />
-    <Compile Include="Extensions\DataTableExtension.cs" />
-    <Compile Include="Extensions\DictionaryExtension.cs" />
-    <Compile Include="Extensions\EnumerableExtension.cs" />
-    <Compile Include="Extensions\ObjectExtension.cs" />
+    <Compile Include="Data\CommandCache.cs" />
+    <Compile Include="Data\DatabaseException.cs" />
+    <Compile Include="Data\DatabaseType.cs" />
+    <Compile Include="Data\Database.cs" />
+    <Compile Include="Data\MySqlDatabase.cs" />
+    <Compile Include="Data\SQLiteDatabase.cs" />
+    <Compile Include="Data\SqlServerDatabase.cs" />
+    <Compile Include="Data\OracleDatabase.cs" />
+    <Compile Include="Extensions\TypeExtension.cs" />
+    <Compile Include="Mail.cs" />
+    <Compile Include="Mapping\BooleanColumnAttribute.cs" />
+    <Compile Include="Mapping\ColumnAttribute.cs" />
+    <Compile Include="Mapping\DateTimeColumnAttribute.cs" />
+    <Compile Include="Mapping\DecimalColumnAttribute.cs" />
+    <Compile Include="Mapping\EnumColumnAttribute.cs" />
+    <Compile Include="Mapping\IntegerColumnAttribute.cs" />
+    <Compile Include="Data\IDatabase.cs" />
+    <Compile Include="Mapping\EntityBase.cs" />
+    <Compile Include="Mapping\StringColumnAttribute.cs" />
+    <Compile Include="Mapping\TableAttribute.cs" />
+    <Compile Include="Extensions\CollectionExtension.cs" />
+    <Compile Include="Extensions\DateTimeExtension.cs" />
+    <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Extensions\SerializeExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
-    <Compile Include="PagedResult.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="Log\ConsoleLogger.cs" />
+    <Compile Include="Log\FileLogger.cs" />
+    <Compile Include="Log\ILogger.cs" />
+    <Compile Include="Log\Logger.cs" />
+    <Compile Include="Log\LogLevel.cs" />
+    <Compile Include="Result.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\ValidInfo.cs" />
+    <Compile Include="Validation\ValidLevel.cs" />
+    <Compile Include="Web\Extensions\HttpContextExtension.cs" />
+    <Compile Include="Web\Extensions\HttpRequestBaseExtension.cs" />
+    <Compile Include="Web\Extensions\HttpRequestExtension.cs" />
+    <Compile Include="Web\Extensions\HttpRequestMessageExtension.cs" />
+    <Compile Include="Web\Extensions\HttpSessionStateBaseExtension.cs" />
+    <Compile Include="Web\Http.cs" />
+    <Compile Include="Cache\WebCache.cs" />
+    <Compile Include="Web\PageBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\WebUtils.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.105.2\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.105.2\build\net46\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.105.2\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.105.2\build\net46\System.Data.SQLite.Core.targets'))" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

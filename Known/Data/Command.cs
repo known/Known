@@ -1,77 +1,66 @@
 ﻿using Known.Extensions;
-using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+using System.Text;
 
 namespace Known.Data
 {
+    /// <summary>
+    /// 数据库命令类。
+    /// </summary>
     public class Command
     {
-        private DbHelper dbHelper;
-
-        public Command(DbHelper dbHelper)
+        /// <summary>
+        /// 构造函数。
+        /// </summary>
+        /// <param name="text">SQL语句。</param>
+        public Command(string text)
         {
-            this.dbHelper = dbHelper;
-            Text = string.Empty;
+            Text = text;
             Parameters = new Dictionary<string, object>();
-            Parameters.Clear();
         }
 
-        public string Text { get; set; }
-        public Dictionary<string, object> Parameters { get; set; }
+        /// <summary>
+        /// 取得SQL语句。
+        /// </summary>
+        public string Text { get; }
 
-        public List<T> ToList<T>(Func<DataRow, T> func)
+        /// <summary>
+        /// 取得SQL语句参数字典。
+        /// </summary>
+        public Dictionary<string, object> Parameters { get; }
+
+        /// <summary>
+        /// 取得命令是否含有SQL参数。
+        /// </summary>
+        public bool HasParameter
         {
-            return ToTable().ToList<T>(func);
+            get { return Parameters.Count > 0; }
         }
 
-        public T ToEntity<T>(Func<DataRow, T> func)
+        /// <summary>
+        /// 添加SQL语句参数。
+        /// </summary>
+        /// <param name="name">参数名。</param>
+        /// <param name="value">参数值。</param>
+        public void AddParameter(string name, object value)
         {
-            return ToRow().ToEntity<T>(func);
+            Parameters[name] = value;
         }
 
-        public PagedResult<T> ToPaged<T>(int pageSize, int pageIndex, Func<DataRow, T> func)
+        /// <summary>
+        /// 获取数据库命令的打印字符串，包含命令SQL语句和参数信息。
+        /// </summary>
+        /// <returns>命令SQL语句和参数。</returns>
+        public override string ToString()
         {
-            var result = dbHelper.ExecutePaged(Text, Parameters, pageSize, pageIndex);
-            Parameters.Clear();
-            var list = new List<T>();
-            result.DataSource.ForEach(r => list.Add(r.ToEntity<T>(func)));
-            return new PagedResult<T>(result.TotalCount, list);
-        }
-
-        public DataTable ToTable()
-        {
-            var table = dbHelper.ExecuteTable(Text, Parameters);
-            Parameters.Clear();
-            return table;
-        }
-
-        public DataRow ToRow()
-        {
-            var row = dbHelper.ExecuteRow(Text, Parameters);
-            Parameters.Clear();
-            return row;
-        }
-
-        public T ToScalar<T>()
-        {
-            var scalar = dbHelper.ExecuteScalar<T>(Text, Parameters);
-            Parameters.Clear();
-            return scalar;
-        }
-
-        public string Execute()
-        {
-            var message = dbHelper.Execute(Text, Parameters);
-            Parameters.Clear();
-            return message;
-        }
-
-        public void ExecuteOnSubmit()
-        {
-            dbHelper.ExecuteOnSubmit(Text, Parameters);
-            Parameters.Clear();
+            var sb = new StringBuilder();
+            sb.AppendLine($"Text={Text}");
+            if (HasParameter)
+            {
+                var parameters = Parameters.ToJson();
+                sb.AppendLine($"Parameters:{parameters}");
+            }
+            return sb.ToString();
         }
     }
 }
