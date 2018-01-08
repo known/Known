@@ -158,6 +158,15 @@ namespace Known.Data
         }
 
         /// <summary>
+        /// 将整表数据写入数据库，表名及栏位名需与数据库一致。
+        /// </summary>
+        /// <param name="table">数据表。</param>
+        public void WriteTable(DataTable table)
+        {
+            database.WriteTable(table);
+        }
+
+        /// <summary>
         /// 释放资源。
         /// </summary>
         public void Dispose()

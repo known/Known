@@ -136,6 +136,31 @@ namespace Known.Data
             }
         }
 
+        /// <summary>
+        /// 将整表数据写入数据库，表名及栏位名需与数据库一致。
+        /// </summary>
+        /// <param name="table">数据表。</param>
+        public void WriteTable(DataTable table)
+        {
+            var bulkCopy = new SqlBulkCopy(ConnectionString, SqlBulkCopyOptions.UseInternalTransaction)
+            {
+                BulkCopyTimeout = 300,
+                DestinationTableName = table.TableName
+            };
+            var dt = new DataTable(table.TableName);
+            using (var adapter = new SqlDataAdapter($"select top 0 * from {table.TableName}", ConnectionString))
+            {
+                adapter.Fill(dt);
+            }
+            foreach (DataColumn item in table.Columns)
+            {
+                var sourceColumn = item.ColumnName;
+                var destinationColumn = dt.Columns[sourceColumn].ColumnName;
+                bulkCopy.ColumnMappings.Add(sourceColumn, destinationColumn);
+            }
+            bulkCopy.WriteToServer(table);
+        }
+
         private void PrepareCommand(SqlCommand cmd, SqlTransaction trans, Command command, CommandType cmdType = CommandType.Text)
         {
             if (trans != null)

@@ -136,6 +136,24 @@ namespace Known.Data
             }
         }
 
+        /// <summary>
+        /// 将整表数据写入数据库，表名及栏位名需与数据库一致。
+        /// </summary>
+        /// <param name="table">数据表。</param>
+        public void WriteTable(DataTable table)
+        {
+            var bulkCopy = new OracleBulkCopy(ConnectionString, OracleBulkCopyOptions.UseInternalTransaction)
+            {
+                BulkCopyTimeout = 300,
+                DestinationTableName = table.TableName
+            };
+            foreach (DataColumn item in table.Columns)
+            {
+                bulkCopy.ColumnMappings.Add(item.ColumnName, item.ColumnName);
+            }
+            bulkCopy.WriteToServer(table);
+        }
+
         private void PrepareCommand(OracleCommand cmd, OracleTransaction trans, Command command, CommandType cmdType = CommandType.Text)
         {
             if (trans != null)

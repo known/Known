@@ -43,5 +43,11 @@ namespace Known.Data
         /// <param name="command">查询数据库命令。</param>
         /// <returns>查询结果集。</returns>
         DataTable Query(Command command);
+
+        /// <summary>
+        /// 将整表数据写入数据库，表名及栏位名需与数据库一致。
+        /// </summary>
+        /// <param name="table">数据表。</param>
+        void WriteTable(DataTable table);
     }
 }
