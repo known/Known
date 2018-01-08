@@ -32,6 +32,27 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(Utils.ConvertTo<TestEnum>(1), TestEnum.Item1);
         }
 
+        public static void TestToMd5()
+        {
+            var value = "test";
+            var value1 = "test";
+            Assert.IsEqual(Utils.ToMd5(value), Utils.ToMd5(value1));
+        }
+
+        public static void TestEncrypt()
+        {
+            var value = "test";
+            var value1 = "test";
+            Assert.IsEqual(Utils.Encrypt(value), Utils.Encrypt(value1));
+        }
+
+        public static void TestDecrypt()
+        {
+            var value = Utils.Encrypt("test");
+            var value1 = Utils.Encrypt("test");
+            Assert.IsEqual(Utils.Decrypt(value), Utils.Decrypt(value1));
+        }
+
         public static void TestEnsureFile()
         {
             var path = string.Format("{0}\\test", Environment.CurrentDirectory);

@@ -3,6 +3,7 @@ using Known.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -37,6 +38,30 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(dic.Value<int>("Key2"), 1);
             var key3 = dic.Value<TestEntity>("Key3");
             Assert.IsEqual(key3.Item2, "test");
+        }
+        #endregion
+
+        #region CompressExtension
+        public static void TestCompress()
+        {
+            var length1 = "test".ToBytes().Length;
+            var length2 = "test".Compress().Length;
+            Assert.IsEqual(length1 > length2, true);
+
+            var set = new DataSet();
+            set.Tables.Add(new DataTable());
+            Assert.IsEqual(set.Compress().Length, 242);
+        }
+
+        public static void TestDecompress()
+        {
+            var bytes1 = "test".Compress();
+            Assert.IsEqual(bytes1.Decompress<string>(), "test");
+
+            var set = new DataSet();
+            set.Tables.Add(new DataTable());
+            var bytes = set.Compress();
+            Assert.IsEqual(bytes.Decompress().Tables.Count, 1);
         }
         #endregion
 
@@ -100,6 +125,20 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(value1.Item1, value.Item1);
             Assert.IsEqual(value1.Item2, value.Item2);
             Assert.IsEqual(value1.Item3, value.Item3);
+        }
+
+        public static void TestToBytes()
+        {
+            var value = "test";
+            var value1 = "test";
+            Assert.IsEqual(value.ToBytes().Length, value1.ToBytes().Length);
+        }
+
+        public static void TestFromBytes()
+        {
+            var value = "test";
+            var bytes = value.ToBytes();
+            Assert.IsEqual(bytes.FromBytes(), value);
         }
         #endregion
 

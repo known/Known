@@ -68,6 +68,7 @@
     <Compile Include="Data\SQLiteDatabase.cs" />
     <Compile Include="Data\SqlServerDatabase.cs" />
     <Compile Include="Data\OracleDatabase.cs" />
+    <Compile Include="Extensions\CompressExtension.cs" />
     <Compile Include="Extensions\TypeExtension.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="Mapping\BooleanColumnAttribute.cs" />

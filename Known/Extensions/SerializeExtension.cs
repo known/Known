@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System.Data;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -46,6 +48,16 @@ namespace Known.Extensions
             if (value == null)
                 return null;
 
+            if (value is DataTable)
+            {
+                var sb = new StringBuilder();
+                var writer = XmlWriter.Create(sb);
+                var serializer = new XmlSerializer(typeof(DataTable));
+                serializer.Serialize(writer, value);
+                writer.Close();
+                return sb.ToString();
+            }
+
             var settings = new XmlWriterSettings { Indent = true, Encoding = Encoding.UTF8 };
             using (var stream = new MemoryStream())
             {
@@ -78,6 +90,45 @@ namespace Known.Extensions
             {
                 var serializer = new XmlSerializer(typeof(T));
                 return (T)serializer.Deserialize(reader);
+            }
+        }
+
+        /// <summary>
+        /// 将对象序列化成字节数组。
+        /// </summary>
+        /// <param name="value">对象。</param>
+        /// <returns>字节数组。</returns>
+        public static byte[] ToBytes(this object value)
+        {
+            if (value == null)
+                return null;
+
+            byte[] bytes = null;
+            using (var ms = new MemoryStream())
+            {
+                var bf = new BinaryFormatter();
+                bf.Serialize(ms, value);
+                bytes = ms.ToArray();
+                ms.Flush();
+                ms.Close();
+            }
+            return bytes;
+        }
+
+        /// <summary>
+        /// 将字节数组反序列化成对象。
+        /// </summary>
+        /// <param name="buffer">字节数组。</param>
+        /// <returns>对象。</returns>
+        public static object FromBytes(this byte[] buffer)
+        {
+            if (buffer == null)
+                return null;
+
+            using (var ms = new MemoryStream(buffer))
+            {
+                var bf = new BinaryFormatter();
+                return bf.Deserialize(ms);
             }
         }
     }
