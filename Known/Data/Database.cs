@@ -167,6 +167,67 @@ namespace Known.Data
         }
 
         /// <summary>
+        /// 根据表名及参数查询数据表。
+        /// </summary>
+        /// <param name="tableName">表名。</param>
+        /// <param name="parameters">命令参数字典。</param>
+        /// <returns>数据表。</returns>
+        public DataTable SelectTable(string tableName, Dictionary<string, object> parameters)
+        {
+            var command = CommandCache.GetSelectCommand(tableName, parameters);
+            return database.Query(command);
+        }
+
+        /// <summary>
+        /// 根据表名及参数查询数据行。
+        /// </summary>
+        /// <param name="tableName">表名。</param>
+        /// <param name="parameters">命令参数字典。</param>
+        /// <returns>数据行。</returns>
+        public DataRow SelectRow(string tableName, Dictionary<string, object> parameters)
+        {
+            var data = SelectTable(tableName, parameters);
+            if (data == null || data.Rows.Count == 0)
+                return null;
+
+            return data.Rows[0];
+        }
+
+        /// <summary>
+        /// 根据表名及参数插入数据。
+        /// </summary>
+        /// <param name="tableName">表名。</param>
+        /// <param name="parameters">命令参数字典。</param>
+        public void Insert(string tableName, Dictionary<string, object> parameters)
+        {
+            var command = CommandCache.GetInsertCommand(tableName, parameters);
+            database.Execute(command);
+        }
+
+        /// <summary>
+        /// 根据表名及参数修改数据。
+        /// </summary>
+        /// <param name="tableName">表名。</param>
+        /// <param name="keyFields">主键字段名，多个用“,”分割。</param>
+        /// <param name="parameters">命令参数字典。</param>
+        public void Update(string tableName, string keyFields, Dictionary<string, object> parameters)
+        {
+            var command = CommandCache.GetUpdateCommand(tableName, keyFields, parameters);
+            database.Execute(command);
+        }
+
+        /// <summary>
+        /// 根据表名及参数删除数据。
+        /// </summary>
+        /// <param name="tableName">表名。</param>
+        /// <param name="parameters">命令参数字典。</param>
+        public void Delete(string tableName, Dictionary<string, object> parameters)
+        {
+            var command = CommandCache.GetDeleteCommand(tableName, parameters);
+            database.Execute(command);
+        }
+
+        /// <summary>
         /// 释放资源。
         /// </summary>
         public void Dispose()

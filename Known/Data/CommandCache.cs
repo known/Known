@@ -17,7 +17,7 @@ namespace Known.Data
         /// 取得或设置是否是主键。
         /// </summary>
         public bool IsKey { get; set; }
-        
+
         /// <summary>
         /// 取得或设置栏位名。
         /// </summary>
@@ -57,7 +57,7 @@ namespace Known.Data
         /// </summary>
         /// <param name="sql">SQL语句。</param>
         /// <param name="param">语句参数。</param>
-        /// <returns></returns>
+        /// <returns>数据库命令。</returns>
         public static Command GetCommand(string sql, object param = null)
         {
             var command = new Command(sql);
@@ -83,13 +83,13 @@ namespace Known.Data
         /// </summary>
         /// <typeparam name="T">实体对象类型。</typeparam>
         /// <param name="entity">实体对象。</param>
-        /// <returns></returns>
+        /// <returns>数据库命令。</returns>
         public static Command GetSaveCommand<T>(T entity) where T : EntityBase
         {
             var type = typeof(T);
             var tableName = GetCachedTableAttribute(type).TableName;
             var columnInfos = GetCachedColumnInfos(type);
-            
+
             if (entity.IsNew)
             {
                 var columnNames = columnInfos.Select(c => c.ColumnName);
@@ -128,7 +128,7 @@ namespace Known.Data
         /// </summary>
         /// <typeparam name="T">实体对象类型。</typeparam>
         /// <param name="entity">实体对象。</param>
-        /// <returns></returns>
+        /// <returns>数据库命令。</returns>
         public static Command GetDeleteCommand<T>(T entity) where T : EntityBase
         {
             var type = typeof(T);
@@ -141,6 +141,61 @@ namespace Known.Data
                 command.AddParameter(item.ColumnName, item.Property.GetValue(entity));
             }
             return command;
+        }
+
+        /// <summary>
+        /// 根据表名及参数获取查询数据命令。
+        /// </summary>
+        /// <param name="tableName">表名。</param>
+        /// <param name="parameters">命令参数字典。</param>
+        /// <returns>数据库命令。</returns>
+        public static Command GetSelectCommand(string tableName, Dictionary<string, object> parameters)
+        {
+            var whereSql = string.Join(" and ", parameters.Keys.Select(k => string.Format("{0}=@{0}", k)));
+            var text = string.Format("select * from {0} where {1}", tableName, whereSql);
+            return new Command(text, parameters);
+        }
+
+        /// <summary>
+        /// 根据表名及参数获取插入数据命令。
+        /// </summary>
+        /// <param name="tableName">表名。</param>
+        /// <param name="parameters">命令参数字典。</param>
+        /// <returns>数据库命令。</returns>
+        public static Command GetInsertCommand(string tableName, Dictionary<string, object> parameters)
+        {
+            var columnSql = string.Join(",", parameters.Keys.Select(k => k));
+            var valueSql = string.Join(",", parameters.Keys.Select(k => string.Format("@{0}", k)));
+            var text = string.Format("insert into {0}({1}) values({2})", tableName, columnSql, valueSql);
+            return new Command(text, parameters);
+        }
+
+        /// <summary>
+        /// 根据表名及参数获取修改数据命令。
+        /// </summary>
+        /// <param name="tableName">表名。</param>
+        /// <param name="keyFields">主键字段名，多个用“,”分割。</param>
+        /// <param name="parameters">命令参数字典。</param>
+        /// <returns>数据库命令。</returns>
+        public static Command GetUpdateCommand(string tableName, string keyFields, Dictionary<string, object> parameters)
+        {
+            var columnSql = string.Join(",", parameters.Keys.Where(k => !keyFields.Contains(k)).Select(k => string.Format("{0}=@{0}", k)));
+            var whereSql = string.Join(" and ", keyFields.Split(',').Select(k => string.Format("{0}=@{0}", k)));
+            var text = string.Format("update {0} set {1} where {2}", tableName, columnSql, whereSql);
+            return new Command(text, parameters);
+        }
+
+        /// <summary>
+        /// 根据表名及参数获取删除数据命令。
+        /// </summary>
+        /// <param name="tableName">表名。</param>
+        /// <param name="parameters">命令参数字典。</param>
+        /// <returns>数据库命令。</returns>
+        public static Command GetDeleteCommand(string tableName, Dictionary<string, object> parameters)
+        {
+            var whereSql = string.Format(" and ", parameters.Keys.Select(k => string.Format("{0}=@{0}", k)));
+            var text = string.Format("delete from {0} where {1}", tableName, whereSql);
+            return new Command(text, parameters);
         }
 
         private static IEnumerable<ColumnInfo> GetCachedColumnInfos(Type type)
