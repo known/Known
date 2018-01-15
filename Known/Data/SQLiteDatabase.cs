@@ -142,6 +142,7 @@ namespace Known.Data
         /// <param name="table">数据表。</param>
         public void WriteTable(DataTable table)
         {
+            throw new NotSupportedException();
         }
 
         private void PrepareCommand(SQLiteCommand cmd, SQLiteTransaction trans, Command command, CommandType cmdType = CommandType.Text)

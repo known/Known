@@ -142,6 +142,7 @@ namespace Known.Data
         /// <param name="table">数据表。</param>
         public void WriteTable(DataTable table)
         {
+            throw new NotSupportedException();
         }
 
         private void PrepareCommand(MySqlCommand cmd, MySqlTransaction trans, Command command, CommandType cmdType = CommandType.Text)
