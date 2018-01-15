@@ -69,12 +69,11 @@ namespace Known.Data
         /// <returns>指定类型的单个对象。</returns>
         public T Query<T>(string sql, object param = null) where T : EntityBase
         {
-            var command = CommandCache.GetCommand(sql, param);
-            var data = database.Query(command);
-            if (data == null || data.Rows.Count == 0)
+            var row = QueryRow(sql, param);
+            if (row == null)
                 return default(T);
 
-            return GetEntity<T>(data.Rows[0]);
+            return GetEntity<T>(row);
         }
 
         /// <summary>
@@ -86,8 +85,7 @@ namespace Known.Data
         /// <returns>指定类型的对象列表。</returns>
         public List<T> QueryList<T>(string sql, object param = null) where T : EntityBase
         {
-            var command = CommandCache.GetCommand(sql, param);
-            var data = database.Query(command);
+            var data = QueryTable(sql, param);
             if (data == null || data.Rows.Count == 0)
                 return null;
 
@@ -167,6 +165,34 @@ namespace Known.Data
         }
 
         /// <summary>
+        /// 执行查询SQL语句，返回数据表。
+        /// </summary>
+        /// <param name="sql">查询SQL语句。</param>
+        /// <param name="param">SQL语句参数。</param>
+        /// <returns>数据表。</returns>
+        public DataTable QueryTable(string sql, object param = null)
+        {
+            var command = CommandCache.GetCommand(sql, param);
+            return database.Query(command);
+        }
+
+        /// <summary>
+        /// 执行查询SQL语句，返回数据行。
+        /// </summary>
+        /// <param name="sql">查询SQL语句。</param>
+        /// <param name="param">SQL语句参数。</param>
+        /// <returns>数据行。</returns>
+        public DataRow QueryRow(string sql, object param = null)
+        {
+            var command = CommandCache.GetCommand(sql, param);
+            var data = database.Query(command);
+            if (data == null || data.Rows.Count == 0)
+                return null;
+
+            return data.Rows[0];
+        }
+
+        /// <summary>
         /// 根据表名及参数查询数据表。
         /// </summary>
         /// <param name="tableName">表名。</param>
@@ -201,7 +227,7 @@ namespace Known.Data
         public void Insert(string tableName, Dictionary<string, object> parameters)
         {
             var command = CommandCache.GetInsertCommand(tableName, parameters);
-            database.Execute(command);
+            commands.Add(command);
         }
 
         /// <summary>
@@ -213,7 +239,7 @@ namespace Known.Data
         public void Update(string tableName, string keyFields, Dictionary<string, object> parameters)
         {
             var command = CommandCache.GetUpdateCommand(tableName, keyFields, parameters);
-            database.Execute(command);
+            commands.Add(command);
         }
 
         /// <summary>
@@ -224,7 +250,7 @@ namespace Known.Data
         public void Delete(string tableName, Dictionary<string, object> parameters)
         {
             var command = CommandCache.GetDeleteCommand(tableName, parameters);
-            database.Execute(command);
+            commands.Add(command);
         }
 
         /// <summary>
