@@ -58,7 +58,7 @@ namespace Known
             if (type == null)
                 throw new Exception($"暂不支持{setting.ProviderName}数据访问组件！");
 
-            var database = Activator.CreateInstance(type, setting.ConnectionString) as IDatabase;
+            var database = Activator.CreateInstance(type, setting.ConnectionString) as IProvider;
             if (database == null)
                 throw new Exception($"{setting.ProviderName}数据库组件未继承IDatabase接口！");
 

@@ -13,7 +13,7 @@ namespace Known.Data
         /// <summary>
         /// 构造函数。
         /// </summary>
-        /// <param name="command">发生异常时的数据库命令。</param>
+        /// <param name="commands">发生异常时的数据库命令。</param>
         public DatabaseException(List<Command> commands)
         {
             Commands = commands;
@@ -22,7 +22,7 @@ namespace Known.Data
         /// <summary>
         /// 构造函数。
         /// </summary>
-        /// <param name="command">发生异常时的数据库命令。</param>
+        /// <param name="commands">发生异常时的数据库命令。</param>
         /// <param name="message">当引发异常时显示的字符串。</param>
         public DatabaseException(List<Command> commands, string message) 
             : base(message)
@@ -33,7 +33,7 @@ namespace Known.Data
         /// <summary>
         /// 构造函数。
         /// </summary>
-        /// <param name="command">发生异常时的数据库命令。</param>
+        /// <param name="commands">发生异常时的数据库命令。</param>
         /// <param name="message">当引发异常时显示的字符串。</param>
         /// <param name="innerException">对内部异常的引用。</param>
         public DatabaseException(List<Command> commands, string message, Exception innerException)

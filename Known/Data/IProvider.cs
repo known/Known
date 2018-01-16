@@ -4,15 +4,10 @@ using System.Data;
 namespace Known.Data
 {
     /// <summary>
-    /// 数据库接口。
+    /// 数据库访问提供者接口。
     /// </summary>
-    public interface IDatabase
+    public interface IProvider
     {
-        /// <summary>
-        /// 取得数据库类型。
-        /// </summary>
-        DatabaseType Type { get; }
-
         /// <summary>
         /// 取得数据库连接字符串。
         /// </summary>

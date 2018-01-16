@@ -8,28 +8,22 @@ using System.Linq;
 namespace Known.Data
 {
     /// <summary>
-    /// 数据访问类。
+    /// 数据库访问类。
     /// </summary>
     public class Database : IDisposable
     {
-        private IDatabase database;
+        private IProvider provider;
         private List<Command> commands = new List<Command>();
 
         /// <summary>
         /// 构造函数，创建数据访问实例。
         /// </summary>
-        /// <param name="database">数据库对象。</param>
-        public Database(IDatabase database)
+        /// <param name="provider">数据库提供者对象。</param>
+        public Database(IProvider provider)
         {
-            this.database = database ?? throw new ArgumentNullException("database");
-            Type = database.Type;
-            ConnectionString = database.ConnectionString;
+            this.provider = provider ?? throw new ArgumentNullException("database");
+            ConnectionString = provider.ConnectionString;
         }
-
-        /// <summary>
-        /// 取得数据库类型。
-        /// </summary>
-        public DatabaseType Type { get; }
 
         /// <summary>
         /// 取得数据库连接字符串。
@@ -57,7 +51,7 @@ namespace Known.Data
         public T Scalar<T>(string sql, object param = null)
         {
             var command = CommandCache.GetCommand(sql, param);
-            return (T)database.Scalar(command);
+            return (T)provider.Scalar(command);
         }
 
         /// <summary>
@@ -147,11 +141,11 @@ namespace Known.Data
         {
             if (commands.Count > 1)
             {
-                database.Execute(commands);
+                provider.Execute(commands);
             }
             else if (commands.Count > 0)
             {
-                database.Execute(commands[0]);
+                provider.Execute(commands[0]);
             }
         }
 
@@ -161,7 +155,7 @@ namespace Known.Data
         /// <param name="table">数据表。</param>
         public void WriteTable(DataTable table)
         {
-            database.WriteTable(table);
+            provider.WriteTable(table);
         }
 
         /// <summary>
@@ -173,7 +167,7 @@ namespace Known.Data
         public DataTable QueryTable(string sql, object param = null)
         {
             var command = CommandCache.GetCommand(sql, param);
-            return database.Query(command);
+            return provider.Query(command);
         }
 
         /// <summary>
@@ -185,7 +179,7 @@ namespace Known.Data
         public DataRow QueryRow(string sql, object param = null)
         {
             var command = CommandCache.GetCommand(sql, param);
-            var data = database.Query(command);
+            var data = provider.Query(command);
             if (data == null || data.Rows.Count == 0)
                 return null;
 
@@ -201,7 +195,7 @@ namespace Known.Data
         public DataTable SelectTable(string tableName, Dictionary<string, object> parameters)
         {
             var command = CommandCache.GetSelectCommand(tableName, parameters);
-            return database.Query(command);
+            return provider.Query(command);
         }
 
         /// <summary>
