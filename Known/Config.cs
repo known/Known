@@ -1,6 +1,6 @@
 ﻿using Known.Data;
-using System;
 using System.Configuration;
+using System.Data.Common;
 
 namespace Known
 {
@@ -53,16 +53,11 @@ namespace Known
         public static Database GetDatabase(string name)
         {
             var setting = ConfigurationManager.ConnectionStrings[name];
-            var typeName = string.Format("Known.Data.{0}Database", setting.ProviderName);
-            var type = Type.GetType(typeName);
-            if (type == null)
-                throw new Exception($"暂不支持{setting.ProviderName}数据访问组件！");
-
-            var database = Activator.CreateInstance(type, setting.ConnectionString) as IProvider;
-            if (database == null)
-                throw new Exception($"{setting.ProviderName}数据库组件未继承IDatabase接口！");
-
-            return new Database(database);
+            var factory = DbProviderFactories.GetFactory(setting.ProviderName);
+            var connection = factory.CreateConnection();
+            connection.ConnectionString = setting.ConnectionString;
+            var provider = new DapperProvider(connection, setting.ProviderName);
+            return new Database(provider);
         }
     }
 }

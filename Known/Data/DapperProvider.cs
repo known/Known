@@ -16,11 +16,18 @@ namespace Known.Data
         /// 构造函数，创建一个Dapper数据访问提供者示例。
         /// </summary>
         /// <param name="connection">数据库连接对象。</param>
-        public DapperProvider(IDbConnection connection)
+        /// <param name="providerName">数据库提供者名称。</param>
+        public DapperProvider(IDbConnection connection, string providerName)
         {
             this.connection = connection;
+            ProviderName = providerName;
             ConnectionString = connection.ConnectionString;
         }
+
+        /// <summary>
+        /// 取得数据库提供者名称。
+        /// </summary>
+        public string ProviderName { get; }
 
         /// <summary>
         /// 取得数据库连接字符串。
@@ -35,7 +42,7 @@ namespace Known.Data
         {
             try
             {
-                var sql = command.Text;
+                var sql = GetCommandText(command);
                 var param = GetDynamicParameters(command.Parameters);
                 OpenConnection();
                 connection.Execute(sql, param);
@@ -65,7 +72,7 @@ namespace Known.Data
                     {
                         foreach (var command in commands)
                         {
-                            var sql = command.Text;
+                            var sql = GetCommandText(command);
                             var param = GetDynamicParameters(command.Parameters);
                             connection.Execute(sql, param, transaction);
                         }
@@ -97,7 +104,7 @@ namespace Known.Data
         {
             try
             {
-                var sql = command.Text;
+                var sql = GetCommandText(command);
                 var param = GetDynamicParameters(command.Parameters);
                 OpenConnection();
                 return connection.ExecuteScalar(sql, param);
@@ -121,8 +128,8 @@ namespace Known.Data
         {
             try
             {
-                var table = new DataTable("Table");
-                var sql = command.Text;
+                var table = new DataTable();
+                var sql = GetCommandText(command);
                 var param = GetDynamicParameters(command.Parameters);
                 OpenConnection();
                 using (var reader = connection.ExecuteReader(sql, param))
@@ -147,6 +154,37 @@ namespace Known.Data
         /// <param name="table">数据表。</param>
         public void WriteTable(DataTable table)
         {
+            try
+            {
+                OpenConnection();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var command = CommandCache.GetInsertCommand(table);
+                        var sql = GetCommandText(command);
+                        for (int i = 0; i < table.Rows.Count; i++)
+                        {
+                            var param = GetDynamicParameters(table.Rows[i]);
+                            connection.Execute(sql, param, transaction);
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new DataException(ex.Message, ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new DataException(ex.Message, ex);
+            }
+            finally
+            {
+                CloseConnection();
+            }
         }
 
         private void OpenConnection()
@@ -165,12 +203,34 @@ namespace Known.Data
             }
         }
 
+        private string GetCommandText(Command command)
+        {
+            if (ProviderName.Contains("Oracle"))
+            {
+                return command.Text.Replace("@", ":");
+            }
+            return command.Text;
+        }
+
         private DynamicParameters GetDynamicParameters(Dictionary<string, object> parameters)
         {
+            if (parameters == null || parameters.Count == 0)
+                return null;
+
             var dynamicParameters = new DynamicParameters();
             foreach (var item in parameters)
             {
                 dynamicParameters.Add(item.Key, item.Value);
+            }
+            return dynamicParameters;
+        }
+
+        private DynamicParameters GetDynamicParameters(DataRow row)
+        {
+            var dynamicParameters = new DynamicParameters();
+            foreach (DataColumn item in row.Table.Columns)
+            {
+                dynamicParameters.Add(item.ColumnName, row[item]);
             }
             return dynamicParameters;
         }

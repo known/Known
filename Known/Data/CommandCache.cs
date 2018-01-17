@@ -3,6 +3,7 @@ using Known.Mapping;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 
@@ -149,11 +150,29 @@ namespace Known.Data
         /// <param name="tableName">表名。</param>
         /// <param name="parameters">命令参数字典。</param>
         /// <returns>数据库命令。</returns>
-        public static Command GetSelectCommand(string tableName, Dictionary<string, object> parameters)
+        public static Command GetSelectCommand(string tableName, Dictionary<string, object> parameters = null)
         {
-            var whereSql = string.Join(" and ", parameters.Keys.Select(k => string.Format("{0}=@{0}", k)));
-            var text = string.Format("select * from {0} where {1}", tableName, whereSql);
+            var whereSql = string.Empty;
+            if (parameters != null && parameters.Count > 0)
+            {
+                whereSql = " where " + string.Join(" and ", parameters.Keys.Select(k => string.Format("{0}=@{0}", k)));
+            }
+            var text = string.Format("select * from {0}{1}", tableName, whereSql);
             return new Command(text, parameters);
+        }
+
+        /// <summary>
+        /// 根据数据表获取插入数据命令。
+        /// </summary>
+        /// <param name="table">数据表。</param>
+        /// <returns>数据库命令。</returns>
+        public static Command GetInsertCommand(DataTable table)
+        {
+            var columns = table.Columns.OfType<DataColumn>().Select(c => c.ColumnName);
+            var columnSql = string.Join(",", columns.Select(k => k));
+            var valueSql = string.Join(",", columns.Select(k => string.Format("@{0}", k)));
+            var text = string.Format("insert into {0}({1}) values({2})", table.TableName, columnSql, valueSql);
+            return new Command(text);
         }
 
         /// <summary>

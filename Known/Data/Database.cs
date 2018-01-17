@@ -192,7 +192,7 @@ namespace Known.Data
         /// <param name="tableName">表名。</param>
         /// <param name="parameters">命令参数字典。</param>
         /// <returns>数据表。</returns>
-        public DataTable SelectTable(string tableName, Dictionary<string, object> parameters)
+        public DataTable SelectTable(string tableName, Dictionary<string, object> parameters = null)
         {
             var command = CommandCache.GetSelectCommand(tableName, parameters);
             return provider.Query(command);

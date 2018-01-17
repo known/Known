@@ -9,6 +9,11 @@ namespace Known.Data
     public interface IProvider
     {
         /// <summary>
+        /// 取得数据库提供者名称。
+        /// </summary>
+        string ProviderName { get; }
+
+        /// <summary>
         /// 取得数据库连接字符串。
         /// </summary>
         string ConnectionString { get; }
