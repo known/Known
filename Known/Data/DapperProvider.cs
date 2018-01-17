@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace Known.Data
 {
@@ -157,25 +158,10 @@ namespace Known.Data
             try
             {
                 OpenConnection();
-                using (var transaction = connection.BeginTransaction())
-                {
-                    try
-                    {
-                        var command = CommandCache.GetInsertCommand(table);
-                        var sql = GetCommandText(command);
-                        for (int i = 0; i < table.Rows.Count; i++)
-                        {
-                            var param = GetDynamicParameters(table.Rows[i]);
-                            connection.Execute(sql, param, transaction);
-                        }
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        throw new DataException(ex.Message, ex);
-                    }
-                }
+                var command = CommandCache.GetInsertCommand(table);
+                var sql = GetCommandText(command);
+                var param = table.AsEnumerable().Select(r => GetDynamicParameters(r)).ToList();
+                connection.Execute(sql, param);
             }
             catch (Exception ex)
             {
