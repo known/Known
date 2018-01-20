@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aspose.Cells, Version=18.1.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>..\packages\Aspose.Cells.18.1.0\lib\net40\Aspose.Cells.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
     </Reference>
@@ -41,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -61,6 +65,10 @@
     <Compile Include="Data\IProvider.cs" />
     <Compile Include="Extensions\CompressExtension.cs" />
     <Compile Include="Extensions\TypeExtension.cs" />
+    <Compile Include="Files\Excel.cs" />
+    <Compile Include="Files\Sheet.cs" />
+    <Compile Include="Files\SheetCell.cs" />
+    <Compile Include="Files\SheetCollection.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="Mapping\BooleanColumnAttribute.cs" />
     <Compile Include="Mapping\ColumnAttribute.cs" />
@@ -101,9 +109,7 @@
     </Compile>
     <Compile Include="Web\WebUtils.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Excel\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
