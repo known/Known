@@ -54,6 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business.cs" />
+    <Compile Include="BusinessFactory.cs" />
     <Compile Include="Cache\DefaultCache.cs" />
     <Compile Include="Cache\ICache.cs" />
     <Compile Include="Container.cs" />
