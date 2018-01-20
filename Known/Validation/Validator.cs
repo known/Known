@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Known.Validation
@@ -25,11 +24,6 @@ namespace Known.Validation
             validInfos.AddRange(errors.Select(e => new ValidInfo(ValidLevel.Error, e)));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="broken"></param>
-        /// <param name="message"></param>
         public void AddError(bool broken, string message)
         {
             if (broken)
@@ -38,23 +32,12 @@ namespace Known.Validation
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="broken"></param>
-        /// <param name="format"></param>
-        /// <param name="args"></param>
         public void AddError(bool broken, string format, params object[] args)
         {
             var message = string.Format(format, args);
             AddError(broken, message);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="broken"></param>
-        /// <param name="message"></param>
         public void AddWarn(bool broken, string message)
         {
             if (broken)
@@ -63,30 +46,15 @@ namespace Known.Validation
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="broken"></param>
-        /// <param name="format"></param>
-        /// <param name="args"></param>
         public void AddWarn(bool broken, string format, params object[] args)
         {
             var message = string.Format(format, args);
             AddError(broken, message);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public Result ToResult()
+        public ValidateResult ToResult()
         {
-            if (validInfos != null && validInfos.Count > 0)
-            {
-                return Result.Error(string.Join(Environment.NewLine, validInfos));
-            }
-
-            return Result.Success("");
+            return new ValidateResult(validInfos);
         }
     }
 }

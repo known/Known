@@ -85,6 +85,7 @@
     <Compile Include="Result.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\ValidateResult.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\ValidInfo.cs" />
     <Compile Include="Validation\ValidLevel.cs" />
@@ -100,7 +101,9 @@
     </Compile>
     <Compile Include="Web\WebUtils.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Excel\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
