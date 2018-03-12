@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Reflection;
 
 namespace Known.Extensions
 {
@@ -19,20 +18,8 @@ namespace Known.Extensions
             var type = value.GetType();
             var name = Enum.GetName(type, value);
             var field = type.GetField(name);
-            var attr = GetAttribute<DescriptionAttribute>(field, false);
+            var attr = field.GetAttribute<DescriptionAttribute>(false);
             return attr != null ? attr.Description : name;
-        }
-
-        private static T GetAttribute<T>(MemberInfo member, bool inherit = true)
-        {
-            foreach (var attr in member.GetCustomAttributes(inherit))
-            {
-                if (attr is T)
-                {
-                    return (T)attr;
-                }
-            }
-            return default(T);
         }
     }
 }
