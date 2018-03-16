@@ -56,7 +56,7 @@ namespace Known
             var factory = DbProviderFactories.GetFactory(setting.ProviderName);
             var connection = factory.CreateConnection();
             connection.ConnectionString = setting.ConnectionString;
-            var provider = new DapperProvider(connection, setting.ProviderName);
+            var provider = new DefaultProvider(connection, setting.ProviderName);
             return new Database(provider);
         }
     }

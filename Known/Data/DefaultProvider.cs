@@ -1,24 +1,22 @@
-﻿using Dapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 
 namespace Known.Data
 {
     /// <summary>
-    /// Dapper数据访问提供者。
+    /// 默认数据访问提供者。
     /// </summary>
-    public class DapperProvider : IProvider
+    public class DefaultProvider : IProvider
     {
         private IDbConnection connection;
 
         /// <summary>
-        /// 构造函数，创建一个Dapper数据访问提供者示例。
+        /// 构造函数，创建一个数据访问提供者示例。
         /// </summary>
         /// <param name="connection">数据库连接对象。</param>
         /// <param name="providerName">数据库提供者名称。</param>
-        public DapperProvider(IDbConnection connection, string providerName)
+        public DefaultProvider(IDbConnection connection, string providerName)
         {
             this.connection = connection;
             ProviderName = providerName;
@@ -43,10 +41,11 @@ namespace Known.Data
         {
             try
             {
-                var sql = GetCommandText(command);
-                var param = GetDynamicParameters(command.Parameters);
                 OpenConnection();
-                connection.Execute(sql, param);
+                using (var cmd = GetDbCommand(command))
+                {
+                    cmd.ExecuteNonQuery();
+                }
             }
             catch (Exception ex)
             {
@@ -67,21 +66,20 @@ namespace Known.Data
             try
             {
                 OpenConnection();
-                using (var transaction = connection.BeginTransaction())
+                using (var trans = connection.BeginTransaction())
                 {
                     try
                     {
                         foreach (var command in commands)
                         {
-                            var sql = GetCommandText(command);
-                            var param = GetDynamicParameters(command.Parameters);
-                            connection.Execute(sql, param, transaction);
+                            var cmd = GetDbCommand(command);
+                            cmd.ExecuteNonQuery();
                         }
-                        transaction.Commit();
+                        trans.Commit();
                     }
                     catch (Exception ex)
                     {
-                        transaction.Rollback();
+                        trans.Rollback();
                         throw new DatabaseException(commands, ex.Message, ex);
                     }
                 }
@@ -105,10 +103,11 @@ namespace Known.Data
         {
             try
             {
-                var sql = GetCommandText(command);
-                var param = GetDynamicParameters(command.Parameters);
                 OpenConnection();
-                return connection.ExecuteScalar(sql, param);
+                using (var cmd = GetDbCommand(command))
+                {
+                    return cmd.ExecuteScalar();
+                }
             }
             catch (Exception ex)
             {
@@ -130,10 +129,9 @@ namespace Known.Data
             try
             {
                 var table = new DataTable();
-                var sql = GetCommandText(command);
-                var param = GetDynamicParameters(command.Parameters);
                 OpenConnection();
-                using (var reader = connection.ExecuteReader(sql, param))
+                using (var cmd = GetDbCommand(command))
+                using (var reader = cmd.ExecuteReader())
                 {
                     table.Load(reader);
                 }
@@ -159,9 +157,13 @@ namespace Known.Data
             {
                 OpenConnection();
                 var command = CommandCache.GetInsertCommand(table);
-                var sql = GetCommandText(command);
-                var param = table.AsEnumerable().Select(r => GetDynamicParameters(r)).ToList();
-                connection.Execute(sql, param);
+                var cmd = connection.CreateCommand();
+                cmd.CommandText = GetCommandText(command);
+                foreach (DataRow row in table.Rows)
+                {
+                    PrepareCommandParameters(cmd, row);
+                    cmd.ExecuteNonQuery();
+                }
             }
             catch (Exception ex)
             {
@@ -198,27 +200,33 @@ namespace Known.Data
             return command.Text;
         }
 
-        private DynamicParameters GetDynamicParameters(Dictionary<string, object> parameters)
+        private IDbCommand GetDbCommand(Command command)
         {
-            if (parameters == null || parameters.Count == 0)
-                return null;
-
-            var dynamicParameters = new DynamicParameters();
-            foreach (var item in parameters)
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = GetCommandText(command);
+            if (command.HasParameter)
             {
-                dynamicParameters.Add(item.Key, item.Value);
+                foreach (var item in command.Parameters)
+                {
+                    var parameter = cmd.CreateParameter();
+                    parameter.ParameterName = item.Key;
+                    parameter.Value = item.Value;
+                    cmd.Parameters.Add(parameter);
+                }
             }
-            return dynamicParameters;
+
+            return cmd;
         }
 
-        private DynamicParameters GetDynamicParameters(DataRow row)
+        private void PrepareCommandParameters(IDbCommand cmd, DataRow row)
         {
-            var dynamicParameters = new DynamicParameters();
             foreach (DataColumn item in row.Table.Columns)
             {
-                dynamicParameters.Add(item.ColumnName, row[item]);
+                var parameter = cmd.CreateParameter();
+                parameter.ParameterName = item.ColumnName;
+                parameter.Value = row[item];
+                cmd.Parameters.Add(parameter);
             }
-            return dynamicParameters;
         }
     }
 }
