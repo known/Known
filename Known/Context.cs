@@ -35,5 +35,21 @@ namespace Known
         /// 取得上下文扩展参数字典。
         /// </summary>
         public IDictionary<string, object> Params { get; }
+
+        /// <summary>
+        /// 转换参数类型。
+        /// </summary>
+        /// <typeparam name="T">参数类型。</typeparam>
+        /// <param name="key">参数键。</param>
+        /// <returns>参数值。</returns>
+        public T Param<T>(string key)
+        {
+            if (Params.ContainsKey(key))
+            {
+                return (T)Params[key];
+            }
+
+            return default(T);
+        }
     }
 }
