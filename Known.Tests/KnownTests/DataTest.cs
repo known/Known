@@ -22,7 +22,7 @@ namespace Known.Tests.KnownTests
         {
             var entity = new TestEntity { Item1 = 1, Item2 = "test" };
             var command = CommandCache.GetSaveCommand(entity);
-            Assert.IsEqual(command.Text, "");
+            Assert.IsEqual(command.Text, "insert into A_TEST(ITEM1,ITEM2,ITEM3) values(@ITEM1,@ITEM2,@ITEM3)");
             Assert.IsEqual(command.Parameters.Count, 3);
         }
 
@@ -30,7 +30,7 @@ namespace Known.Tests.KnownTests
         {
             var entity = new TestEntity { Item1 = 1, Item2 = "test" };
             var command = CommandCache.GetDeleteCommand(entity);
-            Assert.IsEqual(command.Text, "");
+            Assert.IsEqual(command.Text, "delete from A_TEST where ITEM1=@ITEM1");
             Assert.IsEqual(command.Parameters.Count, 1);
         }
     }

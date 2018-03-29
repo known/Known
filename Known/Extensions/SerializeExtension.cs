@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Data;
+﻿using System.Data;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -16,11 +15,16 @@ namespace Known.Extensions
         /// <summary>
         /// 将对象序列化成JSON格式字符串。
         /// </summary>
+        /// <typeparam name="T">对象类型。</typeparam>
         /// <param name="value">对象。</param>
         /// <returns>JSON格式字符串。</returns>
-        public static string ToJson(this object value)
+        public static string ToJson<T>(this T value)
         {
-            return JsonConvert.SerializeObject(value);
+            var provider = Container.Load<IJsonProvider>();
+            if (provider == null)
+                provider = new DefaultJsonProvider();
+
+            return provider.Serialize(value);
         }
 
         /// <summary>
@@ -31,11 +35,11 @@ namespace Known.Extensions
         /// <returns>指定类型对象。</returns>
         public static T FromJson<T>(this string json)
         {
-            var settings = new JsonSerializerSettings
-            {
-                DateFormatString = "yyyy-MM-dd HH:mm:ss"
-            };
-            return JsonConvert.DeserializeObject<T>(json, settings);
+            var provider = Container.Load<IJsonProvider>();
+            if (provider == null)
+                provider = new DefaultJsonProvider();
+
+            return provider.Deserialize<T>(json);
         }
 
         /// <summary>
