@@ -1,88 +1,10 @@
 ﻿using Aspose.Cells;
-using Known.Files;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
 
-namespace Known.Web.Core
+namespace Known.Files
 {
-    public class AsposeExcel : IExcel
-    {
-        private Workbook wb;
-
-        public AsposeExcel()
-        {
-            var lic = new License();
-            lic.SetLicense("License.xml");
-            wb = new Workbook();
-            wb.Worksheets.Clear();
-
-            Sheets = new List<ISheet>();
-            foreach (Worksheet sheet in wb.Worksheets)
-            {
-                AddSheet(sheet.Name);
-            }
-        }
-
-        public AsposeExcel(string fileName)
-        {
-            var lic = new License();
-            lic.SetLicense("License.xml");
-            wb = new Workbook(fileName);
-            wb.CalculateFormula();
-
-            Sheets = new List<ISheet>();
-            foreach (Worksheet sheet in wb.Worksheets)
-            {
-                AddSheet(sheet.Name);
-            }
-        }
-
-        public IList<ISheet> Sheets { get; }
-
-        public ISheet AddSheet(string name)
-        {
-            var sheet = new AsposeSheet(wb, name);
-            Sheets.Add(sheet);
-            return sheet;
-        }
-
-        public void Save(string fileName)
-        {
-            wb.Save(fileName);
-        }
-
-        public void Save(string fileName, SavedFormat format)
-        {
-            var wbFormat = GetSaveFormat(format);
-            wb.Save(fileName, wbFormat);
-        }
-
-        private SaveFormat GetSaveFormat(SavedFormat format)
-        {
-            switch (format)
-            {
-                case Files.SavedFormat.Auto:
-                    return SaveFormat.Auto;
-                case Files.SavedFormat.CSV:
-                    return SaveFormat.CSV;
-                case Files.SavedFormat.Html:
-                    return SaveFormat.Html;
-                case Files.SavedFormat.Pdf:
-                    return SaveFormat.Pdf;
-                case Files.SavedFormat.XPS:
-                    return SaveFormat.XPS;
-                case Files.SavedFormat.TIFF:
-                    return SaveFormat.TIFF;
-                case Files.SavedFormat.SVG:
-                    return SaveFormat.SVG;
-                default:
-                    return SaveFormat.Auto;
-            }
-        }
-    }
-
     public class AsposeSheet : ISheet
     {
         private Worksheet sheet;
@@ -348,35 +270,6 @@ namespace Known.Web.Core
         public DataTable ExportDataAsString(int firstRow, int firstColumn, int totalRows, int totalColumns, bool exportColumnName)
         {
             return sheet.Cells.ExportDataTableAsString(firstRow, firstColumn, totalRows, totalColumns, exportColumnName);
-        }
-    }
-
-    public class AsposeSheetCell : ISheetCell
-    {
-        private Cell cell;
-
-        public AsposeSheetCell(Cell cell)
-        {
-            this.cell = cell;
-
-            Row = cell.Row;
-            Column = cell.Column;
-            Name = cell.Name;
-            StringValue = cell.StringValue;
-            DisplayStringValue = cell.DisplayStringValue;
-            Value = cell.Value;
-        }
-
-        public int Row { get; }
-        public int Column { get; }
-        public string Name { get; }
-        public string StringValue { get; }
-        public string DisplayStringValue { get; }
-        public object Value { get; }
-
-        public void PutValue(object value)
-        {
-            cell.PutValue(value);
         }
     }
 }
