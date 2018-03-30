@@ -1,5 +1,4 @@
-﻿using Aspose.Cells;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,37 +8,30 @@ namespace Known.Files
     public class SheetCollection : IEnumerable
     {
         private Excel excel;
-        private List<Sheet> sheets;
 
         internal SheetCollection(Excel excel)
         {
-            if (excel == null)
-                throw new ArgumentNullException("excel");
-
-            this.excel = excel;
-            sheets = new List<Sheet>();
-            foreach (Worksheet sheet in excel.Workbook.Worksheets)
+            this.excel = excel ?? throw new ArgumentNullException("excel");
+            InnerSheets = new List<Sheet>();
+            foreach (var sheet in excel.Provider.Sheets)
             {
-                Add(new Sheet(excel.Workbook, sheet.Name));
+                Add(new Sheet(sheet));
             }
         }
 
-        internal List<Sheet> InnerSheets
-        {
-            get { return sheets; }
-        }
+        internal List<Sheet> InnerSheets { get; }
 
         public int Count
         {
-            get { return excel.Workbook.Worksheets.Count; }
+            get { return excel.Provider.Sheets.Count; }
         }
 
         public Sheet Add(string name)
         {
             if (!Contains(name))
             {
-                excel.Workbook.Worksheets.Add(name);
-                Add(new Sheet(excel.Workbook, name));
+                var sheet = excel.Provider.AddSheet(name);
+                Add(new Sheet(sheet));
             }
             return this[name];
         }
@@ -49,27 +41,27 @@ namespace Known.Files
             if (sheet == null)
                 throw new ArgumentNullException("sheet");
 
-            sheets.Add(sheet);
+            InnerSheets.Add(sheet);
         }
 
         public bool Contains(string name)
         {
-            return sheets.Count(s => s.Name == name) > 0;
+            return InnerSheets.Count(s => s.Name == name) > 0;
         }
 
         public IEnumerator GetEnumerator()
         {
-            return sheets.GetEnumerator();
+            return InnerSheets.GetEnumerator();
         }
 
         public Sheet this[int index]
         {
-            get { return sheets.FirstOrDefault(s => s.Index == index); }
+            get { return InnerSheets.FirstOrDefault(s => s.Index == index); }
         }
 
         public Sheet this[string name]
         {
-            get { return sheets.FirstOrDefault(s => s.Name == name); }
+            get { return InnerSheets.FirstOrDefault(s => s.Name == name); }
         }
     }
 }

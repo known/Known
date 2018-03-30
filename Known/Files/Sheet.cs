@@ -1,8 +1,8 @@
-﻿using Aspose.Cells;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 
 namespace Known.Files
@@ -11,157 +11,45 @@ namespace Known.Files
     {
         private DataColumnCollection columns;
 
-        internal Sheet(Workbook wb, string name)
+        internal Sheet(ISheet sheet)
         {
-            if (wb == null)
-                throw new ArgumentNullException("wb");
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+            InnerSheet = sheet ?? throw new ArgumentNullException("sheet");
 
-            InnerSheet = wb.Worksheets[name];
-            Name = name;
+            Index = InnerSheet.Index;
+            Name = InnerSheet.Name;
+            ColumnCount = InnerSheet.ColumnCount;
+            RowCount = InnerSheet.RowCount;
         }
 
-        internal Worksheet InnerSheet { get; private set; }
-
-        public int Index
-        {
-            get { return InnerSheet.Index; }
-        }
-
-        public string Name
-        {
-            get { return InnerSheet.Name; }
-            set { InnerSheet.Name = value; }
-        }
-
-        public int ColumnCount
-        {
-            get { return InnerSheet.Cells.MaxDataColumn + 1; }
-        }
-
-        public int RowCount
-        {
-            get { return InnerSheet.Cells.MaxDataRow + 1; }
-        }
-
-        public void SetModuleName(int row, int column, string moduleName)
-        {
-            InnerSheet.Cells.Merge(row, column, 1, ColumnCount);
-            this[row, column].Value = moduleName;
-            var style = new CellsFactory().CreateStyle();
-            style.Font.IsBold = true;
-            style.HorizontalAlignment = TextAlignmentType.Center;
-            style.VerticalAlignment = TextAlignmentType.Center;
-            InnerSheet.Cells[row, column].SetStyle(style);
-        }
-
-        public void SetColumnHeader(int row, int column, int rowCount, int columnCount, string header, string align = "left")
-        {
-            InnerSheet.Cells.Merge(row, column, rowCount, columnCount);
-            this[row, column].Value = header;
-            var style = new CellsFactory().CreateStyle();
-            style.Font.IsBold = true;
-            if (align == "left")
-                style.HorizontalAlignment = TextAlignmentType.Left;
-            else if (align == "center")
-                style.HorizontalAlignment = TextAlignmentType.Center;
-            else if (align == "right")
-                style.HorizontalAlignment = TextAlignmentType.Right;
-            style.VerticalAlignment = TextAlignmentType.Center;
-            InnerSheet.Cells[row, column].SetStyle(style);
-        }
-
-        public void SetCurrentInfo(int row, int column, string infoText)
-        {
-            InnerSheet.Cells.Merge(row, column, 1, ColumnCount);
-            this[row, column].Value = infoText;
-            var style = new CellsFactory().CreateStyle();
-            style.Font.IsBold = true;
-            style.HorizontalAlignment = TextAlignmentType.Left;
-            style.VerticalAlignment = TextAlignmentType.Center;
-            InnerSheet.Cells[row, column].SetStyle(style);
-        }
-
-        public void SetCurrentInfo(int row, int column, int columnCount, string infoText)
-        {
-            InnerSheet.Cells.Merge(row, column, 1, columnCount);
-            this[row, column].Value = infoText;
-            var style = new CellsFactory().CreateStyle();
-            style.Font.IsBold = true;
-            style.HorizontalAlignment = TextAlignmentType.Left;
-            style.VerticalAlignment = TextAlignmentType.Center;
-            InnerSheet.Cells[row, column].SetStyle(style);
-        }
-
-        public void SetHorizontalAlignment(int row, int column, string type)
-        {
-            var cell = InnerSheet.Cells[row, column];
-            var style = cell.GetStyle();
-            if (style == null)
-                style = new CellsFactory().CreateStyle();
-            if (type == "Left")
-                style.HorizontalAlignment = TextAlignmentType.Left;
-            else if (type == "Center")
-                style.HorizontalAlignment = TextAlignmentType.Center;
-            else if (type == "Right")
-                style.HorizontalAlignment = TextAlignmentType.Right;
-            cell.SetStyle(style);
-        }
-
-        public void SetVerticalAlignment(int row, string type)
-        {
-            for (int i = 0; i < ColumnCount; i++)
-            {
-                SetVerticalAlignment(row, i, type);
-            }
-        }
-
-        public void SetVerticalAlignment(int row, int column, string type)
-        {
-            var cell = InnerSheet.Cells[row, column];
-            var style = cell.GetStyle();
-            if (style == null)
-                style = new CellsFactory().CreateStyle();
-            if (type == "Top")
-                style.VerticalAlignment = TextAlignmentType.Top;
-            else if (type == "Center")
-                style.VerticalAlignment = TextAlignmentType.Center;
-            else if (type == "Bottom")
-                style.VerticalAlignment = TextAlignmentType.Bottom;
-            cell.SetStyle(style);
-        }
+        internal ISheet InnerSheet { get; }
+        public int Index { get; }
+        public string Name { get; }
+        public int ColumnCount { get; }
+        public int RowCount { get; }
 
         public void Copy(Sheet sourceSheet)
         {
-            InnerSheet.Copy(sourceSheet.InnerSheet);
+            InnerSheet.Copy(sourceSheet.Index);
         }
 
-        public void Copy(string sourceSheet)
+        public void Copy(string sourceSheetName)
         {
-            var sheet = InnerSheet.Workbook.Worksheets[sourceSheet];
-            InnerSheet.Copy(sheet);
+            InnerSheet.Copy(sourceSheetName);
         }
 
         public void CopyRows(int sourceFirstRow, int targetFirstRow, int number)
         {
-            InnerSheet.Cells.CopyRows(InnerSheet.Cells, sourceFirstRow, targetFirstRow, number);
-        }
-
-        public void InsertRows(int rowIndex, int totalRows)
-        {
-            InnerSheet.Cells.InsertRows(rowIndex, totalRows);
+            InnerSheet.CopyRows(sourceFirstRow, targetFirstRow, number);
         }
 
         public void CopyRange(int sourceFirstRow, int targetFirstRow, int number)
         {
-            var sourceRows = InnerSheet.Cells.CreateRange(sourceFirstRow, number, false);
-            var targetRows = InnerSheet.Cells.CreateRange(targetFirstRow, number, false);
-            targetRows.Copy(sourceRows);
-            for (int i = 0; i < number; i++)
-            {
-                SetRowHeight(targetFirstRow + i, GetRowHeight(i));
-            }
+            InnerSheet.CopyRange(sourceFirstRow, targetFirstRow, number);
+        }
+
+        public void InsertRows(int rowIndex, int totalRows)
+        {
+            InnerSheet.InsertRows(rowIndex, totalRows);
         }
 
         public void AutoFitColumns()
@@ -174,9 +62,28 @@ namespace Known.Files
             InnerSheet.AutoFitRows();
         }
 
+        public void SetTextAndMerge(int row, int column, int rowCount, int columnCount, string text, TextAlignment align = TextAlignment.Left)
+        {
+            InnerSheet.SetTextAndMerge(row, column, rowCount, columnCount, text, align);
+        }
+
+        public void SetAlignment(int row, int column, TextAlignment align)
+        {
+            InnerSheet.SetAlignment(row, column, align);
+        }
+
+        public void SetRowAlignment(int row, TextAlignment align)
+        {
+            for (int i = 0; i < ColumnCount; i++)
+            {
+                InnerSheet.SetAlignment(row, i, align);
+            }
+        }
+
         public void ImportData(DataTable dataTable, bool isFieldNameShown, int firstRow, int firstColumn, bool insertRows)
         {
-            InnerSheet.Cells.ImportDataTable(dataTable, isFieldNameShown, firstRow, firstColumn, insertRows);
+            columns = dataTable.Columns;
+            InnerSheet.ImportData(dataTable, isFieldNameShown, firstRow, firstColumn, insertRows);
         }
 
         public void ImportData(DataTable dataTable, bool isFieldNameShown, int firstRow, int firstColumn, string dateFormat = null)
@@ -184,14 +91,12 @@ namespace Known.Files
             columns = dataTable.Columns;
             var totalRows = dataTable.Rows.Count;
             var totalColumns = dataTable.Columns.Count;
-            InnerSheet.Cells.ImportDataTable(dataTable, isFieldNameShown, firstRow, firstColumn, totalRows, totalColumns, true, dateFormat ?? "yyyy-MM-dd HH:mm:ss", false);
+            InnerSheet.ImportData(dataTable, isFieldNameShown, firstRow, firstColumn, totalRows, totalColumns, true, dateFormat ?? "yyyy-MM-dd HH:mm:ss", false);
             if (isFieldNameShown)
             {
-                var style = new CellsFactory().CreateStyle();
-                style.Font.IsBold = true;
                 for (int i = 0; i < ColumnCount; i++)
                 {
-                    InnerSheet.Cells[firstRow, i].SetStyle(style);
+                    InnerSheet.SetCellBold(firstRow, i);
                 }
             }
         }
@@ -204,8 +109,8 @@ namespace Known.Files
         public DataTable ExportData(int firstRow, int firstColumn, bool asString = true)
         {
             DataTable dt = asString
-                ? InnerSheet.Cells.ExportDataTableAsString(firstRow, firstColumn, RowCount - firstRow, ColumnCount - firstColumn, true)
-                : InnerSheet.Cells.ExportDataTable(firstRow, firstColumn, RowCount - firstRow, ColumnCount - firstColumn, true);
+                ? InnerSheet.ExportDataAsString(firstRow, firstColumn, RowCount - firstRow, ColumnCount - firstColumn, true)
+                : InnerSheet.ExportData(firstRow, firstColumn, RowCount - firstRow, ColumnCount - firstColumn, true);
 
             if (dt != null)
                 dt.TableName = Name;
@@ -229,28 +134,7 @@ namespace Known.Files
 
         public void SetCellBorder(string cellName, bool top, bool right, bool bottom, bool left)
         {
-            var style = new CellsFactory().CreateStyle();
-            if (top)
-            {
-                style.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
-                style.Borders[BorderType.TopBorder].Color = Color.Black;
-            }
-            if (right)
-            {
-                style.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
-                style.Borders[BorderType.RightBorder].Color = Color.Black;
-            }
-            if (bottom)
-            {
-                style.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
-                style.Borders[BorderType.BottomBorder].Color = Color.Black;
-            }
-            if (left)
-            {
-                style.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
-                style.Borders[BorderType.LeftBorder].Color = Color.Black;
-            }
-            this.InnerSheet.Cells[cellName].SetStyle(style);
+            InnerSheet.SetCellBorder(cellName, top, right, bottom, left);
         }
 
         public void SetCellFormatValue(string cellName, string format, params object[] args)
@@ -268,19 +152,15 @@ namespace Known.Files
             this[row, column].Value = value;
             if (isBold)
             {
-                var style = new CellsFactory().CreateStyle();
-                style.Font.IsBold = true;
-                InnerSheet.Cells[row, column].SetStyle(style);
+                InnerSheet.SetCellBold(row, column);
             }
         }
 
         public void SetCellImage(int row, int column, Bitmap bitmap)
         {
             var stream = new MemoryStream();
-            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
-            var index = InnerSheet.Pictures.Add(row, column, stream);
-            InnerSheet.Pictures[index].Left = 10;
-            InnerSheet.Pictures[index].Top = 10;
+            bitmap.Save(stream, ImageFormat.Bmp);
+            InnerSheet.SetCellImage(row, column, stream);
             stream.Close();
         }
 
@@ -294,31 +174,34 @@ namespace Known.Files
 
         public double GetRowHeight(int row)
         {
-            return InnerSheet.Cells.GetRowHeight(row);
+            return InnerSheet.GetRowHeight(row);
         }
 
         public void SetRowHeight(int row, double height)
         {
-            InnerSheet.Cells.SetRowHeight(row, height);
+            InnerSheet.SetRowHeight(row, height);
         }
 
         public void SetColumnWidth(int column, double width)
         {
-            InnerSheet.Cells.SetColumnWidth(column, width);
+            InnerSheet.SetColumnWidth(column, width);
         }
 
         public void DeleteRow(int rowIndex)
         {
-            InnerSheet.Cells.DeleteRow(rowIndex);
+            InnerSheet.DeleteRow(rowIndex);
         }
 
         public void DeleteRows(int rowIndex, int totalRows)
         {
-            InnerSheet.Cells.DeleteRows(rowIndex, totalRows);
+            InnerSheet.DeleteRows(rowIndex, totalRows);
         }
 
         public void DeleteColumn(string columnName)
         {
+            if (columns == null)
+                return;
+
             var columnIndex = -1;
             for (var i = 0; i < columns.Count; i++)
             {
@@ -329,7 +212,7 @@ namespace Known.Files
                 }
             }
 
-            InnerSheet.Cells.DeleteColumn(columnIndex);
+            InnerSheet.DeleteColumn(columnIndex);
             columns.RemoveAt(columnIndex);
         }
 
@@ -337,7 +220,7 @@ namespace Known.Files
         {
             get
             {
-                var cell = InnerSheet.Cells[cellName];
+                var cell = InnerSheet.GetCell(cellName);
                 return new SheetCell(cell);
             }
         }
@@ -346,7 +229,7 @@ namespace Known.Files
         {
             get
             {
-                var cell = InnerSheet.Cells[row, column];
+                var cell = InnerSheet.GetCell(row, column);
                 return new SheetCell(cell);
             }
         }
@@ -358,29 +241,29 @@ namespace Known.Files
                 if (columns == null)
                     return null;
                 var column = columns.IndexOf(columnName);
-                var cell = InnerSheet.Cells[row, column];
+                var cell = InnerSheet.GetCell(row, column);
                 return new SheetCell(cell);
             }
         }
 
         public bool HasColumn(string columnName)
         {
-            return columns.IndexOf(columnName) > -1;
+            return columns != null && columns.IndexOf(columnName) > -1;
         }
 
         public void AddColumn(int columnIndex)
         {
-            InnerSheet.Cells.InsertColumn(columnIndex);
+            InnerSheet.InsertColumn(columnIndex);
         }
 
         public void UnMerge(int firstRow, int firstColumn, int totalRows, int totalColumns)
         {
-            InnerSheet.Cells.UnMerge(firstRow, firstColumn, totalRows, totalColumns);
+            InnerSheet.UnMerge(firstRow, firstColumn, totalRows, totalColumns);
         }
 
         public void Merge(int firstRow, int firstColumn, int totalRows, int totalColumns)
         {
-            InnerSheet.Cells.Merge(firstRow, firstColumn, totalRows, totalColumns);
+            InnerSheet.Merge(firstRow, firstColumn, totalRows, totalColumns);
         }
 
         public void MergeCells(List<int> mergeColumns, List<int> rowSpans, int startRow, int endRow, int startColumn = 0)
@@ -401,7 +284,7 @@ namespace Known.Files
                 for (int j = 0, rsCount = rowSpans.Count; j < rsCount; j++)
                 {
                     if (rowSpans[j] > 1)
-                        InnerSheet.Cells.Merge(currentRow, mergeColumns[i] + startColumn, rowSpans[j], 1);
+                        InnerSheet.Merge(currentRow, mergeColumns[i] + startColumn, rowSpans[j], 1);
 
                     currentRow += rowSpans[j];
                 }
@@ -426,8 +309,7 @@ namespace Known.Files
                 if (HasColumn(columnName))
                 {
                     var value = this[row, columnName].ValueAs<string>();
-                    decimal num = 0;
-                    if (decimal.TryParse(value, out num))
+                    if (decimal.TryParse(value, out decimal num))
                         this[row, columnName].Value = num.ToString(format);
                 }
             }

@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.Cells, Version=18.3.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
-      <HintPath>..\packages\Aspose.Cells.18.3.0\lib\net40\Aspose.Cells.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -65,9 +62,14 @@
     <Compile Include="Extensions\CompressExtension.cs" />
     <Compile Include="Extensions\TypeExtension.cs" />
     <Compile Include="Files\Excel.cs" />
+    <Compile Include="Files\IExcel.cs" />
+    <Compile Include="Files\ISheet.cs" />
+    <Compile Include="Files\ISheetCell.cs" />
+    <Compile Include="Files\SavedFormat.cs" />
     <Compile Include="Files\Sheet.cs" />
     <Compile Include="Files\SheetCell.cs" />
     <Compile Include="Files\SheetCollection.cs" />
+    <Compile Include="Files\TextAlignment.cs" />
     <Compile Include="JsonProvider.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="Mapping\BooleanColumnAttribute.cs" />
@@ -110,8 +112,5 @@
     <Compile Include="Web\WebUtils.cs" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

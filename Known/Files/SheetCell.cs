@@ -1,25 +1,23 @@
-﻿using Aspose.Cells;
-
-namespace Known.Files
+﻿namespace Known.Files
 {
     public class SheetCell
     {
-        private Cell cell;
+        private ISheetCell cell;
 
-        internal SheetCell(Cell cell)
+        internal SheetCell(ISheetCell cell)
         {
             this.cell = cell;
+            StringValue = cell.StringValue;
+            DisplayStringValue = cell.DisplayStringValue;
         }
+
+        public string StringValue { get; }
+        public string DisplayStringValue { get; }
 
         public object Value
         {
             get { return cell.Value; }
             set { cell.PutValue(value); }
-        }
-
-        public string StringValue
-        {
-            get { return cell.StringValue; }
         }
 
         public T ValueAs<T>()

@@ -1,39 +1,27 @@
-﻿using Aspose.Cells;
-using System.Data;
+﻿using System.Data;
 using System.Linq;
 
 namespace Known.Files
 {
     public class Excel
     {
-        private Workbook wb;
         private string fileName;
 
-        public Excel()
+        public Excel(IExcel provider)
         {
-            var lic = new License();
-            lic.SetLicense("License.xml");
-            wb = new Workbook();
-            wb.Worksheets.Clear();
+            Provider = provider;
             Sheets = new SheetCollection(this);
         }
 
-        public Excel(string fileName)
+        public Excel(IExcel provider, string fileName)
         {
             this.fileName = fileName;
-            var lic = new License();
-            lic.SetLicense("License.xml");
-            wb = new Workbook(fileName);
-            wb.CalculateFormula();
+            Provider = provider;
             Sheets = new SheetCollection(this);
         }
 
+        public IExcel Provider { get; }
         public SheetCollection Sheets { get; }
-
-        internal Workbook Workbook
-        {
-            get { return wb; }
-        }
 
         public Sheet First
         {
@@ -69,19 +57,19 @@ namespace Known.Files
 
         public void Save()
         {
-            wb.Save(fileName);
+            Provider.Save(fileName);
         }
 
         public void SaveAs(string fileName)
         {
             Utils.EnsureFile(fileName);
-            wb.Save(fileName);
+            Provider.Save(fileName);
         }
 
         public void SaveAsPdf(string fileName)
         {
             Utils.EnsureFile(fileName);
-            wb.Save(fileName, SaveFormat.Pdf);
+            Provider.Save(fileName, SavedFormat.Pdf);
         }
     }
 }
