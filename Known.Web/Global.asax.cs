@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.Security;
-using System.Web.SessionState;
 
 namespace Known.Web
 {
@@ -51,6 +46,10 @@ namespace Known.Web
             public static void RegisterRoutes(RouteCollection routes)
             {
                 routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+                routes.MapRoute("Login", "login", new { controller = "User", action = "Login" });
+                routes.MapRoute("Register", "register", new { controller = "User", action = "Register" });
+                routes.MapRoute("ForgotPassword", "forgotpwd", new { controller = "User", action = "ForgotPassword" });
 
                 routes.MapRoute(
                     "Default",
