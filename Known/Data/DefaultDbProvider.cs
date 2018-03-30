@@ -7,7 +7,7 @@ namespace Known.Data
     /// <summary>
     /// 默认数据访问提供者。
     /// </summary>
-    public class DefaultProvider : IProvider
+    public class DefaultDbProvider : IDbProvider
     {
         private IDbConnection connection;
 
@@ -16,7 +16,7 @@ namespace Known.Data
         /// </summary>
         /// <param name="connection">数据库连接对象。</param>
         /// <param name="providerName">数据库提供者名称。</param>
-        public DefaultProvider(IDbConnection connection, string providerName)
+        public DefaultDbProvider(IDbConnection connection, string providerName)
         {
             this.connection = connection;
             ProviderName = providerName;

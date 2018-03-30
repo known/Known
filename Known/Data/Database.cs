@@ -12,14 +12,14 @@ namespace Known.Data
     /// </summary>
     public class Database : IDisposable
     {
-        private IProvider provider;
+        private IDbProvider provider;
         private List<Command> commands = new List<Command>();
 
         /// <summary>
         /// 构造函数，创建数据访问实例。
         /// </summary>
         /// <param name="provider">数据库提供者对象。</param>
-        public Database(IProvider provider)
+        public Database(IDbProvider provider)
         {
             this.provider = provider ?? throw new ArgumentNullException("database");
             ConnectionString = provider.ConnectionString;

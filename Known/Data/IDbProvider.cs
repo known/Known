@@ -6,7 +6,7 @@ namespace Known.Data
     /// <summary>
     /// 数据库访问提供者接口。
     /// </summary>
-    public interface IProvider
+    public interface IDbProvider
     {
         /// <summary>
         /// 取得数据库提供者名称。

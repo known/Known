@@ -55,10 +55,10 @@
     <Compile Include="Context.cs" />
     <Compile Include="Data\Command.cs" />
     <Compile Include="Data\CommandCache.cs" />
-    <Compile Include="Data\DefaultProvider.cs" />
+    <Compile Include="Data\DefaultDbProvider.cs" />
     <Compile Include="Data\DatabaseException.cs" />
     <Compile Include="Data\Database.cs" />
-    <Compile Include="Data\IProvider.cs" />
+    <Compile Include="Data\IDbProvider.cs" />
     <Compile Include="Extensions\CompressExtension.cs" />
     <Compile Include="Extensions\TypeExtension.cs" />
     <Compile Include="Files\Excel.cs" />
