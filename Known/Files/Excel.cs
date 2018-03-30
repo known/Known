@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Linq;
 
 namespace Known.Files
@@ -9,14 +10,14 @@ namespace Known.Files
 
         public Excel(IExcel provider)
         {
-            Provider = provider;
+            Provider = provider ?? throw new ArgumentNullException("provider");
             Sheets = new SheetCollection(this);
         }
 
         public Excel(IExcel provider, string fileName)
         {
             this.fileName = fileName;
-            Provider = provider;
+            Provider = provider ?? throw new ArgumentNullException("provider");
             Sheets = new SheetCollection(this);
         }
 
