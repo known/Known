@@ -37,6 +37,11 @@ namespace Known
         public IDictionary<string, object> Params { get; }
 
         /// <summary>
+        /// 取得或设置当前用户账号。
+        /// </summary>
+        public string UserName { get; set; }
+
+        /// <summary>
         /// 转换参数类型。
         /// </summary>
         /// <typeparam name="T">参数类型。</typeparam>
