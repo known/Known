@@ -24,6 +24,11 @@ namespace Known.Validation
             validInfos.AddRange(errors.Select(e => new ValidInfo(ValidLevel.Error, e)));
         }
 
+        /// <summary>
+        /// 添加错误。
+        /// </summary>
+        /// <param name="broken">错误判断。</param>
+        /// <param name="message">错误消息。</param>
         public void AddError(bool broken, string message)
         {
             if (broken)
@@ -32,12 +37,23 @@ namespace Known.Validation
             }
         }
 
+        /// <summary>
+        /// 添加错误。
+        /// </summary>
+        /// <param name="broken">错误判断。</param>
+        /// <param name="format">错误消息格式。</param>
+        /// <param name="args">错误消息格式参数。</param>
         public void AddError(bool broken, string format, params object[] args)
         {
             var message = string.Format(format, args);
             AddError(broken, message);
         }
 
+        /// <summary>
+        /// 添加警告。
+        /// </summary>
+        /// <param name="broken">警告判断。</param>
+        /// <param name="message">警告消息。</param>
         public void AddWarn(bool broken, string message)
         {
             if (broken)
@@ -46,12 +62,22 @@ namespace Known.Validation
             }
         }
 
+        /// <summary>
+        /// 添加警告。
+        /// </summary>
+        /// <param name="broken">警告判断。</param>
+        /// <param name="format">警告消息格式。</param>
+        /// <param name="args">警告消息格式参数。</param>
         public void AddWarn(bool broken, string format, params object[] args)
         {
             var message = string.Format(format, args);
             AddError(broken, message);
         }
 
+        /// <summary>
+        /// 获取验证结果信息。
+        /// </summary>
+        /// <returns>验证结果信息。</returns>
         public ValidateResult ToResult()
         {
             return new ValidateResult(validInfos);
