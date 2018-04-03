@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Known
 {
+    /// <summary>
+    /// 邮件操作类。
+    /// </summary>
     public class Mail
     {
         private string smtpServer = string.Empty;
@@ -16,12 +19,24 @@ namespace Known
         private List<MailAddress> ccMails = new List<MailAddress>();
         private List<MailAddress> bccMails = new List<MailAddress>();
 
+        /// <summary>
+        /// 构造函数，创建一个邮件操作类实例。
+        /// </summary>
+        /// <param name="fromName">发送者名称。</param>
+        /// <param name="fromEmail">发送者邮箱。</param>
         public Mail(string fromName, string fromEmail)
         {
             this.fromName = fromName;
             this.fromEmail = fromEmail;
         }
 
+        /// <summary>
+        /// 构造函数，创建一个邮件操作类实例。
+        /// </summary>
+        /// <param name="smtpServer">发送邮件服务器。</param>
+        /// <param name="fromName">发送者名称。</param>
+        /// <param name="fromEmail">发送者邮箱。</param>
+        /// <param name="fromPassword">发送者邮箱密码。</param>
         public Mail(string smtpServer, string fromName, string fromEmail, string fromPassword)
         {
             this.smtpServer = smtpServer;
@@ -30,6 +45,10 @@ namespace Known
             this.fromPassword = fromPassword;
         }
 
+        /// <summary>
+        /// 添加收件人邮箱。
+        /// </summary>
+        /// <param name="email">收件人邮箱。</param>
         public void AddTo(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -41,6 +60,11 @@ namespace Known
             }
         }
 
+        /// <summary>
+        /// 添加收件人邮箱。
+        /// </summary>
+        /// <param name="name">收件人名称。</param>
+        /// <param name="email">收件人邮箱。</param>
         public void AddTo(string name, string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -52,6 +76,10 @@ namespace Known
             }
         }
 
+        /// <summary>
+        /// 添加抄送人邮箱。
+        /// </summary>
+        /// <param name="email">抄送人邮箱。</param>
         public void AddCc(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -63,6 +91,11 @@ namespace Known
             }
         }
 
+        /// <summary>
+        /// 添加抄送人邮箱。
+        /// </summary>
+        /// <param name="name">抄送人名称。</param>
+        /// <param name="email">抄送人邮箱。</param>
         public void AddCc(string name, string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -74,6 +107,10 @@ namespace Known
             }
         }
 
+        /// <summary>
+        /// 添加密送人邮箱。
+        /// </summary>
+        /// <param name="email">密送人邮箱。</param>
         public void AddBcc(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -85,6 +122,11 @@ namespace Known
             }
         }
 
+        /// <summary>
+        /// 添加密送人邮箱。
+        /// </summary>
+        /// <param name="name">密送人名称。</param>
+        /// <param name="email">密送人邮箱。</param>
         public void AddBcc(string name, string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -96,6 +138,12 @@ namespace Known
             }
         }
 
+        /// <summary>
+        /// 发送邮件。
+        /// </summary>
+        /// <param name="subject">邮件主题。</param>
+        /// <param name="body">邮件内容。</param>
+        /// <param name="isBodyHtml">邮件内容格式是否为HTML。</param>
         public void Send(string subject, string body, bool isBodyHtml = true)
         {
             if (toMails.Count == 0)
