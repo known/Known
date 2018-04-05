@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Known.Web
 {
+    /// <summary>
+    /// HTTP操作类。
+    /// </summary>
     public class Http
     {
         private static string contentType = "application/x-www-form-urlencoded";
@@ -15,26 +18,64 @@ namespace Known.Web
         private static int currentTry = 0;
         private static int maxTry = 3;
 
+        /// <summary>
+        /// 根据URL及参数使用GET请求方式获取HTML并返回Cookie。
+        /// </summary>
+        /// <param name="url">请求的URL。</param>
+        /// <param name="datas">请求的参数。</param>
+        /// <param name="cookie">返回的Cookie。</param>
+        /// <returns>HTML内容。</returns>
         public static string Get(string url, IDictionary<string, string> datas, out string cookie)
         {
             return DoRequest("GET", url, datas, out cookie);
         }
 
+        /// <summary>
+        /// 根据URL及参数使用POST请求方式获取HTML并返回Cookie。
+        /// </summary>
+        /// <param name="url">请求的URL。</param>
+        /// <param name="datas">请求的参数。</param>
+        /// <param name="cookie">返回的Cookie。</param>
+        /// <returns>HTML内容。</returns>
         public static string Post(string url, IDictionary<string, string> datas, out string cookie)
         {
             return DoRequest("POST", url, datas, out cookie);
         }
 
+        /// <summary>
+        /// 根据URL、参数及Cookie使用GET请求方式获取HTML内容。
+        /// </summary>
+        /// <param name="url">请求的URL。</param>
+        /// <param name="allowRedirect">是否允许重定向。</param>
+        /// <param name="datas">请求的参数。</param>
+        /// <param name="cookie">请求的Cookie。</param>
+        /// <returns>HTML内容。</returns>
         public static string Get(string url, bool allowRedirect = false, IDictionary<string, string> datas = null, CookieContainer cookie = null)
         {
             return DoRequest("GET", url, allowRedirect, datas, cookie);
         }
 
+        /// <summary>
+        /// 根据URL、参数及Cookie使用POST请求方式获取HTML内容。
+        /// </summary>
+        /// <param name="url">请求的URL。</param>
+        /// <param name="datas">请求的参数。</param>
+        /// <param name="cookie">请求的Cookie。</param>
+        /// <returns>HTML内容。</returns>
         public static string Post(string url, IDictionary<string, string> datas = null, CookieContainer cookie = null)
         {
             return DoRequest("POST", url, false, datas, cookie);
         }
 
+        /// <summary>
+        /// 根据URL及参数下载远程文件。
+        /// </summary>
+        /// <param name="fileName">文件保存的路径。</param>
+        /// <param name="method">请求方式（GET，POST）。</param>
+        /// <param name="url">请求的URL。</param>
+        /// <param name="datas">请求的参数。</param>
+        /// <param name="cookie">请求的Cookie。</param>
+        /// <returns>下载成功返回空，否则返回异常消息。</returns>
         public static string DownloadFile(string fileName, string method, string url, IDictionary<string, string> datas = null, CookieContainer cookie = null)
         {
             currentTry++;
