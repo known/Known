@@ -7,10 +7,17 @@ using System.IO;
 
 namespace Known.Files
 {
+    /// <summary>
+    /// Sheet类。
+    /// </summary>
     public class Sheet
     {
         private DataColumnCollection columns;
 
+        /// <summary>
+        /// 构造函数，创建一个Sheet实例。
+        /// </summary>
+        /// <param name="sheet">Sheet接口。</param>
         internal Sheet(ISheet sheet)
         {
             InnerSheet = sheet ?? throw new ArgumentNullException("sheet");
@@ -21,57 +28,127 @@ namespace Known.Files
             RowCount = InnerSheet.RowCount;
         }
 
+        /// <summary>
+        /// 取得Sheet接口。
+        /// </summary>
         internal ISheet InnerSheet { get; }
+
+        /// <summary>
+        /// 取得Excel中Sheet的索引位置。
+        /// </summary>
         public int Index { get; }
+
+        /// <summary>
+        /// 取得Excel中Sheet的名称。
+        /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// 取得Excel中Sheet的数据列数。
+        /// </summary>
         public int ColumnCount { get; }
+
+        /// <summary>
+        /// 取得Excel中Sheet的数据行数。
+        /// </summary>
         public int RowCount { get; }
 
+        /// <summary>
+        /// 复制整个Sheet。
+        /// </summary>
+        /// <param name="sourceSheet">源Sheet对象。</param>
         public void Copy(Sheet sourceSheet)
         {
             InnerSheet.Copy(sourceSheet.Index);
         }
 
+        /// <summary>
+        /// 复制整个Sheet。
+        /// </summary>
+        /// <param name="sourceSheetName">源Sheet名称。</param>
         public void Copy(string sourceSheetName)
         {
             InnerSheet.Copy(sourceSheetName);
         }
 
-        public void CopyRows(int sourceFirstRow, int targetFirstRow, int number)
-        {
-            InnerSheet.CopyRows(sourceFirstRow, targetFirstRow, number);
-        }
-
+        /// <summary>
+        /// 复制单元格范围。
+        /// </summary>
+        /// <param name="sourceFirstRow">原Sheet开始行号。</param>
+        /// <param name="targetFirstRow">目标Sheet开始行号。</param>
+        /// <param name="number">要复制的行数。</param>
         public void CopyRange(int sourceFirstRow, int targetFirstRow, int number)
         {
             InnerSheet.CopyRange(sourceFirstRow, targetFirstRow, number);
         }
 
+        /// <summary>
+        /// 复制数据行。
+        /// </summary>
+        /// <param name="sourceFirstRow">原Sheet开始行号。</param>
+        /// <param name="targetFirstRow">目标Sheet开始行号。</param>
+        /// <param name="number">要复制的行数。</param>
+        public void CopyRows(int sourceFirstRow, int targetFirstRow, int number)
+        {
+            InnerSheet.CopyRows(sourceFirstRow, targetFirstRow, number);
+        }
+
+        /// <summary>
+        /// 插入多个Sheet行。
+        /// </summary>
+        /// <param name="rowIndex">插入行的索引位置。</param>
+        /// <param name="totalRows">插入的行数。</param>
         public void InsertRows(int rowIndex, int totalRows)
         {
             InnerSheet.InsertRows(rowIndex, totalRows);
         }
 
+        /// <summary>
+        /// 自动调整所有列的宽度。
+        /// </summary>
         public void AutoFitColumns()
         {
             InnerSheet.AutoFitColumns();
         }
 
+        /// <summary>
+        /// 自动调整所有行的高度。
+        /// </summary>
         public void AutoFitRows()
         {
             InnerSheet.AutoFitRows();
         }
 
+        /// <summary>
+        /// 设置单元格文本并合并。
+        /// </summary>
+        /// <param name="row">单元格行号。</param>
+        /// <param name="column">单元格列号。</param>
+        /// <param name="rowCount">合并的行数。</param>
+        /// <param name="columnCount">合并的列数。</param>
+        /// <param name="text">设置的文本。</param>
+        /// <param name="align">文本的对齐方式。</param>
         public void SetTextAndMerge(int row, int column, int rowCount, int columnCount, string text, TextAlignment align = TextAlignment.Left)
         {
             InnerSheet.SetTextAndMerge(row, column, rowCount, columnCount, text, align);
         }
 
+        /// <summary>
+        /// 设置单元格对齐方式。
+        /// </summary>
+        /// <param name="row">单元格行号。</param>
+        /// <param name="column">单元格列号。</param>
+        /// <param name="align">对齐方式。</param>
         public void SetAlignment(int row, int column, TextAlignment align)
         {
             InnerSheet.SetAlignment(row, column, align);
         }
 
+        /// <summary>
+        /// 设置整个行单元格对齐方式。
+        /// </summary>
+        /// <param name="row">设置的行号。</param>
+        /// <param name="align">对齐方式。</param>
         public void SetRowAlignment(int row, TextAlignment align)
         {
             for (int i = 0; i < ColumnCount; i++)
@@ -80,18 +157,34 @@ namespace Known.Files
             }
         }
 
+        /// <summary>
+        /// 将DataTable导入到Sheet中。
+        /// </summary>
+        /// <param name="dataTable">导入的数据。</param>
+        /// <param name="isFieldNameShown">是否显示数据列名。</param>
+        /// <param name="firstRow">导入的首行位置。</param>
+        /// <param name="firstColumn">导入的首列位置。</param>
+        /// <param name="insertRows">是否插入行。</param>
         public void ImportData(DataTable dataTable, bool isFieldNameShown, int firstRow, int firstColumn, bool insertRows)
         {
             columns = dataTable.Columns;
             InnerSheet.ImportData(dataTable, isFieldNameShown, firstRow, firstColumn, insertRows);
         }
 
-        public void ImportData(DataTable dataTable, bool isFieldNameShown, int firstRow, int firstColumn, string dateFormat = null)
+        /// <summary>
+        /// 将DataTable导入到Sheet中。
+        /// </summary>
+        /// <param name="dataTable">导入的数据。</param>
+        /// <param name="isFieldNameShown">是否显示数据列名。</param>
+        /// <param name="firstRow">导入的首行位置。</param>
+        /// <param name="firstColumn">导入的首列位置。</param>
+        /// <param name="dateFormat">日期类型的格式。</param>
+        public void ImportData(DataTable dataTable, bool isFieldNameShown, int firstRow, int firstColumn, string dateFormat = "yyyy-MM-dd HH:mm:ss")
         {
             columns = dataTable.Columns;
             var totalRows = dataTable.Rows.Count;
             var totalColumns = dataTable.Columns.Count;
-            InnerSheet.ImportData(dataTable, isFieldNameShown, firstRow, firstColumn, totalRows, totalColumns, true, dateFormat ?? "yyyy-MM-dd HH:mm:ss", false);
+            InnerSheet.ImportData(dataTable, isFieldNameShown, firstRow, firstColumn, totalRows, totalColumns, true, dateFormat, false);
             if (isFieldNameShown)
             {
                 for (int i = 0; i < ColumnCount; i++)
