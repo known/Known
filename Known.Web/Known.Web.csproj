@@ -90,6 +90,7 @@
     <Content Include="static\css\site.css" />
     <Content Include="static\js\bootstrap.min.js" />
     <Content Include="static\js\jquery.min.js" />
+    <Content Include="static\js\login.js" />
     <Content Include="static\layui\css\layui.css" />
     <Content Include="static\layui\css\layui.mobile.css" />
     <Content Include="static\layui\css\modules\code.css" />
