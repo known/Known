@@ -14,7 +14,7 @@ namespace Known.Log
         private string fileName;
 
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个文件日志类实例。
         /// </summary>
         /// <param name="fileName">日志文件路径。</param>
         public FileLogger(string fileName)

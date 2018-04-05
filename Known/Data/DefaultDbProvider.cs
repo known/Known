@@ -12,7 +12,7 @@ namespace Known.Data
         private IDbConnection connection;
 
         /// <summary>
-        /// 构造函数，创建一个数据访问提供者示例。
+        /// 构造函数，创建一个数据访问提供者实例。
         /// </summary>
         /// <param name="connection">数据库连接对象。</param>
         /// <param name="providerName">数据库提供者名称。</param>

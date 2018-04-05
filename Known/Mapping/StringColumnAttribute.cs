@@ -5,18 +5,18 @@ using System.Collections.Generic;
 namespace Known.Mapping
 {
     /// <summary>
-    /// 字符型表栏位特性，用于实体和表栏位的映射。
+    /// 字符型栏位特性，用于实体和表栏位的映射。
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class StringColumnAttribute : ColumnAttribute
     {
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个字符型栏位特性实例。
         /// </summary>
         public StringColumnAttribute() { }
 
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个字符型栏位特性实例。
         /// </summary>
         /// <param name="columnName">表栏位名。</param>
         /// <param name="description">表栏位描述。</param>
@@ -29,7 +29,7 @@ namespace Known.Mapping
         }
 
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个字符型栏位特性实例。
         /// </summary>
         /// <param name="columnName">表栏位名。</param>
         /// <param name="description">表栏位描述。</param>

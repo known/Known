@@ -11,7 +11,7 @@ namespace Known.Data
     public class DatabaseException : DataException
     {
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个数据库访问异常实例。
         /// </summary>
         /// <param name="commands">发生异常时的数据库命令。</param>
         public DatabaseException(List<Command> commands)
@@ -20,7 +20,7 @@ namespace Known.Data
         }
 
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个数据库访问异常实例。
         /// </summary>
         /// <param name="commands">发生异常时的数据库命令。</param>
         /// <param name="message">当引发异常时显示的字符串。</param>
@@ -31,7 +31,7 @@ namespace Known.Data
         }
 
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个数据库访问异常实例。
         /// </summary>
         /// <param name="commands">发生异常时的数据库命令。</param>
         /// <param name="message">当引发异常时显示的字符串。</param>
@@ -43,7 +43,7 @@ namespace Known.Data
         }
 
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个数据库访问异常实例。
         /// </summary>
         /// <param name="info">将对象序列化或反序列化所必需的数据。</param>
         /// <param name="context">指定序列化流的源和目的地的说明。</param>

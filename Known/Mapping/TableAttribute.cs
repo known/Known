@@ -9,12 +9,12 @@ namespace Known.Mapping
     public class TableAttribute : Attribute
     {
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个数据表特性实例。
         /// </summary>
         public TableAttribute() { }
 
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个数据表特性实例。
         /// </summary>
         /// <param name="tableName">数据表名。</param>
         /// <param name="primaryKey">数据表主键字段，多个用半角逗号分割。</param>
@@ -25,7 +25,7 @@ namespace Known.Mapping
         }
 
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个数据表特性实例。
         /// </summary>
         /// <param name="tableName">数据表名。</param>
         /// <param name="primaryKey">数据表主键字段，多个用半角逗号分割。</param>

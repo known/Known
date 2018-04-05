@@ -10,13 +10,16 @@ namespace Known.Mapping
     public class EntityBase
     {
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个实体类实例。
         /// </summary>
         public EntityBase()
         {
             IsNew = true;
         }
 
+        /// <summary>
+        /// 取得或设置是否为新建实体。
+        /// </summary>
         internal bool IsNew { get; set; }
 
         /// <summary>

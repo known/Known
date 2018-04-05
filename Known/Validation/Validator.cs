@@ -11,12 +11,12 @@ namespace Known.Validation
         private List<ValidInfo> validInfos = new List<ValidInfo>();
 
         /// <summary>
-        /// 构造函数，创建验证器实例。
+        /// 构造函数，创建一个验证器实例。
         /// </summary>
         public Validator() { }
 
         /// <summary>
-        /// 构造函数，创建验证器实例。
+        /// 构造函数，创建一个验证器实例。
         /// </summary>
         /// <param name="errors">错误消息集合。</param>
         public Validator(List<string> errors)

@@ -10,7 +10,7 @@ namespace Known.Data
     public class Command
     {
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个数据库命令类实例。
         /// </summary>
         /// <param name="text">SQL语句。</param>
         public Command(string text)
@@ -20,7 +20,7 @@ namespace Known.Data
         }
 
         /// <summary>
-        /// 构造函数。
+        /// 构造函数，创建一个数据库命令类实例。
         /// </summary>
         /// <param name="text">SQL语句。</param>
         /// <param name="parameters">SQL语句参数字典。</param>

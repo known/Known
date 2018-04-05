@@ -31,8 +31,8 @@ namespace Known.Log
         /// <summary>
         /// 跟踪格式化的日志内容。
         /// </summary>
-        /// <param name="format">格式化。</param>
-        /// <param name="args">参数。</param>
+        /// <param name="format">日志内容格式。</param>
+        /// <param name="args">日志内容参数。</param>
         public void Trace(string format, params object[] args)
         {
             Trace(string.Format(format, args));
@@ -50,8 +50,8 @@ namespace Known.Log
         /// <summary>
         /// 记录格式化的信息级别的日志内容。
         /// </summary>
-        /// <param name="format">格式化。</param>
-        /// <param name="args">参数。</param>
+        /// <param name="format">日志内容格式。</param>
+        /// <param name="args">日志内容参数。</param>
         public void Info(string format, params object[] args)
         {
             Info(string.Format(format, args));
@@ -69,8 +69,8 @@ namespace Known.Log
         /// <summary>
         /// 记录格式化的错误级别的日志内容。
         /// </summary>
-        /// <param name="format">格式化。</param>
-        /// <param name="args">参数。</param>
+        /// <param name="format">日志内容格式。</param>
+        /// <param name="args">日志内容参数。</param>
         public void Error(string format, params object[] args)
         {
             Error(string.Format(format, args));
