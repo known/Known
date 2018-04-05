@@ -4,8 +4,7 @@ layui.use(['form', 'layer'], function () {
         $ = layui.jquery;
 
     form.on("submit(login)", function (data) {
-        //window.location.href = "../../index.html";
-        layer.msg(data);
+        window.location.href = '/';
         return false;
     })
 });

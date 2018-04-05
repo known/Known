@@ -87,9 +87,14 @@
     <Content Include="static\css\bootstrap.min.css" />
     <Content Include="static\css\font-awesome.min.css" />
     <Content Include="static\css\login.css" />
+    <Content Include="static\css\main.css" />
     <Content Include="static\css\site.css" />
+    <Content Include="static\img\face.jpg" />
+    <Content Include="static\js\bodyTab.js" />
     <Content Include="static\js\bootstrap.min.js" />
+    <Content Include="static\js\main.js" />
     <Content Include="static\js\jquery.min.js" />
+    <Content Include="static\js\leftNav.js" />
     <Content Include="static\js\login.js" />
     <Content Include="static\layui\css\layui.css" />
     <Content Include="static\layui\css\layui.mobile.css" />
@@ -225,9 +230,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="static\img\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Known\Known.csproj">
       <Project>{F4C9A8C8-EAF9-4EA8-B186-C4B843762D45}</Project>
