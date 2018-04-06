@@ -70,6 +70,7 @@
     <Compile Include="Files\SheetCell.cs" />
     <Compile Include="Files\SheetCollection.cs" />
     <Compile Include="Files\TextAlignment.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="JsonProvider.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="Mapping\BooleanColumnAttribute.cs" />

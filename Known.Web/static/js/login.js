@@ -1,10 +1,8 @@
-layui.use(['form', 'layer'], function () {
-    var form = layui.form,
-        layer = parent.layer === undefined ? layui.layer : parent.layer,
-        $ = layui.jquery;
+layui.use('form', function () {
+    var form = layui.form;
 
     form.on("submit(login)", function (data) {
         window.location.href = '/';
         return false;
-    })
+    });
 });

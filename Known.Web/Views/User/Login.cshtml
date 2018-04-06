@@ -27,7 +27,7 @@
             </div>
             <div class="layui-form-item form_code">
                 <input class="layui-input" name="code" placeholder="验证码" lay-verify="required" type="text" autocomplete="off">
-                <div class="code"><img src="" width="116" height="36"></div>
+                <div class="code"><img src="@Url.Action("Captcha")" width="116" height="36"></div>
             </div>
             <button class="layui-btn login_btn" lay-submit="" lay-filter="login">登录</button>
         </form>
