@@ -3,18 +3,33 @@ using System.Web.Security;
 
 namespace Known.Web.Controllers
 {
+    /// <summary>
+    /// 用户控制器。
+    /// </summary>
     public class UserController : BaseController
     {
+        /// <summary>
+        /// 登录页面。
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Login()
         {
             return View();
         }
 
+        /// <summary>
+        /// 注册页面。
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Register()
         {
             return View();
         }
 
+        /// <summary>
+        /// 忘记密码页面。
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ForgotPassword()
         {
             return View();
