@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Known.Json;
+using System.Data;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -20,6 +21,9 @@ namespace Known.Extensions
         /// <returns>JSON格式字符串。</returns>
         public static string ToJson<T>(this T value)
         {
+            if (value == null)
+                return string.Empty;
+
             var provider = Container.Load<IJsonProvider>();
             if (provider == null)
                 provider = new DefaultJsonProvider();
@@ -35,6 +39,9 @@ namespace Known.Extensions
         /// <returns>指定类型对象。</returns>
         public static T FromJson<T>(this string json)
         {
+            if (string.IsNullOrWhiteSpace(json))
+                return default(T);
+
             var provider = Container.Load<IJsonProvider>();
             if (provider == null)
                 provider = new DefaultJsonProvider();
@@ -50,7 +57,7 @@ namespace Known.Extensions
         public static string ToXml(this object value)
         {
             if (value == null)
-                return null;
+                return string.Empty;
 
             if (value is DataTable)
             {
@@ -86,7 +93,7 @@ namespace Known.Extensions
         /// <returns>指定类型对象。</returns>
         public static T FromXml<T>(this string xml) where T : class
         {
-            if (string.IsNullOrEmpty(xml))
+            if (string.IsNullOrWhiteSpace(xml))
                 return default(T);
 
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(xml)))

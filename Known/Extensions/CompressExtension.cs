@@ -18,6 +18,9 @@ namespace Known.Extensions
         /// <returns>字节数组。</returns>
         public static byte[] Compress(this object value)
         {
+            if (value == null)
+                return null;
+
             byte[] buffer = null;
             var bytes = value.ToBytes();
             using (var zms = new MemoryStream())
@@ -42,6 +45,9 @@ namespace Known.Extensions
         /// <returns>指定类型的对象。</returns>
         public static T Decompress<T>(this byte[] bytes)
         {
+            if (bytes == null || bytes.Length == 0)
+                return default(T);
+
             byte[] buffer = null;
             using (var ms = new MemoryStream(bytes))
             using (var zs = new GZipStream(ms, CompressionMode.Decompress))
@@ -72,6 +78,9 @@ namespace Known.Extensions
         /// <returns>字节数组。</returns>
         public static byte[] Compress(this DataSet set)
         {
+            if (set == null)
+                return null;
+
             using (var stream = new MemoryStream())
             {
                 set.WriteXml(stream, XmlWriteMode.WriteSchema);
@@ -95,6 +104,9 @@ namespace Known.Extensions
         /// <returns>DataSet对象。</returns>
         public static DataSet Decompress(this byte[] buffer)
         {
+            if (buffer == null)
+                return null;
+
             using (var ms = new MemoryStream())
             {
                 ms.Write(buffer, 0, buffer.Length);

@@ -38,7 +38,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,7 +74,11 @@
     <Compile Include="Files\TextAlignment.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\ImageOption.cs" />
-    <Compile Include="JsonProvider.cs" />
+    <Compile Include="Json\DataContractProvider.cs" />
+    <Compile Include="Json\DefaultJsonProvider.cs" />
+    <Compile Include="Json\IJsonProvider.cs" />
+    <Compile Include="Json\JavaScriptProvider.cs" />
+    <Compile Include="Json\JsonQueryProvider.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="Mapping\BooleanColumnAttribute.cs" />
     <Compile Include="Mapping\ColumnAttribute.cs" />

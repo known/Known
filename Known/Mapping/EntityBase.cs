@@ -31,7 +31,7 @@ namespace Known.Mapping
         /// <summary>
         /// 取得或设置创建时间。
         /// </summary>
-        public DateTime? CreateTime { get; set; }
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 取得或设置修改人。

@@ -27,6 +27,9 @@ namespace Known.Extensions
         /// <returns>字符串字节长度。</returns>
         public static int ByteLength(this string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+                return 0;
+
             return Encoding.Default.GetBytes(value).Length;
         }
 
@@ -38,7 +41,7 @@ namespace Known.Extensions
         /// <returns>截取后的字符串。</returns>
         public static string ByteSubstring(this string value, int startIndex)
         {
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrWhiteSpace(value))
                 return string.Empty;
 
             var length = value.ByteLength();
@@ -54,7 +57,7 @@ namespace Known.Extensions
         /// <returns>截取后的字符串。</returns>
         public static string ByteSubstring(this string value, int startIndex, int length)
         {
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrWhiteSpace(value))
                 return string.Empty;
 
             var actualLength = value.ByteLength();
@@ -73,6 +76,9 @@ namespace Known.Extensions
         /// <returns>格式化后的XML字符串值。</returns>
         public static string FormatXml(this string xml)
         {
+            if (string.IsNullOrWhiteSpace(xml))
+                return string.Empty;
+
             var doc = new XmlDocument();
             doc.LoadXml(xml);
             var sb = new StringBuilder();

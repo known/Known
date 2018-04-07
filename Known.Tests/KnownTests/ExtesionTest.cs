@@ -181,7 +181,7 @@ namespace Known.Tests.KnownTests
         public static void TestGetColumnProperties()
         {
             var properties = typeof(TestEntity).GetColumnProperties();
-            Assert.IsEqual(properties.Count, 3);
+            Assert.IsEqual(properties.Count, 8);
         }
 
         public static void TestGetAttribute()
