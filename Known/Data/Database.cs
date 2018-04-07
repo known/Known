@@ -31,6 +31,11 @@ namespace Known.Data
         public string ConnectionString { get; }
 
         /// <summary>
+        /// 取得或设置当前用户账号。
+        /// </summary>
+        public string UserName { get; set; }
+
+        /// <summary>
         /// 执行增删改SQL语句。
         /// </summary>
         /// <param name="sql">增删改SQL语句。</param>
@@ -93,6 +98,17 @@ namespace Known.Data
         /// <param name="entity">实体对象。</param>
         public void Save<T>(T entity) where T : EntityBase
         {
+            if (entity.IsNew)
+            {
+                entity.CreateBy = UserName;
+                entity.CreateTime = DateTime.Now;
+            }
+            else
+            {
+                entity.ModifyBy = UserName;
+                entity.ModifyTime = DateTime.Now;
+            }
+
             var command = CommandCache.GetSaveCommand(entity);
             commands.Add(command);
         }
@@ -279,7 +295,9 @@ namespace Known.Data
         {
             if (type.IsSubclassOf(typeof(EntityBase)))
             {
-                var entity = Activator.CreateInstance(type);
+                var entity = Activator.CreateInstance(type) as EntityBase;
+                entity.Id = value.ToString();
+                entity.IsNew = false;
                 return entity;
             }
 

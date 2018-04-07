@@ -1,5 +1,6 @@
 ﻿using Known.Extensions;
 using Known.Validation;
+using System;
 using System.Collections.Generic;
 
 namespace Known.Mapping
@@ -16,6 +17,31 @@ namespace Known.Mapping
         {
             IsNew = true;
         }
+
+        /// <summary>
+        /// 取得或设置ID。
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
+        /// 取得或设置创建人。
+        /// </summary>
+        public string CreateBy { get; set; }
+
+        /// <summary>
+        /// 取得或设置创建时间。
+        /// </summary>
+        public DateTime? CreateTime { get; set; }
+
+        /// <summary>
+        /// 取得或设置修改人。
+        /// </summary>
+        public string ModifyBy { get; set; }
+
+        /// <summary>
+        /// 取得或设置修改时间。
+        /// </summary>
+        public DateTime? ModifyTime { get; set; }
 
         /// <summary>
         /// 取得或设置是否为新建实体。

@@ -54,6 +54,7 @@ namespace Known.Web
                     context = new Context(database, logger);
                 }
                 context.UserName = UserName;
+                context.Database.UserName = UserName;
                 return context;
             }
         }

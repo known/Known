@@ -246,12 +246,12 @@ namespace Known.Data
             if (attrs != null && attrs.Count > 0)
             {
                 attr = attrs[0];
+                if (string.IsNullOrWhiteSpace(attr.PrimaryKey))
+                    attr.PrimaryKey = "Id";
             }
             else
             {
                 var name = type.Name + "s";
-                if (type.IsInterface && name.StartsWith("I"))
-                    name = name.Substring(1);
                 attr = new TableAttribute(name, "Id", "");
             }
 
