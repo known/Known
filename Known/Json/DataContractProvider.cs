@@ -18,15 +18,11 @@ namespace Known.Json
         /// <returns>JSON字符串。</returns>
         public string Serialize<T>(T value)
         {
-            var settings = new DataContractJsonSerializerSettings
-            {
-                DateTimeFormat = new DateTimeFormat("yyyy-MM-dd HH:mm:ss")
-            };
-            var serializer = new DataContractJsonSerializer(typeof(T), settings);
+            var serializer = GetJsonSerializer<T>();
             using (var stream = new MemoryStream())
             {
                 serializer.WriteObject(stream, value);
-                return Encoding.UTF8.GetString(stream.ToArray());
+                return Encoding.Default.GetString(stream.ToArray());
             }
         }
 
@@ -38,16 +34,21 @@ namespace Known.Json
         /// <returns>对象实例。</returns>
         public T Deserialize<T>(string json)
         {
-            var settings = new DataContractJsonSerializerSettings
-            {
-                DateTimeFormat = new DateTimeFormat("yyyy-MM-dd HH:mm:ss")
-            };
-            var serializer = new DataContractJsonSerializer(typeof(T), settings);
+            var serializer = GetJsonSerializer<T>();
             var bytes = Encoding.Default.GetBytes(json);
             using (var stream = new MemoryStream(bytes))
             {
                 return (T)serializer.ReadObject(stream);
             }
+        }
+
+        private DataContractJsonSerializer GetJsonSerializer<T>()
+        {
+            var settings = new DataContractJsonSerializerSettings
+            {
+                DateTimeFormat = new DateTimeFormat("yyyy-MM-dd HH:mm:ss")
+            };
+            return new DataContractJsonSerializer(typeof(T), settings);
         }
     }
 }

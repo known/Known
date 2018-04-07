@@ -7,6 +7,8 @@ namespace Known.Json
     /// </summary>
     public class JavaScriptProvider : IJsonProvider
     {
+        private JavaScriptSerializer serializer = new JavaScriptSerializer();
+
         /// <summary>
         /// 将对象序列化成JSON字符串。
         /// </summary>
@@ -15,7 +17,7 @@ namespace Known.Json
         /// <returns>JSON字符串。</returns>
         public string Serialize<T>(T value)
         {
-            return new JavaScriptSerializer().Serialize(value);
+            return serializer.Serialize(value);
         }
 
         /// <summary>
@@ -26,7 +28,7 @@ namespace Known.Json
         /// <returns>对象实例。</returns>
         public T Deserialize<T>(string json)
         {
-            return new JavaScriptSerializer().Deserialize<T>(json);
+            return serializer.Deserialize<T>(json);
         }
     }
 }

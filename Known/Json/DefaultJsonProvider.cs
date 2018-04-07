@@ -5,6 +5,8 @@
     /// </summary>
     public class DefaultJsonProvider : IJsonProvider
     {
+        private IJsonProvider provider = new DataContractProvider();
+
         /// <summary>
         /// 将对象序列化成JSON字符串。
         /// </summary>
@@ -13,7 +15,7 @@
         /// <returns>JSON字符串。</returns>
         public string Serialize<T>(T value)
         {
-            return new DataContractProvider().Serialize(value);
+            return provider.Serialize(value);
         }
 
         /// <summary>
@@ -24,7 +26,7 @@
         /// <returns>对象实例。</returns>
         public T Deserialize<T>(string json)
         {
-            return new DataContractProvider().Deserialize<T>(json);
+            return provider.Deserialize<T>(json);
         }
     }
 }
