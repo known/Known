@@ -11,6 +11,14 @@ namespace Known.Web
     public class BaseController : AsyncController
     {
         /// <summary>
+        /// 构造函数，创建一个控制器实例。
+        /// </summary>
+        public BaseController()
+        {
+            ViewBag.SystemName = Config.AppSetting("SystemName");
+        }
+
+        /// <summary>
         /// 获取当前验证码图片。
         /// </summary>
         /// <returns>验证码图片。</returns>

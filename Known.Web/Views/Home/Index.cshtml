@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Known后台管理系统</title>
+    <title>@ViewBag.SystemName</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -23,11 +23,11 @@
         <!-- 顶部 -->
         <div class="layui-header header">
             <div class="layui-main">
-                <a href="#" class="logo">Known后台管理</a>
+                <a href="#" class="logo">@ViewBag.SystemName</a>
                 <!-- 显示/隐藏菜单 -->
                 <a href="javascript:;" class="iconfont hideMenu icon-menu1"></a>
                 <!-- 搜索 -->
-                <div class="layui-form component">
+                @*<div class="layui-form component">
                     <select name="modules" lay-verify="required" lay-search="">
                         <option value="">直接选择或搜索选择</option>
                         <option value="1">layer</option>
@@ -42,7 +42,7 @@
                         <option value="10">util</option>
                     </select>
                     <i class="layui-icon">&#xe615;</i>
-                </div>
+                </div>*@
                 <!-- 天气信息 -->
                 <div class="weather" pc>
                     <div id="tp-weather-widget"></div>
@@ -123,7 +123,7 @@
         </div>
         <!-- 底部 -->
         <div class="layui-footer footer">
-            <p>copyright @(DateTime.Now.Year) Known　　<a onclick="donation()" class="layui-btn layui-btn-danger layui-btn-small">捐赠作者</a></p>
+            <p>Copyright @(DateTime.Now.Year) Known</p>
         </div>
     </div>
 

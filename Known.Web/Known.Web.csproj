@@ -82,6 +82,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="config\settings.json" />
     <None Include="packages.config" />
     <Content Include="Global.asax" />
     <Content Include="static\css\bootstrap.min.css" />
