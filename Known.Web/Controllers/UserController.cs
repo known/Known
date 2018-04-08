@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Known.Core;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -61,12 +62,12 @@ namespace Known.Web.Controllers
         public ActionResult SignIn(string account, string password, bool rememberMe, string returnUrl)
         {
             account = account.ToLower();
-            //var result = LoadBusiness<UserBusiness>().SignIn(account, password);
-            //if (!result.IsValid)
-            //    return ErrorResult(result.Message);
+            var result = Api.Post<dynamic>("/api/user/signin", new { account, password });
+            if (result.status == 1)
+                return ErrorResult(result.message);
 
             FormsAuthentication.SetAuthCookie(account, rememberMe);
-            UserToken = "";
+            CurrentUser = result;
 
             if (string.IsNullOrEmpty(returnUrl))
                 returnUrl = FormsAuthentication.DefaultUrl;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Known.Platform
+namespace Known.Core
 {
     /// <summary>
     /// 模块。

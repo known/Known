@@ -1,4 +1,5 @@
 ﻿using Known.Helpers;
+using Known.Core;
 using Known.Web.Extensions;
 using System.Web.Mvc;
 
@@ -47,19 +48,24 @@ namespace Known.Web
             get
             {
                 if (api == null)
-                    api = new ApiClient(UserToken);
+                {
+                    if (IsAuthenticated)
+                        api = new ApiClient(CurrentUser.Token);
+                    else
+                        api = new ApiClient();
+                }
 
                 return api;
             }
         }
 
         /// <summary>
-        /// 取得或设置用户身份认证Token。
+        /// 取得或设置当前用户。
         /// </summary>
-        public string UserToken
+        public User CurrentUser
         {
-            get { return Session.GetValue<string>("UserToken"); }
-            set { Session.SetValue("UserToken", value); }
+            get { return Session.GetValue<User>("CurrentUser"); }
+            set { Session.SetValue("CurrentUser", value); }
         }
 
         /// <summary>
@@ -71,7 +77,7 @@ namespace Known.Web
         }
 
         /// <summary>
-        /// 取得当前用户是否已认证。
+        /// 取得当前用户身份是否已认证。
         /// </summary>
         protected bool IsAuthenticated
         {

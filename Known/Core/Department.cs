@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Known.Platform
+namespace Known.Core
 {
     /// <summary>
-    /// 应用程序。
+    /// 部门。
     /// </summary>
-    public class Application
+    public class Department
     {
         /// <summary>
         /// 取得或设置ID。
@@ -13,13 +13,18 @@ namespace Known.Platform
         public string Id { get; set; }
 
         /// <summary>
+        /// 取得或设置上级公司。
+        /// </summary>
+        public Department Parent { get; set; }
+
+        /// <summary>
         /// 取得或设置名称。
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// 取得或设置模块集合。
+        /// 取得或设置子公司集合。
         /// </summary>
-        public List<Module> Modules { get; set; }
+        public List<Department> Children { get; set; }
     }
 }
