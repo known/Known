@@ -1,9 +1,9 @@
 ﻿namespace Known.Platform
 {
     /// <summary>
-    /// 按钮。
+    /// 栏位。
     /// </summary>
-    public class Button
+    public class Field
     {
         /// <summary>
         /// 取得或设置ID。

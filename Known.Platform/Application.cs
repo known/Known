@@ -1,26 +1,30 @@
-﻿using Known.Mapping;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Known.Platform
 {
     /// <summary>
     /// 应用程序。
     /// </summary>
-    public class Application : EntityBase
+    public class Application
     {
         /// <summary>
-        /// 取得或设置应用程序名称。
+        /// 取得或设置ID。
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
+        /// 取得或设置名称。
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// 取得或设置应用程序描述。
+        /// 取得或设置描述。
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// 取得或设置应用程序的模块集合。
+        /// 取得或设置模块集合。
         /// </summary>
-        public virtual List<Module> Modules { get; set; }
+        public List<Module> Modules { get; set; }
     }
 }

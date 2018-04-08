@@ -1,17 +1,16 @@
-﻿using Known.Mapping;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Known.Platform
 {
     /// <summary>
     /// 功能模块。
     /// </summary>
-    public class Module : EntityBase
+    public class Module
     {
         /// <summary>
-        /// 取得或设置应用程序。
+        /// 取得或设置ID。
         /// </summary>
-        public Application Application { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 取得或设置上级功能模块。
@@ -19,33 +18,33 @@ namespace Known.Platform
         public Module Parent { get; set; }
 
         /// <summary>
-        /// 取得或设置功能模块名称。
+        /// 取得或设置名称。
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// 取得或设置功能模块描述。
+        /// 取得或设置描述。
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// 取得或设置功能模块图标。
+        /// 取得或设置图标。
         /// </summary>
         public string Icon { get; set; }
 
         /// <summary>
-        /// 取得或设置功能模块访问地址。
+        /// 取得或设置访问地址。
         /// </summary>
         public string Url { get; set; }
 
         /// <summary>
-        /// 取得或设置功能模块的按钮集合。
+        /// 取得或设置按钮集合。
         /// </summary>
         public virtual List<Button> Buttons { get; set; }
 
         /// <summary>
-        /// 取得或设置功能模块的列表栏位集合。
+        /// 取得或设置列表栏位集合。
         /// </summary>
-        public virtual List<View> Views { get; set; }
+        public virtual List<Field> Fields { get; set; }
     }
 }
