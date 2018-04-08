@@ -87,8 +87,8 @@ namespace Known.Tests.KnownTests
         #region EnumExtension
         public static void TestEnumGetDescription()
         {
-            Assert.IsEqual(TestEnum.Item1.GetDescription(), "枚举1");
-            Assert.IsEqual(TestEnum.Item2.GetDescription(), "枚举2");
+            Assert.IsEqual(TestEnum.Enum1.GetDescription(), "枚举1");
+            Assert.IsEqual(TestEnum.Enum2.GetDescription(), "枚举2");
         }
         #endregion
 
@@ -181,7 +181,7 @@ namespace Known.Tests.KnownTests
         public static void TestGetColumnProperties()
         {
             var properties = typeof(TestEntity).GetColumnProperties();
-            Assert.IsEqual(properties.Count, 8);
+            Assert.IsEqual(properties.Count, 10);
         }
 
         public static void TestGetAttribute()

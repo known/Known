@@ -5,8 +5,8 @@ namespace Known.Tests
     public enum TestEnum
     {
         [Description("枚举1")]
-        Item1 = 1,
+        Enum1,
         [Description("枚举2")]
-        Item2 = 2,
+        Enum2,
     }
 }

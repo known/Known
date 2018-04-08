@@ -40,6 +40,9 @@ namespace Known.Data
             if (attr != null)
                 return attr.ColumnName;
 
+            if (property.PropertyType.IsSubclassOf(typeof(EntityBase)))
+                return property.Name + "Id";
+
             return property.Name;
         }
     }

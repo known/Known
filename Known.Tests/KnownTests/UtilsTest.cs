@@ -29,7 +29,7 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(Utils.ConvertTo<bool>("y"), true);
             Assert.IsEqual(Utils.ConvertTo<bool>("Yes"), true);
             Assert.IsEqual(Utils.ConvertTo<bool>("yes"), true);
-            Assert.IsEqual(Utils.ConvertTo<TestEnum>(1), TestEnum.Item1);
+            Assert.IsEqual(Utils.ConvertTo<TestEnum>(0), TestEnum.Enum1);
         }
 
         public static void TestToMd5()
