@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using System.Web.Security;
 
 namespace Known.Web.Controllers
@@ -33,6 +34,27 @@ namespace Known.Web.Controllers
         public ActionResult ForgotPassword()
         {
             return View();
+        }
+
+        /// <summary>
+        /// 获取当前用户菜单数据。
+        /// </summary>
+        /// <returns>菜单数据。</returns>
+        public ActionResult GetUserMenus()
+        {
+            var menus = new List<object>() {
+                new {
+                    title = "系统管理",
+                    icon = "icon-computer",
+                    herf = "",
+                    children = new List<object>()
+                    {
+                        new { title = "模块管理", icon = "&#xe61c;", herf = "/Sys/Module" },
+                        new { title = "角色管理", icon = "&#xe609;", herf = "/Sys/Role" }
+                    }
+                }
+            };
+            return JsonResult(menus);
         }
 
         [HttpPost]
