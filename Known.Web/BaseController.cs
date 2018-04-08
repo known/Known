@@ -1,5 +1,4 @@
 ﻿using Known.Helpers;
-using Known.Log;
 using Known.Web.Extensions;
 using System.Web.Mvc;
 
@@ -38,25 +37,29 @@ namespace Known.Web
             get { return Session.GetValue<string>("CaptchaCode"); }
         }
 
-        private Context context;
+        private ApiClient api;
 
         /// <summary>
-        /// 取得上下文对象。
+        /// 取得当前登录用户认证的Api客户端。
         /// </summary>
-        public Context Context
+        public ApiClient Api
         {
             get
             {
-                if (context == null)
-                {
-                    var database = Config.GetDatabase();
-                    var logger = new ConsoleLogger();
-                    context = new Context(database, logger);
-                }
-                context.UserName = UserName;
-                context.Database.UserName = UserName;
-                return context;
+                if (api == null)
+                    api = new ApiClient(UserToken);
+
+                return api;
             }
+        }
+
+        /// <summary>
+        /// 取得或设置用户身份认证Token。
+        /// </summary>
+        public string UserToken
+        {
+            get { return Session.GetValue<string>("UserToken"); }
+            set { Session.SetValue("UserToken", value); }
         }
 
         /// <summary>
@@ -73,16 +76,6 @@ namespace Known.Web
         protected bool IsAuthenticated
         {
             get { return User.Identity.IsAuthenticated; }
-        }
-
-        /// <summary>
-        /// 从对象容器中加载业务逻辑对象。
-        /// </summary>
-        /// <typeparam name="T">业务逻辑类型。</typeparam>
-        /// <returns>业务逻辑对象。</returns>
-        protected T LoadBusiness<T>() where T : Business
-        {
-            return BusinessFactory.Create<T>(Context);
         }
 
         /// <summary>

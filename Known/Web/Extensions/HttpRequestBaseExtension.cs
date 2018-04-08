@@ -3,7 +3,7 @@
 namespace Known.Web.Extensions
 {
     /// <summary>
-    /// Http请求扩展类。
+    /// Http请求基类扩展类。
     /// </summary>
     public static class HttpRequestBaseExtension
     {

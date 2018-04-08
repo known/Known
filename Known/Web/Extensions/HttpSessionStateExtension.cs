@@ -1,11 +1,11 @@
-﻿using System.Web;
+﻿using System.Web.SessionState;
 
 namespace Known.Web.Extensions
 {
     /// <summary>
-    /// Http会话状态基类扩展类。
+    /// Http会话状态扩展类。
     /// </summary>
-    public static class HttpSessionStateBaseExtension
+    public static class HttpSessionStateExtension
     {
         /// <summary>
         /// 根据会话状态Key获取制定类型的会话状态值。
@@ -14,7 +14,7 @@ namespace Known.Web.Extensions
         /// <param name="session">Http会话状态。</param>
         /// <param name="key">会话状态Key。</param>
         /// <returns>会话状态值。</returns>
-        public static T GetValue<T>(this HttpSessionStateBase session, string key)
+        public static T GetValue<T>(this HttpSessionState session, string key)
         {
             var value = session[key];
             if (value == null)
@@ -30,7 +30,7 @@ namespace Known.Web.Extensions
         /// <param name="session">Http会话状态。</param>
         /// <param name="key">会话状态Key。</param>
         /// <param name="value">会话状态值。</param>
-        public static void SetValue<T>(this HttpSessionStateBase session, string key, T value)
+        public static void SetValue<T>(this HttpSessionState session, string key, T value)
         {
             session[key] = value;
         }
@@ -40,7 +40,7 @@ namespace Known.Web.Extensions
         /// </summary>
         /// <param name="session">Http会话状态。</param>
         /// <param name="key">会话状态Key。</param>
-        public static void ClearValue(this HttpSessionStateBase session, string key)
+        public static void ClearValue(this HttpSessionState session, string key)
         {
             session[key] = null;
         }

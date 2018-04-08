@@ -66,6 +66,7 @@ namespace Known.Web.Controllers
             //    return ErrorResult(result.Message);
 
             FormsAuthentication.SetAuthCookie(account, rememberMe);
+            UserToken = "";
 
             if (string.IsNullOrEmpty(returnUrl))
                 returnUrl = FormsAuthentication.DefaultUrl;
@@ -76,7 +77,6 @@ namespace Known.Web.Controllers
         [HttpPost]
         public void SignOut()
         {
-            //LoadBusiness<UserBusiness>().SignOut(UserName);
             FormsAuthentication.SignOut();
             Session.Clear();
         }

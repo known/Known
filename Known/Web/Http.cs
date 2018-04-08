@@ -7,7 +7,7 @@ using System.Text;
 namespace Known.Web
 {
     /// <summary>
-    /// HTTP操作类。
+    /// Http操作类。
     /// </summary>
     public class Http
     {
