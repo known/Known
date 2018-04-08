@@ -3,7 +3,7 @@
 namespace Known.Platform
 {
     /// <summary>
-    /// 功能模块。
+    /// 模块。
     /// </summary>
     public class Module
     {
@@ -13,7 +13,7 @@ namespace Known.Platform
         public string Id { get; set; }
 
         /// <summary>
-        /// 取得或设置上级功能模块。
+        /// 取得或设置上级模块。
         /// </summary>
         public Module Parent { get; set; }
 
@@ -21,11 +21,6 @@ namespace Known.Platform
         /// 取得或设置名称。
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// 取得或设置描述。
-        /// </summary>
-        public string Description { get; set; }
 
         /// <summary>
         /// 取得或设置图标。
@@ -38,13 +33,13 @@ namespace Known.Platform
         public string Url { get; set; }
 
         /// <summary>
-        /// 取得或设置按钮集合。
+        /// 取得或设置子模块集合。
         /// </summary>
-        public virtual List<Button> Buttons { get; set; }
+        public List<Module> Children { get; set; }
 
         /// <summary>
-        /// 取得或设置列表栏位集合。
+        /// 取得或设置按钮集合。
         /// </summary>
-        public virtual List<Field> Fields { get; set; }
+        public List<Button> Buttons { get; set; }
     }
 }

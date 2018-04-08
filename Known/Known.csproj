@@ -100,6 +100,9 @@
     <Compile Include="Log\ILogger.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\LogLevel.cs" />
+    <Compile Include="Platform\Application.cs" />
+    <Compile Include="Platform\Button.cs" />
+    <Compile Include="Platform\Module.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

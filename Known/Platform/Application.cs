@@ -1,9 +1,11 @@
-﻿namespace Known.Platform
+﻿using System.Collections.Generic;
+
+namespace Known.Platform
 {
     /// <summary>
-    /// 栏位。
+    /// 应用程序。
     /// </summary>
-    public class Field
+    public class Application
     {
         /// <summary>
         /// 取得或设置ID。
@@ -14,5 +16,10 @@
         /// 取得或设置名称。
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// 取得或设置模块集合。
+        /// </summary>
+        public List<Module> Modules { get; set; }
     }
 }
