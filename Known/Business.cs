@@ -20,7 +20,7 @@
         public Context Context { get; }
 
         /// <summary>
-        /// 加载业务逻辑示例。
+        /// 加载业务逻辑实例。
         /// </summary>
         /// <typeparam name="T">业务逻辑对象类型。</typeparam>
         /// <returns>业务逻辑实例。</returns>

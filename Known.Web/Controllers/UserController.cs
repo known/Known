@@ -1,5 +1,4 @@
-﻿using Known.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -58,6 +57,14 @@ namespace Known.Web.Controllers
             return JsonResult(menus);
         }
 
+        /// <summary>
+        /// 登录验证。
+        /// </summary>
+        /// <param name="account">登录账号。</param>
+        /// <param name="password">登录密码。</param>
+        /// <param name="rememberMe">是否记住我。</param>
+        /// <param name="returnUrl">登录成功后跳转的地址。</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult SignIn(string account, string password, bool rememberMe, string returnUrl)
         {
@@ -75,6 +82,9 @@ namespace Known.Web.Controllers
             return SuccessResult("登录成功，正在跳转页面......", returnUrl);
         }
 
+        /// <summary>
+        /// 退出系统。
+        /// </summary>
         [HttpPost]
         public void SignOut()
         {

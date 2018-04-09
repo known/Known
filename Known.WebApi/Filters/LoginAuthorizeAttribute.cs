@@ -12,14 +12,21 @@ using System.Web.Http.Controllers;
 
 namespace Known.WebApi.Filters
 {
+    /// <summary>
+    /// 用户身份认证特性。
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    public class SecurityAttribute : AuthorizeAttribute
+    public class LoginAuthorizeAttribute : AuthorizeAttribute
     {
         private const int ExpiredSeconds = 600;
 
+        /// <summary>
+        /// 身份认证校验。
+        /// </summary>
+        /// <param name="actionContext">认证请求上下文。</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            if (actionContext.IsUseOf<AllowAnonymousAttribute>())
+            if (actionContext.IsUseAttributeOf<AllowAnonymousAttribute>())
                 return;
 
             if (!ValidateRequest(actionContext))
@@ -29,6 +36,11 @@ namespace Known.WebApi.Filters
                 return;
         }
 
+        /// <summary>
+        /// 判断是否已认证。
+        /// </summary>
+        /// <param name="actionContext">认证请求上下文。</param>
+        /// <returns>已认证返回true，否则返回false。</returns>
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
             var principal = Thread.CurrentPrincipal;
@@ -36,7 +48,7 @@ namespace Known.WebApi.Filters
                 principal = HttpContext.Current.User;
 
             if (principal != null && principal.Identity != null && !principal.Identity.IsAuthenticated
-                && actionContext.IsUseOf<AuthorizeAttribute>())
+                && actionContext.IsUseAttributeOf<AuthorizeAttribute>())
             {
                 actionContext.CreateErrorResponse("用户未登录！");
                 return false;

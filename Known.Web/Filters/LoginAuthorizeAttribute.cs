@@ -3,8 +3,15 @@ using System.Web.Security;
 
 namespace Known.Web.Filters
 {
+    /// <summary>
+    /// 用户身份认证特性。
+    /// </summary>
     public class LoginAuthorizeAttribute : AuthorizeAttribute
     {
+        /// <summary>
+        /// 身份认证校验。
+        /// </summary>
+        /// <param name="filterContext">认证请求上下文。</param>
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var httpContext = filterContext.HttpContext;

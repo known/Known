@@ -5,8 +5,17 @@ using System.Web;
 
 namespace Known.WebApi.Extensions
 {
+    /// <summary>
+    /// Http请求消息扩展类。
+    /// </summary>
     public static class HttpRequestMessageExtension
     {
+        /// <summary>
+        /// 获取查询参数值。
+        /// </summary>
+        /// <param name="request">Http请求消息。</param>
+        /// <param name="name">查询参数名称。</param>
+        /// <returns>查询参数值。</returns>
         public static string GetQueryValue(this HttpRequestMessage request, string name)
         {
             var pairs = request.GetQueryNameValuePairs()
@@ -20,6 +29,12 @@ namespace Known.WebApi.Extensions
             return null;
         }
 
+        /// <summary>
+        /// 获取完整的资源路径。
+        /// </summary>
+        /// <param name="request">Http请求消息。</param>
+        /// <param name="virtualPath">资源虚拟路径。</param>
+        /// <returns>完整的资源路径。</returns>
         public static string GetContentUrl(this HttpRequestMessage request, string virtualPath)
         {
             return request.GetFullUrl(virtualPath);

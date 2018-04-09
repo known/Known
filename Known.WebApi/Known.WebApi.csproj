@@ -84,7 +84,7 @@
     <Compile Include="BaseController.cs" />
     <Compile Include="Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtension.cs" />
-    <Compile Include="Filters\SecurityAttribute.cs" />
+    <Compile Include="Filters\LoginAuthorizeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
