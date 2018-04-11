@@ -7,9 +7,9 @@ using System.Text;
 namespace Known.Web
 {
     /// <summary>
-    /// Http操作类。
+    /// Http效用类。
     /// </summary>
-    public class Http
+    public class HttpUtils
     {
         private static string contentType = "application/x-www-form-urlencoded";
         private static string accept = "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/x-silverlight, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-ms-application, application/x-ms-xbap, application/vnd.ms-xpsdocument, application/xaml+xml, application/x-silverlight-2-b1, */*";

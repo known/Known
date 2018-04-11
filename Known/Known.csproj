@@ -125,7 +125,7 @@
     <Compile Include="Web\Extensions\HttpRequestMessageExtension.cs" />
     <Compile Include="Web\Extensions\HttpSessionStateBaseExtension.cs" />
     <Compile Include="Web\Extensions\HttpSessionStateExtension.cs" />
-    <Compile Include="Web\Http.cs" />
+    <Compile Include="Web\HttpUtils.cs" />
     <Compile Include="Cache\WebCache.cs" />
     <Compile Include="Web\PageBase.cs">
       <SubType>ASPXCodeBehind</SubType>
