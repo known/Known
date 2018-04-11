@@ -4,41 +4,33 @@ using System.Web.Routing;
 
 namespace Known.Web
 {
+    /// <summary>
+    /// 应用程序全局事件。
+    /// </summary>
     public class Global : System.Web.HttpApplication
     {
+        /// <summary>
+        /// 应用程序启动时执行事件。
+        /// </summary>
+        /// <param name="sender">事件触发者。</param>
+        /// <param name="e">事件参数。</param>
         protected void Application_Start(object sender, EventArgs e)
         {
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 
-        protected void Session_Start(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void Application_BeginRequest(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void Application_AuthenticateRequest(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// 应用程序错误捕获事件。
+        /// </summary>
+        /// <param name="sender">事件触发者。</param>
+        /// <param name="e">事件参数。</param>
         protected void Application_Error(object sender, EventArgs e)
         {
-
-        }
-
-        protected void Session_End(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void Application_End(object sender, EventArgs e)
-        {
-
+            var ex = Server.GetLastError();
+            if (ex != null)
+            {
+                Mail.SendException("Web程序发生异常", ex);
+            }
         }
 
         class RouteConfig

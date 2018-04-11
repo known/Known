@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -172,6 +173,45 @@ namespace Known
             toMails.Clear();
             ccMails.Clear();
             bccMails.Clear();
+        }
+
+        /// <summary>
+        /// 使用默认配置邮件服务发送邮件。
+        /// </summary>
+        /// <param name="toMails">收件人邮箱，多个用逗号分隔。</param>
+        /// <param name="subject">邮件主题。</param>
+        /// <param name="body">邮件内容。</param>
+        /// <param name="isBodyHtml">邮件内容格式是否为HTML。</param>
+        public static void Send(string toMails, string subject, string body, bool isBodyHtml = true)
+        {
+            if (string.IsNullOrWhiteSpace(toMails))
+                return;
+
+            var smtpServer = Config.AppSetting("SmtpServer");
+            var fromName = Config.AppSetting("FromName");
+            var fromEmail = Config.AppSetting("FromEmail");
+            var fromPassword = Config.AppSetting("FromPassword");
+            var mail = new Mail(smtpServer, fromName, fromEmail, fromPassword);
+            var tos = toMails.Split(',');
+            foreach (var item in tos)
+            {
+                mail.AddTo(item);
+            }
+            mail.Send(subject, body, isBodyHtml);
+        }
+
+        /// <summary>
+        /// 使用默认配置邮件服务发送异常邮件。
+        /// </summary>
+        /// <param name="subject">邮件主题。</param>
+        /// <param name="ex">异常。</param>
+        public static void SendException(string subject, Exception ex)
+        {
+            var exceptionMails = Config.AppSetting("ExceptionMails");
+            if (string.IsNullOrWhiteSpace(exceptionMails))
+                return;
+
+            Send(exceptionMails, subject, ex.ToString(), false);
         }
 
         private void Send(string subject, string body, bool isBodyHtml, SmtpClient client, MailMessage message)
