@@ -94,6 +94,12 @@ namespace Known.Web
 
         private string Request(string method, string url, object args, CompressionMethod compressionMethod = CompressionMethod.Automatic)
         {
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentNullException("url");
+
+            if (!url.StartsWith("http"))
+                url = Config.AppSetting("ApiBaseUrl") + url;
+
             url += "?" + GetQueryString(method, args);
             var handler = new HttpClientHandler
             {
