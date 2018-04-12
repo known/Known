@@ -95,7 +95,7 @@ namespace Known.Log
 
         private string WriteMessage(LogLevel level, string message)
         {
-            var log = string.Format("{0:yyyy-MM-dd HH:mm:ss fff} {1}", DateTime.Now, message);
+            var log = string.Format("{0:yyyy-MM-dd HH:mm:ss} {1}", DateTime.Now, message);
             WriteLine(level, $"{level} {log}");
             return log;
         }

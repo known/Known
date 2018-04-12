@@ -81,6 +81,7 @@
     <Compile Include="Json\IJsonProvider.cs" />
     <Compile Include="Json\JavaScriptProvider.cs" />
     <Compile Include="Json\JsonQueryProvider.cs" />
+    <Compile Include="Log\TraceLogger.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="Mapping\BooleanColumnAttribute.cs" />
     <Compile Include="Mapping\ColumnAttribute.cs" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using Known.Log;
 
 namespace Known
 {
@@ -209,22 +210,38 @@ namespace Known
         {
             var exceptionMails = Config.AppSetting("ExceptionMails");
             if (string.IsNullOrWhiteSpace(exceptionMails))
+            {
+                WriteError(subject, ex.ToString());
                 return;
+            }
 
             Send(exceptionMails, subject, ex.ToString(), false);
         }
 
         private void Send(string subject, string body, bool isBodyHtml, SmtpClient client, MailMessage message)
         {
-            message.From = new MailAddress(fromEmail, fromName);
-            toMails.ForEach(m => message.To.Add(m));
-            ccMails.ForEach(m => message.CC.Add(m));
-            bccMails.ForEach(m => message.Bcc.Add(m));
-            message.Subject = subject;
-            message.Body = body;
-            message.BodyEncoding = Encoding.UTF8;
-            message.IsBodyHtml = isBodyHtml;
-            client.Send(message);
+            try
+            {
+                message.From = new MailAddress(fromEmail, fromName);
+                toMails.ForEach(m => message.To.Add(m));
+                ccMails.ForEach(m => message.CC.Add(m));
+                bccMails.ForEach(m => message.Bcc.Add(m));
+                message.Subject = subject;
+                message.Body = body;
+                message.BodyEncoding = Encoding.UTF8;
+                message.IsBodyHtml = isBodyHtml;
+                client.Send(message);
+            }
+            catch
+            {
+                WriteError($"发送邮件{subject}失败", body);
+            }
+        }
+
+        private static void WriteError(string subject, string message)
+        {
+            var log = new TraceLogger(Environment.CurrentDirectory);
+            log.Error($"{subject}{Environment.NewLine}{message}");
         }
     }
 }

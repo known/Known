@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -16,6 +17,7 @@ namespace Known.Web
         /// <param name="e">事件参数。</param>
         protected void Application_Start(object sender, EventArgs e)
         {
+            Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 
