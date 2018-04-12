@@ -54,16 +54,20 @@ namespace Known.Mapping
         /// <returns>验证器。</returns>
         public Validator Validate()
         {
-            var errors = new List<string>();
+            var infos = new List<ValidInfo>();
             var properties = GetType().GetColumnProperties();
             foreach (var property in properties)
             {
+                var errors = new List<string>();
                 var value = property.GetValue(this, null);
                 var attr = property.GetAttribute<ColumnAttribute>();
                 if (attr != null)
                     attr.Validate(value, errors);
+
+                if (errors.Count > 0)
+                    infos.Add(new ValidInfo(ValidLevel.Error, property.Name, errors));
             }
-            return new Validator(errors);
+            return new Validator(infos);
         }
     }
 }

@@ -25,6 +25,15 @@ namespace Known.Validation
         }
 
         /// <summary>
+        /// 构造函数，创建一个验证器实例。
+        /// </summary>
+        /// <param name="infos">验证信息集合。</param>
+        public Validator(List<ValidInfo> infos)
+        {
+            validInfos.AddRange(infos);
+        }
+
+        /// <summary>
         /// 添加错误。
         /// </summary>
         /// <param name="broken">错误判断。</param>
