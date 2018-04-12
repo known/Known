@@ -1,6 +1,6 @@
-﻿using Known.Log;
-using System;
+﻿using System;
 using System.IO;
+using Known.Log;
 
 namespace Known.Tests.KnownTests
 {

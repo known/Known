@@ -1,6 +1,6 @@
-﻿using Known.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Known.Extensions;
 
 namespace Known.Mapping
 {

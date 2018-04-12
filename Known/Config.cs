@@ -1,6 +1,6 @@
-﻿using Known.Data;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data.Common;
+using Known.Data;
 
 namespace Known
 {

@@ -1,11 +1,11 @@
-﻿using Known.Extensions;
-using Known.Mapping;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 using System.Text;
+using Known.Extensions;
+using Known.Mapping;
 
 namespace Known.Tests.KnownTests
 {

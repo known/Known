@@ -1,5 +1,5 @@
-﻿using Known.Mapping;
-using System;
+﻿using System;
+using Known.Mapping;
 
 namespace Known.Tests
 {

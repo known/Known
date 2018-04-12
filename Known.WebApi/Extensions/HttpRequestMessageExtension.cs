@@ -1,7 +1,7 @@
-﻿using Known.Web.Extensions;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
 using System.Web;
+using Known.Web.Extensions;
 
 namespace Known.WebApi.Extensions
 {

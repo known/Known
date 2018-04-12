@@ -1,7 +1,7 @@
-﻿using Known.Extensions;
-using Known.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Known.Extensions;
+using Known.Validation;
 
 namespace Known.Mapping
 {

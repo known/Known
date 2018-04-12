@@ -1,8 +1,8 @@
-﻿using Known.Web;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
+using Known.Web;
 
 namespace Known.WebApi.Extensions
 {

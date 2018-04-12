@@ -1,7 +1,4 @@
-﻿using Known.Extensions;
-using Known.Web;
-using Known.WebApi.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -9,6 +6,9 @@ using System.Threading;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using Known.Extensions;
+using Known.Web;
+using Known.WebApi.Extensions;
 
 namespace Known.WebApi.Filters
 {
