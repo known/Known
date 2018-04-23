@@ -37,6 +37,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
@@ -107,6 +108,8 @@
     <Compile Include="Core\Button.cs" />
     <Compile Include="Core\Module.cs" />
     <Compile Include="Core\User.cs" />
+    <Compile Include="MsMq\MqConfigInfo.cs" />
+    <Compile Include="MsMq\MqListener.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
