@@ -63,6 +63,15 @@ namespace Known.Files
         }
 
         /// <summary>
+        /// 删除指定名称的Sheet。
+        /// </summary>
+        /// <param name="name">Sheet名。</param>
+        public void DeleteSheet(string name)
+        {
+            wb.Worksheets.RemoveAt(name);
+        }
+
+        /// <summary>
         /// 保存Excel至指定的文件路径。
         /// </summary>
         /// <param name="fileName">指定的文件路径。</param>

@@ -20,6 +20,12 @@ namespace Known.Files
         ISheet AddSheet(string name);
 
         /// <summary>
+        /// 删除指定名称的Sheet。
+        /// </summary>
+        /// <param name="name">Sheet名。</param>
+        void DeleteSheet(string name);
+
+        /// <summary>
         /// 保存Excel至指定的文件路径。
         /// </summary>
         /// <param name="fileName">指定的文件路径。</param>

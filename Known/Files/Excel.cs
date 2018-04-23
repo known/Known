@@ -91,6 +91,25 @@ namespace Known.Files
         }
 
         /// <summary>
+        /// 添加指定名称的Sheet并返回Sheet对象。
+        /// </summary>
+        /// <param name="name">Sheet名。</param>
+        /// <returns>Sheet对象。</returns>
+        public ISheet AddSheet(string name)
+        {
+            return Provider.AddSheet(name);
+        }
+
+        /// <summary>
+        /// 删除指定名称的Sheet。
+        /// </summary>
+        /// <param name="name">Sheet名。</param>
+        public void DeleteSheet(string name)
+        {
+            Provider.DeleteSheet(name);
+        }
+
+        /// <summary>
         /// 保存Excel。
         /// </summary>
         public void Save()
