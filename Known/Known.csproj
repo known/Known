@@ -110,6 +110,8 @@
     <Compile Include="Core\User.cs" />
     <Compile Include="MsMq\MqConfigInfo.cs" />
     <Compile Include="MsMq\MqListener.cs" />
+    <Compile Include="MsMq\MqMessage.cs" />
+    <Compile Include="MsMq\MqUtils.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

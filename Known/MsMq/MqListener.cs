@@ -11,7 +11,7 @@ namespace Known.MsMq
     {
         private bool listen;
         private MessageQueue queue;
-        private Action<string, Message> action;
+        private Action<MqMessage> action;
 
         /// <summary>
         /// 构造函数，创建一个MQ监听者实例。
@@ -38,7 +38,7 @@ namespace Known.MsMq
         /// 开始监听。
         /// </summary>
         /// <param name="action">监听消息处理者。</param>
-        public void Start(Action<string, Message> action)
+        public void Start(Action<MqMessage> action)
         {
             this.action = action;
             listen = true;
@@ -103,7 +103,14 @@ namespace Known.MsMq
             if (action == null || message == null)
                 return;
 
-            action(queueName, message);
+            action(new MqMessage
+            {
+                QueueName = queueName,
+                Label = message.Label,
+                BodyStream = message.BodyStream,
+                TimeToBeReceived = message.TimeToBeReceived,
+                TimeToReachQueue = message.TimeToReachQueue
+            });
         }
     }
 }
