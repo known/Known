@@ -227,6 +227,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Known.Core\Known.Core.csproj">
+      <Project>{2d58247b-c669-4b8c-8909-fb7c92742dfb}</Project>
+      <Name>Known.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Known\Known.csproj">
       <Project>{F4C9A8C8-EAF9-4EA8-B186-C4B843762D45}</Project>
       <Name>Known</Name>

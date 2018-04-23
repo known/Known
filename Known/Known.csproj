@@ -56,8 +56,6 @@
     <Compile Include="Cache\ICache.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Context.cs" />
-    <Compile Include="Core\Company.cs" />
-    <Compile Include="Core\Department.cs" />
     <Compile Include="Data\Command.cs" />
     <Compile Include="Data\CommandCache.cs" />
     <Compile Include="Data\DefaultDbProvider.cs" />
@@ -104,10 +102,6 @@
     <Compile Include="Log\ILogger.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Log\LogLevel.cs" />
-    <Compile Include="Core\Application.cs" />
-    <Compile Include="Core\Button.cs" />
-    <Compile Include="Core\Module.cs" />
-    <Compile Include="Core\User.cs" />
     <Compile Include="MsMq\MqConfigInfo.cs" />
     <Compile Include="MsMq\MqListener.cs" />
     <Compile Include="MsMq\MqMessage.cs" />
