@@ -1,6 +1,6 @@
 var $,tab,skyconsWeather;
 layui.config({
-	base : '/static/js/'
+    base: '/static/layui/modules/'
 }).use(['bodyTab','form','element','layer','jquery'],function(){
 	var form = layui.form,
 		layer = layui.layer,
