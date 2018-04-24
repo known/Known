@@ -29,7 +29,7 @@
         /// <summary>
         /// 取得或设置要返回的数据。
         /// </summary>
-        public object Data { get; set; }
+        public dynamic Data { get; set; }
 
         /// <summary>
         /// 创建错误的操作结果实例。
@@ -37,7 +37,7 @@
         /// <param name="message">错误消息。</param>
         /// <param name="data">返回的数据对象。</param>
         /// <returns></returns>
-        public static Result Error(string message, object data = null)
+        public static Result Error(string message, dynamic data = null)
         {
             return new Result(false, message) { Data = data };
         }
@@ -48,7 +48,7 @@
         /// <param name="message">成功消息。</param>
         /// <param name="data">返回的数据对象。</param>
         /// <returns></returns>
-        public static Result Success(string message, object data = null)
+        public static Result Success(string message, dynamic data = null)
         {
             return new Result(true, message) { Data = data };
         }
