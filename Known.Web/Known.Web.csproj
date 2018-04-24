@@ -79,16 +79,16 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Global.asax" />
-    <Content Include="static\css\bootstrap.min.css" />
-    <Content Include="static\css\font-awesome.min.css" />
+    <Content Include="static\adminlte\css\bootstrap.min.css" />
+    <Content Include="static\adminlte\css\font-awesome.min.css" />
     <Content Include="static\layui\modules\login\login.css" />
     <Content Include="static\layui\modules\main\main.css" />
-    <Content Include="static\css\site.css" />
+    <Content Include="static\adminlte\css\site.css" />
     <Content Include="static\img\face.jpg" />
     <Content Include="static\layui\modules\bodyTab.js" />
-    <Content Include="static\js\bootstrap.min.js" />
+    <Content Include="static\adminlte\js\bootstrap.min.js" />
     <Content Include="static\layui\modules\main\main.js" />
-    <Content Include="static\js\jquery.min.js" />
+    <Content Include="static\adminlte\js\jquery.min.js" />
     <Content Include="static\layui\modules\leftNav.js" />
     <Content Include="static\layui\modules\login\login.js" />
     <Content Include="static\layui\css\layui.css" />
@@ -196,9 +196,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="static\fonts\fontawesome-webfont.ttf" />
-    <Content Include="static\fonts\fontawesome-webfont.woff" />
-    <Content Include="static\fonts\fontawesome-webfont.woff2" />
+    <Content Include="static\adminlte\fonts\fontawesome-webfont.ttf" />
+    <Content Include="static\adminlte\fonts\fontawesome-webfont.woff" />
+    <Content Include="static\adminlte\fonts\fontawesome-webfont.woff2" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="static\layui\font\iconfont.eot" />
     <Content Include="static\layui\font\iconfont.ttf" />
@@ -211,8 +211,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="static\css\adminlte.min.css" />
-    <Content Include="static\js\adminlte.min.js" />
+    <Content Include="static\adminlte\css\adminlte.min.css" />
+    <Content Include="static\adminlte\js\adminlte.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
