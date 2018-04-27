@@ -7,31 +7,41 @@ namespace Known.Tests
     {
         static void Main(string[] args)
         {
-            RunTest(typeof(KnownTests.ConfigTest));
-            RunTest(typeof(KnownTests.UtilsTest));
-            RunTest(typeof(KnownTests.LoggerTest));
-            RunTest(typeof(KnownTests.ExtesionTest));
-            RunTest(typeof(KnownTests.DataTest));
-
+            RunTest();
             Assert.DisplaySummary();
             Console.WriteLine("按任意键结束！");
             Console.ReadKey();
         }
 
-        static void RunTest(Type type)
+        static void RunTest()
         {
-            var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
-            foreach (var item in methods)
+            var assembly = Assembly.GetExecutingAssembly();
+            var types = assembly.GetExportedTypes();
+            Assert.WriteLine(ConsoleColor.Yellow, new string('-', 100));
+            Console.WriteLine("|");
+            Console.WriteLine($"|\t共有{types.Length}个测试类");
+            Console.WriteLine("|");
+            Assert.WriteLine(ConsoleColor.Yellow, new string('-', 100));
+            foreach (var type in types)
             {
-                Console.WriteLine($"开始测试 {item.Name}");
-                try
+                if (!type.Name.EndsWith("Test"))
+                    continue;
+
+                Console.WriteLine($"开始测试{type.Name}");
+                var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
+                foreach (var item in methods)
                 {
-                    item.Invoke(null, null);
+                    Console.WriteLine($"开始测试 {item.Name}");
+                    try
+                    {
+                        item.Invoke(null, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
+                Assert.WriteLine(ConsoleColor.Yellow, new string('-', 100));
             }
         }
     }

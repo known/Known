@@ -44,11 +44,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KnownTests\ConfigTest.cs" />
-    <Compile Include="KnownTests\DataTest.cs" />
-    <Compile Include="KnownTests\ExtesionTest.cs" />
-    <Compile Include="KnownTests\LoggerTest.cs" />
-    <Compile Include="TestEntity.cs" />
-    <Compile Include="TestEnum.cs" />
+    <Compile Include="KnownTests\Data\CommandCacheTest.cs" />
+    <Compile Include="KnownTests\Extensions\CollectionExtensionTest.cs" />
+    <Compile Include="KnownTests\Extensions\CompressExtensionTest.cs" />
+    <Compile Include="KnownTests\Extensions\DateTimeExtensionTest.cs" />
+    <Compile Include="KnownTests\Extensions\EnumExtensionTest.cs" />
+    <Compile Include="KnownTests\Extensions\SerializeExtensionTest.cs" />
+    <Compile Include="KnownTests\Extensions\StringExtensionTest.cs" />
+    <Compile Include="KnownTests\Extensions\TypeExtensionTest.cs" />
+    <Compile Include="KnownTests\Log\ConsoleLoggerTest.cs" />
+    <Compile Include="KnownTests\Log\FileLoggerTest.cs" />
+    <Compile Include="KnownTests\TestEntity.cs" />
+    <Compile Include="KnownTests\TestEnum.cs" />
     <Compile Include="KnownTests\UtilsTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +69,16 @@
       <Project>{f4c9a8c8-eaf9-4ea8-b186-c4b843762d45}</Project>
       <Name>Known</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="KnownTests\Cache\" />
+    <Folder Include="KnownTests\Files\" />
+    <Folder Include="KnownTests\Helpers\" />
+    <Folder Include="KnownTests\Json\" />
+    <Folder Include="KnownTests\Mapping\" />
+    <Folder Include="KnownTests\MsMq\" />
+    <Folder Include="KnownTests\Validation\" />
+    <Folder Include="KnownTests\Web\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

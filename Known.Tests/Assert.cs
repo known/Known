@@ -50,11 +50,19 @@ namespace Known.Tests
             }
         }
 
-        private static void Write(ConsoleColor color, object message)
+        public static void Write(ConsoleColor color, object message)
         {
             var orgColor = Console.ForegroundColor;
             Console.ForegroundColor = color;
             Console.Write(message);
+            Console.ForegroundColor = orgColor;
+        }
+
+        public static void WriteLine(ConsoleColor color, object message)
+        {
+            var orgColor = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.WriteLine(message);
             Console.ForegroundColor = orgColor;
         }
     }

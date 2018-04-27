@@ -1,8 +1,8 @@
 ﻿using Known.Data;
 
-namespace Known.Tests.KnownTests
+namespace Known.Tests.KnownTests.Data
 {
-    public class DataTest
+    public class CommandCacheTest
     {
         public static void TestCommandCacheGetCommand()
         {

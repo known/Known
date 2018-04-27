@@ -1,7 +1,7 @@
 ﻿using System;
 using Known.Mapping;
 
-namespace Known.Tests
+namespace Known.Tests.KnownTests
 {
     [Table("A_TEST", "ITEM1", "测试表")]
     public class TestEntity : EntityBase
@@ -17,13 +17,13 @@ namespace Known.Tests
 
         public TestEnum Item4 { get; set; }
 
-        public Test Test { get; set; }
+        public TestObject Test { get; set; }
 
         public string ItemOnlyRead { get; }
         public virtual string ItemVirtual { get; set; }
     }
 
-    public class Test : EntityBase
+    public class TestObject : EntityBase
     {
         public string Item1 { get; set; }
     }
