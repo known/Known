@@ -44,8 +44,9 @@ namespace Known.Tests.KnownTests
         #region CompressExtension
         public static void TestCompress()
         {
-            var length1 = "test".ToBytes().Length;
-            var length2 = "test".Compress().Length;
+            var str = new String('T', 5000);
+            var length1 = str.ToBytes().Length;
+            var length2 = str.Compress().Length;
             Assert.IsEqual(length1 > length2, true);
 
             var set = new DataSet();
