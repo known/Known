@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Displayer.cs" />
+    <Compile Include="KnownTests\Cache\DefaultCacheTest.cs" />
     <Compile Include="KnownTests\ConfigTest.cs" />
     <Compile Include="KnownTests\Data\CommandCacheTest.cs" />
     <Compile Include="KnownTests\Extensions\CollectionExtensionTest.cs" />
@@ -71,7 +73,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="KnownTests\Cache\" />
     <Folder Include="KnownTests\Files\" />
     <Folder Include="KnownTests\Helpers\" />
     <Folder Include="KnownTests\Json\" />
