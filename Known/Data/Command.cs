@@ -27,7 +27,7 @@ namespace Known.Data
         public Command(string text, Dictionary<string, object> parameters)
         {
             Text = text;
-            Parameters = parameters;
+            Parameters = parameters ?? new Dictionary<string, object>();
         }
 
         /// <summary>

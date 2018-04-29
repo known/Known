@@ -26,6 +26,9 @@ namespace Known.Data
         /// <returns>数据库命令。</returns>
         public static Command GetCommand(string sql, object param = null)
         {
+            if (string.IsNullOrWhiteSpace(sql))
+                return null;
+
             var command = new Command(sql);
             if (param == null)
                 return command;
@@ -52,18 +55,20 @@ namespace Known.Data
         /// <returns>数据库命令。</returns>
         public static Command GetSaveCommand<T>(T entity) where T : EntityBase
         {
+            if (entity == null)
+                return null;
+
             var type = typeof(T);
             var tableName = GetCachedTableAttribute(type).TableName;
-            var columnInfos = GetCachedColumnInfos(type);
+            var columns = GetCachedColumnInfos(type);
 
             if (entity.IsNew)
             {
-                var columnNames = columnInfos.Select(c => c.ColumnName);
-                var insColumnNames = string.Join(",", columnNames);
-                var valColumnNames = string.Join(",@", columnNames);
-                var sql = $"insert into {tableName}({insColumnNames}) values(@{valColumnNames})";
-                var command = new Command(sql);
-                foreach (var item in columnInfos)
+                var columnNames = columns.Select(c => c.ColumnName);
+                var insColNames = string.Join(",", columnNames);
+                var valColNames = string.Join(",@", columnNames);
+                var command = new Command($"insert into {tableName}({insColNames}) values(@{valColNames})");
+                foreach (var item in columns)
                 {
                     command.AddParameter(item.ColumnName, item.Property.GetValue(entity));
                 }
@@ -71,17 +76,16 @@ namespace Known.Data
             }
             else
             {
-                var setColumnInfos = columnInfos.Where(c => !c.IsKey);
-                var keyColumnInfos = columnInfos.Where(c => c.IsKey);
-                var setColumnNames = string.Join(",", setColumnInfos.Select(c => $"{c.ColumnName}=@{c.ColumnName}"));
-                var keyColumnNames = string.Join(" and ", keyColumnInfos.Select(c => $"{c.ColumnName}=@{c.ColumnName}"));
-                var sql = $"update {tableName} set {setColumnNames} where {keyColumnNames}";
-                var command = new Command(sql);
-                foreach (var item in setColumnInfos)
+                var setColumns = columns.Where(c => !c.IsKey);
+                var keyColumns = columns.Where(c => c.IsKey);
+                var setColNames = string.Join(",", setColumns.Select(c => $"{c.ColumnName}=@{c.ColumnName}"));
+                var where = string.Join(" and ", keyColumns.Select(c => $"{c.ColumnName}=@{c.ColumnName}"));
+                var command = new Command($"update {tableName} set {setColNames} where {where}");
+                foreach (var item in setColumns)
                 {
                     command.AddParameter(item.ColumnName, item.Property.GetValue(entity));
                 }
-                foreach (var item in keyColumnInfos)
+                foreach (var item in keyColumns)
                 {
                     command.AddParameter(item.ColumnName, item.Property.GetValue(entity));
                 }
@@ -97,12 +101,15 @@ namespace Known.Data
         /// <returns>数据库命令。</returns>
         public static Command GetDeleteCommand<T>(T entity) where T : EntityBase
         {
+            if (entity == null)
+                return null;
+
             var type = typeof(T);
             var tableName = GetCachedTableAttribute(type).TableName;
-            var keyColumnInfos = GetCachedColumnInfos(type).Where(c => c.IsKey).ToList();
-            var keyColumnNames = string.Join(" and ", keyColumnInfos.Select(c => $"{c.ColumnName}=@{c.ColumnName}"));
-            var command = new Command($"delete from {tableName} where {keyColumnNames}");
-            foreach (var item in keyColumnInfos)
+            var keyColumns = GetCachedColumnInfos(type).Where(c => c.IsKey).ToList();
+            var where = string.Join(" and ", keyColumns.Select(c => $"{c.ColumnName}=@{c.ColumnName}"));
+            var command = new Command($"delete from {tableName} where {where}");
+            foreach (var item in keyColumns)
             {
                 command.AddParameter(item.ColumnName, item.Property.GetValue(entity));
             }
@@ -117,13 +124,15 @@ namespace Known.Data
         /// <returns>数据库命令。</returns>
         public static Command GetSelectCommand(string tableName, Dictionary<string, object> parameters = null)
         {
-            var whereSql = string.Empty;
+            if (string.IsNullOrWhiteSpace(tableName))
+                return null;
+
+            var where = string.Empty;
             if (parameters != null && parameters.Count > 0)
             {
-                whereSql = " where " + string.Join(" and ", parameters.Keys.Select(k => string.Format("{0}=@{0}", k)));
+                where = " where " + string.Join(" and ", parameters.Keys.Select(k => $"{k}=@{k}"));
             }
-            var text = string.Format("select * from {0}{1}", tableName, whereSql);
-            return new Command(text, parameters);
+            return new Command($"select * from {tableName}{where}", parameters);
         }
 
         /// <summary>
@@ -133,11 +142,16 @@ namespace Known.Data
         /// <returns>数据库命令。</returns>
         public static Command GetInsertCommand(DataTable table)
         {
-            var columns = table.Columns.OfType<DataColumn>().Select(c => c.ColumnName);
-            var columnSql = string.Join(",", columns.Select(k => k));
-            var valueSql = string.Join(",", columns.Select(k => string.Format("@{0}", k)));
-            var text = string.Format("insert into {0}({1}) values({2})", table.TableName, columnSql, valueSql);
-            return new Command(text);
+            if (table == null || table.Columns.Count == 0)
+                return null;
+
+            if (string.IsNullOrWhiteSpace(table.TableName))
+                return null;
+
+            var columnNames = table.Columns.OfType<DataColumn>().Select(c => c.ColumnName);
+            var columns = string.Join(",", columnNames.Select(k => k));
+            var values = string.Join(",", columnNames.Select(k => $"@{k}"));
+            return new Command($"insert into {table.TableName}({columns}) values({values})");
         }
 
         /// <summary>
@@ -148,10 +162,15 @@ namespace Known.Data
         /// <returns>数据库命令。</returns>
         public static Command GetInsertCommand(string tableName, Dictionary<string, object> parameters)
         {
-            var columnSql = string.Join(",", parameters.Keys.Select(k => k));
-            var valueSql = string.Join(",", parameters.Keys.Select(k => string.Format("@{0}", k)));
-            var text = string.Format("insert into {0}({1}) values({2})", tableName, columnSql, valueSql);
-            return new Command(text, parameters);
+            if (string.IsNullOrWhiteSpace(tableName))
+                return null;
+
+            if (parameters == null || parameters.Count == 0)
+                return null;
+
+            var columns = string.Join(",", parameters.Keys.Select(k => k));
+            var values = string.Join(",", parameters.Keys.Select(k => string.Format("@{0}", k)));
+            return new Command($"insert into {tableName}({columns}) values({values})", parameters);
         }
 
         /// <summary>
@@ -163,10 +182,18 @@ namespace Known.Data
         /// <returns>数据库命令。</returns>
         public static Command GetUpdateCommand(string tableName, string keyFields, Dictionary<string, object> parameters)
         {
-            var columnSql = string.Join(",", parameters.Keys.Where(k => !keyFields.Contains(k)).Select(k => string.Format("{0}=@{0}", k)));
-            var whereSql = string.Join(" and ", keyFields.Split(',').Select(k => string.Format("{0}=@{0}", k)));
-            var text = string.Format("update {0} set {1} where {2}", tableName, columnSql, whereSql);
-            return new Command(text, parameters);
+            if (string.IsNullOrWhiteSpace(tableName))
+                return null;
+
+            if (string.IsNullOrWhiteSpace(keyFields))
+                return null;
+
+            if (parameters == null || parameters.Count == 0)
+                return null;
+
+            var columns = string.Join(",", parameters.Keys.Where(k => !keyFields.Contains(k)).Select(k => $"{k}=@{k}"));
+            var where = string.Join(" and ", keyFields.Split(',').Select(k => $"{k}=@{k}"));
+            return new Command($"update {tableName} set {columns} where {where}", parameters);
         }
 
         /// <summary>
@@ -177,9 +204,14 @@ namespace Known.Data
         /// <returns>数据库命令。</returns>
         public static Command GetDeleteCommand(string tableName, Dictionary<string, object> parameters)
         {
-            var whereSql = string.Format(" and ", parameters.Keys.Select(k => string.Format("{0}=@{0}", k)));
-            var text = string.Format("delete from {0} where {1}", tableName, whereSql);
-            return new Command(text, parameters);
+            if (string.IsNullOrWhiteSpace(tableName))
+                return null;
+
+            if (parameters == null || parameters.Count == 0)
+                return null;
+
+            var where = string.Join(" and ", parameters.Keys.Select(k => $"{k}=@{k}"));
+            return new Command($"delete from {tableName} where {where}", parameters);
         }
 
         private static IEnumerable<ColumnInfo> GetCachedColumnInfos(Type type)
