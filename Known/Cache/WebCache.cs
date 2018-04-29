@@ -9,6 +9,14 @@ namespace Known.Cache
     public class WebCache : ICache
     {
         /// <summary>
+        /// 取得缓存项目数量。
+        /// </summary>
+        public int Count
+        {
+            get { return HttpRuntime.Cache.Count; }
+        }
+
+        /// <summary>
         /// 根据key获取缓存对象。
         /// </summary>
         /// <param name="key">缓存对象key。</param>

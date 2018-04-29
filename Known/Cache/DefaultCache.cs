@@ -10,6 +10,14 @@ namespace Known.Cache
         private static Dictionary<string, object> cached = new Dictionary<string, object>();
 
         /// <summary>
+        /// 取得缓存项目数量。
+        /// </summary>
+        public int Count
+        {
+            get { return cached.Count; }
+        }
+
+        /// <summary>
         /// 根据key获取缓存对象。
         /// </summary>
         /// <param name="key">缓存对象key。</param>

@@ -6,6 +6,11 @@
     public interface ICache
     {
         /// <summary>
+        /// 取得缓存项目数量。
+        /// </summary>
+        int Count { get; }
+
+        /// <summary>
         /// 根据key获取缓存对象。
         /// </summary>
         /// <param name="key">缓存对象key。</param>
