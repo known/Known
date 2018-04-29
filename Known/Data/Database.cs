@@ -280,10 +280,10 @@ namespace Known.Data
             var properties = typeof(T).GetColumnProperties();
             foreach (var property in properties)
             {
-                var fieldName = ColumnInfo.GetColumnName(property);
-                if (row.Table.Columns.Contains(fieldName))
+                var columnName = ColumnInfo.GetColumnName(property);
+                if (row.Table.Columns.Contains(columnName))
                 {
-                    var value = GetPropertyValue(property.PropertyType, row[fieldName]);
+                    var value = GetPropertyValue(property.PropertyType, row[columnName]);
                     property.SetValue(entity, value, null);
                 }
             }

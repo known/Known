@@ -46,6 +46,7 @@
     <Compile Include="Displayer.cs" />
     <Compile Include="KnownTests\Cache\DefaultCacheTest.cs" />
     <Compile Include="KnownTests\ConfigTest.cs" />
+    <Compile Include="KnownTests\Data\ColumnInfoTest.cs" />
     <Compile Include="KnownTests\Data\CommandCacheTest.cs" />
     <Compile Include="KnownTests\Extensions\CollectionExtensionTest.cs" />
     <Compile Include="KnownTests\Extensions\CompressExtensionTest.cs" />

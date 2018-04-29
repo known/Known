@@ -3,7 +3,7 @@ using Known.Mapping;
 
 namespace Known.Tests.KnownTests
 {
-    [Table("A_TEST", "ITEM1", "测试表")]
+    [Table("A_TEST", "ITEM1,ITEM2", "测试表")]
     public class TestEntity : EntityBase
     {
         [IntegerColumn("ITEM1", "属性1", false)]
@@ -26,5 +26,6 @@ namespace Known.Tests.KnownTests
     public class TestObject : EntityBase
     {
         public string Item1 { get; set; }
+        public string Item2 { get; set; }
     }
 }

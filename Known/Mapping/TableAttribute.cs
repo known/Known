@@ -60,7 +60,7 @@ namespace Known.Mapping
             get
             {
                 if (string.IsNullOrWhiteSpace(PrimaryKey))
-                    return null;
+                    return new string[] { "Id" };
 
                 return PrimaryKey.Split(',');
             }

@@ -211,8 +211,6 @@ namespace Known.Data
             if (attrs != null && attrs.Count > 0)
             {
                 attr = attrs[0];
-                if (string.IsNullOrWhiteSpace(attr.PrimaryKey))
-                    attr.PrimaryKey = "Id";
             }
             else
             {
