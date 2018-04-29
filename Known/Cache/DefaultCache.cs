@@ -73,9 +73,9 @@ namespace Known.Cache
         }
 
         /// <summary>
-        /// 移除所有缓存对象。
+        /// 清除所有缓存对象。
         /// </summary>
-        public void RemoveAll()
+        public void Clear()
         {
             cached.Clear();
         }

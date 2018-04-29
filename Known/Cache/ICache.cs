@@ -39,8 +39,8 @@
         void Remove(string key);
 
         /// <summary>
-        /// 移除所有缓存对象。
+        /// 清除所有缓存对象。
         /// </summary>
-        void RemoveAll();
+        void Clear();
     }
 }

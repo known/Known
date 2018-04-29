@@ -8,7 +8,7 @@ namespace Known.Tests.KnownTests.Cache
 
         public static void TestCount()
         {
-            cache.RemoveAll();
+            cache.Clear();
             cache.Set("Key1", "Value1");
             Assert.IsEqual(cache.Count, 1);
             cache.Set("Key1", "Value2");
@@ -42,12 +42,12 @@ namespace Known.Tests.KnownTests.Cache
             Assert.IsNull(cache.Get("Key"));
         }
 
-        public static void TestRemoveAll()
+        public static void TestClear()
         {
             cache.Set("Key1", "Value1");
             cache.Set("Key2", "Value2");
             Assert.IsEqual(cache.Count, 2);
-            cache.RemoveAll();
+            cache.Clear();
             Assert.IsEqual(cache.Count, 0);
         }
     }
