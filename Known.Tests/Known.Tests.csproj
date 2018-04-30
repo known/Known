@@ -48,6 +48,7 @@
     <Compile Include="KnownTests\ConfigTest.cs" />
     <Compile Include="KnownTests\Data\ColumnInfoTest.cs" />
     <Compile Include="KnownTests\Data\CommandCacheTest.cs" />
+    <Compile Include="KnownTests\Data\CommandTest.cs" />
     <Compile Include="KnownTests\Extensions\CollectionExtensionTest.cs" />
     <Compile Include="KnownTests\Extensions\CompressExtensionTest.cs" />
     <Compile Include="KnownTests\Extensions\DateTimeExtensionTest.cs" />

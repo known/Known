@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Known.Extensions;
 
@@ -13,10 +14,8 @@ namespace Known.Data
         /// 构造函数，创建一个数据库命令类实例。
         /// </summary>
         /// <param name="text">SQL语句。</param>
-        public Command(string text)
+        public Command(string text) : this(text, null)
         {
-            Text = text;
-            Parameters = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -26,6 +25,9 @@ namespace Known.Data
         /// <param name="parameters">SQL语句参数字典。</param>
         public Command(string text, Dictionary<string, object> parameters)
         {
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentNullException("text");
+
             Text = text;
             Parameters = parameters ?? new Dictionary<string, object>();
         }
@@ -69,7 +71,7 @@ namespace Known.Data
             if (HasParameter)
             {
                 var parameters = Parameters.ToJson();
-                sb.AppendLine($"Parameters:{parameters}");
+                sb.AppendLine($"Parameters={parameters}");
             }
             return sb.ToString();
         }

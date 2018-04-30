@@ -13,9 +13,9 @@ namespace Known.Tests
             Displayer.WriteLine($" 实际值：{actual}");
         }
 
-        public static void IsNotNull(string actual)
+        public static void IsNotNull(object actual)
         {
-            Write(!string.IsNullOrWhiteSpace(actual));
+            Write(actual != null);
             Displayer.WriteLine($" 实际值：{actual}");
         }
 
