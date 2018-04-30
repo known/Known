@@ -163,6 +163,7 @@ namespace Known.Data
             {
                 provider.Execute(commands[0]);
             }
+            commands.Clear();
         }
 
         /// <summary>
@@ -268,7 +269,10 @@ namespace Known.Data
         /// </summary>
         public void Dispose()
         {
-            commands.Clear();
+            if (commands.Count > 0)
+            {
+                SubmitChanges();
+            }
         }
 
         private static T GetEntity<T>(DataRow row) where T : EntityBase
