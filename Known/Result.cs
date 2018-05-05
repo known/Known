@@ -1,7 +1,7 @@
 ﻿namespace Known
 {
     /// <summary>
-    /// 操作结果基类，用于业务逻辑验证返回的结果信息。
+    /// 操作结果类，用于业务逻辑验证返回的结果信息。
     /// </summary>
     public class Result
     {
@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="isValid">是否通过验证。</param>
         /// <param name="message">验证结果消息。</param>
-        public Result(bool isValid, string message)
+        private Result(bool isValid, string message)
         {
             IsValid = isValid;
             Message = message;
@@ -35,8 +35,8 @@
         /// 创建错误的操作结果实例。
         /// </summary>
         /// <param name="message">错误消息。</param>
-        /// <param name="data">返回的数据对象。</param>
-        /// <returns></returns>
+        /// <param name="data">返回的错误数据对象。</param>
+        /// <returns>操作结果实例。</returns>
         public static Result Error(string message, dynamic data = null)
         {
             return new Result(false, message) { Data = data };
@@ -46,8 +46,8 @@
         /// 创建成功的操作结果实例。
         /// </summary>
         /// <param name="message">成功消息。</param>
-        /// <param name="data">返回的数据对象。</param>
-        /// <returns></returns>
+        /// <param name="data">返回的正确数据对象。</param>
+        /// <returns>操作结果实例。</returns>
         public static Result Success(string message, dynamic data = null)
         {
             return new Result(true, message) { Data = data };

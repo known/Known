@@ -13,7 +13,7 @@ namespace Known.Validation
         /// 构造函数，创建一个验证结果类实例。
         /// </summary>
         /// <param name="infos">验证信息集合。</param>
-        public ValidateResult(List<ValidInfo> infos)
+        internal ValidateResult(List<ValidInfo> infos)
         {
             Infos = infos ?? new List<ValidInfo>();
         }
