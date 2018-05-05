@@ -31,7 +31,7 @@ namespace Known.Web
             var ex = Server.GetLastError();
             if (ex != null)
             {
-                Mail.SendException("Web程序发生异常", ex);
+                Mail.Send("Web程序发生异常", ex);
             }
         }
 

@@ -206,7 +206,7 @@ namespace Known
         /// </summary>
         /// <param name="subject">邮件主题。</param>
         /// <param name="ex">异常。</param>
-        public static void SendException(string subject, Exception ex)
+        public static void Send(string subject, Exception ex)
         {
             var exceptionMails = Config.AppSetting("ExceptionMails");
             if (string.IsNullOrWhiteSpace(exceptionMails))
