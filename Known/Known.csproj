@@ -64,6 +64,7 @@
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\IDbProvider.cs" />
     <Compile Include="Extensions\CompressExtension.cs" />
+    <Compile Include="Extensions\DataTableExtension.cs" />
     <Compile Include="Extensions\TypeExtension.cs" />
     <Compile Include="Files\Excel.cs" />
     <Compile Include="Files\IExcel.cs" />

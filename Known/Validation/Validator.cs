@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using Known.Extensions;
 
 namespace Known.Validation
 {
@@ -90,6 +93,125 @@ namespace Known.Validation
         public ValidateResult ToResult()
         {
             return new ValidateResult(validInfos);
+        }
+
+        /// <summary>
+        /// 验证数据表栏位是否为非空字符串。
+        /// </summary>
+        /// <param name="messages">错误信息集合。</param>
+        /// <param name="row">数据行。</param>
+        /// <param name="fieldName">栏位名。</param>
+        /// <returns>数据表栏位数据。</returns>
+        public static string ValidateNotEmptyString(List<string> messages, DataRow row, string fieldName)
+        {
+            var value = row.Get<string>(fieldName);
+            if (string.IsNullOrWhiteSpace(value))
+                messages.Add(fieldName + "不能为空！");
+            return value;
+        }
+
+        /// <summary>
+        /// 验证数据表栏位是否为非空整数。
+        /// </summary>
+        /// <param name="messages">错误信息集合。</param>
+        /// <param name="row">数据行。</param>
+        /// <param name="fieldName">栏位名。</param>
+        /// <returns>数据表栏位数据。</returns>
+        public static int? ValidateNotEmptyInt(List<string> messages, DataRow row, string fieldName)
+        {
+            var value = row.Get<int?>(fieldName);
+            if (!value.HasValue)
+                messages.Add(fieldName + "不能为空！");
+            return value;
+        }
+
+        /// <summary>
+        /// 验证数据表栏位是否为整数。
+        /// </summary>
+        /// <param name="messages">错误信息集合。</param>
+        /// <param name="row">数据行。</param>
+        /// <param name="fieldName">栏位名。</param>
+        /// <returns>数据表栏位数据。</returns>
+        public static int? ValidateInt(List<string> messages, DataRow row, string fieldName)
+        {
+            var text = row.Get<string>(fieldName);
+            if (string.IsNullOrWhiteSpace(text))
+                return null;
+
+            var value = row.Get<int?>(fieldName);
+            if (!value.HasValue)
+                messages.Add(fieldName + "格式不正确！");
+            return value;
+        }
+
+        /// <summary>
+        /// 验证数据表栏位是否为非空浮点数。
+        /// </summary>
+        /// <param name="messages">错误信息集合。</param>
+        /// <param name="row">数据行。</param>
+        /// <param name="fieldName">栏位名。</param>
+        /// <returns>数据表栏位数据。</returns>
+        public static decimal? ValidateNotEmptyDecimal(List<string> messages, DataRow row, string fieldName)
+        {
+            var value = row.Get<decimal?>(fieldName);
+            if (!value.HasValue)
+                messages.Add(fieldName + "不能为空！");
+            return value;
+        }
+
+        /// <summary>
+        /// 验证数据表栏位是否为浮点数。
+        /// </summary>
+        /// <param name="messages">错误信息集合。</param>
+        /// <param name="row">数据行。</param>
+        /// <param name="fieldName">栏位名。</param>
+        /// <returns>数据表栏位数据。</returns>
+        public static decimal? ValidateDecimal(List<string> messages, DataRow row, string fieldName)
+        {
+            var text = row.Get<string>(fieldName);
+            if (string.IsNullOrWhiteSpace(text))
+                return null;
+
+            var value = row.Get<decimal?>(fieldName);
+            if (!value.HasValue)
+                messages.Add(fieldName + "格式不正确！");
+            return value;
+        }
+
+        /// <summary>
+        /// 验证数据表栏位是否为指定格式的非空日期。
+        /// </summary>
+        /// <param name="messages">错误信息集合。</param>
+        /// <param name="row">数据行。</param>
+        /// <param name="fieldName">栏位名。</param>
+        /// <param name="format">日期格式字符串，例：yyyy-MM-dd。</param>
+        /// <returns>数据表栏位数据。</returns>
+        public static DateTime? ValidateNotEmptyDateTime(List<string> messages, DataRow row, string fieldName, string format)
+        {
+            var value = row.Get<string>(fieldName).ToDateTime(format);
+            if (!value.HasValue)
+                messages.Add(fieldName + "不能为空且格式必须是" + format + "！");
+            return value;
+        }
+
+        /// <summary>
+        /// 验证数据表栏位是否为指定格式的日期。
+        /// </summary>
+        /// <param name="messages">错误信息集合。</param>
+        /// <param name="row">数据行。</param>
+        /// <param name="fieldName">栏位名。</param>
+        /// <param name="format">日期格式字符串，例：yyyy-MM-dd。</param>
+        /// <returns>数据表栏位数据。</returns>
+        public static DateTime? ValidateDateTime(List<string> messages, DataRow row, string fieldName, string format)
+        {
+            var text = row.Get<string>(fieldName);
+            if (string.IsNullOrWhiteSpace(text))
+                return null;
+
+            var value = text.ToDateTime(format);
+            if (!value.HasValue)
+                messages.Add(fieldName + "格式必须是" + format + "！");
+            return value;
         }
     }
 }
