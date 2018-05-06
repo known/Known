@@ -19,12 +19,36 @@ namespace Known.Data
         private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>> TypeColumnNames = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>>();
 
         /// <summary>
+        /// 根据SQL获取记录数查询语句。
+        /// </summary>
+        /// <param name="sql">SQL语句。</param>
+        /// <returns>记录数查询语句。</returns>
+        public static string GetCountSql(string sql)
+        {
+            return $"select count(1) from ({sql})";
+        }
+
+        /// <summary>
+        /// 根据SQL获取分页查询语句。
+        /// </summary>
+        /// <param name="sql">SQL语句。</param>
+        /// <param name="criteria">分页查询条件。</param>
+        /// <returns>分页查询语句。</returns>
+        public static string GetPagingSql(string sql, PagingCriteria criteria)
+        {
+            var orderBy = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)));
+            var startNo = criteria.PageSize * (criteria.PageIndex - 1);
+            var endNo = startNo + criteria.PageSize;
+            return $"select t.* from (select t1.*,row_number() over (order by {orderBy}) RowNo from ({sql}) t1) t where t.RowNo>{startNo} and t.RowNo<={endNo}";
+        }
+
+        /// <summary>
         /// 根据SQL获取缓存的数据库命令。
         /// </summary>
         /// <param name="sql">SQL语句。</param>
         /// <param name="param">语句参数。</param>
         /// <returns>数据库命令。</returns>
-        public static Command GetCommand(string sql, object param = null)
+        public static Command GetCommand(string sql, dynamic param = null)
         {
             if (string.IsNullOrWhiteSpace(sql))
                 return null;

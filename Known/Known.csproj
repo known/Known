@@ -108,6 +108,8 @@
     <Compile Include="MsMq\MqListener.cs" />
     <Compile Include="MsMq\MqMessage.cs" />
     <Compile Include="MsMq\MqUtils.cs" />
+    <Compile Include="PagingCriteria.cs" />
+    <Compile Include="PagingResult.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

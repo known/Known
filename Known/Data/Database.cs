@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using Known.Extensions;
 using Known.Mapping;
 
@@ -40,7 +39,7 @@ namespace Known.Data
         /// </summary>
         /// <param name="sql">增删改SQL语句。</param>
         /// <param name="param">SQL语句参数。</param>
-        public void Execute(string sql, object param = null)
+        public void Execute(string sql, dynamic param = null)
         {
             var command = CommandCache.GetCommand(sql, param);
             commands.Add(command);
@@ -53,7 +52,7 @@ namespace Known.Data
         /// <param name="sql">查询SQL语句。</param>
         /// <param name="param">SQL语句参数。</param>
         /// <returns>指定类型的标量。</returns>
-        public T Scalar<T>(string sql, object param = null)
+        public T Scalar<T>(string sql, dynamic param = null)
         {
             var command = CommandCache.GetCommand(sql, param);
             return (T)provider.Scalar(command);
@@ -66,7 +65,7 @@ namespace Known.Data
         /// <param name="sql">查询SQL语句。</param>
         /// <param name="param">SQL语句参数。</param>
         /// <returns>指定类型的单个对象。</returns>
-        public T Query<T>(string sql, object param = null) where T : EntityBase
+        public T Query<T>(string sql, dynamic param = null) where T : EntityBase
         {
             var row = QueryRow(sql, param);
             if (row == null)
@@ -82,13 +81,34 @@ namespace Known.Data
         /// <param name="sql">查询SQL语句。</param>
         /// <param name="param">SQL语句参数。</param>
         /// <returns>指定类型的对象列表。</returns>
-        public List<T> QueryList<T>(string sql, object param = null) where T : EntityBase
+        public List<T> QueryList<T>(string sql, dynamic param = null) where T : EntityBase
         {
             var data = QueryTable(sql, param);
-            if (data == null || data.Rows.Count == 0)
+            return GetEntities(data);
+        }
+
+        /// <summary>
+        /// 执行分页查询SQL语句，返回指定类型的分页查询结果。
+        /// </summary>
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <param name="sql">分页查询SQL语句。</param>
+        /// <param name="criteria">分页查询条件。</param>
+        /// <returns>指定类型的分页查询结果。</returns>
+        public PagingResult<T> QueryPage<T>(string sql, PagingCriteria criteria)
+        {
+            var cmd = CommandCache.GetCommand(sql, criteria.Parameters);
+            if (cmd == null)
                 return null;
 
-            return data.AsEnumerable().Select(r => GetEntity<T>(r)).ToList();
+            var sqlCount = CommandCache.GetCountSql(cmd.Text);
+            var cmdCount = new Command(sqlCount, cmd.Parameters);
+            var totalCount = (int)provider.Scalar(cmdCount);
+            
+            var sqlPage = CommandCache.GetPagingSql(cmd.Text, criteria);
+            var cmdData = new Command(sqlPage, cmd.Parameters);
+            var data = provider.Query(cmdData);
+            var pageData = GetEntities<T>(data);
+            return new PagingResult<T>(totalCount, pageData);
         }
 
         /// <summary>
@@ -181,7 +201,7 @@ namespace Known.Data
         /// <param name="sql">查询SQL语句。</param>
         /// <param name="param">SQL语句参数。</param>
         /// <returns>数据表。</returns>
-        public DataTable QueryTable(string sql, object param = null)
+        public DataTable QueryTable(string sql, dynamic param = null)
         {
             var command = CommandCache.GetCommand(sql, param);
             return provider.Query(command);
@@ -193,7 +213,7 @@ namespace Known.Data
         /// <param name="sql">查询SQL语句。</param>
         /// <param name="param">SQL语句参数。</param>
         /// <returns>数据行。</returns>
-        public DataRow QueryRow(string sql, object param = null)
+        public DataRow QueryRow(string sql, dynamic param = null)
         {
             var command = CommandCache.GetCommand(sql, param);
             var data = provider.Query(command);
@@ -275,7 +295,27 @@ namespace Known.Data
             }
         }
 
-        private static T GetEntity<T>(DataRow row) where T : EntityBase
+        private static T GetBaseEntity<T>(DataRow row) where T : EntityBase
+        {
+            var entity = GetEntity<T>(row);
+            entity.IsNew = false;
+            return entity;
+        }
+
+        private static List<T> GetBaseEntities<T>(DataTable data) where T : EntityBase
+        {
+            if (data == null || data.Rows.Count == 0)
+                return null;
+
+            var lists = new List<T>();
+            foreach (DataRow row in data.Rows)
+            {
+                lists.Add(GetBaseEntity<T>(row));
+            }
+            return lists;
+        }
+
+        private static T GetEntity<T>(DataRow row)
         {
             if (row == null)
                 return default(T);
@@ -291,8 +331,21 @@ namespace Known.Data
                     property.SetValue(entity, value, null);
                 }
             }
-            entity.IsNew = false;
+            
             return entity;
+        }
+
+        private static List<T> GetEntities<T>(DataTable data)
+        {
+            if (data == null || data.Rows.Count == 0)
+                return null;
+
+            var lists = new List<T>();
+            foreach (DataRow row in data.Rows)
+            {
+                lists.Add(GetEntity<T>(row));
+            }
+            return lists;
         }
 
         private static object GetPropertyValue(Type type, object value)
