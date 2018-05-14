@@ -7,8 +7,8 @@
     <ProjectGuid>{64C82219-F397-4B5A-B837-7A8AD4B7B721}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Known.Excel</RootNamespace>
-    <AssemblyName>Known.Excel</AssemblyName>
+    <RootNamespace>Known.Cells</RootNamespace>
+    <AssemblyName>Known.Cells</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

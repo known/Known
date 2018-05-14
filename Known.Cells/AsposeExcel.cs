@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Aspose.Cells;
 
-namespace Known.Files
+namespace Known.Cells
 {
     /// <summary>
     /// Aspose组件实现的Excel操作类。
@@ -95,19 +95,19 @@ namespace Known.Files
         {
             switch (format)
             {
-                case Files.SavedFormat.Auto:
+                case Cells.SavedFormat.Auto:
                     return SaveFormat.Auto;
-                case Files.SavedFormat.CSV:
+                case Cells.SavedFormat.CSV:
                     return SaveFormat.CSV;
-                case Files.SavedFormat.Html:
+                case Cells.SavedFormat.Html:
                     return SaveFormat.Html;
-                case Files.SavedFormat.Pdf:
+                case Cells.SavedFormat.Pdf:
                     return SaveFormat.Pdf;
-                case Files.SavedFormat.XPS:
+                case Cells.SavedFormat.XPS:
                     return SaveFormat.XPS;
-                case Files.SavedFormat.TIFF:
+                case Cells.SavedFormat.TIFF:
                     return SaveFormat.TIFF;
-                case Files.SavedFormat.SVG:
+                case Cells.SavedFormat.SVG:
                     return SaveFormat.SVG;
                 default:
                     return SaveFormat.Auto;

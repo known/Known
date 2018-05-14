@@ -1,6 +1,6 @@
 ﻿using Aspose.Cells;
 
-namespace Known.Files
+namespace Known.Cells
 {
     /// <summary>
     /// Aspose组件实现的Sheet单元格类。

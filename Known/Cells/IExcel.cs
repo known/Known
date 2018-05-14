@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Known.Files
+namespace Known.Cells
 {
     /// <summary>
     /// Excel接口。

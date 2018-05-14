@@ -1,4 +1,4 @@
-﻿namespace Known.Files
+﻿namespace Known.Cells
 {
     /// <summary>
     /// Excel保存的格式。

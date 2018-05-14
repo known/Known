@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.IO;
 
-namespace Known.Files
+namespace Known.Cells
 {
     /// <summary>
     /// Sheet接口。

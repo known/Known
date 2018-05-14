@@ -1,4 +1,4 @@
-﻿namespace Known.Files
+﻿namespace Known.Cells
 {
     /// <summary>
     /// Sheet单元格接口。

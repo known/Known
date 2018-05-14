@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Tests", "Known.Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Web", "Known.Web\Known.Web.csproj", "{EE48CFB8-82C2-4BC7-8A45-8961AA684D89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Files", "Known.Files\Known.Files.csproj", "{64C82219-F397-4B5A-B837-7A8AD4B7B721}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Cells", "Known.Cells\Known.Cells.csproj", "{64C82219-F397-4B5A-B837-7A8AD4B7B721}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Platform", "Known.Platform\Known.Platform.csproj", "{4E72A487-C85F-42CB-B85D-85D32135C24D}"
 EndProject

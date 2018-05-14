@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using Aspose.Cells;
 
-namespace Known.Files
+namespace Known.Cells
 {
     /// <summary>
     /// Aspose组件实现的Sheet类。

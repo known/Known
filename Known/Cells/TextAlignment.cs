@@ -1,4 +1,4 @@
-﻿namespace Known.Files
+﻿namespace Known.Cells
 {
     /// <summary>
     /// 文本对齐方式。

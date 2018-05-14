@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace Known.Files
+namespace Known.Cells
 {
     /// <summary>
     /// Sheet类。

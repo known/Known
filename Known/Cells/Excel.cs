@@ -2,7 +2,7 @@
 using System.Data;
 using System.Linq;
 
-namespace Known.Files
+namespace Known.Cells
 {
     /// <summary>
     /// Excel类。
