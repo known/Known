@@ -20,7 +20,7 @@ namespace Known.Data
         /// <param name="provider">数据库提供者对象。</param>
         public Database(IDbProvider provider)
         {
-            this.provider = provider ?? throw new ArgumentNullException("database");
+            this.provider = provider ?? throw new ArgumentNullException(nameof(provider));
             ConnectionString = provider.ConnectionString;
         }
 

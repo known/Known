@@ -1,4 +1,6 @@
-﻿namespace Known.Cells
+﻿using System;
+
+namespace Known.Cells
 {
     /// <summary>
     /// Sheet单元格类。
@@ -13,7 +15,7 @@
         /// <param name="cell">单元格接口。</param>
         internal SheetCell(ISheetCell cell)
         {
-            this.cell = cell;
+            this.cell = cell ?? throw new ArgumentNullException(nameof(cell));
             StringValue = cell.StringValue;
             DisplayStringValue = cell.DisplayStringValue;
         }

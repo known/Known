@@ -26,7 +26,7 @@ namespace Known.Data
         public Command(string text, Dictionary<string, object> parameters)
         {
             if (string.IsNullOrWhiteSpace(text))
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             Text = text;
             Parameters = parameters ?? new Dictionary<string, object>();

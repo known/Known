@@ -20,8 +20,7 @@ namespace Known.Cells
         /// <param name="sheet">Sheet接口。</param>
         internal Sheet(ISheet sheet)
         {
-            InnerSheet = sheet ?? throw new ArgumentNullException("sheet");
-
+            InnerSheet = sheet ?? throw new ArgumentNullException(nameof(sheet));
             Index = InnerSheet.Index;
             Name = InnerSheet.Name;
             ColumnCount = InnerSheet.ColumnCount;

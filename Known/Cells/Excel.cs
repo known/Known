@@ -15,11 +15,7 @@ namespace Known.Cells
         /// 构造函数，创建一个Excel类实例。
         /// </summary>
         /// <param name="provider">Excel提供者接口。</param>
-        public Excel(IExcel provider)
-        {
-            Provider = provider ?? throw new ArgumentNullException("provider");
-            Sheets = new SheetCollection(this);
-        }
+        public Excel(IExcel provider) : this(provider, null) { }
 
         /// <summary>
         /// 构造函数，创建一个Excel类实例。
@@ -29,7 +25,7 @@ namespace Known.Cells
         public Excel(IExcel provider, string fileName)
         {
             this.fileName = fileName;
-            Provider = provider ?? throw new ArgumentNullException("provider");
+            Provider = provider ?? throw new ArgumentNullException(nameof(provider));
             Sheets = new SheetCollection(this);
         }
 

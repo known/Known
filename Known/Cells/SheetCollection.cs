@@ -18,7 +18,7 @@ namespace Known.Cells
         /// <param name="excel">Excel对象。</param>
         internal SheetCollection(Excel excel)
         {
-            this.excel = excel ?? throw new ArgumentNullException("excel");
+            this.excel = excel ?? throw new ArgumentNullException(nameof(excel));
             InnerSheets = new List<Sheet>();
             foreach (var sheet in excel.Provider.Sheets)
             {

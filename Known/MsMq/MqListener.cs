@@ -19,7 +19,7 @@ namespace Known.MsMq
         /// <param name="config">MQ配置信息。</param>
         public MqListener(MqConfigInfo config)
         {
-            Config = config ?? throw new ArgumentNullException("config");
+            Config = config ?? throw new ArgumentNullException(nameof(config));
 
             queue = new MessageQueue
             {
