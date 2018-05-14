@@ -95,9 +95,10 @@ namespace Known.Cells
         /// </summary>
         /// <param name="name">Sheet名。</param>
         /// <returns>Sheet对象。</returns>
-        public ISheet AddSheet(string name)
+        public Sheet AddSheet(string name)
         {
-            return Provider.AddSheet(name);
+            var sheet = Provider.AddSheet(name);
+            return new Sheet(sheet);
         }
 
         /// <summary>
