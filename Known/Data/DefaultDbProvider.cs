@@ -18,7 +18,7 @@ namespace Known.Data
         /// <param name="providerName">数据库提供者名称。</param>
         public DefaultDbProvider(IDbConnection connection, string providerName)
         {
-            this.connection = connection;
+            this.connection = connection ?? throw new ArgumentNullException(nameof(connection));
             ProviderName = providerName;
             ConnectionString = connection.ConnectionString;
         }
