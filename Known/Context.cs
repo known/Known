@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Known.Data;
+﻿using Known.Data;
 using Known.Log;
 
 namespace Known
@@ -12,13 +11,18 @@ namespace Known
         /// <summary>
         /// 构造函数，创建上下文实例。
         /// </summary>
+        /// <param name="logger">日志组件。</param>
+        public Context(ILogger logger) : this(null, logger) { }
+
+        /// <summary>
+        /// 构造函数，创建上下文实例。
+        /// </summary>
         /// <param name="database">数据访问组件。</param>
         /// <param name="logger">日志组件。</param>
         public Context(Database database, ILogger logger)
         {
             Database = database;
             Logger = logger;
-            Params = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -32,29 +36,13 @@ namespace Known
         public ILogger Logger { get; }
 
         /// <summary>
-        /// 取得上下文扩展参数字典。
+        /// 取得或设置上下文扩展参数。
         /// </summary>
-        public IDictionary<string, object> Params { get; }
+        public dynamic Param { get; set; }
 
         /// <summary>
         /// 取得或设置当前用户账号。
         /// </summary>
         public string UserName { get; set; }
-
-        /// <summary>
-        /// 转换参数类型。
-        /// </summary>
-        /// <typeparam name="T">参数类型。</typeparam>
-        /// <param name="key">参数键。</param>
-        /// <returns>参数值。</returns>
-        public T Param<T>(string key)
-        {
-            if (Params.ContainsKey(key))
-            {
-                return (T)Params[key];
-            }
-
-            return default(T);
-        }
     }
 }

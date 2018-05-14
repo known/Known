@@ -28,7 +28,7 @@ namespace Known.Data
         /// 获取实体属性映射的数据库栏位名。
         /// </summary>
         /// <param name="property">实体属性。</param>
-        /// <returns></returns>
+        /// <returns>数据库栏位名。</returns>
         public static string GetColumnName(PropertyInfo property)
         {
             var attr = property.GetAttribute<ColumnAttribute>();
