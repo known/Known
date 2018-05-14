@@ -329,11 +329,17 @@ namespace Known.Cells
         /// <param name="row">单元格行号。</param>
         /// <param name="column">单元格列号。</param>
         /// <param name="stream">图片文件流。</param>
-        public void SetCellImage(int row, int column, Stream stream)
+        /// <param name="setting">图片设置。</param>
+        public void SetCellImage(int row, int column, Stream stream, ImageSetting setting = null)
         {
             var index = sheet.Pictures.Add(row, column, stream);
-            sheet.Pictures[index].Left = 10;
-            sheet.Pictures[index].Top = 10;
+            if (setting != null)
+            {
+                sheet.Pictures[index].Left = setting.Left;
+                sheet.Pictures[index].Top = setting.Top;
+                sheet.Pictures[index].Width = setting.Width;
+                sheet.Pictures[index].Height = setting.Height;
+            }
         }
 
         /// <summary>
@@ -342,11 +348,17 @@ namespace Known.Cells
         /// <param name="row">单元格行号。</param>
         /// <param name="column">单元格列号。</param>
         /// <param name="fileName">图片文件路径。</param>
-        public void SetCellImage(int row, int column, string fileName)
+        /// <param name="setting">图片设置。</param>
+        public void SetCellImage(int row, int column, string fileName, ImageSetting setting = null)
         {
             var index = sheet.Pictures.Add(row, column, fileName);
-            sheet.Pictures[index].Left = 10;
-            sheet.Pictures[index].Top = 10;
+            if (setting != null)
+            {
+                sheet.Pictures[index].Left = setting.Left;
+                sheet.Pictures[index].Top = setting.Top;
+                sheet.Pictures[index].Width = setting.Width;
+                sheet.Pictures[index].Height = setting.Height;
+            }
         }
 
         /// <summary>

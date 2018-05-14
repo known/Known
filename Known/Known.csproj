@@ -54,6 +54,7 @@
     <Compile Include="BusinessFactory.cs" />
     <Compile Include="Cache\DefaultCache.cs" />
     <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Cells\ImageSetting.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Data\ColumnInfo.cs" />
