@@ -1,4 +1,4 @@
-﻿namespace Known.Helpers
+﻿namespace Known.Drawing
 {
     /// <summary>
     /// 图片参数选项。

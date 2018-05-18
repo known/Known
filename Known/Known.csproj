@@ -76,10 +76,10 @@
     <Compile Include="Cells\SheetCell.cs" />
     <Compile Include="Cells\SheetCollection.cs" />
     <Compile Include="Cells\TextAlignment.cs" />
-    <Compile Include="Helpers\BarCodeProvider.cs" />
-    <Compile Include="Helpers\CaptchaProvider.cs" />
-    <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="Helpers\ImageOption.cs" />
+    <Compile Include="Drawing\BarCodeProvider.cs" />
+    <Compile Include="Drawing\CaptchaProvider.cs" />
+    <Compile Include="Drawing\ImageHelper.cs" />
+    <Compile Include="Drawing\ImageOption.cs" />
     <Compile Include="Json\DataContractProvider.cs" />
     <Compile Include="Json\DefaultJsonProvider.cs" />
     <Compile Include="Json\IJsonProvider.cs" />

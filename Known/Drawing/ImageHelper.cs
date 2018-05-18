@@ -4,7 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace Known.Helpers
+namespace Known.Drawing
 {
     /// <summary>
     /// 图片帮助者。

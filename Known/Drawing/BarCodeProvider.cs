@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Known.Helpers
+namespace Known.Drawing
 {
     public interface IBarCodeProvider
     {
