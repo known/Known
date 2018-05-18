@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using Known.Json;
+using Known.Serialization;
 
 namespace Known.Extensions
 {

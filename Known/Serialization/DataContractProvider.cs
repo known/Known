@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace Known.Json
+namespace Known.Serialization
 {
     /// <summary>
     /// 数据契约JSON提供者。

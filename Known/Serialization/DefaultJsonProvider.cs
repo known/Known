@@ -1,13 +1,11 @@
-﻿using System.Web.Script.Serialization;
-
-namespace Known.Json
+﻿namespace Known.Serialization
 {
     /// <summary>
-    /// JavaScript提供者。
+    /// 默认JSON提供者类。
     /// </summary>
-    public class JavaScriptProvider : IJsonProvider
+    public class DefaultJsonProvider : IJsonProvider
     {
-        private JavaScriptSerializer serializer = new JavaScriptSerializer();
+        private IJsonProvider provider = new DataContractProvider();
 
         /// <summary>
         /// 将对象序列化成JSON字符串。
@@ -17,7 +15,7 @@ namespace Known.Json
         /// <returns>JSON字符串。</returns>
         public string Serialize<T>(T value)
         {
-            return serializer.Serialize(value);
+            return provider.Serialize(value);
         }
 
         /// <summary>
@@ -28,7 +26,7 @@ namespace Known.Json
         /// <returns>对象实例。</returns>
         public T Deserialize<T>(string json)
         {
-            return serializer.Deserialize<T>(json);
+            return provider.Deserialize<T>(json);
         }
     }
 }

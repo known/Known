@@ -80,11 +80,11 @@
     <Compile Include="Drawing\CaptchaProvider.cs" />
     <Compile Include="Drawing\ImageHelper.cs" />
     <Compile Include="Drawing\ImageOption.cs" />
-    <Compile Include="Json\DataContractProvider.cs" />
-    <Compile Include="Json\DefaultJsonProvider.cs" />
-    <Compile Include="Json\IJsonProvider.cs" />
-    <Compile Include="Json\JavaScriptProvider.cs" />
-    <Compile Include="Json\JsonQueryProvider.cs" />
+    <Compile Include="Serialization\DataContractProvider.cs" />
+    <Compile Include="Serialization\DefaultJsonProvider.cs" />
+    <Compile Include="Serialization\IJsonProvider.cs" />
+    <Compile Include="Serialization\JavaScriptProvider.cs" />
+    <Compile Include="Serialization\JsonQueryProvider.cs" />
     <Compile Include="Log\TraceLogger.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="Mapping\BooleanColumnAttribute.cs" />
