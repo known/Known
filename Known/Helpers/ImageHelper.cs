@@ -12,6 +12,64 @@ namespace Known.Helpers
     public sealed class ImageHelper
     {
         /// <summary>
+        /// 根据内容创建条形码图片。
+        /// </summary>
+        /// <param name="provider">条码提供者。</param>
+        /// <param name="content">条形码内容。</param>
+        /// <returns>条形码图片。</returns>
+        public static Bitmap CreateBarCode(IBarCodeProvider provider, string content)
+        {
+            return provider.CreateBarCode(content);
+        }
+
+        /// <summary>
+        /// 获取条形码内容。
+        /// </summary>
+        /// <param name="provider">条码提供者。</param>
+        /// <param name="bitmap">条形码图片。</param>
+        /// <returns>条形码内容。</returns>
+        public static string GetBarCodeContent(IBarCodeProvider provider, Bitmap bitmap)
+        {
+            return provider.GetBarCodeContent(bitmap);
+        }
+
+        /// <summary>
+        /// 根据内容创建二维码。
+        /// </summary>
+        /// <param name="provider">条码提供者。</param>
+        /// <param name="content">二维码内容。</param>
+        /// <param name="logoFile">二维码图标文件。</param>
+        /// <returns>二维码图片。</returns>
+        public static Bitmap CreateQrCode(IBarCodeProvider provider, string content, string logoFile = null)
+        {
+            var image = provider.CreateQrCode(content);
+            if (!string.IsNullOrWhiteSpace(logoFile))
+            {
+                using (var btm = new Bitmap(logoFile))
+                using (var logo = new Bitmap(btm, image.Width / 5, image.Height / 5))
+                using (var g = Graphics.FromImage(image))
+                {
+                    var x = image.Width / 2 - logo.Width / 2;
+                    var y = image.Height / 2 - logo.Height / 2;
+                    g.DrawImage(logo, x, y);
+                }
+            }
+
+            return image;
+        }
+
+        /// <summary>
+        /// 获取二维码内容。
+        /// </summary>
+        /// <param name="provider">条码提供者。</param>
+        /// <param name="bitmap">二维码图片。</param>
+        /// <returns>二维码内容。</returns>
+        public static string GetQrCodeContent(IBarCodeProvider provider, Bitmap bitmap)
+        {
+            return provider.GetQrCodeContent(bitmap);
+        }
+
+        /// <summary>
         /// 创建验证码图片。
         /// </summary>
         /// <param name="length">验证码字符长度。</param>
