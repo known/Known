@@ -76,6 +76,7 @@
     <Compile Include="Cells\SheetCell.cs" />
     <Compile Include="Cells\SheetCollection.cs" />
     <Compile Include="Cells\TextAlignment.cs" />
+    <Compile Include="Helpers\CaptchaProvider.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\ImageOption.cs" />
     <Compile Include="Json\DataContractProvider.cs" />
