@@ -97,19 +97,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Known.Cells\Known.Cells.csproj">
+      <Project>{64c82219-f397-4b5a-b837-7a8ad4b7b721}</Project>
+      <Name>Known.Cells</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Known\Known.csproj">
       <Project>{f4c9a8c8-eaf9-4ea8-b186-c4b843762d45}</Project>
       <Name>Known</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="KnownTests\Files\" />
-    <Folder Include="KnownTests\Helpers\" />
-    <Folder Include="KnownTests\Json\" />
-    <Folder Include="KnownTests\Mapping\" />
-    <Folder Include="KnownTests\MsMq\" />
-    <Folder Include="KnownTests\Validation\" />
-    <Folder Include="KnownTests\Web\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

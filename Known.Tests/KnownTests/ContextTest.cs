@@ -30,6 +30,7 @@ namespace Known.Tests.KnownTests
             Assert.IsNotNull(context.UserName);
             Assert.IsNull(context.Param);
             Assert.IsEqual(context.UserName, "Known");
+            Assert.IsEqual(context.Database.UserName, "Known");
         }
 
         public static void TestDynamicParam()
