@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -14,12 +13,14 @@ namespace Known
     public class Mail
     {
         private string smtpServer = string.Empty;
+        private int? smtpPort = null;
         private string fromName = string.Empty;
         private string fromEmail = string.Empty;
         private string fromPassword = string.Empty;
         private List<MailAddress> toMails = new List<MailAddress>();
         private List<MailAddress> ccMails = new List<MailAddress>();
         private List<MailAddress> bccMails = new List<MailAddress>();
+        private List<string> attachments = new List<string>();
 
         /// <summary>
         /// 构造函数，创建一个邮件操作类实例。
@@ -36,12 +37,14 @@ namespace Known
         /// 构造函数，创建一个邮件操作类实例。
         /// </summary>
         /// <param name="smtpServer">发送邮件服务器。</param>
+        /// <param name="smtpPort">发送邮件服务器端口。</param>
         /// <param name="fromName">发送者名称。</param>
         /// <param name="fromEmail">发送者邮箱。</param>
         /// <param name="fromPassword">发送者邮箱密码。</param>
-        public Mail(string smtpServer, string fromName, string fromEmail, string fromPassword)
+        public Mail(string smtpServer, int? smtpPort, string fromName, string fromEmail, string fromPassword)
         {
             this.smtpServer = smtpServer;
+            this.smtpPort = smtpPort;
             this.fromName = fromName;
             this.fromEmail = fromEmail;
             this.fromPassword = fromPassword;
@@ -56,7 +59,7 @@ namespace Known
             if (string.IsNullOrWhiteSpace(email))
                 return;
 
-            if (toMails.Count(m => m.Address == email) == 0)
+            if (!toMails.Exists(m => m.Address == email))
             {
                 toMails.Add(new MailAddress(email));
             }
@@ -72,7 +75,7 @@ namespace Known
             if (string.IsNullOrWhiteSpace(email))
                 return;
 
-            if (toMails.Count(m => m.Address == email) == 0)
+            if (!toMails.Exists(m => m.Address == email))
             {
                 toMails.Add(new MailAddress(email, name));
             }
@@ -87,7 +90,7 @@ namespace Known
             if (string.IsNullOrWhiteSpace(email))
                 return;
 
-            if (ccMails.Count(m => m.Address == email) == 0)
+            if (!ccMails.Exists(m => m.Address == email))
             {
                 ccMails.Add(new MailAddress(email));
             }
@@ -103,7 +106,7 @@ namespace Known
             if (string.IsNullOrWhiteSpace(email))
                 return;
 
-            if (ccMails.Count(m => m.Address == email) == 0)
+            if (!ccMails.Exists(m => m.Address == email))
             {
                 ccMails.Add(new MailAddress(email, name));
             }
@@ -118,7 +121,7 @@ namespace Known
             if (string.IsNullOrWhiteSpace(email))
                 return;
 
-            if (bccMails.Count(m => m.Address == email) == 0)
+            if (!bccMails.Exists(m => m.Address == email))
             {
                 bccMails.Add(new MailAddress(email));
             }
@@ -134,9 +137,24 @@ namespace Known
             if (string.IsNullOrWhiteSpace(email))
                 return;
 
-            if (bccMails.Count(m => m.Address == email) == 0)
+            if (!bccMails.Exists(m => m.Address == email))
             {
                 bccMails.Add(new MailAddress(email, name));
+            }
+        }
+
+        /// <summary>
+        /// 添加邮件附件。
+        /// </summary>
+        /// <param name="fileName">附件路径。</param>
+        public void AddAttachment(string fileName)
+        {
+            if (!Utils.ExistsFile(fileName))
+                return;
+
+            if (!attachments.Contains(fileName))
+            {
+                attachments.Add(fileName);
             }
         }
 
@@ -153,27 +171,28 @@ namespace Known
 
             if (!string.IsNullOrEmpty(smtpServer))
             {
-                using (var client = new SmtpClient(smtpServer))
-                using (var message = new MailMessage())
+                using (var client = smtpPort.HasValue
+                                  ? new SmtpClient(smtpServer, smtpPort.Value)
+                                  : new SmtpClient(smtpServer))
                 {
                     client.UseDefaultCredentials = false;
                     client.Credentials = new NetworkCredential(fromEmail, fromPassword);
                     client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    Send(subject, body, isBodyHtml, client, message);
+                    Send(subject, body, isBodyHtml, client);
                 }
             }
             else
             {
                 using (var client = new SmtpClient())
-                using (var message = new MailMessage())
                 {
-                    Send(subject, body, isBodyHtml, client, message);
+                    Send(subject, body, isBodyHtml, client);
                 }
             }
 
             toMails.Clear();
             ccMails.Clear();
             bccMails.Clear();
+            attachments.Clear();
         }
 
         /// <summary>
@@ -182,21 +201,27 @@ namespace Known
         /// <param name="toMails">收件人邮箱，多个用逗号分隔。</param>
         /// <param name="subject">邮件主题。</param>
         /// <param name="body">邮件内容。</param>
+        /// <param name="attachments">附件文件列表。</param>
         /// <param name="isBodyHtml">邮件内容格式是否为HTML。</param>
-        public static void Send(string toMails, string subject, string body, bool isBodyHtml = true)
+        public static void Send(string toMails, string subject, string body, List<string> attachments = null, bool isBodyHtml = true)
         {
             if (string.IsNullOrWhiteSpace(toMails))
                 return;
 
             var smtpServer = Config.AppSetting("SmtpServer");
+            var smtpPort = Config.AppSetting<int?>("SmtpPort");
             var fromName = Config.AppSetting("FromName");
             var fromEmail = Config.AppSetting("FromEmail");
             var fromPassword = Config.AppSetting("FromPassword");
-            var mail = new Mail(smtpServer, fromName, fromEmail, fromPassword);
+            var mail = new Mail(smtpServer, smtpPort, fromName, fromEmail, fromPassword);
             var tos = toMails.Split(',');
             foreach (var item in tos)
             {
                 mail.AddTo(item);
+            }
+            if (attachments != null && attachments.Count > 0)
+            {
+                attachments.ForEach(a => mail.AddAttachment(a));
             }
             mail.Send(subject, body, isBodyHtml);
         }
@@ -215,22 +240,25 @@ namespace Known
                 return;
             }
 
-            Send(exceptionMails, subject, ex.ToString(), false);
+            Send(exceptionMails, subject, ex.ToString(), null, false);
         }
 
-        private void Send(string subject, string body, bool isBodyHtml, SmtpClient client, MailMessage message)
+        private void Send(string subject, string body, bool isBodyHtml, SmtpClient client)
         {
             try
             {
-                message.From = new MailAddress(fromEmail, fromName);
-                toMails.ForEach(m => message.To.Add(m));
-                ccMails.ForEach(m => message.CC.Add(m));
-                bccMails.ForEach(m => message.Bcc.Add(m));
-                message.Subject = subject;
-                message.Body = body;
-                message.BodyEncoding = Encoding.UTF8;
-                message.IsBodyHtml = isBodyHtml;
-                client.Send(message);
+                using (var message = new MailMessage())
+                {
+                    message.From = new MailAddress(fromEmail, fromName);
+                    toMails.ForEach(m => message.To.Add(m));
+                    ccMails.ForEach(m => message.CC.Add(m));
+                    bccMails.ForEach(m => message.Bcc.Add(m));
+                    message.Subject = subject;
+                    message.Body = body;
+                    message.BodyEncoding = Encoding.UTF8;
+                    message.IsBodyHtml = isBodyHtml;
+                    client.Send(message);
+                }
             }
             catch
             {

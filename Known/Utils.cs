@@ -134,6 +134,19 @@ namespace Known
 
         #region File
         /// <summary>
+        /// 确定指定的文件是否存在！
+        /// </summary>
+        /// <param name="fileName">文件路径。</param>
+        /// <returns>存在文件返回True，否则返回False。</returns>
+        public static bool ExistsFile(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                return false;
+
+            return File.Exists(fileName);
+        }
+
+        /// <summary>
         /// 确信文件路径存在，若不存在，则自动创建。
         /// </summary>
         /// <param name="fileName">文件路径。</param>
