@@ -1,4 +1,6 @@
-﻿namespace Known
+﻿using System;
+
+namespace Known
 {
     /// <summary>
     /// 业务逻辑基类。
@@ -11,7 +13,7 @@
         /// <param name="context">上下文对象。</param>
         public Business(Context context)
         {
-            Context = context;
+            Context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         /// <summary>
