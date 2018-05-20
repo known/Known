@@ -22,7 +22,10 @@ namespace Known
             {
                 lock (cached.SyncRoot)
                 {
-                    cached[key] = Activator.CreateInstance<TImpl>();
+                    if (!cached.ContainsKey(key))
+                    {
+                        cached[key] = Activator.CreateInstance<TImpl>();
+                    }
                 }
             }
         }
@@ -40,7 +43,10 @@ namespace Known
             {
                 lock (cached.SyncRoot)
                 {
-                    cached[key] = instance;
+                    if (!cached.ContainsKey(key))
+                    {
+                        cached[key] = instance;
+                    }
                 }
             }
         }
