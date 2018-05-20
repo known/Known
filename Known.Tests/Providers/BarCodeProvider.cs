@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Text;
+using BarcodeLib;
 using Known.Drawing;
 using ThoughtWorks.QRCode.Codec;
 using ThoughtWorks.QRCode.Codec.Data;
@@ -11,7 +13,15 @@ namespace Known.Tests.Providers
     {
         public Bitmap CreateBarCode(string content)
         {
-            throw new NotImplementedException();
+            var barcode = new Barcode();
+            barcode.BackColor = Color.Transparent;
+            barcode.ForeColor = Color.Black;
+            barcode.IncludeLabel = true;
+            barcode.Alignment = AlignmentPositions.CENTER;
+            barcode.LabelPosition = LabelPositions.BOTTOMCENTER;
+            barcode.ImageFormat = ImageFormat.Png;
+            var image = barcode.Encode(TYPE.CODE39, content);
+            return new Bitmap(image);
         }
 
         public string GetBarCodeContent(Bitmap bitmap)
