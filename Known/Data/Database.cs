@@ -30,9 +30,9 @@ namespace Known.Data
         public string ConnectionString { get; }
 
         /// <summary>
-        /// 取得或设置当前用户账号。
+        /// 取得当前用户账号。
         /// </summary>
-        public string UserName { get; set; }
+        public string UserName { get; internal set; }
 
         /// <summary>
         /// 执行增删改SQL语句。

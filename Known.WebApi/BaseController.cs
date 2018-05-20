@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Web;
+using System.Web.Http;
 using Known.Log;
 
 namespace Known.WebApi
@@ -20,11 +21,9 @@ namespace Known.WebApi
                 if (context == null)
                 {
                     var database = Config.GetDatabase();
-                    var logger = new ConsoleLogger();
-                    context = new Context(database, logger);
+                    var logger = new TraceLogger(HttpRuntime.AppDomainAppPath);
+                    context = new Context(database, logger, UserName);
                 }
-                context.UserName = UserName;
-                context.Database.UserName = UserName;
                 return context;
             }
         }
