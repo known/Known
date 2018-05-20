@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.Common;
 
 namespace Known.Data
 {
@@ -14,13 +16,15 @@ namespace Known.Data
         /// <summary>
         /// 构造函数，创建一个数据访问提供者实例。
         /// </summary>
-        /// <param name="connection">数据库连接对象。</param>
-        /// <param name="providerName">数据库提供者名称。</param>
-        public DefaultDbProvider(IDbConnection connection, string providerName)
+        /// <param name="name">数据库链接名称。</param>
+        public DefaultDbProvider(string name)
         {
-            this.connection = connection ?? throw new ArgumentNullException(nameof(connection));
-            ProviderName = providerName;
-            ConnectionString = connection.ConnectionString;
+            var setting = ConfigurationManager.ConnectionStrings[name];
+            var factory = DbProviderFactories.GetFactory(setting.ProviderName);
+            connection = factory.CreateConnection();
+            connection.ConnectionString = setting.ConnectionString;
+            ProviderName = setting.ProviderName;
+            ConnectionString = setting.ConnectionString;
         }
 
         /// <summary>

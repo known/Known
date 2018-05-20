@@ -1,5 +1,4 @@
 ﻿using System.Configuration;
-using System.Data.Common;
 using Known.Data;
 
 namespace Known
@@ -52,12 +51,7 @@ namespace Known
         /// <returns>数据库对象。</returns>
         public static Database GetDatabase(string name)
         {
-            var setting = ConfigurationManager.ConnectionStrings[name];
-            var factory = DbProviderFactories.GetFactory(setting.ProviderName);
-            var connection = factory.CreateConnection();
-            connection.ConnectionString = setting.ConnectionString;
-            var provider = new DefaultDbProvider(connection, setting.ProviderName);
-            return new Database(provider);
+            return new Database(new DefaultDbProvider(name));
         }
     }
 }
