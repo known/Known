@@ -102,10 +102,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Known.Platform\Known.Platform.csproj">
-      <Project>{4e72a487-c85f-42cb-b85d-85d32135c24d}</Project>
-      <Name>Known.Platform</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Known\Known.csproj">
       <Project>{f4c9a8c8-eaf9-4ea8-b186-c4b843762d45}</Project>
       <Name>Known</Name>

@@ -57,6 +57,12 @@
     <Compile Include="Cells\ImageSetting.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Context.cs" />
+    <Compile Include="Core\Application.cs" />
+    <Compile Include="Core\Button.cs" />
+    <Compile Include="Core\Company.cs" />
+    <Compile Include="Core\Department.cs" />
+    <Compile Include="Core\Module.cs" />
+    <Compile Include="Core\User.cs" />
     <Compile Include="Data\ColumnInfo.cs" />
     <Compile Include="Data\Command.cs" />
     <Compile Include="Data\CommandCache.cs" />
