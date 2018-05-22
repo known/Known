@@ -38,6 +38,11 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(Utils.ToRmb(12M), "壹拾贰元整");
         }
 
+        public static void TestHideMobile()
+        {
+            Assert.IsEqual(Utils.HideMobile("13812345678"), "138****5678");
+        }
+
         public static void TestToMd5()
         {
             var value = "test";

@@ -86,6 +86,16 @@ namespace Known
 
             return result;
         }
+
+        /// <summary>
+        /// 隐藏手机号码中间4位。
+        /// </summary>
+        /// <param name="mobile">手机号码。</param>
+        /// <returns>隐藏的手机号码。</returns>
+        public static string HideMobile(string mobile)
+        {
+            return Regex.Replace(mobile, "(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+        }
         #endregion
 
         #region Encrypt
