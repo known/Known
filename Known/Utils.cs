@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Known
 {
@@ -67,6 +68,23 @@ namespace Known
             {
                 return defaultValue;
             }
+        }
+
+        /// <summary>
+        /// 将金额数值转换成人民币大写格式。
+        /// </summary>
+        /// <param name="value">金额数值。</param>
+        /// <returns>金额人民币大写格式。</returns>
+        public static string ToRmb(decimal value)
+        {
+            var s = value.ToString("#L#E#D#C#K#E#D#C#J#E#D#C#I#E#D#C#H#E#D#C#G#E#D#C#F#E#D#C#.0B0A");
+            var d = Regex.Replace(s, @"((?<=-|^)[^\-1-9]*)|((?'z'0)[0A-E]*((?=[1-9])|(?'-z'(?=[F-L\.]|$))))|((?'b'[F-L])(?'z'0)[0A-L]*((?=[1-9])|(?'-z'(?=[\.]|$))))", "${b}${z}");
+            var rmb = "负元空零壹贰叁肆伍陆柒捌玖空空空空空空空分角拾佰仟万亿兆京垓秭穰";
+            var result = Regex.Replace(d, ".", m => rmb[m.Value[0] - '-'].ToString());
+            if (result.EndsWith("元"))
+                result = result + "整";
+
+            return result;
         }
         #endregion
 

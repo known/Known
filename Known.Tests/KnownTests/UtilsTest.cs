@@ -32,6 +32,12 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(Utils.ConvertTo<TestEnum>(0), TestEnum.Enum1);
         }
 
+        public static void TestToRmb()
+        {
+            Assert.IsEqual(Utils.ToRmb(12.45M), "壹拾贰元肆角伍分");
+            Assert.IsEqual(Utils.ToRmb(12M), "壹拾贰元整");
+        }
+
         public static void TestToMd5()
         {
             var value = "test";
