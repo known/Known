@@ -12,10 +12,6 @@
         /// <summary>
         /// 警告。
         /// </summary>
-        Warn,
-        /// <summary>
-        /// 信息。
-        /// </summary>
-        Info
+        Warn
     }
 }

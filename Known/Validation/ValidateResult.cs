@@ -40,14 +40,6 @@ namespace Known.Validation
         }
 
         /// <summary>
-        /// 取得是否有信息消息。
-        /// </summary>
-        public bool HasInfo
-        {
-            get { return Infos.Exists(v => v.Level == ValidLevel.Info); }
-        }
-
-        /// <summary>
         /// 取得错误消息。
         /// </summary>
         public string ErrorMessage
@@ -61,14 +53,6 @@ namespace Known.Validation
         public string WarnMessage
         {
             get { return GetMessages(ValidLevel.Warn); }
-        }
-
-        /// <summary>
-        /// 取得信息消息。
-        /// </summary>
-        public string InfoMessage
-        {
-            get { return GetMessages(ValidLevel.Info); }
         }
 
         private string GetMessages(ValidLevel level)
