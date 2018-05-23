@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Security;
+using Known.Extensions;
 
 namespace Known.Web.Controllers
 {
@@ -36,24 +37,21 @@ namespace Known.Web.Controllers
             return View();
         }
 
+        class menu
+        {
+            public string id { get; set; }
+            public string text { get; set; }
+            public string url { get; set; }
+            public string iconCls { get; set; }
+            public List<menu> children { get; set; }
+        }
         /// <summary>
         /// 获取当前用户菜单数据。
         /// </summary>
         /// <returns>菜单数据。</returns>
         public ActionResult GetUserMenus()
         {
-            var menus = new List<object>() {
-                new {
-                    title = "系统管理",
-                    icon = "icon-computer",
-                    herf = "",
-                    children = new List<object>()
-                    {
-                        new { title = "模块管理", icon = "&#xe61c;", herf = "/Sys/Module" },
-                        new { title = "角色管理", icon = "&#xe609;", herf = "/Sys/Role" }
-                    }
-                }
-            };
+            var menus = System.IO.File.ReadAllText(Server.MapPath("~/menu.json")).FromJson<List<menu>>();
             return JsonResult(menus);
         }
 

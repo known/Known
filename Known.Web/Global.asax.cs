@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Known.Web.Providers;
 
 namespace Known.Web
 {
@@ -18,6 +19,7 @@ namespace Known.Web
         protected void Application_Start(object sender, EventArgs e)
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
+            ProviderConfig.RegisterProviders();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 

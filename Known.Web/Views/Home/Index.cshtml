@@ -27,20 +27,12 @@
     <div class="header" data-options="region:'north'">
         <div class="sysTitle">Known管理系统</div>
     </div>
-    <div data-options="region:'west',title:'导航',split:true" style="width:200px;">
-        <div class="easyui-accordion" style="height:100%;border:none;">
-            <div title="About easyui" iconCls="icon-reload" style="padding:10px;">
-                easyui help you build your web page easily
-            </div>
-            <div title="系统管理" iconCls="icon-reload" selected="true">
-                <ul id="tt1" class="easyui-tree"></ul>
-            </div>
-        </div>
+    <div data-options="region:'west',title:'导航',split:true" style="width:200px;overflow:auto;">
+        <ul id="tt1" class="easyui-tree"></ul>
     </div>
     <div data-options="region:'center'" style="border:none;">
         <div id="tt" class="easyui-tabs" style="height:100%;">
-            <div title="Home">
-            </div>
+            <div title="Home"></div>
         </div>
     </div>
     <div class="footer" data-options="region:'south'">
@@ -67,37 +59,7 @@
         }
 
         $('#tt1').tree({
-            data: [
-                {
-                    text: '功能管理',
-                    state: 'open',
-                    children: [
-                        {
-                            text: '常用网站',
-                            children: [
-                                {
-                                    text: '百度',
-                                    url: 'http://www.baidu.com'
-                                },
-                                {
-                                    text: '博客园',
-                                    url: 'http://www.cnblogs.com'
-                                },
-                                {
-                                    text: '开源中国',
-                                    url: 'http://www.oschina.com'
-                                }
-                            ]
-                        },
-                        {
-                            text: 'Item12'
-                        }
-                    ]
-                },
-                {
-                    text: 'Item2'
-                }
-            ],
+            url: '@Url.Action("GetUserMenus", "User")',
             onClick: function (node) {
                 console.log(node);
                 if (node.url) {

@@ -1,0 +1,158 @@
+﻿[
+  {
+    "text": "系统管理",
+    "children": [
+      {
+        "text": "模块管理",
+        "url": "http://www.baidu.com"
+      },
+      {
+        "text": "角色管理",
+        "url": "http://www.cnblogs.com"
+      },
+      {
+        "text": "用户管理",
+        "url": "http://www.oschina.com"
+      }
+    ]
+  },
+  {
+    "text": "其他工具",
+    "children": [
+      {
+        "text": "常用网站",
+        "children": [
+          {
+            "text": "百度",
+            "url": "http://www.baidu.com"
+          },
+          {
+            "text": "博客园",
+            "url": "http://www.cnblogs.com"
+          },
+          {
+            "text": "开源中国",
+            "url": "http://www.oschina.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "系统管理",
+    "children": [
+      {
+        "text": "模块管理1",
+        "url": "http://www.baidu.com"
+      },
+      {
+        "text": "角色管理1",
+        "url": "http://www.cnblogs.com"
+      },
+      {
+        "text": "用户管理1",
+        "url": "http://www.oschina.com"
+      }
+    ]
+  },
+  {
+    "text": "其他工具",
+    "children": [
+      {
+        "text": "常用网站",
+        "children": [
+          {
+            "text": "百度1",
+            "url": "http://www.baidu.com"
+          },
+          {
+            "text": "博客园1",
+            "url": "http://www.cnblogs.com"
+          },
+          {
+            "text": "开源中国1",
+            "url": "http://www.oschina.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "系统管理",
+    "children": [
+      {
+        "text": "模块管理2",
+        "url": "http://www.baidu.com"
+      },
+      {
+        "text": "角色管理2",
+        "url": "http://www.cnblogs.com"
+      },
+      {
+        "text": "用户管理2",
+        "url": "http://www.oschina.com"
+      }
+    ]
+  },
+  {
+    "text": "其他工具",
+    "children": [
+      {
+        "text": "常用网站",
+        "children": [
+          {
+            "text": "百度2",
+            "url": "http://www.baidu.com"
+          },
+          {
+            "text": "博客园2",
+            "url": "http://www.cnblogs.com"
+          },
+          {
+            "text": "开源中国2",
+            "url": "http://www.oschina.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "系统管理",
+    "children": [
+      {
+        "text": "模块管理3",
+        "url": "http://www.baidu.com"
+      },
+      {
+        "text": "角色管理3",
+        "url": "http://www.cnblogs.com"
+      },
+      {
+        "text": "用户管理3",
+        "url": "http://www.oschina.com"
+      }
+    ]
+  },
+  {
+    "text": "其他工具",
+    "children": [
+      {
+        "text": "常用网站",
+        "children": [
+          {
+            "text": "百度3",
+            "url": "http://www.baidu.com"
+          },
+          {
+            "text": "博客园3",
+            "url": "http://www.cnblogs.com"
+          },
+          {
+            "text": "开源中国3",
+            "url": "http://www.oschina.com"
+          }
+        ]
+      }
+    ]
+  }
+]
