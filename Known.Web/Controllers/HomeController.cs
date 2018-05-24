@@ -5,7 +5,7 @@ namespace Known.Web.Controllers
     /// <summary>
     /// 主页控制器。
     /// </summary>
-    public class HomeController : BaseController
+    public class HomeController : AuthorizeController
     {
         /// <summary>
         /// 默认首页。

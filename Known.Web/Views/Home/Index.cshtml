@@ -25,7 +25,7 @@
 </head>
 <body class="easyui-layout">
     <div class="header" data-options="region:'north'">
-        <div class="sysTitle">Known管理系统</div>
+        <div class="sysTitle">@ViewBag.SystemName</div>
     </div>
     <div data-options="region:'west',title:'导航',split:true" style="width:200px;overflow:auto;">
         <ul id="tt1" class="easyui-tree"></ul>
@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="footer" data-options="region:'south'">
-        <div class="welcomeInfo">欢迎您！</div>
+        <div class="welcomeInfo">欢迎您！@User.Identity.Name</div>
         <div class="copyright">&copy; Known</div>
     </div>
 

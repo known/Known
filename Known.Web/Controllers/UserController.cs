@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Security;
 using Known.Extensions;
+using Known.Web.Filters;
 
 namespace Known.Web.Controllers
 {
@@ -49,6 +50,7 @@ namespace Known.Web.Controllers
         /// 获取当前用户菜单数据。
         /// </summary>
         /// <returns>菜单数据。</returns>
+        [LoginAuthorize]
         public ActionResult GetUserMenus()
         {
             var menus = System.IO.File.ReadAllText(Server.MapPath("~/menu.json")).FromJson<List<menu>>();
@@ -84,6 +86,7 @@ namespace Known.Web.Controllers
         /// 退出系统。
         /// </summary>
         [HttpPost]
+        [LoginAuthorize]
         public void SignOut()
         {
             FormsAuthentication.SignOut();

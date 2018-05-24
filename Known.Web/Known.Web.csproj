@@ -86,6 +86,7 @@
     <Content Include="static\adminlte\css\bootstrap.min.css" />
     <Content Include="static\adminlte\css\font-awesome.min.css" />
     <Content Include="static\common\common.js" />
+    <Content Include="static\login\login.css" />
     <Content Include="static\common\pdfobject.min.js" />
     <Content Include="static\easyui\easyloader.js" />
     <Content Include="static\easyui\easyui-lang-zh_CN.js" />
@@ -268,7 +269,7 @@
     <Content Include="static\layui\modules\login\login.css" />
     <Content Include="static\layui\modules\main\main.css" />
     <Content Include="static\adminlte\css\site.css" />
-    <Content Include="static\img\face.jpg" />
+    <Content Include="static\images\face.jpg" />
     <Content Include="static\layui\modules\bodyTab.js" />
     <Content Include="static\adminlte\js\bootstrap.min.js" />
     <Content Include="static\layui\modules\main\main.js" />
@@ -376,6 +377,8 @@
     <Content Include="static\layui\lay\modules\tree.js" />
     <Content Include="static\layui\lay\modules\upload.js" />
     <Content Include="static\layui\lay\modules\util.js" />
+    <Content Include="static\login\images\aiwrap.png" />
+    <Content Include="static\login\images\web_login_bg.jpg" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -403,6 +406,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseController.cs" />
+    <Compile Include="AuthorizeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\LoginAuthorizeAttribute.cs" />
