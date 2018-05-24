@@ -85,6 +85,8 @@
     <Content Include="Global.asax" />
     <Content Include="static\adminlte\css\bootstrap.min.css" />
     <Content Include="static\adminlte\css\font-awesome.min.css" />
+    <Content Include="static\common\common.js" />
+    <Content Include="static\common\pdfobject.min.js" />
     <Content Include="static\easyui\easyloader.js" />
     <Content Include="static\easyui\easyui-lang-zh_CN.js" />
     <Content Include="static\easyui\jquery.easyui.min.js" />
