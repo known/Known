@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "static/common/common.min.js",
+    "inputFiles": [
+      "static/common/common.js"
+    ]
+  }
+]

@@ -81,11 +81,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="menu.json" />
+    <None Include="bundleconfig.json" />
     <None Include="packages.config" />
     <Content Include="Global.asax" />
     <Content Include="static\adminlte\css\bootstrap.min.css" />
     <Content Include="static\adminlte\css\font-awesome.min.css" />
     <Content Include="static\common\common.js" />
+    <Content Include="static\common\common.min.js">
+      <DependentUpon>common.js</DependentUpon>
+    </Content>
     <Content Include="static\login\login.css" />
     <Content Include="static\common\pdfobject.min.js" />
     <Content Include="static\easyui\easyloader.js" />
