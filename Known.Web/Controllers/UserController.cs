@@ -15,8 +15,9 @@ namespace Known.Web.Controllers
         /// 登录页面。
         /// </summary>
         /// <returns></returns>
-        public ActionResult Login()
+        public ActionResult Login(string backUrl)
         {
+            ViewBag.BackUrl = backUrl;
             return View();
         }
 
@@ -62,24 +63,23 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="account">登录账号。</param>
         /// <param name="password">登录密码。</param>
-        /// <param name="rememberMe">是否记住我。</param>
-        /// <param name="returnUrl">登录成功后跳转的地址。</param>
+        /// <param name="backUrl">登录成功后跳转的地址。</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SignIn(string account, string password, bool rememberMe, string returnUrl)
+        public ActionResult SignIn(string account, string password, string backUrl)
         {
             account = account.ToLower();
             var result = Api.Post<dynamic>("/api/user/signin", new { account, password });
             if (result.status == 1)
                 return ErrorResult(result.message);
 
-            FormsAuthentication.SetAuthCookie(account, rememberMe);
+            FormsAuthentication.SetAuthCookie(account, true);
             CurrentUser = result;
 
-            if (string.IsNullOrEmpty(returnUrl))
-                returnUrl = FormsAuthentication.DefaultUrl;
+            if (string.IsNullOrEmpty(backUrl))
+                backUrl = FormsAuthentication.DefaultUrl;
 
-            return SuccessResult("登录成功，正在跳转页面......", returnUrl);
+            return SuccessResult("登录成功，正在跳转页面......", backUrl);
         }
 
         /// <summary>

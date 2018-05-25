@@ -10,27 +10,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="~/static/login/login.css">
+    <link rel="stylesheet" href="~/static/comm/css/login.css">
 </head>
 <body>
-
     <div class="login">
         <div class="message">@ViewBag.SystemName</div>
         <div id="darkbannerwrap"></div>
-
-        <form method="post">
-            <input name="action" value="login" type="hidden">
-            <input name="username" placeholder="用户名" required="" type="text" autocomplete="off">
+        <div>
+            <input type="text" id="account" placeholder="用户名" autocomplete="off">
             <hr class="hr15">
-            <input name="password" placeholder="密码" required="" type="password">
+            <input type="password" id="password" placeholder="密码">
             <hr class="hr15">
-            <input value="登录" style="width:100%;" type="submit">
+            <input type="button" id="btnLogin" value="登录" style="width:100%;">
             <hr class="hr20">
-            <a onClick="alert('请联系管理员！')">忘记密码</a>
-        </form>
-
+            <div id="error" style="color:#f00"></div>
+        </div>
     </div>
-    <div class="copyright">© 2017 KNOWN</div>
+    <div class="copyright">© 2018 KNOWN</div>
 
+    <script src="~/static/comm/js/jquery.min.js"></script>
+    <script src="~/static/comm/js/jquery.md5.js"></script>
+    <script src="~/static/comm/js/common.js"></script>
+    <script>
+        $(function () {
+            $('#btnLogin').click(function () {
+                var account = $('#account').val();
+                var password = $('#password').val();
+                if (!account) {
+                    _showMessage('请输入用户名！');
+                    return;
+                }
+                if (!password) {
+                    _showMessage('请输入密码！');
+                    return;
+                }
+
+                _showMessage('');
+                $(this).attr('disabled', 'disabled').val('登录中...');
+                Ajax.postJson('@Url.Action("SignIn", "User")', {
+                    account: account, password: $.md5(password), backUrl: '@ViewBag.BackUrl'
+                }, function (result) {
+                    _showMessage(result.Message);
+                    if (result.IsValid) {
+                        location = result.Data;
+                    }
+                });
+
+                function _showMessage(message) {
+                    $('#error').html(message);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

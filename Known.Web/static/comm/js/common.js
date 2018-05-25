@@ -115,30 +115,36 @@ Array.prototype.max = function (prop) {
 };
 
 ///////////////////////////////////////////////////////////////////////
-$.fn.extend({
-    loadHtml: function (url, data, complete) {
-        var $this = $(this).html('加载中....');
-        $.get(url, data, function (result) {
-            if ($.isPlainObject(result)) {
-                console.log(result);
-            } else {
-                $this.html(result);
-                if (complete) {
-                    complete();
+var Ajax = {
+    _request: function (type, dataType, url, param, callback) {
+        $.ajax({
+            type: type, dataType: dataType,
+            url: url, data: param,
+            cache: false, async: true,
+            success: function (result) {
+                if (callback) {
+                    callback(result);
                 }
             }
         });
-        return $this;
     },
-    loadPdf: function (url) {
-        var reg = new RegExp('.pdf$');
-        if (reg.test(url)) {
-            PDFObject.embed(url, $(this));
-        } else {
-            $(this).html('<img src="' + url + '" />');
-        }
+    getText: function (url, param, callback) {
+        this._request('get', 'text', url, param, callback);
+    },
+    postText: function (url, param, callback) {
+        this._request('post', 'text', url, param, callback);
+    },
+    getJson: function (url, param, callback) {
+        this._request('get', 'json', url, param, callback);
+    },
+    postJson: function (url, param, callback) {
+        this._request('post', 'json', url, param, callback);
     }
-});
+};
+
+///////////////////////////////////////////////////////////////////////
+var Message = {
+};
 
 ///////////////////////////////////////////////////////////////////////
 $(document).ajaxSend(function (evt, xhr, settings) {

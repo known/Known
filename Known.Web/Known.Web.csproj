@@ -86,12 +86,14 @@
     <Content Include="Global.asax" />
     <Content Include="static\adminlte\css\bootstrap.min.css" />
     <Content Include="static\adminlte\css\font-awesome.min.css" />
-    <Content Include="static\common\common.js" />
-    <Content Include="static\common\common.min.js">
+    <Content Include="static\comm\js\common.js" />
+    <Content Include="static\comm\js\common.min.js">
       <DependentUpon>common.js</DependentUpon>
     </Content>
-    <Content Include="static\login\login.css" />
-    <Content Include="static\common\pdfobject.min.js" />
+    <Content Include="static\comm\js\jquery.md5.js" />
+    <Content Include="static\comm\js\jquery.min.js" />
+    <Content Include="static\comm\css\login.css" />
+    <Content Include="static\comm\js\pdfobject.min.js" />
     <Content Include="static\easyui\easyloader.js" />
     <Content Include="static\easyui\easyui-lang-zh_CN.js" />
     <Content Include="static\easyui\jquery.easyui.min.js" />
@@ -381,8 +383,8 @@
     <Content Include="static\layui\lay\modules\tree.js" />
     <Content Include="static\layui\lay\modules\upload.js" />
     <Content Include="static\layui\lay\modules\util.js" />
-    <Content Include="static\login\images\aiwrap.png" />
-    <Content Include="static\login\images\web_login_bg.jpg" />
+    <Content Include="static\comm\css\images\aiwrap.png" />
+    <Content Include="static\comm\css\images\web_login_bg.jpg" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />

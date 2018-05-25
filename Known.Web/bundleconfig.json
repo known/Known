@@ -4,5 +4,11 @@
     "inputFiles": [
       "static/common/common.js"
     ]
+  },
+  {
+    "outputFileName": "static/comm/js/common.min.js",
+    "inputFiles": [
+      "static/comm/js/common.js"
+    ]
   }
 ]
