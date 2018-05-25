@@ -69,7 +69,7 @@ namespace Known.Web.Controllers
         public ActionResult SignIn(string account, string password, string backUrl)
         {
             account = account.ToLower();
-            var result = Api.Post<dynamic>("/api/user/signin", new { account, password });
+            var result = Api.Post<dynamic>("/user/signin", new { account, password });
             if (result.status == 1)
                 return ErrorResult(result.message);
 
