@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using System.Net.Http;
 using System.Web;
+using Known.Web.Extensions;
 
-namespace Known.Web.Extensions
+namespace Known.Web.Api.Extensions
 {
     /// <summary>
     /// Http请求消息扩展类。

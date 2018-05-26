@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using Known.Web.Filters;
+using Known.Web.Api.Filters;
 
 namespace Known.Web.Api
 {
