@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Known.Core
+namespace Known.Platform
 {
     /// <summary>
     /// 部门。

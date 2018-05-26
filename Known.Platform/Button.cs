@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace Known.Core
+﻿namespace Known.Platform
 {
     /// <summary>
-    /// 应用程序。
+    /// 按钮。
     /// </summary>
-    public class Application
+    public class Button
     {
         /// <summary>
         /// 取得或设置ID。
@@ -18,8 +16,8 @@ namespace Known.Core
         public string Name { get; set; }
 
         /// <summary>
-        /// 取得或设置模块集合。
+        /// 取得或设置图标。
         /// </summary>
-        public List<Module> Modules { get; set; }
+        public string Icon { get; set; }
     }
 }

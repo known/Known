@@ -74,7 +74,7 @@ namespace Known.Web.Controllers
             //    return ErrorResult(result.message);
 
             FormsAuthentication.SetAuthCookie(account, true);
-            CurrentUser = new Core.User();
+            //CurrentUser = result;
 
             if (string.IsNullOrEmpty(backUrl))
                 backUrl = FormsAuthentication.DefaultUrl;

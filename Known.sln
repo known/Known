@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Web", "Known.Web\Know
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Cells", "Known.Cells\Known.Cells.csproj", "{64C82219-F397-4B5A-B837-7A8AD4B7B721}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Platform", "Known.Platform\Known.Platform.csproj", "{C9A9D3EB-4AE0-4026-827F-8B47CB6B8027}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{64C82219-F397-4B5A-B837-7A8AD4B7B721}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64C82219-F397-4B5A-B837-7A8AD4B7B721}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64C82219-F397-4B5A-B837-7A8AD4B7B721}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9A9D3EB-4AE0-4026-827F-8B47CB6B8027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9A9D3EB-4AE0-4026-827F-8B47CB6B8027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9A9D3EB-4AE0-4026-827F-8B47CB6B8027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9A9D3EB-4AE0-4026-827F-8B47CB6B8027}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
