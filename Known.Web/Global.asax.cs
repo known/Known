@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Known.Web.Api;
 using Known.Web.Providers;
 
 namespace Known.Web
@@ -20,6 +22,10 @@ namespace Known.Web
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
             ProviderConfig.RegisterProviders();
+
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            AreaRegistration.RegisterAllAreas();
+            //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 

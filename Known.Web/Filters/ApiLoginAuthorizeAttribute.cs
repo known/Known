@@ -7,16 +7,15 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Known.Extensions;
-using Known.Web;
-using Known.WebApi.Extensions;
+using Known.Web.Extensions;
 
-namespace Known.WebApi.Filters
+namespace Known.Web.Filters
 {
     /// <summary>
-    /// 用户身份认证特性。
+    /// WebApi用户身份认证特性。
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    public class LoginAuthorizeAttribute : AuthorizeAttribute
+    public class ApiLoginAuthorizeAttribute : AuthorizeAttribute
     {
         private const int ExpiredSeconds = 600;
 

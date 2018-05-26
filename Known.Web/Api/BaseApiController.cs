@@ -2,12 +2,12 @@
 using System.Web.Http;
 using Known.Log;
 
-namespace Known.WebApi
+namespace Known.Web.Api
 {
     /// <summary>
-    /// 控制器基类。
+    /// WebApi控制器基类。
     /// </summary>
-    public class BaseController : ApiController
+    public class BaseApiController : ApiController
     {
         private Context context;
 

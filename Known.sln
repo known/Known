@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Web", "Known.Web\Know
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Cells", "Known.Cells\Known.Cells.csproj", "{64C82219-F397-4B5A-B837-7A8AD4B7B721}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.WebApi", "Known.WebApi\Known.WebApi.csproj", "{B919F4FF-2A70-42BE-BF37-539C5F1C0E24}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{64C82219-F397-4B5A-B837-7A8AD4B7B721}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64C82219-F397-4B5A-B837-7A8AD4B7B721}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64C82219-F397-4B5A-B837-7A8AD4B7B721}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B919F4FF-2A70-42BE-BF37-539C5F1C0E24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B919F4FF-2A70-42BE-BF37-539C5F1C0E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B919F4FF-2A70-42BE-BF37-539C5F1C0E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B919F4FF-2A70-42BE-BF37-539C5F1C0E24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
