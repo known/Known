@@ -14,11 +14,5 @@
             var database = Config.GetDatabase();
             Assert.IsEqual(database.ConnectionString, @"Data Source=.\SQLEXPRESS;Database=xxx;User Id=xx;Password=xxx;");
         }
-
-        public static void TestGetDatabase()
-        {
-            var database = Config.GetDatabase("Default");
-            Assert.IsEqual(database.ConnectionString, @"Data Source=.\SQLEXPRESS;Database=xxx;User Id=xx;Password=xxx;");
-        }
     }
 }

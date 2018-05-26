@@ -97,9 +97,7 @@ namespace Known.Web
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException("url");
 
-            if (!url.StartsWith("http"))
-                url = Config.AppSetting("ApiBaseUrl") + url;
-
+            SetApiBaseUrl(url);
             url += "?" + GetQueryString(method, args);
             var handler = new HttpClientHandler
             {
@@ -153,6 +151,17 @@ namespace Known.Web
             var values = dic.Where(d => d.Key != "body")
                             .Select(d => string.Format("{0}={1}", d.Key, HttpUtility.UrlEncode(d.Value.ToString())));
             return string.Join("&", values);
+        }
+
+        private static void SetApiBaseUrl(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                return;
+
+            if (!url.StartsWith("http"))
+            {
+                url = Config.AppSetting("ApiBaseUrl") + url;
+            }
         }
     }
 }

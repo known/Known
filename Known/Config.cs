@@ -17,10 +17,15 @@ namespace Known
         /// 根据key获取config文件AppSetting值。
         /// </summary>
         /// <param name="key">配置key。</param>
+        /// <param name="defaultValue">为空时的默认值。</param>
         /// <returns>key对应的value值。</returns>
-        public static string AppSetting(string key)
+        public static string AppSetting(string key, string defaultValue = null)
         {
-            return ConfigurationManager.AppSettings[key];
+            var value = ConfigurationManager.AppSettings[key];
+            if (string.IsNullOrWhiteSpace(value))
+                return defaultValue;
+
+            return value;
         }
 
         /// <summary>
@@ -28,10 +33,14 @@ namespace Known
         /// </summary>
         /// <typeparam name="T">value值转换类型。</typeparam>
         /// <param name="key">配置key。</param>
+        /// <param name="defaultValue">为空时的默认值。</param>
         /// <returns>key对应的value值。</returns>
-        public static T AppSetting<T>(string key)
+        public static T AppSetting<T>(string key, T defaultValue = default(T))
         {
             var value = AppSetting(key);
+            if (string.IsNullOrWhiteSpace(value))
+                return defaultValue;
+
             return Utils.ConvertTo<T>(value);
         }
 
@@ -41,17 +50,11 @@ namespace Known
         /// <returns>数据库对象。</returns>
         public static Database GetDatabase()
         {
-            return GetDatabase(DefaultConnectionName);
-        }
+            var provider = Container.Load<IDbProvider>();
+            if (provider == null)
+                provider = new DefaultDbProvider(DefaultConnectionName);
 
-        /// <summary>
-        /// 获取config文件中指定name的数据库对象。
-        /// </summary>
-        /// <param name="name">数据库链接名称。</param>
-        /// <returns>数据库对象。</returns>
-        public static Database GetDatabase(string name)
-        {
-            return new Database(new DefaultDbProvider(name));
+            return new Database(provider);
         }
     }
 }
