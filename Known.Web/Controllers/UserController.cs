@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Security;
 using Known.Extensions;
+using Known.Platform;
 using Known.Web.Filters;
 
 namespace Known.Web.Controllers
@@ -58,6 +59,12 @@ namespace Known.Web.Controllers
             return JsonResult(menus);
         }
 
+        class result
+        {
+            public int status { get; set; }
+            public string message { get; set; }
+            public User data { get; set; }
+        }
         /// <summary>
         /// 登录验证。
         /// </summary>
@@ -69,12 +76,12 @@ namespace Known.Web.Controllers
         public ActionResult SignIn(string userName, string password, string backUrl)
         {
             userName = userName.ToLower();
-            var result = Api.Get<dynamic>("/api/user/signin", new { userName, password });
+            var result = Api.Get<result>("/api/user/signin", new { userName, password });
             if (result.status == 1)
-                return ErrorResult((string)result.message);
+                return ErrorResult(result.message);
 
             FormsAuthentication.SetAuthCookie(userName, true);
-            CurrentUser = result as Platform.User;
+            CurrentUser = result.data;
 
             if (string.IsNullOrEmpty(backUrl))
                 backUrl = FormsAuthentication.DefaultUrl;
