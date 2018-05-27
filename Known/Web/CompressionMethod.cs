@@ -14,11 +14,11 @@
         /// </summary>
         Automatic,
         /// <summary>
-        /// GZip。
+        /// GZip压缩。
         /// </summary>
         GZip,
         /// <summary>
-        /// Deflate。
+        /// Deflate压缩。
         /// </summary>
         Deflate
     }

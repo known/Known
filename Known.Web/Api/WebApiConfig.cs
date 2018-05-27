@@ -17,7 +17,7 @@ namespace Known.Web.Api
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             config.MessageHandlers.Add(new BasicAuthenticationHandler());
-            //config.MessageHandlers.Add(new DecompressionHandler());
+            config.MessageHandlers.Add(new DecompressionHandler());
             config.Filters.Add(new ApiLoginAuthorizeAttribute());
             config.Filters.Add(new ApiTrackActionAttribute());
         }
