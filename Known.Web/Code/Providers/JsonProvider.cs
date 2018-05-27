@@ -1,7 +1,7 @@
 ﻿using Known.Serialization;
 using Newtonsoft.Json;
 
-namespace Known.Web.Providers
+namespace Known.Providers
 {
     /// <summary>
     /// JSON提供者。

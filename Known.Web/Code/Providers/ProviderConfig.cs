@@ -1,6 +1,6 @@
 ﻿using Known.Serialization;
 
-namespace Known.Web.Providers
+namespace Known.Providers
 {
     /// <summary>
     /// 提供者配置。

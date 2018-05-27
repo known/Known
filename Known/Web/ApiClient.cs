@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
 using Known.Extensions;
+using Known.Web.Extensions;
 
 namespace Known.Web
 {
@@ -97,8 +98,7 @@ namespace Known.Web
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException("url");
 
-            SetApiBaseUrl(url);
-            url += "?" + GetQueryString(method, args);
+            url = GetApiFullUrl(url) + "?" + GetQueryString(method, args);
             var handler = new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
@@ -119,7 +119,6 @@ namespace Known.Web
                     httpClient.DefaultRequestHeaders.Accept.Add(meta);
                     var data = args.ToJson();
                     HttpContent content = new StringContent(data, Encoding.UTF8, "application/json");
-
                     if (compressionMethod == CompressionMethod.Automatic && data.Length >= lengthThreshold)
                         content = new CompressedContent(content, defaultCompressionMethod);
                     else if (compressionMethod == CompressionMethod.GZip || compressionMethod == CompressionMethod.Deflate)
@@ -153,15 +152,22 @@ namespace Known.Web
             return string.Join("&", values);
         }
 
-        private static void SetApiBaseUrl(string url)
+        private static string GetApiFullUrl(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
-                return;
+                return string.Empty;
 
-            if (!url.StartsWith("http"))
+            if (url.StartsWith("http"))
+                return url;
+
+            var baseUrl = Config.AppSetting("ApiBaseUrl");
+            if (string.IsNullOrWhiteSpace(baseUrl))
             {
-                url = Config.AppSetting("ApiBaseUrl") + url;
+                if (HttpContext.Current != null)
+                    baseUrl = HttpContext.Current.Request.GetHostName();
             }
+
+            return baseUrl + url;
         }
     }
 }

@@ -422,26 +422,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\BaseApiController.cs" />
+    <Compile Include="Api\Controllers\UserController.cs" />
     <Compile Include="Api\WebApiConfig.cs" />
-    <Compile Include="BaseController.cs" />
-    <Compile Include="AuthorizeController.cs" />
+    <Compile Include="Code\BaseController.cs" />
+    <Compile Include="Code\AuthorizeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Api\Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Api\Extensions\HttpRequestMessageExtension.cs" />
     <Compile Include="Api\Filters\ApiLoginAuthorizeAttribute.cs" />
+    <Compile Include="Code\FilterConfig.cs" />
     <Compile Include="Filters\LoginAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\JsonProvider.cs" />
-    <Compile Include="Providers\ProviderConfig.cs" />
-    <Compile Include="RouteConfig.cs" />
+    <Compile Include="Code\Providers\JsonProvider.cs" />
+    <Compile Include="Code\Providers\ProviderConfig.cs" />
+    <Compile Include="Code\RouteConfig.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Api\Controllers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Known.Cells\Known.Cells.csproj">
       <Project>{64c82219-f397-4b5a-b837-7a8ad4b7b721}</Project>
