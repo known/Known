@@ -24,6 +24,8 @@
     </style>
 </head>
 <body class="easyui-layout">
+    @Html.AntiForgeryToken()
+
     <div class="header" data-options="region:'north'">
         <div class="sysTitle">@ViewBag.SystemName</div>
     </div>

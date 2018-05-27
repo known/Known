@@ -126,6 +126,7 @@
     <Compile Include="Web\BasicAuthenticationIdentity.cs" />
     <Compile Include="Web\CompressedContent.cs" />
     <Compile Include="Web\CompressionMethod.cs" />
+    <Compile Include="Web\DoNotTrackAttribute.cs" />
     <Compile Include="Web\Extensions\HttpContextExtension.cs" />
     <Compile Include="Web\Extensions\HttpRequestBaseExtension.cs" />
     <Compile Include="Web\Extensions\HttpRequestExtension.cs" />

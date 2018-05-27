@@ -49,7 +49,7 @@ namespace Known.Web
             {
                 if (api == null)
                 {
-                    if (IsAuthenticated)
+                    if (IsAuthenticated && CurrentUser != null)
                         api = new ApiClient(CurrentUser.Token);
                     else
                         api = new ApiClient();

@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="~/static/comm/css/login.css">
 </head>
 <body>
+    @Html.AntiForgeryToken()
+
     <div class="login">
         <div class="message">@ViewBag.SystemName</div>
         <div id="darkbannerwrap"></div>

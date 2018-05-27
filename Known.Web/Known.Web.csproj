@@ -423,6 +423,9 @@
   <ItemGroup>
     <Compile Include="Api\BaseApiController.cs" />
     <Compile Include="Api\Controllers\UserController.cs" />
+    <Compile Include="Api\Filters\ApiTrackActionAttribute.cs" />
+    <Compile Include="Api\RequestTracker.cs" />
+    <Compile Include="Api\TrackHelper.cs" />
     <Compile Include="Api\WebApiConfig.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\AuthorizeController.cs" />
@@ -432,7 +435,9 @@
     <Compile Include="Api\Extensions\HttpRequestMessageExtension.cs" />
     <Compile Include="Api\Filters\ApiLoginAuthorizeAttribute.cs" />
     <Compile Include="Code\FilterConfig.cs" />
+    <Compile Include="Filters\AntiForgeryAttribute.cs" />
     <Compile Include="Filters\LoginAuthorizeAttribute.cs" />
+    <Compile Include="Filters\TrackActionAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

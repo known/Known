@@ -19,7 +19,7 @@ namespace Known.Web.Api
             config.MessageHandlers.Add(new BasicAuthenticationHandler());
             //config.MessageHandlers.Add(new DecompressionHandler());
             config.Filters.Add(new ApiLoginAuthorizeAttribute());
-            //config.Filters.Add(new TrackAttribute());
+            config.Filters.Add(new ApiTrackActionAttribute());
         }
     }
 }

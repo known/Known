@@ -9,6 +9,8 @@
     @RenderSection("Head", false)
 </head>
 <body>
+    @Html.AntiForgeryToken()
+
     @RenderBody()
 
     <script src="~/static/easyui/jquery.min.js"></script>
