@@ -18,7 +18,7 @@
         <div class="message">@ViewBag.SystemName</div>
         <div id="darkbannerwrap"></div>
         <div>
-            <input type="text" id="account" placeholder="用户名" autocomplete="off">
+            <input type="text" id="userName" placeholder="用户名" autocomplete="off">
             <hr class="hr15">
             <input type="password" id="password" placeholder="密码">
             <hr class="hr15">
@@ -35,9 +35,9 @@
     <script>
         $(function () {
             $('#btnLogin').click(function () {
-                var account = $('#account').val();
+                var userName = $('#userName').val();
                 var password = $('#password').val();
-                if (!account) {
+                if (!userName) {
                     _showMessage('请输入用户名！');
                     return;
                 }
@@ -47,13 +47,15 @@
                 }
 
                 _showMessage('');
-                $(this).attr('disabled', 'disabled').val('登录中...');
+                var $this = $(this).attr('disabled', 'disabled').val('登录中...');
                 Ajax.postJson('@Url.Action("SignIn", "User")', {
-                    account: account, password: $.md5(password), backUrl: '@ViewBag.BackUrl'
+                    userName: userName, password: $.md5(password), backUrl: '@ViewBag.BackUrl'
                 }, function (result) {
                     _showMessage(result.Message);
                     if (result.IsValid) {
                         location = result.Data;
+                    } else {
+                        $this.removeAttr('disabled').val('登录');
                     }
                 });
 

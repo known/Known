@@ -27,9 +27,9 @@
         public string Message { get; }
 
         /// <summary>
-        /// 取得或设置要返回的数据。
+        /// 取得返回的数据对象。
         /// </summary>
-        public dynamic Data { get; set; }
+        public dynamic Data { get; private set; }
 
         /// <summary>
         /// 创建错误的操作结果实例。

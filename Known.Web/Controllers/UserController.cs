@@ -61,20 +61,20 @@ namespace Known.Web.Controllers
         /// <summary>
         /// 登录验证。
         /// </summary>
-        /// <param name="account">登录账号。</param>
+        /// <param name="userName">登录账号。</param>
         /// <param name="password">登录密码。</param>
         /// <param name="backUrl">登录成功后跳转的地址。</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SignIn(string account, string password, string backUrl)
+        public ActionResult SignIn(string userName, string password, string backUrl)
         {
-            account = account.ToLower();
-            var result = Api.Post<dynamic>("/api/user/signin", new { account, password });
+            userName = userName.ToLower();
+            var result = Api.Get<dynamic>("/api/user/signin", new { userName, password });
             if (result.status == 1)
-                return ErrorResult(result.message);
+                return ErrorResult((string)result.message);
 
-            FormsAuthentication.SetAuthCookie(account, true);
-            CurrentUser = result;
+            FormsAuthentication.SetAuthCookie(userName, true);
+            CurrentUser = result as Platform.User;
 
             if (string.IsNullOrEmpty(backUrl))
                 backUrl = FormsAuthentication.DefaultUrl;

@@ -8,7 +8,7 @@ namespace Known.Web.Filters
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var request = filterContext.HttpContext.Request;
-            if (request.HttpMethod.ToLower() != "post")
+            if (request.HttpMethod != "POST")
                 return;
 
             if (request.IsAjaxRequest())

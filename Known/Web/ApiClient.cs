@@ -51,11 +51,11 @@ namespace Known.Web
         /// GET请求数据。
         /// </summary>
         /// <param name="url">请求的URL。</param>
-        /// <param name="args">请求的参数。</param>
+        /// <param name="param">请求的参数。</param>
         /// <returns>请求的结果。</returns>
-        public string Get(string url, IDictionary<string, object> args = null)
+        public string Get(string url, dynamic param = null)
         {
-            return Request("GET", url, args);
+            return Request("GET", url, param);
         }
 
         /// <summary>
@@ -63,11 +63,12 @@ namespace Known.Web
         /// </summary>
         /// <typeparam name="T">返回的数据类型。</typeparam>
         /// <param name="url">请求的URL。</param>
-        /// <param name="args">请求的参数。</param>
+        /// <param name="param">请求的参数。</param>
         /// <returns>指定类型的数据。</returns>
-        public T Get<T>(string url, IDictionary<string, object> args = null)
+        public T Get<T>(string url, dynamic param = null)
         {
-            return Get(url, args).FromJson<T>();
+            var json = Get(url, param) as string;
+            return json.FromJson<T>();
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace Known.Web
         /// <param name="url">请求的URL。</param>
         /// <param name="data">请求的参数。</param>
         /// <returns>请求的结果。</returns>
-        public string Post(string url, object data)
+        public string Post(string url, dynamic data)
         {
             return Request("POST", url, data);
         }
@@ -88,17 +89,19 @@ namespace Known.Web
         /// <param name="url">请求的URL。</param>
         /// <param name="data">请求的参数。</param>
         /// <returns>指定类型的数据。</returns>
-        public T Post<T>(string url, object data)
+        public T Post<T>(string url, dynamic data)
         {
-            return Post(url, data).FromJson<T>();
+            var json = Post(url, data) as string;
+            return json.FromJson<T>();
         }
 
-        private string Request(string method, string url, object args, CompressionMethod compressionMethod = CompressionMethod.Automatic)
+        private string Request(string method, string url, dynamic param, CompressionMethod compressionMethod = CompressionMethod.Automatic)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException("url");
 
-            url = GetApiFullUrl(url) + "?" + GetQueryString(method, args);
+            var query = GetQueryString(method, param);
+            url = GetApiFullUrl(url) + "?" + query;
             var handler = new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
@@ -117,7 +120,7 @@ namespace Known.Web
                 {
                     var meta = new MediaTypeWithQualityHeaderValue("application/json");
                     httpClient.DefaultRequestHeaders.Accept.Add(meta);
-                    var data = args.ToJson();
+                    var data = param.ToJson();
                     HttpContent content = new StringContent(data, Encoding.UTF8, "application/json");
                     if (compressionMethod == CompressionMethod.Automatic && data.Length >= lengthThreshold)
                         content = new CompressedContent(content, defaultCompressionMethod);
@@ -132,20 +135,28 @@ namespace Known.Web
             }
         }
 
-        private static string GetQueryString(string method, object args)
+        private static string GetQueryString(string method, dynamic param)
         {
             var dic = new Dictionary<string, object>();
-            if (args != null)
+            if (param != null)
             {
                 if (method == "GET")
-                    ((IDictionary<string, object>)args).ToList().ForEach(e => dic.Add(e.Key, e.Value));
+                {
+                    var properties = param.GetType().GetProperties();
+                    foreach (var item in properties)
+                    {
+                        dic[item.Name] = item.GetValue(param);
+                    }
+                }
                 else
-                    dic.Add("body", args.ToJson());
+                {
+                    dic["body"] = param.ToJson();
+                }
             }
 
-            dic.Add("timestamp", DateTime.Now.ToTimestamp());
-            dic.Add("nonce", Utils.NewGuid);
-            dic.Add("sign", dic.ToMd5Signature());
+            dic["timestamp"] = DateTime.Now.ToTimestamp();
+            dic["nonce"] = Utils.NewGuid;
+            dic["sign"] = dic.ToMd5Signature();
 
             var values = dic.Where(d => d.Key != "body")
                             .Select(d => string.Format("{0}={1}", d.Key, HttpUtility.UrlEncode(d.Value.ToString())));
