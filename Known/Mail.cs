@@ -198,7 +198,7 @@ namespace Known
         /// <summary>
         /// 使用默认配置邮件服务发送邮件。
         /// </summary>
-        /// <param name="toMails">收件人邮箱，多个用逗号分隔。</param>
+        /// <param name="toMails">收件人邮箱，多个用分号分隔。</param>
         /// <param name="subject">邮件主题。</param>
         /// <param name="body">邮件内容。</param>
         /// <param name="attachments">附件文件列表。</param>
@@ -214,7 +214,7 @@ namespace Known
             var fromEmail = Config.AppSetting("FromEmail");
             var fromPassword = Config.AppSetting("FromPassword");
             var mail = new Mail(smtpServer, smtpPort, fromName, fromEmail, fromPassword);
-            var tos = toMails.Split(',');
+            var tos = toMails.Split(';', '；');
             foreach (var item in tos)
             {
                 mail.AddTo(item);

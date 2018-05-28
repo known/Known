@@ -75,8 +75,9 @@ namespace Known.Web.Controllers
         [HttpPost]
         public ActionResult SignIn(string userName, string password, string backUrl)
         {
+            var appId = Config.AppSetting("SystemId");
             userName = userName.ToLower();
-            var result = Api.Get<result>("/api/user/signin", new { userName, password });
+            var result = Api.Get<result>("/api/user/signin", new { appId, userName, password });
             if (result.status == 1)
                 return ErrorResult(result.message);
 

@@ -7,12 +7,16 @@ namespace Known.Web.Api.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-        public object SignIn(string userName, string password)
+        public object SignIn(string appId, string userName, string password)
         {
             if (userName != "13")
                 return ApiResult.Error("用户名不存在！");
 
-            return ApiResult.Success(new User { UserName = userName });
+            var user = new User
+            {
+                UserName = userName
+            };
+            return ApiResult.Success(user);
         }
     }
 }
