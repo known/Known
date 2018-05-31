@@ -137,6 +137,26 @@ namespace Known.Drawing
         }
 
         /// <summary>
+        /// 调整图片大小。
+        /// </summary>
+        /// <param name="source">调整前的图片。</param>
+        /// <param name="width">调整后的宽度。</param>
+        /// <param name="height">调整后的高度。</param>
+        /// <returns>调整后的图片。</returns>
+        public static Image ResizeImage(Image source, int width, int height)
+        {
+            var target = new Bitmap(width, height);
+            using(var graphic = Graphics.FromImage(target))
+            {
+                var destRect = new Rectangle(0, 0, width, height);
+                var srcRect = new Rectangle(0, 0, source.Width, source.Height);
+                graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphic.DrawImage(source, destRect, srcRect, GraphicsUnit.Pixel);
+            }
+            return target;
+        }
+
+        /// <summary>
         /// 保存切割的图片。
         /// </summary>
         /// <param name="stream">要切割的图片文件流。</param>
@@ -175,7 +195,7 @@ namespace Known.Drawing
                 using (var gWater = Graphics.FromImage(thumbnail))
                 {
                     var fontWater = new Font("黑体", 10);
-                    var brushWater = new SolidBrush(Color.White);
+                    var brushWater = new SolidBrush(Color.BlueViolet);
                     gWater.DrawString(option.WatermarkText, fontWater, brushWater, 10, 10);
                 }
             }
