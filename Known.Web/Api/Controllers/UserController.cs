@@ -9,12 +9,13 @@ namespace Known.Web.Api.Controllers
         [AllowAnonymous]
         public object SignIn(string appId, string userName, string password)
         {
-            if (userName != "13")
+            if (userName != "known")
                 return ApiResult.Error("用户名不存在！");
 
             var user = new User
             {
                 UserName = userName
+                
             };
             return ApiResult.Success(user);
         }
