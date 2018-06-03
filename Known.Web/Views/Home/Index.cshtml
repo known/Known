@@ -28,9 +28,23 @@
 
     <div class="header" data-options="region:'north'">
         <div class="sysTitle">@ViewBag.SystemName</div>
+        <div style="float:right;">
+            欢迎您！@User.Identity.Name 
+            <span onclick="logout()">退出</span>
+        </div>
     </div>
-    <div data-options="region:'west',title:'导航',split:true" style="width:200px;overflow:auto;">
-        <ul id="tt1" class="easyui-tree"></ul>
+    <div data-options="region:'west',split:true" style="width:200px;overflow:auto;">
+        <div class="easyui-accordion" style="height:100%;">
+            <div title="开发平台" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+                <ul id="tt1" class="easyui-tree"></ul>
+            </div>
+            <div title="系统管理" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+                <ul id="tt2" class="easyui-tree"></ul>
+            </div>
+            <div title="业务系统" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+                <ul id="tt3" class="easyui-tree"></ul>
+            </div>
+        </div>
     </div>
     <div data-options="region:'center'" style="border:none;">
         <div id="tt" class="easyui-tabs" style="height:100%;">
@@ -38,7 +52,7 @@
         </div>
     </div>
     <div class="footer" data-options="region:'south'">
-        <div class="welcomeInfo">欢迎您！@User.Identity.Name</div>
+        <div class="welcomeInfo"></div>
         <div class="copyright">&copy; Known</div>
     </div>
 
@@ -61,7 +75,13 @@
             }
         }
 
-        $('#tt1').tree({
+        function logout() {
+            $.post('@Url.Action("SignOut", "User")', function () {
+                location.reload();
+            });
+        }
+
+        $('#tt1,#tt2,#tt3').tree({
             url: '@Url.Action("GetUserMenus", "User")',
             onClick: function (node) {
                 console.log(node);

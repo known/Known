@@ -63,7 +63,7 @@ namespace Known.Web.Controllers
         {
             public int status { get; set; }
             public string message { get; set; }
-            public User data { get; set; }
+            public dynamic data { get; set; }
         }
         /// <summary>
         /// 登录验证。
@@ -82,7 +82,7 @@ namespace Known.Web.Controllers
                 return ErrorResult(result.message);
 
             FormsAuthentication.SetAuthCookie(userName, true);
-            CurrentUser = result.data;
+            CurrentUser = result.data as User;
 
             if (string.IsNullOrEmpty(backUrl))
                 backUrl = FormsAuthentication.DefaultUrl;
