@@ -59,12 +59,6 @@ namespace Known.Web.Controllers
             return JsonResult(menus);
         }
 
-        class result
-        {
-            public int status { get; set; }
-            public string message { get; set; }
-            public dynamic data { get; set; }
-        }
         /// <summary>
         /// 登录验证。
         /// </summary>
@@ -77,12 +71,12 @@ namespace Known.Web.Controllers
         {
             var appId = Config.AppSetting("SystemId");
             userName = userName.ToLower();
-            var result = Api.Get<result>("/api/user/signin", new { appId, userName, password });
-            if (result.status == 1)
-                return ErrorResult(result.message);
+            var result = Api.Get<ApiResult>("/api/user/signin", new { appId, userName, password });
+            if (result.Status == 1)
+                return ErrorResult(result.Message);
 
             FormsAuthentication.SetAuthCookie(userName, true);
-            CurrentUser = result.data as User;
+            CurrentUser = result.Data as User;
 
             if (string.IsNullOrEmpty(backUrl))
                 backUrl = FormsAuthentication.DefaultUrl;

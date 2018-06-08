@@ -7,7 +7,7 @@ namespace Known.Web.Api.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-        public object SignIn(string appId, string userName, string password)
+        public ApiResult SignIn(string appId, string userName, string password)
         {
             if (userName != "known")
                 return ApiResult.Error("用户名不存在！");

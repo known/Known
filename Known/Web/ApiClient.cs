@@ -18,7 +18,7 @@ namespace Known.Web
     {
         private readonly int lengthThreshold = 5000;
         private readonly CompressionMethod defaultCompressionMethod = CompressionMethod.GZip;
-        private AuthenticationHeaderValue authorization;
+        private readonly AuthenticationHeaderValue authorization;
 
         /// <summary>
         /// 构造函数，创建一个Api客户端实例。
