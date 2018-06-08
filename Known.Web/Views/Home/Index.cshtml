@@ -14,6 +14,7 @@
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="~/static/easyui/themes/metro/easyui.css">
     <link rel="stylesheet" href="~/static/easyui/themes/icon.css">
+    <link rel="stylesheet" href="~/static/fontawesome/css/fontawesome-all.min.css">
     <style>
         .header{height:55px;background-color:#2d3e50;color:#fff;border:none;}
         .footer{height:30px;background-color:#f2f2f2;}
@@ -28,20 +29,20 @@
 
     <div class="header" data-options="region:'north'">
         <div class="sysTitle">@ViewBag.SystemName</div>
-        <div style="float:right;">
-            欢迎您！@User.Identity.Name 
-            <span onclick="logout()">退出</span>
+        <div style="float:right;padding:5px 10px;">
+            欢迎您！@User.Identity.Name
+            <span onclick="logout()" class="fa fa-power-off" title="安全退出"></span>
         </div>
     </div>
     <div data-options="region:'west',split:true" style="width:200px;overflow:auto;">
-        <div class="easyui-accordion" style="height:100%;">
-            <div title="开发平台" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+        <div class="easyui-accordion" style="border:none;height:99%;">
+            <div title="开发平台" data-options="iconCls:'icon-ok'" style="overflow:auto;">
                 <ul id="tt1" class="easyui-tree"></ul>
             </div>
-            <div title="系统管理" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+            <div title="系统管理" data-options="iconCls:'icon-ok'" style="overflow:auto;">
                 <ul id="tt2" class="easyui-tree"></ul>
             </div>
-            <div title="业务系统" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+            <div title="业务系统" data-options="iconCls:'icon-ok'" style="overflow:auto;">
                 <ul id="tt3" class="easyui-tree"></ul>
             </div>
         </div>

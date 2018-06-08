@@ -282,6 +282,19 @@
     <Content Include="static\easyui\themes\metro\images\tree_icons.png" />
     <Content Include="static\easyui\themes\metro\images\validatebox_warning.png" />
     <Content Include="static\easyui\themes\mobile.css" />
+    <Content Include="static\fontawesome\css\fa-brands.css" />
+    <Content Include="static\fontawesome\css\fa-brands.min.css" />
+    <Content Include="static\fontawesome\css\fa-regular.css" />
+    <Content Include="static\fontawesome\css\fa-regular.min.css" />
+    <Content Include="static\fontawesome\css\fa-solid.css" />
+    <Content Include="static\fontawesome\css\fa-solid.min.css" />
+    <Content Include="static\fontawesome\css\fontawesome-all.css" />
+    <Content Include="static\fontawesome\css\fontawesome-all.min.css" />
+    <Content Include="static\fontawesome\css\fontawesome.css" />
+    <Content Include="static\fontawesome\css\fontawesome.min.css" />
+    <Content Include="static\fontawesome\webfonts\fa-brands-400.svg" />
+    <Content Include="static\fontawesome\webfonts\fa-regular-400.svg" />
+    <Content Include="static\fontawesome\webfonts\fa-solid-900.svg" />
     <Content Include="static\layui\modules\login\login.css" />
     <Content Include="static\layui\modules\main\main.css" />
     <Content Include="static\adminlte\css\site.css" />
@@ -408,6 +421,18 @@
     <Content Include="static\layui\font\iconfont.woff" />
     <Content Include="static\easyui\themes\material-teal\images\Thumbs.db" />
     <Content Include="static\easyui\themes\material\images\Thumbs.db" />
+    <Content Include="static\fontawesome\webfonts\fa-brands-400.eot" />
+    <Content Include="static\fontawesome\webfonts\fa-brands-400.ttf" />
+    <Content Include="static\fontawesome\webfonts\fa-brands-400.woff" />
+    <Content Include="static\fontawesome\webfonts\fa-brands-400.woff2" />
+    <Content Include="static\fontawesome\webfonts\fa-regular-400.eot" />
+    <Content Include="static\fontawesome\webfonts\fa-regular-400.ttf" />
+    <Content Include="static\fontawesome\webfonts\fa-regular-400.woff" />
+    <Content Include="static\fontawesome\webfonts\fa-regular-400.woff2" />
+    <Content Include="static\fontawesome\webfonts\fa-solid-900.eot" />
+    <Content Include="static\fontawesome\webfonts\fa-solid-900.ttf" />
+    <Content Include="static\fontawesome\webfonts\fa-solid-900.woff" />
+    <Content Include="static\fontawesome\webfonts\fa-solid-900.woff2" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
