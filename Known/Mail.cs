@@ -12,11 +12,11 @@ namespace Known
     /// </summary>
     public class Mail
     {
-        private string smtpServer = string.Empty;
+        private readonly string smtpServer = string.Empty;
         private int? smtpPort = null;
-        private string fromName = string.Empty;
-        private string fromEmail = string.Empty;
-        private string fromPassword = string.Empty;
+        private readonly string fromName = string.Empty;
+        private readonly string fromEmail = string.Empty;
+        private readonly string fromPassword = string.Empty;
         private List<MailAddress> toMails = new List<MailAddress>();
         private List<MailAddress> ccMails = new List<MailAddress>();
         private List<MailAddress> bccMails = new List<MailAddress>();
