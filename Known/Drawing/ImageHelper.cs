@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 
 namespace Known.Drawing
 {
@@ -219,6 +221,183 @@ namespace Known.Drawing
             thumbnail = null;
             image.Dispose();
             image = null;
+        }
+
+        /// <summary>
+        /// 保存图片为缩略图。
+        /// </summary>
+        /// <param name="sourceFile">源图片文件路径。</param>
+        /// <param name="destFile">目标图片文件路径。</param>
+        /// <param name="destWidth">目标图片宽度。</param>
+        /// <param name="destHeight">目标图片高度。</param>
+        /// <param name="rate">压缩的比例1-100。</param>
+        /// <returns>是否保存成功。</returns>
+        public static bool SaveThumbnail(string sourceFile, string destFile, int destWidth, int destHeight, int rate)
+        {
+            var iSource = Image.FromFile(sourceFile);
+            var tFormat = iSource.RawFormat;
+            int sW = 0, sH = 0;
+
+            //按比例缩放
+            var tem_size = new Size(iSource.Width, iSource.Height);
+
+            if (tem_size.Width > destHeight || tem_size.Width > destWidth) //将**改成c#中的或者操作符号
+            {
+                if ((tem_size.Width * destHeight) > (tem_size.Height * destWidth))
+                {
+                    sW = destWidth;
+                    sH = (destWidth * tem_size.Height) / tem_size.Width;
+                }
+                else
+                {
+                    sH = destHeight;
+                    sW = (tem_size.Width * destHeight) / tem_size.Height;
+                }
+            }
+            else
+            {
+                sW = tem_size.Width;
+                sH = tem_size.Height;
+            }
+
+            var ob = new Bitmap(destWidth, destHeight);
+            var g = Graphics.FromImage(ob);
+            g.Clear(Color.WhiteSmoke);
+            g.CompositingQuality = CompositingQuality.HighQuality;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.DrawImage(iSource, new Rectangle((destWidth - sW) / 2, (destHeight - sH) / 2, sW, sH), 0, 0, iSource.Width, iSource.Height, GraphicsUnit.Pixel);
+            g.Dispose();
+
+            //以下代码为保存图片时，设置压缩质量
+            var ep = new EncoderParameters();
+            var qy = new long[1];
+            qy[0] = rate;//设置压缩的比例1-100
+            var eParam = new EncoderParameter(Encoder.Quality, qy);
+            ep.Param[0] = eParam;
+
+            try
+            {
+                var arrayICI = ImageCodecInfo.GetImageEncoders();
+                ImageCodecInfo jpegICIinfo = null;
+
+                for (int x = 0; x < arrayICI.Length; x++)
+                {
+                    if (arrayICI[x].FormatDescription.Equals("JPEG"))
+                    {
+                        jpegICIinfo = arrayICI[x];
+                        break;
+                    }
+                }
+
+                if (jpegICIinfo != null)
+                {
+                    ob.Save(destFile, jpegICIinfo, ep);//dFile是压缩后的新路径
+                }
+                else
+                {
+                    ob.Save(destFile, tFormat);
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                iSource.Dispose();
+                ob.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// TIFF文件转成JPG图片。
+        /// </summary>
+        /// <param name="tifFile">TIF文件路径。</param>
+        /// <param name="jpgFile">JPG文件路径。</param>
+        public static void TiffToJpg(string tifFile, string jpgFile)
+        {
+            var files = new List<string>();
+            var file = new FileInfo(tifFile);
+            using (var stream = file.OpenRead())
+            {
+                var bmp = new Bitmap(stream);
+                Image image = bmp;
+                var guid = image.FrameDimensionsList[0];
+                var dimension = new FrameDimension(guid);
+                int frameCount = image.GetFrameCount(dimension);
+                var path = Path.GetDirectoryName(jpgFile);
+                var createPath = Path.Combine(path, "Combine");
+                if (!Directory.Exists(createPath))
+                    Directory.CreateDirectory(createPath);
+                var jpgFileName = Path.GetFileNameWithoutExtension(jpgFile);
+                for (int i = 0; i < frameCount; i++)
+                {
+                    var tmpJpg = createPath + jpgFileName + i + ".jpg";
+                    image.SelectActiveFrame(dimension, i);
+                    image.Save(tmpJpg, ImageFormat.Jpeg);
+                    files.Add(tmpJpg);
+                }
+                image.Dispose();
+                stream.Close();
+                CombineImages(files, jpgFile);
+            }
+            files.ForEach(f => Utils.DeleteFile(f));
+        }
+
+        /// <summary>
+        /// 合并多张图片。
+        /// </summary>
+        /// <param name="sourceFiles">源图片文件集合。</param>
+        /// <param name="destFile">目标图片文件路径。</param>
+        /// <param name="mergeType">图片合并方向。</param>
+        public static void CombineImages(List<string> sourceFiles, string destFile, ImageMergeOrientation mergeType = ImageMergeOrientation.Vertical)
+        {
+            var finalImage = destFile;
+            var finalImageBak = destFile.Insert(destFile.LastIndexOf('.'), "_BAK");
+            var images = sourceFiles.Select(f =>
+            {
+                var tmp = Image.FromFile(f);
+                var img = new Bitmap(tmp);
+                tmp.Dispose();
+                return img;
+            }).ToList();
+            var finalWidth = mergeType == ImageMergeOrientation.Horizontal
+                           ? images.Sum(img => img.Width)
+                           : images.Max(img => img.Width);
+            var finalHeight = mergeType == ImageMergeOrientation.Vertical
+                            ? images.Sum(img => img.Height)
+                            : images.Max(img => img.Height);
+
+            var finalImg = new Bitmap(finalWidth, finalHeight);
+            var g = Graphics.FromImage(finalImg);
+            g.Clear(SystemColors.AppWorkspace);
+
+            var x = 0;
+            var y = 0;
+            foreach (var img in images)
+            {
+                g.DrawImage(img, x, y, img.Width, img.Height);
+                switch (mergeType)
+                {
+                    case ImageMergeOrientation.Horizontal:
+                        x += img.Width;
+                        break;
+                    case ImageMergeOrientation.Vertical:
+                        y += img.Height;
+                        break;
+                    default:
+                        break;
+                }
+                img.Dispose();
+            }
+            g.Dispose();
+            finalImg.Save(finalImageBak, ImageFormat.Tiff);
+            finalImg.Dispose();
+            SaveThumbnail(finalImageBak, finalImage, finalWidth, finalHeight, 40);
+            Utils.DeleteFile(finalImageBak);
         }
 
         class Helper
