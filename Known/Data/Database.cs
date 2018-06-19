@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using Known.Extensions;
 using Known.Mapping;
 
 namespace Known.Data
@@ -71,7 +70,7 @@ namespace Known.Data
             if (row == null)
                 return default(T);
 
-            return GetEntity<T>(row);
+            return AutoMapper.GetBaseEntity<T>(row);
         }
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace Known.Data
         public List<T> QueryList<T>(string sql, dynamic param = null) where T : EntityBase
         {
             var data = QueryTable(sql, param);
-            return GetEntities(data);
+            return AutoMapper.GetBaseEntities(data);
         }
 
         /// <summary>
@@ -107,7 +106,7 @@ namespace Known.Data
             var sqlPage = CommandCache.GetPagingSql(cmd.Text, criteria);
             var cmdData = new Command(sqlPage, cmd.Parameters);
             var data = provider.Query(cmdData);
-            var pageData = GetEntities<T>(data);
+            var pageData = AutoMapper.GetEntities<T>(data);
             return new PagingResult<T>(totalCount, pageData);
         }
 
@@ -293,72 +292,6 @@ namespace Known.Data
             {
                 SubmitChanges();
             }
-        }
-
-        private static T GetBaseEntity<T>(DataRow row) where T : EntityBase
-        {
-            var entity = GetEntity<T>(row);
-            entity.IsNew = false;
-            return entity;
-        }
-
-        private static List<T> GetBaseEntities<T>(DataTable data) where T : EntityBase
-        {
-            if (data == null || data.Rows.Count == 0)
-                return null;
-
-            var lists = new List<T>();
-            foreach (DataRow row in data.Rows)
-            {
-                lists.Add(GetBaseEntity<T>(row));
-            }
-            return lists;
-        }
-
-        private static T GetEntity<T>(DataRow row)
-        {
-            if (row == null)
-                return default(T);
-
-            var entity = Activator.CreateInstance<T>();
-            var properties = typeof(T).GetColumnProperties();
-            foreach (var property in properties)
-            {
-                var columnName = ColumnInfo.GetColumnName(property);
-                if (row.Table.Columns.Contains(columnName))
-                {
-                    var value = GetPropertyValue(property.PropertyType, row[columnName]);
-                    property.SetValue(entity, value, null);
-                }
-            }
-            
-            return entity;
-        }
-
-        private static List<T> GetEntities<T>(DataTable data)
-        {
-            if (data == null || data.Rows.Count == 0)
-                return null;
-
-            var lists = new List<T>();
-            foreach (DataRow row in data.Rows)
-            {
-                lists.Add(GetEntity<T>(row));
-            }
-            return lists;
-        }
-
-        private static object GetPropertyValue(Type type, object value)
-        {
-            if (type.IsSubclassOf(typeof(EntityBase)))
-            {
-                var entity = Activator.CreateInstance(type) as EntityBase;
-                entity.Id = value.ToString();
-                entity.IsNew = false;
-                return entity;
-            }
-
-            return value;
         }
     }
 }

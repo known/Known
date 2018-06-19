@@ -60,6 +60,7 @@
     <Compile Include="Data\ColumnInfo.cs" />
     <Compile Include="Data\Command.cs" />
     <Compile Include="Data\CommandCache.cs" />
+    <Compile Include="Data\AutoMapper.cs" />
     <Compile Include="Data\DefaultDbProvider.cs" />
     <Compile Include="Data\DatabaseException.cs" />
     <Compile Include="Data\Database.cs" />
