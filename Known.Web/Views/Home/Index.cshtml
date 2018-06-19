@@ -34,18 +34,8 @@
             <span onclick="logout()" class="fa fa-power-off" title="安全退出"></span>
         </div>
     </div>
-    <div data-options="region:'west',split:true" style="width:200px;overflow:auto;">
-        <div class="easyui-accordion" style="border:none;height:99%;">
-            <div title="开发平台" data-options="iconCls:'icon-ok'" style="overflow:auto;">
-                <ul id="tt1" class="easyui-tree"></ul>
-            </div>
-            <div title="系统管理" data-options="iconCls:'icon-ok'" style="overflow:auto;">
-                <ul id="tt2" class="easyui-tree"></ul>
-            </div>
-            <div title="业务系统" data-options="iconCls:'icon-ok'" style="overflow:auto;">
-                <ul id="tt3" class="easyui-tree"></ul>
-            </div>
-        </div>
+    <div data-options="title:'系统导航',region:'west',split:true" style="width:200px;overflow:auto;">
+        <ul id="tt1" class="easyui-tree" data-options="animate:true"></ul>
     </div>
     <div data-options="region:'center'" style="border:none;">
         <div id="tt" class="easyui-tabs" style="height:100%;">
@@ -82,12 +72,14 @@
             });
         }
 
-        $('#tt1,#tt2,#tt3').tree({
+        $('#tt1').tree({
             url: '@Url.Action("GetUserMenus", "User")',
             onClick: function (node) {
                 console.log(node);
                 if (node.url) {
                     addTab(node.text, node.url);
+                } else {
+                    $('#tt1').expand(node);
                 }
             }
         });
