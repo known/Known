@@ -12,76 +12,121 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="~/static/easyui/themes/metro/easyui.css">
-    <link rel="stylesheet" href="~/static/easyui/themes/icon.css">
-    <link rel="stylesheet" href="~/static/fontawesome/css/fontawesome-all.min.css">
-    <style>
-        .header{height:55px;background-color:#2d3e50;color:#fff;border:none;}
-        .footer{height:30px;background-color:#f2f2f2;}
-        .sysTitle{font-size:26px;font-weight:bold;line-height:50px;padding-left:10px;float:left;}
-        .welcomeInfo{line-height:28px;padding-left:10px;float:left;}
-        .copyright{line-height:28px;padding-right:10px;float:right;}
-        .panel-body{overflow:hidden;}
-    </style>
+    <link rel="stylesheet" href="~/static/libs/fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/static/libs/others/scrollbar/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="~/static/libs/uis/miniui/themes/default/miniui.css">
+    <link rel="stylesheet" href="~/static/modules/frame/menu/menu.css">
+    <link rel="stylesheet" href="~/static/modules/frame/tabs.css">
+    <link rel="stylesheet" href="~/static/modules/frame/frame.css">
+    <link rel="stylesheet" href="~/static/modules/frame/index.css">
 </head>
-<body class="easyui-layout">
+<body>
     @Html.AntiForgeryToken()
 
-    <div class="header" data-options="region:'north'">
-        <div class="sysTitle">@ViewBag.SystemName</div>
-        <div style="float:right;padding:5px 10px;">
-            欢迎您！@User.Identity.Name
-            <span onclick="logout()" class="fa fa-power-off" title="安全退出"></span>
+    <div class="navbar">
+        <div class="navbar-header">
+            <div class="navbar-brand">MiniUI</div>
+            <div class="navbar-brand navbar-brand-compact">M</div>
         </div>
-    </div>
-    <div data-options="title:'系统导航',region:'west',split:true" style="width:200px;overflow:auto;">
-        <ul id="tt1" class="easyui-tree" data-options="animate:true"></ul>
-    </div>
-    <div data-options="region:'center'" style="border:none;">
-        <div id="tt" class="easyui-tabs" style="height:100%;">
-            <div title="Home"></div>
-        </div>
-    </div>
-    <div class="footer" data-options="region:'south'">
-        <div class="welcomeInfo"></div>
-        <div class="copyright">&copy; Known</div>
+        <ul class="nav navbar-nav">
+            <li><a id="toggle"><span class="fa fa-bars"></span></a></li>
+            <li class="icontop"><a href="#"><i class="fa fa-hand-pointer-o"></i><span>系统演示</span></a></li>
+            <li class="icontop"><a href="#"><i class="fa fa-puzzle-piece"></i><span>开发文档</span></a></li>
+            <li class="icontop"><a href="#"><i class="fa fa-sort-amount-asc"></i><span>人力资源</span></a></li>
+            <li class="icontop"><a href="#"><i class="fa  fa-cog"></i><span>系统设置</span></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><i class="fa fa-paper-plane"></i> 代办事项</a></li>
+            <li><a href="#"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle userinfo">
+                    <img class="user-img" src="~/static/images/face.jpg" />个人资料<i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="#"><i class="fa fa-eye "></i> 用户信息</a></li>
+                    <li><a href="#"><i class="fa fa-user"></i> 退出登录</a></li>
+                </ul>
+            </li>
+        </ul>
     </div>
 
-    <script src="~/static/easyui/jquery.min.js"></script>
-    <script src="~/static/easyui/jquery.easyui.min.js"></script>
-    <script src="~/static/comm/js/common.js"></script>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-toggle"><i class="fa fa-fw fa-dedent"></i></div>
+            <div id="mainMenu"></div>
+        </div>
+        <div class="main">
+            <div id="mainTabs" class="mini-tabs main-tabs" activeIndex="0" style="height:100%;" plain="false"
+                 buttons="#tabsButtons" arrowPosition="side">
+                <div name="index" iconCls="fa-android" title="控制台">
+                    MiniUI导航框架
+                </div>
+            </div>
+            <div id="tabsButtons">
+                <a class="tabsBtn"><i class="fa fa-home"></i></a>
+                <a class="tabsBtn"><i class="fa fa-refresh"></i></a>
+                <a class="tabsBtn"><i class="fa fa-remove"></i></a>
+                <a class="tabsBtn"><i class="fa fa-arrows-alt"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/static/libs/jquery.min.js"></script>
+    <script src="~/static/libs/others/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/static/libs/uis/miniui/miniui.js"></script>
+    <script src="~/static/modules/frame/menu/menu.js"></script>
+    <script src="~/static/modules/frame/menutip.js"></script>
+    <script src="~/static/modules/common.js"></script>
 
     <script>
-        function addTab(title, url) {
-            console.log([title,url]);
-            if ($('#tt').tabs('exists', title)) {
-                $('#tt').tabs('select', title);
-            } else {
-                var content = '<iframe scrolling="auto" frameborder="0" src="' + url + '" style="width:100%;height:100%;"></iframe>';
-                $('#tt').tabs('add', {
-                    title: title,
-                    content: content,
-                    closable: true
-                });
+        function activeTab(item) {
+            var tabs = mini.get("mainTabs");
+            var tab = tabs.getTab(item.id);
+            if (!tab) {
+                tab = { name: item.id, title: item.text, url: item.url, iconCls: item.iconCls, showCloseButton: true };
+                tab = tabs.addTab(tab);
             }
+            tabs.activeTab(tab);
         }
 
-        function logout() {
-            $.post('@Url.Action("SignOut", "User")', function () {
-                location.reload();
-            });
-        }
+        $(function () {
 
-        $('#tt1').tree({
-            url: '@Url.Action("GetUserMenus", "User")',
-            onClick: function (node) {
-                console.log(node);
-                if (node.url) {
-                    addTab(node.text, node.url);
-                } else {
-                    $('#tt1').expand(node);
+            //menu
+            var menu = new Menu("#mainMenu", {
+                itemclick: function (item) {
+                    if (!item.children) {
+                        activeTab(item);
+                    }
                 }
-            }
+            });
+
+            $(".sidebar").mCustomScrollbar({ autoHideScrollbar: true });
+
+            new MenuTip(menu);
+
+            $.ajax({
+                url: "/menu.json",
+                success: function (text) {
+                    var data = mini.decode(text);
+                    menu.loadData(data);
+                }
+            })
+
+            //toggle
+            $("#toggle, .sidebar-toggle").click(function () {
+                $('body').toggleClass('compact');
+                mini.layout();
+            });
+
+            //dropdown
+            $(".dropdown-toggle").click(function (event) {
+                $(this).parent().addClass("open");
+                return false;
+            });
+
+            $(document).click(function (event) {
+                $(".dropdown").removeClass("open");
+            });
         });
     </script>
 </body>
