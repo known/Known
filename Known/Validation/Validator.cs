@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Known.Extensions;
 
 namespace Known.Validation
@@ -212,6 +213,76 @@ namespace Known.Validation
             if (!value.HasValue)
                 messages.Add(fieldName + "格式必须是" + format + "！");
             return value;
+        }
+
+        /// <summary>
+        /// 验证字符串是否是数值。
+        /// </summary>
+        /// <param name="input">输入的字符串。</param>
+        /// <returns>是否验证通过。</returns>
+        public static bool IsNumber(string input)
+        {
+            return Regex.IsMatch(input, @"^[0-9]*$");
+        }
+
+        /// <summary>
+        /// 验证字符串是否是邮箱。
+        /// </summary>
+        /// <param name="input">输入的字符串。</param>
+        /// <returns>是否验证通过。</returns>
+        public static bool IsEmail(string input)
+        {
+            return Regex.IsMatch(input, @"^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$");
+        }
+
+        /// <summary>
+        /// 验证字符串是否是网址。
+        /// </summary>
+        /// <param name="input">输入的字符串。</param>
+        /// <returns>是否验证通过。</returns>
+        public static bool IsUrl(string input)
+        {
+            return Regex.IsMatch(input, @"http(s)?://([/w-]+/.)+[/w-]+(/[/w- ./?%&=]*)?");
+        }
+
+        /// <summary>
+        /// 验证字符串是否是固定电话号码。
+        /// </summary>
+        /// <param name="input">输入的字符串。</param>
+        /// <returns>是否验证通过。</returns>
+        public static bool IsPhone(string input)
+        {
+            return Regex.IsMatch(input, @"^(\d{3,4}-)?\d{6,8}$");
+        }
+
+        /// <summary>
+        /// 验证字符串是否是手机号码。
+        /// </summary>
+        /// <param name="input">输入的字符串。</param>
+        /// <returns>是否验证通过。</returns>
+        public static bool IsMobile(string input)
+        {
+            return Regex.IsMatch(input, @"^[1]+[3,5]+\d{9}");
+        }
+
+        /// <summary>
+        /// 验证字符串是否是身份证号码。
+        /// </summary>
+        /// <param name="input">输入的字符串。</param>
+        /// <returns>是否验证通过。</returns>
+        public static bool IsIDCard(string input)
+        {
+            return Regex.IsMatch(input, @"(^\d{18}$)|(^\d{15}$)");
+        }
+
+        /// <summary>
+        /// 验证字符串是否是邮政编码。
+        /// </summary>
+        /// <param name="input">输入的字符串。</param>
+        /// <returns>是否验证通过。</returns>
+        public static bool IsPostalcode(string input)
+        {
+            return Regex.IsMatch(input, @"^\d{6}$");
         }
     }
 }
