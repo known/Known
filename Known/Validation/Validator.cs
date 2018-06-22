@@ -232,7 +232,9 @@ namespace Known.Validation
         /// <returns>是否验证通过。</returns>
         public static bool IsEmail(string input)
         {
-            return Regex.IsMatch(input, @"^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$");
+            var pattern = @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
+            //var pattern = @"^[a-zA-Z0-9_+.-]+\@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,4}$");
+            return Regex.IsMatch(input, pattern);
         }
 
         /// <summary>
