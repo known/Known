@@ -7,7 +7,7 @@ namespace Known.Tests.KnownTests
         public static void TestConstructor()
         {
             var context = new Context(new ConsoleLogger());
-            var business = new Business(context);
+            var business = new BusinessBase(context);
             Assert.IsNotNull(business.Context);
             Assert.IsNotNull(business.Context.Logger);
             Assert.IsNull(business.Context.Database);

@@ -7,7 +7,7 @@ namespace Known.Web.Api
     /// <summary>
     /// WebApi控制器基类。
     /// </summary>
-    public class BaseApiController : ApiController
+    public class BaseApiController : ApiController, IController
     {
         private Context context;
 
@@ -31,7 +31,7 @@ namespace Known.Web.Api
         /// <summary>
         /// 取得当前登录的用户账号。
         /// </summary>
-        protected string UserName
+        public string UserName
         {
             get { return User.Identity.Name; }
         }
@@ -39,7 +39,7 @@ namespace Known.Web.Api
         /// <summary>
         /// 取得当前用户是否已认证。
         /// </summary>
-        protected bool IsAuthenticated
+        public bool IsAuthenticated
         {
             get { return User.Identity.IsAuthenticated; }
         }
@@ -49,7 +49,7 @@ namespace Known.Web.Api
         /// </summary>
         /// <typeparam name="T">业务逻辑类型。</typeparam>
         /// <returns>业务逻辑对象。</returns>
-        protected T LoadBusiness<T>() where T : Business
+        public T LoadBusiness<T>() where T : BusinessBase
         {
             return BusinessFactory.Create<T>(Context);
         }

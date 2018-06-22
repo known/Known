@@ -16,7 +16,7 @@ namespace Known
         /// <typeparam name="T">业务逻辑对象类型。</typeparam>
         /// <param name="context">上下文对象。</param>
         /// <returns>业务逻辑实例。</returns>
-        public static T Create<T>(Context context) where T : Business
+        public static T Create<T>(Context context) where T : BusinessBase
         {
             var key = typeof(T);
             if (!cached.ContainsKey(key))

@@ -9,9 +9,9 @@ namespace Known.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute("Login", "login", new { controller = "User", action = "Login" });
-            routes.MapRoute("Register", "register", new { controller = "User", action = "Register" });
-            routes.MapRoute("ForgotPassword", "forgotpwd", new { controller = "User", action = "ForgotPassword" });
+            routes.MapRoute("Login", "login", new { controller = "Home", action = "Login" });
+            routes.MapRoute("Register", "register", new { controller = "Home", action = "Register" });
+            routes.MapRoute("ForgotPassword", "forgotpwd", new { controller = "Home", action = "ForgotPassword" });
 
             routes.MapRoute(
                 "Default",

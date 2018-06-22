@@ -465,7 +465,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
@@ -489,7 +489,6 @@
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\AuthorizeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Api\Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Api\Extensions\HttpRequestMessageExtension.cs" />
     <Compile Include="Api\Filters\ApiLoginAuthorizeAttribute.cs" />

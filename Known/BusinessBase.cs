@@ -5,13 +5,13 @@ namespace Known
     /// <summary>
     /// 业务逻辑基类。
     /// </summary>
-    public class Business
+    public class BusinessBase
     {
         /// <summary>
         /// 构造函数，创建一个业务逻辑对象。
         /// </summary>
         /// <param name="context">上下文对象。</param>
-        public Business(Context context)
+        public BusinessBase(Context context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -26,7 +26,7 @@ namespace Known
         /// </summary>
         /// <typeparam name="T">业务逻辑对象类型。</typeparam>
         /// <returns>业务逻辑实例。</returns>
-        protected T LoadBusiness<T>() where T : Business
+        protected T LoadBusiness<T>() where T : BusinessBase
         {
             return BusinessFactory.Create<T>(Context);
         }

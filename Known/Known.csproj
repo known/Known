@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business.cs" />
+    <Compile Include="BusinessBase.cs" />
     <Compile Include="BusinessFactory.cs" />
     <Compile Include="Cache\DefaultCache.cs" />
     <Compile Include="Cache\ICache.cs" />
@@ -82,6 +82,7 @@
     <Compile Include="Drawing\CaptchaProvider.cs" />
     <Compile Include="Drawing\ImageHelper.cs" />
     <Compile Include="Drawing\ImageOption.cs" />
+    <Compile Include="IController.cs" />
     <Compile Include="Serialization\DataContractProvider.cs" />
     <Compile Include="Serialization\DefaultJsonProvider.cs" />
     <Compile Include="Serialization\IJsonProvider.cs" />

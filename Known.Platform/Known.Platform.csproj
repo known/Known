@@ -41,12 +41,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="Business\UserBusiness.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Company.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Known\Known.csproj">
+      <Project>{f4c9a8c8-eaf9-4ea8-b186-c4b843762d45}</Project>
+      <Name>Known</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
