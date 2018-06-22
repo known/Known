@@ -153,3 +153,13 @@ $(document).ajaxSend(function (evt, xhr, settings) {
         xhr.setRequestHeader('X-XSRF-TOKEN', token);
     }
 });
+
+$(function () {
+    $('input[onenter]').keydown(function (event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            var method = $(this).attr("onenter");
+            eval(method);
+        }
+    });
+});

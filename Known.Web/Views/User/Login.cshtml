@@ -18,9 +18,9 @@
         <div class="message">@ViewBag.SystemName</div>
         <div id="darkbannerwrap"></div>
         <div>
-            <input type="text" id="userName" placeholder="用户名" autocomplete="off">
+            <input type="text" id="userName" placeholder="用户名" autocomplete="off" onenter="$('#password').focus()">
             <hr class="hr15">
-            <input type="password" id="password" placeholder="密码">
+            <input type="password" id="password" placeholder="密码" onenter="$('#btnLogin').click()">
             <hr class="hr15">
             <input type="button" id="btnLogin" value="登录" style="width:100%;">
             <hr class="hr20">

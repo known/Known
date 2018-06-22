@@ -1,4 +1,6 @@
 ﻿$(function () {
+    $('#userName').focus();
+
     $('#btnLogin').click(function () {
         var userName = $('#userName').val();
         var password = $('#password').val();
