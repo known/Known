@@ -9,11 +9,11 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-    <link rel="stylesheet" href="~/static/modules/login/login.css">
+    <link rel="stylesheet" href="~/static/modules/login/index.min.css">
+    <script>var backUrl = '@ViewBag.BackUrl';</script>
 </head>
 <body>
     @Html.AntiForgeryToken()
-
     <div class="login">
         <div class="message">@ViewBag.SystemName</div>
         <div id="darkbannerwrap"></div>
@@ -28,42 +28,6 @@
         </div>
     </div>
     <div class="copyright">© 2018 KNOWN</div>
-
-    <script src="~/static/libs/jquery.min.js"></script>
-    <script src="~/static/libs/jquery.md5.js"></script>
-    <script src="~/static/modules/common.js"></script>
-    <script>
-        $(function () {
-            $('#btnLogin').click(function () {
-                var userName = $('#userName').val();
-                var password = $('#password').val();
-                if (!userName) {
-                    _showMessage('请输入用户名！');
-                    return;
-                }
-                if (!password) {
-                    _showMessage('请输入密码！');
-                    return;
-                }
-
-                _showMessage('');
-                var $this = $(this).attr('disabled', 'disabled').val('登录中...');
-                Ajax.postJson('@Url.Action("SignIn", "User")', {
-                    userName: userName, password: $.md5(password), backUrl: '@ViewBag.BackUrl'
-                }, function (result) {
-                    _showMessage(result.Message);
-                    if (result.IsValid) {
-                        location = result.Data;
-                    } else {
-                        $this.removeAttr('disabled').val('登录');
-                    }
-                });
-
-                function _showMessage(message) {
-                    $('#error').html(message);
-                }
-            });
-        });
-    </script>
+    <script src="~/static/modules/login/index.min.js"></script>
 </body>
 </html>

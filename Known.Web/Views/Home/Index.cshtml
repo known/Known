@@ -12,13 +12,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="~/static/libs/fonts/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/static/libs/others/scrollbar/jquery.mCustomScrollbar.css">
-    <link rel="stylesheet" href="~/static/libs/uis/miniui/themes/default/miniui.css">
-    <link rel="stylesheet" href="~/static/modules/frame/menu/menu.css">
-    <link rel="stylesheet" href="~/static/modules/frame/tabs.css">
-    <link rel="stylesheet" href="~/static/modules/frame/frame.css">
-    <link rel="stylesheet" href="~/static/modules/frame/index.css">
+    <link rel="stylesheet" href="~/static/modules/frame/index.min.css">
 </head>
 <body>
     @Html.AntiForgeryToken()
@@ -70,64 +64,6 @@
             </div>
         </div>
     </div>
-
-    <script src="~/static/libs/jquery.min.js"></script>
-    <script src="~/static/libs/others/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="~/static/libs/uis/miniui/miniui.js"></script>
-    <script src="~/static/modules/frame/menu/menu.js"></script>
-    <script src="~/static/modules/frame/menutip.js"></script>
-    <script src="~/static/modules/common.js"></script>
-
-    <script>
-        function activeTab(item) {
-            var tabs = mini.get("mainTabs");
-            var tab = tabs.getTab(item.id);
-            if (!tab) {
-                tab = { name: item.id, title: item.text, url: item.url, iconCls: item.iconCls, showCloseButton: true };
-                tab = tabs.addTab(tab);
-            }
-            tabs.activeTab(tab);
-        }
-
-        $(function () {
-
-            //menu
-            var menu = new Menu("#mainMenu", {
-                itemclick: function (item) {
-                    if (!item.children) {
-                        activeTab(item);
-                    }
-                }
-            });
-
-            $(".sidebar").mCustomScrollbar({ autoHideScrollbar: true });
-
-            new MenuTip(menu);
-
-            $.ajax({
-                url: "/menu.json",
-                success: function (text) {
-                    var data = mini.decode(text);
-                    menu.loadData(data);
-                }
-            })
-
-            //toggle
-            $("#toggle, .sidebar-toggle").click(function () {
-                $('body').toggleClass('compact');
-                mini.layout();
-            });
-
-            //dropdown
-            $(".dropdown-toggle").click(function (event) {
-                $(this).parent().addClass("open");
-                return false;
-            });
-
-            $(document).click(function (event) {
-                $(".dropdown").removeClass("open");
-            });
-        });
-    </script>
+    <script src="~/static/modules/frame/index.min.js"></script>
 </body>
 </html>
