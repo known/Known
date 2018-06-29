@@ -4,19 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Known</title>
-    <link rel="stylesheet" href="~/static/easyui/themes/metro/easyui.css">
-    <link rel="stylesheet" href="~/static/easyui/themes/icon.css">
+    <link rel="stylesheet" href="~/static/modules/frame/index.min.css">
     @RenderSection("Head", false)
 </head>
 <body>
     @Html.AntiForgeryToken()
-
     @RenderBody()
-
-    <script src="~/static/easyui/jquery.min.js"></script>
-    <script src="~/static/easyui/jquery.easyui.min.js"></script>
-    <script src="~/static/easyui/easyui-lang-zh_CN.js"></script>
-    <script src="~/static/comm/js/common.js"></script>
+    <script src="~/static/modules/frame/index.min.js"></script>
     @RenderSection("Foot", false)
 </body>
 </html>

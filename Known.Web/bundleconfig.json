@@ -37,5 +37,24 @@
       "static/modules/index/js/menuTip.js",
       "static/modules/index/index.js"
     ]
+  },
+  {
+    "outputFileName": "static/modules/frame/index.min.css",
+    "inputFiles": [
+      "static/libs/font-awesome/css/font-awesome.min.css",
+      "static/libs/miniui/themes/default/miniui.css",
+      "static/libs/miniui/themes/default/large-mode.css",
+      "static/libs/miniui/themes/bootstrap/skin.css",
+      "static/modules/frame/index.css"
+    ]
+  },
+  {
+    "outputFileName": "static/modules/frame/index.min.js",
+    "inputFiles": [
+      "static/libs/jquery.min.js",
+      "static/libs/miniui/miniui.js",
+      "static/modules/common.js",
+      "static/modules/frame/index.js"
+    ]
   }
 ]

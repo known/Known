@@ -98,6 +98,14 @@
     <Content Include="static\modules\common.js" />
     <Content Include="static\libs\jquery.md5.js" />
     <Content Include="static\libs\jquery.min.js" />
+    <Content Include="static\modules\frame\index.css" />
+    <Content Include="static\modules\frame\index.js" />
+    <Content Include="static\modules\frame\index.min.css">
+      <DependentUpon>index.css</DependentUpon>
+    </Content>
+    <Content Include="static\modules\frame\index.min.js">
+      <DependentUpon>index.js</DependentUpon>
+    </Content>
     <Content Include="static\modules\index\css\frame.css" />
     <Content Include="static\modules\index\css\menu.css" />
     <Content Include="static\modules\index\css\tabs.css" />
