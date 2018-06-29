@@ -111,11 +111,31 @@ namespace Known.Cells
         }
 
         /// <summary>
+        /// 自动调整指定范围列的宽度。
+        /// </summary>
+        /// <param name="firstColumn">第一列位置。</param>
+        /// <param name="lastColumn">最后一列位置。</param>
+        public void AutoFitColumns(int firstColumn, int lastColumn)
+        {
+            InnerSheet.AutoFitColumns(firstColumn, lastColumn);
+        }
+
+        /// <summary>
         /// 自动调整所有行的高度。
         /// </summary>
         public void AutoFitRows()
         {
             InnerSheet.AutoFitRows();
+        }
+
+        /// <summary>
+        /// 自动调整指定范围行的高度。
+        /// </summary>
+        /// <param name="startRow">开始行位置。</param>
+        /// <param name="endRow">结束行位置。</param>
+        public void AutoFitRows(int startRow, int endRow)
+        {
+            InnerSheet.AutoFitRows(startRow, endRow);
         }
 
         /// <summary>
