@@ -15,27 +15,27 @@
     ]
   },
   {
-    "outputFileName": "static/modules/frame/index.min.css",
+    "outputFileName": "static/modules/index/index.min.css",
     "inputFiles": [
       "static/libs/font-awesome/css/font-awesome.min.css",
       "static/libs/scrollbar/jquery.scrollbar.css",
       "static/libs/miniui/themes/default/miniui.css",
-      "static/modules/frame/css/frame.css",
-      "static/modules/frame/css/menu.css",
-      "static/modules/frame/css/tabs.css",
-      "static/modules/frame/index.css"
+      "static/modules/index/css/frame.css",
+      "static/modules/index/css/menu.css",
+      "static/modules/index/css/tabs.css",
+      "static/modules/index/index.css"
     ]
   },
   {
-    "outputFileName": "static/modules/frame/index.min.js",
+    "outputFileName": "static/modules/index/index.min.js",
     "inputFiles": [
       "static/libs/jquery.min.js",
       "static/libs/scrollbar/jquery.scrollbar.min.js",
       "static/libs/miniui/miniui.js",
       "static/modules/common.js",
-      "static/modules/frame/js/menu.js",
-      "static/modules/frame/js/menuTip.js",
-      "static/modules/frame/index.js"
+      "static/modules/index/js/menu.js",
+      "static/modules/index/js/menuTip.js",
+      "static/modules/index/index.js"
     ]
   }
 ]

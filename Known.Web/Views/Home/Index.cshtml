@@ -12,11 +12,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="~/static/modules/frame/index.min.css">
+    <link rel="stylesheet" href="~/static/modules/index/index.min.css">
 </head>
 <body>
     @Html.AntiForgeryToken()
-
     <div class="navbar">
         <div class="navbar-header">
             <div class="navbar-brand">@ViewBag.SystemName</div>
@@ -24,26 +23,21 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a id="toggle"><span class="fa fa-bars"></span></a></li>
-            <li class="icontop"><a href="#"><i class="fa fa-hand-pointer-o"></i><span>系统演示</span></a></li>
-            <li class="icontop"><a href="#"><i class="fa fa-puzzle-piece"></i><span>开发文档</span></a></li>
-            <li class="icontop"><a href="#"><i class="fa fa-sort-amount-asc"></i><span>人力资源</span></a></li>
-            <li class="icontop"><a href="#"><i class="fa  fa-cog"></i><span>系统设置</span></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#"><i class="fa fa-paper-plane"></i> 代办事项</a></li>
-            <li><a href="#"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
             <li class="dropdown">
                 <a class="dropdown-toggle userinfo">
-                    <img class="user-img" src="~/static/images/face.jpg" />个人资料<i class="fa fa-angle-down"></i>
+                    <img class="user-img" src="~/static/images/face.jpg" />个人资料 <i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu pull-right">
                     <li><a href="#"><i class="fa fa-eye "></i> 用户信息</a></li>
+                    <li><a href="#"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
                     <li><a href="#"><i class="fa fa-user"></i> 退出登录</a></li>
                 </ul>
             </li>
         </ul>
     </div>
-
     <div class="container">
         <div class="sidebar">
             <div class="sidebar-toggle"><i class="fa fa-fw fa-dedent"></i></div>
@@ -64,6 +58,6 @@
             </div>
         </div>
     </div>
-    <script src="~/static/modules/frame/index.min.js"></script>
+    <script src="~/static/modules/index/index.min.js"></script>
 </body>
 </html>

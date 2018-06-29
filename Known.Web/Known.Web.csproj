@@ -98,26 +98,26 @@
     <Content Include="static\modules\common.js" />
     <Content Include="static\libs\jquery.md5.js" />
     <Content Include="static\libs\jquery.min.js" />
-    <Content Include="static\modules\frame\css\frame.css" />
-    <Content Include="static\modules\frame\css\menu.css" />
-    <Content Include="static\modules\frame\css\tabs.css" />
-    <Content Include="static\modules\frame\index.min.css">
+    <Content Include="static\modules\index\css\frame.css" />
+    <Content Include="static\modules\index\css\menu.css" />
+    <Content Include="static\modules\index\css\tabs.css" />
+    <Content Include="static\modules\index\index.min.css">
       <DependentUpon>index.css</DependentUpon>
     </Content>
-    <Content Include="static\modules\frame\index.min.js">
+    <Content Include="static\modules\index\index.min.js">
       <DependentUpon>index.js</DependentUpon>
     </Content>
-    <Content Include="static\modules\frame\js\menu.js" />
-    <Content Include="static\modules\frame\js\menuTip.js" />
+    <Content Include="static\modules\index\js\menu.js" />
+    <Content Include="static\modules\index\js\menuTip.js" />
     <Content Include="static\modules\login\index.js" />
     <Content Include="static\modules\login\index.css" />
     <Content Include="static\libs\pdfobject.min.js" />
     <Content Include="static\images\face.jpg" />
     <Content Include="static\modules\login\images\aiwrap.png" />
     <Content Include="static\modules\login\images\web_login_bg.jpg" />
-    <Content Include="static\modules\frame\images\tabs_icons.png" />
-    <Content Include="static\modules\frame\index.css" />
-    <Content Include="static\modules\frame\index.js" />
+    <Content Include="static\modules\index\images\tabs_icons.png" />
+    <Content Include="static\modules\index\index.css" />
+    <Content Include="static\modules\index\index.js" />
     <Content Include="static\libs\miniui\locale\en_US.js" />
     <Content Include="static\libs\miniui\locale\zh_CN.js" />
     <Content Include="static\libs\miniui\miniui.js" />
