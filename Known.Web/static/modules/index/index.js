@@ -1,5 +1,5 @@
 ﻿function activeTab(item) {
-    var tabs = mini.get("mainTabs");
+    var tabs = mini.get('mainTabs');
     var tab = tabs.getTab(item.id);
     if (!tab) {
         tab = { name: item.id, title: item.text, url: item.url, iconCls: item.iconCls, showCloseButton: true };
@@ -11,7 +11,7 @@
 $(function () {
 
     //menu
-    var menu = new Menu("#mainMenu", {
+    var menu = new Menu('#mainMenu', {
         itemclick: function (item) {
             if (!item.children) {
                 activeTab(item);
@@ -19,12 +19,12 @@ $(function () {
         }
     });
 
-    $(".sidebar").mCustomScrollbar({ autoHideScrollbar: true });
+    $('.sidebar').mCustomScrollbar({ autoHideScrollbar: true });
 
     new MenuTip(menu);
 
     $.ajax({
-        url: "/menu.json",
+        url: '/menu.json',
         success: function (text) {
             var data = mini.decode(text);
             menu.loadData(data);
@@ -32,18 +32,34 @@ $(function () {
     })
 
     //toggle
-    $("#toggle, .sidebar-toggle").click(function () {
+    $('#toggle, .sidebar-toggle').click(function () {
         $('body').toggleClass('compact');
         mini.layout();
     });
 
     //dropdown
-    $(".dropdown-toggle").click(function (event) {
-        $(this).parent().addClass("open");
+    $('.dropdown-toggle').click(function (event) {
+        $(this).parent().addClass('open');
         return false;
     });
 
     $(document).click(function (event) {
-        $(".dropdown").removeClass("open");
+        $('.dropdown').removeClass('open');
+    });
+
+    //navbar
+    $('#navTodo').click(function () {
+        activeTab({ id: '', text: '代办事项' });
+    });
+
+    //userinfo menu
+    $('#ddmUserInfo').click(function () {
+    });
+    $('#ddmUpdatePwd').click(function () {
+    });
+    $('#ddmLogout').click(function () {
+        Ajax.postText('/home/signout', null, function () {
+            location = location;
+        });
     });
 });
