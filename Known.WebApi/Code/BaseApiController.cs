@@ -2,7 +2,7 @@
 using System.Web.Http;
 using Known.Log;
 
-namespace Known.Web.Api
+namespace Known.WebApi
 {
     /// <summary>
     /// WebApi控制器基类。

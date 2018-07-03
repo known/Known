@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using Known.Web.Api.Extensions;
+using Known.Web;
 using Known.Web.Extensions;
+using Known.WebApi.Extensions;
 
-namespace Known.Web.Api.Filters
+namespace Known.WebApi.Filters
 {
     public class ApiTrackActionAttribute : ActionFilterAttribute
     {

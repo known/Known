@@ -7,9 +7,10 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Known.Extensions;
-using Known.Web.Api.Extensions;
+using Known.Web;
+using Known.WebApi.Extensions;
 
-namespace Known.Web.Api.Filters
+namespace Known.WebApi.Filters
 {
     /// <summary>
     /// WebApi用户身份认证特性。

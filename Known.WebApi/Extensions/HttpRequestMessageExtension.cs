@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Web;
 using Known.Web.Extensions;
 
-namespace Known.Web.Api.Extensions
+namespace Known.WebApi.Extensions
 {
     /// <summary>
     /// Http请求消息扩展类。

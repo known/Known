@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
+using System.Web.Http;
 using Known.Providers;
 
-namespace Known.Web
+namespace Known.WebApi
 {
     /// <summary>
     /// 应用程序全局事件。
@@ -21,9 +20,7 @@ namespace Known.Web
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
             ProviderConfig.RegisterProviders();
 
-            AreaRegistration.RegisterAllAreas();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            GlobalConfiguration.Configure(WebApiConfig.Register);
         }
 
         /// <summary>
