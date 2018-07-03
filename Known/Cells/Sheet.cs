@@ -111,6 +111,15 @@ namespace Known.Cells
         }
 
         /// <summary>
+        /// 自动调整指定列的宽度。
+        /// </summary>
+        /// <param name="row">列位置。</param>
+        public void AutoFitColumns(int row)
+        {
+            InnerSheet.AutoFitColumns(row, row);
+        }
+
+        /// <summary>
         /// 自动调整指定范围列的宽度。
         /// </summary>
         /// <param name="firstColumn">第一列位置。</param>
@@ -126,6 +135,15 @@ namespace Known.Cells
         public void AutoFitRows()
         {
             InnerSheet.AutoFitRows();
+        }
+
+        /// <summary>
+        /// 自动调整指定行的高度。
+        /// </summary>
+        /// <param name="column">行位置。</param>
+        public void AutoFitRows(int column)
+        {
+            InnerSheet.AutoFitRows(column, column);
         }
 
         /// <summary>
