@@ -62,7 +62,7 @@ namespace Known.Extensions
             var sb = new StringBuilder();
             dictionary.OrderBy(e => e.Key).ToList().ForEach(e => sb.Append(e.Key).Append(e.Value));
             var sort = sb.ToString();
-            return Utils.ToMd5(sort);
+            return Encryptor.ToMd5(sort);
         }
     }
 }

@@ -66,6 +66,7 @@
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\IDbProvider.cs" />
     <Compile Include="Drawing\ImageMergeOrientation.cs" />
+    <Compile Include="Encryptor.cs" />
     <Compile Include="Extensions\CompressExtension.cs" />
     <Compile Include="Extensions\DataTableExtension.cs" />
     <Compile Include="Extensions\TypeExtension.cs" />
