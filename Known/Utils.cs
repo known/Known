@@ -111,12 +111,31 @@ namespace Known
         }
 
         /// <summary>
+        /// 确信文件夹路径存在，若不存在，则自动创建。
+        /// </summary>
+        /// <param name="path">文件夹路径。</param>
+        /// <returns>安全可用的文件夹路径。</returns>
+        public static string EnsureDirectory(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                return string.Empty;
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            return path;
+        }
+
+        /// <summary>
         /// 确信文件路径存在，若不存在，则自动创建。
         /// </summary>
         /// <param name="fileName">文件路径。</param>
         /// <returns>安全可用的文件路径。</returns>
         public static string EnsureFile(string fileName)
         {
+            if (string.IsNullOrWhiteSpace(fileName))
+                return string.Empty;
+
             var fileInfo = new FileInfo(fileName);
             if (!fileInfo.Directory.Exists)
                 fileInfo.Directory.Create();

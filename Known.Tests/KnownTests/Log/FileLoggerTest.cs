@@ -20,7 +20,7 @@ namespace Known.Tests.KnownTests.Log
             logger.Info("这是Trace信息：{0}", logger.TraceInfo);
             logger.Error("发生未知错误");
 
-            var log = File.ReadAllText(fileName);
+            var log = System.IO.File.ReadAllText(fileName);
             Assert.IsNotNull(log);
         }
     }

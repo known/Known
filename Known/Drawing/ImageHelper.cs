@@ -147,6 +147,9 @@ namespace Known.Drawing
         /// <returns>调整后的图片。</returns>
         public static Image ResizeImage(Image source, int width, int height)
         {
+            if (source == null)
+                return null;
+
             var target = new Bitmap(width, height);
             using(var graphic = Graphics.FromImage(target))
             {
@@ -166,7 +169,13 @@ namespace Known.Drawing
         /// <param name="option">切割图片参数选项。</param>
         public static void SaveCutImage(Stream stream, string fileName, ImageOption option)
         {
-            Utils.EnsureFile(fileName);
+            if (string.IsNullOrWhiteSpace(fileName))
+                return;
+
+            var fileInfo = new FileInfo(fileName);
+            if (!fileInfo.Directory.Exists)
+                fileInfo.Directory.Create();
+
             var image = Image.FromStream(stream);
             var x = option.X;
             var y = option.Y;
@@ -188,7 +197,13 @@ namespace Known.Drawing
         /// <param name="option">图片参数选项。</param>
         public static void SaveThumbnail(Stream stream, string fileName, ImageOption option)
         {
-            Utils.EnsureFile(fileName);
+            if (string.IsNullOrWhiteSpace(fileName))
+                return;
+
+            var fileInfo = new FileInfo(fileName);
+            if (!fileInfo.Directory.Exists)
+                fileInfo.Directory.Create();
+
             var image = Image.FromStream(stream, true);
             var adjustSize = Helper.AdjustSize(option.Width, option.Height, image.Width, image.Height);
             var thumbnail = image.GetThumbnailImage(adjustSize.Width, adjustSize.Height, new Image.GetThumbnailImageAbort(Helper.ThumbnailCallback), IntPtr.Zero);
@@ -344,7 +359,7 @@ namespace Known.Drawing
                 stream.Close();
                 CombineImages(files, jpgFile);
             }
-            files.ForEach(f => Utils.DeleteFile(f));
+            files.ForEach(f => File.Delete(f));
         }
 
         /// <summary>
@@ -397,7 +412,7 @@ namespace Known.Drawing
             finalImg.Save(finalImageBak, ImageFormat.Tiff);
             finalImg.Dispose();
             SaveThumbnail(finalImageBak, finalImage, finalWidth, finalHeight, 40);
-            Utils.DeleteFile(finalImageBak);
+            File.Delete(finalImageBak);
         }
 
         class Helper

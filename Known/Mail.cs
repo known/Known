@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -57,8 +58,7 @@ namespace Known
         /// <param name="email">收件人邮箱。</param>
         public void AddTo(string email)
         {
-            email = EnsureEmail(email);
-            if (string.IsNullOrWhiteSpace(email))
+            if (!Validator.IsEmail(email))
                 return;
 
             if (!toMails.Exists(m => m.Address == email))
@@ -74,8 +74,7 @@ namespace Known
         /// <param name="email">收件人邮箱。</param>
         public void AddTo(string name, string email)
         {
-            email = EnsureEmail(email);
-            if (string.IsNullOrWhiteSpace(email))
+            if (!Validator.IsEmail(email))
                 return;
 
             if (!toMails.Exists(m => m.Address == email))
@@ -90,8 +89,7 @@ namespace Known
         /// <param name="email">抄送人邮箱。</param>
         public void AddCc(string email)
         {
-            email = EnsureEmail(email);
-            if (string.IsNullOrWhiteSpace(email))
+            if (!Validator.IsEmail(email))
                 return;
 
             if (!ccMails.Exists(m => m.Address == email))
@@ -107,8 +105,7 @@ namespace Known
         /// <param name="email">抄送人邮箱。</param>
         public void AddCc(string name, string email)
         {
-            email = EnsureEmail(email);
-            if (string.IsNullOrWhiteSpace(email))
+            if (!Validator.IsEmail(email))
                 return;
 
             if (!ccMails.Exists(m => m.Address == email))
@@ -123,8 +120,7 @@ namespace Known
         /// <param name="email">密送人邮箱。</param>
         public void AddBcc(string email)
         {
-            email = EnsureEmail(email);
-            if (string.IsNullOrWhiteSpace(email))
+            if (!Validator.IsEmail(email))
                 return;
 
             if (!bccMails.Exists(m => m.Address == email))
@@ -140,8 +136,7 @@ namespace Known
         /// <param name="email">密送人邮箱。</param>
         public void AddBcc(string name, string email)
         {
-            email = EnsureEmail(email);
-            if (string.IsNullOrWhiteSpace(email))
+            if (!Validator.IsEmail(email))
                 return;
 
             if (!bccMails.Exists(m => m.Address == email))
@@ -156,7 +151,7 @@ namespace Known
         /// <param name="fileName">附件路径。</param>
         public void AddAttachment(string fileName)
         {
-            if (!Utils.ExistsFile(fileName))
+            if (!File.Exists(fileName))
                 return;
 
             if (!attachments.Contains(fileName))
@@ -271,18 +266,6 @@ namespace Known
             {
                 WriteError($"发送邮件{subject}失败", body);
             }
-        }
-
-        private static string EnsureEmail(string email)
-        {
-            if (string.IsNullOrWhiteSpace(email))
-                return string.Empty;
-
-            email = email.Trim();
-            if (!Validator.IsEmail(email))
-                return string.Empty;
-
-            return email;
         }
 
         private static void WriteError(string subject, string message)

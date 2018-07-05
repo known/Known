@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.IO;
 using System.Linq;
 
 namespace Known.Cells
@@ -120,7 +121,13 @@ namespace Known.Cells
         /// <param name="fileName">另存的文件路径。</param>
         public void SaveAs(string fileName)
         {
-            Utils.EnsureFile(fileName);
+            if (string.IsNullOrWhiteSpace(fileName))
+                return;
+
+            var fileInfo = new FileInfo(fileName);
+            if (!fileInfo.Directory.Exists)
+                fileInfo.Directory.Create();
+
             Provider.Save(fileName);
         }
 
@@ -131,7 +138,13 @@ namespace Known.Cells
         /// <param name="format">另存的文件格式。</param>
         public void SaveAs(string fileName, SavedFormat format)
         {
-            Utils.EnsureFile(fileName);
+            if (string.IsNullOrWhiteSpace(fileName))
+                return;
+
+            var fileInfo = new FileInfo(fileName);
+            if (!fileInfo.Directory.Exists)
+                fileInfo.Directory.Create();
+
             Provider.Save(fileName, format);
         }
 

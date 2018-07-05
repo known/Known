@@ -222,6 +222,9 @@ namespace Known.Validation
         /// <returns>是否验证通过。</returns>
         public static bool IsNumber(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return false;
+
             return Regex.IsMatch(input, @"^[0-9]*$");
         }
 
@@ -232,6 +235,9 @@ namespace Known.Validation
         /// <returns>是否验证通过。</returns>
         public static bool IsEmail(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return false;
+
             var pattern = @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
             //var pattern = @"^[a-zA-Z0-9_+.-]+\@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,4}$");
             return Regex.IsMatch(input, pattern);
@@ -244,6 +250,9 @@ namespace Known.Validation
         /// <returns>是否验证通过。</returns>
         public static bool IsUrl(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return false;
+
             return Regex.IsMatch(input, @"http(s)?://([/w-]+/.)+[/w-]+(/[/w- ./?%&=]*)?");
         }
 
@@ -254,6 +263,9 @@ namespace Known.Validation
         /// <returns>是否验证通过。</returns>
         public static bool IsPhone(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return false;
+
             return Regex.IsMatch(input, @"^(\d{3,4}-)?\d{6,8}$");
         }
 
@@ -264,6 +276,9 @@ namespace Known.Validation
         /// <returns>是否验证通过。</returns>
         public static bool IsMobile(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return false;
+
             return Regex.IsMatch(input, @"^[1]+[3,5]+\d{9}");
         }
 
@@ -274,6 +289,9 @@ namespace Known.Validation
         /// <returns>是否验证通过。</returns>
         public static bool IsIDCard(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return false;
+
             return Regex.IsMatch(input, @"(^\d{18}$)|(^\d{15}$)");
         }
 
@@ -284,6 +302,9 @@ namespace Known.Validation
         /// <returns>是否验证通过。</returns>
         public static bool IsPostalcode(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return false;
+
             return Regex.IsMatch(input, @"^\d{6}$");
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Web;
 
 namespace Known.Web
@@ -165,8 +166,15 @@ namespace Known.Web
         /// <returns>服务端文件路径。</returns>
         public static string EnsureFile(string path)
         {
+            if (string.IsNullOrEmpty(path))
+                return string.Empty;
+
             var fileName = HttpContext.Current.Server.MapPath(path);
-            return Utils.EnsureFile(fileName);
+            var fileInfo = new FileInfo(fileName);
+            if (!fileInfo.Directory.Exists)
+                fileInfo.Directory.Create();
+
+            return fileName;
         }
 
         /// <summary>
@@ -179,7 +187,8 @@ namespace Known.Web
                 return;
 
             var fileName = HttpContext.Current.Server.MapPath(path);
-            Utils.DeleteFile(fileName);
+            if (File.Exists(fileName))
+                File.Delete(fileName);
         }
     }
 }

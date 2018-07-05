@@ -11,7 +11,7 @@ namespace Known.Log
     public class FileLogger : Logger, ILogger
     {
         private static Dictionary<long, long> lockDic = new Dictionary<long, long>();
-        private string fileName;
+        private readonly string fileName;
 
         /// <summary>
         /// 构造函数，创建一个文件日志类实例。
@@ -32,7 +32,9 @@ namespace Known.Log
             if (string.IsNullOrEmpty(fileName))
                 return;
 
-            Utils.EnsureFile(fileName);
+            var fileInfo = new FileInfo(fileName);
+            if (!fileInfo.Directory.Exists)
+                fileInfo.Directory.Create();
 
             message += Environment.NewLine;
             using (var fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite, 8, FileOptions.Asynchronous))
