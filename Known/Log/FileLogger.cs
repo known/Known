@@ -5,28 +5,16 @@ using System.Text;
 
 namespace Known.Log
 {
-    /// <summary>
-    /// 文件日志类。
-    /// </summary>
     public class FileLogger : Logger, ILogger
     {
         private static Dictionary<long, long> lockDic = new Dictionary<long, long>();
         private readonly string fileName;
 
-        /// <summary>
-        /// 构造函数，创建一个文件日志类实例。
-        /// </summary>
-        /// <param name="fileName">日志文件路径。</param>
         public FileLogger(string fileName)
         {
             this.fileName = fileName;
         }
 
-        /// <summary>
-        /// 写入单行日志内容。
-        /// </summary>
-        /// <param name="level">日志级别。</param>
-        /// <param name="message">日志内容。</param>
         protected override void WriteLine(LogLevel level, string message)
         {
             if (string.IsNullOrEmpty(fileName))

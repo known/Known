@@ -6,17 +6,8 @@ using Known.Mapping;
 
 namespace Known.Data
 {
-    /// <summary>
-    /// 自动映射器。
-    /// </summary>
     public class AutoMapper
     {
-        /// <summary>
-        /// 根据数据行自动映射实体对象。
-        /// </summary>
-        /// <typeparam name="T">实体类型。</typeparam>
-        /// <param name="row">数据行。</param>
-        /// <returns>实体对象。</returns>
         public static T GetBaseEntity<T>(DataRow row) where T : EntityBase
         {
             var entity = GetEntity<T>(row);
@@ -24,12 +15,6 @@ namespace Known.Data
             return entity;
         }
 
-        /// <summary>
-        /// 根据数据表自动映射实体对象列表。
-        /// </summary>
-        /// <typeparam name="T">实体类型。</typeparam>
-        /// <param name="data">数据表。</param>
-        /// <returns>实体对象列表。</returns>
         public static List<T> GetBaseEntities<T>(DataTable data) where T : EntityBase
         {
             if (data == null || data.Rows.Count == 0)
@@ -43,12 +28,6 @@ namespace Known.Data
             return lists;
         }
 
-        /// <summary>
-        /// 根据数据行自动映射对象。
-        /// </summary>
-        /// <typeparam name="T">对象类型。</typeparam>
-        /// <param name="row">数据行。</param>
-        /// <returns>对象。</returns>
         public static T GetEntity<T>(DataRow row)
         {
             if (row == null)
@@ -69,12 +48,6 @@ namespace Known.Data
             return entity;
         }
 
-        /// <summary>
-        /// 根据数据表自动映射对象列表。
-        /// </summary>
-        /// <typeparam name="T">对象类型。</typeparam>
-        /// <param name="data">数据表。</param>
-        /// <returns>对象列表。</returns>
         public static List<T> GetEntities<T>(DataTable data)
         {
             if (data == null || data.Rows.Count == 0)

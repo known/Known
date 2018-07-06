@@ -5,16 +5,8 @@ using System.Web;
 
 namespace Known.Web
 {
-    /// <summary>
-    /// Web效用类。
-    /// </summary>
     public sealed class WebUtils
     {
-        /// <summary>
-        /// 根据Uri获取远程主机协议及域名。
-        /// </summary>
-        /// <param name="uri">URI。</param>
-        /// <returns>远程主机协议及域名。</returns>
         public static string GetHostName(Uri uri)
         {
             var name = string.Format("{0}://{1}", uri.Scheme, uri.Host);
@@ -26,11 +18,6 @@ namespace Known.Web
             return name;
         }
 
-        /// <summary>
-        /// 格式化HTML内容。
-        /// </summary>
-        /// <param name="text">HTML内容。</param>
-        /// <returns>格式化后HTML内容。</returns>
         public static string FormatHtml(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -44,12 +31,6 @@ namespace Known.Web
             return text;
         }
 
-        /// <summary>
-        /// 添加URL参数片段。
-        /// </summary>
-        /// <param name="rawUrl">原始URL。</param>
-        /// <param name="fragment">参数片段。</param>
-        /// <returns>添加后的完整URL。</returns>
         public static string AddUrlFragment(string rawUrl, string fragment)
         {
             if (string.IsNullOrWhiteSpace(rawUrl))
@@ -78,11 +59,6 @@ namespace Known.Web
             return rtnUrls[0] + "?" + string.Join("&", rtnFragments);
         }
 
-        /// <summary>
-        /// 根据浏览器代理信息获取客户端操作系统名。
-        /// </summary>
-        /// <param name="userAgent">浏览器代理信息。</param>
-        /// <returns>客户端操作系统名。</returns>
         public static string GetOSName(string userAgent)
         {
             if (string.IsNullOrWhiteSpace(userAgent))
@@ -159,11 +135,6 @@ namespace Known.Web
             return osName;
         }
 
-        /// <summary>
-        /// 确信服务端文件路径已经创建。
-        /// </summary>
-        /// <param name="path">文件虚拟路径。</param>
-        /// <returns>服务端文件路径。</returns>
         public static string EnsureFile(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -177,10 +148,6 @@ namespace Known.Web
             return fileName;
         }
 
-        /// <summary>
-        /// 删除服务端文件。
-        /// </summary>
-        /// <param name="path">文件虚拟路径。</param>
         public static void DeleteFile(string path)
         {
             if (string.IsNullOrEmpty(path))

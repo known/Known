@@ -11,34 +11,19 @@ using Known.Web.Extensions;
 
 namespace Known.Web
 {
-    /// <summary>
-    /// Api客户端。
-    /// </summary>
     public class ApiClient
     {
         private readonly int lengthThreshold = 5000;
         private readonly CompressionMethod defaultCompressionMethod = CompressionMethod.GZip;
         private readonly AuthenticationHeaderValue authorization;
 
-        /// <summary>
-        /// 构造函数，创建一个Api客户端实例。
-        /// </summary>
         public ApiClient() { }
 
-        /// <summary>
-        /// 构造函数，创建一个Api客户端实例。
-        /// </summary>
-        /// <param name="token">访问Api的Token。</param>
         public ApiClient(string token)
         {
             authorization = new AuthenticationHeaderValue("Token", token);
         }
 
-        /// <summary>
-        /// 构造函数，创建一个Api客户端实例。
-        /// </summary>
-        /// <param name="account">访问Api的账号。</param>
-        /// <param name="password">访问Api的密码。</param>
         public ApiClient(string account, string password)
         {
             var authParameter = string.Format("{0}:{1}", account, password);
@@ -47,48 +32,22 @@ namespace Known.Web
             authorization = new AuthenticationHeaderValue("Basic", parameter);
         }
 
-        /// <summary>
-        /// GET请求数据。
-        /// </summary>
-        /// <param name="url">请求的URL。</param>
-        /// <param name="param">请求的参数。</param>
-        /// <returns>请求的结果。</returns>
         public string Get(string url, dynamic param = null)
         {
             return Request("GET", url, param);
         }
 
-        /// <summary>
-        /// GET请求返回指定类型的数据。
-        /// </summary>
-        /// <typeparam name="T">返回的数据类型。</typeparam>
-        /// <param name="url">请求的URL。</param>
-        /// <param name="param">请求的参数。</param>
-        /// <returns>指定类型的数据。</returns>
         public T Get<T>(string url, dynamic param = null)
         {
             var json = Get(url, param) as string;
             return json.FromJson<T>();
         }
 
-        /// <summary>
-        /// POST请求数据。
-        /// </summary>
-        /// <param name="url">请求的URL。</param>
-        /// <param name="data">请求的参数。</param>
-        /// <returns>请求的结果。</returns>
         public string Post(string url, dynamic data)
         {
             return Request("POST", url, data);
         }
 
-        /// <summary>
-        /// POST请求返回指定类型的数据。
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="url">请求的URL。</param>
-        /// <param name="data">请求的参数。</param>
-        /// <returns>指定类型的数据。</returns>
         public T Post<T>(string url, dynamic data)
         {
             var json = Post(url, data) as string;

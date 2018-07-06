@@ -9,31 +9,17 @@ using Known.Mapping;
 
 namespace Known.Data
 {
-    /// <summary>
-    /// 数据库命令缓存类。
-    /// </summary>
     public class CommandCache
     {
         private static readonly ConcurrentDictionary<string, IEnumerable<PropertyInfo>> CachedProperties = new ConcurrentDictionary<string, IEnumerable<PropertyInfo>>();
         private static readonly ConcurrentDictionary<RuntimeTypeHandle, TableAttribute> TypeTableAttributes = new ConcurrentDictionary<RuntimeTypeHandle, TableAttribute>();
         private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>> TypeColumnNames = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>>();
 
-        /// <summary>
-        /// 根据SQL获取记录数查询语句。
-        /// </summary>
-        /// <param name="sql">SQL语句。</param>
-        /// <returns>记录数查询语句。</returns>
         public static string GetCountSql(string sql)
         {
             return $"select count(1) from ({sql})";
         }
 
-        /// <summary>
-        /// 根据SQL获取分页查询语句。
-        /// </summary>
-        /// <param name="sql">SQL语句。</param>
-        /// <param name="criteria">分页查询条件。</param>
-        /// <returns>分页查询语句。</returns>
         public static string GetPagingSql(string sql, PagingCriteria criteria)
         {
             var orderBy = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)));
@@ -42,12 +28,6 @@ namespace Known.Data
             return $"select t.* from (select t1.*,row_number() over (order by {orderBy}) RowNo from ({sql}) t1) t where t.RowNo>{startNo} and t.RowNo<={endNo}";
         }
 
-        /// <summary>
-        /// 根据SQL获取缓存的数据库命令。
-        /// </summary>
-        /// <param name="sql">SQL语句。</param>
-        /// <param name="param">语句参数。</param>
-        /// <returns>数据库命令。</returns>
         public static Command GetCommand(string sql, dynamic param = null)
         {
             if (string.IsNullOrWhiteSpace(sql))
@@ -71,12 +51,6 @@ namespace Known.Data
             return command;
         }
 
-        /// <summary>
-        /// 根据实体对象获取保存命令。
-        /// </summary>
-        /// <typeparam name="T">实体对象类型。</typeparam>
-        /// <param name="entity">实体对象。</param>
-        /// <returns>数据库命令。</returns>
         public static Command GetSaveCommand<T>(T entity) where T : EntityBase
         {
             if (entity == null)
@@ -117,12 +91,6 @@ namespace Known.Data
             }
         }
 
-        /// <summary>
-        /// 根据实体对象获取删除命令。
-        /// </summary>
-        /// <typeparam name="T">实体对象类型。</typeparam>
-        /// <param name="entity">实体对象。</param>
-        /// <returns>数据库命令。</returns>
         public static Command GetDeleteCommand<T>(T entity) where T : EntityBase
         {
             if (entity == null)
@@ -140,12 +108,6 @@ namespace Known.Data
             return command;
         }
 
-        /// <summary>
-        /// 根据表名及参数获取查询数据命令。
-        /// </summary>
-        /// <param name="tableName">表名。</param>
-        /// <param name="parameters">命令参数字典。</param>
-        /// <returns>数据库命令。</returns>
         public static Command GetSelectCommand(string tableName, Dictionary<string, object> parameters = null)
         {
             if (string.IsNullOrWhiteSpace(tableName))
@@ -159,11 +121,6 @@ namespace Known.Data
             return new Command($"select * from {tableName}{where}", parameters);
         }
 
-        /// <summary>
-        /// 根据数据表获取插入数据命令。
-        /// </summary>
-        /// <param name="table">数据表。</param>
-        /// <returns>数据库命令。</returns>
         public static Command GetInsertCommand(DataTable table)
         {
             if (table == null || table.Columns.Count == 0)
@@ -178,12 +135,6 @@ namespace Known.Data
             return new Command($"insert into {table.TableName}({columns}) values({values})");
         }
 
-        /// <summary>
-        /// 根据表名及参数获取插入数据命令。
-        /// </summary>
-        /// <param name="tableName">表名。</param>
-        /// <param name="parameters">命令参数字典。</param>
-        /// <returns>数据库命令。</returns>
         public static Command GetInsertCommand(string tableName, Dictionary<string, object> parameters)
         {
             if (string.IsNullOrWhiteSpace(tableName))
@@ -197,13 +148,6 @@ namespace Known.Data
             return new Command($"insert into {tableName}({columns}) values({values})", parameters);
         }
 
-        /// <summary>
-        /// 根据表名及参数获取修改数据命令。
-        /// </summary>
-        /// <param name="tableName">表名。</param>
-        /// <param name="keyFields">主键字段名，多个用“,”分割。</param>
-        /// <param name="parameters">命令参数字典。</param>
-        /// <returns>数据库命令。</returns>
         public static Command GetUpdateCommand(string tableName, string keyFields, Dictionary<string, object> parameters)
         {
             if (string.IsNullOrWhiteSpace(tableName))
@@ -220,12 +164,6 @@ namespace Known.Data
             return new Command($"update {tableName} set {columns} where {where}", parameters);
         }
 
-        /// <summary>
-        /// 根据表名及参数获取删除数据命令。
-        /// </summary>
-        /// <param name="tableName">表名。</param>
-        /// <param name="parameters">命令参数字典。</param>
-        /// <returns>数据库命令。</returns>
         public static Command GetDeleteCommand(string tableName, Dictionary<string, object> parameters)
         {
             if (string.IsNullOrWhiteSpace(tableName))

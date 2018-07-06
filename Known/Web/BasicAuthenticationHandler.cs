@@ -9,19 +9,10 @@ using System.Web;
 
 namespace Known.Web
 {
-    /// <summary>
-    /// 基本身份认证处理者。
-    /// </summary>
     public class BasicAuthenticationHandler : DelegatingHandler
     {
         private const string AuthenticationHeader = "WWW-Authenticate";
 
-        /// <summary>
-        /// 异步发送Http请求到要发送到服务器的内部处理程序。
-        /// </summary>
-        /// <param name="request">要发送到服务器的Http请求消息。</param>
-        /// <param name="cancellationToken">用于取消操作的取消标记。</param>
-        /// <returns>表示异步操作的任务对象。</returns>
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var identity = ParseAuthenticationHeader(request);
@@ -30,9 +21,10 @@ namespace Known.Web
                 var principal = new GenericPrincipal(identity, null);
                 Thread.CurrentPrincipal = principal;
 
-                //针对于ASP.NET设置
                 if (HttpContext.Current != null)
+                {
                     HttpContext.Current.User = principal;
+                }
             }
 
             return base.SendAsync(request, cancellationToken).ContinueWith(task =>

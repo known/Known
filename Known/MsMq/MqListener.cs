@@ -4,19 +4,12 @@ using System.Messaging;
 
 namespace Known.MsMq
 {
-    /// <summary>
-    /// MQ监听者。
-    /// </summary>
     public class MqListener
     {
         private bool listen;
         private MessageQueue queue;
         private Action<MqMessage> action;
 
-        /// <summary>
-        /// 构造函数，创建一个MQ监听者实例。
-        /// </summary>
-        /// <param name="config">MQ配置信息。</param>
         public MqListener(MqConfigInfo config)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));
@@ -29,15 +22,8 @@ namespace Known.MsMq
             };
         }
 
-        /// <summary>
-        /// 取得MQ配置信息。
-        /// </summary>
         public MqConfigInfo Config { get; }
 
-        /// <summary>
-        /// 开始监听。
-        /// </summary>
-        /// <param name="action">监听消息处理者。</param>
         public void Start(Action<MqMessage> action)
         {
             this.action = action;
@@ -47,9 +33,6 @@ namespace Known.MsMq
             StartListening();
         }
 
-        /// <summary>
-        /// 停止监听。
-        /// </summary>
         public void Stop()
         {
             listen = false;
@@ -62,8 +45,6 @@ namespace Known.MsMq
             if (!listen)
                 return;
 
-            // 异步接收BeginReceive()方法无MessageQueueTransaction重载(微软类库的Bug?)
-            // 这里变通一下：先异步BeginPeek()，然后带事务异步接收Receive(MessageQueueTransaction)
             if (queue.Transactional)
                 queue.BeginPeek();
             else

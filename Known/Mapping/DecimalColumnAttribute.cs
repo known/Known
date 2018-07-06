@@ -3,25 +3,11 @@ using System.Collections.Generic;
 
 namespace Known.Mapping
 {
-    /// <summary>
-    /// 数值型栏位特性，用于实体和表栏位的映射。
-    /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class DecimalColumnAttribute : ColumnAttribute
     {
-        /// <summary>
-        /// 构造函数，创建一个数值型栏位特性实例。
-        /// </summary>
         public DecimalColumnAttribute() { }
 
-        /// <summary>
-        /// 构造函数，创建一个数值型栏位特性实例。
-        /// </summary>
-        /// <param name="columnName">表栏位名。</param>
-        /// <param name="description">表栏位描述。</param>
-        /// <param name="nullable">是否可空。</param>
-        /// <param name="integerLength">整数位数。</param>
-        /// <param name="decimalLength">小数位数。</param>
         public DecimalColumnAttribute(string columnName, string description, bool nullable, int integerLength, int decimalLength)
             : base(columnName, description, nullable)
         {
@@ -29,21 +15,9 @@ namespace Known.Mapping
             DecimalLength = decimalLength;
         }
 
-        /// <summary>
-        /// 取得或设置整数位数。
-        /// </summary>
         public int? IntegerLength { get; set; }
-
-        /// <summary>
-        /// 取得或设置小数位数。
-        /// </summary>
         public int? DecimalLength { get; set; }
 
-        /// <summary>
-        /// 验证实体属性值。
-        /// </summary>
-        /// <param name="value">属性值。</param>
-        /// <param name="errors">错误集合。</param>
         public override void Validate(object value, List<string> errors)
         {
             base.Validate(value, errors);

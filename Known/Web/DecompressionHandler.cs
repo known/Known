@@ -6,17 +6,8 @@ using System.Threading.Tasks;
 
 namespace Known.Web
 {
-    /// <summary>
-    /// 解压缩处理者。
-    /// </summary>
     public class DecompressionHandler : DelegatingHandler
     {
-        /// <summary>
-        /// 异步发送请求。
-        /// </summary>
-        /// <param name="request">HTTP请求消息。</param>
-        /// <param name="cancellationToken">用于取消操作的取消标记。</param>
-        /// <returns>异步操作的任务对象。</returns>
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             if (request.Method.Method == "POST")

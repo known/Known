@@ -6,17 +6,10 @@ using System.Data.Common;
 
 namespace Known.Data
 {
-    /// <summary>
-    /// 默认数据访问提供者。
-    /// </summary>
     public class DefaultDbProvider : IDbProvider
     {
         private IDbConnection connection;
 
-        /// <summary>
-        /// 构造函数，创建一个数据访问提供者实例。
-        /// </summary>
-        /// <param name="name">数据库链接名称。</param>
         public DefaultDbProvider(string name)
         {
             var setting = ConfigurationManager.ConnectionStrings[name];
@@ -27,20 +20,9 @@ namespace Known.Data
             ConnectionString = setting.ConnectionString;
         }
 
-        /// <summary>
-        /// 取得数据库提供者名称。
-        /// </summary>
         public string ProviderName { get; }
-
-        /// <summary>
-        /// 取得数据库连接字符串。
-        /// </summary>
         public string ConnectionString { get; }
 
-        /// <summary>
-        /// 执行增删改数据库命令。
-        /// </summary>
-        /// <param name="command">增删改数据库命令。</param>
         public void Execute(Command command)
         {
             try
@@ -61,10 +43,6 @@ namespace Known.Data
             }
         }
 
-        /// <summary>
-        /// 执行增删改数据库命令集合。
-        /// </summary>
-        /// <param name="commands">增删改数据库命令集合。</param>
         public void Execute(List<Command> commands)
         {
             try
@@ -98,11 +76,6 @@ namespace Known.Data
             }
         }
 
-        /// <summary>
-        /// 执行查询数据库命令，返回标量。
-        /// </summary>
-        /// <param name="command">查询数据库命令。</param>
-        /// <returns></returns>
         public object Scalar(Command command)
         {
             try
@@ -123,11 +96,6 @@ namespace Known.Data
             }
         }
 
-        /// <summary>
-        /// 执行查询数据库命令，返回查询结果集。
-        /// </summary>
-        /// <param name="command">查询数据库命令。</param>
-        /// <returns>查询结果集。</returns>
         public DataTable Query(Command command)
         {
             try
@@ -151,10 +119,6 @@ namespace Known.Data
             }
         }
 
-        /// <summary>
-        /// 将整表数据写入数据库，表名及栏位名需与数据库一致。
-        /// </summary>
-        /// <param name="table">数据表。</param>
         public void WriteTable(DataTable table)
         {
             try

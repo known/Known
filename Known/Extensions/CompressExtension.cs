@@ -6,16 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Known.Extensions
 {
-    /// <summary>
-    /// 对象解压缩扩展类。
-    /// </summary>
     public static class CompressExtension
     {
-        /// <summary>
-        /// 将对象压缩成字节数组。
-        /// </summary>
-        /// <param name="value">对象。</param>
-        /// <returns>字节数组。</returns>
         public static byte[] Compress(this object value)
         {
             if (value == null)
@@ -37,12 +29,6 @@ namespace Known.Extensions
             return buffer;
         }
 
-        /// <summary>
-        /// 将字节数组解压成指定类型的对象。
-        /// </summary>
-        /// <typeparam name="T">对象类型。</typeparam>
-        /// <param name="bytes">字节数组。</param>
-        /// <returns>指定类型的对象。</returns>
         public static T Decompress<T>(this byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0)
@@ -71,11 +57,6 @@ namespace Known.Extensions
             return (T)bf.Deserialize(new MemoryStream(buffer));
         }
 
-        /// <summary>
-        /// 将DataSet压缩成字节数组。
-        /// </summary>
-        /// <param name="set">DataSet对象。</param>
-        /// <returns>字节数组。</returns>
         public static byte[] Compress(this DataSet set)
         {
             if (set == null)
@@ -97,14 +78,9 @@ namespace Known.Extensions
             }
         }
 
-        /// <summary>
-        /// 将字节数组解压成DataSet对象。
-        /// </summary>
-        /// <param name="buffer">字节数组。</param>
-        /// <returns>DataSet对象。</returns>
         public static DataSet Decompress(this byte[] buffer)
         {
-            if (buffer == null)
+            if (buffer == null || buffer.Length == 0)
                 return null;
 
             using (var ms = new MemoryStream())
