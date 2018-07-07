@@ -71,5 +71,11 @@ namespace Known.Web.Extensions
             }
             return result;
         }
+
+        public static string GetIPAddressName(this HttpRequest request)
+        {
+            var ipAddress = request.GetIPAddress();
+            return IPInfo.GetIPAddressName(ipAddress);
+        }
     }
 }

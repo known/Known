@@ -13,6 +13,12 @@ namespace Known.Web.Controllers
             return View();
         }
 
+        [LoginAuthorize]
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
+
         public ActionResult Login(string backUrl)
         {
             ViewBag.BackUrl = backUrl;
