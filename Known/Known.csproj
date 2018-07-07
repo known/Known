@@ -38,6 +38,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Messaging" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
@@ -54,6 +55,7 @@
     <Compile Include="BusinessFactory.cs" />
     <Compile Include="Cache\DefaultCache.cs" />
     <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Cache\MemoryCache.cs" />
     <Compile Include="Cells\ImageSetting.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Context.cs" />
