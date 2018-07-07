@@ -16,7 +16,7 @@ namespace Known.Data
             if (attr != null)
                 return attr.ColumnName;
 
-            if (property.PropertyType.IsSubclassOf(typeof(EntityBase)))
+            if (property.PropertyType.IsSubclassOf(typeof(BaseEntity)))
                 return property.Name + "Id";
 
             return property.Name;

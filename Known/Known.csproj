@@ -67,6 +67,7 @@
     <Compile Include="Data\DatabaseException.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\IDbProvider.cs" />
+    <Compile Include="Data\IRepository.cs" />
     <Compile Include="Drawing\ImageMergeOrientation.cs" />
     <Compile Include="Encryptor.cs" />
     <Compile Include="Extensions\CompressExtension.cs" />
@@ -101,7 +102,7 @@
     <Compile Include="Mapping\DecimalColumnAttribute.cs" />
     <Compile Include="Mapping\EnumColumnAttribute.cs" />
     <Compile Include="Mapping\IntegerColumnAttribute.cs" />
-    <Compile Include="Mapping\EntityBase.cs" />
+    <Compile Include="Mapping\BaseEntity.cs" />
     <Compile Include="Mapping\StringColumnAttribute.cs" />
     <Compile Include="Mapping\TableAttribute.cs" />
     <Compile Include="Extensions\CollectionExtension.cs" />

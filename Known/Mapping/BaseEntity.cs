@@ -5,9 +5,9 @@ using Known.Validation;
 
 namespace Known.Mapping
 {
-    public class EntityBase
+    public class BaseEntity
     {
-        public EntityBase()
+        public BaseEntity()
         {
             IsNew = true;
         }

@@ -31,7 +31,7 @@ namespace Known.Data
             return (T)provider.Scalar(command);
         }
 
-        public T Query<T>(string sql, dynamic param = null) where T : EntityBase
+        public T Query<T>(string sql, dynamic param = null) where T : BaseEntity
         {
             var row = QueryRow(sql, param);
             if (row == null)
@@ -40,7 +40,7 @@ namespace Known.Data
             return AutoMapper.GetBaseEntity<T>(row);
         }
 
-        public List<T> QueryList<T>(string sql, dynamic param = null) where T : EntityBase
+        public List<T> QueryList<T>(string sql, dynamic param = null) where T : BaseEntity
         {
             var data = QueryTable(sql, param);
             return AutoMapper.GetBaseEntities(data);
@@ -63,7 +63,7 @@ namespace Known.Data
             return new PagingResult<T>(totalCount, pageData);
         }
 
-        public void Save<T>(T entity) where T : EntityBase
+        public void Save<T>(T entity) where T : BaseEntity
         {
             if (entity.IsNew)
             {
@@ -80,7 +80,7 @@ namespace Known.Data
             commands.Add(command);
         }
 
-        public void Save<T>(List<T> entities) where T : EntityBase
+        public void Save<T>(List<T> entities) where T : BaseEntity
         {
             foreach (var entity in entities)
             {
@@ -88,13 +88,13 @@ namespace Known.Data
             }
         }
 
-        public void Delete<T>(T entity) where T : EntityBase
+        public void Delete<T>(T entity) where T : BaseEntity
         {
             var command = CommandCache.GetDeleteCommand(entity);
             commands.Add(command);
         }
 
-        public void Delete<T>(List<T> entities) where T : EntityBase
+        public void Delete<T>(List<T> entities) where T : BaseEntity
         {
             foreach (var entity in entities)
             {

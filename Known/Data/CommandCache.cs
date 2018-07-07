@@ -51,7 +51,7 @@ namespace Known.Data
             return command;
         }
 
-        public static Command GetSaveCommand<T>(T entity) where T : EntityBase
+        public static Command GetSaveCommand<T>(T entity) where T : BaseEntity
         {
             if (entity == null)
                 return null;
@@ -91,7 +91,7 @@ namespace Known.Data
             }
         }
 
-        public static Command GetDeleteCommand<T>(T entity) where T : EntityBase
+        public static Command GetDeleteCommand<T>(T entity) where T : BaseEntity
         {
             if (entity == null)
                 return null;

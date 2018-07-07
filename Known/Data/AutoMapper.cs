@@ -8,14 +8,14 @@ namespace Known.Data
 {
     public class AutoMapper
     {
-        public static T GetBaseEntity<T>(DataRow row) where T : EntityBase
+        public static T GetBaseEntity<T>(DataRow row) where T : BaseEntity
         {
             var entity = GetEntity<T>(row);
             entity.IsNew = false;
             return entity;
         }
 
-        public static List<T> GetBaseEntities<T>(DataTable data) where T : EntityBase
+        public static List<T> GetBaseEntities<T>(DataTable data) where T : BaseEntity
         {
             if (data == null || data.Rows.Count == 0)
                 return null;
@@ -63,9 +63,9 @@ namespace Known.Data
 
         private static object GetPropertyValue(Type type, object value)
         {
-            if (type.IsSubclassOf(typeof(EntityBase)))
+            if (type.IsSubclassOf(typeof(BaseEntity)))
             {
-                var entity = Activator.CreateInstance(type) as EntityBase;
+                var entity = Activator.CreateInstance(type) as BaseEntity;
                 entity.Id = value.ToString();
                 entity.IsNew = false;
                 return entity;
