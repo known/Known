@@ -9,7 +9,6 @@
 }
 
 $(function () {
-
     //menu
     var menu = new Menu('#mainMenu', {
         itemclick: function (item) {
@@ -23,13 +22,10 @@ $(function () {
 
     new MenuTip(menu);
 
-    $.ajax({
-        url: '/menu.json',
-        success: function (text) {
-            var data = mini.decode(text);
-            menu.loadData(data);
-        }
-    })
+    Ajax.getJson('/api/user/getmenus', function (result) {
+        console.log(result);
+        menu.loadData(result);
+    });
 
     //toggle
     $('#toggle, .sidebar-toggle').click(function () {
@@ -42,23 +38,24 @@ $(function () {
         $(this).parent().addClass('open');
         return false;
     });
-
     $(document).click(function (event) {
         $('.dropdown').removeClass('open');
     });
 
     //navbar
     $('#navTodo').click(function () {
-        activeTab({ id: '', text: '代办事项' });
+        activeTab({ id: 'todo', text: '代办事项' });
     });
 
     //userinfo menu
     $('#ddmUserInfo').click(function () {
+        Ajax.getJson('/api/user/getuserinfo', function (data) {
+        });
     });
     $('#ddmUpdatePwd').click(function () {
     });
     $('#ddmLogout').click(function () {
-        Ajax.postText('/home/signout', null, function () {
+        Ajax.postText('/user/signout', function () {
             location = location;
         });
     });

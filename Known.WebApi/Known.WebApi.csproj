@@ -95,6 +95,7 @@
     <Compile Include="Code\WebApiConfig.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="menu.json" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

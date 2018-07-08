@@ -14,7 +14,7 @@ namespace Known.WebApi
                 if (context == null)
                 {
                     var database = Config.GetDatabase();
-                    var logger = new TraceLogger(HttpRuntime.AppDomainAppPath);
+                    var logger = new FileLogger();
                     context = new Context(database, logger, UserName);
                 }
                 return context;

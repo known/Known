@@ -81,7 +81,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="menu.json" />
     <None Include="bundleconfig.json" />
     <None Include="packages.config" />
     <Content Include="Global.asax" />
@@ -481,8 +480,10 @@
   <ItemGroup>
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\AuthorizeController.cs" />
+    <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Code\FilterConfig.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\AntiForgeryAttribute.cs" />
     <Compile Include="Filters\LoginAuthorizeAttribute.cs" />
     <Compile Include="Filters\TrackActionAttribute.cs" />

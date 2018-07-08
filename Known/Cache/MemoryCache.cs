@@ -7,7 +7,10 @@ namespace Known.Cache
     {
         private readonly ObjectCache cache = System.Runtime.Caching.MemoryCache.Default;
 
-        public int Count { get; }
+        public int Count
+        {
+            get { return (int)cache.GetCount(); }
+        }
 
         public object Get(string key)
         {

@@ -1,5 +1,7 @@
 ﻿using System.Web.Mvc;
 using Known.Drawing;
+using Known.Extensions;
+using Known.Log;
 using Known.Platform;
 using Known.Web.Extensions;
 
@@ -7,6 +9,8 @@ namespace Known.Web
 {
     public class BaseController : AsyncController, IController
     {
+        protected ILogger log = new FileLogger();
+
         public BaseController()
         {
             ViewBag.SystemName = Config.AppSetting("SystemName");
@@ -62,6 +66,6 @@ namespace Known.Web
         public ActionResult ErrorResult<T>(string message, T data) => JsonResult(Result.Error(message, data));
         public ActionResult SuccessResult(string message) => JsonResult(Result.Success(message));
         public ActionResult SuccessResult<T>(string message, T data) => JsonResult(Result.Success(message, data));
-        public ActionResult JsonResult(object data) => Json(data, JsonRequestBehavior.AllowGet);
+        public ActionResult JsonResult(object data) => Content(data.ToJson(), MimeTypes.ApplicationJson);
     }
 }

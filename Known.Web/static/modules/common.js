@@ -117,9 +117,21 @@ Array.prototype.max = function (prop) {
 ///////////////////////////////////////////////////////////////////////
 var Ajax = {
     _request: function (type, dataType, url, param, callback) {
+        var data;
+        if (typeof param === 'function') {
+            callback = param;
+        } else {
+            data = param;
+        }
+
+        if (url.startWith('/api/')) {
+            data = { url: url, param: param };
+            url = type === 'get' ? '/api/get' : '/api/post';
+        }
+        
         $.ajax({
             type: type, dataType: dataType,
-            url: url, data: param,
+            url: url, data: data,
             cache: false, async: true,
             success: function (result) {
                 if (callback) {
@@ -140,10 +152,6 @@ var Ajax = {
     postJson: function (url, param, callback) {
         this._request('post', 'json', url, param, callback);
     }
-};
-
-///////////////////////////////////////////////////////////////////////
-var Message = {
 };
 
 ///////////////////////////////////////////////////////////////////////

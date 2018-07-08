@@ -6,14 +6,25 @@ namespace Known.Log
 {
     public class TraceLogger : Logger, ILogger
     {
-        public TraceLogger(string logPath)
+        public TraceLogger()
         {
-            var fileName = Path.Combine(logPath, "logs", DateTime.Now.ToString("yyyyMMdd") + ".log");
+            var fileName = Path.Combine(Environment.CurrentDirectory, "logs", DateTime.Now.ToString("yyyyMMdd") + ".log");
+            Initialize(fileName);
+        }
+
+        public TraceLogger(string fileName)
+        {
+            Initialize(fileName);
+        }
+
+        private void Initialize(string fileName)
+        {
             var fileInfo = new FileInfo(fileName);
             if (!fileInfo.Directory.Exists)
                 fileInfo.Directory.Create();
 
             System.Diagnostics.Trace.AutoFlush = true;
+            System.Diagnostics.Trace.Listeners.Clear();
             System.Diagnostics.Trace.Listeners.Add(new TextWriterTraceListener(fileName));
         }
 

@@ -10,6 +10,11 @@ namespace Known.Log
         private static Dictionary<long, long> lockDic = new Dictionary<long, long>();
         private readonly string fileName;
 
+        public FileLogger()
+        {
+            this.fileName = Path.Combine(Environment.CurrentDirectory, "logs", DateTime.Now.ToString("yyyyMMdd") + ".log");
+        }
+
         public FileLogger(string fileName)
         {
             this.fileName = fileName;

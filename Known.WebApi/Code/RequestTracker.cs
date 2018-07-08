@@ -9,7 +9,7 @@ namespace Known.WebApi
 {
     public class RequestTracker
     {
-        private static readonly Logger logger = new TraceLogger(HttpRuntime.AppDomainAppPath);
+        private static readonly Logger log = new FileLogger();
 
         public string ClientIp { get; set; }
         public DateTime StartTime { get; set; }
@@ -55,7 +55,7 @@ Action名称：{6}
 异常信息：{11}",
 new string('-', 100), ClientIp, StartTime, EndTime, TotalMilliseconds,
 ControllerName, ActionName, HttpMethod, Headers, Parameters, Result, Error);
-            logger.Info(info);
+            log.Info(info);
         }
     }
 }
