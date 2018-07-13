@@ -26,15 +26,15 @@ namespace Known.Web
 
         private static string GetHtmlString(HtmlHelper helper, string format, string path)
         {
-            var html = string.Format(format, path);
+            var random = DateTime.Now.ToString("yyMMddss");
+            var html = string.Format(format, path + "?r=" + random);
             var httpContext = helper.ViewContext.RequestContext.HttpContext;
             if (httpContext.IsDebuggingEnabled)
             {
                 var bundle = BundleInfo.GetBundle(httpContext, path);
                 if (bundle != null)
                 {
-                    var radom = DateTime.Now.ToString("ssfff");
-                    var paths = bundle.inputFiles.Select(f => string.Format(format, f + "?r=" + radom));
+                    var paths = bundle.inputFiles.Select(f => string.Format(format, f + "?r=" + random));
                     html = string.Join(Environment.NewLine, paths);
                 }
             }
