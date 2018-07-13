@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="~/static/modules/index/index.min.css">
+    @Html.MinStyle("static/modules/index/index.min.css")
 </head>
 <body>
     @Html.AntiForgeryToken()
@@ -56,6 +56,6 @@
             </div>
         </div>
     </div>
-    <script src="~/static/modules/index/index.min.js"></script>
+    @Html.MinScript("static/modules/index/index.min.js")
 </body>
 </html>
