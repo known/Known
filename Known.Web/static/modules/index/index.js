@@ -23,7 +23,6 @@ $(function () {
     new MenuTip(menu);
 
     Ajax.getJson('/api/user/getmenus', function (result) {
-        console.log('result:' + result);
         menu.loadData(result.Data);
     });
 

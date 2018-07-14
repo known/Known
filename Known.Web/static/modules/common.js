@@ -116,18 +116,33 @@ Array.prototype.max = function (prop) {
 
 ///////////////////////////////////////////////////////////////////////
 var Ajax = {
-    _request: function (type, dataType, url, param, callback) {
-        var data;
-        if (typeof param === 'function') {
-            callback = param;
-        } else {
-            data = param;
+    _request: function (type, dataType, args) {
+        var url = args[0],
+            data = null,
+            param = null,
+            callback = null;
+
+        if (args.length > 2) {
+            data = args[1];
+            param = args[1];
+            callback = args[2];
+        } else if (args.length > 1) {
+            if (typeof args[1] === 'function') {
+                callback = args[1];
+            } else {
+                data = args[1];
+                param = args[1];
+            }
         }
 
         if (url.startWith('/api/')) {
             data = { url: url, param: param };
             url = type === 'get' ? '/api/get' : '/api/post';
         }
+
+        //console.log(url);
+        //console.log(data);
+        //console.log(callback);
         
         $.ajax({
             type: type, dataType: dataType,
@@ -140,17 +155,17 @@ var Ajax = {
             }
         });
     },
-    getText: function (url, param, callback) {
-        this._request('get', 'text', url, param, callback);
+    getText: function () {
+        this._request('get', 'text', arguments);
     },
-    postText: function (url, param, callback) {
-        this._request('post', 'text', url, param, callback);
+    postText: function () {
+        this._request('post', 'text', arguments);
     },
-    getJson: function (url, param, callback) {
-        this._request('get', 'json', url, param, callback);
+    getJson: function () {
+        this._request('get', 'json', arguments);
     },
-    postJson: function (url, param, callback) {
-        this._request('post', 'json', url, param, callback);
+    postJson: function () {
+        this._request('post', 'json', arguments);
     }
 };
 
