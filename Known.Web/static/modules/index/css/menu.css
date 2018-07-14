@@ -66,3 +66,11 @@ ul, li {
 .menu ul ul .menu-title {
     padding-left: 60px;
 }
+
+.menutip {
+    z-index: 100;
+}
+
+.menu-icon {
+    width: 18px;
+}
