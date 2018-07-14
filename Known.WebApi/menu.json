@@ -1,84 +1,26 @@
 ﻿[
   {
-    "id": "DevPlatform",
-    "text": "开发平台",
-    "iconCls": "fa fa-send-o",
+    "id": "System",
+    "text": "系统管理",
+    "iconCls": "fa fa-desktop",
     "children": [
       {
-        "id": "SystemManage",
-        "text": "系统管理",
-        "iconCls": "fa fa-desktop",
-        "children": [
-          {
-            "id": "ModuleManage",
-            "text": "模块管理",
-            "iconCls": "fa fa-search",
-            "url": "http://www.baidu.com"
-          },
-          {
-            "id": "RoleManage",
-            "text": "角色管理",
-            "iconCls": "fa fa-window-restore",
-            "url": "http://www.cnblogs.com"
-          },
-          {
-            "id": "UserManage",
-            "text": "用户管理",
-            "iconCls": "fa fa-vcard",
-            "url": "http://www.oschina.com"
-          }
-        ]
+        "id": "Module",
+        "text": "模块管理",
+        "iconCls": "fa fa-cubes",
+        "url": "/System/ModuleView"
       },
       {
-        "id": "OtherTool",
-        "text": "其他工具",
-        "iconCls": "fa fa-file-excel-o",
-        "children": [
-          {
-            "text": "常用网站",
-            "children": [
-              {
-                "text": "百度",
-                "url": "http://www.baidu.com"
-              },
-              {
-                "text": "博客园",
-                "url": "http://www.cnblogs.com"
-              },
-              {
-                "text": "开源中国",
-                "url": "http://www.oschina.com"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "text": "业务系统",
-    "children": [
+        "id": "Role",
+        "text": "角色管理",
+        "iconCls": "fa fa-group",
+        "url": "/System/RoleView"
+      },
       {
-        "text": "其他工具",
-        "children": [
-          {
-            "text": "常用网站",
-            "children": [
-              {
-                "text": "百度1",
-                "url": "http://www.baidu.com"
-              },
-              {
-                "text": "博客园1",
-                "url": "http://www.cnblogs.com"
-              },
-              {
-                "text": "开源中国1",
-                "url": "http://www.oschina.com"
-              }
-            ]
-          }
-        ]
+        "id": "User",
+        "text": "用户管理",
+        "iconCls": "fa fa-user-o",
+        "url": "/System/UserView"
       }
     ]
   }
