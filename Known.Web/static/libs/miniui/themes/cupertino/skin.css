@@ -1,0 +1,221 @@
+﻿@import url("../default/flatstyle.css");
+
+/* common theme */
+.mini-widget-content,
+body, .mini-popup, .mini-toolbar, .separator, .mini-panel-border, .mini-pager,
+.mini-panel-toolbar, .mini-panel-footer, .mini-panel-viewport, .mini-window .mini-panel-footer,
+.mini-outlookbar-border, .mini-outlookbar .mini-outlookbar-group, .mini-outlookbar .mini-outlookbar-groupBody, .mini-outlookbar-view2 .mini-outlookbar-groupBody, mini-outlookbar-view3 .mini-outlookbar-group,
+.mini-splitter-border, .mini-splitter .mini-splitter-pane1, .mini-splitter .mini-splitter-pane2,
+.mini-layout-border, .mini-layout-region,
+.mini-menu, .mini-menu-border, .mini-menu-horizontal .mini-menu-border
+.mini-grid-border, .mini-grid-footer, .mini-grid-pager, .mini-grid-filterRow, .mini-grid-groupCell, .mini-grid-summaryCell,
+.mini-listbox-border,
+.mini-progressbar-border,
+.mini-calendar, .mini-calendar-footer, .mini-calendar-menu,
+.mini-tabs-bodys, .mini-tabs .mini-tabs-space, .mini-tabs .mini-tabs-space2, .mini-tabs .mini-tab-active,
+.mini-textbox-border,
+.mini-buttonedit-border,
+.mini-textboxlist-border, .mini-tooltip-inner,
+body .mini-pager-num
+{
+    border-color:#aed0ea;
+    background:#f2f5f7;
+    color:#362b36
+}
+
+.mini-widget-header,
+.app-header, .app-toolbar, .bg-toolbar, 
+.mini-panel-header,
+.mini-window .mini-panel-header,
+.mini-outlookbar .mini-outlookbar-groupHeader, .mini-outlookbar-expand .mini-outlookbar-groupHeader, .mini-outlookbar-view2 .mini-outlookbar-groupHeader,
+.mini-layout-region-header, .mini-layout-proxy,
+.mini-calendar-header,
+.mini-tabs-scrollCt, 
+.mini-tabs .mini-tabs-space, .mini-tabs .mini-tabs-space2
+{
+    border-color:#aed0ea;
+    background:#deedf7;
+    color:#222;
+}
+
+.mini-state-default,
+.mini-button,
+.mini-grid-header, .mini-grid-column-trigger, .mini-grid-headerCell,.mini-grid-topRightCell,.mini-grid-columnproxy,
+.mini-listbox-header, .mini-listbox-header td,
+.mini-progressbar-bar,
+.mini-calendar-tadayButton, .mini-calendar-clearButton, .mini-calendar-okButton, .mini-calendar-cancelButton,
+.mini-tabs-leftButton, .mini-tabs-rightButton,.mini-tabs-tabmenu,
+.mini-tab,
+.mini-textboxlist .mini-textboxlist-item,
+.mini-htmlfile .mini-buttonedit-button
+{
+    border-color:#aed0ea;
+    background:#d7ebf9;
+    color:#2779aa;    
+}
+
+.mini-state-hover, .mini-state-focus,
+body a:hover.mini-button,
+body a:focus.mini-button,
+body .mini-button-pressed, body a:hover.mini-button-pressed,
+body a.mini-button-popup, body a:hover.mini-button-popup,
+.mini-outlookbar .mini-outlookbar-hover, 
+.mini-layout-proxy-hover,
+.mini-menuitem-hover,.mini-menu-popup,.mini-menuitem-selected,
+html body .mini-grid-row-hover,
+.mini-listbox-item-hover td,
+.mini-calendar-tadayButton:hover, .mini-calendar-clearButton:hover, .mini-calendar-okButton:hover, .mini-calendar-cancelButton:hover,
+a:hover.mini-calendar-menu-month,a:hover.mini-calendar-menu-year, .mini-calendar-date:hover,
+a:hover.mini-tabs-leftButton,a:hover.mini-tabs-rightButton,a:hover.mini-tabs-tabmenu,
+.mini-tab-hover, span.mini-tab-close-hover,
+.mini-tree-node-hover .mini-tree-nodeshow,
+.mini-textbox-focus .mini-textbox-border,
+.mini-buttonedit-focus .mini-buttonedit-border,
+.mini-textboxlist-focus .mini-textboxlist-border, 
+.mini-textboxlist .mini-textboxlist-item:hover,
+.mini-htmlfile .mini-buttonedit-button:hover, .mini-pager-num:focus
+{
+    border-color:#74b2e2;
+    background:#e4f1fb;
+    color:#0070a3;
+}
+
+.mini-state-active,
+body .mini-button-checked, body a:hover.mini-button-checked, body a:focus.mini-button-checked,
+html body .mini-grid-row-selected,
+.mini-listbox-item-selected td,
+.mini-calendar .mini-calendar-selected,.mini-calendar-menu-selected,
+.mini-tree-selectedNode .mini-tree-nodeshow
+{
+    border-color:#2694e8;
+    background:#3baae3;
+    color:#fff;
+}
+
+.mini-state-highlight,
+.mini-calendar .mini-calendar-today
+{
+    border-color:#f9dd34;
+    background:#fffadd;
+    color:#363636;
+}
+
+.mini-state-error,
+body .mini-error .mini-textbox-border,
+body .mini-error .mini-buttonedit-border,
+body .mini-error .mini-textboxlist-border
+{
+    border-color:#ffa8a8;
+    background-color:#fff8f8;
+    color:#362b36;   
+}
+
+.mini-state-disabled, .mini-button-disabled
+{
+    opacity:.5 !important;
+    filter:alpha(opacity=50) !important;
+    background-image:none !important;    
+}
+
+.mini-icon{ 
+    color: #72a7cf;
+}
+.mini-widget-header .f-icon {
+    color:#5da2d7
+}
+.mini-state-default .f-icon {
+    color:#3d80b3
+}
+.mini-state-hover .mini-icon, .mini-state-focus .mini-icon, 
+.mini-tree-node-hover .mini-icon
+{   
+    color:#2694e8    
+}
+.mini-state-active .mini-icon
+{      
+    color: #fff;
+}
+.mini-state-highlight .f-icon {
+ color:#2e83ff
+}
+.mini-state-error .f-icon,.mini-state-error-text .f-icon {
+ color:#ff6c6c
+}
+
+
+/* control theme */
+
+fieldset
+{
+    border-color:#aed0ea !important;
+}
+
+.mini-textbox-input,
+.mini-buttonedit-input,
+.mini-menuitem-text, .mini-menuitem-text a
+{
+    color:#362b36;
+}
+
+.mini-menuitem-hover .mini-menuitem-text, .mini-menuitem-hover .mini-menuitem-text a,  
+.mini-menuitem-popup .mini-menuitem-text, .mini-menuitem-popup .mini-menuitem-text a,  
+.mini-menuitem-selected .mini-menuitem-text, .mini-menuitem-selected .mini-menuitem-text a
+{
+    color: #0070a3;	
+}
+
+.mini-separator
+{
+    border-color:#bab9bd;
+}
+
+.mini-grid-row-alt {
+    background-color: #f0f3f5;
+}
+
+.mini-grid-cell, .mini-listbox-item td, .mini-grid-detailCell, .mini-grid-summaryCell
+{
+    border-color:#e6e6e6;
+}
+
+html body .mini-grid .mini-grid-cell-selected 
+{
+    background:#199ce0;
+}
+
+.mini-grid-header-over, .mini-grid-column-trigger
+{
+    background:#e4f1fb;
+}
+
+.mini-tabs-header-top .mini-tab-active
+{
+    border-bottom-color:#f2f5f7;
+}
+.mini-tabs-header-bottom .mini-tab-active
+{
+    border-top-color:#f2f5f7;
+}
+.mini-tabs-header-left .mini-tab-active
+{
+    border-right-color:#f2f5f7;
+}
+.mini-tabs-header-right .mini-tab-active
+{
+    border-left-color:#f2f5f7;
+}
+
+.mini-tree-selectedNode .mini-icon, .mini-tree-selectedNode a,
+.mini-grid-row-selected .mini-grid-cell-inner > .mini-icon , 
+.mini-grid-row-selected .mini-grid-cell-inner > * > .mini-icon, 
+.mini-grid-cell-selected > .mini-icon , 
+.mini-grid-cell-selected > * > .mini-icon,
+.mini-grid-row-selected .mini-tree-nodeshow > .mini-icon
+{      
+    color: #fff;
+}
+
+/* other theme */
+
+
+

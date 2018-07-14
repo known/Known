@@ -43,8 +43,8 @@
     "inputFiles": [
       "static/libs/font-awesome/css/font-awesome.min.css",
       "static/libs/miniui/themes/default/miniui.css",
-      "static/libs/miniui/themes/default/large-mode.css",
-      "static/libs/miniui/themes/bootstrap/skin.css",
+      "static/libs/miniui/themes/default/medium-mode.css",
+      "static/libs/miniui/themes/cupertino/skin.css",
       "static/modules/frame/index.css"
     ]
   },

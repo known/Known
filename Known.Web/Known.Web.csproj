@@ -85,6 +85,7 @@
     <None Include="packages.config" />
     <Content Include="Global.asax" />
     <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
+    <Content Include="static\libs\miniui\themes\cupertino\skin.css" />
     <Content Include="static\modules\common.js" />
     <Content Include="static\libs\jquery.md5.js" />
     <Content Include="static\libs\jquery.min.js" />
