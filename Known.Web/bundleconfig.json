@@ -44,6 +44,7 @@
       "static/libs/font-awesome/css/font-awesome.min.css",
       "static/libs/miniui/themes/default/miniui.css",
       "static/libs/miniui/themes/default/medium-mode.css",
+      "static/libs/miniui/themes/default/flatstyle.css",
       "static/libs/miniui/themes/cupertino/skin.css",
       "static/modules/frame/index.css"
     ]
