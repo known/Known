@@ -1,7 +1,7 @@
 ﻿///////////////////////////////////////////////////////////////////////
 var Dialog = {
     show: function (option) {
-        var dialog = UI.get('dialog' + option.name);
+        var dialog = mini.get('dialog' + option.name);
         if (dialog) {
             option.callback && option.callback();
         } else {

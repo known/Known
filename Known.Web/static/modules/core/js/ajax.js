@@ -19,7 +19,7 @@ var Ajax = {
             }
         }
 
-        if (url.startWith('/api/')) {
+        if (new RegExp("^/api/").test(url)) {
             data = { url: url, param: param };
             url = type === 'get' ? '/api/get' : '/api/post';
         }

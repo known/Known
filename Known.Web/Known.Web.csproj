@@ -88,6 +88,7 @@
     <Content Include="static\data\listTree.txt" />
     <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
     <Content Include="static\libs\miniui\themes\cupertino\skin.css" />
+    <Content Include="static\modules\core\index.css" />
     <Content Include="static\modules\core\index.js" />
     <Content Include="static\modules\core\js\ajax.js" />
     <Content Include="static\modules\core\js\array.js" />
