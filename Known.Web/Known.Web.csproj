@@ -84,8 +84,9 @@
     <None Include="bundleconfig.json" />
     <None Include="packages.config" />
     <Content Include="Global.asax" />
-    <Content Include="static\data\countrys.txt" />
-    <Content Include="static\data\listTree.txt" />
+    <Content Include="static\demo\data\countrys.txt" />
+    <Content Include="static\demo\data\menu.txt" />
+    <Content Include="static\demo\data\listTree.txt" />
     <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
     <Content Include="static\libs\miniui\themes\cupertino\skin.css" />
     <Content Include="static\modules\core\index.css" />

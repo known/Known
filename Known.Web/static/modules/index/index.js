@@ -1,22 +1,8 @@
 ﻿//mini.parse();
 
-function activeTab(item) {
-    var tabs = mini.get('mainTabs');
-    var tab = tabs.getTab(item.id);
-    if (!tab) {
-        tab = tabs.addTab({
-            name: item.id, title: item.text, url: item.url,
-            iconCls: item.iconCls, showCloseButton: true
-        });
-    }
-    tabs.activeTab(tab);
-    tab.bodyEl = tabs.getTabBodyEl(tab);
-    return tab;
-}
-
 var Navbar = {
     demo: function () {
-        var tab = activeTab({
+        var tab = MainTabs.active({
             id: 'demo', iconCls: 'fa-puzzle-piece', text: '开发示例'
         });
         $(tab.bodyEl).loadHtml('/view/partial', {
@@ -26,7 +12,7 @@ var Navbar = {
         });
     },
     todo: function () {
-        activeTab({
+        MainTabs.active({
             id: 'todo', iconCls: 'fa-paper-plane',
             text: '代办事项', url: '/home/todo'
         });
@@ -49,12 +35,46 @@ var UserMenu = {
     }
 };
 
+var MainTabs = {
+    tabsId: 'mainTabs',
+    active: function (item) {
+        var tabs = mini.get(this.tabsId);
+        var tab = tabs.getTab(item.id);
+        if (!tab) {
+            tab = tabs.addTab({
+                name: item.id, title: item.text, url: item.url,
+                iconCls: item.iconCls, showCloseButton: true
+            });
+        }
+        tabs.activeTab(tab);
+        tab.bodyEl = tabs.getTabBodyEl(tab);
+        return tab;
+    },
+    home: function () {
+        this.active({ id: 'index' });
+    },
+    refresh: function () {
+        var tabs = mini.get(this.tabsId);
+        var tab = tabs.getActiveTab();
+        tabs.reloadTab(tab);
+    },
+    remove: function () {
+        var tabs = mini.get(this.tabsId);
+        var tab = tabs.getActiveTab();
+        if (tab.name !== 'index') {
+            tabs.removeTab(tab);
+        }
+    },
+    fullScreen: function () {
+    }
+};
+
 $(function () {
     //menu
     var menu = new Menu('#mainMenu', {
         itemclick: function (item) {
             if (!item.children) {
-                activeTab(item);
+                MainTabs.active(item);
             }
         }
     });
@@ -83,12 +103,16 @@ $(function () {
     });
 
     //navbar
-    $('#navDemo').click(Navbar.demo);
-    $('#navTodo').click(Navbar.todo);
+    $('#navDemo').click(function () { Navbar.demo(); });
+    $('#navTodo').click(function () { Navbar.todo(); });
 
     //userinfo menu
-    $('#ddmUserInfo').click(UserMenu.info);
-    $('#ddmUpdatePwd').click(UserMenu.updPwd);
-    $('#ddmLogout').click(UserMenu.logout);
+    $('#ddmUserInfo').click(function () { UserMenu.info(); });
+    $('#ddmUpdatePwd').click(function () { UserMenu.updPwd(); });
+    $('#ddmLogout').click(function () { UserMenu.logout(); });
 
+    $('#tabsButtons .fa-home').click(function () { MainTabs.home(); });
+    $('#tabsButtons .fa-refresh').click(function () { MainTabs.refresh(); });
+    $('#tabsButtons .fa-remove').click(function () { MainTabs.remove(); });
+    $('#tabsButtons .fa-arrows-alt').click(function () { MainTabs.fullScreen(); });
 });
