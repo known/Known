@@ -27,14 +27,30 @@ namespace Known.Web
         private static string GetHtmlString(HtmlHelper helper, string format, string path)
         {
             var random = DateTime.Now.ToString("yyMMddss");
-            var html = string.Format(format, path + "?r=" + random);
+            var html = string.Format(format, $"{path}?r={random}");
             var httpContext = helper.ViewContext.RequestContext.HttpContext;
             if (httpContext.IsDebuggingEnabled)
             {
                 var bundle = BundleInfo.GetBundle(httpContext, path);
-                if (bundle != null)
+                if (bundle != null && bundle.HasInputFiles)
                 {
-                    var paths = bundle.inputFiles.Select(f => string.Format(format, f + "?r=" + random));
+                    var paths = new List<string>();
+                    foreach (var inputFile in bundle.inputFiles)
+                    {
+                        if (File.Exists(inputFile))
+                        {
+                            paths.Add(string.Format(format, $"{inputFile}?r={random}"));
+                        }
+                        else if (Directory.Exists(inputFile))
+                        {
+                            var files = Directory.GetFiles(inputFile);
+                            foreach (var file in files)
+                            {
+                                var filePath = file.Replace("\\", "/");
+                                paths.Add(string.Format(format, $"{filePath}?r={random}"));
+                            }
+                        }
+                    }
                     html = string.Join(Environment.NewLine, paths);
                 }
             }
@@ -46,6 +62,11 @@ namespace Known.Web
         {
             public string outputFileName { get; set; }
             public List<string> inputFiles { get; set; }
+
+            public bool HasInputFiles
+            {
+                get { return inputFiles != null && inputFiles.Count > 0; }
+            }
 
             public static BundleInfo GetBundle(HttpContextBase httpContext, string outputFile)
             {

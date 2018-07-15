@@ -10,7 +10,7 @@
     "inputFiles": [
       "static/libs/jquery.min.js",
       "static/libs/jquery.md5.js",
-      "static/modules/common.js",
+      "static/modules/core/js/ajax.js",
       "static/modules/login/index.js"
     ]
   },
@@ -23,9 +23,7 @@
       "static/libs/miniui/themes/default/medium-mode.css",
       "static/libs/miniui/themes/default/flatstyle.css",
       "static/libs/miniui/themes/cupertino/skin.css",
-      "static/modules/index/css/frame.css",
-      "static/modules/index/css/menu.css",
-      "static/modules/index/css/tabs.css",
+      "static/modules/index/css",
       "static/modules/index/index.css"
     ]
   },
@@ -35,9 +33,9 @@
       "static/libs/jquery.min.js",
       "static/libs/scrollbar/jquery.scrollbar.min.js",
       "static/libs/miniui/miniui.js",
-      "static/modules/common.js",
-      "static/modules/index/js/menu.js",
-      "static/modules/index/js/menuTip.js",
+      "static/modules/core/js",
+      "static/modules/core/index.js",
+      "static/modules/index/js",
       "static/modules/index/index.js"
     ]
   },
@@ -57,7 +55,8 @@
     "inputFiles": [
       "static/libs/jquery.min.js",
       "static/libs/miniui/miniui.js",
-      "static/modules/common.js",
+      "static/modules/core/js",
+      "static/modules/core/index.js",
       "static/modules/frame/index.js"
     ]
   }

@@ -88,9 +88,16 @@
     <Content Include="static\data\listTree.txt" />
     <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
     <Content Include="static\libs\miniui\themes\cupertino\skin.css" />
-    <Content Include="static\modules\common.js" />
+    <Content Include="static\modules\core\index.js" />
+    <Content Include="static\modules\core\js\ajax.js" />
+    <Content Include="static\modules\core\js\array.js" />
+    <Content Include="static\modules\core\js\date.js" />
     <Content Include="static\libs\jquery.md5.js" />
     <Content Include="static\libs\jquery.min.js" />
+    <Content Include="static\modules\core\js\dialog.js" />
+    <Content Include="static\modules\core\js\form.js" />
+    <Content Include="static\modules\core\js\message.js" />
+    <Content Include="static\modules\core\js\string.js" />
     <Content Include="static\modules\frame\index.css" />
     <Content Include="static\modules\frame\index.js" />
     <Content Include="static\modules\frame\index.min.css">
