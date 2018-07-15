@@ -49,7 +49,7 @@ var MainTabs = {
         $(tab.bodyEl).loadHtml('/home/partial', {
             name: 'Dashboard'
         }, function () {
-            //Dashboard.show();
+            Dashboard.show();
         });
     },
     home: function () {
