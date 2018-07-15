@@ -11,6 +11,7 @@
       "static/libs/jquery.min.js",
       "static/libs/jquery.md5.js",
       "static/modules/core/js/ajax.js",
+      "static/modules/core/index.js",
       "static/modules/login/index.js"
     ]
   },
