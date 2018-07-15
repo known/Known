@@ -4,7 +4,7 @@
         this.element = {
             tree: mini.get('leftTree')
         };
-        this.element.tree.on('nodeselect', DemoView.onTreeNodeSelect);
+        this.element.tree.on('nodeselect', this.onTreeNodeSelect);
     },
     onTreeNodeSelect: function (e) {
         $('#page').loadHtml('/frame/partial', {

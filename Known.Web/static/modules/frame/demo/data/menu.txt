@@ -1,6 +1,6 @@
 ﻿[
-	{id: "demo", text: "Base", iconCls: "fa-book", expanded: true},
-	{id: "grid", text: "Grid页面", pid: "demo", iconCls: "fa-list", view: "Demo/DemoGrid"},
+	{id: "demo", text: "开发示例", iconCls: "fa-book", expanded: true},
+	{id: "grid", text: "列表页面", pid: "demo", iconCls: "fa-list", view: "Demo/DemoGrid"},
 	{id: "tab", text: "Tab页面", pid: "demo", iconCls: "fa-columns", view: "Demo/DemoTab"},
 	{id: "form", text: "表单页面", pid: "demo", iconCls: "fa-table", view: "Demo/DemoForm"}
 ]

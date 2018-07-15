@@ -2,67 +2,49 @@
     <input name="id" class="mini-hidden" />
     <table class="form">
         <tr>
-            <th style="width:120px;">
-                <label for="textbox1$text">TextBox：</label>
-            </th>
+            <th style="width:120px;"><label for="textbox1$text">TextBox：</label></th>
             <td>
                 <input id="textbox1" name="UserName" class="mini-textbox" required="true" />
             </td>
-            <th style="width:120px;">
-                <label for="pwd1$text">Password：</label>
-            </th>
+            <th style="width:120px;"><label for="pwd1$text">Password：</label></th>
             <td>
                 <input id="pwd1" name="Pwd" class="mini-password" required="true" />
             </td>
         </tr>
         <tr>
-            <th>
-                <label for="textarea1$text">TextArea：</label>
-            </th>
+            <th><label for="textarea1$text">TextArea：</label></th>
             <td colspan="3">
                 <input id="textarea1" name="Area" class="mini-textarea" required="true" style="width:100%;" />
             </td>
         </tr>
         <tr>
-            <th>
-                <label for="date1$text">DatePicker：</label>
-            </th>
+            <th><label for="date1$text">DatePicker：</label></th>
             <td>
                 <input id="date1" name="BirthDay" class="mini-datepicker" value="2010-10-12" required="true" />
             </td>
-            <th>
-                Spinner：
-            </th>
+            <th>Spinner：</th>
             <td>
                 <input name="Age" class="mini-spinner" value="22" minValue="10" maxValue="50" />
             </td>
         </tr>
         <tr>
-            <th>
-                TimeSpinner：
-            </th>
+            <th>TimeSpinner：</th>
             <td>
                 <input name="Time" class="mini-timespinner" format="H:mm" />
             </td>
-            <th>
-                CheckBox：
-            </th>
+            <th>CheckBox：</th>
             <td>
                 <input name="Married" class="mini-checkbox" text="婚否" value="Y" trueValue="Y" falseValue="N" />
             </td>
         </tr>
         <tr>
-            <th>
-                ComboBox：
-            </th>
+            <th>ComboBox：</th>
             <td>
                 <input name="Country" showNullItem="true" class="mini-combobox" url="/static/modules/frame/demo/data/countrys.txt" value="cn" textField="text" valueField="id" />
                 <br />
                 <span id="combobox_error" style="color:Red;"></span>
             </td>
-            <th>
-                TreeSelect：
-            </th>
+            <th>TreeSelect：</th>
             <td>
                 <input name="TreeSelect" class="mini-treeselect" url="/static/modules/frame/demo/data/listTree.txt" multiSelect="true"
                        textField="text" valueField="id" parentField="pid" checkRecursive="true"
@@ -70,25 +52,19 @@
             </td>
         </tr>
         <tr>
-            <th>
-                CheckBoxList：
-            </th>
+            <th>CheckBoxList：</th>
             <td colspan="3" class="noborder">
                 <div name="countrys" class="mini-checkboxlist" repeatItems="5" repeatLayout="flow" url="/static/modules/frame/demo/data/countrys.txt" value="cn,de,usa" textField="text" valueField="id"></div>
             </td>
         </tr>
         <tr>
-            <th>
-                RadioButtonList：
-            </th>
+            <th>RadioButtonList：</th>
             <td colspan="3" class="noborder">
                 <div name="countrys2" class="mini-radiobuttonlist" value="en" repeatItems="2" repeatDirection="vertical" repeatLayout="table" url="/static/modules/frame/demo/data/countrys.txt" textField="text" valueField="id"></div>
             </td>
         </tr>
         <tr>
-            <th>
-                ListBox：
-            </th>
+            <th>ListBox：</th>
             <td colspan="3" class="noborder">
                 <div name="countrys3" showNullItem="true" class="mini-listbox" url="/static/modules/frame/demo/data/countrys.txt" value="fr" textField="text" valueField="id" style="height:120px;"></div>
             </td>
