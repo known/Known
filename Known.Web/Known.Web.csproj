@@ -84,9 +84,9 @@
     <None Include="bundleconfig.json" />
     <None Include="packages.config" />
     <Content Include="Global.asax" />
-    <Content Include="static\demo\data\countrys.txt" />
-    <Content Include="static\demo\data\menu.txt" />
-    <Content Include="static\demo\data\listTree.txt" />
+    <Content Include="static\modules\frame\demo\data\countrys.txt" />
+    <Content Include="static\modules\frame\demo\data\menu.txt" />
+    <Content Include="static\modules\frame\demo\data\listTree.txt" />
     <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
     <Content Include="static\libs\miniui\themes\cupertino\skin.css" />
     <Content Include="static\modules\core\index.css" />
@@ -101,6 +101,12 @@
     <Content Include="static\modules\core\js\jqextend.js" />
     <Content Include="static\modules\core\js\message.js" />
     <Content Include="static\modules\core\js\string.js" />
+    <Content Include="static\modules\frame\demo\index.js" />
+    <Content Include="static\modules\frame\demo\index.min.js">
+      <DependentUpon>index.js</DependentUpon>
+    </Content>
+    <Content Include="static\modules\frame\demo\js\form.js" />
+    <Content Include="static\modules\frame\demo\js\view.js" />
     <Content Include="static\modules\frame\index.css" />
     <Content Include="static\modules\frame\index.js" />
     <Content Include="static\modules\frame\index.min.css">
@@ -484,10 +490,10 @@
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Views\View\Demo\DemoForm.cshtml" />
-    <Content Include="Views\View\DemoView.cshtml" />
-    <Content Include="Views\View\Demo\DemoGrid.cshtml" />
-    <Content Include="Views\View\Demo\DemoTab.cshtml" />
+    <Content Include="Views\Frame\Demo\DemoForm.cshtml" />
+    <Content Include="Views\Frame\DemoView.cshtml" />
+    <Content Include="Views\Frame\Demo\DemoGrid.cshtml" />
+    <Content Include="Views\Frame\Demo\DemoTab.cshtml" />
     <Content Include="Views\Home\Partials\Dashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -507,7 +513,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Code\FilterConfig.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\ViewController.cs" />
+    <Compile Include="Controllers\FrameController.cs" />
     <Compile Include="Filters\AntiForgeryAttribute.cs" />
     <Compile Include="Filters\LoginAuthorizeAttribute.cs" />
     <Compile Include="Filters\TrackActionAttribute.cs" />

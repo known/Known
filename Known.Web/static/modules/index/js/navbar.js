@@ -2,7 +2,7 @@
     demo: function () {
         var tab = MainTabs.active({
             id: 'demo', iconCls: 'fa-puzzle-piece',
-            text: '开发示例', url: '/view/demoview'
+            text: '开发示例', url: '/frame/demoview'
         });
     },
     todo: function () {

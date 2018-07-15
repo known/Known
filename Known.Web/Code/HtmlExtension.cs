@@ -12,14 +12,14 @@ namespace Known.Web
     {
         public static IHtmlString MinStyle(this HtmlHelper helper, string path)
         {
-            var format = "<link rel=\"stylesheet\" href=\"{0}\">";
+            var format = "<link rel=\"stylesheet\" href=\"/{0}\">";
             var html = GetHtmlString(helper, format, path);
             return new HtmlString(html);
         }
 
         public static IHtmlString MinScript(this HtmlHelper helper, string path)
         {
-            var format = "<script src=\"{0}\"></script>";
+            var format = "<script src=\"/{0}\"></script>";
             var html = GetHtmlString(helper, format, path);
             return new HtmlString(html);
         }

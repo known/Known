@@ -62,5 +62,12 @@
       "static/modules/core/index.js",
       "static/modules/frame/index.js"
     ]
+  },
+  {
+    "outputFileName": "static/modules/frame/demo/index.min.js",
+    "inputFiles": [
+      "static/modules/frame/demo/js",
+      "static/modules/frame/demo/index.js"
+    ]
   }
 ]

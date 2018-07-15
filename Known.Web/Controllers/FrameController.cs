@@ -2,7 +2,7 @@
 
 namespace Known.Web.Controllers
 {
-    public class ViewController : AuthorizeController
+    public class FrameController : AuthorizeController
     {
         public ActionResult DemoView()
         {
