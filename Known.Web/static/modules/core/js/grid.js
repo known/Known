@@ -18,6 +18,7 @@
                 callback(data);
             }
         });
+        var menu = new ColumnsMenu(ctl);
         return ctl;
     },
     search: function (name, callback) {
