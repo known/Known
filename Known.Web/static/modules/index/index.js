@@ -19,11 +19,9 @@ var Navbar = {
         var tab = activeTab({
             id: 'demo', iconCls: 'fa-puzzle-piece', text: '开发示例'
         });
-        Ajax.getText('/view/partial', {
+        $(tab.bodyEl).loadHtml('/view/partial', {
             name: 'Demo/DemoView'
-        }, function (html) {
-            $(tab.bodyEl).html(html);
-            mini.parse();
+        }, function () {
             DemoView.show();
         });
     },

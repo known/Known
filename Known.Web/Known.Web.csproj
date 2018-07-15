@@ -97,6 +97,7 @@
     <Content Include="static\libs\jquery.min.js" />
     <Content Include="static\modules\core\js\dialog.js" />
     <Content Include="static\modules\core\js\form.js" />
+    <Content Include="static\modules\core\js\jqextend.js" />
     <Content Include="static\modules\core\js\message.js" />
     <Content Include="static\modules\core\js\string.js" />
     <Content Include="static\modules\frame\index.css" />
