@@ -43,7 +43,7 @@ $(function () {
 
     //navbar
     $('#navTodo').click(function () {
-        activeTab({ id: 'todo', text: '代办事项' });
+        activeTab({ id: 'todo', iconCls: 'fa-paper-plane', text: '代办事项' });
     });
 
     //userinfo menu
@@ -54,8 +54,11 @@ $(function () {
     $('#ddmUpdatePwd').click(function () {
     });
     $('#ddmLogout').click(function () {
-        Ajax.postText('/user/signout', function () {
-            location = location;
+        Message.confirm('确定要退出系统？', function () {
+            Ajax.postText('/user/signout', function () {
+                location = location;
+            });
         });
     });
+
 });

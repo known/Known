@@ -3,6 +3,7 @@
     "id": "System",
     "text": "系统管理",
     "iconCls": "fa-desktop",
+    "expanded": true,
     "children": [
       {
         "id": "Module",

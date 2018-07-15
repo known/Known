@@ -72,7 +72,7 @@ Menu.prototype = {
         var me = this,
             hasChildren = item.children && item.children.length > 0;
 
-        var s = '<li class="' + (hasChildren ? 'has-children' : '') + '">';        //class="menu-item" open, expanded?
+        var s = '<li class="' + (hasChildren ? 'has-children' : '') + (item.expanded ? ' open' : '') + '">';        //class="menu-item" open, expanded?
 
         s += '<a class="menu-title" data-id="' + item.id + '" ';
         //        if (item.href) {
