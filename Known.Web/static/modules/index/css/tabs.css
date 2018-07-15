@@ -2,7 +2,7 @@
     background: #f3f3f3;
     border-width: 0;
     border-bottom-width: 1px;
-    border-color: #D3D3D3;
+    border-color: #aed0ea;
 }
 
 .mini-tabs-position-top .mini-tabs-header {
@@ -15,14 +15,14 @@
 
 .mini-tabs-space,
 .mini-tabs-space2 {
-    border-bottom-color: #D3D3D3;
+    border-bottom-color: #aed0ea;
 }
 
 .mini-tabs .mini-tab {
     padding: 6px 14px 7px 14px;
     border-radius: 5px 5px 0 0;
     background: linear-gradient(to bottom,#F8F8F8 0,#eee 100%);
-    border-color: #D3D3D3;
+    border-color: #aed0ea;
     color: #575765;
 }
 
@@ -100,7 +100,7 @@
 
 .mini-tabs .mini-tabs-space, .mini-tabs .mini-tabs-space2 {
     background: transparent;
-    border-color: #D3D3D3;
+    border-color: #aed0ea;
 }
 
 /* arrow */
@@ -138,7 +138,7 @@ a:hover.mini-tabs-leftButton, a:hover.mini-tabs-rightButton {
 
 /* tabsbuttons */
 #tabsButtons {
-    border-left: 1px solid #D3D3D3;
+    border-left: 1px solid #aed0ea;
     height: 35px;
     padding: 6px 7px 4px 7px;
 }
