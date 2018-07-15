@@ -11,6 +11,15 @@
             name: e.node.view
         }, function () {
             mini.parse();
+            if (e.node.id === 'grid') {
+                DemoGrid.show();
+            } else if (e.node.id === 'tab') {
+                DemoTab.show();
+            } else if (e.node.id === 'form') {
+                DemoForm.show();
+            } else if (e.node.id === 'report') {
+                DemoReport.show();
+            }
         });
     }
 };

@@ -84,6 +84,9 @@
     <None Include="bundleconfig.json" />
     <None Include="packages.config" />
     <Content Include="Global.asax" />
+    <Content Include="static\modules\core\js\columns.js" />
+    <Content Include="static\modules\core\js\grid.js" />
+    <Content Include="static\modules\core\js\miniextend.js" />
     <Content Include="static\modules\frame\demo\data\countrys.txt" />
     <Content Include="static\modules\frame\demo\data\menu.txt" />
     <Content Include="static\modules\frame\demo\data\listTree.txt" />
@@ -106,6 +109,9 @@
       <DependentUpon>index.js</DependentUpon>
     </Content>
     <Content Include="static\modules\frame\demo\js\form.js" />
+    <Content Include="static\modules\frame\demo\js\tab.js" />
+    <Content Include="static\modules\frame\demo\js\grid.js" />
+    <Content Include="static\modules\frame\demo\js\report.js" />
     <Content Include="static\modules\frame\demo\js\view.js" />
     <Content Include="static\modules\frame\index.css" />
     <Content Include="static\modules\frame\index.js" />
@@ -495,6 +501,7 @@
     <Content Include="Views\Frame\Demo\DemoGrid.cshtml" />
     <Content Include="Views\Frame\Demo\DemoTab.cshtml" />
     <Content Include="Views\Home\Partials\Dashboard.cshtml" />
+    <Content Include="Views\Frame\Demo\DemoReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

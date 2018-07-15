@@ -1,0 +1,59 @@
+﻿<div id="top">
+    <div class="mini-toolbar" style="border-bottom:0;padding:0;">
+        <table style="width:100%;">
+            <tr>
+                <td style="width:100%;padding:2px;">
+                    <a class="mini-button" plain="true" iconCls="fa-refresh">刷新</a>
+                    <span class="separator"></span>
+                    <a class="mini-button" plain="true" iconCls="fa-calculator" onclick="remove()">计算</a>
+                    <span class="separator"></span>
+                    <a class="mini-menubutton" plain="true" iconCls="fa-sign-out" menu="#exportMenu">导出</a>
+                    <ul id="exportMenu" class="mini-menu" style="display:none;">
+                        <li iconCls="fa-file-excel-o" onclick="add()">导出Excel</li>
+                        <li iconCls="fa-file-pdf-o" onclick="add()">导出Pdf</li>
+                    </ul>
+                    <a class="mini-button" plain="true" iconCls="fa-print" onclick="remove()">打印</a>
+                    <span class="separator"></span>
+                    <a class="mini-button" plain="true" iconCls="fa-remove">关闭</a>
+                </td>
+                <td id="queryReport" style="white-space:nowrap;padding:2px;">
+                    <input id="key" class="mini-textbox" emptyText="请输入姓名" style="width:150px;" onenter="onKeyEnter" />
+                    <a class="mini-button" plain="true" iconCls="fa-search" onclick="search()">查询</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="mini-fit">
+    <div id="gridReport" class="mini-datagrid" style="width:100%;height:100%;" allowResize="true"
+         url="" idField="id" multiSelect="true">
+        <div property="columns">
+            <div type="indexcolumn"></div>
+            <div field="loginname" width="120" headerAlign="center" allowSort="true">员工帐号</div>
+            <div field="name" width="120" headerAlign="center" allowSort="true">姓名</div>
+            <div header="工作信息">
+                <div property="columns">
+                    <div field="dept_name" width="120">所属部门</div>
+                    <div field="position_name" width="100">职位</div>
+                    <div field="salary" dataType="currency" currencyUnit="￥" align="right" width="100" allowSort="true">薪资</div>
+                </div>
+            </div>
+            <div field="createtime" width="100" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true">创建日期</div>
+            <div header="基本信息">
+                <div property="columns">
+                    <div field="gender" width="100" renderer="onGenderRenderer">性别</div>
+                    <div field="age" width="100" allowSort="true">年龄</div>
+                    <div field="birthday" width="100" renderer="onBirthdayRenderer">出生日期</div>
+                    <div field="married" width="100" align="center" renderer="onMarriedRenderer">婚否</div>
+                    <div field="email" width="100">邮箱</div>
+                </div>
+            </div>
+            <div header="学历信息">
+                <div property="columns">
+                    <div field="educational_name" width="100">学历</div>
+                    <div field="school" width="120">毕业院校</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

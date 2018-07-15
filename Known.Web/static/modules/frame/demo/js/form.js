@@ -1,10 +1,9 @@
 ﻿var DemoForm = {
+    show: function () {
+    },
     getForm: function () {
-        var form = new mini.Form("#form1");
-        var data = form.getData(true, false);
-        var s = mini.encode(data);
+        var s = Form.getData('form1', true);
         alert(s);
-        //form.setIsValid(false);
     },
     setForm: function () {
         var obj = {
@@ -16,23 +15,18 @@
             //countrys2: "de",
             countrys3: "usa"
         };
-        var form = new mini.Form("#form1");
-        form.setData(obj, false);
+        Form.setData('form1', obj);
         Form.bindEnterJump(form);
     },
     resetForm: function () {
-        var form = new mini.Form("#form1");
-        form.reset();
+        Form.reset('form1');
     },
     clearForm: function () {
-        var form = new mini.Form("#form1");
-        form.clear();
+        Form.clear('form1');
     },
     submitForm: function () {
         //提交表单数据
-        var form = new mini.Form("#form1");
-        var data = form.getData();      //获取表单多个控件的数据
-        var json = mini.encode(data);   //序列化成JSON
+        var json = Form.getData('form1', true);   //序列化成JSON
         $.ajax({
             url: "../data/FormService.aspx?method=SaveData",
             type: "post",
@@ -45,13 +39,12 @@
     },
     loadForm: function () {
         //加载表单数据
-        var form = new mini.Form("#form1");
         $.ajax({
             url: "../data/FormService.aspx?method=LoadData",
             type: "post",
             success: function (text) {
                 var data = mini.decode(text);   //反序列化成对象
-                form.setData(data);             //设置多个控件数据
+                Form.setData('form1', data);    //设置多个控件数据
             }
         });
     },

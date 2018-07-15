@@ -6,6 +6,9 @@ var Form = {
 
         return form;
     },
+    reset: function (form) {
+        this.get(form).reset();
+    },
     clear: function (form, controls) {
         if (controls) {
             $(controls.split(',')).each(function (i, c) {
