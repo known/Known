@@ -1,0 +1,179 @@
+﻿<div id="form1">
+    <input name="id" class="mini-hidden" />
+    <table>
+
+        <tr>
+            <td>
+                <label for="textbox1$text">TextBox：</label>
+            </td>
+            <td>
+                <input id="textbox1" name="UserName" class="mini-textbox" required="true" />
+            </td>
+            <td>
+                <label for="pwd1$text">Password：</label>
+            </td>
+            <td>
+                <input id="pwd1" name="Pwd" class="mini-password" required="true" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="textarea1$text">TextArea：</label>
+            </td>
+            <td colspan="3">
+                <input id="textarea1" name="Area" class="mini-textarea" required="true" style="width:100%;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="date1$text">DatePicker：</label>
+            </td>
+            <td>
+                <input id="date1" name="BirthDay" class="mini-datepicker" value="2010-10-12" required="true" />
+            </td>
+            <td>
+                Spinner：
+            </td>
+            <td>
+                <input name="Age" class="mini-spinner" value="22" minValue="10" maxValue="50" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                TimeSpinner：
+            </td>
+            <td>
+                <input name="Time" class="mini-timespinner" format="H:mm" />
+            </td>
+            <td>
+                CheckBox：
+            </td>
+            <td>
+                <input name="Married" class="mini-checkbox" text="婚否" value="Y" trueValue="Y" falseValue="N" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ComboBox：
+            </td>
+            <td>
+                <input name="Country" showNullItem="true" class="mini-combobox" url="static/data/countrys.txt" value="cn" textField="text" valueField="id" />
+                <br />
+                <span id="combobox_error" style="color:Red;"></span>
+            </td>
+            <td>
+                TreeSelect：
+            </td>
+            <td>
+                <input name="TreeSelect" class="mini-treeselect" url="static/data/listTree.txt" multiSelect="true"
+                       textField="text" valueField="id" parentField="pid" checkRecursive="true"
+                       value="ajax,button" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                CheckBoxList：
+            </td>
+            <td colspan="3">
+                <div name="countrys" class="mini-checkboxlist" repeatItems="5" repeatLayout="flow" url="static/data/countrys.txt" value="cn,de,usa" textField="text" valueField="id"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                RadioButtonList：
+            </td>
+            <td colspan="3">
+                <div name="countrys2" class="mini-radiobuttonlist" value="en" repeatItems="2" repeatDirection="vertical" repeatLayout="table" url="static/data/countrys.txt" textField="text" valueField="id"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ListBox：
+            </td>
+            <td colspan="3">
+                <div name="countrys3" showNullItem="true" class="mini-listbox" url="static/data/countrys.txt" value="fr" textField="text" valueField="id" style="height:120px;"></div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="3">
+                <input value="SubmitFrom" type="button" onclick="submitForm()" />
+                <input value="LoadForm" type="button" onclick="loadForm()" />
+                <input value="ResetForm" type="button" onclick="resetForm()" />
+                <input value="ClearForm" type="button" onclick="clearForm()" />
+                <input value="SetForm" type="button" onclick="setForm()" />
+                <input value="GetForm" type="button" onclick="getForm()" />
+                <input value="SetLabel" type="button" onclick="setLabel()" />
+                <input value="SetInput" type="button" onclick="setInput()" />
+            </td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+    function getForm() {
+        var form = new mini.Form("#form1");
+        var data = form.getData(true, false);
+        var s = mini.encode(data);
+        alert(s);
+        //form.setIsValid(false);
+    }
+    function setForm() {
+        var obj = {
+            String: "abc",
+            Date: "2020-11-12",
+            Boolean: 'Y',
+            TreeSelect: "ajax",
+            countrys: "cn",
+            //countrys2: "de",
+            countrys3: "usa"
+        };
+        var form = new mini.Form("#form1");
+        form.setData(obj, false);
+        Form.bindEnterJump(form);
+    }
+
+    function resetForm() {
+        var form = new mini.Form("#form1");
+        form.reset();
+    }
+    function clearForm() {
+        var form = new mini.Form("#form1");
+        form.clear();
+    }
+
+    function submitForm() {
+        //提交表单数据
+        var form = new mini.Form("#form1");
+        var data = form.getData();      //获取表单多个控件的数据
+        var json = mini.encode(data);   //序列化成JSON
+        $.ajax({
+            url: "../data/FormService.aspx?method=SaveData",
+            type: "post",
+            data: { submitData: json },
+            success: function (text) {
+                alert("提交成功，返回结果:" + text);
+            }
+        });
+
+    }
+    function loadForm() {
+        //加载表单数据
+        var form = new mini.Form("#form1");
+        $.ajax({
+            url: "../data/FormService.aspx?method=LoadData",
+            type: "post",
+            success: function (text) {
+                var data = mini.decode(text);   //反序列化成对象
+                form.setData(data);             //设置多个控件数据
+            }
+        });
+    }
+
+    function setLabel() {
+        Form.model('form1', true);
+    }
+
+    function setInput() {
+        Form.model('form1', false);
+    }
+</script>

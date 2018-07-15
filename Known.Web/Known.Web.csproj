@@ -84,6 +84,8 @@
     <None Include="bundleconfig.json" />
     <None Include="packages.config" />
     <Content Include="Global.asax" />
+    <Content Include="static\data\countrys.txt" />
+    <Content Include="static\data\listTree.txt" />
     <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
     <Content Include="static\libs\miniui\themes\cupertino\skin.css" />
     <Content Include="static\modules\common.js" />
@@ -468,6 +470,7 @@
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Views\Home\Partials\DemoForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

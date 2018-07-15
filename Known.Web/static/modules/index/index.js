@@ -1,4 +1,6 @@
-﻿function activeTab(item) {
+﻿mini.parse();
+
+function activeTab(item) {
     var tabs = mini.get('mainTabs');
     var tab = tabs.getTab(item.id);
     if (!tab) {
