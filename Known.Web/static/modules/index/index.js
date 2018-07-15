@@ -1,14 +1,8 @@
-﻿//mini.parse();
-
-var Navbar = {
+﻿var Navbar = {
     demo: function () {
         var tab = MainTabs.active({
-            id: 'demo', iconCls: 'fa-puzzle-piece', text: '开发示例'
-        });
-        $(tab.bodyEl).loadHtml('/view/partial', {
-            name: 'Demo/DemoView'
-        }, function () {
-            DemoView.show();
+            id: 'demo', iconCls: 'fa-puzzle-piece',
+            text: '开发示例', url: '/view/demoview'
         });
     },
     todo: function () {
@@ -49,6 +43,14 @@ var MainTabs = {
         tabs.activeTab(tab);
         tab.bodyEl = tabs.getTabBodyEl(tab);
         return tab;
+    },
+    index: function () {
+        var tab = this.active({ id: 'index' });
+        $(tab.bodyEl).loadHtml('/home/partial', {
+            name: 'Dashboard'
+        }, function () {
+            //Dashboard.show();
+        });
     },
     home: function () {
         this.active({ id: 'index' });
@@ -115,4 +117,7 @@ $(function () {
     $('#tabsButtons .fa-refresh').click(function () { MainTabs.refresh(); });
     $('#tabsButtons .fa-remove').click(function () { MainTabs.remove(); });
     $('#tabsButtons .fa-arrows-alt').click(function () { MainTabs.fullScreen(); });
+
+    mini.parse();
+    MainTabs.index();
 });
