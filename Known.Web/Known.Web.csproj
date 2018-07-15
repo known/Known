@@ -478,7 +478,10 @@
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Views\Home\Partials\DemoForm.cshtml" />
+    <Content Include="Views\View\Demo\DemoForm.cshtml" />
+    <Content Include="Views\View\Demo\DemoView.cshtml" />
+    <Content Include="Views\View\Demo\DemoGrid.cshtml" />
+    <Content Include="Views\View\Demo\DemoTab.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -497,6 +500,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Code\FilterConfig.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\ViewController.cs" />
     <Compile Include="Filters\AntiForgeryAttribute.cs" />
     <Compile Include="Filters\LoginAuthorizeAttribute.cs" />
     <Compile Include="Filters\TrackActionAttribute.cs" />

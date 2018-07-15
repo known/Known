@@ -1,13 +1,11 @@
 ﻿using System.Web.Mvc;
-using Known.Web.Filters;
 using Newtonsoft.Json;
 
 namespace Known.Web.Controllers
 {
-    public class ApiController : BaseController
+    public class ApiController : AuthorizeController
     {
         [HttpGet]
-        [LoginAuthorize]
         public ActionResult Get(string url, dynamic param = null)
         {
             log.Info($"get: {url} param: {ToJson(param)}");
@@ -23,7 +21,6 @@ namespace Known.Web.Controllers
         }
 
         [HttpPost]
-        [LoginAuthorize]
         public ActionResult Post(string url, dynamic param = null)
         {
             log.Info($"post: {url} param: {ToJson(param)}");

@@ -24,6 +24,14 @@ namespace Known.Web
             return File(bytes, "image/jpeg");
         }
 
+        public ActionResult Partial(string name, dynamic model)
+        {
+            if (name.Contains("/"))
+                return PartialView(name, model);
+
+            return PartialView($"Partials/{name}", model);
+        }
+
         public string CaptchaCode
         {
             get { return Session.GetValue<string>("CaptchaCode"); }

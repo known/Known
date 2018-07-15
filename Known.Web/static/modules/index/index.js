@@ -1,14 +1,55 @@
-﻿mini.parse();
+﻿//mini.parse();
 
 function activeTab(item) {
     var tabs = mini.get('mainTabs');
     var tab = tabs.getTab(item.id);
     if (!tab) {
-        tab = { name: item.id, title: item.text, url: item.url, iconCls: item.iconCls, showCloseButton: true };
-        tab = tabs.addTab(tab);
+        tab = tabs.addTab({
+            name: item.id, title: item.text, url: item.url,
+            iconCls: item.iconCls, showCloseButton: true
+        });
     }
     tabs.activeTab(tab);
+    tab.bodyEl = tabs.getTabBodyEl(tab);
+    return tab;
 }
+
+var Navbar = {
+    demo: function () {
+        var tab = activeTab({
+            id: 'demo', iconCls: 'fa-puzzle-piece', text: '开发示例'
+        });
+        Ajax.getText('/view/partial', {
+            name: 'Demo/DemoView'
+        }, function (html) {
+            $(tab.bodyEl).html(html);
+            mini.parse();
+            DemoView.show();
+        });
+    },
+    todo: function () {
+        activeTab({
+            id: 'todo', iconCls: 'fa-paper-plane',
+            text: '代办事项', url: '/home/todo'
+        });
+    }
+};
+
+var UserMenu = {
+    info: function () {
+        Ajax.getJson('/api/user/getuserinfo', function (data) {
+        });
+    },
+    updPwd: function () {
+    },
+    logout: function () {
+        Message.confirm('确定要退出系统？', function () {
+            Ajax.postText('/user/signout', function () {
+                location = location;
+            });
+        });
+    }
+};
 
 $(function () {
     //menu
@@ -44,23 +85,12 @@ $(function () {
     });
 
     //navbar
-    $('#navTodo').click(function () {
-        activeTab({ id: 'todo', iconCls: 'fa-paper-plane', text: '代办事项' });
-    });
+    $('#navDemo').click(Navbar.demo);
+    $('#navTodo').click(Navbar.todo);
 
     //userinfo menu
-    $('#ddmUserInfo').click(function () {
-        Ajax.getJson('/api/user/getuserinfo', function (data) {
-        });
-    });
-    $('#ddmUpdatePwd').click(function () {
-    });
-    $('#ddmLogout').click(function () {
-        Message.confirm('确定要退出系统？', function () {
-            Ajax.postText('/user/signout', function () {
-                location = location;
-            });
-        });
-    });
+    $('#ddmUserInfo').click(UserMenu.info);
+    $('#ddmUpdatePwd').click(UserMenu.updPwd);
+    $('#ddmLogout').click(UserMenu.logout);
 
 });

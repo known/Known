@@ -1,69 +1,68 @@
 ﻿<div id="form1">
     <input name="id" class="mini-hidden" />
-    <table>
-
+    <table class="form">
         <tr>
-            <td>
+            <th style="width:120px;">
                 <label for="textbox1$text">TextBox：</label>
-            </td>
+            </th>
             <td>
                 <input id="textbox1" name="UserName" class="mini-textbox" required="true" />
             </td>
-            <td>
+            <th style="width:120px;">
                 <label for="pwd1$text">Password：</label>
-            </td>
+            </th>
             <td>
                 <input id="pwd1" name="Pwd" class="mini-password" required="true" />
             </td>
         </tr>
         <tr>
-            <td>
+            <th>
                 <label for="textarea1$text">TextArea：</label>
-            </td>
+            </th>
             <td colspan="3">
                 <input id="textarea1" name="Area" class="mini-textarea" required="true" style="width:100%;" />
             </td>
         </tr>
         <tr>
-            <td>
+            <th>
                 <label for="date1$text">DatePicker：</label>
-            </td>
+            </th>
             <td>
                 <input id="date1" name="BirthDay" class="mini-datepicker" value="2010-10-12" required="true" />
             </td>
-            <td>
+            <th>
                 Spinner：
-            </td>
+            </th>
             <td>
                 <input name="Age" class="mini-spinner" value="22" minValue="10" maxValue="50" />
             </td>
         </tr>
         <tr>
-            <td>
+            <th>
                 TimeSpinner：
-            </td>
+            </th>
             <td>
                 <input name="Time" class="mini-timespinner" format="H:mm" />
             </td>
-            <td>
+            <th>
                 CheckBox：
-            </td>
+            </th>
             <td>
                 <input name="Married" class="mini-checkbox" text="婚否" value="Y" trueValue="Y" falseValue="N" />
             </td>
         </tr>
         <tr>
-            <td>
+            <th>
                 ComboBox：
-            </td>
+            </th>
             <td>
                 <input name="Country" showNullItem="true" class="mini-combobox" url="static/data/countrys.txt" value="cn" textField="text" valueField="id" />
                 <br />
                 <span id="combobox_error" style="color:Red;"></span>
             </td>
-            <td>
+            <th>
                 TreeSelect：
-            </td>
+            </th>
             <td>
                 <input name="TreeSelect" class="mini-treeselect" url="static/data/listTree.txt" multiSelect="true"
                        textField="text" valueField="id" parentField="pid" checkRecursive="true"
@@ -71,40 +70,40 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <th>
                 CheckBoxList：
-            </td>
-            <td colspan="3">
+            </th>
+            <td colspan="3" class="noborder">
                 <div name="countrys" class="mini-checkboxlist" repeatItems="5" repeatLayout="flow" url="static/data/countrys.txt" value="cn,de,usa" textField="text" valueField="id"></div>
             </td>
         </tr>
         <tr>
-            <td>
+            <th>
                 RadioButtonList：
-            </td>
-            <td colspan="3">
+            </th>
+            <td colspan="3" class="noborder">
                 <div name="countrys2" class="mini-radiobuttonlist" value="en" repeatItems="2" repeatDirection="vertical" repeatLayout="table" url="static/data/countrys.txt" textField="text" valueField="id"></div>
             </td>
         </tr>
         <tr>
-            <td>
+            <th>
                 ListBox：
-            </td>
-            <td colspan="3">
+            </th>
+            <td colspan="3" class="noborder">
                 <div name="countrys3" showNullItem="true" class="mini-listbox" url="static/data/countrys.txt" value="fr" textField="text" valueField="id" style="height:120px;"></div>
             </td>
         </tr>
         <tr>
-            <td></td>
+            <th></th>
             <td colspan="3">
-                <input value="SubmitFrom" type="button" onclick="submitForm()" />
-                <input value="LoadForm" type="button" onclick="loadForm()" />
-                <input value="ResetForm" type="button" onclick="resetForm()" />
-                <input value="ClearForm" type="button" onclick="clearForm()" />
-                <input value="SetForm" type="button" onclick="setForm()" />
-                <input value="GetForm" type="button" onclick="getForm()" />
-                <input value="SetLabel" type="button" onclick="setLabel()" />
-                <input value="SetInput" type="button" onclick="setInput()" />
+                <a class="mini-button" onclick="submitForm()">SubmitFrom</a>
+                <a class="mini-button" onclick="loadForm()">LoadForm</a>
+                <a class="mini-button" onclick="resetForm()">ResetForm</a>
+                <a class="mini-button" onclick="clearForm()">ClearForm</a>
+                <a class="mini-button" onclick="setForm()">SetForm</a>
+                <a class="mini-button" onclick="getForm()">GetForm</a>
+                <a class="mini-button" onclick="setLabel()">SetLabel</a>
+                <a class="mini-button" onclick="setInput()">SetInput</a>
             </td>
         </tr>
     </table>
