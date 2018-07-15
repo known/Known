@@ -18,7 +18,13 @@
 
     //toggle
     $('#toggle, .sidebar-toggle').click(function () {
-        $('body').toggleClass('compact');
+        var body = $('body'), toggle = $('.sidebar-toggle i');
+        body.toggleClass('compact');
+        if (body.hasClass('compact')) {
+            toggle.removeClass('fa-dedent').addClass('fa-indent');
+        } else {
+            toggle.removeClass('fa-indent').addClass('fa-dedent');
+        }
         mini.layout();
     });
 
