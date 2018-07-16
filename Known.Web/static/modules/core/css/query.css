@@ -1,0 +1,9 @@
+﻿.query {
+    display: none;
+    border-bottom: 0;
+    padding: 5px;
+}
+
+.query-btn-adv {
+    cursor: pointer;
+}

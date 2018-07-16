@@ -24,6 +24,7 @@
       "static/libs/miniui/themes/default/medium-mode.css",
       "static/libs/miniui/themes/default/flatstyle.css",
       "static/libs/miniui/themes/cupertino/skin.css",
+      "static/modules/core/css",
       "static/modules/core/index.css",
       "static/modules/index/css",
       "static/modules/index/index.css"
@@ -49,6 +50,7 @@
       "static/libs/miniui/themes/default/medium-mode.css",
       "static/libs/miniui/themes/default/flatstyle.css",
       "static/libs/miniui/themes/cupertino/skin.css",
+      "static/modules/core/css",
       "static/modules/core/index.css",
       "static/modules/frame/index.css"
     ]

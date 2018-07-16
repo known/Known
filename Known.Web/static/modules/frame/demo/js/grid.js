@@ -12,6 +12,12 @@
             Grid.search(_this.gridId);
         });
 
+        $('.query-btn-adv').click(function () {
+            $('.query').toggle(0, function () {
+                mini.layout();
+            });
+        });
+
         Grid.load(_this.gridId);
     }
 };
