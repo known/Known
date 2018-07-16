@@ -8,24 +8,27 @@
     _query: function (name, isLoad, callback) {
         var ctl = this.get(name);
         var query = Form.getData('query' + name, true);
-        var param = isLoad
-            ? { query: query, isLoad: '1' }
-            : { query: query };
         ctl.clearSelect(false);
-        ctl.load(param, function () {
-            if (callback) {
-                var data = ctl.getResultObject();
-                callback(data);
+        ctl.load(
+            { query: query, isLoad: isLoad },
+            function () {
+                if (callback) {
+                    var data = ctl.getResultObject();
+                    callback(data);
+                }
+            },
+            function () {
+                Message.tips({ content: '查询出错！' });
             }
-        });
+        );
         var menu = new ColumnsMenu(ctl);
         return ctl;
     },
     search: function (name, callback) {
-        return this._query(name, false, callback);
+        return this._query(name, '0', callback);
     },
     load: function (name, callback) {
-        return this._query(name, true, callback);
+        return this._query(name, '1', callback);
     },
     reload: function (grid) {
         this.get(grid).reload();

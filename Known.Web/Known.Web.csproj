@@ -112,7 +112,6 @@
     <Content Include="static\modules\frame\demo\js\tab.js" />
     <Content Include="static\modules\frame\demo\js\grid.js" />
     <Content Include="static\modules\frame\demo\js\report.js" />
-    <Content Include="static\modules\frame\demo\js\view.js" />
     <Content Include="static\modules\frame\index.css" />
     <Content Include="static\modules\frame\index.js" />
     <Content Include="static\modules\frame\index.min.css">
@@ -517,6 +516,7 @@
     <Compile Include="Code\AuthorizeController.cs" />
     <Compile Include="Code\HtmlExtension.cs" />
     <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Code\FilterConfig.cs" />
     <Compile Include="Controllers\UserController.cs" />

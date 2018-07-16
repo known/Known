@@ -3,22 +3,22 @@
         <table style="width:100%;">
             <tr>
                 <td style="width:100%;padding:2px;">
-                    <a class="mini-button" plain="true" iconCls="fa-refresh">刷新</a>
+                    <a id="btnRefresh" class="mini-button" plain="true" iconCls="fa-refresh">刷新</a>
                     <span class="separator"></span>
-                    <a class="mini-button" plain="true" iconCls="fa-calculator" onclick="remove()">计算</a>
+                    <a id="btnCalculate" class="mini-button" plain="true" iconCls="fa-calculator">计算</a>
                     <span class="separator"></span>
-                    <a class="mini-menubutton" plain="true" iconCls="fa-sign-out" menu="#exportMenu">导出</a>
-                    <ul id="exportMenu" class="mini-menu" style="display:none;">
-                        <li iconCls="fa-file-excel-o" onclick="add()">导出Excel</li>
-                        <li iconCls="fa-file-pdf-o" onclick="add()">导出Pdf</li>
+                    <a class="mini-menubutton" plain="true" iconCls="fa-sign-out" menu="#menuExport">导出</a>
+                    <ul id="menuExport" class="mini-menu" style="display:none;">
+                        <li id="btnExportExcel" iconCls="fa-file-excel-o">导出Excel</li>
+                        <li id="btnExportPdf" iconCls="fa-file-pdf-o">导出Pdf</li>
                     </ul>
-                    <a class="mini-button" plain="true" iconCls="fa-print" onclick="remove()">打印</a>
+                    <a id="btnPrint" class="mini-button" plain="true" iconCls="fa-print">打印</a>
                     <span class="separator"></span>
-                    <a class="mini-button" plain="true" iconCls="fa-remove">关闭</a>
+                    <a id="btnClose" class="mini-button" plain="true" iconCls="fa-remove">关闭</a>
                 </td>
                 <td id="queryReport" style="white-space:nowrap;padding:2px;">
-                    <input id="key" class="mini-textbox" emptyText="请输入姓名" style="width:150px;" onenter="onKeyEnter" />
-                    <a class="mini-button" plain="true" iconCls="fa-search" onclick="search()">查询</a>
+                    <input id="key" class="mini-textbox" emptyText="请输入姓名" style="width:150px;" />
+                    <a id="btnSearch" class="mini-button" plain="true" iconCls="fa-search">查询</a>
                 </td>
             </tr>
         </table>
@@ -26,7 +26,7 @@
 </div>
 <div class="mini-fit">
     <div id="gridReport" class="mini-datagrid" style="width:100%;height:100%;" allowResize="true"
-         url="" idField="id" multiSelect="true">
+         url="@Url.Action("QueryUsers", "Demo")" idField="id" multiSelect="true">
         <div property="columns">
             <div type="indexcolumn"></div>
             <div field="loginname" width="120" headerAlign="center" allowSort="true">员工帐号</div>
