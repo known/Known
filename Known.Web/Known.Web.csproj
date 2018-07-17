@@ -122,6 +122,7 @@
     <Content Include="static\modules\frame\index.min.js">
       <DependentUpon>index.js</DependentUpon>
     </Content>
+    <Content Include="static\modules\index\css\dashboard.css" />
     <Content Include="static\modules\index\css\frame.css" />
     <Content Include="static\modules\index\css\menu.css" />
     <Content Include="static\modules\index\css\tabs.css" />

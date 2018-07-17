@@ -26,32 +26,32 @@
 </div>
 <div class="mini-fit">
     <div id="gridReport" class="mini-datagrid" style="width:100%;height:100%;" allowResize="true"
-         url="@Url.Action("QueryUsers", "Demo")" idField="id" multiSelect="true">
+         url="@Url.Action("QueryUsers", "Demo")" idField="Id" multiSelect="true">
         <div property="columns">
             <div type="indexcolumn"></div>
-            <div field="loginname" width="120" headerAlign="center" allowSort="true">员工帐号</div>
-            <div field="name" width="120" headerAlign="center" allowSort="true">姓名</div>
+            <div field="UserName" width="120" headerAlign="center" allowSort="true">员工帐号</div>
+            <div field="Name" width="120" headerAlign="center" allowSort="true">姓名</div>
             <div header="工作信息">
                 <div property="columns">
-                    <div field="dept_name" width="120">所属部门</div>
-                    <div field="position_name" width="100">职位</div>
-                    <div field="salary" dataType="currency" currencyUnit="￥" align="right" width="100" allowSort="true">薪资</div>
+                    <div field="Department.Name" width="120">所属部门</div>
+                    <div field="Position" width="100">职位</div>
+                    <div field="Salary" dataType="currency" currencyUnit="￥" align="right" width="100" allowSort="true">薪资</div>
                 </div>
             </div>
             <div field="createtime" width="100" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true">创建日期</div>
             <div header="基本信息">
                 <div property="columns">
-                    <div field="gender" width="100" renderer="onGenderRenderer">性别</div>
-                    <div field="age" width="100" allowSort="true">年龄</div>
-                    <div field="birthday" width="100" renderer="onBirthdayRenderer">出生日期</div>
-                    <div field="married" width="100" align="center" renderer="onMarriedRenderer">婚否</div>
-                    <div field="email" width="100">邮箱</div>
+                    <div field="Gender" width="100" renderer="onGenderRenderer">性别</div>
+                    <div field="Age" width="100" allowSort="true">年龄</div>
+                    <div field="Birthday" width="100" renderer="onBirthdayRenderer">出生日期</div>
+                    <div field="Married" width="100" align="center" renderer="onMarriedRenderer">婚否</div>
+                    <div field="Email" width="100">邮箱</div>
                 </div>
             </div>
             <div header="学历信息">
                 <div property="columns">
-                    <div field="educational_name" width="100">学历</div>
-                    <div field="school" width="120">毕业院校</div>
+                    <div field="Educational" width="100">学历</div>
+                    <div field="School" width="120">毕业院校</div>
                 </div>
             </div>
         </div>
