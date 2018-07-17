@@ -34,19 +34,21 @@ namespace Known.Web
                 var bundle = BundleInfo.GetBundle(httpContext, path);
                 if (bundle != null && bundle.HasInputFiles)
                 {
+                    var rootPath = httpContext.Server.MapPath("~/");
                     var paths = new List<string>();
                     foreach (var inputFile in bundle.inputFiles)
                     {
-                        if (File.Exists(inputFile))
+                        var inputPath = rootPath + inputFile;
+                        if (File.Exists(inputPath))
                         {
                             paths.Add(string.Format(format, $"{inputFile}?r={random}"));
                         }
-                        else if (Directory.Exists(inputFile))
+                        else if (Directory.Exists(inputPath))
                         {
-                            var files = Directory.GetFiles(inputFile);
+                            var files = Directory.GetFiles(inputPath);
                             foreach (var file in files)
                             {
-                                var filePath = file.Replace("\\", "/");
+                                var filePath = file.Replace(rootPath, "").Replace("\\", "/");
                                 paths.Add(string.Format(format, $"{filePath}?r={random}"));
                             }
                         }
