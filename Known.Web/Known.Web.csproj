@@ -84,6 +84,8 @@
     <None Include="bundleconfig.json" />
     <None Include="packages.config" />
     <Content Include="Global.asax" />
+    <Content Include="static\libs\highcharts\highcharts.js" />
+    <Content Include="static\libs\highcharts\model\exporting.js" />
     <Content Include="static\modules\core\css\form.css" />
     <Content Include="static\modules\core\css\query.css" />
     <Content Include="static\modules\core\js\columns.js" />

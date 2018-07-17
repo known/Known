@@ -36,6 +36,8 @@
       "static/libs/jquery.min.js",
       "static/libs/scrollbar/jquery.scrollbar.min.js",
       "static/libs/miniui/miniui.js",
+      "static/libs/highcharts/highcharts.js",
+      "static/libs/highcharts/model/exporting.js",
       "static/modules/core/js",
       "static/modules/core/index.js",
       "static/modules/index/js",
