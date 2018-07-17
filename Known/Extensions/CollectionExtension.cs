@@ -7,6 +7,16 @@ namespace Known.Extensions
 {
     public static class CollectionExtension
     {
+        public static List<T> ToPageList<T>(this IEnumerable<T> datas, int pageIndex, int pageSize)
+        {
+            if (datas == null || datas.Count() == 0)
+                return null;
+
+            return datas.Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
+
         public static IDictionary<string, string> ToDictionary(this NameValueCollection collection)
         {
             if (collection == null)

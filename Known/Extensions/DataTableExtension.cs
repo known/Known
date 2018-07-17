@@ -6,6 +6,17 @@ namespace Known.Extensions
 {
     public static class DataTableExtension
     {
+        public static DataTable ToPageTable(this DataTable table, int pageIndex, int pageSize)
+        {
+            if (table == null || table.Rows.Count == 0)
+                return null;
+
+            return table.AsEnumerable()
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .CopyToDataTable();
+        }
+
         public static bool ColumnSameAs(this DataTable table, DataTable compare, out string error)
         {
             if (table.Columns.Count != compare.Columns.Count)
@@ -29,17 +40,6 @@ namespace Known.Extensions
                 error = string.Format("不存在【{0}】这些栏位！", string.Join(",", names));
 
             return count == table.Columns.Count;
-        }
-
-        public static DataTable ToPageTable(this DataTable table, int pageIndex, int pageSize)
-        {
-            if (table == null || table.Rows.Count == 0)
-                return null;
-
-            return table.AsEnumerable()
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .CopyToDataTable();
         }
 
         public static T Get<T>(this DataRow row, string columnName, T defaultValue = default(T))

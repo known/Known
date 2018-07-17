@@ -41,19 +41,20 @@
 </div>
 <div class="mini-fit">
     <div id="gridDemo" class="mini-datagrid" style="width:100%;height:100%;"
-         url="@Url.Action("QueryUsers", "Demo")" idField="id" multiSelect="true">
+         url="@Url.Action("QueryUsers", "Demo")" idField="Id" multiSelect="true">
         <div property="columns">
             <div type="indexcolumn"></div>
             <div type="checkcolumn"></div>
-            <div field="loginname" width="120" headerAlign="center" allowSort="true">员工帐号</div>
-            <div field="name" width="120" headerAlign="center" allowSort="true">姓名</div>
-            <div field="dept_name" width="120">所属部门</div>
-            <div field="position_name" width="100">职位</div>
-            <div field="married" width="100">电话</div>
-            <div field="email" width="100">邮箱</div>
-            <div field="gender" width="100" renderer="onGenderRenderer">性别</div>
-            <div field="age" width="100" allowSort="true">年龄</div>
-            <div field="birthday" width="100" renderer="onBirthdayRenderer">出生日期</div>
+            <div field="UserName" width="120" headerAlign="center" allowSort="true">员工帐号</div>
+            <div field="Name" width="120" headerAlign="center" allowSort="true">姓名</div>
+            <div field="Department.Name" width="120">所属部门</div>
+            <div field="Position" width="100">职位</div>
+            <div field="Mobile" width="100">手机</div>
+            <div field="Phone" width="100">电话</div>
+            <div field="Email" width="100">邮箱</div>
+            <div field="Gender" width="100" renderer="onGenderRenderer">性别</div>
+            <div field="Age" width="100" allowSort="true">年龄</div>
+            <div field="Birthday" width="100" renderer="onBirthdayRenderer">出生日期</div>
         </div>
     </div>
 </div>
