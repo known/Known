@@ -1,10 +1,10 @@
 ﻿<div id="form1">
-    <input name="id" class="mini-hidden" />
+    <input class="mini-hidden" name="Id" />
     <table class="form">
         <tr>
-            <th style="width:120px;"><label for="textbox1$text">TextBox：</label></th>
+            <th style="width:120px;"><label for="UserName$text">TextBox：</label></th>
             <td>
-                <input id="textbox1" name="UserName" class="mini-textbox" required="true" />
+                @Form.TextBox("UserName", true, new { maxLength = 10, emptyText = "请输入用户名" })
             </td>
             <th style="width:120px;"><label for="pwd1$text">Password：</label></th>
             <td>

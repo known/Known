@@ -1,0 +1,34 @@
+﻿@using System.Text
+
+@functions {
+    public static string GetAttrString(string name, object value)
+    {
+        return string.Format(" {0}=\"{1}\"", name, value);
+    }
+
+    public static void AppendAttrs(StringBuilder sb, object option)
+    {
+        if (option == null)
+            return;
+
+        var props = option.GetType().GetProperties();
+        foreach (var prop in props)
+        {
+            var value = prop.GetValue(option);
+            sb.Append(GetAttrString(prop.Name, value));
+        }
+    }
+}
+
+@helper TextBox(string id, bool required = false, object option = null)
+{
+    var sb = new StringBuilder();
+    if (required)
+    {
+        sb.Append(GetAttrString("required", "true"));
+    }
+    AppendAttrs(sb, option);
+    var attrs = sb.ToString();
+
+    <input class="mini-textbox" id="@id" name="@id" @(new HtmlString(attrs)) />
+}
