@@ -71,5 +71,36 @@
 
 @helper CheckBox(string id, bool required = false, object option = null)
 {
-    @RenderControl("mini-checkbox", id, required, option)
+    var defOption = new { trueValue = "Y", falseValue = "N" };
+    @RenderControl("mini-checkbox", id, required, option, defOption)
+}
+
+@helper ComboBox(string id, bool required = false, object option = null)
+{
+    var defOption = new { showNullItem = "true" };
+    @RenderControl("mini-combobox", id, required, option, defOption)
+}
+
+@helper TreeSelect(string id, bool required = false, object option = null)
+{
+    var defOption = new { textField = "text", valueField = "id" };
+    @RenderControl("mini-treeselect", id, required, option, defOption)
+}
+
+@helper CheckBoxList(string id, bool required = false, object option = null)
+{
+    var defOption = new { textField = "text", valueField = "id" };
+    @RenderControl("mini-checkboxlist", id, required, option, defOption)
+}
+
+@helper RadioButtonList(string id, bool required = false, object option = null)
+{
+    var defOption = new { textField = "text", valueField = "id" };
+    @RenderControl("mini-radiobuttonlist", id, required, option, defOption)
+}
+
+@helper ListBox(string id, bool required = false, object option = null)
+{
+    var defOption = new { textField = "text", valueField = "id" };
+    @RenderControl("mini-listbox", id, required, option, defOption)
 }
