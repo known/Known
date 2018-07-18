@@ -6,7 +6,7 @@
         return string.Format(" {0}=\"{1}\"", name, value);
     }
 
-    public static void AppendAttrs(StringBuilder sb, object option)
+    public static void AddAttributes(Dictionary<string, object> dic, object option)
     {
         if (option == null)
             return;
@@ -14,21 +14,62 @@
         var props = option.GetType().GetProperties();
         foreach (var prop in props)
         {
-            var value = prop.GetValue(option);
-            sb.Append(GetAttrString(prop.Name, value));
+            dic[prop.Name] = prop.GetValue(option);
         }
     }
 }
 
-@helper TextBox(string id, bool required = false, object option = null)
+@helper RenderControl(string type, string id, bool required = false, object option = null, object defaultOption = null)
 {
-    var sb = new StringBuilder();
+    var dic = new Dictionary<string, object>();
     if (required)
     {
-        sb.Append(GetAttrString("required", "true"));
+        dic["required"] = "true";
     }
-    AppendAttrs(sb, option);
+    AddAttributes(dic, defaultOption);
+    AddAttributes(dic, option);
+
+    var sb = new StringBuilder();
+    foreach (var key in dic.Keys)
+    {
+        sb.Append(GetAttrString(key, dic[key]));
+    }
     var attrs = sb.ToString();
 
-    <input class="mini-textbox" id="@id" name="@id" @(new HtmlString(attrs)) />
+    <input class="@type" id="@id" name="@id" @(new HtmlString(attrs)) />
+}
+
+@helper TextBox(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-textbox", id, required, option)
+}
+
+@helper Password(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-password", id, required, option)
+}
+
+@helper TextArea(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-textarea", id, required, option)
+}
+
+@helper DatePicker(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-datepicker", id, required, option)
+}
+
+@helper Spinner(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-spinner", id, required, option)
+}
+
+@helper TimeSpinner(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-timespinner", id, required, option)
+}
+
+@helper CheckBox(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-checkbox", id, required, option)
 }

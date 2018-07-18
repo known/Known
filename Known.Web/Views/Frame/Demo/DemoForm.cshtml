@@ -4,33 +4,33 @@
         <tr>
             <th style="width:120px;"><label for="UserName$text">TextBox：</label></th>
             <td>
-                @Form.TextBox("UserName", true, new { maxLength = 10, emptyText = "请输入用户名" })
+                @Form.TextBox("UserName", true, new { emptyText = "请输入用户名" })
             </td>
-            <th style="width:120px;"><label for="pwd1$text">Password：</label></th>
+            <th style="width:120px;"><label for="Password$text">Password：</label></th>
             <td>
-                <input id="pwd1" name="Pwd" class="mini-password" required="true" />
+                @Form.Password("Password", true)
             </td>
         </tr>
         <tr>
-            <th><label for="textarea1$text">TextArea：</label></th>
+            <th><label for="Area$text">TextArea：</label></th>
             <td colspan="3">
-                <input id="textarea1" name="Area" class="mini-textarea" required="true" style="width:100%;" />
+                @Form.Password("Area", true)
             </td>
         </tr>
         <tr>
-            <th><label for="date1$text">DatePicker：</label></th>
+            <th><label for="BirthDay$text">DatePicker：</label></th>
             <td>
-                <input id="date1" name="BirthDay" class="mini-datepicker" value="2010-10-12" required="true" />
+                @Form.Password("BirthDay", true, new { value = "2010-10-12" })
             </td>
             <th>Spinner：</th>
             <td>
-                <input name="Age" class="mini-spinner" value="22" minValue="10" maxValue="50" />
+                @Form.Spinner("Age", true, new { value = "22", minValue = "10", maxValue = "50" })
             </td>
         </tr>
         <tr>
             <th>TimeSpinner：</th>
             <td>
-                <input name="Time" class="mini-timespinner" format="H:mm" />
+                @Form.TimeSpinner("BirthDay", false, new { format = "H:mm" })
             </td>
             <th>CheckBox：</th>
             <td>
@@ -72,14 +72,14 @@
         <tr>
             <th></th>
             <td colspan="3">
-                <a class="mini-button" onclick="DemoForm.submitForm()">SubmitFrom</a>
-                <a class="mini-button" onclick="DemoForm.loadForm()">LoadForm</a>
-                <a class="mini-button" onclick="DemoForm.resetForm()">ResetForm</a>
-                <a class="mini-button" onclick="DemoForm.clearForm()">ClearForm</a>
-                <a class="mini-button" onclick="DemoForm.setForm()">SetForm</a>
-                <a class="mini-button" onclick="DemoForm.getForm()">GetForm</a>
-                <a class="mini-button" onclick="DemoForm.setLabel()">SetLabel</a>
-                <a class="mini-button" onclick="DemoForm.setInput()">SetInput</a>
+                <a class="mini-button" onclick="DemoForm.submitForm()">提交</a>
+                <a class="mini-button" onclick="DemoForm.loadForm()">加载</a>
+                <a class="mini-button" onclick="DemoForm.resetForm()">重置</a>
+                <a class="mini-button" onclick="DemoForm.clearForm()">清空</a>
+                <a class="mini-button" onclick="DemoForm.setForm()">绑定数据</a>
+                <a class="mini-button" onclick="DemoForm.getForm()">获取数据</a>
+                <a class="mini-button" onclick="DemoForm.setLabel()">查看模式</a>
+                <a class="mini-button" onclick="DemoForm.setInput()">编辑模式</a>
             </td>
         </tr>
     </table>
