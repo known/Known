@@ -8,6 +8,10 @@
         padding: 10px;
     }
 
+/*
+ * Component: Box
+ * --------------------
+ */
 .box {
     border: 1px solid #aed0ea;
 }
@@ -23,6 +27,10 @@
         font-size: 15px;
         font-weight: bold;
     }
+
+        .box-header .title i {
+            margin-right: 5px;
+        }
 
 .box-body {
     display: none;
