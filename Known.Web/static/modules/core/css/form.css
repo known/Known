@@ -69,3 +69,7 @@
         .form td.in-table table th, .form td.in-table table td {
             border-top: 0;
         }
+
+.buttons {
+    padding: 5px 0;
+}

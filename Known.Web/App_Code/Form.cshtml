@@ -32,7 +32,7 @@
     var sb = new StringBuilder();
     foreach (var key in dic.Keys)
     {
-        sb.Append(GetAttrString(key, dic[key]));
+        sb.AppendFormat(" {0}=\"{1}\"", key, dic[key]);
     }
     var attrs = sb.ToString();
 
