@@ -1,5 +1,6 @@
 ﻿///////////////////////////////////////////////////////////////////////
 var Message = {
+
     loading: function (message, callback) {
         mini.mask({
             el: document.body,
@@ -10,6 +11,7 @@ var Message = {
             mini.unmask(document.body);
         }
     },
+
     alert: function (message, callback) {
         mini.alert(message, '提示', function (action) {
             if (action === 'ok') {
@@ -17,6 +19,7 @@ var Message = {
             }
         });
     },
+
     error: function (message, callback) {
         mini.showMessageBox({
             title: '错误',
@@ -30,6 +33,7 @@ var Message = {
             }
         });
     },
+
     confirm: function (message, callback) {
         mini.confirm(message, '确认提示', function (action) {
             if (action === 'ok') {
@@ -37,6 +41,7 @@ var Message = {
             }
         });
     },
+
     prompt: function (label, title, callback) {
         mini.prompt(label, title, function (action, value) {
             if (action === "ok") {
@@ -44,6 +49,7 @@ var Message = {
             }
         });
     },
+
     promptMulti: function (label, title, callback) {
         mini.prompt(label, title, function (action, value) {
             if (action === "ok") {
@@ -51,6 +57,7 @@ var Message = {
             }
         }, true);
     },
+
     tips: function (option) {
         mini.showTips({
             content: option.content,
@@ -60,6 +67,7 @@ var Message = {
             timeout: option.timeout || 3000
         });
     },
+
     notify: function (option) {
         mini.showMessageBox({
             showModal: false,
@@ -72,6 +80,7 @@ var Message = {
             y: option.y || 'bottom'
         });
     },
+
     result: function (res, callback) {
         if (!res.IsValid) {
             this.alert(res.Message);
@@ -86,4 +95,5 @@ var Message = {
 
         callback && callback(res.Data);
     }
+
 };

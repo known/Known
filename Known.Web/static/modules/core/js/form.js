@@ -144,4 +144,5 @@ Form.prototype = {
             $(input.getEl()).after(html);
         }
     }
+
 };

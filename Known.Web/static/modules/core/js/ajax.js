@@ -1,5 +1,6 @@
 ﻿///////////////////////////////////////////////////////////////////////
 var Ajax = {
+
     _request: function (type, dataType, args) {
         var url = args[0],
             data = null,
@@ -39,16 +40,21 @@ var Ajax = {
             }
         });
     },
+
     getText: function () {
         this._request('get', 'text', arguments);
     },
+
     postText: function () {
         this._request('post', 'text', arguments);
     },
+
     getJson: function () {
         this._request('get', 'json', arguments);
     },
+
     postJson: function () {
         this._request('post', 'json', arguments);
     }
+
 };

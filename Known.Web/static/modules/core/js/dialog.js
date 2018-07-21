@@ -1,5 +1,6 @@
 ﻿///////////////////////////////////////////////////////////////////////
 var Dialog = {
+
     show: function (option) {
         var dialog = mini.get('dialog' + option.name);
         if (dialog) {
@@ -14,6 +15,7 @@ var Dialog = {
             });
         }
     },
+
     open: function (option) {
         var win = mini.open({
             url: option.url,
@@ -37,4 +39,5 @@ var Dialog = {
         });
         option.max && win.max();
     }
+
 };

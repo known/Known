@@ -2,6 +2,7 @@
 Array.prototype.insert = function (index, item) {
     this.splice(index, 0, item);
 };
+
 Array.prototype.contains = function (item) {
     for (i in this) {
         if (this[i] === item) {
@@ -10,6 +11,7 @@ Array.prototype.contains = function (item) {
     }
     return false;
 };
+
 Array.prototype.min = function (prop) {
     var min = prop ? this[0][prop] : this[0];
     var len = this.length;
@@ -21,6 +23,7 @@ Array.prototype.min = function (prop) {
     }
     return min;
 };
+
 Array.prototype.max = function (prop) {
     var max = prop ? this[0][prop] : this[0];
     var len = this.length;

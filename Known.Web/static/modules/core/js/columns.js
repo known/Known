@@ -1,4 +1,4 @@
-﻿
+﻿///////////////////////////////////////////////////////////////////////
 var ColumnsMenu = function (grid, options) {
 
     var me = this;
@@ -98,20 +98,19 @@ ColumnsMenu.prototype = {
         //        items.push({ text: "取消过滤", name: "clearfilter" });
 
         menu.setItems(items);
-
         menu.on("itemclick", this.onMenuItemClick, this);
-
 
         $(menu.el).addClass("mini-menu-open");
 
-
         return menu;
     },
+
     onBeforeOpen: function (e) {
         //        var grid = this.grid;
         //        var column = grid.getColumnByEvent(e.htmlEvent);
         //        this.currentColumn = column;
     },
+
     onMenuItemClick: function (e) {
 
         var grid = this.grid;
@@ -135,7 +134,6 @@ ColumnsMenu.prototype = {
             return
         }
 
-
         //显示/隐藏列
         if (targetColumn) {
 
@@ -155,10 +153,6 @@ ColumnsMenu.prototype = {
             if (item.getChecked()) grid.showColumn(targetColumn);
             else grid.hideColumn(targetColumn);
         }
-
     }
 
 };
-
-
-

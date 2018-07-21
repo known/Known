@@ -2,14 +2,17 @@
 String.prototype.trim = function () {
     return this.replace(/(^\s*)|(\s*$)/g, '');
 };
+
 String.prototype.startWith = function (str) {
     var reg = new RegExp("^" + str);
     return reg.test(this);
 };
+
 String.prototype.endWith = function (str) {
     var reg = new RegExp(str + "$");
     return reg.test(this);
 };
+
 String.prototype.padLeft = function (char, length) {
     var len = this.length;
     if (len === 0) return '';
@@ -20,6 +23,7 @@ String.prototype.padLeft = function (char, length) {
     }
     return str;
 };
+
 String.prototype.htmlEncode = function () {
     var div = document.createElement('div');
     div.appendChild(document.createTextNode(this));
@@ -28,11 +32,13 @@ String.prototype.htmlEncode = function () {
     html = html.replace(/\n/g, '<br/>');
     return html;
 };
+
 String.prototype.htmlDecode = function () {
     var div = document.createElement('div');
     div.innerHTML = this;
     return div.innerText || div.textContent;
 };
+
 String.prototype.decode = function () {
     if (!arguments.length)
         return this;

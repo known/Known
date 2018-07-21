@@ -1,7 +1,7 @@
 ﻿var DemoForm = {
     form: null,
     show: function () {
-        this.form = new Form('form1');
+        this.form = new Form('formDemo');
     },
     getForm: function () {
         var s = this.form.getData(true);

@@ -23,6 +23,7 @@ Date.prototype.format = function (fmt) {
     }
     return fmt;
 };
+
 Date.prototype.addYears = function (number) {
     var year = parseInt(this.getFullYear()) + number;
     return new Date(year, this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds());
