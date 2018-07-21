@@ -1,12 +1,18 @@
 ﻿var DemoForm = {
     form: null,
+    toolbar: null,
+
     show: function () {
         this.form = new Form('formDemo');
+        this.toolbar = new Toolbar('tbDemo', this);
+        //this.toolbar.setLabel.click();
     },
+
     getForm: function () {
         var s = this.form.getData(true);
         alert(s);
     },
+
     setForm: function () {
         var obj = {
             String: "abc",
@@ -20,12 +26,15 @@
         this.form.setData(obj);
         this.form.bindEnterJump();
     },
+
     resetForm: function () {
         this.form.reset();
     },
+
     clearForm: function () {
         this.form.clear();
     },
+
     submitForm: function () {
         //提交表单数据
         var json = this.form.getData(true);   //序列化成JSON
@@ -37,8 +46,8 @@
                 alert("提交成功，返回结果:" + text);
             }
         });
-
     },
+
     loadForm: function () {
         var _this = this;
         //加载表单数据
@@ -51,10 +60,13 @@
             }
         });
     },
+
     setLabel: function () {
         this.form.model(true);
     },
+
     setInput: function () {
         this.form.model(false);
     }
+
 };
