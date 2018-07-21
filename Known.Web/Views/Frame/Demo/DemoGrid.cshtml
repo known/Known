@@ -2,30 +2,30 @@
     <div class="mini-toolbar" style="border-bottom:0;padding:2px;">
         <table style="width:100%;">
             <tr>
-                <td style="width:100%;">
-                    <a id="btnRefresh" class="mini-button" plain="true" iconCls="fa-refresh">刷新</a>
+                <td id="tbGrid" style="width:100%;">
+                    <a class="mini-button" plain="true" id="refresh" iconCls="fa-refresh">刷新</a>
                     <span class="separator"></span>
-                    <a class="mini-menubutton" plain="true" iconCls="fa-plus" menu="#menuAdd">新增</a>
+                    <a class="mini-menubutton" plain="true" iconCls="fa-plus text-success" menu="#menuAdd">新增</a>
                     <ul id="menuAdd" class="mini-menu" style="display:none;">
-                        <li id="btnAddForm" iconCls="fa-plus-circle">普通表单</li>
-                        <li id="btnAddHlForm" iconCls="fa-plus-square">上表头下表体</li>
-                        <li id="btnAddTabForm" iconCls="fa-plus-square-o">Tab表单</li>
+                        <li id="addForm" iconCls="fa-plus-circle">普通表单</li>
+                        <li id="addHlForm" iconCls="fa-plus-square">上表头下表体</li>
+                        <li id="addTabForm" iconCls="fa-plus-square-o">Tab表单</li>
                     </ul>
-                    <a id="btnEdit" class="mini-button" plain="true" iconCls="fa-pencil">编辑</a>
-                    <a id="btnDelete" class="mini-button" plain="true" iconCls="fa-minus">删除</a>
+                    <a class="mini-button" plain="true" id="edit" iconCls="fa-pencil text-primary">编辑</a>
+                    <a class="mini-button" plain="true" id="delete" iconCls="fa-minus text-danger">删除</a>
                     <span class="separator"></span>
-                    <a id="btnImport" class="mini-button" plain="true" iconCls="fa-sign-in">导入</a>
-                    <a class="mini-menubutton" plain="true" iconCls="fa-sign-out" menu="#menuExport">导出</a>
+                    <a class="mini-button" plain="true" id="import" iconCls="fa-sign-in text-info">导入</a>
+                    <a class="mini-menubutton" plain="true" iconCls="fa-sign-out text-info" menu="#menuExport">导出</a>
                     <ul id="menuExport" class="mini-menu" style="display:none;">
-                        <li id="btnExportExcel" iconCls="fa-file-excel-o">导出Excel</li>
-                        <li id="btnExportPdf" iconCls="fa-file-pdf-o">导出Pdf</li>
+                        <li id="exportExcel" iconCls="fa-file-excel-o text-primary">导出Excel</li>
+                        <li id="exportPdf" iconCls="fa-file-pdf-o text-danger">导出Pdf</li>
                     </ul>
                     <span class="separator"></span>
-                    <a id="btnUpload" class="mini-button" plain="true" iconCls="fa-upload">上载</a>
-                    <a id="btnDownload" class="mini-button" plain="true" iconCls="fa-download">下载</a>
-                    <a id="btnSync" class="mini-button" plain="true" iconCls="fa-exchange">同步</a>
+                    <a class="mini-button" plain="true" id="upload" iconCls="fa-upload  text-success">上载</a>
+                    <a class="mini-button" plain="true" id="download" iconCls="fa-download  text-primary">下载</a>
+                    <a class="mini-button" plain="true" id="sync" iconCls="fa-exchange">同步</a>
                     <span class="separator"></span>
-                    <a id="btnClose" class="mini-button" plain="true" iconCls="fa-remove">关闭</a>
+                    <a class="mini-button" plain="true" id="close" iconCls="fa-remove text-danger">关闭</a>
                 </td>
                 <td id="queryDemo" style="white-space:nowrap;">
                     <input id="key" class="mini-textbox" emptyText="请输入关键字" style="width:150px;" />
@@ -36,7 +36,7 @@
     </div>
     <div id="queryDemo" class="mini-panel-border query">
         <input id="key" class="mini-textbox" emptyText="请输入关键字" style="width:150px;" />
-        <a id="btnSearch" class="mini-button" iconCls="fa-search">搜索</a>
+        <a class="mini-button" id="search" iconCls="fa-search">搜索</a>
     </div>
 </div>
 <div class="mini-fit">

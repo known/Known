@@ -1,21 +1,24 @@
-﻿var Grid = {
+﻿///////////////////////////////////////////////////////////////////////
+var Grid = function (name, options) {
+    this.name = name;
+    this.grid = mini.get('grid' + name);
+    this.query = new Form('query' + name);
+    this.options = $.extend(true, {}, this.options, options);
+}
 
-    get: function (name) {
-        if (typeof name === 'string')
-            return mini.get('grid' + name);
+Grid.prototype = {
 
-        return name;
+    options: {
     },
 
-    _query: function (name, isLoad, callback) {
-        var ctl = this.get(name);
-        var query = Form.getData('query' + name, true);
-        ctl.clearSelect(false);
-        ctl.load(
+    _queryData: function (isLoad, callback) {
+        var query = this.query.getData(true);
+        this.grid.clearSelect(false);
+        this.grid.load(
             { query: query, isLoad: isLoad },
-            function () {
+            function (e) {
                 if (callback) {
-                    var data = ctl.getResultObject();
+                    var data = e.sender.getResultObject();
                     callback(data);
                 }
             },
@@ -23,26 +26,24 @@
                 Message.tips({ content: '查询出错！' });
             }
         );
-        var menu = new ColumnsMenu(ctl);
-        return ctl;
+        new ColumnsMenu(this.grid);
     },
 
-    search: function (name, callback) {
-        return this._query(name, '0', callback);
+    search: function (callback) {
+        this._queryData('0', callback);
     },
 
-    load: function (name, callback) {
-        return this._query(name, '1', callback);
+    load: function (callback) {
+        this._queryData('1', callback);
     },
 
-    reload: function (grid) {
-        this.get(grid).reload();
+    reload: function () {
+        this.grid.reload();
     },
 
-    validate: function (grid, tabsId, tabIndex) {
-        var ctl = this.get(grid);
-        ctl.validate();
-        if (ctl.isValid())
+    validate: function (tabsId, tabIndex) {
+        this.grid.validate();
+        if (this.grid.isValid())
             return true;
 
         if (tabsId) {
@@ -51,21 +52,19 @@
             tabs.activeTab(tab);
         }
 
-        var error = ctl.getCellErrors()[0];
-        ctl.beginEditCell(error.record, error.column);
+        var error = this.grid.getCellErrors()[0];
+        this.grid.beginEditCell(error.record, error.column);
         return false;
     },
 
-    getData: function (grid, encode) {
-        var ctl = this.get(grid);
-        var data = ctl.getData();
+    getData: function (encode) {
+        var data = this.grid.getData();
         return encode ? mini.encode(data) : data;
     },
 
-    setData: function (grid, data, callback) {
-        var ctl = this.get(grid);
+    setData: function (data, callback) {
         if (data) {
-            ctl.setData(data);
+            this.grid.setData(data);
             callback && callback(data);
         }
     }

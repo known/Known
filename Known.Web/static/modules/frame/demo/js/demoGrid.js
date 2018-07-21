@@ -1,16 +1,10 @@
 ﻿var DemoGrid = {
-    gridId: 'Demo',
+    grid: null,
+    toolbar: null,
+
     show: function () {
-        var _this = this;
-        mini.get('btnRefresh').on('click', function () {
-            Grid.reload(_this.gridId);
-        });
-        mini.get('btnClose').on('click', function () {
-            DemoView.close();
-        });
-        mini.get('btnSearch').on('click', function () {
-            Grid.search(_this.gridId);
-        });
+        this.grid = new Grid('Demo');
+        this.toolbar = new Toolbar('tbGrid', this);
 
         $('.query-btn-adv').click(function () {
             $('.query').toggle(0, function () {
@@ -18,6 +12,62 @@
             });
         });
 
-        Grid.load(_this.gridId);
+
+        this.grid.load();
+    },
+
+    //toolbar
+    refresh: function () {
+        this.grid.reload();
+    },
+
+    addForm: function () {
+        Message.alert('AddForm');
+    },
+
+    addHlForm: function () {
+        Message.alert('AddHlForm');
+    },
+
+    addTabForm: function () {
+        Message.alert('AddTabForm');
+    },
+
+    edit: function () {
+    },
+
+    delete: function () {
+    },
+
+    import: function () {
+        Message.alert('Import');
+    },
+
+    exportExcel: function () {
+
+    },
+
+    exportPdf: function () {
+    },
+
+    upload: function () {
+        Message.alert('Upload');
+    },
+
+    download: function () {
+        Message.alert('Download');
+    },
+
+    sync: function () {
+        Message.alert('Sync');
+    },
+    
+    close: function () {
+        DemoView.close();
+    },
+
+    search: function () {
+        this.grid.search();
     }
+
 };

@@ -13,6 +13,9 @@ var Form = function (formId, options) {
 
 Form.prototype = {
 
+    options: {
+    },
+
     reset: function () {
         this.form.reset();
     },
