@@ -39,6 +39,14 @@
     <input class="@type" id="@id" name="@id" @(new HtmlString(attrs)) />
 }
 
+@helper Hidden(params string[] ids)
+{
+    foreach (var id in ids)
+    {
+        @RenderControl("mini-hidden", id)
+    }
+}
+
 @helper TextBox(string id, bool required = false, object option = null)
 {
     @RenderControl("mini-textbox", id, required, option)

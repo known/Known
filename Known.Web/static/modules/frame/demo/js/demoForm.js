@@ -2,7 +2,6 @@
     form: null,
     show: function () {
         this.form = new Form('form1');
-        console.log(this.form);
     },
     getForm: function () {
         var s = this.form.getData(true);

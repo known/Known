@@ -113,10 +113,10 @@
     <Content Include="static\modules\frame\demo\index.min.js">
       <DependentUpon>index.js</DependentUpon>
     </Content>
-    <Content Include="static\modules\frame\demo\js\form.js" />
-    <Content Include="static\modules\frame\demo\js\tab.js" />
-    <Content Include="static\modules\frame\demo\js\grid.js" />
-    <Content Include="static\modules\frame\demo\js\report.js" />
+    <Content Include="static\modules\frame\demo\js\demoForm.js" />
+    <Content Include="static\modules\frame\demo\js\demoTab.js" />
+    <Content Include="static\modules\frame\demo\js\demoGrid.js" />
+    <Content Include="static\modules\frame\demo\js\demoReport.js" />
     <Content Include="static\modules\frame\index.css" />
     <Content Include="static\modules\frame\index.js" />
     <Content Include="static\modules\frame\index.min.css">
