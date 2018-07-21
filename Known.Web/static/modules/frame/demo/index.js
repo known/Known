@@ -9,7 +9,7 @@
     },
 
     onTreeNodeSelect: function (e) {
-        $('#page').loadHtml('/frame/partial', {
+        $('#page').loadHtml('/demo/partial', {
             name: e.node.view
         }, function () {
             mini.parse();

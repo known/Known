@@ -2,7 +2,7 @@
 var Toolbar = function (tbId, handler) {
     this.tbId = tbId;
 
-    var buttons = $('#' + tbId + ' .mini-button,#' + tbId + ' .mini-menuitem');
+    var buttons = $('#' + tbId).find('.button,.mini-button,.mini-menuitem');
     for (var i = 0; i < buttons.length; i++) {
         var button = $(buttons[i]),
             buttonId = button[0].id;

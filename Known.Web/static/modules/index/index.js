@@ -41,15 +41,8 @@
     $('#navDemo').click(function () { Navbar.demo(); });
     $('#navTodo').click(function () { Navbar.todo(); });
 
-    //userinfo menu
-    $('#ddmUserInfo').click(function () { UserMenu.info(); });
-    $('#ddmUpdatePwd').click(function () { UserMenu.updPwd(); });
-    $('#ddmLogout').click(function () { UserMenu.logout(); });
-
-    $('#tabsButtons .fa-home').click(function () { MainTabs.home(); });
-    $('#tabsButtons .fa-refresh').click(function () { MainTabs.refresh(); });
-    $('#tabsButtons .fa-remove').click(function () { MainTabs.remove(); });
-    $('#tabsButtons .fa-arrows-alt').click(function () { MainTabs.fullScreen(); });
+    new Toolbar('tbUser', UserMenu);
+    new Toolbar('tabsButtons', MainTabs);
 
     mini.parse();
     MainTabs.index();

@@ -31,10 +31,10 @@
                 <a class="dropdown-toggle userinfo">
                     <img class="user-img" src="~/static/images/face.jpg" />个人资料 <i class="fa fa-angle-down"></i>
                 </a>
-                <ul class="dropdown-menu pull-right">
-                    <li><a id="ddmUserInfo"><i class="fa fa-user"></i> 用户信息</a></li>
-                    <li><a id="ddmUpdatePwd"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
-                    <li><a id="ddmLogout"><i class="fa fa-power-off"></i> 退出登录</a></li>
+                <ul id="tbUser" class="dropdown-menu pull-right">
+                    <li><a class="button" id="info"><i class="fa fa-user"></i> 用户信息</a></li>
+                    <li><a class="button" id="updPwd"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
+                    <li><a class="button" id="logout"><i class="fa fa-power-off"></i> 退出登录</a></li>
                 </ul>
             </li>
         </ul>
@@ -50,10 +50,10 @@
                 <div id="dashboard" name="index" iconCls="fa-home" title="控制台"></div>
             </div>
             <div id="tabsButtons">
-                <a class="tabsBtn"><i class="fa fa-home"></i></a>
-                <a class="tabsBtn"><i class="fa fa-refresh"></i></a>
-                <a class="tabsBtn"><i class="fa fa-remove"></i></a>
-                <a class="tabsBtn"><i class="fa fa-arrows-alt"></i></a>
+                <a class="tabsBtn button" id="home"><i class="fa fa-home"></i></a>
+                <a class="tabsBtn button" id="refresh"><i class="fa fa-refresh"></i></a>
+                <a class="tabsBtn button" id="remove"><i class="fa fa-remove"></i></a>
+                <a class="tabsBtn button" id="fullScreen"><i class="fa fa-arrows-alt"></i></a>
             </div>
         </div>
     </div>
