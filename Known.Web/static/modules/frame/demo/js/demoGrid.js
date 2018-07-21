@@ -1,4 +1,5 @@
 ﻿var DemoGrid = {
+
     grid: null,
     toolbar: null,
 

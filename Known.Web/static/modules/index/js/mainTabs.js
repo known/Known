@@ -1,5 +1,7 @@
 ﻿var MainTabs = {
+
     tabsId: 'mainTabs',
+
     active: function (item) {
         var tabs = mini.get(this.tabsId);
         var tab = tabs.getTab(item.id);
@@ -13,6 +15,7 @@
         tab.bodyEl = tabs.getTabBodyEl(tab);
         return tab;
     },
+
     index: function () {
         var tab = this.active({ id: 'index' });
         $(tab.bodyEl).loadHtml('/home/partial', {
@@ -21,14 +24,17 @@
             Dashboard.show();
         });
     },
+
     home: function () {
         this.active({ id: 'index' });
     },
+
     refresh: function () {
         var tabs = mini.get(this.tabsId);
         var tab = tabs.getActiveTab();
         tabs.reloadTab(tab);
     },
+
     remove: function () {
         var tabs = mini.get(this.tabsId);
         var tab = tabs.getActiveTab();
@@ -36,6 +42,8 @@
             tabs.removeTab(tab);
         }
     },
+
     fullScreen: function () {
     }
+
 };

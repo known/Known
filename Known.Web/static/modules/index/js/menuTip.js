@@ -21,6 +21,7 @@
         tip.css({ top: offset.top + height / 2 - tipHeight / 2, left: offset.left + width });
 
     });
+
     menu.element.on("mouseleave", ".menu-title", function (event) {
         tip.hide();
     });

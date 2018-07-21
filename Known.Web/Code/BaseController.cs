@@ -70,10 +70,29 @@ namespace Known.Web
             get { return User.Identity.IsAuthenticated; }
         }
 
-        public ActionResult ErrorResult(string message) => JsonResult(Result.Error(message));
-        public ActionResult ErrorResult<T>(string message, T data) => JsonResult(Result.Error(message, data));
-        public ActionResult SuccessResult(string message) => JsonResult(Result.Success(message));
-        public ActionResult SuccessResult<T>(string message, T data) => JsonResult(Result.Success(message, data));
-        public ActionResult JsonResult(object data) => Content(data.ToJson(), MimeTypes.ApplicationJson);
+        public ActionResult ErrorResult(string message)
+        {
+            return JsonResult(Result.Error(message));
+        }
+
+        public ActionResult ErrorResult<T>(string message, T data)
+        {
+            return JsonResult(Result.Error(message, data));
+        }
+
+        public ActionResult SuccessResult(string message)
+        {
+            return JsonResult(Result.Success(message));
+        }
+
+        public ActionResult SuccessResult<T>(string message, T data)
+        {
+            return JsonResult(Result.Success(message, data));
+        }
+
+        public ActionResult JsonResult(object data)
+        {
+            return Content(data.ToJson(), MimeTypes.ApplicationJson);
+        }
     }
 }

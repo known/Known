@@ -53,4 +53,5 @@
 
     mini.parse();
     MainTabs.index();
+
 });

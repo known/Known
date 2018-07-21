@@ -1,10 +1,13 @@
 ﻿var DemoView = {
+
     show: function () {
         mini.get('leftTree').on('nodeselect', this.onTreeNodeSelect);
     },
+
     close: function () {
         window.CloseOwnerWindow();
     },
+
     onTreeNodeSelect: function (e) {
         $('#page').loadHtml('/frame/partial', {
             name: e.node.view
@@ -21,6 +24,7 @@
             }
         });
     }
+
 };
 
 $(function () {

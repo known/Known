@@ -1,7 +1,9 @@
 ﻿var Dashboard = {
+
     show: function () {
         this.buildChart();
     },
+
     buildChart: function () {
         var chart = new Highcharts.Chart({
             chart: {
@@ -61,4 +63,5 @@
             }]
         });
     }
+
 };

@@ -8,6 +8,11 @@ namespace Known.Web.Controllers
 {
     public class DemoController : AuthorizeController
     {
+        public ActionResult DemoView()
+        {
+            return View();
+        }
+
         public ActionResult QueryUsers(string query, string isLoad)
         {
             var users = new List<User>();

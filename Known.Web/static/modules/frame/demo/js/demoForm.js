@@ -1,4 +1,5 @@
 ﻿var DemoForm = {
+
     form: null,
     toolbar: null,
 
