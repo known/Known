@@ -1,18 +1,27 @@
 ﻿///////////////////////////////////////////////////////////////////////
-var Form = {
-    get: function (form) {
-        if (typeof form === 'string')
-            return new mini.Form('#' + form);
+var Form = function (formId, options) {
+    this.formId = formId;
+    this.form = new mini.Form('#' + formId);
+    this.options = $.extend(true, {}, this.options, options);
 
-        return form;
+    var inputs = this.form.getFields();
+    for (var i = 0; i < inputs.length; i++) {
+        var input = inputs[i];
+        this[input.id] = input;
+    }
+}
+
+Form.prototype = {
+
+    reset: function () {
+        this.form.reset();
     },
-    reset: function (form) {
-        this.get(form).reset();
-    },
-    clear: function (form, controls) {
+
+    clear: function (controls) {
         if (controls) {
+            var _this = this;
             $(controls.split(',')).each(function (i, c) {
-                var control = mini.getbyName(c, form);
+                var control = mini.getbyName(c, _this.form);
                 if (control) {
                     control.setValue('');
                     if (control.type === 'autocomplete') {
@@ -21,11 +30,12 @@ var Form = {
                 }
             });
         } else {
-            this.get(form).clear();
+            this.form.clear();
         }
     },
-    validate: function (form, tabsId, tabIndex) {
-        if (this.get(form).validate())
+
+    validate: function (tabsId, tabIndex) {
+        if (this.form.validate())
             return true;
 
         if (tabsId) {
@@ -35,20 +45,22 @@ var Form = {
         }
         return false;
     },
-    getData: function (form, encode) {
-        var data = this.get(form).getData(true);
+
+    getData: function (encode) {
+        var data = this.form.getData(true);
         return encode ? mini.encode(data) : data;
     },
-    setData: function (form, data, callback) {
-        var ctl = this.get(form);
-        if (ctl && data) {
-            ctl.setData(data);
+
+    setData: function (data, callback) {
+        if (data) {
+            this.form.setData(data);
             callback && callback(data);
-            ctl.setChanged(false);
+            this.form.setChanged(false);
         }
     },
-    bindEnterJump: function (form) {
-        var inputs = this.get(form).getFields();
+
+    bindEnterJump: function () {
+        var inputs = this.form.getFields();
         var activeIndexes = [];
 
         for (var i = 0, len = inputs.length; i < len; i++) {
@@ -102,10 +114,11 @@ var Form = {
             })(i);
         }
     },
-    model: function (form, isLabel) {
+
+    model: function (isLabel) {
         var labelClass = 'form-input-label-model';
         $('span.' + labelClass).remove();
-        var inputs = this.get(form).getFields();
+        var inputs = this.form.getFields();
         for (var i = 0, len = inputs.length; i < len; i++) {
             var input = inputs[i];
             input.setVisible(!isLabel);

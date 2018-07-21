@@ -30,7 +30,7 @@
         <tr>
             <th>TimeSpinner：</th>
             <td>
-                @Form.TimeSpinner("BirthDay", false, new { format = "H:mm" })
+                @Form.TimeSpinner("BirthTime", false, new { format = "H:mm" })
             </td>
             <th>CheckBox：</th>
             <td>
@@ -70,7 +70,7 @@
             </td>
             <th rowspan="2">ListBox：</th>
             <td rowspan="2" class="noborder">
-                @Form.ListBox("Countrys3", false, new {
+                @Form.ListBox("Countrys1", false, new {
                    showNullItem = "true",
                    url = "/static/modules/frame/demo/data/countrys.txt",
                    value = "fr",

@@ -1,8 +1,11 @@
 ﻿var DemoForm = {
+    form: null,
     show: function () {
+        this.form = new Form('form1');
+        console.log(this.form);
     },
     getForm: function () {
-        var s = Form.getData('form1', true);
+        var s = this.form.getData(true);
         alert(s);
     },
     setForm: function () {
@@ -15,18 +18,18 @@
             //countrys2: "de",
             countrys3: "usa"
         };
-        Form.setData('form1', obj);
-        Form.bindEnterJump(form);
+        this.form.setData(obj);
+        this.form.bindEnterJump();
     },
     resetForm: function () {
-        Form.reset('form1');
+        this.form.reset();
     },
     clearForm: function () {
-        Form.clear('form1');
+        this.form.clear();
     },
     submitForm: function () {
         //提交表单数据
-        var json = Form.getData('form1', true);   //序列化成JSON
+        var json = this.form.getData(true);   //序列化成JSON
         $.ajax({
             url: "../data/FormService.aspx?method=SaveData",
             type: "post",
@@ -38,20 +41,21 @@
 
     },
     loadForm: function () {
+        var _this = this;
         //加载表单数据
         $.ajax({
             url: "../data/FormService.aspx?method=LoadData",
             type: "post",
             success: function (text) {
                 var data = mini.decode(text);   //反序列化成对象
-                Form.setData('form1', data);    //设置多个控件数据
+                _this.form.setData(data);    //设置多个控件数据
             }
         });
     },
     setLabel: function () {
-        Form.model('form1', true);
+        this.form.model(true);
     },
     setInput: function () {
-        Form.model('form1', false);
+        this.form.model(false);
     }
 };
