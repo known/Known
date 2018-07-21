@@ -34,9 +34,13 @@
     },
 
     edit: function () {
+        this.grid.checkSelect(function (row) {
+        });
     },
 
     delete: function () {
+        this.grid.deleteRows(function (rows) {
+        });
     },
 
     import: function () {

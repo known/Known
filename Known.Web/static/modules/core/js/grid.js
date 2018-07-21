@@ -57,16 +57,89 @@ Grid.prototype = {
         return false;
     },
 
+    getChanges: function (encode) {
+        var data = this.grid.getChanges();
+        return encode ? mini.encode(data) : data;
+    },
+
+    getSelecteds: function (encode) {
+        this.grid.accept();
+        var data = this.grid.getSelecteds();
+        return encode ? mini.encode(data) : data;
+    },
+
     getData: function (encode) {
         var data = this.grid.getData();
         return encode ? mini.encode(data) : data;
     },
 
     setData: function (data, callback) {
+        this.clear();
         if (data) {
             this.grid.setData(data);
             callback && callback(data);
         }
+    },
+
+    clear: function () {
+        this.grid.setData([]);
+    },
+
+    addRow: function (data, index) {
+        if (!index) {
+            index = this.grid.getData().length;
+        }
+
+        this.grid.addRow(data, index);
+        this.grid.cancelEdit();
+        this.grid.beginEditRow(data);
+    },
+
+    updateRow: function (e, data) {
+        e.sender.updateRow(e.record, data);
+    },
+
+    deleteRow: function (uid) {
+        var row = this.grid.getRowByUid(uid);
+        if (row) {
+            this.grid.removeRow(row);
+        }
+    },
+
+    checkSelect: function (callback) {
+        var rows = this.grid.getSelecteds();
+        if (rows.length === 0)
+            Message.tips({ content: '请选择一条记录！' });
+        else if (rows.length > 1)
+            Message.tips({ content: '只能选择一条记录！' });
+        else if (callback)
+            callback(rows[0]);
+    },
+
+    checkMultiSelect: function (callback) {
+        var rows = this.grid.getSelecteds();
+        if (rows.length === 0)
+            Message.tips({ content: '请选择一条或多条记录！' });
+        else if (callback)
+            callback(rows);
+    },
+
+    deleteRows: function (callback) {
+        this.checkMultiSelect(function (rows) {
+            Message.confirm('确定要删除选中的' + rows.length + '条记录？', function () {
+                callback && callback(rows);
+            });
+        });
+    },
+
+    hideColumn: function (indexOrName) {
+        var column = this.grid.getColumn(indexOrName);
+        this.grid.updateColumn(column, { visible: false });
+    },
+
+    showColumn: function (indexOrName) {
+        var column = this.grid.getColumn(indexOrName);
+        this.grid.updateColumn(column, { visible: true });
     }
 
 };
