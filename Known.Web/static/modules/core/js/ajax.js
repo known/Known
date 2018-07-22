@@ -21,7 +21,10 @@ var Ajax = {
         }
 
         if (new RegExp("^/api/").test(url)) {
-            data = { url: url, param: param };
+            data = { url: url };
+            if (param) {
+                data.param = param;
+            }
             url = type === 'get' ? '/api/get' : '/api/post';
         }
 
@@ -34,9 +37,7 @@ var Ajax = {
             url: url, data: data,
             cache: false, async: true,
             success: function (result) {
-                if (callback) {
-                    callback(result);
-                }
+                callback && callback(result);
             }
         });
     },

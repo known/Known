@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Known.Extensions;
 using Newtonsoft.Json;
 
 namespace Known.Web.Controllers
@@ -6,10 +7,10 @@ namespace Known.Web.Controllers
     public class ApiController : AuthorizeController
     {
         [HttpGet]
-        public ActionResult Get(string url, dynamic param = null)
+        public ActionResult Get(string url, string param = null)
         {
-            log.Info($"get: {url} param: {ToJson(param)}");
-            var result = Api.Get<ApiResult>(url, param);
+            log.Info($"get: {url} param: {param}");
+            var result = Api.Get<ApiResult>(url, param.FromJson<dynamic>());
             if (result.Status == 1)
             {
                 log.Info($"error: {result.Message}");
@@ -21,10 +22,10 @@ namespace Known.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(string url, dynamic param = null)
+        public ActionResult Post(string url, string param = null)
         {
-            log.Info($"post: {url} param: {ToJson(param)}");
-            var result = Api.Post<ApiResult>(url, param);
+            log.Info($"post: {url} param: {param}");
+            var result = Api.Post<ApiResult>(url, param.FromJson<dynamic>());
             if (result.Status == 1)
             {
                 log.Info($"error: {result.Message}");

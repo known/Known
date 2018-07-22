@@ -12,21 +12,33 @@ Grid.prototype = {
     },
 
     _queryData: function (isLoad, callback) {
-        var query = this.query.getData(true);
-        this.grid.clearSelect(false);
-        this.grid.load(
-            { query: query, isLoad: isLoad },
-            function (e) {
-                if (callback) {
-                    var data = e.sender.getResultObject();
-                    callback(data);
-                }
-            },
-            function () {
-                Message.tips({ content: '查询出错！' });
-            }
-        );
-        new ColumnsMenu(this.grid);
+        var _this = this;
+        var url = _this.grid.getUrl();
+        var model = {
+            Query: _this.query.getData(true),
+            IsLoad: isLoad,
+            PageIndex: _this.grid.getPageIndex(),
+            PageSize: _this.grid.getPageSize(),
+            SortField: _this.grid.getSortField(),
+            SortOrder: _this.grid.getSortOrder(),
+        };
+        _this.grid.clearSelect(false);
+        Ajax.postJson(url, model, function (result) {
+            _this.setData(result, callback);
+        });
+        //this.grid.load(
+        //    { query: query, isLoad: isLoad },
+        //    function (e) {
+        //        if (callback) {
+        //            var data = e.sender.getResultObject();
+        //            callback(data);
+        //        }
+        //    },
+        //    function () {
+        //        Message.tips({ content: '查询出错！' });
+        //    }
+        //);
+        new ColumnsMenu(_this.grid);
     },
 
     search: function (callback) {
@@ -38,7 +50,8 @@ Grid.prototype = {
     },
 
     reload: function () {
-        this.grid.reload();
+        //this.grid.reload();
+        this.load();
     },
 
     validate: function (tabsId, tabIndex) {

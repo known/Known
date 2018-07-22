@@ -43,14 +43,14 @@ namespace Known.Web
             return json.FromJson<T>();
         }
 
-        public string Post(string url, dynamic data)
+        public string Post(string url, dynamic param = null)
         {
-            return Request("POST", url, data);
+            return Request("POST", url, param);
         }
 
-        public T Post<T>(string url, dynamic data)
+        public T Post<T>(string url, dynamic param = null)
         {
-            var json = Post(url, data) as string;
+            var json = Post(url, param) as string;
             return json.FromJson<T>();
         }
 
@@ -79,7 +79,7 @@ namespace Known.Web
                 {
                     var meta = new MediaTypeWithQualityHeaderValue("application/json");
                     httpClient.DefaultRequestHeaders.Accept.Add(meta);
-                    var data = param.ToJson();
+                    var data = SerializeExtension.ToJson(param);
                     HttpContent content = new StringContent(data, Encoding.UTF8, "application/json");
                     if (compressionMethod == CompressionMethod.Automatic && data.Length >= lengthThreshold)
                         content = new CompressedContent(content, defaultCompressionMethod);
@@ -109,7 +109,7 @@ namespace Known.Web
                 }
                 else
                 {
-                    dic["body"] = param.ToJson();
+                    dic["body"] = SerializeExtension.ToJson(param);
                 }
             }
 

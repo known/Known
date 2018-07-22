@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Web;
 using System.Web.Http;
 using Known.Extensions;
@@ -20,7 +19,6 @@ namespace Known.WebApi.Controllers
             var user = new User
             {
                 UserName = userName
-                
             };
             return ApiResult.Success(user);
         }
