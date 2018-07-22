@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
-using Known.Platform;
 using Known.Web.Filters;
 
 namespace Known.Web.Controllers
@@ -17,7 +16,7 @@ namespace Known.Web.Controllers
                 return ErrorResult(result.Message);
 
             FormsAuthentication.SetAuthCookie(userName, true);
-            CurrentUser = result.Data as User;
+            CurrentUser = result.Data;
 
             if (string.IsNullOrEmpty(backUrl))
                 backUrl = FormsAuthentication.DefaultUrl;

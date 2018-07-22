@@ -8,6 +8,7 @@ namespace Known.Web.Controllers
         [LoginAuthorize]
         public ActionResult Index()
         {
+            ViewBag.UserName = CurrentUser.Name;
             return View();
         }
 

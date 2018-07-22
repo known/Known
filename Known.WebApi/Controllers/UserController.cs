@@ -18,7 +18,21 @@ namespace Known.WebApi.Controllers
 
             var user = new User
             {
-                UserName = userName
+                UserName = userName,
+                Name = "管理员",
+                Token = "admin"
+            };
+            return ApiResult.Success(user);
+        }
+
+        [HttpGet]
+        public ApiResult GetUser(string userName)
+        {
+            var user = new User
+            {
+                UserName = userName,
+                Name = "管理员",
+                Token = "admin"
             };
             return ApiResult.Success(user);
         }
@@ -29,6 +43,18 @@ namespace Known.WebApi.Controllers
             var path = Path.Combine(HttpRuntime.AppDomainAppPath, "menu.json");
             var json = File.ReadAllText(path);
             return ApiResult.Success(json.FromJson<object>());
+        }
+
+        [HttpGet]
+        public ApiResult GetModule(string mid)
+        {
+            return ApiResult.Success(new Module
+            {
+                Id = "demo",
+                Code = "Demo",
+                Name = "开发示例",
+                ViewType = ModuleViewType.SplitPageView
+            });
         }
 
         //class Menu

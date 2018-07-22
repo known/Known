@@ -2,7 +2,6 @@
 using Known.Drawing;
 using Known.Extensions;
 using Known.Log;
-using Known.Platform;
 using Known.Web.Extensions;
 
 namespace Known.Web
@@ -45,7 +44,7 @@ namespace Known.Web
                 if (api == null)
                 {
                     if (IsAuthenticated && CurrentUser != null)
-                        api = new ApiClient(CurrentUser.Token);
+                        api = new ApiClient(CurrentUser.Token.ToString());
                     else
                         api = new ApiClient();
                 }
@@ -54,10 +53,24 @@ namespace Known.Web
             }
         }
 
-        public User CurrentUser
+        public dynamic CurrentUser
         {
-            get { return Session.GetValue<User>("CurrentUser"); }
-            set { Session.SetValue("CurrentUser", value); }
+            get
+            {
+                var user = Session["CurrentUser"];
+                if (user == null)
+                {
+                    var api = new ApiClient();
+                    var result = api.Get<ApiResult>("/api/user/getuser", new { userName = UserName });
+                    if (result.Status == 0)
+                    {
+                        user = result.Data;
+                        Session["CurrentUser"] = user;
+                    }
+                }
+                return user;
+            }
+            set { Session["CurrentUser"] = value; }
         }
 
         public string UserName
