@@ -23,7 +23,7 @@ var Ajax = {
         if (new RegExp("^/api/").test(url)) {
             data = { url: url };
             if (param) {
-                data.param = param;
+                data.param = JSON.stringify(param);
             }
             url = type === 'get' ? '/api/get' : '/api/post';
         }

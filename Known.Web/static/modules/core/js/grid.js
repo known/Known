@@ -14,7 +14,7 @@ Grid.prototype = {
     _queryData: function (isLoad, callback) {
         var _this = this;
         var url = _this.grid.getUrl();
-        var model = {
+        var param = {
             Query: _this.query.getData(true),
             IsLoad: isLoad,
             PageIndex: _this.grid.getPageIndex(),
@@ -23,8 +23,8 @@ Grid.prototype = {
             SortOrder: _this.grid.getSortOrder(),
         };
         _this.grid.clearSelect(false);
-        Ajax.postJson(url, model, function (result) {
-            _this.setData(result, callback);
+        Ajax.postJson(url, param, function (result) {
+            _this.setData(result.Data, callback);
         });
         //this.grid.load(
         //    { query: query, isLoad: isLoad },
@@ -50,8 +50,7 @@ Grid.prototype = {
     },
 
     reload: function () {
-        //this.grid.reload();
-        this.load();
+        this.grid.reload();
     },
 
     validate: function (tabsId, tabIndex) {

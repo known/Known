@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Known.Extensions;
 using Newtonsoft.Json;
 
 namespace Known.Web.Controllers
@@ -10,7 +9,7 @@ namespace Known.Web.Controllers
         public ActionResult Get(string url, string param = null)
         {
             log.Info($"get: {url} param: {param}");
-            var result = Api.Get<ApiResult>(url, param.FromJson<dynamic>());
+            var result = Api.Get<ApiResult>(url, FromJson(param));
             if (result.Status == 1)
             {
                 log.Info($"error: {result.Message}");
@@ -25,7 +24,7 @@ namespace Known.Web.Controllers
         public ActionResult Post(string url, string param = null)
         {
             log.Info($"post: {url} param: {param}");
-            var result = Api.Post<ApiResult>(url, param.FromJson<dynamic>());
+            var result = Api.Post<ApiResult>(url, FromJson(param));
             if (result.Status == 1)
             {
                 log.Info($"error: {result.Message}");
@@ -34,6 +33,14 @@ namespace Known.Web.Controllers
 
             log.Info($"success: {ToJson(result.Data)}");
             return SuccessResult("", result.Data);
+        }
+
+        private dynamic FromJson(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+                return null;
+
+            return JsonConvert.DeserializeObject<dynamic>(json);
         }
 
         private string ToJson(dynamic data)

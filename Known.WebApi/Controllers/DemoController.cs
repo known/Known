@@ -19,6 +19,7 @@ namespace Known.WebApi.Controllers
     public class DemoController : BaseApiController
     {
         [HttpPost]
+        [AllowAnonymous]
         public ApiResult QueryUsers(QueryParameter model)
         {
             var users = new List<User>();
