@@ -1,10 +1,32 @@
 ﻿using System.Web.Mvc;
+using Known.Web.Extensions;
 using Newtonsoft.Json;
 
 namespace Known.Web.Controllers
 {
     public class ApiController : AuthorizeController
     {
+        [HttpPost]
+        public ActionResult Query(string url, string query, string isLoad)
+        {
+            log.Info($"get: {url} query: {query}");
+            var param = FromJson(query);
+            param.IsLoad = isLoad == "1";
+            param.PageIndex = Request.Get<int>("pageIndex");
+            param.PageSize = Request.Get<int>("pageSize");
+            param.SortField = Request.Get<string>("sortField");
+            param.SortOrder = Request.Get<string>("sortOrder");
+            var result = Api.Post<ApiResult>(url, param);
+            if (result.Status == 1)
+            {
+                log.Info($"error: {result.Message}");
+                return ErrorResult(result.Message);
+            }
+
+            log.Info($"success: {ToJson(result.Data)}");
+            return JsonResult(result.Data);
+        }
+
         [HttpGet]
         public ActionResult Get(string url, string param = null)
         {

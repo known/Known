@@ -9,7 +9,7 @@ namespace Known.WebApi.Controllers
     public class QueryParameter
     {
         public string Query { get; set; }
-        public string IsLoad { get; set; }
+        public bool IsLoad { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
         public string SortField { get; set; }

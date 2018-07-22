@@ -4,6 +4,10 @@ var Grid = function (name, options) {
     this.grid = mini.get('grid' + name);
     this.query = new Form('query' + name);
     this.options = $.extend(true, {}, this.options, options);
+
+    var url = this.grid.getUrl();
+    this.grid.setUrl('/api/query?url=' + url);
+    this.grid.setAjaxType('post');
 }
 
 Grid.prototype = {
@@ -12,33 +16,21 @@ Grid.prototype = {
     },
 
     _queryData: function (isLoad, callback) {
-        var _this = this;
-        var url = _this.grid.getUrl();
-        var param = {
-            Query: _this.query.getData(true),
-            IsLoad: isLoad,
-            PageIndex: _this.grid.getPageIndex(),
-            PageSize: _this.grid.getPageSize(),
-            SortField: _this.grid.getSortField(),
-            SortOrder: _this.grid.getSortOrder(),
-        };
-        _this.grid.clearSelect(false);
-        Ajax.postJson(url, param, function (result) {
-            _this.setData(result.Data, callback);
-        });
-        //this.grid.load(
-        //    { query: query, isLoad: isLoad },
-        //    function (e) {
-        //        if (callback) {
-        //            var data = e.sender.getResultObject();
-        //            callback(data);
-        //        }
-        //    },
-        //    function () {
-        //        Message.tips({ content: '查询出错！' });
-        //    }
-        //);
-        new ColumnsMenu(_this.grid);
+        var query = this.query.getData(true);
+        this.grid.clearSelect(false);
+        this.grid.load(
+            { query: query, isLoad: isLoad },
+            function (e) {
+                if (callback) {
+                    var data = e.sender.getResultObject();
+                    callback(data);
+                }
+            },
+            function () {
+                Message.tips({ content: '查询出错！' });
+            }
+        );
+        new ColumnsMenu(this.grid);
     },
 
     search: function (callback) {
