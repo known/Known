@@ -1,7 +1,13 @@
 ﻿var DemoReport = {
 
+    grid: null,
+    toolbar: null,
+
     show: function () {
-        Grid.load('Report');
+        this.grid = new Grid('Report');
+        this.toolbar = new Toolbar('tbReport', this);
+
+        this.grid.load();
     }
 
 };
