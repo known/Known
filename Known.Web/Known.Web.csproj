@@ -508,6 +508,9 @@
     <Content Include="Views\Demo\Partials\DemoTab.cshtml" />
     <Content Include="Views\Home\Partials\Dashboard.cshtml" />
     <Content Include="Views\Demo\Partials\DemoReport.cshtml" />
+    <Content Include="Views\System\ModuleView.cshtml" />
+    <Content Include="Views\System\RoleView.cshtml" />
+    <Content Include="Views\System\UserView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -526,6 +529,7 @@
     <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Code\FilterConfig.cs" />
+    <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\AntiForgeryAttribute.cs" />
     <Compile Include="Filters\LoginAuthorizeAttribute.cs" />
