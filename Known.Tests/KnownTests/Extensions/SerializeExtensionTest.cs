@@ -24,16 +24,16 @@ namespace Known.Tests.KnownTests.Extensions
 
         public static void TestToXml()
         {
-            var value = new TestEntity { Item1 = 1, Item2 = "test", Item3 = new DateTime(2017, 10, 1) };
-            var value1 = new TestEntity { Item1 = 1, Item2 = "test", Item3 = new DateTime(2017, 10, 1) };
+            var value = new TestEntity { Item1 = 1, Item2 = "test<12;test>15", Item3 = new DateTime(2017, 10, 1) };
+            var value1 = new TestEntity { Item1 = 1, Item2 = "test<12;test>15", Item3 = new DateTime(2017, 10, 1) };
             Assert.IsEqual(value.ToXml(), value1.ToXml());
         }
 
         public static void TestFromXml()
         {
-            var value = new TestEntity { Item1 = 1, Item2 = "test", Item3 = new DateTime(2017, 10, 1) };
-            var json = value.ToXml();
-            var value1 = json.FromXml<TestEntity>();
+            var value = new TestEntity { Item1 = 1, Item2 = "test<12;test>15", Item3 = new DateTime(2017, 10, 1) };
+            var xml = value.ToXml();
+            var value1 = xml.FromXml<TestEntity>();
             Assert.IsEqual(value1.Item1, value.Item1);
             Assert.IsEqual(value1.Item2, value.Item2);
             Assert.IsEqual(value1.Item3, value.Item3);
