@@ -10,7 +10,7 @@
     todo: function () {
         MainTabs.active({
             id: 'todo', iconCls: 'fa-paper-plane',
-            text: '代办事项', url: '/home/todo'
+            text: '代办事项', url: '/frame?mid=todo'
         });
     }
 

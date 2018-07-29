@@ -63,7 +63,9 @@ namespace Known.Web
                 var result = json.FromJson<ApiResult>();
                 if (result.Status == 0)
                 {
-                    json = SerializeExtension.ToJson(result.Data);
+                    json = result.Data == null
+                         ? string.Empty
+                         : result.Data.ToString();
                 }
             }
 

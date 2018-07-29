@@ -10,7 +10,7 @@ namespace Known.Web.Controllers
         {
             var module = Api.Get<Module>("/api/user/getmodule", new { mid });
             if (module == null)
-                return ErrorResult("模块不存在！");
+                return Content("模块不存在！");
 
             switch (module.ViewType)
             {
@@ -29,22 +29,22 @@ namespace Known.Web.Controllers
 
         public ActionResult DataGridView(Module module)
         {
-            return View(new DataGridViewModel(module));
+            return View("DataGridView", new DataGridViewModel(module));
         }
 
         public ActionResult TreeGridView(Module module)
         {
-            return View(new TreeGridViewModel(module));
+            return View("TreeGridView", new TreeGridViewModel(module));
         }
 
         public ActionResult TabPageView(Module module)
         {
-            return View(new TabPageViewModel(module));
+            return View("TabPageView", new TabPageViewModel(module));
         }
 
         public ActionResult SplitPageView(Module module)
         {
-            return View(new SplitPageViewModel(module));
+            return View("SplitPageView", new SplitPageViewModel(module));
         }
     }
 }

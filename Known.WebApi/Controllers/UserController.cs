@@ -48,13 +48,19 @@ namespace Known.WebApi.Controllers
         [HttpGet]
         public ApiResult GetModule(string mid)
         {
-            return ApiResult.Success(new Module
+            Module module = null;
+            if (mid == "demo")
             {
-                Id = "demo",
-                Code = "Demo",
-                Name = "开发示例",
-                ViewType = ModuleViewType.SplitPageView
-            });
+                module = new Module
+                {
+                    Id = "demo",
+                    Code = "Demo",
+                    Name = "开发示例",
+                    ViewType = ModuleViewType.SplitPageView
+                };
+            }
+
+            return ApiResult.Success(module);
         }
 
         //class Menu
