@@ -56,7 +56,8 @@ namespace Known.WebApi.Controllers
                     Id = "demo",
                     Code = "Demo",
                     Name = "开发示例",
-                    ViewType = ModuleViewType.SplitPageView
+                    ViewType = ModuleViewType.SplitPageView,
+                    Extension = new { LeftPartialName = "Demo/DemoMenu" }.ToJson()
                 };
             }
 

@@ -19,6 +19,7 @@ namespace Known.Platform
         public string Icon { get; set; }
         public string Url { get; set; }
         public ModuleViewType ViewType { get; set; }
+        public string Extension { get; set; }
         public List<Module> Children { get; set; }
         public List<Button> Buttons { get; set; }
         public List<Field> Fields { get; set; }

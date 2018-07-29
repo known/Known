@@ -1,4 +1,5 @@
-﻿using Known.Platform;
+﻿using Known.Extensions;
+using Known.Platform;
 
 namespace Known.Web.ViewModels
 {
@@ -6,8 +7,21 @@ namespace Known.Web.ViewModels
     {
         public SplitPageViewModel(Module module) : base(module)
         {
+            var extension = module.Extension.FromJson<SplitPageInfo>();
+            if (extension != null)
+            {
+                LeftPartialName = extension.LeftPartialName;
+                RightPartialName = extension.RightPartialName;
+            }
         }
 
+        public string LeftPartialName { get; set; }
+        public string RightPartialName { get; set; }
+    }
+
+    internal class SplitPageInfo
+    {
+        public string LeftPartialName { get; set; }
         public string RightPartialName { get; set; }
     }
 }

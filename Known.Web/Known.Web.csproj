@@ -503,7 +503,6 @@
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Views\Frame\Demo\DemoForm.cshtml" />
-    <Content Include="Views\Demo\DemoView.cshtml" />
     <Content Include="Views\Frame\Demo\DemoGrid.cshtml" />
     <Content Include="Views\Frame\Demo\DemoTab.cshtml" />
     <Content Include="Views\Home\Partials\Dashboard.cshtml" />
@@ -512,6 +511,7 @@
     <Content Include="Views\Frame\TreeGridView.cshtml" />
     <Content Include="Views\Frame\TabPageView.cshtml" />
     <Content Include="Views\Frame\SplitPageView.cshtml" />
+    <Content Include="Views\Frame\Demo\DemoMenu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
