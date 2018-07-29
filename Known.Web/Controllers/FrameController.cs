@@ -8,11 +8,10 @@ namespace Known.Web.Controllers
     {
         public ActionResult Index(string mid)
         {
-            var result = Api.Get<ApiResult>("/api/user/getmodule", new { mid });
-            if (result.Status == 1)
-                return ErrorResult(result.Message);
+            var module = Api.Get<Module>("/api/user/getmodule", new { mid });
+            if (module == null)
+                return ErrorResult("模块不存在！");
 
-            var module = result.Data as Module;
             switch (module.ViewType)
             {
                 case ModuleViewType.DataGridView:

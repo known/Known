@@ -40,6 +40,7 @@ namespace Known.Web
         public T Get<T>(string url, dynamic param = null)
         {
             var json = Get(url, param) as string;
+            json = ConvertJson<T>(json);
             return json.FromJson<T>();
         }
 
@@ -51,7 +52,22 @@ namespace Known.Web
         public T Post<T>(string url, dynamic param = null)
         {
             var json = Post(url, param) as string;
+            json = ConvertJson<T>(json);
             return json.FromJson<T>();
+        }
+
+        private static string ConvertJson<T>(string json)
+        {
+            if (typeof(T) != typeof(ApiResult))
+            {
+                var result = json.FromJson<ApiResult>();
+                if (result.Status == 0)
+                {
+                    json = SerializeExtension.ToJson(result.Data);
+                }
+            }
+
+            return json;
         }
 
         private string Request(string method, string url, dynamic param, CompressionMethod compressionMethod = CompressionMethod.Automatic)
