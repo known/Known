@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using Known.Extensions;
 
@@ -63,6 +64,18 @@ namespace Known
                 result = result + "整";
 
             return result;
+        }
+
+        public static string FromBase64String(string value)
+        {
+            var bytes = Convert.FromBase64String(value);
+            return Encoding.UTF8.GetString(bytes);
+        }
+
+        public static string ToBase64String(string value)
+        {
+            var bytes = Encoding.UTF8.GetBytes(value);
+            return Convert.ToBase64String(bytes);
         }
 
         public static string HideMobile(string mobile)

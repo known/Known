@@ -13,23 +13,30 @@ namespace Known.Web
 {
     public class ApiClient
     {
+        private readonly string baseUrl;
         private readonly int lengthThreshold = 5000;
         private readonly CompressionMethod defaultCompressionMethod = CompressionMethod.GZip;
         private readonly AuthenticationHeaderValue authorization;
 
-        public ApiClient() { }
+        public ApiClient() : this(null) { }
 
-        public ApiClient(string token)
+        public ApiClient(string baseUrl)
         {
-            authorization = new AuthenticationHeaderValue("Token", token);
+            this.baseUrl = GetBaseUrl(baseUrl);
         }
 
-        public ApiClient(string account, string password)
+        public ApiClient(string baseUrl, string token)
         {
+            this.baseUrl = GetBaseUrl(baseUrl);
+            this.authorization = new AuthenticationHeaderValue("Token", token);
+        }
+
+        public ApiClient(string baseUrl, string account, string password)
+        {
+            this.baseUrl = GetBaseUrl(baseUrl);
             var authParameter = string.Format("{0}:{1}", account, password);
-            var bytes = Encoding.Default.GetBytes(authParameter);
-            var parameter = Convert.ToBase64String(bytes);
-            authorization = new AuthenticationHeaderValue("Basic", parameter);
+            var parameter = Utils.ToBase64String(authParameter);
+            this.authorization = new AuthenticationHeaderValue("Basic", parameter);
         }
 
         public string Get(string url, dynamic param = null)
@@ -54,22 +61,6 @@ namespace Known.Web
             var json = Post(url, param) as string;
             json = ConvertJson<T>(json);
             return json.FromJson<T>();
-        }
-
-        private static string ConvertJson<T>(string json)
-        {
-            if (typeof(T) != typeof(ApiResult))
-            {
-                var result = json.FromJson<ApiResult>();
-                if (result.Status == 0)
-                {
-                    json = result.Data == null
-                         ? string.Empty
-                         : result.Data.ToString();
-                }
-            }
-
-            return json;
         }
 
         private string Request(string method, string url, dynamic param, CompressionMethod compressionMethod = CompressionMethod.Automatic)
@@ -112,6 +103,24 @@ namespace Known.Web
             }
         }
 
+        private string GetApiFullUrl(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                return string.Empty;
+
+            if (url.StartsWith("http"))
+                return url;
+
+            var tmpUrl = baseUrl;
+            if (string.IsNullOrWhiteSpace(tmpUrl))
+            {
+                if (HttpContext.Current != null)
+                    tmpUrl = HttpContext.Current.Request.GetHostName();
+            }
+
+            return tmpUrl + url;
+        }
+
         private static string GetQueryString(string method, dynamic param)
         {
             var dic = new Dictionary<string, object>();
@@ -140,22 +149,28 @@ namespace Known.Web
             return string.Join("&", values);
         }
 
-        private static string GetApiFullUrl(string url)
+        private static string ConvertJson<T>(string json)
         {
-            if (string.IsNullOrWhiteSpace(url))
-                return string.Empty;
-
-            if (url.StartsWith("http"))
-                return url;
-
-            var baseUrl = Config.AppSetting("ApiBaseUrl");
-            if (string.IsNullOrWhiteSpace(baseUrl))
+            if (typeof(T) != typeof(ApiResult))
             {
-                if (HttpContext.Current != null)
-                    baseUrl = HttpContext.Current.Request.GetHostName();
+                var result = json.FromJson<ApiResult>();
+                if (result.Status == 0)
+                {
+                    json = result.Data == null
+                         ? string.Empty
+                         : result.Data.ToString();
+                }
             }
 
-            return baseUrl + url;
+            return json;
+        }
+
+        private static string GetBaseUrl(string baseUrl)
+        {
+            if (!string.IsNullOrWhiteSpace(baseUrl))
+                return baseUrl;
+
+            return Config.AppSetting("ApiBaseUrl");
         }
     }
 }

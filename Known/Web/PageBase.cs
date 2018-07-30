@@ -12,8 +12,9 @@ namespace Known.Web
             get
             {
                 if (api == null)
-                    api = new ApiClient(UserToken);
-
+                {
+                    api = new ApiClient(null, UserToken);
+                }
                 return api;
             }
         }

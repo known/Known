@@ -38,6 +38,21 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(Utils.ToRmb(12M), "壹拾贰元整");
         }
 
+        public static void TestFromBase64String()
+        {
+            var expect = "test";
+            var value = Utils.ToBase64String(expect);
+            var actual = Utils.FromBase64String(value);
+            Assert.IsEqual(actual, expect);
+        }
+
+        public static void TestToBase64String()
+        {
+            var value = Utils.ToBase64String("test");
+            var value1 = Utils.ToBase64String("test");
+            Assert.IsEqual(value, value1);
+        }
+
         public static void TestHideMobile()
         {
             Assert.IsEqual(Utils.HideMobile("13812345678"), "138****5678");
