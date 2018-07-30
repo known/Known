@@ -3,7 +3,7 @@ using Known.Web.Extensions;
 
 namespace Known.Web
 {
-    public class PageBase : Page
+    public class BasePage : Page
     {
         private ApiClient api;
 
