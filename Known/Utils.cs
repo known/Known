@@ -23,20 +23,24 @@ namespace Known
 
         public static T ConvertTo<T>(object value, T defaultValue = default(T))
         {
+            return (T)ConvertTo(typeof(T), value, defaultValue);
+        }
+
+        public static object ConvertTo(Type type, object value, object defaultValue = null)
+        {
             if (value == null || value == DBNull.Value)
                 return defaultValue;
 
             var valueString = value.ToString();
-            var type = typeof(T);
             if (type == typeof(string))
-                return (T)Convert.ChangeType(valueString, type);
+                return Convert.ChangeType(valueString, type);
 
             valueString = valueString.Trim();
             if (valueString.Length == 0)
                 return defaultValue;
 
             if (type.IsEnum)
-                return (T)Enum.Parse(type, valueString, true);
+                return Enum.Parse(type, valueString, true);
 
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
                 type = Nullable.GetUnderlyingType(type);
@@ -46,7 +50,7 @@ namespace Known
 
             try
             {
-                return (T)Convert.ChangeType(valueString, type);
+                return Convert.ChangeType(valueString, type);
             }
             catch
             {

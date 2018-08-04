@@ -71,7 +71,7 @@ namespace Known.Data
                 return entity;
             }
 
-            return value;
+            return Utils.ConvertTo(type, value);
         }
     }
 }

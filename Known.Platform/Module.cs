@@ -6,6 +6,7 @@ namespace Known.Platform
 {
     public enum ViewType
     {
+        None,
         DataGridView,
         TreeGridView,
         TabPageView,

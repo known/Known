@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Http;
 using Known.Extensions;
 using Known.Platform;
@@ -40,9 +39,24 @@ namespace Known.WebApi.Controllers
         [HttpGet]
         public ApiResult GetMenus()
         {
-            var path = Path.Combine(HttpRuntime.AppDomainAppPath, "menu.json");
-            var json = File.ReadAllText(path);
-            return ApiResult.Success(json.FromJson<object>());
+            var modules = Context.Database.QueryList<Module>("select * from t_plt_modules");
+            if (modules == null || modules.Count == 0)
+                return ApiResult.Success();
+
+            var menus = modules.Select(m => new
+            {
+                id = m.Id,
+                code = m.Code,
+                text = m.Name,
+                pid = m.ParentId,
+                iconCls = m.Icon,
+                url = m.Url
+            }).ToList();
+            return ApiResult.Success(menus);
+
+            //var path = Path.Combine(HttpRuntime.AppDomainAppPath, "menu.json");
+            //var json = File.ReadAllText(path);
+            //return ApiResult.Success(json.FromJson<object>());
         }
 
         [HttpGet]
@@ -63,14 +77,5 @@ namespace Known.WebApi.Controllers
 
             return ApiResult.Success(module);
         }
-
-        //class Menu
-        //{
-        //    public string id { get; set; }
-        //    public string text { get; set; }
-        //    public string url { get; set; }
-        //    public string iconCls { get; set; }
-        //    public List<Menu> children { get; set; }
-        //}
     }
 }

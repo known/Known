@@ -28,7 +28,7 @@ namespace Known.Data
             return $"select t.* from (select t1.*,row_number() over (order by {orderBy}) row_no from ({sql}) t1) t where t.row_no>{startNo} and t.row_no<={endNo}";
         }
 
-        public static Command GetCommand(string sql, dynamic param = null)
+        public static Command GetCommand(string sql, object param = null)
         {
             if (string.IsNullOrWhiteSpace(sql))
                 return null;

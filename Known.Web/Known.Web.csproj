@@ -550,6 +550,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="static\libs\miniui\themes\pure\images\button\" />
+    <Folder Include="Views\Frame\Platform\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Known.Cells\Known.Cells.csproj">

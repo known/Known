@@ -178,7 +178,7 @@ namespace Known.Data
                 {
                     var parameter = cmd.CreateParameter();
                     parameter.ParameterName = item.Key;
-                    parameter.Value = item.Value;
+                    parameter.Value = FormatValue(item.Value);
                     cmd.Parameters.Add(parameter);
                 }
             }
@@ -192,9 +192,33 @@ namespace Known.Data
             {
                 var parameter = cmd.CreateParameter();
                 parameter.ParameterName = item.ColumnName;
-                parameter.Value = row[item];
+                parameter.Value = FormatValue(row[item]);
                 cmd.Parameters.Add(parameter);
             }
+        }
+
+        private static object FormatValue(object value)
+        {
+            if (value == null)
+                return DBNull.Value;
+
+            var valueType = value.GetType();
+            if (valueType == typeof(string))
+            {
+                var valueString = value.ToString().Trim();
+                if (valueString.Length == 0)
+                    return DBNull.Value;
+
+                return valueString;
+            }
+
+            if (valueType.IsEnum)
+                return (int)value;
+
+            if (valueType == typeof(bool))
+                return (bool)value ? 1 : 0;
+
+            return value;
         }
     }
 }
