@@ -2,7 +2,7 @@
 
 namespace Known
 {
-    public class BusinessBase
+    public abstract class BusinessBase
     {
         public BusinessBase(Context context)
         {

@@ -1,13 +1,18 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using Known.Extensions;
 using Known.Platform;
+using Known.Platform.Business;
 using Known.Web;
 
 namespace Known.WebApi.Controllers
 {
     public class UserController : BaseApiController
     {
+        private UserBusiness Business
+        {
+            get { return LoadBusiness<UserBusiness>(); }
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public ApiResult SignIn(string appId, string userName, string password)
@@ -37,21 +42,31 @@ namespace Known.WebApi.Controllers
         }
 
         [HttpGet]
+        public ApiResult GetModule(string mid)
+        {
+            var module = Business.GetModule(mid);
+            return ApiResult.Success(module);
+        }
+
+        #region GetUserMenus
+        [HttpGet]
         public ApiResult GetMenus()
         {
-            var modules = Context.Database.QueryList<Module>("select * from t_plt_modules");
-            if (modules == null || modules.Count == 0)
-                return ApiResult.Success();
-
-            var menus = modules.Select(m => new
+            var menus = new List<Menu>();
+            var modules = Business.GetUserModules();
+            if (modules != null && modules.Count > 0)
             {
-                id = m.Id,
-                code = m.Code,
-                text = m.Name,
-                pid = m.ParentId,
-                iconCls = m.Icon,
-                url = m.Url
-            }).ToList();
+                var index = 0;
+                foreach (var item in modules)
+                {
+                    var menu = Menu.GetMenu(item);
+                    menu.expanded = index == 0;
+                    menus.Add(menu);
+                    SetMenuChildren(menus, item, menu);
+                    index++;
+                }
+            }
+
             return ApiResult.Success(menus);
 
             //var path = Path.Combine(HttpRuntime.AppDomainAppPath, "menu.json");
@@ -59,23 +74,48 @@ namespace Known.WebApi.Controllers
             //return ApiResult.Success(json.FromJson<object>());
         }
 
-        [HttpGet]
-        public ApiResult GetModule(string mid)
+        private void SetMenuChildren(List<Menu> menus, Module module, Menu menu)
         {
-            Module module = null;
-            if (mid == "demo")
+            if (module.Children == null || module.Children.Count == 0)
             {
-                module = new Module
+                if (string.IsNullOrWhiteSpace(menu.url))
                 {
-                    Id = "demo",
-                    Code = "Demo",
-                    Name = "开发示例",
-                    ViewType = ViewType.SplitPageView,
-                    Extension = new { LeftPartialName = "Demo/DemoMenu" }.ToJson()
-                };
+                    menu.url = $"/frame?mid={menu.id}";
+                }
+                return;
             }
 
-            return ApiResult.Success(module);
+            menu.children = new List<Menu>();
+            foreach (var item in module.Children)
+            {
+                var menu1 = Menu.GetMenu(item);
+                menu.children.Add(menu1);
+                SetMenuChildren(menus, item, menu1);
+            }
         }
+
+        class Menu
+        {
+            public string id { get; set; }
+            public string code { get; set; }
+            public string text { get; set; }
+            public string iconCls { get; set; }
+            public string url { get; set; }
+            public bool expanded { get; set; }
+            public List<Menu> children { get; set; }
+
+            public static Menu GetMenu(Module module)
+            {
+                return new Menu
+                {
+                    id = module.Id,
+                    code = module.Code,
+                    text = module.Name,
+                    iconCls = module.Icon,
+                    url = module.Url
+                };
+            }
+        }
+        #endregion
     }
 }

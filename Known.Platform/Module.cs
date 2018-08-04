@@ -60,6 +60,8 @@ namespace Known.Platform
             get { return FieldJson.FromJson<List<Field>>(); }
             set { FieldJson = value.ToJson(); }
         }
+
+        public virtual List<Module> Children { get; set; }
     }
 
     #region Button
