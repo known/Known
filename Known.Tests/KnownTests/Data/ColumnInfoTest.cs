@@ -12,11 +12,11 @@ namespace Known.Tests.KnownTests.Data
             {
                 var columnName = ColumnInfo.GetColumnName(item);
                 if (item.Name == "Item1")
-                    Assert.IsEqual(columnName, "ITEM1");
+                    Assert.IsEqual(columnName, "item1");
                 else if (item.Name == "Item4")
-                    Assert.IsEqual(columnName, "Item4");
+                    Assert.IsEqual(columnName, "item4");
                 else if (item.Name == "Test")
-                    Assert.IsEqual(columnName, "TestId");
+                    Assert.IsEqual(columnName, "test_id");
             }
         }
     }

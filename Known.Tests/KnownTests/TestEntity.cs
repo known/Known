@@ -3,16 +3,16 @@ using Known.Mapping;
 
 namespace Known.Tests.KnownTests
 {
-    [Table("A_TEST", "ITEM1,ITEM2", "测试表")]
+    [Table("a_test", "测试表", "item1,item2")]
     public class TestEntity : BaseEntity
     {
-        [IntegerColumn("ITEM1", "属性1", false)]
+        [IntegerColumn("item1", "属性1", true)]
         public int Item1 { get; set; }
 
-        [StringColumn("ITEM2", "属性2", false, 1, 50)]
+        [StringColumn("item2", "属性2", 1, 50, true)]
         public string Item2 { get; set; }
 
-        [DateTimeColumn("ITEM3", "属性3", false)]
+        [DateTimeColumn("item3", "属性3", false)]
         public DateTime Item3 { get; set; }
 
         public TestEnum Item4 { get; set; }

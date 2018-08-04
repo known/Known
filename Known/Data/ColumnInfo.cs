@@ -17,9 +17,9 @@ namespace Known.Data
                 return attr.ColumnName;
 
             if (property.PropertyType.IsSubclassOf(typeof(BaseEntity)))
-                return property.Name + "Id";
+                return property.Name.ToLower() + "_id";
 
-            return property.Name;
+            return property.Name.ToLower();
         }
     }
 }

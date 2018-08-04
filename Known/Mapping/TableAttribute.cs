@@ -5,34 +5,20 @@ namespace Known.Mapping
     [AttributeUsage(AttributeTargets.Class)]
     public class TableAttribute : Attribute
     {
-        public TableAttribute() { }
-
-        public TableAttribute(string tableName, string primaryKey)
+        public TableAttribute(string tableName, string description, string primaryKey = "id")
         {
             TableName = tableName;
-            PrimaryKey = primaryKey;
-        }
-
-        public TableAttribute(string tableName, string primaryKey, string description)
-        {
-            TableName = tableName;
-            PrimaryKey = primaryKey;
             Description = description;
+            PrimaryKey = primaryKey;
         }
 
-        public string TableName { get; set; }
-        public string PrimaryKey { get; set; }
-        public string Description { get; set; }
-
+        public string TableName { get; }
+        public string Description { get; }
+        public string PrimaryKey { get; }
+        
         public string[] PrimaryKeys
         {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(PrimaryKey))
-                    return new string[] { "Id" };
-
-                return PrimaryKey.Split(',');
-            }
+            get { return PrimaryKey.Split(','); }
         }
     }
 }
