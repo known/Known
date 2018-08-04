@@ -14,13 +14,13 @@ namespace Known.Web.Controllers
 
             switch (module.ViewType)
             {
-                case ModuleViewType.DataGridView:
+                case Platform.ViewType.DataGridView:
                     return DataGridView(module);
-                case ModuleViewType.TreeGridView:
+                case Platform.ViewType.TreeGridView:
                     return TreeGridView(module);
-                case ModuleViewType.TabPageView:
+                case Platform.ViewType.TabPageView:
                     return TabPageView(module);
-                case ModuleViewType.SplitPageView:
+                case Platform.ViewType.SplitPageView:
                     return SplitPageView(module);
                 default:
                     return View(module);
