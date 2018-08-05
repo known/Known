@@ -17,7 +17,7 @@ namespace Known.Data
 
         public static string GetCountSql(string sql)
         {
-            return $"select count(1) from ({sql})";
+            return $"select count(1) from ({sql}) t";
         }
 
         public static string GetPagingSql(string sql, PagingCriteria criteria)
