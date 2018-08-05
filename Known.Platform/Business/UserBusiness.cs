@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Known.Platform.Business
@@ -9,6 +10,43 @@ namespace Known.Platform.Business
         {
         }
 
+        public Result<User> SignIn(string userName, string password)
+        {
+            var user = GetUser(userName);
+            if (user == null)
+                return Result.Error<User>("用户名不存在！");
+
+            if (user.Password != password)
+                return Result.Error<User>("用户密码不正确！");
+
+            user.Token = Utils.NewGuid;
+            if (!user.FirstLoginTime.HasValue)
+                user.FirstLoginTime = DateTime.Now;
+            user.LastLoginTime = DateTime.Now;
+            Context.Database.Save(user);
+
+            return Result.Success("登录成功！", user);
+        }
+
+        public Result SignOut(string userName)
+        {
+            var user = GetUser(userName);
+            if (user == null)
+                return Result.Error("用户名不存在！");
+
+            user.Token = string.Empty;
+            Context.Database.Save(user);
+
+            return Result.Success("注销成功！");
+        }
+
+        public User GetUser(string userName)
+        {
+            var sql = "select * from t_plt_users where user_name=@user_name";
+            return Context.Database.Query<User>(sql, new { user_name = userName });
+        }
+
+        #region GetUserModules
         public List<Module> GetUserModules()
         {
             var sql = "select * from t_plt_modules";
@@ -48,5 +86,6 @@ namespace Known.Platform.Business
                 SetModuleChildren(source, modules, item);
             }
         }
+        #endregion
     }
 }

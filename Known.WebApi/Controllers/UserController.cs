@@ -15,29 +15,19 @@ namespace Known.WebApi.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ApiResult SignIn(string appId, string userName, string password)
+        public ApiResult SignIn(string userName, string password)
         {
-            if (userName != "known")
-                return ApiResult.Error("用户名不存在！");
+            var result = Business.SignIn(userName, password);
+            if (!result.IsValid)
+                return ApiResult.Error(result.Message);
 
-            var user = new User
-            {
-                UserName = userName,
-                Name = "管理员",
-                Token = "admin"
-            };
-            return ApiResult.Success(user);
+            return ApiResult.Success(result.Data);
         }
 
         [HttpGet]
         public ApiResult GetUser(string userName)
         {
-            var user = new User
-            {
-                UserName = userName,
-                Name = "管理员",
-                Token = "admin"
-            };
+            var user = Business.GetUser(userName);
             return ApiResult.Success(user);
         }
 

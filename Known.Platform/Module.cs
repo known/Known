@@ -43,22 +43,22 @@ namespace Known.Platform
         [BooleanColumn("enabled", "是否可用")]
         public bool Enabled { get; set; }
 
-        [StringColumn("button_json", "按钮数据")]
-        public string ButtonJson { get; set; }
+        [StringColumn("button_data", "按钮数据")]
+        public string ButtonData { get; set; }
 
-        [StringColumn("field_json", "字段数据")]
-        public string FieldJson { get; set; }
+        [StringColumn("field_data", "字段数据")]
+        public string FieldData { get; set; }
 
         public virtual List<Button> Buttons
         {
-            get { return ButtonJson.FromJson<List<Button>>(); }
-            set { ButtonJson = value.ToJson(); }
+            get { return ButtonData.FromJson<List<Button>>(); }
+            set { ButtonData = value.ToJson(); }
         }
 
         public virtual List<Field> Fields
         {
-            get { return FieldJson.FromJson<List<Field>>(); }
-            set { FieldJson = value.ToJson(); }
+            get { return FieldData.FromJson<List<Field>>(); }
+            set { FieldData = value.ToJson(); }
         }
 
         public virtual List<Module> Children { get; set; }
