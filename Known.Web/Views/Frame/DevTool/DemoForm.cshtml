@@ -41,7 +41,7 @@
             <th>ComboBox：</th>
             <td>
                 @Form.ComboBox("Country", false, new {
-                   url = "/static/modules/frame/demo/data/countrys.txt",
+                   url = "/static/modules/frame/devtool/data/countrys.txt",
                    value = "cn"
                 })
                 <br />
@@ -50,7 +50,7 @@
             <th>TreeSelect：</th>
             <td>
                 @Form.TreeSelect("TreeSelect", false, new {
-                   url = "/static/modules/frame/demo/data/listTree.txt",
+                   url = "/static/modules/frame/devtool/data/listTree.txt",
                    multiSelect = "true",
                    parentField = "pid",
                    checkRecursive = "true",
@@ -64,7 +64,7 @@
                 @Form.CheckBoxList("Countrys", false, new {
                    repeatItems = "5",
                    repeatLayout = "flow",
-                   url = "/static/modules/frame/demo/data/countrys.txt",
+                   url = "/static/modules/frame/devtool/data/countrys.txt",
                    value = "cn,de,usa"
                 })
             </td>
@@ -72,7 +72,7 @@
             <td rowspan="2" class="noborder">
                 @Form.ListBox("Countrys1", false, new {
                    showNullItem = "true",
-                   url = "/static/modules/frame/demo/data/countrys.txt",
+                   url = "/static/modules/frame/devtool/data/countrys.txt",
                    value = "fr",
                    style = "height:120px;"
                 })
@@ -86,7 +86,7 @@
                    repeatItems = "2",
                    repeatDirection = "vertical",
                    repeatLayout = "table",
-                   url = "/static/modules/frame/demo/data/countrys.txt"
+                   url = "/static/modules/frame/devtool/data/countrys.txt"
                 })
             </td>
         </tr>

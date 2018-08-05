@@ -93,9 +93,9 @@
     <Content Include="static\modules\core\js\grid.js" />
     <Content Include="static\modules\core\js\miniextend.js" />
     <Content Include="static\modules\core\js\toolbar.js" />
-    <Content Include="static\modules\frame\demo\data\countrys.txt" />
-    <Content Include="static\modules\frame\demo\data\menu.txt" />
-    <Content Include="static\modules\frame\demo\data\listTree.txt" />
+    <Content Include="static\modules\frame\devtool\data\countrys.txt" />
+    <Content Include="static\modules\frame\devtool\data\menu.txt" />
+    <Content Include="static\modules\frame\devtool\data\listTree.txt" />
     <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
     <Content Include="static\libs\miniui\themes\cupertino\skin.css" />
     <Content Include="static\modules\core\index.css" />
@@ -110,14 +110,14 @@
     <Content Include="static\modules\core\js\jqextend.js" />
     <Content Include="static\modules\core\js\message.js" />
     <Content Include="static\modules\core\js\string.js" />
-    <Content Include="static\modules\frame\demo\index.js" />
-    <Content Include="static\modules\frame\demo\index.min.js">
+    <Content Include="static\modules\frame\devtool\index.js" />
+    <Content Include="static\modules\frame\devtool\index.min.js">
       <DependentUpon>index.js</DependentUpon>
     </Content>
-    <Content Include="static\modules\frame\demo\js\demoForm.js" />
-    <Content Include="static\modules\frame\demo\js\demoTab.js" />
-    <Content Include="static\modules\frame\demo\js\demoGrid.js" />
-    <Content Include="static\modules\frame\demo\js\demoReport.js" />
+    <Content Include="static\modules\frame\devtool\js\demoForm.js" />
+    <Content Include="static\modules\frame\devtool\js\demoTab.js" />
+    <Content Include="static\modules\frame\devtool\js\demoGrid.js" />
+    <Content Include="static\modules\frame\devtool\js\demoReport.js" />
     <Content Include="static\modules\frame\index.css" />
     <Content Include="static\modules\frame\index.js" />
     <Content Include="static\modules\frame\index.min.css">
@@ -502,16 +502,16 @@
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Views\Frame\Demo\DemoForm.cshtml" />
-    <Content Include="Views\Frame\Demo\DemoGrid.cshtml" />
-    <Content Include="Views\Frame\Demo\DemoTab.cshtml" />
+    <Content Include="Views\Frame\DevTool\DemoForm.cshtml" />
+    <Content Include="Views\Frame\DevTool\DemoGrid.cshtml" />
+    <Content Include="Views\Frame\DevTool\DemoTab.cshtml" />
     <Content Include="Views\Home\Partials\Dashboard.cshtml" />
-    <Content Include="Views\Frame\Demo\DemoReport.cshtml" />
+    <Content Include="Views\Frame\DevTool\DemoReport.cshtml" />
     <Content Include="Views\Frame\DataGridView.cshtml" />
     <Content Include="Views\Frame\TreeGridView.cshtml" />
     <Content Include="Views\Frame\TabPageView.cshtml" />
     <Content Include="Views\Frame\SplitPageView.cshtml" />
-    <Content Include="Views\Frame\Demo\DemoMenu.cshtml" />
+    <Content Include="Views\Frame\DevTool\LeftMenu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
