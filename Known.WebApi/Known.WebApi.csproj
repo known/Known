@@ -90,6 +90,7 @@
     <Compile Include="Code\Providers\JsonProvider.cs" />
     <Compile Include="Code\Providers\ProviderConfig.cs" />
     <Compile Include="Controllers\DemoController.cs" />
+    <Compile Include="Controllers\DevToolController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtension.cs" />

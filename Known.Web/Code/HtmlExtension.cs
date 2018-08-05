@@ -26,7 +26,7 @@ namespace Known.Web
 
         private static string GetHtmlString(HtmlHelper helper, string format, string path)
         {
-            var random = DateTime.Now.ToString("yyMMddss");
+            var random = DateTime.Now.ToString("yyMMddHHmmss");
             var html = string.Format(format, $"{path}?r={random}");
             var httpContext = helper.ViewContext.RequestContext.HttpContext;
             if (httpContext.IsDebuggingEnabled)

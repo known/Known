@@ -48,19 +48,12 @@ namespace Known.Data
 
         public PagingResult<T> QueryPage<T>(string sql, PagingCriteria criteria)
         {
-            var cmd = CommandCache.GetCommand(sql, criteria.Parameters);
-            if (cmd == null)
+            var result = QueryPageTable(sql, criteria);
+            if (result == null)
                 return null;
 
-            var sqlCount = CommandCache.GetCountSql(cmd.Text);
-            var cmdCount = new Command(sqlCount, cmd.Parameters);
-            var totalCount = (int)provider.Scalar(cmdCount);
-            
-            var sqlPage = CommandCache.GetPagingSql(cmd.Text, criteria);
-            var cmdData = new Command(sqlPage, cmd.Parameters);
-            var data = provider.Query(cmdData);
-            var pageData = AutoMapper.GetEntities<T>(data);
-            return new PagingResult<T>(totalCount, pageData);
+            var pageData = AutoMapper.GetEntities<T>(result.PageData);
+            return new PagingResult<T>(result.TotalCount, pageData);
         }
 
         public void Save<T>(T entity) where T : BaseEntity
@@ -124,6 +117,22 @@ namespace Known.Data
         {
             var command = CommandCache.GetCommand(sql, param);
             return provider.Query(command);
+        }
+
+        public PagingResult QueryPageTable(string sql, PagingCriteria criteria)
+        {
+            var cmd = CommandCache.GetCommand(sql, criteria.Parameters);
+            if (cmd == null)
+                return null;
+
+            var sqlCount = CommandCache.GetCountSql(cmd.Text);
+            var cmdCount = new Command(sqlCount, cmd.Parameters);
+            var totalCount = (int)provider.Scalar(cmdCount);
+
+            var sqlPage = CommandCache.GetPagingSql(cmd.Text, criteria);
+            var cmdData = new Command(sqlPage, cmd.Parameters);
+            var pageData = provider.Query(cmdData);
+            return new PagingResult(totalCount, pageData);
         }
 
         public DataRow QueryRow(string sql, object param = null)

@@ -5,7 +5,7 @@
             <a class="mini-button" plain="true" id="new" iconCls="fa-file-o">新建</a>
             <a class="mini-button" plain="true" id="query" iconCls="fa-search">查询</a>
         </div>
-        <div id="formDatabase" class="mini-fit">
+        <div id="queryDatabase" class="mini-fit">
             @Form.TextArea("querySql", true, new {
                style = "width:100%;height:100%;",
                borderStyle = "border:0;"
@@ -16,9 +16,6 @@
         <div id="gridDatabase" class="mini-datagrid"
              style="width:100%;height:100%;" borderStyle="border:0;"
              url="/api/devtool/querydatas" idField="Id" multiSelect="true">
-            <div property="columns">
-                <div type="indexcolumn"></div>
-            </div>
         </div>
     </div>
 </div>
