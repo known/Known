@@ -2,7 +2,9 @@
 var Grid = function (name, options) {
     this.name = name;
     this.grid = mini.get('grid' + name);
-    this.query = new Form('query' + name);
+    if ($('#query' + name).length) {
+        this.query = new Form('query' + name);
+    }
     this.options = $.extend(true, {}, this.options, options);
 
     var url = this.grid.getUrl();

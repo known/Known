@@ -118,6 +118,8 @@
     <Content Include="static\modules\frame\devtool\js\demoTab.js" />
     <Content Include="static\modules\frame\devtool\js\demoGrid.js" />
     <Content Include="static\modules\frame\devtool\js\demoReport.js" />
+    <Content Include="static\modules\frame\devtool\js\devCodeGen.js" />
+    <Content Include="static\modules\frame\devtool\js\devDatabase.js" />
     <Content Include="static\modules\frame\index.css" />
     <Content Include="static\modules\frame\index.js" />
     <Content Include="static\modules\frame\index.min.css">

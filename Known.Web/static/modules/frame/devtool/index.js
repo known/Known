@@ -13,7 +13,11 @@
             name: e.node.view
         }, function () {
             mini.parse();
-            if (e.node.id === 'grid') {
+            if (e.node.id === 'code') {
+                DevCodeGen.show();
+            } else if (e.node.id === 'data') {
+                DevDatabase.show();
+            } else if (e.node.id === 'grid') {
                 DemoGrid.show();
             } else if (e.node.id === 'tab') {
                 DemoTab.show();
