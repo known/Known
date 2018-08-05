@@ -23,8 +23,14 @@ namespace Known.Data
         public static string GetPagingSql(string sql, PagingCriteria criteria)
         {
             var orderBy = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)));
-            var startNo = criteria.PageSize * (criteria.PageIndex - 1);
+            var startNo = criteria.PageSize * criteria.PageIndex;
             var endNo = startNo + criteria.PageSize;
+
+            if (string.IsNullOrWhiteSpace(orderBy))
+            {
+                orderBy = "t1.create_time";
+            }
+
             return $"select t.* from (select t1.*,row_number() over (order by {orderBy}) row_no from ({sql}) t1) t where t.row_no>{startNo} and t.row_no<={endNo}";
         }
 

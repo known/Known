@@ -24,6 +24,7 @@ namespace Known.Platform.Business
                 user.FirstLoginTime = DateTime.Now;
             user.LastLoginTime = DateTime.Now;
             Context.Database.Save(user);
+            Context.Database.SubmitChanges();
 
             return Result.Success("登录成功！", user);
         }
