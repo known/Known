@@ -1,0 +1,21 @@
+﻿<div class="mini-splitter" vertical="true" style="width:100%;height:100%;border:0;">
+    <div size="25%" showCollapseButton="true">
+        <div class="mini-toolbar">
+            <a class="mini-button" plain="true" id="new" iconCls="fa-file-o">新建</a>
+            <a class="mini-button" plain="true" id="query" iconCls="fa-search">查询</a>
+        </div>
+        @Form.TextArea("querySql", true, new {
+            style = "width:100%;height:100%;"
+        })
+    </div>
+    <div showCollapseButton="true">
+        <div class="mini-fit">
+            <div id="gridDatabase" class="mini-datagrid" style="width:100%;height:100%;"
+                 url="/api/devtool/querydatas" idField="Id" multiSelect="true">
+                <div property="columns">
+                    <div type="indexcolumn"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

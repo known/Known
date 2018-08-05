@@ -512,6 +512,8 @@
     <Content Include="Views\Frame\TabPageView.cshtml" />
     <Content Include="Views\Frame\SplitPageView.cshtml" />
     <Content Include="Views\Frame\DevTool\LeftMenu.cshtml" />
+    <Content Include="Views\Frame\DevTool\DevCodeGen.cshtml" />
+    <Content Include="Views\Frame\DevTool\DevDatabase.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
