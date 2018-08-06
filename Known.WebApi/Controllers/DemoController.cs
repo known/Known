@@ -9,7 +9,6 @@ namespace Known.WebApi.Controllers
     public class DemoController : BaseApiController
     {
         [HttpPost]
-        [AllowAnonymous]
         public ApiResult QueryUsers(PagingCriteria criteria)
         {
             var users = new List<User>();

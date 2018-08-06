@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Known.Extensions;
+using Known.Log;
+using Known.Platform.Business;
 using Known.Web;
 using Known.WebApi.Extensions;
 
@@ -22,10 +24,10 @@ namespace Known.WebApi.Filters
             if (actionContext.IsUseAttributeOf<AllowAnonymousAttribute>())
                 return;
 
-            if (!ValidateRequest(actionContext))
+            if (!IsAuthorized(actionContext))
                 return;
 
-            if (!IsAuthorized(actionContext))
+            if (!ValidateRequest(actionContext))
                 return;
         }
 
@@ -44,23 +46,24 @@ namespace Known.WebApi.Filters
 
             if (principal != null && principal.Identity != null && principal.Identity.IsAuthenticated)
             {
-                var identity = principal.Identity as BasicAuthenticationIdentity;
-                if (identity == null)
+                if (!(principal.Identity is BasicAuthenticationIdentity identity))
                     return false;
 
-                //var userService = BusinessFactory.Load<UserBusiness>();
-                //var result = userService.Login(identity.Name, identity.Password);
-                //if (!result.IsValid)
-                //{
-                //    actionContext.CreateErrorResponse(result.Message);
-                //}
-                //else
-                //{
-                //    var companyService = BusinessFactory.Load<CompanyBusiness>();
-                //    actionContext.RequestContext.Principal = principal;
-                //    actionContext.Request.Properties["Known_User"] = companyService.GetCompanyInfo(result.Data.Id);
-                //}
-                //return result.IsValid;
+                var database = Config.GetDatabase();
+                var logger = new FileLogger();
+                var context = new Context(database, logger, identity.Name);
+                var bizUser = new UserBusiness(context);
+                var result = bizUser.ValidateLogin(identity.Name, identity.Password);
+                if (!result.IsValid)
+                {
+                    actionContext.CreateErrorResponse(result.Message);
+                }
+                else
+                {
+                    actionContext.RequestContext.Principal = principal;
+                    actionContext.Request.Properties["Known_User"] = result.Data;
+                }
+                return result.IsValid;
             }
 
             return false;

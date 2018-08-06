@@ -12,13 +12,11 @@ namespace Known.Platform.Business
 
         public Result<User> SignIn(string userName, string password)
         {
-            var user = GetUser(userName);
-            if (user == null)
-                return Result.Error<User>("用户名不存在！");
+            var result = ValidateLogin(userName, password);
+            if (!result.IsValid)
+                return Result.Error<User>(result.Message);
 
-            if (user.Password != password)
-                return Result.Error<User>("用户密码不正确！");
-
+            var user = result.Data;
             user.Token = Utils.NewGuid;
             if (!user.FirstLoginTime.HasValue)
                 user.FirstLoginTime = DateTime.Now;
@@ -39,6 +37,18 @@ namespace Known.Platform.Business
             Context.Database.Save(user);
 
             return Result.Success("注销成功！");
+        }
+
+        public Result<User> ValidateLogin(string userName, string password)
+        {
+            var user = GetUser(userName);
+            if (user == null)
+                return Result.Error<User>("用户名不存在！");
+
+            if (user.Password != password)
+                return Result.Error<User>("用户密码不正确！");
+
+            return Result.Success("登录成功！", user);
         }
 
         public User GetUser(string userName)
