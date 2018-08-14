@@ -9,7 +9,7 @@ namespace Known
         int PageIndex { get; }
         int PageSize { get; }
         int TotalCount { get; }
-        int TotalPages { get; }
+        int PageCount { get; }
         bool HasPreviousPage { get; }
         bool HasNextPage { get; }
     }
@@ -21,10 +21,10 @@ namespace Known
         {
             int total = source.Count();
             TotalCount = total;
-            TotalPages = total / pageSize;
+            PageCount = total / pageSize;
 
             if (total % pageSize > 0)
-                TotalPages++;
+                PageCount++;
 
             PageSize = pageSize;
             PageIndex = pageIndex;
@@ -34,10 +34,10 @@ namespace Known
         public PagedList(IList<T> source, int pageIndex, int pageSize)
         {
             TotalCount = source.Count();
-            TotalPages = TotalCount / pageSize;
+            PageCount = TotalCount / pageSize;
 
             if (TotalCount % pageSize > 0)
-                TotalPages++;
+                PageCount++;
 
             PageSize = pageSize;
             PageIndex = pageIndex;
@@ -47,10 +47,10 @@ namespace Known
         public PagedList(IEnumerable<T> source, int pageIndex, int pageSize, int totalCount)
         {
             TotalCount = totalCount;
-            TotalPages = TotalCount / pageSize;
+            PageCount = TotalCount / pageSize;
 
             if (TotalCount % pageSize > 0)
-                TotalPages++;
+                PageCount++;
 
             PageSize = pageSize;
             PageIndex = pageIndex;
@@ -60,16 +60,16 @@ namespace Known
         public int PageIndex { get; }
         public int PageSize { get; }
         public int TotalCount { get; }
-        public int TotalPages { get; }
+        public int PageCount { get; }
 
         public bool HasPreviousPage
         {
-            get { return (PageIndex > 0); }
+            get { return PageIndex > 0; }
         }
 
         public bool HasNextPage
         {
-            get { return (PageIndex + 1 < TotalPages); }
+            get { return PageIndex + 1 < PageCount; }
         }
     }
 }

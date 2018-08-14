@@ -19,7 +19,7 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(Utils.IsNullOrEmpty("test"), false);
         }
 
-        public static void TestConvertTo()
+        public static void TestConvertTo1()
         {
             Assert.IsEqual(Utils.ConvertTo<int>("1"), 1);
             Assert.IsEqual(Utils.ConvertTo<decimal>("1.2"), 1.2M);
@@ -30,6 +30,19 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(Utils.ConvertTo<bool>("Yes"), true);
             Assert.IsEqual(Utils.ConvertTo<bool>("yes"), true);
             Assert.IsEqual(Utils.ConvertTo<TestEnum>(0), TestEnum.Enum1);
+        }
+
+        public static void TestConvertTo2()
+        {
+            Assert.IsEqual(Utils.ConvertTo(typeof(int), "1", 0), 1);
+            Assert.IsEqual(Utils.ConvertTo(typeof(decimal), "1.2", 0), 1.2M);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), 1, false), true);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), 0, false), false);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), "Y", false), true);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), "y", false), true);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), "Yes", false), true);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), "yes", false), true);
+            Assert.IsEqual(Utils.ConvertTo(typeof(TestEnum), 0, TestEnum.Enum1), TestEnum.Enum1);
         }
 
         public static void TestToRmb()

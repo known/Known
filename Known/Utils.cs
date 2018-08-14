@@ -129,6 +129,13 @@ namespace Known
                 File.Delete(fileName);
         }
 
+        public static void MoveFile(string sourceFileName, string destFileName)
+        {
+            EnsureFile(destFileName);
+            DeleteFile(destFileName);
+            File.Move(sourceFileName, destFileName);
+        }
+
         public static string GetFileExtName(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
