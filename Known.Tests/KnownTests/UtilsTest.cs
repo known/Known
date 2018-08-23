@@ -78,6 +78,7 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(Utils.Round(0.125M, 2).Value, 0.13M);
             Assert.IsEqual(Utils.Round(0.126M, 2).Value, 0.13M);
         }
+
         public static void TestGetUniqueString()
         {
             Assert.IsEqual(Utils.GetUniqueString(), "12345678");
