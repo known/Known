@@ -71,6 +71,20 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(Utils.HideMobile("13812345678"), "138****5678");
         }
 
+        public static void TestRound()
+        {
+            Assert.IsEqual(Utils.Round(null, 2), null);
+            Assert.IsEqual(Utils.Round(0.124M, 2).Value, 0.12M);
+            Assert.IsEqual(Utils.Round(0.125M, 2).Value, 0.13M);
+            Assert.IsEqual(Utils.Round(0.126M, 2).Value, 0.13M);
+        }
+        public static void TestGetUniqueString()
+        {
+            Assert.IsEqual(Utils.GetUniqueString(), "12345678");
+            Assert.IsEqual(Utils.GetUniqueString(6), "123456");
+            Assert.IsEqual(Utils.GetUniqueString(10), "1234567890");
+        }
+
         public static void TestEnsureFile()
         {
             var path = string.Format("{0}\\test", Environment.CurrentDirectory);
