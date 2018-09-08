@@ -1,54 +1,52 @@
-﻿using System.Collections.Generic;
+﻿using System.Web;
 
 namespace Known.Cache
 {
     public class DefaultCache : ICache
     {
-        private static Dictionary<string, object> cached = new Dictionary<string, object>();
+        private ICache cache = null;
+
+        public DefaultCache()
+        {
+            if (HttpContext.Current != null)
+                cache = new WebCache();
+            else
+                cache = new MemoryCache();
+        }
 
         public int Count
         {
-            get { return cached.Count; }
+            get { return cache.Count; }
+        }
+
+        public T Get<T>(string key)
+        {
+            return cache.Get<T>(key);
         }
 
         public object Get(string key)
         {
-            if (string.IsNullOrEmpty(key))
-                return null;
-
-            if (!cached.ContainsKey(key))
-                return null;
-
-            return cached[key];
+            return cache.Get(key);
         }
 
         public void Set(string key, object value)
         {
-            if (value == null)
-            {
-                Remove(key);
-                return;
-            }
-
-            cached[key] = value;
+            cache.Set(key, value);
         }
 
         public void Set(string key, object value, int expires)
         {
-            Set(key, value);
+            cache.Set(key, value, expires);
         }
 
         public void Remove(string key)
         {
-            if (cached.ContainsKey(key))
-            {
-                cached.Remove(key);
-            }
+            cache.Remove(key);
         }
 
         public void Clear()
         {
-            cached.Clear();
+            cache.Clear();
         }
     }
 }
