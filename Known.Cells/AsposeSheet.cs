@@ -118,24 +118,46 @@ namespace Known.Cells
             sheet.Cells.HideRows(row, totalRows);
         }
 
+        public void AutoFitColumn(int column)
+        {
+            sheet.AutoFitColumn(column);
+        }
+
         public void AutoFitColumns()
         {
-            sheet.AutoFitColumns();
+            sheet.AutoFitColumns(new AutoFitterOptions
+            {
+                AutoFitMergedCells = true
+            });
         }
 
         public void AutoFitColumns(int firstColumn, int lastColumn)
         {
-            sheet.AutoFitColumns(firstColumn, lastColumn);
+            sheet.AutoFitColumns(firstColumn, lastColumn, new AutoFitterOptions
+            {
+                AutoFitMergedCells = true
+            });
+        }
+
+        public void AutoFitRow(int row)
+        {
+            sheet.AutoFitRow(row, 0, ColumnCount);
         }
 
         public void AutoFitRows()
         {
-            sheet.AutoFitRows();
+            sheet.AutoFitRows(new AutoFitterOptions
+            {
+                AutoFitMergedCells = true
+            });
         }
 
         public void AutoFitRows(int startRow, int endRow)
         {
-            sheet.AutoFitRows(startRow, endRow);
+            sheet.AutoFitRows(startRow, endRow, new AutoFitterOptions
+            {
+                AutoFitMergedCells = true
+            });
         }
 
         public void Merge(int firstRow, int firstColumn, int totalRows, int totalColumns)

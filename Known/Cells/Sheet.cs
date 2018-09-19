@@ -51,14 +51,14 @@ namespace Known.Cells
             InnerSheet.InsertRows(rowIndex, totalRows);
         }
 
+        public void AutoFitColumn(int column)
+        {
+            InnerSheet.AutoFitColumn(column);
+        }
+
         public void AutoFitColumns()
         {
             InnerSheet.AutoFitColumns();
-        }
-
-        public void AutoFitColumns(int row)
-        {
-            InnerSheet.AutoFitColumns(row, row);
         }
 
         public void AutoFitColumns(int firstColumn, int lastColumn)
@@ -66,14 +66,14 @@ namespace Known.Cells
             InnerSheet.AutoFitColumns(firstColumn, lastColumn);
         }
 
+        public void AutoFitRow(int row)
+        {
+            InnerSheet.AutoFitRow(row);
+        }
+
         public void AutoFitRows()
         {
             InnerSheet.AutoFitRows();
-        }
-
-        public void AutoFitRows(int column)
-        {
-            InnerSheet.AutoFitRows(column, column);
         }
 
         public void AutoFitRows(int startRow, int endRow)
