@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Aspose.Cells;
 
 namespace Known.Cells
@@ -58,6 +59,24 @@ namespace Known.Cells
         {
             var wbFormat = GetSaveFormat(format);
             wb.Save(fileName, wbFormat);
+        }
+
+        public MemoryStream SaveToStream()
+        {
+            return wb.SaveToStream();
+        }
+
+        public MemoryStream SaveToStream(SavedFormat format)
+        {
+            var wbFormat = GetSaveFormat(format);
+            var stream = new MemoryStream();
+            wb.Save(stream, wbFormat);
+            return stream;
+        }
+
+        public void CalculateFormula()
+        {
+            wb.CalculateFormula();
         }
 
         private SaveFormat GetSaveFormat(SavedFormat format)

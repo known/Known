@@ -97,5 +97,20 @@ namespace Known.Cells
         {
             SaveAs(fileName, SavedFormat.Pdf);
         }
+
+        public MemoryStream SaveToStream()
+        {
+            return Provider.SaveToStream();
+        }
+
+        public MemoryStream SaveToStream(SavedFormat format)
+        {
+            return Provider.SaveToStream(format);
+        }
+
+        public void CalculateFormula()
+        {
+            Provider.CalculateFormula();
+        }
     }
 }
