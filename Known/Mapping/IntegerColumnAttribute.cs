@@ -6,10 +6,8 @@ namespace Known.Mapping
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class IntegerColumnAttribute : ColumnAttribute
     {
-        public IntegerColumnAttribute() { }
-
-        public IntegerColumnAttribute(string columnName, string description, bool nullable)
-            : base(columnName, description, nullable)
+        public IntegerColumnAttribute(string columnName, string description, bool required = false)
+            : base(columnName, description, required)
         {
         }
 

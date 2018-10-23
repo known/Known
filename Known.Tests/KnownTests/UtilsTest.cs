@@ -19,7 +19,7 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(Utils.IsNullOrEmpty("test"), false);
         }
 
-        public static void TestConvertTo()
+        public static void TestConvertTo1()
         {
             Assert.IsEqual(Utils.ConvertTo<int>("1"), 1);
             Assert.IsEqual(Utils.ConvertTo<decimal>("1.2"), 1.2M);
@@ -30,6 +30,19 @@ namespace Known.Tests.KnownTests
             Assert.IsEqual(Utils.ConvertTo<bool>("Yes"), true);
             Assert.IsEqual(Utils.ConvertTo<bool>("yes"), true);
             Assert.IsEqual(Utils.ConvertTo<TestEnum>(0), TestEnum.Enum1);
+        }
+
+        public static void TestConvertTo2()
+        {
+            Assert.IsEqual(Utils.ConvertTo(typeof(int), "1", 0), 1);
+            Assert.IsEqual(Utils.ConvertTo(typeof(decimal), "1.2", 0), 1.2M);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), 1, false), true);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), 0, false), false);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), "Y", false), true);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), "y", false), true);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), "Yes", false), true);
+            Assert.IsEqual(Utils.ConvertTo(typeof(bool), "yes", false), true);
+            Assert.IsEqual(Utils.ConvertTo(typeof(TestEnum), 0, TestEnum.Enum1), TestEnum.Enum1);
         }
 
         public static void TestToRmb()
@@ -56,6 +69,21 @@ namespace Known.Tests.KnownTests
         public static void TestHideMobile()
         {
             Assert.IsEqual(Utils.HideMobile("13812345678"), "138****5678");
+        }
+
+        public static void TestRound()
+        {
+            Assert.IsEqual(Utils.Round(null, 2), null);
+            Assert.IsEqual(Utils.Round(0.124M, 2).Value, 0.12M);
+            Assert.IsEqual(Utils.Round(0.125M, 2).Value, 0.13M);
+            Assert.IsEqual(Utils.Round(0.126M, 2).Value, 0.13M);
+        }
+
+        public static void TestGetUniqueString()
+        {
+            Assert.IsEqual(Utils.GetUniqueString(), "12345678");
+            Assert.IsEqual(Utils.GetUniqueString(6), "123456");
+            Assert.IsEqual(Utils.GetUniqueString(10), "1234567890");
         }
 
         public static void TestEnsureFile()

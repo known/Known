@@ -6,17 +6,15 @@ namespace Known.Mapping
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class DecimalColumnAttribute : ColumnAttribute
     {
-        public DecimalColumnAttribute() { }
-
-        public DecimalColumnAttribute(string columnName, string description, bool nullable, int integerLength, int decimalLength)
-            : base(columnName, description, nullable)
+        public DecimalColumnAttribute(string columnName, string description, int integerLength, int decimalLength, bool required = false)
+            : base(columnName, description, required)
         {
             IntegerLength = integerLength;
             DecimalLength = decimalLength;
         }
 
-        public int? IntegerLength { get; set; }
-        public int? DecimalLength { get; set; }
+        public int IntegerLength { get; }
+        public int DecimalLength { get; }
 
         public override void Validate(object value, List<string> errors)
         {
@@ -31,15 +29,17 @@ namespace Known.Mapping
                 else
                 {
                     var valueString = result.ToString();
-                    valueString = valueString.Contains(".") ? valueString.TrimEnd('0').TrimEnd('.') : valueString;
+                    valueString = valueString.Contains(".")
+                                ? valueString.TrimEnd('0').TrimEnd('.')
+                                : valueString;
                     var values = valueString.Split('.');
-                    if (IntegerLength.HasValue && values.Length > 0 && values[0].Length > IntegerLength.Value)
+                    if (values.Length > 0 && values[0].Length > IntegerLength)
                     {
-                        errors.Add($"{Description}最多为{IntegerLength.Value}位整数！");
+                        errors.Add($"{Description}最多为{IntegerLength}位整数！");
                     }
-                    if (DecimalLength.HasValue && values.Length > 1 && values[1].Length > DecimalLength.Value)
+                    if (values.Length > 1 && values[1].Length > DecimalLength)
                     {
-                        errors.Add($"{Description}最多为{DecimalLength.Value}位小数！");
+                        errors.Add($"{Description}最多为{DecimalLength}位小数！");
                     }
                 }
             }

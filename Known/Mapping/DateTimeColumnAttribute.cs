@@ -7,29 +7,27 @@ namespace Known.Mapping
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class DateTimeColumnAttribute : ColumnAttribute
     {
-        public DateTimeColumnAttribute() { }
-
-        public DateTimeColumnAttribute(string columnName, string description, bool nullable)
-            : base(columnName, description, nullable)
+        public DateTimeColumnAttribute(string columnName, string description, bool required = false)
+            : base(columnName, description, required)
         {
         }
 
-        public DateTimeColumnAttribute(string columnName, string description, bool nullable, string format)
-            : base(columnName, description, nullable)
+        public DateTimeColumnAttribute(string columnName, string description, string format, bool required = false)
+            : base(columnName, description, required)
         {
             Format = format;
         }
 
-        public DateTimeColumnAttribute(string columnName, string description, bool nullable, DateTime? minValue, DateTime? maxValue)
-            : base(columnName, description, nullable)
+        public DateTimeColumnAttribute(string columnName, string description, DateTime? minValue, DateTime? maxValue, bool required = false)
+            : base(columnName, description, required)
         {
             MinValue = minValue;
             MaxValue = maxValue;
         }
 
-        public DateTime? MinValue { get; set; }
-        public DateTime? MaxValue { get; set; }
-        public string Format { get; set; }
+        public DateTime? MinValue { get; }
+        public DateTime? MaxValue { get; }
+        public string Format { get; }
 
         public override void Validate(object value, List<string> errors)
         {

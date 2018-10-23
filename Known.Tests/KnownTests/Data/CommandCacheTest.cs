@@ -34,10 +34,10 @@ namespace Known.Tests.KnownTests.Data
 
             entity = new TestEntity { Item1 = 1, Item2 = "test" };
             command = CommandCache.GetSaveCommand(entity);
-            Assert.IsEqual(command.Text, "insert into A_TEST(ITEM1,ITEM2,ITEM3,Item4,TestId,Id,CreateBy,CreateTime,ModifyBy,ModifyTime) values(@ITEM1,@ITEM2,@ITEM3,@Item4,@TestId,@Id,@CreateBy,@CreateTime,@ModifyBy,@ModifyTime)");
-            Assert.IsEqual(command.Parameters.Count, 10);
-            Assert.IsEqual(command.Parameters["ITEM1"], 1);
-            Assert.IsEqual(command.Parameters["ITEM2"], "test");
+            Assert.IsEqual(command.Text, "insert into a_test(item1,item2,item3,item4,test_id,id,create_by,create_time,modify_by,modify_time,extension) values(@item1,@item2,@item3,@item4,@test_id,@id,@create_by,@create_time,@modify_by,@modify_time,@extension)");
+            Assert.IsEqual(command.Parameters.Count, 11);
+            Assert.IsEqual(command.Parameters["item1"], 1);
+            Assert.IsEqual(command.Parameters["item2"], "test");
         }
 
         public static void TestGetDeleteCommand()
@@ -48,16 +48,16 @@ namespace Known.Tests.KnownTests.Data
 
             entity = new TestEntity { Item1 = 1, Item2 = "test" };
             command = CommandCache.GetDeleteCommand(entity);
-            Assert.IsEqual(command.Text, "delete from A_TEST where ITEM1=@ITEM1 and ITEM2=@ITEM2");
+            Assert.IsEqual(command.Text, "delete from a_test where item1=@item1 and item2=@item2");
             Assert.IsEqual(command.Parameters.Count, 2);
-            Assert.IsEqual(command.Parameters["ITEM1"], 1);
-            Assert.IsEqual(command.Parameters["ITEM2"], "test");
+            Assert.IsEqual(command.Parameters["item1"], 1);
+            Assert.IsEqual(command.Parameters["item2"], "test");
 
             var obj = new TestObject { Id = "1", Item1 = "test", Item2 = "name" };
             command = CommandCache.GetDeleteCommand(obj);
-            Assert.IsEqual(command.Text, "delete from TestObjects where Id=@Id");
+            Assert.IsEqual(command.Text, "delete from testobjects where id=@id");
             Assert.IsEqual(command.Parameters.Count, 1);
-            Assert.IsEqual(command.Parameters["Id"], "1");
+            Assert.IsEqual(command.Parameters["id"], "1");
 
             command = CommandCache.GetDeleteCommand(null, null);
             Assert.IsNull(command);
@@ -89,13 +89,13 @@ namespace Known.Tests.KnownTests.Data
             Assert.IsEqual(command.Parameters.Count, 0);
 
             var parameters = new Dictionary<string, object>();
-            parameters.Add("Item1", 1);
-            parameters.Add("Item2", 2);
+            parameters.Add("item1", 1);
+            parameters.Add("item2", 2);
             command = CommandCache.GetSelectCommand("t_test", parameters);
-            Assert.IsEqual(command.Text, "select * from t_test where Item1=@Item1 and Item2=@Item2");
+            Assert.IsEqual(command.Text, "select * from t_test where item1=@item1 and item2=@item2");
             Assert.IsEqual(command.Parameters.Count, parameters.Count);
-            Assert.IsEqual(command.Parameters["Item1"], 1);
-            Assert.IsEqual(command.Parameters["Item2"], 2);
+            Assert.IsEqual(command.Parameters["item1"], 1);
+            Assert.IsEqual(command.Parameters["item2"], 2);
         }
 
         public static void TestGetInsertCommand()

@@ -7,24 +7,27 @@ namespace Known.Mapping
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class StringColumnAttribute : ColumnAttribute
     {
-        public StringColumnAttribute() { }
+        public StringColumnAttribute(string columnName, string description, bool required = false)
+            : base(columnName, description, required)
+        {
+        }
 
-        public StringColumnAttribute(string columnName, string description, bool nullable, int length)
-            : base(columnName, description, nullable)
+        public StringColumnAttribute(string columnName, string description, int length, bool required = false)
+            : base(columnName, description, required)
         {
             Length = length;
         }
 
-        public StringColumnAttribute(string columnName, string description, bool nullable, int minLength, int maxLength)
-            : base(columnName, description, nullable)
+        public StringColumnAttribute(string columnName, string description, int minLength, int maxLength, bool required = false)
+            : base(columnName, description, required)
         {
             MinLength = minLength;
             MaxLength = maxLength;
         }
 
-        public int? Length { get; set; }
-        public int? MinLength { get; set; }
-        public int? MaxLength { get; set; }
+        public int? Length { get; }
+        public int? MinLength { get; }
+        public int? MaxLength { get; }
 
         public override void Validate(object value, List<string> errors)
         {

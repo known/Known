@@ -1,9 +1,9 @@
 ﻿var Navbar = {
 
-    demo: function () {
+    devTool: function () {
         var tab = MainTabs.active({
-            id: 'demo', iconCls: 'fa-puzzle-piece',
-            text: '开发示例', url: '/frame?mid=demo'
+            id: 'devTool', iconCls: 'fa-puzzle-piece',
+            text: '开发工具', url: '/frame?mid=devTool'
         });
     },
 

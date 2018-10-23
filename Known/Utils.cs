@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -23,20 +24,24 @@ namespace Known
 
         public static T ConvertTo<T>(object value, T defaultValue = default(T))
         {
+            return (T)ConvertTo(typeof(T), value, defaultValue);
+        }
+
+        public static object ConvertTo(Type type, object value, object defaultValue = null)
+        {
             if (value == null || value == DBNull.Value)
                 return defaultValue;
 
             var valueString = value.ToString();
-            var type = typeof(T);
             if (type == typeof(string))
-                return (T)Convert.ChangeType(valueString, type);
+                return Convert.ChangeType(valueString, type);
 
             valueString = valueString.Trim();
             if (valueString.Length == 0)
                 return defaultValue;
 
             if (type.IsEnum)
-                return (T)Enum.Parse(type, valueString, true);
+                return Enum.Parse(type, valueString, true);
 
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
                 type = Nullable.GetUnderlyingType(type);
@@ -46,7 +51,7 @@ namespace Known
 
             try
             {
-                return (T)Convert.ChangeType(valueString, type);
+                return Convert.ChangeType(valueString, type);
             }
             catch
             {
@@ -81,6 +86,47 @@ namespace Known
         public static string HideMobile(string mobile)
         {
             return Regex.Replace(mobile, "(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+        }
+
+        public static decimal? Round(decimal? value, int decimals)
+        {
+            if (!value.HasValue)
+                return null;
+
+            return Math.Round(value.Value, decimals, MidpointRounding.AwayFromZero);
+        }
+
+        public static string GetUniqueString(int length = 8)
+        {
+            var str = "0123456789abcdefghijklmnopqrstuvwxyz";
+            var chars = new char[length];
+            var bytes = Guid.NewGuid().ToByteArray();
+            for (var i = 0; i < length; i++)
+            {
+                chars[i] = str[(bytes[i] + bytes[bytes.Length - length + i]) % 35];
+            }
+            return new string(chars);
+        }
+
+        public static BackgroundWorker ExecuteAsync<T>(T context, Action<T, DoWorkEventArgs> doAction, Action<RunWorkerCompletedEventArgs> completeAction = null) where T : class
+        {
+            var backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += (o, e) =>
+            {
+                if (!(e.Argument is T ctx))
+                    return;
+
+                doAction?.Invoke(ctx, e);
+            };
+            if (completeAction != null)
+            {
+                backgroundWorker.RunWorkerCompleted += (o, e) =>
+                {
+                    completeAction?.Invoke(e);
+                };
+            }
+            backgroundWorker.RunWorkerAsync(context);
+            return backgroundWorker;
         }
         #endregion
 
@@ -123,6 +169,13 @@ namespace Known
 
             if (File.Exists(fileName))
                 File.Delete(fileName);
+        }
+
+        public static void MoveFile(string sourceFileName, string destFileName)
+        {
+            EnsureFile(destFileName);
+            DeleteFile(destFileName);
+            File.Move(sourceFileName, destFileName);
         }
 
         public static string GetFileExtName(string fileName)

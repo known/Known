@@ -17,18 +17,24 @@ namespace Known.Data
 
         public static string GetCountSql(string sql)
         {
-            return $"select count(1) from ({sql})";
+            return $"select count(1) from ({sql}) t";
         }
 
         public static string GetPagingSql(string sql, PagingCriteria criteria)
         {
             var orderBy = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)));
-            var startNo = criteria.PageSize * (criteria.PageIndex - 1);
+            var startNo = criteria.PageSize * criteria.PageIndex;
             var endNo = startNo + criteria.PageSize;
-            return $"select t.* from (select t1.*,row_number() over (order by {orderBy}) RowNo from ({sql}) t1) t where t.RowNo>{startNo} and t.RowNo<={endNo}";
+
+            if (string.IsNullOrWhiteSpace(orderBy))
+            {
+                orderBy = "t1.create_time";
+            }
+
+            return $"select t.* from (select t1.*,row_number() over (order by {orderBy}) row_no from ({sql}) t1) t where t.row_no>{startNo} and t.row_no<={endNo}";
         }
 
-        public static Command GetCommand(string sql, dynamic param = null)
+        public static Command GetCommand(string sql, object param = null)
         {
             if (string.IsNullOrWhiteSpace(sql))
                 return null;
@@ -208,8 +214,8 @@ namespace Known.Data
             }
             else
             {
-                var name = type.Name + "s";
-                attr = new TableAttribute(name, "Id", "");
+                var name = type.Name.ToLower() + "s";
+                attr = new TableAttribute(name, "");
             }
 
             TypeTableAttributes[type.TypeHandle] = attr;

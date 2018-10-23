@@ -27,8 +27,10 @@ namespace Known.Cells
         void HideColumns(int column, int totalColumns);
         void HideRow(int row);
         void HideRows(int row, int totalRows);
+        void AutoFitColumn(int column);
         void AutoFitColumns();
         void AutoFitColumns(int firstColumn, int lastColumn);
+        void AutoFitRow(int row);
         void AutoFitRows();
         void AutoFitRows(int startRow, int endRow);
         void Merge(int firstRow, int firstColumn, int totalRows, int totalColumns);

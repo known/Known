@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using Known.Web.Extensions;
 using Newtonsoft.Json;
 
@@ -9,14 +10,24 @@ namespace Known.Web.Controllers
         [HttpPost]
         public ActionResult Query(string url, string query, string isLoad)
         {
-            var param = FromJson(query);
-            param.IsLoad = isLoad == "1";
-            param.PageIndex = Request.Get<int>("pageIndex");
-            param.PageSize = Request.Get<int>("pageSize");
-            param.SortField = Request.Get<string>("sortField");
-            param.SortOrder = Request.Get<string>("sortOrder");
+            var sortField = Request.Get<string>("sortField");
+            var sortOrder = Request.Get<string>("sortOrder");
+            var sorts = new List<string>();
+            if (!string.IsNullOrWhiteSpace(sortField))
+            {
+                sorts.Add($"{sortField} {sortOrder}");
+            }
 
-            var result = Api.Post<ApiResult>(url, param);
+            var criteria = new PagingCriteria
+            {
+                IsLoad = isLoad == "1",
+                PageIndex = Request.Get<int>("pageIndex"),
+                PageSize = Request.Get<int>("pageSize"),
+                OrderBys = sorts.ToArray(),
+                Parameters = FromJson(query)
+            };
+
+            var result = Api.Post<ApiResult>(url, criteria);
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 

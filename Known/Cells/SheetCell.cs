@@ -22,10 +22,16 @@ namespace Known.Cells
         public string StringValue { get; }
         public string DisplayStringValue { get; }
 
+        public string Formula
+        {
+            get { return cell.Formula; }
+            set { cell.Formula = value; }
+        }
+
         public object Value
         {
             get { return cell.Value; }
-            set { cell.PutValue(value); }
+            set { cell.Value = value; }
         }
 
         public T ValueAs<T>()

@@ -74,6 +74,14 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\db_demo.mdf" />
+    <Content Include="App_Data\db_demo_log.ldf">
+      <DependentUpon>db_demo.mdf</DependentUpon>
+    </Content>
+    <Content Include="App_Data\db_platform.mdf" />
+    <Content Include="App_Data\db_platform_log.ldf">
+      <DependentUpon>db_platform.mdf</DependentUpon>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -82,6 +90,7 @@
     <Compile Include="Code\Providers\JsonProvider.cs" />
     <Compile Include="Code\Providers\ProviderConfig.cs" />
     <Compile Include="Controllers\DemoController.cs" />
+    <Compile Include="Controllers\DevToolController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtension.cs" />
@@ -115,6 +124,7 @@
       <Name>Known</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

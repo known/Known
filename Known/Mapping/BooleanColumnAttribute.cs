@@ -6,10 +6,8 @@ namespace Known.Mapping
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class BooleanColumnAttribute : ColumnAttribute
     {
-        public BooleanColumnAttribute() { }
-
         public BooleanColumnAttribute(string columnName, string description)
-            : base(columnName, description)
+            : base(columnName, description, true)
         {
         }
 

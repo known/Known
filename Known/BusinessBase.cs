@@ -1,8 +1,10 @@
 ﻿using System;
+using Known.Data;
+using Known.Log;
 
 namespace Known
 {
-    public class BusinessBase
+    public abstract class BusinessBase
     {
         public BusinessBase(Context context)
         {
@@ -10,6 +12,16 @@ namespace Known
         }
 
         public Context Context { get; }
+
+        public Database Database
+        {
+            get { return Context.Database; }
+        }
+
+        public ILogger Logger
+        {
+            get { return Context.Logger; }
+        }
 
         protected T LoadBusiness<T>() where T : BusinessBase
         {

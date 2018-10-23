@@ -10,6 +10,15 @@ namespace Known.Cache
             get { return HttpRuntime.Cache.Count; }
         }
 
+        public T Get<T>(string key)
+        {
+            var value = Get(key);
+            if (value == null)
+                return default(T);
+
+            return (T)value;
+        }
+
         public object Get(string key)
         {
             if (string.IsNullOrEmpty(key))

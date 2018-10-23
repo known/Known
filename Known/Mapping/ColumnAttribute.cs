@@ -6,28 +6,20 @@ namespace Known.Mapping
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class ColumnAttribute : Attribute
     {
-        public ColumnAttribute() { }
-
-        public ColumnAttribute(string columnName, string description)
+        public ColumnAttribute(string columnName, string description, bool required = false)
         {
             ColumnName = columnName;
             Description = description;
+            Required = required;
         }
 
-        public ColumnAttribute(string columnName, string description, bool nullable)
-        {
-            ColumnName = columnName;
-            Description = description;
-            Nullable = nullable;
-        }
-
-        public string ColumnName { get; set; }
-        public string Description { get; set; }
-        public bool Nullable { get; set; }
+        public string ColumnName { get; }
+        public string Description { get; }
+        public bool Required { get; }
 
         public virtual void Validate(object value, List<string> errors)
         {
-            if (!Nullable && Utils.IsNullOrEmpty(value))
+            if (Required && Utils.IsNullOrEmpty(value))
             {
                 errors.Add($"{Description}不能为空！");
             }

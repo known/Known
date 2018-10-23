@@ -15,7 +15,6 @@ namespace Known.Cells
             Name = cell.Name;
             StringValue = cell.StringValue;
             DisplayStringValue = cell.DisplayStringValue;
-            Value = cell.Value;
         }
 
         public int Row { get; }
@@ -23,11 +22,17 @@ namespace Known.Cells
         public string Name { get; }
         public string StringValue { get; }
         public string DisplayStringValue { get; }
-        public object Value { get; }
 
-        public void PutValue(object value)
+        public string Formula
         {
-            cell.PutValue(value);
+            get { return cell.Formula; }
+            set { cell.Formula = value; }
+        }
+
+        public object Value
+        {
+            get { return cell.Value; }
+            set { cell.Value = value; }
         }
     }
 }

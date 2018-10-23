@@ -2,7 +2,9 @@
 var Grid = function (name, options) {
     this.name = name;
     this.grid = mini.get('grid' + name);
-    this.query = new Form('query' + name);
+    if ($('#query' + name).length) {
+        this.query = new Form('query' + name);
+    }
     this.options = $.extend(true, {}, this.options, options);
 
     var url = this.grid.getUrl();
@@ -16,21 +18,21 @@ Grid.prototype = {
     },
 
     _queryData: function (isLoad, callback) {
-        var query = this.query.getData(true);
-        this.grid.clearSelect(false);
-        this.grid.load(
+        var query = this.query ? this.query.getData(true) : '';
+        var grid = this.grid;
+        grid.clearSelect(false);
+        grid.load(
             { query: query, isLoad: isLoad },
             function (e) {
                 if (callback) {
-                    var data = e.sender.getResultObject();
-                    callback(data);
+                    callback({ sender: grid, result: e.result });
                 }
             },
             function () {
                 Message.tips({ content: '查询出错！' });
             }
         );
-        new ColumnsMenu(this.grid);
+        new ColumnsMenu(grid);
     },
 
     search: function (callback) {
@@ -144,6 +146,10 @@ Grid.prototype = {
     showColumn: function (indexOrName) {
         var column = this.grid.getColumn(indexOrName);
         this.grid.updateColumn(column, { visible: true });
+    },
+
+    setColumns: function (columns) {
+        this.grid.setColumns(columns);
     }
 
 };

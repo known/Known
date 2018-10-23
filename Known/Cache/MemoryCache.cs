@@ -12,6 +12,15 @@ namespace Known.Cache
             get { return (int)cache.GetCount(); }
         }
 
+        public T Get<T>(string key)
+        {
+            var value = Get(key);
+            if (value == null)
+                return default(T);
+
+            return (T)value;
+        }
+
         public object Get(string key)
         {
             return cache[key];

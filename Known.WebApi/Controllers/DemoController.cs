@@ -6,21 +6,10 @@ using Known.Web;
 
 namespace Known.WebApi.Controllers
 {
-    public class QueryParameter
-    {
-        public string Query { get; set; }
-        public bool IsLoad { get; set; }
-        public int PageIndex { get; set; }
-        public int PageSize { get; set; }
-        public string SortField { get; set; }
-        public string SortOrder { get; set; }
-    }
-
     public class DemoController : BaseApiController
     {
         [HttpPost]
-        [AllowAnonymous]
-        public ApiResult QueryUsers(QueryParameter model)
+        public ApiResult QueryUsers(PagingCriteria criteria)
         {
             var users = new List<User>();
             users.Add(new User
@@ -63,7 +52,7 @@ namespace Known.WebApi.Controllers
                 });
             }
 
-            var data = users.ToPageList(model.PageIndex, model.PageSize);
+            var data = users.ToPageList(criteria.PageIndex, criteria.PageSize);
             return ApiResult.Success(new { total = 188, data });
         }
     }

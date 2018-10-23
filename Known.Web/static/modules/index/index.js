@@ -38,7 +38,7 @@
     });
 
     //navbar
-    $('#navDemo').click(function () { Navbar.demo(); });
+    $('#navDevTool').click(function () { Navbar.devTool(); });
     $('#navTodo').click(function () { Navbar.todo(); });
 
     new Toolbar('tbUser', UserMenu);

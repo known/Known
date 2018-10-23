@@ -1,76 +1,111 @@
-﻿using System.IO;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using Known.Extensions;
 using Known.Platform;
+using Known.Platform.Business;
 using Known.Web;
 
 namespace Known.WebApi.Controllers
 {
     public class UserController : BaseApiController
     {
+        private UserBusiness Business
+        {
+            get { return LoadBusiness<UserBusiness>(); }
+        }
+
         [HttpGet]
         [AllowAnonymous]
-        public ApiResult SignIn(string appId, string userName, string password)
+        public ApiResult SignIn(string userName, string password)
         {
-            if (userName != "known")
-                return ApiResult.Error("用户名不存在！");
+            var result = Business.SignIn(userName, password);
+            if (!result.IsValid)
+                return ApiResult.Error(result.Message);
 
-            var user = new User
-            {
-                UserName = userName,
-                Name = "管理员",
-                Token = "admin"
-            };
-            return ApiResult.Success(user);
+            return ApiResult.Success(result.Data);
         }
 
         [HttpGet]
         public ApiResult GetUser(string userName)
         {
-            var user = new User
-            {
-                UserName = userName,
-                Name = "管理员",
-                Token = "admin"
-            };
+            var user = Business.GetUser(userName);
             return ApiResult.Success(user);
-        }
-
-        [HttpGet]
-        public ApiResult GetMenus()
-        {
-            var path = Path.Combine(HttpRuntime.AppDomainAppPath, "menu.json");
-            var json = File.ReadAllText(path);
-            return ApiResult.Success(json.FromJson<object>());
         }
 
         [HttpGet]
         public ApiResult GetModule(string mid)
         {
-            Module module = null;
-            if (mid == "demo")
-            {
-                module = new Module
-                {
-                    Id = "demo",
-                    Code = "Demo",
-                    Name = "开发示例",
-                    ViewType = ModuleViewType.SplitPageView,
-                    Extension = new { LeftPartialName = "Demo/DemoMenu" }.ToJson()
-                };
-            }
-
+            var module = Business.GetModule(mid);
             return ApiResult.Success(module);
         }
 
-        //class Menu
-        //{
-        //    public string id { get; set; }
-        //    public string text { get; set; }
-        //    public string url { get; set; }
-        //    public string iconCls { get; set; }
-        //    public List<Menu> children { get; set; }
-        //}
+        #region GetUserMenus
+        [HttpGet]
+        public ApiResult GetMenus()
+        {
+            var menus = new List<Menu>();
+            var modules = Business.GetUserModules();
+            if (modules != null && modules.Count > 0)
+            {
+                var index = 0;
+                foreach (var item in modules)
+                {
+                    var menu = Menu.GetMenu(item);
+                    menu.expanded = index == 0;
+                    menus.Add(menu);
+                    SetMenuChildren(menus, item, menu);
+                    index++;
+                }
+            }
+
+            return ApiResult.Success(menus);
+
+            //var path = Path.Combine(HttpRuntime.AppDomainAppPath, "menu.json");
+            //var json = File.ReadAllText(path);
+            //return ApiResult.Success(json.FromJson<object>());
+        }
+
+        private void SetMenuChildren(List<Menu> menus, Module module, Menu menu)
+        {
+            if (module.Children == null || module.Children.Count == 0)
+            {
+                if (string.IsNullOrWhiteSpace(menu.url))
+                {
+                    menu.url = $"/frame?mid={menu.id}";
+                }
+                return;
+            }
+
+            menu.children = new List<Menu>();
+            foreach (var item in module.Children)
+            {
+                var menu1 = Menu.GetMenu(item);
+                menu.children.Add(menu1);
+                SetMenuChildren(menus, item, menu1);
+            }
+        }
+
+        class Menu
+        {
+            public string id { get; set; }
+            public string code { get; set; }
+            public string text { get; set; }
+            public string iconCls { get; set; }
+            public string url { get; set; }
+            public bool expanded { get; set; }
+            public List<Menu> children { get; set; }
+
+            public static Menu GetMenu(Module module)
+            {
+                return new Menu
+                {
+                    id = module.Id,
+                    code = module.Code,
+                    text = module.Name,
+                    iconCls = module.Icon,
+                    url = module.Url
+                };
+            }
+        }
+        #endregion
     }
 }
