@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Known.Extensions;
-using Known.Log;
 using Known.Platform.Business;
 using Known.Web;
 using Known.WebApi.Extensions;
@@ -49,9 +48,7 @@ namespace Known.WebApi.Filters
                 if (!(principal.Identity is BasicAuthenticationIdentity identity))
                     return false;
 
-                var database = Config.GetDatabase();
-                var logger = new FileLogger();
-                var context = new Context(database, logger, identity.Name);
+                var context = new Context(identity.Name);
                 var bizUser = new UserBusiness(context);
                 var result = bizUser.ValidateLogin(identity.Name, identity.Password);
                 if (!result.IsValid)

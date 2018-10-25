@@ -63,6 +63,7 @@
     <Compile Include="Data\Command.cs" />
     <Compile Include="Data\CommandCache.cs" />
     <Compile Include="Data\AutoMapper.cs" />
+    <Compile Include="Data\DataRowInfo.cs" />
     <Compile Include="Data\DefaultDbProvider.cs" />
     <Compile Include="Data\DatabaseException.cs" />
     <Compile Include="Data\Database.cs" />

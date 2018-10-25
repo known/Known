@@ -1,4 +1,5 @@
-﻿using Known.Log;
+﻿using Known.Data;
+using Known.Log;
 
 namespace Known.Tests.KnownTests
 {
@@ -15,7 +16,7 @@ namespace Known.Tests.KnownTests
 
         public static void TestConstructor2()
         {
-            var context = new Context(Config.GetDatabase(), new ConsoleLogger());
+            var context = new Context(new Database(), new ConsoleLogger());
             Assert.IsNotNull(context.Logger);
             Assert.IsNotNull(context.Database);
             Assert.IsNull(context.UserName);
@@ -24,7 +25,7 @@ namespace Known.Tests.KnownTests
 
         public static void TestConstructor3()
         {
-            var context = new Context(Config.GetDatabase(), new ConsoleLogger(), "Known");
+            var context = new Context(new Database(), new ConsoleLogger(), "Known");
             Assert.IsNotNull(context.Logger);
             Assert.IsNotNull(context.Database);
             Assert.IsNotNull(context.UserName);

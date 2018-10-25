@@ -1,4 +1,6 @@
-﻿namespace Known.Tests.KnownTests
+﻿using Known.Data;
+
+namespace Known.Tests.KnownTests
 {
     public class ConfigTest
     {
@@ -11,7 +13,7 @@
 
         public static void TestGetDefaultDatabase()
         {
-            var database = Config.GetDatabase();
+            var database = new Database();
             Assert.IsEqual(database.ConnectionString, @"Data Source=.\SQLEXPRESS;Database=xxx;User Id=xx;Password=xxx;");
         }
     }

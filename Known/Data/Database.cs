@@ -10,13 +10,23 @@ namespace Known.Data
         private IDbProvider provider;
         private List<Command> commands = new List<Command>();
 
+        public Database() : this("Default") { }
+
+        public Database(string name)
+        {
+            provider = new DefaultDbProvider(name);
+        }
+
         public Database(IDbProvider provider)
         {
             this.provider = provider ?? throw new ArgumentNullException(nameof(provider));
-            ConnectionString = provider.ConnectionString;
         }
 
-        public string ConnectionString { get; }
+        public string ConnectionString
+        {
+            get { return provider.ConnectionString; }
+        }
+
         public string UserName { get; internal set; }
 
         public void Execute(string sql, object param = null)
@@ -184,6 +194,9 @@ namespace Known.Data
             {
                 SubmitChanges();
             }
+
+            commands.Clear();
+            commands = null;
         }
     }
 }

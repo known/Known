@@ -1,24 +1,12 @@
-﻿using System.Web;
-using System.Web.Http;
-using Known.Log;
+﻿using System.Web.Http;
 
 namespace Known.WebApi
 {
     public class BaseApiController : ApiController, IController
     {
-        private Context context;
         public Context Context
         {
-            get
-            {
-                if (context == null)
-                {
-                    var database = Config.GetDatabase();
-                    var logger = new FileLogger();
-                    context = new Context(database, logger, UserName);
-                }
-                return context;
-            }
+            get { return new Context(UserName); }
         }
 
         public string UserName

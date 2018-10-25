@@ -7,6 +7,14 @@ namespace Known
 {
     public class Context
     {
+        public Context(string userName)
+        {
+            Database = new Database() { UserName = userName };
+            Logger = new FileLogger();
+            UserName = userName;
+            Param = new DynamicDictionary();
+        }
+
         public Context(ILogger logger) : this(null, logger) { }
 
         public Context(Database database, ILogger logger) : this(database, logger, null) { }
