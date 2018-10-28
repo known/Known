@@ -40,9 +40,7 @@
     <Reference Include="System.Messaging" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -93,8 +91,6 @@
     <Compile Include="Serialization\DataContractProvider.cs" />
     <Compile Include="Serialization\DefaultJsonProvider.cs" />
     <Compile Include="Serialization\IJsonProvider.cs" />
-    <Compile Include="Serialization\JavaScriptProvider.cs" />
-    <Compile Include="Serialization\JsonQueryProvider.cs" />
     <Compile Include="Log\TraceLogger.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="Mapping\BooleanColumnAttribute.cs" />
