@@ -22,7 +22,7 @@ namespace Known.Platform.Business
                 user.FirstLoginTime = DateTime.Now;
             user.LastLoginTime = DateTime.Now;
             Context.Database.Save(user);
-            Context.Database.SubmitChanges();
+            //Context.Database.SubmitChanges();
 
             return Result.Success("登录成功！", user);
         }
@@ -44,7 +44,7 @@ namespace Known.Platform.Business
             var user = GetUser(userName);
             if (user == null)
                 return Result.Error<User>("用户名不存在！");
-
+            
             if (user.Password != password)
                 return Result.Error<User>("用户密码不正确！");
 
@@ -53,8 +53,9 @@ namespace Known.Platform.Business
 
         public User GetUser(string userName)
         {
-            var sql = "select * from t_plt_users where user_name=@user_name";
-            return Context.Database.Query<User>(sql, new { user_name = userName });
+            //var sql = "select * from t_plt_users where user_name=@user_name";
+            //return Context.Database.Query<User>(sql, new { user_name = userName });
+            return new User { UserName = userName, Password = "c4ca4238a0b923820dcc509a6f75849b" };
         }
 
         #region GetUserModules
