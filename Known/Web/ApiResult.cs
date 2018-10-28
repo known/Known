@@ -6,9 +6,9 @@
         public string Message { get; set; }
         public dynamic Data { get; set; }
 
-        public static ApiResult Success()
+        public static ApiResult Success(string message = null)
         {
-            return new ApiResult { Status = 0 };
+            return new ApiResult { Status = 0, Message = message };
         }
 
         public static ApiResult Success<T>(T data)
