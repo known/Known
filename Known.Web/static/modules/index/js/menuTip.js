@@ -25,4 +25,4 @@
     menu.element.on("mouseleave", ".menu-title", function (event) {
         tip.hide();
     });
-}
+};

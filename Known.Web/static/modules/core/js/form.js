@@ -9,7 +9,7 @@ var Form = function (formId, options) {
         var input = inputs[i];
         this[input.id] = input;
     }
-}
+};
 
 Form.prototype = {
 

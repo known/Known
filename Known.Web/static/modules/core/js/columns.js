@@ -24,7 +24,7 @@ var ColumnsMenu = function (grid, options) {
     me.menu.on("close", function (e) {
         $(grid.el).find(".mini-grid-column-open").removeClass("mini-grid-column-open");
     });
-}
+};
 
 ColumnsMenu.prototype = {
 
@@ -83,9 +83,9 @@ ColumnsMenu.prototype = {
             item.checked = column.visible;
             item.checkOnClick = true;
             item.text = column.header;
-            if (item.text == "&nbsp;") {
-                if (column.type == "indexcolumn") item.text = "序号";
-                if (column.type == "checkcolumn") item.text = "选择";
+            if (item.text === "&nbsp;") {
+                if (column.type === "indexcolumn") item.text = "序号";
+                if (column.type === "checkcolumn") item.text = "选择";
             }
             item.enabled = column.enabled;
             item._column = column;
@@ -123,15 +123,15 @@ ColumnsMenu.prototype = {
 
         //排序
         var sortField = currentColumn.sortField || currentColumn.field;
-        if (item.name == "asc") {
+        if (item.name === "asc") {
             grid.sortBy(sortField, "asc");
             menu.hide();
-            return
+            return;
         }
-        if (item.name == "desc") {
+        if (item.name === "desc") {
             grid.sortBy(sortField, "desc");
             menu.hide();
-            return
+            return;
         }
 
         //显示/隐藏列

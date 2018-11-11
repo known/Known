@@ -6,7 +6,7 @@ var Menu = function (element, options) {
     this.element = $(element);
     this.options = $.extend(true, {}, this.options, options);
     this.init();
-}
+};
 
 Menu.prototype = {
 
@@ -109,6 +109,7 @@ Menu.prototype = {
 
         if (!idHash) {
             idHash = me._idHash = {};
+            each(me.options.data);
             function each(items) {
                 for (var i = 0, l = items.length; i < l; i++) {
                     var item = items[i];
@@ -116,7 +117,6 @@ Menu.prototype = {
                     idHash[item.id] = item;
                 }
             }
-            each(me.options.data);
         }
 
         return me._idHash[id];

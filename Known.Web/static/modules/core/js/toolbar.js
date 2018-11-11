@@ -14,4 +14,4 @@ var Toolbar = function (tbId, handler) {
             handler[$(this)[0].id].call(handler);
         });
     }
-}
+};
