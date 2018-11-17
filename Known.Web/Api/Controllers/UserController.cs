@@ -39,7 +39,7 @@ namespace Known.Web.Api.Controllers
 
         #region GetUserMenus
         [HttpGet]
-        public ApiResult GetMenus()
+        public ApiResult GetModules()
         {
             var menus = new List<Menu>();
             var modules = Business.GetUserModules();
@@ -51,19 +51,15 @@ namespace Known.Web.Api.Controllers
                     var menu = Menu.GetMenu(item);
                     menu.expanded = index == 0;
                     menus.Add(menu);
-                    SetMenuChildren(menus, item, menu);
+                    SetSubModules(menus, item, menu);
                     index++;
                 }
             }
 
             return ApiResult.Success(menus);
-
-            //var path = Path.Combine(HttpRuntime.AppDomainAppPath, "menu.json");
-            //var json = File.ReadAllText(path);
-            //return ApiResult.Success(json.FromJson<object>());
         }
 
-        private void SetMenuChildren(List<Menu> menus, Module module, Menu menu)
+        private void SetSubModules(List<Menu> menus, Module module, Menu menu)
         {
             if (module.Children == null || module.Children.Count == 0)
             {
@@ -79,7 +75,7 @@ namespace Known.Web.Api.Controllers
             {
                 var menu1 = Menu.GetMenu(item);
                 menu.children.Add(menu1);
-                SetMenuChildren(menus, item, menu1);
+                SetSubModules(menus, item, menu1);
             }
         }
 

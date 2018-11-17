@@ -15,36 +15,16 @@ namespace Known.Web.Controllers
             switch (module.ViewType)
             {
                 case Platform.ViewType.DataGridView:
-                    return DataGridView(module);
+                    return View("DataGridView", new DataGridViewModel(module));
                 case Platform.ViewType.TreeGridView:
-                    return TreeGridView(module);
+                    return View("TreeGridView", new TreeGridViewModel(module));
                 case Platform.ViewType.TabPageView:
-                    return TabPageView(module);
+                    return View("TabPageView", new TabPageViewModel(module));
                 case Platform.ViewType.SplitPageView:
-                    return SplitPageView(module);
+                    return View("SplitPageView", new SplitPageViewModel(module));
                 default:
                     return View(module);
             }
-        }
-
-        public ActionResult DataGridView(Module module)
-        {
-            return View("DataGridView", new DataGridViewModel(module));
-        }
-
-        public ActionResult TreeGridView(Module module)
-        {
-            return View("TreeGridView", new TreeGridViewModel(module));
-        }
-
-        public ActionResult TabPageView(Module module)
-        {
-            return View("TabPageView", new TabPageViewModel(module));
-        }
-
-        public ActionResult SplitPageView(Module module)
-        {
-            return View("SplitPageView", new SplitPageViewModel(module));
         }
     }
 }

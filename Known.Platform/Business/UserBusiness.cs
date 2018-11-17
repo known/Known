@@ -21,8 +21,8 @@ namespace Known.Platform.Business
             if (!user.FirstLoginTime.HasValue)
                 user.FirstLoginTime = DateTime.Now;
             user.LastLoginTime = DateTime.Now;
-            Context.Database.Save(user);
-            //Context.Database.SubmitChanges();
+            Database.Save(user);
+            Database.SubmitChanges();
 
             return Result.Success("登录成功！", user);
         }
@@ -34,7 +34,7 @@ namespace Known.Platform.Business
                 return Result.Error("用户名不存在！");
 
             user.Token = string.Empty;
-            Context.Database.Save(user);
+            Database.Save(user);
 
             return Result.Success("注销成功！");
         }
@@ -44,7 +44,7 @@ namespace Known.Platform.Business
             var user = GetUser(userName);
             if (user == null)
                 return Result.Error<User>("用户名不存在！");
-            
+
             if (user.Password != password)
                 return Result.Error<User>("用户密码不正确！");
 
@@ -53,16 +53,19 @@ namespace Known.Platform.Business
 
         public User GetUser(string userName)
         {
-            //var sql = "select * from t_plt_users where user_name=@user_name";
-            //return Context.Database.Query<User>(sql, new { user_name = userName });
-            return new User { UserName = userName, Password = "c4ca4238a0b923820dcc509a6f75849b" };
+            var sql = "select * from t_plt_users where user_name=@user_name";
+            return Database.Query<User>(sql, new { user_name = userName });
         }
 
         #region GetUserModules
         public List<Module> GetUserModules()
         {
+            //var path = Path.Combine(HttpRuntime.AppDomainAppPath, "menu.json");
+            //var json = File.ReadAllText(path);
+            //return ApiResult.Success(json.FromJson<object>());
+
             var sql = "select * from t_plt_modules";
-            var modules = Context.Database.QueryList<Module>(sql);
+            var modules = Database.QueryList<Module>(sql);
             return GetHierarchicalModules(modules);
         }
 

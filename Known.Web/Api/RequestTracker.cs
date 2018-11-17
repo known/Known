@@ -43,11 +43,8 @@ namespace Known.Web.Api
             var line = new string('-', 100);
             var info = $@"{line}
 客户端IP：{ClientIp}
-开始时间：{StartTime}
-结束时间：{EndTime}
-总耗时：{TotalMilliseconds}毫秒
-Action：{ControllerName}.{ActionName}
-请求方式：{HttpMethod}
+时间：{StartTime} - {EndTime} 耗时{TotalMilliseconds}毫秒
+Action：{HttpMethod} {ControllerName}.{ActionName}
 请求头：{Headers}
 请求参数：{Parameters}
 响应结果：{Result}
