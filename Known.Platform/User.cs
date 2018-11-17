@@ -7,6 +7,9 @@ namespace Known.Platform
     [Table("t_plt_users", "系统用户")]
     public class User : BaseEntity
     {
+        [StringColumn("app_id", "APPID", 1, 50, true)]
+        public string AppId { get; set; }
+
         [StringColumn("company_id", "公司ID", 1, 50, true)]
         public string CompanyId { get; set; }
 

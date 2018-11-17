@@ -16,6 +16,9 @@ namespace Known.Platform
     [Table("t_plt_modules", "系统模块")]
     public class Module : BaseEntity
     {
+        [StringColumn("app_id", "APPID", 1, 50, true)]
+        public string AppId { get; set; }
+
         [StringColumn("parent_id", "上级模块ID", 1, 50, true)]
         public string ParentId { get; set; }
 
