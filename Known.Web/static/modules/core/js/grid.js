@@ -35,6 +35,10 @@ Grid.prototype = {
         new ColumnsMenu(grid);
     },
 
+    bind: function (type, callback) {
+        this.grid.on(type, callback);
+    },
+
     search: function (callback) {
         this._queryData('0', callback);
     },
