@@ -14,7 +14,6 @@ namespace Known.Web
     public class ApiClient
     {
         private readonly string baseUrl;
-        private readonly int lengthThreshold = 5000;
         private readonly CompressionMethod defaultCompressionMethod = CompressionMethod.GZip;
         private readonly AuthenticationHeaderValue authorization;
 
@@ -90,7 +89,7 @@ namespace Known.Web
                     httpClient.DefaultRequestHeaders.Accept.Add(meta);
                     var data = SerializeExtension.ToJson(param);
                     HttpContent content = new StringContent(data, Encoding.UTF8, "application/json");
-                    if (compressionMethod == CompressionMethod.Automatic && data.Length >= lengthThreshold)
+                    if (compressionMethod == CompressionMethod.Automatic)
                         content = new CompressedContent(content, defaultCompressionMethod);
                     else if (compressionMethod == CompressionMethod.GZip || compressionMethod == CompressionMethod.Deflate)
                         content = new CompressedContent(content, compressionMethod);
