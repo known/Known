@@ -8,11 +8,12 @@
     [extension] nvarchar(max) null,
 	[code] varchar(50) not null,
 	[name] nvarchar(50) not null,
+	[version] varchar(50) not null,
     [description] nvarchar(500) null
 );
 
-insert into t_plt_applications(id,create_by,create_time,code,name)
-values('kms','admin',getdate(),'KMS','Known管理系统');
+insert into t_plt_applications(id,create_by,create_time,code,name,version)
+values('kms','admin',getdate(),'KMS','Known管理系统','1.0');
 
 create table [dbo].[t_plt_users]
 (
