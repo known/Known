@@ -29,7 +29,7 @@ a {
 
 .sidebar {
     position: absolute;
-    width: 225px;
+    width: 180px;
     top: 50px;
     left: 0;
     bottom: 0;
@@ -39,7 +39,7 @@ a {
 .main {
     position: absolute;
     top: 50px;
-    left: 225px;
+    left: 180px;
     right: 0;
     bottom: 0;
     background: #ffffff;
@@ -49,7 +49,7 @@ a {
 /* header */
 
 .navbar-brand {
-    width: 225px;
+    width: 180px;
     background: #367ea8;
     cursor: default;
     font-size: 20px;

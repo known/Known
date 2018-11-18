@@ -66,7 +66,6 @@
     <Compile Include="Data\DatabaseException.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\IDbProvider.cs" />
-    <Compile Include="Data\IRepository.cs" />
     <Compile Include="Drawing\ImageMergeOrientation.cs" />
     <Compile Include="Encryptor.cs" />
     <Compile Include="Extensions\CompressExtension.cs" />
@@ -86,7 +85,6 @@
     <Compile Include="Drawing\ImageHelper.cs" />
     <Compile Include="Drawing\ImageOption.cs" />
     <Compile Include="IController.cs" />
-    <Compile Include="PagedList.cs" />
     <Compile Include="MimeTypes.cs" />
     <Compile Include="Serialization\DataContractProvider.cs" />
     <Compile Include="Serialization\DefaultJsonProvider.cs" />

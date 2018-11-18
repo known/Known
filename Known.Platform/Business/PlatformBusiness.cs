@@ -22,8 +22,7 @@ namespace Known.Platform.Business
                 };
             }
 
-            var sql = "select * from t_plt_modules where id=@id";
-            return Context.Database.Query<Module>(sql, new { id });
+            return Database.QueryById<Module>(id);
         }
     }
 }

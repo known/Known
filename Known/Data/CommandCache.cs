@@ -15,6 +15,20 @@ namespace Known.Data
         private static readonly ConcurrentDictionary<RuntimeTypeHandle, TableAttribute> TypeTableAttributes = new ConcurrentDictionary<RuntimeTypeHandle, TableAttribute>();
         private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>> TypeColumnNames = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>>();
 
+        public static string GetQueryByIdSql<T>()
+        {
+            var type = typeof(T);
+            var tableName = GetCachedTableAttribute(type).TableName;
+            return $"select * from {tableName} where id=@id";
+        }
+
+        public static string GetQueryListSql<T>()
+        {
+            var type = typeof(T);
+            var tableName = GetCachedTableAttribute(type).TableName;
+            return $"select * from {tableName}";
+        }
+
         public static string GetCountSql(string sql)
         {
             return $"select count(1) from ({sql}) t";

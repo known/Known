@@ -55,6 +55,7 @@ namespace Known.Data
                 foreach (var command in commands)
                 {
                     cmd = CreateDbCommand(conn, command);
+                    cmd.Transaction = trans;
                     cmd.ExecuteNonQuery();
                 }
                 trans.Commit();

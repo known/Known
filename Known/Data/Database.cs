@@ -5,7 +5,7 @@ using Known.Mapping;
 
 namespace Known.Data
 {
-    public class Database : IDisposable
+    public class Database
     {
         private IDbProvider provider;
         private List<Command> commands = new List<Command>();
@@ -41,6 +41,12 @@ namespace Known.Data
             return (T)provider.Scalar(command);
         }
 
+        public T QueryById<T>(string id) where T : BaseEntity
+        {
+            var sql = CommandCache.GetQueryByIdSql<T>();
+            return Query<T>(sql, new { id });
+        }
+
         public T Query<T>(string sql, object param = null) where T : BaseEntity
         {
             var row = QueryRow(sql, param);
@@ -48,6 +54,13 @@ namespace Known.Data
                 return default(T);
 
             return AutoMapper.GetBaseEntity<T>(row);
+        }
+
+        public List<T> QueryList<T>() where T : BaseEntity
+        {
+            var sql = CommandCache.GetQueryListSql<T>();
+            var data = QueryTable(sql);
+            return AutoMapper.GetBaseEntities<T>(data);
         }
 
         public List<T> QueryList<T>(string sql, object param = null) where T : BaseEntity
@@ -153,50 +166,6 @@ namespace Known.Data
                 return null;
 
             return data.Rows[0];
-        }
-
-        public DataTable SelectTable(string tableName, Dictionary<string, object> parameters = null)
-        {
-            var command = CommandCache.GetSelectCommand(tableName, parameters);
-            return provider.Query(command);
-        }
-
-        public DataRow SelectRow(string tableName, Dictionary<string, object> parameters)
-        {
-            var data = SelectTable(tableName, parameters);
-            if (data == null || data.Rows.Count == 0)
-                return null;
-
-            return data.Rows[0];
-        }
-
-        public void Insert(string tableName, Dictionary<string, object> parameters)
-        {
-            var command = CommandCache.GetInsertCommand(tableName, parameters);
-            commands.Add(command);
-        }
-
-        public void Update(string tableName, string keyFields, Dictionary<string, object> parameters)
-        {
-            var command = CommandCache.GetUpdateCommand(tableName, keyFields, parameters);
-            commands.Add(command);
-        }
-
-        public void Delete(string tableName, Dictionary<string, object> parameters)
-        {
-            var command = CommandCache.GetDeleteCommand(tableName, parameters);
-            commands.Add(command);
-        }
-
-        public void Dispose()
-        {
-            if (commands.Count > 0)
-            {
-                SubmitChanges();
-            }
-
-            commands.Clear();
-            commands = null;
         }
     }
 }

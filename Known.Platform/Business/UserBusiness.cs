@@ -35,6 +35,7 @@ namespace Known.Platform.Business
 
             user.Token = string.Empty;
             Database.Save(user);
+            Database.SubmitChanges();
 
             return Result.Success("注销成功！");
         }
