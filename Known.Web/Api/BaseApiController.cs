@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using Known.Data;
+using Known.Log;
 
 namespace Known.Web.Api
 {
@@ -7,6 +9,16 @@ namespace Known.Web.Api
         public Context Context
         {
             get { return new Context(UserName); }
+        }
+
+        public Database Database
+        {
+            get { return Context.Database; }
+        }
+
+        public ILogger Logger
+        {
+            get { return Context.Logger; }
         }
 
         public string UserName

@@ -9,7 +9,7 @@ namespace Known.Web.Api.Controllers
         {
             var sql = criteria.Parameters.querySql.ToString();
             criteria.Parameters = null;
-            var result = Context.Database.QueryPageTable(sql, criteria) as PagingResult;
+            var result = Database.QueryPageTable(sql, criteria) as PagingResult;
 
             return ApiResult.Success(new
             {

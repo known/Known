@@ -30,8 +30,6 @@ namespace Known.Web.Api.Controllers
                 UserName = "zhangsan",
                 Name = "张三",
                 Email = "zhangsan@known.com",
-                Mobile = "",
-                Phone = "",
                 Department = new Department
                 {
                     Name = "管理中心"
@@ -52,7 +50,7 @@ namespace Known.Web.Api.Controllers
             }
 
             var data = users.ToPageList(criteria.PageIndex, criteria.PageSize);
-            return ApiResult.Success(new { total = 188, data });
+            return ApiResult.Success(new { total = users.Count, data });
         }
     }
 }
