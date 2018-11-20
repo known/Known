@@ -39,7 +39,7 @@ namespace Known.Platform
 
         [StringColumn("icon", "图标", 1, 50, true)]
         public string Icon { get; set; }
-        
+
         [IntegerColumn("sort", "顺序", true)]
         public int Sort { get; set; }
 
@@ -64,7 +64,27 @@ namespace Known.Platform
             set { FieldData = value.ToJson(); }
         }
 
+        public virtual Module Parent { get; set; }
         public virtual List<Module> Children { get; set; }
+
+        public virtual List<string> FullCodes
+        {
+            get
+            {
+                var fullCodes = new List<string> { this.Code };
+                InitFullCodes(this, fullCodes);
+                return fullCodes;
+            }
+        }
+
+        private void InitFullCodes(Module module, List<string> fullCodes)
+        {
+            if (module.Parent != null)
+            {
+                fullCodes.Insert(0, module.Parent.Code);
+                InitFullCodes(module.Parent, fullCodes);
+            }
+        }
     }
 
     #region Button

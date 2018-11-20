@@ -98,6 +98,7 @@ namespace Known.Platform.Business
 
             foreach (var item in children)
             {
+                item.Parent = module;
                 module.Children.Add(item);
                 SetModuleChildren(source, modules, item);
             }

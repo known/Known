@@ -8,6 +8,7 @@ namespace Known.Platform.Business
         {
         }
 
+        #region GetModule
         public Module GetModule(string id)
         {
             if (id == "devTool")
@@ -22,7 +23,22 @@ namespace Known.Platform.Business
                 };
             }
 
-            return Database.QueryById<Module>(id);
+            var module = Database.QueryById<Module>(id);
+            if (module != null)
+            {
+                SetParentModule(module);
+            }
+            return module;
         }
+
+        private void SetParentModule(Module module)
+        {
+            if (module.ParentId == "0")
+                return;
+
+            module.Parent = Database.QueryById<Module>(module.ParentId);
+            SetParentModule(module.Parent);
+        }
+        #endregion
     }
 }

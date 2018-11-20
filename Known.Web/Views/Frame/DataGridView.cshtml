@@ -1,1 +1,6 @@
 ﻿@model Known.Web.ViewModels.DataGridViewModel
+
+
+@section Foot {
+    @Html.MinScript("static/modules/frame/" + Model.JsPath + "/index.min.js")
+}

@@ -124,9 +124,6 @@
     <Content Include="static\modules\core\js\message.js" />
     <Content Include="static\modules\core\js\string.js" />
     <Content Include="static\modules\frame\devtool\index.js" />
-    <Content Include="static\modules\frame\devtool\index.min.js">
-      <DependentUpon>index.js</DependentUpon>
-    </Content>
     <Content Include="static\modules\frame\devtool\js\demoForm.js" />
     <Content Include="static\modules\frame\devtool\js\demoTab.js" />
     <Content Include="static\modules\frame\devtool\js\demoGrid.js" />
@@ -135,22 +132,11 @@
     <Content Include="static\modules\frame\devtool\js\devDatabase.js" />
     <Content Include="static\modules\frame\index.css" />
     <Content Include="static\modules\frame\index.js" />
-    <Content Include="static\modules\frame\index.min.css">
-      <DependentUpon>index.css</DependentUpon>
-    </Content>
-    <Content Include="static\modules\frame\index.min.js">
-      <DependentUpon>index.js</DependentUpon>
-    </Content>
+    <Content Include="static\modules\frame\system\module\index.js" />
     <Content Include="static\modules\index\css\dashboard.css" />
     <Content Include="static\modules\index\css\frame.css" />
     <Content Include="static\modules\index\css\menu.css" />
     <Content Include="static\modules\index\css\tabs.css" />
-    <Content Include="static\modules\index\index.min.css">
-      <DependentUpon>index.css</DependentUpon>
-    </Content>
-    <Content Include="static\modules\index\index.min.js">
-      <DependentUpon>index.js</DependentUpon>
-    </Content>
     <Content Include="static\modules\index\js\dashboard.js" />
     <Content Include="static\modules\index\js\mainTabs.js" />
     <Content Include="static\modules\index\js\menu.js" />
@@ -503,12 +489,6 @@
     <Content Include="static\libs\miniui\themes\pure\skin.css" />
     <Content Include="static\libs\scrollbar\jquery.scrollbar.min.js" />
     <Content Include="static\libs\scrollbar\jquery.scrollbar.css" />
-    <Content Include="static\modules\login\index.min.css">
-      <DependentUpon>index.css</DependentUpon>
-    </Content>
-    <Content Include="static\modules\login\index.min.js">
-      <DependentUpon>index.js</DependentUpon>
-    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -579,6 +559,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="static\libs\miniui\themes\pure\images\button\" />
+    <Folder Include="static\modules\frame\system\module\js\" />
     <Folder Include="Views\Frame\Platform\" />
   </ItemGroup>
   <ItemGroup>
