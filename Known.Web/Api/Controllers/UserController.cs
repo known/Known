@@ -30,13 +30,6 @@ namespace Known.Web.Api.Controllers
             return ApiResult.Success(user);
         }
 
-        [HttpGet]
-        public ApiResult GetModule(string mid)
-        {
-            var module = Business.GetModule(mid);
-            return ApiResult.Success(module);
-        }
-
         #region GetUserMenus
         [HttpGet]
         public ApiResult GetModules()

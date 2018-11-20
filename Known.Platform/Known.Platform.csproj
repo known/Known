@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="Business\ModuleBusiness.cs" />
     <Compile Include="Business\PlatformBusiness.cs" />
     <Compile Include="Business\UserBusiness.cs" />
     <Compile Include="Company.cs" />

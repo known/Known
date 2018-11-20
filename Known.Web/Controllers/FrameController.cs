@@ -8,7 +8,7 @@ namespace Known.Web.Controllers
     {
         public ActionResult Index(string mid)
         {
-            var module = Api.Get<Module>("/api/user/getmodule", new { mid });
+            var module = Api.Get<Module>("/api/module/getmodule", new { mid });
             if (module == null)
                 return Content("模块不存在！");
 
