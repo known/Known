@@ -9,7 +9,7 @@ namespace Known
     {
         public Context(string userName)
         {
-            Database = new Database() { UserName = userName };
+            Database = new Database { UserName = userName };
             Logger = new FileLogger();
             UserName = userName;
             Param = new DynamicDictionary();

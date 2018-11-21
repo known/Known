@@ -3,11 +3,11 @@ using System.Collections;
 
 namespace Known
 {
-    public class BusinessFactory
+    public class ServiceFactory
     {
         private static Hashtable cached = new Hashtable();
 
-        public static T Create<T>(Context context) where T : BusinessBase
+        public static T Create<T>(Context context) where T : ServiceBase
         {
             var key = typeof(T);
             if (!cached.ContainsKey(key))

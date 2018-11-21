@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Known.Extensions;
-using Known.Platform.Business;
+using Known.Platform.Services;
 using Known.Web.Api.Extensions;
 
 namespace Known.Web.Api.Filters
@@ -48,7 +48,7 @@ namespace Known.Web.Api.Filters
                     return false;
 
                 var context = new Context(identity.Name);
-                var bizUser = new UserBusiness(context);
+                var bizUser = ServiceFactory.Create<UserService>(context);
                 var result = bizUser.ValidateLogin(identity.Name, identity.Password);
                 if (!result.IsValid)
                 {

@@ -49,8 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessBase.cs" />
-    <Compile Include="BusinessFactory.cs" />
+    <Compile Include="Data\DbRepository.cs" />
+    <Compile Include="ServiceBase.cs" />
+    <Compile Include="ServiceFactory.cs" />
     <Compile Include="Cache\DefaultCache.cs" />
     <Compile Include="Cache\ICache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
@@ -62,10 +63,11 @@
     <Compile Include="Data\CommandCache.cs" />
     <Compile Include="Data\AutoMapper.cs" />
     <Compile Include="Data\DataRowInfo.cs" />
-    <Compile Include="Data\DefaultDbProvider.cs" />
+    <Compile Include="Data\DbProvider.cs" />
     <Compile Include="Data\DatabaseException.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\IDbProvider.cs" />
+    <Compile Include="Data\IRepository.cs" />
     <Compile Include="Drawing\ImageMergeOrientation.cs" />
     <Compile Include="Encryptor.cs" />
     <Compile Include="Extensions\CompressExtension.cs" />

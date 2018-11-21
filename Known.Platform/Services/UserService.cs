@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Known.Platform.Repositories;
 
-namespace Known.Platform.Business
+namespace Known.Platform.Services
 {
-    public class UserBusiness : PlatformBusiness
+    public class UserService : PlatformService
     {
-        public UserBusiness(Context context) : base(context)
+        private IUserRepository Repository { get; }
+
+        public UserService(Context context, IUserRepository repository) : base(context)
         {
+            Repository = repository;
         }
 
         public Result<User> SignIn(string userName, string password)
@@ -21,8 +25,7 @@ namespace Known.Platform.Business
             if (!user.FirstLoginTime.HasValue)
                 user.FirstLoginTime = DateTime.Now;
             user.LastLoginTime = DateTime.Now;
-            Database.Save(user);
-            Database.SubmitChanges();
+            Repository.Save(user);
 
             return Result.Success("登录成功！", user);
         }
@@ -34,8 +37,7 @@ namespace Known.Platform.Business
                 return Result.Error("用户名不存在！");
 
             user.Token = string.Empty;
-            Database.Save(user);
-            Database.SubmitChanges();
+            Repository.Save(user);
 
             return Result.Success("注销成功！");
         }
@@ -54,8 +56,7 @@ namespace Known.Platform.Business
 
         public User GetUser(string userName)
         {
-            var sql = "select * from t_plt_users where user_name=@user_name";
-            return Database.Query<User>(sql, new { user_name = userName });
+            return Repository.GetUser(userName);
         }
 
         #region GetUserModules
@@ -65,8 +66,10 @@ namespace Known.Platform.Business
             //var json = File.ReadAllText(path);
             //return ApiResult.Success(json.FromJson<object>());
 
-            var sql = "select * from t_plt_modules";
-            var modules = Database.QueryList<Module>(sql);
+            var modules = Repository.GetUserModules(Context.UserName);
+            if (modules == null || modules.Count == 0)
+                return new List<Module>();
+
             return GetHierarchicalModules(modules);
         }
 

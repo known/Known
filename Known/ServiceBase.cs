@@ -1,31 +1,25 @@
 ﻿using System;
-using Known.Data;
 using Known.Log;
 
 namespace Known
 {
-    public abstract class BusinessBase
+    public abstract class ServiceBase
     {
-        public BusinessBase(Context context)
+        public ServiceBase(Context context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public Context Context { get; }
 
-        public Database Database
-        {
-            get { return Context.Database; }
-        }
-
         public ILogger Logger
         {
             get { return Context.Logger; }
         }
 
-        protected T LoadBusiness<T>() where T : BusinessBase
+        protected T LoadBusiness<T>() where T : ServiceBase
         {
-            return BusinessFactory.Create<T>(Context);
+            return ServiceFactory.Create<T>(Context);
         }
     }
 }

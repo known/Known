@@ -6,11 +6,11 @@ using System.Data.Common;
 
 namespace Known.Data
 {
-    public class DefaultDbProvider : IDbProvider
+    public class DbProvider : IDbProvider
     {
         private readonly DbProviderFactory factory;
 
-        public DefaultDbProvider(string name)
+        public DbProvider(string name)
         {
             var setting = ConfigurationManager.ConnectionStrings[name];
             factory = DbProviderFactories.GetFactory(setting.ProviderName);

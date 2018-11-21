@@ -1,11 +1,15 @@
 ﻿using Known.Extensions;
+using Known.Platform.Repositories;
 
-namespace Known.Platform.Business
+namespace Known.Platform.Services
 {
-    public class ModuleBusiness : PlatformBusiness
+    public class ModuleService : PlatformService
     {
-        public ModuleBusiness(Context context) : base(context)
+        private IModuleRepository Repository { get; }
+
+        public ModuleService(Context context, IModuleRepository repository) : base(context)
         {
+            Repository = repository;
         }
 
         #region GetModule
@@ -23,7 +27,7 @@ namespace Known.Platform.Business
                 };
             }
 
-            var module = Database.QueryById<Module>(id);
+            var module = Repository.QueryById<Module>(id);
             if (module != null)
             {
                 SetParentModule(module);
@@ -36,7 +40,7 @@ namespace Known.Platform.Business
             if (module.ParentId == "0")
                 return;
 
-            module.Parent = Database.QueryById<Module>(module.ParentId);
+            module.Parent = Repository.QueryById<Module>(module.ParentId);
             SetParentModule(module.Parent);
         }
         #endregion

@@ -1,22 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using Known.Platform;
-using Known.Platform.Business;
+using Known.Platform.Services;
 
 namespace Known.Web.Api.Controllers
 {
     public class UserController : BaseApiController
     {
-        private UserBusiness Business
+        private UserService Service
         {
-            get { return LoadBusiness<UserBusiness>(); }
+            get { return LoadService<UserService>(); }
         }
 
         [HttpGet]
         [AllowAnonymous]
         public ApiResult SignIn(string userName, string password)
         {
-            var result = Business.SignIn(userName, password);
+            var result = Service.SignIn(userName, password);
             if (!result.IsValid)
                 return ApiResult.Error(result.Message);
 
@@ -26,7 +26,7 @@ namespace Known.Web.Api.Controllers
         [HttpGet]
         public ApiResult GetUser(string userName)
         {
-            var user = Business.GetUser(userName);
+            var user = Service.GetUser(userName);
             return ApiResult.Success(user);
         }
 
@@ -35,7 +35,7 @@ namespace Known.Web.Api.Controllers
         public ApiResult GetModules()
         {
             var menus = new List<Menu>();
-            var modules = Business.GetUserModules();
+            var modules = Service.GetUserModules();
             if (modules != null && modules.Count > 0)
             {
                 var index = 0;

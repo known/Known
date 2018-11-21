@@ -41,9 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="Business\ModuleBusiness.cs" />
-    <Compile Include="Business\PlatformBusiness.cs" />
-    <Compile Include="Business\UserBusiness.cs" />
+    <Compile Include="Repositories\ModuleRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Services\ModuleService.cs" />
+    <Compile Include="Services\PlatformService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Company.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Module.cs" />

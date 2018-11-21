@@ -31,9 +31,9 @@ namespace Known.Web.Api
             get { return User.Identity.IsAuthenticated; }
         }
 
-        public T LoadBusiness<T>() where T : BusinessBase
+        public T LoadService<T>() where T : ServiceBase
         {
-            return BusinessFactory.Create<T>(Context);
+            return ServiceFactory.Create<T>(Context);
         }
     }
 }

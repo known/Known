@@ -1,19 +1,19 @@
 ﻿using System.Web.Http;
-using Known.Platform.Business;
+using Known.Platform.Services;
 
 namespace Known.Web.Api.Controllers
 {
     public class ModuleController : BaseApiController
     {
-        private ModuleBusiness Business
+        private ModuleService Service
         {
-            get { return LoadBusiness<ModuleBusiness>(); }
+            get { return LoadService<ModuleService>(); }
         }
 
         [HttpGet]
         public ApiResult GetModule(string mid)
         {
-            var module = Business.GetModule(mid);
+            var module = Service.GetModule(mid);
             return ApiResult.Success(module);
         }
     }

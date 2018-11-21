@@ -14,7 +14,7 @@ namespace Known.Data
 
         public Database(string name)
         {
-            provider = new DefaultDbProvider(name);
+            provider = new DbProvider(name);
         }
 
         public Database(IDbProvider provider)
