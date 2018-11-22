@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Data;
 
 namespace Known.Data
 {
-    public interface IDbProvider
+    public interface IDbProvider : IDisposable
     {
         string ProviderName { get; }
         string ConnectionString { get; }
 
+        void BeginTrans();
+        void Commit();
+        void Rollback();
         void Execute(Command command);
-        void Execute(List<Command> commands);
         object Scalar(Command command);
         DataTable Query(Command command);
         void WriteTable(DataTable table);

@@ -7,38 +7,58 @@ namespace Known.Data
 {
     public class Database
     {
-        private IDbProvider provider;
-        private List<Command> commands = new List<Command>();
-
         public Database() : this("Default") { }
 
         public Database(string name)
         {
-            provider = new DbProvider(name);
+            Provider = new DbProvider(name);
         }
 
         public Database(IDbProvider provider)
         {
-            this.provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            Provider = provider ?? throw new ArgumentNullException(nameof(provider));
         }
 
+        internal IDbProvider Provider { get; }
         public string ConnectionString
         {
-            get { return provider.ConnectionString; }
+            get { return Provider.ConnectionString; }
         }
 
         public string UserName { get; internal set; }
 
+        public Result Transaction(Action<Database> action)
+        {
+            var db = new Database(Provider);
+
+            try
+            {
+                db.Provider.BeginTrans();
+                action(db);
+                db.Provider.Commit();
+                return Result.Success("");
+            }
+            catch (Exception ex)
+            {
+                db.Provider.Rollback();
+                throw ex;
+            }
+            finally
+            {
+                db.Provider.Dispose();
+            }
+        }
+
         public void Execute(string sql, object param = null)
         {
             var command = CommandCache.GetCommand(sql, param);
-            commands.Add(command);
+            Provider.Execute(command);
         }
 
         public T Scalar<T>(string sql, object param = null)
         {
             var command = CommandCache.GetCommand(sql, param);
-            return (T)provider.Scalar(command);
+            return (T)Provider.Scalar(command);
         }
 
         public T QueryById<T>(string id) where T : BaseEntity
@@ -93,7 +113,7 @@ namespace Known.Data
             }
 
             var command = CommandCache.GetSaveCommand(entity);
-            commands.Add(command);
+            Provider.Execute(command);
         }
 
         public void Save<T>(List<T> entities) where T : BaseEntity
@@ -107,7 +127,7 @@ namespace Known.Data
         public void Delete<T>(T entity) where T : BaseEntity
         {
             var command = CommandCache.GetDeleteCommand(entity);
-            commands.Add(command);
+            Provider.Execute(command);
         }
 
         public void Delete<T>(List<T> entities) where T : BaseEntity
@@ -118,28 +138,15 @@ namespace Known.Data
             }
         }
 
-        public void SubmitChanges()
-        {
-            if (commands.Count > 1)
-            {
-                provider.Execute(commands);
-            }
-            else if (commands.Count > 0)
-            {
-                provider.Execute(commands[0]);
-            }
-            commands.Clear();
-        }
-
         public void WriteTable(DataTable table)
         {
-            provider.WriteTable(table);
+            Provider.WriteTable(table);
         }
 
         public DataTable QueryTable(string sql, object param = null)
         {
             var command = CommandCache.GetCommand(sql, param);
-            return provider.Query(command);
+            return Provider.Query(command);
         }
 
         public PagingResult QueryPageTable(string sql, PagingCriteria criteria)
@@ -150,18 +157,18 @@ namespace Known.Data
 
             var sqlCount = CommandCache.GetCountSql(cmd.Text);
             var cmdCount = new Command(sqlCount, cmd.Parameters);
-            var totalCount = (int)provider.Scalar(cmdCount);
+            var totalCount = (int)Provider.Scalar(cmdCount);
 
             var sqlPage = CommandCache.GetPagingSql(cmd.Text, criteria);
             var cmdData = new Command(sqlPage, cmd.Parameters);
-            var pageData = provider.Query(cmdData);
+            var pageData = Provider.Query(cmdData);
             return new PagingResult(totalCount, pageData);
         }
 
         public DataRow QueryRow(string sql, object param = null)
         {
             var command = CommandCache.GetCommand(sql, param);
-            var data = provider.Query(command);
+            var data = Provider.Query(command);
             if (data == null || data.Rows.Count == 0)
                 return null;
 

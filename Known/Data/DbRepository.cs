@@ -30,7 +30,24 @@ namespace Known.Data
 
         public Result Transaction(Action<IRepository> action)
         {
-            return Result.Success("");
+            var rep = new DbRepository { Database = Database };
+
+            try
+            {
+                rep.Database.Provider.BeginTrans();
+                action(rep);
+                rep.Database.Provider.Commit();
+                return Result.Success("");
+            }
+            catch (Exception ex)
+            {
+                rep.Database.Provider.Rollback();
+                throw ex;
+            }
+            finally
+            {
+                rep.Database.Provider.Dispose();
+            }
         }
     }
 }
