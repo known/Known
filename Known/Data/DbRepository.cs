@@ -6,12 +6,7 @@ namespace Known.Data
 {
     public class DbRepository : IRepository
     {
-        public DbRepository()
-        {
-            Database = new Database();
-        }
-
-        protected Database Database { get; }
+        public Database Database { get; internal set; }
 
         public T QueryById<T>(string id) where T : BaseEntity
         {

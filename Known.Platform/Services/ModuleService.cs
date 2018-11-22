@@ -5,11 +5,13 @@ namespace Known.Platform.Services
 {
     public class ModuleService : PlatformService
     {
-        private IModuleRepository Repository { get; }
-
-        public ModuleService(Context context, IModuleRepository repository) : base(context)
+        public ModuleService(Context context) : base(context)
         {
-            Repository = repository;
+        }
+
+        public IModuleRepository Repository
+        {
+            get { return LoadRepository<IModuleRepository>(); }
         }
 
         #region GetModule

@@ -48,7 +48,7 @@ namespace Known.Web.Api.Filters
                     return false;
 
                 var context = new Context(identity.Name);
-                var bizUser = ServiceFactory.Create<UserService>(context);
+                var bizUser = ObjectFactory.CreateService<UserService>(context);
                 var result = bizUser.ValidateLogin(identity.Name, identity.Password);
                 if (!result.IsValid)
                 {

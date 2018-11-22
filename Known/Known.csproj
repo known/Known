@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="Data\DbRepository.cs" />
     <Compile Include="ServiceBase.cs" />
-    <Compile Include="ServiceFactory.cs" />
+    <Compile Include="ObjectFactory.cs" />
     <Compile Include="Cache\DefaultCache.cs" />
     <Compile Include="Cache\ICache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />

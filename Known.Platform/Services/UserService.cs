@@ -7,11 +7,13 @@ namespace Known.Platform.Services
 {
     public class UserService : PlatformService
     {
-        private IUserRepository Repository { get; }
-
-        public UserService(Context context, IUserRepository repository) : base(context)
+        public UserService(Context context) : base(context)
         {
-            Repository = repository;
+        }
+
+        public IUserRepository Repository
+        {
+            get { return LoadRepository<IUserRepository>(); }
         }
 
         public Result<User> SignIn(string userName, string password)

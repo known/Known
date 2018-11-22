@@ -1,4 +1,5 @@
 ﻿using System;
+using Known.Data;
 using Known.Log;
 
 namespace Known
@@ -19,7 +20,12 @@ namespace Known
 
         protected T LoadBusiness<T>() where T : ServiceBase
         {
-            return ServiceFactory.Create<T>(Context);
+            return ObjectFactory.CreateService<T>(Context);
+        }
+
+        protected T LoadRepository<T>() where T : IRepository
+        {
+            return ObjectFactory.CreateRepository<T>(Context);
         }
     }
 }

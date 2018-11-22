@@ -33,7 +33,7 @@ namespace Known.Web.Api
 
         public T LoadService<T>() where T : ServiceBase
         {
-            return ServiceFactory.Create<T>(Context);
+            return ObjectFactory.CreateService<T>(Context);
         }
     }
 }
