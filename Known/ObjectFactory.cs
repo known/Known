@@ -39,14 +39,10 @@ namespace Known
                     if (!cached.ContainsKey(type))
                     {
                         var typeName = type.FullName.Replace(".I", ".");
-                        var instanceType = type.Assembly.GetType(typeName);
-                        if (instanceType != null)
+                        var objType = type.Assembly.GetType(typeName);
+                        if (objType != null)
                         {
-                            if (Activator.CreateInstance(instanceType) is DbRepository instance)
-                            {
-                                instance.Database = context.Database;
-                                cached[type] = instance;
-                            }
+                            cached[type] = Activator.CreateInstance(objType, context.Database);
                         }
                     }
                 }

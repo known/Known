@@ -6,7 +6,12 @@ namespace Known.Data
 {
     public class DbRepository : IRepository
     {
-        public Database Database { get; internal set; }
+        public DbRepository(Database database)
+        {
+            Database = database;
+        }
+
+        public Database Database { get; }
 
         public T QueryById<T>(string id) where T : BaseEntity
         {
@@ -30,7 +35,7 @@ namespace Known.Data
 
         public Result Transaction(Action<IRepository> action)
         {
-            var rep = new DbRepository { Database = Database };
+            var rep = new DbRepository(Database);
 
             try
             {

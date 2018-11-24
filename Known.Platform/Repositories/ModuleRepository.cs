@@ -8,5 +8,8 @@ namespace Known.Platform.Repositories
 
     internal class ModuleRepository : DbRepository, IModuleRepository
     {
+        public ModuleRepository(Database database) : base(database)
+        {
+        }
     }
 }

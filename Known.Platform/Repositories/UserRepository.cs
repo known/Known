@@ -11,6 +11,10 @@ namespace Known.Platform.Repositories
 
     internal class UserRepository : DbRepository, IUserRepository
     {
+        public UserRepository(Database database) : base(database)
+        {
+        }
+
         public User GetUser(string userName)
         {
             var sql = "select * from t_plt_users where user_name=@user_name";
