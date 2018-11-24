@@ -104,7 +104,11 @@
     <Content Include="static\modules\core\css\query.css" />
     <Content Include="static\modules\core\js\columns.js" />
     <Content Include="static\modules\core\js\grid.js" />
-    <Content Include="static\modules\core\js\miniextend.js" />
+    <Content Include="static\modules\core\js\miniui\decimalbox.js" />
+    <Content Include="static\modules\core\js\miniui\integerbox.js" />
+    <Content Include="static\modules\core\js\miniui\vtypes.js" />
+    <Content Include="static\modules\core\js\miniui\config.js" />
+    <Content Include="static\modules\core\js\miniui\pagertree.js" />
     <Content Include="static\modules\core\js\toolbar.js" />
     <Content Include="static\modules\frame\devtool\data\countrys.txt" />
     <Content Include="static\modules\frame\devtool\data\menu.txt" />

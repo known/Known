@@ -62,6 +62,7 @@
     "inputFiles": [
       "static/libs/jquery.min.js",
       "static/libs/miniui/miniui.js",
+      "static/modules/core/js/miniui",
       "static/modules/core/js",
       "static/modules/core/index.js",
       "static/modules/frame/index.js"
