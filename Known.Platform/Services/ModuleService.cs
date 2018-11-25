@@ -15,6 +15,11 @@ namespace Known.Platform.Services
             get { return LoadRepository<IModuleRepository>(); }
         }
 
+        public PagingResult<Module> QueryModules(string parentId, string key)
+        {
+            return Repository.QueryModules(parentId, key);
+        }
+
         public List<Module> GetModules(bool isTree = false)
         {
             var modules = Repository.QueryList<Module>();

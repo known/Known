@@ -10,6 +10,15 @@ namespace Known.Web.Api.Controllers
             get { return LoadService<ModuleService>(); }
         }
 
+        public ApiResult QueryModules(PagingCriteria criteria)
+        {
+            var pid = (string)criteria.Parameters.pid;
+            var key = (string)criteria.Parameters.key;
+
+            var pr = Service.QueryModules(pid, key);
+            return ApiResult.Success(new { total = pr.TotalCount, data = pr.PageData });
+        }
+
         public ApiResult GetTreeDatas()
         {
             var menus = new List<Menu>();

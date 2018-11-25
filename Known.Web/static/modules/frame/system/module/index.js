@@ -5,17 +5,25 @@
     show: function () {
         this.tree = mini.get('leftTree');
         this.tree.on('nodeselect', this.onTreeNodeSelect);
+        this.showGrid('0');
     },
 
-    loadTree: function () {
-        this.tree.load('/api/module/gettreedatas');
+    close: function () {
+        window.CloseOwnerWindow();
+    },
+
+    showGrid: function (pid) {
+        var _this = this;
+        ModuleGrid.show({
+            pid: pid,
+            callback: function () {
+                _this.tree.reload();
+            }
+        });
     },
 
     onTreeNodeSelect: function (e) {
-        ModuleGrid.show({
-            moduleId: e.node.id,
-            callback: ModuleView.loadTree
-        });
+        ModuleView.showGrid(e.node.id);
     }
 
 };

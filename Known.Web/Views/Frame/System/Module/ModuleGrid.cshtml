@@ -1,1 +1,30 @@
-﻿
+﻿<div id="gridModule" class="mini-datagrid"
+     style="width:100%;height:100%;" borderStyle="border:0;"
+     url="/api/module/querymodules" idField="Id"
+     multiSelect="true" showToolbar="true">
+    <div property="toolbar">
+        <div id="tbModule" style="padding:3px;float:left;">
+            <a class="mini-button" plain="true" id="add" iconCls="fa-plus text-success">新增</a>
+            <a class="mini-button" plain="true" id="edit" iconCls="fa-pencil text-primary">编辑</a>
+            <a class="mini-button" plain="true" id="remove" iconCls="fa-minus text-danger">删除</a>
+            <span class="separator"></span>
+            <a class="mini-button" plain="true" id="close" iconCls="fa-remove text-danger">关闭</a>
+        </div>
+        <div id="queryModule" style="padding:3px;float:right;">
+            <input id="key" name="key" class="mini-textbox" emptyText="请输入关键字" style="width:150px;" />
+            <input id="pid" name="pid" class="mini-hidden" />
+            <a class="mini-button" id="search" iconCls="fa-search">搜索</a>
+        </div>
+    </div>
+    <div property="columns">
+        <div type="indexcolumn"></div>
+        <div type="checkcolumn"></div>
+        <div field="Icon" width="30" headerAlign="center">图标</div>
+        <div field="Code" width="100" allowSort="true">编码</div>
+        <div field="Name" width="100" allowSort="true">名称</div>
+        <div field="ViewType" width="100" allowSort="true">视图类型</div>
+        <div field="Url" width="150">地址</div>
+        <div field="Sort" width="50" headerAlign="center" align="center" allowSort="true">顺序</div>
+        <div field="Enabled" width="50" headerAlign="center" align="center" allowSort="true">是否可用</div>
+    </div>
+</div>
