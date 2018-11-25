@@ -94,7 +94,7 @@ namespace Known.Data
 
         public void WriteTable(DataTable table)
         {
-            var command = CommandCache.GetInsertCommand(table);
+            var command = CommandHelper.GetInsertCommand(table);
 
             try
             {

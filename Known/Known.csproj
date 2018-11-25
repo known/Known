@@ -60,7 +60,7 @@
     <Compile Include="Context.cs" />
     <Compile Include="Data\ColumnInfo.cs" />
     <Compile Include="Data\Command.cs" />
-    <Compile Include="Data\CommandCache.cs" />
+    <Compile Include="Data\CommandHelper.cs" />
     <Compile Include="Data\AutoMapper.cs" />
     <Compile Include="Data\DataRowInfo.cs" />
     <Compile Include="Data\DbProvider.cs" />

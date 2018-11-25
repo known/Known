@@ -61,7 +61,7 @@
     <Compile Include="KnownTests\ConfigTest.cs" />
     <Compile Include="KnownTests\ContextTest.cs" />
     <Compile Include="KnownTests\Data\ColumnInfoTest.cs" />
-    <Compile Include="KnownTests\Data\CommandCacheTest.cs" />
+    <Compile Include="KnownTests\Data\CommandHelperTest.cs" />
     <Compile Include="KnownTests\Data\CommandTest.cs" />
     <Compile Include="KnownTests\EncryptorTest.cs" />
     <Compile Include="KnownTests\Extensions\CollectionExtensionTest.cs" />

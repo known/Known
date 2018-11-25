@@ -51,19 +51,19 @@ namespace Known.Data
 
         public void Execute(string sql, object param = null)
         {
-            var command = CommandCache.GetCommand(sql, param);
+            var command = CommandHelper.GetCommand(sql, param);
             Provider.Execute(command);
         }
 
         public T Scalar<T>(string sql, object param = null)
         {
-            var command = CommandCache.GetCommand(sql, param);
+            var command = CommandHelper.GetCommand(sql, param);
             return (T)Provider.Scalar(command);
         }
 
         public T QueryById<T>(string id) where T : BaseEntity
         {
-            var sql = CommandCache.GetQueryByIdSql<T>();
+            var sql = CommandHelper.GetQueryByIdSql<T>();
             return Query<T>(sql, new { id });
         }
 
@@ -78,7 +78,7 @@ namespace Known.Data
 
         public List<T> QueryList<T>() where T : BaseEntity
         {
-            var sql = CommandCache.GetQueryListSql<T>();
+            var sql = CommandHelper.GetQueryListSql<T>();
             var data = QueryTable(sql);
             return AutoMapper.GetBaseEntities<T>(data);
         }
@@ -112,7 +112,7 @@ namespace Known.Data
                 entity.ModifyTime = DateTime.Now;
             }
 
-            var command = CommandCache.GetSaveCommand(entity);
+            var command = CommandHelper.GetSaveCommand(entity);
             Provider.Execute(command);
         }
 
@@ -126,7 +126,7 @@ namespace Known.Data
 
         public void Delete<T>(T entity) where T : BaseEntity
         {
-            var command = CommandCache.GetDeleteCommand(entity);
+            var command = CommandHelper.GetDeleteCommand(entity);
             Provider.Execute(command);
         }
 
@@ -145,21 +145,21 @@ namespace Known.Data
 
         public DataTable QueryTable(string sql, object param = null)
         {
-            var command = CommandCache.GetCommand(sql, param);
+            var command = CommandHelper.GetCommand(sql, param);
             return Provider.Query(command);
         }
 
         public PagingResult QueryPageTable(string sql, PagingCriteria criteria)
         {
-            var cmd = CommandCache.GetCommand(sql, criteria.Parameters);
+            var cmd = CommandHelper.GetCommand(sql, criteria.Parameters);
             if (cmd == null)
                 return null;
 
-            var sqlCount = CommandCache.GetCountSql(cmd.Text);
+            var sqlCount = CommandHelper.GetCountSql(cmd.Text);
             var cmdCount = new Command(sqlCount, cmd.Parameters);
             var totalCount = (int)Provider.Scalar(cmdCount);
 
-            var sqlPage = CommandCache.GetPagingSql(cmd.Text, criteria);
+            var sqlPage = CommandHelper.GetPagingSql(cmd.Text, criteria);
             var cmdData = new Command(sqlPage, cmd.Parameters);
             var pageData = Provider.Query(cmdData);
             return new PagingResult(totalCount, pageData);
@@ -167,7 +167,7 @@ namespace Known.Data
 
         public DataRow QueryRow(string sql, object param = null)
         {
-            var command = CommandCache.GetCommand(sql, param);
+            var command = CommandHelper.GetCommand(sql, param);
             var data = Provider.Query(command);
             if (data == null || data.Rows.Count == 0)
                 return null;
