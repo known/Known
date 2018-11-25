@@ -7,7 +7,6 @@ namespace Known.Web.Controllers
 {
     public class ApiController : AuthorizeController
     {
-        [HttpPost]
         public ActionResult Query(string url, string query, string isLoad)
         {
             var sortField = Request.Get<string>("sortField");
@@ -34,7 +33,6 @@ namespace Known.Web.Controllers
             return JsonResult(result.Data);
         }
 
-        [HttpGet]
         public ActionResult Get(string url, string param = null)
         {
             var result = Api.Get<ApiResult>(url, FromJson(param));
@@ -44,7 +42,6 @@ namespace Known.Web.Controllers
             return JsonResult(result.Data);
         }
 
-        [HttpPost]
         public ActionResult Post(string url, string param = null)
         {
             var result = Api.Post<ApiResult>(url, FromJson(param));

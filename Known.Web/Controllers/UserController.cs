@@ -8,7 +8,6 @@ namespace Known.Web.Controllers
 {
     public class UserController : BaseController
     {
-        [HttpPost]
         public ActionResult SignIn(string userName, string password, string backUrl)
         {
             userName = userName.ToLower();
@@ -26,7 +25,6 @@ namespace Known.Web.Controllers
             return SuccessResult("登录成功，正在跳转页面......", backUrl);
         }
 
-        [HttpPost]
         [LoginAuthorize]
         public void SignOut()
         {

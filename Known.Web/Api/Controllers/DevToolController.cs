@@ -1,10 +1,7 @@
-﻿using System.Web.Http;
-
-namespace Known.Web.Api.Controllers
+﻿namespace Known.Web.Api.Controllers
 {
     public class DevToolController : BaseApiController
     {
-        [HttpPost]
         public ApiResult QueryDatas(PagingCriteria criteria)
         {
             var sql = criteria.Parameters.querySql.ToString();

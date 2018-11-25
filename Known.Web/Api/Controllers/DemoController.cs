@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Web.Http;
 using Known.Extensions;
 using Known.Platform;
 
@@ -7,7 +6,6 @@ namespace Known.Web.Api.Controllers
 {
     public class DemoController : BaseApiController
     {
-        [HttpPost]
         public ApiResult QueryUsers(PagingCriteria criteria)
         {
             var users = new List<User>();

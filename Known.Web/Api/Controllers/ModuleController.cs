@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Web.Http;
 using Known.Platform.Services;
 
 namespace Known.Web.Api.Controllers
@@ -11,7 +10,6 @@ namespace Known.Web.Api.Controllers
             get { return LoadService<ModuleService>(); }
         }
 
-        [HttpGet]
         public ApiResult GetTreeDatas()
         {
             var menus = new List<Menu>();
@@ -29,7 +27,6 @@ namespace Known.Web.Api.Controllers
             return ApiResult.Success(menus);
         }
 
-        [HttpGet]
         public ApiResult GetModule(string mid)
         {
             var module = Service.GetModule(mid);

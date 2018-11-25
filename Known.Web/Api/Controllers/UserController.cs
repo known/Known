@@ -23,7 +23,6 @@ namespace Known.Web.Api.Controllers
             return ApiResult.Success(result.Data);
         }
 
-        [HttpGet]
         public ApiResult GetUser(string userName)
         {
             var user = Service.GetUser(userName);
@@ -31,7 +30,6 @@ namespace Known.Web.Api.Controllers
         }
 
         #region GetUserMenus
-        [HttpGet]
         public ApiResult GetModules()
         {
             var menus = new List<Menu>();
