@@ -1,12 +1,12 @@
 [
   {
-    "outputFileName": "static/modules/login/index.min.css",
+    "outputFileName": "static/modules/login.min.css",
     "inputFiles": [
       "static/modules/login/index.css"
     ]
   },
   {
-    "outputFileName": "static/modules/login/index.min.js",
+    "outputFileName": "static/modules/login.min.js",
     "inputFiles": [
       "static/libs/jquery.min.js",
       "static/libs/jquery.md5.js",
@@ -16,7 +16,7 @@
     ]
   },
   {
-    "outputFileName": "static/modules/index/index.min.css",
+    "outputFileName": "static/modules/index.min.css",
     "inputFiles": [
       "static/libs/font-awesome/css/font-awesome.min.css",
       "static/libs/scrollbar/jquery.scrollbar.css",
@@ -31,7 +31,7 @@
     ]
   },
   {
-    "outputFileName": "static/modules/index/index.min.js",
+    "outputFileName": "static/modules/index.min.js",
     "inputFiles": [
       "static/libs/jquery.min.js",
       "static/libs/scrollbar/jquery.scrollbar.min.js",
@@ -39,13 +39,14 @@
       "static/libs/highcharts/highcharts.js",
       "static/libs/highcharts/model/exporting.js",
       "static/modules/core/js",
+      "static/modules/core/js/miniui",
       "static/modules/core/index.js",
       "static/modules/index/js",
       "static/modules/index/index.js"
     ]
   },
   {
-    "outputFileName": "static/modules/frame/index.min.css",
+    "outputFileName": "static/modules/frame.min.css",
     "inputFiles": [
       "static/libs/font-awesome/css/font-awesome.min.css",
       "static/libs/miniui/themes/default/miniui.css",
@@ -58,25 +59,25 @@
     ]
   },
   {
-    "outputFileName": "static/modules/frame/index.min.js",
+    "outputFileName": "static/modules/frame.min.js",
     "inputFiles": [
       "static/libs/jquery.min.js",
       "static/libs/miniui/miniui.js",
-      "static/modules/core/js/miniui",
       "static/modules/core/js",
+      "static/modules/core/js/miniui",
       "static/modules/core/index.js",
       "static/modules/frame/index.js"
     ]
   },
   {
-    "outputFileName": "static/modules/frame/devtool/index.min.js",
+    "outputFileName": "static/modules/frame/devtool.min.js",
     "inputFiles": [
       "static/modules/frame/devtool/js",
       "static/modules/frame/devtool/index.js"
     ]
   },
   {
-    "outputFileName": "static/modules/frame/system/module/index.min.js",
+    "outputFileName": "static/modules/frame/system/module.min.js",
     "inputFiles": [
       "static/modules/frame/system/module/js",
       "static/modules/frame/system/module/index.js"

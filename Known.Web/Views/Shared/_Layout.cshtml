@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Known</title>
-    @Html.MinStyle("static/modules/frame/index.min.css")
+    @Html.MinStyle("static/modules/frame.min.css")
     @RenderSection("Head", false)
 </head>
 <body>
     @Html.AntiForgeryToken()
     @RenderBody()
-    @Html.MinScript("static/modules/frame/index.min.js")
+    @Html.MinScript("static/modules/frame.min.js")
     @RenderSection("Foot", false)
 </body>
 </html>
