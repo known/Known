@@ -34,6 +34,17 @@ namespace Known.Web.Controllers
             return JsonResult(result.Data);
         }
 
+        [HttpPost]
+        public ActionResult QueryData(string url, string param = null)
+        {
+            var result = Api.Get<ApiResult>(url, FromJson(param));
+            if (result.Status == 1)
+                return ErrorResult(result.Message);
+
+            return JsonResult(result.Data);
+        }
+
+
         [HttpGet]
         public ActionResult Get(string url, string param = null)
         {

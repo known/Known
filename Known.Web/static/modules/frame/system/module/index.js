@@ -1,18 +1,14 @@
 ﻿var ModuleView = {
 
-    leftTree: null,
+    tree: null,
 
     show: function () {
-        this.leftTree = mini.get('leftTree');
-        this.loadTree();
-        this.leftTree.on('nodeselect', this.onTreeNodeSelect);
+        this.tree = mini.get('leftTree');
+        this.tree.on('nodeselect', this.onTreeNodeSelect);
     },
 
     loadTree: function () {
-        var _this = this;
-        Ajax.getJson('/api/module/gettreedatas', function (result) {
-            _this.leftTree.loadData(result.Data);
-        });
+        this.tree.load('/api/module/gettreedatas');
     },
 
     onTreeNodeSelect: function (e) {
