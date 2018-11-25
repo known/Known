@@ -66,4 +66,4 @@ create table [dbo].[t_plt_modules]
 insert into t_plt_modules(id,create_by,create_time,app_id,parent_id,code,name,view_type,icon,sort,enabled) 
 values('7d2121622047444794a88912225293cb','admin',getdate(),'kms','0','System','系统管理',0,'fa-desktop',1,1);
 insert into t_plt_modules(id,create_by,create_time,app_id,parent_id,code,name,view_type,icon,sort,enabled) 
-values('0e11a49bd678410f972bfa5fab5694ab','admin',getdate(),'kms','7d2121622047444794a88912225293cb','Module','模块管理',2,'fa-cubes',1,1);
+values('0e11a49bd678410f972bfa5fab5694ab','admin',getdate(),'kms','7d2121622047444794a88912225293cb','Module','模块管理',4,'fa-cubes',1,1);

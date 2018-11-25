@@ -513,6 +513,8 @@
     <Content Include="Views\Frame\DevTool\LeftMenu.cshtml" />
     <Content Include="Views\Frame\DevTool\DevCodeGen.cshtml" />
     <Content Include="Views\Frame\DevTool\DevDatabase.cshtml" />
+    <Content Include="Views\Frame\System\Module\LeftMenu.cshtml" />
+    <Content Include="Views\Frame\System\Module\ModuleGrid.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -527,6 +529,7 @@
     <Compile Include="Api\BaseApiController.cs" />
     <Compile Include="Api\Controllers\DemoController.cs" />
     <Compile Include="Api\Controllers\DevToolController.cs" />
+    <Compile Include="Api\Controllers\Menu.cs" />
     <Compile Include="Api\Controllers\ModuleController.cs" />
     <Compile Include="Api\Controllers\UserController.cs" />
     <Compile Include="Api\Extensions\HttpActionContextExtension.cs" />
@@ -564,7 +567,6 @@
   <ItemGroup>
     <Folder Include="static\libs\miniui\themes\pure\images\button\" />
     <Folder Include="static\modules\frame\system\module\js\" />
-    <Folder Include="Views\Frame\Platform\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Known.Cells\Known.Cells.csproj">

@@ -1,4 +1,5 @@
-﻿using Known.Extensions;
+﻿using System.Collections.Generic;
+using Known.Extensions;
 using Known.Platform.Repositories;
 
 namespace Known.Platform.Services
@@ -12,6 +13,28 @@ namespace Known.Platform.Services
         public IModuleRepository Repository
         {
             get { return LoadRepository<IModuleRepository>(); }
+        }
+
+        public List<Module> GetModules(bool isTree = false)
+        {
+            var modules = Repository.QueryList<Module>();
+            if (modules == null)
+            {
+                modules = new List<Module>();
+            }
+
+            if (isTree)
+            {
+                modules.Insert(0, new Module
+                {
+                    Id = "0",
+                    ParentId = "-1",
+                    Code = Setting.Instance.SystemId,
+                    Name = Setting.Instance.SystemName
+                });
+            }
+
+            return modules;
         }
 
         #region GetModule
@@ -32,6 +55,15 @@ namespace Known.Platform.Services
             var module = Repository.QueryById<Module>(id);
             if (module != null)
             {
+                if (module.Code == "Module" && string.IsNullOrWhiteSpace(module.Extension))
+                {
+                    module.Extension = new
+                    {
+                        LeftPartialName = "System/Module/LeftMenu",
+                        RightPartialName = "System/Module/ModuleGrid"
+                    }.ToJson();
+                }
+
                 SetParentModule(module);
             }
             return module;

@@ -71,29 +71,6 @@ namespace Known.Web.Api.Controllers
                 SetSubModules(menus, item, menu1);
             }
         }
-
-        class Menu
-        {
-            public string id { get; set; }
-            public string code { get; set; }
-            public string text { get; set; }
-            public string iconCls { get; set; }
-            public string url { get; set; }
-            public bool expanded { get; set; }
-            public List<Menu> children { get; set; }
-
-            public static Menu GetMenu(Module module)
-            {
-                return new Menu
-                {
-                    id = module.Id,
-                    code = module.Code,
-                    text = module.Name,
-                    iconCls = module.Icon,
-                    url = module.Url
-                };
-            }
-        }
         #endregion
     }
 }
