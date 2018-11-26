@@ -5,12 +5,34 @@ var Grid = function (name, options) {
     if ($('#query' + name).length) {
         this.query = new Form('query' + name);
     }
+
+    var _this = this, columns = this.grid.getColumns();
+    for (var i = 0; i < columns.length; i++) {
+        if (columns[i].displayField) {
+            this.grid.updateColumn(columns[i], {
+                renderer: _this._onColumnRender
+            });
+        }
+    }
+
     this.options = $.extend(true, {}, this.options, options);
 };
 
 Grid.prototype = {
 
     options: {
+    },
+
+    _onColumnRender: function (e) {
+        var displayField = e.column.displayField;
+        if (displayField === 'icon') {
+            var value = e.record[e.column.field];
+            return '<span class="mini-icon mini-iconfont ' + e.value + '"></span>';
+        } else if (displayField.startWith('enum.')) {
+            return e.value;
+        } else {
+            return e.record[displayField];
+        }
     },
 
     _queryData: function (isLoad, callback) {
