@@ -6,10 +6,6 @@ var Grid = function (name, options) {
         this.query = new Form('query' + name);
     }
     this.options = $.extend(true, {}, this.options, options);
-
-    var url = this.grid.getUrl();
-    this.grid.setUrl('/api/query?url=' + url);
-    this.grid.setAjaxType('post');
 };
 
 Grid.prototype = {

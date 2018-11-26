@@ -21,7 +21,7 @@ var Ajax = {
         }
 
         if (new RegExp("^/api/").test(url)) {
-            data = { url: url };
+            data = { route: url.replace('/api/', '') };
             if (param) {
                 data.param = JSON.stringify(param);
             }

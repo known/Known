@@ -7,7 +7,7 @@ namespace Known.Web.Controllers
 {
     public class ApiController : AuthorizeController
     {
-        public ActionResult Query(string url, string query, string isLoad)
+        public ActionResult Query(string route, string query, string isLoad)
         {
             var sortField = Request.Get<string>("sortField");
             var sortOrder = Request.Get<string>("sortOrder");
@@ -26,25 +26,25 @@ namespace Known.Web.Controllers
                 Parameters = FromJson(query)
             };
 
-            var result = Api.Post<ApiResult>(url, criteria);
+            var result = Api.Post<ApiResult>("/api/" + route, criteria);
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
             return JsonResult(result.Data);
         }
 
-        public ActionResult Get(string url, string param = null)
+        public ActionResult Get(string route, string param = null)
         {
-            var result = Api.Get<ApiResult>(url, FromJson(param));
+            var result = Api.Get<ApiResult>("/api/" + route, FromJson(param));
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
             return JsonResult(result.Data);
         }
 
-        public ActionResult Post(string url, string param = null)
+        public ActionResult Post(string route, string param = null)
         {
-            var result = Api.Post<ApiResult>(url, FromJson(param));
+            var result = Api.Post<ApiResult>("/api/" + route, FromJson(param));
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
