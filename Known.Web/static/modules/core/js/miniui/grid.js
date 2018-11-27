@@ -28,8 +28,14 @@ Grid.prototype = {
         if (displayField === 'icon') {
             var value = e.record[e.column.field];
             return '<span class="mini-icon mini-iconfont ' + e.value + '"></span>';
-        } else if (displayField.startWith('enum.')) {
-            return e.value;
+        } else if (displayField.startWith('code.')) {
+            var type = displayField.replace('code.', '');
+            var code = Code.getCode(type, e.value);
+            var text = e.value;
+            if (code && code.text) {
+                text += '-' + code.text;
+            }
+            return text;
         } else {
             return e.record[displayField];
         }

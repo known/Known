@@ -47,7 +47,10 @@ namespace Known.Web.Api.Controllers
                 }
             }
 
-            return ApiResult.Success(menus);
+            var codes = new Dictionary<string, object>();
+            codes.Add("ViewType", Code.GetEnumCodes<ViewType>());
+
+            return ApiResult.Success(new { menus, codes });
         }
 
         private void SetSubModules(List<Menu> menus, Module module, Menu menu)

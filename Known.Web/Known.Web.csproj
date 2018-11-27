@@ -102,6 +102,7 @@
     <Content Include="static\libs\highcharts\model\exporting.js" />
     <Content Include="static\modules\core\css\form.css" />
     <Content Include="static\modules\core\css\query.css" />
+    <Content Include="static\modules\core\js\code.js" />
     <Content Include="static\modules\core\js\miniui\columnsMenu.js" />
     <Content Include="static\modules\core\js\miniui\grid.js" />
     <Content Include="static\modules\core\js\miniui\decimalBox.js" />
@@ -530,7 +531,7 @@
     <Compile Include="Api\BaseApiController.cs" />
     <Compile Include="Api\Controllers\DemoController.cs" />
     <Compile Include="Api\Controllers\DevToolController.cs" />
-    <Compile Include="Api\Controllers\Menu.cs" />
+    <Compile Include="Api\Controllers\DTO.cs" />
     <Compile Include="Api\Controllers\ModuleController.cs" />
     <Compile Include="Api\Controllers\UserController.cs" />
     <Compile Include="Api\Extensions\HttpActionContextExtension.cs" />

@@ -13,7 +13,8 @@
     new MenuTip(menu);
 
     Ajax.getJson('/api/user/getmodules', function (result) {
-        menu.loadData(result);
+        menu.loadData(result.menus);
+        Code.setData(result.codes);
     });
 
     //toggle
