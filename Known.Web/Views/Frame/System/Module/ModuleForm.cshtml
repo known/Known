@@ -1,0 +1,15 @@
+﻿<div id="formModule">
+    @Form.Hidden("Id", "ParentId")
+    <table class="form">
+        <tr>
+            <th style="width:80px;">编码</th>
+            <td>
+                @Form.TextBox("Code", true, new { emptyText = "请输入编码" })
+            </td>
+            <th style="width:80px;">名称</th>
+            <td>
+                @Form.TextBox("Name", true, new { emptyText = "请输入名称" })
+            </td>
+        </tr>
+    </table>
+</div>

@@ -13,6 +13,7 @@
         padding: 2px;
         white-space: nowrap;
         font-weight: normal;
+        font-size: 14px;
     }
 
     .form td {
@@ -21,6 +22,7 @@
         text-align: left;
         padding: 2px;
         background: #fff;
+        font-size: 14px;
     }
 
 .noborder th, .noborder td {

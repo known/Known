@@ -517,6 +517,7 @@
     <Content Include="Views\Frame\DevTool\DevDatabase.cshtml" />
     <Content Include="Views\Frame\System\Module\LeftMenu.cshtml" />
     <Content Include="Views\Frame\System\Module\ModuleGrid.cshtml" />
+    <Content Include="Views\Frame\System\Module\ModuleForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

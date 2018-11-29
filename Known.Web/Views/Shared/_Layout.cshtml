@@ -10,6 +10,11 @@
 <body>
     @Html.AntiForgeryToken()
     @RenderBody()
+    <div id="dialog" class="mini-window" title="窗体" iconCls="fa-windows"
+         showModal="true" showShadow="true" 
+         showMaxButton="true" showCollapseButton="true" 
+         allowResize="true" allowDrag="true">
+    </div>
     @Html.MinScript("static/modules/frame.min.js")
     @RenderSection("Foot", false)
 </body>

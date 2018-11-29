@@ -12,13 +12,11 @@ $.fn.extend({
                 if (!$.isPlainObject(result)) {
                     cachedPages.push({ url: pageUrl, html: result });
                     _this.html(result);
-                    mini.parse();
                     callback && callback();
                 }
             });
         } else {
             _this.html(page.html);
-            mini.parse();
             callback && callback();
         }
     }

@@ -2,18 +2,19 @@
 var Dialog = {
 
     show: function (option) {
-        var dialog = mini.get('dialog' + option.name);
-        if (dialog) {
+        var dialog = mini.get('dialog');
+        dialog.setTitle(option.title);
+        dialog.setWidth(option.width || 500);
+        dialog.setHeight(option.height || 300);
+        dialog.show();
+
+        var url = option.url || '/frame/partial';
+        $('#dialog .mini-panel-body').loadHtml(url, {
+            name: option.name, model: option.model || null
+        }, function () {
+            mini.parse();
             option.callback && option.callback();
-        } else {
-            Ajax.getText(option.url, {
-                name: option.name, model: option.model || null
-            }, function (html) {
-                $('body').append(html);
-                mini.parse();
-                option.callback && option.callback();
-            });
-        }
+        });
     },
 
     open: function (option) {
