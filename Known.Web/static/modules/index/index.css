@@ -49,8 +49,8 @@ a {
 /* header */
 
 .navbar-brand {
-    width: 180px;
-    background: #367ea8;
+    /*width: 180px;
+    background: #367ea8;*/
     cursor: default;
     font-size: 20px;
     font-weight: bold;
@@ -99,23 +99,29 @@ a {
 
 
 /* compact */
-.compact .sidebar,
-.compact .navbar-brand {
+.compact .sidebar {
     width: 55px;
 }
+
+/*.compact .navbar-brand {
+    width: 55px;
+}*/
 
 .compact .main {
     left: 55px;
 }
 
-.navbar-brand-compact,
-.compact .navbar-brand {
+.navbar-brand-compact {
+    display: none;
+}
+
+/*.compact .navbar-brand {
     display: none;
 }
 
 .compact .navbar-brand-compact {
     display: block;
-}
+}*/
 
 .compact .menu-text,
 .compact .menu-arrow {
