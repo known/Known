@@ -6,12 +6,13 @@
     overflow: hidden;
 }
 
-/*  miniui  */
-.separator {
+/*  miniui */
+.mini-panel-toolbar .separator {
     margin-left: 0;
     margin-right: 0;
 }
 
+/*
 .view-tabs.mini-tabs-bodys {
     border: none;
     padding: 5px 0 0 0;
@@ -21,11 +22,6 @@
     padding: 2px 3px;
 }
 
-    .mini-pager.separator {
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-
 .mini-panel.max {
     position: fixed !important;
     width: 100% !important;
@@ -33,4 +29,4 @@
     left: 0 !important;
     top: 0 !important;
     z-index: 10000;
-}
+}*/

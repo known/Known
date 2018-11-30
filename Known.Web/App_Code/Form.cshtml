@@ -52,6 +52,16 @@
     @RenderControl("mini-textbox", id, required, option)
 }
 
+@helper IntegerBox(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-integerbox", id, required, option)
+}
+
+@helper DecimalBox(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-decimalbox", id, required, option)
+}
+
 @helper Password(string id, bool required = false, object option = null)
 {
     @RenderControl("mini-password", id, required, option)

@@ -1,4 +1,8 @@
-﻿<div id="formModule">
+﻿<div id="tbModuleForm">
+    <a class="mini-button" plain="true" id="save" iconCls="fa-save text-primary">新增</a>
+    <a class="mini-button" plain="true" id="close" iconCls="fa-remove text-danger">关闭</a>
+</div>
+<div id="formModule" style="margin-top:5px;">
     @Form.Hidden("Id", "ParentId")
     <table class="form">
         <tr>
@@ -9,6 +13,30 @@
             <th style="width:80px;">名称</th>
             <td>
                 @Form.TextBox("Name", true, new { emptyText = "请输入名称" })
+            </td>
+        </tr>
+        <tr>
+            <th>图标</th>
+            <td></td>
+            <th>视图类型</th>
+            <td>
+                @Form.ComboBox("ViewType", true, new { data = "ViewType" })
+            </td>
+        </tr>
+        <tr>
+            <th>地址</th>
+            <td colspan="3">
+                @Form.TextBox("Url", false, new { style = "width:100%;" })
+            </td>
+        </tr>
+        <tr>
+            <th>顺序</th>
+            <td>
+                @Form.IntegerBox("Sort", true)
+            </td>
+            <th>是否可用</th>
+            <td>
+                @Form.CheckBox("Enabled", true)
             </td>
         </tr>
     </table>
