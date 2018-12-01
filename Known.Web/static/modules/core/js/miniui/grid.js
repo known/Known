@@ -160,7 +160,7 @@ Grid.prototype = {
 
     deleteRows: function (callback) {
         this.checkMultiSelect(function (rows) {
-            Message.confirm('确定要删除选中的' + rows.length + '条记录？', function () {
+            Message.confirm('确定要删除选中的记录？', function () {
                 callback && callback(rows);
             });
         });

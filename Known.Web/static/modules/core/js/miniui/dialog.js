@@ -39,6 +39,14 @@ var Dialog = {
             }
         });
         option.max && win.max();
+    },
+
+    close: function (top = false) {
+        if (top) {
+            window.CloseOwnerWindow();
+        } else {
+            mini.get('dialog').hide();
+        }
     }
 
 };

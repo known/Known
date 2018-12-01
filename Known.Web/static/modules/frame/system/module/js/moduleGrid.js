@@ -1,13 +1,13 @@
 ﻿var ModuleGrid = {
 
     option: null,
-    grid: null,
     toolbar: null,
+    grid: null,
 
     show: function (option) {
         this.option = option;
-        this.grid = new Grid('Module');
         this.toolbar = new Toolbar('tbModule', this);
+        this.grid = new Grid('Module');
         this.grid.query.pid.setValue(option.pid);
 
         this.grid.load();
@@ -18,24 +18,14 @@
         this.grid.reload();
     },
 
-    showForm: function (data) {
-        Dialog.show({
-            name: 'System/Module/ModuleForm',
-            title: '模块管理【' + (data.Id === '' ? '新增' : '编辑') + '】',
-            callback: function () {
-
-            }
-        });
-    },
-
     add: function () {
-        this.showForm({ Id: '' });
+        this._showForm({ Id: '' });
     },
 
     edit: function () {
         var _this = this;
         this.grid.checkSelect(function (row) {
-            _this.showForm(row);
+            _this._showForm(row);
         });
     },
 
@@ -50,6 +40,21 @@
 
     search: function () {
         this.grid.search();
+    },
+
+    //private
+    _showForm: function (data) {
+        var _this = this;
+        Dialog.show({
+            name: 'System/Module/ModuleForm',
+            title: '模块管理【' + (data.Id === '' ? '新增' : '编辑') + '】',
+            callback: function () {
+                ModuleForm.show({
+                    data: data,
+                    callback: _this.refresh
+                });
+            }
+        });
     }
 
 };
