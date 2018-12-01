@@ -1,19 +1,23 @@
 ﻿///////////////////////////////////////////////////////////////////////
-var Form = function (formId, options) {
+var Form = function (formId, option) {
     this.formId = formId;
     this.form = new mini.Form('#' + formId);
-    this.options = $.extend(true, {}, this.options, options);
+    this.option = $.extend(true, {}, this.option, option);
 
     var inputs = this.form.getFields();
     for (var i = 0; i < inputs.length; i++) {
         var input = inputs[i];
         this[input.id] = input;
     }
+
+    if (this.option.data) {
+        this.setData(this.option.data);
+    }
 };
 
 Form.prototype = {
 
-    options: {
+    option: {
     },
 
     reset: function () {
@@ -43,7 +47,7 @@ Form.prototype = {
 
         if (tabsId) {
             var tabs = mini.get(tabsId);
-            var tab = tabs.getTab(index);
+            var tab = tabs.getTab(tabIndex);
             tabs.activeTab(tab);
         }
         return false;
@@ -60,6 +64,18 @@ Form.prototype = {
             callback && callback(data);
             this.form.setChanged(false);
         }
+    },
+
+    saveData: function (option) {
+        if (!this.validate(option.tabsId, option.tabIndex))
+            return;
+
+        var data = this.getData();
+        Ajax.postJson(option.url, data, function (res) {
+            Message.result(res, function () {
+                option.callback && option.callback();
+            });
+        });
     },
 
     bindEnterJump: function () {

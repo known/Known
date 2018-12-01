@@ -1,5 +1,5 @@
 ﻿///////////////////////////////////////////////////////////////////////
-var Grid = function (name, options) {
+var Grid = function (name, option) {
     this.name = name;
     this.grid = mini.get('grid' + name);
     if ($('#query' + name).length) {
@@ -15,12 +15,12 @@ var Grid = function (name, options) {
         }
     }
 
-    this.options = $.extend(true, {}, this.options, options);
+    this.option = $.extend(true, {}, this.option, option);
 };
 
 Grid.prototype = {
 
-    options: {
+    option: {
     },
 
     _onColumnRender: function (e) {
