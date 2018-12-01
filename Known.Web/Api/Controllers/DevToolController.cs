@@ -8,7 +8,7 @@
             criteria.Parameters = null;
             var result = Database.QueryPageTable(sql, criteria) as PagingResult;
 
-            return ApiResult.Success(new
+            return ApiResult.ToData(new
             {
                 total = result.TotalCount,
                 data = result.PageData

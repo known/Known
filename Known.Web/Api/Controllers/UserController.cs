@@ -20,13 +20,13 @@ namespace Known.Web.Api.Controllers
             if (!result.IsValid)
                 return ApiResult.Error(result.Message);
 
-            return ApiResult.Success(result.Data);
+            return ApiResult.ToData(result.Data);
         }
 
         public ApiResult GetUser(string userName)
         {
             var user = Service.GetUser(userName);
-            return ApiResult.Success(user);
+            return ApiResult.ToData(user);
         }
 
         #region GetUserMenus
@@ -50,7 +50,7 @@ namespace Known.Web.Api.Controllers
             var codes = new Dictionary<string, object>();
             codes.Add("ViewType", Code.GetEnumCodes<ViewType>());
 
-            return ApiResult.Success(new { menus, codes });
+            return ApiResult.ToData(new { menus, codes });
         }
 
         private void SetSubModules(List<Menu> menus, Module module, Menu menu)

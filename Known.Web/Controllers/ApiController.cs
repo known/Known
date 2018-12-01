@@ -48,7 +48,7 @@ namespace Known.Web.Controllers
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
-            return SuccessResult("", result.Data);
+            return SuccessResult(result.Message, result.Data);
         }
 
         private dynamic FromJson(string json)

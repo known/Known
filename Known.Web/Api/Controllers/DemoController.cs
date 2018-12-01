@@ -48,7 +48,7 @@ namespace Known.Web.Api.Controllers
             }
 
             var data = users.ToPageList(criteria.PageIndex, criteria.PageSize);
-            return ApiResult.Success(new { total = users.Count, data });
+            return ApiResult.ToData(new { total = users.Count, data });
         }
     }
 }

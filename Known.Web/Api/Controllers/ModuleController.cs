@@ -16,7 +16,7 @@ namespace Known.Web.Api.Controllers
             var key = (string)criteria.Parameters.key;
 
             var pr = Service.QueryModules(pid, key);
-            return ApiResult.Success(new { total = pr.TotalCount, data = pr.PageData });
+            return ApiResult.ToData(new { total = pr.TotalCount, data = pr.PageData });
         }
 
         public ApiResult GetTreeDatas()
@@ -33,13 +33,18 @@ namespace Known.Web.Api.Controllers
                 }
             }
 
-            return ApiResult.Success(menus);
+            return ApiResult.ToData(menus);
         }
 
         public ApiResult GetModule(string mid)
         {
             var module = Service.GetModule(mid);
-            return ApiResult.Success(module);
+            return ApiResult.ToData(module);
+        }
+
+        public ApiResult SaveModule(dynamic model)
+        {
+            return ApiResult.Success("保存成功！", model);
         }
     }
 }

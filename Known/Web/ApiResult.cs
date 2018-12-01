@@ -6,19 +6,19 @@
         public string Message { get; set; }
         public dynamic Data { get; set; }
 
-        public static ApiResult Success(string message = null)
-        {
-            return new ApiResult { Status = 0, Message = message };
-        }
-
-        public static ApiResult Success<T>(T data)
+        public static ApiResult ToData<T>(T data)
         {
             return new ApiResult { Status = 0, Data = data };
         }
 
-        public static ApiResult Error(string message)
+        public static ApiResult Success(string message, object data = null)
         {
-            return new ApiResult { Status = 1, Message = message };
+            return new ApiResult { Status = 0, Message = message, Data = data };
+        }
+
+        public static ApiResult Error(string message, object data = null)
+        {
+            return new ApiResult { Status = 1, Message = message, Data = data };
         }
     }
 }

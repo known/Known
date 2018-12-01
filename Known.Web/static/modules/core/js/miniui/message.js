@@ -89,7 +89,7 @@ var Message = {
 
         if (res.Message) {
             this.tips({
-                message: res.Message, x: 'center', y: 'top'
+                content: res.Message, x: 'center', y: 'top'
             });
         }
 
