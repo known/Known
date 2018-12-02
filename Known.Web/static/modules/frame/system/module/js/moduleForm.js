@@ -13,6 +13,13 @@
                 $('#moduleIcon').attr('class', 'mini-icon mini-iconfont ' + d.Icon);
             }
         });
+
+        //this.form.Icon.on('drawcell', this.onIconDrawCell);
+    },
+
+    onIconDrawCell: function (e) {
+        var item = e.record, field = e.field, value = e.value;
+        e.cellHtml = '<span class="fa ' + value + '" style="width:16px;"> ' + value + '</span>';
     },
 
     save: function () {

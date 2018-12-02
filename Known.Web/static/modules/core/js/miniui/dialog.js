@@ -2,6 +2,13 @@
 var Dialog = {
 
     show: function (option) {
+        if (option.id) {
+            var win = mini.get(option.id);
+            win.show();
+            option.callback && option.callback(win);
+            return win;
+        }
+
         var dialog = mini.get('dialog');
         dialog.setTitle(option.title);
         dialog.setWidth(option.width || 500);
@@ -13,8 +20,10 @@ var Dialog = {
             name: option.name, model: option.model || null
         }, function () {
             mini.parse();
-            option.callback && option.callback();
+            option.callback && option.callback(dialog);
         });
+
+        return dialog;
     },
 
     open: function (option) {
@@ -39,6 +48,7 @@ var Dialog = {
             }
         });
         option.max && win.max();
+        return win;
     },
 
     close: function (top = false) {

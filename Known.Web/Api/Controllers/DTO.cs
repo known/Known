@@ -40,6 +40,7 @@ namespace Known.Web.Api.Controllers
             var codes = new List<Code>();
             var enumType = typeof(T);
             var values = Enum.GetValues(enumType);
+
             foreach (Enum value in values)
             {
                 var id = Convert.ToInt32(value).ToString();
@@ -48,8 +49,22 @@ namespace Known.Web.Api.Controllers
                 {
                     text = Enum.GetName(enumType, value);
                 }
+
                 codes.Add(new Code { id = id, text = text });
             }
+
+            return codes;
+        }
+
+        public static List<Code> GetStringCodes(params string[] values)
+        {
+            var codes = new List<Code>();
+
+            foreach (var item in values)
+            {
+                codes.Add(new Code { id = item, text = item });
+            }
+
             return codes;
         }
     }

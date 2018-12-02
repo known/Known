@@ -2,6 +2,7 @@
     border-collapse: collapse;
 }
 
+/* scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -18,10 +19,11 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
 
-    ::-webkit-scrollbar-thumb:window-inactive {
-        background: #f1f1f1;
-    }
+::-webkit-scrollbar-thumb:window-inactive {
+    background: #f1f1f1;
+}
 
+/* color */
 .bg-primary {
     background-color: #337ab7;
 }
@@ -82,6 +84,7 @@
     color: #d9534f;
 }
 
+/* align */
 .text-left {
     text-align: left;
 }
@@ -108,4 +111,10 @@
 
 .hide {
     display: none;
+}
+
+/* button */
+.btn-link {
+    cursor: pointer;
+    color: #00f;
 }

@@ -45,6 +45,7 @@
         Dialog.show({
             name: 'System/Module/ModuleForm',
             title: '模块管理【' + (data.Id === '' ? '新增' : '编辑') + '】',
+            width: 500, height: 250,
             callback: function () {
                 ModuleForm.show({
                     data: data,

@@ -3,7 +3,7 @@
     <a class="mini-button" plain="true" id="close" iconCls="fa-remove text-danger">关闭</a>
 </div>
 <div id="formModule" style="margin-top:5px;">
-    @Form.Hidden("Id", "ParentId", "Icon")
+    @Form.Hidden("Id", "ParentId")
     <table class="form">
         <tr>
             <th style="width:80px;">编码</th>
@@ -16,9 +16,12 @@
             </td>
         </tr>
         <tr>
-            <th>图标</th>
+            <th><span id="moduleIcon"></span>图标</th>
             <td>
-                <span id="moduleIcon"></span>
+                @Form.ComboBox("Icon", true, new {
+                   url = "/static/data/icon.txt",
+                   ondrawcell = "ModuleForm.onIconDrawCell"
+                })
             </td>
             <th>视图类型</th>
             <td>
