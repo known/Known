@@ -29,6 +29,13 @@ namespace Known.Web.Api.Controllers
             return ApiResult.ToData(user);
         }
 
+        public ApiResult GetCodes()
+        {
+            var codes = new Dictionary<string, object>();
+            codes.Add("ViewType", Code.GetEnumCodes<ViewType>());
+            return ApiResult.ToData(codes);
+        }
+
         #region GetUserMenus
         public ApiResult GetModules()
         {

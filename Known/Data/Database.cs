@@ -151,7 +151,7 @@ namespace Known.Data
 
         public PagingResult QueryPageTable(string sql, PagingCriteria criteria)
         {
-            var cmd = CommandHelper.GetCommand(sql, criteria.Parameters);
+            var cmd = CommandHelper.GetQueryCommand(sql, criteria.Parameter);
             if (cmd == null)
                 return null;
 

@@ -23,7 +23,7 @@ namespace Known.Web.Controllers
                 PageIndex = Request.Get<int>("pageIndex"),
                 PageSize = Request.Get<int>("pageSize"),
                 OrderBys = sorts.ToArray(),
-                Parameters = FromJson(query)
+                Parameter = FromJson(query)
             };
 
             var result = Api.Post<ApiResult>("/api/" + route, criteria);

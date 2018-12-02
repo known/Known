@@ -12,11 +12,8 @@ namespace Known.Web.Api.Controllers
 
         public ApiResult QueryModules(PagingCriteria criteria)
         {
-            var pid = (string)criteria.Parameters.pid;
-            var key = (string)criteria.Parameters.key;
-
-            var pr = Service.QueryModules(pid, key);
-            return ApiResult.ToData(new { total = pr.TotalCount, data = pr.PageData });
+            var pr = Service.QueryModules(criteria);
+            return ApiResult.ToPageData(pr);
         }
 
         public ApiResult GetTreeDatas()

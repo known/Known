@@ -15,7 +15,10 @@
     },
 
     cache: function () {
-        Message.tips({ content: '刷新成功！' });
+        Ajax.getJson('/api/user/getcodes', function (data) {
+            Code.setData(data);
+            Message.tips({ content: '刷新成功！' });
+        });
     },
 
     info: function () {

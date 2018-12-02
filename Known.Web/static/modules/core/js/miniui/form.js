@@ -7,6 +7,10 @@ var Form = function (formId, option) {
     var inputs = this.form.getFields();
     for (var i = 0; i < inputs.length; i++) {
         var input = inputs[i];
+        if (input.type === 'combobox' ||
+            input.type === 'checkboxlist' ||
+            input.type === 'radiobuttonlist')
+            console.log(input);
         this[input.id] = input;
     }
 

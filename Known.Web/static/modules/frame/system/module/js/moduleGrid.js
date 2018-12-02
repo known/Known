@@ -38,10 +38,6 @@
         ModuleView.close();
     },
 
-    search: function () {
-        this.grid.search();
-    },
-
     //private
     _showForm: function (data) {
         var _this = this;

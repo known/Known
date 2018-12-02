@@ -2,11 +2,16 @@
 var Grid = function (name, option) {
     this.name = name;
     this.grid = mini.get('grid' + name);
+
+    var _this = this;
     if ($('#query' + name).length) {
         this.query = new Form('query' + name);
+        mini.get('search', this.query).on('click', function () {
+            _this.search();
+        });
     }
 
-    var _this = this, columns = this.grid.getColumns();
+    var columns = this.grid.getColumns();
     for (var i = 0; i < columns.length; i++) {
         if (columns[i].displayField) {
             this.grid.updateColumn(columns[i], {
@@ -53,7 +58,7 @@ Grid.prototype = {
                 }
             },
             function () {
-                Message.tips({ content: '查询出错！' });
+                Message.tips('查询出错！');
             }
         );
         new ColumnsMenu(grid);
@@ -143,9 +148,9 @@ Grid.prototype = {
     checkSelect: function (callback) {
         var rows = this.grid.getSelecteds();
         if (rows.length === 0)
-            Message.tips({ content: '请选择一条记录！' });
+            Message.tips('请选择一条记录！');
         else if (rows.length > 1)
-            Message.tips({ content: '只能选择一条记录！' });
+            Message.tips('只能选择一条记录！');
         else if (callback)
             callback(rows[0]);
     },
@@ -153,7 +158,7 @@ Grid.prototype = {
     checkMultiSelect: function (callback) {
         var rows = this.grid.getSelecteds();
         if (rows.length === 0)
-            Message.tips({ content: '请选择一条或多条记录！' });
+            Message.tips('请选择一条或多条记录！');
         else if (callback)
             callback(rows);
     },

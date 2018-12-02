@@ -59,6 +59,9 @@ var Message = {
     },
 
     tips: function (option) {
+        if (typeof option === 'string')
+            option = { content: option };
+
         mini.showTips({
             content: option.content,
             state: option.state || 'info',

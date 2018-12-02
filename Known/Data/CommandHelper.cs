@@ -71,6 +71,28 @@ namespace Known.Data
             return command;
         }
 
+        public static Command GetQueryCommand(string sql, dynamic param = null)
+        {
+            if (string.IsNullOrWhiteSpace(sql))
+                return null;
+
+            var command = new Command(sql);
+            if (param == null)
+                return command;
+
+            var pis = param.Properties();
+            foreach (var pi in pis)
+            {
+                var value = (string)pi.Value.Value;
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    command.AddParameter(pi.Name, value);
+                }
+            }
+
+            return command;
+        }
+
         public static Command GetSaveCommand<T>(T entity) where T : BaseEntity
         {
             if (entity == null)

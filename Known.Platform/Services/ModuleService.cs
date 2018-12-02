@@ -15,9 +15,9 @@ namespace Known.Platform.Services
             get { return LoadRepository<IModuleRepository>(); }
         }
 
-        public PagingResult<Module> QueryModules(string parentId, string key)
+        public PagingResult<Module> QueryModules(PagingCriteria criteria)
         {
-            return Repository.QueryModules(parentId, key);
+            return Repository.QueryModules(criteria);
         }
 
         public List<Module> GetModules(bool isTree = false)

@@ -4,8 +4,8 @@
     {
         public ApiResult QueryDatas(PagingCriteria criteria)
         {
-            var sql = criteria.Parameters.querySql.ToString();
-            criteria.Parameters = null;
+            var sql = criteria.Parameter.querySql.ToString();
+            criteria.Parameter = null;
             var result = Database.QueryPageTable(sql, criteria) as PagingResult;
 
             return ApiResult.ToData(new

@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Known.Data;
+﻿using Known.Data;
 
 namespace Known.Platform.Repositories
 {
     public interface IModuleRepository : IRepository
     {
-        PagingResult<Module> QueryModules(string parentId, string key);
+        PagingResult<Module> QueryModules(PagingCriteria criteria);
     }
 
     internal class ModuleRepository : DbRepository, IModuleRepository
@@ -14,11 +13,18 @@ namespace Known.Platform.Repositories
         {
         }
 
-        public PagingResult<Module> QueryModules(string parentId, string key)
+        public PagingResult<Module> QueryModules(PagingCriteria criteria)
         {
-            var sql = "select * from t_plt_modules where parent_id=@parentId";
-            var modules = Database.QueryList<Module>(sql, new { parentId });
-            return new PagingResult<Module>(10, modules);
+            var sql = "select * from t_plt_modules where parent_id=@pid";
+
+            var key = (string)criteria.Parameter.key;
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                sql += " and (code like @key or name like @key)";
+                criteria.Parameter.key = $"%{key}%";
+            }
+
+            return Database.QueryPage<Module>(sql, criteria);
         }
     }
 }
