@@ -50,6 +50,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DbRepository.cs" />
+    <Compile Include="Jobs\CheckResult.cs" />
+    <Compile Include="Jobs\ExecuteResult.cs" />
+    <Compile Include="Jobs\IJob.cs" />
+    <Compile Include="Jobs\IJobRepository.cs" />
+    <Compile Include="Jobs\JobBase.cs" />
+    <Compile Include="Jobs\JobHelper.cs" />
+    <Compile Include="Jobs\JobInfo.cs" />
+    <Compile Include="Jobs\JobRecord.cs" />
+    <Compile Include="Jobs\JobService.cs" />
+    <Compile Include="Jobs\JobTimer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ServiceBase.cs" />
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Cache\DefaultCache.cs" />
