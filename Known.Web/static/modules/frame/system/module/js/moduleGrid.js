@@ -14,10 +14,6 @@
     },
 
     //toolbar
-    refresh: function () {
-        this.grid.reload();
-    },
-
     add: function () {
         this._showForm({
             Id: '',
@@ -52,7 +48,9 @@
             callback: function () {
                 ModuleForm.show({
                     data: data,
-                    callback: _this.refresh
+                    callback: function () {
+                        _this.grid.reload();
+                    }
                 });
             }
         });
