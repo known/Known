@@ -3,7 +3,7 @@
     <a class="mini-button" plain="true" id="close" iconCls="fa-remove text-danger">关闭</a>
 </div>
 <div id="formModule" style="margin-top:5px;">
-    @Form.Hidden("Id", "ParentId")
+    @Form.Hidden("Id", "ParentId", "Icon")
     <table class="form">
         <tr>
             <th style="width:80px;">编码</th>
@@ -17,7 +17,9 @@
         </tr>
         <tr>
             <th>图标</th>
-            <td></td>
+            <td>
+                <span id="moduleIcon"></span>
+            </td>
             <th>视图类型</th>
             <td>
                 @Form.ComboBox("ViewType", true, new { data = "ViewType" })

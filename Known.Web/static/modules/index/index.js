@@ -38,12 +38,9 @@
         $('.dropdown').removeClass('open');
     });
 
-    //navbar
-    $('#navDevTool').click(function () { Navbar.devTool(); });
-    $('#navTodo').click(function () { Navbar.todo(); });
-
-    new Toolbar('tbUser', UserMenu);
-    new Toolbar('tabsButtons', MainTabs);
+    //toolbars
+    new Toolbar('tbNavbar', Navbar);
+    new Toolbar('tbMainTabs', MainTabs);
 
     mini.parse();
     MainTabs.index();

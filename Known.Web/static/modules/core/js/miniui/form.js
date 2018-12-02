@@ -11,7 +11,7 @@ var Form = function (formId, option) {
     }
 
     if (this.option.data) {
-        this.setData(this.option.data);
+        this.setData(this.option.data, this.option.callback);
     }
 };
 
@@ -61,7 +61,7 @@ Form.prototype = {
     setData: function (data, callback) {
         if (data) {
             this.form.setData(data);
-            callback && callback(data);
+            callback && callback(this, data);
             this.form.setChanged(false);
         }
     },

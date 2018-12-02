@@ -8,7 +8,10 @@
         this.option = option;
         this.toolbar = new Toolbar('tbModuleForm', this);
         this.form = new Form('formModule', {
-            data: option.data
+            data: option.data,
+            callback: function (f, d) {
+                $('#moduleIcon').attr('class', 'mini-icon mini-iconfont ' + d.Icon);
+            }
         });
     },
 

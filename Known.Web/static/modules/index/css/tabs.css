@@ -137,7 +137,7 @@ a:hover.mini-tabs-leftButton, a:hover.mini-tabs-rightButton {
 
 
 /* tabsbuttons */
-#tabsButtons {
+#tbMainTabs {
     border-left: 1px solid #aed0ea;
     height: 35px;
     padding: 6px 7px 4px 7px;

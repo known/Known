@@ -149,7 +149,6 @@
     <Content Include="static\modules\index\js\menu.js" />
     <Content Include="static\modules\index\js\menuTip.js" />
     <Content Include="static\modules\index\js\navbar.js" />
-    <Content Include="static\modules\index\js\userMenu.js" />
     <Content Include="static\modules\login\index.js" />
     <Content Include="static\modules\login\index.css" />
     <Content Include="static\libs\pdfobject.min.js" />
