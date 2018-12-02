@@ -38,7 +38,7 @@ namespace Known.Validation
             if (Infos == null || Infos.Count == 0)
                 return string.Empty;
 
-            var messages = Infos.Where(v => v.Level == level);
+            var messages = Infos.Where(v => v.Level == level).Select(v => v.Message);
             return string.Join(Environment.NewLine, messages);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Known.Extensions;
 using Known.Validation;
 
@@ -9,6 +10,8 @@ namespace Known.Mapping
     {
         public BaseEntity()
         {
+            Id = Utils.NewGuid;
+            CreateBy = "temp";
             IsNew = true;
         }
 
@@ -48,6 +51,26 @@ namespace Known.Mapping
                     infos.Add(new ValidInfo(ValidLevel.Error, property.Name, errors));
             }
             return new Validator(infos);
+        }
+
+        public void FillModel(dynamic model)
+        {
+            var properties = this.GetType().GetColumnProperties();
+            var pis = model.Properties();
+            foreach (var pi in pis)
+            {
+                var name = (string)pi.Name;
+                if (name == "Id")
+                    continue;
+
+                var value = (object)pi.Value.Value;
+                var property = properties.FirstOrDefault(p => p.Name == name);
+                if (property != null)
+                {
+                    value = Utils.ConvertTo(property.PropertyType, value);
+                    property.SetValue(this, value);
+                }
+            }
         }
     }
 }

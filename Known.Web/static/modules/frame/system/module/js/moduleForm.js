@@ -19,8 +19,8 @@
         var _this = this;
         this.form.saveData({
             url: '/api/module/savemodule',
-            callback: function () {
-                _this.option.callback && _this.option.callback();
+            callback: function (data) {
+                _this.form.setData(data, _this.option.callback);
             }
         });
     },

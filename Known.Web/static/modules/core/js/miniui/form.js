@@ -9,8 +9,11 @@ var Form = function (formId, option) {
         var input = inputs[i];
         if (input.type === 'combobox' ||
             input.type === 'checkboxlist' ||
-            input.type === 'radiobuttonlist')
-            console.log(input);
+            input.type === 'radiobuttonlist') {
+            if (input.data.length <= 1) {
+                input.setData(Code.getCodes(input.id));
+            }
+        }
         this[input.id] = input;
     }
 
@@ -67,6 +70,7 @@ Form.prototype = {
             this.form.setData(data);
             callback && callback(this, data);
             this.form.setChanged(false);
+            this.bindEnterJump();
         }
     },
 
@@ -76,8 +80,8 @@ Form.prototype = {
 
         var data = this.getData();
         Ajax.postJson(option.url, data, function (res) {
-            Message.result(res, function () {
-                option.callback && option.callback();
+            Message.result(res, function (data) {
+                option.callback && option.callback(data);
             });
         });
     },

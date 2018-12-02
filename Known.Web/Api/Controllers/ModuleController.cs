@@ -41,7 +41,8 @@ namespace Known.Web.Api.Controllers
 
         public ApiResult SaveModule(dynamic model)
         {
-            return ApiResult.Success("保存成功！", model);
+            var result = Service.SaveModule(model);
+            return ApiResult.Result(result);
         }
     }
 }

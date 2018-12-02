@@ -25,5 +25,21 @@
         {
             return new ApiResult { Status = 1, Message = message, Data = data };
         }
+
+        public static ApiResult Result(Result result)
+        {
+            if (!result.IsValid)
+                return Error(result.Message);
+
+            return Success(result.Message);
+        }
+
+        public static ApiResult Result<T>(Result<T> result)
+        {
+            if (!result.IsValid)
+                return Error(result.Message);
+
+            return Success(result.Message, result.Data);
+        }
     }
 }

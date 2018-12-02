@@ -83,5 +83,27 @@ namespace Known.Platform.Services
             SetParentModule(module.Parent);
         }
         #endregion
+
+        public Result<Module> SaveModule(dynamic model)
+        {
+            if (model == null)
+                return Result.Error<Module>("不能提交空数据！");
+
+            var id = (string)model.Id;
+            var entity = Repository.QueryById<Module>(id);
+            if (entity == null)
+            {
+                entity = new Module();
+                entity.AppId = Setting.Instance.SystemId;
+            }
+            entity.FillModel(model);
+
+            var vr = entity.Validate().ToResult();
+            if (vr.HasError)
+                return Result.Error<Module>(vr.ErrorMessage);
+
+            Repository.Save(entity);
+            return Result.Success("保存成功！", entity);
+        }
     }
 }

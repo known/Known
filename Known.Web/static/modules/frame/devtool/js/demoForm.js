@@ -25,7 +25,6 @@
             countrys3: "usa"
         };
         this.form.setData(obj);
-        this.form.bindEnterJump();
     },
 
     resetForm: function () {

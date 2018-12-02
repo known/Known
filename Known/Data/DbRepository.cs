@@ -15,6 +15,9 @@ namespace Known.Data
 
         public T QueryById<T>(string id) where T : BaseEntity
         {
+            if (string.IsNullOrWhiteSpace(id))
+                return default(T);
+
             return Database.QueryById<T>(id);
         }
 
@@ -25,11 +28,17 @@ namespace Known.Data
 
         public void Save<T>(T entity) where T : BaseEntity
         {
+            if (entity == null)
+                return;
+
             Database.Save(entity);
         }
 
         public void Delete<T>(T entity) where T : BaseEntity
         {
+            if (entity == null)
+                return;
+
             Database.Delete(entity);
         }
 

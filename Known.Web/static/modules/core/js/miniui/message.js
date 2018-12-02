@@ -13,6 +13,7 @@ var Message = {
     },
 
     alert: function (message, callback) {
+        message = message.htmlEncode();
         mini.alert(message, '提示', function (action) {
             if (action === 'ok') {
                 callback && callback();
@@ -35,6 +36,7 @@ var Message = {
     },
 
     confirm: function (message, callback) {
+        message = message.htmlEncode();
         mini.confirm(message, '确认提示', function (action) {
             if (action === 'ok') {
                 callback && callback();

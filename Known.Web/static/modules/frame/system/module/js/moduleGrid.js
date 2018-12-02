@@ -19,7 +19,12 @@
     },
 
     add: function () {
-        this._showForm({ Id: '' });
+        this._showForm({
+            Id: '',
+            ParentId: this.option.pid,
+            Sort: this.grid.getData().length + 1,
+            Enabled: 'Y'
+        });
     },
 
     edit: function () {
