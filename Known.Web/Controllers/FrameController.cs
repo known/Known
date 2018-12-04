@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using Known.Platform;
-using Known.Web.ViewModels;
+using Known.Web.Models;
 
 namespace Known.Web.Controllers
 {

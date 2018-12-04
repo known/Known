@@ -1,6 +1,6 @@
 ﻿using Known.Platform;
 
-namespace Known.Web.ViewModels
+namespace Known.Web.Models
 {
     public class TreeGridViewModel : ViewModel
     {

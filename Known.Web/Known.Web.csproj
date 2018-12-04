@@ -562,11 +562,11 @@
     <Compile Include="Code\Providers\JsonProvider.cs" />
     <Compile Include="Code\Providers\ProviderConfig.cs" />
     <Compile Include="Code\RouteConfig.cs" />
-    <Compile Include="ViewModels\DataGridViewModel.cs" />
-    <Compile Include="ViewModels\SplitPageViewModel.cs" />
-    <Compile Include="ViewModels\TabPageViewModel.cs" />
-    <Compile Include="ViewModels\TreeGridViewModel.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="Models\DataGridViewModel.cs" />
+    <Compile Include="Models\SplitPageViewModel.cs" />
+    <Compile Include="Models\TabPageViewModel.cs" />
+    <Compile Include="Models\TreeGridViewModel.cs" />
+    <Compile Include="Models\ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="static\libs\miniui\themes\pure\images\button\" />
