@@ -23,6 +23,15 @@
         });
     },
 
+    copy: function () {
+        var _this = this;
+        this.grid.checkSelect(function (row) {
+            row.Id = '';
+            row.Sort = _this.grid.getData().length + 1;
+            _this._showForm(row);
+        });
+    },
+
     edit: function () {
         var _this = this;
         this.grid.checkSelect(function (row) {
@@ -41,7 +50,7 @@
 
     //private
     _showForm: function (data) {
-        var _this = this;
+        var _this = this, option = this.option;
         Dialog.show({
             name: 'System/Module/ModuleForm',
             title: '模块管理【' + (data.Id === '' ? '新增' : '编辑') + '】',
@@ -51,6 +60,7 @@
                     data: data,
                     callback: function () {
                         _this.grid.reload();
+                        option.callback && option.callback();
                     }
                 });
             }
