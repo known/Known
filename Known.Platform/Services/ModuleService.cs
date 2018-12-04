@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Known.Extensions;
 using Known.Platform.Repositories;
 
@@ -35,9 +36,14 @@ namespace Known.Platform.Services
                     Id = "0",
                     ParentId = "-1",
                     Code = Setting.Instance.SystemId,
-                    Name = Setting.Instance.SystemName
+                    Name = Setting.Instance.SystemName,
+                    Sort = 1
                 });
             }
+
+            modules = modules.OrderBy(m => m.ParentId)
+                             .ThenBy(m => m.Sort)
+                             .ToList();
 
             return modules;
         }
