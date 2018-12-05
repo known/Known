@@ -1,1 +1,7 @@
-﻿
+﻿function GridBase() {
+
+}
+
+function FormBase() {
+
+}
