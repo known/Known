@@ -1,12 +1,12 @@
 ﻿var DemoForm = {
 
     form: null,
-    toolbar: null,
 
     show: function () {
+        var toolbar = new Toolbar('tbDemo', this);
+        //toolbar.setLabel.click();
+
         this.form = new Form('formDemo');
-        this.toolbar = new Toolbar('tbDemo', this);
-        //this.toolbar.setLabel.click();
     },
 
     getForm: function () {

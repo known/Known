@@ -1,11 +1,10 @@
 ﻿var DevDatabase = {
 
     grid: null,
-    toolbar: null,
 
     show: function () {
+        new Toolbar('tbDatabase', this);
         this.grid = new Grid('Database');
-        this.toolbar = new Toolbar('tbDatabase', this);
     },
 
     //toolbar

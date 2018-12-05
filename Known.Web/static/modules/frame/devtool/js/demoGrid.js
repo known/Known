@@ -1,11 +1,9 @@
 ﻿var DemoGrid = {
 
     grid: null,
-    toolbar: null,
 
     show: function () {
-        this.grid = new Grid('Demo');
-        this.toolbar = new Toolbar('tbGrid', this);
+        new Toolbar('tbGrid', this);
 
         $('.query-btn-adv').click(function () {
             $('.query').toggle(0, function () {
@@ -13,7 +11,7 @@
             });
         });
 
-
+        this.grid = new Grid('Demo');
         this.grid.load();
     },
 

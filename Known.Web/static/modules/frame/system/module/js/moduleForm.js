@@ -1,19 +1,18 @@
 ﻿var ModuleForm = {
 
     option: null,
-    toolbar: null,
     form: null,
 
     show: function (option) {
         this.option = option;
-        this.toolbar = new Toolbar('tbModuleForm', this);
+        new Toolbar('tbModuleForm', this);
+
         this.form = new Form('formModule', {
             data: option.data,
             callback: function (f, d) {
                 $('#moduleIcon').attr('class', 'mini-icon mini-iconfont ' + d.Icon);
             }
         });
-
         //this.form.Icon.on('drawcell', this.onIconDrawCell);
     },
 

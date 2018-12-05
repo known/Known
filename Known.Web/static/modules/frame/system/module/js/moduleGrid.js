@@ -1,15 +1,14 @@
 ﻿var ModuleGrid = {
 
     option: null,
-    toolbar: null,
     grid: null,
 
     show: function (option) {
         this.option = option;
-        this.toolbar = new Toolbar('tbModule', this);
+        new Toolbar('tbModule', this);
+
         this.grid = new Grid('Module');
         this.grid.query.pid.setValue(option.pid);
-
         this.grid.load();
     },
 

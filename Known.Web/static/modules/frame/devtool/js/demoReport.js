@@ -1,12 +1,11 @@
 ﻿var DemoReport = {
 
     grid: null,
-    toolbar: null,
 
     show: function () {
-        this.grid = new Grid('Report');
-        this.toolbar = new Toolbar('tbReport', this);
+        new Toolbar('tbReport', this);
 
+        this.grid = new Grid('Report');
         this.grid.load();
     }
 
