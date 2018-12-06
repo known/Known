@@ -104,7 +104,6 @@
     <Content Include="static\modules\core\css\form.css" />
     <Content Include="static\modules\core\css\query.css" />
     <Content Include="static\modules\core\js\code.js" />
-    <Content Include="static\modules\core\js\core.js" />
     <Content Include="static\modules\core\js\miniui\columnsMenu.js" />
     <Content Include="static\modules\core\js\miniui\grid.js" />
     <Content Include="static\modules\core\js\miniui\decimalBox.js" />

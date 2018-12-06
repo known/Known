@@ -1,8 +1,9 @@
 ﻿///////////////////////////////////////////////////////////////////////
 var Form = function (formId, option) {
+    $.extend(true, this.option, option);
+
     this.formId = formId;
     this.form = new mini.Form('#' + formId);
-    this.option = $.extend(true, {}, this.option, option);
 
     var inputs = this.form.getFields();
     for (var i = 0; i < inputs.length; i++) {

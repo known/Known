@@ -1,5 +1,7 @@
 ﻿///////////////////////////////////////////////////////////////////////
 var Grid = function (name, option) {
+    $.extend(true, this.option, option);
+
     this.name = name;
     this.grid = mini.get('grid' + name);
 
@@ -19,8 +21,6 @@ var Grid = function (name, option) {
             });
         }
     }
-
-    this.option = $.extend(true, {}, this.option, option);
 };
 
 Grid.prototype = {
