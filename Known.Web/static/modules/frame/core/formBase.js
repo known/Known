@@ -1,12 +1,24 @@
 ﻿var FormBase = {
 
-    option: {},
+    option: {
+        saveUrl: '/api/prototype/saveform'
+    },
+
     form: null,
+
+    init: function (option) {
+        this.option = option;
+        new Toolbar(option.toolbarId, this);
+        this.form = new Form(option.formId, {
+            data: option.data,
+            callback: option.formInit
+        });
+    },
 
     save: function () {
         var _this = this;
         this.form.saveData({
-            url: '/api/module/savemodule',
+            url: _this.option.saveUrl,
             callback: function (data) {
                 _this.form.setData(data, _this.option.callback);
             }

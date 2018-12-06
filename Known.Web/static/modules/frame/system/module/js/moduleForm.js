@@ -3,15 +3,16 @@
     show: function (option) {
         $.extend(true, this, FormBase);
 
-        this.option = option;
-        new Toolbar('tbModuleForm', this);
-
-        this.form = new Form('formModule', {
-            data: option.data,
-            callback: function (f, d) {
+        $.extend(option, {
+            toolbarId: 'tbModuleForm',
+            formId: 'formModule',
+            formInit: function (f, d) {
                 $('#moduleIcon').attr('class', 'mini-icon mini-iconfont ' + d.Icon);
-            }
+            },
+            saveUrl: '/api/module/savemodule'
         });
+
+        this.init(option);
         //this.form.Icon.on('drawcell', this.onIconDrawCell);
     },
 
