@@ -8,10 +8,6 @@
         this.showGrid('0');
     },
 
-    close: function () {
-        window.CloseOwnerWindow();
-    },
-
     showGrid: function (pid) {
         var _this = this;
         ModuleGrid.show({

@@ -1,9 +1,8 @@
 ﻿var ModuleForm = {
 
-    option: null,
-    form: null,
-
     show: function (option) {
+        $.extend(true, this, FormBase);
+
         this.option = option;
         new Toolbar('tbModuleForm', this);
 
@@ -19,19 +18,6 @@
     onIconDrawCell: function (e) {
         var item = e.record, field = e.field, value = e.value;
         e.cellHtml = '<span class="fa ' + value + '" style="width:16px;"> ' + value + '</span>';
-    },
-
-    save: function () {
-        var _this = this;
-        this.form.saveData({
-            url: '/api/module/savemodule',
-            callback: function (data) {
-                _this.form.setData(data, _this.option.callback);
-            }
-        });
-    },
-
-    close: function () {
-        Dialog.close();
     }
+
 };

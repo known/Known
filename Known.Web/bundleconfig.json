@@ -66,6 +66,7 @@
       "static/modules/core/js",
       "static/modules/core/js/miniui",
       "static/modules/core/index.js",
+      "static/modules/frame/core",
       "static/modules/frame/index.js"
     ]
   },

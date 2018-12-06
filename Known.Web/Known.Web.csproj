@@ -112,6 +112,8 @@
     <Content Include="static\modules\core\js\miniui\config.js" />
     <Content Include="static\modules\core\js\miniui\pagerTree.js" />
     <Content Include="static\modules\core\js\miniui\toolbar.js" />
+    <Content Include="static\modules\frame\core\formBase.js" />
+    <Content Include="static\modules\frame\core\gridBase.js" />
     <Content Include="static\modules\frame\devtool\data\countrys.txt" />
     <Content Include="static\modules\frame\devtool\data\menu.txt" />
     <Content Include="static\modules\frame\devtool\data\listTree.txt" />
