@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Known.Extensions;
 using Known.Platform.Services;
 
 namespace Known.Web.Api.Controllers
@@ -43,6 +44,11 @@ namespace Known.Web.Api.Controllers
         {
             var result = Service.SaveModule(model);
             return ApiResult.Result(result);
+        }
+
+        public ApiResult DeleteModules(string data)
+        {
+            return ApiResult.Error($"不能删除！{data}");
         }
     }
 }

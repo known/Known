@@ -4,9 +4,8 @@
         $.extend(true, this, GridBase);
 
         $.extend(option, {
+            moduleCode: 'Module',
             moduleName: '模块管理',
-            toolbarId: 'tbModule',
-            gridName: 'Module',
             form: ModuleForm,
             formView: 'System/Module/ModuleForm',
             formData: {

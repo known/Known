@@ -4,6 +4,7 @@ var Grid = function (name, option) {
 
     this.name = name;
     this.grid = mini.get('grid' + name);
+    this.idField = this.grid.getIdField();
 
     var _this = this;
     if ($('#query' + name).length) {

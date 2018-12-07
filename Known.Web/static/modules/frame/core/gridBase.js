@@ -5,8 +5,10 @@
 
     init: function (option) {
         this.option = option;
-        new Toolbar(option.toolbarId, this);
-        this.grid = new Grid(option.gridName);
+        var code = option.moduleCode.toLowerCase();
+        this.option.deleteUrl = '/api/' + code + '/delete' + code + 's';
+        new Toolbar('tb' + option.moduleCode, this);
+        this.grid = new Grid(option.moduleCode);
     },
 
     showForm: function (data) {
@@ -39,12 +41,37 @@
     },
 
     remove: function () {
+        var _this = this;
         this.grid.deleteRows(function (rows) {
+            var data = mini.encode(_this.getRowDatas(rows));
+            Ajax.postJson(_this.option.deleteUrl, data, function (res) {
+                Message.result(res, function () {
+                    _this.grid.reload();
+                    option.callback && option.callback();
+                });
+            });
         });
     },
 
     close: function () {
         window.CloseOwnerWindow();
+    },
+
+    getRowDatas: function (rows, fields) {
+        var datas = [];
+        if (fields) {
+            $(rows).each(function (i, d) {
+                var data = {};
+                $(fields).each(function (i, p) {
+                    data[p] = d[p] || '';
+                });
+                datas.push(data);
+            });
+        } else {
+            var id = this.grid.idField;
+            $(rows).each(function (i, d) { datas.push(d[id] || ''); });
+        }
+        return datas;
     }
 
 };
