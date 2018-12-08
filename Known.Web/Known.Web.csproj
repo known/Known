@@ -142,7 +142,6 @@
     <Content Include="static\modules\frame\index.js" />
     <Content Include="static\modules\frame\system\module\index.js" />
     <Content Include="static\modules\frame\system\module\js\moduleForm.js" />
-    <Content Include="static\modules\frame\system\module\js\moduleGrid.js" />
     <Content Include="static\modules\index\css\dashboard.css" />
     <Content Include="static\modules\index\css\frame.css" />
     <Content Include="static\modules\index\css\menu.css" />
