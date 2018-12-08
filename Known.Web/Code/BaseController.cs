@@ -1,8 +1,10 @@
 ﻿using System.Web.Mvc;
+using Known.Data;
 using Known.Drawing;
 using Known.Extensions;
 using Known.Log;
 using Known.Platform;
+using Known.Platform.Services;
 using Known.Web.Extensions;
 
 namespace Known.Web
@@ -54,18 +56,27 @@ namespace Known.Web
             }
         }
 
+        public Context Context
+        {
+            get { return new Context(UserName); }
+        }
+
+        public Database Database
+        {
+            get { return Context.Database; }
+        }
+
         public User CurrentUser
         {
             get
             {
-                var user = Session["CurrentUser"];
-                if (user == null)
+                if (!(Session["CurrentUser"] is User user))
                 {
-                    var api = new ApiClient();
-                    user = api.Get<User>("/api/user/getuser", new { userName = UserName });
+                    var service = LoadService<UserService>();
+                    user = service.GetUser(UserName);
                     Session["CurrentUser"] = user;
                 }
-                return user as User;
+                return user;
             }
             set { Session["CurrentUser"] = value; }
         }
@@ -78,6 +89,11 @@ namespace Known.Web
         public bool IsAuthenticated
         {
             get { return User.Identity.IsAuthenticated; }
+        }
+
+        public T LoadService<T>() where T : ServiceBase
+        {
+            return ObjectFactory.CreateService<T>(Context);
         }
 
         public ActionResult ErrorResult(string message)
@@ -103,6 +119,40 @@ namespace Known.Web
         public ActionResult JsonResult(object data)
         {
             return Content(data.ToJson(), MimeTypes.ApplicationJson);
+        }
+
+        public ActionResult PageResult(PagingResult result)
+        {
+            return JsonResult(new
+            {
+                total = result.TotalCount,
+                data = result.PageData
+            });
+        }
+
+        public ActionResult PageResult<T>(PagingResult<T> result)
+        {
+            return JsonResult(new
+            {
+                total = result.TotalCount,
+                data = result.PageData
+            });
+        }
+
+        public ActionResult ExecuteResult(Result result)
+        {
+            if (!result.IsValid)
+                return ErrorResult(result.Message);
+
+            return SuccessResult(result.Message);
+        }
+
+        public ActionResult ExecuteResult<T>(Result<T> result)
+        {
+            if (!result.IsValid)
+                return ErrorResult(result.Message);
+
+            return SuccessResult(result.Message, result.Data);
         }
     }
 }

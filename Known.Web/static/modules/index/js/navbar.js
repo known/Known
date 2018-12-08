@@ -15,14 +15,14 @@
     },
 
     cache: function () {
-        Ajax.getJson('/api/user/getcodes', function (data) {
+        Ajax.getJson('/user/getcodes', function (data) {
             Code.setData(data);
             Message.tips({ content: '刷新成功！' });
         });
     },
 
     info: function () {
-        Ajax.getJson('/api/user/getuserinfo', function (data) {
+        Ajax.getJson('/user/getuserinfo', function (data) {
         });
     },
 

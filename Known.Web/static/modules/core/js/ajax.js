@@ -4,33 +4,18 @@ var Ajax = {
     _request: function (type, dataType, args) {
         var url = args[0],
             data = null,
-            param = null,
             callback = null;
 
         if (args.length > 2) {
             data = args[1];
-            param = args[1];
             callback = args[2];
         } else if (args.length > 1) {
             if (typeof args[1] === 'function') {
                 callback = args[1];
             } else {
                 data = args[1];
-                param = args[1];
             }
         }
-
-        if (new RegExp("^/api/").test(url)) {
-            data = { route: url.replace('/api/', '') };
-            if (param) {
-                data.param = JSON.stringify(param);
-            }
-            url = type === 'get' ? '/api/get' : '/api/post';
-        }
-
-        //console.log(url);
-        //console.log(data);
-        //console.log(callback);
 
         $.ajax({
             type: type, dataType: dataType,

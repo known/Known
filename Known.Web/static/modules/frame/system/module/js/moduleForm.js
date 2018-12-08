@@ -9,7 +9,7 @@
             formInit: function (f, d) {
                 $('#moduleIcon').attr('class', 'mini-icon mini-iconfont ' + d.Icon);
             },
-            saveUrl: '/api/module/savemodule'
+            saveUrl: '/module/savemodule'
         });
 
         this.init(option);
