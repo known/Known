@@ -9,7 +9,7 @@ using Known.Extensions;
 
 namespace Known
 {
-    public class Utils
+    public sealed class Utils
     {
         #region Base
         public static string NewGuid
@@ -187,79 +187,87 @@ namespace Known
             return fileName.Substring(index).ToLower();
         }
         #endregion
-    }
 
-    sealed class IPInfo
-    {
-        class IPCheckResult
+        #region IP
+        public static string GetIPAddressName(string ipAddress)
         {
-            public int code { get; set; }
-            public IPAdderssData data { get; set; }
+            return IPInfo.GetIPAddressName(ipAddress);
         }
 
-        class IPAdderssData
+        class IPInfo
         {
-            public string country { get; set; }
-            public string country_id { get; set; }
-            public string area { get; set; }
-            public string area_id { get; set; }
-            public string region { get; set; }
-            public string region_id { get; set; }
-            public string city { get; set; }
-            public string city_id { get; set; }
-            public string county { get; set; }
-            public string county_id { get; set; }
-            public string isp { get; set; }
-            public string isp_id { get; set; }
-            public string ip { get; set; }
-        }
-
-        private static Hashtable cached = new Hashtable();
-
-        internal static string GetIPAddressName(string ipAddress)
-        {
-            if (!cached.ContainsKey(ipAddress))
+            class IPCheckResult
             {
-                lock (cached.SyncRoot)
-                {
-                    var ipAddressName = GetIPName(ipAddress);
-                    if (!string.IsNullOrWhiteSpace(ipAddressName))
-                        cached[ipAddress] = ipAddressName;
-                }
+                public int code { get; set; }
+                public IPAdderssData data { get; set; }
             }
 
-            if (!cached.ContainsKey(ipAddress))
-                return string.Empty;
-
-            return (string)cached[ipAddress];
-        }
-
-        private static string GetIPName(string ip)
-        {
-            try
+            class IPAdderssData
             {
-                var url = string.Format("http://ip.taobao.com/service/getIpInfo.php?ip={0}", ip);
-                var client = new WebClient();
-                var json = client.DownloadString(url);
-                var info = json.FromJson<IPCheckResult>();
-                if (info == null)
+                public string country { get; set; }
+                public string country_id { get; set; }
+                public string area { get; set; }
+                public string area_id { get; set; }
+                public string region { get; set; }
+                public string region_id { get; set; }
+                public string city { get; set; }
+                public string city_id { get; set; }
+                public string county { get; set; }
+                public string county_id { get; set; }
+                public string isp { get; set; }
+                public string isp_id { get; set; }
+                public string ip { get; set; }
+            }
+
+            private static Hashtable cached = new Hashtable();
+
+            internal static string GetIPAddressName(string ipAddress)
+            {
+                if (!cached.ContainsKey(ipAddress))
+                {
+                    lock (cached.SyncRoot)
+                    {
+                        var ipAddressName = GetIPName(ipAddress);
+                        if (!string.IsNullOrWhiteSpace(ipAddressName))
+                            cached[ipAddress] = ipAddressName;
+                    }
+                }
+
+                if (!cached.ContainsKey(ipAddress))
                     return string.Empty;
 
-                var ipName = string.Empty;
-                if (info.data.region == info.data.city)
-                    ipName = string.Format("{0}{1}{2}", info.data.region, info.data.county, info.data.isp);
-                else
-                    ipName = string.Format("{0}{1}{2}{3}", info.data.region, info.data.city, info.data.county, info.data.isp);
-
-                if (string.IsNullOrWhiteSpace(ipName))
-                    ipName = info.data.country;
-
-                return ipName;
+                return (string)cached[ipAddress];
             }
-            catch
+
+            private static string GetIPName(string ip)
             {
-                return string.Empty;
+                try
+                {
+                    var url = string.Format("http://ip.taobao.com/service/getIpInfo.php?ip={0}", ip);
+                    var client = new WebClient();
+                    var json = client.DownloadString(url);
+                    var info = json.FromJson<IPCheckResult>();
+                    if (info == null)
+                        return string.Empty;
+
+                    var ipName = string.Empty;
+                    if (info.data.region == info.data.city)
+                        ipName = string.Format("{0}{1}{2}", info.data.region, info.data.county, info.data.isp);
+                    else
+                        ipName = string.Format("{0}{1}{2}{3}", info.data.region, info.data.city, info.data.county, info.data.isp);
+
+                    if (string.IsNullOrWhiteSpace(ipName))
+                        ipName = info.data.country;
+
+                    return ipName;
+                }
+                catch
+                {
+                    return string.Empty;
+                }
             }
         }
+        #endregion
     }
 }
+

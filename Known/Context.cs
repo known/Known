@@ -10,7 +10,7 @@ namespace Known
             Database = new Database { UserName = userName };
             Logger = new FileLogger();
             UserName = userName;
-            Param = new DynamicParam();
+            Parameter = new DynamicParameter();
         }
 
         public Context(ILogger logger) : this(null, logger) { }
@@ -27,12 +27,12 @@ namespace Known
 
             Logger = logger;
             UserName = userName;
-            Param = new DynamicParam();
+            Parameter = new DynamicParameter();
         }
 
         public Database Database { get; }
         public ILogger Logger { get; }
         public string UserName { get; }
-        public dynamic Param { get; }
+        public dynamic Parameter { get; }
     }
 }

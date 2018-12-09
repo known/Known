@@ -11,7 +11,7 @@ namespace Known.Tests.KnownTests
             Assert.IsNotNull(context.Logger);
             Assert.IsNull(context.Database);
             Assert.IsNull(context.UserName);
-            Assert.IsNotNull(context.Param);
+            Assert.IsNotNull(context.Parameter);
         }
 
         public static void TestConstructor2()
@@ -20,7 +20,7 @@ namespace Known.Tests.KnownTests
             Assert.IsNotNull(context.Logger);
             Assert.IsNotNull(context.Database);
             Assert.IsNull(context.UserName);
-            Assert.IsNotNull(context.Param);
+            Assert.IsNotNull(context.Parameter);
         }
 
         public static void TestConstructor3()
@@ -29,7 +29,7 @@ namespace Known.Tests.KnownTests
             Assert.IsNotNull(context.Logger);
             Assert.IsNotNull(context.Database);
             Assert.IsNotNull(context.UserName);
-            Assert.IsNotNull(context.Param);
+            Assert.IsNotNull(context.Parameter);
             Assert.IsEqual(context.UserName, "Known");
             Assert.IsEqual(context.Database.UserName, "Known");
         }
@@ -37,11 +37,11 @@ namespace Known.Tests.KnownTests
         public static void TestDynamicParam()
         {
             var context = new Context(new ConsoleLogger());
-            context.Param.Id = 1;
-            context.Param.Name = "Known";
-            Assert.IsNotNull(context.Param);
-            Assert.IsEqual(context.Param.Id, 1);
-            Assert.IsEqual(context.Param.Name, "Known");
+            context.Parameter.Id = 1;
+            context.Parameter.Name = "Known";
+            Assert.IsNotNull(context.Parameter);
+            Assert.IsEqual(context.Parameter.Id, 1);
+            Assert.IsEqual(context.Parameter.Name, "Known");
         }
     }
 }

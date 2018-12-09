@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DbRepository.cs" />
-    <Compile Include="DynamicParam.cs" />
+    <Compile Include="DynamicParameter.cs" />
     <Compile Include="Jobs\CheckResult.cs" />
     <Compile Include="Jobs\ExecuteResult.cs" />
     <Compile Include="Jobs\IJob.cs" />

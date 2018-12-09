@@ -3,7 +3,7 @@ using System.Dynamic;
 
 namespace Known
 {
-    internal sealed class DynamicParam : DynamicObject
+    internal sealed class DynamicParameter : DynamicObject
     {
         private Dictionary<string, object> datas = new Dictionary<string, object>();
 

@@ -75,7 +75,7 @@ namespace Known.Web.Extensions
         public static string GetIPAddressName(this HttpRequestBase request)
         {
             var ipAddress = request.GetIPAddress();
-            return IPInfo.GetIPAddressName(ipAddress);
+            return Utils.GetIPAddressName(ipAddress);
         }
     }
 }
