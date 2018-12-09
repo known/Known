@@ -16,7 +16,7 @@ namespace Known.Jobs
         public CheckResult CheckInterval(string interval)
         {
             if (string.IsNullOrEmpty(interval))
-                return new CheckResult { Pass = false, ErrorMessage = "时间间隔不能为空！" };
+                return new CheckResult { IsPass = false, ErrorMessage = "时间间隔不能为空！" };
 
             var timerInterval = 1000;
             var timeFormat = string.Empty;
@@ -29,18 +29,18 @@ namespace Known.Jobs
                 timeValues = intervalArray[1].Split(',').ToList();
 
                 if (timeValues == null || timeValues.Count == 0)
-                    return new CheckResult { Pass = false, ErrorMessage = "间隔时间配置错误，没有对应的时间值。" };
+                    return new CheckResult { IsPass = false, ErrorMessage = "间隔时间配置错误，没有对应的时间值。" };
             }
             else
             {
                 int.TryParse(interval, out timerInterval);
                 if (timerInterval < 1000)
-                    return new CheckResult { Pass = false, ErrorMessage = "时间间隔不能小于1000！" };
+                    return new CheckResult { IsPass = false, ErrorMessage = "时间间隔不能小于1000！" };
             }
 
             return new CheckResult
             {
-                Pass = true,
+                IsPass = true,
                 ErrorMessage = string.Empty,
                 TimerInterval = timerInterval,
                 TimeFormat = timeFormat,

@@ -39,7 +39,7 @@ namespace Known.Jobs
             {
                 return new CheckResult
                 {
-                    Pass = false,
+                    IsPass = false,
                     ErrorMessage = "没有找到执行目标类型！"
                 };
             }
@@ -49,7 +49,7 @@ namespace Known.Jobs
             {
                 return new CheckResult
                 {
-                    Pass = false,
+                    IsPass = false,
                     ErrorMessage = "执行目标实例为空，请确认Job类型是实现IJob接口。"
                 };
             }

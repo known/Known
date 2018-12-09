@@ -30,5 +30,6 @@ namespace Known.Jobs
         public string Message { get; set; }
         public string Enabled { get; set; }
         public int RunCount { get; set; }
+        public bool IsRestart { get; set; }
     }
 }
