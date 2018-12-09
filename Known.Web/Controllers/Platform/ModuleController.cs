@@ -62,12 +62,6 @@ namespace Known.Web.Controllers.Platform
             return JsonResult(menus);
         }
 
-        public ActionResult GetModule(string mid)
-        {
-            var module = Service.GetModule(mid);
-            return JsonResult(module);
-        }
-
         public ActionResult SaveModule(string data)
         {
             var model = FromJson(data);

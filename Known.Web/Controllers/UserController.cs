@@ -39,7 +39,6 @@ namespace Known.Web.Controllers
             Session.Clear();
         }
 
-        #region GetUserMenus
         [LoginAuthorize]
         public ActionResult GetModules()
         {
@@ -53,7 +52,7 @@ namespace Known.Web.Controllers
                     var menu = Menu.GetMenu(item);
                     menu.expanded = index == 0;
                     menus.Add(menu);
-                    SetSubModules(menus, item, menu);
+                    Menu.SetSubModules(menus, item, menu);
                     index++;
                 }
             }
@@ -63,27 +62,6 @@ namespace Known.Web.Controllers
 
             return JsonResult(new { menus, codes });
         }
-
-        private void SetSubModules(List<Menu> menus, Module module, Menu menu)
-        {
-            if (module.Children == null || module.Children.Count == 0)
-            {
-                if (string.IsNullOrWhiteSpace(menu.url))
-                {
-                    menu.url = $"/frame?mid={menu.id}";
-                }
-                return;
-            }
-
-            menu.children = new List<Menu>();
-            foreach (var item in module.Children)
-            {
-                var menu1 = Menu.GetMenu(item);
-                menu.children.Add(menu1);
-                SetSubModules(menus, item, menu1);
-            }
-        }
-        #endregion
 
         [LoginAuthorize]
         public ActionResult GetCodes()
@@ -116,6 +94,26 @@ namespace Known.Web.Controllers
                 iconCls = module.Icon,
                 url = module.Url
             };
+        }
+
+        public static void SetSubModules(List<Menu> menus, Module module, Menu menu)
+        {
+            if (module.Children == null || module.Children.Count == 0)
+            {
+                if (string.IsNullOrWhiteSpace(menu.url))
+                {
+                    menu.url = $"/frame?mid={menu.id}";
+                }
+                return;
+            }
+
+            menu.children = new List<Menu>();
+            foreach (var item in module.Children)
+            {
+                var menu1 = GetMenu(item);
+                menu.children.Add(menu1);
+                SetSubModules(menus, item, menu1);
+            }
         }
     }
 
