@@ -4,7 +4,7 @@ using Known.Log;
 
 namespace Known.Web.Api
 {
-    public class BaseApiController : ApiController, IController
+    public class BaseApiController : ApiController
     {
         public Context Context
         {

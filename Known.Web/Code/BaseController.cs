@@ -9,7 +9,7 @@ using Known.Web.Extensions;
 
 namespace Known.Web
 {
-    public class BaseController : AsyncController, IController
+    public class BaseController : AsyncController
     {
         protected ILogger log = new FileLogger();
 

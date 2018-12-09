@@ -99,7 +99,6 @@
     <Compile Include="Drawing\CaptchaProvider.cs" />
     <Compile Include="Drawing\ImageHelper.cs" />
     <Compile Include="Drawing\ImageOption.cs" />
-    <Compile Include="IController.cs" />
     <Compile Include="MimeTypes.cs" />
     <Compile Include="Serialization\DataContractProvider.cs" />
     <Compile Include="Serialization\DefaultJsonProvider.cs" />
