@@ -43,8 +43,9 @@
     remove: function () {
         var _this = this;
         this.grid.deleteRows(function (rows) {
-            var data = mini.encode(_this.getRowDatas(rows));
-            Ajax.postJson(_this.option.deleteUrl, data, function (res) {
+            Ajax.postJson(_this.option.deleteUrl, {
+                data: _this.getRowDatas(rows)
+            }, function (res) {
                 Message.result(res, function () {
                     _this.grid.reload();
                     option.callback && option.callback();

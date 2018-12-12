@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using Known.Extensions;
 using Known.Platform;
 using Known.Platform.Services;
 using Known.Web.Extensions;
@@ -71,7 +72,9 @@ namespace Known.Web.Controllers.Platform
 
         public ActionResult DeleteModules(string[] data)
         {
-            return ErrorResult($"不能删除！{data}");
+            var modules = Service.GetModules(data);
+            var result = Service.DeleteModules(modules);
+            return ExecuteResult(result);
         }
     }
 }

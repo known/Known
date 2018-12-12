@@ -1,10 +1,12 @@
-﻿using Known.Data;
+﻿using System.Collections.Generic;
+using Known.Data;
 
 namespace Known.Platform.Repositories
 {
     public interface IModuleRepository : IRepository
     {
         PagingResult<Module> QueryModules(PagingCriteria criteria);
+        List<Module> GetModules(string[] ids);
     }
 
     internal class ModuleRepository : DbRepository, IModuleRepository
@@ -25,6 +27,13 @@ namespace Known.Platform.Repositories
             }
 
             return Database.QueryPage<Module>(sql, criteria);
+        }
+
+        public List<Module> GetModules(string[] ids)
+        {
+            var id = string.Join("','", ids);
+            var sql = $"select * from t_plt_modules where id in ('{id}')";
+            return Database.QueryList<Module>(sql);
         }
     }
 }

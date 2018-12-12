@@ -21,6 +21,11 @@ namespace Known.Platform.Services
             return Repository.QueryModules(criteria);
         }
 
+        public List<Module> GetModules(string[] ids)
+        {
+            return Repository.GetModules(ids);
+        }
+
         public List<Module> GetModules(bool isTree = false)
         {
             var modules = Repository.QueryList<Module>();
@@ -110,6 +115,17 @@ namespace Known.Platform.Services
 
             Repository.Save(entity);
             return Result.Success("保存成功！", entity);
+        }
+
+        public Result DeleteModules(List<Module> modules)
+        {
+            if (modules == null || modules.Count == 0)
+                return Result.Error("请至少选择一条记录进行操作！");
+
+            return Repository.Transaction(rep =>
+            {
+                modules.ForEach(e => rep.Delete(e));
+            });
         }
     }
 }
