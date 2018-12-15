@@ -29,6 +29,14 @@ namespace Known.Data
             return $"select * from {tableName}";
         }
 
+        public static string GetQueryListByIdSql<T>(string[] ids)
+        {
+            var type = typeof(T);
+            var tableName = GetCachedTableAttribute(type).TableName;
+            var id = string.Join("','", ids);
+            return $"select * from {tableName} where id in ('{id}')";
+        }
+
         public static string GetCountSql(string sql)
         {
             return $"select count(1) from ({sql}) t";

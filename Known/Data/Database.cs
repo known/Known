@@ -11,15 +11,12 @@ namespace Known.Data
 
         public Database(string name)
         {
+            Name = name;
             Provider = new DbProvider(name);
         }
 
-        public Database(IDbProvider provider)
-        {
-            Provider = provider ?? throw new ArgumentNullException(nameof(provider));
-        }
-
         internal IDbProvider Provider { get; }
+        public string Name { get; }
         public string ConnectionString
         {
             get { return Provider.ConnectionString; }
@@ -29,7 +26,7 @@ namespace Known.Data
 
         public Result Transaction(Action<Database> action)
         {
-            var db = new Database(Provider);
+            var db = new Database(Name);
 
             try
             {
@@ -86,6 +83,13 @@ namespace Known.Data
         public List<T> QueryList<T>(string sql, object param = null) where T : BaseEntity
         {
             var data = QueryTable(sql, param);
+            return AutoMapper.GetBaseEntities<T>(data);
+        }
+
+        public List<T> QueryListById<T>(string[] ids) where T : BaseEntity
+        {
+            var sql = CommandHelper.GetQueryListByIdSql<T>(ids);
+            var data = QueryTable(sql);
             return AutoMapper.GetBaseEntities<T>(data);
         }
 

@@ -26,6 +26,14 @@ namespace Known.Data
             return Database.QueryList<T>();
         }
 
+        public List<T> QueryListById<T>(string[] ids) where T : BaseEntity
+        {
+            if (ids == null || ids.Length == 0)
+                return null;
+
+            return Database.QueryListById<T>(ids);
+        }
+
         public void Save<T>(T entity) where T : BaseEntity
         {
             if (entity == null)
@@ -44,7 +52,8 @@ namespace Known.Data
 
         public Result Transaction(Action<IRepository> action)
         {
-            var rep = new DbRepository(Database);
+            var db = new Database(Database.Name);
+            var rep = new DbRepository(db);
 
             try
             {

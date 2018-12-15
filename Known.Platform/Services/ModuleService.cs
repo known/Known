@@ -23,7 +23,7 @@ namespace Known.Platform.Services
 
         public List<Module> GetModules(string[] ids)
         {
-            return Repository.GetModules(ids);
+            return Repository.QueryListById<Module>(ids);
         }
 
         public List<Module> GetModules(bool isTree = false)

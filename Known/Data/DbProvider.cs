@@ -26,6 +26,10 @@ namespace Known.Data
 
         public void BeginTrans()
         {
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+            }
             trans = conn.BeginTransaction();
         }
 
