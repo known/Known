@@ -57,19 +57,19 @@ namespace Known.Data
 
             try
             {
-                rep.Database.Provider.BeginTrans();
+                rep.Database.BeginTrans();
                 action(rep);
-                rep.Database.Provider.Commit();
+                rep.Database.Commit();
                 return Result.Success("");
             }
             catch (Exception ex)
             {
-                rep.Database.Provider.Rollback();
+                rep.Database.Rollback();
                 throw ex;
             }
             finally
             {
-                rep.Database.Provider.Dispose();
+                rep.Database.Dispose();
             }
         }
     }

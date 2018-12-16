@@ -5,24 +5,40 @@ using Known.Mapping;
 
 namespace Known.Data
 {
-    public class Database
+    public class Database : IDisposable
     {
+        private IDbProvider provider;
+
         public Database() : this("Default") { }
 
         public Database(string name)
         {
             Name = name;
-            Provider = new DbProvider(name);
+            provider = new DbProvider(name);
         }
 
-        internal IDbProvider Provider { get; }
         public string Name { get; }
         public string ConnectionString
         {
-            get { return Provider.ConnectionString; }
+            get { return provider.ConnectionString; }
         }
 
         public string UserName { get; internal set; }
+
+        public void BeginTrans()
+        {
+            provider.BeginTrans();
+        }
+
+        public void Commit()
+        {
+            provider.Commit();
+        }
+
+        public void Rollback()
+        {
+            provider.Rollback();
+        }
 
         public Result Transaction(Action<Database> action)
         {
@@ -30,32 +46,32 @@ namespace Known.Data
 
             try
             {
-                db.Provider.BeginTrans();
+                db.BeginTrans();
                 action(db);
-                db.Provider.Commit();
+                db.Commit();
                 return Result.Success("");
             }
             catch (Exception ex)
             {
-                db.Provider.Rollback();
+                db.Rollback();
                 throw ex;
             }
             finally
             {
-                db.Provider.Dispose();
+                db.Dispose();
             }
         }
 
         public void Execute(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            Provider.Execute(command);
+            provider.Execute(command);
         }
 
         public T Scalar<T>(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            return (T)Provider.Scalar(command);
+            return (T)provider.Scalar(command);
         }
 
         public T QueryById<T>(string id) where T : BaseEntity
@@ -117,7 +133,7 @@ namespace Known.Data
             }
 
             var command = CommandHelper.GetSaveCommand(entity);
-            Provider.Execute(command);
+            provider.Execute(command);
         }
 
         public void Save<T>(List<T> entities) where T : BaseEntity
@@ -131,7 +147,7 @@ namespace Known.Data
         public void Delete<T>(T entity) where T : BaseEntity
         {
             var command = CommandHelper.GetDeleteCommand(entity);
-            Provider.Execute(command);
+            provider.Execute(command);
         }
 
         public void Delete<T>(List<T> entities) where T : BaseEntity
@@ -144,13 +160,13 @@ namespace Known.Data
 
         public void WriteTable(DataTable table)
         {
-            Provider.WriteTable(table);
+            provider.WriteTable(table);
         }
 
         public DataTable QueryTable(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            return Provider.Query(command);
+            return provider.Query(command);
         }
 
         public PagingResult QueryPageTable(string sql, PagingCriteria criteria)
@@ -161,22 +177,31 @@ namespace Known.Data
 
             var sqlCount = CommandHelper.GetCountSql(cmd.Text);
             var cmdCount = new Command(sqlCount, cmd.Parameters);
-            var totalCount = (int)Provider.Scalar(cmdCount);
+            var totalCount = (int)provider.Scalar(cmdCount);
 
             var sqlPage = CommandHelper.GetPagingSql(cmd.Text, criteria);
             var cmdData = new Command(sqlPage, cmd.Parameters);
-            var pageData = Provider.Query(cmdData);
+            var pageData = provider.Query(cmdData);
             return new PagingResult(totalCount, pageData);
         }
 
         public DataRow QueryRow(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            var data = Provider.Query(command);
+            var data = provider.Query(command);
             if (data == null || data.Rows.Count == 0)
                 return null;
 
             return data.Rows[0];
+        }
+
+        public void Dispose()
+        {
+            if (provider != null)
+            {
+                provider.Dispose();
+                provider = null;
+            }
         }
     }
 }
