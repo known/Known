@@ -5,15 +5,10 @@ using Known.Platform.Repositories;
 
 namespace Known.Platform.Services
 {
-    public class ModuleService : PlatformService
+    public class ModuleService : PlatformService<IModuleRepository>
     {
         public ModuleService(Context context) : base(context)
         {
-        }
-
-        public IModuleRepository Repository
-        {
-            get { return LoadRepository<IModuleRepository>(); }
         }
 
         public PagingResult<Module> QueryModules(PagingCriteria criteria)

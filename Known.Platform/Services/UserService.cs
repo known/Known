@@ -5,15 +5,10 @@ using Known.Platform.Repositories;
 
 namespace Known.Platform.Services
 {
-    public class UserService : PlatformService
+    public class UserService : PlatformService<IUserRepository>
     {
         public UserService(Context context) : base(context)
         {
-        }
-
-        public IUserRepository Repository
-        {
-            get { return LoadRepository<IUserRepository>(); }
         }
 
         public Result<User> SignIn(string userName, string password)
