@@ -127,5 +127,20 @@ namespace Known.Platform.Services
                 modules.ForEach(e => rep.Delete(e));
             });
         }
+
+        public Result DropModule(string id, string pid)
+        {
+            var module = Repository.QueryById<Module>(id);
+            if (module == null)
+                return Result.Error("模块不存在！");
+
+            var parent = Repository.QueryById<Module>(pid);
+            if (parent == null)
+                return Result.Error("父模块不存在！");
+
+            module.ParentId = parent.Id;
+            Repository.Save(module);
+            return Result.Success("保存成功！");
+        }
     }
 }

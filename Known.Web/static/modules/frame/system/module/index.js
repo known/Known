@@ -24,6 +24,7 @@
 
         this.tree = mini.get('leftTree');
         this.tree.on('nodeselect', this.onTreeNodeSelect);
+        this.tree.on('drop', this.onTreeDrop);
         this.showGrid('0');
     },
 
@@ -38,6 +39,14 @@
 
     onTreeNodeSelect: function (e) {
         ModuleView.showGrid(e.node.id);
+    },
+
+    onTreeDrop: function (e) {
+        Ajax.postJson('/module/dropmodule', {
+            id: e.dragNode.id, pid: e.dragNode.pid
+        }, function (res) {
+            Message.result(res);
+        });
     },
 
     //toolbar

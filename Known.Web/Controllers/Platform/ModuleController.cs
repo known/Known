@@ -76,5 +76,11 @@ namespace Known.Web.Controllers.Platform
             var result = Service.DeleteModules(modules);
             return ExecuteResult(result);
         }
+
+        public ActionResult DropModule(string id, string pid)
+        {
+            var result = Service.DropModule(id, pid);
+            return ExecuteResult(result);
+        }
     }
 }
