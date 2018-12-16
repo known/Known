@@ -15,7 +15,7 @@ namespace Known.Web
 
         public BaseController()
         {
-            ViewBag.SystemName = Setting.Instance.SystemName;
+            ViewBag.SystemName = Setting.Instance.AppName;
         }
 
         public ActionResult Captcha()

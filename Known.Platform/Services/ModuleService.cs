@@ -35,8 +35,8 @@ namespace Known.Platform.Services
                 {
                     Id = "0",
                     ParentId = "-1",
-                    Code = Setting.Instance.SystemId,
-                    Name = Setting.Instance.SystemName,
+                    Code = Setting.Instance.AppId,
+                    Name = Setting.Instance.AppName,
                     Sort = 1
                 });
             }
@@ -100,7 +100,7 @@ namespace Known.Platform.Services
             if (entity == null)
             {
                 entity = new Module();
-                entity.AppId = Setting.Instance.SystemId;
+                entity.AppId = Setting.Instance.AppId;
             }
             entity.FillModel(model);
 

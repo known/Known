@@ -6,8 +6,8 @@
 
         private Setting()
         {
-            SystemId = Config.AppSetting("SystemId");
-            SystemName = Config.AppSetting("SystemName");
+            AppId = Config.AppSetting("AppId");
+            AppName = Config.AppSetting("AppName");
             SmtpServer = Config.AppSetting("SmtpServer");
             SmtpPort = Config.AppSetting<int>("SmtpPort");
             SmtpFromName = Config.AppSetting("SmtpFromName");
@@ -22,8 +22,8 @@
         }
 
         public bool IsDbAudit { get; }
-        public string SystemId { get; }
-        public string SystemName { get; }
+        public string AppId { get; }
+        public string AppName { get; }
         public string SmtpServer { get; }
         public int SmtpPort { get; }
         public string SmtpFromName { get; }
