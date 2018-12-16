@@ -14,7 +14,8 @@ namespace Known
             byte[] bytes;
             using (var md5 = MD5.Create())
             {
-                bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(value));
+                var buffer = Encoding.UTF8.GetBytes(value);
+                bytes = md5.ComputeHash(buffer);
             }
 
             var sb = new StringBuilder();
@@ -22,6 +23,7 @@ namespace Known
             {
                 sb.Append(item.ToString("x2"));
             }
+
             return sb.ToString();
         }
 
@@ -30,10 +32,16 @@ namespace Known
             if (string.IsNullOrWhiteSpace(value))
                 return string.Empty;
 
-            var key = new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(password));
-            var des = new TripleDESCryptoServiceProvider() { Key = key, Mode = CipherMode.ECB };
+            var buffer = Encoding.UTF8.GetBytes(password);
+            var key = new MD5CryptoServiceProvider().ComputeHash(buffer);
+            var des = new TripleDESCryptoServiceProvider
+            {
+                Key = key,
+                Mode = CipherMode.ECB
+            };
             var datas = Encoding.UTF8.GetBytes(value);
-            var bytes = des.CreateEncryptor().TransformFinalBlock(datas, 0, datas.Length);
+            var bytes = des.CreateEncryptor()
+                           .TransformFinalBlock(datas, 0, datas.Length);
             return Convert.ToBase64String(bytes);
         }
 
@@ -42,10 +50,16 @@ namespace Known
             if (string.IsNullOrWhiteSpace(value))
                 return string.Empty;
 
-            var key = new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(password));
-            var des = new TripleDESCryptoServiceProvider() { Key = key, Mode = CipherMode.ECB };
+            var buffer = Encoding.UTF8.GetBytes(password);
+            var key = new MD5CryptoServiceProvider().ComputeHash(buffer);
+            var des = new TripleDESCryptoServiceProvider
+            {
+                Key = key,
+                Mode = CipherMode.ECB
+            };
             var datas = Convert.FromBase64String(value);
-            var bytes = des.CreateDecryptor().TransformFinalBlock(datas, 0, datas.Length);
+            var bytes = des.CreateDecryptor()
+                           .TransformFinalBlock(datas, 0, datas.Length);
             return Encoding.UTF8.GetString(bytes);
         }
     }
