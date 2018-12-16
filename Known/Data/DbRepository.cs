@@ -11,7 +11,7 @@ namespace Known.Data
             Database = database;
         }
 
-        public Database Database { get; }
+        protected Database Database { get; }
 
         public T QueryById<T>(string id) where T : BaseEntity
         {

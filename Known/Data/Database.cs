@@ -25,17 +25,17 @@ namespace Known.Data
 
         public string UserName { get; internal set; }
 
-        public void BeginTrans()
+        internal void BeginTrans()
         {
             provider.BeginTrans();
         }
 
-        public void Commit()
+        internal void Commit()
         {
             provider.Commit();
         }
 
-        public void Rollback()
+        internal void Rollback()
         {
             provider.Rollback();
         }
