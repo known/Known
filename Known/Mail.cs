@@ -12,7 +12,7 @@ namespace Known
     public class Mail
     {
         private readonly string smtpServer = string.Empty;
-        private int? smtpPort = null;
+        private readonly int? smtpPort = null;
         private readonly string fromName = string.Empty;
         private readonly string fromEmail = string.Empty;
         private readonly string fromPassword = string.Empty;
@@ -20,12 +20,6 @@ namespace Known
         private List<MailAddress> ccMails = new List<MailAddress>();
         private List<MailAddress> bccMails = new List<MailAddress>();
         private List<string> attachments = new List<string>();
-
-        public Mail(string fromName, string fromEmail)
-        {
-            this.fromName = fromName;
-            this.fromEmail = fromEmail;
-        }
 
         public Mail(string smtpServer, int? smtpPort, string fromName, string fromEmail, string fromPassword)
         {
