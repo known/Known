@@ -23,7 +23,7 @@ namespace Known.Web
             var code = string.Empty;
             var bytes = ImageHelper.CreateCaptcha(4, out code);
             Session.SetValue("CaptchaCode", code);
-            return File(bytes, "image/jpeg");
+            return File(bytes, MimeTypes.ImageJpeg);
         }
 
         public ActionResult Partial(string name, dynamic model)
@@ -58,12 +58,12 @@ namespace Known.Web
 
         public Context Context
         {
-            get { return new Context(UserName); }
-        }
-
-        public Database Database
-        {
-            get { return Context.Database; }
+            get
+            {
+                var database = new Database();
+                var logger = new FileLogger();
+                return new Context(database, logger, UserName);
+            }
         }
 
         public User CurrentUser

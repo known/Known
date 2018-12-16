@@ -8,7 +8,7 @@ namespace Known.Web.Controllers.Demo
         {
             var sql = criteria.Parameter.querySql.ToString();
             criteria.Parameter = null;
-            var result = Database.QueryPageTable(sql, criteria) as PagingResult;
+            var result = Context.Database.QueryPageTable(sql, criteria) as PagingResult;
             return PageResult(result);
         }
     }
