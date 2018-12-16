@@ -40,12 +40,10 @@ namespace Known
         public static T Load<T>()
         {
             var key = typeof(T);
-            if (cached.ContainsKey(key))
-            {
-                return (T)cached[key];
-            }
+            if (!cached.ContainsKey(key))
+                return default(T);
 
-            return default(T);
+            return (T)cached[key];
         }
     }
 }
