@@ -14,7 +14,11 @@ namespace Known
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            result = datas[binder.Name];
+            result = null;
+            if (datas.ContainsKey(binder.Name))
+            {
+                result = datas[binder.Name];
+            }
             return true;
         }
 
