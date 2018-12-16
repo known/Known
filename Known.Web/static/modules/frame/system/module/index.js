@@ -42,6 +42,9 @@
     },
 
     onTreeDrop: function (e) {
+        if (e.dragAction !== 'add')
+            return;
+
         Ajax.postJson('/module/dropmodule', {
             id: e.dragNode.id, pid: e.dragNode.pid
         }, function (res) {
