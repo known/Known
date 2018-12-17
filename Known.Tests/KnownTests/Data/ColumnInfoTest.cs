@@ -10,13 +10,13 @@ namespace Known.Tests.KnownTests.Data
             var properties = typeof(TestEntity).GetColumnProperties();
             foreach (var item in properties)
             {
-                var columnName = ColumnInfo.GetColumnName(item);
+                var column = new ColumnInfo(item);
                 if (item.Name == "Item1")
-                    Assert.IsEqual(columnName, "item1");
+                    Assert.IsEqual(column.ColumnName, "item1");
                 else if (item.Name == "Item4")
-                    Assert.IsEqual(columnName, "item4");
+                    Assert.IsEqual(column.ColumnName, "item4");
                 else if (item.Name == "Test")
-                    Assert.IsEqual(columnName, "test_id");
+                    Assert.IsEqual(column.ColumnName, "test_id");
             }
         }
     }

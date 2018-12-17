@@ -232,16 +232,8 @@ namespace Known.Data
                 return columns;
 
             var attrTable = GetCachedTableAttribute(type);
-            columns = type.GetColumnProperties().Select(p =>
-            {
-                var columnName = ColumnInfo.GetColumnName(p);
-                return new ColumnInfo
-                {
-                    IsKey = attrTable.PrimaryKeys.Contains(columnName),
-                    ColumnName = columnName,
-                    Property = p
-                };
-            });
+            columns = type.GetColumnProperties()
+                          .Select(p => new ColumnInfo(p, attrTable.PrimaryKeys));
             TypeColumnNames[type.TypeHandle] = columns;
             return columns;
         }

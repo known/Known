@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using Known.Extensions;
 using Known.Mapping;
 
@@ -6,11 +7,18 @@ namespace Known.Data
 {
     public class ColumnInfo
     {
-        public bool IsKey { get; set; }
-        public string ColumnName { get; set; }
-        public PropertyInfo Property { get; set; }
+        public ColumnInfo(PropertyInfo property, string[] keys = null)
+        {
+            Property = property;
+            ColumnName = GetColumnName(property);
+            IsKey = keys != null && keys.Contains(ColumnName);
+        }
 
-        public static string GetColumnName(PropertyInfo property)
+        public PropertyInfo Property { get; }
+        public string ColumnName { get; }
+        public bool IsKey { get; }
+
+        private static string GetColumnName(PropertyInfo property)
         {
             var attr = property.GetAttribute<ColumnAttribute>();
             if (attr != null)

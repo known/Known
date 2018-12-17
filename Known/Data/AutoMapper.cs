@@ -37,10 +37,10 @@ namespace Known.Data
             var properties = typeof(T).GetColumnProperties();
             foreach (var property in properties)
             {
-                var columnName = ColumnInfo.GetColumnName(property);
-                if (row.Table.Columns.Contains(columnName))
+                var column = new ColumnInfo(property);
+                if (row.Table.Columns.Contains(column.ColumnName))
                 {
-                    var value = GetPropertyValue(property.PropertyType, row[columnName]);
+                    var value = GetPropertyValue(property.PropertyType, row[column.ColumnName]);
                     property.SetValue(entity, value, null);
                 }
             }
