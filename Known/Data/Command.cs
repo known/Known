@@ -7,11 +7,7 @@ namespace Known.Data
 {
     public class Command
     {
-        public Command(string text) : this(text, null)
-        {
-        }
-
-        public Command(string text, Dictionary<string, object> parameters)
+        public Command(string text, Dictionary<string, object> parameters = null)
         {
             if (string.IsNullOrWhiteSpace(text))
                 throw new ArgumentNullException(nameof(text));

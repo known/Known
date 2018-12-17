@@ -6,7 +6,7 @@ using Known.Mapping;
 
 namespace Known.Data
 {
-    public class AutoMapper
+    public sealed class AutoMapper
     {
         public static T GetBaseEntity<T>(DataRow row) where T : BaseEntity
         {

@@ -30,7 +30,7 @@ namespace Known
         {
         }
 
-        public TRepository Repository
+        protected TRepository Repository
         {
             get { return LoadRepository<TRepository>(); }
         }
