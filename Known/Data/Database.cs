@@ -15,14 +15,11 @@ namespace Known.Data
         {
             Name = name;
             provider = new DbProvider(name);
+            ConnectionString = provider.ConnectionString;
         }
 
         public string Name { get; }
-        public string ConnectionString
-        {
-            get { return provider.ConnectionString; }
-        }
-
+        public string ConnectionString { get; }
         public string UserName { get; internal set; }
 
         internal void BeginTrans()

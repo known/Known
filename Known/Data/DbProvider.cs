@@ -8,15 +8,14 @@ namespace Known.Data
 {
     public class DbProvider : IDbProvider
     {
+        private DbProviderFactory factory;
         private IDbConnection conn;
         private IDbTransaction trans;
 
         public DbProvider(string name)
         {
             var setting = ConfigurationManager.ConnectionStrings[name];
-            var factory = DbProviderFactories.GetFactory(setting.ProviderName);
-            conn = factory.CreateConnection();
-            conn.ConnectionString = setting.ConnectionString;
+            factory = DbProviderFactories.GetFactory(setting.ProviderName);
             ProviderName = setting.ProviderName;
             ConnectionString = setting.ConnectionString;
         }
@@ -26,6 +25,7 @@ namespace Known.Data
 
         public void BeginTrans()
         {
+            CreateConnection();
             if (conn.State != ConnectionState.Open)
             {
                 conn.Open();
@@ -61,6 +61,10 @@ namespace Known.Data
                 var commands = new List<Command> { command };
                 throw new DatabaseException(commands, ex.Message, ex);
             }
+            finally
+            {
+                DisposeConnection();
+            }
         }
 
         public object Scalar(Command command)
@@ -74,6 +78,10 @@ namespace Known.Data
             {
                 var commands = new List<Command> { command };
                 throw new DatabaseException(commands, ex.Message, ex);
+            }
+            finally
+            {
+                DisposeConnection();
             }
         }
 
@@ -93,6 +101,10 @@ namespace Known.Data
             {
                 var commands = new List<Command> { command };
                 throw new DatabaseException(commands, ex.Message, ex);
+            }
+            finally
+            {
+                DisposeConnection();
             }
         }
 
@@ -121,6 +133,10 @@ namespace Known.Data
                 var commands = new List<Command> { command };
                 throw new DatabaseException(commands, ex.Message, ex);
             }
+            finally
+            {
+                DisposeConnection();
+            }
         }
 
         public void Dispose()
@@ -130,6 +146,20 @@ namespace Known.Data
                 trans.Dispose();
                 trans = null;
             }
+
+            DisposeConnection();
+        }
+
+        private void CreateConnection()
+        {
+            conn = factory.CreateConnection();
+            conn.ConnectionString = ConnectionString;
+        }
+
+        private void DisposeConnection()
+        {
+            if (trans != null)
+                return;
 
             if (conn != null)
             {
@@ -142,6 +172,11 @@ namespace Known.Data
 
         private IDbCommand CreateDbCommand(Command command)
         {
+            if (conn == null)
+            {
+                CreateConnection();
+            }
+
             var cmd = conn.CreateCommand();
             cmd.CommandText = command.Text;
             if (ProviderName.Contains("Oracle"))
