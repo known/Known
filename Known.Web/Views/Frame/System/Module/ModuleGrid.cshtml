@@ -4,17 +4,19 @@
      multiSelect="true" showToolbar="true">
     <div property="toolbar">
         <div id="tbModule" style="padding:3px;float:left;">
-            <a class="mini-button" plain="true" id="add" iconCls="fa-plus text-success">新增</a>
-            <a class="mini-button" plain="true" id="copy" iconCls="fa-copy text-info">复制</a>
-            <a class="mini-button" plain="true" id="edit" iconCls="fa-pencil text-primary">编辑</a>
-            <a class="mini-button" plain="true" id="remove" iconCls="fa-minus text-danger">删除</a>
-            <span class="separator"></span>
-            <a class="mini-button" plain="true" id="close" iconCls="fa-remove text-danger">关闭</a>
+            @Form.Button(Form.ButtonType.Add)
+            @Form.Button(Form.ButtonType.Copy)
+            @Form.Button(Form.ButtonType.Edit)
+            @Form.Button(Form.ButtonType.Remove)
+            @Form.Button(Form.ButtonType.Close)
         </div>
         <div id="queryModule" style="padding:3px;float:right;">
-            <input id="key" name="key" class="mini-textbox" emptyText="请输入关键字" style="width:150px;" />
-            <input id="pid" name="pid" class="mini-hidden" />
-            <a class="mini-button" id="search" iconCls="fa-search">搜索</a>
+            @Form.TextBox("key", false, new {
+               emptyText = "请输入关键字",
+               style = "width:150px;"
+            })
+            @Form.Hidden("pid")
+            @Form.Button(Form.ButtonType.Search)
         </div>
     </div>
     <div property="columns">

@@ -1,6 +1,51 @@
 ﻿@using System.Text
+@using Known.Extensions
 
 @functions {
+    public class ButtonAttribute : Attribute
+    {
+        public ButtonAttribute(string text, string icon)
+        {
+            Text = text;
+            Icon = icon;
+        }
+
+        public string Text { get; private set; }
+        public string Icon { get; private set; }
+    }
+
+    public enum ButtonType
+    {
+        [Button("搜索", "fa-search")]
+        Search,
+        [Button("新增", "fa-plus text-success")]
+        Add,
+        [Button("复制", "fa-copy text-info")]
+        Copy,
+        [Button("编辑", "fa-pencil text-primary")]
+        Edit,
+        [Button("删除", "fa-minus text-danger")]
+        Remove,
+        [Button("导入", "fa-sign-in text-info")]
+        Import,
+        [Button("导出", "fa-sign-out text-info")]
+        Export,
+        [Button("导出Excel", "fa-file-excel-o text-primary")]
+        ExportXls,
+        [Button("导出Pdf", "fa-file-pdf-o text-danger")]
+        ExportPdf,
+        [Button("上载", "fa-upload text-success")]
+        Upload,
+        [Button("下载", "fa-download text-primary")]
+        Download,
+        [Button("同步", "fa-exchange")]
+        Sync,
+        [Button("保存", "fa-save text-primary")]
+        Save,
+        [Button("关闭", "fa-remove text-danger")]
+        Close
+    }
+
     public static string GetAttrString(string name, object value)
     {
         return string.Format(" {0}=\"{1}\"", name, value);
@@ -37,6 +82,21 @@
     var attrs = sb.ToString();
 
     <input class="@type" id="@id" name="@id" @(new HtmlString(attrs)) />
+}
+
+@helper Button(string id, string text, string icon)
+{
+    <a class="mini-button" plain="true" id="@id" iconCls="@icon">@text</a>
+}
+
+@helper Button(ButtonType type)
+{
+    var enumType = type.GetType();
+    var name = Enum.GetName(enumType, type);
+    var field = enumType.GetField(name);
+    var attr = field.GetAttribute<ButtonAttribute>(false);
+    var id = name.Substring(0, 1).ToLower() + name.Substring(1);
+    @Button(id, attr.Text, attr.Icon);
 }
 
 @helper Hidden(params string[] ids)
@@ -95,7 +155,7 @@
 
 @helper ComboBox(string id, bool required = false, object option = null)
 {
-var defOption = new { showNullItem = "true", nullItemText = "请选择", emptyText = "请选择" };
+    var defOption = new { showNullItem = "true", nullItemText = "请选择", emptyText = "请选择" };
     @RenderControl("mini-combobox", id, required, option, defOption)
 }
 

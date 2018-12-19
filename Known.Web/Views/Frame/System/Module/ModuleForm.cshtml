@@ -1,6 +1,6 @@
 ﻿<div id="tbModuleForm">
-    <a class="mini-button" plain="true" id="save" iconCls="fa-save text-primary">保存</a>
-    <a class="mini-button" plain="true" id="close" iconCls="fa-remove text-danger">关闭</a>
+    @Form.Button(Form.ButtonType.Save)
+    @Form.Button(Form.ButtonType.Close)
 </div>
 <div id="formModule" style="margin-top:5px;">
     @Form.Hidden("Id", "ParentId")
