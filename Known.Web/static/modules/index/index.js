@@ -12,7 +12,7 @@
 
     new MenuTip(menu);
 
-    Ajax.getJson('/user/getmodules', function (result) {
+    Ajax.getJson('/User/GetModules', function (result) {
         menu.loadData(result.menus);
         Code.setData(result.codes);
     });

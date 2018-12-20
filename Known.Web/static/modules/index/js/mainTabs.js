@@ -18,7 +18,7 @@
 
     index: function () {
         var tab = this.active({ id: 'index' });
-        $(tab.bodyEl).loadHtml('/home/partial', {
+        $(tab.bodyEl).loadHtml('/Home/Partial', {
             name: 'Dashboard'
         }, function () {
             Dashboard.show();

@@ -5,10 +5,10 @@
 
     init: function (option) {
         this.option = option;
-        var code = option.moduleCode.toLowerCase();
-        this.option.deleteUrl = '/' + code + '/delete' + code + 's';
-        new Toolbar('tb' + option.moduleCode, this);
-        this.grid = new Grid(option.moduleCode);
+        var code = option.moduleCode;
+        this.option.deleteUrl = '/' + code + '/Delete' + code + 's';
+        new Toolbar('tb' + code, this);
+        this.grid = new Grid(code);
     },
 
     showForm: function (data) {

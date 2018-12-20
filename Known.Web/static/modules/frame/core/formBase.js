@@ -1,7 +1,7 @@
 ﻿var FormBase = {
 
     option: {
-        saveUrl: '/prototype/saveform'
+        saveUrl: '/Prototype/SaveForm'
     },
 
     form: null,

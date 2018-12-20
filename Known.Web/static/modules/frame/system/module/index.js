@@ -45,7 +45,7 @@
         if (e.dragAction !== 'add')
             return;
 
-        Ajax.postJson('/module/dropmodule', {
+        Ajax.postJson('/Module/DropModule', {
             id: e.dragNode.id, pid: e.dragNode.pid
         }, function (res) {
             Message.result(res);
