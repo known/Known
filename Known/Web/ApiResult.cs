@@ -11,6 +11,11 @@
             return new ApiResult { Status = 0, Data = data };
         }
 
+        public static ApiResult ToPageData(PagingResult pr)
+        {
+            return ToData(new { total = pr.TotalCount, data = pr.PageData });
+        }
+
         public static ApiResult ToPageData<T>(PagingResult<T> pr)
         {
             return ToData(new { total = pr.TotalCount, data = pr.PageData });

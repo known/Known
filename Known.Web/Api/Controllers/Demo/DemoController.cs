@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Web.Mvc;
 using Known.Extensions;
 using Known.Platform;
 
-namespace Known.Web.Controllers.Demo
+namespace Known.Web.Api.Controllers.Demo
 {
-    public class DemoController : AuthorizeController
+    public class DemoController : BaseApiController
     {
-        public ActionResult QueryUsers(PagingCriteria criteria)
+        public ApiResult QueryUsers(PagingCriteria criteria)
         {
             var users = new List<User>();
             users.Add(new User
@@ -49,7 +48,7 @@ namespace Known.Web.Controllers.Demo
             }
 
             var data = users.ToPageList(criteria.PageIndex, criteria.PageSize);
-            return JsonResult(new { total = users.Count, data });
+            return ApiResult.ToData(new { total = users.Count, data });
         }
     }
 }

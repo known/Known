@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Known.Extensions;
 using Known.Platform.Services;
+using Known.Web.Api.Models;
 
-namespace Known.Web.Api.Controllers
+namespace Known.Web.Api.Controllers.Platform
 {
     public class ModuleController : BaseApiController
     {
@@ -46,9 +46,17 @@ namespace Known.Web.Api.Controllers
             return ApiResult.Result(result);
         }
 
-        public ApiResult DeleteModules(string data)
+        public ApiResult DeleteModules(string[] data)
         {
-            return ApiResult.Error($"不能删除！{data}");
+            var modules = Service.GetModules(data);
+            var result = Service.DeleteModules(modules);
+            return ApiResult.Result(result);
+        }
+
+        public ApiResult DropModule(string id, string pid)
+        {
+            var result = Service.DropModule(id, pid);
+            return ApiResult.Result(result);
         }
     }
 }

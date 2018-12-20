@@ -1,4 +1,4 @@
-﻿namespace Known.Web.Api.Controllers
+﻿namespace Known.Web.Api.Controllers.Demo
 {
     public class DevToolController : BaseApiController
     {
@@ -7,12 +7,7 @@
             var sql = criteria.Parameter.querySql.ToString();
             criteria.Parameter = null;
             var result = Database.QueryPageTable(sql, criteria) as PagingResult;
-
-            return ApiResult.ToData(new
-            {
-                total = result.TotalCount,
-                data = result.PageData
-            });
+            return ApiResult.ToPageData(result);
         }
     }
 }

@@ -532,15 +532,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\BaseApiController.cs" />
-    <Compile Include="Api\Controllers\DemoController.cs" />
-    <Compile Include="Api\Controllers\DevToolController.cs" />
-    <Compile Include="Api\Controllers\DTO.cs" />
-    <Compile Include="Api\Controllers\ModuleController.cs" />
-    <Compile Include="Api\Controllers\UserController.cs" />
+    <Compile Include="Api\Controllers\Demo\DemoController.cs" />
+    <Compile Include="Api\Controllers\Demo\DevToolController.cs" />
+    <Compile Include="Api\Controllers\Platform\ModuleController.cs" />
+    <Compile Include="Api\Controllers\Platform\UserController.cs" />
     <Compile Include="Api\Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Api\Extensions\HttpRequestMessageExtension.cs" />
     <Compile Include="Api\Filters\ApiLoginAuthorizeAttribute.cs" />
     <Compile Include="Api\Filters\ApiTrackActionAttribute.cs" />
+    <Compile Include="Api\Models\Code.cs" />
+    <Compile Include="Api\Models\Menu.cs" />
     <Compile Include="Api\RequestTracker.cs" />
     <Compile Include="Api\TrackHelper.cs" />
     <Compile Include="Api\WebApiConfig.cs" />
@@ -548,12 +549,9 @@
     <Compile Include="Code\AuthorizeController.cs" />
     <Compile Include="Code\HtmlExtension.cs" />
     <Compile Include="Controllers\ApiController.cs" />
-    <Compile Include="Controllers\Demo\DemoController.cs" />
-    <Compile Include="Controllers\Demo\DevToolController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Code\FilterConfig.cs" />
     <Compile Include="Controllers\FrameController.cs" />
-    <Compile Include="Controllers\Platform\ModuleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\AntiForgeryAttribute.cs" />
     <Compile Include="Filters\LoginAuthorizeAttribute.cs" />
