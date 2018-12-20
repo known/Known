@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Known.Data;
 using Known.Drawing;
 using Known.Extensions;
 using Known.Log;
@@ -58,12 +57,7 @@ namespace Known.Web
 
         public Context Context
         {
-            get
-            {
-                var database = new Database();
-                var logger = new FileLogger();
-                return new Context(database, logger, UserName);
-            }
+            get { return Context.Create(UserName); }
         }
 
         public User CurrentUser

@@ -8,7 +8,7 @@ namespace Known.Web.Api
     {
         public Context Context
         {
-            get { return new Context(UserName); }
+            get { return Context.Create(UserName); }
         }
 
         public Database Database

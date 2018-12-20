@@ -26,5 +26,12 @@ namespace Known
         public ILogger Logger { get; }
         public string UserName { get; }
         public dynamic Parameter { get; }
+
+        public static Context Create(string userName)
+        {
+            var database = new Database();
+            var logger = new FileLogger();
+            return new Context(database, logger, userName);
+        }
     }
 }

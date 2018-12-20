@@ -47,7 +47,7 @@ namespace Known.Web.Api.Filters
                 if (!(principal.Identity is BasicAuthenticationIdentity identity))
                     return false;
 
-                var context = new Context(identity.Name);
+                var context = Context.Create(identity.Name);
                 var bizUser = ObjectFactory.CreateService<UserService>(context);
                 var result = bizUser.ValidateLogin(identity.Name, identity.Password);
                 if (!result.IsValid)
