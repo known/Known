@@ -6,7 +6,12 @@ namespace Known.WebApi
 {
     public class WebApiConfig
     {
-        public static void Register(HttpConfiguration config)
+        public static void Register()
+        {
+            GlobalConfiguration.Configure(Register);
+        }
+
+        private static void Register(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
 
