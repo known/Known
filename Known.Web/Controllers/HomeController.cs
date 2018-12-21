@@ -12,12 +12,14 @@ namespace Known.Web.Controllers
             return View();
         }
 
+        [Route("login")]
         public ActionResult Login(string backUrl)
         {
             ViewBag.BackUrl = backUrl;
             return View();
         }
 
+        [Route("register")]
         public ActionResult Register()
         {
             return View();

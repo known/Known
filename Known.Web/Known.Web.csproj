@@ -537,6 +537,8 @@
     <Compile Include="Api\Models\Menu.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\AuthorizeController.cs" />
+    <Compile Include="Code\CustomMvcHandler.cs" />
+    <Compile Include="Code\CustomRouteHandler.cs" />
     <Compile Include="Code\HtmlExtension.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

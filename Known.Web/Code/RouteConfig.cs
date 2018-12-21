@@ -9,15 +9,13 @@ namespace Known.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute("Login", "login", new { controller = "Home", action = "Login" });
-            routes.MapRoute("Register", "register", new { controller = "Home", action = "Register" });
-            routes.MapRoute("ForgotPassword", "forgotpwd", new { controller = "Home", action = "ForgotPassword" });
+            routes.MapMvcAttributeRoutes();
 
             routes.MapRoute(
                 "Default",
                 "{controller}/{action}/{id}",
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+            ).RouteHandler = new CustomRouteHandler();
         }
     }
 }

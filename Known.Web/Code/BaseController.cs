@@ -66,7 +66,7 @@ namespace Known.Web
             {
                 if (!(Session["CurrentUser"] is User user))
                 {
-                    var service = LoadService<UserService>();
+                    var service = ObjectFactory.CreateService<UserService>(Context);
                     user = service.GetUser(UserName);
                     Session["CurrentUser"] = user;
                 }
@@ -85,27 +85,12 @@ namespace Known.Web
             get { return User.Identity.IsAuthenticated; }
         }
 
-        public T LoadService<T>() where T : ServiceBase
-        {
-            return ObjectFactory.CreateService<T>(Context);
-        }
-
-        public ActionResult ErrorResult(string message)
-        {
-            return JsonResult(Result.Error(message));
-        }
-
-        public ActionResult ErrorResult<T>(string message, T data)
+        public ActionResult ErrorResult(string message, object data = null)
         {
             return JsonResult(Result.Error(message, data));
         }
 
-        public ActionResult SuccessResult(string message)
-        {
-            return JsonResult(Result.Success(message));
-        }
-
-        public ActionResult SuccessResult<T>(string message, T data)
+        public ActionResult SuccessResult(string message, object data = null)
         {
             return JsonResult(Result.Success(message, data));
         }
@@ -124,29 +109,12 @@ namespace Known.Web
             });
         }
 
-        public ActionResult PageResult<T>(PagingResult<T> result)
-        {
-            return JsonResult(new
-            {
-                total = result.TotalCount,
-                data = result.PageData
-            });
-        }
-
         public ActionResult ExecuteResult(Result result)
         {
             if (!result.IsValid)
                 return ErrorResult(result.Message);
 
             return SuccessResult(result.Message);
-        }
-
-        public ActionResult ExecuteResult<T>(Result<T> result)
-        {
-            if (!result.IsValid)
-                return ErrorResult(result.Message);
-
-            return SuccessResult(result.Message, result.Data);
         }
     }
 }

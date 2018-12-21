@@ -25,6 +25,7 @@ namespace Known.Web.Controllers
             return SuccessResult("登录成功，正在跳转页面......", backUrl);
         }
 
+        [Route("logout")]
         [LoginAuthorize]
         public void SignOut()
         {
