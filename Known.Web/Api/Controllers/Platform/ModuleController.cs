@@ -4,7 +4,7 @@ using Known.Web.Api.Models;
 
 namespace Known.Web.Api.Controllers.Platform
 {
-    public class ModuleController : BaseApiController
+    public class ModuleController : WebApiController
     {
         private ModuleService Service
         {

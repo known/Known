@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 
-namespace Known.Web.Api
+namespace Known.WebApi
 {
     public class TrackHelper
     {

@@ -4,7 +4,7 @@ using Known.Platform;
 
 namespace Known.Web.Api.Controllers.Demo
 {
-    public class DemoController : BaseApiController
+    public class DemoController : WebApiController
     {
         public ApiResult QueryUsers(PagingCriteria criteria)
         {

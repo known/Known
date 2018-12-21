@@ -8,9 +8,10 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using Known.Extensions;
 using Known.Platform.Services;
-using Known.Web.Api.Extensions;
+using Known.Web;
+using Known.WebApi.Extensions;
 
-namespace Known.Web.Api.Filters
+namespace Known.WebApi.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class ApiLoginAuthorizeAttribute : AuthorizeAttribute

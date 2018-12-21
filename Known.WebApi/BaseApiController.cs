@@ -2,7 +2,7 @@
 using Known.Data;
 using Known.Log;
 
-namespace Known.Web.Api
+namespace Known.WebApi
 {
     public class BaseApiController : ApiController
     {

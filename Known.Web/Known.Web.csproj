@@ -531,20 +531,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\BaseApiController.cs" />
     <Compile Include="Api\Controllers\Demo\DemoController.cs" />
     <Compile Include="Api\Controllers\Demo\DevToolController.cs" />
     <Compile Include="Api\Controllers\Platform\ModuleController.cs" />
     <Compile Include="Api\Controllers\Platform\UserController.cs" />
-    <Compile Include="Api\Extensions\HttpActionContextExtension.cs" />
-    <Compile Include="Api\Extensions\HttpRequestMessageExtension.cs" />
-    <Compile Include="Api\Filters\ApiLoginAuthorizeAttribute.cs" />
-    <Compile Include="Api\Filters\ApiTrackActionAttribute.cs" />
+    <Compile Include="Api\Controllers\WebApiController.cs" />
     <Compile Include="Api\Models\Code.cs" />
     <Compile Include="Api\Models\Menu.cs" />
-    <Compile Include="Api\RequestTracker.cs" />
-    <Compile Include="Api\TrackHelper.cs" />
-    <Compile Include="Api\WebApiConfig.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\AuthorizeController.cs" />
     <Compile Include="Code\HtmlExtension.cs" />
@@ -577,6 +570,10 @@
     <ProjectReference Include="..\Known.Platform\Known.Platform.csproj">
       <Project>{c9a9d3eb-4ae0-4026-827f-8b47cb6b8027}</Project>
       <Name>Known.Platform</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Known.WebApi\Known.WebApi.csproj">
+      <Project>{029d5a4e-277a-46f6-bb68-bdbcc96a38fc}</Project>
+      <Name>Known.WebApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\Known\Known.csproj">
       <Project>{F4C9A8C8-EAF9-4EA8-B186-C4B843762D45}</Project>

@@ -1,6 +1,6 @@
 ﻿namespace Known.Web.Api.Controllers.Demo
 {
-    public class DevToolController : BaseApiController
+    public class DevToolController : WebApiController
     {
         public ApiResult QueryDatas(PagingCriteria criteria)
         {

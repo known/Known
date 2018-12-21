@@ -1,7 +1,8 @@
 ﻿using System.Web.Http;
-using Known.Web.Api.Filters;
+using Known.Web;
+using Known.WebApi.Filters;
 
-namespace Known.Web.Api
+namespace Known.WebApi
 {
     public class WebApiConfig
     {

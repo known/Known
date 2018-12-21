@@ -6,7 +6,7 @@ using Known.Web.Api.Models;
 
 namespace Known.Web.Api.Controllers.Platform
 {
-    public class UserController : BaseApiController
+    public class UserController : WebApiController
     {
         private UserService Service
         {

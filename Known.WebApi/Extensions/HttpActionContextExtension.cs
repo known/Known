@@ -2,8 +2,9 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
+using Known.Web;
 
-namespace Known.Web.Api.Extensions
+namespace Known.WebApi.Extensions
 {
     public static class HttpActionContextExtension
     {
