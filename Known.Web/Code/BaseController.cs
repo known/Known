@@ -3,7 +3,6 @@ using Known.Drawing;
 using Known.Extensions;
 using Known.Log;
 using Known.Platform;
-using Known.Platform.Services;
 using Known.Web.Extensions;
 
 namespace Known.Web
@@ -38,20 +37,14 @@ namespace Known.Web
             get { return Session.GetValue<string>("CaptchaCode"); }
         }
 
-        private ApiClient api;
         public ApiClient Api
         {
             get
             {
-                if (api == null)
-                {
-                    if (IsAuthenticated && CurrentUser != null)
-                        api = new ApiClient(null, CurrentUser.UserName, CurrentUser.Password);
-                    else
-                        api = new ApiClient();
-                }
+                if (!IsAuthenticated || CurrentUser == null)
+                    return new ApiClient();
 
-                return api;
+                return new ApiClient(null, CurrentUser.UserName, CurrentUser.Password);
             }
         }
 
@@ -66,8 +59,8 @@ namespace Known.Web
             {
                 if (!(Session["CurrentUser"] is User user))
                 {
-                    var service = ObjectFactory.CreateService<UserService>(Context);
-                    user = service.GetUser(UserName);
+                    var api = new ApiClient();
+                    user = api.Get<User>("/api/User/GetUser", new { userName = UserName });
                     Session["CurrentUser"] = user;
                 }
                 return user;
