@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Demo\DemoController.cs" />
     <Compile Include="Controllers\Demo\DevToolController.cs" />
+    <Compile Include="Controllers\Platform\AppController.cs" />
     <Compile Include="Controllers\Platform\ModuleController.cs" />
     <Compile Include="Controllers\Platform\UserController.cs" />
     <Compile Include="Controllers\WebApiController.cs" />

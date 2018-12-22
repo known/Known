@@ -37,17 +37,6 @@ namespace Known.Web
             get { return Session.GetValue<string>("CaptchaCode"); }
         }
 
-        public ApiClient Api
-        {
-            get
-            {
-                if (!IsAuthenticated || CurrentUser == null)
-                    return new ApiClient();
-
-                return new ApiClient(null, CurrentUser.UserName, CurrentUser.Password);
-            }
-        }
-
         public Context Context
         {
             get { return Context.Create(UserName); }
@@ -76,6 +65,20 @@ namespace Known.Web
         public bool IsAuthenticated
         {
             get { return User.Identity.IsAuthenticated; }
+        }
+
+        public ApiClient Api
+        {
+            get { return GetApiClient(); }
+        }
+
+        public ApiClient GetApiClient(string apiId = null)
+        {
+            var baseUrl = new ApiClient().Get<string>("/api/App/GetApiUrl", new { apiId });
+            if (!IsAuthenticated || CurrentUser == null)
+                return new ApiClient(baseUrl);
+
+            return new ApiClient(baseUrl, CurrentUser.UserName, CurrentUser.Password);
         }
 
         public ActionResult ErrorResult(string message, object data = null)
