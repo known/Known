@@ -15,14 +15,14 @@
     },
 
     cache: function () {
-        Ajax.getJson('/User/GetCodes', function (data) {
+        Ajax.getJson('/api/plt/User/GetCodes', function (data) {
             Code.setData(data);
             Message.tips({ content: '刷新成功！' });
         });
     },
 
     info: function () {
-        Ajax.getJson('/User/GetUserInfo', function (data) {
+        Ajax.getJson('/api/plt/User/GetUserInfo', function (data) {
         });
     },
 
@@ -31,7 +31,7 @@
 
     logout: function () {
         Message.confirm('确定要退出系统？', function () {
-            Ajax.postText('/logout', function () {
+            Ajax.postText('/signout', function () {
                 location = location;
             });
         });

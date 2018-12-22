@@ -15,7 +15,7 @@
 
         _showMessage('');
         var $this = $(this).attr('disabled', 'disabled').val('登录中...');
-        Ajax.postJson('/User/SignIn', {
+        Ajax.postJson('/signin', {
             userName: userName, password: $.md5(password), backUrl: backUrl
         }, function (result) {
             _showMessage(result.Message);

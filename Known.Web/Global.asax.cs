@@ -3,7 +3,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Known.Providers;
-using Known.WebApi;
 
 namespace Known.Web
 {
@@ -16,7 +15,6 @@ namespace Known.Web
 
             AreaRegistration.RegisterAllAreas();
 
-            WebApiConfig.Register();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }

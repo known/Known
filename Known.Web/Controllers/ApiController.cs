@@ -5,8 +5,10 @@ using Newtonsoft.Json;
 
 namespace Known.Web.Controllers
 {
+    [RoutePrefix("api")]
     public class ApiController : AuthorizeController
     {
+        [HttpPost, Route("{module}/{method}")]
         public ActionResult Query(string route, string query, string isLoad)
         {
             var sortField = Request.Get<string>("sortField");
@@ -33,18 +35,20 @@ namespace Known.Web.Controllers
             return JsonResult(result.Data);
         }
 
-        public ActionResult Get(string route, string param = null)
+        [HttpGet, Route("{module}/{method}")]
+        public ActionResult Get(string module, string method, string param = null)
         {
-            var result = Api.Get<ApiResult>("/api/" + route, FromJson(param));
+            var result = Api.Get<ApiResult>($"/api/{module}/{method}", FromJson(param));
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
             return JsonResult(result.Data);
         }
 
-        public ActionResult Post(string route, string param = null)
+        [HttpPost, Route("{module}/{method}")]
+        public ActionResult Post(string module, string method, string param = null)
         {
-            var result = Api.Post<ApiResult>("/api/" + route, FromJson(param));
+            var result = Api.Post<ApiResult>("/api/{module}/{method}", FromJson(param));
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
