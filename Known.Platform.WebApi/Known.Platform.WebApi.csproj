@@ -66,6 +66,10 @@
     <Reference Include="System.Web.Services" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\db_platform.mdf" />
+    <Content Include="App_Data\db_platform_log.ldf">
+      <DependentUpon>db_platform.mdf</DependentUpon>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>

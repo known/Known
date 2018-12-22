@@ -84,10 +84,6 @@
     <Content Include="App_Code\Form.cshtml" />
     <None Include="bundleconfig.json" />
     <None Include="packages.config" />
-    <Content Include="App_Data\db_platform.mdf" />
-    <Content Include="App_Data\db_platform_log.ldf">
-      <DependentUpon>db_platform.mdf</DependentUpon>
-    </Content>
     <Content Include="Global.asax" />
     <Content Include="static\data\icon.txt" />
     <Content Include="static\libs\highcharts\highcharts.js" />
