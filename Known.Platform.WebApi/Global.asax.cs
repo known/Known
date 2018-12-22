@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
 using Known.Providers;
+using Known.WebApi;
 
-namespace Known.Web
+namespace Known.Platform.WebApi
 {
-    public class Global : System.Web.HttpApplication
+    public class Global : HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e)
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
             ProviderConfig.Register();
-
-            AreaRegistration.RegisterAllAreas();
-
-            FilterConfig.Register(GlobalFilters.Filters);
-            RouteConfig.Register(RouteTable.Routes);
+            WebApiConfig.Register();
         }
 
         protected void Application_Error(object sender, EventArgs e)

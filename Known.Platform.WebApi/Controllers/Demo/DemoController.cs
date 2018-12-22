@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Known.Extensions;
-using Known.Platform;
+using Known.Web;
 
-namespace Known.Web.Api.Controllers.Demo
+namespace Known.Platform.WebApi.Controllers.Demo
 {
     public class DemoController : WebApiController
     {

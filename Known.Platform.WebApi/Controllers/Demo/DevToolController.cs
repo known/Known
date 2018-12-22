@@ -1,4 +1,6 @@
-﻿namespace Known.Web.Api.Controllers.Demo
+﻿using Known.Web;
+
+namespace Known.Platform.WebApi.Controllers.Demo
 {
     public class DevToolController : WebApiController
     {

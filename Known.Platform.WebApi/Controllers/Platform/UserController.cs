@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using Known.Platform;
 using Known.Platform.Services;
-using Known.Web.Api.Models;
+using Known.Platform.WebApi.Models;
+using Known.Web;
 
-namespace Known.Web.Api.Controllers.Platform
+namespace Known.Platform.WebApi.Controllers.Platform
 {
     public class UserController : WebApiController
     {

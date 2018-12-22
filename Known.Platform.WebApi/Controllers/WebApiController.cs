@@ -1,6 +1,6 @@
 ﻿using Known.WebApi;
 
-namespace Known.Web.Api.Controllers
+namespace Known.Platform.WebApi.Controllers
 {
     public class WebApiController : BaseApiController
     {

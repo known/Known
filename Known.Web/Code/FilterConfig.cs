@@ -5,7 +5,7 @@ namespace Known.Web
 {
     public class FilterConfig
     {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        public static void Register(GlobalFilterCollection filters)
         {
             filters.Add(new ValidateInputAttribute(false));
             filters.Add(new TrackActionAttribute());

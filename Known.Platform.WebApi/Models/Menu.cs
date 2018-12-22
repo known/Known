@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Known.Platform;
 
-namespace Known.Web.Api.Models
+namespace Known.Platform.WebApi.Models
 {
     public class Menu
     {
