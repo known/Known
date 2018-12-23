@@ -87,11 +87,7 @@ namespace Known.Web
                 {
                     var meta = new MediaTypeWithQualityHeaderValue(MimeTypes.ApplicationJson);
                     httpClient.DefaultRequestHeaders.Accept.Add(meta);
-                    var data = string.Empty;
-                    if (param != null)
-                    {
-                        data = SerializeExtension.ToJson(param);
-                    }
+                    var data = GetParamJson(param);
                     HttpContent content = new StringContent(data, Encoding.UTF8, MimeTypes.ApplicationJson);
                     if (compressionMethod == CompressionMethod.Automatic)
                         content = new CompressedContent(content, defaultCompressionMethod);
@@ -127,9 +123,9 @@ namespace Known.Web
         private static string GetQueryString(string method, dynamic param)
         {
             var dic = new Dictionary<string, object>();
-            if (param != null)
+            if (method == "GET")
             {
-                if (method == "GET")
+                if (param != null)
                 {
                     var properties = param.GetType().GetProperties();
                     foreach (var item in properties)
@@ -137,10 +133,10 @@ namespace Known.Web
                         dic[item.Name] = item.GetValue(param);
                     }
                 }
-                else
-                {
-                    dic["body"] = SerializeExtension.ToJson(param);
-                }
+            }
+            else
+            {
+                dic["body"] = GetParamJson(param);
             }
 
             dic["timestamp"] = DateTime.Now.ToTimestamp();
@@ -159,6 +155,14 @@ namespace Known.Web
                                 return $"{d.Key}={value}";
                             });
             return string.Join("&", values);
+        }
+
+        private static string GetParamJson(dynamic param)
+        {
+            if (param == null)
+                return string.Empty;
+
+            return SerializeExtension.ToJson(param);
         }
 
         private static string ConvertJson<T>(string json)

@@ -80,7 +80,7 @@ Form.prototype = {
             return;
 
         Ajax.postJson(option.url, {
-            data: this.getData(true)
+            param: this.getData(true)
         }, function(res) {
             Message.result(res, function (data) {
                 option.callback && option.callback(data);
