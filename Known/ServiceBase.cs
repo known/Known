@@ -12,9 +12,9 @@ namespace Known
 
         public Context Context { get; }
 
-        protected T LoadBusiness<T>() where T : ServiceBase
+        protected T LoadService<T>() where T : ServiceBase
         {
-            return ObjectFactory.CreateService<T>(Context);
+            return Container.Load<T>(typeof(T).Name);
         }
 
         protected T LoadRepository<T>() where T : IRepository

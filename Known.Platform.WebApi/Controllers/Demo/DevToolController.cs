@@ -1,14 +1,18 @@
-﻿using Known.Web;
+﻿using Known.Platform.Services;
+using Known.Web;
 
 namespace Known.Platform.WebApi.Controllers.Demo
 {
     public class DevToolController : WebApiController
     {
+        private DevToolService Service
+        {
+            get { return LoadService<DevToolService>(); }
+        }
+
         public ApiResult QueryDatas(PagingCriteria criteria)
         {
-            var sql = criteria.Parameter.querySql.ToString();
-            criteria.Parameter = null;
-            var result = Database.QueryPageTable(sql, criteria) as PagingResult;
+            var result = Service.QueryDatas(criteria);
             return ApiResult.ToPageData(result);
         }
     }

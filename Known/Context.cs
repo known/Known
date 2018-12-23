@@ -24,10 +24,10 @@ namespace Known
 
         public Database Database { get; }
         public ILogger Logger { get; }
-        public string UserName { get; }
+        public string UserName { get; set; }
         public dynamic Parameter { get; }
 
-        public static Context Create(string userName)
+        public static Context Create(string userName = null)
         {
             var database = new Database();
             var logger = new FileLogger();

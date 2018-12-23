@@ -1,26 +1,9 @@
 ﻿using System.Web.Http;
-using Known.Data;
-using Known.Log;
 
 namespace Known.WebApi
 {
     public class BaseApiController : ApiController
     {
-        public Context Context
-        {
-            get { return Context.Create(UserName); }
-        }
-
-        public Database Database
-        {
-            get { return Context.Database; }
-        }
-
-        public ILogger Logger
-        {
-            get { return Context.Logger; }
-        }
-
         public string UserName
         {
             get { return User.Identity.Name; }
@@ -33,7 +16,7 @@ namespace Known.WebApi
 
         public T LoadService<T>() where T : ServiceBase
         {
-            return ObjectFactory.CreateService<T>(Context);
+            return Container.Load<T>(typeof(T).Name);
         }
     }
 }

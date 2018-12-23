@@ -87,7 +87,7 @@
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\JsonProvider.cs" />
-    <Compile Include="Providers\ProviderConfig.cs" />
+    <Compile Include="AppInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -57,7 +57,7 @@ namespace Known.Platform.Services
         }
 
         #region GetUserModules
-        public List<Module> GetUserModules()
+        public List<Module> GetModules()
         {
             //var path = Path.Combine(HttpRuntime.AppDomainAppPath, "menu.json");
             //var json = File.ReadAllText(path);

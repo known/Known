@@ -33,7 +33,7 @@ namespace Known.Platform.WebApi.Controllers.Platform
         public ApiResult GetModules()
         {
             var menus = new List<Menu>();
-            var modules = Service.GetUserModules();
+            var modules = Service.GetModules();
             if (modules != null && modules.Count > 0)
             {
                 var index = 0;
