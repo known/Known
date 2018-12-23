@@ -8,9 +8,37 @@ namespace Known.Web.Controllers
     [RoutePrefix("api")]
     public class ApiController : AuthorizeController
     {
-        [HttpPost, Route("{apiId}/{module}/{method}")]
-        public ActionResult Query(string apiId, string module, string method, string query, string isLoad)
+        [HttpGet, Route("{apiId}/{module}/{method}")]
+        public ActionResult Get(string apiId, string module, string method)
         {
+            var api = GetApiClient(apiId);
+            var param = Request.Get<string>("param");
+            var result = api.Get<ApiResult>($"/api/{module}/{method}", FromJson(param));
+            if (result.Status == 1)
+                return ErrorResult(result.Message);
+
+            return JsonResult(result.Data);
+        }
+
+        [HttpPost, Route("{apiId}/{module}/{method}")]
+        public ActionResult Post(string apiId, string module, string method)
+        {
+            var api = GetApiClient(apiId);
+            if (method.StartsWith("Query"))
+                return Query(api, module, method);
+
+            var param = Request.Get<string>("param");
+            var result = api.Post<ApiResult>("/api/{module}/{method}", FromJson(param));
+            if (result.Status == 1)
+                return ErrorResult(result.Message);
+
+            return SuccessResult(result.Message, result.Data);
+        }
+
+        private ActionResult Query(ApiClient api, string module, string method)
+        {
+            var query = Request.Get<string>("query");
+            var isLoad = Request.Get<string>("isLoad");
             var sortField = Request.Get<string>("sortField");
             var sortOrder = Request.Get<string>("sortOrder");
             var sorts = new List<string>();
@@ -28,34 +56,11 @@ namespace Known.Web.Controllers
                 Parameter = FromJson(query)
             };
 
-            var api = GetApiClient(apiId);
             var result = api.Post<ApiResult>("/api/{module}/{method}", criteria);
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
             return JsonResult(result.Data);
-        }
-
-        [HttpGet, Route("{apiId}/{module}/{method}")]
-        public ActionResult Get(string apiId, string module, string method, string param = null)
-        {
-            var api = GetApiClient(apiId);
-            var result = api.Get<ApiResult>($"/api/{module}/{method}", FromJson(param));
-            if (result.Status == 1)
-                return ErrorResult(result.Message);
-
-            return JsonResult(result.Data);
-        }
-
-        [HttpPost, Route("{apiId}/{module}/{method}")]
-        public ActionResult Post(string apiId, string module, string method, string param = null)
-        {
-            var api = GetApiClient(apiId);
-            var result = api.Post<ApiResult>("/api/{module}/{method}", FromJson(param));
-            if (result.Status == 1)
-                return ErrorResult(result.Message);
-
-            return SuccessResult(result.Message, result.Data);
         }
 
         private dynamic FromJson(string json)

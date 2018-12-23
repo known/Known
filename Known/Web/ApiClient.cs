@@ -144,7 +144,16 @@ namespace Known.Web
             dic["sign"] = dic.ToMd5Signature();
 
             var values = dic.Where(d => d.Key != "body")
-                            .Select(d => string.Format("{0}={1}", d.Key, HttpUtility.UrlEncode(d.Value.ToString())));
+                            .Select(d =>
+                            {
+                                var value = string.Empty;
+                                if (d.Value != null)
+                                {
+                                    value = d.Value.ToString();
+                                    value = HttpUtility.UrlEncode(value);
+                                }
+                                return $"{d.Key}={value}";
+                            });
             return string.Join("&", values);
         }
 

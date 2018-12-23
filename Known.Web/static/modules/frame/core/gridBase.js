@@ -6,7 +6,7 @@
     init: function (option) {
         this.option = option;
         var code = option.moduleCode;
-        this.option.deleteUrl = '/' + code + '/Delete' + code + 's';
+        this.option.deleteUrl = '/api/plt/' + code + '/Delete' + code + 's';
         new Toolbar('tb' + code, this);
         this.grid = new Grid(code);
     },

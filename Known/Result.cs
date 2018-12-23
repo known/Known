@@ -2,18 +2,20 @@
 {
     public class Result
     {
-        protected Result(bool isValid, string message)
+        protected Result(bool isValid, string message, object data = null)
         {
             IsValid = isValid;
             Message = message;
+            Data = data;
         }
 
         public bool IsValid { get; }
         public string Message { get; }
+        public object Data { get; }
 
-        public static Result Error(string message)
+        public static Result Error(string message, object data = null)
         {
-            return new Result(false, message);
+            return new Result(false, message, data);
         }
 
         public static Result<T> Error<T>(string message, T data = default(T))
@@ -21,9 +23,9 @@
             return new Result<T>(false, message, data);
         }
 
-        public static Result Success(string message)
+        public static Result Success(string message, object data = null)
         {
-            return new Result(true, message);
+            return new Result(true, message, data);
         }
 
         public static Result<T> Success<T>(string message, T data = default(T))
@@ -40,6 +42,6 @@
             Data = data;
         }
 
-        public T Data { get; }
+        public new T Data { get; }
     }
 }
