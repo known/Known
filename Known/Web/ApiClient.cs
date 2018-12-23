@@ -85,14 +85,14 @@ namespace Known.Web
                 }
                 else
                 {
-                    var meta = new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded");
+                    var meta = new MediaTypeWithQualityHeaderValue(MimeTypes.ApplicationJson);
                     httpClient.DefaultRequestHeaders.Accept.Add(meta);
                     var data = string.Empty;
                     if (param != null)
                     {
                         data = SerializeExtension.ToJson(param);
                     }
-                    HttpContent content = new StringContent(data, Encoding.UTF8, "application/x-www-form-urlencoded");
+                    HttpContent content = new StringContent(data, Encoding.UTF8, MimeTypes.ApplicationJson);
                     if (compressionMethod == CompressionMethod.Automatic)
                         content = new CompressedContent(content, defaultCompressionMethod);
                     else if (compressionMethod == CompressionMethod.GZip || compressionMethod == CompressionMethod.Deflate)

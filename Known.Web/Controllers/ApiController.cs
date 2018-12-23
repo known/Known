@@ -13,11 +13,7 @@ namespace Known.Web.Controllers
         {
             var api = GetApiClient(apiId);
             var param = Request.Get<string>("param");
-            var result = api.Get<ApiResult>($"/api/{module}/{method}", FromJson(param));
-            if (result.Status == 1)
-                return ErrorResult(result.Message);
-
-            return JsonResult(result.Data);
+            return Get(api, module, method, param);
         }
 
         [HttpPost, Route("{apiId}/{module}/{method}")]
@@ -28,11 +24,23 @@ namespace Known.Web.Controllers
                 return Query(api, module, method);
 
             var param = Request.Get<string>("param");
+            if (method.StartsWith("Get"))
+                return Get(api, module, method, param);
+
             var result = api.Post<ApiResult>($"/api/{module}/{method}", FromJson(param));
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
             return SuccessResult(result.Message, result.Data);
+        }
+
+        private ActionResult Get(ApiClient api, string module, string method, string param)
+        {
+            var result = api.Get<ApiResult>($"/api/{module}/{method}", FromJson(param));
+            if (result.Status == 1)
+                return ErrorResult(result.Message);
+
+            return JsonResult(result.Data);
         }
 
         private ActionResult Query(ApiClient api, string module, string method)
