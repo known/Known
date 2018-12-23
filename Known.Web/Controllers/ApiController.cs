@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Web.Mvc;
 using Known.Web.Extensions;
 using Newtonsoft.Json;
@@ -12,8 +13,7 @@ namespace Known.Web.Controllers
         public ActionResult Get(string apiId, string module, string method)
         {
             var api = GetApiClient(apiId);
-            var param = Request.Get<string>("param");
-            return Get(api, module, method, param);
+            return Get(api, module, method);
         }
 
         [HttpPost, Route("{apiId}/{module}/{method}")]
@@ -23,20 +23,21 @@ namespace Known.Web.Controllers
             if (method.StartsWith("Query"))
                 return Query(api, module, method);
 
-            var param = Request.Get<string>("param");
             if (method.StartsWith("Get"))
-                return Get(api, module, method, param);
+                return Get(api, module, method);
 
-            var result = api.Post<ApiResult>($"/api/{module}/{method}", FromJson(param));
+            var param = GetParam(Request.Form);
+            var result = api.Post<ApiResult>($"/api/{module}/{method}", param);
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
             return SuccessResult(result.Message, result.Data);
         }
 
-        private ActionResult Get(ApiClient api, string module, string method, string param)
+        private ActionResult Get(ApiClient api, string module, string method)
         {
-            var result = api.Get<ApiResult>($"/api/{module}/{method}", FromJson(param));
+            var param = GetParam(Request.QueryString);
+            var result = api.Get<ApiResult>($"/api/{module}/{method}", param);
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
@@ -71,7 +72,7 @@ namespace Known.Web.Controllers
             return JsonResult(result.Data);
         }
 
-        private dynamic FromJson(string json)
+        private static dynamic FromJson(string json)
         {
             if (string.IsNullOrWhiteSpace(json))
                 return null;
@@ -79,7 +80,27 @@ namespace Known.Web.Controllers
             return JsonConvert.DeserializeObject<dynamic>(json);
         }
 
-        private string ToJson(dynamic data)
+        private static dynamic GetParam(NameValueCollection collection)
+        {
+            if (collection == null)
+                return null;
+
+            var dic = new Dictionary<string, object>();
+            foreach (var item in collection.AllKeys)
+            {
+                if (item == "_")
+                    continue;
+
+                dic[item] = collection[item];
+            }
+
+            if (dic.Count == 0)
+                return null;
+
+            return dic;
+        }
+
+        private static string ToJson(dynamic data)
         {
             if (data == null)
                 return string.Empty;

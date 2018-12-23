@@ -47,7 +47,7 @@ namespace Known.Platform.WebApi.Controllers.Platform
             return ApiResult.Result(result);
         }
 
-        public ApiResult DeleteModules(string[] data)
+        public ApiResult DeleteModules(dynamic data)
         {
             var modules = Service.GetModules(data);
             var result = Service.DeleteModules(modules);

@@ -44,7 +44,7 @@
         var _this = this;
         this.grid.deleteRows(function (rows) {
             Ajax.postJson(_this.option.deleteUrl, {
-                param: _this.getRowDatas(rows)
+                data: _this.getRowDatas(rows)
             }, function (res) {
                 Message.result(res, function () {
                     _this.grid.reload();

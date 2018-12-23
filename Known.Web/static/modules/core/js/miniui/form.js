@@ -79,9 +79,7 @@ Form.prototype = {
         if (!this.validate(option.tabsId, option.tabIndex))
             return;
 
-        Ajax.postJson(option.url, {
-            param: this.getData(true)
-        }, function(res) {
+        Ajax.postJson(option.url, this.getData(), function(res) {
             Message.result(res, function (data) {
                 option.callback && option.callback(data);
             });
