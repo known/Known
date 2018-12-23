@@ -48,8 +48,7 @@ namespace Known.Web
             {
                 if (!(Session["CurrentUser"] is User user))
                 {
-                    var api = new ApiClient();
-                    user = api.Get<User>("/api/User/GetUser", new { userName = UserName });
+                    user = PltApiHelper.GetUser(UserName);
                     Session["CurrentUser"] = user;
                 }
                 return user;
@@ -74,7 +73,7 @@ namespace Known.Web
 
         public ApiClient GetApiClient(string apiId = null)
         {
-            var baseUrl = new ApiClient().Get<string>("/api/App/GetApiUrl", new { apiId });
+            var baseUrl = PltApiHelper.GetApiBaseUrl(apiId);
             if (!IsAuthenticated || CurrentUser == null)
                 return new ApiClient(baseUrl);
 

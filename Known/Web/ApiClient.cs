@@ -87,7 +87,11 @@ namespace Known.Web
                 {
                     var meta = new MediaTypeWithQualityHeaderValue("application/json");
                     httpClient.DefaultRequestHeaders.Accept.Add(meta);
-                    var data = SerializeExtension.ToJson(param);
+                    var data = string.Empty;
+                    if (param != null)
+                    {
+                        data = SerializeExtension.ToJson(param);
+                    }
                     HttpContent content = new StringContent(data, Encoding.UTF8, "application/json");
                     if (compressionMethod == CompressionMethod.Automatic)
                         content = new CompressedContent(content, defaultCompressionMethod);

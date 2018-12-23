@@ -518,6 +518,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\PltApiHelper.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\AuthorizeController.cs" />
     <Compile Include="Code\CustomRouteHandler.cs" />

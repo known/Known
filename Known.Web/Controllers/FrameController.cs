@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Known.Platform;
 using Known.Web.Models;
 
 namespace Known.Web.Controllers
@@ -8,7 +7,7 @@ namespace Known.Web.Controllers
     {
         public ActionResult Index(string mid)
         {
-            var module = Api.Get<Module>("/api/plt/Module/GetModule", new { mid });
+            var module = PltApiHelper.GetModule(Api, mid);
             if (module == null)
                 return Content("模块不存在！");
 

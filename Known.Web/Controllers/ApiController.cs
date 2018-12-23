@@ -28,7 +28,7 @@ namespace Known.Web.Controllers
                 return Query(api, module, method);
 
             var param = Request.Get<string>("param");
-            var result = api.Post<ApiResult>("/api/{module}/{method}", FromJson(param));
+            var result = api.Post<ApiResult>($"/api/{module}/{method}", FromJson(param));
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
@@ -56,7 +56,7 @@ namespace Known.Web.Controllers
                 Parameter = FromJson(query)
             };
 
-            var result = api.Post<ApiResult>("/api/{module}/{method}", criteria);
+            var result = api.Post<ApiResult>($"/api/{module}/{method}", criteria);
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
