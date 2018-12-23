@@ -32,17 +32,17 @@ namespace Known.Web
             return PartialView($"Partials/{name}", model);
         }
 
-        public string CaptchaCode
+        protected string CaptchaCode
         {
             get { return Session.GetValue<string>("CaptchaCode"); }
         }
 
-        public Context Context
+        protected Context Context
         {
             get { return Context.Create(UserName); }
         }
 
-        public User CurrentUser
+        protected User CurrentUser
         {
             get
             {
@@ -56,22 +56,22 @@ namespace Known.Web
             set { Session["CurrentUser"] = value; }
         }
 
-        public string UserName
+        protected string UserName
         {
             get { return User.Identity.Name; }
         }
 
-        public bool IsAuthenticated
+        protected bool IsAuthenticated
         {
             get { return User.Identity.IsAuthenticated; }
         }
 
-        public ApiClient Api
+        protected ApiClient Api
         {
             get { return GetApiClient(); }
         }
 
-        public ApiClient GetApiClient(string apiId = null)
+        protected ApiClient GetApiClient(string apiId = null)
         {
             var baseUrl = PltApiHelper.GetApiBaseUrl(apiId);
             if (!IsAuthenticated || CurrentUser == null)
@@ -80,22 +80,22 @@ namespace Known.Web
             return new ApiClient(baseUrl, CurrentUser.UserName, CurrentUser.Password);
         }
 
-        public ActionResult ErrorResult(string message, object data = null)
+        protected ActionResult ErrorResult(string message, object data = null)
         {
             return JsonResult(Result.Error(message, data));
         }
 
-        public ActionResult SuccessResult(string message, object data = null)
+        protected ActionResult SuccessResult(string message, object data = null)
         {
             return JsonResult(Result.Success(message, data));
         }
 
-        public ActionResult JsonResult(object data)
+        protected ActionResult JsonResult(object data)
         {
             return Content(data.ToJson(), MimeTypes.ApplicationJson);
         }
 
-        public ActionResult PageResult(PagingResult result)
+        protected ActionResult PageResult(PagingResult result)
         {
             return JsonResult(new
             {
@@ -104,7 +104,7 @@ namespace Known.Web
             });
         }
 
-        public ActionResult ExecuteResult(Result result)
+        protected ActionResult ExecuteResult(Result result)
         {
             if (!result.IsValid)
                 return ErrorResult(result.Message);
