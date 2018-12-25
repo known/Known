@@ -37,11 +37,6 @@ namespace Known.Web
             get { return Session.GetValue<string>("CaptchaCode"); }
         }
 
-        protected Context Context
-        {
-            get { return Context.Create(UserName); }
-        }
-
         protected User CurrentUser
         {
             get
@@ -70,14 +65,25 @@ namespace Known.Web
         {
             get
             {
-                var api = GetApiClient();
-                return new PltApiHelper(Context, api);
+                if (Setting.Instance.IsMonomer)
+                {
+                    var context = Context.Create(UserName);
+                    return new PltApiHelper(context);
+                }
+
+                var api = GetBaseApiClient();
+                return new PltApiHelper(api);
             }
         }
 
         protected ApiClient GetApiClient(string apiId = null)
         {
             var baseUrl = PltApi.GetApiBaseUrl(apiId);
+            return GetBaseApiClient(baseUrl);
+        }
+
+        private ApiClient GetBaseApiClient(string baseUrl = null)
+        {
             if (!IsAuthenticated || CurrentUser == null)
                 return new ApiClient(baseUrl);
 

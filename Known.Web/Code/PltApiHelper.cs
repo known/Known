@@ -7,20 +7,24 @@ namespace Known.Web
     public class PltApiHelper
     {
         private static readonly Dictionary<string, string> apiBaseUrls = new Dictionary<string, string>();
-        private readonly Context context;
         private readonly ApiClient api;
+        private readonly Context context;
 
-        public PltApiHelper(Context context, ApiClient api)
+        public PltApiHelper(ApiClient api)
+        {
+            this.api = api;
+        }
+
+        public PltApiHelper(Context context)
         {
             this.context = context;
-            this.api = api;
         }
 
         public User GetUser(string userName)
         {
             if (Setting.Instance.IsMonomer)
             {
-                var service = ObjectFactory.CreateService<UserService>(context);
+                var service = LoadService<UserService>();
                 return service.GetUser(userName);
             }
 
@@ -34,7 +38,7 @@ namespace Known.Web
 
             if (Setting.Instance.IsMonomer)
             {
-                var service = ObjectFactory.CreateService<AppService>(context);
+                var service = LoadService<AppService>();
                 return service.GetApiUrl(apiId);
             }
 
@@ -50,7 +54,7 @@ namespace Known.Web
         {
             if (Setting.Instance.IsMonomer)
             {
-                var service = ObjectFactory.CreateService<UserService>(context);
+                var service = LoadService<UserService>();
                 var result = service.SignIn(userName, password);
                 if (!result.IsValid)
                     return ApiResult.Error(result.Message);
@@ -65,11 +69,16 @@ namespace Known.Web
         {
             if (Setting.Instance.IsMonomer)
             {
-                var service = ObjectFactory.CreateService<ModuleService>(context);
+                var service = LoadService<ModuleService>();
                 return service.GetModule(mid);
             }
 
             return api.Get<Module>("/api/Module/GetModule", new { mid });
+        }
+
+        private T LoadService<T>() where T : ServiceBase
+        {
+            return ObjectFactory.CreateService<T>(context);
         }
     }
 }
