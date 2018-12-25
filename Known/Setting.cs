@@ -8,6 +8,7 @@
         {
             AppId = Config.AppSetting("AppId");
             AppName = Config.AppSetting("AppName");
+            IsMonomer = Config.AppSetting<bool>("IsMonomer");
             SmtpServer = Config.AppSetting("SmtpServer");
             SmtpPort = Config.AppSetting<int>("SmtpPort");
             SmtpFromName = Config.AppSetting("SmtpFromName");
@@ -21,9 +22,9 @@
             get { return instance; }
         }
 
-        public bool IsDbAudit { get; }
         public string AppId { get; }
         public string AppName { get; }
+        public bool IsMonomer { get; }
         public string SmtpServer { get; }
         public int SmtpPort { get; }
         public string SmtpFromName { get; }

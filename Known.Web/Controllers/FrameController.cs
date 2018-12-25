@@ -7,7 +7,7 @@ namespace Known.Web.Controllers
     {
         public ActionResult Index(string mid)
         {
-            var module = PltApiHelper.GetModule(Api, mid);
+            var module = PltApi.GetModule(mid);
             if (module == null)
                 return Content("模块不存在！");
 

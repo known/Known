@@ -12,7 +12,7 @@ namespace Known.Web.Controllers
         public ActionResult SignIn(string userName, string password, string backUrl)
         {
             userName = userName.ToLower();
-            var result = PltApiHelper.SignIn(Api, userName, password);
+            var result = PltApi.SignIn(userName, password);
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 

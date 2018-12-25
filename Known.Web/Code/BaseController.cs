@@ -48,7 +48,7 @@ namespace Known.Web
             {
                 if (!(Session["CurrentUser"] is User user))
                 {
-                    user = PltApiHelper.GetUser(UserName);
+                    user = PltApi.GetUser(UserName);
                     Session["CurrentUser"] = user;
                 }
                 return user;
@@ -66,14 +66,18 @@ namespace Known.Web
             get { return User.Identity.IsAuthenticated; }
         }
 
-        protected ApiClient Api
+        protected PltApiHelper PltApi
         {
-            get { return GetApiClient(); }
+            get
+            {
+                var api = GetApiClient();
+                return new PltApiHelper(Context, api);
+            }
         }
 
         protected ApiClient GetApiClient(string apiId = null)
         {
-            var baseUrl = PltApiHelper.GetApiBaseUrl(apiId);
+            var baseUrl = PltApi.GetApiBaseUrl(apiId);
             if (!IsAuthenticated || CurrentUser == null)
                 return new ApiClient(baseUrl);
 

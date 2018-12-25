@@ -1,15 +1,18 @@
-﻿using Known.Web;
+﻿using Known.Platform.Services;
+using Known.Web;
 
 namespace Known.Platform.WebApi.Controllers.Platform
 {
     public class AppController : WebApiController
     {
+        private AppService Service
+        {
+            get { return LoadService<AppService>(); }
+        }
+
         public ApiResult GetApiUrl(string apiId)
         {
-            var apiUrl = string.Empty;
-            if (apiId == "plt")
-                apiUrl = "http://localhost:8089";
-
+            var apiUrl = Service.GetApiUrl(apiId);
             return ApiResult.ToData(apiUrl);
         }
     }
