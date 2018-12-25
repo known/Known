@@ -26,22 +26,37 @@ namespace Known.Web.Controllers
             if (method.StartsWith("Get"))
                 return Get(api, module, method);
 
-            var param = GetParam(Request.Form);
-            var result = api.Post<ApiResult>($"/api/{module}/{method}", param);
-            if (result.Status == 1)
-                return ErrorResult(result.Message);
-
-            return SuccessResult(result.Message, result.Data);
+            return Post(api, module, method);
         }
 
         private ActionResult Get(ApiClient api, string module, string method)
         {
             var param = GetParam(Request.QueryString);
+            if (Setting.Instance.IsMonomer)
+            {
+                ServiceUtils.Execute(UserName, module, method, null);
+            }
+
             var result = api.Get<ApiResult>($"/api/{module}/{method}", param);
             if (result.Status == 1)
                 return ErrorResult(result.Message);
 
             return JsonResult(result.Data);
+        }
+
+        private ActionResult Post(ApiClient api, string module, string method)
+        {
+            var param = GetParam(Request.Form);
+            if (Setting.Instance.IsMonomer)
+            {
+                ServiceUtils.Execute(UserName, module, method, null);
+            }
+
+            var result = api.Post<ApiResult>($"/api/{module}/{method}", param);
+            if (result.Status == 1)
+                return ErrorResult(result.Message);
+
+            return SuccessResult(result.Message, result.Data);
         }
 
         private ActionResult Query(ApiClient api, string module, string method)
@@ -65,6 +80,11 @@ namespace Known.Web.Controllers
                 Parameter = FromJson(query)
             };
 
+            if (Setting.Instance.IsMonomer)
+            {
+                ServiceUtils.Execute(UserName, module, method, new object[] { criteria });
+            }
+
             var result = api.Post<ApiResult>($"/api/{module}/{method}", criteria);
             if (result.Status == 1)
                 return ErrorResult(result.Message);
@@ -80,7 +100,15 @@ namespace Known.Web.Controllers
             return JsonConvert.DeserializeObject<dynamic>(json);
         }
 
-        private static dynamic GetParam(NameValueCollection collection)
+        private static string ToJson(dynamic data)
+        {
+            if (data == null)
+                return string.Empty;
+
+            return JsonConvert.SerializeObject(data);
+        }
+
+        private static Dictionary<string, object> GetParam(NameValueCollection collection)
         {
             if (collection == null)
                 return null;
@@ -98,14 +126,6 @@ namespace Known.Web.Controllers
                 return null;
 
             return dic;
-        }
-
-        private static string ToJson(dynamic data)
-        {
-            if (data == null)
-                return string.Empty;
-
-            return JsonConvert.SerializeObject(data);
         }
     }
 }
