@@ -7,17 +7,19 @@ namespace Known.Web
     public class PltApiHelper
     {
         private static readonly Dictionary<string, string> apiBaseUrls = new Dictionary<string, string>();
-        private readonly ApiClient api;
+        private readonly ApiClient client;
         private readonly Context context;
 
-        public PltApiHelper(ApiClient api)
+        public PltApiHelper(ApiClient api, string userName)
         {
-            this.api = api;
-        }
-
-        public PltApiHelper(Context context)
-        {
-            this.context = context;
+            if (Setting.Instance.IsMonomer)
+            {
+                context = Context.Create(userName);
+            }
+            else
+            {
+                this.client = api;
+            }
         }
 
         public User GetUser(string userName)
@@ -28,7 +30,7 @@ namespace Known.Web
                 return service.GetUser(userName);
             }
 
-            return api.Get<User>("/api/User/GetUser", new { userName });
+            return client.Get<User>("/api/User/GetUser", new { userName });
         }
 
         public string GetApiBaseUrl(string apiId)
@@ -44,7 +46,7 @@ namespace Known.Web
 
             if (!apiBaseUrls.ContainsKey(apiId))
             {
-                apiBaseUrls[apiId] = api.Get<string>("/api/App/GetApiUrl", new { apiId });
+                apiBaseUrls[apiId] = client.Get<string>("/api/App/GetApiUrl", new { apiId });
             }
 
             return apiBaseUrls[apiId];
@@ -62,7 +64,7 @@ namespace Known.Web
                 return ApiResult.ToData(result.Data);
             }
 
-            return api.Get<ApiResult>("/api/User/SignIn", new { userName, password });
+            return client.Get<ApiResult>("/api/User/SignIn", new { userName, password });
         }
 
         public Module GetModule(string mid)
@@ -73,7 +75,7 @@ namespace Known.Web
                 return service.GetModule(mid);
             }
 
-            return api.Get<Module>("/api/Module/GetModule", new { mid });
+            return client.Get<Module>("/api/Module/GetModule", new { mid });
         }
 
         private T LoadService<T>() where T : ServiceBase

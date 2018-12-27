@@ -35,21 +35,23 @@ namespace Known.WebApi
 
         internal void Complete(HttpActionExecutedContext actionExecutedContext)
         {
-            EndTime = DateTime.Now;
-            TotalMilliseconds = (EndTime - StartTime).TotalMilliseconds;
-            Result = actionExecutedContext.Response == null ? string.Empty : actionExecutedContext.Response.Content.ReadAsStringAsync().Result;
-            Error = actionExecutedContext.Exception == null ? "无" : actionExecutedContext.Exception.ToString();
+            if (actionExecutedContext.Exception != null)
+            {
+                EndTime = DateTime.Now;
+                TotalMilliseconds = (EndTime - StartTime).TotalMilliseconds;
+                //Result = actionExecutedContext.Response == null ? string.Empty : actionExecutedContext.Response.Content.ReadAsStringAsync().Result;
+                Error = actionExecutedContext.Exception == null ? "无" : actionExecutedContext.Exception.ToString();
 
-            var line = new string('-', 100);
-            var info = $@"{line}
+                var line = new string('-', 100);
+                var info = $@"{line}
 客户端IP：{ClientIp}
 时间：{StartTime} - {EndTime} 耗时{TotalMilliseconds}毫秒
 Action：{HttpMethod} {ControllerName}.{ActionName}
 请求头：{Headers}
 请求参数：{Parameters}
-响应结果：{Result}
 异常信息：{Error}";
-            log.Info(info);
+                log.Info(info);
+            }
         }
     }
 }

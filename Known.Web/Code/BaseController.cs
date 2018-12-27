@@ -43,7 +43,8 @@ namespace Known.Web
             {
                 if (!(Session["CurrentUser"] is User user))
                 {
-                    user = PltApi.GetUser(UserName);
+                    var pltApi = new PltApiHelper(new ApiClient(), UserName);
+                    user = pltApi.GetUser(UserName);
                     Session["CurrentUser"] = user;
                 }
                 return user;
@@ -65,14 +66,8 @@ namespace Known.Web
         {
             get
             {
-                if (Setting.Instance.IsMonomer)
-                {
-                    var context = Context.Create(UserName);
-                    return new PltApiHelper(context);
-                }
-
-                var api = GetBaseApiClient();
-                return new PltApiHelper(api);
+                var client = GetBaseApiClient();
+                return new PltApiHelper(client, UserName);
             }
         }
 
