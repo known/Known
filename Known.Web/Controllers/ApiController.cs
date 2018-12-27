@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Web.Mvc;
+using Known.Extensions;
 using Known.Web.Extensions;
 using Newtonsoft.Json;
 
@@ -34,7 +35,7 @@ namespace Known.Web.Controllers
             var param = GetParam(Request.QueryString);
             if (Setting.Instance.IsMonomer)
             {
-                ServiceUtils.Execute(UserName, module, method, null);
+                ServiceUtils.Execute(UserName, module, method, param);
             }
 
             var result = api.Get<ApiResult>($"/api/{module}/{method}", param);
@@ -49,7 +50,7 @@ namespace Known.Web.Controllers
             var param = GetParam(Request.Form);
             if (Setting.Instance.IsMonomer)
             {
-                ServiceUtils.Execute(UserName, module, method, null);
+                ServiceUtils.Execute(UserName, module, method, param);
             }
 
             var result = api.Post<ApiResult>($"/api/{module}/{method}", param);
@@ -82,7 +83,9 @@ namespace Known.Web.Controllers
 
             if (Setting.Instance.IsMonomer)
             {
-                ServiceUtils.Execute(UserName, module, method, new object[] { criteria });
+                var parameters = new Dictionary<string, object>();
+                parameters.Add("criteria", criteria);
+                ServiceUtils.Execute(UserName, module, method, parameters);
             }
 
             var result = api.Post<ApiResult>($"/api/{module}/{method}", criteria);
@@ -110,17 +113,12 @@ namespace Known.Web.Controllers
 
         private static Dictionary<string, object> GetParam(NameValueCollection collection)
         {
-            if (collection == null)
+            var dic = collection.ToDictionary();
+            if (dic == null)
                 return null;
 
-            var dic = new Dictionary<string, object>();
-            foreach (var item in collection.AllKeys)
-            {
-                if (item == "_")
-                    continue;
-
-                dic[item] = collection[item];
-            }
+            if (dic.ContainsKey("_"))
+                dic.Remove("_");
 
             if (dic.Count == 0)
                 return null;

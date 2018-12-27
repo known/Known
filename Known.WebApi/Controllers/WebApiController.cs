@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Web;
 using System.Web.Http;
+using Known.Extensions;
 using Known.Web;
 
 namespace Known.WebApi.Controllers
@@ -10,24 +11,18 @@ namespace Known.WebApi.Controllers
         [HttpGet, Route("{module}/{method}")]
         public ApiResult Get(string module, string method)
         {
-            var parameters = new List<object>();
-            foreach (var key in Request.Properties)
-            {
-                //parameters.Add(request.QueryString[key]);
-            }
-            var data = ServiceUtils.Execute(UserName, module, method, parameters.ToArray());
+            var querys = HttpUtility.ParseQueryString(Request.RequestUri.Query);
+            var parameters = querys.ToDictionary();
+            var data = ServiceUtils.Execute(UserName, module, method, parameters);
             return ApiResult.ToData(data);
         }
 
         [HttpPost, Route("{module}/{method}")]
         public ApiResult Post(string module, string method)
         {
-            var parameters = new List<object>();
-            foreach (var key in Request.Properties)
-            {
-                //parameters.Add(request.QueryString[key]);
-            }
-            var data = ServiceUtils.Execute(UserName, module, method, parameters.ToArray());
+            var querys = HttpUtility.ParseQueryString(Request.RequestUri.Query);
+            var parameters = querys.ToDictionary();
+            var data = ServiceUtils.Execute(UserName, module, method, parameters);
             return ApiResult.ToData(data);
         }
     }

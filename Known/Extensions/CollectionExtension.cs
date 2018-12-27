@@ -17,12 +17,12 @@ namespace Known.Extensions
                 .ToList();
         }
 
-        public static IDictionary<string, string> ToDictionary(this NameValueCollection collection)
+        public static Dictionary<string, object> ToDictionary(this NameValueCollection collection)
         {
             if (collection == null)
                 return null;
 
-            var dict = new Dictionary<string, string>();
+            var dict = new Dictionary<string, object>();
             foreach (string key in collection.Keys)
             {
                 dict.Add(key, collection[key]);
