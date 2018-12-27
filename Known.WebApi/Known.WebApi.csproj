@@ -55,11 +55,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseApiController.cs" />
+    <Compile Include="Controllers\WebApiController.cs" />
     <Compile Include="Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtension.cs" />
     <Compile Include="Filters\ApiLoginAuthorizeAttribute.cs" />
     <Compile Include="Filters\ApiTrackActionAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\JsonProvider.cs" />
     <Compile Include="RequestTracker.cs" />
     <Compile Include="TrackHelper.cs" />
     <Compile Include="WebApiConfig.cs" />

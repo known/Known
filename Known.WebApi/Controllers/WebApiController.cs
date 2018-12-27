@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using Known.Web;
-using Known.WebApi;
 
-namespace Known.Platform.WebApi.Controllers
+namespace Known.WebApi.Controllers
 {
     [RoutePrefix("api")]
     public class WebApiController : BaseApiController
