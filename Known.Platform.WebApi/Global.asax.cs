@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Web;
+using Known.Providers;
+using Known.Serialization;
 using Known.WebApi;
 
 namespace Known.Platform.WebApi
@@ -9,7 +11,8 @@ namespace Known.Platform.WebApi
         protected void Application_Start(object sender, EventArgs e)
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
-            AppInitializer.Initialize(Known.Context.Create());
+            Container.Register<IJsonProvider, JsonProvider>();
+            Initializer.Initialize(Known.Context.Create());
             WebApiConfig.Register();
         }
 
