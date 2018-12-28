@@ -3,9 +3,10 @@ using Known.Drawing;
 using Known.Extensions;
 using Known.Log;
 using Known.Platform;
+using Known.Web;
 using Known.Web.Extensions;
 
-namespace Known.Web
+namespace Known.WebMvc
 {
     public class BaseController : AsyncController
     {

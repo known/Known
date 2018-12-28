@@ -1,6 +1,6 @@
 ﻿using Known.Platform;
 
-namespace Known.Web.Models
+namespace Known.WebMvc.Models
 {
     public class DataGridViewModel : ViewModel
     {

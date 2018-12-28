@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Known.Web.Filters
+namespace Known.WebMvc.Filters
 {
     public class TrackActionAttribute : ActionFilterAttribute
     {

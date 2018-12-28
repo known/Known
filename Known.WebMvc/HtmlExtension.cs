@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Known.Extensions;
 
-namespace Known.Web
+namespace Known.WebMvc
 {
     public static class HtmlExtension
     {

@@ -1,6 +1,6 @@
-﻿using Known.Web.Filters;
+﻿using Known.WebMvc.Filters;
 
-namespace Known.Web
+namespace Known.WebMvc
 {
     [LoginAuthorize]
     public class AuthorizeController : BaseController

@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Known.Web
+namespace Known.WebMvc
 {
     public class CustomRouteHandler : IRouteHandler
     {

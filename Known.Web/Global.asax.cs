@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
 using Known.Providers;
+using Known.Serialization;
+using Known.WebMvc;
 
-namespace Known.Web
+namespace Known.WebMvc
 {
     public class Global : System.Web.HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e)
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
-            ProviderConfig.Register();
-
-            AreaRegistration.RegisterAllAreas();
-
-            FilterConfig.Register(GlobalFilters.Filters);
-            RouteConfig.Register(RouteTable.Routes);
+            Container.Register<IJsonProvider, JsonProvider>();
+            WebMvcConfig.Register();
         }
 
         protected void Application_Error(object sender, EventArgs e)

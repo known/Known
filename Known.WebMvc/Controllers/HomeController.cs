@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
-using Known.Web.Filters;
+using Known.WebMvc.Filters;
 
-namespace Known.Web.Controllers
+namespace Known.WebMvc.Controllers
 {
     public class HomeController : BaseController
     {

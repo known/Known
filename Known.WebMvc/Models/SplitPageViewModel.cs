@@ -1,7 +1,7 @@
 ﻿using Known.Extensions;
 using Known.Platform;
 
-namespace Known.Web.Models
+namespace Known.WebMvc.Models
 {
     public class SplitPageViewModel : ViewModel
     {

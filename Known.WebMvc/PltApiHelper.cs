@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using Known.Platform;
 using Known.Platform.Services;
+using Known.Web;
 
-namespace Known.Web
+namespace Known.WebMvc
 {
     public class PltApiHelper
     {

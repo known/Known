@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
-using Known.Web.Filters;
+using Known.WebMvc.Filters;
 
-namespace Known.Web
+namespace Known.WebMvc
 {
     public class FilterConfig
     {

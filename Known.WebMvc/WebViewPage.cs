@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Known.Web;
 
-namespace Known.Web
+namespace Known.WebMvc
 {
     public abstract class WebViewPage<T> : System.Web.Mvc.WebViewPage<T>
     {

@@ -2,10 +2,11 @@
 using System.Collections.Specialized;
 using System.Web.Mvc;
 using Known.Extensions;
+using Known.Web;
 using Known.Web.Extensions;
 using Newtonsoft.Json;
 
-namespace Known.Web.Controllers
+namespace Known.WebMvc.Controllers
 {
     [RoutePrefix("api")]
     public class ApiController : AuthorizeController

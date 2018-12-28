@@ -1,7 +1,7 @@
 ﻿using System.Web.Helpers;
 using System.Web.Mvc;
 
-namespace Known.Web.Filters
+namespace Known.WebMvc.Filters
 {
     public class AntiForgeryAttribute : AuthorizeAttribute
     {

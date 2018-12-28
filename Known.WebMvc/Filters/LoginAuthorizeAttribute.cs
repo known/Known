@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
 
-namespace Known.Web.Filters
+namespace Known.WebMvc.Filters
 {
     public class LoginAuthorizeAttribute : AuthorizeAttribute
     {

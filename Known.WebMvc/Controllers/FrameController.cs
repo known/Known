@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
-using Known.Web.Models;
+using Known.WebMvc.Models;
 
-namespace Known.Web.Controllers
+namespace Known.WebMvc.Controllers
 {
     public class FrameController : AuthorizeController
     {
