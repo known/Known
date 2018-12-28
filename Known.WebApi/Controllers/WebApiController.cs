@@ -6,6 +6,7 @@ using Known.Platform;
 using Known.Platform.Services;
 using Known.Web;
 using Known.WebApi.Models;
+using Newtonsoft.Json;
 
 namespace Known.WebApi.Controllers
 {
@@ -30,16 +31,27 @@ namespace Known.WebApi.Controllers
         [HttpPost, Route("{module}/{method}")]
         public ApiResult Post(string module, string method)
         {
-            var queries = HttpUtility.ParseQueryString(Request.RequestUri.Query);
-            var parameters = queries.ToDictionary();
-            var data = ServiceUtils.Execute(UserName, module, method, parameters);
+            var json = Request.Content.ReadAsStringAsync().Result;
 
             if (method.StartsWith("Query"))
             {
-                return ApiResult.ToPageData(data as PagingResult);
+                var parameter = json.FromJson<PagingCriteria>();
+                var result = ServiceUtils.Execute(UserName, module, method, parameter);
+                return ApiResult.ToPageData(result as PagingResult);
             }
 
+            var queries = HttpUtility.ParseQueryString(Request.RequestUri.Query);
+            var parameters = queries.ToDictionary();
+            var data = ServiceUtils.Execute(UserName, module, method, parameters);
             return ApiResult.ToData(data);
+        }
+
+        private static dynamic FromJson(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+                return null;
+
+            return JsonConvert.DeserializeObject<dynamic>(json);
         }
 
         private ApiResult GetUserModules()

@@ -104,14 +104,6 @@ namespace Known.WebMvc.Controllers
             return JsonConvert.DeserializeObject<dynamic>(json);
         }
 
-        private static string ToJson(dynamic data)
-        {
-            if (data == null)
-                return string.Empty;
-
-            return JsonConvert.SerializeObject(data);
-        }
-
         private static Dictionary<string, object> GetParam(NameValueCollection collection)
         {
             var dic = collection.ToDictionary();

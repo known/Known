@@ -5,6 +5,19 @@ namespace Known
 {
     public sealed class ServiceUtils
     {
+        public static object Execute(string userName, string module, string method, object parameter)
+        {
+            var service = GetService(userName, module);
+            if (service == null)
+                throw new Exception($"暂未实现{module}模块！");
+
+            var func = service.GetType().GetMethod(method);
+            if (func == null)
+                throw new Exception($"{module}模块暂未实现{method}方法！");
+
+            return func.Invoke(service, new object[] { parameter });
+        }
+
         public static object Execute(string userName, string module, string method, Dictionary<string, object> parameters)
         {
             var service = GetService(userName, module);
