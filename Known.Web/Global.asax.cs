@@ -4,7 +4,7 @@ using Known.Providers;
 using Known.Serialization;
 using Known.WebMvc;
 
-namespace Known.WebMvc
+namespace Known.Web
 {
     public class Global : System.Web.HttpApplication
     {

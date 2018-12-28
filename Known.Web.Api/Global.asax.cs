@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Web;
+using Known.Platform;
 using Known.Providers;
 using Known.Serialization;
 using Known.WebApi;
 
-namespace Known.Platform.WebApi
+namespace Known.Web.Api
 {
     public class Global : HttpApplication
     {
