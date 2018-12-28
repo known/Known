@@ -112,7 +112,7 @@ namespace Known.Data
             if (result == null)
                 return null;
 
-            var pageData = AutoMapper.GetEntities<T>(result.PageData);
+            var pageData = AutoMapper.GetEntities<T>(result.PageData as DataTable);
             return new PagingResult<T>(result.TotalCount, pageData);
         }
 

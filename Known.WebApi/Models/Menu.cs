@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Known.Platform;
 
-namespace Known.Platform.WebApi.Models
+namespace Known.WebApi.Models
 {
     public class Menu
     {
@@ -33,7 +33,7 @@ namespace Known.Platform.WebApi.Models
             {
                 if (string.IsNullOrWhiteSpace(menu.url))
                 {
-                    menu.url = $"/frame?mid={menu.id}";
+                    menu.url = $"/frame?id={menu.id}";
                 }
                 return;
             }

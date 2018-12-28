@@ -5,9 +5,9 @@ namespace Known.WebMvc.Controllers
 {
     public class FrameController : AuthorizeController
     {
-        public ActionResult Index(string mid)
+        public ActionResult Index(string id)
         {
-            var module = PltApi.GetModule(mid);
+            var module = PltApi.GetModule(id);
             if (module == null)
                 return Content("模块不存在！");
 

@@ -60,6 +60,8 @@
     <Compile Include="Extensions\HttpRequestMessageExtension.cs" />
     <Compile Include="Filters\ApiLoginAuthorizeAttribute.cs" />
     <Compile Include="Filters\ApiTrackActionAttribute.cs" />
+    <Compile Include="Models\Code.cs" />
+    <Compile Include="Models\Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\JsonProvider.cs" />
     <Compile Include="RequestTracker.cs" />

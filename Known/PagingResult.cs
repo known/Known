@@ -1,29 +1,27 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 
 namespace Known
 {
     public class PagingResult
     {
-        public PagingResult(int totalCount, DataTable pageData)
+        public PagingResult(int totalCount, object pageData)
         {
             TotalCount = totalCount;
             PageData = pageData;
         }
 
         public int TotalCount { get; }
-        public DataTable PageData { get; }
+        public object PageData { get; }
     }
 
-    public class PagingResult<T>
+    public class PagingResult<T> : PagingResult
     {
         public PagingResult(int totalCount, List<T> pageData)
+            : base(totalCount, null)
         {
-            TotalCount = totalCount;
             PageData = pageData;
         }
 
-        public int TotalCount { get; }
-        public List<T> PageData { get; }
+        public new List<T> PageData { get; }
     }
 }

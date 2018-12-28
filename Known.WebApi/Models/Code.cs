@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Known.Extensions;
 
-namespace Known.Platform.WebApi.Models
+namespace Known.WebApi.Models
 {
     public class Code
     {

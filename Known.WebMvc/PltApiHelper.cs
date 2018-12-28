@@ -68,15 +68,15 @@ namespace Known.WebMvc
             return client.Get<ApiResult>("/api/User/SignIn", new { userName, password });
         }
 
-        public Module GetModule(string mid)
+        public Module GetModule(string id)
         {
             if (Setting.Instance.IsMonomer)
             {
                 var service = LoadService<ModuleService>();
-                return service.GetModule(mid);
+                return service.GetModule(id);
             }
 
-            return client.Get<Module>("/api/Module/GetModule", new { mid });
+            return client.Get<Module>("/api/Module/GetModule", new { id });
         }
 
         private T LoadService<T>() where T : ServiceBase
