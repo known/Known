@@ -66,7 +66,9 @@ namespace Known.WebMvc.Controllers
 
         private ActionResult Post(ApiClient api, string module, string method)
         {
-            var param = FromForm(Request.Form);
+            var param = method.StartsWith("Save")
+                      ? FromForm(Request.Form)
+                      : GetParam(Request.Form);
             if (Setting.Instance.IsMonomer)
             {
                 var data = ServiceUtils.Execute(UserName, module, method, param);
