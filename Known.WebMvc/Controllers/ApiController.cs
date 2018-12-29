@@ -66,7 +66,7 @@ namespace Known.WebMvc.Controllers
 
         private ActionResult Post(ApiClient api, string module, string method)
         {
-            var param = GetParam(Request.Form);
+            var param = FromForm(Request.Form);
             if (Setting.Instance.IsMonomer)
             {
                 var data = ServiceUtils.Execute(UserName, module, method, param);
@@ -122,6 +122,13 @@ namespace Known.WebMvc.Controllers
                 return null;
 
             return JsonConvert.DeserializeObject<dynamic>(json);
+        }
+
+        private static dynamic FromForm(NameValueCollection collection)
+        {
+            var param = GetParam(collection);
+            var json = param.ToJson();
+            return FromJson(json);
         }
 
         private static Dictionary<string, object> GetParam(NameValueCollection collection)
