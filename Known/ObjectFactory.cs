@@ -27,7 +27,7 @@ namespace Known
 
         public static T CreateRepository<T>(Context context) where T : IRepository
         {
-            var repository = Container.Load<T>();
+            var repository = Container.Resolve<T>();
             if (repository != null)
                 return repository;
 

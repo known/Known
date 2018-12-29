@@ -14,7 +14,7 @@ namespace Known
 
         protected T LoadService<T>() where T : ServiceBase
         {
-            return Container.Load<T>(typeof(T).Name);
+            return Container.Resolve<T>(typeof(T).Name);
         }
 
         protected T LoadRepository<T>() where T : IRepository

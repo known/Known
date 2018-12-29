@@ -46,7 +46,7 @@ namespace Known
 
         private static object GetService(string userName, string module)
         {
-            var service = Container.Load($"{module}Service");
+            var service = Container.Resolve($"{module}Service");
             if (service != null)
             {
                 ((ServiceBase)service).Context.UserName = userName;

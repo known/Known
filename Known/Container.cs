@@ -8,7 +8,7 @@ namespace Known
     {
         private static Hashtable cached = new Hashtable();
 
-        public static T Load<T>()
+        public static T Resolve<T>()
         {
             var key = typeof(T);
             if (!cached.ContainsKey(key))
@@ -17,7 +17,7 @@ namespace Known
             return (T)cached[key];
         }
 
-        public static T Load<T>(string name)
+        public static T Resolve<T>(string name)
         {
             if (!cached.ContainsKey(name))
                 return default(T);
@@ -25,7 +25,7 @@ namespace Known
             return (T)cached[name];
         }
 
-        public static object Load(string name)
+        public static object Resolve(string name)
         {
             if (!cached.ContainsKey(name))
                 return null;
