@@ -4,7 +4,7 @@ namespace Known.Platform.Repositories
 {
     public interface IModuleRepository : IRepository
     {
-        PagingResult<Module> QueryModules(PagingCriteria criteria);
+        PagingResult QueryModules(PagingCriteria criteria);
     }
 
     internal class ModuleRepository : DbRepository, IModuleRepository
@@ -13,7 +13,7 @@ namespace Known.Platform.Repositories
         {
         }
 
-        public PagingResult<Module> QueryModules(PagingCriteria criteria)
+        public PagingResult QueryModules(PagingCriteria criteria)
         {
             var sql = "select * from t_plt_modules where parent_id=@pid";
 

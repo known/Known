@@ -11,7 +11,7 @@ namespace Known.Platform.Services
         {
         }
 
-        public PagingResult<Module> QueryModules(PagingCriteria criteria)
+        public PagingResult QueryModules(PagingCriteria criteria)
         {
             return Repository.QueryModules(criteria);
         }

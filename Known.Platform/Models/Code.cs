@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using Known.Extensions;
 
-namespace Known.WebApi.Models
+namespace Known.Platform.Models
 {
     public class Code
     {
         public string id { get; set; }
         public string text { get; set; }
+
+        public static Dictionary<string, object> GetCodes()
+        {
+            var codes = new Dictionary<string, object>();
+            codes.Add("ViewType", Code.GetEnumCodes<ViewType>());
+            return codes;
+        }
 
         public static List<Code> GetEnumCodes<T>()
         {

@@ -106,14 +106,14 @@ namespace Known.Data
             return AutoMapper.GetBaseEntities<T>(data);
         }
 
-        public PagingResult<T> QueryPage<T>(string sql, PagingCriteria criteria)
+        public PagingResult QueryPage<T>(string sql, PagingCriteria criteria)
         {
             var result = QueryPageTable(sql, criteria);
             if (result == null)
                 return null;
 
             var pageData = AutoMapper.GetEntities<T>(result.PageData as DataTable);
-            return new PagingResult<T>(result.TotalCount, pageData);
+            return new PagingResult(result.TotalCount, pageData);
         }
 
         public void Save<T>(T entity) where T : BaseEntity

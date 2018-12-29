@@ -2,6 +2,8 @@
 using System.Collections.Specialized;
 using System.Web.Mvc;
 using Known.Extensions;
+using Known.Platform.Models;
+using Known.Platform.Services;
 using Known.Web;
 using Known.Web.Extensions;
 using Newtonsoft.Json;
@@ -14,6 +16,14 @@ namespace Known.WebMvc.Controllers
         [HttpGet, Route("{apiId}/{module}/{method}")]
         public ActionResult Get(string apiId, string module, string method)
         {
+            if (module == "User" && method == "GetModules")
+            {
+                var service = Container.Resolve<UserService>("UserService");
+                var menus = Menu.GetUserMenus(service);
+                var codes = Code.GetCodes();
+                return JsonResult(new { menus, codes });
+            }
+
             var api = GetApiClient(apiId);
             return Get(api, module, method);
         }
@@ -21,6 +31,13 @@ namespace Known.WebMvc.Controllers
         [HttpPost, Route("{apiId}/{module}/{method}")]
         public ActionResult Post(string apiId, string module, string method)
         {
+            if (module == "Module" && method == "GetTreeDatas")
+            {
+                var service = Container.Resolve<ModuleService>("ModuleService");
+                var menus = Menu.GetMenus(service);
+                return JsonResult(menus);
+            }
+
             var api = GetApiClient(apiId);
             if (method.StartsWith("Query"))
                 return Query(api, module, method);
@@ -36,7 +53,8 @@ namespace Known.WebMvc.Controllers
             var param = GetParam(Request.QueryString);
             if (Setting.Instance.IsMonomer)
             {
-                ServiceUtils.Execute(UserName, module, method, param);
+                var data = ServiceUtils.Execute(UserName, module, method, param);
+                return JsonResult(data);
             }
 
             var result = api.Get<ApiResult>($"/api/{module}/{method}", param);
@@ -51,7 +69,8 @@ namespace Known.WebMvc.Controllers
             var param = GetParam(Request.Form);
             if (Setting.Instance.IsMonomer)
             {
-                ServiceUtils.Execute(UserName, module, method, param);
+                var data = ServiceUtils.Execute(UserName, module, method, param);
+                return JsonResult(data);
             }
 
             var result = api.Post<ApiResult>($"/api/{module}/{method}", param);
@@ -86,7 +105,8 @@ namespace Known.WebMvc.Controllers
             {
                 var parameters = new Dictionary<string, object>();
                 parameters.Add("criteria", criteria);
-                ServiceUtils.Execute(UserName, module, method, parameters);
+                var data = ServiceUtils.Execute(UserName, module, method, parameters);
+                return PageResult(data as PagingResult);
             }
 
             var result = api.Post<ApiResult>($"/api/{module}/{method}", criteria);

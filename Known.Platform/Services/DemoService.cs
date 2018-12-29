@@ -9,7 +9,7 @@ namespace Known.Platform.Services
         {
         }
 
-        public PagingResult<User> QueryUsers(PagingCriteria criteria)
+        public PagingResult QueryUsers(PagingCriteria criteria)
         {
             var users = new List<User>();
             users.Add(new User
@@ -51,7 +51,7 @@ namespace Known.Platform.Services
             }
 
             var data = users.ToPageList(criteria.PageIndex, criteria.PageSize);
-            return new PagingResult<User>(users.Count, data);
+            return new PagingResult(users.Count, data);
         }
     }
 }

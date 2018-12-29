@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web;
+using Known.Platform;
 using Known.Providers;
 using Known.Serialization;
 using Known.WebMvc;
@@ -12,6 +13,7 @@ namespace Known.Web
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
             Container.Register<IJsonProvider, JsonProvider>();
+            Initializer.Initialize(Known.Context.Create());
             WebMvcConfig.Register();
         }
 

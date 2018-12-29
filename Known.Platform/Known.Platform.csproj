@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="Initializer.cs" />
+    <Compile Include="Models\Code.cs" />
+    <Compile Include="Models\Menu.cs" />
     <Compile Include="Repositories\ModuleRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\AppService.cs" />

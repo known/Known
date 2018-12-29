@@ -8,7 +8,7 @@
         {
             AppId = Config.AppSetting("AppId");
             AppName = Config.AppSetting("AppName");
-            IsMonomer = Config.AppSetting<bool>("IsMonomer");
+            IsMonomer = Config.AppSetting<bool>("IsMonomer", true);
             SmtpServer = Config.AppSetting("SmtpServer");
             SmtpPort = Config.AppSetting<int>("SmtpPort");
             SmtpFromName = Config.AppSetting("SmtpFromName");

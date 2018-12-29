@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Web;
+﻿using System.Web;
 using System.Web.Http;
 using Known.Extensions;
-using Known.Platform;
+using Known.Platform.Models;
 using Known.Platform.Services;
 using Known.Web;
-using Known.WebApi.Models;
-using Newtonsoft.Json;
 
 namespace Known.WebApi.Controllers
 {
@@ -17,10 +14,19 @@ namespace Known.WebApi.Controllers
         public ApiResult Get(string module, string method)
         {
             if (module == "User" && method == "GetModules")
-                return GetUserModules();
+            {
+                var service = LoadService<UserService>();
+                var menus = Menu.GetUserMenus(service);
+                var codes = Code.GetCodes();
+                return ApiResult.ToData(new { menus, codes });
+            }
 
             if (module == "Module" && method == "GetTreeDatas")
-                return GetTreeDatas();
+            {
+                var service = LoadService<ModuleService>();
+                var menus = Menu.GetMenus(service);
+                return ApiResult.ToData(menus);
+            }
 
             var queries = HttpUtility.ParseQueryString(Request.RequestUri.Query);
             var parameters = queries.ToDictionary();
@@ -44,54 +50,6 @@ namespace Known.WebApi.Controllers
             var parameters = queries.ToDictionary();
             var data = ServiceUtils.Execute(UserName, module, method, parameters);
             return ApiResult.ToData(data);
-        }
-
-        private static dynamic FromJson(string json)
-        {
-            if (string.IsNullOrWhiteSpace(json))
-                return null;
-
-            return JsonConvert.DeserializeObject<dynamic>(json);
-        }
-
-        private ApiResult GetUserModules()
-        {
-            var menus = new List<Menu>();
-            var modules = LoadService<UserService>().GetModules();
-            if (modules != null && modules.Count > 0)
-            {
-                var index = 0;
-                foreach (var item in modules)
-                {
-                    var menu = Menu.GetMenu(item);
-                    menu.expanded = index == 0;
-                    menus.Add(menu);
-                    Menu.SetSubModules(menus, item, menu);
-                    index++;
-                }
-            }
-
-            var codes = new Dictionary<string, object>();
-            codes.Add("ViewType", Code.GetEnumCodes<ViewType>());
-
-            return ApiResult.ToData(new { menus, codes });
-        }
-
-        private ApiResult GetTreeDatas()
-        {
-            var menus = new List<Menu>();
-            var modules = LoadService<ModuleService>().GetModules(true);
-            if (modules != null && modules.Count > 0)
-            {
-                foreach (var item in modules)
-                {
-                    var menu = Menu.GetMenu(item);
-                    menu.expanded = item.ParentId == "-1" || item.ParentId == "0";
-                    menus.Add(menu);
-                }
-            }
-
-            return ApiResult.ToData(menus);
         }
     }
 }

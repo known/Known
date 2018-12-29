@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Known
+﻿namespace Known
 {
     public class PagingResult
     {
@@ -12,16 +10,5 @@ namespace Known
 
         public int TotalCount { get; }
         public object PageData { get; }
-    }
-
-    public class PagingResult<T> : PagingResult
-    {
-        public PagingResult(int totalCount, List<T> pageData)
-            : base(totalCount, null)
-        {
-            PageData = pageData;
-        }
-
-        public new List<T> PageData { get; }
     }
 }

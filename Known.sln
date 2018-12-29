@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Platform", "Known.Pla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.WebApi", "Known.WebApi\Known.WebApi.csproj", "{029D5A4E-277A-46F6-BB68-BDBCC96A38FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Web.Api", "Known.Web.Api\Known.Web.Api.csproj", "{D2B53B3C-92F0-40A2-B93A-73B2CC40B981}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.WebMvc", "Known.WebMvc\Known.WebMvc.csproj", "{A8B2014F-A009-4D18-8BA8-80F3F84A5D17}"
 EndProject
 Global
@@ -49,10 +47,6 @@ Global
 		{029D5A4E-277A-46F6-BB68-BDBCC96A38FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{029D5A4E-277A-46F6-BB68-BDBCC96A38FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{029D5A4E-277A-46F6-BB68-BDBCC96A38FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D2B53B3C-92F0-40A2-B93A-73B2CC40B981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D2B53B3C-92F0-40A2-B93A-73B2CC40B981}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D2B53B3C-92F0-40A2-B93A-73B2CC40B981}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D2B53B3C-92F0-40A2-B93A-73B2CC40B981}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8B2014F-A009-4D18-8BA8-80F3F84A5D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A8B2014F-A009-4D18-8BA8-80F3F84A5D17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8B2014F-A009-4D18-8BA8-80F3F84A5D17}.Release|Any CPU.ActiveCfg = Release|Any CPU
