@@ -66,6 +66,7 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="static\data\icon.txt" />
+    <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
     <Content Include="static\libs\highcharts\highcharts.js" />
     <Content Include="static\libs\highcharts\model\exporting.js" />
     <Content Include="static\modules\core\css\form.css" />
@@ -84,7 +85,6 @@
     <Content Include="static\modules\frame\devtool\data\countrys.txt" />
     <Content Include="static\modules\frame\devtool\data\menu.txt" />
     <Content Include="static\modules\frame\devtool\data\listTree.txt" />
-    <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
     <Content Include="static\libs\miniui\themes\cupertino\skin.css" />
     <Content Include="static\modules\core\index.css" />
     <Content Include="static\modules\core\index.js" />
