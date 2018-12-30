@@ -72,7 +72,7 @@
             var id = this.grid.idField;
             $(rows).each(function (i, d) { datas.push(d[id] || ''); });
         }
-        return datas;
+        return mini.encode(datas);
     }
 
 };

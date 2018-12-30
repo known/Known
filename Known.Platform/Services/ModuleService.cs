@@ -112,8 +112,10 @@ namespace Known.Platform.Services
             return Result.Success("保存成功！", entity);
         }
 
-        public Result DeleteModules(List<Module> modules)
+        public Result DeleteModules(string data)
         {
+            var ids = data.FromJson<string[]>();
+            var modules = Repository.QueryListById<Module>(ids);
             if (modules == null || modules.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");
 
