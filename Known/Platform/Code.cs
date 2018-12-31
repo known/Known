@@ -11,7 +11,7 @@ namespace Known.Platform
 
         public static Dictionary<string, object> GetCodes()
         {
-            var service = Container.Resolve<IPlatformService>();
+            var service = Container.Resolve<PlatformService>();
             var codes = service.GetCodes();
             if (codes == null)
                 codes = new Dictionary<string, object>();

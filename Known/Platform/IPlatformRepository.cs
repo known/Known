@@ -2,7 +2,7 @@
 
 namespace Known.Platform
 {
-    public interface IPlatformService
+    public interface IPlatformRepository
     {
         string GetApiUrl(string apiId);
         Dictionary<string, object> GetCodes();

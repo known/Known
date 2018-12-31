@@ -8,12 +8,12 @@ namespace Known.WebMvc
     {
         private static readonly Dictionary<string, string> apiBaseUrls = new Dictionary<string, string>();
         private readonly ApiClient client;
-        private readonly IPlatformService service;
+        private readonly PlatformService service;
 
         public PltApiHelper(ApiClient api)
         {
             this.client = api;
-            this.service = Container.Resolve<IPlatformService>();
+            this.service = Container.Resolve<PlatformService>();
         }
 
         public User GetUser(string userName)

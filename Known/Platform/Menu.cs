@@ -16,7 +16,7 @@ namespace Known.Platform
         public static List<Menu> GetUserMenus(string userName)
         {
             var menus = new List<Menu>();
-            var service = Container.Resolve<IPlatformService>();
+            var service = Container.Resolve<PlatformService>();
             var modules = service.GetUserModules(userName);
             if (modules != null && modules.Count > 0)
             {
@@ -37,14 +37,6 @@ namespace Known.Platform
         public static List<Menu> GetTreeMenus()
         {
             var menus = new List<Menu>();
-            menus.Add(Menu.GetMenu(new Module
-            {
-                Id = "0",
-                ParentId = "-1",
-                Code = Setting.Instance.AppId,
-                Name = Setting.Instance.AppName,
-                Sort = 1
-            }));
             menus.Add(new Menu
             {
                 id = "0",
@@ -54,7 +46,7 @@ namespace Known.Platform
                 expanded = true
             });
 
-            var service = Container.Resolve<IPlatformService>();
+            var service = Container.Resolve<PlatformService>();
             var modules = service.GetModules();
             if (modules != null && modules.Count > 0)
             {

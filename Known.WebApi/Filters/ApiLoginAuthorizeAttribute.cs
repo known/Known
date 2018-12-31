@@ -48,7 +48,7 @@ namespace Known.WebApi.Filters
                 if (!(principal.Identity is BasicAuthenticationIdentity identity))
                     return false;
 
-                var service = Container.Resolve<IPlatformService>();
+                var service = Container.Resolve<PlatformService>();
                 var result = service.ValidateLogin(identity.Name, identity.Password);
                 if (!result.IsValid)
                 {
