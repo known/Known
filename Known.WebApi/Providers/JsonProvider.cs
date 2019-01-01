@@ -1,7 +1,7 @@
 ﻿using Known.Serialization;
 using Newtonsoft.Json;
 
-namespace Known.Providers
+namespace Known.WebApi.Providers
 {
     public class JsonProvider : IJsonProvider
     {
