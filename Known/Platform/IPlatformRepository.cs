@@ -10,7 +10,6 @@ namespace Known.Platform
         List<Module> GetModules();
         List<Module> GetUserModules(string userName);
         User GetUser(string userName);
-        Result<User> ValidateLogin(string userName, string password);
-        Result<User> SignIn(string userName, string password);
+        void SaveUser(User user);
     }
 }

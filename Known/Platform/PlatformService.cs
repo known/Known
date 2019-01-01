@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Known.Extensions;
 
@@ -82,12 +83,42 @@ namespace Known.Platform
 
         public Result<User> ValidateLogin(string userName, string password)
         {
-            return repository.ValidateLogin(userName, password);
+            var user = GetUser(userName);
+            if (user == null)
+                return Result.Error<User>("用户不存在！");
+
+            if (user.Password != password)
+                return Result.Error<User>("用户密码不正确！");
+
+            return Result.Success("登录成功！", user);
         }
 
         public Result<User> SignIn(string userName, string password)
         {
-            return repository.SignIn(userName, password);
+            var result = ValidateLogin(userName, password);
+            if (!result.IsValid)
+                return Result.Error<User>(result.Message);
+
+            var user = result.Data;
+            user.Token = Utils.NewGuid;
+            if (!user.FirstLoginTime.HasValue)
+                user.FirstLoginTime = DateTime.Now;
+            user.LastLoginTime = DateTime.Now;
+            repository.SaveUser(user);
+
+            return Result.Success("登录成功！", user);
+        }
+
+        public Result SignOut(string userName)
+        {
+            var user = GetUser(userName);
+            if (user == null)
+                return Result.Error("用户不存在！");
+
+            user.Token = string.Empty;
+            repository.SaveUser(user);
+
+            return Result.Success("注销成功！");
         }
 
         private void SetParentModule(Module module)
