@@ -8,6 +8,24 @@ namespace Known.Data
 {
     public sealed class AutoMapper
     {
+        public static T MapTo<T, TSource>(TSource source)
+        {
+            if (source == null)
+                return default(T);
+
+            var json = source.ToJson();
+            return json.FromJson<T>();
+        }
+
+        public static List<T> MapToList<T, TSource>(List<TSource> sources)
+        {
+            if (sources == null || sources.Count == 0)
+                return null;
+
+            var json = sources.ToJson();
+            return json.FromJson<List<T>>();
+        }
+
         public static T GetBaseEntity<T>(DataRow row) where T : BaseEntity
         {
             var entity = GetEntity<T>(row);

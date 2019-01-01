@@ -9,8 +9,9 @@ namespace Known.Extensions
     public static class TypeExtension
     {
         private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>> TypeProperties = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>>();
+        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>> ColumnProperties = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>>();
 
-        public static List<PropertyInfo> GetColumnProperties(this Type type)
+        public static List<PropertyInfo> GetTypeProperties(this Type type)
         {
             if (type == null)
                 return null;
@@ -19,9 +20,36 @@ namespace Known.Extensions
                 return pis.ToList();
 
             var properties = type.GetProperties()
-                                 .Where(p => p.CanRead && p.CanWrite && !(p.SetMethod.IsVirtual && !p.SetMethod.IsFinal))
+                                 .Where(p => p.CanRead && p.CanWrite)
                                  .ToArray();
             TypeProperties[type.TypeHandle] = properties;
+            return properties.ToList();
+        }
+
+        public static bool HasTypeProperty(this Type type, string propertyName)
+        {
+            if (type == null)
+                return false;
+
+            var properties = type.GetTypeProperties();
+            if (properties == null || properties.Count == 0)
+                return false;
+
+            return properties.Count(p => p.Name == propertyName) > 0;
+        }
+
+        public static List<PropertyInfo> GetColumnProperties(this Type type)
+        {
+            if (type == null)
+                return null;
+
+            if (ColumnProperties.TryGetValue(type.TypeHandle, out IEnumerable<PropertyInfo> pis))
+                return pis.ToList();
+
+            var properties = type.GetProperties()
+                                 .Where(p => p.CanRead && p.CanWrite && !(p.SetMethod.IsVirtual && !p.SetMethod.IsFinal))
+                                 .ToArray();
+            ColumnProperties[type.TypeHandle] = properties;
             return properties.ToList();
         }
 
