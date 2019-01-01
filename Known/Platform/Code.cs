@@ -9,9 +9,8 @@ namespace Known.Platform
         public string id { get; set; }
         public string text { get; set; }
 
-        public static Dictionary<string, object> GetCodes()
+        public static Dictionary<string, object> GetCodes(PlatformService service)
         {
-            var service = Container.Resolve<PlatformService>();
             var codes = service.GetCodes();
             if (codes == null)
                 codes = new Dictionary<string, object>();

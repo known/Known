@@ -7,7 +7,7 @@ namespace Known.WebMvc.Controllers
     {
         public ActionResult Index(string id)
         {
-            var module = PltApi.GetModule(id);
+            var module = PlatformService.GetModule(id);
             if (module == null)
                 return Content("模块不存在！");
 

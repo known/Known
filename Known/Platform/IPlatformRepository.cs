@@ -4,7 +4,7 @@ namespace Known.Platform
 {
     public interface IPlatformRepository
     {
-        string GetApiUrl(string apiId);
+        string GetApiBaseUrl(string apiId);
         Dictionary<string, object> GetCodes();
         Module GetModule(string id);
         List<Module> GetModules();

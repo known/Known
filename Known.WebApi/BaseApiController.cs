@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using Known.Platform;
 
 namespace Known.WebApi
 {
@@ -12,6 +13,11 @@ namespace Known.WebApi
         public bool IsAuthenticated
         {
             get { return User.Identity.IsAuthenticated; }
+        }
+
+        protected PlatformService PlatformService
+        {
+            get { return new PlatformService(); }
         }
 
         public T LoadService<T>() where T : ServiceBase

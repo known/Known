@@ -44,8 +44,8 @@ namespace Known.WebMvc
             {
                 if (!(Session["CurrentUser"] is User user))
                 {
-                    var pltApi = new PltApiHelper(new ApiClient());
-                    user = pltApi.GetUser(UserName);
+                    var service = new PlatformService();
+                    user = service.GetUser(UserName);
                     Session["CurrentUser"] = user;
                 }
                 return user;
@@ -63,18 +63,18 @@ namespace Known.WebMvc
             get { return User.Identity.IsAuthenticated; }
         }
 
-        protected PltApiHelper PltApi
+        protected PlatformService PlatformService
         {
             get
             {
                 var client = GetBaseApiClient();
-                return new PltApiHelper(client);
+                return new PlatformService(client, null);
             }
         }
 
         protected ApiClient GetApiClient(string apiId = null)
         {
-            var baseUrl = PltApi.GetApiBaseUrl(apiId);
+            var baseUrl = PlatformService.GetApiBaseUrl(apiId);
             return GetBaseApiClient(baseUrl);
         }
 

@@ -17,8 +17,8 @@ namespace Known.WebMvc.Controllers
         {
             if (module == "User" && method == "GetModules")
             {
-                var menus = Menu.GetUserMenus(UserName);
-                var codes = Code.GetCodes();
+                var menus = Menu.GetUserMenus(PlatformService, UserName);
+                var codes = Code.GetCodes(PlatformService);
                 return JsonResult(new { menus, codes });
             }
 
@@ -31,7 +31,7 @@ namespace Known.WebMvc.Controllers
         {
             if (module == "Module" && method == "GetTreeDatas")
             {
-                var menus = Menu.GetTreeMenus();
+                var menus = Menu.GetTreeMenus(PlatformService);
                 return JsonResult(menus);
             }
 

@@ -13,10 +13,9 @@ namespace Known.Platform
         public bool expanded { get; set; }
         public List<Menu> children { get; set; }
 
-        public static List<Menu> GetUserMenus(string userName)
+        public static List<Menu> GetUserMenus(PlatformService service, string userName)
         {
             var menus = new List<Menu>();
-            var service = Container.Resolve<PlatformService>();
             var modules = service.GetUserModules(userName);
             if (modules != null && modules.Count > 0)
             {
@@ -34,7 +33,7 @@ namespace Known.Platform
             return menus;
         }
 
-        public static List<Menu> GetTreeMenus()
+        public static List<Menu> GetTreeMenus(PlatformService service)
         {
             var menus = new List<Menu>();
             menus.Add(new Menu
@@ -46,7 +45,6 @@ namespace Known.Platform
                 expanded = true
             });
 
-            var service = Container.Resolve<PlatformService>();
             var modules = service.GetModules();
             if (modules != null && modules.Count > 0)
             {

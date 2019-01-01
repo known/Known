@@ -14,14 +14,14 @@ namespace Known.WebApi.Controllers
         {
             if (module == "User" && method == "GetModules")
             {
-                var menus = Menu.GetUserMenus(UserName);
-                var codes = Code.GetCodes();
+                var menus = Menu.GetUserMenus(PlatformService, UserName);
+                var codes = Code.GetCodes(PlatformService);
                 return ApiResult.ToData(new { menus, codes });
             }
 
             if (module == "Module" && method == "GetTreeDatas")
             {
-                var menus = Menu.GetTreeMenus();
+                var menus = Menu.GetTreeMenus(PlatformService);
                 return ApiResult.ToData(menus);
             }
 

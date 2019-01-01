@@ -83,7 +83,6 @@
     <Compile Include="Models\TabPageViewModel.cs" />
     <Compile Include="Models\TreeGridViewModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
-    <Compile Include="PltApiHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\JsonProvider.cs" />
     <Compile Include="RouteConfig.cs" />

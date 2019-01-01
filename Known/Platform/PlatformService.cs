@@ -2,26 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using Known.Extensions;
+using Known.Platform.Helpers;
+using Known.Web;
 
 namespace Known.Platform
 {
     public class PlatformService
     {
-        private IPlatformRepository repository;
+        private readonly PlatformHelper helper;
 
-        public PlatformService(IPlatformRepository repository)
+        public PlatformService() : this(null, null) { }
+
+        public PlatformService(ApiClient client, IPlatformRepository repository)
         {
-            this.repository = repository;
+            if (Setting.Instance.IsMonomer)
+            {
+                this.helper = new DbPlatformHelper(repository);
+            }
+            else
+            {
+                this.helper = new ApiPlatformHelper(client);
+            }
         }
 
-        public string GetApiUrl(string apiId)
+        public string GetApiBaseUrl(string apiId)
         {
-            return repository.GetApiUrl(apiId);
+            return helper.GetApiBaseUrl(apiId);
         }
 
         public Dictionary<string, object> GetCodes()
         {
-            return repository.GetCodes();
+            return helper.GetCodes();
         }
 
         public Module GetModule(string id)
@@ -38,7 +49,7 @@ namespace Known.Platform
                 };
             }
 
-            var module = repository.GetModule(id);
+            var module = helper.GetModule(id);
             if (module != null)
             {
                 if (module.Code == "Module" && string.IsNullOrWhiteSpace(module.Extension))
@@ -58,7 +69,7 @@ namespace Known.Platform
 
         public List<Module> GetModules()
         {
-            var modules = repository.GetModules();
+            var modules = helper.GetModules();
             if (modules == null || modules.Count == 0)
                 return null;
 
@@ -69,7 +80,7 @@ namespace Known.Platform
 
         public List<Module> GetUserModules(string userName)
         {
-            var modules = repository.GetUserModules(userName);
+            var modules = helper.GetUserModules(userName);
             if (modules == null || modules.Count == 0)
                 return new List<Module>();
 
@@ -78,7 +89,7 @@ namespace Known.Platform
 
         public User GetUser(string userName)
         {
-            return repository.GetUser(userName);
+            return helper.GetUser(userName);
         }
 
         public Result<User> ValidateLogin(string userName, string password)
@@ -104,7 +115,7 @@ namespace Known.Platform
             if (!user.FirstLoginTime.HasValue)
                 user.FirstLoginTime = DateTime.Now;
             user.LastLoginTime = DateTime.Now;
-            repository.SaveUser(user);
+            helper.SaveUser(user);
 
             return Result.Success("登录成功！", user);
         }
@@ -116,7 +127,7 @@ namespace Known.Platform
                 return Result.Error("用户不存在！");
 
             user.Token = string.Empty;
-            repository.SaveUser(user);
+            helper.SaveUser(user);
 
             return Result.Success("注销成功！");
         }
@@ -126,7 +137,7 @@ namespace Known.Platform
             if (module.ParentId == "0")
                 return;
 
-            module.Parent = repository.GetModule(module.ParentId);
+            module.Parent = helper.GetModule(module.ParentId);
             SetParentModule(module.Parent);
         }
 

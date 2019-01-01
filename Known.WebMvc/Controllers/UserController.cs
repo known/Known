@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
-using Known.Extensions;
 using Known.Platform;
 using Known.WebMvc.Filters;
 
@@ -12,13 +11,12 @@ namespace Known.WebMvc.Controllers
         public ActionResult SignIn(string userName, string password, string backUrl)
         {
             userName = userName.ToLower();
-            var result = PltApi.SignIn(userName, password);
-            if (result.Status == 1)
+            var result = PlatformService.SignIn(userName, password);
+            if (!result.IsValid)
                 return ErrorResult(result.Message);
 
             FormsAuthentication.SetAuthCookie(userName, true);
-            var json = SerializeExtension.ToJson(result.Data) as string;
-            CurrentUser = json.FromJson<User>();
+            CurrentUser = result.Data;
 
             if (string.IsNullOrEmpty(backUrl))
                 backUrl = FormsAuthentication.DefaultUrl;
@@ -30,6 +28,7 @@ namespace Known.WebMvc.Controllers
         [LoginAuthorize]
         public void SignOut()
         {
+            PlatformService.SignOut(UserName);
             FormsAuthentication.SignOut();
             Session.Clear();
         }
