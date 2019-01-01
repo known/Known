@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -75,18 +72,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Known.Cells\Known.Cells.csproj">
       <Project>{64c82219-f397-4b5a-b837-7a8ad4b7b721}</Project>
       <Name>Known.Cells</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Known.WebApi\Known.WebApi.csproj">
+      <Project>{029d5a4e-277a-46f6-bb68-bdbcc96a38fc}</Project>
+      <Name>Known.WebApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Known.WebMvc\Known.WebMvc.csproj">
+      <Project>{a8b2014f-a009-4d18-8ba8-80f3f84a5d17}</Project>
+      <Name>Known.WebMvc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Known\Known.csproj">
       <Project>{f4c9a8c8-eaf9-4ea8-b186-c4b843762d45}</Project>
       <Name>Known</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
