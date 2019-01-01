@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Known.Serialization;
+using Known.WebMvc.Providers;
 
 namespace Known.WebMvc
 {
@@ -12,6 +11,9 @@ namespace Known.WebMvc
     {
         public static void Register()
         {
+            Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
+            Container.Register<IJsonProvider, JsonProvider>();
+
             AreaRegistration.RegisterAllAreas();
 
             FilterConfig.Register(GlobalFilters.Filters);
