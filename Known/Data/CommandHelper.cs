@@ -124,7 +124,7 @@ namespace Known.Data
             }
             else
             {
-                var setColumns = columns.Where(c => !c.IsKey);
+                var setColumns = columns.Where(c => !c.IsKey && c.ColumnName != "create_by" && c.ColumnName != "create_time");
                 var keyColumns = columns.Where(c => c.IsKey);
                 var setColNames = string.Join(",", setColumns.Select(c => $"{c.ColumnName}=@{c.ColumnName}"));
                 var where = string.Join(" and ", keyColumns.Select(c => $"{c.ColumnName}=@{c.ColumnName}"));
