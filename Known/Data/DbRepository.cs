@@ -42,6 +42,14 @@ namespace Known.Data
             Database.Save(entity);
         }
 
+        public void Update<T>(T entity) where T : BaseEntity
+        {
+            if (entity == null)
+                return;
+
+            Database.Update(entity);
+        }
+
         public void Delete<T>(T entity) where T : BaseEntity
         {
             if (entity == null)

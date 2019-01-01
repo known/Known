@@ -133,6 +133,18 @@ namespace Known.Data
             provider.Execute(command);
         }
 
+        public void Update<T>(T entity) where T : BaseEntity
+        {
+            if (string.IsNullOrWhiteSpace(entity.Id))
+                return;
+
+            entity.IsNew = false;
+            entity.ModifyBy = UserName;
+            entity.ModifyTime = DateTime.Now;
+            var command = CommandHelper.GetSaveCommand(entity);
+            provider.Execute(command);
+        }
+
         public void Save<T>(List<T> entities) where T : BaseEntity
         {
             foreach (var entity in entities)
