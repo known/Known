@@ -2,7 +2,7 @@
 using System.Data;
 using Known.Data;
 
-namespace Known.Tests.KnownTests.Data
+namespace Known.Tests.Core.Data
 {
     public class CommandHelperTest
     {

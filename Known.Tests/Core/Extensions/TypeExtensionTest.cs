@@ -2,7 +2,7 @@
 using Known.Extensions;
 using Known.Mapping;
 
-namespace Known.Tests.KnownTests.Extensions
+namespace Known.Tests.Core.Extensions
 {
     public class TypeExtensionTest
     {

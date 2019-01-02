@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Known.Tests.KnownTests
+namespace Known.Tests.Core
 {
     public enum TestEnum
     {

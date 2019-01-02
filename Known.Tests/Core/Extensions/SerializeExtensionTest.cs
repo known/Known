@@ -1,7 +1,7 @@
 ﻿using System;
 using Known.Extensions;
 
-namespace Known.Tests.KnownTests.Extensions
+namespace Known.Tests.Core.Extensions
 {
     public class SerializeExtensionTest
     {

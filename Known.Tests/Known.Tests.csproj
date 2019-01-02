@@ -47,27 +47,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KnownTests\BusinessTest.cs" />
-    <Compile Include="KnownTests\Cache\DefaultCacheTest.cs" />
-    <Compile Include="KnownTests\ConfigTest.cs" />
-    <Compile Include="KnownTests\ContainerTest.cs" />
-    <Compile Include="KnownTests\ContextTest.cs" />
-    <Compile Include="KnownTests\Data\ColumnInfoTest.cs" />
-    <Compile Include="KnownTests\Data\CommandHelperTest.cs" />
-    <Compile Include="KnownTests\Data\CommandTest.cs" />
-    <Compile Include="KnownTests\EncryptorTest.cs" />
-    <Compile Include="KnownTests\Extensions\CollectionExtensionTest.cs" />
-    <Compile Include="KnownTests\Extensions\CompressExtensionTest.cs" />
-    <Compile Include="KnownTests\Extensions\DateTimeExtensionTest.cs" />
-    <Compile Include="KnownTests\Extensions\EnumExtensionTest.cs" />
-    <Compile Include="KnownTests\Extensions\SerializeExtensionTest.cs" />
-    <Compile Include="KnownTests\Extensions\StringExtensionTest.cs" />
-    <Compile Include="KnownTests\Extensions\TypeExtensionTest.cs" />
-    <Compile Include="KnownTests\Log\ConsoleLoggerTest.cs" />
-    <Compile Include="KnownTests\Log\FileLoggerTest.cs" />
-    <Compile Include="KnownTests\TestEntity.cs" />
-    <Compile Include="KnownTests\TestEnum.cs" />
-    <Compile Include="KnownTests\UtilsTest.cs" />
+    <Compile Include="Core\BusinessTest.cs" />
+    <Compile Include="Core\Cache\DefaultCacheTest.cs" />
+    <Compile Include="Core\ConfigTest.cs" />
+    <Compile Include="Core\ContainerTest.cs" />
+    <Compile Include="Core\ContextTest.cs" />
+    <Compile Include="Core\Data\ColumnInfoTest.cs" />
+    <Compile Include="Core\Data\CommandHelperTest.cs" />
+    <Compile Include="Core\Data\CommandTest.cs" />
+    <Compile Include="Core\EncryptorTest.cs" />
+    <Compile Include="Core\Extensions\CollectionExtensionTest.cs" />
+    <Compile Include="Core\Extensions\CompressExtensionTest.cs" />
+    <Compile Include="Core\Extensions\DateTimeExtensionTest.cs" />
+    <Compile Include="Core\Extensions\EnumExtensionTest.cs" />
+    <Compile Include="Core\Extensions\SerializeExtensionTest.cs" />
+    <Compile Include="Core\Extensions\StringExtensionTest.cs" />
+    <Compile Include="Core\Extensions\TypeExtensionTest.cs" />
+    <Compile Include="Core\Log\ConsoleLoggerTest.cs" />
+    <Compile Include="Core\Log\FileLoggerTest.cs" />
+    <Compile Include="Core\TestEntity.cs" />
+    <Compile Include="Core\TestEnum.cs" />
+    <Compile Include="Core\UtilsTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -91,6 +91,10 @@
       <Project>{f4c9a8c8-eaf9-4ea8-b186-c4b843762d45}</Project>
       <Name>Known</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="WebApi\" />
+    <Folder Include="WebMvc\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

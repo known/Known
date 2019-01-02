@@ -1,7 +1,7 @@
 ﻿using System;
 using Known.Mapping;
 
-namespace Known.Tests.KnownTests
+namespace Known.Tests.Core
 {
     [Table("a_test", "测试表", "item1,item2")]
     public class TestEntity : BaseEntity

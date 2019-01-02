@@ -1,6 +1,6 @@
 ﻿using Known.Log;
 
-namespace Known.Tests.KnownTests
+namespace Known.Tests.Core
 {
     public class BusinessTest
     {

@@ -1,7 +1,7 @@
 ﻿using Known.Data;
 using Known.Extensions;
 
-namespace Known.Tests.KnownTests.Data
+namespace Known.Tests.Core.Data
 {
     public class ColumnInfoTest
     {

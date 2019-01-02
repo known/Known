@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Known.Extensions;
 
-namespace Known.Tests.KnownTests.Extensions
+namespace Known.Tests.Core.Extensions
 {
     public class EnumExtensionTest
     {

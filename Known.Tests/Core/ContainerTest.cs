@@ -1,4 +1,4 @@
-﻿namespace Known.Tests.KnownTests
+﻿namespace Known.Tests.Core
 {
     public class ContainerTest
     {
@@ -6,15 +6,15 @@
         {
             Container.Register<ITestService, TestService>();
             var service = Container.Resolve<ITestService>();
-            Assert.IsNull(service);
+            Assert.IsNotNull(service);
         }
 
         public static void TestRegisterInstance()
         {
             var instance = new NameTestService("Known");
-            Container.Register<ITestService, NameTestService>(instance);
+            Container.Register<INameTestService, NameTestService>(instance);
             var service = Container.Resolve<ITestService>();
-            Assert.IsNull(service);
+            Assert.IsNotNull(service);
         }
 
         public static void TestResolve()
@@ -24,9 +24,9 @@
             Assert.IsEqual(service.Hello(), "Hello!");
 
             var instance = new NameTestService("Known");
-            Container.Register<ITestService, NameTestService>(instance);
-            service = Container.Resolve<ITestService>();
-            Assert.IsEqual(service.Hello(), "Hello Known!");
+            Container.Register<INameTestService, NameTestService>(instance);
+            var service1 = Container.Resolve<INameTestService>();
+            Assert.IsEqual(service1.Hello(), "Hello Known!");
         }
     }
 
@@ -43,7 +43,12 @@
         }
     }
 
-    public class NameTestService : ITestService
+    public interface INameTestService
+    {
+        string Hello();
+    }
+
+    public class NameTestService : INameTestService
     {
         private string name;
 

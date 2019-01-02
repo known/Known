@@ -1,6 +1,6 @@
 ﻿using Known.Cache;
 
-namespace Known.Tests.KnownTests.Cache
+namespace Known.Tests.Core.Cache
 {
     public class DefaultCacheTest
     {
