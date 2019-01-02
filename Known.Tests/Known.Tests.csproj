@@ -50,6 +50,7 @@
     <Compile Include="KnownTests\BusinessTest.cs" />
     <Compile Include="KnownTests\Cache\DefaultCacheTest.cs" />
     <Compile Include="KnownTests\ConfigTest.cs" />
+    <Compile Include="KnownTests\ContainerTest.cs" />
     <Compile Include="KnownTests\ContextTest.cs" />
     <Compile Include="KnownTests\Data\ColumnInfoTest.cs" />
     <Compile Include="KnownTests\Data\CommandHelperTest.cs" />
