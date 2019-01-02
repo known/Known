@@ -11,18 +11,14 @@ namespace Known
         public static T Resolve<T>()
         {
             var key = typeof(T);
-            if (!cached.ContainsKey(key))
-                return default(T);
+            if (cached.ContainsKey(key))
+                return (T)cached[key];
 
-            return (T)cached[key];
-        }
+            var key1 = typeof(T).Name;
+            if (cached.ContainsKey(key1))
+                return (T)cached[key1];
 
-        public static T Resolve<T>(string name)
-        {
-            if (!cached.ContainsKey(name))
-                return default(T);
-
-            return (T)cached[name];
+            return default(T);
         }
 
         public static object Resolve(string name)

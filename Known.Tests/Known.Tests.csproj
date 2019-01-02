@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\BusinessTest.cs" />
     <Compile Include="Core\Cache\DefaultCacheTest.cs" />
     <Compile Include="Core\ConfigTest.cs" />
     <Compile Include="Core\ContainerTest.cs" />
