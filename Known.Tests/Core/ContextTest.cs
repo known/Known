@@ -43,5 +43,29 @@ namespace Known.Tests.Core
             Assert.IsEqual(context.Parameter.Id, 1);
             Assert.IsEqual(context.Parameter.Name, "Known");
         }
+
+        public static void TestCreate()
+        {
+            var context = Context.Create();
+
+            Assert.IsNotNull(context);
+            Assert.IsNotNull(context.Logger);
+            Assert.IsNotNull(context.Database);
+            Assert.IsNull(context.UserName);
+            Assert.IsNotNull(context.Parameter);
+        }
+
+        public static void TestCreateWithArg()
+        {
+            var context = Context.Create("Known");
+
+            Assert.IsNotNull(context);
+            Assert.IsNotNull(context.Logger);
+            Assert.IsNotNull(context.Database);
+            Assert.IsNotNull(context.UserName);
+            Assert.IsNotNull(context.Parameter);
+            Assert.IsEqual(context.UserName, "Known");
+            Assert.IsEqual(context.Database.UserName, "Known");
+        }
     }
 }
