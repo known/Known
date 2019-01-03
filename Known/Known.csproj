@@ -175,6 +175,8 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Web\WebUtils.cs" />
+    <Compile Include="Workflow\Activity.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
