@@ -69,6 +69,18 @@
     <Compile Include="Core\UtilsTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\BaseApiControllerTest.cs" />
+    <Compile Include="WebApi\RequestTrackerTest.cs" />
+    <Compile Include="WebApi\TrackHelperTest.cs" />
+    <Compile Include="WebApi\WebApiConfigTest.cs" />
+    <Compile Include="WebMvc\AuthorizeControllerTest.cs" />
+    <Compile Include="WebMvc\BaseControllerTest.cs" />
+    <Compile Include="WebMvc\CustomRouteHandlerTest.cs" />
+    <Compile Include="WebMvc\FilterConfigTest.cs" />
+    <Compile Include="WebMvc\HtmlExtensionTest.cs" />
+    <Compile Include="WebMvc\RouteConfigTest.cs" />
+    <Compile Include="WebMvc\WebMvcConfigTest.cs" />
+    <Compile Include="WebMvc\WebViewPageTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -91,9 +103,6 @@
       <Name>Known</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="WebApi\" />
-    <Folder Include="WebMvc\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
