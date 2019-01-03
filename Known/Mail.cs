@@ -143,11 +143,11 @@ namespace Known
             if (string.IsNullOrWhiteSpace(toMails))
                 return;
 
-            var smtpServer = Config.AppSetting("SmtpServer");
-            var smtpPort = Config.AppSetting<int?>("SmtpPort");
-            var fromName = Config.AppSetting("FromName");
-            var fromEmail = Config.AppSetting("FromEmail");
-            var fromPassword = Config.AppSetting("FromPassword");
+            var smtpServer = Setting.Instance.SmtpServer;
+            var smtpPort = Setting.Instance.SmtpPort;
+            var fromName = Setting.Instance.SmtpFromName;
+            var fromEmail = Setting.Instance.SmtpFromEmail;
+            var fromPassword = Setting.Instance.SmtpFromPassword;
             var mail = new Mail(smtpServer, smtpPort, fromName, fromEmail, fromPassword);
             var tos = toMails.Split(';', '；');
             foreach (var item in tos)
@@ -163,7 +163,7 @@ namespace Known
 
         public static void Send(string subject, Exception ex)
         {
-            var exceptionMails = Config.AppSetting("ExceptionMails");
+            var exceptionMails = Setting.Instance.ExceptionMails;
             if (string.IsNullOrWhiteSpace(exceptionMails))
             {
                 WriteError(subject, ex.ToString());
