@@ -8,7 +8,7 @@ namespace Known.Tests
         static void Main(string[] args)
         {
             RunTest();
-            Assert.DisplaySummary();
+            Displayer.DisplaySummary();
             Console.WriteLine("按任意键结束！");
             Console.ReadKey();
         }
