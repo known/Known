@@ -2,7 +2,7 @@
 
 namespace Known.Tests
 {
-    public class Displayer
+    public sealed class Displayer
     {
         public static void Write(object message)
         {
