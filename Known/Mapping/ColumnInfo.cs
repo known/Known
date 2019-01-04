@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using System.Reflection;
 using Known.Extensions;
-using Known.Mapping;
 
-namespace Known.Data
+namespace Known.Mapping
 {
     public class ColumnInfo
     {
@@ -16,7 +15,11 @@ namespace Known.Data
 
         public PropertyInfo Property { get; }
         public string ColumnName { get; }
+        public string Title { get; }
+        public string Description { get; }
         public bool IsKey { get; }
+        public bool Required { get; }
+        public bool Exportable { get; }
 
         private static string GetColumnName(PropertyInfo property)
         {

@@ -83,7 +83,7 @@
     <Compile Include="Cells\ImageSetting.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Context.cs" />
-    <Compile Include="Data\ColumnInfo.cs" />
+    <Compile Include="Mapping\ColumnInfo.cs" />
     <Compile Include="Data\Command.cs" />
     <Compile Include="Data\CommandHelper.cs" />
     <Compile Include="Data\AutoMapper.cs" />

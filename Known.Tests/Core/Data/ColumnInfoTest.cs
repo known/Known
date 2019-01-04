@@ -1,5 +1,5 @@
-﻿using Known.Data;
-using Known.Extensions;
+﻿using Known.Extensions;
+using Known.Mapping;
 
 namespace Known.Tests.Core.Data
 {
