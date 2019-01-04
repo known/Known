@@ -9,7 +9,7 @@ namespace Known.Tests.Core.Extensions
         public static void TestGetColumnProperties()
         {
             var properties = typeof(TestEntity).GetColumnProperties();
-            Assert.IsEqual(properties.Count, 11);
+            Assert.AreEqual(properties.Count, 11);
         }
 
         public static void TestGetAttribute()
@@ -19,14 +19,14 @@ namespace Known.Tests.Core.Extensions
             var item3 = properties.FirstOrDefault(p => p.Name == "Item3");
             var attr1 = item1.GetAttribute<IntegerColumnAttribute>();
             var attr3 = item3.GetAttribute<DateTimeColumnAttribute>();
-            Assert.IsEqual(attr1.ColumnName, "item1");
-            Assert.IsEqual(attr3.ColumnName, "item3");
+            Assert.AreEqual(attr1.ColumnName, "item1");
+            Assert.AreEqual(attr3.ColumnName, "item3");
         }
 
         public static void TestHasColumnProperty()
         {
-            Assert.IsEqual(typeof(TestEntity).HasColumnProperty("Item1"), true);
-            Assert.IsEqual(typeof(TestEntity).HasColumnProperty("ItemOnlyRead"), false);
+            Assert.AreEqual(typeof(TestEntity).HasColumnProperty("Item1"), true);
+            Assert.AreEqual(typeof(TestEntity).HasColumnProperty("ItemOnlyRead"), false);
         }
     }
 }

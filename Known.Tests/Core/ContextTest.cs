@@ -30,8 +30,8 @@ namespace Known.Tests.Core
             Assert.IsNotNull(context.Database);
             Assert.IsNotNull(context.UserName);
             Assert.IsNotNull(context.Parameter);
-            Assert.IsEqual(context.UserName, "Known");
-            Assert.IsEqual(context.Database.UserName, "Known");
+            Assert.AreEqual(context.UserName, "Known");
+            Assert.AreEqual(context.Database.UserName, "Known");
         }
 
         public static void TestDynamicParam()
@@ -40,8 +40,8 @@ namespace Known.Tests.Core
             context.Parameter.Id = 1;
             context.Parameter.Name = "Known";
             Assert.IsNotNull(context.Parameter);
-            Assert.IsEqual(context.Parameter.Id, 1);
-            Assert.IsEqual(context.Parameter.Name, "Known");
+            Assert.AreEqual(context.Parameter.Id, 1);
+            Assert.AreEqual(context.Parameter.Name, "Known");
         }
 
         public static void TestCreate()
@@ -64,8 +64,8 @@ namespace Known.Tests.Core
             Assert.IsNotNull(context.Database);
             Assert.IsNotNull(context.UserName);
             Assert.IsNotNull(context.Parameter);
-            Assert.IsEqual(context.UserName, "Known");
-            Assert.IsEqual(context.Database.UserName, "Known");
+            Assert.AreEqual(context.UserName, "Known");
+            Assert.AreEqual(context.Database.UserName, "Known");
         }
     }
 }

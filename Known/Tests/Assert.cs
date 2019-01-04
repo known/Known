@@ -19,7 +19,7 @@ namespace Known.Tests
             Displayer.WriteLine($" 实际值：{actual}");
         }
 
-        public static void IsEqual<T>(T actual, T expect)
+        public static void AreEqual<T>(T actual, T expect)
         {
             Write(actual.Equals(expect));
             Displayer.WriteLine($" 实际值：{actual}，期望值：{expect}");

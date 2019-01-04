@@ -11,8 +11,8 @@ namespace Known.Tests.Core.Extensions
     {
         public static void TestEnumGetDescription()
         {
-            Assert.IsEqual(TestEnum.Enum1.GetDescription(), "枚举1");
-            Assert.IsEqual(TestEnum.Enum2.GetDescription(), "枚举2");
+            Assert.AreEqual(TestEnum.Enum1.GetDescription(), "枚举1");
+            Assert.AreEqual(TestEnum.Enum2.GetDescription(), "枚举2");
         }
     }
 }

@@ -11,22 +11,22 @@ namespace Known.Tests.Core.Extensions
             var str = new String('T', 5000);
             var length1 = str.ToBytes().Length;
             var length2 = str.Compress().Length;
-            Assert.IsEqual(length1 > length2, true);
+            Assert.AreEqual(length1 > length2, true);
 
             var set = new DataSet();
             set.Tables.Add(new DataTable());
-            Assert.IsEqual(set.Compress().Length, 242);
+            Assert.AreEqual(set.Compress().Length, 242);
         }
 
         public static void TestDecompress()
         {
             var bytes1 = "test".Compress();
-            Assert.IsEqual(bytes1.Decompress<string>(), "test");
+            Assert.AreEqual(bytes1.Decompress<string>(), "test");
 
             var set = new DataSet();
             set.Tables.Add(new DataTable());
             var bytes = set.Compress();
-            Assert.IsEqual(bytes.Decompress().Tables.Count, 1);
+            Assert.AreEqual(bytes.Decompress().Tables.Count, 1);
         }
     }
 }

@@ -10,11 +10,11 @@ namespace Known.Tests.Core.Cache
         {
             cache.Clear();
             cache.Set("Key1", "Value1");
-            Assert.IsEqual(cache.Count, 1);
+            Assert.AreEqual(cache.Count, 1);
             cache.Set("Key1", "Value2");
-            Assert.IsEqual(cache.Count, 1);
+            Assert.AreEqual(cache.Count, 1);
             cache.Set("Key2", "Value2");
-            Assert.IsEqual(cache.Count, 2);
+            Assert.AreEqual(cache.Count, 2);
         }
 
         public static void TestGet()
@@ -22,7 +22,7 @@ namespace Known.Tests.Core.Cache
             cache.Set("Key", "Value");
             Assert.IsNull(cache.Get(""));
             Assert.IsNull(cache.Get("test"));
-            Assert.IsEqual(cache.Get("Key"), "Value");
+            Assert.AreEqual(cache.Get("Key"), "Value");
         }
 
         public static void TestSet()
@@ -30,9 +30,9 @@ namespace Known.Tests.Core.Cache
             cache.Set("Key", null);
             Assert.IsNull(cache.Get("Key"));
             cache.Set("Key", "Value");
-            Assert.IsEqual(cache.Get("Key"), "Value");
+            Assert.AreEqual(cache.Get("Key"), "Value");
             cache.Set("Key", "Value1");
-            Assert.IsEqual(cache.Get("Key"), "Value1");
+            Assert.AreEqual(cache.Get("Key"), "Value1");
         }
 
         public static void TestRemove()
@@ -46,9 +46,9 @@ namespace Known.Tests.Core.Cache
         {
             cache.Set("Key1", "Value1");
             cache.Set("Key2", "Value2");
-            Assert.IsEqual(cache.Count, 2);
+            Assert.AreEqual(cache.Count, 2);
             cache.Clear();
-            Assert.IsEqual(cache.Count, 0);
+            Assert.AreEqual(cache.Count, 0);
         }
     }
 }
