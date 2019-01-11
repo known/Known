@@ -23,16 +23,16 @@ namespace Known
         }
     }
 
-    public abstract class ServiceBase<TRepository> : ServiceBase
-        where TRepository : IRepository
+    public abstract class ServiceBase<T> : ServiceBase
+        where T : IRepository
     {
         public ServiceBase(Context context) : base(context)
         {
         }
 
-        protected TRepository Repository
+        protected T Repository
         {
-            get { return LoadRepository<TRepository>(); }
+            get { return LoadRepository<T>(); }
         }
     }
 }

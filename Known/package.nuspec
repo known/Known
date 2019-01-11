@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <!--*-->
+    <id>Known</id>
+    <!--*-->
+    <version>1.0.0</version>
+    <title>Known</title>
+    <!--*-->
+    <authors>KnownChen</authors>
+    <owners>KnownChen</owners>
+    <!--
+    <licenseUrl></licenseUrl>
+    <projectUrl></projectUrl>
+    <iconUrl></iconUrl>
+-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--*-->
+    <description>This is a rapid development framework.</description>
+    <!--*-->
+    <releaseNotes>The first version.</releaseNotes>
+    <copyright>Copyright © Known 2017</copyright>
+    <tags>C#</tags>
+    <dependencies>
+      <!--
+      <dependency id="SampleDependency" version="1.0" />
+-->
+    </dependencies>
+  </metadata>
+</package>
