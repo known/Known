@@ -1,0 +1,86 @@
+﻿/* form */
+.form {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    table-layout: fixed;
+}
+
+.form th {
+    background: #f7f7f7;
+    text-align: right;
+    border: 1px solid #aed0ea;
+    padding: 2px;
+    white-space: nowrap;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.form td {
+    width: auto;
+    border: 1px solid #aed0ea;
+    text-align: left;
+    padding: 2px;
+    background: #fff;
+    font-size: 14px;
+}
+
+.noborder th, .noborder td {
+    border: 0;
+}
+
+.list-title {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+.form-section {
+    font-weight: bold;
+    height: 23px;
+    line-height: 23px;
+}
+
+.form .row {
+    clear: both;
+    border-bottom: 1px solid #aed0ea;
+}
+
+.form .row .label, .form .row .control {
+    float: left;
+    border-right: 1px solid #aed0ea;
+    padding: 2px;
+}
+
+.form .row .label {
+    background-color: #f7f7f7;
+}
+
+.form td.in-table {
+    table-layout: fixed;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.form td.in-table table {
+    width: 100%;
+    border: 0;
+}
+
+.form td.in-table table th, .form td.in-table table td {
+    border-top: 0;
+}
+
+.buttons {
+    padding: 5px 0;
+}
+
+.form .mini-textbox-border,
+.form .mini-buttonedit-border {
+    border: none;
+}
+
+.form .mini-textbox {
+    width: 100%;
+}

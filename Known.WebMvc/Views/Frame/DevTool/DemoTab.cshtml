@@ -1,0 +1,69 @@
+﻿<div id="tabs1" class="mini-tabs view-tabs" 
+     style="width:100%;height:100%;margin-top:5px;" borderStyle="border:0;"
+     activeIndex="0">
+    <div title="基本信息" iconCls="fa-info-circle">
+        
+        <table class="form">
+            <tr>
+                <th style="width:100px;"></th>
+                <td>
+                    <input id="textbox1" name="UserName" class="mini-textbox" required="true" />
+                </td>
+                <th style="width:100px;"></th>
+                <td>
+                    <input id="textbox1" name="UserName" class="mini-textbox" required="true" />
+                </td>
+                <th style="width:100px;"></th>
+                <td>
+                    <input id="textbox1" name="UserName" class="mini-textbox" required="true" />
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input id="textbox1" name="UserName" class="mini-textbox" />
+                </td>
+                <th></th>
+                <td>
+                    <input id="textbox1" name="UserName" class="mini-textbox" />
+                </td>
+                <th></th>
+                <td>
+                    <input id="textbox1" name="UserName" class="mini-textbox" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div title="企业资质" iconCls="fa-certificate">
+        <div class="mini-toolbar" style="border-bottom:0;padding:0;margin-bottom:5px;">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:100%;border-bottom:1px solid #aed0ea;padding:2px;">
+                        <a class="mini-button" plain="true" iconCls="fa-plus">新增</a>
+                        <a class="mini-button" plain="true" iconCls="fa-pencil" onclick="edit()">编辑</a>
+                        <a class="mini-button" plain="true" iconCls="fa-minus" onclick="remove()">删除</a>
+                        <span class="separator"></span>
+                        <a class="mini-button" plain="true" iconCls="fa-sign-in">导入</a>
+                        <a class="mini-menubutton" plain="true" iconCls="fa-sign-out" menu="#exportMenu">导出</a>
+                        <ul id="exportMenu" class="mini-menu" style="display:none;">
+                            <li iconCls="fa-file-excel-o" onclick="add()">导出Excel</li>
+                            <li iconCls="fa-file-pdf-o" onclick="add()">导出Pdf</li>
+                        </ul>
+                        <span class="separator"></span>
+                        <a class="mini-button" plain="true" iconCls="fa-upload">上载</a>
+                        <a class="mini-button" plain="true" iconCls="fa-download">下载</a>
+                        <a class="mini-button" plain="true" iconCls="fa-exchange">同步</a>
+                        <span class="separator"></span>
+                        <a class="mini-button" plain="true" id="btnClose" iconCls="fa-remove">关闭</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div title="流程记录" iconCls="fa-list">
+        3
+    </div>
+    <div title="保密资料" iconCls="fa-envelope" showCloseButton="true" enabled="false">
+        4
+    </div>
+</div>

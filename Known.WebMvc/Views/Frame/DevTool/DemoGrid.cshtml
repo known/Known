@@ -1,0 +1,58 @@
+﻿<div id="gridDemo" class="mini-datagrid" 
+     style="width:100%;height:100%;" borderStyle="border:0;"
+     url="/api/plt/Demo/QueryUsers" idField="Id"
+     multiSelect="true" showToolbar="true">
+    <div property="toolbar">
+        <table style="width:100%;">
+            <tr>
+                <td id="tbGrid" style="width:100%;padding:2px;">
+                    <a class="mini-button" plain="true" id="refresh" iconCls="fa-refresh">刷新</a>
+                    <span class="separator"></span>
+                    <a class="mini-menubutton" plain="true" iconCls="fa-plus text-success" menu="#menuAdd">新增</a>
+                    <ul id="menuAdd" class="mini-menu" style="display:none;">
+                        <li id="addForm" iconCls="fa-plus-circle">普通表单</li>
+                        <li id="addHlForm" iconCls="fa-plus-square">上表头下表体</li>
+                        <li id="addTabForm" iconCls="fa-plus-square-o">Tab表单</li>
+                    </ul>
+                    <a class="mini-button" plain="true" id="edit" iconCls="fa-pencil text-primary">编辑</a>
+                    <a class="mini-button" plain="true" id="delete" iconCls="fa-minus text-danger">删除</a>
+                    <span class="separator"></span>
+                    <a class="mini-button" plain="true" id="import" iconCls="fa-sign-in text-info">导入</a>
+                    <a class="mini-menubutton" plain="true" iconCls="fa-sign-out text-info" menu="#menuExport">导出</a>
+                    <ul id="menuExport" class="mini-menu" style="display:none;">
+                        <li id="exportExcel" iconCls="fa-file-excel-o text-primary">导出Excel</li>
+                        <li id="exportPdf" iconCls="fa-file-pdf-o text-danger">导出Pdf</li>
+                    </ul>
+                    <span class="separator"></span>
+                    <a class="mini-button" plain="true" id="upload" iconCls="fa-upload  text-success">上载</a>
+                    <a class="mini-button" plain="true" id="download" iconCls="fa-download  text-primary">下载</a>
+                    <a class="mini-button" plain="true" id="sync" iconCls="fa-exchange">同步</a>
+                    <span class="separator"></span>
+                    <a class="mini-button" plain="true" id="close" iconCls="fa-remove text-danger">关闭</a>
+                </td>
+                <td id="queryDemo" style="white-space:nowrap;padding:2px;">
+                    <input id="key" class="mini-textbox" emptyText="请输入关键字" style="width:150px;" />
+                    <a class="query-btn-adv">高级</a>
+                </td>
+            </tr>
+        </table>
+        <div id="queryDemo" class="mini-panel-border query" style="border-left:0;">
+            <input id="key" name="key" class="mini-textbox" emptyText="请输入关键字" style="width:150px;" />
+            <a class="mini-button" id="search" iconCls="fa-search">搜索</a>
+        </div>
+    </div>
+    <div property="columns">
+        <div type="indexcolumn"></div>
+        <div type="checkcolumn"></div>
+        <div field="UserName" width="120" headerAlign="center" allowSort="true">员工帐号</div>
+        <div field="Name" width="120" headerAlign="center" allowSort="true">姓名</div>
+        <div field="Department.Name" width="120">所属部门</div>
+        <div field="Position" width="100">职位</div>
+        <div field="Mobile" width="100">手机</div>
+        <div field="Phone" width="100">电话</div>
+        <div field="Email" width="100">邮箱</div>
+        <div field="Gender" width="100" renderer="onGenderRenderer">性别</div>
+        <div field="Age" width="100" allowSort="true">年龄</div>
+        <div field="Birthday" width="100" renderer="onBirthdayRenderer">出生日期</div>
+    </div>
+</div>

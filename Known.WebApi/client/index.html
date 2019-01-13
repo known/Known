@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Known管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="static/libs/font-awesome/css/font-awesome.min.css?r=190110202512">
+	<link rel="stylesheet" href="static/libs/scrollbar/jquery.scrollbar.css?r=190110202512">
+	<link rel="stylesheet" href="static/libs/miniui/themes/default/miniui.css?r=190110202512">
+	<link rel="stylesheet" href="static/libs/miniui/themes/default/medium-mode.css?r=190110202512">
+	<link rel="stylesheet" href="static/libs/miniui/themes/default/flatstyle.css?r=190110202512">
+	<link rel="stylesheet" href="static/libs/miniui/themes/cupertino/skin.css?r=190110202512">
+	<link rel="stylesheet" href="static/modules/core/css/form.css?r=190110202512">
+	<link rel="stylesheet" href="static/modules/core/css/query.css?r=190110202512">
+	<link rel="stylesheet" href="static/modules/core/index.css?r=190110202512">
+	<link rel="stylesheet" href="static/modules/index/css/dashboard.css?r=190110202512">
+	<link rel="stylesheet" href="static/modules/index/css/frame.css?r=190110202512">
+	<link rel="stylesheet" href="static/modules/index/css/menu.css?r=190110202512">
+	<link rel="stylesheet" href="static/modules/index/css/tabs.css?r=190110202512">
+	<link rel="stylesheet" href="static/modules/index/index.css?r=190110202512">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-header">
+            <div class="navbar-brand">Known管理系统</div>
+            <div class="navbar-brand navbar-brand-compact">K</div>
+        </div>
+        <!--ul class="nav navbar-nav">
+            <li><a id="toggle"><span class="fa fa-bars"></span></a></li>
+        </ul-->
+        <ul id="tbNavbar" class="nav navbar-nav navbar-right">
+            <li class="icontop"><a class="button" id="devTool"><i class="fa fa-puzzle-piece"></i><span>开发工具</span></a></li>
+            <li class="icontop"><a class="button" id="todo"><i class="fa fa-tasks"></i><span>代办事项</span></a></li>
+            <li class="icontop"><a class="button" id="cache"><i class="fa fa-refresh"></i><span>刷新缓存</span></a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle userinfo">
+                    <img class="user-img" src="static/images/face.jpg" />管理员 <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li><a class="button" id="info"><i class="fa fa-user"></i> 用户信息</a></li>
+                    <li><a class="button" id="updPwd"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
+                    <li><a class="button" id="logout"><i class="fa fa-power-off"></i> 退出登录</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-toggle"><i class="fa fa-fw fa-dedent"></i></div>
+            <div id="mainMenu"></div>
+        </div>
+        <div class="main">
+            <div id="mainTabs" class="mini-tabs main-tabs" activeIndex="0" style="height:100%;"
+                 plain="false" buttons="#tbMainTabs" arrowPosition="side">
+                <div id="dashboard" name="index" iconCls="fa-home" title="控制台"></div>
+            </div>
+            <div id="tbMainTabs">
+                <a class="tabsBtn button" id="home"><i class="fa fa-home"></i></a>
+                <a class="tabsBtn button" id="refresh"><i class="fa fa-refresh"></i></a>
+                <a class="tabsBtn button" id="remove"><i class="fa fa-remove"></i></a>
+                <a class="tabsBtn button" id="fullScreen"><i class="fa fa-arrows-alt"></i></a>
+            </div>
+        </div>
+    </div>
+    <script src="static/libs/jquery.min.js?r=190110202512"></script>
+	<script src="static/libs/scrollbar/jquery.scrollbar.min.js?r=190110202512"></script>
+	<script src="static/libs/miniui/miniui.js?r=190110202512"></script>
+	<script src="static/libs/highcharts/highcharts.js?r=190110202512"></script>
+	<script src="static/libs/highcharts/model/exporting.js?r=190110202512"></script>
+	<script src="static/modules/core/js/ajax.js?r=190110202512"></script>
+	<script src="static/modules/core/js/array.js?r=190110202512"></script>
+	<script src="static/modules/core/js/code.js?r=190110202512"></script>
+	<script src="static/modules/core/js/date.js?r=190110202512"></script>
+	<script src="static/modules/core/js/jqextend.js?r=190110202512"></script>
+	<script src="static/modules/core/js/string.js?r=190110202512"></script>
+	<script src="static/modules/core/js/miniui/columnsMenu.js?r=190110202512"></script>
+	<script src="static/modules/core/js/miniui/config.js?r=190110202512"></script>
+	<script src="static/modules/core/js/miniui/decimalbox.js?r=190110202512"></script>
+	<script src="static/modules/core/js/miniui/dialog.js?r=190110202512"></script>
+	<script src="static/modules/core/js/miniui/form.js?r=190110202512"></script>
+	<script src="static/modules/core/js/miniui/grid.js?r=190110202512"></script>
+	<script src="static/modules/core/js/miniui/integerbox.js?r=190110202512"></script>
+	<script src="static/modules/core/js/miniui/message.js?r=190110202512"></script>
+	<script src="static/modules/core/js/miniui/pagertree.js?r=190110202512"></script>
+	<script src="static/modules/core/js/miniui/toolbar.js?r=190110202512"></script>
+	<script src="static/modules/core/js/miniui/vtypes.js?r=190110202512"></script>
+	<script src="static/modules/core/index.js?r=190110202512"></script>
+	<script src="static/modules/index/js/dashboard.js?r=190110202512"></script>
+	<script src="static/modules/index/js/mainTabs.js?r=190110202512"></script>
+	<script src="static/modules/index/js/menu.js?r=190110202512"></script>
+	<script src="static/modules/index/js/menuTip.js?r=190110202512"></script>
+	<script src="static/modules/index/js/navbar.js?r=190110202512"></script>
+	<script src="static/modules/index/index.js?r=190110202512"></script>
+</body>
+</html>

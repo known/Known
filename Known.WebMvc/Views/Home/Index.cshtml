@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.SystemName</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="favicon.ico">
+    @Html.MinStyle("static/modules/index.min.css")
+</head>
+<body>
+    @Html.AntiForgeryToken()
+    <div class="navbar">
+        <div class="navbar-header">
+            <div class="navbar-brand">@ViewBag.SystemName</div>
+            <div class="navbar-brand navbar-brand-compact">K</div>
+        </div>
+        <!--ul class="nav navbar-nav">
+            <li><a id="toggle"><span class="fa fa-bars"></span></a></li>
+        </ul-->
+        <ul id="tbNavbar" class="nav navbar-nav navbar-right">
+            <li class="icontop"><a class="button" id="devTool"><i class="fa fa-puzzle-piece"></i><span>开发工具</span></a></li>
+            <li class="icontop"><a class="button" id="todo"><i class="fa fa-tasks"></i><span>代办事项</span></a></li>
+            <li class="icontop"><a class="button" id="cache"><i class="fa fa-refresh"></i><span>刷新缓存</span></a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle userinfo">
+                    <img class="user-img" src="~/static/images/face.jpg" />@ViewBag.UserName <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li><a class="button" id="info"><i class="fa fa-user"></i> 用户信息</a></li>
+                    <li><a class="button" id="updPwd"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
+                    <li><a class="button" id="logout"><i class="fa fa-power-off"></i> 退出登录</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-toggle"><i class="fa fa-fw fa-dedent"></i></div>
+            <div id="mainMenu"></div>
+        </div>
+        <div class="main">
+            <div id="mainTabs" class="mini-tabs main-tabs" activeIndex="0" style="height:100%;"
+                 plain="false" buttons="#tbMainTabs" arrowPosition="side">
+                <div id="dashboard" name="index" iconCls="fa-home" title="控制台"></div>
+            </div>
+            <div id="tbMainTabs">
+                <a class="tabsBtn button" id="home"><i class="fa fa-home"></i></a>
+                <a class="tabsBtn button" id="refresh"><i class="fa fa-refresh"></i></a>
+                <a class="tabsBtn button" id="remove"><i class="fa fa-remove"></i></a>
+                <a class="tabsBtn button" id="fullScreen"><i class="fa fa-arrows-alt"></i></a>
+            </div>
+        </div>
+    </div>
+    @Html.MinScript("static/modules/index.min.js")
+</body>
+</html>

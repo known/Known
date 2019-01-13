@@ -1,0 +1,74 @@
+﻿<div class="mini-fit">
+    <table class="dashboard">
+        <tr>
+            <td style="width:25%;">
+                @RenderSmallBox("orderCount", "新订单", "#00c0ef", "fa-bar-chart")
+            </td>
+            <td style="width:25%;">
+                @RenderSmallBox("saleCount", "销售额", "#00a65a", "fa-area-chart")
+            </td>
+            <td style="width:25%;">
+                @RenderSmallBox("customerCount", "客户", "#f39c12", "fa-address-book-o")
+            </td>
+            <td style="width:25%;">
+                @RenderSmallBox("userCount", "用户", "#dd4b39", "fa-user-plus")
+            </td>
+        </tr>
+    </table>
+    <table class="dashboard">
+        <tr>
+            <td style="width:70%;">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="title"><i class="fa fa-area-chart"></i>统计图表</div>
+                        <div class="buttons">
+
+                        </div>
+                    </div>
+                    <div class="box-body active" style="height:350px;">
+                        <div id="chartLine" class="chart"></div>
+                    </div>
+                    <div class="box-body" style="height:350px;">
+
+                    </div>
+                    <div class="box-body" style="height:350px;">
+
+                    </div>
+                </div>
+            </td>
+            <td style="width:30%;">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="title"><i class="fa fa-info-circle"></i>版本信息</div>
+                    </div>
+                    <div class="box-body active">
+                        <table class="form">
+                            <tr>
+                                <th style="width:100px;">当前版本：</th>
+                                <td>V1.0 免费版</td>
+                            </tr>
+                            <tr>
+                                <th>主要功能：</th>
+                                <td>专业 / 清爽 / 极简</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@helper RenderSmallBox(string id, string text, string bgColor, string icon)
+{
+    <div id="@id" class="small-box" style="background-color:@bgColor !important;">
+        <div class="inner">
+            <h3>150</h3>
+            <p>@text</p>
+        </div>
+        <div class="icon">
+            <i class="fa @icon"></i>
+        </div>
+        @*<a class="small-box-footer">更多 <i class="fa fa-arrow-circle-right"></i></a>*@
+    </div>
+}

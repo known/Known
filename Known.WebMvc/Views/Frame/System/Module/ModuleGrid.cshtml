@@ -1,0 +1,33 @@
+﻿<div id="gridModule" class="mini-datagrid"
+     style="width:100%;height:100%;" borderStyle="border:0;"
+     url="/api/plt/Module/QueryModules" idField="Id"
+     multiSelect="true" showToolbar="true">
+    <div property="toolbar">
+        <div id="tbModule" style="padding:3px;float:left;">
+            @Form.Button(Form.ButtonType.Add)
+            @Form.Button(Form.ButtonType.Copy)
+            @Form.Button(Form.ButtonType.Edit)
+            @Form.Button(Form.ButtonType.Remove)
+            @Form.Button(Form.ButtonType.Close)
+        </div>
+        <div id="queryModule" style="padding:3px;float:right;">
+            @Form.TextBox("key", false, new {
+               emptyText = "请输入关键字",
+               style = "width:150px;"
+            })
+            @Form.Hidden("pid")
+            @Form.Button(Form.ButtonType.Search)
+        </div>
+    </div>
+    <div property="columns">
+        <div type="indexcolumn"></div>
+        <div type="checkcolumn"></div>
+        <div field="Icon" width="30" headerAlign="center" align="center" displayField="icon">图标</div>
+        <div field="Code" width="100" allowSort="true">编码</div>
+        <div field="Name" width="100" allowSort="true">名称</div>
+        <div field="ViewType" width="100" allowSort="true" displayField="code.ViewType">视图类型</div>
+        <div field="Url" width="150">地址</div>
+        <div field="Sort" width="50" headerAlign="center" align="center" allowSort="true">顺序</div>
+        <div field="Enabled" width="50" headerAlign="center" align="center" allowSort="true">是否可用</div>
+    </div>
+</div>

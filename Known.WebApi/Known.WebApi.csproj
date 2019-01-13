@@ -1,45 +1,67 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{029D5A4E-277A-46F6-BB68-BDBCC96A38FC}</ProjectGuid>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B29197DE-3DB3-4565-90A4-5DE003BB030F}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Known.WebApi</RootNamespace>
     <AssemblyName>Known.WebApi</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
@@ -47,19 +69,427 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="client\index.html" />
+    <Content Include="client\login.html" />
+    <Content Include="client\static\data\icon.txt" />
+    <Content Include="client\static\images\face.jpg" />
+    <Content Include="client\static\libs\highcharts\highcharts.js" />
+    <Content Include="client\static\libs\highcharts\model\exporting.js" />
+    <Content Include="client\static\libs\jquery.md5.js" />
+    <Content Include="client\static\libs\miniui\locale\en_US.js" />
+    <Content Include="client\static\libs\miniui\locale\zh_CN.js" />
+    <Content Include="client\static\libs\miniui\miniui.js" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\buttonedit\arrow.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\buttonedit\arrow_down.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\buttonedit\arrow_up.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\buttonedit\btn-hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\buttonedit\btn-pressed.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\buttonedit\btn.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\buttonedit\combo_arrow.png" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\buttonedit\date.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\buttonedit\icon1.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\buttonedit\spinner_arrows.png" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\buttonedit\text-bg.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\button\button.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\button\hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\button\pressed.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\calendar\button.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\calendar\footer.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\calendar\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\grid\footer.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\grid\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\layout\east.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\layout\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\layout\north.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\layout\south.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\layout\west.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\listbox\header.png" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\menu\hmenu.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\menu\hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\menu\menu-hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\menu\menu.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\menu\menu_arrows.png" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\menu\pressed.png" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\navbar\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\navbar\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\navbar\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\pager\first.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\pager\last.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\pager\next.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\pager\prev.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\panel\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tabs\hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tabs\pressed.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tabs\tab.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\toolbar\toolbar.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tools\close.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tools\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tools\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tools\max.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tools\restore.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\treegrid\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\treegrid\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\treegrid\file.png" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\treegrid\folder.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\treegrid\header.png" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tree\button.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tree\file.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tree\folder-open.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tree\folder.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tree\hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tree\leaf.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\tree\pressed.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\images\window\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\bootstrap\skin.css" />
+    <Content Include="client\static\libs\miniui\themes\cupertino\skin.css" />
+    <Content Include="client\static\libs\miniui\themes\default\flatstyle.css" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\button.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\close.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\date.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\down.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\error.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\filter.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\hover.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\icon1.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\icon2.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\pressed.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\up.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\buttonedit\_icon3.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\button\button.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\button\disabled.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\button\hover.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\button\icons.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\button\menu_arrow.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\button\pressed.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\button\split-allow-bottom.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\button\split_arrow.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\calendar\button.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\calendar\header.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\calendar\months.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\calendar\next.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\calendar\prev.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\datepicker\date.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\dragdrop\drop-add.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\dragdrop\drop-between.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\dragdrop\drop-no.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\dragdrop\drop-over.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\dragdrop\drop-under.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\dragdrop\drop-yes.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\arrow_blue_down.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\arrow_blue_left.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\arrow_blue_right.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\arrow_blue_up.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\arrow_red_down.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\arrow_red_left.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\arrow_red_right.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\arrow_red_up.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\baseline-milestone.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\constraint-finish.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\constraint-start.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\finished.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\gvdp.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\header_bg.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\milestone-red.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\milestone.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\ms-task.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\notes.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\offday.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\summary-top.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\summary.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\summary2.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\taskbg.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\taskbg2.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\taskstatus.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\title_bg.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\gantt\warning.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\col-move-bottom.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\col-move-top.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\dirty.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\footer.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\header.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\icons.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\loading.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\no.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\ok.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\resize.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\sorticon.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\sort_asc.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\grid\sort_desc.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\icons\checkbox.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\icons\radio.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\layout\east.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\layout\header.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\layout\north.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\layout\south.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\layout\west.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\listbox\error.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\listbox\header.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\menu\arrow.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\menu\bottom-arrow.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\menu\checked.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\menu\hallow.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\menu\hmenubg.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\menu\item.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\menu\menubg.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\menu\pressed.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\menu\top-arrow.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\messagebox\icon-error.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\messagebox\icon-info.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\messagebox\icon-question.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\messagebox\icon-warning.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\messagebox\loading.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\mygantt\header.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\navbar\header.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\pager\first.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\pager\last.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\pager\next.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\pager\prev.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\pager\reload.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\panel\header.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\panel\resize.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\rgantt\bg.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\rgantt\cancel.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\rgantt\hdbg.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\rgantt\pc.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\rgantt\pc_03.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\splitter\buttons.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\splitter\mini-bottom.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\splitter\mini-left.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\splitter\mini-right.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\splitter\mini-top.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\splitter\resize.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\splitter\resize_h.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\btn.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\col-move-bottom.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\col-move-top.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\datagrid_header_bg.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\datagrid_row_collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\datagrid_row_expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\datagrid_sort_asc.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\datagrid_sort_desc.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\datagrid_title_bg.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\dirty.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\header-hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\header-pressed.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\invalid_line.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\loading.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\no.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\ok.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\rowselected.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\row_collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\row_expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\sort_asc.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\sort_desc.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supergrid\title_bg.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supertree\arrows.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supertree\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supertree\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supertree\file.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supertree\folder-open.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supertree\folder.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\supertree\loading.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tabs\allow_left.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tabs\allow_right.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tabs\close.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tabs\down.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tabs\hover.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tabs\tab.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\textboxlist\close.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\textboxlist\error.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\textboxlist\loading.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\textbox\error.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\toolbar\toolbar.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tools\close.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tools\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tools\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tools\max.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tools\min.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tools\refresh.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tools\restore.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tools\search.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tooltip\wait.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\treegrid\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\treegrid\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\treegrid\file.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\treegrid\folder.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\treegrid\loading.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\arrows.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\button.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\collapseLine - 副本.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\collapseLine.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\expandLine.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\file.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\firstAndlastcollapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\firstAndlastexpand.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\firstCollapseNode.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\firstExpandNode.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\folder-open.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\folder.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\hover.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\lastCollapseNode.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\lastExpandNode.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\lastline.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\leaf.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\loading.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\radio_checked.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\radio_unchecked.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\treeline.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\tree\treeNodeLine.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\window\footer.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\window\header.png" />
+    <Content Include="client\static\libs\miniui\themes\default\images\_pager\first.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\_pager\last.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\_pager\next.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\images\_pager\prev.gif" />
+    <Content Include="client\static\libs\miniui\themes\default\large-mode.css" />
+    <Content Include="client\static\libs\miniui\themes\default\medium-mode.css" />
+    <Content Include="client\static\libs\miniui\themes\default\miniui.css" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\buttonedit\arrow.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\buttonedit\arrow_down.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\buttonedit\arrow_up.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\buttonedit\btn-hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\buttonedit\btn-pressed.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\buttonedit\btn.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\buttonedit\combo_arrow.png" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\buttonedit\date.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\buttonedit\icon1.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\buttonedit\spinner_arrows.png" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\buttonedit\text-bg.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\calendar\button.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\calendar\footer.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\calendar\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\grid\footer.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\grid\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\layout\east.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\layout\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\layout\north.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\layout\south.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\layout\west.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\listbox\header.png" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\menu\hmenu.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\menu\hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\menu\menu-hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\menu\menu.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\menu\menu_arrows.png" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\menu\pressed.png" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\navbar\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\navbar\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\navbar\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\pager\first.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\pager\last.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\pager\next.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\pager\prev.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\panel\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tabs\hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tabs\pressed.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tabs\tab.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\toolbar\toolbar.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tools\close.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tools\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tools\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tools\max.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tools\restore.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\treegrid\collapse.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\treegrid\expand.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\treegrid\file.png" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\treegrid\folder.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\treegrid\header.png" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tree\button.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tree\file.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tree\folder-open.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tree\folder.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tree\hover.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tree\leaf.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\tree\pressed.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\images\window\header.gif" />
+    <Content Include="client\static\libs\miniui\themes\pure\skin.css" />
+    <Content Include="client\static\libs\scrollbar\jquery.scrollbar.css" />
+    <Content Include="client\static\modules\core\css\form.css" />
+    <Content Include="client\static\modules\core\css\query.css" />
+    <Content Include="client\static\modules\core\index.css" />
+    <Content Include="client\static\modules\core\index.js" />
+    <Content Include="client\static\modules\core\js\ajax.js" />
+    <Content Include="client\static\modules\core\js\array.js" />
+    <Content Include="client\static\modules\core\js\code.js" />
+    <Content Include="client\static\modules\core\js\date.js" />
+    <Content Include="client\static\modules\core\js\jqextend.js" />
+    <Content Include="client\static\modules\core\js\miniui\columnsMenu.js" />
+    <Content Include="client\static\modules\core\js\miniui\config.js" />
+    <Content Include="client\static\modules\core\js\miniui\decimalbox.js" />
+    <Content Include="client\static\modules\core\js\miniui\dialog.js" />
+    <Content Include="client\static\modules\core\js\miniui\form.js" />
+    <Content Include="client\static\modules\core\js\miniui\grid.js" />
+    <Content Include="client\static\modules\core\js\miniui\integerbox.js" />
+    <Content Include="client\static\modules\core\js\miniui\message.js" />
+    <Content Include="client\static\modules\core\js\miniui\pagertree.js" />
+    <Content Include="client\static\modules\core\js\miniui\toolbar.js" />
+    <Content Include="client\static\modules\core\js\miniui\vtypes.js" />
+    <Content Include="client\static\modules\core\js\string.js" />
+    <Content Include="client\static\modules\frame\core\formBase.js" />
+    <Content Include="client\static\modules\frame\core\gridBase.js" />
+    <Content Include="client\static\modules\frame\devtool\data\countrys.txt" />
+    <Content Include="client\static\modules\frame\devtool\data\listTree.txt" />
+    <Content Include="client\static\modules\frame\devtool\data\menu.txt" />
+    <Content Include="client\static\modules\frame\devtool\index.js" />
+    <Content Include="client\static\modules\frame\devtool\js\demoForm.js" />
+    <Content Include="client\static\modules\frame\devtool\js\demoGrid.js" />
+    <Content Include="client\static\modules\frame\devtool\js\demoReport.js" />
+    <Content Include="client\static\modules\frame\devtool\js\demoTab.js" />
+    <Content Include="client\static\modules\frame\devtool\js\devCodeGen.js" />
+    <Content Include="client\static\modules\frame\devtool\js\devDatabase.js" />
+    <Content Include="client\static\modules\frame\index.css" />
+    <Content Include="client\static\modules\frame\index.js" />
+    <Content Include="client\static\modules\frame\system\module\index.js" />
+    <Content Include="client\static\modules\frame\system\module\js\moduleForm.js" />
+    <Content Include="client\static\modules\index\css\dashboard.css" />
+    <Content Include="client\static\modules\index\css\frame.css" />
+    <Content Include="client\static\modules\index\css\menu.css" />
+    <Content Include="client\static\modules\index\css\tabs.css" />
+    <Content Include="client\static\modules\index\images\tabs_icons.png" />
+    <Content Include="client\static\modules\index\index.css" />
+    <Content Include="client\static\modules\index\index.js" />
+    <Content Include="client\static\modules\index\js\dashboard.js" />
+    <Content Include="client\static\modules\index\js\mainTabs.js" />
+    <Content Include="client\static\modules\index\js\menu.js" />
+    <Content Include="client\static\modules\index\js\menuTip.js" />
+    <Content Include="client\static\modules\index\js\navbar.js" />
+    <Content Include="client\static\modules\login\images\aiwrap.png" />
+    <Content Include="client\static\modules\login\images\web_login_bg.jpg" />
+    <Content Include="client\static\modules\login\index.css" />
+    <Content Include="client\static\modules\login\index.js" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="BaseApiController.cs" />
     <Compile Include="Controllers\WebApiController.cs" />
     <Compile Include="Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtension.cs" />
     <Compile Include="Filters\ApiLoginAuthorizeAttribute.cs" />
     <Compile Include="Filters\ApiTrackActionAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\JsonProvider.cs" />
     <Compile Include="RequestTracker.cs" />
@@ -67,14 +497,58 @@
     <Compile Include="WebApiConfig.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <Content Include="client\static\libs\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="client\static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="client\static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
     <None Include="packages.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Known.Cells\Known.Cells.csproj">
+      <Project>{64c82219-f397-4b5a-b837-7a8ad4b7b721}</Project>
+      <Name>Known.Cells</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Known\Known.csproj">
       <Project>{f4c9a8c8-eaf9-4ea8-b186-c4b843762d45}</Project>
       <Name>Known</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50684</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:8080/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

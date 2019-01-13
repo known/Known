@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Known管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <link rel="stylesheet" href="static/modules/login/index.css?r=190110202322">
+    <script>var backUrl = '/';</script>
+</head>
+<body>
+    <div class="login">
+        <div class="message">Known管理系统</div>
+        <div id="darkbannerwrap"></div>
+        <div>
+            <input type="text" id="userName" placeholder="用户名" autocomplete="off" onenter="$('#password').focus()">
+            <hr class="hr15">
+            <input type="password" id="password" placeholder="密码" onenter="$('#btnLogin').click()">
+            <hr class="hr15">
+            <input type="button" id="btnLogin" value="登录" style="width:100%;">
+            <hr class="hr20">
+            <div id="error" style="color:#f00"></div>
+        </div>
+    </div>
+    <div class="copyright">© 2018 KNOWN</div>
+    <script src="static/libs/jquery.min.js?r=190110202322"></script>
+    <script src="static/libs/jquery.md5.js?r=190110202322"></script>
+    <script src="static/modules/core/js/ajax.js?r=190110202322"></script>
+    <script src="static/modules/core/index.js?r=190110202322"></script>
+    <script src="static/modules/login/index.js?r=190110202322"></script>
+</body>
+</html>

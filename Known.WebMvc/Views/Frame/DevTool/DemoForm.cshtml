@@ -1,0 +1,104 @@
+﻿<div id="formDemo" style="padding:5px;">
+    @Form.Hidden("Id", "HeadId")
+    <table class="form">
+        <tr>
+            <th style="width:120px;"><label for="UserName$text">TextBox：</label></th>
+            <td>
+                @Form.TextBox("UserName", true, new { emptyText = "请输入用户名" })
+            </td>
+            <th style="width:120px;"><label for="Password$text">Password：</label></th>
+            <td>
+                @Form.Password("Password", true)
+            </td>
+        </tr>
+        <tr>
+            <th><label for="Area$text">TextArea：</label></th>
+            <td colspan="3">
+                @Form.TextArea("Area", true, new { style = "width:100%;" })
+            </td>
+        </tr>
+        <tr>
+            <th><label for="BirthDay$text">DatePicker：</label></th>
+            <td>
+                @Form.DatePicker("BirthDay", true, new { value = "2010-10-12" })
+            </td>
+            <th>Spinner：</th>
+            <td>
+                @Form.Spinner("Age", true, new { value = "22", minValue = "10", maxValue = "50" })
+            </td>
+        </tr>
+        <tr>
+            <th>TimeSpinner：</th>
+            <td>
+                @Form.TimeSpinner("BirthTime", false, new { format = "H:mm" })
+            </td>
+            <th>CheckBox：</th>
+            <td>
+                @Form.CheckBox("Married", false, new { text = "婚否", value = "Y" })
+            </td>
+        </tr>
+        <tr>
+            <th>ComboBox：</th>
+            <td>
+                @Form.ComboBox("Country", false, new {
+                   url = "/static/modules/frame/devtool/data/countrys.txt",
+                   value = "cn"
+                })
+                <br />
+                <span id="combobox_error" style="color:Red;"></span>
+            </td>
+            <th>TreeSelect：</th>
+            <td>
+                @Form.TreeSelect("TreeSelect", false, new {
+                   url = "/static/modules/frame/devtool/data/listTree.txt",
+                   multiSelect = "true",
+                   parentField = "pid",
+                   checkRecursive = "true",
+                   value = "ajax,button"
+                })
+            </td>
+        </tr>
+        <tr>
+            <th>CheckBoxList：</th>
+            <td class="noborder">
+                @Form.CheckBoxList("Countrys", false, new {
+                   repeatItems = "5",
+                   repeatLayout = "flow",
+                   url = "/static/modules/frame/devtool/data/countrys.txt",
+                   value = "cn,de,usa"
+                })
+            </td>
+            <th rowspan="2">ListBox：</th>
+            <td rowspan="2" class="noborder">
+                @Form.ListBox("Countrys1", false, new {
+                   showNullItem = "true",
+                   url = "/static/modules/frame/devtool/data/countrys.txt",
+                   value = "fr",
+                   style = "height:120px;"
+                })
+            </td>
+        </tr>
+        <tr>
+            <th>RadioButtonList：</th>
+            <td class="noborder">
+                @Form.RadioButtonList("Countrys2", false, new {
+                   value = "en",
+                   repeatItems = "2",
+                   repeatDirection = "vertical",
+                   repeatLayout = "table",
+                   url = "/static/modules/frame/devtool/data/countrys.txt"
+                })
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="tbDemo" class="buttons text-right" style="padding:5px;">
+    <a class="mini-button" id="submitForm">提交</a>
+    <a class="mini-button" id="loadForm">加载</a>
+    <a class="mini-button" id="resetForm">重置</a>
+    <a class="mini-button" id="clearForm">清空</a>
+    <a class="mini-button" id="setForm">绑定数据</a>
+    <a class="mini-button" id="getForm">获取数据</a>
+    <a class="mini-button" id="setLabel">查看模式</a>
+    <a class="mini-button" id="setInput">编辑模式</a>
+</div>

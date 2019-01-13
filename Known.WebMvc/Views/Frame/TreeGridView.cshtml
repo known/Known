@@ -1,0 +1,16 @@
+﻿@model Known.WebMvc.Models.TreeGridViewModel
+
+
+<div id="treegrid1" class="mini-pagertree" style="width:100%;height:100%;"
+     treeColumn="taskname">
+    <div property="columns">
+        <div type="indexcolumn"></div>
+        <div name="taskname" field="Name" width="160">任务名称</div>
+    </div>
+</div>
+
+
+
+@section Foot {
+    @Html.MinScript("static/modules/frame/" + Model.JsPath + ".min.js")
+}
