@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Known.Platform.Helpers
+namespace Known.Platform
 {
     class DbPlatformHelper : PlatformHelper
     {

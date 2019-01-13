@@ -3,9 +3,15 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace Known.Serialization
+namespace Known
 {
-    public class DataContractProvider : IJsonProvider
+    public interface IJsonProvider
+    {
+        string Serialize<T>(T value);
+        T Deserialize<T>(string json);
+    }
+
+    internal class DefaultJsonProvider : IJsonProvider
     {
         public string Serialize<T>(T value)
         {

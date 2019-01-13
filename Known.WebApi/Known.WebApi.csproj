@@ -482,7 +482,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
-    <Compile Include="BaseApiController.cs" />
+    <Compile Include="Code\BaseApiController.cs" />
     <Compile Include="Controllers\WebApiController.cs" />
     <Compile Include="Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtension.cs" />
@@ -492,10 +492,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\JsonProvider.cs" />
-    <Compile Include="RequestTracker.cs" />
-    <Compile Include="TrackHelper.cs" />
-    <Compile Include="WebApiConfig.cs" />
+    <Compile Include="Code\JsonProvider.cs" />
+    <Compile Include="Code\RequestTracker.cs" />
+    <Compile Include="Code\TrackHelper.cs" />
+    <Compile Include="Code\WebApiConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="client\static\libs\font-awesome\fonts\fontawesome-webfont.ttf" />

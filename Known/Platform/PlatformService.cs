@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Known.Extensions;
-using Known.Platform.Helpers;
 using Known.Web;
 
 namespace Known.Platform

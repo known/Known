@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DbRepository.cs" />
-    <Compile Include="DynamicParameter.cs" />
     <Compile Include="Jobs\CheckResult.cs" />
     <Compile Include="Jobs\ExecuteResult.cs" />
     <Compile Include="Jobs\IJob.cs" />
@@ -77,9 +76,7 @@
     <Compile Include="Platform\User.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="ObjectFactory.cs" />
-    <Compile Include="Cache\DefaultCache.cs" />
-    <Compile Include="Cache\ICache.cs" />
-    <Compile Include="Cache\MemoryCache.cs" />
+    <Compile Include="Cache.cs" />
     <Compile Include="Cells\ImageSetting.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Context.cs" />
@@ -112,9 +109,7 @@
     <Compile Include="Drawing\ImageHelper.cs" />
     <Compile Include="Drawing\ImageOption.cs" />
     <Compile Include="MimeTypes.cs" />
-    <Compile Include="Serialization\DataContractProvider.cs" />
-    <Compile Include="Serialization\DefaultJsonProvider.cs" />
-    <Compile Include="Serialization\IJsonProvider.cs" />
+    <Compile Include="JsonProvider.cs" />
     <Compile Include="Log\TraceLogger.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="Mapping\BooleanColumnAttribute.cs" />
@@ -171,7 +166,6 @@
     <Compile Include="Web\Extensions\HttpSessionStateBaseExtension.cs" />
     <Compile Include="Web\Extensions\HttpSessionStateExtension.cs" />
     <Compile Include="Web\HttpUtils.cs" />
-    <Compile Include="Cache\WebCache.cs" />
     <Compile Include="Web\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

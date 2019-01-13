@@ -1,7 +1,6 @@
-﻿using Known.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Known.WebMvc.Providers
+namespace Known.WebMvc
 {
     public class JsonProvider : IJsonProvider
     {

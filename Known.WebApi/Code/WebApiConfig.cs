@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Web;
 using System.Web.Http;
-using Known.Serialization;
 using Known.Web;
 using Known.WebApi.Filters;
-using Known.WebApi.Providers;
 
 namespace Known.WebApi
 {

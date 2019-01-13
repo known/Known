@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Known.Web;
 
-namespace Known.Platform.Helpers
+namespace Known.Platform
 {
     class ApiPlatformHelper : PlatformHelper
     {

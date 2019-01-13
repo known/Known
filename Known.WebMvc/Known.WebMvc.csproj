@@ -488,31 +488,31 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthorizeController.cs" />
-    <Compile Include="BaseController.cs" />
+    <Compile Include="Code\AuthorizeController.cs" />
+    <Compile Include="Code\BaseController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\FrameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="CustomRouteHandler.cs" />
-    <Compile Include="FilterConfig.cs" />
+    <Compile Include="Code\CustomRouteHandler.cs" />
+    <Compile Include="Code\FilterConfig.cs" />
     <Compile Include="Filters\AntiForgeryAttribute.cs" />
     <Compile Include="Filters\LoginAuthorizeAttribute.cs" />
     <Compile Include="Filters\TrackActionAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HtmlExtension.cs" />
+    <Compile Include="Code\HtmlExtension.cs" />
     <Compile Include="Models\DataGridViewModel.cs" />
     <Compile Include="Models\SplitPageViewModel.cs" />
     <Compile Include="Models\TabPageViewModel.cs" />
     <Compile Include="Models\TreeGridViewModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\JsonProvider.cs" />
-    <Compile Include="RouteConfig.cs" />
-    <Compile Include="WebMvcConfig.cs" />
-    <Compile Include="WebViewPage.cs" />
+    <Compile Include="Code\JsonProvider.cs" />
+    <Compile Include="Code\RouteConfig.cs" />
+    <Compile Include="Code\WebMvcConfig.cs" />
+    <Compile Include="Code\WebViewPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\Form.cshtml" />
