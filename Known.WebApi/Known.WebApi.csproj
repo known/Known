@@ -477,6 +477,7 @@
     <Content Include="client\static\modules\login\index.css" />
     <Content Include="client\static\modules\login\index.js" />
     <Content Include="Global.asax" />
+    <EmbeddedResource Include="Scripts\swagger_lang.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
