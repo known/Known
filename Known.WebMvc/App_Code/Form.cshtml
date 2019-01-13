@@ -1,0 +1,184 @@
+﻿@using System.Text
+@using Known.Extensions
+
+@functions {
+    public class ButtonAttribute : Attribute
+    {
+        public ButtonAttribute(string text, string icon)
+        {
+            Text = text;
+            Icon = icon;
+        }
+
+        public string Text { get; private set; }
+        public string Icon { get; private set; }
+    }
+
+    public enum ButtonType
+    {
+        [Button("搜索", "fa-search")]
+        Search,
+        [Button("新增", "fa-plus text-success")]
+        Add,
+        [Button("复制", "fa-copy text-info")]
+        Copy,
+        [Button("编辑", "fa-pencil text-primary")]
+        Edit,
+        [Button("删除", "fa-minus text-danger")]
+        Remove,
+        [Button("导入", "fa-sign-in text-info")]
+        Import,
+        [Button("导出", "fa-sign-out text-info")]
+        Export,
+        [Button("导出Excel", "fa-file-excel-o text-primary")]
+        ExportXls,
+        [Button("导出Pdf", "fa-file-pdf-o text-danger")]
+        ExportPdf,
+        [Button("上载", "fa-upload text-success")]
+        Upload,
+        [Button("下载", "fa-download text-primary")]
+        Download,
+        [Button("同步", "fa-exchange")]
+        Sync,
+        [Button("保存", "fa-save text-primary")]
+        Save,
+        [Button("关闭", "fa-remove text-danger")]
+        Close
+    }
+
+    public static string GetAttrString(string name, object value)
+    {
+        return string.Format(" {0}=\"{1}\"", name, value);
+    }
+
+    public static void AddAttributes(Dictionary<string, object> dic, object option)
+    {
+        if (option == null)
+            return;
+
+        var props = option.GetType().GetProperties();
+        foreach (var prop in props)
+        {
+            dic[prop.Name] = prop.GetValue(option);
+        }
+    }
+}
+
+@helper RenderControl(string type, string id, bool required = false, object option = null, object defaultOption = null)
+{
+    var dic = new Dictionary<string, object>();
+    if (required)
+    {
+        dic["required"] = "true";
+    }
+    AddAttributes(dic, defaultOption);
+    AddAttributes(dic, option);
+
+    var sb = new StringBuilder();
+    foreach (var key in dic.Keys)
+    {
+        sb.AppendFormat(" {0}=\"{1}\"", key, dic[key]);
+    }
+    var attrs = sb.ToString();
+
+    <input class="@type" id="@id" name="@id" @(new HtmlString(attrs)) />
+}
+
+@helper Button(string id, string text, string icon)
+{
+    <a class="mini-button" plain="true" id="@id" iconCls="@icon">@text</a>
+}
+
+@helper Button(ButtonType type)
+{
+    var enumType = type.GetType();
+    var name = Enum.GetName(enumType, type);
+    var field = enumType.GetField(name);
+    var attr = field.GetAttribute<ButtonAttribute>(false);
+    var id = name.Substring(0, 1).ToLower() + name.Substring(1);
+    @Button(id, attr.Text, attr.Icon);
+}
+
+@helper Hidden(params string[] ids)
+{
+    foreach (var id in ids)
+    {
+        @RenderControl("mini-hidden", id)
+    }
+}
+
+@helper TextBox(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-textbox", id, required, option)
+}
+
+@helper IntegerBox(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-integerbox", id, required, option)
+}
+
+@helper DecimalBox(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-decimalbox", id, required, option)
+}
+
+@helper Password(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-password", id, required, option)
+}
+
+@helper TextArea(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-textarea", id, required, option)
+}
+
+@helper DatePicker(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-datepicker", id, required, option)
+}
+
+@helper Spinner(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-spinner", id, required, option)
+}
+
+@helper TimeSpinner(string id, bool required = false, object option = null)
+{
+    @RenderControl("mini-timespinner", id, required, option)
+}
+
+@helper CheckBox(string id, bool required = false, object option = null)
+{
+    var defOption = new { trueValue = "Y", falseValue = "N" };
+    @RenderControl("mini-checkbox", id, required, option, defOption)
+}
+
+@helper ComboBox(string id, bool required = false, object option = null)
+{
+    var defOption = new { showNullItem = "true", nullItemText = "请选择", emptyText = "请选择" };
+    @RenderControl("mini-combobox", id, required, option, defOption)
+}
+
+@helper TreeSelect(string id, bool required = false, object option = null)
+{
+    var defOption = new { textField = "text", valueField = "id" };
+    @RenderControl("mini-treeselect", id, required, option, defOption)
+}
+
+@helper CheckBoxList(string id, bool required = false, object option = null)
+{
+    var defOption = new { textField = "text", valueField = "id" };
+    @RenderControl("mini-checkboxlist", id, required, option, defOption)
+}
+
+@helper RadioButtonList(string id, bool required = false, object option = null)
+{
+    var defOption = new { textField = "text", valueField = "id" };
+    @RenderControl("mini-radiobuttonlist", id, required, option, defOption)
+}
+
+@helper ListBox(string id, bool required = false, object option = null)
+{
+    var defOption = new { textField = "text", valueField = "id" };
+    @RenderControl("mini-listbox", id, required, option, defOption)
+}

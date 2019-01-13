@@ -515,6 +515,7 @@
     <Compile Include="WebViewPage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\Form.cshtml" />
     <None Include="packages.config" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
