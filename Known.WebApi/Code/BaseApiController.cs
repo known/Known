@@ -20,7 +20,7 @@ namespace Known.WebApi
             get { return new PlatformService(); }
         }
 
-        public T LoadService<T>() where T : ServiceBase
+        protected T LoadService<T>() where T : ServiceBase
         {
             return Container.Resolve<T>();
         }

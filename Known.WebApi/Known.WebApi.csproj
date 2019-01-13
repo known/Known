@@ -483,7 +483,8 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Code\BaseApiController.cs" />
-    <Compile Include="Controllers\WebApiController.cs" />
+    <Compile Include="Code\WebApiController.cs" />
+    <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtension.cs" />
     <Compile Include="Filters\ApiLoginAuthorizeAttribute.cs" />

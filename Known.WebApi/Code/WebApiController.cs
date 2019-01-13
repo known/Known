@@ -4,9 +4,9 @@ using Known.Extensions;
 using Known.Platform;
 using Known.Web;
 
-namespace Known.WebApi.Controllers
+namespace Known.WebApi
 {
-    [RoutePrefix("api")]
+    [RoutePrefix("apm")]
     public class WebApiController : BaseApiController
     {
         [HttpGet, Route("{module}/{method}")]
