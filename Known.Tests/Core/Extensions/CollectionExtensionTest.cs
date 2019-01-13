@@ -15,8 +15,8 @@ namespace Known.Tests.Core.Extensions
                 { "key2", "value2" }
             };
             var dic = nvc.ToDictionary();
-            Assert.AreEqual(dic["key1"], "value1");
-            Assert.AreEqual(dic["key2"], "value2");
+            TestAssert.AreEqual(dic["key1"], "value1");
+            TestAssert.AreEqual(dic["key2"], "value2");
         }
 
         public static void TestIDictionaryValue()
@@ -29,10 +29,10 @@ namespace Known.Tests.Core.Extensions
                 Item1 = 1,
                 Item2 = "test"
             };
-            Assert.AreEqual(dic.Value<string>("Key1"), "test");
-            Assert.AreEqual(dic.Value<int>("Key2"), 1);
+            TestAssert.AreEqual(dic.Value<string>("Key1"), "test");
+            TestAssert.AreEqual(dic.Value<int>("Key2"), 1);
             var key3 = dic.Value<TestEntity>("Key3");
-            Assert.AreEqual(key3.Item2, "test");
+            TestAssert.AreEqual(key3.Item2, "test");
         }
     }
 }

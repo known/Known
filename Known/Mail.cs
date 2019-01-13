@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using Known.Log;
-using Known.Validation;
 
 namespace Known
 {

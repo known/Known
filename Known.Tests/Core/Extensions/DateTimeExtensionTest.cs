@@ -8,18 +8,18 @@ namespace Known.Tests.Core.Extensions
         public static void TestDateTimeToTimestamp()
         {
             var date = new DateTime(2017, 10, 1, 10, 1, 1);
-            Assert.AreEqual(date.ToTimestamp(), 1506823261000);
+            TestAssert.AreEqual(date.ToTimestamp(), 1506823261000);
         }
 
         public static void TestStringToDateTime()
         {
-            Assert.AreEqual("2017-10-01".ToDateTime("yyyy-MM-dd"), new DateTime(2017, 10, 1));
+            TestAssert.AreEqual("2017-10-01".ToDateTime("yyyy-MM-dd"), new DateTime(2017, 10, 1));
         }
 
         public static void TestDateTimeToString()
         {
             var date = new DateTime(2017, 10, 1, 10, 1, 1);
-            Assert.AreEqual(date.ToString("yyyy-MM-dd HH:mm:ss"), "2017-10-01 10:01:01");
+            TestAssert.AreEqual(date.ToString("yyyy-MM-dd HH:mm:ss"), "2017-10-01 10:01:01");
         }
     }
 }

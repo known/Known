@@ -21,7 +21,7 @@ namespace Known.Tests.Core.Log
             logger.Error("发生未知错误");
 
             var log = System.IO.File.ReadAllText(fileName);
-            Assert.IsNotNull(log);
+            TestAssert.IsNotNull(log);
         }
     }
 }

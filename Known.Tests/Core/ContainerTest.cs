@@ -7,7 +7,7 @@
             Container.Register<ITestService, TestService>();
 
             var service = Container.Resolve<ITestService>();
-            Assert.IsNotNull(service);
+            TestAssert.IsNotNull(service);
         }
 
         public static void TestRegisterInstance()
@@ -16,7 +16,7 @@
             Container.Register<INameTestService, NameTestService>(instance);
 
             var service = Container.Resolve<ITestService>();
-            Assert.IsNotNull(service);
+            TestAssert.IsNotNull(service);
         }
 
         public static void TestRegisterAssembly()
@@ -24,10 +24,10 @@
             Container.Register<BaseService>(typeof(ContainerTest).Assembly);
 
             var service = Container.Resolve<TestService>();
-            Assert.IsNotNull(service);
+            TestAssert.IsNotNull(service);
 
             var nameService = Container.Resolve<NameTestService>();
-            Assert.IsNotNull(nameService);
+            TestAssert.IsNotNull(nameService);
         }
 
         public static void TestRegisterAssemblyWithArgs()
@@ -35,10 +35,10 @@
             Container.Register<BaseService>(typeof(ContainerTest).Assembly, "Known");
 
             var service = Container.Resolve<TestService>();
-            Assert.IsNotNull(service);
+            TestAssert.IsNotNull(service);
 
             var nameService = Container.Resolve<NameTestService>();
-            Assert.IsNotNull(nameService);
+            TestAssert.IsNotNull(nameService);
         }
 
         public static void TestResolve()
@@ -46,7 +46,7 @@
             Container.Register<ITestService, TestService>();
 
             var service = Container.Resolve<ITestService>();
-            Assert.AreEqual(service.Hello(), "Hello!");
+            TestAssert.AreEqual(service.Hello(), "Hello!");
         }
 
         public static void TestResolveInstance()
@@ -55,7 +55,7 @@
             Container.Register<INameTestService, NameTestService>(instance);
 
             var service = Container.Resolve<INameTestService>();
-            Assert.AreEqual(service.Hello(), "Hello Known!");
+            TestAssert.AreEqual(service.Hello(), "Hello Known!");
         }
 
         public static void TestResolveAssembly()
@@ -63,10 +63,10 @@
             Container.Register<BaseService>(typeof(ContainerTest).Assembly);
 
             var service = Container.Resolve<TestService>();
-            Assert.AreEqual(service.Hello(), "Hello!");
+            TestAssert.AreEqual(service.Hello(), "Hello!");
 
             var nameService = Container.Resolve<NameTestService>();
-            Assert.AreEqual(nameService.Hello(), "Hello!");
+            TestAssert.AreEqual(nameService.Hello(), "Hello!");
         }
 
         public static void TestResolveAssemblyWithArgs()
@@ -74,10 +74,10 @@
             Container.Register<BaseService>(typeof(ContainerTest).Assembly, "Known");
 
             var service = Container.Resolve<TestService>();
-            Assert.AreEqual(service.Hello(), "Hello!");
+            TestAssert.AreEqual(service.Hello(), "Hello!");
 
             var nameService = Container.Resolve<NameTestService>();
-            Assert.AreEqual(nameService.Hello(), "Hello Known!");
+            TestAssert.AreEqual(nameService.Hello(), "Hello Known!");
         }
     }
 

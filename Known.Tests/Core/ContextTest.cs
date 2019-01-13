@@ -8,30 +8,30 @@ namespace Known.Tests.Core
         public static void TestConstructor1()
         {
             var context = new Context(new ConsoleLogger());
-            Assert.IsNotNull(context.Logger);
-            Assert.IsNull(context.Database);
-            Assert.IsNull(context.UserName);
-            Assert.IsNotNull(context.Parameter);
+            TestAssert.IsNotNull(context.Logger);
+            TestAssert.IsNull(context.Database);
+            TestAssert.IsNull(context.UserName);
+            TestAssert.IsNotNull(context.Parameter);
         }
 
         public static void TestConstructor2()
         {
             var context = new Context(new Database(), new ConsoleLogger());
-            Assert.IsNotNull(context.Logger);
-            Assert.IsNotNull(context.Database);
-            Assert.IsNull(context.UserName);
-            Assert.IsNotNull(context.Parameter);
+            TestAssert.IsNotNull(context.Logger);
+            TestAssert.IsNotNull(context.Database);
+            TestAssert.IsNull(context.UserName);
+            TestAssert.IsNotNull(context.Parameter);
         }
 
         public static void TestConstructor3()
         {
             var context = new Context(new Database(), new ConsoleLogger(), "Known");
-            Assert.IsNotNull(context.Logger);
-            Assert.IsNotNull(context.Database);
-            Assert.IsNotNull(context.UserName);
-            Assert.IsNotNull(context.Parameter);
-            Assert.AreEqual(context.UserName, "Known");
-            Assert.AreEqual(context.Database.UserName, "Known");
+            TestAssert.IsNotNull(context.Logger);
+            TestAssert.IsNotNull(context.Database);
+            TestAssert.IsNotNull(context.UserName);
+            TestAssert.IsNotNull(context.Parameter);
+            TestAssert.AreEqual(context.UserName, "Known");
+            TestAssert.AreEqual(context.Database.UserName, "Known");
         }
 
         public static void TestDynamicParam()
@@ -39,33 +39,33 @@ namespace Known.Tests.Core
             var context = new Context(new ConsoleLogger());
             context.Parameter.Id = 1;
             context.Parameter.Name = "Known";
-            Assert.IsNotNull(context.Parameter);
-            Assert.AreEqual(context.Parameter.Id, 1);
-            Assert.AreEqual(context.Parameter.Name, "Known");
+            TestAssert.IsNotNull(context.Parameter);
+            TestAssert.AreEqual(context.Parameter.Id, 1);
+            TestAssert.AreEqual(context.Parameter.Name, "Known");
         }
 
         public static void TestCreate()
         {
             var context = Context.Create();
 
-            Assert.IsNotNull(context);
-            Assert.IsNotNull(context.Logger);
-            Assert.IsNotNull(context.Database);
-            Assert.IsNull(context.UserName);
-            Assert.IsNotNull(context.Parameter);
+            TestAssert.IsNotNull(context);
+            TestAssert.IsNotNull(context.Logger);
+            TestAssert.IsNotNull(context.Database);
+            TestAssert.IsNull(context.UserName);
+            TestAssert.IsNotNull(context.Parameter);
         }
 
         public static void TestCreateWithArg()
         {
             var context = Context.Create("Known");
 
-            Assert.IsNotNull(context);
-            Assert.IsNotNull(context.Logger);
-            Assert.IsNotNull(context.Database);
-            Assert.IsNotNull(context.UserName);
-            Assert.IsNotNull(context.Parameter);
-            Assert.AreEqual(context.UserName, "Known");
-            Assert.AreEqual(context.Database.UserName, "Known");
+            TestAssert.IsNotNull(context);
+            TestAssert.IsNotNull(context.Logger);
+            TestAssert.IsNotNull(context.Database);
+            TestAssert.IsNotNull(context.UserName);
+            TestAssert.IsNotNull(context.Parameter);
+            TestAssert.AreEqual(context.UserName, "Known");
+            TestAssert.AreEqual(context.Database.UserName, "Known");
         }
     }
 }

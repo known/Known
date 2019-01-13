@@ -6,7 +6,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Known.Extensions;
 
-namespace Known.Validation
+namespace Known
 {
     public class Validator
     {
@@ -190,6 +190,71 @@ namespace Known.Validation
                 return false;
 
             return Regex.IsMatch(input, @"^\d{6}$");
+        }
+    }
+
+    public enum ValidLevel
+    {
+        Error,
+        Warn
+    }
+
+    public class ValidInfo
+    {
+        public ValidInfo(ValidLevel level, string message)
+        {
+            Level = level;
+            Message = message;
+        }
+
+        public ValidInfo(ValidLevel level, string field, List<string> messages)
+        {
+            Level = level;
+            Field = field;
+            Message = string.Join(Environment.NewLine, messages);
+        }
+
+        public ValidLevel Level { get; }
+        public string Field { get; }
+        public string Message { get; }
+    }
+
+    public class ValidateResult
+    {
+        internal ValidateResult(List<ValidInfo> infos)
+        {
+            Infos = infos ?? new List<ValidInfo>();
+        }
+
+        public List<ValidInfo> Infos { get; }
+
+        public bool HasError
+        {
+            get { return Infos.Exists(v => v.Level == ValidLevel.Error); }
+        }
+
+        public bool HasWarn
+        {
+            get { return Infos.Exists(v => v.Level == ValidLevel.Warn); }
+        }
+
+        public string ErrorMessage
+        {
+            get { return GetMessages(ValidLevel.Error); }
+        }
+
+        public string WarnMessage
+        {
+            get { return GetMessages(ValidLevel.Warn); }
+        }
+
+        private string GetMessages(ValidLevel level)
+        {
+            if (Infos == null || Infos.Count == 0)
+                return string.Empty;
+
+            var messages = Infos.Where(v => v.Level == level).Select(v => v.Message);
+            return string.Join(Environment.NewLine, messages);
         }
     }
 }
