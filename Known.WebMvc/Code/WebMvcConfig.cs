@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Known.Platform;
 
 namespace Known.WebMvc
 {
@@ -11,6 +12,7 @@ namespace Known.WebMvc
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
             Container.Register<IJsonProvider, JsonProvider>();
+            Container.Register<IPlatformRepository, PlatformRepository>();
 
             AreaRegistration.RegisterAllAreas();
 
