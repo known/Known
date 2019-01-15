@@ -7,7 +7,7 @@ namespace Known.Cells
 {
     public class Excel
     {
-        private string fileName;
+        private readonly string fileName;
 
         public Excel(IExcel provider) : this(provider, null) { }
 

@@ -36,6 +36,20 @@ namespace Known.Cells
             }
         }
 
+        public AsposeExcel(Stream stream)
+        {
+            var lic = new License();
+            lic.SetLicense("License.xml");
+            wb = new Workbook(stream);
+            wb.CalculateFormula();
+
+            Sheets = new List<ISheet>();
+            foreach (Worksheet sheet in wb.Worksheets)
+            {
+                AddSheet(sheet.Name);
+            }
+        }
+
         public IList<ISheet> Sheets { get; }
 
         public ISheet AddSheet(string name)
