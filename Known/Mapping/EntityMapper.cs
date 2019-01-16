@@ -4,13 +4,23 @@ using System.Linq.Expressions;
 
 namespace Known.Mapping
 {
-    public abstract class EntityMapper<T> where T : EntityBase
+    public abstract class EntityMapper
     {
         public EntityMapper(string tableName, string description, string primaryKey = "id")
         {
             Table = new TableAttribute(tableName, description, primaryKey);
             Columns = new List<ColumnInfo>();
+        }
 
+        public TableAttribute Table { get; }
+        public List<ColumnInfo> Columns { get; }
+    }
+
+    public abstract class EntityMapper<T> : EntityMapper where T : EntityBase
+    {
+        public EntityMapper(string tableName, string description, string primaryKey = "id")
+            : base(tableName, description, primaryKey)
+        {
             this.Property(p => p.Id)
                 .IsStringColumn("id", "主键", 1, 50, true);
 
@@ -29,9 +39,6 @@ namespace Known.Mapping
             this.Property(p => p.Extension)
                 .IsStringColumn("extension", "扩展属性");
         }
-
-        public TableAttribute Table { get; }
-        public List<ColumnInfo> Columns { get; }
 
         protected PropertyMapper Property<TProperty>(Expression<Func<T, TProperty>> expression)
         {
