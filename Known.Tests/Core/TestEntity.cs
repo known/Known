@@ -4,7 +4,7 @@ using Known.Mapping;
 namespace Known.Tests.Core
 {
     [Table("a_test", "测试表", "item1,item2")]
-    public class TestEntity : BaseEntity
+    public class TestEntity : EntityBase
     {
         [IntegerColumn("item1", "属性1", true)]
         public int Item1 { get; set; }
@@ -23,7 +23,7 @@ namespace Known.Tests.Core
         public virtual string ItemVirtual { get; set; }
     }
 
-    public class TestObject : BaseEntity
+    public class TestObject : EntityBase
     {
         public string Item1 { get; set; }
         public string Item2 { get; set; }

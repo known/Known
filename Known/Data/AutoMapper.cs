@@ -26,14 +26,14 @@ namespace Known.Data
             return json.FromJson<List<T>>();
         }
 
-        public static T GetBaseEntity<T>(DataRow row) where T : BaseEntity
+        public static T GetBaseEntity<T>(DataRow row) where T : EntityBase
         {
             var entity = GetEntity<T>(row);
             entity.IsNew = false;
             return entity;
         }
 
-        public static List<T> GetBaseEntities<T>(DataTable data) where T : BaseEntity
+        public static List<T> GetBaseEntities<T>(DataTable data) where T : EntityBase
         {
             if (data == null || data.Rows.Count == 0)
                 return null;
@@ -81,9 +81,9 @@ namespace Known.Data
 
         private static object GetPropertyValue(Type type, object value)
         {
-            if (type.IsSubclassOf(typeof(BaseEntity)))
+            if (type.IsSubclassOf(typeof(EntityBase)))
             {
-                var entity = Activator.CreateInstance(type) as BaseEntity;
+                var entity = Activator.CreateInstance(type) as EntityBase;
                 entity.Id = value.ToString();
                 entity.IsNew = false;
                 return entity;

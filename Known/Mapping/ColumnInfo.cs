@@ -14,6 +14,7 @@ namespace Known.Mapping
         }
 
         public PropertyInfo Property { get; }
+        public ColumnAttribute Attribute { get; set; }
         public string ColumnName { get; }
         public string Title { get; }
         public string Description { get; }
@@ -27,7 +28,7 @@ namespace Known.Mapping
             if (attr != null)
                 return attr.ColumnName;
 
-            if (property.PropertyType.IsSubclassOf(typeof(BaseEntity)))
+            if (property.PropertyType.IsSubclassOf(typeof(EntityBase)))
                 return property.Name.ToLower() + "_id";
 
             return property.Name.ToLower();

@@ -62,6 +62,9 @@
     <Compile Include="Jobs\JobTimer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Mapping\EntityHelper.cs" />
+    <Compile Include="Mapping\EntityMapper.cs" />
+    <Compile Include="Mapping\PropertyMapper.cs" />
     <Compile Include="Platform\Application.cs" />
     <Compile Include="Platform\Code.cs" />
     <Compile Include="Platform\Company.cs" />
@@ -118,7 +121,7 @@
     <Compile Include="Mapping\DecimalColumnAttribute.cs" />
     <Compile Include="Mapping\EnumColumnAttribute.cs" />
     <Compile Include="Mapping\IntegerColumnAttribute.cs" />
-    <Compile Include="Mapping\BaseEntity.cs" />
+    <Compile Include="Mapping\EntityBase.cs" />
     <Compile Include="Mapping\StringColumnAttribute.cs" />
     <Compile Include="Mapping\TableAttribute.cs" />
     <Compile Include="Extensions\CollectionExtension.cs" />

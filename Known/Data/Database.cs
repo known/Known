@@ -71,13 +71,13 @@ namespace Known.Data
             return (T)provider.Scalar(command);
         }
 
-        public T QueryById<T>(string id) where T : BaseEntity
+        public T QueryById<T>(string id) where T : EntityBase
         {
             var sql = CommandHelper.GetQueryByIdSql<T>();
             return Query<T>(sql, new { id });
         }
 
-        public T Query<T>(string sql, object param = null) where T : BaseEntity
+        public T Query<T>(string sql, object param = null) where T : EntityBase
         {
             var row = QueryRow(sql, param);
             if (row == null)
@@ -86,20 +86,20 @@ namespace Known.Data
             return AutoMapper.GetBaseEntity<T>(row);
         }
 
-        public List<T> QueryList<T>() where T : BaseEntity
+        public List<T> QueryList<T>() where T : EntityBase
         {
             var sql = CommandHelper.GetQueryListSql<T>();
             var data = QueryTable(sql);
             return AutoMapper.GetBaseEntities<T>(data);
         }
 
-        public List<T> QueryList<T>(string sql, object param = null) where T : BaseEntity
+        public List<T> QueryList<T>(string sql, object param = null) where T : EntityBase
         {
             var data = QueryTable(sql, param);
             return AutoMapper.GetBaseEntities<T>(data);
         }
 
-        public List<T> QueryListById<T>(string[] ids) where T : BaseEntity
+        public List<T> QueryListById<T>(string[] ids) where T : EntityBase
         {
             var sql = CommandHelper.GetQueryListByIdSql<T>(ids);
             var data = QueryTable(sql);
@@ -116,7 +116,7 @@ namespace Known.Data
             return new PagingResult(result.TotalCount, pageData);
         }
 
-        public void Save<T>(T entity) where T : BaseEntity
+        public void Save<T>(T entity) where T : EntityBase
         {
             if (entity.IsNew)
             {
@@ -133,7 +133,7 @@ namespace Known.Data
             provider.Execute(command);
         }
 
-        public void Update<T>(T entity) where T : BaseEntity
+        public void Update<T>(T entity) where T : EntityBase
         {
             if (string.IsNullOrWhiteSpace(entity.Id))
                 return;
@@ -145,7 +145,7 @@ namespace Known.Data
             provider.Execute(command);
         }
 
-        public void Save<T>(List<T> entities) where T : BaseEntity
+        public void Save<T>(List<T> entities) where T : EntityBase
         {
             foreach (var entity in entities)
             {
@@ -153,13 +153,13 @@ namespace Known.Data
             }
         }
 
-        public void Delete<T>(T entity) where T : BaseEntity
+        public void Delete<T>(T entity) where T : EntityBase
         {
             var command = CommandHelper.GetDeleteCommand(entity);
             provider.Execute(command);
         }
 
-        public void Delete<T>(List<T> entities) where T : BaseEntity
+        public void Delete<T>(List<T> entities) where T : EntityBase
         {
             foreach (var entity in entities)
             {

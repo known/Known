@@ -13,7 +13,7 @@ namespace Known.Data
 
         protected Database Database { get; }
 
-        public T QueryById<T>(string id) where T : BaseEntity
+        public T QueryById<T>(string id) where T : EntityBase
         {
             if (string.IsNullOrWhiteSpace(id))
                 return default(T);
@@ -21,12 +21,12 @@ namespace Known.Data
             return Database.QueryById<T>(id);
         }
 
-        public List<T> QueryList<T>() where T : BaseEntity
+        public List<T> QueryList<T>() where T : EntityBase
         {
             return Database.QueryList<T>();
         }
 
-        public List<T> QueryListById<T>(string[] ids) where T : BaseEntity
+        public List<T> QueryListById<T>(string[] ids) where T : EntityBase
         {
             if (ids == null || ids.Length == 0)
                 return null;
@@ -34,7 +34,7 @@ namespace Known.Data
             return Database.QueryListById<T>(ids);
         }
 
-        public void Save<T>(T entity) where T : BaseEntity
+        public void Save<T>(T entity) where T : EntityBase
         {
             if (entity == null)
                 return;
@@ -42,7 +42,7 @@ namespace Known.Data
             Database.Save(entity);
         }
 
-        public void Update<T>(T entity) where T : BaseEntity
+        public void Update<T>(T entity) where T : EntityBase
         {
             if (entity == null)
                 return;
@@ -50,7 +50,7 @@ namespace Known.Data
             Database.Update(entity);
         }
 
-        public void Delete<T>(T entity) where T : BaseEntity
+        public void Delete<T>(T entity) where T : EntityBase
         {
             if (entity == null)
                 return;
