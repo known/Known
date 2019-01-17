@@ -36,7 +36,12 @@ namespace Known.WebMvc
 
         public User GetUser(string userName)
         {
-            return new User { UserName = userName };
+            return new User
+            {
+                UserName = userName,
+                Name = "测试",
+                Password = "c4ca4238a0b923820dcc509a6f75849b"
+            };
         }
 
         public void SaveUser(User user)
