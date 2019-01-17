@@ -124,24 +124,24 @@ namespace Known.Mapping
         public static Validator Validate<T>(T entity)
         {
             var infos = new List<ValidInfo>();
-            var properties = typeof(T).GetColumnProperties();
-            foreach (var property in properties)
+            var columns = GetColumnInfos<T>();
+            foreach (var column in columns)
             {
                 var errors = new List<string>();
-                var value = property.GetValue(entity, null);
-                var attr = property.GetAttribute<ColumnAttribute>();
+                var value = column.Property.GetValue(entity, null);
+                var attr = column.Attribute;
                 if (attr != null)
                     attr.Validate(value, errors);
 
                 if (errors.Count > 0)
-                    infos.Add(new ValidInfo(ValidLevel.Error, property.Name, errors));
+                    infos.Add(new ValidInfo(ValidLevel.Error, column.Property.Name, errors));
             }
             return new Validator(infos);
         }
 
         public static void FillModel<T>(T entity, dynamic model)
         {
-            var properties = typeof(T).GetColumnProperties();
+            var properties = GetColumnProperties<T>();
             var pis = model.Properties();
             foreach (var pi in pis)
             {
