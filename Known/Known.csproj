@@ -75,7 +75,7 @@
     <Compile Include="Platform\Menu.cs" />
     <Compile Include="Platform\Module.cs" />
     <Compile Include="Platform\PlatformService.cs" />
-    <Compile Include="Platform\PlatformHelper.cs" />
+    <Compile Include="Platform\Helpers\PlatformHelper.cs" />
     <Compile Include="Platform\User.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="ObjectFactory.cs" />

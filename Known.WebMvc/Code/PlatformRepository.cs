@@ -14,7 +14,7 @@ namespace Known.WebMvc
             return apiUrl;
         }
 
-        public Dictionary<string, object> GetCodes()
+        public Dictionary<string, object> GetCodes(string appId)
         {
             return new Dictionary<string, object>();
         }
@@ -24,7 +24,7 @@ namespace Known.WebMvc
             return new Module { Id = id };
         }
 
-        public List<Module> GetModules()
+        public List<Module> GetModules(string appId)
         {
             return new List<Module>();
         }

@@ -31,7 +31,7 @@ namespace Known.Platform
 
         public Dictionary<string, object> GetCodes()
         {
-            return helper.GetCodes();
+            return helper.GetCodes(Setting.Instance.AppId);
         }
 
         public Module GetModule(string id)
@@ -68,7 +68,7 @@ namespace Known.Platform
 
         public List<Module> GetModules()
         {
-            var modules = helper.GetModules();
+            var modules = helper.GetModules(Setting.Instance.AppId);
             if (modules == null || modules.Count == 0)
                 return null;
 

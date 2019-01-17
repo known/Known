@@ -24,9 +24,9 @@ namespace Known.Platform
             return repository.GetApiBaseUrl(apiId);
         }
 
-        public override Dictionary<string, object> GetCodes()
+        public override Dictionary<string, object> GetCodes(string appId)
         {
-            return repository.GetCodes();
+            return repository.GetCodes(appId);
         }
 
         public override Module GetModule(string id)
@@ -34,9 +34,9 @@ namespace Known.Platform
             return repository.GetModule(id);
         }
 
-        public override List<Module> GetModules()
+        public override List<Module> GetModules(string appId)
         {
-            return repository.GetModules();
+            return repository.GetModules(appId);
         }
 
         public override List<Module> GetUserModules(string userName)

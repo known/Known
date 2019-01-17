@@ -31,9 +31,9 @@ namespace Known.Platform
             return apiBaseUrls[apiId];
         }
 
-        public override Dictionary<string, object> GetCodes()
+        public override Dictionary<string, object> GetCodes(string appId)
         {
-            return client.Get<Dictionary<string, object>>("/api/App/GetCodes");
+            return client.Get<Dictionary<string, object>>("/api/App/GetCodes", new { appId });
         }
 
         public override Module GetModule(string id)
@@ -41,9 +41,9 @@ namespace Known.Platform
             return client.Get<Module>("/api/Module/GetModule", new { id });
         }
 
-        public override List<Module> GetModules()
+        public override List<Module> GetModules(string appId)
         {
-            return client.Get<List<Module>>("/api/Module/GetModules");
+            return client.Get<List<Module>>("/api/Module/GetModules", new { appId });
         }
 
         public override List<Module> GetUserModules(string userName)
