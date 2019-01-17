@@ -3,14 +3,15 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Known.Mapping;
 
 namespace Known.Extensions
 {
     public static class TypeExtension
     {
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>> TypeProperties = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>> ColumnProperties = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>>();
-
+        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>> 
+            TypeProperties = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>>();
+        
         public static List<PropertyInfo> GetTypeProperties(this Type type)
         {
             if (type == null)
@@ -40,17 +41,7 @@ namespace Known.Extensions
 
         public static List<PropertyInfo> GetColumnProperties(this Type type)
         {
-            if (type == null)
-                return null;
-
-            if (ColumnProperties.TryGetValue(type.TypeHandle, out IEnumerable<PropertyInfo> pis))
-                return pis.ToList();
-
-            var properties = type.GetProperties()
-                                 .Where(p => p.CanRead && p.CanWrite && !(p.SetMethod.IsVirtual && !p.SetMethod.IsFinal))
-                                 .ToArray();
-            ColumnProperties[type.TypeHandle] = properties;
-            return properties.ToList();
+            return EntityHelper.GetColumnProperties(type);
         }
 
         public static bool HasColumnProperty(this Type type, string propertyName)

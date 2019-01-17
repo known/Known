@@ -6,12 +6,14 @@ namespace Known.Mapping
 {
     public abstract class EntityMapper
     {
-        public EntityMapper(string tableName, string description, string primaryKey = "id")
+        public EntityMapper(Type type, string tableName, string description, string primaryKey = "id")
         {
+            Type = type;
             Table = new TableAttribute(tableName, description, primaryKey);
             Columns = new List<ColumnInfo>();
         }
 
+        public Type Type { get; }
         public TableAttribute Table { get; }
         public List<ColumnInfo> Columns { get; }
     }
@@ -19,7 +21,7 @@ namespace Known.Mapping
     public abstract class EntityMapper<T> : EntityMapper where T : EntityBase
     {
         public EntityMapper(string tableName, string description, string primaryKey = "id")
-            : base(tableName, description, primaryKey)
+            : base(typeof(T), tableName, description, primaryKey)
         {
             this.Property(p => p.Id)
                 .IsStringColumn("id", "主键", 1, 50, true);
@@ -44,7 +46,7 @@ namespace Known.Mapping
         {
             var body = expression.Body.ToString();
             var name = body.Substring(body.LastIndexOf(".") + 1);
-            var property = typeof(T).GetProperty(name);
+            var property = Type.GetProperty(name);
             var mapper = new PropertyMapper(property, Table.PrimaryKeys);
             Columns.Add(mapper.Info);
             return mapper;

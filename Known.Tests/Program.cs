@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Known.Mapping;
 
 namespace Known.Tests
 {
@@ -7,6 +8,8 @@ namespace Known.Tests
     {
         static void Main(string[] args)
         {
+            EntityHelper.InitMapper(typeof(Program).Assembly);
+
             RunTest();
             TestDisplayer.DisplaySummary();
             Console.WriteLine("按任意键结束！");

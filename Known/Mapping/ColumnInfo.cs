@@ -6,20 +6,49 @@ namespace Known.Mapping
 {
     public class ColumnInfo
     {
+        private ColumnAttribute attribute;
+
         public ColumnInfo(PropertyInfo property, string[] keys = null)
         {
             Property = property;
-            ColumnName = GetColumnName(property);
             IsKey = keys != null && keys.Contains(ColumnName);
         }
 
         public PropertyInfo Property { get; }
-        public ColumnAttribute Attribute { get; set; }
-        public string ColumnName { get; }
-        public string Title { get; }
-        public string Description { get; }
         public bool IsKey { get; }
-        public bool Required { get; }
+
+        public ColumnAttribute Attribute
+        {
+            get
+            {
+                if (attribute != null)
+                    return attribute;
+
+                return Property.GetAttribute<ColumnAttribute>();
+            }
+            set { attribute = value; }
+        }
+
+        public string ColumnName
+        {
+            get { return Attribute != null ? Attribute.ColumnName : GetColumnName(Property); }
+        }
+
+        public string Title
+        {
+            get { return Attribute != null ? Attribute.Description : string.Empty; }
+        }
+
+        public string Description
+        {
+            get { return Attribute != null ? Attribute.Description : string.Empty; }
+        }
+
+        public bool Required
+        {
+            get { return Attribute != null ? Attribute.Required : false; }
+        }
+
         public bool Exportable { get; }
 
         private static string GetColumnName(PropertyInfo property)

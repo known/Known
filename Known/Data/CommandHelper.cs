@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using Known.Extensions;
 using Known.Mapping;
 
 namespace Known.Data
@@ -12,27 +10,25 @@ namespace Known.Data
     public sealed class CommandHelper
     {
         private static readonly ConcurrentDictionary<string, IEnumerable<PropertyInfo>> CachedProperties = new ConcurrentDictionary<string, IEnumerable<PropertyInfo>>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, TableAttribute> TypeTables = new ConcurrentDictionary<RuntimeTypeHandle, TableAttribute>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>> TypeColumns = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>>();
 
         public static string GetQueryByIdSql<T>()
         {
             var type = typeof(T);
-            var tableName = GetCachedTableAttribute(type).TableName;
+            var tableName = EntityHelper.GetTableAttribute(type).TableName;
             return $"select * from {tableName} where id=@id";
         }
 
         public static string GetQueryListSql<T>()
         {
             var type = typeof(T);
-            var tableName = GetCachedTableAttribute(type).TableName;
+            var tableName = EntityHelper.GetTableAttribute(type).TableName;
             return $"select * from {tableName}";
         }
 
         public static string GetQueryListByIdSql<T>(string[] ids)
         {
             var type = typeof(T);
-            var tableName = GetCachedTableAttribute(type).TableName;
+            var tableName = EntityHelper.GetTableAttribute(type).TableName;
             var id = string.Join("','", ids);
             return $"select * from {tableName} where id in ('{id}')";
         }
@@ -107,8 +103,8 @@ namespace Known.Data
                 return null;
 
             var type = typeof(T);
-            var tableName = GetCachedTableAttribute(type).TableName;
-            var columns = GetCachedColumnInfos(type);
+            var tableName = EntityHelper.GetTableAttribute(type).TableName;
+            var columns = EntityHelper.GetColumnInfos(type);
 
             if (entity.IsNew)
             {
@@ -147,8 +143,8 @@ namespace Known.Data
                 return null;
 
             var type = typeof(T);
-            var tableName = GetCachedTableAttribute(type).TableName;
-            var keyColumns = GetCachedColumnInfos(type).Where(c => c.IsKey).ToList();
+            var tableName = EntityHelper.GetTableAttribute(type).TableName;
+            var keyColumns = EntityHelper.GetColumnInfos(type).Where(c => c.IsKey).ToList();
             var where = string.Join(" and ", keyColumns.Select(c => $"{c.ColumnName}=@{c.ColumnName}"));
             var command = new Command($"delete from {tableName} where {where}");
             foreach (var item in keyColumns)
@@ -224,38 +220,6 @@ namespace Known.Data
 
             var where = string.Join(" and ", parameters.Keys.Select(k => $"{k}=@{k}"));
             return new Command($"delete from {tableName} where {where}", parameters);
-        }
-
-        private static IEnumerable<ColumnInfo> GetCachedColumnInfos(Type type)
-        {
-            if (TypeColumns.TryGetValue(type.TypeHandle, out IEnumerable<ColumnInfo> columns))
-                return columns;
-
-            var attrTable = GetCachedTableAttribute(type);
-            columns = type.GetColumnProperties()
-                          .Select(p => new ColumnInfo(p, attrTable.PrimaryKeys));
-            TypeColumns[type.TypeHandle] = columns;
-            return columns;
-        }
-
-        private static TableAttribute GetCachedTableAttribute(Type type)
-        {
-            if (TypeTables.TryGetValue(type.TypeHandle, out TableAttribute attr))
-                return attr;
-
-            var attrs = type.GetCustomAttributes<TableAttribute>().ToList();
-            if (attrs != null && attrs.Count > 0)
-            {
-                attr = attrs[0];
-            }
-            else
-            {
-                var name = type.Name.ToLower() + "s";
-                attr = new TableAttribute(name, "");
-            }
-
-            TypeTables[type.TypeHandle] = attr;
-            return attr;
         }
     }
 }
