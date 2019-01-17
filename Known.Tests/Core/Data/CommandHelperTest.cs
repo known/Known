@@ -34,7 +34,7 @@ namespace Known.Tests.Core.Data
 
             entity = new TestEntity { Item1 = 1, Item2 = "test" };
             command = CommandHelper.GetSaveCommand(entity);
-            TestAssert.AreEqual(command.Text, "insert into a_test(item1,item2,item3,item4,test_id,id,create_by,create_time,modify_by,modify_time,extension) values(@item1,@item2,@item3,@item4,@test_id,@id,@create_by,@create_time,@modify_by,@modify_time,@extension)");
+            TestAssert.AreEqual(command.Text, "insert into a_test(id,create_by,create_time,modify_by,modify_time,extension,item1,item2,item3,item4,test_id) values(@id,@create_by,@create_time,@modify_by,@modify_time,@extension,@item1,@item2,@item3,@item4,@test_id)");
             TestAssert.AreEqual(command.Parameters.Count, 11);
             TestAssert.AreEqual(command.Parameters["item1"], 1);
             TestAssert.AreEqual(command.Parameters["item2"], "test");

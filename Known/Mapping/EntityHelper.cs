@@ -9,14 +9,10 @@ namespace Known.Mapping
 {
     public sealed class EntityHelper
     {
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, EntityMapper>
-            EntityMappers = new ConcurrentDictionary<RuntimeTypeHandle, EntityMapper>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>> 
-            ColumnProperties = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, TableAttribute> 
-            TypeTables = new ConcurrentDictionary<RuntimeTypeHandle, TableAttribute>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>> 
-            TypeColumns = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>>();
+        private static readonly ConcurrentDictionary<Type, EntityMapper> EntityMappers = new ConcurrentDictionary<Type, EntityMapper>();
+        private static readonly ConcurrentDictionary<Type, List<PropertyInfo>> ColumnProperties = new ConcurrentDictionary<Type, List<PropertyInfo>>();
+        private static readonly ConcurrentDictionary<Type, TableAttribute> TypeTables = new ConcurrentDictionary<Type, TableAttribute>();
+        private static readonly ConcurrentDictionary<Type, List<ColumnInfo>> TypeColumns = new ConcurrentDictionary<Type, List<ColumnInfo>>();
 
         public static void InitMapper(Assembly assembly)
         {
@@ -28,12 +24,28 @@ namespace Known.Mapping
             {
                 if (type.IsSubclassOf(typeof(EntityMapper))
                     && !type.IsAbstract
-                    && !EntityMappers.ContainsKey(type.TypeHandle))
+                    && !EntityMappers.ContainsKey(type))
                 {
-                    var mapper = Activator.CreateInstance(type);
-                    EntityMappers[type.TypeHandle] = mapper as EntityMapper;
+                    var mapper = Activator.CreateInstance(type) as EntityMapper;
+                    EntityMappers[mapper.Type] = mapper;
                 }
             }
+        }
+
+        public static string GetTableName<T>()
+        {
+            return GetTableName(typeof(T));
+        }
+
+        public static string GetTableName(Type type)
+        {
+            var attr = GetTableAttribute(type);
+            return attr != null ? attr.TableName : type.Name;
+        }
+
+        public static TableAttribute GetTableAttribute<T>()
+        {
+            return GetTableAttribute(typeof(T));
         }
 
         public static TableAttribute GetTableAttribute(Type type)
@@ -41,10 +53,10 @@ namespace Known.Mapping
             if (type == null)
                 return null;
 
-            if (EntityMappers.TryGetValue(type.TypeHandle, out EntityMapper mapper))
+            if (EntityMappers.TryGetValue(type, out EntityMapper mapper))
                 return mapper.Table;
 
-            if (TypeTables.TryGetValue(type.TypeHandle, out TableAttribute attr))
+            if (TypeTables.TryGetValue(type, out TableAttribute attr))
                 return attr;
 
             var attrs = type.GetCustomAttributes<TableAttribute>().ToList();
@@ -58,26 +70,37 @@ namespace Known.Mapping
                 attr = new TableAttribute(name, "");
             }
 
-            TypeTables[type.TypeHandle] = attr;
+            TypeTables[type] = attr;
             return attr;
         }
 
-        public static IEnumerable<ColumnInfo> GetColumnInfos(Type type)
+        public static List<ColumnInfo> GetColumnInfos<T>()
+        {
+            return GetColumnInfos(typeof(T));
+        }
+
+        public static List<ColumnInfo> GetColumnInfos(Type type)
         {
             if (type == null)
                 return null;
 
-            if (EntityMappers.TryGetValue(type.TypeHandle, out EntityMapper mapper))
+            if (EntityMappers.TryGetValue(type, out EntityMapper mapper))
                 return mapper.Columns;
 
-            if (TypeColumns.TryGetValue(type.TypeHandle, out IEnumerable<ColumnInfo> columns))
+            if (TypeColumns.TryGetValue(type, out List<ColumnInfo> columns))
                 return columns;
 
             var attrTable = GetTableAttribute(type);
             columns = type.GetColumnProperties()
-                          .Select(p => new ColumnInfo(p, attrTable.PrimaryKeys));
-            TypeColumns[type.TypeHandle] = columns;
+                          .Select(p => new ColumnInfo(p, attrTable.PrimaryKeys))
+                          .ToList();
+            TypeColumns[type] = columns;
             return columns;
+        }
+
+        public static List<PropertyInfo> GetColumnProperties<T>()
+        {
+            return GetColumnProperties(typeof(T));
         }
 
         public static List<PropertyInfo> GetColumnProperties(Type type)
@@ -85,16 +108,16 @@ namespace Known.Mapping
             if (type == null)
                 return null;
 
-            if (EntityMappers.TryGetValue(type.TypeHandle, out EntityMapper mapper))
+            if (EntityMappers.TryGetValue(type, out EntityMapper mapper))
                 return mapper.Columns.Select(c => c.Property).ToList();
 
-            if (ColumnProperties.TryGetValue(type.TypeHandle, out IEnumerable<PropertyInfo> pis))
+            if (ColumnProperties.TryGetValue(type, out List<PropertyInfo> pis))
                 return pis.ToList();
 
             var properties = type.GetProperties()
                                  .Where(p => p.CanRead && p.CanWrite && !(p.SetMethod.IsVirtual && !p.SetMethod.IsFinal))
-                                 .ToArray();
-            ColumnProperties[type.TypeHandle] = properties;
+                                 .ToList();
+            ColumnProperties[type] = properties;
             return properties.ToList();
         }
 

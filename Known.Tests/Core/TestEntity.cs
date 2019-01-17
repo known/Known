@@ -28,14 +28,19 @@ namespace Known.Tests.Core
         public TestEntityMapper() :
             base("a_test", "测试表", "item1,item2")
         {
-            this.Property(p => p.Id)
+            this.Property(p => p.Item1)
                 .IsIntegerColumn("item1", "属性1", true);
 
-            this.Property(p => p.Id)
+            this.Property(p => p.Item2)
                 .IsStringColumn("item2", "属性2", 1, 50, true);
 
-            this.Property(p => p.Id)
+            this.Property(p => p.Item3)
                 .IsDateTimeColumn("item3", "属性3", false);
+
+            this.Property(p => p.Item4)
+                .IsEnumColumn("item4", "属性4");
+
+            this.Property(p => p.Test);
         }
     }
 

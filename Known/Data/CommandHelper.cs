@@ -13,22 +13,19 @@ namespace Known.Data
 
         public static string GetQueryByIdSql<T>()
         {
-            var type = typeof(T);
-            var tableName = EntityHelper.GetTableAttribute(type).TableName;
+            var tableName = EntityHelper.GetTableName<T>();
             return $"select * from {tableName} where id=@id";
         }
 
         public static string GetQueryListSql<T>()
         {
-            var type = typeof(T);
-            var tableName = EntityHelper.GetTableAttribute(type).TableName;
+            var tableName = EntityHelper.GetTableName<T>();
             return $"select * from {tableName}";
         }
 
         public static string GetQueryListByIdSql<T>(string[] ids)
         {
-            var type = typeof(T);
-            var tableName = EntityHelper.GetTableAttribute(type).TableName;
+            var tableName = EntityHelper.GetTableName<T>();
             var id = string.Join("','", ids);
             return $"select * from {tableName} where id in ('{id}')";
         }
@@ -102,9 +99,8 @@ namespace Known.Data
             if (entity == null)
                 return null;
 
-            var type = typeof(T);
-            var tableName = EntityHelper.GetTableAttribute(type).TableName;
-            var columns = EntityHelper.GetColumnInfos(type);
+            var tableName = EntityHelper.GetTableName<T>();
+            var columns = EntityHelper.GetColumnInfos<T>();
 
             if (entity.IsNew)
             {
@@ -142,9 +138,8 @@ namespace Known.Data
             if (entity == null)
                 return null;
 
-            var type = typeof(T);
-            var tableName = EntityHelper.GetTableAttribute(type).TableName;
-            var keyColumns = EntityHelper.GetColumnInfos(type).Where(c => c.IsKey).ToList();
+            var tableName = EntityHelper.GetTableName<T>();
+            var keyColumns = EntityHelper.GetColumnInfos<T>().Where(c => c.IsKey).ToList();
             var where = string.Join(" and ", keyColumns.Select(c => $"{c.ColumnName}=@{c.ColumnName}"));
             var command = new Command($"delete from {tableName} where {where}");
             foreach (var item in keyColumns)
