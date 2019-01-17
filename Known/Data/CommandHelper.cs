@@ -12,8 +12,8 @@ namespace Known.Data
     public sealed class CommandHelper
     {
         private static readonly ConcurrentDictionary<string, IEnumerable<PropertyInfo>> CachedProperties = new ConcurrentDictionary<string, IEnumerable<PropertyInfo>>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, TableAttribute> TypeTableAttributes = new ConcurrentDictionary<RuntimeTypeHandle, TableAttribute>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>> TypeColumnNames = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>>();
+        private static readonly ConcurrentDictionary<RuntimeTypeHandle, TableAttribute> TypeTables = new ConcurrentDictionary<RuntimeTypeHandle, TableAttribute>();
+        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>> TypeColumns = new ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<ColumnInfo>>();
 
         public static string GetQueryByIdSql<T>()
         {
@@ -228,19 +228,19 @@ namespace Known.Data
 
         private static IEnumerable<ColumnInfo> GetCachedColumnInfos(Type type)
         {
-            if (TypeColumnNames.TryGetValue(type.TypeHandle, out IEnumerable<ColumnInfo> columns))
+            if (TypeColumns.TryGetValue(type.TypeHandle, out IEnumerable<ColumnInfo> columns))
                 return columns;
 
             var attrTable = GetCachedTableAttribute(type);
             columns = type.GetColumnProperties()
                           .Select(p => new ColumnInfo(p, attrTable.PrimaryKeys));
-            TypeColumnNames[type.TypeHandle] = columns;
+            TypeColumns[type.TypeHandle] = columns;
             return columns;
         }
 
         private static TableAttribute GetCachedTableAttribute(Type type)
         {
-            if (TypeTableAttributes.TryGetValue(type.TypeHandle, out TableAttribute attr))
+            if (TypeTables.TryGetValue(type.TypeHandle, out TableAttribute attr))
                 return attr;
 
             var attrs = type.GetCustomAttributes<TableAttribute>().ToList();
@@ -254,7 +254,7 @@ namespace Known.Data
                 attr = new TableAttribute(name, "");
             }
 
-            TypeTableAttributes[type.TypeHandle] = attr;
+            TypeTables[type.TypeHandle] = attr;
             return attr;
         }
     }
