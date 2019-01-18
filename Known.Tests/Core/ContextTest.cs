@@ -5,7 +5,7 @@ namespace Known.Tests.Core
 {
     public class ContextTest
     {
-        public static void TestConstructor1()
+        public static void Constructor1()
         {
             var context = new Context(new ConsoleLogger());
             TestAssert.IsNotNull(context.Logger);
@@ -14,7 +14,7 @@ namespace Known.Tests.Core
             TestAssert.IsNotNull(context.Parameter);
         }
 
-        public static void TestConstructor2()
+        public static void Constructor2()
         {
             var context = new Context(new Database(), new ConsoleLogger());
             TestAssert.IsNotNull(context.Logger);
@@ -23,7 +23,7 @@ namespace Known.Tests.Core
             TestAssert.IsNotNull(context.Parameter);
         }
 
-        public static void TestConstructor3()
+        public static void Constructor3()
         {
             var context = new Context(new Database(), new ConsoleLogger(), "Known");
             TestAssert.IsNotNull(context.Logger);
@@ -34,7 +34,7 @@ namespace Known.Tests.Core
             TestAssert.AreEqual(context.Database.UserName, "Known");
         }
 
-        public static void TestDynamicParam()
+        public static void DynamicParam()
         {
             var context = new Context(new ConsoleLogger());
             context.Parameter.Id = 1;
@@ -44,7 +44,7 @@ namespace Known.Tests.Core
             TestAssert.AreEqual(context.Parameter.Name, "Known");
         }
 
-        public static void TestCreate()
+        public static void Create()
         {
             var context = Context.Create();
 
@@ -55,7 +55,7 @@ namespace Known.Tests.Core
             TestAssert.IsNotNull(context.Parameter);
         }
 
-        public static void TestCreateWithArg()
+        public static void CreateWithArg()
         {
             var context = Context.Create("Known");
 

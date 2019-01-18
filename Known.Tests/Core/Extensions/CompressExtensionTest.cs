@@ -6,7 +6,7 @@ namespace Known.Tests.Core.Extensions
 {
     public class CompressExtensionTest
     {
-        public static void TestCompress()
+        public static void Compress()
         {
             var str = new String('T', 5000);
             var length1 = str.ToBytes().Length;
@@ -18,7 +18,7 @@ namespace Known.Tests.Core.Extensions
             TestAssert.AreEqual(set.Compress().Length, 242);
         }
 
-        public static void TestDecompress()
+        public static void Decompress()
         {
             var bytes1 = "test".Compress();
             TestAssert.AreEqual(bytes1.Decompress<string>(), "test");

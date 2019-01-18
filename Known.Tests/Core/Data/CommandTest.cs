@@ -6,14 +6,14 @@ namespace Known.Tests.Core.Data
 {
     public class CommandTest
     {
-        public static void TestText()
+        public static void Text()
         {
             var text = "test";
             var command = new Command(text);
             TestAssert.AreEqual(command.Text, text);
         }
 
-        public static void TestParameters()
+        public static void Parameters()
         {
             var command = new Command("test");
             TestAssert.IsNotNull(command.Parameters);
@@ -25,7 +25,7 @@ namespace Known.Tests.Core.Data
             TestAssert.AreEqual(command.Parameters.Count, parameters.Count);
         }
 
-        public static void TestHasParameter()
+        public static void HasParameter()
         {
             var command = new Command("test");
             TestAssert.AreEqual(command.HasParameter, false);
@@ -37,7 +37,7 @@ namespace Known.Tests.Core.Data
             TestAssert.AreEqual(command.HasParameter, true);
         }
 
-        public static void TestAddParameter()
+        public static void AddParameter()
         {
             var command = new Command("test");
             command.AddParameter("item1", 1);
@@ -49,7 +49,7 @@ namespace Known.Tests.Core.Data
             TestAssert.AreEqual(command.Parameters["item1"], 3);
         }
 
-        public static void TestToString()
+        public static void ToStringTest()
         {
             var parameters = new Dictionary<string, object>();
             parameters.Add("item1", 1);

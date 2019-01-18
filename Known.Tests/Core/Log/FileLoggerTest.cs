@@ -6,7 +6,7 @@ namespace Known.Tests.Core.Log
 {
     public class FileLoggerTest
     {
-        public static void TestFileLogger()
+        public static void FileLogger()
         {
             var fileName = string.Format("{0}\\test\\test.log", Environment.CurrentDirectory);
             Utils.DeleteFile(fileName);

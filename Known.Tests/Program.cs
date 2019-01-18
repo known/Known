@@ -30,8 +30,11 @@ namespace Known.Tests
                 if (!type.Name.EndsWith("Test"))
                     continue;
 
-                TestDisplayer.WriteLine($"开始测试{type.Name}");
                 var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
+                if (methods == null || methods.Length == 0)
+                    continue;
+
+                TestDisplayer.WriteLine($"开始测试{type.Name}");
                 foreach (var item in methods)
                 {
                     TestDisplayer.WriteLine($"开始测试 {item.Name}");

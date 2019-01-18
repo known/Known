@@ -6,7 +6,7 @@ namespace Known.Tests.Core.Data
 {
     public class CommandHelperTest
     {
-        public static void TestGetCommand()
+        public static void GetCommand()
         {
             var command = CommandHelper.GetCommand(null);
             TestAssert.IsNull(command);
@@ -26,7 +26,7 @@ namespace Known.Tests.Core.Data
             TestAssert.AreEqual(command.Parameters["code"], "1");
         }
 
-        public static void TestGetSaveCommand()
+        public static void GetSaveCommand()
         {
             TestEntity entity = null;
             var command = CommandHelper.GetSaveCommand(entity);
@@ -40,7 +40,7 @@ namespace Known.Tests.Core.Data
             TestAssert.AreEqual(command.Parameters["item2"], "test");
         }
 
-        public static void TestGetDeleteCommand()
+        public static void GetDeleteCommand()
         {
             TestEntity entity = null;
             var command = CommandHelper.GetDeleteCommand(entity);
@@ -76,7 +76,7 @@ namespace Known.Tests.Core.Data
             TestAssert.AreEqual(command.Parameters.Count, parameters.Count);
         }
 
-        public static void TestGetSelectCommand()
+        public static void GetSelectCommand()
         {
             var command = CommandHelper.GetSelectCommand(null);
             TestAssert.IsNull(command);
@@ -98,7 +98,7 @@ namespace Known.Tests.Core.Data
             TestAssert.AreEqual(command.Parameters["item2"], 2);
         }
 
-        public static void TestGetInsertCommand()
+        public static void GetInsertCommand()
         {
             var command = CommandHelper.GetInsertCommand(null);
             TestAssert.IsNull(command);
@@ -125,7 +125,7 @@ namespace Known.Tests.Core.Data
             TestAssert.AreEqual(command.Parameters.Count, parameters.Count);
         }
 
-        public static void TestGetUpdateCommand()
+        public static void GetUpdateCommand()
         {
             var command = CommandHelper.GetUpdateCommand(null, null, null);
             TestAssert.IsNull(command);

@@ -18,7 +18,7 @@ namespace Known
         private List<MailAddress> toMails = new List<MailAddress>();
         private List<MailAddress> ccMails = new List<MailAddress>();
         private List<MailAddress> bccMails = new List<MailAddress>();
-        private List<string> attachments = new List<string>();
+        private List<Attachment> attachments = new List<Attachment>();
 
         public Mail(string smtpServer, int? smtpPort, string fromName, string fromEmail, string fromPassword)
         {
@@ -100,10 +100,15 @@ namespace Known
             if (!File.Exists(fileName))
                 return;
 
-            if (!attachments.Contains(fileName))
-            {
-                attachments.Add(fileName);
-            }
+            attachments.Add(new Attachment(fileName));
+        }
+
+        public void AddAttachment(Stream stream, string name)
+        {
+            if (stream == null)
+                return;
+
+            attachments.Add(new Attachment(stream, name));
         }
 
         public void Send(string subject, string body, bool isBodyHtml = true)
@@ -137,7 +142,7 @@ namespace Known
             attachments.Clear();
         }
 
-        public static void Send(string toMails, string subject, string body, List<string> attachments = null, bool isBodyHtml = true)
+        public static void Send(string toMails, string subject, string body, Dictionary<string, Stream> attachments = null, bool isBodyHtml = true)
         {
             if (string.IsNullOrWhiteSpace(toMails))
                 return;
@@ -155,7 +160,10 @@ namespace Known
             }
             if (attachments != null && attachments.Count > 0)
             {
-                attachments.ForEach(a => mail.AddAttachment(a));
+                foreach (var item in attachments)
+                {
+                    mail.AddAttachment(item.Value, item.Key);
+                }
             }
             mail.Send(subject, body, isBodyHtml);
         }
@@ -182,6 +190,7 @@ namespace Known
                     toMails.ForEach(m => message.To.Add(m));
                     ccMails.ForEach(m => message.CC.Add(m));
                     bccMails.ForEach(m => message.Bcc.Add(m));
+                    attachments.ForEach(m => message.Attachments.Add(m));
                     message.Subject = subject;
                     message.Body = body;
                     message.BodyEncoding = Encoding.UTF8;

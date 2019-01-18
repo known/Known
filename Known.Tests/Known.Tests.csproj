@@ -63,9 +63,10 @@
     <Compile Include="Core\Extensions\TypeExtensionTest.cs" />
     <Compile Include="Core\Log\ConsoleLoggerTest.cs" />
     <Compile Include="Core\Log\FileLoggerTest.cs" />
-    <Compile Include="Core\TestEntity.cs" />
-    <Compile Include="Core\TestEnum.cs" />
+    <Compile Include="TestEntity.cs" />
+    <Compile Include="TestEnum.cs" />
     <Compile Include="Core\UtilsTest.cs" />
+    <Compile Include="Models.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebApi\BaseApiControllerTest.cs" />

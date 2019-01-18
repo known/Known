@@ -4,7 +4,7 @@ namespace Known.Tests.Core.Log
 {
     public class ConsoleLoggerTest
     {
-        public static void TestConsoleLogger()
+        public static void ConsoleLogger()
         {
             var logger = new ConsoleLogger();
             for (int i = 0; i < 3; i++)

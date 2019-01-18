@@ -7,7 +7,7 @@ namespace Known.Tests.Core.Extensions
 {
     public class CollectionExtensionTest
     {
-        public static void TestNameValueCollectionToDictionary()
+        public static void NameValueCollectionToDictionary()
         {
             var nvc = new NameValueCollection
             {
@@ -19,7 +19,7 @@ namespace Known.Tests.Core.Extensions
             TestAssert.AreEqual(dic["key2"], "value2");
         }
 
-        public static void TestIDictionaryValue()
+        public static void IDictionaryValue()
         {
             var dic = new Dictionary<string, object>();
             dic["Key1"] = "test";

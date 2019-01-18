@@ -2,7 +2,7 @@
 {
     public class ConfigTest
     {
-        public static void TestAppSetting()
+        public static void AppSetting()
         {
             TestAssert.AreEqual(Config.AppSetting("test"), "测试");
             TestAssert.AreEqual(Config.AppSetting<int>("vint"), 1);

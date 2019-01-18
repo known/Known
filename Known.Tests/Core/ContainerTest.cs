@@ -2,7 +2,7 @@
 {
     public class ContainerTest
     {
-        public static void TestRegister()
+        public static void Register()
         {
             Container.Register<ITestService, TestService>();
 
@@ -10,7 +10,7 @@
             TestAssert.IsNotNull(service);
         }
 
-        public static void TestRegisterInstance()
+        public static void RegisterInstance()
         {
             var instance = new NameTestService("Known");
             Container.Register<INameTestService, NameTestService>(instance);
@@ -19,7 +19,7 @@
             TestAssert.IsNotNull(service);
         }
 
-        public static void TestRegisterAssembly()
+        public static void RegisterAssembly()
         {
             Container.Register<BaseService>(typeof(ContainerTest).Assembly);
 
@@ -30,7 +30,7 @@
             TestAssert.IsNotNull(nameService);
         }
 
-        public static void TestRegisterAssemblyWithArgs()
+        public static void RegisterAssemblyWithArgs()
         {
             Container.Register<BaseService>(typeof(ContainerTest).Assembly, "Known");
 
@@ -41,7 +41,7 @@
             TestAssert.IsNotNull(nameService);
         }
 
-        public static void TestResolve()
+        public static void Resolve()
         {
             Container.Register<ITestService, TestService>();
 
@@ -49,7 +49,7 @@
             TestAssert.AreEqual(service.Hello(), "Hello!");
         }
 
-        public static void TestResolveInstance()
+        public static void ResolveInstance()
         {
             var instance = new NameTestService("Known");
             Container.Register<INameTestService, NameTestService>(instance);
@@ -58,7 +58,7 @@
             TestAssert.AreEqual(service.Hello(), "Hello Known!");
         }
 
-        public static void TestResolveAssembly()
+        public static void ResolveAssembly()
         {
             Container.Register<BaseService>(typeof(ContainerTest).Assembly);
 
@@ -69,7 +69,7 @@
             TestAssert.AreEqual(nameService.Hello(), "Hello!");
         }
 
-        public static void TestResolveAssemblyWithArgs()
+        public static void ResolveAssemblyWithArgs()
         {
             Container.Register<BaseService>(typeof(ContainerTest).Assembly, "Known");
 
@@ -78,57 +78,6 @@
 
             var nameService = Container.Resolve<NameTestService>();
             TestAssert.AreEqual(nameService.Hello(), "Hello Known!");
-        }
-    }
-
-    public abstract class BaseService
-    {
-    }
-
-    public interface ITestService
-    {
-        string Hello();
-    }
-
-    public class TestService : BaseService, ITestService
-    {
-        private readonly string name;
-
-        public TestService() { }
-
-        public TestService(string name)
-        {
-            this.name = name;
-        }
-
-        public string Hello()
-        {
-            return "Hello!";
-        }
-    }
-
-    public interface INameTestService
-    {
-        string Hello();
-    }
-
-    public class NameTestService : BaseService, INameTestService
-    {
-        private readonly string name;
-
-        public NameTestService() { }
-
-        public NameTestService(string name)
-        {
-            this.name = name;
-        }
-
-        public string Hello()
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return "Hello!";
-
-            return $"Hello {name}!";
         }
     }
 }

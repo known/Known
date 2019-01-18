@@ -6,13 +6,13 @@ namespace Known.Tests.Core.Extensions
 {
     public class TypeExtensionTest
     {
-        public static void TestGetColumnProperties()
+        public static void GetColumnProperties()
         {
             var properties = typeof(TestEntity).GetColumnProperties();
             TestAssert.AreEqual(properties.Count, 11);
         }
 
-        public static void TestGetAttribute()
+        public static void GetAttribute()
         {
             var properties = typeof(TestEntity).GetColumnProperties();
             var item1 = properties.FirstOrDefault(p => p.Name == "Item1");
@@ -23,7 +23,7 @@ namespace Known.Tests.Core.Extensions
             TestAssert.AreEqual(attr3.ColumnName, "item3");
         }
 
-        public static void TestHasColumnProperty()
+        public static void HasColumnProperty()
         {
             TestAssert.AreEqual(typeof(TestEntity).HasColumnProperty("Item1"), true);
             TestAssert.AreEqual(typeof(TestEntity).HasColumnProperty("ItemOnlyRead"), false);

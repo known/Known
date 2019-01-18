@@ -5,12 +5,12 @@ namespace Known.Tests.Core
 {
     public class UtilsTest
     {
-        public static void TestNewGuid()
+        public static void NewGuid()
         {
             TestAssert.AreEqual(Utils.NewGuid.Length, 32);
         }
 
-        public static void TestIsNullOrEmpty()
+        public static void IsNullOrEmpty()
         {
             TestAssert.AreEqual(Utils.IsNullOrEmpty(null), true);
             TestAssert.AreEqual(Utils.IsNullOrEmpty(DBNull.Value), true);
@@ -19,7 +19,7 @@ namespace Known.Tests.Core
             TestAssert.AreEqual(Utils.IsNullOrEmpty("test"), false);
         }
 
-        public static void TestConvertTo1()
+        public static void ConvertTo()
         {
             TestAssert.AreEqual(Utils.ConvertTo<int>("1"), 1);
             TestAssert.AreEqual(Utils.ConvertTo<decimal>("1.2"), 1.2M);
@@ -32,7 +32,7 @@ namespace Known.Tests.Core
             TestAssert.AreEqual(Utils.ConvertTo<TestEnum>(0), TestEnum.Enum1);
         }
 
-        public static void TestConvertTo2()
+        public static void ConvertToWithType()
         {
             TestAssert.AreEqual(Utils.ConvertTo(typeof(int), "1", 0), 1);
             TestAssert.AreEqual(Utils.ConvertTo(typeof(decimal), "1.2", 0), 1.2M);
@@ -45,13 +45,13 @@ namespace Known.Tests.Core
             TestAssert.AreEqual(Utils.ConvertTo(typeof(TestEnum), 0, TestEnum.Enum1), TestEnum.Enum1);
         }
 
-        public static void TestToRmb()
+        public static void ToRmb()
         {
             TestAssert.AreEqual(Utils.ToRmb(12.45M), "壹拾贰元肆角伍分");
             TestAssert.AreEqual(Utils.ToRmb(12M), "壹拾贰元整");
         }
 
-        public static void TestFromBase64String()
+        public static void FromBase64String()
         {
             var expect = "test";
             var value = Utils.ToBase64String(expect);
@@ -59,19 +59,19 @@ namespace Known.Tests.Core
             TestAssert.AreEqual(actual, expect);
         }
 
-        public static void TestToBase64String()
+        public static void ToBase64String()
         {
             var value = Utils.ToBase64String("test");
             var value1 = Utils.ToBase64String("test");
             TestAssert.AreEqual(value, value1);
         }
 
-        public static void TestHideMobile()
+        public static void HideMobile()
         {
             TestAssert.AreEqual(Utils.HideMobile("13812345678"), "138****5678");
         }
 
-        public static void TestRound()
+        public static void Round()
         {
             TestAssert.AreEqual(Utils.Round(null, 2), null);
             TestAssert.AreEqual(Utils.Round(0.124M, 2).Value, 0.12M);
@@ -79,14 +79,14 @@ namespace Known.Tests.Core
             TestAssert.AreEqual(Utils.Round(0.126M, 2).Value, 0.13M);
         }
 
-        public static void TestGetUniqueString()
+        public static void GetUniqueString()
         {
             TestAssert.AreEqual(Utils.GetUniqueString(), "12345678");
             TestAssert.AreEqual(Utils.GetUniqueString(6), "123456");
             TestAssert.AreEqual(Utils.GetUniqueString(10), "1234567890");
         }
 
-        public static void TestEnsureFile()
+        public static void EnsureFile()
         {
             var path = string.Format("{0}\\test", Environment.CurrentDirectory);
             if (Directory.Exists(path))
@@ -98,7 +98,7 @@ namespace Known.Tests.Core
             TestAssert.AreEqual(Directory.Exists(path), true);
         }
 
-        public static void TestDeleteFile()
+        public static void DeleteFile()
         {
             var fileName = string.Format("{0}\\test\\test.txt", Environment.CurrentDirectory);
             File.AppendAllText(fileName, "test");
@@ -108,7 +108,7 @@ namespace Known.Tests.Core
             TestAssert.AreEqual(File.Exists(fileName), false);
         }
 
-        public static void TestGetFileExtName()
+        public static void GetFileExtName()
         {
             var fileName = string.Format("{0}\\test\\test.txt", Environment.CurrentDirectory);
             TestAssert.AreEqual(Utils.GetFileExtName(fileName), ".txt");

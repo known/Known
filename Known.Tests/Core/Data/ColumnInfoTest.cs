@@ -5,7 +5,7 @@ namespace Known.Tests.Core.Data
 {
     public class ColumnInfoTest
     {
-        public static void TestGetColumnName()
+        public static void GetColumnName()
         {
             var properties = typeof(TestEntity).GetColumnProperties();
             foreach (var item in properties)
