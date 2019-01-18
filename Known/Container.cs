@@ -8,6 +8,11 @@ namespace Known
     {
         private static Hashtable cached = new Hashtable();
 
+        public static void Clear()
+        {
+            cached.Clear();
+        }
+
         public static T Resolve<T>()
         {
             var key = typeof(T);

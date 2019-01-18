@@ -33,8 +33,8 @@ namespace Known.Tests.Core.Extensions
 
         public static void FormatXml()
         {
-            var value = new TestEntity { Item1 = 1, Item2 = "test", Item3 = new DateTime(2017, 10, 1) };
-            var value1 = new TestEntity { Item1 = 1, Item2 = "test", Item3 = new DateTime(2017, 10, 1) };
+            var value = new TestEntity { Id = "1", Item1 = 1, Item2 = "test", Item3 = new DateTime(2017, 10, 1) };
+            var value1 = new TestEntity { Id = "1", Item1 = 1, Item2 = "test", Item3 = new DateTime(2017, 10, 1) };
             var valueXml = value.ToXml().Replace("  ", "").Replace(Environment.NewLine, "");
             TestAssert.AreEqual(valueXml.FormatXml(), value1.ToXml());
         }

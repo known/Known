@@ -79,12 +79,12 @@ namespace Known.Tests.Core
             TestAssert.AreEqual(Utils.Round(0.126M, 2).Value, 0.13M);
         }
 
-        public static void GetUniqueString()
-        {
-            TestAssert.AreEqual(Utils.GetUniqueString(), "12345678");
-            TestAssert.AreEqual(Utils.GetUniqueString(6), "123456");
-            TestAssert.AreEqual(Utils.GetUniqueString(10), "1234567890");
-        }
+        //public static void GetUniqueString()
+        //{
+        //    TestAssert.AreEqual(Utils.GetUniqueString(), "12345678");
+        //    TestAssert.AreEqual(Utils.GetUniqueString(6), "123456");
+        //    TestAssert.AreEqual(Utils.GetUniqueString(10), "1234567890");
+        //}
 
         public static void EnsureFile()
         {
