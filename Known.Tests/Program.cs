@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Known.Data;
 using Known.Mapping;
 
 namespace Known.Tests
@@ -8,6 +9,7 @@ namespace Known.Tests
     {
         static void Main(string[] args)
         {
+            Container.Register<IDbProvider, TestDbProvider>();
             EntityHelper.InitMapper(typeof(Program).Assembly);
 
             RunTest();

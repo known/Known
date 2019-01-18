@@ -9,12 +9,28 @@ namespace Known.Data
     {
         private IDbProvider provider;
 
-        public Database() : this("Default") { }
+        public Database()
+        {
+            provider = Container.Resolve<IDbProvider>();
+
+            if (provider == null)
+            {
+                Name = "Default";
+                provider = new DbProvider(Name);
+                ConnectionString = provider.ConnectionString;
+            }
+        }
 
         public Database(string name)
         {
             Name = name;
-            provider = new DbProvider(name);
+            provider = new DbProvider(Name);
+            ConnectionString = provider.ConnectionString;
+        }
+
+        public Database(IDbProvider provider)
+        {
+            this.provider = provider;
             ConnectionString = provider.ConnectionString;
         }
 
