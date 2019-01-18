@@ -18,10 +18,10 @@ namespace Known.Tests.Core.Extensions
                 table.Rows.Add(i, $"Code{i}", $"Name{i}");
             }
 
-            var page = table.ToPageTable(0, 10);
+            var page = table.ToPageTable(1, 10);
             TestAssert.AreEqual(page.Rows.Count, 10);
-            TestAssert.AreEqual(page.Rows[0][0], "0");
-            TestAssert.AreEqual(page.Rows[9][1], "Code9");
+            TestAssert.AreEqual(page.Rows[0][0], "10");
+            TestAssert.AreEqual(page.Rows[9][1], "Code19");
         }
 
         public static void ColumnSameAs()
