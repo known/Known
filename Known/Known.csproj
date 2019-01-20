@@ -139,7 +139,7 @@
     <Compile Include="PagingCriteria.cs" />
     <Compile Include="PagingResult.cs" />
     <Compile Include="Result.cs" />
-    <Compile Include="ServiceUtils.cs" />
+    <Compile Include="ServiceExecuter.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Utils.cs" />

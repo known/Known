@@ -48,9 +48,14 @@ namespace Known.WebMvc.Controllers
         private ActionResult Get(ApiClient api, string module, string method)
         {
             var param = GetParam(Request.QueryString);
+
             if (Setting.Instance.IsMonomer)
             {
-                var data = ServiceUtils.Execute(UserName, module, method, param);
+                var executor = new ServiceExecuter(UserName, module, method)
+                {
+                    Parameters = param
+                };
+                var data = executor.Execute();
                 return JsonResult(data);
             }
 
@@ -66,9 +71,17 @@ namespace Known.WebMvc.Controllers
             var param = method.StartsWith("Save")
                       ? FromForm(Request.Form)
                       : GetParam(Request.Form);
+
             if (Setting.Instance.IsMonomer)
             {
-                var data = ServiceUtils.Execute(UserName, module, method, param);
+                var executor = new ServiceExecuter(UserName, module, method);
+
+                if (method.StartsWith("Save"))
+                    executor.Parameter = param;
+                else
+                    executor.Parameters = param;
+
+                var data = executor.Execute();
                 return JsonResult(data);
             }
 
@@ -102,9 +115,9 @@ namespace Known.WebMvc.Controllers
 
             if (Setting.Instance.IsMonomer)
             {
-                var parameters = new Dictionary<string, object>();
-                parameters.Add("criteria", criteria);
-                var data = ServiceUtils.Execute(UserName, module, method, parameters);
+                var executor = new ServiceExecuter(UserName, module, method);
+                executor.Parameters.Add("criteria", criteria);
+                var data = executor.Execute();
                 return PageResult(data as PagingResult);
             }
 

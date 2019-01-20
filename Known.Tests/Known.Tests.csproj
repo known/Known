@@ -65,6 +65,7 @@
     <Compile Include="Core\Log\ConsoleLoggerTest.cs" />
     <Compile Include="Core\Log\FileLoggerTest.cs" />
     <Compile Include="Core\ObjectFactoryTest.cs" />
+    <Compile Include="Core\ServiceExecuterTest.cs" />
     <Compile Include="TestProvider.cs" />
     <Compile Include="TestEntity.cs" />
     <Compile Include="TestEnum.cs" />

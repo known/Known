@@ -26,26 +26,30 @@ namespace Known.WebApi
             }
 
             var queries = HttpUtility.ParseQueryString(Request.RequestUri.Query);
-            var parameters = queries.ToDictionary();
-            var data = ServiceUtils.Execute(UserName, module, method, parameters);
+            var executor = new ServiceExecuter(UserName, module, method)
+            {
+                Parameters = queries.ToDictionary()
+            };
+            var data = executor.Execute();
             return ApiResult.ToData(data);
         }
 
         [HttpPost, Route("{module}/{method}")]
         public ApiResult Post(string module, string method)
         {
-            var json = Request.Content.ReadAsStringAsync().Result;
+            var executor = new ServiceExecuter(UserName, module, method);
 
             if (method.StartsWith("Query"))
             {
-                var parameter = json.FromJson<PagingCriteria>();
-                var result = ServiceUtils.Execute(UserName, module, method, parameter);
+                var json = Request.Content.ReadAsStringAsync().Result;
+                executor.Parameter = json.FromJson<PagingCriteria>();
+                var result = executor.Execute();
                 return ApiResult.ToPageData(result as PagingResult);
             }
 
             var queries = HttpUtility.ParseQueryString(Request.RequestUri.Query);
-            var parameters = queries.ToDictionary();
-            var data = ServiceUtils.Execute(UserName, module, method, parameters);
+            executor.Parameters = queries.ToDictionary();
+            var data = executor.Execute();
             return ApiResult.ToData(data);
         }
     }
