@@ -9,7 +9,6 @@ namespace Known.Tests
     {
         static void Main(string[] args)
         {
-            Container.Register<IDbProvider, TestDbProvider>();
             EntityHelper.InitMapper(typeof(Program).Assembly);
 
             RunTest();

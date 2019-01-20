@@ -58,6 +58,21 @@ namespace Known.Tests
         public ContextService(Context context) : base(context)
         {
         }
+
+        public string SayHello()
+        {
+            return "Hello!";
+        }
+
+        public string SayHelloByName(string name)
+        {
+            return $"Hello {name}!";
+        }
+
+        public string SayHelloByType(string type, string name)
+        {
+            return $"Hello {name}, {type}!";
+        }
     }
 
     public interface IContextRepository : IRepository

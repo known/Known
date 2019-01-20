@@ -7,6 +7,7 @@
             var context = Context.Create();
             var service = ObjectFactory.CreateService<ContextService>(context);
             TestAssert.IsNotNull(service);
+            TestAssert.IsInstanceOf<ContextService>(service);
         }
 
         public static void CreateRepository()
@@ -19,6 +20,7 @@
             Container.Register<IContextRepository, TestContextRepository>();
             repository = ObjectFactory.CreateRepository<IContextRepository>(context);
             TestAssert.IsNotNull(repository);
+            TestAssert.IsInstanceOf<TestContextRepository>(repository);
         }
     }
 }

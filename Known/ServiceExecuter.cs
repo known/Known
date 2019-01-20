@@ -5,6 +5,11 @@ namespace Known
 {
     public class ServiceExecuter
     {
+        public ServiceExecuter(string userName, string module)
+            : this(userName, module, null)
+        {
+        }
+
         public ServiceExecuter(string userName, string module, string method)
         {
             UserName = userName;
@@ -14,7 +19,7 @@ namespace Known
 
         public string UserName { get; }
         public string Module { get; }
-        public string Method { get; }
+        public string Method { get; set; }
         public object Parameter { get; set; }
         public Dictionary<string, object> Parameters { get; set; } = new Dictionary<string, object>();
 
