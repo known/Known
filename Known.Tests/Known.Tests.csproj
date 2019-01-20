@@ -64,7 +64,8 @@
     <Compile Include="Core\Extensions\TypeExtensionTest.cs" />
     <Compile Include="Core\Log\ConsoleLoggerTest.cs" />
     <Compile Include="Core\Log\FileLoggerTest.cs" />
-    <Compile Include="TestDbProvider.cs" />
+    <Compile Include="Core\ObjectFactoryTest.cs" />
+    <Compile Include="TestProvider.cs" />
     <Compile Include="TestEntity.cs" />
     <Compile Include="TestEnum.cs" />
     <Compile Include="Core\UtilsTest.cs" />

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Known.Data;
 
 namespace Known.Tests
 {
@@ -55,5 +51,20 @@ namespace Known.Tests
 
             return $"Hello {name}!";
         }
+    }
+
+    public class ContextService : ServiceBase
+    {
+        public ContextService(Context context) : base(context)
+        {
+        }
+    }
+
+    public interface IContextRepository : IRepository
+    {
+    }
+
+    class TestContextRepository : TestRepository, IContextRepository
+    {
     }
 }
