@@ -48,6 +48,12 @@ namespace Known.Tests
 
     class TestRepository : IRepository
     {
+        public TestRepository() { }
+
+        public TestRepository(Database database)
+        {
+        }
+
         public T QueryById<T>(string id) where T : EntityBase
         {
             return default(T);

@@ -16,10 +16,10 @@
             value = executer.Execute();
             TestAssert.AreEqual(value, "Hello Known!");
 
-            executer.Method = "SayHelloByType";
+            executer.Method = "SayHelloByGreet";
             executer.Parameter = null;
             executer.Parameters.Clear();
-            executer.Parameters.Add("type", "Great");
+            executer.Parameters.Add("greet", "Great");
             executer.Parameters.Add("name", "Known");
             value = executer.Execute();
             TestAssert.AreEqual(value, "Hello Known, Great!");

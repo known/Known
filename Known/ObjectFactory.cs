@@ -8,6 +8,11 @@ namespace Known
     {
         private static Hashtable cached = new Hashtable();
 
+        public static void Clear()
+        {
+            cached.Clear();
+        }
+
         public static T CreateService<T>(Context context) where T : ServiceBase
         {
             var type = typeof(T);
