@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using Known.Data;
 using Known.Mapping;
 
 namespace Known.Tests
@@ -9,6 +8,8 @@ namespace Known.Tests
     {
         static void Main(string[] args)
         {
+            Container.Register<IJsonProvider, Known.WebApi.JsonProvider>();
+            Container.Register<ServiceBase>(typeof(Program).Assembly, Context.Create());
             EntityHelper.InitMapper(typeof(Program).Assembly);
 
             RunTest();

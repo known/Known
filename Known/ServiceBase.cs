@@ -1,5 +1,6 @@
 ﻿using System;
 using Known.Data;
+using Known.Mapping;
 
 namespace Known
 {
@@ -33,6 +34,17 @@ namespace Known
         protected T Repository
         {
             get { return LoadRepository<T>(); }
+        }
+
+        protected TEntity GetEntityById<TEntity>(string id, TEntity defaultEntity)
+            where TEntity : EntityBase
+        {
+            var entity = Repository.QueryById<TEntity>(id);
+            if (entity == null)
+            {
+                entity = defaultEntity;
+            }
+            return entity;
         }
     }
 }

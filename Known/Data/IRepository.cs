@@ -12,6 +12,6 @@ namespace Known.Data
         void Save<T>(T entity) where T : EntityBase;
         void Update<T>(T entity) where T : EntityBase;
         void Delete<T>(T entity) where T : EntityBase;
-        Result Transaction(Action<IRepository> action);
+        Result Transaction(Action<IRepository> action, object data = null);
     }
 }

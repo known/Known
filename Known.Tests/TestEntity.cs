@@ -23,7 +23,7 @@ namespace Known.Tests
         public virtual string ItemVirtual { get; set; }
     }
 
-    public class TestEntityMapper : EntityMapper<TestEntity>
+    class TestEntityMapper : EntityMapper<TestEntity>
     {
         public TestEntityMapper() :
             base("a_test", "测试表", "item1,item2")
