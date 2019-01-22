@@ -58,12 +58,12 @@ namespace Known.Tests.Demo
             if (model == null)
                 return Result.Error("不能提交空数据！");
 
-            var entity = GetEntityById(model.Id, new ApplyForm()) as ApplyForm;
+            var entity = GetEntityById((string)model.Id, new ApplyForm());
             EntityHelper.FillModel(entity, model);
 
             var validator = EntityHelper.Validate(entity);
             var vr = validator.ToResult();
-            if (!vr.HasError)
+            if (vr.HasError)
                 return Result.Error(vr.ErrorMessage);
 
             if (model.Lists != null && model.Lists.Count > 0)

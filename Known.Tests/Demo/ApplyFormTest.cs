@@ -21,14 +21,20 @@ namespace Known.Tests.Demo
 
         public static void DeleteApplyForms()
         {
-            var result = Service.DeleteApplyForms(new List<ApplyForm>());
-            TestAssert.AreEqual(result.Message, "");
+            var result = Service.DeleteApplyForms(null);
+            TestAssert.AreEqual(result.Message, "请至少选择一条记录进行操作！");
+
+            result = Service.DeleteApplyForms(new List<ApplyForm>());
+            TestAssert.AreEqual(result.Message, "请至少选择一条记录进行操作！");
         }
 
         public static void CommitApplyForms()
         {
-            var result = Service.CommitApplyForms(new List<ApplyForm>());
-            TestAssert.AreEqual(result.Message, "");
+            var result = Service.CommitApplyForms(null);
+            TestAssert.AreEqual(result.Message, "请至少选择一条记录进行操作！");
+
+            result = Service.CommitApplyForms(new List<ApplyForm>());
+            TestAssert.AreEqual(result.Message, "请至少选择一条记录进行操作！");
         }
         #endregion
 
@@ -41,6 +47,9 @@ namespace Known.Tests.Demo
 
         public static void SaveApplyForm()
         {
+            var result = Service.SaveApplyForm(null);
+            TestAssert.AreEqual(result.Message, "不能提交空数据！");
+
             var form = new ApplyForm
             {
                 Id = "",
@@ -48,9 +57,9 @@ namespace Known.Tests.Demo
                 ApplyBy = "Known"
             };
             var model = form.ToJson().FromJson<dynamic>();
-            var result = Service.SaveApplyForm(model) as Result;
+            result = Service.SaveApplyForm(model);
             TestAssert.IsNotNull(result);
-            TestAssert.AreEqual(result.Message, "");
+            TestAssert.AreEqual(result.Message, "操作成功！");
         }
         #endregion
     }
