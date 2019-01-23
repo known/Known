@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using Known.Extensions;
 
 namespace Known.Tests.Demo
@@ -58,8 +59,27 @@ namespace Known.Tests.Demo
             };
             var model = form.ToJson().FromJson<dynamic>();
             result = Service.SaveApplyForm(model);
-            TestAssert.IsNotNull(result);
             TestAssert.AreEqual(result.Message, "操作成功！");
+        }
+
+        public static void ImportApplyFormLists()
+        {
+            var form = new ApplyForm();
+            var data = new DataTable();
+            data.Columns.Add("申请内容");
+
+            var errors = new Dictionary<int, string>();
+            var result = Service.ImportApplyFormLists(form, data, errors);
+            TestAssert.AreEqual(result.Message, "导入数据不能为空！");
+
+            for (int i = 0; i < 10; i++)
+            {
+                data.Rows.Add(i == 3 ? "" : $"内容{i}");
+            }
+
+            result = Service.ImportApplyFormLists(form, data, errors);
+            TestAssert.AreEqual(errors.Count, 1);
+            TestAssert.AreEqual(errors[3], "申请内容不能为空！");
         }
         #endregion
     }

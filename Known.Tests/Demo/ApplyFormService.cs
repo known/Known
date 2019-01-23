@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using Known.Mapping;
 
 namespace Known.Tests.Demo
@@ -62,13 +64,13 @@ namespace Known.Tests.Demo
             EntityHelper.FillModel(entity, model);
 
             var validator = EntityHelper.Validate(entity);
-            var vr = validator.ToResult();
-            if (vr.HasError)
-                return Result.Error(vr.ErrorMessage);
+            if (validator.HasError)
+                return Result.Error(validator.ErrorMessage);
+
+            entity.Lists = new List<ApplyFormList>();
 
             if (model.Lists != null && model.Lists.Count > 0)
             {
-                entity.Lists = new List<ApplyFormList>();
                 foreach (var item in model.Lists)
                 {
                     item.FormId = entity.Id;
@@ -78,12 +80,61 @@ namespace Known.Tests.Demo
 
             return Repository.Transaction(rep =>
             {
-                if (entity.Lists != null && entity.Lists.Count > 0)
-                {
-                    entity.Lists.ForEach(l => rep.Save(l));
-                }
+                entity.Lists.ForEach(l => rep.Save(l));
                 rep.Save(entity);
             }, entity.Id);
+        }
+
+        public Result ImportApplyFormLists(ApplyForm form, DataTable data, Dictionary<int, string> errors)
+        {
+            if (data == null || data.Rows.Count == 0)
+                return Result.Error("导入数据不能为空！");
+
+            var duplicateKeys = data.AsEnumerable()
+                                    .GroupBy(r => $"{r["申请内容"]}")
+                                    .Select(r => new { r.Key, Count = r.Count() })
+                                    .Where(r => r.Count > 1)
+                                    .Select(r => r.Key)
+                                    .ToList();
+
+            var entities = new List<ApplyFormList>();
+            for (int i = 0; i < data.Rows.Count; i++)
+            {
+                var messages = new List<string>();
+                var row = data.Rows[i];
+                var key = $"{row["申请内容"]}";
+                if (duplicateKeys.Contains(key))
+                    messages.Add("导入文件中申请内容不能重复！");
+
+                var entity = new ApplyFormList
+                {
+                    FormId = form.Id
+                };
+                entity.Content = Validator.ValidateNotEmptyString(messages, row, "申请内容");
+
+                if (messages.Count > 0)
+                {
+                    errors.Add(i, string.Join(",", messages));
+                    continue;
+                }
+
+                var validator = EntityHelper.Validate(entity);
+                if (validator.HasError)
+                {
+                    errors.Add(i, validator.ErrorMessage);
+                    continue;
+                }
+
+                entities.Add(entity);
+            }
+
+            if (errors.Count > 0)
+                return Result.Error("导入校验失败！");
+
+            return Repository.Transaction(rep =>
+            {
+                entities.ForEach(e => rep.Save(e));
+            });
         }
         #endregion
     }

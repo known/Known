@@ -24,6 +24,26 @@ namespace Known
             validInfos.AddRange(infos);
         }
 
+        public bool HasError
+        {
+            get { return new ValidateResult(validInfos).HasError; }
+        }
+
+        public bool HasWarn
+        {
+            get { return new ValidateResult(validInfos).HasWarn; }
+        }
+
+        public string ErrorMessage
+        {
+            get { return new ValidateResult(validInfos).ErrorMessage; }
+        }
+
+        public string WarnMessage
+        {
+            get { return new ValidateResult(validInfos).WarnMessage; }
+        }
+
         public void AddError(bool broken, string message)
         {
             if (broken)
@@ -50,11 +70,6 @@ namespace Known
         {
             var message = string.Format(format, args);
             AddError(broken, message);
-        }
-
-        public ValidateResult ToResult()
-        {
-            return new ValidateResult(validInfos);
         }
 
         public static string ValidateNotEmptyString(List<string> messages, DataRow row, string fieldName)
@@ -201,13 +216,13 @@ namespace Known
 
     public class ValidInfo
     {
-        public ValidInfo(ValidLevel level, string message)
+        internal ValidInfo(ValidLevel level, string message)
         {
             Level = level;
             Message = message;
         }
 
-        public ValidInfo(ValidLevel level, string field, List<string> messages)
+        internal ValidInfo(ValidLevel level, string field, List<string> messages)
         {
             Level = level;
             Field = field;
@@ -219,7 +234,7 @@ namespace Known
         public string Message { get; }
     }
 
-    public class ValidateResult
+    class ValidateResult
     {
         internal ValidateResult(List<ValidInfo> infos)
         {
