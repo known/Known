@@ -12,7 +12,7 @@ namespace Known.Drawing
         byte[] GenerateImage(string code);
     }
 
-    public class DefaultCaptchaProvider : ICaptchaProvider
+    class DefaultCaptchaProvider : ICaptchaProvider
     {
         public string GetRandomCode(int length)
         {
