@@ -110,7 +110,7 @@ namespace Known.Tests.Demo
                 {
                     FormId = form.Id
                 };
-                entity.Content = Validator.ValidateNotEmptyString(messages, row, "申请内容");
+                entity.Content = Validator.ValidateNotEmpty<string>(messages, row, "申请内容");
 
                 if (messages.Count > 0)
                 {

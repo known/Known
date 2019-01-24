@@ -62,74 +62,46 @@ namespace Known
         public void AddWarn(bool broken, string format, params object[] args)
         {
             var message = string.Format(format, args);
-            AddError(broken, message);
+            AddWarn(broken, message);
         }
 
-        public static string ValidateNotEmptyString(List<string> messages, DataRow row, string fieldName)
+        public static T ValidateNotEmpty<T>(List<string> messages, DataRow row, string fieldName, string format = null)
         {
-            var value = row.Get<string>(fieldName);
-            if (string.IsNullOrWhiteSpace(value))
-                messages.Add(fieldName + "不能为空！");
+            if (typeof(T) == typeof(DateTime?))
+            {
+                var time = row.Get<string>(fieldName).ToDateTime(format);
+                if (!time.HasValue)
+                    messages.Add($"{fieldName}不能为空且格式必须是{format}！");
+
+                return Utils.ConvertTo<T>(time);
+            }
+
+            var value = row.Get<T>(fieldName);
+            if (value == null)
+                messages.Add($"{fieldName}不能为空！");
+
             return value;
         }
 
-        public static int? ValidateNotEmptyInt(List<string> messages, DataRow row, string fieldName)
-        {
-            var value = row.Get<int?>(fieldName);
-            if (!value.HasValue)
-                messages.Add(fieldName + "不能为空！");
-            return value;
-        }
-
-        public static int? ValidateInt(List<string> messages, DataRow row, string fieldName)
+        public static T Validate<T>(List<string> messages, DataRow row, string fieldName, string format = null)
         {
             var text = row.Get<string>(fieldName);
             if (string.IsNullOrWhiteSpace(text))
-                return null;
+                return default(T);
 
-            var value = row.Get<int?>(fieldName);
-            if (!value.HasValue)
+            if (typeof(T) == typeof(DateTime?))
+            {
+                var time = text.ToDateTime(format);
+                if (!time.HasValue)
+                    messages.Add($"{fieldName}格式必须是{format}！");
+
+                return Utils.ConvertTo<T>(time);
+            }
+
+            var value = row.Get<T>(fieldName);
+            if (value == null)
                 messages.Add(fieldName + "格式不正确！");
-            return value;
-        }
 
-        public static decimal? ValidateNotEmptyDecimal(List<string> messages, DataRow row, string fieldName)
-        {
-            var value = row.Get<decimal?>(fieldName);
-            if (!value.HasValue)
-                messages.Add(fieldName + "不能为空！");
-            return value;
-        }
-
-        public static decimal? ValidateDecimal(List<string> messages, DataRow row, string fieldName)
-        {
-            var text = row.Get<string>(fieldName);
-            if (string.IsNullOrWhiteSpace(text))
-                return null;
-
-            var value = row.Get<decimal?>(fieldName);
-            if (!value.HasValue)
-                messages.Add(fieldName + "格式不正确！");
-            return value;
-        }
-
-        public static DateTime? ValidateNotEmptyDateTime(List<string> messages, DataRow row, string fieldName, string format)
-        {
-            var value = row.Get<string>(fieldName).ToDateTime(format);
-            if (!value.HasValue)
-                messages.Add(fieldName + "不能为空且格式必须是" + format + "！");
-            return value;
-        }
-
-        public static DateTime? ValidateDateTime(List<string> messages, DataRow row, string fieldName, string format)
-        {
-            var text = row.Get<string>(fieldName);
-            if (string.IsNullOrWhiteSpace(text))
-                return null;
-
-            var value = text.ToDateTime(format);
-            if (!value.HasValue)
-                messages.Add(fieldName + "格式必须是" + format + "！");
             return value;
         }
 
