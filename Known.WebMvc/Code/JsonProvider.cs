@@ -2,7 +2,7 @@
 
 namespace Known.WebMvc
 {
-    public class JsonProvider : IJsonProvider
+    public class JsonProvider : IJson
     {
         public string Serialize<T>(T value)
         {

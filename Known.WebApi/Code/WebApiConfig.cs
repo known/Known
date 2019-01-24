@@ -11,7 +11,7 @@ namespace Known.WebApi
         public static void Register()
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
-            Container.Register<IJsonProvider, JsonProvider>();
+            Container.Register<IJson, JsonProvider>();
 
             GlobalConfiguration.Configure(Register);
         }

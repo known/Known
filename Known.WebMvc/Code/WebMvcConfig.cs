@@ -11,7 +11,7 @@ namespace Known.WebMvc
         public static void Register()
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
-            Container.Register<IJsonProvider, JsonProvider>();
+            Container.Register<IJson, JsonProvider>();
             Container.Register<IPlatformRepository, PlatformRepository>();
 
             AreaRegistration.RegisterAllAreas();

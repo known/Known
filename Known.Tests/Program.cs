@@ -8,7 +8,7 @@ namespace Known.Tests
     {
         static void Main(string[] args)
         {
-            Container.Register<IJsonProvider, Known.WebApi.JsonProvider>();
+            Container.Register<IJson, Known.WebApi.JsonProvider>();
             Container.Register<ServiceBase>(typeof(Program).Assembly, Context.Create());
             EntityHelper.InitMapper(typeof(Program).Assembly);
 

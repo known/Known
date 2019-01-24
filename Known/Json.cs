@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Known
 {
-    public interface IJsonProvider
+    public interface IJson
     {
         string Serialize<T>(T value);
         T Deserialize<T>(string json);
     }
 
-    class JsonDefaultProvider : IJsonProvider
+    class JsonDefault : IJson
     {
         public string Serialize<T>(T value)
         {
