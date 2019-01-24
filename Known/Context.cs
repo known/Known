@@ -21,7 +21,7 @@ namespace Known
             Database = database;
             Logger = logger;
             UserName = userName;
-            Parameter = new DynamicParameter();
+            Parameter = new ContextParameter();
         }
 
         public Database Database { get; }
@@ -37,7 +37,7 @@ namespace Known
         }
     }
 
-    internal sealed class DynamicParameter : DynamicObject
+    sealed class ContextParameter : DynamicObject
     {
         private Dictionary<string, object> datas = new Dictionary<string, object>();
 

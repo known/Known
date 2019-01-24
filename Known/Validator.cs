@@ -12,14 +12,7 @@ namespace Known
     {
         private List<ValidInfo> validInfos = new List<ValidInfo>();
 
-        public Validator() { }
-
-        public Validator(List<string> errors)
-        {
-            validInfos.AddRange(errors.Select(e => new ValidInfo(ValidLevel.Error, e)));
-        }
-
-        public Validator(List<ValidInfo> infos)
+        internal Validator(List<ValidInfo> infos)
         {
             validInfos.AddRange(infos);
         }
@@ -208,13 +201,13 @@ namespace Known
         }
     }
 
-    public enum ValidLevel
+    enum ValidLevel
     {
         Error,
         Warn
     }
 
-    public class ValidInfo
+    class ValidInfo
     {
         internal ValidInfo(ValidLevel level, string message)
         {

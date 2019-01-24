@@ -16,16 +16,51 @@ namespace Known
         void Clear();
     }
 
-    internal class DefaultCache : ICache
+    public sealed class Cache
+    {
+        private static ICache Cached
+        {
+            get
+            {
+                var cache = Container.Resolve<ICache>();
+                if (cache == null)
+                    cache = new CacheDefault();
+
+                return cache;
+            }
+        }
+
+        public static T Get<T>(string key)
+        {
+            return Cached.Get<T>(key);
+        }
+
+        public static void Set(string key, object value)
+        {
+            Cached.Set(key, value);
+        }
+
+        public static void Set(string key, object value, int expires)
+        {
+            Cached.Set(key, value, expires);
+        }
+
+        public static void Clear()
+        {
+            Cached.Clear();
+        }
+    }
+
+    class CacheDefault : ICache
     {
         private ICache cache = null;
 
-        public DefaultCache()
+        public CacheDefault()
         {
             if (HttpContext.Current != null)
-                cache = new WebCache();
+                cache = new CacheWeb();
             else
-                cache = new MemoryCache();
+                cache = new CacheMemory();
         }
 
         public int Count
@@ -64,7 +99,7 @@ namespace Known
         }
     }
 
-    internal class MemoryCache : ICache
+    class CacheMemory : ICache
     {
         private readonly ObjectCache cache = System.Runtime.Caching.MemoryCache.Default;
 
@@ -127,7 +162,7 @@ namespace Known
         }
     }
 
-    internal class WebCache : ICache
+    class CacheWeb : ICache
     {
         public int Count
         {

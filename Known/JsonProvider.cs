@@ -11,7 +11,7 @@ namespace Known
         T Deserialize<T>(string json);
     }
 
-    internal class DefaultJsonProvider : IJsonProvider
+    class JsonDefaultProvider : IJsonProvider
     {
         public string Serialize<T>(T value)
         {
