@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Known.Extensions;
@@ -157,6 +158,11 @@ namespace Known.Mapping
                     property.SetValue(entity, value);
                 }
             }
+        }
+
+        public static Stream GetImportRule<T>()
+        {
+            return null;
         }
     }
 }
