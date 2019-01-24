@@ -29,7 +29,7 @@ namespace Known.WebMvc
             return new List<Module>();
         }
 
-        public List<Module> GetUserModules(string userName)
+        public List<Module> GetUserModules(string appId, string userName)
         {
             return new List<Module>();
         }

@@ -8,7 +8,7 @@ namespace Known.Platform
         public abstract Dictionary<string, object> GetCodes(string appId);
         public abstract Module GetModule(string id);
         public abstract List<Module> GetModules(string appId);
-        public abstract List<Module> GetUserModules(string userName);
+        public abstract List<Module> GetUserModules(string appId, string userName);
         public abstract User GetUser(string userName);
         public abstract void SaveUser(User user);
     }

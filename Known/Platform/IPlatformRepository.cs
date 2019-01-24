@@ -8,7 +8,7 @@ namespace Known.Platform
         Dictionary<string, object> GetCodes(string appId);
         Module GetModule(string id);
         List<Module> GetModules(string appId);
-        List<Module> GetUserModules(string userName);
+        List<Module> GetUserModules(string appId, string userName);
         User GetUser(string userName);
         void SaveUser(User user);
     }

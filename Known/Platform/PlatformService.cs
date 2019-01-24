@@ -79,7 +79,7 @@ namespace Known.Platform
 
         public List<Module> GetUserModules(string userName)
         {
-            var modules = helper.GetUserModules(userName);
+            var modules = helper.GetUserModules(Setting.Instance.AppId, userName);
             if (modules == null || modules.Count == 0)
                 return new List<Module>();
 

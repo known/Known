@@ -46,9 +46,9 @@ namespace Known.Platform
             return client.Get<List<Module>>("/api/Module/GetModules", new { appId });
         }
 
-        public override List<Module> GetUserModules(string userName)
+        public override List<Module> GetUserModules(string appId, string userName)
         {
-            return client.Get<List<Module>>("/api/User/GetUserModules", new { userName });
+            return client.Get<List<Module>>("/api/User/GetUserModules", new { appId, userName });
         }
 
         public override User GetUser(string userName)

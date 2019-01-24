@@ -39,9 +39,9 @@ namespace Known.Platform
             return repository.GetModules(appId);
         }
 
-        public override List<Module> GetUserModules(string userName)
+        public override List<Module> GetUserModules(string appId, string userName)
         {
-            return repository.GetUserModules(userName);
+            return repository.GetUserModules(appId, userName);
         }
 
         public override User GetUser(string userName)
