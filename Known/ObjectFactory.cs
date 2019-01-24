@@ -4,7 +4,7 @@ using Known.Data;
 
 namespace Known
 {
-    public class ObjectFactory
+    public sealed class ObjectFactory
     {
         private static Hashtable cached = new Hashtable();
 

@@ -6,7 +6,7 @@ namespace Known
 {
     public abstract class ServiceBase
     {
-        public ServiceBase(Context context)
+        protected ServiceBase(Context context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -27,7 +27,7 @@ namespace Known
     public abstract class ServiceBase<T> : ServiceBase
         where T : IRepository
     {
-        public ServiceBase(Context context) : base(context)
+        protected ServiceBase(Context context) : base(context)
         {
         }
 

@@ -37,7 +37,7 @@ namespace Known
         }
     }
 
-    sealed class ContextParameter : DynamicObject
+    class ContextParameter : DynamicObject
     {
         private Dictionary<string, object> datas = new Dictionary<string, object>();
 

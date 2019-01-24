@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Known
 {
-    public class Encryptor
+    public sealed class Encryptor
     {
         public static string ToMd5(string value)
         {

@@ -112,7 +112,7 @@ namespace Known
         public TimeSpan TimeToReachQueue { get; set; }
     }
 
-    public class MqUtils
+    public sealed class MqUtils
     {
         public static void SendMessage(string path, string label, string content)
         {
