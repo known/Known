@@ -9,12 +9,20 @@ namespace Known.Cells
     {
         private readonly string fileName;
 
-        public Excel(IExcel provider) : this(provider, null) { }
+        public Excel(IExcel provider) : this(provider, "") { }
 
         public Excel(IExcel provider, string fileName)
         {
             this.fileName = fileName;
             Provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            Provider.Open(fileName);
+            Sheets = new SheetCollection(this);
+        }
+
+        public Excel(IExcel provider, Stream stream)
+        {
+            Provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            Provider.Open(stream);
             Sheets = new SheetCollection(this);
         }
 
@@ -66,7 +74,7 @@ namespace Known.Cells
 
         public void Save()
         {
-            Provider.Save(fileName);
+            SaveAs(fileName);
         }
 
         public void SaveAs(string fileName)

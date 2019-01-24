@@ -7,6 +7,8 @@ namespace Known.Cells
     {
         IList<ISheet> Sheets { get; }
 
+        void Open(string fileName);
+        void Open(Stream stream);
         ISheet AddSheet(string name);
         void DeleteSheet(string name);
         void Save(string fileName);
