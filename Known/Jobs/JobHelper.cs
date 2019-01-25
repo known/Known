@@ -7,54 +7,94 @@ namespace Known.Jobs
 {
     public class JobHelper
     {
-        private JobService service;
+        public static string ServiceName = Config.AppSetting("ServiceName");
+        public static string Server = Config.AppSetting("Server");
+        public static double TimerInterval = Config.AppSetting<double>("TimerInterval");
 
-        public JobHelper(JobService service)
+        public JobHelper()
         {
-            this.service = service;
+            Service = new JobService();
         }
 
-        public static void SendExceptionMail(string subject, string body)
+        public JobService Service { get; }
+
+        public static void SendMail(string subject, string body)
         {
             var toMails = Setting.Instance.ExceptionMails;
             Mail.Send(toMails, subject, body);
         }
 
-        public void StopJobs(string server)
+        public void StartJobs(Action<JobService, JobInfo> action)
         {
-            var jobs = service.GetServerJobs(server);
-            foreach (var job in jobs)
+            try
             {
-                if (job.Status == JobStatus.Running)
+                var jobs = Service.GetServerJobs(Server);
+                foreach (var job in jobs)
                 {
-                    service.UpdateJobStatus(job, JobStatus.Normal, "强制停止运行");
+                    if (job.Status == JobStatus.Normal)
+                    {
+                        action(Service, job);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                JobHelper.SendMail("主服务启动异常", ex.ToString());
             }
         }
 
-        public CheckResult CheckJob(ILogger log, JobInfo job)
+        public void RestartJobs(Action<JobService, JobInfo> action)
         {
-            var type = GetCallTargetType(log, job.ExecuteTarget);
+            try
+            {
+                var jobs = Service.GetRestartServerJobs(Server);
+                foreach (var job in jobs)
+                {
+                    //Service.UpdateStarted(job);
+
+                    if (job.Status == JobStatus.Normal)
+                    {
+                        action(Service, job);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                JobHelper.SendMail("主服务启动异常", ex.ToString());
+            }
+        }
+
+        public void StopJobs()
+        {
+            try
+            {
+                var jobs = Service.GetServerJobs(Server);
+                foreach (var job in jobs)
+                {
+                    if (job.Status == JobStatus.Running)
+                    {
+                        job.Status = JobStatus.Normal;
+                        job.Message = "强制停止运行";
+                        Service.UpdateJob(job);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                SendMail("主服务停止异常", ex.ToString());
+            }
+        }
+
+        public CheckResult CheckJob(JobInfo job)
+        {
+            var type = GetCallTargetType(job.ExecuteTarget);
             if (type == null)
-            {
-                return new CheckResult
-                {
-                    IsPass = false,
-                    ErrorMessage = "没有找到执行目标类型！"
-                };
-            }
+                return CheckResult.Fail("没有找到执行目标类型！");
 
-            var instance = Activator.CreateInstance(type) as IJob;
-            if (instance == null)
-            {
-                return new CheckResult
-                {
-                    IsPass = false,
-                    ErrorMessage = "执行目标实例为空，请确认Job类型是实现IJob接口。"
-                };
-            }
+            if (!(Activator.CreateInstance(type) is IJob instance))
+                return CheckResult.Fail("执行目标实例为空，请确认Job类型是实现IJob接口。");
 
-            var result = service.CheckInterval(job.ExecuteInterval);
+            var result = Service.CheckInterval(job.ExecuteInterval);
             result.Instance = instance;
             return result;
         }
@@ -65,31 +105,31 @@ namespace Known.Jobs
             var logger = new FileLogger(fileName);
             try
             {
-                service.BeginJob(job);
+                Service.BeginJob(job);
                 var result = instance.Execute(logger, config);
-                service.EndJob(job, result, File.ReadAllText(fileName));
+                Service.EndJob(job, result, File.ReadAllText(fileName));
                 return true;
             }
             catch (Exception ex)
             {
                 var logContent = File.ReadAllText(fileName);
-                service.ExceptionJob(job, ex, logContent);
+                Service.ExceptionJob(job, ex, logContent);
                 log.Error("执行【" + job.Name + "】作业异常。", ex);
-                SendExceptionMail("服务执行异常通知", logContent);
+                SendMail("服务执行异常通知", logContent);
                 return false;
             }
         }
 
-        private static Type GetCallTargetType(ILogger log, string typeName)
+        private static Type GetCallTargetType(string typeName)
         {
             try
             {
-                log.Info($"获取执行目标：{typeName}");
+                //log.Info($"获取执行目标：{typeName}");
                 return Type.GetType(typeName);
             }
             catch (Exception ex)
             {
-                log.Error($"查找执行目标类型异常。TypeName：{typeName}", ex);
+                //log.Error($"查找执行目标类型异常。TypeName：{typeName}", ex);
                 return null;
             }
         }

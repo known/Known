@@ -10,5 +10,10 @@ namespace Known.Jobs
         public List<string> TimeValues { get; set; }
         public IJob Instance { get; set; }
         public string ErrorMessage { get; set; }
+
+        public static CheckResult Fail(string errorMessage)
+        {
+            return new CheckResult { IsPass = false, ErrorMessage = errorMessage };
+        }
     }
 }

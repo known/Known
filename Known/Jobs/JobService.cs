@@ -8,15 +8,17 @@ namespace Known.Jobs
     {
         private IJobRepository repository;
 
+        public JobService() : this(Container.Resolve<IJobRepository>()) { }
+
         public JobService(IJobRepository repository)
         {
-            this.repository = repository;
+            this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public CheckResult CheckInterval(string interval)
         {
             if (string.IsNullOrEmpty(interval))
-                return new CheckResult { IsPass = false, ErrorMessage = "时间间隔不能为空！" };
+                return CheckResult.Fail("时间间隔不能为空！");
 
             var timerInterval = 1000;
             var timeFormat = string.Empty;
@@ -29,13 +31,13 @@ namespace Known.Jobs
                 timeValues = intervalArray[1].Split(',').ToList();
 
                 if (timeValues == null || timeValues.Count == 0)
-                    return new CheckResult { IsPass = false, ErrorMessage = "间隔时间配置错误，没有对应的时间值。" };
+                    return CheckResult.Fail("间隔时间配置错误，没有对应的时间值。");
             }
             else
             {
                 int.TryParse(interval, out timerInterval);
                 if (timerInterval < 1000)
-                    return new CheckResult { IsPass = false, ErrorMessage = "时间间隔不能小于1000！" };
+                    return CheckResult.Fail("时间间隔不能小于1000！");
             }
 
             return new CheckResult
@@ -55,7 +57,9 @@ namespace Known.Jobs
 
             if (result.TimeValues == null || result.TimeValues.Count == 0)
             {
-                UpdateJobStatus(job, JobStatus.Abnormal, "间隔时间配置错误，没有对应的时间值。");
+                job.Status = JobStatus.Abnormal;
+                job.Message = "间隔时间配置错误，没有对应的时间值。";
+                UpdateJob(job);
                 return false;
             }
 
@@ -73,12 +77,26 @@ namespace Known.Jobs
             return repository.GetServerJobs(server);
         }
 
+        public List<JobInfo> GetRestartServerJobs(string server)
+        {
+            var jobs = GetServerJobs(server);
+            if (jobs == null || jobs.Count == 0)
+                return null;
+
+            return jobs.Where(j => j.IsRestart).ToList();
+        }
+
+        public void UpdateJob(JobInfo job)
+        {
+            repository.UpdateJob(job);
+        }
+
         public void BeginJob(JobInfo job)
         {
             job.StartTime = DateTime.Now;
             job.Status = JobStatus.Running;
             job.Message = "运行中......";
-            repository.UpdateJob(job);
+            UpdateJob(job);
         }
 
         public void EndJob(JobInfo job, ExecuteResult result, string logInfo)
@@ -92,7 +110,7 @@ namespace Known.Jobs
             job.EndTime = DateTime.Now;
             job.Status = JobStatus.Normal;
             job.Message = result.Message;
-            repository.UpdateJob(job);
+            UpdateJob(job);
         }
 
         public void ExceptionJob(JobInfo job, Exception ex, string logInfo)
@@ -103,14 +121,7 @@ namespace Known.Jobs
             job.EndTime = DateTime.Now;
             job.Status = JobStatus.Abnormal;
             job.Message = ex.Message;
-            repository.UpdateJob(job);
-        }
-
-        public void UpdateJobStatus(JobInfo job, JobStatus status, string message)
-        {
-            job.Status = status;
-            job.Message = message;
-            repository.UpdateJob(job);
+            UpdateJob(job);
         }
 
         private void AddRecord(JobInfo job, RecordStatus status, string logInfo)

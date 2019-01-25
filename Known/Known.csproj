@@ -40,6 +40,7 @@
     <Reference Include="System.Messaging" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -60,6 +61,9 @@
     <Compile Include="Jobs\JobRecord.cs" />
     <Compile Include="Jobs\JobService.cs" />
     <Compile Include="Jobs\JobTimer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Jobs\MainService.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Mapping\EntityHelper.cs" />
