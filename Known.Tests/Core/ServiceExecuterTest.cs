@@ -1,4 +1,6 @@
-﻿namespace Known.Tests.Core
+﻿using System.Collections.Generic;
+
+namespace Known.Tests.Core
 {
     public class ServiceExecuterTest
     {
@@ -8,20 +10,18 @@
             Container.Register<ServiceBase>(typeof(Program).Assembly, Context.Create());
 
             var executer = new ServiceExecuter("Known", "Context", "SayHello");
-            var value = executer.Execute();
+            var value = executer.Execute(null);
             TestAssert.AreEqual(value, "Hello!");
 
             executer.Method = "SayHelloByName";
-            executer.Parameter = "Known";
-            value = executer.Execute();
+            value = executer.Execute("Known");
             TestAssert.AreEqual(value, "Hello Known!");
 
             executer.Method = "SayHelloByGreet";
-            executer.Parameter = null;
-            executer.Parameters.Clear();
-            executer.Parameters.Add("greet", "Great");
-            executer.Parameters.Add("name", "Known");
-            value = executer.Execute();
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("greet", "Great");
+            parameters.Add("name", "Known");
+            value = executer.Execute(parameters);
             TestAssert.AreEqual(value, "Hello Known, Great!");
         }
     }

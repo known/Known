@@ -51,11 +51,8 @@ namespace Known.WebMvc.Controllers
 
             if (Setting.Instance.IsMonomer)
             {
-                var executor = new ServiceExecuter(UserName, module, method)
-                {
-                    Parameters = param
-                };
-                var data = executor.Execute();
+                var executor = new ServiceExecuter(UserName, module, method);
+                var data = executor.Execute(param);
                 return JsonResult(data);
             }
 
@@ -68,23 +65,21 @@ namespace Known.WebMvc.Controllers
 
         private ActionResult Post(ApiClient api, string module, string method)
         {
-            var param = method.StartsWith("Save")
-                      ? FromForm(Request.Form)
-                      : GetParam(Request.Form);
-
             if (Setting.Instance.IsMonomer)
             {
                 var executor = new ServiceExecuter(UserName, module, method);
-
+                object data = null;
                 if (method.StartsWith("Save"))
-                    executor.Parameter = param;
+                    data = executor.Execute(GetForm(Request.Form));
                 else
-                    executor.Parameters = param;
+                    data = executor.Execute(GetParam(Request.Form));
 
-                var data = executor.Execute();
                 return JsonResult(data);
             }
 
+            var param = method.StartsWith("Save")
+                      ? GetForm(Request.Form)
+                      : GetParam(Request.Form);
             var result = api.Post<ApiResult>($"/api/{module}/{method}", param);
             if (result.Status == 1)
                 return ErrorResult(result.Message);
@@ -116,8 +111,7 @@ namespace Known.WebMvc.Controllers
             if (Setting.Instance.IsMonomer)
             {
                 var executor = new ServiceExecuter(UserName, module, method);
-                executor.Parameters.Add("criteria", criteria);
-                var data = executor.Execute();
+                var data = executor.Execute(criteria);
                 return PageResult(data as PagingResult);
             }
 
@@ -136,7 +130,7 @@ namespace Known.WebMvc.Controllers
             return JsonConvert.DeserializeObject<dynamic>(json);
         }
 
-        private static dynamic FromForm(NameValueCollection collection)
+        private static dynamic GetForm(NameValueCollection collection)
         {
             var param = GetParam(collection);
             var json = param.ToJson();

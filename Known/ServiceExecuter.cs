@@ -20,10 +20,8 @@ namespace Known
         public string UserName { get; }
         public string Module { get; }
         public string Method { get; set; }
-        public object Parameter { get; set; }
-        public Dictionary<string, object> Parameters { get; set; } = new Dictionary<string, object>();
 
-        public object Execute()
+        public object Execute(object parameter)
         {
             var service = GetService(UserName, Module);
             if (service == null)
@@ -37,26 +35,36 @@ namespace Known
             if (paramInfos == null || paramInfos.Length == 0)
                 return func.Invoke(service, null);
 
-            var parameters = new List<object>();
-            if (Parameter != null)
-            {
-                parameters.Add(Parameter);
-            }
-            else
-            {
-                if (Parameters == null || Parameters.Count == 0)
-                    throw new Exception("参数不能为空！");
+            return func.Invoke(service, new[] { parameter });
+        }
 
-                foreach (var item in paramInfos)
-                {
-                    if (Parameters.ContainsKey(item.Name))
-                        parameters.Add(Parameters[item.Name]);
-                    else
-                        parameters.Add(null);
-                }
+        public object Execute(Dictionary<string, object> parameters)
+        {
+            var service = GetService(UserName, Module);
+            if (service == null)
+                throw new Exception($"暂未实现{Module}模块！");
+
+            var func = service.GetType().GetMethod(Method);
+            if (func == null)
+                throw new Exception($"{Module}模块暂未实现{Method}方法！");
+
+            var paramInfos = func.GetParameters();
+            if (paramInfos == null || paramInfos.Length == 0)
+                return func.Invoke(service, null);
+
+            var parmeters = new List<object>();
+            if (parameters == null || parameters.Count == 0)
+                throw new Exception("参数不能为空！");
+
+            foreach (var item in paramInfos)
+            {
+                if (parameters.ContainsKey(item.Name))
+                    parmeters.Add(parameters[item.Name]);
+                else
+                    parmeters.Add(null);
             }
 
-            return func.Invoke(service, parameters.ToArray());
+            return func.Invoke(service, parmeters.ToArray());
         }
 
         private static object GetService(string userName, string module)

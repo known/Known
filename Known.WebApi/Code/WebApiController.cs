@@ -26,11 +26,9 @@ namespace Known.WebApi
             }
 
             var queries = HttpUtility.ParseQueryString(Request.RequestUri.Query);
-            var executor = new ServiceExecuter(UserName, module, method)
-            {
-                Parameters = queries.ToDictionary()
-            };
-            var data = executor.Execute();
+            var executor = new ServiceExecuter(UserName, module, method);
+            var parameters = queries.ToDictionary();
+            var data = executor.Execute(parameters);
             return ApiResult.ToData(data);
         }
 
@@ -42,14 +40,14 @@ namespace Known.WebApi
             if (method.StartsWith("Query"))
             {
                 var json = Request.Content.ReadAsStringAsync().Result;
-                executor.Parameter = json.FromJson<PagingCriteria>();
-                var result = executor.Execute();
+                var parameter = json.FromJson<PagingCriteria>();
+                var result = executor.Execute(parameter);
                 return ApiResult.ToPageData(result as PagingResult);
             }
 
             var queries = HttpUtility.ParseQueryString(Request.RequestUri.Query);
-            executor.Parameters = queries.ToDictionary();
-            var data = executor.Execute();
+            var parameters = queries.ToDictionary();
+            var data = executor.Execute(parameters);
             return ApiResult.ToData(data);
         }
     }
