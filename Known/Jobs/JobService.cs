@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Known.Jobs
 {
-    public class JobService
+    class JobService
     {
         private IJobRepository repository;
 

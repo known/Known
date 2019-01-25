@@ -5,7 +5,7 @@ using Known.Log;
 
 namespace Known.Jobs
 {
-    public class JobHelper
+    class JobHelper
     {
         public static string ServiceName = Config.AppSetting("ServiceName");
         public static string Server = Config.AppSetting("Server");
@@ -39,7 +39,7 @@ namespace Known.Jobs
             }
             catch (Exception ex)
             {
-                JobHelper.SendMail("主服务启动异常", ex.ToString());
+                SendMail("主服务启动异常", ex.ToString());
             }
         }
 
@@ -60,7 +60,7 @@ namespace Known.Jobs
             }
             catch (Exception ex)
             {
-                JobHelper.SendMail("主服务启动异常", ex.ToString());
+                SendMail("主服务启动异常", ex.ToString());
             }
         }
 
