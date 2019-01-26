@@ -8,7 +8,6 @@ namespace Known.Jobs
     public class MainService : System.ServiceProcess.ServiceBase
     {
         private static ConcurrentDictionary<string, JobTimer> timers;
-        private JobHelper helper;
         private IContainer components;
         private Timer checkTimer;
 
@@ -18,9 +17,13 @@ namespace Known.Jobs
 
             components = new System.ComponentModel.Container();
             timers = new ConcurrentDictionary<string, JobTimer>();
-            helper = new JobHelper();
             checkTimer = new Timer(JobHelper.TimerInterval) { Enabled = true };
             checkTimer.Elapsed += CheckTimer_Elapsed;
+        }
+
+        private JobHelper Helper
+        {
+            get { return new JobHelper(); }
         }
 
         protected override void Dispose(bool disposing)
@@ -39,32 +42,25 @@ namespace Known.Jobs
 
         protected override void OnStart(string[] args)
         {
-            helper.StartJobs((s, j) =>
-            {
-                if (StartJob(s, j))
-                {
-                    System.Threading.Thread.Sleep(200);
-                }
-            });
-
+            Helper.StartJobs((h, j) => StartJob(h, j));
             checkTimer.Start();
         }
 
         protected override void OnStop()
         {
             checkTimer.Stop();
-            helper.StopJobs();
+            Helper.StopJobs();
             Dispose(true);
         }
 
-        private bool StartJob(JobService service, JobInfo job)
+        private static bool StartJob(JobHelper helper, JobInfo job)
         {
             var result = helper.CheckJob(job);
             if (!result.IsPass)
             {
                 job.Status = JobStatus.Abnormal;
                 job.Message = result.ErrorMessage;
-                helper.Service.UpdateJob(job);
+                helper.UpdateJob(job);
                 return false;
             }
 
@@ -72,16 +68,16 @@ namespace Known.Jobs
             {
                 Job = job,
                 CheckResult = result,
-                Config = service.GetJobConfig(job.Id),
+                Helper = helper,
                 Enabled = true
             };
-            timer.Elapsed += Timer_Elapsed;
+            timer.Elapsed += JobTimer_Elapsed;
             timers[timer.Id] = timer;
             timer.Start();
             return true;
         }
 
-        private void StopJob(JobTimer timer)
+        private static void StopJob(JobTimer timer)
         {
             timer.Stop();
             timers.TryRemove(timer.Id, out timer);
@@ -90,21 +86,36 @@ namespace Known.Jobs
 
         private void CheckTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            helper.StartJobs((s, j) =>
+            Helper.StartJobs((h, j) =>
             {
                 if (!timers.ContainsKey(j.Id))
                 {
-                    if (StartJob(s, j))
-                    {
-                        System.Threading.Thread.Sleep(200);
-                    }
+                    StartJob(h, j);
                 }
             });
         }
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        private static void JobTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var timer = sender as JobTimer;
+                var job = timer.Job;
+                var result = timer.CheckResult;
+
+                if (job.Status == JobStatus.Running)
+                    return;
+
+                if (!timer.Helper.CheckJobTime(DateTime.Now, job, result))
+                    return;
+
+                if (!timer.Helper.RunJob(job, result.Instance))
+                    StopJob(timer);
+            }
+            catch (Exception ex)
+            {
+                JobHelper.SendMail("主服务执行异常", ex.ToString());
+            }
         }
     }
 }

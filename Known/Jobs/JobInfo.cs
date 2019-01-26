@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Known.Jobs
@@ -31,5 +32,6 @@ namespace Known.Jobs
         public string Enabled { get; set; }
         public int RunCount { get; set; }
         public bool IsRestart { get; set; }
+        public Dictionary<string, object> Config { get; set; }
     }
 }

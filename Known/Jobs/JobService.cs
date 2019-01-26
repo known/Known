@@ -15,63 +15,6 @@ namespace Known.Jobs
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public CheckResult CheckInterval(string interval)
-        {
-            if (string.IsNullOrEmpty(interval))
-                return CheckResult.Fail("时间间隔不能为空！");
-
-            var timerInterval = 1000;
-            var timeFormat = string.Empty;
-            var timeValues = new List<string>();
-
-            if (interval.Contains("="))
-            {
-                var intervalArray = interval.Split('=');
-                timeFormat = intervalArray[0];
-                timeValues = intervalArray[1].Split(',').ToList();
-
-                if (timeValues == null || timeValues.Count == 0)
-                    return CheckResult.Fail("间隔时间配置错误，没有对应的时间值。");
-            }
-            else
-            {
-                int.TryParse(interval, out timerInterval);
-                if (timerInterval < 1000)
-                    return CheckResult.Fail("时间间隔不能小于1000！");
-            }
-
-            return new CheckResult
-            {
-                IsPass = true,
-                ErrorMessage = string.Empty,
-                TimerInterval = timerInterval,
-                TimeFormat = timeFormat,
-                TimeValues = timeValues
-            };
-        }
-
-        public bool CheckJobTime(DateTime now, JobInfo job, CheckResult result)
-        {
-            if (string.IsNullOrEmpty(result.TimeFormat))
-                return true;
-
-            if (result.TimeValues == null || result.TimeValues.Count == 0)
-            {
-                job.Status = JobStatus.Abnormal;
-                job.Message = "间隔时间配置错误，没有对应的时间值。";
-                UpdateJob(job);
-                return false;
-            }
-
-            var nowString = now.ToString(result.TimeFormat);
-            return result.TimeValues.Contains(nowString);
-        }
-
-        public Dictionary<string, object> GetJobConfig(string id)
-        {
-            return repository.GetJobConfig(id);
-        }
-
         public List<JobInfo> GetServerJobs(string server)
         {
             return repository.GetServerJobs(server);

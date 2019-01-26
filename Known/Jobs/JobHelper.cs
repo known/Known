@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using Known.Log;
 
 namespace Known.Jobs
 {
-    class JobHelper
+    public class JobHelper
     {
         public static string ServiceName = Config.AppSetting("ServiceName");
         public static string Server = Config.AppSetting("Server");
@@ -16,7 +16,7 @@ namespace Known.Jobs
             Service = new JobService();
         }
 
-        public JobService Service { get; }
+        private JobService Service { get; }
 
         public static void SendMail(string subject, string body)
         {
@@ -24,7 +24,7 @@ namespace Known.Jobs
             Mail.Send(toMails, subject, body);
         }
 
-        public void StartJobs(Action<JobService, JobInfo> action)
+        public void StartJobs(Action<JobHelper, JobInfo> action)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace Known.Jobs
                 {
                     if (job.Status == JobStatus.Normal)
                     {
-                        action(Service, job);
+                        action(this, job);
                     }
                 }
             }
@@ -43,7 +43,7 @@ namespace Known.Jobs
             }
         }
 
-        public void RestartJobs(Action<JobService, JobInfo> action)
+        public void RestartJobs(Action<JobHelper, JobInfo> action)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace Known.Jobs
 
                     if (job.Status == JobStatus.Normal)
                     {
-                        action(Service, job);
+                        action(this, job);
                     }
                 }
             }
@@ -94,30 +94,50 @@ namespace Known.Jobs
             if (!(Activator.CreateInstance(type) is IJob instance))
                 return CheckResult.Fail("执行目标实例为空，请确认Job类型是实现IJob接口。");
 
-            var result = Service.CheckInterval(job.ExecuteInterval);
+            var result = CheckInterval(job.ExecuteInterval);
             result.Instance = instance;
             return result;
         }
 
-        public bool RunJob(ILogger log, JobInfo job, IJob instance, Dictionary<string, object> config)
+        public bool CheckJobTime(DateTime now, JobInfo job, CheckResult result)
         {
-            var fileName = string.Format(@"{0}\log\Jobs\{1}\{2:yyyy}\{2:yyyyMM}\{2:yyyyMMddHHmmssfff}.log", Environment.CurrentDirectory, job.Name, DateTime.Now);
-            var logger = new FileLogger(fileName);
+            if (string.IsNullOrEmpty(result.TimeFormat))
+                return true;
+
+            if (result.TimeValues == null || result.TimeValues.Count == 0)
+            {
+                job.Status = JobStatus.Abnormal;
+                job.Message = "间隔时间配置错误，没有对应的时间值。";
+                UpdateJob(job);
+                return false;
+            }
+
+            var nowString = now.ToString(result.TimeFormat);
+            return result.TimeValues.Contains(nowString);
+        }
+
+        public bool RunJob(JobInfo job, IJob instance)
+        {
+            var log = new ConsoleLogger();
             try
             {
                 Service.BeginJob(job);
-                var result = instance.Execute(logger, config);
-                Service.EndJob(job, result, File.ReadAllText(fileName));
+                var result = instance.Execute(log, job.Config);
+                Service.EndJob(job, result, log.TraceInfo);
                 return true;
             }
             catch (Exception ex)
             {
-                var logContent = File.ReadAllText(fileName);
-                Service.ExceptionJob(job, ex, logContent);
-                log.Error("执行【" + job.Name + "】作业异常。", ex);
-                SendMail("服务执行异常通知", logContent);
+                log.Trace(ex.ToString());
+                Service.ExceptionJob(job, ex, log.TraceInfo);
+                SendMail("服务执行异常通知", log.TraceInfo);
                 return false;
             }
+        }
+
+        public void UpdateJob(JobInfo job)
+        {
+            Service.UpdateJob(job);
         }
 
         private static Type GetCallTargetType(string typeName)
@@ -132,6 +152,41 @@ namespace Known.Jobs
                 //log.Error($"查找执行目标类型异常。TypeName：{typeName}", ex);
                 return null;
             }
+        }
+
+        private CheckResult CheckInterval(string interval)
+        {
+            if (string.IsNullOrEmpty(interval))
+                return CheckResult.Fail("时间间隔不能为空！");
+
+            var timerInterval = 1000;
+            var timeFormat = string.Empty;
+            var timeValues = new List<string>();
+
+            if (interval.Contains("="))
+            {
+                var intervalArray = interval.Split('=');
+                timeFormat = intervalArray[0];
+                timeValues = intervalArray[1].Split(',').ToList();
+
+                if (timeValues == null || timeValues.Count == 0)
+                    return CheckResult.Fail("间隔时间配置错误，没有对应的时间值。");
+            }
+            else
+            {
+                int.TryParse(interval, out timerInterval);
+                if (timerInterval < 1000)
+                    return CheckResult.Fail("时间间隔不能小于1000！");
+            }
+
+            return new CheckResult
+            {
+                IsPass = true,
+                ErrorMessage = string.Empty,
+                TimerInterval = timerInterval,
+                TimeFormat = timeFormat,
+                TimeValues = timeValues
+            };
         }
     }
 }

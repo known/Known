@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Timers;
+﻿using System.Timers;
 
 namespace Known.Jobs
 {
@@ -18,6 +17,6 @@ namespace Known.Jobs
         public string Id { get; }
         public JobInfo Job { get; set; }
         public CheckResult CheckResult { get; set; }
-        public Dictionary<string, object> Config { get; set; }
+        public JobHelper Helper { get; set; }
     }
 }
