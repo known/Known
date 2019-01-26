@@ -53,28 +53,20 @@ namespace Known.Jobs
             Dispose(true);
         }
 
-        private static bool StartJob(JobHelper helper, JobInfo job)
+        private static void StartJob(JobHelper helper, JobInfo job)
         {
             var result = helper.CheckJob(job);
             if (!result.IsPass)
-            {
-                job.Status = JobStatus.Abnormal;
-                job.Message = result.ErrorMessage;
-                helper.UpdateJob(job);
-                return false;
-            }
+                return;
 
-            var timer = new JobTimer(job.Id, result.TimerInterval)
+            var timer = new JobTimer(job, result)
             {
-                Job = job,
-                CheckResult = result,
                 Helper = helper,
                 Enabled = true
             };
             timer.Elapsed += JobTimer_Elapsed;
             timers[timer.Id] = timer;
             timer.Start();
-            return true;
         }
 
         private static void StopJob(JobTimer timer)

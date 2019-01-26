@@ -10,7 +10,7 @@
         protected ExecuteResult Result(bool success, string format, params object[] args)
         {
             var message = string.Format(format, args);
-            return new ExecuteResult { IsSuccess = success, Message = message };
+            return Result(success, message);
         }
     }
 }
