@@ -10,7 +10,7 @@
         protected JobResult Result(bool success, string format, params object[] args)
         {
             var message = string.Format(format, args);
-            return new JobResult { IsSuccess = success, Message = message };
+            return Result(success, message);
         }
     }
 }

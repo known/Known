@@ -4,19 +4,17 @@ namespace Known.Jobs
 {
     public class JobTimer : Timer
     {
-        public JobTimer(string id)
+        public JobTimer(JobInfo job, CheckResult result)
+            : base(result.TimerInterval)
         {
-            Id = id;
-        }
-
-        public JobTimer(string id, double interval) : base(interval)
-        {
-            Id = id;
+            Id = job.Id;
+            Job = job;
+            CheckResult = result;
         }
 
         public string Id { get; }
-        public JobInfo Job { get; set; }
-        public CheckResult CheckResult { get; set; }
-        public JobHelper Helper { get; set; }
+        public JobInfo Job { get; }
+        public CheckResult CheckResult { get; }
+        internal JobHelper Helper { get; set; }
     }
 }
