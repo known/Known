@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="Data\DbRepository.cs" />
     <Compile Include="Jobs\CheckResult.cs" />
-    <Compile Include="Jobs\ExecuteResult.cs" />
+    <Compile Include="Jobs\JobResult.cs" />
     <Compile Include="Jobs\IJob.cs" />
     <Compile Include="Jobs\IJobRepository.cs" />
     <Compile Include="Jobs\JobBase.cs" />
@@ -170,6 +170,12 @@
     </Compile>
     <Compile Include="Web\WebUtils.cs" />
     <Compile Include="Workflow\Activity.cs" />
+    <Compile Include="Workflow\ActivityContext.cs" />
+    <Compile Include="Workflow\ActivityExecutor.cs" />
+    <Compile Include="Workflow\ActivityResult.cs" />
+    <Compile Include="Workflow\Process.cs" />
+    <Compile Include="Workflow\ProcessInstance.cs" />
+    <Compile Include="Workflow\ProcessLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="package.nuspec" />

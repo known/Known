@@ -5,6 +5,6 @@ namespace Known.Jobs
 {
     public interface IJob
     {
-        ExecuteResult Execute(ILogger log, Dictionary<string, object> config);
+        JobResult Execute(ILogger log, Dictionary<string, object> config);
     }
 }

@@ -5,6 +5,7 @@ namespace Known.Platform
 {
     public class User
     {
+        public string Id { get; set; }
         public string AppId { get; set; }
         public string CompanyId { get; set; }
         public string DepartmentId { get; set; }

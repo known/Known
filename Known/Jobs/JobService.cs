@@ -42,7 +42,7 @@ namespace Known.Jobs
             UpdateJob(job);
         }
 
-        public void EndJob(JobInfo job, ExecuteResult result, string logInfo)
+        public void EndJob(JobInfo job, JobResult result, string logInfo)
         {
             if (result.IsSuccess)
             {

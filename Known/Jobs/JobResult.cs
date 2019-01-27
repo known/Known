@@ -1,6 +1,6 @@
 ﻿namespace Known.Jobs
 {
-    public class ExecuteResult
+    public class JobResult
     {
         public bool IsSuccess { get; set; }
         public string Message { get; set; }
