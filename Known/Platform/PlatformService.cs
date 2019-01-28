@@ -10,9 +10,7 @@ namespace Known.Platform
     {
         private readonly PlatformHelper helper;
 
-        public PlatformService() : this(null, null) { }
-
-        public PlatformService(ApiClient client, IPlatformRepository repository)
+        public PlatformService(ApiClient client = null, IPlatformRepository repository = null)
         {
             if (Setting.Instance.IsMonomer)
             {

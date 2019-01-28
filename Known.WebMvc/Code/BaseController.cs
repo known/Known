@@ -33,6 +33,11 @@ namespace Known.WebMvc
             return PartialView($"Partials/{name}", model);
         }
 
+        protected Context Context
+        {
+            get { return Context.Create(UserName); }
+        }
+
         protected string CaptchaCode
         {
             get { return Session.GetValue<string>("CaptchaCode"); }

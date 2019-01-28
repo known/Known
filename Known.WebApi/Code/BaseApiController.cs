@@ -5,12 +5,17 @@ namespace Known.WebApi
 {
     public class BaseApiController : ApiController
     {
-        public string UserName
+        protected Context Context
+        {
+            get { return Context.Create(UserName); }
+        }
+
+        protected string UserName
         {
             get { return User.Identity.Name; }
         }
 
-        public bool IsAuthenticated
+        protected bool IsAuthenticated
         {
             get { return User.Identity.IsAuthenticated; }
         }

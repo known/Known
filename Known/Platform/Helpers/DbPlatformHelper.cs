@@ -10,7 +10,7 @@ namespace Known.Platform
         {
             if (repository == null)
             {
-                repository = Container.Resolve<IPlatformRepository>();
+                repository = ObjectFactory.CreateRepository<IPlatformRepository>();
             }
 
             this.repository = repository;

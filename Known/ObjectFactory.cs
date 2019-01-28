@@ -55,5 +55,31 @@ namespace Known
 
             return (T)cached[type];
         }
+
+        public static T CreateRepository<T>()
+        {
+            var repository = Container.Resolve<T>();
+            if (repository != null)
+                return repository;
+
+            var type = typeof(T);
+            if (!cached.ContainsKey(type))
+            {
+                lock (cached.SyncRoot)
+                {
+                    if (!cached.ContainsKey(type))
+                    {
+                        var typeName = type.FullName.Replace(".I", ".");
+                        var objType = type.Assembly.GetType(typeName);
+                        if (objType != null)
+                        {
+                            cached[type] = Activator.CreateInstance(objType);
+                        }
+                    }
+                }
+            }
+
+            return (T)cached[type];
+        }
     }
 }
