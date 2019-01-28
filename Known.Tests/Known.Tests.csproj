@@ -42,6 +42,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,6 +66,7 @@
     <Compile Include="Core\Extensions\SerializeExtensionTest.cs" />
     <Compile Include="Core\Extensions\StringExtensionTest.cs" />
     <Compile Include="Core\Extensions\TypeExtensionTest.cs" />
+    <Compile Include="Core\Jobs\MainServiceTest.cs" />
     <Compile Include="Core\Log\ConsoleLoggerTest.cs" />
     <Compile Include="Core\Log\FileLoggerTest.cs" />
     <Compile Include="Core\ObjectFactoryTest.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="Demo\ApplyFormRepository.cs" />
     <Compile Include="Demo\ApplyFormService.cs" />
     <Compile Include="Demo\ApplyFormTest.cs" />
+    <Compile Include="Demo\ApplyJob.cs" />
     <Compile Include="JsonProvider.cs" />
     <Compile Include="TestProvider.cs" />
     <Compile Include="TestEntity.cs" />

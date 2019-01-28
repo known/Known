@@ -9,11 +9,12 @@ namespace Known.Jobs
     {
         public static string ServiceName = Config.AppSetting("ServiceName");
         public static string Server = Config.AppSetting("Server");
-        public static double TimerInterval = Config.AppSetting<double>("TimerInterval");
+        public static double TimerInterval = Config.AppSetting<double>("TimerInterval", 1000);
 
         public JobHelper()
         {
-            Service = new JobService();
+            var repository = Container.Resolve<IJobRepository>();
+            Service = new JobService(repository);
         }
 
         private JobService Service { get; }

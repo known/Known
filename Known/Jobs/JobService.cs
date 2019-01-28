@@ -8,8 +8,6 @@ namespace Known.Jobs
     {
         private IJobRepository repository;
 
-        public JobService() : this(Container.Resolve<IJobRepository>()) { }
-
         public JobService(IJobRepository repository)
         {
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));

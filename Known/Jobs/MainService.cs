@@ -10,20 +10,22 @@ namespace Known.Jobs
         private static ConcurrentDictionary<string, JobTimer> timers;
         private IContainer components;
         private Timer checkTimer;
+        private JobHelper helper;
 
         public MainService()
         {
             ServiceName = JobHelper.ServiceName;
 
+            helper = new JobHelper();
             components = new System.ComponentModel.Container();
             timers = new ConcurrentDictionary<string, JobTimer>();
             checkTimer = new Timer(JobHelper.TimerInterval) { Enabled = true };
             checkTimer.Elapsed += CheckTimer_Elapsed;
         }
 
-        private JobHelper Helper
+        public static void Run()
         {
-            get { return new JobHelper(); }
+            System.ServiceProcess.ServiceBase.Run(new MainService());
         }
 
         protected override void Dispose(bool disposing)
@@ -42,14 +44,14 @@ namespace Known.Jobs
 
         protected override void OnStart(string[] args)
         {
-            Helper.StartJobs((h, j) => StartJob(h, j));
+            helper.StartJobs((h, j) => StartJob(h, j));
             checkTimer.Start();
         }
 
         protected override void OnStop()
         {
             checkTimer.Stop();
-            Helper.StopJobs();
+            helper.StopJobs();
             Dispose(true);
         }
 
@@ -78,7 +80,7 @@ namespace Known.Jobs
 
         private void CheckTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            Helper.StartJobs((h, j) =>
+            helper.RestartJobs((h, j) =>
             {
                 if (!timers.ContainsKey(j.Id))
                 {

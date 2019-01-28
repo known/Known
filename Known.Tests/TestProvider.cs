@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using Known.Data;
+using Known.Jobs;
 using Known.Mapping;
 
 namespace Known.Tests
@@ -84,6 +85,22 @@ namespace Known.Tests
         public Result Transaction(Action<IRepository> action, object data = null)
         {
             return Result.Success("操作成功！", data);
+        }
+    }
+
+    class JobRepository : IJobRepository
+    {
+        public List<JobInfo> GetServerJobs(string server)
+        {
+            return new List<JobInfo>();
+        }
+
+        public void UpdateJob(JobInfo job)
+        {
+        }
+
+        public void AddRecord(JobRecord record)
+        {
         }
     }
 }
