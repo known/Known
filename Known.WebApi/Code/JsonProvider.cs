@@ -14,18 +14,11 @@ namespace Known.WebApi
             if (string.IsNullOrWhiteSpace(json))
                 return default(T);
 
-            try
+            var settings = new JsonSerializerSettings
             {
-                var settings = new JsonSerializerSettings
-                {
-                    DateFormatString = "yyyy-MM-dd HH:mm:ss"
-                };
-                return JsonConvert.DeserializeObject<T>(json, settings);
-            }
-            catch
-            {
-                return default(T);
-            }
+                DateFormatString = "yyyy-MM-dd HH:mm:ss"
+            };
+            return JsonConvert.DeserializeObject<T>(json, settings);
         }
     }
 }

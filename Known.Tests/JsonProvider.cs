@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Known.WebMvc
+namespace Known.Tests
 {
     public class JsonProvider : IJson
     {

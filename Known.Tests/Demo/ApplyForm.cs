@@ -18,8 +18,7 @@ namespace Known.Tests.Demo
         public string ApplyBy { get; set; }
         public DateTime ApplyTime { get; set; }
         public ApplyStatus Status { get; set; }
-
-        public virtual List<ApplyFormList> Lists { get; set; }
+        public List<ApplyFormList> Lists { get; set; }
     }
 
     class ApplyFormEntityMapper : EntityMapper<ApplyForm>
