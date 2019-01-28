@@ -11,8 +11,6 @@ namespace Known.Workflow
 
         public ActivityContext Context { get; }
 
-        public abstract ActivityResult Execute();
-
         public static ActivityResult Execute(ActivityContext context)
         {
             ActivityExecutor executor = null;
@@ -36,6 +34,20 @@ namespace Known.Workflow
                 throw new Exception($"执行操作不支持！");
 
             return executor.Execute();
+        }
+
+        public abstract ActivityResult Execute();
+
+        protected bool CheckContext(ActivityContext context)
+        {
+            if (context == null)
+                return false;
+            if (context.Flow == null)
+                return false;
+            if (context.Flow.NextActivity == null)
+                return false;
+
+            return true;
         }
     }
 

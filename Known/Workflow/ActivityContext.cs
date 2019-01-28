@@ -19,6 +19,6 @@ namespace Known.Workflow
     public class ActivityContext
     {
         public Action Action { get; set; }
-        public ProcessInstance Instance { get; set; }
+        public FlowInstance Flow { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace Known.Workflow
         Stopped = 3
     }
 
-    public class ProcessInstance
+    public class FlowInstance
     {
         public string Id { get; set; }
         public string ProcessId { get; set; }

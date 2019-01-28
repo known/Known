@@ -173,9 +173,9 @@
     <Compile Include="Workflow\ActivityContext.cs" />
     <Compile Include="Workflow\ActivityExecutor.cs" />
     <Compile Include="Workflow\ActivityResult.cs" />
-    <Compile Include="Workflow\Process.cs" />
-    <Compile Include="Workflow\ProcessInstance.cs" />
-    <Compile Include="Workflow\ProcessLog.cs" />
+    <Compile Include="Workflow\Flow.cs" />
+    <Compile Include="Workflow\FlowInstance.cs" />
+    <Compile Include="Workflow\FlowLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="package.nuspec" />

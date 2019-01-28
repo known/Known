@@ -2,7 +2,7 @@
 
 namespace Known.Workflow
 {
-    public class ProcessLog
+    public class FlowLog
     {
         public string Id { get; set; }
         public string BillId { get; set; }
