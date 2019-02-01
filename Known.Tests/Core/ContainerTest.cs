@@ -16,7 +16,7 @@
             Container.Clear();
 
             var instance = new NameTestService("Known");
-            Container.Register<INameTestService, NameTestService>(instance);
+            Container.Register<INameTestService>(instance);
 
             var service = Container.Resolve<INameTestService>();
             TestAssert.IsNotNull(service);
@@ -60,7 +60,7 @@
             Container.Clear();
 
             var instance = new NameTestService("Known");
-            Container.Register<INameTestService, NameTestService>(instance);
+            Container.Register<INameTestService>(instance);
 
             var service = Container.Resolve<INameTestService>();
             TestAssert.AreEqual(service.Hello(), "Hello Known!");

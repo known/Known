@@ -4,7 +4,6 @@
     {
         public static void CreateService()
         {
-            ObjectFactory.Clear();
             var context = Context.Create();
             var service = ObjectFactory.CreateService<ContextService>(context);
             TestAssert.IsNotNull(service);
@@ -13,7 +12,6 @@
 
         public static void CreateRepository()
         {
-            ObjectFactory.Clear();
             var context = Context.Create();
             var repository = ObjectFactory.CreateRepository<IContextRepository>(context);
             TestAssert.IsNotNull(repository);

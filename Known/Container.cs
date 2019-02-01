@@ -49,7 +49,7 @@ namespace Known
             }
         }
 
-        public static void Register<T, TImpl>(TImpl instance) where TImpl : T
+        public static void Register<T>(object instance)
         {
             var key = typeof(T);
             Register(key, instance);

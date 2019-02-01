@@ -1,85 +1,57 @@
 ﻿using System;
-using System.Collections;
 using Known.Data;
 
 namespace Known
 {
     public sealed class ObjectFactory
     {
-        private static Hashtable cached = new Hashtable();
-
-        public static void Clear()
-        {
-            cached.Clear();
-        }
-
         public static T CreateService<T>(Context context) where T : ServiceBase
         {
-            var type = typeof(T);
-            if (!cached.ContainsKey(type))
+            var service = Container.Resolve<T>();
+            if (service == null)
             {
-                lock (cached.SyncRoot)
-                {
-                    if (!cached.ContainsKey(type))
-                    {
-                        cached[type] = Activator.CreateInstance(type, context);
-                    }
-                }
+                var type = typeof(T);
+                var instance = Activator.CreateInstance(type, context);
+                Container.Register<T>(instance);
             }
 
-            return (T)cached[type];
+            return Container.Resolve<T>();
         }
 
         public static T CreateRepository<T>(Context context) where T : IRepository
         {
             var repository = Container.Resolve<T>();
-            if (repository != null)
-                return repository;
-
-            var type = typeof(T);
-            if (!cached.ContainsKey(type))
+            if (repository == null)
             {
-                lock (cached.SyncRoot)
+                var type = typeof(T);
+                var typeName = type.FullName.Replace(".I", ".");
+                var objType = type.Assembly.GetType(typeName);
+                if (objType != null)
                 {
-                    if (!cached.ContainsKey(type))
-                    {
-                        var typeName = type.FullName.Replace(".I", ".");
-                        var objType = type.Assembly.GetType(typeName);
-                        if (objType != null)
-                        {
-                            cached[type] = Activator.CreateInstance(objType, context.Database);
-                        }
-                    }
+                    var instance = Activator.CreateInstance(objType, context.Database);
+                    Container.Register<T>(instance);
                 }
             }
 
-            return (T)cached[type];
+            return Container.Resolve<T>();
         }
 
         public static T CreateRepository<T>()
         {
             var repository = Container.Resolve<T>();
-            if (repository != null)
-                return repository;
-
-            var type = typeof(T);
-            if (!cached.ContainsKey(type))
+            if (repository == null)
             {
-                lock (cached.SyncRoot)
+                var type = typeof(T);
+                var typeName = type.FullName.Replace(".I", ".");
+                var objType = type.Assembly.GetType(typeName);
+                if (objType != null)
                 {
-                    if (!cached.ContainsKey(type))
-                    {
-                        var typeName = type.FullName.Replace(".I", ".");
-                        var objType = type.Assembly.GetType(typeName);
-                        if (objType != null)
-                        {
-                            cached[type] = Activator.CreateInstance(objType);
-                        }
-                    }
+                    var instance = Activator.CreateInstance(objType);
+                    Container.Register<T>(instance);
                 }
             }
 
-            return (T)cached[type];
+            return Container.Resolve<T>();
         }
     }
 }
