@@ -2,7 +2,7 @@
 
 namespace Known.Workflow
 {
-    public enum ProcessStatus
+    public enum FlowStatus
     {
         [Description("流转中")]
         Running = 1,
@@ -15,10 +15,10 @@ namespace Known.Workflow
     public class FlowInstance
     {
         public string Id { get; set; }
-        public string ProcessId { get; set; }
         public string BillId { get; set; }
         public string BillStatus { get; set; }
-        public ProcessStatus Status { get; set; }
+        public Flow Flow { get; set; }
+        public FlowStatus Status { get; set; }
         public Activity Activity { get; set; }
         public Activity PrevActivity { get; set; }
         public Activity NextActivity { get; set; }

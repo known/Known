@@ -54,9 +54,6 @@
     <Compile Include="Core\ConfigTest.cs" />
     <Compile Include="Core\ContainerTest.cs" />
     <Compile Include="Core\ContextTest.cs" />
-    <Compile Include="Core\Data\ColumnInfoTest.cs" />
-    <Compile Include="Core\Data\CommandHelperTest.cs" />
-    <Compile Include="Core\Data\CommandTest.cs" />
     <Compile Include="Core\EncryptorTest.cs" />
     <Compile Include="Core\Extensions\CollectionExtensionTest.cs" />
     <Compile Include="Core\Extensions\CompressExtensionTest.cs" />
