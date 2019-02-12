@@ -164,7 +164,7 @@
     <Compile Include="Web\Extensions\HttpRequestMessageExtension.cs" />
     <Compile Include="Web\Extensions\HttpSessionStateBaseExtension.cs" />
     <Compile Include="Web\Extensions\HttpSessionStateExtension.cs" />
-    <Compile Include="Web\HttpUtils.cs" />
+    <Compile Include="Web\HttpClient.cs" />
     <Compile Include="Web\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

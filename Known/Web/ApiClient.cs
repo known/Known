@@ -73,7 +73,7 @@ namespace Known.Web
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             };
-            using (var httpClient = new HttpClient(handler))
+            using (var httpClient = new System.Net.Http.HttpClient(handler))
             {
                 if (authorization != null)
                     httpClient.DefaultRequestHeaders.Authorization = authorization;

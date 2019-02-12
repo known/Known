@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Known.Web
 {
-    public class HttpUtils
+    public class HttpClient
     {
         private static readonly string contentType = "application/x-www-form-urlencoded";
         private static readonly string accept = "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/x-silverlight, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-ms-application, application/x-ms-xbap, application/vnd.ms-xpsdocument, application/xaml+xml, application/x-silverlight-2-b1, */*";
@@ -14,28 +14,29 @@ namespace Known.Web
         private static readonly Encoding encoding = Encoding.GetEncoding("utf-8");
         private static readonly int maxTry = 3;
         private static int currentTry = 0;
+        private CookieContainer cookie = new CookieContainer();
 
-        public static string Get(string url, IDictionary<string, string> datas, out string cookie)
+        public HttpClient(string baseUrl)
         {
-            return DoRequest("GET", url, datas, out cookie);
+
         }
 
-        public static string Post(string url, IDictionary<string, string> datas, out string cookie)
+        public string Get(string url, IDictionary<string, string> datas = null)
         {
-            return DoRequest("POST", url, datas, out cookie);
+            return DoRequest("GET", url, datas);
         }
 
-        public static string Get(string url, bool allowRedirect = false, IDictionary<string, string> datas = null, CookieContainer cookie = null)
+        public string Get(string url, bool allowRedirect, IDictionary<string, string> datas = null)
         {
-            return DoRequest("GET", url, allowRedirect, datas, cookie);
+            return DoRequest("GET", url, allowRedirect, datas);
         }
 
-        public static string Post(string url, IDictionary<string, string> datas = null, CookieContainer cookie = null)
+        public string Post(string url, IDictionary<string, string> datas = null)
         {
-            return DoRequest("POST", url, false, datas, cookie);
+            return DoRequest("POST", url, datas);
         }
 
-        public static string DownloadFile(string fileName, string method, string url, IDictionary<string, string> datas = null, CookieContainer cookie = null)
+        public string DownloadFile(string fileName, string method, string url, IDictionary<string, string> datas = null)
         {
             currentTry++;
             HttpWebRequest req = null;
@@ -43,7 +44,7 @@ namespace Known.Web
 
             try
             {
-                req = GetHttpWebRequest(method, false, url, datas, cookie);
+                req = GetHttpWebRequest(method, false, url, datas);
                 res = (HttpWebResponse)req.GetResponse();
 
                 var fileLength = res.ContentLength;
@@ -86,7 +87,7 @@ namespace Known.Web
             }
         }
 
-        private static HttpWebRequest GetHttpWebRequest(string method, bool allowRedirect, string url, IDictionary<string, string> datas = null, CookieContainer cookie = null)
+        private HttpWebRequest GetHttpWebRequest(string method, bool allowRedirect, string url, IDictionary<string, string> datas = null)
         {
             var req = (HttpWebRequest)WebRequest.Create(url);
             if (cookie != null && cookie.Count > 0)
@@ -118,12 +119,11 @@ namespace Known.Web
             return req;
         }
 
-        private static string DoRequest(string method, string url, IDictionary<string, string> datas, out string cookie)
+        private string DoRequest(string method, string url, IDictionary<string, string> datas)
         {
             currentTry++;
             HttpWebRequest req = null;
             HttpWebResponse res = null;
-            cookie = "";
 
             try
             {
@@ -139,7 +139,7 @@ namespace Known.Web
                 currentTry--;
                 req.Abort();
                 res.Close();
-                cookie = res.Headers.Get("Set-Cookie");
+                var cookie = res.Headers.Get("Set-Cookie");
                 return html;
             }
             catch
@@ -153,7 +153,7 @@ namespace Known.Web
             }
         }
 
-        private static string DoRequest(string method, string url, bool allowRedirect = false, IDictionary<string, string> datas = null, CookieContainer cookie = null)
+        private string DoRequest(string method, string url, bool allowRedirect = false, IDictionary<string, string> datas = null)
         {
             currentTry++;
             HttpWebRequest req = null;
@@ -161,7 +161,7 @@ namespace Known.Web
 
             try
             {
-                req = GetHttpWebRequest(method, allowRedirect, url, datas, cookie);
+                req = GetHttpWebRequest(method, allowRedirect, url, datas);
                 res = (HttpWebResponse)req.GetResponse();
 
                 var stream = res.GetResponseStream();
