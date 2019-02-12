@@ -15,28 +15,29 @@ namespace Known.Web
         private static readonly int maxTry = 3;
         private static int currentTry = 0;
         private CookieContainer cookie = new CookieContainer();
+        private readonly string baseUrl = string.Empty;
 
         public HttpClient(string baseUrl)
         {
-
+            this.baseUrl = baseUrl;
         }
 
-        public string Get(string url, IDictionary<string, string> datas = null)
+        public string Get(string path, IDictionary<string, string> datas = null)
         {
-            return DoRequest("GET", url, datas);
+            return DoRequest("GET", path, false, datas);
         }
 
-        public string Get(string url, bool allowRedirect, IDictionary<string, string> datas = null)
+        public string Get(string path, bool allowRedirect, IDictionary<string, string> datas = null)
         {
-            return DoRequest("GET", url, allowRedirect, datas);
+            return DoRequest("GET", path, allowRedirect, datas);
         }
 
-        public string Post(string url, IDictionary<string, string> datas = null)
+        public string Post(string path, IDictionary<string, string> datas = null)
         {
-            return DoRequest("POST", url, datas);
+            return DoRequest("POST", path, false, datas);
         }
 
-        public string DownloadFile(string fileName, string method, string url, IDictionary<string, string> datas = null)
+        public string DownloadFile(string fileName, string method, string path, IDictionary<string, string> datas = null)
         {
             currentTry++;
             HttpWebRequest req = null;
@@ -44,7 +45,7 @@ namespace Known.Web
 
             try
             {
-                req = GetHttpWebRequest(method, false, url, datas);
+                req = GetHttpWebRequest(method, false, path, datas);
                 res = (HttpWebResponse)req.GetResponse();
 
                 var fileLength = res.ContentLength;
@@ -87,8 +88,9 @@ namespace Known.Web
             }
         }
 
-        private HttpWebRequest GetHttpWebRequest(string method, bool allowRedirect, string url, IDictionary<string, string> datas = null)
+        private HttpWebRequest GetHttpWebRequest(string method, bool allowRedirect, string path, IDictionary<string, string> datas = null)
         {
+            var url = baseUrl + path;
             var req = (HttpWebRequest)WebRequest.Create(url);
             if (cookie != null && cookie.Count > 0)
                 req.CookieContainer = cookie;
@@ -119,40 +121,6 @@ namespace Known.Web
             return req;
         }
 
-        private string DoRequest(string method, string url, IDictionary<string, string> datas)
-        {
-            currentTry++;
-            HttpWebRequest req = null;
-            HttpWebResponse res = null;
-
-            try
-            {
-                req = GetHttpWebRequest(method, false, url, datas);
-                res = (HttpWebResponse)req.GetResponse();
-
-                var stream = res.GetResponseStream();
-                var reader = new StreamReader(stream, encoding);
-                var html = reader.ReadToEnd();
-                reader.Close();
-                stream.Close();
-
-                currentTry--;
-                req.Abort();
-                res.Close();
-                var cookie = res.Headers.Get("Set-Cookie");
-                return html;
-            }
-            catch
-            {
-                if (req != null)
-                    req.Abort();
-                if (res != null)
-                    res.Close();
-
-                return string.Empty;
-            }
-        }
-
         private string DoRequest(string method, string url, bool allowRedirect = false, IDictionary<string, string> datas = null)
         {
             currentTry++;
@@ -163,6 +131,8 @@ namespace Known.Web
             {
                 req = GetHttpWebRequest(method, allowRedirect, url, datas);
                 res = (HttpWebResponse)req.GetResponse();
+                if (res.Cookies != null && res.Cookies.Count > 0)
+                    cookie.Add(res.Cookies);
 
                 var stream = res.GetResponseStream();
                 var reader = new StreamReader(stream, encoding);
