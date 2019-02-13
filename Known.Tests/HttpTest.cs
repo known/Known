@@ -47,7 +47,8 @@ namespace Known.Tests
                 if (!string.IsNullOrWhiteSpace(item.url))
                 {
                     Console.WriteLine($"获取{item.name}-{item.url}");
-                    content = client.Get(item.url);
+                    client.SetCookie("ModuleId", item.oid);
+                    content = client.Get(item.url, true);
                     var fileName = item.url.Replace("/", "\\")
                                            .Replace("?", "_")
                                            .Replace("&", "_")

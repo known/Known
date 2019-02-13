@@ -23,12 +23,12 @@ namespace Known.Web
             Get(baseUrl);
         }
 
-        public string Get(string path)
+        public void SetCookie(string name, string value)
         {
-            return DoRequest("GET", path);
+            cookie.Add(new Uri(baseUrl), new Cookie(name, value));
         }
 
-        public string Get(string path, bool allowRedirect)
+        public string Get(string path, bool allowRedirect = false)
         {
             return DoRequest("GET", path, allowRedirect);
         }
