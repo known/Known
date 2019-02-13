@@ -20,16 +20,17 @@ namespace Known.Web
         public HttpClient(string baseUrl)
         {
             this.baseUrl = baseUrl;
+            Get(baseUrl);
         }
 
-        public string Get(string path, IDictionary<string, string> datas = null)
+        public string Get(string path)
         {
-            return DoRequest("GET", path, false, datas);
+            return DoRequest("GET", path);
         }
 
-        public string Get(string path, bool allowRedirect, IDictionary<string, string> datas = null)
+        public string Get(string path, bool allowRedirect)
         {
-            return DoRequest("GET", path, allowRedirect, datas);
+            return DoRequest("GET", path, allowRedirect);
         }
 
         public string Post(string path, IDictionary<string, string> datas = null)
@@ -90,10 +91,9 @@ namespace Known.Web
 
         private HttpWebRequest GetHttpWebRequest(string method, bool allowRedirect, string path, IDictionary<string, string> datas = null)
         {
-            var url = baseUrl + path;
+            var url = path.StartsWith("http") ? path : baseUrl + path;
             var req = (HttpWebRequest)WebRequest.Create(url);
-            if (cookie != null && cookie.Count > 0)
-                req.CookieContainer = cookie;
+            req.CookieContainer = cookie;
             req.AllowAutoRedirect = allowRedirect;
             req.ContentType = contentType;
             req.ServicePoint.ConnectionLimit = maxTry;
@@ -112,7 +112,6 @@ namespace Known.Web
                 var dataString = string.Join("&", values.ToArray());
                 var bytes = Encoding.Default.GetBytes(dataString);
                 req.ContentLength = bytes.Length;
-
                 var stream = req.GetRequestStream();
                 stream.Write(bytes, 0, bytes.Length);
                 stream.Close();
@@ -121,7 +120,7 @@ namespace Known.Web
             return req;
         }
 
-        private string DoRequest(string method, string url, bool allowRedirect = false, IDictionary<string, string> datas = null)
+        private string DoRequest(string method, string path, bool allowRedirect = false, IDictionary<string, string> datas = null)
         {
             currentTry++;
             HttpWebRequest req = null;
@@ -129,7 +128,7 @@ namespace Known.Web
 
             try
             {
-                req = GetHttpWebRequest(method, allowRedirect, url, datas);
+                req = GetHttpWebRequest(method, allowRedirect, path, datas);
                 res = (HttpWebResponse)req.GetResponse();
                 if (res.Cookies != null && res.Cookies.Count > 0)
                     cookie.Add(res.Cookies);
