@@ -11,7 +11,7 @@ namespace Known.Tests
             Container.Register<IJson, JsonProvider>();
             Container.Register<ServiceBase>(typeof(Program).Assembly, Context.Create());
             EntityHelper.InitMapper(typeof(Program).Assembly);
-            HttpTest.FetchZdzWeb();
+
             RunTest();
             TestDisplayer.DisplaySummary();
             Console.WriteLine("按任意键结束！");
