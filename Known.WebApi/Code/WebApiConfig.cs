@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Http;
 using Known.Web;
 using Known.WebApi.Filters;
+using Newtonsoft.Json;
 
 namespace Known.WebApi
 {
@@ -31,6 +32,26 @@ namespace Known.WebApi
             config.MessageHandlers.Add(new DecompressionHandler());
             config.Filters.Add(new ApiLoginAuthorizeAttribute());
             config.Filters.Add(new ApiTrackActionAttribute());
+        }
+
+        class JsonProvider : IJson
+        {
+            public string Serialize<T>(T value)
+            {
+                return JsonConvert.SerializeObject(value);
+            }
+
+            public T Deserialize<T>(string json)
+            {
+                if (string.IsNullOrWhiteSpace(json))
+                    return default(T);
+
+                var settings = new JsonSerializerSettings
+                {
+                    DateFormatString = "yyyy-MM-dd HH:mm:ss"
+                };
+                return JsonConvert.DeserializeObject<T>(json, settings);
+            }
         }
     }
 }

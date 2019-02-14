@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace Known.WebMvc
 {
-    public class MvcConfig
+    public class WebMvcConfig
     {
         public static void Register()
         {
@@ -41,25 +41,25 @@ namespace Known.WebMvc
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );//.RouteHandler = new CustomRouteHandler();
         }
-    }
 
-    class JsonProvider : IJson
-    {
-        public string Serialize<T>(T value)
+        class JsonProvider : IJson
         {
-            return JsonConvert.SerializeObject(value);
-        }
-
-        public T Deserialize<T>(string json)
-        {
-            if (string.IsNullOrWhiteSpace(json))
-                return default(T);
-
-            var settings = new JsonSerializerSettings
+            public string Serialize<T>(T value)
             {
-                DateFormatString = "yyyy-MM-dd HH:mm:ss"
-            };
-            return JsonConvert.DeserializeObject<T>(json, settings);
+                return JsonConvert.SerializeObject(value);
+            }
+
+            public T Deserialize<T>(string json)
+            {
+                if (string.IsNullOrWhiteSpace(json))
+                    return default(T);
+
+                var settings = new JsonSerializerSettings
+                {
+                    DateFormatString = "yyyy-MM-dd HH:mm:ss"
+                };
+                return JsonConvert.DeserializeObject<T>(json, settings);
+            }
         }
     }
 }

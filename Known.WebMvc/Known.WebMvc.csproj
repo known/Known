@@ -505,7 +505,7 @@
     <Compile Include="Models\TreeGridViewModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Code\MvcConfig.cs" />
+    <Compile Include="Code\WebMvcConfig.cs" />
     <Compile Include="Code\WebViewPage.cs" />
   </ItemGroup>
   <ItemGroup>
