@@ -10,19 +10,13 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="static/libs/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="static/libs/scrollbar/jquery.scrollbar.css">
-	<link rel="stylesheet" href="static/libs/miniui/themes/default/miniui.css">
-	<link rel="stylesheet" href="static/libs/miniui/themes/default/medium-mode.css">
-	<link rel="stylesheet" href="static/libs/miniui/themes/default/flatstyle.css">
-	<link rel="stylesheet" href="static/libs/miniui/themes/cupertino/skin.css">
-	<link rel="stylesheet" href="static/modules/core/css/form.css">
-	<link rel="stylesheet" href="static/modules/core/css/query.css">
-	<link rel="stylesheet" href="static/modules/core/index.css">
-	<link rel="stylesheet" href="static/modules/index/css/dashboard.css">
-	<link rel="stylesheet" href="static/modules/index/css/frame.css">
-	<link rel="stylesheet" href="static/modules/index/css/menu.css">
-	<link rel="stylesheet" href="static/modules/index/css/tabs.css">
-	<link rel="stylesheet" href="static/modules/index/index.css">
+    <link rel="stylesheet" href="static/libs/scrollbar/jquery.scrollbar.css">
+    <link rel="stylesheet" href="static/libs/miniui/themes/default/miniui.css">
+    <link rel="stylesheet" href="static/libs/miniui/themes/default/medium-mode.css">
+    <link rel="stylesheet" href="static/libs/miniui/themes/default/flatstyle.css">
+    <link rel="stylesheet" href="static/libs/miniui/themes/cupertino/skin.css">
+    <link rel="stylesheet" href="static/css/frame.css">
+    <link rel="stylesheet" href="static/css/index.css">
 </head>
 <body>
     <div class="navbar">
@@ -34,12 +28,10 @@
             <li><a id="toggle"><span class="fa fa-bars"></span></a></li>
         </ul-->
         <ul id="tbNavbar" class="nav navbar-nav navbar-right">
-            <li class="icontop"><a class="button" id="devTool"><i class="fa fa-puzzle-piece"></i><span>开发工具</span></a></li>
-            <li class="icontop"><a class="button" id="todo"><i class="fa fa-tasks"></i><span>代办事项</span></a></li>
             <li class="icontop"><a class="button" id="cache"><i class="fa fa-refresh"></i><span>刷新缓存</span></a></li>
             <li class="dropdown">
                 <a class="dropdown-toggle userinfo">
-                    <img class="user-img" src="static/images/face.jpg" />管理员 <i class="fa fa-angle-down"></i>
+                    <img class="user-img" src="static/images/face.jpg" /><span id="userName"></span> <i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu pull-right">
                     <li><a class="button" id="info"><i class="fa fa-user"></i> 用户信息</a></li>
@@ -67,34 +59,18 @@
             </div>
         </div>
     </div>
+    <div id="dialog" class="mini-window" title="窗体" iconCls="fa-windows"
+         showModal="true" showShadow="true"
+         showMaxButton="true" showCollapseButton="true"
+         allowResize="true" allowDrag="true">
+    </div>
     <script src="static/libs/jquery.min.js"></script>
-	<script src="static/libs/scrollbar/jquery.scrollbar.min.js"></script>
-	<script src="static/libs/miniui/miniui.js"></script>
-	<script src="static/libs/highcharts/highcharts.js"></script>
-	<script src="static/libs/highcharts/model/exporting.js"></script>
-	<script src="static/modules/core/js/ajax.js"></script>
-	<script src="static/modules/core/js/array.js"></script>
-	<script src="static/modules/core/js/code.js"></script>
-	<script src="static/modules/core/js/date.js"></script>
-	<script src="static/modules/core/js/jqextend.js"></script>
-	<script src="static/modules/core/js/string.js"></script>
-	<script src="static/modules/core/js/miniui/columnsMenu.js"></script>
-	<script src="static/modules/core/js/miniui/config.js"></script>
-	<script src="static/modules/core/js/miniui/decimalbox.js"></script>
-	<script src="static/modules/core/js/miniui/dialog.js"></script>
-	<script src="static/modules/core/js/miniui/form.js"></script>
-	<script src="static/modules/core/js/miniui/grid.js"></script>
-	<script src="static/modules/core/js/miniui/integerbox.js"></script>
-	<script src="static/modules/core/js/miniui/message.js"></script>
-	<script src="static/modules/core/js/miniui/pagertree.js"></script>
-	<script src="static/modules/core/js/miniui/toolbar.js"></script>
-	<script src="static/modules/core/js/miniui/vtypes.js"></script>
-	<script src="static/modules/core/index.js"></script>
-	<script src="static/modules/index/js/dashboard.js"></script>
-	<script src="static/modules/index/js/mainTabs.js"></script>
-	<script src="static/modules/index/js/menu.js"></script>
-	<script src="static/modules/index/js/menuTip.js"></script>
-	<script src="static/modules/index/js/navbar.js"></script>
-	<script src="static/modules/index/index.js"></script>
+    <script src="static/libs/scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="static/libs/miniui/miniui.js"></script>
+    <script src="static/libs/highcharts/highcharts.js"></script>
+    <script src="static/libs/highcharts/model/exporting.js"></script>
+    <script src="static/js/core.js"></script>
+    <script src="static/js/frame.js"></script>
+    <script src="static/js/index.js"></script>
 </body>
 </html>

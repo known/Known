@@ -1,4 +1,12 @@
 ﻿$(function () {
+    $('input[onenter]').keydown(function (event) {
+        if (event.which === 13) {
+            event.preventDefault();
+            var method = $(this).attr("onenter");
+            eval(method);
+        }
+    });
+
     $('#userName').focus();
 
     $('#btnLogin').click(function () {
@@ -15,12 +23,13 @@
 
         _showMessage('');
         var $this = $(this).attr('disabled', 'disabled').val('登录中...');
-        Ajax.postJson('/signin', {
-            userName: userName, password: $.md5(password), backUrl: backUrl
-        }, function (result) {
-            _showMessage(result.Message);
-            if (result.IsValid) {
-                location = result.Data;
+        var url = '/signin?userName=' + userName
+            + '&password=' + $.md5(password)
+            + '&backUrl=' + backUrl;
+        Ajax.postJson(url, function (result) {
+            _showMessage(result.message);
+            if (result.status === 0) {
+                location = 'index.html';
             } else {
                 $this.removeAttr('disabled').val('登录');
             }

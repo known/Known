@@ -15,7 +15,7 @@ body, html {
 }
 
 body {
-    background: url(images/web_login_bg.jpg) no-repeat center;
+    background: url(../images/web_login_bg.jpg) no-repeat center;
     background-size: cover;
 }
 
@@ -59,7 +59,7 @@ a.logo {
 }
 
 #darkbannerwrap {
-    background: url(images/aiwrap.png);
+    background: url(../images/aiwrap.png);
     width: 18px;
     height: 10px;
     margin: 0 0 20px -58px;

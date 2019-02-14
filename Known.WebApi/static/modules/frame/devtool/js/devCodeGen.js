@@ -1,7 +1,0 @@
-﻿var DevCodeGen = {
-
-    show: function () {
-
-    }
-
-};
