@@ -18,10 +18,18 @@ namespace Known.Tests
             public string img { get; set; }
         }
 
-        public static void FetchWeb()
+        public static void FetchJgWeb()
         {
             FetchWeb("http://localhost:83", @"D:\Known\Projects\KPlatform\demo\jg");
+        }
+
+        public static void FetchZdzWeb()
+        {
             FetchWeb("http://localhost:72", @"D:\Known\Projects\KPlatform\demo\zdz");
+        }
+
+        public static void FetchCjlrWeb()
+        {
             FetchWeb("http://localhost:71", @"D:\Known\Projects\KPlatform\demo\cjlr");
         }
 
