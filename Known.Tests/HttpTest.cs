@@ -18,14 +18,21 @@ namespace Known.Tests
             public string img { get; set; }
         }
 
-        public static void FetchZjgWeb()
+        public static void FetchWeb()
         {
-            FetchWeb("http://localhost:83", @"D:\Known\Projects\ZjgClient");
+            FetchWeb("http://localhost:83", @"D:\Known\Projects\KPlatform\demo\jg");
+            FetchWeb("http://localhost:72", @"D:\Known\Projects\KPlatform\demo\zdz");
+            FetchWeb("http://localhost:71", @"D:\Known\Projects\KPlatform\demo\cjlr");
         }
 
-        public static void FetchZdzWeb()
+        public static void FetchZgWeb()
         {
-            FetchWeb("http://localhost:72", @"D:\Known\Projects\ZdzClient");
+            FetchWeb("http://localhost:81", @"D:\Known\Projects\KPlatform\demo\bg");
+        }
+
+        public static void FetchXtWeb()
+        {
+            FetchWeb("http://localhost:82", @"D:\Known\Projects\KPlatform\demo\xt");
         }
 
         private static void FetchWeb(string baseUrl, string basePath)
@@ -34,12 +41,11 @@ namespace Known.Tests
             var client = new HttpClient(baseUrl);
             var datas = new Dictionary<string, string>();
             var content = client.Get("/Home/Login?account=System&password=4a7d1ed414474e4033ac29ccb8653d9b");
-            if (content != "3")
-                return;
-
             content = client.Get("/Home/Main");
             content = client.Get("/Home/GetMenus");
-            File.WriteAllText($@"{basePath}\Data\menus.json", content);
+            var menuPath = $@"{basePath}\Data\menus.json";
+            Utils.EnsureFile(menuPath);
+            File.WriteAllText(menuPath, content);
 
             var menus = content.FromJson<List<Menu>>();
             foreach (var item in menus)
