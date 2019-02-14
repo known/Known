@@ -84,9 +84,11 @@
     <Content Include="login.html" />
     <Content Include="static\data\icon.txt" />
     <Content Include="static\images\face.jpg" />
+    <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
     <Content Include="static\libs\highcharts\highcharts.js" />
     <Content Include="static\libs\highcharts\model\exporting.js" />
     <Content Include="static\libs\jquery.md5.js" />
+    <Content Include="static\libs\jquery.min.js" />
     <Content Include="static\libs\miniui\locale\en_US.js" />
     <Content Include="static\libs\miniui\locale\zh_CN.js" />
     <Content Include="static\libs\miniui\miniui.js" />
@@ -423,7 +425,9 @@
     <Content Include="static\libs\miniui\themes\pure\images\tree\pressed.gif" />
     <Content Include="static\libs\miniui\themes\pure\images\window\header.gif" />
     <Content Include="static\libs\miniui\themes\pure\skin.css" />
+    <Content Include="static\libs\pdfobject.min.js" />
     <Content Include="static\libs\scrollbar\jquery.scrollbar.css" />
+    <Content Include="static\libs\scrollbar\jquery.scrollbar.min.js" />
     <Content Include="static\modules\core\css\form.css" />
     <Content Include="static\modules\core\css\query.css" />
     <Content Include="static\modules\core\index.css" />
