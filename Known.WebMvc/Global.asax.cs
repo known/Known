@@ -6,7 +6,7 @@ namespace Known.WebMvc
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            WebMvcConfig.Register();
+            MvcConfig.Register();
             //Initializer.Initialize();
         }
 
