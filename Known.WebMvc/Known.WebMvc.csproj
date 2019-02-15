@@ -83,7 +83,10 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="static\data\icon.txt" />
+    <Content Include="static\images\aiwrap.png" />
     <Content Include="static\images\face.jpg" />
+    <Content Include="static\images\tabs_icons.png" />
+    <Content Include="static\images\web_login_bg.jpg" />
     <Content Include="static\libs\font-awesome\css\font-awesome.css" />
     <Content Include="static\libs\highcharts\highcharts.js" />
     <Content Include="static\libs\highcharts\model\exporting.js" />

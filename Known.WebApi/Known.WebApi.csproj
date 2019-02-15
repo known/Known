@@ -86,7 +86,10 @@
     <Content Include="static\css\index.css" />
     <Content Include="static\css\login.css" />
     <Content Include="static\data\icon.txt" />
+    <Content Include="static\images\aiwrap.png" />
     <Content Include="static\images\face.jpg" />
+    <Content Include="static\images\tabs_icons.png" />
+    <Content Include="static\images\web_login_bg.jpg" />
     <Content Include="static\js\core.js" />
     <Content Include="static\js\frame.js" />
     <Content Include="static\js\index.js" />

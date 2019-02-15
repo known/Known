@@ -7,11 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <link rel="stylesheet" href="static/css/login.css">
-    <script>var backUrl = '/';</script>
+    <script src="static/libs/jquery.min.js"></script>
+    <script src="static/libs/jquery.md5.js"></script>
+    <script src="static/js/core.js"></script>
 </head>
 <body>
     <div class="login">
-        <div class="message">Known管理系统</div>
+        <div id="sysName" class="message">Known管理系统</div>
         <div id="darkbannerwrap"></div>
         <div>
             <input type="text" id="userName" placeholder="用户名" autocomplete="off" onenter="$('#password').focus()">
@@ -24,9 +26,6 @@
         </div>
     </div>
     <div class="copyright">© 2018 KNOWN</div>
-    <script src="static/libs/jquery.min.js"></script>
-    <script src="static/libs/jquery.md5.js"></script>
-    <script src="static/js/core.js"></script>
     <script src="static/js/login.js"></script>
 </body>
 </html>

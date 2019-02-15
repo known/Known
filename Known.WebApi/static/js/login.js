@@ -23,13 +23,11 @@
 
         _showMessage('');
         var $this = $(this).attr('disabled', 'disabled').val('登录中...');
-        var url = '/signin?userName=' + userName
-            + '&password=' + $.md5(password)
-            + '&backUrl=' + backUrl;
+        var url = '/signin?userName=' + userName + '&password=' + $.md5(password);
         Ajax.postJson(url, function (result) {
             _showMessage(result.message);
             if (result.status === 0) {
-                location = 'index.html';
+                location = '/';
             } else {
                 $this.removeAttr('disabled').val('登录');
             }
