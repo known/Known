@@ -1,6 +1,6 @@
-﻿///    <summary>
+﻿/// <summary>
 /// 中文转换
-///    </summary>
+/// </summary>
 var SwaggerTranslator = (function () {
     //定时执行检测是否转换成中文,最多执行500次  即500*50/1000=25s
     var iexcute = 0,
@@ -63,7 +63,7 @@ var SwaggerTranslator = (function () {
                 _tryTranslate();
             }
 
-            if ($("#explore").text() == "Explore" && iexcute < 500) {
+            if ($("#explore").text() === "Explore" && iexcute < 500) {
                 iexcute++;
                 setTimeout(_translator2Cn, 50);
             }
@@ -101,6 +101,7 @@ var SwaggerTranslator = (function () {
                 $(this).attr('title', _getLangDesc($(this).attr('title')));
             });
         },
+
         _getLangDesc = function (word) {
             return _words[$.trim(word)] !== undefined ? _words[$.trim(word)] : word;
         };
@@ -114,7 +115,8 @@ var SwaggerTranslator = (function () {
             _setControllerSummary();
             _translator2Cn();
         }
-    }
+    };
 })();
+
 //执行转换
 SwaggerTranslator.Translator();
