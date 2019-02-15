@@ -14,7 +14,11 @@ namespace Known.WebApi.Controllers
             if (!result.IsValid)
                 return ApiResult.Error(result.Message);
 
-            return ApiResult.Success("登录成功，正在跳转页面......", new { result.Data, backUrl });
+            return ApiResult.Success("登录成功，正在跳转页面......", new
+            {
+                result.Data.Token,
+                backUrl
+            });
         }
 
         [Route("signout")]
