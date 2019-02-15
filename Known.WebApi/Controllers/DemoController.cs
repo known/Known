@@ -2,7 +2,7 @@
 
 namespace Known.WebApi.Controllers
 {
-    public class DemoController : BaseApiController
+    public class DemoController : ApiControllerBase
     {
         public ApiResult Test(string param)
         {

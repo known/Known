@@ -7,7 +7,7 @@ using Known.Web;
 namespace Known.WebApi
 {
     [RoutePrefix("apm")]
-    public class WebApiController : BaseApiController
+    public class WebApiController : ApiControllerBase
     {
         [HttpGet, Route("{module}/{method}")]
         public ApiResult Get(string module, string method)

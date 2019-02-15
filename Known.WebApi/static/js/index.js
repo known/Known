@@ -111,12 +111,13 @@ Menu.prototype = {
         if (!idHash) {
             idHash = me._idHash = {};
             each(me.options.data);
-            function each(items) {
-                for (var i = 0, l = items.length; i < l; i++) {
-                    var item = items[i];
-                    if (item.children) each(item.children);
-                    idHash[item.id] = item;
-                }
+        }
+
+        function each(items) {
+            for (var i = 0, l = items.length; i < l; i++) {
+                var item = items[i];
+                if (item.children) each(item.children);
+                idHash[item.id] = item;
             }
         }
 
@@ -168,7 +169,7 @@ var MainTabs = {
         $('#tbMainTabs #fullScreen').click(function () { me.fullScreen(); });
 
         var tab = this.active({ id: 'index' });
-        $(tab.bodyEl).loadHtml('pages/Dashboard.html', function () {
+        $(tab.bodyEl).loadHtml('Pages/Dashboard.html', function () {
             //Dashboard.show();
         });
     },
@@ -224,7 +225,7 @@ var Navbar = {
     todo: function () {
         MainTabs.active({
             id: 'todo', iconCls: 'fa-paper-plane',
-            text: '代办事项', url: '/frame?id=todo'
+            text: '代办事项', url: 'Pages/TodoView.html'
         });
     },
 

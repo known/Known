@@ -11,7 +11,11 @@ namespace Known.WebApi
 
         protected void Application_Error(object sender, EventArgs e)
         {
-
+            var ex = Server.GetLastError();
+            if (ex != null)
+            {
+                Mail.Send("Web程序发生异常", ex);
+            }
         }
     }
 }

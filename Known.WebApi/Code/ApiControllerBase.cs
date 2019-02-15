@@ -3,7 +3,7 @@ using Known.Platform;
 
 namespace Known.WebApi
 {
-    public class BaseApiController : ApiController
+    public class ApiControllerBase : ApiController
     {
         protected Context Context
         {

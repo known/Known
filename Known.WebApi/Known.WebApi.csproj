@@ -14,8 +14,7 @@
     <AssemblyName>Known.WebApi</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress>
-    </Use64BitIISExpress>
+    <Use64BitIISExpress>false</Use64BitIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -82,6 +81,8 @@
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="login.html" />
+    <Content Include="Pages\Dashboard.html" />
+    <Content Include="Pages\System\ModuleView.html" />
     <Content Include="static\css\frame.css" />
     <Content Include="static\css\index.css" />
     <Content Include="static\css\login.css" />
@@ -94,7 +95,6 @@
     <Content Include="static\js\frame.js" />
     <Content Include="static\js\index.js" />
     <Content Include="static\js\login.js" />
-    <Content Include="static\js\system\moduleView.js" />
     <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
     <Content Include="static\libs\highcharts\highcharts.js" />
     <Content Include="static\libs\highcharts\model\exporting.js" />
@@ -445,9 +445,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
-    <Compile Include="Code\BaseApiController.cs" />
+    <Compile Include="Code\ApiControllerBase.cs" />
     <Compile Include="Code\WebApiController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
+    <Compile Include="Controllers\System\ModuleController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtension.cs" />
     <Compile Include="Filters\ApiLoginAuthorizeAttribute.cs" />
