@@ -136,10 +136,8 @@ mini.extend(mini.PagerTree, mini.DataGrid, {
 
     uiCls: 'mini-pagertree',
     treeColumn: '',
-
     idField: 'id',
-
-    showTreeIcon: true,                 //节点图标    
+    showTreeIcon: true,
     iconField: "iconCls",
     imgField: 'img',
     imgPath: '',
@@ -206,7 +204,6 @@ mini.extend(mini.PagerTree, mini.DataGrid, {
             cls += " mini-tree-parentNode";
         }
 
-
         sb[sb.length] = '<div class="mini-tree-nodetitle ' + cls + '" style="' + e.nodeStyle + '">';
 
         //_level
@@ -233,10 +230,9 @@ mini.extend(mini.PagerTree, mini.DataGrid, {
         }
 
         sb[sb.length] = '<span class="mini-tree-nodetext">';
-
         sb[sb.length] = e.cellHtml;
-
         sb[sb.length] = '</span>';
+
         sb[sb.length] = '</span>';
 
         sb[sb.length] = '</div>';
@@ -375,7 +371,6 @@ var ColumnsMenu = function (grid, options) {
     this.menu.on("beforeopen", this.onBeforeOpen, this);
     //grid.setHeaderContextMenu(this.menu);
 
-    // 
     grid.on("update", function (e) {
         me._renderColumnTriggers();
     });
@@ -459,9 +454,9 @@ ColumnsMenu.prototype = {
         }
         items.push(columnMenuItems);
 
-        //        items.push('-');
-        //        items.push({ text: "过滤", name: "filter" });
-        //        items.push({ text: "取消过滤", name: "clearfilter" });
+        //items.push('-');
+        //items.push({ text: "过滤", name: "filter" });
+        //items.push({ text: "取消过滤", name: "clearfilter" });
 
         menu.setItems(items);
         menu.on("itemclick", this.onMenuItemClick, this);
@@ -472,9 +467,9 @@ ColumnsMenu.prototype = {
     },
 
     onBeforeOpen: function (e) {
-        //        var grid = this.grid;
-        //        var column = grid.getColumnByEvent(e.htmlEvent);
-        //        this.currentColumn = column;
+        //var grid = this.grid;
+        //var column = grid.getColumnByEvent(e.htmlEvent);
+        //this.currentColumn = column;
     },
 
     onMenuItemClick: function (e) {
@@ -494,6 +489,7 @@ ColumnsMenu.prototype = {
             menu.hide();
             return;
         }
+
         if (item.name === "desc") {
             grid.sortBy(sortField, "desc");
             menu.hide();
@@ -507,10 +503,12 @@ ColumnsMenu.prototype = {
             var checkedCount = 0;
             var columnsItem = mini.getbyName("showcolumn", menu);
             var childMenuItems = columnsItem.menu.items;
+
             for (var i = 0, l = childMenuItems.length; i < l; i++) {
                 var it = childMenuItems[i];
                 if (it.getChecked()) checkedCount++;
             }
+
             if (checkedCount < 1) {
                 item.setChecked(true);
             }
@@ -518,6 +516,178 @@ ColumnsMenu.prototype = {
             //显示/隐藏列
             if (item.getChecked()) grid.showColumn(targetColumn);
             else grid.hideColumn(targetColumn);
+        }
+    }
+
+};
+
+//---------------------------message------------------------------------------//
+var Message = {
+
+    loading: function (message, callback) {
+        mini.mask({
+            el: document.body,
+            cls: 'mini-mask-loading',
+            html: message
+        });
+
+        if (callback && callback()) {
+            mini.unmask(document.body);
+        }
+    },
+
+    alert: function (message, callback) {
+        message = message.htmlEncode();
+        mini.alert(message, '提示', function (action) {
+            if (action === 'ok') {
+                callback && callback();
+            }
+        });
+    },
+
+    error: function (message, callback) {
+        mini.showMessageBox({
+            title: '错误',
+            message: '<span style="padding-left:10px;">' + message + '</span>',
+            buttons: ['ok'],
+            iconCls: 'mini-messagebox-error',
+            callback: function (action) {
+                if (action === 'ok') {
+                    callback && callback();
+                }
+            }
+        });
+    },
+
+    confirm: function (message, callback) {
+        message = message.htmlEncode();
+        mini.confirm(message, '确认提示', function (action) {
+            if (action === 'ok') {
+                callback && callback();
+            }
+        });
+    },
+
+    prompt: function (label, title, callback) {
+        mini.prompt(label, title, function (action, value) {
+            if (action === "ok") {
+                callback && callback(value);
+            }
+        });
+    },
+
+    promptMulti: function (label, title, callback) {
+        mini.prompt(label, title, function (action, value) {
+            if (action === "ok") {
+                callback && callback(value);
+            }
+        }, true);
+    },
+
+    tips: function (option) {
+        if (typeof option === 'string')
+            option = { content: option };
+
+        mini.showTips({
+            content: option.content,
+            state: option.state || 'info',
+            x: option.x || 'center',
+            y: option.y || 'top',
+            timeout: option.timeout || 3000
+        });
+    },
+
+    notify: function (option) {
+        mini.showMessageBox({
+            showModal: false,
+            width: option.width || 250,
+            title: option.title || "提示",
+            iconCls: option.iconCls || "mini-messagebox-warning",
+            message: option.message,
+            timeout: option.timeout || 3000,
+            x: option.x || 'right',
+            y: option.y || 'bottom'
+        });
+    },
+
+    result: function (res, callback) {
+        if (!res.ok) {
+            this.alert(res.message);
+            return;
+        }
+
+        if (res.message) {
+            this.tips(res.message);
+        }
+
+        callback && callback(res.data);
+    }
+
+};
+
+//---------------------------dialog------------------------------------------//
+var Dialog = {
+
+    show: function (option) {
+        if (option.id) {
+            var win = mini.get(option.id);
+            win.show();
+            option.callback && option.callback(win);
+            return win;
+        }
+
+        var dialog = mini.get('dialog');
+        dialog.setTitle(option.title);
+        dialog.setWidth(option.width || 500);
+        dialog.setHeight(option.height || 300);
+        dialog.show();
+
+        if (option.max) {
+            dialog.max();
+        }
+
+        $('#dialog .mini-panel-body').loadHtml(
+            option.url,
+            option.param,
+            function () {
+                mini.parse();
+                option.callback && option.callback(dialog);
+            }
+        );
+
+        return dialog;
+    },
+
+    open: function (option) {
+        var win = mini.open({
+            url: option.url,
+            showMaxButton: true,
+            allowResize: true,
+            title: option.title,
+            width: option.width,
+            height: option.height,
+            onload: function () {
+                if (option.callback) {
+                    var iframe = this.getIFrameEl();
+                    option.callback(iframe.contentWindow, 'load');
+                }
+            },
+            ondestroy: function (action) {
+                if (option.callback) {
+                    var iframe = this.getIFrameEl();
+                    option.callback(iframe.contentWindow, action);
+                }
+            }
+        });
+        option.max && win.max();
+        return win;
+    },
+
+    close: function (top = false) {
+        if (top) {
+            window.CloseOwnerWindow();
+        } else {
+            mini.get('dialog').hide();
         }
     }
 
@@ -855,21 +1025,7 @@ Form.prototype = {
 
     bindEnterJump: function () {
         var inputs = this.form.getFields();
-        var activeIndexes = [];
-
-        for (var i = 0, len = inputs.length; i < len; i++) {
-            var input = inputs[i];
-            $(input.getEl()).unbind('keyup');
-
-            if (input.type !== 'hidden' &&
-                input.type !== 'checkbox' &&
-                input.type !== 'checkboxlist' &&
-                input.type !== 'radiobuttonlist' &&
-                input.type !== 'htmlfile' &&
-                input.getEnabled() === true &&
-                input.getVisible() === true)
-                activeIndexes.push(i);
-        }
+        var activeIndexes = getActiveIndexes(inputs);
 
         for (var i = 0, len = activeIndexes.length; i < len; i++) {
             (function (i) {
@@ -893,8 +1049,9 @@ Form.prototype = {
                     } else if (i > 0 && e.keyCode === 38) {
                         var preInput = inputs[activeIndexes[i - 1]];
                         if (current.type !== 'textarea' && (
-                            (current.type !== 'autocomplete' && current.type !== 'combobox')
-                            || !current.isShowPopup()
+                            current.type !== 'autocomplete' &&
+                            current.type !== 'combobox' ||
+                            !current.isShowPopup()
                         )) {
                             setTimeout(function () {
                                 preInput.focus();
@@ -906,6 +1063,24 @@ Form.prototype = {
                     }
                 });
             })(i);
+        }
+
+        function getActiveIndexes(inputs) {
+            var indexes = [];
+            for (var i = 0, len = inputs.length; i < len; i++) {
+                var input = inputs[i];
+                $(input.getEl()).unbind('keyup');
+
+                if (input.type !== 'hidden' &&
+                    input.type !== 'checkbox' &&
+                    input.type !== 'checkboxlist' &&
+                    input.type !== 'radiobuttonlist' &&
+                    input.type !== 'htmlfile' &&
+                    input.getEnabled() === true &&
+                    input.getVisible() === true)
+                    indexes.push(i);
+            }
+            return indexes;
         }
     },
 
