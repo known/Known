@@ -269,8 +269,8 @@ $(function () {
     new MenuTip(menu);
 
     Ajax.getJson('/api/User/GetModules', function (result) {
-        menu.loadData(result.data.menus);
-        Code.setData(result.data.codes);
+        menu.loadData(result.Data.menus);
+        Code.setData(result.Data.codes);
     });
 
     //toggle
