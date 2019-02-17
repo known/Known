@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Known.Platform;
 using Known.WebMvc.Filters;
 using Newtonsoft.Json;
 
@@ -14,7 +13,6 @@ namespace Known.WebMvc
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
             Container.Register<IJson, JsonProvider>();
-            Container.Register<IPlatformRepository, PlatformRepository>();
 
             AreaRegistration.RegisterAllAreas();
 

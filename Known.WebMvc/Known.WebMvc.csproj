@@ -489,7 +489,6 @@
   <ItemGroup>
     <Compile Include="Code\AuthorizeController.cs" />
     <Compile Include="Code\BaseController.cs" />
-    <Compile Include="Code\PlatformRepository.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\FrameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
