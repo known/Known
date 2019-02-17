@@ -10,13 +10,13 @@ namespace Known.WebApi.Extensions
     {
         public static bool IsUseAttributeOf<T>(this HttpActionContext actionContext) where T : Attribute
         {
-            return actionContext.ActionDescriptor.GetCustomAttributes<T>(true).Count > 0
-                || actionContext.ActionDescriptor.ControllerDescriptor.GetCustomAttributes<T>(true).Count > 0;
+            return actionContext.ActionDescriptor.GetCustomAttributes<T>(true).Count > 0 ||
+                   actionContext.ActionDescriptor.ControllerDescriptor.GetCustomAttributes<T>(true).Count > 0;
         }
 
-        public static void CreateErrorResponse(this HttpActionContext actionContext, string message)
+        public static void CreateErrorResponse(this HttpActionContext actionContext, string message, object data = null)
         {
-            var result = ApiResult.Error(message);
+            var result = ApiResult.Error(message, data);
             actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, result);
         }
     }

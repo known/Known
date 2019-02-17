@@ -36,14 +36,17 @@ namespace Known.WebApi.Filters
             if (principal == null && HttpContext.Current != null)
                 principal = HttpContext.Current.User;
 
-            if (principal != null && principal.Identity != null && !principal.Identity.IsAuthenticated
-                && actionContext.IsUseAttributeOf<AuthorizeAttribute>())
+            if (principal != null && 
+                principal.Identity != null && 
+                !principal.Identity.IsAuthenticated)
             {
-                actionContext.CreateErrorResponse("用户未登录！");
+                actionContext.CreateErrorResponse("用户未登录！", new { IsAuthenticated = false });
                 return false;
             }
 
-            if (principal != null && principal.Identity != null && principal.Identity.IsAuthenticated)
+            if (principal != null && 
+                principal.Identity != null && 
+                principal.Identity.IsAuthenticated)
             {
                 if (!(principal.Identity is BasicAuthenticationIdentity identity))
                     return false;
@@ -59,6 +62,7 @@ namespace Known.WebApi.Filters
                     actionContext.RequestContext.Principal = principal;
                     actionContext.Request.Properties["Known_User"] = result.Data;
                 }
+
                 return result.IsValid;
             }
 
@@ -67,6 +71,9 @@ namespace Known.WebApi.Filters
 
         private static bool ValidateRequest(HttpActionContext actionContext)
         {
+            if (!Setting.Instance.IsApiValidRequest)
+                return true;
+
             var timestamp = actionContext.Request.GetQueryValue("timestamp");
             if (string.IsNullOrWhiteSpace(timestamp))
             {
@@ -80,7 +87,9 @@ namespace Known.WebApi.Filters
                 return false;
             }
 
-            var requestTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).AddMilliseconds(ms);
+            var requestTime = TimeZone.CurrentTimeZone
+                                      .ToLocalTime(new DateTime(1970, 1, 1))
+                                      .AddMilliseconds(ms);
             var diffSeconds = (DateTime.Now - requestTime).TotalSeconds;
             if (diffSeconds > ExpiredSeconds || diffSeconds < 0 - ExpiredSeconds)
             {

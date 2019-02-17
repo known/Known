@@ -42,7 +42,7 @@ namespace Known.Web
         void Challenge(HttpRequestMessage request, HttpResponseMessage response)
         {
             var host = request.RequestUri.DnsSafeHost;
-            response.Headers.Add(AuthenticationHeader, string.Format("Basic realm=\"{0}\"", host));
+            response.Headers.Add(AuthenticationHeader, $"Basic realm=\"{host}\"");
         }
 
         private BasicAuthenticationIdentity ParseAuthenticationHeader(HttpRequestMessage requestMessage)

@@ -6,7 +6,7 @@ namespace Known.WebApi.Controllers
 {
     public class UserController : ApiControllerBase
     {
-        [Route("signin")]
+        [AllowAnonymous, Route("signin")]
         public ApiResult SignIn(string userName, string password, string backUrl = null)
         {
             userName = userName.ToLower();
