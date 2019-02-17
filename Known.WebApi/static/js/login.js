@@ -25,9 +25,9 @@
         var $this = $(this).attr('disabled', 'disabled').val('登录中...');
         var url = '/signin?userName=' + userName + '&password=' + $.md5(password);
         Ajax.postJson(url, function (result) {
-            _showMessage(result.message);
+            _showMessage(result.Message);
             if (result.Status === 0) {
-                sessionStorage.setItem('token', result.Data.Token);
+                User.setUser(result.Data.user);
                 location = result.Data.backUrl || '/';
             } else {
                 $this.removeAttr('disabled').val('登录');

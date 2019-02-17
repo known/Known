@@ -294,6 +294,12 @@ $(function () {
         $('.dropdown').removeClass('open');
     });
 
+    //user
+    var user = User.getUser();
+    if (user) {
+        $('#userName').html(user.Name);
+    }
+
     mini.parse();
 
     MainTabs.init();

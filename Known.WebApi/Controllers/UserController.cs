@@ -16,7 +16,7 @@ namespace Known.WebApi.Controllers
 
             return ApiResult.Success("登录成功，正在跳转页面......", new
             {
-                result.Data.Token,
+                user = result.Data,
                 backUrl
             });
         }
