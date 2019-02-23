@@ -151,8 +151,8 @@
     <Compile Include="Validator.cs" />
     <Compile Include="Web\ApiClient.cs" />
     <Compile Include="Web\ApiResult.cs" />
-    <Compile Include="Web\BasicAuthenticationHandler.cs" />
-    <Compile Include="Web\BasicAuthenticationIdentity.cs" />
+    <Compile Include="Web\AuthenticationHandler.cs" />
+    <Compile Include="Web\AuthenticationIdentity.cs" />
     <Compile Include="Web\CompressedContent.cs" />
     <Compile Include="Web\CompressionHelper.cs" />
     <Compile Include="Web\CompressionMethod.cs" />

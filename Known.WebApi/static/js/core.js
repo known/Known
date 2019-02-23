@@ -126,10 +126,12 @@ Date.prototype.addYears = function (number) {
 
 //---------------------------ajax------------------------------------------//
 $(document).ajaxSend(function (evt, xhr, settings) {
-    if (settings.type === 'POST') {
-        var token = $('input[name="__RequestVerificationToken"]').val();
-        xhr.setRequestHeader('X-XSRF-TOKEN', token);
-    }
+    //if (settings.type === 'POST') {
+    //    var token = $('input[name="__RequestVerificationToken"]').val();
+    //    xhr.setRequestHeader('X-XSRF-TOKEN', token);
+    //}
+    var user = User.getUser();
+    xhr.setRequestHeader('Authorization', 'Token ' + user.Token);
 });
 
 var Ajax = {

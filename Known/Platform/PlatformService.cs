@@ -89,6 +89,15 @@ namespace Known.Platform
             return helper.GetUser(userName);
         }
 
+        public Result<User> ValidateLogin(string token)
+        {
+            var user = helper.GetUserByToken(token);
+            if (user == null)
+                return Result.Error<User>("用户不存在！");
+
+            return Result.Success("登录成功！", user);
+        }
+
         public Result<User> ValidateLogin(string userName, string password)
         {
             var user = GetUser(userName);

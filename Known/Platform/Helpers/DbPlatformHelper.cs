@@ -49,6 +49,11 @@ namespace Known.Platform
             return repository.GetUser(userName);
         }
 
+        public override User GetUserByToken(string token)
+        {
+            return repository.GetUserByToken(token);
+        }
+
         public override void SaveUser(User user)
         {
             repository.SaveUser(user);

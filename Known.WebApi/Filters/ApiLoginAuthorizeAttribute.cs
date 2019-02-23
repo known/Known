@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Web;
@@ -24,10 +25,17 @@ namespace Known.WebApi.Filters
                 return;
 
             if (!IsAuthorized(actionContext))
+            {
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
                 return;
+            }
 
-            if (!ValidateRequest(actionContext))
+            var message = string.Empty;
+            if (!ValidateRequest(actionContext, out message))
+            {
+                actionContext.CreateErrorResponse(message);
                 return;
+            }
         }
 
         protected override bool IsAuthorized(HttpActionContext actionContext)
@@ -36,23 +44,22 @@ namespace Known.WebApi.Filters
             if (principal == null && HttpContext.Current != null)
                 principal = HttpContext.Current.User;
 
-            if (principal != null && 
-                principal.Identity != null && 
+            if (principal != null &&
+                principal.Identity != null &&
                 !principal.Identity.IsAuthenticated)
-            {
-                actionContext.CreateErrorResponse("用户未登录！", new { IsAuthenticated = false });
                 return false;
-            }
 
-            if (principal != null && 
-                principal.Identity != null && 
+            if (principal != null &&
+                principal.Identity != null &&
                 principal.Identity.IsAuthenticated)
             {
-                if (!(principal.Identity is BasicAuthenticationIdentity identity))
+                if (!(principal.Identity is AuthenticationIdentity identity))
                     return false;
 
                 var service = new PlatformService();
-                var result = service.ValidateLogin(identity.Name, identity.Password);
+                var result = identity.AuthenticationType == "Basic"
+                           ? service.ValidateLogin(identity.Name, identity.Password)
+                           : service.ValidateLogin(identity.Token);
                 if (!result.IsValid)
                 {
                     actionContext.CreateErrorResponse(result.Message);
@@ -69,21 +76,23 @@ namespace Known.WebApi.Filters
             return false;
         }
 
-        private static bool ValidateRequest(HttpActionContext actionContext)
+        private static bool ValidateRequest(HttpActionContext actionContext, out string message)
         {
+            message = string.Empty;
+
             if (!Setting.Instance.IsApiValidRequest)
                 return true;
 
             var timestamp = actionContext.Request.GetQueryValue("timestamp");
             if (string.IsNullOrWhiteSpace(timestamp))
             {
-                actionContext.CreateErrorResponse("缺少参数timestamp！");
+                message = "缺少参数timestamp！";
                 return false;
             }
 
             if (!long.TryParse(timestamp, out long ms) || ms.ToString().Length != 13)
             {
-                actionContext.CreateErrorResponse("不合法的timestamp！");
+                message = "不合法的timestamp！";
                 return false;
             }
 
@@ -93,27 +102,27 @@ namespace Known.WebApi.Filters
             var diffSeconds = (DateTime.Now - requestTime).TotalSeconds;
             if (diffSeconds > ExpiredSeconds || diffSeconds < 0 - ExpiredSeconds)
             {
-                actionContext.CreateErrorResponse("请求已超时！");
+                message = "请求已超时！";
                 return false;
             }
 
             var nonce = actionContext.Request.GetQueryValue("nonce");
             if (string.IsNullOrWhiteSpace(nonce))
             {
-                actionContext.CreateErrorResponse("缺少参数nonce！");
+                message = "缺少参数nonce！";
                 return false;
             }
 
             var sign = actionContext.Request.GetQueryValue("sign");
             if (string.IsNullOrWhiteSpace(sign))
             {
-                actionContext.CreateErrorResponse("缺少参数sign！");
+                message = "缺少参数sign！";
                 return false;
             }
 
             if (sign != GetSignature(actionContext.Request))
             {
-                actionContext.CreateErrorResponse("sign格式不正确！");
+                message = "sign格式不正确！";
                 return false;
             }
 

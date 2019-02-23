@@ -10,6 +10,7 @@ namespace Known.Platform
         public abstract List<Module> GetModules(string appId);
         public abstract List<Module> GetUserModules(string appId, string userName);
         public abstract User GetUser(string userName);
+        public abstract User GetUserByToken(string token);
         public abstract void SaveUser(User user);
     }
 }

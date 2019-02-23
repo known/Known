@@ -56,6 +56,11 @@ namespace Known.Platform
             return client.Get<User>("/api/User/GetUser", new { userName });
         }
 
+        public override User GetUserByToken(string token)
+        {
+            return client.Get<User>("/api/User/GetUserByToken", new { token });
+        }
+
         public override void SaveUser(User user)
         {
             client.Post("/api/User/SaveUser", user);

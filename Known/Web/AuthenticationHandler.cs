@@ -9,9 +9,15 @@ using System.Web;
 
 namespace Known.Web
 {
-    public class BasicAuthenticationHandler : DelegatingHandler
+    public class AuthenticationHandler : DelegatingHandler
     {
         private const string AuthenticationHeader = "WWW-Authenticate";
+        private string authType;
+
+        public AuthenticationHandler(string authType)
+        {
+            this.authType = authType;
+        }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
@@ -45,23 +51,36 @@ namespace Known.Web
             response.Headers.Add(AuthenticationHeader, $"Basic realm=\"{host}\"");
         }
 
-        private BasicAuthenticationIdentity ParseAuthenticationHeader(HttpRequestMessage requestMessage)
+        private AuthenticationIdentity ParseAuthenticationHeader(HttpRequestMessage requestMessage)
         {
-            var authParameter = string.Empty;
+            var parameter = string.Empty;
             var authValue = requestMessage.Headers.Authorization;
-            if (authValue != null && authValue.Scheme == "Basic")
-                authParameter = authValue.Parameter;
+            if (authValue != null && authValue.Scheme == authType)
+            {
+                parameter = authValue.Parameter;
+            }
 
-            if (string.IsNullOrEmpty(authParameter))
+            if (string.IsNullOrEmpty(parameter))
                 return null;
 
-            authParameter = Encoding.Default.GetString(Convert.FromBase64String(authParameter));
+            AuthenticationIdentity identity = null;
+            if (authType == "Basic")
+            {
+                parameter = Encoding.Default.GetString(Convert.FromBase64String(parameter));
+                var authToken = parameter.Split(':');
+                if (authToken.Length < 2)
+                    return null;
 
-            var authToken = authParameter.Split(':');
-            if (authToken.Length < 2)
-                return null;
+                identity = new AuthenticationIdentity(authToken[0], authType);
+                identity.Password = authToken[1];
+            }
+            else if (authType == "Token")
+            {
+                identity = new AuthenticationIdentity(parameter, authType);
+                identity.Token = parameter;
+            }
 
-            return new BasicAuthenticationIdentity(authToken[0], authToken[1]);
+            return identity;
         }
     }
 }

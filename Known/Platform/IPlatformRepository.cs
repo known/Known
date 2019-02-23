@@ -14,6 +14,7 @@ namespace Known.Platform
         List<Module> GetModules(string appId);
         List<Module> GetUserModules(string appId, string userName);
         User GetUser(string userName);
+        User GetUserByToken(string token);
         void SaveUser(User user);
     }
 
@@ -81,8 +82,28 @@ namespace Known.Platform
             return GetUser(row);
         }
 
+        public User GetUserByToken(string token)
+        {
+            var sql = "select * from t_plt_users where token=@token";
+            var row = database.QueryRow(sql, new { token });
+            if (row == null)
+                return null;
+
+            return GetUser(row);
+        }
+
         public void SaveUser(User user)
         {
+            if (user == null)
+                return;
+
+            var sql = @"
+update t_plt_users set
+  token=@Token
+ ,first_login_time=@FirstLoginTime
+ ,last_login_time=@LastLoginTime 
+where id=@Id";
+            database.Execute(sql, user);
         }
 
         private static Module GetModule(DataRow row)
