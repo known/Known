@@ -8,7 +8,6 @@ var Menu = function (element, options) {
     this.options = $.extend(true, {}, this.options, options);
     this.init();
 };
-
 Menu.prototype = {
 
     options: {

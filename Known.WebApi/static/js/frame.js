@@ -41,7 +41,6 @@ mini.DecimalBox = function () {
     mini.DecimalBox.superclass.constructor.call(this);
     this.bindEvents();
 };
-
 mini.extend(mini.DecimalBox, mini.TextBox, {
     uiCls: 'mini-decimalbox',
     bindEvents: function () {
@@ -84,7 +83,6 @@ mini.extend(mini.DecimalBox, mini.TextBox, {
         });
     }
 });
-
 mini.regClass(mini.DecimalBox, 'decimalbox');
 
 //---------------------------integerBox------------------------------------------//
@@ -92,7 +90,6 @@ mini.IntegerBox = function () {
     mini.IntegerBox.superclass.constructor.call(this);
     this.bindEvents();
 };
-
 mini.extend(mini.IntegerBox, mini.TextBox, {
     uiCls: 'mini-integerbox',
     bindEvents: function () {
@@ -118,7 +115,6 @@ mini.extend(mini.IntegerBox, mini.TextBox, {
         });
     }
 });
-
 mini.regClass(mini.IntegerBox, 'integerbox');
 
 //---------------------------pagerTree------------------------------------------//
@@ -386,7 +382,6 @@ var ColumnsMenu = function (grid, options) {
         $(grid.el).find(".mini-grid-column-open").removeClass("mini-grid-column-open");
     });
 };
-
 ColumnsMenu.prototype = {
 
     _renderColumnTriggers: function () {
@@ -746,7 +741,6 @@ var Grid = function (name, option) {
         }
     }
 };
-
 Grid.prototype = {
 
     option: {
@@ -959,7 +953,6 @@ var Form = function (formId, option) {
         this.setData(this.option.data, this.option.callback);
     }
 };
-
 Form.prototype = {
 
     option: {
