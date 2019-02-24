@@ -254,53 +254,59 @@ var Navbar = {
 };
 
 $(function () {
-    //menu
-    var menu = new Menu('#mainMenu', {
-        itemclick: function (item) {
-            if (!item.children) {
-                MainTabs.active(item);
+    if (!User.getUser()) {
+        location = 'login.html';
+    } else {
+        $('#wrapper').show();
+
+        //menu
+        var menu = new Menu('#mainMenu', {
+            itemclick: function (item) {
+                if (!item.children) {
+                    MainTabs.active(item);
+                }
             }
+        });
+
+        $('.sidebar').mCustomScrollbar({ autoHideScrollbar: true });
+
+        new MenuTip(menu);
+
+        Ajax.getJson('/api/User/GetModules', function (result) {
+            menu.loadData(result.Data.menus);
+            Code.setData(result.Data.codes);
+        });
+
+        //toggle
+        $('#toggle, .sidebar-toggle').click(function () {
+            var body = $('body'), toggle = $('.sidebar-toggle i');
+            body.toggleClass('compact');
+            if (body.hasClass('compact')) {
+                toggle.removeClass('fa-dedent').addClass('fa-indent');
+            } else {
+                toggle.removeClass('fa-indent').addClass('fa-dedent');
+            }
+            mini.layout();
+        });
+
+        //dropdown
+        $('.dropdown-toggle').click(function (event) {
+            $(this).parent().addClass('open');
+            return false;
+        });
+        $(document).click(function (event) {
+            $('.dropdown').removeClass('open');
+        });
+
+        //user
+        var user = User.getUser();
+        if (user) {
+            $('#userName').html(user.Name);
         }
-    });
 
-    $('.sidebar').mCustomScrollbar({ autoHideScrollbar: true });
+        mini.parse();
 
-    new MenuTip(menu);
-
-    Ajax.getJson('/api/User/GetModules', function (result) {
-        menu.loadData(result.Data.menus);
-        Code.setData(result.Data.codes);
-    });
-
-    //toggle
-    $('#toggle, .sidebar-toggle').click(function () {
-        var body = $('body'), toggle = $('.sidebar-toggle i');
-        body.toggleClass('compact');
-        if (body.hasClass('compact')) {
-            toggle.removeClass('fa-dedent').addClass('fa-indent');
-        } else {
-            toggle.removeClass('fa-indent').addClass('fa-dedent');
-        }
-        mini.layout();
-    });
-
-    //dropdown
-    $('.dropdown-toggle').click(function (event) {
-        $(this).parent().addClass('open');
-        return false;
-    });
-    $(document).click(function (event) {
-        $('.dropdown').removeClass('open');
-    });
-
-    //user
-    var user = User.getUser();
-    if (user) {
-        $('#userName').html(user.Name);
+        MainTabs.init();
+        Navbar.init();
     }
-
-    mini.parse();
-
-    MainTabs.init();
-    Navbar.init();
 });
