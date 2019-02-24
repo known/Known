@@ -12,7 +12,22 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="favicon.ico">
-    @Html.MinStyle("static/modules/index.min.css")
+    <link rel="stylesheet" href="~/static/libs/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="~/static/libs/scrollbar/jquery.scrollbar.css">
+    <link rel="stylesheet" href="~/static/libs/miniui/themes/default/miniui.css">
+    <link rel="stylesheet" href="~/static/libs/miniui/themes/default/medium-mode.css">
+    <link rel="stylesheet" href="~/static/libs/miniui/themes/default/flatstyle.css">
+    <link rel="stylesheet" href="~/static/libs/miniui/themes/cupertino/skin.css">
+    <link rel="stylesheet" href="~/static/css/frame.css">
+    <link rel="stylesheet" href="~/static/css/index.css">
+    <script src="~/static/libs/jquery.js"></script>
+    <script src="~/static/libs/scrollbar/jquery.scrollbar.js"></script>
+    <script src="~/static/libs/miniui/miniui.js"></script>
+    <script src="~/static/libs/highcharts/highcharts.js"></script>
+    <script src="~/static/libs/highcharts/model/exporting.js"></script>
+    <script src="~/static/libs/pdfobject.js"></script>
+    <script src="~/static/js/core.js"></script>
+    <script src="~/static/js/frame.js"></script>
 </head>
 <body>
     @Html.AntiForgeryToken()
@@ -58,6 +73,6 @@
             </div>
         </div>
     </div>
-    @Html.MinScript("static/modules/index.min.js")
+    <script src="~/static/js/index.js"></script>
 </body>
 </html>

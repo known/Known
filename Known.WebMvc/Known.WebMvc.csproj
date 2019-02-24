@@ -82,11 +82,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="static\css\frame.css" />
+    <Content Include="static\css\index.css" />
+    <Content Include="static\css\login.css" />
     <Content Include="static\data\icon.txt" />
     <Content Include="static\images\aiwrap.png" />
     <Content Include="static\images\face.jpg" />
     <Content Include="static\images\tabs_icons.png" />
     <Content Include="static\images\web_login_bg.jpg" />
+    <Content Include="static\js\core.js" />
+    <Content Include="static\js\frame.js" />
+    <Content Include="static\js\index.js" />
+    <Content Include="static\js\login.js" />
     <Content Include="static\libs\font-awesome\css\font-awesome.css" />
     <Content Include="static\libs\highcharts\highcharts.js" />
     <Content Include="static\libs\highcharts\model\exporting.js" />
@@ -431,59 +438,6 @@
     <Content Include="static\libs\pdfobject.js" />
     <Content Include="static\libs\scrollbar\jquery.scrollbar.css" />
     <Content Include="static\libs\scrollbar\jquery.scrollbar.js" />
-    <Content Include="static\modules\core\css\form.css" />
-    <Content Include="static\modules\core\css\query.css" />
-    <Content Include="static\modules\core\index.css" />
-    <Content Include="static\modules\core\index.js" />
-    <Content Include="static\modules\core\js\ajax.js" />
-    <Content Include="static\modules\core\js\array.js" />
-    <Content Include="static\modules\core\js\code.js" />
-    <Content Include="static\modules\core\js\date.js" />
-    <Content Include="static\modules\core\js\jqextend.js" />
-    <Content Include="static\modules\core\js\miniui\columnsMenu.js" />
-    <Content Include="static\modules\core\js\miniui\config.js" />
-    <Content Include="static\modules\core\js\miniui\decimalbox.js" />
-    <Content Include="static\modules\core\js\miniui\dialog.js" />
-    <Content Include="static\modules\core\js\miniui\form.js" />
-    <Content Include="static\modules\core\js\miniui\grid.js" />
-    <Content Include="static\modules\core\js\miniui\integerbox.js" />
-    <Content Include="static\modules\core\js\miniui\message.js" />
-    <Content Include="static\modules\core\js\miniui\pagertree.js" />
-    <Content Include="static\modules\core\js\miniui\toolbar.js" />
-    <Content Include="static\modules\core\js\miniui\vtypes.js" />
-    <Content Include="static\modules\core\js\string.js" />
-    <Content Include="static\modules\frame\core\formBase.js" />
-    <Content Include="static\modules\frame\core\gridBase.js" />
-    <Content Include="static\modules\frame\devtool\data\countrys.txt" />
-    <Content Include="static\modules\frame\devtool\data\listTree.txt" />
-    <Content Include="static\modules\frame\devtool\data\menu.txt" />
-    <Content Include="static\modules\frame\devtool\index.js" />
-    <Content Include="static\modules\frame\devtool\js\demoForm.js" />
-    <Content Include="static\modules\frame\devtool\js\demoGrid.js" />
-    <Content Include="static\modules\frame\devtool\js\demoReport.js" />
-    <Content Include="static\modules\frame\devtool\js\demoTab.js" />
-    <Content Include="static\modules\frame\devtool\js\devCodeGen.js" />
-    <Content Include="static\modules\frame\devtool\js\devDatabase.js" />
-    <Content Include="static\modules\frame\index.css" />
-    <Content Include="static\modules\frame\index.js" />
-    <Content Include="static\modules\frame\system\module\index.js" />
-    <Content Include="static\modules\frame\system\module\js\moduleForm.js" />
-    <Content Include="static\modules\index\css\dashboard.css" />
-    <Content Include="static\modules\index\css\frame.css" />
-    <Content Include="static\modules\index\css\menu.css" />
-    <Content Include="static\modules\index\css\tabs.css" />
-    <Content Include="static\modules\index\images\tabs_icons.png" />
-    <Content Include="static\modules\index\index.css" />
-    <Content Include="static\modules\index\index.js" />
-    <Content Include="static\modules\index\js\dashboard.js" />
-    <Content Include="static\modules\index\js\mainTabs.js" />
-    <Content Include="static\modules\index\js\menu.js" />
-    <Content Include="static\modules\index\js\menuTip.js" />
-    <Content Include="static\modules\index\js\navbar.js" />
-    <Content Include="static\modules\login\images\aiwrap.png" />
-    <Content Include="static\modules\login\images\web_login_bg.jpg" />
-    <Content Include="static\modules\login\index.css" />
-    <Content Include="static\modules\login\index.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -512,7 +466,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\Form.cshtml" />
-    <Content Include="bundleconfig.json" />
     <None Include="packages.config" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
@@ -582,13 +535,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\packages\BuildBundlerMinifier.2.8.391\build\BuildBundlerMinifier.targets" Condition="Exists('..\packages\BuildBundlerMinifier.2.8.391\build\BuildBundlerMinifier.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\BuildBundlerMinifier.2.8.391\build\BuildBundlerMinifier.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BuildBundlerMinifier.2.8.391\build\BuildBundlerMinifier.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
