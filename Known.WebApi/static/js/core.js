@@ -125,13 +125,21 @@ Date.prototype.addYears = function (number) {
 };
 
 //---------------------------ajax------------------------------------------//
-$(document).ajaxSend(function (evt, xhr, settings) {
+$(document).ajaxSend(function (event, xhr, settings) {
     //if (settings.type === 'POST') {
     //    var token = $('input[name="__RequestVerificationToken"]').val();
     //    xhr.setRequestHeader('X-XSRF-TOKEN', token);
     //}
     var user = User.getUser();
-    xhr.setRequestHeader('Authorization', 'Token ' + user.Token);
+    if (user) {
+        xhr.setRequestHeader('Authorization', 'Token ' + user.Token);
+    }
+});
+$(document).ajaxSuccess(function (event, xhr, settings) {
+    var rlt = xhr.responseJSON;
+    if (rlt && rlt.Data && rlt.Data.IsAuthenticated === false) {
+        location = 'login.html';
+    }
 });
 
 var Ajax = {

@@ -48,7 +48,8 @@ namespace Known.Web
         void Challenge(HttpRequestMessage request, HttpResponseMessage response)
         {
             var host = request.RequestUri.DnsSafeHost;
-            response.Headers.Add(AuthenticationHeader, $"Basic realm=\"{host}\"");
+            //response.Headers.Add(AuthenticationHeader, $"Basic realm=\"{host}\"");
+            response.Content = new StringContent("Unauthorized!");
         }
 
         private AuthenticationIdentity ParseAuthenticationHeader(HttpRequestMessage requestMessage)
