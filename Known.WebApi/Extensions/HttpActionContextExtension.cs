@@ -14,10 +14,20 @@ namespace Known.WebApi.Extensions
                    actionContext.ActionDescriptor.ControllerDescriptor.GetCustomAttributes<T>(true).Count > 0;
         }
 
+        public static void CreateResponse(this HttpActionContext actionContext, HttpStatusCode statusCode)
+        {
+            actionContext.Response = actionContext.Request.CreateResponse(statusCode);
+        }
+
+        public static void CreateResponse<T>(this HttpActionContext actionContext, HttpStatusCode statusCode, T value)
+        {
+            actionContext.Response = actionContext.Request.CreateResponse(statusCode, value);
+        }
+
         public static void CreateErrorResponse(this HttpActionContext actionContext, string message, object data = null)
         {
             var result = ApiResult.Error(message, data);
-            actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, result);
+            actionContext.CreateResponse(HttpStatusCode.OK, result);
         }
     }
 }

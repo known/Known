@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Web;
@@ -25,7 +26,7 @@ namespace Known.WebApi.Filters
 
             if (!IsAuthorized(actionContext))
             {
-                actionContext.CreateErrorResponse("Unauthorized!", new { IsAuthenticated = false });
+                actionContext.CreateResponse(HttpStatusCode.Unauthorized);
                 return;
             }
 

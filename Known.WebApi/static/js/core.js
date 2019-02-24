@@ -135,9 +135,8 @@ $(document).ajaxSend(function (event, xhr, settings) {
         xhr.setRequestHeader('Authorization', 'Token ' + user.Token);
     }
 });
-$(document).ajaxSuccess(function (event, xhr, settings) {
-    var rlt = xhr.responseJSON;
-    if (rlt && rlt.Data && rlt.Data.IsAuthenticated === false) {
+$(document).ajaxError(function (event, xhr, settings, exception) {
+    if (xhr.status === 401) {
         location = 'login.html';
     }
 });
