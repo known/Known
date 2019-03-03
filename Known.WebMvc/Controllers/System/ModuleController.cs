@@ -1,4 +1,6 @@
-﻿using Known.Core.Services;
+﻿using System.Web.Mvc;
+using Known.Core.Services;
+using Known.Platform;
 
 namespace Known.WebMvc.Controllers.System
 {
@@ -10,6 +12,17 @@ namespace Known.WebMvc.Controllers.System
         }
 
         #region View
+        public ActionResult GetTreeDatas()
+        {
+            var menus = Menu.GetTreeMenus(PlatformService);
+            return JsonResult(menus);
+        }
+
+        public ActionResult QueryModules(PagingCriteria criteria)
+        {
+            var result = Service.QueryModules(criteria);
+            return PageResult(result);
+        }
         #endregion
 
         #region Form

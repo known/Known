@@ -1,6 +1,6 @@
 ﻿<div class="mini-splitter" style="width:100%;height:100%;">
     <div id="splitLeft" tooltip="关闭/显示菜单" size="200px" showCollapseButton="true" style="padding:5px;">
-        <ul id="leftTree" class="mini-tree" url="/api/plt/Module/GetTreeDatas"
+        <ul id="leftTree" class="mini-tree" url="@Url.Action("GetTreeDatas", "Module")"
             style="width:100%;height:100%;" idField="id" textField="text"
             showTreeIcon="true" resultAsTree="false"
             allowDrag="true" allowDrop="true" allowLeafDropIn="true">
@@ -9,7 +9,7 @@
     <div id="splitRight">
         <div id="gridModule" class="mini-datagrid"
              style="width:100%;height:100%;" borderStyle="border:0;"
-             url="/api/plt/Module/QueryModules" idField="Id"
+             url="@Url.Action("QueryModules", "Module")" idField="Id"
              multiSelect="true" showToolbar="true">
             <div property="toolbar">
                 <div id="tbModule" style="padding:3px;float:left;">
@@ -44,5 +44,23 @@
 </div>
 @Html.Partial("Partials/ModuleForm")
 <script>
+    mini.parse();
 
+    var ModuleView = {
+        add: function () {
+
+        },
+        copy: function () {
+
+        },
+        edit: function () {
+
+        },
+        remove: function () {
+
+        },
+        imports: function () {
+
+        }
+    };
 </script>
