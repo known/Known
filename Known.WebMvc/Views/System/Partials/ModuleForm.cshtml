@@ -1,0 +1,48 @@
+﻿<div id="tbModuleForm">
+    @Form.Button(Form.ButtonType.Save)
+    @Form.Button(Form.ButtonType.Close)
+</div>
+<div id="formModule" style="margin-top:5px;">
+    @Form.Hidden("Id", "ParentId")
+    <table class="form">
+        <tr>
+            <th style="width:80px;">编码</th>
+            <td>
+                @Form.TextBox("Code", true, new { emptyText = "请输入编码" })
+            </td>
+            <th style="width:80px;">名称</th>
+            <td>
+                @Form.TextBox("Name", true, new { emptyText = "请输入名称" })
+            </td>
+        </tr>
+        <tr>
+            <th><span id="moduleIcon"></span>图标</th>
+            <td>
+                @Form.ComboBox("Icon", true, new {
+                   url = "/static/data/icon.txt",
+                   ondrawcell = "ModuleForm.onIconDrawCell"
+                })
+            </td>
+            <th>视图类型</th>
+            <td>
+                @Form.ComboBox("ViewType", true, new { data = "ViewType" })
+            </td>
+        </tr>
+        <tr>
+            <th>地址</th>
+            <td colspan="3">
+                @Form.TextBox("Url", false)
+            </td>
+        </tr>
+        <tr>
+            <th>顺序</th>
+            <td>
+                @Form.IntegerBox("Sort", true)
+            </td>
+            <th>是否可用</th>
+            <td>
+                @Form.CheckBox("Enabled", true)
+            </td>
+        </tr>
+    </table>
+</div>

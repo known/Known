@@ -446,6 +446,8 @@
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\FrameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SystemController.cs" />
+    <Compile Include="Controllers\System\ModuleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Code\CustomRouteHandler.cs" />
     <Compile Include="Filters\AntiForgeryAttribute.cs" />
@@ -490,6 +492,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\System\ModuleView.cshtml" />
+    <Content Include="Views\System\Partials\ModuleForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

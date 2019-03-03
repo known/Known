@@ -10,18 +10,18 @@ namespace Known.WebMvc.Models
             var extension = module.Extension.FromJson<SplitPageInfo>();
             if (extension != null)
             {
-                LeftPartialName = extension.LeftPartialName;
-                RightPartialName = extension.RightPartialName;
+                LeftPartial = extension.LeftPartial;
+                RightPartial = extension.RightPartial;
             }
         }
 
-        public string LeftPartialName { get; set; }
-        public string RightPartialName { get; set; }
+        public string LeftPartial { get; set; }
+        public string RightPartial { get; set; }
     }
 
     internal class SplitPageInfo
     {
-        public string LeftPartialName { get; set; }
-        public string RightPartialName { get; set; }
+        public string LeftPartial { get; set; }
+        public string RightPartial { get; set; }
     }
 }

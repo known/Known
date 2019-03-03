@@ -42,7 +42,7 @@ namespace Known.Platform
                     Code = "DevTool",
                     Name = "开发工具",
                     ViewType = Platform.ViewType.SplitPageView,
-                    Extension = new { LeftPartialName = "DevTool/LeftMenu" }.ToJson()
+                    Extension = new { LeftPartial = "DevTool/LeftMenu" }.ToJson()
                 };
             }
 
@@ -53,8 +53,8 @@ namespace Known.Platform
                 {
                     module.Extension = new
                     {
-                        LeftPartialName = "System/Module/LeftMenu",
-                        RightPartialName = "System/Module/ModuleGrid"
+                        LeftPartial = "System/Module/LeftMenu",
+                        RightPartial = "System/Module/ModuleGrid"
                     }.ToJson();
                 }
 
