@@ -879,16 +879,14 @@ Grid.prototype = {
         if (rows.length === 0)
             Message.tips('请选择一条或多条记录！');
         else if (callback) {
-            var data = _this.getRowDatas(rows);
+            var data = this.getRowDatas(rows);
             callback(rows, data);
         }
     },
 
     deleteRows: function (callback) {
-        var _this = this;
-        this.checkMultiSelect(function (rows) {
+        this.checkMultiSelect(function (rows, data) {
             Message.confirm('确定要删除选中的记录？', function () {
-                var data = _this.getRowDatas(rows);
                 callback && callback(rows, data);
             });
         });
