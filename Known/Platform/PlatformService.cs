@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Known.Extensions;
 using Known.Web;
 
 namespace Known.Platform
@@ -34,30 +33,9 @@ namespace Known.Platform
 
         public Module GetModule(string id)
         {
-            if (id == "devTool")
-            {
-                return new Module
-                {
-                    Id = "devTool",
-                    Code = "DevTool",
-                    Name = "开发工具",
-                    ViewType = Platform.ViewType.SplitPageView,
-                    Extension = new { LeftPartial = "DevTool/LeftMenu" }.ToJson()
-                };
-            }
-
             var module = helper.GetModule(id);
             if (module != null)
             {
-                if (module.Code == "Module" && string.IsNullOrWhiteSpace(module.Extension))
-                {
-                    module.Extension = new
-                    {
-                        LeftPartial = "System/Module/LeftMenu",
-                        RightPartial = "System/Module/ModuleGrid"
-                    }.ToJson();
-                }
-
                 SetParentModule(module);
             }
 
