@@ -47,20 +47,32 @@
     mini.parse();
 
     var ModuleView = {
+
         add: function () {
 
         },
-        copy: function () {
 
+        copy: function () {
+            var _this = this;
+            this.grid.checkSelect(function (row) {
+                var data = mini.clone(row);
+                data.Id = '';
+                data.Sort = _this.grid.getData().length + 1;
+                _this.showForm(data);
+            });
         },
+
         edit: function () {
 
         },
+
         remove: function () {
 
         },
+
         imports: function () {
 
         }
+
     };
 </script>
