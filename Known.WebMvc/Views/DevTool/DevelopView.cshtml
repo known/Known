@@ -10,7 +10,7 @@
     </div>
 </div>
 <script>
-    var DevToolView = {
+    var DevelopView = {
 
         show: function () {
             mini.get('leftTree').on('nodeselect', this.onTreeNodeSelect);
@@ -21,7 +21,7 @@
         },
 
         onTreeNodeSelect: function (e) {
-            $('#splitRight').loadHtml('/DevTool/Partial', {
+            $('#splitRight').loadHtml('/Develop/Partial', {
                 name: e.node.view
             }, function () {
                 mini.parse();
@@ -44,5 +44,5 @@
     };
 
     mini.parse();
-    DevToolView.show();
+    DevelopView.show();
 </script>

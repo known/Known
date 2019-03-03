@@ -4,9 +4,9 @@ using Known.Extensions;
 
 namespace Known.Core.Services
 {
-    public class DemoService : ServiceBase
+    public class DevDemoService : ServiceBase
     {
-        public DemoService(Context context) : base(context)
+        public DevDemoService(Context context) : base(context)
         {
         }
 

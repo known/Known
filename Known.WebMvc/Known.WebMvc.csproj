@@ -447,7 +447,9 @@
     <Compile Include="Code\AuthorizeController.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
-    <Compile Include="Controllers\DevToolController.cs" />
+    <Compile Include="Controllers\DevelopController.cs" />
+    <Compile Include="Controllers\Develop\DevDemoController.cs" />
+    <Compile Include="Controllers\Develop\DevToolController.cs" />
     <Compile Include="Controllers\FrameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
@@ -483,7 +485,7 @@
     <Content Include="Views\DevTool\Partials\DemoTab.cshtml" />
     <Content Include="Views\DevTool\Partials\DevCodeGen.cshtml" />
     <Content Include="Views\DevTool\Partials\DevDatabase.cshtml" />
-    <Content Include="Views\DevTool\DevToolView.cshtml" />
+    <Content Include="Views\DevTool\DevelopView.cshtml" />
     <Content Include="Views\Frame\SplitPageView.cshtml" />
     <Content Include="Views\Frame\System\Module\LeftMenu.cshtml" />
     <Content Include="Views\Frame\System\Module\ModuleForm.cshtml" />
@@ -520,7 +522,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\DevTool\" />
     <Folder Include="static\libs\miniui\themes\pure\images\button\" />
   </ItemGroup>
   <PropertyGroup>

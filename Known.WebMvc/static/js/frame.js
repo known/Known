@@ -724,9 +724,12 @@ var Grid = function (name, option) {
     var _this = this;
     if ($('#query' + name).length) {
         this.query = new Form('query' + name);
-        mini.get('search', this.query).on('click', function () {
-            _this.search();
-        });
+        var btnSearch = mini.get('search', this.query);
+        if (btnSearch) {
+            btnSearch.on('click', function () {
+                _this.search();
+            });
+        }
     }
 
     var columns = this.grid.getColumns();

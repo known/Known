@@ -52,7 +52,7 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\CoreServiceBase.cs" />
     <Compile Include="Services\AppService.cs" />
-    <Compile Include="Services\DemoService.cs" />
+    <Compile Include="Services\DevDemoService.cs" />
     <Compile Include="Services\DevToolService.cs" />
     <Compile Include="Services\ModuleService.cs" />
     <Compile Include="Services\UserService.cs" />

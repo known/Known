@@ -212,7 +212,7 @@ var Navbar = {
     devTool: function () {
         MainTabs.active({
             id: 'devTool', iconCls: 'fa-puzzle-piece',
-            text: '开发工具', url: '/DevTool/DevToolView'
+            text: '开发工具', url: '/Develop/DevelopView'
         });
     },
 

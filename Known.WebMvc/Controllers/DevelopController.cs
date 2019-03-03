@@ -2,9 +2,9 @@
 
 namespace Known.WebMvc.Controllers
 {
-    public class DevToolController : AuthorizeController
+    public class DevelopController : AuthorizeController
     {
-        public ActionResult DevToolView()
+        public ActionResult DevelopView()
         {
             return View();
         }
