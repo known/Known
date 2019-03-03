@@ -161,12 +161,6 @@ var MainTabs = {
     tabsId: 'mainTabs',
 
     init: function () {
-        var me = this;
-        $('#tbMainTabs #home').click(function () { me.home(); });
-        $('#tbMainTabs #refresh').click(function () { me.refresh(); });
-        $('#tbMainTabs #remove').click(function () { me.remove(); });
-        $('#tbMainTabs #fullScreen').click(function () { me.fullScreen(); });
-
         var tab = this.active({ id: 'index' });
         $(tab.bodyEl).loadHtml('/Home/Partial', {
             name: 'Dashboard'
@@ -295,9 +289,6 @@ $(function () {
     $(document).click(function (event) {
         $('.dropdown').removeClass('open');
     });
-
-    Toolbar.bind('tbNavbar', Navbar);
-    Toolbar.bind('tbMainTabs', MainTabs);
 
     mini.parse();
 
