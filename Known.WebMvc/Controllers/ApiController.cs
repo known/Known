@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using Known.Extensions;
 using Known.Platform;
 using Known.Web;
-using Known.Web.Extensions;
 using Newtonsoft.Json;
 
 namespace Known.WebMvc.Controllers
@@ -89,24 +88,7 @@ namespace Known.WebMvc.Controllers
 
         private ActionResult Query(ApiClient api, string module, string method)
         {
-            var query = Request.Get<string>("query");
-            var isLoad = Request.Get<string>("isLoad");
-            var sortField = Request.Get<string>("sortField");
-            var sortOrder = Request.Get<string>("sortOrder");
-            var sorts = new List<string>();
-            if (!string.IsNullOrWhiteSpace(sortField))
-            {
-                sorts.Add($"{sortField} {sortOrder}");
-            }
-
-            var criteria = new PagingCriteria
-            {
-                IsLoad = isLoad == "1",
-                PageIndex = Request.Get<int>("pageIndex"),
-                PageSize = Request.Get<int>("pageSize"),
-                OrderBys = sorts.ToArray(),
-                Parameter = FromJson(query)
-            };
+            var criteria = GetPagingCriteria();
 
             if (Setting.Instance.IsMonomer)
             {

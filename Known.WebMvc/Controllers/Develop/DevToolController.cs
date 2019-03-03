@@ -11,8 +11,9 @@ namespace Known.WebMvc.Controllers.Develop
         }
 
         #region DevDatabase
-        public ActionResult QueryDatas(PagingCriteria criteria)
+        public ActionResult QueryDatas()
         {
+            var criteria = GetPagingCriteria();
             var result = Service.QueryDatas(criteria);
             return PageResult(result);
         }
