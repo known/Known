@@ -691,26 +691,23 @@ var Dialog = {
 //---------------------------toolbar------------------------------------------//
 var Toolbar = {
 
-    tbId: '',
-
     bind: function (tbId, handler) {
-        this.tbId = tbId;
         for (var p in handler) {
-            this.bindButton(p, function () {
+            bindButton(tbId, p, function () {
                 handler[p].call(handler);
             });
         }
 
         var top = !tbId.startsWith('tbForm');
-        this.bindButton('close', function () {
+        bindButton(tbId, 'close', function () {
             Dialog.close(top);
         });
-    },
 
-    bindButton: function (name, handler) {
-        var btn = mini.getByName(name, this.tbId);
-        if (btn) {
-            btn.on('click', handler);
+        function bindButton(tbId, name, handler) {
+            var btn = mini.getByName(name, tbId);
+            if (btn) {
+                btn.on('click', handler);
+            }
         }
     }
 
