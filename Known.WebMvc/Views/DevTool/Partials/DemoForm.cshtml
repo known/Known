@@ -1,4 +1,14 @@
-﻿<div id="formDemo" style="padding:5px;">
+﻿<div id="tbDemo" style="padding:2px;">
+    <a class="mini-button" id="submitForm">提交</a>
+    <a class="mini-button" id="loadForm">加载</a>
+    <a class="mini-button" id="resetForm">重置</a>
+    <a class="mini-button" id="clearForm">清空</a>
+    <a class="mini-button" id="setForm">绑定数据</a>
+    <a class="mini-button" id="getForm">获取数据</a>
+    <a class="mini-button" id="setLabel">查看模式</a>
+    <a class="mini-button" id="setInput">编辑模式</a>
+</div>
+<div id="formDemo">
     @Form.Hidden("Id", "HeadId")
     <table class="form">
         <tr>
@@ -41,7 +51,7 @@
             <th>ComboBox：</th>
             <td>
                 @Form.ComboBox("Country", false, new {
-                   url = "/static/modules/frame/devtool/data/countrys.txt",
+                   url = "/static/data/demo/countrys.txt",
                    value = "cn"
                 })
                 <br />
@@ -50,7 +60,7 @@
             <th>TreeSelect：</th>
             <td>
                 @Form.TreeSelect("TreeSelect", false, new {
-                   url = "/static/modules/frame/devtool/data/listTree.txt",
+                   url = "/static/data/demo/listTree.txt",
                    multiSelect = "true",
                    parentField = "pid",
                    checkRecursive = "true",
@@ -64,7 +74,7 @@
                 @Form.CheckBoxList("Countrys", false, new {
                    repeatItems = "5",
                    repeatLayout = "flow",
-                   url = "/static/modules/frame/devtool/data/countrys.txt",
+                   url = "/static/data/demo/countrys.txt",
                    value = "cn,de,usa"
                 })
             </td>
@@ -72,9 +82,9 @@
             <td rowspan="2" class="noborder">
                 @Form.ListBox("Countrys1", false, new {
                    showNullItem = "true",
-                   url = "/static/modules/frame/devtool/data/countrys.txt",
+                   url = "/static/data/demo/countrys.txt",
                    value = "fr",
-                   style = "height:120px;"
+                   style = "height:130px;"
                 })
             </td>
         </tr>
@@ -83,24 +93,14 @@
             <td class="noborder">
                 @Form.RadioButtonList("Countrys2", false, new {
                    value = "en",
-                   repeatItems = "2",
+                   repeatItems = "3",
                    repeatDirection = "vertical",
                    repeatLayout = "table",
-                   url = "/static/modules/frame/devtool/data/countrys.txt"
+                   url = "/static/data/demo/countrys.txt"
                 })
             </td>
         </tr>
     </table>
-</div>
-<div id="tbDemo" class="buttons text-right" style="padding:5px;">
-    <a class="mini-button" id="submitForm">提交</a>
-    <a class="mini-button" id="loadForm">加载</a>
-    <a class="mini-button" id="resetForm">重置</a>
-    <a class="mini-button" id="clearForm">清空</a>
-    <a class="mini-button" id="setForm">绑定数据</a>
-    <a class="mini-button" id="getForm">获取数据</a>
-    <a class="mini-button" id="setLabel">查看模式</a>
-    <a class="mini-button" id="setInput">编辑模式</a>
 </div>
 
 <script>
