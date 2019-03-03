@@ -46,7 +46,11 @@
                         if (p === '_id' || p === '_uid') {
                             continue;
                         }
-                        columns.push({ field: p, header: p });
+                        var column = { field: p, header: p };
+                        if (p.endsWith('time')) {
+                            column.dateFormat = 'yyyy-MM-dd HH:mm:ss';
+                        }
+                        columns.push(column);
                     }
                 }
                 grid.setColumns(columns);
