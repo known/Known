@@ -215,30 +215,29 @@ var MainTabs = {
 //Navbar
 var Navbar = {
 
-    init: function () {
-        var me = this;
-        $('#tbNavbar #cache').click(function () { me.cache(); });
-        $('#tbNavbar #info').click(function () { me.info(); });
-        $('#tbNavbar #updPwd').click(function () { me.updPwd(); });
-        $('#tbNavbar #logout').click(function () { me.logout(); });
+    devTool: function () {
+        MainTabs.active({
+            id: 'devTool', iconCls: 'fa-puzzle-piece',
+            text: '开发工具', url: '/DevTool/DevToolView'
+        });
     },
 
     todo: function () {
         MainTabs.active({
-            id: 'todo', iconCls: 'fa-paper-plane',
-            text: '代办事项', url: 'Pages/TodoView.html'
+            id: 'todo', iconCls: 'fa-tasks',
+            text: '代办事项', url: '/System/TodoView'
         });
     },
 
     cache: function () {
-        Ajax.getJson('/api/User/GetCodes', function (data) {
+        Ajax.getJson('/User/GetCodes', function (data) {
             Code.setData(data);
             Message.tips({ content: '刷新成功！' });
         });
     },
 
     info: function () {
-        Ajax.getJson('/api/User/GetUserInfo', function (data) {
+        Ajax.getJson('/User/GetUserInfo', function (data) {
         });
     },
 
@@ -271,7 +270,7 @@ $(function () {
 
     new MenuTip(menu);
 
-    Ajax.getJson('/api/plt/User/GetModules', function (result) {
+    Ajax.getJson('/User/GetModules', function (result) {
         menu.loadData(result.menus);
         Code.setData(result.codes);
     });
@@ -297,14 +296,11 @@ $(function () {
         $('.dropdown').removeClass('open');
     });
 
-    //user
-    var user = User.getUser();
-    if (user) {
-        $('#userName').html(user.Name);
-    }
+    Toolbar.bind('tbNavbar', Navbar);
+    Toolbar.bind('tbMainTabs', MainTabs);
 
     mini.parse();
 
     MainTabs.init();
-    Navbar.init();
+
 });

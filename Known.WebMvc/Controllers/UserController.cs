@@ -32,5 +32,13 @@ namespace Known.WebMvc.Controllers
             FormsAuthentication.SignOut();
             Session.Clear();
         }
+
+        [LoginAuthorize]
+        public ActionResult GetModules()
+        {
+            var menus = Menu.GetUserMenus(PlatformService, UserName);
+            var codes = Code.GetCodes(PlatformService);
+            return JsonResult(new { menus, codes });
+        }
     }
 }
