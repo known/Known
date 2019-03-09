@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Known</title>
     <link rel="stylesheet" href="~/static/libs/font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" href="~/static/libs/scrollbar/jquery.scrollbar.css">
     <link rel="stylesheet" href="~/static/libs/miniui/themes/default/miniui.css">
     <link rel="stylesheet" href="~/static/libs/miniui/themes/default/medium-mode.css">
     <link rel="stylesheet" href="~/static/libs/miniui/themes/default/flatstyle.css">
     <link rel="stylesheet" href="~/static/libs/miniui/themes/cupertino/skin.css">
     <link rel="stylesheet" href="~/static/css/frame.css">
     <script src="~/static/libs/jquery.js"></script>
-    <script src="~/static/libs/scrollbar/jquery.scrollbar.js"></script>
     <script src="~/static/libs/miniui/miniui.js"></script>
     <script src="~/static/libs/highcharts/highcharts.js"></script>
     <script src="~/static/libs/highcharts/model/exporting.js"></script>
@@ -23,12 +21,15 @@
 </head>
 <body>
     @Html.AntiForgeryToken()
+
     @RenderBody()
+
     <div id="dialog" class="mini-window" title="窗体" iconCls="fa-windows"
          showModal="true" showShadow="true" 
          showMaxButton="true" showCollapseButton="true" 
          allowResize="true" allowDrag="true">
     </div>
+
     @RenderSection("Foot", false)
 </body>
 </html>

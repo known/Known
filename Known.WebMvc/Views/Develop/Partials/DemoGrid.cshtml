@@ -79,7 +79,14 @@
         },
 
         addForm: function () {
-            Message.alert('AddForm');
+            Dialog.show({
+                max: true, title: '表单示例',
+                url: '@Url.Action("Partial", "Develop")',
+                param: { name: 'DemoForm' },
+                callback: function () {
+
+                }
+            });
         },
 
         addHlForm: function () {

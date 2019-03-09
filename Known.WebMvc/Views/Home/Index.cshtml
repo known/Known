@@ -31,15 +31,17 @@
 </head>
 <body>
     @Html.AntiForgeryToken()
+
     <div id="wrapper" style="display:none;">
+
         <div class="navbar">
             <div class="navbar-header">
                 <div class="navbar-brand">@ViewBag.SystemName</div>
                 <div class="navbar-brand navbar-brand-compact">K</div>
             </div>
             <!--ul class="nav navbar-nav">
-            <li><a id="toggle"><span class="fa fa-bars"></span></a></li>
-        </ul-->
+                <li><a id="toggle"><span class="fa fa-bars"></span></a></li>
+            </ul-->
             <ul id="tbNavbar" class="nav navbar-nav navbar-right">
                 <li class="icontop"><a class="button" onclick="Navbar.devTool()"><i class="fa fa-puzzle-piece"></i><span>开发工具</span></a></li>
                 <li class="icontop"><a class="button" onclick="Navbar.todo()"><i class="fa fa-tasks"></i><span>代办事项</span></a></li>
@@ -56,6 +58,7 @@
                 </li>
             </ul>
         </div>
+
         <div class="container">
             <div class="sidebar">
                 <div class="sidebar-toggle"><i class="fa fa-fw fa-dedent"></i></div>
@@ -74,11 +77,13 @@
                 </div>
             </div>
         </div>
+
         <div id="dialog" class="mini-window" title="窗体" iconCls="fa-windows"
              showModal="true" showShadow="true"
              showMaxButton="true" showCollapseButton="true"
              allowResize="true" allowDrag="true">
         </div>
+
     </div>
     
     <script src="~/static/js/index.js"></script>
