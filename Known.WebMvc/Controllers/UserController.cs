@@ -10,13 +10,12 @@ namespace Known.WebMvc.Controllers
         [Route("signin")]
         public ActionResult SignIn(string userName, string password, string backUrl)
         {
-            userName = userName.ToLower();
             var result = PlatformService.SignIn(userName, password);
             if (!result.IsValid)
                 return ErrorResult(result.Message);
 
-            FormsAuthentication.SetAuthCookie(userName, true);
             CurrentUser = result.Data;
+            FormsAuthentication.SetAuthCookie(CurrentUser.UserName, true);
 
             if (string.IsNullOrEmpty(backUrl))
                 backUrl = FormsAuthentication.DefaultUrl;

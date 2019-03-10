@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta charset="utf-8">
     <title>@ViewBag.SystemName</title>
     <meta name="renderer" content="webkit">
@@ -14,9 +15,12 @@
     <script src="~/static/libs/jquery.md5.js"></script>
     <script src="~/static/js/core.js"></script>
     <script>var backUrl = '@ViewBag.BackUrl';</script>
+
 </head>
 <body>
+
     @Html.AntiForgeryToken()
+
     <div class="login">
         <div class="message">@ViewBag.SystemName</div>
         <div id="darkbannerwrap"></div>
@@ -30,7 +34,10 @@
             <div id="error" style="color:#f00"></div>
         </div>
     </div>
+
     <div class="copyright">© 2018 KNOWN</div>
+
     <script src="~/static/js/login.js"></script>
+
 </body>
 </html>

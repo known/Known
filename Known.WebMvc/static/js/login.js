@@ -12,11 +12,12 @@
 
     $('#btnLogin').click(function () {
         var userName = $('#userName').val();
-        var password = $('#password').val();
         if (!userName) {
             _showMessage('请输入用户名！');
             return;
         }
+
+        var password = $('#password').val();
         if (!password) {
             _showMessage('请输入密码！');
             return;
