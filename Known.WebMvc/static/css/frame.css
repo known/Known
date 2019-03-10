@@ -9,7 +9,7 @@
 .form th {
     background: #f7f7f7;
     text-align: right;
-    border: 0px solid #aed0ea;
+    border: 1px solid #aed0ea;
     white-space: nowrap;
     font-weight: normal;
     font-size: 14px;
@@ -17,7 +17,7 @@
 
 .form td {
     width: auto;
-    border: 0px solid #aed0ea;
+    border: 1px solid #aed0ea;
     text-align: left;
     background: #fff;
     font-size: 14px;
