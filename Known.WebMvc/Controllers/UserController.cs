@@ -39,5 +39,18 @@ namespace Known.WebMvc.Controllers
             var codes = Code.GetCodes(PlatformService);
             return JsonResult(new { menus, codes });
         }
+
+        [LoginAuthorize]
+        public ActionResult GetCodes()
+        {
+            var codes = Code.GetCodes(PlatformService);
+            return JsonResult(codes);
+        }
+
+        [LoginAuthorize]
+        public ActionResult GetUserInfo()
+        {
+            return JsonResult(CurrentUser);
+        }
     }
 }
