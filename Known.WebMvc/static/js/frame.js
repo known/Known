@@ -650,6 +650,7 @@ var Dialog = {
 
         var dialog = mini.get('dialog');
         dialog.setTitle(option.title);
+        dialog.setIconCls(option.iconCls || 'fa-windows');
         dialog.setWidth(option.width || 500);
         dialog.setHeight(option.height || 300);
         dialog.show();
@@ -658,14 +659,16 @@ var Dialog = {
             dialog.max();
         }
 
-        $('#dialog .mini-panel-body').loadHtml(
-            option.url,
-            option.param,
-            function () {
-                mini.parse();
-                option.callback && option.callback(dialog);
-            }
-        );
+        if (option.url) {
+            $('#dialog .mini-panel-body').loadHtml(
+                option.url,
+                option.param,
+                function () {
+                    mini.parse();
+                    option.callback && option.callback(dialog);
+                }
+            );
+        }
 
         return dialog;
     },

@@ -231,11 +231,19 @@ var Navbar = {
     },
 
     info: function () {
-        Ajax.getJson('/User/GetUserInfo', function (data) {
+        Dialog.show({
+            title: '用户信息', iconCls: 'fa-user',
+            callback: function (dlg) {
+                Ajax.getJson('/User/GetUserInfo', function (data) {
+                });
+            }
         });
     },
 
     updPwd: function () {
+        Dialog.show({
+            title: '修改密码', iconCls: 'fa-pencil-square-o'
+        });
     },
 
     logout: function () {

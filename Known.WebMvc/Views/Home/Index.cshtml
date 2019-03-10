@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta charset="utf-8">
     <title>@ViewBag.SystemName</title>
     <meta name="renderer" content="webkit">
@@ -11,6 +12,7 @@
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="format-detection" content="telephone=no">
+
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="~/static/libs/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="~/static/libs/scrollbar/jquery.scrollbar.css">
@@ -20,6 +22,7 @@
     <link rel="stylesheet" href="~/static/libs/miniui/themes/cupertino/skin.css">
     <link rel="stylesheet" href="~/static/css/frame.css">
     <link rel="stylesheet" href="~/static/css/index.css">
+
     <script src="~/static/libs/jquery.js"></script>
     <script src="~/static/libs/scrollbar/jquery.scrollbar.js"></script>
     <script src="~/static/libs/miniui/miniui.js"></script>
@@ -28,20 +31,25 @@
     <script src="~/static/libs/pdfobject.js"></script>
     <script src="~/static/js/core.js"></script>
     <script src="~/static/js/frame.js"></script>
+
 </head>
 <body>
+
     @Html.AntiForgeryToken()
 
     <div id="wrapper" style="display:none;">
 
         <div class="navbar">
+
             <div class="navbar-header">
                 <div class="navbar-brand">@ViewBag.SystemName</div>
                 <div class="navbar-brand navbar-brand-compact">K</div>
             </div>
+
             <!--ul class="nav navbar-nav">
                 <li><a id="toggle"><span class="fa fa-bars"></span></a></li>
             </ul-->
+
             <ul id="tbNavbar" class="nav navbar-nav navbar-right">
                 <li class="icontop"><a class="button" onclick="Navbar.devTool()"><i class="fa fa-puzzle-piece"></i><span>开发工具</span></a></li>
                 <li class="icontop"><a class="button" onclick="Navbar.todo()"><i class="fa fa-tasks"></i><span>代办事项</span></a></li>
@@ -57,16 +65,19 @@
                     </ul>
                 </li>
             </ul>
+
         </div>
 
         <div class="container">
+
             <div class="sidebar">
                 <div class="sidebar-toggle"><i class="fa fa-fw fa-dedent"></i></div>
                 <div id="mainMenu"></div>
             </div>
+
             <div class="main">
                 <div id="mainTabs" class="mini-tabs main-tabs" activeIndex="0" style="height:100%;"
-                     plain="false" buttons="#tbMainTabs" arrowPosition="side">
+                     plain="false" buttons="#tbMainTabs" arrowPosition="side" maskOnLoad="false">
                     <div id="dashboard" name="index" iconCls="fa-home" title="控制台"></div>
                 </div>
                 <div id="tbMainTabs">
@@ -76,6 +87,7 @@
                     <a class="tabsBtn" onclick="MainTabs.fullScreen()"><i class="fa fa-arrows-alt"></i></a>
                 </div>
             </div>
+
         </div>
 
         <div id="dialog" class="mini-window" title="窗体" iconCls="fa-windows"
@@ -87,5 +99,6 @@
     </div>
     
     <script src="~/static/js/index.js"></script>
+
 </body>
 </html>
