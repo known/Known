@@ -1,14 +1,7 @@
 ﻿$(function () {
 
-    $('input[onenter]').keydown(function (event) {
-        if (event.which === 13) {
-            event.preventDefault();
-            var method = $(this).attr("onenter");
-            eval(method);
-        }
-    });
-
-    $('#userName').focus();
+    $('#userName').attr('onenter', "$('#password').focus()").focus();
+    $('#password').attr('onenter', "$('#btnLogin').click()");
 
     $('#btnLogin').click(function () {
         var userName = $('#userName').val();
@@ -39,6 +32,14 @@
 
         function _showMessage(message) {
             $('#error').html(message);
+        }
+    });
+
+    $('input[onenter]').keydown(function (event) {
+        if (event.which === 13) {
+            event.preventDefault();
+            var method = $(this).attr("onenter");
+            eval(method);
         }
     });
 
