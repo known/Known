@@ -713,27 +713,23 @@ var Toolbar = {
 
     bind: function (tbId, obj) {
         for (var p in obj) {
-            bindButton(tbId, p, function () {
-                obj[p].call(obj);
-            });
+            bindButton(tbId, p, obj);
         }
 
         var top = !tbId.startsWith('tbForm');
-        bindButton(tbId, 'close', function () {
-            Dialog.close(top);
-        });
+        var btnClose = $('#' + tbId + ' #close');
+        if (btnClose.length) {
+            btnClose.unbind('click').bind('click', function () {
+                Dialog.close(top);
+            });
+        }
 
-        function bindButton(tbId, name, handler) {
+        function bindButton(tbId, name, obj) {
             var btn = $('#' + tbId + ' #' + name);
             if (btn.length) {
-                btn.on('click', function () {
-                    handler();
+                btn.unbind('click').bind('click', function () {
+                    obj[name].call(obj);
                 });
-            } else {
-                var btnMini = mini.getByName(name, tbId);
-                if (btnMini) {
-                    btnMini.on('click', handler);
-                }
             }
         }
     }
