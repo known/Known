@@ -4,7 +4,7 @@ mini.DataTable.prototype.pageSize = 20;
 mini.DataGrid.prototype.allowAlternating = true;
 mini.DataGrid.prototype.showColumnsMenu = true;
 mini.DataGrid.prototype.showEmptyText = true;
-mini.DataGrid.prototype.showVGridLines = false;
+//mini.DataGrid.prototype.showVGridLines = false;
 mini.DataGrid.prototype.emptyText = '未查到任何数据！';
 
 //---------------------------vtypes------------------------------------------//
@@ -12,6 +12,7 @@ mini.VTypes["plusErrorText"] = "必须大于0";
 mini.VTypes["plus"] = function (v) {
     if (v !== null && v !== "")
         return v > 0;
+
     return true;
 };
 
@@ -19,6 +20,7 @@ mini.VTypes["non-negativeErrorText"] = "必须大于等于0";
 mini.VTypes["non-negative"] = function (v) {
     if (v !== null && v !== "")
         return v >= 0;
+
     return true;
 };
 
@@ -26,6 +28,7 @@ mini.VTypes["non-zeroErrorText"] = "不能为0";
 mini.VTypes["non-zero"] = function (v) {
     if (v !== null && v !== "")
         return v !== 0;
+
     return true;
 };
 
@@ -33,6 +36,7 @@ mini.VTypes["percentErrorText"] = "必须大于等于0，并且要小于100";
 mini.VTypes["percent"] = function (v) {
     if (v !== null && v !== "")
         return v >= 0 && v < 100;
+
     return true;
 };
 
@@ -42,21 +46,27 @@ mini.DecimalBox = function () {
     this.bindEvents();
 };
 mini.extend(mini.DecimalBox, mini.TextBox, {
+
     uiCls: 'mini-decimalbox',
+
     bindEvents: function () {
         var that = this;
 
         $(this.getEl()).bind('input propertychange', function () {
             var input = that.getInputText();
             that.setValue(input);
+
             input = input.replace(/[^\d.]*/g, '');
             if (input.indexOf('.') === 0)
                 input = '';
+
             var array = input.split('.');
             if (array.length - 1 > 1)
                 input = array[0] + '.' + array[1];
+
             if (input.indexOf('0') === 0 && input.indexOf('.') !== 1)
                 input = '0';
+
             that.setValue(input);
         });
 
@@ -82,6 +92,7 @@ mini.extend(mini.DecimalBox, mini.TextBox, {
             }
         });
     }
+
 });
 mini.regClass(mini.DecimalBox, 'decimalbox');
 
@@ -91,7 +102,9 @@ mini.IntegerBox = function () {
     this.bindEvents();
 };
 mini.extend(mini.IntegerBox, mini.TextBox, {
+
     uiCls: 'mini-integerbox',
+
     bindEvents: function () {
         var that = this;
 
@@ -114,6 +127,7 @@ mini.extend(mini.IntegerBox, mini.TextBox, {
             }
         });
     }
+
 });
 mini.regClass(mini.IntegerBox, 'integerbox');
 
@@ -344,6 +358,7 @@ mini._PagerTree_Expander = function (grid) {
     mini.on(grid.el, "click", this.__OnClick, this);
 };
 mini._PagerTree_Expander.prototype = {
+
     __OnClick: function (e) {
         var tree = this.owner;
         var node = tree.getRecordByEvent(e, false);
@@ -354,6 +369,7 @@ mini._PagerTree_Expander.prototype = {
             tree.toggleNode(node[tree.idField]);
         }
     }
+
 };
 
 //---------------------------columnsMenu------------------------------------------//
@@ -381,6 +397,7 @@ var ColumnsMenu = function (grid, options) {
     me.menu.on("close", function (e) {
         $(grid.el).find(".mini-grid-column-open").removeClass("mini-grid-column-open");
     });
+
 };
 ColumnsMenu.prototype = {
 
@@ -876,9 +893,9 @@ Grid.prototype = {
 
     checkMultiSelect: function (callback) {
         var rows = this.grid.getSelecteds();
-        if (rows.length === 0)
+        if (rows.length === 0) {
             Message.tips('请选择一条或多条记录！');
-        else if (callback) {
+        } else if (callback) {
             var data = this.getRowDatas(rows);
             callback(rows, data);
         }
