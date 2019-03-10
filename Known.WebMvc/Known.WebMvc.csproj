@@ -500,6 +500,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\System\ModuleView.cshtml" />
     <Content Include="Views\System\Partials\ModuleForm.cshtml" />
+    <Content Include="Views\Home\Partials\UpdatePwd.cshtml" />
+    <Content Include="Views\Home\Partials\UserInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

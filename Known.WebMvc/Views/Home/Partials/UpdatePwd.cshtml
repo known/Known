@@ -1,0 +1,23 @@
+﻿<table id="formUpdatePwd" class="form">
+    <tr>
+        <th style="width:80px;">用户名</th>
+        <td></td>
+    </tr>
+    <tr>
+        <th>原密码</th>
+        <td>@Form.Password("OldPassword", true)</td>
+    </tr>
+    <tr>
+        <th>新密码</th>
+        <td>@Form.Password("Password", true)</td>
+    </tr>
+    <tr>
+        <th>确认密码</th>
+        <td>@Form.Password("Password1", true)</td>
+    </tr>
+</table>
+
+<div property="footer">
+    @Form.Button(Form.ButtonType.Save)
+    @Form.Button(Form.ButtonType.Close)
+</div>
