@@ -51,17 +51,17 @@
             </ul-->
 
             <ul id="tbNavbar" class="nav navbar-nav navbar-right">
-                <li class="icontop"><a class="button" onclick="Navbar.devTool()"><i class="fa fa-puzzle-piece"></i><span>开发工具</span></a></li>
-                <li class="icontop"><a class="button" onclick="Navbar.todo()"><i class="fa fa-tasks"></i><span>代办事项</span></a></li>
-                <li class="icontop"><a class="button" onclick="Navbar.cache()"><i class="fa fa-refresh"></i><span>刷新缓存</span></a></li>
+                <li class="icontop"><a id="devTool"><i class="fa fa-puzzle-piece"></i><span>开发工具</span></a></li>
+                <li class="icontop"><a id="todo"><i class="fa fa-tasks"></i><span>代办事项</span></a></li>
+                <li class="icontop"><a id="cache"><i class="fa fa-refresh"></i><span>刷新缓存</span></a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle userinfo">
                         <img class="user-img" src="~/static/images/face.jpg" />@ViewBag.UserName <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu pull-right">
-                        <li><a onclick="Navbar.info()"><i class="fa fa-user"></i> 用户信息</a></li>
-                        <li><a onclick="Navbar.updPwd()"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
-                        <li><a onclick="Navbar.logout()"><i class="fa fa-power-off"></i> 退出登录</a></li>
+                        <li><a id="info"><i class="fa fa-user"></i> 用户信息</a></li>
+                        <li><a id="updPwd"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
+                        <li><a id="logout"><i class="fa fa-power-off"></i> 退出登录</a></li>
                     </ul>
                 </li>
             </ul>
@@ -81,10 +81,10 @@
                     <div id="dashboard" name="index" iconCls="fa-home" title="控制台"></div>
                 </div>
                 <div id="tbMainTabs">
-                    <a class="tabsBtn" onclick="MainTabs.home()"><i class="fa fa-home"></i></a>
-                    <a class="tabsBtn" onclick="MainTabs.refresh()"><i class="fa fa-refresh"></i></a>
-                    <a class="tabsBtn" onclick="MainTabs.remove()"><i class="fa fa-remove"></i></a>
-                    <a class="tabsBtn" onclick="MainTabs.fullScreen()"><i class="fa fa-arrows-alt"></i></a>
+                    <a class="tabsBtn" id="home"><i class="fa fa-home"></i></a>
+                    <a class="tabsBtn" id="refresh"><i class="fa fa-refresh"></i></a>
+                    <a class="tabsBtn" id="remove"><i class="fa fa-remove"></i></a>
+                    <a class="tabsBtn" id="fullScreen"><i class="fa fa-arrows-alt"></i></a>
                 </div>
             </div>
 

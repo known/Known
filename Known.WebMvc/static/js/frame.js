@@ -711,10 +711,10 @@ var Dialog = {
 //---------------------------toolbar------------------------------------------//
 var Toolbar = {
 
-    bind: function (tbId, handler) {
-        for (var p in handler) {
+    bind: function (tbId, obj) {
+        for (var p in obj) {
             bindButton(tbId, p, function () {
-                handler[p].call(handler);
+                obj[p].call(obj);
             });
         }
 
@@ -724,9 +724,16 @@ var Toolbar = {
         });
 
         function bindButton(tbId, name, handler) {
-            var btn = mini.getByName(name, tbId);
-            if (btn) {
-                btn.on('click', handler);
+            var btn = $('#' + tbId + ' #' + name);
+            if (btn.length) {
+                btn.on('click', function () {
+                    handler();
+                });
+            } else {
+                var btnMini = mini.getByName(name, tbId);
+                if (btnMini) {
+                    btnMini.on('click', handler);
+                }
             }
         }
     }
