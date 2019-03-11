@@ -75,6 +75,27 @@
     padding: 5px 0;
 }
 
+.topToolbar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 2px;
+    border-bottom: 1px solid #aed0ea;
+    background: #f7f7f7;
+}
+
+.bottomToolbar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 2px;
+    text-align: right;
+    border-top: 1px solid #aed0ea;
+    background: #f7f7f7;
+}
+
 .form .mini-textbox-border,
 .form .mini-buttonedit-border {
     background: #fff;
@@ -231,4 +252,20 @@ table {
     background: #fff;
     /*color:#444;*/
     color: #000;
+}
+
+/********************************** window ************************/
+.mini-window .mini-panel-border {
+    border: 3px solid #3c8dbc;
+    border-radius: 3px;
+}
+
+.mini-window .mini-panel-header {
+    border-color: #3c8dbc;
+    background: #3c8dbc;
+    color: #fff;
+}
+
+.mini-window .mini-panel-header .mini-icon {
+    color: #fff;
 }

@@ -190,8 +190,15 @@ var Navbar = {
     updPwd: function () {
         Dialog.show({
             title: '修改密码', iconCls: 'fa-pencil-square-o',
-            width: 300, height: 200, showFooter: true,
-            url: '/Home/Partial', param: { name: 'UpdatePwd' }
+            width: 300, height: 200,
+            url: '/Home/Partial', param: { name: 'UpdatePwd' },
+            callback: function () {
+                Toolbar.bind('tbFormUpdatePwd', {
+                    save: function () {
+                        Message.tips('保存成功！');
+                    }
+                });
+            }
         });
     },
 
