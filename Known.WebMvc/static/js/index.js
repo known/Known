@@ -180,19 +180,10 @@ var Navbar = {
     info: function () {
         Dialog.show({
             title: '用户信息', iconCls: 'fa-user',
-            callback: function (dlg) {
+            url: '/Home/Partial', param: { name: 'UserInfo' },
+            callback: function () {
                 Ajax.getJson('/User/GetUserInfo', function (data) {
                 });
-            }
-        });
-    },
-
-    updPwd: function () {
-        Dialog.show({
-            title: '修改密码', iconCls: 'fa-pencil-square-o',
-            width: 300, height: 200,
-            url: '/Home/Partial', param: { name: 'UpdatePwd' },
-            callback: function () {
                 Toolbar.bind('tbFormUpdatePwd', {
                     save: function () {
                         Message.tips('保存成功！');

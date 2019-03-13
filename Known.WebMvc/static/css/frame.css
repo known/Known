@@ -237,13 +237,6 @@ table {
 }
 
 /********************************** tabs ************************/
-.mini-tabs-bodys {
-    padding: 0;
-}
-.mini-tabs-body {
-    padding: 5px;
-}
-
 .mini-tabs .mini-tab-active,
 .mini-tab-active.mini-tab-hover {
     position: relative;
@@ -268,4 +261,8 @@ table {
 
 .mini-window .mini-panel-header .mini-icon {
     color: #fff;
+}
+
+.mini-messagebox-content td {
+    font-size: 14px;
 }

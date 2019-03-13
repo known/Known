@@ -562,6 +562,20 @@ a:hover.mini-tabs-leftButton, a:hover.mini-tabs-rightButton {
     background: #e2e2e2;
 }
 
+/********************************** dialog tabs ************************/
+.mini-panel-body {
+    padding: 0;
+}
+
+.mini-tabs .mini-tab-active,
+.mini-tab-active.mini-tab-hover {
+    position: relative;
+    border-bottom-color: #fff;
+    /*background: linear-gradient(to bottom,#F8F8F8 0,#fff 100%);*/
+    background: #fff;
+    /*color:#444;*/
+    color: #000;
+}
 
 /***********************************index************************************/
 *,
@@ -699,13 +713,11 @@ a {
     text-align: center;
 }
 
-/*.compact .has-children > a > .menu-icon:before
-{
+/*.compact .has-children > a > .menu-icon:before {
     font-size:16px;
     content: "\f0d7";
 }
-.compact .open > a > .menu-icon:before
-{
+.compact .open > a > .menu-icon:before {
     content: "\f0d8";
 }*/
 
