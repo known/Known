@@ -562,21 +562,6 @@ a:hover.mini-tabs-leftButton, a:hover.mini-tabs-rightButton {
     background: #e2e2e2;
 }
 
-/********************************** dialog tabs ************************/
-.mini-panel-body {
-    padding: 0;
-}
-
-.mini-tabs .mini-tab-active,
-.mini-tab-active.mini-tab-hover {
-    position: relative;
-    border-bottom-color: #fff;
-    /*background: linear-gradient(to bottom,#F8F8F8 0,#fff 100%);*/
-    background: #fff;
-    /*color:#444;*/
-    color: #000;
-}
-
 /***********************************index************************************/
 *,
 *:before,
