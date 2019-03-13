@@ -422,7 +422,7 @@ ul, li {
     border-bottom-color: #aed0ea;
 }
 
-.mini-tabs .mini-tab {
+#mainTabs .mini-tab {
     padding: 6px 14px 7px 14px;
     border-radius: 5px 5px 0 0;
     background: linear-gradient(to bottom,#F8F8F8 0,#eee 100%);
@@ -448,13 +448,13 @@ ul, li {
     margin-right: 2px;
 }
 
-.mini-tab-hover {
+#mainTabs .mini-tab-hover {
     background: #e2e2e2;
     color: #000;
 }
 
-.mini-tabs .mini-tab-active,
-.mini-tab-active.mini-tab-hover {
+#mainTabs .mini-tab-active,
+#mainTabs .mini-tab-active.mini-tab-hover {
     position: relative;
     border-bottom-color: #fff;
     /*background: linear-gradient(to bottom,#F8F8F8 0,#fff 100%);*/
@@ -464,18 +464,18 @@ ul, li {
     border-top-color: transparent;
 }
 
-.mini-tab-active {
+#mainTabs .mini-tab-active {
     /*font-weight:bold;*/
     color: #000;
 }
 
-.mini-tab-close:before {
+#mainTabs .mini-tab-close:before {
     display: none;
 }
 
-.mini-tab-close, 
-.mini-tab-close-hover, 
-.mini-tab-close:hover {
+#mainTabs .mini-tab-close, 
+#mainTabs .mini-tab-close-hover, 
+#mainTabs .mini-tab-close:hover {
     margin-top: 3px;
     background: url(../images/tabs_icons.png) no-repeat -34px -2px;
     vertical-align: top;
@@ -483,11 +483,11 @@ ul, li {
     left: 2px;
 }
 
-.mini-tab-close:hover {
+#mainTabs .mini-tab-close:hover {
     background-color: transparent;
 }
 
-.mini-tab-active:before {
+#mainTabs .mini-tab-active:before {
     content: "";
     position: absolute;
     width: 100%;
@@ -504,8 +504,8 @@ ul, li {
     top: 6px;
 }
 
-.mini-tabs .mini-tabs-space, 
-.mini-tabs .mini-tabs-space2 {
+#mainTabs .mini-tabs-space, 
+#mainTabs .mini-tabs-space2 {
     background: transparent;
     border-color: #aed0ea;
 }
@@ -543,7 +543,6 @@ a:hover.mini-tabs-rightButton {
     border-color: transparent;
     background: transparent;
 }
-
 
 /* tabsbuttons */
 #tbMainTabs {

@@ -263,6 +263,10 @@ table {
     color: #fff;
 }
 
+.mini-window .mini-panel-body {
+    padding: 0;
+}
+
 .mini-messagebox-content td {
     font-size: 14px;
 }
