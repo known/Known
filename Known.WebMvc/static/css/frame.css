@@ -247,6 +247,10 @@ table {
     color: #000;
 }
 
+.mini-tabs-bodys {
+    padding: 0;
+}
+
 /********************************** window ************************/
 .mini-window .mini-panel-border {
     border: 3px solid #3c8dbc;
@@ -264,7 +268,7 @@ table {
 }
 
 .mini-window .mini-panel-body {
-    padding: 0;
+    padding: 5px 0 0 0;
 }
 
 .mini-messagebox-content td {
