@@ -140,6 +140,29 @@
     <Content Include="static\libs\easyui\themes\default\images\tagbox_icons.png" />
     <Content Include="static\libs\easyui\themes\default\images\tree_icons.png" />
     <Content Include="static\libs\easyui\themes\default\images\validatebox_warning.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\easyui.css" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\accordion_arrows.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\blank.gif" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\calendar_arrows.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\combo_arrow.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\datagrid_icons.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\datebox_arrow.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\layout_arrows.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\linkbutton_bg.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\loading.gif" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\menu_arrows.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\messager_icons.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\pagination_icons.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\panel_tools.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\passwordbox_close.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\passwordbox_open.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\searchbox_button.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\slider_handle.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\spinner_arrows.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\tabs_icons.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\tagbox_icons.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\tree_icons.png" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\validatebox_warning.png" />
     <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
     <Content Include="static\libs\highcharts\highcharts.js" />
     <Content Include="static\libs\highcharts\model\exporting.js" />
@@ -176,6 +199,7 @@
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
     <None Include="packages.config" />
     <Content Include="static\data\menu.json" />
+    <Content Include="static\libs\easyui\themes\material-teal\images\Thumbs.db" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
