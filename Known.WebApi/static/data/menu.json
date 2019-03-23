@@ -1,0 +1,21 @@
+﻿[
+  {
+    "id": "SysManage",
+    "text": "系统管理",
+    "state": "open",
+    "children": [
+      {
+        "id": "Module",
+        "text": "模块管理"
+      },
+      {
+        "id": "Role",
+        "text": "角色管理"
+      },
+      {
+        "id": "User",
+        "text": "用户管理"
+      }
+    ]
+  }
+]
