@@ -83,7 +83,6 @@
     <Content Include="login.html" />
     <Content Include="Pages\Dashboard.html" />
     <Content Include="Pages\System\ModuleView.html" />
-    <Content Include="static\css\frame.css" />
     <Content Include="static\css\index.css" />
     <Content Include="static\css\login.css" />
     <Content Include="static\data\icon.txt" />

@@ -23,21 +23,26 @@
             method: 'get',
             url: 'static/data/menu.json',
             onClick: function (node) {
+                console.log(node);
                 if (node.children)
                     return;
 
-                var tab = mainTabs.tabs('getTab', node.text);
-                if (tab) {
-                    var index = mainTabs.tabs('getTabIndex', tab);
-                    mainTabs.tabs('select', index);
+                if (mainTabs.tabs('exists', node.text)) {
+                    mainTabs.tabs('select', node.text);
                 } else {
                     mainTabs.tabs('add', {
                         id: node.id,
                         title: node.text,
-                        content: 'Body' + node.text,
-                        closable: true
+                        iconCls: node.iconCls,
+                        href: '/Pages' + node.url,
+                        closable: true,
+                        bodyCls: 'content'
                     });
                 }
+            },
+            onLoadSuccess: function (node, data) {
+                $('.tree-icon,.tree-file').removeClass('tree-icon tree-file');
+                $('.tree-icon,.tree-folder').removeClass('tree-icon tree-folder tree-folder-open tree-folder-closed');
             }
         });
     }
