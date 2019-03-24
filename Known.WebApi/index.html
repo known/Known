@@ -11,14 +11,7 @@
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="static/libs/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="static/libs/easyui/themes/material-teal/easyui.css">
-    <script src="static/libs/jquery.min.js"></script>
-    <script src="static/libs/easyui/jquery.easyui.min.js"></script>
-    <style>
-        .header{height:60px;background:#3c8dbc;color:#fff;}
-        .header h1{margin:0;padding:0;line-height:60px;}
-        .footer{height:30px;}
-        .footer .copyright{text-align:right;line-height:30px;margin-right:10px;}
-    </style>
+    <link rel="stylesheet" href="static/css/index.css">
 </head>
 <body class="easyui-layout">
     <div class="header" data-options="region:'north',border:false">
@@ -35,51 +28,8 @@
             <div title="控制台" data-options="iconCls:'fa fa-home'"></div>
         </div>
     </div>
-    <script>
-        var Index = {
-
-            mainTabs: null,
-
-            show: function () {
-                this.mainTabs = this._initMainTabs();
-                this._initLeftTree();
-            },
-
-            _initMainTabs: function () {
-                return $('#mainTabs').tabs({
-                    border: false,
-                    onSelect: function (title) {
-
-                    }
-                });
-            },
-
-            _initLeftTree: function () {
-                var _this = this;
-                $('#leftTree').tree({
-                    method: 'get',
-                    url: 'static/data/menu.json',
-                    onClick: function (node) {
-                        var tab = _this.mainTabs.tabs('getTab', node.text);
-                        if (tab) {
-                            var index = _this.mainTabs.tabs('getTabIndex', tab);
-                            _this.mainTabs.tabs('select', index);
-                        } else {
-                            _this.mainTabs.tabs('add', {
-                                id: node.id,
-                                title: node.text,
-                                content: 'Body' + node.text,
-                                closable: true
-                            });
-                        }
-                    }
-                });
-            }
-
-        };
-
-        Index.show();
-        
-    </script>
+    <script src="static/libs/jquery.min.js"></script>
+    <script src="static/libs/easyui/jquery.easyui.min.js"></script>
+    <script src="static/js/index.js"></script>
 </body>
 </html>
