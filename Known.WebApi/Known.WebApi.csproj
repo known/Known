@@ -84,6 +84,7 @@
     <Content Include="Pages\Dashboard.html" />
     <Content Include="Pages\System\ModuleView.html" />
     <Content Include="static\css\index.css" />
+    <Content Include="static\css\dashboard.css" />
     <Content Include="static\css\login.css" />
     <Content Include="static\data\icon.txt" />
     <Content Include="static\images\aiwrap.png" />
@@ -198,7 +199,6 @@
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
     <None Include="packages.config" />
     <Content Include="static\data\menu.json" />
-    <Content Include="static\libs\easyui\themes\material-teal\images\Thumbs.db" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -17,7 +17,7 @@
     },
 
     _initLeftTree: function () {
-        var mainTabs = this.mainTabs;
+        var _this = this, mainTabs = this.mainTabs;
         $('#leftTree').tree({
             method: 'get',
             url: 'static/data/menu.json',
@@ -39,10 +39,17 @@
                 }
             },
             onLoadSuccess: function (node, data) {
-                $('.tree-icon,.tree-file').removeClass('tree-icon tree-file');
-                $('.tree-icon,.tree-folder').removeClass('tree-icon tree-folder tree-folder-open tree-folder-closed');
+                _this._removeNodeIcon();
+            },
+            onExpand: function (node) {
+                _this._removeNodeIcon();
             }
         });
+    },
+
+    _removeNodeIcon: function () {
+        $('.fa').removeClass('tree-icon tree-file');
+        $('.fa').removeClass('tree-icon tree-folder tree-folder-open tree-folder-closed');
     }
 
 };
