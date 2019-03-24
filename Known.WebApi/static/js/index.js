@@ -18,12 +18,10 @@
 
     _initLeftTree: function () {
         var mainTabs = this.mainTabs;
-
         $('#leftTree').tree({
             method: 'get',
             url: 'static/data/menu.json',
             onClick: function (node) {
-                console.log(node);
                 if (node.children)
                     return;
 
