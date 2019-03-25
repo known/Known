@@ -1,27 +1,33 @@
 ﻿[
   {
-    "id": "SysManage",
-    "text": "系统管理",
+    "id": "Layout",
+    "text": "页面布局",
     "iconCls": "fa fa-desktop",
     "state": "open",
     "children": [
       {
-        "id": "Module",
-        "text": "模块管理",
-        "iconCls": "fa fa-cubes",
-        "url": "/System/ModuleView.html"
+        "id": "Layout1",
+        "text": "布局一",
+        "iconCls": "fa fa-list",
+        "url": "/Layouts/Layout1.html"
       },
       {
-        "id": "Role",
-        "text": "角色管理",
-        "iconCls": "fa fa-group",
-        "url": "/System/RoleView.html"
+        "id": "Layout2",
+        "text": "布局二",
+        "iconCls": "fa fa-table",
+        "url": "/Layouts/Layout2.html"
       },
       {
-        "id": "User",
-        "text": "用户管理",
-        "iconCls": "fa fa-user",
-        "url": "/System/UserView.html"
+        "id": "Layout3",
+        "text": "布局三",
+        "iconCls": "fa fa-tasks",
+        "url": "/Layouts/Layout3.html"
+      },
+      {
+        "id": "Layout4",
+        "text": "布局四",
+        "iconCls": "fa fa-server",
+        "url": "/Layouts/Layout4.html"
       }
     ]
   }

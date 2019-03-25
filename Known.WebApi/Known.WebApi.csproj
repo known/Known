@@ -14,7 +14,8 @@
     <AssemblyName>Known.WebApi</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress>false</Use64BitIISExpress>
+    <Use64BitIISExpress>
+    </Use64BitIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -82,7 +83,10 @@
     <Content Include="index.html" />
     <Content Include="login.html" />
     <Content Include="Pages\Dashboard.html" />
-    <Content Include="Pages\System\ModuleView.html" />
+    <Content Include="Pages\Layouts\Layout2.html" />
+    <Content Include="Pages\Layouts\Layout3.html" />
+    <Content Include="Pages\Layouts\Layout4.html" />
+    <Content Include="Pages\Layouts\Layout1.html" />
     <Content Include="static\css\index.css" />
     <Content Include="static\css\dashboard.css" />
     <Content Include="static\css\login.css" />
