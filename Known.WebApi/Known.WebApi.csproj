@@ -87,6 +87,7 @@
     <Content Include="Pages\Layouts\Layout3.html" />
     <Content Include="Pages\Layouts\Layout4.html" />
     <Content Include="Pages\Layouts\Layout1.html" />
+    <Content Include="Pages\Layouts\Partials\TreeGrid.html" />
     <Content Include="static\css\index.css" />
     <Content Include="static\css\dashboard.css" />
     <Content Include="static\css\login.css" />
@@ -203,6 +204,8 @@
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
     <None Include="packages.config" />
     <Content Include="static\data\menu.json" />
+    <Content Include="static\data\treegrid.json" />
+    <Content Include="static\data\datagrid.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

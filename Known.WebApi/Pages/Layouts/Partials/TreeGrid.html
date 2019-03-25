@@ -1,0 +1,16 @@
+﻿<table class="easyui-treegrid" style="width:100%;height:100%"
+       data-options="
+                url: '/static/data/treegrid.json',
+                method: 'get',
+                rownumbers: true,
+                idField: 'id',
+                treeField: 'name'
+       ">
+    <thead>
+        <tr>
+            <th data-options="field:'name'" width="220">Name</th>
+            <th data-options="field:'size'" width="100" align="right">Size</th>
+            <th data-options="field:'date'" width="150">Modified Date</th>
+        </tr>
+    </thead>
+</table>

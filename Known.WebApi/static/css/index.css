@@ -10,7 +10,7 @@
     line-height: 50px;
 }
 
-.content {
+.content1 {
     padding: 5px;
 }
 
@@ -128,4 +128,13 @@
     line-height: 21px;
     width: 100%;
     margin: 0;
+}
+
+/*easyui*/
+.l-btn-text {
+    line-height: 24px;
+}
+
+.l-btn-icon {
+    font-size: 14px;
 }
