@@ -16,12 +16,23 @@
 <body class="easyui-layout">
     <div class="header" region="north" border="false">
         <h1>Known管理系统(Api版)</h1>
+        <ul id="tbNavbar" class="nav navbar-nav navbar-right">
+            <li class="icontop"><a id="devTool"><i class="fa fa-puzzle-piece"></i><span>开发工具</span></a></li>
+            <li class="icontop"><a id="todo"><i class="fa fa-tasks"></i><span>代办事项</span></a></li>
+            <li class="icontop"><a id="cache"><i class="fa fa-refresh"></i><span>刷新缓存</span></a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle userinfo">
+                    <img class="user-img" src="static/images/face.jpg" />Admin <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li><a id="info"><i class="fa fa-user"></i> 用户信息</a></li>
+                    <li><a id="logout"><i class="fa fa-power-off"></i> 退出登录</a></li>
+                </ul>
+            </li>
+        </ul>
     </div>
-    <div style="width:200px;" region="west" split="true" title="系统导航">
+    <div style="width:190px;" region="west" split="true" title="系统导航">
         <ul id="leftTree"></ul>
-    </div>
-    <div class="footer" region="south" border="false">
-        <div class="copyright">&copy;2019 Known</div>
     </div>
     <div region="center">
         <div id="mainTabs" fit="true">

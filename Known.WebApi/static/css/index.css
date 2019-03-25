@@ -1,5 +1,5 @@
 ﻿.header {
-    height: 60px;
+    height: 50px;
     background: #3c8dbc;
     color: #fff;
 }
@@ -7,17 +7,7 @@
 .header h1 {
     margin: 0 10px;
     padding: 0;
-    line-height: 60px;
-}
-
-.footer {
-    height: 30px;
-}
-
-.footer .copyright {
-    text-align: right;
-    line-height: 30px;
-    margin-right: 10px;
+    line-height: 50px;
 }
 
 .content {
@@ -27,4 +17,140 @@
 .fa {
     width: 16px;
     margin-right: 2px;
+}
+
+.nav {
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.nav > li {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    line-height: 1.4;
+    outline: none;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus,
+.nav > li.active > a,
+.navbar-nav li.open a.dropdown-toggle {
+    text-decoration: none;
+    background-color: #eee;
+    box-shadow: none;
+}
+
+.navbar-nav {
+    float: left;
+}
+
+.navbar-nav > li {
+    float: left;
+    height: 50px;
+}
+
+.navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: #777;
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.navbar-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.dropup,
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    display: none;
+    float: left;
+    min-width: 160px;
+    font-size: 14px;
+    line-height: 1.4;
+    padding: 5px 0;
+    margin: 2px 0;
+    text-align: left;
+    list-style: none;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    z-index: 2000;
+}
+
+.dropdown-header {
+    display: block;
+    padding: 3px 20px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #777;
+    white-space: nowrap;
+}
+
+.dropdown-menu > .divider {
+    height: 0;
+    margin: 9px 0;
+    overflow: hidden;
+    border-bottom: solid 1px #e5e5e5;
+}
+
+.dropdown-menu > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    color: #333;
+    white-space: nowrap;
+    outline: none;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+}
+
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+    color: #777;
+    text-decoration: none;
+    cursor: not-allowed;
+    background-color: transparent;
+    background-image: none;
+}
+
+.open > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu.pull-right {
+    left: auto;
+    right: 0;
+}
+
+.dropup > .dropdown-menu {
+    top: auto;
+    bottom: 100%;
+    margin-bottom: 2px;
 }
