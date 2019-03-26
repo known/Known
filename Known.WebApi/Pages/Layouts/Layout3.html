@@ -1,1 +1,36 @@
-﻿<h1>Layout3</h1>
+﻿<table class="easyui-datagrid nb-all" style="width:100%;height:100%"
+       data-options="
+           rownumbers:true,
+           singleSelect:true,
+           pagination:true,
+           url:'/static/data/datagrid.json',
+           method:'get',
+           toolbar:'#tb'
+       ">
+    <thead>
+        <tr>
+            <th data-options="field:'itemid',width:80">Item ID</th>
+            <th data-options="field:'productid',width:100">Product</th>
+            <th data-options="field:'listprice',width:80,align:'right'">List Price</th>
+            <th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
+            <th data-options="field:'attr1',width:240">Attribute</th>
+            <th data-options="field:'status',width:60,align:'center'">Status</th>
+        </tr>
+    </thead>
+</table>
+<div id="tb" style="padding:2px;height:32px;background:#fff;">
+    <div style="float:left;">
+        <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-plus'">新增</a>
+        <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-minus'">删除</a>
+        <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-save'">保存</a>
+        <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-cut',disabled:true">Cut</a>
+    </div>
+    <div style="float:right;">
+        <input class="easyui-searchbox" data-options="prompt:'请输入条件',searcher:doSearch">
+    </div>
+</div>
+<script>
+    function doSearch() {
+
+    }
+</script>

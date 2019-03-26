@@ -1,0 +1,29 @@
+﻿[
+  {
+    "id": "Layout",
+    "text": "页面布局",
+    "state": "open",
+    "children": [
+      {
+        "id": "Layout1",
+        "text": "布局一",
+        "url": "/Layouts/Layout1.html"
+      },
+      {
+        "id": "Layout2",
+        "text": "布局二",
+        "url": "/Layouts/Layout2.html"
+      },
+      {
+        "id": "Layout3",
+        "text": "布局三",
+        "url": "/Layouts/Layout3.html"
+      },
+      {
+        "id": "Layout4",
+        "text": "布局四",
+        "url": "/Layouts/Layout4.html"
+      }
+    ]
+  }
+]

@@ -206,6 +206,7 @@
     <Content Include="static\data\menu.json" />
     <Content Include="static\data\treegrid.json" />
     <Content Include="static\data\datagrid.json" />
+    <Content Include="static\data\tree.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
