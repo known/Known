@@ -14,8 +14,7 @@
     <AssemblyName>Known.WebApi</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress>
-    </Use64BitIISExpress>
+    <Use64BitIISExpress>false</Use64BitIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -88,6 +87,7 @@
     <Content Include="Pages\Layouts\Layout4.html" />
     <Content Include="Pages\Layouts\Layout1.html" />
     <Content Include="Pages\Layouts\Partials\TreeGrid.html" />
+    <Content Include="static\css\content.css" />
     <Content Include="static\css\index.css" />
     <Content Include="static\css\dashboard.css" />
     <Content Include="static\css\login.css" />

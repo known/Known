@@ -8,30 +8,41 @@ $.fn.pagination.defaults.afterPageText = '/{pages}页';
 var Index = {
 
     mainTabs: null,
+    leftTree: null,
 
     show: function () {
         this.mainTabs = this._getMainTabs();
-        this._initLeftTree();
+        this.leftTree = this._getLeftTree();
     },
 
     _getMainTabs: function () {
+        var _this = this;
         return $('#mainTabs').tabs({
             border: false,
-            onSelect: function (title) {
-
+            onSelect: function (title, index) {
+                var leftTree = _this.leftTree;
+                if (leftTree) {
+                    var node = leftTree.tree('find', { text: title });
+                    if (node) {
+                        leftTree.tree('expandTo', node.target)
+                            .tree('select', node.target);
+                    }
+                }
             }
         });
     },
 
-    _initLeftTree: function () {
-        var _this = this, mainTabs = this.mainTabs;
-        $('#leftTree').tree({
+    _getLeftTree: function () {
+        var _this = this;
+        return $('#leftTree').tree({
+            animate: true,
             method: 'get',
             url: 'static/data/menu.json',
             onClick: function (node) {
                 if (node.children)
                     return;
 
+                var mainTabs = _this.mainTabs;
                 if (mainTabs.tabs('exists', node.text)) {
                     mainTabs.tabs('select', node.text);
                 } else {
