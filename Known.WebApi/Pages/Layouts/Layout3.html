@@ -1,4 +1,4 @@
-﻿<table class="easyui-datagrid nb-all" style="width:100%;height:100%"
+﻿<table id="dgLayout3" class="easyui-datagrid nb-all" style="width:100%;height:100%"
        data-options="
            rownumbers:true,
            singleSelect:true,
@@ -33,6 +33,12 @@
 <script>
     var Layout3 = {
 
+        grid: null,
+
+        show: function () {
+            this.grid = $('#dgLayout3');
+        },
+
         //toolbar
         search: function (key) {
             alert(key);
@@ -43,7 +49,10 @@
         },
 
         edit: function () {
-
+            var row = this.grid.datagrid('getSelected');
+            if (row) {
+                this.showForm(row);
+            }
         },
 
         remove: function () {
@@ -59,6 +68,8 @@
         }
 
     };
+
+    Layout3.show();
 </script>
 
 <div id="dlgLayout3" class="easyui-dialog" style="width:400px" 
@@ -67,18 +78,24 @@
          modal:true,
          buttons:'#dlgbLayout3'
      ">
-    <form id="fmLayout3" method="post" novalidate style="margin:0;padding:20px 50px">
+    <form id="fmLayout3" method="post" novalidate style="margin:0;padding:20px">
         <div style="margin-bottom:5px">
-            <input name="firstname" class="easyui-textbox" required="true" label="First Name:">
+            <input name="itemid" class="easyui-textbox" required="true" label="Item ID:">
         </div>
         <div style="margin-bottom:5px">
-            <input name="lastname" class="easyui-textbox" required="true" label="Last Name:">
+            <input name="productid" class="easyui-textbox" required="true" label="Product:">
         </div>
         <div style="margin-bottom:5px">
-            <input name="phone" class="easyui-textbox" required="true" label="Phone:">
+            <input name="listprice" class="easyui-textbox" required="true" label="List Price:">
         </div>
         <div style="margin-bottom:5px">
-            <input name="email" class="easyui-textbox" required="true" validType="email" label="Email:">
+            <input name="unitcost" class="easyui-textbox" required="true" label="Unit Cost:">
+        </div>
+        <div style="margin-bottom:5px">
+            <input name="attr1" class="easyui-textbox" required="true" label="Attribute:">
+        </div>
+        <div style="margin-bottom:5px">
+            <input name="status" class="easyui-textbox" required="true" label="Status:">
         </div>
     </form>
 </div>
@@ -97,6 +114,9 @@
                 .dialog('center')
                 .dialog('setTitle', option.title);
             this.form = $('#fmLayout3').form('clear');
+            if (option.row.id !== '') {
+                this.form.form('load', option.row);
+            }
         },
 
         //toolbar
