@@ -73,3 +73,27 @@
 .textbox-label {
     width: auto;
 }
+
+.window {
+    background: #3c8dbc;
+    border: 0;
+}
+
+.window .panel-header {
+    border: 0;
+}
+
+.window .panel-title {
+    color: #fff;
+    padding-left: 10px;
+}
+
+.window .window-body {
+    border: 0;
+}
+
+.window .dialog-button {
+    border: 0;
+    border-top: 1px solid #ddd;
+    padding: 2px;
+}
