@@ -6,22 +6,31 @@
 .form th {
     font-weight: normal;
     background: #f1f1f1;
-    border: 1px solid #ccc;
+    border: 1px solid #dfdfdf;
     text-align: right;
+    padding-right: 5px;
 }
 
 .form td {
-    border: 1px solid #ccc;
+    border: 1px solid #dfdfdf;
 }
 
 input, select, textarea {
-    border: 0;
     padding: 4px;
+    outline:none;
+    background:transparent;
+    border:none;
+    outline:medium;
 }
 
-input:focus {
+*:focus {
     border: 0;
+    outline: none;
+    background-color: transparent;
 }
+
+::selection{background:transparent; }
+::-moz-selection{background:transparent; }
 
 /*easyui
 .datagrid-wrap {
