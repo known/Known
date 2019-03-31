@@ -1,20 +1,13 @@
-﻿<table id="dgLayout3" class="easyui-datagrid nb-all" style="width:100%;height:100%"
-       data-options="
-           rownumbers:true,
-           singleSelect:true,
-           pagination:true,
-           url:'/static/data/datagrid.json',
-           method:'get',
-           toolbar:'#tbLayout3'
-       ">
+﻿<table id="dgLayout3" class="easyui-datagrid nb-all" style="width:100%;height:100%">
     <thead>
         <tr>
-            <th field="itemid" width="80">Item ID</th>
-            <th field="productid" width="100">Product</th>
-            <th field="listprice" width="80" align="right">List Price</th>
-            <th field="unitcost" width="80" align="right">Unit Cost</th>
-            <th field="attr1" width="240">Attribute</th>
-            <th field="status" width="60" align="center">Status</th>
+            <th field="ck" checkbox="true"></th>
+            <th field="itemid" sortable="true" formatter="Layout3.formatItemId">Item ID</th>
+            <th field="productid" sortable="true">Product</th>
+            <th field="listprice" align="right" sortable="true">List Price</th>
+            <th field="unitcost" align="right">Unit Cost</th>
+            <th field="attr1">Attribute</th>
+            <th field="status" align="center">Status</th>
         </tr>
     </thead>
 </table>
@@ -36,7 +29,21 @@
         grid: null,
 
         show: function () {
-            this.grid = $('#dgLayout3');
+            this.grid = $('#dgLayout3').datagrid({
+                method: 'get',
+                url: '/static/data/datagrid.json',
+                pagination: true,
+                clientPaging: false,
+                remoteFilter: true,
+                singleSelect: false,
+                selectOnCheck: true,
+                toolbar: '#tbLayout3'
+            });
+        },
+
+        //grid
+        formatItemId: function (value, row, index) {
+            return '<span style="color:blue;" onclick="Layout3.showForm({id:\'' + value + '\'})">' + value + '</span>';
         },
 
         //toolbar
@@ -72,7 +79,7 @@
     Layout3.show();
 </script>
 
-<div id="dlgLayout3" class="easyui-dialog" style="width:400px" 
+<div id="dlgLayout3" class="easyui-dialog" style="width:400px"
      data-options="
          closed:true,
          modal:true,
