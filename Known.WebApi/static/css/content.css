@@ -7,12 +7,20 @@
     font-weight: normal;
     background: #f1f1f1;
     border: 1px solid #ccc;
-    padding: 2px;
     text-align: right;
 }
 
 .form td {
     border: 1px solid #ccc;
+}
+
+input, select, textarea {
+    border: 0;
+    padding: 4px;
+}
+
+input:focus {
+    border: 0;
 }
 
 /*easyui

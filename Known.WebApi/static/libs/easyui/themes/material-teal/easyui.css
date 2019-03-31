@@ -777,7 +777,7 @@
 }
 .textbox {
   position: relative;
-  border: 1px solid #dfdfdf;
+  border: 0px solid #dfdfdf;
   background-color: #fff;
   vertical-align: middle;
   display: inline-block;
