@@ -1,46 +1,4 @@
-﻿.nb-all {
-    border: 0;
-}
-
-.nb-tlb {
-    border-top: 0;
-    border-left: 0;
-    border-bottom: 0;
-}
-
-.nb-tlr {
-    border-top: 0;
-    border-left: 0;
-    border-right: 0;
-}
-
-.nb-tl {
-    border-top: 0;
-    border-left: 0;
-}
-
-.nb-lb {
-    border-left: 0;
-    border-bottom: 0;
-}
-
-.nb-trb {
-    border-top: 0;
-    border-right: 0;
-    border-bottom: 0;
-}
-
-.nb-tr {
-    border-top: 0;
-    border-right: 0;
-}
-
-.bd-rb {
-    border-right: 0;
-    border-bottom: 0;
-}
-
-.form {
+﻿.form {
     width: 100%;
     border-collapse: collapse;
 }
@@ -57,15 +15,7 @@
     border: 1px solid #ccc;
 }
 
-/*easyui*/
-.l-btn-text {
-    line-height: 24px;
-}
-
-.l-btn-icon {
-    font-size: 14px;
-}
-
+/*easyui
 .datagrid-wrap {
     border: 0;
 }
@@ -97,3 +47,4 @@
     border-top: 1px solid #ddd;
     padding: 2px;
 }
+*/

@@ -1,17 +1,12 @@
 ﻿<div class="easyui-layout" style="width:100%;height:100%;">
-    <div style="width:200px;" class="nb-tlb"
-         data-options="
-             region:'west',split:'true',collapsible:'false'
-         ">
-        <div class="panel-header nb-tl" style="padding:6px;">分类</div>
+    <div style="width:200px;" data-options="region:'west',split:'true',collapsible:'false'">
+        <div class="panel-header" style="padding:6px;">分类</div>
         <ul id="tree" class="easyui-tree"
-            data-options="
-                method:'get',url:'static/data/tree.json'
-            ">
+            data-options="method:'get',url:'static/data/tree.json'">
         </ul>
     </div>
-    <div class="nb-trb" region="center" href="">
-        <div class="panel-header nb-tr" style="padding:2px;background:#fff;">
+    <div region="center">
+        <div class="panel-header" style="padding:2px;background:#fff;">
             <a class="easyui-linkbutton" plain="true" iconCls="fa fa-plus">新增</a>
             <a class="easyui-linkbutton" plain="true" iconCls="fa fa-pencil">编辑</a>
             <a class="easyui-linkbutton" plain="true" iconCls="fa fa-minus">删除</a>

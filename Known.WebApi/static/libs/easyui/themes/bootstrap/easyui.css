@@ -624,7 +624,7 @@
   display: inline-block;
   vertical-align: top;
   width: auto;
-  line-height: 28px;
+  line-height: 24px;
   font-size: 12px;
   padding: 0;
   margin: 0 6px;
@@ -637,7 +637,7 @@
   position: absolute;
   top: 50%;
   margin-top: -8px;
-  font-size: 1px;
+  font-size: 14px;
 }
 .l-btn span span .l-btn-empty {
   display: inline-block;
