@@ -18,6 +18,26 @@ namespace Known.Web
             return name;
         }
 
+        public static string UrlEncode(string url)
+        {
+            return HttpUtility.UrlEncode(url);
+        }
+
+        public static string UrlDecode(string url)
+        {
+            return HttpUtility.UrlDecode(url);
+        }
+
+        public static string HtmlEncode(string html)
+        {
+            return HttpUtility.HtmlEncode(html);
+        }
+
+        public static string HtmlDecode(string html)
+        {
+            return HttpUtility.HtmlDecode(html);
+        }
+
         public static string FormatHtml(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -29,6 +49,11 @@ namespace Known.Web
             text = text.Replace("\r", "<br/>");
             text = text.Replace("\n", "<br/>");
             return text;
+        }
+
+        public static string GetAbsoluteUrl(string virtualPath)
+        {
+            return VirtualPathUtility.ToAbsolute(virtualPath);
         }
 
         public static string AddUrlFragment(string rawUrl, string fragment)
