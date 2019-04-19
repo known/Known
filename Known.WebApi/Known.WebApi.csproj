@@ -88,6 +88,9 @@
     <Content Include="Pages\Layouts\Layout4.html" />
     <Content Include="Pages\Layouts\Layout1.html" />
     <Content Include="Pages\Layouts\Partials\TreeGrid.html" />
+    <Content Include="Pages\System\ModuleView.html" />
+    <Content Include="Pages\System\RoleView.html" />
+    <Content Include="Pages\System\UserView.html" />
     <Content Include="static\css\content.css" />
     <Content Include="static\css\index.css" />
     <Content Include="static\css\dashboard.css" />

@@ -1,8 +1,48 @@
-﻿.header {
-    height: 50px;
-    background: #3c8dbc;
-    color: #fff;
+﻿* {
+    margin: 0;
+    padding: 0;
 }
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+}
+
+.layout {
+    width: 100%;
+    height: 100%;
+}
+
+    .layout > .header {
+        height: 50px;
+        background: #3c8dbc;
+        color: #fff;
+    }
+
+    .layout > .sider {
+        width: 200px;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        bottom: 0;
+        border-right: 2px solid #ddd;
+    }
+
+        .layout > .sider > h2 {
+            background: #f8f8f8;
+            font-size: 14px;
+            border-bottom: 1px solid #ddd;
+            padding: 7px 0 6px 10px;
+        }
+
+    .layout > .center {
+        position: absolute;
+        top: 50px;
+        left: 200px;
+        right: 0;
+        bottom: 0;
+    }
 
 .header h1 {
     margin: 0 10px;
@@ -10,13 +50,14 @@
     line-height: 50px;
 }
 
-.content {
+.content1 {
     padding: 5px;
 }
 
 .fa {
     width: 16px;
     margin-right: 2px;
+}
 }
 
 #tbNavbar {

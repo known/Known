@@ -65,3 +65,78 @@ input, select, textarea {
     padding: 2px;
 }
 */
+
+.form {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .form th {
+        font-weight: normal;
+        background: #f1f1f1;
+        border: 1px solid #ccc;
+        padding: 2px;
+        text-align: right;
+    }
+
+    .form td {
+        border: 1px solid #ccc;
+    }
+
+input, select, textarea {
+    padding: 2px;
+    outline: none;
+    background: transparent;
+    border: none;
+    outline: medium;
+}
+
+/*layout*/
+.layout-wcnb > .layout-panel-west > .panel-header,
+.layout-wcnb > .layout-panel-west > .panel-body {
+    border-top: 0;
+    border-left: 0;
+}
+
+.layout-wcnb > .layout-panel-west > .panel-body,
+.layout-wcnb > .layout-panel-center > .panel-body {
+    border-bottom: 0;
+}
+
+.layout-wcnb > .layout-panel-center > .panel-header,
+.layout-wcnb > .layout-panel-center > .panel-body {
+    border-top: 0;
+    border-right: 0;
+}
+
+/*tabs*/
+.tabs-nb > .tabs-header {
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    background: #fff;
+}
+
+.tabs-nb > .tabs-panels {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    padding: 5px;
+}
+
+/*easyui*/
+.l-btn-text {
+    line-height: 24px;
+}
+
+.l-btn-icon {
+    font-size: 14px;
+}
+
+.datagrid-wrap {
+    border: 0;
+}
+
+.textbox-label {
+    width: auto;
+}

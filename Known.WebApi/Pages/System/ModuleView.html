@@ -1,0 +1,213 @@
+﻿<style>
+    .mv-left {
+        width:200px;border-right:1px solid #ddd;
+        position:absolute;left:0;top:32px;bottom:0;
+    }
+    .mv-right {
+        position:absolute;left:200px;top:32px;right:0;bottom:0;
+    }
+    .mv-top {
+        border-bottom:1px solid #ddd;padding:2px;
+    }
+</style>
+<div class="mv-left">
+    <ul id="moduleTree"></ul>
+</div>
+<div class="mv-right">
+    <div class="mv-top">
+        <a class="easyui-linkbutton" plain="true" iconCls="fa fa-save" onclick="ModuleView.save()">保存</a>
+        <a class="easyui-linkbutton" plain="true" iconCls="fa fa-close" onclick="Index.closeTab()">关闭</a>
+    </div>
+    <div class="easyui-tabs tabs-nb" fit="true" >
+        <div title="模块信息">
+            <form id="formModule">
+                <input type="hidden" name="Id">
+                <table class="form">
+                    <tr>
+                        <th style="width:10%;"><i class="fa fa-picture-o"></i>名称</th>
+                        <td style="width:25%;">
+                            <input id="Name" name="Name" maxlength="50" style="width:100%;" />
+                        </td>
+                        <th style="width:10%;">Url</th>
+                        <td>
+                            <input id="Url" name="Url" maxlength="250" style="width:100%;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>选项</th>
+                        <td colspan="3">
+                            <label><input type="checkbox" id="Enable" name="Enable" />可用</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>描述</th>
+                        <td colspan="3">
+                            <textarea id="Description" name="Description" style="width:100%;height:50px;"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div title="按钮信息">
+
+        </div>
+        <div title="栏位信息">
+            <div style="float:left;width:50%;">
+                <table class="form">
+                    <tr>
+                        <th>名称</th>
+                        <th>栏位</th>
+                        <th>可空</th>
+                        <th>列表</th>
+                        <th>表单</th>
+                        <th>导出</th>
+                        <th>排序</th>
+                    </tr>
+                </table>
+            </div>
+            <div style="float:left;padding-left:5px;">
+                <table class="form">
+                    <tr>
+                        <th style="width:10%;">名称</th>
+                        <td style="width:40%;">
+                            <input id="Name" name="Name" maxlength="50" style="width:100%;" />
+                        </td>
+                        <th style="width:10%;">栏位</th>
+                        <td>
+                            <input id="Name" name="Name" maxlength="50" style="width:100%;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>选项</th>
+                        <td colspan="3">
+                            <label><input type="checkbox" id="Enable" name="Enable" />可用</label>
+                            <label><input type="checkbox" id="Enable" name="Enable" />可空</label>
+                            <label><input type="checkbox" id="Enable" name="Enable" />列表</label>
+                            <label><input type="checkbox" id="Enable" name="Enable" />表单</label>
+                            <label><input type="checkbox" id="Enable" name="Enable" />导出</label>
+                            <label><input type="checkbox" id="Enable" name="Enable" />排序</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>描述</th>
+                        <td colspan="3">
+                            <textarea id="Description" name="Description" style="width:100%;height:50px;"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="cmTree" class="easyui-menu" style="width:120px;">
+    <div onclick="ModuleView.append()" iconCls="fa fa-plus">添加</div>
+    <div onclick="ModuleView.remove()" iconCls="fa fa-minus">删除</div>
+    <div class="menu-sep"></div>
+    <div onclick="expand()">Expand</div>
+    <div onclick="collapse()">Collapse</div>
+</div>
+
+<script>
+    var ModuleView = {
+
+        moduleTree: null,
+        moduleForm: null,
+
+        show: function () {
+            this.moduleTree = this._getModuleTree();
+            this.moduleForm = $('#formModule').form('clear');
+            console.log(this.moduleForm);
+        },
+
+        append: function () {
+            var node = this.moduleTree.tree('getSelected');
+            this.moduleTree.tree('append', {
+                parent: (node ? node.target : null),
+                data: [{
+                    id: '', text: 'new item1'
+                }]
+            });
+        },
+
+        remove: function () {
+            var node = this.moduleTree.tree('getSelected');
+            this.moduleTree.tree('remove', node.target);
+        },
+
+        save: function () {
+            //var node = this.moduleTree.tree('getSelected');
+            //alert(JSON.stringify(node));
+            $.messager.progress();
+            this.moduleForm.form('submit', {
+                url: '/System/SaveModule',
+                onSubmit: function (param) {
+                    //return $(this).form('enableValidation').form('validate');
+                    var isValid = $(this).form('validate');
+                    if (!isValid) {
+                        $.messager.progress('close');
+                    }
+                    return isValid;
+                },
+                success: function () {
+                    $.messager.progress('close');
+                }
+            });
+        },
+
+        _getModuleTree: function () {
+            var _this = this;
+            return $('#moduleTree').tree({
+                dnd: true,
+                method: 'get',
+                //url: 'static/data/menu.json',
+                data: [{
+                    id: 'Platform', text: 'Known管理系统',
+                    children: [{
+                        id: 'System', text: '系统管理',
+                        children: [
+                            { id: 'Module', text: '模块管理' },
+                            { id: 'Role', text: '角色管理' },
+                            { id: 'User', text: '用户管理' }
+                        ]
+                    }]
+                }],
+                onContextMenu: function (e, node) {
+                    e.preventDefault();
+                    $(this).tree('select', node.target);
+                    $('#cmTree').menu('show', {
+                        left: e.pageX,
+                        top: e.pageY
+                    });
+                },
+                onClick: function (node) {
+                    _this.moduleForm.form('load', {
+                        Id: node.id,
+                        Name: node.text,
+                        Url: node.url,
+                        Enabled: true
+                    });
+                },
+                onDblClick: function (node) {
+                    $(this).tree('beginEdit', node.target);
+                },
+                onAfterEdit: function (node) {
+                    alert(node.id + '-' + node.text);
+                },
+                onDrop: function (target, source, point) {
+                    alert(target + '\n' + JSON.stringify(source) + '\n' + point);
+                },
+                formatter: function (node) {
+                    var s = node.text;
+                    if (node.children) {
+                        s += '&nbsp;<span style=\'color:blue\'>(' + node.children.length + ')</span>';
+                    }
+                    return s;
+                }
+            });
+        }
+
+    };
+
+    ModuleView.show();
+</script>
