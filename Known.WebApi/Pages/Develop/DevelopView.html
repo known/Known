@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Known管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="/static/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/libs/miniui/miniui.css">
+    <script src="/static/libs/jquery.min.js"></script>
+    <script src="/static/libs/miniui/miniui.js"></script>
+    <script src="/static/js/core.js"></script>
+</head>
+<body>
+    <div class="mini-splitter" style="width:100%;height:100%;">
+        <div id="splitLeft" tooltip="关闭/显示菜单" size="150px"
+             showCollapseButton="true" style="padding:5px;">
+            <ul id="leftTree" class="mini-tree" url="/static/data/demo/menu.txt"
+                style="width:100%;height:100%;" resultAsTree="false"></ul>
+        </div>
+        <div id="splitRight"></div>
+    </div>
+
+    <script>
+        var DevelopView = {
+
+            show: function () {
+                mini.get('leftTree').on('nodeselect', this.onTreeNodeSelect);
+            },
+
+            close: function () {
+                window.CloseOwnerWindow();
+            },
+
+            onTreeNodeSelect: function (e) {
+                var url = '/Pages/Develop/Partials/' + e.node.view + '.html';
+                $('#splitRight').loadHtml(url, function () {
+                    mini.parse();
+                    eval(e.node.view + '.show();');
+                });
+            }
+
+        };
+
+        mini.parse();
+        DevelopView.show();
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+﻿<div id="gridReport" class="mini-datagrid" 
+     style="width:100%;height:100%;" borderStyle="border:0;"
+     url="/api/plt/Demo/QueryUsers" idField="Id"
+     multiSelect="true" showToolbar="true">
+    <div property="toolbar">
+        <table style="width:100%;">
+            <tr>
+                <td id="tbReport" style="width:100%;padding:2px;">
+                    <a id="btnRefresh" class="mini-button" plain="true" iconCls="fa-refresh">刷新</a>
+                    <span class="separator"></span>
+                    <a id="btnCalculate" class="mini-button" plain="true" iconCls="fa-calculator">计算</a>
+                    <span class="separator"></span>
+                    <a class="mini-menubutton" plain="true" iconCls="fa-sign-out" menu="#menuExport">导出</a>
+                    <ul id="menuExport" class="mini-menu" style="display:none;">
+                        <li id="btnExportExcel" iconCls="fa-file-excel-o">导出Excel</li>
+                        <li id="btnExportPdf" iconCls="fa-file-pdf-o">导出Pdf</li>
+                    </ul>
+                    <a id="btnPrint" class="mini-button" plain="true" iconCls="fa-print">打印</a>
+                    <span class="separator"></span>
+                    <a id="btnClose" class="mini-button" plain="true" iconCls="fa-remove">关闭</a>
+                </td>
+                <td id="queryReport" style="white-space:nowrap;padding:2px;">
+                    <input id="key" class="mini-textbox" emptyText="请输入姓名" style="width:150px;" />
+                    <a id="btnSearch" class="mini-button" iconCls="fa-search">查询</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div property="columns">
+        <div type="indexcolumn"></div>
+        <div field="UserName" width="120" headerAlign="center" allowSort="true">员工帐号</div>
+        <div field="Name" width="120" headerAlign="center" allowSort="true">姓名</div>
+        <div header="工作信息">
+            <div property="columns">
+                <div field="Department.Name" width="120">所属部门</div>
+                <div field="Position" width="100">职位</div>
+                <div field="Salary" dataType="currency" currencyUnit="￥" align="right" width="100" allowSort="true">薪资</div>
+            </div>
+        </div>
+        <div field="createtime" width="100" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true">创建日期</div>
+        <div header="基本信息">
+            <div property="columns">
+                <div field="Gender" width="100" renderer="onGenderRenderer">性别</div>
+                <div field="Age" width="100" allowSort="true">年龄</div>
+                <div field="Birthday" width="100" renderer="onBirthdayRenderer">出生日期</div>
+                <div field="Married" width="100" align="center" renderer="onMarriedRenderer">婚否</div>
+                <div field="Email" width="100">邮箱</div>
+            </div>
+        </div>
+        <div header="学历信息">
+            <div property="columns">
+                <div field="Educational" width="100">学历</div>
+                <div field="School" width="120">毕业院校</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var DemoReport = {
+
+        grid: null,
+
+        show: function () {
+            new Toolbar('tbReport', this);
+
+            this.grid = new Grid('Report');
+            this.grid.load();
+        }
+
+    };
+</script>

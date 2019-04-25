@@ -1,75 +1,131 @@
-﻿$.fn.panel.defaults.loadingMessage = '加载中...';
-$.fn.datagrid.defaults.loadMsg = '数据加载中，请稍等...';
-$.fn.datagrid.defaults.pageList = [10, 20, 30, 40, 50, 100, 200, 500];
-$.fn.pagination.defaults.displayMsg = '共 {total} 条数据';
-$.fn.pagination.defaults.beforePageText = '第';
-$.fn.pagination.defaults.afterPageText = '/{pages}页';
+﻿var Index = {
 
-var Index = {
-
-    mainTabs: null,
     leftTree: null,
+    mainTabs: null,
 
     show: function () {
-        this.mainTabs = this._getMainTabs();
-        this.leftTree = this._getLeftTree();
+        this.leftTree = mini.get('leftTree');
+        this.mainTabs = mini.get('mainTabs');
+
+        this.leftTree.on('nodeclick', this.treeNodeClick);
+        this.mainTabs.on('activechanged', this.tabsActiveChanged);
+
+        Toolbar.bind('tbNavbar', TbNavbar);
+        Toolbar.bind('tbMainTabs', TbMainTabs);
     },
 
-    _getMainTabs: function () {
-        var _this = this;
-        return $('#mainTabs').tabs({
-            border: false,
-            onSelect: function (title, index) {
-                var leftTree = _this.leftTree;
-                if (leftTree) {
-                    var node = leftTree.tree('find', { text: title });
-                    if (node) {
-                        leftTree.tree('expandTo', node.target)
-                            .tree('select', node.target);
-                    }
-                }
-            }
-        });
+    treeNodeClick: function (e) {
+        if (e.isLeaf) {
+            Index.showTab(e.node);
+        }
     },
 
-    _getLeftTree: function () {
-        var _this = this;
-        return $('#leftTree').tree({
-            animate: true,
-            method: 'get',
-            url: 'static/data/menu.json',
-            onClick: function (node) {
-                if (node.children)
-                    return;
-
-                var mainTabs = _this.mainTabs;
-                if (mainTabs.tabs('exists', node.text)) {
-                    mainTabs.tabs('select', node.text);
-                } else {
-                    mainTabs.tabs('add', {
-                        id: node.id,
-                        title: node.text,
-                        iconCls: node.iconCls,
-                        href: '/Pages' + node.url,
-                        closable: true,
-                        bodyCls: 'content'
-                    });
-                }
-            },
-            onLoadSuccess: function (node, data) {
-                _this._removeNodeIcon();
-            },
-            onExpand: function (node) {
-                _this._removeNodeIcon();
-            }
-        });
+    tabsActiveChanged: function (e) {
+        var tree = Index.leftTree;
+        tree.selectNode({ id: e.name });
     },
 
-    _removeNodeIcon: function () {
-        $('.fa').removeClass('tree-icon tree-file');
-        $('.fa').removeClass('tree-icon tree-folder tree-folder-open tree-folder-closed');
+    showTab: function (item) {
+        var tabs = this.mainTabs;
+        var tab = tabs.getTab(item.id);
+        if (!tab) {
+            tab = tabs.addTab({
+                name: item.id, title: item.text, url: item.url,
+                iconCls: item.iconCls, showCloseButton: true
+            });
+        }
+        tabs.activeTab(tab);
+        tab.bodyEl = tabs.getTabBodyEl(tab);
+        return tab;
     }
 
 };
 
-Index.show();
+var TbNavbar = {
+
+    devTool: function () {
+        Index.showTab({
+            id: 'devTool', iconCls: 'fa-puzzle-piece',
+            text: '开发工具', url: 'Pages/Develop/DevelopView.html'
+        });
+    },
+
+    todo: function () {
+        Index.showTab({
+            id: 'todo', iconCls: 'fa-tasks',
+            text: '代办事项', url: 'Pages/System/TodoView.html'
+        });
+    },
+
+    cache: function () {
+        Ajax.getJson('/User/GetCodes', function (data) {
+            Code.setData(data);
+            Message.tips({ content: '刷新成功！' });
+        });
+    },
+
+    info: function () {
+        Dialog.show({
+            title: '用户信息', iconCls: 'fa-user',
+            url: 'Pages/System/UserInfoView.html',
+            callback: function () {
+                Ajax.getJson('/User/GetUserInfo', function (data) {
+                });
+                Toolbar.bind('tbFormUpdatePwd', {
+                    save: function () {
+                        Message.tips('保存成功！');
+                    }
+                });
+            }
+        });
+    },
+
+    logout: function () {
+        Message.confirm('确定要退出系统？', function () {
+            Ajax.postText('/signout', function () {
+                location = location;
+            });
+        });
+    }
+
+};
+
+var TbMainTabs = {
+
+    home: function () {
+        Index.showTab({ id: 'index' });
+    },
+
+    refresh: function () {
+        var tabs = Index.mainTabs;
+        var tab = tabs.getActiveTab();
+        tabs.reloadTab(tab);
+    },
+
+    remove: function () {
+        var tabs = Index.mainTabs;
+        var tab = tabs.getActiveTab();
+        if (tab.name !== 'index') {
+            tabs.removeTab(tab);
+        }
+    },
+
+    fullScreen: function () {
+    }
+
+};
+
+$(function () {
+
+    $('.dropdown-toggle').click(function (event) {
+        $(this).parent().addClass('open');
+        return false;
+    });
+    $(document).click(function (event) {
+        $('.dropdown').removeClass('open');
+    });
+
+    mini.parse();
+    Index.show();
+
+});

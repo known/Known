@@ -1,0 +1,10 @@
+﻿[
+    {id: "devTool", text: "开发工具", iconCls: "fa fa-cogs", expanded: true},
+	{id: "code", text: "代码生成", pid: "devTool", iconCls: "fa fa-code", view: "DevCodeGen"},
+	{id: "data", text: "数据库", pid: "devTool", iconCls: "fa fa-database", view: "DevDatabase"},
+	{id: "demo", text: "开发示例", iconCls: "fa fa-book", expanded: true},
+	{id: "grid", text: "列表页面", pid: "demo", iconCls: "fa fa-list", view: "DemoGrid"},
+	{id: "tab", text: "Tab页面", pid: "demo", iconCls: "fa fa-columns", view: "DemoTab"},
+	{id: "form", text: "表单页面", pid: "demo", iconCls: "fa fa-table", view: "DemoForm"},
+	{id: "report", text: "报表页面", pid: "demo", iconCls: "fa fa-bar-chart", view: "DemoReport"}
+]

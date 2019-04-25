@@ -6,14 +6,82 @@
 .form th {
     font-weight: normal;
     background: #f1f1f1;
-    border: 1px solid #ccc;
-    padding: 2px;
+    border: 1px solid #dfdfdf;
     text-align: right;
+    padding-right: 5px;
 }
 
 .form td {
-    border: 1px solid #ccc;
+    border: 1px solid #dfdfdf;
 }
+
+input, select, textarea {
+    padding: 4px;
+    outline:none;
+    background:transparent;
+    border:none;
+    outline:medium;
+}
+
+*:focus {
+    border: 0;
+    outline: none;
+    background-color: transparent;
+}
+
+::selection{background:transparent; }
+::-moz-selection{background:transparent; }
+
+/*easyui
+.datagrid-wrap {
+    border: 0;
+}
+
+.textbox-label {
+    width: auto;
+}
+
+.window {
+    background: #3c8dbc;
+    border: 0;
+}
+
+.window .panel-header {
+    border: 0;
+}
+
+.window .panel-title {
+    color: #fff;
+    padding-left: 10px;
+}
+
+.window .window-body {
+    border: 0;
+}
+
+.window .dialog-button {
+    border: 0;
+    border-top: 1px solid #ddd;
+    padding: 2px;
+}
+*/
+
+.form {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .form th {
+        font-weight: normal;
+        background: #f1f1f1;
+        border: 1px solid #ccc;
+        padding: 2px;
+        text-align: right;
+    }
+
+    .form td {
+        border: 1px solid #ccc;
+    }
 
 input, select, textarea {
     padding: 2px;

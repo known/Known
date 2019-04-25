@@ -1,0 +1,7 @@
+﻿[
+    {id: "System", text: "系统管理", iconCls: "fa-desktop", expanded: true},
+    {id: "Module", text: "模块管理", pid: "System", iconCls: "fa-cubes", url: "/Pages/System/ModuleView.html"},
+    {id: "Organization", text: "组织架构", pid: "System", iconCls: "fa-sitemap", url: "/Pages/System/OrganizationView.html"},
+    {id: "Role", text: "角色管理", pid: "System", iconCls: "fa-group", url: "/Pages/System/RoleView.html"},
+    {id: "User", text: "用户管理", pid: "System", iconCls: "fa-user", url: "/Pages/System/UserView.html"},
+]
