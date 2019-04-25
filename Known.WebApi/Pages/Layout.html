@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Known管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="/static/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/libs/miniui/miniui.css">
+    <script src="/static/libs/jquery.min.js"></script>
+    <script src="/static/libs/miniui/miniui.js"></script>
+    <script src="/static/js/core.js"></script>
+</head>
+<body>
+    <div id="content" style="width:100%;height:100%;"></div>
+    <script>
+        function initPage() {
+            var page = getUrlParam('p');
+            if (page !== '') {
+                var arr = page.split('/');
+                var view = arr[arr.length - 1].split('.')[0];
+                $('#content').loadHtml('/Pages' + page, function () {
+                    mini.parse();
+                    eval(view + '.show();');
+                });
+            }
+        }
+
+        function getUrlParam(name) {
+            var url = document.location.href;
+            var arrs = url.split('?');
+            if (arrs.length <= 1)
+                return '';
+
+            var paras = arrs[1].split('&');
+            var para;
+            for (var i = 0; i < paras.length; i++) {
+                para = paras[0].split('=');
+                if (para !== null && para[0] === name)
+                    return para[1];
+            }
+
+            return '';
+        }
+
+        initPage();
+    </script>
+</body>
+</html>

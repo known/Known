@@ -85,6 +85,7 @@
     <Content Include="Global.asax" />
     <EmbeddedResource Include="Scripts\swagger_lang.js" />
     <Content Include="Pages\Dashboard.html" />
+    <Content Include="Pages\Layout.html" />
     <Content Include="Pages\Develop\DevelopView.html" />
     <Content Include="Pages\Develop\Partials\DemoForm.html" />
     <Content Include="Pages\Develop\Partials\DemoGrid.html" />
