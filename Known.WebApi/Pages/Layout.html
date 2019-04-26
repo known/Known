@@ -12,39 +12,24 @@
     <link rel="stylesheet" href="/static/libs/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/libs/miniui/miniui.css">
     <script src="/static/libs/jquery.min.js"></script>
+    <script src="/static/libs/pdfobject.min.js"></script>
     <script src="/static/libs/miniui/miniui.js"></script>
+    <script src="/static/libs/highcharts/highcharts.js"></script>
     <script src="/static/js/core.js"></script>
 </head>
 <body>
     <div id="content" style="width:100%;height:100%;"></div>
     <script>
         function initPage() {
-            var page = getUrlParam('p');
+            var page = Url.getParam('p');
             if (page !== '') {
                 var arr = page.split('/');
                 var view = arr[arr.length - 1].split('.')[0];
-                $('#content').loadHtml('/Pages' + page, function () {
+                $('#content').loadHtml('/Pages' + page + '.html', function () {
                     mini.parse();
                     eval(view + '.show();');
                 });
             }
-        }
-
-        function getUrlParam(name) {
-            var url = document.location.href;
-            var arrs = url.split('?');
-            if (arrs.length <= 1)
-                return '';
-
-            var paras = arrs[1].split('&');
-            var para;
-            for (var i = 0; i < paras.length; i++) {
-                para = paras[0].split('=');
-                if (para !== null && para[0] === name)
-                    return para[1];
-            }
-
-            return '';
         }
 
         initPage();

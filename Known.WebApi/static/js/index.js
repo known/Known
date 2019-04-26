@@ -8,8 +8,13 @@
         this.mainTabs = mini.get('mainTabs');
 
         var _this = this;
+        this.leftTree.set({ url: '/static/data/menu.txt', resultAsTree: false });
         this.leftTree.on('nodeclick', function (e) { _this.treeNodeClick(e); });
         this.mainTabs.on('activechanged', function (e) { _this.tabsActiveChanged(e); });
+
+        var homeUrl = this._getPageUrl('/Dashboard');
+        var tab = this.mainTabs.getTab('index');
+        this.mainTabs.loadTab(homeUrl, tab);
 
         Toolbar.bind('tbNavbar', TbNavbar);
         Toolbar.bind('tbMainTabs', TbMainTabs);
@@ -29,7 +34,7 @@
         var tabs = this.mainTabs;
         var tab = tabs.getTab(item.id);
         if (!tab) {
-            var url = '/Pages/Layout.html?p=' + encodeURI(item.url);
+            var url = this._getPageUrl(item.url);
             tab = tabs.addTab({
                 name: item.id, title: item.text, url: url,
                 iconCls: item.iconCls, showCloseButton: true
@@ -38,6 +43,10 @@
         tabs.activeTab(tab);
         tab.bodyEl = tabs.getTabBodyEl(tab);
         return tab;
+    },
+
+    _getPageUrl: function (url) {
+        return '/Pages/Layout.html?p=' + encodeURI(url);
     }
 
 };
@@ -47,14 +56,14 @@ var TbNavbar = {
     devTool: function () {
         Index.showTab({
             id: 'devTool', iconCls: 'fa-puzzle-piece',
-            text: '开发工具', url: '/Develop/DevelopView.html'
+            text: '开发工具', url: '/Develop/DevelopView'
         });
     },
 
     todo: function () {
         Index.showTab({
             id: 'todo', iconCls: 'fa-tasks',
-            text: '代办事项', url: '/System/TodoView.html'
+            text: '代办事项', url: '/System/TodoView'
         });
     },
 
