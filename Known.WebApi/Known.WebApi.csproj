@@ -117,6 +117,31 @@
     <Content Include="static\libs\highcharts\model\exporting.js" />
     <Content Include="static\libs\jquery.md5.js" />
     <Content Include="static\libs\jquery.min.js" />
+    <Content Include="static\libs\miniui\images\buttonedit\button.png" />
+    <Content Include="static\libs\miniui\images\buttonedit\close.gif" />
+    <Content Include="static\libs\miniui\images\date.gif" />
+    <Content Include="static\libs\miniui\images\buttonedit\down.gif" />
+    <Content Include="static\libs\miniui\images\error.gif" />
+    <Content Include="static\libs\miniui\images\buttonedit\filter.png" />
+    <Content Include="static\libs\miniui\images\buttonedit\hover.png" />
+    <Content Include="static\libs\miniui\images\buttonedit\icon1.gif" />
+    <Content Include="static\libs\miniui\images\buttonedit\icon2.gif" />
+    <Content Include="static\libs\miniui\images\buttonedit\pressed.png" />
+    <Content Include="static\libs\miniui\images\buttonedit\up.gif" />
+    <Content Include="static\libs\miniui\images\buttonedit\_icon3.gif" />
+    <Content Include="static\libs\miniui\images\button\button.png" />
+    <Content Include="static\libs\miniui\images\button\disabled.png" />
+    <Content Include="static\libs\miniui\images\button\hover.png" />
+    <Content Include="static\libs\miniui\images\button\icons.png" />
+    <Content Include="static\libs\miniui\images\button\menu_arrow.png" />
+    <Content Include="static\libs\miniui\images\button\pressed.png" />
+    <Content Include="static\libs\miniui\images\button\split-allow-bottom.gif" />
+    <Content Include="static\libs\miniui\images\button\split_arrow.png" />
+    <Content Include="static\libs\miniui\images\calendar\button.png" />
+    <Content Include="static\libs\miniui\images\calendar\header.png" />
+    <Content Include="static\libs\miniui\images\calendar\months.gif" />
+    <Content Include="static\libs\miniui\images\calendar\next.gif" />
+    <Content Include="static\libs\miniui\images\calendar\prev.gif" />
     <Content Include="static\libs\miniui\images\grid\col-move-bottom.gif" />
     <Content Include="static\libs\miniui\images\grid\col-move-top.gif" />
     <Content Include="static\libs\miniui\images\grid\collapse.gif" />
@@ -132,6 +157,18 @@
     <Content Include="static\libs\miniui\images\grid\sorticon.gif" />
     <Content Include="static\libs\miniui\images\grid\sort_asc.gif" />
     <Content Include="static\libs\miniui\images\grid\sort_desc.gif" />
+    <Content Include="static\libs\miniui\images\icons\checkbox.gif" />
+    <Content Include="static\libs\miniui\images\icons\radio.gif" />
+    <Content Include="static\libs\miniui\images\messagebox\icon-error.gif" />
+    <Content Include="static\libs\miniui\images\messagebox\icon-info.gif" />
+    <Content Include="static\libs\miniui\images\messagebox\icon-question.gif" />
+    <Content Include="static\libs\miniui\images\messagebox\icon-warning.gif" />
+    <Content Include="static\libs\miniui\images\messagebox\loading.gif" />
+    <Content Include="static\libs\miniui\images\pager\first.gif" />
+    <Content Include="static\libs\miniui\images\pager\last.gif" />
+    <Content Include="static\libs\miniui\images\pager\next.gif" />
+    <Content Include="static\libs\miniui\images\pager\prev.gif" />
+    <Content Include="static\libs\miniui\images\pager\reload.png" />
     <Content Include="static\libs\miniui\images\panel\header.png" />
     <Content Include="static\libs\miniui\images\panel\resize.gif" />
     <Content Include="static\libs\miniui\images\splitter\buttons.gif" />
@@ -147,6 +184,14 @@
     <Content Include="static\libs\miniui\images\tabs\down.gif" />
     <Content Include="static\libs\miniui\images\tabs\hover.png" />
     <Content Include="static\libs\miniui\images\tabs\tab.png" />
+    <Content Include="static\libs\miniui\images\tools\close.gif" />
+    <Content Include="static\libs\miniui\images\tools\collapse.gif" />
+    <Content Include="static\libs\miniui\images\tools\expand.gif" />
+    <Content Include="static\libs\miniui\images\tools\max.gif" />
+    <Content Include="static\libs\miniui\images\tools\min.gif" />
+    <Content Include="static\libs\miniui\images\tools\refresh.gif" />
+    <Content Include="static\libs\miniui\images\tools\restore.gif" />
+    <Content Include="static\libs\miniui\images\tools\search.gif" />
     <Content Include="static\libs\miniui\images\tree\arrows.gif" />
     <Content Include="static\libs\miniui\images\tree\button.png" />
     <Content Include="static\libs\miniui\images\tree\collapse.gif" />
@@ -219,7 +264,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\System\Partials\" />
-    <Folder Include="static\libs\miniui\themes\pure\images\button\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

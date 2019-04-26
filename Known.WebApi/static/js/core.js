@@ -494,3 +494,397 @@ var Toolbar = {
     }
 
 };
+
+//---------------------------grid------------------------------------------//
+var Grid = function (name, option) {
+    $.extend(true, this.option, option);
+
+    this.name = name;
+    this.grid = mini.get('grid' + name);
+    this.idField = this.grid.getIdField();
+
+    var _this = this;
+    if ($('#query' + name).length) {
+        this.query = new Form('query' + name);
+        var btnSearch = mini.get('search', this.query);
+        if (btnSearch) {
+            btnSearch.on('click', function () {
+                _this.search();
+            });
+        }
+    }
+
+    var columns = this.grid.getColumns();
+    for (var i = 0; i < columns.length; i++) {
+        if (columns[i].displayField) {
+            this.grid.updateColumn(columns[i], {
+                renderer: _this._onColumnRender
+            });
+        }
+    }
+};
+Grid.prototype = {
+
+    option: {
+    },
+
+    _onColumnRender: function (e) {
+        var displayField = e.column.displayField;
+        if (displayField === 'icon') {
+            var value = e.record[e.column.field];
+            return '<span class="mini-icon mini-iconfont ' + e.value + '"></span>';
+        } else if (displayField.startWith('code.')) {
+            var type = displayField.replace('code.', '');
+            var code = Code.getCode(type, e.value);
+            var text = e.value;
+            if (code && code.text) {
+                text += '-' + code.text;
+            }
+            return text;
+        } else {
+            return e.record[displayField];
+        }
+    },
+
+    _queryData: function (isLoad, callback) {
+        var query = this.query ? this.query.getData(true) : '';
+        var grid = this.grid;
+        grid.clearSelect(false);
+        grid.load(
+            { query: query, isLoad: isLoad },
+            function (e) {
+                if (callback) {
+                    callback({ sender: grid, result: e.result });
+                }
+            },
+            function () {
+                Message.tips('查询出错！');
+            }
+        );
+        new ColumnsMenu(grid);
+    },
+
+    bind: function (type, callback) {
+        this.grid.on(type, callback);
+    },
+
+    search: function (callback) {
+        this._queryData(false, callback);
+    },
+
+    load: function (callback) {
+        this._queryData(true, callback);
+    },
+
+    reload: function () {
+        this.grid.reload();
+    },
+
+    validate: function (tabsId, tabIndex) {
+        this.grid.validate();
+        if (this.grid.isValid())
+            return true;
+
+        if (tabsId) {
+            var tabs = mini.get(tabsId);
+            var tab = tabs.getTab(index);
+            tabs.activeTab(tab);
+        }
+
+        var error = this.grid.getCellErrors()[0];
+        this.grid.beginEditCell(error.record, error.column);
+        return false;
+    },
+
+    getChanges: function (encode) {
+        var data = this.grid.getChanges();
+        return encode ? mini.encode(data) : data;
+    },
+
+    getSelecteds: function (encode) {
+        this.grid.accept();
+        var data = this.grid.getSelecteds();
+        return encode ? mini.encode(data) : data;
+    },
+
+    getData: function (encode) {
+        var data = this.grid.getData();
+        return encode ? mini.encode(data) : data;
+    },
+
+    setData: function (data, callback) {
+        this.clear();
+        if (data) {
+            this.grid.setData(data);
+            callback && callback(data);
+        }
+    },
+
+    clear: function () {
+        this.grid.setData([]);
+    },
+
+    addRow: function (data, index) {
+        if (!index) {
+            index = this.grid.getData().length;
+        }
+
+        this.grid.addRow(data, index);
+        this.grid.cancelEdit();
+        this.grid.beginEditRow(data);
+    },
+
+    updateRow: function (e, data) {
+        e.sender.updateRow(e.record, data);
+    },
+
+    deleteRow: function (uid) {
+        var row = this.grid.getRowByUid(uid);
+        if (row) {
+            this.grid.removeRow(row);
+        }
+    },
+
+    checkSelect: function (callback) {
+        var rows = this.grid.getSelecteds();
+        if (rows.length === 0) {
+            Message.tips('请选择一条记录！');
+        } else if (rows.length > 1) {
+            Message.tips('只能选择一条记录！');
+        } else if (callback) {
+            callback(rows[0]);
+        }
+    },
+
+    checkMultiSelect: function (callback) {
+        var rows = this.grid.getSelecteds();
+        if (rows.length === 0) {
+            Message.tips('请选择一条或多条记录！');
+        } else if (callback) {
+            var data = this.getRowDatas(rows);
+            callback(rows, data);
+        }
+    },
+
+    deleteRows: function (callback) {
+        this.checkMultiSelect(function (rows, data) {
+            Message.confirm('确定要删除选中的记录？', function () {
+                callback && callback(rows, data);
+            });
+        });
+    },
+
+    getRowDatas: function (rows, fields) {
+        var datas = [];
+        if (fields) {
+            $(rows).each(function (i, d) {
+                var data = {};
+                $(fields).each(function (i, p) {
+                    data[p] = d[p] || '';
+                });
+                datas.push(data);
+            });
+        } else {
+            var id = this.grid.idField;
+            $(rows).each(function (i, d) {
+                datas.push(d[id] || '');
+            });
+        }
+        return mini.encode(datas);
+    },
+
+    hideColumn: function (indexOrName) {
+        var column = this.grid.getColumn(indexOrName);
+        this.grid.updateColumn(column, { visible: false });
+    },
+
+    showColumn: function (indexOrName) {
+        var column = this.grid.getColumn(indexOrName);
+        this.grid.updateColumn(column, { visible: true });
+    },
+
+    setColumns: function (columns) {
+        this.grid.setColumns(columns);
+    }
+
+};
+
+//---------------------------form------------------------------------------//
+var Form = function (formId, option) {
+    $.extend(true, this.option, option);
+
+    this.formId = formId;
+    this.form = new mini.Form('#' + formId);
+
+    var inputs = this.form.getFields();
+    for (var i = 0; i < inputs.length; i++) {
+        var input = inputs[i];
+        if (input.type === 'combobox' ||
+            input.type === 'checkboxlist' ||
+            input.type === 'radiobuttonlist') {
+            if (input.data.length <= 1) {
+                input.setData(Code.getCodes(input.id));
+            }
+        }
+        this[input.id] = input;
+    }
+
+    if (this.option.data) {
+        this.setData(this.option.data, this.option.callback);
+    }
+};
+Form.prototype = {
+
+    option: {
+    },
+
+    reset: function () {
+        this.form.reset();
+    },
+
+    clear: function (controls) {
+        if (controls) {
+            var _this = this;
+            $(controls.split(',')).each(function (i, c) {
+                var control = mini.getbyName(c, _this.form);
+                if (control) {
+                    control.setValue('');
+                    if (control.type === 'autocomplete') {
+                        control.setText('');
+                    }
+                }
+            });
+        } else {
+            this.form.clear();
+        }
+    },
+
+    validate: function (tabsId, tabIndex) {
+        if (this.form.validate())
+            return true;
+
+        if (tabsId) {
+            var tabs = mini.get(tabsId);
+            var tab = tabs.getTab(tabIndex);
+            tabs.activeTab(tab);
+        }
+        return false;
+    },
+
+    getData: function (encode) {
+        var data = this.form.getData(true);
+        return encode ? mini.encode(data) : data;
+    },
+
+    setData: function (data, callback) {
+        if (data) {
+            this.form.setData(data);
+            callback && callback(this, data);
+            this.form.setChanged(false);
+            this.bindEnterJump();
+        }
+    },
+
+    saveData: function (option) {
+        if (!this.validate(option.tabsId, option.tabIndex))
+            return;
+
+        Ajax.postJson(option.url, this.getData(), function (res) {
+            Message.result(res, function (data) {
+                option.callback && option.callback(data);
+            });
+        });
+    },
+
+    bindEnterJump: function () {
+        var inputs = this.form.getFields();
+        var activeIndexes = getActiveIndexes(inputs);
+
+        for (var i = 0, len = activeIndexes.length; i < len; i++) {
+            (function (i) {
+                var index = activeIndexes[i];
+                var nextIndex = activeIndexes[i + 1];
+
+                if (i === len - 1) {
+                    nextIndex = activeIndexes[0];
+                }
+
+                var current = inputs[index];
+                $(current.getEl()).keyup(function (e) {
+                    if (e.keyCode === 13) {
+                        var nextInput = inputs[nextIndex];
+                        setTimeout(function () {
+                            nextInput.focus();
+                            if (nextInput.type !== 'textarea') {
+                                nextInput.selectText();
+                            }
+                        }, 10);
+                    } else if (i > 0 && e.keyCode === 38) {
+                        var preInput = inputs[activeIndexes[i - 1]];
+                        if (current.type !== 'textarea' && (
+                            current.type !== 'autocomplete' &&
+                            current.type !== 'combobox' ||
+                            !current.isShowPopup()
+                        )) {
+                            setTimeout(function () {
+                                preInput.focus();
+                                if (preInput.type !== 'textarea') {
+                                    preInput.selectText();
+                                }
+                            }, 10);
+                        }
+                    }
+                });
+            })(i);
+        }
+
+        function getActiveIndexes(inputs) {
+            var indexes = [];
+            for (var i = 0, len = inputs.length; i < len; i++) {
+                var input = inputs[i];
+                $(input.getEl()).unbind('keyup');
+
+                if (input.type !== 'hidden' &&
+                    input.type !== 'checkbox' &&
+                    input.type !== 'checkboxlist' &&
+                    input.type !== 'radiobuttonlist' &&
+                    input.type !== 'htmlfile' &&
+                    input.getEnabled() === true &&
+                    input.getVisible() === true)
+                    indexes.push(i);
+            }
+            return indexes;
+        }
+    },
+
+    model: function (isLabel) {
+        var labelClass = 'form-input-label-model';
+        $('span.' + labelClass).remove();
+        var inputs = this.form.getFields();
+        for (var i = 0, len = inputs.length; i < len; i++) {
+            var input = inputs[i];
+            input.setVisible(!isLabel);
+
+            if (input.type === 'hidden' || !isLabel)
+                continue;
+
+            var text = input.getValue();
+            if (input.type === 'combobox' ||
+                input.type === 'autocomplete' ||
+                input.type === 'listbox' ||
+                input.type === 'checkbox' ||
+                input.type === 'checkboxlist' ||
+                input.type === 'radiobuttonlist' ||
+                input.type === 'datepicker' ||
+                input.type === 'timespinner') {
+                text = input.getText();
+            } else if (input.type === 'textarea') {
+                text = text.htmlEncode();
+            }
+
+            var html = '<span class="' + labelClass + '">' + text + '</span>';
+            $(input.getEl()).after(html);
+        }
+    }
+
+};
