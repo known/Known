@@ -226,6 +226,8 @@
     <Compile Include="Code\ApiControllerBase.cs" />
     <Compile Include="Code\WebApiController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
+    <Compile Include="Controllers\Develop\DevDemoController.cs" />
+    <Compile Include="Controllers\Develop\DevToolController.cs" />
     <Compile Include="Controllers\System\ModuleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HttpActionContextExtension.cs" />
@@ -256,6 +258,10 @@
     <ProjectReference Include="..\Known.Cells\Known.Cells.csproj">
       <Project>{64c82219-f397-4b5a-b837-7a8ad4b7b721}</Project>
       <Name>Known.Cells</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Known.Core\Known.Core.csproj">
+      <Project>{d582cbc2-1c85-4806-a231-c07811156806}</Project>
+      <Name>Known.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Known\Known.csproj">
       <Project>{f4c9a8c8-eaf9-4ea8-b186-c4b843762d45}</Project>
