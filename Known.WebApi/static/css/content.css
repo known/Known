@@ -18,6 +18,11 @@
 
 .form td {
     border: 1px solid #ccc;
+    padding-left: 2px;
+}
+
+.noborder th, .noborder td {
+    border: 0;
 }
 
 input, select, textarea {
