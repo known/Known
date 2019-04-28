@@ -1,4 +1,9 @@
-﻿.form {
+﻿.query {
+    padding: 2px;
+    border: none;
+}
+
+.form {
     width: 100%;
     border-collapse: collapse;
 }

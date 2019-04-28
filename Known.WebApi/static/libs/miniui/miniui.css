@@ -1281,7 +1281,7 @@ input.mini-textarea {
 }
 
 .mini-panel-border {
-    border: 2px solid #3c8dbc;
+    border: 1px solid #ddd;
     overflow: hidden;
     position: relative;
 }
@@ -1350,7 +1350,7 @@ input.mini-textarea {
 .mini-panel-toolbar {
     clear: both;
     border-bottom: solid 1px #ddd;
-    background: #eff2f4;
+    background: #fff;
     width: auto;
     clear: both;
     position: relative;
@@ -1387,6 +1387,10 @@ input.mini-textarea {
 .mini-window {
     position: absolute;
 }
+
+    .mini-window .mini-panel-border {
+        border: 2px solid #3c8dbc;
+    }
 
     .mini-window .mini-panel-header {
         background: #3c8dbc;
@@ -3388,10 +3392,13 @@ a:hover.mini-calendar-menu-year {
     display: none;
 }
 
+.mini-grid-border {
+    border: none;
+}
+
 .mini-grid-viewport {
     background: white;
 }
-
 
 .mini-grid-columns {
     position: relative;
@@ -3455,7 +3462,7 @@ a:hover.mini-calendar-menu-year {
 .mini-grid-filterCell, .mini-grid-summaryCell {
     overflow: hidden;
     padding: 0px;
-    border: #d2d2d2 1px solid;
+    border: #ddd 1px solid;
     border-left-width: 0px;
     border-top-width: 0px;
     cursor: default;
@@ -3466,9 +3473,6 @@ a:hover.mini-calendar-menu-year {
     padding-right: 4px;
     line-height: 18px;
 }
-
-
-
 
 .mini-grid-cell-inner, .mini-grid-headerCell-inner {
     padding: 0px;
@@ -3494,9 +3498,9 @@ body .mini-grid-headerCell-nowrap {
 }
 
 .mini-grid-headerCell {
-    background: #E7EBEF url(images/grid/header.png) repeat-x 0 0;
-    border-right: #A5ACB5 1px solid;
-    border-bottom: #A5ACB5 1px solid;
+    background: #E7EBEF;
+    border-right: #ddd 1px solid;
+    border-bottom: #ddd 1px solid;
     overflow: visible;
     padding: 0;
 }
