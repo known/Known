@@ -137,7 +137,7 @@ $(document).ajaxSend(function (event, xhr, settings) {
 });
 $(document).ajaxError(function (event, xhr, settings, exception) {
     if (xhr.status === 401) {
-        location = 'login.html';
+        top.location = '/login.html';
     }
 });
 

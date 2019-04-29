@@ -3100,6 +3100,7 @@ a:hover.mini-calendar-menu-year {
 .mini-checkboxlist {
     overflow: hidden;
     position: relative;
+    padding-left: 2px;
 }
 
 .mini-checkboxlist-item {
@@ -3130,6 +3131,7 @@ a:hover.mini-calendar-menu-year {
 .mini-radiobuttonlist {
     position: relative;
     overflow: hidden;
+    padding-left: 2px;
 }
 
 .mini-radiobuttonlist-item {
