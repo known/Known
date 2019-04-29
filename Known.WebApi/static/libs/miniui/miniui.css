@@ -893,6 +893,7 @@ body .mini-button-disabled * {
 .mini-checkbox-icon {
     padding: 0;
     margin: 0;
+    margin-left: 2px;
     margin-right: 6px;
     vertical-align: middle;
     width: 13px;
