@@ -6,7 +6,7 @@ namespace Known
 {
     public sealed class Container
     {
-        private static Hashtable cached = new Hashtable();
+        private static readonly Hashtable cached = new Hashtable();
 
         public static void Clear()
         {
@@ -23,7 +23,7 @@ namespace Known
             if (cached.ContainsKey(key1))
                 return (T)cached[key1];
 
-            return default(T);
+            return default;
         }
 
         public static object Resolve(string name)

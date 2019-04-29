@@ -11,9 +11,9 @@ namespace Known.WebApi.Controllers.Develop
         }
 
         #region DevDatabase
-        public ApiResult QueryDatas(PagingCriteria criteria)
+        public object QueryDatas(CriteriaData data)
         {
-            //var criteria = GetPagingCriteria();
+            var criteria = data.ToPagingCriteria();
             var result = Service.QueryDatas(criteria);
             return ApiResult.ToPageData(result);
         }

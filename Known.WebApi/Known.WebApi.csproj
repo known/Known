@@ -159,6 +159,15 @@
     <Content Include="static\libs\miniui\images\grid\sort_desc.gif" />
     <Content Include="static\libs\miniui\images\icons\checkbox.gif" />
     <Content Include="static\libs\miniui\images\icons\radio.gif" />
+    <Content Include="static\libs\miniui\images\menu\arrow.png" />
+    <Content Include="static\libs\miniui\images\menu\bottom-arrow.gif" />
+    <Content Include="static\libs\miniui\images\menu\checked.gif" />
+    <Content Include="static\libs\miniui\images\menu\hallow.gif" />
+    <Content Include="static\libs\miniui\images\menu\hmenubg.png" />
+    <Content Include="static\libs\miniui\images\menu\item.png" />
+    <Content Include="static\libs\miniui\images\menu\menubg.gif" />
+    <Content Include="static\libs\miniui\images\menu\pressed.png" />
+    <Content Include="static\libs\miniui\images\menu\top-arrow.gif" />
     <Content Include="static\libs\miniui\images\messagebox\icon-error.gif" />
     <Content Include="static\libs\miniui\images\messagebox\icon-info.gif" />
     <Content Include="static\libs\miniui\images\messagebox\icon-question.gif" />
@@ -224,6 +233,7 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Code\ApiControllerBase.cs" />
+    <Compile Include="Code\CriteriaData.cs" />
     <Compile Include="Code\WebApiController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\Develop\DevDemoController.cs" />

@@ -7,6 +7,7 @@ namespace Known.WebApi
         protected void Application_Start(object sender, EventArgs e)
         {
             WebApiConfig.Register();
+            Core.Initializer.Initialize();
         }
 
         protected void Application_Error(object sender, EventArgs e)

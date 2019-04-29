@@ -22,7 +22,7 @@ namespace Known
             return value == null || value == DBNull.Value || string.IsNullOrWhiteSpace(value.ToString());
         }
 
-        public static T ConvertTo<T>(object value, T defaultValue = default(T))
+        public static T ConvertTo<T>(object value, T defaultValue = default)
         {
             return (T)ConvertTo(typeof(T), value, defaultValue);
         }

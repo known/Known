@@ -1,4 +1,5 @@
-﻿using Known.Core.Services;
+﻿using System.Web.Http;
+using Known.Core.Services;
 using Known.Web;
 
 namespace Known.WebApi.Controllers.Develop
@@ -11,9 +12,10 @@ namespace Known.WebApi.Controllers.Develop
         }
 
         #region DemoGrid
-        public ApiResult QueryUsers(PagingCriteria criteria)
+        [HttpPost]
+        public object QueryUsers(CriteriaData data)
         {
-            //var criteria = GetPagingCriteria();
+            var criteria = data.ToPagingCriteria();
             var result = Service.QueryUsers(criteria);
             return ApiResult.ToPageData(result);
         }

@@ -10,7 +10,7 @@ namespace Known.WebApi
     public class WebApiController : ApiControllerBase
     {
         [HttpGet, Route("{module}/{method}")]
-        public ApiResult Get(string module, string method)
+        public object Get(string module, string method)
         {
             if (module == "User" && method == "GetModules")
             {
@@ -33,7 +33,7 @@ namespace Known.WebApi
         }
 
         [HttpPost, Route("{module}/{method}")]
-        public ApiResult Post(string module, string method)
+        public object Post(string module, string method)
         {
             var executor = new ServiceExecuter(UserName, module, method);
 

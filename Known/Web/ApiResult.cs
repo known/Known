@@ -11,9 +11,9 @@
             return new ApiResult { Status = 0, Data = data };
         }
 
-        public static ApiResult ToPageData(PagingResult pr)
+        public static object ToPageData(PagingResult pr)
         {
-            return ToData(new { total = pr.TotalCount, data = pr.PageData });
+            return new { total = pr.TotalCount, data = pr.PageData };
         }
 
         public static ApiResult Success(string message, object data = null)
