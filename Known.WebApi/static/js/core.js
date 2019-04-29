@@ -4,12 +4,12 @@ String.prototype.trim = function () {
 };
 
 String.prototype.startWith = function (str) {
-    var reg = new RegExp("^" + str);
+    var reg = new RegExp('^' + str);
     return reg.test(this);
 };
 
 String.prototype.endWith = function (str) {
-    var reg = new RegExp(str + "$");
+    var reg = new RegExp(str + '$');
     return reg.test(this);
 };
 
@@ -96,23 +96,23 @@ Array.prototype.max = function (prop) {
 //---------------------------date------------------------------------------//
 Date.prototype.format = function (fmt) {
     var o = {
-        "M+": this.getMonth() + 1,               //月份   
-        "d+": this.getDate(),                    //日   
-        "h+": this.getHours(),                   //小时  
-        "H+": this.getHours(),
-        "m+": this.getMinutes(),                 //分   
-        "s+": this.getSeconds(),                 //秒   
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
-        "S": this.getMilliseconds()              //毫秒   
+        'M+': this.getMonth() + 1,               //月份   
+        'd+': this.getDate(),                    //日   
+        'h+': this.getHours(),                   //小时  
+        'H+': this.getHours(),
+        'm+': this.getMinutes(),                 //分   
+        's+': this.getSeconds(),                 //秒   
+        'q+': Math.floor((this.getMonth() + 3) / 3), //季度   
+        'S': this.getMilliseconds()              //毫秒   
     };
     if (/(y+)/.test(fmt)) {
-        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
     }
     for (var k in o) {
-        if (new RegExp("(" + k + ")").test(fmt)) {
+        if (new RegExp('(' + k + ')').test(fmt)) {
             var value = RegExp.$1.length === 1
                 ? o[k]
-                : ("00" + o[k]).substr(("" + o[k]).length);
+                : ('00' + o[k]).substr(('' + o[k]).length);
             fmt = fmt.replace(RegExp.$1, value);
         }
     }
@@ -341,7 +341,7 @@ var Message = {
 
     prompt: function (label, title, callback) {
         mini.prompt(label, title, function (action, value) {
-            if (action === "ok") {
+            if (action === 'ok') {
                 callback && callback(value);
             }
         });
@@ -349,7 +349,7 @@ var Message = {
 
     promptMulti: function (label, title, callback) {
         mini.prompt(label, title, function (action, value) {
-            if (action === "ok") {
+            if (action === 'ok') {
                 callback && callback(value);
             }
         }, true);
@@ -372,8 +372,8 @@ var Message = {
         mini.showMessageBox({
             showModal: false,
             width: option.width || 250,
-            title: option.title || "提示",
-            iconCls: option.iconCls || "mini-messagebox-warning",
+            title: option.title || '提示',
+            iconCls: option.iconCls || 'mini-messagebox-warning',
             message: option.message,
             timeout: option.timeout || 3000,
             x: option.x || 'right',
