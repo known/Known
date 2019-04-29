@@ -3037,7 +3037,7 @@ a:hover.mini-calendar-menu-year {
 
 .mini-listbox-header {
     overflow: hidden;
-    background: #E7EBEF url(images/listbox/header.png) repeat-x 0 0;
+    background: #E7EBEF;
     border-bottom: solid 1px #A5ACB5;
 }
 

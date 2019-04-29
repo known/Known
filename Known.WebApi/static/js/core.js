@@ -126,10 +126,6 @@ Date.prototype.addYears = function (number) {
 
 //---------------------------ajax------------------------------------------//
 $(document).ajaxSend(function (event, xhr, settings) {
-    //if (settings.type === 'POST') {
-    //    var token = $('input[name="__RequestVerificationToken"]').val();
-    //    xhr.setRequestHeader('X-XSRF-TOKEN', token);
-    //}
     var user = User.getUser();
     if (user) {
         xhr.setRequestHeader('Authorization', 'Token ' + user.Token);
@@ -495,254 +491,15 @@ var Toolbar = {
 
 };
 
-//---------------------------grid------------------------------------------//
-var Grid = function (name, option) {
-    $.extend(true, this.option, option);
-
-    this.name = name;
-    this.grid = mini.get('grid' + name);
-    this.idField = this.grid.getIdField();
-
-    var _this = this;
-    if ($('#query' + name).length) {
-        this.query = new Form('query' + name);
-        var btnSearch = mini.get('search', this.query);
-        if (btnSearch) {
-            btnSearch.on('click', function () {
-                _this.search();
-            });
-        }
-    }
-
-    var columns = this.grid.getColumns();
-    for (var i = 0; i < columns.length; i++) {
-        if (columns[i].displayField) {
-            this.grid.updateColumn(columns[i], {
-                renderer: _this._onColumnRender
-            });
-        }
-    }
-};
-Grid.prototype = {
-
-    option: {
-    },
-
-    _onColumnRender: function (e) {
-        var displayField = e.column.displayField;
-        if (displayField === 'icon') {
-            var value = e.record[e.column.field];
-            return '<span class="mini-icon mini-iconfont ' + e.value + '"></span>';
-        } else if (displayField.startWith('code.')) {
-            var type = displayField.replace('code.', '');
-            var code = Code.getCode(type, e.value);
-            var text = e.value;
-            if (code && code.text) {
-                text += '-' + code.text;
-            }
-            return text;
-        } else {
-            return e.record[displayField];
-        }
-    },
-
-    _queryData: function (isLoad, callback) {
-        var query = this.query ? this.query.getData(true) : '';
-        var grid = this.grid;
-        grid.clearSelect(false);
-        grid.load(
-            { query: query, isLoad: isLoad },
-            function (e) {
-                if (callback) {
-                    callback({ sender: grid, result: e.result });
-                }
-            },
-            function () {
-                Message.tips('查询出错！');
-            }
-        );
-        new ColumnsMenu(grid);
-    },
-
-    bind: function (type, callback) {
-        this.grid.on(type, callback);
-    },
-
-    search: function (callback) {
-        this._queryData(false, callback);
-    },
-
-    load: function (callback) {
-        this._queryData(true, callback);
-    },
-
-    reload: function () {
-        this.grid.reload();
-    },
-
-    validate: function (tabsId, tabIndex) {
-        this.grid.validate();
-        if (this.grid.isValid())
-            return true;
-
-        if (tabsId) {
-            var tabs = mini.get(tabsId);
-            var tab = tabs.getTab(index);
-            tabs.activeTab(tab);
-        }
-
-        var error = this.grid.getCellErrors()[0];
-        this.grid.beginEditCell(error.record, error.column);
-        return false;
-    },
-
-    getChanges: function (encode) {
-        var data = this.grid.getChanges();
-        return encode ? mini.encode(data) : data;
-    },
-
-    getSelecteds: function (encode) {
-        this.grid.accept();
-        var data = this.grid.getSelecteds();
-        return encode ? mini.encode(data) : data;
-    },
-
-    getData: function (encode) {
-        var data = this.grid.getData();
-        return encode ? mini.encode(data) : data;
-    },
-
-    setData: function (data, callback) {
-        this.clear();
-        if (data) {
-            this.grid.setData(data);
-            callback && callback(data);
-        }
-    },
-
-    clear: function () {
-        this.grid.setData([]);
-    },
-
-    addRow: function (data, index) {
-        if (!index) {
-            index = this.grid.getData().length;
-        }
-
-        this.grid.addRow(data, index);
-        this.grid.cancelEdit();
-        this.grid.beginEditRow(data);
-    },
-
-    updateRow: function (e, data) {
-        e.sender.updateRow(e.record, data);
-    },
-
-    deleteRow: function (uid) {
-        var row = this.grid.getRowByUid(uid);
-        if (row) {
-            this.grid.removeRow(row);
-        }
-    },
-
-    checkSelect: function (callback) {
-        var rows = this.grid.getSelecteds();
-        if (rows.length === 0) {
-            Message.tips('请选择一条记录！');
-        } else if (rows.length > 1) {
-            Message.tips('只能选择一条记录！');
-        } else if (callback) {
-            callback(rows[0]);
-        }
-    },
-
-    checkMultiSelect: function (callback) {
-        var rows = this.grid.getSelecteds();
-        if (rows.length === 0) {
-            Message.tips('请选择一条或多条记录！');
-        } else if (callback) {
-            var data = this.getRowDatas(rows);
-            callback(rows, data);
-        }
-    },
-
-    deleteRows: function (callback) {
-        this.checkMultiSelect(function (rows, data) {
-            Message.confirm('确定要删除选中的记录？', function () {
-                callback && callback(rows, data);
-            });
-        });
-    },
-
-    getRowDatas: function (rows, fields) {
-        var datas = [];
-        if (fields) {
-            $(rows).each(function (i, d) {
-                var data = {};
-                $(fields).each(function (i, p) {
-                    data[p] = d[p] || '';
-                });
-                datas.push(data);
-            });
-        } else {
-            var id = this.grid.idField;
-            $(rows).each(function (i, d) {
-                datas.push(d[id] || '');
-            });
-        }
-        return mini.encode(datas);
-    },
-
-    hideColumn: function (indexOrName) {
-        var column = this.grid.getColumn(indexOrName);
-        this.grid.updateColumn(column, { visible: false });
-    },
-
-    showColumn: function (indexOrName) {
-        var column = this.grid.getColumn(indexOrName);
-        this.grid.updateColumn(column, { visible: true });
-    },
-
-    setColumns: function (columns) {
-        this.grid.setColumns(columns);
-    }
-
-};
-
 //---------------------------form------------------------------------------//
 var Form = function (formId, option) {
-    $.extend(true, this.option, option);
-
     this.formId = formId;
-    this.form = new mini.Form('#' + formId);
+    this.option = option || {};
 
-    var inputs = this.form.getFields();
-    for (var i = 0; i < inputs.length; i++) {
-        var input = inputs[i];
-        if (input.type === 'combobox' ||
-            input.type === 'checkboxlist' ||
-            input.type === 'radiobuttonlist') {
-            if (input.data.length <= 1) {
-                input.setData(Code.getCodes(input.id));
-            }
-        }
-        this[input.id] = input;
-    }
+    var _form = new mini.Form('#' + formId);
+    $.extend(true, this, _form);
 
-    if (this.option.data) {
-        this.setData(this.option.data, this.option.callback);
-    }
-};
-Form.prototype = {
-
-    option: {
-    },
-
-    reset: function () {
-        this.form.reset();
-    },
-
-    clear: function (controls) {
+    this.clear = function (controls) {
         if (controls) {
             var _this = this;
             $(controls.split(',')).each(function (i, c) {
@@ -755,12 +512,12 @@ Form.prototype = {
                 }
             });
         } else {
-            this.form.clear();
+            _form.clear();
         }
-    },
+    };
 
-    validate: function (tabsId, tabIndex) {
-        if (this.form.validate())
+    this.validate = function (tabsId, tabIndex) {
+        if (_form.validate())
             return true;
 
         if (tabsId) {
@@ -769,23 +526,23 @@ Form.prototype = {
             tabs.activeTab(tab);
         }
         return false;
-    },
+    };
 
-    getData: function (encode) {
-        var data = this.form.getData(true);
+    this.getData = function (encode) {
+        var data = _form.getData(true);
         return encode ? mini.encode(data) : data;
-    },
+    };
 
-    setData: function (data, callback) {
+    this.setData = function (data, callback) {
         if (data) {
-            this.form.setData(data);
+            _form.setData(data);
             callback && callback(this, data);
-            this.form.setChanged(false);
+            _form.setChanged(false);
             this.bindEnterJump();
         }
-    },
+    };
 
-    saveData: function (option) {
+    this.saveData = function (option) {
         if (!this.validate(option.tabsId, option.tabIndex))
             return;
 
@@ -794,10 +551,10 @@ Form.prototype = {
                 option.callback && option.callback(data);
             });
         });
-    },
+    };
 
-    bindEnterJump: function () {
-        var inputs = this.form.getFields();
+    this.bindEnterJump = function () {
+        var inputs = this.getFields();
         var activeIndexes = getActiveIndexes(inputs);
 
         for (var i = 0, len = activeIndexes.length; i < len; i++) {
@@ -855,12 +612,12 @@ Form.prototype = {
             }
             return indexes;
         }
-    },
+    };
 
-    model: function (isLabel) {
+    this.model = function (isLabel) {
         var labelClass = 'form-input-label-model';
         $('span.' + labelClass).remove();
-        var inputs = this.form.getFields();
+        var inputs = this.getFields();
         for (var i = 0, len = inputs.length; i < len; i++) {
             var input = inputs[i];
             input.setVisible(!isLabel);
@@ -885,6 +642,230 @@ Form.prototype = {
             var html = '<span class="' + labelClass + '">' + text + '</span>';
             $(input.getEl()).after(html);
         }
-    }
+    };
 
+    this.init = function () {
+        var inputs = this.getFields();
+        for (var i = 0; i < inputs.length; i++) {
+            var input = inputs[i];
+            if (input.type === 'combobox' ||
+                input.type === 'checkboxlist' ||
+                input.type === 'radiobuttonlist') {
+                if (input.data.length <= 1) {
+                    input.setData(Code.getCodes(input.id));
+                }
+            }
+            this[input.id] = input;
+        }
+
+        if (this.option.data) {
+            this.setData(this.option.data, this.option.callback);
+        }
+    };
+
+    this.init();
+    //console.log(this);
+};
+
+//---------------------------grid------------------------------------------//
+var Grid = function (name, option) {
+    this.name = name;
+    this.option = option || {};
+
+    var _grid = mini.get('grid' + name);
+    $.extend(true, this, _grid);
+
+    var _this = this;
+    this.idField = _grid.getIdField();
+    this.query = {};
+
+    this._onColumnRender = function (e) {
+        var displayField = e.column.displayField;
+        if (displayField === 'icon') {
+            var value = e.record[e.column.field];
+            return '<span class="mini-icon mini-iconfont ' + e.value + '"></span>';
+        } else if (displayField.startWith('code.')) {
+            var type = displayField.replace('code.', '');
+            var code = Code.getCode(type, e.value);
+            var text = e.value;
+            if (code && code.text) {
+                text += '-' + code.text;
+            }
+            return text;
+        } else {
+            return e.record[displayField];
+        }
+    };
+
+    this._queryData = function (isLoad, callback) {
+        var query = this.query ? this.query.getData(true) : '';
+        _grid.clearSelect(false);
+        _grid.load(
+            { query: query, isLoad: isLoad },
+            function (e) {
+                if (callback) {
+                    callback({ sender: this, result: e.result });
+                }
+            },
+            function () {
+                Message.tips('查询出错！');
+            }
+        );
+        //new ColumnsMenu(_grid);
+    };
+
+    this.search = function (callback) {
+        this._queryData(false, callback);
+    };
+
+    this.load = function (callback) {
+        this._queryData(true, callback);
+    };
+
+    this.validate = function (tabsId, tabIndex) {
+        _grid.validate();
+        if (_grid.isValid())
+            return true;
+
+        if (tabsId) {
+            var tabs = mini.get(tabsId);
+            var tab = tabs.getTab(index);
+            tabs.activeTab(tab);
+        }
+
+        var error = _grid.getCellErrors()[0];
+        _grid.beginEditCell(error.record, error.column);
+        return false;
+    };
+
+    this.getChanges = function (encode) {
+        var data = _grid.getChanges();
+        return encode ? mini.encode(data) : data;
+    };
+
+    this.getSelecteds = function (encode) {
+        _grid.accept();
+        var data = _grid.getSelecteds();
+        return encode ? mini.encode(data) : data;
+    };
+
+    this.getData = function (encode) {
+        var data = _grid.getData();
+        return encode ? mini.encode(data) : data;
+    };
+
+    this.setData = function (data, callback) {
+        this.clear();
+        if (data) {
+            _grid.setData(data);
+            callback && callback(data);
+        }
+    };
+
+    this.clear = function () {
+        _grid.setData([]);
+    };
+
+    this.addRow = function (data, index) {
+        if (!index) {
+            index = _grid.getData().length;
+        }
+
+        _grid.addRow(data, index);
+        _grid.cancelEdit();
+        _grid.beginEditRow(data);
+    };
+
+    this.updateRow = function (e, data) {
+        e.sender.updateRow(e.record, data);
+    };
+
+    this.deleteRow = function (uid) {
+        var row = _grid.getRowByUid(uid);
+        if (row) {
+            _grid.removeRow(row);
+        }
+    };
+
+    this.checkSelect = function (callback) {
+        var rows = _grid.getSelecteds();
+        if (rows.length === 0) {
+            Message.tips('请选择一条记录！');
+        } else if (rows.length > 1) {
+            Message.tips('只能选择一条记录！');
+        } else if (callback) {
+            callback(rows[0]);
+        }
+    };
+
+    this.checkMultiSelect = function (callback) {
+        var rows = _grid.getSelecteds();
+        if (rows.length === 0) {
+            Message.tips('请选择一条或多条记录！');
+        } else if (callback) {
+            var data = this.getRowDatas(rows);
+            callback(rows, data);
+        }
+    };
+
+    this.deleteRows = function (callback) {
+        this.checkMultiSelect(function (rows, data) {
+            Message.confirm('确定要删除选中的记录？', function () {
+                callback && callback(rows, data);
+            });
+        });
+    };
+
+    this.getRowDatas = function (rows, fields) {
+        var datas = [];
+        if (fields) {
+            $(rows).each(function (i, d) {
+                var data = {};
+                $(fields).each(function (i, p) {
+                    data[p] = d[p] || '';
+                });
+                datas.push(data);
+            });
+        } else {
+            var id = _grid.idField;
+            $(rows).each(function (i, d) {
+                datas.push(d[id] || '');
+            });
+        }
+        return mini.encode(datas);
+    };
+
+    this.hideColumn = function (indexOrName) {
+        var column = _grid.getColumn(indexOrName);
+        _grid.updateColumn(column, { visible: false });
+    };
+
+    this.showColumn = function (indexOrName) {
+        var column = _grid.getColumn(indexOrName);
+        _grid.updateColumn(column, { visible: true });
+    };
+
+    this.init = function () {
+        if ($('#query' + name).length) {
+            this.query = new Form('query' + name);
+            var btnSearch = mini.get('search', this.query);
+            if (btnSearch) {
+                btnSearch.on('click', function () {
+                    _this.search();
+                });
+            }
+        }
+
+        var columns = _grid.getColumns();
+        for (var i = 0; i < columns.length; i++) {
+            if (columns[i].displayField) {
+                _grid.updateColumn(columns[i], {
+                    renderer: _this._onColumnRender
+                });
+            }
+        }
+    };
+
+    this.init();
+    //console.log(this);
 };
