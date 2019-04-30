@@ -158,6 +158,10 @@ html, body {
     margin-bottom: 5px;
 }
 
+#mainTabs .mini-tabs-body {
+    padding: 0;
+}
+
 #tbMainTabs {
     padding: 3px;
     font-size: 16px;
