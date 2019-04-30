@@ -32,7 +32,7 @@ namespace Known.Extensions
         public static T Decompress<T>(this byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0)
-                return default(T);
+                return default;
 
             byte[] buffer = null;
             using (var ms = new MemoryStream(bytes))

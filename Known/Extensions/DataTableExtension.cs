@@ -42,13 +42,26 @@ namespace Known.Extensions
             return count == table.Columns.Count;
         }
 
-        public static T Get<T>(this DataRow row, string columnName, T defaultValue = default(T))
+        public static T Get<T>(this DataRow row, string columnName, T defaultValue = default)
         {
             if (row.Table.Columns.Contains(columnName))
             {
                 return Utils.ConvertTo<T>(row[columnName], defaultValue);
             }
             return defaultValue;
+        }
+
+        public static List<string> GetDuplicateValues(this DataTable table, string[] fields, string split = ",")
+        {
+            if (fields == null || fields.Length == 0)
+                return new List<string>();
+
+            return table.AsEnumerable()
+                        .GroupBy(r => string.Join(split, fields.Select(f => r.Get<string>(f))))
+                        .Select(r => new { r.Key, Count = r.Count() })
+                        .Where(r => r.Count > 1)
+                        .Select(r => r.Key)
+                        .ToList();
         }
     }
 }

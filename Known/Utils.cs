@@ -66,7 +66,7 @@ namespace Known
             var rmb = "负元空零壹贰叁肆伍陆柒捌玖空空空空空空空分角拾佰仟万亿兆京垓秭穰";
             var result = Regex.Replace(d, ".", m => rmb[m.Value[0] - '-'].ToString());
             if (result.EndsWith("元"))
-                result = result + "整";
+                result += "整";
 
             return result;
         }

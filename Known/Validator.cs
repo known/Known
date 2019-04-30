@@ -10,7 +10,7 @@ namespace Known
 {
     public class Validator
     {
-        private List<ValidInfo> validInfos = new List<ValidInfo>();
+        private readonly List<ValidInfo> validInfos = new List<ValidInfo>();
 
         internal Validator(List<ValidInfo> infos)
         {
@@ -67,7 +67,7 @@ namespace Known
 
         public static T ValidateNotEmpty<T>(List<string> messages, DataRow row, string fieldName, string format = null)
         {
-            if (typeof(T) == typeof(DateTime?))
+            if (!string.IsNullOrWhiteSpace(format))
             {
                 var time = row.Get<string>(fieldName).ToDateTime(format);
                 if (!time.HasValue)
@@ -87,9 +87,9 @@ namespace Known
         {
             var text = row.Get<string>(fieldName);
             if (string.IsNullOrWhiteSpace(text))
-                return default(T);
+                return default;
 
-            if (typeof(T) == typeof(DateTime?))
+            if (!string.IsNullOrWhiteSpace(format))
             {
                 var time = text.ToDateTime(format);
                 if (!time.HasValue)
@@ -100,7 +100,26 @@ namespace Known
 
             var value = row.Get<T>(fieldName);
             if (value == null)
-                messages.Add(fieldName + "格式不正确！");
+                messages.Add($"{fieldName}格式不正确！");
+
+            return value;
+        }
+
+        public static T ValidateEnum<T>(List<string> messages, DataRow row, string fieldName) where T : struct
+        {
+            var text = row.Get<string>(fieldName);
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                messages.Add($"{fieldName}不能为空！");
+                return default;
+            }
+
+            if (!Enum.TryParse(text, out T value))
+            {
+                var values = typeof(T).ToDictionary().Select(c => $"{c.Key}-{c.Value}");
+                var valueString = string.Join("、", values);
+                messages.Add($"{fieldName}必须填写枚举值（{valueString}）！");
+            }
 
             return value;
         }

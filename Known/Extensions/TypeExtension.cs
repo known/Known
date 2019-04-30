@@ -59,7 +59,7 @@ namespace Known.Extensions
         public static T GetAttribute<T>(this MemberInfo member, bool inherit = true)
         {
             if (member == null)
-                return default(T);
+                return default;
 
             foreach (var attr in member.GetCustomAttributes(inherit))
             {
@@ -69,7 +69,7 @@ namespace Known.Extensions
                 }
             }
 
-            return default(T);
+            return default;
         }
     }
 }

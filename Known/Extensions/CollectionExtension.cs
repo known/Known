@@ -97,7 +97,7 @@ namespace Known.Extensions
         public static T Value<T>(this IDictionary<string, object> dictionary, string key, T defValue = default(T))
         {
             if (dictionary == null)
-                return default(T);
+                return default;
 
             if (dictionary.ContainsKey(key))
                 return (T)dictionary[key];

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Known.Extensions
@@ -24,6 +25,19 @@ namespace Known.Extensions
             var field = type.GetField(name);
             var attr = field.GetAttribute<DescriptionAttribute>(false);
             return attr != null ? attr.Description : name;
+        }
+
+        public static Dictionary<int,string> ToDictionary(this Type enumType)
+        {
+            var codes = new Dictionary<int, string>();
+            var values = Enum.GetValues(enumType);
+            foreach (Enum value in values)
+            {
+                var code = Convert.ToInt32(value);
+                var name = value.GetDescription();
+                codes.Add(code, name);
+            }
+            return codes;
         }
     }
 }

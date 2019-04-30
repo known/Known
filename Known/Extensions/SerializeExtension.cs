@@ -24,7 +24,7 @@ namespace Known.Extensions
         public static T FromJson<T>(this string json)
         {
             if (string.IsNullOrWhiteSpace(json))
-                return default(T);
+                return default;
 
             var provider = Container.Resolve<IJson>();
             if (provider == null)
@@ -67,7 +67,7 @@ namespace Known.Extensions
         public static T FromXml<T>(this string xml) where T : class
         {
             if (string.IsNullOrWhiteSpace(xml))
-                return default(T);
+                return default;
 
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
             using (var reader = new StreamReader(stream, Encoding.UTF8))
