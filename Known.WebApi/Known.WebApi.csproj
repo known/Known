@@ -122,6 +122,12 @@
     <Content Include="static\libs\miniui\images\buttonedit\close.gif" />
     <Content Include="static\libs\miniui\images\date.gif" />
     <Content Include="static\libs\miniui\images\buttonedit\down.gif" />
+    <Content Include="static\libs\miniui\images\dragdrop\drop-add.gif" />
+    <Content Include="static\libs\miniui\images\dragdrop\drop-between.gif" />
+    <Content Include="static\libs\miniui\images\dragdrop\drop-no.gif" />
+    <Content Include="static\libs\miniui\images\dragdrop\drop-over.gif" />
+    <Content Include="static\libs\miniui\images\dragdrop\drop-under.gif" />
+    <Content Include="static\libs\miniui\images\dragdrop\drop-yes.gif" />
     <Content Include="static\libs\miniui\images\error.gif" />
     <Content Include="static\libs\miniui\images\buttonedit\filter.png" />
     <Content Include="static\libs\miniui\images\buttonedit\hover.png" />
