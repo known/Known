@@ -14,7 +14,7 @@ namespace Known.Web
         private static readonly Encoding encoding = Encoding.GetEncoding("utf-8");
         private static readonly int maxTry = 3;
         private static int currentTry = 0;
-        private CookieContainer cookie = new CookieContainer();
+        private readonly CookieContainer cookie = new CookieContainer();
         private readonly string baseUrl = string.Empty;
 
         public HttpClient(string baseUrl)

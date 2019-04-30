@@ -24,7 +24,7 @@ namespace Known.Web
         public byte[] Download(string remoteFile)
         {
             var url = baseUrl + remoteFile;
-            //var request = CreateConnection(url, WebRequestMethods.Ftp.DownloadFile);
+            var request = CreateConnection(url, WebRequestMethods.Ftp.DownloadFile);
             return null;
         }
 

@@ -11,8 +11,8 @@ namespace Known.Web
 {
     public class AuthenticationHandler : DelegatingHandler
     {
-        private const string AuthenticationHeader = "WWW-Authenticate";
-        private string authType;
+        //private const string AuthenticationHeader = "WWW-Authenticate";
+        private readonly string authType;
 
         public AuthenticationHandler(string authType)
         {
@@ -47,7 +47,7 @@ namespace Known.Web
 
         void Challenge(HttpRequestMessage request, HttpResponseMessage response)
         {
-            var host = request.RequestUri.DnsSafeHost;
+            //var host = request.RequestUri.DnsSafeHost;
             //response.Headers.Add(AuthenticationHeader, $"Basic realm=\"{host}\"");
             response.Content = new StringContent("Unauthorized!");
         }
