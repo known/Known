@@ -209,7 +209,10 @@ $.fn.extend({
 
         if (!page) {
             _this.html('加载中....');
-            Ajax.getText(url, param, function (result) {
+            if (url.indexOf('.html') === -1) {
+                url = url + '.html';
+            }
+            Ajax.getText('/Pages' + url, param, function (result) {
                 if (!$.isPlainObject(result)) {
                     cachedPages.push({ url: pageUrl, html: result });
                     _this.html(result);
@@ -220,6 +223,19 @@ $.fn.extend({
             _this.html(page.html);
             callback && callback();
         }
+    },
+
+    loadView: function (url, option) {
+        var arr = url.split('/');
+        var view = arr[arr.length - 1].split('.')[0];
+        $(this).loadHtml(url, function () {
+            mini.parse();
+            if (option) {
+                eval(view + '.show(option);');
+            } else {
+                eval(view + '.show();');
+            }
+        });
     }
 
 });

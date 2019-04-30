@@ -24,12 +24,7 @@
         function initPage() {
             var page = Url.getParam('p');
             if (page !== '') {
-                var arr = page.split('/');
-                var view = arr[arr.length - 1].split('.')[0];
-                $('#content').loadHtml('/Pages' + page + '.html', function () {
-                    mini.parse();
-                    eval(view + '.show();');
-                });
+                $('#content').loadView(page);
             }
         }
 

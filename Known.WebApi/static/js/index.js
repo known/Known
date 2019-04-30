@@ -77,7 +77,7 @@ var TbNavbar = {
     info: function () {
         Dialog.show({
             title: '用户信息', iconCls: 'fa-user',
-            url: 'Pages/System/UserInfoView.html',
+            url: '/Pages/System/UserInfoView.html',
             callback: function () {
                 Ajax.getJson('/User/GetUserInfo', function (data) {
                 });

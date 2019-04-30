@@ -20,11 +20,7 @@
         },
 
         onTreeNodeSelect: function (e) {
-            var url = '/Pages/Develop/Partials/' + e.node.view + '.html';
-            $('#splitRight').loadHtml(url, function () {
-                mini.parse();
-                eval(e.node.view + '.show();');
-            });
+            $('#splitRight').loadView('/Develop/Partials/' + e.node.view);
         }
 
     };

@@ -1,0 +1,44 @@
+﻿<table class="form">
+    <tr>
+        <th style="width:100px;"></th>
+        <td>
+            <input id="textbox1" name="UserName" class="mini-textbox" required="true" />
+        </td>
+        <th style="width:100px;"></th>
+        <td>
+            <input id="textbox1" name="UserName" class="mini-textbox" required="true" />
+        </td>
+        <th style="width:100px;"></th>
+        <td>
+            <input id="textbox1" name="UserName" class="mini-textbox" required="true" />
+        </td>
+    </tr>
+    <tr>
+        <th></th>
+        <td>
+            <input id="textbox1" name="UserName" class="mini-textbox" />
+        </td>
+        <th></th>
+        <td>
+            <input id="textbox1" name="UserName" class="mini-textbox" />
+        </td>
+        <th></th>
+        <td>
+            <input id="textbox1" name="UserName" class="mini-textbox" />
+        </td>
+    </tr>
+    <tr>
+        <th>JSON</th>
+        <td id="json" colspan="5"></td>
+    </tr>
+</table>
+
+<script>
+    var ModuleForm = {
+
+        show: function (option) {
+            $('#json').html(JSON.stringify(option));
+        }
+
+    };
+</script>
