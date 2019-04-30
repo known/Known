@@ -73,7 +73,6 @@
     <Compile Include="Demo\ApplyFormService.cs" />
     <Compile Include="Demo\ApplyFormTest.cs" />
     <Compile Include="Demo\ApplyJob.cs" />
-    <Compile Include="HttpTest.cs" />
     <Compile Include="JsonProvider.cs" />
     <Compile Include="TestProvider.cs" />
     <Compile Include="TestEntity.cs" />
