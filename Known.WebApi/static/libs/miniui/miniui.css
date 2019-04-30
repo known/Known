@@ -5252,6 +5252,10 @@ body .mini-pager-num {
     content: "\f078";
 }
 
+.searchbox .mini-buttonedit-icon:before {
+    content: "\f002";
+}
+
 /* no background */
 .mini-checkboxlist-item .mini-list-icon,
 .mini-radiobuttonlist-item .mini-list-icon,
