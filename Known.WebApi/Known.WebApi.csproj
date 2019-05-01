@@ -105,6 +105,7 @@
     <Content Include="static\data\demo\countrys.txt" />
     <Content Include="static\data\demo\listTree.txt" />
     <Content Include="static\data\demo\menu.txt" />
+    <Content Include="static\data\button.txt" />
     <Content Include="static\data\icon.txt" />
     <Content Include="static\data\menu.txt" />
     <Content Include="static\images\aiwrap.png" />

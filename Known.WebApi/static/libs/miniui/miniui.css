@@ -887,14 +887,13 @@ body .mini-button-disabled * {
 
     .mini-checkbox label {
         vertical-align: middle;
+        line-height: 16px;
     }
 
 .mini-checkbox-check,
 .mini-checkbox-icon {
     padding: 0;
-    margin: 0;
-    margin-left: 2px;
-    margin-right: 6px;
+    margin: 0 2px;
     vertical-align: middle;
     width: 13px;
     height: 13px;
@@ -3102,7 +3101,7 @@ a:hover.mini-calendar-menu-year {
 .mini-checkboxlist {
     overflow: hidden;
     position: relative;
-    padding-left: 2px;
+    padding-left: 4px;
 }
 
 .mini-checkboxlist-item {
@@ -3114,8 +3113,7 @@ a:hover.mini-calendar-menu-year {
 }
 
 .mini-checkboxlist table label {
-    padding-left: 4px;
-    line-height: 18px;
+    line-height: 16px;
     display: inline-block;
     vertical-align: middle;
 }
@@ -3133,7 +3131,7 @@ a:hover.mini-calendar-menu-year {
 .mini-radiobuttonlist {
     position: relative;
     overflow: hidden;
-    padding-left: 2px;
+    padding-left: 4px;
 }
 
 .mini-radiobuttonlist-item {

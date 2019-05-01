@@ -20,7 +20,8 @@
     border: 1px solid #ccc;
 }
 
-.noborder th, .noborder td {
+.noborder th, .noborder td,
+.mini-checkboxlist td {
     border: 0;
 }
 
