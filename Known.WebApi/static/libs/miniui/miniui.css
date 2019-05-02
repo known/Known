@@ -2473,13 +2473,13 @@ a:hover.mini-tabs-leftButton, a:hover.mini-tabs-rightButton {
 .mini-menu-popup {
     padding: 0px;
     border: solid 1px #ddd;
-    background: #E3EBFF url(images/menu/item.png) repeat-x 0 0;
+    background: #E3EBFF;
 }
 
 .mini-menuitem-selected {
     padding: 0px;
     border: solid 1px #ddd;
-    background: #DBDDE2 url(images/menu/pressed.png) repeat-x 0 0;
+    background: #DBDDE2;
 }
 
 
@@ -3740,8 +3740,6 @@ body .mini-grid-deleteRow {
     z-index: 10;
 }
 
-
-
 .mini-grid-vscroll {
     width: 18px;
     overflow: hidden;
@@ -3770,7 +3768,7 @@ body .mini-grid-deleteRow {
 }
 
 .mini-grid-row-alt {
-    background: #f7f4fd;
+    background: #fcfcfc;
 }
 
 html body .mini-grid-row-selected {

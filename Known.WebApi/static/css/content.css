@@ -33,52 +33,46 @@ input, select, textarea {
     outline: medium;
 }
 
-/*layout*/
-.layout-wcnb > .layout-panel-west > .panel-header,
-.layout-wcnb > .layout-panel-west > .panel-body {
-    border-top: 0;
-    border-left: 0;
+.text-primary,
+.mini-button .fa-save,
+.mini-button .fa-pencil,
+.mini-button .fa-file-excel-o,
+.mini-button .fa-download,
+.mini-menu .fa-save,
+.mini-menu .fa-pencil,
+.mini-menu .fa-file-excel-o,
+.mini-menu .fa-download {
+    color: #337ab7;
 }
 
-.layout-wcnb > .layout-panel-west > .panel-body,
-.layout-wcnb > .layout-panel-center > .panel-body {
-    border-bottom: 0;
+.text-success,
+.mini-button .fa-plus,
+.mini-button .fa-upload,
+.mini-menu .fa-plus,
+.mini-menu .fa-upload {
+    color: #5cb85c;
 }
 
-.layout-wcnb > .layout-panel-center > .panel-header,
-.layout-wcnb > .layout-panel-center > .panel-body {
-    border-top: 0;
-    border-right: 0;
+.text-info,
+.mini-button .fa-copy,
+.mini-button .fa-sign-in,
+.mini-button .fa-sign-out,
+.mini-menu .fa-copy,
+.mini-menu .fa-sign-in,
+.mini-menu .fa-sign-out {
+    color: #5bc0de;
 }
 
-/*tabs*/
-.tabs-nb > .tabs-header {
-    border-left: 0;
-    border-right: 0;
-    border-top: 0;
-    background: #fff;
+.text-warning {
+    color: #f0ad4e;
 }
 
-.tabs-nb > .tabs-panels {
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
-    padding: 5px;
-}
-
-/*easyui*/
-.l-btn-text {
-    line-height: 24px;
-}
-
-.l-btn-icon {
-    font-size: 14px;
-}
-
-.datagrid-wrap {
-    border: 0;
-}
-
-.textbox-label {
-    width: auto;
+.text-danger,
+.mini-button .fa-remove,
+.mini-button .fa-minus,
+.mini-button .fa-file-pdf-o,
+.mini-menu .fa-remove,
+.mini-menu .fa-minus,
+.mini-menu .fa-file-pdf-o {
+    color: #d9534f;
 }
