@@ -226,7 +226,6 @@ body .mini-fixed {
     _background-position: 50% 3px;
 }
 
-
 .mini-toolbar {
     position: relative;
     border-bottom: solid 1px #ddd;
@@ -272,8 +271,6 @@ body .mini-pager a:hover.mini-button-disabled {
     *border-width: 0;
     *padding: 1px;
 }
-
-
 
 .mini-drag-proxy {
     position: absolute;
@@ -3482,7 +3479,7 @@ body .mini-grid-headerCell-nowrap {
 }
 
 .mini-grid-headerCell {
-    background: #E7EBEF;
+    background: #d7ebf9;
     border-right: #ddd 1px solid;
     border-bottom: #ddd 1px solid;
     overflow: visible;
@@ -3787,14 +3784,12 @@ body .mini-grid-row-hover {
     position: relative;
     overflow: hidden;
     border-bottom: solid 1px #ddd;
-    background: #E7EAEE url(images/grid/footer.png) repeat-x 0 0;
 }
 
 .mini-grid-pager {
     position: relative;
     overflow: hidden;
     border-top: solid 1px #ddd;
-    background: #E7EAEE url(images/grid/footer.png) repeat-x 0 0;
 }
 
 .mini-grid-resizeColumns-no .mini-grid-column-splitter {
@@ -3815,8 +3810,6 @@ body .mini-grid-row-hover {
     height: 100%;
     width: 5px;
 }
-
-
 
 .mini-grid-sortIcon {
     width: 9px;
@@ -3851,7 +3844,6 @@ body .mini-grid-row-hover {
     width: 9px;
 }
 
-
 .mini-grid-rowEdit {
     background: #f9f9fc;
 }
@@ -3860,7 +3852,6 @@ body .mini-grid-row-hover {
         padding-left: 1px;
         padding-right: 1px;
     }
-
 
 .mini-checkcolumn {
     padding: 0;

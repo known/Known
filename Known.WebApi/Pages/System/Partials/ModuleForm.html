@@ -1,9 +1,37 @@
 ﻿<div id="tbModuleForm" class="mini-toolbar">
-    <a class="mini-button" plain="true" id="save" iconCls="fa-save">保存</a>
-    <a class="mini-button" plain="true" id="close" iconCls="fa-remove">关闭</a>
+    <table style="width:100%;">
+        <tr>
+            <td>
+                <input id="key" name="key" class="mini-buttonedit searchbox" style="width:150px;"
+                       emptyText="请输入关键字" />
+            </td>
+            <td style="text-align:right;">
+                <a class="mini-button" plain="true" id="add" iconCls="fa-plus">新增</a>
+                <a class="mini-button" plain="true" id="save" iconCls="fa-save">保存</a>
+                <a class="mini-button" plain="true" id="close" iconCls="fa-remove">关闭</a>
+            </td>
+        </tr>
+    </table>
 </div>
-<div class="mini-fit" style="padding:5px;">
-    <table id="formModule" class="form">
+<div class="mini-fit">
+    <div id="gridModuleForm" class="mini-datagrid" style="width:100%;height:100%;"
+         allowCellEdit="true" allowCellSelect="true"
+         editNextOnEnterKey="true" editNextRowCell="true">
+        <div property="columns">
+            <div type="indexcolumn"></div>
+            <div type="comboboxcolumn" name="Icon" field="Icon" header="Icon" width="60" headerAlign="center" align="center">
+                <input property="editor" class="mini-combobox" style="width:100%;" url="/static/data/icon.txt" ondrawcell="ModuleForm.onIconDrowCell" />
+            </div>
+            <div name="Name" field="Name" header="名称" width="150">
+                <input property="editor" class="mini-textbox" style="width:100%;" />
+            </div>
+            <div name="Url" field="Url" header="Url" width="100%">
+                <input property="editor" class="mini-textbox" style="width:100%;" />
+            </div>
+            <div type="checkboxcolumn" name="Enable" field="Enable" header="可用" width="60"></div>
+        </div>
+    </div>
+    <table id="formModule" class="form" style="display:none;">
         <tr>
             <th style="width:80px;">名称</th>
             <td style="width:150px;">
@@ -43,9 +71,13 @@
     var ModuleForm = {
 
         form: null,
+        gridModule: null,
 
         show: function (option) {
-            $('#json').html(JSON.stringify(option));
+            this.gridModule = new Grid('ModuleForm');
+
+            var _this = this;
+            this.gridModule.on('drawcell', function (e) { _this.onModuleDrawCell(e); });
 
             this.form = new Form('formModule');
             this.form.BaseButtons.set({
@@ -63,6 +95,27 @@
                     { id: "import", text: "导入", iconCls: "fa-sign-out" }
                 ]
             });
+
+            Toolbar.bind('tbModuleForm', this);
+        },
+
+        //toolbar
+        add: function () {
+            var grid = this.gridModule;
+            var row = { Name: '', Enable: true };
+            grid.addRow(row);
+            grid.beginEditCell(row, 'Icon');
+        },
+
+        //gridModule
+        onIconDrowCell: function (e) {
+            e.cellHtml = '<span class="fa ' + e.value + '"></span>';
+        },
+
+        onModuleDrawCell: function (e) {
+            if (e.field === "Icon") {
+                e.cellHtml = '<span class="fa ' + e.value + '"></span>';
+            }
         }
 
     };

@@ -792,9 +792,9 @@ var Grid = function (name, option) {
         _grid.beginEditRow(data);
     };
 
-    this.updateRow = function (e, data) {
-        e.sender.updateRow(e.record, data);
-    };
+    //this.updateRow = function (e, data) {
+    //    e.sender.updateRow(e.record, data);
+    //};
 
     this.deleteRow = function (uid) {
         var row = _grid.getRowByUid(uid);
@@ -1052,5 +1052,5 @@ mini.DataTable.prototype.pageSize = 20;
 mini.DataGrid.prototype.allowAlternating = true;
 mini.DataGrid.prototype.showColumnsMenu = true;
 mini.DataGrid.prototype.showEmptyText = true;
-mini.DataGrid.prototype.showVGridLines = false;
+//mini.DataGrid.prototype.showVGridLines = false;
 mini.DataGrid.prototype.emptyText = '未查到任何数据！';

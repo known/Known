@@ -1,13 +1,9 @@
 ﻿<div class="mini-splitter" style="width:100%;height:100%;">
     <div id="splitLeft" tooltip="关闭/显示菜单" size="180px" showCollapseButton="true">
-        <ul id="leftTree" class="mini-tree" contextMenu="#tbTreeMenu"></ul>
+        <ul id="leftTree" class="mini-tree"></ul>
     </div>
     <div id="splitRight"></div>
 </div>
-<ul id="tbTreeMenu" class="mini-contextmenu">
-    <li id="addNode" iconCls="fa-plus">新增</li>
-    <li id="removeNode" iconCls="fa-minus">删除</li>
-</ul>
 
 <script>
     var ModuleView = {
@@ -25,6 +21,7 @@
             this.leftTree.on('drop', function (e) { _this.treeNodeDrop(e); });
 
             Toolbar.bind('tbTreeMenu', this);
+            this.showForm(null);
         },
 
         //tree
@@ -34,22 +31,6 @@
 
         treeNodeDrop: function (e) {
             console.log(e);
-        },
-
-        addNode: function () {
-            var tree = this.leftTree;
-            var node = tree.getSelectedNode();
-            tree.addNode({}, "add", node);
-        },
-
-        removeNode: function () {
-            var tree = this.leftTree;
-            var node = tree.getSelectedNode();
-            if (node) {
-                Message.confirm('确定要删除选中模块？', function () {
-                    tree.removeNode(node);
-                });
-            }
         },
 
         //form
