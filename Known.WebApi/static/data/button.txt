@@ -1,6 +1,0 @@
-﻿[
-    {id: "add", text: "新增", iconCls: "fa-plus"},
-    {id: "copy", text: "复制", iconCls: "fa-copy"},
-    {id: "remove", text: "删除", iconCls: "fa-minus"},
-    {id: "import", text: "导入", iconCls: "fa-sign-out"}
-]

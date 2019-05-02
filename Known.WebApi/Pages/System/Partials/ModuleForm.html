@@ -2,52 +2,41 @@
     <a class="mini-button" plain="true" id="save" iconCls="fa-save">保存</a>
     <a class="mini-button" plain="true" id="close" iconCls="fa-remove">关闭</a>
 </div>
-<div id="tabsModule" class="mini-tabs" style="width:100%;height:100%;">
-    <div title="基本信息">
-        <table id="formModule" class="form">
-            <tr>
-                <th style="width:80px;">名称</th>
-                <td style="width:150px;">
-                    <input id="Name" name="Name" class="mini-textbox" required="true" />
-                </td>
-                <th style="width:80px;">URL</th>
-                <td>
-                    <input id="Url" name="Url" class="mini-textbox" required="true" />
-                </td>
-            </tr>
-            <tr>
-                <th>选项</th>
-                <td colspan="3">
-                    <input id="Enable" name="Enable" class="mini-checkbox" text="可用" />
-                </td>
-            </tr>
-            <tr>
-                <th>描述</th>
-                <td colspan="3">
-                    <input id="Description" name="Description" class="mini-textarea" />
-                </td>
-            </tr>
-            <tr>
-                <th>基本按钮</th>
-                <td colspan="3">
-                    <input id="Button" name="Button" class="mini-checkboxlist" />
-                </td>
-            </tr>
-            <tr>
-                <th>其他按钮</th>
-                <td colspan="3">
-
-                </td>
-            </tr>
-            <tr>
-                <th>JSON</th>
-                <td id="json" colspan="5"></td>
-            </tr>
-        </table>
-    </div>
-    <div title="栏位信息">
-
-    </div>
+<div class="mini-fit" style="padding:5px;">
+    <table id="formModule" class="form">
+        <tr>
+            <th style="width:80px;">名称</th>
+            <td style="width:150px;">
+                <input id="Id" name="Id" class="mini-hidden" />
+                <input id="ParentId" name="ParentId" class="mini-hidden" />
+                <input id="Name" name="Name" class="mini-textbox" required="true" />
+            </td>
+            <th style="width:80px;">URL</th>
+            <td>
+                <input id="Url" name="Url" class="mini-textbox" required="true" />
+            </td>
+            <th style="width:80px;">选项</th>
+            <td>
+                <input id="Enable" name="Enable" class="mini-checkbox" text="可用" />
+            </td>
+        </tr>
+        <tr>
+            <th>基本操作</th>
+            <td colspan="5">
+                <input id="BaseButtons" name="BaseButtons" class="mini-checkboxlist" />
+            </td>
+        </tr>
+        <tr>
+            <th>批量操作</th>
+            <td colspan="5">
+                <input id="BatchButtons" name="BatchButtons" class="mini-checkboxlist" />
+            </td>
+        </tr>
+        <tr>
+            <th>其他操作</th>
+            <td colspan="5"></td>
+        </tr>
+    </table>
 </div>
 
 <script>
@@ -59,8 +48,20 @@
             $('#json').html(JSON.stringify(option));
 
             this.form = new Form('formModule');
-            this.form.Button.set({
-                url: '/static/data/button.txt'
+            this.form.BaseButtons.set({
+                data: [
+                    { id: "add", text: "新增", iconCls: "fa-plus" },
+                    { id: "copy", text: "复制", iconCls: "fa-copy" },
+                    { id: "import", text: "导入", iconCls: "fa-sign-out" }
+                ]
+            });
+            this.form.BatchButtons.set({
+                data: [
+                    { id: "add", text: "新增", iconCls: "fa-plus" },
+                    { id: "copy", text: "复制", iconCls: "fa-copy" },
+                    { id: "remove", text: "删除", iconCls: "fa-minus" },
+                    { id: "import", text: "导入", iconCls: "fa-sign-out" }
+                ]
             });
         }
 
