@@ -11,8 +11,12 @@
 
         show: function () {
             var tree = mini.get('leftTree');
-            tree.set({ url: '/static/data/demo/menu.txt', resultAsTree: false });
+            tree.set({
+                url: '/static/data/demo/menu.txt',
+                resultAsTree: false
+            });
             tree.on('nodeselect', this.onTreeNodeSelect);
+            tree.on('beforeexpand', this.onTreeBeforeExpand);
         },
 
         close: function () {
@@ -20,8 +24,26 @@
         },
 
         onTreeNodeSelect: function (e) {
-            $('#splitRight').loadView('/Develop/Partials/' + e.node.view);
-        }
+            if (e.isLeaf) {
+                $('#splitRight').loadView('/Develop/Partials/' + e.node.view);
+            } else {
+                $('#splitRight').html('');
+            }
+        },
+
+        onTreeBeforeExpand: function (e) {
+            var tree = e.sender;
+            var nowNode = e.node;
+            var level = tree.getLevel(nowNode);
+            var root = tree.getRootNode();
+            tree.cascadeChild(root, function (node) {
+                if (tree.isExpandedNode(node)) {
+                    var level2 = tree.getLevel(node);
+                    if (node !== nowNode && !tree.isAncestor(node, nowNode) && level === level2) {
+                        tree.collapseNode(node, true);
+                    }
+                }
+            });        }
 
     };
 </script>

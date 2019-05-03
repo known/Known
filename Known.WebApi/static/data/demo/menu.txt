@@ -1,5 +1,5 @@
 ﻿[
-    {id: "devTool", text: "开发工具", iconCls: "fa fa-cogs", expanded: true},
+    {id: "devTool", text: "开发工具", iconCls: "fa fa-cogs", expanded: false},
 	{id: "code", text: "代码生成", pid: "devTool", iconCls: "fa fa-code", view: "DevCodeGen"},
 	{id: "data", text: "数据库", pid: "devTool", iconCls: "fa fa-database", view: "DevDatabase"},
 	{id: "demo", text: "开发示例", iconCls: "fa fa-book", expanded: true},

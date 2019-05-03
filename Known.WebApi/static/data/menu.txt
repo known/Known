@@ -4,4 +4,9 @@
     {id: "Organization", text: "组织架构", pid: "System", iconCls: "fa-sitemap", url: "/System/OrganizationView"},
     {id: "Role", text: "角色管理", pid: "System", iconCls: "fa-group", url: "/System/RoleView"},
     {id: "User", text: "用户管理", pid: "System", iconCls: "fa-user", url: "/System/UserView"},
+	{id: "Module1", text: "模块一", iconCls: "fa-list", expanded: false},
+    {id: "Page11", text: "页面一", pid: "Module1", iconCls: "fa-file-o", url: "/Module1/Page11"},
+    {id: "Page12", text: "页面二", pid: "Module1", iconCls: "fa-file-o", url: "/Module1/Page12"},
+    {id: "Page13", text: "页面三", pid: "Module1", iconCls: "fa-file-o", url: "/Module1/Page13"},
+    {id: "Page14", text: "页面四", pid: "Module1", iconCls: "fa-file-o", url: "/Module1/Page14"}
 ]

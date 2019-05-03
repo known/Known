@@ -9,6 +9,7 @@
 
         var _this = this;
         this.leftTree.set({ url: '/static/data/menu.txt', resultAsTree: false });
+        this.leftTree.on('beforeexpand', this.treeBeforeExpand);
         this.leftTree.on('nodeclick', function (e) { _this.treeNodeClick(e); });
         this.mainTabs.on('activechanged', function (e) { _this.tabsActiveChanged(e); });
 
@@ -19,6 +20,20 @@
         Toolbar.bind('tbNavbar', TbNavbar);
         Toolbar.bind('tbMainTabs', TbMainTabs);
     },
+
+    treeBeforeExpand: function (e) {
+        var tree = e.sender;
+        var nowNode = e.node;
+        var level = tree.getLevel(nowNode);
+        var root = tree.getRootNode();
+        tree.cascadeChild(root, function (node) {
+            if (tree.isExpandedNode(node)) {
+                var level2 = tree.getLevel(node);
+                if (node !== nowNode && !tree.isAncestor(node, nowNode) && level === level2) {
+                    tree.collapseNode(node, true);
+                }
+            }
+        });    },
 
     treeNodeClick: function (e) {
         if (e.isLeaf) {
