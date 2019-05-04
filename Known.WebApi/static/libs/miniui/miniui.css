@@ -921,7 +921,7 @@ body .mini-button-disabled * {
 
 .mini-textbox-border {
     background: white;
-    border: solid 0px #ddd;
+    border: solid 1px #ddd;
     width: auto;
     height: 22px;
     display: block;
@@ -1027,7 +1027,7 @@ body .mini-invalid .mini-buttonedit-border {
 
 .mini-buttonedit-border {
     background: white;
-    border: solid 0px #ddd;
+    border: solid 1px #ddd;
     width: auto;
     height: 22px;
     display: block;
@@ -1375,6 +1375,8 @@ input.mini-textarea {
 
     .mini-window .mini-panel-header {
         background: #3c8dbc;
+        color: #fff;
+        border-color: #3c8dbc;
     }
 
     .mini-window .mini-panel-footer {
@@ -2996,7 +2998,7 @@ a:hover.mini-calendar-menu-year {
 }
 
 .mini-listbox-border {
-    border: 0px solid #ddd;
+    border: 1px solid #ddd;
     overflow: hidden;
     border-spacing: 1px;
     background: white;
@@ -5339,7 +5341,6 @@ body .mini-pager-num,
     .mini-widget-header,
     .app-header, .app-toolbar, .bg-toolbar,
     .mini-panel-header,
-    .mini-window .mini-panel-header,
     .mini-outlookbar .mini-outlookbar-groupHeader, .mini-outlookbar-expand .mini-outlookbar-groupHeader, .mini-outlookbar-view2 .mini-outlookbar-groupHeader,
     .mini-layout-region-header, .mini-layout-proxy,
     .mini-calendar-header {
