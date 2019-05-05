@@ -1,0 +1,58 @@
+﻿<div id="gridModule" class="mini-datagrid" style="width:100%;height:100%;"
+     url="/api/Module/QueryModules" idField="Id" multiSelect="true" showToolbar="true">
+    <div property="toolbar">
+        <table style="width:100%;">
+            <tr>
+                <td id="tbModule">
+                    <a class="mini-button" plain="true" id="add" iconCls="fa-plus">新增</a>
+                    <a class="mini-button" plain="true" id="import" iconCls="fa-sign-in">导入</a>
+                    <a class="mini-menubutton" plain="true" iconCls="fa-bars" menu="#menuBatch">批量</a>
+                    <ul id="menuBatch" class="mini-menu" style="display:none;">
+                        <li id="delete" iconCls="fa-minus">删除</li>
+                    </ul>
+                </td>
+                <td style="text-align:right;">
+                    <input id="key" name="key" class="mini-buttonedit searchbox" style="width:150px;"
+                           emptyText="请输入关键字" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div property="columns">
+        <div type="indexcolumn"></div>
+        <div type="checkcolumn"></div>
+        <div name="Name" field="Name" width="150">名称</div>
+        <div name="Url" field="Url" width="100%">Url</div>
+        <div type="checkboxcolumn" name="Enable" field="Enable" width="60">可用</div>
+    </div>
+</div>
+
+<script>
+    var ModuleGrid = {
+
+        grid: null,
+
+        show: function (option) {
+            this.grid = new Grid('Module');
+            this.grid.on('drawcell', this.onModuleDrawCell);
+
+            Toolbar.bind('tbModule', this);
+        },
+
+        //toolbar
+        add: function () {
+            var grid = this.grid;
+            var row = { Name: '', Enable: true };
+            grid.addRow(row);
+            grid.beginEditCell(row, 'Icon');
+        },
+
+        //gridModule
+        onModuleDrawCell: function (e) {
+            if (e.field === "Name") {
+                e.cellHtml = '<span class="fa ' + e.record.Icon + '"></span>' + e.value;
+            }
+        }
+
+    };
+</script>

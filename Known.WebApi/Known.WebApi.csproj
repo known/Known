@@ -95,6 +95,7 @@
     <Content Include="Pages\Develop\Partials\DevDatabase.html" />
     <Content Include="Pages\System\ModuleView.html" />
     <Content Include="Pages\System\OrganizationView.html" />
+    <Content Include="Pages\System\Partials\ModuleGrid.html" />
     <Content Include="Pages\System\Partials\ModuleForm.html" />
     <Content Include="Pages\System\RoleView.html" />
     <Content Include="Pages\System\UserView.html" />
