@@ -55,12 +55,6 @@
         grid: null,
 
         show: function () {
-            $('.query-btn-adv').click(function () {
-                $('.query').toggle(0, function () {
-                    mini.layout();
-                });
-            });
-
             Toolbar.bind('tbGrid', this);
             $('#queryDemo #search').unbind('click').bind('click', this.search);
 
@@ -79,21 +73,29 @@
 
         addForm: function () {
             Dialog.show({
-                max: true, title: '表单示例',
-                url: '@Url.Action("Partial", "Develop")',
-                param: { name: 'DemoForm' },
+                title: '表单示例', width: 900, height: 450,
+                url: '/Develop/Partials/DemoForm',
                 callback: function () {
-
                 }
             });
         },
 
         addHlForm: function () {
-            Message.alert('AddHlForm');
+            Dialog.show({
+                title: '表单示例', width: 800, height: 400,
+                url: '/Develop/Partials/DemoForm',
+                callback: function () {
+                }
+            });
         },
 
         addTabForm: function () {
-            Message.alert('AddTabForm');
+            Dialog.show({
+                title: '表单示例', width: 800, height: 400,
+                url: '/Develop/Partials/DemoTab',
+                callback: function () {
+                }
+            });
         },
 
         edit: function () {

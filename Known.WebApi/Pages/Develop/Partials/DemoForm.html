@@ -1,12 +1,14 @@
 ﻿<div id="tbDemoForm" class="mini-toolbar">
     <a class="mini-button" plain="true" id="submitForm" iconCls="fa-check">提交</a>
     <a class="mini-button" plain="true" id="loadForm" iconCls="fa-spinner">加载</a>
-    <a class="mini-button" plain="true" id="resetForm" iconCls="fa-reply">重置</a>
+    <a class="mini-button" plain="true" id="resetForm" iconCls="fa-undo">重置</a>
     <a class="mini-button" plain="true" id="clearForm" iconCls="fa-trash-o">清空</a>
-    <a class="mini-button" plain="true" id="setForm" iconCls="">绑定数据</a>
-    <a class="mini-button" plain="true" id="getForm" iconCls="">获取数据</a>
+    <a class="mini-button" plain="true" id="setForm" iconCls="fa-download">绑定数据</a>
+    <a class="mini-button" plain="true" id="getForm" iconCls="fa-upload">获取数据</a>
     <a class="mini-button" plain="true" id="setLabel" iconCls="fa-info">查看模式</a>
     <a class="mini-button" plain="true" id="setInput" iconCls="fa-edit">编辑模式</a>
+    <a class="mini-button" plain="true" id="setUnenable" iconCls="fa-ban">禁用</a>
+    <a class="mini-button" plain="true" id="setEnable" iconCls="fa-circle-o">启用</a>
 </div>
 <div id="formDemoForm" class="mini-fit">
     <input class="mini-hidden" id="Id" name="Id" />
@@ -145,6 +147,14 @@
 
         setInput: function () {
             this.form.model(false);
+        },
+
+        setUnenable: function () {
+            this.form.setEnabled(false);
+        },
+
+        setEnable: function () {
+            this.form.setEnabled(true);
         }
 
     };
