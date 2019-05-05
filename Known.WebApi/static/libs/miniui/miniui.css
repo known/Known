@@ -3097,7 +3097,6 @@ a:hover.mini-calendar-menu-year {
 .mini-checkboxlist {
     overflow: hidden;
     position: relative;
-    padding-left: 4px;
 }
 
 .mini-checkboxlist-item {
@@ -3127,7 +3126,6 @@ a:hover.mini-calendar-menu-year {
 .mini-radiobuttonlist {
     position: relative;
     overflow: hidden;
-    padding-left: 4px;
 }
 
 .mini-radiobuttonlist-item {
@@ -4964,7 +4962,6 @@ body .mini-grid-group-ecicon {
 
 .mini-checkbox-icon.mini-icon {
     text-align: left;
-    padding-left: 2px;
 }
 
 /* pager */

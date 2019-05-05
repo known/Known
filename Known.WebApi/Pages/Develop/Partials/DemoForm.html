@@ -1,12 +1,12 @@
-﻿<div id="tbDemoForm" style="padding:2px;">
-    <a class="mini-button" id="submitForm">提交</a>
-    <a class="mini-button" id="loadForm">加载</a>
-    <a class="mini-button" id="resetForm">重置</a>
-    <a class="mini-button" id="clearForm">清空</a>
-    <a class="mini-button" id="setForm">绑定数据</a>
-    <a class="mini-button" id="getForm">获取数据</a>
-    <a class="mini-button" id="setLabel">查看模式</a>
-    <a class="mini-button" id="setInput">编辑模式</a>
+﻿<div id="tbDemoForm" class="mini-toolbar">
+    <a class="mini-button" plain="true" id="submitForm" iconCls="fa-check">提交</a>
+    <a class="mini-button" plain="true" id="loadForm" iconCls="fa-spinner">加载</a>
+    <a class="mini-button" plain="true" id="resetForm" iconCls="fa-reply">重置</a>
+    <a class="mini-button" plain="true" id="clearForm" iconCls="fa-trash-o">清空</a>
+    <a class="mini-button" plain="true" id="setForm" iconCls="">绑定数据</a>
+    <a class="mini-button" plain="true" id="getForm" iconCls="">获取数据</a>
+    <a class="mini-button" plain="true" id="setLabel" iconCls="fa-info">查看模式</a>
+    <a class="mini-button" plain="true" id="setInput" iconCls="fa-edit">编辑模式</a>
 </div>
 <div id="formDemoForm" class="mini-fit">
     <input class="mini-hidden" id="Id" name="Id" />
@@ -62,17 +62,17 @@
         </tr>
         <tr>
             <th>CheckBoxList：</th>
-            <td class="noborder">
+            <td>
                 <input class="mini-checkboxlist" id="Countrys" name="Countrys" textField="text" valueField="id" repeatItems="5" repeatLayout="flow" url="/static/data/demo/countrys.txt" value="cn,de,usa" />
             </td>
             <th rowspan="2">ListBox：</th>
-            <td rowspan="2" class="noborder">
+            <td rowspan="2">
                 <input class="mini-listbox" id="Countrys1" name="Countrys1" textField="text" valueField="id" showNullItem="true" url="/static/data/demo/countrys.txt" value="fr" style="height:130px;" />
             </td>
         </tr>
         <tr>
             <th>RadioButtonList：</th>
-            <td class="noborder">
+            <td>
                 <input class="mini-radiobuttonlist" id="Countrys2" name="Countrys2" textField="text" valueField="id" value="en" repeatItems="3" repeatDirection="vertical" repeatLayout="table" url="/static/data/demo/countrys.txt" />
             </td>
         </tr>
