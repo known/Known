@@ -45,6 +45,11 @@ namespace Known
             Cached.Set(key, value, expires);
         }
 
+        public static void Remove(string key)
+        {
+            Cache.Remove(key);
+        }
+
         public static void Clear()
         {
             Cached.Clear();
@@ -53,7 +58,7 @@ namespace Known
 
     class CacheDefault : ICache
     {
-        private ICache cache = null;
+        private readonly ICache cache = null;
 
         public CacheDefault()
         {
@@ -112,7 +117,7 @@ namespace Known
         {
             var value = Get(key);
             if (value == null)
-                return default(T);
+                return default;
 
             return (T)value;
         }
@@ -173,7 +178,7 @@ namespace Known
         {
             var value = Get(key);
             if (value == null)
-                return default(T);
+                return default;
 
             return (T)value;
         }
