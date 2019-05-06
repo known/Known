@@ -14,7 +14,7 @@
             var _this = this;
             this.leftTree = mini.get('leftTree');
             this.leftTree.set({
-                url: '/static/data/menu.txt', resultAsTree: false,
+                url: '/api/Module/GetTreeDatas', resultAsTree: false,
                 allowDrag: true, allowDrop: true, allowLeafDropIn: true
             });
             this.leftTree.on('nodeclick', function (e) { _this.treeNodeClick(e); });

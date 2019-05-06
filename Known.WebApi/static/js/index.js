@@ -8,7 +8,6 @@
         this.mainTabs = mini.get('mainTabs');
 
         var _this = this;
-        this.leftTree.set({ url: '/static/data/menu.txt', resultAsTree: false });
         this.leftTree.on('beforeexpand', this.treeBeforeExpand);
         this.leftTree.on('nodeclick', function (e) { _this.treeNodeClick(e); });
         this.mainTabs.on('activechanged', function (e) { _this.tabsActiveChanged(e); });
@@ -19,6 +18,11 @@
 
         Toolbar.bind('tbNavbar', TbNavbar);
         Toolbar.bind('tbMainTabs', TbMainTabs);
+
+        Ajax.getJson('/api/User/GetModules', function (result) {
+            _this.leftTree.loadData(result.menus);
+            Code.setData(result.codes);
+        });
     },
 
     treeBeforeExpand: function (e) {
@@ -33,7 +37,8 @@
                     tree.collapseNode(node, true);
                 }
             }
-        });    },
+        });
+    },
 
     treeNodeClick: function (e) {
         if (e.isLeaf) {

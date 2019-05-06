@@ -686,14 +686,14 @@ var Form = function (formId, option) {
 //---------------------------grid---------------------------------------------//
 var Grid = function (name, option) {
     this.name = name;
-    this.option = option || {};
+    this.option = option;
 
     var _grid = mini.get('grid' + name);
     $.extend(true, this, _grid);
 
     var _this = this;
     this.idField = _grid.getIdField();
-    this.query = {};
+    this.query = null;
 
     this._onColumnRender = function (e) {
         var displayField = e.column.displayField;

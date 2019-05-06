@@ -38,11 +38,11 @@ namespace Known.WebApi.Controllers
             return ApiResult.Success("");
         }
 
-        public ApiResult GetModules()
+        public object GetModules()
         {
             var menus = Menu.GetUserMenus(PlatformService, UserName);
             var codes = Code.GetCodes(PlatformService);
-            return ApiResult.ToData(new { menus, codes });
+            return new { menus, codes };
         }
     }
 }

@@ -43,6 +43,12 @@
             this.grid.on('drawcell', this.onModuleDrawCell);
 
             Toolbar.bind('tbModule', this);
+
+            var nodeId = '';
+            if (option.node) {
+                nodeId = option.node.id;
+            }
+            this.grid.load({ pid: nodeId });
         },
 
         //grid
@@ -54,7 +60,7 @@
 
         //toolbar
         add: function () {
-            
+            this.showForm({ Id: '' });
         },
 
         import: function () {
@@ -67,6 +73,7 @@
 
         //private
         showForm: function (row) {
+            var _this = this;
             Dialog.show({
                 title: '模块管理', width: 600, height: 300,
                 url: '/System/Partials/ModuleForm',
