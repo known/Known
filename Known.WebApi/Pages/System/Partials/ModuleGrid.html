@@ -1,5 +1,4 @@
-﻿<div id="gridModule" class="mini-datagrid" style="width:100%;height:100%;"
-     url="/api/Module/QueryModules" idField="Id" multiSelect="true" showToolbar="true">
+﻿<div id="gridModule" class="mini-datagrid" style="width:100%;height:100%;">
     <div property="toolbar">
         <table style="width:100%;">
             <tr>
@@ -30,28 +29,51 @@
 <script>
     var ModuleGrid = {
 
+        option: null,
         grid: null,
 
         show: function (option) {
-            this.grid = new Grid('Module');
+            this.option = option;
+            this.grid = new Grid('Module', {
+                url: '/api/Module/QueryModules',
+                idField: 'Id',
+                multiSelect: true,
+                showToolbar: true
+            });
             this.grid.on('drawcell', this.onModuleDrawCell);
 
             Toolbar.bind('tbModule', this);
         },
 
-        //toolbar
-        add: function () {
-            var grid = this.grid;
-            var row = { Name: '', Enable: true };
-            grid.addRow(row);
-            grid.beginEditCell(row, 'Icon');
-        },
-
-        //gridModule
+        //grid
         onModuleDrawCell: function (e) {
             if (e.field === "Name") {
                 e.cellHtml = '<span class="fa ' + e.record.Icon + '"></span>' + e.value;
             }
+        },
+
+        //toolbar
+        add: function () {
+            
+        },
+
+        import: function () {
+
+        },
+
+        delete: function () {
+
+        },
+
+        //private
+        showForm: function (row) {
+            Dialog.show({
+                title: '模块管理', width: 600, height: 300,
+                url: '/System/Partials/ModuleForm',
+                callback: function () {
+                    ModuleForm.show();
+                }
+            });
         }
 
     };

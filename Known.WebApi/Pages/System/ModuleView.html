@@ -20,13 +20,12 @@
             this.leftTree.on('nodeclick', function (e) { _this.treeNodeClick(e); });
             this.leftTree.on('drop', function (e) { _this.treeNodeDrop(e); });
 
-            Toolbar.bind('tbTreeMenu', this);
-            this.showForm(null);
+            this.showGrid(null);
         },
 
         //tree
         treeNodeClick: function (e) {
-            this.showForm(e.node);
+            this.showGrid(e.node);
         },
 
         treeNodeDrop: function (e) {
@@ -34,11 +33,12 @@
         },
 
         //form
-        showForm: function (node) {
+        showGrid: function (node) {
+            var _this = this;
             $('#splitRight').loadView('/System/Partials/ModuleGrid', {
                 node: node,
                 callback: function () {
-
+                    _this.leftTree.reload();
                 }
             });
         }

@@ -1,13 +1,12 @@
-﻿<div id="gridDemo" class="mini-datagrid" style="width:100%;height:100%;"
-     url="/api/DevDemo/QueryUsers" idField="Id" multiSelect="true" showToolbar="true">
+﻿<div id="gridDemo" class="mini-datagrid" style="width:100%;height:100%;">
     <div property="toolbar">
         <table style="width:100%;">
             <tr>
-                <td id="queryDemo" style="white-space:nowrap;padding:2px;">
+                <td id="queryDemo">
                     <input id="key" name="key" class="mini-buttonedit searchbox" style="width:150px;" 
                            emptyText="请输入关键字" />
                 </td>
-                <td id="tbGrid" style="width:100%;padding:2px;text-align:right;">
+                <td id="tbGrid" style="text-align:right;">
                     <a class="mini-menubutton" plain="true" iconCls="fa-plus" menu="#menuAdd">新增</a>
                     <ul id="menuAdd" class="mini-menu" style="display:none;">
                         <li id="addForm" iconCls="fa-plus-circle">普通表单</li>
@@ -58,7 +57,12 @@
             Toolbar.bind('tbGrid', this);
             $('#queryDemo #search').unbind('click').bind('click', this.search);
 
-            this.grid = new Grid('Demo');
+            this.grid = new Grid('Demo', {
+                url: '/api/DevDemo/QueryUsers',
+                idField: 'Id',
+                multiSelect: true,
+                showToolbar: true
+            });
             this.grid.load();
         },
 

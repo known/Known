@@ -872,6 +872,8 @@ var Grid = function (name, option) {
             }
         }
 
+        _grid.set(this.option);
+
         var columns = _grid.getColumns();
         for (var i = 0; i < columns.length; i++) {
             if (columns[i].displayField) {
