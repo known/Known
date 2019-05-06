@@ -1,18 +1,15 @@
-﻿<div class="mini-splitter" vertical="true" style="width:100%;height:100%;" borderStyle="border:0;">
+﻿<div class="mini-splitter" vertical="true" style="width:100%;height:100%;">
     <div size="25%" showCollapseButton="true">
-        <div id="tbDatabase" class="mini-toolbar" borderStyle="border-top:0;border-left:0;border-right:0;">
-            <a class="mini-button" plain="true" onclick="DevDatabase.new()" iconCls="fa-file-o">新建</a>
-            <a class="mini-button" plain="true" onclick="DevDatabase.query()" iconCls="fa-search">查询</a>
+        <div id="tbDatabase" class="mini-toolbar">
+            <a class="mini-button" plain="true" id="new" iconCls="fa-file-o">新建</a>
+            <a class="mini-button" plain="true" id="query" iconCls="fa-search">查询</a>
         </div>
         <div id="queryDatabase" class="mini-fit">
             <input class="mini-textarea" id="querySql" name="querySql" required="true" style="width:100%;height:100%;" borderStyle="border:0;" />
         </div>
     </div>
     <div showCollapseButton="true">
-        <div id="gridDatabase" class="mini-datagrid"
-             style="width:100%;height:100%;" borderStyle="border:0;"
-             url="/DevTool/QueryDatas" idField="Id" multiSelect="true">
-        </div>
+        <div id="gridDatabase" class="mini-datagrid" style="width:100%;height:100%;"></div>
     </div>
 </div>
 
@@ -22,7 +19,13 @@
         grid: null,
 
         show: function () {
-            this.grid = mini.get('gridDatabase');
+            this.grid = new Grid('Database', {
+                url: '/api/DevTool/QueryDatas',
+                idField: 'Id',
+                multiSelect: true
+            });
+
+            Toolbar.bind('tbDatabase', this);
         },
 
         //toolbar

@@ -7,9 +7,9 @@
         }
 
         #region DevDatabase
-        public PagingResult QueryDatas(dynamic criteria)
+        public PagingResult QueryDatas(PagingCriteria criteria)
         {
-            var sql = criteria.query.querySql.ToString();
+            var sql = criteria.Parameter.querySql.ToString();
             return Context.Database.QueryPageTable(sql, criteria);
         }
         #endregion
