@@ -5,18 +5,20 @@
 
 .form {
     width: 100%;
+    border-collapse: collapse;
 }
 
-    .form th {
-        font-weight: normal;
-        border: 0px solid #aed0ea;
-        padding: 2px;
-        text-align: right;
-    }
+.form th {
+    font-weight: normal;
+    border: 1px solid #aed0ea;
+    padding: 2px;
+    text-align: right;
+}
 
-    .form td {
-        border: 0px solid #aed0ea;
-    }
+.form td {
+    border: 1px solid #aed0ea;
+    padding: 2px;
+}
 
 .noborder th, .noborder td,
 .mini-checkboxlist td {

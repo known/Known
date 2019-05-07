@@ -35,12 +35,18 @@
         //form
         showGrid: function (node) {
             var _this = this;
-            $('#splitRight').loadView('/System/Partials/ModuleGrid', {
+            var option = {
                 node: node,
                 callback: function () {
                     _this.leftTree.reload();
                 }
-            });
+            };
+            var splitRight = $('#splitRight');
+            if (splitRight.html().length) {
+                ModuleGrid.show(option);
+            } else {
+                splitRight.loadView('/System/Partials/ModuleGrid', option);
+            }
         }
 
     };

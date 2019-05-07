@@ -1,62 +1,74 @@
-﻿<table id="formModule" class="form">
-    <tr>
-        <th style="width:80px;">名称</th>
-        <td style="width:150px;">
-            <input id="Id" name="Id" class="mini-hidden" />
-            <input id="ParentId" name="ParentId" class="mini-hidden" />
-            <input id="Name" name="Name" class="mini-textbox" required="true" />
-        </td>
-        <th style="width:80px;">URL</th>
-        <td>
-            <input id="Url" name="Url" class="mini-textbox" required="true" />
-        </td>
-        <th style="width:80px;">选项</th>
-        <td>
-            <input id="Enable" name="Enable" class="mini-checkbox" text="可用" />
-        </td>
-    </tr>
-    <tr>
-        <th>基本操作</th>
-        <td colspan="5">
-            <input id="BaseButtons" name="BaseButtons" class="mini-checkboxlist" />
-        </td>
-    </tr>
-    <tr>
-        <th>批量操作</th>
-        <td colspan="5">
-            <input id="BatchButtons" name="BatchButtons" class="mini-checkboxlist" />
-        </td>
-    </tr>
-    <tr>
-        <th>其他操作</th>
-        <td colspan="5"></td>
-    </tr>
-</table>
+﻿<div id="tbFormModule" class="mini-toolbar">
+    <a class="mini-button" plain="true" id="save" iconCls="fa-save">保存</a>
+    <a class="mini-button" plain="true" id="close" iconCls="fa-remove">关闭</a>
+</div>
+<div class="mini-fit" style="padding:5px;">
+    <table id="formModule" class="form">
+        <tr>
+            <th style="width:80px;">编码：</th>
+            <td>
+                <input class="mini-hidden" id="Id" name="Id" />
+                <input class="mini-hidden" id="ParentId" name="ParentId" />
+                <input class="mini-textbox" id="Code" name="Code" required="true" />
+            </td>
+            <th style="width:80px;">名称：</th>
+            <td>
+                <input class="mini-textbox" id="Name" name="Name" required="true" />
+            </td>
+        </tr>
+        <tr>
+            <th>URL：</th>
+            <td colspan="3">
+                <input class="mini-textbox" id="Url" name="Url" required="true" />
+            </td>
+        </tr>
+        <tr>
+            <th>选项：</th>
+            <td colspan="3">
+                <input class="mini-checkbox" id="Enabled" name="Enabled" text="可用" />
+            </td>
+        </tr>
+        <tr>
+            <th>描述：</th>
+            <td colspan="3">
+                <input class="mini-textarea" id="Description" name="Description" />
+            </td>
+        </tr>
+    </table>
+</div>
 
 <script>
     var ModuleForm = {
 
+        option: null,
         form: null,
 
         show: function (option) {
+            this.option = option;
             this.form = new Form('formModule');
-            this.form.BaseButtons.set({
-                data: [
-                    { id: "add", text: "新增", iconCls: "fa-plus" },
-                    { id: "copy", text: "复制", iconCls: "fa-copy" },
-                    { id: "import", text: "导入", iconCls: "fa-sign-out" }
-                ]
-            });
-            this.form.BatchButtons.set({
-                data: [
-                    { id: "add", text: "新增", iconCls: "fa-plus" },
-                    { id: "copy", text: "复制", iconCls: "fa-copy" },
-                    { id: "remove", text: "删除", iconCls: "fa-minus" },
-                    { id: "import", text: "导入", iconCls: "fa-sign-out" }
-                ]
-            });
+            this.initForm(option);
+            Toolbar.bind('tbFormModule', this);
+        },
 
-            Toolbar.bind('tbModuleForm', this);
+        //toolbar
+        save: function () {
+            if (!this.form.validate())
+                return;
+
+            var _this = this;
+            Ajax.postJson('/api/Module/SaveModule', this.form.getData(), function (res) {
+                Message.result(res, function (data) {
+                    _this.initForm(data);
+                    _this.option.callback && _this.option.callback();
+                });
+            });
+        },
+
+        //private
+        initForm: function (option) {
+            this.form.clear();
+            console.log(option.data);
+            this.form.setData(option.data);
         }
 
     };

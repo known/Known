@@ -559,17 +559,6 @@ var Form = function (formId, option) {
         }
     };
 
-    this.saveData = function (option) {
-        if (!this.validate(option.tabsId, option.tabIndex))
-            return;
-
-        Ajax.postJson(option.url, this.getData(), function (res) {
-            Message.result(res, function (data) {
-                option.callback && option.callback(data);
-            });
-        });
-    };
-
     this.bindEnterJump = function () {
         var inputs = this.getFields();
         var activeIndexes = getActiveIndexes(inputs);

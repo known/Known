@@ -4,6 +4,7 @@
             <tr>
                 <td id="tbModule">
                     <a class="mini-button" plain="true" id="add" iconCls="fa-plus">新增</a>
+                    <a class="mini-button" plain="true" id="edit" iconCls="fa-pencil">编辑</a>
                     <a class="mini-button" plain="true" id="import" iconCls="fa-sign-in">导入</a>
                     <a class="mini-menubutton" plain="true" iconCls="fa-bars" menu="#menuBatch">批量</a>
                     <ul id="menuBatch" class="mini-menu" style="display:none;">
@@ -32,11 +33,11 @@
 
         option: null,
         grid: null,
+        pid: '0',
 
         show: function (option) {
-            var nodeId = '';
             if (option.node) {
-                nodeId = option.node.id;
+                this.pid = option.node.id;
             }
             this.option = option;
             this.grid = new Grid('Module', {
@@ -44,7 +45,7 @@
                 idField: 'Id',
                 multiSelect: true,
                 showToolbar: true,
-                query: { pid: nodeId }
+                query: { pid: this.pid }
             });
             this.grid.on('drawcell', this.onModuleDrawCell);
 
@@ -62,7 +63,14 @@
 
         //toolbar
         add: function () {
-            this.showForm({ Id: '' });
+            this.showForm({ Id: '', ParentId: this.pid, Enabled: true });
+        },
+
+        edit: function () {
+            var _this = this;
+            this.grid.checkSelect(function (row) {
+                _this.showForm(row);
+            });
         },
 
         import: function () {
@@ -74,13 +82,19 @@
         },
 
         //private
-        showForm: function (row) {
+        showForm: function (data) {
             var _this = this;
             Dialog.show({
                 title: '模块管理', width: 600, height: 300,
                 url: '/System/Partials/ModuleForm',
                 callback: function () {
-                    ModuleForm.show();
+                    ModuleForm.show({
+                        data: data,
+                        callback: function () {
+                            _this.grid.reload();
+                            _this.option.callback && _this.option.callback();
+                        }
+                    });
                 }
             });
         }
