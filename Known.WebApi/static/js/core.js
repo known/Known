@@ -515,6 +515,7 @@ var Form = function (formId, option) {
     var _form = new mini.Form('#' + formId);
     $.extend(true, this, _form);
 
+    //public
     this.clear = function (controls) {
         if (controls) {
             var _this = this;
@@ -660,7 +661,8 @@ var Form = function (formId, option) {
         }
     };
 
-    this.init = function () {
+    //private
+    this._init = function () {
         var inputs = this.getFields();
         for (var i = 0; i < inputs.length; i++) {
             var input = inputs[i];
@@ -679,7 +681,7 @@ var Form = function (formId, option) {
         }
     };
 
-    this.init();
+    this._init();
     //console.log(this);
 };
 
@@ -695,39 +697,13 @@ var Grid = function (name, option) {
     this.idField = _grid.getIdField();
     this.query = null;
 
-    this._onColumnRender = function (e) {
-        var displayField = e.column.displayField;
-        if (displayField === 'icon') {
-            var value = e.record[e.column.field];
-            return '<span class="mini-icon mini-iconfont ' + e.value + '"></span>';
-        } else if (displayField.startWith('code.')) {
-            var type = displayField.replace('code.', '');
-            var code = Code.getCode(type, e.value);
-            var text = e.value;
-            if (code && code.text) {
-                text += '-' + code.text;
-            }
-            return text;
-        } else {
-            return e.record[displayField];
-        }
+    //public
+    this.on = function (type, fn) {
+        _grid.on(type, fn);
     };
 
-    this._queryData = function (isLoad, callback) {
-        var query = this.query ? this.query.getData(true) : '';
-        _grid.clearSelect(false);
-        _grid.load(
-            { query: query, isLoad: isLoad },
-            function (e) {
-                if (callback) {
-                    callback({ sender: this, result: e.result });
-                }
-            },
-            function () {
-                Message.tips('查询出错！');
-            }
-        );
-        new ColumnsMenu(_grid);
+    this.un = function (type, fn) {
+        _grid.un(type, fn);
     };
 
     this.search = function (callback) {
@@ -861,9 +837,53 @@ var Grid = function (name, option) {
         _grid.updateColumn(column, { visible: true });
     };
 
-    this.init = function () {
+    //private
+    this._onColumnRender = function (e) {
+        var displayField = e.column.displayField;
+        if (displayField === 'icon') {
+            var value = e.record[e.column.field];
+            return '<span class="mini-icon mini-iconfont ' + e.value + '"></span>';
+        } else if (displayField.startWith('code.')) {
+            var type = displayField.replace('code.', '');
+            var code = Code.getCode(type, e.value);
+            var text = e.value;
+            if (code && code.text) {
+                text += '-' + code.text;
+            }
+            return text;
+        } else {
+            return e.record[displayField];
+        }
+    };
+
+    this._queryData = function (isLoad, callback) {
+        var query = this.query ? this.query.getData(true) : '';
+        _grid.clearSelect(false);
+        _grid.load(
+            { query: query, isLoad: isLoad },
+            function (e) {
+                if (callback) {
+                    callback({ sender: this, result: e.result });
+                }
+            },
+            function () {
+                Message.tips('查询出错！');
+            }
+        );
+        new ColumnsMenu(_grid);
+    };
+
+    this._initQuery = function () {
         if ($('#query' + name).length) {
             this.query = new Form('query' + name);
+            this.query.setData(this.option.query);
+
+            if (this.query.key) {
+                this.query.key.on('buttonclick', function () {
+                    _this.search();
+                });
+            }
+
             var btnSearch = mini.get('search', this.query);
             if (btnSearch) {
                 btnSearch.on('click', function () {
@@ -871,6 +891,10 @@ var Grid = function (name, option) {
                 });
             }
         }
+    };
+
+    this._init = function () {
+        this._initQuery();
 
         _grid.set(this.option);
 
@@ -884,7 +908,7 @@ var Grid = function (name, option) {
         }
     };
 
-    this.init();
+    this._init();
     //console.log(this);
 };
 

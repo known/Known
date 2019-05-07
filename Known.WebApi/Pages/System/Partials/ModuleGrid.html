@@ -10,9 +10,9 @@
                         <li id="delete" iconCls="fa-minus">删除</li>
                     </ul>
                 </td>
-                <td style="text-align:right;">
-                    <input id="key" name="key" class="mini-buttonedit searchbox" style="width:150px;"
-                           emptyText="请输入关键字" />
+                <td id="queryModule" style="text-align:right;">
+                    <input class="mini-hidden" id="pid" name="pid" />
+                    <input class="mini-buttonedit searchbox" id="key" name="key" style="width:150px;" emptyText="请输入关键字" />
                 </td>
             </tr>
         </table>
@@ -22,7 +22,8 @@
         <div type="checkcolumn"></div>
         <div name="Name" field="Name" width="150">名称</div>
         <div name="Url" field="Url" width="100%">Url</div>
-        <div type="checkboxcolumn" name="Enable" field="Enable" width="60">可用</div>
+        <div name="Sort" field="Sort" width="100" headerAlign="center" align="center">顺序</div>
+        <div type="checkboxcolumn" name="Enabled" field="Enabled" width="60">可用</div>
     </div>
 </div>
 
@@ -33,22 +34,23 @@
         grid: null,
 
         show: function (option) {
+            var nodeId = '';
+            if (option.node) {
+                nodeId = option.node.id;
+            }
             this.option = option;
             this.grid = new Grid('Module', {
                 url: '/api/Module/QueryModules',
                 idField: 'Id',
                 multiSelect: true,
-                showToolbar: true
+                showToolbar: true,
+                query: { pid: nodeId }
             });
             this.grid.on('drawcell', this.onModuleDrawCell);
 
             Toolbar.bind('tbModule', this);
 
-            var nodeId = '';
-            if (option.node) {
-                nodeId = option.node.id;
-            }
-            this.grid.load({ pid: nodeId });
+            this.grid.load();
         },
 
         //grid

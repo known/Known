@@ -75,13 +75,7 @@ namespace Known.Platform
         private static void SetSubModules(List<Menu> menus, Module module, Menu menu)
         {
             if (module.Children == null || module.Children.Count == 0)
-            {
-                if (string.IsNullOrWhiteSpace(menu.url))
-                {
-                    menu.url = $"/frame?id={menu.id}";
-                }
                 return;
-            }
 
             menu.children = new List<Menu>();
             foreach (var item in module.Children)

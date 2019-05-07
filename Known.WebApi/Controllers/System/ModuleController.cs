@@ -13,6 +13,7 @@ namespace Known.WebApi.Controllers.System
         }
 
         #region ModuleView
+        [HttpPost]
         public object GetTreeDatas()
         {
             var menus = Menu.GetTreeMenus(PlatformService);
