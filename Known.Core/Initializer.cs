@@ -1,4 +1,6 @@
-﻿namespace Known.Core
+﻿using Known.Mapping;
+
+namespace Known.Core
 {
     public sealed class Initializer
     {
@@ -11,6 +13,7 @@
 
             var assembly = typeof(Initializer).Assembly;
             Container.Register<ServiceBase>(assembly, context);
+            EntityHelper.InitMapper(assembly);
         }
     }
 }
