@@ -67,8 +67,11 @@
         //private
         initForm: function (option) {
             this.form.clear();
-            console.log(option.data);
-            this.form.setData(option.data);
+            Ajax.getJson('/api/Module/GetModule', {
+                id: option.data.Id
+            }, function (res) {
+                this.form.setData(option.data);
+            });
         }
 
     };

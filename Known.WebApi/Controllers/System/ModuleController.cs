@@ -16,8 +16,7 @@ namespace Known.WebApi.Controllers.System
         [HttpPost]
         public object GetTreeDatas()
         {
-            var menus = Menu.GetTreeMenus(PlatformService);
-            return menus;
+            return Menu.GetTreeMenus(PlatformService);
         }
         #endregion
 
@@ -28,6 +27,25 @@ namespace Known.WebApi.Controllers.System
             var criteria = data.ToPagingCriteria();
             var result = Service.QueryModules(criteria);
             return ApiResult.ToPageData(result);
+        }
+
+        [HttpPost]
+        public ApiResult DeleteModules(string data)
+        {
+            return ApiResult.Success(data);
+        }
+        #endregion
+
+        #region ModuleForm
+        public object GetModule(string id)
+        {
+            return id;
+        }
+
+        [HttpPost]
+        public ApiResult SaveModule(string data)
+        {
+            return ApiResult.Success(data);
         }
         #endregion
     }

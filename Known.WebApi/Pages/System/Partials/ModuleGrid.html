@@ -68,7 +68,7 @@
 
         edit: function () {
             var _this = this;
-            this.grid.checkSelect(function (row) {
+            _this.grid.checkSelect(function (row) {
                 _this.showForm(row);
             });
         },
@@ -78,7 +78,14 @@
         },
 
         delete: function () {
-
+            var _this = this;
+            _this.grid.deleteRows(function (rows, data) {
+                Ajax.postJson('/api/Module/DeleteModules', data, function (res) {
+                    Message.result(res, function () {
+                        _this.grid.reload();
+                    });
+                });
+            });
         },
 
         //private
