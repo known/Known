@@ -19,7 +19,7 @@
         <tr>
             <th>URL：</th>
             <td colspan="3">
-                <input class="mini-textbox" id="Url" name="Url" required="true" />
+                <input class="mini-textbox" id="Url" name="Url" />
             </td>
         </tr>
         <tr>
@@ -52,11 +52,13 @@
 
         //toolbar
         save: function () {
-            if (!this.form.validate())
+            var _this = this;
+            if (!_this.form.validate())
                 return;
 
-            var _this = this;
-            Ajax.postJson('/api/Module/SaveModule', this.form.getData(), function (res) {
+            Ajax.postJson('/api/Module/SaveModule', {
+                data: _this.form.getData(true)
+            }, function(res) {
                 Message.result(res, function (data) {
                     _this.initForm(data);
                     _this.option.callback && _this.option.callback();
@@ -66,12 +68,17 @@
 
         //private
         initForm: function (option) {
-            this.form.clear();
-            Ajax.getJson('/api/Module/GetModule', {
-                id: option.data.Id
-            }, function (res) {
-                this.form.setData(option.data);
-            });
+            var _this = this;
+            _this.form.clear();
+            if (option.data.Id === '') {
+                _this.form.setData(option.data);
+            } else {
+                Ajax.getJson('/api/Module/GetModule', {
+                    id: option.data.Id
+                }, function (data) {
+                    _this.form.setData(data);
+                });
+            }
         }
 
     };

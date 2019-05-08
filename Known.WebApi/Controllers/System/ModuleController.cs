@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using Known.Core.Services;
+using Known.Extensions;
 using Known.Platform;
 using Known.Web;
 
@@ -32,20 +33,23 @@ namespace Known.WebApi.Controllers.System
         [HttpPost]
         public ApiResult DeleteModules(string data)
         {
-            return ApiResult.Success(data);
+            var result = Service.DeleteModules(data);
+            return ApiResult.Result(result);
         }
         #endregion
 
         #region ModuleForm
         public object GetModule(string id)
         {
-            return id;
+            return Service.GetModule(id);
         }
 
         [HttpPost]
         public ApiResult SaveModule(string data)
         {
-            return ApiResult.Success(data);
+            var model = data.FromJson<dynamic>();
+            var result = Service.SaveModule(model);
+            return ApiResult.Result(result);
         }
         #endregion
     }
