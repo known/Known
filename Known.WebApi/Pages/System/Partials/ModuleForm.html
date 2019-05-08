@@ -8,6 +8,7 @@
             <th style="width:80px;">编码：</th>
             <td>
                 <input class="mini-hidden" id="Id" name="Id" />
+                <input class="mini-hidden" id="AppId" name="AppId" />
                 <input class="mini-hidden" id="ParentId" name="ParentId" />
                 <input class="mini-textbox" id="Code" name="Code" required="true" />
             </td>
@@ -57,10 +58,10 @@
                 return;
 
             Ajax.postJson('/api/Module/SaveModule', {
-                data: _this.form.getData(true)
-            }, function(result) {
-                Message.result(result, function (data) {
-                    _this.initForm({ Id: data });
+                '': _this.form.getData(true)
+            }, function (result) {
+                Message.result(result, function (id) {
+                    _this.initForm({ Id: id });
                     _this.option.callback();
                 });
             });

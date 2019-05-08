@@ -27,9 +27,9 @@
         var url = '/signin?userName=' + userName + '&password=' + $.md5(password);
         Ajax.postJson(url, function (result) {
             _showMessage(result.Message);
-            if (result.Status === 0) {
-                User.setUser(result.Data.user);
-                location = result.Data.backUrl || '/';
+            if (result.ok) {
+                User.setUser(result.data.user);
+                location = result.data.backUrl || '/';
             } else {
                 $this.removeAttr('disabled').val('登录');
             }

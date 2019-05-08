@@ -80,7 +80,9 @@
         delete: function () {
             var _this = this;
             _this.grid.deleteRows(function (rows, data) {
-                Ajax.postJson('/api/Module/DeleteModules', data, function (res) {
+                Ajax.postJson('/api/Module/DeleteModules', {
+                    '': data
+                }, function(res) {
                     Message.result(res, function () {
                         _this.grid.reload();
                     });

@@ -6,9 +6,9 @@
         public string Message { get; set; }
         public dynamic Data { get; set; }
 
-        public static ApiResult ToData<T>(T data)
+        public static object ToData<T>(T data)
         {
-            return new ApiResult { Status = 0, Data = data };
+            return new { ok = true, data };
         }
 
         public static object ToPageData(PagingResult pr)
@@ -16,17 +16,17 @@
             return new { total = pr.TotalCount, data = pr.PageData };
         }
 
-        public static ApiResult Success(string message, object data = null)
+        public static object Success(string message, object data = null)
         {
-            return new ApiResult { Status = 0, Message = message, Data = data };
+            return new { ok = true, message, data };
         }
 
-        public static ApiResult Error(string message, object data = null)
+        public static object Error(string message, object data = null)
         {
-            return new ApiResult { Status = 1, Message = message, Data = data };
+            return new { ok = false, message, data };
         }
 
-        public static ApiResult Result(Result result)
+        public static object Result(Result result)
         {
             if (!result.IsValid)
                 return Error(result.Message);
@@ -34,7 +34,7 @@
             return Success(result.Message);
         }
 
-        public static ApiResult Result<T>(Result<T> result)
+        public static object Result<T>(Result<T> result)
         {
             if (!result.IsValid)
                 return Error(result.Message);

@@ -31,7 +31,7 @@ namespace Known.WebApi.Controllers.System
         }
 
         [HttpPost]
-        public ApiResult DeleteModules(string data)
+        public object DeleteModules(string data)
         {
             var ids = data.FromJson<string[]>();
             var result = Service.DeleteModules(ids);
@@ -46,7 +46,7 @@ namespace Known.WebApi.Controllers.System
         }
 
         [HttpPost]
-        public ApiResult SaveModule(string data)
+        public object SaveModule([FromBody]string data)
         {
             var model = data.FromJson<dynamic>();
             var result = Service.SaveModule(model);
