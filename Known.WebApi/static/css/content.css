@@ -1,4 +1,9 @@
-﻿.query {
+﻿.gridLink {
+    color: #00f;
+    cursor: pointer;
+}
+
+.query {
     padding: 2px;
     border: none;
 }

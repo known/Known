@@ -30,8 +30,7 @@ namespace Known.WebApi.Filters
                 return;
             }
 
-            var message = string.Empty;
-            if (!ValidateRequest(actionContext, out message))
+            if (!ValidateRequest(actionContext, out string message))
             {
                 actionContext.CreateErrorResponse(message);
                 return;

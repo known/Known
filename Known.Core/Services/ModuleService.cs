@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Known.Core.Entities;
 using Known.Core.Repositories;
-using Known.Extensions;
 using Known.Mapping;
 
 namespace Known.Core.Services
@@ -54,9 +53,8 @@ namespace Known.Core.Services
             return Result.Success("保存成功！", entity);
         }
 
-        public Result DeleteModules(string data)
+        public Result DeleteModules(string[] ids)
         {
-            var ids = data.FromJson<string[]>();
             var modules = Repository.QueryListById<Module>(ids);
             if (modules == null || modules.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");

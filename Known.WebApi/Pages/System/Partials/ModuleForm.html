@@ -11,7 +11,7 @@
                 <input class="mini-hidden" id="ParentId" name="ParentId" />
                 <input class="mini-textbox" id="Code" name="Code" required="true" />
             </td>
-            <th style="width:80px;">名称：</th>
+            <th style="width:80px;"><span id="icon"></span>名称：</th>
             <td>
                 <input class="mini-textbox" id="Name" name="Name" required="true" />
             </td>
@@ -46,7 +46,7 @@
         show: function (option) {
             this.option = option;
             this.form = new Form('formModule');
-            this.initForm(option);
+            this.initForm(option.data);
             Toolbar.bind('tbFormModule', this);
         },
 
@@ -58,25 +58,27 @@
 
             Ajax.postJson('/api/Module/SaveModule', {
                 data: _this.form.getData(true)
-            }, function(res) {
-                Message.result(res, function (data) {
-                    _this.initForm(data);
-                    _this.option.callback && _this.option.callback();
+            }, function(result) {
+                Message.result(result, function (data) {
+                    _this.initForm({ Id: data });
+                    _this.option.callback();
                 });
             });
         },
 
         //private
-        initForm: function (option) {
+        initForm: function (data) {
             var _this = this;
             _this.form.clear();
-            if (option.data.Id === '') {
-                _this.form.setData(option.data);
+            if (data.Id === '') {
+                _this.form.setData(data);
             } else {
                 Ajax.getJson('/api/Module/GetModule', {
-                    id: option.data.Id
-                }, function (data) {
-                    _this.form.setData(data);
+                    id: data.Id
+                }, function (result) {
+                    _this.form.setData(result, function (f, d) {
+                        $('#icon').attr('class', 'fa ' + d.Icon);
+                    });
                 });
             }
         }

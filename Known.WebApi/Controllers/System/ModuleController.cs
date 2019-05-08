@@ -33,7 +33,8 @@ namespace Known.WebApi.Controllers.System
         [HttpPost]
         public ApiResult DeleteModules(string data)
         {
-            var result = Service.DeleteModules(data);
+            var ids = data.FromJson<string[]>();
+            var result = Service.DeleteModules(ids);
             return ApiResult.Result(result);
         }
         #endregion

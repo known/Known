@@ -44,7 +44,7 @@ namespace Known.WebApi
             public T Deserialize<T>(string json)
             {
                 if (string.IsNullOrWhiteSpace(json))
-                    return default(T);
+                    return default;
 
                 var settings = new JsonSerializerSettings
                 {
