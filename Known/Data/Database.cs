@@ -97,7 +97,7 @@ namespace Known.Data
         {
             var row = QueryRow(sql, param);
             if (row == null)
-                return default(T);
+                return default;
 
             return AutoMapper.GetBaseEntity<T>(row);
         }

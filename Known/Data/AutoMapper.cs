@@ -11,7 +11,7 @@ namespace Known.Data
         public static T MapTo<T, TSource>(TSource source)
         {
             if (source == null)
-                return default(T);
+                return default;
 
             var json = source.ToJson();
             return json.FromJson<T>();
@@ -49,7 +49,7 @@ namespace Known.Data
         public static T GetEntity<T>(DataRow row)
         {
             if (row == null)
-                return default(T);
+                return default;
 
             var entity = Activator.CreateInstance<T>();
             var properties = typeof(T).GetColumnProperties();

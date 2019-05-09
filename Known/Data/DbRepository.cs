@@ -16,7 +16,7 @@ namespace Known.Data
         public T QueryById<T>(string id) where T : EntityBase
         {
             if (string.IsNullOrWhiteSpace(id))
-                return default(T);
+                return default;
 
             return Database.QueryById<T>(id);
         }
