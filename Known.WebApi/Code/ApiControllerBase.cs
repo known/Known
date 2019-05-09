@@ -27,7 +27,7 @@ namespace Known.WebApi
 
         protected T LoadService<T>() where T : ServiceBase
         {
-            return Container.Resolve<T>();
+            return ObjectFactory.CreateService<T>(Context);
         }
     }
 }

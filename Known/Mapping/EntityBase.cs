@@ -8,6 +8,7 @@ namespace Known.Mapping
         {
             Id = Utils.NewGuid;
             CreateBy = "temp";
+            CreateTime = DateTime.Now;
             IsNew = true;
         }
 

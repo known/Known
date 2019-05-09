@@ -730,6 +730,10 @@ var Grid = function (name, option) {
         return encode ? mini.encode(data) : data;
     };
 
+    this.getLength = function () {
+        return _grid.getData().length;
+    };
+
     this.getData = function (encode) {
         var data = _grid.getData();
         return encode ? mini.encode(data) : data;

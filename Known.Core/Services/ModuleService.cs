@@ -31,26 +31,27 @@ namespace Known.Core.Services
             return Repository.QueryById<Module>(id);
         }
 
-        public Result<Module> SaveModule(dynamic model)
+        public Result<string> SaveModule(dynamic model)
         {
             if (model == null)
-                return Result.Error<Module>("不能提交空数据！");
+                return Result.Error<string>("不能提交空数据！");
 
             var id = (string)model.Id;
             var entity = Repository.QueryById<Module>(id);
             if (entity == null)
-            {
                 entity = new Module();
-                entity.AppId = Setting.Instance.AppId;
-            }
+
             EntityHelper.FillModel(entity, model);
+
+            if (string.IsNullOrWhiteSpace(entity.AppId))
+                entity.AppId = Setting.Instance.AppId;
 
             var vr = EntityHelper.Validate(entity);
             if (vr.HasError)
-                return Result.Error<Module>(vr.ErrorMessage);
+                return Result.Error<string>(vr.ErrorMessage);
 
             Repository.Save(entity);
-            return Result.Success("保存成功！", entity);
+            return Result.Success("保存成功！", entity.Id);
         }
 
         public Result DeleteModules(string[] ids)

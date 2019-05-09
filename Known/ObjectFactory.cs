@@ -28,6 +28,7 @@ namespace Known
                 var objType = type.Assembly.GetType(typeName);
                 if (objType != null)
                 {
+                    context.Database.UserName = context.UserName;
                     var instance = Activator.CreateInstance(objType, context.Database);
                     Container.Register<T>(instance);
                 }

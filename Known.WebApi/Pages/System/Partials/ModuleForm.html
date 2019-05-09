@@ -10,23 +10,28 @@
                 <input class="mini-hidden" id="Id" name="Id" />
                 <input class="mini-hidden" id="AppId" name="AppId" />
                 <input class="mini-hidden" id="ParentId" name="ParentId" />
+                <input class="mini-hidden" id="Sort" name="Sort" />
                 <input class="mini-textbox" id="Code" name="Code" required="true" />
             </td>
-            <th style="width:80px;"><span id="icon"></span>名称：</th>
+            <th style="width:80px;">名称：</th>
             <td>
                 <input class="mini-textbox" id="Name" name="Name" required="true" />
+            </td>
+        </tr>
+        <tr>
+            <th><span id="icon"></span>图标：</th>
+            <td>
+                <input class="mini-combobox" id="Icon" name="Icon" required="true" />
+            </td>
+            <th>选项：</th>
+            <td>
+                <input class="mini-checkbox" id="Enabled" name="Enabled" text="可用" />
             </td>
         </tr>
         <tr>
             <th>URL：</th>
             <td colspan="3">
                 <input class="mini-textbox" id="Url" name="Url" />
-            </td>
-        </tr>
-        <tr>
-            <th>选项：</th>
-            <td colspan="3">
-                <input class="mini-checkbox" id="Enabled" name="Enabled" text="可用" />
             </td>
         </tr>
         <tr>
@@ -45,10 +50,24 @@
         form: null,
 
         show: function (option) {
+            var _this = this;
             this.option = option;
             this.form = new Form('formModule');
+            this.form.Icon.on('drawcell', this.onIconDrawCell);
+            this.form.Icon.on('valuechanged', function (e) { _this.onIconValueChanged(e); });
+            this.form.Icon.set({ url: '/static/data/icon.txt' });
             this.initForm(option.data);
             Toolbar.bind('tbFormModule', this);
+        },
+
+        //form
+        onIconDrawCell: function (e) {
+            var value = e.value;
+            e.cellHtml = '<span class="fa ' + value + '" style="width:18px;"></span>' + value;
+        },
+
+        onIconValueChanged: function (e) {
+            this.showIcon(e.value);
         },
 
         //toolbar
@@ -78,10 +97,14 @@
                     id: data.Id
                 }, function (result) {
                     _this.form.setData(result, function (f, d) {
-                        $('#icon').attr('class', 'fa ' + d.Icon);
+                        _this.showIcon(d.Icon);
                     });
                 });
             }
+        },
+
+        showIcon: function (icon) {
+            $('#icon').attr('class', 'fa ' + icon);
         }
 
     };

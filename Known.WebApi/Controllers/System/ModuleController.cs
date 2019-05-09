@@ -10,7 +10,7 @@ namespace Known.WebApi.Controllers.System
     {
         private ModuleService Service
         {
-            get { return Container.Resolve<ModuleService>(); }
+            get { return LoadService<ModuleService>(); }
         }
 
         #region ModuleView

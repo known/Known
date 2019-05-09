@@ -63,7 +63,10 @@
 
         //toolbar
         add: function () {
-            this.showForm({ Id: '', ParentId: this.pid, Enabled: true });
+            this.showForm({
+                Id: '', ParentId: this.pid, Enabled: true,
+                Sort: this.grid.getLength() + 1
+            });
         },
 
         edit: function () {
