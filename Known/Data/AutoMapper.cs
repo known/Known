@@ -52,14 +52,13 @@ namespace Known.Data
                 return default;
 
             var entity = Activator.CreateInstance<T>();
-            var properties = typeof(T).GetColumnProperties();
-            foreach (var property in properties)
+            var columns = EntityHelper.GetColumnInfos<T>();
+            foreach (var column in columns)
             {
-                var column = new ColumnInfo(property);
                 if (row.Table.Columns.Contains(column.ColumnName))
                 {
-                    var value = GetPropertyValue(property.PropertyType, row[column.ColumnName]);
-                    property.SetValue(entity, value, null);
+                    var value = GetPropertyValue(column.Property.PropertyType, row[column.ColumnName]);
+                    column.Property.SetValue(entity, value, null);
                 }
             }
 
