@@ -152,8 +152,11 @@ namespace Known.Data
 
         private void CreateConnection()
         {
-            conn = factory.CreateConnection();
-            conn.ConnectionString = ConnectionString;
+            if (conn == null)
+            {
+                conn = factory.CreateConnection();
+                conn.ConnectionString = ConnectionString;
+            }
         }
 
         private void DisposeConnection()
@@ -172,11 +175,7 @@ namespace Known.Data
 
         private IDbCommand CreateDbCommand(Command command)
         {
-            if (conn == null)
-            {
-                CreateConnection();
-            }
-
+            CreateConnection();
             var cmd = conn.CreateCommand();
             cmd.CommandText = command.Text;
             if (ProviderName.Contains("Oracle"))

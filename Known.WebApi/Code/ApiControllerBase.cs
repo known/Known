@@ -22,7 +22,7 @@ namespace Known.WebApi
 
         protected PlatformService PlatformService
         {
-            get { return new PlatformService(); }
+            get { return ObjectFactory.Create<PlatformService>(); }
         }
 
         protected T LoadService<T>() where T : ServiceBase

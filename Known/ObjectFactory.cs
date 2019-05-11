@@ -37,7 +37,7 @@ namespace Known
             return Container.Resolve<T>();
         }
 
-        public static T CreateRepository<T>()
+        public static T Create<T>()
         {
             var repository = Container.Resolve<T>();
             if (repository == null)

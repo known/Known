@@ -19,8 +19,7 @@ namespace Known.WebMvc
 
         public ActionResult Captcha()
         {
-            var code = string.Empty;
-            var bytes = ImageHelper.CreateCaptcha(4, out code);
+            var bytes = ImageHelper.CreateCaptcha(4, out string code);
             Session.SetValue("CaptchaCode", code);
             return File(bytes, MimeTypes.ImageJpeg);
         }
@@ -49,7 +48,7 @@ namespace Known.WebMvc
             {
                 if (!(Session["CurrentUser"] is User user))
                 {
-                    var service = new PlatformService();
+                    var service = ObjectFactory.Create<PlatformService>();
                     user = service.GetUser(UserName);
                     Session["CurrentUser"] = user;
                 }
@@ -70,11 +69,7 @@ namespace Known.WebMvc
 
         protected PlatformService PlatformService
         {
-            get
-            {
-                var client = GetBaseApiClient();
-                return new PlatformService(client, null);
-            }
+            get { return ObjectFactory.Create<PlatformService>(); }
         }
 
         protected ApiClient GetApiClient(string apiId = null)

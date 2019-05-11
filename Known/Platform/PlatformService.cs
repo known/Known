@@ -1,39 +1,32 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Known.Web;
 
 namespace Known.Platform
 {
     public class PlatformService
     {
-        private readonly PlatformHelper helper;
+        private readonly IPlatformRepository repository;
 
-        public PlatformService(ApiClient client = null, IPlatformRepository repository = null)
+        public PlatformService()
         {
-            if (Setting.Instance.IsMonomer)
-            {
-                this.helper = new DbPlatformHelper(repository);
-            }
-            else
-            {
-                this.helper = new ApiPlatformHelper(client);
-            }
+            repository = ObjectFactory.Create<IPlatformRepository>();
         }
 
         public string GetApiBaseUrl(string apiId)
         {
-            return helper.GetApiBaseUrl(apiId);
+            return repository.GetApiBaseUrl(apiId);
         }
 
         public Dictionary<string, object> GetCodes()
         {
-            return helper.GetCodes(Setting.Instance.AppId);
+            return repository.GetCodes(Setting.Instance.AppId);
         }
 
         public Module GetModule(string id)
         {
-            var module = helper.GetModule(id);
+            var module = repository.GetModule(id);
             if (module != null)
             {
                 SetParentModule(module);
@@ -44,7 +37,7 @@ namespace Known.Platform
 
         public List<Module> GetModules()
         {
-            var modules = helper.GetModules(Setting.Instance.AppId);
+            var modules = repository.GetModules(Setting.Instance.AppId);
             if (modules == null || modules.Count == 0)
                 return null;
 
@@ -55,7 +48,7 @@ namespace Known.Platform
 
         public List<Module> GetUserModules(string userName)
         {
-            var modules = helper.GetUserModules(Setting.Instance.AppId, userName);
+            var modules = repository.GetUserModules(Setting.Instance.AppId, userName);
             if (modules == null || modules.Count == 0)
                 return new List<Module>();
 
@@ -64,12 +57,12 @@ namespace Known.Platform
 
         public User GetUser(string userName)
         {
-            return helper.GetUser(userName);
+            return repository.GetUser(userName);
         }
 
         public Result<User> ValidateLogin(string token)
         {
-            var user = helper.GetUserByToken(token);
+            var user = UserCache.GetUserByToken(repository, token);
             if (user == null)
                 return Result.Error<User>("用户不存在！");
 
@@ -78,7 +71,7 @@ namespace Known.Platform
 
         public Result<User> ValidateLogin(string userName, string password)
         {
-            var user = GetUser(userName);
+            var user = UserCache.GetUser(repository, userName);
             if (user == null)
                 return Result.Error<User>("用户不存在！");
 
@@ -90,16 +83,21 @@ namespace Known.Platform
 
         public Result<User> SignIn(string userName, string password)
         {
-            var result = ValidateLogin(userName, password);
-            if (!result.IsValid)
-                return Result.Error<User>(result.Message);
+            var user = repository.GetUser(userName);
+            if (user == null)
+                return Result.Error<User>("用户不存在！");
 
-            var user = result.Data;
+            if (user.Password != password)
+                return Result.Error<User>("用户密码不正确！");
+
+            UserCache.RemoveUser(userName);
+            UserCache.RemoveUserByToken(user.Token);
+
             user.Token = Utils.NewGuid;
             if (!user.FirstLoginTime.HasValue)
                 user.FirstLoginTime = DateTime.Now;
             user.LastLoginTime = DateTime.Now;
-            helper.SaveUser(user);
+            repository.SaveUser(user);
 
             return Result.Success("登录成功！", user);
         }
@@ -110,8 +108,11 @@ namespace Known.Platform
             if (user == null)
                 return Result.Error("用户不存在！");
 
+            UserCache.RemoveUser(userName);
+            UserCache.RemoveUserByToken(user.Token);
+
             user.Token = string.Empty;
-            helper.SaveUser(user);
+            repository.SaveUser(user);
 
             return Result.Success("注销成功！");
         }
@@ -121,7 +122,7 @@ namespace Known.Platform
             if (module.ParentId == "0")
                 return;
 
-            module.Parent = helper.GetModule(module.ParentId);
+            module.Parent = repository.GetModule(module.ParentId);
             SetParentModule(module.Parent);
         }
 
@@ -157,6 +158,70 @@ namespace Known.Platform
                 module.Children.Add(item);
                 SetModuleChildren(source, modules, item);
             }
+        }
+    }
+
+    class UserCache
+    {
+        private static readonly Hashtable cached = new Hashtable();
+        private static readonly string appId = Setting.Instance.AppId;
+
+        public static void RemoveUser(string userName)
+        {
+            var key = $"{appId}_{userName}";
+            if (cached.ContainsKey(key))
+            {
+                cached.Remove(key);
+            }
+        }
+
+        public static void RemoveUserByToken(string token)
+        {
+            var key = $"{appId}_{token}";
+            if (cached.ContainsKey(key))
+            {
+                cached.Remove(key);
+            }
+        }
+
+        public static User GetUser(IPlatformRepository repository, string userName)
+        {
+            if (string.IsNullOrWhiteSpace(userName))
+                return null;
+
+            var key = $"{appId}_{userName}";
+            if (!cached.ContainsKey(key))
+            {
+                lock (cached.SyncRoot)
+                {
+                    if (!cached.ContainsKey(key))
+                    {
+                        cached[key] = repository.GetUser(userName);
+                    }
+                }
+            }
+
+            return (User)cached[key];
+        }
+
+        public static User GetUserByToken(IPlatformRepository repository, string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                return null;
+
+            var key = $"{appId}_{token}";
+            if (!cached.ContainsKey(key))
+            {
+                lock (cached.SyncRoot)
+                {
+                    if (!cached.ContainsKey(key))
+                    {
+                        cached[key] = repository.GetUserByToken(token);
+                    }
+                }
+            }
+
+            return (User)cached[key];
         }
     }
 }

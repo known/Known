@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Known.Data;
 using Known.Extensions;
+using Known.Web;
 
 namespace Known.Platform
 {
@@ -18,13 +19,72 @@ namespace Known.Platform
         void SaveUser(User user);
     }
 
-    class PlatformRepository : IPlatformRepository
+    public class ApiPlatformRepository : IPlatformRepository
+    {
+        private static readonly Dictionary<string, string> apiBaseUrls = new Dictionary<string, string>();
+        private readonly ApiClient client;
+
+        public ApiPlatformRepository(ApiClient client)
+        {
+            this.client = client;
+        }
+
+        public string GetApiBaseUrl(string apiId)
+        {
+            if (string.IsNullOrWhiteSpace(apiId))
+                return null;
+
+            if (!apiBaseUrls.ContainsKey(apiId))
+            {
+                apiBaseUrls[apiId] = client.Get<string>("/api/App/GetApiUrl", new { apiId });
+            }
+
+            return apiBaseUrls[apiId];
+        }
+
+        public Dictionary<string, object> GetCodes(string appId)
+        {
+            return client.Get<Dictionary<string, object>>("/api/App/GetCodes", new { appId });
+        }
+
+        public Module GetModule(string id)
+        {
+            return client.Get<Module>("/api/Module/GetModule", new { id });
+        }
+
+        public List<Module> GetModules(string appId)
+        {
+            return client.Get<List<Module>>("/api/Module/GetModules", new { appId });
+        }
+
+        public List<Module> GetUserModules(string appId, string userName)
+        {
+            return client.Get<List<Module>>("/api/User/GetUserModules", new { appId, userName });
+        }
+
+        public User GetUser(string userName)
+        {
+            return client.Get<User>("/api/User/GetUser", new { userName });
+        }
+
+        public User GetUserByToken(string token)
+        {
+            return client.Get<User>("/api/User/GetUserByToken", new { token });
+        }
+
+        public void SaveUser(User user)
+        {
+            client.Post("/api/User/SaveUser", user);
+        }
+    }
+
+    public class PlatformRepository : IPlatformRepository
     {
         private readonly Database database;
 
-        public PlatformRepository()
+        public PlatformRepository(Database database)
         {
-            database = new Database();
+            this.database = database;
         }
 
         public string GetApiBaseUrl(string apiId)

@@ -55,7 +55,7 @@ namespace Known.WebApi.Filters
                 if (!(principal.Identity is AuthenticationIdentity identity))
                     return false;
 
-                var service = new PlatformService();
+                var service = ObjectFactory.Create<PlatformService>();
                 var result = identity.AuthenticationType == "Basic"
                            ? service.ValidateLogin(identity.Name, identity.Password)
                            : service.ValidateLogin(identity.Token);

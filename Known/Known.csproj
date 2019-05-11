@@ -73,13 +73,10 @@
     <Compile Include="Platform\Code.cs" />
     <Compile Include="Platform\Company.cs" />
     <Compile Include="Platform\Department.cs" />
-    <Compile Include="Platform\Helpers\ApiPlatformHelper.cs" />
-    <Compile Include="Platform\Helpers\DbPlatformHelper.cs" />
     <Compile Include="Platform\IPlatformRepository.cs" />
     <Compile Include="Platform\Menu.cs" />
     <Compile Include="Platform\Module.cs" />
     <Compile Include="Platform\PlatformService.cs" />
-    <Compile Include="Platform\Helpers\PlatformHelper.cs" />
     <Compile Include="Platform\User.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="ObjectFactory.cs" />

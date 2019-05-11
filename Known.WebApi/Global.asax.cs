@@ -1,4 +1,6 @@
 ﻿using System;
+using Known.Data;
+using Known.Platform;
 
 namespace Known.WebApi
 {
@@ -7,6 +9,9 @@ namespace Known.WebApi
         protected void Application_Start(object sender, EventArgs e)
         {
             WebApiConfig.Register();
+
+            var repository = new PlatformRepository(new Database());
+            Container.Register<IPlatformRepository>(repository);
             Core.Initializer.Initialize();
         }
 
