@@ -10,7 +10,6 @@ namespace Known.Data
         List<T> QueryList<T>() where T : EntityBase;
         List<T> QueryListById<T>(string[] ids) where T : EntityBase;
         void Save<T>(T entity) where T : EntityBase;
-        void Update<T>(T entity) where T : EntityBase;
         void Delete<T>(T entity) where T : EntityBase;
         Result Transaction(Action<IRepository> action, object data = null);
     }

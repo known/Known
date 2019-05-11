@@ -57,7 +57,7 @@ namespace Known.Tests
 
         public T QueryById<T>(string id) where T : EntityBase
         {
-            return default(T);
+            return default;
         }
 
         public List<T> QueryList<T>() where T : EntityBase
@@ -71,10 +71,6 @@ namespace Known.Tests
         }
 
         public void Save<T>(T entity) where T : EntityBase
-        {
-        }
-
-        public void Update<T>(T entity) where T : EntityBase
         {
         }
 
