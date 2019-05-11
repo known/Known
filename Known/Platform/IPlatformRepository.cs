@@ -129,7 +129,18 @@ namespace Known.Platform
 
         public List<Module> GetUserModules(string appId, string userName)
         {
-            return GetModules(appId);
+            var sql = "select * from t_plt_modules where app_id=@appId and enabled=1";
+            var data = database.QueryTable(sql, new { appId });
+            if (data == null || data.Rows.Count == 0)
+                return null;
+
+            var modules = new List<Module>();
+            foreach (DataRow row in data.Rows)
+            {
+                modules.Add(GetModule(row));
+            }
+
+            return modules;
         }
 
         public User GetUser(string userName)
