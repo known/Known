@@ -518,9 +518,8 @@ var Form = function (formId, option) {
     //public
     this.clear = function (controls) {
         if (controls) {
-            var _this = this;
             $(controls.split(',')).each(function (i, c) {
-                var control = mini.getbyName(c, _this.form);
+                var control = mini.getbyName(c, _form);
                 if (control) {
                     control.setValue('');
                     if (control.type === 'autocomplete') {
@@ -560,7 +559,7 @@ var Form = function (formId, option) {
     };
 
     this.bindEnterJump = function () {
-        var inputs = this.getFields();
+        var inputs = _form.getFields();
         var activeIndexes = getActiveIndexes(inputs);
 
         for (var i = 0, len = activeIndexes.length; i < len; i++) {
@@ -575,30 +574,27 @@ var Form = function (formId, option) {
                 var current = inputs[index];
                 $(current.getEl()).keyup(function (e) {
                     if (e.keyCode === 13) {
-                        var nextInput = inputs[nextIndex];
-                        setTimeout(function () {
-                            nextInput.focus();
-                            if (nextInput.type !== 'textarea') {
-                                nextInput.selectText();
-                            }
-                        }, 10);
+                        selectInput(inputs[nextIndex]);
                     } else if (i > 0 && e.keyCode === 38) {
-                        var preInput = inputs[activeIndexes[i - 1]];
                         if (current.type !== 'textarea' && (
                             current.type !== 'autocomplete' &&
                             current.type !== 'combobox' ||
                             !current.isShowPopup()
                         )) {
-                            setTimeout(function () {
-                                preInput.focus();
-                                if (preInput.type !== 'textarea') {
-                                    preInput.selectText();
-                                }
-                            }, 10);
+                            selectInput(inputs[activeIndexes[i - 1]]);
                         }
                     }
                 });
             })(i);
+        }
+
+        function selectInput(input) {
+            setTimeout(function () {
+                input.focus();
+                if (input.type !== 'textarea') {
+                    input.selectText();
+                }
+            }, 10);
         }
 
         function getActiveIndexes(inputs) {
