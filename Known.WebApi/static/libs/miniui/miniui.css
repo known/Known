@@ -1413,9 +1413,7 @@ input.mini-textarea {
 
 .mini-messagebox-buttons {
     text-align: center;
-    padding: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 5px 15px 10px 15px;
 }
 
 .mini-messagebox-info,

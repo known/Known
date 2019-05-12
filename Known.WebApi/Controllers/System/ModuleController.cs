@@ -31,7 +31,7 @@ namespace Known.WebApi.Controllers.System
         }
 
         [HttpPost]
-        public object DeleteModules(string data)
+        public object DeleteModules([FromBody]string data)
         {
             var ids = data.FromJson<string[]>();
             var result = Service.DeleteModules(ids);

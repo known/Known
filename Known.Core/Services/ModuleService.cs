@@ -62,7 +62,16 @@ namespace Known.Core.Services
 
             return Repository.Transaction(rep =>
             {
-                modules.ForEach(e => rep.Delete(e));
+                foreach (var item in modules)
+                {
+                    //rep.Delete(item);
+
+                    //var sql = "delete from t_plt_modules where parent_id=@id";
+                    //rep.Execute(sql, new { id });
+
+                    //sql = "delete from t_plt_modules where id=@id";
+                    //rep.Execute(sql, new { id });
+                }
             });
         }
 
