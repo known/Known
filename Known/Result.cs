@@ -18,7 +18,7 @@
             return new Result(false, message, data);
         }
 
-        public static Result<T> Error<T>(string message, T data = default(T))
+        public static Result<T> Error<T>(string message, T data = default)
         {
             return new Result<T>(false, message, data);
         }
@@ -28,7 +28,7 @@
             return new Result(true, message, data);
         }
 
-        public static Result<T> Success<T>(string message, T data = default(T))
+        public static Result<T> Success<T>(string message, T data = default)
         {
             return new Result<T>(true, message, data);
         }

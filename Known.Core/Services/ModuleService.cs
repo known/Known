@@ -31,10 +31,10 @@ namespace Known.Core.Services
             return Repository.QueryById<Module>(id);
         }
 
-        public Result<string> SaveModule(dynamic model)
+        public Result SaveModule(dynamic model)
         {
             if (model == null)
-                return Result.Error<string>("不能提交空数据！");
+                return Result.Error("不能提交空数据！");
 
             var id = (string)model.Id;
             var entity = Repository.QueryById<Module>(id);
@@ -48,7 +48,7 @@ namespace Known.Core.Services
 
             var vr = EntityHelper.Validate(entity);
             if (vr.HasError)
-                return Result.Error<string>(vr.ErrorMessage);
+                return Result.Error(vr.ErrorMessage);
 
             Repository.Save(entity);
             return Result.Success("保存成功！", entity.Id);
