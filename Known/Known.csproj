@@ -73,6 +73,7 @@
     <Compile Include="Platform\Code.cs" />
     <Compile Include="Platform\Company.cs" />
     <Compile Include="Platform\Department.cs" />
+    <Compile Include="Platform\Initializer.cs" />
     <Compile Include="Platform\IPlatformRepository.cs" />
     <Compile Include="Platform\Menu.cs" />
     <Compile Include="Platform\Module.cs" />

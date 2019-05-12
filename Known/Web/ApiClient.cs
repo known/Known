@@ -186,7 +186,7 @@ namespace Known.Web
             if (!string.IsNullOrWhiteSpace(baseUrl))
                 return baseUrl;
 
-            return Config.AppSetting("ApiBaseUrl");
+            return Setting.Instance.ApiBaseUrl;
         }
     }
 }

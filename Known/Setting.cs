@@ -8,7 +8,8 @@
         {
             AppId = Config.AppSetting("AppId");
             AppName = Config.AppSetting("AppName");
-            IsMonomer = Config.AppSetting<bool>("IsMonomer", true);
+            ApiPlatformUrl = Config.AppSetting("ApiPlatformUrl");
+            ApiBaseUrl = Config.AppSetting("ApiBaseUrl");
             IsApiValidRequest = Config.AppSetting<bool>("IsApiValidRequest", false);
             SmtpServer = Config.AppSetting("SmtpServer");
             SmtpPort = Config.AppSetting<int>("SmtpPort");
@@ -25,7 +26,8 @@
 
         public string AppId { get; }
         public string AppName { get; }
-        public bool IsMonomer { get; }
+        public string ApiPlatformUrl { get; }
+        public string ApiBaseUrl { get; }
         public bool IsApiValidRequest { get; }
         public string SmtpServer { get; }
         public int SmtpPort { get; }

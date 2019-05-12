@@ -24,9 +24,9 @@ namespace Known.Platform
         private static readonly Dictionary<string, string> apiBaseUrls = new Dictionary<string, string>();
         private readonly ApiClient client;
 
-        public ApiPlatformRepository(ApiClient client)
+        public ApiPlatformRepository(string baseUrl)
         {
-            this.client = client;
+            client = new ApiClient(baseUrl);
         }
 
         public string GetApiBaseUrl(string apiId)
