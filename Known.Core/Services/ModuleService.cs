@@ -60,17 +60,17 @@ namespace Known.Core.Services
             if (modules == null || modules.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");
 
-            return Repository.Transaction(rep =>
+            foreach (var item in modules)
+            {
+                if (Repository.ExistsChildren(item.Id))
+                    return Result.Error($"{item.Name}存在子模块，不能删除！");
+            }
+
+            return Repository.Transaction("删除", rep =>
             {
                 foreach (var item in modules)
                 {
-                    //rep.Delete(item);
-
-                    //var sql = "delete from t_plt_modules where parent_id=@id";
-                    //rep.Execute(sql, new { id });
-
-                    //sql = "delete from t_plt_modules where id=@id";
-                    //rep.Execute(sql, new { id });
+                    rep.Delete(item);
                 }
             });
         }

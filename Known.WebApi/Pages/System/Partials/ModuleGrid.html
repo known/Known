@@ -74,12 +74,8 @@
 
         delete: function () {
             var _this = this;
-            this.grid.deleteRows(function (rows, data) {
-                Ajax.postJson('/api/Module/DeleteModules', {
-                    '': data
-                }, function(result) {
-                    Message.result(result, _this.refreshGrid);
-                });
+            this.grid.deleteRows('/api/Module/DeleteModules', function () {
+                _this.refreshGrid();
             });
         },
 
@@ -94,7 +90,6 @@
                         data: data,
                         callback: function () {
                             _this.refreshGrid();
-                            _this.option.callback();
                         }
                     });
                 }
@@ -103,6 +98,7 @@
 
         refreshGrid: function () {
             this.grid.reload();
+            this.option.callback();
         }
 
     };

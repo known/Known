@@ -50,7 +50,7 @@ namespace Known.Data
             Database.Delete(entity);
         }
 
-        public Result Transaction(Action<IRepository> action, object data = null)
+        public Result Transaction(string name, Action<IRepository> action, object data = null)
         {
             var db = new Database(Database.Name);
             var rep = new DbRepository(db);
@@ -60,7 +60,7 @@ namespace Known.Data
                 rep.Database.BeginTrans();
                 action(rep);
                 rep.Database.Commit();
-                return Result.Success("提交成功！", data);
+                return Result.Success($"{name}成功！", data);
             }
             catch (Exception ex)
             {

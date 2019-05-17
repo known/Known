@@ -179,6 +179,15 @@ var Ajax = {
 
     postJson: function () {
         this._request('post', 'json', arguments);
+    },
+
+    action: function (name, url, data, callback) {
+        Message.mask('数据' + name + '中...');
+        Ajax.postJson(url, data, function (result) {
+            Message.result(result, function (d) {
+                callback && callback(d);
+            });
+        });
     }
 
 };
@@ -307,16 +316,16 @@ var User = {
 //---------------------------message------------------------------------------//
 var Message = {
 
-    loading: function (message, callback) {
+    mask: function (message, el) {
         mini.mask({
-            el: document.body,
+            el: el || document.body,
             cls: 'mini-mask-loading',
             html: message
         });
+    },
 
-        if (callback && callback()) {
-            mini.unmask(document.body);
-        }
+    unmask: function (el) {
+        mini.unmask(el || document.body);
     },
 
     alert: function (message, callback) {
@@ -394,6 +403,8 @@ var Message = {
     },
 
     result: function (res, callback) {
+        this.unmask();
+
         if (!res.ok) {
             this.alert(res.message);
             return;
@@ -784,20 +795,20 @@ var Grid = function (name, option) {
         if (rows.length === 0) {
             Message.tips('请选择一条或多条记录！');
         } else if (callback) {
-            var data = this.getRowDatas(rows);
+            var data = this.getRowDatas(rows, null, true);
             callback(rows, data);
         }
     };
 
-    this.deleteRows = function (callback) {
+    this.deleteRows = function (url, callback) {
         this.checkMultiSelect(function (rows, data) {
             Message.confirm('确定要删除选中的记录？', function () {
-                callback && callback(rows, data);
+                Ajax.action('删除', url, { '': data }, callback);
             });
         });
     };
 
-    this.getRowDatas = function (rows, fields) {
+    this.getRowDatas = function (rows, fields, encode) {
         var datas = [];
         if (fields) {
             $(rows).each(function (i, d) {
@@ -813,7 +824,7 @@ var Grid = function (name, option) {
                 datas.push(d[id] || '');
             });
         }
-        return mini.encode(datas);
+        return encode ? mini.encode(datas) : datas;
     };
 
     this.hideColumn = function (indexOrName) {

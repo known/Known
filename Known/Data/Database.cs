@@ -53,7 +53,7 @@ namespace Known.Data
             provider.Rollback();
         }
 
-        public Result Transaction(Action<Database> action, object data = null)
+        public Result Transaction(string name, Action<Database> action, object data = null)
         {
             var db = new Database(Name);
 
@@ -62,7 +62,7 @@ namespace Known.Data
                 db.BeginTrans();
                 action(db);
                 db.Commit();
-                return Result.Success("提交成功！", data);
+                return Result.Success($"{name}成功！", data);
             }
             catch (Exception ex)
             {

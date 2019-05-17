@@ -76,13 +76,11 @@
             if (!_this.form.validate())
                 return;
 
-            Ajax.postJson('/api/Module/SaveModule', {
+            Ajax.action('保存', '/api/Module/SaveModule', {
                 '': _this.form.getData(true)
-            }, function (result) {
-                Message.result(result, function (id) {
-                    _this.initForm({ Id: id });
-                    _this.option.callback();
-                });
+            }, function (id) {
+                _this.initForm({ Id: id });
+                _this.option.callback();
             });
         },
 

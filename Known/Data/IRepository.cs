@@ -11,6 +11,6 @@ namespace Known.Data
         List<T> QueryListById<T>(string[] ids) where T : EntityBase;
         void Save<T>(T entity) where T : EntityBase;
         void Delete<T>(T entity) where T : EntityBase;
-        Result Transaction(Action<IRepository> action, object data = null);
+        Result Transaction(string name, Action<IRepository> action, object data = null);
     }
 }

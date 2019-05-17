@@ -6,6 +6,7 @@ namespace Known.Core.Repositories
     public interface IModuleRepository : IRepository
     {
         PagingResult QueryModules(PagingCriteria criteria);
+        bool ExistsChildren(string id);
     }
 
     internal class ModuleRepository : DbRepository, IModuleRepository
@@ -26,6 +27,12 @@ namespace Known.Core.Repositories
             }
 
             return Database.QueryPage<Module>(sql, criteria);
+        }
+
+        public bool ExistsChildren(string id)
+        {
+            var sql = "select count(*) from t_plt_modules where parent_id=@id";
+            return Database.Scalar<int>(sql, new { id }) > 0;
         }
     }
 }
