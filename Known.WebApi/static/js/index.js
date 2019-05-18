@@ -8,6 +8,7 @@
         this.mainTabs = mini.get('mainTabs');
 
         var _this = this;
+        this.leftTree.set({ expandOnNodeClick: true });
         this.leftTree.on('beforeexpand', this.treeBeforeExpand);
         this.leftTree.on('nodeclick', function (e) { _this.treeNodeClick(e); });
         this.mainTabs.on('activechanged', function (e) { _this.tabsActiveChanged(e); });
