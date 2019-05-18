@@ -35,7 +35,7 @@
         grid: null,
 
         show: function (option) {
-            if (option.node) {
+            if (option && option.node) {
                 this.pid = option.node.id;
             }
             this.option = option;

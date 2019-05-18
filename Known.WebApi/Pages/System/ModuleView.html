@@ -45,7 +45,9 @@
             if (splitRight.html().length) {
                 ModuleGrid.show(option);
             } else {
-                splitRight.loadView('/System/Partials/ModuleGrid', option);
+                splitRight.loadView('/System/Partials/ModuleGrid', function () {
+                    ModuleGrid.show(option);
+                });
             }
         }
 

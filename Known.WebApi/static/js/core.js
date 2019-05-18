@@ -234,13 +234,13 @@ $.fn.extend({
         }
     },
 
-    loadView: function (url, option) {
+    loadView: function (url, callback) {
         var arr = url.split('/');
         var view = arr[arr.length - 1].split('.')[0];
         $(this).loadHtml(url, function () {
             mini.parse();
-            if (option) {
-                eval(view + '.show(option);');
+            if (callback) {
+                callback();
             } else {
                 eval(view + '.show();');
             }
