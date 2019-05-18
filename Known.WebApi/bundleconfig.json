@@ -30,5 +30,24 @@
       "static/js/core.js",
       "static/js/index.js"
     ]
+  },
+  {
+    "outputFileName": "static/css/frame.min.css",
+    "inputFiles": [
+      "static/libs/font-awesome/css/font-awesome.min.css",
+      "static/libs/miniui/miniui.css",
+      "static/css/frame.css"
+    ]
+  },
+  {
+    "outputFileName": "static/js/frame.min.js",
+    "inputFiles": [
+      "static/libs/jquery.min.js",
+      "static/libs/pdfobject.min.js",
+      "static/libs/miniui/miniui.js",
+      "static/libs/highcharts/highcharts.js",
+      "static/js/core.js",
+      "static/js/frame.js"
+    ]
   }
 ]

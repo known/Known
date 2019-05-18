@@ -99,8 +99,11 @@
     <Content Include="Pages\System\Partials\ModuleForm.html" />
     <Content Include="Pages\System\RoleView.html" />
     <Content Include="Pages\System\UserView.html" />
-    <Content Include="static\css\content.css" />
+    <Content Include="static\css\frame.css" />
     <Content Include="static\css\dashboard.css" />
+    <Content Include="static\css\frame.min.css">
+      <DependentUpon>frame.css</DependentUpon>
+    </Content>
     <Content Include="static\css\index.css" />
     <Content Include="static\css\index.min.css">
       <DependentUpon>index.css</DependentUpon>
@@ -118,6 +121,10 @@
     <Content Include="static\images\face.jpg" />
     <Content Include="static\images\web_login_bg.jpg" />
     <Content Include="static\js\core.js" />
+    <Content Include="static\js\frame.js" />
+    <Content Include="static\js\frame.min.js">
+      <DependentUpon>frame.js</DependentUpon>
+    </Content>
     <Content Include="static\js\index.js" />
     <Content Include="static\js\index.min.js">
       <DependentUpon>index.js</DependentUpon>
