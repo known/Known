@@ -1,0 +1,34 @@
+[
+  {
+    "outputFileName": "static/css/login.min.css",
+    "inputFiles": [
+      "static/css/login.css"
+    ]
+  },
+  {
+    "outputFileName": "static/js/login.min.js",
+    "inputFiles": [
+      "static/libs/jquery.min.js",
+      "static/libs/jquery.md5.js",
+      "static/js/core.js",
+      "static/js/login.js"
+    ]
+  },
+  {
+    "outputFileName": "static/css/index.min.css",
+    "inputFiles": [
+      "static/libs/font-awesome/css/font-awesome.min.css",
+      "static/libs/miniui/miniui.css",
+      "static/css/index.css"
+    ]
+  },
+  {
+    "outputFileName": "static/js/index.min.js",
+    "inputFiles": [
+      "static/libs/jquery.min.js",
+      "static/libs/miniui/miniui.js",
+      "static/js/core.js",
+      "static/js/index.js"
+    ]
+  }
+]
