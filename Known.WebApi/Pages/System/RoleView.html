@@ -1,3 +1,95 @@
-﻿
-<h2>RoleView</h2>
+﻿<div id="gridRole" class="mini-datagrid" style="width:100%;height:100%;">
+    <div property="toolbar">
+        <table style="width:100%;">
+            <tr>
+                <td id="tbRole">
+                    <a class="mini-button" plain="true" id="add" iconCls="fa-plus">新增</a>
+                    <a class="mini-button" plain="true" id="delete" iconCls="fa-minus">删除</a>
+                </td>
+                <td id="queryRole" style="text-align:right;">
+                    <input class="mini-hidden" id="pid" name="pid" />
+                    <input class="mini-buttonedit searchbox" id="key" name="key" style="width:150px;" emptyText="请输入关键字" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div property="columns">
+        <div type="indexcolumn"></div>
+        <div type="checkcolumn"></div>
+        <div name="Name" field="Name" width="150">名称</div>
+        <div name="Url" field="Url" width="100%">Url</div>
+        <div name="Sort" field="Sort" width="100" headerAlign="center" align="center">顺序</div>
+        <div type="checkboxcolumn" name="Enabled" field="Enabled" width="60">可用</div>
+    </div>
+</div>
+
+<script>
+    var RoleView = {
+
+        grid: null,
+
+        show: function () {
+            this.grid = new Grid('Role', {
+                url: '/api/Role/QueryRoles', idField: 'Id',
+                multiSelect: true, showToolbar: true,
+                query: { pid: this.pid }
+            });
+            this.grid.on('drawcell', this.onRoleDrawCell);
+            this.grid.load();
+
+            Toolbar.bind('tbRole', this);
+        },
+
+        //grid
+        onRoleDrawCell: function (e) {
+            if (e.field === 'Name') {
+                var click = "RoleGrid.showForm({Id:'" + e.record.Id + "'})";
+                var html = '<span class="fa ' + e.record.Icon + '" style="width:18px;"></span>';
+                html += '<span class="gridLink" onclick="' + click + '">' + e.value + '</span>';
+                e.cellHtml = html;
+            }
+        },
+
+        //toolbar
+        add: function () {
+            this.showForm({
+                Id: '', ParentId: this.pid, Enabled: true,
+                Sort: this.grid.getLength() + 1
+            });
+        },
+
+        import: function () {
+
+        },
+
+        delete: function () {
+            var _this = this;
+            this.grid.deleteRows('/api/Role/DeleteRoles', function () {
+                _this.refreshGrid();
+            });
+        },
+
+        //private
+        showForm: function (data) {
+            var _this = this;
+            Dialog.show({
+                title: '模块管理', width: 600, height: 300,
+                url: '/System/Partials/RoleForm',
+                callback: function () {
+                    RoleForm.show({
+                        data: data,
+                        callback: function () {
+                            _this.refreshGrid();
+                        }
+                    });
+                }
+            });
+        },
+
+        refreshGrid: function () {
+            this.grid.reload();
+        }
+
+    };
+</script>
 

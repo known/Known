@@ -14,8 +14,7 @@
     <AssemblyName>Known.WebApi</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress>
-    </Use64BitIISExpress>
+    <Use64BitIISExpress>false</Use64BitIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -266,6 +265,7 @@
     <Compile Include="Controllers\Develop\DevDemoController.cs" />
     <Compile Include="Controllers\Develop\DevToolController.cs" />
     <Compile Include="Controllers\System\ModuleController.cs" />
+    <Compile Include="Controllers\System\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtension.cs" />
