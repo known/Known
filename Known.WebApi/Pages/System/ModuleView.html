@@ -9,7 +9,6 @@
                     <tr>
                         <td id="tbModule">
                             <a class="mini-button" plain="true" id="add" iconCls="fa-plus">新增</a>
-                            <a class="mini-button" plain="true" id="import" iconCls="fa-sign-in">导入</a>
                             <a class="mini-button" plain="true" id="delete" iconCls="fa-minus">删除</a>
                         </td>
                         <td id="queryModule" style="text-align:right;">
@@ -34,7 +33,7 @@
 <script>
     var ModuleView = {
 
-        pid: '',
+        node: null,
         tree: null,
         grid: null,
 
@@ -84,7 +83,7 @@
         //toolbar
         add: function () {
             this.showForm({
-                Id: '', ParentId: this.pid, Enabled: true,
+                Id: '', ParentId: this.node.id, Enabled: true,
                 Sort: this.grid.getLength() + 1
             });
         },
@@ -102,7 +101,7 @@
 
         //private
         showGrid: function (node) {
-            this.pid = node.id;
+            this.node = node;
             this.grid.query.pid.setValue(node.id);
             this.grid.load();
         },
@@ -110,7 +109,8 @@
         showForm: function (data) {
             var _this = this;
             Dialog.show({
-                title: '模块管理', width: 600, height: 300,
+                title: '模块管理',
+                width: 600, height: 300,
                 url: '/System/Partials/ModuleForm',
                 callback: function () {
                     ModuleForm.show({
