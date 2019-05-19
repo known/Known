@@ -40,7 +40,7 @@ namespace Known.WebApi.Controllers.System
         public object MoveModule([FromBody]string data)
         {
             var model = data.FromJson<dynamic>();
-            var result = Service.MoveModule(model.id, model.direct);
+            var result = Service.MoveModule((string)model.id, (string)model.direct);
             return ApiResult.Result(result);
         }
         #endregion

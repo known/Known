@@ -44,9 +44,20 @@ namespace Known.Core.Services
             if (module == null)
                 return Result.Error("模块不存在！");
 
-            //module.ParentId = parent.Id;
-            Repository.Save(module);
-            return Result.Success("移动成功！");
+            var sort = direct == "up" ? module.Sort - 1 : module.Sort + 1;
+            var module1 = Repository.GetModule(module.ParentId, sort);
+            if (module1 == null)
+                return Result.Error("不能移动！");
+            
+            return Repository.Transaction("移动", rep =>
+            {
+                var moduleSort = module.Sort;
+                module.Sort = module1.Sort;
+                rep.Save(module);
+
+                module1.Sort = moduleSort;
+                rep.Save(module1);
+            });
         }
         #endregion
 

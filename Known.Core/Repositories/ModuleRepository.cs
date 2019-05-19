@@ -6,6 +6,7 @@ namespace Known.Core.Repositories
     public interface IModuleRepository : IRepository
     {
         PagingResult QueryModules(PagingCriteria criteria);
+        Module GetModule(string parentId, int sort);
         bool ExistsChildren(string id);
     }
 
@@ -27,6 +28,12 @@ namespace Known.Core.Repositories
             }
 
             return Database.QueryPage<Module>(sql, criteria);
+        }
+
+        public Module GetModule(string parentId, int sort)
+        {
+            var sql = "select * from t_plt_modules where parent_id=@parentId and sort=@sort";
+            return Database.Query<Module>(sql, new { parentId, sort });
         }
 
         public bool ExistsChildren(string id)
