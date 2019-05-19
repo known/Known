@@ -52,10 +52,38 @@
     <div>
         <div id="tabs1" class="mini-tabs" style="width:100%;height:100%;">
             <div title="按钮" iconCls="fa-list">
-                3
+                <div id="gridButton" class="mini-datagrid" style="width:100%;height:100%;">
+                    <div property="columns">
+                        <div name="Action" width="50"></div>
+                        <div name="Code" field="Code" width="100">
+                            编码
+                            <input property="editor" class="mini-textbox" style="width:100%;" />
+                        </div>
+                        <div name="Name" field="Name" width="100%">
+                            名称
+                            <input property="editor" class="mini-textbox" style="width:100%;" />
+                        </div>
+                        <div name="Sort" field="Sort" width="100" headerAlign="center" align="center">顺序</div>
+                    </div>
+                </div>
             </div>
-            <div title="栏位" iconCls="fa-envelope">
-                4
+            <div title="栏位" iconCls="fa-list">
+                <div id="gridField" class="mini-datagrid" style="width:100%;height:100%;">
+                    <div property="columns">
+                        <div name="Action" width="50"></div>
+                        <div name="Code" field="Code" width="100">
+                            编码
+                            <input property="editor" class="mini-textbox" style="width:100%;" />
+                        </div>
+                        <div name="Name" field="Name" width="100%">
+                            名称
+                            <input property="editor" class="mini-textbox" style="width:100%;" />
+                        </div>
+                        <div type="checkboxcolumn" field="Import" trueValue="1" falseValue="0" width="60" headerAlign="center">导入</div>
+                        <div type="checkboxcolumn" field="Export" trueValue="1" falseValue="0" width="60" headerAlign="center">导出</div>
+                        <div name="Sort" field="Sort" width="60" headerAlign="center" align="center">顺序</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -66,14 +94,28 @@
 
         option: null,
         form: null,
+        gridButton: null,
+        gridField: null,
 
         show: function (option) {
             var _this = this;
             this.option = option;
+
             this.form = new Form('formModule');
             this.form.Icon.on('drawcell', this.onIconDrawCell);
             this.form.Icon.on('valuechanged', function (e) { _this.onIconValueChanged(e); });
             this.form.Icon.set({ url: '/static/data/icon.txt' });
+
+            this.gridButton = new Grid('Button', {
+                sortField: 'Sort', sortOrder: 'asc',
+                showPager: false
+            });
+
+            this.gridField = new Grid('Field', {
+                sortField: 'Sort', sortOrder: 'asc',
+                showPager: false
+            });
+
             this.initForm(option.data);
             Toolbar.bind('tbFormModule', this);
         },
