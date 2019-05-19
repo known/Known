@@ -1,44 +1,64 @@
-﻿<div id="tbFormModule" class="mini-toolbar">
-    <a class="mini-button" plain="true" id="save" iconCls="fa-save">保存</a>
-    <a class="mini-button" plain="true" id="close" iconCls="fa-remove">关闭</a>
-</div>
-<div class="mini-fit" style="padding:5px;">
-    <table id="formModule" class="form">
-        <tr>
-            <th style="width:80px;">编码：</th>
-            <td>
-                <input class="mini-hidden" id="Id" name="Id" />
-                <input class="mini-hidden" id="AppId" name="AppId" />
-                <input class="mini-hidden" id="ParentId" name="ParentId" />
-                <input class="mini-hidden" id="Sort" name="Sort" />
-                <input class="mini-textbox" id="Code" name="Code" required="true" />
-            </td>
-            <th style="width:80px;">名称：</th>
-            <td>
-                <input class="mini-textbox" id="Name" name="Name" required="true" />
-            </td>
-            <th style="width:80px;"><span id="icon"></span>图标：</th>
-            <td>
-                <input class="mini-combobox" id="Icon" name="Icon" required="true" />
-            </td>
-        </tr>
-        <tr>
-            <th>选项：</th>
-            <td>
-                <input class="mini-checkbox" id="Enabled" name="Enabled" text="可用" />
-            </td>
-            <th>URL：</th>
-            <td colspan="3">
-                <input class="mini-textbox" id="Url" name="Url" />
-            </td>
-        </tr>
-        <tr>
-            <th>描述：</th>
-            <td colspan="5">
-                <input class="mini-textarea" id="Description" name="Description" />
-            </td>
-        </tr>
-    </table>
+﻿<div class="mini-splitter" style="width:100%;height:100%;">
+    <div size="350px" showCollapseButton="true">
+        <div id="tbFormModule" class="mini-toolbar" style="margin-right:1px;">
+            <a class="mini-button" plain="true" id="save" iconCls="fa-save">保存</a>
+            <a class="mini-button" plain="true" id="close" iconCls="fa-remove">关闭</a>
+        </div>
+        <div class="mini-fit" style="padding:2px;">
+            <table id="formModule" class="form">
+                <tr>
+                    <th style="width:70px;">编码：</th>
+                    <td>
+                        <input class="mini-hidden" id="Id" name="Id" />
+                        <input class="mini-hidden" id="AppId" name="AppId" />
+                        <input class="mini-hidden" id="ParentId" name="ParentId" />
+                        <input class="mini-hidden" id="Sort" name="Sort" />
+                        <input class="mini-textbox" id="Code" name="Code" required="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>名称：</th>
+                    <td>
+                        <input class="mini-textbox" id="Name" name="Name" required="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <th><span id="icon"></span>图标：</th>
+                    <td>
+                        <input class="mini-combobox" id="Icon" name="Icon" required="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>选项：</th>
+                    <td>
+                        <input class="mini-checkbox" id="Enabled" name="Enabled" text="可用" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>URL：</th>
+                    <td>
+                        <input class="mini-textbox" id="Url" name="Url" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>描述：</th>
+                    <td>
+                        <input class="mini-textarea" id="Description" name="Description" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div>
+        <div id="tabs1" class="mini-tabs" style="width:100%;height:100%;">
+            <div title="按钮" iconCls="fa-list">
+                3
+            </div>
+            <div title="栏位" iconCls="fa-envelope">
+                4
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
