@@ -1,4 +1,8 @@
-﻿//---------------------------string-------------------------------------------//
+﻿window.alert = function (message) {
+    console.log(message);
+};
+
+//---------------------------string-------------------------------------------//
 String.prototype.trim = function () {
     return this.replace(/(^\s*)|(\s*$)/g, '');
 };
@@ -867,7 +871,7 @@ var Grid = function (name, option) {
                 }
             },
             function () {
-                Message.tips('查询出错！');
+                Message.tips({ content: '查询出错！', state: 'warning' });
             }
         );
         new ColumnsMenu(_grid);
