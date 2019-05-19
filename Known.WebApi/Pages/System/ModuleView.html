@@ -34,17 +34,30 @@
 <script>
     var ModuleView = {
 
-        leftTree: null,
+        pid: '',
+        tree: null,
+        grid: null,
 
         show: function () {
             var _this = this;
-            this.leftTree = mini.get('leftTree');
-            this.leftTree.set({
+
+            //tree
+            this.tree = mini.get('leftTree');
+            this.tree.set({
                 url: '/api/Module/GetTreeDatas', resultAsTree: false,
                 allowDrag: true, allowDrop: true, allowLeafDropIn: true
             });
-            this.leftTree.on('nodeclick', function (e) { _this.treeNodeClick(e); });
-            this.leftTree.on('drop', function (e) { _this.treeNodeDrop(e); });
+            this.tree.on('nodeclick', function (e) { _this.treeNodeClick(e); });
+            this.tree.on('drop', function (e) { _this.treeNodeDrop(e); });
+
+            //grid
+            this.grid = new Grid('Module', {
+                url: '/api/Module/QueryModules', idField: 'Id',
+                multiSelect: true, showToolbar: true
+            });
+            this.grid.on('drawcell', this.onModuleDrawCell);
+
+            Toolbar.bind('tbModule', this);
 
             this.showGrid({ id: '0' });
         },
@@ -58,45 +71,10 @@
             console.log(e);
         },
 
-        //private
-        showGrid: function (node) {
-            var _this = this;
-            ModuleGrid.show({
-                node: node,
-                callback: function () {
-                    _this.leftTree.reload();
-                }
-            });
-        }
-
-    };
-
-    var ModuleGrid = {
-
-        pid: '0',
-        option: null,
-        grid: null,
-
-        show: function (option) {
-            if (option && option.node) {
-                this.pid = option.node.id;
-            }
-            this.option = option;
-            this.grid = new Grid('Module', {
-                url: '/api/Module/QueryModules', idField: 'Id',
-                multiSelect: true, showToolbar: true,
-                query: { pid: this.pid }
-            });
-            this.grid.on('drawcell', this.onModuleDrawCell);
-            this.grid.load();
-
-            Toolbar.bind('tbModule', this);
-        },
-
         //grid
         onModuleDrawCell: function (e) {
             if (e.field === 'Name') {
-                var click = "ModuleGrid.showForm({Id:'" + e.record.Id + "'})";
+                var click = "ModuleView.showForm({Id:'" + e.record.Id + "'})";
                 var html = '<span class="fa ' + e.record.Icon + '" style="width:18px;"></span>';
                 html += '<span class="gridLink" onclick="' + click + '">' + e.value + '</span>';
                 e.cellHtml = html;
@@ -118,11 +96,17 @@
         delete: function () {
             var _this = this;
             this.grid.deleteRows('/api/Module/DeleteModules', function () {
-                _this.refreshGrid();
+                _this.refreshView();
             });
         },
 
         //private
+        showGrid: function (node) {
+            this.pid = node.id;
+            this.grid.query.pid.setValue(node.id);
+            this.grid.load();
+        },
+
         showForm: function (data) {
             var _this = this;
             Dialog.show({
@@ -132,16 +116,16 @@
                     ModuleForm.show({
                         data: data,
                         callback: function () {
-                            _this.refreshGrid();
+                            _this.refreshView();
                         }
                     });
                 }
             });
         },
 
-        refreshGrid: function () {
+        refreshView: function () {
             this.grid.reload();
-            this.option.callback();
+            this.tree.reload();
         }
 
     };
