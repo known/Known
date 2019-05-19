@@ -13,15 +13,13 @@ namespace Known.WebApi.Controllers.System
             get { return LoadService<ModuleService>(); }
         }
 
-        #region ModuleView
+        #region View
         [HttpPost]
         public object GetTreeDatas()
         {
             return Menu.GetTreeMenus(PlatformService);
         }
-        #endregion
 
-        #region ModuleGrid
         [HttpPost]
         public object QueryModules(CriteriaData data)
         {
@@ -37,9 +35,17 @@ namespace Known.WebApi.Controllers.System
             var result = Service.DeleteModules(ids);
             return ApiResult.Result(result);
         }
+
+        [HttpPost]
+        public object MoveModule([FromBody]string data)
+        {
+            var model = data.FromJson<dynamic>();
+            var result = Service.MoveModule(model.id, model.direct);
+            return ApiResult.Result(result);
+        }
         #endregion
 
-        #region ModuleForm
+        #region Form
         public object GetModule(string id)
         {
             return Service.GetModule(id);

@@ -7,10 +7,10 @@ namespace Known.WebApi.Controllers.System
 {
     public class RoleController : ApiControllerBase
     {
-        #region RoleView
+        #region View
         #endregion
 
-        #region RoleForm
+        #region Form
         #endregion
     }
 }

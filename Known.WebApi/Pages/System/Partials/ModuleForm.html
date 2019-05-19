@@ -74,9 +74,8 @@
             if (!_this.form.validate())
                 return;
 
-            Ajax.action('保存', '/api/Module/SaveModule', {
-                '': _this.form.getData(true)
-            }, function (id) {
+            var data = _this.form.getData();
+            Ajax.action('保存', '/api/Module/SaveModule', data, function (id) {
                 _this.initForm({ Id: id });
                 _this.option.callback();
             });

@@ -187,7 +187,7 @@ var Ajax = {
 
     action: function (name, url, data, callback) {
         Message.mask('数据' + name + '中...');
-        Ajax.postJson(url, data, function (result) {
+        Ajax.postJson(url, { '': JSON.stringify(data) }, function (result) {
             Message.result(result, function (d) {
                 callback && callback(d);
             });
@@ -799,7 +799,7 @@ var Grid = function (name, option) {
         if (rows.length === 0) {
             Message.tips('请选择一条或多条记录！');
         } else if (callback) {
-            var data = this.getRowDatas(rows, null, true);
+            var data = this.getRowDatas(rows, null);
             callback(rows, data);
         }
     };
@@ -807,7 +807,7 @@ var Grid = function (name, option) {
     this.deleteRows = function (url, callback) {
         this.checkMultiSelect(function (rows, data) {
             Message.confirm('确定要删除选中的记录？', function () {
-                Ajax.action('删除', url, { '': data }, callback);
+                Ajax.action('删除', url, data, callback);
             });
         });
     };

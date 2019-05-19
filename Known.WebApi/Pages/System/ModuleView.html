@@ -10,6 +10,8 @@
                         <td id="tbModule">
                             <a class="mini-button" plain="true" id="add" iconCls="fa-plus">新增</a>
                             <a class="mini-button" plain="true" id="delete" iconCls="fa-minus">删除</a>
+                            <a class="mini-button" plain="true" id="moveUp" iconCls="fa-chevron-up">上移</a>
+                            <a class="mini-button" plain="true" id="moveDown" iconCls="fa-chevron-down">下移</a>
                         </td>
                         <td id="queryModule" style="text-align:right;">
                             <input class="mini-hidden" id="pid" name="pid" />
@@ -43,11 +45,9 @@
             //tree
             this.tree = mini.get('leftTree');
             this.tree.set({
-                url: '/api/Module/GetTreeDatas', resultAsTree: false,
-                allowDrag: true, allowDrop: true, allowLeafDropIn: true
+                url: '/api/Module/GetTreeDatas', resultAsTree: false
             });
             this.tree.on('nodeclick', function (e) { _this.treeNodeClick(e); });
-            this.tree.on('drop', function (e) { _this.treeNodeDrop(e); });
 
             //grid
             this.grid = new Grid('Module', {
@@ -64,10 +64,6 @@
         //tree
         treeNodeClick: function (e) {
             this.showGrid(e.node);
-        },
-
-        treeNodeDrop: function (e) {
-            console.log(e);
         },
 
         //grid
@@ -88,14 +84,24 @@
             });
         },
 
-        import: function () {
-
-        },
-
         delete: function () {
             var _this = this;
             this.grid.deleteRows('/api/Module/DeleteModules', function () {
                 _this.refreshView();
+            });
+        },
+
+        moveUp: function () {
+            var _this = this;
+            this.grid.checkSelect(function (row) {
+                _this.moveRow(row, 'up');
+            });
+        },
+
+        moveDown: function () {
+            var _this = this;
+            this.grid.checkSelect(function (row) {
+                _this.moveRow(row, 'down');
             });
         },
 
@@ -104,6 +110,15 @@
             this.node = node;
             this.grid.query.pid.setValue(node.id);
             this.grid.load();
+        },
+
+        moveRow: function (row, direct) {
+            var _this = this;
+            Ajax.action('移动', '/api/Module/MoveModule', {
+                id: row.Id, direct: direct
+            }, function () {
+                _this.refreshView();
+            });
         },
 
         showForm: function (data) {

@@ -11,21 +11,46 @@ namespace Known.Core.Services
         {
         }
 
+        #region View
         public PagingResult QueryModules(PagingCriteria criteria)
         {
             return Repository.QueryModules(criteria);
         }
 
-        public List<Module> GetModules(string[] ids)
+        public Result DeleteModules(string[] ids)
         {
-            return Repository.QueryListById<Module>(ids);
+            var modules = Repository.QueryListById<Module>(ids);
+            if (modules == null || modules.Count == 0)
+                return Result.Error("请至少选择一条记录进行操作！");
+
+            foreach (var item in modules)
+            {
+                if (Repository.ExistsChildren(item.Id))
+                    return Result.Error($"{item.Name}存在子模块，不能删除！");
+            }
+
+            return Repository.Transaction("删除", rep =>
+            {
+                foreach (var item in modules)
+                {
+                    rep.Delete(item);
+                }
+            });
         }
 
-        public List<Module> GetModules(bool isTree = false)
+        public Result MoveModule(string id, string direct)
         {
-            return Repository.QueryList<Module>();
-        }
+            var module = Repository.QueryById<Module>(id);
+            if (module == null)
+                return Result.Error("模块不存在！");
 
+            //module.ParentId = parent.Id;
+            Repository.Save(module);
+            return Result.Success("移动成功！");
+        }
+        #endregion
+
+        #region Form
         public Module GetModule(string id)
         {
             return Repository.QueryById<Module>(id);
@@ -53,41 +78,6 @@ namespace Known.Core.Services
             Repository.Save(entity);
             return Result.Success("保存成功！", entity.Id);
         }
-
-        public Result DeleteModules(string[] ids)
-        {
-            var modules = Repository.QueryListById<Module>(ids);
-            if (modules == null || modules.Count == 0)
-                return Result.Error("请至少选择一条记录进行操作！");
-
-            foreach (var item in modules)
-            {
-                if (Repository.ExistsChildren(item.Id))
-                    return Result.Error($"{item.Name}存在子模块，不能删除！");
-            }
-
-            return Repository.Transaction("删除", rep =>
-            {
-                foreach (var item in modules)
-                {
-                    rep.Delete(item);
-                }
-            });
-        }
-
-        public Result DropModule(string id, string pid)
-        {
-            var module = Repository.QueryById<Module>(id);
-            if (module == null)
-                return Result.Error("模块不存在！");
-
-            var parent = Repository.QueryById<Module>(pid);
-            if (parent == null)
-                return Result.Error("父模块不存在！");
-
-            module.ParentId = parent.Id;
-            Repository.Save(module);
-            return Result.Success("保存成功！");
-        }
+        #endregion
     }
 }
