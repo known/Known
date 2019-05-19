@@ -51,7 +51,8 @@
 
             //grid
             this.grid = new Grid('Module', {
-                url: '/api/Module/QueryModules', idField: 'Id',
+                url: '/api/Module/QueryModules',
+                idField: 'Id', sortField: 'Sort', sortOrder: 'asc',
                 multiSelect: true, showToolbar: true
             });
             this.grid.on('drawcell', this.onModuleDrawCell);
