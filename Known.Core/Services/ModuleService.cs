@@ -29,13 +29,32 @@ namespace Known.Core.Services
                     return Result.Error($"{item.Name}存在子模块，不能删除！");
             }
 
-            return Repository.Transaction("删除", rep =>
+            var info = Repository.Transaction("删除", rep =>
             {
                 foreach (var item in modules)
                 {
                     rep.Delete(item);
                 }
             });
+
+            if (info.IsValid)
+            {
+                var modules1 = Repository.GetModules(modules[0].ParentId);
+                if (modules1 != null && modules1.Count > 0)
+                {
+                    Repository.Transaction("排序", rep =>
+                    {
+                        var index = 0;
+                        foreach (var item in modules1)
+                        {
+                            item.Sort = ++index;
+                            rep.Save(item);
+                        }
+                    });
+                }
+            }
+
+            return info;
         }
 
         public Result MoveModule(string id, string direct)

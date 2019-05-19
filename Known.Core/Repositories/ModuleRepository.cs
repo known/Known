@@ -1,4 +1,5 @@
-﻿using Known.Core.Entities;
+﻿using System.Collections.Generic;
+using Known.Core.Entities;
 using Known.Data;
 
 namespace Known.Core.Repositories
@@ -6,6 +7,7 @@ namespace Known.Core.Repositories
     public interface IModuleRepository : IRepository
     {
         PagingResult QueryModules(PagingCriteria criteria);
+        List<Module> GetModules(string parentId);
         Module GetModule(string parentId, int sort);
         bool ExistsChildren(string id);
     }
@@ -28,6 +30,12 @@ namespace Known.Core.Repositories
             }
 
             return Database.QueryPage<Module>(sql, criteria);
+        }
+
+        public List<Module> GetModules(string parentId)
+        {
+            var sql = "select * from t_plt_modules where parent_id=@parentId order by sort";
+            return Database.QueryList<Module>(sql, new { parentId });
         }
 
         public Module GetModule(string parentId, int sort)
