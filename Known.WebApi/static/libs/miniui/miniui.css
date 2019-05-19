@@ -4685,38 +4685,31 @@ body .mini-pager .mini-pager-num {
     *zoom: 1;
     cursor: default;
     position: relative;
-    padding-left: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 30px;
+    padding: 5px 10px;
     margin-bottom: 20px;
     border: 1px solid transparent;
     border-radius: 4px;
-    color: #777;
+    color: #333;
     background-color: #f5f5f5;
     border-color: #eee;
 }
 
 .mini-tips-success {
-    color: #468847;
     background-color: #dff0d8;
     border-color: #d6e9c6;
 }
 
 .mini-tips-info {
-    color: #3a87ad;
     background-color: #d9edf7;
     border-color: #bce8f1;
 }
 
 .mini-tips-warning {
-    color: #c09853;
     background-color: #fcf8e3;
     border-color: #fbeed5;
 }
 
 .mini-tips-danger {
-    color: #b94a48;
     background-color: #f2dede;
     border-color: #eed3d7;
 }
