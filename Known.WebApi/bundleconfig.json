@@ -10,15 +10,14 @@
     "inputFiles": [
       "static/libs/jquery.min.js",
       "static/libs/jquery.md5.js",
-      "static/js/core.js",
+      "static/libs/kui/kui.min.js",
       "static/js/login.js"
     ]
   },
   {
     "outputFileName": "static/css/index.min.css",
     "inputFiles": [
-      "static/libs/font-awesome/css/font-awesome.min.css",
-      "static/libs/miniui/miniui.css",
+      "static/libs/kui/kui.min.css",
       "static/css/index.css"
     ]
   },
@@ -26,16 +25,14 @@
     "outputFileName": "static/js/index.min.js",
     "inputFiles": [
       "static/libs/jquery.min.js",
-      "static/libs/miniui/miniui.js",
-      "static/js/core.js",
+      "static/libs/kui/kui.min.js",
       "static/js/index.js"
     ]
   },
   {
     "outputFileName": "static/css/frame.min.css",
     "inputFiles": [
-      "static/libs/font-awesome/css/font-awesome.min.css",
-      "static/libs/miniui/miniui.css",
+      "static/libs/kui/kui.min.css",
       "static/css/frame.css"
     ]
   },
@@ -43,10 +40,7 @@
     "outputFileName": "static/js/frame.min.js",
     "inputFiles": [
       "static/libs/jquery.min.js",
-      "static/libs/pdfobject.min.js",
-      "static/libs/miniui/miniui.js",
-      "static/libs/highcharts/highcharts.js",
-      "static/js/core.js",
+      "static/libs/kui/kui.min.js",
       "static/js/frame.js"
     ]
   }
