@@ -11,7 +11,7 @@
       "static/libs/jquery.min.js",
       "static/libs/jquery.md5.js",
       "static/libs/kui/kui.min.js",
-      "static/js/login.js"
+      "Scripts/login.js"
     ]
   },
   {
@@ -26,7 +26,7 @@
     "inputFiles": [
       "static/libs/jquery.min.js",
       "static/libs/kui/kui.min.js",
-      "static/js/index.js"
+      "Scripts/index.js"
     ]
   },
   {
@@ -41,7 +41,7 @@
     "inputFiles": [
       "static/libs/jquery.min.js",
       "static/libs/kui/kui.min.js",
-      "static/js/frame.js"
+      "Scripts/frame.js"
     ]
   }
 ]
