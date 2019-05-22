@@ -1,44 +1,96 @@
-﻿<div id="tbFormModule" class="mini-toolbar">
-    <a class="mini-button" plain="true" id="save" iconCls="fa-save">保存</a>
-    <a class="mini-button" plain="true" id="close" iconCls="fa-remove">关闭</a>
-</div>
-<div class="mini-fit" style="padding:5px;">
-    <table id="formModule" class="form">
-        <tr>
-            <th style="width:80px;">编码：</th>
-            <td>
-                <input class="mini-hidden" id="Id" name="Id" />
-                <input class="mini-hidden" id="AppId" name="AppId" />
-                <input class="mini-hidden" id="ParentId" name="ParentId" />
-                <input class="mini-hidden" id="Sort" name="Sort" />
-                <input class="mini-textbox" id="Code" name="Code" required="true" />
-            </td>
-            <th style="width:80px;">名称：</th>
-            <td>
-                <input class="mini-textbox" id="Name" name="Name" required="true" />
-            </td>
-            <th style="width:80px;"><span id="icon"></span>图标：</th>
-            <td>
-                <input class="mini-combobox" id="Icon" name="Icon" required="true" />
-            </td>
-        </tr>
-        <tr>
-            <th>选项：</th>
-            <td>
-                <input class="mini-checkbox" id="Enabled" name="Enabled" text="可用" />
-            </td>
-            <th>URL：</th>
-            <td colspan="3">
-                <input class="mini-textbox" id="Url" name="Url" />
-            </td>
-        </tr>
-        <tr>
-            <th>描述：</th>
-            <td colspan="5">
-                <input class="mini-textarea" id="Description" name="Description" />
-            </td>
-        </tr>
-    </table>
+﻿<div class="mini-splitter" style="width:100%;height:100%;">
+    <div size="350px" showCollapseButton="true">
+        <div id="tbFormModule" class="mini-toolbar" style="margin-right:1px;">
+            <a class="mini-button" plain="true" id="save" iconCls="fa-save">保存</a>
+            <a class="mini-button" plain="true" id="close" iconCls="fa-remove">关闭</a>
+        </div>
+        <div class="mini-fit" style="padding:2px;">
+            <table id="formModule" class="form">
+                <tr>
+                    <th style="width:70px;">编码：</th>
+                    <td>
+                        <input class="mini-hidden" id="Id" name="Id" />
+                        <input class="mini-hidden" id="AppId" name="AppId" />
+                        <input class="mini-hidden" id="ParentId" name="ParentId" />
+                        <input class="mini-hidden" id="Sort" name="Sort" />
+                        <input class="mini-textbox" id="Code" name="Code" required="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>名称：</th>
+                    <td>
+                        <input class="mini-textbox" id="Name" name="Name" required="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <th><span id="icon"></span>图标：</th>
+                    <td>
+                        <input class="mini-combobox" id="Icon" name="Icon" required="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>选项：</th>
+                    <td>
+                        <input class="mini-checkbox" id="Enabled" name="Enabled" text="可用" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>URL：</th>
+                    <td>
+                        <input class="mini-textbox" id="Url" name="Url" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>描述：</th>
+                    <td>
+                        <input class="mini-textarea" id="Description" name="Description" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div>
+        <div id="tabs1" class="mini-tabs" style="width:100%;height:100%;">
+            <div title="按钮" iconCls="fa-list">
+                <div id="gridButton" class="mini-datagrid" style="width:100%;height:100%;">
+                    <div property="columns">
+                        <div name="Action" width="30">
+                            <a id="addButton" class="mini-iconfont fa-plus"></a>
+                        </div>
+                        <div name="Code" field="Code" width="100">
+                            编码
+                            <input property="editor" class="mini-textbox" style="width:100%;" />
+                        </div>
+                        <div name="Name" field="Name" width="100%">
+                            名称
+                            <input property="editor" class="mini-textbox" style="width:100%;" />
+                        </div>
+                        <div name="Sort" field="Sort" width="100" headerAlign="center" align="center">顺序</div>
+                    </div>
+                </div>
+            </div>
+            <div title="栏位" iconCls="fa-list">
+                <div id="gridField" class="mini-datagrid" style="width:100%;height:100%;">
+                    <div property="columns">
+                        <div name="Action" width="30">
+                            <a id="addField" class="mini-iconfont fa-plus"></a>
+                        </div>
+                        <div name="Code" field="Code" width="100">
+                            编码
+                            <input property="editor" class="mini-textbox" style="width:100%;" />
+                        </div>
+                        <div name="Name" field="Name" width="100%">
+                            名称
+                            <input property="editor" class="mini-textbox" style="width:100%;" />
+                        </div>
+                        <div type="checkboxcolumn" field="Import" trueValue="1" falseValue="0" width="60" headerAlign="center">导入</div>
+                        <div type="checkboxcolumn" field="Export" trueValue="1" falseValue="0" width="60" headerAlign="center">导出</div>
+                        <div name="Sort" field="Sort" width="60" headerAlign="center" align="center">顺序</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -46,14 +98,28 @@
 
         option: null,
         form: null,
+        gridButton: null,
+        gridField: null,
 
         show: function (option) {
             var _this = this;
             this.option = option;
+
             this.form = new Form('formModule');
             this.form.Icon.on('drawcell', this.onIconDrawCell);
             this.form.Icon.on('valuechanged', function (e) { _this.onIconValueChanged(e); });
             this.form.Icon.set({ url: '/static/data/icon.txt' });
+
+            this.gridButton = new Grid('Button', {
+                sortField: 'Sort', sortOrder: 'asc',
+                showPager: false
+            });
+
+            this.gridField = new Grid('Field', {
+                sortField: 'Sort', sortOrder: 'asc',
+                showPager: false
+            });
+
             this.initForm(option.data);
             Toolbar.bind('tbFormModule', this);
         },

@@ -1373,6 +1373,10 @@ input.mini-textarea {
         border: 2px solid #3c8dbc;
     }
 
+    .mini-window .mini-grid-border {
+        border: 0;
+    }
+
     .mini-window .mini-panel-header {
         background: #3c8dbc;
         color: #fff;
@@ -1677,7 +1681,6 @@ body .mini-tabs-position-bottom .mini-tabs-plain .mini-tabs-scrollCt {
     position: relative;
     overflow: auto;
     height: 100%;
-    padding: 5px;
 }
 
 .mini-tabs-hideOverflow {
