@@ -4,17 +4,16 @@
     <!--*-->
     <id>Known</id>
     <!--*-->
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <title>Known</title>
     <!--*-->
     <authors>KnownChen</authors>
     <owners>KnownChen</owners>
-    <!--
-    <licenseUrl></licenseUrl>
-    <projectUrl></projectUrl>
-    <iconUrl></iconUrl>
--->
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/known/Known/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/known/Known</projectUrl>
+    <iconUrl>
+    </iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <!--*-->
     <description>This is a rapid development framework.</description>
     <!--*-->
