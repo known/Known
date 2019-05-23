@@ -67,7 +67,7 @@ namespace Known.WebMvc.Controllers
             if (Setting.Instance.IsMonomer)
             {
                 var executor = new ServiceExecuter(UserName, module, method);
-                object data = null;
+                object data;
                 if (method.StartsWith("Save"))
                     data = executor.Execute(GetForm(Request.Form));
                 else

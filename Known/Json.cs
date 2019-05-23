@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Known
 {
@@ -40,6 +41,26 @@ namespace Known
                 DateTimeFormat = new DateTimeFormat("yyyy-MM-dd HH:mm:ss")
             };
             return new DataContractJsonSerializer(typeof(T), settings);
+        }
+    }
+
+    class JsonProvider : IJson
+    {
+        public string Serialize<T>(T value)
+        {
+            return JsonConvert.SerializeObject(value);
+        }
+
+        public T Deserialize<T>(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+                return default;
+
+            var settings = new JsonSerializerSettings
+            {
+                DateFormatString = "yyyy-MM-dd HH:mm:ss"
+            };
+            return JsonConvert.DeserializeObject<T>(json, settings);
         }
     }
 }

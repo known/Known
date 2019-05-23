@@ -3,7 +3,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Known.WebMvc.Filters;
-using Newtonsoft.Json;
 
 namespace Known.WebMvc
 {
@@ -12,7 +11,6 @@ namespace Known.WebMvc
         public static void Register()
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
-            Container.Register<IJson, JsonProvider>();
 
             AreaRegistration.RegisterAllAreas();
 
@@ -38,26 +36,6 @@ namespace Known.WebMvc
                 "{controller}/{action}/{id}",
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );//.RouteHandler = new CustomRouteHandler();
-        }
-
-        class JsonProvider : IJson
-        {
-            public string Serialize<T>(T value)
-            {
-                return JsonConvert.SerializeObject(value);
-            }
-
-            public T Deserialize<T>(string json)
-            {
-                if (string.IsNullOrWhiteSpace(json))
-                    return default(T);
-
-                var settings = new JsonSerializerSettings
-                {
-                    DateFormatString = "yyyy-MM-dd HH:mm:ss"
-                };
-                return JsonConvert.DeserializeObject<T>(json, settings);
-            }
         }
     }
 }

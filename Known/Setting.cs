@@ -29,6 +29,7 @@
         public string ApiPlatformUrl { get; }
         public string ApiBaseUrl { get; }
         public bool IsApiValidRequest { get; }
+        public bool IsMonomer { get; }
         public string SmtpServer { get; }
         public int SmtpPort { get; }
         public string SmtpFromName { get; }
