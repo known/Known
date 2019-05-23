@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aspose.Cells, Version=19.5.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\Works\Lgd\packages\Aspose.Cells.19.5.0\lib\net40\Aspose.Cells.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -50,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cells\AsposeExcel.cs" />
+    <Compile Include="Cells\AsposeSheet.cs" />
+    <Compile Include="Cells\AsposeSheetCell.cs" />
     <Compile Include="Data\DbRepository.cs" />
     <Compile Include="Jobs\CheckResult.cs" />
     <Compile Include="Jobs\JobResult.cs" />
@@ -178,6 +184,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="package.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="License.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

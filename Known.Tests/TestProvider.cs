@@ -78,7 +78,7 @@ namespace Known.Tests
         {
         }
 
-        public Result Transaction(Action<IRepository> action, object data = null)
+        public Result Transaction(string name, Action<IRepository> action, object data = null)
         {
             return Result.Success("操作成功！", data);
         }

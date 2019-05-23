@@ -22,7 +22,7 @@ namespace Known.Tests.Demo
             if (entities == null || entities.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");
 
-            return Repository.Transaction(rep =>
+            return Repository.Transaction("删除", rep =>
             {
                 entities.ForEach(e => rep.Delete(e));
             });
@@ -33,7 +33,7 @@ namespace Known.Tests.Demo
             if (entities == null || entities.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");
 
-            return Repository.Transaction(rep =>
+            return Repository.Transaction("提交", rep =>
             {
                 foreach (var item in entities)
                 {
@@ -78,7 +78,7 @@ namespace Known.Tests.Demo
                 }
             }
 
-            return Repository.Transaction(rep =>
+            return Repository.Transaction("保存", rep =>
             {
                 entity.Lists.ForEach(l => rep.Save(l));
                 rep.Save(entity);
@@ -131,7 +131,7 @@ namespace Known.Tests.Demo
             if (errors.Count > 0)
                 return Result.Error("导入校验失败！");
 
-            return Repository.Transaction(rep =>
+            return Repository.Transaction("导入", rep =>
             {
                 entities.ForEach(e => rep.Save(e));
             });

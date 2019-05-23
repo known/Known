@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28917.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known", "Known\Known.csproj", "{F4C9A8C8-EAF9-4EA8-B186-C4B843762D45}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Tests", "Known.Tests\Known.Tests.csproj", "{93453E2E-B10E-4022-A052-825EF238B720}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Cells", "Known.Cells\Known.Cells.csproj", "{64C82219-F397-4B5A-B837-7A8AD4B7B721}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.WebApi", "Known.WebApi\Known.WebApi.csproj", "{B29197DE-3DB3-4565-90A4-5DE003BB030F}"
 EndProject
@@ -29,10 +27,6 @@ Global
 		{93453E2E-B10E-4022-A052-825EF238B720}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93453E2E-B10E-4022-A052-825EF238B720}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93453E2E-B10E-4022-A052-825EF238B720}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64C82219-F397-4B5A-B837-7A8AD4B7B721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64C82219-F397-4B5A-B837-7A8AD4B7B721}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64C82219-F397-4B5A-B837-7A8AD4B7B721}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64C82219-F397-4B5A-B837-7A8AD4B7B721}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B29197DE-3DB3-4565-90A4-5DE003BB030F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B29197DE-3DB3-4565-90A4-5DE003BB030F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B29197DE-3DB3-4565-90A4-5DE003BB030F}.Release|Any CPU.ActiveCfg = Release|Any CPU

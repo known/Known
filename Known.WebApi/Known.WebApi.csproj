@@ -279,10 +279,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Known.Cells\Known.Cells.csproj">
-      <Project>{64c82219-f397-4b5a-b837-7a8ad4b7b721}</Project>
-      <Name>Known.Cells</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Known.Core\Known.Core.csproj">
       <Project>{d582cbc2-1c85-4806-a231-c07811156806}</Project>
       <Name>Known.Core</Name>
