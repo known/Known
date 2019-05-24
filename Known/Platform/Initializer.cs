@@ -4,17 +4,29 @@ namespace Known.Platform
 {
     public sealed class Initializer
     {
-        public static void Initialize()
+        public static void Initialize(IPlatformRepository repository = null)
         {
+            Container.Register<IJson, JsonProvider>();
+            InitPlatformRepository(repository);
+        }
+
+        private static void InitPlatformRepository(IPlatformRepository repository)
+        {
+            if (repository != null)
+            {
+                Container.Register<IPlatformRepository>(repository);
+                return;
+            }
+
             var baseUrl = Setting.Instance.ApiPlatformUrl;
             if (!string.IsNullOrWhiteSpace(baseUrl))
             {
-                var repository = new ApiPlatformRepository(baseUrl);
+                repository = new ApiPlatformRepository(baseUrl);
                 Container.Register<IPlatformRepository>(repository);
             }
             else
             {
-                var repository = new PlatformRepository(new Database());
+                repository = new PlatformRepository(new Database());
                 Container.Register<IPlatformRepository>(repository);
             }
         }
