@@ -44,7 +44,7 @@ namespace Known
         }
     }
 
-    class JsonProvider : IJson
+    public class JsonProvider : IJson
     {
         public string Serialize<T>(T value)
         {

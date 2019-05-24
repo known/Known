@@ -48,7 +48,7 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\Works\Lgd\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
@@ -306,12 +306,12 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\..\..\..\Works\Lgd\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets" Condition="Exists('..\..\..\..\Works\Lgd\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets')" />
+  <Import Project="..\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets" Condition="Exists('..\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\..\Works\Lgd\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\Works\Lgd\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets'))" />
+    <Error Condition="!Exists('..\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BuildBundlerMinifier.2.9.406\build\BuildBundlerMinifier.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
