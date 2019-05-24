@@ -21,6 +21,9 @@ namespace Known.Cells
 
         public void Open(string fileName)
         {
+            if (string.IsNullOrWhiteSpace(fileName))
+                return;
+
             wb = new Workbook(fileName);
             wb.CalculateFormula();
 
@@ -32,6 +35,9 @@ namespace Known.Cells
 
         public void Open(Stream stream)
         {
+            if (stream == null)
+                return;
+
             wb = new Workbook(stream);
             wb.CalculateFormula();
 

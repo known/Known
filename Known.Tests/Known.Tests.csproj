@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Cells\ExcelTest.cs" />
     <Compile Include="Core\ConfigTest.cs" />
     <Compile Include="Core\ContainerTest.cs" />
     <Compile Include="Core\ContextTest.cs" />

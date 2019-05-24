@@ -127,7 +127,7 @@ namespace Known.Cells
         {
             sheet.AutoFitColumns(new AutoFitterOptions
             {
-                AutoFitMergedCellsType = AutoFitMergedCellsType.EachLine
+                AutoFitMergedCells = true
             });
         }
 
@@ -135,7 +135,7 @@ namespace Known.Cells
         {
             sheet.AutoFitColumns(firstColumn, lastColumn, new AutoFitterOptions
             {
-                AutoFitMergedCellsType = AutoFitMergedCellsType.EachLine
+                AutoFitMergedCells = true
             });
         }
 
@@ -148,7 +148,7 @@ namespace Known.Cells
         {
             sheet.AutoFitRows(new AutoFitterOptions
             {
-                AutoFitMergedCellsType = AutoFitMergedCellsType.EachLine
+                AutoFitMergedCells = true
             });
         }
 
@@ -156,7 +156,7 @@ namespace Known.Cells
         {
             sheet.AutoFitRows(startRow, endRow, new AutoFitterOptions
             {
-                AutoFitMergedCellsType = AutoFitMergedCellsType.EachLine
+                AutoFitMergedCells = true
             });
         }
 
