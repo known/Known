@@ -11,8 +11,7 @@
     <owners>KnownChen</owners>
     <licenseUrl>https://github.com/known/Known/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/known/Known</projectUrl>
-    <iconUrl>
-    </iconUrl>
+    <iconUrl>https://pic.cnblogs.com/avatar/21278/20190524095903.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <!--*-->
     <description>This is a rapid development framework.</description>

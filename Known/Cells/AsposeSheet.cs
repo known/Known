@@ -7,7 +7,7 @@ namespace Known.Cells
 {
     public class AsposeSheet : ISheet
     {
-        private Worksheet sheet;
+        private readonly Worksheet sheet;
 
         public AsposeSheet(Workbook wb, string name)
         {
@@ -127,7 +127,7 @@ namespace Known.Cells
         {
             sheet.AutoFitColumns(new AutoFitterOptions
             {
-                AutoFitMergedCells = true
+                AutoFitMergedCellsType = AutoFitMergedCellsType.EachLine
             });
         }
 
@@ -135,7 +135,7 @@ namespace Known.Cells
         {
             sheet.AutoFitColumns(firstColumn, lastColumn, new AutoFitterOptions
             {
-                AutoFitMergedCells = true
+                AutoFitMergedCellsType = AutoFitMergedCellsType.EachLine
             });
         }
 
@@ -148,7 +148,7 @@ namespace Known.Cells
         {
             sheet.AutoFitRows(new AutoFitterOptions
             {
-                AutoFitMergedCells = true
+                AutoFitMergedCellsType = AutoFitMergedCellsType.EachLine
             });
         }
 
@@ -156,7 +156,7 @@ namespace Known.Cells
         {
             sheet.AutoFitRows(startRow, endRow, new AutoFitterOptions
             {
-                AutoFitMergedCells = true
+                AutoFitMergedCellsType = AutoFitMergedCellsType.EachLine
             });
         }
 
@@ -296,12 +296,24 @@ namespace Known.Cells
 
         public int ImportData(DataTable dataTable, bool isFieldNameShown, int firstRow, int firstColumn, bool insertRows)
         {
-            return sheet.Cells.ImportDataTable(dataTable, isFieldNameShown, firstRow, firstColumn, insertRows);
+            return sheet.Cells.ImportData(dataTable, firstRow, firstColumn, new ImportTableOptions
+            {
+                IsFieldNameShown = isFieldNameShown,
+                InsertRows = insertRows
+            });
         }
 
         public int ImportData(DataTable dataTable, bool isFieldNameShown, int firstRow, int firstColumn, int rowNumber, int columnNumber, bool insertRows, string dateFormatString, bool convertStringToNumber)
         {
-            return sheet.Cells.ImportDataTable(dataTable, isFieldNameShown, firstRow, firstColumn, rowNumber, columnNumber, insertRows, dateFormatString, convertStringToNumber);
+            return sheet.Cells.ImportData(dataTable, firstRow, firstColumn, new ImportTableOptions
+            {
+                IsFieldNameShown = isFieldNameShown,
+                InsertRows = insertRows,
+                TotalRows = rowNumber,
+                TotalColumns = columnNumber,
+                DateFormat = dateFormatString,
+                ConvertNumericData = convertStringToNumber
+            });
         }
 
         public DataTable ExportData(int firstRow, int firstColumn, int totalRows, int totalColumns, bool exportColumnName)
