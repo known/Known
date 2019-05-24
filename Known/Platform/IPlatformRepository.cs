@@ -19,7 +19,7 @@ namespace Known.Platform
         void SaveUser(User user);
     }
 
-    public class ApiPlatformRepository : IPlatformRepository
+    class ApiPlatformRepository : IPlatformRepository
     {
         private static readonly Dictionary<string, string> apiBaseUrls = new Dictionary<string, string>();
         private readonly ApiClient client;
@@ -78,7 +78,7 @@ namespace Known.Platform
         }
     }
 
-    public class PlatformRepository : IPlatformRepository
+    class PlatformRepository : IPlatformRepository
     {
         private readonly Database database;
 
