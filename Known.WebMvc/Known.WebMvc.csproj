@@ -462,6 +462,15 @@
     <Compile Include="Models\TreeGridViewModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Code\AuthorizeController.cs" />
+    <Compile Include="Code\BaseController.cs" />
+    <Compile Include="Code\CustomRouteHandler.cs" />
+    <Compile Include="Code\Filters\AntiForgeryAttribute.cs" />
+    <Compile Include="Code\Filters\LoginAuthorizeAttribute.cs" />
+    <Compile Include="Code\Filters\TrackActionAttribute.cs" />
+    <Compile Include="Code\HtmlExtension.cs" />
+    <Compile Include="Code\WebMvcConfig.cs" />
+    <Compile Include="Code\WebViewPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\Form.cshtml" />
