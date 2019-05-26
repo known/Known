@@ -8,6 +8,9 @@ using Known.Extensions;
 
 namespace Known
 {
+    /// <summary>
+    /// 验证者类。
+    /// </summary>
     public class Validator
     {
         private readonly List<ValidInfo> validInfos = new List<ValidInfo>();
@@ -17,26 +20,43 @@ namespace Known
             validInfos.AddRange(infos);
         }
 
+        /// <summary>
+        /// 取得是否有错误信息。
+        /// </summary>
         public bool HasError
         {
             get { return new ValidateResult(validInfos).HasError; }
         }
 
+        /// <summary>
+        /// 取得是否有警告信息。
+        /// </summary>
         public bool HasWarn
         {
             get { return new ValidateResult(validInfos).HasWarn; }
         }
 
+        /// <summary>
+        /// 取得错误信息。
+        /// </summary>
         public string ErrorMessage
         {
             get { return new ValidateResult(validInfos).ErrorMessage; }
         }
 
+        /// <summary>
+        /// 取得警告信息。
+        /// </summary>
         public string WarnMessage
         {
             get { return new ValidateResult(validInfos).WarnMessage; }
         }
 
+        /// <summary>
+        /// 添加错误信息。
+        /// </summary>
+        /// <param name="broken">是否为错误。</param>
+        /// <param name="message">错误信息。</param>
         public void AddError(bool broken, string message)
         {
             if (broken)
@@ -45,12 +65,11 @@ namespace Known
             }
         }
 
-        public void AddError(bool broken, string format, params object[] args)
-        {
-            var message = string.Format(format, args);
-            AddError(broken, message);
-        }
-
+        /// <summary>
+        /// 添加警告信息。
+        /// </summary>
+        /// <param name="broken">是否为警告。</param>
+        /// <param name="message">警告信息。</param>
         public void AddWarn(bool broken, string message)
         {
             if (broken)
@@ -59,12 +78,15 @@ namespace Known
             }
         }
 
-        public void AddWarn(bool broken, string format, params object[] args)
-        {
-            var message = string.Format(format, args);
-            AddWarn(broken, message);
-        }
-
+        /// <summary>
+        /// 验证指定类型的非空导入栏位。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="messages">错误信息列表。</param>
+        /// <param name="row">数据行。</param>
+        /// <param name="fieldName">栏位字段名。</param>
+        /// <param name="format">日期类型格式，例：yyyy-MM-dd。</param>
+        /// <returns>导入栏位值。</returns>
         public static T ValidateNotEmpty<T>(List<string> messages, DataRow row, string fieldName, string format = null)
         {
             if (!string.IsNullOrWhiteSpace(format))
@@ -83,6 +105,15 @@ namespace Known
             return value;
         }
 
+        /// <summary>
+        /// 验证指定类型的可空导入栏位。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="messages">错误信息列表。</param>
+        /// <param name="row">数据行。</param>
+        /// <param name="fieldName">栏位字段名。</param>
+        /// <param name="format">日期类型格式，例：yyyy-MM-dd。</param>
+        /// <returns>导入栏位值。</returns>
         public static T Validate<T>(List<string> messages, DataRow row, string fieldName, string format = null)
         {
             var text = row.Get<string>(fieldName);
@@ -105,6 +136,14 @@ namespace Known
             return value;
         }
 
+        /// <summary>
+        /// 验证指定类型的枚举导入栏位。
+        /// </summary>
+        /// <typeparam name="T">枚举类型。</typeparam>
+        /// <param name="messages">错误信息列表。</param>
+        /// <param name="row">数据行。</param>
+        /// <param name="fieldName">栏位字段名。</param>
+        /// <returns>导入栏位值。</returns>
         public static T ValidateEnum<T>(List<string> messages, DataRow row, string fieldName) where T : struct
         {
             var text = row.Get<string>(fieldName);
@@ -124,6 +163,11 @@ namespace Known
             return value;
         }
 
+        /// <summary>
+        /// 判断字符串是否是数字。
+        /// </summary>
+        /// <param name="input">字符串。</param>
+        /// <returns>返回 True 或 False。</returns>
         public static bool IsNumber(string input)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -132,6 +176,11 @@ namespace Known
             return Regex.IsMatch(input, @"^[0-9]*$");
         }
 
+        /// <summary>
+        /// 判断字符串是否是邮件地址。
+        /// </summary>
+        /// <param name="input">字符串。</param>
+        /// <returns>返回 True 或 False。</returns>
         public static bool IsEmail(string input)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -143,6 +192,11 @@ namespace Known
             return Regex.IsMatch(input, pattern);
         }
 
+        /// <summary>
+        /// 判断字符串是否是网址。
+        /// </summary>
+        /// <param name="input">字符串。</param>
+        /// <returns>返回 True 或 False。</returns>
         public static bool IsUrl(string input)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -151,14 +205,24 @@ namespace Known
             return Regex.IsMatch(input, @"http(s)?://([/w-]+/.)+[/w-]+(/[/w- ./?%&=]*)?");
         }
 
+        /// <summary>
+        /// 判断字符串是否是 IP 地址。
+        /// </summary>
+        /// <param name="input">字符串。</param>
+        /// <returns>返回 True 或 False。</returns>
         public static bool IsIpAddress(string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return false;
 
-            return IPAddress.TryParse(input, out IPAddress ip);
+            return IPAddress.TryParse(input, out _);
         }
 
+        /// <summary>
+        /// 判断字符串是否是电话号码。
+        /// </summary>
+        /// <param name="input">字符串。</param>
+        /// <returns>返回 True 或 False。</returns>
         public static bool IsPhone(string input)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -167,6 +231,11 @@ namespace Known
             return Regex.IsMatch(input, @"^(\d{3,4}-)?\d{6,8}$");
         }
 
+        /// <summary>
+        /// 判断字符串是否是手机号码。
+        /// </summary>
+        /// <param name="input">字符串。</param>
+        /// <returns>返回 True 或 False。</returns>
         public static bool IsMobile(string input)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -175,6 +244,11 @@ namespace Known
             return Regex.IsMatch(input, @"^[1]+[3,5]+\d{9}");
         }
 
+        /// <summary>
+        /// 判断字符串是否是身份证号码。
+        /// </summary>
+        /// <param name="input">字符串。</param>
+        /// <returns>返回 True 或 False。</returns>
         public static bool IsIDCard(string input)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -183,6 +257,11 @@ namespace Known
             return Regex.IsMatch(input, @"(^\d{18}$)|(^\d{15}$)");
         }
 
+        /// <summary>
+        /// 判断字符串是否是邮政编码。
+        /// </summary>
+        /// <param name="input">字符串。</param>
+        /// <returns>返回 True 或 False。</returns>
         public static bool IsPostalcode(string input)
         {
             if (string.IsNullOrWhiteSpace(input))
