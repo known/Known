@@ -47,7 +47,7 @@ namespace Known
 
         public static void Remove(string key)
         {
-            Cache.Remove(key);
+            Cached.Remove(key);
         }
 
         public static void Clear()
@@ -106,7 +106,7 @@ namespace Known
 
     class CacheMemory : ICache
     {
-        private readonly ObjectCache cache = System.Runtime.Caching.MemoryCache.Default;
+        private readonly ObjectCache cache = MemoryCache.Default;
 
         public int Count
         {
