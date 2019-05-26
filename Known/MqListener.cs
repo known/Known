@@ -6,12 +6,19 @@ using System.Text;
 
 namespace Known
 {
+    /// <summary>
+    /// MSMQ 消息监听类。
+    /// </summary>
     public class MqListener
     {
         private bool listen;
-        private MessageQueue queue;
+        private readonly MessageQueue queue;
         private Action<MqMessage> action;
 
+        /// <summary>
+        /// 创建一个 MSMQ 消息监听类实例。
+        /// </summary>
+        /// <param name="config">MQ 配置信息。</param>
         public MqListener(MqConfigInfo config)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));
@@ -24,8 +31,15 @@ namespace Known
             };
         }
 
+        /// <summary>
+        /// 取得 MQ 配置信息。
+        /// </summary>
         public MqConfigInfo Config { get; }
 
+        /// <summary>
+        /// 启动 MSMQ 消息监听。
+        /// </summary>
+        /// <param name="action">接收消息时的处理操作。</param>
         public void Start(Action<MqMessage> action)
         {
             this.action = action;
@@ -35,6 +49,9 @@ namespace Known
             StartListening();
         }
 
+        /// <summary>
+        /// 停止 MSMQ 消息监听。
+        /// </summary>
         public void Stop()
         {
             listen = false;
@@ -57,11 +74,10 @@ namespace Known
         {
             queue.EndPeek(e.AsyncResult);
             var trans = new MessageQueueTransaction();
-            Message message = null;
             try
             {
                 trans.Begin();
-                message = queue.Receive(trans);
+                Message message = queue.Receive(trans);
                 trans.Commit();
 
                 StartListening();
@@ -97,23 +113,64 @@ namespace Known
         }
     }
 
+    /// <summary>
+    /// MQ 配置信息类。
+    /// </summary>
     public class MqConfigInfo
     {
+        /// <summary>
+        /// 取得或设置 MQ 名称。
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// 取得或设置 MQ 地址。
+        /// </summary>
         public string Path { get; set; }
     }
 
+    /// <summary>
+    /// MQ 接收到的消息内容类。
+    /// </summary>
     public class MqMessage
     {
+        /// <summary>
+        /// 取得或设置 MSMQ 队列名称。
+        /// </summary>
         public string QueueName { get; set; }
+
+        /// <summary>
+        /// 取得或设置 MQ 消息的标签。
+        /// </summary>
         public string Label { get; set; }
+
+        /// <summary>
+        /// 取得或设置 MQ 的消息内容流。
+        /// </summary>
         public Stream BodyStream { get; set; }
+
+        /// <summary>
+        /// 取得或设置队列接收消息的最长时间。
+        /// </summary>
         public TimeSpan TimeToBeReceived { get; set; }
+
+        /// <summary>
+        /// 取得或设置到达队列的最长时间。
+        /// </summary>
         public TimeSpan TimeToReachQueue { get; set; }
     }
 
+    /// <summary>
+    /// MSMQ 效用类。
+    /// </summary>
     public sealed class MqUtils
     {
+        /// <summary>
+        /// 发送 MQ 消息。
+        /// </summary>
+        /// <param name="path">MQ 地址。</param>
+        /// <param name="label">消息标签。</param>
+        /// <param name="content">消息内容，默认 UTF8 格式。</param>
         public static void SendMessage(string path, string label, string content)
         {
             using (var queue = new MessageQueue(path))

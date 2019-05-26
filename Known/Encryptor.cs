@@ -4,8 +4,16 @@ using System.Text;
 
 namespace Known
 {
+    /// <summary>
+    /// 加解密操作类。
+    /// </summary>
     public sealed class Encryptor
     {
+        /// <summary>
+        /// 将字符串进行 MD5 加密。
+        /// </summary>
+        /// <param name="value">原字符串。</param>
+        /// <returns>加密字符串。</returns>
         public static string ToMd5(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -27,6 +35,12 @@ namespace Known
             return sb.ToString();
         }
 
+        /// <summary>
+        /// 将字符串进行 DES 加密。
+        /// </summary>
+        /// <param name="value">原字符串。</param>
+        /// <param name="password">加密密码，默认空。</param>
+        /// <returns>加密字符串。</returns>
         public static string DESEncrypt(string value, string password = "")
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -45,6 +59,12 @@ namespace Known
             return Convert.ToBase64String(bytes);
         }
 
+        /// <summary>
+        /// 将 DES 加密的字符串进行揭秘。
+        /// </summary>
+        /// <param name="value">加密字符串。</param>
+        /// <param name="password">揭秘密码，默认空。</param>
+        /// <returns>解密字符串。</returns>
         public static string DESDecrypt(string value, string password = "")
         {
             if (string.IsNullOrWhiteSpace(value))

@@ -19,6 +19,11 @@ namespace Known
             cached.Clear();
         }
 
+        /// <summary>
+        /// 获取指定泛型类型的对象实例。
+        /// </summary>
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <returns>对象实例。</returns>
         public static T Resolve<T>()
         {
             var key = typeof(T);
@@ -32,6 +37,11 @@ namespace Known
             return default;
         }
 
+        /// <summary>
+        /// 获取指定类型名称的对象实例。
+        /// </summary>
+        /// <param name="name">对象类型名称。</param>
+        /// <returns>对象实例。</returns>
         public static object Resolve(string name)
         {
             if (!cached.ContainsKey(name))
@@ -40,6 +50,11 @@ namespace Known
             return cached[name];
         }
 
+        /// <summary>
+        /// 注册指定泛型类型的对象，自动创建无参数构造函数的类型实例。
+        /// </summary>
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <typeparam name="TImpl">无参数构造函数的对象实例类型，必须继承 T。</typeparam>
         public static void Register<T, TImpl>() where TImpl : T
         {
             var key = typeof(T);
@@ -55,12 +70,23 @@ namespace Known
             }
         }
 
+        /// <summary>
+        /// 注册指定泛型类型实例的对象。
+        /// </summary>
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <param name="instance">对象实例。</param>
         public static void Register<T>(object instance)
         {
             var key = typeof(T);
             Register(key, instance);
         }
 
+        /// <summary>
+        /// 注册程序集中所有实现 T 的类型对象实例。
+        /// </summary>
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <param name="assembly">程序集。</param>
+        /// <param name="args">构造函数参数。</param>
         public static void Register<T>(Assembly assembly, params object[] args)
         {
             if (assembly == null)
