@@ -4,18 +4,62 @@ using System.Web;
 
 namespace Known
 {
+    /// <summary>
+    /// 应用程序缓存接口。
+    /// </summary>
     public interface ICache
     {
+        /// <summary>
+        /// 取得缓存对象总数。
+        /// </summary>
         int Count { get; }
 
+        /// <summary>
+        /// 获取指定关键字的泛型缓存对象。
+        /// </summary>
+        /// <typeparam name="T">缓存对象泛型。</typeparam>
+        /// <param name="key">缓存对象关键字。</param>
+        /// <returns>泛型缓存对象。</returns>
         T Get<T>(string key);
+
+        /// <summary>
+        /// 获取指定关键字的缓存对象。
+        /// </summary>
+        /// <param name="key">缓存对象关键字。</param>
+        /// <returns>缓存对象。</returns>
         object Get(string key);
+
+        /// <summary>
+        /// 设置缓存对象。
+        /// </summary>
+        /// <param name="key">缓存对象关键字。</param>
+        /// <param name="value">缓存对象。</param>
         void Set(string key, object value);
+
+        /// <summary>
+        /// 设置缓存对象，并添加过期时间（分钟）。
+        /// </summary>
+        /// <param name="key">缓存对象关键字。</param>
+        /// <param name="value">缓存对象。</param>
+        /// <param name="expires">过期分钟数。</param>
         void Set(string key, object value, int expires);
+
+        /// <summary>
+        /// 移除指定关键字的缓存对象。
+        /// </summary>
+        /// <param name="key">缓存对象关键字。</param>
         void Remove(string key);
+
+        /// <summary>
+        /// 清除所有缓存对象。
+        /// </summary>
         void Clear();
     }
 
+    /// <summary>
+    /// 应用程序缓存，默认根据当前程序上下文环境初始化缓存接口。
+    /// 支持 HttpRuntime.Cache 和 System.Runtime.Caching.MemoryCache。
+    /// </summary>
     public sealed class Cache
     {
         private static ICache Cached
@@ -30,27 +74,69 @@ namespace Known
             }
         }
 
-        public static T Get<T>(string key)
+        /// <summary>
+        /// 取得缓存对象总数。
+        /// </summary>
+        public int Count
+        {
+            get { return Cached.Count; }
+        }
+
+        /// <summary>
+        /// 获取指定关键字的泛型缓存对象。
+        /// </summary>
+        /// <typeparam name="T">缓存对象泛型。</typeparam>
+        /// <param name="key">缓存对象关键字。</param>
+        /// <returns>泛型缓存对象。</returns>
+        public T Get<T>(string key)
         {
             return Cached.Get<T>(key);
         }
 
-        public static void Set(string key, object value)
+        /// <summary>
+        /// 获取指定关键字的缓存对象。
+        /// </summary>
+        /// <param name="key">缓存对象关键字。</param>
+        /// <returns>缓存对象。</returns>
+        public object Get(string key)
+        {
+            return Cached.Get(key);
+        }
+
+        /// <summary>
+        /// 设置缓存对象。
+        /// </summary>
+        /// <param name="key">缓存对象关键字。</param>
+        /// <param name="value">缓存对象。</param>
+        public void Set(string key, object value)
         {
             Cached.Set(key, value);
         }
 
-        public static void Set(string key, object value, int expires)
+        /// <summary>
+        /// 设置缓存对象，并添加过期时间（分钟）。
+        /// </summary>
+        /// <param name="key">缓存对象关键字。</param>
+        /// <param name="value">缓存对象。</param>
+        /// <param name="expires">过期分钟数。</param>
+        public void Set(string key, object value, int expires)
         {
             Cached.Set(key, value, expires);
         }
 
-        public static void Remove(string key)
+        /// <summary>
+        /// 移除指定关键字的缓存对象。
+        /// </summary>
+        /// <param name="key">缓存对象关键字。</param>
+        public void Remove(string key)
         {
             Cached.Remove(key);
         }
 
-        public static void Clear()
+        /// <summary>
+        /// 清除所有缓存对象。
+        /// </summary>
+        public void Clear()
         {
             Cached.Clear();
         }

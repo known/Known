@@ -4,10 +4,16 @@ using System.Reflection;
 
 namespace Known
 {
+    /// <summary>
+    /// 应用程序对象容器类。
+    /// </summary>
     public sealed class Container
     {
         private static readonly Hashtable cached = new Hashtable();
 
+        /// <summary>
+        /// 清除所有缓存的对象实例。
+        /// </summary>
         public static void Clear()
         {
             cached.Clear();
