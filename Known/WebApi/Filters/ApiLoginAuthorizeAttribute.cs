@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Known.Extensions;
-using Known.Platform;
+using Known.Core;
 using Known.Web;
 using Known.WebApi.Extensions;
 

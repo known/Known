@@ -1,5 +1,5 @@
 ﻿using System;
-using Known.Platform;
+using Known.Core;
 
 namespace Known.Workflow
 {

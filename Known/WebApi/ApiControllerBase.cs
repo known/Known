@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using Known.Platform;
+using Known.Core;
 
 namespace Known.WebApi
 {

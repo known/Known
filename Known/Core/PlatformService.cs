@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Known.Platform
+namespace Known.Core
 {
     public class PlatformService
     {

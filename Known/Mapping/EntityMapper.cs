@@ -4,8 +4,18 @@ using System.Linq.Expressions;
 
 namespace Known.Mapping
 {
+    /// <summary>
+    /// 实体映射器抽象基类。
+    /// </summary>
     public abstract class EntityMapper
     {
+        /// <summary>
+        /// 创建一个实体映射器类的实例。
+        /// </summary>
+        /// <param name="type">实体类型。</param>
+        /// <param name="tableName">数据库表名。</param>
+        /// <param name="description">实体描述。</param>
+        /// <param name="primaryKey">主键字段，默认 id。</param>
         public EntityMapper(Type type, string tableName, string description, string primaryKey = "id")
         {
             Type = type;
@@ -13,13 +23,34 @@ namespace Known.Mapping
             Columns = new List<ColumnInfo>();
         }
 
+        /// <summary>
+        /// 取得实体类型。
+        /// </summary>
         public Type Type { get; }
+
+        /// <summary>
+        /// 取得实体表属性。
+        /// </summary>
         public TableAttribute Table { get; }
+
+        /// <summary>
+        /// 取得实体所有栏位信息。
+        /// </summary>
         public List<ColumnInfo> Columns { get; }
     }
 
+    /// <summary>
+    /// 实体映射器泛型抽象基类。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
     public abstract class EntityMapper<T> : EntityMapper where T : EntityBase
     {
+        /// <summary>
+        /// 创建一个实体映射器泛型类的实例。
+        /// </summary>
+        /// <param name="tableName">数据库表名。</param>
+        /// <param name="description">实体描述。</param>
+        /// <param name="primaryKey">主键字段，默认 id。</param>
         public EntityMapper(string tableName, string description, string primaryKey = "id")
             : base(typeof(T), tableName, description, primaryKey)
         {
@@ -42,6 +73,12 @@ namespace Known.Mapping
                 .IsStringColumn("extension", "扩展属性");
         }
 
+        /// <summary>
+        /// 根据表达式获取实体栏位属性映射器。
+        /// </summary>
+        /// <typeparam name="TProperty">属性类型。</typeparam>
+        /// <param name="expression">获取属性表达式。</param>
+        /// <returns>实体栏位属性映射器。</returns>
         protected PropertyMapper Property<TProperty>(Expression<Func<T, TProperty>> expression)
         {
             var body = expression.Body.ToString();

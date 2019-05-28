@@ -1,0 +1,55 @@
+﻿using Known.Mapping;
+
+namespace Known.Core
+{
+    /// <summary>
+    /// 平台模块初始化者。
+    /// </summary>
+    public sealed class Initializer
+    {
+        /// <summary>
+        /// 初始化模块。
+        /// </summary>
+        /// <param name="context">程序上下文对象。</param>
+        public static void Initialize(Context context = null)
+        {
+            Container.Register<IJson, JsonProvider>();
+
+            InitPlatformRepository(context);
+            InitCoreModule(context);
+        }
+
+        private static void InitPlatformRepository(Context context = null)
+        {
+            //先判断外部是否已注册依赖
+            var repository = Container.Resolve<IPlatformRepository>();
+            if (repository != null)
+                return;
+
+            //外部没有注册依赖，则根据环境自动注册
+            var baseUrl = Setting.Instance.ApiPlatformUrl;
+            if (!string.IsNullOrWhiteSpace(baseUrl))
+            {
+                repository = new ApiPlatformRepository(baseUrl);
+                Container.Register<IPlatformRepository>(repository);
+            }
+            else
+            {
+                if (context == null)
+                {
+                    context = Context.Create();
+                }
+                repository = new PlatformRepository(context.Database);
+                Container.Register<IPlatformRepository>(repository);
+            }
+        }
+
+        private static void InitCoreModule(Context context)
+        {
+            var assembly = typeof(Initializer).Assembly;
+            EntityHelper.InitMapper(assembly);
+
+            Container.Register<ServiceBase>(assembly, context);
+        }
+    }
+}

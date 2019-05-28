@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Known.Platform
+namespace Known.Core
 {
     public class User
     {

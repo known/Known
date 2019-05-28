@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Known.Extensions;
 
-namespace Known.Platform
+namespace Known.Core
 {
     public class Code
     {

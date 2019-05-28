@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using Known.Extensions;
 
 namespace Known.Mapping
 {
+    /// <summary>
+    /// 实体帮助者类。
+    /// </summary>
     public sealed class EntityHelper
     {
         private static readonly ConcurrentDictionary<Type, EntityMapper> EntityMappers = new ConcurrentDictionary<Type, EntityMapper>();
@@ -15,6 +17,10 @@ namespace Known.Mapping
         private static readonly ConcurrentDictionary<Type, TableAttribute> TypeTables = new ConcurrentDictionary<Type, TableAttribute>();
         private static readonly ConcurrentDictionary<Type, List<ColumnInfo>> TypeColumns = new ConcurrentDictionary<Type, List<ColumnInfo>>();
 
+        /// <summary>
+        /// 初始化程序集中所有实体映射器，缓存实体所有数据库栏位信息。
+        /// </summary>
+        /// <param name="assembly">程序集对象。</param>
         public static void InitMapper(Assembly assembly)
         {
             if (assembly == null)
@@ -33,22 +39,42 @@ namespace Known.Mapping
             }
         }
 
+        /// <summary>
+        /// 根据指定的泛型获取数据库表名。
+        /// </summary>
+        /// <typeparam name="T">实体类型。</typeparam>
+        /// <returns>数据库表名。</returns>
         public static string GetTableName<T>()
         {
             return GetTableName(typeof(T));
         }
 
+        /// <summary>
+        /// 根据指定的类型获取数据库表名。
+        /// </summary>
+        /// <param name="type">实体类型。</param>
+        /// <returns>数据库表名。</returns>
         public static string GetTableName(Type type)
         {
             var attr = GetTableAttribute(type);
             return attr != null ? attr.TableName : type.Name;
         }
 
+        /// <summary>
+        /// 根据指定的泛型获取实体表属性。
+        /// </summary>
+        /// <typeparam name="T">实体类型。</typeparam>
+        /// <returns>实体表属性。</returns>
         public static TableAttribute GetTableAttribute<T>()
         {
             return GetTableAttribute(typeof(T));
         }
 
+        /// <summary>
+        /// 根据指定的类型获取实体表属性。
+        /// </summary>
+        /// <param name="type">实体类型。</param>
+        /// <returns>实体表属性。</returns>
         public static TableAttribute GetTableAttribute(Type type)
         {
             if (type == null)
@@ -75,11 +101,21 @@ namespace Known.Mapping
             return attr;
         }
 
+        /// <summary>
+        /// 根据指定的泛型获取实体表所有栏位信息。
+        /// </summary>
+        /// <typeparam name="T">实体类型。</typeparam>
+        /// <returns>栏位信息集合。</returns>
         public static List<ColumnInfo> GetColumnInfos<T>()
         {
             return GetColumnInfos(typeof(T));
         }
 
+        /// <summary>
+        /// 根据指定的类型获取实体表所有栏位信息。
+        /// </summary>
+        /// <param name="type">实体类型。</param>
+        /// <returns>栏位信息集合。</returns>
         public static List<ColumnInfo> GetColumnInfos(Type type)
         {
             if (type == null)
@@ -99,11 +135,21 @@ namespace Known.Mapping
             return columns;
         }
 
+        /// <summary>
+        /// 根据指定的泛型获取所有数据库栏位属性。
+        /// </summary>
+        /// <typeparam name="T">实体类型。</typeparam>
+        /// <returns>栏位属性集合。</returns>
         public static List<PropertyInfo> GetColumnProperties<T>()
         {
             return GetColumnProperties(typeof(T));
         }
 
+        /// <summary>
+        /// 根据指定的类型获取所有数据库栏位属性。
+        /// </summary>
+        /// <param name="type">实体类型。</param>
+        /// <returns>栏位属性集合。</returns>
         public static List<PropertyInfo> GetColumnProperties(Type type)
         {
             if (type == null)
@@ -122,6 +168,12 @@ namespace Known.Mapping
             return properties.ToList();
         }
 
+        /// <summary>
+        /// 验证实体所有属性的基本校验。
+        /// </summary>
+        /// <typeparam name="T">实体类型。</typeparam>
+        /// <param name="entity">实体对象。</param>
+        /// <returns>验证结果。</returns>
         public static Validator Validate<T>(T entity)
         {
             var infos = new List<ValidInfo>();
@@ -140,6 +192,12 @@ namespace Known.Mapping
             return new Validator(infos);
         }
 
+        /// <summary>
+        /// 给实体对象填充表单提交的数据。
+        /// </summary>
+        /// <typeparam name="T">实体类型。</typeparam>
+        /// <param name="entity">实体对象。</param>
+        /// <param name="model">表单模型。</param>
         public static void FillModel<T>(T entity, dynamic model)
         {
             var properties = GetColumnProperties<T>();
@@ -158,11 +216,6 @@ namespace Known.Mapping
                     property.SetValue(entity, value);
                 }
             }
-        }
-
-        public static Stream GetImportRule<T>()
-        {
-            return null;
         }
     }
 }

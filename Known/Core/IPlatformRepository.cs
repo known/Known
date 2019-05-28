@@ -5,7 +5,7 @@ using Known.Data;
 using Known.Extensions;
 using Known.Web;
 
-namespace Known.Platform
+namespace Known.Core
 {
     public interface IPlatformRepository
     {
