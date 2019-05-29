@@ -2,8 +2,16 @@
 
 namespace Known.Log
 {
+    /// <summary>
+    /// 控制台日志者。
+    /// </summary>
     public class ConsoleLogger : Logger, ILogger
     {
+        /// <summary>
+        /// 输出一行日志内容。
+        /// </summary>
+        /// <param name="level">日志级别。</param>
+        /// <param name="message">日志内容。</param>
         protected override void WriteLine(LogLevel level, string message)
         {
             var orgColor = Console.ForegroundColor;
