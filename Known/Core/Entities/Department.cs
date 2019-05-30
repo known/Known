@@ -2,10 +2,24 @@
 
 namespace Known.Core.Entities
 {
+    /// <summary>
+    /// 部门实体类。
+    /// </summary>
     public class Department : EntityBase
     {
+        /// <summary>
+        /// 取得或设置上级部门ID。
+        /// </summary>
         public string ParentId { get; set; }
+
+        /// <summary>
+        /// 取得或设置部门名称。
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// 取得或设置部门主管ID。
+        /// </summary>
         public string ManagerId { get; set; }
     }
 

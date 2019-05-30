@@ -2,11 +2,29 @@
 
 namespace Known.Core.Entities
 {
+    /// <summary>
+    /// 应用程序实体类。
+    /// </summary>
     public class Application : EntityBase
     {
+        /// <summary>
+        /// 取得或设置代码。
+        /// </summary>
         public string Code { get; set; }
+
+        /// <summary>
+        /// 取得或设置名称。
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// 取得或设置版本。
+        /// </summary>
         public string Version { get; set; }
+
+        /// <summary>
+        /// 取得或设置描述。
+        /// </summary>
         public string Description { get; set; }
     }
 

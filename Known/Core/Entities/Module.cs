@@ -1,21 +1,70 @@
 ﻿using Known.Mapping;
-using Known.Core;
 
 namespace Known.Core.Entities
 {
+    /// <summary>
+    /// 应用程序模块实体类。
+    /// </summary>
     public class Module : EntityBase
     {
+        /// <summary>
+        /// 取得或设置应用程序ID。
+        /// </summary>
         public string AppId { get; set; }
+
+        /// <summary>
+        /// 取得或设置上级模块ID。
+        /// </summary>
         public string ParentId { get; set; }
+
+        /// <summary>
+        /// 取得或设置代码。
+        /// </summary>
         public string Code { get; set; }
+
+        /// <summary>
+        /// 取得或设置名称。
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// 取得或设置描述。
+        /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// 取得或设置视图类型。
+        /// </summary>
         public ViewType ViewType { get; set; }
+
+        /// <summary>
+        /// 取得或设置地址。
+        /// </summary>
         public string Url { get; set; }
+
+        /// <summary>
+        /// 取得或设置图标。
+        /// </summary>
         public string Icon { get; set; }
+
+        /// <summary>
+        /// 取得或设置顺序。
+        /// </summary>
         public int Sort { get; set; }
+
+        /// <summary>
+        /// 取得或设置是否可用。
+        /// </summary>
         public bool Enabled { get; set; }
+
+        /// <summary>
+        /// 取得或设置按钮数据。
+        /// </summary>
         public string ButtonData { get; set; }
+
+        /// <summary>
+        /// 取得或设置字段数据。
+        /// </summary>
         public string FieldData { get; set; }
     }
 

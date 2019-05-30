@@ -2,9 +2,19 @@
 
 namespace Known.Core.Entities
 {
+    /// <summary>
+    /// 公司实体类。
+    /// </summary>
     public class Company : EntityBase
     {
+        /// <summary>
+        /// 取得或设置上级公司ID。
+        /// </summary>
         public string ParentId { get; set; }
+
+        /// <summary>
+        /// 取得或设置公司名称。
+        /// </summary>
         public string Name { get; set; }
     }
 
