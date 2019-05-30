@@ -7,6 +7,9 @@ using System.IO;
 
 namespace Known.Cells
 {
+    /// <summary>
+    /// Sheet 页操作类。
+    /// </summary>
     public class Sheet
     {
         private DataColumnCollection columns;
@@ -21,31 +24,72 @@ namespace Known.Cells
         }
 
         internal ISheet InnerSheet { get; }
+
+        /// <summary>
+        /// 取得 Sheet 页的索引序号。
+        /// </summary>
         public int Index { get; }
+
+        /// <summary>
+        /// 取得 Sheet 页的名称。
+        /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// 取得 Sheet 页的数据列数。
+        /// </summary>
         public int ColumnCount { get; }
+
+        /// <summary>
+        /// 取得 Sheet 页的数据行数。
+        /// </summary>
         public int RowCount { get; }
 
+        /// <summary>
+        /// 复制 Excel 中的指定名称的 Sheet 页。
+        /// </summary>
+        /// <param name="sourceSheet">源 Sheet 页对象。</param>
         public void Copy(Sheet sourceSheet)
         {
             InnerSheet.Copy(sourceSheet.Index);
         }
 
-        public void Copy(string sourceSheetName)
+        /// <summary>
+        /// 复制 Excel 中的指定名称的 Sheet 页。
+        /// </summary>
+        /// <param name="sourceName">源 Sheet 页名称。</param>
+        public void Copy(string sourceName)
         {
-            InnerSheet.Copy(sourceSheetName);
+            InnerSheet.Copy(sourceName);
         }
 
-        public void CopyRange(int sourceFirstRow, int targetFirstRow, int number)
+        /// <summary>
+        /// 复制指定范围的单元格。
+        /// </summary>
+        /// <param name="sourceFirstIndex">源首行/列号。</param>
+        /// <param name="targetFirstIndex">目的首行/列号。</param>
+        /// <param name="number">行/列数。</param>
+        public void CopyRange(int sourceFirstIndex, int targetFirstIndex, int number)
         {
-            InnerSheet.CopyRange(sourceFirstRow, targetFirstRow, number);
+            InnerSheet.CopyRange(sourceFirstIndex, targetFirstIndex, number);
         }
 
+        /// <summary>
+        /// 复制指定范围的行。
+        /// </summary>
+        /// <param name="sourceFirstRow">源首行号。</param>
+        /// <param name="targetFirstRow">目的首行号。</param>
+        /// <param name="number">行数。</param>
         public void CopyRows(int sourceFirstRow, int targetFirstRow, int number)
         {
             InnerSheet.CopyRows(sourceFirstRow, targetFirstRow, number);
         }
 
+        /// <summary>
+        /// 在指定行序号位置插入多个新行。
+        /// </summary>
+        /// <param name="rowIndex">行序号。</param>
+        /// <param name="totalRows">插入的行数。</param>
         public void InsertRows(int rowIndex, int totalRows)
         {
             InnerSheet.InsertRows(rowIndex, totalRows);
@@ -120,6 +164,12 @@ namespace Known.Cells
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="firstRow"></param>
+        /// <param name="asString">是否以字符格式导出。</param>
+        /// <returns></returns>
         public DataTable ExportData(int firstRow = 0, bool asString = true)
         {
             return ExportData(firstRow, 0, asString);
