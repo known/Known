@@ -4,7 +4,7 @@ using System.IO;
 namespace Known.Cells
 {
     /// <summary>
-    /// Excel Sheet 页操作接口。
+    /// Sheet 页操作接口。
     /// </summary>
     public interface ISheet
     {
