@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.IO;
 using System.Linq;
 
@@ -16,17 +15,17 @@ namespace Known.Cells
         /// 创建一个 Excel 操作类的实例。
         /// </summary>
         /// <param name="provider">Excel 操作接口提供者。</param>
-        public Excel(IExcel provider) : this(provider, "") { }
+        public Excel(IExcel provider = null) : this("", provider) { }
 
         /// <summary>
         /// 创建一个 Excel 操作类的实例。
         /// </summary>
-        /// <param name="provider">Excel 操作接口提供者。</param>
         /// <param name="fileName">Excel 文件路径。</param>
-        public Excel(IExcel provider, string fileName)
+        /// <param name="provider">Excel 操作接口提供者。</param>
+        public Excel(string fileName, IExcel provider = null)
         {
             this.fileName = fileName;
-            Provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            Provider = provider ?? new AsposeExcel();
             Provider.Open(fileName);
             Sheets = new SheetCollection(this);
         }
@@ -34,11 +33,11 @@ namespace Known.Cells
         /// <summary>
         /// 创建一个 Excel 操作类的实例。
         /// </summary>
-        /// <param name="provider">Excel 操作接口提供者。</param>
         /// <param name="stream">Excel 文件流。</param>
-        public Excel(IExcel provider, Stream stream)
+        /// <param name="provider">Excel 操作接口提供者。</param>
+        public Excel(Stream stream, IExcel provider = null)
         {
-            Provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            Provider = provider ?? new AsposeExcel();
             Provider.Open(stream);
             Sheets = new SheetCollection(this);
         }

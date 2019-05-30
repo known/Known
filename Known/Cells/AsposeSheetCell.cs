@@ -2,9 +2,9 @@
 
 namespace Known.Cells
 {
-    public class AsposeSheetCell : ISheetCell
+    class AsposeSheetCell : ISheetCell
     {
-        private Cell cell;
+        private readonly Cell cell;
 
         public AsposeSheetCell(Cell cell)
         {

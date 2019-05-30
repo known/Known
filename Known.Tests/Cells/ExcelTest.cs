@@ -6,8 +6,7 @@ namespace Known.Tests.Cells
     {
         public static void Constructor1()
         {
-            var provider = new AsposeExcel();
-            var excel = new Excel(provider);
+            var excel = new Excel();
             TestAssert.IsNotNull(excel);
             TestAssert.AreEqual(excel.Sheets.Count, 0);
         }
