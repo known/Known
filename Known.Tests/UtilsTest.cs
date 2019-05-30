@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Known.Tests.Core
+namespace Known.Tests
 {
     public class UtilsTest
     {

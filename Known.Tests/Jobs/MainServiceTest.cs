@@ -1,6 +1,6 @@
 ﻿using Known.Jobs;
 
-namespace Known.Tests.Core.Jobs
+namespace Known.Tests.Jobs
 {
     public class MainServiceTest
     {

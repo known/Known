@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Known.Tests.WebMvc
+namespace Known.Tests.Core
 {
-    public class BaseControllerTest
+    public class AppStartTest
     {
     }
 }

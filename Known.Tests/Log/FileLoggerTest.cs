@@ -2,7 +2,7 @@
 using System.IO;
 using Known.Log;
 
-namespace Known.Tests.Core.Log
+namespace Known.Tests.Log
 {
     public class FileLoggerTest
     {

@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Known.Extensions;
 
-namespace Known.Tests.Core.Extensions
+namespace Known.Tests.Extensions
 {
     public class CollectionExtensionTest
     {

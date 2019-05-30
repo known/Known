@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace Known.Tests.Core
+namespace Known.Tests
 {
     public class ServiceExecuterTest
     {
         public static void Execute()
         {
-            Container.Clear();
+            Container.Remove<ServiceBase>();
             Container.Register<ServiceBase>(typeof(Program).Assembly, Context.Create());
 
             var executer = new ServiceExecuter("Known", "Context", "SayHello");

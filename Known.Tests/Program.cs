@@ -8,25 +8,28 @@ namespace Known.Tests
     {
         static void Main(string[] args)
         {
+            var assembly = typeof(Program).Assembly;
             Container.Register<IJson, JsonProvider>();
-            Container.Register<ServiceBase>(typeof(Program).Assembly, Context.Create());
-            EntityHelper.InitMapper(typeof(Program).Assembly);
+            Container.Register<ServiceBase>(assembly, Context.Create());
+            EntityHelper.InitMapper(assembly);
 
-            RunTest();
+            RunTest(assembly);
+
             TestDisplayer.DisplaySummary();
+
             Console.WriteLine("按任意键结束！");
             Console.ReadKey();
         }
 
-        static void RunTest()
+        static void RunTest(Assembly assembly)
         {
-            var assembly = Assembly.GetExecutingAssembly();
             var types = assembly.GetExportedTypes();
             TestDisplayer.WriteLine(ConsoleColor.Yellow, new string('-', 100));
             TestDisplayer.WriteLine("|");
             TestDisplayer.WriteLine($"|\t共有{types.Length}个测试类");
             TestDisplayer.WriteLine("|");
             TestDisplayer.WriteLine(ConsoleColor.Yellow, new string('-', 100));
+
             foreach (var type in types)
             {
                 if (!type.Name.EndsWith("Test"))
@@ -37,6 +40,7 @@ namespace Known.Tests
                     continue;
 
                 TestDisplayer.WriteLine($"开始测试{type.Name}");
+
                 foreach (var item in methods)
                 {
                     TestDisplayer.WriteLine($"开始测试 {item.Name}");
@@ -49,6 +53,7 @@ namespace Known.Tests
                         TestDisplayer.WriteLine(ex.ToString());
                     }
                 }
+
                 TestDisplayer.WriteLine(ConsoleColor.Yellow, new string('-', 100));
             }
         }

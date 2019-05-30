@@ -1,4 +1,4 @@
-﻿namespace Known.Tests.Core
+﻿namespace Known.Tests
 {
     public class ObjectFactoryTest
     {
@@ -16,7 +16,7 @@
             var repository = ObjectFactory.CreateRepository<IContextRepository>(context);
             TestAssert.IsNotNull(repository);
 
-            Container.Clear();
+            Container.Remove<IContextRepository>();
             Container.Register<IContextRepository, ContextRepository>();
             repository = ObjectFactory.CreateRepository<IContextRepository>(context);
             TestAssert.IsNotNull(repository);

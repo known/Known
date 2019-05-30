@@ -1,6 +1,6 @@
 ﻿using Known.Cells;
 
-namespace Known.Tests.Core.Cells
+namespace Known.Tests.Cells
 {
     public class ExcelTest
     {

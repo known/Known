@@ -1,7 +1,7 @@
 ﻿using Known.Data;
 using Known.Log;
 
-namespace Known.Tests.Core
+namespace Known.Tests
 {
     public class ContextTest
     {

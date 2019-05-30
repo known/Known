@@ -1,10 +1,12 @@
-﻿namespace Known.Tests.Core
+﻿using System.Reflection;
+
+namespace Known.Tests
 {
     public class ContainerTest
     {
         public static void Register()
         {
-            Container.Clear();
+            Container.Remove<ITestService>();
             Container.Register<ITestService, TestService>();
 
             var service = Container.Resolve<ITestService>();
@@ -13,7 +15,7 @@
 
         public static void RegisterInstance()
         {
-            Container.Clear();
+            Container.Remove<INameTestService>();
 
             var instance = new NameTestService("Known");
             Container.Register<INameTestService>(instance);
@@ -24,8 +26,10 @@
 
         public static void RegisterAssembly()
         {
-            Container.Clear();
-            Container.Register<BaseService>(typeof(ContainerTest).Assembly);
+            var assembly = typeof(ContainerTest).Assembly;
+            ClearRegisterAssembly<BaseService>(assembly);
+
+            Container.Register<BaseService>(assembly);
 
             var service = Container.Resolve<TestService>();
             TestAssert.IsNotNull(service);
@@ -36,8 +40,10 @@
 
         public static void RegisterAssemblyWithArgs()
         {
-            Container.Clear();
-            Container.Register<BaseService>(typeof(ContainerTest).Assembly, "Known");
+            var assembly = typeof(ContainerTest).Assembly;
+            ClearRegisterAssembly<BaseService>(assembly);
+
+            Container.Register<BaseService>(assembly, "Known");
 
             var service = Container.Resolve<TestService>();
             TestAssert.IsNotNull(service);
@@ -48,7 +54,7 @@
 
         public static void Resolve()
         {
-            Container.Clear();
+            Container.Remove<ITestService>();
             Container.Register<ITestService, TestService>();
 
             var service = Container.Resolve<ITestService>();
@@ -57,7 +63,7 @@
 
         public static void ResolveInstance()
         {
-            Container.Clear();
+            Container.Remove<INameTestService>();
 
             var instance = new NameTestService("Known");
             Container.Register<INameTestService>(instance);
@@ -68,8 +74,10 @@
 
         public static void ResolveAssembly()
         {
-            Container.Clear();
-            Container.Register<BaseService>(typeof(ContainerTest).Assembly);
+            var assembly = typeof(ContainerTest).Assembly;
+            ClearRegisterAssembly<BaseService>(assembly);
+
+            Container.Register<BaseService>(assembly);
 
             var service = Container.Resolve<TestService>();
             TestAssert.AreEqual(service.Hello(), "Hello!");
@@ -80,14 +88,27 @@
 
         public static void ResolveAssemblyWithArgs()
         {
-            Container.Clear();
-            Container.Register<BaseService>(typeof(ContainerTest).Assembly, "Known");
+            var assembly = typeof(ContainerTest).Assembly;
+            ClearRegisterAssembly<BaseService>(assembly);
+
+            Container.Register<BaseService>(assembly, "Known");
 
             var service = Container.Resolve<TestService>();
             TestAssert.AreEqual(service.Hello(), "Hello!");
 
             var nameService = Container.Resolve<NameTestService>();
             TestAssert.AreEqual(nameService.Hello(), "Hello Known!");
+        }
+
+        private static void ClearRegisterAssembly<T>(Assembly assembly)
+        {
+            foreach (var type in assembly.GetTypes())
+            {
+                if (type.IsSubclassOf(typeof(T)) && !type.IsAbstract)
+                {
+                    Container.Remove(type.Name);
+                }
+            }
         }
     }
 }

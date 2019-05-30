@@ -20,6 +20,36 @@ namespace Known
         }
 
         /// <summary>
+        /// 移除缓存中指定泛型类型的对象实例。
+        /// </summary>
+        /// <typeparam name="T">对象类型。</typeparam>
+        public static void Remove<T>()
+        {
+            var key = typeof(T);
+            if (cached.ContainsKey(key))
+            {
+                cached.Remove(key);
+                return;
+            }
+
+            var key1 = typeof(T).Name;
+            if (cached.ContainsKey(key1))
+                cached.Remove(key1);
+        }
+
+        /// <summary>
+        /// 移除缓存中指定类型名称的对象实例。
+        /// </summary>
+        /// <param name="name">对象类型名称。</param>
+        public static void Remove(string name)
+        {
+            if (cached.ContainsKey(name))
+            {
+                cached.Remove(name);
+            }
+        }
+
+        /// <summary>
         /// 获取指定泛型类型的对象实例。
         /// </summary>
         /// <typeparam name="T">对象类型。</typeparam>
@@ -84,7 +114,7 @@ namespace Known
         /// <summary>
         /// 注册程序集中所有实现 T 的类型对象实例。
         /// </summary>
-        /// <typeparam name="T">对象类型。</typeparam>
+        /// <typeparam name="T">对象基类类型。</typeparam>
         /// <param name="assembly">程序集。</param>
         /// <param name="args">构造函数参数。</param>
         public static void Register<T>(Assembly assembly, params object[] args)

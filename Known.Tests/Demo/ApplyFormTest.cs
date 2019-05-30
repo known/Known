@@ -51,7 +51,7 @@ namespace Known.Tests.Demo
             var result = Service.SaveApplyForm(null);
             TestAssert.AreEqual(result.Message, "不能提交空数据！");
 
-            var form = new ApplyForm
+            var form = new
             {
                 Id = "",
                 FormNo = "test",

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Known.Extensions;
+﻿using Known.Extensions;
 
-namespace Known.Tests.Core.Extensions
+namespace Known.Tests.Extensions
 {
     public class EnumExtensionTest
     {

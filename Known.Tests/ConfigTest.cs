@@ -1,4 +1,4 @@
-﻿namespace Known.Tests.Core
+﻿namespace Known.Tests
 {
     public class ConfigTest
     {
