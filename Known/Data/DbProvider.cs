@@ -6,9 +6,9 @@ using System.Data.Common;
 
 namespace Known.Data
 {
-    public class DbProvider : IDbProvider
+    class DbProvider : IDbProvider
     {
-        private DbProviderFactory factory;
+        private readonly DbProviderFactory factory;
         private IDbConnection conn;
         private IDbTransaction trans;
 
