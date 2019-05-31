@@ -197,7 +197,7 @@ namespace Known.Cells
         void UnMerge(int firstRow, int firstColumn, int totalRows, int totalColumns);
 
         /// <summary>
-        /// 设置单元格内容对齐方式。
+        /// 设置指定单元格的内容对齐方式。
         /// </summary>
         /// <param name="row">行序号。</param>
         /// <param name="column">列序号。</param>
