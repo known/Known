@@ -6,8 +6,18 @@ using Known.Mapping;
 
 namespace Known.Data
 {
+    /// <summary>
+    /// 自动映射者类。
+    /// </summary>
     public sealed class AutoMapper
     {
+        /// <summary>
+        /// 将 TSource 类型对象转成 T 类型的对象，只转两个类型相同属性名的栏位。
+        /// </summary>
+        /// <typeparam name="T">目标类型。</typeparam>
+        /// <typeparam name="TSource">源类型。</typeparam>
+        /// <param name="source">源类型对象。</param>
+        /// <returns>目标类型对象。</returns>
         public static T MapTo<T, TSource>(TSource source)
         {
             if (source == null)
@@ -17,6 +27,13 @@ namespace Known.Data
             return json.FromJson<T>();
         }
 
+        /// <summary>
+        /// 将 TSource 类型集合对象转成 T 类型集合的对象，只转两个类型相同属性名的栏位。
+        /// </summary>
+        /// <typeparam name="T">目标类型。</typeparam>
+        /// <typeparam name="TSource">源类型。</typeparam>
+        /// <param name="sources">源类型对象集合。</param>
+        /// <returns>目标类型对象集合。</returns>
         public static List<T> MapToList<T, TSource>(List<TSource> sources)
         {
             if (sources == null || sources.Count == 0)
@@ -26,14 +43,14 @@ namespace Known.Data
             return json.FromJson<List<T>>();
         }
 
-        public static T GetBaseEntity<T>(DataRow row) where T : EntityBase
+        internal static T GetBaseEntity<T>(DataRow row) where T : EntityBase
         {
             var entity = GetEntity<T>(row);
             entity.IsNew = false;
             return entity;
         }
 
-        public static List<T> GetBaseEntities<T>(DataTable data) where T : EntityBase
+        internal static List<T> GetBaseEntities<T>(DataTable data) where T : EntityBase
         {
             if (data == null || data.Rows.Count == 0)
                 return null;
@@ -46,7 +63,7 @@ namespace Known.Data
             return lists;
         }
 
-        public static T GetEntity<T>(DataRow row)
+        internal static T GetEntity<T>(DataRow row)
         {
             if (row == null)
                 return default;
@@ -65,7 +82,7 @@ namespace Known.Data
             return entity;
         }
 
-        public static List<T> GetEntities<T>(DataTable data)
+        internal static List<T> GetEntities<T>(DataTable data)
         {
             if (data == null || data.Rows.Count == 0)
                 return null;

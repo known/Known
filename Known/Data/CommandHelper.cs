@@ -7,7 +7,7 @@ using Known.Mapping;
 
 namespace Known.Data
 {
-    public sealed class CommandHelper
+    sealed class CommandHelper
     {
         private static readonly ConcurrentDictionary<string, IEnumerable<PropertyInfo>> CachedProperties = new ConcurrentDictionary<string, IEnumerable<PropertyInfo>>();
 

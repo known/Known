@@ -3,9 +3,12 @@ using System.Data;
 
 namespace Known.Data
 {
+    /// <summary>
+    /// 数据行信息类。
+    /// </summary>
     public class DataRowInfo : Dictionary<string, object>
     {
-        public DataRowInfo(string tableName, string keyFields)
+        internal DataRowInfo(string tableName, string keyFields)
             : this(tableName, keyFields, true)
         {
         }
@@ -17,8 +20,19 @@ namespace Known.Data
             IsNew = isNew;
         }
 
+        /// <summary>
+        /// 取得数据表名。
+        /// </summary>
         public string TableName { get; }
+
+        /// <summary>
+        /// 取得关键字字段。
+        /// </summary>
         public string KeyFields { get; }
+
+        /// <summary>
+        /// 取得是否为新增数据行。
+        /// </summary>
         public bool IsNew { get; }
 
         internal static DataRowInfo Load(string tableName, string keyFields, DataRow row)
@@ -31,6 +45,7 @@ namespace Known.Data
             {
                 info[item.ColumnName] = row[item];
             }
+
             return info;
         }
     }
