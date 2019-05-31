@@ -3,8 +3,18 @@ using System.Xml;
 
 namespace Known.Extensions
 {
+    /// <summary>
+    /// 字符串扩展类。
+    /// </summary>
     public static class StringExtension
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="format"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static StringBuilder AppendLine(this StringBuilder sb, string format, params object[] args)
         {
             return sb.AppendLine(string.Format(format, args));

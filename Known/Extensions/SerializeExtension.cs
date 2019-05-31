@@ -7,8 +7,17 @@ using System.Xml.Serialization;
 
 namespace Known.Extensions
 {
+    /// <summary>
+    /// 对象序列化扩展类。
+    /// </summary>
     public static class SerializeExtension
     {
+        /// <summary>
+        /// 获取指定类型对象的 JSON 字符串。
+        /// </summary>
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <param name="value">对象。</param>
+        /// <returns>JSON 字符串。</returns>
         public static string ToJson<T>(this T value)
         {
             if (value == null)
@@ -21,6 +30,12 @@ namespace Known.Extensions
             return provider.Serialize(value);
         }
 
+        /// <summary>
+        /// 获取 JSON 反序列化后的指定类型的对象。
+        /// </summary>
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <param name="json">JSON 字符串。</param>
+        /// <returns>反序列化后的对象。</returns>
         public static T FromJson<T>(this string json)
         {
             if (string.IsNullOrWhiteSpace(json))
@@ -33,6 +48,11 @@ namespace Known.Extensions
             return provider.Deserialize<T>(json);
         }
 
+        /// <summary>
+        /// 获取指定对象的 XML 字符串。
+        /// </summary>
+        /// <param name="value">对象。</param>
+        /// <returns>XML 字符串。</returns>
         public static string ToXml(this object value)
         {
             if (value == null)
@@ -64,6 +84,12 @@ namespace Known.Extensions
             }
         }
 
+        /// <summary>
+        /// 获取 XML 反序列化后的指定类型的对象。
+        /// </summary>
+        /// <typeparam name="T">对象类型。</typeparam>
+        /// <param name="xml">XML 字符串。</param>
+        /// <returns>反序列化后的对象。</returns>
         public static T FromXml<T>(this string xml) where T : class
         {
             if (string.IsNullOrWhiteSpace(xml))
@@ -77,6 +103,11 @@ namespace Known.Extensions
             }
         }
 
+        /// <summary>
+        /// 获取指定对象的序列化字节。
+        /// </summary>
+        /// <param name="value">对象。</param>
+        /// <returns>对象的序列化字节。</returns>
         public static byte[] ToBytes(this object value)
         {
             if (value == null)
@@ -94,6 +125,11 @@ namespace Known.Extensions
             return bytes;
         }
 
+        /// <summary>
+        /// 获取字节反序列化后的对象。
+        /// </summary>
+        /// <param name="buffer">反序列化字节。</param>
+        /// <returns>反序列化后的对象。</returns>
         public static object FromBytes(this byte[] buffer)
         {
             if (buffer == null)
