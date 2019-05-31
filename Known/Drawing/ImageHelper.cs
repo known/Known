@@ -8,18 +8,40 @@ using System.Linq;
 
 namespace Known.Drawing
 {
+    /// <summary>
+    /// 图片帮助者类。
+    /// </summary>
     public sealed class ImageHelper
     {
+        /// <summary>
+        /// 创建指定内容的条形码。
+        /// </summary>
+        /// <param name="provider">条形码提供者对象。</param>
+        /// <param name="content">条形码内容。</param>
+        /// <returns>条形码图片。</returns>
         public static Bitmap CreateBarCode(IBarCodeProvider provider, string content)
         {
             return provider.CreateBarCode(content);
         }
 
+        /// <summary>
+        /// 获取条形码图片的内容。
+        /// </summary>
+        /// <param name="provider">条形码提供者对象。</param>
+        /// <param name="bitmap">条形码图片。</param>
+        /// <returns>条形码内容。</returns>
         public static string GetBarCodeContent(IBarCodeProvider provider, Bitmap bitmap)
         {
             return provider.GetBarCodeContent(bitmap);
         }
 
+        /// <summary>
+        /// 创建指定内容的二维码。
+        /// </summary>
+        /// <param name="provider">二维码提供者对象。</param>
+        /// <param name="content">二维码内容。</param>
+        /// <param name="logoFile">二维码中间 LOGO 文件路径，默认空。</param>
+        /// <returns>二维码图片。</returns>
         public static Bitmap CreateQrCode(IBarCodeProvider provider, string content, string logoFile = null)
         {
             var image = provider.CreateQrCode(content);
@@ -38,11 +60,24 @@ namespace Known.Drawing
             return image;
         }
 
+        /// <summary>
+        /// 获取二维码图片的内容。
+        /// </summary>
+        /// <param name="provider">二维码提供者对象。</param>
+        /// <param name="bitmap">二维码图片。</param>
+        /// <returns>二维码内容。</returns>
         public static string GetQrCodeContent(IBarCodeProvider provider, Bitmap bitmap)
         {
             return provider.GetQrCodeContent(bitmap);
         }
 
+        /// <summary>
+        /// 生成随机验证码图片。
+        /// </summary>
+        /// <param name="length">验证码长度。</param>
+        /// <param name="code">验证码内容。</param>
+        /// <param name="provider">验证码提供者对象，默认空。</param>
+        /// <returns>验证码图片字节。</returns>
         public static byte[] CreateCaptcha(int length, out string code, ICaptchaProvider provider = null)
         {
             if (provider == null)
@@ -52,10 +87,16 @@ namespace Known.Drawing
             return provider.GenerateImage(code);
         }
 
+        /// <summary>
+        /// 旋转图片。
+        /// </summary>
+        /// <param name="fileName">图片文件路径。</param>
+        /// <param name="angle">旋转角度，正数表示顺时针，负数表示逆时针。</param>
+        /// <returns>旋转后的图片。</returns>
         public static Image RotateImage(string fileName, int angle)
         {
             var b = Image.FromFile(fileName);
-            angle = angle % 360;
+            angle %= 360;
 
             var radian = angle * Math.PI / 180.0;
             var cos = Math.Cos(radian);
@@ -87,6 +128,13 @@ namespace Known.Drawing
             return dsImage;
         }
 
+        /// <summary>
+        /// 调整图片的大小。
+        /// </summary>
+        /// <param name="source">源图片对象。</param>
+        /// <param name="width">调整后的宽度。</param>
+        /// <param name="height">调整后的高度。</param>
+        /// <returns>调整后的图片。</returns>
         public static Image ResizeImage(Image source, int width, int height)
         {
             if (source == null)
@@ -103,6 +151,12 @@ namespace Known.Drawing
             return target;
         }
 
+        /// <summary>
+        /// 保存剪切图。
+        /// </summary>
+        /// <param name="stream">源图片文件流。</param>
+        /// <param name="fileName">保存剪切后的文件路径。</param>
+        /// <param name="option">剪切图片的选择。</param>
         public static void SaveCutImage(Stream stream, string fileName, ImageOption option)
         {
             if (string.IsNullOrWhiteSpace(fileName))
@@ -125,6 +179,12 @@ namespace Known.Drawing
             }
         }
 
+        /// <summary>
+        /// 保存图片的缩略图。
+        /// </summary>
+        /// <param name="stream">源图片文件流。</param>
+        /// <param name="fileName">缩略图文件路径。</param>
+        /// <param name="option">缩略图选项。</param>
         public static void SaveThumbnail(Stream stream, string fileName, ImageOption option)
         {
             if (string.IsNullOrWhiteSpace(fileName))
@@ -167,14 +227,22 @@ namespace Known.Drawing
             image = null;
         }
 
+        /// <summary>
+        /// 保存图片的缩略图。
+        /// </summary>
+        /// <param name="sourceFile">源图片文件路径。</param>
+        /// <param name="destFile">目标图片文件路径。</param>
+        /// <param name="destWidth">目标图片宽度。</param>
+        /// <param name="destHeight">目标图片高度。</param>
+        /// <param name="rate">图标图片质量，1-100之间的数。</param>
+        /// <returns>是否保存成功。</returns>
         public static bool SaveThumbnail(string sourceFile, string destFile, int destWidth, int destHeight, int rate)
         {
             var iSource = Image.FromFile(sourceFile);
             var tFormat = iSource.RawFormat;
-            int sW = 0, sH = 0;
-
             var tem_size = new Size(iSource.Width, iSource.Height);
-
+            int sW;
+            int sH;
             if (tem_size.Width > destHeight || tem_size.Width > destWidth)
             {
                 if ((tem_size.Width * destHeight) > (tem_size.Height * destWidth))
@@ -245,6 +313,11 @@ namespace Known.Drawing
             }
         }
 
+        /// <summary>
+        /// 将 Tiff 格式文件转成 Jpg 格式。
+        /// </summary>
+        /// <param name="tifFile">tiff 文件路径。</param>
+        /// <param name="jpgFile">jpg 文件路径。</param>
         public static void TiffToJpg(string tifFile, string jpgFile)
         {
             var files = new List<string>();
@@ -276,6 +349,12 @@ namespace Known.Drawing
             files.ForEach(f => File.Delete(f));
         }
 
+        /// <summary>
+        /// 合并多个图片。
+        /// </summary>
+        /// <param name="sourceFiles">源图片文件列表。</param>
+        /// <param name="destFile">目标图片文件路径。</param>
+        /// <param name="mergeType">合并方向，默认纵向。</param>
         public static void CombineImages(List<string> sourceFiles, string destFile, ImageMergeOrientation mergeType = ImageMergeOrientation.Vertical)
         {
             var finalImage = destFile;

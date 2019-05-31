@@ -6,9 +6,23 @@ using System.IO;
 
 namespace Known.Drawing
 {
+    /// <summary>
+    /// 验证码提供者接口。
+    /// </summary>
     public interface ICaptchaProvider
     {
+        /// <summary>
+        /// 获取指定长度的随机码字符串。
+        /// </summary>
+        /// <param name="length">随机码长度。</param>
+        /// <returns>随机码字符串。</returns>
         string GetRandomCode(int length);
+
+        /// <summary>
+        /// 生成随机码图片，返回图片字节。
+        /// </summary>
+        /// <param name="code">随机码字符串。</param>
+        /// <returns>随机码图片字节。</returns>
         byte[] GenerateImage(string code);
     }
 
