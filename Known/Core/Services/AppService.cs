@@ -1,6 +1,6 @@
 ﻿namespace Known.Core.Services
 {
-    public class AppService : ServiceBase
+    class AppService : ServiceBase
     {
         public AppService(Context context) : base(context)
         {

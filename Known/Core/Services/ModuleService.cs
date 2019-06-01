@@ -5,7 +5,7 @@ using Known.Mapping;
 
 namespace Known.Core.Services
 {
-    public class ModuleService : CoreServiceBase<IModuleRepository>
+    class ModuleService : CoreServiceBase<IModuleRepository>
     {
         public ModuleService(Context context) : base(context)
         {

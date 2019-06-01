@@ -1,6 +1,6 @@
 ﻿namespace Known.Core.Services
 {
-    public class DevToolService : ServiceBase
+    class DevToolService : ServiceBase
     {
         public DevToolService(Context context) : base(context)
         {

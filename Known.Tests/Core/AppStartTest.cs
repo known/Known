@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Known.Core;
 
 namespace Known.Tests.Core
 {
     public class AppStartTest
     {
+        public static void Start()
+        {
+            var context = Context.Create();
+            Initializer.Initialize(context);
+        }
     }
 }
