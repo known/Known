@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Known.Data;
 using Known.Mapping;
 
 namespace Known.Tests
@@ -10,6 +11,7 @@ namespace Known.Tests
         {
             var assembly = typeof(Program).Assembly;
             Container.Register<IJson, JsonProvider>();
+            Container.Register<IDbProvider, TestDbProvider>();
             Container.Register<ServiceBase>(assembly, Context.Create());
             EntityHelper.InitMapper(assembly);
 
