@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Known.Extensions;
 
 namespace Known.Mapping
 {
@@ -128,9 +127,9 @@ namespace Known.Mapping
                 return columns;
 
             var attrTable = GetTableAttribute(type);
-            columns = type.GetColumnProperties()
-                          .Select(p => new ColumnInfo(p, attrTable.PrimaryKeys))
-                          .ToList();
+            columns = GetColumnProperties(type)
+                .Select(p => new ColumnInfo(p, attrTable.PrimaryKeys))
+                .ToList();
             TypeColumns[type] = columns;
             return columns;
         }
@@ -162,7 +161,8 @@ namespace Known.Mapping
                 return pis.ToList();
 
             var properties = type.GetProperties()
-                                 .Where(p => p.CanRead && p.CanWrite && !(p.SetMethod.IsVirtual && !p.SetMethod.IsFinal))
+                                 .Where(p => p.CanRead && p.CanWrite
+                                 && !(p.SetMethod.IsVirtual && !p.SetMethod.IsFinal))
                                  .ToList();
             ColumnProperties[type] = properties;
             return properties.ToList();

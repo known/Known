@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Text;
 using Known.Extensions;
 
 namespace Known.Tests.Extensions
 {
     public class StringExtensionTest
     {
-        public static void AppendLine()
-        {
-            var sb = new StringBuilder();
-            sb.AppendLine("{0}不能为空！", "Item1");
-            TestAssert.AreEqual(sb.ToString(), "Item1不能为空！" + Environment.NewLine);
-        }
-
         public static void ByteLength()
         {
             var value = "Item1不能为空！";
