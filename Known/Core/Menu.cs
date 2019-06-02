@@ -13,7 +13,7 @@ namespace Known.Core
         public bool expanded { get; set; }
         public List<Menu> children { get; set; }
 
-        public static List<Menu> GetUserMenus(PlatformService service, string userName)
+        internal static List<Menu> GetUserMenus(PlatformService service, string userName)
         {
             var menus = new List<Menu>();
             var modules = service.GetUserModules(userName);
@@ -33,7 +33,7 @@ namespace Known.Core
             return menus;
         }
 
-        public static List<Menu> GetTreeMenus(PlatformService service)
+        internal static List<Menu> GetTreeMenus(PlatformService service)
         {
             var menus = new List<Menu>();
             menus.Add(new Menu

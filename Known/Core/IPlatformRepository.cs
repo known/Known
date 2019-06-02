@@ -7,15 +7,65 @@ using Known.Web;
 
 namespace Known.Core
 {
+    /// <summary>
+    /// 平台数据仓库接口。
+    /// </summary>
     public interface IPlatformRepository
     {
+        /// <summary>
+        /// 获取指定应用程序的 API 接口根地址。
+        /// </summary>
+        /// <param name="apiId">应用程序 ID。</param>
+        /// <returns>API 接口根地址。</returns>
         string GetApiBaseUrl(string apiId);
+
+        /// <summary>
+        /// 获取指定应用程序的系统代码列表。
+        /// </summary>
+        /// <param name="appId">应用程序 ID。</param>
+        /// <returns>系统代码列表。</returns>
         Dictionary<string, object> GetCodes(string appId);
+
+        /// <summary>
+        /// 获取模块信息对象。
+        /// </summary>
+        /// <param name="id">模块 ID。</param>
+        /// <returns>模块信息对象。</returns>
         Module GetModule(string id);
+
+        /// <summary>
+        /// 获取指定应用程序的模块信息对象列表。
+        /// </summary>
+        /// <param name="appId">应用程序 ID。</param>
+        /// <returns>模块信息对象列表。</returns>
         List<Module> GetModules(string appId);
+
+        /// <summary>
+        /// 获取指定应用程序和登录用户的模块信息对象列表。
+        /// </summary>
+        /// <param name="appId">应用程序 ID。</param>
+        /// <param name="userName">登录用户名。</param>
+        /// <returns>模块信息对象列表。</returns>
         List<Module> GetUserModules(string appId, string userName);
+
+        /// <summary>
+        /// 获取指定用户名的用户信息对象。
+        /// </summary>
+        /// <param name="userName">登录用户名。</param>
+        /// <returns>用户信息对象。</returns>
         User GetUser(string userName);
+
+        /// <summary>
+        /// 获取指定用户身份票据的用户信息对象。
+        /// </summary>
+        /// <param name="token">用户身份票据。</param>
+        /// <returns>用户信息对象。</returns>
         User GetUserByToken(string token);
+
+        /// <summary>
+        /// 保存用户信息对象。
+        /// </summary>
+        /// <param name="user">用户信息对象。</param>
         void SaveUser(User user);
     }
 
