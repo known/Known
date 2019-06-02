@@ -10,7 +10,7 @@ namespace Known.Mapping
     public abstract class EntityMapper
     {
         /// <summary>
-        /// 创建一个实体映射器类的实例。
+        /// 初始化一个实体映射器类的实例。
         /// </summary>
         /// <param name="type">实体类型。</param>
         /// <param name="tableName">数据库表名。</param>
@@ -46,7 +46,7 @@ namespace Known.Mapping
     public abstract class EntityMapper<T> : EntityMapper where T : EntityBase
     {
         /// <summary>
-        /// 创建一个实体映射器泛型类的实例。
+        /// 初始化一个实体映射器泛型类的实例。
         /// </summary>
         /// <param name="tableName">数据库表名。</param>
         /// <param name="description">实体描述。</param>

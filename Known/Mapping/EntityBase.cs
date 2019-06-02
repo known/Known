@@ -8,7 +8,7 @@ namespace Known.Mapping
     public class EntityBase
     {
         /// <summary>
-        /// 创建一个实体类实例。
+        /// 初始化一个实体类实例。
         /// </summary>
         public EntityBase()
         {
