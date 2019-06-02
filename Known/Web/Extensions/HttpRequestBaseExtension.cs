@@ -2,8 +2,19 @@
 
 namespace Known.Web.Extensions
 {
+    /// <summary>
+    /// 请求扩展类。
+    /// </summary>
     public static class HttpRequestBaseExtension
     {
+        /// <summary>
+        /// 获取指定键及类型的请求值，统一获取查询和窗体的变量。
+        /// </summary>
+        /// <typeparam name="T">值类型。</typeparam>
+        /// <param name="request">请求对象。</param>
+        /// <param name="name">键名。</param>
+        /// <param name="defaultValue">为空时的默认值。</param>
+        /// <returns>请求值。</returns>
         public static T Get<T>(this HttpRequestBase request, string name, T defaultValue = default(T))
         {
             var value = request.QueryString[name];
@@ -17,6 +28,11 @@ namespace Known.Web.Extensions
             return defaultValue;
         }
 
+        /// <summary>
+        /// 获取客户端上次请求的地址。
+        /// </summary>
+        /// <param name="request">请求对象。</param>
+        /// <returns>请求地址。</returns>
         public static string GetUrlReferrer(this HttpRequestBase request)
         {
             if (request.UrlReferrer != null)
@@ -25,6 +41,12 @@ namespace Known.Web.Extensions
             return request.GetHostName();
         }
 
+        /// <summary>
+        /// 获取请求的完整路径。
+        /// </summary>
+        /// <param name="request">请求对象。</param>
+        /// <param name="virtualPath">虚拟路径。</param>
+        /// <returns>完整路径。</returns>
         public static string GetFullUrl(this HttpRequestBase request, string virtualPath)
         {
             var hostName = request.GetHostName();
@@ -32,16 +54,32 @@ namespace Known.Web.Extensions
             return hostName + absoluteUrl;
         }
 
+        /// <summary>
+        /// 添加请求参数片段。
+        /// </summary>
+        /// <param name="request">请求对象。</param>
+        /// <param name="fragment">参数片段。</param>
+        /// <returns>完整的请求地址。</returns>
         public static string AddFragment(this HttpRequestBase request, string fragment)
         {
             return WebUtils.AddUrlFragment(request.RawUrl, fragment);
         }
 
+        /// <summary>
+        /// 获取主机协议和域名。
+        /// </summary>
+        /// <param name="request">请求对象。</param>
+        /// <returns>主机协议和域名。</returns>
         public static string GetHostName(this HttpRequestBase request)
         {
             return WebUtils.GetHostName(request.Url);
         }
 
+        /// <summary>
+        /// 获取操作系统名称。
+        /// </summary>
+        /// <param name="request">请求对象。</param>
+        /// <returns>操作系统名称。</returns>
         public static string GetOSName(this HttpRequestBase request)
         {
             var userAgent = request.UserAgent;
@@ -53,6 +91,11 @@ namespace Known.Web.Extensions
             return osName;
         }
 
+        /// <summary>
+        /// 获取IP地址。
+        /// </summary>
+        /// <param name="request">请求对象。</param>
+        /// <returns>IP地址。</returns>
         public static string GetIPAddress(this HttpRequestBase request)
         {
             var result = string.Empty;
@@ -72,6 +115,11 @@ namespace Known.Web.Extensions
             return result;
         }
 
+        /// <summary>
+        /// 获取IP地址所属地名。
+        /// </summary>
+        /// <param name="request">请求对象。</param>
+        /// <returns>IP地址所属地名。</returns>
         public static string GetIPAddressName(this HttpRequestBase request)
         {
             var ipAddress = request.GetIPAddress();

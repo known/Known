@@ -7,18 +7,24 @@ using System.Threading;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using Known.Extensions;
 using Known.Core;
+using Known.Extensions;
 using Known.Web;
-using Known.WebApi.Extensions;
 
-namespace Known.WebApi.Filters
+namespace Known.WebApi
 {
+    /// <summary>
+    /// Api登录授权特性类。
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class ApiLoginAuthorizeAttribute : AuthorizeAttribute
     {
         private const int ExpiredSeconds = 600;
 
+        /// <summary>
+        /// 操作方法被授权时的触发动作。
+        /// </summary>
+        /// <param name="actionContext">执行操作上下文对象。</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (actionContext.IsUseAttributeOf<AllowAnonymousAttribute>())
@@ -37,6 +43,11 @@ namespace Known.WebApi.Filters
             }
         }
 
+        /// <summary>
+        /// 判断操作方法是否已经授权。
+        /// </summary>
+        /// <param name="actionContext">执行操作上下文对象。</param>
+        /// <returns>已经授权返回 True，否则返回 False。</returns>
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
             var principal = Thread.CurrentPrincipal;

@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Known.Web
 {
+    /// <summary>
+    /// Http 客户端类。
+    /// </summary>
     public class HttpClient
     {
         private static readonly string contentType = "application/x-www-form-urlencoded";
@@ -17,6 +20,10 @@ namespace Known.Web
         private readonly CookieContainer cookie = new CookieContainer();
         private readonly string baseUrl = string.Empty;
 
+        /// <summary>
+        /// 初始化一个 Http 客户端类的实例。
+        /// </summary>
+        /// <param name="baseUrl">请求根地址。</param>
         public HttpClient(string baseUrl)
         {
             this.baseUrl = baseUrl;

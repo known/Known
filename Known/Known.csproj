@@ -183,10 +183,9 @@
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validator.cs" />
-    <Compile Include="WebApi\Extensions\HttpActionContextExtension.cs" />
-    <Compile Include="WebApi\Extensions\HttpRequestMessageExtension.cs" />
-    <Compile Include="WebApi\Filters\ApiLoginAuthorizeAttribute.cs" />
-    <Compile Include="WebApi\Filters\ApiTrackActionAttribute.cs" />
+    <Compile Include="WebApi\HttpActionContextExtension.cs" />
+    <Compile Include="WebApi\ApiLoginAuthorizeAttribute.cs" />
+    <Compile Include="WebApi\ApiTrackActionAttribute.cs" />
     <Compile Include="Web\ApiClient.cs" />
     <Compile Include="WebApi\ApiControllerBase.cs" />
     <Compile Include="Web\ApiResult.cs" />

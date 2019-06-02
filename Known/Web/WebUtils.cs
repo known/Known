@@ -5,8 +5,16 @@ using System.Web;
 
 namespace Known.Web
 {
+    /// <summary>
+    /// Web效用类。
+    /// </summary>
     public sealed class WebUtils
     {
+        /// <summary>
+        /// 获取主机协议和域名。
+        /// </summary>
+        /// <param name="uri">请求地址。</param>
+        /// <returns>主机协议和域名。</returns>
         public static string GetHostName(Uri uri)
         {
             var name = string.Format("{0}://{1}", uri.Scheme, uri.Host);
@@ -18,26 +26,51 @@ namespace Known.Web
             return name;
         }
 
+        /// <summary>
+        /// 对 URL 字符串进行编码。
+        /// </summary>
+        /// <param name="url">要编码的 URL。</param>
+        /// <returns>已编码的 URL。</returns>
         public static string UrlEncode(string url)
         {
             return HttpUtility.UrlEncode(url);
         }
 
+        /// <summary>
+        /// 对已编码的 URL 字符串进行解码。
+        /// </summary>
+        /// <param name="url">已编码的 URL。</param>
+        /// <returns>已解码的 URL。</returns>
         public static string UrlDecode(string url)
         {
             return HttpUtility.UrlDecode(url);
         }
 
+        /// <summary>
+        /// 对 HTML 字符串进行编码。
+        /// </summary>
+        /// <param name="html">要编码的 HTML。</param>
+        /// <returns>已编码的 HTML。</returns>
         public static string HtmlEncode(string html)
         {
             return HttpUtility.HtmlEncode(html);
         }
 
+        /// <summary>
+        /// 对已编码的 HTML 字符串进行解码。
+        /// </summary>
+        /// <param name="html">已编码的 HTML。</param>
+        /// <returns>已解码的 HTML。</returns>
         public static string HtmlDecode(string html)
         {
             return HttpUtility.HtmlDecode(html);
         }
 
+        /// <summary>
+        /// 对文本内容进行 HTML 格式化。
+        /// </summary>
+        /// <param name="text">要格式化的文本。</param>
+        /// <returns>已格式化的文本。</returns>
         public static string FormatHtml(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -51,11 +84,22 @@ namespace Known.Web
             return text;
         }
 
+        /// <summary>
+        /// 获取应用程序绝对路径。
+        /// </summary>
+        /// <param name="virtualPath">虚拟路径。</param>
+        /// <returns>绝对路径。</returns>
         public static string GetAbsoluteUrl(string virtualPath)
         {
             return VirtualPathUtility.ToAbsolute(virtualPath);
         }
 
+        /// <summary>
+        /// 添加请求参数片段。
+        /// </summary>
+        /// <param name="rawUrl">原始路径。</param>
+        /// <param name="fragment">参数片段。</param>
+        /// <returns>完整的请求地址。</returns>
         public static string AddUrlFragment(string rawUrl, string fragment)
         {
             if (string.IsNullOrWhiteSpace(rawUrl))
@@ -84,6 +128,11 @@ namespace Known.Web
             return rtnUrls[0] + "?" + string.Join("&", rtnFragments);
         }
 
+        /// <summary>
+        /// 获取操作系统名称。
+        /// </summary>
+        /// <param name="userAgent">浏览器用户代理信息。</param>
+        /// <returns>操作系统名称。</returns>
         public static string GetOSName(string userAgent)
         {
             if (string.IsNullOrWhiteSpace(userAgent))
@@ -160,6 +209,11 @@ namespace Known.Web
             return osName;
         }
 
+        /// <summary>
+        /// 确信虚拟文件路径存在，不存在则创建。
+        /// </summary>
+        /// <param name="path">文件路径。</param>
+        /// <returns>存在的文件路径。</returns>
         public static string EnsureFile(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -173,6 +227,10 @@ namespace Known.Web
             return fileName;
         }
 
+        /// <summary>
+        /// 删除指定虚拟路径的文件。
+        /// </summary>
+        /// <param name="path">文件路径。</param>
         public static void DeleteFile(string path)
         {
             if (string.IsNullOrEmpty(path))
