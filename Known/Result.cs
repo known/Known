@@ -6,7 +6,7 @@
     public class Result
     {
         /// <summary>
-        /// 创建一个验证结果类示例。
+        /// 初始化一个验证结果类示例。
         /// </summary>
         /// <param name="isValid">是否验证通过。</param>
         /// <param name="message">验证返回的消息。</param>

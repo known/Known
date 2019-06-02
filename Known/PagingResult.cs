@@ -6,7 +6,7 @@
     public class PagingResult
     {
         /// <summary>
-        /// 创建一个分页查询结果类实例。
+        /// 初始化一个分页查询结果类实例。
         /// </summary>
         /// <param name="totalCount">查询结果总条数。</param>
         /// <param name="pageData">当前页数据集合。</param>

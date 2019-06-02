@@ -10,7 +10,7 @@ namespace Known.Data
     public class DbRepository : IRepository
     {
         /// <summary>
-        /// 创建一个基本的数据仓库类的实例。
+        /// 初始化一个基本的数据仓库类的实例。
         /// </summary>
         /// <param name="database">数据库访问对象。</param>
         protected DbRepository(Database database)

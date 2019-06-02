@@ -24,7 +24,7 @@ namespace Known
         private readonly List<Attachment> attachments = new List<Attachment>();
 
         /// <summary>
-        /// 创建一个邮件操作类实例。
+        /// 初始化一个邮件操作类实例。
         /// </summary>
         /// <param name="smtpServer">邮件 SMTP 服务器。</param>
         /// <param name="smtpPort">邮件 SMTP 服务器端口。</param>

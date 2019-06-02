@@ -11,20 +11,20 @@ namespace Known
     public class Context
     {
         /// <summary>
-        /// 创建一个应用程序上下文类型实例。
+        /// 初始化一个应用程序上下文类型实例。
         /// </summary>
         /// <param name="logger">日志对象。</param>
         public Context(ILogger logger) : this(null, logger) { }
 
         /// <summary>
-        /// 创建一个应用程序上下文类型实例。
+        /// 初始化一个应用程序上下文类型实例。
         /// </summary>
         /// <param name="database">数据库访问对象。</param>
         /// <param name="logger">日志对象。</param>
         public Context(Database database, ILogger logger) : this(database, logger, null) { }
 
         /// <summary>
-        /// 创建一个应用程序上下文类型实例。
+        /// 初始化一个应用程序上下文类型实例。
         /// </summary>
         /// <param name="database">数据库访问对象。</param>
         /// <param name="logger">日志对象。</param>

@@ -13,7 +13,7 @@ namespace Known.Data
         private IDbProvider provider;
 
         /// <summary>
-        /// 创建一个数据库访问操作类实例。
+        /// 初始化一个数据库访问操作类实例。
         /// </summary>
         public Database()
         {
@@ -28,7 +28,7 @@ namespace Known.Data
         }
 
         /// <summary>
-        /// 创建一个指定链接名称的数据库访问操作类实例。
+        /// 初始化一个指定链接名称的数据库访问操作类实例。
         /// </summary>
         /// <param name="name">数据库链接名称。</param>
         public Database(string name)

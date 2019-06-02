@@ -10,7 +10,7 @@ namespace Known.Data
     public class DatabaseException : DataException
     {
         /// <summary>
-        /// 创建一个数据库访问异常类实例。
+        /// 初始化一个数据库访问异常类实例。
         /// </summary>
         /// <param name="commands">异常命令集合。</param>
         public DatabaseException(List<Command> commands)
@@ -19,7 +19,7 @@ namespace Known.Data
         }
 
         /// <summary>
-        /// 创建一个数据库访问异常类实例。
+        /// 初始化一个数据库访问异常类实例。
         /// </summary>
         /// <param name="commands">异常命令集合。</param>
         /// <param name="message">异常提示信息。</param>
@@ -30,7 +30,7 @@ namespace Known.Data
         }
 
         /// <summary>
-        /// 创建一个数据库访问异常类实例。
+        /// 初始化一个数据库访问异常类实例。
         /// </summary>
         /// <param name="commands">异常命令集合。</param>
         /// <param name="message">异常提示信息。</param>

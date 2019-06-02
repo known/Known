@@ -10,7 +10,7 @@ namespace Known
     public abstract class ServiceBase
     {
         /// <summary>
-        /// 创建一个业务服务类实例。
+        /// 初始化一个业务服务类实例。
         /// </summary>
         /// <param name="context">上下文对象。</param>
         protected ServiceBase(Context context)
@@ -52,7 +52,7 @@ namespace Known
         where T : IRepository
     {
         /// <summary>
-        /// 创建一个业务服务类实例。
+        /// 初始化一个业务服务类实例。
         /// </summary>
         /// <param name="context">上下文对象。</param>
         protected ServiceBase(Context context) : base(context)

@@ -10,7 +10,7 @@ namespace Known.Log
     public class TraceLogger : Logger, ILogger
     {
         /// <summary>
-        /// 创建一个跟踪日志者实例，日志路径默认为当前工作目录 logs 文件下。
+        /// 初始化一个跟踪日志者实例，日志路径默认为当前工作目录 logs 文件下。
         /// </summary>
         public TraceLogger()
         {
@@ -19,7 +19,7 @@ namespace Known.Log
         }
 
         /// <summary>
-        /// 创建一个指定路径的跟踪日志者实例。
+        /// 初始化一个指定路径的跟踪日志者实例。
         /// </summary>
         /// <param name="fileName">日志文件路径。</param>
         public TraceLogger(string fileName)

@@ -16,7 +16,7 @@ namespace Known
         private Action<MqMessage> action;
 
         /// <summary>
-        /// 创建一个 MSMQ 消息监听类实例。
+        /// 初始化一个 MSMQ 消息监听类实例。
         /// </summary>
         /// <param name="config">MQ 配置信息。</param>
         public MqListener(MqConfigInfo config)

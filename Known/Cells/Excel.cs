@@ -12,13 +12,13 @@ namespace Known.Cells
         private readonly string fileName;
 
         /// <summary>
-        /// 创建一个 Excel 操作类的实例。
+        /// 初始化一个 Excel 操作类的实例。
         /// </summary>
         /// <param name="provider">Excel 操作接口提供者。</param>
         public Excel(IExcel provider = null) : this("", provider) { }
 
         /// <summary>
-        /// 创建一个 Excel 操作类的实例。
+        /// 初始化一个 Excel 操作类的实例。
         /// </summary>
         /// <param name="fileName">Excel 文件路径。</param>
         /// <param name="provider">Excel 操作接口提供者。</param>
@@ -31,7 +31,7 @@ namespace Known.Cells
         }
 
         /// <summary>
-        /// 创建一个 Excel 操作类的实例。
+        /// 初始化一个 Excel 操作类的实例。
         /// </summary>
         /// <param name="stream">Excel 文件流。</param>
         /// <param name="provider">Excel 操作接口提供者。</param>

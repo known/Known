@@ -6,7 +6,7 @@
     public class ImageSetting
     {
         /// <summary>
-        /// 创建一个图片设置类实例。
+        /// 初始化一个图片设置类实例。
         /// </summary>
         /// <param name="left">图片左边距。</param>
         /// <param name="top">图片上边距。</param>

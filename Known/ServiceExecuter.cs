@@ -9,7 +9,7 @@ namespace Known
     public class ServiceExecuter
     {
         /// <summary>
-        /// 创建一个业务服务执行者实例。
+        /// 初始化一个业务服务执行者实例。
         /// </summary>
         /// <param name="userName">当前用户名。</param>
         /// <param name="module">业务模块名。</param>
@@ -19,7 +19,7 @@ namespace Known
         }
 
         /// <summary>
-        /// 创建一个业务服务执行者实例，指定执行方法。
+        /// 初始化一个业务服务执行者实例，指定执行方法。
         /// </summary>
         /// <param name="userName">当前用户名。</param>
         /// <param name="module">业务模块名。</param>
