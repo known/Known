@@ -2,6 +2,9 @@
 
 namespace Known.Core.Repositories
 {
+    /// <summary>
+    /// 系统用户数据仓库接口。
+    /// </summary>
     public interface IUserRepository : IRepository
     {
     }

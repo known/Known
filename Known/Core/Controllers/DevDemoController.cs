@@ -5,6 +5,9 @@ using Known.WebApi;
 
 namespace Known.Core.Controllers
 {
+    /// <summary>
+    /// 开发示例控制器类。
+    /// </summary>
     public class DevDemoController : ApiControllerBase
     {
         private DevDemoService Service
@@ -13,6 +16,11 @@ namespace Known.Core.Controllers
         }
 
         #region DemoGrid
+        /// <summary>
+        /// 查询示例用户分页数据对象。
+        /// </summary>
+        /// <param name="data">查询条件对象。</param>
+        /// <returns>分页数据对象。</returns>
         [HttpPost]
         public object QueryUsers(CriteriaData data)
         {

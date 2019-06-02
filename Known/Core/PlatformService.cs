@@ -5,25 +5,45 @@ using System.Linq;
 
 namespace Known.Core
 {
+    /// <summary>
+    /// 平台服务类。
+    /// </summary>
     public class PlatformService
     {
         private readonly IPlatformRepository repository;
 
+        /// <summary>
+        /// 初始化一个平台服务类的实例。
+        /// </summary>
         public PlatformService()
         {
             repository = ObjectFactory.Create<IPlatformRepository>();
         }
 
+        /// <summary>
+        /// 获取指定应用程序的 API 接口根地址。
+        /// </summary>
+        /// <param name="apiId">应用程序 ID。</param>
+        /// <returns>API 接口根地址。</returns>
         public string GetApiBaseUrl(string apiId)
         {
             return repository.GetApiBaseUrl(apiId);
         }
 
+        /// <summary>
+        /// 获取当前应用程序的系统代码列表。
+        /// </summary>
+        /// <returns>系统代码列表。</returns>
         public Dictionary<string, object> GetCodes()
         {
             return repository.GetCodes(Setting.Instance.AppId);
         }
 
+        /// <summary>
+        /// 获取模块信息对象。
+        /// </summary>
+        /// <param name="id">模块 ID。</param>
+        /// <returns>模块信息对象。</returns>
         public Module GetModule(string id)
         {
             var module = repository.GetModule(id);
@@ -35,6 +55,10 @@ namespace Known.Core
             return module;
         }
 
+        /// <summary>
+        /// 获取当前应用程序的模块信息对象列表。
+        /// </summary>
+        /// <returns>模块信息对象列表。</returns>
         public List<Module> GetModules()
         {
             var modules = repository.GetModules(Setting.Instance.AppId);
@@ -46,6 +70,11 @@ namespace Known.Core
                           .ToList();
         }
 
+        /// <summary>
+        /// 获取当前应用程序登录用户的模块信息对象列表。
+        /// </summary>
+        /// <param name="userName">登录用户名。</param>
+        /// <returns>模块信息对象列表。</returns>
         public List<Module> GetUserModules(string userName)
         {
             var modules = repository.GetUserModules(Setting.Instance.AppId, userName);
@@ -55,12 +84,17 @@ namespace Known.Core
             return GetHierarchicalModules(modules);
         }
 
+        /// <summary>
+        /// 获取指定用户名的用户信息对象。
+        /// </summary>
+        /// <param name="userName">登录用户名。</param>
+        /// <returns>用户信息对象。</returns>
         public User GetUser(string userName)
         {
             return repository.GetUser(userName);
         }
 
-        public Result<User> ValidateLogin(string token)
+        internal Result<User> ValidateLogin(string token)
         {
             var user = UserCache.GetUserByToken(repository, token);
             if (user == null)
@@ -69,7 +103,7 @@ namespace Known.Core
             return Result.Success("登录成功！", user);
         }
 
-        public Result<User> ValidateLogin(string userName, string password)
+        internal Result<User> ValidateLogin(string userName, string password)
         {
             var user = UserCache.GetUser(repository, userName);
             if (user == null)
@@ -81,6 +115,12 @@ namespace Known.Core
             return Result.Success("登录成功！", user);
         }
 
+        /// <summary>
+        /// 用户登录。
+        /// </summary>
+        /// <param name="userName">登录用户名。</param>
+        /// <param name="password">登录密码。</param>
+        /// <returns>用户登录验证结果。</returns>
         public Result<User> SignIn(string userName, string password)
         {
             var user = repository.GetUser(userName);
@@ -102,6 +142,11 @@ namespace Known.Core
             return Result.Success("登录成功！", user);
         }
 
+        /// <summary>
+        /// 退出登录。
+        /// </summary>
+        /// <param name="userName">登录用户名。</param>
+        /// <returns>退出登录结果。</returns>
         public Result SignOut(string userName)
         {
             var user = GetUser(userName);

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Known.WebApi
 {
-    public class TrackHelper
+    class TrackHelper
     {
         public static string GetHeaders(HttpRequestMessage request)
         {

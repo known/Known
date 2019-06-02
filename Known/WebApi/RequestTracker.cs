@@ -6,7 +6,7 @@ using Known.Web.Extensions;
 
 namespace Known.WebApi
 {
-    public class RequestTracker
+    class RequestTracker
     {
         private static readonly Logger log = new FileLogger();
 

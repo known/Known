@@ -2,15 +2,49 @@
 
 namespace Known.Core
 {
+    /// <summary>
+    /// 系统菜单类。
+    /// </summary>
     public class Menu
     {
+        /// <summary>
+        /// 取得或设置ID。
+        /// </summary>
         public string id { get; set; }
+
+        /// <summary>
+        /// 取得或设置上级ID。
+        /// </summary>
         public string pid { get; set; }
+
+        /// <summary>
+        /// 取得或设置编码。
+        /// </summary>
         public string code { get; set; }
+
+        /// <summary>
+        /// 取得或设置显示文本。
+        /// </summary>
         public string text { get; set; }
+
+        /// <summary>
+        /// 取得或设置图标。
+        /// </summary>
         public string iconCls { get; set; }
+
+        /// <summary>
+        /// 取得或设置地址。
+        /// </summary>
         public string url { get; set; }
+
+        /// <summary>
+        /// 取得或设置是否展开。
+        /// </summary>
         public bool expanded { get; set; }
+
+        /// <summary>
+        /// 取得或设置子菜单列表。
+        /// </summary>
         public List<Menu> children { get; set; }
 
         internal static List<Menu> GetUserMenus(PlatformService service, string userName)
