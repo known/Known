@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Known.Core.Entities;
 using Known.Extensions;
 
 namespace Known.Core.Services

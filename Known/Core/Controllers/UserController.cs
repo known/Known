@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using Known.Core.Services;
+using Known.Extensions;
 using Known.Web;
 using Known.WebApi;
 
@@ -9,6 +11,12 @@ namespace Known.Core.Controllers
     /// </summary>
     public class UserController : ApiControllerBase
     {
+        private UserService Service
+        {
+            get { return LoadService<UserService>(); }
+        }
+
+        #region Platform
         /// <summary>
         /// 用户登录操作。
         /// </summary>
@@ -62,5 +70,37 @@ namespace Known.Core.Controllers
             var codes = Code.GetCodes(PlatformService);
             return new { menus, codes };
         }
+        #endregion
+
+        #region View
+        /// <summary>
+        /// 查询用户分页数据对象。
+        /// </summary>
+        /// <param name="data">查询条件对象。</param>
+        /// <returns>分页数据对象。</returns>
+        [HttpPost]
+        public object QueryUsers(CriteriaData data)
+        {
+            var criteria = data.ToPagingCriteria();
+            var result = Service.QueryUsers(criteria);
+            return ApiResult.ToPageData(result);
+        }
+
+        /// <summary>
+        /// 删除一个或多个用户数据。
+        /// </summary>
+        /// <param name="data">用户对象ID数组。</param>
+        /// <returns>删除结果。</returns>
+        [HttpPost]
+        public object DeleteUsers([FromBody]string data)
+        {
+            var ids = data.FromJson<string[]>();
+            var result = Service.DeleteUsers(ids);
+            return ApiResult.Result(result);
+        }
+        #endregion
+
+        #region Form
+        #endregion
     }
 }

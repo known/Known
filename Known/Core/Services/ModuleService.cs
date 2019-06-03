@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Known.Core.Entities;
-using Known.Core.Repositories;
+﻿using Known.Core.Repositories;
 using Known.Mapping;
 
 namespace Known.Core.Services

@@ -107,7 +107,6 @@
     <Compile Include="Core\PlatformService.cs" />
     <Compile Include="Core\Repositories\ModuleRepository.cs" />
     <Compile Include="Core\Repositories\UserRepository.cs" />
-    <Compile Include="Core\Services\AdminService.cs" />
     <Compile Include="Core\Services\AppService.cs" />
     <Compile Include="Core\Services\CoreServiceBase.cs" />
     <Compile Include="Core\Services\DevDemoService.cs" />

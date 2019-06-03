@@ -55,7 +55,7 @@ namespace Known.Core.Repositories
                 criteria.Parameter.key = $"%{key}%";
             }
 
-            return Database.QueryPage<Module>(sql, criteria);
+            return Database.QueryPage<Entities.Module>(sql, criteria);
         }
 
         public List<Entities.Module> GetModules(string parentId)

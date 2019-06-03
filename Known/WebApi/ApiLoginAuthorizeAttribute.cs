@@ -10,6 +10,7 @@ using System.Web.Http.Controllers;
 using Known.Core;
 using Known.Extensions;
 using Known.Web;
+using Known.Web.Extensions;
 
 namespace Known.WebApi
 {
