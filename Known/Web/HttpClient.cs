@@ -30,21 +30,46 @@ namespace Known.Web
             Get(baseUrl);
         }
 
+        /// <summary>
+        /// 设置客户端 Cookie 值。
+        /// </summary>
+        /// <param name="name">Cookie 名。</param>
+        /// <param name="value">Cookie 值。</param>
         public void SetCookie(string name, string value)
         {
             cookie.Add(new Uri(baseUrl), new Cookie(name, value));
         }
 
+        /// <summary>
+        /// GET 请求操作。
+        /// </summary>
+        /// <param name="path">请求路径。</param>
+        /// <param name="allowRedirect">是否允许直接跳转。</param>
+        /// <returns>GET 到的请求内容。</returns>
         public string Get(string path, bool allowRedirect = false)
         {
             return DoRequest("GET", path, allowRedirect);
         }
 
+        /// <summary>
+        /// POST 请求操作。
+        /// </summary>
+        /// <param name="path">请求路径。</param>
+        /// <param name="datas">请求的数据。</param>
+        /// <returns>POST 请求返回的结果。</returns>
         public string Post(string path, IDictionary<string, string> datas = null)
         {
             return DoRequest("POST", path, false, datas);
         }
 
+        /// <summary>
+        /// 下载文件。
+        /// </summary>
+        /// <param name="fileName">文件保存的路径。</param>
+        /// <param name="method">请求方式。</param>
+        /// <param name="path">请求路径。</param>
+        /// <param name="datas">请求参数。</param>
+        /// <returns>返回空字符串表示下载成功，否则提示下载失败信息。</returns>
         public string DownloadFile(string fileName, string method, string path, IDictionary<string, string> datas = null)
         {
             currentTry++;
