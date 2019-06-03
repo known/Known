@@ -101,6 +101,28 @@ namespace Known.Core.Controllers
         #endregion
 
         #region Form
+        /// <summary>
+        /// 获取用户数据对象。
+        /// </summary>
+        /// <param name="id">用户 id。</param>
+        /// <returns>数据对象。</returns>
+        public object GetUser(string id)
+        {
+            return Service.GetUser(id);
+        }
+
+        /// <summary>
+        /// 保存用户数据。
+        /// </summary>
+        /// <param name="data">用户数据 JSON。</param>
+        /// <returns>保存结果。</returns>
+        [HttpPost]
+        public object SaveUser([FromBody]string data)
+        {
+            var model = data.FromJson<dynamic>();
+            var result = Service.SaveUser(model);
+            return ApiResult.Result(result);
+        }
         #endregion
     }
 }

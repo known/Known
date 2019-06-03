@@ -67,6 +67,9 @@
     <Compile Include="Cells\AsposeExcel.cs" />
     <Compile Include="Cells\AsposeSheet.cs" />
     <Compile Include="Cells\AsposeSheetCell.cs" />
+    <Compile Include="Core\Entities\Role.cs" />
+    <Compile Include="Core\Repositories\RoleRepository.cs" />
+    <Compile Include="Core\Services\RoleService.cs" />
     <Compile Include="Data\DbRepository.cs" />
     <Compile Include="Jobs\CheckResult.cs" />
     <Compile Include="Jobs\JobResult.cs" />

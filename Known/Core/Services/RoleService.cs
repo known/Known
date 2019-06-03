@@ -3,27 +3,27 @@ using Known.Mapping;
 
 namespace Known.Core.Services
 {
-    class UserService : CoreServiceBase<IUserRepository>
+    class RoleService : CoreServiceBase<IRoleRepository>
     {
-        public UserService(Context context) : base(context)
+        public RoleService(Context context) : base(context)
         {
         }
 
         #region View
-        public PagingResult QueryUsers(PagingCriteria criteria)
+        public PagingResult QueryRoles(PagingCriteria criteria)
         {
-            return Repository.QueryUsers(criteria);
+            return Repository.QueryRoles(criteria);
         }
 
-        public Result DeleteUsers(string[] ids)
+        public Result DeleteRoles(string[] ids)
         {
-            var users = Repository.QueryListById<Entities.Module>(ids);
-            if (users == null || users.Count == 0)
+            var Roles = Repository.QueryListById<Entities.Role>(ids);
+            if (Roles == null || Roles.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");
 
             var info = Repository.Transaction("删除", rep =>
             {
-                foreach (var item in users)
+                foreach (var item in Roles)
                 {
                     rep.Delete(item);
                 }
@@ -34,20 +34,20 @@ namespace Known.Core.Services
         #endregion
 
         #region Form
-        public Entities.User GetUser(string id)
+        public Entities.Role GetRole(string id)
         {
-            return Repository.QueryById<Entities.User>(id);
+            return Repository.QueryById<Entities.Role>(id);
         }
 
-        public Result SaveUser(dynamic model)
+        public Result SaveRole(dynamic model)
         {
             if (model == null)
                 return Result.Error("不能提交空数据！");
 
             var id = (string)model.Id;
-            var entity = Repository.QueryById<Entities.User>(id);
+            var entity = Repository.QueryById<Entities.Role>(id);
             if (entity == null)
-                entity = new Entities.User();
+                entity = new Entities.Role();
 
             EntityHelper.FillModel(entity, model);
 
