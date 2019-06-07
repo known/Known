@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Known.Web
 {
-    public sealed class CompressionHelper
+    sealed class CompressionHelper
     {
         public static byte[] DeflateCompress(byte[] bytes)
         {

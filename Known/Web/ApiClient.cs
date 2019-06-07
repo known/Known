@@ -11,25 +11,46 @@ using Known.Web.Extensions;
 
 namespace Known.Web
 {
+    /// <summary>
+    /// Api 客户端操作类。
+    /// </summary>
     public class ApiClient
     {
         private readonly string baseUrl;
         private readonly CompressionMethod defaultCompressionMethod = CompressionMethod.GZip;
         private readonly AuthenticationHeaderValue authorization;
 
+        /// <summary>
+        /// 初始化一个 Api 客户端操作类的实例。
+        /// </summary>
         public ApiClient() : this(null) { }
 
+        /// <summary>
+        /// 初始化一个 Api 客户端操作类的实例。
+        /// </summary>
+        /// <param name="baseUrl">Api 根路径地址。</param>
         public ApiClient(string baseUrl)
         {
             this.baseUrl = GetBaseUrl(baseUrl);
         }
 
+        /// <summary>
+        /// 初始化一个 Api 客户端操作类的实例。
+        /// </summary>
+        /// <param name="baseUrl">Api 根路径地址。</param>
+        /// <param name="token">用户身份认证票据。</param>
         public ApiClient(string baseUrl, string token)
         {
             this.baseUrl = GetBaseUrl(baseUrl);
             this.authorization = new AuthenticationHeaderValue("Token", token);
         }
 
+        /// <summary>
+        /// 初始化一个 Api 客户端操作类的实例。
+        /// </summary>
+        /// <param name="baseUrl">Api 根路径地址。</param>
+        /// <param name="account">用于用户身份认证的账号。</param>
+        /// <param name="password">用于用户身份认证的密码。</param>
         public ApiClient(string baseUrl, string account, string password)
         {
             this.baseUrl = GetBaseUrl(baseUrl);
@@ -38,11 +59,24 @@ namespace Known.Web
             this.authorization = new AuthenticationHeaderValue("Basic", parameter);
         }
 
+        /// <summary>
+        /// 获取 GET 请求数据。
+        /// </summary>
+        /// <param name="url">请求的绝对或相对地址。</param>
+        /// <param name="param">请求的参数对象。</param>
+        /// <returns>请求的结果。</returns>
         public string Get(string url, dynamic param = null)
         {
             return Request("GET", url, param);
         }
 
+        /// <summary>
+        /// 获取 GET 请求指定类型的数据。
+        /// </summary>
+        /// <typeparam name="T">数据的类型。</typeparam>
+        /// <param name="url">请求的绝对或相对地址。</param>
+        /// <param name="param">请求的参数对象。</param>
+        /// <returns>请求的结果。</returns>
         public T Get<T>(string url, dynamic param = null)
         {
             var json = Get(url, param) as string;
@@ -50,11 +84,24 @@ namespace Known.Web
             return json.FromJson<T>();
         }
 
+        /// <summary>
+        /// 获取 POST 请求数据。
+        /// </summary>
+        /// <param name="url">请求的绝对或相对地址。</param>
+        /// <param name="param">请求的参数对象。</param>
+        /// <returns>请求的结果。</returns>
         public string Post(string url, dynamic param = null)
         {
             return Request("POST", url, param);
         }
 
+        /// <summary>
+        /// 获取 POST 请求指定类型的数据。
+        /// </summary>
+        /// <typeparam name="T">数据的类型。</typeparam>
+        /// <param name="url">请求的绝对或相对地址。</param>
+        /// <param name="param">请求的参数对象。</param>
+        /// <returns>请求的结果。</returns>
         public T Post<T>(string url, dynamic param = null)
         {
             var json = Post(url, param) as string;

@@ -7,7 +7,7 @@ using System.Text;
 namespace Known.Web
 {
     /// <summary>
-    /// Http 客户端类。
+    /// Http 客户端操作类。
     /// </summary>
     public class HttpClient
     {
@@ -21,7 +21,7 @@ namespace Known.Web
         private readonly string baseUrl = string.Empty;
 
         /// <summary>
-        /// 初始化一个 Http 客户端类的实例。
+        /// 初始化一个 Http 客户端操作类的实例。
         /// </summary>
         /// <param name="baseUrl">请求根地址。</param>
         public HttpClient(string baseUrl)

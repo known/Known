@@ -15,7 +15,7 @@ using Known.Web.Extensions;
 namespace Known.WebApi
 {
     /// <summary>
-    /// Api登录授权特性类。
+    /// Api 登录授权特性类。
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class ApiLoginAuthorizeAttribute : AuthorizeAttribute

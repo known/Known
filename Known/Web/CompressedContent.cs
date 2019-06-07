@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Known.Web
 {
-    public class CompressedContent : HttpContent
+    class CompressedContent : HttpContent
     {
         private HttpContent content;
         private readonly CompressionMethod method;

@@ -1,6 +1,6 @@
 ﻿namespace Known.Web
 {
-    public enum CompressionMethod
+    enum CompressionMethod
     {
         None,
         Automatic,

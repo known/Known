@@ -8,7 +8,7 @@ using Known.Web.Extensions;
 namespace Known.WebApi
 {
     /// <summary>
-    /// Api操作跟踪特性类。
+    /// Api 操作跟踪特性类。
     /// </summary>
     public class ApiTrackActionAttribute : ActionFilterAttribute
     {
