@@ -4,10 +4,10 @@ namespace Known.Tests.Core
 {
     public class LoginPageTest
     {
-        public static void Login()
+        public static void SignIn()
         {
-            var controller = new UserController();
-            var res = controller.SignIn("admin", "1");
+            var user = new UserController();
+            var res = user.SignIn("admin", "1");
             TestAssert.IsNotNull(res);
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
+using Known.Extensions;
 using Known.Mapping;
 
 namespace Known.Tests.Demo
@@ -25,6 +25,52 @@ namespace Known.Tests.Demo
             return Repository.Transaction("删除", rep =>
             {
                 entities.ForEach(e => rep.Delete(e));
+            });
+        }
+
+        public Result ImportApplyFormLists(ApplyForm form, DataTable data, Dictionary<int, string> errors)
+        {
+            if (data == null || data.Rows.Count == 0)
+                return Result.Error("导入数据不能为空！");
+
+            var duplicateKeys = data.GetDuplicateValues(new[] { "申请内容" });
+            var entities = new List<ApplyFormList>();
+            for (int i = 0; i < data.Rows.Count; i++)
+            {
+                var messages = new List<string>();
+                var row = data.Rows[i];
+                var key = $"{row["申请内容"]}";
+                if (duplicateKeys.Contains(key))
+                    messages.Add("导入文件中申请内容不能重复！");
+
+                var entity = new ApplyFormList
+                {
+                    FormId = form.Id
+                };
+                entity.Content = Validator.ValidateNotEmpty<string>(messages, row, "申请内容");
+
+                if (messages.Count > 0)
+                {
+                    errors.Add(i, string.Join(",", messages));
+                    continue;
+                }
+
+                var validator = ValidateApplyFormList(entity);
+                if (validator.HasError)
+                {
+                    errors.Add(i, validator.ErrorMessage);
+                    continue;
+                }
+
+                entities.Add(entity);
+            }
+
+            if (errors.Count > 0)
+                return Result.Error("导入校验失败！");
+
+            return Repository.Transaction("导入", rep =>
+            {
+                entities.ForEach(e => rep.Save(e));
             });
         }
 
@@ -63,7 +109,7 @@ namespace Known.Tests.Demo
             var entity = GetEntityById((string)model.Id, new ApplyForm());
             EntityHelper.FillModel(entity, model);
 
-            var validator = EntityHelper.Validate(entity);
+            var validator = ValidateApplyForm(entity);
             if (validator.HasError)
                 return Result.Error(validator.ErrorMessage);
 
@@ -84,57 +130,19 @@ namespace Known.Tests.Demo
                 rep.Save(entity);
             }, entity.Id);
         }
+        #endregion
 
-        public Result ImportApplyFormLists(ApplyForm form, DataTable data, Dictionary<int, string> errors)
+        #region Private
+        private Validator ValidateApplyForm(ApplyForm entity)
         {
-            if (data == null || data.Rows.Count == 0)
-                return Result.Error("导入数据不能为空！");
+            var validator = EntityHelper.Validate(entity);
+            return validator;
+        }
 
-            var duplicateKeys = data.AsEnumerable()
-                                    .GroupBy(r => $"{r["申请内容"]}")
-                                    .Select(r => new { r.Key, Count = r.Count() })
-                                    .Where(r => r.Count > 1)
-                                    .Select(r => r.Key)
-                                    .ToList();
-
-            var entities = new List<ApplyFormList>();
-            for (int i = 0; i < data.Rows.Count; i++)
-            {
-                var messages = new List<string>();
-                var row = data.Rows[i];
-                var key = $"{row["申请内容"]}";
-                if (duplicateKeys.Contains(key))
-                    messages.Add("导入文件中申请内容不能重复！");
-
-                var entity = new ApplyFormList
-                {
-                    FormId = form.Id
-                };
-                entity.Content = Validator.ValidateNotEmpty<string>(messages, row, "申请内容");
-
-                if (messages.Count > 0)
-                {
-                    errors.Add(i, string.Join(",", messages));
-                    continue;
-                }
-
-                var validator = EntityHelper.Validate(entity);
-                if (validator.HasError)
-                {
-                    errors.Add(i, validator.ErrorMessage);
-                    continue;
-                }
-
-                entities.Add(entity);
-            }
-
-            if (errors.Count > 0)
-                return Result.Error("导入校验失败！");
-
-            return Repository.Transaction("导入", rep =>
-            {
-                entities.ForEach(e => rep.Save(e));
-            });
+        private Validator ValidateApplyFormList(ApplyFormList entity)
+        {
+            var validator = EntityHelper.Validate(entity);
+            return validator;
         }
         #endregion
     }
