@@ -1,7 +1,4 @@
-﻿using System.Web.Http;
-using Known.Core.Services;
-using Known.Extensions;
-using Known.Web;
+﻿using Known.Core.Services;
 using Known.WebApi;
 
 namespace Known.Core.Controllers
@@ -18,54 +15,45 @@ namespace Known.Core.Controllers
 
         #region View
         /// <summary>
-        /// 查询角色分页数据对象。
+        /// 查询分页数据对象。
         /// </summary>
-        /// <param name="data">查询条件对象。</param>
-        /// <returns>分页数据对象。</returns>
-        [HttpPost]
-        public object QueryRoles(CriteriaData data)
+        /// <param name="criteria">查询条件对象。</param>
+        /// <returns>分页查询结果。</returns>
+        protected override PagingResult QueryDatas(PagingCriteria criteria)
         {
-            var criteria = data.ToPagingCriteria();
-            var result = Service.QueryRoles(criteria);
-            return ApiResult.ToPageData(result);
+            return Service.QueryRoles(criteria);
         }
 
         /// <summary>
-        /// 删除一个或多个角色数据。
+        /// 删除一个或多个实体对象。
         /// </summary>
-        /// <param name="data">角色对象ID数组。</param>
+        /// <param name="ids">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
-        [HttpPost]
-        public object DeleteRoles([FromBody]string data)
+        protected override Result DeleteDatas(string[] ids)
         {
-            var ids = data.FromJson<string[]>();
-            var result = Service.DeleteRoles(ids);
-            return ApiResult.Result(result);
+            return Service.DeleteRoles(ids);
         }
         #endregion
 
         #region Form
         /// <summary>
-        /// 获取角色数据对象。
+        /// 获取实体对象。
         /// </summary>
-        /// <param name="id">角色 id。</param>
-        /// <returns>数据对象。</returns>
-        public object GetRole(string id)
+        /// <param name="id">实体 id。</param>
+        /// <returns>实体对象。</returns>
+        public override object GetData(string id)
         {
             return Service.GetRole(id);
         }
 
         /// <summary>
-        /// 保存角色数据。
+        /// 保存实体对象。
         /// </summary>
-        /// <param name="data">角色数据 JSON。</param>
+        /// <param name="model">实体对象。</param>
         /// <returns>保存结果。</returns>
-        [HttpPost]
-        public object SaveRole([FromBody]string data)
+        protected override Result SaveData(dynamic model)
         {
-            var model = data.FromJson<dynamic>();
-            var result = Service.SaveRole(model);
-            return ApiResult.Result(result);
+            return Service.SaveRole(model);
         }
         #endregion
     }

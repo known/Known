@@ -28,29 +28,23 @@ namespace Known.Core.Controllers
         }
 
         /// <summary>
-        /// 查询模块分页数据对象。
+        /// 查询分页数据对象。
         /// </summary>
-        /// <param name="data">查询条件对象。</param>
-        /// <returns>分页数据对象。</returns>
-        [HttpPost]
-        public object QueryModules(CriteriaData data)
+        /// <param name="criteria">查询条件对象。</param>
+        /// <returns>分页查询结果。</returns>
+        protected override PagingResult QueryDatas(PagingCriteria criteria)
         {
-            var criteria = data.ToPagingCriteria();
-            var result = Service.QueryModules(criteria);
-            return ApiResult.ToPageData(result);
+            return Service.QueryModules(criteria);
         }
 
         /// <summary>
-        /// 删除一个或多个模块数据。
+        /// 删除一个或多个实体对象。
         /// </summary>
-        /// <param name="data">模块对象ID数组。</param>
+        /// <param name="ids">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
-        [HttpPost]
-        public object DeleteModules([FromBody]string data)
+        protected override Result DeleteDatas(string[] ids)
         {
-            var ids = data.FromJson<string[]>();
-            var result = Service.DeleteModules(ids);
-            return ApiResult.Result(result);
+            return Service.DeleteModules(ids);
         }
 
         /// <summary>
@@ -69,26 +63,23 @@ namespace Known.Core.Controllers
 
         #region Form
         /// <summary>
-        /// 获取模块数据对象。
+        /// 获取实体对象。
         /// </summary>
-        /// <param name="id">模块 id。</param>
-        /// <returns>数据对象。</returns>
-        public object GetModule(string id)
+        /// <param name="id">实体 id。</param>
+        /// <returns>实体对象。</returns>
+        public override object GetData(string id)
         {
             return Service.GetModule(id);
         }
 
         /// <summary>
-        /// 保存模块数据。
+        /// 保存实体对象。
         /// </summary>
-        /// <param name="data">模块数据 JSON。</param>
+        /// <param name="model">实体对象。</param>
         /// <returns>保存结果。</returns>
-        [HttpPost]
-        public object SaveModule([FromBody]string data)
+        protected override Result SaveData(dynamic model)
         {
-            var model = data.FromJson<dynamic>();
-            var result = Service.SaveModule(model);
-            return ApiResult.Result(result);
+            return Service.SaveModule(model);
         }
         #endregion
     }

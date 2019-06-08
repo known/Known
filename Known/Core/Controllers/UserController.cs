@@ -1,6 +1,5 @@
 ﻿using System.Web.Http;
 using Known.Core.Services;
-using Known.Extensions;
 using Known.Web;
 using Known.WebApi;
 
@@ -74,54 +73,45 @@ namespace Known.Core.Controllers
 
         #region View
         /// <summary>
-        /// 查询用户分页数据对象。
+        /// 查询分页数据对象。
         /// </summary>
-        /// <param name="data">查询条件对象。</param>
-        /// <returns>分页数据对象。</returns>
-        [HttpPost]
-        public object QueryUsers(CriteriaData data)
+        /// <param name="criteria">查询条件对象。</param>
+        /// <returns>分页查询结果。</returns>
+        protected override PagingResult QueryDatas(PagingCriteria criteria)
         {
-            var criteria = data.ToPagingCriteria();
-            var result = Service.QueryUsers(criteria);
-            return ApiResult.ToPageData(result);
+            return Service.QueryUsers(criteria);
         }
 
         /// <summary>
-        /// 删除一个或多个用户数据。
+        /// 删除一个或多个实体对象。
         /// </summary>
-        /// <param name="data">用户对象ID数组。</param>
+        /// <param name="ids">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
-        [HttpPost]
-        public object DeleteUsers([FromBody]string data)
+        protected override Result DeleteDatas(string[] ids)
         {
-            var ids = data.FromJson<string[]>();
-            var result = Service.DeleteUsers(ids);
-            return ApiResult.Result(result);
+            return Service.DeleteUsers(ids);
         }
         #endregion
 
         #region Form
         /// <summary>
-        /// 获取用户数据对象。
+        /// 获取实体对象。
         /// </summary>
-        /// <param name="id">用户 id。</param>
-        /// <returns>数据对象。</returns>
-        public object GetUser(string id)
+        /// <param name="id">实体 id。</param>
+        /// <returns>实体对象。</returns>
+        public override object GetData(string id)
         {
             return Service.GetUser(id);
         }
 
         /// <summary>
-        /// 保存用户数据。
+        /// 保存实体对象。
         /// </summary>
-        /// <param name="data">用户数据 JSON。</param>
+        /// <param name="model">实体对象。</param>
         /// <returns>保存结果。</returns>
-        [HttpPost]
-        public object SaveUser([FromBody]string data)
+        protected override Result SaveData(dynamic model)
         {
-            var model = data.FromJson<dynamic>();
-            var result = Service.SaveUser(model);
-            return ApiResult.Result(result);
+            return Service.SaveUser(model);
         }
         #endregion
     }
