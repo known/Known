@@ -1,4 +1,4 @@
-﻿namespace Known.Core.Services
+﻿namespace Known.Core
 {
     class DevToolService : ServiceBase
     {

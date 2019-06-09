@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Known.Extensions;
 
-namespace Known.Core.Services
+namespace Known.Core
 {
     class DevDemoService : ServiceBase
     {

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Known.Data;
+﻿using Known.Data;
 
-namespace Known.Core.Repositories
+namespace Known.Core
 {
     /// <summary>
     /// 系统角色数据仓库接口。

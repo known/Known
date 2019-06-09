@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Known.Data;
 
-namespace Known.Core.Repositories
+namespace Known.Core
 {
     /// <summary>
     /// 系统模块数据仓库接口。

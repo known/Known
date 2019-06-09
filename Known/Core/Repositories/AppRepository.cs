@@ -1,6 +1,6 @@
 ﻿using Known.Data;
 
-namespace Known.Core.Repositories
+namespace Known.Core
 {
     /// <summary>
     /// 应用程序数据仓库接口。

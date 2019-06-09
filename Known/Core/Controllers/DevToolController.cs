@@ -1,6 +1,4 @@
-﻿using Known.Core.Services;
-using Known.Web;
-using Known.WebApi;
+﻿using Known.WebApi;
 
 namespace Known.Core.Controllers
 {
@@ -16,15 +14,13 @@ namespace Known.Core.Controllers
 
         #region DevDatabase
         /// <summary>
-        /// 查询示例分页数据对象。
+        /// 查询分页数据对象。
         /// </summary>
-        /// <param name="data">查询条件对象。</param>
-        /// <returns>分页数据对象。</returns>
-        public object QueryDatas(CriteriaData data)
+        /// <param name="criteria">查询条件对象。</param>
+        /// <returns>分页查询结果。</returns>
+        protected override PagingResult QueryDatas(PagingCriteria criteria)
         {
-            var criteria = data.ToPagingCriteria();
-            var result = Service.QueryDatas(criteria);
-            return ApiResult.ToPageData(result);
+            return Service.QueryDatas(criteria);
         }
         #endregion
     }

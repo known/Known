@@ -1,6 +1,6 @@
 ﻿using Known.Data;
 
-namespace Known.Core.Services
+namespace Known.Core
 {
     abstract class CoreServiceBase<TRepository> : ServiceBase<TRepository>
         where TRepository : IRepository

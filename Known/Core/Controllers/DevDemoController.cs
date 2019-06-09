@@ -1,5 +1,4 @@
 ﻿using System.Web.Http;
-using Known.Core.Services;
 using Known.Web;
 using Known.WebApi;
 

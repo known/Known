@@ -1,7 +1,6 @@
-﻿using Known.Core.Repositories;
-using Known.Mapping;
+﻿using Known.Mapping;
 
-namespace Known.Core.Services
+namespace Known.Core
 {
     class ModuleService : CoreServiceBase<IModuleRepository>
     {

@@ -1,6 +1,4 @@
-﻿using Known.Core.Repositories;
-
-namespace Known.Core.Services
+﻿namespace Known.Core
 {
     class AppService : ServiceBase<IAppRepository>
     {

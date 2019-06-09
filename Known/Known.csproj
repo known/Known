@@ -106,7 +106,7 @@
     <Compile Include="Core\Entities\Module.cs" />
     <Compile Include="Core\Entities\User.cs" />
     <Compile Include="Core\Initializer.cs" />
-    <Compile Include="Core\IPlatformRepository.cs" />
+    <Compile Include="Core\Repositories\PlatformRepository.cs" />
     <Compile Include="Core\Menu.cs" />
     <Compile Include="Core\Module.cs" />
     <Compile Include="Core\PlatformService.cs" />
