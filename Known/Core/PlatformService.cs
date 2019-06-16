@@ -213,20 +213,12 @@ namespace Known.Core
 
         public static void RemoveUser(string userName)
         {
-            var key = $"{appId}_{userName}";
-            if (cached.ContainsKey(key))
-            {
-                cached.Remove(key);
-            }
+            RemoveUserCache($"{appId}_{userName}");
         }
 
         public static void RemoveUserByToken(string token)
         {
-            var key = $"{appId}_{token}";
-            if (cached.ContainsKey(key))
-            {
-                cached.Remove(key);
-            }
+            RemoveUserCache($"{appId}_{token}");
         }
 
         public static User GetUser(IPlatformRepository repository, string userName)
@@ -234,19 +226,10 @@ namespace Known.Core
             if (string.IsNullOrWhiteSpace(userName))
                 return null;
 
-            var key = $"{appId}_{userName}";
-            if (!cached.ContainsKey(key))
+            return GetUserCache($"{appId}_{userName}", () =>
             {
-                lock (cached.SyncRoot)
-                {
-                    if (!cached.ContainsKey(key))
-                    {
-                        cached[key] = repository.GetUser(userName);
-                    }
-                }
-            }
-
-            return (User)cached[key];
+                return repository.GetUser(userName);
+            });
         }
 
         public static User GetUserByToken(IPlatformRepository repository, string token)
@@ -254,19 +237,40 @@ namespace Known.Core
             if (string.IsNullOrWhiteSpace(token))
                 return null;
 
-            var key = $"{appId}_{token}";
+            return GetUserCache($"{appId}_{token}", () =>
+            {
+                return repository.GetUserByToken(token);
+            });
+        }
+
+        private static User GetUserCache(string key, Func<User> func)
+        {
             if (!cached.ContainsKey(key))
             {
                 lock (cached.SyncRoot)
                 {
                     if (!cached.ContainsKey(key))
                     {
-                        cached[key] = repository.GetUserByToken(token);
+                        cached[key] = func();
                     }
                 }
             }
 
             return (User)cached[key];
+        }
+
+        private static void RemoveUserCache(string key)
+        {
+            if (cached.ContainsKey(key))
+            {
+                lock (cached.SyncRoot)
+                {
+                    if (cached.ContainsKey(key))
+                    {
+                        cached.Remove(key);
+                    }
+                }
+            }
         }
     }
 }
