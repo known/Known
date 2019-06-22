@@ -5,7 +5,7 @@ namespace Known.Core
     /// <summary>
     /// 应用程序信息类。
     /// </summary>
-    public class Application
+    public class AppInfo
     {
         /// <summary>
         /// 取得或设置主键 Id。
@@ -35,6 +35,6 @@ namespace Known.Core
         /// <summary>
         /// 取得或设置应用程序模块信息列表。
         /// </summary>
-        public List<Module> Modules { get; set; }
+        public List<ModuleInfo> Modules { get; set; }
     }
 }

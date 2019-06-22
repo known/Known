@@ -91,15 +91,15 @@
     <Compile Include="Mapping\EntityHelper.cs" />
     <Compile Include="Mapping\EntityMapper.cs" />
     <Compile Include="Mapping\PropertyMapper.cs" />
-    <Compile Include="Core\Application.cs" />
+    <Compile Include="Core\AppInfo.cs" />
     <Compile Include="Core\Code.cs" />
-    <Compile Include="Core\Company.cs" />
+    <Compile Include="Core\CompanyInfo.cs" />
     <Compile Include="Core\Controllers\DevDemoController.cs" />
     <Compile Include="Core\Controllers\DevToolController.cs" />
     <Compile Include="Core\Controllers\ModuleController.cs" />
     <Compile Include="Core\Controllers\RoleController.cs" />
     <Compile Include="Core\Controllers\UserController.cs" />
-    <Compile Include="Core\Department.cs" />
+    <Compile Include="Core\DepartmentInfo.cs" />
     <Compile Include="Core\Entities\Application.cs" />
     <Compile Include="Core\Entities\Company.cs" />
     <Compile Include="Core\Entities\Department.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="Core\Initializer.cs" />
     <Compile Include="Core\Repositories\PlatformRepository.cs" />
     <Compile Include="Core\Menu.cs" />
-    <Compile Include="Core\Module.cs" />
+    <Compile Include="Core\ModuleInfo.cs" />
     <Compile Include="Core\PlatformService.cs" />
     <Compile Include="Core\Repositories\ModuleRepository.cs" />
     <Compile Include="Core\Repositories\UserRepository.cs" />
@@ -118,7 +118,7 @@
     <Compile Include="Core\Services\DevToolService.cs" />
     <Compile Include="Core\Services\ModuleService.cs" />
     <Compile Include="Core\Services\UserService.cs" />
-    <Compile Include="Core\User.cs" />
+    <Compile Include="Core\UserInfo.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Cache.cs" />

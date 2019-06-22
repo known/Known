@@ -1,4 +1,5 @@
-﻿using Known.Mapping;
+﻿using Known.Core.Entities;
+using Known.Mapping;
 
 namespace Known.Core
 {
@@ -16,7 +17,7 @@ namespace Known.Core
 
         public Result DeleteRoles(string[] ids)
         {
-            var Roles = Repository.QueryListById<Entities.Role>(ids);
+            var Roles = Repository.QueryListById<Role>(ids);
             if (Roles == null || Roles.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");
 
@@ -33,9 +34,9 @@ namespace Known.Core
         #endregion
 
         #region Form
-        public Entities.Role GetRole(string id)
+        public Role GetRole(string id)
         {
-            return Repository.QueryById<Entities.Role>(id);
+            return Repository.QueryById<Role>(id);
         }
 
         public Result SaveRole(dynamic model)
@@ -44,9 +45,9 @@ namespace Known.Core
                 return Result.Error("不能提交空数据！");
 
             var id = (string)model.Id;
-            var entity = Repository.QueryById<Entities.Role>(id);
+            var entity = Repository.QueryById<Role>(id);
             if (entity == null)
-                entity = new Entities.Role();
+                entity = new Role();
 
             EntityHelper.FillModel(entity, model);
 

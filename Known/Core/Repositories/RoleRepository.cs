@@ -1,4 +1,5 @@
-﻿using Known.Data;
+﻿using Known.Core.Entities;
+using Known.Data;
 
 namespace Known.Core
 {
@@ -32,7 +33,7 @@ namespace Known.Core
                 criteria.Parameter.key = $"%{key}%";
             }
 
-            return Database.QueryPage<Entities.User>(sql, criteria);
+            return Database.QueryPage<User>(sql, criteria);
         }
     }
 }

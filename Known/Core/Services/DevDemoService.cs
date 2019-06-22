@@ -11,8 +11,8 @@ namespace Known.Core
 
         public PagingResult QueryUsers(PagingCriteria criteria)
         {
-            var users = new List<User>();
-            users.Add(new User
+            var users = new List<UserInfo>();
+            users.Add(new UserInfo
             {
                 Id = "1",
                 UserName = "admin",
@@ -21,7 +21,7 @@ namespace Known.Core
                 Mobile = "18988888888",
                 Phone = "68888888"
             });
-            users.Add(new User
+            users.Add(new UserInfo
             {
                 Id = "2",
                 UserName = "zhangsan",
@@ -30,7 +30,7 @@ namespace Known.Core
             });
             for (int i = 3; i < 188; i++)
             {
-                users.Add(new User
+                users.Add(new UserInfo
                 {
                     Id = i.ToString(),
                     UserName = $"account{i}",

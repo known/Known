@@ -6,7 +6,7 @@ namespace Known.Core
     /// <summary>
     /// 用户信息类。
     /// </summary>
-    public class User
+    public class UserInfo
     {
         /// <summary>
         /// 取得或设置用户ID。
@@ -81,26 +81,26 @@ namespace Known.Core
         /// <summary>
         /// 取得或设置用户所属公司对象。
         /// </summary>
-        public Company Company { get; set; }
+        public CompanyInfo Company { get; set; }
 
         /// <summary>
         /// 取得或设置用户所属部门对象。
         /// </summary>
-        public Department Department { get; set; }
+        public DepartmentInfo Department { get; set; }
 
         /// <summary>
         /// 取得或设置用户所属管理者对象。
         /// </summary>
-        public User Manager { get; set; }
+        public UserInfo Manager { get; set; }
 
         /// <summary>
         /// 取得或设置用户所有代理人列表。
         /// </summary>
-        public List<User> Proxys { get; set; }
+        public List<UserInfo> Proxys { get; set; }
 
         /// <summary>
         /// 取得或设置用户所有应用程序列表。
         /// </summary>
-        public List<Application> Applications { get; set; }
+        public List<AppInfo> Applications { get; set; }
     }
 }

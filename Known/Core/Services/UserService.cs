@@ -1,4 +1,5 @@
-﻿using Known.Mapping;
+﻿using Known.Core.Entities;
+using Known.Mapping;
 
 namespace Known.Core
 {
@@ -16,7 +17,7 @@ namespace Known.Core
 
         public Result DeleteUsers(string[] ids)
         {
-            var users = Repository.QueryListById<Entities.Module>(ids);
+            var users = Repository.QueryListById<Module>(ids);
             if (users == null || users.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");
 
@@ -33,9 +34,9 @@ namespace Known.Core
         #endregion
 
         #region Form
-        public Entities.User GetUser(string id)
+        public User GetUser(string id)
         {
-            return Repository.QueryById<Entities.User>(id);
+            return Repository.QueryById<User>(id);
         }
 
         public Result SaveUser(dynamic model)
@@ -44,9 +45,9 @@ namespace Known.Core
                 return Result.Error("不能提交空数据！");
 
             var id = (string)model.Id;
-            var entity = Repository.QueryById<Entities.User>(id);
+            var entity = Repository.QueryById<User>(id);
             if (entity == null)
-                entity = new Entities.User();
+                entity = new User();
 
             EntityHelper.FillModel(entity, model);
 

@@ -1,4 +1,5 @@
-﻿using Known.Mapping;
+﻿using Known.Core.Entities;
+using Known.Mapping;
 
 namespace Known.Core
 {
@@ -16,7 +17,7 @@ namespace Known.Core
 
         public Result DeleteModules(string[] ids)
         {
-            var modules = Repository.QueryListById<Entities.Module>(ids);
+            var modules = Repository.QueryListById<Module>(ids);
             if (modules == null || modules.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");
 
@@ -56,7 +57,7 @@ namespace Known.Core
 
         public Result MoveModule(string id, string direct)
         {
-            var module = Repository.QueryById<Entities.Module>(id);
+            var module = Repository.QueryById<Module>(id);
             if (module == null)
                 return Result.Error("模块不存在！");
 
@@ -78,9 +79,9 @@ namespace Known.Core
         #endregion
 
         #region Form
-        public Entities.Module GetModule(string id)
+        public Module GetModule(string id)
         {
-            return Repository.QueryById<Entities.Module>(id);
+            return Repository.QueryById<Module>(id);
         }
 
         public Result SaveModule(dynamic model)
@@ -89,9 +90,9 @@ namespace Known.Core
                 return Result.Error("不能提交空数据！");
 
             var id = (string)model.Id;
-            var entity = Repository.QueryById<Entities.Module>(id);
+            var entity = Repository.QueryById<Module>(id);
             if (entity == null)
-                entity = new Entities.Module();
+                entity = new Module();
 
             EntityHelper.FillModel(entity, model);
 

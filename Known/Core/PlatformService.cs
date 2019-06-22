@@ -44,7 +44,7 @@ namespace Known.Core
         /// </summary>
         /// <param name="id">模块 ID。</param>
         /// <returns>模块信息对象。</returns>
-        public Module GetModule(string id)
+        public ModuleInfo GetModule(string id)
         {
             var module = repository.GetModule(id);
             if (module != null)
@@ -59,7 +59,7 @@ namespace Known.Core
         /// 获取当前应用程序的模块信息对象列表。
         /// </summary>
         /// <returns>模块信息对象列表。</returns>
-        public List<Module> GetModules()
+        public List<ModuleInfo> GetModules()
         {
             var modules = repository.GetModules(Setting.Instance.AppId);
             if (modules == null || modules.Count == 0)
@@ -75,11 +75,11 @@ namespace Known.Core
         /// </summary>
         /// <param name="userName">登录用户名。</param>
         /// <returns>模块信息对象列表。</returns>
-        public List<Module> GetUserModules(string userName)
+        public List<ModuleInfo> GetUserModules(string userName)
         {
             var modules = repository.GetUserModules(Setting.Instance.AppId, userName);
             if (modules == null || modules.Count == 0)
-                return new List<Module>();
+                return new List<ModuleInfo>();
 
             return GetHierarchicalModules(modules);
         }
@@ -89,28 +89,28 @@ namespace Known.Core
         /// </summary>
         /// <param name="userName">登录用户名。</param>
         /// <returns>用户信息对象。</returns>
-        public User GetUser(string userName)
+        public UserInfo GetUser(string userName)
         {
             return repository.GetUser(userName);
         }
 
-        internal Result<User> ValidateLogin(string token)
+        internal Result<UserInfo> ValidateLogin(string token)
         {
             var user = UserCache.GetUserByToken(repository, token);
             if (user == null)
-                return Result.Error<User>("用户不存在！");
+                return Result.Error<UserInfo>("用户不存在！");
 
             return Result.Success("登录成功！", user);
         }
 
-        internal Result<User> ValidateLogin(string userName, string password)
+        internal Result<UserInfo> ValidateLogin(string userName, string password)
         {
             var user = UserCache.GetUser(repository, userName);
             if (user == null)
-                return Result.Error<User>("用户不存在！");
+                return Result.Error<UserInfo>("用户不存在！");
 
             if (user.Password != password)
-                return Result.Error<User>("用户密码不正确！");
+                return Result.Error<UserInfo>("用户密码不正确！");
 
             return Result.Success("登录成功！", user);
         }
@@ -121,14 +121,14 @@ namespace Known.Core
         /// <param name="userName">登录用户名。</param>
         /// <param name="password">登录密码。</param>
         /// <returns>用户登录验证结果。</returns>
-        public Result<User> SignIn(string userName, string password)
+        public Result<UserInfo> SignIn(string userName, string password)
         {
             var user = repository.GetUser(userName);
             if (user == null)
-                return Result.Error<User>("用户不存在！");
+                return Result.Error<UserInfo>("用户不存在！");
 
             if (user.Password != password)
-                return Result.Error<User>("用户密码不正确！");
+                return Result.Error<UserInfo>("用户密码不正确！");
 
             UserCache.RemoveUser(userName);
             UserCache.RemoveUserByToken(user.Token);
@@ -162,7 +162,7 @@ namespace Known.Core
             return Result.Success("注销成功！");
         }
 
-        private void SetParentModule(Module module)
+        private void SetParentModule(ModuleInfo module)
         {
             if (module.ParentId == "0")
                 return;
@@ -171,9 +171,9 @@ namespace Known.Core
             SetParentModule(module.Parent);
         }
 
-        private List<Module> GetHierarchicalModules(List<Module> source)
+        private List<ModuleInfo> GetHierarchicalModules(List<ModuleInfo> source)
         {
-            var modules = new List<Module>();
+            var modules = new List<ModuleInfo>();
             var topModules = source.Where(m => m.ParentId == "0")
                                    .OrderBy(m => m.Sort)
                                    .ToList();
@@ -186,7 +186,7 @@ namespace Known.Core
             return modules;
         }
 
-        private void SetModuleChildren(List<Module> source, List<Module> modules, Module module)
+        private void SetModuleChildren(List<ModuleInfo> source, List<ModuleInfo> modules, ModuleInfo module)
         {
             var children = source.Where(m => m.ParentId == module.Id)
                                  .OrderBy(m => m.Sort)
@@ -195,7 +195,7 @@ namespace Known.Core
                 return;
 
             if (module.Children == null)
-                module.Children = new List<Module>();
+                module.Children = new List<ModuleInfo>();
 
             foreach (var item in children)
             {
@@ -221,7 +221,7 @@ namespace Known.Core
             RemoveUserCache($"{appId}_{token}");
         }
 
-        public static User GetUser(IPlatformRepository repository, string userName)
+        public static UserInfo GetUser(IPlatformRepository repository, string userName)
         {
             if (string.IsNullOrWhiteSpace(userName))
                 return null;
@@ -232,7 +232,7 @@ namespace Known.Core
             });
         }
 
-        public static User GetUserByToken(IPlatformRepository repository, string token)
+        public static UserInfo GetUserByToken(IPlatformRepository repository, string token)
         {
             if (string.IsNullOrWhiteSpace(token))
                 return null;
@@ -243,7 +243,7 @@ namespace Known.Core
             });
         }
 
-        private static User GetUserCache(string key, Func<User> func)
+        private static UserInfo GetUserCache(string key, Func<UserInfo> func)
         {
             if (!cached.ContainsKey(key))
             {
@@ -256,7 +256,7 @@ namespace Known.Core
                 }
             }
 
-            return (User)cached[key];
+            return (UserInfo)cached[key];
         }
 
         private static void RemoveUserCache(string key)

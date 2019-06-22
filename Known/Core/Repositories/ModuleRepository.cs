@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Known.Core.Entities;
 using Known.Data;
 
 namespace Known.Core
@@ -20,7 +21,7 @@ namespace Known.Core
         /// </summary>
         /// <param name="parentId">上级模块ID。</param>
         /// <returns>子模块信息列表。</returns>
-        List<Entities.Module> GetModules(string parentId);
+        List<Module> GetModules(string parentId);
 
         /// <summary>
         /// 获取指定顺序的同级模块信息对象。
@@ -28,7 +29,7 @@ namespace Known.Core
         /// <param name="parentId">上级模块ID。</param>
         /// <param name="sort">模块顺序。</param>
         /// <returns>模块信息对象。</returns>
-        Entities.Module GetModule(string parentId, int sort);
+        Module GetModule(string parentId, int sort);
 
         /// <summary>
         /// 判断指定模块是否存在子模块。
@@ -55,19 +56,19 @@ namespace Known.Core
                 criteria.Parameter.key = $"%{key}%";
             }
 
-            return Database.QueryPage<Entities.Module>(sql, criteria);
+            return Database.QueryPage<Module>(sql, criteria);
         }
 
-        public List<Entities.Module> GetModules(string parentId)
+        public List<Module> GetModules(string parentId)
         {
             var sql = "select * from t_plt_modules where parent_id=@parentId order by sort";
-            return Database.QueryList<Entities.Module>(sql, new { parentId });
+            return Database.QueryList<Module>(sql, new { parentId });
         }
 
-        public Entities.Module GetModule(string parentId, int sort)
+        public Module GetModule(string parentId, int sort)
         {
             var sql = "select * from t_plt_modules where parent_id=@parentId and sort=@sort";
-            return Database.Query<Entities.Module>(sql, new { parentId, sort });
+            return Database.Query<Module>(sql, new { parentId, sort });
         }
 
         public bool ExistsChildren(string id)

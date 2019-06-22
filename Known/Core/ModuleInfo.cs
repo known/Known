@@ -33,7 +33,7 @@ namespace Known.Core
     /// <summary>
     /// 模块信息类。
     /// </summary>
-    public class Module
+    public class ModuleInfo
     {
         /// <summary>
         /// 取得或设置主键ID。
@@ -108,30 +108,30 @@ namespace Known.Core
         /// <summary>
         /// 取得或设置按钮信息列表。
         /// </summary>
-        public List<Button> Buttons
+        public List<ButtonInfo> Buttons
         {
-            get { return ButtonData.FromJson<List<Button>>(); }
+            get { return ButtonData.FromJson<List<ButtonInfo>>(); }
             set { ButtonData = value.ToJson(); }
         }
 
         /// <summary>
         /// 取得或设置字段信息列表。
         /// </summary>
-        public List<Field> Fields
+        public List<FieldInfo> Fields
         {
-            get { return FieldData.FromJson<List<Field>>(); }
+            get { return FieldData.FromJson<List<FieldInfo>>(); }
             set { FieldData = value.ToJson(); }
         }
 
         /// <summary>
         /// 取得或设置上级模块信息对象。
         /// </summary>
-        public Module Parent { get; set; }
+        public ModuleInfo Parent { get; set; }
 
         /// <summary>
         /// 取得或设置子模块信息列表。
         /// </summary>
-        public List<Module> Children { get; set; }
+        public List<ModuleInfo> Children { get; set; }
 
         /// <summary>
         /// 取得或设置全模块代码列表。
@@ -146,7 +146,7 @@ namespace Known.Core
             }
         }
 
-        private void InitFullCodes(Module module, List<string> fullCodes)
+        private void InitFullCodes(ModuleInfo module, List<string> fullCodes)
         {
             if (module.Parent != null)
             {
@@ -160,7 +160,7 @@ namespace Known.Core
     /// <summary>
     /// 按钮信息类。
     /// </summary>
-    public class Button
+    public class ButtonInfo
     {
         /// <summary>
         /// 取得或设置上级按钮。
@@ -200,7 +200,7 @@ namespace Known.Core
         /// <summary>
         /// 取得或设置子按钮对象列表。
         /// </summary>
-        public List<Button> Children { get; set; }
+        public List<ButtonInfo> Children { get; set; }
     }
     #endregion
 
@@ -338,7 +338,7 @@ namespace Known.Core
     /// <summary>
     /// 字段信息类。
     /// </summary>
-    public class Field
+    public class FieldInfo
     {
         /// <summary>
         /// 取得或设置编码。

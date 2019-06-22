@@ -31,14 +31,14 @@ namespace Known.Core
         /// </summary>
         /// <param name="id">模块 ID。</param>
         /// <returns>模块信息对象。</returns>
-        Module GetModule(string id);
+        ModuleInfo GetModule(string id);
 
         /// <summary>
         /// 获取指定应用程序的模块信息对象列表。
         /// </summary>
         /// <param name="appId">应用程序 ID。</param>
         /// <returns>模块信息对象列表。</returns>
-        List<Module> GetModules(string appId);
+        List<ModuleInfo> GetModules(string appId);
 
         /// <summary>
         /// 获取指定应用程序和登录用户的模块信息对象列表。
@@ -46,27 +46,27 @@ namespace Known.Core
         /// <param name="appId">应用程序 ID。</param>
         /// <param name="userName">登录用户名。</param>
         /// <returns>模块信息对象列表。</returns>
-        List<Module> GetUserModules(string appId, string userName);
+        List<ModuleInfo> GetUserModules(string appId, string userName);
 
         /// <summary>
         /// 获取指定用户名的用户信息对象。
         /// </summary>
         /// <param name="userName">登录用户名。</param>
         /// <returns>用户信息对象。</returns>
-        User GetUser(string userName);
+        UserInfo GetUser(string userName);
 
         /// <summary>
         /// 获取指定用户身份票据的用户信息对象。
         /// </summary>
         /// <param name="token">用户身份票据。</param>
         /// <returns>用户信息对象。</returns>
-        User GetUserByToken(string token);
+        UserInfo GetUserByToken(string token);
 
         /// <summary>
         /// 保存用户信息对象。
         /// </summary>
         /// <param name="user">用户信息对象。</param>
-        void SaveUser(User user);
+        void SaveUser(UserInfo user);
     }
 
     class ApiPlatformRepository : IPlatformRepository
@@ -97,32 +97,32 @@ namespace Known.Core
             return client.Get<Dictionary<string, object>>("/api/App/GetCodes", new { appId });
         }
 
-        public Module GetModule(string id)
+        public ModuleInfo GetModule(string id)
         {
-            return client.Get<Module>("/api/Module/GetModule", new { id });
+            return client.Get<ModuleInfo>("/api/Module/GetModule", new { id });
         }
 
-        public List<Module> GetModules(string appId)
+        public List<ModuleInfo> GetModules(string appId)
         {
-            return client.Get<List<Module>>("/api/Module/GetModules", new { appId });
+            return client.Get<List<ModuleInfo>>("/api/Module/GetModules", new { appId });
         }
 
-        public List<Module> GetUserModules(string appId, string userName)
+        public List<ModuleInfo> GetUserModules(string appId, string userName)
         {
-            return client.Get<List<Module>>("/api/User/GetUserModules", new { appId, userName });
+            return client.Get<List<ModuleInfo>>("/api/User/GetUserModules", new { appId, userName });
         }
 
-        public User GetUser(string userName)
+        public UserInfo GetUser(string userName)
         {
-            return client.Get<User>("/api/User/GetUser", new { userName });
+            return client.Get<UserInfo>("/api/User/GetUser", new { userName });
         }
 
-        public User GetUserByToken(string token)
+        public UserInfo GetUserByToken(string token)
         {
-            return client.Get<User>("/api/User/GetUserByToken", new { token });
+            return client.Get<UserInfo>("/api/User/GetUserByToken", new { token });
         }
 
-        public void SaveUser(User user)
+        public void SaveUser(UserInfo user)
         {
             client.Post("/api/User/SaveUser", user);
         }
@@ -151,7 +151,7 @@ namespace Known.Core
             return new Dictionary<string, object>();
         }
 
-        public Module GetModule(string id)
+        public ModuleInfo GetModule(string id)
         {
             var sql = "select * from t_plt_modules where id=@id";
             var row = database.QueryRow(sql, new { id });
@@ -161,14 +161,14 @@ namespace Known.Core
             return GetModule(row);
         }
 
-        public List<Module> GetModules(string appId)
+        public List<ModuleInfo> GetModules(string appId)
         {
             var sql = "select * from t_plt_modules where app_id=@appId";
             var data = database.QueryTable(sql, new { appId });
             if (data == null || data.Rows.Count == 0)
                 return null;
 
-            var modules = new List<Module>();
+            var modules = new List<ModuleInfo>();
             foreach (DataRow row in data.Rows)
             {
                 modules.Add(GetModule(row));
@@ -177,14 +177,14 @@ namespace Known.Core
             return modules;
         }
 
-        public List<Module> GetUserModules(string appId, string userName)
+        public List<ModuleInfo> GetUserModules(string appId, string userName)
         {
             var sql = "select * from t_plt_modules where app_id=@appId and enabled=1";
             var data = database.QueryTable(sql, new { appId });
             if (data == null || data.Rows.Count == 0)
                 return null;
 
-            var modules = new List<Module>();
+            var modules = new List<ModuleInfo>();
             foreach (DataRow row in data.Rows)
             {
                 modules.Add(GetModule(row));
@@ -193,7 +193,7 @@ namespace Known.Core
             return modules;
         }
 
-        public User GetUser(string userName)
+        public UserInfo GetUser(string userName)
         {
             var sql = "select * from t_plt_users where user_name=@userName";
             var row = database.QueryRow(sql, new { userName });
@@ -203,7 +203,7 @@ namespace Known.Core
             return GetUser(row);
         }
 
-        public User GetUserByToken(string token)
+        public UserInfo GetUserByToken(string token)
         {
             var sql = "select * from t_plt_users where token=@token";
             var row = database.QueryRow(sql, new { token });
@@ -213,7 +213,7 @@ namespace Known.Core
             return GetUser(row);
         }
 
-        public void SaveUser(User user)
+        public void SaveUser(UserInfo user)
         {
             if (user == null)
                 return;
@@ -227,9 +227,9 @@ where id=@Id";
             database.Execute(sql, user);
         }
 
-        private static Module GetModule(DataRow row)
+        private static ModuleInfo GetModule(DataRow row)
         {
-            return new Module
+            return new ModuleInfo
             {
                 Id = row.Get<string>("id"),
                 AppId = row.Get<string>("app_id"),
@@ -248,9 +248,9 @@ where id=@Id";
             };
         }
 
-        private static User GetUser(DataRow row)
+        private static UserInfo GetUser(DataRow row)
         {
-            return new User
+            return new UserInfo
             {
                 Id = row.Get<string>("id"),
                 AppId = row.Get<string>("app_id"),

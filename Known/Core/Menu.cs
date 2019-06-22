@@ -93,7 +93,7 @@ namespace Known.Core
             return menus;
         }
 
-        private static Menu GetMenu(Module module)
+        private static Menu GetMenu(ModuleInfo module)
         {
             return new Menu
             {
@@ -106,7 +106,7 @@ namespace Known.Core
             };
         }
 
-        private static void SetSubModules(List<Menu> menus, Module module, Menu menu)
+        private static void SetSubModules(List<Menu> menus, ModuleInfo module, Menu menu)
         {
             if (module.Children == null || module.Children.Count == 0)
                 return;
