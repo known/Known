@@ -2,9 +2,8 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
-using Known.Web;
 
-namespace Known.WebApi
+namespace Known.Web
 {
     /// <summary>
     /// 操作上下文扩展类。

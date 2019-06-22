@@ -2,10 +2,9 @@
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using Known.Web;
 using Known.Web.Extensions;
 
-namespace Known.WebApi
+namespace Known.Web
 {
     /// <summary>
     /// Api 操作跟踪特性类。

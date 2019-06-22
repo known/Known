@@ -9,10 +9,9 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using Known.Core;
 using Known.Extensions;
-using Known.Web;
 using Known.Web.Extensions;
 
-namespace Known.WebApi
+namespace Known.Web
 {
     /// <summary>
     /// Api 登录授权特性类。

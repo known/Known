@@ -1,9 +1,8 @@
 ﻿using System.Web.Http;
 using Known.Core;
 using Known.Extensions;
-using Known.Web;
 
-namespace Known.WebApi
+namespace Known.Web
 {
     /// <summary>
     /// Api 控制器基类。

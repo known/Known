@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Known.WebApi
+namespace Known.Web
 {
     /// <summary>
     /// 查询条件类。

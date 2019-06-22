@@ -4,7 +4,7 @@ using System.Web.Http.Filters;
 using Known.Log;
 using Known.Web.Extensions;
 
-namespace Known.WebApi
+namespace Known.Web
 {
     class RequestTracker
     {

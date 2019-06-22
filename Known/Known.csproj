@@ -187,18 +187,18 @@
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validator.cs" />
-    <Compile Include="WebApi\HttpActionContextExtension.cs" />
-    <Compile Include="WebApi\ApiLoginAuthorizeAttribute.cs" />
-    <Compile Include="WebApi\ApiTrackActionAttribute.cs" />
+    <Compile Include="Web\HttpActionContextExtension.cs" />
+    <Compile Include="Web\ApiLoginAuthorizeAttribute.cs" />
+    <Compile Include="Web\ApiTrackActionAttribute.cs" />
     <Compile Include="Web\ApiClient.cs" />
-    <Compile Include="WebApi\ApiControllerBase.cs" />
+    <Compile Include="Web\ApiControllerBase.cs" />
     <Compile Include="Web\ApiResult.cs" />
     <Compile Include="Web\AuthenticationHandler.cs" />
     <Compile Include="Web\AuthenticationIdentity.cs" />
     <Compile Include="Web\CompressedContent.cs" />
     <Compile Include="Web\CompressionHelper.cs" />
     <Compile Include="Web\CompressionMethod.cs" />
-    <Compile Include="WebApi\CriteriaData.cs" />
+    <Compile Include="Web\CriteriaData.cs" />
     <Compile Include="Web\DecompressionHandler.cs" />
     <Compile Include="Web\DoNotTrackAttribute.cs" />
     <Compile Include="Web\Extensions\HttpContextExtension.cs" />
@@ -212,8 +212,8 @@
     <Compile Include="Web\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="WebApi\RequestTracker.cs" />
-    <Compile Include="WebApi\TrackHelper.cs" />
+    <Compile Include="Web\RequestTracker.cs" />
+    <Compile Include="Web\TrackHelper.cs" />
     <Compile Include="Web\WebUtils.cs" />
     <Compile Include="Workflow\Activity.cs" />
     <Compile Include="Workflow\ActivityContext.cs" />

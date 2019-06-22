@@ -1,6 +1,5 @@
 ﻿using System.Web.Http;
 using Known.Web;
-using Known.WebApi;
 
 namespace Known.Core.Controllers
 {
