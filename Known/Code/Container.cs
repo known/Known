@@ -25,16 +25,18 @@ namespace Known
         /// <typeparam name="T">对象类型。</typeparam>
         public static void Remove<T>()
         {
-            var key = typeof(T);
-            if (cached.ContainsKey(key))
+            var type = typeof(T);
+            if (cached.ContainsKey(type))
             {
-                cached.Remove(key);
+                cached.Remove(type);
                 return;
             }
 
-            var key1 = typeof(T).Name;
-            if (cached.ContainsKey(key1))
-                cached.Remove(key1);
+            var name = type.Name;
+            if (cached.ContainsKey(name))
+            {
+                cached.Remove(name);
+            }
         }
 
         /// <summary>
@@ -56,13 +58,13 @@ namespace Known
         /// <returns>对象实例。</returns>
         public static T Resolve<T>()
         {
-            var key = typeof(T);
-            if (cached.ContainsKey(key))
-                return (T)cached[key];
+            var type = typeof(T);
+            if (cached.ContainsKey(type))
+                return (T)cached[type];
 
-            var key1 = typeof(T).Name;
-            if (cached.ContainsKey(key1))
-                return (T)cached[key1];
+            var name = type.Name;
+            if (cached.ContainsKey(name))
+                return (T)cached[name];
 
             return default;
         }
@@ -87,17 +89,7 @@ namespace Known
         /// <typeparam name="TImpl">无参数构造函数的对象实例类型，必须继承 T。</typeparam>
         public static void Register<T, TImpl>() where TImpl : T
         {
-            var key = typeof(T);
-            if (!cached.ContainsKey(key))
-            {
-                lock (cached.SyncRoot)
-                {
-                    if (!cached.ContainsKey(key))
-                    {
-                        cached[key] = Activator.CreateInstance<TImpl>();
-                    }
-                }
-            }
+            Register(typeof(T), () => Activator.CreateInstance<TImpl>());
         }
 
         /// <summary>
@@ -107,8 +99,7 @@ namespace Known
         /// <param name="instance">对象实例。</param>
         public static void Register<T>(object instance)
         {
-            var key = typeof(T);
-            Register(key, instance);
+            Register(typeof(T), () => instance);
         }
 
         /// <summary>
@@ -127,15 +118,17 @@ namespace Known
             {
                 if (type.IsSubclassOf(typeof(T)) && !type.IsAbstract)
                 {
-                    var instance = args != null && args.Length > 0
-                                 ? Activator.CreateInstance(type, args)
-                                 : Activator.CreateInstance(type);
-                    Register(type.Name, instance);
+                    Register(type.Name, () =>
+                    {
+                        return args != null && args.Length > 0
+                             ? Activator.CreateInstance(type, args)
+                             : Activator.CreateInstance(type);
+                    });
                 }
             }
         }
 
-        private static void Register(object key, object instance)
+        private static void Register(object key, Func<object> func)
         {
             if (!cached.ContainsKey(key))
             {
@@ -143,7 +136,7 @@ namespace Known
                 {
                     if (!cached.ContainsKey(key))
                     {
-                        cached[key] = instance;
+                        cached[key] = func();
                     }
                 }
             }
