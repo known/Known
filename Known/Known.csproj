@@ -94,8 +94,6 @@
     <Compile Include="Core\AppInfo.cs" />
     <Compile Include="Core\Code.cs" />
     <Compile Include="Core\CompanyInfo.cs" />
-    <Compile Include="Core\Controllers\DevDemoController.cs" />
-    <Compile Include="Core\Controllers\DevToolController.cs" />
     <Compile Include="Core\Controllers\ModuleController.cs" />
     <Compile Include="Core\Controllers\RoleController.cs" />
     <Compile Include="Core\Controllers\UserController.cs" />
@@ -114,8 +112,6 @@
     <Compile Include="Core\Repositories\UserRepository.cs" />
     <Compile Include="Core\Services\AppService.cs" />
     <Compile Include="Core\Services\CoreServiceBase.cs" />
-    <Compile Include="Core\Services\DevDemoService.cs" />
-    <Compile Include="Core\Services\DevToolService.cs" />
     <Compile Include="Core\Services\ModuleService.cs" />
     <Compile Include="Core\Services\UserService.cs" />
     <Compile Include="Core\UserInfo.cs" />
