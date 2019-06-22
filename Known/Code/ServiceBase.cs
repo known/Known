@@ -1,5 +1,4 @@
-﻿using System;
-using Known.Data;
+﻿using Known.Data;
 using Known.Mapping;
 
 namespace Known
@@ -9,19 +8,24 @@ namespace Known
     /// </summary>
     public abstract class ServiceBase
     {
+        private Context context;
+
         /// <summary>
         /// 初始化一个业务服务类实例。
         /// </summary>
         /// <param name="context">上下文对象。</param>
         protected ServiceBase(Context context)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            this.context = context;
         }
 
         /// <summary>
         /// 取得上下文对象。
         /// </summary>
-        public Context Context { get; }
+        public Context Context
+        {
+            get { return context; }
+        }
 
         /// <summary>
         /// 加载指定类型的业务服务对象。
@@ -41,6 +45,11 @@ namespace Known
         protected T LoadRepository<T>() where T : IRepository
         {
             return ObjectFactory.CreateRepository<T>(Context);
+        }
+
+        internal void SetContext(Context context)
+        {
+            this.context = context;
         }
     }
 

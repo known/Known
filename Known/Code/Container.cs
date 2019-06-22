@@ -103,7 +103,7 @@ namespace Known
         }
 
         /// <summary>
-        /// 注册程序集中所有实现 T 的类型对象实例。
+        /// 注册程序集中所有继承 T 类型的对象实例。
         /// </summary>
         /// <typeparam name="T">对象基类类型。</typeparam>
         /// <param name="assembly">程序集。</param>

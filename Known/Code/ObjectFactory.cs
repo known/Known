@@ -22,9 +22,14 @@ namespace Known
                 var type = typeof(T);
                 var instance = Activator.CreateInstance(type, context);
                 Container.Register<T>(instance);
+                service = Container.Resolve<T>();
+            }
+            else
+            {
+                service.SetContext(context);
             }
 
-            return Container.Resolve<T>();
+            return service;
         }
 
         /// <summary>

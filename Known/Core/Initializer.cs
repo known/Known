@@ -11,7 +11,7 @@ namespace Known.Core
         /// 初始化模块。
         /// </summary>
         /// <param name="context">程序上下文对象。</param>
-        public static void Initialize(Context context = null)
+        public static void Initialize(Context context)
         {
             Container.Register<IJson, JsonProvider>();
 
@@ -19,7 +19,7 @@ namespace Known.Core
             InitCoreModule(context);
         }
 
-        private static void InitPlatformRepository(Context context = null)
+        private static void InitPlatformRepository(Context context)
         {
             //先判断外部是否已注册依赖
             var repository = Container.Resolve<IPlatformRepository>();
@@ -35,10 +35,6 @@ namespace Known.Core
             }
             else
             {
-                if (context == null)
-                {
-                    context = Context.Create();
-                }
                 repository = new PlatformRepository(context.Database);
                 Container.Register<IPlatformRepository>(repository);
             }
