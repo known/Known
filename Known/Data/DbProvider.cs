@@ -14,12 +14,14 @@ namespace Known.Data
 
         public DbProvider(string name)
         {
+            Name = name;
             var setting = ConfigurationManager.ConnectionStrings[name];
             factory = DbProviderFactories.GetFactory(setting.ProviderName);
             ProviderName = setting.ProviderName;
             ConnectionString = setting.ConnectionString;
         }
 
+        public string Name { get; }
         public string ProviderName { get; }
         public string ConnectionString { get; }
 

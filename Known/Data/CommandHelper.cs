@@ -35,7 +35,7 @@ namespace Known.Data
             return $"select count(1) from ({sql}) t";
         }
 
-        public static string GetPagingSql(string sql, PagingCriteria criteria)
+        public static string GetPagingSql(string providerName, string sql, PagingCriteria criteria)
         {
             var orderBy = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)));
             var startNo = criteria.PageSize * criteria.PageIndex;
@@ -46,7 +46,23 @@ namespace Known.Data
                 orderBy = "t1.create_time";
             }
 
-            return $"select t.* from (select t1.*,row_number() over (order by {orderBy}) row_no from ({sql}) t1) t where t.row_no>{startNo} and t.row_no<={endNo}";
+            if (providerName.Contains("MySql"))
+            {
+                return $@"
+select t1.* from (
+    {sql}
+) t1 
+order by {orderBy} 
+limit {startNo}, {endNo}";
+            }
+
+            return $@"
+select t.* from (
+    select t1.*,row_number() over (order by {orderBy}) row_no 
+    from (
+        {sql}
+    ) t1
+) t where t.row_no>{startNo} and t.row_no<={endNo}";
         }
 
         public static Command GetCommand(string sql, object param = null)

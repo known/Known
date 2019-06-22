@@ -24,7 +24,6 @@ namespace Known.Core.Controllers
         [AllowAnonymous, Route("signin")]
         public object SignIn(string userName, string password, string backUrl = null)
         {
-            userName = userName.ToLower();
             var result = PlatformService.SignIn(userName, password);
             if (!result.IsValid)
                 return ApiResult.Error(result.Message);

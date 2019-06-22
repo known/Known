@@ -96,7 +96,7 @@ namespace Known.Data
         /// <returns>操作结果。</returns>
         public Result Transaction(string name, Action<IRepository> action, object data = null)
         {
-            var db = new Database(Database.Name);
+            var db = new Database(Database.Provider.Name);
             var rep = new DbRepository(db);
 
             try

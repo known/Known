@@ -14,7 +14,7 @@ namespace Known.Tests.Core
 
         public static void GetUser()
         {
-            var info = user.GetData("1");
+            var info = user.GetUser("1");
             TestAssert.IsNull(info);
         }
 

@@ -9,6 +9,11 @@ namespace Known.Data
     public interface IDbProvider : IDisposable
     {
         /// <summary>
+        /// 取得数据库访问链接名称。
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// 取得数据库访问提供者名称。
         /// </summary>
         string ProviderName { get; }

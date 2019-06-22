@@ -9,6 +9,7 @@ namespace Known.Tests
 {
     class TestDbProvider : IDbProvider
     {
+        public string Name { get; }
         public string ProviderName { get; }
         public string ConnectionString { get; }
 

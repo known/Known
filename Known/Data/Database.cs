@@ -10,20 +10,16 @@ namespace Known.Data
     /// </summary>
     public class Database : IDisposable
     {
-        private IDbProvider provider;
-
         /// <summary>
         /// 初始化一个数据库访问操作类实例。
         /// </summary>
         public Database()
         {
-            provider = Container.Resolve<IDbProvider>();
+            Provider = Container.Resolve<IDbProvider>();
 
-            if (provider == null)
+            if (Provider == null)
             {
-                Name = "Default";
-                provider = new DbProvider(Name);
-                ConnectionString = provider.ConnectionString;
+                Provider = new DbProvider("Default");
             }
         }
 
@@ -33,20 +29,13 @@ namespace Known.Data
         /// <param name="name">数据库链接名称。</param>
         public Database(string name)
         {
-            Name = name;
-            provider = new DbProvider(Name);
-            ConnectionString = provider.ConnectionString;
+            Provider = new DbProvider(name);
         }
 
         /// <summary>
-        /// 取得数据库链接名称。
+        /// 取得数据库访问提供者。
         /// </summary>
-        public string Name { get; }
-
-        /// <summary>
-        /// 取得数据库访问链接字符串。
-        /// </summary>
-        public string ConnectionString { get; }
+        public IDbProvider Provider { get; }
 
         /// <summary>
         /// 取得当前用户名。
@@ -55,17 +44,17 @@ namespace Known.Data
 
         internal void BeginTrans()
         {
-            provider.BeginTrans();
+            Provider.BeginTrans();
         }
 
         internal void Commit()
         {
-            provider.Commit();
+            Provider.Commit();
         }
 
         internal void Rollback()
         {
-            provider.Rollback();
+            Provider.Rollback();
         }
 
         /// <summary>
@@ -77,7 +66,7 @@ namespace Known.Data
         /// <returns>操作结果。</returns>
         public Result Transaction(string name, Action<Database> action, object data = null)
         {
-            var db = new Database(Name);
+            var db = new Database(Provider.Name);
 
             try
             {
@@ -105,7 +94,7 @@ namespace Known.Data
         public void Execute(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            provider.Execute(command);
+            Provider.Execute(command);
         }
 
         /// <summary>
@@ -118,7 +107,7 @@ namespace Known.Data
         public T Scalar<T>(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            return (T)provider.Scalar(command);
+            return (T)Provider.Scalar(command);
         }
 
         /// <summary>
@@ -223,7 +212,7 @@ namespace Known.Data
             }
 
             var command = CommandHelper.GetSaveCommand(entity);
-            provider.Execute(command);
+            Provider.Execute(command);
         }
 
         /// <summary>
@@ -240,7 +229,7 @@ namespace Known.Data
             entity.ModifyBy = UserName;
             entity.ModifyTime = DateTime.Now;
             var command = CommandHelper.GetSaveCommand(entity);
-            provider.Execute(command);
+            Provider.Execute(command);
         }
 
         /// <summary>
@@ -264,7 +253,7 @@ namespace Known.Data
         public void Delete<T>(T entity) where T : EntityBase
         {
             var command = CommandHelper.GetDeleteCommand(entity);
-            provider.Execute(command);
+            Provider.Execute(command);
         }
 
         /// <summary>
@@ -286,7 +275,7 @@ namespace Known.Data
         /// <param name="table">数据表。</param>
         public void WriteTable(DataTable table)
         {
-            provider.WriteTable(table);
+            Provider.WriteTable(table);
         }
 
         /// <summary>
@@ -298,7 +287,7 @@ namespace Known.Data
         public DataTable QueryTable(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            return provider.Query(command);
+            return Provider.Query(command);
         }
 
         /// <summary>
@@ -315,11 +304,11 @@ namespace Known.Data
 
             var sqlCount = CommandHelper.GetCountSql(cmd.Text);
             var cmdCount = new Command(sqlCount, cmd.Parameters);
-            var totalCount = (int)provider.Scalar(cmdCount);
+            var totalCount = (int)Provider.Scalar(cmdCount);
 
-            var sqlPage = CommandHelper.GetPagingSql(cmd.Text, criteria);
+            var sqlPage = CommandHelper.GetPagingSql(Provider.ProviderName, cmd.Text, criteria);
             var cmdData = new Command(sqlPage, cmd.Parameters);
-            var pageData = provider.Query(cmdData);
+            var pageData = Provider.Query(cmdData);
             return new PagingResult(totalCount, pageData);
         }
 
@@ -332,7 +321,7 @@ namespace Known.Data
         public DataRow QueryRow(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            var data = provider.Query(command);
+            var data = Provider.Query(command);
             if (data == null || data.Rows.Count == 0)
                 return null;
 
@@ -344,10 +333,9 @@ namespace Known.Data
         /// </summary>
         public void Dispose()
         {
-            if (provider != null)
+            if (Provider != null)
             {
-                provider.Dispose();
-                provider = null;
+                Provider.Dispose();
             }
         }
     }

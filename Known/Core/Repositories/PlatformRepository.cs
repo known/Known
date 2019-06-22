@@ -86,7 +86,8 @@ namespace Known.Core
 
             if (!apiBaseUrls.ContainsKey(apiId))
             {
-                apiBaseUrls[apiId] = client.Get<string>("/api/App/GetApiUrl", new { apiId });
+                var url = client.Get<string>("/api/App/GetApiUrl", new { apiId });
+                apiBaseUrls[apiId] = url;
             }
 
             return apiBaseUrls[apiId];
