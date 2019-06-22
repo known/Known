@@ -1,5 +1,7 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using Known.Core;
+using Known.Extensions;
 
 namespace Known.Web
 {
@@ -48,6 +50,33 @@ namespace Known.Web
         protected T LoadService<T>() where T : ServiceBase
         {
             return ObjectFactory.CreateService<T>(Context);
+        }
+
+        /// <summary>
+        /// 查询分页数据对象。
+        /// </summary>
+        /// <param name="data">查询条件对象。</param>
+        /// <param name="func">查询方法。</param>
+        /// <returns>分页数据对象。</returns>
+        protected object QueryPagingData(CriteriaData data, Func<PagingCriteria, PagingResult> func)
+        {
+            var criteria = data.ToPagingCriteria();
+            var result = func(criteria);
+            return ApiResult.ToPageData(result);
+        }
+
+        /// <summary>
+        /// 处理 POST 请求的操作。
+        /// </summary>
+        /// <typeparam name="T">POST 的数据类型。</typeparam>
+        /// <param name="data">前端提交的 JSON 数据。</param>
+        /// <param name="func">操作方法。</param>
+        /// <returns>操作结果。</returns>
+        protected object PostAction<T>(string data, Func<T, Result> func)
+        {
+            var obj = data.FromJson<T>();
+            var result = func(obj);
+            return ApiResult.Result(result);
         }
     }
 }

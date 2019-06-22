@@ -1,5 +1,4 @@
 ﻿using System.Web.Http;
-using Known.Extensions;
 using Known.Web;
 
 namespace Known.Core.Controllers
@@ -28,21 +27,23 @@ namespace Known.Core.Controllers
         /// <summary>
         /// 查询分页数据对象。
         /// </summary>
-        /// <param name="criteria">查询条件对象。</param>
-        /// <returns>分页查询结果。</returns>
-        protected override PagingResult QueryDatas(PagingCriteria criteria)
+        /// <param name="data">查询条件对象。</param>
+        /// <returns>分页数据对象。</returns>
+        [HttpPost]
+        public object QueryModules(CriteriaData data)
         {
-            return Service.QueryModules(criteria);
+            return QueryPagingData(data, c => Service.QueryModules(c));
         }
 
         /// <summary>
         /// 删除一个或多个实体对象。
         /// </summary>
-        /// <param name="ids">实体对象 Id 数组。</param>
+        /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
-        protected override Result DeleteDatas(string[] ids)
+        [HttpPost]
+        public object DeleteModules([FromBody]string data)
         {
-            return Service.DeleteModules(ids);
+            return PostAction<string[]>(data, d => Service.DeleteModules(d));
         }
 
         /// <summary>
@@ -53,9 +54,12 @@ namespace Known.Core.Controllers
         [HttpPost]
         public object MoveModule([FromBody]string data)
         {
-            var model = data.FromJson<dynamic>();
-            var result = Service.MoveModule((string)model.id, (string)model.direct);
-            return ApiResult.Result(result);
+            return PostAction<dynamic>(data, d =>
+            {
+                var id = (string)d.id;
+                var direct = (string)d.direct;
+                return Service.MoveModule(id, direct);
+            });
         }
         #endregion
 
@@ -65,7 +69,7 @@ namespace Known.Core.Controllers
         /// </summary>
         /// <param name="id">实体 id。</param>
         /// <returns>实体对象。</returns>
-        public override object GetData(string id)
+        public object GetModule(string id)
         {
             return Service.GetModule(id);
         }
@@ -73,11 +77,12 @@ namespace Known.Core.Controllers
         /// <summary>
         /// 保存实体对象。
         /// </summary>
-        /// <param name="model">实体对象。</param>
+        /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
-        protected override Result SaveData(dynamic model)
+        [HttpPost]
+        public object SaveModule([FromBody]string data)
         {
-            return Service.SaveModule(model);
+            return PostAction<dynamic>(data, d => Service.SaveModule(d));
         }
         #endregion
     }

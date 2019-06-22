@@ -73,21 +73,23 @@ namespace Known.Core.Controllers
         /// <summary>
         /// 查询分页数据对象。
         /// </summary>
-        /// <param name="criteria">查询条件对象。</param>
-        /// <returns>分页查询结果。</returns>
-        protected override PagingResult QueryDatas(PagingCriteria criteria)
+        /// <param name="data">查询条件对象。</param>
+        /// <returns>分页数据对象。</returns>
+        [HttpPost]
+        public object QueryUsers(CriteriaData data)
         {
-            return Service.QueryUsers(criteria);
+            return QueryPagingData(data, c => Service.QueryUsers(c));
         }
 
         /// <summary>
         /// 删除一个或多个实体对象。
         /// </summary>
-        /// <param name="ids">实体对象 Id 数组。</param>
+        /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
-        protected override Result DeleteDatas(string[] ids)
+        [HttpPost]
+        public object DeleteUsers([FromBody]string data)
         {
-            return Service.DeleteUsers(ids);
+            return PostAction<string[]>(data, d => Service.DeleteUsers(d));
         }
         #endregion
 
@@ -97,7 +99,7 @@ namespace Known.Core.Controllers
         /// </summary>
         /// <param name="id">实体 id。</param>
         /// <returns>实体对象。</returns>
-        public override object GetData(string id)
+        public object GetUser(string id)
         {
             return Service.GetUser(id);
         }
@@ -105,11 +107,12 @@ namespace Known.Core.Controllers
         /// <summary>
         /// 保存实体对象。
         /// </summary>
-        /// <param name="model">实体对象。</param>
+        /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
-        protected override Result SaveData(dynamic model)
+        [HttpPost]
+        public object SaveUser([FromBody]string data)
         {
-            return Service.SaveUser(model);
+            return PostAction<dynamic>(data, d => Service.SaveUser(d));
         }
         #endregion
     }
