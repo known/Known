@@ -10,24 +10,19 @@ namespace Known
     /// </summary>
     public abstract class ServiceBase
     {
-        private Context context;
-
         /// <summary>
         /// 初始化一个业务服务类实例。
         /// </summary>
         /// <param name="context">上下文对象。</param>
         protected ServiceBase(Context context)
         {
-            this.context = context;
+            Context = context;
         }
 
         /// <summary>
         /// 取得上下文对象。
         /// </summary>
-        public Context Context
-        {
-            get { return context; }
-        }
+        public Context Context { get; private set; }
 
         /// <summary>
         /// 加载指定类型的业务服务对象。
@@ -51,7 +46,7 @@ namespace Known
 
         internal void SetContext(Context context)
         {
-            this.context = context;
+            Context = context;
         }
     }
 

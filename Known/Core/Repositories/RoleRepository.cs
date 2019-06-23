@@ -14,6 +14,10 @@ namespace Known.Core
         /// <param name="criteria">查询条件对象。</param>
         /// <returns>分页数据对象。</returns>
         PagingResult QueryRoles(PagingCriteria criteria);
+
+        void DeleteRoleUsers(string roleId);
+
+        void DeleteRoleFunctions(string roleId);
     }
 
     internal class RoleRepository : DbRepository, IRoleRepository
@@ -34,6 +38,16 @@ namespace Known.Core
             }
 
             return Database.QueryPage<User>(sql, criteria);
+        }
+
+        public void DeleteRoleUsers(string roleId)
+        {
+
+        }
+
+        public void DeleteRoleFunctions(string roleId)
+        {
+
         }
     }
 }

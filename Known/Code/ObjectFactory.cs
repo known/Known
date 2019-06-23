@@ -19,8 +19,7 @@ namespace Known
             var service = Container.Resolve<T>();
             if (service == null)
             {
-                var type = typeof(T);
-                var instance = Activator.CreateInstance(type, context);
+                var instance = Activator.CreateInstance(typeof(T), context);
                 Container.Register<T>(instance);
                 service = Container.Resolve<T>();
             }
