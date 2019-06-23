@@ -48,43 +48,6 @@ namespace Known.Tests
         }
     }
 
-    class TestRepository : IRepository
-    {
-        public TestRepository() { }
-
-        public TestRepository(Database database)
-        {
-        }
-
-        public T QueryById<T>(string id) where T : EntityBase
-        {
-            return default;
-        }
-
-        public List<T> QueryList<T>() where T : EntityBase
-        {
-            return new List<T>();
-        }
-
-        public List<T> QueryListById<T>(string[] ids) where T : EntityBase
-        {
-            return new List<T>();
-        }
-
-        public void Save<T>(T entity) where T : EntityBase
-        {
-        }
-
-        public void Delete<T>(T entity) where T : EntityBase
-        {
-        }
-
-        public Result Transaction(string name, Action<IRepository> action, object data = null)
-        {
-            return Result.Success("操作成功！", data);
-        }
-    }
-
     class JobRepository : IJobRepository
     {
         public List<JobInfo> GetServerJobs(string server)

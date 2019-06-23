@@ -5,16 +5,16 @@ using Known.Mapping;
 
 namespace Known.Tests.Demo
 {
-    public class ApplyFormService : ServiceBase<IApplyFormRepository>
+    public class ApplyFormService : ServiceBase
     {
         public ApplyFormService(Context context) : base(context)
         {
         }
 
-        #region Index
+        #region View
         public PagingResult QueryApplyForms(PagingCriteria criteria)
         {
-            return Repository.QueryApplyForms(criteria);
+            return Database.QueryApplyForms(criteria);
         }
 
         public Result DeleteApplyForms(List<ApplyForm> entities)
@@ -22,9 +22,9 @@ namespace Known.Tests.Demo
             if (entities == null || entities.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");
 
-            return Repository.Transaction("删除", rep =>
+            return Database.Transaction("删除", db =>
             {
-                entities.ForEach(e => rep.Delete(e));
+                entities.ForEach(e => db.Delete(e));
             });
         }
 
@@ -68,9 +68,9 @@ namespace Known.Tests.Demo
             if (errors.Count > 0)
                 return Result.Error("导入校验失败！");
 
-            return Repository.Transaction("导入", rep =>
+            return Database.Transaction("导入", db =>
             {
-                entities.ForEach(e => rep.Save(e));
+                entities.ForEach(e => db.Save(e));
             });
         }
 
@@ -79,12 +79,12 @@ namespace Known.Tests.Demo
             if (entities == null || entities.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");
 
-            return Repository.Transaction("提交", rep =>
+            return Database.Transaction("提交", db =>
             {
                 foreach (var item in entities)
                 {
                     item.Status = ApplyStatus.Commit;
-                    rep.Save(item);
+                    db.Save(item);
                 }
             });
         }
@@ -93,10 +93,10 @@ namespace Known.Tests.Demo
         #region Form
         public ApplyForm GetApplyForm(string id)
         {
-            var entity = Repository.QueryById<ApplyForm>(id);
+            var entity = Database.QueryById<ApplyForm>(id);
             if (entity != null)
             {
-                entity.Lists = Repository.GetApplyFormLists(entity.Id);
+                entity.Lists = Database.GetApplyFormLists(entity.Id);
             }
             return entity;
         }
@@ -124,10 +124,10 @@ namespace Known.Tests.Demo
                 }
             }
 
-            return Repository.Transaction("保存", rep =>
+            return Database.Transaction("保存", db =>
             {
-                entity.Lists.ForEach(l => rep.Save(l));
-                rep.Save(entity);
+                entity.Lists.ForEach(l => db.Save(l));
+                db.Save(entity);
             }, entity.Id);
         }
         #endregion

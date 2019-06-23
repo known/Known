@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Known.Core.Entities;
 using Known.Mapping;
 
 namespace Known.Core
 {
-    class ModuleService : CoreServiceBase<IModuleRepository>
+    class ModuleService : CoreServiceBase
     {
         public ModuleService(Context context) : base(context)
         {
@@ -13,26 +12,26 @@ namespace Known.Core
         #region View
         public PagingResult QueryModules(PagingCriteria criteria)
         {
-            return Repository.QueryModules(criteria);
+            return Database.QueryModules(criteria);
         }
 
         public Result DeleteModules(string[] ids)
         {
             var message = CheckEntities(ids, out List<Module> modules, (e, errs) =>
             {
-                if (Repository.ExistsChildren(e.Id))
+                if (Database.ExistsChildren(e.Id))
                     errs.Add($"{e.Name}存在子模块，不能删除！");
             });
 
             if (!string.IsNullOrWhiteSpace(message))
                 return Result.Error(message);
 
-            var info = Repository.Transaction("删除", rep =>
+            var info = Database.Transaction("删除", db =>
             {
                 foreach (var item in modules)
                 {
-                    //rep.DeleteModuleFunctions(item.Id);
-                    rep.Delete(item);
+                    //db.DeleteModuleFunctions(item.Id);
+                    db.Delete(item);
                 }
             });
 
@@ -46,23 +45,23 @@ namespace Known.Core
 
         public Result MoveModule(string id, string direct)
         {
-            var module = Repository.QueryById<Module>(id);
+            var module = Database.QueryById<Module>(id);
             if (module == null)
                 return Result.Error("模块不存在！");
 
             var sort = direct == "up" ? module.Sort - 1 : module.Sort + 1;
-            var module1 = Repository.GetModule(module.ParentId, sort);
+            var module1 = Database.GetModule(module.ParentId, sort);
             if (module1 == null)
                 return Result.Error("不能移动！");
             
-            return Repository.Transaction("移动", rep =>
+            return Database.Transaction("移动", db =>
             {
                 var moduleSort = module.Sort;
                 module.Sort = module1.Sort;
-                rep.Save(module);
+                db.Save(module);
 
                 module1.Sort = moduleSort;
-                rep.Save(module1);
+                db.Save(module1);
             });
         }
         #endregion
@@ -70,7 +69,7 @@ namespace Known.Core
         #region Form
         public Module GetModule(string id)
         {
-            return Repository.QueryById<Module>(id);
+            return Database.QueryById<Module>(id);
         }
 
         public Result SaveModule(dynamic model)
@@ -88,7 +87,7 @@ namespace Known.Core
             if (vr.HasError)
                 return Result.Error(vr.ErrorMessage);
 
-            Repository.Save(entity);
+            Database.Save(entity);
             return Result.Success("保存成功！", entity.Id);
         }
         #endregion
@@ -96,17 +95,17 @@ namespace Known.Core
         #region Private
         private void ResortModules(string parentId)
         {
-            var modules = Repository.GetModules(parentId);
+            var modules = Database.GetModules(parentId);
             if (modules == null || modules.Count == 0)
                 return;
 
-            Repository.Transaction("排序", rep =>
+            Database.Transaction("排序", db =>
             {
                 var index = 0;
                 foreach (var item in modules)
                 {
                     item.Sort = ++index;
-                    rep.Save(item);
+                    db.Save(item);
                 }
             });
         }

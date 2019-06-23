@@ -53,7 +53,7 @@ namespace Known.Tests
         }
     }
 
-    public class ContextService : ServiceBase<IContextRepository>
+    public class ContextService : ServiceBase
     {
         public ContextService(Context context) : base(context)
         {
@@ -61,34 +61,23 @@ namespace Known.Tests
 
         public string SayHello()
         {
-            return Repository.SayHello();
+            return Database.SayHello();
         }
 
         public string SayHelloByName(string name)
         {
-            return Repository.SayHello(name);
+            return Database.SayHello(name);
         }
 
         public string SayHelloByGreet(string greet, string name)
         {
-            return Repository.SayHello($"{name}, {greet}");
+            return Database.SayHello($"{name}, {greet}");
         }
     }
 
-    public interface IContextRepository : IRepository
+    static class ContextRepository
     {
-        string SayHello(string message = null);
-    }
-
-    class ContextRepository : TestRepository, IContextRepository
-    {
-        public ContextRepository() { }
-
-        public ContextRepository(Database database) : base(database)
-        {
-        }
-
-        public string SayHello(string message = null)
+        public static string SayHello(this Database database, string message = null)
         {
             if (string.IsNullOrWhiteSpace(message))
                 return "Hello!";

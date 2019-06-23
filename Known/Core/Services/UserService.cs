@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Known.Core.Entities;
 using Known.Mapping;
 
 namespace Known.Core
 {
-    class UserService : CoreServiceBase<IUserRepository>
+    class UserService : CoreServiceBase
     {
         public UserService(Context context) : base(context)
         {
@@ -13,7 +12,7 @@ namespace Known.Core
         #region View
         public PagingResult QueryUsers(PagingCriteria criteria)
         {
-            return Repository.QueryUsers(criteria);
+            return Database.QueryUsers(criteria);
         }
 
         public Result DeleteUsers(string[] ids)
@@ -22,13 +21,13 @@ namespace Known.Core
             if (!string.IsNullOrWhiteSpace(message))
                 return Result.Error(message);
 
-            return Repository.Transaction("删除", rep =>
+            return Database.Transaction("删除", db =>
             {
                 foreach (var item in users)
                 {
                     //rep.DeleteUserRoles(item.Id);
                     //rep.DeleteUserFunctions(item.Id);
-                    rep.Delete(item);
+                    db.Delete(item);
                 }
             });
         }
@@ -37,7 +36,7 @@ namespace Known.Core
         #region Form
         public User GetUser(string id)
         {
-            return Repository.QueryById<User>(id);
+            return Database.QueryById<User>(id);
         }
 
         public Result SaveUser(dynamic model)
@@ -46,7 +45,7 @@ namespace Known.Core
                 return Result.Error("不能提交空数据！");
 
             var id = (string)model.Id;
-            var entity = Repository.QueryById<User>(id);
+            var entity = Database.QueryById<User>(id);
             if (entity == null)
                 entity = new User();
 
@@ -59,7 +58,7 @@ namespace Known.Core
             if (vr.HasError)
                 return Result.Error(vr.ErrorMessage);
 
-            Repository.Save(entity);
+            Database.Save(entity);
             return Result.Success("保存成功！", entity.Id);
         }
         #endregion

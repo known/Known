@@ -1,6 +1,6 @@
 ﻿using Known.Mapping;
 
-namespace Known.Core.Entities
+namespace Known.Core
 {
     /// <summary>
     /// 公司实体类。

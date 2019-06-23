@@ -3,24 +3,14 @@ using Known.Data;
 
 namespace Known.Tests.Demo
 {
-    public interface IApplyFormRepository : IRepository
+    static class ApplyFormRepository
     {
-        PagingResult QueryApplyForms(PagingCriteria criteria);
-        List<ApplyFormList> GetApplyFormLists(string formId);
-    }
-
-    class ApplyFormRepository : TestRepository, IApplyFormRepository
-    {
-        public ApplyFormRepository(Database database) : base(database)
-        {
-        }
-
-        public PagingResult QueryApplyForms(PagingCriteria criteria)
+        public static PagingResult QueryApplyForms(this Database database, PagingCriteria criteria)
         {
             return new PagingResult(138, new List<ApplyForm>());
         }
 
-        public List<ApplyFormList> GetApplyFormLists(string formId)
+        public static List<ApplyFormList> GetApplyFormLists(this Database database, string formId)
         {
             return new List<ApplyFormList>();
         }

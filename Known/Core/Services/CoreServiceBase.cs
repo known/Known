@@ -1,9 +1,6 @@
-﻿using Known.Data;
-
-namespace Known.Core
+﻿namespace Known.Core
 {
-    abstract class CoreServiceBase<TRepository> : ServiceBase<TRepository>
-        where TRepository : IRepository
+    abstract class CoreServiceBase : ServiceBase
     {
         public CoreServiceBase(Context context) : base(context)
         {

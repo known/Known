@@ -10,16 +10,18 @@ namespace Known.Data
     /// </summary>
     public class Database : IDisposable
     {
+        private readonly IDbProvider provider;
+
         /// <summary>
         /// 初始化一个数据库访问操作类实例。
         /// </summary>
         public Database()
         {
-            Provider = Container.Resolve<IDbProvider>();
+            provider = Container.Resolve<IDbProvider>();
 
-            if (Provider == null)
+            if (provider == null)
             {
-                Provider = new DbProvider("Default");
+                provider = new DbProvider("Default");
             }
         }
 
@@ -29,13 +31,17 @@ namespace Known.Data
         /// <param name="name">数据库链接名称。</param>
         public Database(string name)
         {
-            Provider = new DbProvider(name);
+            provider = new DbProvider(name);
         }
 
         /// <summary>
-        /// 取得数据库访问提供者。
+        /// 初始化一个指定链接名称的数据库访问操作类实例。
         /// </summary>
-        public IDbProvider Provider { get; }
+        /// <param name="provider">数据库访问提供者。</param>
+        internal Database(IDbProvider provider)
+        {
+            this.provider = provider;
+        }
 
         /// <summary>
         /// 取得当前用户名。
@@ -44,17 +50,17 @@ namespace Known.Data
 
         internal void BeginTrans()
         {
-            Provider.BeginTrans();
+            provider.BeginTrans();
         }
 
         internal void Commit()
         {
-            Provider.Commit();
+            provider.Commit();
         }
 
         internal void Rollback()
         {
-            Provider.Rollback();
+            provider.Rollback();
         }
 
         /// <summary>
@@ -66,7 +72,7 @@ namespace Known.Data
         /// <returns>操作结果。</returns>
         public Result Transaction(string name, Action<Database> action, object data = null)
         {
-            var db = new Database(Provider.Name);
+            var db = new Database(provider);
 
             try
             {
@@ -94,7 +100,7 @@ namespace Known.Data
         public void Execute(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            Provider.Execute(command);
+            provider.Execute(command);
         }
 
         /// <summary>
@@ -107,7 +113,7 @@ namespace Known.Data
         public T Scalar<T>(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            return (T)Provider.Scalar(command);
+            return (T)provider.Scalar(command);
         }
 
         /// <summary>
@@ -118,6 +124,9 @@ namespace Known.Data
         /// <returns>实体对象。</returns>
         public T QueryById<T>(string id) where T : EntityBase
         {
+            if (string.IsNullOrWhiteSpace(id))
+                return default;
+
             var sql = CommandHelper.GetQueryByIdSql<T>();
             return Query<T>(sql, new { id });
         }
@@ -171,6 +180,9 @@ namespace Known.Data
         /// <returns>实体对象集合。</returns>
         public List<T> QueryListById<T>(string[] ids) where T : EntityBase
         {
+            if (ids == null || ids.Length == 0)
+                return default;
+
             var sql = CommandHelper.GetQueryListByIdSql<T>(ids);
             var data = QueryTable(sql);
             return AutoMapper.GetBaseEntities<T>(data);
@@ -212,7 +224,7 @@ namespace Known.Data
             }
 
             var command = CommandHelper.GetSaveCommand(entity);
-            Provider.Execute(command);
+            provider.Execute(command);
         }
 
         /// <summary>
@@ -229,7 +241,7 @@ namespace Known.Data
             entity.ModifyBy = UserName;
             entity.ModifyTime = DateTime.Now;
             var command = CommandHelper.GetSaveCommand(entity);
-            Provider.Execute(command);
+            provider.Execute(command);
         }
 
         /// <summary>
@@ -253,7 +265,7 @@ namespace Known.Data
         public void Delete<T>(T entity) where T : EntityBase
         {
             var command = CommandHelper.GetDeleteCommand(entity);
-            Provider.Execute(command);
+            provider.Execute(command);
         }
 
         /// <summary>
@@ -275,7 +287,7 @@ namespace Known.Data
         /// <param name="table">数据表。</param>
         public void WriteTable(DataTable table)
         {
-            Provider.WriteTable(table);
+            provider.WriteTable(table);
         }
 
         /// <summary>
@@ -287,7 +299,7 @@ namespace Known.Data
         public DataTable QueryTable(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            return Provider.Query(command);
+            return provider.Query(command);
         }
 
         /// <summary>
@@ -304,11 +316,11 @@ namespace Known.Data
 
             var sqlCount = CommandHelper.GetCountSql(cmd.Text);
             var cmdCount = new Command(sqlCount, cmd.Parameters);
-            var totalCount = (int)Provider.Scalar(cmdCount);
+            var totalCount = (int)provider.Scalar(cmdCount);
 
-            var sqlPage = CommandHelper.GetPagingSql(Provider.ProviderName, cmd.Text, criteria);
+            var sqlPage = CommandHelper.GetPagingSql(provider.ProviderName, cmd.Text, criteria);
             var cmdData = new Command(sqlPage, cmd.Parameters);
-            var pageData = Provider.Query(cmdData);
+            var pageData = provider.Query(cmdData);
             return new PagingResult(totalCount, pageData);
         }
 
@@ -321,7 +333,7 @@ namespace Known.Data
         public DataRow QueryRow(string sql, object param = null)
         {
             var command = CommandHelper.GetCommand(sql, param);
-            var data = Provider.Query(command);
+            var data = provider.Query(command);
             if (data == null || data.Rows.Count == 0)
                 return null;
 
@@ -333,9 +345,9 @@ namespace Known.Data
         /// </summary>
         public void Dispose()
         {
-            if (Provider != null)
+            if (provider != null)
             {
-                Provider.Dispose();
+                provider.Dispose();
             }
         }
     }

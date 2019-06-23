@@ -9,18 +9,5 @@
             TestAssert.IsNotNull(service);
             TestAssert.IsInstanceOf<ContextService>(service);
         }
-
-        public static void CreateRepository()
-        {
-            var context = Context.Create();
-            var repository = ObjectFactory.CreateRepository<IContextRepository>(context);
-            TestAssert.IsNotNull(repository);
-
-            Container.Remove<IContextRepository>();
-            Container.Register<IContextRepository, ContextRepository>();
-            repository = ObjectFactory.CreateRepository<IContextRepository>(context);
-            TestAssert.IsNotNull(repository);
-            TestAssert.IsInstanceOf<ContextRepository>(repository);
-        }
     }
 }

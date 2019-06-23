@@ -59,7 +59,7 @@ namespace Known.Tests.Demo
             };
             var model = form.ToJson().FromJson<dynamic>();
             result = Service.SaveApplyForm(model);
-            TestAssert.AreEqual(result.Message, "操作成功！");
+            TestAssert.AreEqual(result.Message, "保存成功！");
         }
 
         public static void ImportApplyFormLists()

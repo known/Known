@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Known.Core.Entities;
 using Known.Mapping;
 
 namespace Known.Core
 {
-    class RoleService : CoreServiceBase<IRoleRepository>
+    class RoleService : CoreServiceBase
     {
         public RoleService(Context context) : base(context)
         {
@@ -13,7 +12,7 @@ namespace Known.Core
         #region View
         public PagingResult QueryRoles(PagingCriteria criteria)
         {
-            return Repository.QueryRoles(criteria);
+            return Database.QueryRoles(criteria);
         }
 
         public Result DeleteRoles(string[] ids)
@@ -22,13 +21,13 @@ namespace Known.Core
             if (!string.IsNullOrWhiteSpace(message))
                 return Result.Error(message);
 
-            return Repository.Transaction("删除", rep =>
+            return Database.Transaction("删除", db =>
             {
                 foreach (var item in roles)
                 {
-                    //rep.DeleteRoleUsers(item.Id);
-                    //rep.DeleteRoleFunctions(item.Id);
-                    rep.Delete(item);
+                    db.DeleteRoleUsers(item.Id);
+                    db.DeleteRoleFunctions(item.Id);
+                    db.Delete(item);
                 }
             });
         }
@@ -37,7 +36,7 @@ namespace Known.Core
         #region Form
         public Role GetRole(string id)
         {
-            return Repository.QueryById<Role>(id);
+            return Database.QueryById<Role>(id);
         }
 
         public Result SaveRole(dynamic model)
@@ -46,7 +45,7 @@ namespace Known.Core
                 return Result.Error("不能提交空数据！");
 
             var id = (string)model.Id;
-            var entity = Repository.QueryById<Role>(id);
+            var entity = Database.QueryById<Role>(id);
             if (entity == null)
                 entity = new Role();
 
@@ -59,7 +58,7 @@ namespace Known.Core
             if (vr.HasError)
                 return Result.Error(vr.ErrorMessage);
 
-            Repository.Save(entity);
+            Database.Save(entity);
             return Result.Success("保存成功！", entity.Id);
         }
         #endregion

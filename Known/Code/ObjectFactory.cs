@@ -1,5 +1,4 @@
 ﻿using System;
-using Known.Data;
 
 namespace Known
 {
@@ -29,31 +28,6 @@ namespace Known
             }
 
             return service;
-        }
-
-        /// <summary>
-        /// 创建一个继承 IRepository 的泛型数据仓库对象。
-        /// </summary>
-        /// <typeparam name="T">数据仓库类型。</typeparam>
-        /// <param name="context">上下文对象，用于构造函数参数。</param>
-        /// <returns>泛型数据仓库对象。</returns>
-        public static T CreateRepository<T>(Context context) where T : IRepository
-        {
-            var repository = Container.Resolve<T>();
-            if (repository == null)
-            {
-                var type = typeof(T);
-                var typeName = type.FullName.Replace(".I", ".");
-                var objType = type.Assembly.GetType(typeName);
-                if (objType != null)
-                {
-                    context.Database.UserName = context.UserName;
-                    var instance = Activator.CreateInstance(objType, context.Database);
-                    Container.Register<T>(instance);
-                }
-            }
-
-            return Container.Resolve<T>();
         }
 
         /// <summary>

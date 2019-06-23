@@ -1,6 +1,6 @@
 ﻿using Known.Mapping;
 
-namespace Known.Core.Entities
+namespace Known.Core
 {
     /// <summary>
     /// 应用程序模块实体类。

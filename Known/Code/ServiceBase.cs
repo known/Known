@@ -25,6 +25,19 @@ namespace Known
         public Context Context { get; private set; }
 
         /// <summary>
+        /// 取得数据库访问对象。
+        /// </summary>
+        protected Database Database
+        {
+            get { return Context.Database; }
+        }
+
+        internal void SetContext(Context context)
+        {
+            Context = context;
+        }
+
+        /// <summary>
         /// 加载指定类型的业务服务对象。
         /// </summary>
         /// <typeparam name="T">业务服务类型。</typeparam>
@@ -32,45 +45,6 @@ namespace Known
         protected T LoadService<T>() where T : ServiceBase
         {
             return Container.Resolve<T>();
-        }
-
-        /// <summary>
-        /// 加载指定类型的数据仓库对象。
-        /// </summary>
-        /// <typeparam name="T">数据仓库类型。</typeparam>
-        /// <returns>数据仓库对象。</returns>
-        protected T LoadRepository<T>() where T : IRepository
-        {
-            return ObjectFactory.CreateRepository<T>(Context);
-        }
-
-        internal void SetContext(Context context)
-        {
-            Context = context;
-        }
-    }
-
-    /// <summary>
-    /// 指定数据仓库类型的业务服务基类。
-    /// </summary>
-    /// <typeparam name="T">数据仓库类型。</typeparam>
-    public abstract class ServiceBase<T> : ServiceBase
-        where T : IRepository
-    {
-        /// <summary>
-        /// 初始化一个业务服务类实例。
-        /// </summary>
-        /// <param name="context">上下文对象。</param>
-        protected ServiceBase(Context context) : base(context)
-        {
-        }
-
-        /// <summary>
-        /// 取得数据仓库对象。
-        /// </summary>
-        protected T Repository
-        {
-            get { return LoadRepository<T>(); }
         }
 
         /// <summary>
@@ -83,7 +57,7 @@ namespace Known
         protected TEntity GetEntityById<TEntity>(string id, TEntity defaultEntity)
             where TEntity : EntityBase
         {
-            var entity = Repository.QueryById<TEntity>(id);
+            var entity = Database.QueryById<TEntity>(id);
             if (entity == null)
             {
                 entity = defaultEntity;
@@ -103,7 +77,7 @@ namespace Known
         protected string CheckEntities<TEntity>(string[] ids, out List<TEntity> entities, Action<TEntity, List<string>> checkAction = null)
             where TEntity : EntityBase
         {
-            entities = Repository.QueryListById<TEntity>(ids);
+            entities = Database.QueryListById<TEntity>(ids);
             if (entities == null || entities.Count == 0)
                 return "请至少选择一条记录进行操作！";
 
