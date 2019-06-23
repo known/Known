@@ -1,4 +1,5 @@
-﻿using Known.Core.Entities;
+﻿using System.Collections.Generic;
+using Known.Core.Entities;
 using Known.Mapping;
 
 namespace Known.Core
@@ -17,19 +18,19 @@ namespace Known.Core
 
         public Result DeleteRoles(string[] ids)
         {
-            var Roles = Repository.QueryListById<Role>(ids);
-            if (Roles == null || Roles.Count == 0)
-                return Result.Error("请至少选择一条记录进行操作！");
+            var message = CheckEntities(ids, out List<Role> roles);
+            if (!string.IsNullOrWhiteSpace(message))
+                return Result.Error(message);
 
-            var info = Repository.Transaction("删除", rep =>
+            return Repository.Transaction("删除", rep =>
             {
-                foreach (var item in Roles)
+                foreach (var item in roles)
                 {
+                    //rep.DeleteRoleUsers(item.Id);
+                    //rep.DeleteRoleFunctions(item.Id);
                     rep.Delete(item);
                 }
             });
-
-            return info;
         }
         #endregion
 

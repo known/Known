@@ -1,4 +1,5 @@
-﻿using Known.Core.Entities;
+﻿using System.Collections.Generic;
+using Known.Core.Entities;
 using Known.Mapping;
 
 namespace Known.Core
@@ -17,39 +18,27 @@ namespace Known.Core
 
         public Result DeleteModules(string[] ids)
         {
-            var modules = Repository.QueryListById<Module>(ids);
-            if (modules == null || modules.Count == 0)
-                return Result.Error("请至少选择一条记录进行操作！");
-
-            foreach (var item in modules)
+            var message = CheckEntities(ids, out List<Module> modules, (e, errs) =>
             {
-                if (Repository.ExistsChildren(item.Id))
-                    return Result.Error($"{item.Name}存在子模块，不能删除！");
-            }
+                if (Repository.ExistsChildren(e.Id))
+                    errs.Add($"{e.Name}存在子模块，不能删除！");
+            });
+
+            if (!string.IsNullOrWhiteSpace(message))
+                return Result.Error(message);
 
             var info = Repository.Transaction("删除", rep =>
             {
                 foreach (var item in modules)
                 {
+                    //rep.DeleteModuleFunctions(item.Id);
                     rep.Delete(item);
                 }
             });
 
             if (info.IsValid)
             {
-                var modules1 = Repository.GetModules(modules[0].ParentId);
-                if (modules1 != null && modules1.Count > 0)
-                {
-                    Repository.Transaction("排序", rep =>
-                    {
-                        var index = 0;
-                        foreach (var item in modules1)
-                        {
-                            item.Sort = ++index;
-                            rep.Save(item);
-                        }
-                    });
-                }
+                ResortModules(modules[0].ParentId);
             }
 
             return info;
@@ -89,11 +78,7 @@ namespace Known.Core
             if (model == null)
                 return Result.Error("不能提交空数据！");
 
-            var id = (string)model.Id;
-            var entity = Repository.QueryById<Module>(id);
-            if (entity == null)
-                entity = new Module();
-
+            var entity = GetEntityById((string)model.Id, new Module());
             EntityHelper.FillModel(entity, model);
 
             if (string.IsNullOrWhiteSpace(entity.AppId))
@@ -105,6 +90,25 @@ namespace Known.Core
 
             Repository.Save(entity);
             return Result.Success("保存成功！", entity.Id);
+        }
+        #endregion
+
+        #region Private
+        private void ResortModules(string parentId)
+        {
+            var modules = Repository.GetModules(parentId);
+            if (modules == null || modules.Count == 0)
+                return;
+
+            Repository.Transaction("排序", rep =>
+            {
+                var index = 0;
+                foreach (var item in modules)
+                {
+                    item.Sort = ++index;
+                    rep.Save(item);
+                }
+            });
         }
         #endregion
     }
