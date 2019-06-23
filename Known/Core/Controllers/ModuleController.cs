@@ -18,7 +18,6 @@ namespace Known.Core.Controllers
         /// 获取模块树对象。
         /// </summary>
         /// <returns>模块树对象。</returns>
-        [HttpPost]
         public object GetTreeDatas()
         {
             return Menu.GetTreeMenus(PlatformService);
