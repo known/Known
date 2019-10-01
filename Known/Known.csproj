@@ -72,6 +72,7 @@
     <Compile Include="Core\Datas\AppRepository.cs" />
     <Compile Include="Core\Datas\RoleRepository.cs" />
     <Compile Include="Core\Services\RoleService.cs" />
+    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Jobs\CheckResult.cs" />
     <Compile Include="Jobs\JobResult.cs" />
     <Compile Include="Jobs\IJob.cs" />
@@ -190,7 +191,7 @@
     <Compile Include="Web\AuthenticationHandler.cs" />
     <Compile Include="Web\AuthenticationIdentity.cs" />
     <Compile Include="Web\CompressedContent.cs" />
-    <Compile Include="Web\CompressionHelper.cs" />
+    <Compile Include="Helpers\CompressionHelper.cs" />
     <Compile Include="Web\CompressionMethod.cs" />
     <Compile Include="Web\CriteriaData.cs" />
     <Compile Include="Web\DecompressionHandler.cs" />
