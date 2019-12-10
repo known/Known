@@ -182,7 +182,8 @@
     <Compile Include="Code\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Code\Validator.cs" />
-    <Compile Include="Web\HttpActionContextExtension.cs" />
+    <Compile Include="Web\ApiApplication.cs" />
+    <Compile Include="Web\Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Web\ApiLoginAuthorizeAttribute.cs" />
     <Compile Include="Web\ApiTrackActionAttribute.cs" />
     <Compile Include="Web\ApiClient.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Web\RequestTracker.cs" />
     <Compile Include="Web\TrackHelper.cs" />
     <Compile Include="Web\WebUtils.cs" />
+    <Compile Include="Web\XSSChecker.cs" />
     <Compile Include="Workflow\Activity.cs" />
     <Compile Include="Workflow\ActivityContext.cs" />
     <Compile Include="Workflow\ActivityExecutor.cs" />
