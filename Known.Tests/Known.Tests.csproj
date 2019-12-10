@@ -65,6 +65,7 @@
     <Compile Include="Extensions\SerializeExtensionTest.cs" />
     <Compile Include="Extensions\StringExtensionTest.cs" />
     <Compile Include="Extensions\TypeExtensionTest.cs" />
+    <Compile Include="Helpers\FileHelperTest.cs" />
     <Compile Include="Jobs\MainServiceTest.cs" />
     <Compile Include="Log\ConsoleLoggerTest.cs" />
     <Compile Include="Log\FileLoggerTest.cs" />
@@ -92,6 +93,5 @@
       <Name>Known</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

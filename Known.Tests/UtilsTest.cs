@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 namespace Known.Tests
 {
@@ -85,36 +84,5 @@ namespace Known.Tests
         //    TestAssert.AreEqual(Utils.GetUniqueString(6), "123456");
         //    TestAssert.AreEqual(Utils.GetUniqueString(10), "1234567890");
         //}
-
-        public static void EnsureFile()
-        {
-            var path = string.Format("{0}\\test", Environment.CurrentDirectory);
-            if (Directory.Exists(path))
-                Directory.Delete(path, true);
-            TestAssert.AreEqual(Directory.Exists(path), false);
-
-            var fileName = string.Format("{0}\\test.txt", path);
-            Utils.EnsureFile(fileName);
-            TestAssert.AreEqual(Directory.Exists(path), true);
-        }
-
-        public static void DeleteFile()
-        {
-            var fileName = string.Format("{0}\\test\\test.txt", Environment.CurrentDirectory);
-            File.AppendAllText(fileName, "test");
-            TestAssert.AreEqual(File.Exists(fileName), true);
-
-            Utils.DeleteFile(fileName);
-            TestAssert.AreEqual(File.Exists(fileName), false);
-        }
-
-        public static void GetFileExtName()
-        {
-            var fileName = string.Format("{0}\\test\\test.txt", Environment.CurrentDirectory);
-            TestAssert.AreEqual(Utils.GetFileExtName(fileName), ".txt");
-
-            fileName = string.Format("{0}\\test\\test.log", Environment.CurrentDirectory);
-            TestAssert.AreEqual(Utils.GetFileExtName(fileName), ".log");
-        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Known.Helpers;
 using Known.Log;
 
 namespace Known.Tests.Log
@@ -9,7 +10,7 @@ namespace Known.Tests.Log
         public static void FileLogger()
         {
             var fileName = string.Format("{0}\\test\\test.log", Environment.CurrentDirectory);
-            Utils.DeleteFile(fileName);
+            FileHelper.DeleteFile(fileName);
 
             var logger = new FileLogger(fileName);
             for (int i = 0; i < 3; i++)
