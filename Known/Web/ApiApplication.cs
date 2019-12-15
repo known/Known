@@ -14,13 +14,24 @@ namespace Known.Web
     /// </summary>
     public class ApiApplication : HttpApplication
     {
+        /// <summary>
+        /// 日志组件。
+        /// </summary>
         protected readonly ILogger logger = new TraceLogger();
 
+        /// <summary>
+        /// 应用程序启动事件。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected virtual void Application_Start(object sender, EventArgs e)
         {
             InitialModules();
         }
 
+        /// <summary>
+        /// 应用程序请求处理。
+        /// </summary>
         protected virtual void Application_PreSendRequestHeaders()
         {
             Response.Headers.Remove("Server");
@@ -28,10 +39,20 @@ namespace Known.Web
             Response.Headers.Remove("X-AspNetMvc-Version");
         }
 
+        /// <summary>
+        /// 应用程序认证请求事件。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected virtual void Application_AuthenticateRequest(object sender, EventArgs e)
         {
         }
 
+        /// <summary>
+        /// 应用程序开始请求事件。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected virtual void Application_BeginRequest(object sender, EventArgs e)
         {
             var checker = new XSSChecker(Request);
@@ -63,6 +84,11 @@ namespace Known.Web
             Response.End();
         }
 
+        /// <summary>
+        /// 应用程序发生错误事件。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected virtual void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError();
@@ -76,18 +102,37 @@ namespace Known.Web
             }
         }
 
+        /// <summary>
+        /// 应用程序停止事件。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected virtual void Application_End(object sender, EventArgs e)
         {
         }
 
+        /// <summary>
+        /// 应用程序建立会话事件。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected virtual void Session_Start(object sender, EventArgs e)
         {
         }
 
+        /// <summary>
+        /// 应用程序会话结束事件。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected virtual void Session_End(object sender, EventArgs e)
         {
         }
 
+        /// <summary>
+        /// 应用程序配置。
+        /// </summary>
+        /// <param name="config"></param>
         protected virtual void Configuration(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
