@@ -72,23 +72,20 @@ namespace Known.Data
         /// <returns>操作结果。</returns>
         public Result Transaction(string name, Action<Database> action, object data = null)
         {
-            var db = new Database(provider);
-
-            try
+            using (var db = new Database(provider))
             {
-                db.BeginTrans();
-                action(db);
-                db.Commit();
-                return Result.Success($"{name}成功！", data);
-            }
-            catch (Exception ex)
-            {
-                db.Rollback();
-                throw ex;
-            }
-            finally
-            {
-                db.Dispose();
+                try
+                {
+                    db.BeginTrans();
+                    action(db);
+                    db.Commit();
+                    return Result.Success($"{name}成功！", data);
+                }
+                catch (Exception ex)
+                {
+                    db.Rollback();
+                    throw ex;
+                }
             }
         }
 

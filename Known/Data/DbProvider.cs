@@ -6,7 +6,7 @@ using System.Data.Common;
 
 namespace Known.Data
 {
-    class DbProvider : IDbProvider
+    class DbProvider : IDbProvider, IDisposable
     {
         private readonly DbProviderFactory factory;
         private IDbConnection conn;
@@ -28,27 +28,23 @@ namespace Known.Data
         public void BeginTrans()
         {
             CreateConnection();
+
             if (conn.State != ConnectionState.Open)
-            {
                 conn.Open();
-            }
+
             trans = conn.BeginTransaction();
         }
 
         public void Commit()
         {
             if (trans != null)
-            {
                 trans.Commit();
-            }
         }
 
         public void Rollback()
         {
             if (trans != null)
-            {
                 trans.Rollback();
-            }
         }
 
         public void Execute(Command command)
@@ -144,10 +140,9 @@ namespace Known.Data
         public void Dispose()
         {
             if (trans != null)
-            {
                 trans.Dispose();
-                trans = null;
-            }
+
+            trans = null;
 
             DisposeConnection();
         }
@@ -170,6 +165,7 @@ namespace Known.Data
             {
                 if (conn.State != ConnectionState.Closed)
                     conn.Close();
+
                 conn.Dispose();
                 conn = null;
             }
@@ -181,14 +177,10 @@ namespace Known.Data
             var cmd = conn.CreateCommand();
             cmd.CommandText = command.Text;
             if (ProviderName.Contains("Oracle"))
-            {
                 cmd.CommandText = cmd.CommandText.Replace("@", ":");
-            }
 
             if (trans != null)
-            {
                 cmd.Transaction = trans;
-            }
 
             if (command.HasParameter)
             {
@@ -202,9 +194,7 @@ namespace Known.Data
             }
 
             if (conn.State != ConnectionState.Open)
-            {
                 conn.Open();
-            }
 
             return cmd;
         }
@@ -212,14 +202,14 @@ namespace Known.Data
         private static object FormatValue(object value)
         {
             if (value == null)
-                return DBNull.Value;
+                return "";
 
             var valueType = value.GetType();
             if (valueType == typeof(string))
             {
                 var valueString = value.ToString().Trim();
                 if (valueString.Length == 0)
-                    return DBNull.Value;
+                    return "";
 
                 return valueString;
             }
