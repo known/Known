@@ -69,6 +69,9 @@ namespace Known.Mapping
             this.Property(p => p.ModifyTime)
                 .IsDateTimeColumn("modify_time", "修改时间");
 
+            this.Property(p => p.Version)
+                .IsIntegerColumn("version", "版本", true);
+
             this.Property(p => p.Extension)
                 .IsStringColumn("extension", "扩展属性");
         }

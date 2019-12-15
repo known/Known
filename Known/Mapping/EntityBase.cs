@@ -15,6 +15,7 @@ namespace Known.Mapping
             Id = Utils.NewGuid;
             CreateBy = "temp";
             CreateTime = DateTime.Now;
+            Version = 1;
             IsNew = true;
         }
 
@@ -42,6 +43,11 @@ namespace Known.Mapping
         /// 取得或设置修改时间。
         /// </summary>
         public DateTime? ModifyTime { get; set; }
+
+        /// <summary>
+        /// 取得或设置版本。
+        /// </summary>
+        public int Version { get; set; }
 
         /// <summary>
         /// 取得或设置扩展信息。

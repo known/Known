@@ -209,6 +209,9 @@ namespace Known.Data
         /// <param name="entity">实体对象。</param>
         public void Save<T>(T entity) where T : EntityBase
         {
+            if (entity == null)
+                return;
+
             if (entity.IsNew)
             {
                 entity.CreateBy = UserName;
@@ -218,6 +221,7 @@ namespace Known.Data
             {
                 entity.ModifyBy = UserName;
                 entity.ModifyTime = DateTime.Now;
+                entity.Version += 1;
             }
 
             var command = CommandHelper.GetSaveCommand(entity);
@@ -237,6 +241,7 @@ namespace Known.Data
             entity.IsNew = false;
             entity.ModifyBy = UserName;
             entity.ModifyTime = DateTime.Now;
+            entity.Version += 1;
             var command = CommandHelper.GetSaveCommand(entity);
             provider.Execute(command);
         }
