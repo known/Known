@@ -75,6 +75,9 @@ namespace Known.Web
         protected object PostAction<T>(string data, Func<T, Result> func)
         {
             var obj = data.FromJson<T>();
+            if (obj == null)
+                return Result.Error("不能提交空数据！");
+
             var result = func(obj);
             return ApiResult.Result(result);
         }

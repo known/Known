@@ -43,9 +43,6 @@ namespace Known.Core.Services
 
         public Result SaveUser(dynamic model)
         {
-            if (model == null)
-                return Result.Error("不能提交空数据！");
-
             var id = (string)model.Id;
             var entity = Database.QueryById<TUser>(id);
             if (entity == null)

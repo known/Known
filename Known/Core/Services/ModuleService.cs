@@ -76,9 +76,6 @@ namespace Known.Core.Services
 
         public Result SaveModule(dynamic model)
         {
-            if (model == null)
-                return Result.Error("不能提交空数据！");
-
             var entity = GetEntityById((string)model.Id, new TModule());
             EntityHelper.FillModel(entity, model);
 
