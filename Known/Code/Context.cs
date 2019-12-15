@@ -53,14 +53,24 @@ namespace Known
         public ILogger Logger { get; }
 
         /// <summary>
+        /// 取得上下文动态参数。
+        /// </summary>
+        public dynamic Parameter { get; }
+
+        /// <summary>
         /// 取得或设置当前用户名。
         /// </summary>
         public string UserName { get; set; }
 
         /// <summary>
-        /// 取得上下文动态参数。
+        /// 取得或设置文件上传路径。
         /// </summary>
-        public dynamic Parameter { get; }
+        public string UploadPath { get; set; }
+
+        /// <summary>
+        /// 取得或设置导出模板路径。
+        /// </summary>
+        public string TemplatePath { get; set; }
 
         /// <summary>
         /// 创建一个默认数据库和日志的上下文对象实例。
