@@ -1,11 +1,11 @@
 ﻿using Known.Mapping;
 
-namespace Known.Core
+namespace Known.Core.Entities
 {
     /// <summary>
     /// 公司实体类。
     /// </summary>
-    public class Company : EntityBase
+    public class TCompany : EntityBase
     {
         /// <summary>
         /// 取得或设置上级公司ID。
@@ -18,9 +18,9 @@ namespace Known.Core
         public string Name { get; set; }
     }
 
-    class CompanyMapper : EntityMapper<Company>
+    class TCompanyMapper : EntityMapper<TCompany>
     {
-        public CompanyMapper() :
+        public TCompanyMapper() :
             base("t_plt_companies", "公司")
         {
             this.Property(p => p.ParentId)

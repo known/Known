@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Known.Core.Entities;
 
-namespace Known.Core
+namespace Known.Core.Services
 {
     class AppService : ServiceBase
     {
@@ -18,9 +19,9 @@ namespace Known.Core
             return apiUrl;
         }
 
-        public List<Application> GetAppList()
+        public List<TApplication> GetAppList()
         {
-            return Database.QueryList<Application>();
+            return Database.QueryList<TApplication>();
         }
 
         public Result DeleteApp(string id)

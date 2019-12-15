@@ -1,4 +1,4 @@
-﻿namespace Known.Core
+﻿namespace Known.Core.Services
 {
     abstract class CoreServiceBase : ServiceBase
     {

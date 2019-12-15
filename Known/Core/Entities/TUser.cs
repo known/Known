@@ -1,12 +1,12 @@
 ﻿using System;
 using Known.Mapping;
 
-namespace Known.Core
+namespace Known.Core.Entities
 {
     /// <summary>
     /// 应用程序用户实体类。
     /// </summary>
-    public class User : EntityBase
+    public class TUser : EntityBase
     {
         /// <summary>
         /// 取得或设置应用程序ID。
@@ -74,9 +74,9 @@ namespace Known.Core
         public string SettingsData { get; set; }
     }
 
-    class UserMapper : EntityMapper<User>
+    class TUserMapper : EntityMapper<TUser>
     {
-        public UserMapper() :
+        public TUserMapper() :
             base("t_plt_users", "系统用户")
         {
             this.Property(p => p.AppId)

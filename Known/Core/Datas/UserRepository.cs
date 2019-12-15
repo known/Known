@@ -1,6 +1,7 @@
-﻿using Known.Data;
+﻿using Known.Core.Entities;
+using Known.Data;
 
-namespace Known.Core
+namespace Known.Core.Datas
 {
     internal static class UserRepository
     {
@@ -15,7 +16,7 @@ namespace Known.Core
                 criteria.Parameter.key = $"%{key}%";
             }
 
-            return database.QueryPage<User>(sql, criteria);
+            return database.QueryPage<TUser>(sql, criteria);
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Known.Mapping;
 
-namespace Known.Core
+namespace Known.Core.Entities
 {
     /// <summary>
     /// 应用程序模块实体类。
     /// </summary>
-    public class Module : EntityBase
+    public class TModule : EntityBase
     {
         /// <summary>
         /// 取得或设置应用程序ID。
@@ -68,9 +68,9 @@ namespace Known.Core
         public string FieldData { get; set; }
     }
 
-    class ModuleMapper : EntityMapper<Module>
+    class TModuleMapper : EntityMapper<TModule>
     {
-        public ModuleMapper() :
+        public TModuleMapper() :
             base("t_plt_modules", "系统模块")
         {
             this.Property(p => p.AppId)

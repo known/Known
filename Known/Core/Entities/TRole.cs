@@ -1,12 +1,17 @@
 ﻿using Known.Mapping;
 
-namespace Known.Core
+namespace Known.Core.Entities
 {
     /// <summary>
-    /// 应用程序实体类。
+    /// 应用程序角色实体类。
     /// </summary>
-    public class Application : EntityBase
+    public class TRole : EntityBase
     {
+        /// <summary>
+        /// 取得或设置应用程序ID。
+        /// </summary>
+        public string AppId { get; set; }
+
         /// <summary>
         /// 取得或设置代码。
         /// </summary>
@@ -18,29 +23,24 @@ namespace Known.Core
         public string Name { get; set; }
 
         /// <summary>
-        /// 取得或设置版本。
-        /// </summary>
-        public string Version { get; set; }
-
-        /// <summary>
         /// 取得或设置描述。
         /// </summary>
         public string Description { get; set; }
     }
 
-    class ApplicationMapper : EntityMapper<Application>
+    class TRoleMapper : EntityMapper<TRole>
     {
-        public ApplicationMapper() :
-            base("t_plt_applications", "应用程序")
+        public TRoleMapper() :
+            base("t_plt_roles", "系统角色")
         {
+            this.Property(p => p.AppId)
+                .IsStringColumn("app_id", "APPID", 1, 50, true);
+
             this.Property(p => p.Code)
                 .IsStringColumn("code", "代码", 1, 50, true);
 
             this.Property(p => p.Name)
                 .IsStringColumn("name", "名称", 1, 50, true);
-
-            this.Property(p => p.Version)
-                .IsStringColumn("version", "版本", 1, 50, true);
 
             this.Property(p => p.Description)
                 .IsStringColumn("description", "描述", 1, 500);

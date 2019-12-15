@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using Known.Core.Datas;
+using Known.Core.Entities;
 using Known.Mapping;
 
-namespace Known.Core
+namespace Known.Core.Services
 {
     class RoleService : CoreServiceBase
     {
@@ -17,7 +19,7 @@ namespace Known.Core
 
         public Result DeleteRoles(string[] ids)
         {
-            var message = CheckEntities(ids, out List<Role> roles);
+            var message = CheckEntities(ids, out List<TRole> roles);
             if (!string.IsNullOrWhiteSpace(message))
                 return Result.Error(message);
 
@@ -34,9 +36,9 @@ namespace Known.Core
         #endregion
 
         #region Form
-        public Role GetRole(string id)
+        public TRole GetRole(string id)
         {
-            return Database.QueryById<Role>(id);
+            return Database.QueryById<TRole>(id);
         }
 
         public Result SaveRole(dynamic model)
@@ -45,9 +47,9 @@ namespace Known.Core
                 return Result.Error("不能提交空数据！");
 
             var id = (string)model.Id;
-            var entity = Database.QueryById<Role>(id);
+            var entity = Database.QueryById<TRole>(id);
             if (entity == null)
-                entity = new Role();
+                entity = new TRole();
 
             EntityHelper.FillModel(entity, model);
 

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using Known.Core.Datas;
+using Known.Core.Entities;
 using Known.Mapping;
 
-namespace Known.Core
+namespace Known.Core.Services
 {
     class UserService : CoreServiceBase
     {
@@ -17,7 +19,7 @@ namespace Known.Core
 
         public Result DeleteUsers(string[] ids)
         {
-            var message = CheckEntities(ids, out List<User> users);
+            var message = CheckEntities(ids, out List<TUser> users);
             if (!string.IsNullOrWhiteSpace(message))
                 return Result.Error(message);
 
@@ -34,9 +36,9 @@ namespace Known.Core
         #endregion
 
         #region Form
-        public User GetUser(string id)
+        public TUser GetUser(string id)
         {
-            return Database.QueryById<User>(id);
+            return Database.QueryById<TUser>(id);
         }
 
         public Result SaveUser(dynamic model)
@@ -45,9 +47,9 @@ namespace Known.Core
                 return Result.Error("不能提交空数据！");
 
             var id = (string)model.Id;
-            var entity = Database.QueryById<User>(id);
+            var entity = Database.QueryById<TUser>(id);
             if (entity == null)
-                entity = new User();
+                entity = new TUser();
 
             EntityHelper.FillModel(entity, model);
 

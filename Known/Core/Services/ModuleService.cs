@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using Known.Core.Datas;
+using Known.Core.Entities;
 using Known.Mapping;
 
-namespace Known.Core
+namespace Known.Core.Services
 {
     class ModuleService : CoreServiceBase
     {
@@ -17,7 +19,7 @@ namespace Known.Core
 
         public Result DeleteModules(string[] ids)
         {
-            var message = CheckEntities(ids, out List<Module> modules, (e, errs) =>
+            var message = CheckEntities(ids, out List<TModule> modules, (e, errs) =>
             {
                 if (Database.ExistsChildren(e.Id))
                     errs.Add($"{e.Name}存在子模块，不能删除！");
@@ -45,7 +47,7 @@ namespace Known.Core
 
         public Result MoveModule(string id, string direct)
         {
-            var module = Database.QueryById<Module>(id);
+            var module = Database.QueryById<TModule>(id);
             if (module == null)
                 return Result.Error("模块不存在！");
 
@@ -67,9 +69,9 @@ namespace Known.Core
         #endregion
 
         #region Form
-        public Module GetModule(string id)
+        public TModule GetModule(string id)
         {
-            return Database.QueryById<Module>(id);
+            return Database.QueryById<TModule>(id);
         }
 
         public Result SaveModule(dynamic model)
@@ -77,7 +79,7 @@ namespace Known.Core
             if (model == null)
                 return Result.Error("不能提交空数据！");
 
-            var entity = GetEntityById((string)model.Id, new Module());
+            var entity = GetEntityById((string)model.Id, new TModule());
             EntityHelper.FillModel(entity, model);
 
             if (string.IsNullOrWhiteSpace(entity.AppId))

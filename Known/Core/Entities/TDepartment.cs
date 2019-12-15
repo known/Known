@@ -1,11 +1,11 @@
 ﻿using Known.Mapping;
 
-namespace Known.Core
+namespace Known.Core.Entities
 {
     /// <summary>
     /// 部门实体类。
     /// </summary>
-    public class Department : EntityBase
+    public class TDepartment : EntityBase
     {
         /// <summary>
         /// 取得或设置上级部门ID。
@@ -23,9 +23,9 @@ namespace Known.Core
         public string ManagerId { get; set; }
     }
 
-    class DepartmentMapper : EntityMapper<Department>
+    class TDepartmentMapper : EntityMapper<TDepartment>
     {
-        public DepartmentMapper() :
+        public TDepartmentMapper() :
             base("t_plt_departments", "部门")
         {
             this.Property(p => p.ParentId)

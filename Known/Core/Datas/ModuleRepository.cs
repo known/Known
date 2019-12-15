@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Known.Core.Entities;
 using Known.Data;
 
-namespace Known.Core
+namespace Known.Core.Datas
 {
     internal static class ModuleRepository
     {
@@ -16,19 +17,19 @@ namespace Known.Core
                 criteria.Parameter.key = $"%{key}%";
             }
 
-            return database.QueryPage<Module>(sql, criteria);
+            return database.QueryPage<TModule>(sql, criteria);
         }
 
-        public static List<Module> GetModules(this Database database, string parentId)
+        public static List<TModule> GetModules(this Database database, string parentId)
         {
             var sql = "select * from t_plt_modules where parent_id=@parentId order by sort";
-            return database.QueryList<Module>(sql, new { parentId });
+            return database.QueryList<TModule>(sql, new { parentId });
         }
 
-        public static Module GetModule(this Database database, string parentId, int sort)
+        public static TModule GetModule(this Database database, string parentId, int sort)
         {
             var sql = "select * from t_plt_modules where parent_id=@parentId and sort=@sort";
-            return database.Query<Module>(sql, new { parentId, sort });
+            return database.Query<TModule>(sql, new { parentId, sort });
         }
 
         public static bool ExistsChildren(this Database database, string id)
