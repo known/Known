@@ -29,17 +29,20 @@ create table t_plt_users
 	user_name varchar(50) not null,
 	password varchar(50) not null,
 	name nvarchar(50) null,
+	name_en varchar(50) null,
     email varchar(50) null,
 	mobile varchar(50) null,
 	phone varchar(50) null,
 	token varchar(50) null,
+	first_login_ip varchar(50) null,
 	first_login_time datetime null,
+	last_login_ip varchar(50) null,
 	last_login_time datetime null,
 	settings_data nvarchar(max) null
 );
 
-insert into t_plt_users(id,create_by,create_time,app_id,company_id,department_id,user_name,password,name)
-values('485d3b1c4cfb4597b03df31bc934aad5','admin',getdate(),'kms','0','0','admin','c4ca4238a0b923820dcc509a6f75849b','管理员');
+insert into t_plt_users(id,create_by,create_time,app_id,company_id,department_id,user_name,password,name,name_en)
+values('485d3b1c4cfb4597b03df31bc934aad5','admin',getdate(),'kms','0','0','admin','c4ca4238a0b923820dcc509a6f75849b','管理员','Admin');
 
 create table t_plt_modules
 (

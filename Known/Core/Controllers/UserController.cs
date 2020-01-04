@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Collections.Generic;
+using System.Web.Http;
 using Known.Core.Services;
 using Known.Web;
 
@@ -63,8 +64,8 @@ namespace Known.Core.Controllers
         /// <returns>菜单模块及系统代码集合。</returns>
         public object GetModules()
         {
-            var menus = Menu.GetUserMenus(PlatformService, UserName);
-            var codes = Code.GetCodes(PlatformService);
+            var menus = new List<Menu>();// Menu.GetUserMenus(PlatformService, UserName);
+            var codes = new Dictionary<string, object>(); //Code.GetCodes(PlatformService);
             return new { menus, codes };
         }
         #endregion

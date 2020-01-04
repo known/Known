@@ -39,6 +39,11 @@ namespace Known.Core.Entities
         public string Name { get; set; }
 
         /// <summary>
+        /// 取得或设置英文名。
+        /// </summary>
+        public string NameEn { get; set; }
+
+        /// <summary>
         /// 取得或设置邮箱。
         /// </summary>
         public string Email { get; set; }
@@ -59,9 +64,19 @@ namespace Known.Core.Entities
         public string Token { get; set; }
 
         /// <summary>
+        /// 取得或设置首次登录IP。
+        /// </summary>
+        public string FirstLoginIP { get; set; }
+
+        /// <summary>
         /// 取得或设置首次登录时间。
         /// </summary>
         public DateTime? FirstLoginTime { get; set; }
+
+        /// <summary>
+        /// 取得或设置最后登录IP。
+        /// </summary>
+        public string LastLoginIP { get; set; }
 
         /// <summary>
         /// 取得或设置最后登录时间。
@@ -97,6 +112,9 @@ namespace Known.Core.Entities
             this.Property(p => p.Name)
                 .IsStringColumn("name", "姓名", 1, 50);
 
+            this.Property(p => p.NameEn)
+                .IsStringColumn("name_en", "英文名", 1, 50);
+
             this.Property(p => p.Email)
                 .IsStringColumn("email", "邮箱", 1, 50);
 
@@ -109,8 +127,14 @@ namespace Known.Core.Entities
             this.Property(p => p.Token)
                 .IsStringColumn("token", "身份认证票据", 1, 50);
 
+            this.Property(p => p.FirstLoginIP)
+                .IsStringColumn("first_login_ip", "首次登录IP", 1, 50);
+
             this.Property(p => p.FirstLoginTime)
                 .IsDateTimeColumn("first_login_time", "首次登录时间");
+
+            this.Property(p => p.LastLoginIP)
+                .IsStringColumn("last_login_ip", "最后登录IP", 1, 50);
 
             this.Property(p => p.LastLoginTime)
                 .IsDateTimeColumn("last_login_time", "最后登录时间");

@@ -161,12 +161,16 @@ var MainMenuTip = function (menu) {
 
 var MainView = {
 
+    url: {
+        GetModules: '/api/User/GetModules',
+        Signout: '/signout'
+    },
     mainTabs: null,
     currentTab: null,
 
-    show: function (option) {
+    show: function () {
         this.mainTabs = $('#mainTabs');
-        this._initMenu(option.mainMenuUrl);
+        this._initMenu(this.url.GetModules);
         
         var _this = this;
         $('#toggle, .sidebar-toggle').click(function () {
@@ -204,9 +208,13 @@ var MainView = {
     },
 
     logout: function () {
+        var _this = this;
         Message.confirm('确定要退出系统？', function (result) {
             if (result) {
-                location = 'login.html';
+                $.post(_this.url.Signout, function () {
+                    User.setUser(null);
+                    location = '/';
+                });
             }
         });
     },
@@ -222,18 +230,13 @@ var MainView = {
         });
         $('.sidebar').mCustomScrollbar({ autoHideScrollbar: true });
         new MainMenuTip(menu);
-        $.get({
-            url: url,
-            success: function (data) {
-                menu.loadData(data);
-            }
+        $.post(url, function (data) {
+            menu.loadData(data);
         });
     }
 
 };
 
 $(function () {
-    MainView.show({
-        mainMenuUrl: '/api/User/GetModules'
-    });
+    MainView.show();
 });

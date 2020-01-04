@@ -27,9 +27,9 @@
         _showMessage('');
         var $this = $(this).attr('disabled', 'disabled').val('登录中...');
         $.post(loginUrl.format(userName, $.md5(password)), function (result) {
-            _showMessage(result.Message);
+            _showMessage(result.message);
             if (result.ok) {
-                User.setUser(result.user);
+                User.setUser(result.data.user);
                 location = result.data.backUrl || '/';
             } else {
                 $this.removeAttr('disabled').val('登录');
