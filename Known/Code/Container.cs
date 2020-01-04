@@ -130,16 +130,16 @@ namespace Known
 
         private static void Register(object key, Func<object> func)
         {
-            if (!cached.ContainsKey(key))
-            {
+            //if (!cached.ContainsKey(key))
+            //{
                 lock (cached.SyncRoot)
                 {
-                    if (!cached.ContainsKey(key))
-                    {
+                    //if (!cached.ContainsKey(key))
+                    //{
                         cached[key] = func();
-                    }
+                    //}
                 }
-            }
+            //}
         }
     }
 }

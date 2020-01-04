@@ -133,6 +133,8 @@ namespace Known.Core
     {
         private readonly Database database;
 
+        public PlatformRepository() : this(new Database()) { }
+
         public PlatformRepository(Database database)
         {
             this.database = database;
