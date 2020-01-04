@@ -1,0 +1,54 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Known UI</title>
+    <link rel="stylesheet" href="static/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="static/libs/easyui/easyui.css">
+    <link rel="stylesheet" href="static/libs/scrollbar/jquery.scrollbar.css">
+    <link rel="stylesheet" href="static/common/common.css">
+    <link rel="stylesheet" href="static/index/index.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-header">
+            <div class="navbar-brand">KnownUI</div>
+            <div class="navbar-brand navbar-brand-compact">K</div>
+        </div>
+        <ul class="navbar-nav">
+            <li><a id="toggle"><span class="fa fa-bars"></span></a></li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle userinfo">
+                    <img class="user-img" src="static/index/images/face.jpg" />个人资料<i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li onclick="MainView.openTab(this, 'pages/user.html')"><a href="#"><i class="fa fa-user"></i> 用户信息</a></li>
+                    <li onclick="MainView.updPwd(this)"><a href="#"><i class="fa fa-pencil-square-o"></i> 修改密码</a></li>
+                    <li onclick="MainView.logout()"><a href="#"><i class="fa fa-power-off"></i> 安全退出</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div id="mainMenu"></div>
+        </div>
+        <div class="main">
+            <div id="mainTabs" class="easyui-tabs" style="width:100%;height:100%;">
+                <div title="首页" iconCls="fa fa-home">
+                    <iframe src="layout.html?p=home" style="width:100%;height:100%;border:0;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="static/libs/jquery.min.js"></script>
+    <script src="static/libs/easyui/jquery.easyui.min.js"></script>
+    <script src="static/libs/easyui/easyui-lang-zh_CN.js"></script>
+    <script src="static/libs/scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="static/common/common.js"></script>
+    <script src="static/index/index.js"></script>
+</body>
+</html>
