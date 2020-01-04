@@ -74,8 +74,9 @@
     <Content Include="layout.html" />
     <Content Include="login.html" />
     <Content Include="pages\home.html" />
-    <Content Include="static\common\common.css" />
-    <Content Include="static\common\common.js" />
+    <Content Include="static\common\site.js" />
+    <Content Include="static\common\site.css" />
+    <Content Include="static\common\base.js" />
     <Content Include="static\index\images\face.jpg" />
     <Content Include="static\index\images\tabs_icons.png" />
     <Content Include="static\index\index.css" />

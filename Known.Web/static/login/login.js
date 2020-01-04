@@ -1,5 +1,7 @@
 ﻿$(function () {
 
+    var loginUrl = '/signin?userName={0}&password={1}';
+
     $('input[onenter]').keydown(function (event) {
         if (event.which === 13) {
             event.preventDefault();
@@ -24,10 +26,10 @@
 
         _showMessage('');
         var $this = $(this).attr('disabled', 'disabled').val('登录中...');
-        var url = '/api/signin?userName=' + userName + '&password=' + $.md5(password);
-        $.post(url, function (result) {
+        $.post(loginUrl.format(userName, $.md5(password)), function (result) {
             _showMessage(result.Message);
             if (result.ok) {
+                User.setUser(result.user);
                 location = result.data.backUrl || '/';
             } else {
                 $this.removeAttr('disabled').val('登录');

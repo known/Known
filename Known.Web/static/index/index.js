@@ -222,7 +222,7 @@ var MainView = {
         });
         $('.sidebar').mCustomScrollbar({ autoHideScrollbar: true });
         new MainMenuTip(menu);
-        $.ajax({
+        $.get({
             url: url,
             success: function (data) {
                 menu.loadData(data);
@@ -234,6 +234,6 @@ var MainView = {
 
 $(function () {
     MainView.show({
-        mainMenuUrl: 'data/menu.json'
+        mainMenuUrl: '/api/User/GetModules'
     });
 });
