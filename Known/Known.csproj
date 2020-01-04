@@ -39,7 +39,7 @@
       <HintPath>..\packages\Aspose.Cells.17.8\lib\net40\Aspose.Cells.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -183,6 +183,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Code\Validator.cs" />
     <Compile Include="Web\ApiApplication.cs" />
+    <Compile Include="Web\ApiConfig.cs" />
     <Compile Include="Web\Extensions\HttpActionContextExtension.cs" />
     <Compile Include="Web\ApiLoginAuthorizeAttribute.cs" />
     <Compile Include="Web\ApiTrackActionAttribute.cs" />

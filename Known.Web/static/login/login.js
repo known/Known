@@ -24,16 +24,15 @@
 
         _showMessage('');
         var $this = $(this).attr('disabled', 'disabled').val('登录中...');
-        location = 'index.html';
-        //var url = '/signin?userName=' + userName + '&password=' + $.md5(password);
-        //$.post(url, function (result) {
-        //    _showMessage(result.Message);
-        //    if (result.ok) {
-        //        location = result.data.backUrl || '/';
-        //    } else {
+        var url = '/api/signin?userName=' + userName + '&password=' + $.md5(password);
+        $.post(url, function (result) {
+            _showMessage(result.Message);
+            if (result.ok) {
+                location = result.data.backUrl || '/';
+            } else {
                 $this.removeAttr('disabled').val('登录');
-        //    }
-        //});
+            }
+        });
 
         function _showMessage(message) {
             $('#error').html(message);

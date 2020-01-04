@@ -17,7 +17,7 @@ namespace Known.Web
         /// <summary>
         /// 日志组件。
         /// </summary>
-        protected readonly ILogger logger = new TraceLogger();
+        protected ILogger logger;
 
         /// <summary>
         /// 应用程序启动事件。
@@ -26,6 +26,8 @@ namespace Known.Web
         /// <param name="e"></param>
         protected virtual void Application_Start(object sender, EventArgs e)
         {
+            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            logger = new TraceLogger();
             InitialModules();
         }
 
