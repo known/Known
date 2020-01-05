@@ -19,18 +19,18 @@ namespace Known.Web.Extensions
         /// <param name="request">请求消息对象。</param>
         /// <param name="name">查询参数名。</param>
         /// <returns>查询参数值。</returns>
-        public static string GetQueryValue(this HttpRequestMessage request, string name)
-        {
-            var pairs = request.GetQueryNameValuePairs()
-                               .Where(e => e.Key.ToLower() == name.ToLower())
-                               .ToList();
-            if (pairs.Count > 0)
-            {
-                var value = pairs.First().Value;
-                return HttpUtility.UrlDecode(value).Trim();
-            }
-            return null;
-        }
+        //public static string GetQueryValue(this HttpRequestMessage request, string name)
+        //{
+        //    var pairs = request.GetQueryNameValuePairs()
+        //                       .Where(e => e.Key.ToLower() == name.ToLower())
+        //                       .ToList();
+        //    if (pairs.Count > 0)
+        //    {
+        //        var value = pairs.First().Value;
+        //        return HttpUtility.UrlDecode(value).Trim();
+        //    }
+        //    return null;
+        //}
 
         /// <summary>
         /// 获取请求虚拟路径的完整路径。

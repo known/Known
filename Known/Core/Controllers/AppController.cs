@@ -1,4 +1,4 @@
-﻿using System.Web.Http;
+﻿using System.Web.Mvc;
 using Known.Core.Services;
 using Known.Web;
 
@@ -7,7 +7,7 @@ namespace Known.Core.Controllers
     /// <summary>
     /// 应用程序控制器类。
     /// </summary>
-    public class AppController : ApiControllerBase
+    public class AppController : MvcControllerBase
     {
         private AppService Service
         {

@@ -36,25 +36,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aspose.Cells, Version=17.8.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
-      <HintPath>..\packages\Aspose.Cells.17.8\lib\net40\Aspose.Cells.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\Aspose.Cells.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Messaging" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\Library\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -182,13 +181,11 @@
     <Compile Include="Code\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Code\Validator.cs" />
-    <Compile Include="Web\ApiApplication.cs" />
-    <Compile Include="Web\ApiConfig.cs" />
-    <Compile Include="Web\Extensions\HttpActionContextExtension.cs" />
-    <Compile Include="Web\ApiLoginAuthorizeAttribute.cs" />
-    <Compile Include="Web\ApiTrackActionAttribute.cs" />
+    <Compile Include="Web\Extensions\RouteExtension.cs" />
+    <Compile Include="Web\MvcApplication.cs" />
+    <Compile Include="Web\MvcLoginAuthorizeAttribute.cs" />
     <Compile Include="Web\ApiClient.cs" />
-    <Compile Include="Web\ApiControllerBase.cs" />
+    <Compile Include="Web\MvcControllerBase.cs" />
     <Compile Include="Web\ApiResult.cs" />
     <Compile Include="Web\AuthenticationHandler.cs" />
     <Compile Include="Web\AuthenticationIdentity.cs" />
@@ -209,8 +206,6 @@
     <Compile Include="Web\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Web\RequestTracker.cs" />
-    <Compile Include="Web\TrackHelper.cs" />
     <Compile Include="Web\WebUtils.cs" />
     <Compile Include="Web\XSSChecker.cs" />
     <Compile Include="Workflow\Activity.cs" />
@@ -223,7 +218,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="package.nuspec" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="License.xml" />

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Web.Http;
+using System.Web.Mvc;
 using Known.Core.Services;
 using Known.Web;
 
@@ -8,7 +8,7 @@ namespace Known.Core.Controllers
     /// <summary>
     /// 用户控制器类。
     /// </summary>
-    public class UserController : ApiControllerBase
+    public class UserController : MvcControllerBase
     {
         private UserService Service
         {
@@ -88,7 +88,7 @@ namespace Known.Core.Controllers
         /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
         [HttpPost]
-        public object DeleteUsers([FromBody]string data)
+        public object DeleteUsers(string data)
         {
             return PostAction<string[]>(data, d => Service.DeleteUsers(d));
         }
@@ -111,7 +111,7 @@ namespace Known.Core.Controllers
         /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
         [HttpPost]
-        public object SaveUser([FromBody]string data)
+        public object SaveUser(string data)
         {
             return PostAction<dynamic>(data, d => Service.SaveUser(d));
         }

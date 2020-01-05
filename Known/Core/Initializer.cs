@@ -13,8 +13,6 @@ namespace Known.Core
         /// <param name="context">程序上下文对象。</param>
         public static void Initialize(Context context)
         {
-            Container.Register<IJson, JsonProvider>();
-
             InitPlatformRepository(context);
             InitCoreModule(context);
         }

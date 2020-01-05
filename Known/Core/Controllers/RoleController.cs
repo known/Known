@@ -1,4 +1,4 @@
-﻿using System.Web.Http;
+﻿using System.Web.Mvc;
 using Known.Core.Services;
 using Known.Web;
 
@@ -7,7 +7,7 @@ namespace Known.Core.Controllers
     /// <summary>
     /// 角色管理控制器类。
     /// </summary>
-    public class RoleController : ApiControllerBase
+    public class RoleController : MvcControllerBase
     {
         private RoleService Service
         {
@@ -32,7 +32,7 @@ namespace Known.Core.Controllers
         /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
         [HttpPost]
-        public object DeleteRoles([FromBody]string data)
+        public object DeleteRoles(string data)
         {
             return PostAction<string[]>(data, d => Service.DeleteRoles(d));
         }
@@ -55,7 +55,7 @@ namespace Known.Core.Controllers
         /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
         [HttpPost]
-        public object SaveRole([FromBody]string data)
+        public object SaveRole(string data)
         {
             return PostAction<dynamic>(data, d => Service.SaveRole(d));
         }

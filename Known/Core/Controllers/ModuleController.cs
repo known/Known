@@ -1,4 +1,4 @@
-﻿using System.Web.Http;
+﻿using System.Web.Mvc;
 using Known.Core.Services;
 using Known.Web;
 
@@ -7,7 +7,7 @@ namespace Known.Core.Controllers
     /// <summary>
     /// 模块管理控制器类。
     /// </summary>
-    public class ModuleController : ApiControllerBase
+    public class ModuleController : MvcControllerBase
     {
         private ModuleService Service
         {
@@ -41,7 +41,7 @@ namespace Known.Core.Controllers
         /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
         [HttpPost]
-        public object DeleteModules([FromBody]string data)
+        public object DeleteModules(string data)
         {
             return PostAction<string[]>(data, d => Service.DeleteModules(d));
         }
@@ -52,7 +52,7 @@ namespace Known.Core.Controllers
         /// <param name="data">移动模块的id和方向，up-上移、down-下移。</param>
         /// <returns>移动结果。</returns>
         [HttpPost]
-        public object MoveModule([FromBody]string data)
+        public object MoveModule(string data)
         {
             return PostAction<dynamic>(data, d =>
             {
@@ -80,7 +80,7 @@ namespace Known.Core.Controllers
         /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
         [HttpPost]
-        public object SaveModule([FromBody]string data)
+        public object SaveModule(string data)
         {
             return PostAction<dynamic>(data, d => Service.SaveModule(d));
         }
