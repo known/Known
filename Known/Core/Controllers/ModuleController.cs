@@ -19,9 +19,9 @@ namespace Known.Core.Controllers
         /// 获取模块树对象。
         /// </summary>
         /// <returns>模块树对象。</returns>
-        public object GetTreeDatas()
+        public ActionResult GetTreeDatas()
         {
-            return Menu.GetTreeMenus(PlatformService);
+            return JsonResult(Menu.GetTreeMenus(PlatformService));
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Known.Core.Controllers
         /// <param name="data">查询条件对象。</param>
         /// <returns>分页数据对象。</returns>
         [HttpPost]
-        public object QueryModules(CriteriaData data)
+        public ActionResult QueryModules(CriteriaData data)
         {
             return QueryPagingData(data, c => Service.QueryModules(c));
         }
@@ -41,7 +41,7 @@ namespace Known.Core.Controllers
         /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
         [HttpPost]
-        public object DeleteModules(string data)
+        public ActionResult DeleteModules(string data)
         {
             return PostAction<string[]>(data, d => Service.DeleteModules(d));
         }
@@ -52,7 +52,7 @@ namespace Known.Core.Controllers
         /// <param name="data">移动模块的id和方向，up-上移、down-下移。</param>
         /// <returns>移动结果。</returns>
         [HttpPost]
-        public object MoveModule(string data)
+        public ActionResult MoveModule(string data)
         {
             return PostAction<dynamic>(data, d =>
             {
@@ -69,9 +69,9 @@ namespace Known.Core.Controllers
         /// </summary>
         /// <param name="id">实体 id。</param>
         /// <returns>实体对象。</returns>
-        public object GetModule(string id)
+        public ActionResult GetModule(string id)
         {
-            return Service.GetModule(id);
+            return JsonResult(Service.GetModule(id));
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Known.Core.Controllers
         /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
         [HttpPost]
-        public object SaveModule(string data)
+        public ActionResult SaveModule(string data)
         {
             return PostAction<dynamic>(data, d => Service.SaveModule(d));
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using System.Web.Security;
 using Known.Web.Extensions;
 
 namespace Known.Web
@@ -36,8 +37,8 @@ namespace Known.Web
             else
             {
                 filterContext.Result = new EmptyResult();
-                var logoutUrl = filterContext.RequestContext.GetAction("Logout", "Home", new { area = "" });
-                var script = "<script>if(top['main']){top['main'].timeout();}else{window.location='" + logoutUrl + "';};</script>";
+                var loginUrl = FormsAuthentication.LoginUrl;
+                var script = "<script>top.location='" + loginUrl + "';</script>";
                 httpContext.Response.Write(script);
                 httpContext.Response.End();
             }

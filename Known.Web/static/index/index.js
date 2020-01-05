@@ -162,7 +162,7 @@ var MainMenuTip = function (menu) {
 var MainView = {
 
     url: {
-        GetModules: '/api/User/GetModules',
+        GetModules: '/User/GetModules',
         Signout: '/signout'
     },
     mainTabs: null,

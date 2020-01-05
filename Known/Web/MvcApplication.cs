@@ -84,7 +84,7 @@ namespace Known.Web
 
         private void ErrorResult(string message)
         {
-            Response.Write(new { success = false, message }.ToJson());
+            Response.Write(new { ok = false, message }.ToJson());
             Response.End();
         }
 
@@ -100,8 +100,6 @@ namespace Known.Web
             {
                 var message = $"App发生异常，操作人：{User.Identity.Name}，地址：{HttpContext.Current.Request.Url}";
                 logger.Error(message, ex);
-
-                Response.StatusCode = 200;
                 ErrorResult(ex.Message);
             }
         }
@@ -122,6 +120,7 @@ namespace Known.Web
         /// <param name="e"></param>
         protected virtual void Session_Start(object sender, EventArgs e)
         {
+            var sessionId = Session.SessionID;
         }
 
         /// <summary>

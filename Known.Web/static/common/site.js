@@ -64,7 +64,7 @@ $(document).ajaxSend(function (event, xhr, settings) {
 });
 $(document).ajaxError(function (event, xhr, settings, exception) {
     if (xhr.status === 401) {
-        top.location = '/login.html';
+        top.location = '/login';
     }
 });
 

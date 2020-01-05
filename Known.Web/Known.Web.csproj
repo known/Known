@@ -49,6 +49,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -62,10 +66,9 @@
       <DependentUpon>kms.mdf</DependentUpon>
     </Content>
     <Content Include="Global.asax" />
-    <Content Include="index.html" />
-    <Content Include="layout.html" />
-    <Content Include="login.html" />
-    <Content Include="pages\home.html" />
+    <Content Include="static\index\welcome.css" />
+    <Content Include="Views\Home\Welcome.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
     <Content Include="static\common\site.js" />
     <Content Include="static\common\site.css" />
     <Content Include="static\common\base.js" />
@@ -112,9 +115,11 @@
     <Content Include="static\login\images\web_login_bg.jpg" />
     <Content Include="static\login\login.css" />
     <Content Include="static\login\login.js" />
+    <None Include="Views\Web.config" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -127,6 +132,9 @@
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="static\libs\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -181,6 +181,7 @@
     <Compile Include="Code\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Code\Validator.cs" />
+    <Compile Include="Web\Extensions\HtmlExtension.cs" />
     <Compile Include="Web\Extensions\RouteExtension.cs" />
     <Compile Include="Web\MvcApplication.cs" />
     <Compile Include="Web\MvcLoginAuthorizeAttribute.cs" />

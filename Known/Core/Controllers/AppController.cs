@@ -18,9 +18,9 @@ namespace Known.Core.Controllers
         /// 获取开发平台应用程序对象列表。
         /// </summary>
         /// <returns>应用程序对象列表。</returns>
-        public object GetAppList()
+        public ActionResult GetAppList()
         {
-            return Service.GetAppList();
+            return JsonResult(Service.GetAppList());
         }
 
         /// <summary>
@@ -29,9 +29,10 @@ namespace Known.Core.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        public object DeleteApp(string id)
+        public ActionResult DeleteApp(string id)
         {
-            return Service.DeleteApp(id);
+            var result = Service.DeleteApp(id);
+            return ValidateResult(result);
         }
     }
 }

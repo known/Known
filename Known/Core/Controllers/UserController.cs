@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.Security;
 using Known.Core.Services;
 using Known.Web;
 
@@ -21,16 +22,18 @@ namespace Known.Core.Controllers
         /// </summary>
         /// <param name="userName">用户名。</param>
         /// <param name="password">登录密码。</param>
+        /// <param name="rememberMe">是否记住，默认否。</param>
         /// <param name="backUrl">登录成功后，跳转的地址，默认空。</param>
         /// <returns>操作结果对象。</returns>
         [AllowAnonymous, Route("signin")]
-        public object SignIn(string userName, string password, string backUrl = null)
+        public ActionResult SignIn(string userName, string password, bool rememberMe = false, string backUrl = null)
         {
             var result = PlatformService.SignIn(userName, password);
             if (!result.IsValid)
-                return ApiResult.Error(result.Message);
+                return ErrorResult(result.Message);
 
-            return ApiResult.Success("登录成功，正在跳转页面......", new
+            FormsAuthentication.SetAuthCookie(userName, rememberMe);
+            return SuccessResult("登录成功，正在跳转页面......", new
             {
                 user = new
                 {
@@ -52,21 +55,24 @@ namespace Known.Core.Controllers
         /// </summary>
         /// <returns>操作结果对象。</returns>
         [Route("signout")]
-        public object SignOut()
+        public ActionResult SignOut()
         {
             PlatformService.SignOut(UserName);
-            return ApiResult.Success("");
+            Session.Clear();
+            Session.Abandon();
+            FormsAuthentication.SignOut();
+            return Redirect(FormsAuthentication.LoginUrl);
         }
 
         /// <summary>
         /// 获取当前用户菜单模块及系统代码集合。
         /// </summary>
         /// <returns>菜单模块及系统代码集合。</returns>
-        public object GetModules()
+        public ActionResult GetModules()
         {
             var menus = new List<Menu>();// Menu.GetUserMenus(PlatformService, UserName);
             var codes = new Dictionary<string, object>(); //Code.GetCodes(PlatformService);
-            return new { menus, codes };
+            return JsonResult(new { menus, codes });
         }
         #endregion
 
@@ -77,7 +83,7 @@ namespace Known.Core.Controllers
         /// <param name="data">查询条件对象。</param>
         /// <returns>分页数据对象。</returns>
         [HttpPost]
-        public object QueryUsers(CriteriaData data)
+        public ActionResult QueryUsers(CriteriaData data)
         {
             return QueryPagingData(data, c => Service.QueryUsers(c));
         }
@@ -88,7 +94,7 @@ namespace Known.Core.Controllers
         /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
         [HttpPost]
-        public object DeleteUsers(string data)
+        public ActionResult DeleteUsers(string data)
         {
             return PostAction<string[]>(data, d => Service.DeleteUsers(d));
         }
@@ -100,9 +106,9 @@ namespace Known.Core.Controllers
         /// </summary>
         /// <param name="id">实体 id。</param>
         /// <returns>实体对象。</returns>
-        public object GetUser(string id)
+        public ActionResult GetUser(string id)
         {
-            return Service.GetUser(id);
+            return JsonResult(Service.GetUser(id));
         }
 
         /// <summary>
@@ -111,7 +117,7 @@ namespace Known.Core.Controllers
         /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
         [HttpPost]
-        public object SaveUser(string data)
+        public ActionResult SaveUser(string data)
         {
             return PostAction<dynamic>(data, d => Service.SaveUser(d));
         }
