@@ -2,7 +2,7 @@
 
 namespace Known.Web.Controllers
 {
-    public class HomeController : MvcControllerBase
+    public class HomeController : Controller
     {
         public ActionResult Index()
         {
@@ -17,7 +17,6 @@ namespace Known.Web.Controllers
         [AllowAnonymous, Route("login")]
         public ActionResult Login()
         {
-            PlatformService.SignOut(UserName);
             return View();
         }
     }

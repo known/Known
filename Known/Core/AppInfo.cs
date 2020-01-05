@@ -8,6 +8,14 @@ namespace Known.Core
     public class AppInfo
     {
         /// <summary>
+        /// 创建一个应用程序信息类实例。
+        /// </summary>
+        public AppInfo()
+        {
+            Modules = new List<ModuleInfo>();
+        }
+
+        /// <summary>
         /// 取得或设置主键 Id。
         /// </summary>
         public string Id { get; set; }

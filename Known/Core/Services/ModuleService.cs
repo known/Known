@@ -80,7 +80,7 @@ namespace Known.Core.Services
             EntityHelper.FillModel(entity, model);
 
             if (string.IsNullOrWhiteSpace(entity.AppId))
-                entity.AppId = Setting.Instance.AppId;
+                entity.AppId = Setting.Instance.App.Id;
 
             var vr = EntityHelper.Validate(entity);
             if (vr.HasError)

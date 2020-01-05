@@ -74,8 +74,8 @@ namespace Known.Core
             {
                 id = "0",
                 pid = "-1",
-                code = Setting.Instance.AppId,
-                text = Setting.Instance.AppName,
+                code = Setting.Instance.App.Id,
+                text = Setting.Instance.App.Name,
                 expanded = true
             });
 

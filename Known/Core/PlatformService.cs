@@ -36,7 +36,7 @@ namespace Known.Core
         /// <returns>系统代码列表。</returns>
         public Dictionary<string, object> GetCodes()
         {
-            return repository.GetCodes(Setting.Instance.AppId);
+            return repository.GetCodes(Setting.Instance.App.Id);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Known.Core
         /// <returns>模块信息对象列表。</returns>
         public List<ModuleInfo> GetModules()
         {
-            var modules = repository.GetModules(Setting.Instance.AppId);
+            var modules = repository.GetModules(Setting.Instance.App.Id);
             if (modules == null || modules.Count == 0)
                 return null;
 
@@ -77,7 +77,7 @@ namespace Known.Core
         /// <returns>模块信息对象列表。</returns>
         public List<ModuleInfo> GetUserModules(string userName)
         {
-            var modules = repository.GetUserModules(Setting.Instance.AppId, userName);
+            var modules = repository.GetUserModules(Setting.Instance.App.Id, userName);
             if (modules == null || modules.Count == 0)
                 return new List<ModuleInfo>();
 
@@ -209,7 +209,7 @@ namespace Known.Core
     class UserCache
     {
         private static readonly Hashtable cached = new Hashtable();
-        private static readonly string appId = Setting.Instance.AppId;
+        private static readonly string appId = Setting.Instance.App.Id;
 
         public static void RemoveUser(string userName)
         {

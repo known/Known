@@ -70,7 +70,7 @@ namespace Known.Core.Controllers
         /// <returns>菜单模块及系统代码集合。</returns>
         public ActionResult GetModules()
         {
-            var menus = new List<Menu>();// Menu.GetUserMenus(PlatformService, UserName);
+            var menus = new List<Menu>();//Menu.GetUserMenus(PlatformService, UserName);
             var codes = new Dictionary<string, object>(); //Code.GetCodes(PlatformService);
             return JsonResult(new { menus, codes });
         }

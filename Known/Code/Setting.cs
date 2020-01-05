@@ -1,16 +1,19 @@
-﻿namespace Known
+﻿using Known.Core;
+
+namespace Known
 {
     /// <summary>
     /// 应用程序全局设定类。
     /// </summary>
     public class Setting
     {
-        private static readonly Setting instance = new Setting();
-
         private Setting()
         {
-            AppId = Config.AppSetting("AppId");
-            AppName = Config.AppSetting("AppName");
+            App = new AppInfo
+            {
+                Id = Config.AppSetting("AppId"),
+                Name = Config.AppSetting("AppName")
+            };
             ApiPlatformUrl = Config.AppSetting("ApiPlatformUrl");
             ApiBaseUrl = Config.AppSetting("ApiBaseUrl");
             IsApiValidRequest = Config.AppSetting<bool>("IsApiValidRequest", false);
@@ -25,20 +28,12 @@
         /// <summary>
         /// 取得应用程序全局设定类单例对象。
         /// </summary>
-        public static Setting Instance
-        {
-            get { return instance; }
-        }
+        public static Setting Instance { get; } = new Setting();
 
         /// <summary>
-        /// 取得当前应用程序 ID。
+        /// 取得当前应用程序信息。
         /// </summary>
-        public string AppId { get; }
-
-        /// <summary>
-        /// 取得当前应用程序名称。
-        /// </summary>
-        public string AppName { get; }
+        public AppInfo App { get; }
 
         /// <summary>
         /// 取得平台 Api 请求地址。
