@@ -141,3 +141,11 @@ a {
 .panel-icon {
     margin-top: -6px;
 }
+
+.messager-button .l-btn {
+    width: 60px;
+}
+
+.l-btn-text {
+    line-height: 24px;
+}
