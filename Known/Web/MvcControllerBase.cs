@@ -59,7 +59,7 @@ namespace Known.Web
         /// <returns>JSON。</returns>
         protected ActionResult JsonResult(object data)
         {
-            return Content(data.ToJson());
+            return Content(data.ToJson(), MimeTypes.ApplicationJson);
         }
 
         /// <summary>
