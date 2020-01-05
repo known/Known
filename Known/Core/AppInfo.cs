@@ -43,6 +43,13 @@ namespace Known.Core
         /// <summary>
         /// 取得或设置应用程序模块信息列表。
         /// </summary>
-        public List<ModuleInfo> Modules { get; set; }
+        public List<ModuleInfo> Modules { get; }
+
+        public void AddModule(ModuleInfo info)
+        {
+            info.AppId = Id;
+            info.ParentId = Id;
+            Modules.Add(info);
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace Known.Tests.Core
         public static void Start()
         {
             var context = Context.Create();
-            Initializer.Initialize(context);
+            CoreInitializer.Initialize(context);
         }
     }
 }

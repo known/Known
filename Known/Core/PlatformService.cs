@@ -77,11 +77,12 @@ namespace Known.Core
         /// <returns>模块信息对象列表。</returns>
         public List<ModuleInfo> GetUserModules(string userName)
         {
-            var modules = repository.GetUserModules(Setting.Instance.App.Id, userName);
-            if (modules == null || modules.Count == 0)
-                return new List<ModuleInfo>();
+            return Setting.Instance.App.Modules;
+            //var modules = repository.GetUserModules(Setting.Instance.App.Id, userName);
+            //if (modules == null || modules.Count == 0)
+            //    return new List<ModuleInfo>();
 
-            return GetHierarchicalModules(modules);
+            //return GetHierarchicalModules(modules);
         }
 
         /// <summary>
@@ -193,9 +194,6 @@ namespace Known.Core
                                  .ToList();
             if (children == null || children.Count == 0)
                 return;
-
-            if (module.Children == null)
-                module.Children = new List<ModuleInfo>();
 
             foreach (var item in children)
             {

@@ -152,21 +152,47 @@ namespace Known.Web
 
         private void InitialModules()
         {
+            var context = Known.Context.Create();
             var assemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToList();
-            foreach (var item in assemblies)
+            foreach (var assembly in assemblies)
             {
-                if (!item.FullName.StartsWith("Known"))
-                    continue;
-
-                var ns = item.FullName.Split(',')[0];
-                var type = item.GetType($"{ns}.Initializer");
-                if (type == null)
-                    continue;
-
-                var method = type.GetMethod("Initialize", BindingFlags.Public | BindingFlags.Static);
-                if (method != null)
+                var types = assembly.GetExportedTypes();
+                if (types != null && types.Length > 0)
                 {
-                    method.Invoke(null, null);
+                    foreach (var type in types)
+                    {
+                        if (type.IsSubclassOf(typeof(Initializer)))
+                        {
+                            var initializer = (Initializer)Activator.CreateInstance(type);
+                            if (initializer != null)
+                            {
+                                initializer.Initialize(context);
+                            }
+                        }
+
+                        var module = type.GetAttribute<ModuleAttribute>();
+                        if (module != null)
+                        {
+                            var mi = module.ToInfo(type.Name.Replace("Controller", ""));
+                            
+                            var methods = type.GetMethods();
+                            if (methods != null && methods.Length > 0)
+                            {
+                                foreach (var method in methods)
+                                {
+                                    var page = method.GetAttribute<PageAttribute>();
+                                    if (page != null)
+                                    {
+                                        var pi = page.ToInfo(method.Name);
+                                        pi.Url = $"/{mi.Id}/{pi.Id}";
+                                        mi.AddChild(pi);
+                                    }
+                                }
+                            }
+
+                            Setting.Instance.App.AddModule(mi);
+                        }
+                    }
                 }
             }
         }

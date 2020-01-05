@@ -35,6 +35,12 @@ namespace Known.Core
     /// </summary>
     public class ModuleInfo
     {
+        public ModuleInfo()
+        {
+            Enabled = true;
+            Children = new List<ModuleInfo>();
+        }
+
         /// <summary>
         /// 取得或设置主键ID。
         /// </summary>
@@ -131,7 +137,15 @@ namespace Known.Core
         /// <summary>
         /// 取得或设置子模块信息列表。
         /// </summary>
-        public List<ModuleInfo> Children { get; set; }
+        public List<ModuleInfo> Children { get; }
+
+        public void AddChild(ModuleInfo info)
+        {
+            info.AppId = AppId;
+            info.ParentId = Id;
+            info.Parent = this;
+            Children.Add(info);
+        }
 
         /// <summary>
         /// 取得或设置全模块代码列表。

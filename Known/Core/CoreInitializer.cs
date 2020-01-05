@@ -5,13 +5,13 @@ namespace Known.Core
     /// <summary>
     /// 平台模块初始化者。
     /// </summary>
-    public sealed class Initializer
+    public class CoreInitializer : Initializer
     {
         /// <summary>
         /// 初始化模块。
         /// </summary>
         /// <param name="context">程序上下文对象。</param>
-        public static void Initialize(Context context)
+        public override void Initialize(Context context)
         {
             InitPlatformRepository(context);
             InitCoreModule(context);
@@ -40,7 +40,7 @@ namespace Known.Core
 
         private static void InitCoreModule(Context context)
         {
-            var assembly = typeof(Initializer).Assembly;
+            var assembly = typeof(CoreInitializer).Assembly;
             EntityHelper.InitMapper(assembly);
 
             Container.Register<ServiceBase>(assembly, context);

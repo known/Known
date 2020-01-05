@@ -23,7 +23,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Known.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -66,10 +67,14 @@
     <Compile Include="Cells\AsposeExcel.cs" />
     <Compile Include="Cells\AsposeSheet.cs" />
     <Compile Include="Cells\AsposeSheetCell.cs" />
+    <Compile Include="Code\Initializer.cs" />
     <Compile Include="Core\Controllers\AppController.cs" />
+    <Compile Include="Core\Controllers\SystemController.cs" />
     <Compile Include="Core\Entities\TRole.cs" />
     <Compile Include="Core\Datas\AppRepository.cs" />
     <Compile Include="Core\Datas\RoleRepository.cs" />
+    <Compile Include="Code\ModuleAttribute.cs" />
+    <Compile Include="Code\PageAttribute.cs" />
     <Compile Include="Core\Services\RoleService.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Jobs\CheckResult.cs" />
@@ -102,7 +107,7 @@
     <Compile Include="Core\Entities\TDepartment.cs" />
     <Compile Include="Core\Entities\TModule.cs" />
     <Compile Include="Core\Entities\TUser.cs" />
-    <Compile Include="Core\Initializer.cs" />
+    <Compile Include="Core\CoreInitializer.cs" />
     <Compile Include="Core\PlatformRepository.cs" />
     <Compile Include="Core\Menu.cs" />
     <Compile Include="Core\ModuleInfo.cs" />
