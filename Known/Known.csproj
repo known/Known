@@ -189,7 +189,7 @@
     <Compile Include="Web\Extensions\HtmlExtension.cs" />
     <Compile Include="Web\Extensions\RouteExtension.cs" />
     <Compile Include="Web\MvcApplication.cs" />
-    <Compile Include="Web\MvcLoginAuthorizeAttribute.cs" />
+    <Compile Include="Web\MvcAuthorizeAttribute.cs" />
     <Compile Include="Web\ApiClient.cs" />
     <Compile Include="Web\MvcControllerBase.cs" />
     <Compile Include="Web\ApiResult.cs" />

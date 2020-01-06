@@ -6,13 +6,11 @@ using Known.Web.Extensions;
 namespace Known.Web
 {
     /// <summary>
-    /// Api 登录授权特性类。
+    /// Mvc 登录授权特性类。
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    public class MvcLoginAuthorizeAttribute : AuthorizeAttribute
+    public class MvcAuthorizeAttribute : AuthorizeAttribute
     {
-        private const int ExpiredSeconds = 600;
-
         /// <summary>
         /// 操作方法被授权时的触发动作。
         /// </summary>

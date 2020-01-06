@@ -29,7 +29,7 @@ namespace Known.Web
         {
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             Container.Register<IJson, JsonProvider>();
-            InitialModules();
+            InitializeApp();
             Configuration();
         }
 
@@ -147,54 +147,62 @@ namespace Known.Web
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
-            GlobalFilters.Filters.Add(new MvcLoginAuthorizeAttribute());
+            GlobalFilters.Filters.Add(new MvcAuthorizeAttribute());
         }
 
-        private void InitialModules()
+        private void InitializeApp()
         {
             var context = Known.Context.Create();
             var assemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToList();
             foreach (var assembly in assemblies)
             {
                 var types = assembly.GetExportedTypes();
-                if (types != null && types.Length > 0)
+                if (types == null || types.Length == 0)
+                    continue;
+
+                foreach (var type in types)
                 {
-                    foreach (var type in types)
+                    InitializeModule(context, type);
+                    InitializeMenu(type);
+                }
+            }
+        }
+
+        private static void InitializeModule(Context context, Type type)
+        {
+            if (type.IsSubclassOf(typeof(Initializer)))
+            {
+                var initializer = (Initializer)Activator.CreateInstance(type);
+                if (initializer != null)
+                {
+                    initializer.Initialize(context);
+                }
+            }
+        }
+
+        private static void InitializeMenu(Type type)
+        {
+            var module = type.GetAttribute<ModuleAttribute>();
+            if (module == null)
+                return;
+
+            var info = module.ToInfo(type.Name.Replace("Controller", ""));
+            var methods = type.GetMethods();
+            if (methods != null && methods.Length > 0)
+            {
+                foreach (var method in methods)
+                {
+                    var page = method.GetAttribute<PageAttribute>();
+                    if (page != null)
                     {
-                        if (type.IsSubclassOf(typeof(Initializer)))
-                        {
-                            var initializer = (Initializer)Activator.CreateInstance(type);
-                            if (initializer != null)
-                            {
-                                initializer.Initialize(context);
-                            }
-                        }
-
-                        var module = type.GetAttribute<ModuleAttribute>();
-                        if (module != null)
-                        {
-                            var mi = module.ToInfo(type.Name.Replace("Controller", ""));
-                            
-                            var methods = type.GetMethods();
-                            if (methods != null && methods.Length > 0)
-                            {
-                                foreach (var method in methods)
-                                {
-                                    var page = method.GetAttribute<PageAttribute>();
-                                    if (page != null)
-                                    {
-                                        var pi = page.ToInfo(method.Name);
-                                        pi.Url = $"/{mi.Id}/{pi.Id}";
-                                        mi.AddChild(pi);
-                                    }
-                                }
-                            }
-
-                            Setting.Instance.App.AddModule(mi);
-                        }
+                        var pi = page.ToInfo(method.Name);
+                        pi.Url = $"/{info.Id}/{pi.Id}";
+                        info.AddChild(pi);
                     }
                 }
             }
+
+            Setting.Instance.App.AddModule(info);
         }
     }
 }
