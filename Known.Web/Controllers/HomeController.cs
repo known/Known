@@ -14,6 +14,11 @@ namespace Known.Web.Controllers
             return View();
         }
 
+        public ActionResult Page()
+        {
+            return View();
+        }
+
         [AllowAnonymous, Route("login")]
         public ActionResult Login()
         {

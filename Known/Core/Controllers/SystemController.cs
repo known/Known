@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.IO;
+using System.Web.Mvc;
 
 namespace Known.Core.Controllers
 {
@@ -8,7 +9,7 @@ namespace Known.Core.Controllers
         [Page(1, "角色管理", "fa fa-users")]
         public ActionResult RoleView()
         {
-            return View();
+            return RedirectToAction("Page", "Home");
         }
 
         [Page(2, "用户管理", "fa fa-user")]

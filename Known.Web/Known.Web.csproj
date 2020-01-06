@@ -68,6 +68,7 @@
     <Content Include="Global.asax" />
     <Content Include="static\index\welcome.css" />
     <Content Include="Views\Home\Welcome.cshtml" />
+    <Content Include="Views\Home\Page.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
     <Content Include="static\common\site.js" />
     <Content Include="static\common\site.css" />

@@ -56,6 +56,10 @@
     <Reference Include="System.Web.Mvc">
       <HintPath>..\Library\System.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\System.Web.WebPages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -230,6 +234,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Core\Tables.sql" />
+    <EmbeddedResource Include="Core\Views\Role\Script.js" />
+    <EmbeddedResource Include="Core\Views\Role\View.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
