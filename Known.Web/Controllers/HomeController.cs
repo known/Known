@@ -14,8 +14,9 @@ namespace Known.Web.Controllers
             return View();
         }
 
-        public ActionResult Page()
+        public ActionResult Page(string id)
         {
+            ViewBag.Id = id;
             return View();
         }
 

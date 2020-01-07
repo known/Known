@@ -186,7 +186,7 @@ namespace Known.Web
             if (module == null)
                 return;
 
-            var info = module.ToInfo(type.Name.Replace("Controller", ""));
+            var info = module.ToInfo();
             var methods = type.GetMethods();
             if (methods != null && methods.Length > 0)
             {
@@ -195,8 +195,8 @@ namespace Known.Web
                     var page = method.GetAttribute<PageAttribute>();
                     if (page != null)
                     {
-                        var pi = page.ToInfo(method.Name);
-                        pi.Url = $"/{info.Id}/{pi.Id}";
+                        var pi = page.ToInfo();
+                        pi.Url = $"/Home/Page/{pi.Id}";
                         info.AddChild(pi);
                     }
                 }

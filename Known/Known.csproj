@@ -72,8 +72,10 @@
     <Compile Include="Cells\AsposeSheet.cs" />
     <Compile Include="Cells\AsposeSheetCell.cs" />
     <Compile Include="Code\Initializer.cs" />
+    <Compile Include="Code\ModuleBase.cs" />
+    <Compile Include="Code\PageView.cs" />
     <Compile Include="Core\Controllers\AppController.cs" />
-    <Compile Include="Core\Controllers\SystemController.cs" />
+    <Compile Include="Core\SystemModule.cs" />
     <Compile Include="Core\Entities\TRole.cs" />
     <Compile Include="Core\Datas\AppRepository.cs" />
     <Compile Include="Core\Datas\RoleRepository.cs" />

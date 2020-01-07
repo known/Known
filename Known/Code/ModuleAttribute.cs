@@ -15,11 +15,11 @@ namespace Known
         public string Name { get; }
         public string Icon { get; }
 
-        public ModuleInfo ToInfo(string id)
+        public ModuleInfo ToInfo()
         {
             return new ModuleInfo
             {
-                Id = id,
+                Id = Utils.NewGuid,
                 Name = Name,
                 Icon = Icon
             };
