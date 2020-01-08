@@ -182,11 +182,14 @@ namespace Known.Web
 
         private static void InitializeMenu(Type type)
         {
+            //if (!type.IsSubclassOf(typeof(ModuleBase)))
+            //    return;
+
             var module = type.GetAttribute<ModuleAttribute>();
             if (module == null)
                 return;
 
-            var info = module.ToInfo();
+            var mi = module.ToInfo();
             var methods = type.GetMethods();
             if (methods != null && methods.Length > 0)
             {
@@ -197,12 +200,13 @@ namespace Known.Web
                     {
                         var pi = page.ToInfo();
                         pi.Url = $"/Home/Page/{pi.Id}";
-                        info.AddChild(pi);
+                        mi.AddChild(pi);
+                        Setting.Instance.App.Pages.Add(pi);
                     }
                 }
             }
 
-            Setting.Instance.App.AddModule(info);
+            Setting.Instance.App.AddModule(mi);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Known.Core
         public AppInfo()
         {
             Modules = new List<ModuleInfo>();
+            Pages = new List<ModuleInfo>();
         }
 
         /// <summary>
@@ -44,6 +45,8 @@ namespace Known.Core
         /// 取得或设置应用程序模块信息列表。
         /// </summary>
         public List<ModuleInfo> Modules { get; }
+
+        public List<ModuleInfo> Pages { get; }
 
         public void AddModule(ModuleInfo info)
         {
