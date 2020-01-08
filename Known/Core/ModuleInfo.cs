@@ -139,13 +139,7 @@ namespace Known.Core
         /// </summary>
         public List<ModuleInfo> Children { get; }
 
-        public void AddChild(ModuleInfo info)
-        {
-            info.AppId = AppId;
-            info.ParentId = Id;
-            info.Parent = this;
-            Children.Add(info);
-        }
+        public PageView View { get; set; }
 
         /// <summary>
         /// 取得或设置全模块代码列表。
@@ -158,6 +152,36 @@ namespace Known.Core
                 InitFullCodes(this, fullCodes);
                 return fullCodes;
             }
+        }
+
+        public void AddChild(ModuleInfo info)
+        {
+            info.AppId = AppId;
+            info.ParentId = Id;
+            info.Parent = this;
+            Children.Add(info);
+        }
+
+        public static ModuleInfo Load(ModuleBase module)
+        {
+            return new ModuleInfo
+            {
+                Id = Utils.NewGuid,
+                Name = module.Name,
+                Icon = module.Icon
+            };
+        }
+
+        public static ModuleInfo Load(PageView view)
+        {
+            return new ModuleInfo
+            {
+                Id = Utils.NewGuid,
+                Name = view.Name,
+                Icon = view.Icon,
+                Sort = view.Order,
+                View = view
+            };
         }
 
         private void InitFullCodes(ModuleInfo module, List<string> fullCodes)

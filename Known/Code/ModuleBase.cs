@@ -1,5 +1,4 @@
 ﻿using System;
-using Known.Core;
 
 namespace Known
 {
@@ -13,19 +12,11 @@ namespace Known
             get { return GetType(); }
         }
 
-        public ModuleInfo ToInfo()
-        {
-            return new ModuleInfo
-            {
-                Id = Utils.NewGuid,
-                Name = Name,
-                Icon = Icon
-            };
-        }
+        public virtual void Init(Context context) { }
 
-        protected PageView Page(string code, string name)
+        protected PageView Page(int order, string code, string name, string icon)
         {
-            return new PageView(Type, code, name);
+            return new PageView(Type, order, code, name, icon);
         }
     }
 }

@@ -8,20 +8,26 @@ namespace Known
         private readonly List<string> styleFiles;
         private readonly List<string> scriptFiles;
 
-        public PageView(Type moduleType, string viewCode, string viewName)
+        public PageView(Type module, int order, string code, string name, string icon)
         {
-            ModuleType = moduleType;
-            ViewCode = viewCode;
-            ViewName = viewName;
+            Module = module;
+            Order = order;
+            Code = code;
+            Name = name;
+            Icon = icon;
             styleFiles = new List<string>();
             scriptFiles = new List<string>();
         }
 
-        public Type ModuleType { get; }
+        public Type Module { get; }
 
-        public string ViewCode { get; }
+        public int Order { get; }
 
-        public string ViewName { get; }
+        public string Code { get; }
+
+        public string Name { get; }
+
+        public string Icon { get; }
 
         public void AddStyle(string fileName)
         {

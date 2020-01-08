@@ -79,8 +79,6 @@
     <Compile Include="Core\Entities\TRole.cs" />
     <Compile Include="Core\Datas\AppRepository.cs" />
     <Compile Include="Core\Datas\RoleRepository.cs" />
-    <Compile Include="Code\ModuleAttribute.cs" />
-    <Compile Include="Code\PageAttribute.cs" />
     <Compile Include="Core\Services\RoleService.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Jobs\CheckResult.cs" />

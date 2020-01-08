@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Compilation;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Known.Core;
 using Known.Extensions;
 using Known.Log;
 
@@ -163,42 +164,28 @@ namespace Known.Web
                 foreach (var type in types)
                 {
                     InitializeModule(context, type);
-                    InitializeMenu(type);
                 }
             }
         }
 
         private static void InitializeModule(Context context, Type type)
         {
-            if (type.IsSubclassOf(typeof(Initializer)))
-            {
-                var initializer = (Initializer)Activator.CreateInstance(type);
-                if (initializer != null)
-                {
-                    initializer.Initialize(context);
-                }
-            }
-        }
-
-        private static void InitializeMenu(Type type)
-        {
-            //if (!type.IsSubclassOf(typeof(ModuleBase)))
-            //    return;
-
-            var module = type.GetAttribute<ModuleAttribute>();
-            if (module == null)
+            if (!type.IsSubclassOf(typeof(ModuleBase)))
                 return;
 
-            var mi = module.ToInfo();
+            var module = Activator.CreateInstance(type) as ModuleBase;
+            module.Init(context);
+
+            var mi = ModuleInfo.Load(module);
             var methods = type.GetMethods();
             if (methods != null && methods.Length > 0)
             {
                 foreach (var method in methods)
                 {
-                    var page = method.GetAttribute<PageAttribute>();
-                    if (page != null)
+                    if (method.Name.EndsWith("View"))
                     {
-                        var pi = page.ToInfo();
+                        var view = method.Invoke(module, null) as PageView;
+                        var pi = ModuleInfo.Load(view);
                         pi.Url = $"/Home/Page/{pi.Id}";
                         mi.AddChild(pi);
                         Setting.Instance.App.Pages.Add(pi);

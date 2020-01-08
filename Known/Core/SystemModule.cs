@@ -1,21 +1,23 @@
 ﻿namespace Known.Core
 {
-    [Module("系统管理", "fa fa-cogs")]
     public class SystemModule : ModuleBase
     {
         public override string Name => "系统管理";
         public override string Icon => "fa fa-cogs";
 
-        [Page(1, "角色管理", "fa fa-users")]
-        public PageView RoleView()
+        public override void Init(Context context)
         {
-            return Page("Role", "角色管理");
+            base.Init(context);
         }
 
-        [Page(2, "用户管理", "fa fa-user")]
+        public PageView RoleView()
+        {
+            return Page(1, "Role", "角色管理", "fa fa-users");
+        }
+
         public PageView UserView()
         {
-            return Page("User", "用户管理");
+            return Page(2, "User", "用户管理", "fa fa-user");
         }
     }
 }
