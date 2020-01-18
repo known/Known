@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Xml;
 
 namespace Known
 {
@@ -36,6 +39,37 @@ namespace Known
                 return defaultValue;
 
             return Utils.ConvertTo<T>(value);
+        }
+
+        /// <summary>
+        /// 获取指定exe程序配置文件的 AppSettingsSection 数据字典。
+        /// </summary>
+        /// <param name="exePath">exe程序路径。</param>
+        /// <returns>程序配置数据字典。</returns>
+        public static Dictionary<string, string> GetExeSettings(string exePath)
+        {
+            var xmlFile = $"{exePath}.config";
+            if (!File.Exists(xmlFile))
+                return null;
+
+            var settings = new Dictionary<string, string>();
+            using (var tr = new XmlTextReader(xmlFile))
+            {
+                while (tr.Read())
+                {
+                    if (tr.NodeType == XmlNodeType.Element)
+                    {
+                        if (tr.Name == "add")
+                        {
+                            var key = tr.GetAttribute("key");
+                            var value = tr.GetAttribute("value");
+                            settings.Add(key, value);
+                        }
+                    }
+                }
+            }
+
+            return settings;
         }
     }
 }

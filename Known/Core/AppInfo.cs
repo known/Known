@@ -42,12 +42,19 @@ namespace Known.Core
         public string Description { get; set; }
 
         /// <summary>
-        /// 取得或设置应用程序模块信息列表。
+        /// 取得应用程序模块信息列表。
         /// </summary>
         public List<ModuleInfo> Modules { get; }
 
+        /// <summary>
+        /// 取得应用程序页面信息列表。
+        /// </summary>
         public List<ModuleInfo> Pages { get; }
 
+        /// <summary>
+        /// 添加模块信息。
+        /// </summary>
+        /// <param name="info">模块信息。</param>
         public void AddModule(ModuleInfo info)
         {
             info.AppId = Id;

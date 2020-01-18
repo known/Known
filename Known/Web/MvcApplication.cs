@@ -12,7 +12,7 @@ using Known.Log;
 namespace Known.Web
 {
     /// <summary>
-    /// Api应用程序全局类。
+    /// Mvc应用程序全局类。
     /// </summary>
     public class MvcApplication : HttpApplication
     {
@@ -176,7 +176,7 @@ namespace Known.Web
             var module = Activator.CreateInstance(type) as ModuleBase;
             module.Init(context);
 
-            var mi = ModuleInfo.Load(module);
+            var mi = ModuleInfo.Create(module);
             var methods = type.GetMethods();
             if (methods != null && methods.Length > 0)
             {
@@ -185,7 +185,7 @@ namespace Known.Web
                     if (method.Name.EndsWith("View"))
                     {
                         var view = method.Invoke(module, null) as PageView;
-                        var pi = ModuleInfo.Load(view);
+                        var pi = ModuleInfo.Create(view);
                         pi.Url = $"/Home/Page/{pi.Id}";
                         mi.AddChild(pi);
                         Setting.Instance.App.Pages.Add(pi);

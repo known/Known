@@ -35,6 +35,9 @@ namespace Known.Core
     /// </summary>
     public class ModuleInfo
     {
+        /// <summary>
+        /// 初始化一个模块信息类的实例。
+        /// </summary>
         public ModuleInfo()
         {
             Enabled = true;
@@ -139,6 +142,9 @@ namespace Known.Core
         /// </summary>
         public List<ModuleInfo> Children { get; }
 
+        /// <summary>
+        /// 取得或设置页面视图对象。
+        /// </summary>
         public PageView View { get; set; }
 
         /// <summary>
@@ -154,6 +160,10 @@ namespace Known.Core
             }
         }
 
+        /// <summary>
+        /// 添加子模块信息。
+        /// </summary>
+        /// <param name="info">模块信息。</param>
         public void AddChild(ModuleInfo info)
         {
             info.AppId = AppId;
@@ -162,7 +172,12 @@ namespace Known.Core
             Children.Add(info);
         }
 
-        public static ModuleInfo Load(ModuleBase module)
+        /// <summary>
+        /// 根据模块对象创建模块信息。
+        /// </summary>
+        /// <param name="module">模块对象。</param>
+        /// <returns>模块信息。</returns>
+        public static ModuleInfo Create(ModuleBase module)
         {
             return new ModuleInfo
             {
@@ -172,7 +187,12 @@ namespace Known.Core
             };
         }
 
-        public static ModuleInfo Load(PageView view)
+        /// <summary>
+        /// 根据页面视图对象创建模块信息。
+        /// </summary>
+        /// <param name="view">页面视图对象。</param>
+        /// <returns>模块信息。</returns>
+        public static ModuleInfo Create(PageView view)
         {
             return new ModuleInfo
             {
