@@ -50,16 +50,16 @@ namespace Known.Core
         internal static List<Menu> GetUserMenus(PlatformService service, string userName)
         {
             var menus = new List<Menu>();
+
             var modules = service.GetUserModules(userName);
             if (modules != null && modules.Count > 0)
             {
                 var index = 0;
                 foreach (var item in modules)
                 {
-                    var menu = Menu.GetMenu(item);
+                    var menu = GetMenu(item);
                     menu.expanded = index == 0;
                     menus.Add(menu);
-                    Menu.SetSubModules(menus, item, menu);
                     index++;
                 }
             }
@@ -69,22 +69,25 @@ namespace Known.Core
 
         internal static List<Menu> GetTreeMenus(PlatformService service)
         {
-            var menus = new List<Menu>();
-            menus.Add(new Menu
+            var app = Setting.Instance.App;
+            var menus = new List<Menu>
             {
-                id = "0",
-                pid = "-1",
-                code = Setting.Instance.App.Id,
-                text = Setting.Instance.App.Name,
-                expanded = true
-            });
+                new Menu
+                {
+                    id = "0",
+                    pid = "-1",
+                    code = app.Id,
+                    text = app.Name,
+                    expanded = true
+                }
+            };
 
             var modules = service.GetModules();
             if (modules != null && modules.Count > 0)
             {
                 foreach (var item in modules)
                 {
-                    var menu = Menu.GetMenu(item);
+                    var menu = GetMenu(item);
                     menu.expanded = item.ParentId == "-1" || item.ParentId == "0";
                     menus.Add(menu);
                 }

@@ -36,6 +36,27 @@ Array.prototype.max = function (prop) {
     return max;
 };
 
+Array.prototype.toTree = function (rootId) {
+    var arr = this;
+    arr.forEach(function (element) {
+        var parentId = element.pid;
+        if (parentId) {
+            arr.forEach(function (ele) {
+                if (ele.id === parentId) {
+                    if (!ele.children) {
+                        ele.children = [];
+                    }
+                    ele.children.push(element);
+                }
+            });
+        }
+    });
+    arr = arr.filter(function (ele) {
+        return ele.pid === rootId;
+    });
+    return arr;
+};
+
 //---------------------------date---------------------------------------------//
 Date.prototype.format = function (fmt) {
     var o = {
