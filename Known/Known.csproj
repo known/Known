@@ -83,6 +83,7 @@
     <Compile Include="Jobs\MainService.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Log\LogHelper.cs" />
     <Compile Include="Mapping\EntityHelper.cs" />
     <Compile Include="Mapping\EntityMapper.cs" />
     <Compile Include="Mapping\PropertyMapper.cs" />
@@ -185,6 +186,11 @@
     <Compile Include="Web\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Web\Mvc\ActionResult.cs" />
+    <Compile Include="Web\Mvc\ClassHelper.cs" />
+    <Compile Include="Web\Mvc\Controller.cs" />
+    <Compile Include="Web\Mvc\HttpModule.cs" />
+    <Compile Include="Web\Mvc\SessionHandler.cs" />
     <Compile Include="Web\WebUtils.cs" />
     <Compile Include="Web\XSSChecker.cs" />
     <Compile Include="Workflow\Activity.cs" />

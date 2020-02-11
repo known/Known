@@ -1,5 +1,5 @@
-﻿using System.Web.Mvc;
-using Known.Core;
+﻿using Known.Core;
+using Known.Web.Mvc;
 using Known.Web.Services;
 
 namespace Known.Web.Controllers
@@ -29,7 +29,6 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">查询条件对象。</param>
         /// <returns>分页数据对象。</returns>
-        [HttpPost]
         public ActionResult QueryModules(CriteriaData data)
         {
             return QueryPagingData(data, c => Service.QueryModules(c));
@@ -40,7 +39,6 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
-        [HttpPost]
         public ActionResult DeleteModules(string data)
         {
             return PostAction<string[]>(data, d => Service.DeleteModules(d));
@@ -51,7 +49,6 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">移动模块的id和方向，up-上移、down-下移。</param>
         /// <returns>移动结果。</returns>
-        [HttpPost]
         public ActionResult MoveModule(string data)
         {
             return PostAction<dynamic>(data, d =>
@@ -79,7 +76,6 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
-        [HttpPost]
         public ActionResult SaveModule(string data)
         {
             return PostAction<dynamic>(data, d => Service.SaveModule(d));

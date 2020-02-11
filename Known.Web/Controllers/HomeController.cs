@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using System.Web.Mvc;
+using Known.Web.Mvc;
 
 namespace Known.Web.Controllers
 {
@@ -7,28 +7,27 @@ namespace Known.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return Content("", "");
         }
 
         public ActionResult Welcome()
         {
-            return View();
+            return Content("", "");
         }
 
         public ActionResult Page(string id)
         {
             var page = Setting.Instance.App.Pages.FirstOrDefault(p => p.Id == id);
             if (page == null)
-                return Content($"页面{id}不存在！");
+                return Content($"页面{id}不存在！", "");
 
-            ViewBag.Id = page.Name;
-            return View();
+            return Content("", "");
         }
 
-        [AllowAnonymous, Route("login")]
+        //[AllowAnonymous, Route("login")]
         public ActionResult Login()
         {
-            return View();
+            return Content("", "");
         }
     }
 }

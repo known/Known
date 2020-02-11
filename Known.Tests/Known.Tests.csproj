@@ -40,9 +40,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Web.Mvc">
-      <HintPath>..\Library\System.Web.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,9 +52,6 @@
     <Compile Include="ConfigTest.cs" />
     <Compile Include="ContainerTest.cs" />
     <Compile Include="ContextTest.cs" />
-    <Compile Include="Core\AppStartTest.cs" />
-    <Compile Include="Core\IndexPageTest.cs" />
-    <Compile Include="Core\LoginPageTest.cs" />
     <Compile Include="EncryptorTest.cs" />
     <Compile Include="Extensions\CollectionExtensionTest.cs" />
     <Compile Include="Extensions\CompressExtensionTest.cs" />

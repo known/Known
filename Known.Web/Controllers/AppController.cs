@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+﻿using Known.Web.Mvc;
 using Known.Web.Services;
 
 namespace Known.Web.Controllers
@@ -27,7 +27,6 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPost]
         public ActionResult DeleteApp(string id)
         {
             var result = Service.DeleteApp(id);

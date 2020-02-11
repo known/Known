@@ -3,9 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Compilation;
-using System.Web.Mvc;
 using System.Web.Routing;
-using Known.Web;
 using Known.Extensions;
 using Known.Log;
 
@@ -31,7 +29,6 @@ namespace Known.Web
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             Container.Register<IJson, JsonProvider>();
             InitializeApp();
-            Configuration();
         }
 
         /// <summary>
@@ -131,24 +128,6 @@ namespace Known.Web
         /// <param name="e"></param>
         protected virtual void Session_End(object sender, EventArgs e)
         {
-        }
-
-        /// <summary>
-        /// 应用程序配置。
-        /// </summary>
-        protected virtual void Configuration()
-        {
-            AreaRegistration.RegisterAllAreas();
-
-            RouteTable.Routes.MapMvcAttributeRoutes();
-            RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            RouteTable.Routes.MapRoute(
-                "Default",
-                "{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
-
-            GlobalFilters.Filters.Add(new MvcAuthorizeAttribute());
         }
 
         private void InitializeApp()

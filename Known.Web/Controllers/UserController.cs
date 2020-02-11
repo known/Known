@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using System.Web.Security;
+﻿using System.Web.Security;
 using Known.Core;
+using Known.Web.Mvc;
 using Known.Web.Services;
 
 namespace Known.Web.Controllers
@@ -25,7 +24,7 @@ namespace Known.Web.Controllers
         /// <param name="rememberMe">是否记住，默认否。</param>
         /// <param name="backUrl">登录成功后，跳转的地址，默认空。</param>
         /// <returns>操作结果对象。</returns>
-        [AllowAnonymous, Route("signin")]
+        //[AllowAnonymous, Route("signin")]
         public ActionResult SignIn(string userName, string password, bool rememberMe = false, string backUrl = null)
         {
             var result = PlatformService.SignIn(userName, password);
@@ -54,7 +53,7 @@ namespace Known.Web.Controllers
         /// 退出登录操作。
         /// </summary>
         /// <returns>操作结果对象。</returns>
-        [Route("signout")]
+        //[Route("signout")]
         public ActionResult SignOut()
         {
             PlatformService.SignOut(UserName);
@@ -82,7 +81,6 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">查询条件对象。</param>
         /// <returns>分页数据对象。</returns>
-        [HttpPost]
         public ActionResult QueryUsers(CriteriaData data)
         {
             return QueryPagingData(data, c => Service.QueryUsers(c));
@@ -93,7 +91,6 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
-        [HttpPost]
         public ActionResult DeleteUsers(string data)
         {
             return PostAction<string[]>(data, d => Service.DeleteUsers(d));
@@ -116,7 +113,6 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
-        [HttpPost]
         public ActionResult SaveUser(string data)
         {
             return PostAction<dynamic>(data, d => Service.SaveUser(d));

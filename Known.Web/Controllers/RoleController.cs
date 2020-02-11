@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+﻿using Known.Web.Mvc;
 using Known.Web.Services;
 
 namespace Known.Web.Controllers
@@ -19,7 +19,6 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">查询条件对象。</param>
         /// <returns>分页数据对象。</returns>
-        [HttpPost]
         public ActionResult QueryRoles(CriteriaData data)
         {
             return QueryPagingData(data, c => Service.QueryRoles(c));
@@ -30,7 +29,6 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
-        [HttpPost]
         public ActionResult DeleteRoles(string data)
         {
             return PostAction<string[]>(data, d => Service.DeleteRoles(d));
@@ -53,7 +51,6 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
-        [HttpPost]
         public ActionResult SaveRole(string data)
         {
             return PostAction<dynamic>(data, d => Service.SaveRole(d));

@@ -18,7 +18,7 @@ namespace Known.Log
         /// </summary>
         public FileLogger()
         {
-            this.fileName = Path.Combine(Environment.CurrentDirectory, "logs", DateTime.Now.ToString("yyyyMMdd") + ".log");
+            fileName = Path.Combine(Environment.CurrentDirectory, "logs", DateTime.Now.ToString("yyyyMMdd") + ".log");
         }
 
         /// <summary>
