@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Compilation;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Known.Core;
+using Known.Web;
 using Known.Extensions;
 using Known.Log;
 
@@ -153,6 +153,7 @@ namespace Known.Web
 
         private void InitializeApp()
         {
+            var app = Setting.Instance.App;
             var context = Known.Context.Create();
             var assemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToList();
             foreach (var assembly in assemblies)
@@ -163,18 +164,18 @@ namespace Known.Web
 
                 foreach (var type in types)
                 {
-                    InitializeModule(context, type);
+                    InitializeModule(app, context, type);
                 }
             }
         }
 
-        private static void InitializeModule(Context context, Type type)
+        private static void InitializeModule(AppInfo app, Context context, Type type)
         {
             if (!type.IsSubclassOf(typeof(ModuleBase)))
                 return;
 
             var module = Activator.CreateInstance(type) as ModuleBase;
-            module.Init(context);
+            module.Init(app, context);
 
             var mi = ModuleInfo.Create(module);
             var methods = type.GetMethods();

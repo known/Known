@@ -1,4 +1,4 @@
-﻿using Known.Core.Controllers;
+﻿using Known.Web.Controllers;
 
 namespace Known.Tests.Core
 {

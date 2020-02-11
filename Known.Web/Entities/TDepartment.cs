@@ -1,6 +1,6 @@
 ﻿using Known.Mapping;
 
-namespace Known.Core.Entities
+namespace Known.Web.Entities
 {
     /// <summary>
     /// 部门实体类。

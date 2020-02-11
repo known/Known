@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Security;
-using Known.Core.Services;
-using Known.Web;
+using Known.Core;
+using Known.Web.Services;
 
-namespace Known.Core.Controllers
+namespace Known.Web.Controllers
 {
     /// <summary>
     /// 用户控制器类。

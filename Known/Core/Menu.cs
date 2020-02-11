@@ -47,7 +47,7 @@ namespace Known.Core
         /// </summary>
         public List<Menu> children { get; set; }
 
-        internal static List<Menu> GetUserMenus(PlatformService service, string userName)
+        public static List<Menu> GetUserMenus(PlatformService service, string userName)
         {
             var menus = new List<Menu>();
 
@@ -67,7 +67,7 @@ namespace Known.Core
             return menus;
         }
 
-        internal static List<Menu> GetTreeMenus(PlatformService service)
+        public static List<Menu> GetTreeMenus(PlatformService service)
         {
             var app = Setting.Instance.App;
             var menus = new List<Menu>

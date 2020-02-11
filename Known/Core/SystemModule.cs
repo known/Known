@@ -5,9 +5,8 @@
         public override string Name => "系统管理";
         public override string Icon => "fa fa-cogs";
 
-        public override void Init(Context context)
+        public override void Init(AppInfo app, Context context)
         {
-            base.Init(context);
         }
 
         public PageView RoleView()

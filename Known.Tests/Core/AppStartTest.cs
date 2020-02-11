@@ -1,4 +1,4 @@
-﻿using Known.Core;
+﻿using Known.Web;
 
 namespace Known.Tests.Core
 {

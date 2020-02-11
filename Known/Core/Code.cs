@@ -24,7 +24,7 @@ namespace Known.Core
         /// </summary>
         public object ext { get; set; }
 
-        internal static Dictionary<string, object> GetCodes(PlatformService service)
+        public static Dictionary<string, object> GetCodes(PlatformService service)
         {
             var codes = service.GetCodes();
             if (codes == null)

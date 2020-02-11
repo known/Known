@@ -1,6 +1,6 @@
-﻿namespace Known.Core.Services
+﻿namespace Known.Web.Services
 {
-    abstract class CoreServiceBase : ServiceBase
+    public abstract class CoreServiceBase : ServiceBase
     {
         public CoreServiceBase(Context context) : base(context)
         {

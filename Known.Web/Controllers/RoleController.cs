@@ -1,8 +1,7 @@
 ﻿using System.Web.Mvc;
-using Known.Core.Services;
-using Known.Web;
+using Known.Web.Services;
 
-namespace Known.Core.Controllers
+namespace Known.Web.Controllers
 {
     /// <summary>
     /// 角色管理控制器类。

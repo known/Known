@@ -1,7 +1,7 @@
 ﻿using System;
 using Known.Mapping;
 
-namespace Known.Core.Entities
+namespace Known.Web.Entities
 {
     /// <summary>
     /// 应用程序用户实体类。

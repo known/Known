@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Known.Core
+namespace Known
 {
     /// <summary>
     /// 应用程序信息类。

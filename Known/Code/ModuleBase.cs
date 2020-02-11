@@ -28,8 +28,9 @@ namespace Known
         /// <summary>
         /// 初始化模块。
         /// </summary>
+        /// <param name="app">APP信息。</param>
         /// <param name="context">系统上下文对象。</param>
-        public virtual void Init(Context context) { }
+        public virtual void Init(AppInfo app, Context context) { }
 
         /// <summary>
         /// 获取模块页面视图对象。

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Known.Extensions;
 
-namespace Known.Core
+namespace Known
 {
     /// <summary>
     /// 模块页面视图类型。

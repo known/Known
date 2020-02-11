@@ -1,34 +1,34 @@
 ﻿using System.Collections.Generic;
-using Known.Core.Datas;
-using Known.Core.Entities;
+using Known.Web.Datas;
+using Known.Web.Entities;
 using Known.Mapping;
 
-namespace Known.Core.Services
+namespace Known.Web.Services
 {
-    class RoleService : CoreServiceBase
+    public class UserService : CoreServiceBase
     {
-        public RoleService(Context context) : base(context)
+        public UserService(Context context) : base(context)
         {
         }
 
         #region View
-        public PagingResult QueryRoles(PagingCriteria criteria)
+        public PagingResult QueryUsers(PagingCriteria criteria)
         {
-            return Database.QueryRoles(criteria);
+            return Database.QueryUsers(criteria);
         }
 
-        public Result DeleteRoles(string[] ids)
+        public Result DeleteUsers(string[] ids)
         {
-            var message = CheckEntities(ids, out List<TRole> roles);
+            var message = CheckEntities(ids, out List<TUser> users);
             if (!string.IsNullOrWhiteSpace(message))
                 return Result.Error(message);
 
             return Database.Transaction("删除", db =>
             {
-                foreach (var item in roles)
+                foreach (var item in users)
                 {
-                    db.DeleteRoleUsers(item.Id);
-                    db.DeleteRoleFunctions(item.Id);
+                    //rep.DeleteUserRoles(item.Id);
+                    //rep.DeleteUserFunctions(item.Id);
                     db.Delete(item);
                 }
             });
@@ -36,17 +36,17 @@ namespace Known.Core.Services
         #endregion
 
         #region Form
-        public TRole GetRole(string id)
+        public TUser GetUser(string id)
         {
-            return Database.QueryById<TRole>(id);
+            return Database.QueryById<TUser>(id);
         }
 
-        public Result SaveRole(dynamic model)
+        public Result SaveUser(dynamic model)
         {
             var id = (string)model.Id;
-            var entity = Database.QueryById<TRole>(id);
+            var entity = Database.QueryById<TUser>(id);
             if (entity == null)
-                entity = new TRole();
+                entity = new TUser();
 
             EntityHelper.FillModel(entity, model);
 

@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
-using Known.Core.Services;
-using Known.Web;
+using Known.Core;
+using Known.Web.Services;
 
-namespace Known.Core.Controllers
+namespace Known.Web.Controllers
 {
     /// <summary>
     /// 模块管理控制器类。

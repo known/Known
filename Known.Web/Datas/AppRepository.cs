@@ -1,6 +1,6 @@
 ﻿using Known.Data;
 
-namespace Known.Core.Datas
+namespace Known.Web.Datas
 {
     internal static class AppRepository
     {

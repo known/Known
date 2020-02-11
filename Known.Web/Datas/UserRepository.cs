@@ -1,7 +1,7 @@
-﻿using Known.Core.Entities;
+﻿using Known.Web.Entities;
 using Known.Data;
 
-namespace Known.Core.Datas
+namespace Known.Web.Datas
 {
     internal static class UserRepository
     {

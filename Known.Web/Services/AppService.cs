@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Known.Core.Entities;
+using Known.Web.Entities;
 
-namespace Known.Core.Services
+namespace Known.Web.Services
 {
-    class AppService : ServiceBase
+    public class AppService : ServiceBase
     {
         public AppService(Context context) : base(context)
         {

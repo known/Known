@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Known.Core.Datas;
-using Known.Core.Entities;
+using Known.Web.Datas;
+using Known.Web.Entities;
 using Known.Mapping;
 
-namespace Known.Core.Services
+namespace Known.Web.Services
 {
-    class ModuleService : CoreServiceBase
+    public class ModuleService : CoreServiceBase
     {
         public ModuleService(Context context) : base(context)
         {
