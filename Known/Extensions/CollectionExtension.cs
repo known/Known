@@ -129,10 +129,10 @@ namespace Known.Extensions
         /// <returns>字典对象。</returns>
         public static Dictionary<string, object> ToDictionary(this NameValueCollection collection)
         {
-            if (collection == null)
-                return null;
-
             var dict = new Dictionary<string, object>();
+            if (collection == null)
+                return dict;
+
             foreach (string key in collection.Keys)
             {
                 dict.Add(key, collection[key]);

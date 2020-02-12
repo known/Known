@@ -1,12 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Known.Web.Mvc
+﻿namespace Known.Web.Mvc
 {
-    public class ActionResult
+    /// <summary>
+    /// Action结果。
+    /// </summary>
+    public abstract class ActionResult
+    {
+        /// <summary>
+        /// 空结果。
+        /// </summary>
+        public static ActionResult Empty = new EmptyResult();
+
+        protected ActionResult() { }
+
+        protected ActionResult(ControllerContext context)
+        {
+            Context = context;
+        }
+
+        protected ControllerContext Context { get; }
+
+        public virtual void Execute()
+        {
+        }
+    }
+
+    class EmptyResult : ActionResult
     {
     }
 }

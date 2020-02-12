@@ -71,7 +71,7 @@ namespace Known.Web.Controllers
         {
             var menus = Menu.GetUserMenus(PlatformService, UserName);
             var codes = Code.GetCodes(PlatformService);
-            return JsonResult(new { menus, codes });
+            return Json(new { menus, codes });
         }
         #endregion
 
@@ -105,7 +105,7 @@ namespace Known.Web.Controllers
         /// <returns>实体对象。</returns>
         public ActionResult GetUser(string id)
         {
-            return JsonResult(Service.GetUser(id));
+            return Json(Service.GetUser(id));
         }
 
         /// <summary>

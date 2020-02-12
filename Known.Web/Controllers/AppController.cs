@@ -19,7 +19,7 @@ namespace Known.Web.Controllers
         /// <returns>应用程序对象列表。</returns>
         public ActionResult GetAppList()
         {
-            return JsonResult(Service.GetAppList());
+            return Json(Service.GetAppList());
         }
 
         /// <summary>

@@ -188,9 +188,13 @@
     </Compile>
     <Compile Include="Web\Mvc\ActionResult.cs" />
     <Compile Include="Web\Mvc\ClassHelper.cs" />
+    <Compile Include="Web\Mvc\ContentResult.cs" />
     <Compile Include="Web\Mvc\Controller.cs" />
+    <Compile Include="Web\Mvc\ControllerContext.cs" />
+    <Compile Include="Web\Mvc\FileResult.cs" />
     <Compile Include="Web\Mvc\HttpModule.cs" />
     <Compile Include="Web\Mvc\SessionHandler.cs" />
+    <Compile Include="Web\Mvc\ViewResult.cs" />
     <Compile Include="Web\WebUtils.cs" />
     <Compile Include="Web\XSSChecker.cs" />
     <Compile Include="Workflow\Activity.cs" />

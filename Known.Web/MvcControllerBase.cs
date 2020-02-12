@@ -19,22 +19,6 @@ namespace Known.Web
         }
 
         /// <summary>
-        /// 取得系统当前登录用户名。
-        /// </summary>
-        protected string UserName
-        {
-            get { return User.Identity.Name; }
-        }
-
-        /// <summary>
-        /// 取得系统当前用户是否已验证。
-        /// </summary>
-        protected bool IsAuthenticated
-        {
-            get { return User.Identity.IsAuthenticated; }
-        }
-
-        /// <summary>
         /// 取得平台服务对象。
         /// </summary>
         protected PlatformService PlatformService
@@ -53,16 +37,6 @@ namespace Known.Web
         }
 
         /// <summary>
-        /// 返回JSON结果。
-        /// </summary>
-        /// <param name="data">返回的对象。</param>
-        /// <returns>JSON。</returns>
-        protected ActionResult JsonResult(object data)
-        {
-            return Content(data.ToJson(), MimeTypes.ApplicationJson);
-        }
-
-        /// <summary>
         /// 返回错误结果。
         /// </summary>
         /// <param name="message">错误消息。</param>
@@ -70,7 +44,7 @@ namespace Known.Web
         /// <returns>错误结果</returns>
         protected ActionResult ErrorResult(string message, object data = null)
         {
-            return JsonResult(new { ok = false, message, data });
+            return Json(new { ok = false, message, data });
         }
 
         /// <summary>
@@ -81,7 +55,7 @@ namespace Known.Web
         /// <returns>成功结果。</returns>
         protected ActionResult SuccessResult(string message, object data = null)
         {
-            return JsonResult(new { ok = true, message, data });
+            return Json(new { ok = true, message, data });
         }
 
         /// <summary>
@@ -107,7 +81,7 @@ namespace Known.Web
         {
             var criteria = data.ToPagingCriteria();
             var result = func(criteria);
-            return JsonResult(new { total = result.TotalCount, data = result.PageData });
+            return Json(new { total = result.TotalCount, data = result.PageData });
         }
 
         /// <summary>

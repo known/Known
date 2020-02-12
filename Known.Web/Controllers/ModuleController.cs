@@ -21,7 +21,7 @@ namespace Known.Web.Controllers
         /// <returns>模块树对象。</returns>
         public ActionResult GetTreeDatas()
         {
-            return JsonResult(Menu.GetTreeMenus(PlatformService));
+            return Json(Menu.GetTreeMenus(PlatformService));
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Known.Web.Controllers
         /// <returns>实体对象。</returns>
         public ActionResult GetModule(string id)
         {
-            return JsonResult(Service.GetModule(id));
+            return Json(Service.GetModule(id));
         }
 
         /// <summary>

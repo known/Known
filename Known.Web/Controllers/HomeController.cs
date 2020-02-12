@@ -7,12 +7,12 @@ namespace Known.Web.Controllers
     {
         public ActionResult Index()
         {
-            return Content("", "");
+            return View();
         }
 
         public ActionResult Welcome()
         {
-            return Content("", "");
+            return View();
         }
 
         public ActionResult Page(string id)
@@ -21,13 +21,13 @@ namespace Known.Web.Controllers
             if (page == null)
                 return Content($"页面{id}不存在！", "");
 
-            return Content("", "");
+            return View();
         }
 
         //[AllowAnonymous, Route("login")]
         public ActionResult Login()
         {
-            return Content("", "");
+            return View();
         }
     }
 }

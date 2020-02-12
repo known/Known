@@ -43,7 +43,7 @@ namespace Known.Web.Controllers
         /// <returns>实体对象。</returns>
         public ActionResult GetRole(string id)
         {
-            return JsonResult(Service.GetRole(id));
+            return Json(Service.GetRole(id));
         }
 
         /// <summary>
