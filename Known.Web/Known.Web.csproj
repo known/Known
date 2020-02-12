@@ -64,7 +64,7 @@
     <Content Include="static\index\welcome.css" />
     <EmbeddedResource Include="Views\Home\Welcome.html" />
     <EmbeddedResource Include="Views\Home\Page.html" />
-    <EmbeddedResource Include="Views\Shared\_Layout.cshtml" />
+    <EmbeddedResource Include="Views\Layout.html" />
     <Content Include="static\common\site.js" />
     <Content Include="static\common\site.css" />
     <Content Include="static\common\base.js" />
@@ -111,7 +111,6 @@
     <Content Include="static\login\images\web_login_bg.jpg" />
     <Content Include="static\login\login.css" />
     <Content Include="static\login\login.js" />
-    <EmbeddedResource Include="Views\Role\Script.js" />
     <EmbeddedResource Include="Views\Role\View.html" />
     <Content Include="Web.config" />
   </ItemGroup>

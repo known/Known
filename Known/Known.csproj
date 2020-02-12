@@ -186,6 +186,7 @@
     <Compile Include="Web\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Web\JavaScriptMinifier.cs" />
     <Compile Include="Web\Mvc\ActionResult.cs" />
     <Compile Include="Web\Mvc\ClassHelper.cs" />
     <Compile Include="Web\Mvc\ContentResult.cs" />

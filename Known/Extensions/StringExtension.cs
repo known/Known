@@ -58,6 +58,23 @@ namespace Known.Extensions
         }
 
         /// <summary>
+        /// 获取指定开始和结束字符串之间的字符串。
+        /// </summary>
+        /// <param name="text">源字符串。</param>
+        /// <param name="start">开始字符串。</param>
+        /// <param name="end">结束字符串。</param>
+        /// <returns>子字符串。</returns>
+        public static string SubString(this string text, string start, string end)
+        {
+            var startIndex = text.IndexOf(start);
+            if (startIndex < 0)
+                return string.Empty;
+
+            var endIndex = text.IndexOf(end, startIndex);
+            return text.Substring(startIndex, endIndex - startIndex).Replace(start, "");
+        }
+
+        /// <summary>
         /// 获取缩进等格式化的 XML 字符串。
         /// </summary>
         /// <param name="xml">XML 字符串。</param>
