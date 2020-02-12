@@ -6,21 +6,17 @@
     <title>Known UI</title>
     <link rel="stylesheet" href="~/static/libs/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/static/libs/easyui/easyui.css">
-    @Html.Style("~/static/common/site.css")
+    <link rel="stylesheet" href="~/static/common/site.css">
     <style>
         #app{position:absolute;top:0;bottom:0;width:100%;overflow:auto;padding:5px;}
     </style>
-    @RenderSection("Header", false)
 </head>
 <body>
-    <div id="app">
-        @RenderBody()
-    </div>
+    <div id="app"></div>
     <script src="~/static/libs/jquery.min.js"></script>
     <script src="~/static/libs/easyui/jquery.easyui.min.js"></script>
     <script src="~/static/libs/easyui/easyui-lang-zh_CN.js"></script>
-    @Html.Script("~/static/common/base.js")
-    @Html.Script("~/static/common/site.js")
-    @RenderSection("Footer", false)
+    <script src="~/static/common/base.js"></script>
+    <script src="~/static/common/site.js"></script>
 </body>
 </html>

@@ -25,7 +25,7 @@ namespace Known.Extensions
 
             var provider = Container.Resolve<IJson>();
             if (provider == null)
-                provider = new JsonDefault();
+                provider = new JsonProvider();
 
             return provider.Serialize(value);
         }
@@ -43,7 +43,7 @@ namespace Known.Extensions
 
             var provider = Container.Resolve<IJson>();
             if (provider == null)
-                provider = new JsonDefault();
+                provider = new JsonProvider();
 
             return provider.Deserialize<T>(json);
         }

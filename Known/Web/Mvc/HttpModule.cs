@@ -64,6 +64,9 @@ namespace Known.Web.Mvc
 
         private void InvokeAction(string url)
         {
+            if (url.Contains("static"))
+                return;
+
             if (string.IsNullOrWhiteSpace(url))
                 url = "Home/Index";
 
@@ -98,7 +101,7 @@ namespace Known.Web.Mvc
                     datas["id"] = id;
 
                 var obj = Activator.CreateInstance(type) as Controller;
-                obj.Context = new ControllerContext(context, method);
+                obj.Context = new ControllerContext(context, type, method);
 
                 var result = InvokeAction(obj, method, datas);
                 if (result != null)

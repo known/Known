@@ -8,7 +8,7 @@ namespace Known.Web.Controllers
     /// <summary>
     /// 用户控制器类。
     /// </summary>
-    public class UserController : MvcControllerBase
+    public class UserController : ControllerBase
     {
         private UserService Service
         {

@@ -7,7 +7,7 @@ namespace Known.Web.Controllers
     /// <summary>
     /// 模块管理控制器类。
     /// </summary>
-    public class ModuleController : MvcControllerBase
+    public class ModuleController : ControllerBase
     {
         private ModuleService Service
         {

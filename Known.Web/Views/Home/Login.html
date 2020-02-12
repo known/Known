@@ -1,7 +1,4 @@
-﻿@{
-    Layout = null;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -9,7 +6,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-    @Html.Style("~/static/login/login.css")
+    <link rel="stylesheet" href="~/static/login/login.css">
 </head>
 <body>
     <div class="login">
@@ -28,7 +25,7 @@
     <div class="copyright">© 2018 KNOWN</div>
     <script src="~/static/libs/jquery.min.js"></script>
     <script src="~/static/libs/jquery.md5.js"></script>
-    @Html.Script("~/static/common/base.js")
-    @Html.Script("~/static/login/login.js")
+    <script src="~/static/common/base.js"></script>
+    <script src="~/static/login/login.js"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@ namespace Known.Web
     /// <summary>
     /// Mvc 控制器基类。
     /// </summary>
-    public class MvcControllerBase : Controller
+    public class ControllerBase : Controller
     {
         /// <summary>
         /// 取得应用程序上下文对象。
