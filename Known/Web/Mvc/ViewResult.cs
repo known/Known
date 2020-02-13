@@ -1,17 +1,30 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Known.Extensions;
 
 namespace Known.Web.Mvc
 {
+    /// <summary>
+    /// 视图结果类。
+    /// </summary>
     public class ViewResult : ActionResult
     {
         private readonly static object obj = new object();
+        private readonly bool isPartial;
 
-        public ViewResult(ControllerContext context) : base(context) { }
+        /// <summary>
+        /// 初始化一个视图结果类的实例。
+        /// </summary>
+        /// <param name="context">控制器上下文对象。</param>
+        /// <param name="isPartial">是否是部分视图。</param>
+        public ViewResult(ControllerContext context, bool isPartial = false) : base(context)
+        {
+            this.isPartial = isPartial;
+        }
 
+        /// <summary>
+        /// 执行Action操作。
+        /// </summary>
         public override void Execute()
         {
             var text = "Hello World!";
@@ -19,7 +32,7 @@ namespace Known.Web.Mvc
             var names = assembly.GetManifestResourceNames();
             foreach (var item in names)
             {
-                if (item.Contains($"{Context.ControllerName}.{Context.ActionName}"))
+                if (item.Contains($"{Context.ControllerName}.{Context.ActionName}."))
                 {
                     text = GetContent(assembly, item);
                     break;
@@ -27,13 +40,13 @@ namespace Known.Web.Mvc
             }
 
             var layout = string.Empty;
-            if (!text.Contains("<html>"))
+            if (!isPartial && !text.Contains("<html>"))
             {
                 var name = names.FirstOrDefault(n => n.Contains("Views.Layout"));
                 layout = GetContent(assembly, name);
             }
 
-            var parser = new HtmlParser(text, layout);
+            var parser = new ViewParser(text, layout);
             lock (obj)
             {
                 parser.Parse();
@@ -61,53 +74,6 @@ namespace Known.Web.Mvc
             }
 
             return html;
-        }
-    }
-
-    class HtmlParser
-    {
-        private string text;
-        private string layout;
-
-        public HtmlParser(string text, string layout = null)
-        {
-            this.text = text;
-            this.layout = layout;
-        }
-
-        public string Html { get; private set; }
-
-        public void Parse()
-        {
-            var sb = new StringBuilder();
-
-            var html = text.SubString("<template>", "</template>");
-            if (string.IsNullOrWhiteSpace(html))
-                html = text;
-
-            var style = text.SubString("<template id=\"style\">", "</template>");
-            var script = text.SubString("<template id=\"script\">", "</template>");
-
-            if (!string.IsNullOrWhiteSpace(layout))
-            {
-                if (!string.IsNullOrWhiteSpace(style))
-                    layout = layout.Replace("</head>", style + "</head>");
-                if (!string.IsNullOrWhiteSpace(script))
-                    layout = layout.Replace("</body>", script + "</body>");
-                layout = layout.Replace("<div id=\"app\"></div>", $"<div id=\"app\">{html}</div>");
-                sb.Append(layout);
-            }
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(style))
-                    sb.Append(style);
-                sb.Append(html);
-                if (!string.IsNullOrWhiteSpace(script))
-                    sb.Append(html);
-            }
-
-            Html = sb.ToString();
-            Html = Html.Replace("~/", "/");
         }
     }
 }

@@ -5,7 +5,7 @@ using Known.Extensions;
 namespace Known.Web.Mvc
 {
     /// <summary>
-    /// 控制器类。
+    /// 控制器抽象类。
     /// </summary>
     public abstract class Controller
     {
@@ -47,7 +47,7 @@ namespace Known.Web.Mvc
         /// 重新定向到新指定的url。
         /// </summary>
         /// <param name="url">新url。</param>
-        /// <returns></returns>
+        /// <returns>新页面。</returns>
         protected ActionResult Redirect(string url)
         {
             Context.HttpContext.Response.Redirect(url);
@@ -59,7 +59,7 @@ namespace Known.Web.Mvc
         /// </summary>
         /// <param name="content">内容字符串。</param>
         /// <param name="mimeType">内容类型。</param>
-        /// <returns></returns>
+        /// <returns>字符串内容。</returns>
         protected ActionResult Content(string content, string mimeType = null)
         {
             return new ContentResult(Context, content, mimeType);
@@ -75,14 +75,38 @@ namespace Known.Web.Mvc
             return Content(data.ToJson(), MimeTypes.ApplicationJson);
         }
 
+        /// <summary>
+        /// 返回页面视图。
+        /// </summary>
+        /// <returns>页面视图。</returns>
         protected ActionResult View()
         {
             return new ViewResult(Context);
         }
 
-        protected ActionResult File()
+        /// <summary>
+        /// 返回部分视图。
+        /// </summary>
+        /// <returns>部分视图。</returns>
+        protected ActionResult Partial(string viewName = null)
         {
-            return new FileResult(Context);
+            if (!string.IsNullOrWhiteSpace(viewName))
+            {
+                Context.ActionName = viewName.Replace("/", ".");
+            }
+            return new ViewResult(Context, true);
+        }
+
+        /// <summary>
+        /// 返回文件结果。
+        /// </summary>
+        /// <param name="content">文件内容。</param>
+        /// <param name="fileName">文件名。</param>
+        /// <param name="mimeType">文件类型。</param>
+        /// <returns>文件结果。</returns>
+        protected ActionResult File(byte[] content, string fileName, string mimeType = null)
+        {
+            return new FileResult(Context, content, fileName, mimeType);
         }
     }
 }

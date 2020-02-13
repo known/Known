@@ -112,9 +112,9 @@ namespace Known.Web.Mvc
                         context.Response.Write(result.ToString());
                 }
             }
-            catch (ThreadAbortException e)
+            catch (ThreadAbortException)
             {
-                //提前终止线程
+                //Reponse.End提前终止线程
             }
             catch (Exception ex)
             {

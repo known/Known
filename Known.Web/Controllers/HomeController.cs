@@ -29,5 +29,16 @@ namespace Known.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Part()
+        {
+            return Partial("Partials/Page");
+        }
+
+        public ActionResult Download()
+        {
+            var content = System.Text.Encoding.Default.GetBytes("test");
+            return File(content, "新建文本文档.txt");
+        }
     }
 }

@@ -195,6 +195,7 @@
     <Compile Include="Web\Mvc\FileResult.cs" />
     <Compile Include="Web\Mvc\HttpModule.cs" />
     <Compile Include="Web\Mvc\SessionHandler.cs" />
+    <Compile Include="Web\Mvc\ViewParser.cs" />
     <Compile Include="Web\Mvc\ViewResult.cs" />
     <Compile Include="Web\WebUtils.cs" />
     <Compile Include="Web\XSSChecker.cs" />
