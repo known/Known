@@ -32,6 +32,7 @@ namespace Known.Web.Mvc
             {
                 attr.Code = info.Name;
                 attr.Parent = controller.Name;
+                attr.Url = $"{controller.Name}/{info.Name}";
                 AppInfo.Instance.AddModule(attr);
             }
 
