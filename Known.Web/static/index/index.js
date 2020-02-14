@@ -230,7 +230,7 @@ var MainView = {
         $('.sidebar').mCustomScrollbar({ autoHideScrollbar: true });
         new MainMenuTip(menu);
         $.post(url, function (result) {
-            menu.loadData(result.menus);
+            menu.loadData(result.menus.toTree('0'));
         });
     }
 

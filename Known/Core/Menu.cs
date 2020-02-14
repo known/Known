@@ -101,7 +101,7 @@ namespace Known.Core
             return new Menu
             {
                 id = module.Code,
-                pid = module.Parent,
+                pid = module.Parent ?? "0",
                 code = module.Code,
                 text = module.Name,
                 iconCls = module.Icon,
