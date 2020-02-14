@@ -28,7 +28,7 @@ namespace Known.Web.Mvc
         public override void Execute()
         {
             var text = "Hello World!";
-            var assembly = Context.Type.Assembly;
+            var assembly = Context.Route.Controller.Assembly;
             var names = assembly.GetManifestResourceNames();
             foreach (var item in names)
             {

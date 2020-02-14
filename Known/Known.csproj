@@ -164,6 +164,7 @@
     <Compile Include="Code\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Code\Validator.cs" />
+    <Compile Include="Web\AllowAnonymousAttribute.cs" />
     <Compile Include="Web\Extensions\RouteExtension.cs" />
     <Compile Include="Web\ApiClient.cs" />
     <Compile Include="Web\ApiResult.cs" />
@@ -188,7 +189,7 @@
     </Compile>
     <Compile Include="Web\JavaScriptMinifier.cs" />
     <Compile Include="Web\Mvc\ActionResult.cs" />
-    <Compile Include="Web\Mvc\ClassHelper.cs" />
+    <Compile Include="Web\Mvc\RouteHelper.cs" />
     <Compile Include="Web\Mvc\ContentResult.cs" />
     <Compile Include="Web\Mvc\Controller.cs" />
     <Compile Include="Web\Mvc\ControllerContext.cs" />
@@ -197,6 +198,8 @@
     <Compile Include="Web\Mvc\SessionHandler.cs" />
     <Compile Include="Web\Mvc\ViewParser.cs" />
     <Compile Include="Web\Mvc\ViewResult.cs" />
+    <Compile Include="Web\RouteAttribute.cs" />
+    <Compile Include="Web\RouteInfo.cs" />
     <Compile Include="Web\WebUtils.cs" />
     <Compile Include="Web\XSSChecker.cs" />
     <Compile Include="Workflow\Activity.cs" />

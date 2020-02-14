@@ -70,40 +70,28 @@ namespace Known.Web.Mvc
             if (string.IsNullOrWhiteSpace(url))
                 url = "Home/Index";
 
-            var items = url.Split('/');
-            var controllerName = items.Length > 0 ? items[0] : "Home";
-            var type = ClassHelper.GetController(controllerName);
-            if (type == null)
+            var route = RouteHelper.GetRoute(url);
+            if (route.Controller == null || route.Action == null)
             {
-                context.Response.Write($"{controllerName}Controller不存在！");
+                context.Response.Write($"{url}不存在！");
                 return;
             }
 
-            var actionName = items.Length > 1 ? items[1] : "Index";
-            var method = type.GetMethod(actionName);
-            if (method == null)
-            {
-                context.Response.Write($"{controllerName}Controller.{actionName}不存在！");
-                return;
-            }
-
-            var id = items.Length > 2 ? items[2] : string.Empty;
-            InvokeAction(type, method, id);
+            InvokeAction(route);
         }
 
-        private void InvokeAction(Type type, MethodInfo method, string id)
+        private void InvokeAction(RouteInfo route)
         {
             try
             {
                 var queries = HttpUtility.ParseQueryString(context.Request.Url.Query);
-                var datas = queries.ToDictionary();
-                if (!string.IsNullOrWhiteSpace(id))
-                    datas["id"] = id;
+                if (queries != null && queries.Count > 0)
+                    route.Datas = queries.ToDictionary();
+                
+                var obj = Activator.CreateInstance(route.Controller) as Controller;
+                obj.Context = new ControllerContext(context, route);
 
-                var obj = Activator.CreateInstance(type) as Controller;
-                obj.Context = new ControllerContext(context, type, method);
-
-                var result = InvokeAction(obj, method, datas);
+                var result = InvokeAction(obj, route.Action, route.Datas);
                 if (result != null)
                 {
                     if (result is ActionResult ar)

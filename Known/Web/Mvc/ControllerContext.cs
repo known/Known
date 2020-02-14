@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Web;
+﻿using System.Web;
 
 namespace Known.Web.Mvc
 {
@@ -9,20 +7,14 @@ namespace Known.Web.Mvc
     /// </summary>
     public class ControllerContext
     {
-        internal ControllerContext(HttpContext context, Type type, MethodInfo action)
+        internal ControllerContext(HttpContext context, RouteInfo route)
         {
             HttpContext = context;
-            Type = type;
-            Action = action;
+            Route = route;
 
-            ControllerName = type.Name.Replace("Controller", "");
-            ActionName = action.Name;
+            ControllerName = route.Controller.Name.Replace("Controller", "");
+            ActionName = route.Action.Name;
         }
-
-        /// <summary>
-        /// 取得控制器名称。
-        /// </summary>
-        public string ControllerName { get; }
 
         /// <summary>
         /// 取得Http请求上下文。
@@ -30,14 +22,14 @@ namespace Known.Web.Mvc
         public HttpContext HttpContext { get; }
 
         /// <summary>
-        /// 取得控制器类型。
+        /// 取得路由信息。
         /// </summary>
-        public Type Type { get; }
+        public RouteInfo Route { get; }
 
         /// <summary>
-        /// 取得Action方法信息。
+        /// 取得控制器名称。
         /// </summary>
-        public MethodInfo Action { get; }
+        public string ControllerName { get; }
 
         /// <summary>
         /// 取得Action名称。

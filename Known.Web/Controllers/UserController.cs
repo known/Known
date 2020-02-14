@@ -24,7 +24,7 @@ namespace Known.Web.Controllers
         /// <param name="rememberMe">是否记住，默认否。</param>
         /// <param name="backUrl">登录成功后，跳转的地址，默认空。</param>
         /// <returns>操作结果对象。</returns>
-        //[AllowAnonymous, Route("signin")]
+        [AllowAnonymous, Route("signin")]
         public ActionResult SignIn(string userName, string password, bool rememberMe = false, string backUrl = null)
         {
             var result = PlatformService.SignIn(userName, password);
