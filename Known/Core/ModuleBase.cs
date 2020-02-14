@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Known
+namespace Known.Core
 {
     /// <summary>
     /// 模块抽象基类。

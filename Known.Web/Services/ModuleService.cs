@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Known.Core;
+using Known.Mapping;
 using Known.Web.Datas;
 using Known.Web.Entities;
-using Known.Mapping;
 
 namespace Known.Web.Services
 {
@@ -80,7 +81,7 @@ namespace Known.Web.Services
             EntityHelper.FillModel(entity, model);
 
             if (string.IsNullOrWhiteSpace(entity.AppId))
-                entity.AppId = Setting.Instance.App.Id;
+                entity.AppId = AppInfo.Instance.Id;
 
             var vr = EntityHelper.Validate(entity);
             if (vr.HasError)

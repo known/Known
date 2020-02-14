@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Compilation;
-using System.Web.Routing;
+using Known.Core;
 using Known.Extensions;
 using Known.Log;
 
@@ -132,7 +132,7 @@ namespace Known.Web
 
         private void InitializeApp()
         {
-            var app = Setting.Instance.App;
+            var app = AppInfo.Instance;
             var context = Known.Context.Create();
             var assemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToList();
             foreach (var assembly in assemblies)
@@ -168,12 +168,12 @@ namespace Known.Web
                         var pi = ModuleInfo.Create(view);
                         pi.Url = $"/Home/Page/{pi.Id}";
                         mi.AddChild(pi);
-                        Setting.Instance.App.Pages.Add(pi);
+                        AppInfo.Instance.Pages.Add(pi);
                     }
                 }
             }
 
-            Setting.Instance.App.AddModule(mi);
+            AppInfo.Instance.AddModule(mi);
         }
     }
 }

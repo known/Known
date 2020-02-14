@@ -25,7 +25,7 @@ namespace Known.Core
                 return;
 
             //外部没有注册依赖，则根据环境自动注册
-            var baseUrl = Setting.Instance.ApiPlatformUrl;
+            var baseUrl = Setting.ApiPlatformUrl;
             if (!string.IsNullOrWhiteSpace(baseUrl))
             {
                 repository = new ApiPlatformRepository(baseUrl);

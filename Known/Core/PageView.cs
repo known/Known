@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Known
+namespace Known.Core
 {
     /// <summary>
     /// 模块页面视图类。

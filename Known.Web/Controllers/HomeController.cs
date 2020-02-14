@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Known.Core;
 using Known.Web.Mvc;
 
 namespace Known.Web.Controllers
@@ -17,7 +18,7 @@ namespace Known.Web.Controllers
 
         public ActionResult Page(string id)
         {
-            var page = Setting.Instance.App.Pages.FirstOrDefault(p => p.Id == id);
+            var page = AppInfo.Instance.Pages.FirstOrDefault(p => p.Id == id);
             if (page == null)
                 return Content($"页面{id}不存在！", "");
 

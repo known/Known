@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
 
-namespace Known
+namespace Known.Core
 {
     /// <summary>
     /// 应用程序信息类。
     /// </summary>
     public class AppInfo
     {
-        /// <summary>
-        /// 创建一个应用程序信息类实例。
-        /// </summary>
-        public AppInfo()
+        private AppInfo()
         {
+            
             Modules = new List<ModuleInfo>();
             Pages = new List<ModuleInfo>();
         }
+
+        /// <summary>
+        /// 取得应用程序信息。
+        /// </summary>
+        public static AppInfo Instance { get; } = new AppInfo();
 
         /// <summary>
         /// 取得或设置主键 Id。

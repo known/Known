@@ -21,7 +21,7 @@ namespace Known.Jobs
 
         public static void SendMail(string subject, string body)
         {
-            var toMails = Setting.Instance.ExceptionMails;
+            var toMails = Setting.ExceptionMails;
             Mail.Send(toMails, subject, body);
         }
 

@@ -208,11 +208,11 @@ namespace Known
             if (string.IsNullOrWhiteSpace(toMails))
                 return;
 
-            var smtpServer = Setting.Instance.SmtpServer;
-            var smtpPort = Setting.Instance.SmtpPort;
-            var fromName = Setting.Instance.SmtpFromName;
-            var fromEmail = Setting.Instance.SmtpFromEmail;
-            var fromPassword = Setting.Instance.SmtpFromPassword;
+            var smtpServer = Setting.SmtpServer;
+            var smtpPort = Setting.SmtpPort;
+            var fromName = Setting.SmtpFromName;
+            var fromEmail = Setting.SmtpFromEmail;
+            var fromPassword = Setting.SmtpFromPassword;
             var mail = new Mail(smtpServer, smtpPort, fromName, fromEmail, fromPassword);
             var tos = toMails.Split(';', '；');
             foreach (var item in tos)
@@ -236,7 +236,7 @@ namespace Known
         /// <param name="ex">异常对象。</param>
         public static void Send(string subject, Exception ex)
         {
-            var exceptionMails = Setting.Instance.ExceptionMails;
+            var exceptionMails = Setting.ExceptionMails;
             if (string.IsNullOrWhiteSpace(exceptionMails))
             {
                 WriteError(subject, ex.ToString());

@@ -69,7 +69,7 @@ namespace Known.Core
 
         public static List<Menu> GetTreeMenus(PlatformService service)
         {
-            var app = Setting.Instance.App;
+            var app = AppInfo.Instance;
             var menus = new List<Menu>
             {
                 new Menu

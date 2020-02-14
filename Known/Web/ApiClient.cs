@@ -233,7 +233,7 @@ namespace Known.Web
             if (!string.IsNullOrWhiteSpace(baseUrl))
                 return baseUrl;
 
-            return Setting.Instance.ApiBaseUrl;
+            return Setting.ApiBaseUrl;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Known.Mapping;
+﻿using Known.Core;
+using Known.Mapping;
 
 namespace Known.Web.Entities
 {
