@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Web;
@@ -22,6 +21,7 @@ namespace Known.Web.Mvc
         /// <param name="context">应用程序。</param>
         public void Init(HttpApplication context)
         {
+            WebApp.Init();
             context.BeginRequest += Context_BeginRequest;
             context.PostMapRequestHandler += Context_PostMapRequestHandler;
             context.AcquireRequestState += Context_AcquireRequestState;
@@ -70,28 +70,28 @@ namespace Known.Web.Mvc
             if (string.IsNullOrWhiteSpace(url))
                 url = "Home/Index";
 
-            var route = RouteHelper.GetRoute(url);
-            if (route.Controller == null || route.Action == null)
+            var action = WebApp.GetAction(url);
+            if (action.Controller == null || action.Method == null)
             {
                 context.Response.Write($"{url}不存在！");
                 return;
             }
 
-            InvokeAction(route);
+            InvokeAction(action);
         }
 
-        private void InvokeAction(RouteInfo route)
+        private void InvokeAction(ActionInfo action)
         {
             try
             {
                 var queries = HttpUtility.ParseQueryString(context.Request.Url.Query);
                 if (queries != null && queries.Count > 0)
-                    route.Datas = queries.ToDictionary();
+                    action.Datas = queries.ToDictionary();
                 
-                var obj = Activator.CreateInstance(route.Controller) as Controller;
-                obj.Context = new ControllerContext(context, route);
+                var obj = Activator.CreateInstance(action.Controller) as Controller;
+                obj.Context = new ControllerContext(context, action);
 
-                var result = InvokeAction(obj, route.Action, route.Datas);
+                var result = InvokeAction(obj, action);
                 if (result != null)
                 {
                     if (result is ActionResult ar)
@@ -110,8 +110,10 @@ namespace Known.Web.Mvc
             }
         }
 
-        private object InvokeAction(Controller obj, MethodInfo method, Dictionary<string, object> datas)
+        private object InvokeAction(Controller obj, ActionInfo action)
         {
+            var method = action.Method;
+            var datas = action.Datas;
             var parameterInfos = method.GetParameters();
             if (parameterInfos == null || parameterInfos.Length == 0)
                 return method.Invoke(obj, null);

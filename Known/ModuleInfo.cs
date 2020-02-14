@@ -1,8 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Known.Extensions;
 
-namespace Known.Core
+namespace Known
 {
+    public class ModuleAttribute : Attribute
+    {
+        public ModuleAttribute(string name, string icon)
+        {
+            Name = name;
+            Icon = icon;
+        }
+
+        public string Name { get; }
+
+        public string Icon { get; }
+
+        public string Code { get; set; }
+    }
+
+    public class PageAttribute : Attribute
+    {
+        public PageAttribute(int order, string name, string icon)
+        {
+            Order = order;
+            Name = name;
+            Icon = icon;
+        }
+
+        public int Order { get; }
+
+        public string Name { get; }
+
+        public string Icon { get; }
+
+        public string Code { get; set; }
+    }
+
     /// <summary>
     /// 模块页面视图类型。
     /// </summary>
@@ -143,11 +177,6 @@ namespace Known.Core
         public List<ModuleInfo> Children { get; }
 
         /// <summary>
-        /// 取得或设置页面视图对象。
-        /// </summary>
-        public PageView View { get; set; }
-
-        /// <summary>
         /// 取得或设置全模块代码列表。
         /// </summary>
         public List<string> FullCodes
@@ -170,38 +199,6 @@ namespace Known.Core
             info.ParentId = Id;
             info.Parent = this;
             Children.Add(info);
-        }
-
-        /// <summary>
-        /// 根据模块对象创建模块信息。
-        /// </summary>
-        /// <param name="module">模块对象。</param>
-        /// <returns>模块信息。</returns>
-        public static ModuleInfo Create(ModuleBase module)
-        {
-            return new ModuleInfo
-            {
-                Id = Utils.NewGuid,
-                Name = module.Name,
-                Icon = module.Icon
-            };
-        }
-
-        /// <summary>
-        /// 根据页面视图对象创建模块信息。
-        /// </summary>
-        /// <param name="view">页面视图对象。</param>
-        /// <returns>模块信息。</returns>
-        public static ModuleInfo Create(PageView view)
-        {
-            return new ModuleInfo
-            {
-                Id = Utils.NewGuid,
-                Name = view.Name,
-                Icon = view.Icon,
-                Sort = view.Order,
-                View = view
-            };
         }
 
         private void InitFullCodes(ModuleInfo module, List<string> fullCodes)

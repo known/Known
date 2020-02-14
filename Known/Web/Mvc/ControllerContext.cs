@@ -7,13 +7,13 @@ namespace Known.Web.Mvc
     /// </summary>
     public class ControllerContext
     {
-        internal ControllerContext(HttpContext context, RouteInfo route)
+        internal ControllerContext(HttpContext context, ActionInfo action)
         {
             HttpContext = context;
-            Route = route;
+            Action = action;
 
-            ControllerName = route.Controller.Name.Replace("Controller", "");
-            ActionName = route.Action.Name;
+            ControllerName = action.Controller.Name.Replace("Controller", "");
+            ActionName = action.Method.Name;
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Known.Web.Mvc
         /// <summary>
         /// 取得路由信息。
         /// </summary>
-        public RouteInfo Route { get; }
+        public ActionInfo Action { get; }
 
         /// <summary>
         /// 取得控制器名称。

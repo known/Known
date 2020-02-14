@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using System.Web;
-using System.Web.Compilation;
-using Known.Core;
 using Known.Extensions;
 using Known.Log;
 
@@ -28,7 +24,6 @@ namespace Known.Web
         {
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             Container.Register<IJson, JsonProvider>();
-            InitializeApp();
         }
 
         /// <summary>
@@ -128,52 +123,6 @@ namespace Known.Web
         /// <param name="e"></param>
         protected virtual void Session_End(object sender, EventArgs e)
         {
-        }
-
-        private void InitializeApp()
-        {
-            var app = AppInfo.Instance;
-            var context = Known.Context.Create();
-            var assemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToList();
-            foreach (var assembly in assemblies)
-            {
-                var types = assembly.GetExportedTypes();
-                if (types == null || types.Length == 0)
-                    continue;
-
-                foreach (var type in types)
-                {
-                    InitializeModule(app, context, type);
-                }
-            }
-        }
-
-        private static void InitializeModule(AppInfo app, Context context, Type type)
-        {
-            if (!type.IsSubclassOf(typeof(ModuleBase)))
-                return;
-
-            var module = Activator.CreateInstance(type) as ModuleBase;
-            module.Init(app, context);
-
-            var mi = ModuleInfo.Create(module);
-            var methods = type.GetMethods();
-            if (methods != null && methods.Length > 0)
-            {
-                foreach (var method in methods)
-                {
-                    if (method.Name.EndsWith("View"))
-                    {
-                        var view = method.Invoke(module, null) as PageView;
-                        var pi = ModuleInfo.Create(view);
-                        pi.Url = $"/Home/Page/{pi.Id}";
-                        mi.AddChild(pi);
-                        AppInfo.Instance.Pages.Add(pi);
-                    }
-                }
-            }
-
-            AppInfo.Instance.AddModule(mi);
         }
     }
 }
