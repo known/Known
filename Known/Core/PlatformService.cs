@@ -75,7 +75,7 @@ namespace Known.Core
         /// </summary>
         /// <param name="userName">登录用户名。</param>
         /// <returns>模块信息对象列表。</returns>
-        public List<ModuleInfo> GetUserModules(string userName)
+        public List<ModuleAttribute> GetUserModules(string userName)
         {
             return AppInfo.Instance.Modules;
             //var modules = repository.GetUserModules(Setting.Instance.App.Id, userName);

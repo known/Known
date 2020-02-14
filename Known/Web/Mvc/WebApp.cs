@@ -30,11 +30,11 @@ namespace Known.Web.Mvc
                             {
                                 if (type.IsSubclassOf(typeof(Controller)))
                                 {
-                                    var info = new ControllerInfo(type);
+                                    var info = ControllerInfo.Create(type);
                                     var methods = type.GetMethods();
                                     foreach (var method in methods)
                                     {
-                                        var action = new ActionInfo(type, method);
+                                        var action = ActionInfo.Create(info, method);
                                         if (action.Route != null)
                                         {
                                             routes.Add(action.Route.Name, action);

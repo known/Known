@@ -96,6 +96,19 @@ namespace Known.Core
             return menus;
         }
 
+        private static Menu GetMenu(ModuleAttribute module)
+        {
+            return new Menu
+            {
+                id = module.Code,
+                pid = module.Parent,
+                code = module.Code,
+                text = module.Name,
+                iconCls = module.Icon,
+                url = module.Url
+            };
+        }
+
         private static Menu GetMenu(ModuleInfo module)
         {
             return new Menu

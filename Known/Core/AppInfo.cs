@@ -9,9 +9,7 @@ namespace Known.Core
     {
         private AppInfo()
         {
-            
-            Modules = new List<ModuleInfo>();
-            Pages = new List<ModuleInfo>();
+            Modules = new List<ModuleAttribute>();
         }
 
         /// <summary>
@@ -47,21 +45,14 @@ namespace Known.Core
         /// <summary>
         /// 取得应用程序模块信息列表。
         /// </summary>
-        public List<ModuleInfo> Modules { get; }
-
-        /// <summary>
-        /// 取得应用程序页面信息列表。
-        /// </summary>
-        public List<ModuleInfo> Pages { get; }
+        public List<ModuleAttribute> Modules { get; }
 
         /// <summary>
         /// 添加模块信息。
         /// </summary>
         /// <param name="info">模块信息。</param>
-        public void AddModule(ModuleInfo info)
+        public void AddModule(ModuleAttribute info)
         {
-            info.AppId = Id;
-            info.ParentId = Id;
             Modules.Add(info);
         }
     }

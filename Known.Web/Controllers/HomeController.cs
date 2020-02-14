@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Known.Core;
-using Known.Web.Mvc;
+﻿using Known.Web.Mvc;
 
 namespace Known.Web.Controllers
 {
@@ -13,15 +11,6 @@ namespace Known.Web.Controllers
 
         public ActionResult Welcome()
         {
-            return View();
-        }
-
-        public ActionResult Page(string id)
-        {
-            var page = AppInfo.Instance.Pages.FirstOrDefault(p => p.Id == id);
-            if (page == null)
-                return Content($"页面{id}不存在！", "");
-
             return View();
         }
 

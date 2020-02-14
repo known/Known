@@ -1,42 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Known.Extensions;
 
 namespace Known
 {
-    public class ModuleAttribute : Attribute
-    {
-        public ModuleAttribute(string name, string icon)
-        {
-            Name = name;
-            Icon = icon;
-        }
-
-        public string Name { get; }
-
-        public string Icon { get; }
-
-        public string Code { get; set; }
-    }
-
-    public class PageAttribute : Attribute
-    {
-        public PageAttribute(int order, string name, string icon)
-        {
-            Order = order;
-            Name = name;
-            Icon = icon;
-        }
-
-        public int Order { get; }
-
-        public string Name { get; }
-
-        public string Icon { get; }
-
-        public string Code { get; set; }
-    }
-
     /// <summary>
     /// 模块页面视图类型。
     /// </summary>

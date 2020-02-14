@@ -91,6 +91,7 @@
     <Compile Include="Core\CoreInitializer.cs" />
     <Compile Include="Core\PlatformRepository.cs" />
     <Compile Include="Core\Menu.cs" />
+    <Compile Include="ModuleAttribute.cs" />
     <Compile Include="ModuleInfo.cs" />
     <Compile Include="Core\PlatformService.cs" />
     <Compile Include="Core\UserInfo.cs" />
