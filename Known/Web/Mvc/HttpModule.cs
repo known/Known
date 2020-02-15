@@ -21,10 +21,13 @@ namespace Known.Web.Mvc
         /// <param name="context">应用程序。</param>
         public void Init(HttpApplication context)
         {
+            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             WebApp.Init();
             context.BeginRequest += Context_BeginRequest;
             context.PostMapRequestHandler += Context_PostMapRequestHandler;
+            context.AuthorizeRequest += Context_AuthorizeRequest;
             context.AcquireRequestState += Context_AcquireRequestState;
+            context.EndRequest += Context_EndRequest;
             context.Error += Context_Error;
         }
 
@@ -39,11 +42,39 @@ namespace Known.Web.Mvc
         {
             var app = sender as HttpApplication;
             context = app.Context;
+
+            var request = context.Request;
+            var checker = new XSSChecker(request);
+            if (request.Cookies != null)
+            {
+                if (checker.CheckCookieData())
+                    ErrorResult("您提交的数据有恶意字符！");
+            }
+            if (request.UrlReferrer != null)
+            {
+                if (checker.CheckUrlReferer())
+                    ErrorResult("您提交的数据有恶意字符！");
+            }
+            if (request.RequestType.ToUpper() == "POST")
+            {
+                if (checker.CheckPostData())
+                    ErrorResult("您提交的数据有恶意字符！");
+            }
+            if (request.RequestType.ToUpper() == "GET")
+            {
+                if (checker.CheckGetData())
+                    ErrorResult("您提交的数据有恶意字符！");
+            }
         }
 
         private void Context_PostMapRequestHandler(object sender, EventArgs e)
         {
             context.Handler = SessionHandler.Instance;
+        }
+
+        private void Context_AuthorizeRequest(object sender, EventArgs e)
+        {
+            var user = context.User;
         }
 
         private void Context_AcquireRequestState(object sender, EventArgs e)
@@ -55,11 +86,25 @@ namespace Known.Web.Mvc
             InvokeAction(url);
         }
 
+        private void Context_EndRequest(object sender, EventArgs e)
+        {
+            context.Response.Headers.Remove("Server");
+            context.Response.Headers.Remove("X-AspNet-Version");
+            context.Response.Headers.Remove("X-AspNetMvc-Version");
+        }
+
         private void Context_Error(object sender, EventArgs e)
         {
             var user = context.User.Identity.Name;
+            var url = context.Request.Url;
             var error = context.Error.ToString();
-            LogHelper.Error($"{user} - {error}");
+            LogHelper.Error($"{user} - {url} - {error}");
+        }
+
+        private void ErrorResult(string message)
+        {
+            context.Response.Write(new { ok = false, message }.ToJson());
+            context.Response.End();
         }
 
         private void InvokeAction(string url)
