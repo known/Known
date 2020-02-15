@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Known.Extensions;
 
 namespace Known.Web.Mvc
@@ -20,12 +21,12 @@ namespace Known.Web.Mvc
         {
             var sb = new StringBuilder();
 
-            var html = text.SubString("<template>", "</template>");
+            var html = GetHtml(text);
             if (string.IsNullOrWhiteSpace(html))
                 html = text;
 
-            var style = text.SubString("<template id=\"style\">", "</template>");
-            var script = text.SubString("<template id=\"script\">", "</template>");
+            var style = GetStyle(text);
+            var script = GetScript(text);
 
             if (!string.IsNullOrWhiteSpace(layout))
             {
@@ -47,6 +48,25 @@ namespace Known.Web.Mvc
 
             Html = sb.ToString();
             Html = Html.Replace("~/", "/");
+        }
+
+        private static string GetStyle(string text)
+        {
+            var style = text.SubString("<template id=\"style\">", "</template>");
+            return style;
+        }
+
+        private static string GetHtml(string text)
+        {
+            var html = text.SubString("<template>", "</template>");
+            return html;
+        }
+
+        private static string GetScript(string text)
+        {
+            var script = text.SubString("<template id=\"script\">", "</template>");
+            script = JavaScriptMinifier.Minify(script).ToString() + Environment.NewLine;
+            return script;
         }
     }
 }

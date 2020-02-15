@@ -4,17 +4,20 @@ using System.Text;
 
 namespace Known.Web
 {
-    class JavaScriptMinifier
+    /// <summary>
+    /// JavaScript 代码压缩。
+    /// </summary>
+    public class JavaScriptMinifier
     {
         #region 私有字段
 
         private const int EOF = -1;
 
-        private readonly StringBuilder _JsBuilder;
-        private readonly TextReader _JsReader;
-        private int _TheA = Convert.ToInt32('\n');
-        private int _TheB;
-        private int _TheLookahead = EOF;
+        private readonly StringBuilder jsBuilder;
+        private readonly TextReader jsReader;
+        private int theA = Convert.ToInt32('\n');
+        private int theB;
+        private int theLookahead = EOF;
 
         #endregion
 
@@ -26,11 +29,8 @@ namespace Known.Web
         /// <param name="jsReader">包含要压缩的 JavaScript 代码的 <see cref="TextReader"/>。</param>
         private JavaScriptMinifier(TextReader jsReader)
         {
-            if (jsReader == null) 
-                throw new ArgumentNullException("jsReader");
-
-            this._JsReader = jsReader;
-            this._JsBuilder = new StringBuilder();
+            this.jsReader = jsReader ?? throw new ArgumentNullException("jsReader");
+            jsBuilder = new StringBuilder();
         }
 
         #endregion
@@ -64,69 +64,69 @@ namespace Known.Web
         /// <returns>返回包含压缩后的 JavaScript 代码的 <see cref="StringBuilder"/>。</returns>
         public static StringBuilder Minify(TextReader jsReader)
         {
-            JavaScriptMinifier jsmin = new JavaScriptMinifier(jsReader);
+            var jsmin = new JavaScriptMinifier(jsReader);
 
-            jsmin._Jsmin();
+            jsmin.Jsmin();
 
-            return jsmin._JsBuilder;
+            return jsmin.jsBuilder;
         }
 
         #endregion
 
         #region 私有方法
 
-        private void _Jsmin()
+        private void Jsmin()
         {
-            this._Action(3);
+            Action(3);
 
-            while (this._TheA != EOF)
+            while (theA != EOF)
             {
-                switch ((Char)this._TheA)
+                switch ((Char)this.theA)
                 {
                     case ' ':
-                        if (_IsAlphanum(this._TheB)) this._Action(1);
-                        else this._Action(2);
+                        if (IsAlphaNum(this.theB)) this.Action(1);
+                        else this.Action(2);
 
                         break;
                     case '\n':
-                        switch ((Char)this._TheB)
+                        switch ((Char)this.theB)
                         {
                             case '{':
                             case '[':
                             case '(':
                             case '+':
                             case '-':
-                                this._Action(1);
+                                this.Action(1);
 
                                 break;
                             case ' ':
-                                this._Action(3);
+                                this.Action(3);
 
                                 break;
                             default:
-                                if (_IsAlphanum(this._TheB)) this._Action(1);
-                                else this._Action(2);
+                                if (IsAlphaNum(this.theB)) this.Action(1);
+                                else this.Action(2);
 
                                 break;
                         }
 
                         break;
                     default:
-                        switch ((Char)this._TheB)
+                        switch ((Char)this.theB)
                         {
                             case ' ':
-                                if (_IsAlphanum(this._TheA))
+                                if (IsAlphaNum(this.theA))
                                 {
-                                    this._Action(1);
+                                    this.Action(1);
 
                                     break;
                                 }
 
-                                this._Action(3);
+                                this.Action(3);
 
                                 break;
                             case '\n':
-                                switch ((Char)this._TheA)
+                                switch ((Char)this.theA)
                                 {
                                     case '}':
                                     case ']':
@@ -135,19 +135,19 @@ namespace Known.Web
                                     case '-':
                                     case '"':
                                     case '\'':
-                                        this._Action(1);
+                                        this.Action(1);
 
                                         break;
                                     default:
-                                        if (_IsAlphanum(this._TheA)) this._Action(1);
-                                        else this._Action(3);
+                                        if (IsAlphaNum(this.theA)) this.Action(1);
+                                        else this.Action(3);
 
                                         break;
                                 }
 
                                 break;
                             default:
-                                this._Action(1);
+                                this.Action(1);
 
                                 break;
                         }
@@ -157,85 +157,85 @@ namespace Known.Web
             }
         }
 
-        private void _Action(int d)
+        private void Action(int d)
         {
-            if (d <= 1) this._Put(this._TheA);
+            if (d <= 1) this.Put(this.theA);
             if (d <= 2)
             {
-                this._TheA = this._TheB;
+                this.theA = this.theB;
 
-                if (this._TheA == '\'' || this._TheA == '"')
+                if (this.theA == '\'' || this.theA == '"')
                 {
                     for (; ; )
                     {
-                        this._Put(this._TheA);
-                        this._TheA = this._Get();
+                        this.Put(this.theA);
+                        this.theA = this.Get();
 
-                        if (this._TheA == this._TheB) break;
-                        if (this._TheA <= '\n') throw new Exception(string.Format("Error: JSMIN unterminated string literal: {0}", this._TheA));
-                        if (this._TheA != '\\') continue;
+                        if (this.theA == this.theB) break;
+                        if (this.theA <= '\n') throw new Exception(string.Format("Error: JSMIN unterminated string literal: {0}", this.theA));
+                        if (this.theA != '\\') continue;
 
-                        this._Put(this._TheA);
-                        this._TheA = this._Get();
+                        this.Put(this.theA);
+                        this.theA = this.Get();
                     }
                 }
             }
 
             if (d > 3) return;
 
-            this._TheB = this._Next();
+            this.theB = this.Next();
 
-            if (this._TheB != '/' || ((((((((((((this._TheA != '(' && this._TheA != ',') && this._TheA != '=') && this._TheA != '[') && this._TheA != '!') && this._TheA != ':') && this._TheA != '&') && this._TheA != '|') && this._TheA != '?') && this._TheA != '{') && this._TheA != '}') && this._TheA != ';') && this._TheA != '\n')) return;
+            if (this.theB != '/' || ((((((((((((this.theA != '(' && this.theA != ',') && this.theA != '=') && this.theA != '[') && this.theA != '!') && this.theA != ':') && this.theA != '&') && this.theA != '|') && this.theA != '?') && this.theA != '{') && this.theA != '}') && this.theA != ';') && this.theA != '\n')) return;
 
-            this._Put(this._TheA);
-            this._Put(this._TheB);
+            this.Put(this.theA);
+            this.Put(this.theB);
 
             for (; ; )
             {
-                this._TheA = this._Get();
+                this.theA = this.Get();
 
-                if (this._TheA == '/') break;
+                if (this.theA == '/') break;
 
-                if (this._TheA == '\\')
+                if (this.theA == '\\')
                 {
-                    this._Put(this._TheA);
-                    this._TheA = this._Get();
+                    this.Put(this.theA);
+                    this.theA = this.Get();
                 }
-                else if (this._TheA <= '\n') throw new Exception(string.Format("Error: JSMIN unterminated Regular Expression literal : {0}.", this._TheA));
+                else if (this.theA <= '\n') throw new Exception(string.Format("Error: JSMIN unterminated Regular Expression literal : {0}.", this.theA));
 
-                this._Put(this._TheA);
+                this.Put(this.theA);
             }
 
-            this._TheB = this._Next();
+            this.theB = this.Next();
         }
 
-        private int _Next()
+        private int Next()
         {
-            int c = this._Get();
+            int c = this.Get();
             const int s = (int)'*';
 
             if (c == '/')
             {
-                switch ((Char)this._Peek())
+                switch ((Char)this.Peek())
                 {
                     case '/':
                         for (; ; )
                         {
-                            c = this._Get();
+                            c = this.Get();
 
                             if (c <= '\n') return c;
                         }
                     case '*':
-                        this._Get();
+                        this.Get();
 
                         for (; ; )
                         {
-                            switch (this._Get())
+                            switch (this.Get())
                             {
                                 case s:
-                                    if (this._Peek() == '/')
+                                    if (this.Peek() == '/')
                                     {
-                                        this._Get();
+                                        this.Get();
 
                                         return Convert.ToInt32(' ');
                                     }
@@ -253,26 +253,32 @@ namespace Known.Web
             return c;
         }
 
-        private int _Peek()
+        private int Peek()
         {
-            this._TheLookahead = this._Get();
+            theLookahead = Get();
 
-            return this._TheLookahead;
+            return theLookahead;
         }
 
-        private int _Get()
+        private int Get()
         {
-            int c = this._TheLookahead;
-            this._TheLookahead = EOF;
+            int c = theLookahead;
+            theLookahead = EOF;
 
-            if (c == EOF) c = this._JsReader.Read();
+            if (c == EOF) c = jsReader.Read();
 
             return c >= ' ' || c == '\n' || c == EOF ? c : (c == '\r' ? '\n' : ' ');
         }
 
-        private void _Put(int c) { this._JsBuilder.Append((char)c); }
+        private void Put(int c)
+        {
+            jsBuilder.Append((char)c);
+        }
 
-        private static bool _IsAlphanum(int c) { return ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || c == '_' || c == '$' || c == '\\' || c > 126); }
+        private static bool IsAlphaNum(int c)
+        {
+            return ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || c == '_' || c == '$' || c == '\\' || c > 126);
+        }
 
         #endregion
     }
