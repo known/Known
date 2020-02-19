@@ -74,14 +74,24 @@ namespace Known.Web.Mvc
 
         private void Context_AuthorizeRequest(object sender, EventArgs e)
         {
+            var url = context.Request.Url.LocalPath.Trim('/');
+            if (!url.Contains("static"))
+            {
+                var action = WebApp.GetAction(url);
+                if (action.Controller == null || action.Method == null)
+                    ErrorResult($"{url}不存在！");
+
+                if (action.IsUseOf<AllowAnonymousAttribute>())
+                    return;
+            }
+
             var user = context.User;
+            if (!user.Identity.IsAuthenticated)
+                ErrorResult("未授权！");
         }
 
         private void Context_AcquireRequestState(object sender, EventArgs e)
         {
-            context.Response.HeaderEncoding = Encoding.Default;
-            context.Response.ContentEncoding = Encoding.Default;
-
             var url = context.Request.Url.LocalPath.Trim('/');
             InvokeAction(url);
         }
@@ -91,6 +101,9 @@ namespace Known.Web.Mvc
             context.Response.Headers.Remove("Server");
             context.Response.Headers.Remove("X-AspNet-Version");
             context.Response.Headers.Remove("X-AspNetMvc-Version");
+
+            context.Response.HeaderEncoding = Encoding.Default;
+            context.Response.ContentEncoding = Encoding.Default;
         }
 
         private void Context_Error(object sender, EventArgs e)
@@ -103,6 +116,7 @@ namespace Known.Web.Mvc
 
         private void ErrorResult(string message)
         {
+            context.Response.ContentType = MimeTypes.ApplicationJson;
             context.Response.Write(new { ok = false, message }.ToJson());
             context.Response.End();
         }
@@ -111,9 +125,6 @@ namespace Known.Web.Mvc
         {
             if (url.Contains("static"))
                 return;
-
-            if (string.IsNullOrWhiteSpace(url))
-                url = "Home/Index";
 
             var action = WebApp.GetAction(url);
             if (action.Controller == null || action.Method == null)

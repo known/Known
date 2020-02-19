@@ -52,6 +52,9 @@ namespace Known.Web.Mvc
 
         public static ActionInfo GetAction(string url)
         {
+            if (string.IsNullOrWhiteSpace(url))
+                url = "Home/Index";
+
             if (routes.ContainsKey(url))
                 return routes[url];
 
