@@ -5,13 +5,14 @@ using System.Threading;
 using System.Web;
 using Known.Extensions;
 using Known.Log;
+using Known.Web.Extensions;
 
 namespace Known.Web.Mvc
 {
     /// <summary>
     /// Http模块。
     /// </summary>
-    public class HttpModule: IHttpModule
+    public class HttpModule : IHttpModule
     {
         private HttpContext context;
 
@@ -25,7 +26,6 @@ namespace Known.Web.Mvc
             WebApp.Init();
             context.BeginRequest += Context_BeginRequest;
             context.PostMapRequestHandler += Context_PostMapRequestHandler;
-            context.AuthorizeRequest += Context_AuthorizeRequest;
             context.AcquireRequestState += Context_AcquireRequestState;
             context.EndRequest += Context_EndRequest;
             context.Error += Context_Error;
@@ -43,51 +43,14 @@ namespace Known.Web.Mvc
             var app = sender as HttpApplication;
             context = app.Context;
 
-            var request = context.Request;
-            var checker = new XSSChecker(request);
-            if (request.Cookies != null)
-            {
-                if (checker.CheckCookieData())
-                    ErrorResult("您提交的数据有恶意字符！");
-            }
-            if (request.UrlReferrer != null)
-            {
-                if (checker.CheckUrlReferer())
-                    ErrorResult("您提交的数据有恶意字符！");
-            }
-            if (request.RequestType.ToUpper() == "POST")
-            {
-                if (checker.CheckPostData())
-                    ErrorResult("您提交的数据有恶意字符！");
-            }
-            if (request.RequestType.ToUpper() == "GET")
-            {
-                if (checker.CheckGetData())
-                    ErrorResult("您提交的数据有恶意字符！");
-            }
+            var checker = new XSSChecker(context.Request);
+            if (!checker.Check(out string error))
+                ErrorResult(error);
         }
 
         private void Context_PostMapRequestHandler(object sender, EventArgs e)
         {
             context.Handler = SessionHandler.Instance;
-        }
-
-        private void Context_AuthorizeRequest(object sender, EventArgs e)
-        {
-            var url = context.Request.Url.LocalPath.Trim('/');
-            if (!url.Contains("static"))
-            {
-                var action = WebApp.GetAction(url);
-                if (action.Controller == null || action.Method == null)
-                    ErrorResult($"{url}不存在！");
-
-                if (action.IsUseOf<AllowAnonymousAttribute>())
-                    return;
-            }
-
-            var user = context.User;
-            if (!user.Identity.IsAuthenticated)
-                ErrorResult("未授权！");
         }
 
         private void Context_AcquireRequestState(object sender, EventArgs e)
@@ -104,20 +67,34 @@ namespace Known.Web.Mvc
 
             context.Response.HeaderEncoding = Encoding.Default;
             context.Response.ContentEncoding = Encoding.Default;
+
+            //var user = context.User;
+            //if (user != null && !user.Identity.IsAuthenticated)
+            //    ErrorResult("未授权！", 401);
         }
 
         private void Context_Error(object sender, EventArgs e)
         {
-            var user = context.User.Identity.Name;
+            var user = context.User != null ? context.User.Identity.Name : "Anonymous";
             var url = context.Request.Url;
             var error = context.Error.ToString();
             LogHelper.Error($"{user} - {url} - {error}");
         }
 
-        private void ErrorResult(string message)
+        private void ErrorResult(string message, int status = 200)
         {
-            context.Response.ContentType = MimeTypes.ApplicationJson;
-            context.Response.Write(new { ok = false, message }.ToJson());
+            context.Response.StatusCode = status;
+
+            if (context.Request.IsAjaxRequest())
+            {
+                context.Response.ContentType = MimeTypes.ApplicationJson;
+                context.Response.Write(new { ok = false, message }.ToJson());
+            }
+            else
+            {
+                context.Response.Write(message);
+            }
+
             context.Response.End();
         }
 
@@ -133,6 +110,9 @@ namespace Known.Web.Mvc
                 return;
             }
 
+            //if (action.IsUseOf<AllowAnonymousAttribute>())
+            //    return;
+
             InvokeAction(action);
         }
 
@@ -143,7 +123,7 @@ namespace Known.Web.Mvc
                 var queries = HttpUtility.ParseQueryString(context.Request.Url.Query);
                 if (queries != null && queries.Count > 0)
                     action.Datas = queries.ToDictionary();
-                
+
                 var obj = Activator.CreateInstance(action.Controller) as Controller;
                 obj.Context = new ControllerContext(context, action);
 

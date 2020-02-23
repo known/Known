@@ -8,6 +8,17 @@ namespace Known.Web.Extensions
     public static class HttpRequestExtension
     {
         /// <summary>
+        /// 判断Http请求是否是Ajax请求。
+        /// </summary>
+        /// <param name="request">请求对象。</param>
+        /// <returns>是否是Ajax请求。</returns>
+        public static bool IsAjaxRequest(this HttpRequest request)
+        {
+            var ajax = request.Headers.Get("X-Requested-With");
+            return ajax == "XMLHttpRequest";
+        }
+
+        /// <summary>
         /// 获取指定键及类型的请求值，统一获取查询和窗体的变量。
         /// </summary>
         /// <typeparam name="T">值类型。</typeparam>
