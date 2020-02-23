@@ -50,6 +50,11 @@ namespace Known.Web.Mvc
             }
         }
 
+        public static Dictionary<string, ControllerInfo> GetControllers()
+        {
+            return caches;
+        }
+
         public static ActionInfo GetAction(string url)
         {
             if (string.IsNullOrWhiteSpace(url))

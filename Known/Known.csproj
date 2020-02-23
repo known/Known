@@ -192,6 +192,7 @@
     <Compile Include="Web\Mvc\Controller.cs" />
     <Compile Include="Web\Mvc\ControllerContext.cs" />
     <Compile Include="Web\Mvc\ControllerInfo.cs" />
+    <Compile Include="Web\Mvc\DocController.cs" />
     <Compile Include="Web\Mvc\FileResult.cs" />
     <Compile Include="Web\Mvc\HttpModule.cs" />
     <Compile Include="Web\Mvc\SessionHandler.cs" />
