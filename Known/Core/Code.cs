@@ -24,6 +24,11 @@ namespace Known.Core
         /// </summary>
         public object ext { get; set; }
 
+        /// <summary>
+        /// 获取平台代码表。
+        /// </summary>
+        /// <param name="service">平台服务对象。</param>
+        /// <returns>代码字典。</returns>
         public static Dictionary<string, object> GetCodes(PlatformService service)
         {
             var codes = service.GetCodes();

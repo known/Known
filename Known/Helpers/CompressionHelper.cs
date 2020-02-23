@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 
 namespace Known.Helpers
 {
+    /// <summary>
+    /// 解压缩帮助者。
+    /// </summary>
     public sealed class CompressionHelper
     {
         #region DeflateCompress
+        /// <summary>
+        /// 获取Deflate压缩字符串。
+        /// </summary>
+        /// <param name="data">原字符串。</param>
+        /// <returns>压缩字符串。</returns>
         public static string DeflateCompress(string data)
         {
             if (string.IsNullOrWhiteSpace(data))
@@ -19,6 +27,11 @@ namespace Known.Helpers
             return Convert.ToBase64String(compressedBytes);
         }
 
+        /// <summary>
+        /// 获取Deflate压缩字节。
+        /// </summary>
+        /// <param name="bytes">原字节。</param>
+        /// <returns>压缩字节。</returns>
         public static byte[] DeflateCompress(byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0)
@@ -43,6 +56,11 @@ namespace Known.Helpers
         #endregion
 
         #region DeflateDecompress
+        /// <summary>
+        /// 获取Deflate解压字符串。
+        /// </summary>
+        /// <param name="data">压缩字符串。</param>
+        /// <returns>解压字符串。</returns>
         public static string DeflateDecompress(string data)
         {
             if (string.IsNullOrWhiteSpace(data))
@@ -53,6 +71,11 @@ namespace Known.Helpers
             return Encoding.UTF8.GetString(decompressedBytes);
         }
 
+        /// <summary>
+        /// 获取Deflate解压字节。
+        /// </summary>
+        /// <param name="bytes">原字节。</param>
+        /// <returns>解压字节。</returns>
         public static byte[] DeflateDecompress(byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0)
@@ -83,6 +106,12 @@ namespace Known.Helpers
             }
         }
 
+        /// <summary>
+        /// 异步获取Deflate解压字节流。
+        /// </summary>
+        /// <param name="stream">原字节流。</param>
+        /// <param name="destination">解压字节流。</param>
+        /// <returns>异步任务。</returns>
         public static async Task DeflateDecompressAsync(Stream stream, Stream destination)
         {
             try
@@ -97,6 +126,11 @@ namespace Known.Helpers
         #endregion
 
         #region GZipCompress
+        /// <summary>
+        /// 获取Zip压缩字符串。
+        /// </summary>
+        /// <param name="data">原字符串。</param>
+        /// <returns>压缩字符串。</returns>
         public static string GZipCompress(string data)
         {
             if (string.IsNullOrWhiteSpace(data))
@@ -107,6 +141,11 @@ namespace Known.Helpers
             return Convert.ToBase64String(compressedBytes);
         }
 
+        /// <summary>
+        /// 获取Zip压缩字节。
+        /// </summary>
+        /// <param name="bytes">原字节。</param>
+        /// <returns>压缩字节。</returns>
         public static byte[] GZipCompress(byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0)
@@ -131,6 +170,11 @@ namespace Known.Helpers
         #endregion
 
         #region GZipDecompress
+        /// <summary>
+        /// 获取Zippy解压字符串。
+        /// </summary>
+        /// <param name="data">原字符串。</param>
+        /// <returns>解压字符串，</returns>
         public static string GZipDecompress(string data)
         {
             if (string.IsNullOrWhiteSpace(data))
@@ -141,6 +185,11 @@ namespace Known.Helpers
             return Encoding.UTF8.GetString(decompressedBytes);
         }
 
+        /// <summary>
+        /// 获取Zip解压字节。
+        /// </summary>
+        /// <param name="bytes">原字节。</param>
+        /// <returns>解压字节。</returns>
         public static byte[] GZipDecompress(byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0)
@@ -171,6 +220,12 @@ namespace Known.Helpers
             }
         }
 
+        /// <summary>
+        /// 异步获取Zip解压字节流。
+        /// </summary>
+        /// <param name="stream">原字节流。</param>
+        /// <param name="destination">解压字节流。</param>
+        /// <returns>异步任务。</returns>
         public static async Task GZipDecompressAsync(Stream stream, Stream destination)
         {
             try

@@ -5,6 +5,9 @@ using Known.Core;
 
 namespace Known.Web.Mvc
 {
+    /// <summary>
+    /// 控制器信息类。
+    /// </summary>
     public class ControllerInfo
     {
         private ControllerInfo(Type type)
@@ -14,8 +17,19 @@ namespace Known.Web.Mvc
             Actions = new List<ActionInfo>();
         }
 
+        /// <summary>
+        /// 取得控制器名称。
+        /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// 取得控制器类型。
+        /// </summary>
         public Type Type { get; }
+
+        /// <summary>
+        /// 取得控制器所有Action列表。
+        /// </summary>
         public List<ActionInfo> Actions { get; }
 
         internal static ControllerInfo Create(Type type)

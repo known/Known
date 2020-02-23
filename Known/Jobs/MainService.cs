@@ -5,13 +5,19 @@ using System.Timers;
 
 namespace Known.Jobs
 {
+    /// <summary>
+    /// 批处理作业主服务。
+    /// </summary>
     public class MainService : System.ServiceProcess.ServiceBase
     {
         private static ConcurrentDictionary<string, JobTimer> timers;
-        private IContainer components;
-        private Timer checkTimer;
-        private JobHelper helper;
+        private readonly IContainer components;
+        private readonly Timer checkTimer;
+        private readonly JobHelper helper;
 
+        /// <summary>
+        /// 初始化一个批处理作业主服务对象。
+        /// </summary>
         public MainService()
         {
             ServiceName = JobHelper.ServiceName;
@@ -23,11 +29,18 @@ namespace Known.Jobs
             checkTimer.Elapsed += CheckTimer_Elapsed;
         }
 
+        /// <summary>
+        /// 运行主服务。
+        /// </summary>
         public static void Run()
         {
-            System.ServiceProcess.ServiceBase.Run(new MainService());
+            Run(new MainService());
         }
 
+        /// <summary>
+        /// 释放资源。
+        /// </summary>
+        /// <param name="disposing">是否释放。</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -42,12 +55,19 @@ namespace Known.Jobs
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// 启动服务。
+        /// </summary>
+        /// <param name="args">启动参数。</param>
         protected override void OnStart(string[] args)
         {
             helper.StartJobs((h, j) => StartJob(h, j));
             checkTimer.Start();
         }
 
+        /// <summary>
+        /// 停止服务。
+        /// </summary>
         protected override void OnStop()
         {
             checkTimer.Stop();
