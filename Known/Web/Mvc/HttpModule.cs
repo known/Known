@@ -15,6 +15,7 @@ namespace Known.Web.Mvc
     public class HttpModule : IHttpModule
     {
         private HttpContext context;
+        private bool isAuthenticated = true;
 
         /// <summary>
         /// 初始化Http应用程序。
@@ -68,9 +69,8 @@ namespace Known.Web.Mvc
             context.Response.HeaderEncoding = Encoding.Default;
             context.Response.ContentEncoding = Encoding.Default;
 
-            //var user = context.User;
-            //if (user != null && !user.Identity.IsAuthenticated)
-            //    ErrorResult("未授权！", 401);
+            if (!isAuthenticated)
+                ErrorResult("未授权！", 401);
         }
 
         private void Context_Error(object sender, EventArgs e)
@@ -92,7 +92,10 @@ namespace Known.Web.Mvc
             }
             else
             {
-                context.Response.Write(message);
+                if (status == 401)
+                    context.Response.Redirect("/login");
+                else
+                    context.Response.Write(message);
             }
 
             context.Response.End();
@@ -100,6 +103,8 @@ namespace Known.Web.Mvc
 
         private void InvokeAction(string url)
         {
+            isAuthenticated = context.User != null && context.User.Identity.IsAuthenticated;
+
             if (url.Contains("static"))
                 return;
 
@@ -110,10 +115,11 @@ namespace Known.Web.Mvc
                 return;
             }
 
-            //if (action.IsUseOf<AllowAnonymousAttribute>())
-            //    return;
+            if (action.IsUseOf<AllowAnonymousAttribute>())
+                isAuthenticated = true;
 
-            InvokeAction(action);
+            if (isAuthenticated)
+                InvokeAction(action);
         }
 
         private void InvokeAction(ActionInfo action)
