@@ -3,7 +3,7 @@
 namespace Known.Web.Controllers
 {
     [Module("系统管理", "fa fa-cogs")]
-    public class SystemController : ControllerBase
+    public class SystemController : BaseController
     {
         [Module(1, "角色管理", "fa fa-users")]
         public ActionResult RoleView()

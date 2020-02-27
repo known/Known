@@ -6,7 +6,7 @@ namespace Known.Web.Controllers
     /// <summary>
     /// 角色管理控制器类。
     /// </summary>
-    public class RoleController : ControllerBase
+    public class RoleController : BaseController
     {
         private RoleService Service
         {

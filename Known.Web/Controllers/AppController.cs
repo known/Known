@@ -6,7 +6,7 @@ namespace Known.Web.Controllers
     /// <summary>
     /// 应用程序控制器类。
     /// </summary>
-    public class AppController : ControllerBase
+    public class AppController : BaseController
     {
         private AppService Service
         {
