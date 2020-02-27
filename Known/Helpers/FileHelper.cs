@@ -9,42 +9,6 @@ namespace Known.Helpers
     public sealed class FileHelper
     {
         /// <summary>
-        /// 获取文件内容的Base64码。
-        /// </summary>
-        /// <param name="path">文件路径。</param>
-        /// <returns>Base64码。</returns>
-        public static string GetBase64String(string path)
-        {
-            if (string.IsNullOrWhiteSpace(path))
-                return string.Empty;
-
-            if (!File.Exists(path))
-                return string.Empty;
-
-            using (var fs = new FileStream(path, FileMode.Open))
-            {
-                var bytes = new byte[fs.Length];
-                fs.Read(bytes, 0, bytes.Length);
-                return Convert.ToBase64String(bytes);
-            }
-        }
-
-        /// <summary>
-        /// 获取文件内容的Base64码。
-        /// </summary>
-        /// <param name="stream">文件流。</param>
-        /// <returns>Base64码。</returns>
-        public static string GetBase64String(Stream stream)
-        {
-            using (stream)
-            {
-                var bytes = new byte[stream.Length];
-                stream.Read(bytes, 0, bytes.Length);
-                return Convert.ToBase64String(bytes);
-            }
-        }
-
-        /// <summary>
         /// 获取指定文件的扩展名。
         /// </summary>
         /// <param name="fileName">文件路径。</param>
@@ -130,17 +94,39 @@ namespace Known.Helpers
         }
 
         /// <summary>
-        /// 将字节写入指定路径的文件。
+        /// 读取文件内容，返回Base64码。
         /// </summary>
         /// <param name="path">文件路径。</param>
-        /// <param name="bytes">字节。</param>
-        public static void WriteAllBytes(string path, byte[] bytes)
+        /// <returns>Base64码。</returns>
+        public static string ReadBase64String(string path)
         {
-            if (string.IsNullOrWhiteSpace(path) || bytes == null || bytes.Length == 0)
-                return;
+            if (string.IsNullOrWhiteSpace(path))
+                return string.Empty;
 
-            EnsureFile(path);
-            File.WriteAllBytes(path, bytes);
+            if (!File.Exists(path))
+                return string.Empty;
+
+            using (var fs = new FileStream(path, FileMode.Open))
+            {
+                var bytes = new byte[fs.Length];
+                fs.Read(bytes, 0, bytes.Length);
+                return Convert.ToBase64String(bytes);
+            }
+        }
+
+        /// <summary>
+        /// 读取文件内容，返回Base64码。
+        /// </summary>
+        /// <param name="stream">文件流。</param>
+        /// <returns>Base64码。</returns>
+        public static string ReadBase64String(Stream stream)
+        {
+            using (stream)
+            {
+                var bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+                return Convert.ToBase64String(bytes);
+            }
         }
 
         /// <summary>
@@ -152,6 +138,20 @@ namespace Known.Helpers
         {
             var bytes = Convert.FromBase64String(content);
             WriteAllBytes(path, bytes);
+        }
+
+        /// <summary>
+        /// 将字节写入指定路径的文件。
+        /// </summary>
+        /// <param name="path">文件路径。</param>
+        /// <param name="bytes">字节。</param>
+        public static void WriteAllBytes(string path, byte[] bytes)
+        {
+            if (string.IsNullOrWhiteSpace(path) || bytes == null || bytes.Length == 0)
+                return;
+
+            EnsureFile(path);
+            File.WriteAllBytes(path, bytes);
         }
     }
 }
