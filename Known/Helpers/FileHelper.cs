@@ -13,7 +13,7 @@ namespace Known.Helpers
         /// </summary>
         /// <param name="path">文件路径。</param>
         /// <returns>Base64码。</returns>
-        public static string GetFileBase64String(string path)
+        public static string GetBase64String(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
                 return string.Empty;
@@ -27,6 +27,35 @@ namespace Known.Helpers
                 fs.Read(bytes, 0, bytes.Length);
                 return Convert.ToBase64String(bytes);
             }
+        }
+
+        /// <summary>
+        /// 获取文件内容的Base64码。
+        /// </summary>
+        /// <param name="stream">文件流。</param>
+        /// <returns>Base64码。</returns>
+        public static string GetBase64String(Stream stream)
+        {
+            using (stream)
+            {
+                var bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+                return Convert.ToBase64String(bytes);
+            }
+        }
+
+        /// <summary>
+        /// 获取指定文件的扩展名。
+        /// </summary>
+        /// <param name="fileName">文件路径。</param>
+        /// <returns>文件的扩展名。</returns>
+        public static string GetFileExtName(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                return string.Empty;
+
+            var index = fileName.LastIndexOf('.');
+            return fileName.Substring(index).ToLower();
         }
 
         /// <summary>
@@ -101,17 +130,28 @@ namespace Known.Helpers
         }
 
         /// <summary>
-        /// 获取指定文件的扩展名。
+        /// 将字节写入指定路径的文件。
         /// </summary>
-        /// <param name="fileName">文件路径。</param>
-        /// <returns>文件的扩展名。</returns>
-        public static string GetFileExtName(string fileName)
+        /// <param name="path">文件路径。</param>
+        /// <param name="bytes">字节。</param>
+        public static void WriteAllBytes(string path, byte[] bytes)
         {
-            if (string.IsNullOrWhiteSpace(fileName))
-                return string.Empty;
+            if (string.IsNullOrWhiteSpace(path) || bytes == null || bytes.Length == 0)
+                return;
 
-            var index = fileName.LastIndexOf('.');
-            return fileName.Substring(index).ToLower();
+            EnsureFile(path);
+            File.WriteAllBytes(path, bytes);
+        }
+
+        /// <summary>
+        /// 将Base64码的字符串写入指定路径的文件。
+        /// </summary>
+        /// <param name="path">文件路径。</param>
+        /// <param name="content">Base64码的字符串。</param>
+        public static void WriteBase64String(string path, string content)
+        {
+            var bytes = Convert.FromBase64String(content);
+            WriteAllBytes(path, bytes);
         }
     }
 }
