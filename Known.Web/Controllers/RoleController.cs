@@ -1,4 +1,5 @@
-﻿using Known.Web.Mvc;
+﻿using Known.Core;
+using Known.Web.Mvc;
 using Known.Web.Services;
 
 namespace Known.Web.Controllers

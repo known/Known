@@ -163,7 +163,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validator.cs" />
     <Compile Include="Web\AllowAnonymousAttribute.cs" />
-    <Compile Include="Web\BaseController.cs" />
+    <Compile Include="Core\BaseController.cs" />
     <Compile Include="Web\Extensions\RouteExtension.cs" />
     <Compile Include="Web\ApiClient.cs" />
     <Compile Include="Web\ApiResult.cs" />
@@ -172,7 +172,7 @@
     <Compile Include="Web\CompressedContent.cs" />
     <Compile Include="Helpers\CompressionHelper.cs" />
     <Compile Include="Web\CompressionMethod.cs" />
-    <Compile Include="Web\CriteriaData.cs" />
+    <Compile Include="Core\CriteriaData.cs" />
     <Compile Include="Web\DecompressionHandler.cs" />
     <Compile Include="Web\DoNotTrackAttribute.cs" />
     <Compile Include="Web\Extensions\HttpContextExtension.cs" />
@@ -193,7 +193,7 @@
     <Compile Include="Web\Mvc\Controller.cs" />
     <Compile Include="Web\Mvc\ControllerContext.cs" />
     <Compile Include="Web\Mvc\ControllerInfo.cs" />
-    <Compile Include="Web\DocController.cs" />
+    <Compile Include="Core\DocController.cs" />
     <Compile Include="Web\Mvc\FileResult.cs" />
     <Compile Include="Web\Mvc\HttpModule.cs" />
     <Compile Include="Web\Mvc\SessionHandler.cs" />
