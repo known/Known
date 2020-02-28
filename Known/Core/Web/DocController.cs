@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Known.Web.Mvc;
 
-namespace Known.Core
+namespace Known.Core.Web
 {
     /// <summary>
     /// 文档控制器。

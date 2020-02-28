@@ -2,7 +2,7 @@
 using Known.Extensions;
 using Known.Web.Mvc;
 
-namespace Known.Core
+namespace Known.Core.Web
 {
     /// <summary>
     /// 业务控制器基类。
