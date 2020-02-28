@@ -109,7 +109,7 @@ namespace Known.Web.Mvc
                 return;
 
             var action = WebApp.GetAction(url);
-            if (action.Controller == null || action.Method == null)
+            if (action == null || action.Controller == null || action.Method == null)
             {
                 context.Response.Write($"{url}不存在！");
                 return;

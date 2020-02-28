@@ -28,7 +28,7 @@ namespace Known.Web.Mvc
 
                             foreach (var type in types)
                             {
-                                if (type.IsSubclassOf(typeof(Controller)))
+                                if (type.IsSubclassOf(typeof(Controller)) && !type.IsAbstract)
                                 {
                                     var info = ControllerInfo.Create(type);
                                     var methods = type.GetMethods();
@@ -41,7 +41,7 @@ namespace Known.Web.Mvc
                                         }
                                         info.Actions.Add(action);
                                     }
-                                    caches.Add(info.Name, info);
+                                    caches.Add(info.Name.ToLower(), info);
                                 }
                             }
                         }
@@ -63,26 +63,32 @@ namespace Known.Web.Mvc
             if (routes.ContainsKey(url))
                 return routes[url];
 
-            var action = new ActionInfo();
             var items = url.Split('/');
-            var controllerName = items.Length > 0 ? items[0] : "Home";
-            if (caches.ContainsKey(controllerName))
-                action.Controller = caches[controllerName].Type;
+            var controller = GetController(items);
+            if (controller == null)
+                return null;
 
-            if (action.Controller != null)
-            {
-                var actionName = items.Length > 1 ? items[1] : "Index";
-                action.Method = action.Controller.GetMethod(actionName);
-            }
+            var actionName = items.Length > 1 ? items[1] : "Index";
+            var action = controller.GetAction(actionName);
+            if (action == null)
+                return null;
 
             var id = items.Length > 2 ? items[2] : string.Empty;
             if (!string.IsNullOrWhiteSpace(id))
-            {
-                action.Datas = new Dictionary<string, object>();
-                action.Datas["id"] = id;
-            }
+                action.Datas = new Dictionary<string, object> { ["id"] = id };
 
             return action;
+        }
+
+        private static ControllerInfo GetController(string[] items)
+        {
+            var controllerName = items.Length > 0 ? items[0] : "Home";
+            controllerName = controllerName.ToLower();
+
+            if (!caches.ContainsKey(controllerName))
+                return null;
+
+            return caches[controllerName];
         }
     }
 }

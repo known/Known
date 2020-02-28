@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Known.Core;
 
@@ -31,6 +32,14 @@ namespace Known.Web.Mvc
         /// 取得控制器所有Action列表。
         /// </summary>
         public List<ActionInfo> Actions { get; }
+
+        internal ActionInfo GetAction(string name)
+        {
+            if (Actions == null || Actions.Count == 0)
+                return null;
+
+            return Actions.FirstOrDefault(a => a.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
 
         internal static ControllerInfo Create(Type type)
         {
