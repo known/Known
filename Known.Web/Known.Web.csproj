@@ -111,7 +111,7 @@
     <Content Include="static\login\images\web_login_bg.jpg" />
     <Content Include="static\login\login.css" />
     <Content Include="static\login\login.js" />
-    <EmbeddedResource Include="Views\Role\View.html" />
+    <EmbeddedResource Include="Views\System\RoleView.html" />
     <EmbeddedResource Include="Views\Home\Partials\Page.html" />
     <Content Include="Web.config" />
   </ItemGroup>

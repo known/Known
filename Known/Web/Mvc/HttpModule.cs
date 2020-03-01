@@ -131,7 +131,7 @@ namespace Known.Web.Mvc
                     action.Datas = queries.ToDictionary();
 
                 var obj = Activator.CreateInstance(action.Controller) as Controller;
-                obj.Context = new ControllerContext(context, action);
+                obj.InnerContext = new ControllerContext(context, action);
 
                 var result = InvokeAction(obj, action);
                 if (result != null)

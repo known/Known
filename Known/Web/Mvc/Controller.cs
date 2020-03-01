@@ -9,14 +9,14 @@ namespace Known.Web.Mvc
     /// </summary>
     public abstract class Controller
     {
-        internal ControllerContext Context { get; set; }
+        internal ControllerContext InnerContext { get; set; }
 
         /// <summary>
         /// 取得Http请求的用户登录信息。
         /// </summary>
         public IPrincipal User
         {
-            get { return Context.HttpContext.User; }
+            get { return InnerContext.HttpContext.User; }
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Known.Web.Mvc
         /// </summary>
         public HttpSessionState Session
         {
-            get { return Context.HttpContext.Session; }
+            get { return InnerContext.HttpContext.Session; }
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Known.Web.Mvc
         /// <returns>新页面。</returns>
         protected ActionResult Redirect(string url)
         {
-            Context.HttpContext.Response.Redirect(url);
+            InnerContext.HttpContext.Response.Redirect(url);
             return ActionResult.Empty;
         }
 
@@ -62,7 +62,7 @@ namespace Known.Web.Mvc
         /// <returns>字符串内容。</returns>
         protected ActionResult Content(string content, string mimeType = null)
         {
-            return new ContentResult(Context, content, mimeType);
+            return new ContentResult(InnerContext, content, mimeType);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Known.Web.Mvc
         /// <returns>页面视图。</returns>
         protected ActionResult View()
         {
-            return new ViewResult(Context);
+            return new ViewResult(InnerContext);
         }
 
         /// <summary>
@@ -92,9 +92,9 @@ namespace Known.Web.Mvc
         {
             if (!string.IsNullOrWhiteSpace(viewName))
             {
-                Context.ActionName = viewName.Replace("/", ".");
+                InnerContext.ActionName = viewName.Replace("/", ".");
             }
-            return new ViewResult(Context, true);
+            return new ViewResult(InnerContext, true);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Known.Web.Mvc
         /// <returns>文件结果。</returns>
         protected ActionResult File(byte[] content, string fileName, string mimeType = null)
         {
-            return new FileResult(Context, content, fileName, mimeType);
+            return new FileResult(InnerContext, content, fileName, mimeType);
         }
     }
 }

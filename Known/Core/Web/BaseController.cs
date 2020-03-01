@@ -12,7 +12,7 @@ namespace Known.Core.Web
         /// <summary>
         /// 取得应用程序上下文对象。
         /// </summary>
-        protected new Context Context
+        protected Context Context
         {
             get { return Context.Create(UserName); }
         }
@@ -33,6 +33,11 @@ namespace Known.Core.Web
         protected T LoadService<T>() where T : ServiceBase
         {
             return ObjectFactory.CreateService<T>(Context);
+        }
+
+        protected ActionResult GridView()
+        {
+            return new GridViewResult(InnerContext);
         }
 
         /// <summary>

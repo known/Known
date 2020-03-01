@@ -27,7 +27,33 @@ namespace Known.Web.Mvc
         /// </summary>
         public override void Execute()
         {
-            var text = "Hello World!";
+            var text = GetContent();
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                Context.HttpContext.Response.Write("Hello World!");
+                return;
+            }
+
+            var layout = string.Empty;
+            if (!isPartial && !text.Contains("<html>"))
+                layout = GetLayout(Context.Action.Controller.Assembly);
+
+            var parser = new ViewParser(text, layout);
+            lock (obj)
+            {
+                parser.Parse();
+            }
+
+            Context.HttpContext.Response.Write(parser.Html);
+        }
+
+        /// <summary>
+        /// 获取View页面内容。
+        /// </summary>
+        /// <returns>View页面内容。</returns>
+        protected virtual string GetContent()
+        {
+            var text = string.Empty;
             var assembly = Context.Action.Controller.Assembly;
             var names = assembly.GetManifestResourceNames();
             foreach (var item in names)
@@ -39,27 +65,21 @@ namespace Known.Web.Mvc
                 }
             }
 
-            var layout = string.Empty;
-            if (!isPartial && !text.Contains("<html>"))
-            {
-                var name = names.FirstOrDefault(n => n.Contains("Views.Layout"));
-                layout = GetContent(assembly, name);
-            }
+            return text;
+        }
 
-            var parser = new ViewParser(text, layout);
-            lock (obj)
-            {
-                parser.Parse();
-            }
-
-            Context.HttpContext.Response.Write(parser.Html);
+        private static string GetLayout(Assembly assembly)
+        {
+            var names = assembly.GetManifestResourceNames();
+            var name = names.FirstOrDefault(n => n.Contains("Views.Layout"));
+            return GetContent(assembly, name);
         }
 
         private static string GetContent(Assembly assembly, string name)
         {
-            var html = string.Empty;
+            var text = string.Empty;
             if (string.IsNullOrWhiteSpace(name))
-                return html;
+                return text;
 
             lock (obj)
             {
@@ -68,12 +88,12 @@ namespace Known.Web.Mvc
                 {
                     using (var sr = new StreamReader(stream))
                     {
-                        html = sr.ReadToEnd();
+                        text = sr.ReadToEnd();
                     }
                 }
             }
 
-            return html;
+            return text;
         }
     }
 }
