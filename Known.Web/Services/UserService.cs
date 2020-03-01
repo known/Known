@@ -8,7 +8,7 @@ namespace Known.Web.Services
 {
     public class UserService : CoreServiceBase
     {
-        public UserService(Context context) : base(context)
+        public UserService(AppContext context) : base(context)
         {
         }
 

@@ -63,7 +63,6 @@
     <Compile Include="Cells\AsposeExcel.cs" />
     <Compile Include="Cells\AsposeSheet.cs" />
     <Compile Include="Cells\AsposeSheetCell.cs" />
-    <Compile Include="Core\Web\GridViewResult.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Jobs\CheckResult.cs" />
@@ -101,7 +100,7 @@
     <Compile Include="Cache.cs" />
     <Compile Include="Cells\ImageSetting.cs" />
     <Compile Include="Container.cs" />
-    <Compile Include="Context.cs" />
+    <Compile Include="AppContext.cs" />
     <Compile Include="Mapping\ColumnInfo.cs" />
     <Compile Include="Data\Command.cs" />
     <Compile Include="Data\CommandHelper.cs" />
@@ -164,7 +163,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validator.cs" />
     <Compile Include="Web\AllowAnonymousAttribute.cs" />
-    <Compile Include="Core\Web\BaseController.cs" />
+    <Compile Include="Core\BaseController.cs" />
     <Compile Include="Web\Extensions\RouteExtension.cs" />
     <Compile Include="Web\ApiClient.cs" />
     <Compile Include="Web\ApiResult.cs" />
@@ -194,7 +193,7 @@
     <Compile Include="Web\Mvc\Controller.cs" />
     <Compile Include="Web\Mvc\ControllerContext.cs" />
     <Compile Include="Web\Mvc\ControllerInfo.cs" />
-    <Compile Include="Core\Web\DocController.cs" />
+    <Compile Include="Core\DocController.cs" />
     <Compile Include="Web\Mvc\FileResult.cs" />
     <Compile Include="Web\Mvc\HttpModule.cs" />
     <Compile Include="Web\Mvc\SessionHandler.cs" />
@@ -221,5 +220,6 @@
   <ItemGroup>
     <Content Include="Core\Tables.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -8,7 +8,7 @@ namespace Known.Web.Services
 {
     public class RoleService : CoreServiceBase
     {
-        public RoleService(Context context) : base(context)
+        public RoleService(AppContext context) : base(context)
         {
         }
 

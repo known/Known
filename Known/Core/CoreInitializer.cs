@@ -11,13 +11,13 @@ namespace Known.Core
         /// 初始化模块。
         /// </summary>
         /// <param name="context">程序上下文对象。</param>
-        public override void Initialize(Context context)
+        public override void Initialize(AppContext context)
         {
             InitPlatformRepository(context);
             InitCoreModule(context);
         }
 
-        private static void InitPlatformRepository(Context context)
+        private static void InitPlatformRepository(AppContext context)
         {
             //先判断外部是否已注册依赖
             var repository = Container.Resolve<IPlatformRepository>();
@@ -38,7 +38,7 @@ namespace Known.Core
             }
         }
 
-        private static void InitCoreModule(Context context)
+        private static void InitCoreModule(AppContext context)
         {
             var assembly = typeof(CoreInitializer).Assembly;
             EntityHelper.InitMapper(assembly);

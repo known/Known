@@ -14,7 +14,7 @@ namespace Known
         /// 初始化一个业务服务类实例。
         /// </summary>
         /// <param name="context">上下文对象。</param>
-        protected ServiceBase(Context context)
+        protected ServiceBase(AppContext context)
         {
             Context = context;
         }
@@ -22,7 +22,7 @@ namespace Known
         /// <summary>
         /// 取得上下文对象。
         /// </summary>
-        public Context Context { get; private set; }
+        public AppContext Context { get; private set; }
 
         /// <summary>
         /// 取得数据库访问对象。
@@ -32,7 +32,7 @@ namespace Known
             get { return Context.Database; }
         }
 
-        internal void SetContext(Context context)
+        internal void SetContext(AppContext context)
         {
             Context = context;
         }

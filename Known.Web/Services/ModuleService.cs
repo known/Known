@@ -8,7 +8,7 @@ namespace Known.Web.Services
 {
     public class ModuleService : CoreServiceBase
     {
-        public ModuleService(Context context) : base(context)
+        public ModuleService(AppContext context) : base(context)
         {
         }
 

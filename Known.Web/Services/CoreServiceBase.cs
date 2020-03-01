@@ -2,7 +2,7 @@
 {
     public abstract class CoreServiceBase : ServiceBase
     {
-        public CoreServiceBase(Context context) : base(context)
+        public CoreServiceBase(AppContext context) : base(context)
         {
         }
     }

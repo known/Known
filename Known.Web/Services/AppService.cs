@@ -6,7 +6,7 @@ namespace Known.Web.Services
 {
     public class AppService : ServiceBase
     {
-        public AppService(Context context) : base(context)
+        public AppService(AppContext context) : base(context)
         {
         }
 

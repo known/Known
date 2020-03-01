@@ -12,7 +12,7 @@ namespace Known.Tests
             var assembly = typeof(Program).Assembly;
             Container.Register<IJson, JsonProvider>();
             Container.Register<IDbProvider, TestDbProvider>();
-            Container.Register<ServiceBase>(assembly, Context.Create());
+            Container.Register<ServiceBase>(assembly, AppContext.Create());
             EntityHelper.InitMapper(assembly);
 
             RunTest(assembly);

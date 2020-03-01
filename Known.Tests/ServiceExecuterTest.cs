@@ -7,7 +7,7 @@ namespace Known.Tests
         public static void Execute()
         {
             Container.Remove<ServiceBase>();
-            Container.Register<ServiceBase>(typeof(Program).Assembly, Context.Create());
+            Container.Register<ServiceBase>(typeof(Program).Assembly, AppContext.Create());
 
             var executer = new ServiceExecuter("Known", "Context", "SayHello");
             var value = executer.Execute(null);

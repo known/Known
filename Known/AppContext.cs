@@ -8,20 +8,20 @@ namespace Known
     /// <summary>
     /// 应用程序上下文类型。
     /// </summary>
-    public class Context
+    public class AppContext
     {
         /// <summary>
         /// 初始化一个应用程序上下文类型实例。
         /// </summary>
         /// <param name="logger">日志对象。</param>
-        public Context(ILogger logger) : this(null, logger) { }
+        public AppContext(ILogger logger) : this(null, logger) { }
 
         /// <summary>
         /// 初始化一个应用程序上下文类型实例。
         /// </summary>
         /// <param name="database">数据库访问对象。</param>
         /// <param name="logger">日志对象。</param>
-        public Context(Database database, ILogger logger) : this(database, logger, null) { }
+        public AppContext(Database database, ILogger logger) : this(database, logger, null) { }
 
         /// <summary>
         /// 初始化一个应用程序上下文类型实例。
@@ -29,7 +29,7 @@ namespace Known
         /// <param name="database">数据库访问对象。</param>
         /// <param name="logger">日志对象。</param>
         /// <param name="userName">当前用户名。</param>
-        public Context(Database database, ILogger logger, string userName)
+        public AppContext(Database database, ILogger logger, string userName)
         {
             if (database != null)
             {
@@ -77,11 +77,11 @@ namespace Known
         /// </summary>
         /// <param name="userName">当前用户名。</param>
         /// <returns>上下文对象实例。</returns>
-        public static Context Create(string userName = null)
+        public static AppContext Create(string userName = null)
         {
             var database = new Database();
             var logger = new FileLogger();
-            return new Context(database, logger, userName);
+            return new AppContext(database, logger, userName);
         }
     }
 

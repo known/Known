@@ -9,6 +9,6 @@
         /// 初始化模块。
         /// </summary>
         /// <param name="context">程序上下文对象。</param>
-        public abstract void Initialize(Context context);
+        public abstract void Initialize(AppContext context);
     }
 }

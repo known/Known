@@ -1,6 +1,6 @@
 ﻿using Known.Web.Mvc;
 
-namespace Known.Core.Web
+namespace Known.Web
 {
     /// <summary>
     /// 网格视图结果类。

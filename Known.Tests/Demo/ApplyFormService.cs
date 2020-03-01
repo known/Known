@@ -7,7 +7,7 @@ namespace Known.Tests.Demo
 {
     public class ApplyFormService : ServiceBase
     {
-        public ApplyFormService(Context context) : base(context)
+        public ApplyFormService(AppContext context) : base(context)
         {
         }
 

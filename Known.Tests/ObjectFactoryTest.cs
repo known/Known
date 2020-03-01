@@ -4,7 +4,7 @@
     {
         public static void CreateService()
         {
-            var context = Context.Create();
+            var context = AppContext.Create();
             var service = ObjectFactory.CreateService<ContextService>(context);
             TestAssert.IsNotNull(service);
             TestAssert.IsInstanceOf<ContextService>(service);

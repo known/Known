@@ -7,7 +7,7 @@ namespace Known.Tests
     {
         public static void Constructor1()
         {
-            var context = new Context(new ConsoleLogger());
+            var context = new AppContext(new ConsoleLogger());
             TestAssert.IsNotNull(context.Logger);
             TestAssert.IsNull(context.Database);
             TestAssert.IsNull(context.UserName);
@@ -16,7 +16,7 @@ namespace Known.Tests
 
         public static void Constructor2()
         {
-            var context = new Context(new Database(), new ConsoleLogger());
+            var context = new AppContext(new Database(), new ConsoleLogger());
             TestAssert.IsNotNull(context.Logger);
             TestAssert.IsNotNull(context.Database);
             TestAssert.IsNull(context.UserName);
@@ -25,7 +25,7 @@ namespace Known.Tests
 
         public static void Constructor3()
         {
-            var context = new Context(new Database(), new ConsoleLogger(), "Known");
+            var context = new AppContext(new Database(), new ConsoleLogger(), "Known");
             TestAssert.IsNotNull(context.Logger);
             TestAssert.IsNotNull(context.Database);
             TestAssert.IsNotNull(context.UserName);
@@ -36,7 +36,7 @@ namespace Known.Tests
 
         public static void DynamicParam()
         {
-            var context = new Context(new ConsoleLogger());
+            var context = new AppContext(new ConsoleLogger());
             context.Parameter.Id = 1;
             context.Parameter.Name = "Known";
             TestAssert.IsNotNull(context.Parameter);
@@ -46,7 +46,7 @@ namespace Known.Tests
 
         public static void Create()
         {
-            var context = Context.Create();
+            var context = AppContext.Create();
 
             TestAssert.IsNotNull(context);
             TestAssert.IsNotNull(context.Logger);
@@ -57,7 +57,7 @@ namespace Known.Tests
 
         public static void CreateWithArg()
         {
-            var context = Context.Create("Known");
+            var context = AppContext.Create("Known");
 
             TestAssert.IsNotNull(context);
             TestAssert.IsNotNull(context.Logger);

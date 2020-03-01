@@ -2,7 +2,7 @@
 using Known.Extensions;
 using Known.Web.Mvc;
 
-namespace Known.Core.Web
+namespace Known.Core
 {
     /// <summary>
     /// 业务控制器基类。
@@ -12,9 +12,9 @@ namespace Known.Core.Web
         /// <summary>
         /// 取得应用程序上下文对象。
         /// </summary>
-        protected Context Context
+        protected AppContext AppContext
         {
-            get { return Context.Create(UserName); }
+            get { return AppContext.Create(UserName); }
         }
 
         /// <summary>
@@ -32,12 +32,7 @@ namespace Known.Core.Web
         /// <returns>服务类型对象。</returns>
         protected T LoadService<T>() where T : ServiceBase
         {
-            return ObjectFactory.CreateService<T>(Context);
-        }
-
-        protected ActionResult GridView()
-        {
-            return new GridViewResult(InnerContext);
+            return ObjectFactory.CreateService<T>(AppContext);
         }
 
         /// <summary>

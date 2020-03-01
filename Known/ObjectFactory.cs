@@ -13,7 +13,7 @@ namespace Known
         /// <typeparam name="T">服务对象类型。</typeparam>
         /// <param name="context">上下文对象，用于构造函数参数。</param>
         /// <returns>泛型服务对象。</returns>
-        public static T CreateService<T>(Context context) where T : ServiceBase
+        public static T CreateService<T>(AppContext context) where T : ServiceBase
         {
             var service = Container.Resolve<T>();
             if (service == null)

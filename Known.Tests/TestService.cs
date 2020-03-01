@@ -55,7 +55,7 @@ namespace Known.Tests
 
     public class ContextService : ServiceBase
     {
-        public ContextService(Context context) : base(context)
+        public ContextService(AppContext context) : base(context)
         {
         }
 
