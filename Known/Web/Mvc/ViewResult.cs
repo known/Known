@@ -27,7 +27,8 @@ namespace Known.Web.Mvc
         /// </summary>
         public override void Execute()
         {
-            var text = GetContent();
+            var assembly = Context.Action.Controller.Assembly;
+            var text = GetContent(assembly);
             if (string.IsNullOrWhiteSpace(text))
             {
                 Context.HttpContext.Response.Write("Hello World!");
@@ -36,7 +37,7 @@ namespace Known.Web.Mvc
 
             var layout = string.Empty;
             if (!isPartial && !text.Contains("<html>"))
-                layout = GetLayout(Context.Action.Controller.Assembly);
+                layout = GetResource(assembly, "Views.Layout");
 
             var parser = new ViewParser(text, layout);
             lock (obj)
@@ -50,34 +51,28 @@ namespace Known.Web.Mvc
         /// <summary>
         /// 获取View页面内容。
         /// </summary>
+        /// <param name="assembly">程序集。</param>
         /// <returns>View页面内容。</returns>
-        protected virtual string GetContent()
+        protected virtual string GetContent(Assembly assembly)
         {
-            var text = string.Empty;
-            var assembly = Context.Action.Controller.Assembly;
-            var names = assembly.GetManifestResourceNames();
-            foreach (var item in names)
-            {
-                if (item.Contains($"{Context.ControllerName}.{Context.ActionName}."))
-                {
-                    text = GetContent(assembly, item);
-                    break;
-                }
-            }
-
-            return text;
+            var name = $"{Context.ControllerName}.{Context.ActionName}";
+            return GetResource(assembly, name);
         }
 
-        private static string GetLayout(Assembly assembly)
-        {
-            var names = assembly.GetManifestResourceNames();
-            var name = names.FirstOrDefault(n => n.Contains("Views.Layout"));
-            return GetContent(assembly, name);
-        }
-
-        private static string GetContent(Assembly assembly, string name)
+        /// <summary>
+        /// 获取程序集资源文件内容。
+        /// </summary>
+        /// <param name="assembly">程序集。</param>
+        /// <param name="name">资源名称。</param>
+        /// <returns>资源文件内容。</returns>
+        protected static string GetResource(Assembly assembly, string name)
         {
             var text = string.Empty;
+            if (string.IsNullOrWhiteSpace(name))
+                return text;
+
+            var names = assembly.GetManifestResourceNames();
+            name = names.FirstOrDefault(n => n.Contains(name));
             if (string.IsNullOrWhiteSpace(name))
                 return text;
 

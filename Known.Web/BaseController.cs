@@ -8,5 +8,10 @@ namespace Known.Web
         {
             return new GridViewResult(Context);
         }
+
+        protected ActionResult PartialGridView()
+        {
+            return new GridViewResult(Context, true);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Known.Web.Mvc;
+﻿using System.Reflection;
+using Known.Web.Mvc;
 
 namespace Known.Web
 {
@@ -19,10 +20,11 @@ namespace Known.Web
         /// <summary>
         /// 获取View页面内容。
         /// </summary>
+        /// <param name="assembly">程序集。</param>
         /// <returns>View页面内容。</returns>
-        protected override string GetContent()
+        protected override string GetContent(Assembly assembly)
         {
-            return "<h1>GridViewResult</h1>";
+            return GetResource(assembly, "Shared.GridView");
         }
     }
 }
