@@ -28,21 +28,24 @@ namespace Known.Web.Mvc
 
                             foreach (var type in types)
                             {
-                                if (type.IsSubclassOf(typeof(Controller)) && !type.IsAbstract)
+                                if (!type.IsSubclassOf(typeof(Controller)) || type.IsAbstract)
+                                    continue;
+
+                                var info = ControllerInfo.Create(type);
+                                var methods = type.GetMethods();
+                                foreach (var method in methods)
                                 {
-                                    var info = ControllerInfo.Create(type);
-                                    var methods = type.GetMethods();
-                                    foreach (var method in methods)
+                                    if (method.ReturnType != typeof(ActionResult))
+                                        continue;
+
+                                    var action = ActionInfo.Create(info, method);
+                                    if (action.Route != null)
                                     {
-                                        var action = ActionInfo.Create(info, method);
-                                        if (action.Route != null)
-                                        {
-                                            routes.Add(action.Route.Name, action);
-                                        }
-                                        info.Actions.Add(action);
+                                        routes.Add(action.Route.Name, action);
                                     }
-                                    caches.Add(info.Name.ToLower(), info);
+                                    info.Actions.Add(action);
                                 }
+                                caches.Add(info.Name.ToLower(), info);
                             }
                         }
                     }

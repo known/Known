@@ -28,12 +28,18 @@ namespace Known.Core.Web
 
             var contollers = WebApp.GetControllers();
             if (contollers == null || contollers.Count == 0)
-                return string.Empty;
+                return sb.ToString();
 
-            foreach (var item in contollers)
+            foreach (var item in contollers.Values)
             {
                 sb.AppendLine("<div>");
-                sb.AppendLine($"<h2>{item.Key}</h2>");
+                sb.AppendLine($"<h2>{item.Name}Controller</h2>");
+                foreach (var action in item.Actions)
+                {
+                    sb.AppendLine("<div>");
+                    sb.AppendLine($"<h3>{action.Name}</h3>");
+                    sb.AppendLine("</div>");
+                }
                 sb.AppendLine("</div>");
             }
 
