@@ -151,6 +151,7 @@
     <Content Include="static\libs\font-awesome\fonts\FontAwesome.otf" />
     <EmbeddedResource Include="Views\Home\Index.html" />
     <EmbeddedResource Include="Views\Home\Login.html" />
+    <Content Include="static\data\products.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

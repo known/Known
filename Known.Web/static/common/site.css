@@ -149,3 +149,30 @@ a {
 .l-btn-text {
     line-height: 24px;
 }
+
+.l-btn-icon, .panel-icon, .menu-icon, .tabs-icon {
+    font-family: FontAwesome;
+    font-size: 14px !important;
+    line-height: normal !important;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #6699cc;
+    text-align: center;
+    margin-top: -7px;
+}
+
+.tabs-icon {
+    font-size: 16px !important;
+    font-weight: normal;
+}
+
+/*easyui grid*/
+.datagrid-header {
+    background-color: #e5e5e5;
+}
+
+    .datagrid-header .datagrid-cell, .datagrid-cell-group {
+        color: #333;
+        font-weight: bold;
+    }
