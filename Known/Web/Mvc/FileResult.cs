@@ -1,4 +1,7 @@
-﻿namespace Known.Web.Mvc
+﻿using System.Web;
+using Known.Web.Extensions;
+
+namespace Known.Web.Mvc
 {
     /// <summary>
     /// 文件结果类。
@@ -28,7 +31,12 @@
         /// </summary>
         public override void Execute()
         {
+            var request = Context.HttpContext.Request;
             var response = Context.HttpContext.Response;
+            var token = request.Get<string>("downloadToken");
+            if (!string.IsNullOrWhiteSpace(token))
+                response.SetCookie(new HttpCookie("downloadToken", token));
+
             response.AddHeader("Content-Disposition", $"filename={fileName}");
             response.ContentType = mimeType;
             response.BinaryWrite(content);

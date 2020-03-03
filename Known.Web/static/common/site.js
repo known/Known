@@ -119,6 +119,31 @@ var Ajax = {
                 callback && callback(d);
             });
         });
+    },
+
+    download: function (url, data, callback) {
+        var tokenKey = 'downloadToken';
+        var tokenValue = guid();
+        function loading() {
+            Message.mask('文件下载中，请稍后......');
+            var downloadTimer = window.setInterval(function () {
+                var token = $.cookie(tokenKey);
+                if (token === tokenValue) {
+                    window.clearInterval(downloadTimer);
+                    Message.unmask();
+                    callback && callback();
+                }
+            }, 1000);
+        }
+        var form = $('<form>').attr({ style: 'display:none', target: '', method: 'post', action: url }).appendTo('body');
+        $('<input>').attr({ type: 'hidden', name: tokenKey, value: tokenValue }).appendTo(form);
+        if (data) {
+            for (var p in data) {
+                $('<input>').attr({ type: 'hidden', name: p, value: data[p] }).appendTo(form);
+            }
+        }
+        form.submit();
+        loading();
     }
 
 };
@@ -355,6 +380,16 @@ var Message = {
         setTimeout(function () {
             $.messager.progress('close');
         }, 5000);
+    },
+
+    mask: function (message) {
+        $.messager.progress({
+            msg: message
+        });
+    },
+
+    unmask: function () {
+        $.messager.progress('close');
     }
 
 };
