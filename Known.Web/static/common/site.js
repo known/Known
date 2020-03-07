@@ -226,165 +226,40 @@ var Toolbar = {
 };
 
 //---------------------------message------------------------------------------//
-var Message1 = {
-
-    mask: function (message, el) {
-        mini.mask({
-            el: el || document.body,
-            cls: 'mini-mask-loading',
-            html: message
-        });
-    },
-
-    unmask: function (el) {
-        mini.unmask(el || document.body);
-    },
-
-    alert: function (message, callback) {
-        message = message.htmlEncode();
-        mini.alert(message, '提示', function (action) {
-            if (action === 'ok') {
-                callback && callback();
-            }
-        });
-    },
-
-    error: function (message, callback) {
-        mini.showMessageBox({
-            title: '错误',
-            message: '<span style="padding-left:10px;">' + message + '</span>',
-            buttons: ['ok'],
-            iconCls: 'mini-messagebox-error',
-            callback: function (action) {
-                if (action === 'ok') {
-                    callback && callback();
-                }
-            }
-        });
-    },
-
-    confirm: function (message, callback) {
-        message = message.htmlEncode();
-        mini.confirm(message, '确认提示', function (action) {
-            if (action === 'ok') {
-                callback && callback();
-            }
-        });
-    },
-
-    prompt: function (label, title, callback) {
-        mini.prompt(label, title, function (action, value) {
-            if (action === 'ok') {
-                callback && callback(value);
-            }
-        });
-    },
-
-    promptMulti: function (label, title, callback) {
-        mini.prompt(label, title, function (action, value) {
-            if (action === 'ok') {
-                callback && callback(value);
-            }
-        }, true);
-    },
-
-    tips: function (option) {
-        if (typeof option === 'string')
-            option = { content: option };
-
-        mini.showTips({
-            content: option.content,
-            state: option.state || 'info',
-            x: option.x || 'center',
-            y: option.y || 'top',
-            timeout: option.timeout || 3000
-        });
-    },
-
-    notify: function (option) {
-        mini.showMessageBox({
-            showModal: false,
-            width: option.width || 250,
-            title: option.title || '提示',
-            iconCls: option.iconCls || 'mini-messagebox-warning',
-            message: option.message,
-            timeout: option.timeout || 3000,
-            x: option.x || 'right',
-            y: option.y || 'bottom'
-        });
-    },
-
-    result: function (res, callback) {
-        this.unmask();
-
-        if (!res.ok) {
-            this.alert(res.message);
-            return;
-        }
-
-        if (res.message) {
-            this.tips(res.message);
-        }
-
-        callback && callback(res.data);
-    }
-
-};
 var Message = {
 
-    show: function () {
-        $.messager.show({
-            title: 'My Title',
-            msg: 'Message will be closed after 4 seconds.',
-            showType: 'show'
-        });
-
-        $.messager.show({
-            title: 'My Title',
-            msg: 'Message will be closed after 5 seconds.',
-            timeout: 5000,
-            showType: 'slide'
-        });
-
-        $.messager.show({
-            title: 'My Title',
-            msg: 'Message never be closed.',
-            timeout: 0,
-            showType: 'fade'
-        });
+    show: function (option) {
+        $.messager.show(option);
     },
 
-    alert: function (message) {
-        $.messager.alert('提示', message, 'info');
+    alert: function (message, icon, callback) {
+        icon = icon || 'info';
+        $.messager.alert('提示', message, icon, callback);
+    },
+
+    warning: function (message) {
+        $.messager.alert('警告', message, 'warning');
+    },
+
+    error: function (message) {
+        $.messager.alert('错误', message, 'error');
     },
 
     confirm: function (message, callback) {
-        $.messager.confirm('确认提示', message, function (r) {
-            callback && callback(r);
+        $.messager.confirm('确认', message, function (r) {
+            r && callback && callback(r);
         });
     },
 
-    prompt: function () {
-        $.messager.prompt('提示', 'Please enter your name:', function (r) {
-            if (r) {
-                alert('Your name is:' + r);
-            }
+    prompt: function (message, callback) {
+        $.messager.prompt('提示', message, function (r) {
+            r && callback && callback(r);
         });
-    },
-
-    progress: function () {
-        $.messager.progress({
-            title: 'Please waiting',
-            msg: 'Loading data...'
-        });
-        setTimeout(function () {
-            $.messager.progress('close');
-        }, 5000);
     },
 
     mask: function (message) {
         $.messager.progress({
-            msg: message
+            text: message
         });
     },
 

@@ -1,1 +1,51 @@
-﻿<h1>Hello RoleView!</h1>
+﻿<template>
+    <h1>Hello RoleView!</h1>
+    <div style="padding-bottom:2px;border-bottom:1px solid #dfdfdf;">
+        <a class="easyui-linkbutton" plain="true" iconCls="fa-refresh" onclick="Test.show()">show</a>
+        <a class="easyui-linkbutton" plain="true" iconCls="fa-plus" onclick="Test.alert()">alert</a>
+        <a class="easyui-linkbutton" plain="true" iconCls="fa-pencil" onclick="Test.confirm()">confirm</a>
+        <a class="easyui-linkbutton" plain="true" iconCls="fa-check" onclick="Test.prompt()">prompt</a>
+        <a class="easyui-linkbutton" plain="true" iconCls="fa-minus" onclick="Test.progress()">progress</a>
+    </div>
+</template>
+
+<template id="script">
+    <script>
+        var Test = {
+            show: function () {
+                Message.show({
+                    title: 'Title',
+                    msg: 'Message showType:slide、fade、show',
+                    width: 200, height: 100,
+                    showType: 'fade', showSpeed: 1000, timeout: 0,
+                    style: {
+                    }
+                });
+            },
+            alert: function () {
+                Message.alert('message! icon:error、question、info、warning');
+                Message.alert('message!', 'question', function (r) {
+                    alert(r);
+                });
+                Message.warning('warning!');
+                Message.error('error!');
+            },
+            confirm: function () {
+                Message.confirm('Confirm?', function (r) {
+                    alert(r);
+                });
+            },
+            prompt: function () {
+                Message.prompt('Please Input：', function (r) {
+                    alert(r);
+                });
+            },
+            progress: function () {
+                Message.mask('Loading......');
+                setTimeout(function () {
+                    Message.unmask();
+                }, 5000);
+            }
+        }
+    </script>
+</template>
