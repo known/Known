@@ -1,18 +1,18 @@
 ﻿<template>
     <h1>Hello RoleView!</h1>
-    <div style="padding-bottom:2px;border-bottom:1px solid #dfdfdf;">
-        <a class="easyui-linkbutton" plain="true" iconCls="fa-refresh" onclick="Test.show()">show</a>
-        <a class="easyui-linkbutton" plain="true" iconCls="fa-plus" onclick="Test.alert()">alert</a>
-        <a class="easyui-linkbutton" plain="true" iconCls="fa-pencil" onclick="Test.confirm()">confirm</a>
-        <a class="easyui-linkbutton" plain="true" iconCls="fa-check" onclick="Test.prompt()">prompt</a>
-        <a class="easyui-linkbutton" plain="true" iconCls="fa-minus" onclick="Test.progress()">progress</a>
+    <div id="tb" style="padding-bottom:2px;border-bottom:1px solid #dfdfdf;">
+        <a class="easyui-linkbutton" plain="true" id="test" iconCls="fa-refresh">show</a>
+        <a class="easyui-linkbutton" plain="true" id="alert" iconCls="fa-plus">alert</a>
+        <a class="easyui-linkbutton" plain="true" id="confirm" iconCls="fa-pencil">confirm</a>
+        <a class="easyui-linkbutton" plain="true" id="prompt" iconCls="fa-check">prompt</a>
+        <a class="easyui-linkbutton" plain="true" id="mask" iconCls="fa-minus">progress</a>
     </div>
 </template>
 
 <template id="script">
     <script>
-        var Test = {
-            show: function () {
+        Toolbar.bind('tb', {
+            test: function () {
                 Message.show({
                     title: 'Title',
                     msg: 'Message showType:slide、fade、show',
@@ -40,12 +40,12 @@
                     alert(r);
                 });
             },
-            progress: function () {
+            mask: function () {
                 Message.mask('Loading......');
                 setTimeout(function () {
                     Message.unmask();
                 }, 5000);
             }
-        }
+        });
     </script>
 </template>
