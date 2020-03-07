@@ -12,6 +12,7 @@
             ApiPlatformUrl = Config.AppSetting("ApiPlatformUrl");
             ApiBaseUrl = Config.AppSetting("ApiBaseUrl");
             IsApiValidRequest = Config.AppSetting<bool>("IsApiValidRequest", false);
+            IsDebug = Config.AppSetting<bool>("IsDebug", false);
             SmtpServer = Config.AppSetting("SmtpServer");
             SmtpPort = Config.AppSetting<int>("SmtpPort");
             SmtpFromName = Config.AppSetting("SmtpFromName");
@@ -44,6 +45,11 @@
         /// 取得当前应用程序 Api 请求时是否验证请求参数签名信息。
         /// </summary>
         public static bool IsApiValidRequest { get; }
+
+        /// <summary>
+        /// 取得当前应用程序是否Debug模式，默认否。
+        /// </summary>
+        public static bool IsDebug { get; }
 
         /// <summary>
         /// 取得当前应用程序是否是单机版。

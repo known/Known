@@ -65,7 +65,8 @@ namespace Known.Web.Mvc
         private static string GetScript(string text)
         {
             var script = text.SubString("<template id=\"script\">", "</template>");
-            script = JavaScriptMinifier.Minify(script).ToString() + Environment.NewLine;
+            if (!Setting.IsDebug)
+                script = JavaScriptMinifier.Minify(script).ToString() + Environment.NewLine;
             return script;
         }
     }
