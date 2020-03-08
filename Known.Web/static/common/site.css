@@ -119,8 +119,14 @@ a {
         padding: 5px 10px;
     }
 
+        .window .window-header .panel-icon {
+            margin-left: 5px;
+            margin-top: -6px;
+        }
+
         .window .window-header .panel-tool {
             right: 5px;
+            margin-top: -8px;
         }
 
     .window .window-body {
@@ -138,10 +144,6 @@ a {
     border-bottom-width: 0;
 }
 
-.panel-icon {
-    margin-top: -6px;
-}
-
 .messager-button .l-btn {
     width: 60px;
 }
@@ -150,7 +152,7 @@ a {
     line-height: 24px;
 }
 
-.l-btn-icon, .panel-icon, .menu-icon, .tabs-icon {
+.panel-tool, .l-btn-icon, .panel-icon, .menu-icon, .tabs-icon {
     font-family: FontAwesome;
     font-size: 14px !important;
     line-height: normal !important;
@@ -166,6 +168,54 @@ a {
     font-size: 16px !important;
     font-weight: normal;
 }
+
+.panel-tool-collapse,
+.panel-tool-expand,
+.panel-tool-restore,
+.panel-tool-min,
+.panel-tool-max,
+.panel-tool-close {
+    color: #404040;
+    background: none;
+}
+
+.panel-tool-close {
+    color: #f00;
+}
+
+.panel-tool-collapse:before {
+    content: "\f0de";
+}
+
+.panel-tool-expand:before {
+    content: "\f0dd";
+}
+
+.panel-tool-restore:before {
+    content: "\f2d2";
+}
+
+.panel-tool-min:before {
+    content: "\f2d1";
+}
+
+.panel-tool-max:before {
+    content: "\f2d0";
+}
+
+.panel-tool-close:before {
+    content: "\f2d3";
+}
+
+/*easyui dialog*/
+.dialog .window-header {
+    background-color: #48baba;
+}
+
+    .dialog .window-header .panel-title,
+    .dialog .window-header .panel-icon {
+        color: #fff;
+    }
 
 /*easyui grid*/
 .datagrid-header {

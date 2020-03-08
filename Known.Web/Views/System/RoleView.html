@@ -9,7 +9,7 @@
         <a class="easyui-linkbutton" plain="true" id="mask" iconCls="fa-minus">progress</a>
         <a class="easyui-linkbutton" plain="true" id="dialog" iconCls="fa-minus">dialog</a>
     </div>
-    <div id="dd">Dialog Content.</div>
+    <div id="dd" style="display:none;">Dialog Content.</div>
 </template>
 
 <template id="script">
@@ -62,7 +62,10 @@
                 }, 5000);
             },
             dialog: function () {
-
+                Dialog.show({ id: 'dd', title: '测试', height: '300px' });
+                //setTimeout(function () {
+                //    Dialog.close('dd');
+                //}, 5000);
             }
         });
     </script>
