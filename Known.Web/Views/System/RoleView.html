@@ -2,11 +2,14 @@
     <h1>Hello RoleView!</h1>
     <div id="tb" style="padding-bottom:2px;border-bottom:1px solid #dfdfdf;">
         <a class="easyui-linkbutton" plain="true" id="test" iconCls="fa-refresh">show</a>
+        <a class="easyui-linkbutton" plain="true" id="tip" iconCls="fa-refresh">tip</a>
         <a class="easyui-linkbutton" plain="true" id="alert" iconCls="fa-plus">alert</a>
         <a class="easyui-linkbutton" plain="true" id="confirm" iconCls="fa-pencil">confirm</a>
         <a class="easyui-linkbutton" plain="true" id="prompt" iconCls="fa-check">prompt</a>
         <a class="easyui-linkbutton" plain="true" id="mask" iconCls="fa-minus">progress</a>
+        <a class="easyui-linkbutton" plain="true" id="dialog" iconCls="fa-minus">dialog</a>
     </div>
+    <div id="dd">Dialog Content.</div>
 </template>
 
 <template id="script">
@@ -16,11 +19,23 @@
                 Message.show({
                     title: 'Title',
                     msg: 'Message showType:slide、fade、show',
-                    width: 200, height: 100,
+                    width: '300px', height: '100px',
                     showType: 'fade', showSpeed: 1000, timeout: 0,
                     style: {
                     }
                 });
+            },
+            tip: function () {
+                Message.tip('0.default');
+                Message.tip('1.topLeft', 'topLeft');
+                Message.tip('2.topCenter', 'topCenter');
+                Message.tip('3.topRight', 'topRight');
+                Message.tip('4.centerLeft', 'centerLeft');
+                Message.tip('5.center', 'center');
+                Message.tip('6.centerRight', 'centerRight');
+                Message.tip('7.bottomLeft', 'bottomLeft');
+                Message.tip('8.bottomCenter', 'bottomCenter');
+                Message.tip('9.bottomRight', 'bottomRight');
             },
             alert: function () {
                 Message.alert('message! icon:error、question、info、warning');
@@ -32,12 +47,12 @@
             },
             confirm: function () {
                 Message.confirm('Confirm?', function (r) {
-                    alert(r);
+                    Message.alert(r);
                 });
             },
             prompt: function () {
                 Message.prompt('Please Input：', function (r) {
-                    alert(r);
+                    Message.alert(r);
                 });
             },
             mask: function () {
@@ -45,6 +60,9 @@
                 setTimeout(function () {
                     Message.unmask();
                 }, 5000);
+            },
+            dialog: function () {
+
             }
         });
     </script>

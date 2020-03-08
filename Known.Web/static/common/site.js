@@ -114,7 +114,9 @@ var Ajax = {
 
     action: function (name, url, data, callback) {
         Message.mask('数据' + name + '中...');
-        Ajax.postJson(url, { '': JSON.stringify(data) }, function (result) {
+        //data = { '': JSON.stringify(data) };
+        Ajax.postJson(url, data, function (result) {
+            Message.unmask();
             Message.result(result, function (d) {
                 callback && callback(d);
             });
@@ -201,20 +203,55 @@ var Url = {
 var Message = {
 
     show: function (option) {
-        $.messager.show(option);
+        var options = $.extend({
+            width: '300px', height: 'auto', showType: 'fade'
+        }, option);
+        $.messager.show(options);
     },
 
-    alert: function (message, icon, callback) {
-        icon = icon || 'info';
+    tip: function (message, position = 'topCenter', showType = 'slide') {
+        var style, bt = document.body.scrollTop, dt = document.documentElement.scrollTop;
+        switch (position) {
+            case 'topLeft':
+                style = { top: bt + bt, bottom: '', left: 0, right: '' };
+                break;
+            case 'topCenter':
+                style = { top: bt + dt, bottom: '', right: '' };
+                break;
+            case 'topRight':
+                style = { top: bt + dt, bottom: '', left: '', right: 0 };
+                break;
+            case 'centerLeft':
+                style = { bottom: '', left: 0, right: '' };
+                break;
+            case 'center':
+                style = { bottom: '', right: '' };
+                break;
+            case 'centerRight':
+                style = { bottom: '', left: '', right: 0 };
+                break;
+            case 'bottomLeft':
+                style = { top: '', bottom: -bt - dt, left: 0, right: '' };
+                break;
+            case 'bottomCenter':
+                style = { top: '', bottom: -bt - dt, right: '' };
+                break;
+            case 'bottomRight':
+                break;
+        }
+        this.show({ msg: message, width: '250px', showType: showType, style: style });
+    },
+
+    alert: function (message, icon = 'info', callback) {
         $.messager.alert('提示', message, icon, callback);
     },
 
-    warning: function (message) {
-        $.messager.alert('警告', message, 'warning');
+    warning: function (message, callback) {
+        $.messager.alert('警告', message, 'warning', callback);
     },
 
-    error: function (message) {
-        $.messager.alert('错误', message, 'error');
+    error: function (message, callback) {
+        $.messager.alert('错误', message, 'error', callback);
     },
 
     confirm: function (message, callback) {
@@ -230,13 +267,22 @@ var Message = {
     },
 
     mask: function (message) {
-        $.messager.progress({
-            text: message
-        });
+        $.messager.progress({ text: message });
     },
 
     unmask: function () {
         $.messager.progress('close');
+    },
+
+    result: function (rtn, callback) {
+        if (!rtn.ok) {
+            this.error(rtn.message, function () {
+                callback && callback(rtn.data);
+            });
+        } else {
+            this.tip(rtn.message);
+            callback && callback(rtn.data);
+        }
     }
 
 };
@@ -280,7 +326,16 @@ var Dialog = {
             return win;
         }
 
-        var dialog = mini.get('dialog');
+        var dialog = $('#dd').dialog({
+            title: 'My Dialog',
+            width: 400,
+            height: 200,
+            closed: false,
+            cache: false,
+            href: 'get_content.php',
+            modal: true
+        });
+
         dialog.setTitle(option.title);
         dialog.setIconCls(option.iconCls || 'fa-windows');
         dialog.setWidth(option.width || 500);
@@ -302,7 +357,7 @@ var Dialog = {
             );
         }
 
-        return dialog;
+        return dialog.dialog('dialog');
     },
 
     open: function (option) {
