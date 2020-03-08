@@ -184,11 +184,11 @@ a {
 }
 
 .panel-tool-collapse:before {
-    content: "\f0de";
+    content: "\f077";
 }
 
 .panel-tool-expand:before {
-    content: "\f0dd";
+    content: "\f078";
 }
 
 .panel-tool-restore:before {
@@ -204,12 +204,13 @@ a {
 }
 
 .panel-tool-close:before {
-    content: "\f2d3";
+    font-size: 16px;
+    content: "\f00d";
 }
 
 /*easyui dialog*/
 .dialog .window-header {
-    background-color: #48baba;
+    background-color: #3c8dbc;
 }
 
     .dialog .window-header .panel-title,
