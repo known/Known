@@ -1,4 +1,108 @@
 ﻿<template>
+    <table id="gridRole"></table>
+    <div id="dialogRole" style="display:none;">
+        <div id="layoutRole" class="easyui-layout" style="width:100%;height:100%;">
+            <div data-options="region:'west'" style="width:250px;">
+                <table id="ff" class="form">
+                    <tr>
+                        <th>名称</th>
+                        <td>
+                            <input name="Name" class="easyui-textbox" required="true" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>选项</th>
+                        <td colspan="3">
+                            <input name="Enabled" type="checkbox" /><label>有效</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>备注</th>
+                        <td colspan="3">
+                            <input name="Note" class="easyui-textbox" multiline="true" style="height:50px;" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div data-options="region:'center'" style="padding:0;">
+                <div class="easyui-layout" style="width:100%;height:100%;">
+                    <div data-options="region:'west',title:'模块',split:true" style="width:200px;">
+
+                    </div>
+                    <div data-options="region:'center',title:'权限'" style="padding:0;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="script">
+    <script>
+        var RoleView = {
+
+            name: 'Role',
+            grid: null,
+
+            // public
+            show: function () {
+                this.grid = Grid.init(this, {
+                    url: '/static/data/products.json',
+                    method: 'get',
+                    columns: [[
+                        { field: 'itemid', title: '角色名称', width: 100 },
+                        { field: 'attr1', title: '描述', width: 200 },
+                        { field: 'productid', title: '修改人' },
+                        { field: 'status', title: '修改时间', align: 'center' },
+                        { field: 'productid', title: '创建人' },
+                        { field: 'status', title: '创建时间', align: 'center' }
+                    ]],
+                    toolbars: ['add', 'edit', 'remove']
+                });
+            },
+
+            // toolbar
+            add: function () {
+                this.showForm({ Oid: '' });
+            },
+
+            edit: function () {
+
+            },
+
+            remove: function () {
+
+            },
+
+            // private
+            showForm: function (data) {
+                $('#layoutRole').layout('resize');
+                Dialog.form({
+                    id: 'dialogRole', width: 800, height: 400,
+                    data: data,
+                    toolbar: [{
+                        text: '保存',
+                        iconCls: 'fa-save',
+                        handler: function () {
+                            Message.alert('Save');
+                        }
+                    }, {
+                        text: '关闭',
+                        iconCls: 'fa-close',
+                        handler: function () {
+                            Dialog.close('dialogRole');
+                        }
+                    }]
+                });
+            }
+
+        };
+        RoleView.show();
+    </script>
+</template>
+
+<template id="tt">
     <h1>Hello RoleView!</h1>
     <div id="tb" style="padding-bottom:2px;border-bottom:1px solid #dfdfdf;">
         <a class="easyui-linkbutton" plain="true" id="test" iconCls="fa-refresh">show</a>
@@ -14,40 +118,37 @@
             <tr>
                 <th style="width:100px;">编码</th>
                 <td>
-                    <input id="tb" class="easyui-textbox" />
+                    <input name="Code" class="easyui-textbox" required="true" />
                 </td>
                 <th style="width:100px;">名称</th>
                 <td>
-                    <input id="tb1" class="easyui-textbox" />
+                    <input name="Name" class="easyui-textbox" required="true" />
                 </td>
             </tr>
             <tr>
                 <th>类型</th>
                 <td>
-                    <input id="cc" class="easyui-combobox" />
+                    <input name="Type" class="easyui-combobox" />
                 </td>
                 <th>日期</th>
                 <td>
-                    <input id="birthday" class="easyui-datetimebox" />
+                    <input name="Birthday" class="easyui-datetimebox" />
                 </td>
             </tr>
             <tr>
                 <th>选项</th>
                 <td colspan="3">
-
+                    <input name="Enabled" type="checkbox" label="有效" />
                 </td>
             </tr>
             <tr>
                 <th>备注</th>
                 <td colspan="3">
-                    <input id="tb1" class="easyui-textbox" multiline="true" style="height:50px;" />
+                    <input name="Note" class="easyui-textbox" multiline="true" style="height:50px;" />
                 </td>
             </tr>
         </table>
     </div>
-</template>
-
-<template id="script">
     <script>
         Toolbar.bind('tb', {
             test: function () {
@@ -98,7 +199,7 @@
             },
             dialog: function () {
                 Dialog.show({
-                    id: 'dd', title: '测试', height: '300px',
+                    id: 'dd', title: '测试',
                     toolbar: [{
                         text: '保存',
                         iconCls: 'fa-save',

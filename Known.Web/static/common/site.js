@@ -1,4 +1,4 @@
-//---------------------------jquery-------------------------------------------//
+//---------------------------jQuery-------------------------------------------//
 var cachedPages = [];
 
 $.fn.extend({
@@ -55,7 +55,7 @@ $.fn.extend({
 
 });
 
-//---------------------------ajax---------------------------------------------//
+//---------------------------Ajax---------------------------------------------//
 $(document).ajaxSend(function (event, xhr, settings) {
     var user = User.getUser();
     if (user) {
@@ -150,7 +150,7 @@ var Ajax = {
 
 };
 
-//---------------------------code---------------------------------------------//
+//---------------------------Code---------------------------------------------//
 var Code = {
 
     key: 'known_codes',
@@ -177,7 +177,7 @@ var Code = {
 
 };
 
-//---------------------------url----------------------------------------------//
+//---------------------------Url----------------------------------------------//
 var Url = {
 
     getParam: function (name) {
@@ -199,7 +199,7 @@ var Url = {
 
 };
 
-//---------------------------message------------------------------------------//
+//---------------------------Message------------------------------------------//
 var Message = {
 
     show: function (option) {
@@ -287,24 +287,35 @@ var Message = {
 
 };
 
-//---------------------------toolbar------------------------------------------//
+//---------------------------Toolbar------------------------------------------//
 var Toolbar = {
 
-    bind: function (tbId, obj) {
+    buttons: [
+        { id: 'add', text: '新增', iconCls: 'fa-plus' },
+        { id: 'edit', text: '编辑', iconCls: 'fa-pencil' },
+        { id: 'remove', text: '删除', iconCls: 'fa-minus' },
+        { id: 'imports', text: '导入', iconCls: 'fa-sign-in' },
+        { id: 'exports', text: '导出', iconCls: 'fa-sign-out' },
+        { id: 'upload', text: '上载', iconCls: 'fa-upload' },
+        { id: 'download', text: '下载', iconCls: 'fa-download' }
+    ],
+
+    find: function (id) {
+        return this.buttons.find(b => b.id === id);
+    },
+
+    bindById: function (tbId, obj) {
+        this.bind('#' + tbId, obj);
+    },
+
+    bind: function (selector, obj) {
+        var tb = $(selector);
         for (var p in obj) {
-            bindButton(tbId, p, obj);
+            bindButton(tb, p, obj);
         }
 
-        var top = !tbId.startsWith('tbForm');
-        var btnClose = $('#' + tbId + ' #close');
-        if (btnClose.length) {
-            btnClose.unbind('click').bind('click', function () {
-                Dialog.close(top);
-            });
-        }
-
-        function bindButton(tbId, name, obj) {
-            var btn = $('#' + tbId + ' #' + name);
+        function bindButton(tbl, name, obj) {
+            var btn = tbl.filter('#' + name);
             if (btn.length) {
                 btn.unbind('click').bind('click', function () {
                     obj[name].call(obj);
@@ -315,13 +326,13 @@ var Toolbar = {
 
 };
 
-//---------------------------dialog-------------------------------------------//
+//---------------------------Dialog-------------------------------------------//
 var Dialog = {
 
     show: function (option) {
         var options = $.extend({
             width: '500px', height: 'auto', showType: 'fade', iconCls: 'fa-tv', cls: 'dialog',
-            collapsible: true, minimizable: true, maximizable: true, resizable: true
+            collapsible: false, minimizable: false, maximizable: true, resizable: true
         }, option);
 
         var dlg = $('#' + option.id).dialog(options);
@@ -331,11 +342,24 @@ var Dialog = {
 
     close: function (id) {
         $('#' + id).dialog('close');
+    },
+
+    form: function (option) {
+        var page = top.MainView.currentTab || {};
+        var actionName = '【新增】';
+        if (option.data.Oid !== '') {
+            actionName = '【编辑】';
+        } else if (option.data.IsCopy) {
+            actionName = '【复制】';
+        }
+        var title = (option.moduleName || page.text) + actionName;
+        $.extend(option, { title: title });
+        this.show(option);
     }
 
 };
 
-//---------------------------form---------------------------------------------//
+//---------------------------Form---------------------------------------------//
 var Form = {
 
 };
@@ -501,8 +525,32 @@ var Form1 = function (formId, option) {
     //console.log(this);
 };
 
-//---------------------------grid---------------------------------------------//
-var Grid = function (name, option) {
+//---------------------------Grid---------------------------------------------//
+var Grid = {
+
+    init: function (view, option) {
+        var options = $.extend({
+            bodyCls: 'grid' + view.name,
+            rownumbers: true, pagination: true, fit: true,
+            fitColumns: true, striped: true, toolbar: []
+        }, option);
+
+        if (option.toolbars) {
+            for (var i = 0; i < option.toolbars.length; i++) {
+                var btn = Toolbar.find(option.toolbars[i]);
+                if (btn) {
+                    options.toolbar.push(btn);
+                }
+            }
+        }
+        $('#grid' + view.name).datagrid(options);
+        //$(function () {
+            Toolbar.bind('.' + options.bodyCls + ' .datagrid-toolbar', view);
+        //});
+    }
+
+};
+var Grid1 = function (name, option) {
     this.name = name;
     this.option = option;
 

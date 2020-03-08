@@ -1,4 +1,4 @@
-//---------------------------array--------------------------------------------//
+//---------------------------Array--------------------------------------------//
 Array.prototype.insert = function (index, item) {
     this.splice(index, 0, item);
 };
@@ -57,7 +57,7 @@ Array.prototype.toTree = function (rootId) {
     return arr;
 };
 
-//---------------------------date---------------------------------------------//
+//---------------------------Date---------------------------------------------//
 Date.prototype.format = function (fmt) {
     var o = {
         'M+': this.getMonth() + 1,               //月份   
@@ -88,7 +88,7 @@ Date.prototype.addYears = function (number) {
     return new Date(year, this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds());
 };
 
-//---------------------------string-------------------------------------------//
+//---------------------------String-------------------------------------------//
 String.prototype.trim = function () {
     return this.replace(/(^\s*)|(\s*$)/g, '');
 };
@@ -174,7 +174,7 @@ function guid() {
     });
 }
 
-//---------------------------user---------------------------------------------//
+//---------------------------User---------------------------------------------//
 var User = {
 
     key: 'known_user',

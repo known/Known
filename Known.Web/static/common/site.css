@@ -116,6 +116,7 @@ table {
 
 /* form */
 .form {
+    width: 100%;
 }
 
     .form th {
@@ -168,7 +169,7 @@ table {
         }
 
     .window .window-body {
-        border: 0;
+        padding: 5px;
     }
 
 .messager-body {
@@ -217,6 +218,10 @@ table {
     background: none;
 }
 
+.panel-tool-max {
+    padding-top: 2px;
+}
+
 .panel-tool-close {
     color: #f00;
 }
@@ -262,10 +267,11 @@ table {
     border-left-color: #dfdfdf;
     border-right-color: #dfdfdf;
 }
-.textbox .textbox-text {
-    height: 20px;
-    line-height: 20px;
-}
+
+    .textbox .textbox-text {
+        height: 20px;
+        line-height: 20px;
+    }
 /*easyui grid*/
 .datagrid-header {
     background-color: #e5e5e5;
@@ -275,3 +281,37 @@ table {
         color: #333;
         font-weight: bold;
     }
+
+.datagrid-toolbar .fa-pencil,
+.datagrid-toolbar .fa-download,
+.datagrid-toolbar .fa-file-excel-o,
+.dialog-toolbar .fa-pencil,
+.dialog-toolbar .fa-download,
+.dialog-toolbar .fa-file-excel-o {
+    color: #337ab7;
+}
+
+.datagrid-toolbar .fa-plus,
+.datagrid-toolbar .fa-upload,
+.dialog-toolbar .fa-plus,
+.dialog-toolbar .fa-upload {
+    color: #5cb85c;
+}
+
+.datagrid-toolbar .fa-sign-in,
+.datagrid-toolbar .fa-sign-out,
+.dialog-toolbar .fa-sign-in,
+.dialog-toolbar .fa-sign-out {
+    color: #5bc0de;
+}
+
+.datagrid-toolbar .fa-close,
+.datagrid-toolbar .fa-remove,
+.datagrid-toolbar .fa-minus,
+.datagrid-toolbar .fa-file-pdf-o,
+.dialog-toolbar .fa-close,
+.dialog-toolbar .fa-remove,
+.dialog-toolbar .fa-minus,
+.dialog-toolbar .fa-file-pdf-o {
+    color: #d9534f;
+}
