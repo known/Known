@@ -336,7 +336,10 @@ var Dialog = {
 };
 
 //---------------------------form---------------------------------------------//
-var Form = function (formId, option) {
+var Form = {
+
+};
+var Form1 = function (formId, option) {
     this.formId = formId;
     this.option = option || {};
 

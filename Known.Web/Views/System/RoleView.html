@@ -9,7 +9,42 @@
         <a class="easyui-linkbutton" plain="true" id="mask" iconCls="fa-minus">progress</a>
         <a class="easyui-linkbutton" plain="true" id="dialog" iconCls="fa-minus">dialog</a>
     </div>
-    <div id="dd" style="display:none;">Dialog Content.</div>
+    <div id="dd" style="display:none;">
+        <table id="ff" class="form">
+            <tr>
+                <th style="width:100px;">编码</th>
+                <td>
+                    <input id="tb" class="easyui-textbox" />
+                </td>
+                <th style="width:100px;">名称</th>
+                <td>
+                    <input id="tb1" class="easyui-textbox" />
+                </td>
+            </tr>
+            <tr>
+                <th>类型</th>
+                <td>
+                    <input id="cc" class="easyui-combobox" />
+                </td>
+                <th>日期</th>
+                <td>
+                    <input id="birthday" class="easyui-datetimebox" />
+                </td>
+            </tr>
+            <tr>
+                <th>选项</th>
+                <td colspan="3">
+
+                </td>
+            </tr>
+            <tr>
+                <th>备注</th>
+                <td colspan="3">
+                    <input id="tb1" class="easyui-textbox" multiline="true" style="height:50px;" />
+                </td>
+            </tr>
+        </table>
+    </div>
 </template>
 
 <template id="script">
@@ -62,7 +97,22 @@
                 }, 5000);
             },
             dialog: function () {
-                Dialog.show({ id: 'dd', title: '测试', height: '300px' });
+                Dialog.show({
+                    id: 'dd', title: '测试', height: '300px',
+                    toolbar: [{
+                        text: '保存',
+                        iconCls: 'fa-save',
+                        handler: function () {
+                            Message.alert('Save');
+                        }
+                    }, {
+                        text: '关闭',
+                        iconCls: 'fa-close',
+                        handler: function () {
+                            Dialog.close('dd');
+                        }
+                    }]
+                });
                 //setTimeout(function () {
                 //    Dialog.close('dd');
                 //}, 5000);
