@@ -28,7 +28,7 @@ $.fn.extend({
                 url = '/' + url;
             if (url.indexOf('.html') === -1)
                 url = url + '.html';
-            
+
             Ajax.getText('/pages' + url, param, function (result) {
                 if (!$.isPlainObject(result)) {
                     cachedPages.push({ url: pageUrl, html: result });
@@ -308,14 +308,13 @@ var Toolbar = {
         this.bind('#' + tbId, obj);
     },
 
-    bind: function (selector, obj) {
-        var tb = $(selector);
+    bind: function (tbl, obj) {
         for (var p in obj) {
-            bindButton(tb, p, obj);
+            bindButton(tbl, p, obj);
         }
 
-        function bindButton(tbl, name, obj) {
-            var btn = tbl.filter('#' + name);
+        function bindButton(selector, name, obj) {
+            var btn = $(selector + ' #' + name);
             if (btn.length) {
                 btn.unbind('click').bind('click', function () {
                     obj[name].call(obj);
@@ -332,7 +331,7 @@ var Dialog = {
     show: function (option) {
         var options = $.extend({
             width: '500px', height: 'auto', showType: 'fade', iconCls: 'fa-tv', cls: 'dialog',
-            collapsible: false, minimizable: false, maximizable: true, resizable: true
+            collapsible: false, minimizable: false, maximizable: true, resizable: true, modal: true
         }, option);
 
         var dlg = $('#' + option.id).dialog(options);
@@ -544,9 +543,7 @@ var Grid = {
             }
         }
         $('#grid' + view.name).datagrid(options);
-        //$(function () {
-            Toolbar.bind('.' + options.bodyCls + ' .datagrid-toolbar', view);
-        //});
+        Toolbar.bind('.' + options.bodyCls + ' .datagrid-toolbar', view);
     }
 
 };
