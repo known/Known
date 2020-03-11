@@ -47,9 +47,10 @@
 
             // public
             show: function () {
-                this.grid = Grid.init(this, {
+                this.grid = new Grid(this, {
                     url: '/static/data/products.json',
                     method: 'get',
+                    idField: 'itemid',
                     columns: [[
                         { field: 'itemid', title: '角色名称', width: 100 },
                         { field: 'attr1', title: '描述', width: 200 },
@@ -68,11 +69,15 @@
             },
 
             edit: function () {
-
+                this.grid.checkSelect(function (e) {
+                    Message.alert(JSON.stringify(e.row));
+                });
             },
 
             remove: function () {
-
+                this.grid.deleteRows('/Role/DeleteRoles', function (e) {
+                    Message.alert(JSON.stringify(e.data));
+                });
             },
 
             // private
