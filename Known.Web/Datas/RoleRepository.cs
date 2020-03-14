@@ -1,5 +1,5 @@
-﻿using Known.Web.Entities;
-using Known.Data;
+﻿using Known.Data;
+using Known.Web.Entities;
 
 namespace Known.Web.Datas
 {
@@ -21,12 +21,10 @@ namespace Known.Web.Datas
 
         public static void DeleteRoleUsers(this Database database, string roleId)
         {
-
         }
 
         public static void DeleteRoleFunctions(this Database database, string roleId)
         {
-
         }
     }
 }

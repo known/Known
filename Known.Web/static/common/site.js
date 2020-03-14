@@ -719,23 +719,36 @@ var Grid = function (view, option) {
         }
     }
 
+    function searchWrapper() {
+        var html = '<div class="searchWrapper">';
+        html + '<input type="text" id="key" placeholder="请输入搜索内容" />';
+        html + '<a class="easyui-linkbutton" plain="true" iconCls="fa-search">查询</a>';
+        html += '</div>';
+        return $(html);
+    }
+
     function init() {
         //initQuery();
 
         var options = $.extend({
-            bodyCls: 'grid' + _this.name,
+            bodyCls: 'grid' + _this.name, multiSort: true,
+            checkOnSelect: false, selectOnCheck: true,
             rownumbers: true, pagination: true, fit: true,
-            fitColumns: true, striped: true, toolbar: []
+            fitColumns: true, striped: true
         }, option);
 
+        var toolbar = $('<div>');
+        toolbar.append(searchWrapper());
         if (option.toolbars) {
             for (var i = 0; i < option.toolbars.length; i++) {
                 var btn = Toolbar.find(option.toolbars[i]);
                 if (btn) {
-                    options.toolbar.push(btn);
+                    var btnFormat = '<a class="easyui-linkbutton" plain="true" id="{id}" iconCls="{iconCls}">{text}</a>';
+                    toolbar.append(btnFormat.format(btn));
                 }
             }
         }
+        options.toolbar = toolbar;
         _grid = $('#grid' + _this.name).datagrid(options);
         Toolbar.bind('.' + options.bodyCls + ' .datagrid-toolbar', view);
     }

@@ -1,38 +1,34 @@
 ﻿<template>
     <table id="gridRole"></table>
     <div id="dialogRole" style="display:none;">
-        <div id="layoutRole" class="easyui-layout" style="width:100%;height:100%;">
-            <div data-options="region:'west'" style="width:250px;">
-                <table id="ff" class="form">
-                    <tr>
-                        <th>名称</th>
-                        <td>
-                            <input name="Name" class="easyui-textbox" required="true" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>选项</th>
-                        <td colspan="3">
-                            <input name="Enabled" type="checkbox" /><label>有效</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>备注</th>
-                        <td colspan="3">
-                            <input name="Note" class="easyui-textbox" multiline="true" style="height:50px;" />
-                        </td>
-                    </tr>
-                </table>
+        <div style="float:left;width:200px;">
+            <table id="ff" class="form">
+                <tr>
+                    <th>名称</th>
+                    <td>
+                        <input name="Name" class="easyui-textbox" required="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>选项</th>
+                    <td>
+                        <input name="Enabled" type="checkbox" /><label>有效</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td>
+                        <input name="Note" class="easyui-textbox" multiline="true" style="height:50px;" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="float:left;">
+            <div style="float:left;width:200px;">
+
             </div>
-            <div data-options="region:'center'" style="padding:0;">
-                <div class="easyui-layout" style="width:100%;height:100%;">
-                    <div data-options="region:'west',title:'模块',split:true" style="width:200px;">
+            <div>
 
-                    </div>
-                    <div data-options="region:'center',title:'权限'" style="padding:0;">
-
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -44,20 +40,23 @@
 
             name: 'Role',
             grid: null,
+            url: {
+                DeleteRoles: '/Role/DeleteRoles'
+            },
 
             // public
             show: function () {
                 this.grid = new Grid(this, {
-                    url: '/static/data/products.json',
-                    method: 'get',
+                    url: '/Role/QueryRoles',
                     idField: 'itemid',
                     columns: [[
-                        { field: 'itemid', title: '角色名称', width: 100 },
-                        { field: 'attr1', title: '描述', width: 200 },
-                        { field: 'productid', title: '修改人' },
-                        { field: 'status', title: '修改时间', align: 'center' },
-                        { field: 'productid', title: '创建人' },
-                        { field: 'status', title: '创建时间', align: 'center' }
+                        { field: 'ck', checkbox: true },
+                        { sortable: true, field: 'itemid', title: '角色名称', width: 100 },
+                        { sortable: true, field: 'attr1', title: '描述', width: 200 },
+                        { sortable: true, field: 'productid', title: '修改人' },
+                        { sortable: true, field: 'status', title: '修改时间', align: 'center' },
+                        { sortable: true, field: 'productid', title: '创建人' },
+                        { sortable: true, field: 'status', title: '创建时间', align: 'center' }
                     ]],
                     toolbars: ['add', 'edit', 'remove']
                 });
@@ -75,7 +74,7 @@
             },
 
             remove: function () {
-                this.grid.deleteRows('/Role/DeleteRoles', function (e) {
+                this.grid.deleteRows(this.url.DeleteRoles, function (e) {
                     Message.alert(JSON.stringify(e.data));
                 });
             },
