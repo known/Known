@@ -24,7 +24,7 @@ namespace Known.Web.Mvc
         public void Init(HttpApplication context)
         {
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            WebApp.Init();
+            WebApp.Init(AppInfo.Instance);
             context.BeginRequest += Context_BeginRequest;
             context.PostMapRequestHandler += Context_PostMapRequestHandler;
             context.AcquireRequestState += Context_AcquireRequestState;

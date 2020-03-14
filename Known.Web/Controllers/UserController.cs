@@ -70,9 +70,8 @@ namespace Known.Web.Controllers
         public ActionResult GetModules()
         {
             var menus = Menu.GetUserMenus(PlatformService, UserName);
-            var rights = Menu.GetUserRights(PlatformService, UserName);
             var codes = Code.GetCodes(PlatformService);
-            return Json(new { menus, rights, codes });
+            return Json(new { menus, codes });
         }
         #endregion
 

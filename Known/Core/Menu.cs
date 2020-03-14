@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Known.Core
 {
@@ -47,6 +48,21 @@ namespace Known.Core
         /// </summary>
         public List<Menu> children { get; set; }
 
+        /// <summary>
+        /// 取得或设置模块按钮集合。
+        /// </summary>
+        public List<object> buttons { get; set; }
+
+        /// <summary>
+        /// 取得或设置模块列表页面栏位集合。
+        /// </summary>
+        public List<string> columns { get; set; }
+
+        /// <summary>
+        /// 获取所有模块信息列表。
+        /// </summary>
+        /// <param name="service">平台服务对象。</param>
+        /// <returns>模块信息列表。</returns>
         public static List<Menu> GetTreeMenus(PlatformService service)
         {
             var app = AppInfo.Instance;
@@ -76,6 +92,12 @@ namespace Known.Core
             return menus;
         }
 
+        /// <summary>
+        /// 获取指定用户权限的模块信息列表。
+        /// </summary>
+        /// <param name="service">平台服务对象。</param>
+        /// <param name="userName">登录用户名。</param>
+        /// <returns>模块信息列表。</returns>
         public static List<Menu> GetUserMenus(PlatformService service, string userName)
         {
             var menus = new List<Menu>();
@@ -96,22 +118,36 @@ namespace Known.Core
             return menus;
         }
 
-        public static object GetUserRights(PlatformService service, string userName)
-        {
-            return null;
-        }
-
         private static Menu GetMenu(ModuleAttribute module)
         {
-            return new Menu
+            var menu = new Menu
             {
                 id = module.Code,
                 pid = module.Parent ?? "0",
                 code = module.Code,
                 text = module.Name,
                 iconCls = module.Icon,
-                url = module.Url
+                url = module.Url,
+                columns = module.Columns
             };
+            if (module.Buttons != null && module.Buttons.Count > 0)
+            {
+                menu.buttons = new List<object>();
+                foreach (var item in module.Buttons.OrderBy(b => b.Order))
+                {
+                    menu.buttons.Add(new
+                    {
+                        id = item.Id,
+                        text = item.Name,
+                        iconCls = item.Icon,
+                        url = item.Url,
+                        sort = item.Order,
+                        form = item.IsForm
+                    });
+                }
+            }
+
+            return menu;
         }
 
         private static Menu GetMenu(ModuleInfo module)

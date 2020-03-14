@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Known
 {
@@ -24,11 +25,13 @@ namespace Known
         /// <param name="order">显示顺序。</param>
         /// <param name="name">名称。</param>
         /// <param name="icon">图标。</param>
-        public ModuleAttribute(int order, string name, string icon)
+        /// <param name="page">页面按钮对应的Controller类型。</param>
+        public ModuleAttribute(int order, string name, string icon, Type page)
         {
             Order = order;
             Name = name;
             Icon = icon;
+            Page = page;
         }
 
         /// <summary>
@@ -47,6 +50,11 @@ namespace Known
         public string Icon { get; }
 
         /// <summary>
+        /// 取得页面按钮对应的Controller类型。
+        /// </summary>
+        public Type Page { get; }
+
+        /// <summary>
         /// 取得代码。
         /// </summary>
         public string Code { get; internal set; }
@@ -60,5 +68,15 @@ namespace Known
         /// 取得URL。
         /// </summary>
         public string Url { get; internal set; }
+
+        /// <summary>
+        /// 取得模块按钮集合。
+        /// </summary>
+        public List<ToolbarAttribute> Buttons { get; internal set; }
+
+        /// <summary>
+        /// 取得模块列表栏位集合。
+        /// </summary>
+        public List<string> Columns { get; internal set; }
     }
 }

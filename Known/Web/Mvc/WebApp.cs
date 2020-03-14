@@ -11,7 +11,7 @@ namespace Known.Web.Mvc
         private static readonly Dictionary<string, ActionInfo> routes = new Dictionary<string, ActionInfo>();
         private static readonly object lockObj = new object();
 
-        public static void Init()
+        public static void Init(AppInfo app)
         {
             if (caches.Count == 0)
             {
@@ -31,14 +31,14 @@ namespace Known.Web.Mvc
                                 if (!type.IsSubclassOf(typeof(Controller)) || type.IsAbstract)
                                     continue;
 
-                                var info = ControllerInfo.Create(type);
+                                var info = ControllerInfo.Create(app, type);
                                 var methods = type.GetMethods();
                                 foreach (var method in methods)
                                 {
                                     if (method.ReturnType != typeof(ActionResult))
                                         continue;
 
-                                    var action = ActionInfo.Create(info, method);
+                                    var action = ActionInfo.Create(app, info, method);
                                     if (action.Route != null)
                                     {
                                         routes.Add(action.Route.Name, action);

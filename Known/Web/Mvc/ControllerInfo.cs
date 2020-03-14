@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Known.Core;
 
 namespace Known.Web.Mvc
 {
@@ -41,7 +40,7 @@ namespace Known.Web.Mvc
             return Actions.FirstOrDefault(a => a.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
-        internal static ControllerInfo Create(Type type)
+        internal static ControllerInfo Create(AppInfo app, Type type)
         {
             var info = new ControllerInfo(type);
 
@@ -49,7 +48,7 @@ namespace Known.Web.Mvc
             if (attr != null)
             {
                 attr.Code = info.Name;
-                AppInfo.Instance.AddModule(attr);
+                app.AddModule(attr);
             }
 
             return info;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Known.Core
+namespace Known
 {
     /// <summary>
     /// 应用程序信息类。
@@ -10,6 +10,7 @@ namespace Known.Core
         private AppInfo()
         {
             Modules = new List<ModuleAttribute>();
+            Buttons = new List<ToolbarAttribute>();
         }
 
         /// <summary>
@@ -48,12 +49,18 @@ namespace Known.Core
         public List<ModuleAttribute> Modules { get; }
 
         /// <summary>
-        /// 添加模块信息。
+        /// 取得应用程序模块按钮信息列表。
         /// </summary>
-        /// <param name="info">模块信息。</param>
-        public void AddModule(ModuleAttribute info)
+        public List<ToolbarAttribute> Buttons { get; }
+
+        internal void AddModule(ModuleAttribute info)
         {
             Modules.Add(info);
+        }
+
+        internal void AddButton(ToolbarAttribute info)
+        {
+            Buttons.Add(info);
         }
     }
 }

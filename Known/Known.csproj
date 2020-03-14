@@ -84,7 +84,7 @@
     <Compile Include="Mapping\EntityHelper.cs" />
     <Compile Include="Mapping\EntityMapper.cs" />
     <Compile Include="Mapping\PropertyMapper.cs" />
-    <Compile Include="Core\AppInfo.cs" />
+    <Compile Include="AppInfo.cs" />
     <Compile Include="Core\Code.cs" />
     <Compile Include="Core\CompanyInfo.cs" />
     <Compile Include="Core\DepartmentInfo.cs" />

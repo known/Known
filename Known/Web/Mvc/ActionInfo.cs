@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Known.Core;
 
 namespace Known.Web.Mvc
 {
@@ -56,7 +55,7 @@ namespace Known.Web.Mvc
                 Controller.GetCustomAttributes(typeof(T), true).Length > 0;
         }
 
-        internal static ActionInfo Create(ControllerInfo controller, MethodInfo method)
+        internal static ActionInfo Create(AppInfo app, ControllerInfo controller, MethodInfo method)
         {
             var info = new ActionInfo(controller.Type, method);
 
@@ -66,7 +65,15 @@ namespace Known.Web.Mvc
                 attr.Code = info.Name;
                 attr.Parent = controller.Name;
                 attr.Url = $"{controller.Name}/{info.Name}";
-                AppInfo.Instance.AddModule(attr);
+                app.AddModule(attr);
+            }
+
+            var btn = method.GetCustomAttribute<ToolbarAttribute>();
+            if (btn != null)
+            {
+                btn.Page = controller.Type;
+                btn.Url = $"{controller.Name}/{info.Name}";
+                app.AddButton(btn);
             }
 
             return info;

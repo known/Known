@@ -77,7 +77,15 @@ namespace Known.Core
         /// <returns>模块信息对象列表。</returns>
         public List<ModuleAttribute> GetUserModules(string userName)
         {
-            return AppInfo.Instance.Modules;
+            var app = AppInfo.Instance;
+            var modules = app.Modules;
+            foreach (var item in modules)
+            {
+                item.Buttons = app.Buttons.Where(b => b.Page == item.Page).ToList();
+                item.Columns = new List<string> { "*" };
+            }
+
+            return modules;
             //var modules = repository.GetUserModules(Setting.Instance.App.Id, userName);
             //if (modules == null || modules.Count == 0)
             //    return new List<ModuleInfo>();

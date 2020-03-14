@@ -122,5 +122,10 @@ namespace Known
         /// 取得URL。
         /// </summary>
         public string Url { get; internal set; }
+
+        /// <summary>
+        /// 取得按钮对应的页面Controller类型。
+        /// </summary>
+        public Type Page { get; internal set; }
     }
 }
