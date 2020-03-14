@@ -83,7 +83,7 @@ namespace Known.Core
             return Json(new
             {
                 total = result.TotalCount,
-                data = result.PageData,
+                rows = result.PageData,
                 summary = result.Summary
             });
         }

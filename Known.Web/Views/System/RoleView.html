@@ -57,8 +57,7 @@
                         { sortable: true, field: 'status', title: '修改时间', align: 'center' },
                         { sortable: true, field: 'productid', title: '创建人' },
                         { sortable: true, field: 'status', title: '创建时间', align: 'center' }
-                    ]],
-                    toolbars: ['add', 'edit', 'remove']
+                    ]]
                 });
             },
 
@@ -103,125 +102,5 @@
 
         };
         RoleView.show();
-    </script>
-</template>
-
-<template id="tt">
-    <h1>Hello RoleView!</h1>
-    <div id="tb" style="padding-bottom:2px;border-bottom:1px solid #dfdfdf;">
-        <a class="easyui-linkbutton" plain="true" id="test" iconCls="fa-refresh">show</a>
-        <a class="easyui-linkbutton" plain="true" id="tip" iconCls="fa-refresh">tip</a>
-        <a class="easyui-linkbutton" plain="true" id="alert" iconCls="fa-plus">alert</a>
-        <a class="easyui-linkbutton" plain="true" id="confirm" iconCls="fa-pencil">confirm</a>
-        <a class="easyui-linkbutton" plain="true" id="prompt" iconCls="fa-check">prompt</a>
-        <a class="easyui-linkbutton" plain="true" id="mask" iconCls="fa-minus">progress</a>
-        <a class="easyui-linkbutton" plain="true" id="dialog" iconCls="fa-minus">dialog</a>
-    </div>
-    <div id="dd" style="display:none;">
-        <table id="ff" class="form">
-            <tr>
-                <th style="width:100px;">编码</th>
-                <td>
-                    <input name="Code" class="easyui-textbox" required="true" />
-                </td>
-                <th style="width:100px;">名称</th>
-                <td>
-                    <input name="Name" class="easyui-textbox" required="true" />
-                </td>
-            </tr>
-            <tr>
-                <th>类型</th>
-                <td>
-                    <input name="Type" class="easyui-combobox" />
-                </td>
-                <th>日期</th>
-                <td>
-                    <input name="Birthday" class="easyui-datetimebox" />
-                </td>
-            </tr>
-            <tr>
-                <th>选项</th>
-                <td colspan="3">
-                    <input name="Enabled" type="checkbox" label="有效" />
-                </td>
-            </tr>
-            <tr>
-                <th>备注</th>
-                <td colspan="3">
-                    <input name="Note" class="easyui-textbox" multiline="true" style="height:50px;" />
-                </td>
-            </tr>
-        </table>
-    </div>
-    <script>
-        Toolbar.bind('tb', {
-            test: function () {
-                Message.show({
-                    title: 'Title',
-                    msg: 'Message showType:slide、fade、show',
-                    width: '300px', height: '100px',
-                    showType: 'fade', showSpeed: 1000, timeout: 0,
-                    style: {
-                    }
-                });
-            },
-            tip: function () {
-                Message.tip('0.default');
-                Message.tip('1.topLeft', 'topLeft');
-                Message.tip('2.topCenter', 'topCenter');
-                Message.tip('3.topRight', 'topRight');
-                Message.tip('4.centerLeft', 'centerLeft');
-                Message.tip('5.center', 'center');
-                Message.tip('6.centerRight', 'centerRight');
-                Message.tip('7.bottomLeft', 'bottomLeft');
-                Message.tip('8.bottomCenter', 'bottomCenter');
-                Message.tip('9.bottomRight', 'bottomRight');
-            },
-            alert: function () {
-                Message.alert('message! icon:error、question、info、warning');
-                Message.alert('message!', 'question', function (r) {
-                    alert(r);
-                });
-                Message.warning('warning!');
-                Message.error('error!');
-            },
-            confirm: function () {
-                Message.confirm('Confirm?', function (r) {
-                    Message.alert(r);
-                });
-            },
-            prompt: function () {
-                Message.prompt('Please Input：', function (r) {
-                    Message.alert(r);
-                });
-            },
-            mask: function () {
-                Message.mask('Loading......');
-                setTimeout(function () {
-                    Message.unmask();
-                }, 5000);
-            },
-            dialog: function () {
-                Dialog.show({
-                    id: 'dd', title: '测试',
-                    toolbar: [{
-                        text: '保存',
-                        iconCls: 'fa-save',
-                        handler: function () {
-                            Message.alert('Save');
-                        }
-                    }, {
-                        text: '关闭',
-                        iconCls: 'fa-close',
-                        handler: function () {
-                            Dialog.close('dd');
-                        }
-                    }]
-                });
-                //setTimeout(function () {
-                //    Dialog.close('dd');
-                //}, 5000);
-            }
-        });
     </script>
 </template>

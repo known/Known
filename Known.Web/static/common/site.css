@@ -149,6 +149,30 @@ table {
                     border-top: 0;
                 }
 
+.searchWrapper input {
+    height: 26px;
+    padding: 0 5px;
+    margin-right: -1px;
+    outline: none;
+    border: 1px solid #dfdfdf;
+    border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    -webkit-border-radius: 4px 0 0 4px;
+}
+
+.searchWrapper .l-btn {
+    border-radius: 0 4px 4px 0;
+    -moz-border-radius: 0 4px 4px 0;
+    -webkit-border-radius: 0 4px 4px 0;
+}
+
+.searchWrapper .search {
+    margin-right: -1px;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+}
+
 /* easyui */
 .window {
     padding: 0;
@@ -272,6 +296,7 @@ table {
         height: 20px;
         line-height: 20px;
     }
+
 /*easyui grid*/
 .datagrid-header {
     background-color: #e5e5e5;

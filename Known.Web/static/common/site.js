@@ -532,80 +532,76 @@ var Grid = function (view, option) {
     this.query = null;
 
     //public
-    this.search = function (callback) {
-        this._queryData(false, callback);
+    this.load = function (query) {
+        this.query = query;
+        _grid.datagrid('load', this.query);
     };
 
-    this.load = function (callback) {
-        this._queryData(true, callback);
-    };
+    //this.reload = function () {
+    //    _grid.datagrid('reload', this.query);
+    //};
 
-    this.validate = function (tabsId, tabIndex) {
-        _grid.validate();
-        if (_grid.isValid())
-            return true;
+    //this.validate = function (tabsId, tabIndex) {
+    //    _grid.validate();
+    //    if (_grid.isValid())
+    //        return true;
 
-        if (tabsId) {
-            var tabs = mini.get(tabsId);
-            var tab = tabs.getTab(index);
-            tabs.activeTab(tab);
-        }
+    //    if (tabsId) {
+    //        var tabs = mini.get(tabsId);
+    //        var tab = tabs.getTab(index);
+    //        tabs.activeTab(tab);
+    //    }
 
-        var error = _grid.getCellErrors()[0];
-        _grid.beginEditCell(error.record, error.column);
-        return false;
-    };
+    //    var error = _grid.getCellErrors()[0];
+    //    _grid.beginEditCell(error.record, error.column);
+    //    return false;
+    //};
 
-    this.getChanges = function (encode) {
-        var data = _grid.datagrid('getChanges');
-        return encode ? mini.encode(data) : data;
-    };
+    //this.getChanges = function (encode) {
+    //    var data = _grid.datagrid('getChanges');
+    //    return encode ? mini.encode(data) : data;
+    //};
 
-    this.getSelecteds = function (encode) {
-        var data = _grid.datagrid('getSelections');
-        return encode ? JSON.stringify(data) : data;
-    };
+    //this.getLength = function () {
+    //    return this.getData().length;
+    //};
 
-    this.getLength = function () {
-        return this.getData().length;
-    };
+    //this.getData = function (encode) {
+    //    var data = _grid.datagrid('getData');
+    //    return encode ? JSON.stringify(data) : data;
+    //};
 
-    this.getData = function (encode) {
-        var data = _grid.datagrid('getData');
-        return encode ? JSON.stringify(data) : data;
-    };
+    //this.setData = function (data, callback) {
+    //    this.clear();
+    //    if (data) {
+    //        _grid.datagrid('loadData', data);
+    //        callback && callback({ sender: this, data: data });
+    //    }
+    //};
 
-    this.setData = function (data, callback) {
-        this.clear();
-        if (data) {
-            _grid.datagrid('loadData', data);
-            callback && callback({ sender: this, data: data });
-        }
-    };
+    //this.clear = function () {
+    //    _grid.datagrid('loadData', []);
+    //};
 
-    this.clear = function () {
-        _grid.datagrid('loadData', []);
-    };
+    //this.addRow = function (data, index) {
+    //    if (!index) {
+    //        index = this.getLength();
+    //    }
 
-    this.addRow = function (data, index) {
-        if (!index) {
-            index = this.getLength();
-        }
+    //    _grid.datagrid('insertRow', { index: index, row: data });
+    //    _grid.datagrid('beginEdit', index);
+    //};
 
-        _grid.datagrid('insertRow', { index: index, row: data });
-        _grid.datagrid('beginEdit', index);
-    };
+    //this.updateRow = function (data, index) {
+    //    _grid.datagrid('updateRow', { index: index, row: data });
+    //};
 
-    this.updateRow = function (data, index) {
-        _grid.datagrid('updateRow', { index: index, row: data });
-    };
-
-    this.deleteRow = function (index) {
-        _grid.datagrid('deleteRow', index);
-    };
+    //this.deleteRow = function (index) {
+    //    _grid.datagrid('deleteRow', index);
+    //};
 
     this.checkSelect = function (callback) {
-        var rows = this.getSelecteds();
+        var rows = getSelecteds();
         if (rows.length === 0) {
             Message.tip('请选择一条记录！');
         } else if (rows.length > 1) {
@@ -616,7 +612,7 @@ var Grid = function (view, option) {
     };
 
     this.checkMultiSelect = function (callback) {
-        var rows = this.getSelecteds();
+        var rows = getSelecteds();
         if (rows.length === 0) {
             Message.tip('请选择一条或多条记录！');
         } else if (callback) {
@@ -655,15 +651,20 @@ var Grid = function (view, option) {
         return encode ? JSON.stringify(datas) : datas;
     };
 
-    this.hideColumn = function (field) {
-        _grid.datagrid('hideColumn', field);
-    };
+    //this.hideColumn = function (field) {
+    //    _grid.datagrid('hideColumn', field);
+    //};
 
-    this.showColumn = function (field) {
-        _grid.datagrid('showColumn', field);
-    };
+    //this.showColumn = function (field) {
+    //    _grid.datagrid('showColumn', field);
+    //};
 
     //private
+    function getSelecteds(encode) {
+        var data = _grid.datagrid('getSelections');
+        return encode ? JSON.stringify(data) : data;
+    }
+
     function onColumnRende(e) {
         var displayField = e.column.displayField;
         if (displayField === 'icon') {
@@ -720,16 +721,26 @@ var Grid = function (view, option) {
     }
 
     function searchWrapper() {
-        var html = '<div class="searchWrapper">';
-        html + '<input type="text" id="key" placeholder="请输入搜索内容" />';
-        html + '<a class="easyui-linkbutton" plain="true" iconCls="fa-search">查询</a>';
+        var html = option.toolbars
+            ? '<div class="searchWrapper" style="float:right;">'
+            : '<div class="searchWrapper">';
+        html += '<input type="text" id="key" placeholder="请输入搜索内容" />';
+        if (option.showAdvSearch) {
+            html += '<a class="easyui-linkbutton search searchBtn" iconCls="fa-search"></a>';
+            html += '<a class="easyui-linkbutton">高级</a>';
+        } else {
+            html += '<a class="easyui-linkbutton searchBtn" iconCls="fa-search"></a>';
+        }
         html += '</div>';
-        return $(html);
+        var wrapper = $(html);
+        var input = wrapper.children('input');
+        wrapper.children('.searchBtn').click(function () {
+            _this.load({ key: input.val() });
+        });
+        return wrapper;
     }
 
     function init() {
-        //initQuery();
-
         var options = $.extend({
             bodyCls: 'grid' + _this.name, multiSort: true,
             checkOnSelect: false, selectOnCheck: true,
@@ -738,7 +749,6 @@ var Grid = function (view, option) {
         }, option);
 
         var toolbar = $('<div>');
-        toolbar.append(searchWrapper());
         if (option.toolbars) {
             for (var i = 0; i < option.toolbars.length; i++) {
                 var btn = Toolbar.find(option.toolbars[i]);
@@ -748,6 +758,7 @@ var Grid = function (view, option) {
                 }
             }
         }
+        toolbar.append(searchWrapper());
         options.toolbar = toolbar;
         _grid = $('#grid' + _this.name).datagrid(options);
         Toolbar.bind('.' + options.bodyCls + ' .datagrid-toolbar', view);

@@ -73,6 +73,17 @@ namespace Known.Web.Controllers
             var codes = Code.GetCodes(PlatformService);
             return Json(new { menus, codes });
         }
+
+        /// <summary>
+        /// 获取当前用户指定模块的权限数据。
+        /// </summary>
+        /// <param name="id">模块ID。</param>
+        /// <returns>模块按钮和列表数据。</returns>
+        public ActionResult GetModule(string id)
+        {
+            var data = PlatformService.GetUserModule(UserName, id);
+            return Json(data);
+        }
         #endregion
 
         #region View

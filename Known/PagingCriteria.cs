@@ -6,9 +6,9 @@
     public class PagingCriteria
     {
         /// <summary>
-        /// 取得或设置页面是否是加载。
+        /// 取得或设置查询关键字。
         /// </summary>
-        public bool IsLoad { get; set; }
+        public string Key { get; set; }
 
         /// <summary>
         /// 取得或设置每页显示的数据数量，默认 10。

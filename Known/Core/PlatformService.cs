@@ -86,6 +86,17 @@ namespace Known.Core
         }
 
         /// <summary>
+        /// 获取当前应用程序登录用户的指定模块的信息。
+        /// </summary>
+        /// <param name="userName">登录用户名。</param>
+        /// <param name="id">模块ID。</param>
+        /// <returns>模块信息。</returns>
+        public ModuleAttribute GetUserModule(string userName, string id)
+        {
+            return AppInfo.Instance.Modules.FirstOrDefault(m => m.Code == id);
+        }
+
+        /// <summary>
         /// 获取指定用户名的用户信息对象。
         /// </summary>
         /// <param name="userName">登录用户名。</param>
