@@ -514,7 +514,7 @@ var Grid = function (view, option) {
 
     var _grid = null;
     var _this = this;
-    var idField = option.idField;
+    var idField = option.idField || 'Oid';
     this.query = null;
 
     //public

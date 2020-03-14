@@ -34,15 +34,18 @@
             // public
             show: function () {
                 this.grid = new Grid(this, {
-                    idField: 'itemid',
                     columns: [[
                         { field: 'ck', checkbox: true },
-                        { sortable: true, field: 'itemid', title: '角色名称', width: 100 },
-                        { sortable: true, field: 'attr1', title: '描述', width: 200 },
-                        { sortable: true, field: 'productid', title: '修改人' },
-                        { sortable: true, field: 'status', title: '修改时间', align: 'center' },
-                        { sortable: true, field: 'productid', title: '创建人' },
-                        { sortable: true, field: 'status', title: '创建时间', align: 'center' }
+                        { sortable: true, field: 'UserName', title: '账号' },
+                        { sortable: true, field: 'Name', title: '姓名' },
+                        { sortable: true, field: 'Gender', title: '性别' },
+                        { sortable: true, field: 'Phone', title: '座机' },
+                        { sortable: true, field: 'Mobile', title: '手机' },
+                        { sortable: true, field: 'Email', title: '邮箱' },
+                        { sortable: true, field: 'ModifyBy', title: '修改人' },
+                        { sortable: true, field: 'ModifyTime', title: '修改时间', align: 'center' },
+                        { sortable: true, field: 'CreateBy', title: '创建人' },
+                        { sortable: true, field: 'CreateTime', title: '创建时间', align: 'center' }
                     ]]
                 });
             },
