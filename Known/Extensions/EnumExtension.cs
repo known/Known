@@ -41,6 +41,22 @@ namespace Known.Extensions
         }
 
         /// <summary>
+        /// 获取枚举值的描述。
+        /// </summary>
+        /// <param name="value">枚举值。</param>
+        /// <returns>枚举值的描述。</returns>
+        public static T GetAttribute<T>(this Enum value) where T:Attribute
+        {
+            if (value == null)
+                return default;
+
+            var type = value.GetType();
+            var name = Enum.GetName(type, value);
+            var field = type.GetField(name);
+            return field.GetAttribute<T>(false);
+        }
+
+        /// <summary>
         /// 获取枚举类型的字典。
         /// </summary>
         /// <param name="enumType">枚举类型。</param>

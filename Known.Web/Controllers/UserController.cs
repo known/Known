@@ -70,19 +70,9 @@ namespace Known.Web.Controllers
         public ActionResult GetModules()
         {
             var menus = Menu.GetUserMenus(PlatformService, UserName);
+            var rights = Menu.GetUserRights(PlatformService, UserName);
             var codes = Code.GetCodes(PlatformService);
-            return Json(new { menus, codes });
-        }
-
-        /// <summary>
-        /// 获取当前用户指定模块的权限数据。
-        /// </summary>
-        /// <param name="id">模块ID。</param>
-        /// <returns>模块按钮和列表数据。</returns>
-        public ActionResult GetModule(string id)
-        {
-            var data = PlatformService.GetUserModule(UserName, id);
-            return Json(data);
+            return Json(new { menus, rights, codes });
         }
         #endregion
 
@@ -92,6 +82,7 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">查询条件对象。</param>
         /// <returns>分页数据对象。</returns>
+        [Toolbar(5, ToolbarType.Exports)]
         public ActionResult QueryUsers(CriteriaData data)
         {
             return QueryPagingData(data, c => Service.QueryUsers(c));
@@ -102,7 +93,19 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
+        [Toolbar(3, ToolbarType.Remove)]
         public ActionResult DeleteUsers(string data)
+        {
+            return PostAction<string[]>(data, d => Service.DeleteUsers(d));
+        }
+
+        /// <summary>
+        /// 删除一个或多个实体对象。
+        /// </summary>
+        /// <param name="data">实体对象 Id 数组。</param>
+        /// <returns>删除结果。</returns>
+        [Toolbar(4, ToolbarType.Imports)]
+        public ActionResult ImportUsers(string data)
         {
             return PostAction<string[]>(data, d => Service.DeleteUsers(d));
         }
@@ -124,6 +127,7 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
+        [Toolbar(1, ToolbarType.Save, true)]
         public ActionResult SaveUser(string data)
         {
             return PostAction<dynamic>(data, d => Service.SaveUser(d));

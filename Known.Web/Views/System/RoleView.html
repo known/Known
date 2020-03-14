@@ -40,14 +40,10 @@
 
             name: 'Role',
             grid: null,
-            url: {
-                DeleteRoles: '/Role/DeleteRoles'
-            },
 
             // public
             show: function () {
                 this.grid = new Grid(this, {
-                    url: '/Role/QueryRoles',
                     idField: 'itemid',
                     columns: [[
                         { field: 'ck', checkbox: true },
@@ -72,8 +68,8 @@
                 });
             },
 
-            remove: function () {
-                this.grid.deleteRows(this.url.DeleteRoles, function (e) {
+            remove: function (url) {
+                this.grid.deleteRows(url, function (e) {
                     Message.alert(JSON.stringify(e.data));
                 });
             },

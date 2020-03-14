@@ -47,26 +47,6 @@ namespace Known.Core
         /// </summary>
         public List<Menu> children { get; set; }
 
-        public static List<Menu> GetUserMenus(PlatformService service, string userName)
-        {
-            var menus = new List<Menu>();
-
-            var modules = service.GetUserModules(userName);
-            if (modules != null && modules.Count > 0)
-            {
-                var index = 0;
-                foreach (var item in modules)
-                {
-                    var menu = GetMenu(item);
-                    menu.expanded = index == 0;
-                    menus.Add(menu);
-                    index++;
-                }
-            }
-
-            return menus;
-        }
-
         public static List<Menu> GetTreeMenus(PlatformService service)
         {
             var app = AppInfo.Instance;
@@ -94,6 +74,31 @@ namespace Known.Core
             }
 
             return menus;
+        }
+
+        public static List<Menu> GetUserMenus(PlatformService service, string userName)
+        {
+            var menus = new List<Menu>();
+
+            var modules = service.GetUserModules(userName);
+            if (modules != null && modules.Count > 0)
+            {
+                var index = 0;
+                foreach (var item in modules)
+                {
+                    var menu = GetMenu(item);
+                    menu.expanded = index == 0;
+                    menus.Add(menu);
+                    index++;
+                }
+            }
+
+            return menus;
+        }
+
+        public static object GetUserRights(PlatformService service, string userName)
+        {
+            return null;
         }
 
         private static Menu GetMenu(ModuleAttribute module)

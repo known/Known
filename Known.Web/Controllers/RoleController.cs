@@ -30,6 +30,7 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">实体对象 Id 数组。</param>
         /// <returns>删除结果。</returns>
+        [Toolbar(3, ToolbarType.Remove)]
         public ActionResult DeleteRoles(string data)
         {
             return PostAction<string[]>(data, d => Service.DeleteRoles(d));
@@ -52,6 +53,7 @@ namespace Known.Web.Controllers
         /// </summary>
         /// <param name="data">实体对象 JSON。</param>
         /// <returns>保存结果。</returns>
+        [Toolbar(1, ToolbarType.Save, true)]
         public ActionResult SaveRole(string data)
         {
             return PostAction<dynamic>(data, d => Service.SaveRole(d));
