@@ -25,6 +25,18 @@ namespace Known.Web.Controllers
             return QueryPagingData(data, c => Service.QueryRoles(c));
         }
 
+        [Toolbar(1, ToolbarType.Add)]
+        public ActionResult AddRole()
+        {
+            return ActionResult.Empty;
+        }
+
+        [Toolbar(2, ToolbarType.Edit)]
+        public ActionResult EditRole()
+        {
+            return ActionResult.Empty;
+        }
+
         /// <summary>
         /// 删除一个或多个实体对象。
         /// </summary>

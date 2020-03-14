@@ -115,6 +115,7 @@
     <EmbeddedResource Include="Views\System\RoleView.html" />
     <EmbeddedResource Include="Views\Home\Partials\Page.html" />
     <EmbeddedResource Include="Views\Shared\GridView.html" />
+    <EmbeddedResource Include="Views\System\UserView.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

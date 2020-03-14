@@ -87,6 +87,18 @@ namespace Known.Web.Controllers
             return QueryPagingData(data, c => Service.QueryUsers(c));
         }
 
+        [Toolbar(1, ToolbarType.Add)]
+        public ActionResult AddUser()
+        {
+            return ActionResult.Empty;
+        }
+
+        [Toolbar(2, ToolbarType.Edit)]
+        public ActionResult EditUser()
+        {
+            return ActionResult.Empty;
+        }
+
         /// <summary>
         /// 删除一个或多个实体对象。
         /// </summary>

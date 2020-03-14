@@ -167,6 +167,7 @@ var MainView = {
     },
     mainTabs: null,
     currentTab: null,
+    menus: null,
 
     show: function () {
         this.mainTabs = $('#mainTabs');
@@ -230,6 +231,7 @@ var MainView = {
         $('.sidebar').mCustomScrollbar({ autoHideScrollbar: true });
         new MainMenuTip(menu);
         $.post(url, function (result) {
+            _this.menus = result.menus;
             menu.loadData(result.menus.toTree('0'));
         });
     }

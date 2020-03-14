@@ -9,6 +9,16 @@ namespace Known
     public enum ToolbarType
     {
         /// <summary>
+        /// 新增。
+        /// </summary>
+        [Button("新增", "fa-plus")]
+        Add,
+        /// <summary>
+        /// 编辑。
+        /// </summary>
+        [Button("编辑", "fa-pencil")]
+        Edit,
+        /// <summary>
         /// 保存。
         /// </summary>
         [Button("保存", "fa-save")]

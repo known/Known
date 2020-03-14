@@ -14,7 +14,7 @@ namespace Known.Web.Controllers
         [Module(2, "用户管理", "fa fa-user", typeof(UserController))]
         public ActionResult UserView()
         {
-            return GridView();
+            return View();
         }
     }
 }

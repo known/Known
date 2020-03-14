@@ -323,20 +323,6 @@ var Dialog = {
 //---------------------------Toolbar------------------------------------------//
 var Toolbar = {
 
-    buttons: [
-        { id: 'add', text: '新增', iconCls: 'fa-plus' },
-        { id: 'edit', text: '编辑', iconCls: 'fa-pencil' },
-        { id: 'remove', text: '删除', iconCls: 'fa-minus' },
-        { id: 'imports', text: '导入', iconCls: 'fa-sign-in' },
-        { id: 'exports', text: '导出', iconCls: 'fa-sign-out' },
-        { id: 'upload', text: '上载', iconCls: 'fa-upload' },
-        { id: 'download', text: '下载', iconCls: 'fa-download' }
-    ],
-
-    find: function (id) {
-        return this.buttons.find(b => b.id === id);
-    },
-
     bindById: function (tbId, obj) {
         this.bind('#' + tbId, obj);
     },
@@ -523,7 +509,7 @@ var Form = function (formId, option) {
 
 //---------------------------Grid---------------------------------------------//
 var Grid = function (view, option) {
-    this.name = view.name;
+    this.name = view.name || '';
     this.option = option;
 
     var _grid = null;
@@ -720,8 +706,8 @@ var Grid = function (view, option) {
         }
     }
 
-    function searchWrapper() {
-        var html = option.toolbars
+    function searchWrapper(hasButton) {
+        var html = hasButton
             ? '<div class="searchWrapper" style="float:right;">'
             : '<div class="searchWrapper">';
         html += '<input type="text" id="key" placeholder="请输入搜索内容" />';
@@ -741,6 +727,9 @@ var Grid = function (view, option) {
     }
 
     function init() {
+        var menus = top.MainView.menus || [];
+        var menu = menus.find(m => m.id === _this.name) || {};
+        var buttons = menu.buttons || [];
         var options = $.extend({
             bodyCls: 'grid' + _this.name, multiSort: true,
             checkOnSelect: false, selectOnCheck: true,
@@ -749,16 +738,16 @@ var Grid = function (view, option) {
         }, option);
 
         var toolbar = $('<div>');
-        if (option.toolbars) {
-            for (var i = 0; i < option.toolbars.length; i++) {
-                var btn = Toolbar.find(option.toolbars[i]);
-                if (btn) {
+        if (buttons) {
+            for (var i = 0; i < buttons.length; i++) {
+                var btn = buttons[i];
+                if (!btn.form) {
                     var btnFormat = '<a class="easyui-linkbutton" plain="true" id="{id}" iconCls="{iconCls}">{text}</a>';
                     toolbar.append(btnFormat.format(btn));
                 }
             }
         }
-        toolbar.append(searchWrapper());
+        toolbar.append(searchWrapper(buttons));
         options.toolbar = toolbar;
         _grid = $('#grid' + _this.name).datagrid(options);
         Toolbar.bind('.' + options.bodyCls + ' .datagrid-toolbar', view);
