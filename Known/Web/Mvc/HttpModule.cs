@@ -119,7 +119,7 @@ namespace Known.Web.Mvc
             //    isAuthenticated = true;
 
             //if (isAuthenticated)
-                InvokeAction(action);
+            InvokeAction(action);
         }
 
         private void InvokeAction(ActionInfo action)
@@ -127,8 +127,8 @@ namespace Known.Web.Mvc
             try
             {
                 var queries = HttpUtility.ParseQueryString(context.Request.Url.Query);
-                if (queries != null && queries.Count > 0)
-                    action.Datas = queries.ToDictionary();
+                action.QueryDatas = queries.ToDictionary();
+                action.FormDatas = GetPostData(context.Request);
 
                 var obj = Activator.CreateInstance(action.Controller) as Controller;
                 obj.Context = new ControllerContext(context, action);
@@ -155,7 +155,7 @@ namespace Known.Web.Mvc
         private object InvokeAction(Controller obj, ActionInfo action)
         {
             var method = action.Method;
-            var datas = action.Datas;
+            var datas = action.QueryDatas;
             var parameterInfos = method.GetParameters();
             if (parameterInfos == null || parameterInfos.Length == 0)
                 return method.Invoke(obj, null);
@@ -173,6 +173,20 @@ namespace Known.Web.Mvc
             }
 
             return method.Invoke(obj, parameters.ToArray());
+        }
+
+        private static Dictionary<string, string> GetPostData(HttpRequest request)
+        {
+            if (request.RequestType != "POST" || request.Form.AllKeys.Length == 0)
+                return null;
+
+            var data = new Dictionary<string, string>();
+            foreach (var item in request.Form.AllKeys)
+            {
+                data.Add(item, request.Form[item]);
+            }
+
+            return data;
         }
     }
 }

@@ -78,7 +78,7 @@ namespace Known.Web.Mvc
 
             var id = items.Length > 2 ? items[2] : string.Empty;
             if (!string.IsNullOrWhiteSpace(id))
-                action.Datas = new Dictionary<string, object> { ["id"] = id };
+                action.QueryDatas = new Dictionary<string, object> { ["id"] = id };
 
             return action;
         }

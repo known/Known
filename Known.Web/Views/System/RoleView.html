@@ -44,6 +44,7 @@
             // public
             show: function () {
                 this.grid = new Grid(this, {
+                    url: '/Role/QueryRoles',
                     columns: [[
                         { field: 'ck', checkbox: true },
                         { sortable: true, field: 'Name', title: '名称' },

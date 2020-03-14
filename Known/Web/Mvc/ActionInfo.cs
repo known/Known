@@ -42,7 +42,12 @@ namespace Known.Web.Mvc
         /// <summary>
         /// 取得或设置路由参数字典。
         /// </summary>
-        public Dictionary<string, object> Datas { get; set; }
+        public Dictionary<string, object> QueryDatas { get; set; }
+
+        /// <summary>
+        /// 取得或设置POST数据字典。
+        /// </summary>
+        public Dictionary<string, string> FormDatas { get; set; }
 
         /// <summary>
         /// 判断方法或控制器是否使用指定类型的特性。

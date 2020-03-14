@@ -509,27 +509,23 @@ var Form = function (formId, option) {
 
 //---------------------------Grid---------------------------------------------//
 var Grid = function (view, option) {
-    this.name = view.name || '';
-    this.option = option;
+    this.option = option || {};
 
-    var _grid = null;
     var _this = this;
+    var name = view.name || '';
+    var grid = null;
+    var gridId = 'grid' + name;
     var idField = option.idField || 'Oid';
-    this.query = null;
+
 
     //public
     this.load = function (query) {
-        this.query = query;
-        _grid.datagrid('load', this.query);
+        grid.datagrid('load', query);
     };
 
-    //this.reload = function () {
-    //    _grid.datagrid('reload', this.query);
-    //};
-
     //this.validate = function (tabsId, tabIndex) {
-    //    _grid.validate();
-    //    if (_grid.isValid())
+    //    grid.validate();
+    //    if (grid.isValid())
     //        return true;
 
     //    if (tabsId) {
@@ -538,13 +534,13 @@ var Grid = function (view, option) {
     //        tabs.activeTab(tab);
     //    }
 
-    //    var error = _grid.getCellErrors()[0];
-    //    _grid.beginEditCell(error.record, error.column);
+    //    var error = grid.getCellErrors()[0];
+    //    grid.beginEditCell(error.record, error.column);
     //    return false;
     //};
 
     //this.getChanges = function (encode) {
-    //    var data = _grid.datagrid('getChanges');
+    //    var data = grid.datagrid('getChanges');
     //    return encode ? mini.encode(data) : data;
     //};
 
@@ -553,20 +549,20 @@ var Grid = function (view, option) {
     //};
 
     //this.getData = function (encode) {
-    //    var data = _grid.datagrid('getData');
+    //    var data = grid.datagrid('getData');
     //    return encode ? JSON.stringify(data) : data;
     //};
 
     //this.setData = function (data, callback) {
     //    this.clear();
     //    if (data) {
-    //        _grid.datagrid('loadData', data);
+    //        grid.datagrid('loadData', data);
     //        callback && callback({ sender: this, data: data });
     //    }
     //};
 
     //this.clear = function () {
-    //    _grid.datagrid('loadData', []);
+    //    grid.datagrid('loadData', []);
     //};
 
     //this.addRow = function (data, index) {
@@ -574,16 +570,16 @@ var Grid = function (view, option) {
     //        index = this.getLength();
     //    }
 
-    //    _grid.datagrid('insertRow', { index: index, row: data });
-    //    _grid.datagrid('beginEdit', index);
+    //    grid.datagrid('insertRow', { index: index, row: data });
+    //    grid.datagrid('beginEdit', index);
     //};
 
     //this.updateRow = function (data, index) {
-    //    _grid.datagrid('updateRow', { index: index, row: data });
+    //    grid.datagrid('updateRow', { index: index, row: data });
     //};
 
     //this.deleteRow = function (index) {
-    //    _grid.datagrid('deleteRow', index);
+    //    grid.datagrid('deleteRow', index);
     //};
 
     this.checkSelect = function (callback) {
@@ -637,73 +633,10 @@ var Grid = function (view, option) {
         return encode ? JSON.stringify(datas) : datas;
     };
 
-    //this.hideColumn = function (field) {
-    //    _grid.datagrid('hideColumn', field);
-    //};
-
-    //this.showColumn = function (field) {
-    //    _grid.datagrid('showColumn', field);
-    //};
-
     //private
     function getSelecteds(encode) {
-        var data = _grid.datagrid('getSelections');
+        var data = grid.datagrid('getSelections');
         return encode ? JSON.stringify(data) : data;
-    }
-
-    function onColumnRende(e) {
-        var displayField = e.column.displayField;
-        if (displayField === 'icon') {
-            var value = e.record[e.column.field];
-            return '<span class="mini-icon mini-iconfont ' + e.value + '"></span>';
-        } else if (displayField.startWith('code.')) {
-            var type = displayField.replace('code.', '');
-            var code = Code.getCode(type, e.value);
-            var text = e.value;
-            if (code && code.text) {
-                text += '-' + code.text;
-            }
-            return text;
-        } else {
-            return e.record[displayField];
-        }
-    }
-
-    function queryData(isLoad, callback) {
-        var query = this.query ? this.query.getData(true) : '';
-        _grid.clearSelect(false);
-        _grid.load(
-            { query: query, isLoad: isLoad },
-            function (e) {
-                if (callback) {
-                    callback({ sender: this, result: e.result });
-                }
-            },
-            function () {
-                Message.tips({ content: '查询出错！', state: 'warning' });
-            }
-        );
-        new ColumnsMenu(_grid);
-    }
-
-    function initQuery() {
-        if ($('#query' + name).length) {
-            this.query = new Form('query' + name);
-            this.query.setData(this.option.query);
-
-            if (this.query.key) {
-                this.query.key.on('buttonclick', function () {
-                    _this.search();
-                });
-            }
-
-            var btnSearch = mini.get('search', this.query);
-            if (btnSearch) {
-                btnSearch.on('click', function () {
-                    _this.search();
-                });
-            }
-        }
     }
 
     function searchWrapper(hasButton) {
@@ -713,7 +646,7 @@ var Grid = function (view, option) {
         html += '<input type="text" id="key" placeholder="请输入搜索内容" />';
         if (option.showAdvSearch) {
             html += '<a class="easyui-linkbutton search searchBtn" iconCls="fa-search"></a>';
-            html += '<a class="easyui-linkbutton">高级</a>';
+            html += '<a class="easyui-linkbutton advBtn">高级</a>';
         } else {
             html += '<a class="easyui-linkbutton searchBtn" iconCls="fa-search"></a>';
         }
@@ -723,15 +656,18 @@ var Grid = function (view, option) {
         wrapper.children('.searchBtn').click(function () {
             _this.load({ key: input.val() });
         });
+        wrapper.children('.advBtn').click(function () {
+            Message.alert('高级查询');
+        });
         return wrapper;
     }
 
     function init() {
         var menus = top.MainView.menus || [];
-        var menu = menus.find(m => m.id === _this.name) || {};
+        var menu = menus.find(m => m.id === name) || {};
         var buttons = menu.buttons || [];
         var options = $.extend({
-            bodyCls: 'grid' + _this.name, multiSort: true,
+            bodyCls: gridId, multiSort: true,
             checkOnSelect: false, selectOnCheck: true,
             rownumbers: true, pagination: true, fit: true,
             fitColumns: true, striped: true
@@ -749,7 +685,7 @@ var Grid = function (view, option) {
         }
         toolbar.append(searchWrapper(buttons));
         options.toolbar = toolbar;
-        _grid = $('#grid' + _this.name).datagrid(options);
+        grid = $('#' + gridId).datagrid(options);
         Toolbar.bind('.' + options.bodyCls + ' .datagrid-toolbar', view);
     }
 
