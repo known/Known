@@ -40,6 +40,11 @@ namespace Known.Web.Mvc
         public RouteAttribute Route { get; }
 
         /// <summary>
+        /// 取得或设置请求方式（GET或POST）。
+        /// </summary>
+        public string RequestType { get; set; }
+
+        /// <summary>
         /// 取得或设置路由参数字典。
         /// </summary>
         public Dictionary<string, object> QueryDatas { get; set; }

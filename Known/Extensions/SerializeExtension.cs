@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -17,8 +18,9 @@ namespace Known.Extensions
         /// </summary>
         /// <typeparam name="T">对象类型。</typeparam>
         /// <param name="value">对象。</param>
+        /// <param name="dateFormat">日期时间格式。</param>
         /// <returns>JSON 字符串。</returns>
-        public static string ToJson<T>(this T value)
+        public static string ToJson<T>(this T value, string dateFormat = "yyyy-MM-dd HH:mm:ss")
         {
             if (value == null)
                 return string.Empty;
@@ -27,7 +29,7 @@ namespace Known.Extensions
             if (provider == null)
                 provider = new JsonProvider();
 
-            return provider.Serialize(value);
+            return provider.Serialize(value, dateFormat);
         }
 
         /// <summary>
@@ -35,8 +37,9 @@ namespace Known.Extensions
         /// </summary>
         /// <typeparam name="T">对象类型。</typeparam>
         /// <param name="json">JSON 字符串。</param>
+        /// <param name="dateFormat">日期时间格式。</param>
         /// <returns>反序列化后的对象。</returns>
-        public static T FromJson<T>(this string json)
+        public static T FromJson<T>(this string json, string dateFormat = "yyyy-MM-dd HH:mm:ss")
         {
             if (string.IsNullOrWhiteSpace(json))
                 return default;
@@ -45,7 +48,26 @@ namespace Known.Extensions
             if (provider == null)
                 provider = new JsonProvider();
 
-            return provider.Deserialize<T>(json);
+            return provider.Deserialize<T>(json, dateFormat);
+        }
+
+        /// <summary>
+        /// 获取 JSON 反序列化后的指定类型的对象。
+        /// </summary>
+        /// <param name="json">JSON 字符串。</param>
+        /// <param name="type">对象类型。</param>
+        /// <param name="dateFormat">日期时间格式。</param>
+        /// <returns>反序列化后的对象。</returns>
+        public static object FromJson(this string json, Type type, string dateFormat = "yyyy-MM-dd HH:mm:ss")
+        {
+            if (string.IsNullOrWhiteSpace(json))
+                return null;
+
+            var provider = Container.Resolve<IJson>();
+            if (provider == null)
+                provider = new JsonProvider();
+
+            return provider.Deserialize(json, type, dateFormat);
         }
 
         /// <summary>

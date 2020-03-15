@@ -129,6 +129,7 @@ namespace Known.Web.Mvc
                 var queries = HttpUtility.ParseQueryString(context.Request.Url.Query);
                 action.QueryDatas = queries.ToDictionary();
                 action.FormDatas = GetPostData(context.Request);
+                action.RequestType = context.Request.RequestType;
 
                 var obj = Activator.CreateInstance(action.Controller) as Controller;
                 obj.Context = new ControllerContext(context, action);
@@ -155,24 +156,41 @@ namespace Known.Web.Mvc
         private object InvokeAction(Controller obj, ActionInfo action)
         {
             var method = action.Method;
-            var datas = action.QueryDatas;
-            var parameterInfos = method.GetParameters();
-            if (parameterInfos == null || parameterInfos.Length == 0)
+            var parameters = method.GetParameters();
+            if (parameters == null || parameters.Length == 0)
                 return method.Invoke(obj, null);
 
-            var parameters = new List<object>();
-            if (datas == null || datas.Count == 0)
+            var querys = action.QueryDatas ?? new Dictionary<string, object>();
+            var forms = action.FormDatas ?? new Dictionary<string, string>();
+            if (querys.Count == 0 && forms.Count == 0)
                 throw new Exception($"{method.Name}参数不能为空！");
 
-            foreach (var item in parameterInfos)
+            var args = new List<object>();
+            foreach (var item in parameters)
             {
-                if (datas.ContainsKey(item.Name))
-                    parameters.Add(datas[item.Name]);
+                if (querys.ContainsKey(item.Name))
+                {
+                    args.Add(querys[item.Name]);
+                }
+                else if (forms.ContainsKey(item.Name))
+                {
+                    args.Add(forms[item.Name]);
+                }
                 else
-                    parameters.Add(null);
+                {
+                    if (item.ParameterType.IsClass)
+                    {
+                        var data = forms.ToJson().FromJson(item.ParameterType);
+                        args.Add(data);
+                    }
+                    else
+                    {
+                        args.Add(null);
+                    }
+                }
             }
 
-            return method.Invoke(obj, parameters.ToArray());
+            return method.Invoke(obj, args.ToArray());
         }
 
         private static Dictionary<string, string> GetPostData(HttpRequest request)
