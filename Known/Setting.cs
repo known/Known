@@ -11,8 +11,8 @@
             AppName = Config.AppSetting("AppName");
             ApiPlatformUrl = Config.AppSetting("ApiPlatformUrl");
             ApiBaseUrl = Config.AppSetting("ApiBaseUrl");
-            IsApiValidRequest = Config.AppSetting<bool>("IsApiValidRequest", false);
-            IsDebug = Config.AppSetting<bool>("IsDebug", false);
+            IsApiValidRequest = Config.AppSetting("IsApiValidRequest", false);
+            IsDebug = Config.AppSetting("IsDebug", false);
             SmtpServer = Config.AppSetting("SmtpServer");
             SmtpPort = Config.AppSetting<int>("SmtpPort");
             SmtpFromName = Config.AppSetting("SmtpFromName");

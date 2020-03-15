@@ -7,13 +7,13 @@ namespace Known.Web.Datas
     {
         public static PagingResult QueryRoles(this Database database, PagingCriteria criteria)
         {
-            var sql = "select * from t_plt_roles where parent_id=@pid";
+            var sql = "select * from t_plt_roles where comp_no=@compNo";
+            criteria.Parameter.compNo = "";
 
-            var key = (string)criteria.Parameter.key;
-            if (!string.IsNullOrWhiteSpace(key))
+            if (!string.IsNullOrWhiteSpace(criteria.Key))
             {
                 sql += " and (code like @key or name like @key)";
-                criteria.Parameter.key = $"%{key}%";
+                criteria.Parameter.key = $"%{criteria.Key}%";
             }
 
             return database.QueryPage<TUser>(sql, criteria);

@@ -55,5 +55,6 @@ namespace Known.Mapping
         public string Extension { get; set; }
 
         internal bool IsNew { get; set; }
+        internal EntityBase Original { get; set; }
     }
 }

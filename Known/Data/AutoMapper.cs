@@ -47,6 +47,7 @@ namespace Known.Data
         {
             var entity = GetEntity<T>(row);
             entity.IsNew = false;
+            entity.Original = MapTo<T, T>(entity);
             return entity;
         }
 

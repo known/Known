@@ -63,6 +63,7 @@
     <Compile Include="Cells\AsposeExcel.cs" />
     <Compile Include="Cells\AsposeSheet.cs" />
     <Compile Include="Cells\AsposeSheetCell.cs" />
+    <Compile Include="DynamicParameter.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Jobs\CheckResult.cs" />

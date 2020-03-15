@@ -15,7 +15,6 @@ namespace Known.Web.Mvc
     public class HttpModule : IHttpModule
     {
         private HttpContext context;
-        //private bool isAuthenticated = true;
 
         /// <summary>
         /// 初始化Http应用程序。
@@ -77,8 +76,13 @@ namespace Known.Web.Mvc
         {
             var user = context.User != null ? context.User.Identity.Name : "Anonymous";
             var url = context.Request.Url;
-            var error = context.Error.ToString();
-            LogHelper.Error($"{user} - {url} - {error}");
+            var error = context.Error;
+            var message = context.Error.ToString();
+            LogHelper.Error($"{user} - {url} - {message}");
+            if (!Setting.IsDebug)
+            {
+                ErrorResult(error.Message);
+            }
         }
 
         private void ErrorResult(string message, int status = 200)
@@ -103,8 +107,6 @@ namespace Known.Web.Mvc
 
         private void InvokeAction(string url)
         {
-            //isAuthenticated = context.User != null && context.User.Identity.IsAuthenticated;
-
             if (url.Contains("static"))
                 return;
 
@@ -115,10 +117,6 @@ namespace Known.Web.Mvc
                 return;
             }
 
-            //if (action.IsUseOf<AllowAnonymousAttribute>())
-            //    isAuthenticated = true;
-
-            //if (isAuthenticated)
             InvokeAction(action);
         }
 
@@ -146,10 +144,6 @@ namespace Known.Web.Mvc
             catch (ThreadAbortException)
             {
                 //Reponse.End提前终止线程
-            }
-            catch (Exception ex)
-            {
-                context.Response.Write(ex.Message);
             }
         }
 

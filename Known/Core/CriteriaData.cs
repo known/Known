@@ -68,7 +68,7 @@ namespace Known.Core
         private static dynamic FromJson(string json)
         {
             if (string.IsNullOrWhiteSpace(json))
-                return null;
+                return new DynamicParameter();
 
             return JsonConvert.DeserializeObject<dynamic>(json);
         }
