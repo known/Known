@@ -61,6 +61,7 @@
     <Content Include="App_Data\kms_log.ldf">
       <DependentUpon>kms.mdf</DependentUpon>
     </Content>
+    <Content Include="Global.asax" />
     <Content Include="static\common\protect.js" />
     <Content Include="static\index\welcome.css" />
     <EmbeddedResource Include="Views\Home\Welcome.html" />
@@ -118,29 +119,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\AppController.cs" />
-    <Compile Include="BaseController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ModuleController.cs" />
-    <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="Controllers\SystemController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Datas\AppRepository.cs" />
-    <Compile Include="Datas\ModuleRepository.cs" />
-    <Compile Include="Datas\RoleRepository.cs" />
-    <Compile Include="Datas\UserRepository.cs" />
-    <Compile Include="Entities\TApplication.cs" />
-    <Compile Include="Entities\TCompany.cs" />
-    <Compile Include="Entities\TDepartment.cs" />
-    <Compile Include="Entities\TModule.cs" />
-    <Compile Include="Entities\TRole.cs" />
-    <Compile Include="Entities\TUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AppService.cs" />
-    <Compile Include="Services\CoreServiceBase.cs" />
-    <Compile Include="Services\ModuleService.cs" />
-    <Compile Include="Services\RoleService.cs" />
-    <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="static\libs\font-awesome\css\font-awesome.css.map" />
@@ -150,8 +129,9 @@
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="static\libs\font-awesome\fonts\FontAwesome.otf" />
     <EmbeddedResource Include="Views\Home\Index.html" />
-    <EmbeddedResource Include="Views\Home\Login.html" />
+    <None Include="Views\Home\Login.cshtml" />
     <Content Include="static\data\products.json" />
+    <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Known\Known.csproj">
