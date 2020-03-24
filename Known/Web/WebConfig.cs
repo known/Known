@@ -1,14 +1,17 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
-using Known.Web;
 
-namespace Known.Platform {
-    class WebConfig {
-        public static void RegisterFilters(GlobalFilterCollection filters) {
+namespace Known.Web
+{
+    class WebConfig
+    {
+        public static void RegisterFilters(GlobalFilterCollection filters)
+        {
             filters.Add(new LoginAuthorizeAttribute());
         }
 
-        public static void RegisterRoutes(RouteCollection routes) {
+        public static void RegisterRoutes(RouteCollection routes)
+        {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapMvcAttributeRoutes();
             routes.MapRoute(

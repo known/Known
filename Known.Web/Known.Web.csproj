@@ -64,9 +64,8 @@
     <Content Include="Global.asax" />
     <Content Include="static\common\protect.js" />
     <Content Include="static\index\welcome.css" />
-    <EmbeddedResource Include="Views\Home\Welcome.html" />
-    <EmbeddedResource Include="Views\Home\Page.html" />
-    <EmbeddedResource Include="Views\Layout.html" />
+    <None Include="Views\Home\Welcome.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
     <Content Include="static\common\site.js" />
     <Content Include="static\common\site.css" />
     <Content Include="static\common\base.js" />
@@ -117,6 +116,7 @@
     <EmbeddedResource Include="Views\Home\Partials\Page.html" />
     <EmbeddedResource Include="Views\System\UserView.html" />
     <Content Include="Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,7 +128,7 @@
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="static\libs\font-awesome\fonts\FontAwesome.otf" />
-    <EmbeddedResource Include="Views\Home\Index.html" />
+    <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Login.cshtml" />
     <Content Include="static\data\products.json" />
     <Content Include="Views\Web.config" />
@@ -139,9 +139,7 @@
       <Name>Known</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Shared\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

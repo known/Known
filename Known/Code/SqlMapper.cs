@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Known {
-    public static class SqlMapper {
+namespace Known
+{
+    public static class SqlMapper
+    {
     }
 }

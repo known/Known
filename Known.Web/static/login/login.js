@@ -29,8 +29,8 @@
         $.post(loginUrl.format(userName, $.md5(password)), function (result) {
             _showMessage(result.message);
             if (result.ok) {
-                User.setUser(result.data.user);
-                location = result.data.backUrl || '/';
+                User.setUser(result.data);
+                location = '/';
             } else {
                 $this.removeAttr('disabled').val('登录');
             }

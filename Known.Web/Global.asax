@@ -1,1 +1,1 @@
-﻿<%@ Application Inherits="Known.Platform.MvcApplication" Language="C#" %>
+﻿<%@ Application Inherits="Known.Web.MvcApplication" Language="C#" %>
