@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using System.Web.Security;
 using Known.Web;
 
@@ -42,6 +43,21 @@ namespace Known.Core
             Session.Clear();
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
+        }
+
+        [HttpPost]
+        public ActionResult GetMenus()
+        {
+            var menus = Platform.GetUserMenus(UserName);
+            return JsonResult(menus.Select(m => new
+            {
+                id = m.Id,
+                pid = m.ParentId,
+                code = m.Code,
+                text = m.Name,
+                iconCls = m.Icon,
+                url = m.Url
+            }));
         }
         #endregion
     }

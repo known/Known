@@ -67,12 +67,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\BaseService.cs" />
+    <Compile Include="Code\Container.cs" />
     <Compile Include="Code\Logger.cs" />
     <Compile Include="Code\Result.cs" />
     <Compile Include="Code\Serializer.cs" />
-    <Compile Include="Code\SqlMapper.cs" />
+    <Compile Include="Code\DbHelper.cs" />
     <Compile Include="Core\HomeController.cs" />
+    <Compile Include="Core\IPlatformRepository.cs" />
+    <Compile Include="Core\MenuInfo.cs" />
     <Compile Include="Core\PlatformService.cs" />
+    <Compile Include="Core\UserInfo.cs" />
     <Compile Include="Web\BaseController.cs" />
     <Compile Include="Web\LoginAuthorizeAttribute.cs" />
     <Compile Include="Web\MvcApplication.cs" />

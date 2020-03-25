@@ -162,7 +162,7 @@ var MainMenuTip = function (menu) {
 var MainView = {
 
     url: {
-        GetModules: '/User/GetModules',
+        GetMenus: '/Home/GetMenus',
         Signout: '/signout'
     },
     mainTabs: null,
@@ -171,7 +171,7 @@ var MainView = {
 
     show: function () {
         this.mainTabs = $('#mainTabs');
-        this._initMenu(this.url.GetModules);
+        this._initMenu(this.url.GetMenus);
         
         var _this = this;
         $('#toggle, .sidebar-toggle').click(function () {
@@ -231,8 +231,8 @@ var MainView = {
         $('.sidebar').mCustomScrollbar({ autoHideScrollbar: true });
         new MainMenuTip(menu);
         $.post(url, function (result) {
-            _this.menus = result.menus;
-            menu.loadData(result.menus.toTree('0'));
+            _this.menus = result;
+            menu.loadData(result.toTree('0'));
         });
     }
 
