@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Known.Core;
 
 namespace Known.Web
 {
@@ -9,6 +10,7 @@ namespace Known.Web
     {
         protected void Application_Start(object sender, EventArgs e)
         {
+            Container.Register<IPlatformRepository, PlatformRepository>();
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
             ViewEngines.Engines.RemoveAt(0);
             WebConfig.RegisterFilters(GlobalFilters.Filters);

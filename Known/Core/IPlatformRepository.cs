@@ -1,23 +1,22 @@
 ﻿using System.Collections.Generic;
-using System.Data.Common;
 
 namespace Known.Core
 {
     public interface IPlatformRepository
     {
-        UserInfo GetUser(DbConnection conn, string userName);
-        List<MenuInfo> GetUserMenus(DbConnection conn, string userName);
+        UserInfo GetUser(Database db, string userName);
+        List<MenuInfo> GetUserMenus(Database db, string userName);
     }
 
     class PlatformRepository : IPlatformRepository
     {
-        public UserInfo GetUser(DbConnection conn, string userName)
+        public UserInfo GetUser(Database db, string userName)
         {
-            //var sql = "select * from t_users where user_name=@userName";
-            return null;
+            var sql = "select * from t_plt_users where user_name=@userName";
+            return db.Query<UserInfo>(sql, new { userName });
         }
 
-        public List<MenuInfo> GetUserMenus(DbConnection conn, string userName)
+        public List<MenuInfo> GetUserMenus(Database db, string userName)
         {
             throw new System.NotImplementedException();
         }

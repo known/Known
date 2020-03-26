@@ -11,7 +11,7 @@ namespace Known.Core
 
         internal Result SignIn(string userName, string password)
         {
-            var user = Repository.GetUser(Connection, userName);
+            var user = Repository.GetUser(Database, userName);
             if (user == null)
                 return Result.Error("用户名不存在！");
 
@@ -23,7 +23,7 @@ namespace Known.Core
 
         internal List<MenuInfo> GetUserMenus(string userName)
         {
-            return Repository.GetUserMenus(Connection, userName);
+            return Repository.GetUserMenus(Database, userName);
         }
     }
 }

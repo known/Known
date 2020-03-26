@@ -24,7 +24,7 @@ namespace Known.Web
 
         protected ActionResult JsonResult(object value)
         {
-            var json = Serializer.ToJson(value);
+            var json = Utils.ToJson(value);
             return Content(json, "application/json");
         }
     }
