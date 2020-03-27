@@ -62,13 +62,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\BaseService.cs" />
-    <Compile Include="Code\Container.cs" />
-    <Compile Include="Code\EntityBase.cs" />
-    <Compile Include="Code\Logger.cs" />
-    <Compile Include="Code\Result.cs" />
-    <Compile Include="Code\Database.cs" />
-    <Compile Include="Code\Utils.cs" />
+    <Compile Include="BaseService.cs" />
+    <Compile Include="Container.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="Core\HomeController.cs" />
     <Compile Include="Core\IPlatformRepository.cs" />
     <Compile Include="Core\MenuInfo.cs" />

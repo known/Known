@@ -6,11 +6,6 @@ namespace Known
     public sealed class Utils
     {
         #region Common
-        public static string NewGuid
-        {
-            get { return Guid.NewGuid().ToString().ToLower().Replace("-", ""); }
-        }
-
         public static T ConvertTo<T>(object value, T defaultValue = default)
         {
             return (T)ConvertTo(typeof(T), value, defaultValue);

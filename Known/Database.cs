@@ -8,20 +8,6 @@ using Newtonsoft.Json;
 
 namespace Known
 {
-    public class PagingResult<T>
-    {
-        public int TotalCount { get; set; }
-        public List<T> PageData { get; set; }
-    }
-
-    public class PagingCriteria
-    {
-        public int PageIndex { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
-        public string[] OrderBys { get; set; }
-        public dynamic Parameter { get; set; }
-    }
-
     public class Database : IDisposable
     {
         private readonly string prefix;
@@ -68,7 +54,7 @@ namespace Known
             conn.Dispose();
         }
 
-        public Result Transaction(string name, Action<Database> action, object data = null)
+        public void Transaction(Action<Database> action)
         {
             using (var db = new Database(ProviderName, ConnectionString, UserName))
             {
@@ -77,7 +63,6 @@ namespace Known
                     db.BeginTrans();
                     action(db);
                     db.Commit();
-                    return Result.Success($"{name}成功！", data);
                 }
                 catch
                 {
@@ -374,5 +359,56 @@ select t.* from (
             }
         }
         #endregion
+    }
+
+    public class PagingResult<T>
+    {
+        public int TotalCount { get; set; }
+        public List<T> PageData { get; set; }
+    }
+
+    public class PagingCriteria
+    {
+        public int PageIndex { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
+        public string[] OrderBys { get; set; }
+        public dynamic Parameter { get; set; }
+    }
+
+    public class EntityBase
+    {
+        [NonSerialized]
+        private bool isNew;
+        [NonSerialized]
+        private Dictionary<string, object> original;
+
+        public EntityBase()
+        {
+            Id = Guid.NewGuid();
+            CreateBy = "temp";
+            CreateTime = DateTime.Now;
+            Version = 1;
+            isNew = true;
+        }
+
+        internal bool IsNew
+        {
+            get { return isNew; }
+            set { isNew = value; }
+        }
+
+        internal Dictionary<string, object> Original
+        {
+            get { return original; }
+            set { original = value; }
+        }
+
+        public Guid Id { get; set; }
+        public string CreateBy { get; set; }
+        public DateTime CreateTime { get; set; }
+        public string ModifyBy { get; set; }
+        public DateTime? ModifyTime { get; set; }
+        public int Version { get; set; }
+        public string Extension { get; set; }
     }
 }
