@@ -35,48 +35,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cells\ExcelTest.cs" />
-    <Compile Include="ConfigTest.cs" />
-    <Compile Include="ContainerTest.cs" />
-    <Compile Include="ContextTest.cs" />
-    <Compile Include="EncryptorTest.cs" />
-    <Compile Include="Extensions\CollectionExtensionTest.cs" />
-    <Compile Include="Extensions\CompressExtensionTest.cs" />
-    <Compile Include="Extensions\DataTableExtensionTest.cs" />
-    <Compile Include="Extensions\DateTimeExtensionTest.cs" />
-    <Compile Include="Extensions\EnumExtensionTest.cs" />
-    <Compile Include="Extensions\SerializeExtensionTest.cs" />
-    <Compile Include="Extensions\StringExtensionTest.cs" />
-    <Compile Include="Extensions\TypeExtensionTest.cs" />
-    <Compile Include="Helpers\FileHelperTest.cs" />
-    <Compile Include="Jobs\MainServiceTest.cs" />
-    <Compile Include="Log\ConsoleLoggerTest.cs" />
-    <Compile Include="Log\FileLoggerTest.cs" />
-    <Compile Include="ObjectFactoryTest.cs" />
-    <Compile Include="ServiceExecuterTest.cs" />
-    <Compile Include="Demo\ApplyForm.cs" />
-    <Compile Include="Demo\ApplyFormRepository.cs" />
-    <Compile Include="Demo\ApplyFormService.cs" />
-    <Compile Include="Demo\ApplyFormTest.cs" />
-    <Compile Include="Demo\ApplyJob.cs" />
-    <Compile Include="TestDbProvider.cs" />
-    <Compile Include="TestEntity.cs" />
-    <Compile Include="TestEnum.cs" />
-    <Compile Include="UtilsTest.cs" />
-    <Compile Include="TestService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

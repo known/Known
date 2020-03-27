@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known", "Known\Known.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Web", "Known.Web\Known.Web.csproj", "{1BDB15D7-EC44-4C1D-BC81-491AB60A66A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Tests", "Known.Tests\Known.Tests.csproj", "{93453E2E-B10E-4022-A052-825EF238B720}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1BDB15D7-EC44-4C1D-BC81-491AB60A66A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BDB15D7-EC44-4C1D-BC81-491AB60A66A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BDB15D7-EC44-4C1D-BC81-491AB60A66A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93453E2E-B10E-4022-A052-825EF238B720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93453E2E-B10E-4022-A052-825EF238B720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93453E2E-B10E-4022-A052-825EF238B720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93453E2E-B10E-4022-A052-825EF238B720}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

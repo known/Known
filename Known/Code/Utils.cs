@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Known
@@ -76,24 +75,6 @@ namespace Known
 
             var settings = new JsonSerializerSettings { DateFormatString = dateFormat };
             return JsonConvert.DeserializeObject(json, type, settings);
-        }
-
-        internal static Dictionary<string, object> ToDictionary(object value)
-        {
-            if (value == null)
-                return null;
-
-            var json = JsonConvert.SerializeObject(value);
-            return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-        }
-
-        internal static T FromDictionary<T>(Dictionary<string, object> value)
-        {
-            if (value == null)
-                return default;
-
-            var json = JsonConvert.SerializeObject(value);
-            return JsonConvert.DeserializeObject<T>(json);
         }
         #endregion
     }

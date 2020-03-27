@@ -13,7 +13,7 @@ namespace Known.Core
         public UserInfo GetUser(Database db, string userName)
         {
             var sql = "select * from t_plt_users where user_name=@userName";
-            return db.Query<UserInfo>(sql, new { userName });
+            return db.QuerySingle<UserInfo>(sql, new { userName });
         }
 
         public List<MenuInfo> GetUserMenus(Database db, string userName)

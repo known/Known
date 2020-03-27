@@ -3,30 +3,199 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace Known
 {
+    public class PagingResult<T>
+    {
+        public int TotalCount { get; set; }
+        public List<T> PageData { get; set; }
+    }
+
+    public class PagingCriteria
+    {
+        public int PageIndex { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
+        public string[] OrderBys { get; set; }
+        public dynamic Parameter { get; set; }
+    }
+
     public class Database : IDisposable
     {
-        private readonly DbProviderFactory factory;
+        private readonly string prefix;
         private readonly DbConnection conn;
         private DbTransaction trans;
 
-        public Database(string name = "Default")
+        public Database(string name = "Default", string userName = "")
         {
             var setting = ConfigurationManager.ConnectionStrings[name];
-            factory = DbProviderFactories.GetFactory(setting.ProviderName);
+            ProviderName = setting.ProviderName;
+            ConnectionString = setting.ConnectionString;
+            UserName = userName;
+
+            var factory = DbProviderFactories.GetFactory(ProviderName);
             conn = factory.CreateConnection();
-            conn.ConnectionString = setting.ConnectionString;
+            conn.ConnectionString = ConnectionString;
+            prefix = ProviderName.Contains("Oracle") ? ":" : "@";
+        }
+
+        private Database(string providerName, string connectionString, string userName)
+        {
+            ProviderName = providerName;
+            ConnectionString = connectionString;
+            UserName = userName;
+
+            var factory = DbProviderFactories.GetFactory(ProviderName);
+            conn = factory.CreateConnection();
+            conn.ConnectionString = ConnectionString;
+            prefix = ProviderName.Contains("Oracle") ? ":" : "@";
+        }
+
+        public string ProviderName { get; }
+        public string ConnectionString { get; }
+        public string UserName { get; set; }
+
+        public void Dispose()
+        {
+            if (trans != null)
+                trans.Dispose();
+            trans = null;
+
+            if (conn.State != ConnectionState.Closed)
+                conn.Close();
+            conn.Dispose();
+        }
+
+        public Result Transaction(string name, Action<Database> action, object data = null)
+        {
+            using (var db = new Database(ProviderName, ConnectionString, UserName))
+            {
+                try
+                {
+                    db.BeginTrans();
+                    action(db);
+                    db.Commit();
+                    return Result.Success($"{name}成功！", data);
+                }
+                catch
+                {
+                    db.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        public int Execute(string sql, object param = null)
+        {
+            var info = new CommandInfo(prefix, sql, param);
+            return ExecuteNonQuery(info);
+        }
+
+        public T Scalar<T>(string sql, object param = null)
+        {
+            var cmd = conn.CreateCommand();
+            var info = new CommandInfo(prefix, sql, param);
+            PrepareCommand(conn, cmd, trans, info, out bool close);
+            var scalar = cmd.ExecuteScalar();
+            cmd.Parameters.Clear();
+            if (close)
+                conn.Close();
+
+            return (T)scalar;
+        }
+
+        public T QuerySingle<T>(string sql, object param = null)
+        {
+            bool close;
+            T obj;
+            using (var reader = ExecuteReader(sql, param, out close))
+            {
+                reader.Read();
+                obj = ConvertTo<T>(reader);
+            }
+
+            if (close)
+                conn.Close();
+
+            return obj;
+        }
+
+        public List<T> QueryList<T>(string sql, object param = null)
+        {
+            bool close;
+            var lists = new List<T>();
+            using (var reader = ExecuteReader(sql, param, out close))
+            {
+                while (reader.Read())
+                {
+                    var obj = ConvertTo<T>(reader);
+                    lists.Add(obj);
+                }
+            }
+
+            if (close)
+                conn.Close();
+
+            return lists;
+        }
+
+        public PagingResult<T> QueryPage<T>(string sql, PagingCriteria criteria)
+        {
+            conn.Open();
+
+            var data = new List<T>();
+            var cmd = conn.CreateCommand();
+            var info = new CommandInfo(prefix, sql, criteria.Parameter);
+            PrepareCommand(conn, cmd, trans, info, out _);
+            cmd.CommandText = info.CountSql;
+            var total = (int)cmd.ExecuteScalar();
+            if (total > 0)
+            {
+                cmd.CommandText = info.GetPagingSql(ProviderName, criteria);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var obj = ConvertTo<T>(reader);
+                        data.Add(obj);
+                    }
+                }
+            }
+
+            cmd.Parameters.Clear();
+            conn.Close();
+
+            return new PagingResult<T>
+            {
+                TotalCount = total,
+                PageData = data
+            };
+        }
+
+        public void Save<T>(T entity) where T : EntityBase
+        {
+            if (entity == null)
+                return;
+
+            if (entity.IsNew)
+            {
+                entity.CreateBy = UserName;
+                entity.CreateTime = DateTime.Now;
+            }
+            else
+            {
+                entity.ModifyBy = UserName;
+                entity.ModifyTime = DateTime.Now;
+                entity.Version += 1;
+            }
+
+            var info = CommandInfo.GetSaveCommand(prefix, entity);
+            ExecuteNonQuery(info);
         }
 
         #region Trans
-        private Database(DbConnection conn, string userName)
-        {
-            this.conn = conn;
-            UserName = userName;
-        }
-
         private void BeginTrans()
         {
             if (conn.State != ConnectionState.Open)
@@ -47,122 +216,8 @@ namespace Known
         }
         #endregion
 
-        public string UserName { get; set; }
-
-        public void Dispose()
-        {
-            if (trans != null)
-                trans.Dispose();
-            trans = null;
-
-            if (conn.State != ConnectionState.Closed)
-                conn.Close();
-            conn.Dispose();
-        }
-
-        public Result Transaction(string name, Action<Database> action, object data = null)
-        {
-            var conn = factory.CreateConnection();
-            conn.ConnectionString = this.conn.ConnectionString;
-            using (var db = new Database(conn, UserName))
-            {
-                try
-                {
-                    db.BeginTrans();
-                    action(db);
-                    db.Commit();
-                    return Result.Success($"{name}成功！", data);
-                }
-                catch (Exception ex)
-                {
-                    db.Rollback();
-                    throw ex;
-                }
-            }
-        }
-
-        #region SQL
-        public int Execute(string sql, object param = null)
-        {
-            var info = new CommandInfo(sql, param);
-            return Execute(info);
-        }
-
-        public T Scalar<T>(string sql, object param = null)
-        {
-            var cmd = conn.CreateCommand();
-            var info = new CommandInfo(sql, param);
-            PrepareCommand(conn, cmd, trans, info, out bool close);
-            var scalar = cmd.ExecuteScalar();
-            cmd.Parameters.Clear();
-            if (close)
-                conn.Close();
-
-            return Utils.ConvertTo<T>(scalar);
-        }
-        #endregion
-
-        #region Type
-        public T Query<T>(string sql, object param = null)
-        {
-            bool close;
-            Dictionary<string, object> dic;
-            using (var reader = Reader(sql, param, out close))
-            {
-                reader.Read();
-                dic = ConvertToDictionary(reader);
-            }
-
-            if (close)
-                conn.Close();
-
-            return Utils.FromDictionary<T>(dic);
-        }
-
-        public List<T> QueryList<T>(string sql, object param = null)
-        {
-            bool close;
-            var lists = new List<T>();
-            using (var reader = Reader(sql, param, out close))
-            {
-                while (reader.Read())
-                {
-                    var dic = ConvertToDictionary(reader);
-                    var obj = Utils.FromDictionary<T>(dic);
-                    lists.Add(obj);
-                }
-            }
-
-            if (close)
-                conn.Close();
-
-            return lists;
-        }
-
-        public void Save<T>(T entity) where T : EntityBase
-        {
-            if (entity == null)
-                return;
-
-            if (entity.IsNew)
-            {
-                entity.CreateBy = UserName;
-                entity.CreateTime = DateTime.Now;
-            }
-            else
-            {
-                entity.ModifyBy = UserName;
-                entity.ModifyTime = DateTime.Now;
-                entity.Version += 1;
-            }
-
-            var info = CommandInfo.GetSaveCommand(entity);
-            Execute(info);
-        }
-        #endregion
-
         #region Private
-        private int Execute(CommandInfo info)
+        private int ExecuteNonQuery(CommandInfo info)
         {
             var cmd = conn.CreateCommand();
             PrepareCommand(conn, cmd, trans, info, out bool close);
@@ -174,14 +229,14 @@ namespace Known
             return value;
         }
 
-        private DbDataReader Reader(string sql, object param, out bool close)
+        private DbDataReader ExecuteReader(string sql, object param, out bool close)
         {
             close = false;
             var cmd = conn.CreateCommand();
 
             try
             {
-                var info = new CommandInfo(sql, param);
+                var info = new CommandInfo(prefix, sql, param);
                 PrepareCommand(conn, cmd, trans, info, out close);
                 var reader = cmd.ExecuteReader();
                 cmd.Parameters.Clear();
@@ -195,7 +250,7 @@ namespace Known
             }
         }
 
-        private static Dictionary<string, object> ConvertToDictionary(DbDataReader reader)
+        private static T ConvertTo<T>(DbDataReader reader)
         {
             var dic = new Dictionary<string, object>();
             for (int i = 0; i < reader.FieldCount; i++)
@@ -204,7 +259,8 @@ namespace Known
                 dic.Add(name, reader[i]);
             }
 
-            return dic;
+            var json = JsonConvert.SerializeObject(dic);
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         private static void PrepareCommand(DbConnection conn, DbCommand cmd, DbTransaction trans, CommandInfo info, out bool close)
@@ -219,11 +275,8 @@ namespace Known
                 close = false;
             }
 
-            var isOracle = conn.GetType().Name.Contains("Oracle");
-            var prefix = isOracle ? ":" : "@";
-
             cmd.Connection = conn;
-            cmd.CommandText = isOracle ? info.Text.Replace("@", ":") : info.Text;
+            cmd.CommandText = info.Text;
 
             if (trans != null)
             {
@@ -237,33 +290,77 @@ namespace Known
                 foreach (var item in info.Params)
                 {
                     var p = cmd.CreateParameter();
-                    p.ParameterName = $"{prefix}{item.Key}";
+                    p.ParameterName = $"{info.Prefix}{item.Key}";
                     p.Value = item.Value;
                     cmd.Parameters.Add(p);
                 }
             }
         }
 
+        private static Dictionary<string, object> ToDictionary(object value)
+        {
+            if (value == null)
+                return null;
+
+            var json = JsonConvert.SerializeObject(value);
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+        }
+
         private class CommandInfo
         {
-            private CommandInfo() { }
-
-            internal CommandInfo(string text, object param)
+            internal CommandInfo(string prefix, string text, dynamic param = null)
             {
-                Text = text;
+                Prefix = prefix;
+                Text = text.Replace("@", prefix);
                 if (param != null)
-                    Params = Utils.ToDictionary(param);
+                    Params = ToDictionary(param);
             }
 
+            internal string Prefix { get; set; }
             internal string Text { get; set; }
             internal Dictionary<string, object> Params { get; set; }
 
-            internal static CommandInfo GetSaveCommand<T>(T entity) where T : EntityBase
+            internal string CountSql
             {
-                var info = new CommandInfo();
-                info.Params = Utils.ToDictionary(entity);
-                var orgParams = Utils.ToDictionary(entity.Original);
+                get { return $"select count(*) from ({Text}) t"; }
+            }
 
+            internal string GetPagingSql(string providerName, PagingCriteria criteria)
+            {
+                var orderBy = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)));
+                var startNo = criteria.PageSize * criteria.PageIndex;
+                var endNo = startNo + criteria.PageSize;
+
+                if (string.IsNullOrWhiteSpace(orderBy))
+                {
+                    orderBy = "t1.create_time";
+                }
+
+                if (providerName.Contains("MySql"))
+                {
+                    return $@"
+select t1.* from (
+    {Text}
+) t1 
+order by {orderBy} 
+limit {startNo}, {endNo}";
+                }
+
+                return $@"
+select t.* from (
+    select t1.*,row_number() over (order by {orderBy}) row_no 
+    from (
+        {Text}
+    ) t1
+) t where t.row_no>{startNo} and t.row_no<={endNo}";
+            }
+
+            internal static CommandInfo GetSaveCommand<T>(string prefix, T entity) where T : EntityBase
+            {
+                var cmdParams = ToDictionary(entity);
+                var orgParams = ToDictionary(entity.Original);
+
+                var sql = string.Empty;
                 if (entity.IsNew)
                 {
 
@@ -273,7 +370,7 @@ namespace Known
 
                 }
 
-                return info;
+                return new CommandInfo(prefix, sql) { Params = cmdParams };
             }
         }
         #endregion
