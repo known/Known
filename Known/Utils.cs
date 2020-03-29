@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json;
 
 namespace Known
@@ -70,6 +73,30 @@ namespace Known
 
             var settings = new JsonSerializerSettings { DateFormatString = dateFormat };
             return JsonConvert.DeserializeObject(json, type, settings);
+        }
+        #endregion
+
+        #region Resource
+        public static string GetResource(Assembly assembly, string name)
+        {
+            var text = string.Empty;
+            if (assembly == null || string.IsNullOrEmpty(name))
+                return text;
+
+            var names = assembly.GetManifestResourceNames();
+            name = names.FirstOrDefault(n => n.Contains(name));
+            if (string.IsNullOrWhiteSpace(name))
+                return text;
+
+            var stream = assembly.GetManifestResourceStream(name);
+            if (stream != null)
+            {
+                using (var sr = new StreamReader(stream))
+                {
+                    text = sr.ReadToEnd();
+                }
+            }
+            return text;
         }
         #endregion
     }

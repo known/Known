@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\DevController.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Core\Initializer.cs" />
@@ -82,6 +83,8 @@
   <ItemGroup>
     <EmbeddedResource Include="log4net.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Core\DevView.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
