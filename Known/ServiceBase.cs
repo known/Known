@@ -2,7 +2,7 @@
 
 namespace Known
 {
-    public class BaseService
+    public class ServiceBase
     {
         private Database database;
         protected Database Database

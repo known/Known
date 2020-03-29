@@ -62,8 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseService.cs" />
+    <Compile Include="ServiceBase.cs" />
     <Compile Include="Container.cs" />
+    <Compile Include="Core\Initializer.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Utils.cs" />
@@ -72,7 +73,7 @@
     <Compile Include="Core\MenuInfo.cs" />
     <Compile Include="Core\PlatformService.cs" />
     <Compile Include="Core\UserInfo.cs" />
-    <Compile Include="Web\BaseController.cs" />
+    <Compile Include="Web\ControllerBase.cs" />
     <Compile Include="Web\LoginAuthorizeAttribute.cs" />
     <Compile Include="Web\MvcApplication.cs" />
     <Compile Include="Web\WebConfig.cs" />

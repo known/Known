@@ -3,7 +3,7 @@ using Known.Core;
 
 namespace Known.Web
 {
-    public class BaseController : Controller
+    public class ControllerBase : Controller
     {
         public PlatformService Platform { get; } = new PlatformService();
 

@@ -2,7 +2,7 @@
 
 namespace Known.Core
 {
-    public class PlatformService : BaseService
+    public class PlatformService : ServiceBase
     {
         private IPlatformRepository Repository
         {

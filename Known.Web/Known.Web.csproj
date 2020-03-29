@@ -56,10 +56,6 @@
     <Reference Include="System.Web.Services" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\kms.mdf" />
-    <Content Include="App_Data\kms_log.ldf">
-      <DependentUpon>kms.mdf</DependentUpon>
-    </Content>
     <Content Include="Global.asax" />
     <Content Include="static\common\protect.js" />
     <Content Include="static\index\welcome.css" />

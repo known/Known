@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Web;
+using System.Web.Compilation;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Known.Core;
 
 namespace Known.Web
 {
@@ -10,8 +12,8 @@ namespace Known.Web
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            Container.Register<IPlatformRepository, PlatformRepository>();
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
+            InitialModules();
             ViewEngines.Engines.RemoveAt(0);
             WebConfig.RegisterFilters(GlobalFilters.Filters);
             WebConfig.RegisterRoutes(RouteTable.Routes);
@@ -42,6 +44,26 @@ namespace Known.Web
 
         protected void Application_End(object sender, EventArgs e)
         {
+        }
+
+        private void InitialModules()
+        {
+            Core.Initializer.Initialize();
+            var assemblies = BuildManager.GetReferencedAssemblies()
+                                         .Cast<Assembly>().ToList();
+            foreach (var item in assemblies)
+            {
+                var ns = item.FullName.Split(',')[0];
+                var type = item.GetType($"{ns}.Initializer");
+                if (type == null)
+                    continue;
+
+                var method = type.GetMethod("Initialize");
+                if (method != null)
+                {
+                    method.Invoke(null, null);
+                }
+            }
         }
     }
 }

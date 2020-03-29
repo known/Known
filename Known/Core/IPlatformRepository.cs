@@ -18,7 +18,8 @@ namespace Known.Core
 
         public List<MenuInfo> GetUserMenus(Database db, string userName)
         {
-            throw new System.NotImplementedException();
+            var sql = "select * from t_plt_modules";
+            return db.QueryList<MenuInfo>(sql, new { userName });
         }
     }
 }
