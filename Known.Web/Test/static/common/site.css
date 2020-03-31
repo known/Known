@@ -1,0 +1,342 @@
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 微软雅黑;
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.content {
+    padding: 5px;
+}
+
+/* dropdown */
+.dropup,
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    display: none;
+    float: left;
+    min-width: 160px;
+    font-size: 14px;
+    line-height: 1.4;
+    padding: 5px 0;
+    margin: 2px 0;
+    text-align: left;
+    list-style: none;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    z-index: 2000;
+}
+
+.dropdown-header {
+    display: block;
+    padding: 3px 20px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #777;
+    white-space: nowrap;
+}
+
+.dropdown-menu > .divider {
+    height: 0;
+    margin: 9px 0;
+    overflow: hidden;
+    border-bottom: solid 1px #e5e5e5;
+}
+
+.dropdown-menu > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    color: #333;
+    white-space: nowrap;
+    outline: none;
+}
+
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+        color: #262626;
+        text-decoration: none;
+        background-color: #f5f5f5;
+    }
+
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+    color: #777;
+    text-decoration: none;
+    cursor: not-allowed;
+    background-color: transparent;
+    background-image: none;
+}
+
+.open > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu.pull-right {
+    left: auto;
+    right: 0;
+}
+
+.dropup > .dropdown-menu {
+    top: auto;
+    bottom: 100%;
+    margin-bottom: 2px;
+}
+
+.dropdown-menu .fa {
+    width: 16px;
+}
+
+/* form */
+.form {
+    width: 100%;
+}
+
+    .form th {
+        background: #f7f7f7;
+        text-align: right;
+        border: 1px solid #ccc;
+        white-space: nowrap;
+        font-weight: normal;
+    }
+
+    .form td {
+        width: auto;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+        .form td.in-table {
+            table-layout: fixed;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+            .form td.in-table table {
+                width: 100%;
+                border: 0;
+            }
+
+                .form td.in-table table th, .form td.in-table table td {
+                    border-top: 0;
+                }
+
+.searchWrapper input {
+    height: 26px;
+    padding: 0 5px;
+    margin-right: -1px;
+    outline: none;
+    border: 1px solid #dfdfdf;
+    border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    -webkit-border-radius: 4px 0 0 4px;
+}
+
+.searchWrapper .l-btn {
+    border-radius: 0 4px 4px 0;
+    -moz-border-radius: 0 4px 4px 0;
+    -webkit-border-radius: 0 4px 4px 0;
+}
+
+.searchWrapper .search {
+    margin-right: -1px;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+}
+
+/* easyui */
+.window {
+    padding: 0;
+}
+
+    .window .window-header {
+        padding: 5px 10px;
+    }
+
+        .window .window-header .panel-icon {
+            margin-left: 5px;
+            margin-top: -6px;
+        }
+
+        .window .window-header .panel-tool {
+            right: 5px;
+            margin-top: -8px;
+        }
+
+    .window .window-body {
+        padding: 5px;
+    }
+
+.messager-body {
+    padding: 10px;
+}
+
+.dialog-button {
+    border-top-width: 1px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+}
+
+.messager-button .l-btn {
+    width: 60px;
+}
+
+.l-btn-text {
+    line-height: 24px;
+}
+
+.panel-tool, .l-btn-icon, .panel-icon, .menu-icon, .tabs-icon {
+    font-family: FontAwesome;
+    font-size: 14px !important;
+    line-height: normal !important;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #6699cc;
+    text-align: center;
+    margin-top: -7px;
+}
+
+.tabs-icon {
+    font-size: 16px !important;
+    font-weight: normal;
+}
+
+.panel-tool-collapse,
+.panel-tool-expand,
+.panel-tool-restore,
+.panel-tool-min,
+.panel-tool-max,
+.panel-tool-close {
+    color: #404040;
+    background: none;
+}
+
+.panel-tool-max {
+    padding-top: 2px;
+}
+
+.panel-tool-close {
+    color: #f00;
+}
+
+.panel-tool-collapse:before {
+    content: "\f077";
+}
+
+.panel-tool-expand:before {
+    content: "\f078";
+}
+
+.panel-tool-restore:before {
+    content: "\f2d2";
+}
+
+.panel-tool-min:before {
+    content: "\f2d1";
+}
+
+.panel-tool-max:before {
+    content: "\f2d0";
+}
+
+.panel-tool-close:before {
+    font-size: 16px;
+    content: "\f00d";
+}
+
+/*easyui dialog*/
+.dialog .window-header {
+    background-color: #3c8dbc;
+}
+
+    .dialog .window-header .panel-title,
+    .dialog .window-header .panel-icon {
+        color: #fff;
+    }
+
+/*easyui form*/
+.textbox {
+    border-top-color: #dfdfdf;
+    border-left-color: #dfdfdf;
+    border-right-color: #dfdfdf;
+}
+
+    .textbox .textbox-text {
+        height: 20px;
+        line-height: 20px;
+    }
+
+/*easyui grid*/
+.datagrid-header {
+    background-color: #e5e5e5;
+}
+
+    .datagrid-header .datagrid-cell, .datagrid-cell-group {
+        color: #333;
+        font-weight: bold;
+    }
+
+.datagrid-toolbar .fa-pencil,
+.datagrid-toolbar .fa-download,
+.datagrid-toolbar .fa-file-excel-o,
+.dialog-toolbar .fa-pencil,
+.dialog-toolbar .fa-download,
+.dialog-toolbar .fa-file-excel-o {
+    color: #337ab7;
+}
+
+.datagrid-toolbar .fa-plus,
+.datagrid-toolbar .fa-upload,
+.dialog-toolbar .fa-plus,
+.dialog-toolbar .fa-upload {
+    color: #5cb85c;
+}
+
+.datagrid-toolbar .fa-sign-in,
+.datagrid-toolbar .fa-sign-out,
+.dialog-toolbar .fa-sign-in,
+.dialog-toolbar .fa-sign-out {
+    color: #5bc0de;
+}
+
+.datagrid-toolbar .fa-close,
+.datagrid-toolbar .fa-remove,
+.datagrid-toolbar .fa-minus,
+.datagrid-toolbar .fa-file-pdf-o,
+.dialog-toolbar .fa-close,
+.dialog-toolbar .fa-remove,
+.dialog-toolbar .fa-minus,
+.dialog-toolbar .fa-file-pdf-o {
+    color: #d9534f;
+}

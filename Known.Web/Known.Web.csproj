@@ -57,77 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="static\common\protect.js" />
-    <Content Include="static\index\welcome.css" />
-    <None Include="Views\Home\Welcome.cshtml" />
+    <None Include="Views\Home\Login.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="static\common\site.js" />
-    <Content Include="static\common\site.css" />
-    <Content Include="static\common\base.js" />
-    <Content Include="static\index\images\face.jpg" />
-    <Content Include="static\index\images\tabs_icons.png" />
-    <Content Include="static\index\index.css" />
-    <Content Include="static\index\index.js" />
-    <Content Include="static\libs\animate.min.css" />
-    <Content Include="static\libs\easyui\easyui-lang-zh_CN.js" />
-    <Content Include="static\libs\easyui\easyui.css" />
-    <Content Include="static\libs\easyui\images\accordion_arrows.png" />
-    <Content Include="static\libs\easyui\images\blank.gif" />
-    <Content Include="static\libs\easyui\images\calendar_arrows.png" />
-    <Content Include="static\libs\easyui\images\combo_arrow.png" />
-    <Content Include="static\libs\easyui\images\datagrid_icons.png" />
-    <Content Include="static\libs\easyui\images\datebox_arrow.png" />
-    <Content Include="static\libs\easyui\images\layout_arrows.png" />
-    <Content Include="static\libs\easyui\images\linkbutton_bg.png" />
-    <Content Include="static\libs\easyui\images\loading.gif" />
-    <Content Include="static\libs\easyui\images\menu_arrows.png" />
-    <Content Include="static\libs\easyui\images\messager_icons.png" />
-    <Content Include="static\libs\easyui\images\pagination_icons.png" />
-    <Content Include="static\libs\easyui\images\panel_tools.png" />
-    <Content Include="static\libs\easyui\images\passwordbox_close.png" />
-    <Content Include="static\libs\easyui\images\passwordbox_open.png" />
-    <Content Include="static\libs\easyui\images\searchbox_button.png" />
-    <Content Include="static\libs\easyui\images\slider_handle.png" />
-    <Content Include="static\libs\easyui\images\spinner_arrows.png" />
-    <Content Include="static\libs\easyui\images\tabs_icons.png" />
-    <Content Include="static\libs\easyui\images\tagbox_icons.png" />
-    <Content Include="static\libs\easyui\images\tree_icons.png" />
-    <Content Include="static\libs\easyui\images\validatebox_warning.png" />
-    <Content Include="static\libs\easyui\jquery.easyui.min.js" />
-    <Content Include="static\libs\font-awesome\css\font-awesome.css" />
-    <Content Include="static\libs\font-awesome\css\font-awesome.min.css" />
-    <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="static\libs\highcharts.js" />
-    <Content Include="static\libs\jquery.md5.js" />
-    <Content Include="static\libs\jquery.min.js" />
-    <Content Include="static\libs\pace.min.js" />
-    <Content Include="static\libs\scrollbar\jquery.scrollbar.css" />
-    <Content Include="static\libs\scrollbar\jquery.scrollbar.min.js" />
-    <Content Include="static\login\images\aiwrap.png" />
-    <Content Include="static\login\images\web_login_bg.jpg" />
-    <Content Include="static\login\login.css" />
-    <Content Include="static\login\login.js" />
-    <EmbeddedResource Include="Views\System\RoleView.html" />
-    <EmbeddedResource Include="Views\Home\Partials\Page.html" />
-    <EmbeddedResource Include="Views\System\UserView.html" />
-    <EmbeddedResource Include="DevView.html" />
-    <Content Include="Web.config" />
+    <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="static\libs\font-awesome\css\font-awesome.css.map" />
-    <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="static\libs\font-awesome\fonts\fontawesome-webfont.woff2" />
-    <Content Include="static\libs\font-awesome\fonts\FontAwesome.otf" />
-    <None Include="Views\Home\Index.cshtml" />
-    <None Include="Views\Home\Login.cshtml" />
-    <Content Include="static\data\products.json" />
-    <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Known\Known.csproj">
