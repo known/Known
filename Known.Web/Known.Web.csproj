@@ -65,6 +65,20 @@
     <Content Include="static\fonts\fontawesome-webfont.woff" />
     <Content Include="static\fonts\fontawesome-webfont.woff2" />
     <Content Include="static\fonts\FontAwesome.otf" />
+    <Content Include="static\img\face.jpg" />
+    <Content Include="static\js\bootstrap.min.js" />
+    <Content Include="static\js\contabs.min.js" />
+    <Content Include="static\js\hplus.min.js" />
+    <Content Include="static\js\jquery.min.js" />
+    <Content Include="static\js\plugins\jquery.metisMenu.js" />
+    <Content Include="static\js\plugins\jquery.slimscroll.min.js" />
+    <Content Include="static\js\plugins\layer\laydate\laydate.js" />
+    <Content Include="static\js\plugins\layer\layer.min.js" />
+    <Content Include="static\js\plugins\layer\layim\layim.css" />
+    <Content Include="static\js\plugins\layer\layim\layim.js" />
+    <Content Include="static\js\plugins\layer\layim\loading.gif" />
+    <Content Include="static\js\plugins\pace.min.js" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Login.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
     <Content Include="static\fonts\fontawesome-webfont.svg" />
@@ -88,7 +102,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="static\js\" />
     <Folder Include="static\libs\" />
   </ItemGroup>
   <PropertyGroup>
