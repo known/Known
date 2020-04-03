@@ -22,6 +22,21 @@ namespace Known.Core
         {
             return View();
         }
+
+        public ActionResult UserInfo()
+        {
+            return View();
+        }
+
+        public ActionResult NotFound()
+        {
+            return View();
+        }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
         #endregion
 
         #region Action

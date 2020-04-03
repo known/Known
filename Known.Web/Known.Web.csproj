@@ -65,12 +65,32 @@
     <Content Include="static\fonts\fontawesome-webfont.woff" />
     <Content Include="static\fonts\fontawesome-webfont.woff2" />
     <Content Include="static\fonts\FontAwesome.otf" />
+    <Content Include="static\img\a1.jpg" />
+    <Content Include="static\img\a2.jpg" />
+    <Content Include="static\img\a3.jpg" />
+    <Content Include="static\img\a4.jpg" />
+    <Content Include="static\img\a5.jpg" />
+    <Content Include="static\img\a6.jpg" />
+    <Content Include="static\img\a7.jpg" />
+    <Content Include="static\img\a8.jpg" />
+    <Content Include="static\img\a9.jpg" />
     <Content Include="static\img\face.jpg" />
+    <Content Include="static\img\p1.jpg" />
+    <Content Include="static\img\p2.jpg" />
+    <Content Include="static\img\p3.jpg" />
+    <Content Include="static\img\profile.jpg" />
+    <Content Include="static\img\profile_big.jpg" />
+    <Content Include="static\img\profile_small.jpg" />
+    <Content Include="static\img\p_big1.jpg" />
+    <Content Include="static\img\p_big2.jpg" />
+    <Content Include="static\img\p_big3.jpg" />
     <Content Include="static\js\bootstrap.min.js" />
     <Content Include="static\js\contabs.min.js" />
+    <Content Include="static\js\content.min.js" />
     <Content Include="static\js\hplus.min.js" />
     <Content Include="static\js\jquery.min.js" />
     <Content Include="static\js\plugins\jquery.metisMenu.js" />
+    <Content Include="static\js\plugins\jquery.peity.min.js" />
     <Content Include="static\js\plugins\jquery.slimscroll.min.js" />
     <Content Include="static\js\plugins\layer\laydate\laydate.js" />
     <Content Include="static\js\plugins\layer\layer.min.js" />
@@ -79,7 +99,11 @@
     <Content Include="static\js\plugins\layer\layim\loading.gif" />
     <Content Include="static\js\plugins\pace.min.js" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Welcome.cshtml" />
     <None Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\UserInfo.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Home\NotFound.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
     <Content Include="static\fonts\fontawesome-webfont.svg" />
     <Content Include="static\img\locked.png" />
@@ -91,6 +115,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\System\UserView.cshtml" />
+    <Content Include="Views\System\RoleView.cshtml" />
+    <Content Include="Views\System\ModuleView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
