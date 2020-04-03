@@ -57,8 +57,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="static\css\animate.min.css" />
+    <Content Include="static\css\login.min.css" />
+    <Content Include="static\css\style.min.css" />
+    <Content Include="static\fonts\fontawesome-webfont.eot" />
+    <Content Include="static\fonts\fontawesome-webfont.ttf" />
+    <Content Include="static\fonts\fontawesome-webfont.woff" />
+    <Content Include="static\fonts\fontawesome-webfont.woff2" />
+    <Content Include="static\fonts\FontAwesome.otf" />
     <None Include="Views\Home\Login.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="static\fonts\fontawesome-webfont.svg" />
+    <Content Include="static\img\locked.png" />
+    <Content Include="static\img\login-background.jpg" />
+    <Content Include="static\img\login_bg.jpg" />
+    <Content Include="static\css\bootstrap.min.css" />
+    <Content Include="static\css\font-awesome.min.css" />
+    <Content Include="static\img\user.png" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config" />
@@ -72,7 +87,10 @@
       <Name>Known</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="static\js\" />
+    <Folder Include="static\libs\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

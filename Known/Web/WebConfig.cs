@@ -7,7 +7,7 @@ namespace Known.Web
     {
         public static void RegisterFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new LoginAuthorizeAttribute());
+            //filters.Add(new LoginAuthorizeAttribute());
         }
 
         public static void RegisterRoutes(RouteCollection routes)
