@@ -3,23 +3,6 @@ layui.use(['layer', 'element'], function () {
         , element = layui.element
         , $ = layui.jquery;
 
-    var active = {
-        tabAdd: function (node) {
-            element.tabAdd('tabMenu', {
-                title: '新选项' + (Math.random() * 1000 | 0) //用于演示
-                , content: '内容' + (Math.random() * 1000 | 0)
-                , id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
-            })
-        }
-        , tabDelete: function (othis) {
-            element.tabDelete('tabMenu', '44'); //删除：“商品管理”
-            othis.addClass('layui-btn-disabled');
-        }
-        , tabChange: function () {
-            element.tabChange('tabMenu', '22');
-        }
-    };
-
     function toTree(arr, rootId) {
         arr.forEach(function (element) {
             var parentId = element.pid;
@@ -40,35 +23,39 @@ layui.use(['layer', 'element'], function () {
         return arr;
     }
 
-    function renderMenu(obj, pid) {
-        pid = pid || '';
+    function initMenu(obj, pid) {
         $.ajax({
             url: '/Home/GetMenus?pid=' + pid, async: false,
             success: function (res) {
-                //console.log(res);
-                var tree = toTree(res, pid);
-                //console.log(tree);
-                var html = '';
-                $(tree).each(function (i, d) {
-                    html += '<li class="layui-nav-item">';
-                    html += '  <a href="javascript:;">' + d.text + '</a>';
-                    if (d.children) {
-                        html += '  <dl class="layui-nav-child">';
-                        $(d.children).each(function (ci, cd) {
-                            html += '<dd><a href="">' + cd.text + '</a></dd>';
-                        });
-                        html += '  </dl>';
-                    }
-                    html += '</li>';
-                });
-                $(document).find(".layui-nav[lay-filter=" + obj + "]").html(html);
+                renderMenu(obj, res, pid);
+                if (pid === '') {
+                    initMenu('leftMenu', res[0].id);
+                }
                 element.init();
             }
         });
     }
 
+    function renderMenu(obj, res, pid) {
+        var tree = toTree(res, pid);
+        var html = '';
+        $(tree).each(function (i, d) {
+            html += '<li class="layui-nav-item">';
+            html += '  <a href="javascript:;" id="menu' + d.id + '" data-url="' + d.url + '"><i class="layui-icon ' + d.icon + '"></i> ' + d.text + '</a>';
+            if (d.children) {
+                html += '  <dl class="layui-nav-child">';
+                $(d.children).each(function (ci, cd) {
+                    html += '<dd><a href="javascript:;" id="menu' + cd.id + '" data-url="' + cd.url + '"><i class="layui-icon ' + cd.icon + '"></i> ' + cd.text + '</a></dd>';
+                });
+                html += '  </dl>';
+            }
+            html += '</li>';
+        });
+        $(document).find(".layui-nav[lay-filter=" + obj + "]").html(html);
+    }
+
     function init() {
-        renderMenu('topMenu');
+        initMenu('topMenu', '');
     }
 
     //$('.site-demo-active').on('click', function () {
@@ -77,15 +64,24 @@ layui.use(['layer', 'element'], function () {
     //});
 
     element.on('nav(topMenu)', function (elem) {
-        console.log(elem);
+        var pid = elem[0].id.replace('menu', '');
+        initMenu('leftMenu', pid);
     });
 
     element.on('nav(leftMenu)', function (elem) {
-        console.log(elem);
+        var src = elem.data('url');
+        if (src) {
+            var a = elem[0];
+            var id = a.id.replace('menu', '');
+            var title = elem.find('i')[0].outerHTML + ' ' + a.text;
+            var content = '<iframe src="' + src + '" frameborder="0" style="width:100%;height:100%;"></iframe>';
+            element.tabAdd('tabMenu', { id: id, title: title, content: content });
+            element.tabChange('tabMenu', id);
+        }
     });
 
     element.on('tab(tabMenu)', function (elem) {
-        console.log(elem);
+        //console.log(elem);
         //location.hash = 'test=' + $(this).attr('lay-id');
     });
 

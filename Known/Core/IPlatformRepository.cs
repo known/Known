@@ -22,14 +22,14 @@ namespace Known.Core
             var menus = new List<MenuInfo>();
             if (string.IsNullOrWhiteSpace(parentId))
             {
-                menus.Add(new MenuInfo { Id = "1", ParentId = "", Name = "开发框架", Icon = "&#xe614;" });
+                menus.Add(new MenuInfo { Id = "1", ParentId = "", Name = "开发框架", Icon = "layui-icon-util" });
                 return menus;
             }
 
-            menus.Add(new MenuInfo { Id = "11", ParentId = "1", Name = "系统管理", Icon = "&#xe614;" });
-            menus.Add(new MenuInfo { Id = "111", ParentId = "11", Name = "模块管理", Icon = "", Url = "/System/ModuleView" });
-            menus.Add(new MenuInfo { Id = "112", ParentId = "11", Name = "角色管理", Icon = "", Url = "/System/RoleView" });
-            menus.Add(new MenuInfo { Id = "113", ParentId = "11", Name = "用户管理", Icon = "", Url = "/System/UserView" });
+            menus.Add(new MenuInfo { Id = "11", ParentId = "1", Name = "系统管理", Icon = "layui-icon-set-sm" });
+            menus.Add(new MenuInfo { Id = "111", ParentId = "11", Name = "模块管理", Icon = "layui-icon-app", Url = "/System/ModuleView" });
+            menus.Add(new MenuInfo { Id = "112", ParentId = "11", Name = "角色管理", Icon = "layui-icon-group", Url = "/System/RoleView" });
+            menus.Add(new MenuInfo { Id = "113", ParentId = "11", Name = "用户管理", Icon = "layui-icon-friends", Url = "/System/UserView" });
             return menus;
 
             //var sql = "select * from t_plt_users";

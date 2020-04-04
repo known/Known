@@ -2,8 +2,26 @@
     font-size: 20px;
     font-weight: bold;
 }
+.layui-layout-admin .layui-body {
+    bottom: 30px;
+}
 .layui-layout-admin .layui-footer {
     height: 30px;
     line-height: 30px;
     text-align: right;
+}
+.layui-layout-admin .layui-tab {
+    position: fixed;
+    margin: 0;
+    width: 100%;
+    top: 60px;
+    bottom: 30px;
+}
+.layui-layout-admin .layui-tab-content,
+.layui-layout-admin .layui-tab-item {
+    position: fixed;
+    padding: 0;
+    width: 100%;
+    top: 101px;
+    bottom: 30px;
 }
