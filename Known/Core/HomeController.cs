@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -59,19 +60,37 @@ namespace Known.Core
             return RedirectToAction("Login");
         }
 
-        [HttpPost]
-        public ActionResult GetMenus()
+        public ActionResult GetTopMenus()
         {
-            var menus = Platform.GetUserMenus(UserName);
-            return JsonResult(menus.Select(m => new
-            {
-                id = m.Id,
-                pid = m.ParentId,
-                code = m.Code,
-                text = m.Name,
-                iconCls = m.Icon,
-                url = m.Url
-            }));
+            var tops = new List<object>();
+            tops.Add(new { mark = "1", text = "开发框架", icon = "&#xe614;", href = "" });
+            return JsonResult(new { data = tops });
+        }
+
+        public ActionResult GetLeftMenus(string pid)
+        {
+            var tops = new List<object>();
+            tops.Add(new { 
+                text = "系统管理", icon = "&#xe614;", 
+                subset = new List<object>
+                {
+                    new {text="模块管理",icon="",href="/System/ModuleView"},
+                    new {text="角色管理",icon="",href="/System/RoleView"},
+                    new {text="用户管理",icon="",href="/System/UserView"}
+                }
+            });
+            return JsonResult(new { data = tops });
+
+            //var menus = Platform.GetUserMenus(UserName);
+            //return JsonResult(menus.Select(m => new
+            //{
+            //    id = m.Id,
+            //    pid = m.ParentId,
+            //    code = m.Code,
+            //    text = m.Name,
+            //    iconCls = m.Icon,
+            //    url = m.Url
+            //}));
         }
         #endregion
     }
