@@ -21,9 +21,9 @@ namespace Known.Core
             return Result.Success("登录成功！", user);
         }
 
-        internal List<MenuInfo> GetUserMenus(string userName)
+        internal List<MenuInfo> GetUserMenus(string userName, string parentId)
         {
-            return Repository.GetUserMenus(Database, userName);
+            return Repository.GetUserMenus(Database, userName, parentId);
         }
     }
 }

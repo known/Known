@@ -13,23 +13,13 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="~/static/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="~/static/css/iconfont.css" media="all">
+    <link rel="stylesheet" href="~/static/css/index.css" media="all">
 </head>
 <body class="layui-layout-body">
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
             <div class="layui-logo">Known开发框架</div>
-            <!-- 头部区域（可配合layui已有的水平导航） -->
-            <ul class="layui-nav layui-layout-left">
-                <li class="layui-nav-item"><a href="">开发框架</a></li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">其它系统</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="">邮件管理</a></dd>
-                        <dd><a href="">消息管理</a></dd>
-                        <dd><a href="">授权管理</a></dd>
-                    </dl>
-                </li>
-            </ul>
+            <ul class="layui-nav layui-layout-left" lay-filter="topMenu"></ul>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
@@ -47,38 +37,26 @@
 
         <div class="layui-side layui-bg-black">
             <div class="layui-side-scroll">
-                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-                <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                    <li class="layui-nav-item layui-nav-itemed">
-                        <a class="" href="javascript:;">系统管理</a>
-                        <dl class="layui-nav-child">
-                            <dd><a href="javascript:;">模块管理</a></dd>
-                            <dd><a href="javascript:;">角色管理</a></dd>
-                            <dd><a href="javascript:;">用户管理</a></dd>
-                        </dl>
-                    </li>
-                </ul>
+                <ul class="layui-nav layui-nav-tree" lay-filter="leftMenu"></ul>
             </div>
         </div>
 
         <div class="layui-body" style="bottom:30px;">
-            <!-- 内容主体区域 -->
-            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" lay-allowclose="true" style="margin:0;">
+            <div class="layui-tab layui-tab-brief" lay-filter="tabMenu" lay-allowclose="true" style="margin:0;">
                 <ul class="layui-tab-title">
                     <li class="layui-this" lay-id="1"><i class="layui-icon">&#xe638;</i>主页</li>
                 </ul>
                 <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">内容1</div>
+                    <div class="layui-tab-item layui-show">
+                        <iframe id="iframe" src="/Home/Welcome" frameborder="0"></iframe>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="layui-footer" style="height:30px;line-height:30px;">
-            © 2019-2020 - Known
-        </div>
+        <div class="layui-footer">© 2019-2020 - Known</div>
     </div>
 
-    <!-- 右键菜单 -->
     <div class="my-dblclick-box none">
         <table class="layui-tab dblclick-tab">
             <tr class="card-refresh">
@@ -94,20 +72,6 @@
     </div>
 
     <script src="~/static/layui/layui.js"></script>
-    <script>
-        layui.use('element', function () {
-            var element = layui.element;
-
-        });
-        //layui.use(['layer', 'vip_nav'], function () {
-        //    // 操作对象
-        //    var layer = layui.layer
-        //        , vipNav = layui.vip_nav
-        //        , $ = layui.jquery;
-
-        //    // 顶部左侧菜单生成 [请求地址,过滤ID,是否展开,携带参数]
-        //    vipNav.top_left('/Home/GetTopMenus', 'side-top-left', false);
-        //});
-    </script>
+    <script src="~/static/js/index.js"></script>
 </body>
 </html>

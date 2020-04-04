@@ -1,0 +1,9 @@
+﻿.layui-layout-admin .layui-logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+.layui-layout-admin .layui-footer {
+    height: 30px;
+    line-height: 30px;
+    text-align: right;
+}

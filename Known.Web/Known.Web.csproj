@@ -59,9 +59,11 @@
     <Content Include="Global.asax" />
     <Content Include="static\css\animate.min.css" />
     <Content Include="static\css\iconfont.css" />
+    <Content Include="static\css\index.css" />
     <Content Include="static\css\login.css" />
     <Content Include="static\img\bg.png" />
     <Content Include="static\img\face.jpg" />
+    <Content Include="static\js\index.js" />
     <Content Include="static\layui\css\layui.css" />
     <Content Include="static\layui\css\layui.mobile.css" />
     <Content Include="static\layui\css\modules\code.css" />
@@ -194,9 +196,7 @@
       <Name>Known</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="static\js\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

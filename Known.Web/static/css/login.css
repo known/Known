@@ -1,6 +1,6 @@
 ﻿/* login */
 .login-body {
-    background: url("/static/img/bg.png") repeat fixed;
+    background: url("../img/bg.png") repeat fixed;
 }
 
 .login-box {
