@@ -54,7 +54,7 @@ namespace Known
             conn.Dispose();
         }
 
-        public void Transaction(Action<Database> action)
+        public Result Transaction(string name, Action<Database> action, object data = null)
         {
             using (var db = new Database(ProviderName, ConnectionString, UserName))
             {
@@ -63,6 +63,7 @@ namespace Known
                     db.BeginTrans();
                     action(db);
                     db.Commit();
+                    return Result.Success($"{name}成功！", data);
                 }
                 catch
                 {
@@ -157,6 +158,39 @@ namespace Known
                 TotalCount = total,
                 PageData = data
             };
+        }
+
+        public T QueryById<T>(string id) where T : EntityBase
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return default;
+
+            var tableName = typeof(T).Name;
+            var sql = $"select * from {tableName} where id=@id";
+            return QuerySingle<T>(sql, new { id });
+        }
+
+        public List<T> QueryListById<T>(string[] ids) where T : EntityBase
+        {
+            if (ids == null || ids.Length == 0)
+                return null;
+
+            var idTexts = new List<string>();
+            for (int i = 0; i < ids.Length; i++)
+            {
+                idTexts.Add($"id=@id{i}");
+            }
+
+            var tableName = typeof(T).Name;
+            var idText = string.Join(" or ", idTexts);
+            var sql = $"select * from {tableName} where {idText}";
+            return QueryList<T>(sql, new { ids });
+        }
+
+        public void Delete<T>(T entity) where T : EntityBase
+        {
+            var info = CommandInfo.GetDeleteCommand(prefix, entity);
+            ExecuteNonQuery(info);
         }
 
         public void Save<T>(T entity) where T : EntityBase
@@ -357,14 +391,46 @@ select t.* from (
 
                 return new CommandInfo(prefix, sql) { Params = cmdParams };
             }
+
+            internal static CommandInfo GetDeleteCommand<T>(string prefix, T entity) where T : EntityBase
+            {
+                var tableName = typeof(T).Name;
+                var sql = $"delete from {tableName} where id=@id";
+                return new CommandInfo(prefix, sql, new { id = entity.Id });
+            }
         }
         #endregion
+    }
+
+    public class Result
+    {
+        private Result(bool isValid, string message, object data)
+        {
+            IsValid = isValid;
+            Message = message;
+            Data = data;
+        }
+
+        public bool IsValid { get; }
+        public string Message { get; }
+        public object Data { get; }
+
+        public static Result Error(string message, object data = null)
+        {
+            return new Result(false, message, data);
+        }
+
+        public static Result Success(string message, object data = null)
+        {
+            return new Result(true, message, data);
+        }
     }
 
     public class PagingResult<T>
     {
         public int TotalCount { get; set; }
         public List<T> PageData { get; set; }
+        public object Summary { get; set; }
     }
 
     public class PagingCriteria
@@ -384,7 +450,6 @@ select t.* from (
 
         public EntityBase()
         {
-            Id = Guid.NewGuid();
             CreateBy = "temp";
             CreateTime = DateTime.Now;
             Version = 1;
@@ -403,12 +468,40 @@ select t.* from (
             set { original = value; }
         }
 
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string CreateBy { get; set; }
         public DateTime CreateTime { get; set; }
         public string ModifyBy { get; set; }
         public DateTime? ModifyTime { get; set; }
         public int Version { get; set; }
         public string Extension { get; set; }
+
+        public void FillModel(dynamic model)
+        {
+            if (IsNew)
+                Id = Utils.GetGuid();
+
+            var properties = GetType().GetProperties();
+            var pis = model.Properties();
+            foreach (var pi in pis)
+            {
+                var name = (string)pi.Name;
+                if (name == "Id")
+                    continue;
+
+                var value = (object)pi.Value.Value;
+                var property = properties.FirstOrDefault(p => p.Name == name);
+                if (property != null)
+                {
+                    value = Utils.ConvertTo(property.PropertyType, value);
+                    property.SetValue(this, value);
+                }
+            }
+        }
+
+        public Result Validate()
+        {
+            return Result.Success("");
+        }
     }
 }

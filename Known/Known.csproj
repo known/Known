@@ -62,8 +62,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Datas\ISystemRepository.cs" />
     <Compile Include="Core\DevController.cs" />
+    <Compile Include="Core\Entities\SysModule.cs" />
     <Compile Include="Core\SystemController.cs" />
+    <Compile Include="Core\Services\SystemService.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Core\Initializer.cs" />
@@ -71,9 +74,9 @@
     <Compile Include="Database.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Core\HomeController.cs" />
-    <Compile Include="Core\IPlatformRepository.cs" />
+    <Compile Include="Core\Datas\IPlatformRepository.cs" />
     <Compile Include="Core\MenuInfo.cs" />
-    <Compile Include="Core\PlatformService.cs" />
+    <Compile Include="Core\Services\PlatformService.cs" />
     <Compile Include="Core\UserInfo.cs" />
     <Compile Include="Web\ControllerBase.cs" />
     <Compile Include="Web\LoginAuthorizeAttribute.cs" />
@@ -84,5 +87,6 @@
   <ItemGroup>
     <EmbeddedResource Include="log4net.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

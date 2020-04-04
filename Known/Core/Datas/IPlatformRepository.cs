@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Known.Core
+namespace Known.Core.Datas
 {
     public interface IPlatformRepository
     {
