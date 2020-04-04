@@ -45,14 +45,11 @@
     <script src="~/static/layui/layui.js"></script>
     <script>
         layui.use(['form', 'layer'], function () {
-            // 操作对象
-            var form = layui.form
-                , layer = layui.layer
-                , $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer,
+                $ = layui.jquery;
 
-            // 提交监听
             form.on('submit(sub)', function (data) {
-                
 
                 return false;
             });

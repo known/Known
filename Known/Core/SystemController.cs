@@ -20,5 +20,14 @@ namespace Known.Core
             return View();
         }
         #endregion
+
+        #region Module
+        #endregion
+
+        #region Role
+        #endregion
+
+        #region User
+        #endregion
     }
 }

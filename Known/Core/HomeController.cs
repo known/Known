@@ -39,7 +39,7 @@ namespace Known.Core
         }
         #endregion
 
-        #region Action
+        #region Login
         [HttpPost, AllowAnonymous, Route("signin")]
         public ActionResult SignIn(string userName, string password, bool rememberMe = true)
         {
@@ -50,7 +50,9 @@ namespace Known.Core
             FormsAuthentication.SetAuthCookie(userName, rememberMe);
             return SuccessResult("登录成功！", result.Data);
         }
+        #endregion
 
+        #region Index
         [HttpPost, Route("signout")]
         public ActionResult SignOut()
         {
@@ -72,6 +74,12 @@ namespace Known.Core
                 url = m.Url
             }));
         }
+        #endregion
+
+        #region Welcome
+        #endregion
+
+        #region UserInfo
         #endregion
     }
 }
