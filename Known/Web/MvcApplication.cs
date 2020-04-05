@@ -48,7 +48,6 @@ namespace Known.Web
 
         private void InitialModules()
         {
-            Core.Initializer.Initialize();
             var assemblies = BuildManager.GetReferencedAssemblies()
                                          .Cast<Assembly>().ToList();
             foreach (var item in assemblies)

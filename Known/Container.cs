@@ -22,6 +22,17 @@ namespace Known
             if (cached.ContainsKey(name))
                 return (T)cached[name];
 
+            if (type.IsInterface)
+            {
+                var implName = type.FullName.Replace(".I", ".");
+                var implType = type.Assembly.GetType(implName);
+                if (implType != null)
+                {
+                    Register(type, () => Activator.CreateInstance(implType));
+                    return (T)cached[type];
+                }
+            }
+
             return default;
         }
 

@@ -6,7 +6,6 @@ namespace Known.Core
     {
         public static void Initialize()
         {
-            Container.Register<IPlatformRepository, PlatformRepository>();
         }
     }
 }

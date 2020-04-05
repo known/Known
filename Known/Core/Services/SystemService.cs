@@ -13,8 +13,7 @@ namespace Known.Core.Services
         #region Module
         public PagingResult<SysModule> QueryModules(PagingCriteria criteria)
         {
-            //return Repository.QueryModules(criteria);
-            return null;
+            return Repository.QueryModules(Database, criteria);
         }
 
         public Result DeleteModules(string[] ids)
@@ -48,7 +47,8 @@ namespace Known.Core.Services
             if (!vr.IsValid)
                 return Result.Error(vr.Message);
 
-            return Database.Transaction("保存", db => db.Save(entity), entity.Id);
+            Database.Save(entity);
+            return Result.Success("保存成功！", entity.Id);
         }
         #endregion
 

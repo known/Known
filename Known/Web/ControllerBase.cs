@@ -39,15 +39,6 @@ namespace Known.Web
             return SuccessResult(result.Message, result.Data);
         }
 
-        protected ActionResult PagingResult<T>(PagingResult<T> result)
-        {
-            return JsonResult(new
-            {
-                count = result.TotalCount,
-                data = result.PageData
-            });
-        }
-
         protected ActionResult QueryPagingData<T>(CriteriaData data, Func<PagingCriteria, PagingResult<T>> func)
         {
             var criteria = data.ToPagingCriteria();
