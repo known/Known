@@ -450,13 +450,14 @@ select t.* from (
 
         public EntityBase()
         {
+            Id = Utils.GetGuid();
             CreateBy = "temp";
             CreateTime = DateTime.Now;
             Version = 1;
             isNew = true;
         }
 
-        internal bool IsNew
+        public virtual bool IsNew
         {
             get { return isNew; }
             set { isNew = value; }
@@ -478,9 +479,6 @@ select t.* from (
 
         public void FillModel(dynamic model)
         {
-            if (IsNew)
-                Id = Utils.GetGuid();
-
             var properties = GetType().GetProperties();
             var pis = model.Properties();
             foreach (var pi in pis)

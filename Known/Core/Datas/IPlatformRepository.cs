@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Known.Core.Entities;
 
 namespace Known.Core.Datas
 {
@@ -14,11 +15,24 @@ namespace Known.Core.Datas
         {
             //var sql = "select * from t_plt_users where user_name=@userName";
             //return db.QuerySingle<UserInfo>(sql, new { userName });
-            return null;
+            return new UserInfo
+            {
+                UserName = userName,
+                Password = "1",
+                Name = "管理员"
+            };
         }
 
         public List<MenuInfo> GetUserMenus(Database db, string userName, string parentId)
         {
+            if (db.Scalar<int>("select count(*) from SysModule") == 0)
+            {
+                db.Save(new SysModule
+                {
+
+                });
+            }
+
             var menus = new List<MenuInfo>();
             if (string.IsNullOrWhiteSpace(parentId))
             {
