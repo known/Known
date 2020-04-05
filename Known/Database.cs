@@ -202,6 +202,7 @@ namespace Known
             {
                 entity.CreateBy = UserName;
                 entity.CreateTime = DateTime.Now;
+                entity.CompNo = "known";
             }
             else
             {
@@ -279,7 +280,14 @@ namespace Known
             }
 
             var json = JsonConvert.SerializeObject(dic);
-            return JsonConvert.DeserializeObject<T>(json);
+            var obj = JsonConvert.DeserializeObject<T>(json);
+            if (obj is EntityBase)
+            {
+                (obj as EntityBase).IsNew = false;
+                (obj as EntityBase).Original = dic;
+            }
+
+            return obj;
         }
 
         private static void PrepareCommand(DbConnection conn, DbCommand cmd, DbTransaction trans, CommandInfo info, out bool close)
@@ -310,7 +318,7 @@ namespace Known
                 {
                     var p = cmd.CreateParameter();
                     p.ParameterName = $"{info.Prefix}{item.Key}";
-                    p.Value = item.Value;
+                    p.Value = item.Value ?? DBNull.Value;
                     cmd.Parameters.Add(p);
                 }
             }
@@ -380,13 +388,17 @@ select t.* from (
                 var orgParams = ToDictionary(entity.Original);
 
                 var sql = string.Empty;
+                var tableName = typeof(T).Name;
                 if (entity.IsNew)
                 {
-
+                    var cloumn = string.Join(",", cmdParams.Keys);
+                    var value = string.Join(",", cmdParams.Keys.Select(k => $"@{k}"));
+                    sql = $"insert into {tableName}({cloumn}) values({value})";
                 }
                 else
                 {
-
+                    var column = string.Join(",", cmdParams.Keys.Select(k => $"{k}=@{k}"));
+                    sql = $"update {tableName} set {column} where Id=@Id";
                 }
 
                 return new CommandInfo(prefix, sql) { Params = cmdParams };
@@ -443,31 +455,17 @@ select t.* from (
 
     public class EntityBase
     {
-        [NonSerialized]
-        private bool isNew;
-        [NonSerialized]
-        private Dictionary<string, object> original;
-
         public EntityBase()
         {
             Id = Utils.GetGuid();
             CreateBy = "temp";
             CreateTime = DateTime.Now;
             Version = 1;
-            isNew = true;
+            IsNew = true;
         }
 
-        public virtual bool IsNew
-        {
-            get { return isNew; }
-            set { isNew = value; }
-        }
-
-        internal Dictionary<string, object> Original
-        {
-            get { return original; }
-            set { original = value; }
-        }
+        internal virtual bool IsNew { get; set; }
+        internal Dictionary<string, object> Original { get; set; }
 
         public string Id { get; set; }
         public string CreateBy { get; set; }
@@ -476,6 +474,7 @@ select t.* from (
         public DateTime? ModifyTime { get; set; }
         public int Version { get; set; }
         public string Extension { get; set; }
+        public string CompNo { get; set; }
 
         public void FillModel(dynamic model)
         {

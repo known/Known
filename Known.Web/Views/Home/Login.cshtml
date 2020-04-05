@@ -28,14 +28,14 @@
                     <input type="password" name="password" class="layui-input" lay-verify="required" placeholder="密码" maxlength="16" minlength="6" />
                 </div>
             </div>
-            <div class="layui-form-item">
+            @*<div class="layui-form-item ">
                 <label class="layui-form-label">验证码：</label>
 
                 <div class="layui-input-inline">
                     <input type="text" name="capval" class="layui-input" lay-verify="required" placeholder="验证码" maxlength="4" minlength="4" />
                     <img id="captchaImg" alt="验证码" src="/Home/Captcha" onclick="this.src='/Home/Captcha?'+Math.random()">
                 </div>
-            </div>
+            </div>*@
             <div class="layui-form-item">
                 <button type="reset" class="layui-btn layui-btn-danger btn-reset">重置</button>
                 <button type="button" class="layui-btn btn-submit" lay-submit lay-filter="sub">立即登录</button>

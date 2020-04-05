@@ -41,7 +41,7 @@ namespace Known.Core
 
         #region Login
         [HttpPost, AllowAnonymous, Route("signin")]
-        public ActionResult SignIn(string userName, string password, bool rememberMe = true)
+        public ActionResult SignIn(string userName, string password, bool rememberMe = false)
         {
             var result = Platform.SignIn(userName, password);
             if (!result.IsValid)

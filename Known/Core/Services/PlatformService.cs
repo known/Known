@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Web;
 using Known.Core.Datas;
 
 namespace Known.Core.Services
@@ -16,10 +18,21 @@ namespace Known.Core.Services
             if (user == null)
                 return Result.Error("用户名不存在！");
 
-            if (user.Password != password)
+            var pwd = Utils.ToMd5(password);
+            if (user.Password != pwd)
                 return Result.Error("密码不正确！");
 
-            return Result.Success("登录成功！", user);
+            var ip = Utils.GetIPAddress(HttpContext.Current.Request);
+            if (!user.FirstLoginTime.HasValue)
+            {
+                user.FirstLoginTime = DateTime.Now;
+                user.FirstLoginIP = ip;
+            }
+            user.LastLoginTime = DateTime.Now;
+            user.LastLoginIP = ip;
+
+            Database.Save(user);
+            return Result.Success("登录成功！", Utils.MapTo<UserInfo>(user));
         }
 
         internal List<MenuInfo> GetUserMenus(string userName, string parentId)

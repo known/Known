@@ -2,6 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
 using Newtonsoft.Json;
 
 namespace Known
@@ -52,6 +55,29 @@ namespace Known
         }
         #endregion
 
+        #region Encryptor
+        public static string ToMd5(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return string.Empty;
+
+            byte[] bytes;
+            using (var md5 = MD5.Create())
+            {
+                var buffer = Encoding.UTF8.GetBytes(value);
+                bytes = md5.ComputeHash(buffer);
+            }
+
+            var sb = new StringBuilder();
+            foreach (var item in bytes)
+            {
+                sb.Append(item.ToString("x2"));
+            }
+
+            return sb.ToString();
+        }
+        #endregion
+
         #region Serialize
         public static string ToJson(object value, string dateFormat = "yyyy-MM-dd HH:mm:ss")
         {
@@ -79,6 +105,16 @@ namespace Known
             var settings = new JsonSerializerSettings { DateFormatString = dateFormat };
             return JsonConvert.DeserializeObject(json, type, settings);
         }
+
+        public static T MapTo<T>(object value, string dateFormat = "yyyy-MM-dd HH:mm:ss")
+        {
+            if (value == null)
+                return default;
+
+            var settings = new JsonSerializerSettings { DateFormatString = dateFormat };
+            var json = JsonConvert.SerializeObject(value, settings);
+            return JsonConvert.DeserializeObject<T>(json, settings);
+        }
         #endregion
 
         #region Resource
@@ -102,6 +138,23 @@ namespace Known
                 }
             }
             return text;
+        }
+        #endregion
+
+        #region Http
+        public static string GetIPAddress(HttpRequest request)
+        {
+            var result = request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrEmpty(result))
+                result = request.ServerVariables["REMOTE_ADDR"];
+
+            if (string.IsNullOrEmpty(result))
+                result = request.UserHostAddress;
+
+            if (string.IsNullOrEmpty(result) || result == "::1")
+                return "127.0.0.1";
+
+            return result;
         }
         #endregion
     }

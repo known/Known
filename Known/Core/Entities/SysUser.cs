@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Known.Core
+namespace Known.Core.Entities
 {
-    public class UserInfo
+    public class SysUser : EntityBase
     {
-        public string Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }
@@ -13,13 +12,10 @@ namespace Known.Core
         public string Phone { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
+        public int Enabled { get; set; }
         public DateTime? FirstLoginTime { get; set; }
         public string FirstLoginIP { get; set; }
         public DateTime? LastLoginTime { get; set; }
         public string LastLoginIP { get; set; }
-        public string CompNo { get; set; }
-        public string CompName { get; set; }
-        public string DeptNo { get; set; }
-        public string DeptName { get; set; }
     }
 }

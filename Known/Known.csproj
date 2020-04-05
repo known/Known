@@ -65,6 +65,7 @@
     <Compile Include="Core\Datas\ISystemRepository.cs" />
     <Compile Include="Core\DevController.cs" />
     <Compile Include="Core\Entities\SysModule.cs" />
+    <Compile Include="Core\Entities\SysUser.cs" />
     <Compile Include="Core\SystemController.cs" />
     <Compile Include="Core\Services\SystemService.cs" />
     <Compile Include="ServiceBase.cs" />
