@@ -1,8 +1,8 @@
 layui.define('index', function (exports) {
     var url = {
-        GetTodoLists: '/Welcome/GetTodoLists',
-        GetCompanyNews: '/Welcome/GetCompanyNews',
-        GetShortCuts: '/Welcome/GetShortCuts'
+        GetTodoLists: '/Home/GetTodoLists',
+        GetCompanyNews: '/Home/GetCompanyNews',
+        GetShortCuts: '/Home/GetShortCuts'
     };
 
 	layui.use(['carousel', 'element'], function () {
@@ -167,63 +167,54 @@ layui.define('index', function (exports) {
     });
 
     layui.use('table', function () {
-        var e = (layui.$, layui.table);
-        e.render({
-            elem: '#welcome-topSearch',
-            url: 'json/console/top-search.js',
-            page: !0,
+        var table = (layui.$, layui.table);
+        table.render({
+            elem: '#welcome-todoList',
+            url: url.GetTodoLists,
+            page: true,
             cols: [[{
-                type: "numbers",
-                fixed: "left"
+                type: 'numbers',
+                fixed: 'left'
             },
             {
-                field: "keywords",
-                title: "关键词",
-                minWidth: 300,
-                templet: '<div><a href="https://www.baidu.com/s?wd={{ d.keywords }}" target="_blank" class="layui-table-link">{{ d.keywords }}</div>'
+                field: 'Name',
+                title: '任务名称',
+                minWidth: 400,
+                templet: '<div><a href="wd={{ d.Oid }}" target="_blank" class="layui-table-link">{{ d.Name }}</div>'
             },
             {
-                field: "frequency",
-                title: "搜索次数",
-                minWidth: 120,
-                sort: !0
-            },
-            {
-                field: "userNums",
-                title: "用户数",
-                sort: !0
+                field: 'Qty',
+                title: '待办数量',
+                minWidth: 80,
             }]],
-            skin: "line"
+            skin: 'line'
         });
-        e.render({
-            elem: "#welcome-topCard",
-            url: layui.setter.base + "json/console/top-card.js",
-            page: !0,
-            cellMinWidth: 120,
+        table.render({
+            elem: '#welcome-companyNews',
+            url: url.GetCompanyNews,
+            page: true,
             cols: [[{
-                type: "numbers",
-                fixed: "left"
+                type: 'numbers',
+                fixed: 'left'
             },
             {
-                field: "title",
-                title: "标题",
-                minWidth: 300,
-                templet: '<div><a href="{{ d.href }}" target="_blank" class="layui-table-link">{{ d.title }}</div>'
+                field: 'Title',
+                title: '标题',
+                minWidth: 280,
+                templet: '<div><a href="https://www.baidu.com/s?wd={{ d.Oid }}" target="_blank" class="layui-table-link">{{ d.Title }}</div>'
             },
             {
-                field: "username",
-                title: "发帖者"
+                field: 'CreateBy',
+                title: '发布人',
+                minWidth: 80,
             },
             {
-                field: "channel",
-                title: "类别"
-            },
-            {
-                field: "crt",
-                title: "点击率",
-                sort: !0
+                field: 'CreateTime',
+                title: '发布时间',
+                minWidth: 120,
+                sort: true
             }]],
-            skin: "line"
+            skin: 'line'
         });
     });
 

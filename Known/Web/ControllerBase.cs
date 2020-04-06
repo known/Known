@@ -43,10 +43,12 @@ namespace Known.Web
         {
             var criteria = data.ToPagingCriteria();
             var result = func(criteria);
-            return Json(new
+            return JsonResult(new
             {
-                total = result.TotalCount,
-                rows = result.PageData,
+                code = 0,
+                msg = "",
+                count = result.TotalCount,
+                data = result.PageData,
                 summary = result.Summary
             });
         }
@@ -83,13 +85,17 @@ namespace Known.Web
                 }
             }
 
-            return new PagingCriteria
+            var criteria = new PagingCriteria
             {
                 PageIndex = page,
                 PageSize = limit,
-                OrderBys = orderBys.ToArray(),
-                Parameter = JsonConvert.DeserializeObject<dynamic>(query)
+                OrderBys = orderBys.ToArray()
             };
+
+            if (!string.IsNullOrWhiteSpace(query))
+                criteria.Parameter = JsonConvert.DeserializeObject<dynamic>(query);
+
+            return criteria;
         }
     }
 }

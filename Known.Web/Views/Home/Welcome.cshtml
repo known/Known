@@ -3,6 +3,7 @@
         <div class="layui-col-md8">
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md12">
+
                     <div class="layui-card">
                         <div class="layui-tab layui-tab-brief kadmin-latestData">
                             <ul class="layui-tab-title">
@@ -11,47 +12,10 @@
                             </ul>
                             <div class="layui-tab-content">
                                 <div class="layui-tab-item layui-show">
-                                    <ul class="layui-row layui-col-space10">
-                                        <li class="layui-col-xs4">
-                                            <a lay-href="app/content/comment.html" class="kadmin-backlog-body">
-                                                <h3>待审评论</h3>
-                                                <p><cite>66</cite></p>
-                                            </a>
-                                        </li>
-                                        <li class="layui-col-xs4">
-                                            <a lay-href="app/forum/list.html" class="kadmin-backlog-body">
-                                                <h3>待审帖子</h3>
-                                                <p><cite>12</cite></p>
-                                            </a>
-                                        </li>
-                                        <li class="layui-col-xs4">
-                                            <a lay-href="template/goodslist.html" class="kadmin-backlog-body">
-                                                <h3>待审商品</h3>
-                                                <p><cite>99</cite></p>
-                                            </a>
-                                        </li>
-                                        <li class="layui-col-xs4">
-                                            <a href="javascript:;" onclick="layer.tips('不跳转', this, {tips: 3});" class="kadmin-backlog-body">
-                                                <h3>待发货</h3>
-                                                <p><cite>20</cite></p>
-                                            </a>
-                                        </li>
-                                        <li class="layui-col-xs4">
-                                            <a href="javascript:;" class="kadmin-backlog-body">
-                                                <h3>待审友情链接</h3>
-                                                <p><cite style="color: #FF5722;">5</cite></p>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    <table id="welcome-todoList"></table>
                                 </div>
                                 <div class="layui-tab-item">
-                                    <div class="layui-carousel kadmin-carousel kadmin-news" data-autoplay="true" data-anim="fade" lay-filter="news">
-                                        <div carousel-item>
-                                            <div><a href="http://fly.layui.com/docs/2/" target="_blank" class="layui-bg-red">layuiAdmin 快速上手文档</a></div>
-                                            <div><a href="http://fly.layui.com/vipclub/list/layuiadmin/" target="_blank" class="layui-bg-green">layuiAdmin 会员讨论专区</a></div>
-                                            <div><a href="http://www.layui.com/admin/#get" target="_blank" class="layui-bg-blue">获得 layui 官方后台模板系统</a></div>
-                                        </div>
-                                    </div>
+                                    <table id="welcome-companyNews"></table>
                                 </div>
                             </div>
                         </div>
@@ -70,22 +34,6 @@
                         </div>
                     </div>
 
-                    <div class="layui-card">
-                        <div class="layui-tab layui-tab-brief kadmin-latestData">
-                            <ul class="layui-tab-title">
-                                <li class="layui-this">今日热搜</li>
-                                <li>今日热帖</li>
-                            </ul>
-                            <div class="layui-tab-content">
-                                <div class="layui-tab-item layui-show">
-                                    <table id="welcome-topSearch"></table>
-                                </div>
-                                <div class="layui-tab-item">
-                                    <table id="welcome-topCard"></table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
