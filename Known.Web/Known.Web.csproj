@@ -76,6 +76,7 @@
     <Content Include="static\layui\css\modules\layer\default\loading-0.gif" />
     <Content Include="static\layui\css\modules\layer\default\loading-1.gif" />
     <Content Include="static\layui\css\modules\layer\default\loading-2.gif" />
+    <Content Include="static\layui\css\modules\layim\layim.css" />
     <Content Include="static\layui\font\iconfont.svg" />
     <Content Include="static\layui\images\face\0.gif" />
     <Content Include="static\layui\images\face\1.gif" />
@@ -161,6 +162,7 @@
     <Content Include="static\layui\lay\modules\laydate.js" />
     <Content Include="static\layui\lay\modules\layedit.js" />
     <Content Include="static\layui\lay\modules\layer.js" />
+    <Content Include="static\layui\lay\modules\layim.js" />
     <Content Include="static\layui\lay\modules\laypage.js" />
     <Content Include="static\layui\lay\modules\laytpl.js" />
     <Content Include="static\layui\lay\modules\mobile.js" />
