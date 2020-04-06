@@ -64,7 +64,11 @@
     <Content Include="static\css\login.css" />
     <Content Include="static\img\bg.png" />
     <Content Include="static\img\face.jpg" />
-    <Content Include="static\js\welcome.js" />
+    <Content Include="static\js\extend\echarts.js" />
+    <Content Include="static\js\extend\echartsTheme.js" />
+    <Content Include="static\js\config.js" />
+    <Content Include="static\js\admin.js" />
+    <Content Include="static\js\modules\welcome.js" />
     <Content Include="static\js\index.js" />
     <Content Include="static\layui\css\layui.css" />
     <Content Include="static\layui\css\layui.mobile.css" />
@@ -173,6 +177,7 @@
     <Content Include="static\layui\lay\modules\tree.js" />
     <Content Include="static\layui\lay\modules\upload.js" />
     <Content Include="static\layui\lay\modules\util.js" />
+    <Content Include="static\test.js" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Welcome.cshtml" />
     <Content Include="static\layui\font\iconfont.eot" />
