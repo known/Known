@@ -637,7 +637,8 @@ html {
     }
 
 .layui-card-header {
-    position: relative
+    position: relative;
+    font-weight: bold
 }
 
     .layui-card-header .layui-icon {
@@ -701,7 +702,8 @@ html {
     .layui-card .layui-tab-brief .layui-tab-title li {
         margin: 0 15px;
         padding: 0;
-        line-height: 42px
+        line-height: 42px;
+        font-weight: bold
     }
 
         .layui-card .layui-tab-brief .layui-tab-title li.layui-this {

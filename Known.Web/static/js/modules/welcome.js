@@ -1,4 +1,10 @@
 layui.define('index', function (exports) {
+    var url = {
+        GetTodoLists: '/Welcome/GetTodoLists',
+        GetCompanyNews: '/Welcome/GetCompanyNews',
+        GetShortCuts: '/Welcome/GetShortCuts'
+    };
+
 	layui.use(['carousel', 'element'], function () {
 		var $ = layui.jquery,
 			element = layui.element,
@@ -158,7 +164,68 @@ layui.define('index', function (exports) {
         });
 
         initCharts(0);
-	});
+    });
+
+    layui.use('table', function () {
+        var e = (layui.$, layui.table);
+        e.render({
+            elem: '#welcome-topSearch',
+            url: 'json/console/top-search.js',
+            page: !0,
+            cols: [[{
+                type: "numbers",
+                fixed: "left"
+            },
+            {
+                field: "keywords",
+                title: "关键词",
+                minWidth: 300,
+                templet: '<div><a href="https://www.baidu.com/s?wd={{ d.keywords }}" target="_blank" class="layui-table-link">{{ d.keywords }}</div>'
+            },
+            {
+                field: "frequency",
+                title: "搜索次数",
+                minWidth: 120,
+                sort: !0
+            },
+            {
+                field: "userNums",
+                title: "用户数",
+                sort: !0
+            }]],
+            skin: "line"
+        });
+        e.render({
+            elem: "#welcome-topCard",
+            url: layui.setter.base + "json/console/top-card.js",
+            page: !0,
+            cellMinWidth: 120,
+            cols: [[{
+                type: "numbers",
+                fixed: "left"
+            },
+            {
+                field: "title",
+                title: "标题",
+                minWidth: 300,
+                templet: '<div><a href="{{ d.href }}" target="_blank" class="layui-table-link">{{ d.title }}</div>'
+            },
+            {
+                field: "username",
+                title: "发帖者"
+            },
+            {
+                field: "channel",
+                title: "类别"
+            },
+            {
+                field: "crt",
+                title: "点击率",
+                sort: !0
+            }]],
+            skin: "line"
+        });
+    });
 
 	exports('welcome', {});
 });
