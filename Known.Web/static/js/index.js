@@ -125,7 +125,7 @@ layui.use(['layer', 'element'], function () {
         var tab = $('.layui-tab-title li[lay-id="' + id + '"]');
         if (!tab.length) {
             var title = node.icon + ' ' + node.text;
-            var content = '<iframe src="' + node.url + '" frameborder="0" style="width:100%;height:100%;"></iframe>';
+            var content = '<iframe src="' + node.url + '" frameborder="0" class="layui-tab-iframe"></iframe>';
             element.tabAdd('tabMenu', { id: id, title: title, content: content });
         }
         element.tabChange('tabMenu', id);
