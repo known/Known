@@ -1,4 +1,4 @@
-layui.use(['layer', 'element'], function () {
+layui.define(['layer', 'element'], function (exports) {
     var layer = layui.layer,
         element = layui.element,
         $ = layui.jquery;
@@ -165,4 +165,6 @@ layui.use(['layer', 'element'], function () {
     });
 
     init();
+
+    exports('index', {});
 });

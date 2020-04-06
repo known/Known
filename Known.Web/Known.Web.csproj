@@ -57,13 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="static\css\admin.css" />
     <Content Include="static\css\animate.min.css" />
     <Content Include="static\css\iconfont.css" />
     <Content Include="static\css\index.css" />
-    <Content Include="static\css\frame.css" />
     <Content Include="static\css\login.css" />
     <Content Include="static\img\bg.png" />
     <Content Include="static\img\face.jpg" />
+    <Content Include="static\js\welcome.js" />
     <Content Include="static\js\index.js" />
     <Content Include="static\layui\css\layui.css" />
     <Content Include="static\layui\css\layui.mobile.css" />
