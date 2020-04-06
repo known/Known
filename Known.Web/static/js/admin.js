@@ -5,7 +5,8 @@ layui.define(['layer', 'element'], function (exports) {
 
     var url = {
         GetMenus: '/Home/GetMenus?pid=',
-        UserInfo: '/Home/UserInfo'
+        UserInfo: '/Home/UserInfo',
+        SignOut: '/signout'
     };
 
     var topRightAction = {
@@ -29,8 +30,12 @@ layui.define(['layer', 'element'], function (exports) {
         },
         logout: function () {
             layer.confirm('确定要退出系统？', function (index) {
+                $.post(url.SignOut, function (result) {
+                    layer.msg(result.message);
+                    window.location = '/login';
+                });
                 layer.close(index);
-            }); 
+            });
         }
     };
 

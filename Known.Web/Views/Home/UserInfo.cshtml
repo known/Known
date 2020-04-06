@@ -2,87 +2,110 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header" style="font-weight:bold;">设置我的资料</div>
-                <div class="layui-card-body">
-                    <div class="layui-form" lay-filter="">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">我的角色</label>
-                            <div class="layui-input-inline">
-                                <select name="role" lay-verify="">
-                                    <option value="1" selected>超级管理员</option>
-                                    <option value="2" disabled>普通管理员</option>
-                                    <option value="3" disabled>审核员</option>
-                                    <option value="4" disabled>编辑人员</option>
-                                </select>
+                <div class="layui-tab layui-tab-brief">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">基本资料</li>
+                        <li>修改密码</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div class="layui-form" lay-filter="formUserInfo">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">用户名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="UserName" value="admin" readonly class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">姓名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="Name" value="管理员" lay-verify="nickname" autocomplete="off" placeholder="请输入昵称" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">英文名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="EnglishName" value="Admin" lay-verify="nickname" autocomplete="off" placeholder="请输入昵称" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">性别</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="Gender" value="男" title="男">
+                                        <input type="radio" name="Gender" value="女" title="女" checked>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">头像</label>
+                                    <div class="layui-input-inline">
+                                        <input name="avatar" lay-verify="required" id="LAY_avatarSrc" placeholder="图片地址" value="/avatar/168.jpg" class="layui-input">
+                                    </div>
+                                    <div class="layui-input-inline layui-btn-container" style="width: auto;">
+                                        <button type="button" class="layui-btn layui-btn-primary" id="LAY_avatarUpload">
+                                            <i class="layui-icon">&#xe67c;</i>上传图片
+                                        </button>
+                                        <button class="layui-btn layui-btn-primary" layadmin-event="avartatPreview">查看图片</button>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">座机</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="Phone" value="" lay-verify="phone" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">手机</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="Mobile" value="" lay-verify="phone" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">邮箱</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="Email" value="" lay-verify="email" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-form-text">
+                                    <label class="layui-form-label">备注</label>
+                                    <div class="layui-input-block">
+                                        <textarea name="Remarks" placeholder="请输入内容" class="layui-textarea"></textarea>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit lay-filter="saveUserInfo">确认修改</button>
+                                        <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="layui-form-mid layui-word-aux">当前角色不可更改为其它角色</div>
                         </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">用户名</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="username" value="admin" readonly class="layui-input">
-                            </div>
-                            <div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">姓名</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="nickname" value="管理员" lay-verify="nickname" autocomplete="off" placeholder="请输入昵称" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">英文名</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="nickname" value="Admin" lay-verify="nickname" autocomplete="off" placeholder="请输入昵称" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">性别</label>
-                            <div class="layui-input-block">
-                                <input type="radio" name="sex" value="男" title="男">
-                                <input type="radio" name="sex" value="女" title="女" checked>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">头像</label>
-                            <div class="layui-input-inline">
-                                <input name="avatar" lay-verify="required" id="LAY_avatarSrc" placeholder="图片地址" value="/avatar/168.jpg" class="layui-input">
-                            </div>
-                            <div class="layui-input-inline layui-btn-container" style="width: auto;">
-                                <button type="button" class="layui-btn layui-btn-primary" id="LAY_avatarUpload">
-                                    <i class="layui-icon">&#xe67c;</i>上传图片
-                                </button>
-                                <button class="layui-btn layui-btn-primary" layadmin-event="avartatPreview">查看图片</button>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">座机</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="cellphone" value="" lay-verify="phone" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">手机</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="cellphone" value="" lay-verify="phone" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">邮箱</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="email" value="" lay-verify="email" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item layui-form-text">
-                            <label class="layui-form-label">备注</label>
-                            <div class="layui-input-block">
-                                <textarea name="remarks" placeholder="请输入内容" class="layui-textarea"></textarea>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改</button>
-                                <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
+                        <div class="layui-tab-item">
+                            <div class="layui-form" lay-filter="formPassword">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">当前密码</label>
+                                    <div class="layui-input-inline">
+                                        <input type="password" name="oldPassword" lay-verify="required" lay-verType="tips" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">新密码</label>
+                                    <div class="layui-input-inline">
+                                        <input type="password" name="password" lay-verify="pass" lay-verType="tips" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">确认新密码</label>
+                                    <div class="layui-input-inline">
+                                        <input type="password" name="repassword" lay-verify="repass" lay-verType="tips" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit lay-filter="savePassword">确认修改</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -93,5 +116,36 @@
 </div>
 
 @section Script {
+    <script>
+        var url = {
+            GetUserInfo: '/Home/GetUserInfo',
+            SaveUserInfo: '/Home/SaveUserInfo',
+            UpdatePassword: '/Home/UpdatePassword'
+        };
+        layui.use(['form', 'element'], function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                layer = layui.layer;
 
+            $.get(url.GetUserInfo, function (result) {
+                form.val('formUserInfo', result);
+            });
+
+            form.on('submit(saveUserInfo)', function (data) {
+                $.post(url.SaveUserInfo, {
+                    data: JSON.stringify(data.field)
+                }, function (result) {
+                    layer.msg(result.message);
+                });
+                return false;
+            });
+
+            form.on('submit(savePassword)', function (data) {
+                $.post(url.UpdatePassword, data.field, function (result) {
+                    layer.msg(result.message);
+                });
+                return false;
+            });
+        });
+    </script>
 }

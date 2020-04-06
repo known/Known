@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using Known.Web;
@@ -59,8 +58,9 @@ namespace Known.Core
         public ActionResult SignOut()
         {
             Session.Clear();
+            Platform.SignOut(UserName);
             FormsAuthentication.SignOut();
-            return RedirectToAction("Login");
+            return SuccessResult("成功退出！");
         }
 
         public ActionResult GetMenus(string pid)
@@ -81,34 +81,14 @@ namespace Known.Core
         #region Welcome
         public ActionResult GetTodoLists()
         {
-            var cd = new CriteriaData();
-            var pr = new PagingResult<object>
-            {
-                TotalCount = 33,
-                PageData = new System.Collections.Generic.List<object>
-                {
-                    new {Oid="1",Name="请假审批",Qty=1},
-                    new {Oid="2",Name="费用报销",Qty=2},
-                    new {Oid="3",Name="出差审批",Qty=3}
-                }
-            };
-            return QueryPagingData(cd, c => pr);
+            var data = new CriteriaData();
+            return QueryPagingData(data, c => Platform.GetTodoLists(c));
         }
 
         public ActionResult GetCompanyNews()
         {
-            var cd = new CriteriaData();
-            var pr = new PagingResult<object>
-            {
-                TotalCount = 55,
-                PageData = new System.Collections.Generic.List<object>
-                {
-                    new {Oid="1",Title="公司新系统上线",CreateBy="管理员",CreateTime=DateTime.Now},
-                    new {Oid="2",Title="关于放假通知",CreateBy="张三",CreateTime=DateTime.Now},
-                    new {Oid="3",Title="关于员工福利通知",CreateBy="李四",CreateTime=DateTime.Now}
-                }
-            };
-            return QueryPagingData(cd, c => pr);
+            var data = new CriteriaData();
+            return QueryPagingData(data, c => Platform.GetCompanyNews(c));
         }
 
         public ActionResult GetShortCuts()
@@ -118,6 +98,16 @@ namespace Known.Core
         #endregion
 
         #region UserInfo
+        public ActionResult GetUserInfo()
+        {
+            return JsonResult(Platform.GetUserInfo(UserName));
+        }
+
+        [HttpPost]
+        public ActionResult SaveUserInfo(string data)
+        {
+            return PostAction<dynamic>(data, d => Platform.SaveUserInfo(d));
+        }
         #endregion
     }
 }

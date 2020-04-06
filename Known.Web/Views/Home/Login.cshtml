@@ -45,9 +45,9 @@
     <script src="~/static/layui/layui.js"></script>
     <script>
         layui.use(['form', 'layer'], function () {
-            var form = layui.form,
-                layer = layui.layer,
-                $ = layui.jquery;
+            var $ = layui.jquery,
+                form = layui.form,
+                layer = layui.layer;
 
             form.on('submit(sub)', function (data) {
                 $.post(data.form.action, data.field, function (result) {
