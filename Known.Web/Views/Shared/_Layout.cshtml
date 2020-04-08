@@ -18,6 +18,9 @@
     @RenderBody()
     <script src="~/static/layui/layui.js"></script>
     @RenderSection("Script", false)
-    <script>layui.config({ base: '/static/js/' }).extend({ index: 'index' }).use(['index', '@Request.Path']);</script>
+    @if (Request.Path != "/Home/Error" && Request.Path != "/Home/NotFound")
+    {
+        <script>layui.config({ base: '/static/js/' }).extend({ index: 'index' }).use(['index', '@Request.Path']);</script>
+    }
 </body>
 </html>
