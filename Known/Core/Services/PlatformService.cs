@@ -105,6 +105,34 @@ namespace Known.Core.Services
             Database.Save(entity);
             return Result.Success("保存成功！", entity.Id);
         }
+
+        internal Result UpdatePassword(string userName, string oldPassword, string password, string repassword)
+        {
+            var errors = new List<string>();
+            if (string.IsNullOrWhiteSpace(oldPassword))
+                errors.Add("当前密码不能为空！");
+            if (string.IsNullOrWhiteSpace(password))
+                errors.Add("新密码不能为空！");
+            if (string.IsNullOrWhiteSpace(repassword))
+                errors.Add("确认新密码不能为空！");
+            if (password != repassword)
+                errors.Add("两次密码输入不一致！");
+
+            if (errors.Count > 0)
+                return Result.Error(string.Join(Environment.NewLine, errors));
+
+            var entity = Repository.GetUser(Database, userName);
+            if (entity == null)
+                return Result.Error("当前用户不存在！");
+
+            var pwd = Utils.ToMd5(oldPassword);
+            if (entity.Password != pwd)
+                return Result.Error("当前密码不正确！");
+
+            entity.Password= Utils.ToMd5(password);
+            Database.Save(entity);
+            return Result.Success("修改成功！", entity.Id);
+        }
         #endregion
     }
 }

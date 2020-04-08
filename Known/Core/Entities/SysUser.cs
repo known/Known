@@ -13,6 +13,7 @@ namespace Known.Core.Entities
         public string Mobile { get; set; }
         public string Email { get; set; }
         public int Enabled { get; set; }
+        public string Note { get; set; }
         public DateTime? FirstLoginTime { get; set; }
         public string FirstLoginIP { get; set; }
         public DateTime? LastLoginTime { get; set; }

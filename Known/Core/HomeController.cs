@@ -108,6 +108,12 @@ namespace Known.Core
         {
             return PostAction<dynamic>(data, d => Platform.SaveUserInfo(d));
         }
+
+        [HttpPost]
+        public ActionResult UpdatePassword(string oldPassword, string password, string repassword)
+        {
+            return JsonResult(Platform.UpdatePassword(UserName, oldPassword, password, repassword));
+        }
         #endregion
     }
 }
