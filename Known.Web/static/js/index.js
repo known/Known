@@ -4,7 +4,7 @@ layui.extend({
 }).define(['setter', 'admin'], function (exports) {
     var setter = layui.setter;
     layui.config({
-        base: setter.base + 'modules/'
+        base: setter.base + 'modules'
     });
     layui.each(setter.extend, function (a, i) {
         var n = {};
