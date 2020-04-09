@@ -1,78 +1,174 @@
-﻿/* login */
-.login-body {
-    background: url("../img/bg.png") repeat fixed;
+﻿html, body {
+    height: 100%;
+    background-color: #f2f2f2;
+    color: #666;
 }
 
-.login-box {
-    position: fixed;
-    top: 0;
-    bottom: 0;
+.layui-layout-body {
+    overflow: auto
+}
+
+#login, .display-show {
+    display: block !important
+}
+
+.login {
+    position: relative;
     left: 0;
-    right: 0;
-    margin: auto;
-    width: 320px;
-    height: 241px;
-    max-height: 300px;
-}
-
-.login-body .login-box h3 {
-    color: #444;
-    font-size: 22px;
-    font-weight: 100;
-    text-align: center;
-}
-
-.login-box .layui-input[name='capval'] {
-    display: inline-block;
-    width: 50%;
-    vertical-align: top;
-}
-
-.login-box img {
-    display: inline-block;
-    width: 45%;
-    height: 38px;
-    border: none;
-    vertical-align: top;
-    cursor: pointer;
-    margin-left: 2%;
-}
-
-.login-box button.btn-reset {
-    width: 95px;
-}
-
-.login-box button.btn-submit {
-    width: 190px;
+    top: 0;
+    padding: 100px 0;
+    min-height: 100%;
+    box-sizing: border-box
 }
 
 .login-main {
+    width: 375px;
+    margin: 0 auto;
+    box-sizing: border-box
+}
+
+.login-box {
+    padding: 20px
+}
+
+.login-header {
+    text-align: center
+}
+
+    .login-header h2 {
+        margin-bottom: 10px;
+        font-weight: 300;
+        font-size: 30px;
+        color: #000
+    }
+
+    .login-header p {
+        font-weight: 300;
+        color: #999
+    }
+
+.login-body .layui-form-item {
+    position: relative
+}
+
+.login-icon {
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 38px;
+    line-height: 36px;
+    text-align: center;
+    color: #d2d2d2
+}
+
+.login-body .layui-form-item .layui-input {
+    padding-left: 38px
+}
+
+.login-codeimg {
+    max-height: 38px;
+    width: 100%;
+    cursor: pointer;
+    box-sizing: border-box
+}
+
+.login-other {
+    position: relative;
+    font-size: 0;
+    line-height: 38px;
+    padding-top: 20px
+}
+
+    .login-other > * {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        font-size: 14px
+    }
+
+    .login-other .layui-icon {
+        position: relative;
+        top: 2px;
+        font-size: 26px
+    }
+
+    .login-other a:hover {
+        opacity: .8
+    }
+
+.jump-change {
+    float: right
+}
+
+.login-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    line-height: 30px;
+    padding: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    color: rgba(0,0,0,.5)
+}
+
+    .login-footer span {
+        padding: 0 5px
+    }
+
+    .login-footer a {
+        padding: 0 5px;
+        color: rgba(0,0,0,.5)
+    }
+
+        .login-footer a:hover {
+            color: rgba(0,0,0,1)
+        }
+
+.login-main[bgimg] {
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0,0,0,.05)
+}
+
+.login-theme {
     position: fixed;
-    top: 0;
-    right: 0;
     bottom: 0;
     left: 0;
-    width: 350px;
-    margin: 0 auto;
-}
-
-.login-main header {
-    margin-top: 150px;
-    height: 35px;
-    line-height: 35px;
-    font-size: 30px;
-    font-weight: 100;
-    text-align: center;
-}
-
-.login-main header, .login-main form, .login-main form .layui-input-inline {
-    margin-bottom: 15px;
-}
-
-.login-main form .layui-input-inline, .login-main form .layui-input-inline input, .login-main form .layui-input-inline button {
     width: 100%;
+    text-align: center
 }
 
-.login-main form .login-btn {
-    margin-bottom: 5px;
+    .login-theme ul {
+        display: inline-block;
+        padding: 5px;
+        background-color: #fff
+    }
+
+        .login-theme ul li {
+            display: inline-block;
+            vertical-align: top;
+            width: 64px;
+            height: 43px;
+            cursor: pointer;
+            transition: all .3s;
+            -webkit-transition: all .3s;
+            background-color: #f2f2f2
+        }
+
+            .login-theme ul li:hover {
+                opacity: .9
+            }
+
+@media screen and (max-width:768px) {
+    .login {
+        padding-top: 60px
+    }
+
+    .login-main {
+        width: 300px
+    }
+
+    .login-box {
+        padding: 10px
+    }
 }

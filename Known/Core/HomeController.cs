@@ -42,13 +42,13 @@ namespace Known.Core
 
         #region Login
         [HttpPost, AllowAnonymous, Route("signin")]
-        public ActionResult SignIn(string userName, string password, bool rememberMe = false)
+        public ActionResult SignIn(string userName, string password, bool remember = false)
         {
             var result = Platform.SignIn(userName, password);
             if (!result.IsValid)
                 return ErrorResult(result.Message);
 
-            FormsAuthentication.SetAuthCookie(userName, rememberMe);
+            FormsAuthentication.SetAuthCookie(userName, remember);
             return SuccessResult("登录成功！", result.Data);
         }
         #endregion
