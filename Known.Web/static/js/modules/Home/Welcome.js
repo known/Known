@@ -5,32 +5,32 @@ layui.define('index', function (exports) {
         GetShortCuts: '/Home/GetShortCuts'
     };
 
-	layui.use(['carousel', 'element'], function () {
-		var $ = layui.jquery,
-			element = layui.element,
-			carousel = layui.carousel,
-			device = layui.device();
+    var $ = layui.jquery,
+        element = layui.element,
+        carousel = layui.carousel,
+        table = layui.table,
+        device = layui.device();
 
-		$('.kadmin-carousel').each(function () {
-			var a = $(this);
-			carousel.render({
-				elem: this,
-				width: '100%',
-				arrow: 'none',
-				interval: a.data('interval'),
-				autoplay: a.data('autoplay') === !0,
-				trigger: device.ios || device.android ? 'click' : 'hover',
-				anim: a.data('anim')
-			})
-		});
+    //init carousel
+    $('.kadmin-carousel').each(function () {
+        var a = $(this);
+        carousel.render({
+            elem: this,
+            width: '100%',
+            arrow: 'none',
+            interval: a.data('interval'),
+            autoplay: a.data('autoplay') === !0,
+            trigger: device.ios || device.android ? 'click' : 'hover',
+            anim: a.data('anim')
+        })
+    });
 
-		element.render('progress');
-	});
+    //init progress
+    element.render('progress');
 
-    layui.use(['echarts', 'carousel'], function () {
-        var $ = layui.jquery,
-            echarts = layui.echarts,
-            carousel = layui.carousel;
+    //init charts
+    layui.use('echarts', function () {
+        var echarts = layui.echarts;
         var data = [
             {
                 title: {
@@ -166,57 +166,55 @@ layui.define('index', function (exports) {
         initCharts(0);
     });
 
-    layui.use('table', function () {
-        var table = (layui.$, layui.table);
-        table.render({
-            elem: '#welcome-todoList',
-            url: url.GetTodoLists,
-            page: true,
-            cols: [[{
-                type: 'numbers',
-                fixed: 'left'
-            },
-            {
-                field: 'Name',
-                title: '任务名称',
-                minWidth: 400,
-                templet: '<div><a href="wd={{ d.Oid }}" target="_blank" class="layui-table-link">{{ d.Name }}</div>'
-            },
-            {
-                field: 'Qty',
-                title: '待办数量',
-                minWidth: 80,
-            }]],
-            skin: 'line'
-        });
-        table.render({
-            elem: '#welcome-companyNews',
-            url: url.GetCompanyNews,
-            page: true,
-            cols: [[{
-                type: 'numbers',
-                fixed: 'left'
-            },
-            {
-                field: 'Title',
-                title: '标题',
-                minWidth: 280,
-                templet: '<div><a href="https://www.baidu.com/s?wd={{ d.Oid }}" target="_blank" class="layui-table-link">{{ d.Title }}</div>'
-            },
-            {
-                field: 'CreateBy',
-                title: '发布人',
-                minWidth: 80,
-            },
-            {
-                field: 'CreateTime',
-                title: '发布时间',
-                minWidth: 120,
-                sort: true
-            }]],
-            skin: 'line'
-        });
+    //init table
+    table.render({
+        elem: '#welcome-todoList',
+        url: url.GetTodoLists,
+        page: true,
+        cols: [[{
+            type: 'numbers',
+            fixed: 'left'
+        },
+        {
+            field: 'Name',
+            title: '任务名称',
+            minWidth: 400,
+            templet: '<div><a href="wd={{ d.Oid }}" target="_blank" class="layui-table-link">{{ d.Name }}</div>'
+        },
+        {
+            field: 'Qty',
+            title: '待办数量',
+            minWidth: 80,
+        }]],
+        skin: 'line'
+    });
+    table.render({
+        elem: '#welcome-companyNews',
+        url: url.GetCompanyNews,
+        page: true,
+        cols: [[{
+            type: 'numbers',
+            fixed: 'left'
+        },
+        {
+            field: 'Title',
+            title: '标题',
+            minWidth: 280,
+            templet: '<div><a href="https://www.baidu.com/s?wd={{ d.Oid }}" target="_blank" class="layui-table-link">{{ d.Title }}</div>'
+        },
+        {
+            field: 'CreateBy',
+            title: '发布人',
+            minWidth: 80,
+        },
+        {
+            field: 'CreateTime',
+            title: '发布时间',
+            minWidth: 120,
+            sort: true
+        }]],
+        skin: 'line'
     });
 
-	exports('welcome', {});
+    exports('/Home/Welcome', {});
 });

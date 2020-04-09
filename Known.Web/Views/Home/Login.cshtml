@@ -58,9 +58,9 @@
             <p>© 2020 <a href="http://www.msntek.com/" target="_blank">msntek.com</a></p>
         </div>
     </div>
-    <script src="~/static/layui/layui.js"></script>
+    <script src="~/static/layui/layui.all.js"></script>
     <script>
-        layui.use(['form', 'layer'], function () {
+        ;!function () {
             var $ = layui.jquery,
                 form = layui.form,
                 layer = layui.layer;
@@ -75,7 +75,7 @@
                 });
                 return false;
             });
-        });
+        }();
     </script>
 </body>
 </html>
