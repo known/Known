@@ -11,26 +11,8 @@
                     <button id="addRes" class="layui-btn layui-btn-small">添加资源</button>
                     <button id="module" class="layui-btn layui-btn-small">子模块管理</button>
                 </div>
-                <table class="layui-table" lay-data="{height: 'full-200', cellMinWidth: 80, page: true, limit:30, url:'/System/QueryModules'}">
-                    <thead>
-                        <tr>
-                            <th lay-data="{type:'checkbox'}">ID</th>
-                            <th lay-data="{sort: true, field:'Code', width:100}">编码</th>
-                            <th lay-data="{sort: true, field:'Name', width:100}">名称</th>
-                            <th lay-data="{sort: true, field:'Icon', width:100}">图标</th>
-                            <th lay-data="{sort: true, field:'Url', minWidth: 150}">URL</th>
-                            <th lay-data="{sort: true, field:'Enabled', align: 'right'}">状态</th>
-                            <th lay-data="{sort: true, field:'Order', minWidth: 100, align: 'right'}">顺序</th>
-                        </tr>
-                    </thead>
-                </table>
+                <table id="gridModule"></table>
             </div>
         </div>
     </div>
 </div>
-
-@section Script {
-    <script>
-        
-    </script>
-}

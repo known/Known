@@ -1,11 +1,12 @@
 layui.define('index', function (exports) {
     var url = {
-        GetUserInfo: '/System/GetUserInfo',
+        QueryModules: '/System/QueryModules',
         SaveUserInfo: '/System/SaveUserInfo',
         UpdatePassword: '/System/UpdatePassword'
     };
 
     var tree = layui.tree,
+        table = layui.table,
         layer = layui.layer,
         util = layui.util;
 
@@ -176,6 +177,30 @@ layui.define('index', function (exports) {
     tree.render({
         elem: '#tree', //默认是点击节点可进行收缩
         data: data
+    });
+
+    table.render({
+        elem: '#gridModule',
+        url: url.QueryModules,
+        page: true,
+        cols: [[{
+            type: 'numbers', fixed: 'left'
+        }, {
+            type: 'checkbox', fixed: 'left'
+        }, {
+            sort: true, title: '编码', field: 'Code', width: 100
+        }, {
+            sort: true, title: '名称', field: 'Name', width: 100
+        }, {
+            sort: true, title: '图标', field: 'Icon', width: 100
+        }, {
+            sort: true, title: 'URL', field: 'Url', width: 100
+        }, {
+            sort: true, title: '状态', field: 'Enabled', width: 100
+        }, {
+            sort: true, title: '顺序', field: 'Order', width: 100, align: 'center'
+        }]],
+        skin: 'line'
     });
 
     exports('/System/ModuleView', {});
