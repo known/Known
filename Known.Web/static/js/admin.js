@@ -1,7 +1,10 @@
-layui.define(['layer', 'element'], function (exports) {
-    var layer = layui.layer,
+layui.extend({
+    helper: 'helper'
+}).define('helper', function (exports) {
+    var $ = layui.jquery,
+        layer = layui.layer,
         element = layui.element,
-        $ = layui.jquery;
+        helper = layui.helper;
 
     var url = {
         GetMenus: '/Home/GetMenus?pid=',
@@ -9,19 +12,35 @@ layui.define(['layer', 'element'], function (exports) {
         SignOut: '/signout'
     };
 
+    var admin = {
+        addTab: function (node) {
+            if (!node.url)
+                return;
+
+            var id = node.id;
+            var tab = $('.layui-tab-title li[lay-id="' + id + '"]');
+            if (!tab.length) {
+                var title = node.icon + ' ' + node.text;
+                var content = '<iframe src="' + node.url + '" frameborder="0" class="layui-tab-iframe"></iframe>';
+                element.tabAdd('tabMenu', { id: id, title: title, content: content });
+            }
+            element.tabChange('tabMenu', id);
+        }
+    };
+
     var topRightAction = {
         fullScreen: function () {
-            fullScreen();
+            helper.fullScreen();
             $(this).data('type', 'exitScreen')
                 .html('<i class="layui-icon layui-icon-screen-restore"></i>');
         },
         exitScreen: function () {
-            exitScreen();
+            helper.exitScreen();
             $(this).data('type', 'fullScreen')
                 .html('<i class="layui-icon layui-icon-screen-full"></i>');
         },
         userInfo: function () {
-            addTab({
+            admin.addTab({
                 id: 'userInfo',
                 text: $(this).text(),
                 icon: '',
@@ -39,58 +58,6 @@ layui.define(['layer', 'element'], function (exports) {
         }
     };
 
-    function fullScreen() {
-        var el = document.documentElement;
-        var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
-
-        //typeof rfs != "undefined" && rfs
-        if (rfs) {
-            rfs.call(el);
-        } else if (typeof window.ActiveXObject !== "undefined") {
-            //for IE，这里其实就是模拟了按下键盘的F11，使浏览器全屏
-            var wscript = new ActiveXObject("WScript.Shell");
-            if (wscript !== null) {
-                wscript.SendKeys("{F11}");
-            }
-        }
-    }
-
-    function exitScreen() {
-        var el = document;
-        var cfs = el.cancelFullScreen || el.webkitCancelFullScreen || el.mozCancelFullScreen || el.exitFullScreen;
-
-        //typeof cfs != "undefined" && cfs
-        if (cfs) {
-            cfs.call(el);
-        } else if (typeof window.ActiveXObject !== "undefined") {
-            //for IE，这里和fullScreen相同，模拟按下F11键退出全屏
-            var wscript = new ActiveXObject("WScript.Shell");
-            if (wscript !== null) {
-                wscript.SendKeys("{F11}");
-            }
-        }
-    }
-
-    function toTree(arr, rootId) {
-        arr.forEach(function (element) {
-            var parentId = element.pid;
-            if (parentId) {
-                arr.forEach(function (ele) {
-                    if (ele.id === parentId) {
-                        if (!ele.children) {
-                            ele.children = [];
-                        }
-                        ele.children.push(element);
-                    }
-                });
-            }
-        });
-        arr = arr.filter(function (ele) {
-            return ele.pid === rootId;
-        });
-        return arr;
-    }
-
     function initMenu(obj, pid) {
         $.ajax({
             url: url.GetMenus + pid, async: false,
@@ -105,7 +72,7 @@ layui.define(['layer', 'element'], function (exports) {
     }
 
     function renderMenu(obj, res, pid) {
-        var tree = toTree(res, pid);
+        var tree = helper.toTree(res, pid);
         var html = '';
         $(tree).each(function (i, d) {
             html += '<li class="layui-nav-item">';
@@ -120,20 +87,6 @@ layui.define(['layer', 'element'], function (exports) {
             html += '</li>';
         });
         $(document).find(".layui-nav[lay-filter=" + obj + "]").html(html);
-    }
-
-    function addTab(node) {
-        if (!node.url)
-            return;
-
-        var id = node.id;
-        var tab = $('.layui-tab-title li[lay-id="' + id + '"]');
-        if (!tab.length) {
-            var title = node.icon + ' ' + node.text;
-            var content = '<iframe src="' + node.url + '" frameborder="0" class="layui-tab-iframe"></iframe>';
-            element.tabAdd('tabMenu', { id: id, title: title, content: content });
-        }
-        element.tabChange('tabMenu', id);
     }
 
     function init() {
@@ -154,7 +107,7 @@ layui.define(['layer', 'element'], function (exports) {
         var src = elem.data('url');
         if (src) {
             var a = elem[0];
-            addTab({
+            admin.addTab({
                 id: a.id.replace('menu', ''),
                 text: a.text,
                 icon: elem.find('i')[0].outerHTML,
@@ -171,5 +124,5 @@ layui.define(['layer', 'element'], function (exports) {
 
     init();
 
-    exports('admin', {});
+    exports('admin', admin);
 });

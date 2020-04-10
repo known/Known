@@ -65,6 +65,7 @@
     <Content Include="static\css\style.min.css" />
     <Content Include="static\img\bg.png" />
     <Content Include="static\img\face.jpg" />
+    <Content Include="static\js\helper.js" />
     <Content Include="static\js\extend\echarts.js" />
     <Content Include="static\js\extend\echartsTheme.js" />
     <Content Include="static\js\config.js" />
