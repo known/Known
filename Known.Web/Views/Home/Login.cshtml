@@ -1,4 +1,7 @@
-﻿@{Layout = null;}
+﻿@{
+    Layout = null;
+    var appName = Known.Config.AppName;
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +9,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Known开发框架 - 登录</title>
+    <title>@appName</title>
     <link rel="stylesheet" href="~/static/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="~/static/css/login.css" media="all">
 </head>
@@ -15,7 +18,7 @@
     <div class="login" id="login">
         <div class="login-main">
             <div class="login-box login-header">
-                <h2>Known开发框架</h2>
+                <h2>@appName</h2>
             </div>
             <div class="login-box login-body layui-form">
                 <div class="layui-form-item">
