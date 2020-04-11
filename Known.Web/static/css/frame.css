@@ -5,8 +5,24 @@
     height: 100%;
 }
 
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
 .center {
     text-align: center;
+}
+
+.layui-form th {
+    border: 1px solid #e9e7e7;
+    background-color: #f1f1f1;
+    padding: 2px;
+}
+
+.layui-form td {
+    border: 1px solid #e9e7e7;
+    padding: 2px;
 }
 
 .layui-fluid {
@@ -70,4 +86,39 @@
 .layui-fit .layui-table-tool-self {
     top: 5px;
     right: 5px;
+}
+
+body .layui-layer-title {
+    background: #4476A7;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    height: 30px;
+    line-height: 30px;
+}
+
+body .layui-layer-content {
+    padding: 5px;
+}
+
+body .layui-layer-btn {
+    border-top: 1px solid #e9e7e7;
+    padding: 5px 10px;
+}
+
+body .layui-layer-iframe .layui-layer-btn, 
+body .layui-layer-page .layui-layer-btn {
+    padding-top: 0;
+}
+
+.layui-input, .layui-textarea {
+    padding: 2px;
+}
+
+.layui-input, .layui-select, .layui-textarea {
+    height: auto;
+}
+
+.layui-form-switch {
+    margin-top: 0;
 }

@@ -8,7 +8,9 @@ layui.define(['index', 'helper'], function (exports) {
     var $ = layui.jquery,
         tree = layui.tree,
         table = layui.table,
+        form = layui.form,
         layer = layui.layer,
+        laytpl = layui.laytpl,
         helper = layui.helper;
 
     function renderTable(data) {
@@ -65,17 +67,34 @@ layui.define(['index', 'helper'], function (exports) {
 
     //头工具栏事件
     table.on('toolbar(tbModule)', function (obj) {
-        var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
             case 'addSys':
-                var data = checkStatus.data;
-                layer.alert(JSON.stringify(data));
+                var that = this;
+                layer.open({
+                    type: 1, title: '模块管理',
+                    area: ['550px', '290px'],
+                    shade: 0,
+                    content: $('#dialogModule').html(),
+                    btn: ['保存', '关闭'],
+                    yes: function () {
+                        $.post(url.UpdatePassword, data.field, function (result) {
+                            layer.msg(result.message);
+                        });
+                    },
+                    btn2: function () {
+                        layer.close(layer.index);
+                    },
+                    success: function (layero, index) {
+                        form.render(null, 'formModule');
+                    }
+                });
                 break;
             case 'add':
                 var data1 = checkStatus.data;
                 layer.msg('选中了：' + data1.length + ' 个');
                 break;
             case 'remove':
+                var checkStatus = table.checkStatus(obj.config.id);
                 layer.msg(checkStatus.isAll ? '全选' : '未全选');
                 break;
         };
