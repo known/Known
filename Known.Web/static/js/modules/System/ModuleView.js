@@ -1,7 +1,6 @@
 layui.define(['index', 'helper'], function (exports) {
     var url = {
         GetModuleTree: '/System/GetModuleTree',
-        QueryModules: '/System/QueryModules',
         SaveUserInfo: '/System/SaveUserInfo',
         UpdatePassword: '/System/UpdatePassword'
     };
@@ -10,59 +9,58 @@ layui.define(['index', 'helper'], function (exports) {
         tree = layui.tree,
         table = layui.table,
         layer = layui.layer,
-        util = layui.util,
         helper = layui.helper;
+
+    function renderTable(data) {
+        table.render({
+            elem: '#gridModule',
+            data: data,
+            page: true, height: 'full-25',
+            toolbar: '#tbModule',
+            cols: [[{
+                type: 'numbers', fixed: 'left'
+            }, {
+                type: 'checkbox', fixed: 'left'
+            }, {
+                sort: true, title: '编码', field: 'Code', width: 100
+            }, {
+                sort: true, title: '名称', field: 'Name', width: 150, templet: function (d) {
+                    return '<i class="layui-icon ' + d.Icon + '"></i>' + d.Name;
+                }
+            }, {
+                sort: true, title: 'URL', field: 'Url', width: 250
+            }, {
+                sort: true, title: '状态', field: 'Enabled', width: 100, templet: function (d) {
+                    var checked = d.Enabled ? ' checked' : '';
+                    return '<input type="checkbox" lay-skin="switch" lay-text="启用|禁用" disabled' + checked + '>';
+                }
+            }, {
+                sort: true, title: '顺序', field: 'Sort', width: 100, align: 'center'
+            }, {
+                fixed: 'right', title: '操作', toolbar: '#tbgModule', width: 120, align: 'center'
+            }]],
+            skin: 'line'
+        });
+    }
+
+    renderTable([]);
 
     //tree
     $.get(url.GetModuleTree, function (result) {
         var data = helper.toTree(result, '');
-        console.log(data);
-        tree.render({ elem: '#tree', data: data });
-    });
-
-    //grid
-    table.render({
-        elem: '#gridModule',
-        url: url.QueryModules,
-        page: true, height: 'full-100',
-        toolbar: '#tbModule',
-        cols: [[{
-            type: 'numbers', fixed: 'left'
-        }, {
-            type: 'checkbox', fixed: 'left'
-        }, {
-            sort: true, title: '编码', field: 'Code', width: 100
-        }, {
-            sort: true, title: '名称', field: 'Name', width: 100
-        }, {
-            sort: true, title: '图标', field: 'Icon', width: 100
-        }, {
-            sort: true, title: 'URL', field: 'Url', width: 100
-        }, {
-            sort: true, title: '状态', field: 'Enabled', width: 100
-        }, {
-            sort: true, title: '顺序', field: 'Order', width: 100, align: 'center'
-        }, {
-            fixed: 'right', title: '操作', toolbar: '#tbgModule', width: 150
-        }]],
-        skin: 'line'
-    });
-
-    //toolbar
-    util.event('lay-demo', {
-        getChecked: function (othis) {
-            var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
-            layer.alert(JSON.stringify(checkedData), { shade: 0 });
-            console.log(checkedData);
-        },
-        setChecked: function () {
-            tree.setChecked('demoId1', [12, 16]); //勾选指定节点
-        },
-        reload: function () {
-            //重载实例
-            tree.reload('demoId1', {
-            });
-        }
+        tree.render({
+            elem: '#tree', data: data,
+            click: function (obj) {
+                //var node = obj.data.module;
+                var gridData = [];
+                if (obj.data.children) {
+                    obj.data.children.forEach(function (d) {
+                        gridData.push(d.module);
+                    });
+                }
+                renderTable(gridData);
+            }
+        });
     });
 
     //头工具栏事件

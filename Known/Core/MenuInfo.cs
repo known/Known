@@ -31,10 +31,9 @@ namespace Known.Core
             {
                 id = module.Id,
                 pid = module.ParentId,
-                code = module.Code,
                 title = module.Name,
                 icon = module.Icon,
-                url = module.Url
+                module
             };
         }
     }
