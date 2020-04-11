@@ -9,6 +9,9 @@
     height: 30px;
     line-height: 30px;
     text-align: right;
+    border-top: 1px solid #ccc;
+    background-color: #393D49 !important;
+    color: #fff;
 }
 .layui-layout-admin .layui-tab {
     position: absolute;
