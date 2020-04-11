@@ -11,6 +11,10 @@ layui.define('index', function (exports) {
 
     $.get(url.GetUserInfo, function (result) {
         form.val('formUserInfo', result);
+        $('#userName').html(result.Name + '(' + result.UserName + ')');
+        $('#userMobile').html(result.Mobile);
+        $('#userEmail').html(result.Email);
+        $('#userNote').html(result.Note);
     });
 
     form.on('submit(saveUserInfo)', function (data) {

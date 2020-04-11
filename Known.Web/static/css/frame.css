@@ -5,6 +5,10 @@
     height: 100%;
 }
 
+.center {
+    text-align: center;
+}
+
 .layui-fluid {
     padding: 10px;
 }
