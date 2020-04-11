@@ -12,9 +12,3 @@
 .layui-carousel {
     background-color: transparent;
 }
-
-.layui-carousel-ind {
-    position: absolute;
-    top: -41px;
-    text-align: right;
-}

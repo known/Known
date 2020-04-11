@@ -6,7 +6,6 @@ layui.define('index', function (exports) {
     };
 
     var $ = layui.jquery,
-        element = layui.element,
         carousel = layui.carousel,
         table = layui.table,
         device = layui.device();
@@ -24,9 +23,6 @@ layui.define('index', function (exports) {
             anim: a.data('anim')
         })
     });
-
-    //init progress
-    element.render('progress');
 
     //init charts
     layui.use('echarts', function () {

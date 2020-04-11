@@ -1,39 +1,42 @@
-﻿<div class="layui-fluid">
-    <div class="layui-row layui-col-space15">
+﻿@section Style {
+    <style>
+        .layui-carousel-ind {
+            position: absolute;
+            top: -41px;
+            text-align: right;
+        }
+    </style>
+}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space10">
         <div class="layui-col-md8">
-            <div class="layui-row layui-col-space10">
-                <div class="layui-col-md12">
-
-                    <div class="layui-card">
-                        <div class="layui-tab layui-tab-brief">
-                            <ul class="layui-tab-title">
-                                <li class="layui-this">待办事项</li>
-                                <li>公司动态</li>
-                            </ul>
-                            <div class="layui-tab-content">
-                                <div class="layui-tab-item layui-show">
-                                    <table id="welcome-todoList"></table>
-                                </div>
-                                <div class="layui-tab-item">
-                                    <table id="welcome-companyNews"></table>
-                                </div>
-                            </div>
+            <div class="layui-card">
+                <div class="layui-tab layui-tab-brief">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">待办事项</li>
+                        <li>公司动态</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <table id="welcome-todoList"></table>
+                        </div>
+                        <div class="layui-tab-item">
+                            <table id="welcome-companyNews"></table>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="layui-card">
-                        <div class="layui-card-header">数据概览</div>
-                        <div class="layui-card-body">
-                            <div class="layui-carousel" data-anim="fade" lay-filter="welcome-dataview">
-                                <div carousel-item id="welcome-dataview">
-                                    <div><i class="layui-icon layui-icon-loading"></i></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">数据概览</div>
+                <div class="layui-card-body">
+                    <div class="layui-carousel" data-anim="fade" lay-filter="welcome-dataview">
+                        <div carousel-item id="welcome-dataview">
+                            <div><i class="layui-icon layui-icon-loading"></i></div>
+                            <div></div>
+                            <div></div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
