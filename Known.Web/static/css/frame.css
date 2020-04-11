@@ -111,14 +111,17 @@ body .layui-layer-page .layui-layer-btn {
     padding-top: 0;
 }
 
-.layui-input, .layui-textarea {
+.form .layui-input, 
+.form .layui-textarea {
     padding: 2px;
 }
 
-.layui-input, .layui-select, .layui-textarea {
+.form .layui-input,
+.form .layui-select, 
+.form .layui-textarea {
     height: auto;
 }
 
-.layui-form-switch {
+.form .layui-form-switch {
     margin-top: 0;
 }
