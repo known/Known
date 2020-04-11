@@ -4,12 +4,47 @@
     color: #666;
 }
 
-.layui-layout-body {
-    overflow: auto
+body {
+    background: radial-gradient(200% 100% at bottom center, #f7f7b6, #e96f92, #75517d, #1b2947);
+    background: radial-gradient(220% 105% at top center, #1b2947 10%, #75517d 40%, #e96f92 65%, #f7f7b6);
+    background-attachment: fixed;
+    overflow: hidden;
+    color: #fff;
 }
 
-#login, .display-show {
-    display: block !important
+@keyframes rotate {
+    0% {
+        transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+    }
+    100% {
+        transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);
+    }
+}
+
+.stars {
+    transform: perspective(500px);
+    transform-style: preserve-3d;
+    position: absolute;
+    bottom: 0;
+    perspective-origin: 50% 100%;
+    left: 50%;
+    animation: rotate 90s infinite linear;
+}
+
+.star {
+    width: 2px;
+    height: 2px;
+    background: #F7F7B6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0 -300px;
+    transform: translate3d(0, 0, -300px);
+    backface-visibility: hidden;
+}
+
+.layui-layout-body {
+    overflow: auto
 }
 
 .login {
@@ -39,12 +74,10 @@
         margin-bottom: 10px;
         font-weight: 300;
         font-size: 30px;
-        color: #000
     }
 
     .login-header p {
         font-weight: 300;
-        color: #999
     }
 
 .login-body .layui-form-item {
@@ -109,7 +142,6 @@
     padding: 20px;
     text-align: center;
     box-sizing: border-box;
-    color: rgba(0,0,0,.5)
 }
 
     .login-footer span {
@@ -118,12 +150,8 @@
 
     .login-footer a {
         padding: 0 5px;
-        color: rgba(0,0,0,.5)
+        color: #fff;
     }
-
-        .login-footer a:hover {
-            color: rgba(0,0,0,1)
-        }
 
 .login-main[bgimg] {
     background-color: #fff;
