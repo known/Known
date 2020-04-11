@@ -57,9 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="static\css\admin.css" />
     <Content Include="static\css\animate.min.css" />
     <Content Include="static\css\iconfont.css" />
+    <Content Include="static\css\frame.css" />
     <Content Include="static\css\index.css" />
     <Content Include="static\css\login.css" />
     <Content Include="static\css\style.min.css" />
@@ -211,7 +211,9 @@
       <Name>Known</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="static\admin\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

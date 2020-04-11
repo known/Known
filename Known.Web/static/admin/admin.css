@@ -1,9 +1,3 @@
-html #layuicss-layuiAdmin {
-    display: none;
-    position: absolute;
-    width: 1989px
-}
-
 ::-webkit-input-placeholder {
     color: #ccc
 }

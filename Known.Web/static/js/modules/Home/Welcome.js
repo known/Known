@@ -12,7 +12,7 @@ layui.define('index', function (exports) {
         device = layui.device();
 
     //init carousel
-    $('.kadmin-carousel').each(function () {
+    $('.layui-carousel').each(function () {
         var a = $(this);
         carousel.render({
             elem: this,
