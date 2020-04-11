@@ -1,188 +1,31 @@
-layui.define('index', function (exports) {
+layui.define(['index', 'helper'], function (exports) {
     var url = {
+        GetModuleTree: '/System/GetModuleTree',
         QueryModules: '/System/QueryModules',
         SaveUserInfo: '/System/SaveUserInfo',
         UpdatePassword: '/System/UpdatePassword'
     };
 
-    var tree = layui.tree,
+    var $ = layui.jquery,
+        tree = layui.tree,
         table = layui.table,
         layer = layui.layer,
-        util = layui.util;
+        util = layui.util,
+        helper = layui.helper;
 
-    //模拟数据
-    var data = [{
-        title: '一级1'
-        , id: 1
-        , field: 'name1'
-        , checked: true
-        , spread: true
-        , children: [{
-            title: '二级1-1 可允许跳转'
-            , id: 3
-            , field: 'name11'
-            , href: 'https://www.layui.com/'
-            , children: [{
-                title: '三级1-1-3'
-                , id: 23
-                , field: ''
-                , children: [{
-                    title: '四级1-1-3-1'
-                    , id: 24
-                    , field: ''
-                    , children: [{
-                        title: '五级1-1-3-1-1'
-                        , id: 30
-                        , field: ''
-                    }, {
-                        title: '五级1-1-3-1-2'
-                        , id: 31
-                        , field: ''
-                    }]
-                }]
-            }, {
-                title: '三级1-1-1'
-                , id: 7
-                , field: ''
-                , children: [{
-                    title: '四级1-1-1-1 可允许跳转'
-                    , id: 15
-                    , field: ''
-                    , href: 'https://www.layui.com/doc/'
-                }]
-            }, {
-                title: '三级1-1-2'
-                , id: 8
-                , field: ''
-                , children: [{
-                    title: '四级1-1-2-1'
-                    , id: 32
-                    , field: ''
-                }]
-            }]
-        }, {
-            title: '二级1-2'
-            , id: 4
-            , spread: true
-            , children: [{
-                title: '三级1-2-1'
-                , id: 9
-                , field: ''
-                , disabled: true
-            }, {
-                title: '三级1-2-2'
-                , id: 10
-                , field: ''
-            }]
-        }, {
-            title: '二级1-3'
-            , id: 20
-            , field: ''
-            , children: [{
-                title: '三级1-3-1'
-                , id: 21
-                , field: ''
-            }, {
-                title: '三级1-3-2'
-                , id: 22
-                , field: ''
-            }]
-        }]
-    }, {
-        title: '一级2'
-        , id: 2
-        , field: ''
-        , spread: true
-        , children: [{
-            title: '二级2-1'
-            , id: 5
-            , field: ''
-            , spread: true
-            , children: [{
-                title: '三级2-1-1'
-                , id: 11
-                , field: ''
-            }, {
-                title: '三级2-1-2'
-                , id: 12
-                , field: ''
-            }]
-        }, {
-            title: '二级2-2'
-            , id: 6
-            , field: ''
-            , children: [{
-                title: '三级2-2-1'
-                , id: 13
-                , field: ''
-            }, {
-                title: '三级2-2-2'
-                , id: 14
-                , field: ''
-                , disabled: true
-            }]
-        }]
-    }, {
-        title: '一级3'
-        , id: 16
-        , field: ''
-        , children: [{
-            title: '二级3-1'
-            , id: 17
-            , field: ''
-            , fixed: true
-            , children: [{
-                title: '三级3-1-1'
-                , id: 18
-                , field: ''
-            }, {
-                title: '三级3-1-2'
-                , id: 19
-                , field: ''
-            }]
-        }, {
-            title: '二级3-2'
-            , id: 27
-            , field: ''
-            , children: [{
-                title: '三级3-2-1'
-                , id: 28
-                , field: ''
-            }, {
-                title: '三级3-2-2'
-                , id: 29
-                , field: ''
-            }]
-        }]
-    }];
-
-    //按钮事件
-    util.event('lay-demo', {
-        getChecked: function (othis) {
-            var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
-            layer.alert(JSON.stringify(checkedData), { shade: 0 });
-            console.log(checkedData);
-        }
-        , setChecked: function () {
-            tree.setChecked('demoId1', [12, 16]); //勾选指定节点
-        }
-        , reload: function () {
-            //重载实例
-            tree.reload('demoId1', {
-            });
-        }
+    //tree
+    $.get(url.GetModuleTree, function (result) {
+        var data = helper.toTree(result, '');
+        console.log(data);
+        tree.render({ elem: '#tree', data: data });
     });
 
-    //常规用法
-    tree.render({
-        elem: '#tree', //默认是点击节点可进行收缩
-        data: data
-    });
-
+    //grid
     table.render({
         elem: '#gridModule',
         url: url.QueryModules,
-        page: true,
+        page: true, height: 'full-100',
+        toolbar: '#tbModule',
         cols: [[{
             type: 'numbers', fixed: 'left'
         }, {
@@ -199,8 +42,65 @@ layui.define('index', function (exports) {
             sort: true, title: '状态', field: 'Enabled', width: 100
         }, {
             sort: true, title: '顺序', field: 'Order', width: 100, align: 'center'
+        }, {
+            fixed: 'right', title: '操作', toolbar: '#tbgModule', width: 150
         }]],
         skin: 'line'
+    });
+
+    //toolbar
+    util.event('lay-demo', {
+        getChecked: function (othis) {
+            var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+            layer.alert(JSON.stringify(checkedData), { shade: 0 });
+            console.log(checkedData);
+        },
+        setChecked: function () {
+            tree.setChecked('demoId1', [12, 16]); //勾选指定节点
+        },
+        reload: function () {
+            //重载实例
+            tree.reload('demoId1', {
+            });
+        }
+    });
+
+    //头工具栏事件
+    table.on('toolbar(tbModule)', function (obj) {
+        var checkStatus = table.checkStatus(obj.config.id);
+        switch (obj.event) {
+            case 'addSys':
+                var data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+                break;
+            case 'add':
+                var data1 = checkStatus.data;
+                layer.msg('选中了：' + data1.length + ' 个');
+                break;
+            case 'remove':
+                layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                break;
+        };
+    });
+
+    //监听行工具事件
+    table.on('tool(tbModule)', function (obj) {
+        var data = obj.data;
+        if (obj.event === 'del') {
+            layer.confirm('真的删除行么', function (index) {
+                obj.del();
+                layer.close(index);
+            });
+        } else if (obj.event === 'edit') {
+            layer.prompt({
+                formType: 2, value: data.email
+            }, function (value, index) {
+                obj.update({
+                    email: value
+                });
+                layer.close(index);
+            });
+        }
     });
 
     exports('/System/ModuleView', {});

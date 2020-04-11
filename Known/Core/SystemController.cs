@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Known.Core.Services;
 using Known.Web;
 
@@ -26,6 +27,12 @@ namespace Known.Core
         #endregion
 
         #region Module
+        public ActionResult GetModuleTree()
+        {
+            var modules = Service.GetModules();
+            return JsonResult(modules.Select(m => MenuInfo.ToTree(m)));
+        }
+
         public ActionResult QueryModules(CriteriaData data)
         {
             return QueryPagingData(data, c => Service.QueryModules(c));

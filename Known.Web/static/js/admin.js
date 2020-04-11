@@ -76,11 +76,11 @@ layui.extend({
         var html = '';
         $(tree).each(function (i, d) {
             html += '<li class="layui-nav-item">';
-            html += '  <a href="javascript:;" id="menu' + d.id + '" data-url="' + d.url + '"><i class="layui-icon ' + d.icon + '"></i> ' + d.text + '</a>';
+            html += '  <a href="javascript:;" id="menu' + d.id + '" data-url="' + d.url + '"><i class="layui-icon ' + d.icon + '"></i> ' + d.title + '</a>';
             if (d.children) {
                 html += '  <dl class="layui-nav-child">';
                 $(d.children).each(function (ci, cd) {
-                    html += '<dd><a href="javascript:;" id="menu' + cd.id + '" data-url="' + cd.url + '"><i class="layui-icon ' + cd.icon + '"></i> ' + cd.text + '</a></dd>';
+                    html += '<dd><a href="javascript:;" id="menu' + cd.id + '" data-url="' + cd.url + '"><i class="layui-icon ' + cd.icon + '"></i> ' + cd.title + '</a></dd>';
                 });
                 html += '  </dl>';
             }

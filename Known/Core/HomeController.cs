@@ -66,15 +66,7 @@ namespace Known.Core
         public ActionResult GetMenus(string pid)
         {
             var menus = Platform.GetUserMenus(UserName, pid);
-            return JsonResult(menus.Select(m => new
-            {
-                id = m.Id,
-                pid = m.ParentId,
-                code = m.Code,
-                text = m.Name,
-                icon = m.Icon,
-                url = m.Url
-            }));
+            return JsonResult(menus.Select(m => m.ToTree()));
         }
         #endregion
 

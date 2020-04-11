@@ -1,4 +1,5 @@
-﻿using Known.Core.Datas;
+﻿using System.Collections.Generic;
+using Known.Core.Datas;
 using Known.Core.Entities;
 
 namespace Known.Core.Services
@@ -11,6 +12,11 @@ namespace Known.Core.Services
         }
 
         #region Module
+        public List<SysModule> GetModules()
+        {
+            return Repository.GetModules(Database);
+        }
+
         public PagingResult<SysModule> QueryModules(PagingCriteria criteria)
         {
             return Repository.QueryModules(Database, criteria);

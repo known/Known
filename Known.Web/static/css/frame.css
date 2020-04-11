@@ -17,23 +17,8 @@
     background-color: transparent;
 }
 
-.layui-fit .layui-card, 
-.layui-fit .layui-tab {
-    width: 100%;
-    height: 100%;
-}
-
-.layui-fit .layui-tab {
-    position: relative;
-}
-
-.layui-fit .layui-tab-content {
-    position: absolute;
-    top: 40px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow: auto;
+.layui-btn-group {
+    padding: 5px;
 }
 
 .layui-fit, .fit-col {
@@ -48,4 +33,41 @@
     margin: 10px;
     background-color: #fff;
     overflow: auto;
+}
+
+.layui-fit .layui-card {
+    width: 100%;
+    height: 100%;
+}
+
+.layui-fit .layui-tab {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.layui-fit .layui-tab-content {
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: auto;
+}
+
+.layui-fit .layui-table,
+.layui-fit .layui-table-view {
+    margin: 0;
+    padding: 5px;
+    border: none;
+}
+
+.layui-fit .layui-table-tool {
+    padding: 5px;
+    min-height: 30px;
+    background-color: #fff;
+}
+.layui-fit .layui-table-tool-self {
+    top: 5px;
+    right: 5px;
 }
