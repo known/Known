@@ -6,7 +6,7 @@
     </div>
     <div class="fit-col" style="left:260px;">
         <div class="layui-card">
-            <table id="gridModule" class="layui-hide" lay-filter="tbModule"></table>
+            <table id="gridModule" class="layui-hide" lay-filter="gridModule"></table>
             <script type="text/html" id="tbModule">
                 <div class="layui-btn-container">
                     <button class="layui-btn layui-btn-sm" lay-event="addSys">
@@ -20,7 +20,7 @@
                     </button>
                 </div>
             </script>
-            <script type="text/html" id="tbgModule">
+            <script type="text/html" id="tbrModule">
                 <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
             </script>
@@ -33,6 +33,9 @@
         <tr>
             <th style="width:80px;">编码</th>
             <td>
+                <input type="hidden" name="Id">
+                <input type="hidden" name="ParentId">
+                <input type="hidden" name="Icon">
                 <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
             </td>
             <th style="width:80px;">名称</th>

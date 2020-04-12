@@ -94,37 +94,14 @@ namespace Known
 
         public T QuerySingle<T>(string sql, object param = null)
         {
-            bool close;
-            T obj;
-            using (var reader = ExecuteReader(sql, param, out close))
-            {
-                reader.Read();
-                obj = ConvertTo<T>(reader);
-            }
-
-            if (close)
-                conn.Close();
-
-            return obj;
+            var info = new CommandInfo(prefix, sql, param);
+            return QuerySingle<T>(info);
         }
 
         public List<T> QueryList<T>(string sql, object param = null)
         {
-            bool close;
-            var lists = new List<T>();
-            using (var reader = ExecuteReader(sql, param, out close))
-            {
-                while (reader.Read())
-                {
-                    var obj = ConvertTo<T>(reader);
-                    lists.Add(obj);
-                }
-            }
-
-            if (close)
-                conn.Close();
-
-            return lists;
+            var info = new CommandInfo(prefix, sql, param);
+            return QueryList<T>(info);
         }
 
         public PagingResult<T> QueryPage<T>(string sql, PagingCriteria criteria)
@@ -176,15 +153,19 @@ namespace Known
                 return null;
 
             var idTexts = new List<string>();
+            var paramters = new Dictionary<string, object>();
             for (int i = 0; i < ids.Length; i++)
             {
                 idTexts.Add($"id=@id{i}");
+                paramters.Add($"id{i}", ids[i]);
             }
 
             var tableName = typeof(T).Name;
             var idText = string.Join(" or ", idTexts);
             var sql = $"select * from {tableName} where {idText}";
-            return QueryList<T>(sql, new { ids });
+            var info = new CommandInfo(prefix, sql) { Params = paramters };
+
+            return QueryList<T>(info);
         }
 
         public void Delete<T>(T entity) where T : EntityBase
@@ -249,14 +230,13 @@ namespace Known
             return value;
         }
 
-        private DbDataReader ExecuteReader(string sql, object param, out bool close)
+        private DbDataReader ExecuteReader(CommandInfo info, out bool close)
         {
             close = false;
             var cmd = conn.CreateCommand();
 
             try
             {
-                var info = new CommandInfo(prefix, sql, param);
                 PrepareCommand(conn, cmd, trans, info, out close);
                 var reader = cmd.ExecuteReader();
                 cmd.Parameters.Clear();
@@ -268,6 +248,43 @@ namespace Known
                     conn.Close();
                 throw;
             }
+        }
+
+        private T QuerySingle<T>(CommandInfo info)
+        {
+            bool close;
+            T obj;
+
+            using (var reader = ExecuteReader(info, out close))
+            {
+                reader.Read();
+                obj = ConvertTo<T>(reader);
+            }
+
+            if (close)
+                conn.Close();
+
+            return obj;
+        }
+
+        private List<T> QueryList<T>(CommandInfo info)
+        {
+            bool close;
+            var lists = new List<T>();
+
+            using (var reader = ExecuteReader(info, out close))
+            {
+                while (reader.Read())
+                {
+                    var obj = ConvertTo<T>(reader);
+                    lists.Add(obj);
+                }
+            }
+
+            if (close)
+                conn.Close();
+
+            return lists;
         }
 
         private static T ConvertTo<T>(DbDataReader reader)

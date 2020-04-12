@@ -1,8 +1,8 @@
 layui.define(['index', 'helper'], function (exports) {
     var url = {
         GetModuleTree: '/System/GetModuleTree',
-        SaveUserInfo: '/System/SaveUserInfo',
-        UpdatePassword: '/System/UpdatePassword'
+        SaveModule: '/System/SaveModule',
+        DeleteModules: '/System/DeleteModules'
     };
 
     var $ = layui.jquery,
@@ -10,8 +10,23 @@ layui.define(['index', 'helper'], function (exports) {
         table = layui.table,
         form = layui.form,
         layer = layui.layer,
-        laytpl = layui.laytpl,
         helper = layui.helper;
+
+    var node = null;
+    function renderTree() {
+        $.get(url.GetModuleTree, function (result) {
+            var data = helper.toTree(result, '');
+            renderTable(getGridData(data));
+            tree.render({
+                elem: '#tree', data: data,
+                click: function (obj) {
+                    node = obj.data.module;
+                    var gridData = getGridData(obj.data.children);
+                    renderTable(gridData);
+                }
+            });
+        });
+    }
 
     function renderTable(data) {
         table.render({
@@ -39,84 +54,110 @@ layui.define(['index', 'helper'], function (exports) {
             }, {
                 sort: true, title: '顺序', field: 'Sort', width: 100, align: 'center'
             }, {
-                fixed: 'right', title: '操作', toolbar: '#tbgModule', width: 120, align: 'center'
+                fixed: 'right', title: '操作', toolbar: '#tbrModule', width: 120, align: 'center'
             }]],
             skin: 'line'
         });
     }
 
-    renderTable([]);
+    function getGridData(treeData) {
+        var data = [];
+        if (treeData) {
+            treeData.forEach(function (d) {
+                data.push(d.module);
+            });
+        }
+        return data;
+    }
 
-    //tree
-    $.get(url.GetModuleTree, function (result) {
-        var data = helper.toTree(result, '');
-        tree.render({
-            elem: '#tree', data: data,
-            click: function (obj) {
-                //var node = obj.data.module;
-                var gridData = [];
-                if (obj.data.children) {
-                    obj.data.children.forEach(function (d) {
-                        gridData.push(d.module);
-                    });
-                }
-                renderTable(gridData);
-            }
-        });
-    });
-
-    //头工具栏事件
-    table.on('toolbar(tbModule)', function (obj) {
-        switch (obj.event) {
-            case 'addSys':
-                var that = this;
-                layer.open({
-                    type: 1, title: '模块管理',
-                    area: ['550px', '290px'],
-                    shade: 0,
-                    content: $('#dialogModule').html(),
-                    btn: ['保存', '关闭'],
-                    yes: function () {
-                        $.post(url.UpdatePassword, data.field, function (result) {
-                            layer.msg(result.message);
-                        });
-                    },
-                    btn2: function () {
-                        layer.close(layer.index);
-                    },
-                    success: function (layero, index) {
-                        form.render(null, 'formModule');
+    function showForm(data) {
+        var formId = 'formModule';
+        layer.open({
+            type: 1, title: '模块管理' + (data.Id === '' ? '【新增】' : '【编辑】'),
+            area: ['550px', '290px'],
+            shade: 0,
+            content: $('#dialogModule').html(),
+            btn: ['保存', '关闭'],
+            yes: function () {
+                var field = form.val(formId);
+                $.post(url.SaveModule, {
+                    data: JSON.stringify(field)
+                }, function (result) {
+                    layer.msg(result.message);
+                    if (result.ok) {
+                        renderTree();
                     }
                 });
+            },
+            btn2: function () {
+                layer.close(layer.index);
+            },
+            success: function (layero, index) {
+                form.render(null, formId);
+                form.val(formId, data);
+            }
+        });
+    }
+
+    function deleteDatas(rows, callback) {
+        if (!rows || rows.length === 0) {
+            layer.msg('请至少选择一条记录！');
+            return;
+        }
+
+        var ids = [];
+        rows.forEach(function (d) {
+            ids.push(d.Id);
+        });
+
+        var msg = rows.length > 1 ? ('所选的' + rows.length + '条记录') : '该记录';
+        layer.confirm('确定要删除' + msg + '吗？', function (index) {
+            layer.close(index);
+            $.post(url.DeleteModules, {
+                data: JSON.stringify(ids)
+            }, function (result) {
+                layer.msg(result.message);
+                if (result.ok) {
+                    callback && callback();
+                }
+            });
+        });
+    }
+
+    //tree
+    renderTree();
+
+    //toolbar
+    table.on('toolbar(gridModule)', function (obj) {
+        switch (obj.event) {
+            case 'addSys':
+                showForm({ Id: '', ParentId: '' });
                 break;
             case 'add':
-                var data1 = checkStatus.data;
-                layer.msg('选中了：' + data1.length + ' 个');
+                if (!node) {
+                    layer.msg('请选择上级模块！');
+                    return;
+                }
+                showForm({ Id: '', ParentId: node.Id });
                 break;
             case 'remove':
-                var checkStatus = table.checkStatus(obj.config.id);
-                layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                var data = table.checkStatus('gridModule').data;
+                deleteDatas(data, function () {
+                    renderTree();
+                });
                 break;
         };
     });
 
-    //监听行工具事件
-    table.on('tool(tbModule)', function (obj) {
+    //grid
+    table.on('tool(gridModule)', function (obj) {
         var data = obj.data;
         if (obj.event === 'del') {
-            layer.confirm('真的删除行么', function (index) {
+            deleteDatas([data], function () {
                 obj.del();
-                layer.close(index);
             });
         } else if (obj.event === 'edit') {
-            layer.prompt({
-                formType: 2, value: data.email
-            }, function (value, index) {
-                obj.update({
-                    email: value
-                });
-                layer.close(index);
-            });
+            showForm(data);
         }
     });
 
