@@ -166,8 +166,7 @@ layui.define(['index', 'helper'], function (exports) {
 
     function initForm(formId, data) {
         form.val(formId, data);
-        var icon = data.Icon || 'layui-icon-file';
-        $('#dvIcon').attr('icon', data.Icon).html('<i class="layui-icon ' + icon + '"></i>');
+        $('#dvIcon').attr('icon', data.Icon).html('<i class="layui-icon ' + data.Icon + '"></i>');
     }
 
     function deleteDatas(rows, callback) {
@@ -190,14 +189,14 @@ layui.define(['index', 'helper'], function (exports) {
     table.on('toolbar(gridModule)', function (obj) {
         switch (obj.event) {
             case 'addSys':
-                showForm({ Id: '', ParentId: '' });
+                showForm({ Id: '', ParentId: '', Icon: 'layui-icon-file', Enabled: 1 });
                 break;
             case 'add':
                 if (!node) {
                     layer.msg('请选择上级模块！');
                     return;
                 }
-                showForm({ Id: '', ParentId: node.Id });
+                showForm({ Id: '', ParentId: node.Id, Icon: 'layui-icon-file', Enabled: 1 });
                 break;
             case 'remove':
                 var data = table.checkStatus('gridModule').data;
