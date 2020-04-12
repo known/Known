@@ -44,6 +44,24 @@ layui.define(function (exports) {
                 return ele.pid === rootId;
             });
             return arr;
+        },
+        deleteRows: function (rows, callback) {
+            if (!rows || rows.length === 0) {
+                layer.msg('请至少选择一条记录！');
+                return;
+            }
+
+            var ids = [];
+            rows.forEach(function (d) {
+                ids.push(d.Id);
+            });
+
+            var msg = rows.length > 1 ? ('所选的' + rows.length + '条记录') : '该记录';
+            layer.confirm('确定要删除' + msg + '吗？', function (index) {
+                layer.close(index);
+                var data = JSON.stringify(ids);
+                callback && callback(data);
+            });
         }
     });
 });

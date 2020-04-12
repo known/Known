@@ -43,7 +43,7 @@ layui.extend({
             admin.addTab({
                 id: 'userInfo',
                 text: $(this).text(),
-                icon: '',
+                icon: $(this).find('i')[0].outerHTML,
                 url: url.UserInfo
             });
         },

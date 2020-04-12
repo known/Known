@@ -13,6 +13,9 @@
     background-color: #393D49 !important;
     color: #fff;
 }
+.layui-side .layui-nav-child dd {
+    padding-left: 20px;
+}
 .layui-layout-admin .layui-tab {
     position: absolute;
     margin: 0;
