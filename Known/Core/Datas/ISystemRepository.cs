@@ -13,7 +13,7 @@ namespace Known.Core.Datas
     {
         public List<SysModule> GetModules(Database db)
         {
-            var sql = "select * from SysModule";
+            var sql = "select * from SysModule order by Sort";
             return db.QueryList<SysModule>(sql);
         }
 
