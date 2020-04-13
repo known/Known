@@ -1,33 +1,29 @@
 ﻿<div class="layui-fit">
-    <div class="fit-col" style="width:250px;">
-        <div class="layui-card">
-            <div id="tree"></div>
-        </div>
+    <div class="fit-col" style="width:240px;">
+        <div id="tree"></div>
     </div>
     <div class="fit-col" style="left:260px;">
-        <div class="layui-card">
-            <table id="gridModule" class="layui-hide" lay-filter="gridModule"></table>
-            <script type="text/html" id="tbModule">
-                <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-sm" lay-event="addSys">
-                        <i class="layui-icon layui-icon-addition"></i>添加系统
-                    </button>
-                    <button class="layui-btn layui-btn-sm" lay-event="add">
-                        <i class="layui-icon layui-icon-addition"></i>添加模块
-                    </button>
-                    <button class="layui-btn layui-btn-sm" lay-event="remove">
-                        <i class="layui-icon layui-icon-delete"></i>删除
-                    </button>
-                </div>
-            </script>
-            <script type="text/html" id="tbrModule">
-                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-            </script>
-        </div>
+        <table id="gridModule" class="layui-hide" lay-filter="gridModule"></table>
     </div>
 </div>
 
+<script type="text/html" id="tbModule">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="addSys">
+            <i class="layui-icon layui-icon-addition"></i>添加系统
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="add">
+            <i class="layui-icon layui-icon-addition"></i>添加模块
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="remove">
+            <i class="layui-icon layui-icon-delete"></i>删除
+        </button>
+    </div>
+</script>
+<script type="text/html" id="tbrModule">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <script type="text/html" id="dialogModule">
     <table class="layui-form form" lay-filter="formModule">
         <tr>
