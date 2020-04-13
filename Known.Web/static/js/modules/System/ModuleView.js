@@ -1,37 +1,57 @@
 layui.define(['index', 'helper'], function (exports) {
     var url = {
         GetModuleTree: '/System/GetModuleTree',
-        SaveModule: '/System/SaveModule',
-        DeleteModules: '/System/DeleteModules'
+        DeleteModules: '/System/DeleteModules',
+        SaveModule: '/System/SaveModule'
     };
 
     var $ = layui.jquery,
         tree = layui.tree,
-        table = layui.table,
-        form = layui.form,
         layer = layui.layer,
         helper = layui.helper;
 
-    var node = null;
-    function renderTree() {
-        $.get(url.GetModuleTree, function (result) {
-            var data = helper.toTree(result, '');
-            renderTable(getGridData(data));
-            tree.render({
-                elem: '#tree', data: data, onlyIconControl: true,
-                click: function (obj) {
-                    node = obj.data.module;
-                    var gridData = getGridData(obj.data.children);
-                    renderTable(gridData);
-                }
-            });
-        });
-    }
+    var f = helper.form({
+        name: 'formModule',
+        title: '模块管理',
+        config: {
+            area: ['550px', '290px'],
+            content: $('#dialogModule').html(),
+            setData: function (e) {
+                $('#dvIcon').attr('icon', e.data.Icon)
+                            .html('<i class="layui-icon ' + e.data.Icon + '"></i>');
+            },
+            init: function (e) {
+                $('#dvIcon').click(function () {
+                    var icon1 = $(this).attr('icon');
+                    selectIcon(icon1, function (icon) {
+                        var data = e.form.getData();
+                        data.Icon = icon;
+                        e.form.setData(data);
+                    });
+                });
+            }
+        },
+        toolbar: [{
+            text: '保存', handler: function (e) {
+                var data = e.form.getData();
+                $.post(url.SaveModule, {
+                    data: JSON.stringify(data)
+                }, function (result) {
+                    layer.msg(result.message);
+                    if (result.ok) {
+                        data.Id = result.data;
+                        e.form.setData(data);
+                        renderTree();
+                    }
+                });
+            }
+        }]
+    });
 
-    function renderTable(data) {
-        table.render({
-            elem: '#gridModule',
-            data: data,
+    var node = null;
+    var g = helper.grid({
+        name: 'gridModule',
+        config: {
             page: true, height: 'full-25',
             toolbar: '#tbModule', skin: 'line',
             initSort: { field: 'Sort', type: 'asc' },
@@ -54,6 +74,46 @@ layui.define(['index', 'helper'], function (exports) {
                 { sort: true, title: '顺序', field: 'Sort', width: 100, align: 'center' },
                 { fixed: 'right', title: '操作', toolbar: '#tbrModule', width: 120, align: 'center' }
             ]]
+        },
+        toolbar: {
+            addSys: function (e) {
+                f.open({ Id: '', ParentId: '', Icon: 'layui-icon-file', Enabled: 1 });
+            },
+            add: function (e) {
+                if (!node) {
+                    layer.msg('请选择上级模块！');
+                    return;
+                }
+                f.open({ Id: '', ParentId: node.Id, Icon: 'layui-icon-file', Enabled: 1 });
+            },
+            remove: function (e) {
+                deleteDatas(e.grid, e.rows, function () {
+                    renderTree();
+                });
+            },
+            edit: function (e) {
+                f.open(e.row);
+            },
+            del: function (e) {
+                deleteDatas(e.grid, [e.row], function () {
+                    renderTree();
+                });
+            }
+        }
+    });
+
+    function renderTree() {
+        $.get(url.GetModuleTree, function (result) {
+            var data = helper.toTree(result, '');
+            g.setData(getGridData(data));
+            tree.render({
+                elem: '#tree', data: data, onlyIconControl: true,
+                click: function (obj) {
+                    node = obj.data.module;
+                    var gridData = getGridData(obj.data.children);
+                    g.setData(gridData);
+                }
+            });
         });
     }
 
@@ -125,52 +185,8 @@ layui.define(['index', 'helper'], function (exports) {
         });
     }
 
-    function showForm(data) {
-        var formId = 'formModule';
-        layer.open({
-            type: 1, title: '模块管理' + (data.Id === '' ? '【新增】' : '【编辑】'),
-            area: ['550px', '290px'],
-            shade: 0,
-            content: $('#dialogModule').html(),
-            btn: ['保存', '关闭'],
-            yes: function () {
-                var field = form.val(formId);
-                $.post(url.SaveModule, {
-                    data: JSON.stringify(field)
-                }, function (result) {
-                    layer.msg(result.message);
-                    if (result.ok) {
-                        field.Id = result.data;
-                        initForm(formId, field);
-                        renderTree();
-                    }
-                });
-            },
-            btn2: function () {
-                layer.close(layer.index);
-            },
-            success: function (layero, index) {
-                form.render(null, formId);
-                initForm(formId, data);
-                $('#dvIcon').click(function () {
-                    var icon1 = $(this).attr('icon');
-                    selectIcon(icon1, function (icon) {
-                        var value = form.val(formId);
-                        value.Icon = icon;
-                        initForm(formId, value);
-                    });
-                });
-            }
-        });
-    }
-
-    function initForm(formId, data) {
-        form.val(formId, data);
-        $('#dvIcon').attr('icon', data.Icon).html('<i class="layui-icon ' + data.Icon + '"></i>');
-    }
-
-    function deleteDatas(rows, callback) {
-        helper.deleteRows(rows, function (data) {
+    function deleteDatas(grid, rows, callback) {
+        grid.deleteRows(rows, function (data) {
             $.post(url.DeleteModules, {
                 data: data
             }, function (result) {
@@ -184,40 +200,6 @@ layui.define(['index', 'helper'], function (exports) {
 
     //tree
     renderTree();
-
-    //toolbar
-    table.on('toolbar(gridModule)', function (obj) {
-        switch (obj.event) {
-            case 'addSys':
-                showForm({ Id: '', ParentId: '', Icon: 'layui-icon-file', Enabled: 1 });
-                break;
-            case 'add':
-                if (!node) {
-                    layer.msg('请选择上级模块！');
-                    return;
-                }
-                showForm({ Id: '', ParentId: node.Id, Icon: 'layui-icon-file', Enabled: 1 });
-                break;
-            case 'remove':
-                var data = table.checkStatus('gridModule').data;
-                deleteDatas(data, function () {
-                    renderTree();
-                });
-                break;
-        };
-    });
-
-    //grid
-    table.on('tool(gridModule)', function (obj) {
-        var data = obj.data;
-        if (obj.event === 'del') {
-            deleteDatas([data], function () {
-                obj.del();
-            });
-        } else if (obj.event === 'edit') {
-            showForm(data);
-        }
-    });
 
     exports('/System/ModuleView', {});
 });

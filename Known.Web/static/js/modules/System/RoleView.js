@@ -1,16 +1,11 @@
 layui.define('index', function (exports) {
     var url = {
-        GetUserInfo: '/System/GetUserInfo',
-        SaveUserInfo: '/System/SaveUserInfo',
-        UpdatePassword: '/System/UpdatePassword'
+        DeleteRoles: '/System/DeleteRoles',
+        SaveRole: '/System/SaveRole'
     };
-    layui.use(['form', 'element'], function () {
-        var $ = layui.jquery,
-            form = layui.form,
-            layer = layui.layer;
 
-        
-    });
+
+    
 
     exports('/System/RoleView', {});
 });

@@ -1,4 +1,102 @@
 layui.define(function (exports) {
+    var $ = layui.jquery,
+        layer = layui.layer,
+        form = layui.form,
+        table = layui.table;
+
+    function Grid(option) {
+        var name = option.name,
+            config = option.config,
+            toolbar = option.toolbar;
+
+        config.elem = '#' + name;
+        if (config.url) {
+            table.render(config);
+        }
+
+        var _this = this;
+        table.on('toolbar(' + name + ')', function (obj) {
+            var type = obj.event;
+            var rows = table.checkStatus(name).data;
+            toolbar[type] && toolbar[type].call(this, { grid: _this, rows: rows });
+        });
+        table.on('tool(' + name + ')', function (obj) {
+            var type = obj.event;
+            toolbar[type] && toolbar[type].call(this, { grid: _this, row: obj.data });
+        });
+
+        this.setData = function (data) {
+            config.data = data;
+            table.render(config);
+        }
+
+        this.deleteRows = function (rows, callback) {
+            if (!rows || rows.length === 0) {
+                layer.msg('请至少选择一条记录！');
+                return;
+            }
+
+            var ids = [];
+            rows.forEach(function (d) {
+                ids.push(d.Id);
+            });
+
+            var msg = rows.length > 1 ? ('所选的' + rows.length + '条记录') : '该记录';
+            layer.confirm('确定要删除' + msg + '吗？', function (index) {
+                layer.close(index);
+                var data = JSON.stringify(ids);
+                callback && callback(data);
+            });
+        }
+    }
+
+    function Form(option) {
+        var name = option.name,
+            title = option.title,
+            config = option.config,
+            toolbar = option.toolbar;
+
+        var _this = this;
+        var btn = [], handler = {};
+        if (toolbar) {
+            for (var i = 0; i < toolbar.length; i++) {
+                btn.push(toolbar[i].text);
+                var evt = i === 0 ? 'yes' : ('btn' + (i + 1));
+                var hdl = toolbar[i].handler;
+                handler[evt] = function () {
+                    hdl && hdl.call(this, { form: _this });
+                };
+            }
+        }
+
+        handler['btn' + (btn.length + 1)] = function () {
+            layer.close(layer.index);
+        };
+        btn.push('关闭');
+
+        $.extend(config, { type: 1, shade: 0, btn: btn }, handler);
+
+        this.open = function (data) {
+            config.title = title + (data.Id === '' ? '【新增】' : '【编辑】');
+            config.success = function (layero, index) {
+                form.render(null, name);
+                _this.setData(data, config.init);
+            }
+            layer.open(config);
+        }
+
+        this.getData = function () {
+            return form.val(name);
+        }
+
+        this.setData = function (data, callback) {
+            form.val(name, data);
+            var e = { form: _this, data: data };
+            config.setData && config.setData(e);
+            callback && callback(e);
+        }
+    }
+
     exports('helper', {
         fullScreen: function () {
             var el = document.documentElement;
@@ -45,23 +143,11 @@ layui.define(function (exports) {
             });
             return arr;
         },
-        deleteRows: function (rows, callback) {
-            if (!rows || rows.length === 0) {
-                layer.msg('请至少选择一条记录！');
-                return;
-            }
-
-            var ids = [];
-            rows.forEach(function (d) {
-                ids.push(d.Id);
-            });
-
-            var msg = rows.length > 1 ? ('所选的' + rows.length + '条记录') : '该记录';
-            layer.confirm('确定要删除' + msg + '吗？', function (index) {
-                layer.close(index);
-                var data = JSON.stringify(ids);
-                callback && callback(data);
-            });
+        grid: function (option) {
+            return new Grid(option);
+        },
+        form: function (option) {
+            return new Form(option);
         }
     });
 });
