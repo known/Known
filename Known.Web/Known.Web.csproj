@@ -62,7 +62,6 @@
     <Content Include="static\css\frame.css" />
     <Content Include="static\css\index.css" />
     <Content Include="static\css\login.css" />
-    <Content Include="static\css\style.min.css" />
     <Content Include="static\img\bg.png" />
     <Content Include="static\img\face.jpg" />
     <Content Include="static\js\helper.js" />
