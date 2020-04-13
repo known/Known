@@ -183,7 +183,6 @@
     <Content Include="static\layui\lay\modules\tree.js" />
     <Content Include="static\layui\lay\modules\upload.js" />
     <Content Include="static\layui\lay\modules\util.js" />
-    <Content Include="static\test.js" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Welcome.cshtml" />
     <Content Include="static\layui\font\iconfont.eot" />
@@ -211,9 +210,7 @@
       <Name>Known</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="static\admin\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
