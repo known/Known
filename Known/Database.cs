@@ -340,6 +340,86 @@ namespace Known
                 }
             }
         }
+        #endregion
+    }
+
+    class CommandInfo
+    {
+        internal CommandInfo(string prefix, string text, dynamic param = null)
+        {
+            Prefix = prefix;
+            Text = text.Replace("@", prefix);
+            if (param != null)
+                Params = ToDictionary(param);
+        }
+
+        internal string Prefix { get; set; }
+        internal string Text { get; set; }
+        internal Dictionary<string, object> Params { get; set; }
+
+        internal string CountSql
+        {
+            get { return $"select count(*) from ({Text}) t"; }
+        }
+
+        internal string GetPagingSql(string providerName, PagingCriteria criteria)
+        {
+            var orderBy = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)));
+            var startNo = criteria.PageSize * criteria.PageIndex;
+            var endNo = startNo + criteria.PageSize;
+
+            if (string.IsNullOrWhiteSpace(orderBy))
+            {
+                orderBy = "t1.CreateTime";
+            }
+
+            if (providerName.Contains("MySql"))
+            {
+                return $@"
+select t1.* from (
+    {Text}
+) t1 
+order by {orderBy} 
+limit {startNo}, {endNo}";
+            }
+
+            return $@"
+select t.* from (
+    select t1.*,row_number() over (order by {orderBy}) row_no 
+    from (
+        {Text}
+    ) t1
+) t where t.row_no>{startNo} and t.row_no<={endNo}";
+        }
+
+        internal static CommandInfo GetSaveCommand<T>(string prefix, T entity) where T : EntityBase
+        {
+            var cmdParams = ToDictionary(entity);
+            var orgParams = ToDictionary(entity.Original);
+
+            var sql = string.Empty;
+            var tableName = typeof(T).Name;
+            if (entity.IsNew)
+            {
+                var cloumn = string.Join(",", cmdParams.Keys);
+                var value = string.Join(",", cmdParams.Keys.Select(k => $"@{k}"));
+                sql = $"insert into {tableName}({cloumn}) values({value})";
+            }
+            else
+            {
+                var column = string.Join(",", cmdParams.Keys.Select(k => $"{k}=@{k}"));
+                sql = $"update {tableName} set {column} where Id=@Id";
+            }
+
+            return new CommandInfo(prefix, sql) { Params = cmdParams };
+        }
+
+        internal static CommandInfo GetDeleteCommand<T>(string prefix, T entity) where T : EntityBase
+        {
+            var tableName = typeof(T).Name;
+            var sql = $"delete from {tableName} where id=@id";
+            return new CommandInfo(prefix, sql, new { id = entity.Id });
+        }
 
         private static Dictionary<string, object> ToDictionary(object value)
         {
@@ -349,86 +429,6 @@ namespace Known
             var json = JsonConvert.SerializeObject(value);
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
         }
-
-        private class CommandInfo
-        {
-            internal CommandInfo(string prefix, string text, dynamic param = null)
-            {
-                Prefix = prefix;
-                Text = text.Replace("@", prefix);
-                if (param != null)
-                    Params = ToDictionary(param);
-            }
-
-            internal string Prefix { get; set; }
-            internal string Text { get; set; }
-            internal Dictionary<string, object> Params { get; set; }
-
-            internal string CountSql
-            {
-                get { return $"select count(*) from ({Text}) t"; }
-            }
-
-            internal string GetPagingSql(string providerName, PagingCriteria criteria)
-            {
-                var orderBy = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)));
-                var startNo = criteria.PageSize * criteria.PageIndex;
-                var endNo = startNo + criteria.PageSize;
-
-                if (string.IsNullOrWhiteSpace(orderBy))
-                {
-                    orderBy = "t1.CreateTime";
-                }
-
-                if (providerName.Contains("MySql"))
-                {
-                    return $@"
-select t1.* from (
-    {Text}
-) t1 
-order by {orderBy} 
-limit {startNo}, {endNo}";
-                }
-
-                return $@"
-select t.* from (
-    select t1.*,row_number() over (order by {orderBy}) row_no 
-    from (
-        {Text}
-    ) t1
-) t where t.row_no>{startNo} and t.row_no<={endNo}";
-            }
-
-            internal static CommandInfo GetSaveCommand<T>(string prefix, T entity) where T : EntityBase
-            {
-                var cmdParams = ToDictionary(entity);
-                var orgParams = ToDictionary(entity.Original);
-
-                var sql = string.Empty;
-                var tableName = typeof(T).Name;
-                if (entity.IsNew)
-                {
-                    var cloumn = string.Join(",", cmdParams.Keys);
-                    var value = string.Join(",", cmdParams.Keys.Select(k => $"@{k}"));
-                    sql = $"insert into {tableName}({cloumn}) values({value})";
-                }
-                else
-                {
-                    var column = string.Join(",", cmdParams.Keys.Select(k => $"{k}=@{k}"));
-                    sql = $"update {tableName} set {column} where Id=@Id";
-                }
-
-                return new CommandInfo(prefix, sql) { Params = cmdParams };
-            }
-
-            internal static CommandInfo GetDeleteCommand<T>(string prefix, T entity) where T : EntityBase
-            {
-                var tableName = typeof(T).Name;
-                var sql = $"delete from {tableName} where id=@id";
-                return new CommandInfo(prefix, sql, new { id = entity.Id });
-            }
-        }
-        #endregion
     }
 
     public class Result

@@ -12,17 +12,17 @@ namespace Known.Core.Services
         }
 
         #region Module
-        public List<SysModule> GetModules()
+        internal List<SysModule> GetModules()
         {
             return Repository.GetModules(Database);
         }
 
-        public PagingResult<SysModule> QueryModules(PagingCriteria criteria)
+        internal PagingResult<SysModule> QueryModules(PagingCriteria criteria)
         {
             return Repository.QueryModules(Database, criteria);
         }
 
-        public Result DeleteModules(string[] ids)
+        internal Result DeleteModules(string[] ids)
         {
             var entities = Database.QueryListById<SysModule>(ids);
             if (entities == null || entities.Count == 0)
@@ -37,12 +37,12 @@ namespace Known.Core.Services
             });
         }
 
-        public SysModule GetModule(string id)
+        internal SysModule GetModule(string id)
         {
             return Database.QueryById<SysModule>(id);
         }
 
-        public Result SaveModule(dynamic model)
+        internal Result SaveModule(dynamic model)
         {
             var entity = Database.QueryById<SysModule>((string)model.Id);
             if (entity == null)

@@ -5,12 +5,12 @@ namespace Known.Web
 {
     class WebConfig
     {
-        public static void RegisterFilters(GlobalFilterCollection filters)
+        internal static void RegisterFilters(GlobalFilterCollection filters)
         {
             filters.Add(new LoginAuthorizeAttribute());
         }
 
-        public static void RegisterRoutes(RouteCollection routes)
+        internal static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapMvcAttributeRoutes();
