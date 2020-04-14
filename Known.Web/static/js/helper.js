@@ -9,21 +9,25 @@ layui.define(function (exports) {
             config = option.config,
             toolbar = option.toolbar;
 
+        $.extend(config, { skin: 'line' });
+
         config.elem = '#' + name;
         if (config.url) {
             table.render(config);
         }
 
-        var _this = this;
-        table.on('toolbar(' + name + ')', function (obj) {
-            var type = obj.event;
-            var rows = table.checkStatus(name).data;
-            toolbar[type] && toolbar[type].call(this, { grid: _this, rows: rows });
-        });
-        table.on('tool(' + name + ')', function (obj) {
-            var type = obj.event;
-            toolbar[type] && toolbar[type].call(this, { grid: _this, row: obj.data });
-        });
+        if (toolbar) {
+            var _this = this;
+            table.on('toolbar(' + name + ')', function (obj) {
+                var type = obj.event;
+                var rows = table.checkStatus(name).data;
+                toolbar[type] && toolbar[type].call(this, { grid: _this, rows: rows });
+            });
+            table.on('tool(' + name + ')', function (obj) {
+                var type = obj.event;
+                toolbar[type] && toolbar[type].call(this, { grid: _this, row: obj.data });
+            });
+        }
 
         this.setData = function (data) {
             config.data = data;

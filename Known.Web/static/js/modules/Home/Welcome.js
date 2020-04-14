@@ -1,4 +1,4 @@
-layui.define('index', function (exports) {
+layui.define(['index', 'helper'], function (exports) {
     var url = {
         GetTodoLists: '/Home/GetTodoLists',
         GetCompanyNews: '/Home/GetCompanyNews',
@@ -7,7 +7,7 @@ layui.define('index', function (exports) {
 
     var $ = layui.jquery,
         carousel = layui.carousel,
-        table = layui.table,
+        helper = layui.helper,
         device = layui.device();
 
     //init carousel
@@ -163,53 +163,34 @@ layui.define('index', function (exports) {
     });
 
     //init table
-    table.render({
-        elem: '#welcome-todoList',
-        url: url.GetTodoLists,
-        page: true,
-        cols: [[{
-            type: 'numbers',
-            fixed: 'left'
-        },
-        {
-            field: 'Name',
-            title: '任务名称',
-            minWidth: 400,
-            templet: '<div><a href="wd={{ d.Oid }}" target="_blank" class="layui-table-link">{{ d.Name }}</div>'
-        },
-        {
-            field: 'Qty',
-            title: '待办数量',
-            minWidth: 80,
-        }]],
-        skin: 'line'
+    helper.grid({
+        name: 'todoList',
+        config: {
+            url: url.GetTodoLists, page: true,
+            cols: [[
+                { type: 'numbers', fixed: 'left' },
+                {
+                    field: 'Name', title: '任务名称', minWidth: 400,
+                    templet: '<div><a href="wd={{ d.Oid }}" target="_blank" class="layui-table-link">{{ d.Name }}</div>'
+                },
+                { field: 'Qty', title: '待办数量', minWidth: 80 }
+            ]]
+        }
     });
-    table.render({
-        elem: '#welcome-companyNews',
-        url: url.GetCompanyNews,
-        page: true,
-        cols: [[{
-            type: 'numbers',
-            fixed: 'left'
-        },
-        {
-            field: 'Title',
-            title: '标题',
-            minWidth: 280,
-            templet: '<div><a href="https://www.baidu.com/s?wd={{ d.Oid }}" target="_blank" class="layui-table-link">{{ d.Title }}</div>'
-        },
-        {
-            field: 'CreateBy',
-            title: '发布人',
-            minWidth: 80,
-        },
-        {
-            field: 'CreateTime',
-            title: '发布时间',
-            minWidth: 120,
-            sort: true
-        }]],
-        skin: 'line'
+    helper.grid({
+        name: 'companyNews',
+        config: {
+            url: url.GetCompanyNews, page: true,
+            cols: [[
+                { type: 'numbers', fixed: 'left' },
+                {
+                    field: 'Title', title: '标题', minWidth: 280,
+                    templet: '<div><a href="https://www.baidu.com/s?wd={{ d.Oid }}" target="_blank" class="layui-table-link">{{ d.Title }}</div>'
+                },
+                { field: 'CreateBy', title: '发布人', minWidth: 80 },
+                { field: 'CreateTime', title: '发布时间', minWidth: 120, sort: true }
+            ]]
+        }
     });
 
     exports('/Home/Welcome', {});

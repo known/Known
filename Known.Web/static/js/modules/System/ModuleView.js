@@ -52,8 +52,7 @@ layui.define(['index', 'helper'], function (exports) {
     var g = helper.grid({
         name: 'gridModule',
         config: {
-            page: true, height: 'full-25',
-            toolbar: '#tbModule', skin: 'line',
+            page: true, height: 'full-25', toolbar: '#tbModule',
             initSort: { field: 'Sort', type: 'asc' },
             cols: [[
                 { type: 'numbers', fixed: 'left' },
