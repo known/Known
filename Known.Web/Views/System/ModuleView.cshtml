@@ -13,7 +13,7 @@
             <i class="layui-icon layui-icon-addition"></i>添加系统
         </button>
         <button class="layui-btn layui-btn-sm" lay-event="add">
-            <i class="layui-icon layui-icon-addition"></i>添加模块
+            <i class="layui-icon layui-icon-addition"></i>新增
         </button>
         <button class="layui-btn layui-btn-sm" lay-event="remove">
             <i class="layui-icon layui-icon-delete"></i>删除
@@ -43,13 +43,18 @@
             </td>
         </tr>
         <tr>
+            <th>类型</th>
+            <td>
+                <input type="radio" name="Type" value="菜单" title="菜单" checked>
+                <input type="radio" name="Type" value="按钮" title="按钮">
+            </td>
             <th>URL</th>
-            <td colspan="3">
+            <td>
                 <input type="text" name="Url" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
             </td>
         </tr>
         <tr>
-            <th>选项</th>
+            <th>状态</th>
             <td>
                 <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|禁用" value="1">
             </td>

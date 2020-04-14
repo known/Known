@@ -80,7 +80,7 @@ layui.define(function (exports) {
 
         $.extend(config, { type: 1, shade: 0, btn: btn }, handler);
 
-        this.open = function (data) {
+        this.show = function (data) {
             config.title = title + (data.Id === '' ? '【新增】' : '【编辑】');
             config.success = function (layero, index) {
                 form.render(null, name);

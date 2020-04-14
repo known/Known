@@ -28,6 +28,12 @@ namespace Known.Core.Services
             if (entities == null || entities.Count == 0)
                 return Result.Error("请至少选择一条记录进行操作！");
 
+            foreach (var item in entities)
+            {
+                if (Repository.ExistsSubModule(Database, item.Id))
+                    return Result.Error($"{item.Name}存在子模块，不能删除！");
+            }
+
             return Database.Transaction("删除", db =>
             {
                 foreach (var item in entities)

@@ -10,7 +10,7 @@ layui.define(['index', 'helper'], function (exports) {
         layer = layui.layer,
         helper = layui.helper;
 
-    var f = helper.form({
+    var form = helper.form({
         name: 'formModule',
         title: '模块管理',
         config: {
@@ -49,7 +49,7 @@ layui.define(['index', 'helper'], function (exports) {
     });
 
     var node = null;
-    var g = helper.grid({
+    var grid = helper.grid({
         name: 'gridModule',
         config: {
             page: true, height: 'full-25', toolbar: '#tbModule',
@@ -63,6 +63,7 @@ layui.define(['index', 'helper'], function (exports) {
                         return '<i class="layui-icon ' + d.Icon + '"></i>' + d.Name;
                     }
                 },
+                { sort: true, title: '类型', field: 'Type', width: 100 },
                 { sort: true, title: 'URL', field: 'Url', width: 250 },
                 {
                     sort: true, title: '状态', field: 'Enabled', width: 100, templet: function (d) {
@@ -75,42 +76,45 @@ layui.define(['index', 'helper'], function (exports) {
             ]]
         },
         toolbar: {
-            addSys: function (e) {
-                f.open({ Id: '', ParentId: '', Icon: 'layui-icon-file', Enabled: 1 });
-            },
+            addSys: function (e) { showForm(''); },
             add: function (e) {
                 if (!node) {
                     layer.msg('请选择上级模块！');
                     return;
                 }
-                f.open({ Id: '', ParentId: node.Id, Icon: 'layui-icon-file', Enabled: 1 });
+                showForm(node.Id);
             },
-            remove: function (e) {
-                deleteDatas(e.grid, e.rows, function () {
-                    renderTree();
-                });
-            },
-            edit: function (e) {
-                f.open(e.row);
-            },
-            del: function (e) {
-                deleteDatas(e.grid, [e.row], function () {
-                    renderTree();
-                });
-            }
+            remove: function (e) { deleteModules(e.grid, e.rows); },
+            edit: function (e) { form.show(e.row); },
+            del: function (e) { deleteModules(e.grid, [e.row]); }
         }
     });
+
+    function showForm(pid) {
+        form.show({ Id: '', ParentId: pid, Icon: 'layui-icon-file', Enabled: 1 });
+    }
+
+    function deleteModules(grid, rows) {
+        grid.deleteRows(rows, function (data) {
+            $.post(url.DeleteModules, { data: data }, function (result) {
+                layer.msg(result.message);
+                if (result.ok) {
+                    renderTree();
+                }
+            });
+        });
+    }
 
     function renderTree() {
         $.get(url.GetModuleTree, function (result) {
             var data = helper.toTree(result, '');
-            g.setData(getGridData(data));
+            grid.setData(getGridData(data));
             tree.render({
                 elem: '#tree', data: data, onlyIconControl: true,
                 click: function (obj) {
                     node = obj.data.module;
                     var gridData = getGridData(obj.data.children);
-                    g.setData(gridData);
+                    grid.setData(gridData);
                 }
             });
         });
@@ -181,19 +185,6 @@ layui.define(['index', 'helper'], function (exports) {
                     $(this).addClass('active');
                 });
             }
-        });
-    }
-
-    function deleteDatas(grid, rows, callback) {
-        grid.deleteRows(rows, function (data) {
-            $.post(url.DeleteModules, {
-                data: data
-            }, function (result) {
-                layer.msg(result.message);
-                if (result.ok) {
-                    callback && callback();
-                }
-            });
         });
     }
 

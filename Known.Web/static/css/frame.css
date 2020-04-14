@@ -22,6 +22,21 @@ table {
     border: 1px solid #e9e7e7;
     padding: 2px;
 }
+.form .layui-input,
+.form .layui-textarea {
+    padding: 2px;
+}
+.form .layui-input,
+.form .layui-select,
+.form .layui-textarea {
+    height: auto;
+}
+.form .layui-form-radio {
+    margin: 0;
+}
+.form .layui-form-switch {
+    margin-top: 0;
+}
 
 .layui-fluid {
     padding: 10px;
@@ -96,19 +111,6 @@ body .layui-layer-btn {
 body .layui-layer-iframe .layui-layer-btn, 
 body .layui-layer-page .layui-layer-btn {
     padding-top: 0;
-}
-
-.form .layui-input, 
-.form .layui-textarea {
-    padding: 2px;
-}
-.form .layui-input,
-.form .layui-select, 
-.form .layui-textarea {
-    height: auto;
-}
-.form .layui-form-switch {
-    margin-top: 0;
 }
 
 .icon-list {
