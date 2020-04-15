@@ -182,23 +182,11 @@
     <Content Include="static\layui\lay\modules\tree.js" />
     <Content Include="static\layui\lay\modules\upload.js" />
     <Content Include="static\layui\lay\modules\util.js" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Welcome.cshtml" />
     <Content Include="static\layui\font\iconfont.eot" />
     <Content Include="static\layui\font\iconfont.ttf" />
     <Content Include="static\layui\font\iconfont.woff" />
     <Content Include="static\layui\font\iconfont.woff2" />
-    <None Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Home\UserInfo.cshtml" />
-    <Content Include="Views\Home\Error.cshtml" />
-    <Content Include="Views\Home\NotFound.cshtml" />
-    <None Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config" />
-    <Content Include="Views\System\UserView.cshtml" />
-    <Content Include="Views\System\RoleView.cshtml" />
-    <Content Include="Views\System\ModuleView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

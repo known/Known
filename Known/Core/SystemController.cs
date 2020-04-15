@@ -12,17 +12,17 @@ namespace Known.Core
         #region View
         public ActionResult ModuleView()
         {
-            return View();
+            return ViewResult();
         }
 
         public ActionResult RoleView()
         {
-            return View();
+            return ViewResult();
         }
 
         public ActionResult UserView()
         {
-            return View();
+            return ViewResult();
         }
         #endregion
 

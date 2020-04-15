@@ -15,6 +15,18 @@ namespace Known.Web
             get { return User.Identity.Name; }
         }
 
+        protected ActionResult ViewResult()
+        {
+            var content = ResViewEngine.GetView(ControllerContext);
+            return Content(content, "text/html");
+        }
+
+        protected ActionResult PartialResult()
+        {
+            var content = ResViewEngine.GetPartial(ControllerContext);
+            return Content(content, "text/html");
+        }
+
         protected ActionResult JsonResult(object value)
         {
             var json = Utils.ToJson(value);

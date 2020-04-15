@@ -83,12 +83,28 @@
     <Compile Include="Web\ControllerBase.cs" />
     <Compile Include="Web\LoginAuthorizeAttribute.cs" />
     <Compile Include="Web\MvcApplication.cs" />
+    <Compile Include="Web\ResViewEngine.cs" />
     <Compile Include="Web\WebConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="log4net.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Views\Home\Error.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Views\Home\Login.cshtml" />
+    <EmbeddedResource Include="Core\Views\Home\NotFound.cshtml" />
+    <EmbeddedResource Include="Core\Views\Home\UserInfo.cshtml" />
+    <EmbeddedResource Include="Core\Views\Home\Welcome.cshtml" />
+    <EmbeddedResource Include="Core\Views\Layout.cshtml" />
+    <EmbeddedResource Include="Core\Views\System\ModuleView.cshtml" />
+    <EmbeddedResource Include="Core\Views\System\RoleView.cshtml" />
+    <EmbeddedResource Include="Core\Views\System\UserView.cshtml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

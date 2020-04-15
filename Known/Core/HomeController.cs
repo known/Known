@@ -11,32 +11,32 @@ namespace Known.Core
         [AllowAnonymous, Route("login")]
         public ActionResult Login()
         {
-            return View();
+            return ViewResult();
         }
 
         public ActionResult Index()
         {
-            return View();
+            return ViewResult();
         }
 
         public ActionResult Welcome()
         {
-            return View();
+            return ViewResult();
         }
 
         public ActionResult UserInfo()
         {
-            return View();
+            return ViewResult();
         }
 
         public ActionResult NotFound()
         {
-            return View();
+            return ViewResult();
         }
 
         public ActionResult Error()
         {
-            return View();
+            return ViewResult();
         }
         #endregion
 

@@ -1,15 +1,11 @@
-﻿@{
-    Layout = null;
-    var appName = Known.Config.AppName;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>@appName</title>
+    <title>@AppName</title>
     <link rel="stylesheet" href="~/static/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="~/static/css/login.css" media="all">
 </head>
@@ -18,7 +14,7 @@
     <div class="login" id="login">
         <div class="login-main">
             <div class="login-box login-header">
-                <h2>@appName</h2>
+                <h2>@AppName</h2>
             </div>
             <div class="login-box login-body layui-form">
                 <div class="layui-form-item">
@@ -29,33 +25,12 @@
                     <label class="login-icon layui-icon layui-icon-password" for="password"></label>
                     <input type="password" name="password" id="password" lay-verify="required" placeholder="密码" class="layui-input">
                 </div>
-                @*<div class="layui-form-item">
-                    <div class="layui-row">
-                        <div class="layui-col-xs7">
-                            <label class="login-icon layui-icon layui-icon-vercode" for="vercode"></label>
-                            <input type="text" name="vercode" id="vercode" lay-verify="required" placeholder="图形验证码" class="layui-input">
-                        </div>
-                        <div class="layui-col-xs5">
-                            <div style="margin-left: 10px;">
-                                <img src="https://www.oschina.net/action/user/captcha" class="login-codeimg" id="getVercode">
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
                 <div class="layui-form-item" style="margin-bottom: 20px;">
                     <input type="checkbox" name="remember" lay-skin="primary" title="记住密码">
-                    @*<a href="forget.html" class="jump-change link" style="margin-top: 7px;">忘记密码？</a>*@
                 </div>
                 <div class="layui-form-item">
                     <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="login">登 入</button>
                 </div>
-                @*<div class="layui-trans layui-form-item login-other">
-                    <label>社交账号登入</label>
-                    <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>
-                    <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>
-                    <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>
-                    <a href="reg.html" class="jump-change link">注册帐号</a>
-                </div>*@
             </div>
         </div>
         <div class="layui-trans login-footer">
@@ -64,13 +39,13 @@
     </div>
     <script src="~/static/layui/layui.all.js"></script>
     <script>
-        ; !function () {
+        ;!function () {
             var $ = layui.jquery,
                 form = layui.form,
                 layer = layui.layer;
 
             form.on('submit(login)', function (data) {
-                $.post('/signin', data.field, function (result) {
+                $.post('~/signin', data.field, function (result) {
                     if (result.ok) {
                         location = '/';
                     } else {
@@ -96,7 +71,6 @@
                     transform: ' translate3d(0,0,-' + curR + 'px) rotateY(' + (Math.random() * 360) + 'deg) rotateX(' + (Math.random() * -50) + 'deg) scale(' + s + ',' + s + ')'
                 });
             });
-
         }();
     </script>
 </body>
