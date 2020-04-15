@@ -21,7 +21,7 @@ namespace Known.Core.Datas
         {
             if (string.IsNullOrWhiteSpace(parentId))
             {
-                var sql = "select * from SysModule where ParentId=''";
+                var sql = "select * from SysModule where Enabled=1 and ParentId=''";
                 return db.QueryList<MenuInfo>(sql);
             }
             else
