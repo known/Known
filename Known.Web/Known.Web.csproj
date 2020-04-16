@@ -69,12 +69,7 @@
     <Content Include="static\js\extend\echartsTheme.js" />
     <Content Include="static\js\config.js" />
     <Content Include="static\js\admin.js" />
-    <Content Include="static\js\modules\Home\UserInfo.js" />
-    <Content Include="static\js\modules\Home\Welcome.js" />
     <Content Include="static\js\index.js" />
-    <Content Include="static\js\modules\System\RoleView.js" />
-    <Content Include="static\js\modules\System\UserView.js" />
-    <Content Include="static\js\modules\System\ModuleView.js" />
     <Content Include="static\layui\css\layui.css" />
     <Content Include="static\layui\css\layui.mobile.css" />
     <Content Include="static\layui\css\modules\code.css" />

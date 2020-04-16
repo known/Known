@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Known.Web
@@ -6,6 +8,7 @@ namespace Known.Web
     class ResViewEngine
     {
         private readonly static object obj = new object();
+        private readonly static Dictionary<int, string> scripts = new Dictionary<int, string>();
 
         internal static string GetView(ControllerContext context)
         {
@@ -15,6 +18,19 @@ namespace Known.Web
         internal static string GetPartial(ControllerContext context)
         {
             return GetContent(context, true);
+        }
+
+        internal static string GetScript(int id)
+        {
+            if (!scripts.ContainsKey(id))
+                return string.Empty;
+
+            return scripts[id];
+        }
+
+        internal static void SetScript(int id, string script)
+        {
+            scripts[id] = script;
         }
 
         private static string GetContent(ControllerContext context, bool isPartial = false)
@@ -31,31 +47,39 @@ namespace Known.Web
             }
 
             if (string.IsNullOrWhiteSpace(text))
-                return "Hello World!";
+                return "<h1>Hello World!</h1>";
+
+            if (text.Contains("<html>"))
+                return ReplaceHtml(text);
 
             var layout = string.Empty;
-            if (!isPartial && !text.Contains("<html>"))
+            if (!isPartial)
                 layout = Utils.GetResource(assembly, "Views.Layout");
 
-            var parser = new ViewParser(text, layout);
+            var parser = new ViewParser(context.HttpContext, text, layout);
             lock (obj)
             {
                 parser.Parse();
             }
 
-            return parser.Html
-                .Replace("@AppName", Config.AppName)
-                .Replace("@Request.Path", context.RequestContext.HttpContext.Request.Path);
+            return ReplaceHtml(parser.Html);
+        }
+
+        private static string ReplaceHtml(string html)
+        {
+            return html.Replace("~/", "/").Replace("@AppName", Config.AppName);
         }
     }
 
     class ViewParser
     {
+        private readonly HttpContextBase context;
         private readonly string text;
         private string layout;
 
-        public ViewParser(string text, string layout = null)
+        public ViewParser(HttpContextBase context, string text, string layout = null)
         {
+            this.context = context;
             this.text = text;
             this.layout = layout;
         }
@@ -70,34 +94,40 @@ namespace Known.Web
             if (string.IsNullOrWhiteSpace(html))
                 html = text;
 
+            var script = string.Empty;
             var style = GetStyle(text);
-            var script = GetScript(text);
+            var js = GetScript(text);
+            if (!string.IsNullOrWhiteSpace(js))
+            {
+                var id = context.Request.Path.GetHashCode();
+                ResViewEngine.SetScript(id, js.Replace("~/", "/"));
+                script = $"<script src=\"~/Home/Script?id={id}\"></script>";
+            }
 
             if (!string.IsNullOrWhiteSpace(layout))
             {
                 if (!string.IsNullOrWhiteSpace(style))
-                    layout = layout.Replace("</head>", style + "</head>");
+                    layout = layout.Replace("</head>", $"<style>{style}</style></head>");
                 if (!string.IsNullOrWhiteSpace(script))
-                    layout = layout.Replace("</body>", script + "</body>");
+                    layout = layout.Replace("</body>", $"{script}</body>");
                 layout = layout.Replace("<div id=\"app\"></div>", $"<div id=\"app\">{html}</div>");
                 sb.Append(layout);
             }
             else
             {
                 if (!string.IsNullOrWhiteSpace(style))
-                    sb.Append(style);
+                    sb.Append($"<style>{style}</style>");
                 sb.Append(html);
                 if (!string.IsNullOrWhiteSpace(script))
-                    sb.Append(html);
+                    sb.Append(script);
             }
 
             Html = sb.ToString();
-            Html = Html.Replace("~/", "/");
         }
 
         private static string GetStyle(string text)
         {
-            return SubString(text, "<template id=\"style\">", "</template>");
+            return SubString(text, "<style>", "</style>");
         }
 
         private static string GetHtml(string text)
@@ -107,7 +137,7 @@ namespace Known.Web
 
         private static string GetScript(string text)
         {
-            return SubString(text, "<template id=\"script\">", "</template>");
+            return SubString(text, "<script>", "</script>");
         }
 
         private static string SubString(string text, string start, string end)

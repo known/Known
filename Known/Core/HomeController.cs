@@ -107,5 +107,13 @@ namespace Known.Core
             return JsonResult(Platform.UpdatePassword(UserName, oldPassword, password, repassword));
         }
         #endregion
+
+        #region Utils
+        public ActionResult Script(int id)
+        {
+            var script = ResViewEngine.GetScript(id);
+            return JavaScript(script);
+        }
+        #endregion
     }
 }
