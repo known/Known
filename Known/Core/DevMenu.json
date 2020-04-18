@@ -31,7 +31,7 @@
     "ParentId": "D01",
     "Code": "Code",
     "Name": "代码生成",
-    "Icon": "layui-icon-fonts-Code",
+    "Icon": "layui-icon-fonts-code",
     "Url": "/Dev/CodeView",
     "Order": 2
   },
