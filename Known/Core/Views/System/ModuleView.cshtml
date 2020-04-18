@@ -117,6 +117,7 @@
                         if (result.ok) {
                             data.Id = result.data;
                             e.form.setData(data);
+                            e.form.close();
                             renderTree();
                         }
                     });

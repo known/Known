@@ -12,6 +12,10 @@ table {
     text-align: center;
 }
 
+input:read-only {
+    background-color: #f5f5f5;
+}
+
 .form th {
     border: 1px solid #e9e7e7;
     background-color: #f1f1f1;

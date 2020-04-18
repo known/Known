@@ -26,21 +26,48 @@
     <script type="text/html" id="dialogUser">
         <table class="layui-form form" lay-filter="formUser">
             <tr>
-                <th style="width:80px;">名称</th>
+                <th style="width:80px;">用户名</th>
                 <td>
                     <input type="hidden" name="Id">
+                    <input type="text" name="UserName" lay-verify="required" placeholder="" readonly autocomplete="off" class="layui-input">
+                </td>
+                <th style="width:80px;">姓名</th>
+                <td>
                     <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                </td>
+                <th style="width:80px;">英文名</th>
+                <td>
+                    <input type="text" name="EnglishName" placeholder="" autocomplete="off" class="layui-input">
                 </td>
             </tr>
             <tr>
-                <th>选项</th>
+                <th>座机</th>
                 <td>
+                    <input type="text" name="Phone" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
+                </td>
+                <th>手机</th>
+                <td>
+                    <input type="text" name="Mobile" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
+                </td>
+                <th>邮箱</th>
+                <td>
+                    <input type="text" name="Email" lay-verify="email" placeholder="" autocomplete="off" class="layui-input">
+                </td>
+            </tr>
+            <tr>
+                <th>性别</th>
+                <td>
+                    <input type="radio" name="Gender" value="男" title="男">
+                    <input type="radio" name="Gender" value="女" title="女" checked>
+                </td>
+                <th>选项</th>
+                <td colspan="3">
                     <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|禁用" value="1">
                 </td>
             </tr>
             <tr>
                 <th>备注</th>
-                <td colspan="3">
+                <td colspan="5">
                     <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
                 </td>
             </tr>
@@ -66,8 +93,15 @@
             name: 'formUser',
             defData: { Id: '', Enabled: 1 },
             config: {
-                area: ['450px', '255px'],
-                content: $('#dialogUser').html()
+                area: ['750px', '290px'],
+                content: $('#dialogUser').html(),
+                init: function (e) {
+                    var userName = e.form.getField('UserName');
+                    userName.attr('readonly', 'readonly');
+                    if (e.data.Id === '') {
+                        userName.removeAttr('readonly');
+                    }
+                }
             },
             toolbar: [{
                 text: '保存', handler: function (e) {
@@ -79,6 +113,7 @@
                         if (result.ok) {
                             data.Id = result.data;
                             e.form.setData(data);
+                            e.form.close();
                             grid.reload();
                         }
                     });

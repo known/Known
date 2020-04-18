@@ -101,6 +101,14 @@ layui.define('index', function (exports) {
             layer.open(config);
         }
 
+        this.close = function () {
+            $('.layui-layer-close1').trigger('click');
+        }
+
+        this.getField = function (id) {
+            return $('[lay-filter="' + name + '"]').find('[name="' + id + '"]');
+        }
+
         this.getData = function () {
             return form.val(name);
         }
