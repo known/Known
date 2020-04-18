@@ -6,6 +6,8 @@ namespace Known.Core.Services
 {
     class SystemService : ServiceBase
     {
+        private const string DEFALUT_PWD = "123456";
+
         private ISystemRepository Repository
         {
             get { return Container.Resolve<ISystemRepository>(); }
@@ -127,6 +129,39 @@ namespace Known.Core.Services
             });
         }
 
+        internal Result SetUserPwds(string[] ids)
+        {
+            var entities = Database.QueryListById<SysUser>(ids);
+            if (entities == null || entities.Count == 0)
+                return Result.Error("请至少选择一条记录进行操作！");
+
+            return Database.Transaction("重置", db =>
+            {
+                foreach (var item in entities)
+                {
+                    item.Password = Utils.ToMd5(DEFALUT_PWD);
+                    db.Save(item);
+                }
+            });
+        }
+
+        internal Result EnableUsers(string[] ids, int enable)
+        {
+            var entities = Database.QueryListById<SysUser>(ids);
+            if (entities == null || entities.Count == 0)
+                return Result.Error("请至少选择一条记录进行操作！");
+
+            var name = enable == 1 ? "启用" : "停用";
+            return Database.Transaction(name, db =>
+            {
+                foreach (var item in entities)
+                {
+                    item.Enabled = enable;
+                    db.Save(item);
+                }
+            });
+        }
+
         internal SysUser GetUser(string id)
         {
             return Database.QueryById<SysUser>(id);
@@ -136,7 +171,10 @@ namespace Known.Core.Services
         {
             var entity = Database.QueryById<SysUser>((string)model.Id);
             if (entity == null)
+            {
                 entity = new SysUser();
+                entity.Password = Utils.ToMd5(DEFALUT_PWD);
+            }
 
             entity.FillModel(model);
             var vr = entity.Validate();

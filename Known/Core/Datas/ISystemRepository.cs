@@ -53,7 +53,7 @@ namespace Known.Core.Datas
         #region User
         public PagingResult<SysUser> QueryUsers(Database db, PagingCriteria criteria)
         {
-            var sql = "select * from SysUser";
+            var sql = "select * from SysUser where UserName<>'System'";
             return db.QueryPage<SysUser>(sql, criteria);
         }
         #endregion

@@ -15,6 +15,15 @@
             <button class="layui-btn layui-btn-sm" lay-event="remove">
                 <i class="layui-icon layui-icon-delete"></i>删除
             </button>
+            <button class="layui-btn layui-btn-sm" lay-event="setPwd">
+                <i class="layui-icon layui-icon-refresh"></i>重置密码
+            </button>
+            <button class="layui-btn layui-btn-sm" lay-event="enable">
+                <i class="layui-icon layui-icon-ok-circle"></i>启用
+            </button>
+            <button class="layui-btn layui-btn-sm" lay-event="disable">
+                <i class="layui-icon layui-icon-reduce-circle"></i>停用
+            </button>
             <button class="layui-btn layui-btn-sm" lay-event="imports">
                 <i class="layui-icon layui-icon-add-1"></i>导入
             </button>
@@ -57,9 +66,9 @@
                     <input type="radio" name="Gender" value="男" title="男">
                     <input type="radio" name="Gender" value="女" title="女" checked>
                 </td>
-                <th>选项</th>
+                <th>状态</th>
                 <td colspan="3">
-                    <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|禁用" value="1">
+                    <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
                 </td>
             </tr>
             <tr>
@@ -77,6 +86,8 @@
         var url = {
             QueryUsers: '~/System/QueryUsers',
             DeleteUsers: '~/System/DeleteUsers',
+            SetUserPwds: '~/System/SetUserPwds',
+            EnableUsers: '~/System/EnableUsers',
             ImportUsers: '~/System/ImportUsers',
             GetUser: '~/System/GetUser',
             SaveUser: '~/System/SaveUser',
@@ -141,7 +152,7 @@
                     {
                         sort: true, title: '状态', field: 'Enabled', width: 100, templet: function (d) {
                             var checked = d.Enabled ? ' checked' : '';
-                            return '<input type="checkbox" lay-skin="switch" lay-text="启用|禁用" disabled' + checked + '>';
+                            return '<input type="checkbox" lay-skin="switch" lay-text="启用|停用" disabled' + checked + '>';
                         }
                     },
                     { sort: true, title: '首次登录时间', field: 'FirstLoginTime', width: 150, align: 'center' },
@@ -154,9 +165,43 @@
                 add: function (e) { form.show(); },
                 edit: function (e) { e.editRow(form); },
                 remove: function (e) { e.deleteRows(url.DeleteUsers); },
+                setPwd: function (e) {
+                    e.selectRows(function (e) {
+                        layer.confirm('确定要将所选用户密码重置为默认密码？', function (index) {
+                            layer.close(index);
+                            $.post(url.SetUserPwds, {
+                                data: JSON.stringify(e.ids)
+                            }, function (result) {
+                                layer.msg(result.message);
+                                if (result.ok) {
+                                    e.grid.reload();
+                                }
+                            });
+                        });
+                    });
+                },
+                enable: function (e) { enableUsers(e, 1); },
+                disable: function (e) { enableUsers(e, 0); },
                 imports: function (e) { }
             }
         });
+
+        function enableUsers(e, enable) {
+            var msg = enable === 1 ? '启用' : '停用';
+            e.selectRows(function (e) {
+                layer.confirm('确定要' + msg + '所选用户？', function (index) {
+                    layer.close(index);
+                    $.post(url.EnableUsers, {
+                        data: JSON.stringify(e.ids), enable: enable
+                    }, function (result) {
+                        layer.msg(result.message);
+                        if (result.ok) {
+                            e.grid.reload();
+                        }
+                    });
+                });
+            });
+        }
 
         exports('System_UserView', {});
     });

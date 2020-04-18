@@ -56,7 +56,7 @@
             <tr>
                 <th>状态</th>
                 <td>
-                    <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|禁用" value="1">
+                    <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
                 </td>
                 <th>顺序</th>
                 <td>
@@ -144,7 +144,7 @@
                     {
                         sort: true, title: '状态', field: 'Enabled', width: 100, templet: function (d) {
                             var checked = d.Enabled ? ' checked' : '';
-                            return '<input type="checkbox" lay-skin="switch" lay-text="启用|禁用" disabled' + checked + '>';
+                            return '<input type="checkbox" lay-skin="switch" lay-text="启用|停用" disabled' + checked + '>';
                         }
                     },
                     { sort: true, title: '顺序', field: 'Sort', width: 100, align: 'center' },

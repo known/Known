@@ -100,6 +100,18 @@ namespace Known.Core
             return PostAction<string[]>(data, d => Service.DeleteUsers(d));
         }
 
+        [HttpPost]
+        public ActionResult SetUserPwds(string data)
+        {
+            return PostAction<string[]>(data, d => Service.SetUserPwds(d));
+        }
+
+        [HttpPost]
+        public ActionResult EnableUsers(string data, int enable)
+        {
+            return PostAction<string[]>(data, d => Service.EnableUsers(d, enable));
+        }
+
         public ActionResult GetUser(string id)
         {
             return JsonResult(Service.GetUser(id));
