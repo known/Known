@@ -15,7 +15,12 @@ layui.define('index', function (exports) {
             toolbar = option.toolbar;
         var tableIns = null;
 
-        $.extend(config, { skin: 'line', page: true });
+        $.extend(config, {
+            skin: 'line', page: true, cellMinWidth: 80,
+            defaultToolbar: [{
+                title: '搜索', icon: 'layui-icon-search', layEvent: 'search'
+            }, 'filter', 'exports', 'print']
+        });
 
         config.elem = '#' + name;
         if (config.url) {
@@ -131,7 +136,7 @@ layui.define('index', function (exports) {
         };
         btn.push('关闭');
 
-        $.extend(config, { type: 1, shade: 0, btn: btn }, handler);
+        $.extend(config, { type: 1, btn: btn }, handler);
 
         this.show = function (data) {
             data = data || option.defData;

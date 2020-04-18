@@ -129,7 +129,12 @@
                     { sort: true, title: '用户名', field: 'UserName', width: 100 },
                     { sort: true, title: '姓名', field: 'Name', width: 100 },
                     { sort: true, title: '英文名', field: 'EnglishName', width: 100 },
-                    { sort: true, title: '性别', field: 'Gender', width: 80, align: 'center' },
+                    {
+                        sort: true, title: '性别', field: 'Gender', width: 80, align: 'center', templet: function (d) {
+                            if (d.Gender === '男') return '男';
+                            return '<span style="color: #F581B1;">女</span>';
+                        }
+                    },
                     { sort: true, title: '座机', field: 'Phone', width: 120 },
                     { sort: true, title: '手机', field: 'Mobile', width: 120, align: 'center' },
                     { sort: true, title: '邮箱', field: 'Email', width: 150 },
