@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using Known.Core.Datas;
 
@@ -40,12 +41,18 @@ namespace Known.Core.Services
         #region Index
         internal void SignOut(string userName)
         {
-
         }
 
         internal List<MenuInfo> GetUserMenus(string userName)
         {
-            return Repository.GetUserMenus(Database, userName);
+            var menus = Repository.GetUserMenus(Database, userName);
+            if (userName == "System")
+            {
+                var dev = Utils.GetResource(GetType().Assembly, "DevMenu");
+                menus.InsertRange(0, Utils.FromJson<List<MenuInfo>>(dev));
+            }
+
+            return menus;
         }
         #endregion
 

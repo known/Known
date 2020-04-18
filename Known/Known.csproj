@@ -106,5 +106,8 @@
     <EmbeddedResource Include="Core\Views\System\RoleView.cshtml" />
     <EmbeddedResource Include="Core\Views\System\UserView.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\DevMenu.json" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
