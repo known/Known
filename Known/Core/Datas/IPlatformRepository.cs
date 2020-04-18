@@ -6,7 +6,7 @@ namespace Known.Core.Datas
     public interface IPlatformRepository
     {
         SysUser GetUser(Database db, string userName);
-        List<MenuInfo> GetUserMenus(Database db, string userName, string parentId);
+        List<MenuInfo> GetUserMenus(Database db, string userName);
     }
 
     class PlatformRepository : IPlatformRepository
@@ -17,32 +17,10 @@ namespace Known.Core.Datas
             return db.QuerySingle<SysUser>(sql, new { userName });
         }
 
-        public List<MenuInfo> GetUserMenus(Database db, string userName, string parentId)
+        public List<MenuInfo> GetUserMenus(Database db, string userName)
         {
-            if (string.IsNullOrWhiteSpace(parentId))
-            {
-                var sql = "select * from SysModule where Enabled=1 and ParentId=''";
-                return db.QueryList<MenuInfo>(sql);
-            }
-            else
-            {
-                var sql = $@"
-with cte_parent(Id)
-as
-(
-    select a.Id from SysModule a 
-	where a.Enabled=1 and a.ParentId='{parentId}' 
-	union all 
-	select a.Id from SysModule a 
-    inner join cte_parent b on a.ParentId=b.Id  
-	where a.Enabled=1
-)
-select *
-from SysModule a 
-where a.Id in (select Id from cte_parent) 
-order by a.Sort";
-                return db.QueryList<MenuInfo>(sql, new { parentId });
-            }
+            var sql = "select * from SysModule where Enabled=1 order by Sort";
+            return db.QueryList<MenuInfo>(sql);
         }
     }
 }

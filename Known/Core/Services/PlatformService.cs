@@ -43,9 +43,9 @@ namespace Known.Core.Services
 
         }
 
-        internal List<MenuInfo> GetUserMenus(string userName, string parentId)
+        internal List<MenuInfo> GetUserMenus(string userName)
         {
-            return Repository.GetUserMenus(Database, userName, parentId);
+            return Repository.GetUserMenus(Database, userName);
         }
         #endregion
 

@@ -63,9 +63,9 @@ namespace Known.Core
             return SuccessResult("成功退出！");
         }
 
-        public ActionResult GetMenus(string pid)
+        public ActionResult GetMenus()
         {
-            var menus = Platform.GetUserMenus(UserName, pid);
+            var menus = Platform.GetUserMenus(UserName);
             return JsonResult(menus.Select(m => m.ToTree()));
         }
         #endregion

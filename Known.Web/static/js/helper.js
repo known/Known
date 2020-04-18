@@ -101,7 +101,7 @@ layui.define(function (exports) {
         }
     }
 
-    exports('helper', {
+    var helper = {
         fullScreen: function () {
             var el = document.documentElement;
             var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
@@ -153,5 +153,7 @@ layui.define(function (exports) {
         form: function (option) {
             return new Form(option);
         }
-    });
+    };
+
+    exports('helper', helper);
 });

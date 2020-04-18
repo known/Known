@@ -2,17 +2,49 @@ layui.extend({
     helper: 'helper'
 }).define('helper', function (exports) {
     var $ = layui.jquery,
-        layer = layui.layer,
         element = layui.element,
         helper = layui.helper;
 
-    var url = {
-        GetMenus: '/Home/GetMenus?pid=',
-        UserInfo: '/Home/UserInfo',
-        SignOut: '/signout'
-    };
+    var menuData = null;
+    function renderMenu(obj, pid) {
+        var html = '';
+        var data = menuData;
+        if (pid) {
+            var parent = menuData.find(d => d.id === pid);
+            data = parent.children;
+        }
+        $(data).each(function (i, d) {
+            html += '<li class="layui-nav-item">';
+            html += '  <a href="javascript:;" id="menu' + d.id + '" data-url="' + d.url + '"><i class="layui-icon ' + d.icon + '"></i> ' + d.title + '</a>';
+            if (pid && d.children) {
+                html += '  <dl class="layui-nav-child">';
+                $(d.children).each(function (ci, cd) {
+                    html += '<dd><a href="javascript:;" id="menu' + cd.id + '" data-url="' + cd.url + '"><i class="layui-icon ' + cd.icon + '"></i> ' + cd.title + '</a></dd>';
+                });
+                html += '  </dl>';
+            }
+            html += '</li>';
+        });
+        $(document).find(".layui-nav[lay-filter=" + obj + "]").html(html);
+        element.init();
+        return data;
+    }
 
     var admin = {
+        option: null,
+        init: function (option) {
+            this.option = option;
+            $.ajax({
+                url: option.getMenuUrl, async: false,
+                success: function (res) {
+                    menuData = helper.toTree(res, '');
+                    var data = renderMenu('topMenu');
+                    renderMenu('leftMenu', data[0].id);
+                }
+            });
+            
+            option.callback && option.callback();
+        },
         addTab: function (node) {
             if (!node.url)
                 return;
@@ -28,79 +60,9 @@ layui.extend({
         }
     };
 
-    var topRightAction = {
-        fullScreen: function () {
-            helper.fullScreen();
-            $(this).data('type', 'exitScreen')
-                .html('<i class="layui-icon layui-icon-screen-restore"></i>');
-        },
-        exitScreen: function () {
-            helper.exitScreen();
-            $(this).data('type', 'fullScreen')
-                .html('<i class="layui-icon layui-icon-screen-full"></i>');
-        },
-        userInfo: function () {
-            admin.addTab({
-                id: 'userInfo',
-                text: $(this).text(),
-                icon: $(this).find('i')[0].outerHTML,
-                url: url.UserInfo
-            });
-        },
-        logout: function () {
-            layer.confirm('确定要退出系统？', function (index) {
-                $.post(url.SignOut, function (result) {
-                    layer.msg(result.message);
-                    window.location = '/login';
-                });
-                layer.close(index);
-            });
-        }
-    };
-
-    function initMenu(obj, pid) {
-        $.ajax({
-            url: url.GetMenus + pid, async: false,
-            success: function (res) {
-                renderMenu(obj, res, pid);
-                if (pid === '') {
-                    initMenu('leftMenu', res[0].id);
-                }
-                element.init();
-            }
-        });
-    }
-
-    function renderMenu(obj, res, pid) {
-        var tree = helper.toTree(res, pid);
-        var html = '';
-        $(tree).each(function (i, d) {
-            html += '<li class="layui-nav-item">';
-            html += '  <a href="javascript:;" id="menu' + d.id + '" data-url="' + d.url + '"><i class="layui-icon ' + d.icon + '"></i> ' + d.title + '</a>';
-            if (d.children) {
-                html += '  <dl class="layui-nav-child">';
-                $(d.children).each(function (ci, cd) {
-                    html += '<dd><a href="javascript:;" id="menu' + cd.id + '" data-url="' + cd.url + '"><i class="layui-icon ' + cd.icon + '"></i> ' + cd.title + '</a></dd>';
-                });
-                html += '  </dl>';
-            }
-            html += '</li>';
-        });
-        $(document).find(".layui-nav[lay-filter=" + obj + "]").html(html);
-    }
-
-    function init() {
-        initMenu('topMenu', '');
-
-        $('.top-right').on('click', function () {
-            var othis = $(this), type = othis.data('type');
-            topRightAction[type] ? topRightAction[type].call(this, othis) : '';
-        });
-    }
-
     element.on('nav(topMenu)', function (elem) {
         var pid = elem[0].id.replace('menu', '');
-        initMenu('leftMenu', pid);
+        renderMenu('leftMenu', pid);
     });
 
     element.on('nav(leftMenu)', function (elem) {
@@ -121,8 +83,6 @@ layui.extend({
         $('.layui-nav-child dd').removeClass('layui-this');
         $('.layui-nav-child #menu' + id).parent().addClass('layui-this');
     });
-
-    init();
 
     exports('admin', admin);
 });
