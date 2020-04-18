@@ -28,11 +28,11 @@ layui.define('index', function (exports) {
             table.on('toolbar(' + name + ')', function (obj) {
                 var type = obj.event;
                 var rows = table.checkStatus(name).data;
-                toolbar[type] && toolbar[type].call(this, { grid: _this, rows: rows });
+                toolbar[type] && toolbar[type].call(this, new GridManager(_this, rows));
             });
             table.on('tool(' + name + ')', function (obj) {
                 var type = obj.event;
-                toolbar[type] && toolbar[type].call(this, { grid: _this, row: obj.data });
+                toolbar[type] && toolbar[type].call(this, new GridManager(_this, [obj.data]));
             });
         }
 
@@ -43,24 +43,67 @@ layui.define('index', function (exports) {
 
         this.reload = function () {
             tableIns.reload();
+        }  
+    }
+
+    function GridManager(grid, rows) {
+        this.grid = grid;
+        this.rows = rows;
+        this.row = rows[0];
+
+        this.selectRow = function (callback) {
+            if (!rows || rows.length === 0 || rows.length > 1) {
+                layer.msg('请选择一条记录！');
+                return;
+            }
+
+            var row = rows[0];
+            callback && callback({ grid: grid, rows: rows, row: row, ids: [row.Id] });
         }
 
-        this.deleteRows = function (rows, callback) {
+        this.selectRows = function (callback) {
             if (!rows || rows.length === 0) {
                 layer.msg('请至少选择一条记录！');
                 return;
             }
 
             var ids = [];
-            rows.forEach(function (d) {
-                ids.push(d.Id);
-            });
+            rows.forEach(function (d) { ids.push(d.Id); });
+            callback && callback({ grid: grid, rows: rows, ids: ids });
+        }
 
-            var msg = rows.length > 1 ? ('所选的' + rows.length + '条记录') : '该记录';
+        this.editRow = function (form) {
+            this.selectRow(function (e) {
+                form.show(e.row);
+            });
+        }
+
+        function deleteData(e, url, callback) {
+            var length = e.rows.length;
+            var msg = length > 1 ? ('所选的' + length + '条记录') : '该记录';
             layer.confirm('确定要删除' + msg + '吗？', function (index) {
                 layer.close(index);
-                var data = JSON.stringify(ids);
-                callback && callback(data);
+                $.post(url, {
+                    data: JSON.stringify(e.ids)
+                }, function (result) {
+                    layer.msg(result.message);
+                    if (result.ok) {
+                        e.grid.reload();
+                        callback && callback(e);
+                    }
+                });
+            });
+        }
+
+        this.deleteRow = function (url, callback) {
+            this.selectRow(function (e) {
+                deleteData(e, url, callback);
+            });
+        }
+
+        this.deleteRows = function (url, callback) {
+            this.selectRows(function (e) {
+                deleteData(e, url, callback);
             });
         }
     }

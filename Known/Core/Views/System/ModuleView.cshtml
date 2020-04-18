@@ -161,9 +161,9 @@
                     }
                     showForm(node.Id);
                 },
-                remove: function (e) { deleteModules(e.grid, e.rows); },
-                edit: function (e) { form.show(e.row); },
-                del: function (e) { deleteModules(e.grid, [e.row]); }
+                remove: function (e) { deleteModules(e); },
+                edit: function (e) { e.editRow(form); },
+                del: function (e) { deleteModules(e); }
             }
         });
 
@@ -171,14 +171,9 @@
             form.show({ Id: '', ParentId: pid, Icon: 'layui-icon-file', Enabled: 1 });
         }
 
-        function deleteModules(grid, rows) {
-            grid.deleteRows(rows, function (data) {
-                $.post(url.DeleteModules, { data: data }, function (result) {
-                    layer.msg(result.message);
-                    if (result.ok) {
-                        renderTree();
-                    }
-                });
+        function deleteModules(e) {
+            e.deleteRows(url.DeleteModules, function () {
+                renderTree();
             });
         }
 

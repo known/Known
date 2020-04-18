@@ -51,6 +51,9 @@ input:read-only {
 .layui-btn-group {
     padding: 5px;
 }
+.layui-table-tool .layui-btn {
+    margin-right: 2px;
+}
 
 .layui-fit {
     position: absolute;

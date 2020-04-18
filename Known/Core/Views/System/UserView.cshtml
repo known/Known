@@ -8,7 +8,10 @@
     <script type="text/html" id="tbUser">
         <div class="layui-btn-container">
             <button class="layui-btn layui-btn-sm" lay-event="add">
-                <i class="layui-icon layui-icon-addition"></i>添加
+                <i class="layui-icon layui-icon-addition"></i>新增
+            </button>
+            <button class="layui-btn layui-btn-sm" lay-event="edit">
+                <i class="layui-icon layui-icon-edit"></i>编辑
             </button>
             <button class="layui-btn layui-btn-sm" lay-event="remove">
                 <i class="layui-icon layui-icon-delete"></i>删除
@@ -17,11 +20,6 @@
                 <i class="layui-icon layui-icon-add-1"></i>导入
             </button>
         </div>
-    </script>
-    <script type="text/html" id="tbrUser">
-        <a class="layui-btn layui-btn-xs" lay-event="role">角色</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
     <script type="text/html" id="dialogUser">
         <table class="layui-form form" lay-filter="formUser">
@@ -80,6 +78,7 @@
         var url = {
             QueryUsers: '~/System/QueryUsers',
             DeleteUsers: '~/System/DeleteUsers',
+            ImportUsers: '~/System/ImportUsers',
             GetUser: '~/System/GetUser',
             SaveUser: '~/System/SaveUser',
             SaveUserRole: '~/System/SaveUserRole'
@@ -144,27 +143,16 @@
                     { sort: true, title: '首次登录时间', field: 'FirstLoginTime', width: 150, align: 'center' },
                     { sort: true, title: '首次登录IP', field: 'FirstLoginIP', width: 100, align: 'center' },
                     { sort: true, title: '上次登录时间', field: 'LastLoginTime', width: 150, align: 'center' },
-                    { sort: true, title: '上次登录IP', field: 'LastLoginIP', width: 100, align: 'center' },
-                    { fixed: 'right', title: '操作', toolbar: '#tbrUser', width: 200, align: 'center' }
+                    { sort: true, title: '上次登录IP', field: 'LastLoginIP', width: 100, align: 'center' }
                 ]]
             },
             toolbar: {
                 add: function (e) { form.show(); },
-                remove: function (e) { deleteUsers(e.grid, e.rows); },
-                right: function (e) { form.show(e.row); },
-                edit: function (e) { form.show(e.row); },
-                del: function (e) { deleteUsers(e.grid, [e.row]); }
+                edit: function (e) { e.editRow(form); },
+                remove: function (e) { e.deleteRows(url.DeleteUsers); },
+                imports: function (e) { }
             }
         });
-
-        function deleteUsers(grid, rows) {
-            grid.deleteRows(rows, function (data) {
-                $.post(url.DeleteUsers, { data: data }, function (result) {
-                    layer.msg(result.message);
-                    grid.reload();
-                });
-            });
-        }
 
         exports('System_UserView', {});
     });

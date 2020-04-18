@@ -8,17 +8,18 @@
     <script type="text/html" id="tbRole">
         <div class="layui-btn-container">
             <button class="layui-btn layui-btn-sm" lay-event="add">
-                <i class="layui-icon layui-icon-addition"></i>添加
+                <i class="layui-icon layui-icon-addition"></i>新增
+            </button>
+            <button class="layui-btn layui-btn-sm" lay-event="edit">
+                <i class="layui-icon layui-icon-edit"></i>编辑
             </button>
             <button class="layui-btn layui-btn-sm" lay-event="remove">
                 <i class="layui-icon layui-icon-delete"></i>删除
             </button>
+            <button class="layui-btn layui-btn-sm" lay-event="right">
+                <i class="layui-icon layui-icon-component"></i>权限
+            </button>
         </div>
-    </script>
-    <script type="text/html" id="tbrRole">
-        <a class="layui-btn layui-btn-xs" lay-event="right">权限</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
     <script type="text/html" id="dialogRole">
         <table class="layui-form form" lay-filter="formRole">
@@ -98,27 +99,16 @@
                             return '<input type="checkbox" lay-skin="switch" lay-text="启用|禁用" disabled' + checked + '>';
                         }
                     },
-                    { sort: true, title: '备注', field: 'Note', width: 500 },
-                    { fixed: 'right', title: '操作', toolbar: '#tbrRole', width: 200, align: 'center' }
+                    { sort: true, title: '备注', field: 'Note' }
                 ]]
             },
             toolbar: {
                 add: function (e) { form.show(); },
-                remove: function (e) { deleteRoles(e.grid, e.rows); },
-                right: function (e) { form.show(e.row); },
-                edit: function (e) { form.show(e.row); },
-                del: function (e) { deleteRoles(e.grid, [e.row]); }
+                edit: function (e) { e.editRow(form); },
+                remove: function (e) { e.deleteRows(url.DeleteRoles); },
+                right: function (e) { form.show(e.row); }
             }
         });
-
-        function deleteRoles(grid, rows) {
-            grid.deleteRows(rows, function (data) {
-                $.post(url.DeleteRoles, { data: data }, function (result) {
-                    layer.msg(result.message);
-                    grid.reload();
-                });
-            });
-        }
 
         exports('System_RoleView', {});
     });
