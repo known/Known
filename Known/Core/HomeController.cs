@@ -109,6 +109,12 @@ namespace Known.Core
         #endregion
 
         #region Utils
+        public ActionResult Style(int id)
+        {
+            var style = ResViewEngine.GetStyle(id);
+            return Content(style, "text/css");
+        }
+
         public ActionResult Script(int id)
         {
             var script = ResViewEngine.GetScript(id);

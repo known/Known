@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 
@@ -8,6 +8,7 @@ namespace Known.Web
     class ResViewEngine
     {
         private readonly static object obj = new object();
+        private readonly static Dictionary<int, string> styles = new Dictionary<int, string>();
         private readonly static Dictionary<int, string> scripts = new Dictionary<int, string>();
 
         internal static string GetView(ControllerContext context)
@@ -18,6 +19,19 @@ namespace Known.Web
         internal static string GetPartial(ControllerContext context)
         {
             return GetContent(context, true);
+        }
+
+        internal static string GetStyle(int id)
+        {
+            if (!styles.ContainsKey(id))
+                return string.Empty;
+
+            return styles[id];
+        }
+
+        internal static void SetStyle(int id, string style)
+        {
+            styles[id] = style;
         }
 
         internal static string GetScript(int id)
@@ -49,11 +63,8 @@ namespace Known.Web
             if (string.IsNullOrWhiteSpace(text))
                 return "<h1>Hello World!</h1>";
 
-            if (text.Contains("<html>"))
-                return ReplaceHtml(text);
-
             var layout = string.Empty;
-            if (!isPartial)
+            if (!isPartial && !text.Contains("<html>"))
                 layout = Utils.GetResource(assembly, "Views.Layout");
 
             var parser = new ViewParser(context.HttpContext, text, layout);
@@ -75,7 +86,7 @@ namespace Known.Web
     {
         private readonly HttpContextBase context;
         private readonly string text;
-        private string layout;
+        private readonly string layout;
 
         public ViewParser(HttpContextBase context, string text, string layout = null)
         {
@@ -88,46 +99,45 @@ namespace Known.Web
 
         public void Parse()
         {
-            var sb = new StringBuilder();
-
             var html = GetHtml(text);
             if (string.IsNullOrWhiteSpace(html))
                 html = text;
 
-            var script = string.Empty;
-            var style = GetStyle(text);
-            var js = GetScript(text);
-            if (!string.IsNullOrWhiteSpace(js))
-            {
-                var id = context.Request.Path.GetHashCode();
-                ResViewEngine.SetScript(id, js.Replace("~/", "/"));
-                script = $"<script src=\"~/Home/Script?id={id}\"></script>";
-            }
+            var script = GetScript(context, text);
+            var style = GetStyle(context, text);
 
             if (!string.IsNullOrWhiteSpace(layout))
             {
-                if (!string.IsNullOrWhiteSpace(style))
-                    layout = layout.Replace("</head>", $"<style>{style}</style></head>");
-                if (!string.IsNullOrWhiteSpace(script))
-                    layout = layout.Replace("</body>", $"{script}</body>");
-                layout = layout.Replace("<div id=\"app\"></div>", $"<div id=\"app\">{html}</div>");
-                sb.Append(layout);
+                html = layout.Replace("<div id=\"app\"></div>", $"<div id=\"app\">{html}</div>");
             }
             else
             {
-                if (!string.IsNullOrWhiteSpace(style))
-                    sb.Append($"<style>{style}</style>");
-                sb.Append(html);
-                if (!string.IsNullOrWhiteSpace(script))
-                    sb.Append(script);
+                if (!string.IsNullOrWhiteSpace(style.Item2))
+                    html = html.Replace(style.Item2, "")
+                               .Replace($"<style></style>{Environment.NewLine}", ""); ;
+                if (!string.IsNullOrWhiteSpace(script.Item2))
+                    html = html.Replace(script.Item2, "")
+                               .Replace($"<script></script>{Environment.NewLine}", "");
             }
 
-            Html = sb.ToString();
+            if (!string.IsNullOrWhiteSpace(style.Item1))
+                html = html.Replace("</head>", $"{style.Item1}{Environment.NewLine}</head>");
+            if (!string.IsNullOrWhiteSpace(script.Item1))
+                html = html.Replace("</body>", $"{script.Item1}{Environment.NewLine}</body>");
+
+            Html = html;
         }
 
-        private static string GetStyle(string text)
+        private static Tuple<string, string> GetStyle(HttpContextBase context, string text)
         {
-            return SubString(text, "<style>", "</style>");
+            var style = SubString(text, "<style>", "</style>");
+            if (string.IsNullOrWhiteSpace(style))
+                return new Tuple<string, string>("", "");
+
+            var id = context.Request.Path.GetHashCode();
+            ResViewEngine.SetStyle(id, style.Replace("~/", "/"));
+            var html = $"<link rel=\"stylesheet\" href=\"~/Home/Style?id={id}\" media=\"all\">";
+            return new Tuple<string, string>(html, style);
         }
 
         private static string GetHtml(string text)
@@ -135,9 +145,16 @@ namespace Known.Web
             return SubString(text, "<template>", "</template>");
         }
 
-        private static string GetScript(string text)
+        private static Tuple<string, string> GetScript(HttpContextBase context, string text)
         {
-            return SubString(text, "<script>", "</script>");
+            var script = SubString(text, "<script>", "</script>");
+            if (string.IsNullOrWhiteSpace(script))
+                return new Tuple<string, string>("", "");
+
+            var id = context.Request.Path.GetHashCode();
+            ResViewEngine.SetScript(id, script.Replace("~/", "/"));
+            var html = $"<script src=\"~/Home/Script?id={id}\"></script>";
+            return new Tuple<string, string>(html, script);
         }
 
         private static string SubString(string text, string start, string end)
