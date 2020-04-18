@@ -63,10 +63,12 @@ namespace Known.Core
             return SuccessResult("成功退出！");
         }
 
-        public ActionResult GetMenus()
+        public ActionResult GetUserMenus()
         {
-            var menus = Platform.GetUserMenus(UserName);
-            return JsonResult(menus.Select(m => m.ToTree()));
+            var user = Platform.GetUserInfo(UserName);
+            var data = Platform.GetUserMenus(UserName);
+            var menus = data.Select(m => m.ToTree());
+            return JsonResult(new { user, menus });
         }
         #endregion
 

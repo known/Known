@@ -34,15 +34,9 @@ layui.extend({
         option: null,
         init: function (option) {
             this.option = option;
-            $.ajax({
-                url: option.getMenuUrl, async: false,
-                success: function (res) {
-                    menuData = helper.toTree(res, '');
-                    var data = renderMenu('topMenu');
-                    renderMenu('leftMenu', data[0].id);
-                }
-            });
-            
+            menuData = helper.toTree(option.data.menus, '');
+            var data = renderMenu('topMenu');
+            renderMenu('leftMenu', data[0].id);
             option.callback && option.callback();
         },
         addTab: function (node) {

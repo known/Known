@@ -27,7 +27,7 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;">
                         <img src="~/static/img/face.jpg" class="layui-nav-img">
-                        管理员
+                        <span id="userName"></span>
                     </a>
                     <dl class="layui-nav-child">
                         <dd>
@@ -78,7 +78,7 @@
                 admin = layui.admin;
 
             var url = {
-                GetMenus: '~/Home/GetMenus',
+                GetUserMenus: '~/Home/GetUserMenus',
                 UserInfo: '~/Home/UserInfo',
                 SignOut: '~/signout'
             };
@@ -113,12 +113,18 @@
                 }
             };
 
-            admin.init({
-                getMenuUrl: url.GetMenus,
-                callback: function () {
-                    $('.top-right').on('click', function () {
-                        var othis = $(this), type = othis.data('type');
-                        topRight[type] ? topRight[type].call(this, othis) : '';
+            $.ajax({
+                url: url.GetUserMenus, async: false,
+                success: function (res) {
+                    $('#userName').html(res.user.Name);
+                    admin.init({
+                        data: res,
+                        callback: function () {
+                            $('.top-right').on('click', function () {
+                                var othis = $(this), type = othis.data('type');
+                                topRight[type] ? topRight[type].call(this, othis) : '';
+                            });
+                        }
                     });
                 }
             });
