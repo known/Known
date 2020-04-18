@@ -329,10 +329,10 @@
                 cols: [[
                     { type: 'numbers', fixed: 'left' },
                     {
-                        field: 'Name', title: '任务名称', minWidth: 400,
-                        templet: '<div><a href="wd={{ d.Id }}" target="_blank" class="layui-table-link">{{ d.Name }}</div>'
+                        sort: true, field: 'Name', title: '任务名称', minWidth: 400,
+                        templet: '<div><a href="" target="_blank" class="layui-table-link">{{d.Name}}</div>'
                     },
-                    { field: 'Qty', title: '待办数量', minWidth: 80 }
+                    { sort: true, field: 'Qty', title: '待办数量', minWidth: 80 }
                 ]]
             }
         });
@@ -343,11 +343,11 @@
                 cols: [[
                     { type: 'numbers', fixed: 'left' },
                     {
-                        field: 'Title', title: '标题', minWidth: 280,
-                        templet: '<div><a href="https://www.baidu.com/s?wd={{ d.Id }}" target="_blank" class="layui-table-link">{{ d.Title }}</div>'
+                        sort: true, field: 'Title', title: '标题', minWidth: 280,
+                        templet: '<div><a href="https://www.baidu.com/s?wd={{d.Id}}" target="_blank" class="layui-table-link">{{d.Title}}</div>'
                     },
-                    { field: 'CreateBy', title: '发布人', minWidth: 80 },
-                    { field: 'CreateTime', title: '发布时间', minWidth: 120, sort: true }
+                    { sort: true, field: 'CreateBy', title: '发布人', minWidth: 80 },
+                    { sort: true, field: 'CreateTime', title: '发布时间', minWidth: 120 }
                 ]]
             }
         });

@@ -44,14 +44,17 @@ layui.define('index', function (exports) {
             var id = node.id;
             var tab = $('.layui-tab-title li[lay-id="' + id + '"]');
             if (!tab.length) {
-                var title = node.icon + ' ' + node.text;
+                var title = node.icon + ' <span>' + node.text + '</span>';
                 var content = '<iframe src="' + node.url + '" frameborder="0" class="layui-tab-iframe"></iframe>';
                 element.tabAdd('tabMenu', { id: id, title: title, content: content });
             }
             element.tabChange('tabMenu', id);
         },
         getCurTab: function () {
-            return { title: 'ль╡Б' };
+            var tab = $('.layui-tab-title .layui-this');
+            var id = tab.attr('lay-id');
+            var title = tab.children('span').text();
+            return { id: id, title: title };
         }
     };
 

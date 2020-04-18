@@ -4,6 +4,11 @@ layui.define('index', function (exports) {
         form = layui.form,
         table = layui.table;
 
+    function getCurTabTitle() {
+        var tab = top.layui.admin.getCurTab();
+        return tab ? tab.title : '';
+    }
+
     function Grid(option) {
         var name = option.name,
             config = option.config,
@@ -13,9 +18,6 @@ layui.define('index', function (exports) {
         $.extend(config, { skin: 'line', page: true });
 
         config.elem = '#' + name;
-        if (!config.initSort) {
-            config.initSort = { field: 'CreateTime', type: 'desc' };
-        }
         if (config.url) {
             config.method = 'post';
             tableIns = table.render(config);
@@ -65,7 +67,6 @@ layui.define('index', function (exports) {
 
     function Form(option) {
         var name = option.name,
-            title = option.title,
             config = option.config,
             toolbar = option.toolbar;
 
@@ -91,6 +92,7 @@ layui.define('index', function (exports) {
 
         this.show = function (data) {
             data = data || option.defData;
+            var title = option.title || getCurTabTitle();
             config.title = title + (data.Id === '' ? '【新增】' : '【编辑】');
             config.success = function (layero, index) {
                 form.render(null, name);
