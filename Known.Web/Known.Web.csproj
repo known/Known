@@ -67,9 +67,8 @@
     <Content Include="static\js\helper.js" />
     <Content Include="static\js\extend\echarts.js" />
     <Content Include="static\js\extend\echartsTheme.js" />
-    <Content Include="static\js\config.js" />
-    <Content Include="static\js\admin.js" />
     <Content Include="static\js\index.js" />
+    <Content Include="static\js\admin.js" />
     <Content Include="static\layui\css\layui.css" />
     <Content Include="static\layui\css\layui.mobile.css" />
     <Content Include="static\layui\css\modules\code.css" />

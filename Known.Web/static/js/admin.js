@@ -1,6 +1,4 @@
-layui.extend({
-    helper: 'helper'
-}).define('helper', function (exports) {
+layui.define('index', function (exports) {
     var $ = layui.jquery,
         element = layui.element,
         helper = layui.helper;
@@ -51,6 +49,9 @@ layui.extend({
                 element.tabAdd('tabMenu', { id: id, title: title, content: content });
             }
             element.tabChange('tabMenu', id);
+        },
+        getCurTab: function () {
+            return { title: 'ль╡Б' };
         }
     };
 

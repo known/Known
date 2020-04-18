@@ -46,7 +46,7 @@
 </template>
 
 <script>
-    layui.config({ base: '~/static/js/' }).define('index', function (exports) {
+    layui.define('helper', function (exports) {
         var url = {
             QueryRoles: '~/System/QueryRoles',
             DeleteRoles: '~/System/DeleteRoles',
@@ -61,7 +61,6 @@
 
         var form = helper.form({
             name: 'formRole',
-            title: '角色管理',
             defData: { Id: '', Enabled: 1 },
             config: {
                 area: ['450px', '255px'],
@@ -87,7 +86,7 @@
         var grid = helper.grid({
             name: 'gridRole',
             config: {
-                url: url.QueryRoles, toolbar: '#tbRole',
+                url: url.QueryRoles, toolbar: '#tbRole', height: 'full-25',
                 cols: [[
                     { type: 'numbers', fixed: 'left' },
                     { type: 'checkbox', fixed: 'left' },

@@ -1,4 +1,4 @@
-layui.define(function (exports) {
+layui.define('index', function (exports) {
     var $ = layui.jquery,
         layer = layui.layer,
         form = layui.form,
@@ -10,7 +10,7 @@ layui.define(function (exports) {
             toolbar = option.toolbar;
         var tableIns = null;
 
-        $.extend(config, { skin: 'line', page: true, height: 'full-25' });
+        $.extend(config, { skin: 'line', page: true });
 
         config.elem = '#' + name;
         if (!config.initSort) {

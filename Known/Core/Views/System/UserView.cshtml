@@ -49,7 +49,7 @@
 </template>
 
 <script>
-    layui.config({ base: '~/static/js/' }).define('index', function (exports) {
+    layui.define('helper', function (exports) {
         var url = {
             QueryUsers: '~/System/QueryUsers',
             DeleteUsers: '~/System/DeleteUsers',
@@ -64,7 +64,6 @@
 
         var form = helper.form({
             name: 'formUser',
-            title: '用户管理',
             defData: { Id: '', Enabled: 1 },
             config: {
                 area: ['450px', '255px'],
@@ -90,7 +89,7 @@
         var grid = helper.grid({
             name: 'gridUser',
             config: {
-                url: url.QueryUsers, toolbar: '#tbUser',
+                url: url.QueryUsers, toolbar: '#tbUser', height: 'full-25',
                 cols: [[
                     { type: 'numbers', fixed: 'left' },
                     { type: 'checkbox', fixed: 'left' },

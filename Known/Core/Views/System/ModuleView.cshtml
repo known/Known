@@ -75,7 +75,7 @@
 </template>
 
 <script>
-    layui.config({ base: '~/static/js/' }).define(['index', 'helper'], function (exports) {
+    layui.define('helper', function (exports) {
         var url = {
             GetModuleTree: '~/System/GetModuleTree',
             DeleteModules: '~/System/DeleteModules',
@@ -89,7 +89,6 @@
 
         var form = helper.form({
             name: 'formModule',
-            title: '模块管理',
             config: {
                 area: ['550px', '290px'],
                 content: $('#dialogModule').html(),
@@ -129,7 +128,8 @@
         var grid = helper.grid({
             name: 'gridModule',
             config: {
-                toolbar: '#tbModule', initSort: { field: 'Sort', type: 'asc' },
+                toolbar: '#tbModule', height: 'full-25',
+                initSort: { field: 'Sort', type: 'asc' },
                 cols: [[
                     { type: 'numbers', fixed: 'left' },
                     { type: 'checkbox', fixed: 'left' },

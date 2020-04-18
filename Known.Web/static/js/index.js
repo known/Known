@@ -1,16 +1,15 @@
-layui.extend({
-    setter: 'config',
-    admin: 'admin'
-}).define(['setter', 'admin'], function (exports) {
-    var setter = layui.setter;
-    layui.config({
-        base: setter.base + 'modules'
-    });
-    layui.each(setter.extend, function (a, i) {
+layui.config({ base: '/static/js/' }).define(function (exports) {
+    var index = {
+        base: layui.cache.base,
+        extend: [
+            'echarts',
+            'echartsTheme'
+        ]
+    };
+    layui.each(index.extend, function (a, i) {
         var n = {};
-        n[i] = '{/}' + setter.base + 'extend/' + i;
+        n[i] = '{/}' + index.base + 'extend/' + i;
         layui.extend(n);
     });
-
-    exports('index', {});
-});
+    exports('index', index);
+}).extend({ helper: 'helper', admin: 'admin' });
