@@ -4,7 +4,6 @@
             <table id="gridRole" class="layui-hide" lay-filter="gridRole"></table>
         </div>
     </div>
-
     <script type="text/html" id="tbRole">
         <div class="layui-btn-container">
             <button class="layui-btn layui-btn-sm" lay-event="add">
@@ -53,7 +52,7 @@
             DeleteRoles: '~/System/DeleteRoles',
             GetRole: '~/System/GetRole',
             SaveRole: '~/System/SaveRole',
-            SaveRoleRight: '~/System/SaveRoleRight'
+            RightForm: '~/System/RightForm'
         };
 
         var $ = layui.jquery,
@@ -106,7 +105,16 @@
                 add: function (e) { form.show(); },
                 edit: function (e) { e.editRow(form); },
                 remove: function (e) { e.deleteRows(url.DeleteRoles); },
-                right: function (e) { form.show(e.row); }
+                right: function (e) {
+                    e.selectRow(function (e) {
+                        $.get(url.RightForm, function (str) {
+                            layer.open({
+                                type: 1,
+                                content: str
+                            });
+                        });
+                    });
+                }
             }
         });
 

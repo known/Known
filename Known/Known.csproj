@@ -110,5 +110,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Core\DevMenu.json" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Views\System\Partials\RightForm.cshtml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

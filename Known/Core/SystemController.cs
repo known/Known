@@ -24,6 +24,11 @@ namespace Known.Core
         {
             return ViewResult();
         }
+
+        public ActionResult RightForm()
+        {
+            return PartialResult("Partials/RightForm");
+        }
         #endregion
 
         #region Module

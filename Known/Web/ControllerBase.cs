@@ -21,9 +21,9 @@ namespace Known.Web
             return Content(content, "text/html");
         }
 
-        protected ActionResult PartialResult()
+        protected ActionResult PartialResult(string name)
         {
-            var content = ResViewEngine.GetPartial(ControllerContext);
+            var content = ResViewEngine.GetPartial(ControllerContext, name);
             return Content(content, "text/html");
         }
 

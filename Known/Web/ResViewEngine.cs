@@ -16,9 +16,9 @@ namespace Known.Web
             return GetContent(context);
         }
 
-        internal static string GetPartial(ControllerContext context)
+        internal static string GetPartial(ControllerContext context, string name)
         {
-            return GetContent(context, true);
+            return GetContent(context, true, name);
         }
 
         internal static string GetStyle(int id)
@@ -47,7 +47,7 @@ namespace Known.Web
             scripts[id] = script;
         }
 
-        private static string GetContent(ControllerContext context, bool isPartial = false)
+        private static string GetContent(ControllerContext context, bool isPartial = false, string partialName = null)
         {
             var text = string.Empty;
             var assembly = context.Controller.GetType().Assembly;
@@ -55,7 +55,9 @@ namespace Known.Web
             lock (obj)
             {
                 var controller = context.RouteData.Values["controller"];
-                var action = context.RouteData.Values["action"];
+                var action = isPartial
+                           ? partialName.Replace("/", ".")
+                           : context.RouteData.Values["action"];
                 var name = $"{controller}.{action}";
                 text = Utils.GetResource(assembly, name);
             }
@@ -67,13 +69,18 @@ namespace Known.Web
             if (!isPartial && !text.Contains("<html>"))
                 layout = Utils.GetResource(assembly, "Views.Layout");
 
-            var parser = new ViewParser(context.HttpContext, text, layout);
-            lock (obj)
+            if (!isPartial)
             {
-                parser.Parse();
+                var parser = new ViewParser(context.HttpContext, text, layout);
+                lock (obj)
+                {
+                    parser.Parse();
+                }
+
+                text = parser.Html;
             }
 
-            return ReplaceHtml(parser.Html);
+            return ReplaceHtml(text);
         }
 
         private static string ReplaceHtml(string html)
