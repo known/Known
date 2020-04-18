@@ -65,9 +65,87 @@ namespace Known.Core.Services
         #endregion
 
         #region Role
+        internal PagingResult<SysRole> QueryRoles(PagingCriteria criteria)
+        {
+            return Repository.QueryRoles(Database, criteria);
+        }
+
+        internal Result DeleteRoles(string[] ids)
+        {
+            var entities = Database.QueryListById<SysRole>(ids);
+            if (entities == null || entities.Count == 0)
+                return Result.Error("请至少选择一条记录进行操作！");
+
+            return Database.Transaction("删除", db =>
+            {
+                foreach (var item in entities)
+                {
+                    db.Delete(item);
+                }
+            });
+        }
+
+        internal SysRole GetRole(string id)
+        {
+            return Database.QueryById<SysRole>(id);
+        }
+
+        internal Result SaveRole(dynamic model)
+        {
+            var entity = Database.QueryById<SysRole>((string)model.Id);
+            if (entity == null)
+                entity = new SysRole();
+
+            entity.FillModel(model);
+            var vr = entity.Validate();
+            if (!vr.IsValid)
+                return Result.Error(vr.Message);
+
+            Database.Save(entity);
+            return Result.Success("保存成功！", entity.Id);
+        }
         #endregion
 
         #region User
+        internal PagingResult<SysUser> QueryUsers(PagingCriteria criteria)
+        {
+            return Repository.QueryUsers(Database, criteria);
+        }
+
+        internal Result DeleteUsers(string[] ids)
+        {
+            var entities = Database.QueryListById<SysUser>(ids);
+            if (entities == null || entities.Count == 0)
+                return Result.Error("请至少选择一条记录进行操作！");
+
+            return Database.Transaction("删除", db =>
+            {
+                foreach (var item in entities)
+                {
+                    db.Delete(item);
+                }
+            });
+        }
+
+        internal SysUser GetUser(string id)
+        {
+            return Database.QueryById<SysUser>(id);
+        }
+
+        internal Result SaveUser(dynamic model)
+        {
+            var entity = Database.QueryById<SysUser>((string)model.Id);
+            if (entity == null)
+                entity = new SysUser();
+
+            entity.FillModel(model);
+            var vr = entity.Validate();
+            if (!vr.IsValid)
+                return Result.Error(vr.Message);
+
+            Database.Save(entity);
+            return Result.Success("保存成功！", entity.Id);
+        }
         #endregion
     }
 }

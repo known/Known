@@ -5,13 +5,24 @@ namespace Known.Core.Datas
 {
     public interface ISystemRepository
     {
+        #region Module
         bool ExistsSubModule(Database db, string parentId);
         List<SysModule> GetModules(Database db);
         PagingResult<SysModule> QueryModules(Database db, PagingCriteria criteria);
+        #endregion
+
+        #region Role
+        PagingResult<SysRole> QueryRoles(Database db, PagingCriteria criteria);
+        #endregion
+
+        #region User
+        PagingResult<SysUser> QueryUsers(Database db, PagingCriteria criteria);
+        #endregion
     }
 
     class SystemRepository : ISystemRepository
     {
+        #region Module
         public bool ExistsSubModule(Database db, string parentId)
         {
             var sql = "select count(*) from SysModule where ParentId=@parentId";
@@ -29,5 +40,22 @@ namespace Known.Core.Datas
             var sql = "select * from SysModule";
             return db.QueryPage<SysModule>(sql, criteria);
         }
+        #endregion
+
+        #region Role
+        public PagingResult<SysRole> QueryRoles(Database db, PagingCriteria criteria)
+        {
+            var sql = "select * from SysRole";
+            return db.QueryPage<SysRole>(sql, criteria);
+        }
+        #endregion
+
+        #region User
+        public PagingResult<SysUser> QueryUsers(Database db, PagingCriteria criteria)
+        {
+            var sql = "select * from SysUser";
+            return db.QueryPage<SysUser>(sql, criteria);
+        }
+        #endregion
     }
 }

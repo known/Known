@@ -7,7 +7,7 @@
 
     <script type="text/html" id="tbRole">
         <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="addSys">
+            <button class="layui-btn layui-btn-sm" lay-event="add">
                 <i class="layui-icon layui-icon-addition"></i>添加
             </button>
             <button class="layui-btn layui-btn-sm" lay-event="remove">
@@ -16,41 +16,23 @@
         </div>
     </script>
     <script type="text/html" id="tbrRole">
+        <a class="layui-btn layui-btn-xs" lay-event="right">权限</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
     <script type="text/html" id="dialogRole">
         <table class="layui-form form" lay-filter="formRole">
             <tr>
-                <th style="width:80px;">编码</th>
+                <th style="width:80px;">名称</th>
                 <td>
                     <input type="hidden" name="Id">
-                    <input type="hidden" name="ParentId">
-                    <input type="hidden" name="Icon">
-                    <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-                </td>
-                <th style="width:80px;">
-                    <span id="dvIcon" style="margin-right:5px;"></span>
-                    <span>名称</span>
-                </th>
-                <td>
-                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-                </td>
-            </tr>
-            <tr>
-                <th>URL</th>
-                <td colspan="3">
-                    <input type="text" name="Url" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Name" lay-verify="required" placeholder="" class="layui-input">
                 </td>
             </tr>
             <tr>
                 <th>选项</th>
                 <td>
                     <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|禁用" value="1">
-                </td>
-                <th>顺序</th>
-                <td>
-                    <input type="text" name="Sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
                 </td>
             </tr>
             <tr>
@@ -66,12 +48,76 @@
 <script>
     layui.config({ base: '~/static/js/' }).define('index', function (exports) {
         var url = {
+            QueryRoles: '~/System/QueryRoles',
             DeleteRoles: '~/System/DeleteRoles',
-            SaveRole: '~/System/SaveRole'
+            GetRole: '~/System/GetRole',
+            SaveRole: '~/System/SaveRole',
+            SaveRoleRight: '~/System/SaveRoleRight'
         };
 
+        var $ = layui.jquery,
+            layer = layui.layer,
+            helper = layui.helper;
 
+        var form = helper.form({
+            name: 'formRole',
+            title: '角色管理',
+            config: {
+                area: ['450px', '250px'],
+                content: $('#dialogRole').html()
+            },
+            toolbar: [{
+                text: '保存', handler: function (e) {
+                    var data = e.form.getData();
+                    $.post(url.SaveRole, {
+                        data: JSON.stringify(data)
+                    }, function (result) {
+                        layer.msg(result.message);
+                        if (result.ok) {
+                            data.Id = result.data;
+                            e.form.setData(data);
+                        }
+                    });
+                }
+            }]
+        });
 
+        var grid = helper.grid({
+            name: 'gridRole',
+            config: {
+                url: url.QueryRoles, toolbar: '#tbRole',
+                cols: [[
+                    { type: 'numbers', fixed: 'left' },
+                    { type: 'checkbox', fixed: 'left' },
+                    { sort: true, title: '名称', field: 'Name', width: 100 },
+                    {
+                        sort: true, title: '状态', field: 'Enabled', width: 100, templet: function (d) {
+                            var checked = d.Enabled ? ' checked' : '';
+                            return '<input type="checkbox" lay-skin="switch" lay-text="启用|禁用" disabled' + checked + '>';
+                        }
+                    },
+                    { sort: true, title: '备注', field: 'Note', width: 250 },
+                    { fixed: 'right', title: '操作', toolbar: '#tbrRole', width: 150, align: 'center' }
+                ]]
+            },
+            toolbar: {
+                add: function (e) {
+                    form.show({ Id: '', Enabled: 1 });
+                },
+                remove: function (e) { deleteRoles(e.grid, e.rows); },
+                right: function (e) { form.show(e.row); },
+                edit: function (e) { form.show(e.row); },
+                del: function (e) { deleteRoles(e.grid, [e.row]); }
+            }
+        });
+
+        function deleteRoles(grid, rows) {
+            grid.deleteRows(rows, function (data) {
+                $.post(url.DeleteRoles, { data: data }, function (result) {
+                    layer.msg(result.message);
+                });
+            });
+        }
 
         exports('System_RoleView', {});
     });

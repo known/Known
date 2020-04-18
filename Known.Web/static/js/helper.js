@@ -9,10 +9,14 @@ layui.define(function (exports) {
             config = option.config,
             toolbar = option.toolbar;
 
-        $.extend(config, { skin: 'line' });
+        $.extend(config, { skin: 'line', page: true, height: 'full-25' });
 
         config.elem = '#' + name;
+        if (!config.initSort) {
+            config.initSort = { field: 'CreateTime', type: 'desc' };
+        }
         if (config.url) {
+            config.method = 'post';
             table.render(config);
         }
 
