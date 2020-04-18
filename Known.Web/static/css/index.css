@@ -20,6 +20,9 @@
 .layui-side .layui-nav-child dd {
     padding-left: 20px;
 }
+.layui-layout-admin .layui-tab-title li:first-child .layui-tab-close {
+    display: none;
+}
 .layui-layout-admin .layui-tab {
     position: absolute;
     margin: 0;
