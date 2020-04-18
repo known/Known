@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Known.Core.Entities
+﻿namespace Known.Core.Entities
 {
     public class SysRole : EntityBase
     {
+        public string Name { get; set; }
+        public int Enabled { get; set; }
+        public string Note { get; set; }
     }
 }

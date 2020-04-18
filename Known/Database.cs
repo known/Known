@@ -490,7 +490,7 @@ namespace Known
         internal string GetPagingSql(string providerName, PagingCriteria criteria)
         {
             var orderBy = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)));
-            var startNo = criteria.PageSize * criteria.PageIndex;
+            var startNo = criteria.PageSize * (criteria.PageIndex - 1);
             var endNo = startNo + criteria.PageSize;
 
             if (string.IsNullOrWhiteSpace(orderBy))

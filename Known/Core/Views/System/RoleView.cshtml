@@ -26,7 +26,7 @@
                 <th style="width:80px;">名称</th>
                 <td>
                     <input type="hidden" name="Id">
-                    <input type="text" name="Name" lay-verify="required" placeholder="" class="layui-input">
+                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
                 </td>
             </tr>
             <tr>
@@ -62,8 +62,9 @@
         var form = helper.form({
             name: 'formRole',
             title: '角色管理',
+            defData: { Id: '', Enabled: 1 },
             config: {
-                area: ['450px', '250px'],
+                area: ['450px', '255px'],
                 content: $('#dialogRole').html()
             },
             toolbar: [{
@@ -76,6 +77,7 @@
                         if (result.ok) {
                             data.Id = result.data;
                             e.form.setData(data);
+                            grid.reload();
                         }
                     });
                 }
@@ -89,21 +91,19 @@
                 cols: [[
                     { type: 'numbers', fixed: 'left' },
                     { type: 'checkbox', fixed: 'left' },
-                    { sort: true, title: '名称', field: 'Name', width: 100 },
+                    { sort: true, title: '名称', field: 'Name', width: 150 },
                     {
                         sort: true, title: '状态', field: 'Enabled', width: 100, templet: function (d) {
                             var checked = d.Enabled ? ' checked' : '';
                             return '<input type="checkbox" lay-skin="switch" lay-text="启用|禁用" disabled' + checked + '>';
                         }
                     },
-                    { sort: true, title: '备注', field: 'Note', width: 250 },
-                    { fixed: 'right', title: '操作', toolbar: '#tbrRole', width: 150, align: 'center' }
+                    { sort: true, title: '备注', field: 'Note', width: 500 },
+                    { fixed: 'right', title: '操作', toolbar: '#tbrRole', width: 200, align: 'center' }
                 ]]
             },
             toolbar: {
-                add: function (e) {
-                    form.show({ Id: '', Enabled: 1 });
-                },
+                add: function (e) { form.show(); },
                 remove: function (e) { deleteRoles(e.grid, e.rows); },
                 right: function (e) { form.show(e.row); },
                 edit: function (e) { form.show(e.row); },
@@ -115,6 +115,7 @@
             grid.deleteRows(rows, function (data) {
                 $.post(url.DeleteRoles, { data: data }, function (result) {
                     layer.msg(result.message);
+                    grid.reload();
                 });
             });
         }

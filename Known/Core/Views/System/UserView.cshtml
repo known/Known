@@ -26,7 +26,7 @@
                 <th style="width:80px;">名称</th>
                 <td>
                     <input type="hidden" name="Id">
-                    <input type="text" name="Name" lay-verify="required" placeholder="" class="layui-input">
+                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
                 </td>
             </tr>
             <tr>
@@ -61,6 +61,7 @@
         var form = helper.form({
             name: 'formUser',
             title: '角色管理',
+            defData: { Id: '', Enabled: 1 },
             config: {
                 area: ['450px', '250px'],
                 content: $('#dialogUser').html()
@@ -75,6 +76,7 @@
                         if (result.ok) {
                             data.Id = result.data;
                             e.form.setData(data);
+                            grid.reload();
                         }
                     });
                 }
@@ -100,9 +102,7 @@
                 ]]
             },
             toolbar: {
-                add: function (e) {
-                    form.show({ Id: '', Enabled: 1 });
-                },
+                add: function (e) { form.show(); },
                 remove: function (e) { deleteUsers(e.grid, e.rows); },
                 right: function (e) { form.show(e.row); },
                 edit: function (e) { form.show(e.row); },
@@ -114,6 +114,7 @@
             grid.deleteRows(rows, function (data) {
                 $.post(url.DeleteUsers, { data: data }, function (result) {
                     layer.msg(result.message);
+                    grid.reload();
                 });
             });
         }

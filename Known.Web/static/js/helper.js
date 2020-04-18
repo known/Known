@@ -8,6 +8,7 @@ layui.define(function (exports) {
         var name = option.name,
             config = option.config,
             toolbar = option.toolbar;
+        var tableIns = null;
 
         $.extend(config, { skin: 'line', page: true, height: 'full-25' });
 
@@ -17,7 +18,7 @@ layui.define(function (exports) {
         }
         if (config.url) {
             config.method = 'post';
-            table.render(config);
+            tableIns = table.render(config);
         }
 
         if (toolbar) {
@@ -35,7 +36,11 @@ layui.define(function (exports) {
 
         this.setData = function (data) {
             config.data = data;
-            table.render(config);
+            tableIns = table.render(config);
+        }
+
+        this.reload = function () {
+            tableIns.reload();
         }
 
         this.deleteRows = function (rows, callback) {
@@ -85,6 +90,7 @@ layui.define(function (exports) {
         $.extend(config, { type: 1, shade: 0, btn: btn }, handler);
 
         this.show = function (data) {
+            data = data || option.defData;
             config.title = title + (data.Id === '' ? '【新增】' : '【编辑】');
             config.success = function (layero, index) {
                 form.render(null, name);
