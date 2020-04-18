@@ -14,11 +14,6 @@ namespace Known.Core.Services
         }
 
         #region Module
-        internal List<SysModule> GetModules()
-        {
-            return Repository.GetModules(Database);
-        }
-
         internal PagingResult<SysModule> QueryModules(PagingCriteria criteria)
         {
             return Repository.QueryModules(Database, criteria);
@@ -43,6 +38,11 @@ namespace Known.Core.Services
                     db.Delete(item);
                 }
             });
+        }
+
+        internal List<SysModule> GetModules()
+        {
+            return Repository.GetModules(Database);
         }
 
         internal SysModule GetModule(string id)
@@ -85,6 +85,15 @@ namespace Known.Core.Services
                     db.Delete(item);
                 }
             });
+        }
+
+        internal List<SysRole> GetRoles()
+        {
+            var roles = Repository.GetRoles(Database);
+            if (roles == null)
+                roles = new List<SysRole>();
+
+            return roles;
         }
 
         internal SysRole GetRole(string id)
@@ -183,6 +192,11 @@ namespace Known.Core.Services
 
             Database.Save(entity);
             return Result.Success("保存成功！", entity.Id);
+        }
+
+        internal string[] GetUserRoles(string userId)
+        {
+            return new string[] { "f000509503d348068bce1fca93e534bd" };
         }
         #endregion
     }

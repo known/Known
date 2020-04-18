@@ -15,6 +15,12 @@
             <button class="layui-btn layui-btn-sm" lay-event="remove">
                 <i class="layui-icon layui-icon-delete"></i>删除
             </button>
+            <button class="layui-btn layui-btn-sm" lay-event="imports">
+                <i class="layui-icon layui-icon-add-1"></i>导入
+            </button>
+            <button class="layui-btn layui-btn-sm" lay-event="role">
+                <i class="layui-icon layui-icon-group"></i>角色
+            </button>
             <button class="layui-btn layui-btn-sm" lay-event="setPwd">
                 <i class="layui-icon layui-icon-refresh"></i>重置密码
             </button>
@@ -23,9 +29,6 @@
             </button>
             <button class="layui-btn layui-btn-sm" lay-event="disable">
                 <i class="layui-icon layui-icon-reduce-circle"></i>停用
-            </button>
-            <button class="layui-btn layui-btn-sm" lay-event="imports">
-                <i class="layui-icon layui-icon-add-1"></i>导入
             </button>
         </div>
     </script>
@@ -86,12 +89,13 @@
         var url = {
             QueryUsers: '~/System/QueryUsers',
             DeleteUsers: '~/System/DeleteUsers',
+            ImportUsers: '~/System/ImportUsers',
             SetUserPwds: '~/System/SetUserPwds',
             EnableUsers: '~/System/EnableUsers',
-            ImportUsers: '~/System/ImportUsers',
             GetUser: '~/System/GetUser',
             SaveUser: '~/System/SaveUser',
-            SaveUserRole: '~/System/SaveUserRole'
+            GetUserRoles: '~/System/GetUserRoles',
+            SaveUserRoles: '~/System/SaveUserRoles',
         };
 
         var $ = layui.jquery,
@@ -165,6 +169,8 @@
                 add: function (e) { form.show(); },
                 edit: function (e) { e.editRow(form); },
                 remove: function (e) { e.deleteRows(url.DeleteUsers); },
+                imports: function (e) { },
+                role: function (e) { setUserRoles(e); },
                 setPwd: function (e) {
                     e.selectRows(function (e) {
                         layer.confirm('确定要将所选用户密码重置为默认密码？', function (index) {
@@ -181,10 +187,52 @@
                     });
                 },
                 enable: function (e) { enableUsers(e, 1); },
-                disable: function (e) { enableUsers(e, 0); },
-                imports: function (e) { }
+                disable: function (e) { enableUsers(e, 0); }
             }
         });
+
+        function setUserRoles(e) {
+            e.selectRow(function (e) {
+                $.get(url.GetUserRoles, {
+                    userId: e.row.Id
+                }, function (res) {
+                    selectRole({
+                        user: e.row, roles: res.roles, value: res.value
+                    }, function (data) {
+                        layer.alert(JSON.stringify(data));
+                    });
+                });
+            });
+        }
+
+        function selectRole(data, callback) {
+            var transfer = layui.transfer;
+            var userInfo = data.user.Name + '(' + data.user.UserName + ')';
+            layer.open({
+                type: 1, title: '设置角色 - ' + userInfo,
+                area: ['450px', '300px'],
+                content: '<div id="transUserRole"></div>',
+                btn: ['确定', '关闭'],
+                yes: function () {
+                    layer.close(layer.index);
+                    var data = transfer.getData('transUserRole');
+                    callback && callback(data);
+                },
+                btn2: function () {
+                    layer.close(layer.index);
+                },
+                success: function (layero, index) {
+                    transfer.render({
+                        id: 'transUserRole',
+                        elem: '#transUserRole',
+                        title: ['未选角色', '已选角色'],
+                        data: data.roles,
+                        value: data.value,
+                        width: 180, height: 205
+                    })
+                }
+            });
+        }
 
         function enableUsers(e, enable) {
             var msg = enable === 1 ? '启用' : '停用';

@@ -122,6 +122,19 @@ namespace Known.Core
         {
             return PostAction<dynamic>(data, d => Service.SaveUser(d));
         }
+
+        public ActionResult GetUserRoles(string userId)
+        {
+            var roles = Service.GetRoles().Select(r => new { value = r.Id, title = r.Name });
+            var value = Service.GetUserRoles(userId);
+            return JsonResult(new { roles, value });
+        }
+
+        [HttpPost]
+        public ActionResult SaveUserRoles(string userId, string data)
+        {
+            return null;
+        }
         #endregion
     }
 }

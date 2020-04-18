@@ -7,12 +7,13 @@ namespace Known.Core.Datas
     {
         #region Module
         bool ExistsSubModule(Database db, string parentId);
-        List<SysModule> GetModules(Database db);
         PagingResult<SysModule> QueryModules(Database db, PagingCriteria criteria);
+        List<SysModule> GetModules(Database db);
         #endregion
 
         #region Role
         PagingResult<SysRole> QueryRoles(Database db, PagingCriteria criteria);
+        List<SysRole> GetRoles(Database db);
         #endregion
 
         #region User
@@ -29,16 +30,16 @@ namespace Known.Core.Datas
             return db.Scalar<int>(sql, new { parentId }) > 0;
         }
 
-        public List<SysModule> GetModules(Database db)
-        {
-            var sql = "select * from SysModule order by Sort";
-            return db.QueryList<SysModule>(sql);
-        }
-
         public PagingResult<SysModule> QueryModules(Database db, PagingCriteria criteria)
         {
             var sql = "select * from SysModule";
             return db.QueryPage<SysModule>(sql, criteria);
+        }
+
+        public List<SysModule> GetModules(Database db)
+        {
+            var sql = "select * from SysModule order by Sort";
+            return db.QueryList<SysModule>(sql);
         }
         #endregion
 
@@ -47,6 +48,12 @@ namespace Known.Core.Datas
         {
             var sql = "select * from SysRole";
             return db.QueryPage<SysRole>(sql, criteria);
+        }
+
+        public List<SysRole> GetRoles(Database db)
+        {
+            var sql = "select * from SysRole order by CreateTime";
+            return db.QueryList<SysRole>(sql);
         }
         #endregion
 
