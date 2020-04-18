@@ -13,10 +13,13 @@
             <button class="layui-btn layui-btn-sm" lay-event="remove">
                 <i class="layui-icon layui-icon-delete"></i>删除
             </button>
+            <button class="layui-btn layui-btn-sm" lay-event="imports">
+                <i class="layui-icon layui-icon-add-1"></i>导入
+            </button>
         </div>
     </script>
     <script type="text/html" id="tbrUser">
-        <a class="layui-btn layui-btn-xs" lay-event="right">角色</a>
+        <a class="layui-btn layui-btn-xs" lay-event="role">角色</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
@@ -51,7 +54,8 @@
             QueryUsers: '~/System/QueryUsers',
             DeleteUsers: '~/System/DeleteUsers',
             GetUser: '~/System/GetUser',
-            SaveUser: '~/System/SaveUser'
+            SaveUser: '~/System/SaveUser',
+            SaveUserRole: '~/System/SaveUserRole'
         };
 
         var $ = layui.jquery,
@@ -60,10 +64,10 @@
 
         var form = helper.form({
             name: 'formUser',
-            title: '角色管理',
+            title: '用户管理',
             defData: { Id: '', Enabled: 1 },
             config: {
-                area: ['450px', '250px'],
+                area: ['450px', '255px'],
                 content: $('#dialogUser').html()
             },
             toolbar: [{
@@ -90,15 +94,24 @@
                 cols: [[
                     { type: 'numbers', fixed: 'left' },
                     { type: 'checkbox', fixed: 'left' },
-                    { sort: true, title: '名称', field: 'Name', width: 100 },
+                    { sort: true, title: '用户名', field: 'UserName', width: 100 },
+                    { sort: true, title: '姓名', field: 'Name', width: 100 },
+                    { sort: true, title: '英文名', field: 'EnglishName', width: 100 },
+                    { sort: true, title: '性别', field: 'Gender', width: 80, align: 'center' },
+                    { sort: true, title: '座机', field: 'Phone', width: 120 },
+                    { sort: true, title: '手机', field: 'Mobile', width: 120, align: 'center' },
+                    { sort: true, title: '邮箱', field: 'Email', width: 150 },
                     {
                         sort: true, title: '状态', field: 'Enabled', width: 100, templet: function (d) {
                             var checked = d.Enabled ? ' checked' : '';
                             return '<input type="checkbox" lay-skin="switch" lay-text="启用|禁用" disabled' + checked + '>';
                         }
                     },
-                    { sort: true, title: '备注', field: 'Note', width: 250 },
-                    { fixed: 'right', title: '操作', toolbar: '#tbrUser', width: 150, align: 'center' }
+                    { sort: true, title: '首次登录时间', field: 'FirstLoginTime', width: 150, align: 'center' },
+                    { sort: true, title: '首次登录IP', field: 'FirstLoginIP', width: 100, align: 'center' },
+                    { sort: true, title: '上次登录时间', field: 'LastLoginTime', width: 150, align: 'center' },
+                    { sort: true, title: '上次登录IP', field: 'LastLoginIP', width: 100, align: 'center' },
+                    { fixed: 'right', title: '操作', toolbar: '#tbrUser', width: 200, align: 'center' }
                 ]]
             },
             toolbar: {
