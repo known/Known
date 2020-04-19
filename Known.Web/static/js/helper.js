@@ -169,6 +169,65 @@ layui.define('index', function (exports) {
         }
     }
 
+    function selectIcon(icon, callback) {
+        var data = [
+            'heart-fill', 'heart', 'light', 'time', 'bluetooth', 'at', 'mute',
+            'mike', 'key', 'gift', 'email', 'rss', 'wifi', 'logout',
+            'android', 'ios', 'windows', 'transfer', 'service', 'subtraction', 'addition',
+            'slider', 'print', 'export', 'cols', 'screen-restore', 'screen-full', 'rate-half',
+            'rate', 'rate-solid', 'cellphone', 'vercode', 'login-wechat', 'login-qq', 'login-weibo',
+            'password', 'username', 'refresh-3', 'auz', 'spread-left', 'shrink-right', 'snowflake',
+            'tips', 'note', 'home', 'senior', 'refresh', 'refresh-1', 'flag',
+            'theme', 'notice', 'website', 'console', 'face-surprised', 'set', 'template-1',
+            'app', 'template', 'praise', 'tread', 'male', 'female', 'camera',
+            'camera-fill', 'more', 'more-vertical', 'rmb', 'dollar', 'diamond', 'fire',
+            'return', 'location', 'read', 'survey', 'face-smile', 'face-cry', 'cart-simple',
+            'cart', 'next', 'prev', 'upload-drag', 'upload', 'download-circle', 'component',
+            'file-b', 'user', 'find-fill', 'loading', 'loading-1', 'add-1', 'play',
+            'pause', 'headset', 'video', 'voice', 'speaker', 'fonts-del', 'fonts-code',
+            'fonts-html', 'fonts-strong', 'unlink', 'picture', 'link', 'face-smile-b', 'align-left',
+            'align-right', 'align-center', 'fonts-u', 'fonts-i', 'tabs', 'radio', 'circle',
+            'edit', 'share', 'delete', 'form', 'cellphone-fine', 'dialogue', 'fonts-clear',
+            'layer', 'date', 'water', 'code-circle', 'carousel', 'prev-circle', 'layouts',
+            'util', 'templeate-1', 'upload-circle', 'tree', 'table', 'chart', 'chart-screen',
+            'engine', 'triangle-d', 'triangle-r', 'file', 'set-sm', 'reduce-circle', 'add-circle',
+            '404', 'about', 'up', 'down', 'left', 'right', 'circle-dot',
+            'search', 'set-fill', 'group', 'friends', 'reply-fill', 'menu-fill', 'log',
+            'picture-fine', 'face-smile-fine', 'list', 'release', 'ok', 'help', 'chat',
+            'top', 'star', 'star-fill', 'close-fill', 'close', 'ok-circle', 'add-circle-fine'
+        ];
+        var content = '<ul class="icon-list">';
+        data.forEach(function (d) {
+            var icon1 = 'layui-icon-' + d;
+            content += '<li id="' + icon1 + '"';
+            content += icon1 === icon ? ' class="active">' : '>';
+            content += '<i class="layui-icon ' + icon1 + '"></i>';
+            content += '</li>';
+        });
+        content += '</ul>';
+        layer.open({
+            type: 1, title: '选择图标',
+            area: ['400px', '250px'],
+            shade: 0,
+            content: content,
+            btn: ['确定', '关闭'],
+            yes: function () {
+                var icon = $('.icon-list li.active').attr('id');
+                layer.close(layer.index);
+                callback && callback(icon);
+            },
+            btn2: function () {
+                layer.close(layer.index);
+            },
+            success: function (layero, index) {
+                $('.icon-list li').click(function () {
+                    $('.icon-list li').removeClass('active');
+                    $(this).addClass('active');
+                });
+            }
+        });
+    }
+
     var helper = {
         fullScreen: function () {
             var el = document.documentElement;
@@ -214,6 +273,9 @@ layui.define('index', function (exports) {
                 return ele.pid === rootId;
             });
             return arr;
+        },
+        selectIcon: function (icon, callback) {
+            selectIcon(icon, callback);
         },
         grid: function (option) {
             return new Grid(option);
