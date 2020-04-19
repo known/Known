@@ -237,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="static\data\chart.json" />
     <None Include="Views\_Layout.cshtml" />
     <None Include="Views\Web.config" />
   </ItemGroup>

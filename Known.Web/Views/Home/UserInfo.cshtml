@@ -120,7 +120,7 @@
 </div>
 
 <script>
-    layui.define(function (exports) {
+    layui.use('helper', function () {
         var url = {
             GetUserInfo: '/Home/GetUserInfo',
             SaveUserInfo: '/Home/SaveUserInfo',
@@ -162,7 +162,5 @@
             });
             return false;
         });
-
-        exports('Home_UserInfo', {});
     });
 </script>

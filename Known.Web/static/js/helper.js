@@ -126,7 +126,7 @@ layui.define('index', function (exports) {
                 var evt = i === 0 ? 'yes' : ('btn' + (i + 1));
                 var hdl = toolbar[i].handler;
                 handler[evt] = function () {
-                    hdl && hdl.call(this, { form: _this });
+                    hdl && hdl.call(this, new FormManager(_this));
                 };
             }
         }
@@ -167,6 +167,10 @@ layui.define('index', function (exports) {
             config.setData && config.setData(e);
             callback && callback(e);
         }
+    }
+
+    function FormManager(form) {
+
     }
 
     function selectIcon(icon, callback) {
