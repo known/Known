@@ -106,17 +106,8 @@
             },
             toolbar: [{
                 text: '保存', handler: function (e) {
-                    var data = e.form.getData();
-                    $.post(url.SaveModule, {
-                        data: JSON.stringify(data)
-                    }, function (result) {
-                        layer.msg(result.message);
-                        if (result.ok) {
-                            data.Id = result.data;
-                            e.form.setData(data);
-                            e.form.close();
-                            renderTree();
-                        }
+                    e.save(url.SaveModule, function () {
+                        renderTree();
                     });
                 }
             }]
@@ -201,7 +192,5 @@
 
         //tree
         renderTree();
-
-        exports('System_ModuleView', {});
     });
 </script>

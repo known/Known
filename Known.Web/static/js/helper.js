@@ -87,16 +87,14 @@ layui.define('index', function (exports) {
             var length = e.rows.length;
             var msg = length > 1 ? ('所选的' + length + '条记录') : '该记录';
             layer.confirm('确定要删除' + msg + '吗？', function (index) {
-                layer.close(index);
-                $.post(url, {
-                    data: JSON.stringify(e.ids)
-                }, function (result) {
+                $.post(url, { data: JSON.stringify(e.ids) }, function (result) {
                     layer.msg(result.message);
                     if (result.ok) {
                         e.grid.reload();
                         callback && callback(e);
                     }
                 });
+                layer.close(index);
             });
         }
 
@@ -170,7 +168,20 @@ layui.define('index', function (exports) {
     }
 
     function FormManager(form) {
+        this.form = form;
 
+        this.save = function (url, callback) {
+            var data = form.getData();
+            $.post(url, { data: JSON.stringify(data) }, function (result) {
+                layer.msg(result.message);
+                if (result.ok) {
+                    data.Id = result.data;
+                    form.setData(data);
+                    form.close();
+                    callback && callback();
+                }
+            });
+        }
     }
 
     function selectIcon(icon, callback) {

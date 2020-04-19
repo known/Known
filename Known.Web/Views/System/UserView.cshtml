@@ -83,7 +83,7 @@
 </script>
 
 <script>
-    layui.define('helper', function (exports) {
+    layui.use('helper', function () {
         var url = {
             QueryUsers: '/System/QueryUsers',
             DeleteUsers: '/System/DeleteUsers',
@@ -116,17 +116,8 @@
             },
             toolbar: [{
                 text: '保存', handler: function (e) {
-                    var data = e.form.getData();
-                    $.post(url.SaveUser, {
-                        data: JSON.stringify(data)
-                    }, function (result) {
-                        layer.msg(result.message);
-                        if (result.ok) {
-                            data.Id = result.data;
-                            e.form.setData(data);
-                            e.form.close();
-                            grid.reload();
-                        }
+                    e.save(url.SaveUser, function () {
+                        grid.reload();
                     });
                 }
             }]
@@ -248,7 +239,5 @@
                 });
             });
         }
-
-        exports('System_UserView', {});
     });
 </script>
