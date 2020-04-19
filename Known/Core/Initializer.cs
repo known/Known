@@ -1,6 +1,4 @@
-﻿using Known.Core.Datas;
-
-namespace Known.Core
+﻿namespace Known.Core
 {
     sealed class Initializer
     {

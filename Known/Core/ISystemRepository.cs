@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Known.Core.Entities;
 
-namespace Known.Core.Datas
+namespace Known.Core
 {
     public interface ISystemRepository
     {

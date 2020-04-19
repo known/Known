@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
-using Known.Core.Services;
+using Known.Core;
 
 namespace Known.Web
 {
@@ -16,6 +16,21 @@ namespace Known.Web
         public string UserName
         {
             get { return User.Identity.Name; }
+        }
+
+        
+        public UserInfo CurrentUser
+        {
+            get
+            {
+                var user = SessionHelper.GetUser();
+                if (user == null && User.Identity.IsAuthenticated)
+                {
+                    user = Platform.GetUserInfo(UserName);
+                    SessionHelper.SetUser(user);
+                }
+                return user;
+            }
         }
 
         protected ActionResult ViewResult()

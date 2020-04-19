@@ -1,4 +1,4 @@
-﻿using System.Web;
+﻿using Known.Web;
 
 namespace Known
 {
@@ -11,7 +11,7 @@ namespace Known
             {
                 if (database == null)
                     database = new Database();
-                database.UserName = HttpContext.Current.User.Identity.Name;
+                database.User = SessionHelper.GetUser();
                 return database;
             }
         }

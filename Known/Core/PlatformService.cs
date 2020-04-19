@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using Known.Core.Datas;
+using Known.Core.Entities;
+using Known.Web;
 
-namespace Known.Core.Services
+namespace Known.Core
 {
     public class PlatformService : ServiceBase
     {
@@ -16,25 +16,27 @@ namespace Known.Core.Services
         #region Login
         public Result SignIn(string userName, string password)
         {
-            var user = Repository.GetUser(Database, userName);
-            if (user == null)
+            var entity = Repository.GetUser(Database, userName);
+            if (entity == null)
                 return Result.Error("用户名不存在！");
 
             var pwd = Utils.ToMd5(password);
-            if (user.Password != pwd)
+            if (entity.Password != pwd)
                 return Result.Error("密码不正确！");
 
             var ip = Utils.GetIPAddress(HttpContext.Current.Request);
-            if (!user.FirstLoginTime.HasValue)
+            if (!entity.FirstLoginTime.HasValue)
             {
-                user.FirstLoginTime = DateTime.Now;
-                user.FirstLoginIP = ip;
+                entity.FirstLoginTime = DateTime.Now;
+                entity.FirstLoginIP = ip;
             }
-            user.LastLoginTime = DateTime.Now;
-            user.LastLoginIP = ip;
+            entity.LastLoginTime = DateTime.Now;
+            entity.LastLoginIP = ip;
 
-            Database.Save(user);
-            return Result.Success("登录成功！", Utils.MapTo<UserInfo>(user));
+            var user = Utils.MapTo<UserInfo>(entity);
+            SessionHelper.SetUser(user);
+            Database.Save(entity);
+            return Result.Success("登录成功！", user);
         }
         #endregion
 
@@ -94,13 +96,13 @@ namespace Known.Core.Services
         #region UserInfo
         public UserInfo GetUserInfo(string userName)
         {
-            var user = Repository.GetUser(Database, userName);
-            return Utils.MapTo<UserInfo>(user);
+            var entity = Repository.GetUser(Database, userName);
+            return Utils.MapTo<UserInfo>(entity);
         }
 
         public Result SaveUserInfo(dynamic model)
         {
-            var entity = Repository.GetUser(Database, (string)model.UserName);
+            var entity = Database.QueryById<SysUser>((string)model.Id);
             if (entity == null)
                 return Result.Error("当前用户不存在！");
 
@@ -113,8 +115,11 @@ namespace Known.Core.Services
             return Result.Success("保存成功！", entity.Id);
         }
 
-        public Result UpdatePassword(string userName, string oldPassword, string password, string repassword)
+        public Result UpdatePassword(UserInfo user, string oldPassword, string password, string repassword)
         {
+            if (user == null)
+                return Result.Error("当前用户未登录！");
+
             var errors = new List<string>();
             if (string.IsNullOrWhiteSpace(oldPassword))
                 errors.Add("当前密码不能为空！");
@@ -128,7 +133,7 @@ namespace Known.Core.Services
             if (errors.Count > 0)
                 return Result.Error(string.Join(Environment.NewLine, errors));
 
-            var entity = Repository.GetUser(Database, userName);
+            var entity = Database.QueryById<SysUser>(user.Id);
             if (entity == null)
                 return Result.Error("当前用户不存在！");
 

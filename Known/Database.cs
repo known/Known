@@ -16,12 +16,12 @@ namespace Known
         private readonly DbConnection conn;
         private DbTransaction trans;
 
-        public Database(string name = "Default", string userName = "")
+        public Database(string name = "Default", UserInfo user = null)
         {
             var setting = ConfigurationManager.ConnectionStrings[name];
             ProviderName = setting.ProviderName;
             ConnectionString = setting.ConnectionString;
-            UserName = userName;
+            User = user ?? UserInfo.CreateAnonymousUser();
 
             var factory = DbProviderFactories.GetFactory(ProviderName);
             conn = factory.CreateConnection();
@@ -29,11 +29,11 @@ namespace Known
             prefix = ProviderName.Contains("Oracle") ? ":" : "@";
         }
 
-        private Database(string providerName, string connectionString, string userName)
+        private Database(string providerName, string connectionString, UserInfo user)
         {
             ProviderName = providerName;
             ConnectionString = connectionString;
-            UserName = userName;
+            User = user;
 
             var factory = DbProviderFactories.GetFactory(ProviderName);
             conn = factory.CreateConnection();
@@ -43,7 +43,7 @@ namespace Known
 
         public string ProviderName { get; }
         public string ConnectionString { get; }
-        public string UserName { get; set; }
+        public UserInfo User { get; set; }
 
         public void Dispose()
         {
@@ -58,7 +58,7 @@ namespace Known
 
         public Result Transaction(string name, Action<Database> action, object data = null)
         {
-            using (var db = new Database(ProviderName, ConnectionString, UserName))
+            using (var db = new Database(ProviderName, ConnectionString, User))
             {
                 try
                 {
@@ -189,13 +189,13 @@ namespace Known
 
             if (entity.IsNew)
             {
-                entity.CreateBy = UserName;
+                entity.CreateBy = User.UserName;
                 entity.CreateTime = DateTime.Now;
-                entity.CompNo = "known";
+                entity.CompNo = User.CompNo;
             }
             else
             {
-                entity.ModifyBy = UserName;
+                entity.ModifyBy = User.UserName;
                 entity.ModifyTime = DateTime.Now;
                 entity.Version += 1;
             }
@@ -553,6 +553,41 @@ select t.* from (
 
             var json = JsonConvert.SerializeObject(value);
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+        }
+    }
+
+    public class UserInfo
+    {
+        public string Id { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Name { get; set; }
+        public string EnglishName { get; set; }
+        public string Gender { get; set; }
+        public string Phone { get; set; }
+        public string Mobile { get; set; }
+        public string Email { get; set; }
+        public string Note { get; set; }
+        public DateTime? FirstLoginTime { get; set; }
+        public string FirstLoginIP { get; set; }
+        public DateTime? LastLoginTime { get; set; }
+        public string LastLoginIP { get; set; }
+        public string CompNo { get; set; }
+        public string CompName { get; set; }
+        public string DeptNo { get; set; }
+        public string DeptName { get; set; }
+
+        internal static UserInfo CreateAnonymousUser()
+        {
+            var userName = "Anonymous";
+            return new UserInfo
+            {
+                Id = userName,
+                UserName = userName,
+                Name = "匿名用户",
+                EnglishName = userName,
+                CompNo = Config.AppId
+            };
         }
     }
 

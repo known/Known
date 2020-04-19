@@ -105,7 +105,7 @@ namespace Known.Web.Controllers
         [HttpPost]
         public ActionResult UpdatePassword(string oldPassword, string password, string repassword)
         {
-            return JsonResult(Platform.UpdatePassword(UserName, oldPassword, password, repassword));
+            return JsonResult(Platform.UpdatePassword(CurrentUser, oldPassword, password, repassword));
         }
         #endregion
 

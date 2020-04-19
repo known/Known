@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Known.Core;
-using Known.Core.Services;
 
 namespace Known.Web.Controllers
 {

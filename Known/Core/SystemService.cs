@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using Known.Core.Datas;
 using Known.Core.Entities;
 
-namespace Known.Core.Services
+namespace Known.Core
 {
     public class SystemService : ServiceBase
     {

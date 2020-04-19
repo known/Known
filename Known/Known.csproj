@@ -61,23 +61,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="Core\Datas\ISystemRepository.cs" />
+    <Compile Include="Core\ISystemRepository.cs" />
     <Compile Include="Core\Entities\SysDictionary.cs" />
     <Compile Include="Core\Entities\SysModule.cs" />
     <Compile Include="Core\Entities\SysRole.cs" />
     <Compile Include="Core\Entities\SysUser.cs" />
-    <Compile Include="Core\Services\SystemService.cs" />
+    <Compile Include="Core\SystemService.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Core\Initializer.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="Core\Datas\IPlatformRepository.cs" />
-    <Compile Include="Core\MenuInfo.cs" />
-    <Compile Include="Core\Services\PlatformService.cs" />
-    <Compile Include="Core\UserInfo.cs" />
+    <Compile Include="Core\IPlatformRepository.cs" />
+    <Compile Include="Core\PlatformService.cs" />
     <Compile Include="Web\CriteriaData.cs" />
+    <Compile Include="Web\SessionHelper.cs" />
     <Compile Include="Web\WebApplication.cs" />
     <Compile Include="Web\ResViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
