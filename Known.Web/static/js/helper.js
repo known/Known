@@ -86,15 +86,13 @@ layui.define('index', function (exports) {
         function deleteData(e, url, callback) {
             var length = e.rows.length;
             var msg = length > 1 ? ('所选的' + length + '条记录') : '该记录';
-            layer.confirm('确定要删除' + msg + '吗？', function (index) {
+            helper.confirm('确定要删除' + msg + '吗？', function () {
                 $.post(url, { data: JSON.stringify(e.ids) }, function (result) {
-                    layer.msg(result.message);
-                    if (result.ok) {
+                    helper.result(result, function () {
                         e.grid.reload();
                         callback && callback(e);
-                    }
+                    });
                 });
-                layer.close(index);
             });
         }
 
@@ -173,13 +171,12 @@ layui.define('index', function (exports) {
         this.save = function (url, callback) {
             var data = form.getData();
             $.post(url, { data: JSON.stringify(data) }, function (result) {
-                layer.msg(result.message);
-                if (result.ok) {
+                helper.result(result, function () {
                     data.Id = result.data;
                     form.setData(data);
                     form.close();
                     callback && callback();
-                }
+                });
             });
         }
     }
@@ -288,6 +285,18 @@ layui.define('index', function (exports) {
                 return ele.pid === rootId;
             });
             return arr;
+        },
+        confirm: function (message, callback) {
+            layer.confirm(message, function (index) {
+                callback && callback();
+                layer.close(index);
+            });
+        },
+        result: function (result, callback) {
+            layer.msg(result.message);
+            if (result.ok) {
+                callback && callback();
+            }
         },
         selectIcon: function (icon, callback) {
             selectIcon(icon, callback);

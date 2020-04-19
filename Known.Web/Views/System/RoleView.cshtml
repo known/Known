@@ -96,6 +96,7 @@
                 remove: function (e) { e.deleteRows(url.DeleteRoles); },
                 right: function (e) {
                     e.selectRow(function (e) {
+                        //selectRight()
                         $.get(url.RightForm, function (str) {
                             layer.open({
                                 type: 1,
@@ -106,5 +107,34 @@
                 }
             }
         });
+
+        function selectRight(data, callback) {
+            var transfer = layui.transfer;
+            var userInfo = data.user.Name + '(' + data.user.UserName + ')';
+            layer.open({
+                type: 1, title: '设置权限 - ' + userInfo,
+                area: ['450px', '300px'],
+                content: '<div id="transUserRole"></div>',
+                btn: ['确定', '关闭'],
+                yes: function () {
+                    layer.close(layer.index);
+                    var data = transfer.getData('transUserRole');
+                    callback && callback(data);
+                },
+                btn2: function () {
+                    layer.close(layer.index);
+                },
+                success: function (layero, index) {
+                    transfer.render({
+                        id: 'transUserRole',
+                        elem: '#transUserRole',
+                        title: ['未选角色', '已选角色'],
+                        data: data.roles,
+                        value: data.value,
+                        width: 180, height: 205
+                    })
+                }
+            });
+        }
     });
 </script>

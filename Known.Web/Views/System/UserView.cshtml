@@ -159,18 +159,28 @@
                 edit: function (e) { e.editRow(form); },
                 remove: function (e) { e.deleteRows(url.DeleteUsers); },
                 imports: function (e) { },
-                role: function (e) { setUserRoles(e); },
+                role: function (e) {
+                    e.selectRow(function (e) {
+                        $.get(url.GetUserRoles, {
+                            userId: e.row.Id
+                        }, function (res) {
+                            selectRole({
+                                user: e.row, roles: res.roles, value: res.value
+                            }, function (data) {
+                                layer.alert(JSON.stringify(data));
+                            });
+                        });
+                    });
+                },
                 setPwd: function (e) {
                     e.selectRows(function (e) {
-                        layer.confirm('确定要将所选用户密码重置为默认密码？', function (index) {
-                            layer.close(index);
+                        helper.confirm('确定要将所选用户密码重置为默认密码？', function () {
                             $.post(url.SetUserPwds, {
                                 data: JSON.stringify(e.ids)
                             }, function (result) {
-                                layer.msg(result.message);
-                                if (result.ok) {
+                                helper.result(result, function () {
                                     e.grid.reload();
-                                }
+                                });
                             });
                         });
                     });
@@ -179,20 +189,6 @@
                 disable: function (e) { enableUsers(e, 0); }
             }
         });
-
-        function setUserRoles(e) {
-            e.selectRow(function (e) {
-                $.get(url.GetUserRoles, {
-                    userId: e.row.Id
-                }, function (res) {
-                    selectRole({
-                        user: e.row, roles: res.roles, value: res.value
-                    }, function (data) {
-                        layer.alert(JSON.stringify(data));
-                    });
-                });
-            });
-        }
 
         function selectRole(data, callback) {
             var transfer = layui.transfer;
@@ -226,15 +222,13 @@
         function enableUsers(e, enable) {
             var msg = enable === 1 ? '启用' : '停用';
             e.selectRows(function (e) {
-                layer.confirm('确定要' + msg + '所选用户？', function (index) {
-                    layer.close(index);
+                helper.confirm('确定要' + msg + '所选用户？', function () {
                     $.post(url.EnableUsers, {
                         data: JSON.stringify(e.ids), enable: enable
                     }, function (result) {
-                        layer.msg(result.message);
-                        if (result.ok) {
+                        helper.result(result, function () {
                             e.grid.reload();
-                        }
+                        });
                     });
                 });
             });
