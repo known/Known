@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 
-namespace Known.Core
+namespace Known.Web.Controllers
 {
-    public class DevController : Web.ControllerBase
+    public class DevController : ControllerBase
     {
         public ActionResult Index()
         {

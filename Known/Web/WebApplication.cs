@@ -3,20 +3,15 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Compilation;
-using System.Web.Mvc;
-using System.Web.Routing;
 
 namespace Known.Web
 {
-    public class MvcApplication : HttpApplication
+    public class WebApplication : HttpApplication
     {
-        protected void Application_Start(object sender, EventArgs e)
+        protected virtual void Application_Start(object sender, EventArgs e)
         {
             Environment.CurrentDirectory = HttpRuntime.AppDomainAppPath;
             InitialModules();
-            ViewEngines.Engines.RemoveAt(0);
-            WebConfig.RegisterFilters(GlobalFilters.Filters);
-            WebConfig.RegisterRoutes(RouteTable.Routes);
         }
 
         protected void Session_Start(object sender, EventArgs e)

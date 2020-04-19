@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{Layout = null;}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>@AppName</title>
+    <title>@ViewBag.AppName</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -16,7 +17,7 @@
 <body class="layui-layout-body">
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
-            <div class="layui-logo">@AppName</div>
+            <div class="layui-logo">@ViewBag.AppName</div>
             <ul class="layui-nav layui-layout-left" lay-filter="topMenu"></ul>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
@@ -79,9 +80,9 @@
                 admin = layui.admin;
 
             var url = {
-                GetUserMenus: '~/Home/GetUserMenus',
-                UserInfo: '~/Home/UserInfo',
-                SignOut: '~/signout'
+                GetUserMenus: '/Home/GetUserMenus',
+                UserInfo: '/Home/UserInfo',
+                SignOut: '/signout'
             };
 
             var topRight = {

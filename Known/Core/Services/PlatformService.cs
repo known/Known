@@ -14,7 +14,7 @@ namespace Known.Core.Services
         }
 
         #region Login
-        internal Result SignIn(string userName, string password)
+        public Result SignIn(string userName, string password)
         {
             var user = Repository.GetUser(Database, userName);
             if (user == null)
@@ -39,11 +39,11 @@ namespace Known.Core.Services
         #endregion
 
         #region Index
-        internal void SignOut(string userName)
+        public void SignOut(string userName)
         {
         }
 
-        internal List<MenuInfo> GetUserMenus(string userName)
+        public List<MenuInfo> GetUserMenus(string userName)
         {
             var menus = Repository.GetUserMenus(Database, userName);
             if (userName == "System")
@@ -57,7 +57,7 @@ namespace Known.Core.Services
         #endregion
 
         #region Welcome
-        internal PagingResult<object> GetTodoLists(PagingCriteria criteria)
+        public PagingResult<object> GetTodoLists(PagingCriteria criteria)
         {
             return new PagingResult<object>
             {
@@ -71,7 +71,7 @@ namespace Known.Core.Services
             };
         }
 
-        internal PagingResult<object> GetCompanyNews(PagingCriteria criteria)
+        public PagingResult<object> GetCompanyNews(PagingCriteria criteria)
         {
             return new PagingResult<object>
             {
@@ -92,13 +92,13 @@ namespace Known.Core.Services
         #endregion
 
         #region UserInfo
-        internal UserInfo GetUserInfo(string userName)
+        public UserInfo GetUserInfo(string userName)
         {
             var user = Repository.GetUser(Database, userName);
             return Utils.MapTo<UserInfo>(user);
         }
 
-        internal Result SaveUserInfo(dynamic model)
+        public Result SaveUserInfo(dynamic model)
         {
             var entity = Repository.GetUser(Database, (string)model.UserName);
             if (entity == null)
@@ -113,7 +113,7 @@ namespace Known.Core.Services
             return Result.Success("保存成功！", entity.Id);
         }
 
-        internal Result UpdatePassword(string userName, string oldPassword, string password, string repassword)
+        public Result UpdatePassword(string userName, string oldPassword, string password, string repassword)
         {
             var errors = new List<string>();
             if (string.IsNullOrWhiteSpace(oldPassword))

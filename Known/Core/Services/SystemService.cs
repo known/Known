@@ -4,7 +4,7 @@ using Known.Core.Entities;
 
 namespace Known.Core.Services
 {
-    class SystemService : ServiceBase
+    public class SystemService : ServiceBase
     {
         private const string DEFALUT_PWD = "123456";
 
@@ -14,12 +14,12 @@ namespace Known.Core.Services
         }
 
         #region Module
-        internal PagingResult<SysModule> QueryModules(PagingCriteria criteria)
+        public PagingResult<SysModule> QueryModules(PagingCriteria criteria)
         {
             return Repository.QueryModules(Database, criteria);
         }
 
-        internal Result DeleteModules(string[] ids)
+        public Result DeleteModules(string[] ids)
         {
             var entities = Database.QueryListById<SysModule>(ids);
             if (entities == null || entities.Count == 0)
@@ -40,17 +40,17 @@ namespace Known.Core.Services
             });
         }
 
-        internal List<SysModule> GetModules()
+        public List<SysModule> GetModules()
         {
             return Repository.GetModules(Database);
         }
 
-        internal SysModule GetModule(string id)
+        public SysModule GetModule(string id)
         {
             return Database.QueryById<SysModule>(id);
         }
 
-        internal Result SaveModule(dynamic model)
+        public Result SaveModule(dynamic model)
         {
             var entity = Database.QueryById<SysModule>((string)model.Id);
             if (entity == null)
@@ -67,12 +67,12 @@ namespace Known.Core.Services
         #endregion
 
         #region Role
-        internal PagingResult<SysRole> QueryRoles(PagingCriteria criteria)
+        public PagingResult<SysRole> QueryRoles(PagingCriteria criteria)
         {
             return Repository.QueryRoles(Database, criteria);
         }
 
-        internal Result DeleteRoles(string[] ids)
+        public Result DeleteRoles(string[] ids)
         {
             var entities = Database.QueryListById<SysRole>(ids);
             if (entities == null || entities.Count == 0)
@@ -87,7 +87,7 @@ namespace Known.Core.Services
             });
         }
 
-        internal List<SysRole> GetRoles()
+        public List<SysRole> GetRoles()
         {
             var roles = Repository.GetRoles(Database);
             if (roles == null)
@@ -96,12 +96,12 @@ namespace Known.Core.Services
             return roles;
         }
 
-        internal SysRole GetRole(string id)
+        public SysRole GetRole(string id)
         {
             return Database.QueryById<SysRole>(id);
         }
 
-        internal Result SaveRole(dynamic model)
+        public Result SaveRole(dynamic model)
         {
             var entity = Database.QueryById<SysRole>((string)model.Id);
             if (entity == null)
@@ -118,12 +118,12 @@ namespace Known.Core.Services
         #endregion
 
         #region User
-        internal PagingResult<SysUser> QueryUsers(PagingCriteria criteria)
+        public PagingResult<SysUser> QueryUsers(PagingCriteria criteria)
         {
             return Repository.QueryUsers(Database, criteria);
         }
 
-        internal Result DeleteUsers(string[] ids)
+        public Result DeleteUsers(string[] ids)
         {
             var entities = Database.QueryListById<SysUser>(ids);
             if (entities == null || entities.Count == 0)
@@ -138,7 +138,7 @@ namespace Known.Core.Services
             });
         }
 
-        internal Result SetUserPwds(string[] ids)
+        public Result SetUserPwds(string[] ids)
         {
             var entities = Database.QueryListById<SysUser>(ids);
             if (entities == null || entities.Count == 0)
@@ -154,7 +154,7 @@ namespace Known.Core.Services
             });
         }
 
-        internal Result EnableUsers(string[] ids, int enable)
+        public Result EnableUsers(string[] ids, int enable)
         {
             var entities = Database.QueryListById<SysUser>(ids);
             if (entities == null || entities.Count == 0)
@@ -171,12 +171,12 @@ namespace Known.Core.Services
             });
         }
 
-        internal SysUser GetUser(string id)
+        public SysUser GetUser(string id)
         {
             return Database.QueryById<SysUser>(id);
         }
 
-        internal Result SaveUser(dynamic model)
+        public Result SaveUser(dynamic model)
         {
             var entity = Database.QueryById<SysUser>((string)model.Id);
             if (entity == null)
@@ -194,7 +194,7 @@ namespace Known.Core.Services
             return Result.Success("保存成功！", entity.Id);
         }
 
-        internal string[] GetUserRoles(string userId)
+        public string[] GetUserRoles(string userId)
         {
             return new string[] { "f000509503d348068bce1fca93e534bd" };
         }

@@ -33,7 +33,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Known.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aspose.Cells, Version=17.8.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
@@ -53,9 +54,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc">
-      <HintPath>..\Library\System.Web.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
@@ -64,11 +62,9 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Core\Datas\ISystemRepository.cs" />
-    <Compile Include="Core\DevController.cs" />
     <Compile Include="Core\Entities\SysModule.cs" />
     <Compile Include="Core\Entities\SysRole.cs" />
     <Compile Include="Core\Entities\SysUser.cs" />
-    <Compile Include="Core\SystemController.cs" />
     <Compile Include="Core\Services\SystemService.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="Container.cs" />
@@ -76,42 +72,20 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="Core\HomeController.cs" />
     <Compile Include="Core\Datas\IPlatformRepository.cs" />
     <Compile Include="Core\MenuInfo.cs" />
     <Compile Include="Core\Services\PlatformService.cs" />
     <Compile Include="Core\UserInfo.cs" />
-    <Compile Include="Web\ControllerBase.cs" />
-    <Compile Include="Web\LoginAuthorizeAttribute.cs" />
-    <Compile Include="Web\MvcApplication.cs" />
+    <Compile Include="Web\CriteriaData.cs" />
+    <Compile Include="Web\WebApplication.cs" />
     <Compile Include="Web\ResViewEngine.cs" />
-    <Compile Include="Web\WebConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="log4net.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Core\Views\Home\Error.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Core\Views\Home\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Core\Views\Home\Login.cshtml" />
-    <EmbeddedResource Include="Core\Views\Home\NotFound.cshtml" />
-    <EmbeddedResource Include="Core\Views\Home\UserInfo.cshtml" />
-    <EmbeddedResource Include="Core\Views\Home\Welcome.cshtml" />
-    <EmbeddedResource Include="Core\Views\Layout.cshtml" />
-    <EmbeddedResource Include="Core\Views\System\ModuleView.cshtml" />
-    <EmbeddedResource Include="Core\Views\System\RoleView.cshtml" />
-    <EmbeddedResource Include="Core\Views\System\UserView.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Core\DevMenu.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Core\Views\System\Partials\RightForm.cshtml" />
+    <EmbeddedResource Include="DevMenu.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

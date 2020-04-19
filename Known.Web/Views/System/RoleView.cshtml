@@ -1,58 +1,56 @@
-﻿<template>
-    <div class="layui-fit">
-        <div class="fit-col">
-            <table id="gridRole" class="layui-hide" lay-filter="gridRole"></table>
-        </div>
+﻿<div class="layui-fit">
+    <div class="fit-col">
+        <table id="gridRole" class="layui-hide" lay-filter="gridRole"></table>
     </div>
-    <script type="text/html" id="tbRole">
-        <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="add">
-                <i class="layui-icon layui-icon-addition"></i>新增
-            </button>
-            <button class="layui-btn layui-btn-sm" lay-event="edit">
-                <i class="layui-icon layui-icon-edit"></i>编辑
-            </button>
-            <button class="layui-btn layui-btn-sm" lay-event="remove">
-                <i class="layui-icon layui-icon-delete"></i>删除
-            </button>
-            <button class="layui-btn layui-btn-sm" lay-event="right">
-                <i class="layui-icon layui-icon-component"></i>权限
-            </button>
-        </div>
-    </script>
-    <script type="text/html" id="dialogRole">
-        <table class="layui-form form" lay-filter="formRole">
-            <tr>
-                <th style="width:80px;">名称</th>
-                <td>
-                    <input type="hidden" name="Id">
-                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-                </td>
-            </tr>
-            <tr>
-                <th>状态</th>
-                <td>
-                    <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
-                </td>
-            </tr>
-            <tr>
-                <th>备注</th>
-                <td colspan="3">
-                    <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
-                </td>
-            </tr>
-        </table>
-    </script>
-</template>
+</div>
+<script type="text/html" id="tbRole">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">
+            <i class="layui-icon layui-icon-addition"></i>新增
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="edit">
+            <i class="layui-icon layui-icon-edit"></i>编辑
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="remove">
+            <i class="layui-icon layui-icon-delete"></i>删除
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="right">
+            <i class="layui-icon layui-icon-component"></i>权限
+        </button>
+    </div>
+</script>
+<script type="text/html" id="dialogRole">
+    <table class="layui-form form" lay-filter="formRole">
+        <tr>
+            <th style="width:80px;">名称</th>
+            <td>
+                <input type="hidden" name="Id">
+                <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+            </td>
+        </tr>
+        <tr>
+            <th>状态</th>
+            <td>
+                <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
+            </td>
+        </tr>
+        <tr>
+            <th>备注</th>
+            <td colspan="3">
+                <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
+            </td>
+        </tr>
+    </table>
+</script>
 
 <script>
     layui.define('helper', function (exports) {
         var url = {
-            QueryRoles: '~/System/QueryRoles',
-            DeleteRoles: '~/System/DeleteRoles',
-            GetRole: '~/System/GetRole',
-            SaveRole: '~/System/SaveRole',
-            RightForm: '~/System/RightForm'
+            QueryRoles: '/System/QueryRoles',
+            DeleteRoles: '/System/DeleteRoles',
+            GetRole: '/System/GetRole',
+            SaveRole: '/System/SaveRole',
+            RightForm: '/System/RightForm'
         };
 
         var $ = layui.jquery,

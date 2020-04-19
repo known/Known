@@ -12,7 +12,7 @@ namespace Known.Core
         public string Url { get; set; }
         public int Order { get; set; }
 
-        internal object ToTree()
+        public object ToTree()
         {
             return new
             {
@@ -25,7 +25,7 @@ namespace Known.Core
             };
         }
 
-        internal static object ToTree(SysModule module)
+        public static object ToTree(SysModule module)
         {
             return new
             {

@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
-using Known.Web;
 
-namespace Known.Core
+namespace Known.Web.Controllers
 {
-    public class HomeController : Web.ControllerBase
+    public class HomeController : ControllerBase
     {
         #region View
         [AllowAnonymous, Route("login")]

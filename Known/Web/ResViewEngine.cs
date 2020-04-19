@@ -1,27 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Web;
-using System.Web.Mvc;
 
 namespace Known.Web
 {
-    class ResViewEngine
+    public class ViewContext
+    {
+        public Assembly Assembly { get; set; }
+        public HttpContextBase HttpContext { get; set; }
+        public string Controller { get; set; }
+        public string Action { get; set; }
+        public string PartialName { get; set; }
+
+        public bool IsPartial
+        {
+            get { return !string.IsNullOrWhiteSpace(PartialName); }
+        }
+    }
+
+    public class ResViewEngine
     {
         private readonly static object obj = new object();
         private readonly static Dictionary<int, string> styles = new Dictionary<int, string>();
         private readonly static Dictionary<int, string> scripts = new Dictionary<int, string>();
 
-        internal static string GetView(ControllerContext context)
+        public static string GetView(ViewContext context)
         {
             return GetContent(context);
         }
 
-        internal static string GetPartial(ControllerContext context, string name)
-        {
-            return GetContent(context, true, name);
-        }
-
-        internal static string GetStyle(int id)
+        public static string GetStyle(int id)
         {
             if (!styles.ContainsKey(id))
                 return string.Empty;
@@ -34,7 +43,7 @@ namespace Known.Web
             styles[id] = style;
         }
 
-        internal static string GetScript(int id)
+        public static string GetScript(int id)
         {
             if (!scripts.ContainsKey(id))
                 return string.Empty;
@@ -47,17 +56,17 @@ namespace Known.Web
             scripts[id] = script;
         }
 
-        private static string GetContent(ControllerContext context, bool isPartial = false, string partialName = null)
+        private static string GetContent(ViewContext context)
         {
             var text = string.Empty;
-            var assembly = context.Controller.GetType().Assembly;
+            var assembly = context.Assembly;
 
             lock (obj)
             {
-                var controller = context.RouteData.Values["controller"];
-                var action = isPartial
-                           ? partialName.Replace("/", ".")
-                           : context.RouteData.Values["action"];
+                var controller = context.Controller;
+                var action = context.IsPartial
+                           ? context.PartialName.Replace("/", ".")
+                           : context.Action;
                 var name = $"{controller}.{action}";
                 text = Utils.GetResource(assembly, name);
             }
@@ -66,10 +75,10 @@ namespace Known.Web
                 return "<h1>Hello World!</h1>";
 
             var layout = string.Empty;
-            if (!isPartial && !text.Contains("<html>"))
+            if (!context.IsPartial && !text.Contains("<html>"))
                 layout = Utils.GetResource(assembly, "Views.Layout");
 
-            if (!isPartial)
+            if (!context.IsPartial)
             {
                 var parser = new ViewParser(context.HttpContext, text, layout);
                 lock (obj)
@@ -85,7 +94,9 @@ namespace Known.Web
 
         private static string ReplaceHtml(string html)
         {
-            return html.Replace("~/", "/").Replace("@AppName", Config.AppName);
+            return html.Replace("~/", "/")
+                       .Replace("@{Layout = null;}", "")
+                       .Replace("@ViewBag.AppName", Config.AppName);
         }
     }
 
@@ -106,26 +117,19 @@ namespace Known.Web
 
         public void Parse()
         {
-            var html = GetHtml(text);
-            if (string.IsNullOrWhiteSpace(html))
-                html = text;
-
             var script = GetScript(context, text);
             var style = GetStyle(context, text);
 
+            var html = text;
+            if (!string.IsNullOrWhiteSpace(style.Item2))
+                html = html.Replace(style.Item2, "")
+                           .Replace($"<style></style>{Environment.NewLine}", "");
+            if (!string.IsNullOrWhiteSpace(script.Item2))
+                html = html.Replace(script.Item2, "")
+                           .Replace($"<script></script>{Environment.NewLine}", "");
+
             if (!string.IsNullOrWhiteSpace(layout))
-            {
                 html = layout.Replace("<div id=\"app\"></div>", $"<div id=\"app\">{html}</div>");
-            }
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(style.Item2))
-                    html = html.Replace(style.Item2, "")
-                               .Replace($"<style></style>{Environment.NewLine}", ""); ;
-                if (!string.IsNullOrWhiteSpace(script.Item2))
-                    html = html.Replace(script.Item2, "")
-                               .Replace($"<script></script>{Environment.NewLine}", "");
-            }
 
             if (!string.IsNullOrWhiteSpace(style.Item1))
                 html = html.Replace("</head>", $"{style.Item1}{Environment.NewLine}</head>");
@@ -145,11 +149,6 @@ namespace Known.Web
             ResViewEngine.SetStyle(id, style.Replace("~/", "/"));
             var html = $"<link rel=\"stylesheet\" href=\"~/Home/Style?id={id}\" media=\"all\">";
             return new Tuple<string, string>(html, style);
-        }
-
-        private static string GetHtml(string text)
-        {
-            return SubString(text, "<template>", "</template>");
         }
 
         private static Tuple<string, string> GetScript(HttpContextBase context, string text)

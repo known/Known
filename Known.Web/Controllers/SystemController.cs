@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using Known.Core;
 using Known.Core.Services;
-using Known.Web;
 
-namespace Known.Core
+namespace Known.Web.Controllers
 {
-    public class SystemController : Web.ControllerBase
+    public class SystemController : ControllerBase
     {
         private SystemService Service { get; } = new SystemService();
 

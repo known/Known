@@ -1,101 +1,99 @@
-﻿<template>
-    <div class="layui-fit">
-        <div class="fit-col">
-            <table id="gridUser" class="layui-hide" lay-filter="gridUser"></table>
-        </div>
+﻿<div class="layui-fit">
+    <div class="fit-col">
+        <table id="gridUser" class="layui-hide" lay-filter="gridUser"></table>
     </div>
-    <script type="text/html" id="tbUser">
-        <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="add">
-                <i class="layui-icon layui-icon-addition"></i>新增
-            </button>
-            <button class="layui-btn layui-btn-sm" lay-event="edit">
-                <i class="layui-icon layui-icon-edit"></i>编辑
-            </button>
-            <button class="layui-btn layui-btn-sm" lay-event="remove">
-                <i class="layui-icon layui-icon-delete"></i>删除
-            </button>
-            <button class="layui-btn layui-btn-sm" lay-event="imports">
-                <i class="layui-icon layui-icon-add-1"></i>导入
-            </button>
-            <button class="layui-btn layui-btn-sm" lay-event="role">
-                <i class="layui-icon layui-icon-group"></i>角色
-            </button>
-            <button class="layui-btn layui-btn-sm" lay-event="setPwd">
-                <i class="layui-icon layui-icon-refresh"></i>重置密码
-            </button>
-            <button class="layui-btn layui-btn-sm" lay-event="enable">
-                <i class="layui-icon layui-icon-ok-circle"></i>启用
-            </button>
-            <button class="layui-btn layui-btn-sm" lay-event="disable">
-                <i class="layui-icon layui-icon-reduce-circle"></i>停用
-            </button>
-        </div>
-    </script>
-    <script type="text/html" id="dialogUser">
-        <table class="layui-form form" lay-filter="formUser">
-            <tr>
-                <th style="width:80px;">用户名</th>
-                <td>
-                    <input type="hidden" name="Id">
-                    <input type="text" name="UserName" lay-verify="required" placeholder="" readonly autocomplete="off" class="layui-input">
-                </td>
-                <th style="width:80px;">姓名</th>
-                <td>
-                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-                </td>
-                <th style="width:80px;">英文名</th>
-                <td>
-                    <input type="text" name="EnglishName" placeholder="" autocomplete="off" class="layui-input">
-                </td>
-            </tr>
-            <tr>
-                <th>座机</th>
-                <td>
-                    <input type="text" name="Phone" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
-                </td>
-                <th>手机</th>
-                <td>
-                    <input type="text" name="Mobile" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
-                </td>
-                <th>邮箱</th>
-                <td>
-                    <input type="text" name="Email" lay-verify="email" placeholder="" autocomplete="off" class="layui-input">
-                </td>
-            </tr>
-            <tr>
-                <th>性别</th>
-                <td>
-                    <input type="radio" name="Gender" value="男" title="男">
-                    <input type="radio" name="Gender" value="女" title="女" checked>
-                </td>
-                <th>状态</th>
-                <td colspan="3">
-                    <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
-                </td>
-            </tr>
-            <tr>
-                <th>备注</th>
-                <td colspan="5">
-                    <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
-                </td>
-            </tr>
-        </table>
-    </script>
-</template>
+</div>
+<script type="text/html" id="tbUser">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">
+            <i class="layui-icon layui-icon-addition"></i>新增
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="edit">
+            <i class="layui-icon layui-icon-edit"></i>编辑
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="remove">
+            <i class="layui-icon layui-icon-delete"></i>删除
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="imports">
+            <i class="layui-icon layui-icon-add-1"></i>导入
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="role">
+            <i class="layui-icon layui-icon-group"></i>角色
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="setPwd">
+            <i class="layui-icon layui-icon-refresh"></i>重置密码
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="enable">
+            <i class="layui-icon layui-icon-ok-circle"></i>启用
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="disable">
+            <i class="layui-icon layui-icon-reduce-circle"></i>停用
+        </button>
+    </div>
+</script>
+<script type="text/html" id="dialogUser">
+    <table class="layui-form form" lay-filter="formUser">
+        <tr>
+            <th style="width:80px;">用户名</th>
+            <td>
+                <input type="hidden" name="Id">
+                <input type="text" name="UserName" lay-verify="required" placeholder="" readonly autocomplete="off" class="layui-input">
+            </td>
+            <th style="width:80px;">姓名</th>
+            <td>
+                <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+            </td>
+            <th style="width:80px;">英文名</th>
+            <td>
+                <input type="text" name="EnglishName" placeholder="" autocomplete="off" class="layui-input">
+            </td>
+        </tr>
+        <tr>
+            <th>座机</th>
+            <td>
+                <input type="text" name="Phone" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
+            </td>
+            <th>手机</th>
+            <td>
+                <input type="text" name="Mobile" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
+            </td>
+            <th>邮箱</th>
+            <td>
+                <input type="text" name="Email" lay-verify="email" placeholder="" autocomplete="off" class="layui-input">
+            </td>
+        </tr>
+        <tr>
+            <th>性别</th>
+            <td>
+                <input type="radio" name="Gender" value="男" title="男">
+                <input type="radio" name="Gender" value="女" title="女" checked>
+            </td>
+            <th>状态</th>
+            <td colspan="3">
+                <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
+            </td>
+        </tr>
+        <tr>
+            <th>备注</th>
+            <td colspan="5">
+                <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
+            </td>
+        </tr>
+    </table>
+</script>
 
 <script>
     layui.define('helper', function (exports) {
         var url = {
-            QueryUsers: '~/System/QueryUsers',
-            DeleteUsers: '~/System/DeleteUsers',
-            ImportUsers: '~/System/ImportUsers',
-            SetUserPwds: '~/System/SetUserPwds',
-            EnableUsers: '~/System/EnableUsers',
-            GetUser: '~/System/GetUser',
-            SaveUser: '~/System/SaveUser',
-            GetUserRoles: '~/System/GetUserRoles',
-            SaveUserRoles: '~/System/SaveUserRoles',
+            QueryUsers: '/System/QueryUsers',
+            DeleteUsers: '/System/DeleteUsers',
+            ImportUsers: '/System/ImportUsers',
+            SetUserPwds: '/System/SetUserPwds',
+            EnableUsers: '/System/EnableUsers',
+            GetUser: '/System/GetUser',
+            SaveUser: '/System/SaveUser',
+            GetUserRoles: '/System/GetUserRoles',
+            SaveUserRoles: '/System/SaveUserRoles',
         };
 
         var $ = layui.jquery,
