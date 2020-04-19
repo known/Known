@@ -115,38 +115,47 @@ layui.define('index', function (exports) {
             toolbar = option.toolbar;
 
         var _this = this;
-        var btn = [], handler = {};
-        if (toolbar) {
-            for (var i = 0; i < toolbar.length; i++) {
-                btn.push(toolbar[i].text);
-                var evt = i === 0 ? 'yes' : ('btn' + (i + 1));
-                var hdl = toolbar[i].handler;
-                handler[evt] = function () {
-                    hdl && hdl.call(this, new FormManager(_this));
-                };
+        if (config.area) {
+            var btn = [], handler = {};
+            if (toolbar) {
+                for (var i = 0; i < toolbar.length; i++) {
+                    btn.push(toolbar[i].text);
+                    var evt = i === 0 ? 'yes' : ('btn' + (i + 1));
+                    var hdl = toolbar[i].handler;
+                    handler[evt] = function (index, layero) {
+                        hdl && hdl.call(this, new FormManager(_this));
+                    };
+                }
             }
+
+            handler['btn' + (btn.length + 1)] = function (index) {
+                layer.close(index);
+            };
+            btn.push('关闭');
+
+            $.extend(config, { btn: btn }, handler);
         }
 
-        handler['btn' + (btn.length + 1)] = function () {
-            layer.close(layer.index);
-        };
-        btn.push('关闭');
-
-        $.extend(config, { type: 1, btn: btn }, handler);
-
+        var index = 0;
         this.show = function (data) {
             data = data || option.defData;
-            var title = option.title || getCurTabTitle();
-            config.title = title + (data.Id === '' ? '【新增】' : '【编辑】');
-            config.success = function (layero, index) {
-                form.render(null, name);
-                _this.setData(data, config.init);
+            if (config.area) {
+                var title = option.title || getCurTabTitle();
+                config.title = title + (data.Id === '' ? '【新增】' : '【编辑】');
+                config.success = function (layero, index) {
+                    form.render(null, name);
+                    _this.setData(data, config.init);
+                }
+                index = helper.open(config);
+            } else {
+                this.setData(data, config.init);
             }
-            layer.open(config);
         }
 
         this.close = function () {
-            $('.layui-layer-close1').trigger('click');
+            if (index > 0) {
+                layer.close(index);
+            }
         }
 
         this.getField = function (id) {
@@ -217,19 +226,18 @@ layui.define('index', function (exports) {
             content += '</li>';
         });
         content += '</ul>';
-        layer.open({
-            type: 1, title: '选择图标',
+        helper.open({
+            title: '选择图标',
             area: ['400px', '250px'],
-            shade: 0,
             content: content,
             btn: ['确定', '关闭'],
-            yes: function () {
+            yes: function (index) {
                 var icon = $('.icon-list li.active').attr('id');
-                layer.close(layer.index);
+                layer.close(index);
                 callback && callback(icon);
             },
-            btn2: function () {
-                layer.close(layer.index);
+            btn2: function (index) {
+                layer.close(index);
             },
             success: function (layero, index) {
                 $('.icon-list li').click(function () {
@@ -285,6 +293,15 @@ layui.define('index', function (exports) {
                 return ele.pid === rootId;
             });
             return arr;
+        },
+        open: function (option) {
+            var type = 1;
+            if (option.url) {
+                type = 2;
+                option.content = option.url;
+            }
+            $.extend(option, { type: type });
+            return layer.open(option);
         },
         confirm: function (message, callback) {
             layer.confirm(message, function (index) {

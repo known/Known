@@ -14,6 +14,9 @@
         <button class="layui-btn layui-btn-sm" lay-event="addMod">
             <i class="layui-icon layui-icon-addition"></i>新增
         </button>
+        <button class="layui-btn layui-btn-sm" lay-event="copy">
+            <i class="layui-icon layui-icon-template-1"></i>复制
+        </button>
         <button class="layui-btn layui-btn-sm" lay-event="remove">
             <i class="layui-icon layui-icon-delete"></i>删除
         </button>
@@ -149,6 +152,11 @@
                     }
                     showForm(node.Id);
                 },
+                copy: function (e) {
+                    copyToModule(e, function (data) {
+                        console.log(data);
+                    });
+                },
                 remove: function (e) { deleteModules(e); },
                 edit: function (e) { e.editRow(form); },
                 del: function (e) { deleteModules(e); }
@@ -159,18 +167,44 @@
             form.show({ Id: '', ParentId: pid, Icon: 'layui-icon-file', Enabled: 1 });
         }
 
+        function copyToModule(e, callback) {
+            e.selectRows(function (e) {
+                helper.open({
+                    title: '复制到',
+                    area: ['250px', '200px'],
+                    content: '<div id="treeModule"></div>',
+                    btn: ['确定', '关闭'],
+                    yes: function () {
+                        var data = tree.getChecked('treeModule');;
+                        callback && callback(data);
+                        return true;
+                    },
+                    btn2: function (index) {
+                        layer.close(index);
+                    },
+                    success: function () {
+                        tree.render({
+                            id: 'treeModule', elem: '#treeModule',
+                            data: treeData, showCheckbox: true
+                        });
+                    }
+                });
+            });
+        }
+
         function deleteModules(e) {
             e.deleteRows(url.DeleteModules, function () {
                 renderTree();
             });
         }
 
+        var treeData;
         function renderTree() {
             $.get(url.GetModuleTree, function (result) {
-                var data = helper.toTree(result, '');
-                grid.setData(getGridData(data));
+                treeData = helper.toTree(result, '');
+                grid.setData(getGridData(treeData));
                 tree.render({
-                    elem: '#tree', data: data, onlyIconControl: true,
+                    elem: '#tree', data: treeData, onlyIconControl: true,
                     click: function (obj) {
                         node = obj.data.module;
                         var gridData = getGridData(obj.data.children);
@@ -180,14 +214,14 @@
             });
         }
 
-        function getGridData(treeData) {
-            var data = [];
-            if (treeData) {
-                treeData.forEach(function (d) {
-                    data.push(d.module);
+        function getGridData(data) {
+            var modules = [];
+            if (data) {
+                data.forEach(function (d) {
+                    modules.push(d.module);
                 });
             }
-            return data;
+            return modules;
         }
 
         //tree
