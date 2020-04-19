@@ -18,19 +18,9 @@ namespace Known.Web
             get { return User.Identity.Name; }
         }
 
-        
         public UserInfo CurrentUser
         {
-            get
-            {
-                var user = SessionHelper.GetUser();
-                if (user == null && User.Identity.IsAuthenticated)
-                {
-                    user = Platform.GetUserInfo(UserName);
-                    SessionHelper.SetUser(user);
-                }
-                return user;
-            }
+            get { return Platform.GetUserInfo(UserName); }
         }
 
         protected ActionResult ViewResult()

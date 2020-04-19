@@ -96,8 +96,14 @@ namespace Known.Core
         #region UserInfo
         public UserInfo GetUserInfo(string userName)
         {
-            var entity = Repository.GetUser(Database, userName);
-            return Utils.MapTo<UserInfo>(entity);
+            var user = SessionHelper.GetUser();
+            if (user == null && !string.IsNullOrWhiteSpace(userName))
+            {
+                var entity = Repository.GetUser(Database, userName);
+                user = Utils.MapTo<UserInfo>(entity);
+                SessionHelper.SetUser(user);
+            }
+            return user;
         }
 
         public Result SaveUserInfo(dynamic model)
