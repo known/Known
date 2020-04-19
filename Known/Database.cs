@@ -182,10 +182,10 @@ namespace Known
             ExecuteNonQuery(info);
         }
 
-        public void Insert<T>(T entity) where T : EntityBase
+        public T Insert<T>(T entity) where T : EntityBase
         {
             if (entity == null)
-                return;
+                return entity;
 
             entity.Id = Utils.GetGuid();
             entity.IsNew = true;
@@ -193,6 +193,7 @@ namespace Known
             entity.ModifyTime = null;
             entity.Version = 1;
             Save(entity);
+            return entity;
         }
 
         public void Save<T>(T entity) where T : EntityBase
