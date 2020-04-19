@@ -79,6 +79,7 @@
         var url = {
             GetModuleTree: '/System/GetModuleTree',
             DeleteModules: '/System/DeleteModules',
+            CopyModules: '/System/CopyModules',
             SaveModule: '/System/SaveModule'
         };
 
@@ -153,8 +154,16 @@
                     showForm(node.Id);
                 },
                 copy: function (e) {
-                    copyToModule(e, function (data) {
-                        console.log(data);
+                    e.selectRows(function (e) {
+                        copyToModule(function (data) {
+                            $.post(url.CopyModules, {
+                                data: JSON.stringify(e.ids), mid: data.Id
+                            }, function (result) {
+                                helper.result(result, function () {
+                                    renderTree();
+                                });
+                            });
+                        });
                     });
                 },
                 remove: function (e) { deleteModules(e); },
@@ -167,28 +176,28 @@
             form.show({ Id: '', ParentId: pid, Icon: 'layui-icon-file', Enabled: 1 });
         }
 
-        function copyToModule(e, callback) {
-            e.selectRows(function (e) {
-                helper.open({
-                    title: '复制到',
-                    area: ['250px', '200px'],
-                    content: '<div id="treeModule"></div>',
-                    btn: ['确定', '关闭'],
-                    yes: function () {
-                        var data = tree.getChecked('treeModule');;
-                        callback && callback(data);
-                        return true;
-                    },
-                    btn2: function (index) {
-                        layer.close(index);
-                    },
-                    success: function () {
-                        tree.render({
-                            id: 'treeModule', elem: '#treeModule',
-                            data: treeData, showCheckbox: true
-                        });
-                    }
-                });
+        var copyNode = null;
+        function copyToModule(callback) {
+            helper.open({
+                title: '复制到',
+                area: ['250px', '200px'],
+                content: '<div id="treeModule"></div>',
+                btn: ['确定', '关闭'],
+                yes: function (index) {
+                    callback && callback(copyNode);
+                    layer.close(index);
+                },
+                btn2: function (index) {
+                    layer.close(index);
+                },
+                success: function () {
+                    tree.render({
+                        id: 'treeModule', elem: '#treeModule',
+                        data: treeData, click: function (obj) {
+                            copyNode = obj.data.module;
+                        }
+                    });
+                }
             });
         }
 

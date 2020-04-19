@@ -49,6 +49,12 @@ namespace Known.Web.Controllers
             return PostAction<string[]>(data, d => Service.DeleteModules(d));
         }
 
+        [HttpPost]
+        public ActionResult CopyModules(string data, string mid)
+        {
+            return PostAction<string[]>(data, d => Service.CopyModules(d, mid));
+        }
+
         public ActionResult GetModule(string id)
         {
             return JsonResult(Service.GetModule(id));

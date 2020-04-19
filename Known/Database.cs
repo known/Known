@@ -182,6 +182,19 @@ namespace Known
             ExecuteNonQuery(info);
         }
 
+        public void Insert<T>(T entity) where T : EntityBase
+        {
+            if (entity == null)
+                return;
+
+            entity.Id = Utils.GetGuid();
+            entity.IsNew = true;
+            entity.ModifyBy = null;
+            entity.ModifyTime = null;
+            entity.Version = 1;
+            Save(entity);
+        }
+
         public void Save<T>(T entity) where T : EntityBase
         {
             if (entity == null)

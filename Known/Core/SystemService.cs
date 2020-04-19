@@ -39,6 +39,26 @@ namespace Known.Core
             });
         }
 
+        public Result CopyModules(string[] ids, string mid)
+        {
+            var module = Database.QueryById<SysModule>(mid);
+            if (module == null)
+                return Result.Error("所选模块不存在！");
+
+            var entities = Database.QueryListById<SysModule>(ids);
+            if (entities == null || entities.Count == 0)
+                return Result.Error("请至少选择一条记录进行操作！");
+
+            return Database.Transaction("复制", db =>
+            {
+                foreach (var item in entities)
+                {
+                    item.ParentId = module.Id;
+                    db.Insert(item);
+                }
+            });
+        }
+
         public List<SysModule> GetModules()
         {
             return Repository.GetModules(Database);
