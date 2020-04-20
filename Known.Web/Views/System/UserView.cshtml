@@ -175,12 +175,10 @@
                 setPwd: function (e) {
                     e.selectRows(function (e) {
                         helper.confirm('确定要将所选用户密码重置为默认密码？', function () {
-                            $.post(url.SetUserPwds, {
+                            helper.post(url.SetUserPwds, {
                                 data: JSON.stringify(e.ids)
-                            }, function (result) {
-                                helper.result(result, function () {
-                                    e.grid.reload();
-                                });
+                            }, function () {
+                                e.grid.reload();
                             });
                         });
                     });
@@ -193,8 +191,8 @@
         function selectRole(data, callback) {
             var transfer = layui.transfer;
             var userInfo = data.user.Name + '(' + data.user.UserName + ')';
-            layer.open({
-                type: 1, title: '设置角色 - ' + userInfo,
+            helper.open({
+                title: '设置角色 - ' + userInfo,
                 area: ['450px', '300px'],
                 content: '<div id="transUserRole"></div>',
                 btn: ['确定', '关闭'],
@@ -206,7 +204,7 @@
                 btn2: function () {
                     layer.close(layer.index);
                 },
-                success: function (layero, index) {
+                success: function () {
                     transfer.render({
                         id: 'transUserRole',
                         elem: '#transUserRole',
@@ -223,12 +221,10 @@
             var msg = enable === 1 ? '启用' : '停用';
             e.selectRows(function (e) {
                 helper.confirm('确定要' + msg + '所选用户？', function () {
-                    $.post(url.EnableUsers, {
+                    helper.post(url.EnableUsers, {
                         data: JSON.stringify(e.ids), enable: enable
-                    }, function (result) {
-                        helper.result(result, function () {
-                            e.grid.reload();
-                        });
+                    }, function () {
+                        e.grid.reload();
                     });
                 });
             });

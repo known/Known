@@ -105,30 +105,26 @@
                     });
                 },
                 logout: function () {
-                    layer.confirm('确定要退出系统？', function (index) {
+                    helper.confirm('确定要退出系统？', function () {
                         $.post(url.SignOut, function (result) {
                             layer.msg(result.message);
                             window.location = '/login';
                         });
-                        layer.close(index);
                     });
                 }
             };
 
-            $.ajax({
-                url: url.GetUserMenus, async: false,
-                success: function (res) {
-                    $('#userName').html(res.user.Name);
-                    admin.init({
-                        data: res,
-                        callback: function () {
-                            $('.top-right').on('click', function () {
-                                var othis = $(this), type = othis.data('type');
-                                topRight[type] ? topRight[type].call(this, othis) : '';
-                            });
-                        }
-                    });
-                }
+            $.get(url.GetUserMenus, function (res) {
+                $('#userName').html(res.user.Name);
+                admin.init({
+                    data: res,
+                    callback: function () {
+                        $('.top-right').on('click', function () {
+                            var othis = $(this), type = othis.data('type');
+                            topRight[type] ? topRight[type].call(this, othis) : '';
+                        });
+                    }
+                });
             });
         });
     </script>

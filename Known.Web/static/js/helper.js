@@ -87,11 +87,9 @@ layui.define('index', function (exports) {
             var length = e.rows.length;
             var msg = length > 1 ? ('所选的' + length + '条记录') : '该记录';
             helper.confirm('确定要删除' + msg + '吗？', function () {
-                $.post(url, { data: JSON.stringify(e.ids) }, function (result) {
-                    helper.result(result, function () {
-                        e.grid.reload();
-                        callback && callback(e);
-                    });
+                helper.post(url, { data: JSON.stringify(e.ids) }, function () {
+                    e.grid.reload();
+                    callback && callback(e);
                 });
             });
         }
@@ -179,13 +177,11 @@ layui.define('index', function (exports) {
 
         this.save = function (url, callback) {
             var data = form.getData();
-            $.post(url, { data: JSON.stringify(data) }, function (result) {
-                helper.result(result, function () {
-                    data.Id = result.data;
-                    form.setData(data);
-                    form.close();
-                    callback && callback();
-                });
+            helper.post(url, { data: JSON.stringify(data) }, function (id) {
+                data.Id = id;
+                form.setData(data);
+                form.close();
+                callback && callback();
             });
         }
     }
@@ -309,11 +305,13 @@ layui.define('index', function (exports) {
                 layer.close(index);
             });
         },
-        result: function (result, callback) {
-            layer.msg(result.message);
-            if (result.ok) {
-                callback && callback();
-            }
+        post: function (url, data, callback) {
+            $.post(url, data, function (result) {
+                layer.msg(result.message);
+                if (result.ok) {
+                    callback && callback(result.data);
+                }
+            });
         },
         selectIcon: function (icon, callback) {
             selectIcon(icon, callback);

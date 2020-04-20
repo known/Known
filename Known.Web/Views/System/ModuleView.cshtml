@@ -156,12 +156,10 @@
                 copy: function (e) {
                     e.selectRows(function (e) {
                         copyToModule(function (data) {
-                            $.post(url.CopyModules, {
+                            helper.post(url.CopyModules, {
                                 data: JSON.stringify(e.ids), mid: data.Id
-                            }, function (result) {
-                                helper.result(result, function () {
-                                    renderTree();
-                                });
+                            }, function () {
+                                renderTree();
                             });
                         });
                     });

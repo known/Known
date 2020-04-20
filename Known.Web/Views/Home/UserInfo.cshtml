@@ -129,7 +129,7 @@
 
         var $ = layui.jquery,
             form = layui.form,
-            layer = layui.layer;
+            helper = layui.helper;
 
         $.get(url.GetUserInfo, function (result) {
             form.val('formUserInfo', result);
@@ -140,10 +140,8 @@
         });
 
         form.on('submit(saveUserInfo)', function (data) {
-            $.post(url.SaveUserInfo, {
+            helper.post(url.SaveUserInfo, {
                 data: JSON.stringify(data.field)
-            }, function (result) {
-                layer.msg(result.message);
             });
             return false;
         });
@@ -157,9 +155,7 @@
         });
 
         form.on('submit(savePassword)', function (data) {
-            $.post(url.UpdatePassword, data.field, function (result) {
-                layer.msg(result.message);
-            });
+            helper.post(url.UpdatePassword, data.field);
             return false;
         });
     });
