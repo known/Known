@@ -54,7 +54,8 @@ layui.define('index', function (exports) {
             var tab = $('.layui-tab-title .layui-this');
             var id = tab.attr('lay-id');
             var title = tab.children('span').text();
-            return { id: id, title: title };
+            var module = this.option.data.menus.find(m => m.id === id);
+            return { id: id, title: title, module: module };
         }
     };
 

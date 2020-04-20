@@ -52,6 +52,7 @@ input:read-only {
     padding: 5px;
 }
 .layui-table-tool .layui-btn {
+    margin-left: 0;
     margin-right: 2px;
 }
 
@@ -95,7 +96,8 @@ input:read-only {
 }
 .layui-fit .layui-table-tool {
     padding: 5px;
-    min-height: 30px;
+    min-height: 40px;
+    line-height: normal;
     background-color: #fff;
 }
 .layui-fit .layui-table-tool-self {

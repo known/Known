@@ -3,22 +3,6 @@
         <table id="gridRole" class="layui-hide" lay-filter="gridRole"></table>
     </div>
 </div>
-<script type="text/html" id="tbRole">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">
-            <i class="layui-icon layui-icon-addition"></i>新增
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="edit">
-            <i class="layui-icon layui-icon-edit"></i>编辑
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="remove">
-            <i class="layui-icon layui-icon-delete"></i>删除
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="right">
-            <i class="layui-icon layui-icon-component"></i>权限
-        </button>
-    </div>
-</script>
 <script type="text/html" id="dialogRole">
     <table class="layui-form form" lay-filter="formRole">
         <tr>
@@ -76,7 +60,7 @@
         var grid = helper.grid({
             name: 'gridRole',
             config: {
-                url: url.QueryRoles, toolbar: '#tbRole', height: 'full-25',
+                url: url.QueryRoles, height: 'full-25',
                 cols: [[
                     { type: 'numbers', fixed: 'left' },
                     { type: 'checkbox', fixed: 'left' },
@@ -96,13 +80,7 @@
                 remove: function (e) { e.deleteRows(url.DeleteRoles); },
                 right: function (e) {
                     e.selectRow(function (e) {
-                        //selectRight()
-                        $.get(url.RightForm, function (str) {
-                            layer.open({
-                                type: 1,
-                                content: str
-                            });
-                        });
+                        selectRight(e.row);
                     });
                 }
             }
@@ -110,9 +88,8 @@
 
         function selectRight(data, callback) {
             var transfer = layui.transfer;
-            var userInfo = data.user.Name + '(' + data.user.UserName + ')';
-            layer.open({
-                type: 1, title: '设置权限 - ' + userInfo,
+            helper.open({
+                title: '设置权限 - ' + data.Name,
                 area: ['450px', '300px'],
                 content: '<div id="transUserRole"></div>',
                 btn: ['确定', '关闭'],
@@ -124,7 +101,7 @@
                 btn2: function () {
                     layer.close(layer.index);
                 },
-                success: function (layero, index) {
+                success: function () {
                     transfer.render({
                         id: 'transUserRole',
                         elem: '#transUserRole',

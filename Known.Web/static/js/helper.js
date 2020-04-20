@@ -4,9 +4,8 @@ layui.define('index', function (exports) {
         form = layui.form,
         table = layui.table;
 
-    function getCurTabTitle() {
-        var tab = top.layui.admin.getCurTab();
-        return tab ? tab.title : '';
+    function getCurTab() {
+        return top.layui.admin.getCurTab();
     }
 
     function Grid(option) {
@@ -16,19 +15,25 @@ layui.define('index', function (exports) {
         var tableIns = null;
 
         $.extend(config, {
-            skin: 'line', page: true, cellMinWidth: 80,
+            elem: '#' + name, skin: 'line', page: true, cellMinWidth: 80,
             defaultToolbar: [{
                 title: '搜索', icon: 'layui-icon-search', layEvent: 'search'
             }, 'filter', 'exports', 'print']
         });
 
-        config.elem = '#' + name;
-        if (config.url) {
-            config.method = 'post';
-            tableIns = table.render(config);
-        }
-
         if (toolbar) {
+            var tab = getCurTab();
+            if (tab.module && tab.module.children) {
+                var tbHtml = '<div class="layui-btn-container">';
+                tab.module.children.forEach(function (d) {
+                    tbHtml += ('<button class="layui-btn layui-btn-sm" lay-event="' + d.code + '">');
+                    tbHtml += ('<i class="layui-icon ' + d.icon + '"></i>' + d.title);
+                    tbHtml += '</button>';
+                });
+                tbHtml += '</div>';
+                config.toolbar = tbHtml;
+            }
+
             var _this = this;
             table.on('toolbar(' + name + ')', function (obj) {
                 var type = obj.event;
@@ -39,6 +44,11 @@ layui.define('index', function (exports) {
                 var type = obj.event;
                 toolbar[type] && toolbar[type].call(this, new GridManager(_this, [obj.data]));
             });
+        }
+
+        if (config.url) {
+            config.method = 'post';
+            tableIns = table.render(config);
         }
 
         this.setData = function (data) {
@@ -138,9 +148,13 @@ layui.define('index', function (exports) {
         this.show = function (data) {
             data = data || option.defData;
             if (config.area) {
-                var title = option.title || getCurTabTitle();
+                var title = option.title;
+                if (!title) {
+                    var tab = getCurTab();
+                    title = tab ? tab.title : '';
+                }
                 config.title = title + (data.Id === '' ? '【新增】' : '【编辑】');
-                config.success = function (layero, index) {
+                config.success = function () {
                     form.render(null, name);
                     _this.setData(data, config.init);
                 }

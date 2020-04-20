@@ -3,34 +3,6 @@
         <table id="gridUser" class="layui-hide" lay-filter="gridUser"></table>
     </div>
 </div>
-<script type="text/html" id="tbUser">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">
-            <i class="layui-icon layui-icon-addition"></i>新增
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="edit">
-            <i class="layui-icon layui-icon-edit"></i>编辑
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="remove">
-            <i class="layui-icon layui-icon-delete"></i>删除
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="imports">
-            <i class="layui-icon layui-icon-add-1"></i>导入
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="role">
-            <i class="layui-icon layui-icon-group"></i>角色
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="setPwd">
-            <i class="layui-icon layui-icon-refresh"></i>重置密码
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="enable">
-            <i class="layui-icon layui-icon-ok-circle"></i>启用
-        </button>
-        <button class="layui-btn layui-btn-sm" lay-event="disable">
-            <i class="layui-icon layui-icon-reduce-circle"></i>停用
-        </button>
-    </div>
-</script>
 <script type="text/html" id="dialogUser">
     <table class="layui-form form" lay-filter="formUser">
         <tr>
@@ -126,7 +98,7 @@
         var grid = helper.grid({
             name: 'gridUser',
             config: {
-                url: url.QueryUsers, toolbar: '#tbUser', height: 'full-25',
+                url: url.QueryUsers, height: 'full-25',
                 cols: [[
                     { type: 'numbers', fixed: 'left' },
                     { type: 'checkbox', fixed: 'left' },
