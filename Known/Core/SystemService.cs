@@ -35,6 +35,7 @@ namespace Known.Core
                 foreach (var item in entities)
                 {
                     db.Delete(item);
+                    Repository.DeleteModuleRights(db, item.Id);
                 }
             });
         }
@@ -102,6 +103,8 @@ namespace Known.Core
                 foreach (var item in entities)
                 {
                     db.Delete(item);
+                    Repository.DeleteRoleUsers(db, item.Id);
+                    Repository.DeleteRoleModules(db, item.Id);
                 }
             });
         }
@@ -134,6 +137,26 @@ namespace Known.Core
             Database.Save(entity);
             return Result.Success("保存成功！", entity.Id);
         }
+
+        public List<string> GetRoleModules(string roleId)
+        {
+            return Repository.GetRoleModules(Database, roleId);
+        }
+
+        public Result SaveRoleModules(string roleId, List<string> moduleIds)
+        {
+            return Database.Transaction("保存", db =>
+            {
+                Repository.DeleteRoleModules(db, roleId);
+                if (moduleIds != null && moduleIds.Count > 0)
+                {
+                    foreach (var item in moduleIds)
+                    {
+                        Repository.AddRoleModule(db, roleId, item);
+                    }
+                }
+            });
+        }
         #endregion
 
         #region User
@@ -153,6 +176,8 @@ namespace Known.Core
                 foreach (var item in entities)
                 {
                     db.Delete(item);
+                    Repository.DeleteUserRoles(db, item.Id);
+                    Repository.DeleteUserModules(db, item.Id);
                 }
             });
         }
@@ -228,6 +253,26 @@ namespace Known.Core
                     foreach (var item in roleIds)
                     {
                         Repository.AddUserRole(db, userId, item);
+                    }
+                }
+            });
+        }
+
+        public List<string> GetUserModules(string userId)
+        {
+            return Repository.GetUserModules(Database, userId);
+        }
+
+        public Result SaveUserModules(string userId, List<string> moduleIds)
+        {
+            return Database.Transaction("保存", db =>
+            {
+                Repository.DeleteUserModules(db, userId);
+                if (moduleIds != null && moduleIds.Count > 0)
+                {
+                    foreach (var item in moduleIds)
+                    {
+                        Repository.AddUserModule(db, userId, item);
                     }
                 }
             });
