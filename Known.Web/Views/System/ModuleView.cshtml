@@ -188,11 +188,13 @@
                 btn2: function (index) {
                     layer.close(index);
                 },
-                success: function () {
+                success: function (layero) {
                     tree.render({
                         id: 'treeModule', elem: '#treeModule',
                         data: treeData, click: function (obj) {
                             copyNode = obj.data.module;
+                            var title = '复制到 - ' + copyNode.Name;
+                            $(layero).find('.layui-layer-title').html(title);
                         }
                     });
                 }
