@@ -91,7 +91,29 @@ namespace Known
             if (close)
                 conn.Close();
 
-            return (T)scalar;
+            return Utils.ConvertTo<T>(scalar);
+        }
+
+        public List<T> Scalars<T>(string sql, object param = null)
+        {
+            var data = new List<T>();
+            var cmd = conn.CreateCommand();
+            var info = new CommandInfo(prefix, sql, param);
+            PrepareCommand(conn, cmd, trans, info, out bool close);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var obj = Utils.ConvertTo<T>(reader[0]);
+                    data.Add(obj);
+                }
+            }
+
+            cmd.Parameters.Clear();
+            if (close)
+                conn.Close();
+
+            return data;
         }
 
         public T QuerySingle<T>(string sql, object param = null)

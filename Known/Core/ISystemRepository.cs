@@ -18,6 +18,9 @@ namespace Known.Core
 
         #region User
         PagingResult<SysUser> QueryUsers(Database db, PagingCriteria criteria);
+        List<string> GetUserRoles(Database db, string userId);
+        void DeleteUserRoles(Database db, string userId);
+        void AddUserRole(Database db, string userId, string roleId);
         #endregion
     }
 
@@ -62,6 +65,24 @@ namespace Known.Core
         {
             var sql = "select * from SysUser where UserName<>'System'";
             return db.QueryPage<SysUser>(sql, criteria);
+        }
+
+        public List<string> GetUserRoles(Database db, string userId)
+        {
+            var sql = "select RoleId from SysUserRole where UserId=@userId";
+            return db.Scalars<string>(sql, new { userId });
+        }
+
+        public void DeleteUserRoles(Database db, string userId)
+        {
+            var sql = "delete from SysUserRole where UserId=@userId";
+            db.Execute(sql, new { userId });
+        }
+
+        public void AddUserRole(Database db, string userId, string roleId)
+        {
+            var sql = "insert into SysUserRole(UserId,RoleId) values(@userId,@roleId)";
+            db.Execute(sql, new { userId, roleId });
         }
         #endregion
     }

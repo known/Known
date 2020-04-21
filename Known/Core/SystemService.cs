@@ -213,9 +213,24 @@ namespace Known.Core
             return Result.Success("保存成功！", entity.Id);
         }
 
-        public string[] GetUserRoles(string userId)
+        public List<string> GetUserRoles(string userId)
         {
-            return new string[] { "f000509503d348068bce1fca93e534bd" };
+            return Repository.GetUserRoles(Database, userId);
+        }
+
+        public Result SaveUserRoles(string userId, List<string> roleIds)
+        {
+            return Database.Transaction("保存", db =>
+            {
+                Repository.DeleteUserRoles(db, userId);
+                if (roleIds != null && roleIds.Count > 0)
+                {
+                    foreach (var item in roleIds)
+                    {
+                        Repository.AddUserRole(db, userId, item);
+                    }
+                }
+            });
         }
         #endregion
     }

@@ -35,18 +35,54 @@
     "Url": "/Dev/CodeView",
     "Order": 2
   },
+  //{
+  //  "Id": "D02",
+  //  "ParentId": "D0",
+  //  "Code": "Page",
+  //  "Name": "系统管理",
+  //  "Icon": "layui-icon-set-sm",
+  //  "Url": "",
+  //  "Order": 2
+  //},
+  //{
+  //  "Id": "D0201",
+  //  "ParentId": "D02",
+  //  "Code": "Role",
+  //  "Name": "角色管理",
+  //  "Icon": "layui-icon-user",
+  //  "Url": "/System/RoleView",
+  //  "Order": 1
+  //},
+  //{
+  //  "Id": "D0202",
+  //  "ParentId": "D02",
+  //  "Code": "User",
+  //  "Name": "用户管理",
+  //  "Icon": "layui-icon-username",
+  //  "Url": "/System/UserView",
+  //  "Order": 2
+  //},
   {
-    "Id": "D02",
+    "Id": "D0203",
+    "ParentId": "D02",
+    "Code": "Dictionary",
+    "Name": "数据字典",
+    "Icon": "layui-icon-list",
+    "Url": "/Base/Dictionary",
+    "Order": 3
+  },
+  {
+    "Id": "D03",
     "ParentId": "D0",
     "Code": "Page",
     "Name": "标准页面",
     "Icon": "layui-icon-file",
     "Url": "",
-    "Order": 2
+    "Order": 3
   },
   {
-    "Id": "D0201",
-    "ParentId": "D02",
+    "Id": "D0301",
+    "ParentId": "D03",
     "Code": "NotFound",
     "Name": "404",
     "Icon": "layui-icon-404",
@@ -54,8 +90,8 @@
     "Order": 1
   },
   {
-    "Id": "D0202",
-    "ParentId": "D02",
+    "Id": "D0302",
+    "ParentId": "D03",
     "Code": "Error",
     "Name": "505",
     "Icon": "layui-icon-face-cry",

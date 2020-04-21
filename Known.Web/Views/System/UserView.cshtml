@@ -139,7 +139,10 @@
                             selectRole({
                                 user: e.row, roles: res.roles, value: res.value
                             }, function (data) {
-                                layer.alert(JSON.stringify(data));
+                                helper.post(url.SaveUserRoles, {
+                                    userId: e.row.Id,
+                                    data: JSON.stringify(data)
+                                });
                             });
                         });
                     });
@@ -149,8 +152,6 @@
                         helper.confirm('确定要将所选用户密码重置为默认密码？', function () {
                             helper.post(url.SetUserPwds, {
                                 data: JSON.stringify(e.ids)
-                            }, function () {
-                                e.grid.reload();
                             });
                         });
                     });

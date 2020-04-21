@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Known.Core;
+using Known.Core.Entities;
 
 namespace Known.Web.Controllers
 {
@@ -128,9 +130,24 @@ namespace Known.Web.Controllers
             return PostAction<dynamic>(data, d => Service.SaveUser(d));
         }
 
+        class RoleValue
+        {
+            public string value { get; set; }
+            public string title { get; set; }
+
+            internal static RoleValue Create(SysRole role)
+            {
+                return new RoleValue
+                {
+                    value = role.Id,
+                    title = role.Name
+                };
+            } 
+        }
+
         public ActionResult GetUserRoles(string userId)
         {
-            var roles = Service.GetRoles().Select(r => new { value = r.Id, title = r.Name });
+            var roles = Service.GetRoles().Select(r => RoleValue.Create(r));
             var value = Service.GetUserRoles(userId);
             return JsonResult(new { roles, value });
         }
@@ -138,7 +155,11 @@ namespace Known.Web.Controllers
         [HttpPost]
         public ActionResult SaveUserRoles(string userId, string data)
         {
-            return null;
+            return PostAction<List<RoleValue>>(data, d =>
+            {
+                var roleIds = d.Select(r => r.value).ToList();
+                return Service.SaveUserRoles(userId, roleIds);
+            });
         }
         #endregion
     }
