@@ -6,14 +6,14 @@
 <script type="text/html" id="dialogRole">
     <table class="layui-form form" lay-filter="formRole">
         <tr>
-            <th style="width:80px;">名称</th>
+            <th style="width:80px;" class="required">名称</th>
             <td>
                 <input type="hidden" name="Id">
                 <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
             </td>
         </tr>
         <tr>
-            <th>状态</th>
+            <th class="required">状态</th>
             <td>
                 <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
             </td>
