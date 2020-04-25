@@ -73,8 +73,6 @@
     <script>
         layui.use(['helper', 'admin'], function () {
             var $ = layui.jquery,
-                layer = layui.layer,
-                helper = layui.helper,
                 admin = layui.admin;
 
             var url = {
@@ -83,44 +81,11 @@
                 SignOut: '/signout'
             };
 
-            var topRight = {
-                fullScreen: function () {
-                    helper.fullScreen();
-                    $(this).data('type', 'exitScreen')
-                        .html('<i class="layui-icon layui-icon-screen-restore"></i>');
-                },
-                exitScreen: function () {
-                    helper.exitScreen();
-                    $(this).data('type', 'fullScreen')
-                        .html('<i class="layui-icon layui-icon-screen-full"></i>');
-                },
-                userInfo: function () {
-                    admin.addTab({
-                        id: 'userInfo',
-                        text: $(this).text(),
-                        icon: $(this).find('i')[0].outerHTML,
-                        url: url.UserInfo
-                    });
-                },
-                logout: function () {
-                    helper.confirm('确定要退出系统？', function () {
-                        $.post(url.SignOut, function (result) {
-                            layer.msg(result.message);
-                            window.location = '/login';
-                        });
-                    });
-                }
-            };
-
             $.get(url.GetUserMenus, function (res) {
                 $('#userName').html(res.user.Name);
                 admin.init({
-                    data: res,
+                    url: url, data: res,
                     callback: function () {
-                        $('.top-right').on('click', function () {
-                            var othis = $(this), type = othis.data('type');
-                            topRight[type] ? topRight[type].call(this, othis) : '';
-                        });
                         $('.loader').fadeOut();
                     }
                 });
