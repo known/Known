@@ -182,8 +182,8 @@
                 content: '<div id="treeModule"></div>',
                 btn: ['确定', '关闭'],
                 yes: function (index) {
-                    callback && callback(copyNode);
                     layer.close(index);
+                    callback && callback(copyNode);
                 },
                 btn2: function (index) {
                     layer.close(index);
@@ -224,13 +224,8 @@
         }
 
         function getGridData(data) {
-            var modules = [];
-            if (data) {
-                data.forEach(function (d) {
-                    modules.push(d.module);
-                });
-            }
-            return modules;
+            if (!data) return [];
+            return data.map(d => d.module);
         }
 
         //tree
