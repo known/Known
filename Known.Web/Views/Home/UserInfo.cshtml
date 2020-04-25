@@ -32,24 +32,24 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">用户名</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="UserName" value="" readonly class="layui-input">
+                                <input type="text" name="UserName" readonly class="layui-input">
                             </div>
                             <div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">姓名</label>
+                            <label class="layui-form-label required">姓名</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="Name" value="" lay-verify="Name" lay-verType="tips" autocomplete="off" placeholder="请输入昵称" class="layui-input">
+                                <input type="text" name="Name" lay-verify="Name" autocomplete="off" placeholder="请输入昵称" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">英文名</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="EnglishName" value="" lay-verify="EnglishName" lay-verType="tips" autocomplete="off" placeholder="请输入昵称" class="layui-input">
+                                <input type="text" name="EnglishName" lay-verify="EnglishName" autocomplete="off" placeholder="请输入昵称" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">性别</label>
+                            <label class="layui-form-label required">性别</label>
                             <div class="layui-input-block">
                                 <input type="radio" name="Gender" value="男" title="男">
                                 <input type="radio" name="Gender" value="女" title="女" checked>
@@ -58,19 +58,19 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">座机</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="Phone" value="" lay-verify="phone" lay-verType="tips" autocomplete="off" class="layui-input">
+                                <input type="text" name="Phone" lay-verify="phone" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">手机</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="Mobile" value="" lay-verify="phone" lay-verType="tips" autocomplete="off" class="layui-input">
+                                <input type="text" name="Mobile" lay-verify="phone" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">邮箱</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="Email" value="" lay-verify="email" lay-verType="tips" autocomplete="off" class="layui-input">
+                                <input type="text" name="Email" lay-verify="email" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item layui-form-text">
@@ -89,22 +89,22 @@
                 <div class="layui-tab-item">
                     <div class="layui-form" lay-filter="formPassword">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">当前密码</label>
+                            <label class="layui-form-label required">当前密码</label>
                             <div class="layui-input-inline">
-                                <input type="password" name="oldPassword" lay-verify="required" lay-verType="tips" class="layui-input">
+                                <input type="password" name="oldPassword" lay-verify="required" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">新密码</label>
+                            <label class="layui-form-label required">新密码</label>
                             <div class="layui-input-inline">
-                                <input type="password" id="password" name="password" lay-verify="required|pass" lay-verType="tips" autocomplete="off" class="layui-input">
+                                <input type="password" id="password" name="password" lay-verify="required|pass" autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-form-mid layui-word-aux">6到16个字符</div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">确认新密码</label>
+                            <label class="layui-form-label required">确认新密码</label>
                             <div class="layui-input-inline">
-                                <input type="password" name="repassword" lay-verify="required|repass" lay-verType="tips" autocomplete="off" class="layui-input">
+                                <input type="password" name="repassword" lay-verify="required|repass" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
