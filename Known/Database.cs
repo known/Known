@@ -167,6 +167,13 @@ namespace Known
             return true;
         }
 
+        public List<T> QueryAll<T>() where T : EntityBase
+        {
+            var tableName = typeof(T).Name;
+            var sql = $"select * from {tableName} order by CreateTime";
+            return QueryList<T>(sql);
+        }
+
         public T QueryById<T>(string id) where T : EntityBase
         {
             if (string.IsNullOrWhiteSpace(id))

@@ -61,13 +61,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="Core\ISystemRepository.cs" />
     <Compile Include="Core\Entities\SysDictionary.cs" />
     <Compile Include="Core\Entities\SysModule.cs" />
     <Compile Include="Core\Entities\SysRole.cs" />
     <Compile Include="Core\Entities\SysUser.cs" />
+    <Compile Include="Core\Repositories\IUserRepository.cs" />
+    <Compile Include="Core\Repositories\IRoleRepository.cs" />
+    <Compile Include="Core\Repositories\IModuleRepository.cs" />
+    <Compile Include="Core\Services\RoleService.cs" />
+    <Compile Include="Core\Services\UserService.cs" />
+    <Compile Include="Core\Services\ModuleService.cs" />
     <Compile Include="Core\Services\ProfileService.cs" />
-    <Compile Include="Core\SystemService.cs" />
     <Compile Include="Core\Services\WelcomeService.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="Container.cs" />
