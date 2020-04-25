@@ -15,9 +15,13 @@
     <link rel="stylesheet" href="~/static/css/index.css" media="all">
 </head>
 <body class="layui-layout-body">
+    <div class="loader"><div class="loader-inner"></div></div>
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
             <div class="layui-logo">@ViewBag.AppName</div>
+            <div class="layui-tool">
+                <i title="展开" class="layui-icon layui-icon-shrink-right" data-side="1"></i>
+            </div>
             <ul class="layui-nav layui-layout-left" lay-filter="topMenu"></ul>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
@@ -33,27 +37,23 @@
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="javascript:;" class="top-right" data-type="userInfo">
-                                <i class="layui-icon layui-icon-username"></i>
-                                个人中心
+                                <i class="layui-icon layui-icon-username"></i> 个人中心
                             </a>
                         </dd>
                         <dd>
                             <a href="javascript:;" class="top-right" data-type="logout">
-                                <i class="layui-icon layui-icon-logout"></i>
-                                安全退出
+                                <i class="layui-icon layui-icon-logout"></i> 安全退出
                             </a>
                         </dd>
                     </dl>
                 </li>
             </ul>
         </div>
-
         <div class="layui-side layui-bg-black">
             <div class="layui-side-scroll">
                 <ul class="layui-nav layui-nav-tree" lay-filter="leftMenu"></ul>
             </div>
         </div>
-
         <div class="layui-body">
             <div class="layui-tab layui-tab-brief" lay-filter="tabMenu" lay-allowclose="true">
                 <ul class="layui-tab-title">
@@ -66,10 +66,8 @@
                 </div>
             </div>
         </div>
-
         <div class="layui-footer">© 2019-2020 - Known</div>
     </div>
-
     <script src="~/static/layui/layui.all.js"></script>
     <script src="~/static/js/index.js"></script>
     <script>
@@ -123,6 +121,7 @@
                             var othis = $(this), type = othis.data('type');
                             topRight[type] ? topRight[type].call(this, othis) : '';
                         });
+                        $('.loader').fadeOut();
                     }
                 });
             });
