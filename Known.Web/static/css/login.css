@@ -1,4 +1,5 @@
-﻿html, body {
+﻿/*Star Background*/
+html, body {
     height: 100%;
     background-color: #f2f2f2;
     color: #666;
@@ -11,11 +12,15 @@ body {
     overflow: hidden;
     color: #fff;
 }
+a {
+    color: #fff;
+}
 
 @keyframes rotate {
     0% {
         transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
     }
+
     100% {
         transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);
     }
@@ -43,31 +48,21 @@ body {
     backface-visibility: hidden;
 }
 
-.layui-layout-body {
-    overflow: auto
-}
-
+/*Login Body*/
 .login {
     position: relative;
     left: 0;
     top: 0;
     padding: 100px 0;
     min-height: 100%;
-    box-sizing: border-box
-}
-
-.login-main {
+    box-sizing: border-box;
     width: 375px;
     margin: 0 auto;
-    box-sizing: border-box
-}
-
-.login-box {
-    padding: 20px
 }
 
 .login-header {
-    text-align: center
+    text-align: center;
+    padding: 20px;
 }
 
     .login-header h2 {
@@ -76,127 +71,44 @@ body {
         font-size: 30px;
     }
 
-    .login-header p {
-        font-weight: 300;
-    }
-
-.login-body .layui-form-item {
-    position: relative
+.login-body {
+    padding: 20px;
 }
 
-.login-icon {
+.layui-form-item {
+    position: relative;
+}
+
+.layui-icon {
     position: absolute;
     left: 1px;
     top: 1px;
     width: 38px;
     line-height: 36px;
     text-align: center;
-    color: #d2d2d2
+    color: #d2d2d2;
 }
 
-.login-body .layui-form-item .layui-input {
-    padding-left: 38px
+.layui-input {
+    padding-left: 38px;
 }
 
-.login-codeimg {
-    max-height: 38px;
-    width: 100%;
-    cursor: pointer;
-    box-sizing: border-box
-}
-
-.login-other {
-    position: relative;
-    font-size: 0;
-    line-height: 38px;
-    padding-top: 20px
-}
-
-    .login-other > * {
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 10px;
-        font-size: 14px
-    }
-
-    .login-other .layui-icon {
-        position: relative;
-        top: 2px;
-        font-size: 26px
-    }
-
-    .login-other a:hover {
-        opacity: .8
-    }
-
-.jump-change {
-    float: right
-}
-
+/*Login Footer*/
 .login-footer {
     position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
     line-height: 30px;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
     box-sizing: border-box;
 }
 
-    .login-footer span {
-        padding: 0 5px
-    }
-
-    .login-footer a {
-        padding: 0 5px;
-        color: #fff;
-    }
-
-.login-main[bgimg] {
-    background-color: #fff;
-    box-shadow: 0 0 5px rgba(0,0,0,.05)
-}
-
-.login-theme {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center
-}
-
-    .login-theme ul {
-        display: inline-block;
-        padding: 5px;
-        background-color: #fff
-    }
-
-        .login-theme ul li {
-            display: inline-block;
-            vertical-align: top;
-            width: 64px;
-            height: 43px;
-            cursor: pointer;
-            transition: all .3s;
-            -webkit-transition: all .3s;
-            background-color: #f2f2f2
-        }
-
-            .login-theme ul li:hover {
-                opacity: .9
-            }
-
 @media screen and (max-width:768px) {
     .login {
-        padding-top: 60px
-    }
-
-    .login-main {
-        width: 300px
-    }
-
-    .login-box {
-        padding: 10px
+        padding-top: 60px;
+        width: 300px;
+        padding: 10px;
     }
 }
