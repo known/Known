@@ -66,7 +66,9 @@
     <Compile Include="Core\Entities\SysModule.cs" />
     <Compile Include="Core\Entities\SysRole.cs" />
     <Compile Include="Core\Entities\SysUser.cs" />
+    <Compile Include="Core\Services\ProfileService.cs" />
     <Compile Include="Core\SystemService.cs" />
+    <Compile Include="Core\Services\WelcomeService.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Core\Initializer.cs" />

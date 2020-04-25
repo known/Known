@@ -193,6 +193,8 @@
     <Compile Include="Code\WebConfig.cs" />
     <Compile Include="Controllers\DevController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Home\ProfileController.cs" />
+    <Compile Include="Controllers\Home\WelcomeController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -50,9 +50,7 @@ namespace Known.Web.Controllers
             FormsAuthentication.SetAuthCookie(userName, remember);
             return SuccessResult("登录成功！", result.Data);
         }
-        #endregion
 
-        #region Index
         [HttpPost, Route("signout")]
         public ActionResult SignOut()
         {
@@ -68,44 +66,6 @@ namespace Known.Web.Controllers
             var data = Platform.GetUserMenus(UserName);
             var menus = data.Select(m => m.ToTree());
             return JsonResult(new { user, menus });
-        }
-        #endregion
-
-        #region Welcome
-        public ActionResult GetTodoLists()
-        {
-            var data = new CriteriaData();
-            return QueryPagingData(data, c => Platform.GetTodoLists(c));
-        }
-
-        public ActionResult GetCompanyNews()
-        {
-            var data = new CriteriaData();
-            return QueryPagingData(data, c => Platform.GetCompanyNews(c));
-        }
-
-        public ActionResult GetShortCuts()
-        {
-            return null;
-        }
-        #endregion
-
-        #region UserInfo
-        public ActionResult GetUserInfo()
-        {
-            return JsonResult(Platform.GetUserInfo(UserName));
-        }
-
-        [HttpPost]
-        public ActionResult SaveUserInfo(string data)
-        {
-            return PostAction<dynamic>(data, d => Platform.SaveUserInfo(d));
-        }
-
-        [HttpPost]
-        public ActionResult UpdatePassword(string oldPassword, string password, string repassword)
-        {
-            return JsonResult(Platform.UpdatePassword(CurrentUser, oldPassword, password, repassword));
         }
         #endregion
 
