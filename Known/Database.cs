@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -161,7 +163,7 @@ namespace Known
             };
         }
 
-        public bool Exists<T>(Expression<Func<T, bool>> func) where T:EntityBase
+        public bool Exists<T>(Expression<Func<T, bool>> func) where T : EntityBase
         {
             var where = ExpressionHelper.Route(func);
             return true;
@@ -636,25 +638,57 @@ select t.* from (
 
     public class Result
     {
-        private Result(bool isValid, string message, object data)
+        private readonly List<string> errors = new List<string>();
+        private readonly string message;
+
+        private Result(string message, object data)
         {
-            IsValid = isValid;
-            Message = message;
+            errors.Clear();
+            this.message = message;
             Data = data;
         }
 
-        public bool IsValid { get; }
-        public string Message { get; }
+        public bool IsValid
+        {
+            get { return errors.Count == 0; }
+        }
+
+        public string Message
+        {
+            get
+            {
+                if (errors.Count == 0)
+                    return message;
+
+                return string.Join(Environment.NewLine, errors);
+            }
+        }
+
         public object Data { get; }
+
+        public void AddError(string message)
+        {
+            errors.Add(message);
+        }
+
+        public void Validate(bool broken, string message)
+        {
+            if (broken)
+            {
+                AddError(message);
+            }
+        }
 
         public static Result Error(string message, object data = null)
         {
-            return new Result(false, message, data);
+            var result = new Result("", data);
+            result.AddError(message);
+            return result;
         }
 
         public static Result Success(string message, object data = null)
         {
-            return new Result(true, message, data);
+            return new Result(message, data);
         }
     }
 
@@ -718,7 +752,105 @@ select t.* from (
 
         public Result Validate()
         {
-            return Result.Success("");
+            var result = Result.Success("");
+            var errors = new List<string>();
+            var type = GetType();
+            var properties = type.GetProperties();
+
+            foreach (var pi in properties)
+            {
+                var attr = pi.GetCustomAttribute<ColumnAttribute>();
+                if (attr != null)
+                {
+                    var value = pi.GetValue(this, null);
+                    attr.Validate(value, pi.PropertyType, errors);
+                }
+            }
+
+            if (errors.Count > 0)
+                errors.ForEach(m => result.AddError(m));
+
+            return result;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class ColumnAttribute : Attribute
+    {
+        public ColumnAttribute(
+            string description,
+            string columnName = null,
+            bool required = false,
+            string minLength = null,
+            string maxLength = null,
+            string dateFormat = null)
+        {
+            Description = description;
+            ColumnName = columnName;
+            Required = required;
+            MinLength = minLength;
+            MaxLength = maxLength;
+            DateFormat = dateFormat;
+        }
+
+        public string Description { get; }
+        public string ColumnName { get; }
+        public bool Required { get; }
+        public string MinLength { get; }
+        public string MaxLength { get; }
+        public string DateFormat { get; }
+
+        public virtual void Validate(object value, Type type, List<string> errors)
+        {
+            var valueString = value == null ? "" : value.ToString().Trim();
+            if (Required && string.IsNullOrWhiteSpace(valueString))
+            {
+                errors.Add($"{Description}不能为空！");
+                return;
+            }
+            else if (!string.IsNullOrWhiteSpace(valueString))
+            {
+                var length = GetByteLength(valueString);
+                if (!string.IsNullOrWhiteSpace(MinLength) && length < int.Parse(MinLength))
+                    errors.Add($"{Description}最少为{MinLength}位字符！");
+                if (!string.IsNullOrWhiteSpace(MaxLength) && length < int.Parse(MaxLength))
+                    errors.Add($"{Description}最多为{MaxLength}位字符！");
+
+                var typeName = type.FullName;
+                if (typeName.Contains("System.Int32"))
+                {
+                    if (!int.TryParse(value.ToString(), out _))
+                        errors.Add($"{Description}必须是整数！");
+                }
+
+                if (typeName.Contains("System.Decimal"))
+                {
+                    if (!decimal.TryParse(value.ToString(), out _))
+                        errors.Add($"{Description}必须是数值型！");
+                }
+
+                if (typeName.Contains("System.DateTime"))
+                {
+                    if (string.IsNullOrWhiteSpace(DateFormat))
+                    {
+                        if (!DateTime.TryParse(value.ToString(), out _))
+                            errors.Add($"{Description}必须是日期时间型！");
+                    }
+                    else
+                    {
+                        if (!DateTime.TryParseExact(valueString, DateFormat, null, DateTimeStyles.None, out _))
+                            errors.Add($"{Description}必须是{DateFormat}格式的日期时间型！");
+                    }
+                }
+            }
+        }
+
+        private static int GetByteLength(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return 0;
+
+            return Encoding.Default.GetBytes(value).Length;
         }
     }
 }
