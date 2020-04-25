@@ -20,6 +20,9 @@ namespace Known.Core
             if (entity == null)
                 return Result.Error("用户名不存在！");
 
+            if (entity.Enabled == 0)
+                return Result.Error("用户已禁用！");
+
             var pwd = Utils.ToMd5(password);
             if (entity.Password != pwd)
                 return Result.Error("密码不正确！");
@@ -47,14 +50,15 @@ namespace Known.Core
 
         public List<MenuInfo> GetUserMenus(string userName)
         {
-            var menus = Repository.GetUserMenus(Database, userName);
             if (userName == "System")
             {
+                var menus = Repository.GetMenus(Database);
                 var dev = Utils.GetResource(GetType().Assembly, "DevMenu");
                 menus.InsertRange(0, Utils.FromJson<List<MenuInfo>>(dev));
+                return menus;
             }
 
-            return menus;
+            return Repository.GetUserMenus(Database, userName);
         }
         #endregion
 
