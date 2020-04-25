@@ -210,7 +210,7 @@
         var treeData;
         function renderTree() {
             $.get(url.GetModuleTree, function (result) {
-                treeData = helper.toTree(result, '');
+                treeData = helper.list2Tree(result, '');
                 grid.setData(getGridData(treeData));
                 tree.render({
                     elem: '#tree', data: treeData, onlyIconControl: true,

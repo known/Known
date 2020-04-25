@@ -82,8 +82,7 @@ layui.define('index', function (exports) {
                 return;
             }
 
-            var ids = [];
-            rows.forEach(function (d) { ids.push(d.Id); });
+            var ids = rows.map(d => d.Id);
             callback && callback({ grid: grid, rows: rows, ids: ids });
         }
 
@@ -285,24 +284,16 @@ layui.define('index', function (exports) {
                 }
             }
         },
-        toTree: function (arr, rootId) {
-            arr.forEach(function (element) {
-                var parentId = element.pid;
-                if (parentId) {
-                    arr.forEach(function (ele) {
-                        if (ele.id === parentId) {
-                            if (!ele.children) {
-                                ele.children = [];
-                            }
-                            ele.children.push(element);
-                        }
-                    });
-                }
+        list2Tree: function (data, pid) {
+            return data.filter(father => {
+                let branchArr = data.filter(child => father['id'] === child['pid']);
+                branchArr.length > 0 ? father['children'] = branchArr : '';
+                return father['pid'] === pid;
             });
-            arr = arr.filter(function (ele) {
-                return ele.pid === rootId;
-            });
-            return arr;
+        },
+        tree2List: function (data, pid) {
+            return data.reduce((arr, { id, title, children = [] }) =>
+                arr.concat([{ id, title, pid }], this.tree2List(children, id)), []);
         },
         open: function (option) {
             var type = 1;

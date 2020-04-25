@@ -34,7 +34,8 @@
             DeleteRoles: '/System/DeleteRoles',
             GetRole: '/System/GetRole',
             SaveRole: '/System/SaveRole',
-            RightForm: '/System/RightForm'
+            GetRoleModules: '/System/GetRoleModules',
+            SaveRoleModules: '/System/SaveRoleModules'
         };
 
         var $ = layui.jquery,
@@ -80,36 +81,43 @@
                 remove: function (e) { e.deleteRows(url.DeleteRoles); },
                 right: function (e) {
                     e.selectRow(function (e) {
-                        selectRight(e.row);
+                        selectRight(e.row, function (data) {
+                            var ids = data.map(d => d.id);
+                            helper.post(url.SaveRoleModules, {
+                                roleId: e.row.Id,
+                                data: JSON.stringify(ids)
+                            });
+                        });
                     });
                 }
             }
         });
 
         function selectRight(data, callback) {
-            var transfer = layui.transfer;
+            var tree = layui.tree;
             helper.open({
                 title: '设置权限 - ' + data.Name,
                 area: ['450px', '300px'],
-                content: '<div id="transUserRole"></div>',
+                content: '<div id="treeRoleRight"></div>',
                 btn: ['确定', '关闭'],
                 yes: function () {
                     layer.close(layer.index);
-                    var data = transfer.getData('transUserRole');
-                    callback && callback(data);
+                    var data = tree.getChecked('treeRoleRight');
+                    callback && callback(helper.tree2List(data, ''));
                 },
                 btn2: function () {
                     layer.close(layer.index);
                 },
                 success: function () {
-                    transfer.render({
-                        id: 'transUserRole',
-                        elem: '#transUserRole',
-                        title: ['未选角色', '已选角色'],
-                        data: data.roles,
-                        value: data.value,
-                        width: 180, height: 205
-                    })
+                    $.get(url.GetRoleModules, {
+                        roleId: data.Id
+                    }, function (result) {
+                        var treeData = helper.list2Tree(result, '');
+                        tree.render({
+                            id: 'treeRoleRight', elem: '#treeRoleRight',
+                            data: treeData, showCheckbox: true
+                        });
+                    });
                 }
             });
         }

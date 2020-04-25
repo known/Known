@@ -92,6 +92,17 @@ namespace Known.Web.Controllers
         {
             return PostAction<dynamic>(data, d => Service.SaveRole(d));
         }
+
+        public ActionResult GetRoleModules(string roleId)
+        {
+            var modules = Service.GetRoleModules(roleId);
+            return JsonResult(modules.Select(m => m.ToTree()));
+        }
+
+        public ActionResult SaveRoleModules(string roleId, string data)
+        {
+            return PostAction<List<string>>(data, d => Service.SaveRoleModules(roleId, d));
+        }
         #endregion
 
         #region User

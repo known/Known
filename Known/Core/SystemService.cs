@@ -138,7 +138,7 @@ namespace Known.Core
             return Result.Success("保存成功！", entity.Id);
         }
 
-        public List<string> GetRoleModules(string roleId)
+        public List<MenuInfo> GetRoleModules(string roleId)
         {
             return Repository.GetRoleModules(Database, roleId);
         }

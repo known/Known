@@ -16,7 +16,7 @@ namespace Known.Core
         PagingResult<SysRole> QueryRoles(Database db, PagingCriteria criteria);
         List<SysRole> GetRoles(Database db);
         void DeleteRoleUsers(Database db, string roleId);
-        List<string> GetRoleModules(Database db, string roleId);
+        List<MenuInfo> GetRoleModules(Database db, string roleId);
         void DeleteRoleModules(Database db, string roleId);
         void AddRoleModule(Database db, string roleId, string moduleId);
         #endregion
@@ -82,10 +82,13 @@ namespace Known.Core
             db.Execute(sql, new { roleId });
         }
 
-        public List<string> GetRoleModules(Database db, string roleId)
+        public List<MenuInfo> GetRoleModules(Database db, string roleId)
         {
-            var sql = "select ModuleId from SysRoleModule where RoleId=@roleId";
-            return db.Scalars<string>(sql, new { roleId });
+            var sql = @"
+select a.*,case when b.ModuleId is not null then 1 else 0 end Checked
+from SysModule a
+left join (select * from SysRoleModule where RoleId=@roleId) b on b.ModuleId=a.Id";
+            return db.QueryList<MenuInfo>(sql, new { roleId });
         }
 
         public void DeleteRoleModules(Database db, string roleId)

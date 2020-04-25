@@ -17,6 +17,7 @@ namespace Known.Core
         public string Name { get; set; }
         public string Icon { get; set; }
         public string Url { get; set; }
+        public bool Checked { get; set; }
         public int Order { get; set; }
 
         public object ToTree()
@@ -28,7 +29,8 @@ namespace Known.Core
                 code = Code,
                 title = Name,
                 icon = Icon,
-                url = Url
+                url = Url,
+                @checked = Checked,
             };
         }
 
