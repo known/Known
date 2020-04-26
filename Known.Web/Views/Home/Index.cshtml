@@ -24,7 +24,22 @@
             </div>
             <ul class="layui-nav layui-layout-left" lay-filter="topMenu"></ul>
             <ul class="layui-nav layui-layout-right">
-                <li class="layui-nav-item">
+                <li class="layui-nav-item" title="刷新页面">
+                    <a href="javascript:;" class="top-right" data-type="refresh">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" title="分享系统">
+                    <a href="javascript:;" class="top-right" data-type="share">
+                        <i class="layui-icon layui-icon-share"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" title="清理服务端缓存">
+                    <a href="javascript:;" class="top-right" data-type="cache">
+                        <i class="layui-icon layui-icon-delete"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" title="全屏切换">
                     <a href="javascript:;" class="top-right" data-type="fullScreen">
                         <i class="layui-icon layui-icon-screen-full"></i>
                     </a>
@@ -77,6 +92,7 @@
 
             var url = {
                 GetUserMenus: '/Home/GetUserMenus',
+                RefreshCache: '/Home/RefreshCache',
                 UserInfo: '/Home/UserInfo',
                 SignOut: '/signout'
             };

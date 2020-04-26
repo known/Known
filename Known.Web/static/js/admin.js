@@ -88,6 +88,17 @@ layui.define('index', function (exports) {
     }
 
     var topRight = {
+        refresh: function () {
+            var iframe = $('.layui-layout-admin .layui-tab-content .layui-show iframe');
+            var url = iframe.attr('src');
+            iframe.attr('src', url);
+        },
+        share: function () {
+
+        },
+        cache: function () {
+            helper.post(admin.option.url.RefreshCache);
+        },
         fullScreen: function () {
             fullScreen();
             $(this).data('type', 'exitScreen')

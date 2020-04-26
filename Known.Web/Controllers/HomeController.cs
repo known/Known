@@ -70,6 +70,11 @@ namespace Known.Web.Controllers
         #endregion
 
         #region Utils
+        public ActionResult RefreshCache()
+        {
+            return SuccessResult("刷新成功！");
+        }
+
         public ActionResult Style(int id)
         {
             var style = ResViewEngine.GetStyle(id);
