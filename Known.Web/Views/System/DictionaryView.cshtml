@@ -1,0 +1,115 @@
+﻿<div class="layui-fit">
+    <div class="fit-col" style="width:240px;">
+        <div id="listCategory"></div>
+    </div>
+    <div class="fit-col" style="left:260px;">
+        <table id="gridDictionary" class="layui-hide" lay-filter="gridDictionary"></table>
+    </div>
+</div>
+<script type="text/html" id="dialogDictionary">
+    <table class="layui-form form" lay-filter="formDictionary">
+        <tr>
+            <th style="width:80px;" class="required">代码</th>
+            <td>
+                <input type="hidden" name="Id">
+                <input type="hidden" name="Category">
+                <input type="hidden" name="CategoryName">
+                <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+            </td>
+            <th style="width:80px;" class="required">名称</th>
+            <td>
+                <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+            </td>
+        </tr>
+        <tr>
+            <th class="required">状态</th>
+            <td>
+                <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
+            </td>
+            <th class="required">顺序</th>
+            <td>
+                <input type="text" name="Sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+            </td>
+        </tr>
+        <tr>
+            <th>备注</th>
+            <td colspan="3">
+                <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script>
+    layui.use('helper', function () {
+        var url = {
+            QueryDictionarys: '/Dictionary/QueryDictionarys',
+            DeleteDictionarys: '/Dictionary/DeleteDictionarys',
+            GetDictionary: '/Dictionary/GetDictionary',
+            SaveDictionary: '/Dictionary/SaveDictionary'
+        };
+
+        var $ = layui.jquery,
+            layer = layui.layer,
+            helper = layui.helper;
+
+        var form = helper.form({
+            name: 'formDictionary',
+            defData: { Id: '', Enabled: 1 },
+            config: {
+                area: ['450px', '255px'],
+                content: $('#dialogDictionary').html()
+            },
+            toolbar: [{
+                text: '保存', handler: function (e) {
+                    e.save(url.SaveDictionary, function () {
+                        grid.reload();
+                    });
+                }
+            }]
+        });
+
+        var category = null;
+        var grid = helper.grid({
+            name: 'gridDictionary',
+            config: {
+                url: url.QueryDictionarys, height: 'full-25',
+                cols: [[
+                    { type: 'numbers', fixed: 'left' },
+                    { type: 'checkbox', fixed: 'left' },
+                    { sort: true, title: '代码', field: 'Code', width: 150 },
+                    { sort: true, title: '名称', field: 'Name', width: 150 },
+                    {
+                        sort: true, title: '状态', field: 'Enabled', width: 100, templet: function (d) {
+                            var checked = d.Enabled ? ' checked' : '';
+                            return '<input type="checkbox" lay-skin="switch" lay-text="启用|停用" disabled' + checked + '>';
+                        }
+                    },
+                    { sort: true, title: '顺序', field: 'Sort', width: 100, align: 'center' },
+                    { sort: true, title: '备注', field: 'Note' }
+                ]]
+            },
+            toolbar: {
+                addCat: function (e) { showForm(); },
+                add: function (e) {
+                    if (!category) {
+                        layer.msg('请选择字典类别！');
+                        return;
+                    }
+                    showForm(category);
+                },
+                edit: function (e) { e.editRow(form); },
+                remove: function (e) { e.deleteRows(url.DeleteDictionarys); },
+                imports: function (e) { }
+            }
+        });
+
+        function showForm(category) {
+            category = category || {};
+            form.show({
+                Id: '', Enabled: 1,
+                Category: category.id, CategoryName: category.text
+            });
+        }
+    });
+</script>

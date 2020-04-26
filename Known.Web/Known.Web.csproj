@@ -196,6 +196,7 @@
     <Compile Include="Controllers\Home\ProfileController.cs" />
     <Compile Include="Controllers\Home\WelcomeController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
+    <Compile Include="Controllers\System\DictionaryController.cs" />
     <Compile Include="Controllers\System\RoleController.cs" />
     <Compile Include="Controllers\System\UserController.cs" />
     <Compile Include="Controllers\System\ModuleController.cs" />
@@ -232,7 +233,7 @@
     <EmbeddedResource Include="Views\System\ModuleView.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\System\Partials\RightForm.cshtml" />
+    <EmbeddedResource Include="Views\System\DictionaryView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\System\RoleView.cshtml" />

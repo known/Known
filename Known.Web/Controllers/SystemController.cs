@@ -20,9 +20,9 @@ namespace Known.Web.Controllers
             return ViewResult();
         }
 
-        public ActionResult RightForm()
+        public ActionResult DictionaryView()
         {
-            return PartialResult("Partials/RightForm");
+            return ViewResult();
         }
         #endregion
     }

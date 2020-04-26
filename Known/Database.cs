@@ -764,7 +764,8 @@ select t.* from (
                     var errors = new List<string>();
                     var value = pi.GetValue(this, null);
                     attr.Validate(value, pi.PropertyType, errors);
-                    dicError.Add(pi.Name, errors);
+                    if (errors.Count > 0)
+                        dicError.Add(pi.Name, errors);
                 }
             }
 
@@ -821,7 +822,7 @@ select t.* from (
                 var length = GetByteLength(valueString);
                 if (!string.IsNullOrWhiteSpace(MinLength) && length < int.Parse(MinLength))
                     errors.Add($"{Description}最少为{MinLength}位字符！");
-                if (!string.IsNullOrWhiteSpace(MaxLength) && length < int.Parse(MaxLength))
+                if (!string.IsNullOrWhiteSpace(MaxLength) && length > int.Parse(MaxLength))
                     errors.Add($"{Description}最多为{MaxLength}位字符！");
 
                 var typeName = type.FullName;
