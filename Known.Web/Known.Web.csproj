@@ -197,6 +197,7 @@
     <Compile Include="Controllers\Home\WelcomeController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Controllers\System\DictionaryController.cs" />
+    <Compile Include="Controllers\System\OrganizationController.cs" />
     <Compile Include="Controllers\System\RoleController.cs" />
     <Compile Include="Controllers\System\UserController.cs" />
     <Compile Include="Controllers\System\ModuleController.cs" />
@@ -244,6 +245,7 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="static\data\chart.json" />
+    <EmbeddedResource Include="Views\System\OrganizationView.cshtml" />
     <None Include="Views\_Layout.cshtml" />
     <None Include="Views\Web.config" />
   </ItemGroup>

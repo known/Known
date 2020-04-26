@@ -63,13 +63,16 @@
     <Compile Include="Config.cs" />
     <Compile Include="Core\Entities\SysDictionary.cs" />
     <Compile Include="Core\Entities\SysModule.cs" />
+    <Compile Include="Core\Entities\SysOrganization.cs" />
     <Compile Include="Core\Entities\SysRole.cs" />
     <Compile Include="Core\Entities\SysUser.cs" />
     <Compile Include="Core\Repositories\IDictionaryRepository.cs" />
+    <Compile Include="Core\Repositories\IOrganizationRepository.cs" />
     <Compile Include="Core\Repositories\IUserRepository.cs" />
     <Compile Include="Core\Repositories\IRoleRepository.cs" />
     <Compile Include="Core\Repositories\IModuleRepository.cs" />
     <Compile Include="Core\Services\DictionaryService.cs" />
+    <Compile Include="Core\Services\OrganizationService.cs" />
     <Compile Include="Core\Services\RoleService.cs" />
     <Compile Include="Core\Services\UserService.cs" />
     <Compile Include="Core\Services\ModuleService.cs" />

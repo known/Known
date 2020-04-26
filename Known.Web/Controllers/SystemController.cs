@@ -10,17 +10,22 @@ namespace Known.Web.Controllers
             return ViewResult();
         }
 
+        public ActionResult DictionaryView()
+        {
+            return ViewResult();
+        }
+
+        public ActionResult OrganizationView()
+        {
+            return ViewResult();
+        }
+
         public ActionResult RoleView()
         {
             return ViewResult();
         }
 
         public ActionResult UserView()
-        {
-            return ViewResult();
-        }
-
-        public ActionResult DictionaryView()
         {
             return ViewResult();
         }
