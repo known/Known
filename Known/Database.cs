@@ -752,25 +752,33 @@ select t.* from (
 
         public Result Validate()
         {
-            var result = Result.Success("");
-            var errors = new List<string>();
             var type = GetType();
             var properties = type.GetProperties();
+            var dicError = new Dictionary<string, List<string>>();
 
             foreach (var pi in properties)
             {
                 var attr = pi.GetCustomAttribute<ColumnAttribute>();
                 if (attr != null)
                 {
+                    var errors = new List<string>();
                     var value = pi.GetValue(this, null);
                     attr.Validate(value, pi.PropertyType, errors);
+                    dicError.Add(pi.Name, errors);
                 }
             }
 
-            if (errors.Count > 0)
-                errors.ForEach(m => result.AddError(m));
+            if (dicError.Count > 0)
+            {
+                var result = Result.Error("", dicError);
+                foreach (var item in dicError.Values)
+                {
+                    item.ForEach(m => result.AddError(m));
+                }
+                return result;
+            }
 
-            return result;
+            return Result.Success("");
         }
     }
 

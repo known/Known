@@ -15,7 +15,7 @@ namespace Known.Core.Services
             entity.FillModel(model);
             var vr = entity.Validate();
             if (!vr.IsValid)
-                return Result.Error(vr.Message);
+                return vr;
 
             Database.Save(entity);
             return Result.Success("保存成功！", entity.Id);
