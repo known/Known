@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Known.Core.Services;
 
 namespace Known.Web.Controllers
@@ -8,6 +9,18 @@ namespace Known.Web.Controllers
         private DictionaryService Service { get; } = new DictionaryService();
 
         #region View
+        public ActionResult GetCategories()
+        {
+            var datas = Service.GetCategories();
+            return JsonResult(datas.Select(d => new
+            {
+                id = d.Code,
+                pid = "",
+                title = $"{d.Sort}.{d.Name}({d.Code})",
+                data = d
+            }));
+        }
+
         [HttpPost]
         public ActionResult QueryDictionarys(CriteriaData data)
         {

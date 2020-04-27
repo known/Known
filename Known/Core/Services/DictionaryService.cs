@@ -1,4 +1,5 @@
-﻿using Known.Core.Entities;
+﻿using System.Collections.Generic;
+using Known.Core.Entities;
 using Known.Core.Repositories;
 
 namespace Known.Core.Services
@@ -8,6 +9,11 @@ namespace Known.Core.Services
         private IDictionaryRepository Repository { get; } = Container.Resolve<IDictionaryRepository>();
 
         #region View
+        public List<SysDictionary> GetCategories()
+        {
+            return Repository.GetCategories(Database);
+        }
+
         public PagingResult<SysDictionary> QueryDictionarys(PagingCriteria criteria)
         {
             return Repository.QueryDictionarys(Database, criteria);

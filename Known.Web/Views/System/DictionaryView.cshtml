@@ -1,6 +1,6 @@
 ﻿<div class="layui-fit">
     <div class="fit-col" style="width:240px;">
-        <div id="listCategory"></div>
+        <div id="tree"></div>
     </div>
     <div class="fit-col" style="left:260px;">
         <table id="gridDictionary" class="layui-hide" lay-filter="gridDictionary"></table>
@@ -43,6 +43,7 @@
 <script>
     layui.use('helper', function () {
         var url = {
+            GetCategories: '/Dictionary/GetCategories',
             QueryDictionarys: '/Dictionary/QueryDictionarys',
             DeleteDictionarys: '/Dictionary/DeleteDictionarys',
             GetDictionary: '/Dictionary/GetDictionary',
@@ -51,6 +52,7 @@
 
         var $ = layui.jquery,
             layer = layui.layer,
+            tree = layui.tree,
             helper = layui.helper;
 
         var form = helper.form({
@@ -111,5 +113,15 @@
                 Category: category.id, CategoryName: category.text
             });
         }
+
+        $.get(url.GetCategories, function (result) {
+            var data = helper.list2Tree(result, '');
+            tree.render({
+                elem: '#tree', data: data, onlyIconControl: true,
+                click: function (obj) {
+                    category = obj.data.data;
+                }
+            });
+        });
     });
 </script>
