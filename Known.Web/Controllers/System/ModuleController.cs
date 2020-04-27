@@ -13,7 +13,7 @@ namespace Known.Web.Controllers
         public ActionResult GetModuleTree()
         {
             var modules = Service.GetModules();
-            return JsonResult(modules.Select(m => MenuInfo.ToTree(m)));
+            return JsonResult(modules.Select(m => m.ToTree()));
         }
 
         [HttpPost]

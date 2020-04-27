@@ -18,6 +18,7 @@ namespace Known.Web.Controllers
                 id = d.Id,
                 pid = d.ParentId,
                 title = d.Name,
+                spread = string.IsNullOrWhiteSpace(d.ParentId),
                 data = d
             }));
         }

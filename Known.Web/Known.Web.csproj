@@ -189,6 +189,7 @@
   <ItemGroup>
     <Compile Include="Code\ControllerBase.cs" />
     <Compile Include="Code\LoginAuthorizeAttribute.cs" />
+    <Compile Include="Code\ModelExtension.cs" />
     <Compile Include="Code\MvcApplication.cs" />
     <Compile Include="Code\WebConfig.cs" />
     <Compile Include="Controllers\DevController.cs" />

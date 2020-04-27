@@ -20,32 +20,6 @@ namespace Known.Core
         public string Url { get; set; }
         public bool Checked { get; set; }
         public int Order { get; set; }
-
-        public object ToTree()
-        {
-            return new
-            {
-                id = Id,
-                pid = ParentId,
-                code = Code,
-                title = Name,
-                icon = Icon,
-                url = Url,
-                @checked = Checked,
-            };
-        }
-
-        public static object ToTree(SysModule module)
-        {
-            return new
-            {
-                id = module.Id,
-                pid = module.ParentId,
-                title = module.Name,
-                icon = module.Icon,
-                module
-            };
-        }
     }
 
     class PlatformRepository : IPlatformRepository
