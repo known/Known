@@ -15,7 +15,8 @@ layui.define('index', function (exports) {
         var tableIns = null;
 
         $.extend(config, {
-            elem: '#' + name, skin: 'line', page: true, cellMinWidth: 80,
+            elem: '#' + name, skin: 'line',
+            even: true, page: true, cellMinWidth: 80,
             defaultToolbar: [{
                 title: '搜索', icon: 'layui-icon-search', layEvent: 'search'
             }, 'filter', 'exports', 'print']
@@ -56,9 +57,14 @@ layui.define('index', function (exports) {
             tableIns = table.render(config);
         }
 
-        this.reload = function () {
-            tableIns.reload();
-        }  
+        this.where = {};
+        this.reload = function (where) {
+            $.extend(this.where, where);
+            var query = JSON.stringify(this.where);
+            tableIns.reload({
+                where: { query: query }
+            });
+        }
     }
 
     function GridManager(grid, rows) {
@@ -86,9 +92,9 @@ layui.define('index', function (exports) {
             callback && callback({ grid: grid, rows: rows, ids: ids });
         }
 
-        this.editRow = function (form) {
+        this.editRow = function (form, ext) {
             this.selectRow(function (e) {
-                form.show(e.row);
+                form.show(e.row, ext);
             });
         }
 
@@ -144,7 +150,7 @@ layui.define('index', function (exports) {
         }
 
         var index = 0;
-        this.show = function (data) {
+        this.show = function (data, ext) {
             data = data || option.defData;
             if (config.area) {
                 var title = option.title;
@@ -152,7 +158,13 @@ layui.define('index', function (exports) {
                     var tab = getCurTab();
                     title = tab ? tab.title : '';
                 }
-                config.title = title + (data.Id === '' ? '【新增】' : '【编辑】');
+                ext = ext || {};
+                var info = ext.title || '';
+                var actionName = data.Id === '' ? '【新增】' : '【编辑】';
+                if (info.indexOf('【') > -1) {
+                    actionName = '';
+                }
+                config.title = title + actionName + info;
                 config.success = function () {
                     form.render(null, name);
                     _this.setData(data, config.init);

@@ -100,18 +100,26 @@
                     }
                     showForm(category);
                 },
-                edit: function (e) { e.editRow(form); },
+                edit: function (e) {
+                    var title = getCategoryInfo(e.row.Category, e.row.CategoryName);
+                    e.editRow(form, { title: title });
+                },
                 remove: function (e) { e.deleteRows(url.DeleteDictionarys); },
                 imports: function (e) { }
             }
         });
 
+        function getCategoryInfo(code, name) {
+            return '- ' + code + '|' + name;
+        }
+
         function showForm(category) {
+            var title = category ? getCategoryInfo(category.Code, category.Name) : '';
             category = category || {};
             form.show({
                 Id: '', Enabled: 1,
-                Category: category.id, CategoryName: category.text
-            });
+                Category: category.Code, CategoryName: category.Name
+            }, { title: title });
         }
 
         $.get(url.GetCategories, function (result) {
@@ -120,6 +128,9 @@
                 elem: '#tree', data: data, onlyIconControl: true,
                 click: function (obj) {
                     category = obj.data.data;
+                    grid.reload({
+                        Category: category.Code
+                    })
                 }
             });
         });

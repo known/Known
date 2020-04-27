@@ -19,7 +19,7 @@ namespace Known.Core.Repositories
 
         public PagingResult<SysDictionary> QueryDictionarys(Database db, PagingCriteria criteria)
         {
-            var sql = "select * from SysDictionary";
+            var sql = "select * from SysDictionary where Category=@Category";
             return db.QueryPage<SysDictionary>(sql, criteria);
         }
     }

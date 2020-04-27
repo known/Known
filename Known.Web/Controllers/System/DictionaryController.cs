@@ -24,6 +24,9 @@ namespace Known.Web.Controllers
         [HttpPost]
         public ActionResult QueryDictionarys(CriteriaData data)
         {
+            if (string.IsNullOrWhiteSpace(data.query))
+                data.query = Utils.ToJson(new { Category = "" });
+
             return QueryPagingData(data, c => Service.QueryDictionarys(c));
         }
 
