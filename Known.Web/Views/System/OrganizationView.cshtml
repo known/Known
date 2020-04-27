@@ -15,14 +15,16 @@
                 <input type="hidden" name="ParentId">
                 <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
             </td>
-            <th style="width:80px;" class="required">名称</th>
+        </tr>
+        <tr>
+            <th class="required">名称</th>
             <td>
                 <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
             </td>
         </tr>
         <tr>
             <th>备注</th>
-            <td colspan="3">
+            <td>
                 <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
             </td>
         </tr>
@@ -45,7 +47,7 @@
         var form = helper.form({
             name: 'formOrganization',
             config: {
-                area: ['550px', '290px'],
+                area: ['400px', '260px'],
                 content: $('#dialogOrganization').html()
             },
             toolbar: [{
@@ -76,9 +78,14 @@
                         layer.msg('请选择上级组织！');
                         return;
                     }
-                    form.show({ Id: '', ParentId: node.Id });
+                    var title = getParentInfo(node.Code, node.Name);
+                    form.show({ Id: '', ParentId: node.Id }, { title: title });
                 },
-                edit: function (e) { e.editRow(form); },
+                edit: function (e) {
+                    var org = orgList.find(l => l.id === e.row.ParentId);
+                    var title = org ? getParentInfo(org.data.Code, org.data.Name) : '';
+                    e.editRow(form, { title: title });
+                },
                 remove: function (e) {
                     e.deleteRows(url.DeleteOrganizations, function () {
                         renderTree();
@@ -87,13 +94,14 @@
             }
         });
 
-        var treeData;
+        var orgList;
         function renderTree() {
             $.get(url.GetOrganizationTree, function (result) {
-                treeData = helper.list2Tree(result, '');
-                grid.setData(getGridData(treeData.children));
+                orgList = result;
+                var data = helper.list2Tree(result, '');
+                grid.setData(getGridData(data.children));
                 tree.render({
-                    elem: '#tree', data: treeData, onlyIconControl: true,
+                    elem: '#tree', data: data, onlyIconControl: true,
                     click: function (obj) {
                         node = obj.data.data;
                         var gridData = getGridData(obj.data.children);
@@ -101,6 +109,10 @@
                     }
                 });
             });
+        }
+
+        function getParentInfo(code, name) {
+            return code ? '- ' + code + '|' + name : name;
         }
 
         function getGridData(data) {
