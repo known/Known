@@ -180,3 +180,34 @@ body .layui-layer-page .layui-layer-btn {
             display: inline-block;
             font-size: 14px;
         }
+
+/*grid search*/
+.grid-search {
+    float: right;
+    position: relative;
+}
+
+.grid-search-adv {
+    float: right;
+    margin: 0 -10px 0 10px;
+    width: 35px;
+    height: 28px;
+    line-height: 28px;
+    cursor: pointer;
+}
+
+.grid-search .layui-input {
+    height: 28px;
+    padding-left: 5px;
+}
+
+.grid-search .layui-icon-search {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    padding: 4px;
+    width: 26px;
+    height: 26px;
+    border-left: 1px solid #e2e2e2;
+    cursor: pointer;
+}

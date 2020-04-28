@@ -16,10 +16,7 @@ layui.define('index', function (exports) {
 
         $.extend(config, {
             elem: '#' + name, skin: 'line',
-            even: true, page: true, cellMinWidth: 80,
-            defaultToolbar: [{
-                title: '搜索', icon: 'layui-icon-search', layEvent: 'search'
-            }, 'filter', 'exports', 'print']
+            even: true, page: true, cellMinWidth: 80
         });
 
         if (toolbar) {
@@ -32,6 +29,11 @@ layui.define('index', function (exports) {
                     tbHtml += '</button>';
                 });
             }
+            tbHtml += '<span class="grid-search-adv">高级</span>';
+            tbHtml += '<span class="grid-search">';
+            tbHtml += '  <input type="text" id="key" placeholder="请输入查询关键字" class="layui-input" autocomplete="off">';
+            tbHtml += '  <i class="layui-icon layui-icon-search"></i>';
+            tbHtml += '</span>';
             tbHtml += '</div>';
             config.toolbar = tbHtml;
 
