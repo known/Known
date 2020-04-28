@@ -24,16 +24,16 @@ layui.define('index', function (exports) {
 
         if (toolbar) {
             var tab = getCurTab();
+            var tbHtml = '<div class="layui-btn-container">';
             if (tab.module && tab.module.children) {
-                var tbHtml = '<div class="layui-btn-container">';
                 tab.module.children.forEach(function (d) {
                     tbHtml += ('<button class="layui-btn layui-btn-sm" lay-event="' + d.code + '">');
                     tbHtml += ('<i class="layui-icon ' + d.icon + '"></i>' + d.title);
                     tbHtml += '</button>';
                 });
-                tbHtml += '</div>';
-                config.toolbar = tbHtml;
             }
+            tbHtml += '</div>';
+            config.toolbar = tbHtml;
 
             var _this = this;
             table.on('toolbar(' + name + ')', function (obj) {
