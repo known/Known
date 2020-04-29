@@ -8,15 +8,15 @@ namespace Known.Web
         public string query { get; set; }
         public int page { get; set; }
         public int limit { get; set; }
-        public string sort { get; set; }
+        public string field { get; set; }
         public string order { get; set; }
 
         public PagingCriteria ToPagingCriteria()
         {
             var orderBys = new List<string>();
-            if (!string.IsNullOrWhiteSpace(sort))
+            if (!string.IsNullOrWhiteSpace(field))
             {
-                var sorts = sort.Split(',');
+                var sorts = field.Split(',');
                 var orders = order.Split(',');
                 for (int i = 0; i < sorts.Length; i++)
                 {
@@ -31,9 +31,10 @@ namespace Known.Web
                 OrderBys = orderBys.ToArray()
             };
 
-            if (!string.IsNullOrWhiteSpace(query))
-                criteria.Parameter = JsonConvert.DeserializeObject<dynamic>(query);
+            if (string.IsNullOrWhiteSpace(query))
+                query = "{}";
 
+            criteria.Parameter = JsonConvert.DeserializeObject<dynamic>(query);
             return criteria;
         }
     }

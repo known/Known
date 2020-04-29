@@ -16,7 +16,14 @@ namespace Known.Core.Repositories
     {
         public PagingResult<SysRole> QueryRoles(Database db, PagingCriteria criteria)
         {
-            var sql = "select * from SysRole";
+            var sql = "select * from SysRole where 1=1";
+            if (!string.IsNullOrWhiteSpace((string)criteria.Parameter.key))
+            {
+                var key = criteria.Parameter.key;
+                sql += " and Name like @key";
+                criteria.Parameter.key = $"%{key}%";
+            }
+
             return db.QueryPage<SysRole>(sql, criteria);
         }
 

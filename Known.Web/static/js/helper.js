@@ -12,7 +12,9 @@ layui.define('index', function (exports) {
         var name = option.name,
             config = option.config,
             toolbar = option.toolbar;
-        var tableIns = null;
+        var tableIns = null, _where = {};
+        var keyId = name + '_key';
+        var _this = this;
 
         $.extend(config, {
             elem: '#' + name, skin: 'line',
@@ -29,15 +31,22 @@ layui.define('index', function (exports) {
                     tbHtml += '</button>';
                 });
             }
-            tbHtml += '<span class="grid-search-adv">高级</span>';
-            tbHtml += '<span class="grid-search">';
-            tbHtml += '  <input type="text" id="key" placeholder="请输入查询关键字" class="layui-input" autocomplete="off">';
-            tbHtml += '  <i class="layui-icon layui-icon-search"></i>';
-            tbHtml += '</span>';
+            if (config.url) {
+                //tbHtml += '<span class="grid-search-adv">高级</span>';
+                tbHtml += '<span class="grid-search">';
+                tbHtml += '  <input type="text" id="' + keyId + '" placeholder="请输入查询关键字" class="layui-input" autocomplete="off">';
+                tbHtml += '  <i class="layui-icon layui-icon-search" lay-event="search"></i>';
+                tbHtml += '</span>';
+
+                toolbar.search = function () {
+                    var key = $('#' + keyId).val();
+                    _this.reload({ key: key });
+                    $('#' + keyId).val(key);
+                }
+            }
             tbHtml += '</div>';
             config.toolbar = tbHtml;
 
-            var _this = this;
             table.on('toolbar(' + name + ')', function (obj) {
                 var type = obj.event;
                 var rows = table.checkStatus(name).data;
@@ -51,7 +60,16 @@ layui.define('index', function (exports) {
 
         if (config.url) {
             config.method = 'post';
+            config.autoSort = false;
             tableIns = table.render(config);
+
+            table.on('sort(' + name + ')', function (obj) {
+                var key = $('#' + keyId).val();
+                _where.field = obj.field;
+                _where.order = obj.type;
+                tableIns.reload({ initSort: obj, where: _where });
+                $('#' + keyId).val(key);
+            });
         }
 
         this.setData = function (data) {
@@ -62,10 +80,8 @@ layui.define('index', function (exports) {
         this.where = {};
         this.reload = function (where) {
             $.extend(this.where, where);
-            var query = JSON.stringify(this.where);
-            tableIns.reload({
-                where: { query: query }
-            });
+            _where.query = JSON.stringify(this.where);
+            tableIns.reload({ where: _where });
         }
     }
 

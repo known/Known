@@ -20,6 +20,13 @@ namespace Known.Core.Repositories
         public PagingResult<SysUser> QueryUsers(Database db, PagingCriteria criteria)
         {
             var sql = "select * from SysUser where UserName<>'System'";
+            if (!string.IsNullOrWhiteSpace((string)criteria.Parameter.key))
+            {
+                var key = criteria.Parameter.key;
+                sql += " and (UserName like @key or Name like @key)";
+                criteria.Parameter.key = $"%{key}%";
+            }
+
             return db.QueryPage<SysUser>(sql, criteria);
         }
 

@@ -127,6 +127,10 @@ input:read-only {
     right: 5px;
 }
 
+.layui-fit .layui-table-tool-temp {
+    padding-right: 110px;
+}
+
 body .layui-layer-title {
     background: #4476A7;
     color: #fff;

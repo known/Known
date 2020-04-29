@@ -20,6 +20,13 @@ namespace Known.Core.Repositories
         public PagingResult<SysDictionary> QueryDictionarys(Database db, PagingCriteria criteria)
         {
             var sql = "select * from SysDictionary where Category=@Category";
+            if (!string.IsNullOrWhiteSpace((string)criteria.Parameter.key))
+            {
+                var key = criteria.Parameter.key;
+                sql += " and (Code like @key or Name like @key)";
+                criteria.Parameter.key = $"%{key}%";
+            }
+
             return db.QueryPage<SysDictionary>(sql, criteria);
         }
     }
