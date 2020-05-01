@@ -147,6 +147,11 @@ html, body, .layui-layout-admin {
 }
 
 /*Layout*/
+.layui-logo, .layui-tool, .layui-layout-left,
+.layui-side, .layui-body, .layui-footer {
+    transition: all .2s;
+}
+
 .layui-layout-admin .layui-logo {
     font-size: 20px;
     font-weight: bold;
@@ -177,13 +182,9 @@ html, body, .layui-layout-admin {
 
 .layui-tool {
     text-align: center;
-    color: #ffffff !important;
-    transition: all .2s;
+    color: #fff !important;
+    cursor: pointer;
 }
-
-    .layui-tool i {
-        cursor: pointer;
-    }
 
 .layui-header .layui-nav-item a,
 .layui-side .layui-nav-item li a {
@@ -191,11 +192,11 @@ html, body, .layui-layout-admin {
     font-size: 16px;
 }
 
-    .layui-header .layui-nav-item a i,
-    .layui-side .layui-nav-item a i {
-        font-size: 16px;
-        margin-right: 5px;
-    }
+.layui-nav-item a i,
+.layui-nav-item a i {
+    font-size: 16px;
+    margin-right: 5px;
+}
 
 .layui-side .layui-nav-child dd {
     padding-left: 20px;
