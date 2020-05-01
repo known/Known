@@ -120,7 +120,7 @@
 </div>
 
 <script>
-    layui.use('helper', function () {
+    layui.use('common', function () {
         var url = {
             GetUserInfo: '/Profile/GetUserInfo',
             SaveUserInfo: '/Profile/SaveUserInfo',
@@ -129,7 +129,7 @@
 
         var $ = layui.jquery,
             form = layui.form,
-            helper = layui.helper;
+            common = layui.common;
 
         $.get(url.GetUserInfo, function (result) {
             form.val('formUserInfo', result);
@@ -140,7 +140,7 @@
         });
 
         form.on('submit(saveUserInfo)', function (data) {
-            helper.post(url.SaveUserInfo, {
+            common.post(url.SaveUserInfo, {
                 data: JSON.stringify(data.field)
             });
             return false;
@@ -155,7 +155,7 @@
         });
 
         form.on('submit(savePassword)', function (data) {
-            helper.post(url.UpdatePassword, data.field);
+            common.post(url.UpdatePassword, data.field);
             return false;
         });
     });

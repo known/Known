@@ -41,7 +41,7 @@
 </script>
 
 <script>
-    layui.use('helper', function () {
+    layui.use('frame', function () {
         var url = {
             GetCategories: '/Dictionary/GetCategories',
             QueryDictionarys: '/Dictionary/QueryDictionarys',
@@ -53,9 +53,9 @@
         var $ = layui.jquery,
             layer = layui.layer,
             tree = layui.tree,
-            helper = layui.helper;
+            frame = layui.frame;
 
-        var form = helper.form({
+        var form = frame.form({
             name: 'formDictionary',
             defData: { Id: '', Enabled: 1 },
             config: {
@@ -72,7 +72,7 @@
         });
 
         var category = null;
-        var grid = helper.grid({
+        var grid = frame.grid({
             name: 'gridDictionary',
             config: {
                 url: url.QueryDictionarys, height: 'full-25',
@@ -123,7 +123,7 @@
         }
 
         $.get(url.GetCategories, function (result) {
-            var data = helper.list2Tree(result, '');
+            var data = frame.common.list2Tree(result, '');
             tree.render({
                 elem: '#tree', data: data, onlyIconControl: true,
                 click: function (obj) {

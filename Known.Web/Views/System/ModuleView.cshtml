@@ -75,7 +75,7 @@
 </script>
 
 <script>
-    layui.use('helper', function () {
+    layui.use('frame', function () {
         var url = {
             GetModuleTree: '/Module/GetModuleTree',
             DeleteModules: '/Module/DeleteModules',
@@ -86,9 +86,9 @@
         var $ = layui.jquery,
             tree = layui.tree,
             layer = layui.layer,
-            helper = layui.helper;
+            frame = layui.frame;
 
-        var form = helper.form({
+        var form = frame.form({
             name: 'formModule',
             config: {
                 area: ['550px', '290px'],
@@ -100,7 +100,7 @@
                 init: function (e) {
                     $('#dvIcon').click(function () {
                         var icon1 = $(this).attr('icon');
-                        helper.selectIcon(icon1, function (icon) {
+                        frame.selectIcon(icon1, function (icon) {
                             var data = e.form.getData();
                             data.Icon = icon;
                             e.form.setData(data);
@@ -118,7 +118,7 @@
         });
 
         var node = null;
-        var grid = helper.grid({
+        var grid = frame.grid({
             name: 'gridModule',
             config: {
                 toolbar: '#tbModule', height: 'full-25',
@@ -156,7 +156,7 @@
                 copy: function (e) {
                     e.selectRows(function (e) {
                         copyToModule(function (data) {
-                            helper.post(url.CopyModules, {
+                            frame.post(url.CopyModules, {
                                 data: JSON.stringify(e.ids), mid: data.Id
                             }, function () {
                                 renderTree();
@@ -176,7 +176,7 @@
 
         var copyNode = null;
         function copyToModule(callback) {
-            helper.open({
+            frame.open({
                 title: '复制到',
                 area: ['250px', '200px'],
                 content: '<div id="treeModule"></div>',
@@ -210,7 +210,7 @@
         var treeData;
         function renderTree() {
             $.get(url.GetModuleTree, function (result) {
-                treeData = helper.list2Tree(result, '');
+                treeData = frame.common.list2Tree(result, '');
                 grid.setData(getGridData(treeData));
                 tree.render({
                     elem: '#tree', data: treeData, onlyIconControl: true,

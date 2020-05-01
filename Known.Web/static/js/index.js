@@ -3,7 +3,10 @@ layui.config({ base: '/static/js/' }).define(function (exports) {
         base: layui.cache.base,
         extend: [
             'echarts',
-            'echartsTheme'
+            'echartsTheme',
+            'common',
+            'admin',
+            'frame'
         ]
     };
     layui.each(index.extend, function (a, i) {
@@ -12,4 +15,4 @@ layui.config({ base: '/static/js/' }).define(function (exports) {
         layui.extend(n);
     });
     exports('index', index);
-}).extend({ helper: 'helper', admin: 'admin' });
+});

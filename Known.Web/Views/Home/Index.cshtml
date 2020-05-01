@@ -86,25 +86,18 @@
     <script src="~/static/layui/layui.all.js"></script>
     <script src="~/static/js/index.js"></script>
     <script>
-        layui.use(['helper', 'admin'], function () {
-            var $ = layui.jquery,
-                admin = layui.admin;
-
-            var url = {
-                GetUserMenus: '/Home/GetUserMenus',
-                RefreshCache: '/Home/RefreshCache',
-                UserInfo: '/Home/UserInfo',
-                SignOut: '/signout'
-            };
-
-            $.get(url.GetUserMenus, function (res) {
-                $('#userName').html(res.user.Name);
-                admin.init({
-                    url: url, data: res,
-                    callback: function () {
-                        $('.loader').fadeOut();
-                    }
-                });
+        layui.use('admin', function () {
+            var $ = layui.$, admin = layui.admin;
+            admin.show({
+                url: {
+                    GetUserMenus: '/Home/GetUserMenus',
+                    RefreshCache: '/Home/RefreshCache',
+                    UserInfo: '/Home/UserInfo',
+                    SignOut: '/signout'
+                },
+                callback: function (data) {
+                    $('#userName').html(data.user.Name);
+                }
             });
         });
     </script>

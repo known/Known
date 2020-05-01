@@ -155,7 +155,7 @@
 </div>
 
 <script>
-    layui.use(['echarts', 'helper'], function () {
+    layui.use(['echarts', 'frame'], function () {
         var url = {
             GetTodoLists: '/Welcome/GetTodoLists',
             GetCompanyNews: '/Welcome/GetCompanyNews',
@@ -166,7 +166,7 @@
         var $ = layui.jquery,
             carousel = layui.carousel,
             echarts = layui.echarts,
-            helper = layui.helper,
+            frame = layui.frame,
             device = layui.device();
 
         //init carousel
@@ -202,7 +202,7 @@
         });
 
         //init table
-        helper.grid({
+        frame.grid({
             name: 'todoList',
             config: {
                 url: url.GetTodoLists,
@@ -216,7 +216,7 @@
                 ]]
             }
         });
-        helper.grid({
+        frame.grid({
             name: 'companyNews',
             config: {
                 url: url.GetCompanyNews,

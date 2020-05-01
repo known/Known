@@ -55,7 +55,7 @@
 </script>
 
 <script>
-    layui.use('helper', function () {
+    layui.use('frame', function () {
         var url = {
             QueryUsers: '/User/QueryUsers',
             DeleteUsers: '/User/DeleteUsers',
@@ -70,9 +70,9 @@
 
         var $ = layui.jquery,
             layer = layui.layer,
-            helper = layui.helper;
+            frame = layui.frame;
 
-        var form = helper.form({
+        var form = frame.form({
             name: 'formUser',
             defData: { Id: '', Enabled: 1 },
             config: {
@@ -95,7 +95,7 @@
             }]
         });
 
-        var grid = helper.grid({
+        var grid = frame.grid({
             name: 'gridUser',
             config: {
                 url: url.QueryUsers, height: 'full-25',
@@ -139,7 +139,7 @@
                             selectRole({
                                 user: e.row, roles: res.roles, value: res.value
                             }, function (data) {
-                                helper.post(url.SaveUserRoles, {
+                                frame.post(url.SaveUserRoles, {
                                     userId: e.row.Id,
                                     data: JSON.stringify(data)
                                 });
@@ -149,8 +149,8 @@
                 },
                 setPwd: function (e) {
                     e.selectRows(function (e) {
-                        helper.confirm('确定要将所选用户密码重置为默认密码？', function () {
-                            helper.post(url.SetUserPwds, {
+                        frame.confirm('确定要将所选用户密码重置为默认密码？', function () {
+                            frame.post(url.SetUserPwds, {
                                 data: JSON.stringify(e.ids)
                             });
                         });
@@ -164,7 +164,7 @@
         function selectRole(data, callback) {
             var transfer = layui.transfer;
             var userInfo = data.user.Name + '(' + data.user.UserName + ')';
-            helper.open({
+            frame.open({
                 title: '设置角色 - ' + userInfo,
                 area: ['450px', '300px'],
                 content: '<div id="transUserRole"></div>',
@@ -193,8 +193,8 @@
         function enableUsers(e, enable) {
             var msg = enable === 1 ? '启用' : '停用';
             e.selectRows(function (e) {
-                helper.confirm('确定要' + msg + '所选用户？', function () {
-                    helper.post(url.EnableUsers, {
+                frame.confirm('确定要' + msg + '所选用户？', function () {
+                    frame.post(url.EnableUsers, {
                         data: JSON.stringify(e.ids), enable: enable
                     }, function () {
                         e.grid.reload();

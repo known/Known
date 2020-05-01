@@ -32,7 +32,7 @@
 </script>
 
 <script>
-    layui.use('helper', function () {
+    layui.use('frame', function () {
         var url = {
             GetOrganizationTree: '/Organization/GetOrganizationTree',
             DeleteOrganizations: '/Organization/DeleteOrganizations',
@@ -42,9 +42,9 @@
         var $ = layui.jquery,
             tree = layui.tree,
             layer = layui.layer,
-            helper = layui.helper;
+            frame = layui.frame;
 
-        var form = helper.form({
+        var form = frame.form({
             name: 'formOrganization',
             config: {
                 area: ['400px', '260px'],
@@ -60,7 +60,7 @@
         });
 
         var node = null;
-        var grid = helper.grid({
+        var grid = frame.grid({
             name: 'gridOrganization',
             config: {
                 height: 'full-25',
@@ -98,7 +98,7 @@
         function renderTree() {
             $.get(url.GetOrganizationTree, function (result) {
                 orgList = result;
-                var data = helper.list2Tree(result, '');
+                var data = frame.common.list2Tree(result, '');
                 grid.setData(getGridData(data.children));
                 tree.render({
                     elem: '#tree', data: data, onlyIconControl: true,

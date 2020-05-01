@@ -1,8 +1,9 @@
-layui.define('index', function (exports) {
+layui.define('common', function (exports) {
     var $ = layui.jquery,
         layer = layui.layer,
         form = layui.form,
-        table = layui.table;
+        table = layui.table,
+        common = layui.common;
 
     function getCurTab() {
         return top.layui.admin.getCurTab();
@@ -119,8 +120,8 @@ layui.define('index', function (exports) {
         function deleteData(e, url, callback) {
             var length = e.rows.length;
             var msg = length > 1 ? ('所选的' + length + '条记录') : '该记录';
-            helper.confirm('确定要删除' + msg + '吗？', function () {
-                helper.post(url, { data: JSON.stringify(e.ids) }, function () {
+            common.confirm('确定要删除' + msg + '吗？', function () {
+                common.post(url, { data: JSON.stringify(e.ids) }, function () {
                     e.grid.reload();
                     callback && callback(e);
                 });
@@ -187,7 +188,7 @@ layui.define('index', function (exports) {
                     form.render(null, name);
                     _this.setData(data, config.init);
                 }
-                index = helper.open(config);
+                index = common.open(config);
             } else {
                 this.setData(data, config.init);
             }
@@ -220,7 +221,7 @@ layui.define('index', function (exports) {
 
         this.save = function (url, callback) {
             var data = form.getData();
-            helper.post(url, { data: JSON.stringify(data) }, function (id) {
+            common.post(url, { data: JSON.stringify(data) }, function (id) {
                 data.Id = id;
                 form.setData(data);
                 form.close();
@@ -265,7 +266,7 @@ layui.define('index', function (exports) {
             content += '</li>';
         });
         content += '</ul>';
-        helper.open({
+        common.open({
             title: '选择图标',
             area: ['400px', '250px'],
             content: content,
@@ -287,51 +288,33 @@ layui.define('index', function (exports) {
         });
     }
 
-    var helper = {
-        list2Tree: function (data, pid) {
-            return data.filter(father => {
-                let branchArr = data.filter(child => father['id'] === child['pid']);
-                branchArr.length > 0 ? father['children'] = branchArr : '';
-                return father['pid'] === pid;
-            });
-        },
-        tree2List: function (data, pid) {
-            return data.reduce((arr, { id, title, children = [] }) =>
-                arr.concat([{ id, title, pid }], this.tree2List(children, id)), []);
-        },
-        open: function (option) {
-            var type = 1;
-            if (option.url) {
-                type = 2;
-                option.content = option.url;
-            }
-            $.extend(option, { type: type });
-            return layer.open(option);
-        },
-        confirm: function (message, callback) {
-            layer.confirm(message, function (index) {
-                callback && callback();
-                layer.close(index);
-            });
-        },
-        post: function (url, data, callback) {
-            $.post(url, data, function (result) {
-                layer.msg(result.message);
-                if (result.ok) {
-                    callback && callback(result.data);
-                }
-            });
-        },
+    exports('frame', {
+
+        common: common,
+
         selectIcon: function (icon, callback) {
             selectIcon(icon, callback);
         },
+
         grid: function (option) {
             return new Grid(option);
         },
+
         form: function (option) {
             return new Form(option);
-        }
-    };
+        },
 
-    exports('helper', helper);
+        open: function (option) {
+            return common.open(option);
+        },
+
+        confirm: function (message, callback) {
+            common.confirm(message, callback);
+        },
+
+        post: function (url, data, callback) {
+            common.post(url, data, callback);
+        }
+
+    });
 });
