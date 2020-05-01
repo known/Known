@@ -83,7 +83,7 @@ layui.define('common', function (exports) {
                 data = parent.children;
             }
             $(data).each(function (i, d) {
-                html += '<li class="layui-nav-item">';
+                html += '<li class="layui-nav-item menuItem">';
                 html += '  <a href="javascript:;" id="menu' + d.id + '" data-url="' + d.url + '"><i class="layui-icon ' + d.icon + '"></i><span class="title">' + d.title + '</span></a>';
                 if (pid && d.children) {
                     html += '  <dl class="layui-nav-child">';
@@ -99,24 +99,28 @@ layui.define('common', function (exports) {
             return data;
         },
 
+        miniSide: false,
         initEvent: function () {
+            var _this = this;
             $('.toggleMenu').click(function () {
-                var side = $(this).data('side'),
-                    clsLeft = 'layui-icon-spread-left',
+                var clsLeft = 'layui-icon-spread-left',
                     clsRight = 'layui-icon-shrink-right';
-                if (side === 1) {
-                    $(this).data('side', 0).removeClass(clsRight).addClass(clsLeft);
+                if (!_this.miniSide) {
+                    _this.miniSide = true;
+                    $(this).removeClass(clsRight).addClass(clsLeft);
                     $('.layui-layout-admin').addClass('layui-mini');
                 } else {
-                    $(this).data('side', 1).removeClass(clsLeft).addClass(clsRight);
+                    _this.miniSide = false;
+                    $(this).removeClass(clsLeft).addClass(clsRight);
                     $('.layui-layout-admin').removeClass('layui-mini');
                 }
+                _this.initMenuTips(_this.miniSide);
             });
 
-            var _this = this;
             element.on('nav(topMenu)', function (elem) {
                 var pid = elem[0].id.replace('menu', '');
                 _this.render('leftMenu', pid);
+                _this.initMenuTips(_this.miniSide);
             });
 
             element.on('nav(leftMenu)', function (elem) {
@@ -130,6 +134,35 @@ layui.define('common', function (exports) {
                         url: src
                     });
                 }
+            });
+        },
+
+        menuTipId: '',
+        initMenuTips: function (isMiniSide) {
+            var item = $('.layui-side .menuItem').unbind('mouseenter');
+            var pops = $('.popup-tips').unbind('mouseleave');
+            if (this.menuTipId !== '') {
+                layer.close(this.menuTipId);
+            }
+            if (!isMiniSide) return;
+
+            var _this = this;
+            item.bind('mouseenter', function () {
+                var tip = tips = $(this).html();
+                tip = '<ul class="layui-nav layui-nav-tree layui-this"><li class="layui-nav-item layui-nav-itemed">' + tip + '</li></ul>';
+                _this.menuTipId = layer.tips(tip, $(this), {
+                    tips: [2, '#2f4056'],
+                    time: 300000,
+                    skin: 'popup-tips',
+                    success: function (el) {
+                        var left = $(el).position().left - 159;
+                        $(el).css({ left: left });
+                        element.render('nav');
+                    }
+                });
+            });
+            pops.bind('mouseleave', function () {
+                layer.close(_this.menuTipId);
             });
         }
 
