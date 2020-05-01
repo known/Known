@@ -1,4 +1,91 @@
-﻿/*Loader*/
+﻿/*Layout*/
+html, body, .layui-layout-admin {
+    width: 100%;
+    height: 100%;
+}
+
+.layui-header .layui-nav-item {
+    line-height: 50px;
+}
+
+.layui-header .layui-nav-child {
+    top: 55px;
+}
+
+.layui-layout-admin .layui-header {
+    height: 50px;
+}
+
+.layui-layout-admin .layui-logo {
+    position: initial;
+    line-height: 50px;
+}
+
+.layui-layout-admin .layui-tool {
+    position: absolute;
+    top: 0;
+    left: 200px;
+    width: 50px;
+    line-height: 50px;
+}
+
+.layui-layout-admin .layui-layout-left {
+    left: 230px;
+}
+
+.layui-layout-admin .layui-side {
+    top: 50px;
+}
+
+.layui-layout-admin .layui-body {
+    top: 50px;
+    bottom: 30px;
+    overflow: hidden;
+}
+
+.layui-layout-admin .layui-footer {
+    height: 30px;
+    line-height: 30px;
+}
+
+.layui-tab {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+}
+
+.layui-tab-content {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    top: 41px;
+    bottom: 0;
+}
+
+.layui-tab-item {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+}
+
+.layui-tab-iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+/*Loader*/
 .loader {
     position: fixed;
     top: 0;
@@ -65,22 +152,15 @@
     font-weight: bold;
 }
 
-.layui-layout-admin .layui-body {
-    bottom: 30px;
+.layui-logo .mini-logo {
+    display: none;
 }
 
 .layui-layout-admin .layui-footer {
-    height: 30px;
-    line-height: 30px;
     text-align: right;
     border-top: 1px solid #ccc;
     background-color: #393D49 !important;
     color: #fff;
-}
-
-.layui-header .layui-nav-item a,
-.layui-header .layui-icon {
-    font-size: 16px;
 }
 
 .toolbar-right .layui-nav-item a {
@@ -96,12 +176,6 @@
 }
 
 .layui-tool {
-    position: absolute !important;
-    top: 0;
-    left: 190px;
-    width: 60px;
-    height: 100%;
-    line-height: 60px;
     text-align: center;
     color: #ffffff !important;
     transition: all .2s;
@@ -111,9 +185,17 @@
         cursor: pointer;
     }
 
-.layui-layout-left {
-    left: 220px;
+.layui-header .layui-nav-item a,
+.layui-side .layui-nav-item li a {
+    padding-left: 16px;
+    font-size: 16px;
 }
+
+    .layui-header .layui-nav-item a i,
+    .layui-side .layui-nav-item a i {
+        font-size: 16px;
+        margin-right: 5px;
+    }
 
 .layui-side .layui-nav-child dd {
     padding-left: 20px;
@@ -123,39 +205,40 @@
     display: none;
 }
 
-.layui-tab {
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    top: 0;
-    bottom: 0;
-}
+@media screen and (min-width: 1025px) {
+    .layui-mini .layui-logo .full-logo {
+        width: 50px !important;
+        display: none;
+    }
 
-.layui-tab-content {
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    top: 41px;
-    bottom: 0;
-}
+    .layui-mini .layui-logo .mini-logo {
+        width: 50px !important;
+        display: block;
+    }
 
-.layui-tab-item {
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    top: 0;
-    bottom: 0;
-}
+    .layui-mini .layui-tool {
+        left: 50px !important;
+    }
 
-.layui-tab-iframe {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    .layui-mini .layui-layout-left {
+        left: 80px;
+    }
+
+    .layui-mini .layui-side {
+        width: 50px !important;
+    }
+
+    .layui-mini .layui-body {
+        left: 50px !important;
+    }
+
+    .layui-mini .layui-footer {
+        left: 50px !important;
+    }
+
+    .layui-mini .layui-nav-tree .layui-nav-more,
+    .layui-mini .layui-nav-tree .layui-nav-child,
+    .layui-mini .layui-nav-tree li a .title {
+        display: none !important;
+    }
 }

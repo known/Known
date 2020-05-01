@@ -5,6 +5,11 @@
     height: 100%;
 }
 
+/*scrollbar*/
+::-webkit-scrollbar {
+    display: none
+}
+
 table {
     border-collapse: collapse;
     width: 100%;

@@ -18,9 +18,12 @@
     <div class="loader"><div class="loader-inner"></div></div>
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
-            <div class="layui-logo">@ViewBag.AppName</div>
+            <div class="layui-logo">
+                <span class="mini-logo">K</span>
+                <span class="full-logo">@ViewBag.AppName</span>
+            </div>
             <div class="layui-tool">
-                <i title="展开" class="layui-icon layui-icon-shrink-right" data-side="1"></i>
+                <i title="展开" class="toggleMenu layui-icon layui-icon-shrink-right" data-side="1"></i>
             </div>
             <ul class="layui-nav layui-layout-left" lay-filter="topMenu"></ul>
             <ul class="layui-nav layui-layout-right toolbar-right">

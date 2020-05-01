@@ -84,7 +84,7 @@ layui.define('common', function (exports) {
             }
             $(data).each(function (i, d) {
                 html += '<li class="layui-nav-item">';
-                html += '  <a href="javascript:;" id="menu' + d.id + '" data-url="' + d.url + '"><i class="layui-icon ' + d.icon + '"></i> ' + d.title + '</a>';
+                html += '  <a href="javascript:;" id="menu' + d.id + '" data-url="' + d.url + '"><i class="layui-icon ' + d.icon + '"></i><span class="title">' + d.title + '</span></a>';
                 if (pid && d.children) {
                     html += '  <dl class="layui-nav-child">';
                     $(d.children).each(function (ci, cd) {
@@ -100,6 +100,19 @@ layui.define('common', function (exports) {
         },
 
         initEvent: function () {
+            $('.toggleMenu').click(function () {
+                var side = $(this).data('side'),
+                    clsLeft = 'layui-icon-spread-left',
+                    clsRight = 'layui-icon-shrink-right';
+                if (side === 1) {
+                    $(this).data('side', 0).removeClass(clsRight).addClass(clsLeft);
+                    $('.layui-layout-admin').addClass('layui-mini');
+                } else {
+                    $(this).data('side', 1).removeClass(clsLeft).addClass(clsRight);
+                    $('.layui-layout-admin').removeClass('layui-mini');
+                }
+            });
+
             var _this = this;
             element.on('nav(topMenu)', function (elem) {
                 var pid = elem[0].id.replace('menu', '');
