@@ -83,6 +83,18 @@
     font-size: 16px;
 }
 
+.toolbar-right .layui-nav-item a {
+    padding: 0 10px;
+}
+
+.toolbar-right .layui-nav-img {
+    margin-right: 0;
+}
+
+.toolbar-right .layui-nav-item .layui-nav-more {
+    right: 0;
+}
+
 .layui-tool {
     position: absolute !important;
     top: 0;
@@ -95,9 +107,9 @@
     transition: all .2s;
 }
 
-.layui-tool i {
-    cursor: pointer;
-}
+    .layui-tool i {
+        cursor: pointer;
+    }
 
 .layui-layout-left {
     left: 220px;
