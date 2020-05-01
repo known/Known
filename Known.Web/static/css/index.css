@@ -202,10 +202,6 @@ html, body, .layui-layout-admin {
     padding-left: 20px;
 }
 
-.popup-tips .layui-nav-child {
-    display: block;
-}
-
 .popup-tips .layui-layer-TipsG {
     display: none;
 }

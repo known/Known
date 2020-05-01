@@ -83,12 +83,14 @@ layui.define('common', function (exports) {
                 data = parent.children;
             }
             $(data).each(function (i, d) {
+                var url = d.url ? (' data-url="' + d.url + '"') : '';
                 html += '<li class="layui-nav-item menuItem">';
-                html += '  <a href="javascript:;" id="menu' + d.id + '" data-url="' + d.url + '"><i class="layui-icon ' + d.icon + '"></i><span class="title">' + d.title + '</span></a>';
+                html += '  <a href="javascript:;" id="menu' + d.id + '"' + url + '><i class="layui-icon ' + d.icon + '"></i><span class="title">' + d.title + '</span></a>';
                 if (pid && d.children) {
                     html += '  <dl class="layui-nav-child">';
                     $(d.children).each(function (ci, cd) {
-                        html += '<dd><a href="javascript:;" id="menu' + cd.id + '" data-url="' + cd.url + '"><i class="layui-icon ' + cd.icon + '"></i> ' + cd.title + '</a></dd>';
+                        var curl = cd.url ? (' data-url="' + cd.url + '"') : '';
+                        html += '<dd><a href="javascript:;" id="menu' + cd.id + '"' + curl + '><i class="layui-icon ' + cd.icon + '"></i> ' + cd.title + '</a></dd>';
                     });
                     html += '  </dl>';
                 }
@@ -114,17 +116,25 @@ layui.define('common', function (exports) {
                     $(this).removeClass(clsLeft).addClass(clsRight);
                     $('.layui-layout-admin').removeClass('layui-mini');
                 }
-                _this.initMenuTips(_this.miniSide);
+                _this.initMenuTips();
+                element.init();
             });
 
+            _this.initMenuEvent();
             element.on('nav(topMenu)', function (elem) {
                 var pid = elem[0].id.replace('menu', '');
                 _this.render('leftMenu', pid);
-                _this.initMenuTips(_this.miniSide);
+                _this.initMenuTips();
+                _this.initMenuEvent();
             });
+        },
 
-            element.on('nav(leftMenu)', function (elem) {
-                var src = elem.data('url');
+        initMenuEvent: function () {
+            var _this = this;
+            $('.layui-nav-tree [data-url]').click(function () {
+                _this.closeMenuTips();
+                var elem = $(this),
+                    src = elem.data('url');
                 if (src) {
                     var a = elem[0];
                     Tab.addTab({
@@ -138,18 +148,17 @@ layui.define('common', function (exports) {
         },
 
         menuTipId: '',
-        initMenuTips: function (isMiniSide) {
+        initMenuTips: function () {
             var item = $('.layui-side .menuItem').unbind('mouseenter');
             var pops = $('.popup-tips').unbind('mouseleave');
-            if (this.menuTipId !== '') {
-                layer.close(this.menuTipId);
-            }
-            if (!isMiniSide) return;
+            this.closeMenuTips();
+            if (!this.miniSide)
+                return;
 
             var _this = this;
             item.bind('mouseenter', function () {
-                var tip = tips = $(this).html();
-                tip = '<ul class="layui-nav layui-nav-tree layui-this"><li class="layui-nav-item layui-nav-itemed">' + tip + '</li></ul>';
+                var tip = $(this).html();
+                tip = '<ul class="layui-nav layui-nav-tree layui-this"><li class="layui-nav-item popMenuItem layui-nav-itemed">' + tip + '</li></ul>';
                 _this.menuTipId = layer.tips(tip, $(this), {
                     tips: [2, '#2f4056'],
                     time: 300000,
@@ -157,13 +166,28 @@ layui.define('common', function (exports) {
                     success: function (el) {
                         var left = $(el).position().left - 159;
                         $(el).css({ left: left });
-                        element.render('nav');
+                        $('.popMenuItem').click(function () {
+                            var elem = $(this);
+                            if (elem.hasClass('layui-nav-itemed')) {
+                                elem.removeClass('layui-nav-itemed');
+                            } else {
+                                elem.addClass('layui-nav-itemed');
+                            }
+                        });
+                        _this.initMenuEvent();
                     }
                 });
             });
             pops.bind('mouseleave', function () {
-                layer.close(_this.menuTipId);
+                _this.closeMenuTips();
             });
+        },
+
+        closeMenuTips: function () {
+            if (this.menuTipId !== '') {
+                layer.close(this.menuTipId);
+                this.menuTipId = '';
+            }
         }
 
     }
