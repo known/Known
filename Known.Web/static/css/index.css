@@ -4,11 +4,11 @@ html, body, .layui-layout-admin {
     height: 100%;
 }
 
-.layui-header .layui-nav-item {
+.layui-layout-admin .layui-header .layui-nav-item {
     line-height: 50px;
 }
 
-.layui-header .layui-nav-child {
+.layui-layout-admin .layui-header .layui-nav-child {
     top: 55px;
 }
 
@@ -48,7 +48,7 @@ html, body, .layui-layout-admin {
     line-height: 30px;
 }
 
-.layui-tab {
+.layui-layout-admin .layui-tab {
     position: absolute;
     margin: 0;
     padding: 0;
@@ -57,7 +57,7 @@ html, body, .layui-layout-admin {
     bottom: 0;
 }
 
-.layui-tab-content {
+.layui-layout-admin .layui-tab-content {
     position: absolute;
     margin: 0;
     padding: 0;
@@ -66,7 +66,7 @@ html, body, .layui-layout-admin {
     bottom: 0;
 }
 
-.layui-tab-item {
+.layui-layout-admin .layui-tab-item {
     position: absolute;
     margin: 0;
     padding: 0;
@@ -75,7 +75,7 @@ html, body, .layui-layout-admin {
     bottom: 0;
 }
 
-.layui-tab-iframe {
+.layui-layout-admin .layui-tab-iframe {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -202,6 +202,7 @@ html, body, .layui-layout-admin {
     padding-left: 20px;
 }
 
+/*popup menu*/
 .popup-tips .layui-layer-TipsG {
     display: none;
 }
@@ -215,10 +216,39 @@ html, body, .layui-layout-admin {
     border-radius: 10px;
 }
 
+/*tab*/
+.layui-tab .layui-tab-left,
+.layui-tab .layui-tab-right {
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.layui-tab .layui-tab-left {
+    left: 0;
+    border-right: 1px solid #e6e6e6;
+}
+
+.layui-tab .layui-tab-right {
+    right: 0;
+    border-left: 1px solid #e6e6e6;
+}
+
+.layui-tab-title .layui-tab-bar,
 .layui-tab-title li:first-child .layui-tab-close {
     display: none;
 }
 
+.layui-tab-title {
+    margin: 0 40px;
+}
+
+/*mini side*/
 @media screen and (min-width: 1025px) {
     .layui-mini .layui-logo .mini-logo {
         display: block;

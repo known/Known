@@ -228,11 +228,29 @@ layui.define('common', function (exports) {
 
         //private
         initEvent: function () {
+            var _this = this;
             element.on('tab(tabMenu)', function (elem) {
                 var id = $(this).attr('lay-id');
                 $('.layui-nav-child dd').removeClass('layui-this');
                 $('.layui-nav-child #menu' + id).parent().addClass('layui-this');
             });
+
+            $(".layui-tab-left").click(function () {
+                _this.roll("left");
+            });
+            $(".layui-tab-right").click(function () {
+                _this.roll("right");
+            });
+        },
+
+        roll: function (direction) {
+            var title = $('.layui-layout-admin .layui-tab-title');
+            var left = title.scrollLeft();
+            if (direction === 'left') {
+                title.animate({ scrollLeft: left - 450 }, 200);
+            } else {
+                title.animate({ scrollLeft: left + 450 }, 200);
+            }
         }
 
     }
