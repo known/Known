@@ -195,6 +195,9 @@ layui.define('common', function (exports) {
     var Tab = {
 
         option: null,
+        tabId: 'tabMenu',
+        clsTabTitle: '.layui-layout-admin .layui-tab-title',
+        clsTabContext: '.layui-tab-context',
 
         //public
         show: function (option) {
@@ -207,17 +210,17 @@ layui.define('common', function (exports) {
                 return;
 
             var id = node.id;
-            var tab = $('.layui-tab-title li[lay-id="' + id + '"]');
+            var tab = $(this.clsTabTitle + ' li[lay-id="' + id + '"]');
             if (!tab.length) {
                 var title = node.icon + ' <span>' + node.text + '</span>';
                 var content = '<iframe src="' + node.url + '" frameborder="0" class="layui-tab-iframe"></iframe>';
-                element.tabAdd('tabMenu', { id: id, title: title, content: content });
+                element.tabAdd(this.tabId, { id: id, title: title, content: content });
             }
-            element.tabChange('tabMenu', id);
+            element.tabChange(this.tabId, id);
         },
 
         getCurTab: function () {
-            var tab = $('.layui-tab-title .layui-this');
+            var tab = $(this.clsTabTitle + ' .layui-this');
             var id = tab.attr('lay-id');
             var title = tab.children('span').text();
             var module = this.option.menus
@@ -229,28 +232,72 @@ layui.define('common', function (exports) {
         //private
         initEvent: function () {
             var _this = this;
+            _this.initContextMenu();
+
             element.on('tab(tabMenu)', function (elem) {
                 var id = $(this).attr('lay-id');
                 $('.layui-nav-child dd').removeClass('layui-this');
                 $('.layui-nav-child #menu' + id).parent().addClass('layui-this');
             });
 
-            $(".layui-tab-left").click(function () {
-                _this.roll("left");
-            });
-            $(".layui-tab-right").click(function () {
-                _this.roll("right");
-            });
+            $('.layui-tab-left').click(function () { _this.roll('left'); });
+            $('.layui-tab-right').click(function () { _this.roll('right'); });
         },
 
         roll: function (direction) {
-            var title = $('.layui-layout-admin .layui-tab-title');
+            var title = $(this.clsTabTitle);
             var left = title.scrollLeft();
             if (direction === 'left') {
                 title.animate({ scrollLeft: left - 450 }, 200);
             } else {
                 title.animate({ scrollLeft: left + 450 }, 200);
             }
+        },
+
+        initContextMenu: function () {
+            var _this = this, cls = _this.clsTabContext, target;
+            $(this.clsTabTitle).contextmenu(function (e) {
+                target = $(e.target);
+                $(cls).show().css({
+                    left: (e.offsetX + 10) + 'px',
+                    top: (e.offsetY + 10) + 'px'
+                });
+                return false;
+            }).click(function () { $(cls).hide(); });
+
+            $(cls + ' [tab-close="current"]').click(function () { _this.closeTab(target, 'current'); });
+            $(cls + ' [tab-close="other"]').click(function () { _this.closeTab(target, 'other'); });
+            $(cls + ' [tab-close="all"]').click(function () { _this.closeTab(target, 'all'); });
+        },
+
+        closeTab: function (target, type) {
+            var tabId = this.tabId;
+            function deleteTab(id) {
+                if (id && id !== '1') {
+                    element.tabDelete(tabId, id);
+                }
+            }
+
+            var currendId = $(target).parent().attr('lay-id');
+            switch (type) {
+                case 'current':
+                    deleteTab(currendId);
+                    break;
+                case 'other':
+                    $(this.clsTabTitle + ' li').each(function (i, el) {
+                        var id = $(el).attr('lay-id');
+                        if (id !== currendId) {
+                            deleteTab(id);
+                        }
+                    });
+                    break;
+                case 'all':
+                    $(this.clsTabTitle + ' li').each(function (i, el) {
+                        deleteTab($(el).attr('lay-id'));
+                    });
+                    break;
+            }
+            $(this.clsTabContext).hide();
         }
 
     }

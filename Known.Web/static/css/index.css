@@ -248,6 +248,14 @@ html, body, .layui-layout-admin {
     margin: 0 40px;
 }
 
+.layui-tab-context {
+    display: none;
+    position: absolute;
+    width: 100px;
+    min-width: 100px;
+    padding-left: 20px;
+}
+
 /*mini side*/
 @media screen and (min-width: 1025px) {
     .layui-mini .layui-logo .mini-logo {
