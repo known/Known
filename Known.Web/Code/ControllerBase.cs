@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using Known.Core;
 
@@ -84,6 +85,18 @@ namespace Known.Web
                 return ErrorResult(result.Message, result.Data);
 
             return SuccessResult(result.Message, result.Data);
+        }
+
+        protected ActionResult ExportResult(byte[] fileContents, string fileDownloadName, string contentType = "application/octet-stream")
+        {
+            if (fileDownloadName.ToLower().EndsWith(".pdf"))
+                contentType = "application/pdf";
+            else if (fileDownloadName.ToLower().EndsWith(".xlsx"))
+                contentType = "application/vnd.ms-excel";
+
+            var token = Request.Form["downloadToken"];
+            Response.SetCookie(new HttpCookie("downloadToken", token));
+            return File(fileContents, contentType, fileDownloadName);
         }
 
         protected ActionResult QueryPagingData<T>(CriteriaData data, Func<PagingCriteria, PagingResult<T>> func)

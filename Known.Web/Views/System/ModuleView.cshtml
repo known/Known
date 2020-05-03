@@ -20,6 +20,9 @@
         <button class="layui-btn layui-btn-sm" lay-event="remove">
             <i class="layui-icon layui-icon-delete"></i>删除
         </button>
+        <button class="layui-btn layui-btn-sm" lay-event="sql">
+            <i class="layui-icon layui-icon-fonts-code"></i>导出SQL
+        </button>
     </div>
 </script>
 <script type="text/html" id="tbrModule">
@@ -78,8 +81,9 @@
     layui.use('frame', function () {
         var url = {
             GetModuleTree: '/Module/GetModuleTree',
-            DeleteModules: '/Module/DeleteModules',
             CopyModules: '/Module/CopyModules',
+            DeleteModules: '/Module/DeleteModules',
+            ExportModules: '/Module/ExportModules',
             SaveModule: '/Module/SaveModule'
         };
 
@@ -166,7 +170,15 @@
                 },
                 remove: function (e) { deleteModules(e); },
                 edit: function (e) { e.editRow(form); },
-                del: function (e) { deleteModules(e); }
+                del: function (e) { deleteModules(e); },
+                sql: function (e) {
+                    selectModule(function (list) {
+                        var data = list.map(d => d.id);
+                        frame.common.download(url.ExportModules, {
+                            data: JSON.stringify(data)
+                        });
+                    });
+                }
             }
         });
 
@@ -204,6 +216,29 @@
         function deleteModules(e) {
             e.deleteRows(url.DeleteModules, function () {
                 renderTree();
+            });
+        }
+
+        function selectModule(callback) {
+            frame.open({
+                title: '导出SQL',
+                area: ['450px', '300px'],
+                content: '<div id="treeSql"></div>',
+                btn: ['确定', '关闭'],
+                yes: function () {
+                    layer.close(layer.index);
+                    var data = tree.getChecked('treeSql');
+                    callback && callback(frame.common.tree2List(data, ''));
+                },
+                btn2: function () {
+                    layer.close(layer.index);
+                },
+                success: function () {
+                    tree.render({
+                        id: 'treeSql', elem: '#treeSql',
+                        data: treeData, showCheckbox: true
+                    });
+                }
             });
         }
 

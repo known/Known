@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Known.Core.Entities;
 using Known.Core.Repositories;
 
@@ -12,6 +15,26 @@ namespace Known.Core.Services
         public PagingResult<SysModule> QueryModules(PagingCriteria criteria)
         {
             return Repository.QueryModules(Database, criteria);
+        }
+
+        public Result CopyModules(string[] ids, string mid)
+        {
+            var module = Database.QueryById<SysModule>(mid);
+            if (module == null)
+                return Result.Error("所选模块不存在！");
+
+            var entities = Database.QueryListById<SysModule>(ids);
+            if (entities == null || entities.Count == 0)
+                return Result.Error("请至少选择一条记录进行操作！");
+
+            return Database.Transaction("复制", db =>
+            {
+                foreach (var item in entities)
+                {
+                    item.ParentId = module.Id;
+                    db.Insert(item);
+                }
+            });
         }
 
         public Result DeleteModules(string[] ids)
@@ -36,24 +59,23 @@ namespace Known.Core.Services
             });
         }
 
-        public Result CopyModules(string[] ids, string mid)
+        public byte[] ExportModules(string[] ids)
         {
-            var module = Database.QueryById<SysModule>(mid);
-            if (module == null)
-                return Result.Error("所选模块不存在！");
-
             var entities = Database.QueryListById<SysModule>(ids);
             if (entities == null || entities.Count == 0)
-                return Result.Error("请至少选择一条记录进行操作！");
+                return null;
 
-            return Database.Transaction("复制", db =>
+            entities = entities.OrderBy(e => e.ParentId).ThenBy(e => e.Sort).ToList();
+            var date = DateTime.Now.ToString("yyyy-MM-dd");
+            var sql = string.Empty;
+            foreach (var item in entities)
             {
-                foreach (var item in entities)
-                {
-                    item.ParentId = module.Id;
-                    db.Insert(item);
-                }
-            });
+                sql += $@"
+insert into SysModule(Id,CreateBy,CreateTime,Version,CompNo,ParentId,Type,Code,Name,Icon,Url,Sort,Enabled) values('{item.Id}','System','{date}',1,'{item.CompNo}','{item.ParentId}','{item.Type}','{item.Code}','{item.Name}','{item.Icon}','{item.Url}',{item.Sort},{item.Enabled})
+GO";
+            }
+
+            return Encoding.UTF8.GetBytes(sql);
         }
         #endregion
 

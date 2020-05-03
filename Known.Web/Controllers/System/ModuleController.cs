@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Known.Core;
 using Known.Core.Services;
 
 namespace Known.Web.Controllers
@@ -23,15 +22,23 @@ namespace Known.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult CopyModules(string data, string mid)
+        {
+            return PostAction<string[]>(data, d => Service.CopyModules(d, mid));
+        }
+
+        [HttpPost]
         public ActionResult DeleteModules(string data)
         {
             return PostAction<string[]>(data, d => Service.DeleteModules(d));
         }
 
         [HttpPost]
-        public ActionResult CopyModules(string data, string mid)
+        public ActionResult ExportModules(string data)
         {
-            return PostAction<string[]>(data, d => Service.CopyModules(d, mid));
+            var ids = Utils.FromJson<string[]>(data);
+            var bytes = Service.ExportModules(ids);
+            return ExportResult(bytes, "Module.sql");
         }
         #endregion
 
