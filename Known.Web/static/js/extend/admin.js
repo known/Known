@@ -4,11 +4,6 @@ layui.define('common', function (exports) {
         element = layui.element,
         common = layui.common;
 
-    if (!/http(s*):\/\//.test(location.href)) {
-        var tips = '请在Web服务器（Apache/Tomcat/Nginx/IIS/等）运行，否则部分数据将无法显示！';
-        return layer.alert(tips);
-    }
-
     function fullScreen() {
         var el = document.documentElement;
         var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
@@ -69,9 +64,14 @@ layui.define('common', function (exports) {
         show: function (option) {
             this.option = option;
             this.treeData = common.list2Tree(option.data, '')
-            var menu = this.render('topMenu');
-            this.render('leftMenu', menu[0].id);
+            var menus = this.render('topMenu');
+            this.render('leftMenu', menus[0].id);
             this.initEvent();
+            var tm = $('.layui-nav[lay-filter=topMenu]').hide();
+            if (menus.length > 1) {
+                tm.show();
+            }
+            option.topChanged && option.topChanged(menus[0]);
         },
 
         //private
@@ -96,7 +96,7 @@ layui.define('common', function (exports) {
                 }
                 html += '</li>';
             });
-            $(document).find(".layui-nav[lay-filter=" + obj + "]").html(html);
+            $('.layui-nav[lay-filter=' + obj + ']').html(html);
             element.init();
             return data;
         },
@@ -123,9 +123,11 @@ layui.define('common', function (exports) {
             _this.initMenuEvent();
             element.on('nav(topMenu)', function (elem) {
                 var pid = elem[0].id.replace('menu', '');
+                var url = elem.data('url');
                 _this.render('leftMenu', pid);
                 _this.initMenuTips();
                 _this.initMenuEvent();
+                _this.option.topChanged && _this.option.topChanged({ url: url });
             });
         },
 
@@ -196,6 +198,7 @@ layui.define('common', function (exports) {
 
         option: null,
         tabId: 'tabMenu',
+        homeTabId: '1',
         clsTabTitle: '.layui-layout-admin .layui-tab-title',
         clsTabContext: '.layui-tab-context',
 
@@ -203,6 +206,14 @@ layui.define('common', function (exports) {
         show: function (option) {
             this.option = option;
             this.initEvent();
+        },
+
+        loadHome: function (url) {
+            url = url || this.option.url.Welcome;
+            var ifm = $('#ifmWelcome'), src = ifm.attr('src');
+            if (src !== url) {
+                ifm.attr('src', url);
+            }
         },
 
         addTab: function (node) {
@@ -271,9 +282,9 @@ layui.define('common', function (exports) {
         },
 
         closeTab: function (target, type) {
-            var tabId = this.tabId;
+            var tabId = this.tabId, homeTabId = this.homeTabId;
             function deleteTab(id) {
-                if (id && id !== '1') {
+                if (id && id !== homeTabId) {
                     element.tabDelete(tabId, id);
                 }
             }
@@ -374,8 +385,12 @@ layui.define('common', function (exports) {
             renderAnim(option.pageAnim || true);
             Toolbar.show({ url: option.url });
             $.get(option.url.GetUserMenus, function (result) {
-                Menu.show({ data: result.menus });
-                Tab.show({ menus: result.menus });
+                Tab.show({ menus: result.menus, url: option.url });
+                Menu.show({
+                    data: result.menus, topChanged: function (menu) {
+                        Tab.loadHome(menu.url);
+                    }
+                });
                 option.callback && option.callback(result);
                 $('.loader').fadeOut();
             });
