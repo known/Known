@@ -10,6 +10,7 @@ namespace Known.Web
         {
             base.Application_Start(sender, e);
             ViewEngines.Engines.RemoveAt(0);
+            AreaRegistration.RegisterAllAreas();
             WebConfig.RegisterFilters(GlobalFilters.Filters);
             WebConfig.RegisterRoutes(RouteTable.Routes);
         }

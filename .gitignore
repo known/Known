@@ -260,7 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /client
-/Known.Web/Views/Alarm
-/Known.Web/Views/Online
-/Known.Web/Views/Report
-/Known.Web/Views/Target
+/Known.Web/Areas
