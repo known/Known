@@ -139,7 +139,7 @@ namespace Known
             var info = new CommandInfo(prefix, sql, criteria.Parameter);
             PrepareCommand(conn, cmd, trans, info, out _);
             cmd.CommandText = info.CountSql;
-            var total = (int)cmd.ExecuteScalar();
+            var total = (long)cmd.ExecuteScalar();
             if (total > 0)
             {
                 cmd.CommandText = info.GetPagingSql(ProviderName, criteria);
@@ -694,7 +694,7 @@ select t.* from (
 
     public class PagingResult<T>
     {
-        public int TotalCount { get; set; }
+        public long TotalCount { get; set; }
         public List<T> PageData { get; set; }
         public object Summary { get; set; }
     }
