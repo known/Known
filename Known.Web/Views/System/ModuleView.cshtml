@@ -53,8 +53,15 @@
                 <input type="radio" name="Type" value="菜单" title="菜单" checked>
                 <input type="radio" name="Type" value="按钮" title="按钮">
             </td>
-            <th>URL</th>
+            <th class="required">目标</th>
             <td>
+                <input type="radio" name="Target" value="tab" title="Tab" checked>
+                <input type="radio" name="Target" value="_blank" title="Blank">
+            </td>
+        </tr>
+        <tr>
+            <th>URL</th>
+            <td colspan="3">
                 <input type="text" name="Url" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
             </td>
         </tr>

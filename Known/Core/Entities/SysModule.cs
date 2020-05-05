@@ -8,6 +8,7 @@
         public string Name { get; set; }
         public string Icon { get; set; }
         public string Url { get; set; }
+        public string Target { get; set; }
         public int Sort { get; set; }
         public int Enabled { get; set; }
         public string Note { get; set; }

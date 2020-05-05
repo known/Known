@@ -18,6 +18,7 @@ namespace Known.Core
         public string Name { get; set; }
         public string Icon { get; set; }
         public string Url { get; set; }
+        public string Target { get; set; }
         public bool Checked { get; set; }
         public int Order { get; set; }
     }

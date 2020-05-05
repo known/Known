@@ -67,6 +67,10 @@ input:read-only {
     height: auto;
 }
 
+.form .layui-textarea {
+    min-height: 70px;
+}
+
 .form .layui-form-radio {
     margin: 0;
 }

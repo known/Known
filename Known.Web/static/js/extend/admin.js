@@ -82,15 +82,23 @@ layui.define('common', function (exports) {
                 var parent = this.treeData.find(d => d.id === pid);
                 data = parent.children;
             }
-            $(data).each(function (i, d) {
+
+            function getLink(d) {
+                if (d.target === '_blank') {
+                    return '<a href="' + d.url + '" id="menu' + d.id + '" target="_blank"><i class="layui-icon ' + d.icon + '"></i>';
+                }
+
                 var url = d.url ? (' data-url="' + d.url + '"') : '';
+                return '<a href="javascript:;" id="menu' + d.id + '"' + url + '><i class="layui-icon ' + d.icon + '"></i>';
+            }
+
+            $(data).each(function (i, d) {
                 html += '<li class="layui-nav-item menuItem">';
-                html += '  <a href="javascript:;" id="menu' + d.id + '"' + url + '><i class="layui-icon ' + d.icon + '"></i><span class="title">' + d.title + '</span></a>';
+                html += getLink(d) + '<span class="title">' + d.title + '</span></a>';
                 if (pid && d.children) {
                     html += '  <dl class="layui-nav-child">';
                     $(d.children).each(function (ci, cd) {
-                        var curl = cd.url ? (' data-url="' + cd.url + '"') : '';
-                        html += '<dd><a href="javascript:;" id="menu' + cd.id + '"' + curl + '><i class="layui-icon ' + cd.icon + '"></i> ' + cd.title + '</a></dd>';
+                        html += '<dd>' + getLink(cd) +' ' + cd.title + '</a></dd>';
                     });
                     html += '  </dl>';
                 }

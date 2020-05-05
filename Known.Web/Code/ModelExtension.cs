@@ -15,6 +15,7 @@ namespace Known.Web
                 title = menu.Name,
                 icon = menu.Icon,
                 url = menu.Url,
+                target = menu.Target,
                 @checked = menu.Checked,
             };
         }
