@@ -19,6 +19,7 @@ html, body, .layui-layout-admin {
 .layui-layout-admin .layui-logo {
     position: initial;
     line-height: 50px;
+    color: #ddd;
 }
 
 .layui-layout-admin .layui-tool {
@@ -159,6 +160,7 @@ html, body, .layui-layout-admin {
 
 .layui-logo .mini-logo {
     display: none;
+    color: #ddd;
 }
 
 .layui-layout-admin .layui-footer {
