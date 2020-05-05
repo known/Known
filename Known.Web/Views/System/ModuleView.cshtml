@@ -1,8 +1,8 @@
 ﻿<div class="layui-fit">
-    <div class="fit-col" style="width:240px;">
+    <div class="fit-col" style="width:200px;">
         <div id="tree"></div>
     </div>
-    <div class="fit-col" style="left:260px;">
+    <div class="fit-col" style="left:220px;">
         <table id="gridModule" class="layui-hide" lay-filter="gridModule"></table>
     </div>
 </div>
@@ -128,23 +128,22 @@
                 toolbar: '#tbModule', height: 'full-25',
                 initSort: { field: 'Sort', type: 'asc' },
                 cols: [[
-                    { type: 'numbers', fixed: 'left' },
                     { type: 'checkbox', fixed: 'left' },
+                    { sort: true, title: '顺序', field: 'Sort', width: 80, align: 'center' },
                     { sort: true, title: '编码', field: 'Code', width: 100 },
                     {
                         sort: true, title: '名称', field: 'Name', width: 150, templet: function (d) {
                             return '<i class="layui-icon ' + d.Icon + '"></i>' + d.Name;
                         }
                     },
-                    { sort: true, title: '类型', field: 'Type', width: 100 },
-                    { sort: true, title: 'URL', field: 'Url', width: 250 },
+                    { sort: true, title: '类型', field: 'Type', width: 80 },
+                    { sort: true, title: 'URL', field: 'Url', width: 200 },
                     {
                         sort: true, title: '状态', field: 'Enabled', width: 100, templet: function (d) {
                             var checked = d.Enabled ? ' checked' : '';
                             return '<input type="checkbox" lay-skin="switch" lay-text="启用|停用" disabled' + checked + '>';
                         }
                     },
-                    { sort: true, title: '顺序', field: 'Sort', width: 100, align: 'center' },
                     { fixed: 'right', title: '操作', toolbar: '#tbrModule', width: 120, align: 'center' }
                 ]]
             },
