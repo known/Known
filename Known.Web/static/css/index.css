@@ -200,6 +200,10 @@ html, body, .layui-layout-admin {
     margin-right: 5px;
 }
 
+.layui-nav .layui-nav-item a {
+    padding-left: 15px;
+}
+
 .layui-side .layui-nav-child dd {
     padding-left: 20px;
 }
