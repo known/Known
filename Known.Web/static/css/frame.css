@@ -49,6 +49,7 @@ input:read-only {
     background-color: #f1f1f1;
     padding-right: 5px;
     text-align: right;
+    font-weight: normal;
 }
 
 .form td {
