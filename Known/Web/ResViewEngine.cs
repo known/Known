@@ -7,6 +7,7 @@ namespace Known.Web
 {
     public class ViewContext
     {
+        public Assembly LayoutAssembly { get; set; }
         public Assembly Assembly { get; set; }
         public HttpContextBase HttpContext { get; set; }
         public string Controller { get; set; }
@@ -76,7 +77,7 @@ namespace Known.Web
 
             var layout = string.Empty;
             if (!context.IsPartial && !text.Contains("<html>"))
-                layout = Utils.GetResource(assembly, "Views.Layout");
+                layout = Utils.GetResource(context.LayoutAssembly, "Views.Layout");
 
             if (!context.IsPartial)
             {
@@ -147,7 +148,7 @@ namespace Known.Web
                 return new Tuple<string, string>("", "");
 
             var id = context.Request.Path.GetHashCode();
-            ResViewEngine.SetStyle(id, style.Replace("~/", "/"));
+            ResViewEngine.SetStyle(id, style.Replace("~/", "/").Replace("@@", "@"));
             var html = $"<link rel=\"stylesheet\" href=\"~/Home/Style?id={id}\" media=\"all\">";
             return new Tuple<string, string>(html, style);
         }

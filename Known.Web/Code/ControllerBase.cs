@@ -52,6 +52,7 @@ namespace Known.Web
             var ctx = ControllerContext;
             var context = new ViewContext
             {
+                LayoutAssembly = typeof(ControllerBase).Assembly,
                 Assembly = ctx.Controller.GetType().Assembly,
                 HttpContext = ctx.HttpContext,
                 PartialName = partialName
