@@ -95,6 +95,7 @@ namespace Known.Web
         private static string ReplaceHtml(string html)
         {
             return html.Replace("~/", "/")
+                       .Replace("@@", "@")
                        .Replace("@{Layout = null;}", "")
                        .Replace("@ViewBag.AppName", Config.AppName);
         }
