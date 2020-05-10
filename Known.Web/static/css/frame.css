@@ -97,6 +97,7 @@ input:read-only {
     margin-right: 2px;
 }
 
+/*fit*/
 .layui-fit {
     position: absolute;
     top: 0;
@@ -105,7 +106,9 @@ input:read-only {
     right: 0;
 }
 
-.fit-col {
+.fit-col,
+.fit-col-3,
+.fit-col-7 {
     position: absolute;
     top: 10px;
     bottom: 10px;
@@ -113,6 +116,13 @@ input:read-only {
     right: 10px;
     background-color: #fff;
     overflow: auto;
+}
+
+.fit-col-3 {
+    width: 200px;
+}
+.fit-col-7 {
+    left: 220px;
 }
 
 .layui-fit .layui-tab {
@@ -239,4 +249,17 @@ body .layui-layer-page .layui-layer-btn {
     height: 26px;
     border-left: 1px solid #e2e2e2;
     cursor: pointer;
+}
+
+@media screen and (max-width:768px) {
+    .fit-col-3 {
+        width: initial;
+        height: 200px;
+        bottom: initial;
+    }
+
+    .fit-col-7 {
+        left: 10px;
+        top: 220px;
+    }
 }
