@@ -149,54 +149,6 @@ html, body, .layui-layout-admin {
     }
 }
 
-/*fix-title*/
-.fix-title .layui-logo .mini-logo {
-    display: none;
-}
-
-.fix-title .layui-layout-admin .layui-tool {
-    top: 50px;
-    left: 0;
-    width: 200px;
-    height: 40px;
-    line-height: 40px;
-    background-color: #393D49 !important;
-}
-
-.fix-title .layui-layout-admin .layui-layout-left {
-    left: 180px;
-}
-
-.fix-title .layui-layout-admin .layui-side {
-    top: 90px;
-}
-
-.fix-title .layui-layout-admin .layui-body {
-    bottom: 0;
-}
-
-.fix-title .layui-mini .layui-logo .full-logo {
-    display: block !important;
-    width: auto !important;
-}
-
-.fix-title .layui-mini .layui-tool {
-    left: 0 !important;
-    width: 50px;
-}
-
-@media screen and (max-width:768px) {
-    .fix-title .layui-logo .full-logo {
-        display: block !important;
-        width: auto !important;
-    }
-
-    .fix-title .layui-layout-admin .layui-tool {
-        width: 50px;
-        display: block;
-    }
-}
-
 /*Loader*/
 .loader {
     position: fixed;
