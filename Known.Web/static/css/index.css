@@ -28,6 +28,7 @@ html, body, .layui-layout-admin {
     left: 200px;
     width: 50px;
     line-height: 50px;
+    z-index: 9000;
 }
 
 .layui-layout-admin .layui-layout-left {
@@ -84,6 +85,116 @@ html, body, .layui-layout-admin {
     right: 0;
     top: 0;
     bottom: 0;
+}
+
+/*mini side*/
+.layui-mini .layui-logo .mini-logo {
+    display: block;
+}
+
+.layui-mini .layui-logo .full-logo,
+.layui-mini .layui-nav-tree .layui-nav-more,
+.layui-mini .layui-nav-tree .layui-nav-child,
+.layui-mini .layui-nav-tree li a .title {
+    display: none !important;
+}
+
+.layui-mini .layui-logo .full-logo,
+.layui-mini .layui-logo .mini-logo,
+.layui-mini .layui-side,
+.layui-mini .layui-side-scroll {
+    width: 50px !important;
+}
+
+.layui-mini .layui-tool,
+.layui-mini .layui-body,
+.layui-mini .layui-footer {
+    left: 50px !important;
+}
+
+.layui-mini .layui-layout-left {
+    left: 80px;
+}
+
+@media screen and (max-width:768px) {
+    .layui-logo .mini-logo {
+        display: block;
+    }
+
+    .layui-logo .full-logo,
+    .layui-nav-tree .layui-nav-more,
+    .layui-nav-tree .layui-nav-child,
+    .layui-nav-tree li a .title {
+        display: none !important;
+    }
+
+    .layui-logo .full-logo,
+    .layui-logo .mini-logo,
+    .layui-side,
+    .layui-side-scroll {
+        width: 50px !important;
+    }
+
+    .layui-body,
+    .layui-footer {
+        left: 50px !important;
+    }
+
+    .layui-tool {
+        display: none;
+    }
+
+    .layui-layout-left {
+        left: 80px;
+    }
+}
+
+/*fix-title*/
+.fix-title .layui-logo .mini-logo {
+    display: none;
+}
+
+.fix-title .layui-layout-admin .layui-tool {
+    top: 50px;
+    left: 0;
+    width: 200px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #393D49 !important;
+}
+
+.fix-title .layui-layout-admin .layui-layout-left {
+    left: 180px;
+}
+
+.fix-title .layui-layout-admin .layui-side {
+    top: 90px;
+}
+
+.fix-title .layui-layout-admin .layui-body {
+    bottom: 0;
+}
+
+.fix-title .layui-mini .layui-logo .full-logo {
+    display: block !important;
+    width: auto !important;
+}
+
+.fix-title .layui-mini .layui-tool {
+    left: 0 !important;
+    width: 50px;
+}
+
+@media screen and (max-width:768px) {
+    .fix-title .layui-logo .full-logo {
+        display: block !important;
+        width: auto !important;
+    }
+
+    .fix-title .layui-layout-admin .layui-tool {
+        width: 50px;
+        display: block;
+    }
 }
 
 /*Loader*/
@@ -260,66 +371,4 @@ html, body, .layui-layout-admin {
     width: 100px;
     min-width: 100px;
     padding-left: 20px;
-}
-
-/*mini side*/
-.layui-mini .layui-logo .mini-logo {
-    display: block;
-}
-
-.layui-mini .layui-logo .full-logo,
-.layui-mini .layui-nav-tree .layui-nav-more,
-.layui-mini .layui-nav-tree .layui-nav-child,
-.layui-mini .layui-nav-tree li a .title {
-    display: none !important;
-}
-
-.layui-mini .layui-logo .full-logo,
-.layui-mini .layui-logo .mini-logo,
-.layui-mini .layui-side,
-.layui-mini .layui-side-scroll {
-    width: 50px !important;
-}
-
-.layui-mini .layui-tool,
-.layui-mini .layui-body,
-.layui-mini .layui-footer {
-    left: 50px !important;
-}
-
-.layui-mini .layui-layout-left {
-    left: 80px;
-}
-
-@media screen and (max-width:768px) {
-    .layui-logo .mini-logo {
-        display: block;
-    }
-
-    .layui-logo .full-logo,
-    .layui-nav-tree .layui-nav-more,
-    .layui-nav-tree .layui-nav-child,
-    .layui-nav-tree li a .title {
-        display: none !important;
-    }
-
-    .layui-logo .full-logo,
-    .layui-logo .mini-logo,
-    .layui-side,
-    .layui-side-scroll {
-        width: 50px !important;
-    }
-
-    .layui-body,
-    .layui-footer {
-        left: 50px !important;
-    }
-
-    .layui-tool {
-        display: none;
-    }
-
-    .layui-layout-left {
-        left: 80px;
-    }
 }
