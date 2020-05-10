@@ -222,7 +222,7 @@ body .layui-layer-page .layui-layer-btn {
 
 /*grid search*/
 .grid-search {
-    float: right;
+    display: inline-block;
     position: relative;
 }
 

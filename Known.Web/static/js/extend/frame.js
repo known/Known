@@ -24,11 +24,11 @@ layui.define('common', function (exports) {
         if (toolbar) {
             if (!config.toolbar) {
                 var tab = getCurTab();
-                var tbHtml = '<div class="layui-btn-container">';
+                var tbHtml = '<div>';
                 if (tab.module && tab.module.children) {
                     tab.module.children.forEach(function (d) {
                         tbHtml += ('<button class="layui-btn layui-btn-sm" lay-event="' + d.code + '">');
-                        tbHtml += ('<i class="layui-icon ' + d.icon + '"></i>' + d.title);
+                        tbHtml += ('<i class="layui-icon ' + d.icon + '"></i><span>' + d.title + '</span>');
                         tbHtml += '</button>';
                     });
                 }
