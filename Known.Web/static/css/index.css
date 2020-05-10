@@ -263,32 +263,63 @@ html, body, .layui-layout-admin {
 }
 
 /*mini side*/
-@media screen and (min-width: 1025px) {
-    .layui-mini .layui-logo .mini-logo {
+.layui-mini .layui-logo .mini-logo {
+    display: block;
+}
+
+.layui-mini .layui-logo .full-logo,
+.layui-mini .layui-nav-tree .layui-nav-more,
+.layui-mini .layui-nav-tree .layui-nav-child,
+.layui-mini .layui-nav-tree li a .title {
+    display: none !important;
+}
+
+.layui-mini .layui-logo .full-logo,
+.layui-mini .layui-logo .mini-logo,
+.layui-mini .layui-side,
+.layui-mini .layui-side-scroll {
+    width: 50px !important;
+}
+
+.layui-mini .layui-tool,
+.layui-mini .layui-body,
+.layui-mini .layui-footer {
+    left: 50px !important;
+}
+
+.layui-mini .layui-layout-left {
+    left: 80px;
+}
+
+@media screen and (max-width:768px) {
+    .layui-logo .mini-logo {
         display: block;
     }
 
-    .layui-mini .layui-logo .full-logo,
-    .layui-mini .layui-nav-tree .layui-nav-more,
-    .layui-mini .layui-nav-tree .layui-nav-child,
-    .layui-mini .layui-nav-tree li a .title {
+    .layui-logo .full-logo,
+    .layui-nav-tree .layui-nav-more,
+    .layui-nav-tree .layui-nav-child,
+    .layui-nav-tree li a .title {
         display: none !important;
     }
 
-    .layui-mini .layui-logo .full-logo,
-    .layui-mini .layui-logo .mini-logo,
-    .layui-mini .layui-side,
-    .layui-mini .layui-side-scroll {
+    .layui-logo .full-logo,
+    .layui-logo .mini-logo,
+    .layui-side,
+    .layui-side-scroll {
         width: 50px !important;
     }
 
-    .layui-mini .layui-tool,
-    .layui-mini .layui-body,
-    .layui-mini .layui-footer {
+    .layui-body,
+    .layui-footer {
         left: 50px !important;
     }
 
-    .layui-mini .layui-layout-left {
+    .layui-tool {
+        display: none;
+    }
+
+    .layui-layout-left {
         left: 80px;
     }
 }
