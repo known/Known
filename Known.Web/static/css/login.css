@@ -2,9 +2,6 @@
 html, body {
     width: 100%;
     height: 100%;
-    min-height: 700px;
-    background-color: #f2f2f2;
-    color: #666;
 }
 
 body {
@@ -53,12 +50,13 @@ a {
 /*Login Body*/
 .login {
     position: relative;
-    left: 0;
-    top: 0;
-    padding: 100px 0;
+    left: 50%;
+    top: 50%;
     box-sizing: border-box;
-    width: 375px;
-    margin: 0 auto;
+    width: 370px;
+    height: 340px;
+    margin-left: -185px;
+    margin-top: -170px;
 }
 
 .login-header {
@@ -108,8 +106,7 @@ a {
 
 @media screen and (max-width:768px) {
     .login {
-        padding-top: 60px;
         width: 300px;
-        padding: 10px;
+        margin-left: -150px;
     }
 }
