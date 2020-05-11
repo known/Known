@@ -33,6 +33,7 @@ CREATE TABLE SysModule (
 	[Name] [nvarchar](50) NOT NULL,
 	[Icon] [varchar](50) NULL,
 	[Url] [varchar](200) NULL,
+    [Target] [varchar](50) NULL,
 	[Sort] [int] NOT NULL,
 	[Enabled] [int] NOT NULL,
 	[Note] [ntext] NULL,
