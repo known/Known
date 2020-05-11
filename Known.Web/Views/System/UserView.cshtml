@@ -79,11 +79,7 @@
                 area: ['750px', '260px'],
                 content: $('#dialogUser').html(),
                 init: function (e) {
-                    var userName = e.form.getField('UserName');
-                    userName.attr('readonly', 'readonly');
-                    if (e.data.Id === '') {
-                        userName.removeAttr('readonly');
-                    }
+                    e.form.UserName.setReadonly(e.data.Id !== '');
                 }
             },
             toolbar: [{

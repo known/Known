@@ -142,6 +142,20 @@ layui.define('common', function (exports) {
         }
     }
 
+    function Field(form, elem) {
+        this.elem = elem;
+        this.id = elem.attr('id');
+        this.name = elem.attr('name');
+
+        this.setReadonly = function (readonly) {
+            if (readonly) {
+                elem.attr('readonly', 'readonly');
+            } else {
+                elem.removeAttr('readonly');
+            }
+        }
+    }
+
     function Form(option) {
         var name = option.name,
             config = option.config,
@@ -201,8 +215,10 @@ layui.define('common', function (exports) {
             }
         }
 
-        this.getField = function (id) {
-            return $('[lay-filter="' + name + '"]').find('[name="' + id + '"]');
+        var fields = [];
+        this.validate = function () {
+            //console.log(fields);
+            return true;
         }
 
         this.getData = function () {
@@ -211,6 +227,15 @@ layui.define('common', function (exports) {
 
         this.setData = function (data, callback) {
             form.val(name, data);
+
+            fields.length = 0;
+            var inputs = $('[lay-filter="' + name + '"]').find('input,select,textarea');
+            $.each(inputs, function (index, item) {
+                var elem = $(item), field = new Field(form, elem);
+                _this[elem.attr('name')] = field;
+                fields.push(field);
+            });
+
             var e = { form: _this, data: data };
             config.setData && config.setData(e);
             callback && callback(e);
@@ -221,6 +246,9 @@ layui.define('common', function (exports) {
         this.form = form;
 
         this.save = function (url, callback) {
+            if (!form.validate())
+                return;
+
             var data = form.getData();
             common.post(url, { data: JSON.stringify(data) }, function (id) {
                 data.Id = id;
