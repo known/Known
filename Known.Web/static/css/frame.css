@@ -44,6 +44,24 @@ input:read-only {
     padding-right: 2px;
 }
 
+.layui-fluid {
+    padding: 10px;
+}
+
+.layui-carousel {
+    background-color: transparent;
+}
+
+.layui-btn-group {
+    padding: 5px;
+}
+
+.layui-table-tool .layui-btn {
+    margin-left: 0;
+    margin-right: 2px;
+}
+
+
 /*form*/
 .form th {
     border: 1px solid #e9e7e7;
@@ -129,23 +147,6 @@ input:read-only {
     line-height: 28px;
 }
 
-.layui-fluid {
-    padding: 10px;
-}
-
-.layui-carousel {
-    background-color: transparent;
-}
-
-.layui-btn-group {
-    padding: 5px;
-}
-
-.layui-table-tool .layui-btn {
-    margin-left: 0;
-    margin-right: 2px;
-}
-
 /*fit*/
 .layui-fit {
     position: absolute;
@@ -174,6 +175,7 @@ input:read-only {
     left: 220px;
 }
 
+.form-card .layui-tab,
 .layui-fit .layui-tab {
     position: absolute;
     top: 0;
@@ -183,6 +185,7 @@ input:read-only {
     margin: 0;
 }
 
+.form-card .layui-tab-content,
 .layui-fit .layui-tab-content {
     position: absolute;
     top: 40px;
