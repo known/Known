@@ -162,56 +162,74 @@ layui.define('common', function (exports) {
             toolbar = option.toolbar;
 
         var _this = this;
-        if (config.area) {
-            var btn = [], handler = {};
-            if (toolbar) {
-                for (var i = 0; i < toolbar.length; i++) {
-                    btn.push(toolbar[i].text);
-                    var evt = i === 0 ? 'yes' : ('btn' + (i + 1));
-                    var hdl = toolbar[i].handler;
-                    handler[evt] = function (index, layero) {
-                        hdl && hdl.call(this, new FormManager(_this));
-                    };
-                }
+        var btn = [], handler = {}, btnHtml = '';
+        if (toolbar) {
+            for (var i = 0; i < toolbar.length; i++) {
+                var text = toolbar[i].text;
+                btn.push(text);
+                var evt = i === 0 ? 'yes' : ('btn' + (i + 1));
+                btnHtml += '<a class="layui-btn layui-btn-normal" data-type="' + evt + '">' + text + '</a>';
+                var hdl = toolbar[i].handler;
+                handler[evt] = function (index, layero) {
+                    hdl && hdl.call(this, new FormManager(_this));
+                };
             }
+        }
 
-            handler['btn' + (btn.length + 1)] = function (index) {
+        handler['btn' + (btn.length + 1)] = function (index) {
+            if (config.area) {
                 layer.close(index);
-            };
-            btn.push('关闭');
+            } else {
+                $('#' + name).hide();
+            }
+        };
+        btn.push('关闭');
 
+        if (config.area) {
             $.extend(config, { btn: btn }, handler);
+        } else {
+            btnHtml += '<a class="layui-btn layui-btn-primary" data-type="btn' + btn.length + '">关闭</a>';
+            $('#' + name + ' .form-card-footer').html(btnHtml);
+            $('#' + name + ' .form-card-footer .layui-btn').on('click', function () {
+                var othis = $(this), type = othis.data('type');
+                handler[type] ? handler[type].call(this, othis) : '';
+            });
         }
 
         var index = 0;
         this.show = function (data, ext) {
             data = data || option.defData;
+            var title = option.title;
+            if (!title) {
+                var tab = getCurTab();
+                title = tab ? tab.title : '';
+            }
+            ext = ext || {};
+            var info = ext.title || '';
+            var actionName = data.Id === '' ? '【新增】' : '【编辑】';
+            if (info.indexOf('【') > -1) {
+                actionName = '';
+            }
+            title = title + actionName + info;
             if (config.area) {
-                var title = option.title;
-                if (!title) {
-                    var tab = getCurTab();
-                    title = tab ? tab.title : '';
-                }
-                ext = ext || {};
-                var info = ext.title || '';
-                var actionName = data.Id === '' ? '【新增】' : '【编辑】';
-                if (info.indexOf('【') > -1) {
-                    actionName = '';
-                }
-                config.title = title + actionName + info;
+                config.title = title;
                 config.success = function () {
                     form.render(null, name);
                     _this.setData(data, config.init);
                 }
                 index = common.open(config);
             } else {
+                $('#' + name + ' .form-card-header').html(title);
                 this.setData(data, config.init);
+                $('#' + name).show();
             }
         }
 
         this.close = function () {
             if (index > 0) {
                 layer.close(index);
+            } else {
+                $('#' + name).hide();
             }
         }
 

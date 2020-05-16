@@ -44,6 +44,7 @@ input:read-only {
     padding-right: 2px;
 }
 
+/*form*/
 .form th {
     border: 1px solid #e9e7e7;
     background-color: #f1f1f1;
@@ -78,6 +79,54 @@ input:read-only {
 
 .form .layui-form-switch {
     margin-top: 0;
+}
+
+/*form-card*/
+.form-card {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    width: 50%;
+    background-color: #fff;
+    border-left: 1px solid #f6f6f6;
+    margin-bottom: 0;
+}
+
+.form-card-header {
+    height: 30px;
+    line-height: 30px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.form-card-body {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 40px;
+    padding: 5px;
+    overflow: auto;
+}
+
+.form-card-footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 30px;
+    line-height: 30px;
+    padding: 5px 10px;
+    border-top: 1px solid #f6f6f6;
+    text-align: right;
+}
+
+.form-card-footer .layui-btn {
+    height: 28px;
+    line-height: 28px;
 }
 
 .layui-fluid {

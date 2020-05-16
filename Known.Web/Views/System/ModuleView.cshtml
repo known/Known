@@ -6,6 +6,73 @@
         <table id="gridModule" class="layui-hide" lay-filter="gridModule"></table>
     </div>
 </div>
+<div class="form-card" id="formModule" style="width:60%;">
+    <div class="form-card-header"></div>
+    <div class="form-card-body">
+        <div class="layui-form" lay-filter="formModule">
+            <input type="hidden" name="Id">
+            <input type="hidden" name="ParentId">
+            <input type="hidden" name="Icon">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">编码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+                <div id="dvIcon"></div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label required">类型</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="Type" value="菜单" title="菜单" checked>
+                        <input type="radio" name="Type" value="按钮" title="按钮">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label required">目标</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="Target" value="tab" title="Tab" checked>
+                        <input type="radio" name="Target" value="_blank" title="Blank">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">URL</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Url" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label required">状态</label>
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label required">顺序</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="Sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline">
+                    <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-card-footer"></div>
+</div>
+
 <script type="text/html" id="tbModule">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="addSys">
@@ -29,60 +96,6 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<script type="text/html" id="dialogModule">
-    <table class="layui-form form" lay-filter="formModule">
-        <tr>
-            <th style="width:80px;" class="required">编码</th>
-            <td>
-                <input type="hidden" name="Id">
-                <input type="hidden" name="ParentId">
-                <input type="hidden" name="Icon">
-                <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-            <th style="width:80px;" class="required">
-                <span id="dvIcon" style="margin-right:5px;"></span>
-                <span>名称</span>
-            </th>
-            <td>
-                <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-        </tr>
-        <tr>
-            <th class="required">类型</th>
-            <td>
-                <input type="radio" name="Type" value="菜单" title="菜单" checked>
-                <input type="radio" name="Type" value="按钮" title="按钮">
-            </td>
-            <th class="required">目标</th>
-            <td>
-                <input type="radio" name="Target" value="tab" title="Tab" checked>
-                <input type="radio" name="Target" value="_blank" title="Blank">
-            </td>
-        </tr>
-        <tr>
-            <th>URL</th>
-            <td colspan="3">
-                <input type="text" name="Url" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-        </tr>
-        <tr>
-            <th class="required">状态</th>
-            <td>
-                <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
-            </td>
-            <th class="required">顺序</th>
-            <td>
-                <input type="text" name="Sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-        </tr>
-        <tr>
-            <th>备注</th>
-            <td colspan="3">
-                <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
-            </td>
-        </tr>
-    </table>
-</script>
 
 <script>
     layui.use('frame', function () {
@@ -102,8 +115,6 @@
         var form = frame.form({
             name: 'formModule',
             config: {
-                area: ['550px', '290px'],
-                content: $('#dialogModule').html(),
                 setData: function (e) {
                     $('#dvIcon').attr('icon', e.data.Icon)
                         .html('<i class="layui-icon ' + e.data.Icon + '"></i>');
