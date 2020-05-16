@@ -14,7 +14,7 @@ namespace Known.Web
         public PagingCriteria ToPagingCriteria()
         {
             var orderBys = new List<string>();
-            if (!string.IsNullOrWhiteSpace(field))
+            if (!string.IsNullOrWhiteSpace(field) && !string.IsNullOrWhiteSpace(order))
             {
                 var sorts = field.Split(',');
                 var orders = order.Split(',');
