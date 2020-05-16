@@ -44,7 +44,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">URL</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-block">
                     <input type="text" name="Url" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -64,7 +64,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">备注</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-block">
                     <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
                 </div>
             </div>
@@ -118,16 +118,6 @@
                 setData: function (e) {
                     $('#dvIcon').attr('icon', e.data.Icon)
                         .html('<i class="layui-icon ' + e.data.Icon + '"></i>');
-                },
-                init: function (e) {
-                    $('#dvIcon').click(function () {
-                        var icon1 = $(this).attr('icon');
-                        frame.selectIcon(icon1, function (icon) {
-                            var data = e.form.getData();
-                            data.Icon = icon;
-                            e.form.setData(data);
-                        });
-                    });
                 }
             },
             toolbar: [{
@@ -137,6 +127,15 @@
                     });
                 }
             }]
+        });
+
+        $('#dvIcon').click(function () {
+            var icon1 = $(this).attr('icon');
+            frame.selectIcon(icon1, function (icon) {
+                var data = form.getData();
+                data.Icon = icon;
+                form.setData(data);
+            });
         });
 
         var node = null;
