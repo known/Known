@@ -158,7 +158,7 @@ layui.define('common', function (exports) {
 
     function Form(option) {
         var name = option.name,
-            config = option.config,
+            config = option.config || {},
             toolbar = option.toolbar;
 
         var _this = this;

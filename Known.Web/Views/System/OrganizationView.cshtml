@@ -6,30 +6,34 @@
         <table id="gridOrganization" class="layui-hide" lay-filter="gridOrganization"></table>
     </div>
 </div>
-<script type="text/html" id="dialogOrganization">
-    <table class="layui-form form" lay-filter="formOrganization">
-        <tr>
-            <th style="width:80px;" class="required">编码</th>
-            <td>
-                <input type="hidden" name="Id">
-                <input type="hidden" name="ParentId">
-                <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-        </tr>
-        <tr>
-            <th class="required">名称</th>
-            <td>
-                <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-        </tr>
-        <tr>
-            <th>备注</th>
-            <td>
-                <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
-            </td>
-        </tr>
-    </table>
-</script>
+<div class="form-card" id="formOrganization">
+    <div class="form-card-header"></div>
+    <div class="form-card-body">
+        <div class="layui-form" lay-filter="formOrganization">
+            <input type="hidden" name="Id">
+            <input type="hidden" name="ParentId">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">编码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">备注</label>
+                <div class="layui-input-inline">
+                    <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-card-footer"></div>
+</div>
 
 <script>
     layui.use('frame', function () {
@@ -46,10 +50,6 @@
 
         var form = frame.form({
             name: 'formOrganization',
-            config: {
-                area: ['400px', '230px'],
-                content: $('#dialogOrganization').html()
-            },
             toolbar: [{
                 text: '保存', handler: function (e) {
                     e.save(url.SaveOrganization, function () {

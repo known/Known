@@ -3,56 +3,70 @@
         <table id="gridUser" class="layui-hide" lay-filter="gridUser"></table>
     </div>
 </div>
-<script type="text/html" id="dialogUser">
-    <table class="layui-form form" lay-filter="formUser">
-        <tr>
-            <th style="width:80px;" class="required">用户名</th>
-            <td>
-                <input type="hidden" name="Id">
-                <input type="text" name="UserName" lay-verify="required" placeholder="" readonly autocomplete="off" class="layui-input">
-            </td>
-            <th style="width:80px;" class="required">姓名</th>
-            <td>
-                <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-            <th style="width:80px;">英文名</th>
-            <td>
-                <input type="text" name="EnglishName" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-        </tr>
-        <tr>
-            <th>座机</th>
-            <td>
-                <input type="text" name="Phone" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-            <th>手机</th>
-            <td>
-                <input type="text" name="Mobile" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-            <th>邮箱</th>
-            <td>
-                <input type="text" name="Email" lay-verify="email" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-        </tr>
-        <tr>
-            <th class="required">性别</th>
-            <td>
-                <input type="radio" name="Gender" value="男" title="男">
-                <input type="radio" name="Gender" value="女" title="女" checked>
-            </td>
-            <th class="required">状态</th>
-            <td colspan="3">
-                <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
-            </td>
-        </tr>
-        <tr>
-            <th>备注</th>
-            <td colspan="5">
-                <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
-            </td>
-        </tr>
-    </table>
-</script>
+<div class="form-card" id="formUser">
+    <div class="form-card-header"></div>
+    <div class="form-card-body">
+        <div class="layui-form" lay-filter="formUser">
+            <input type="hidden" name="Id">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="UserName" lay-verify="required" placeholder="" readonly autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">英文名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="EnglishName" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">座机</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Phone" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Mobile" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Email" lay-verify="email" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="Gender" value="男" title="男">
+                    <input type="radio" name="Gender" value="女" title="女" checked>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">状态</label>
+                <div class="layui-input-inline">
+                    <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline">
+                    <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-card-footer"></div>
+</div>
 
 <script>
     layui.use('frame', function () {
@@ -76,8 +90,6 @@
             name: 'formUser',
             defData: { Id: '', Enabled: 1 },
             config: {
-                area: ['750px', '260px'],
-                content: $('#dialogUser').html(),
                 init: function (e) {
                     e.form.UserName.setReadonly(e.data.Id !== '');
                 }

@@ -6,39 +6,47 @@
         <table id="gridDictionary" class="layui-hide" lay-filter="gridDictionary"></table>
     </div>
 </div>
-<script type="text/html" id="dialogDictionary">
-    <table class="layui-form form" lay-filter="formDictionary">
-        <tr>
-            <th style="width:80px;" class="required">代码</th>
-            <td>
-                <input type="hidden" name="Id">
-                <input type="hidden" name="Category">
-                <input type="hidden" name="CategoryName">
-                <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-            <th style="width:80px;" class="required">名称</th>
-            <td>
-                <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-        </tr>
-        <tr>
-            <th class="required">状态</th>
-            <td>
-                <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
-            </td>
-            <th class="required">顺序</th>
-            <td>
-                <input type="text" name="Sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-            </td>
-        </tr>
-        <tr>
-            <th>备注</th>
-            <td colspan="3">
-                <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
-            </td>
-        </tr>
-    </table>
-</script>
+<div class="form-card" id="formDictionary">
+    <div class="form-card-header"></div>
+    <div class="form-card-body">
+        <div class="layui-form" lay-filter="formDictionary">
+            <input type="hidden" name="Id">
+            <input type="hidden" name="Category">
+            <input type="hidden" name="CategoryName">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">代码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">状态</label>
+                <div class="layui-input-inline">
+                    <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">顺序</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">备注</label>
+                <div class="layui-input-inline">
+                    <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-card-footer"></div>
+</div>
 
 <script>
     layui.use('frame', function () {
@@ -58,10 +66,6 @@
         var form = frame.form({
             name: 'formDictionary',
             defData: { Id: '', Enabled: 1 },
-            config: {
-                area: ['450px', '225px'],
-                content: $('#dialogDictionary').html()
-            },
             toolbar: [{
                 text: '保存', handler: function (e) {
                     e.save(url.SaveDictionary, function () {
