@@ -12,7 +12,7 @@ layui.define('common', function (exports) {
     function Grid(option) {
         var name = option.name,
             config = option.config,
-            toolbar = option.toolbar;
+            toolbar = option.toolbar || {};
         var tableIns = null, _where = {}, keyId = name + '_key';
         var _this = this;
 
@@ -21,44 +21,42 @@ layui.define('common', function (exports) {
             even: true, page: true, cellMinWidth: 80
         });
 
-        if (toolbar) {
-            if (!config.toolbar) {
-                var tab = getCurTab();
-                var tbHtml = '<div>';
-                if (tab.module && tab.module.children) {
-                    tab.module.children.forEach(function (d) {
-                        tbHtml += ('<button class="layui-btn layui-btn-sm" lay-event="' + d.code + '">');
-                        tbHtml += ('<i class="layui-icon ' + d.icon + '"></i><span>' + d.title + '</span>');
-                        tbHtml += '</button>';
-                    });
-                }
-                if (config.url || option.showSearch) {
-                    //tbHtml += '<span class="grid-search-adv">高级</span>';
-                    tbHtml += '<span class="grid-search">';
-                    tbHtml += '  <input type="text" id="' + keyId + '" placeholder="请输入查询关键字" class="layui-input" autocomplete="off">';
-                    tbHtml += '  <i class="layui-icon layui-icon-search" lay-event="search"></i>';
-                    tbHtml += '</span>';
-
-                    toolbar.search = function () {
-                        var key = $('#' + keyId).val();
-                        _this.reload({ key: key });
-                        $('#' + keyId).val(key);
-                    }
-                }
-                tbHtml += '</div>';
-                config.toolbar = tbHtml;
+        if (!config.toolbar) {
+            var tab = getCurTab();
+            var tbHtml = '<div>';
+            if (tab.module && tab.module.children) {
+                tab.module.children.forEach(function (d) {
+                    tbHtml += ('<button class="layui-btn layui-btn-sm" lay-event="' + d.code + '">');
+                    tbHtml += ('<i class="layui-icon ' + d.icon + '"></i><span>' + d.title + '</span>');
+                    tbHtml += '</button>';
+                });
             }
+            if (config.url || option.showSearch) {
+                //tbHtml += '<span class="grid-search-adv">高级</span>';
+                tbHtml += '<span class="grid-search">';
+                tbHtml += '  <input type="text" id="' + keyId + '" placeholder="请输入查询关键字" class="layui-input" autocomplete="off">';
+                tbHtml += '  <i class="layui-icon layui-icon-search" lay-event="search"></i>';
+                tbHtml += '</span>';
 
-            table.on('toolbar(' + name + ')', function (obj) {
-                var type = obj.event;
-                var rows = table.checkStatus(name).data;
-                toolbar[type] && toolbar[type].call(this, new GridManager(_this, rows));
-            });
-            table.on('tool(' + name + ')', function (obj) {
-                var type = obj.event;
-                toolbar[type] && toolbar[type].call(this, new GridManager(_this, [obj.data]));
-            });
+                toolbar.search = function () {
+                    var key = $('#' + keyId).val();
+                    _this.reload({ key: key });
+                    $('#' + keyId).val(key);
+                }
+            }
+            tbHtml += '</div>';
+            config.toolbar = tbHtml;
         }
+
+        table.on('toolbar(' + name + ')', function (obj) {
+            var type = obj.event;
+            var rows = table.checkStatus(name).data;
+            toolbar[type] && toolbar[type].call(this, new GridManager(_this, rows));
+        });
+        table.on('tool(' + name + ')', function (obj) {
+            var type = obj.event;
+            toolbar[type] && toolbar[type].call(this, new GridManager(_this, [obj.data]));
+        });
 
         if (config.url) {
             config.method = 'post';
