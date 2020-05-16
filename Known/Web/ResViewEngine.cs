@@ -125,18 +125,18 @@ namespace Known.Web
             var html = text;
             if (!string.IsNullOrWhiteSpace(style.Item2))
                 html = html.Replace(style.Item2, "")
-                           .Replace($"<style></style>{Environment.NewLine}", "");
+                           .Replace($"<style></style>", "");
             if (!string.IsNullOrWhiteSpace(script.Item2))
                 html = html.Replace(script.Item2, "")
-                           .Replace($"<script></script>{Environment.NewLine}", "");
+                           .Replace($"<script></script>", "");
 
             if (!string.IsNullOrWhiteSpace(layout))
-                html = layout.Replace("<div id=\"app\"></div>", $"<div id=\"app\">{html}</div>");
+                html = layout.Replace("<div id=\"app\"></div>", html);
 
             if (!string.IsNullOrWhiteSpace(style.Item1))
-                html = html.Replace("</head>", $"{style.Item1}{Environment.NewLine}</head>");
+                html = html.Replace("</head>", $"    {style.Item1}{Environment.NewLine}</head>");
             if (!string.IsNullOrWhiteSpace(script.Item1))
-                html = html.Replace("</body>", $"{script.Item1}{Environment.NewLine}</body>");
+                html = html.Replace("</body>", $"    {script.Item1}{Environment.NewLine}</body>");
 
             Html = html;
         }
