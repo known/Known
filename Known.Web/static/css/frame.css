@@ -91,7 +91,7 @@ input:read-only {
     z-index: 999;
     width: 50%;
     background-color: #fff;
-    border-left: 1px solid #f6f6f6;
+    border-left: 1px solid #e6e6e6;
     margin-bottom: 0;
 }
 
@@ -99,7 +99,7 @@ input:read-only {
     height: 30px;
     line-height: 30px;
     padding: 5px 10px;
-    border-bottom: 1px solid #f6f6f6;
+    border-bottom: 1px solid #e6e6e6;
 }
 
 .form-card-body {
@@ -120,7 +120,7 @@ input:read-only {
     height: 30px;
     line-height: 30px;
     padding: 5px 10px;
-    border-top: 1px solid #f6f6f6;
+    border-top: 1px solid #e6e6e6;
     text-align: right;
 }
 
