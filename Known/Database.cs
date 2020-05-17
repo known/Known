@@ -18,6 +18,7 @@ namespace Known
         private readonly DbConnection conn;
         private DbTransaction trans;
 
+        #region Constructors
         public Database(string name = "Default", UserInfo user = null)
         {
             var setting = ConfigurationManager.ConnectionStrings[name];
@@ -42,10 +43,23 @@ namespace Known
             conn.ConnectionString = ConnectionString;
             prefix = ProviderName.Contains("Oracle") ? ":" : "@";
         }
+        #endregion
 
+        #region Properties
         public string ProviderName { get; }
         public string ConnectionString { get; }
         public UserInfo User { get; set; }
+        #endregion
+
+        #region Public
+        public void Open()
+        {
+            if (conn == null)
+                return;
+
+            if (conn.State != ConnectionState.Open)
+                conn.Open();
+        }
 
         public void Dispose()
         {
@@ -76,7 +90,9 @@ namespace Known
                 }
             }
         }
+        #endregion
 
+        #region SQL
         public int Execute(string sql, object param = null)
         {
             var info = new CommandInfo(prefix, sql, param);
@@ -162,7 +178,9 @@ namespace Known
                 PageData = data
             };
         }
+        #endregion
 
+        #region Entity
         public bool Exists<T>(Expression<Func<T, bool>> func) where T : EntityBase
         {
             var where = ExpressionHelper.Route(func);
@@ -248,6 +266,7 @@ namespace Known
             var info = CommandInfo.GetSaveCommand(prefix, entity);
             ExecuteNonQuery(info);
         }
+        #endregion
 
         #region Trans
         private void BeginTrans()
