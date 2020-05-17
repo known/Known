@@ -325,12 +325,14 @@ namespace Known
         private T QuerySingle<T>(CommandInfo info)
         {
             bool close;
-            T obj;
+            T obj = default;
 
             using (var reader = ExecuteReader(info, out close))
             {
-                reader.Read();
-                obj = ConvertTo<T>(reader);
+                if (reader.Read())
+                {
+                    obj = ConvertTo<T>(reader);
+                }
             }
 
             if (close)
