@@ -77,8 +77,11 @@
     </Content>
     <Content Include="static\img\bg.png" />
     <Content Include="static\img\face.jpg" />
+    <Content Include="static\js\extend\admin.js" />
+    <Content Include="static\js\extend\common.js" />
     <Content Include="static\js\extend\echarts.js" />
     <Content Include="static\js\extend\echartsTheme.js" />
+    <Content Include="static\js\extend\frame.js" />
     <Content Include="static\js\index.js" />
     <Content Include="static\js\index.min.js">
       <DependentUpon>index.js</DependentUpon>
