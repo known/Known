@@ -235,6 +235,11 @@
             });
         }
 
+        function tree2List(data, pid) {
+            return data.reduce((arr, { id, title, children = [] }) =>
+                arr.concat([{ id, title, pid }], tree2List(children, id)), []);
+        }
+
         function selectModule(callback) {
             frame.open({
                 title: '导出SQL',
@@ -244,7 +249,7 @@
                 yes: function () {
                     layer.close(layer.index);
                     var data = tree.getChecked('treeSql');
-                    callback && callback(frame.common.tree2List(data, ''));
+                    callback && callback(tree2List(data, ''));
                 },
                 btn2: function () {
                     layer.close(layer.index);

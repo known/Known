@@ -93,6 +93,11 @@
             }
         });
 
+        function tree2List(data, pid) {
+            return data.reduce((arr, { id, title, children = [] }) =>
+                arr.concat([{ id, title, pid }], tree2List(children, id)), []);
+        }
+
         function selectRight(data, callback) {
             var tree = layui.tree;
             frame.open({
@@ -103,7 +108,7 @@
                 yes: function () {
                     layer.close(layer.index);
                     var data = tree.getChecked('treeRoleRight');
-                    callback && callback(frame.common.tree2List(data, ''));
+                    callback && callback(tree2List(data, ''));
                 },
                 btn2: function () {
                     layer.close(layer.index);
