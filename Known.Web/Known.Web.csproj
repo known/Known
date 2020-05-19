@@ -63,17 +63,29 @@
     <Content Include="Global.asax" />
     <Content Include="static\css\animate.min.css" />
     <Content Include="static\css\frame.css" />
+    <Content Include="static\css\frame.min.css">
+      <DependentUpon>frame.css</DependentUpon>
+    </Content>
     <Content Include="static\css\index.css" />
+    <Content Include="static\css\index.min.css">
+      <DependentUpon>index.css</DependentUpon>
+    </Content>
     <Content Include="static\css\login.css" />
     <Content Include="static\css\font-awesome.css" />
+    <Content Include="static\css\login.min.css">
+      <DependentUpon>login.css</DependentUpon>
+    </Content>
     <Content Include="static\img\bg.png" />
     <Content Include="static\img\face.jpg" />
-    <Content Include="static\js\extend\common.js" />
-    <Content Include="static\js\extend\admin.js" />
-    <Content Include="static\js\extend\frame.js" />
     <Content Include="static\js\extend\echarts.js" />
     <Content Include="static\js\extend\echartsTheme.js" />
     <Content Include="static\js\index.js" />
+    <Content Include="static\js\index.min.js">
+      <DependentUpon>index.js</DependentUpon>
+    </Content>
+    <Content Include="static\js\code\admin.js" />
+    <Content Include="static\js\code\common.js" />
+    <Content Include="static\js\code\frame.js" />
     <Content Include="static\layui\css\layui.css" />
     <Content Include="static\layui\css\layui.mobile.css" />
     <Content Include="static\layui\css\modules\code.css" />
@@ -245,6 +257,7 @@
     <EmbeddedResource Include="Views\System\UserView.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bundleconfig.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="static\data\chart.json" />
     <EmbeddedResource Include="Views\System\OrganizationView.cshtml" />

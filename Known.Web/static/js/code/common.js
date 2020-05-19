@@ -12,11 +12,6 @@ layui.define('layer', function (exports) {
             });
         },
 
-        tree2List: function (data, pid) {
-            return data.reduce((arr, { id, title, children = [] }) =>
-                arr.concat([{ id, title, pid }], this.tree2List(children, id)), []);
-        },
-
         open: function (option) {
             var type = 1;
             if (option.url) {

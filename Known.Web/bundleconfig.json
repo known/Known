@@ -1,0 +1,44 @@
+[
+  {
+    "outputFileName": "static/css/login.min.css",
+    "inputFiles": [
+      "static/css/login.css"
+    ]
+  },
+  {
+    "outputFileName": "static/css/index.min.css",
+    "inputFiles": [
+      "static/css/index.css"
+    ]
+  },
+  {
+    "outputFileName": "static/css/frame.min.css",
+    "inputFiles": [
+      "static/css/frame.css"
+    ]
+  },
+  {
+    "outputFileName": "static/js/index.min.js",
+    "inputFiles": [
+      "static/js/index.js"
+    ]
+  },
+  {
+    "outputFileName": "static/js/extend/common.js",
+    "inputFiles": [
+      "static/js/code/common.js"
+    ]
+  },
+  {
+    "outputFileName": "static/js/extend/admin.js",
+    "inputFiles": [
+      "static/js/code/admin.js"
+    ]
+  },
+  {
+    "outputFileName": "static/js/extend/frame.js",
+    "inputFiles": [
+      "static/js/code/frame.js"
+    ]
+  }
+]
