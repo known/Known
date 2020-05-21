@@ -172,6 +172,8 @@
                         return;
                     }
                     showForm(node.Id);
+                    var title = $('#formModule .form-card-header');
+                    title.html(title.html() + ' - ' + node.Name);
                 },
                 copy: function (e) {
                     e.selectRows(function (e) {

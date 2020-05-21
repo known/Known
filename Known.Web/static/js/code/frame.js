@@ -141,15 +141,35 @@ layui.define('common', function (exports) {
     }
 
     function Field(form, elem) {
+        this.form = form;
         this.elem = elem;
-        this.id = elem.attr('id');
-        this.name = elem.attr('name');
+        this.id = elem[0].id;
+        this.name = elem[0].name;
+        this.type = elem[0].type;
 
         this.setReadonly = function (readonly) {
             if (readonly) {
                 elem.attr('readonly', 'readonly');
             } else {
                 elem.removeAttr('readonly');
+            }
+        }
+
+        this.getValue = function () {
+            return this.elem.val();
+        }
+
+        this.setValue = function (value) {
+            if (this.type === 'checkbox') {
+                this.elem[0].checked = value;
+            } else if (this.type === 'radio') {
+                this.elem.each(function () {
+                    if (this.value === value) {
+                        this.checked = true;
+                    }
+                });
+            } else {
+                this.elem.val(value);
             }
         }
     }
@@ -194,6 +214,21 @@ layui.define('common', function (exports) {
             });
         }
 
+        var fields = [];
+        function initFields() {
+            fields.length = 0;
+            var inputs = $('[lay-filter="' + name + '"]').find('input,select,textarea');
+            $.each(inputs, function (_, item) {
+                var elem = $(item);
+                if (elem.length) {
+                    var field = new Field(form, elem);
+                    field.setValue('');
+                    _this[elem.attr('name')] = field;
+                    fields.push(field);
+                }
+            });
+        }
+
         var index = 0;
         this.show = function (data, ext) {
             data = data || option.defData;
@@ -213,11 +248,13 @@ layui.define('common', function (exports) {
                 config.title = title;
                 config.success = function () {
                     form.render(null, name);
+                    initFields();
                     _this.setData(data, config.init);
                 }
                 index = common.open(config);
             } else {
                 $('#' + name + ' .form-card-header').html(title);
+                initFields();
                 this.setData(data, config.init);
                 $('#' + name).show();
             }
@@ -231,27 +268,28 @@ layui.define('common', function (exports) {
             }
         }
 
-        var fields = [];
         this.validate = function () {
             //console.log(fields);
             return true;
         }
 
         this.getData = function () {
-            return form.val(name);
+            var data = {};
+            $.each(fields, function (_, item) {
+                data[item.name] = item.getValue();
+            });
+            return data;
         }
 
         this.setData = function (data, callback) {
-            form.val(name, data);
-
-            fields.length = 0;
-            var inputs = $('[lay-filter="' + name + '"]').find('input,select,textarea');
-            $.each(inputs, function (index, item) {
-                var elem = $(item), field = new Field(form, elem);
-                _this[elem.attr('name')] = field;
-                fields.push(field);
-            });
-
+            //form.val(name, data);
+            for (var p in data) {
+                var field = fields.find(f => f.name === p);
+                if (field) {
+                    field.setValue(data[p]);
+                }
+            }
+            form.render(null, this.name);
             var e = { form: _this, data: data };
             config.setData && config.setData(e);
             callback && callback(e);
