@@ -189,7 +189,7 @@ namespace Known
 
         public List<T> QueryAll<T>() where T : EntityBase
         {
-            var tableName = typeof(T).Name;
+            var tableName = CommandInfo.GetTableName<T>();
             var sql = $"select * from {tableName} order by CreateTime";
             return QueryList<T>(sql);
         }
@@ -199,7 +199,7 @@ namespace Known
             if (string.IsNullOrWhiteSpace(id))
                 return default;
 
-            var tableName = typeof(T).Name;
+            var tableName = CommandInfo.GetTableName<T>();
             var sql = $"select * from {tableName} where id=@id";
             return QuerySingle<T>(sql, new { id });
         }
@@ -217,12 +217,19 @@ namespace Known
                 paramters.Add($"id{i}", ids[i]);
             }
 
-            var tableName = typeof(T).Name;
+            var tableName = CommandInfo.GetTableName<T>();
             var idText = string.Join(" or ", idTexts);
             var sql = $"select * from {tableName} where {idText}";
             var info = new CommandInfo(prefix, sql) { Params = paramters };
 
             return QueryList<T>(info);
+        }
+
+        public void DeleteAll<T>() where T : EntityBase
+        {
+            var tableName = CommandInfo.GetTableName<T>();
+            var sql = $"delete from {tableName}";
+            Execute(sql);
         }
 
         public void Delete<T>(T entity) where T : EntityBase
@@ -583,13 +590,18 @@ select t.* from (
 ) t where t.row_no>{startNo} and t.row_no<={endNo}";
         }
 
+        internal static string GetTableName<T>()
+        {
+            return typeof(T).Name;
+        }
+
         internal static CommandInfo GetSaveCommand<T>(string prefix, T entity) where T : EntityBase
         {
             var cmdParams = ToDictionary(entity);
             var orgParams = ToDictionary(entity.Original);
 
             var sql = string.Empty;
-            var tableName = typeof(T).Name;
+            var tableName = GetTableName<T>();
             if (entity.IsNew)
             {
                 var cloumn = string.Join(",", cmdParams.Keys);
@@ -607,7 +619,7 @@ select t.* from (
 
         internal static CommandInfo GetDeleteCommand<T>(string prefix, T entity) where T : EntityBase
         {
-            var tableName = typeof(T).Name;
+            var tableName = GetTableName<T>();
             var sql = $"delete from {tableName} where id=@id";
             return new CommandInfo(prefix, sql, new { id = entity.Id });
         }
