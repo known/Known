@@ -62,6 +62,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="static\css\animate.min.css" />
+    <Content Include="static\css\ztree.css" />
     <Content Include="static\css\frame.css" />
     <Content Include="static\css\frame.min.css">
       <DependentUpon>frame.css</DependentUpon>
@@ -77,6 +78,7 @@
     </Content>
     <Content Include="static\img\bg.png" />
     <Content Include="static\img\face.jpg" />
+    <Content Include="static\img\loading.gif" />
     <Content Include="static\js\extend\admin.js" />
     <Content Include="static\js\extend\common.js" />
     <Content Include="static\js\extend\echarts.js" />
