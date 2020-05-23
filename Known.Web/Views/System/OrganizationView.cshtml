@@ -9,25 +9,25 @@
 <div class="form-card" id="formOrganization">
     <div class="form-card-header"></div>
     <div class="form-card-body">
-        <div class="layui-form" lay-filter="formOrganization">
+        <div class="form">
             <input type="hidden" name="Id">
             <input type="hidden" name="ParentId">
-            <div class="layui-form-item">
+            <div class="layui-form-item form-first-item">
                 <label class="layui-form-label required">编码</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Code" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Name" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">备注</label>
                 <div class="layui-input-block">
-                    <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
+                    <textarea name="Note" placeholder=""></textarea>
                 </div>
             </div>
         </div>

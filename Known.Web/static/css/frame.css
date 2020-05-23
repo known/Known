@@ -76,6 +76,10 @@ input:read-only {
     padding: 2px;
 }
 
+.form-first-item {
+    margin-top: 15px;
+}
+
 .form .layui-form-label {
     padding: 5px 15px;
 }

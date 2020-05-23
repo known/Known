@@ -9,38 +9,41 @@
 <div class="form-card" id="formDictionary">
     <div class="form-card-header"></div>
     <div class="form-card-body">
-        <div class="layui-form" lay-filter="formDictionary">
+        <div class="form">
             <input type="hidden" name="Id">
             <input type="hidden" name="Category">
             <input type="hidden" name="CategoryName">
-            <div class="layui-form-item">
+            <div class="layui-form-item form-first-item">
                 <label class="layui-form-label required">代码</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Code" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Name" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">状态</label>
                 <div class="layui-input-inline">
-                    <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
+                    <label class="form-radio">
+                        <input type="checkbox" name="Enabled" value="1">
+                        <span>启用</span>
+                    </label>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">顺序</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Sort" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">备注</label>
                 <div class="layui-input-block">
-                    <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
+                    <textarea name="Note" placeholder=""></textarea>
                 </div>
             </div>
         </div>

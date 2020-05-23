@@ -6,61 +6,70 @@
 <div class="form-card" id="formUser">
     <div class="form-card-header"></div>
     <div class="form-card-body">
-        <div class="layui-form" lay-filter="formUser">
+        <div class="form">
             <input type="hidden" name="Id">
-            <div class="layui-form-item">
+            <div class="layui-form-item form-first-item">
                 <label class="layui-form-label required">用户名</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="UserName" lay-verify="required" placeholder="" readonly autocomplete="off" class="layui-input">
+                    <input type="text" name="UserName" placeholder="" readonly autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">姓名</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Name" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">英文名</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="EnglishName" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="EnglishName" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">座机</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Phone" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Phone" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">手机</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Mobile" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Mobile" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">邮箱</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Email" lay-verify="email" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Email" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">性别</label>
                 <div class="layui-input-inline">
-                    <input type="radio" name="Gender" value="男" title="男">
-                    <input type="radio" name="Gender" value="女" title="女" checked>
+                    <label class="form-radio">
+                        <input type="radio" name="Gender" value="男">
+                        <span>男</span>
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="Gender" value="女" checked>
+                        <span>女</span>
+                    </label>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">状态</label>
                 <div class="layui-input-inline">
-                    <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
+                    <label class="form-radio">
+                        <input type="checkbox" name="Enabled" value="1">
+                        <span>启用</span>
+                    </label>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">备注</label>
                 <div class="layui-input-block">
-                    <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
+                    <textarea name="Note" placeholder=""></textarea>
                 </div>
             </div>
         </div>
