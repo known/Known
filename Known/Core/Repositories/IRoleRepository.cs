@@ -38,7 +38,8 @@ namespace Known.Core.Repositories
             var sql = @"
 select a.*,case when b.ModuleId is not null then 1 else 0 end Checked
 from SysModule a
-left join (select * from SysRoleModule where RoleId=@roleId) b on b.ModuleId=a.Id";
+left join (select * from SysRoleModule where RoleId=@roleId) b on b.ModuleId=a.Id 
+order by a.Sort";
             return db.QueryList<MenuInfo>(sql, new { roleId });
         }
 

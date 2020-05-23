@@ -94,11 +94,11 @@ layui.define('common', function (exports) {
 
             $(data).each(function (i, d) {
                 html += '<li class="layui-nav-item menuItem">';
-                html += getLink(d) + '<span class="title">' + d.title + '</span></a>';
+                html += getLink(d) + '<span class="title">' + d.name + '</span></a>';
                 if (pid && d.children) {
                     html += '  <dl class="layui-nav-child">';
                     $(d.children).each(function (ci, cd) {
-                        html += '<dd>' + getLink(cd) +' ' + cd.title + '</a></dd>';
+                        html += '<dd>' + getLink(cd) + ' ' + cd.name + '</a></dd>';
                     });
                     html += '  </dl>';
                 }

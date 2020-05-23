@@ -97,11 +97,10 @@
         });
 
         function selectRight(data, callback) {
-            var tree = layui.tree;
             frame.open({
                 title: '设置权限 - ' + data.Name,
                 area: ['450px', '300px'],
-                content: '<div id="treeRoleRight"></div>',
+                content: '<ul id="treeRoleRight" class="ztree"></ul>',
                 btn: ['确定', '关闭'],
                 yes: function () {
                     layer.close(layer.index);
@@ -115,11 +114,14 @@
                     $.get(url.GetRoleModules, {
                         roleId: data.Id
                     }, function (result) {
-                        var treeData = frame.common.list2Tree(result, 'pid', '');
-                        tree.render({
-                            id: 'treeRoleRight', elem: '#treeRoleRight',
-                            data: treeData, showCheckbox: true
-                        });
+                        $.fn.zTree.init($('#treeRoleRight'), {
+                            check: { enable: true },
+                            data: {
+                                simpleData: {
+                                    enable: true, pIdKey:'pid'
+                                }
+                            }
+                        }, result);
                     });
                 }
             });

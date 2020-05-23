@@ -27,7 +27,7 @@ layui.define('common', function (exports) {
             if (tab.module && tab.module.children) {
                 tab.module.children.forEach(function (d) {
                     tbHtml += ('<button class="layui-btn layui-btn-sm" lay-event="' + d.code + '">');
-                    tbHtml += ('<i class="layui-icon ' + d.icon + '"></i><span>' + d.title + '</span>');
+                    tbHtml += ('<i class="layui-icon ' + d.icon + '"></i><span>' + d.name + '</span>');
                     tbHtml += '</button>';
                 });
             }
@@ -249,7 +249,6 @@ layui.define('common', function (exports) {
             if (config.area) {
                 config.title = title;
                 config.success = function () {
-                    form.render(null, name);
                     initFields();
                     _this.setData(data, config.init);
                 }

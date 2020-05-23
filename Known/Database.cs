@@ -24,7 +24,7 @@ namespace Known
             var setting = ConfigurationManager.ConnectionStrings[name];
             ProviderName = setting.ProviderName;
             ConnectionString = setting.ConnectionString;
-            User = user ?? UserInfo.CreateAnonymousUser();
+            User = user;
 
             var factory = DbProviderFactories.GetFactory(ProviderName);
             conn = factory.CreateConnection();
@@ -654,19 +654,6 @@ select t.* from (
         public string CompName { get; set; }
         public string DeptNo { get; set; }
         public string DeptName { get; set; }
-
-        internal static UserInfo CreateAnonymousUser()
-        {
-            var userName = "Anonymous";
-            return new UserInfo
-            {
-                Id = userName,
-                UserName = userName,
-                Name = "匿名用户",
-                EnglishName = userName,
-                CompNo = Config.AppId
-            };
-        }
     }
 
     public class Result

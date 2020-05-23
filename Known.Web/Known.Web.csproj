@@ -89,6 +89,8 @@
     <Content Include="static\js\code\admin.js" />
     <Content Include="static\js\code\common.js" />
     <Content Include="static\js\code\frame.js" />
+    <Content Include="static\js\libs\jquery.min.js" />
+    <Content Include="static\js\libs\jquery.ztree.min.js" />
     <Content Include="static\layui\css\layui.css" />
     <Content Include="static\layui\css\layui.mobile.css" />
     <Content Include="static\layui\css\modules\code.css" />

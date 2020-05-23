@@ -11,9 +11,14 @@ namespace Known
             {
                 if (database == null)
                     database = new Database();
-                database.User = SessionHelper.GetUser();
+                database.User = CurrentUser;
                 return database;
             }
+        }
+
+        protected UserInfo CurrentUser
+        {
+            get { return SessionHelper.GetUser(); }
         }
     }
 }

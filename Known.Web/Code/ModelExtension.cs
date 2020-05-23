@@ -12,7 +12,7 @@ namespace Known.Web
                 id = menu.Id,
                 pid = menu.ParentId,
                 code = menu.Code,
-                title = menu.Name,
+                name = menu.Name,
                 icon = menu.Icon,
                 url = menu.Url,
                 target = menu.Target,
@@ -26,9 +26,9 @@ namespace Known.Web
             {
                 id = module.Id,
                 pid = module.ParentId,
-                title = module.Name,
+                name = module.Name,
                 icon = module.Icon,
-                spread = string.IsNullOrWhiteSpace(module.ParentId),
+                open = string.IsNullOrWhiteSpace(module.ParentId),
                 module
             };
         }
