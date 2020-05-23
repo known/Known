@@ -63,7 +63,7 @@ layui.define('common', function (exports) {
         //public
         show: function (option) {
             this.option = option;
-            this.treeData = common.list2Tree(option.data, '');
+            this.treeData = common.list2Tree(option.data, 'pid', '');
             var menus = this.render('topMenu');
             this.render('leftMenu', menus[0].id);
             this.initEvent();
@@ -245,7 +245,7 @@ layui.define('common', function (exports) {
             var module = this.option.menus
                 ? this.option.menus.filter(function (m) { return m.id === id; })
                 : null;
-            return { id: id, title: title, module: module };
+            return { id: id, title: title, module: module[0] };
         },
 
         //private

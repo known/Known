@@ -202,7 +202,7 @@
                 del: function (e) { deleteModules(e); },
                 sql: function (e) {
                     selectModule(function (list) {
-                        var data = list.map(d => d.id);
+                        var data = list.map(function (d) { return d.id; });
                         frame.common.download(url.ExportModules, {
                             data: JSON.stringify(data)
                         });
@@ -248,11 +248,6 @@
             });
         }
 
-        function tree2List(data, pid) {
-            return data.reduce((arr, { id, title, children = [] }) =>
-                arr.concat([{ id, title, pid }], tree2List(children, id)), []);
-        }
-
         function selectModule(callback) {
             frame.open({
                 title: '导出SQL',
@@ -262,7 +257,7 @@
                 yes: function () {
                     layer.close(layer.index);
                     var data = tree.getChecked('treeSql');
-                    callback && callback(tree2List(data, ''));
+                    callback && callback(frame.common.tree2List(data, 'pid'));
                 },
                 btn2: function () {
                     layer.close(layer.index);
@@ -279,7 +274,7 @@
         var treeData;
         function renderTree() {
             $.get(url.GetModuleTree, function (result) {
-                treeData = frame.common.list2Tree(result, '');
+                treeData = frame.common.list2Tree(result, 'pid', '');
                 grid.setData(getGridData(treeData));
                 tree.render({
                     elem: '#tree', data: treeData, onlyIconControl: true,
@@ -294,7 +289,7 @@
 
         function getGridData(data) {
             if (!data) return [];
-            return data.map(d => d.module);
+            return data.map(function (d) { return d.module; });
         }
 
         //tree

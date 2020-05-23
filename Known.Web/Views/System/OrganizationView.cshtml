@@ -82,7 +82,7 @@
                     form.show({ Id: '', ParentId: node.Id }, { title: title });
                 },
                 edit: function (e) {
-                    var org = orgList.find(l => l.id === e.row.ParentId);
+                    var org = orgList.filter(function (l) { return l.id === e.row.ParentId; });
                     var title = org ? getParentInfo(org.data.Code, org.data.Name) : '';
                     e.editRow(form, { title: title });
                 },
@@ -98,7 +98,7 @@
         function renderTree() {
             $.get(url.GetOrganizationTree, function (result) {
                 orgList = result;
-                var data = frame.common.list2Tree(result, '');
+                var data = frame.common.list2Tree(result, 'pid', '');
                 grid.setData(getGridData(data.children));
                 tree.render({
                     elem: '#tree', data: data, onlyIconControl: true,
@@ -117,7 +117,7 @@
 
         function getGridData(data) {
             if (!data) return [];
-            return data.map(d => d.data);
+            return data.map(function (d) { return d.data; });
         }
 
         //tree

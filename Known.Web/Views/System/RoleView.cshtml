@@ -85,7 +85,7 @@
                 right: function (e) {
                     e.selectRow(function (e) {
                         selectRight(e.row, function (data) {
-                            var ids = data.map(d => d.id);
+                            var ids = data.map(function (d) { return d.id; });
                             frame.post(url.SaveRoleModules, {
                                 roleId: e.row.Id,
                                 data: JSON.stringify(ids)
@@ -95,11 +95,6 @@
                 }
             }
         });
-
-        function tree2List(data, pid) {
-            return data.reduce((arr, { id, title, children = [] }) =>
-                arr.concat([{ id, title, pid }], tree2List(children, id)), []);
-        }
 
         function selectRight(data, callback) {
             var tree = layui.tree;
@@ -111,7 +106,7 @@
                 yes: function () {
                     layer.close(layer.index);
                     var data = tree.getChecked('treeRoleRight');
-                    callback && callback(tree2List(data, ''));
+                    callback && callback(frame.common.tree2List(data, 'pid'));
                 },
                 btn2: function () {
                     layer.close(layer.index);
@@ -120,7 +115,7 @@
                     $.get(url.GetRoleModules, {
                         roleId: data.Id
                     }, function (result) {
-                        var treeData = frame.common.list2Tree(result, '');
+                        var treeData = frame.common.list2Tree(result, 'pid', '');
                         tree.render({
                             id: 'treeRoleRight', elem: '#treeRoleRight',
                             data: treeData, showCheckbox: true

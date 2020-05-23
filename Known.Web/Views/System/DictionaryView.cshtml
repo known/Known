@@ -130,7 +130,7 @@
         }
 
         $.get(url.GetCategories, function (result) {
-            var data = frame.common.list2Tree(result, '');
+            var data = frame.common.list2Tree(result, 'pid', '');
             tree.render({
                 elem: '#tree', data: data, onlyIconControl: true,
                 click: function (obj) {

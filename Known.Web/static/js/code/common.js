@@ -4,27 +4,31 @@ layui.define('layer', function (exports) {
 
     var Common = {
 
-        list2Tree: function (data, pid) {
-            var arr = data.slice();
-            arr.forEach(function (d) {
-                var pi = d.pid;
-                if (pi !== '') {
-                    arr.forEach(function (ele) {
-                        if (ele.id === pi) {
-                            if (!ele.children) {
-                                ele.children = [];
-                            }
-                            ele.children.push(d);
-                        }
-                    });
+        list2Tree: function (data, key, pid) {
+            var list = data.slice();
+            return list.filter(function (parent) {
+                var branchArr = list.filter(function (child) {
+                    return parent.id === child[key];
+                });
+                if (branchArr.length > 0) {
+                    parent.children = branchArr;
                 }
+                return parent[key] === pid;
             });
-            return arr.filter(function (d) { return d.pid === pid; });
-            //return data.filter(function (father) {
-            //    let branchArr = data.filter(function (child) { return father['id'] === child['pid']; });
-            //    branchArr.length > 0 ? father['children'] = branchArr : '';
-            //    return father['pid'] === pid;
-            //});
+        },
+
+        tree2List: function (data, key) {
+            var tree = data.slice();
+            return tree.reduce(function (con, item) {
+                var callee = arguments.callee;
+                con.push(item);
+                if (item[key] && item[key].length > 0)
+                    item[key].reduce(callee, con);
+                return con;
+            }, []).map(function (item) {
+                item[key] = [];
+                return item;
+            });
         },
 
         open: function (option) {
