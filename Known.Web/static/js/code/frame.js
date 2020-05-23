@@ -106,7 +106,8 @@ layui.define('common', function (exports) {
                 return;
             }
 
-            var ids = rows.map(d => d.Id);
+            var ids = [];// rows.map(d => d.Id);
+            rows.forEach(function (r) { ids.push(r.Id); });
             callback && callback({ grid: grid, rows: rows, ids: ids });
         }
 
@@ -286,7 +287,7 @@ layui.define('common', function (exports) {
         this.setData = function (data, callback) {
             //form.val(name, data);
             for (var p in data) {
-                var field = fields.find(f => f.name === p);
+                var field = fields.filter(function (f) { return f.name === p; });
                 if (field) {
                     field.setValue(data[p]);
                 }

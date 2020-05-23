@@ -5,11 +5,26 @@ layui.define('layer', function (exports) {
     var Common = {
 
         list2Tree: function (data, pid) {
-            return data.filter(father => {
-                let branchArr = data.filter(child => father['id'] === child['pid']);
-                branchArr.length > 0 ? father['children'] = branchArr : '';
-                return father['pid'] === pid;
+            var arr = data.slice();
+            arr.forEach(function (d) {
+                var pi = d.pid;
+                if (pi !== '') {
+                    arr.forEach(function (ele) {
+                        if (ele.id === pi) {
+                            if (!ele.children) {
+                                ele.children = [];
+                            }
+                            ele.children.push(d);
+                        }
+                    });
+                }
             });
+            return arr.filter(function (d) { return d.pid === pid; });
+            //return data.filter(function (father) {
+            //    let branchArr = data.filter(function (child) { return father['id'] === child['pid']; });
+            //    branchArr.length > 0 ? father['children'] = branchArr : '';
+            //    return father['pid'] === pid;
+            //});
         },
 
         open: function (option) {

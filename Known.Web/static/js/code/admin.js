@@ -63,7 +63,7 @@ layui.define('common', function (exports) {
         //public
         show: function (option) {
             this.option = option;
-            this.treeData = common.list2Tree(option.data, '')
+            this.treeData = common.list2Tree(option.data, '');
             var menus = this.render('topMenu');
             this.render('leftMenu', menus[0].id);
             this.initEvent();
@@ -79,8 +79,8 @@ layui.define('common', function (exports) {
             var html = '';
             var data = this.treeData;
             if (pid) {
-                var parent = this.treeData.find(d => d.id === pid);
-                data = parent.children;
+                var parent = this.treeData.filter(function (d) { return d.id === pid; });
+                data = parent[0].children;
             }
 
             function getLink(d) {
@@ -243,7 +243,7 @@ layui.define('common', function (exports) {
             var id = tab.attr('lay-id');
             var title = tab.children('span').text();
             var module = this.option.menus
-                ? this.option.menus.find(m => m.id === id)
+                ? this.option.menus.filter(function (m) { return m.id === id; })
                 : null;
             return { id: id, title: title, module: module };
         },
