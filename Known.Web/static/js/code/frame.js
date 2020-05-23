@@ -280,7 +280,6 @@ layui.define('common', function (exports) {
             $.each(fields, function (_, item) {
                 data[item.name] = item.getValue();
             });
-            console.log(data);
             return data;
         }
 
