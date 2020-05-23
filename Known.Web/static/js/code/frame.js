@@ -156,18 +156,20 @@ layui.define('common', function (exports) {
         }
 
         this.getValue = function () {
-            return this.elem.val();
+            if (this.type === 'checkbox') {
+                return this.elem[0].checked ? 1 : 0;
+            } else if (this.type === 'radio') {
+                return $('input[name="' + this.name + '"]:checked').val();
+            } else {
+                return this.elem.val();
+            }
         }
 
         this.setValue = function (value) {
             if (this.type === 'checkbox') {
-                this.elem[0].checked = value;
+                this.elem[0].checked = value === 1;
             } else if (this.type === 'radio') {
-                this.elem.each(function () {
-                    if (this.value === value) {
-                        this.checked = true;
-                    }
-                });
+                $('input[name="' + this.name + '"][value="' + value + '"]').attr('checked', true);
             } else {
                 this.elem.val(value);
             }
@@ -217,7 +219,7 @@ layui.define('common', function (exports) {
         var fields = [];
         function initFields() {
             fields.length = 0;
-            var inputs = $('[lay-filter="' + name + '"]').find('input,select,textarea');
+            var inputs = $('#' + name).find('input,select,textarea');
             $.each(inputs, function (_, item) {
                 var elem = $(item);
                 if (elem.length) {
@@ -278,6 +280,7 @@ layui.define('common', function (exports) {
             $.each(fields, function (_, item) {
                 data[item.name] = item.getValue();
             });
+            console.log(data);
             return data;
         }
 
@@ -289,7 +292,7 @@ layui.define('common', function (exports) {
                     field.setValue(data[p]);
                 }
             }
-            form.render(null, this.name);
+            //form.render(null, this.name);
             var e = { form: _this, data: data };
             config.setData && config.setData(e);
             callback && callback(e);

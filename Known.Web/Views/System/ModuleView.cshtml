@@ -9,63 +9,74 @@
 <div class="form-card" id="formModule" style="width:60%;">
     <div class="form-card-header"></div>
     <div class="form-card-body">
-        <div class="layui-form" lay-filter="formModule">
+        <div class="form">
             <input type="hidden" name="Id">
             <input type="hidden" name="ParentId">
             <input type="hidden" name="Icon">
             <div class="layui-form-item">
                 <label class="layui-form-label required">编码</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Code" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Name" placeholder="" autocomplete="off">
                 </div>
                 <div id="dvIcon"></div>
             </div>
             <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label required">类型</label>
-                    <div class="layui-input-inline">
-                        <input type="radio" name="Type" value="菜单" title="菜单" checked>
-                        <input type="radio" name="Type" value="按钮" title="按钮">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label required">目标</label>
-                    <div class="layui-input-inline">
-                        <input type="radio" name="Target" value="tab" title="Tab" checked>
-                        <input type="radio" name="Target" value="_blank" title="Blank">
-                    </div>
+                <label class="layui-form-label required">类型</label>
+                <div class="layui-input-inline">
+                    <label class="form-radio">
+                        <input type="radio" name="Type" value="菜单">
+                        <span>菜单</span>
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="Type" value="按钮">
+                        <span>按钮</span>
+                    </label>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label required">URL</label>
+                <label class="layui-form-label required">目标</label>
+                <div class="layui-input-inline">
+                    <label class="form-radio">
+                        <input type="radio" name="Target" value="tab">
+                        <span>Tab</span>
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="Target" value="_blank">
+                        <span>Blank</span>
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">URL</label>
                 <div class="layui-input-block">
-                    <input type="text" name="Url" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="Url" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label required">状态</label>
-                    <div class="layui-input-inline">
-                        <input type="checkbox" name="Enabled" lay-skin="switch" lay-text="启用|停用" value="1">
-                    </div>
+                <label class="layui-form-label required">状态</label>
+                <div class="layui-input-inline">
+                    <label class="form-radio">
+                        <input type="checkbox" name="Enabled" value="1">
+                        <span>启用</span>
+                    </label>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label required">顺序</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="Sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-                    </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">顺序</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Sort" placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">备注</label>
                 <div class="layui-input-block">
-                    <textarea name="Note" placeholder="" class="layui-textarea"></textarea>
+                    <textarea name="Note" placeholder=""></textarea>
                 </div>
             </div>
         </div>

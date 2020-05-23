@@ -76,27 +76,47 @@ input:read-only {
     padding: 2px;
 }
 
-.form .layui-input,
-.form .layui-textarea {
-    padding: 2px;
+.form .layui-form-label {
+    padding: 5px 15px;
 }
 
-.form .layui-input,
-.form .layui-select,
-.form .layui-textarea {
-    height: auto;
+.form input,
+.form select,
+.form textarea {
+    height: 30px;
+    line-height: 30px;
+    padding-left: 10px;
+    border: 1px solid #e6e6e6;
+    border-radius: 2px;
 }
 
-.form .layui-textarea {
+.form textarea {
+    width: 90%;
     min-height: 70px;
 }
 
-.form .layui-form-radio {
-    margin: 0;
+.form-radio {
+    margin-right: 10px;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+    cursor: pointer;
+}
+.form-radio input {
+    position: absolute;
+    top: 0;
+    width: 16px;
+    height: 16px;
+}
+.form-radio span {
+    margin-left: 20px;
 }
 
-.form .layui-form-switch {
-    margin-top: 0;
+.form-small input,
+.form-small select,
+.form-small textarea {
+    height: auto;
+    padding: 2px;
 }
 
 /*form-card*/
