@@ -33,7 +33,7 @@ namespace Known.Core
 
         public List<MenuInfo> GetMenus(Database db)
         {
-            var sql = "select * from SysModule order by Sort";
+            var sql = "select * from SysModule where Enabled=1 order by Sort";
             return db.QueryList<MenuInfo>(sql);
         }
 
