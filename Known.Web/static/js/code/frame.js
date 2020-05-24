@@ -190,8 +190,8 @@ layui.define('common', function (exports) {
                 var evt = i === 0 ? 'yes' : ('btn' + (i + 1));
                 btnHtml += '<a class="layui-btn layui-btn-normal" data-type="' + evt + '">' + text + '</a>';
                 var hdl = toolbar[i].handler;
-                handler[evt] = function (index, layero) {
-                    hdl && hdl.call(this, new FormManager(_this));
+                handler[evt] = function () {
+                    hdl && hdl.call(this, _this);
                 };
             }
         }
@@ -208,12 +208,15 @@ layui.define('common', function (exports) {
         if (config.area) {
             $.extend(config, { btn: btn }, handler);
         } else {
-            btnHtml += '<a class="layui-btn layui-btn-primary" data-type="btn' + btn.length + '">关闭</a>';
-            $('#' + name + ' .form-card-footer').html(btnHtml);
-            $('#' + name + ' .form-card-footer .layui-btn').on('click', function () {
-                var othis = $(this), type = othis.data('type');
-                handler[type] ? handler[type].call(this, othis) : '';
-            });
+            var footer = $('#' + name + ' .form-card-footer');
+            if (footer.length) {
+                btnHtml += '<a class="layui-btn layui-btn-primary" data-type="btn' + btn.length + '">关闭</a>';
+                $('#' + name + ' .form-card-footer').html(btnHtml);
+                $('#' + name + ' .form-card-footer .layui-btn').on('click', function () {
+                    var othis = $(this), type = othis.data('type');
+                    handler[type] ? handler[type].call(this, othis) : '';
+                });
+            }
         }
 
         var fields = [];
@@ -231,8 +234,17 @@ layui.define('common', function (exports) {
             });
         }
 
-        var index = 0;
+        initFields();
+
+        if (option.url) {
+            $.get(option.url, function (data) {
+                _this.setData(data, config.init);
+            });
+        }
+
+        var index = 0, open = false;
         this.show = function (data, ext) {
+            open = true;
             data = data || option.defData;
             var title = option.title;
             if (!title) {
@@ -249,19 +261,18 @@ layui.define('common', function (exports) {
             if (config.area) {
                 config.title = title;
                 config.success = function () {
-                    initFields();
                     _this.setData(data, config.init);
                 }
                 index = common.open(config);
             } else {
                 $('#' + name + ' .form-card-header').html(title);
-                initFields();
                 this.setData(data, config.init);
                 $('#' + name).show();
             }
         }
 
         this.close = function () {
+            if (!open) return;
             if (index > 0) {
                 layer.close(index);
             } else {
@@ -293,20 +304,16 @@ layui.define('common', function (exports) {
             config.setData && config.setData(e);
             callback && callback(e);
         }
-    }
-
-    function FormManager(form) {
-        this.form = form;
 
         this.save = function (url, callback) {
-            if (!form.validate())
+            if (!_this.validate())
                 return;
 
-            var data = form.getData();
+            var data = _this.getData();
             common.post(url, { data: JSON.stringify(data) }, function (id) {
                 data.Id = id;
-                form.setData(data);
-                form.close();
+                _this.setData(data);
+                _this.close();
                 callback && callback();
             });
         }
