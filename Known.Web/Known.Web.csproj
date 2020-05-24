@@ -62,6 +62,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="static\css\animate.min.css" />
+    <Content Include="static\css\calendar.min.css" />
     <Content Include="static\css\ztree.css" />
     <Content Include="static\css\frame.css" />
     <Content Include="static\css\frame.min.css">
@@ -91,6 +92,7 @@
     <Content Include="static\js\code\admin.js" />
     <Content Include="static\js\code\common.js" />
     <Content Include="static\js\code\frame.js" />
+    <Content Include="static\js\libs\calendar.min.js" />
     <Content Include="static\js\libs\jquery.min.js" />
     <Content Include="static\js\libs\jquery.ztree.min.js" />
     <Content Include="static\layui\css\layui.css" />
