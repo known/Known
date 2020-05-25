@@ -227,6 +227,13 @@ input:read-only {
     overflow: auto;
 }
 
+.layui-fit .toolbar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 9999;
+}
+
 .layui-fit .layui-table,
 .layui-fit .layui-table-view {
     margin: 0;
