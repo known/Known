@@ -35,40 +35,76 @@
     "Url": "/Dev/CodeView",
     "Order": 2
   },
-  //{
-  //  "Id": "D02",
-  //  "ParentId": "D0",
-  //  "Code": "Page",
-  //  "Name": "系统管理",
-  //  "Icon": "layui-icon-set-sm",
-  //  "Url": "",
-  //  "Order": 2
-  //},
-  //{
-  //  "Id": "D0201",
-  //  "ParentId": "D02",
-  //  "Code": "Role",
-  //  "Name": "角色管理",
-  //  "Icon": "layui-icon-user",
-  //  "Url": "/System/RoleView",
-  //  "Order": 1
-  //},
-  //{
-  //  "Id": "D0202",
-  //  "ParentId": "D02",
-  //  "Code": "User",
-  //  "Name": "用户管理",
-  //  "Icon": "layui-icon-username",
-  //  "Url": "/System/UserView",
-  //  "Order": 2
-  //},
+  {
+    "Id": "D02",
+    "ParentId": "D0",
+    "Code": "Page",
+    "Name": "系统管理",
+    "Icon": "layui-icon-set-sm",
+    "Url": "",
+    "Order": 2
+  },
+  {
+    "Id": "D0201",
+    "ParentId": "D02",
+    "Code": "Role",
+    "Name": "角色管理",
+    "Icon": "layui-icon-user",
+    "Url": "/System/RoleView",
+    "Order": 1
+  },
+  {
+    "Id": "D020101",
+    "ParentId": "D0201",
+    "Code": "add",
+    "Name": "新增",
+    "Icon": "layui-icon-addition",
+    "Url": "",
+    "Order": 1
+  },
+  {
+    "Id": "D020101",
+    "ParentId": "D0201",
+    "Code": "right",
+    "Name": "权限",
+    "Icon": "layui-icon-component",
+    "Url": "",
+    "Order": 1
+  },
+  {
+    "Id": "D0202",
+    "ParentId": "D02",
+    "Code": "User",
+    "Name": "用户管理",
+    "Icon": "layui-icon-username",
+    "Url": "/System/UserView",
+    "Order": 2
+  },
+  {
+    "Id": "D020101",
+    "ParentId": "D0202",
+    "Code": "add",
+    "Name": "新增",
+    "Icon": "layui-icon-addition",
+    "Url": "",
+    "Order": 1
+  },
+  {
+    "Id": "D020202",
+    "ParentId": "D0202",
+    "Code": "role",
+    "Name": "角色",
+    "Icon": "layui-icon-group",
+    "Url": "",
+    "Order": 2
+  },
   {
     "Id": "D0203",
     "ParentId": "D02",
     "Code": "Dictionary",
     "Name": "数据字典",
     "Icon": "layui-icon-list",
-    "Url": "/Base/Dictionary",
+    "Url": "/System/DictionaryView",
     "Order": 3
   },
   {

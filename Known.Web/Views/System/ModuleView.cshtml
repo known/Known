@@ -249,24 +249,27 @@
         }
 
         function selectModule(callback) {
+            var treeObj;
             frame.open({
                 title: '导出SQL',
                 area: ['450px', '300px'],
-                content: '<div id="treeSql"></div>',
+                content: '<ul id="treeSql" class="ztree"></ul>',
                 btn: ['确定', '关闭'],
                 yes: function () {
                     layer.close(layer.index);
-                    var data = tree.getChecked('treeSql');
-                    callback && callback(frame.common.tree2List(data, 'pid'));
+                    var data = treeObj.getCheckedNodes(true);
+                    callback && callback(data);
                 },
                 btn2: function () {
                     layer.close(layer.index);
                 },
                 success: function () {
-                    tree.render({
-                        id: 'treeSql', elem: '#treeSql',
-                        data: treeData, showCheckbox: true
-                    });
+                    treeObj = $.fn.zTree.init($('#treeSql'), {
+                        check: { enable: true },
+                        data: {
+                            key: { url: '' }
+                        }
+                    }, treeData);
                 }
             });
         }
