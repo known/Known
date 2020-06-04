@@ -27,27 +27,27 @@ namespace Known
             log = LogManager.GetLogger("App");
         }
 
-        public static void Debug(string message)
+        public static void Debug(object message)
         {
             log.Debug(message);
         }
 
-        public static void Error(string message)
+        public static void Error(object message)
         {
             log.Error(message);
         }
 
-        public static void Fatal(string message)
+        public static void Fatal(object message)
         {
             log.Fatal(message);
         }
 
-        public static void Info(string message)
+        public static void Info(object message)
         {
             log.Info(message);
         }
 
-        public static void Warn(string message)
+        public static void Warn(object message)
         {
             log.Warn(message);
         }

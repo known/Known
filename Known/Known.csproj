@@ -83,6 +83,7 @@
     <Compile Include="Core\Initializer.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="ThreadJob.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Core\IPlatformRepository.cs" />
     <Compile Include="Core\PlatformService.cs" />

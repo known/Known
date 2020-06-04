@@ -1,0 +1,13 @@
+{
+    "Name": "WaterJob",
+    "Jobs": [
+        {
+            "Name": "Job1",
+            "TypeName": "Known.Water.TestJob,Known.Water"
+        },
+        {
+            "Name": "Job2",
+            "TypeName": "Known.Water.WaterJob,Known.Water"
+        }
+    ]
+}
