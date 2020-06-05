@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 namespace Known.Runner
 {
@@ -10,41 +9,56 @@ namespace Known.Runner
         {
             AppDomain.CurrentDomain.UnhandledException += (o, e) => Logger.Fatal(e.ExceptionObject);
 
-            Console.WriteLine("Start loading config...");
-            var file = new FileInfo("app.json");
-            var info = AppInfo.Load(file);
-            if (info == null)
+            bool isStart = false;
+            while (true)
             {
-                Console.WriteLine("The app.json is not exists.");
-                return;
-            }
-
-            if (info.Jobs == null || info.Jobs.Count == 0)
-            {
-                Console.WriteLine("No ThreadJob to run.");
-                return;
-            }
-
-            foreach (var item in info.Jobs)
-            {
-                var type = Type.GetType(item.TypeName);
-                if (type == null)
+                Console.WriteLine("--->");
+                var cmd = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(cmd))
                 {
-                    Console.WriteLine($"The {item.TypeName} is not exists.");
-                    continue;
+                    switch (cmd.ToLower())
+                    {
+                        case "start":
+                        case "st":
+                            if (!isStart)
+                            {
+                                isStart = true;
+                                JobRunner.Start();
+                                Console.WriteLine("JobRunner is started.");
+                            }
+                            break;
+                        case "stop":
+                        case "sp":
+                            if (isStart)
+                            {
+                                isStart = false;
+                                JobRunner.Stop();
+                                Console.WriteLine("JobRunner is stoped.");
+                            }
+                            break;
+                        case "clear":
+                        case "cr":
+                            Console.Clear();
+                            break;
+                        case "exit":
+                        case "et":
+                            return;
+                        default:
+                            Console.WriteLine("start\t(st)\nstop\t(sp)\nclear\t(cr)\nexit\t(et)");
+                            break;
+                    }
                 }
-
-                var job = Activator.CreateInstance(type) as IThreadJob;
-                if (job == null)
-                {
-                    Console.WriteLine($"The {item.TypeName} is not impl the IThreadJob.");
-                    continue;
-                }
-
-                Console.WriteLine($"{item.Name} is running.");
-                job.Config = item;
-                job.Run();
             }
+        }
+    }
+
+    class TestJob : IThreadJob
+    {
+        public JobConfig Config { get; set; }
+
+        public void Run()
+        {
+            Console.WriteLine(Config.TypeName);
         }
     }
 }

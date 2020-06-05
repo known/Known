@@ -44,8 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppInfo.cs" />
+    <Compile Include="JobRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThreadJob.cs" />
+    <Compile Include="ThreadJobHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Known\Known.csproj">

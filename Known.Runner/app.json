@@ -1,13 +1,18 @@
 {
     "Name": "WaterJob",
+    "YunUrl": "",
     "Jobs": [
         {
             "Name": "Job1",
-            "TypeName": "Known.Water.TestJob,Known.Water"
+            "Enabled": true,
+            "Interval": 10000,
+            "TypeName": "Known.Runner.TestJob,Known.Runner"
         },
         {
             "Name": "Job2",
-            "TypeName": "Known.Water.WaterJob,Known.Water"
+            "Enabled": true,
+            "Interval": 10000,
+            "TypeName": "Known.Runner.TestJob,Known.Runner"
         }
     ]
 }
