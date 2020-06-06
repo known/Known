@@ -4,7 +4,7 @@ namespace Known.Runner
 {
     internal class ThreadJobHelper
     {
-        private static Dictionary<string, ThreadJob> jobs = new Dictionary<string, ThreadJob>();
+        private static readonly Dictionary<string, ThreadJob> jobs = new Dictionary<string, ThreadJob>();
 
         public static void StartJob(IThreadJob job)
         {

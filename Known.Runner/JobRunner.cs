@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Known.Runner
 {
@@ -8,14 +7,11 @@ namespace Known.Runner
     {
         private static List<JobConfig> jobs;
 
-        public static void Start()
+        public static void Start(AppInfo info)
         {
-            Console.WriteLine("Start loading config...");
-            var file = new FileInfo("app.json");
-            var info = AppInfo.Load(file);
             if (info == null)
             {
-                Console.WriteLine("The app.json is not exists.");
+                Console.WriteLine("The appInfo is not null.");
                 return;
             }
 
@@ -27,6 +23,7 @@ namespace Known.Runner
 
             jobs = info.Jobs;
 
+            var index = 0;
             foreach (var item in jobs)
             {
                 if (!item.Enabled)
@@ -46,7 +43,7 @@ namespace Known.Runner
                     continue;
                 }
 
-                Console.WriteLine($"{item.Name} is running.");
+                Console.WriteLine($"{++index}.{item.Name} is running.");
                 job.Config = item;
                 ThreadJobHelper.StartJob(job);
             }

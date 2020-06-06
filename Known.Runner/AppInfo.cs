@@ -6,6 +6,7 @@ namespace Known.Runner
     internal class AppInfo
     {
         public string Name { get; set; }
+        public string Description { get; set; }
         public List<JobConfig> Jobs { get; set; }
 
         internal static AppInfo Load(FileInfo file)

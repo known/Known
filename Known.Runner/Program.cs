@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Known.Runner
 {
@@ -7,48 +8,18 @@ namespace Known.Runner
         [STAThread]
         static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += (o, e) => Logger.Fatal(e.ExceptionObject);
-
-            bool isStart = false;
-            while (true)
+            var file = new FileInfo("app.json");
+            var info = AppInfo.Load(file);
+            if (info == null)
             {
-                Console.WriteLine("--->");
-                var cmd = Console.ReadLine();
-                if (!string.IsNullOrWhiteSpace(cmd))
-                {
-                    switch (cmd.ToLower())
-                    {
-                        case "start":
-                        case "st":
-                            if (!isStart)
-                            {
-                                isStart = true;
-                                JobRunner.Start();
-                                Console.WriteLine("JobRunner is started.");
-                            }
-                            break;
-                        case "stop":
-                        case "sp":
-                            if (isStart)
-                            {
-                                isStart = false;
-                                JobRunner.Stop();
-                                Console.WriteLine("JobRunner is stoped.");
-                            }
-                            break;
-                        case "clear":
-                        case "cr":
-                            Console.Clear();
-                            break;
-                        case "exit":
-                        case "et":
-                            return;
-                        default:
-                            Console.WriteLine("start\t(st)\nstop\t(sp)\nclear\t(cr)\nexit\t(et)");
-                            break;
-                    }
-                }
+                Console.WriteLine("The app.json is not exists.");
+                return;
             }
+
+            AppDomain.CurrentDomain.UnhandledException += (o, e) => Logger.Fatal(e.ExceptionObject);
+            AppStub.ServiceName = info.Name;
+            AppStub.ServiceDescription = info.Description;
+            AppStub.Start(args, () => JobRunner.Start(info), () => JobRunner.Stop());            
         }
     }
 
