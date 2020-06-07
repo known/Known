@@ -7,7 +7,7 @@ using System.ServiceProcess;
 
 namespace KRunner
 {
-    class WinService : System.ServiceProcess.ServiceBase
+    class WinService : ServiceBase
     {
         private IContainer components = null;
         private readonly Action start;
@@ -41,7 +41,7 @@ namespace KRunner
 
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            components = new Container();
         }
     }
 
@@ -70,7 +70,7 @@ namespace KRunner
 
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            components = new Container();
             processInstaller = new ServiceProcessInstaller();
             processInstaller.Account = ServiceAccount.LocalSystem;
             processInstaller.Password = null;

@@ -28,7 +28,7 @@ namespace KRunner
     {
         protected override void Runing()
         {
-            Console.WriteLine("{0:yyyy-MM-dd HH:mm:ss} {1}", DateTime.Now, Config.TypeName);
+            Console.WriteLine("{0:yyyy-MM-dd HH:mm:ss} {1} {2}", DateTime.Now, Config.Name, Config.TypeName);
         }
     }
 }

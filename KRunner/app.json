@@ -6,15 +6,33 @@
     "Jobs": [
         {
             "Name": "Job1",
-            "Enabled": false,
+            "Enabled": true,
             "Interval": 10000,
-            "TypeName": "KRunner.TestJob,KRunner"
+            "TypeName": "KRunner.TestJob,KRunner",
+            "Params": {
+                "Pas": "pas",
+                "Path": "path"
+            }
         },
         {
             "Name": "Job2",
             "Enabled": true,
-            "Interval": 10000,
-            "TypeName": "KRunner.TestJob,KRunner"
+            "RunTime": "HH:mm:ss=19:39:00",
+            "TypeName": "KRunner.TestJob,KRunner",
+            "Params": {
+                "Test": "1",
+                "Data": "data"
+            }
+        },
+        {
+            "Name": "Job3",
+            "Enabled": true,
+            "RunTime": "mm:ss=40:00",
+            "TypeName": "KRunner.TestJob,KRunner",
+            "Params": {
+                "Test": "2",
+                "Data": "data2"
+            }
         }
     ]
 }

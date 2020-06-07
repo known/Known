@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace KRunner
 {
-    internal class ThreadJobHelper
+    internal class JobHelper
     {
-        private static readonly Dictionary<string, ThreadJob> jobs = new Dictionary<string, ThreadJob>();
+        private static readonly Dictionary<string, IJober> jobs = new Dictionary<string, IJober>();
 
         public static void StartJob(IJob job)
         {
@@ -14,8 +14,10 @@ namespace KRunner
 
             if (!jobs.ContainsKey(job.Config.Name))
             {
-                var tjob = new ThreadJob(job);
-                jobs.Add(job.Config.Name, tjob);
+                if (string.IsNullOrWhiteSpace(job.Config.RunTime))
+                    jobs.Add(job.Config.Name, new ThreadJober(job));
+                else
+                    jobs.Add(job.Config.Name, new TimerJober(job));
             }
         }
 

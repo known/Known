@@ -46,7 +46,7 @@ namespace KRunner
 
                 Console.WriteLine($"{++index}.{item.Name} is running.");
                 job.Config = item;
-                ThreadJobHelper.StartJob(job);
+                JobHelper.StartJob(job);
             }
         }
 
@@ -58,13 +58,13 @@ namespace KRunner
             foreach (var item in jobs)
             {
                 Console.WriteLine($"{item.Name} is aborting.");
-                ThreadJobHelper.AbortJob(item.Name);
+                JobHelper.AbortJob(item.Name);
             }
 
             foreach (var item in jobs)
             {
                 Console.WriteLine($"{item.Name} is stopping.");
-                ThreadJobHelper.StopJob(item.Name);
+                JobHelper.StopJob(item.Name);
             }
         }
     }

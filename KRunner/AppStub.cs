@@ -33,7 +33,7 @@ namespace KRunner
                             RemoveService(ServiceName);
                             break;
                         case "S":
-                            System.ServiceProcess.ServiceBase.Run(new WinService(start, stop));
+                            ServiceBase.Run(new WinService(start, stop));
                             break;
                     }
                     return;
