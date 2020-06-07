@@ -1,11 +1,12 @@
 {
     "Name": "WaterJob",
     "Description": "水质检测实时上报服务",
+    "ConnName": "",
     "YunUrl": "",
     "Jobs": [
         {
             "Name": "Job1",
-            "Enabled": true,
+            "Enabled": false,
             "Interval": 10000,
             "TypeName": "KRunner.TestJob,KRunner"
         },

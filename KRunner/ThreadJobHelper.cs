@@ -7,7 +7,7 @@ namespace KRunner
     {
         private static readonly Dictionary<string, ThreadJob> jobs = new Dictionary<string, ThreadJob>();
 
-        public static void StartJob(IThreadJob job)
+        public static void StartJob(IJob job)
         {
             if (job == null || job.Config == null || string.IsNullOrWhiteSpace(job.Config.Name))
                 return;

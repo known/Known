@@ -24,13 +24,11 @@ namespace KRunner
         }
     }
 
-    class TestJob : IThreadJob
+    class TestJob : JobBase, IJob
     {
-        public JobConfig Config { get; set; }
-
-        public void Run()
+        protected override void Runing()
         {
-            Console.WriteLine(Config.TypeName);
+            Console.WriteLine("{0:yyyy-MM-dd HH:mm:ss} {1}", DateTime.Now, Config.TypeName);
         }
     }
 }

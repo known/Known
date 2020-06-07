@@ -8,7 +8,7 @@ namespace KRunner
     {
         private readonly Thread thread;
 
-        public ThreadJob(IThreadJob job)
+        public ThreadJob(IJob job)
         {
             Name = job.Config.Name;
             Interval = job.Config.Interval;
@@ -19,7 +19,7 @@ namespace KRunner
 
         public string Name { get; }
         public int Interval { get; }
-        public IThreadJob Job { get; }
+        public IJob Job { get; }
         public bool IsRunOver { get; private set; }
         public bool IsAbort { get; set; } = false;
 

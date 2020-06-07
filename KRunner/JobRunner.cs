@@ -37,7 +37,7 @@ namespace KRunner
                     continue;
                 }
 
-                var job = Activator.CreateInstance(type) as IThreadJob;
+                var job = Activator.CreateInstance(type) as IJob;
                 if (job == null)
                 {
                     Console.WriteLine($"The {item.TypeName} is not impl the IThreadJob.");
