@@ -4,7 +4,7 @@ using System.Reflection;
 using System.ServiceProcess;
 using System.Text.RegularExpressions;
 
-namespace Known.Runner
+namespace KRunner
 {
     class AppStub
     {

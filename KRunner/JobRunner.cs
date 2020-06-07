@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Known;
+using System;
 using System.Collections.Generic;
 
-namespace Known.Runner
+namespace KRunner
 {
     internal class JobRunner
     {

@@ -5,7 +5,7 @@ using System.Configuration.Install;
 using System.Diagnostics;
 using System.ServiceProcess;
 
-namespace Known.Runner
+namespace KRunner
 {
     class WinService : System.ServiceProcess.ServiceBase
     {

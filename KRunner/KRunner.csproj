@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{920817CA-49C7-4086-9F2C-C48B308A31FE}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Known.Runner</RootNamespace>
-    <AssemblyName>Known.Runner</AssemblyName>
+    <RootNamespace>KRunner</RootNamespace>
+    <AssemblyName>KRunner</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

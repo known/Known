@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Known;
+using System.Collections.Generic;
 
-namespace Known.Runner
+namespace KRunner
 {
     internal class ThreadJobHelper
     {

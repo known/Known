@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Web", "Known.Web\Know
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Tests", "Known.Tests\Known.Tests.csproj", "{93453E2E-B10E-4022-A052-825EF238B720}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Runner", "Known.Runner\Known.Runner.csproj", "{920817CA-49C7-4086-9F2C-C48B308A31FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRunner", "KRunner\KRunner.csproj", "{920817CA-49C7-4086-9F2C-C48B308A31FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

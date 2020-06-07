@@ -7,13 +7,13 @@
             "Name": "Job1",
             "Enabled": true,
             "Interval": 10000,
-            "TypeName": "Known.Runner.TestJob,Known.Runner"
+            "TypeName": "KRunner.TestJob,KRunner"
         },
         {
             "Name": "Job2",
             "Enabled": true,
             "Interval": 10000,
-            "TypeName": "Known.Runner.TestJob,Known.Runner"
+            "TypeName": "KRunner.TestJob,KRunner"
         }
     ]
 }

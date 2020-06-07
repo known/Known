@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Known;
+using System;
 using System.IO;
 
-namespace Known.Runner
+namespace KRunner
 {
     class Program
     {
