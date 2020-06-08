@@ -1,7 +1,7 @@
-﻿using Known;
-using System;
+﻿using System;
 using System.Threading;
 using System.Timers;
+using Known;
 
 namespace KRunner
 {
@@ -62,6 +62,7 @@ namespace KRunner
             catch (Exception ex)
             {
                 Logger.Error(ex);
+                ApiHelper.PushError(ex);
             }
         }
     }
@@ -116,6 +117,7 @@ namespace KRunner
             catch (Exception ex)
             {
                 Logger.Error(ex);
+                ApiHelper.PushError(ex);
             }
         }
 

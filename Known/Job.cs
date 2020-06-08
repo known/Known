@@ -6,6 +6,7 @@ namespace Known
     {
         Database Database { get; set; }
         JobConfig Config { get; set; }
+        void Load();
         void Run();
     }
 
@@ -15,6 +16,10 @@ namespace Known
         public JobConfig Config { get; set; }
 
         protected abstract void Runing();
+
+        public virtual void Load()
+        {
+        }
 
         public void Run()
         {

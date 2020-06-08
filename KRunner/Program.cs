@@ -18,6 +18,7 @@ namespace KRunner
             }
 
             AppDomain.CurrentDomain.UnhandledException += (o, e) => Logger.Fatal(e.ExceptionObject);
+            ApiHelper.BaseUrl = info.ApiUrl;
             AppStub.ServiceName = info.Name;
             AppStub.ServiceDescription = info.Description;
             args = new string[] { "-c" };
@@ -27,8 +28,16 @@ namespace KRunner
 
     class TestJob : JobBase, IJob
     {
+        private string pre;
+
+        public override void Load()
+        {
+            pre = string.Format("load at {0:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
+        }
+
         protected override void Runing()
         {
+            Console.WriteLine(pre);
             Console.WriteLine("{0:yyyy-MM-dd HH:mm:ss} {1} {2}", DateTime.Now, Config.Name, Config.TypeName);
         }
     }

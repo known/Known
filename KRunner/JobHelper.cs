@@ -1,5 +1,5 @@
-﻿using Known;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Known;
 
 namespace KRunner
 {
@@ -14,6 +14,8 @@ namespace KRunner
 
             if (!jobs.ContainsKey(job.Config.Name))
             {
+                job.Load();
+
                 if (string.IsNullOrWhiteSpace(job.Config.RunTime))
                     jobs.Add(job.Config.Name, new ThreadJober(job));
                 else
