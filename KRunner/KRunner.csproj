@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiHelper.cs" />
     <Compile Include="AppInfo.cs" />
     <Compile Include="AppStub.cs" />
     <Compile Include="JobRunner.cs" />

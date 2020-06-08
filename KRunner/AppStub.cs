@@ -48,8 +48,7 @@ namespace KRunner
 
         private static void StartByConsole(Action start, Action stop)
         {
-            Console.WriteLine($"Welcome to {ServiceName}-{ServiceDescription}");
-            Console.WriteLine("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
+            DisplaySystemInfo();
             bool isStart = false;
             while (true)
             {
@@ -80,16 +79,27 @@ namespace KRunner
                         case "clear":
                         case "cr":
                             Console.Clear();
+                            DisplaySystemInfo();
                             break;
                         case "exit":
                         case "et":
                             return;
                         default:
-                            Console.WriteLine("start\t(st)\nstop\t(sp)\nclear\t(cr)\nexit\t(et)");
+                            Console.WriteLine("start(st)\nstop(sp)\nclear(cr)\nexit(et)");
                             break;
                     }
                 }
             }
+        }
+
+        private static void DisplaySystemInfo()
+        {
+            Console.WriteLine("|" + new string('=', 80));
+            Console.WriteLine("|\tWelcome to {0}-{1}", ServiceName, ServiceDescription);
+            Console.WriteLine("|\t{0:yyyy-MM-dd HH:mm:ss} (C) PSTTEK @2020", DateTime.Now);
+            Console.WriteLine("|" + new string('-', 80));
+            Console.WriteLine("| Command: start(st)  stop(sp)  clear(cr)  exit(et)");
+            Console.WriteLine("|" + new string('=', 80));
         }
 
         private static void InstallService(string serviceName, string serviceDescription)
