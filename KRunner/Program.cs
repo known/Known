@@ -18,7 +18,8 @@ namespace KRunner
             }
 
             AppDomain.CurrentDomain.UnhandledException += (o, e) => Logger.Fatal(e.ExceptionObject);
-            ApiHelper.BaseUrl = info.ApiUrl;
+            
+            ApiHelper.App = info;
             AppStub.ServiceName = info.Name;
             AppStub.ServiceDescription = info.Description;
             args = new string[] { "-c" };

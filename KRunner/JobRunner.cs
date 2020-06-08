@@ -18,7 +18,7 @@ namespace KRunner
 
             if (info.Jobs == null || info.Jobs.Count == 0)
             {
-                Console.WriteLine("No ThreadJob to run.");
+                Console.WriteLine("No Job to run.");
                 return;
             }
 
@@ -39,7 +39,7 @@ namespace KRunner
                 var job = Activator.CreateInstance(type) as IJob;
                 if (job == null)
                 {
-                    Console.WriteLine($"The {item.TypeName} is not impl the IThreadJob.");
+                    Console.WriteLine($"The {item.TypeName} is not impl the IJob.");
                     continue;
                 }
 

@@ -49,6 +49,7 @@ namespace KRunner
             {
                 while (!IsAbort)
                 {
+                    ApiHelper.PostStatus(Job, "Running");
                     IsRunOver = false;
                     Job.Run();
                     IsRunOver = true;
@@ -62,7 +63,7 @@ namespace KRunner
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                ApiHelper.PushError(ex);
+                ApiHelper.PostError(Job, ex);
             }
         }
     }
@@ -109,15 +110,17 @@ namespace KRunner
                 var now = DateTime.Now;
                 if (IsRunOver && CheckRunTime(RunTime, now))
                 {
+                    ApiHelper.PostStatus(Job, "Running");
                     IsRunOver = false;
                     Job.Run();
                     IsRunOver = true;
                 }
+                ApiHelper.PostStatus(Job, "Running");
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                ApiHelper.PushError(ex);
+                ApiHelper.PostError(Job, ex);
             }
         }
 

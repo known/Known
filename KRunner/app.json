@@ -3,6 +3,7 @@
     "Description": "水质检测实时上报服务",
     "ConnName": "",
     "ApiUrl": "",
+    "ProxyUrl": "",
     "Jobs": [
         {
             "Name": "Job1",

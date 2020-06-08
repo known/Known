@@ -10,6 +10,7 @@ namespace KRunner
         public string Description { get; set; }
         public string ConnName { get; set; }
         public string ApiUrl { get; set; }
+        public string ProxyUrl { get; set; }
         public List<JobConfig> Jobs { get; set; }
 
         internal static AppInfo Load(FileInfo file)
