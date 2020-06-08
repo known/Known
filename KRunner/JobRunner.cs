@@ -24,7 +24,6 @@ namespace KRunner
 
             jobs = info.Jobs;
 
-            var index = 0;
             foreach (var item in jobs)
             {
                 if (!item.Enabled)
@@ -44,7 +43,6 @@ namespace KRunner
                     continue;
                 }
 
-                Console.WriteLine($"{++index}.{item.Name} is running.");
                 job.Config = item;
                 JobHelper.StartJob(job);
             }
@@ -57,13 +55,11 @@ namespace KRunner
 
             foreach (var item in jobs)
             {
-                Console.WriteLine($"{item.Name} is aborting.");
                 JobHelper.AbortJob(item.Name);
             }
 
             foreach (var item in jobs)
             {
-                Console.WriteLine($"{item.Name} is stopping.");
                 JobHelper.StopJob(item.Name);
             }
         }

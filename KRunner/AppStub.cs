@@ -64,7 +64,6 @@ namespace KRunner
                             {
                                 isStart = true;
                                 start.Invoke();
-                                Console.WriteLine("JobRunner is started.");
                             }
                             break;
                         case "stop":
@@ -73,7 +72,6 @@ namespace KRunner
                             {
                                 isStart = false;
                                 stop.Invoke();
-                                Console.WriteLine("JobRunner is stoped.");
                             }
                             break;
                         case "clear":

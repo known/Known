@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Known;
 
 namespace KRunner
@@ -14,8 +15,17 @@ namespace KRunner
 
             if (!jobs.ContainsKey(job.Config.Name))
             {
-                job.Load();
+                try
+                {
+                    job.Load();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("{0}: {1}", job.Config.Name, ex);
+                    return;
+                }
 
+                Console.WriteLine("{0} is started.", job.Config.Name);
                 if (string.IsNullOrWhiteSpace(job.Config.RunTime))
                     jobs.Add(job.Config.Name, new ThreadJober(job));
                 else
@@ -31,6 +41,7 @@ namespace KRunner
             if (!jobs.ContainsKey(name))
                 return;
 
+            Console.WriteLine("{0} is aborted.", name);
             jobs[name].IsAbort = true;
         }
 
@@ -42,6 +53,7 @@ namespace KRunner
             if (!jobs.ContainsKey(name))
                 return;
 
+            Console.WriteLine("{0} is stoped.", name);
             var job = jobs[name];
             if (job.IsRunOver)
                 job.Abort();
