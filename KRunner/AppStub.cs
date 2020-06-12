@@ -92,12 +92,12 @@ namespace KRunner
 
         private static void DisplaySystemInfo()
         {
-            Console.WriteLine("|" + new string('=', 80));
+            Console.WriteLine("|" + new string('=', 78));
             Console.WriteLine("|\tWelcome to {0}-{1}", ServiceName, ServiceDescription);
             Console.WriteLine("|\t{0:yyyy-MM-dd HH:mm:ss} (C) PSTTEK @2020", DateTime.Now);
-            Console.WriteLine("|" + new string('-', 80));
+            Console.WriteLine("|" + new string('-', 78));
             Console.WriteLine("| Command: start(st)  stop(sp)  clear(cr)  exit(et)");
-            Console.WriteLine("|" + new string('=', 80));
+            Console.WriteLine("|" + new string('=', 78));
         }
 
         private static void InstallService(string serviceName, string serviceDescription)
