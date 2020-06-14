@@ -18,7 +18,8 @@ layui.define('common', function (exports) {
 
         $.extend(config, {
             elem: '#' + name, skin: 'line',
-            even: true, page: true, cellMinWidth: 80
+            even: true, page: true, cellMinWidth: 80,
+            defaultToolbar: ['filter', 'print']
         });
         config.height = config.height || 'full-25';
 
