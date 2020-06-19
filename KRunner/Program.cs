@@ -18,12 +18,12 @@ namespace KRunner
             }
 
             AppDomain.CurrentDomain.UnhandledException += (o, e) => Logger.Fatal(e.ExceptionObject);
-            
+
             ApiHelper.App = info;
             AppStub.ServiceName = info.Name;
             AppStub.ServiceDescription = info.Description;
             args = new string[] { "-c" };
-            AppStub.Start(args, () => JobRunner.Start(info), () => JobRunner.Stop());            
+            AppStub.Start(args, () => JobRunner.Start(info), () => JobRunner.Stop());
         }
     }
 
