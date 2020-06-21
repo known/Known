@@ -13,7 +13,7 @@ namespace KRunner
         private readonly Action start;
         private readonly Action stop;
 
-        public WinService(Action start,Action stop)
+        public WinService(Action start, Action stop)
         {
             this.start = start;
             this.stop = stop;
