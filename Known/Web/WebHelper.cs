@@ -6,18 +6,28 @@ namespace Known.Web
 {
     public class WebHelper
     {
-        public static void Post(string url, object data, string token = null, string proxyUrl = null)
+        public static string Get(string url, string token = null, string proxyUrl = null)
         {
-            using (var client = new WebClient())
+            using (var client = GetWebClient(token, proxyUrl))
             {
                 try
                 {
-                    client.Encoding = Encoding.UTF8;
-                    if (!string.IsNullOrWhiteSpace(token))
-                        client.Headers.Add(HttpRequestHeader.Authorization, token);
-                    if (!string.IsNullOrWhiteSpace(proxyUrl))
-                        client.Proxy = new WebProxy(proxyUrl, false);
+                    return client.DownloadString(url);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(string.Format("{0}\n{1}", url, ex));
+                    return ex.Message;
+                }
+            }
+        }
 
+        public static string Post(string url, object data, string token = null, string proxyUrl = null)
+        {
+            using (var client = GetWebClient(token, proxyUrl))
+            {
+                try
+                {
                     var contentType = string.Empty;
                     var postData = string.Empty;
                     if (data.GetType() == typeof(string))
@@ -32,13 +42,26 @@ namespace Known.Web
                     }
 
                     client.Headers.Add(HttpRequestHeader.ContentType, contentType);
-                    client.UploadString(url, postData);
+                    return client.UploadString(url, postData);
                 }
                 catch (Exception ex)
                 {
                     Logger.Error(string.Format("{0}\n{1}\n{2}", url, Utils.ToJson(data), ex));
+                    return ex.Message;
                 }
             }
+        }
+
+        private static WebClient GetWebClient(string token = null, string proxyUrl = null)
+        {
+            var client = new WebClient();
+            client.Encoding = Encoding.UTF8;
+            if (!string.IsNullOrWhiteSpace(token))
+                client.Headers.Add(HttpRequestHeader.Authorization, token);
+            if (!string.IsNullOrWhiteSpace(proxyUrl))
+                client.Proxy = new WebProxy(proxyUrl, false);
+
+            return client;
         }
     }
 }
