@@ -18,7 +18,7 @@ namespace Known
 
         protected UserInfo CurrentUser
         {
-            get { return SessionHelper.GetUser(); }
+            get { return SessionHelper.GetUser(out _); }
         }
     }
 }

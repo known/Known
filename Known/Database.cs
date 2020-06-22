@@ -644,6 +644,7 @@ select t.* from (
         public string FirstLoginIP { get; set; }
         public DateTime? LastLoginTime { get; set; }
         public string LastLoginIP { get; set; }
+        public string Token { get; set; }
         public string CompNo { get; set; }
         public string CompName { get; set; }
         public string OrgNo { get; set; }

@@ -54,15 +54,15 @@ namespace Known.Web.Controllers
         [HttpPost, Route("signout")]
         public ActionResult SignOut()
         {
-            Session.Clear();
             Platform.SignOut(UserName);
+            Session.Clear();
             FormsAuthentication.SignOut();
             return SuccessResult("成功退出！");
         }
 
         public ActionResult GetUserMenus()
         {
-            var user = Platform.GetUserInfo(UserName);
+            var user = CurrentUser;
             var data = Platform.GetUserMenus(UserName);
             var menus = data.Select(m => m.ToTree());
             return JsonResult(new { user, menus });

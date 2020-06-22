@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web;
+using Known.Core.Entities;
 using Known.Web;
 
 namespace Known.Core
@@ -34,10 +35,8 @@ namespace Known.Core
             entity.LastLoginTime = DateTime.Now;
             entity.LastLoginIP = ip;
 
-            var user = Utils.MapTo<UserInfo>(entity);
-            user.CompName = Repository.GetOrgName(Database, Config.AppId, user.CompNo);
-            user.OrgName = Repository.GetOrgName(Database, Config.AppId, user.OrgNo);
-
+            var user = GetUserInfo(entity);
+            user.Token = Utils.GetGuid();
             SessionHelper.SetUser(user);
             Database.Save(entity);
             return Result.Success("登录成功！", user);
@@ -45,15 +44,16 @@ namespace Known.Core
 
         public void SignOut(string userName)
         {
+            //SessionHelper.Remove
         }
 
         public UserInfo GetUserInfo(string userName)
         {
-            var user = SessionHelper.GetUser();
+            var user = SessionHelper.GetUser(out _);
             if (user == null && !string.IsNullOrWhiteSpace(userName))
             {
                 var entity = Repository.GetUser(Database, userName);
-                user = Utils.MapTo<UserInfo>(entity);
+                user = GetUserInfo(entity);
                 SessionHelper.SetUser(user);
             }
             return user;
@@ -70,6 +70,14 @@ namespace Known.Core
             }
 
             return Repository.GetUserMenus(Database, userName);
+        }
+
+        private UserInfo GetUserInfo(SysUser entity)
+        {
+            var user = Utils.MapTo<UserInfo>(entity);
+            user.CompName = Repository.GetOrgName(Database, Config.AppId, user.CompNo);
+            user.OrgName = Repository.GetOrgName(Database, Config.AppId, user.OrgNo);
+            return user;
         }
     }
 }

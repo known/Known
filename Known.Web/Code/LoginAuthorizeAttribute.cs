@@ -12,6 +12,12 @@ namespace Known.Web
                 return;
 
             var httpContext = filterContext.RequestContext.HttpContext;
+            var token = httpContext.Request.Headers["token"];
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+
+            }
+
             if (httpContext.User.Identity.IsAuthenticated)
                 return;
 
