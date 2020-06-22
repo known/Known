@@ -101,10 +101,9 @@
             layer = layui.layer,
             frame = layui.frame;
 
-        var org = null;
         var form = frame.form({
             name: 'formUser',
-            defData: { Id: '', OrgNo: org.Code, Enabled: 1 },
+            defData: { Id: '', Enabled: 1 },
             config: {
                 init: function (e) {
                     e.form.UserName.setReadonly(e.data.Id !== '');
@@ -119,6 +118,7 @@
             }]
         });
 
+        var org = null;
         var grid = frame.grid({
             name: 'gridUser',
             config: {
@@ -151,8 +151,21 @@
                 ]]
             },
             toolbar: {
-                add: function (e) { form.show(); },
-                edit: function (e) { e.editRow(form); },
+                add: function (e) {
+                    if (!org) {
+                        layer.msg('请选择组织架构！');
+                        return;
+                    }
+                    showForm(org);
+                },
+                edit: function (e) {
+                    if (!org) {
+                        layer.msg('请选择组织架构！');
+                        return;
+                    }
+                    var title = getOrgInfo(org.Code, org.Name);
+                    e.editRow(form, { title: title });
+                },
                 remove: function (e) { e.deleteRows(url.DeleteUsers); },
                 imports: function (e) { },
                 role: function (e) {
@@ -227,15 +240,25 @@
             });
         }
 
+        function getOrgInfo(code, name) {
+            return '- ' + code + '|' + name;
+        }
+
+        function showForm(org) {
+            var title = org ? getOrgInfo(org.Code, org.Name) : '';
+            org = org || {};
+            form.show({
+                Id: '', Enabled: 1, OrgNo: org.Code
+            }, { title: title });
+        }
+
         $.get(url.GetOrganizations, function (result) {
             var data = frame.common.list2Tree(result, 'pid', '');
             tree.render({
                 elem: '#tree', data: data, onlyIconControl: true,
                 click: function (obj) {
                     org = obj.data.data;
-                    grid.reload({
-                        OrgNo: org.Code
-                    });
+                    grid.reload({ OrgNo: org.Code });
                 }
             });
         });

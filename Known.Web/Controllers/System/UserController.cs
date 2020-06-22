@@ -13,6 +13,9 @@ namespace Known.Web.Controllers
         [HttpPost]
         public ActionResult QueryUsers(CriteriaData data)
         {
+            if (string.IsNullOrWhiteSpace(data.query))
+                data.query = Utils.ToJson(new { OrgNo = "" });
+
             return QueryPagingData(data, c => Service.QueryUsers(c));
         }
 

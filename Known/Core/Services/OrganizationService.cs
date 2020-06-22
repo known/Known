@@ -44,9 +44,9 @@ namespace Known.Core.Services
                 datas = new List<SysOrganization>();
             datas.Insert(0, new SysOrganization
             {
-                Id = "1",
+                Id = Config.AppId,
                 ParentId = "",
-                Code = "",
+                Code = Config.AppId,
                 Name = "总公司"
             });
             return datas;
