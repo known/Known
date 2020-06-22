@@ -12,20 +12,15 @@ namespace Known.Web
                 return;
 
             var httpContext = filterContext.RequestContext.HttpContext;
-            var token = httpContext.Request.Headers["token"];
-            if (!string.IsNullOrWhiteSpace(token))
-            {
-
-            }
-
-            if (httpContext.User.Identity.IsAuthenticated)
+            var user = SessionHelper.GetUser(out string error);
+            if (user != null)
                 return;
 
-            if (httpContext.Request.IsAjaxRequest())
+            if (httpContext.Request.IsAjaxRequest() || !string.IsNullOrWhiteSpace(error))
             {
                 filterContext.Result = new JsonResult
                 {
-                    Data = new { timeout = true, msg = "登录超时！" },
+                    Data = new { timeout = true, msg = error ?? "登录超时！" },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
             }

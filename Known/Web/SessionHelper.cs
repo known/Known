@@ -5,12 +5,12 @@ using System.Web.Security;
 
 namespace Known.Web
 {
-    class SessionHelper
+    public class SessionHelper
     {
         private const string KEY_CUR_USER = "Key_CurrentUser";
         private static readonly Dictionary<string, UserInfo> tokenUsers = new Dictionary<string, UserInfo>();
 
-        internal static UserInfo GetUser(out string error)
+        public static UserInfo GetUser(out string error)
         {
             var token = HttpContext.Current.Request.Headers["token"];
             if (!string.IsNullOrWhiteSpace(token))
