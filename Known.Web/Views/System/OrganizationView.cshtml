@@ -38,7 +38,7 @@
 <script>
     layui.use('frame', function () {
         var url = {
-            GetOrganizationTree: '/Organization/GetOrganizationTree',
+            GetOrganizations: '/Organization/GetOrganizations',
             DeleteOrganizations: '/Organization/DeleteOrganizations',
             SaveOrganization: '/Organization/SaveOrganization'
         };
@@ -97,7 +97,7 @@
 
         var orgList;
         function renderTree() {
-            $.get(url.GetOrganizationTree, function (result) {
+            $.get(url.GetOrganizations, function (result) {
                 orgList = result;
                 var data = frame.common.list2Tree(result, 'pid', '');
                 grid.setData(getGridData(data.children));

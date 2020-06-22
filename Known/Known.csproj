@@ -100,5 +100,10 @@
   <ItemGroup>
     <EmbeddedResource Include="DevMenu.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="SQL\Oracle.sql" />
+    <Content Include="SQL\MySql.sql" />
+    <Content Include="SQL\SqlServer.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,6 +4,9 @@ namespace Known.Core.Entities
 {
     public class SysUser : EntityBase
     {
+        [Column("组织编号", "", true, "1", "50")]
+        public string OrgNo { get; set; }
+
         [Column("用户名", "", true, "1", "50")]
         public string UserName { get; set; }
 

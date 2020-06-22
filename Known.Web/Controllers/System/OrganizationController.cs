@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Known.Core;
 using Known.Core.Services;
 
 namespace Known.Web.Controllers
@@ -10,7 +9,7 @@ namespace Known.Web.Controllers
         private OrganizationService Service { get; } = new OrganizationService();
 
         #region View
-        public ActionResult GetOrganizationTree()
+        public ActionResult GetOrganizations()
         {
             var datas = Service.GetOrganizations();
             return JsonResult(datas.Select(d => new

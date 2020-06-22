@@ -1,5 +1,8 @@
 ﻿<div class="layui-fit">
-    <div class="fit-col">
+    <div class="fit-col-3">
+        <div id="tree"></div>
+    </div>
+    <div class="fit-col-7">
         <table id="gridUser" class="layui-hide" lay-filter="gridUser"></table>
     </div>
 </div>
@@ -8,6 +11,7 @@
     <div class="form-card-body">
         <div class="form">
             <input type="hidden" name="Id">
+            <input type="hidden" name="OrgNo">
             <div class="layui-form-item form-first-item">
                 <label class="layui-form-label required">用户名</label>
                 <div class="layui-input-inline">
@@ -80,6 +84,7 @@
 <script>
     layui.use('frame', function () {
         var url = {
+            GetOrganizations: '/Organization/GetOrganizations',
             QueryUsers: '/User/QueryUsers',
             DeleteUsers: '/User/DeleteUsers',
             ImportUsers: '/User/ImportUsers',
@@ -92,12 +97,14 @@
         };
 
         var $ = layui.jquery,
+            tree = layui.tree,
             layer = layui.layer,
             frame = layui.frame;
 
+        var org = null;
         var form = frame.form({
             name: 'formUser',
-            defData: { Id: '', Enabled: 1 },
+            defData: { Id: '', OrgNo: org.Code, Enabled: 1 },
             config: {
                 init: function (e) {
                     e.form.UserName.setReadonly(e.data.Id !== '');
@@ -219,5 +226,18 @@
                 });
             });
         }
+
+        $.get(url.GetOrganizations, function (result) {
+            var data = frame.common.list2Tree(result, 'pid', '');
+            tree.render({
+                elem: '#tree', data: data, onlyIconControl: true,
+                click: function (obj) {
+                    org = obj.data.data;
+                    grid.reload({
+                        OrgNo: org.Code
+                    });
+                }
+            });
+        });
     });
 </script>
