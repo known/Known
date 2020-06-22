@@ -42,7 +42,13 @@ namespace Known.Core.Services
             var datas = Repository.GetOrganizations(Database);
             if (datas == null)
                 datas = new List<SysOrganization>();
-            datas.Insert(0, new SysOrganization { Id = "1", ParentId = "", Name = "总公司" });
+            datas.Insert(0, new SysOrganization
+            {
+                Id = "1",
+                ParentId = "",
+                Code = "",
+                Name = "总公司"
+            });
             return datas;
         }
 
@@ -58,12 +64,24 @@ namespace Known.Core.Services
                 entity = new SysOrganization();
 
             entity.FillModel(model);
-            var vr = entity.Validate();
+            var vr = ValidateOrganization(Database, entity);
             if (!vr.IsValid)
                 return vr;
 
             Database.Save(entity);
             return Result.Success("保存成功！", entity.Id);
+        }
+
+        private Result ValidateOrganization(Database db, SysOrganization entity)
+        {
+            var vr = entity.Validate();
+            if (vr.IsValid)
+            {
+                if (Repository.ExistsOrganization(db, entity))
+                    vr.AddError("组织编码已存在！");
+            }
+
+            return vr;
         }
         #endregion
     }

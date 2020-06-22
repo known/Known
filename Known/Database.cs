@@ -181,12 +181,6 @@ namespace Known
         #endregion
 
         #region Entity
-        public bool Exists<T>(Expression<Func<T, bool>> func) where T : EntityBase
-        {
-            var where = ExpressionHelper.Route(func);
-            return true;
-        }
-
         public List<T> QueryAll<T>() where T : EntityBase
         {
             var tableName = CommandInfo.GetTableName<T>();
@@ -652,8 +646,8 @@ select t.* from (
         public string LastLoginIP { get; set; }
         public string CompNo { get; set; }
         public string CompName { get; set; }
-        public string DeptNo { get; set; }
-        public string DeptName { get; set; }
+        public string OrgNo { get; set; }
+        public string OrgName { get; set; }
     }
 
     public class Result

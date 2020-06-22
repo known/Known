@@ -35,6 +35,9 @@ namespace Known.Core
             entity.LastLoginIP = ip;
 
             var user = Utils.MapTo<UserInfo>(entity);
+            user.CompName = Repository.GetOrgName(Database, Config.AppId, user.CompNo);
+            user.OrgName = Repository.GetOrgName(Database, Config.AppId, user.OrgNo);
+
             SessionHelper.SetUser(user);
             Database.Save(entity);
             return Result.Success("登录成功！", user);

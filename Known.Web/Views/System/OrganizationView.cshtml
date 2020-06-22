@@ -50,6 +50,12 @@
 
         var form = frame.form({
             name: 'formOrganization',
+            config: {
+                init: function (e) {
+                    e.form.Code.setReadonly(e.data.Id !== '');
+                }
+            },
+            toolbar: 
             toolbar: [{
                 text: '保存', handler: function (e) {
                     e.save(url.SaveOrganization, function () {

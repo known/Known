@@ -8,6 +8,7 @@ namespace Known.Core
         SysUser GetUser(Database db, string userName);
         List<MenuInfo> GetMenus(Database db);
         List<MenuInfo> GetUserMenus(Database db, string userName);
+        string GetOrgName(Database db, string compNo, string orgNo);
     }
 
     public class MenuInfo
@@ -50,6 +51,12 @@ where Enabled=1 and Id in (
 )
 order by Sort";
             return db.QueryList<MenuInfo>(sql, new { userName });
+        }
+
+        public string GetOrgName(Database db, string compNo, string orgNo)
+        {
+            var sql = "select Name from SysOrganization where CompNo=@compNo and Code=@orgNo";
+            return db.Scalar<string>(sql, new { compNo, orgNo });
         }
     }
 }
