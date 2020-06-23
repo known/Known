@@ -87,7 +87,6 @@
     <Compile Include="Utils.cs" />
     <Compile Include="Core\IPlatformRepository.cs" />
     <Compile Include="Core\PlatformService.cs" />
-    <Compile Include="Web\HttpServer.cs" />
     <Compile Include="Web\WebHelper.cs" />
     <Compile Include="Web\CriteriaData.cs" />
     <Compile Include="Web\SessionHelper.cs" />

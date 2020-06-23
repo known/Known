@@ -17,9 +17,6 @@ namespace Known.Tests
             //var db2 = new Database("Oracle");
             //var db3 = new Database("MySql");
 
-            var httpServer = new HttpServer();
-            httpServer.Start(9999);
-
             Console.WriteLine("按任意键结束！");
             Console.ReadKey();
         }
