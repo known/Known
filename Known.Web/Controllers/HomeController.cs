@@ -7,6 +7,12 @@ namespace Known.Web.Controllers
     public class HomeController : ControllerBase
     {
         #region View
+        [AllowAnonymous, Route("register")]
+        public ActionResult Register()
+        {
+            return ViewResult();
+        }
+
         [AllowAnonymous, Route("login")]
         public ActionResult Login()
         {
@@ -37,6 +43,9 @@ namespace Known.Web.Controllers
         {
             return ViewResult();
         }
+        #endregion
+
+        #region Register
         #endregion
 
         #region Login

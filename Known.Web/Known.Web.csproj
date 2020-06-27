@@ -218,6 +218,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Home\ProfileController.cs" />
     <Compile Include="Controllers\Home\WelcomeController.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Controllers\System\DictionaryController.cs" />
     <Compile Include="Controllers\System\OrganizationController.cs" />
@@ -273,6 +274,7 @@
     <Content Include="static\fonts\fontawesome-webfont.ttf" />
     <Content Include="static\fonts\fontawesome-webfont.woff" />
     <Content Include="static\fonts\fontawesome-webfont.woff2" />
+    <EmbeddedResource Include="Views\Home\Register.cshtml" />
     <None Include="Views\_Layout.cshtml" />
     <None Include="Views\Web.config" />
   </ItemGroup>

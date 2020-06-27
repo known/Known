@@ -12,6 +12,21 @@ namespace Known.Web
                 return;
 
             var httpContext = filterContext.RequestContext.HttpContext;
+            //if (!License.HasLicense)
+            //{
+            //    if (httpContext.Request.IsAjaxRequest())
+            //    {
+            //        filterContext.Result = new JavaScriptResult
+            //        {
+            //            Script = "location='/register';"
+            //        };
+            //    }
+            //    else
+            //    {
+            //        filterContext.Result = new RedirectResult("/register");
+            //    }
+            //}
+
             var user = SessionHelper.GetUser(out string error);
             if (user != null)
                 return;
