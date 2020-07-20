@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using Known.Core;
 
 namespace Known.Web
 {
     public class ControllerBase : Controller
     {
-        public PlatformService Platform { get; } = new PlatformService();
+        public PlatformService Platform => new PlatformService();
 
         public ControllerBase()
         {
@@ -103,6 +102,7 @@ namespace Known.Web
         protected ActionResult QueryPagingData<T>(CriteriaData data, Func<PagingCriteria, PagingResult<T>> func)
         {
             var criteria = data.ToPagingCriteria();
+            criteria.Parameter.CompNo = CurrentUser.CompNo;
             var result = func(criteria);
             return JsonResult(new
             {

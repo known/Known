@@ -37,10 +37,6 @@
     </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.Cells, Version=17.8.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Library\Aspose.Cells.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\Library\log4net.dll</HintPath>
     </Reference>
@@ -60,50 +56,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="Core\Entities\SysDictionary.cs" />
-    <Compile Include="Core\Entities\SysModule.cs" />
-    <Compile Include="Core\Entities\SysOrganization.cs" />
-    <Compile Include="Core\Entities\SysRole.cs" />
-    <Compile Include="Core\Entities\SysUser.cs" />
-    <Compile Include="Core\Repositories\IDictionaryRepository.cs" />
-    <Compile Include="Core\Repositories\IOrganizationRepository.cs" />
-    <Compile Include="Core\Repositories\IUserRepository.cs" />
-    <Compile Include="Core\Repositories\IRoleRepository.cs" />
-    <Compile Include="Core\Repositories\IModuleRepository.cs" />
-    <Compile Include="Core\Services\DictionaryService.cs" />
-    <Compile Include="Core\Services\OrganizationService.cs" />
-    <Compile Include="Core\Services\RoleService.cs" />
-    <Compile Include="Core\Services\UserService.cs" />
-    <Compile Include="Core\Services\ModuleService.cs" />
-    <Compile Include="Core\Services\ProfileService.cs" />
-    <Compile Include="Core\Services\WelcomeService.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="Container.cs" />
-    <Compile Include="Core\Initializer.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="Core\IPlatformRepository.cs" />
-    <Compile Include="Core\PlatformService.cs" />
+    <Compile Include="PlatformService.cs" />
     <Compile Include="Web\WebHelper.cs" />
     <Compile Include="Web\CriteriaData.cs" />
-    <Compile Include="Web\SessionHelper.cs" />
+    <Compile Include="Web\UserHelper.cs" />
     <Compile Include="Web\WebApplication.cs" />
     <Compile Include="Web\ResViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="log4net.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DevMenu.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="SQL\Oracle.sql" />
-    <Content Include="SQL\MySql.sql" />
-    <Content Include="SQL\SqlServer.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -30,12 +30,12 @@
                         <i class="layui-icon layui-icon-refresh"></i>
                     </a>
                 </li>
-                <li class="layui-nav-item" title="分享系统">
+                <li class="layui-nav-item" title="分享系统" style="display:none;">
                     <a href="javascript:;" class="top-right" data-type="share">
                         <i class="layui-icon layui-icon-share"></i>
                     </a>
                 </li>
-                <li class="layui-nav-item" title="清理服务端缓存">
+                <li class="layui-nav-item" title="清理服务端缓存" style="display:none;">
                     <a href="javascript:;" class="top-right" data-type="cache">
                         <i class="layui-icon layui-icon-delete"></i>
                     </a>
@@ -92,18 +92,19 @@
                 <li><a href="javascript:;" tab-close="all"><i class="layui-icon layui-icon-close"></i> 关闭全部</a></li>
             </ul>
         </div>
-        <div class="layui-footer">© 2019-2020 - Known</div>
+        <div class="layui-footer">© 2020 - <a href="http://www.pumantech.com/" target="_blank">普漫科技</a></div>
     </div>
     <script src="~/static/js/libs/jquery.min.js"></script>
     <script src="~/static/layui/layui.all.js"></script>
-    <script src="~/static/js/index.min.js"></script>
+    <script src="~/static/js/site.min.js"></script>
+    <script src="~/static/js/index.js"></script>
     <script>
         layui.use('admin', function () {
             var $ = layui.$, admin = layui.admin;
             admin.show({
                 url: {
                     Welcome: '/Home/Welcome',
-                    GetUserMenus: '/Home/GetUserMenus',
+                    GetUserData: '/Home/GetUserData',
                     RefreshCache: '/Home/RefreshCache',
                     UserInfo: '/Home/UserInfo',
                     SignOut: '/signout'

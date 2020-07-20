@@ -7,6 +7,8 @@ namespace Known
     {
         private static readonly Hashtable cached = new Hashtable();
 
+        private Container() { }
+
         public static void Clear()
         {
             cached.Clear();

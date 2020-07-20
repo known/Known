@@ -60,41 +60,41 @@
     <Reference Include="System.Web.Services" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\css\frame.css" />
+    <None Include="Content\css\index.css" />
+    <None Include="Content\css\login.css" />
+    <None Include="Content\site.js" />
+    <None Include="Content\index.js" />
     <Content Include="Global.asax" />
+    <None Include="SQL\MySql.sql" />
+    <None Include="SQL\Oracle.sql" />
+    <None Include="SQL\SqlServer.sql" />
     <Content Include="static\css\animate.min.css" />
-    <Content Include="static\css\calendar.min.css" />
+    <Content Include="static\css\frame.min.css" />
+    <Content Include="static\css\index.min.css" />
+    <Content Include="static\css\login.min.css" />
     <Content Include="static\css\ztree.css" />
-    <Content Include="static\css\frame.css" />
-    <Content Include="static\css\frame.min.css">
-      <DependentUpon>frame.css</DependentUpon>
-    </Content>
-    <Content Include="static\css\index.css" />
-    <Content Include="static\css\index.min.css">
-      <DependentUpon>index.css</DependentUpon>
-    </Content>
-    <Content Include="static\css\login.css" />
     <Content Include="static\css\font-awesome.css" />
-    <Content Include="static\css\login.min.css">
-      <DependentUpon>login.css</DependentUpon>
-    </Content>
     <Content Include="static\img\bg.png" />
     <Content Include="static\img\face.jpg" />
     <Content Include="static\img\loading.gif" />
-    <Content Include="static\js\extend\admin.js" />
-    <Content Include="static\js\extend\common.js" />
+    <Content Include="static\js\extend1\admin.min.js" />
+    <Content Include="static\js\extend1\common.min.js" />
+    <Content Include="static\js\extend1\frame.min.js" />
     <Content Include="static\js\extend\echarts.js" />
     <Content Include="static\js\extend\echartsTheme.js" />
-    <Content Include="static\js\extend\frame.js" />
     <Content Include="static\js\index.js" />
-    <Content Include="static\js\index.min.js">
-      <DependentUpon>index.js</DependentUpon>
-    </Content>
-    <Content Include="static\js\code\admin.js" />
-    <Content Include="static\js\code\common.js" />
-    <Content Include="static\js\code\frame.js" />
-    <Content Include="static\js\libs\calendar.min.js" />
+    <None Include="Content\js\admin.js" />
+    <None Include="Content\js\common.js" />
+    <None Include="Content\js\frame.js" />
+    <Content Include="static\js\jquery.min.js" />
+    <Content Include="static\js\libs\axios.min.js" />
     <Content Include="static\js\libs\jquery.min.js" />
     <Content Include="static\js\libs\jquery.ztree.min.js" />
+    <Content Include="static\js\libs\lodash.min.js" />
+    <Content Include="static\js\libs\vue-router.js" />
+    <Content Include="static\js\libs\vue.min.js" />
+    <Content Include="static\js\site.min.js" />
     <Content Include="static\layui\css\layui.css" />
     <Content Include="static\layui\css\layui.mobile.css" />
     <Content Include="static\layui\css\modules\code.css" />
@@ -210,22 +210,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\ControllerBase.cs" />
+    <Compile Include="Code\ISystemRepository.cs" />
     <Compile Include="Code\LoginAuthorizeAttribute.cs" />
     <Compile Include="Code\ModelExtension.cs" />
     <Compile Include="Code\MvcApplication.cs" />
+    <Compile Include="Code\SystemService.cs" />
     <Compile Include="Code\WebConfig.cs" />
-    <Compile Include="Controllers\DevController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Home\ProfileController.cs" />
-    <Compile Include="Controllers\Home\WelcomeController.cs" />
-    <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
-    <Compile Include="Controllers\System\DictionaryController.cs" />
-    <Compile Include="Controllers\System\OrganizationController.cs" />
-    <Compile Include="Controllers\System\RoleController.cs" />
-    <Compile Include="Controllers\System\UserController.cs" />
-    <Compile Include="Controllers\System\ModuleController.cs" />
+    <Compile Include="Entities\SysDictionary.cs" />
+    <Compile Include="Entities\SysLog.cs" />
+    <Compile Include="Entities\SysOrganization.cs" />
+    <Compile Include="Entities\SysRole.cs" />
+    <Compile Include="Entities\SysUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Code\HomeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Known\Known.csproj">
@@ -255,32 +254,26 @@
     <EmbeddedResource Include="Views\Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\System\ModuleView.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\System\DictionaryView.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\System\RoleView.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\System\UserView.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="bundleconfig.json" />
+    <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="static\data\chart.json" />
-    <EmbeddedResource Include="Views\System\OrganizationView.cshtml" />
     <Content Include="static\fonts\fontawesome-webfont.ttf" />
     <Content Include="static\fonts\fontawesome-webfont.woff" />
     <Content Include="static\fonts\fontawesome-webfont.woff2" />
     <EmbeddedResource Include="Views\Home\Register.cshtml" />
+    <EmbeddedResource Include="Views\System\DictionaryView.cshtml" />
+    <EmbeddedResource Include="Views\System\OrganizationView.cshtml" />
+    <EmbeddedResource Include="Views\System\RoleView.cshtml" />
+    <EmbeddedResource Include="Views\System\UserView.cshtml" />
+    <EmbeddedResource Include="Views\System\LogView.cshtml" />
     <None Include="Views\_Layout.cshtml" />
     <None Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -306,6 +299,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets" Condition="Exists('..\packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

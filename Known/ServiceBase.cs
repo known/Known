@@ -4,6 +4,20 @@ namespace Known
 {
     public class ServiceBase
     {
+        protected PlatformService Platform { get; } = new PlatformService();
+
+        private UserInfo user;
+        protected UserInfo CurrentUser
+        {
+            get
+            {
+                if (user != null)
+                    return user;
+                return UserHelper.GetUser(out _);
+            }
+            set { user = value; }
+        }
+
         private Database database;
         protected Database Database
         {
@@ -14,11 +28,6 @@ namespace Known
                 database.User = CurrentUser;
                 return database;
             }
-        }
-
-        protected UserInfo CurrentUser
-        {
-            get { return SessionHelper.GetUser(out _); }
         }
     }
 }

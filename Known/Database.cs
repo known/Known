@@ -61,6 +61,15 @@ namespace Known
                 conn.Open();
         }
 
+        public void Close()
+        {
+            if (conn == null)
+                return;
+
+            if (conn.State != ConnectionState.Closed)
+                conn.Close();
+        }
+
         public void Dispose()
         {
             if (trans != null)
@@ -226,9 +235,50 @@ namespace Known
             Execute(sql);
         }
 
+        public void Delete<T>(string id) where T : EntityBase
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return;
+
+            var tableName = CommandInfo.GetTableName<T>();
+            var sql = $"delete from {tableName} where id=@id";
+            Execute(sql, new { id });
+        }
+
         public void Delete<T>(T entity) where T : EntityBase
         {
-            var info = CommandInfo.GetDeleteCommand(prefix, entity);
+            if (entity == null)
+                return;
+
+            Delete<T>(entity.Id);
+        }
+
+        public void InsertDatas<T>(List<T> datas)
+        {
+            if (datas == null || datas.Count == 0)
+                return;
+
+            var tableName = CommandInfo.GetTableName<T>();
+
+            conn.Open();
+            foreach (var item in datas)
+            {
+                var cmdParams = CommandInfo.ToDictionary(item);
+                var cloumn = string.Join(",", cmdParams.Keys);
+                var value = string.Join(",", cmdParams.Keys.Select(k => $"@{k}"));
+                var sql = $"insert into {tableName}({cloumn}) values({value})";
+                var info = new CommandInfo(prefix, sql) { Params = cmdParams };
+                ExecuteNonQuery(info);
+            }
+            conn.Close();
+        }
+
+        public void InsertData<T>(T data)
+        {
+            if (data == null)
+                return;
+
+            var info = CommandInfo.GetInsertCommand<T>(prefix, data);
             ExecuteNonQuery(info);
         }
 
@@ -568,9 +618,7 @@ namespace Known
             if (providerName.Contains("MySql"))
             {
                 return $@"
-select t1.* from (
-    {Text}
-) t1 
+select t1.* from ({Text}) t1 
 order by {orderBy} 
 limit {startNo}, {endNo}";
             }
@@ -578,9 +626,7 @@ limit {startNo}, {endNo}";
             return $@"
 select t.* from (
     select t1.*,row_number() over (order by {orderBy}) row_no 
-    from (
-        {Text}
-    ) t1
+    from ({Text}) t1
 ) t where t.row_no>{startNo} and t.row_no<={endNo}";
         }
 
@@ -589,36 +635,30 @@ select t.* from (
             return typeof(T).Name;
         }
 
-        internal static CommandInfo GetSaveCommand<T>(string prefix, T entity) where T : EntityBase
+        internal static CommandInfo GetInsertCommand<T>(string prefix, T entity)
         {
             var cmdParams = ToDictionary(entity);
-            var orgParams = ToDictionary(entity.Original);
-
-            var sql = string.Empty;
             var tableName = GetTableName<T>();
-            if (entity.IsNew)
-            {
-                var cloumn = string.Join(",", cmdParams.Keys);
-                var value = string.Join(",", cmdParams.Keys.Select(k => $"@{k}"));
-                sql = $"insert into {tableName}({cloumn}) values({value})";
-            }
-            else
-            {
-                var column = string.Join(",", cmdParams.Keys.Select(k => $"{k}=@{k}"));
-                sql = $"update {tableName} set {column} where Id=@Id";
-            }
-
+            var cloumn = string.Join(",", cmdParams.Keys);
+            var value = string.Join(",", cmdParams.Keys.Select(k => $"@{k}"));
+            var sql = $"insert into {tableName}({cloumn}) values({value})";
             return new CommandInfo(prefix, sql) { Params = cmdParams };
         }
 
-        internal static CommandInfo GetDeleteCommand<T>(string prefix, T entity) where T : EntityBase
+        internal static CommandInfo GetSaveCommand<T>(string prefix, T entity) where T : EntityBase
         {
+            if (entity.IsNew)
+                return GetInsertCommand<T>(prefix, entity);
+
+            var cmdParams = ToDictionary(entity);
+            var orgParams = ToDictionary(entity.Original);
             var tableName = GetTableName<T>();
-            var sql = $"delete from {tableName} where id=@id";
-            return new CommandInfo(prefix, sql, new { id = entity.Id });
+            var column = string.Join(",", cmdParams.Keys.Select(k => $"{k}=@{k}"));
+            var sql = $"update {tableName} set {column} where Id=@Id";
+            return new CommandInfo(prefix, sql) { Params = cmdParams };
         }
 
-        private static Dictionary<string, object> ToDictionary(object value)
+        internal static Dictionary<string, object> ToDictionary(object value)
         {
             if (value == null)
                 return null;
@@ -640,6 +680,7 @@ select t.* from (
         public string Mobile { get; set; }
         public string Email { get; set; }
         public string Note { get; set; }
+        public int Enabled { get; set; }
         public DateTime? FirstLoginTime { get; set; }
         public string FirstLoginIP { get; set; }
         public DateTime? LastLoginTime { get; set; }
@@ -649,6 +690,7 @@ select t.* from (
         public string CompName { get; set; }
         public string OrgNo { get; set; }
         public string OrgName { get; set; }
+        public bool IsOrgGroup { get; set; }
     }
 
     public class Result

@@ -6,6 +6,8 @@ namespace Known.Web.Controllers
 {
     public class HomeController : ControllerBase
     {
+        private HomeService Service => new HomeService();
+
         #region View
         [AllowAnonymous, Route("register")]
         public ActionResult Register()
@@ -69,12 +71,13 @@ namespace Known.Web.Controllers
             return SuccessResult("成功退出！");
         }
 
-        public ActionResult GetUserMenus()
+        public ActionResult GetUserData()
         {
             var user = CurrentUser;
             var data = Platform.GetUserMenus(UserName);
             var menus = data.Select(m => m.ToTree());
-            return JsonResult(new { user, menus });
+            var codes = Platform.GetCodes(user.CompNo);
+            return JsonResult(new { user, menus, codes });
         }
         #endregion
 
@@ -94,6 +97,45 @@ namespace Known.Web.Controllers
         {
             var script = ResViewEngine.GetScript(id);
             return JavaScript(script);
+        }
+        #endregion
+
+        #region Profile
+        public ActionResult GetUserInfo()
+        {
+            return JsonResult(Platform.GetUserInfo(UserName));
+        }
+
+        [HttpPost]
+        public ActionResult SaveUserInfo(string data)
+        {
+            return PostAction<UserInfo>(data, d => Platform.SaveUserInfo(d));
+        }
+
+        [HttpPost]
+        public ActionResult UpdatePassword(string oldPassword, string password, string repassword)
+        {
+            var result = Platform.UpdatePassword(CurrentUser, oldPassword, password, repassword);
+            return ValidateResult(result);
+        }
+        #endregion
+
+        #region Welcome
+        public ActionResult GetTodoLists()
+        {
+            var data = new CriteriaData();
+            return QueryPagingData(data, c => Service.GetTodoLists(c));
+        }
+
+        public ActionResult GetCompanyNews()
+        {
+            var data = new CriteriaData();
+            return QueryPagingData(data, c => Service.GetCompanyNews(c));
+        }
+
+        public ActionResult GetShortCuts()
+        {
+            return null;
         }
         #endregion
     }

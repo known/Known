@@ -15,13 +15,13 @@
             <div class="layui-form-item form-first-item">
                 <label class="layui-form-label required">用户名</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="UserName" placeholder="" readonly autocomplete="off">
+                    <input type="text" name="UserName" placeholder="" readonly autocomplete="off" required>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">姓名</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Name" placeholder="" autocomplete="off">
+                    <input type="text" name="Name" placeholder="" autocomplete="off" required>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -65,7 +65,7 @@
                 <label class="layui-form-label required">状态</label>
                 <div class="layui-input-inline">
                     <label class="form-radio">
-                        <input type="checkbox" name="Enabled" value="1">
+                        <input type="checkbox" name="Enabled" value="1" required>
                         <span>启用</span>
                     </label>
                 </div>
@@ -84,16 +84,16 @@
 <script>
     layui.use('frame', function () {
         var url = {
-            GetOrganizations: '/Organization/GetOrganizations',
-            QueryUsers: '/User/QueryUsers',
-            DeleteUsers: '/User/DeleteUsers',
-            ImportUsers: '/User/ImportUsers',
-            SetUserPwds: '/User/SetUserPwds',
-            EnableUsers: '/User/EnableUsers',
-            GetUser: '/User/GetUser',
-            SaveUser: '/User/SaveUser',
-            GetUserRoles: '/User/GetUserRoles',
-            SaveUserRoles: '/User/SaveUserRoles',
+            GetOrganizations: '/System/GetOrganizations',
+            QueryUsers: '/System/QueryUsers',
+            DeleteUsers: '/System/DeleteUsers',
+            ImportUsers: '/System/ImportUsers',
+            SetUserPwds: '/System/SetUserPwds',
+            EnableUsers: '/System/EnableUsers',
+            GetUser: '/System/GetUser',
+            SaveUser: '/System/SaveUser',
+            GetUserRoles: '/System/GetUserRoles',
+            SaveUserRoles: '/System/SaveUserRoles',
         };
 
         var $ = layui.jquery,
@@ -202,7 +202,7 @@
             var transfer = layui.transfer;
             var userInfo = data.user.Name + '(' + data.user.UserName + ')';
             frame.open({
-                title: '设置角色 - ' + userInfo,
+                title: '设置角色 - <span class="bold">' + userInfo + '</span>',
                 area: ['450px', '300px'],
                 content: '<div id="transUserRole"></div>',
                 btn: ['确定', '关闭'],
@@ -241,7 +241,7 @@
         }
 
         function getOrgInfo(code, name) {
-            return '- ' + code + '|' + name;
+            return '- <span class="bold">' + code + '|' + name + '</span>';
         }
 
         function showForm(org) {
@@ -253,7 +253,7 @@
         }
 
         $.get(url.GetOrganizations, function (result) {
-            var data = frame.common.list2Tree(result, 'pid', '');
+            var data = Utils.list2Tree(result, 'pid', '');
             tree.render({
                 elem: '#tree', data: data, onlyIconControl: true,
                 click: function (obj) {

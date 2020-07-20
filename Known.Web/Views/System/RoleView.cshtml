@@ -11,14 +11,14 @@
             <div class="layui-form-item form-first-item">
                 <label class="layui-form-label required">名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Name" placeholder="" autocomplete="off">
+                    <input type="text" name="Name" placeholder="" autocomplete="off" required>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">状态</label>
                 <div class="layui-input-inline">
                     <label class="form-radio">
-                        <input type="checkbox" name="Enabled" value="1">
+                        <input type="checkbox" name="Enabled" value="1" required>
                         <span>启用</span>
                     </label>
                 </div>
@@ -37,12 +37,12 @@
 <script>
     layui.use('frame', function () {
         var url = {
-            QueryRoles: '/Role/QueryRoles',
-            DeleteRoles: '/Role/DeleteRoles',
-            GetRole: '/Role/GetRole',
-            SaveRole: '/Role/SaveRole',
-            GetRoleModules: '/Role/GetRoleModules',
-            SaveRoleModules: '/Role/SaveRoleModules'
+            QueryRoles: '/System/QueryRoles',
+            DeleteRoles: '/System/DeleteRoles',
+            GetRole: '/System/GetRole',
+            SaveRole: '/System/SaveRole',
+            GetRoleModules: '/System/GetRoleModules',
+            SaveRoleModules: '/System/SaveRoleModules'
         };
 
         var $ = layui.jquery,

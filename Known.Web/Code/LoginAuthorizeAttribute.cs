@@ -27,7 +27,7 @@ namespace Known.Web
             //    }
             //}
 
-            var user = SessionHelper.GetUser(out string error);
+            var user = UserHelper.GetUser(out string error);
             if (user != null)
                 return;
 
@@ -42,7 +42,10 @@ namespace Known.Web
             else
             {
                 var loginUrl = FormsAuthentication.LoginUrl;
-                filterContext.Result = new RedirectResult(loginUrl);
+                filterContext.Result = new ContentResult
+                {
+                    Content = $"<script>top.location='{loginUrl}';</script>"
+                };
             }
         }
 

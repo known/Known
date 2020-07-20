@@ -20,11 +20,13 @@ namespace Known.Web
         }
     }
 
-    public class ResViewEngine
+    public sealed class ResViewEngine
     {
         private readonly static object obj = new object();
         private readonly static Dictionary<int, string> styles = new Dictionary<int, string>();
         private readonly static Dictionary<int, string> scripts = new Dictionary<int, string>();
+
+        private ResViewEngine() { }
 
         public static string GetView(ViewContext context)
         {

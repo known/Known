@@ -15,13 +15,13 @@
             <div class="layui-form-item form-first-item">
                 <label class="layui-form-label required">编码</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Code" placeholder="" autocomplete="off">
+                    <input type="text" name="Code" placeholder="" autocomplete="off" required>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label required">名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Name" placeholder="" autocomplete="off">
+                    <input type="text" name="Name" placeholder="" autocomplete="off" required>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -38,9 +38,9 @@
 <script>
     layui.use('frame', function () {
         var url = {
-            GetOrganizations: '/Organization/GetOrganizations',
-            DeleteOrganizations: '/Organization/DeleteOrganizations',
-            SaveOrganization: '/Organization/SaveOrganization'
+            GetOrganizations: '/System/GetOrganizations',
+            DeleteOrganizations: '/System/DeleteOrganizations',
+            SaveOrganization: '/System/SaveOrganization'
         };
 
         var $ = layui.jquery,
@@ -104,7 +104,7 @@
         function renderTree() {
             $.get(url.GetOrganizations, function (result) {
                 orgList = result;
-                var data = frame.common.list2Tree(result, 'pid', '');
+                var data = Utils.list2Tree(result, 'pid', '');
                 grid.setData(getGridData(data.children));
                 tree.render({
                     elem: '#tree', data: data, onlyIconControl: true,

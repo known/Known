@@ -16,11 +16,11 @@
             <div class="layui-form-item form-first-item">
                 <label class="layui-form-label required">代码</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Code" placeholder="" autocomplete="off">
+                    <input type="text" name="Code" placeholder="" autocomplete="off" required>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label required">名称</label>
+                <label class="layui-form-label">名称</label>
                 <div class="layui-input-inline">
                     <input type="text" name="Name" placeholder="" autocomplete="off">
                 </div>
@@ -29,7 +29,7 @@
                 <label class="layui-form-label required">状态</label>
                 <div class="layui-input-inline">
                     <label class="form-radio">
-                        <input type="checkbox" name="Enabled" value="1">
+                        <input type="checkbox" name="Enabled" value="1" required>
                         <span>启用</span>
                     </label>
                 </div>
@@ -37,7 +37,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label required">顺序</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Sort" placeholder="" autocomplete="off">
+                    <input type="text" name="Sort" placeholder="" autocomplete="off" required>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -54,11 +54,11 @@
 <script>
     layui.use('frame', function () {
         var url = {
-            GetCategories: '/Dictionary/GetCategories',
-            QueryDictionarys: '/Dictionary/QueryDictionarys',
-            DeleteDictionarys: '/Dictionary/DeleteDictionarys',
-            GetDictionary: '/Dictionary/GetDictionary',
-            SaveDictionary: '/Dictionary/SaveDictionary'
+            GetCategories: '/System/GetCategories',
+            QueryDictionarys: '/System/QueryDictionarys',
+            DeleteDictionarys: '/System/DeleteDictionarys',
+            GetDictionary: '/System/GetDictionary',
+            SaveDictionary: '/System/SaveDictionary'
         };
 
         var $ = layui.jquery,
@@ -99,7 +99,7 @@
                 ]]
             },
             toolbar: {
-                addCat: function (e) { showForm(); },
+                addCat: function (e) { showForm({ Code: 'KnownDict', Name: '框架字典' }); },
                 add: function (e) {
                     if (!category) {
                         layer.msg('请选择字典类别！');
@@ -130,7 +130,7 @@
         }
 
         $.get(url.GetCategories, function (result) {
-            var data = frame.common.list2Tree(result, 'pid', '');
+            var data = Utils.list2Tree(result, 'pid', '');
             tree.render({
                 elem: '#tree', data: data, onlyIconControl: true,
                 click: function (obj) {

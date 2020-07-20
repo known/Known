@@ -7,10 +7,14 @@ namespace Known
 {
     public sealed class Config
     {
+        private Config() { }
+
         static Config()
         {
             AppId = Config.AppSetting("AppId");
             AppName = Config.AppSetting("AppName");
+            CompNo = Config.AppSetting("CompNo");
+            CompName = Config.AppSetting("CompName");
             IsDebug = Config.AppSetting("IsDebug", false);
             SmtpServer = Config.AppSetting("SmtpServer");
             SmtpPort = Config.AppSetting<int>("SmtpPort");
@@ -22,6 +26,8 @@ namespace Known
 
         public static string AppId { get; }
         public static string AppName { get; }
+        public static string CompNo { get; }
+        public static string CompName { get; }
         public static bool IsDebug { get; }
         public static string SmtpServer { get; }
         public static int SmtpPort { get; }

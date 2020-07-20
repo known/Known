@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Known.Web
 {
-    public class WebHelper
+    public sealed class WebHelper
     {
+        private WebHelper() { }
+
         public static string Get(string url, string token = null, string proxyUrl = null)
         {
             using (var client = GetWebClient(token, proxyUrl))
@@ -46,7 +48,8 @@ namespace Known.Web
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(string.Format("{0}\n{1}\n{2}", url, Utils.ToJson(data), ex));
+                    Logger.Info(string.Format("PostData:{0}\n{1}\n", url, Utils.ToJson(data)));
+                    Logger.Error(string.Format("{0}\n{1}", url, ex));
                     return ex.Message;
                 }
             }

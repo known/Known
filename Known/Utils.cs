@@ -11,6 +11,8 @@ namespace Known
 {
     public sealed class Utils
     {
+        private Utils() { }
+
         #region Common
         public static string GetGuid()
         {
@@ -79,41 +81,37 @@ namespace Known
         #endregion
 
         #region Serialize
-        public static string ToJson(object value, string dateFormat = "yyyy-MM-dd HH:mm:ss")
+        public static string ToJson(object value)
         {
             if (value == null)
                 return string.Empty;
 
-            var settings = new JsonSerializerSettings { DateFormatString = dateFormat };
-            return JsonConvert.SerializeObject(value, settings);
+            return JsonConvert.SerializeObject(value);
         }
 
-        public static T FromJson<T>(string json, string dateFormat = "yyyy-MM-dd HH:mm:ss")
+        public static T FromJson<T>(string json)
         {
             if (string.IsNullOrWhiteSpace(json))
                 return default;
 
-            var settings = new JsonSerializerSettings { DateFormatString = dateFormat };
-            return JsonConvert.DeserializeObject<T>(json, settings);
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public static object FromJson(Type type, string json, string dateFormat = "yyyy-MM-dd HH:mm:ss")
+        public static object FromJson(Type type, string json)
         {
             if (string.IsNullOrWhiteSpace(json))
                 return null;
 
-            var settings = new JsonSerializerSettings { DateFormatString = dateFormat };
-            return JsonConvert.DeserializeObject(json, type, settings);
+            return JsonConvert.DeserializeObject(json, type);
         }
 
-        public static T MapTo<T>(object value, string dateFormat = "yyyy-MM-dd HH:mm:ss")
+        public static T MapTo<T>(object value)
         {
             if (value == null)
                 return default;
 
-            var settings = new JsonSerializerSettings { DateFormatString = dateFormat };
-            var json = JsonConvert.SerializeObject(value, settings);
-            return JsonConvert.DeserializeObject<T>(json, settings);
+            var json = JsonConvert.SerializeObject(value);
+            return JsonConvert.DeserializeObject<T>(json);
         }
         #endregion
 
@@ -138,6 +136,32 @@ namespace Known
                 }
             }
             return text;
+        }
+
+        public static string GetFileContent(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                return string.Empty;
+
+            if (!File.Exists(path))
+                return string.Empty;
+
+            return File.ReadAllText(path);
+        }
+
+        public static void SaveFileContent(string path, string content)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                return;
+
+            if (string.IsNullOrWhiteSpace(content))
+                return;
+
+            var info = new FileInfo(path);
+            if (!info.Directory.Exists)
+                info.Directory.Create();
+
+            File.WriteAllText(path, content);
         }
         #endregion
 
