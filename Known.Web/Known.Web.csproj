@@ -66,6 +66,7 @@
     <None Include="Content\site.js" />
     <None Include="Content\index.js" />
     <Content Include="Global.asax" />
+    <EmbeddedResource Include="DevMenu.json" />
     <None Include="SQL\MySql.sql" />
     <None Include="SQL\Oracle.sql" />
     <None Include="SQL\SqlServer.sql" />
@@ -209,17 +210,23 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\CodeHelper.cs" />
     <Compile Include="Code\ControllerBase.cs" />
+    <Compile Include="Code\DevelopService.cs" />
+    <Compile Include="Code\DomainInfo.cs" />
+    <Compile Include="Code\IDevelopRepository.cs" />
     <Compile Include="Code\ISystemRepository.cs" />
     <Compile Include="Code\LoginAuthorizeAttribute.cs" />
     <Compile Include="Code\ModelExtension.cs" />
     <Compile Include="Code\MvcApplication.cs" />
     <Compile Include="Code\SystemService.cs" />
     <Compile Include="Code\WebConfig.cs" />
+    <Compile Include="Controllers\DevelopController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Entities\SysDictionary.cs" />
     <Compile Include="Entities\SysLog.cs" />
+    <Compile Include="Entities\SysModule.cs" />
     <Compile Include="Entities\SysOrganization.cs" />
     <Compile Include="Entities\SysRole.cs" />
     <Compile Include="Entities\SysUser.cs" />
@@ -267,6 +274,8 @@
     <EmbeddedResource Include="Views\System\RoleView.cshtml" />
     <EmbeddedResource Include="Views\System\UserView.cshtml" />
     <EmbeddedResource Include="Views\System\LogView.cshtml" />
+    <EmbeddedResource Include="Views\Develop\CodeView.cshtml" />
+    <EmbeddedResource Include="Views\Develop\ModuleView.cshtml" />
     <None Include="Views\_Layout.cshtml" />
     <None Include="Views\Web.config" />
   </ItemGroup>
