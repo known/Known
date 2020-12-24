@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Known
 {
@@ -85,7 +85,7 @@ namespace Known
             if (value == null)
                 return string.Empty;
 
-            return JsonConvert.SerializeObject(value);
+            return JsonSerializer.Serialize(value);
         }
 
         public static T FromJson<T>(string json)
@@ -93,7 +93,7 @@ namespace Known
             if (string.IsNullOrWhiteSpace(json))
                 return default;
 
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonSerializer.Deserialize<T>(json);
         }
 
         public static object FromJson(Type type, string json)
@@ -101,7 +101,7 @@ namespace Known
             if (string.IsNullOrWhiteSpace(json))
                 return null;
 
-            return JsonConvert.DeserializeObject(json, type);
+            return JsonSerializer.Deserialize(json, type);
         }
 
         public static T MapTo<T>(object value)
@@ -109,8 +109,8 @@ namespace Known
             if (value == null)
                 return default;
 
-            var json = JsonConvert.SerializeObject(value);
-            return JsonConvert.DeserializeObject<T>(json);
+            var json = JsonSerializer.Serialize(value);
+            return JsonSerializer.Deserialize<T>(json);
         }
         #endregion
 

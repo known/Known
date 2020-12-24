@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace Known
 {
@@ -422,8 +421,8 @@ namespace Known
                 dic.Add(name, reader[i]);
             }
 
-            var json = JsonConvert.SerializeObject(dic);
-            var obj = JsonConvert.DeserializeObject<T>(json);
+            var json = Utils.ToJson(dic);
+            var obj = Utils.FromJson<T>(json);
             if (obj is EntityBase)
             {
                 (obj as EntityBase).IsNew = false;
@@ -547,8 +546,8 @@ select t.* from (
             if (value == null)
                 return null;
 
-            var json = JsonConvert.SerializeObject(value);
-            return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+            var json = Utils.ToJson(value);
+            return Utils.FromJson<Dictionary<string, object>>(json);
         }
     }
 
