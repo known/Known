@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Known.Web;
 
 namespace Known
 {
@@ -43,7 +41,7 @@ namespace Known
             if (entity.Password != pwd)
                 return Result.Error("密码不正确！");
 
-            var ip = Utils.GetIPAddress(HttpContext.Current.Request);
+            var ip = AppContext.Current.GetIPAddress();
             if (!entity.FirstLoginTime.HasValue)
             {
                 entity.FirstLoginTime = DateTime.Now;
@@ -157,8 +155,8 @@ namespace Known
 
         private UserInfo GetUserInfo(UserInfo user)
         {
-            user.CompName = Config.CompName;
-            user.OrgName = Repository.GetOrgName(Database, Config.CompNo, user.OrgNo);
+            user.CompName = Config.App.CompName;
+            user.OrgName = Repository.GetOrgName(Database, Config.App.CompNo, user.OrgNo);
             user.IsOrgGroup = string.IsNullOrWhiteSpace(user.OrgName);
             return user;
         }

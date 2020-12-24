@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
@@ -21,15 +19,18 @@ namespace Known
         #region Constructors
         public Database(string name = "Default", UserInfo user = null)
         {
-            var setting = ConfigurationManager.ConnectionStrings[name];
-            ProviderName = setting.ProviderName;
-            ConnectionString = setting.ConnectionString;
-            User = user;
+            var setting = Config.App.GetConnection(name);
+            if (setting != null)
+            {
+                ProviderName = setting.ProviderName;
+                ConnectionString = setting.ConnectionString;
+                User = user;
 
-            var factory = DbProviderFactories.GetFactory(ProviderName);
-            conn = factory.CreateConnection();
-            conn.ConnectionString = ConnectionString;
-            prefix = ProviderName.Contains("Oracle") ? ":" : "@";
+                var factory = DbProviderFactories.GetFactory(ProviderName);
+                conn = factory.CreateConnection();
+                conn.ConnectionString = ConnectionString;
+                prefix = ProviderName.Contains("Oracle") ? ":" : "@";
+            }
         }
 
         private Database(string providerName, string connectionString, UserInfo user)
@@ -466,123 +467,6 @@ namespace Known
             }
         }
         #endregion
-    }
-
-    class ExpressionHelper
-    {
-        internal static string Route(Expression exp)
-        {
-            if (exp is BinaryExpression be)
-            {
-                return BinaryRoute(be.Left, be.Right, be.NodeType);
-            }
-            else if (exp is MemberExpression me)
-            {
-                if (!exp.ToString().StartsWith("value("))
-                    return me.Member.Name;
-
-                var result = Expression.Lambda(exp).Compile().DynamicInvoke();
-                if (result == null)
-                    return "null";
-                if (result is ValueType)
-                    return result.ToString();
-                else if (result is string || result is DateTime || result is char)
-                    return string.Format("'{0}'", result.ToString());
-            }
-            else if (exp is NewArrayExpression ae)
-            {
-                var tmpstr = new StringBuilder();
-                foreach (Expression ex in ae.Expressions)
-                {
-                    tmpstr.Append(Route(ex));
-                    tmpstr.Append(",");
-                }
-                return tmpstr.ToString(0, tmpstr.Length - 1);
-            }
-            else if (exp is MethodCallExpression mce)
-            {
-                if (mce.Method.Name == "Like")
-                    return string.Format("({0} like {1})", Route(mce.Arguments[0]), Route(mce.Arguments[1]));
-                else if (mce.Method.Name == "NotLike")
-                    return string.Format("({0} not like {1})", Route(mce.Arguments[0]), Route(mce.Arguments[1]));
-                else if (mce.Method.Name == "In")
-                    return string.Format("{0} in ({1})", Route(mce.Arguments[0]), Route(mce.Arguments[1]));
-                else if (mce.Method.Name == "NotIn")
-                    return string.Format("{0} not In ({1})", Route(mce.Arguments[0]), Route(mce.Arguments[1]));
-            }
-            else if (exp is ConstantExpression ce)
-            {
-                if (ce.Value == null)
-                    return "null";
-                else if (ce.Value is ValueType)
-                    return ce.Value.ToString();
-                else if (ce.Value is string || ce.Value is DateTime || ce.Value is char)
-                    return string.Format("'{0}'", ce.Value.ToString());
-            }
-            else if (exp is UnaryExpression ue)
-            {
-                return Route(ue.Operand);
-            }
-            return null;
-        }
-
-        static string BinaryRoute(Expression left, Expression right, ExpressionType type)
-        {
-            string sb = "(";
-            //先处理左边
-            sb += Route(left);
-            sb += CastType(type);
-            //再处理右边
-            string tmpStr = Route(right);
-            if (tmpStr == "null")
-            {
-                if (sb.EndsWith(" ="))
-                    sb = sb.Substring(0, sb.Length - 2) + " is null";
-                else if (sb.EndsWith("<>"))
-                    sb = sb.Substring(0, sb.Length - 2) + " is not null";
-            }
-            else
-                sb += tmpStr;
-            return sb += ")";
-        }
-
-        static string CastType(ExpressionType type)
-        {
-            switch (type)
-            {
-                case ExpressionType.And:
-                case ExpressionType.AndAlso:
-                    return " and ";
-                case ExpressionType.Equal:
-                    return " =";
-                case ExpressionType.GreaterThan:
-                    return " >";
-                case ExpressionType.GreaterThanOrEqual:
-                    return ">=";
-                case ExpressionType.LessThan:
-                    return "<";
-                case ExpressionType.LessThanOrEqual:
-                    return "<=";
-                case ExpressionType.NotEqual:
-                    return "<>";
-                case ExpressionType.Or:
-                case ExpressionType.OrElse:
-                    return " or ";
-                case ExpressionType.Add:
-                case ExpressionType.AddChecked:
-                    return "+";
-                case ExpressionType.Subtract:
-                case ExpressionType.SubtractChecked:
-                    return "-";
-                case ExpressionType.Divide:
-                    return "/";
-                case ExpressionType.Multiply:
-                case ExpressionType.MultiplyChecked:
-                    return "*";
-                default:
-                    return null;
-            }
-        }
     }
 
     class CommandInfo

@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text;
 
-namespace Known.Web
+namespace Known
 {
     public sealed class WebHelper
     {

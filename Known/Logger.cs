@@ -1,62 +1,74 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
-using log4net;
-using log4net.Config;
+using System.Threading;
 
 namespace Known
 {
     public sealed class Logger
     {
-        private static readonly ILog log;
-
+        private static readonly ConcurrentQueue<string> errors = new ConcurrentQueue<string>();
+        private static readonly ConcurrentQueue<string> infos = new ConcurrentQueue<string>();
         private Logger() { }
 
         static Logger()
         {
-            var configFile = $@"{Environment.CurrentDirectory}\log4net.config";
-            if (File.Exists(configFile))
+            var thread = new Thread(Flush) { IsBackground = true };
+            thread.Start();
+        }
+
+        private static void Flush()
+        {
+            while (true)
             {
-                XmlConfigurator.Configure(new FileInfo(configFile));
+                if (errors.Count > 0)
+                    WriteLog("Errors", errors);
+
+                if (infos.Count > 0)
+                    WriteLog("Infos", infos);
+
+                Thread.Sleep(5000);
             }
-            else
+        }
+
+        private static void WriteLog(string type, ConcurrentQueue<string> items)
+        {
+            var contents = new List<string>();
+            while (true)
             {
-                var type = typeof(Logger);
-                var resourceName = type.Namespace + ".log4net.config";
-                var stream = type.Assembly.GetManifestResourceStream(resourceName);
-                XmlConfigurator.Configure(stream);
+                if (items.TryDequeue(out string item))
+                    contents.Add(item);
+
+                if (items.Count == 0)
+                    break;
             }
 
-            log = LogManager.GetLogger("App");
+            var path = Path.Combine(Config.RootPath, "log", type, $"{DateTime.Now:yyyyMMdd}.log");
+            var info = new FileInfo(path);
+            if (!info.Directory.Exists)
+                info.Directory.Create();
+
+            File.AppendAllLines(path, contents);
         }
 
-        public static void Debug(object message)
+        public static void Error(string message)
         {
-            Console.WriteLine($"DEBUD:{message}");
-            log.Debug(message);
+            var item = GetMessage("ERROR", message);
+            errors.Enqueue(item);
         }
 
-        public static void Error(object message)
+        public static void Info(string message)
         {
-            Console.WriteLine($"ERROR:{message}");
-            log.Error(message);
+            var item = GetMessage("INFO", message);
+            infos.Enqueue(item);
         }
 
-        public static void Fatal(object message)
+        private static string GetMessage(string type, string message)
         {
-            Console.WriteLine($"FATAL:{message}");
-            log.Fatal(message);
-        }
-
-        public static void Info(object message)
-        {
-            Console.WriteLine($"INFO:{message}");
-            log.Info(message);
-        }
-
-        public static void Warn(object message)
-        {
-            Console.WriteLine($"WARN:{message}");
-            log.Warn(message);
+            var text = $"{DateTime.Now:yyyy-MM-dd.HH:mm:ss.fff} {type}:{message}";
+            Console.WriteLine(text);
+            return text;
         }
     }
 }

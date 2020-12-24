@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 using Newtonsoft.Json;
 
 namespace Known
@@ -162,23 +161,6 @@ namespace Known
                 info.Directory.Create();
 
             File.WriteAllText(path, content);
-        }
-        #endregion
-
-        #region Http
-        public static string GetIPAddress(HttpRequest request)
-        {
-            var result = request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            if (string.IsNullOrEmpty(result))
-                result = request.ServerVariables["REMOTE_ADDR"];
-
-            if (string.IsNullOrEmpty(result))
-                result = request.UserHostAddress;
-
-            if (string.IsNullOrEmpty(result) || result == "::1")
-                return "127.0.0.1";
-
-            return result;
         }
         #endregion
     }

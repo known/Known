@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 
 namespace Known
@@ -11,48 +12,17 @@ namespace Known
 
         static Config()
         {
-            AppId = Config.AppSetting("AppId");
-            AppName = Config.AppSetting("AppName");
-            CompNo = Config.AppSetting("CompNo");
-            CompName = Config.AppSetting("CompName");
-            IsDebug = Config.AppSetting("IsDebug", false);
-            SmtpServer = Config.AppSetting("SmtpServer");
-            SmtpPort = Config.AppSetting<int>("SmtpPort");
-            SmtpFromName = Config.AppSetting("SmtpFromName");
-            SmtpFromEmail = Config.AppSetting("SmtpFromEmail");
-            SmtpFromPassword = Config.AppSetting("SmtpFromPassword");
-            ExceptionMails = Config.AppSetting("ExceptionMails");
+            var path = Path.Combine(RootPath, "config.json");
+            var json = File.ReadAllText(path);
+            App = Utils.FromJson<AppInfo>(json);
         }
 
-        public static string AppId { get; }
-        public static string AppName { get; }
-        public static string CompNo { get; }
-        public static string CompName { get; }
-        public static bool IsDebug { get; }
-        public static string SmtpServer { get; }
-        public static int SmtpPort { get; }
-        public static string SmtpFromName { get; }
-        public static string SmtpFromEmail { get; }
-        public static string SmtpFromPassword { get; }
-        public static string ExceptionMails { get; set; }
-
-        public static string AppSetting(string key, string defaultValue = null)
+        public static string RootPath
         {
-            var value = ConfigurationManager.AppSettings[key];
-            if (string.IsNullOrWhiteSpace(value))
-                return defaultValue;
-
-            return value;
+            get { return AppDomain.CurrentDomain.BaseDirectory; }
         }
 
-        public static T AppSetting<T>(string key, T defaultValue = default)
-        {
-            var value = AppSetting(key);
-            if (string.IsNullOrWhiteSpace(value))
-                return defaultValue;
-
-            return Utils.ConvertTo<T>(value);
-        }
+        public static AppInfo App { get; }
 
         public static Dictionary<string, string> GetExeSettings(string exePath)
         {
@@ -79,5 +49,29 @@ namespace Known
 
             return settings;
         }
+    }
+
+    public class AppInfo
+    {
+        public string AppId { get; set; }
+        public string AppName { get; set; }
+        public string CompNo { get; set; }
+        public string CompName { get; set; }
+        public List<ConnectionInfo> Connections { get; set; }
+
+        internal ConnectionInfo GetConnection(string name)
+        {
+            if (Connections == null || Connections.Count == 0)
+                return null;
+
+            return Connections.FirstOrDefault(c => c.Name == name);
+        }
+    }
+
+    public class ConnectionInfo
+    {
+        public string Name { get; set; }
+        public string ProviderName { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

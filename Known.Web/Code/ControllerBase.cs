@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 
@@ -10,7 +11,7 @@ namespace Known.Web
 
         public ControllerBase()
         {
-            ViewBag.AppName = Config.AppName;
+            ViewBag.AppName = Config.App.AppName;
         }
 
         public string UserName
@@ -25,43 +26,13 @@ namespace Known.Web
 
         protected ActionResult ViewResult()
         {
-#if (DEBUG)
             return View();
-#else
-            var context = GetViewContext();
-            var content = ResViewEngine.GetView(context);
-            return Content(content, "text/html");
-#endif
         }
 
         protected ActionResult PartialResult(string viewName)
         {
-#if (DEBUG)
             return PartialView(viewName);
-#else
-            var context = GetViewContext(viewName);
-            var content = ResViewEngine.GetView(context);
-            return Content(content, "text/html");
-#endif
         }
-
-#if (!DEBUG)
-        private ViewContext GetViewContext(string partialName = null)
-        {
-            var ctx = ControllerContext;
-            var context = new ViewContext
-            {
-                LayoutAssembly = typeof(ControllerBase).Assembly,
-                Assembly = ctx.Controller.GetType().Assembly,
-                HttpContext = ctx.HttpContext,
-                PartialName = partialName
-            };
-
-            context.Controller = ctx.RouteData.Values["controller"].ToString();
-            context.Action = ctx.RouteData.Values["action"].ToString();
-            return context;
-        }
-#endif
 
         protected ActionResult JsonResult(object value)
         {
@@ -122,6 +93,42 @@ namespace Known.Web
 
             var result = func(obj);
             return ValidateResult(result);
+        }
+    }
+
+    public class CriteriaData
+    {
+        public string query { get; set; }
+        public int page { get; set; }
+        public int limit { get; set; }
+        public string field { get; set; }
+        public string order { get; set; }
+
+        public PagingCriteria ToPagingCriteria()
+        {
+            var orderBys = new List<string>();
+            if (!string.IsNullOrWhiteSpace(field) && !string.IsNullOrWhiteSpace(order))
+            {
+                var sorts = field.Split(',');
+                var orders = order.Split(',');
+                for (int i = 0; i < sorts.Length; i++)
+                {
+                    orderBys.Add($"{sorts[i]} {orders[i]}");
+                }
+            }
+
+            var criteria = new PagingCriteria
+            {
+                PageIndex = page,
+                PageSize = limit,
+                OrderBys = orderBys.ToArray()
+            };
+
+            if (string.IsNullOrWhiteSpace(query))
+                query = "{}";
+
+            criteria.Parameter = Utils.FromJson<dynamic>(query);
+            return criteria;
         }
     }
 }

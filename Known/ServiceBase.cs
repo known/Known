@@ -1,21 +1,12 @@
-﻿using Known.Web;
-
-namespace Known
+﻿namespace Known
 {
     public class ServiceBase
     {
-        protected PlatformService Platform { get; } = new PlatformService();
+        protected PlatformService Platform => new PlatformService();
 
-        private UserInfo user;
         protected UserInfo CurrentUser
         {
-            get
-            {
-                if (user != null)
-                    return user;
-                return UserHelper.GetUser(out _);
-            }
-            set { user = value; }
+            get { return UserHelper.GetUser(out _); }
         }
 
         private Database database;

@@ -1,0 +1,14 @@
+{
+  "CompNo": "known",
+  "CompName": "普漫科技",
+  "AppId": "DEV",
+  "AppName": "普漫科技快速开发平台 V1.0",
+  "UploadPath": "",
+  "Connections": [
+    {
+      "Name": "Default",
+      "ProviderName": "System.Data.SqlClient",
+      "ConnectionString": "Data Source=.\\SQLEXPRESS;Database=Known;User Id=sa;Password=;"
+    }
+  ]
+}

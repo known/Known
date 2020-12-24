@@ -110,12 +110,14 @@ namespace Known.Web
             var datas = Repository.GetOrganizations(Database);
             if (datas == null)
                 datas = new List<SysOrganization>();
+
+            var app = Config.App;
             datas.Insert(0, new SysOrganization
             {
-                Id = Config.CompNo,
+                Id = app.CompNo,
                 ParentId = "",
-                Code = Config.CompNo,
-                Name = Config.CompName
+                Code = app.CompNo,
+                Name = app.CompName
             });
             return datas;
         }

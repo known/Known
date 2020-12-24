@@ -86,18 +86,6 @@ namespace Known.Web.Controllers
         {
             return SuccessResult("刷新成功！");
         }
-
-        public ActionResult Style(int id)
-        {
-            var style = ResViewEngine.GetStyle(id);
-            return Content(style, "text/css");
-        }
-
-        public ActionResult Script(int id)
-        {
-            var script = ResViewEngine.GetScript(id);
-            return JavaScript(script);
-        }
         #endregion
 
         #region Profile
