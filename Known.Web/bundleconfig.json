@@ -1,77 +1,109 @@
 [
   {
-    "outputFileName": "static/modules/login/index.min.css",
+    "outputFileName": "wwwroot/js/lang/zh-CN.min.js",
     "inputFiles": [
-      "static/modules/login/index.css"
+      "src/Frame/Lang/zh-CN.js"
     ]
   },
   {
-    "outputFileName": "static/modules/login/index.min.js",
+    "outputFileName": "wwwroot/js/lang/en.min.js",
     "inputFiles": [
-      "static/libs/jquery.min.js",
-      "static/libs/jquery.md5.js",
-      "static/modules/core/js/ajax.js",
-      "static/modules/core/index.js",
-      "static/modules/login/index.js"
+      "src/Frame/Lang/en.js"
     ]
   },
   {
-    "outputFileName": "static/modules/index/index.min.css",
+    "outputFileName": "wwwroot/css/app.min.css",
     "inputFiles": [
-      "static/libs/font-awesome/css/font-awesome.min.css",
-      "static/libs/scrollbar/jquery.scrollbar.css",
-      "static/libs/miniui/themes/default/miniui.css",
-      "static/libs/miniui/themes/default/medium-mode.css",
-      "static/libs/miniui/themes/default/flatstyle.css",
-      "static/libs/miniui/themes/cupertino/skin.css",
-      "static/modules/core/css",
-      "static/modules/core/index.css",
-      "static/modules/index/css",
-      "static/modules/index/index.css"
+      "src/Frame/App/app.css",
+      "src/Frame/Kui/css/layer.css"
     ]
   },
   {
-    "outputFileName": "static/modules/index/index.min.js",
+    "outputFileName": "wwwroot/js/app.min.js",
     "inputFiles": [
-      "static/libs/jquery.min.js",
-      "static/libs/scrollbar/jquery.scrollbar.min.js",
-      "static/libs/miniui/miniui.js",
-      "static/libs/highcharts/highcharts.js",
-      "static/libs/highcharts/model/exporting.js",
-      "static/modules/core/js",
-      "static/modules/core/index.js",
-      "static/modules/index/js",
-      "static/modules/index/index.js"
+      "src/Frame/common.js",
+      "src/Frame/Kui/components/layer.js",
+      "src/Frame/Kui/components/chart.js",
+      "src/Frame/App/components/*.js",
+      "src/Frame/App/core/*.js",
+      "src/Frame/App/login.js",
+      "src/Frame/App/app.js"
     ]
   },
   {
-    "outputFileName": "static/modules/frame/index.min.css",
+    "outputFileName": "wwwroot/css/index.min.css",
     "inputFiles": [
-      "static/libs/font-awesome/css/font-awesome.min.css",
-      "static/libs/miniui/themes/default/miniui.css",
-      "static/libs/miniui/themes/default/medium-mode.css",
-      "static/libs/miniui/themes/default/flatstyle.css",
-      "static/libs/miniui/themes/cupertino/skin.css",
-      "static/modules/core/css",
-      "static/modules/core/index.css",
-      "static/modules/frame/index.css"
+      "src/Frame/common.css",
+      "src/Frame/Kui/css/form.css",
+      "src/Frame/Kui/css/layer.css",
+      "src/Frame/Kui/active.css",
+      "src/Frame/Kui/login.css",
+      "src/Frame/Kui/admin.css"
     ]
   },
   {
-    "outputFileName": "static/modules/frame/index.min.js",
+    "outputFileName": "wwwroot/js/index.min.js",
     "inputFiles": [
-      "static/libs/jquery.min.js",
-      "static/libs/miniui/miniui.js",
-      "static/modules/core/js",
-      "static/modules/core/index.js",
-      "static/modules/frame/index.js"
+      "src/Frame/common.js",
+      "src/Frame/Kui/components/form/*.js",
+      "src/Frame/Kui/components/error.js",
+      "src/Frame/Kui/components/layer.js",
+      "src/Frame/Kui/router.js",
+      "src/Frame/Kui/active.js",
+      "src/Frame/Kui/login.js",
+      "src/Frame/Kui/app.js",
+      "src/Frame/Kui/admin.js"
     ]
   },
   {
-    "outputFileName": "static/modules/frame/devtool/index.min.js",
+    "outputFileName": "wwwroot/css/kui.min.css",
     "inputFiles": [
-      "static/modules/frame/devtool/js",
-      "static/modules/frame/devtool/index.js"
+      "src/Frame/common.css",
+      "src/Frame/Kui/css/*.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/kui.min.js",
+    "inputFiles": [
+      "src/Frame/common.js",
+      "src/Frame/Kui/router.js",
+      "src/Frame/Kui/components/form/*.js",
+      "src/Frame/Kui/components/grid/*.js",
+      "src/Frame/Kui/components/*.js",
+      "src/Frame/Kui/app.js",
+      "src/Frame/Core/biz/*.js",
+      "src/Frame/Core/sys/*.js",
+      "src/Frame/Core/Dashboard.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/dev/app.min.css",
+    "inputFiles": [
+      "src/Dev/app.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/dev/app.min.js",
+    "inputFiles": [
+      "src/Dev/func.js",
+      "src/Dev/apps/*.js",
+      "src/Dev/app.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/dev/page.min.css",
+    "inputFiles": [
+      "src/Dev/page.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/dev/page.min.js",
+    "inputFiles": [
+      "src/Dev/func.js",
+      "src/Dev/page.js",
+      "src/Dev/pageEditor.js",
+      "src/Dev/pages/*.js",
+      "src/Dev/pages/*/*.js"
     ]
   }
 ]

@@ -1,0 +1,102 @@
+﻿<h1>单选框列表 RadioBoxList</h1>
+<div class="section">
+    <h2>示例</h2>
+    <pre class="code">
+//HTML
+&lt;div id="rblTest">&lt;/div>
+
+//JavaScript
+var rbl = new RadioBoxList(elem, option);
+//elem: 'rblTest' 或 $('#rblTest')  控件id或对象。
+
+//Option 选项可选配url和data初始化列表数据项
+option = {
+    name: '',
+    url: '', 
+    data: [] 
+} 
+</pre>
+</div>
+<div class="section">
+    <h2>属性</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:100px;">类型</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>String</td>
+            <td>控件name。<span class="link" onclick="alert(rbl.name)">取值</span></td>
+        </tr>
+        <tr>
+            <td>data</td>
+            <td>Array</td>
+            <td>列表绑定数据项对象数组。<span class="link" onclick="alert(JSON.stringify(rbl.data))">取值</span></td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2>方法</h2>
+    <div id="rblTest"></div>
+    <script>
+        var rbl = new RadioBoxList($('#rblTest'));
+
+        function setData() {
+            rbl.setData([
+                { Code: 'test1', Name: '测试1' },
+                { Code: 'test2', Name: '测试2' },
+                { Code: 'test3', Name: '测试3' }
+            ]);
+        }
+    </script>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>setData</td>
+            <td>data: Array</td>
+            <td></td>
+            <td>设置列表数据项。数据支持如下类型：<br />1.代码表数组；<br />2.简单数组；<br />3.客户端缓存代码类别。</td>
+            <td>
+                <pre>
+rbl.setData([
+    { Code: 'test1', Name: '测试1' },
+    { Code: 'test2', Name: '测试2' },
+    { Code: 'test3', Name: '测试3' }
+]);
+
+rbl.setData(['项1','项2','项3','项4','项5']);
+</pre>
+                <span class="link" onclick="setData()">测试1</span>
+                <span class="link" onclick="rbl.setData(['项1','项2','项3','项4','项5'])">测试2</span>
+            </td>
+        </tr>
+        <tr>
+            <td>getValue</td>
+            <td></td>
+            <td>String</td>
+            <td>获取控件值。</td>
+            <td>
+                var value = rbl.getValue();
+                <span class="link" onclick="alert(rbl.getValue())">测试</span>
+            </td>
+        </tr>
+        <tr>
+            <td>setValue</td>
+            <td>value: String</td>
+            <td></td>
+            <td>设置控件值。</td>
+            <td>
+                rbl.setValue('test1');
+                <span class="link" onclick="rbl.setValue('test1')">测试</span>
+            </td>
+        </tr>
+    </table>
+</div>

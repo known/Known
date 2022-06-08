@@ -1,0 +1,88 @@
+﻿<h1>视图 View</h1>
+<div class="section">
+    <h2>示例</h2>
+    <pre class="code">
+//HTML
+&lt;div class="grid">
+    &lt;table id="gridTest">&lt;/table>
+&lt;/div>
+
+//JavaScript
+var grid = new Grid('Test', option);
+
+//Option
+option = {
+    url: Object,
+    columns: [],
+    formToolbar: [{}],
+    formOption: {},
+    gridOption: {}
+}
+
+formOption = {
+    title: '',
+    fields: [],
+    toolbar: []
+}
+
+gridOption = {
+    form: Object,
+    url: '',
+    columns: [],
+    toolbar: {}
+}
+</pre>
+</div>
+<div class="section">
+    <h2>属性</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:100px;">类型</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>String</td>
+            <td>视图名称。</td>
+        </tr>
+        <tr>
+            <td>option</td>
+            <td>Object</td>
+            <td>选项。</td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2>方法</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>loadGrid</td>
+            <td>where: Object</td>
+            <td></td>
+            <td>加载视图网格数据。</td>
+            <td>view.loadGrid(where);</td>
+        </tr>
+        <tr>
+            <td>setGridData</td>
+            <td>data: Array</td>
+            <td></td>
+            <td>设置视图网格数据。</td>
+            <td>view.setGridData(data);</td>
+        </tr>
+        <tr>
+            <td>getRowData</td>
+            <td>filter: Function</td>
+            <td>row/rows</td>
+            <td>根据条件函数获取行数据对象。</td>
+            <td>var row = view.getRowData(function(d){...});</td>
+        </tr>
+    </table>
+</div>

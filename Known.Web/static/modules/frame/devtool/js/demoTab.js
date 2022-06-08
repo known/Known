@@ -1,7 +1,0 @@
-﻿var DemoTab = {
-
-    show: function () {
-        
-    }
-
-};

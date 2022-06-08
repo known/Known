@@ -1,161 +1,333 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using Known.Core;
+#if NET6_0
+using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
+#else
 using System.Web;
+#endif
 
 namespace Known.Web
 {
-    public sealed class WebUtils
+    sealed class WebUtils
     {
-        public static string GetHostName(Uri uri)
+        private static readonly List<BundleConfig> bundles;
+        private static readonly string rootPath = Config.ContentRootPath;
+        private static string wwwrootName;
+
+        static WebUtils()
         {
-            var name = string.Format("{0}://{1}", uri.Scheme, uri.Host);
-
-            var port = uri.Port;
-            if (port != 80 && port != 443)
-                name += string.Format(":{0}", port);
-
-            return name;
+            bundles = BundleConfig.Load();
         }
 
-        public static string FormatHtml(string text)
+        internal static bool CheckMobile(HttpRequest request)
         {
-            if (string.IsNullOrWhiteSpace(text))
-                return string.Empty;
+#if NET6_0
+            var agent = request.Headers[HeaderNames.UserAgent].ToString();
+#else
+            var agent = request.UserAgent;
+#endif
+            if (agent.Contains("Windows NT") || agent.Contains("Macintosh"))
+                return false;
 
-            //text = HttpUtility.HtmlEncode(text);
-            text = text.Replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
-            text = text.Replace("\r\n", "<br/>");
-            text = text.Replace("\r", "<br/>");
-            text = text.Replace("\n", "<br/>");
-            return text;
-        }
+            bool flag = false;
+            string[] keywords = { "Android", "iPhone", "iPod", "iPad", "Windows Phone", "MQQBrowser" };
 
-        public static string AddUrlFragment(string rawUrl, string fragment)
-        {
-            if (string.IsNullOrWhiteSpace(rawUrl))
-                return string.Empty;
-
-            if (string.IsNullOrWhiteSpace(fragment))
-                return rawUrl;
-
-            if (!rawUrl.Contains("?"))
-                return rawUrl + "?" + fragment;
-
-            var fragments = fragment.Split('=');
-            if (!rawUrl.Contains(fragments[0] + "="))
-                return rawUrl + "&" + fragment;
-
-            var rtnUrls = rawUrl.Split('?');
-            var rtnFragments = new List<string>();
-            var rawFragments = rtnUrls[1].Split('&');
-            foreach (var item in rawFragments)
+            foreach (string item in keywords)
             {
-                if (item.StartsWith(fragments[0] + "="))
-                    rtnFragments.Add(fragment);
+                if (agent.Contains(item))
+                {
+                    flag = true;
+                    break;
+                }
+            }
+
+            return flag;
+        }
+
+        internal static string GetIndexHtml(HttpRequest request, string wwwroot = "")
+        {
+            wwwrootName = wwwroot;
+#if NET6_0
+            var token = request.Query["token"];
+            var a = request.Query["a"];
+            var m = request.Query["m"];
+            var isHttps = request.Scheme == "https";
+#else
+            var token = request.QueryString["token"];
+            var a = request.QueryString["a"];
+            var m = request.QueryString["m"];
+            var isHttps = request.Url.Scheme == "https";
+#endif
+
+            var app = Config.App;
+            if (!string.IsNullOrEmpty(token))
+                return GetLoginByToken(app.AppLang, token);
+
+            var showCaptcha = app.ShowCaptcha.ToString().ToLower();
+            var hasMobile = app.HasMobile.ToString().ToLower();
+            var isTraditionView = app.TraditionView.ToString().ToLower();
+
+            var user = UserHelper.GetUser(out _);
+            app = Config.GetCurrentApp(user, a);
+            var appId = app.AppId;
+            var appName = app.AppName;
+            var cssFiles = new List<string>();
+            var jsFiles = new List<string>();
+            var isApp = CheckMobile(request) || app.IsMobile;
+            var isPage = !string.IsNullOrEmpty(m);
+            InitStaticFiles(isApp, isPage, appId, app.AppLang, cssFiles, jsFiles);
+
+            var lang = Thread.CurrentThread.CurrentUICulture.Name;
+            var sb = new StringBuilder();
+            sb.AppendLine("<!DOCTYPE html>");
+            sb.AppendLine($"<html lang=\"{lang}\">");
+            sb.AppendLine("<head>");
+            sb.AppendLine("    <meta charset=\"utf-8\">");
+            sb.AppendLine("    <meta name=\"renderer\" content=\"webkit\">");
+            sb.AppendLine("    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">");
+            sb.AppendLine($"    <title>{appName}</title>");
+            sb.AppendLine("    <base href=\"/\">");
+
+            if (!isPage && isHttps)
+            {
+                sb.AppendLine("    <link rel=\"manifest\" href=\"manifest.json\">");
+                sb.AppendLine("    <link rel=\"apple-touch-icon\" href=\"icon-512.png\" sizes=\"512x512\">");
+                sb.AppendLine("    <link rel=\"apple-touch-icon\" href=\"icon-192.png\" sizes=\"192x192\">");
+            }
+
+            sb.AppendLine($"    <link rel=\"stylesheet\" href=\"{GetStaticUrl("/css/font-awesome.css")}\">");
+
+            if (isPage)
+            {
+                sb.AppendLine($"    <link rel=\"stylesheet\" href=\"{GetStaticUrl("/libs/datepicker/datepicker.css")}\">");
+            }
+
+            foreach (var item in cssFiles)
+            {
+                sb.AppendLine($"    <link rel=\"stylesheet\" href=\"{item}\">");
+            }
+
+            sb.AppendLine("</head>");
+            sb.AppendLine("<body>");
+            sb.AppendLine("    <div id=\"app\"></div>");
+            sb.AppendLine($"    <script>var appId='{appId}',appName='{appName}',baseUrl='',baseApiUrl='',staticUrl='{wwwroot}',showCaptcha={showCaptcha},hasMobile={hasMobile},isTraditionView={isTraditionView};</script>");
+            sb.AppendLine($"    <script src=\"{GetStaticUrl("/js/jquery.min.js")}\"></script>");
+
+            if (isPage)
+            {
+                sb.AppendLine($"    <script src=\"{GetStaticUrl("/libs/datepicker/datepicker.js")}\"></script>");
+                sb.AppendLine($"    <script src=\"{GetStaticUrl("/libs/datepicker/datepicker.zh-CN.js")}\"></script>");
+            }
+
+            foreach (var item in jsFiles)
+            {
+                sb.AppendLine($"    <script src=\"{item}\"></script>");
+            }
+
+            if (isPage)
+            {
+                if (user == null)
+                    sb.AppendLine("    <script>top.app.login();</script>");
                 else
-                    rtnFragments.Add(item);
+                    sb.AppendLine("    <script>app.render();</script>");
             }
-            return rtnUrls[0] + "?" + string.Join("&", rtnFragments);
+            else
+            {
+                if (!Config.IsInstalled)
+                    sb.AppendLine("    <script>app.install();</script>");
+                else if (!isApp)
+                    sb.AppendLine("    <script>app.home();</script>");
+
+                if (isHttps)
+                    sb.AppendLine("    <script>registerWorker();</script>");
+            }
+
+            sb.AppendLine("</body>");
+            sb.AppendLine("</html>");
+            return sb.ToString();
         }
 
-        public static string GetOSName(string userAgent)
+        private static string GetLoginByToken(string appLang, string token)
         {
-            if (string.IsNullOrWhiteSpace(userAgent))
-                return string.Empty;
+            var sb = new StringBuilder();
+            sb.AppendLine("<!DOCTYPE html>");
+            sb.AppendLine($"<html>");
+            sb.AppendLine("<head>");
+            sb.AppendLine("    <meta charset=\"utf-8\">");
+            sb.AppendLine("</head>");
+            sb.AppendLine("<body>");
+            sb.AppendLine("    <div id=\"app\"></div>");
+            sb.AppendLine($"    <script src=\"{GetStaticUrl("/js/jquery.min.js")}\"></script>");
+            sb.AppendLine($"    <script src=\"{GetStaticUrl($"/js/lang/{appLang}.min.js")}\"></script>");
+            sb.AppendLine("    <script>var baseUrl='';</script>");
+            sb.AppendLine($"    <script src=\"{GetStaticUrl("/js/index.min.js")}\"></script>");
+            sb.AppendLine($"    <script>loginByToken('{token}');</script>");
+            sb.AppendLine("</body>");
+            sb.AppendLine("</html>");
+            return sb.ToString();
+        }
 
-            var osName = string.Empty;
-            if (userAgent.Contains("NT 10.0"))
+        private static void InitStaticFiles(bool isApp, bool isPage, string appId, string appLang, List<string> cssFiles, List<string> jsFiles)
+        {
+            if (isApp)
+                InitAppFiles(appId, appLang, cssFiles, jsFiles);
+            else if (isPage)
+                InitPageFiles(appId, appLang, cssFiles, jsFiles);
+            else
+                InitAdminFiles(appId, appLang, cssFiles, jsFiles);
+        }
+
+        private static void InitAppFiles(string appId, string appLang, List<string> cssFiles, List<string> jsFiles)
+        {
+            cssFiles.AddRange(GetStaticFileUrls("/css/app.min.css", true));
+            jsFiles.AddRange(GetStaticFileUrls($"/js/lang/{appLang}.min.js", true));
+            jsFiles.AddRange(GetStaticFileUrls("/js/app.min.js", true));
+
+            if (appId != SystemService.DevId)
             {
-                osName = "Windows 10";
+                cssFiles.AddRange(GetStaticFileUrls($"/{appId}/app.min.css"));
+                jsFiles.AddRange(GetStaticFileUrls($"/{appId}/app.min.js"));
             }
-            else if (userAgent.Contains("NT 6.3"))
+        }
+
+        private static void InitAdminFiles(string appId, string appLang, List<string> cssFiles, List<string> jsFiles)
+        {
+            cssFiles.AddRange(GetStaticFileUrls("/css/index.min.css", true));
+            if (appId != Config.App.AppId)
             {
-                osName = "Windows 8.1";
+                cssFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.css"));
             }
-            else if (userAgent.Contains("NT 6.2"))
+            jsFiles.AddRange(GetStaticFileUrls($"/js/lang/{appLang}.min.js", true));
+            jsFiles.AddRange(GetStaticFileUrls("/js/index.min.js", true));
+        }
+
+        private static void InitPageFiles(string appId, string appLang, List<string> cssFiles, List<string> jsFiles)
+        {
+            cssFiles.AddRange(GetStaticFileUrls("/css/kui.min.css", true));
+            jsFiles.AddRange(GetStaticFileUrls($"/js/lang/{appLang}.min.js", true));
+            jsFiles.AddRange(GetStaticFileUrls("/js/kui.min.js", true));
+
+            if (appId != SystemService.DevId)
             {
-                osName = "Windows 8";
+                cssFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.css"));
+                jsFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.js"));
             }
-            else if (userAgent.Contains("NT 6.1"))
+        }
+
+        private static string GetStaticUrl(string url)
+        {
+            var resUrl = "";// Config.App.CdnUrl;
+            if (string.IsNullOrEmpty(resUrl))
+                return $"{wwwrootName}{url}";
+
+            return $"{resUrl}{url}";
+        }
+
+        private static List<string> GetStaticFileUrls(string url, bool isFrame = false)
+        {
+            var urls = new List<string>();
+            url = url.Replace("~", "").ToLower();
+            if (bundles == null || bundles.Count == 0)
             {
-                osName = "Windows 7";
+                urls.Add(GetStaticFileUrl(url, "", isFrame));
+                return urls;
             }
-            else if (userAgent.Contains("NT 6.0"))
+
+            var bundle = bundles.FirstOrDefault(b => b.OutputFileName.EndsWith(url, true, null));
+            if (bundle == null)
             {
-                osName = "Windows Vista/Server 2008";
+                urls.Add(GetStaticFileUrl(url, "", isFrame));
+                return urls;
             }
-            else if (userAgent.Contains("NT 5.2"))
+
+            foreach (var item in bundle.InputFiles)
             {
-                if (userAgent.Contains("64"))
-                    osName = "Windows XP";
+                if (item.Contains("*."))
+                {
+                    var path = Path.Combine(rootPath, item.Split('*')[0]);
+                    var dirs = Directory.GetDirectories(path);
+                    foreach (var dir in dirs)
+                    {
+                        var dirFiles = Directory.GetFiles(dir);
+                        foreach (var file in dirFiles)
+                        {
+                            AddDevStaticFileUrl(urls, file);
+                        }
+                    }
+
+                    var files = Directory.GetFiles(path);
+                    foreach (var file in files)
+                    {
+                        AddDevStaticFileUrl(urls, file);
+                    }
+                }
                 else
-                    osName = "Windows Server 2003";
+                {
+                    var file = Path.Combine(rootPath, item);
+                    AddDevStaticFileUrl(urls, file);
+                }
             }
-            else if (userAgent.Contains("NT 5.1"))
-            {
-                osName = "Windows XP";
-            }
-            else if (userAgent.Contains("NT 5"))
-            {
-                osName = "Windows 2000";
-            }
-            else if (userAgent.Contains("NT 4"))
-            {
-                osName = "Windows NT4";
-            }
-            else if (userAgent.Contains("Me"))
-            {
-                osName = "Windows Me";
-            }
-            else if (userAgent.Contains("98"))
-            {
-                osName = "Windows 98";
-            }
-            else if (userAgent.Contains("95"))
-            {
-                osName = "Windows 95";
-            }
-            else if (userAgent.Contains("Mac"))
-            {
-                osName = "Mac";
-            }
-            else if (userAgent.Contains("Unix"))
-            {
-                osName = "UNIX";
-            }
-            else if (userAgent.Contains("Linux"))
-            {
-                osName = "Linux";
-            }
-            else if (userAgent.Contains("SunOS"))
-            {
-                osName = "SunOS";
-            }
-            return osName;
+
+            return urls;
         }
 
-        public static string EnsureFile(string path)
+        private static string GetStaticFileUrl(string url, string fileName = null, bool isFrame = false)
         {
-            if (string.IsNullOrEmpty(path))
-                return string.Empty;
+            if (string.IsNullOrEmpty(fileName))
+            {
+#if NET6_0
+                fileName = Path.Combine(url.Split('/'));
+                fileName = Path.Combine(rootPath, "wwwroot", fileName);
+#else
+                fileName = url.TrimStart('/').Replace("/", "\\");
+                fileName = Path.Combine(rootPath, fileName);
+#endif
+            }
 
-            var fileName = HttpContext.Current.Server.MapPath(path);
             var fileInfo = new FileInfo(fileName);
-            if (!fileInfo.Directory.Exists)
-                fileInfo.Directory.Create();
+            if (!fileInfo.Exists && isFrame)
+                return GetStaticUrl(url);
 
-            return fileName;
+            var time = fileInfo.LastWriteTime.ToString("yyMMddHHmmss");
+            return $"{url}?v={time}";
         }
 
-        public static void DeleteFile(string path)
+        private static void AddDevStaticFileUrl(List<string> urls, string fileName)
         {
-            if (string.IsNullOrEmpty(path))
-                return;
+#if NET6_0
+            var srcPath = Path.Combine(rootPath, "src");
+            var url = fileName.Replace(srcPath, "").Replace("\\", "/");
+            var html = GetStaticFileUrl(url, fileName);
+#else
+            var srcPath = rootPath;
+            var url = fileName.Replace(srcPath, "").Replace("\\", "/");
+            var html = GetStaticFileUrl($"/{url}", fileName);
+#endif
+            if (!urls.Contains(html))
+            {
+                urls.Add(html);
+            }
+        }
+    }
 
-            var fileName = HttpContext.Current.Server.MapPath(path);
-            if (File.Exists(fileName))
-                File.Delete(fileName);
+    class BundleConfig
+    {
+        public string OutputFileName { get; set; }
+        public List<string> InputFiles { get; set; }
+
+        internal static List<BundleConfig> Load()
+        {
+            var path = Path.Combine(Config.ContentRootPath, "bundleconfig.json");
+            if (!File.Exists(path))
+                return null;
+
+            var json = File.ReadAllText(path);
+            return Utils.FromJson<List<BundleConfig>>(json);
         }
     }
 }

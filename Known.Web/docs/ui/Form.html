@@ -1,0 +1,129 @@
+﻿<h1>表单 Form</h1>
+<div class="section">
+    <h2>示例</h2>
+    <pre class="code">
+//HTML
+&lt;div id="formTest">&lt;/div>
+
+//JavaScript
+var grid = new Form('Test', option);
+
+//Option
+option = {
+    url: String 数据请求url,
+    data: Object 默认表单数据,
+    title: String 标题,
+    titleInfo: Function 标题格式化回调函数，参数data,
+    toolbar: Array 按钮对象数组, {text,icon,handler},
+    setData: Function 填充数据后回调函数，参数{form,data},
+    onSaving: Function 保存前回调函数，参数data,
+    submitData: Function 获取保存前附加提交的数据对象
+}
+</pre>
+</div>
+<div class="section">
+    <h2>属性</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:100px;">类型</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td>id</td>
+            <td>String</td>
+            <td>控件id。</td>
+        </tr>
+        <tr>
+            <td>title</td>
+            <td>String</td>
+            <td>表单标题。</td>
+        </tr>
+        <tr>
+            <td>label</td>
+            <td>Object</td>
+            <td>字段共用栏位对象。</td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2>方法</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>show</td>
+            <td>data: Object</td>
+            <td></td>
+            <td>显示表单。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>close</td>
+            <td></td>
+            <td></td>
+            <td>关闭表单。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>validate</td>
+            <td></td>
+            <td>bool</td>
+            <td>验证表单字段。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>clear</td>
+            <td></td>
+            <td></td>
+            <td>清空表单字段。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>getData</td>
+            <td></td>
+            <td></td>
+            <td>获取表单数据对象。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>setData</td>
+            <td>data: Object</td>
+            <td></td>
+            <td>设置表单数据。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>setReadonly</td>
+            <td>readonly: bool</td>
+            <td></td>
+            <td>设置表单只读或编辑模式。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>load</td>
+            <td>
+                url: String<br />
+                callback: Function
+            </td>
+            <td></td>
+            <td>加载表单数据。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>save</td>
+            <td>
+                url: String<br />
+                callback: Function
+            </td>
+            <td></td>
+            <td>保存表单。</td>
+            <td></td>
+        </tr>
+    </table>
+</div>

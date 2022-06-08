@@ -1,0 +1,210 @@
+﻿<h1>网格 Grid</h1>
+<div class="section">
+    <h2>示例</h2>
+    <pre class="code">
+//HTML
+&lt;div class="grid">
+    &lt;table id="gridTest">&lt;/table>
+&lt;/div>
+
+//JavaScript
+var grid = new Grid('Test', option);
+
+//Option
+option = {
+    index: bool 显示行号，默认true,
+    fixed: bool 是否铺满父容器，默认true,
+    edit: bool 
+    width: int/string
+    columns: []
+    url: string
+    where: {}
+    sortField: string
+    sortOrder: string
+    autoQuery: bool
+    page: bool,
+    toolbar: {}
+    action: {},
+    summary: function(d) {}
+}
+</pre>
+</div>
+<div class="section">
+    <h2>属性</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:100px;">类型</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>String</td>
+            <td>控件name。</td>
+        </tr>
+        <tr>
+            <td>option</td>
+            <td>Object</td>
+            <td>选项。</td>
+        </tr>
+        <tr>
+            <td>elem</td>
+            <td>Object</td>
+            <td>表格jquery对象。</td>
+        </tr>
+        <tr>
+            <td>columns</td>
+            <td>Array</td>
+            <td>取得表格栏位对象集合。</td>
+        </tr>
+        <tr>
+            <td>data</td>
+            <td>Array</td>
+            <td>取得表格数据对象集合。</td>
+        </tr>
+        <tr>
+            <td>where</td>
+            <td>Object</td>
+            <td>取得查询条件对象。</td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2>方法</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>setColumns</td>
+            <td>
+                cloumns: Array, 栏位对象集合。
+            </td>
+            <td></td>
+            <td>设置网格栏位，可以实例化后设置（用于动态栏位），<br />也可以通过option参数实例化时设置。</td>
+            <td>
+                <pre>
+grid.setColumns([{},{}]);
+var grid = new Grid('Test', {
+    columns: [{},{}]
+});
+</pre>
+            </td>
+        </tr>
+        <tr>
+            <td>reload</td>
+            <td>
+                where: Object, 查询参数对象。
+            </td>
+            <td></td>
+            <td>重新加载网格数据。</td>
+            <td>
+                grid.reload(where);
+            </td>
+        </tr>
+        <tr>
+            <td>setData</td>
+            <td>
+                data: Array, 网格数据对象集合。
+            </td>
+            <td></td>
+            <td>设置网格数据。</td>
+            <td>
+                grid.setData([{},{}]);
+            </td>
+        </tr>
+        <tr>
+            <td>getSelected</td>
+            <td></td>
+            <td>Array</td>
+            <td>获取选择行的对象集合。</td>
+            <td>
+                var rows = grid.getSelected();
+            </td>
+        </tr>
+        <tr>
+            <td>getData</td>
+            <td></td>
+            <td>Array</td>
+            <td>获取网格数据（包含编辑后的数据）。</td>
+            <td>
+                var rows = grid.getData();
+            </td>
+        </tr>
+        <tr>
+            <td>getValue</td>
+            <td>row: Object<br />column: Object</td>
+            <td>Object</td>
+            <td>获取网格单元格值。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>addRow</td>
+            <td>
+                row: Object, 新行数据对象。
+            </td>
+            <td></td>
+            <td>添加一行，只有编辑表格可用。</td>
+            <td>
+                grid.addRow({});
+            </td>
+        </tr>
+        <tr>
+            <td>removeRow</td>
+            <td>
+                index: int, 行序号。
+            </td>
+            <td></td>
+            <td>删除指定行。</td>
+            <td>
+                grid.removeRow(index);
+            </td>
+        </tr>
+        <tr>
+            <td>moveRow</td>
+            <td>
+                index: int, 行序号。<br>
+                direct: String, 移动方向，up/down。<br>
+                url: String, 后端更新顺序url[可空]。
+            </td>
+            <td></td>
+            <td>移动网格行。</td>
+            <td>
+                grid.moveRow(index, 'up');
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2>Column选项</h2>
+    <table class="docTable">
+        <tr>
+            <th>名称</th>
+            <th>示例</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <pre class="code">
+column = {
+    query: bool
+    align: string center,right
+    width: string
+    field: string
+    title: string
+    sort: bool
+    action: string
+    icon: string
+    format: function,
+    import: bool
+}
+</pre>
+</div>

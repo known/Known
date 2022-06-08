@@ -1,0 +1,16 @@
+﻿.active-header {position:absolute;top:0;left:0;right:0;height:60px;line-height:60px;background-color:#23262E;color:#ddd;padding:0 20px;}
+.active-body {position:absolute;top:60px;left:0;right:0;bottom:60px;text-align:center;}
+.active-footer {position:absolute;left:0;right:0;bottom:0;height:60px;line-height:60px;text-align:center;}
+.active-box {
+    width:400px;height:300px;position:absolute;top:50%;left:50%;margin-left:-240px;margin-top:-210px;
+    text-align:left;border:1px solid #ccc;padding:40px;background-color:#fff;
+    -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
+}
+.install {height:440px;margin-top:-220px;padding:20px 40px;}
+.active-box .form-input input {width:250px;}
+
+.active-title {text-align:center;margin-bottom:40px;}
+.install .active-title {margin-bottom:20px;}
+.active-footer a {color:#000;}
+.active-box button {padding:0 50px;height:38px;}
+.message {text-align:center;margin-top:10px;}

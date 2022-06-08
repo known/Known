@@ -1,0 +1,220 @@
+﻿<h1>框架 Frame</h1>
+<div class="section">
+    <h2>全局方法</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>getCurTab</td>
+            <td></td>
+            <td>Object</td>
+            <td>获取当前打开的标签页。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>showTab</td>
+            <td>url: String</td>
+            <td></td>
+            <td>显示指定url的标签页。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>log</td>
+            <td>obj: Object</td>
+            <td></td>
+            <td>日志打印。</td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2>工具类 Utils</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>getUrlParam</td>
+            <td>name: String</td>
+            <td>String</td>
+            <td>获取ur中的参数。</td>
+            <td>var name = Utils.getUrlParam('name');</td>
+        </tr>
+        <tr>
+            <td>addCss</td>
+            <td>href: String</td>
+            <td></td>
+            <td>动态添加样式文件。</td>
+            <td>Utils.addCss('xxx.css');</td>
+        </tr>
+        <tr>
+            <td>addJs</td>
+            <td>src: String</td>
+            <td></td>
+            <td>动态添加脚本文件。</td>
+            <td>Utils.addJs('xxx.js');</td>
+        </tr>
+        <tr>
+            <td>copy</td>
+            <td>text: string</td>
+            <td></td>
+            <td>复制数据到剪切板。</td>
+            <td>Utils.copy('...');</td>
+        </tr>
+        <tr>
+            <td>paste</td>
+            <td>enabled: bool<br>callback: Function</td>
+            <td></td>
+            <td>粘贴剪切板数据。</td>
+            <td>Utils.paste(function(text){...});</td>
+        </tr>
+        <tr>
+            <td>list2Tree</td>
+            <td>data, key, pid</td>
+            <td></td>
+            <td>将列表数据转成树结构。</td>
+            <td>Utils.list2Tree([], 'pid', '0');</td>
+        </tr>
+        <tr>
+            <td>tree2List</td>
+            <td>data, key</td>
+            <td></td>
+            <td>将树结构转成列表数据。</td>
+            <td>var list = Utils.tree2List([], 'pid');</td>
+        </tr>
+        <tr>
+            <td>setUser</td>
+            <td>user: Object</td>
+            <td></td>
+            <td>设置客户端用户信息。</td>
+            <td>Utils.setUser(user);</td>
+        </tr>
+        <tr>
+            <td>getUser</td>
+            <td></td>
+            <td>Object</td>
+            <td>获取客户端用户信息。</td>
+            <td>var user = Utils.getUser();</td>
+        </tr>
+        <tr>
+            <td>setCodes</td>
+            <td>data: Array</td>
+            <td></td>
+            <td>设置客户端缓存代码表。</td>
+            <td>Utils.setCodes([]);</td>
+        </tr>
+        <tr>
+            <td>getCodes</td>
+            <td>category: String</td>
+            <td></td>
+            <td>根据代码类别获取客户端缓存的代码对象数组。</td>
+            <td>var codes = Utils.getCodes('Category');</td>
+        </tr>
+        <tr>
+            <td>genFile</td>
+            <td>text, saveName</td>
+            <td></td>
+            <td>将字符串生成文件并下载。</td>
+            <td>Utils.genFile('....', 'test.txt');</td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2>Ajax操作类 Ajax</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>get</td>
+            <td>url, data, callback</td>
+            <td></td>
+            <td>GET请求操作。</td>
+            <td>
+                <pre>
+Ajax.get('/xxx/xxx', { p: '' }, function (res) {
+    ...
+});
+</pre>
+            </td>
+        </tr>
+        <tr>
+            <td>post</td>
+            <td>url, data, callback</td>
+            <td></td>
+            <td>POST请求操作。</td>
+            <td>
+                <pre>
+Ajax.post('/xxx/xxx', { p: '' }, function (res) {
+    ...
+});
+</pre>
+            </td>
+        </tr>
+        <tr>
+            <td>download</td>
+            <td>url, data, callback</td>
+            <td></td>
+            <td>下载远程数据。</td>
+            <td>
+                <pre>
+Ajax.download('/xxx/xxx', { p: '' }, function (res) {
+    ...
+});
+</pre>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2> WebSocket操作类 WsUtil</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>connect</td>
+            <td>url, data, callback</td>
+            <td></td>
+            <td>连接WebSocket。</td>
+            <td>
+                <pre>
+WsUtil.connect('xxx/xxx', { p: '' }, function (res) {
+    ...
+});
+</pre>
+            </td>
+        </tr>
+        <tr>
+            <td>send</td>
+            <td>message: String</td>
+            <td></td>
+            <td>发送消息到服务端。</td>
+            <td>WsUtil.send('xxx');</td>
+        </tr>
+        <tr>
+            <td>close</td>
+            <td></td>
+            <td></td>
+            <td>关闭客户端连接。</td>
+            <td>WsUtil.close();</td>
+        </tr>
+    </table>
+</div>

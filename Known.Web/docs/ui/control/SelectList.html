@@ -1,0 +1,111 @@
+﻿<h1>下拉列表 SelectList</h1>
+<div class="section">
+    <h2>示例</h2>
+    <pre class="code">
+//HTML
+&lt;div id="slTest">&lt;/div>
+
+//JavaScript
+var sl = new SelectList(elem, option);
+//elem: 'slTest' 或 $('#slTest')  控件id或对象。
+
+//Option 选项可选配url和data初始化列表数据项
+option = {
+    url: '', 
+    data: [],
+    emptyText: '请选择' 
+} 
+</pre>
+</div>
+<div class="section">
+    <h2>属性</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:100px;">类型</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>String</td>
+            <td>控件name。<span class="link" onclick="alert(sl.name)">取值</span></td>
+        </tr>
+        <tr>
+            <td>data</td>
+            <td>Array</td>
+            <td>列表绑定数据项对象数组。<span class="link" onclick="alert(JSON.stringify(sl.data))">取值</span></td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2>方法</h2>
+    <select name="slTest"></select>
+    <script>
+        var sl = new SelectList('slTest');
+
+        function setData() {
+            sl.setData([
+                { Code: 'test1', Name: '测试1' },
+                { Code: 'test2', Name: '测试2' },
+                { Code: 'test3', Name: '测试3' }
+            ]);
+        }
+    </script>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>setData</td>
+            <td>data: Array</td>
+            <td></td>
+            <td>设置列表数据项。数据支持如下类型：<br />1.代码表数组；<br />2.简单数组；<br />3.客户端缓存代码类别。</td>
+            <td>
+                <pre>
+sl.setData([
+    { Code: 'test1', Name: '测试1' },
+    { Code: 'test2', Name: '测试2' },
+    { Code: 'test3', Name: '测试3' }
+]);
+
+sl.setData(['项1','项2','项3','项4','项5']);
+</pre>
+                <span class="link" onclick="setData()">测试1</span>
+                <span class="link" onclick="sl.setData(['项1','项2','项3','项4','项5'])">测试2</span>
+            </td>
+        </tr>
+        <tr>
+            <td>setUrl</td>
+            <td>url: String, callback: Function</td>
+            <td></td>
+            <td>设置列表数据源url。</td>
+            <td>
+                sl.setUrl('...', function(){ });
+            </td>
+        </tr>
+        <tr>
+            <td>getValue</td>
+            <td></td>
+            <td>String</td>
+            <td>获取控件值。</td>
+            <td>
+                var value = sl.getValue();
+                <span class="link" onclick="alert(sl.getValue())">测试</span>
+            </td>
+        </tr>
+        <tr>
+            <td>setValue</td>
+            <td>value: String</td>
+            <td></td>
+            <td>设置控件值。</td>
+            <td>
+                sl.setValue('test2');
+                <span class="link" onclick="sl.setValue('test2')">测试</span>
+            </td>
+        </tr>
+    </table>
+</div>

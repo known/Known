@@ -1,0 +1,91 @@
+﻿<h1>树 Tree（封装于<a href="http://www.treejs.cn/v3/api.php" target="_blank">ztree</a>）</h1>
+<div class="section">
+    <h2>示例</h2>
+    <pre class="code">
+//HTML
+&lt;div id="treeId">&lt;/div>
+
+//JavaScript
+var tree = new Tree('treeId', option);
+
+//Option
+option = {
+    url: String 数据请求url,
+    data: Array 初始化列表结构数据,
+    simpleData: bool 是否是列表数据，默认true,
+    check: bool 是否显示复选框,
+    onLoad: Function 初始化加载回调函数，参数data:Array,
+    onClick: Function 点击节点回调函数，参数node:Object
+}
+</pre>
+</div>
+<div class="section">
+    <h2>属性</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:100px;">类型</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td>id</td>
+            <td>String</td>
+            <td>控件id。</td>
+        </tr>
+        <tr>
+            <td>list</td>
+            <td>Array</td>
+            <td>原始列表数据。</td>
+        </tr>
+        <tr>
+            <td>data</td>
+            <td>Array</td>
+            <td>树状结构数据。</td>
+        </tr>
+        <tr>
+            <td>selectedNode</td>
+            <td>Object</td>
+            <td>选中的树节点对象。</td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2>方法</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>setData</td>
+            <td>data：Array</td>
+            <td></td>
+            <td>设置树控件数据。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>reload</td>
+            <td></td>
+            <td></td>
+            <td>重新加载树节点。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>getCheckedNodes</td>
+            <td></td>
+            <td>Array</td>
+            <td>获取勾选的节点对象数组。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>getNodeData</td>
+            <td>filter：Function</td>
+            <td>Object，节点数据</td>
+            <td>根据条件函数获取原始列表数据对象。</td>
+            <td></td>
+        </tr>
+    </table>
+</div>

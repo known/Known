@@ -1,0 +1,84 @@
+﻿<h1>通用控件 Input</h1>
+<div class="section">
+    <h2>示例</h2>
+    <pre class="code">
+var input = new Input(dom, option);
+</pre>
+</div>
+<div class="section">
+    <h2>属性</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:100px;">类型</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td>type</td>
+            <td>String</td>
+            <td>输入框类型（html|editor|textarea|text|hidden|radio|checkbox）。</td>
+        </tr>
+        <tr>
+            <td>id</td>
+            <td>String</td>
+            <td>输入框id属性。</td>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>String</td>
+            <td>输入框name属性。</td>
+        </tr>
+        <tr>
+            <td>elem</td>
+            <td>Object</td>
+            <td>输入框dom对象。</td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2>方法</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>setReadonly</td>
+            <td>readonly: bool</td>
+            <td></td>
+            <td>设置只读输入框。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>validate</td>
+            <td></td>
+            <td>bool</td>
+            <td>验证输入框。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>getValue</td>
+            <td></td>
+            <td></td>
+            <td>获取输入框值。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>setValue</td>
+            <td>value: string/Date</td>
+            <td></td>
+            <td>设置输入框值。</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>change</td>
+            <td>callback：Function({selected})</td>
+            <td></td>
+            <td>输入框值变化事件。</td>
+            <td></td>
+        </tr>
+    </table>
+</div>

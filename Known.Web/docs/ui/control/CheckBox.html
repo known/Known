@@ -1,0 +1,79 @@
+﻿<h1>复选框 CheckBox</h1>
+<div class="section">
+    <h2>示例</h2>
+    <pre class="code">
+var cb = new CheckBox(elem, data); 
+//elem: 'Enabled' 控件name或对象。
+//data: {Code: 1, Name: '启用'}
+</pre>
+</div>
+<div class="section">
+    <h2>属性</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:100px;">类型</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>String</td>
+            <td>控件name。<span class="link" onclick="alert(cb1.name)">取值</span></td>
+        </tr>
+        <tr>
+            <td>data</td>
+            <td>Object</td>
+            <td>控件绑定数据对象。<span class="link" onclick="alert(JSON.stringify(cb1.data))">取值</span></td>
+        </tr>
+        <tr>
+            <td>elem</td>
+            <td>JqObject</td>
+            <td>控件dom对象。<span class="link" onclick="console.log(cb1.elem)">打印</span></td>
+        </tr>
+    </table>
+</div>
+<div class="section">
+    <h2>方法</h2>
+    <table class="docTable">
+        <tr>
+            <th style="width:100px;">名称</th>
+            <th style="width:150px;">参数</th>
+            <th style="width:100px;">返回值</th>
+            <th>描述</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>getValue</td>
+            <td></td>
+            <td>String</td>
+            <td>获取控件值，选中返回值，否则返回0。</td>
+            <td>
+                var value = cb.getValue();
+                <span id="demoCB1"></span>
+                <span class="link" onclick="alert(cb1.getValue())">取值</span>
+                <span class="link" onclick="cb1.setValue(1)">赋正确值</span>
+                <span class="link" onclick="cb1.setValue(0)">赋错误值</span>
+            </td>
+        </tr>
+        <tr>
+            <td>setValue</td>
+            <td>value: String</td>
+            <td></td>
+            <td>设置控件值，值包含绑定值选中，否则不选中。</td>
+            <td>
+                cb.setValue();
+                <span id="demoCB2"></span>
+                <span class="link" onclick="alert(cb2.getValue())">取值</span>
+                <span class="link" onclick="cb2.setValue('测试')">赋正确值</span>
+                <span class="link" onclick="cb2.setValue('1')">赋错误值</span>
+            </td>
+        </tr>
+    </table>
+    <script>
+        var cb1 = new CheckBox('test1', { Code: 1, Name: '启用' });
+        cb1.elem.appendTo($('#demoCB1'));
+
+        var cb2 = new CheckBox('test2', { Code: '测试', Name: '测试' });
+        cb2.elem.appendTo($('#demoCB2'));
+    </script>
+</div>
