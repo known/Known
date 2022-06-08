@@ -1,4 +1,15 @@
-﻿Picker.action.organization = {
+﻿/* -------------------------------------------------------------------------------
+ * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
+ * 
+ * WebSite: https://www.pumantech.com
+ * Contact: knownchen@163.com
+ * 
+ * Change Logs:
+ * Date           Author       Notes
+ * 2020-08-20     KnownChen
+ * ------------------------------------------------------------------------------- */
+
+Picker.action.organization = {
     title: Language.SelectOrganization, type: 'tree', width: 350, height: 350,
     url: baseUrl + '/System/GetOrganizations'
 }

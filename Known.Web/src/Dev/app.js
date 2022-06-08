@@ -1,3 +1,14 @@
+/* -------------------------------------------------------------------------------
+ * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
+ * 
+ * WebSite: https://www.pumantech.com
+ * Contact: knownchen@163.com
+ * 
+ * Change Logs:
+ * Date           Author       Notes
+ * 2020-08-20     KnownChen
+ * ------------------------------------------------------------------------------- */
+
 app.setTabbar([
     { icon: 'fa fa-home', id: 'tbHome', name: '首页', hideTop: true, component: new DevHome() },
     { icon: 'fa fa-wifi', id: 'tbOnline', name: '监测', title: '在线监测', component: new IoTOnline() },

@@ -1,4 +1,15 @@
-﻿/*Layout*/
+﻿/* -------------------------------------------------------------------------------
+ * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
+ * 
+ * WebSite: https://www.pumantech.com
+ * Contact: knownchen@163.com
+ * 
+ * Change Logs:
+ * Date           Author       Notes
+ * 2020-08-20     KnownChen
+ * ------------------------------------------------------------------------------- */
+
+/*Layout*/
 html, body, #app, .layout-admin {width:100%;height:100%;overflow:hidden;}
 .full-screen {position:absolute;top:0;left:0;right:0;bottom:0;z-index:99999;}
 .layout-header {

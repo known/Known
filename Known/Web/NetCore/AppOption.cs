@@ -1,4 +1,15 @@
-﻿#if NET6_0
+﻿/* -------------------------------------------------------------------------------
+ * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
+ * 
+ * WebSite: https://www.pumantech.com
+ * Contact: knownchen@163.com
+ * 
+ * Change Logs:
+ * Date           Author       Notes
+ * 2020-08-20     KnownChen
+ * ------------------------------------------------------------------------------- */
+
+#if NET6_0
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;

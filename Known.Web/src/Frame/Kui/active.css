@@ -1,4 +1,15 @@
-﻿.active-header {position:absolute;top:0;left:0;right:0;height:60px;line-height:60px;background-color:#23262E;color:#ddd;padding:0 20px;}
+﻿/* -------------------------------------------------------------------------------
+ * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
+ * 
+ * WebSite: https://www.pumantech.com
+ * Contact: knownchen@163.com
+ * 
+ * Change Logs:
+ * Date           Author       Notes
+ * 2020-08-20     KnownChen
+ * ------------------------------------------------------------------------------- */
+
+.active-header {position:absolute;top:0;left:0;right:0;height:60px;line-height:60px;background-color:#23262E;color:#ddd;padding:0 20px;}
 .active-body {position:absolute;top:60px;left:0;right:0;bottom:60px;text-align:center;}
 .active-footer {position:absolute;left:0;right:0;bottom:0;height:60px;line-height:60px;text-align:center;}
 .active-box {

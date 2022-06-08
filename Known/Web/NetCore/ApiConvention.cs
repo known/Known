@@ -1,4 +1,15 @@
-﻿#if NET6_0
+﻿/* -------------------------------------------------------------------------------
+ * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
+ * 
+ * WebSite: https://www.pumantech.com
+ * Contact: knownchen@163.com
+ * 
+ * Change Logs:
+ * Date           Author       Notes
+ * 2020-08-20     KnownChen
+ * ------------------------------------------------------------------------------- */
+
+#if NET6_0
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,7 +49,7 @@ class ApiConvention : IApplicationModelConvention
         }
     }
 
-    #region ConfigureSelector
+#region ConfigureSelector
     private void ConfigureSelector(ControllerModel controller)
     {
         RemoveEmptySelectors(controller.Selectors);
@@ -174,7 +185,7 @@ class ApiConvention : IApplicationModelConvention
 
         return "POST";
     }
-    #endregion
+#endregion
 
     private static void ConfigureParameters(ControllerModel controller)
     {

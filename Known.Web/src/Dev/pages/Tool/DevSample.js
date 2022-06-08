@@ -1,3 +1,14 @@
+/* -------------------------------------------------------------------------------
+ * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
+ * 
+ * WebSite: https://www.pumantech.com
+ * Contact: knownchen@163.com
+ * 
+ * Change Logs:
+ * Date           Author       Notes
+ * 2020-08-20     KnownChen
+ * ------------------------------------------------------------------------------- */
+
 const CommTypes = ['办公用品', '仪器'];
 const CommUnits = ['个', '把', '套'];
 const SampleCodes = ['选项一', '选项二'];
