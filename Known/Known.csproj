@@ -3,6 +3,15 @@
 	<PropertyGroup>
 		<TargetFrameworks>net35;net472;net6.0</TargetFrameworks>
 		<DebugType>embedded</DebugType>
+		<Authors>KnownChen</Authors>
+		<Company>pumantech</Company>
+		<Description>Known is a rapid development framework for .NET.</Description>
+		<Version>1.1.0</Version>
+		<PackageProjectUrl>https://www.pumantech.com/known</PackageProjectUrl>
+		<PackageIcon>icon128.png</PackageIcon>
+		<PackageTags>known, framework, .net</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net35' ">
@@ -20,8 +29,13 @@
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.5" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\icon128.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>
