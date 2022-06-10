@@ -14,8 +14,7 @@ function DevEncrypt() {
         fit: true,
         items: [
             { name: '加解密', component: new DevEncryptString() },
-            { name: '序列号', component: new DevEncryptSerialNo() },
-            { name: '平台API加密', component: new DevEncryptApiKey() }
+            { name: '序列号', component: new DevEncryptSerialNo() }
         ]
     });
 
@@ -111,51 +110,6 @@ function DevEncryptSerialNo() {
         }, function (res) {
             field.setValue(res);
         });
-    }
-}
-
-function DevEncryptApiKey() {
-    var url = {
-        GenerateApiKey: sysBaseUrl + '/Develop/GenerateApiKey'
-    };
-
-    var form = new Form('ApiKey', {
-        style: 'form-block',
-        fields: [
-            { title: 'ApiUrl', field: 'Url', type: 'text', inputStyle: 'width:280px', required: true },
-            { title: 'ApiToken', field: 'Token', type: 'text', inputStyle: 'width:280px', required: true, readonly: true },
-            { title: 'Key', field: 'Key', type: 'textarea', readonly: true }
-        ],
-        toolbar: [
-            { text: '加密', icon: 'fa fa-lock', handler: function (e) { genApiKey(e.form); } },
-            { text: '下载', icon: 'fa fa-download', handler: function (e) { downloadApiKey(e.form); } }
-        ]
-    });
-
-    //methods
-    this.render = function () {
-        return form.render();
-    }
-
-    this.mounted = function () {
-        form.setData({
-            Url: 'http://api.pumantech.com',
-            Token: '0414a351af414f70918d9217811be8de'
-        });
-    }
-
-    //private
-    function genApiKey(form) {
-        var data = form.getData();
-        Ajax.post(url.GenerateApiKey, {
-            data: JSON.stringify(data)
-        }, function (res) {
-            form.Key.setValue(res);
-        });
-    }
-
-    function downloadApiKey(form) {
-        Utils.genFile(form.Key.getValue(), 'License.key');
     }
 }
 
