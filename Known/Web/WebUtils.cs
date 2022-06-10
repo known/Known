@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-10     KnownChen    加载DEV模块
  * ------------------------------------------------------------------------------- */
 
 using System.Collections.Generic;
@@ -222,12 +223,8 @@ namespace Known.Web
             cssFiles.AddRange(GetStaticFileUrls("/css/kui.min.css", true));
             jsFiles.AddRange(GetStaticFileUrls($"/js/lang/{appLang}.min.js", true));
             jsFiles.AddRange(GetStaticFileUrls("/js/kui.min.js", true));
-
-            if (appId != SystemService.DevId)
-            {
-                cssFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.css"));
-                jsFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.js"));
-            }
+            cssFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.css"));
+            jsFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.js"));
         }
 
         private static string GetStaticUrl(string url)

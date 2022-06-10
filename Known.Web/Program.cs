@@ -14,4 +14,5 @@ using Known.Web;
 KHost.Run(args, o =>
 {
     o.DbFactories["MySqlConnector"] = typeof(MySqlConnector.MySqlConnectorFactory);
+    o.Modules.Add(typeof(Known.Dev.AppModule));
 });

@@ -9,6 +9,7 @@
   <ItemGroup>
 	<PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
 	<PackageReference Include="MySqlConnector" Version="2.1.10" />
+	<ProjectReference Include="..\Known.Dev\Known.Dev.csproj" />
     <ProjectReference Include="..\Known\Known.csproj" />
   </ItemGroup>
 
