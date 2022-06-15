@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-15     KnownChen    构造函数中连接信息增加非空判断
  * ------------------------------------------------------------------------------- */
 
 using System;
@@ -39,7 +40,10 @@ namespace Known
         public Database(string connName, UserInfo user = null)
         {
             var setting = Config.App.GetConnection(connName);
-            Init(setting.ProviderName, setting.ConnectionString, user);
+            if (setting != null)
+            {
+                Init(setting.ProviderName, setting.ConnectionString, user);
+            }
         }
 
         public Database(string providerName, string connString, UserInfo user = null)
