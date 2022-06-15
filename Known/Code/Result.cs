@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-15     KnownChen    移除ChartData类
  * ------------------------------------------------------------------------------- */
 
 using System;
@@ -201,11 +202,5 @@ namespace Known
                 }
             }
         }
-    }
-
-    public class ChartData
-    {
-        public string Name { get; set; }
-        public Dictionary<string, object> Series { get; set; }
     }
 }
