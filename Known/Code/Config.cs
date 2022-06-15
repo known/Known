@@ -7,7 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
- * 2022-06-15     KnownChen    App属性支持写入
+ * 2022-06-15     KnownChen    App属性支持写入,不公开Init方法
  * ------------------------------------------------------------------------------- */
 
 using System;
@@ -58,14 +58,14 @@ namespace Known
             get { return Menus != null && Menus.Count > 0; }
         }
 
-        public static void Init()
+        internal static void Init()
         {
             var platform = new PlatformService();
             var info = platform.GetSystem();
             IsInstalled = info != null;
         }
 
-        public static void Init(AppInfo app)
+        internal static void Init(AppInfo app)
         {
             App = app;
             Init();
