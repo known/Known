@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-16     KnownChen    Remove UseBlazorServer
  * ------------------------------------------------------------------------------- */
 
 #if NET6_0
@@ -25,7 +26,6 @@ public class AppOption
         DbFactories = new Dictionary<string, Type>();
     }
 
-    public bool UseBlazorServer { get; set; }
     public AppInfo App { get; set; }
     public List<Type> Modules { get; }
     public Dictionary<string, Type> DbFactories { get; }

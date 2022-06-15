@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-16     KnownChen    Remove UseBlazorServer
  * ------------------------------------------------------------------------------- */
 
 #if NET6_0
@@ -31,11 +32,8 @@ public class KHost
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddHttpContextAccessor();
 
-        if (!option.UseBlazorServer)
-        {
-            WebAppContext.Services = builder.Services;
-            Container.Register<IAppContext, WebAppContext>();
-        }
+        WebAppContext.Services = builder.Services;
+        Container.Register<IAppContext, WebAppContext>();
 
         option.App = builder.Configuration.GetSection("KApp").Get<AppInfo>();
         option.Injection?.Invoke(builder.Services, option.App);
