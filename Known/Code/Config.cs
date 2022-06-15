@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-15     KnownChen    App属性支持写入
  * ------------------------------------------------------------------------------- */
 
 using System;
@@ -48,7 +49,7 @@ namespace Known
         internal static string WebRootPath { get; set; }
         internal static string ContentRootPath { get; set; }
         internal static string MacAddress { get; }
-        public static AppInfo App { get; private set; } = new AppInfo();
+        public static AppInfo App { get; set; } = new AppInfo();
         internal static List<MenuInfo> Menus { get; private set; }
         internal static List<AppInfo> Apps { get; set; }
 
