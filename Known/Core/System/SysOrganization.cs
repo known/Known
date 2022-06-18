@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2021-06-18     KnownChen    删除组织架构重复根节点
  * ------------------------------------------------------------------------------- */
 
 using System.Collections.Generic;
@@ -53,14 +54,6 @@ namespace Known.Core
             {
                 datas = new List<SysOrganization>();
             }
-
-            datas.Insert(0, new SysOrganization
-            {
-                Id = user.CompNo,
-                ParentId = "0",
-                Code = user.CompNo,
-                Name = user.CompName
-            });
 
             return datas.Select(d => d.ToTree());
         }
