@@ -8,6 +8,7 @@
  * Date           Author       Notes
  * 2020-08-20     KnownChen
  * 2022-06-15     KnownChen    构造函数中连接信息增加非空判断
+ * 2022-06-23     KnownChen    SQLite日期类型字段参数问题
  * ------------------------------------------------------------------------------- */
 
 using System;
@@ -787,6 +788,8 @@ namespace Known
                         p.ParameterName = pName;
                         if (item.Value == null)
                             p.Value = DBNull.Value;
+                        else if (item.Value is DateTime time)
+                            p.Value = time;
                         else
                             p.Value = item.Value.ToString();
                         cmd.Parameters.Add(p);
