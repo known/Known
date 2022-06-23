@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-23     KnownChen    常用连接地址https问题
  * ------------------------------------------------------------------------------- */
 
 function UserLink(id, type) {
@@ -98,7 +99,7 @@ function UserLink(id, type) {
                             ],
                             onSaving: function (d) {
                                 d.Type = type;
-                                if (d.Address.indexOf('http://') < 0) {
+                                if (d.Address.indexOf('http') < 0) {
                                     d.Address = 'http://' + d.Address;
                                 }
                             }
