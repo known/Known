@@ -425,7 +425,8 @@ function Home() {
 
         function _createSider(layout) {
             var sider = $('<div>').addClass('layout-side').appendTo(layout);
-            $('<div>').addClass('logo').html('普漫科技').appendTo(sider);
+            var logo = $('<div>').addClass('logo').appendTo(sider);
+            $('<img>').attr('src', staticUrl + '/img/logo.png').appendTo(logo);
             var scroll = $('<div>').addClass('layout-scroll').appendTo(sider);
             leftMenu = $('<ul>').addClass('nav-tree').appendTo(scroll);
         }
