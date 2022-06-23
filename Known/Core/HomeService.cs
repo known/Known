@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-23     KnownChen    优化用户管理及登录
  * ------------------------------------------------------------------------------- */
 
 using System;
@@ -27,6 +28,7 @@ namespace Known.Core
             if (string.IsNullOrEmpty(captcha) || captcha.ToUpper() != CaptchaCode)
                 return Result.Error(Language.NotCaptcha);
 
+            userName = userName.ToLower();
             var result = Platform.SignIn(userName, password, cid, force);
             if (!result.IsValid)
                 return result;

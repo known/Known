@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-23     KnownChen    优化用户管理及登录
  * ------------------------------------------------------------------------------- */
 
 using System;
@@ -63,7 +64,7 @@ namespace Known.Core
             SaveSystem(sys);
 
             var db = Database;
-            db.User = new UserInfo { UserName = info.UserName };
+            db.User = new UserInfo { UserName = info.UserName.ToLower() };
             SaveUser(db, info);
             SaveOrganization(db, info);
             return Result.Success("初始化成功，欢迎使用！");
@@ -76,7 +77,7 @@ namespace Known.Core
                 AppId = App.AppId,
                 CompNo = info.CompNo,
                 OrgNo = info.CompNo,
-                UserName = info.UserName,
+                UserName = info.UserName.ToLower(),
                 Password = Utils.ToMd5(info.Password),
                 Name = "管理员",
                 EnglishName = info.UserName,

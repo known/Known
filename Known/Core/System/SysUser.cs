@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-23     KnownChen    优化用户管理及登录
  * ------------------------------------------------------------------------------- */
 
 using System;
@@ -106,6 +107,7 @@ namespace Known.Core
             var vr = entity.Validate();
             if (vr.IsValid)
             {
+                entity.UserName = entity.UserName.ToLower();
                 if (Repository.ExistsUserName(Database, entity.Id, entity.UserName))
                 {
                     vr.AddError("用户名已存在，请使用其他字符创建用户！");
@@ -157,9 +159,10 @@ namespace Known.Core
     {
         public PagingResult<SysUser> QueryUsers(Database db, PagingCriteria criteria)
         {
+            var sysUserName = Constants.SysUserName.ToLower();
             var sql = "select * from SysUser where CompNo=@CompNo";
-            if (db.UserName != Constants.SysUserName)
-                sql += $" and AppId=@AppId and UserName<>'{Constants.SysUserName}' and Id not in (select Id from SysUser where CompNo=OrgNo and CompNo=UserName)";
+            if (db.UserName != sysUserName)
+                sql += $" and AppId=@AppId and UserName<>'{sysUserName}' and Id not in (select Id from SysUser where CompNo=OrgNo and CompNo=UserName)";
             else
                 sql += $" and (AppId=@AppId or AppId='{SystemService.DevId}')";
 

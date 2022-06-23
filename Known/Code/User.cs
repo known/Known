@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-23     KnownChen    优化用户管理及登录
  * ------------------------------------------------------------------------------- */
 
 using System;
@@ -47,6 +48,11 @@ namespace Known
         public bool IsGroupUser { get; set; }
         public string Role { get; set; }
         public string Extension { get; set; }
+
+        internal bool IsAdmin
+        {
+            get { return UserName == Constants.SysUserName.ToLower(); }
+        }
 
         public static void AddToken(UserInfo user)
         {

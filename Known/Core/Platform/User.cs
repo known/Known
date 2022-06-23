@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-23     KnownChen    优化用户管理及登录
  * ------------------------------------------------------------------------------- */
 
 using System;
@@ -68,10 +69,7 @@ namespace Known.Core
             return Database.Transaction(Language.Login, db =>
             {
                 Repository.UpdateUser(db, entity);
-                if (user.UserName != Constants.SysUserName)
-                {
-                    AddLoginLog(db, type, user);
-                }
+                AddLoginLog(db, type, user);
             }, user);
         }
 
@@ -102,10 +100,7 @@ namespace Known.Core
             Database.Transaction(Language.ReLogin, db =>
             {
                 Repository.UpdateUser(db, entity);
-                if (user.UserName != Constants.SysUserName)
-                {
-                    AddLoginLog(db, type, user);
-                }
+                AddLoginLog(db, type, user);
             });
 
             return user;
@@ -120,8 +115,7 @@ namespace Known.Core
 
         internal bool CheckDevUser(UserInfo user)
         {
-            return user.UserName == Constants.SysUserName &&
-                  (user.LastLoginIP == "127.0.0.1" || user.LastLoginIP == "::1");
+            return user.IsAdmin && (user.LastLoginIP == "127.0.0.1" || user.LastLoginIP == "::1");
         }
 
         public void SignOut(string userName)
@@ -152,7 +146,7 @@ namespace Known.Core
             var userMenus = UserHelper.GetMenus();
             if (userMenus == null || refresh)
             {
-                if (userName == Constants.SysUserName)
+                if (userName == Constants.SysUserName.ToLower())
                     userMenus = Repository.GetMenus(Database, appId);
                 else
                     userMenus = Repository.GetUserMenus(Database, appId, userName);
@@ -232,7 +226,7 @@ namespace Known.Core
             var app = Config.App;
             user.AppName = app.AppName;
             user.AppLang = app.AppLang;
-            if (user.UserName == Constants.SysUserName)
+            if (user.IsAdmin)
             {
                 user.AppId = app.AppId;
             }
