@@ -68,14 +68,6 @@ namespace Known.Core
         }
     }
 
-    partial interface IPlatformRepository
-    {
-        List<NoRuleInfo> GetNoRuleInfos(Database db, string appId, string compNo, string ruleCode);
-        string GetMaxRuleNo(Database db, string appId, string compNo, string prefix);
-        void SaveRuleNoData(Database db, string appId, string compNo, string ruleId, string ruleNo);
-        void DeleteRuleNoData(Database db, string ruleId, string ruleNo);
-    }
-
     partial class PlatformRepository
     {
         public List<NoRuleInfo> GetNoRuleInfos(Database db, string appId, string compNo, string ruleCode)

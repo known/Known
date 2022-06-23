@@ -80,10 +80,6 @@ namespace Known.Web
             if (!string.IsNullOrEmpty(token))
                 return GetLoginByToken(app.AppLang, token);
 
-            var showCaptcha = app.ShowCaptcha.ToString().ToLower();
-            var hasMobile = app.HasMobile.ToString().ToLower();
-            var isTraditionView = app.TraditionView.ToString().ToLower();
-
             var user = UserHelper.GetUser(out _);
             app = Config.GetCurrentApp(user, a);
             var appId = app.AppId;
@@ -127,7 +123,7 @@ namespace Known.Web
             sb.AppendLine("</head>");
             sb.AppendLine("<body>");
             sb.AppendLine("    <div id=\"app\"></div>");
-            sb.AppendLine($"    <script>var appId='{appId}',appName='{appName}',baseUrl='',baseApiUrl='',staticUrl='{wwwroot}',showCaptcha={showCaptcha},hasMobile={hasMobile},isTraditionView={isTraditionView};</script>");
+            sb.AppendLine($"    <script>var appId='{appId}',appName='{appName}',baseUrl='',baseApiUrl='',staticUrl='{wwwroot}';</script>");
             sb.AppendLine($"    <script src=\"{GetStaticUrl("/js/jquery.min.js")}\"></script>");
 
             if (isPage)
@@ -199,12 +195,8 @@ namespace Known.Web
             cssFiles.AddRange(GetStaticFileUrls("/css/app.min.css", true));
             jsFiles.AddRange(GetStaticFileUrls($"/js/lang/{appLang}.min.js", true));
             jsFiles.AddRange(GetStaticFileUrls("/js/app.min.js", true));
-
-            if (appId != SystemService.DevId)
-            {
-                cssFiles.AddRange(GetStaticFileUrls($"/{appId}/app.min.css"));
-                jsFiles.AddRange(GetStaticFileUrls($"/{appId}/app.min.js"));
-            }
+            cssFiles.AddRange(GetStaticFileUrls($"/{appId}/app.min.css"));
+            jsFiles.AddRange(GetStaticFileUrls($"/{appId}/app.min.js"));
         }
 
         private static void InitAdminFiles(string appId, string appLang, List<string> cssFiles, List<string> jsFiles)

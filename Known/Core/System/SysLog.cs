@@ -44,12 +44,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        PagingResult<SysLog> QueryLogs(Database db, PagingCriteria criteria);
-        List<SysLog> GetLogs(Database db, string bizId);
-    }
-
     partial class SystemRepository
     {
         public PagingResult<SysLog> QueryLogs(Database db, PagingCriteria criteria)

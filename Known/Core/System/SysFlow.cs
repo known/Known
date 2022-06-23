@@ -113,14 +113,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        List<SysFlow> GetFlowTodos(Database db, string appId, string userName);
-        List<SysFlowLog> GetFlowLogs(Database db, string bizId);
-        List<SysFlowStep> GetFlowSteps(Database db, string appId, string compNo, string flowCode);
-        SysFlowStep GetFlowStep(Database db, string appId, string compNo, string flowCode, string stepCode);
-    }
-
     partial class SystemRepository
     {
         public List<SysFlow> GetFlowTodos(Database db, string appId, string userName)

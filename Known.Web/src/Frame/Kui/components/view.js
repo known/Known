@@ -142,7 +142,7 @@ function View(name, option) {
         }
 
         var gridOption = $.extend(true, {
-            form: _form, isTradition: isTraditionView, isIconButton: false,
+            form: _form, isTradition: false, isIconButton: false,
             url: option.url.QueryModels || '', autoQuery: false,
             toolButtons: toolButtons,
             toolbar: {

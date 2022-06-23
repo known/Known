@@ -15,7 +15,7 @@ namespace Known.Core
     {
         private static AppInfo App => Config.App;
         private static IAppContext Context => DefaultAppContext.Current;
-        private static IPlatformRepository Repository => Container.Resolve<IPlatformRepository>(new PlatformRepository());
+        private static readonly PlatformRepository Repository = new PlatformRepository();
 
         private UserInfo currentUser;
         public UserInfo CurrentUser
@@ -51,11 +51,7 @@ namespace Known.Core
         }
     }
 
-    public partial interface IPlatformRepository
-    {
-    }
-
-    partial class PlatformRepository : IPlatformRepository
+    public partial class PlatformRepository
     {
     }
 }

@@ -26,12 +26,6 @@ namespace Known.Core
         }
     }
 
-    partial interface IPlatformRepository
-    {
-        List<OrganizationInfo> GetOrganizations(Database db, string appId, string compNo);
-        OrganizationInfo GetOrganization(Database db, string appId, string compNo, string code);
-    }
-
     partial class PlatformRepository
     {
         public List<OrganizationInfo> GetOrganizations(Database db, string appId, string compNo)

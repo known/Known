@@ -10,6 +10,7 @@
  * ------------------------------------------------------------------------------- */
 
 #if !NET6_0
+using System.Collections.Generic;
 using System.Reflection;
 using System.Web;
 
@@ -89,12 +90,11 @@ namespace Known.Web
             var request = context.Request;
             var criteria = new PagingCriteria(user.CompNo)
             {
-                load = Utils.ConvertTo<int>(request.Form["load"]),
-                query = request.Form["query"],
-                page = Utils.ConvertTo<int>(request.Form["page"]),
-                limit = Utils.ConvertTo(request.Form["limit"], 10),
-                field = request.Form["field"],
-                order = request.Form["order"]
+                IsLoad = Utils.ConvertTo<bool>(request.Form["IsLoad"]),
+                Query = request.Form["Query"],
+                PageIndex = Utils.ConvertTo<int>(request.Form["PageIndex"]),
+                PageSize = Utils.ConvertTo(request.Form["PageSize"], 10),
+                OrderBys = Utils.ConvertTo<string[]>(request.Form["OrderBys"])
             };
             var result = action.Invoke(service, new object[] { criteria });
             Json(result);

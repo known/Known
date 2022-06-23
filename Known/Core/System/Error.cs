@@ -58,4 +58,29 @@ namespace Known.Core
             return Result.Success(Language.DeleteSuccess);
         }
     }
+
+    sealed class ErrorHelper
+    {
+        private ErrorHelper() { }
+
+        internal static List<LogInfo> Errors { get; } = new List<LogInfo>();
+
+        internal static void AddError(LogInfo error)
+        {
+            var exist = Errors.FirstOrDefault(l => l.Id == error.Id);
+            if (exist == null)
+                exist = error;
+            else
+                Errors.Add(error);
+        }
+
+        internal static void RemoveError(string id)
+        {
+            var error = Errors.FirstOrDefault(l => l.Id == id);
+            if (error == null)
+                return;
+
+            Errors.Remove(error);
+        }
+    }
 }

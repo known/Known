@@ -270,17 +270,6 @@ namespace Known.Core
         }
     }
 
-    partial interface IPlatformRepository
-    {
-        SysFlow GetFlowInfo(Database db, string bizId);
-        UserInfo GetFlowStepUser(Database db, string appId, string compNo, string flowCode, string stepCode);
-        void AddFlowInfo(Database db, SysFlow info);
-        void UpdateFlowInfo(Database db, SysFlow info);
-        void AddFlowLog(Database db, SysFlowLog info);
-        void DeleteFlow(Database db, string bizId);
-        void DeleteFlowLogs(Database db, string bizId);
-    }
-
     partial class PlatformRepository
     {
         public SysFlow GetFlowInfo(Database db, string bizId)

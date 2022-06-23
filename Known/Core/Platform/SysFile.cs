@@ -47,7 +47,7 @@ namespace Known.Core
         public void DeleteFiles(Database db, string bizId, out List<string> filePaths)
         {
             filePaths = new List<string>();
-            var files = Repository.GetFiles(Database, bizId);
+            var files = Repository.GetFiles(db, bizId);
             if (files == null || files.Count == 0)
                 return;
 
@@ -68,11 +68,6 @@ namespace Known.Core
                 AttachFile.Delete(item);
             }
         }
-    }
-
-    partial interface IPlatformRepository
-    {
-        List<SysFile> GetFiles(Database db, string bizId);
     }
 
     partial class PlatformRepository

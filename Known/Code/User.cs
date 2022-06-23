@@ -22,11 +22,6 @@ namespace Known
         public string AppId { get; set; }
         public string AppName { get; set; }
         public string AppLang { get; set; }
-        public bool AppYun { get; set; }
-        public bool AppTopMenu { get; set; }
-        public string AppValidDate { get; set; }
-        public string SupportName { get; set; }
-        public string SupportUrl { get; set; }
 
         public string Id { get; set; }
         public string UserName { get; set; }

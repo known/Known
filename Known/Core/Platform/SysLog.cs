@@ -21,11 +21,6 @@ namespace Known.Core
         }
     }
 
-    partial interface IPlatformRepository
-    {
-        void AddLog(Database db, string appId, string compNo, string userName, string type, string target, string content);
-    }
-
     partial class PlatformRepository
     {
         public void AddLog(Database db, string appId, string compNo, string userName, string type, string target, string content)

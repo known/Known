@@ -31,7 +31,7 @@ namespace Known
 #endif
         private Cache() { }
 
-        public static List<T> GetList<T>(string keyPrefix)
+        internal static List<T> GetList<T>(string keyPrefix)
         {
             var list = new List<T>();
 #if NET35

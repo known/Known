@@ -38,13 +38,13 @@ function Login() {
         var login = $('<div>').addClass('login').attr('id', 'login').appendTo(dom);
         var body = $('<div>').addClass('login-body').appendTo(login);
 
-        if (!isMobile && hasMobile) {
+        if (!isMobile) {
             _createBell(body);
         }
 
         _createLogin1(body);
 
-        if (!isMobile && hasMobile) {
+        if (!isMobile) {
             _createLogin2(body);
         }
     }
@@ -68,16 +68,11 @@ function Login() {
     function _createLogin1(body) {
         var form = $('<div>').addClass('login-form').attr('id', 'login1').appendTo(body);
         var title = $('<div>').addClass('login-title').attr('id', 'ltLogin').append(Language.UserLogin).appendTo(form);
-        if (showCaptcha) {
-            title.css('padding-bottom', '0');
-        }
+        title.css('padding-bottom', '0');
 
-        _createFormItem(form, 'userName', 'text', 'fa fa-user', Language.UserName);
-        _createFormItem(form, 'password', 'password', 'fa fa-lock', Language.Password);
-
-        if (showCaptcha) {
-            _createCaptcha(form);
-        }
+        _createFormItem(form, 'userName', 'text', 'fa fa-user', Language.UserName, '$("#password").focus()');
+        _createFormItem(form, 'password', 'password', 'fa fa-lock', Language.Password, '$("#captcha").focus()');
+        _createCaptcha(form);
 
         var item = $('<div>').addClass('login-form-item').appendTo(form);
         $('<button>').addClass('btn-primary')
@@ -91,7 +86,7 @@ function Login() {
         $('<div>').attr('id', 'message').appendTo(form);
     }
 
-    function _createFormItem(form, id, type, icon, placeholder) {
+    function _createFormItem(form, id, type, icon, placeholder, onenter) {
         var item = $('<div>').addClass('login-form-item').appendTo(form);
         $('<label>').addClass(icon).attr('for', id).appendTo(item);
         $('<input>')
@@ -99,12 +94,13 @@ function Login() {
             .attr('id', id)
             .attr('placeholder', placeholder)
             .attr('autocomplete', 'off')
+            .attr('onenter', onenter)
             .appendTo(item);
         return item;
     }
 
     function _createCaptcha(form) {
-        var item = _createFormItem(form, 'captcha', 'text', 'fa fa-check-circle-o', Language.Captcha);
+        var item = _createFormItem(form, 'captcha', 'text', 'fa fa-check-circle-o', Language.Captcha, '$("#btnLogin").click()');
         $('<img>')
             .attr('id', 'imgCaptcha')
             .attr('src', baseUrl + '/Home/GetCaptcha')
@@ -150,7 +146,7 @@ function Login() {
         var password = _getFormValue('password');
         var captcha = _getFormValue('captcha');
         var cid = Utils.getClientId();
-        if (userName === '' || password === '' || (showCaptcha && captcha === ''))
+        if (userName === '' || password === '' || captcha === '')
             return;
 
         var text = obj.html();

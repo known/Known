@@ -30,13 +30,6 @@ namespace Known
             Data = data;
         }
 
-        private bool ok;
-        public bool Ok
-        {
-            get { return ok; }
-            set { ok = IsValid = value; }
-        }
-
         public bool IsValid { get; set; }
 
         public string Message
@@ -107,47 +100,11 @@ namespace Known
             this.compNo = compNo;
         }
 
-        public int load { get; set; }
-        public int? page { get; set; }
-        public int? limit { get; set; }
-        public string field { get; set; }
-        public string order { get; set; }
-        public string query { get; set; }
-
-        public bool IsLoad
-        {
-            get { return load == 1; }
-        }
-
-        public int? PageIndex
-        {
-            get { return page; }
-            set { page = value; }
-        }
-
-        public int? PageSize
-        {
-            get { return limit ?? 10; }
-            set { limit = value; }
-        }
-
-        public string[] OrderBys
-        {
-            get
-            {
-                var orderBys = new List<string>();
-                if (!string.IsNullOrEmpty(field) && !string.IsNullOrEmpty(order))
-                {
-                    var sorts = field.Split(',');
-                    var orders = order.Split(',');
-                    for (int i = 0; i < sorts.Length; i++)
-                    {
-                        orderBys.Add($"{sorts[i]} {orders[i]}");
-                    }
-                }
-                return orderBys.ToArray();
-            }
-        }
+        public bool IsLoad { get; set; }
+        public int? PageIndex { get; set; }
+        public int? PageSize { get; set; } = 10;
+        public string Query { get; set; }
+        public string[] OrderBys { get; set; }
 
         public Dictionary<string, string> Parameter
         {
@@ -190,10 +147,10 @@ namespace Known
 
         private void InitParameter()
         {
-            if (string.IsNullOrEmpty(query))
-                query = "{}";
+            if (string.IsNullOrEmpty(Query))
+                Query = "{}";
 
-            var querys = Utils.FromJson<Dictionary<string, string>>(query);
+            var querys = Utils.FromJson<Dictionary<string, string>>(Query);
             if (querys != null && querys.Count > 0)
             {
                 foreach (var item in querys)

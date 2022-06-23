@@ -53,14 +53,6 @@ namespace Known.Core
         }
     }
 
-    partial interface IPlatformRepository
-    {
-        List<TaskInfo> GetPendingTasks(Database db, string compNo);
-        TaskInfo GetLastTask(Database db, string bizId);
-        void AddTask(Database db, TaskInfo task);
-        void UpdateTask(Database db, TaskInfo task);
-    }
-
     partial class PlatformRepository
     {
         public List<TaskInfo> GetPendingTasks(Database db, string compNo)

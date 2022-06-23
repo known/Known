@@ -97,14 +97,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        PagingResult<SysOrganization> QueryOrganizations(Database db, PagingCriteria criteria);
-        List<SysOrganization> GetOrganizations(Database db, string appId, string compNo);
-        bool ExistsOrganization(Database db, SysOrganization entity);
-        bool ExistsSubOrganization(Database db, string parentId);
-    }
-
     partial class SystemRepository
     {
         public PagingResult<SysOrganization> QueryOrganizations(Database db, PagingCriteria criteria)

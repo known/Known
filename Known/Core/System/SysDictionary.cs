@@ -77,13 +77,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        List<SysDictionary> GetDicCategories(Database db, string appId);
-        PagingResult<SysDictionary> QueryDictionarys(Database db, PagingCriteria criteria);
-        PagingResult<SysDictionary> QueryFrameDictionarys(Database db, PagingCriteria criteria);
-    }
-
     partial class SystemRepository
     {
         public List<SysDictionary> GetDicCategories(Database db, string appId)

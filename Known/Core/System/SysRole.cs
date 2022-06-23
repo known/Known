@@ -75,15 +75,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        PagingResult<SysRole> QueryRoles(Database db, PagingCriteria criteria);
-        void DeleteRoleUsers(Database db, string roleId);
-        List<MenuInfo> GetRoleModules(Database db, string appId, string roleId);
-        void DeleteRoleModules(Database db, string roleId);
-        void AddRoleModule(Database db, string roleId, string moduleId);
-    }
-
     partial class SystemRepository
     {
         public PagingResult<SysRole> QueryRoles(Database db, PagingCriteria criteria)

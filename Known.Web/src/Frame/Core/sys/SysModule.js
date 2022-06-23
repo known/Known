@@ -136,7 +136,7 @@ function SysModule() {
             tree.reload();
         },
         formOption: {
-            width: 980, height: 350,
+            width: 1100, height: 380,
             titleInfo: function (d) {
                 return d.ParentName ? '- ' + d.ParentName : '';
             },

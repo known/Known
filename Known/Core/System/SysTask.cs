@@ -49,11 +49,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        PagingResult<SysTask> QueryTasks(Database db, PagingCriteria criteria);
-    }
-
     partial class SystemRepository
     {
         public PagingResult<SysTask> QueryTasks(Database db, PagingCriteria criteria)

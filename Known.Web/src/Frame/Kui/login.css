@@ -14,7 +14,6 @@ body {
     background-repeat:no-repeat;background-attachment:fixed;
     font-family:'Microsoft YaHei', Arial, Verdana, sans-serif;
 }
-input, textarea {font-family:inherit;font-size:inherit;}
 /*Star Background
 body {
     background:radial-gradient(200% 100% at bottom center, #f7f7b6, #e96f92, #75517d, #1b2947);
@@ -75,13 +74,9 @@ body {
     position:absolute;left:1px;top:1px;font-size:1.5rem;z-index:9999;
     width:38px;line-height:36px;text-align:center;color:#d2d2d2;
 }
-.login-form-item input {
-    display:block;height:38px;line-height:38px;padding-left:38px;
-    border:1px solid #e6e6e6;outline:none;box-sizing:border-box;
-    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
-}
-.login-form-item label.error {color:#d9534f;}
-.login-form-item input.error {border:1px solid #d9534f;}
+.login-form-item input {display:block;height:38px;line-height:38px;padding-left:38px;}
+.login-form-item1 label.error {color:#d9534f;}
+.login-form-item input.error {border-bottom:3px solid #d9534f;}
 .login-form-radio {position:relative;margin-right:10px;height:30px;line-height:30px;cursor:pointer;}
 .login-form-radio input {position:absolute;top:4px;width:16px;height:16px;}
 .login-form-radio span {margin-left:20px;}

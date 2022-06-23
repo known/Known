@@ -215,18 +215,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        PagingResult<SysModule> QueryApps(Database db, PagingCriteria criteria);
-        PagingResult<SysModule> QueryModules(Database db, PagingCriteria criteria);
-        List<SysModule> GetSystems(Database db);
-        List<SysModule> GetModules(Database db, string appId);
-        List<SysModule> GetSubModules(Database db, string parentId);
-        bool ExistsModuleCode(Database db, string id, string parentId, string code);
-        bool ExistsSubModule(Database db, string parentId);
-        void DeleteModuleRights(Database db, string moduleId);
-    }
-
     partial class SystemRepository
     {
         public PagingResult<SysModule> QueryApps(Database db, PagingCriteria criteria)

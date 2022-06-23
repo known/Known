@@ -64,18 +64,17 @@
 }
 
 /*page*/
-.pager {line-height:30px;text-align:right;background-color:#fff;border-top:1px solid #d6d6d6;}
-.pager .pn {display:inline-block;padding-top:9px;margin-right:5px;}
+.pager {padding:5px;text-align:right;background-color:#fff;border-top:1px solid #d6d6d6;}
+.pager .pn {display:inline-block;margin-right:5px;}
 .pager .pn:after {content:'';clear:both;}
 .pager .pm {float:right;}
-.pager .pi {width:40px;height:20px;line-height:20px;}
-.pager .ps {width:60px;height:20px;line-height:20px;}
-.pager .fa {float:left;width:16px;margin-right:10px;cursor:pointer;}
+.pager .pi {width:40px;}
+.pager .ps {width:60px;}
+.pager .fa {float:left;font-size:1rem;width:18px;text-align:center;margin:6px;cursor:pointer;}
 .pager .fa-refresh {color:#00f;}
-.pager .fa-caret-left, 
-.pager .fa-caret-right {font-size:20px;margin-top:-3px;}
+.pager .fa-caret-left, .pager .fa-caret-right {font-size:1.5rem;margin-top:2px;}
 .pager .tip {float:left;color:#00f;margin-left:5px;}
-.pager-fixed {position:absolute;left:0;right:0;bottom:0;}
+.pager-fixed {position:absolute;left:0;right:0;bottom:0;z-index:9999;}
 
 /*footer*/
 .grid-footer {padding:5px;background-color:#fff;}

@@ -90,12 +90,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        PagingResult<SysNotice> QueryNotices(Database db, PagingCriteria criteria);
-        List<SysNotice> GetNewestNotices(Database db, string appId, string compNo, int size);
-    }
-
     partial class SystemRepository
     {
         public PagingResult<SysNotice> QueryNotices(Database db, PagingCriteria criteria)

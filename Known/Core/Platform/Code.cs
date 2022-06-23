@@ -50,11 +50,6 @@ namespace Known.Core
         }
     }
 
-    partial interface IPlatformRepository
-    {
-        List<CodeInfo> GetCodes(Database db, string appId, string compNo);
-    }
-
     partial class PlatformRepository
     {
         public List<CodeInfo> GetCodes(Database db, string appId, string compNo)

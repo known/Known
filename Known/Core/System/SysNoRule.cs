@@ -73,12 +73,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        List<SysNoRule> GetNoRules(Database db, string appId, string compNo);
-        bool ExistsNoRuleData(Database db, string ruleId);
-    }
-
     partial class SystemRepository
     {
         public List<SysNoRule> GetNoRules(Database db, string appId, string compNo)

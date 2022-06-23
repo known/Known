@@ -153,19 +153,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        PagingResult<SysUser> QueryUsers(Database db, PagingCriteria criteria);
-        bool ExistsUserName(Database db, string id, string userName);
-        List<SysRole> GetRoles(Database db, string appId, string compNo);
-        List<string> GetUserRoles(Database db, string userId);
-        void DeleteUserRoles(Database db, string userId);
-        void AddUserRole(Database db, string userId, string roleId);
-        List<string> GetUserModules(Database db, string userId);
-        void DeleteUserModules(Database db, string userId);
-        void AddUserModule(Database db, string userId, string moduleId);
-    }
-
     partial class SystemRepository
     {
         public PagingResult<SysUser> QueryUsers(Database db, PagingCriteria criteria)

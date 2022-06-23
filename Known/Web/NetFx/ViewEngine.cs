@@ -41,17 +41,13 @@ namespace Known.Web
             var info = new ViewAppInfo
             {
                 AppId = app.AppId,
-                AppName = app.AppName,
-                SupportName = app.SupportName,
-                SupportUrl = app.SupportUrl
+                AppName = app.AppName
             };
 
             if (user != null)
             {
                 info.AppId = user.AppId;
                 info.AppName = user.AppName;
-                info.SupportName = user.SupportName;
-                info.SupportUrl = user.SupportUrl;
             }
 
             return info;

@@ -13,15 +13,12 @@ namespace Known.Core
 {
     public partial class SystemService : ServiceBase, IService
     {
-        private static ISystemRepository Repository => Container.Resolve<ISystemRepository>(new SystemRepository());
+        private static readonly SystemRepository Repository = new SystemRepository();
         internal const string DevId = "DEV";
     }
 
-    public partial interface ISystemRepository
-    {
-    }
 
-    partial class SystemRepository : ISystemRepository
+    public partial class SystemRepository
     {
     }
 }

@@ -30,7 +30,7 @@ function Grid(name, option) {
         rowDataName = 'row';
     var _this = this, _moving = false,
         _view, _grid = _elem.parent(),
-        _where = { field: '', order: '' },
+        _where = {},
         _pageCount = 0,
         _columnLength = 0, _dataColumns = [], _forms = [], _inputs = [];
     var thead, tbody, page;
@@ -60,8 +60,8 @@ function Grid(name, option) {
         _checkBox = false;
     }
     if (showPage) {
-        _where.page = 1;
-        _where.limit = 10;
+        _where.PageIndex = 1;
+        _where.PageSize = 10;
     }
 
     //property
@@ -204,8 +204,7 @@ function Grid(name, option) {
                         .append('<i class="fa fa-caret-up">');
                     th.on('click', function () {
                         var $this = $(this), field = $this.attr('field');
-                        sort = {};
-                        sort[field] = _where.order === 'asc' ? 'desc' : 'asc';
+                        sort[field] = sort[field] === 'asc' ? 'desc' : 'asc';
                         _elem.find('th').removeClass('asc desc');
                         $this.addClass(sort[field]);
                         _this.reload();
@@ -240,15 +239,13 @@ function Grid(name, option) {
         if (option.querys) {
             _queryData(this.where);
         } else {
-            _where.load = isLoad === 0 ? 0 : 1;
-            _where.query = JSON.stringify(this.where);
-            var aFields = [], aSorts = [];
+            _where.IsLoad = isLoad === 0 ? 0 : 1;
+            _where.Query = JSON.stringify(this.where);
+            var orderBys = [];
             for (var f in sort) {
-                aFields.push(f);
-                aSorts.push(sort[f]);
+                orderBys.push(f + ' ' + sort[f]);
             }
-            _where.field = aFields.join(',');
-            _where.order = aSorts.join(',');
+            _where.OrderBys = orderBys;
             _queryData(_where);
         }
     }
@@ -340,7 +337,7 @@ function Grid(name, option) {
 
     //private
     function _setErrorMessage(message) {
-        _setMessage('center error', message);
+        _setMessage('center red', message);
     }
 
     function _setMessage(cls, message) {
@@ -409,7 +406,8 @@ function Grid(name, option) {
     function _queryPage(pageIndex) {
         if (_pageCount === 0 || pageIndex <= 0 || pageIndex > _pageCount)
             return;
-        _where.page = pageIndex;
+
+        _where.PageIndex = pageIndex;
         _this.reload(null, 0);
     }
 
@@ -805,9 +803,11 @@ function Grid(name, option) {
     }
 
     function _setPageInfo(count) {
-        if (!page.length) return;
-        _pageCount = Math.ceil(count / _where.limit);
-        page.find('.pi').val(_where.page);
+        if (!page.length)
+            return;
+
+        _pageCount = Math.ceil(count / _where.PageSize);
+        page.find('.pi').val(_where.PageIndex);
         page.find('.pc').html(_pageCount);
         page.find('.pt').html(count);
     }
@@ -832,7 +832,7 @@ function Grid(name, option) {
             if (top === 0)
                 top = 5;
             _grid.css({ top: top + 'px' });
-        }, 10);
+        }, 100);
     }
 
     function _init() {
@@ -884,10 +884,10 @@ function Grid(name, option) {
                 .on('click', callback);
         }
 
-        createPB('fa fa-refresh', Language.Refresh, function () { _queryPage(_where.page); });
+        createPB('fa fa-refresh', Language.Refresh, function () { _queryPage(_where.PageIndex); });
         createPB('fa fa-step-backward', Language.First, function () { _queryPage(1); });
-        createPB('fa fa-caret-left', Language.Previous, function () { _queryPage(_where.page - 1); });
-        createPB('fa fa-caret-right', Language.Next, function () { _queryPage(_where.page + 1); });
+        createPB('fa fa-caret-left', Language.Previous, function () { _queryPage(_where.PageIndex - 1); });
+        createPB('fa fa-caret-right', Language.Next, function () { _queryPage(_where.PageIndex + 1); });
         createPB('fa fa-step-forward', Language.Last, function () { _queryPage(_pageCount); });
 
         var pm = $('<span>').addClass('pm').appendTo(page);
@@ -907,7 +907,7 @@ function Grid(name, option) {
             .addClass('ps')
             .appendTo(pm)
             .on('change', function () {
-                _where.limit = $(this).val();
+                _where.PageSize = $(this).val();
                 _queryPage(1);
             });
         $(pageSizes).each(function (i, d) {
@@ -917,9 +917,12 @@ function Grid(name, option) {
         pm.append(totalText);
 
         _grid.after(page);
+
         if (fixed) {
             page.addClass('pager-fixed');
-            _grid.css({ bottom: '30px' });
+            setTimeout(function () {
+                _grid.css({ bottom: page.outerHeight() + 'px' });
+            }, 100);
         }
     }
 
@@ -937,7 +940,7 @@ function Grid(name, option) {
                 var footerHeight = footer.outerHeight();
                 if (page.length) {
                     page.css({ bottom: footerHeight + 'px' });
-                    footerHeight += 30;
+                    footerHeight += page.outerHeight();
                 }
                 _grid.css({ bottom: footerHeight + 'px' });
             }, 100);

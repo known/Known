@@ -22,8 +22,8 @@ public class AppModule : IAppModule
         PlatformAction.RegisterDictionary("DEV", (db, compNo) =>
         {
             var codes = new List<CodeInfo>();
-            var repository = Container.Resolve<ISystemRepository>();
-            var systems = repository.GetSystems(db);
+            var service = new SystemService();
+            var systems = service.GetSystems();
             if (systems != null && systems.Count > 0)
             {
                 codes = systems.Select(d => new CodeInfo("ProductData", d.Code, d.Name, d)).ToList();

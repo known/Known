@@ -53,7 +53,7 @@ function SysApp() {
             colIcon.field,
             { label: '选项', title: '状态', field: 'Enabled', width: '80px', type: 'checkbox', code: 'Enabled', required: true, align: 'center' },
             { label: '选项', title: 'App', field: 'Extension.App', width: '80px', type: 'checkbox', code: 'YesNo', required: true, align: 'center' },
-            { title: '顺序', field: 'Sort', width: '50px', type: 'text', required: true, align: 'center' },
+            { title: '顺序', field: 'Sort', width: '65px', type: 'text', required: true, align: 'center' },
             { title: '备注', field: 'Note', type: 'textarea', lineBlock: true }
         ],
         formOption: {

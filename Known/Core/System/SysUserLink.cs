@@ -68,12 +68,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        List<SysUserLink> GetUserLinks(Database db, string appId, string type, string userName);
-        void DeleteUserLinks(Database db, string appId, string type, string userName);
-    }
-
     partial class SystemRepository
     {
         public List<SysUserLink> GetUserLinks(Database db, string appId, string type, string userName)

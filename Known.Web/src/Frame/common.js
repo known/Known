@@ -14,14 +14,14 @@ const DateTimeFormat = 'yyyy-MM-dd HH:mm:ss';
 
 Date.prototype.format = function (fmt) {
     var o = {
-        'M+': this.getMonth() + 1,//月份   
-        'd+': this.getDate(),//日   
-        'h+': this.getHours(),//小时  
+        'M+': this.getMonth() + 1,//月份
+        'd+': this.getDate(),//日
+        'h+': this.getHours(),//小时
         'H+': this.getHours(),
-        'm+': this.getMinutes(),//分   
-        's+': this.getSeconds(),//秒   
-        'q+': Math.floor((this.getMonth() + 3) / 3), //季度   
-        'S': this.getMilliseconds()//毫秒   
+        'm+': this.getMinutes(),//分
+        's+': this.getSeconds(),//秒
+        'q+': Math.floor((this.getMonth() + 3) / 3), //季度
+        'S': this.getMilliseconds()//毫秒
     };
     if (/(y+)/.test(fmt)) {
         fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
@@ -752,7 +752,7 @@ var Page = {
         $('input[onenter]').keydown(function (event) {
             if ((event.keyCode || event.which) === 13) {
                 event.preventDefault();
-                var method = $(this).attr("onenter");
+                var method = $(this).attr('onenter');
                 eval(method);
             }
         });
@@ -777,18 +777,5 @@ $(document).ajaxComplete(function (evt, xhr, settings) {
         }
     }
 });
-$(document).contextmenu(function (e) {
-    e.preventDefault();
-});
-
-$(function () {
-    initDropdown();
-
-    $('input[onenter]').keydown(function (event) {
-        if ((event.keyCode || event.which) === 13) {
-            event.preventDefault();
-            var method = $(this).attr('onenter');
-            eval(method);
-        }
-    });
-});
+$(document).contextmenu(function (e) { e.preventDefault(); });
+$(function () { Page.complete(); });

@@ -46,13 +46,6 @@ namespace Known.Core
         }
     }
 
-    partial interface IPlatformRepository
-    {
-        string GetConfig(Database db, string appId, string key);
-        void DeleteConfig(Database db, string appId, string key);
-        void SaveConfig(Database db, string appId, string key, string value);
-    }
-
     partial class PlatformRepository
     {
         public string GetConfig(Database db, string appId, string key)

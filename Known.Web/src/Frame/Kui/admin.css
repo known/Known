@@ -13,19 +13,18 @@
 html, body, #app, .layout-admin {width:100%;height:100%;overflow:hidden;}
 .full-screen {position:absolute;top:0;left:0;right:0;bottom:0;z-index:99999;}
 .layout-header {
-    position:absolute;top:0;left:0;width:100%;height:40px;
-    background-color:#03173D;color:#ddd;
+    position:absolute;top:0;left:180px;right:0;height:50px;border-bottom:1px solid #ccc;
 }
-.layout-scroll {position:absolute;top:30px;left:0;bottom:0;width:180px;overflow-x:hidden;}
 .layout-side {
-    position:absolute;top:40px;left:0;bottom:0;width:160px;
-    background-color:#393D49;color:#ddd;overflow:hidden;
+    position:absolute;top:0;left:0;bottom:0;width:180px;
+    background-color:#191a23;color:#ddd;overflow:hidden;
 }
-.layout-nav {position:absolute;top:40px;left:160px;right:0;height:32px;border-bottom:1px solid #ccc;}
-.layout-body {position:absolute;top:73px;left:160px;right:0;bottom:0;overflow:hidden;}
-.layout-help {position:absolute;top:72px;right:0;bottom:0;width:400px;background-color:#fff;border-top:1px solid #ccc;border-left:1px solid #ccc;}
+.layout-scroll {position:absolute;top:50px;left:0;bottom:0;width:190px;overflow-x:hidden;}
+.layout-nav {position:absolute;top:50px;left:180px;right:0;height:32px;border-bottom:1px solid #ccc;}
+.layout-body {position:absolute;top:83px;left:180px;right:0;bottom:0;overflow:hidden;}
+.layout-help {position:absolute;top:82px;right:0;bottom:0;width:400px;background-color:#fff;border-top:1px solid #ccc;border-left:1px solid #ccc;}
 .layout-footer {
-    position:absolute;left:160px;right:0;bottom:0;display:none;
+    position:absolute;left:180px;right:0;bottom:0;display:none;
     height:30px;line-height:30px;
     background-color:#393D49;color:#ddd;
     text-align:right;padding-right:10px;
@@ -34,30 +33,36 @@ html, body, #app, .layout-admin {width:100%;height:100%;overflow:hidden;}
 .layout-side .fa {width:16px;height:16px;margin-right:2px;text-align:center;}
 
 /*header*/
-.logo {padding:0 15px;font-size:1.5rem;font-weight:bold;height:40px;line-height:40px;}
+.toggleMenu, .appName, .logo {height:50px;line-height:50px;}
+.toggleMenu {float:left;text-align:center;width:50px;cursor:pointer;}
+.appName {font-size:1.2rem;}
+.logo {
+    padding-left:14px;font-size:1.4rem;font-weight:bold;
+    color:#fff;overflow:hidden;border-bottom:1px solid #23262e;
+}
 .logo:before {margin-right:15px;}
 .nav {box-sizing:border-box;}
 .nav-item {cursor:pointer;}
-.nav .nav-item {display:inline-block;line-height:40px;padding:0 10px;}
+.nav .nav-item {display:inline-block;line-height:50px;padding:0 10px;}
 .nav-item .fa {margin-right:5px;}
 .nav-item img {
     width:30px;height:30px;vertical-align:middle;
     -webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;
 }
-.nav-child {display:none;top:40px;right:5px;-webkit-transition:all .3s;transition:all .3s;}
+.nav-child {display:none;top:50px;right:5px;-webkit-transition:all .3s;transition:all .3s;}
 .dropdown .nav-child dd {padding:0 20px;height:40px;line-height:40px;}
-#topMenu li {line-height:40px;}
+#topMenu li {line-height:50px;}
 #topMenu li:hover,#topMenu li.active {font-weight:bold;}
 #topMenu li:hover:before,#topMenu li.active:before {content:'';display:block;height:3px;background-color:#009688;}
 
 /*side*/
-.nav-tree {width:160px;}
+.nav-tree {width:180px;}
 .nav-tree .nav-child {background-color:#23262E;}
 .nav-tree .nav-child dd {padding-left:26px;}
 .nav-tree .nav-item {position:relative;line-height:45px;}
 .nav-tree .nav-title {padding:0 12px;}
 .nav-tree .nav-item span.fa {
-    position:absolute;top:13px;right:5px;
+    position:absolute;top:13px;right:10px;
     -webkit-transition:all .3s;transition:all .3s;
 }
 .nav-tree .nav-title,.nav-tree .nav-child dd {border-left:3px solid transparent;}
@@ -92,13 +97,12 @@ html, body, #app, .layout-admin {width:100%;height:100%;overflow:hidden;}
 }
 .layout-help .content p {text-indent:2em;text-align:justify;}
 .layout-help .content ol {padding-left:2em;text-align:justify;}
-
-.toggleMenu {text-align:center;height:30px;line-height:30px;cursor:pointer;}
 .help {position:absolute;top:8px;right:10px;font-size:1.1rem;font-weight:bold;color:#00f;cursor:pointer;}
 
 /*mini side*/
 .layout-mini .layout-side,
 .layout-mini .layout-side-scroll {width:50px !important;}
+.layout-mini .layout-header,
 .layout-mini .layout-nav,
 .layout-mini .layout-body,
 .layout-mini .layout-footer {left:50px !important;}

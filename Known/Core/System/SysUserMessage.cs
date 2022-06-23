@@ -99,12 +99,6 @@ namespace Known.Core
         }
     }
 
-    partial interface ISystemRepository
-    {
-        PagingResult<SysUserMessage> QueryUserMessages(Database db, PagingCriteria criteria);
-        void UpdateUserMessageStatus(Database db, string userId, string status);
-    }
-
     partial class SystemRepository
     {
         public PagingResult<SysUserMessage> QueryUserMessages(Database db, PagingCriteria criteria)

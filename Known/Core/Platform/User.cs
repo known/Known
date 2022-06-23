@@ -230,12 +230,8 @@ namespace Known.Core
             user.Host = Context.Host;
 
             var app = Config.App;
-            user.AppYun = app.CompNo != user.CompNo;
-            user.AppTopMenu = app.TopMenu;
             user.AppName = app.AppName;
             user.AppLang = app.AppLang;
-            user.SupportName = app.SupportName;
-            user.SupportUrl = app.SupportUrl;
             if (user.UserName == Constants.SysUserName)
             {
                 user.AppId = app.AppId;
@@ -244,7 +240,6 @@ namespace Known.Core
             var info = GetSystem();
             user.AppName = info.AppName;
             user.CompName = info.CompName;
-            user.AppValidDate = info.ValidDate;
             if (!string.IsNullOrEmpty(user.OrgNo))
             {
                 var orgName = Repository.GetOrgName(Database, user.AppId, user.CompNo, user.OrgNo);
@@ -268,18 +263,6 @@ namespace Known.Core
                            ? "/img/face2.png"
                            : "/img/face1.png";
         }
-    }
-
-    partial interface IPlatformRepository
-    {
-        UserInfo GetUser(Database db, string userName);
-        UserInfo GetUser(Database db, string userName, string password);
-        UserInfo GetUserById(Database db, string id);
-        List<MenuInfo> GetMenus(Database db, string appId);
-        List<MenuInfo> GetUserMenus(Database db, string appId, string userName);
-        string GetOrgName(Database db, string appId, string compNo, string orgNo);
-        void UpdateUser(Database db, UserInfo user);
-        void UpdatePassword(Database db, string id, string password);
     }
 
     partial class PlatformRepository

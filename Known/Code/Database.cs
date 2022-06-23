@@ -818,18 +818,22 @@ namespace Known
 
         internal string GetPagingSql(DatabaseType type, PagingCriteria criteria)
         {
+            var order = string.Empty;
             if (!criteria.PageIndex.HasValue)
             {
-                var order = string.Join(",", criteria.OrderBys.Select(f => f).ToArray());
+                if (criteria.OrderBys != null)
+                    order = string.Join(",", criteria.OrderBys.Select(f => f).ToArray());
+
                 if (string.IsNullOrEmpty(order))
                     return Text;
 
                 return $"{Text} order by {order}";
             }
 
-            var orderBy = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)).ToArray());
-            if (string.IsNullOrEmpty(orderBy))
-                orderBy = "t1.CreateTime";
+            if (criteria.OrderBys != null)
+                order = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)).ToArray());
+            if (string.IsNullOrEmpty(order))
+                order = "t1.CreateTime";
 
             var startNo = criteria.PageSize * (criteria.PageIndex - 1);
             var endNo = startNo + criteria.PageSize;
@@ -837,7 +841,7 @@ namespace Known
             {
                 return $@"
 select t1.* from ({Text}) t1 
-order by {orderBy} 
+order by {order} 
 limit {startNo}, {criteria.PageSize}";
             }
 
@@ -845,13 +849,13 @@ limit {startNo}, {criteria.PageSize}";
             {
                 return $@"
 select t1.* from ({Text}) t1 
-order by {orderBy} 
+order by {order} 
 limit {criteria.PageSize} offset {startNo}";
             }
 
             return $@"
 select t.* from (
-    select t1.*,row_number() over (order by {orderBy}) row_no 
+    select t1.*,row_number() over (order by {order}) row_no 
     from ({Text}) t1
 ) t where t.row_no>{startNo} and t.row_no<={endNo}";
         }

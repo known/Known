@@ -46,7 +46,7 @@
     display:inline-block;background-color:#e6e6e6;color:#333;cursor:pointer;
     outline:none;box-sizing:border-box;
     -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
-    height:28px;line-height:28px;padding:0 20px;margin:0 10px;
+    height:28px;line-height:28px;padding:0 20px;margin:0 5px;
 }
 .dialog-footer button.ok {background-color:#337ab7;color:#fff;}
 .dialog-footer button.cancel {background-color:#d9534f;color:#fff;}

@@ -150,10 +150,6 @@ namespace Known
     public class AppInfo
     {
         public bool IsMobile { get; set; }
-        public bool TopMenu { get; set; }
-        public bool ShowCaptcha { get; set; }
-        public bool HasMobile { get; set; }
-        public bool TraditionView { get; set; }
         public string CompNo { get; set; }
         public string CompName { get; set; }
         public string AppId { get; set; }
@@ -161,8 +157,6 @@ namespace Known
         public string AppLang { get; set; } = "zh-CN";
         public string AppUrl { get; set; }
         public string Description { get; set; }
-        public string SupportName { get; set; }
-        public string SupportUrl { get; set; }
         public string ProxyUrl { get; set; }
         public string UploadPath { get; set; }
         public Dictionary<string, object> Params { get; set; }

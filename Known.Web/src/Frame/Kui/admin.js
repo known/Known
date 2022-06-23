@@ -146,7 +146,14 @@ function Home() {
         this.render = function (dom, res) {
             var user = res.user;
             var header = $('<div>').addClass('layout-header').appendTo(dom);
-            logo = $('<span>').addClass('logo left').html(appName).appendTo(header);
+            var toggle = $('<div>').addClass('toggleMenu').appendTo(header);
+            $('<i>').addClass('fa fa-dedent')
+                .attr('title', Language.Collapse)
+                .appendTo(toggle)
+                .on('click', function () {
+                    _toggle($(this));
+                });
+            logo = $('<span>').addClass('appName left').html(appName).appendTo(header);
             topMenu = $('<ul>').attr('id', 'topMenu').addClass('nav left').appendTo(header);
 
             var right = $('<ul>').attr('id', 'topRight').addClass('nav right').appendTo(header);
@@ -300,6 +307,21 @@ function Home() {
                 action[type] ? action[type].call(this, othis) : '';
             });
         }
+
+        function _toggle(obj) {
+            var status = obj.data('status');
+            if (status && status === '1') {
+                obj.data('status', '0').addClass('fa-dedent').removeClass('fa-indent');
+                $('body').removeClass('layout-mini');
+            } else {
+                obj.data('status', '1').addClass('fa-indent').removeClass('fa-dedent');
+                $('body').addClass('layout-mini');
+                $('.nav-tree i').each(function (i, e) {
+                    var title = $(e).next().text();
+                    $(e).attr('title', title);
+                });
+            }
+        }
     }
 
     function LayoutBody(home, option) {
@@ -403,13 +425,7 @@ function Home() {
 
         function _createSider(layout) {
             var sider = $('<div>').addClass('layout-side').appendTo(layout);
-            var toggle = $('<div>').addClass('toggleMenu').appendTo(sider);
-            $('<i>').addClass('fa fa-dedent')
-                .attr('title', Language.Collapse)
-                .appendTo(toggle)
-                .on('click', function () {
-                    _toggle($(this));
-                });
+            $('<div>').addClass('logo').html('普漫科技').appendTo(sider);
             var scroll = $('<div>').addClass('layout-scroll').appendTo(sider);
             leftMenu = $('<ul>').addClass('nav-tree').appendTo(scroll);
         }
@@ -529,21 +545,6 @@ function Home() {
             Admin.CurrentTab = page;
             Admin.loadFrame(iframe, page);
             Admin.showHelp();
-        }
-
-        function _toggle(obj) {
-            var status = obj.data('status');
-            if (status && status === '1') {
-                obj.data('status', '0').addClass('fa-dedent').removeClass('fa-indent');
-                $('body').removeClass('layout-mini');
-            } else {
-                obj.data('status', '1').addClass('fa-indent').removeClass('fa-dedent');
-                $('body').addClass('layout-mini');
-                $('.nav-tree i').each(function (i, e) {
-                    var title = $(e).next().text();
-                    $(e).attr('title', title);
-                });
-            }
         }
     }
 }
