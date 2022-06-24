@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-23     KnownChen    调整布局
  * ------------------------------------------------------------------------------- */
 
 function Home() {
@@ -330,15 +331,16 @@ function Home() {
 
         //methods
         this.render = function (dom, res) {
+            _createSider(dom);
+            _createNavbar(dom);
+            var body = _createBody(dom);
+
             if (!res.menus.length) {
-                var div = $('<div>').addClass('layout-error').appendTo(dom);
-                var error = new Error({ type: '404' });
+                var div = $('<div>').addClass('layout-error').appendTo(body);
+                var error = new Error({ type: '403' });
                 error.render(div);
             } else {
                 _cloneMenus(res.menus);
-                _createSider(dom);
-                _createNavbar(dom);
-                _createBody(dom);
                 _initMenus(res);
             }
         }
@@ -498,7 +500,7 @@ function Home() {
         }
 
         function _createBody(layout) {
-            $('<div>').addClass('layout-body').appendTo(layout);
+            return $('<div>').addClass('layout-body').appendTo(layout);
         }
 
         //function _createFooter(layout) {

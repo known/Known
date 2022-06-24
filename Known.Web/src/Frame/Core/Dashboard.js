@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-24     KnownChen    统计数据
  * ------------------------------------------------------------------------------- */
 
 function Dashboard() {
@@ -78,26 +79,17 @@ function Dashboard() {
 
     function MyDashboard() {
         //fields
+        var url = {
+            GetCount: baseUrl + '/Home/GetCount'
+        };
         var notice, shortcut, commlink;
         var chartFlow = new ChartFlow();
         var chartBrowser = new ChartBrowser();
         var icons = [
-            {
-                name: '统计1', icon: 'fa fa-th-list', value: 20, width: '25%', style: { backgroundColor: '#00c0ef' }, onClick: function () {
-                    alert('统计');
-                }
-            },
-            {
-                name: '统计2', icon: 'fa fa-product-hunt', value: 10, width: '25%', style: { backgroundColor: '#00a65a' }, targetPage: {
-                    id: 'test',
-                    title: '测试',
-                    icon: 'fa fa-product-hunt',
-                    type: 'page',
-                    code: 'Test'
-                }
-            },
-            { name: '统计3', icon: 'fa fa-newspaper-o', value: 5, width: '25%', style: { backgroundColor: '#dd4b39' }, targetPage: 'SysDictionary' },
-            { name: '统计4', icon: 'fa fa-commenting-o', value: 0, width: '25%', style: { backgroundColor: '#f0ad4e' } }
+            { id: 'AppCount', name: '应用', icon: 'fa fa-product-hunt', value: 0, width: '25%', style: { backgroundColor: '#00c0ef' }, targetPage: 'SysApp' },
+            { id: 'ModuleCount', name: '资源', icon: 'fa fa-th-list', value: 0, width: '25%', style: { backgroundColor: '#00a65a' }, targetPage: 'SysModule' },
+            { id: 'UserCount', name: '用户', icon: 'fa fa-user', value: 0, width: '25%', style: { backgroundColor: '#dd4b39' }, targetPage: 'SysOrgUser' },
+            { id: 'LogCount', name: '日志', icon: 'fa fa-commenting-o', value: 0, width: '25%', style: { backgroundColor: '#f0ad4e' }, targetPage: 'SysLog' }
         ];
 
         //methods
@@ -109,6 +101,11 @@ function Dashboard() {
         }
 
         this.mounted = function () {
+            $.get('', function (res) {
+                for (var p in res) {
+                    $('#' + p + ' h3').html(res[p]);
+                }
+            });
             notice.load();
             shortcut.load();
             commlink.load();
