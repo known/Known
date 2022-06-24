@@ -8,6 +8,7 @@
  * Date           Author       Notes
  * 2020-08-20     KnownChen
  * 2022-06-16     KnownChen    Remove UseBlazorServer
+ * 2022-06-24     KnownChen    添加异步方法
  * ------------------------------------------------------------------------------- */
 
 #if NET6_0
@@ -22,6 +23,18 @@ namespace Known.Web;
 public class KHost
 {
     public static void Run(string[] args, Action<AppOption> action = null)
+    {
+        var app = RunApp(args, action);
+        app.Run(Config.App.AppUrl);
+    }
+
+    public static void RunAsync(string[] args, Action<AppOption> action = null)
+    {
+        var app = RunApp(args, action);
+        app.RunAsync(Config.App.AppUrl);
+    }
+
+    private static WebApplication RunApp(string[] args, Action<AppOption> action)
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -47,8 +60,7 @@ public class KHost
         Config.Init(option.App);
         var app = builder.Build();
         app.UseKMvcApp(option);
-
-        app.Run(Config.App.AppUrl);
+        return app;
     }
 }
 #endif
