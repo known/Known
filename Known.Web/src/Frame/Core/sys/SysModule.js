@@ -7,6 +7,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2020-08-20     KnownChen
+ * 2022-06-25     KnownChen    修复相关问题
  * ------------------------------------------------------------------------------- */
 
 function SysModuleTree(option) {
@@ -59,9 +60,8 @@ function SysModuleTree(option) {
 
     this.reload = function () {
         if (!isLoad) {
-            select.setUrl(url.GetSystems, function (d) {
-                _setTreeData(d[0]);
-            });
+            select.setUrl(url.GetSystems, function (d) { });
+            _setTreeData({ Code: '', Name: '全部' });
             isLoad = true;
         } else {
             tree.reload({ appId: select.getValue() });
@@ -163,7 +163,7 @@ function SysModule() {
                 },
                 addBtn: function (e) {
                     var node = tree.getSelectedNode();
-                    if (!node) {
+                    if (!node || !node.module.Code) {
                         Layer.tips('请选择模块！');
                         return;
                     }
@@ -225,7 +225,7 @@ function SysModule() {
         var cbList;
         Layer.open({
             title: '添加按钮 - ' + node.Name,
-            width: 400, height: 250,
+            width: 420, height: 250,
             content: '<div id="listButton" style="padding:10px;">',
             success: function () {
                 var btns = [
@@ -262,10 +262,9 @@ function SysModule() {
                         Layer.tips('请至少选择一个按钮！');
                         return;
                     }
-                    var currApp = tree.getSelectedApp();
                     var data = checks.map(function (d) {
                         var item = d.Data;
-                        item.AppId = currApp.Code;
+                        item.AppId = node.AppId;
                         item.ParentId = node.Id;
                         item.Code = d.Code;
                         item.Name = d.Name;
