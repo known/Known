@@ -82,7 +82,6 @@ namespace Known
                 CompNo = app.CompNo,
                 AppId = app.AppId,
                 AppName = app.AppName,
-                AppLang = app.AppLang,
                 Token = Config.MacAddress,
                 UserName = "local",
                 Name = Language.LocalUser

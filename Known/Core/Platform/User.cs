@@ -225,7 +225,6 @@ namespace Known.Core
 
             var app = Config.App;
             user.AppName = app.AppName;
-            user.AppLang = app.AppLang;
             if (user.IsAdmin)
             {
                 user.AppId = app.AppId;

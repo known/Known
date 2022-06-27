@@ -15,7 +15,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Known.Core;
 #if NET6_0
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
@@ -66,29 +65,38 @@ namespace Known.Web
             wwwrootName = wwwroot;
 #if NET6_0
             var token = request.Query["token"];
-            var a = request.Query["a"];
-            var m = request.Query["m"];
             var isHttps = request.Scheme == "https";
 #else
             var token = request.QueryString["token"];
-            var a = request.QueryString["a"];
-            var m = request.QueryString["m"];
             var isHttps = request.Url.Scheme == "https";
 #endif
 
             var app = Config.App;
-            if (!string.IsNullOrEmpty(token))
-                return GetLoginByToken(app.AppLang, token);
-
-            var user = UserHelper.GetUser(out _);
-            app = Config.GetCurrentApp(user, a);
             var appId = app.AppId;
             var appName = app.AppName;
+
+            if (!Config.IsInstalled)
+                return GetInstallHtml();
+
+            if (!string.IsNullOrEmpty(token))
+                return GetLoginHtmlByToken(token);
+
+            var user = UserHelper.GetUser(out _);
+            var isLogin = user == null;
             var cssFiles = new List<string>();
             var jsFiles = new List<string>();
-            var isApp = CheckMobile(request) || app.IsMobile;
-            var isPage = !string.IsNullOrEmpty(m);
-            InitStaticFiles(isApp, isPage, appId, app.AppLang, cssFiles, jsFiles);
+            if (isLogin)
+            {
+                cssFiles.AddRange(GetStaticFileUrls("/css/login.min.css", true));
+                jsFiles.AddRange(GetStaticFileUrls("/js/login.min.js", true));
+            }
+            else
+            {
+                cssFiles.AddRange(GetStaticFileUrls("/css/index.min.css", true));
+                jsFiles.AddRange(GetStaticFileUrls("/js/index.min.js", true));
+                cssFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.css"));
+                jsFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.js"));
+            }
 
             var lang = Thread.CurrentThread.CurrentUICulture.Name;
             var sb = new StringBuilder();
@@ -101,7 +109,7 @@ namespace Known.Web
             sb.AppendLine($"    <title>{appName}</title>");
             sb.AppendLine("    <base href=\"/\">");
 
-            if (!isPage && isHttps)
+            if (isLogin && isHttps)
             {
                 sb.AppendLine("    <link rel=\"manifest\" href=\"manifest.json\">");
                 sb.AppendLine("    <link rel=\"apple-touch-icon\" href=\"icon-512.png\" sizes=\"512x512\">");
@@ -110,9 +118,9 @@ namespace Known.Web
 
             sb.AppendLine($"    <link rel=\"stylesheet\" href=\"{GetStaticUrl("/css/font-awesome.css")}\">");
 
-            if (isPage)
+            if (!isLogin)
             {
-                sb.AppendLine($"    <link rel=\"stylesheet\" href=\"{GetStaticUrl("/libs/datepicker/datepicker.css")}\">");
+                sb.AppendLine($"    <link rel=\"stylesheet\" href=\"{GetStaticUrl("/libs/easyui/themes/material.css")}\">");
             }
 
             foreach (var item in cssFiles)
@@ -123,13 +131,13 @@ namespace Known.Web
             sb.AppendLine("</head>");
             sb.AppendLine("<body>");
             sb.AppendLine("    <div id=\"app\"></div>");
-            sb.AppendLine($"    <script>var appId='{appId}',appName='{appName}',baseUrl='',baseApiUrl='',staticUrl='{wwwroot}';</script>");
+            sb.AppendLine($"    <script>var appId='{appId}';</script>");
             sb.AppendLine($"    <script src=\"{GetStaticUrl("/js/jquery.min.js")}\"></script>");
 
-            if (isPage)
+            if (!isLogin)
             {
-                sb.AppendLine($"    <script src=\"{GetStaticUrl("/libs/datepicker/datepicker.js")}\"></script>");
-                sb.AppendLine($"    <script src=\"{GetStaticUrl("/libs/datepicker/datepicker.zh-CN.js")}\"></script>");
+                sb.AppendLine($"    <script src=\"{GetStaticUrl("/libs/easyui/jquery.easyui.min.js")}\"></script>");
+                sb.AppendLine($"    <script src=\"{GetStaticUrl("/libs/easyui/locale/easyui-lang-zh_CN.js")}\"></script>");
             }
 
             foreach (var item in jsFiles)
@@ -137,22 +145,9 @@ namespace Known.Web
                 sb.AppendLine($"    <script src=\"{item}\"></script>");
             }
 
-            if (isPage)
+            if (isLogin && isHttps)
             {
-                if (user == null)
-                    sb.AppendLine("    <script>top.app.login();</script>");
-                else
-                    sb.AppendLine("    <script>app.render();</script>");
-            }
-            else
-            {
-                if (!Config.IsInstalled)
-                    sb.AppendLine("    <script>app.install();</script>");
-                else if (!isApp)
-                    sb.AppendLine("    <script>app.home();</script>");
-
-                if (isHttps)
-                    sb.AppendLine("    <script>registerWorker();</script>");
+                sb.AppendLine("    <script>navigator.serviceWorker.register('service-worker.js');</script>");
             }
 
             sb.AppendLine("</body>");
@@ -160,7 +155,12 @@ namespace Known.Web
             return sb.ToString();
         }
 
-        private static string GetLoginByToken(string appLang, string token)
+        private static string GetInstallHtml()
+        {
+            return string.Empty;
+        }
+
+        private static string GetLoginHtmlByToken(string token)
         {
             var sb = new StringBuilder();
             sb.AppendLine("<!DOCTYPE html>");
@@ -171,52 +171,20 @@ namespace Known.Web
             sb.AppendLine("<body>");
             sb.AppendLine("    <div id=\"app\"></div>");
             sb.AppendLine($"    <script src=\"{GetStaticUrl("/js/jquery.min.js")}\"></script>");
-            sb.AppendLine($"    <script src=\"{GetStaticUrl($"/js/lang/{appLang}.min.js")}\"></script>");
-            sb.AppendLine("    <script>var baseUrl='';</script>");
-            sb.AppendLine($"    <script src=\"{GetStaticUrl("/js/index.min.js")}\"></script>");
-            sb.AppendLine($"    <script>loginByToken('{token}');</script>");
+            sb.AppendLine("    <script>");
+            sb.AppendLine("        $.post('/signToken', {");
+            sb.AppendLine($"            token: '{token}'");
+            sb.AppendLine("        }, function (res) {");
+            sb.AppendLine("            if (res.IsValid) {");
+            sb.AppendLine("                location = '/';");
+            sb.AppendLine("            } else {");
+            sb.AppendLine("                $('#app').html(res.Message);");
+            sb.AppendLine("            }");
+            sb.AppendLine("        });");
+            sb.AppendLine("    </script>");
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
             return sb.ToString();
-        }
-
-        private static void InitStaticFiles(bool isApp, bool isPage, string appId, string appLang, List<string> cssFiles, List<string> jsFiles)
-        {
-            if (isApp)
-                InitAppFiles(appId, appLang, cssFiles, jsFiles);
-            else if (isPage)
-                InitPageFiles(appId, appLang, cssFiles, jsFiles);
-            else
-                InitAdminFiles(appId, appLang, cssFiles, jsFiles);
-        }
-
-        private static void InitAppFiles(string appId, string appLang, List<string> cssFiles, List<string> jsFiles)
-        {
-            cssFiles.AddRange(GetStaticFileUrls("/css/app.min.css", true));
-            jsFiles.AddRange(GetStaticFileUrls($"/js/lang/{appLang}.min.js", true));
-            jsFiles.AddRange(GetStaticFileUrls("/js/app.min.js", true));
-            cssFiles.AddRange(GetStaticFileUrls($"/{appId}/app.min.css"));
-            jsFiles.AddRange(GetStaticFileUrls($"/{appId}/app.min.js"));
-        }
-
-        private static void InitAdminFiles(string appId, string appLang, List<string> cssFiles, List<string> jsFiles)
-        {
-            cssFiles.AddRange(GetStaticFileUrls("/css/index.min.css", true));
-            if (appId != Config.App.AppId)
-            {
-                cssFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.css"));
-            }
-            jsFiles.AddRange(GetStaticFileUrls($"/js/lang/{appLang}.min.js", true));
-            jsFiles.AddRange(GetStaticFileUrls("/js/index.min.js", true));
-        }
-
-        private static void InitPageFiles(string appId, string appLang, List<string> cssFiles, List<string> jsFiles)
-        {
-            cssFiles.AddRange(GetStaticFileUrls("/css/kui.min.css", true));
-            jsFiles.AddRange(GetStaticFileUrls($"/js/lang/{appLang}.min.js", true));
-            jsFiles.AddRange(GetStaticFileUrls("/js/kui.min.js", true));
-            cssFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.css"));
-            jsFiles.AddRange(GetStaticFileUrls($"/{appId}/page.min.js"));
         }
 
         private static string GetStaticUrl(string url)

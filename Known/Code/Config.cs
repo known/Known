@@ -8,6 +8,7 @@
  * Date           Author       Notes
  * 2020-08-20     KnownChen
  * 2022-06-15     KnownChen    App属性支持写入,不公开Init方法
+ * 2022-06-26     KnownChen    移除GetCurrentApp方法
  * ------------------------------------------------------------------------------- */
 
 using System;
@@ -16,7 +17,6 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using Known.Core;
-using Known.Entities;
 
 namespace Known
 {
@@ -71,55 +71,6 @@ namespace Known
             Init();
         }
 
-        internal static AppInfo GetCurrentApp(UserInfo user, string appId)
-        {
-            if (!string.IsNullOrEmpty(appId))
-            {
-                if (Apps == null)
-                    Apps = GetApps();
-
-                if (Apps != null && Apps.Count > 0)
-                {
-                    var app = Apps.FirstOrDefault(a => a.AppId == appId);
-                    if (app != null)
-                        return app;
-                }
-            }
-
-            if (user == null)
-                return App;
-
-            return new AppInfo
-            {
-                AppId = user.AppId,
-                AppLang = user.AppLang,
-                AppName = user.AppName,
-                IsMobile = App.IsMobile
-            };
-        }
-
-        private static List<AppInfo> GetApps()
-        {
-            var service = new SystemService();
-            var modules = service.GetSystems();
-            if (modules == null || modules.Count == 0)
-                return null;
-
-            return modules.Select(m => GetAppInfo(m)).ToList();
-        }
-
-        private static AppInfo GetAppInfo(SysModule module)
-        {
-            var isMobile = module.Ext != null && module.Ext.App == 1;
-            return new AppInfo
-            {
-                AppId = module.Code,
-                AppName = module.Name,
-                AppLang = App.AppLang,
-                IsMobile = isMobile
-            };
-        }
-
         public static Dictionary<string, string> GetExeSettings(string exePath)
         {
             var xmlFile = $"{exePath}.config";
@@ -149,12 +100,10 @@ namespace Known
 
     public class AppInfo
     {
-        public bool IsMobile { get; set; }
         public string CompNo { get; set; }
         public string CompName { get; set; }
         public string AppId { get; set; }
         public string AppName { get; set; }
-        public string AppLang { get; set; } = "zh-CN";
         public string AppUrl { get; set; }
         public string Description { get; set; }
         public string ProxyUrl { get; set; }
