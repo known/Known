@@ -25,7 +25,7 @@ function LayoutHead(body) {
     var header, userPanel;
 
     this.render = function (dom) {
-        header = $('<div>').addClass('layout-header').appendTo(dom);
+        header = $('<div>').addClass('kui-header').appendTo(dom);
         _createToggle();
         _createNavTool();
     }
@@ -55,10 +55,10 @@ function LayoutHead(body) {
         var status = obj.data('status');
         if (status && status === '1') {
             obj.data('status', '0').addClass('fa-dedent').removeClass('fa-indent');
-            $('body').removeClass('layout-mini');
+            $('body').removeClass('kui-mini');
         } else {
             obj.data('status', '1').addClass('fa-indent').removeClass('fa-dedent');
-            $('body').addClass('layout-mini');
+            $('body').addClass('kui-mini');
             $('.nav-tree i').each(function (i, e) {
                 var title = $(e).next().text();
                 $(e).attr('title', title);
@@ -88,7 +88,7 @@ function LayoutHead(body) {
     }
 
     function _createToolItem(parent, title, icon, action) {
-        var li = $('<li>').addClass('nav-item top-right')
+        var li = $('<li>').addClass('nav-item')
             .attr('title', title)
             .on('click', action)
             .appendTo(parent);
@@ -107,7 +107,6 @@ function LayoutHead(body) {
 
         var child = $('<dl>').addClass('nav-child child').appendTo(dropdown);
         $('<dd>')
-            .addClass('top-right')
             .append('<i class="fa fa-user">')
             .append($('<span>').html(lang.UserCenter))
             .appendTo(child)
@@ -117,7 +116,6 @@ function LayoutHead(body) {
                 });
             });
         $('<dd>')
-            .addClass('top-right')
             .append('<i class="fa fa-power-off">')
             .append($('<span>').html(lang.SafeLogout))
             .appendTo(child).on('click', function () {

@@ -15,10 +15,10 @@ function LayoutSide(body) {
 
     //methods
     this.render = function (dom) {
-        var sider = $('<div>').addClass('layout-side').appendTo(dom);
+        var sider = $('<div>').addClass('kui-side').appendTo(dom);
         var logo = $('<div>').addClass('logo').appendTo(sider);
         $('<img>').attr('src', '/img/logo.png').appendTo(logo);
-        var scroll = $('<div>').addClass('layout-scroll').appendTo(sider);
+        var scroll = $('<div>').addClass('kui-scroll').appendTo(sider);
         leftMenu = $('<ul>').addClass('nav-tree').appendTo(scroll);
     }
 

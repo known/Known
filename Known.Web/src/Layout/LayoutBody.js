@@ -15,7 +15,7 @@ function LayoutBody() {
     //methods
     this.render = function (dom) {
         tabs = $('<div>')
-            .addClass('layout-body easyui-tabs')
+            .addClass('kui-body easyui-tabs')
             .appendTo(dom);
         _createDashboard(tabs);
         $(tabs).tabs({
@@ -34,6 +34,9 @@ function LayoutBody() {
 
     this.resize = function () {
         $(tabs).tabs('resize');
+        for (var p in LayoutBody.Resizer) {
+            LayoutBody.Resizer[p]();
+        }
     }
 
     this.refresh = function () {
@@ -69,3 +72,11 @@ function LayoutBody() {
         });
     }
 }
+
+LayoutBody.Resizer = {};
+
+$(window).resize(function () {
+    for (var p in LayoutBody.Resizer) {
+        LayoutBody.Resizer[p]();
+    }
+});

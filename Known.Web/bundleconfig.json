@@ -22,6 +22,7 @@
     "outputFileName": "wwwroot/js/index.min.js",
     "inputFiles": [
       "src/core.js",
+      "src/Components/*.js",
       "src/Layout/*.js",
       "src/Pages/*.js",
       "src/Pages/*/*.js",
