@@ -1,0 +1,26 @@
+﻿/*login*/
+.login-entry {position:absolute;right:5px;bottom:5px;color:#00f;}
+.login {position:absolute;top:0;left:0;right:0;bottom:0;z-index:99999;background-color:#1858B1;color:#fff;}
+
+/*home*/
+.status {padding:5px;height:60px;}
+.status-item {float:left;position:relative;width:33.33%;height:100%;color:#fff;font-weight:bold;text-align:center;}
+.status-item .name {display:block;width:100%;position:absolute;top:10px;text-align:center;}
+.status-item .num {display:block;width:100%;position:absolute;top:30px;text-align:center;}
+
+/*search*/
+.search-tip {color:#00f;padding-top:10px;}
+.search-result {color:#f00;text-align:center;padding:20px;font-size:30px;font-weight:bold;}
+
+/*cust*/
+.cust, .cust-form, .cust-track {position:absolute;top:60px;left:0;right:0;bottom:0;overflow:auto;}
+.cust .list-item .badge {position:absolute;top:10px;right:15px;}
+.cust-info {padding-right:80px;}
+.cust-item {display:block;}
+.cust-type {color:#1858B1;}
+.cust-item.time {color:#808080;font-size:13px;}
+.cust-form {top:50px;bottom:50px;}
+.cust-form-button {position:absolute;bottom:0;width:100%;text-align:center;border-top:1px solid #ccc;padding:5px 0;}
+.cust-track {top:50px;}
+.cust-track .time {font-weight:bold;padding:5px;}
+.cust-track .note {padding:0 5px;}

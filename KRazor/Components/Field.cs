@@ -205,8 +205,11 @@ public class Field : BaseComponent
                     attr.OnChange(EventCallback.Factory.CreateBinder<bool>(this, v =>
                     {
                         action?.Invoke(v, value);
-                        FieldContext.Field = Id;
-                        OnValueChanged?.Invoke(FieldContext, value);
+                        if (FieldContext != null)
+                        {
+                            FieldContext.Field = Id;
+                            OnValueChanged?.Invoke(FieldContext, value);
+                        }
                     }, isChecked));
                 }
                 else
@@ -224,7 +227,7 @@ public class Field : BaseComponent
         {
             Value = value;
             action?.Invoke(DateTime.Parse(value));
-            if (AppContext != null)
+            if (FieldContext != null)
             {
                 FieldContext.Field = Id;
                 OnValueChanged?.Invoke(FieldContext, GetValue());

@@ -35,6 +35,9 @@ public class ListField : Field
         if (CodeAction != null)
             return CodeAction();
 
+        if (string.IsNullOrEmpty(Codes))
+            return null;
+
         return Codes.Split(',').Select(d => new CodeInfo(d, d)).ToArray();
     }
 }

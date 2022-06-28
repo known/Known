@@ -59,13 +59,13 @@ public class AppLayout : AppComponent
         builder.Component<CascadingValue<AppContext>>(attr =>
         {
 				attr.Add(nameof(CascadingValue<AppContext>.IsFixed), true)
-                .Add(nameof(CascadingValue<AppContext>.Value), AppContext)
+                    .Add(nameof(CascadingValue<AppContext>.Value), AppContext)
 				    .Add(nameof(CascadingValue<AppContext>.ChildContent), delegate (RenderTreeBuilder builder1)
-                {
-                    BuildTopbar(builder1);
-                    BuildContent(builder1);
-                    BuildTabbar(builder1);
-                });
+                    {
+                        BuildTopbar(builder1);
+                        BuildContent(builder1);
+                        BuildTabbar(builder1);
+                    });
         });
 
         builder.Component<DialogContainer>(attr => builder.Reference(dialog));

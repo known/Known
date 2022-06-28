@@ -1,0 +1,64 @@
+﻿@page "/Analyze"
+@inherits BasePage
+
+<PageLayout Option="option">
+    <div style="height:50%;">
+        <Chart @ref="chart1" Id="chartType" Title="客户类型统计" PlotOptions="plotOptions1" />
+    </div>
+    <div style="height:50%;">
+        <Chart @ref="chart2" Id="chartStatus" Title="客户状态统计" YAxis="yAxis" PlotOptions="plotOptions2" />
+    </div>
+    @if (IsAdmin)
+    {
+        <div style="height:50%;">
+            <Chart @ref="chart3" Id="chartSaleBy" Title="销售业绩统计" YAxis="yAxis" PlotOptions="plotOptions2" />
+        </div>
+    }
+</PageLayout>
+
+@code {
+    private LayoutOption option = LayoutOption.Main("统计分析");
+    private Chart chart1;
+    private Chart chart2;
+    private Chart chart3;
+    private object plotOptions1 = new
+    {
+        pie = new
+        {
+            dataLabels = new { enabled = true },
+            showInLegend = true
+        }
+    };
+    private object yAxis = new
+    {
+        title = new { text = "客户数量" },
+        stackLabels = new { enabled = true }
+    };
+    private object plotOptions2 = new
+    {
+        column = new { stacking = "normal", dataLabels = new { enabled = true } }
+    };
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if (firstRender)
+            ShowChart();
+    }
+
+    private void ShowChart()
+    {
+        //var data1 = Service.GetTypeChart();
+        //chart1.ShowPie(new[] { data1 });
+
+        //var data2 = Service.GetStatusChart();
+        //chart2.ShowBar(data2);
+
+        if (IsAdmin)
+        {
+            //var data3 = Service.GetSaleByChart();
+            //chart3.ShowBar(data3);
+        }
+    }
+}

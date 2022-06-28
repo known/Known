@@ -1,0 +1,62 @@
+﻿@inherits BasePage
+
+<CascadingValue Value="context">
+    @if (Option.ShowTopbar)
+    {
+        <Topbar ShowBack="Option.ShowBack" Title="@Option.Title" Tool="TopTool" />
+    }
+    <div class="content @Option.Style" style="top:@(conTop)px;bottom:@(conBottom)px;">
+        @ChildContent
+    </div>
+    @if (Option.ShowTabbar)
+    {
+        <Tabbar Items="menus" CurItem="curItem" OnChanged="OnMenuChanged" />
+    }
+</CascadingValue>
+<DialogContainer @ref="dialog" />
+
+@code {
+    private Known.Razor.AppContext context;
+    private DialogContainer dialog;
+    private int conTop;
+    private int conBottom;
+
+    private MenuItem curItem;
+    private MenuItem[] menus = new MenuItem[]
+    {
+        new MenuItem("Home", "首页", "fa fa-home"),
+        new MenuItem("Analyze", "分析", "fa fa-line-chart small"),
+        new MenuItem("Mine", "我的", "fa fa-user-o small")
+    };
+
+    [Parameter] public LayoutOption Option { get; set; }
+    [Parameter] public MenuItem TopTool { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        context = new Known.Razor.AppContext();
+        conTop = Option.ShowTopbar ? 50 : 0;
+        conBottom = Option.ShowTabbar ? 50 : 0;
+        if (Option.ShowTabbar)
+        {
+            var id = Navigation.Uri.Replace(Navigation.BaseUri, "");
+            curItem = menus.FirstOrDefault(m => m.Id == id);
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            context.Dialog = dialog;
+        }
+    }
+
+    private void OnMenuChanged(MenuItem menu)
+    {
+        Navigation.NavigateTo(menu.Id);
+    }
+}

@@ -1,0 +1,33 @@
+﻿@page "/login"
+@inherits BasePage
+
+<div class="login">
+    <Form @ref="form" Style="login-form">
+        <h1>@Config.App.AppName</h1>
+        <Text Id="UserName" Icon="fa fa-user-o" Placeholder="用户名" Value="System" Required="true" />
+        <Password Id="Password" Icon="fa fa-lock" Placeholder="密码" Value="1" Required="true" />
+        <Button Text="登 录" OnClick="OnLogin" />
+        <div id="message" style="margin-top:15px;">@message</div>
+    </Form>
+    <div class="footer">技术支持：普漫科技</div>
+</div>
+
+@code {
+    private Form form;
+    private string message;
+
+    private void OnLogin()
+    {
+        form.Submit(data =>
+        {
+            var userName = (string)data.UserName;
+            var password = (string)data.Password;
+            //var result = Service.Login(userName, password);
+            //message = result.Message;
+            //if (result.IsValid)
+            //{
+                Navigation.NavigateTo("/");
+            //}
+        });
+    }
+}

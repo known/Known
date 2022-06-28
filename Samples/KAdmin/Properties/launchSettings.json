@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "KAdmin": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:60025;http://localhost:60026"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+﻿@page "/Mine"
+@inherits BasePage
+
+<PageLayout Option="option">
+    <div class="avatar">
+        <img src="_content/KRazor/img/@userAvatar" />
+    </div>
+
+    <GroupList Items="userInfos" />
+    
+    <Button Text="安全退出" Style="danger" OnClick="OnLogout" />
+</PageLayout>
+
+@code {
+    private LayoutOption option = LayoutOption.Main("我的信息", "mine");
+    private string userAvatar;
+    private GroupListItem[] userInfos;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        var user = CurrentUser;
+        userAvatar = user.Gender == "男" ? "face1.png" : "face2.png";
+        userInfos = new GroupListItem[]
+        {
+             new GroupListItem { Icon = "fa fa-user", Text = $"{user.Name}({user.UserName})" },
+             new GroupListItem { Icon = "fa fa-mobile", Text = user.Mobile },
+             new GroupListItem { Icon = "fa fa-envelope-o", Text = user.Email },
+             new GroupListItem { Icon = "fa fa-cog", Text = "个人设置", Route = "SysMyProfile" },
+             new GroupListItem { Icon = "fa fa-lock", Text = "修改密码", Route = "SysChangePwd" },
+             new GroupListItem { Icon = "fa fa-users", Text = "我的客户", Route = "CustMyQuery" }
+        };
+    }
+
+    private void OnLogout()
+    {
+        UI.Confirm("确定要退出系统？", () =>
+        {
+            Platform.SignOut(CurrentUser.UserName);
+            Navigation.NavigateTo("/");
+        });
+    }
+}
