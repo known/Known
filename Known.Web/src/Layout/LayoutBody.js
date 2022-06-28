@@ -22,6 +22,7 @@ function LayoutBody() {
             onAdd: function (title, index) {
                 var tab = $(this).tabs('getTab', title);
                 var pageId = tab.attr('id');
+                tab.addClass('kui-layout');
                 Admin.render(tab, pageId);
             },
             onSelect: function (title, index) {

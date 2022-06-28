@@ -67,6 +67,7 @@ body {background-color:#f1f1f1;font-family:'Segoe UI', Tahoma, Geneva, Verdana, 
 }
 .kui-error {position:absolute;top:40px;left:0;right:0;bottom:0;}
 .kui-side .fa {width:16px;height:16px;margin-right:2px;text-align:center;}
+.kui-layout {position:absolute;top:0;left:0;right:0;bottom:0;padding:5px;background-color:inherit;}
 
 /*header*/
 .toggleMenu, .appName, .logo {height:50px;line-height:50px;}
@@ -162,6 +163,4 @@ body {background-color:#f1f1f1;font-family:'Segoe UI', Tahoma, Geneva, Verdana, 
 .ws-func {position:absolute;top:0;right:0;width:300px;height:auto;}
 
 /*easyui*/
-.kui-body .tabs-panels {position:absolute;top:35px;left:0;right:0;bottom:0;}
-.kui-body .panel-htop {position:absolute;top:0;left:0;right:0;bottom:0;}
-.kui-body .layout {position:absolute;top:5px;left:5px;right:5px;bottom:5px;}
+.tabs-panels {position:absolute;top:35px;left:0;right:0;bottom:0;}

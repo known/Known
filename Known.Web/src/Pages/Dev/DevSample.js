@@ -26,14 +26,10 @@ function DevSample() {
 
     //methods
     this.render = function (dom) {
-        var layout = $('<div>').addClass('easyui-layout').appendTo(dom);
-        $(layout).layout();
+        var layout = EUILayout('DevSample', dom);
         $(layout).layout('add', { id: 'dsMenu', region: 'west', title: '示例菜单', width: '180px', split: true });
         $(layout).layout('add', { id: 'dsPage', region: 'center', title: '<span id="dsTitle">示例</span>' });
         _createMenu('#dsMenu');
-        LayoutBody.Resizer.resizeDevSample = function () {
-            $(layout).layout('resize');
-        };
     }
 
     //private
