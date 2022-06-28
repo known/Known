@@ -6,7 +6,7 @@
  * 
  * Change Logs:
  * Date           Author       Notes
- * 2022-06-26     KnownChen
+ * 2022-06-26     KnownChen    初始化
  * ------------------------------------------------------------------------------- */
 
 function Dashboard() {
