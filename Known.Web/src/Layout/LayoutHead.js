@@ -100,9 +100,9 @@ function LayoutHead(body) {
         var title = $('<div>').addClass('nav-title title').appendTo(dropdown);
         userAvatar = $('<img>')
             .attr('alt', 'Avatar')
-            .attr('src', '/img/face1.png')
+            .attr('src', curUser.AvatarUrl)
             .appendTo(title);
-        userName = $('<span>').appendTo(title);
+        userName = $('<span>').html(curUser.Name).appendTo(title);
         $('<i>').addClass('fa fa-caret-down arrow').appendTo(title);
 
         var child = $('<dl>').addClass('nav-child child').appendTo(dropdown);

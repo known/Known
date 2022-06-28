@@ -32,9 +32,10 @@ ul {list-style:none;}
 .doc {color:#134bb1;}
 .xls {color:#0e763c;}
 .ppt {color:#bf3919;}
+.content {padding:5px;}
 
 /*scrollbar*/
-::-webkit-scrollbar {width:8px;height:8px}
+::-webkit-scrollbar {width:8px;height:8px;}
 ::-webkit-scrollbar-track {
     background-color:transparent;
     -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
@@ -46,6 +47,7 @@ ul {list-style:none;}
 
 /*Layout*/
 html, body, #app, .kui-admin {width:100%;height:100%;overflow:hidden;}
+body {background-color:#f1f1f1;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
 .full-screen {position:absolute;top:0;left:0;right:0;bottom:0;z-index:99999;}
 .kui-header {
     position:absolute;top:0;left:180px;right:0;height:50px;
@@ -113,20 +115,6 @@ html, body, #app, .kui-admin {width:100%;height:100%;overflow:hidden;}
 }
 .nav-tree .nav-title.active,.nav-tree .nav-child dd.active {border-left-color:#5FB878;}
 
-/*help*/
-.kui-help .title {
-    position:absolute;top:0;left:0;right:0;height:30px;line-height:30px;
-    border-bottom:1px solid #ccc;font-weight:bold;padding-left:5px;
-}
-.kui-help .close {position:absolute;top:2px;right:5px;cursor:pointer;font-size:16px;padding:5px;z-index:9999;}
-.kui-help .close:hover {color:#d9534f;}
-.kui-help .content {
-    position:absolute;top:30px;left:0;right:0;bottom:0;overflow:auto;padding:10px;line-height:25px;
-}
-.kui-help .content p {text-indent:2em;text-align:justify;}
-.kui-help .content ol {padding-left:2em;text-align:justify;}
-.help {position:absolute;top:8px;right:10px;font-size:1.1rem;font-weight:bold;color:#00f;cursor:pointer;}
-
 /*mini side*/
 .kui-mini .kui-side,
 .kui-mini .kui-side-scroll {width:50px !important;}
@@ -145,33 +133,6 @@ html, body, #app, .kui-admin {width:100%;height:100%;overflow:hidden;}
     .kui-side .nav-tree span {display:none;}
 }
 
-/*Loader*/
-.loader {position:fixed;top:0;left:0;width:100%;height:100%;background-color:#ffffff;z-index:999999;}
-.loader-inner {
-    display:block;position:relative;left:50%;top:50%;
-    width:100px;height:100px;margin:-50px 0 0 -50px;
-    border:3px solid transparent;border-top-color:#1E9FFF;
-    -webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;
-    animation:spin 2s linear infinite;
-}
-.loader-inner:before {
-    position:absolute;top:5px;left:5px;right:5px;bottom:5px;
-    border:3px solid transparent;border-top-color:#1E9FFF;
-    -webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;
-    content:"";animation:spin 3s linear infinite;
-}
-.loader-inner:after {
-    position:absolute;top:15px;left:15px;right:15px;bottom:15px;
-    border:3px solid transparent;border-top-color:#1E9FFF;
-    -webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;
-    content:"";animation:spin 1.5s linear infinite;
-}
-
-@keyframes spin {
-    0% {transform:rotate(0deg);}
-    to {transform:rotate(1turn);}
-}
-
 /*alert*/
 .kui-alert {padding:20px;}
 .alert-content {padding:30px;font-size:18px;}
@@ -179,6 +140,28 @@ html, body, #app, .kui-admin {width:100%;height:100%;overflow:hidden;}
 .kui-alert button {font-size:16px;padding:0 20px;}
 .kui-alert button.cancel {background-color:#d9534f;}
 
+/*card*/
+.card {position:relative;background-color:#fff;}
+.card-head {
+    font-size:1rem;height:40px;line-height:40px;
+    position:relative;padding:0 10px;border-bottom:1px solid #ddd;
+}
+.card-head i {margin-right:5px;}
+.card-head .tool {position:absolute;top:0;right:10px;color:#00f;cursor:pointer;font-weight:normal;}
+.card-body {position:relative;padding:5px;overflow:auto;}
+
+/*dashboard*/
+#Dashboard {position:absolute;top:0;left:0;right:0;bottom:0;}
+.row {position:relative;height:auto;}
+.ws-card {padding:10px 20px;margin-bottom:10px;}
+.ws-title {font-size:1.3rem;padding:10px;}
+.ws-avatar {width:80px;height:80px;}
+.ws-name {position:absolute;top:70px;left:120px;font-size:1.2rem;font-weight:bold;}
+.ws-tips {position:absolute;top:105px;left:120px;color:#888;}
+.ws-todo {position:absolute;top:0;left:0;right:310px;height:auto;}
+.ws-func {position:absolute;top:0;right:0;width:300px;height:auto;}
+
 /*easyui*/
 .kui-body .tabs-panels {position:absolute;top:35px;left:0;right:0;bottom:0;}
+.kui-body .panel-htop {position:absolute;top:0;left:0;right:0;bottom:0;}
 .kui-body .layout {position:absolute;top:5px;left:5px;right:5px;bottom:5px;}

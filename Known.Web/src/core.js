@@ -28,8 +28,12 @@ Date.prototype.format = function (fmt) {
         'q+': Math.floor((this.getMonth() + 3) / 3), //季度
         'S': this.getMilliseconds()//毫秒
     };
-    if (/(y+)/.test(fmt)) {
+    if (/(y+)/.test(fmt)) {//年
         fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+    }
+    if (/(w+)/.test(fmt)) {//星期
+        var a = new Array('日', '一', '二', '三', '四', '五', '六');
+        fmt = fmt.replace(RegExp.$1, '星期' + a[this.getDay()]);
     }
     for (var k in o) {
         if (new RegExp('(' + k + ')').test(fmt)) {
