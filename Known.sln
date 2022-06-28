@@ -5,11 +5,13 @@ VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known", "Known\Known.csproj", "{68454A71-D916-4162-9B93-0FF4D61B7C31}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Web", "Known.Web\Known.Web.csproj", "{5C99FEBF-02FA-4633-92FC-B68E671679A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KWeb", "KWeb\KWeb.csproj", "{5C99FEBF-02FA-4633-92FC-B68E671679A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Dev", "Known.Dev\Known.Dev.csproj", "{CAEFF207-D0A7-4F2A-8FDE-53DCB8D814AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KStudio", "KStudio\KStudio.csproj", "{E0170D71-8D14-4C41-A3B8-00C2E75BE589}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KStudio", "KStudio\KStudio.csproj", "{E0170D71-8D14-4C41-A3B8-00C2E75BE589}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KRazor", "KRazor\KRazor.csproj", "{F065FB23-42F7-40CE-85BC-EF61DF092E6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E0170D71-8D14-4C41-A3B8-00C2E75BE589}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0170D71-8D14-4C41-A3B8-00C2E75BE589}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0170D71-8D14-4C41-A3B8-00C2E75BE589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F065FB23-42F7-40CE-85BC-EF61DF092E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F065FB23-42F7-40CE-85BC-EF61DF092E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F065FB23-42F7-40CE-85BC-EF61DF092E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F065FB23-42F7-40CE-85BC-EF61DF092E6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

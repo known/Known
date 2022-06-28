@@ -1,0 +1,92 @@
+﻿/* -------------------------------------------------------------------------------
+ * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
+ * 
+ * WebSite: https://www.pumantech.com
+ * Contact: knownchen@163.com
+ * 
+ * Change Logs:
+ * Date           Author       Notes
+ * 2022-04-01     KnownChen
+ * ------------------------------------------------------------------------------- */
+
+@import "common.css";
+
+body {font-size:18px;}
+button, input, select, textarea, .form-input .text,
+.form-label, .form-text, .form-radio, .form-tips {height:40px;line-height:40px;}
+.form-label {padding:0;}
+.form-radio input {top:10px;}
+.topbar, .tabbar {position:absolute;left:0;right:0;}
+.content {position:absolute;top:0;bottom:0;left:0;right:0;overflow:auto;}
+.search-box .icon {font-size:1.8rem;}
+.form, .inline {padding:10px 20px;}
+.inline .form-item {display:block;}
+.inline .form-text, .inline .form-input, .inline .form-tips {display:block;padding-left:90px;}
+.inline .form-label {float:left;}
+
+/*data*/
+.pager {border-top:1px solid #ccc;}
+.pager .btns {display:block;}
+.pager .btns li {display:inline-block;width:33.33%;margin:0;text-align:center;}
+.pager .btns li.text {color:#333;}
+
+/*login*/
+.login {background-color:#337ab7;}
+.login-form {width:300px;height:340px;margin-left:-150px;margin-top:-170px;padding:0;}
+.login .form-input {display:block;margin-bottom:15px;}
+.login .form-input input {padding-left:40px;}
+.login h1 {text-align:center;margin-bottom:30px;}
+.login .footer {position:absolute;left:0;bottom:0;width:100%;padding-bottom:15px;}
+.login .footer a {color:#fff;}
+
+/*menu*/
+.menu {padding:20px 10px;}
+.menu .menu-item {float:left;width:50%;height:110px;text-align:center;}
+.menu .menu-item .icon {
+    width:60px;height:60px;line-height:60px;font-size:1.8rem;margin:5px auto;
+    color:#fff;text-align:center;position:relative;display:block;
+}
+.menu .menu-item .name {color:#777;}
+.menu .menu-item .badge {top:0;right:0;}
+
+/*topbar*/
+.topbar, .topbar .back, .topbar .tool {height:50px;line-height:50px;}
+.topbar {top:0;z-index:1000;background-color:#428bca;color:#fff;font-size:16px;}
+.topbar .back {width:40px;text-align:center;}
+.topbar .back-title {font-weight:bold;}
+.topbar .title {font-weight:bold;padding-left:20px;}
+.topbar .tool {position:absolute;top:0;right:0;padding:0 15px;text-align:center;z-index:10001;}
+
+/*tabbar*/
+.tabbar {bottom:0;height:50px;background-color:#f1f1f1;border-top:1px solid #d6d6d6;}
+.tabbar .menu-item {position:relative;display:inline-block;height:100%;text-align:center;color:#333;cursor:pointer;}
+.tabbar .menu-item.active {color:#009688;}
+.tabbar .menu-item .icon {margin-top:2px;width:25px;height:25px;line-height:25px;font-size:1.5rem;}
+.tabbar .menu-item .icon.small {font-size:22px;}
+.tabbar .menu-item .name {position:absolute;bottom:0;left:0;right:0;height:23px;line-height:23px;}
+.tabbar .menu-item .badge {top:1px;left:50%;}
+
+/*tab*/
+.tab li {margin:0;padding:10px 0;text-align:center;}
+
+/*group-list*/
+.glist {padding-top:20px;}
+.glist-item, .list-item {position:relative;border-bottom:1px solid #d6d6d6;padding:15px;}
+.glist-item:after, .list-item:after {display:block;content:'';clear:both;}
+.glist-item:last-child, .list-item:last-child {border-bottom:none;}
+.glist-item .icon {display:inline-block;width:20px;margin-right:5px;text-align:center;}
+.glist-item .icon i {width:18px;}
+.glist-item .text {display:inline-block;}
+.glist-item .right {margin-top:4px;}
+
+/*mine*/
+.mine {padding:20px;}
+.mine .avatar {text-align:center;background-color:#fff;margin:20px 0;}
+.mine .avatar img {
+    width:120px;height:120px;
+    -webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;
+}
+.mine button, .change-pwd button {width:100%;margin-top:20px;font-size:1.2rem;}
+
+/*common*/
+.inline .form-item:after, .menu:after {display:block;content:'';clear:both;}

@@ -97,7 +97,7 @@ namespace Known
             Cache.Set(key, user);
         }
 
-        internal static UserInfo GetUser(out string error)
+        public static UserInfo GetUser(out string error)
         {
             try
             {
