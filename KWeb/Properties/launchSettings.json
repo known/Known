@@ -26,7 +26,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Known.Web": {
+    "KWeb": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
