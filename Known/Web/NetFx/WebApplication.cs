@@ -22,7 +22,7 @@ namespace Known.Web
 
         protected virtual void Application_Start(object sender, EventArgs e)
         {
-            Container.Register<IAppContext, WebAppContext>();
+            Container.Register<AppContext, WebAppContext>();
             ServiceHelper.Init();
             RegisterRoutes(RouteTable.Routes);
         }

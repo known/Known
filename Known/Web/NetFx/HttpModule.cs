@@ -27,7 +27,7 @@ namespace Known.Web
 
         public void Init(HttpApplication context)
         {
-            Container.Register<IAppContext, WebAppContext>();
+            Container.Register<AppContext, WebAppContext>();
             ServiceHelper.Init();
 
             //var wrapper = new EventHandlerTaskAsyncHelper(AcquireRequestStateAsync);

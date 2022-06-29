@@ -22,6 +22,9 @@ function Dashboard() {
 
     //private
     function _createWorkspace(dom) {
+        if (!curUser) {
+            curUser = {};
+        }
         var card = $('<div>').addClass('card ws-card').appendTo(dom);
         $('<div>').addClass('ws-title').html('工作台').appendTo(card);
         $('<img>').addClass('ws-avatar')

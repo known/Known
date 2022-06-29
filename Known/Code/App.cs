@@ -19,20 +19,74 @@ namespace Known
         void Initialize(AppInfo app);
     }
 
-    public interface IAppContext
+    public class AppContext
     {
-        string Host { get; }
-        bool CheckMobile();
-        string GetIPAddress();
-        BrowserInfo GetBrowser();
-        string GetRequest(string key);
-        T GetCookie<T>(string key);
-        void SetCookie(string key, object value);
-        string GetSessionId();
-        T GetSession<T>(string key);
-        void SetSession(string key, object value);
-        void ClearSession();
-        List<IAttachFile> GetFormFiles();
+        private static readonly Dictionary<string, object> session = new Dictionary<string, object>();
+
+        public static AppContext Current => Container.Resolve(new AppContext());
+
+        public virtual bool IsMobile { get; set; }
+        
+        public virtual string Host
+        {
+            get { return "localhost"; }
+        }
+
+        public virtual string GetIPAddress()
+        {
+            return string.Empty;
+        }
+
+        public virtual BrowserInfo GetBrowser()
+        {
+            return new BrowserInfo { Browser = "Console" };
+        }
+
+        public virtual string GetRequest(string key)
+        {
+            return string.Empty;
+        }
+
+        public virtual T GetCookie<T>(string key)
+        {
+            if (!session.ContainsKey(key))
+                return default;
+
+            return (T)session[key];
+        }
+
+        public virtual void SetCookie(string key, object value)
+        {
+            session[key] = value;
+        }
+
+        public virtual string GetSessionId()
+        {
+            return "local";
+        }
+
+        public virtual T GetSession<T>(string key)
+        {
+            if (!session.ContainsKey(key))
+                return default;
+
+            return (T)session[key];
+        }
+
+        public virtual void SetSession(string key, object value)
+        {
+            session[key] = value;
+        }
+
+        public virtual void ClearSession()
+        {
+            session.Clear();
+        }
+
+        public virtual List<IAttachFile> GetFormFiles()
+        {
+            return null;
+        }
     }
 
     public class BrowserInfo
@@ -42,77 +96,5 @@ namespace Known
         public string Browser { get; set; }
         public string MajorVersion { get; set; }
         public string Version { get; set; }
-    }
-
-    class DefaultAppContext : IAppContext
-    {
-        private static readonly Dictionary<string, object> session = new Dictionary<string, object>();
-        internal static IAppContext Current => Container.Resolve<IAppContext>(new DefaultAppContext());
-
-        public string Host
-        {
-            get { return "localhost"; }
-        }
-
-        public bool CheckMobile()
-        {
-            return false;
-        }
-
-        public string GetIPAddress()
-        {
-            return string.Empty;
-        }
-
-        public BrowserInfo GetBrowser()
-        {
-            return new BrowserInfo { Browser = "Console" };
-        }
-
-        public string GetRequest(string key)
-        {
-            return string.Empty;
-        }
-
-        public T GetCookie<T>(string key)
-        {
-            if (!session.ContainsKey(key))
-                return default;
-
-            return (T)session[key];
-        }
-
-        public void SetCookie(string key, object value)
-        {
-            session[key] = value;
-        }
-
-        public string GetSessionId()
-        {
-            return "local";
-        }
-
-        public T GetSession<T>(string key)
-        {
-            if (!session.ContainsKey(key))
-                return default;
-
-            return (T)session[key];
-        }
-
-        public void SetSession(string key, object value)
-        {
-            session[key] = value;
-        }
-
-        public void ClearSession()
-        {
-            session.Clear();
-        }
-
-        public List<IAttachFile> GetFormFiles()
-        {
-            return null;
-        }
     }
 }

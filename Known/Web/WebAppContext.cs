@@ -23,7 +23,7 @@ using System.Web;
 
 namespace Known.Web
 {
-    public class WebAppContext : IAppContext
+    public class WebAppContext : AppContext
     {
 #if NET6_0
         public static IServiceCollection Services;
@@ -58,20 +58,26 @@ namespace Known.Web
 #endif
         }
 
-        public string Host
+        private bool isMobile;
+        public override bool IsMobile
+        {
+            get
+            {
+                if (Context == null || Context.Request == null)
+                    return false;
+
+                isMobile = WebUtils.CheckMobile(Context.Request);
+                return isMobile;
+            }
+            set { isMobile = value; }
+        }
+
+        public override string Host
         {
             get { return GetHost(Context); }
         }
 
-        public bool CheckMobile()
-        {
-            if (Context == null || Context.Request == null)
-                return false;
-
-            return WebUtils.CheckMobile(Context.Request);
-        }
-
-        public string GetIPAddress()
+        public override string GetIPAddress()
         {
             if (Context == null || Context.Request == null)
                 return string.Empty;
@@ -94,7 +100,7 @@ namespace Known.Web
 #endif
         }
 
-        public BrowserInfo GetBrowser()
+        public override BrowserInfo GetBrowser()
         {
             if (Context == null || Context.Request == null)
                 return null;
@@ -133,7 +139,7 @@ namespace Known.Web
 #endif
         }
 
-        public string GetRequest(string key)
+        public override string GetRequest(string key)
         {
             if (Context == null || Context.Request == null)
                 return string.Empty;
@@ -148,7 +154,7 @@ namespace Known.Web
 #endif
         }
 
-        public T GetCookie<T>(string key)
+        public override T GetCookie<T>(string key)
         {
             if (Context == null || Context.Request == null || Context.Request.Cookies == null)
                 return default;
@@ -165,7 +171,7 @@ namespace Known.Web
 #endif
         }
 
-        public void SetCookie(string key, object value)
+        public override void SetCookie(string key, object value)
         {
             if (Context == null || Context.Request == null || Context.Response.Cookies == null)
                 return;
@@ -178,7 +184,7 @@ namespace Known.Web
 #endif
         }
 
-        public string GetSessionId()
+        public override string GetSessionId()
         {
             if (Context == null || Context.Session == null)
                 return string.Empty;
@@ -190,7 +196,7 @@ namespace Known.Web
 #endif
         }
 
-        public T GetSession<T>(string key)
+        public override T GetSession<T>(string key)
         {
             if (Context == null || Context.Session == null)
                 return default;
@@ -203,7 +209,7 @@ namespace Known.Web
 #endif
         }
 
-        public void SetSession(string key, object value)
+        public override void SetSession(string key, object value)
         {
             if (Context == null || Context.Session == null)
                 return;
@@ -215,7 +221,7 @@ namespace Known.Web
 #endif
         }
 
-        public void ClearSession()
+        public override void ClearSession()
         {
             if (Context == null || Context.Session == null)
                 return;
@@ -223,7 +229,7 @@ namespace Known.Web
             Context.Session.Clear();
         }
 
-        public List<IAttachFile> GetFormFiles()
+        public override List<IAttachFile> GetFormFiles()
         {
             if (Context == null)
                 return null;

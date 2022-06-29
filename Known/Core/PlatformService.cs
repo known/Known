@@ -14,7 +14,7 @@ namespace Known.Core
     public partial class PlatformService
     {
         private static AppInfo App => Config.App;
-        private static IAppContext Context => DefaultAppContext.Current;
+        private static AppContext Context => AppContext.Current;
         private static readonly PlatformRepository Repository = new PlatformRepository();
 
         private UserInfo currentUser;

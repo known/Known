@@ -71,7 +71,7 @@ namespace Known
         private const string KEY_CUR_MENU = "Key_CurrentUserMenus";
         private const string KEY_TOKEN = "Key_Token_{0}";
         private const string KEY_CLIENT = "Key_Client_{0}";
-        private static readonly IAppContext context = DefaultAppContext.Current;
+        private static readonly AppContext context = AppContext.Current;
         private static readonly bool checkClient = Config.App.Param("CheckClient", true);
 
         static UserHelper()
@@ -119,8 +119,7 @@ namespace Known
                         var clientId = context.GetRequest(Constants.KeyClient);
                         if (!string.IsNullOrEmpty(clientId))
                         {
-                            var isApp = context.CheckMobile();
-                            var key = GetClientKey(user, isApp);
+                            var key = GetClientKey(user, context.IsMobile);
                             var client = Cache.Get<string>(key);
                             if (!string.IsNullOrEmpty(client) && client != clientId)
                             {
@@ -198,8 +197,7 @@ namespace Known
             var user = GetTokenUser(userName);
             if (user != null)
             {
-                var isApp = context.CheckMobile();
-                var key = GetClientKey(user, isApp);
+                var key = GetClientKey(user, context.IsMobile);
                 Cache.Remove(key);
             }
         }

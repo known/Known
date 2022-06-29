@@ -46,7 +46,7 @@ public class KHost
         builder.Services.AddHttpContextAccessor();
 
         WebAppContext.Services = builder.Services;
-        Container.Register<IAppContext, WebAppContext>();
+        Container.Register<AppContext, WebAppContext>();
 
         option.App = builder.Configuration.GetSection("KApp").Get<AppInfo>();
         option.Injection?.Invoke(builder.Services, option.App);

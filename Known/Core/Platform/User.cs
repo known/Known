@@ -44,7 +44,7 @@ namespace Known.Core
             if (entity.Enabled == 0)
                 return Result.Error(Language.LoginDisabled);
 
-            var isApp = Context.CheckMobile();
+            var isApp = Context.IsMobile;
             var result = UserHelper.CheckClient(cid, entity, isApp, force);
             if (!result.IsValid)
                 return result;
@@ -79,7 +79,7 @@ namespace Known.Core
             if (entity == null)
                 return null;
 
-            var isApp = Context.CheckMobile();
+            var isApp = Context.IsMobile;
             var ip = Context.GetIPAddress();
             if (!entity.FirstLoginTime.HasValue)
             {

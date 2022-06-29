@@ -20,7 +20,7 @@ namespace Known
 
     public abstract class ServiceBase
     {
-        protected static IAppContext Context => DefaultAppContext.Current;
+        protected static AppContext Context => AppContext.Current;
         protected static AppInfo App => Config.App;
 
         internal string PrototypeName { get; set; }
