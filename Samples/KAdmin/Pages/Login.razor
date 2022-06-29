@@ -1,0 +1,52 @@
+﻿@page "/login"
+@inherits BaseComponent
+@inject DataService Service
+
+<div id="login">
+    <div class="login-header"><h2>Known快速开发平台</h2></div>
+    <div class="login">
+        <Form @ref="form">
+            <div class="title">用户登录</div>
+            <Text Id="UserName" Icon="fa fa-user-o" Placeholder="用户名" Required="true" />
+            <Password Id="Password" Icon="fa fa-lock" Placeholder="密码" Required="true" />
+            <Text Id="Captcha" Icon="fa fa-check-circle-o" Placeholder="验证码" Required="true">
+                <img class="captcha" src="@captchaUrl" title="单击可刷新" @onclick="RefreshCaptcha" />
+            </Text>
+            <Button Text="登 录" OnClick="OnLogin" />
+            <div class="message">@message</div>
+        </Form>
+    </div>
+</div>
+
+@code {
+    private Form form;
+    private string captchaUrl;
+    private string message;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        RefreshCaptcha();
+    }
+
+    private void RefreshCaptcha()
+    {
+        captchaUrl = Service.GetCaptchaUrl();
+    }
+
+    private void OnLogin()
+    {
+        form.Submit(data =>
+        {
+            var userName = (string)data.UserName;
+            var password = (string)data.Password;
+            var captcha = (string)data.Captcha;
+            var result = Service.Login(userName, password, captcha);
+            message = result.Message;
+            if (result.IsValid)
+            {
+                Navigation.NavigateTo("/");
+            }
+        });
+    }
+}

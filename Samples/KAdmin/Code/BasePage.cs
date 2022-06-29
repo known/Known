@@ -10,12 +10,13 @@
  * ------------------------------------------------------------------------------- */
 
 using Known.Razor;
+using Microsoft.AspNetCore.Components;
 
-namespace KApp;
+namespace KAdmin;
 
-public class BasePage : AppComponent
+public class BasePage : PageComponent
 {
-    //[Inject] protected DataService Service { get; set; }
+    [Inject] protected DataService Service { get; set; }
 
     protected bool IsAdmin
     {

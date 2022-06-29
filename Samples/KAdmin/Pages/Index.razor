@@ -1,0 +1,34 @@
+﻿@page "/"
+@inherits BasePage
+
+@if (CurrentUser == null)
+{
+    <div class="login-entry" @onclick="OnLogin">登录</div>
+}
+else
+{
+    <Menu Style="menu" Column="2" TextIcon="true" Items="menus" OnChanged="OnMenuChanged" />
+}
+
+@code {
+    private MenuItem[] menus;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        menus = Client.GetMenus(CurrentUser);
+    }
+
+    private void OnMenuChanged(MenuItem menu)
+    {
+        if (string.IsNullOrWhiteSpace(menu.Id))
+            return;
+
+        Navigation.NavigateTo(menu.Id);
+    }
+
+    private void OnLogin()
+    {
+        Navigation.NavigateTo("login");
+    }
+}

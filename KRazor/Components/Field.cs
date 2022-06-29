@@ -290,10 +290,10 @@ public class Field : BaseComponent
             }
             else
             {
+                BuidChildContent(builder);
+
                 if (ChildContent != null)
                     builder.Fragment(ChildContent(null));
-                else
-                    BuidChildContent(builder);
             }
         });
 

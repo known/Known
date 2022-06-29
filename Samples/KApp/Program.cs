@@ -1,3 +1,14 @@
+/* -------------------------------------------------------------------------------
+ * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
+ * 
+ * WebSite: https://www.pumantech.com
+ * Contact: knownchen@163.com
+ * 
+ * Change Logs:
+ * Date           Author       Notes
+ * 2022-06-28     KnownChen    ≥ı ºªØ
+ * ------------------------------------------------------------------------------- */
+
 using Known.Razor;
 
 var builder = WebApplication.CreateBuilder(args);

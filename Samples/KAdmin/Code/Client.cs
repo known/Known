@@ -12,7 +12,7 @@
 using Known;
 using Known.Razor;
 
-namespace KApp;
+namespace KAdmin;
 
 public class Client
 {

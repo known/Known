@@ -7,12 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.5" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.5" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\..\Known\Known.csproj" />
         <ProjectReference Include="..\..\KRazor\KRazor.csproj" />
     </ItemGroup>

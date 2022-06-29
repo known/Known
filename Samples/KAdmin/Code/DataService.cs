@@ -9,16 +9,20 @@
  * 2022-06-28     KnownChen    初始化
  * ------------------------------------------------------------------------------- */
 
-using Known.Razor;
+using Known;
 
-namespace KApp;
+namespace KAdmin;
 
-public class BasePage : AppComponent
+public class DataService : ServiceBase
 {
-    //[Inject] protected DataService Service { get; set; }
-
-    protected bool IsAdmin
+    public Result Login(string userName, string password, string captcha)
     {
-        get { return Client.CheckIsAdmin(CurrentUser); }
+        return Platform.SignIn(userName, password, captcha);
+    }
+
+    public string GetCaptchaUrl()
+    {
+        var bytes = ImgUtils.CreateCaptcha(4, out string code);
+        return "data:image/jpeg;base64," + Convert.ToBase64String(bytes);
     }
 }

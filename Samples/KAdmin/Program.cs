@@ -1,3 +1,15 @@
+/* -------------------------------------------------------------------------------
+ * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
+ * 
+ * WebSite: https://www.pumantech.com
+ * Contact: knownchen@163.com
+ * 
+ * Change Logs:
+ * Date           Author       Notes
+ * 2022-06-28     KnownChen    ≥ı ºªØ
+ * ------------------------------------------------------------------------------- */
+
+using KAdmin;
 using Known.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddKBlazor();
-//builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddSingleton<DataService>();
 
 var app = builder.Build();
 

@@ -9,16 +9,13 @@
  * 2022-06-28     KnownChen    初始化
  * ------------------------------------------------------------------------------- */
 
-using Known.Razor;
-
-namespace KApp;
-
-public class BasePage : AppComponent
-{
-    //[Inject] protected DataService Service { get; set; }
-
-    protected bool IsAdmin
-    {
-        get { return Client.CheckIsAdmin(CurrentUser); }
-    }
+/*login*/
+#login {
+    position:absolute;top:0;left:0;right:0;bottom:0;
+    background-position: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(../img/bg.jpg);
 }
+

@@ -6,63 +6,33 @@
  * 
  * Change Logs:
  * Date           Author       Notes
- * 2022-04-01     KnownChen
+ * 2022-06-28     KnownChen    初始化
  * ------------------------------------------------------------------------------- */
 
 @import "common.css";
 @import "../libs/ztree/ztree.css";
 
-/*login*/
-.login-form, .lock-time {z-index:10000;}
-.login-form {width:300px;height:300px;margin-left:-150px;margin-top:-200px;}
-.login .avatar .icon {
-    font-size:6rem;width:150px;height:150px;line-height:150px;text-align:center;
-    border:1px solid #ccc;background-color:#f1f1f1;color:#666;
+/*Login Header*/
+.login-header {padding:30px;}
+.login-header h2 {font-weight:bold;font-size:2rem;color:#fff;}
+
+/*Login Body*/
+.login {
+    position:absolute;left:70%;top:50%;
+    box-sizing:border-box;
+    width:370px;height:340px;
+    margin-left:-185px;margin-top:-170px;
+    background-color:#fff;color:#000;
+    -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
 }
-.login .form-input, .login button {margin-top:15px;}
-.login input, .login select, .login button {width:280px;height:40px;}
-.lock-time {position:absolute;left:0;right:0;top:150px;color:#fff;text-align:center;}
-.lock-time .hm {display:block;font-size:7rem;font-weight:bold;}
-.lock-time .ymd {display:block;font-size:1.5rem;font-weight:bold;}
-
-/*form*/
-button {height:30px;line-height:30px;margin-left:5px;}
-input, select, .form-input .text,
-.form-label, .form-text, .form-radio, .form-tips {height:30px;line-height:30px;}
-.form th, .form td {padding:5px;border:1px solid #ccc;}
-.form th {background-color:#f1f1f1;text-align:right;font-weight:normal;}
-.form td .form-input {width:100%;}
-
-.form2 .form-item {width:50%;}
-.form2 .col1 {width:100%;}
-.form3 .form-item {width:33%;}
-.form3 .col2 {width:66%;}
-.form4 .form-item {width:25%;}
-.form4 .col2 {width:50%;}
-.form4 .col3 {width:75%;}
-.form5 .form-item {width:20%;}
-.form5 .col2 {width:40%;}
-.form5 .col3 {width:60%;}
-.form5 .col4 {width:80%;}
-
-/*card*/
-.card, .card-head {position:relative;}
-.card {border:1px solid #d6d6d6;top:0;left:0;right:0;bottom:0;}
-.card-head {height:40px;line-height:40px;border-bottom:1px solid #d6d6d6;}
-.card-body {position:absolute;top:40px;left:0;right:0;bottom:0;overflow:auto;}
-
-/*list*/
-.list-btns {position:absolute;top:0;right:10px;}
-.list-btns .icon {cursor:pointer;margin-left:5px;}
-.list-btns .icon.active {color:#5cb85c;}
-.list-item {text-align:center;}
-
-/*grid*/
-.grid {left:1px;right:1px;top:1px;bottom:1px;padding:10px;overflow:auto;}
-.table th, .table td {padding:5px;border:1px solid #ccc;white-space:nowrap;}
-.table th {background-color:#04509b;color:#fff;}
-.table th.index, .table th.check {width:30px;}
-.table th.check, .table td.check {padding-top:8px;text-align:center;}
-.form .table th {text-align:center;}
-td.tab {padding:0;}
-td .tab {margin-bottom:0;border-bottom:none;}
+.login .title {font-size:1.2rem;text-align:left;}
+.login .form {padding:20px 40px;}
+.login .form-input {margin:20px 0;}
+.login .form-input .fa {
+    position:absolute;left:1px;top:1px;font-size:1.5rem;z-index:9999;
+    width:38px;line-height:36px;text-align:center;color:#d2d2d2;
+}
+.login .form-input input {display:block;height:38px;line-height:38px;padding-left:38px;}
+.login button {height:38px;line-height:38px;}
+.login .captcha {position:absolute;top:2px;right:2px;width:100px;height:34px;}
+.login .message {text-align:center;color:#f00;margin-top:15px;}
