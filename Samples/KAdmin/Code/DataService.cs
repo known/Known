@@ -15,14 +15,4 @@ namespace KAdmin;
 
 public class DataService : ServiceBase
 {
-    public Result Login(string userName, string password, string captcha)
-    {
-        return Platform.SignIn(userName, password, captcha);
-    }
-
-    public string GetCaptchaUrl()
-    {
-        var bytes = ImgUtils.CreateCaptcha(4, out string code);
-        return "data:image/jpeg;base64," + Convert.ToBase64String(bytes);
-    }
 }

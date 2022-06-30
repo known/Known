@@ -8,6 +8,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Known\Known.csproj" />
-        <ProjectReference Include="..\..\KRazor\KRazor.csproj" />
+        <ProjectReference Include="..\..\KRazor\Known.Razor.csproj" />
     </ItemGroup>
 </Project>

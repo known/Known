@@ -26,6 +26,7 @@ public class AppOption
         DbFactories = new Dictionary<string, Type>();
     }
 
+    public bool IsBlazor { get; set; }
     public AppInfo App { get; set; }
     public List<Type> Modules { get; }
     public Dictionary<string, Type> DbFactories { get; }

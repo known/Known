@@ -11,32 +11,16 @@
 
 using KAdmin;
 using Known.Razor;
+using Known.Web;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-builder.Services.AddKBlazor();
-builder.Services.AddSingleton<DataService>();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+KHost.Run(args, o =>
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
-
-app.Run();
+    o.IsBlazor = true;
+    o.DbFactories["MySqlConnector"] = typeof(MySqlConnector.MySqlConnectorFactory);
+    //o.Modules.Add(typeof(Known.Dev.AppModule));
+    o.Injection = (services, a) =>
+    {
+        services.AddKBlazor();
+        services.AddSingleton<DataService>();
+    };
+});

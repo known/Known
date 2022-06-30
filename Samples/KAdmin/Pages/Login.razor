@@ -20,6 +20,7 @@
 
 @code {
     private Form form;
+    private string captcha;
     private string captchaUrl;
     private string message;
 
@@ -31,22 +32,33 @@
 
     private void RefreshCaptcha()
     {
-        captchaUrl = Service.GetCaptchaUrl();
+        var bytes = ImgUtils.CreateCaptcha(4, out captcha);
+        captchaUrl =  "data:image/jpeg;base64," + Convert.ToBase64String(bytes);
     }
 
     private void OnLogin()
     {
-        form.Submit(data =>
+        if (!form.Validate())
+            return;
+
+        var data = form.Data;
+        var captcha1 = (string)data.Captcha;
+        if (captcha1.ToLower() != captcha.ToLower())
+        {
+            message = "验证码不正确！";
+        }
+        else
         {
             var userName = (string)data.UserName;
             var password = (string)data.Password;
-            var captcha = (string)data.Captcha;
-            var result = Service.Login(userName, password, captcha);
+            var result = Platform.SignIn(userName, password);
             message = result.Message;
             if (result.IsValid)
             {
+                var user = result.Data as UserInfo;
+                AuthProvider.UpdateAuthenticationState(user);
                 Navigation.NavigateTo("/");
             }
-        });
+        }
     }
 }

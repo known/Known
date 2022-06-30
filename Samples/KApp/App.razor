@@ -1,11 +1,4 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" />
-    </Found>
-    <NotFound>
-        <Error Type="404" />
-    </NotFound>
-</Router>
+﻿<AppRouter IsMobile="true" Assembly="typeof(App).Assembly" />
 
 @code {
 

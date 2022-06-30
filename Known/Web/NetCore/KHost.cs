@@ -43,23 +43,27 @@ public class KHost
         Database.RegisterProviders(option.DbFactories);
 
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddHttpContextAccessor();
-
-        WebAppContext.Services = builder.Services;
-        Container.Register<AppContext, WebAppContext>();
-
+        
         option.App = builder.Configuration.GetSection("KApp").Get<AppInfo>();
-        option.Injection?.Invoke(builder.Services, option.App);
 
         Config.Init(option.App);
         Config.WebRootPath = builder.Environment.WebRootPath;
         Config.ContentRootPath = builder.Environment.ContentRootPath;
 
-        builder.AddKMvcApp(option);
+        if (option.IsBlazor)
+            builder.AddKBlazorApp(option);
+        else
+            builder.AddKMvcApp(option);
 
+        option.Injection?.Invoke(builder.Services, option.App);
         Config.Init(option.App);
         var app = builder.Build();
-        app.UseKMvcApp(option);
+
+        if (option.IsBlazor)
+            app.UseKBlazorApp(option);
+        else
+            app.UseKMvcApp(option);
+
         return app;
     }
 }

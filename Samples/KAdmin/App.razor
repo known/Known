@@ -1,11 +1,17 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" />
-    </Found>
-    <NotFound>
-        <Error Type="404" />
-    </NotFound>
-</Router>
+﻿<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData">
+                <NotAuthorized>
+                    <Login />
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <Error Type="404" />
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
 
 @code {
 

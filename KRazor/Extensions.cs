@@ -12,7 +12,9 @@
 using System.Text;
 using Known.Core;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Known.Razor;
@@ -21,6 +23,9 @@ public static class DIExtension
 {
     public static IServiceCollection AddKBlazor(this IServiceCollection services)
     {
+        services.AddScoped<ProtectedSessionStorage>();
+        services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+        services.AddScoped<AuthStateProvider>();
         services.AddScoped<HttpClient>();
         services.AddScoped<PlatformService>();
         services.AddScoped<SystemService>();

@@ -7,8 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MySqlConnector" Version="2.1.0" />
         <ProjectReference Include="..\..\Known\Known.csproj" />
-        <ProjectReference Include="..\..\KRazor\KRazor.csproj" />
+        <ProjectReference Include="..\..\KRazor\Known.Razor.csproj" />
     </ItemGroup>
 
 </Project>

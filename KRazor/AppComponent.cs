@@ -9,15 +9,7 @@
  * 2022-04-01     KnownChen
  * ------------------------------------------------------------------------------- */
 
-using Microsoft.AspNetCore.Components;
-
 namespace Known.Razor;
-
-public class AppContext
-{
-    public bool IsMobile { get; set; }
-    public DialogContainer Dialog { get; set; }
-}
 
 public abstract class AppComponent : BaseComponent
 {

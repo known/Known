@@ -11,6 +11,7 @@
 
 using Known.Core;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 
@@ -23,9 +24,10 @@ public abstract class BaseComponent : ComponentBase, IDisposable
     [Inject] protected NavigationManager Navigation { get; set; }
     [Inject] protected HttpClient Http { get; set; }
     [Inject] protected IJSRuntime JSRuntime { get; set; }
+    [Inject] protected AuthStateProvider AuthProvider { get; set; }
 
-    [CascadingParameter]
-    protected AppContext AppContext { get; set; }
+    [CascadingParameter] protected AppContext AppContext { get; set; }
+    [CascadingParameter] protected Task<AuthenticationState> AuthState { get; set; }
 
     private UserInfo currentUser;
     protected UserInfo CurrentUser
@@ -35,7 +37,13 @@ public abstract class BaseComponent : ComponentBase, IDisposable
             if (currentUser != null)
                 return currentUser;
 
-            currentUser = UserHelper.GetUser(out _);
+            var authState = AuthState.Result;
+            if (authState.User.Identity.IsAuthenticated)
+            {
+                var user = authState.User.Identity.Name;
+                //currentUser = UserHelper.GetUser(out _);
+                currentUser = new UserInfo { UserName = user };
+            }
             return currentUser;
         }
         set

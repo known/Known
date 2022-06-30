@@ -17,7 +17,6 @@ namespace Known.Razor;
 public class Layout : PageComponent
 {
     private bool isHome = true;
-    private readonly DialogContainer dialog = null;
     private MenuItem curMenu;
     private MenuItem curSubMenu;
     private Type componentType;
@@ -39,11 +38,6 @@ public class Layout : PageComponent
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
-
-        if (firstRender)
-        {
-            AppContext.Dialog = dialog;
-        }
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -63,7 +57,7 @@ public class Layout : PageComponent
             }
         });
 
-        builder.Component<DialogContainer>(attr => builder.Reference(dialog));
+        builder.Component<DialogContainer>();
     }
 
     private void BuildSider(RenderTreeBuilder builder)

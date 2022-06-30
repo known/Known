@@ -1,14 +1,21 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "管理员,User")]
 @inherits BasePage
 
-@if (CurrentUser == null)
-{
-    <div class="login-entry" @onclick="OnLogin">登录</div>
-}
-else
-{
-    <Menu Style="menu" Column="2" TextIcon="true" Items="menus" OnChanged="OnMenuChanged" />
-}
+<AuthorizeView>
+    <Authorized>
+        <h1>Hello @context.User.Identity.Name!</h1>
+        <Button OnClick="Logout" Text="退出" />
+
+        <div>
+            <Menu Style="menu" Column="2" TextIcon="true" Items="menus" OnChanged="OnMenuChanged" />
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <h1>Hello!</h1>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     private MenuItem[] menus;
@@ -30,5 +37,10 @@ else
     private void OnLogin()
     {
         Navigation.NavigateTo("login");
+    }
+
+    private void Logout()
+    {
+        AuthProvider.UpdateAuthenticationState(null);
     }
 }

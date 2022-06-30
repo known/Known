@@ -16,7 +16,6 @@ namespace Known.Razor;
 
 public class AppLayout : AppComponent
 {
-    private readonly DialogContainer dialog = null;
     private int conTop;
     private int conBottom;
     private MenuItem curItem;
@@ -47,11 +46,6 @@ public class AppLayout : AppComponent
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
-
-        if (firstRender)
-        {
-            AppContext.Dialog = dialog;
-        }
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -68,7 +62,7 @@ public class AppLayout : AppComponent
                     });
         });
 
-        builder.Component<DialogContainer>(attr => builder.Reference(dialog));
+        builder.Component<DialogContainer>();
     }
 
     private void BuildTopbar(RenderTreeBuilder builder)
