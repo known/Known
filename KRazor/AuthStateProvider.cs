@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
@@ -42,13 +37,13 @@ public class AuthStateProvider : AuthenticationStateProvider
         }
     }
 
-    public void UpdateAuthenticationState(UserInfo user)
+    public async Task UpdateAuthenticationState(UserInfo user)
     {
         ClaimsPrincipal principal;
 
         if (user != null)
         {
-            sessionStorage.SetAsync(KeyUser, user);
+            await sessionStorage.SetAsync(KeyUser, user);
             principal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
@@ -57,7 +52,7 @@ public class AuthStateProvider : AuthenticationStateProvider
         }
         else
         {
-            sessionStorage.DeleteAsync(KeyUser);
+            await sessionStorage.DeleteAsync(KeyUser);
             principal = anonymous;
         }
 

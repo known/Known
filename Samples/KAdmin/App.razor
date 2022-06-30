@@ -2,6 +2,7 @@
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData">
+                <Authorizing></Authorizing>
                 <NotAuthorized>
                     <Login />
                 </NotAuthorized>
@@ -12,7 +13,3 @@
         </NotFound>
     </Router>
 </CascadingAuthenticationState>
-
-@code {
-
-}

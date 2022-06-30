@@ -36,7 +36,7 @@
         captchaUrl =  "data:image/jpeg;base64," + Convert.ToBase64String(bytes);
     }
 
-    private void OnLogin()
+    private async Task OnLogin()
     {
         if (!form.Validate())
             return;
@@ -56,8 +56,8 @@
             if (result.IsValid)
             {
                 var user = result.Data as UserInfo;
-                AuthProvider.UpdateAuthenticationState(user);
-                Navigation.NavigateTo("/");
+                await AuthProvider.UpdateAuthenticationState(user);
+                Navigation.NavigateTo("/", true);
             }
         }
     }

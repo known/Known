@@ -9,10 +9,12 @@
  * 2022-04-01     KnownChen
  * ------------------------------------------------------------------------------- */
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Razor;
 
+[Authorize]
 public abstract class PageComponent : BaseComponent
 {
     protected virtual bool CheckLogin { get; } = true;
@@ -20,12 +22,6 @@ public abstract class PageComponent : BaseComponent
 
     protected override void OnInitialized()
     {
-        if (CurrentUser == null && CheckLogin)
-        {
-            NavigateToLogin();
-            return;
-        }
-
         base.OnInitialized();
         IsCheckKey = CheckKey(out _);
     }

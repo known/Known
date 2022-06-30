@@ -1,6 +1,4 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Authorization
-@attribute [Authorize(Roles = "管理员,User")]
 @inherits BasePage
 
 <AuthorizeView>
@@ -12,9 +10,6 @@
             <Menu Style="menu" Column="2" TextIcon="true" Items="menus" OnChanged="OnMenuChanged" />
         </div>
     </Authorized>
-    <NotAuthorized>
-        <h1>Hello!</h1>
-    </NotAuthorized>
 </AuthorizeView>
 
 @code {
@@ -39,8 +34,9 @@
         Navigation.NavigateTo("login");
     }
 
-    private void Logout()
+    private async Task Logout()
     {
-        AuthProvider.UpdateAuthenticationState(null);
+        await AuthProvider.UpdateAuthenticationState(null);
+        Navigation.NavigateTo("/", true);
     }
 }

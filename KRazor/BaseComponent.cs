@@ -29,6 +29,11 @@ public abstract class BaseComponent : ComponentBase, IDisposable
     [CascadingParameter] protected AppContext AppContext { get; set; }
     [CascadingParameter] protected Task<AuthenticationState> AuthState { get; set; }
 
+    protected bool IsAuthenticated
+    {
+        get { return AuthState.Result.User.Identity.IsAuthenticated; }
+    }
+
     private UserInfo currentUser;
     protected UserInfo CurrentUser
     {
