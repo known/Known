@@ -7,17 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known", "Known\Known.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Dev", "Known.Dev\Known.Dev.csproj", "{CAEFF207-D0A7-4F2A-8FDE-53DCB8D814AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KStudio", "KStudio\KStudio.csproj", "{E0170D71-8D14-4C41-A3B8-00C2E75BE589}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Razor", "Known.Razor\Known.Razor.csproj", "{F065FB23-42F7-40CE-85BC-EF61DF092E6B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Razor", "KRazor\Known.Razor.csproj", "{F065FB23-42F7-40CE-85BC-EF61DF092E6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KWeb", "KWeb\KWeb.csproj", "{538B5D54-2523-40CF-AD27-E112C3D5FBB4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KStudio", "KStudio\KStudio.csproj", "{E0170D71-8D14-4C41-A3B8-00C2E75BE589}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{F285843D-1247-45E4-99F7-1A717A5D52A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KAdmin", "Samples\KAdmin\KAdmin.csproj", "{8E1F6929-58BA-42C3-9F0A-D4F7EB04B694}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KApp", "Samples\KApp\KApp.csproj", "{F6028F7D-0C48-433A-826A-07DC3C2A1D1F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KWeb", "KWeb\KWeb.csproj", "{538B5D54-2523-40CF-AD27-E112C3D5FBB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
