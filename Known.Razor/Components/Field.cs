@@ -1,58 +1,37 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components;
 
 public class Field : BaseComponent
 {
     private string error;
     private object orgValue;
 
-    [Parameter] public string Id { get; set; }
     [Parameter] public string Label { get; set; }
     [Parameter] public string Value { get; set; }
     [Parameter] public string Style { get; set; }
     [Parameter] public string Tips { get; set; }
     [Parameter] public bool Required { get; set; }
-    [Parameter] public bool ReadOnly { get; set; }
-    [Parameter] public bool Enabled { get; set; } = true;
-    [Parameter] public bool Visible { get; set; } = true;
-    [Parameter] public bool IsQuery { get; set; }
     [Parameter] public bool IsEdit { get; set; }
+    [Parameter] public bool IsInput { get; set; }
+
     [Parameter] public int RowSpan { get; set; }
     [Parameter] public int ColSpan { get; set; }
     [Parameter] public int? Width { get; set; }
     [Parameter] public int? Height { get; set; }
-    [Parameter] public RenderFragment<object> ChildContent { get; set; }
-    [Parameter] public EventCallback<string> ValueChanged { get; set; }
-    [Parameter] public Action<FieldContext, object> OnValueChanged { get; set; }
+    
+    [Parameter] public Action<string> ValueChanged { get; set; }
+    [Parameter] public Action<FieldContext> OnValueChanged { get; set; }
     [Parameter] public Action<string> OnSave { get; set; }
 
-    internal virtual string GridCellStyle
-    {
-        get { return Id == "Action" ? "txt-center" : ""; }
-    }
+    [CascadingParameter] protected FieldContext FieldContext { get; set; }
 
-    [CascadingParameter]
-    protected FieldContext FieldContext { get; set; }
+    protected bool IsReadOnly => ReadOnly || FieldContext != null && FieldContext.ReadOnly;
 
-    private bool IsReadOnly
-    {
-        get { return ReadOnly || (FieldContext != null && FieldContext.ReadOnly); }
-    }
+    protected void SetError(bool isError) => error = isError ? "error" : "";
 
-    public bool Validate()
+    public T GetValue<T>() => Utils.ConvertTo<T>(Value);
+    public virtual object GetValue() => Value;
+
+    public virtual bool Validate()
     {
         error = string.Empty;
         if (string.IsNullOrEmpty(Value) && Required)
@@ -67,47 +46,37 @@ public class Field : BaseComponent
     public void Clear()
     {
         SetInputValue(orgValue);
-        StateHasChanged();
-    }
-
-    public T GetValue<T>()
-    {
-        return Utils.ConvertTo<T>(Value);
-    }
-
-    public virtual object GetValue()
-    {
-        return Value;
+        StateChanged();
     }
 
     public virtual void SetValue(object value)
     {
         SetInputValue(value);
-        StateHasChanged();
+        StateChanged();
     }
 
     public void SetRequired(bool required)
     {
         Required = required;
-        StateHasChanged();
+        StateChanged();
     }
 
     public void SetReadOnly(bool readOnly)
     {
         ReadOnly = readOnly;
-        StateHasChanged();
+        StateChanged();
     }
 
     public void SetEnabled(bool enabled)
     {
         Enabled = enabled;
-        StateHasChanged();
+        StateChanged();
     }
 
     public void SetVisible(bool visible)
     {
         Visible = visible;
-        StateHasChanged();
+        StateChanged();
     }
 
     protected override void OnInitialized()
@@ -119,7 +88,7 @@ public class Field : BaseComponent
         {
             FieldContext.Fields[Id] = this;
 
-            var model = FieldContext.Model;
+            var model = FieldContext.DicModel;
             if (model != null && model.ContainsKey(Id))
             {
                 orgValue = model[Id];
@@ -130,86 +99,50 @@ public class Field : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (!Visible || (FieldContext != null && FieldContext.IsGridView))
+        if (!Visible)
             return;
-
-        if (string.IsNullOrWhiteSpace(Label))
-        {
-            BuildFormInput(builder);
-            return;
-        }
 
         if (FieldContext != null && FieldContext.IsTableForm)
-            BuildTableField(builder);
-        else
-            BuildDivField(builder);
-    }
-
-    protected virtual string FormatValue(object value)
-    {
-        return value?.ToString();
-    }
-
-    internal virtual void BuildQuery(RenderTreeBuilder builder)
-    {
-        builder.Component<Text>(attr =>
         {
-            attr.Add(nameof(Id), Id)
-                .Add(nameof(Label), Label);
-        });
-    }
-
-    internal void BuildGridCell(RenderTreeBuilder builder, object value)
-    {
-        if (IsEdit)
-        {
-            Value = FormatValue(value);
-            BuidChildContent(builder);
+            if (IsInput)
+                BuildFormInput(builder);
+            else
+                BuildTableField(builder);
         }
         else
         {
-            BuildGridCellText(builder, value);
+            if (string.IsNullOrWhiteSpace(Label))
+                BuildFormInput(builder);
+            else
+                BuildDivField(builder);
         }
     }
 
-    protected virtual void BuildGridCellText(RenderTreeBuilder builder, object value)
-    {
-        var text = FormatValue(value);
-        builder.Text(text);
-    }
+    protected virtual string FormatValue(object value) => value?.ToString();
+    protected virtual void BuildChildText(RenderTreeBuilder builder) => builder.Span("text", Value);
+    protected virtual void BuildChildContent(RenderTreeBuilder builder) { }
+    protected virtual void SetInputValue(object value) => Value = FormatValue(value);
+    protected virtual void SetFieldContext(FieldContext context) { }
 
-    protected virtual void BuildChildText(RenderTreeBuilder builder)
-    {
-        builder.Text(Value);
-    }
-
-    protected virtual void BuidChildContent(RenderTreeBuilder builder)
-    {
-    }
-
-    protected virtual void SetInputValue(object value)
-    {
-        Value = value?.ToString();
-    }
-
-    protected void BuildRadio(RenderTreeBuilder builder, string type, string text, string value, bool isChecked, Action<bool, string> action = null)
+    protected void BuildRadio(RenderTreeBuilder builder, string type, string text, string value, bool enabled, bool isChecked, Action<bool, string> action = null, int? columnCount = null)
     {
         builder.Label("form-radio", attr =>
         {
+            if (columnCount != null && columnCount > 0)
+            {
+                var width = Utils.Round(100.0 / columnCount.Value, 2);
+                attr.Style($"width:{width}%;margin-right:0;");
+            }
             builder.Input(attr =>
             {
-                attr.Type(type).Name(Id).Disabled(!Enabled)
+                attr.Type(type).Name(Id).Disabled(!enabled)
                     .Value(value).Checked(isChecked);
                 if (type == "checkbox")
                 {
                     attr.OnChange(EventCallback.Factory.CreateBinder<bool>(this, v =>
                     {
                         action?.Invoke(v, value);
-                        if (FieldContext != null)
-                        {
-                            FieldContext.Field = Id;
-                            OnValueChanged?.Invoke(FieldContext, value);
-                        }
+                        OnValueChange();
                     }, isChecked));
                 }
                 else
@@ -221,46 +154,65 @@ public class Field : BaseComponent
         });
     }
 
-    protected EventCallback<ChangeEventArgs> CreateBinder(Action<DateTime> action = null)
+    protected EventCallback<ChangeEventArgs> CreateBinder(Action<DateTime?> action = null)
     {
         return EventCallback.Factory.CreateBinder(this, value =>
         {
             Value = value;
-            action?.Invoke(DateTime.Parse(value));
-            if (FieldContext != null)
+            if (action != null)
             {
-                FieldContext.Field = Id;
-                OnValueChanged?.Invoke(FieldContext, GetValue());
+                DateTime? date = null;
+                if (!string.IsNullOrWhiteSpace(value))
+                    date = DateTime.Parse(value);
+                action.Invoke(date);
             }
+            OnValueChange();
         }, Value);
+    }
+    
+    protected void OnValueChange()
+    {
+        ValueChanged?.Invoke(Value);
+        if (FieldContext != null)
+        {
+            var value = GetValue();
+            FieldContext.FieldId = Id;
+            FieldContext.FieldValue = value;
+            FieldContext.SetModel(Id, value);
+            SetFieldContext(FieldContext);
+            OnValueChanged?.Invoke(FieldContext);
+        }
     }
 
     private void BuildTableField(RenderTreeBuilder builder)
     {
-        var required = Required && !IsReadOnly ? "required" : "";
-        builder.Th(required, attr =>
+        if (!string.IsNullOrWhiteSpace(Label))
         {
-            if (RowSpan > 1)
-                attr.Add("rowspan", RowSpan);
-            builder.Label(attr =>
+            var required = Required && !IsReadOnly ? "required" : "";
+            builder.Th(required, attr =>
             {
-                attr.For(Id);
-                builder.Text(Label);
+                if (RowSpan > 1)
+                    attr.RowSpan(RowSpan);
+                builder.Label(attr =>
+                {
+                    attr.For(Id);
+                    builder.Text(Label);
+                });
             });
-        });
-        builder.Td(attr =>
+        }
+        builder.Td(Style, attr =>
         {
             if (RowSpan > 1)
-                attr.Add("rowspan", RowSpan);
+                attr.RowSpan(RowSpan);
             if (ColSpan > 1)
-                attr.Add("colspan", ColSpan);
+                attr.ColSpan(ColSpan);
             BuildFormInput(builder);
         });
     }
 
     private void BuildDivField(RenderTreeBuilder builder)
     {
-        builder.Div("form-item", attr =>
+        builder.Div($"form-item {Style}", attr =>
         {
             var required = Required && !IsReadOnly ? " required" : "";
             builder.Label($"form-label{required}", attr =>
@@ -275,37 +227,54 @@ public class Field : BaseComponent
     private bool isEdit = false;
     private void BuildFormInput(RenderTreeBuilder builder)
     {
+        var isCheck = false;
+        if (FieldContext != null)
+        {
+            var checkFields = FieldContext.CheckFields;
+            isCheck = !string.IsNullOrWhiteSpace(checkFields) && checkFields.Contains(Id);
+        }
+
         var sb = new StyleBuilder();
         var style = sb.Width(Width).Height(Height).Build();
-        builder.Div($"form-input {Style} {error}", attr =>
+        var className = CssBuilder.Default("form-input")
+                                  .AddClass(error)
+                                  .AddClass("readonly", IsReadOnly)
+                                  .AddClass("check", isCheck)
+                                  .Build();
+        builder.Div(className, attr =>
         {
             attr.Style(style);
             if (IsReadOnly && !isEdit)
             {
-                builder.Span("text", attr => BuildChildText(builder));
+                BuildChildText(builder);
                 if (IsEdit)
-                {
                     BuildEditButton(builder);
-                }
             }
             else
             {
-                BuidChildContent(builder);
-
-                if (ChildContent != null)
-                    builder.Fragment(ChildContent(null));
+                BuildChildContent(builder);
             }
+
+            if (isCheck)
+                BuildCheck(builder);
         });
 
         if (isEdit)
-        {
             BuildEditAction(builder);
-        }
 
         if (!string.IsNullOrWhiteSpace(Tips))
-        {
             builder.Span("form-tips", Tips);
-        }
+    }
+
+    private void BuildCheck(RenderTreeBuilder builder)
+    {
+        builder.Label("form-check", attr =>
+        {
+            builder.Input(attr =>
+            {
+                attr.Type("checkbox").Name($"Check{Id}");
+            });
+        });
     }
 
     private void BuildEditButton(RenderTreeBuilder builder)

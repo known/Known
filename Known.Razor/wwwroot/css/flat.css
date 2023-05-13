@@ -1,7 +1,7 @@
 ﻿/* -------------------------------------------------------------------------------
  * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
  * 
- * WebSite: https://www.pumantech.com
+ * WebSite: www.pumantech.com
  * Contact: knownchen@163.com
  * 
  * Change Logs:
@@ -10,28 +10,50 @@
  * ------------------------------------------------------------------------------- */
 
 @import "common.css";
-@import "../libs/ztree/ztree.css";
 
-/*login*/
-.login-form, .lock-time {z-index:10000;}
-.login-form {width:300px;height:300px;margin-left:-150px;margin-top:-200px;}
-.login .avatar .icon {
-    font-size:6rem;width:150px;height:150px;line-height:150px;text-align:center;
-    border:1px solid #ccc;background-color:#f1f1f1;color:#666;
-}
-.login .form-input, .login button {margin-top:15px;}
-.login input, .login select, .login button {width:280px;height:40px;}
-.lock-time {position:absolute;left:0;right:0;top:150px;color:#fff;text-align:center;}
-.lock-time .hm {display:block;font-size:7rem;font-weight:bold;}
-.lock-time .ymd {display:block;font-size:1.5rem;font-weight:bold;}
+/*Layout*/
+.app {width:100%;height:100%;background-color:#003f7d;}
+.header, .sider, .main, .menu2, .menu3, .lock, .wifi, .time, .user, .content {position:absolute;}
+
+.sider {top:0;left:0;bottom:0;width:60px;background-color:#003f7d;color:#ccc;}
+.logo, .menu, .menu li {width:60px;text-align:center;padding:15px 0;cursor:pointer;}
+.logo {color:#5bc0de;font-size:2.5rem;}
+.menu li .icon {font-size:1.6rem;}
+.menu li .icon.size {font-size:2rem;}
+.menu li.active {color:#5cb85c;}
+.menu2 {bottom:10px;}
+
+.header {top:3px;left:60px;right:3px;height:60px;background-color:#f1f1f1;border-bottom:1px solid #ccc;}
+.lock, .time, .user {height:60px;line-height:60px;}
+.lock {top:0;right:0;width:60px;text-align:center;font-size:2rem;cursor:pointer;}
+.user {top:0;right:60px;width:60px;text-align:center;cursor:pointer;}
+.user img {width:45px;height:45px;margin-top:8px;}
+.wifi {top:22px;right:270px;color:#5cb85c;}
+.time {top:0;right:60px;}
+.title {font-size:1.4rem;font-weight:bold;height:40px;padding-left:20px;z-index:1000;}
+.title.welcome {font-size:1.5rem;height:60px;line-height:60px;}
+.title.module {position:absolute;top:10px;}
+.module-tips {position:absolute;top:0;left:151px;right:0;height:30px;padding:10px;border-bottom:1px solid #ccc;}
+.module-tips .name {font-weight:bold;font-size:1.3rem;margin-right:10px;}
+.module-tips .description {font-size:1rem;color:#555;}
+
+.main {left:60px;top:64px;right:3px;bottom:3px;background-color:#fff;overflow:auto;}
+.menu3 {top:0;left:0;bottom:0;width:150px;background-color:#f1f1f1;border-right:1px solid #ccc;padding-top:60px;}
+.menu3 li {margin:15px 0;padding:0 15px;cursor:pointer;text-align:right;border-right:4px solid #f1f1f1;}
+.menu3 li.active {border-right-color:#5cb85c;font-weight:bold;}
+.content {top:0;left:151px;bottom:0;right:0;padding:10px;overflow:auto;}
+.tab-content {position:absolute;top:60px;left:0;bottom:10px;right:0;padding:0 10px;}
 
 /*form*/
-button {height:30px;line-height:30px;margin-left:5px;}
-input, select, .form-input .text,
+/*form*/
+label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}
+button, input, select, .form-input .text, .form-input .unit,
 .form-label, .form-text, .form-radio, .form-tips {height:30px;line-height:30px;}
-.form th, .form td {padding:5px;border:1px solid #ccc;}
-.form th {background-color:#f1f1f1;text-align:right;font-weight:normal;}
-.form td .form-input {width:100%;}
+.form-input .icon, .form-input .unit, .form-input .btn {height:27px;line-height:27px;}
+.grid-view .tool button {height:26px;line-height:26px;}
+.inline .form-item, .inline .form-label, .inline .form-text, .inline .form-input, .inline .form-tips {
+    display:inline-block;min-height:30px;
+}
 
 .form2 .form-item {width:50%;}
 .form2 .col1 {width:100%;}
@@ -58,11 +80,18 @@ input, select, .form-input .text,
 .list-item {text-align:center;}
 
 /*grid*/
-.grid {left:1px;right:1px;top:1px;bottom:1px;padding:10px;overflow:auto;}
 .table th, .table td {padding:5px;border:1px solid #ccc;white-space:nowrap;}
 .table th {background-color:#04509b;color:#fff;}
-.table th.index, .table th.check {width:30px;}
-.table th.check, .table td.check {padding-top:8px;text-align:center;}
 .form .table th {text-align:center;}
 td.tab {padding:0;}
 td .tab {margin-bottom:0;border-bottom:none;}
+
+/*Setting*/
+.sb-form {padding:20px;}
+.sb-form th {background-color:#fff;font-weight:bold;border:none;}
+.sb-form td {border:none;}
+.tc-pdf {position:absolute;top:10px;left:10px;right:10px;bottom:10px;}
+.ns-wifi {width:300px;height:300px;}
+.ns-wifi .name, .ns-wifi .status {display:block;}
+.ns-wifi .status {color:#ccc;margin-top:5px;}
+.ns-wifi .button {cursor:pointer;position:absolute;right:5px;bottom:5px;}

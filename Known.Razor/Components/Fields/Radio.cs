@@ -1,57 +1,47 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components.Fields;
 
 public class CheckBox : Field
 {
     [Parameter] public string Text { get; set; }
+    [Parameter] public bool Checked { get; set; }
 
-    internal override string GridCellStyle => "check";
+    protected override void BuildChildText(RenderTreeBuilder builder) => BuildRadio(builder, "checkbox", Text, "True", false, IsChecked);
 
-    protected override void BuildGridCellText(RenderTreeBuilder builder, object value)
+    protected override void BuildChildContent(RenderTreeBuilder builder)
     {
-        var check = Utils.ConvertTo<bool>(value);
-        builder.Check(attr => attr.Disabled(true).Checked(check));
-    }
-
-    protected override void BuidChildContent(RenderTreeBuilder builder)
-    {
-        BuildRadio(builder, "checkbox", Text, "True", Value == "True", (isCheck, value) =>
+        BuildRadio(builder, "checkbox", Text, "True", Enabled, IsChecked, (isCheck, value) =>
         {
             Value = isCheck ? "True" : "False";
         });
     }
+
+    private bool IsChecked => Checked || Value == "True";
 }
 
 public class CheckList : ListField
 {
     private readonly Dictionary<string, bool> values = new();
 
-    protected override void BuidChildContent(RenderTreeBuilder builder)
+    protected override void BuildChildText(RenderTreeBuilder builder)
     {
+        Enabled = false;
+        BuildChildContent(builder);
+    }
+
+    protected override void BuildChildContent(RenderTreeBuilder builder)
+    {
+        values.Clear();
         if (ListItems == null || ListItems.Length == 0)
             return;
 
         foreach (var item in ListItems)
         {
             values[item.Code] = CheckChecked(item.Code);
-            BuildRadio(builder, "checkbox", item.Name, item.Code, values[item.Code], (isCheck, value) =>
+            BuildRadio(builder, "checkbox", item.Name, item.Code, Enabled, values[item.Code], (isCheck, value) =>
             {
                 values[value] = isCheck;
                 Value = string.Join(",", values.Where(v => v.Value).Select(k => k.Key));
-            });
+            }, ColumnCount);
         }
     }
 
@@ -66,14 +56,41 @@ public class CheckList : ListField
 
 public class RadioList : ListField
 {
-    protected override void BuidChildContent(RenderTreeBuilder builder)
+    protected override void BuildChildContent(RenderTreeBuilder builder)
     {
         if (ListItems == null || ListItems.Length == 0)
             return;
 
         foreach (var item in ListItems)
         {
-            BuildRadio(builder, "radio", item.Name, item.Code, Value == item.Code);
+            BuildRadio(builder, "radio", item.Name, item.Code, Enabled, Value == item.Code, columnCount: ColumnCount);
+        }
+    }
+}
+
+public class YesNoBox : ListField
+{
+    public YesNoBox()
+    {
+        Codes = "是,否";
+    }
+
+    protected override void BuildChildText(RenderTreeBuilder builder)
+    {
+        var value = GetValue<bool>();
+        builder.Span("text", value ? "是" : "否");
+    }
+
+    protected override void BuildChildContent(RenderTreeBuilder builder)
+    {
+        if (ListItems == null || ListItems.Length == 0)
+            return;
+
+        foreach (var item in ListItems)
+        {
+            var value = GetValue<bool>();
+            var code = value ? "是" : "否";
+            BuildRadio(builder, "radio", item.Name, item.Code, Enabled, code == item.Code);
         }
     }
 }

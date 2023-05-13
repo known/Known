@@ -1,18 +1,4 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components;
 
 public class Timer : BaseComponent
 {
@@ -44,22 +30,16 @@ public class Timer : BaseComponent
         }
     }
 
-    protected override void Dispose(bool disposing)
-    {
-        timer.Dispose();
-    }
+    protected override void Dispose(bool disposing) => timer.Dispose();
 
     private void OnTimerCallback()
     {
         _ = InvokeAsync(() =>
         {
             SetTime();
-            StateHasChanged();
+            StateChanged();
         });
     }
 
-    private void SetTime()
-    {
-        time = DateTime.Now;
-    }
+    private void SetTime() => time = DateTime.Now;
 }

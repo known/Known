@@ -1,50 +1,45 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor;
 
 [Authorize]
-public abstract class PageComponent : BaseComponent
+public class PageComponent : BaseComponent
 {
-    protected virtual bool CheckLogin { get; } = true;
-    protected bool IsCheckKey { get; set; }
+    private bool isInitialized;
 
-    protected override void OnInitialized()
+    public PageComponent()
     {
-        base.OnInitialized();
-        IsCheckKey = CheckKey(out _);
+        isInitialized = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AddVisitLogAsync();
+        await InitPageAsync();
+        isInitialized = true;
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (!IsCheckKey)
+        if (!isInitialized)
+            return;
+
+        if (!Context.Check.IsCheckKey)
+        {
             BuildAuthorize(builder);
-        else
-            BuildPage(builder);
+            return;
+        }
+
+        BuildPage(builder);
     }
 
-    protected virtual void BuildAuthorize(RenderTreeBuilder builder) { }
+    protected virtual Task InitPageAsync() => Task.CompletedTask;
     protected virtual void BuildPage(RenderTreeBuilder builder) { }
 
-    protected virtual bool CheckKey(out string message)
+    protected bool HasButton(ButtonInfo button)
     {
-        message = string.Empty;
-        return true;
-    }
+        var user = CurrentUser;
+        if (user == null)
+            return false;
 
-    protected void NavigateToLogin()
-    {
-        Navigation.NavigateTo("/login");
+        return button.IsInMenu(Id);
     }
 }

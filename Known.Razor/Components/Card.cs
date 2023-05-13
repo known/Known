@@ -1,18 +1,4 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components;
 
 public class Card : BaseComponent
 {
@@ -24,7 +10,7 @@ public class Card : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("card", attr =>
+        builder.Div($"card {Style}", attr =>
         {
             BuildHead(builder);
             BuildBody(builder);

@@ -1,97 +1,140 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
+﻿namespace Known.Razor;
 
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
-
-public abstract class DataComponent<TItem> : BaseComponent
+public class DataComponent<TItem> : BaseComponent
 {
-    private int pageIndex;
+    private bool isInitialized;
+    private bool isQuery;
+    protected List<QueryInfo> query;
+    protected PagingCriteria criteria;
 
     public DataComponent()
     {
-        QueryContext = new FieldContext();
+        isInitialized = false;
+        QueryContext = new QueryContext();
+        SelectedItems = new List<TItem>();
     }
 
-    protected int TotalCount { get; set; }
-    protected FieldContext QueryContext { get; }
-    protected abstract string ContainerStyle { get; }
-    protected abstract string ContentStyle { get; }
-
-    [Parameter] public bool AutoLoad { get; set; } = true;
-    [Parameter] public bool ShowPager { get; set; } = true;
-    [Parameter] public int PageSize { get; set; } = 10;
-    [Parameter] public string Style { get; set; }
-    [Parameter] public string EmptyText { get; set; } = Language.NoDataFound;
+    internal QueryContext QueryContext { get; }
+    internal int TotalCount { get; set; }
+    internal List<TItem> SelectedItems { get; set; }
+    protected string EmptyText { get; set; } = Language.NoDataFound;
+    protected string Style { get; set; }
+    protected string ContainerStyle { get; set; }
+    protected string ContentStyle { get; set; }
+    protected string[] OrderBys { get; set; }
+    protected bool ShowQuery { get; set; }
+    protected bool ShowCustQuery { get; set; }
+    protected bool ShowPager { get; set; } = true;
+    protected Dictionary<string, object> Sums { get; set; }
+    protected List<ButtonInfo> Tools { get; set; }
+    protected object DefaultQuery { get; set; }
     [Parameter] public List<TItem> Data { get; set; }
-    [Parameter] public RenderFragment FormTemplate { get; set; }
-    [Parameter] public RenderFragment QueryTemplate { get; set; }
-    [Parameter] public RenderFragment HeadTemplate { get; set; }
-    [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
-    [Parameter] public Func<PagingCriteria, PagingResult<TItem>> OnQuery { get; set; }
 
-    public void QueryData()
+    protected virtual void BuildQuerys(RenderTreeBuilder builder) { }
+    protected virtual Task<PagingResult<TItem>> OnQueryData(PagingCriteria criteria) => Task.FromResult(new PagingResult<TItem>());
+
+    protected virtual async void QueryData(bool isQuery = false)
     {
-        QueryData(1);
-        StateHasChanged();
+        this.isQuery = isQuery;
+        await QueryPageData();
     }
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
-        base.OnInitialized();
-        if (AutoLoad)
-        {
-            QueryData();
-        }
+        QueryContext.Model = DefaultQuery;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        criteria = new PagingCriteria(1);
+        criteria.PageSize = Setting.Info.PageSize;
+
+        if (Data == null)
+            await QueryPageData();
+
+        isInitialized = true;
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        var gridTop = QueryTemplate == null ? 0 : 40;
-        var gridBottom = !ShowPager ? 0 : 40;
+        if (!isInitialized)
+            return;
+
+        if (!Context.Check.IsCheckKey)
+        {
+            BuildAuthorize(builder);
+            return;
+        }
+
+        var style = string.Empty;
+        if (ShowQuery)
+            style += " hasQuery";
+        if (ShowPager)
+            style += " hasPager";
 
         builder.Div($"{ContainerStyle} {Style}", attr =>
         {
             BuildQuery(builder);
-            builder.Div(ContentStyle, attr =>
-            {
-                attr.Style($"top:{gridTop}px;bottom:{gridBottom}px;");
-                BuildContent(builder);
-            });
+            BuildTool(builder);
+
+            if (Tools != null && Tools.Count > 0 && !ReadOnly)
+                style += " hasTool";
+
+            builder.Div($"{ContentStyle}{style}", attr => BuildContent(builder));
             BuildPager(builder);
         });
+        BuildOther(builder);
     }
 
-    protected abstract void BuildContent(RenderTreeBuilder builder);
+    protected virtual void BuildContent(RenderTreeBuilder builder) { }
+    protected virtual void BuildOther(RenderTreeBuilder builder) { }
+    protected void BuildEmpty(RenderTreeBuilder builder) => builder.Component<Empty>().Set(c => c.Text, EmptyText).Build();
 
-    protected void BuildEmpty(RenderTreeBuilder builder)
+    protected virtual List<string> GetSumColumns() => null;
+
+    protected bool HasButton(ButtonInfo button)
     {
-        builder.Component<Empty>(attr => attr.Add(nameof(Empty.Text), EmptyText));
+        var user = CurrentUser;
+        if (user == null)
+            return false;
+
+        return button.IsInMenu(Id);
     }
 
     private void BuildQuery(RenderTreeBuilder builder)
     {
-        if (QueryTemplate == null)
+        if (!ShowQuery)
             return;
 
         builder.Div("query", attr =>
         {
-            builder.Component<CascadingValue<FieldContext>>(attr =>
+            builder.Component<CascadingValue<QueryContext>>(attr =>
             {
-                attr.Add(nameof(CascadingValue<FieldContext>.IsFixed), true)
-                    .Add(nameof(CascadingValue<FieldContext>.Value), QueryContext)
-                    .Add(nameof(CascadingValue<FieldContext>.ChildContent), QueryTemplate);
+                attr.Set(c => c.IsFixed, true)
+                    .Set(c => c.Value, QueryContext)
+                    .Set(c => c.ChildContent, BuildTree(BuildQuerys));
             });
+        });
+    }
+
+    private void BuildTool(RenderTreeBuilder builder)
+    {
+        if (Tools == null || Tools.Count == 0)
+            return;
+
+        builder.Div("tool", attr =>
+        {
+            foreach (var item in Tools)
+            {
+                builder.Button(item.Name, item.Icon, Callback(() =>
+                {
+                    var method = GetType().GetMethod(item.Id);
+                    if (method == null)
+                        UI.Tips($"{item.Name}方法不存在！");
+                    else
+                        method.Invoke(this, null);
+                }), item.Style);
+            }
         });
     }
 
@@ -100,34 +143,57 @@ public abstract class DataComponent<TItem> : BaseComponent
         if (!ShowPager)
             return;
 
-        builder.Component<Pager>(attr =>
-        {
-            attr.Add(nameof(Pager.TotalCount), TotalCount)
-                .Add(nameof(Pager.PageIndex), pageIndex)
-                .Add(nameof(Pager.PageSize), PageSize)
-                .Add(nameof(Pager.OnPageChanged), Callback<int>(e => QueryData(e)));
-        });
+        builder.Component<Pager>()
+               .Set(c => c.TotalCount, TotalCount)
+               .Set(c => c.PageIndex, criteria.PageIndex)
+               .Set(c => c.PageSize, criteria.PageSize)
+               .Set(c => c.OnPageChanged, QueryPageData)
+               .Build();
     }
 
-    private void QueryData(int page)
+    private async Task QueryPageData(PagingCriteria pc = null)
     {
-        pageIndex = page;
-
-        if (OnQuery == null)
-            return;
-
-        var criteria = new PagingCriteria(pageIndex)
+        SelectedItems.Clear();
+        criteria.ExportMode = ExportMode.None;
+        criteria.IsQuery = isQuery;
+        criteria.PageIndex = 1;
+        if (pc != null)
         {
-            Parameter = QueryContext.GetData()
-        };
-        var data = OnQuery(criteria);
-        if (data == null)
-            return;
-
-        TotalCount = data.TotalCount;
-        if (data.PageData != null)
-        {
-            Data = data.PageData;
+            criteria.PageIndex = pc.PageIndex;
+            criteria.PageSize = pc.PageSize;
         }
+        criteria.Query = GetQuery();
+        criteria.OrderBys = OrderBys;
+        criteria.SumColumns = GetSumColumns();
+
+        if (!ShowPager)
+            criteria.PageIndex = -1;
+
+        var data = await OnQueryData(criteria);
+        if (data == null)
+        {
+            TotalCount = 0;
+            Data = null;
+            Sums = null;
+        }
+        else
+        {
+            TotalCount = data.TotalCount;
+            Data = data.PageData;
+            Sums = data.Sums;
+        }
+        StateChanged();
+    }
+
+    private List<QueryInfo> GetQuery()
+    {
+        if (query != null && query.Count > 0)
+            return query;
+
+        query = QueryContext.GetData();
+        if (!query.Any() && DefaultQuery != null)
+            query = QueryContext.GetData(DefaultQuery);
+
+        return query;
     }
 }

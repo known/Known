@@ -1,26 +1,13 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using System.Drawing;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components;
 
 public class DialogOption
 {
-    public bool IsTips { get; set; }
-    public Size Size { get; set; } = new Size(500, 300);
+    public bool IsMax { get; set; }
+    public bool IsMaxButton { get; set; }
+    public Size? Size { get; set; } = new Size(500, 300);
     public string Title { get; set; }
     public string HeadStyle { get; set; }
+    public string ContentStyle { get; set; }
     public string BodyStyle { get; set; }
     public string FootStyle { get; set; }
     public RenderFragment Content { get; set; }
@@ -34,23 +21,11 @@ public class DialogOption
 public class DialogContainer : BaseComponent
 {
     private string current;
-    private DialogOption tips;
     private readonly Dictionary<string, DialogOption> dialogs = new();
 
-    internal void ShowTips(string message)
+    public DialogContainer()
     {
-        tips = new DialogOption
-        {
-            IsTips = true,
-            Content = builder => builder.Text(message)
-        };
-        StateHasChanged();
-    }
-
-    internal void CloseTips()
-    {
-        tips = null;
-        StateHasChanged();
+        Id = "top";
     }
 
     internal void Show(DialogOption option)
@@ -60,11 +35,11 @@ public class DialogContainer : BaseComponent
         {
             current = option.Title;
             dialogs[current] = option;
-            StateHasChanged();
+            StateChanged();
         }
     }
 
-    public void Close()
+    internal void Close()
     {
         if (string.IsNullOrWhiteSpace(current))
             return;
@@ -74,88 +49,81 @@ public class DialogContainer : BaseComponent
             var previous = dialogs[current].Previous;
             dialogs.Remove(current);
             current = previous;
-            StateHasChanged();
+            StateChanged();
         }
     }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        if (UI != null)
-        {
-            UI.Register(this);
-        }
+        UI?.Register(this);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (tips != null)
-        {
-            builder.Component<Dialog>(attr =>
-            {
-                attr.Add(nameof(Dialog.Option), tips);
-            });
-        }
-
+        var index = 1;
         foreach (var item in dialogs)
         {
             var option = item.Value;
-            builder.Component<Dialog>(attr =>
-            {
-                attr.Add(nameof(Dialog.Option), option)
-                    .Add(nameof(Dialog.OnClose), () => Close());
-            });
+            builder.Component<Dialog>()
+                   .Set(c => c.StartIndex, Id == "top" ? 100000 : 10000)
+                   .Set(c => c.Index, index++)
+                   .Set(c => c.Option, option)
+                   .Set(c => c.OnClose, Close)
+                   .Build();
         }
     }
 }
 
-public class Dialog : BaseComponent
+class Dialog : BaseComponent
 {
+    private bool isClickMax;
+    private readonly string dialogId;
+
+    public Dialog()
+    {
+        dialogId = "dailog-" + Utils.GetGuid();
+    }
+
+    [Parameter] public int StartIndex { get; set; } = 10000;
+    [Parameter] public int Index { get; set; }
     [Parameter] public DialogOption Option { get; set; }
     [Parameter] public Action OnClose { get; set; }
 
+    protected override void OnParametersSet() => isClickMax = Option.IsMax;
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (Option.IsTips)
-            BuildTips(builder);
-        else
-            BuildDialog(builder);
+        var isMax = isClickMax;
+        var className = isMax ? "dialog max" : "dialog";
+        builder.Div("mask", attr => attr.Id($"mask-{dialogId}").Style($"z-index:{StartIndex + Index}"));
+        builder.Div(className, attr =>
+        {
+            attr.Id(dialogId).Style(GetStyle(isMax));
+            BuildHead(builder, isMax);
+            BuildContent(builder);
+        });
     }
 
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
+        if (!isClickMax)
+        {
+            UI.SetDialogMove(dialogId);
+        }
         Option.OnShow?.Invoke(firstRender);
     }
 
-    private void BuildTips(RenderTreeBuilder builder)
-    {
-        builder.Div("dlg-tips animated fadeInDown", attr =>
-        {
-            builder.Fragment(Option.Content);
-        });
-    }
-
-    private void BuildDialog(RenderTreeBuilder builder)
-    {
-        builder.Div("mask");
-        builder.Div("dialog", attr =>
-        {
-            attr.Style(GetStyle());
-            BuildHead(builder);
-            BuildContent(builder);
-        });
-    }
-
-    private void BuildHead(RenderTreeBuilder builder)
+    private void BuildHead(RenderTreeBuilder builder, bool isMax)
     {
         if (!string.IsNullOrWhiteSpace(Option.Title))
         {
-            builder.Div($"dlg-head {Option.HeadStyle}", attr =>
+            var drag = !isMax ? "draggable" : "";
+            builder.Div($"dlg-head {drag} {Option.HeadStyle}", attr =>
             {
-                builder.Span(Option.Title);
-                BuildClose(builder);
+                builder.Span("title", Option.Title);
+                BuildHeadTools(builder, isMax);
             });
         }
         else
@@ -164,11 +132,29 @@ public class Dialog : BaseComponent
         }
     }
 
+    private void BuildHeadTools(RenderTreeBuilder builder, bool isMax)
+    {
+        builder.Div("btns", attr =>
+        {
+            if (Option.IsMaxButton)
+            {
+                var className = isMax ? "fa-window-restore" : "fa-window-maximize";
+                var title = isMax ? "恢复" : "最大化";
+                builder.Span($"bmax fa {className}", attr =>
+                {
+                    attr.Title(title).OnClick(Callback(e => isClickMax = !isClickMax));
+                });
+            }
+
+            BuildClose(builder);
+        });
+    }
+
     private void BuildClose(RenderTreeBuilder builder)
     {
         builder.Span("close fa fa-close", attr =>
         {
-            attr.OnClick(Callback(e => OnClose()));
+            attr.Title("关闭").OnClick(Callback(e => OnClose()));
         });
     }
 
@@ -176,7 +162,7 @@ public class Dialog : BaseComponent
     {
         if (Option.Content != null)
         {
-            builder.Div("dlg-content", attr =>
+            builder.Div($"dlg-content {Option.ContentStyle}", attr =>
             {
                 builder.Fragment(Option.Content);
             });
@@ -210,14 +196,18 @@ public class Dialog : BaseComponent
         });
     }
 
-    private string GetStyle()
+    private string GetStyle(bool isMax)
     {
         var size = Option.Size;
-        return new StyleBuilder()
-                .Add("width", $"{size.Width}px")
-                .Add("height", $"{size.Height}px")
-                .Add("margin-top", $"-{size.Height / 2}px")
-                .Add("margin-left", $"-{size.Width / 2}px")
-                .Build();
+        var sb = new StyleBuilder();
+        if (!isMax)
+        {
+            sb.Add("width", $"{size?.Width}px")
+              .Add("height", $"{size?.Height}px")
+              .Add("margin-top", $"-{size?.Height / 2}px")
+              .Add("margin-left", $"-{size?.Width / 2}px");
+        }
+        sb.Add("z-index", $"{StartIndex + Index + 1}");
+        return sb.Build();
     }
 }

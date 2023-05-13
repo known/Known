@@ -1,0 +1,28 @@
+﻿@using Known.Razor.Components
+@using Microsoft.AspNetCore.Components.Routing
+@inject Microsoft.JSInterop.IJSRuntime JS
+
+<CascadingValue Value="context">
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" />
+        </Found>
+        <NotFound>
+            <Error Code="404" />
+        </NotFound>
+    </Router>
+    <DialogContainer />
+</CascadingValue>
+
+@code {
+    private KRContext context;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        context = new KRContext
+        {
+            UI = new UIService(JS)
+        };
+    }
+}

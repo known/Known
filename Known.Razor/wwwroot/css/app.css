@@ -1,7 +1,7 @@
 ﻿/* -------------------------------------------------------------------------------
  * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
  * 
- * WebSite: https://www.pumantech.com
+ * WebSite: www.pumantech.com
  * Contact: knownchen@163.com
  * 
  * Change Logs:
@@ -11,24 +11,46 @@
 
 @import "common.css";
 
+.app-mobile {width:100%;height:100%;}
 body {font-size:18px;}
-button, input, select, textarea, .form-input .text,
+button, input, select, .form-input .text,
 .form-label, .form-text, .form-radio, .form-tips {height:40px;line-height:40px;}
 .form-label {padding:0;}
+label.required:after {content:'*';color:#f00;padding-right:2px;}
 .form-radio input {top:10px;}
+.form-input .icon, .form-input .unit, .form-input .btn {height:37px;line-height:37px;}
 .topbar, .tabbar {position:absolute;left:0;right:0;}
 .content {position:absolute;top:0;bottom:0;left:0;right:0;overflow:auto;}
 .search-box .icon {font-size:1.8rem;}
 .form, .inline {padding:10px 20px;}
-.inline .form-item {display:block;}
-.inline .form-text, .inline .form-input, .inline .form-tips {display:block;padding-left:90px;}
-.inline .form-label {float:left;}
+.form-button {padding:10px 30px;margin-bottom:10px;}
+.form-button button {margin:0;width:100%;font-size:1.2rem;}
+.dlg-content .form-button {padding:0;text-align:center;}
+.dlg-content .form-button button {margin:0 10px;width:40%;}
+
+.file-item {
+    float:left;width:80px;height:80px;text-align:center;
+    margin-right:10px;border:1.5px solid transparent;position:relative;
+}
+.file-item.add {border-color:#ccc;position:relative;overflow:hidden;cursor:pointer;line-height:80px;}
+.file-item i {font-size:1.2rem}
+.file-item span {display:block;text-align:left;line-height:normal;overflow:hidden;}
+.file-item .upload {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;outline:0;}
+.form-item .close {top:-10px;right:-10px;font-size:1.5rem;color:#f00;}
+
+.form.inline .form-item {padding:0;}
+.form.inline .form-label {display:inline-block;width:30%;}
+.form.inline .form-input {display:inline-block;width:70%;}
+.form-button.inline {padding:0 20px;}
+.form.inline .block .form-input, 
+.form.inline .form-input.block{display:block;width:100%;padding-top:40px;}
 
 /*data*/
+.hasPager {bottom:41px;}
 .pager {border-top:1px solid #ccc;}
-.pager .btns {display:block;}
+.pager .btns {display:block;margin:0;}
 .pager .btns li {display:inline-block;width:33.33%;margin:0;text-align:center;}
-.pager .btns li.text {color:#333;}
+.pager .btns li.text {color:#333;width:33.33%;}
 
 /*login*/
 .login {background-color:#337ab7;}
@@ -60,7 +82,7 @@ button, input, select, textarea, .form-input .text,
 /*tabbar*/
 .tabbar {bottom:0;height:50px;background-color:#f1f1f1;border-top:1px solid #d6d6d6;}
 .tabbar .menu-item {position:relative;display:inline-block;height:100%;text-align:center;color:#333;cursor:pointer;}
-.tabbar .menu-item.active {color:#009688;}
+.tabbar .menu-item.active {color:#1c66b9;}
 .tabbar .menu-item .icon {margin-top:2px;width:25px;height:25px;line-height:25px;font-size:1.5rem;}
 .tabbar .menu-item .icon.small {font-size:22px;}
 .tabbar .menu-item .name {position:absolute;bottom:0;left:0;right:0;height:23px;line-height:23px;}
@@ -86,7 +108,11 @@ button, input, select, textarea, .form-input .text,
     width:120px;height:120px;
     -webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;
 }
-.mine button, .change-pwd button {width:100%;margin-top:20px;font-size:1.2rem;}
+.mine button {width:100%;font-size:1.2rem;margin-top:20px;}
+.mine .fa-mobile {font-size:1.3rem;}
 
 /*common*/
-.inline .form-item:after, .menu:after {display:block;content:'';clear:both;}
+.menu:after {display:block;content:'';clear:both;}
+.app-mobile .inline .form-input {padding:0;}
+.mobile .dlg-foot.confirm {text-align:center;}
+.mobile .dlg-foot.confirm button {display:inline-block;width:46%;margin:0 2%;}

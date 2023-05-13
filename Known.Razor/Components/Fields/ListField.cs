@@ -1,30 +1,30 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components.Fields;
 
 public class ListField : Field
 {
+    [Parameter] public int ColumnCount { get; set; }
     [Parameter] public string Codes { get; set; }
     [Parameter] public CodeInfo[] Items { get; set; }
     [Parameter] public Func<CodeInfo[]> CodeAction { get; set; }
 
     protected CodeInfo[] ListItems { get; private set; }
 
+    public void SetCodes(string codes)
+    {
+        Codes = codes;
+        StateChanged();
+    }
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         ListItems = GetListItems();
+    }
+
+    protected override void SetFieldContext(FieldContext context)
+    {
+        base.SetFieldContext(context);
+        context.FieldItems = GetListItems();
     }
 
     private CodeInfo[] GetListItems()
@@ -35,9 +35,6 @@ public class ListField : Field
         if (CodeAction != null)
             return CodeAction();
 
-        if (string.IsNullOrEmpty(Codes))
-            return null;
-
-        return Codes.Split(',').Select(d => new CodeInfo(d, d)).ToArray();
+        return CodeInfo.GetCodes(Codes).ToArray();
     }
 }

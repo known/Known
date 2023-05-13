@@ -1,18 +1,4 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components.Fields;
 
 public class Input : Field
 {
@@ -40,11 +26,9 @@ public class Input : Field
     // text           默认。定义单行输入字段，用户可在其中输入文本。默认是 20 个字符。
     // url            定义用于 URL 的文本字段。
     [Parameter] public string Type { get; set; }
+    [Parameter] public string OnEnter { get; set; }
 
-    protected override void BuidChildContent(RenderTreeBuilder builder)
-    {
-        BuildInput(builder, Type);
-    }
+    protected override void BuildChildContent(RenderTreeBuilder builder) => BuildInput(builder, Type);
 
     internal static void BuildIcon(RenderTreeBuilder builder, string icon)
     {
@@ -64,12 +48,13 @@ public class Input : Field
                 .Value(Value).Required(Required)
                 .Placeholder(placeholder)
                 .Add("autocomplete", "off")
-                .OnChange(CreateBinder());
+                .OnChange(CreateBinder())
+                .OnEnter(OnEnter);
             //builder.SetUpdatesAttributeName("value");
         });
     }
 
-    protected void BuidDate(RenderTreeBuilder builder, string id, string value, Action<DateTime> action, string type = "date")
+    protected void BuidDate(RenderTreeBuilder builder, string id, string value, Action<DateTime?> action, string type = "date")
     {
         builder.Input(attr =>
         {

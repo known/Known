@@ -1,18 +1,4 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components.Fields;
 
 public class SearchBox : BaseComponent
 {
@@ -44,10 +30,7 @@ public class SearchBox : BaseComponent
         });
     }
 
-    private void OnKeyChanged(ChangeEventArgs e)
-    {
-        key = e?.Value?.ToString();
-    }
+    private void OnKeyChanged(ChangeEventArgs e) => key = e?.Value?.ToString();
 
     private void OnClick()
     {

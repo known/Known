@@ -1,36 +1,23 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using System.Drawing;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
-
-public interface IPicker
-{
-    string Title { get; }
-    Size Size { get; }
-    RenderFragment Content { get; }
-}
+﻿namespace Known.Razor.Components.Fields;
 
 public class Picker : Field
 {
-    [Parameter] public IPicker Pick { get; set; }
+    private bool isInitOK;
 
-    protected override void BuidChildContent(RenderTreeBuilder builder)
+    [Parameter] public IPicker Pick { get; set; }
+    [Parameter] public bool CanEdit { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        isInitOK = Pick != null && Pick.OnOK != null;
+        return base.OnInitializedAsync();
+    }
+
+    protected override void BuildChildContent(RenderTreeBuilder builder)
     {
         builder.Input(attr =>
         {
-            attr.Type("text").Id(Id).Name(Id).Disabled(true)
+            attr.Type("text").Id(Id).Name(Id).Disabled(!CanEdit)
                 .Value(Value).Required(Required)
                 .Add("autocomplete", "off")
                 .OnChange(CreateBinder());
@@ -40,18 +27,19 @@ public class Picker : Field
         {
             builder.Icon("fa fa-ellipsis-h", attr =>
             {
-                attr.OnClick(Callback(e => ShowPicker()));
+                attr.OnClick(Callback(e =>
+                {
+                    if (!isInitOK && Pick != null)
+                    {
+                        Pick.OnOK = value =>
+                        {
+                            SetValue(value);
+                            OnValueChange();
+                        };
+                    }
+                    UI.Show(Pick);
+                }));
             });
         }
-    }
-
-    private void ShowPicker()
-    {
-        UI.Show(new DialogOption
-        {
-            Title = Pick.Title,
-            Size = Pick.Size,
-            Content = Pick.Content
-        });
     }
 }

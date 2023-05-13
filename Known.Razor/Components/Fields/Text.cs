@@ -1,25 +1,11 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components.Fields;
 
 public class Password : Input
 {
     [Parameter] public string Icon { get; set; }
     [Parameter] public string Placeholder { get; set; }
 
-    protected override void BuidChildContent(RenderTreeBuilder builder)
+    protected override void BuildChildContent(RenderTreeBuilder builder)
     {
         BuildIcon(builder, Icon);
         BuildInput(builder, "password", Placeholder);
@@ -31,10 +17,21 @@ public class Text : Input
     [Parameter] public string Icon { get; set; }
     [Parameter] public string Placeholder { get; set; }
 
-    protected override void BuidChildContent(RenderTreeBuilder builder)
+    protected override void BuildChildContent(RenderTreeBuilder builder)
     {
         BuildIcon(builder, Icon);
         BuildInput(builder, "text", Placeholder);
+    }
+}
+
+public class TextAction : Text
+{
+    [Parameter] public Action<string> OnOK { get; set; }
+
+    protected override void BuildChildContent(RenderTreeBuilder builder)
+    {
+        BuildInput(builder, "text", Placeholder);
+        builder.Span("btn", "确定", Callback(e => OnOK(Value)));
     }
 }
 
@@ -42,7 +39,12 @@ public class TextArea : Field
 {
     [Parameter] public string Placeholder { get; set; }
 
-    protected override void BuidChildContent(RenderTreeBuilder builder)
+    protected override void BuildChildText(RenderTreeBuilder builder)
+    {
+        builder.Pre(Value);
+    }
+
+    protected override void BuildChildContent(RenderTreeBuilder builder)
     {
         builder.TextArea(attr =>
         {

@@ -1,18 +1,4 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components;
 
 public class Menu : BaseComponent
 {
@@ -109,4 +95,52 @@ public class Menu : BaseComponent
     }
 
     private string Active(string id) => CurItem != null && CurItem.Id == id ? "active" : "";
+}
+
+public class MenuItem : MenuInfo
+{
+    public MenuItem()
+    {
+        Children = new List<MenuItem>();
+    }
+
+    public MenuItem(string code, string name, string icon = null) : this()
+    {
+        Code = code;
+        Name = name;
+        Icon = icon;
+    }
+
+    public MenuItem(string name, string icon, Type type, string description = null) : base(type.Name, name, icon, description)
+    {
+        Code = type.Name;
+        Target = type.FullName;
+        ComType = type;
+        Children = new List<MenuItem>();
+    }
+
+    public Type ComType { get; set; }
+    public Dictionary<string, object> ComParameters { get; set; }
+    public MenuItem Previous { get; set; }
+    public List<MenuItem> Children { get; set; }
+
+    public static MenuItem From(MenuInfo menu)
+    {
+        return new MenuItem
+        {
+            Id = menu.Id,
+            ParentId = menu.ParentId,
+            Code = menu.Code,
+            Name = menu.Name,
+            Icon = menu.Icon,
+            Description = menu.Description,
+            Target = menu.Target,
+            Sort = menu.Sort,
+            Color = menu.Color,
+            Badge = menu.Badge,
+            Buttons = menu.Buttons,
+            Actions = menu.Actions,
+            Columns = menu.Columns
+        };
+    }
 }

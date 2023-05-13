@@ -1,25 +1,11 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
+﻿namespace Known.Razor.Components;
 
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
-
-public class Pager : BaseComponent
+class Pager : BaseComponent
 {
     [Parameter] public int TotalCount { get; set; }
-    [Parameter] public int PageSize { get; set; } = 10;
-    [Parameter] public int PageIndex { get; set; } = 1;
-    [Parameter] public EventCallback<int> OnPageChanged { get; set; }
+    [Parameter] public int PageSize { get; set; }
+    [Parameter] public int PageIndex { get; set; }
+    [Parameter] public Func<PagingCriteria, Task> OnPageChanged { get; set; }
 
     public int PageCount => (int)Math.Ceiling(TotalCount * 1.0 / PageSize);
 
@@ -27,7 +13,7 @@ public class Pager : BaseComponent
     {
         builder.Div("pager", attr =>
         {
-            if (AppContext.IsMobile)
+            if (Context.IsMobile)
                 BuildAppPager(builder);
             else
                 BuildPager(builder);
@@ -49,42 +35,110 @@ public class Pager : BaseComponent
 
     private void BuildPager(RenderTreeBuilder builder)
     {
-        builder.Span(attr =>
+        var total = Language.PagerTotalText.Format(TotalCount);
+        builder.Span("total", total);
+
+        builder.Span("size", attr =>
         {
-            var text = Language.PagerText.Format(TotalCount, PageIndex, PageCount);
-            builder.Text(text);
-            builder.Ul("btns", attr =>
+            builder.Text("每页");
+            BuildPageSize(builder);
+            builder.Text("条");
+        });
+
+        builder.Ul("btns", attr =>
+        {
+            builder.Li(attr =>
             {
-                BuildPageButton(builder, Language.PagerFirst);
-                BuildPageButton(builder, Language.PagerPrevious);
-                BuildPageButton(builder, Language.PagerNext);
-                BuildPageButton(builder, Language.PagerLast);
+                attr.Title(Language.PagerRefresh).OnClick(Callback(e => OnRefresh()));
+                builder.Icon("fa fa-refresh");
             });
+            BuildPageButton(builder, Language.PagerFirst, "fa fa-step-backward");
+            BuildPageButton(builder, Language.PagerPrevious, "caret pp fa fa-caret-left");
+            builder.Li("text", attr =>
+            {
+                builder.Text($"{PageIndex}/{PageCount}");
+            });
+            BuildPageButton(builder, Language.PagerNext, "caret pn fa fa-caret-right");
+            BuildPageButton(builder, Language.PagerLast, "fa fa-step-forward");
         });
     }
 
-    private void BuildPageButton(RenderTreeBuilder builder, string text)
+    private void BuildPageSize(RenderTreeBuilder builder)
+    {
+        var sizes = PagingCriteria.PageSizes;
+        builder.Select(attr =>
+        {
+            attr.OnChange(EventCallback.Factory.CreateBinder(this, value =>
+            {
+                PageIndex = 1;
+                PageSize = value;
+                OnRefresh();
+            }, PageSize));
+            foreach (var size in sizes)
+            {
+                builder.Option(attr =>
+                {
+                    attr.Value($"{size}").Selected(size == PageSize);
+                    builder.Text($"{size}");
+                });
+            }
+        });
+    }
+
+    private void BuildPageButton(RenderTreeBuilder builder, string text, string icon = null)
     {
         builder.Li(attr =>
         {
-            attr.OnClick(Callback(e => OnChangePage(text)));
-            builder.Text(text);
+            if (IsDisabled(text))
+                attr.Class("disabled");
+            else
+                attr.OnClick(Callback(async e => await OnChangePage(text)));
+
+            if (!string.IsNullOrWhiteSpace(icon))
+            {
+                attr.Title(text);
+                builder.Icon(icon);
+            }
+            else
+            {
+                builder.Text(text);
+            }
         });
     }
 
-    private void OnChangePage(string btnText)
+    private bool IsDisabled(string text)
     {
-        SetPageIndex(btnText);
-
-        if (OnPageChanged.HasDelegate)
+        switch (text)
         {
-            OnPageChanged.InvokeAsync(PageIndex);
+            case Language.PagerFirst:
+            case Language.PagerPrevious:
+                return PageIndex == 1;
+            case Language.PagerNext:
+            case Language.PagerLast:
+                return PageCount <= 1 || PageIndex == PageCount && PageCount > 1;
+            default:
+                return false;
         }
     }
 
-    private void SetPageIndex(string btnText)
+    private Task OnChangePage(string text)
     {
-        switch (btnText)
+        SetPageIndex(text);
+        return OnRefresh();
+    }
+
+    private Task OnRefresh()
+    {
+        return OnPageChanged?.Invoke(new PagingCriteria
+        {
+            PageIndex = PageIndex,
+            PageSize = PageSize
+        });
+    }
+
+    private void SetPageIndex(string text)
+    {
+        switch (text)
         {
             case Language.PagerFirst:
                 PageIndex = 1;

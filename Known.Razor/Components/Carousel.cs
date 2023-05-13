@@ -1,18 +1,4 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components;
 
 public class Carousel : BaseComponent
 {
@@ -43,7 +29,7 @@ public class Carousel : BaseComponent
     private void BuildItems(RenderTreeBuilder builder)
     {
         if (Images == null || Images.Length == 0)
-            return;
+            Images = new string[] { "_content/Known.Razor/img/none.png" };
 
         for (int i = 0; i < Images.Length; i++)
         {
@@ -79,7 +65,7 @@ public class Carousel : BaseComponent
             curIndex++;
             if (curIndex >= Images.Length)
                 curIndex = 0;
-            StateHasChanged();
+            StateChanged();
         });
     }
 

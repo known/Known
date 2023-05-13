@@ -1,102 +1,108 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor;
 
 public class FormComponent : PageComponent
 {
-    private Form form;
+    protected Form form;
 
     [Parameter] public bool IsDialog { get; set; }
-    [Parameter] public bool ReadOnly { get; set; }
     [Parameter] public object Model { get; set; }
     [Parameter] public Action<Result> OnSuccess { get; set; }
 
-    protected virtual bool IsTable { get; } = true;
-    protected virtual string Style { get; }
+    protected virtual bool IsTable => !Context.IsMobile;
+    protected string FormStyle { get; set; } = "inline";
+    protected string ButtonStyle { get; set; } = "inline";
+    protected string CheckFields { get; set; }
 
-    protected FieldContext FieldContext
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        get { return form.FieldContext; }
+        if (firstRender)
+        {
+            UI.BindEnter();
+        }
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        BuildPage(builder, Model);
+        if (Model == null)
+            builder.Div("", "Loading...");
+        else
+            BuildPage(builder, Model);
     }
 
     protected void BuildPage(RenderTreeBuilder builder, object model)
     {
-        builder.Component<Form>(attr =>
+        builder.ComponentRef<Form>(attr =>
         {
             attr.Add(nameof(Form.IsTable), IsTable)
                 .Add(nameof(Form.ReadOnly), ReadOnly)
-                .Add(nameof(Form.Style), Style)
+                .Add(nameof(Form.Style), FormStyle)
                 .Add(nameof(Form.Model), model)
-                .Add(nameof(Form.ChildContent), BuildTree(b => BuildFields(b)));
+                .Add(nameof(Form.CheckFields), CheckFields)
+                .Add(nameof(Form.ChildContent), BuildTree(BuildFields));
             builder.Reference<Form>(value => form = value);
         });
-        builder.Div("form-button", attr => BuildButtons(builder));
+        builder.Div($"form-button {ButtonStyle}", attr => BuildButtons(builder));
     }
 
-    protected virtual void BuildFields(RenderTreeBuilder builder)
+    protected virtual void BuildFields(RenderTreeBuilder builder) { }
+    protected virtual void BuildButtons(RenderTreeBuilder builder) => builder.Button(FormButton.Close, Callback(OnCancel));
+
+    protected void Submit(Func<dynamic, Result> action, Action<Result> onSuccess = null)
     {
+        form.Submit(action, OnSubmitted(onSuccess));
     }
 
-    protected virtual void BuildButtons(RenderTreeBuilder builder)
+    protected void SubmitAsync(Func<dynamic, Task<Result>> action, Action<Result> onSuccess = null)
     {
+        form.SubmitAsync(action, OnSubmitted(onSuccess));
     }
 
-    public bool CheckIsNew<TModel>() where TModel : EntityBase
+    protected void SubmitFilesAsync(Func<MultipartFormDataContent, Task<Result>> action, Action<Result> onSuccess = null)
     {
-        if (Model == null)
-            return true;
-
-        var model = (TModel)Model;
-        if (model == null)
-            return true;
-
-        return model.CheckIsNew();
+        form.SubmitFilesAsync(action, OnSubmitted(onSuccess));
     }
 
-    public virtual void OnOK()
+    protected void SubmitFilesAsync(Func<UploadFormInfo, Task<Result>> action, Action<Result> onSuccess = null)
+    {
+        form.SubmitFilesAsync(action, OnSubmitted(onSuccess));
+    }
+
+    protected virtual void OnOK()
     {
         form.Submit(data =>
         {
             var result = Result.Success("", data);
             OnSuccess?.Invoke(result);
+            UI.CloseDialog();
         });
     }
 
-    public virtual void OnCancel()
-    {
-        UI.CloseDialog();
-    }
+    protected virtual void OnCancel() => UI.CloseDialog();
+    protected void OnSuccessed() => OnSuccess?.Invoke(Result.Success(""));
 
-    public void Submit(Func<dynamic, Result> action, Action<Result> onSuccess)
+    private Action<Result> OnSubmitted(Action<Result> onSuccess)
     {
-        form.Submit(data => action(data), onSuccess);
-    }
-
-    public void Submit(Func<dynamic, Result> action, bool clear = false)
-    {
-        Submit(action, result =>
+        return result =>
         {
-            if (clear)
-                form.Clear();
-            else
-                OnSuccess?.Invoke(result);
+            onSuccess?.Invoke(result);
+            OnSuccess?.Invoke(result);
+        };
+    }
+}
+
+public class BaseForm<T> : FormComponent
+{
+    protected T TModel => (T)Model;
+
+    protected override void BuildFields(RenderTreeBuilder builder) => BuildFields(new FieldBuilder<T>(builder));
+    protected virtual void BuildFields(FieldBuilder<T> builder) { }
+
+    protected void BuildFlowLog(RenderTreeBuilder builder, string bizId, int colSpan)
+    {
+        builder.FormList<FlowLogGrid>("流程记录", colSpan, null, attr =>
+        {
+            attr.Set(c => c.BizId, bizId);
         });
     }
 }

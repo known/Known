@@ -1,26 +1,17 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components;
 
 public class Button : BaseComponent
 {
+    private readonly string id;
+
+    public Button()
+    {
+        id = Utils.GetGuid();
+    }
+
     [Parameter] public string Style { get; set; }
     [Parameter] public string Icon { get; set; }
     [Parameter] public string Text { get; set; }
-    [Parameter] public bool Enabled { get; set; } = true;
-    [Parameter] public bool Visible { get; set; } = true;
     [Parameter] public EventCallback OnClick { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -30,7 +21,7 @@ public class Button : BaseComponent
 
         builder.Button(Style, attr =>
         {
-            attr.Disabled(!Enabled).OnClick(Callback(e => OnButtonClick()));
+            attr.Id(id).Disabled(!Enabled).OnClick(Callback(OnButtonClick));
             if (!string.IsNullOrWhiteSpace(Icon))
             {
                 builder.Icon(Icon);
@@ -41,13 +32,13 @@ public class Button : BaseComponent
 
     private void OnButtonClick()
     {
-        Enabled = false;
+        UI.Enabled(id, false);
         if (OnClick.HasDelegate)
         {
             var task = OnClick.InvokeAsync();
             if (task.IsCompleted)
             {
-                Enabled = true;
+                UI.Enabled(id, true);
             }
         }
     }

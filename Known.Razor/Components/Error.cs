@@ -1,22 +1,8 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components;
 
 public class Error : BaseComponent
 {
-    [Parameter] public string Type { get; set; }
+    [Parameter] public string Code { get; set; }
     [Parameter] public string Title { get; set; }
     [Parameter] public string Message { get; set; }
 
@@ -24,7 +10,7 @@ public class Error : BaseComponent
     {
         var title = Title;
         var message = Message;
-        switch (Type)
+        switch (Code)
         {
             case "403":
                 title = Language.Error403Title;
@@ -42,7 +28,7 @@ public class Error : BaseComponent
 
         builder.Div("error-box", attr =>
         {
-            builder.Element("h1", attr => builder.Text(Type));
+            builder.Element("h1", attr => builder.Text(Code));
             builder.Element("h3", attr => builder.Text(title));
             builder.Div(attr => builder.Text(message));
         });

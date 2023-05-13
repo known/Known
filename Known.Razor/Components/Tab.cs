@@ -1,57 +1,32 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: https://www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
- * ------------------------------------------------------------------------------- */
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Razor;
+﻿namespace Known.Razor.Components;
 
 public class Tab : BaseComponent
 {
     [Parameter] public bool Justified { get; set; }
-    //top、left
     [Parameter] public string Position { get; set; } = "top";
     [Parameter] public string Codes { get; set; }
     [Parameter] public string CurItem { get; set; }
-    [Parameter] public CodeInfo[] Items { get; set; }
-    [Parameter] public EventCallback<CodeInfo> OnChanged { get; set; }
+    [Parameter] public List<MenuItem> Items { get; set; }
+    [Parameter] public Action<MenuItem> OnChanged { get; set; }
 
-    private CodeInfo[] TabItems { get; set; }
+    private List<MenuItem> TabItems { get; set; }
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        TabItems = CodeInfo.GetCodes(Codes, Items);
-    }
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-        base.OnAfterRender(firstRender);
-
-        if (firstRender)
-        {
-            var items = TabItems;
-            if (items != null && items.Length > 0 && string.IsNullOrWhiteSpace(CurItem))
-            {
-                OnItemClick(items[0]);
-            }
-        }
+        if (Items != null && Items.Count > 0)
+            TabItems = Items;
+        else
+            TabItems = CodeInfo.GetCodes(Codes).Select(c => new MenuItem(c.Code, c.Name)).ToList();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Ul($"tab tab-{Position}", attr =>
+        builder.Ul($"tab {Position}", attr =>
         {
             var items = TabItems;
-            if (items != null && items.Length != 0)
+            if (items != null && items.Count != 0)
             {
                 foreach (var item in items)
                 {
@@ -60,23 +35,22 @@ public class Tab : BaseComponent
                         attr.OnClick(Callback(e => OnItemClick(item)));
                         if (Justified)
                         {
-                            var width = Math.Round(100M / items.Length, 2);
+                            var width = Math.Round(100M / items.Count, 2);
                             attr.Style($"width:{width}%");
                         }
-                        builder.Text(item.Name);
+                        if (!string.IsNullOrWhiteSpace(item.Icon))
+                            builder.Icon(item.Icon);
+                        builder.Span(item.Name);
                     });
                 }
             }
         });
     }
 
-    private void OnItemClick(CodeInfo item)
+    private void OnItemClick(MenuItem item)
     {
         CurItem = item.Code;
-        if (OnChanged.HasDelegate)
-        {
-            OnChanged.InvokeAsync(item);
-        }
+        OnChanged?.Invoke(item);
     }
 
     private string Active(string item) => CurItem == item ? "active" : "";
