@@ -40,7 +40,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "引导", "引导", "{F81035
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "教程", "教程", "{8FFAA0F1-EBC0-4DEC-B035-2792BCD31031}"
 	ProjectSection(SolutionItems) = preProject
-		Document\教程\开始使用.md = Document\教程\开始使用.md
+		Document\教程\快速开始.md = Document\教程\快速开始.md
 	EndProjectSection
 EndProject
 Global
