@@ -18,8 +18,8 @@ Known是一个基于C#和Blazor开发的前后端分离快速开发框架，开�
 
 ### 效果图
 
-
-
+![Web效果图](Document/images/Web.png)
+![桌面效果图](Document/images/WinForm.png)
 
 ### 框架
 ```
