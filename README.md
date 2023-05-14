@@ -1,39 +1,45 @@
-# ERPLite
+# Known
 
-#### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+Known是一个基于C#和Blazor开发的前后端分离快速开发框架，开箱即用，可跨平台运行。
 
-#### 软件架构
-软件架构说明
+[![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
+[![fork](https://gitee.com/known/Known/badge/fork.svg?theme=dark)](https://gitee.com/known/Known/members)
+[![GitHub license](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/known/Known/blob/master/LICENSE)
 
+### 概述
+* 基于.NET 7和Blazor实现的快速开发框架，前后端分离，开箱即用。
+* 跨平台，生成混合桌面应用，Web和桌面共享一份代码。
+* 多租户、缓存、数据校验、鉴权、远程请求、任务调度等。
+* 包含模块、用户、角色、字典、日志、定时任务等功能。
+* 代码简洁、易扩展，让开发更简单、更快捷！
 
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+> 如果对您有帮助，点击右上角⭐Star⭐关注 ，感谢支持开源！
 
 
-#### 特技
+### 效果图
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+
+
+
+### 框架
+```
+├─Known         ->框架前后端共用库，前后端数据交互模型。
+├─Known.Core    ->框架后端库，通用业务逻辑。
+├─Known.Razor   ->框架前端库，Blazor组件。
+├─Known.Studio  ->框架代码生成工具。
+```
+
+### 示例框架
+```
+├─Test          ->项目前后端共用库。
+├─Test.Core     ->项目后端库。
+├─Test.Razor    ->项目前端库。
+├─Test.Client   ->Web前端BlazorWebAssembly。
+├─Test.Server   ->Web后端。
+├─Test.WinForm  ->WinForm桌面。
+├─TestAlone     ->桌面程序。
+```
+
+### 详细功能
+
+

@@ -3,11 +3,6 @@
 [Route("/")]
 public class Index : Known.Razor.Pages.Index
 {
-    public Index()
-    {
-        TopMenu = true;
-    }
-
     protected override void BuildLogin(RenderTreeBuilder builder)
     {
         builder.Component<Login>().Set(c => c.OnLogin, OnLogin).Build();
