@@ -56,6 +56,14 @@ Web效果图|桌面效果图
 ├─TestAlone     ->桌面exe程序。
 ```
 
+### 快速安装
+```
+--安装模板
+dotnet new install KnownTemplate
+--创建项目
+dotnet new known --name=你的项目
+```
+
 ### 使用教程
 
 * [快速开始](Document/教程/快速开始.md)
