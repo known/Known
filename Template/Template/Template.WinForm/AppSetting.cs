@@ -1,4 +1,4 @@
-﻿namespace Test.WinForm;
+﻿namespace Template.WinForm;
 
 class AppSetting
 {
@@ -29,7 +29,7 @@ class AppSetting
     private static string GetSavePath()
     {
         var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        var savePath = Path.Combine(path, "Known", "Test");
+        var savePath = Path.Combine(path, "Known", "Template");
         return Path.Combine(savePath, $"{Config.AppId}.data");
     }
 }

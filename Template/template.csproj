@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿	<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
     <PackageVersion>1.0.0</PackageVersion>
-    <PackageId>Known</PackageId>
-    <Title>Known</Title>
+    <PackageId>KnownTemplate</PackageId>
+    <Title>KnownTemplate</Title>
     <Authors>KnownChen</Authors>
     <Description>Project Template for Known.</Description>
     <PackageTags>dotnet-new;templates;Known</PackageTags>
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Sample\**\*" Exclude="Sample\**\bin\**;Sample\**\obj\**" />
+    <Content Include="Template\**\*" Exclude="Template\**\bin\**;Template\**\obj\**" />
     <Compile Remove="**\*" />
   </ItemGroup>
 

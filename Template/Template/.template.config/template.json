@@ -2,11 +2,11 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "KnownChen",
   "classifications": [ "Template" ],
-  "name": "Known",
-  "identity": "Known", 
+  "name": "KnownTemplate",
+  "identity": "KnownTemplate", 
   "shortName": "known",
   "tags": {
     "language": "C#" 
   },
-  "sourceName": "Known" 
+  "sourceName": "Template" 
 }
