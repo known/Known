@@ -1,6 +1,4 @@
-﻿body {font-size:1rem;background-color:#1c66b9;}
-h1 {font-size:1.5rem;font-weight:bold;padding:10px 0;}
-#app {width:100%;height:100%;}
+﻿#app {width:100%;height:100%;}
 #blazor-error-ui {
     background: lightyellow;bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);display: none;left: 0;
@@ -8,38 +6,3 @@ h1 {font-size:1.5rem;font-weight:bold;padding:10px 0;}
     position: fixed;width: 100%;z-index: 1000;
 }
 #blazor-error-ui .dismiss {cursor:pointer;position:absolute;right:0.75rem;top:0.5rem;}
-.app-loading {
-    position:absolute;top:50%;left:50%;width:300px;height:100px;
-    margin-top:-80px;margin-left:-150px;background:url(../img/logo.png) no-repeat center;background-size:contain;
-}
-.copyright {position:absolute;bottom:50px;text-align:center;color:#fff;width:100%;font-size:1.1rem;}
-.copyright a {color:#fff;margin:0 10px;}
-
-/*common*/
-.kui-body {background-color:#fff;}
-.tab li {font-size:1.1rem;}
-.caption {font-weight:bold;height:40px;line-height:40px;}
-
-/*Login*/
-.login {width:100%;height:100%;background-color:#1c66b9;}
-.login-box {
-    position:absolute;top:50%;left:50%;background-color:#fff;
-    width:800px;height:400px;margin-left:-400px;margin-top:-200px;
-    -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;
-}
-.login-left {position:absolute;top:70px;left:90px;width:320px;height:250px;border-right:1px solid #ccc;}
-.login .slogan {position:absolute;top:0;left:0;width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
-.login .image {position:absolute;top:50px;left:0;width:260px;height:180px;}
-.login-form {position:absolute;right:0;top:0;bottom:0;width:280px;height:auto;padding:50px;}
-.login-form .title {padding-left:0;margin-bottom:20px;}
-.login-title {font-size:1.3rem;font-weight:bold;margin-bottom:20px;text-align:center;}
-.login .form-input {margin-bottom:20px;}
-.login .form-input .icon {
-    z-index:900;left:10px;top:10px;right:unset;color:#d2d2d2;font-size:1.3rem;
-    height:auto;line-height:normal;background-color:#fff;
-}
-.login .form-input .fa-lock {left:11px;top:9px;font-size:1.6rem;}
-.login select, .login input {height:40px;padding-left:40px;background-color:#fff;}
-.login .form-radio input {height:20px;line-height:20px;}
-.login button {width:100%;height:40px;margin-left:0;}
-.login-msg {color:#1c66b9;text-align:center;}
