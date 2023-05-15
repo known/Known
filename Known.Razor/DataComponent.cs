@@ -78,7 +78,7 @@ public class DataComponent<TItem> : BaseComponent
             BuildTool(builder);
 
             if (Tools != null && Tools.Count > 0 && !ReadOnly)
-                style += " hasTool";
+                style += ShowQuery ? " hasTool" : " onlyTool";
 
             builder.Div($"{ContentStyle}{style}", attr => BuildContent(builder));
             BuildPager(builder);
@@ -122,7 +122,8 @@ public class DataComponent<TItem> : BaseComponent
         if (Tools == null || Tools.Count == 0)
             return;
 
-        builder.Div("tool", attr =>
+        var only = ShowQuery ? "" : " only";
+        builder.Div($"tool{only}", attr =>
         {
             foreach (var item in Tools)
             {

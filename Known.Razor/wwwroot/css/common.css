@@ -258,6 +258,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 
 /*tool*/
 .tool {border-top:2px solid #ccc;border-bottom:1px solid #ccc;padding:2px 10px;}
+.tool.only {margin-top:10px;}
 .tool button {background-color:#fff;color:#000;}
 .tool button:hover {color:#fff;background-color:#337ab7;-moz-opacity:1;opacity:1;filter:alpha(opacity=100);}
 .form .tool {position:absolute;top:-40px;right:0;border:none;padding:5px;}
@@ -317,6 +318,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .pager .btns li .pn {left:15px;}
 
 .hasTool {top:84px;}
+.onlyTool {top:43px;}
 .form .hasTool1 {top:-40px}
 .dlg-content .hasQuery {padding:10px 10px 0 10px;}
 .dlg-content .pager {padding:0 10px;}

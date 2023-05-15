@@ -123,7 +123,9 @@
 
 /*view*/
 .left-view {position:absolute;left:10px;top:10px;bottom:10px;overflow:auto;width:220px;border:1px solid #ccc;}
-.sysModule {left:232px;bottom:8px;}
+.sysModule {left:232px;top:10px;bottom:8px;}
+.sysModule .tool.only {border-top-width:1px;margin-top:0;}
+.sysModule .grid {top:31px;}
 
 /*form*/
 label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}
