@@ -6,7 +6,7 @@ class SysAccount : PageComponent
 {
     private readonly List<MenuItem> items = new()
     {
-        new MenuItem("基本信息", "fa fa-id-card-o", typeof(SysAccountForm)),
+        new MenuItem("基本信息", "fa fa-user", typeof(SysAccountForm)),
         new MenuItem("修改密码", "fa fa-lock", typeof(SysUserPwdForm)),
         new MenuItem("系统设置", "fa fa-cog", typeof(SysSettingForm))
     };
