@@ -38,7 +38,7 @@ class CompanyForm : WebForm<CompanyInfo>
 
         if (!isEdit)
         {
-            builder.Button("修改", "fa fa-edit", Callback(e => isEdit = true));
+            builder.Button(FormButton.Edit, Callback(e => isEdit = true));
         }
         else
         {

@@ -12,7 +12,7 @@ public class AppConfig
 {
     public static void Initialize()
     {
-        Config.AppId = "KIMS";
+        Config.AppId = "Template";
         Config.AppName = "Known管理系统";
         Config.SysVersion = "1.0.0";
         Config.AppAssembly = typeof(AppConfig).Assembly;
