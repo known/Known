@@ -66,10 +66,8 @@ dotnet new known --name=你的项目
 
 ### 使用教程
 
-* [快速开始](Document/教程/快速开始.md)
-* [项目框架搭建](Document/教程/项目框架搭建.md)
-* [功能菜单配置](Document/教程/功能菜单配置.md)
+* [Wiki教程](https://gitee.com/known/Known/wikis/pages)
 
 ### 更新日志
 
-* [更新日志](Document/引导/更新日志.md)
+* [更新日志](Document/更新日志.md)
