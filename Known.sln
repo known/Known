@@ -30,17 +30,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{C7FBFD8E-8E5E-4F9D-9756-EB313FDDBCAA}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "引导", "引导", "{F8103550-330A-4F88-B814-7EC58371AA82}"
-	ProjectSection(SolutionItems) = preProject
-		Document\引导\常见问题.md = Document\引导\常见问题.md
-		Document\引导\更新日志.md = Document\引导\更新日志.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "教程", "教程", "{8FFAA0F1-EBC0-4DEC-B035-2792BCD31031}"
-	ProjectSection(SolutionItems) = preProject
-		Document\教程\快速开始.md = Document\教程\快速开始.md
+		Document\更新日志.md = Document\更新日志.md
 	EndProjectSection
 EndProject
 Global
@@ -105,8 +95,6 @@ Global
 		{1B0B0624-D2D9-415F-85E6-C32EA444CECC} = {9E4C2479-3BB0-431D-9A25-EC6A1BB382A4}
 		{A70888EE-C2EB-4049-9DCA-C8F2E86282B6} = {9E4C2479-3BB0-431D-9A25-EC6A1BB382A4}
 		{71CBDB91-B333-424E-82CC-9D50517E265B} = {9E4C2479-3BB0-431D-9A25-EC6A1BB382A4}
-		{F8103550-330A-4F88-B814-7EC58371AA82} = {C7FBFD8E-8E5E-4F9D-9756-EB313FDDBCAA}
-		{8FFAA0F1-EBC0-4DEC-B035-2792BCD31031} = {C7FBFD8E-8E5E-4F9D-9756-EB313FDDBCAA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0BB8F8E-546D-43AE-9698-433B50035E81}
