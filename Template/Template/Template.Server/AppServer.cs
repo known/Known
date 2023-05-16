@@ -17,12 +17,15 @@ class AppServer
     {
         AppConfig.Initialize();
         AppCore.Initialize();
+		
+        var path = KCConfig.ContentRoot;
+        dbFile = Path.GetFullPath(Path.Combine(path, dbFile));
+        uploadPath = Path.GetFullPath(Path.Combine(path, uploadPath));
 
-        var dbFactories = new Dictionary<string, Type>
+        Database.RegisterProviders(new Dictionary<string, Type>
         {
             ["SQLite"] = typeof(Microsoft.Data.Sqlite.SqliteFactory)
-        };
-        Database.RegisterProviders(dbFactories);
+        });
         var connInfo = new Known.Core.ConnectionInfo
         {
             Name = "Default",

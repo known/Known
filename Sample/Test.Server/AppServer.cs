@@ -10,20 +10,22 @@ class AppServer
         var configuration = builder.Configuration;
         var dbFile = configuration.GetSection("DBFile").Get<string>();
         var uploadPath = configuration.GetSection("UploadPath").Get<string>();
-        var templatesPath = configuration.GetSection("TemplatesPath").Get<string>();
-        Initialize(dbFile, uploadPath, templatesPath);
+        Initialize(dbFile, uploadPath);
     }
 
-    internal static void Initialize(string? dbFile, string? uploadPath, string? templatesPath)
+    internal static void Initialize(string? dbFile, string? uploadPath)
     {
         AppConfig.Initialize();
         AppCore.Initialize();
 
-        var dbFactories = new Dictionary<string, Type>
+        var path = KCConfig.ContentRoot;
+        dbFile = Path.GetFullPath(Path.Combine(path, dbFile));
+        uploadPath = Path.GetFullPath(Path.Combine(path, uploadPath));
+
+        Database.RegisterProviders(new Dictionary<string, Type>
         {
             ["SQLite"] = typeof(Microsoft.Data.Sqlite.SqliteFactory)
-        };
-        Database.RegisterProviders(dbFactories);
+        });
         var connInfo = new Known.Core.ConnectionInfo
         {
             Name = "Default",
@@ -33,8 +35,7 @@ class AppServer
         KCConfig.App = new AppInfo
         {
             Connections = new List<Known.Core.ConnectionInfo> { connInfo },
-            UploadPath = uploadPath,
-            Templates = templatesPath
+            UploadPath = uploadPath
         };
     }
 }
