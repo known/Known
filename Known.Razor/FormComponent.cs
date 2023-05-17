@@ -95,6 +95,18 @@ public class BaseForm<T> : FormComponent
 {
     protected T TModel => (T)Model;
 
+    protected Field Field(Expression<Func<T, object>> selector)
+    {
+        var property = TypeHelper.Property(selector);
+        return form.Fields[property.Name];
+    }
+
+    protected TField Field<TField>(Expression<Func<T, object>> selector) where TField : Field
+    {
+        var property = TypeHelper.Property(selector);
+        return form.FieldAs<TField>(property.Name);
+    }
+
     protected override void BuildFields(RenderTreeBuilder builder) => BuildFields(new FieldBuilder<T>(builder));
     protected virtual void BuildFields(FieldBuilder<T> builder) { }
 
