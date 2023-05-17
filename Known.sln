@@ -33,6 +33,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{C7
 		Document\更新日志.md = Document\更新日志.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{25F59B83-8869-4568-B0B9-ADABDB8AF9BC}"
+	ProjectSection(SolutionItems) = preProject
+		Document\Scripts\Access.sql = Document\Scripts\Access.sql
+		Document\Scripts\MySql.sql = Document\Scripts\MySql.sql
+		Document\Scripts\Oracle.sql = Document\Scripts\Oracle.sql
+		Document\Scripts\SQLite.sql = Document\Scripts\SQLite.sql
+		Document\Scripts\SqlServer.sql = Document\Scripts\SqlServer.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +104,7 @@ Global
 		{1B0B0624-D2D9-415F-85E6-C32EA444CECC} = {9E4C2479-3BB0-431D-9A25-EC6A1BB382A4}
 		{A70888EE-C2EB-4049-9DCA-C8F2E86282B6} = {9E4C2479-3BB0-431D-9A25-EC6A1BB382A4}
 		{71CBDB91-B333-424E-82CC-9D50517E265B} = {9E4C2479-3BB0-431D-9A25-EC6A1BB382A4}
+		{25F59B83-8869-4568-B0B9-ADABDB8AF9BC} = {C7FBFD8E-8E5E-4F9D-9756-EB313FDDBCAA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0BB8F8E-546D-43AE-9698-433B50035E81}
