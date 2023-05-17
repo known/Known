@@ -109,12 +109,12 @@ class SysModuleForm : BaseForm<SysModule>
                     if (name == ButtonGrid.KeyButton)
                     {
                         model.ButtonData = v;
-                        form.Fields[nameof(SysModule.ButtonData)].SetValue(v);
+                        Field(f => f.ButtonData).SetValue(v);
                     }
                     else if (name == ButtonGrid.KeyAction)
                     {
                         model.ActionData = v;
-                        form.Fields[nameof(SysModule.ActionData)].SetValue(v);
+                        Field(f => f.ActionData).SetValue(v);
                     }
                 });
         });
