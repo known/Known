@@ -121,15 +121,13 @@ class CodeService
     private static string GetEntityCode(DomainInfo model)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("using System;");
-        sb.AppendLine(" ");
-        sb.AppendLine("namespace Known.{0}.Entities", model.Project);
+        sb.AppendLine("namespace {0}.Entities;", model.Project);
+        sb.AppendLine("");
+        sb.AppendLine("/// <summary>");
+        sb.AppendLine("/// {0}实体类。", model.Name);
+        sb.AppendLine("/// </summary>");
+        sb.AppendLine("public class {0} : EntityBase", model.EntityName);
         sb.AppendLine("{");
-        sb.AppendLine("    /// <summary>");
-        sb.AppendLine("    /// {0}实体类。", model.Name);
-        sb.AppendLine("    /// </summary>");
-        sb.AppendLine("    public class {0} : EntityBase", model.EntityName);
-        sb.AppendLine("    {");
 
         var index = 0;
         foreach (var item in model.Fields)
@@ -144,14 +142,13 @@ class CodeService
             if (!item.Required && type != "string?")
                 type += "?";
 
-            sb.AppendLine("        /// <summary>");
-            sb.AppendLine("        /// 取得或设置{0}。", item.Name);
-            sb.AppendLine("        /// </summary>");
-            sb.AppendLine("        [Column(\"{0}\", \"\", {1}{2})]", item.Name, tf, len);
-            sb.AppendLine("        public {0} {1} {{ get; set; }}", type, item.Code);
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine("    /// 取得或设置{0}。", item.Name);
+            sb.AppendLine("    /// </summary>");
+            sb.AppendLine("    [Column(\"{0}\", \"\", {1}{2})]", item.Name, tf, len);
+            sb.AppendLine("    public {0} {1} {{ get; set; }}", type, item.Code);
         }
 
-        sb.AppendLine("    }");
         sb.AppendLine("}");
 
         return sb.ToString();
@@ -160,46 +157,42 @@ class CodeService
     private static string GetServiceCode(DomainInfo model)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("using Known.{0}.Entities;", model.Project);
-        sb.AppendLine(" ");
-        sb.AppendLine("namespace Known.{0}", model.Project);
+        sb.AppendLine("namespace {0}.Core.Services;", model.Project);
+        sb.AppendLine("");
+        sb.AppendLine("class {0}Service : ServiceBase", model.Code);
         sb.AppendLine("{");
-        sb.AppendLine("    class {0}Service : ServiceBase", model.Code);
+        sb.AppendLine("    public PagingResult<{0}> Query{1}s(PagingCriteria criteria)", model.EntityName, model.Code);
         sb.AppendLine("    {");
-        sb.AppendLine("        public PagingResult<{0}> Query{1}s(PagingCriteria criteria)", model.EntityName, model.Code);
-        sb.AppendLine("        {");
-        sb.AppendLine("            return Repository.Query{0}s(Database, criteria);", model.Code);
-        sb.AppendLine("        }");
-        sb.AppendLine(" ");
-        sb.AppendLine("        public Result Delete{0}s(List<{1}> models)", model.Code, model.EntityName);
-        sb.AppendLine("        {");
-        sb.AppendLine("            if (models == null || models.Count == 0)");
-        sb.AppendLine("                return Result.Error(Language.SelectOneAtLeast);");
-        sb.AppendLine(" ");
-        sb.AppendLine("            return Database.Transaction(Language.Delete, db =>");
-        sb.AppendLine("            {");
-        sb.AppendLine("                foreach (var item in models)");
-        sb.AppendLine("                {");
-        sb.AppendLine("                    db.Delete(item);");
-        sb.AppendLine("                }");
-        sb.AppendLine("            });");
-        sb.AppendLine("        }");
-        sb.AppendLine(" ");
-        sb.AppendLine("        public Result Save{0}(dynamic model)", model.Code);
-        sb.AppendLine("        {");
-        sb.AppendLine("            var entity = Database.QueryById<{0}>((string)model.Id);", model.EntityName);
-        sb.AppendLine("            if (entity == null)");
-        sb.AppendLine("                entity = new {0}();", model.EntityName);
-        sb.AppendLine(" ");
-        sb.AppendLine("            entity.FillModel(model);");
-        sb.AppendLine("            var vr = entity.Validate();");
-        sb.AppendLine("            if (!vr.IsValid)");
-        sb.AppendLine("                return vr;");
-        sb.AppendLine(" ");
-        sb.AppendLine("            Database.Save(entity);");
-        sb.AppendLine("            return Result.Success(\"保存成功！\", entity.Id);");
-        sb.AppendLine("        }");
+        sb.AppendLine("        return Repository.Query{0}s(Database, criteria);", model.Code);
         sb.AppendLine("    }");
+        sb.AppendLine(" ");
+        sb.AppendLine("    public Result Delete{0}s(List<{1}> models)", model.Code, model.EntityName);
+        sb.AppendLine("    {");
+        sb.AppendLine("        if (models == null || models.Count == 0)");
+        sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
+        sb.AppendLine(" ");
+        sb.AppendLine("        return Database.Transaction(Language.Delete, db =>");
+        sb.AppendLine("        {");
+        sb.AppendLine("            foreach (var item in models)");
+        sb.AppendLine("            {");
+        sb.AppendLine("                db.Delete(item);");
+        sb.AppendLine("            }");
+        sb.AppendLine("        });");
+        sb.AppendLine("    }");
+        sb.AppendLine(" ");
+        sb.AppendLine("    public Result Save{0}(dynamic model)", model.Code);
+        sb.AppendLine("    {");
+        sb.AppendLine("        var entity = Database.QueryById<{0}>((string)model.Id);", model.EntityName);
+        sb.AppendLine("        entity ??= new {0}();", model.EntityName);
+        sb.AppendLine("        entity.FillModel(model);");
+        sb.AppendLine("        var vr = entity.Validate();");
+        sb.AppendLine("        if (!vr.IsValid)");
+        sb.AppendLine("            return vr;");
+        sb.AppendLine(" ");
+        sb.AppendLine("        Database.Save(entity);");
+        sb.AppendLine("        return Result.Success(\"保存成功！\", entity.Id);");
+        sb.AppendLine("    }");
+        sb.AppendLine("}");
         sb.AppendLine(" ");
         sb.AppendLine("    class {0}Repository", model.Code);
         sb.AppendLine("    {");

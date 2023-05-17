@@ -34,6 +34,7 @@ public class Index : BaseComponent
                        .Set(c => c.Style, "menu menu1")
                        .Set(c => c.OnlyIcon, true)
                        .Set(c => c.Items, menus)
+                       .Set(c => c.CurItem, curItem)
                        .Set(c => c.OnChanged, Callback<MenuItem>(item => curItem = item))
                        .Build();
             });

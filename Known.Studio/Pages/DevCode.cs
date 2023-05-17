@@ -5,8 +5,14 @@ namespace Known.Studio.Pages;
 class DevCode : BasePage
 {
     private string domain;
-    private string curItem = "Entity";
+    private string curItem = "SQL";
     private string codeString;
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            await SetCode(curItem);
+    }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -44,6 +50,7 @@ Demo|Dm
         {
             builder.Component<Tab>()
                    .Set(c => c.Codes, "SQL,Entity,Service,ListCS,FormCS")
+                   .Set(c => c.CurItem, curItem)
                    .Set(c => c.OnChanged, OnTabChanged)
                    .Build();
             builder.Element("pre", attr => attr.Id("code").Class("code prettyprint source linenums"));
@@ -58,8 +65,13 @@ Demo|Dm
 
     private async void OnTabChanged(MenuItem item)
     {
-        curItem = item.Code;
-        codeString = CodeService.GetCode(item.Code, domain);
+        await SetCode(item.Code);
+    }
+
+    private async Task SetCode(string code)
+    {
+        curItem = code;
+        codeString = CodeService.GetCode(code, domain);
         await JS.InvokeAsync<string>("printCode", new object[] { codeString });
     }
 }
