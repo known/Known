@@ -83,7 +83,7 @@ partial class UIService
         }
     }
 
-    private Tuple<Size, string> GetMessage(string message)
+    private static Tuple<Size, string> GetMessage(string message)
     {
         if (string.IsNullOrWhiteSpace(message))
             return Tuple.Create(new Size(380, 200), message);
