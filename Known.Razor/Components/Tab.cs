@@ -38,9 +38,7 @@ public class Tab : BaseComponent
                             var width = Math.Round(100M / items.Count, 2);
                             attr.Style($"width:{width}%");
                         }
-                        if (!string.IsNullOrWhiteSpace(item.Icon))
-                            builder.Icon(item.Icon);
-                        builder.Span(item.Name);
+                        builder.IconName(item.Icon, item.Name);
                     });
                 }
             }

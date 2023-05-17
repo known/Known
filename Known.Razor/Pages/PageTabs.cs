@@ -31,8 +31,7 @@ class PageTabs : BaseComponent
                     builder.Span(attr =>
                     {
                         attr.OnClick(Callback(() => OnItemClick(item)));
-                        builder.Icon(item.Icon);
-                        builder.Text(item.Name);
+                        builder.IconName(item.Icon, item.Name);
                     });
                     if (item.Id != "Home")
                         builder.Icon("close fa fa-close", attr => attr.OnClick(Callback(() => OnItemClose(item))));

@@ -71,8 +71,7 @@ public class Tree<TValue> : BaseComponent
                 builder.Div("tree-content", attr =>
                 {
                     attr.OnClick(Callback(async e => await ItemClick(node, false)));
-                    builder.Icon(node.Icon);
-                    builder.Text(node.Text);
+                    builder.IconName(node.Icon, node.Text);
                 });
             }
         });

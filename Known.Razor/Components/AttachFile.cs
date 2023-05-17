@@ -23,9 +23,7 @@ public class AttachFile : BaseComponent
 
         builder.Div("attachButton", attr =>
         {
-            if (!string.IsNullOrWhiteSpace(Icon))
-                builder.Icon(Icon);
-            builder.Span(Text ?? "上传");
+            builder.IconName(Icon, Text ?? "上传");
             builder.Component<InputFile>(attr =>
             {
                 //.Add("accept", Constants.MimeImage)

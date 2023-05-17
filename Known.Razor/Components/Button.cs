@@ -22,11 +22,7 @@ public class Button : BaseComponent
         builder.Button(Style, attr =>
         {
             attr.Id(id).Disabled(!Enabled).OnClick(Callback(OnButtonClick));
-            if (!string.IsNullOrWhiteSpace(Icon))
-            {
-                builder.Icon(Icon);
-            }
-            builder.Span(Text);
+            builder.IconName(Icon, Text);
         });
     }
 

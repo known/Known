@@ -22,16 +22,9 @@ public class Card : BaseComponent
         builder.Div("card-head", attr =>
         {
             if (HeadTemplate != null)
-            {
                 builder.Fragment(HeadTemplate);
-            }
             else
-            {
-                if (!string.IsNullOrWhiteSpace(Icon))
-                    builder.Icon(Icon);
-
-                builder.Span(Title);
-            }
+                builder.IconName(Icon, Title);
         });
     }
 

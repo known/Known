@@ -31,11 +31,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
 
     protected override void FormatColumns()
     {
-        Column(c => c.Name).Template((b, r) =>
-        {
-            b.Icon(r.Icon);
-            b.Text(r.Name);
-        });
+        Column(c => c.Name).Template((b, r) => b.IconName(r.Icon, r.Name));
     }
 
     protected override void BuildOther(RenderTreeBuilder builder)

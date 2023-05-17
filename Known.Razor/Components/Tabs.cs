@@ -36,9 +36,7 @@ public class Tabs : BaseComponent
                 builder.Li(Active(item.Title), attr =>
                 {
                     attr.OnClick(Callback(e => OnItemClick(item.Title)));
-                    if (!string.IsNullOrWhiteSpace(item.Icon))
-                        builder.Icon(item.Icon);
-                    builder.Text(item.Title);
+                    builder.IconName(item.Icon, item.Title);
                 });
             }
         });

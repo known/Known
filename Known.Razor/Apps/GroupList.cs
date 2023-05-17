@@ -41,10 +41,7 @@ public class GroupList : AppComponent
             else if (item.OnClick != null)
                 attr.OnClick(Callback(e => item.OnClick()));
 
-            if (!string.IsNullOrWhiteSpace(item.Icon))
-                builder.Icon(item.Icon);
-
-            builder.Span("text", item.Text);
+            builder.IconName(item.Icon, item.Text, "text");
 
             if (!string.IsNullOrWhiteSpace(item.Route) || item.OnClick != null)
                 builder.Icon("right fa fa-chevron-right");

@@ -43,8 +43,7 @@ class AdminHeader : BaseComponent
                 builder.Li(active, attr =>
                 {
                     attr.OnClick(Callback(() => OnTopMenuClick(item)));
-                    builder.Icon(item.Icon);
-                    builder.Span("name", item.Name);
+                    builder.IconName(item.Icon, item.Name, "name");
                 });
             }
         });
