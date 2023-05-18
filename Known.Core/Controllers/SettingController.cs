@@ -18,5 +18,5 @@ public class SettingController : BaseController
     public Result DeleteSettings([FromBody] List<SysSetting> models) => Service.DeleteSettings(models);
 
     [HttpPost("[action]")]
-    public Result SaveSetting([FromBody] object model) => Service.SaveSetting(BaseController.GetDynamicModel(model));
+    public Result SaveSetting([FromBody] object model) => Service.SaveSetting(GetDynamicModel(model));
 }

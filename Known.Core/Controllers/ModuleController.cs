@@ -21,5 +21,5 @@ public class ModuleController : BaseController
     public Result MoveModule([FromBody] SysModule model) => Service.MoveModule(model);
 
     [HttpPost("[action]")]
-    public Result SaveModule([FromBody] object model) => Service.SaveModule(BaseController.GetDynamicModel(model));
+    public Result SaveModule([FromBody] object model) => Service.SaveModule(GetDynamicModel(model));
 }

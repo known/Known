@@ -17,10 +17,10 @@ public class UserController : BaseController
     public Result SetUserPwds([FromBody] List<SysUser> models) => Service.SetUserPwds(models);
 
     [HttpPost("[action]")]
-    public Result SaveUser([FromBody] object model) => Service.SaveUser(BaseController.GetDynamicModel(model));
+    public Result SaveUser([FromBody] object model) => Service.SaveUser(GetDynamicModel(model));
 
     [HttpPost("[action]")]
-    public Result UpdateUser([FromBody] object model) => Service.UpdateUser(BaseController.GetDynamicModel(model));
+    public Result UpdateUser([FromBody] object model) => Service.UpdateUser(GetDynamicModel(model));
 
     [HttpGet("[action]")]
     public UserAuthInfo GetUserAuth([FromQuery] string userId) => Service.GetUserAuth(userId);

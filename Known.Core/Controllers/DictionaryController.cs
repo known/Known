@@ -15,5 +15,5 @@ public class DictionaryController : BaseController
     public Result DeleteDictionarys([FromBody] List<SysDictionary> models) => Service.DeleteDictionarys(models);
 
     [HttpPost("[action]")]
-    public Result SaveDictionary([FromBody] object model) => Service.SaveDictionary(BaseController.GetDynamicModel(model));
+    public Result SaveDictionary([FromBody] object model) => Service.SaveDictionary(GetDynamicModel(model));
 }
