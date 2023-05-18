@@ -16,29 +16,20 @@ class CodeService
 {
     internal static string GetCode(string type, string domain)
     {
-        var model = new DomainInfo(domain);
-        switch (type)
+        try
         {
-            case "SQL":
-                return GetSQLCode(model);
-            case "Entity":
-                return GetEntityCode(model);
-            case "Service":
-                return GetServiceCode(model);
-            case "ListCS":
-                return GetListCSCode(model);
-            case "FormCS":
-                return GetFormCSCode(model);
-            case "ListRazor":
-                return GetListRazorCode(model);
-            case "FormRazor":
-                return GetFormRazorCode(model);
-            default:
-                return string.Empty;
+            var model = new DomainInfo(domain);
+            var attr = System.Reflection.BindingFlags.Default | System.Reflection.BindingFlags.InvokeMethod;
+            var code = typeof(CodeService).InvokeMember($"Get{type}", attr, null, null, new object[] { model });
+            return code?.ToString();
+        }
+        catch (Exception ex)
+        {
+            return ex.Message;
         }
     }
 
-    private static string GetSQLCode(DomainInfo model)
+    public static string GetSQL(DomainInfo model)
     {
         var columns = new List<FieldInfo>();
         columns.Add(new FieldInfo { Code = "Id", Type = "Text", Length = "50", Required = true });
@@ -118,7 +109,7 @@ class CodeService
         return sb.ToString();
     }
 
-    private static string GetEntityCode(DomainInfo model)
+    public static string GetEntity(DomainInfo model)
     {
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Entities;", model.Project);
@@ -154,11 +145,106 @@ class CodeService
         return sb.ToString();
     }
 
-    private static string GetServiceCode(DomainInfo model)
+    public static string GetClient(DomainInfo model)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("namespace {0}.Clients;", model.Project);
+        sb.AppendLine(" ");
+        sb.AppendLine("public class {0}Client : BaseClient", model.Code);
+        sb.AppendLine("{");
+        sb.AppendLine("    public {0}Client(Context context) : base(context) {{ }}", model.Code);
+        sb.AppendLine(" ");
+        sb.AppendLine("    public Task<PagingResult<{1}>> Query{0}sAsync(PagingCriteria criteria) => Context.QueryAsync<{1}>(\"{0}/Query{0}s\", criteria);", model.Code, model.EntityName);
+        sb.AppendLine("    public Task<Result> Delete{0}sAsync(List<{1}> models) => Context.PostAsync(\"{0}/Delete{0}s\", models);", model.Code, model.EntityName);
+        sb.AppendLine("    public Task<Result> Save{0}Async(object model) => Context.PostAsync(\"{0}/Save{0}\", model);", model.Code);
+        sb.AppendLine("}");
+        return sb.ToString();
+    }
+
+    public static string GetList(DomainInfo model)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("using {0}.Razor.Pages.Forms;", model.Project);
+        sb.AppendLine(" ");
+        sb.AppendLine("namespace {0}.Razor.Pages;", model.Project);
+        sb.AppendLine(" ");
+        sb.AppendLine("class {0}List : WebGridView<{1}, {0}Form>", model.Code, model.EntityName);
+        sb.AppendLine("{");
+        sb.AppendLine("    protected override Task<PagingResult<{0}>> OnQueryData(PagingCriteria criteria)", model.EntityName);
+        sb.AppendLine("    {");
+        sb.AppendLine("        return Client.{0}.Query{0}sAsync(criteria);", model.Code);
+        sb.AppendLine("    }");
+        sb.AppendLine(" ");
+        sb.AppendLine("    protected override void FormatColumns() { }");
+        sb.AppendLine("    protected override bool CheckAction(ButtonInfo action, {0} item) => base.CheckAction(action, item);", model.Code);
+        sb.AppendLine(" ");
+        sb.AppendLine("    public void New() => ShowForm();");
+        sb.AppendLine("    public void DeleteM() => OnDeleteM(Client.{0}.Delete{0}sAsync);", model.Code);
+        sb.AppendLine("    public void Edit({0} row) => ShowForm(row);", model.EntityName);
+        sb.AppendLine("    public void Delete({1} row) => OnDelete(row, Client.{0}.Delete{0}sAsync);", model.Code, model.EntityName);
+        sb.AppendLine("}");
+        return sb.ToString();
+    }
+
+    public static string GetForm(DomainInfo model)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("namespace {0}.Razor.Pages.Forms;", model.Project);
+        sb.AppendLine(" ");
+        sb.AppendLine("[Dialog(800, 420)]");
+        sb.AppendLine("class {0}Form : WebForm<{1}>", model.Code, model.EntityName);
+        sb.AppendLine("{");
+        sb.AppendLine("    protected override void BuildFields(FieldBuilder<{0}> builder)", model.EntityName);
+        sb.AppendLine("    {");
+        sb.AppendLine("        builder.Hidden(f => f.Id);");
+        sb.AppendLine("        builder.Table(table =>");
+        sb.AppendLine("        {");
+        sb.AppendLine("            table.ColGroup(100, null);");
+        foreach (var item in model.Fields)
+        {
+            sb.AppendLine("            table.Tr(attr => builder.Field<{0}>(f => f.{1}).Build());", item.Type, item.Code);
+        }
+        sb.AppendLine("        });");
+        sb.AppendLine("    }");
+        sb.AppendLine(" ");
+        sb.AppendLine("    protected override void BuildButtons(RenderTreeBuilder builder)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        builder.Button(FormButton.Save, Callback(OnSave), !ReadOnly);");
+        sb.AppendLine("        base.BuildButtons(builder);");
+        sb.AppendLine("    }");
+        sb.AppendLine(" ");
+        sb.AppendLine("    private void OnSave() => SubmitAsync(Client.{0}.Save{0}Async);", model.Code);
+        sb.AppendLine("}");
+        return sb.ToString();
+    }
+
+    public static string GetController(DomainInfo model)
+    {
+        var sb = new StringBuilder();
+sb.AppendLine("namespace {0}.Core.Controllers;", model.Project);
+sb.AppendLine(" ");
+sb.AppendLine("[Route(\"[controller]\")]");
+sb.AppendLine("public class {0}Controller : BaseController", model.Code);
+sb.AppendLine("{");
+sb.AppendLine("    private {0}Service Service => new(Context);", model.Code);
+sb.AppendLine(" ");
+sb.AppendLine("    [HttpPost(\"[action]\")]");
+sb.AppendLine("    public PagingResult<{1}> Query{0}s([FromBody] PagingCriteria criteria) => Service.Query{0}s(criteria);", model.Code, model.EntityName);
+sb.AppendLine(" ");
+sb.AppendLine("    [HttpPost(\"[action]\")]");
+sb.AppendLine("    public Result Delete{0}s([FromBody] List<{1}> models) => Service.Delete{0}s(models);", model.Code, model.EntityName);
+sb.AppendLine(" ");
+sb.AppendLine("    [HttpPost(\"[action]\")]");
+sb.AppendLine("    public Result Save{0}([FromBody] object model) => Service.Save{0}(GetDynamicModel(model));", model.Code);
+sb.AppendLine("}");
+        return sb.ToString();
+    }
+
+    public static string GetService(DomainInfo model)
     {
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Core.Services;", model.Project);
-        sb.AppendLine("");
+        sb.AppendLine(" ");
         sb.AppendLine("class {0}Service : ServiceBase", model.Code);
         sb.AppendLine("{");
         sb.AppendLine("    public PagingResult<{0}> Query{1}s(PagingCriteria criteria)", model.EntityName, model.Code);
@@ -189,122 +275,32 @@ class CodeService
         sb.AppendLine("        if (!vr.IsValid)");
         sb.AppendLine("            return vr;");
         sb.AppendLine(" ");
-        sb.AppendLine("        Database.Save(entity);");
-        sb.AppendLine("        return Result.Success(\"保存成功！\", entity.Id);");
-        sb.AppendLine("    }");
-        sb.AppendLine("}");
-        sb.AppendLine(" ");
-        sb.AppendLine("    class {0}Repository", model.Code);
-        sb.AppendLine("    {");
-        sb.AppendLine("        public PagingResult<{0}> Query{1}s(Database db, PagingCriteria criteria)", model.EntityName, model.Code);
+        sb.AppendLine("        return Database.Transaction(Language.Save, db =>");
         sb.AppendLine("        {");
-        sb.AppendLine("            var sql = \"select * from {0} where CompNo=@CompNo\";", model.EntityName);
-        foreach (var item in model.Fields)
-        {
-            if (item.IsQuery)
-            {
-                sb.AppendLine("            db.SetQuery(ref sql, criteria, QueryType.Contain, \"{0}\");", item.Code);
-            }
-        }
-        sb.AppendLine("            return db.QueryPage<{0}>(sql, criteria);", model.EntityName);
-        sb.AppendLine("        }");
+        sb.AppendLine("            db.Save(entity);");
+        sb.AppendLine("        }, entity);");
         sb.AppendLine("    }");
         sb.AppendLine("}");
         return sb.ToString();
     }
 
-    private static string GetListCSCode(DomainInfo model)
+    public static string GetRepository(DomainInfo model)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("using Known.Razor;");
-        sb.AppendLine("using Known.{0}.Entities;", model.Project);
-        sb.AppendLine("using Microsoft.AspNetCore.Components.Rendering;");
+        sb.AppendLine("namespace {0}.Core.Repositories;", model.Project);
         sb.AppendLine(" ");
-        sb.AppendLine("namespace Known.{0}.Pages", model.Project);
+        sb.AppendLine("class {0}Repository", model.Code);
         sb.AppendLine("{");
-        sb.AppendLine("    public class {0}List : WebGridView<{1}>", model.Code, model.EntityName);
+        sb.AppendLine("    public PagingResult<{0}> Query{1}s(Database db, PagingCriteria criteria)", model.EntityName, model.Code);
         sb.AppendLine("    {");
-        sb.AppendLine("        protected override Task<PagingResult<{0}>> OnQueryData(PagingCriteria criteria)", model.EntityName);
-        sb.AppendLine("        {");
-        sb.AppendLine("            return Client.Query{0}sAsync(criteria);", model.Code);
-        sb.AppendLine("        }");
-        sb.AppendLine(" ");
-        sb.AppendLine("        protected override void BuildTools(RenderTreeBuilder builder)");
-        sb.AppendLine("        {");
-        sb.AppendLine("            builder.ButtonNew(Callback(e => ShowForm()));");
-        sb.AppendLine("            builder.ButtonDeleteM(Callback(e => OnDeleteM(Client.Delete{0}sAsync)));", model.Code);
-        sb.AppendLine("            builder.ButtonImport(Callback(OnImport));");
-        sb.AppendLine("            builder.ButtonExport(Callback(OnExport));");
-        sb.AppendLine("        }");
-        sb.AppendLine(" ");
-        sb.AppendLine("        protected override void BuildFields(RenderTreeBuilder builder)");
-        sb.AppendLine("        {");
-        sb.AppendLine("            builder.Action(80, RenderAction(BuildAction));");
-        foreach (var item in model.Fields)
-        {
-            var query = item.IsQuery ? ", true" : "";
-            sb.AppendLine("            builder.Field<{0}>(\"{1}\", nameof({2}.{3}){4});", item.Type, item.Name, model.EntityName, item.Code, query);
-        }
-        sb.AppendLine("        }");
-        sb.AppendLine(" ");
-        sb.AppendLine("        private void BuildAction(AuthRenderBuilder builder, {0} row)", model.EntityName);
-        sb.AppendLine("        {");
-        sb.AppendLine("            builder.LinkView(Callback(e => OnDetail(row)));");
-        sb.AppendLine("            builder.LinkEdit(Callback(e => ShowForm(row)));");
-        sb.AppendLine("            builder.LinkDelete(Callback(e => OnDelete(row, Client.Delete{0}sAsync)));", model.Code, model.EntityName);
-        sb.AppendLine("        }");
-        sb.AppendLine(" ");
-        sb.AppendLine("        private void ShowForm({0} model = null)", model.EntityName);
-        sb.AppendLine("        {");
-        sb.AppendLine("            var action = model == null ? \"新增\" : \"编辑\";");
-        sb.AppendLine("            model ??= new {0} {{ }};", model.EntityName);
-        sb.AppendLine("            grid.ShowForm<{0}Form>($\"{{action}}{1}\", 500, 380, model);", model.Code, model.Name);
-        sb.AppendLine("        }");
+        sb.AppendLine("        var sql = \"select * from {0} where CompNo=@CompNo\";", model.EntityName);
+        sb.AppendLine("        return db.QueryPage<{0}>(sql, criteria);", model.EntityName);
         sb.AppendLine("    }");
         sb.AppendLine("}");
         return sb.ToString();
     }
 
-    private static string GetFormCSCode(DomainInfo model)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("using Known.Razor;");
-        sb.AppendLine("using Microsoft.AspNetCore.Components.Rendering;");
-        sb.AppendLine("");
-        sb.AppendLine("namespace Known.{0}.Pages", model.Project);
-        sb.AppendLine("{");
-        sb.AppendLine("    public class {0}Form : WebForm<{1}>", model.Code, model.EntityName);
-        sb.AppendLine("    {");
-        sb.AppendLine("        protected override void BuildFields(RenderTreeBuilder builder)");
-        sb.AppendLine("        {");
-        sb.AppendLine("            builder.Hidden(nameof({0}.Id));", model.EntityName);
-        sb.AppendLine("            builder.Table(attr =>");
-        sb.AppendLine("            {");
-        sb.AppendLine("                builder.ColGroup(100, null);");
-        foreach (var item in model.Fields)
-        {
-            var required = item.Required ? ", true" : "";
-            sb.AppendLine("                builder.Tr(attr => builder.Field<{0}>(f => f.Field(\"{1}\", nameof({2}.{3}){4})));", item.Type, item.Name, model.EntityName, item.Code, required);
-        }
-        sb.AppendLine("            });");
-        sb.AppendLine("        }");
-        sb.AppendLine(" ");
-        sb.AppendLine("        protected override void BuildButtons(RenderTreeBuilder builder)");
-        sb.AppendLine("        {");
-        sb.AppendLine("            builder.ButtonSave(Callback(OnSave), !ReadOnly);");
-        sb.AppendLine("            builder.ButtonClose(Callback(OnCancel));");
-        sb.AppendLine("        }");
-        sb.AppendLine(" ");
-        sb.AppendLine("        protected override OnSave()");
-        sb.AppendLine("        {");
-        sb.AppendLine("            SubmitAsync(Client.Save{0}Async);", model.Code);
-        sb.AppendLine("        }");
-        sb.AppendLine("    }");
-        sb.AppendLine("}");
-        return sb.ToString();
-    }
-
-    private static string GetListRazorCode(DomainInfo model)
+    internal static string GetListRazorCode(DomainInfo model)
     {
         var sb = new StringBuilder();
         sb.AppendLine("@namespace Known.{0}.Pages", model.Project);
@@ -362,7 +358,7 @@ class CodeService
         return sb.ToString();
     }
 
-    private static string GetFormRazorCode(DomainInfo model)
+    internal static string GetFormRazorCode(DomainInfo model)
     {
         var sb = new StringBuilder();
         sb.AppendLine("@namespace Known.{0}.Pages", model.Project);

@@ -4,8 +4,9 @@ namespace Known.Studio.Pages;
 
 class DevCode : BasePage
 {
-    private string domain;
+    private readonly string Codes = "SQL,Entity,Client,List,Form,Controller,Service,Repository";
     private string curItem = "SQL";
+    private string domain;
     private string codeString;
 
     protected override async void OnAfterRender(bool firstRender)
@@ -25,15 +26,17 @@ class DevCode : BasePage
         builder.Div("dc-left", attr =>
         {
             builder.Pre("tips", @"说明：
-工程：名称|表前缀
+项目：名称|表前缀
 实体：名称|代码
 字段：名称|代码|类型|长度|必填|查询
-字段类型：CheckBox,CheckList,Date,Number,RadioList,Select,Text,TextArea</pre>
-<pre class=""demo"">示例：
+字段类型：CheckBox,CheckList,Date,Number,RadioList,Select,Text,TextArea
+
+示例：
 Demo|Dm
 测试|Test
 文本|Field1|Text|50|Y|Y
-日期|Field2|Date");
+数值|Field2|Number|18,5
+日期|Field3|Date");
             builder.Field<TextArea>("领域模型", "Domain").ValueChanged(v => domain = v)
                    .Set(f => f.Height, 320)
                    .Build();
@@ -49,7 +52,7 @@ Demo|Dm
         builder.Div("dc-right", attr =>
         {
             builder.Component<Tab>()
-                   .Set(c => c.Codes, "SQL,Entity,Service,ListCS,FormCS")
+                   .Set(c => c.Codes, Codes)
                    .Set(c => c.CurItem, curItem)
                    .Set(c => c.OnChanged, OnTabChanged)
                    .Build();
