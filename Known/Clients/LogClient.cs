@@ -1,6 +1,6 @@
 ﻿namespace Known.Clients;
 
-public class LogClient : BaseClient
+public class LogClient : ClientBase
 {
     public LogClient(Context context) : base(context) { }
 

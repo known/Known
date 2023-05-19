@@ -1,6 +1,6 @@
 ﻿namespace Known.Clients;
 
-public class SystemClient : BaseClient
+public class SystemClient : ClientBase
 {
     public SystemClient(Context context) : base(context) { }
 

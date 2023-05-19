@@ -1,6 +1,6 @@
 ﻿namespace Known.Clients;
 
-public class FlowClient : BaseClient
+public class FlowClient : ClientBase
 {
     public FlowClient(Context context) : base(context) { }
 

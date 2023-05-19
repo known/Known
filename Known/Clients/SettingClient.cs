@@ -1,6 +1,6 @@
 ﻿namespace Known.Clients;
 
-public class SettingClient : BaseClient
+public class SettingClient : ClientBase
 {
     public SettingClient(Context context) : base(context) { }
 

@@ -1,6 +1,6 @@
 ﻿namespace Known.Clients;
 
-public class FileClient : BaseClient
+public class FileClient : ClientBase
 {
     public FileClient(Context context) : base(context) { }
 

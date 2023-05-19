@@ -1,6 +1,6 @@
 ﻿namespace Known.Clients;
 
-public class RoleClient : BaseClient
+public class RoleClient : ClientBase
 {
     public RoleClient(Context context) : base(context) { }
 

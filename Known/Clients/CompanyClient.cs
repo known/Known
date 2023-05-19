@@ -1,6 +1,6 @@
 ﻿namespace Known.Clients;
 
-public class CompanyClient : BaseClient
+public class CompanyClient : ClientBase
 {
     public CompanyClient(Context context) : base(context) { }
 

@@ -1,8 +1,8 @@
 ﻿namespace Known;
 
-public class BaseClient
+public class ClientBase
 {
-    protected BaseClient(Context context)
+    protected ClientBase(Context context)
     {
         Context = context;
     }

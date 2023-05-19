@@ -1,6 +1,6 @@
 ﻿namespace Known.Clients;
 
-public class DictionaryClient : BaseClient
+public class DictionaryClient : ClientBase
 {
     public DictionaryClient(Context context) : base(context) { }
 
