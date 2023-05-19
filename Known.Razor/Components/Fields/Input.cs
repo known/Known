@@ -1,5 +1,10 @@
 ﻿namespace Known.Razor.Components.Fields;
 
+public class Hidden : Field
+{
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Input(attr => attr.Type("hidden").Name(Id).Value(Value));
+}
+
 public class Input : Field
 {
     // button         定义可点击的按钮（大多与 JavaScript 使用来启动脚本）
