@@ -10,7 +10,6 @@ public class Form : BaseComponent
         FormContext = new FormContext();
     }
 
-    [Parameter] public bool IsDialog { get; set; }
     [Parameter] public string Style { get; set; }
     [Parameter] public object Model { get; set; }
     [Parameter] public Action<Result> OnSuccess { get; set; }
@@ -120,22 +119,13 @@ public class Form : BaseComponent
         action.Invoke(Data);
     }
 
-    internal void Submit(Func<dynamic, Result> action, Action<Result> onSuccess)
-    {
-        if (!Validate())
-            return;
-
-        Result result = action.Invoke(Data);
-        UI.Result(result, () => OnSubmitted(onSuccess));
-    }
-
     public async void SubmitAsync(Func<dynamic, Task<Result>> action, Action<Result> onSuccess = null)
     {
         if (!Validate())
             return;
 
         Result result = await action.Invoke(Data);
-        UI.Result(result, () => OnSubmitted(onSuccess));
+        UI.Result(result, OnSubmitted(result, onSuccess));
     }
 
     internal async void SubmitFilesAsync(Func<MultipartFormDataContent, Task<Result>> action, Action<Result> onSuccess = null)
@@ -150,7 +140,7 @@ public class Form : BaseComponent
         AddFiles(content);
         AddMultiFiles(content);
         Result result = await action.Invoke(content);
-        UI.Result(result, () => OnSubmitted(onSuccess));
+        UI.Result(result, OnSubmitted(result, onSuccess));
     }
 
     internal void SubmitFilesAsync(Func<UploadFormInfo, Task<Result>> action, Action<Result> onSuccess = null)
@@ -165,6 +155,15 @@ public class Form : BaseComponent
             };
             return action.Invoke(info);
         }, OnSubmitted(onSuccess));
+    }
+
+    private Action OnSubmitted(Result result, Action<Result> onSuccess)
+    {
+        return () =>
+        {
+            onSuccess?.Invoke(result);
+            OnSuccess?.Invoke(result);
+        };
     }
 
     private Action<Result> OnSubmitted(Action<Result> onSuccess)

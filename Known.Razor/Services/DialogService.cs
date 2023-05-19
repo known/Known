@@ -55,8 +55,7 @@ partial class UIService
         }
         Show<T>(title, size, dialog != null && dialog.IsMax, attr =>
         {
-            attr.Set(c => c.IsDialog, true)
-                .Set(c => c.ReadOnly, onSuccess == null)
+            attr.Set(c => c.ReadOnly, onSuccess == null)
                 .Set(c => c.Model, model)
                 .Set(c => c.OnSuccess, onSuccess);
             action?.Invoke(attr);
