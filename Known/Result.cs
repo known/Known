@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Known;
+﻿namespace Known;
 
 public class Result
 {

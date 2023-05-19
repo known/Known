@@ -1,6 +1,6 @@
 ﻿namespace Known.Core.Helpers;
 
-public class TaskHelper
+public sealed class TaskHelper
 {
     private TaskHelper() { }
 

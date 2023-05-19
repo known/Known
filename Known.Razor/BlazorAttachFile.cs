@@ -5,14 +5,14 @@ class BlazorAttachFile : IAttachFile
     private readonly IBrowserFile file;
     private readonly byte[] bytes;
 
-    public BlazorAttachFile(IBrowserFile file)
+    internal BlazorAttachFile(IBrowserFile file)
     {
         this.file = file;
         Length = file.Size;
         FileName = file.Name;
     }
 
-    public BlazorAttachFile(IBrowserFile file, byte[] bytes) : this(file)
+    internal BlazorAttachFile(IBrowserFile file, byte[] bytes) : this(file)
     {
         this.bytes = bytes;
     }

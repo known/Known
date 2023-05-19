@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Known.Extensions;
+﻿namespace Known.Extensions;
 
 public static class ListExtension
 {

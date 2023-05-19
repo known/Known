@@ -23,48 +23,10 @@ public sealed class Logger
     public static void Debug(string message) => logger.Debug(message);
     public static void Flush() => logger.Flush();
 
-    internal static void Exception(string type, string json, Exception ex)
-    {
-        Exception(new LogInfo
-        {
-            Message = ex.Message,
-            StackTrace = string.Format("Type：{1}{0}Json：{2}{0}Error：{3}", Environment.NewLine, type, json, ex)
-        }, ex);
-    }
-
     public static void Exception(Exception ex)
     {
-        Exception(new LogInfo
-        {
-            Message = ex.Message,
-            StackTrace = ex.ToString()
-        }, ex);
+        Error(ex.ToString());
     }
-
-    public static void Exception(LogInfo info, Exception ex)
-    {
-        info.System = Config.AppId;
-
-        if (string.IsNullOrEmpty(info.Message))
-            info.Message = ex.Message;
-        if (string.IsNullOrEmpty(info.StackTrace))
-            info.StackTrace = ex.ToString();
-
-        Error($"{info.User} {info.Url}{Environment.NewLine}{info.StackTrace}");
-    }
-}
-
-public class LogInfo
-{
-    public string Id { get; set; }
-    public DateTime CreateTime { get; set; }
-    public string System { get; set; }
-    public string User { get; set; }
-    public string IP { get; set; }
-    public string IPName { get; set; }
-    public string Url { get; set; }
-    public string Message { get; set; }
-    public string StackTrace { get; set; }
 }
 
 class FileLogger : ILogger

@@ -1,10 +1,9 @@
-﻿using System.Linq.Expressions;
-using Known.Extensions;
+﻿namespace Known;
 
-namespace Known;
-
-public class TypeHelper
+public sealed class TypeHelper
 {
+    private TypeHelper() { }
+
     public static List<CodeInfo> GetEnumCodes<T>() => GetEnumCodes(typeof(T));
 
     public static List<CodeInfo> GetEnumCodes(Type type)
