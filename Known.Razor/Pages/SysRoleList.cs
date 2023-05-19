@@ -4,11 +4,6 @@ namespace Known.Razor.Pages;
 
 class SysRoleList : DataGrid<SysRole, SysRoleForm>
 {
-    public SysRoleList()
-    {
-        Name = "角色";
-    }
-
     protected override Task<PagingResult<SysRole>> OnQueryData(PagingCriteria criteria)
     {
         return Platform.Role.QueryRolesAsync(criteria);
@@ -18,4 +13,11 @@ class SysRoleList : DataGrid<SysRole, SysRoleForm>
     public void DeleteM() => OnDeleteM(Platform.Role.DeleteRolesAsync);
     public void Edit(SysRole row) => ShowForm(row);
     public void Delete(SysRole row) => OnDelete(row, Platform.Role.DeleteRolesAsync);
+    public override void View(SysRole row) => UI.ShowForm<SysRoleForm>("查看角色", row);
+
+    protected override void ShowForm(SysRole model = null)
+    {
+        var action = model == null || model.IsNew ? "新增" : "编辑";
+        ShowForm<SysRoleForm>($"{action}角色", model);
+    }
 }

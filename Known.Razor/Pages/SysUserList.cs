@@ -4,11 +4,6 @@ namespace Known.Razor.Pages;
 
 class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
 {
-    public SysUserList()
-    {
-        Name = "用户";
-    }
-
     #region IPicker
     public string Title => "选择用户";
     public Size Size => new(700, 400);
@@ -67,6 +62,13 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
     public void ResetPassword() => SelectItem(OnResetPassword);
     public void Edit(SysUser row) => ShowForm(row);
     public void Delete(SysUser row) => OnDelete(row, Platform.User.DeleteUsersAsync);
+    public override void View(SysUser row) => UI.ShowForm<SysUserForm>("查看用户", row);
+
+    protected override void ShowForm(SysUser model = null)
+    {
+        var action = model == null || model.IsNew ? "新增" : "编辑";
+        ShowForm<SysUserForm>($"{action}用户", model);
+    }
 
     private void OnResetPassword(SysUser model)
     {
