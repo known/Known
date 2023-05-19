@@ -1,10 +1,10 @@
 ﻿namespace Known.Razor.Apps;
 
-public class AppChangePwd : FormComponent
+public class AppChangePwd : Form
 {
     public AppChangePwd()
     {
-        FormStyle = "";
+        Style = "";
         ButtonStyle = "";
     }
 
@@ -19,7 +19,7 @@ public class AppChangePwd : FormComponent
 
     private void OnSave()
     {
-        form?.Submit(async data =>
+        Submit(async data =>
         {
             var info = new PwdFormInfo
             {

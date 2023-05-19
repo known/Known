@@ -12,12 +12,11 @@ partial class UIService
     }
 }
 
-class PromptForm : FormComponent
+class PromptForm : Form
 {
     [Parameter] public Action<RenderTreeBuilder> Content { get; set; }
     [Parameter] public Action<dynamic> Action { get; set; }
 
-    protected override void BuildPage(RenderTreeBuilder builder) => BuildPage(builder, null);
     protected override void BuildFields(RenderTreeBuilder builder) => Content?.Invoke(builder);
 
     protected override void BuildButtons(RenderTreeBuilder builder)
@@ -26,8 +25,5 @@ class PromptForm : FormComponent
         builder.Button(FormButton.Cancel, Callback(OnCancel));
     }
 
-    private void OnAction()
-    {
-        form.Submit(Action);
-    }
+    private void OnAction() => Submit(Action);
 }

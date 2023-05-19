@@ -2,21 +2,34 @@
 
 public class Form : BaseComponent
 {
+    private bool isInitialized;
+
     public Form()
     {
+        isInitialized = false;
         FormContext = new FormContext();
     }
 
-    [Parameter] public bool IsTable { get; set; }
+    [Parameter] public bool IsDialog { get; set; }
     [Parameter] public string Style { get; set; }
     [Parameter] public object Model { get; set; }
-    [Parameter] public string CheckFields { get; set; }
+    [Parameter] public Action<Result> OnSuccess { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     internal FormContext FormContext { get; }
+    protected bool IsTable { get; set; }
+    protected string ButtonStyle { get; set; }
+    protected string CheckFields { get; set; }
     public dynamic Data => FormContext.Data;
     public Dictionary<string, Field> Fields => FormContext.Fields;
     public T FieldAs<T>(string id) where T : Field => FormContext.FieldAs<T>(id);
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AddVisitLogAsync();
+        await InitPageAsync();
+        isInitialized = true;
+    }
 
     protected override void OnParametersSet()
     {
@@ -27,8 +40,26 @@ public class Form : BaseComponent
         FormContext.CheckFields = CheckFields;
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            UI.BindEnter();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        if (!isInitialized)
+            return;
+
+        if (!Context.Check.IsCheckKey)
+        {
+            BuildAuthorize(builder);
+            return;
+        }
+
         builder.Div($"form {Style}", attr =>
         {
             builder.Component<CascadingValue<FormContext>>(attr =>
@@ -41,9 +72,35 @@ public class Form : BaseComponent
                     attr.Set(c => c.ChildContent, BuildTree(BuildFields));
             });
         });
+        if (ChildContent == null)
+            builder.Div($"form-button {ButtonStyle}", attr => BuildButtons(builder));
     }
 
+    protected virtual Task InitPageAsync() => Task.CompletedTask;
     protected virtual void BuildFields(RenderTreeBuilder builder) { }
+    protected virtual void BuildButtons(RenderTreeBuilder builder) => builder.Button(FormButton.Close, Callback(OnCancel));
+
+    protected virtual void OnOK()
+    {
+        Submit(data =>
+        {
+            var result = Result.Success("", data);
+            OnSuccess?.Invoke(result);
+            UI.CloseDialog();
+        });
+    }
+
+    protected virtual void OnCancel() => UI.CloseDialog();
+
+    protected bool HasButton(ButtonInfo button)
+    {
+        var user = CurrentUser;
+        if (user == null)
+            return false;
+
+        return button.IsInMenu(Id);
+    }
+
     public bool Validate() => FormContext.Validate();
     public bool ValidateCheck(bool isPass) => FormContext.ValidateCheck(isPass);
     public void Clear() => FormContext.Clear();
@@ -69,16 +126,16 @@ public class Form : BaseComponent
             return;
 
         Result result = action.Invoke(Data);
-        UI.Result(result, () => onSuccess?.Invoke(result));
+        UI.Result(result, () => OnSubmitted(onSuccess));
     }
 
-    internal async void SubmitAsync(Func<dynamic, Task<Result>> action, Action<Result> onSuccess = null)
+    public async void SubmitAsync(Func<dynamic, Task<Result>> action, Action<Result> onSuccess = null)
     {
         if (!Validate())
             return;
 
         Result result = await action.Invoke(Data);
-        UI.Result(result, () => onSuccess?.Invoke(result));
+        UI.Result(result, () => OnSubmitted(onSuccess));
     }
 
     internal async void SubmitFilesAsync(Func<MultipartFormDataContent, Task<Result>> action, Action<Result> onSuccess = null)
@@ -93,7 +150,7 @@ public class Form : BaseComponent
         AddFiles(content);
         AddMultiFiles(content);
         Result result = await action.Invoke(content);
-        UI.Result(result, () => onSuccess?.Invoke(result));
+        UI.Result(result, () => OnSubmitted(onSuccess));
     }
 
     internal void SubmitFilesAsync(Func<UploadFormInfo, Task<Result>> action, Action<Result> onSuccess = null)
@@ -107,7 +164,16 @@ public class Form : BaseComponent
                 MultiFiles = GetMultiFiles()
             };
             return action.Invoke(info);
-        }, onSuccess);
+        }, OnSubmitted(onSuccess));
+    }
+
+    private Action<Result> OnSubmitted(Action<Result> onSuccess)
+    {
+        return result =>
+        {
+            onSuccess?.Invoke(result);
+            OnSuccess?.Invoke(result);
+        };
     }
 
     private void AddFiles(MultipartFormDataContent content)
@@ -169,5 +235,40 @@ public class Form : BaseComponent
             files.Add(new BlazorAttachFile(item));
         }
         return files;
+    }
+}
+
+public class BaseForm<T> : Form
+{
+    public BaseForm()
+    {
+        IsTable = true;
+        Style = "inline";
+        ButtonStyle = "inline";
+    }
+
+    protected T TModel => (T)Model;
+
+    protected Field Field(Expression<Func<T, object>> selector)
+    {
+        var property = TypeHelper.Property(selector);
+        return Fields[property.Name];
+    }
+
+    protected TField Field<TField>(Expression<Func<T, object>> selector) where TField : Field
+    {
+        var property = TypeHelper.Property(selector);
+        return FieldAs<TField>(property.Name);
+    }
+
+    protected override void BuildFields(RenderTreeBuilder builder) => BuildFields(new FieldBuilder<T>(builder));
+    protected virtual void BuildFields(FieldBuilder<T> builder) { }
+
+    protected void BuildFlowLog(RenderTreeBuilder builder, string bizId, int colSpan)
+    {
+        builder.FormList<FlowLogGrid>("流程记录", colSpan, null, attr =>
+        {
+            attr.Set(c => c.BizId, bizId);
+        });
     }
 }

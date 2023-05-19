@@ -1,24 +1,18 @@
 ﻿namespace Known.Razor.Pages;
 
-public class Install : FormComponent
+public class Install : Form
 {
     public Install()
     {
-        FormStyle = "inline si-form";
-    }
-
-    protected override bool IsTable => false;
-
-    [Parameter] public Action<CheckInfo> OnInstall { get; set; }
-
-    protected override void OnInitialized()
-    {
+        Style = "inline si-form";
         Model = Context.Check.Install;
     }
 
+    [Parameter] public Action<CheckInfo> OnInstall { get; set; }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("install", attr => BuildPage(builder));
+        builder.Div("install", attr => base.BuildRenderTree(builder));
     }
 
     protected override void BuildFields(RenderTreeBuilder builder)
@@ -69,8 +63,8 @@ public class Install : FormComponent
 
     private async void OnUpdateKey()
     {
-        var fCompNo = form.Fields[nameof(InstallInfo.CompNo)];
-        var fCompName = form.Fields[nameof(InstallInfo.CompName)];
+        var fCompNo = Fields[nameof(InstallInfo.CompNo)];
+        var fCompName = Fields[nameof(InstallInfo.CompName)];
         var vCompNo = fCompNo.Validate();
         var vCompName = fCompName.Validate();
         if (!vCompNo || !vCompName)
@@ -82,7 +76,7 @@ public class Install : FormComponent
             UI.Alert(result.Message);
             return;
         }
-        form.Fields[nameof(InstallInfo.ProductKey)].SetValue(result.Data);
+        Fields[nameof(InstallInfo.ProductKey)].SetValue(result.Data);
     }
 
     private void OnCompNameChanged(FieldContext context)

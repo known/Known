@@ -6,15 +6,15 @@ class SysAccountForm : BaseForm<SysUser>
 
     public SysAccountForm()
     {
-        FormStyle = "";
+        IsTable = false;
+        Style = "";
         ButtonStyle = "";
+        Model = CurrentUser;
     }
-
-    protected override bool IsTable => false;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("content", attr => BuildPage(builder, CurrentUser));
+        builder.Div("content", attr => base.BuildRenderTree(builder));
     }
 
     protected override void BuildFields(FieldBuilder<SysUser> builder)

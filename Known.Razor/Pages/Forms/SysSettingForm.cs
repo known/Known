@@ -11,12 +11,13 @@ class SysSettingForm : BaseForm<SettingInfo>
 
     public SysSettingForm()
     {
-        FormStyle = "";
+        IsTable = false;
+        Style = "";
         ButtonStyle = "";
+        Model = Setting.Info;
     }
 
-    protected override bool IsTable => false;
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Div("content", attr => BuildPage(builder, Setting.Info));
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Div("content", attr => base.BuildRenderTree(builder));
 
     protected override void BuildFields(FieldBuilder<SettingInfo> builder)
     {

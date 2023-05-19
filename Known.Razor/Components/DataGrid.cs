@@ -59,7 +59,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         StateChanged();
     }
 
-    protected void ShowForm<T>(string title, object model, Size? size = null, Action<AttributeBuilder<T>> action = null) where T : FormComponent
+    protected void ShowForm<T>(string title, object model, Size? size = null, Action<AttributeBuilder<T>> action = null) where T : Form
     {
         UI.ShowForm(title, model, CloseForm, size, action);
     }
@@ -655,7 +655,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     }
 }
 
-public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase where TForm : FormComponent
+public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase where TForm : Form
 {
     public DataGrid()
     {

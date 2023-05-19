@@ -44,7 +44,7 @@ partial class UIService
         });
     }
 
-    public void ShowForm<T>(string title, object model, Action<Result> onSuccess = null, Size? size = null, Action<AttributeBuilder<T>> action = null) where T : FormComponent
+    public void ShowForm<T>(string title, object model, Action<Result> onSuccess = null, Size? size = null, Action<AttributeBuilder<T>> action = null) where T : Form
     {
         var dialog = typeof(T).GetCustomAttribute<DialogAttribute>();
         if (size == null)

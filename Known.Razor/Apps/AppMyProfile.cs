@@ -1,10 +1,10 @@
 ﻿namespace Known.Razor.Apps;
 
-public class AppMyProfile : FormComponent
+public class AppMyProfile : Form
 {
     public AppMyProfile()
     {
-        FormStyle = "";
+        Style = "";
         ButtonStyle = "";
     }
 

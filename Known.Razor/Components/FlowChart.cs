@@ -1,6 +1,6 @@
 ﻿namespace Known.Razor.Components;
 
-public class FlowChart : FormComponent
+public class FlowChart : PageComponent
 {
     [Parameter] public FlowInfo Info { get; set; }
 

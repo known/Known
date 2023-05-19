@@ -13,7 +13,7 @@ class FlowFormOption
     public Action<FlowFormInfo> OnConfirm { get; set; }
 }
 
-class FlowForm : FormComponent
+class FlowForm : Form
 {
     private readonly SysUserList PickUser = new();
 
@@ -74,12 +74,12 @@ class FlowForm : FormComponent
 
     private void OnSave()
     {
-        if (!form.Validate())
+        if (!Validate())
             return;
 
         UI.Confirm(Option.ConfirmText, () =>
         {
-            var info = Utils.MapTo<FlowFormInfo>(form.Data);
+            var info = Utils.MapTo<FlowFormInfo>(Data);
             Option.OnConfirm?.Invoke(info);
         });
     }
