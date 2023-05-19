@@ -1,6 +1,6 @@
 ﻿namespace Known.Razor.Components.Fields;
 
-public class ListField : Field
+public abstract class ListField : Field
 {
     [Parameter] public int ColumnCount { get; set; }
     [Parameter] public string Codes { get; set; }

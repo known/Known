@@ -34,12 +34,16 @@ public class Form : BaseComponent
             builder.Component<CascadingValue<FormContext>>(attr =>
             {
                 attr.Set(c => c.IsFixed, false)
-                    .Set(c => c.Value, FormContext)
-                    .Set(c => c.ChildContent, ChildContent);
+                    .Set(c => c.Value, FormContext);
+                if (ChildContent != null)
+                    attr.Set(c => c.ChildContent, ChildContent);
+                else
+                    attr.Set(c => c.ChildContent, BuildTree(BuildFields));
             });
         });
     }
 
+    protected virtual void BuildFields(RenderTreeBuilder builder) { }
     public bool Validate() => FormContext.Validate();
     public bool ValidateCheck(bool isPass) => FormContext.ValidateCheck(isPass);
     public void Clear() => FormContext.Clear();

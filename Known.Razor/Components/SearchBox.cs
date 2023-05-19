@@ -1,4 +1,4 @@
-﻿namespace Known.Razor.Components.Fields;
+﻿namespace Known.Razor.Components;
 
 public class SearchBox : BaseComponent
 {
@@ -7,7 +7,7 @@ public class SearchBox : BaseComponent
 
     [Parameter] public bool Required { get; set; } = true;
     [Parameter] public string Placeholder { get; set; }
-    [Parameter] public EventCallback<string> OnSearh { get; set; }
+    [Parameter] public Action<string> OnSearh { get; set; }
 
     public bool Validate()
     {
@@ -26,7 +26,7 @@ public class SearchBox : BaseComponent
         builder.Div($"search-box {error}", attr =>
         {
             builder.Input(attr => attr.Placeholder(Placeholder).OnChange(Callback<ChangeEventArgs>(e => OnKeyChanged(e))));
-            builder.Icon("fa fa-search", attr => attr.OnClick(Callback(e => OnClick())));
+            builder.Icon("fa fa-search", attr => attr.OnClick(Callback(OnClick)));
         });
     }
 
@@ -37,7 +37,6 @@ public class SearchBox : BaseComponent
         if (!Validate())
             return;
 
-        if (OnSearh.HasDelegate)
-            OnSearh.InvokeAsync(key);
+        OnSearh?.Invoke(key);
     }
 }

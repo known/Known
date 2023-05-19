@@ -35,3 +35,6 @@ h1 {font-size:1.5rem;font-weight:bold;padding:10px 0;}
 .login .form-radio input {height:20px;line-height:20px;}
 .login button {width:100%;height:40px;margin-left:0;}
 .login-msg {color:#1c66b9;text-align:center;}
+
+/*demo*/
+.demo .tab-body {display:block;left:150px;}

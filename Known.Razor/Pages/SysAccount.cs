@@ -10,13 +10,11 @@ class SysAccount : PageComponent
         new MenuItem("修改密码", "fa fa-lock", typeof(SysUserPwdForm)),
         new MenuItem("系统设置", "fa fa-cog", typeof(SysSettingForm))
     };
-    private string curItem;
-    private Type currType;
+    private MenuItem curItem;
 
     protected override void OnInitialized()
     {
-        curItem = items[0].Id;
-        currType = items[0].ComType;
+        curItem = items[0];
     }
 
     protected override void BuildPage(RenderTreeBuilder builder)
@@ -25,18 +23,17 @@ class SysAccount : PageComponent
         {
             builder.Component<Tab>()
                    .Set(c => c.Position, "left")
-                   .Set(c => c.CurItem, curItem)
+                   .Set(c => c.CurItem, curItem.Id)
                    .Set(c => c.Items, items)
                    .Set(c => c.OnChanged, OnTabChanged)
                    .Build();
-            builder.DynamicComponent(currType);
+            builder.DynamicComponent(curItem.ComType);
         });
     }
 
     private void OnTabChanged(MenuItem item)
     {
-        curItem = item.Id;
-        currType = item.ComType;
+        curItem = item;
         StateChanged();
     }
 }

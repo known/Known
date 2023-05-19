@@ -1,19 +1,60 @@
 ﻿namespace Known.Razor.Components.Fields;
 
+public enum DateType { Date, DateTime, Month }
+
 public class Date : Input
 {
-    [Parameter] public bool IsRangeQuery { get; set; } = true;
-    [Parameter] public DateTime? Day { get; set; }
+    [Parameter] public DateType DateType { get; set; }
+    [Parameter] public DateTime? DateValue { get; set; }
 
-    public virtual string Format => Config.DateFormat;
+    private string Format
+    {
+        get
+        {
+            switch (DateType)
+            {
+                case DateType.Date:
+                    return Config.DateFormat;
+                case DateType.DateTime:
+                    return "yyyy-MM-dd HH:mm";
+                case DateType.Month:
+                    return "yyyy-MM";
+                default:
+                    return Config.DateFormat;
+            }
+        }
+    }
 
-    public override object GetValue() => Day;
-    protected override void BuildChildContent(RenderTreeBuilder builder) => BuidDate(builder, Id, Value, v => Day = v);
+    public override object GetValue()
+    {
+        if (DateType == DateType.Month)
+            return DateValue?.ToString("yyyy-MM");
+        else
+            return DateValue;
+    }
+
+    protected override void BuildChildContent(RenderTreeBuilder builder)
+    {
+        if (DateType == DateType.DateTime)
+        {
+            var value = DateValue?.ToString("yyyy-MM-ddTHH:mm");
+            BuidDate(builder, Id, value, v => DateValue = v, "datetime-local");
+        }
+        else if (DateType == DateType.Month)
+        {
+            var value = DateValue?.ToString("yyyy-MM");
+            BuidDate(builder, Id, value, v => DateValue = v, "month");
+        }
+        else
+        {
+            BuidDate(builder, Id, DateValue?.ToString(Format), v => DateValue = v);
+        }
+    }
 
     protected override void SetInputValue(object value)
     {
-        Day = Utils.ConvertTo<DateTime?>(value);
-        Value = Day?.ToString(Format);
+        DateValue = Utils.ConvertTo<DateTime?>(value);
+        Value = DateValue?.ToString(Format);
     }
 
     protected override string FormatValue(object value)
@@ -23,30 +64,6 @@ public class Date : Input
 
         var date = Utils.ConvertTo<DateTime?>(value);
         return date?.ToString(Format);
-    }
-}
-
-public class DateTimeL : Date
-{
-    public override string Format => "yyyy-MM-dd HH:mm";
-
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
-        var value = Day?.ToString("yyyy-MM-ddTHH:mm");
-        BuidDate(builder, Id, value, v => Day = v, "datetime-local");
-    }
-}
-
-public class DateMonth : Date
-{
-    public override string Format => "yyyy-MM";
-
-    public override object GetValue() => Day?.ToString("yyyy-MM");
-
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
-        var value = Day?.ToString("yyyy-MM");
-        BuidDate(builder, Id, value, v => Day = v, "month");
     }
 }
 

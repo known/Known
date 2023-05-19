@@ -1,6 +1,6 @@
 ﻿namespace Known.Razor.Components;
 
-public class Field : BaseComponent
+public abstract class Field : BaseComponent
 {
     private string error;
     private object orgValue;

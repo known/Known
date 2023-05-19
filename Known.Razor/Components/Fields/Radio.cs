@@ -67,30 +67,3 @@ public class RadioList : ListField
         }
     }
 }
-
-public class YesNoBox : ListField
-{
-    public YesNoBox()
-    {
-        Codes = "是,否";
-    }
-
-    protected override void BuildChildText(RenderTreeBuilder builder)
-    {
-        var value = GetValue<bool>();
-        builder.Span("text", value ? "是" : "否");
-    }
-
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
-        if (ListItems == null || ListItems.Length == 0)
-            return;
-
-        foreach (var item in ListItems)
-        {
-            var value = GetValue<bool>();
-            var code = value ? "是" : "否";
-            BuildRadio(builder, "radio", item.Name, item.Code, Enabled, code == item.Code);
-        }
-    }
-}

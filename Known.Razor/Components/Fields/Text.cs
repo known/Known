@@ -24,17 +24,6 @@ public class Text : Input
     }
 }
 
-public class TextAction : Text
-{
-    [Parameter] public Action<string> OnOK { get; set; }
-
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
-        BuildInput(builder, "text", Placeholder);
-        builder.Span("btn", "确定", Callback(e => OnOK(Value)));
-    }
-}
-
 public class TextArea : Field
 {
     [Parameter] public string Placeholder { get; set; }

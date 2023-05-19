@@ -93,7 +93,7 @@ public class FieldAttrBuilder<T> : ComponentBuilder<T> where T : Field
 
     public FieldAttrBuilder<T> Value(DateTime? value)
     {
-        Set(r => r.Value, value?.ToString(Config.DateFormat)).Add(nameof(Date.Day), value);
+        Set(r => r.Value, value?.ToString(Config.DateFormat)).Add(nameof(Date.Value), value);
         return this;
     }
 
