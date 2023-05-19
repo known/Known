@@ -3,7 +3,6 @@
 public class ButtonInfo
 {
     public ButtonInfo() { }
-
     public ButtonInfo(string id, string name, string icon = null, string style = null)
     {
         Id = id;
@@ -17,14 +16,12 @@ public class ButtonInfo
     public string Icon { get; set; }
     public string Style { get; set; }
 
-    public bool Is(ButtonInfo info)
-    {
-        return Id == info.Id;
-    }
+    public bool Is(ButtonInfo info) => Id == info.Id;
 }
 
-public class ToolButton
+public sealed class ToolButton
 {
+    private ToolButton() { }
     static ToolButton()
     {
         Buttons = new List<ButtonInfo>();
@@ -58,8 +55,9 @@ public class ToolButton
     public static ButtonInfo ResetPassword => new("ResetPassword", "重置密码", "fa fa-rotate-left", "bg-primary");
 }
 
-public class GridAction
+public sealed class GridAction
 {
+    private GridAction() { }
     static GridAction()
     {
         Actions = new List<ButtonInfo>();
@@ -85,8 +83,10 @@ public class GridAction
     public static ButtonInfo Repeat => ToolButton.Repeat;
 }
 
-public class FormButton
+public sealed class FormButton
 {
+    private FormButton() { }
+
     public static ButtonInfo Query => new("Query", "查询", "fa fa-search", "bg-primary");
     public static ButtonInfo Add => new("Add", "添加", "fa fa-plus", "bg-primary");
     public static ButtonInfo Save => new("Save", "保存", "fa fa-save", "bg-primary");
