@@ -150,7 +150,7 @@ class CodeService
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Clients;", model.Project);
         sb.AppendLine(" ");
-        sb.AppendLine("public class {0}Client : BaseClient", model.Code);
+        sb.AppendLine("public class {0}Client : ClientBase", model.Code);
         sb.AppendLine("{");
         sb.AppendLine("    public {0}Client(Context context) : base(context) {{ }}", model.Code);
         sb.AppendLine(" ");

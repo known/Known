@@ -37,7 +37,7 @@ namespace Known.Studio
 
         private void WebViewInitialized(object sender, BlazorWebViewInitializedEventArgs e)
         {
-            e.WebView.ZoomFactor = 1.2;
+            e.WebView.ZoomFactor = 1;
         }
     }
 }
