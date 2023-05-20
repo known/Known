@@ -1,15 +1,4 @@
-﻿/* -------------------------------------------------------------------------------
- * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: www.pumantech.com
- * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-06-28     KnownChen    初始化
- * ------------------------------------------------------------------------------- */
-
-@import "common.css";
+﻿@import "common.css";
 
 /*Index*/
 .app {width:100%;height:100%;}
@@ -123,9 +112,6 @@
 
 /*view*/
 .left-view {position:absolute;left:10px;top:10px;bottom:10px;overflow:auto;width:220px;border:1px solid #ccc;}
-.sysModule {left:232px;top:10px;bottom:8px;}
-.sysModule .tool.only {border-top-width:1px;margin-top:0;}
-.sysModule .grid {top:31px;}
 
 /*form*/
 label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}
@@ -134,35 +120,6 @@ button, input, select, .form-input .text, .form-input .unit,
 .form-input .icon, .form-input .unit, .form-input .btn {height:27px;line-height:27px;}
 .grid-view .tool button {height:26px;line-height:26px;}
 .inline .form-item, .inline .form-label, .inline .form-text, .inline .form-input, .inline .form-tips {display:inline-block;}
-
-/*card*/
-.ws-card {position:relative;background-color:#fff;border:1px solid #ddd;}
-.ws-card-head {
-    font-size:1rem;height:40px;line-height:40px;
-    position:relative;padding:0 10px;border-bottom:1px solid #ddd;
-}
-.ws-card-head i {margin-right:5px;}
-.ws-card-head .tool {position:absolute;top:0;right:10px;color:#00f;cursor:pointer;font-weight:normal;}
-.ws-card-body {position:absolute;top:40px;left:0;right:0;bottom:0;padding:5px;overflow:auto;}
-
-/*dashboard*/
-.ws-row {position:absolute;top:176px;left:10px;right:10px;bottom:10px;}
-.ws-title {font-size:1.4rem;padding:10px;}
-.ws-avatar {width:80px;height:80px;margin-left:20px;}
-.ws-name {position:absolute;top:70px;left:120px;font-size:1.4rem;font-weight:bold;}
-.ws-tips {position:absolute;top:105px;left:120px;color:#888;}
-.ws-tool {position:absolute;top:80px;right:10px;}
-.ws-tool li {display:inline-block;text-align:right;padding:0 10px;}
-.ws-tool .count {display:block;font-size:1.5rem;font-weight:bold;color:#888;padding-top:10px;}
-
-.ws-todo {position:absolute;top:0;left:0;right:410px;bottom:0;}
-.ws-todo-list th, .ws-todo-list td {text-align:center;padding:5px;border-bottom:1px solid #ddd;}
-
-.ws-func {position:absolute;top:0;right:0;width:400px;bottom:0;}
-.ws-func-menu {display:inline-block;width:80px;height:80px;padding:8px;text-align:center;font-size:1rem;cursor:pointer;}
-.ws-func-menu:hover {color:#009688;}
-.ws-func-menu i {display:block;font-size:2.2rem;margin:8px auto;}
-.ws-func-menu span {display:block;width:100%;height:25px;overflow:hidden;}
 
 /*SysInstall*/
 .install {
@@ -191,6 +148,11 @@ button, input, select, .form-input .text, .form-input .unit,
 .ss-form .form-label {width:150px;padding-right:15px;text-align:right;font-weight:bold;}
 .ss-form .form-input {display:inline-block;}
 .ss-form .form-button {padding-left:190px;text-align:left;}
+
+/*SysModule*/
+.sysModule {left:232px;top:10px;bottom:8px;}
+.sysModule .tool.only {border-top-width:1px;margin-top:0;}
+.sysModule .grid {top:31px;}
 
 /*SysDic*/
 .form th.dic-extend {text-align:left;line-height:30px;}
