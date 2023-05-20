@@ -1,4 +1,5 @@
 ﻿using Known.Core;
+using Known.Test.Pages;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +44,7 @@ class AppHelper
     private static void InitConfig()
     {
         DicCategory.AddCategories<AppDictionary>();
-
+        KRConfig.Home = new MenuItem("首页", "fa fa-home", typeof(Home));
         KCConfig.AddWebPlatform();
         KCConfig.WebRoot = Application.StartupPath;
         KCConfig.ContentRoot = Application.StartupPath;
