@@ -17,7 +17,10 @@ class SysSettingForm : BaseForm<SettingInfo>
         Model = Setting.Info;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Div("content", attr => base.BuildRenderTree(builder));
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Div("content", attr => BuildForm(builder));
+    }
 
     protected override void BuildFields(FieldBuilder<SettingInfo> builder)
     {

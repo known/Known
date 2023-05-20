@@ -14,7 +14,7 @@ class SysAccountForm : BaseForm<SysUser>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("content", attr => base.BuildRenderTree(builder));
+        builder.Div("content", attr => BuildForm(builder));
     }
 
     protected override void BuildFields(FieldBuilder<SysUser> builder)

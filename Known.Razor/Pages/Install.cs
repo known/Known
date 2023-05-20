@@ -5,14 +5,18 @@ public class Install : Form
     public Install()
     {
         Style = "inline si-form";
-        Model = Context.Check.Install;
     }
 
     [Parameter] public Action<CheckInfo> OnInstall { get; set; }
 
+    protected override void OnInitialized()
+    {
+        Model = Context.Check.Install;
+    }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("install", attr => base.BuildRenderTree(builder));
+        builder.Div("install", attr => BuildForm(builder));
     }
 
     protected override void BuildFields(RenderTreeBuilder builder)

@@ -12,7 +12,7 @@ class SysUserPwdForm : BaseForm<PwdFormInfo>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("content", attr => base.BuildRenderTree(builder));
+        builder.Div("content", attr => BuildForm(builder));
     }
 
     protected override void BuildFields(FieldBuilder<PwdFormInfo> builder)

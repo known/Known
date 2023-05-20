@@ -59,6 +59,11 @@ public class Form : BaseComponent
             return;
         }
 
+        BuildForm(builder);
+    }
+
+    protected void BuildForm(RenderTreeBuilder builder)
+    {
         builder.Div($"form {Style}", attr =>
         {
             builder.Component<CascadingValue<FormContext>>(attr =>

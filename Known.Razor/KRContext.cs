@@ -30,6 +30,9 @@ public class KRContext : Context
 
     public void Navigate(MenuItem menu, Dictionary<string, object> prevParms = null)
     {
+        if (menu == null)
+            return;
+
         menu.Previous = current;
         if (menu.Previous != null && prevParms != null)
             menu.Previous.ComParameters = prevParms;
