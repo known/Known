@@ -1,6 +1,4 @@
-﻿using Known.Models;
-
-namespace Known.Studio.Pages;
+﻿namespace Known.Studio.Pages;
 
 [Route("/")]
 public class Index : BaseComponent

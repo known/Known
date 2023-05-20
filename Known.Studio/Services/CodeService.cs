@@ -1,7 +1,4 @@
-﻿using System.Text;
-using Known.Studio.Models;
-
-namespace Known.Studio.Services;
+﻿namespace Known.Studio.Services;
 
 static class ModelExtensions
 {
