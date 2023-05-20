@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0-windows</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<DebugType>embedded</DebugType>
+        <ApplicationIcon>favicon.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+        <PackageReference Include="Costura.Fody" Version="5.7.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="7.0.86" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Known\Known.csproj" />
+        <ProjectReference Include="..\Known.Core\Known.Core.csproj" />
+		<ProjectReference Include="..\Known.Razor\Known.Razor.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="wwwroot\index.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Test.db" />
+    </ItemGroup>
+
+</Project>
