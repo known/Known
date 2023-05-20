@@ -6,9 +6,10 @@ public sealed class Config
 
     static Config()
     {
-        AppId = "DEV";
-        AppName = "普漫快速开发平台";
+        AppId = "KIMS";
+        AppName = "Known信息管理系统";
         Version = "1.0";
+        SysVersion = "1.2.1";
     }
 
     public static string DateFormat => "yyyy-MM-dd";
