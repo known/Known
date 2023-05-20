@@ -4,9 +4,8 @@ public class Card : BaseComponent
 {
     [Parameter] public string Style { get; set; }
     [Parameter] public string Icon { get; set; }
-    [Parameter] public string Title { get; set; }
-    [Parameter] public RenderFragment HeadTemplate { get; set; }
-    [Parameter] public RenderFragment BodyTemplate { get; set; }
+    [Parameter] public RenderFragment Head { get; set; }
+    [Parameter] public RenderFragment Body { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -19,20 +18,20 @@ public class Card : BaseComponent
 
     private void BuildHead(RenderTreeBuilder builder)
     {
+        if (string.IsNullOrWhiteSpace(Name) && Head == null)
+            return;
+
         builder.Div("card-head", attr =>
         {
-            if (HeadTemplate != null)
-                builder.Fragment(HeadTemplate);
+            if (Head != null)
+                builder.Fragment(Head);
             else
-                builder.IconName(Icon, Title);
+                builder.IconName(Icon, Name);
         });
     }
 
     private void BuildBody(RenderTreeBuilder builder)
     {
-        builder.Div("card-body", attr =>
-        {
-            builder.Fragment(BodyTemplate);
-        });
+        builder.Div("card-body", attr => builder.Fragment(Body));
     }
 }
