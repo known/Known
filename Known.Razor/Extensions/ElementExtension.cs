@@ -93,7 +93,7 @@ public static class ElementExtension
         return builder;
     }
 
-    internal static RenderTreeBuilder IconName(this RenderTreeBuilder builder, string icon, string name)
+    public static RenderTreeBuilder IconName(this RenderTreeBuilder builder, string icon, string name)
     {
         if (!string.IsNullOrWhiteSpace(icon))
             builder.Icon(icon);

@@ -1,11 +1,9 @@
 ﻿namespace Known.Razor;
 
-public class KRConfig
+public sealed class KRConfig
 {
-    static KRConfig()
-    {
-        Assemblies = new List<Assembly>();
-    }
+    private KRConfig() { }
+    static KRConfig() => Assemblies = new List<Assembly>();
 
     public static string ValidDate { get; set; }
     public static string AuthStatus { get; set; }
