@@ -17,7 +17,7 @@ class AppHelper
     internal static void Run()
     {
         InitDatabase();
-        InitConfigCore();
+        InitConfig();
         Task.Run(() => CreateWebHostBuilder(Array.Empty<string>()).Build().Run());
         Application.Run(new MainForm());
     }
@@ -40,8 +40,10 @@ class AppHelper
         }
     }
 
-    private static void InitConfigCore()
+    private static void InitConfig()
     {
+        DicCategory.AddCategories<AppDictionary>();
+
         KCConfig.AddWebPlatform();
         KCConfig.WebRoot = Application.StartupPath;
         KCConfig.ContentRoot = Application.StartupPath;
@@ -111,4 +113,9 @@ class Startup
             endpoints.MapControllers();
         });
     }
+}
+
+public class AppDictionary
+{
+    public const string Test = "测试";
 }
