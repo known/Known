@@ -9,6 +9,10 @@ class SysAccountForm : BaseForm<SysUser>
         IsTable = false;
         Style = "";
         ButtonStyle = "";
+    }
+
+    protected override void OnInitialized()
+    {
         Model = CurrentUser;
     }
 

@@ -7,6 +7,10 @@ class SysUserPwdForm : BaseForm<PwdFormInfo>
         IsTable = false;
         Style = "";
         ButtonStyle = "";
+    }
+
+    protected override void OnInitialized()
+    {
         Model = CurrentUser;
     }
 

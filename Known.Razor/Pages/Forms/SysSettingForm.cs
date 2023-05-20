@@ -14,6 +14,10 @@ class SysSettingForm : BaseForm<SettingInfo>
         IsTable = false;
         Style = "";
         ButtonStyle = "";
+    }
+
+    protected override void OnInitialized()
+    {
         Model = Setting.Info;
     }
 
