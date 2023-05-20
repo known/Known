@@ -52,9 +52,12 @@ public class KRConfig
         if (type != null)
             return type;
 
-        type = Home.ComType.Assembly.GetType(typeName);
-        if (type != null)
-            return type;
+        if (Home != null && Home.ComType != null)
+        {
+            type = Home.ComType.Assembly.GetType(typeName);
+            if (type != null)
+                return type;
+        }
 
         foreach (var asm in Assemblies)
         {
