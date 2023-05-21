@@ -13,7 +13,7 @@ public static class ElementExtension
         return builder;
     }
 
-    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder) where T : notnull, BaseComponent => new ComponentBuilder<T>(builder);
+    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder) where T : notnull, BaseComponent => new(builder);
 
     public static void Component<T>(this RenderTreeBuilder builder, Action<AttributeBuilder<T>> child) where T : notnull, IComponent
     {
