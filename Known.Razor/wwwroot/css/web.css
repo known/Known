@@ -112,6 +112,9 @@
 
 /*view*/
 .left-view {position:absolute;left:10px;top:10px;bottom:10px;overflow:auto;width:220px;border:1px solid #ccc;}
+.left-tree {left:232px;top:10px;bottom:8px;}
+.left-tree .tool.only {border-top-width:1px;margin-top:0;}
+.left-tree .grid {top:31px;}
 
 /*form*/
 label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}
@@ -148,11 +151,6 @@ button, input, select, .form-input .text, .form-input .unit,
 .ss-form .form-label {width:150px;padding-right:15px;text-align:right;font-weight:bold;}
 .ss-form .form-input {display:inline-block;}
 .ss-form .form-button {padding-left:190px;text-align:left;}
-
-/*SysModule*/
-.sysModule {left:232px;top:10px;bottom:8px;}
-.sysModule .tool.only {border-top-width:1px;margin-top:0;}
-.sysModule .grid {top:31px;}
 
 /*SysDic*/
 .form th.dic-extend {text-align:left;line-height:30px;}

@@ -6,19 +6,19 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
 {
     private readonly List<TreeItem<string>> data = new();
     private TreeItem<string> current;
-    private List<SysModule> modules;
+    private List<SysModule> datas;
 
     public SysModuleList()
     {
         Name = string.Empty;
-        Style = "sysModule";
+        Style = "left-tree";
         IsSort = false;
         ShowPager = false;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        modules = await Platform.Module.GetModulesAsync();
+        datas = await Platform.Module.GetModulesAsync();
         InitTreeNode();
         await base.OnInitializedAsync();
     }
@@ -86,7 +86,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
             {
                 foreach (var item in models)
                 {
-                    modules.Remove(item);
+                    datas.Remove(item);
                 }
                 OnDataChanged();
             });
@@ -135,8 +135,8 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
             UI.CloseDialog();
             var data = result.DataAs<SysModule>();
             if (!model.IsNew)
-                modules.Remove(model);
-            modules.Add(data);
+                datas.Remove(model);
+            datas.Add(data);
             OnDataChanged();
         });
     }
@@ -154,7 +154,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
         StateChanged();
     }
 
-    private void RefreshData() => Data = modules.Where(m => m.ParentId == current.Value).OrderBy(m => m.Sort).ToList();
+    private void RefreshData() => Data = datas.Where(m => m.ParentId == current.Value).OrderBy(m => m.Sort).ToList();
 
     private void InitTreeNode()
     {
@@ -169,13 +169,13 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
     private async void RefreshTreeNode(TreeItem<string> item, bool reload = false)
     {
         if (reload)
-            modules = await Platform.Module.GetModulesAsync();
+            datas = await Platform.Module.GetModulesAsync();
 
         item.Children.Clear();
-        if (modules == null || modules.Count == 0)
+        if (datas == null || datas.Count == 0)
             return;
 
-        var children = modules.Where(m => m.ParentId == item.Value).OrderBy(m => m.Sort).ToList();
+        var children = datas.Where(m => m.ParentId == item.Value).OrderBy(m => m.Sort).ToList();
         if (children == null || children.Count == 0)
             return;
 
