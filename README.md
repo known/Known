@@ -4,12 +4,8 @@ Known是基于C#和Blazor开发的前后端分离快速开发框架，开箱即�
 
 [![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
 [![fork](https://gitee.com/known/Known/badge/fork.svg?theme=dark)](https://gitee.com/known/Known/members)
-[![GitHub license](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/known/Known/blob/master/LICENSE)
-
-### 开发环境
-
-* .NET 7
-* VS2022
+[![License](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/known/Known/blob/master/LICENSE)
+![DEV](https://img.shields.io/badge/DEV-.NET7/VS2022-brightgreen)
 
 ### 概述
 * 基于C#和Blazor实现的快速开发框架，前后端分离，开箱即用。
