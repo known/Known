@@ -218,22 +218,22 @@ class CodeService
     public static string GetController(DomainInfo model)
     {
         var sb = new StringBuilder();
-sb.AppendLine("namespace {0}.Core.Controllers;", model.Project);
-sb.AppendLine(" ");
-sb.AppendLine("[Route(\"[controller]\")]");
-sb.AppendLine("public class {0}Controller : BaseController", model.Code);
-sb.AppendLine("{");
-sb.AppendLine("    private {0}Service Service => new(Context);", model.Code);
-sb.AppendLine(" ");
-sb.AppendLine("    [HttpPost(\"[action]\")]");
-sb.AppendLine("    public PagingResult<{1}> Query{0}s([FromBody] PagingCriteria criteria) => Service.Query{0}s(criteria);", model.Code, model.EntityName);
-sb.AppendLine(" ");
-sb.AppendLine("    [HttpPost(\"[action]\")]");
-sb.AppendLine("    public Result Delete{0}s([FromBody] List<{1}> models) => Service.Delete{0}s(models);", model.Code, model.EntityName);
-sb.AppendLine(" ");
-sb.AppendLine("    [HttpPost(\"[action]\")]");
-sb.AppendLine("    public Result Save{0}([FromBody] object model) => Service.Save{0}(GetDynamicModel(model));", model.Code);
-sb.AppendLine("}");
+        sb.AppendLine("namespace {0}.Core.Controllers;", model.Project);
+        sb.AppendLine(" ");
+        sb.AppendLine("[Route(\"[controller]\")]");
+        sb.AppendLine("public class {0}Controller : BaseController", model.Code);
+        sb.AppendLine("{");
+        sb.AppendLine("    private {0}Service Service => new(Context);", model.Code);
+        sb.AppendLine(" ");
+        sb.AppendLine("    [HttpPost(\"[action]\")]");
+        sb.AppendLine("    public PagingResult<{1}> Query{0}s([FromBody] PagingCriteria criteria) => Service.Query{0}s(criteria);", model.Code, model.EntityName);
+        sb.AppendLine(" ");
+        sb.AppendLine("    [HttpPost(\"[action]\")]");
+        sb.AppendLine("    public Result Delete{0}s([FromBody] List<{1}> models) => Service.Delete{0}s(models);", model.Code, model.EntityName);
+        sb.AppendLine(" ");
+        sb.AppendLine("    [HttpPost(\"[action]\")]");
+        sb.AppendLine("    public Result Save{0}([FromBody] object model) => Service.Save{0}(GetDynamicModel(model));", model.Code);
+        sb.AppendLine("}");
         return sb.ToString();
     }
 
@@ -475,7 +475,7 @@ sb.AppendLine("}");
 
         return type;
     }
-    
+
     private static string GetOracleDbType(FieldInfo item)
     {
         var type = item.Type ?? "";
