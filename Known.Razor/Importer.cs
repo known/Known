@@ -32,13 +32,11 @@ class Importer : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.ComponentRef<Form>(attr =>
-        {
-            attr.Add(nameof(Form.Style), "import-form")
-                .Add(nameof(Form.Model), Option.Model)
-                .Add(nameof(Form.ChildContent), BuildTree(BuildFields));
-            builder.Reference<Form>(value => form = value);
-        });
+        builder.Component<Form>()
+               .Set(c => c.Style, "import-form")
+               .Set(c => c.Model, Option.Model)
+               .Set(c => c.ChildContent, BuildTree(BuildFields))
+               .Build(value => form = value);
     }
 
     private void BuildFields(RenderTreeBuilder builder)

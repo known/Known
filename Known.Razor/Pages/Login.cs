@@ -50,11 +50,9 @@ public class Login : BaseComponent
 
     protected void BuildForm(RenderTreeBuilder builder)
     {
-        builder.ComponentRef<Form>(attr =>
-        {
-            attr.Add(nameof(Form.ChildContent), BuildTree(BuildFields));
-            builder.Reference<Form>(value => form = value);
-        });
+        builder.Component<Form>()
+               .Set(c => c.ChildContent, BuildTree(BuildFields))
+               .Build(value => form = value);
         builder.Div("login-msg", message);
     }
 

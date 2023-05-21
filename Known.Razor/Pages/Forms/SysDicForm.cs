@@ -48,12 +48,10 @@ class SysDicForm : BaseForm<SysDictionary>
                     table.Td(attr =>
                     {
                         attr.RowSpan(4).Style("position:relative;height:200px;");
-                        table.ComponentRef<CodeNameGrid>(attr =>
-                        {
-                            attr.Add(nameof(CodeNameGrid.ReadOnly), ReadOnly)
-                                .Add(nameof(CodeNameGrid.Data), children);
-                            table.Reference<CodeNameGrid>(value => grid = value);
-                        });
+                        table.Component<CodeNameGrid>()
+                             .Set(c => c.ReadOnly, ReadOnly)
+                             .Set(c => c.Data, children)
+                             .Build(value => grid = value);
                     });
                 }
             });

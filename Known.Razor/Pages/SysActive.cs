@@ -21,13 +21,11 @@ class SysActive : BaseComponent
         builder.Div("txt-center", $"产品ID：{info?.ProductId}");
         builder.Div("txt-center inline", attr =>
         {
-            builder.ComponentRef<Text>(attr =>
-            {
-                attr.Add(nameof(Text.Id), "ProductKey")
-                    .Add(nameof(Text.Value), info?.ProductKey);
-                builder.Reference<Text>(value => productKey = value);
-            });
-            builder.Button("授权", Callback(e => OnAuth()));
+            builder.Component<Text>()
+                   .Add(nameof(Text.Id), "ProductKey")
+                   .Add(nameof(Text.Value), info?.ProductKey)
+                   .Build(value => productKey = value);
+            builder.Button("授权", Callback(OnAuth));
         });
     }
 

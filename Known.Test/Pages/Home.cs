@@ -71,11 +71,9 @@ class Home : PageComponent
 
     private void BuildDCBody(RenderTreeBuilder builder)
     {
-        builder.ComponentRef<Chart>(attr =>
-        {
-            attr.Id("chartData");
-            builder.Reference<Chart>(v => chart = v);
-        });
+        builder.Component<Chart>()
+               .Set(c => c.Id, "chartData")
+               .Build(value => chart = value);
     }
 
     private void OnChartClick(int type)

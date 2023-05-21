@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Known.Razor;
+﻿namespace Known.Razor;
 
 public class AttributeBuilder<T> where T : IComponent
 {
@@ -30,6 +28,15 @@ public class AttributeBuilder<T> where T : IComponent
         builder.OpenComponent<T>(0);
         if (Parameters.Count > 0)
             builder.AddMultipleAttributes(1, Parameters);
+        builder.CloseComponent();
+    }
+
+    public void Build(Action<T> action)
+    {
+        builder.OpenComponent<T>(0);
+        if (Parameters.Count > 0)
+            builder.AddMultipleAttributes(1, Parameters);
+        builder.AddComponentReferenceCapture(2, value => action?.Invoke((T)value));
         builder.CloseComponent();
     }
 }

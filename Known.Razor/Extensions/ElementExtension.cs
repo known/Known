@@ -25,14 +25,6 @@ public static class ElementExtension
         builder.CloseComponent();
     }
 
-    public static void ComponentRef<T>(this RenderTreeBuilder builder, Action<AttributeBuilder> child) where T : notnull, IComponent
-    {
-        builder.OpenComponent<T>(0);
-        var attr = new AttributeBuilder(builder);
-        child?.Invoke(attr);
-        builder.CloseComponent();
-    }
-
     public static void Component(this RenderTreeBuilder builder, Type type, Action<AttributeBuilder> child)
     {
         builder.OpenComponent(0, type);
@@ -51,14 +43,6 @@ public static class ElementExtension
         if (parameters != null)
             builder.AddAttribute(1, "Parameters", RuntimeHelpers.TypeCheck(parameters));
         builder.CloseComponent();
-    }
-
-    public static void Reference<T>(this RenderTreeBuilder builder, Action<T> action) where T : notnull, IComponent
-    {
-        builder.AddComponentReferenceCapture(2, value =>
-        {
-            action.Invoke((T)value);
-        });
     }
 
     public static RenderTreeBuilder Fragment(this RenderTreeBuilder builder, RenderFragment fragment)

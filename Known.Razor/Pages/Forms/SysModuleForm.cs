@@ -22,12 +22,13 @@ class SysModuleForm : BaseForm<SysModule>
         {
             table.ColGroup(10, 15, 10, 15, 10, 15, 10, 15);
             BuildHead(table, builder);
-            table.FormListRef<ColumnGrid>("列表栏位", 8, 300, attr =>
+            table.FormList("列表栏位", 8, 300, () =>
             {
-                attr.Add(nameof(ColumnGrid.ReadOnly), ReadOnly)
-                    .Add(nameof(ColumnGrid.IsModule), true)
-                    .Add(nameof(ColumnGrid.Data), columns);
-                table.Reference<ColumnGrid>(value => grid = value);
+                table.Component<ColumnGrid>()
+                     .Set(c => c.ReadOnly, ReadOnly)
+                     .Set(c => c.IsModule, true)
+                     .Set(c => c.Data, columns)
+                     .Build(value => grid = value);
             });
         });
     }

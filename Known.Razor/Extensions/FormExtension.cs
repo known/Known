@@ -6,20 +6,10 @@ public static class FormExtension
 
     public static void FormList<T>(this RenderTreeBuilder builder, string title, int colSpan, int? height, Action<AttributeBuilder<T>> child = null) where T : notnull, IComponent
     {
-        builder.FormCaption(title, colSpan);
-        builder.Tr(attr =>
-        {
-            builder.Td(attr =>
-            {
-                attr.ColSpan(colSpan);
-                if (height != null && height.HasValue)
-                    attr.Style($"position:relative;height:{height}px;");
-                builder.Component(child);
-            });
-        });
+        builder.FormList(title, colSpan, height, () => builder.Component(child));
     }
 
-    public static void FormListRef<T>(this RenderTreeBuilder builder, string title, int colSpan, int? height, Action<AttributeBuilder> child = null) where T : notnull, IComponent
+    public static void FormList(this RenderTreeBuilder builder, string title, int colSpan, int? height, Action child = null)
     {
         builder.FormCaption(title, colSpan);
         builder.Tr(attr =>
@@ -29,7 +19,7 @@ public static class FormExtension
                 attr.ColSpan(colSpan);
                 if (height != null && height.HasValue)
                     attr.Style($"position:relative;height:{height}px;");
-                builder.ComponentRef<T>(child);
+                child?.Invoke();
             });
         });
     }
