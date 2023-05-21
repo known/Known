@@ -157,6 +157,7 @@ class SystemService : BaseService
         {
             AppId = Config.AppId,
             CompNo = info.CompNo,
+            ParentId = "0",
             Code = info.CompNo,
             Name = info.CompName
         };

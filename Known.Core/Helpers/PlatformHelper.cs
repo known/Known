@@ -12,11 +12,11 @@ public sealed class PlatformHelper
     public static Func<Database, SysUser, Result> CheckUser { get; set; }
     public static Func<InstallInfo, Result> UpdateKey { get; set; }
 
-    internal static void SetBizOrganization(Database db, UserInfo user, SysOrganization entity)
+    internal static void SetBizOrganization(Database db, SysOrganization entity)
     {
         Organization?.Invoke(db, new SysOrganization
         {
-            CompNo = user.CompNo,
+            CompNo = db.User.CompNo,
             Code = entity.Code,
             Name = entity.Name,
             Note = entity.Note

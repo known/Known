@@ -6,6 +6,7 @@ public class CompanyService : BaseService
 
     internal CompanyService(Context context) : base(context) { }
 
+    //Company
     public static string GetCompany(Database db, UserInfo user)
     {
         if (KCConfig.IsPlatform)
@@ -65,4 +66,48 @@ public class CompanyService : BaseService
     }
 
     private static string GetDefaultData(UserInfo user) => Utils.ToJson(new { Code = user.CompNo, Name = user.CompName });
+
+    //Organization
+    internal List<SysOrganization> GetOrganizations() => CompanyRepository.GetOrganizations(Database);
+
+    internal Result DeleteOrganizations(List<SysOrganization> models)
+    {
+        if (models == null || models.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        foreach (var model in models)
+        {
+            if (CompanyRepository.ExistsSubOrganization(Database, model.Id))
+                return Result.Error("存在子组织架构，不能删除！");
+        }
+
+        return Database.Transaction(Language.Delete, db =>
+        {
+            foreach (var item in models)
+            {
+                db.Delete(item);
+            }
+        });
+    }
+
+    internal Result SaveOrganization(dynamic model)
+    {
+        var entity = Database.QueryById<SysOrganization>((string)model.Id);
+        entity ??= new SysOrganization();
+        entity.FillModel(model);
+        var vr = entity.Validate();
+        if (vr.IsValid)
+        {
+            if (CompanyRepository.ExistsOrganization(Database, entity))
+                vr.AddError("组织编码已存在！");
+        }
+        if (!vr.IsValid)
+            return vr;
+
+        return Database.Transaction(Language.Save, db =>
+        {
+            db.Save(entity);
+            PlatformHelper.SetBizOrganization(db, entity);
+        }, entity);
+    }
 }

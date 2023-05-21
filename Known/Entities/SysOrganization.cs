@@ -34,4 +34,7 @@ public class SysOrganization : EntityBase
     /// </summary>
     [Column("备注", "", false, "1", "500")]
     public string Note { get; set; }
+
+    [Column("上级组织")] public virtual string ParentName { get; set; }
+    public virtual string FullName => $"{Code}-{Name}";
 }
