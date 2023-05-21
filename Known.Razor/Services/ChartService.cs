@@ -2,5 +2,5 @@
 
 partial class UIService
 {
-    public async void Show(ChartOption option) => await InvokeAsync<ChartOption>("KR_showChart", option);
+    public async void Show(ChartOption option) => await InvokeAsync<ChartOption>("KRazor.showChart", option);
 }

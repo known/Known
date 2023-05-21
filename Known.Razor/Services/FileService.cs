@@ -16,14 +16,14 @@ partial class UIService
         Print(content);
     }
 
-    public void Print(string content) => InvokeVoidAsync("KR_printContent", content);
-    public void DownloadFile(string fileName, string url) => InvokeVoidAsync("KR_downloadFileByUrl", fileName, url);
+    public void Print(string content) => InvokeVoidAsync("KRazor.printContent", content);
+    public void DownloadFile(string fileName, string url) => InvokeVoidAsync("KRazor.downloadFileByUrl", fileName, url);
 
     public async void DownloadFile(string fileName, Stream stream)
     {
         var module = await moduleTask.Value;
         using var streamRef = new DotNetStreamReference(stream);
-        await module.InvokeVoidAsync("KR_downloadFileByStream", fileName, streamRef);
+        await module.InvokeVoidAsync("KRazor.downloadFileByStream", fileName, streamRef);
     }
 
     public async void ShowImage(string id, Stream stream)
@@ -33,7 +33,7 @@ partial class UIService
 
         var module = await moduleTask.Value;
         using var streamRef = new DotNetStreamReference(stream);
-        await module.InvokeVoidAsync("KR_showImage", id, streamRef);
+        await module.InvokeVoidAsync("KRazor.showImage", id, streamRef);
     }
 
     public async void ShowPdf(string id, Stream stream)
@@ -43,7 +43,7 @@ partial class UIService
 
         var module = await moduleTask.Value;
         using var streamRef = new DotNetStreamReference(stream);
-        await module.InvokeVoidAsync("KR_showPdf", id, streamRef);
+        await module.InvokeVoidAsync("KRazor.showPdf", id, streamRef);
     }
 
     public void ShowPdf(string title, int width, int height, Stream stream)

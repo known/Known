@@ -9,7 +9,7 @@ partial class UIService
     internal string PageId { get; set; }
 
     internal void Register(DialogContainer dialog) => dialogs[dialog.Id] = dialog;
-    internal void SetDialogMove(string dialogId) => InvokeVoidAsync("KR_setDialogMove", dialogId);
+    internal void SetDialogMove(string dialogId) => InvokeVoidAsync("KRazor.setDialogMove", dialogId);
 
     public void Show(DialogOption option, bool isTop = false)
     {

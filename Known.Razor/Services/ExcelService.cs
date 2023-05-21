@@ -9,8 +9,8 @@ partial class UIService
 
         var module = await moduleTask.Value;
         using var streamRef = new DotNetStreamReference(stream);
-        return await module.InvokeAsync<string>("KR_excelImport", streamRef);
+        return await module.InvokeAsync<string>("KRazor.excelImport", streamRef);
     }
 
-    public void ExcelExport(string fileName, List<string[]> datas) => InvokeVoidAsync("KR_excelExport", fileName, datas);
+    public void ExcelExport(string fileName, List<string[]> datas) => InvokeVoidAsync("KRazor.excelExport", fileName, datas);
 }

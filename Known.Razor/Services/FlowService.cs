@@ -2,7 +2,7 @@
 
 partial class UIService
 {
-    public Task ShowFlowChart(FlowInfo info) => InvokeAsync<FlowInfo>("KR_showFlow", info);
+    public Task ShowFlowChart(FlowInfo info) => InvokeAsync<FlowInfo>("KRazor.showFlow", info);
 
     public void SubmitFlow(FlowClient client, FlowFormInfo model, Action onSuccess = null)
     {

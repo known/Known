@@ -13,16 +13,16 @@ public partial class UIService
 
     [JSInvokable]
     public static Task<string> Hello(string name) => Task.FromResult($"Hello {name}");
-    public void AppendBody(string html) => InvokeVoidAsync("KR_appendBody", html);
-    public void ShowFrame(string id, string url) => InvokeVoidAsync("KR_showFrame", id, url);
-    public void ShowLoading() => InvokeVoidAsync("KR_showLoading");
-    public void HideLoading() => InvokeVoidAsync("KR_hideLoading");
-    public void OpenFullScreen() => InvokeVoidAsync("KR_openFullScreen");
-    public void CloseFullScreen() => InvokeVoidAsync("KR_closeFullScreen");
-    public void OpenLink(string url) => InvokeVoidAsync("KR_openLink", url);
-    public void Click(string clientId) => InvokeVoidAsync("KR_elemClick", clientId);
-    public void Enabled(string clientId, bool enabled) => InvokeVoidAsync("KR_elemEnabled", clientId, enabled);
-    public void ToggleClass(string clientId, string className) => InvokeVoidAsync("KR_toggleClass", clientId, className);
+    public void AppendBody(string html) => InvokeVoidAsync("KRazor.appendBody", html);
+    public void ShowFrame(string id, string url) => InvokeVoidAsync("KRazor.showFrame", id, url);
+    public void ShowLoading() => InvokeVoidAsync("KRazor.showLoading");
+    public void HideLoading() => InvokeVoidAsync("KRazor.hideLoading");
+    public void OpenFullScreen() => InvokeVoidAsync("KRazor.openFullScreen");
+    public void CloseFullScreen() => InvokeVoidAsync("KRazor.closeFullScreen");
+    public void OpenLink(string url) => InvokeVoidAsync("KRazor.openLink", url);
+    public void Click(string clientId) => InvokeVoidAsync("KRazor.elemClick", clientId);
+    public void Enabled(string clientId, bool enabled) => InvokeVoidAsync("KRazor.elemEnabled", clientId, enabled);
+    public void ToggleClass(string clientId, string className) => InvokeVoidAsync("KRazor.toggleClass", clientId, className);
     public async void Back() => await jsRuntime.InvokeAsync<string>("history.go", -1);
 
     public async Task<T> InvokeAsync<T>(string identifier, params object[] args)

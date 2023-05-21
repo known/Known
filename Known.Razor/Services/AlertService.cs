@@ -4,7 +4,7 @@ partial class UIService
 {
     public async void Tips(string message)
     {
-        await InvokeAsync<string>("KR_showTips", message);
+        await InvokeAsync<string>("KRazor.showTips", message);
     }
 
     public void Alert(string message, bool isMax)

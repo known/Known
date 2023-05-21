@@ -2,5 +2,5 @@
 
 partial class UIService
 {
-    public void BindEnter() => InvokeVoidAsync("KR_bindEnter");
+    public void BindEnter() => InvokeVoidAsync("KRazor.bindEnter");
 }
