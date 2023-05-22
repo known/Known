@@ -301,7 +301,6 @@ create table `SysMessage` (
     `UserId`     varchar(50)   not null,
     `Type`       varchar(50)   not null,
     `MsgBy`      varchar(50)   not null,
-    `MsgByName`  varchar(50)   not null,
     `MsgLevel`   varchar(50)   not null,
     `Category`   varchar(50)   null,
     `Subject`    varchar(250)  not null,

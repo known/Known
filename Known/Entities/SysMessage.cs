@@ -18,16 +18,10 @@ public class SysMessage : EntityBase
     public string Type { get; set; }
 
     /// <summary>
-    /// 取得或设置收件人ID。
+    /// 取得或设置发件人。
     /// </summary>
-    [Column("收件人ID", "", true, "1", "50")]
+    [Column("发件人", "", true, "1", "50")]
     public string MsgBy { get; set; }
-
-    /// <summary>
-    /// 取得或设置收件姓名。
-    /// </summary>
-    [Column("收件姓名", "", true, "1", "50")]
-    public string MsgByName { get; set; }
 
     /// <summary>
     /// 取得或设置级别（一般、紧急）。

@@ -2,6 +2,7 @@
 
 class UserRepository
 {
+    //User
     internal static PagingResult<SysUser> QueryUsers(Database db, PagingCriteria criteria)
     {
         var sql = "select * from SysUser where AppId=@AppId and CompNo=@CompNo";
@@ -38,6 +39,7 @@ class UserRepository
         db.Execute(sql, new { userId, roleId });
     }
 
+    //Account
     internal static List<string> GetUserModuleIds(Database db, string userId)
     {
         var sql = "select ModuleId from SysRoleModule where RoleId in (select RoleId from SysUserRole where UserId=@userId)";
@@ -67,5 +69,12 @@ class UserRepository
     {
         var sql = "select Name from SysOrganization where AppId=@appId and CompNo=@compNo and Code=@orgNo";
         return db.Scalar<string>(sql, new { appId, compNo, orgNo });
+    }
+
+    //Message
+    internal static PagingResult<SysMessage> QueryMessages(Database db, PagingCriteria criteria)
+    {
+        var sql = "select * from SysMessage where CompNo=@CompNo";
+        return db.QueryPage<SysMessage>(sql, criteria);
     }
 }

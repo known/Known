@@ -4,6 +4,7 @@ class UserService : BaseService
 {
     internal UserService(Context context) : base(context) { }
 
+    //User
     internal PagingResult<SysUser> QueryUsers(PagingCriteria criteria)
     {
         return UserRepository.QueryUsers(Database, criteria);
@@ -134,6 +135,7 @@ class UserService : BaseService
         };
     }
 
+    //Account
     internal Result SignIn(LoginFormInfo info)
     {
         var userName = info.UserName.ToLower();
@@ -402,5 +404,12 @@ class UserService : BaseService
             return null;
 
         return Utils.ToJson(columns);
+    }
+
+    //Message
+    internal PagingResult<SysMessage> QueryMessages(PagingCriteria criteria)
+    {
+        criteria.SetValue(nameof(SysMessage.UserId), CurrentUser.UserId);
+        return UserRepository.QueryMessages(Database, criteria);
     }
 }

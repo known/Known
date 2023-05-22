@@ -7,6 +7,7 @@ public class UserController : BaseController
 {
     private UserService Service => new(Context);
 
+    //User
     [HttpPost("[action]")]
     public PagingResult<SysUser> QueryUsers([FromBody] PagingCriteria criteria) => Service.QueryUsers(criteria);
 
@@ -25,6 +26,7 @@ public class UserController : BaseController
     [HttpGet("[action]")]
     public UserAuthInfo GetUserAuth([FromQuery] string userId) => Service.GetUserAuth(userId);
 
+    //Account
     [AllowAnonymous]
     [HttpPost("[action]")]
     public Result SignIn([FromBody] LoginFormInfo info)
@@ -44,4 +46,8 @@ public class UserController : BaseController
 
     [HttpPost("[action]")]
     public Result SaveSetting([FromBody] SettingFormInfo info) => Service.SaveSetting(info);
+
+    //Message
+    [HttpPost("[action]")]
+    public PagingResult<SysMessage> QueryMessages([FromBody] PagingCriteria criteria) => Service.QueryMessages(criteria);
 }

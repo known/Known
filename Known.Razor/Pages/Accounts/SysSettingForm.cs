@@ -1,4 +1,4 @@
-﻿namespace Known.Razor.Pages.Forms;
+﻿namespace Known.Razor.Pages.Accounts;
 
 class SysSettingForm : BaseForm<SettingInfo>
 {
