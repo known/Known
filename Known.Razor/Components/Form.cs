@@ -62,7 +62,7 @@ public class Form : BaseComponent
         BuildForm(builder);
     }
 
-    protected void BuildForm(RenderTreeBuilder builder)
+    protected virtual void BuildForm(RenderTreeBuilder builder)
     {
         builder.Div($"form {Style}", attr =>
         {
@@ -133,7 +133,7 @@ public class Form : BaseComponent
         UI.Result(result, OnSubmitted(result, onSuccess));
     }
 
-    internal async void SubmitFilesAsync(Func<MultipartFormDataContent, Task<Result>> action, Action<Result> onSuccess = null)
+    public async void SubmitFilesAsync(Func<MultipartFormDataContent, Task<Result>> action, Action<Result> onSuccess = null)
     {
         if (!Validate())
             return;
