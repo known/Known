@@ -11,7 +11,7 @@ namespace Known.Test
         {
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
-
+            AppSetting.Load();
             WindowState = FormWindowState.Maximized;
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             Text = Config.AppName;
@@ -24,9 +24,20 @@ namespace Known.Test
             base.OnClosing(e);
             var result = Dialog.Confirm("确定退出系统？");
             if (result == DialogResult.Cancel)
+            {
                 e.Cancel = true;
+            }
             else
+            {
+                AppSetting.ZoomFactor = blazorWebView.WebView.ZoomFactor;
+                AppSetting.Save();
                 Environment.Exit(0);
+            }
+        }
+
+        private void WebViewInitialized(object sender, BlazorWebViewInitializedEventArgs e)
+        {
+            e.WebView.ZoomFactor = AppSetting.ZoomFactor;
         }
 
         private void AddBlazorWebView()
@@ -41,11 +52,6 @@ namespace Known.Test
             blazorWebView.Services = services.BuildServiceProvider();
             blazorWebView.RootComponents.Add<App>("#app");
             blazorWebView.Visible = true;
-        }
-
-        private void WebViewInitialized(object sender, BlazorWebViewInitializedEventArgs e)
-        {
-            e.WebView.ZoomFactor = 1;
         }
     }
 }
