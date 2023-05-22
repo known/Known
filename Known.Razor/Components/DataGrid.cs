@@ -417,8 +417,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
             attr.OnDoubleClick(Callback(() => OnRowDoubleClick(rowNo, item)));
             BuildRowIndex(builder, rowNo);
-            BuildRowCheckBox(builder, item);
-            BuildRowAction(builder, item);
+            BuildRowCheckBox(builder, rowNo, item);
+            BuildRowAction(builder, rowNo, item);
 
             if (IsEdit)
             {
@@ -462,7 +462,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         builder.Td("index", attr => builder.Text($"{index}"));
     }
 
-    private void BuildRowCheckBox(RenderTreeBuilder builder, TItem item)
+    private void BuildRowCheckBox(RenderTreeBuilder builder, int index, TItem item)
     {
         if (!ShowCheckBox)
             return;
@@ -488,7 +488,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         });
     }
 
-    private void BuildRowAction(RenderTreeBuilder builder, TItem item)
+    private void BuildRowAction(RenderTreeBuilder builder, int index, TItem item)
     {
         if (IsEdit && ReadOnly)
             return;
@@ -498,21 +498,57 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
         builder.Td("action", attr =>
         {
+            //var count = 0;
+            var actions = new List<ButtonInfo>();
+            var others = new List<ButtonInfo>();
             foreach (var action in Actions)
             {
                 if (!CheckAction(action, item))
                     continue;
 
-                builder.Link(action.Name, Callback(() =>
-                {
-                    var method = GetType().GetMethod(action.Id);
-                    if (method == null)
-                        UI.Tips($"{action.Name}方法不存在！");
-                    else
-                        method.Invoke(this, new object[] { item });
-                }));
+                builder.Link(action.Name, Callback(() => OnRowAction(item, action)));
+                //if (count++ < 3)
+                //    actions.Add(action);
+                //else
+                //    others.Add(action);
+            }
+            //BuildRowAction(builder, item, actions);
+            //BuildRowOtherAction(builder, index, item, others);
+        });
+    }
+
+    private void BuildRowAction(RenderTreeBuilder builder, TItem item, List<ButtonInfo> actions)
+    {
+        foreach (var action in actions)
+        {
+            builder.Link(action.Name, Callback(() => OnRowAction(item, action)));
+        }
+    }
+
+    private void BuildRowOtherAction(RenderTreeBuilder builder, int index, TItem item, List<ButtonInfo> others)
+    {
+        if (others.Count == 0)
+            return;
+
+        var id = $"row{index}";
+        builder.Icon("fa fa-ellipsis-h", attr => attr.OnClick(Callback(() => UI.ToggleClass(id, "show"))));
+        builder.Div("other", attr =>
+        {
+            attr.Id(id);
+            foreach (var action in others)
+            {
+                builder.Link(action.Name, Callback(() => OnRowAction(item, action)));
             }
         });
+    }
+
+    private void OnRowAction(TItem item, ButtonInfo action)
+    {
+        var method = GetType().GetMethod(action.Id);
+        if (method == null)
+            UI.Tips($"{action.Name}方法不存在！");
+        else
+            method.Invoke(this, new object[] { item });
     }
 
     private void BuildFoot(RenderTreeBuilder builder)
