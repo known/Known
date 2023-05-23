@@ -155,6 +155,7 @@ button, input, select, .form-input .text, .form-input .unit,
 .ss-form .userMessage .form-label {width:auto;}
 .ss-form .userMessage .form {margin-top:10px;}
 .ss-form .userMessage .form-button {padding:10px;text-align:center;}
+.ss-form .userMessage .noread {font-weight:bold;color:#000;}
 
 /*SysDic*/
 .form th.dic-extend {text-align:left;line-height:30px;}

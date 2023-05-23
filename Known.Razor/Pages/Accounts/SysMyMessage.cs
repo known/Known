@@ -77,13 +77,28 @@ class SysMessageList : DataGrid<SysMessage>
 
     private void BuildSubject(RenderTreeBuilder builder, SysMessage row)
     {
-        builder.Link(row.Subject, Callback(() => OnDetail?.Invoke(row)));
+        var style = row.Status == Constants.UMStatusUnread ? "noread" : "";
+        builder.Link(row.Subject, Callback(() => OnDetail?.Invoke(row)), style);
     }
 }
 
 class SysMessageForm : BaseForm<SysMessage>
 {
+    private SysMessage model;
+
     [Parameter] public Action OnBack { get; set; }
+
+    protected override async Task InitPageAsync()
+    {
+        model = TModel;
+        if (model.Status == Constants.UMStatusUnread)
+        {
+            dynamic data = new ExpandoObject();
+            data.Id = model.Id;
+            data.Status = Constants.UMStatusRead;
+            await Platform.User.SaveMessageAsync(data);
+        }
+    }
 
     protected override void BuildFields(FieldBuilder<SysMessage> builder)
     {
@@ -95,7 +110,7 @@ class SysMessageForm : BaseForm<SysMessage>
             table.Tr(attr =>
             {
                 table.Th("", "级别");
-                table.Td(attr => SysMessageList.BuildMsgLevel(table, TModel.MsgLevel));
+                table.Td(attr => SysMessageList.BuildMsgLevel(table, model.MsgLevel));
                 builder.Field<Text>(f => f.MsgBy).ReadOnly(true).Build();
                 builder.Field<Date>(f => f.CreateTime)
                        .Label("收件时间").ReadOnly(true)
