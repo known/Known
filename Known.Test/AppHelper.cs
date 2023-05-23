@@ -1,5 +1,4 @@
-﻿using Known.Core;
-using Known.Test.Pages;
+﻿using Known.Test.Pages;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

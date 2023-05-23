@@ -1,7 +1,9 @@
 ﻿namespace Known.Razor;
 
-public class Setting
+public sealed class Setting
 {
+    private Setting() { }
+
     public static UserSetting UserSetting { get; set; }
 
     internal static SettingInfo Info => UserSetting.Info ?? SettingInfo.Default;

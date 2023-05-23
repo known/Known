@@ -32,6 +32,8 @@ public class Constants
 
 public class FlowStatus
 {
+    private FlowStatus() { }
+
     public const string Open = "开启";
     public const string Over = "结束";
     public const string Stop = "终止";

@@ -7,9 +7,11 @@ public interface IPlatform
     void MakeThumbnail(Stream stream, string thumbnailPath, int width, int height);
 }
 
-public class Platform
+public sealed class Platform
 {
     private static readonly IPlatform platform = Container.Resolve<IPlatform>();
+
+    private Platform() { }
 
     public static string GetMacAddress() => platform.GetMacAddress();
     public static string GetIPAddress() => platform.GetIPAddress();

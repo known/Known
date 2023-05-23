@@ -2,6 +2,7 @@
 
 public static class ListExtension
 {
+    //ColumnInfo
     public static void Add<T>(this List<ColumnInfo> lists, Expression<Func<T, object>> selector, string name = null)
     {
         var property = TypeHelper.Property(selector);
