@@ -21,4 +21,6 @@ public class UserClient : ClientBase
 
     //Message
     public Task<PagingResult<SysMessage>> QueryMessagesAsync(PagingCriteria criteria) => Context.QueryAsync<SysMessage>("User/QueryMessages", criteria);
+    public Task<Result> DeleteMessagesAsync(List<SysMessage> models) => Context.PostAsync("User/DeleteMessages", models);
+    public Task<Result> SaveMessageAsync(object model) => Context.PostAsync("User/SaveMessage", model);
 }

@@ -50,4 +50,10 @@ public class UserController : BaseController
     //Message
     [HttpPost("[action]")]
     public PagingResult<SysMessage> QueryMessages([FromBody] PagingCriteria criteria) => Service.QueryMessages(criteria);
+
+    [HttpPost("[action]")]
+    public Result DeleteMessages([FromBody] List<SysMessage> models) => Service.DeleteMessages(models);
+
+    [HttpPost("[action]")]
+    public Result SaveMessage([FromBody] object model) => Service.SaveMessage(GetDynamicModel(model));
 }

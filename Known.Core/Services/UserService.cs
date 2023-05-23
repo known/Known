@@ -259,7 +259,7 @@ class UserService : BaseService
         setting ??= new SysSetting { BizType = info.Type, BizName = info.Name };
         setting.BizData = info.Data;
         Database.Save(setting);
-        return Result.Success("保存成功！");
+        return Result.Success(Language.SaveSuccess);
     }
 
     private void SetUserInfo(UserInfo user)
@@ -411,5 +411,36 @@ class UserService : BaseService
     {
         criteria.SetValue(nameof(SysMessage.UserId), CurrentUser.UserId);
         return UserRepository.QueryMessages(Database, criteria);
+    }
+
+    internal Result DeleteMessages(List<SysMessage> entities)
+    {
+        if (entities == null || entities.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return Database.Transaction(Language.Delete, db =>
+        {
+            foreach (var item in entities)
+            {
+                db.Delete(item);
+            }
+        });
+    }
+
+    internal Result SaveMessage(dynamic model)
+    {
+        var entity = Database.QueryById<SysMessage>((string)model.Id);
+        if (entity == null)
+            return Result.Error("消息不存在！");
+
+        entity.FillModel(model);
+        var vr = entity.Validate();
+        if (!vr.IsValid)
+            return vr;
+
+        return Database.Transaction(Language.Save, db =>
+        {
+            db.Save(entity);
+        }, entity);
     }
 }

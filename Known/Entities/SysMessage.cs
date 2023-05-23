@@ -56,8 +56,8 @@ public class SysMessage : EntityBase
     /// <summary>
     /// 取得或设置是否Html。
     /// </summary>
-    [Column("是否Html", "", true, "1", "50")]
-    public string IsHtml { get; set; }
+    [Column("是否Html")]
+    public bool IsHtml { get; set; }
 
     /// <summary>
     /// 取得或设置状态（未读、已读）。

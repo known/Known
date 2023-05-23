@@ -93,6 +93,7 @@ public sealed class FormButton
     public static ButtonInfo Close => new("Close", "关闭", "fa fa-close", "bg-danger");
     public static ButtonInfo OK => new("OK", "确定", "fa fa-check", "bg-primary");
     public static ButtonInfo Cancel => new("Cancel", "取消", "fa fa-close", "bg-danger");
+    public static ButtonInfo Back => new("Back", "返回", "fa fa-arrow-left", "bg-primary");
     public static ButtonInfo Config => new("Config", "配置", "fa fa-cog", "bg-primary");
     public static ButtonInfo Edit => new("Edit", "修改", "fa fa-edit", "bg-primary");
     public static ButtonInfo EditOK => new("EditOK", "确定修改", "fa fa-check", "bg-primary");
