@@ -24,7 +24,7 @@ public class SysMessage : EntityBase
     public string MsgBy { get; set; }
 
     /// <summary>
-    /// 取得或设置级别（一般、紧急）。
+    /// 取得或设置级别（普通、紧急）。
     /// </summary>
     [Column("级别", "", true, "1", "50")]
     public string MsgLevel { get; set; }

@@ -17,6 +17,8 @@ public class Constants
     public const string UMTypeReceive = "收件";
     public const string UMTypeSend = "发件";
     public const string UMTypeDelete = "删除";
+    public const string UMLGeneral = "普通";
+    public const string UMLUrgent = "紧急";
     public const string UMStatusRead = "已读";
     public const string UMStatusUnread = "未读";
 

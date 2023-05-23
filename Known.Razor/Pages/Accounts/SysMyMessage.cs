@@ -48,11 +48,10 @@ class SysMessageList : DataGrid<SysMessage>
         Tools = new List<ButtonInfo> { ToolButton.DeleteM };
 
         var builder = new ColumnBuilder<SysMessage>();
-        builder.Field(r => r.MsgLevel).Center(100);
-        builder.Field(r => r.Category).Center(100);
+        builder.Field(r => r.MsgLevel).Center(100).Template(BuildMsgLevel);
         builder.Field(r => r.Subject, true).Template(BuildSubject);
         builder.Field(r => r.MsgBy).Center(100);
-        builder.Field(r => r.CreateTime).Center(120).Type(ColumnType.DateTime);
+        builder.Field(r => r.CreateTime).Name("收件时间").Center(120).Type(ColumnType.DateTime);
         Columns = builder.ToColumns();
     }
 
@@ -64,6 +63,17 @@ class SysMessageList : DataGrid<SysMessage>
     }
 
     public void DeleteM() => OnDeleteM(Platform.User.DeleteMessagesAsync);
+
+    internal static void BuildMsgLevel(RenderTreeBuilder builder, string level)
+    {
+        var color = level == Constants.UMLUrgent ? "bg-danger" : "bg-primary";
+        builder.Span($"badge {color}", level);
+    }
+
+    private void BuildMsgLevel(RenderTreeBuilder builder, SysMessage row)
+    {
+        BuildMsgLevel(builder, row.MsgLevel);
+    }
 
     private void BuildSubject(RenderTreeBuilder builder, SysMessage row)
     {
@@ -80,12 +90,19 @@ class SysMessageForm : BaseForm<SysMessage>
         builder.Hidden(f => f.Id);
         builder.Table(table =>
         {
-            table.ColGroup(100, null);
-            table.Tr(attr => builder.Field<Text>(f => f.Subject).ReadOnly(true).Build());
-            table.Tr(attr => builder.Field<Text>(f => f.MsgBy).ReadOnly(true).Build());
-            table.Tr(attr => builder.Field<Text>(f => f.MsgLevel).ReadOnly(true).Build());
-            table.Tr(attr => builder.Field<Text>(f => f.CreateTime).ReadOnly(true).Build());
-            table.Tr(attr => builder.Field<Text>(f => f.Content).ReadOnly(true).Build());
+            table.ColGroup(10, 23, 10, 23, 10, 24);
+            table.Tr(attr => builder.Field<Text>(f => f.Subject).ColSpan(5).ReadOnly(true).Build());
+            table.Tr(attr =>
+            {
+                table.Th("", "级别");
+                table.Td(attr => SysMessageList.BuildMsgLevel(table, TModel.MsgLevel));
+                builder.Field<Text>(f => f.MsgBy).ReadOnly(true).Build();
+                builder.Field<Date>(f => f.CreateTime)
+                       .Label("收件时间").ReadOnly(true)
+                       .Set(f => f.DateType, DateType.DateTime)
+                       .Build();
+            });
+            table.Tr(attr => builder.Field<Text>(f => f.Content).ColSpan(5).ReadOnly(true).Build());
         });
     }
 

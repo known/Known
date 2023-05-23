@@ -153,6 +153,8 @@ button, input, select, .form-input .text, .form-input .unit,
 .ss-form .form-input {display:inline-block;}
 .ss-form .form-button {padding-left:190px;text-align:left;}
 .ss-form .userMessage .form-label {width:auto;}
+.ss-form .userMessage .form {margin-top:10px;}
+.ss-form .userMessage .form-button {padding:10px;text-align:center;}
 
 /*SysDic*/
 .form th.dic-extend {text-align:left;line-height:30px;}
