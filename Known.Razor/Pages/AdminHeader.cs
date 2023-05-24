@@ -10,6 +10,7 @@ class AdminHeader : BaseComponent
     private string IsActive(MenuItem menu) => curMenu?.Id == menu.Id ? "active" : "";
 
     [Parameter] public string AppName { get; set; }
+    [Parameter] public int? MessageCount { get; set; }
     [Parameter] public List<MenuItem> Menus { get; set; }
     [Parameter] public Action<MenuItem> OnMenuClick { get; set; }
     [Parameter] public Action<bool> OnToggle { get; set; }
@@ -19,6 +20,12 @@ class AdminHeader : BaseComponent
     {
         if (Menus != null && Menus.Count > 0)
             curMenu = Menus.FirstOrDefault();
+
+        PageAction.RefreshMessageCount = count =>
+        {
+            MessageCount = count;
+            StateChanged();
+        };
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -72,7 +79,8 @@ class AdminHeader : BaseComponent
             builder.Li("nav-item fa fa-user", attr =>
             {
                 attr.Title("个人中心").OnClick(Callback(Context.NavigateToAccount));
-                //builder.Span("badge-top", "10");
+                if (MessageCount > 0)
+                    builder.Span("badge-top", $"{MessageCount}");
             });
             builder.Li("nav-item fa fa-power-off", attr => attr.Title("安全退出").OnClick(Callback(OnUserLogout)));
         });

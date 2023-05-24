@@ -326,9 +326,11 @@ class UserService : BaseService
         if (!vr.IsValid)
             return vr;
 
-        return Database.Transaction(Language.Save, db =>
+        var result = Database.Transaction(Language.Save, db =>
         {
             db.Save(entity);
-        }, entity);
+        });
+        result.Data = UserRepository.GetMessageCount(Database);
+        return result;
     }
 }

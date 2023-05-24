@@ -51,6 +51,7 @@ class Admin : BaseComponent
     {
         builder.Component<AdminHeader>()
                .Set(c => c.AppName, info?.AppName)
+               .Set(c => c.MessageCount, info?.MessageCount)
                .Set(c => c.Menus, TopMenu ? userMenus : null)
                .Set(c => c.OnMenuClick, OnMenuClick)
                .Set(c => c.OnToggle, OnToggleSide)

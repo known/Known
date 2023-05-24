@@ -96,7 +96,8 @@ class SysMessageForm : BaseForm<SysMessage>
             dynamic data = new ExpandoObject();
             data.Id = model.Id;
             data.Status = Constants.UMStatusRead;
-            await Platform.User.SaveMessageAsync(data);
+            Result result = await Platform.User.SaveMessageAsync(data);
+            PageAction.RefreshMessageCount?.Invoke(result.DataAs<int>());
         }
     }
 
