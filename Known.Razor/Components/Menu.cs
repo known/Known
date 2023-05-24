@@ -83,7 +83,7 @@ public class Menu : BaseComponent
     {
         if (item.Badge > 0)
         {
-            builder.Span("badge danger", $"{item.Badge}");
+            builder.Span("badge-top", $"{item.Badge}");
         }
     }
 

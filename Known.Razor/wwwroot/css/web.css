@@ -36,10 +36,11 @@
 .topMenu li .name {display:block;font-size:0.8rem;}
 .topMenu li.active {border-bottom:3px solid #1c66b9;}
 .nav {box-sizing:border-box;padding-right:10px;}
-.nav-item {cursor:pointer;}
+.nav-item {position:relative;cursor:pointer;}
 .nav .nav-item:before {font-size:1.2rem;}
 .nav .nav-item {display:inline-block;line-height:49px;padding:0 10px;}
 .nav .nav-item .text {font-size:1rem;}
+.nav .nav-item .badge-top {top:5px;}
 .nav .nav-item:hover {background-color:#f1f1f1;}
 .nav .nav-item.text:hover {background-color:inherit;}
 .nav-child {display:none;top:50px;right:5px;-webkit-transition:all .3s;transition:all .3s;}

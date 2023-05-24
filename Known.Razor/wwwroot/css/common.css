@@ -206,11 +206,10 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
     padding:2px 5px;color:#fff;background-color:#009688;cursor:pointer;
     -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
 }
-.menu-item .badge, .menu-item .icon {
+.badge-top {
+    position:absolute;top:0;right:0;font-size:0.5rem;padding:0;width:16px;height:16px;line-height:16px;
+    background-color:#d9534f;color:#fff;text-align:center;
     -webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;
-}
-.menu-item .badge {
-    position:absolute;font-size:10px;padding:0;width:16px;height:16px;line-height:16px;
 }
 
 /*slider*/
