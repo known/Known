@@ -77,4 +77,10 @@ class UserRepository
         var sql = "select * from SysMessage where CompNo=@CompNo";
         return db.QueryPage<SysMessage>(sql, criteria);
     }
+
+    internal static int GetMessageCount(Database db)
+    {
+        var sql = $"select count(*) from SysMessage where UserId=@UserId and Status='{Constants.UMStatusUnread}'";
+        return db.Scalar<int>(sql, new { db.User.UserId });
+    }
 }

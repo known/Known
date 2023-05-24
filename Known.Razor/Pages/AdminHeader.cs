@@ -69,7 +69,11 @@ class AdminHeader : BaseComponent
             if (KRConfig.IsWeb)
                 builder.Li($"nav-item {ToggleScreen}", attr => attr.Title("全屏切换").OnClick(Callback(OnToggleScreen)));
             //builder.Li("nav-item fa fa-refresh", attr => attr.Title("刷新页面").OnClick(Callback(OnPageRefresh)));
-            builder.Li("nav-item fa fa-user", attr => attr.Title("个人中心").OnClick(Callback(Context.NavigateToAccount)));
+            builder.Li("nav-item fa fa-user", attr =>
+            {
+                attr.Title("个人中心").OnClick(Callback(Context.NavigateToAccount));
+                //builder.Span("badge-top", "10");
+            });
             builder.Li("nav-item fa fa-power-off", attr => attr.Title("安全退出").OnClick(Callback(OnUserLogout)));
         });
     }
