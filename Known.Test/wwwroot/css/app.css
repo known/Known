@@ -60,3 +60,20 @@ h1 {font-size:1.5rem;font-weight:bold;padding:10px 0;}
 .ws-func-menu:hover {color:#009688;}
 .ws-func-menu i {display:block;font-size:2.2rem;margin:8px auto;}
 .ws-func-menu span {display:block;width:100%;height:25px;overflow:hidden;}
+
+.count {position:absolute;top:30px;right:10px;height:100px;}
+.count li {
+    display:inline-block;width:140px;height:110px;margin:0 5px;
+    background-color:#f5f5f5;position:relative;
+    -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
+}
+.count li .name {display:block;border-bottom:1px solid #e8eaec;padding:5px 10px;}
+.count li .month {
+    position:absolute;top:5px;right:5px;font-size:14px;padding:0 5px;
+    background-color:#e6f7ff;border:1px solid #91d5ff;color:#1890ff;
+    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
+}
+.count li .amount {
+    position:absolute;top:45px;left:5px;right:5px;text-align:center;
+    font-size:1.8rem;height:50px;line-height:50px;
+}

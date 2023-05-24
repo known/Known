@@ -6,17 +6,13 @@ class Home : PageComponent
     private HomeInfo info;
     private List<MenuItem> visitMenus;
     private Chart chart;
-    private int curChartType = 1;
-    private string IsChartActive(int type) => curChartType == type ? "active" : "";
 
-    protected override Task InitPageAsync()
+    protected override void OnInitialized()
     {
         var service = new HomeService(Context);
         user = CurrentUser;
         info = service.GetHome();
         visitMenus = KRConfig.GetMenus(info?.VisitMenuIds);
-        OnChartClick(1);
-        return base.InitPageAsync();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -27,6 +23,12 @@ class Home : PageComponent
             BuildDataChart(builder);
             BuildVisitMenus(builder);
         });
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            ShowChart();
     }
 
     private void BuildWorkSpace(RenderTreeBuilder builder)
@@ -62,6 +64,25 @@ class Home : PageComponent
         builder.Img(attr => attr.Class("ws-avatar").Src($"_content/Known.Razor{user?.AvatarUrl}"));
         builder.Span("ws-name", info?.Greeting);
         builder.Span("ws-tips", $"今天是：{DateTime.Now:yyyy-MM-dd dddd}");
+
+        builder.Ul("count", attr =>
+        {
+            BuildWDCount(builder, "用户数量", info?.Statistics?.UserCount);
+            BuildWDCount(builder, "日志数量", info?.Statistics?.LogCount);
+        });
+    }
+
+    private static void BuildWDCount(RenderTreeBuilder builder, string name, decimal? count)
+    {
+        builder.Li(attr =>
+        {
+            builder.Span("name", attr =>
+            {
+                builder.Text(name);
+                builder.Span("month", "总");
+            });
+            builder.Span("amount", $"{count}");
+        });
     }
 
     private void BuildDCHead(RenderTreeBuilder builder)
@@ -76,16 +97,14 @@ class Home : PageComponent
                .Build(value => chart = value);
     }
 
-    private void OnChartClick(int type)
+    private void ShowChart()
     {
         if (chart == null)
             return;
 
-        curChartType = type;
-        if (type == 1)
-            chart.YAxis = new { title = new { text = "单量" } };
-        else if (type == 2)
-            chart.YAxis = new { title = new { text = "金额" } };
+        var title = $"{DateTime.Now:yyyyMM}月系统访问量统计";
+        chart.YAxis = new { title = new { text = "数量" } };
+        chart.ShowBar(title, info?.Statistics?.LogDatas);
     }
 
     private void BuildVMBody(RenderTreeBuilder builder)

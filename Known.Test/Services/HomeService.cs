@@ -42,9 +42,34 @@ class HomeService : BaseService
 
     private StatisticsInfo GetStatisticsInfo()
     {
+        Database.Open();
         var info = new StatisticsInfo
         {
+            UserCount = Database.Scalar<int>("select count(*) from SysUser"),
+            LogCount = Database.Scalar<int>("select count(*) from SysLog")
         };
+        var now = DateTime.Now;
+        var endDay = now.AddDays(1 - now.Day).AddMonths(1).AddDays(-1).Day;
+        var seriesLog = new Dictionary<string, object>();
+        for (int i = 1; i <= endDay; i++)
+        {
+            var date = new DateTime(now.Year, now.Month, i);
+            seriesLog[i.ToString("00")] = GetLogCount(Database, date);
+        }
+        info.LogDatas = new ChartDataInfo[]
+        {
+            new ChartDataInfo { Name = "访问量", Series = seriesLog }
+        };
+        Database.Close();
         return info;
+    }
+
+    private static object GetLogCount(Database db, DateTime date)
+    {
+        var day = date.ToString("yyyy-MM-dd");
+        var sql = $@"select count(1) from SysLog where CreateTime between '{day} 00:00:00' and '{day} 23:59:59'";
+        if (db.DatabaseType == DatabaseType.Access)
+            sql = sql.Replace("'", "#");
+        return db.Scalar<int>(sql);
     }
 }
