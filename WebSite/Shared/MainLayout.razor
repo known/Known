@@ -1,18 +1,15 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <a href="/">首页</a>
-        <a href="/doc">文档</a>
-    </div>
-
+    <header>
+        <a class="logo" href="/"><img src="img/logo.png" /></a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/doc">文档</a>
+        </nav>
+    </header>
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
+        @Body
     </main>
+    <a class="gitee" href="https://gitee.com/known/Known"><img src="https://gitee.com/known/Known/widgets/widget_1.svg?color=009687" alt="Fork me on Gitee" /></a>
 </div>
