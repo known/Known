@@ -1,0 +1,25 @@
+﻿<div class="doc-menu">
+    <div class="menus">
+        @foreach (var menu in Menus)
+        {
+            <div class="title">@menu.Name</div>
+            <ul>
+                @foreach (var item in menu.Children)
+                {
+                    var cls = curItem == item.Name ? "active" : "";
+                    <li class="@cls" @onclick="@(e => OnMenuItemClick(item))"><a href="@item.Url">@item.Name</a></li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@code {
+    private string? curItem;
+    private List<MenuItem> Menus = MenuService.GetDocMenus();
+
+    private void OnMenuItemClick(MenuItem item)
+    {
+        curItem = item.Name;
+    }
+}
