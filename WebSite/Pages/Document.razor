@@ -2,10 +2,11 @@
 @inject IJSRuntime JS;
 
 <div class="doc-container">
-    <div class="doc-sider">
+    <div id="docNav" class="doc-sider">
         <DocMenu CurItem="@curItem" />
     </div>
     <div class="doc-content markdown-body">
+        <span class="doc-nav oi oi-list" @onclick="OnDocNavClick"></span>
         @DocService.GetDocHtml(curItem)
     </div>
 </div>
@@ -14,4 +15,9 @@
     private string? curItem => Id ?? "profile";
 
     [Parameter] public string? Id { get; set; }
+
+    private async void OnDocNavClick()
+    {
+        await JS.InvokeVoidAsync("showDocNav");
+    }
 }

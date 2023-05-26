@@ -7,6 +7,7 @@ a {text-decoration:none;}
 .gitee {position:fixed;top:0;right:0;width:60px;height:60px;z-index:99999;}
 .gitee img {width:100%;height:100%;}
 
+.show {display:block;}
 .row {padding:50px 0;}
 .row:after {display:block;content:'';clear:both;}
 .col {float:left;}
@@ -60,7 +61,11 @@ input {
 input:focus {border-bottom:1.5px solid #5bc0de;}
 
 .doc-container {position:absolute;top:60px;left:0;right:0;bottom:0;}
-.doc-sider {position:absolute;top:0;left:0;bottom:0;width:200px;border-right:1px solid #ccc;overflow:auto;}
+.doc-sider {
+    position:absolute;top:0;left:0;bottom:0;width:200px;border-right:1px solid #ccc;overflow:auto;
+    z-index:9999;background-color:#fff;
+}
+.doc-nav {display:none;position:fixed;top:70px;left:10px;cursor:pointer;font-size:1.5rem;}
 .doc-content {position:absolute;top:0;left:201px;right:0;bottom:0;padding:20px 200px;overflow:auto}
 
 .doc-menu .search {padding:10px;}
@@ -73,6 +78,32 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 .doc-menu li.active {
     background-color:#1c66b9;color:#fff;
     -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
+}
+
+@media (max-width:1200px) {
+    footer, section {padding:0 100px;}
+    .doc-content {padding:20px 100px;overflow:auto}
+}
+
+@media (max-width:900px) {
+    footer, section {padding:0;}
+    .hero {padding:100px 30px 80px 30px;}
+    .hero .desc {padding:10px 0;text-align:justify;}
+    .hero .btns {padding-top:30px;}
+    section {margin-top:0;}
+    section .column {width:100%;padding:0;margin-top:20px;}
+    section .body {padding:0 20px;}
+    section .install {margin:0;}
+    .install h4 {font-size:1.5rem;margin-bottom:20px;}
+    .install pre {font-size:1.2rem;}
+    footer .row {padding:20px 0;}
+    footer .brand {width:95%;padding:10px;}
+    footer .links {width:44%;padding:20px 2px 0 20px;}
+
+    .doc-sider {display:none;}
+    .doc-sider.show {display:block;}
+    .doc-nav {display:block;}
+    .doc-content {left:0;padding:20px;overflow:auto}
 }
 
 .pln {color:#4d4d4c; }
@@ -244,27 +275,3 @@ pre.code {
 .markdown-body .task-list-item+.task-list-item {margin-top:3px}
 .markdown-body .task-list-item input {margin:0 0.2em 0.25em -1.6em;vertical-align:middle}
 .markdown-body hr {border-bottom-color:#eee}
-
-@media (max-width:1200px) {
-    footer, section {padding:0 100px;}
-    .doc-content {padding:20px 100px;overflow:auto}
-}
-
-@media (max-width:900px) {
-    footer, section {padding:0;}
-    .hero {padding:100px 30px 80px 30px;}
-    .hero .desc {padding:10px 0;text-align:justify;}
-    .hero .btns {padding-top:30px;}
-    section {margin-top:0;}
-    section .column {width:100%;padding:0;margin-top:20px;}
-    section .body {padding:0 20px;}
-    section .install {margin:0;}
-    .install h4 {font-size:1.5rem;margin-bottom:20px;}
-    .install pre {font-size:1.2rem;}
-    footer .row {padding:20px 0;}
-    footer .brand {width:95%;padding:10px;}
-    footer .links {width:44%;padding:20px 2px 0 20px;}
-
-    .doc-sider {display:none;}
-    .doc-content {left:0;padding:20px;overflow:auto}
-}

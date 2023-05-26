@@ -1,4 +1,5 @@
 ﻿@inject NavigationManager Nav;
+@inject IJSRuntime JS;
 
 <div class="doc-menu">
     <div class="menus">
@@ -21,9 +22,10 @@
 
     [Parameter] public string? CurItem { get; set; }
 
-    private void OnMenuItemClick(MenuItem item)
+    private async void OnMenuItemClick(MenuItem item)
     {
         CurItem = item.Id;
         Nav.NavigateTo($"/doc/{item.Id}");
+        await JS.InvokeVoidAsync("hideDocNav");
     }
 }
