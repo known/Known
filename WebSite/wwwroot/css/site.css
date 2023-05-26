@@ -1,12 +1,16 @@
 @import url('css/open-iconic.min.css');
 
 * {margin:0;padding:0;}
-html, body {font-family:'Microsoft YaHei', Helvetica, Arial, sans-serif;}
+html, body, .page {width:100%;height:100%;font-family:'Microsoft YaHei', Helvetica, Arial, sans-serif;}
 a {text-decoration:none;}
 ul {list-style:none;}
 
 .gitee {position:fixed;top:0;right:0;width:60px;height:60px;z-index:99999;}
 .gitee img {width:100%;height:100%;}
+
+.row {padding:50px 0;}
+.col {display:inline-block;}
+.code-comment {color:forestgreen;font-style:italic;}
 
 header, .hero, footer {padding:0 200px;color:#fff;}
 header, .hero {background-color:#1c66b9;}
@@ -28,25 +32,42 @@ nav a:hover {color:#fff;}
 }
 .hero .btn:hover {background-color:#fff;color:#000;}
 
-footer {background-color:#393d49;margin-top:100px;}
-footer .row {padding:50px 0;}
-footer .row:after {display:block;content:'';clear:both;}
-footer .col {display:inline-block;}
-footer .col1 {width:55%;}
-footer .col2 {width:20%;}
-footer .col3 {width:20%;}
+.section {padding:50px 200px;}
+.section:after {display:block;content:'';clear:both;}
+.install, .picture {float:left;height:360px;}
+.install {width:50%;position:relative;}
+.install .body {
+    border:1px solid #ccc;position:absolute;top:30px;left:30px;right:60px;bottom:30px;padding:30px;overflow:auto;
+    -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;background-color:#000;color:#fff;
+}
+.install .body h4 {font-size:1.5rem;margin-bottom:20px;}
+.install .body pre {font-size:1.2rem;}
+.picture {width:50%;padding-top:10px;}
+.picture img {width:562px;height:335px;}
+
+footer {background-color:#393d49;}
+footer .brand {width:55%;}
+footer .links {width:20%;}
 footer .desc {padding:0 10px;}
 footer ul {padding:10px 0;}
 footer ul li {height:30px;line-height:30px;}
 footer a {color:#fff;}
 .copyright {text-align:center;padding:10px;border-top:1px solid #494d59;}
 
-@media (max-width: 640.98px) {
-    header, footer {padding:0;}
+@media (max-width: 1200px) {
+    header, footer, .section {padding:0 100px;}
+}
+
+@media (max-width: 900px) {
+    header, footer, .section {padding:0;}
     .hero {padding:80px 30px;}
     .hero .desc {padding:10px 0;text-align:justify;}
     .hero .btns {padding-top:30px;}
+    .install, .picture {width:100%;height:290px;}
+    .install .body {top:20px;left:10px;right:10px;bottom:10px;}
+    .picture {text-align:center;}
+    .picture img {width:94%;height:260px;}
     footer .row {padding:20px 0;}
-    footer .col1 {width:95%;padding:10px;}
-    footer .col2, footer .col3 {width:40%;padding:20px 2px 0 20px;}
+    footer .brand {width:95%;padding:10px;}
+    footer .links {width:40%;padding:20px 2px 0 20px;}
 }
