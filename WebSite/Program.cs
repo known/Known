@@ -1,6 +1,7 @@
 using WebSite.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+DocService.RootPath = builder.Environment.ContentRootPath;
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

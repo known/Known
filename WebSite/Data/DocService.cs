@@ -5,6 +5,8 @@ namespace WebSite.Data;
 
 class DocService
 {
+    internal static string? RootPath { get; set; }
+
     internal static List<MenuItem> GetDocMenus()
     {
         return new List<MenuItem>
@@ -25,7 +27,7 @@ class DocService
         if (id == "profile")
         {
             var markdown = new Markdown();
-            var text = File.ReadAllText(@"D:\Publics\Known\README.md");
+            var text = File.ReadAllText($@"{RootPath}\docs\README.md");
             var html = markdown.Transform(text);
             return new MarkupString(html);
         }
