@@ -1,27 +1,36 @@
 ﻿@page "/"
 
 <div class="hero">
-    <div class="name">Known开发框架</div>
+    <div class="name">KNOWN</div>
     <div class="desc">基于C#和Blazor开发的前后端分离快速开发框架，开箱即用，跨平台，一处代码，多处运行。</div>
-    <div class="btns"><a class="btn" href="/doc/start">快速开始</a></div>
+    <div class="btns">
+        <a class="btn" href="/doc/start">快速开始</a>
+        <a class="btn" href="https://gitee.com/known/Known">GITEE</a>
+    </div>
+    <div class="stats">
+        <a href="https://gitee.com/known/Known/stargazers"><img src="https://gitee.com/known/Known/badge/star.svg?theme=dark" alt="star"></a>
+        <a href="https://www.nuget.org/profiles/known"><img src="https://img.shields.io/badge/downloads-3.4K-green" alt="downloads"></a>
+    </div>
 </div>
 
-<div class="section">
-    <div class="install">
+<section>
+    <div class="column">
         <div class="body">
-            <h4>快速安装</h4>
-            <pre>
+            <div class="install">
+                <h4>快速安装</h4>
+                <pre>
 <span class="code-comment">--安装模板</span>
 dotnet new install KnownTemplate
 
 <span class="code-comment">--创建项目</span>
 dotnet new known --name=你的项目
-            </pre>
+                </pre>
+            </div>
         </div>
     </div>
-    <div class="picture">
-        <img src="img/home.png" />
+    <div class="column">
+        <div class="body"><img src="img/home.png" /></div>
     </div>
-</div>
+</section>
 
 <Footer />

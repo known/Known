@@ -12,8 +12,9 @@ a {text-decoration:none;}
 .col {float:left;}
 .code-comment {color:forestgreen;font-style:italic;}
 
-.hero, footer {padding:0 200px;color:#fff;}
-header, .hero {background-color:#1c66b9;}
+.hero, section, footer {padding:0 180px;}
+header, .hero {background-color:#1c66b9;color:#fff;}
+section, footer {margin-top:20px;}
 
 header {height:60px;line-height:60px;position:fixed;top:0;width:100%;z-index:9999;}
 nav, .logo {float:left;height:60px;}
@@ -21,30 +22,28 @@ nav, .logo {float:left;height:60px;}
 nav a {font-weight:bold;font-size:1.3rem;color:#fff;margin-left:15px;}
 nav a:hover {color:#fff;}
 
-.hero {position:relative;padding:150px 200px;}
-.hero .name {text-align:center;font-weight:bold;font-size:3rem;}
+.hero {position:relative;padding:150px 200px 100px 200px;}
+.hero .name {text-align:center;font-weight:bold;font-size:4rem;}
 .hero .desc {text-align:center;font-size:1.2rem;padding-top:20px;}
 .hero .btns {text-align:center;padding-top:40px;}
 .hero .btn {
-    font-size:1.5rem;color:#fff;border:1px solid #eee;padding:10px 20px;
+    font-size:1.5rem;color:#fff;border:1px solid #eee;margin:0 10px;padding:10px 20px;
     -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
 }
 .hero .btn:hover {background-color:#fff;color:#000;}
+.hero .stats {text-align:center;padding-top:40px;}
 
-.section {padding:50px 200px;}
-.section:after {display:block;content:'';clear:both;}
-.install, .picture {float:left;height:360px;}
-.install {width:50%;position:relative;}
-.install .body {
-    border:1px solid #ccc;position:absolute;top:30px;left:30px;right:60px;bottom:30px;padding:30px;overflow:auto;
+section:after {display:block;content:'';clear:both;}
+section .column {float:left;width:50%;padding:30px 0;text-align:center;}
+section .column img {width:100%;height:100%;}
+.install {
+    border:1px solid #ccc;margin-right:50px;padding:50px;overflow:auto;text-align:left;
     -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;background-color:#000;color:#fff;
 }
-.install .body h4 {font-size:1.5rem;margin-bottom:20px;}
-.install .body pre {font-size:1.2rem;}
-.picture {width:50%;padding-top:10px;text-align:center;}
-.picture img {width:562px;height:335px;}
+.install h4 {font-size:2.1rem;margin-bottom:20px;}
+.install pre {font-size:1.6rem;}
 
-footer {background-color:#393d49;}
+footer {background-color:#393d49;color:#fff;}
 footer .brand {width:55%;}
 footer .links {width:20%;}
 footer .desc {padding:0 10px;}
@@ -247,22 +246,25 @@ pre.code {
 .markdown-body hr {border-bottom-color:#eee}
 
 @media (max-width:1200px) {
-    header, footer, .section {padding:0 100px;}
+    footer, section {padding:0 100px;}
+    .doc-content {padding:20px 100px;overflow:auto}
 }
 
 @media (max-width:900px) {
-    header, footer, .section {padding:0;}
-    .hero {padding:80px 30px;}
+    footer, section {padding:0;}
+    .hero {padding:100px 30px 80px 30px;}
     .hero .desc {padding:10px 0;text-align:justify;}
     .hero .btns {padding-top:30px;}
-    .install, .picture {width:100%;height:290px;}
-    .install .body {top:20px;left:10px;right:10px;bottom:10px;}
-    .picture {text-align:center;}
-    .picture img {width:94%;height:260px;}
+    section {margin-top:0;}
+    section .column {width:100%;padding:0;margin-top:20px;}
+    section .body {padding:0 20px;}
+    section .install {margin:0;}
+    .install h4 {font-size:1.5rem;margin-bottom:20px;}
+    .install pre {font-size:1.2rem;}
     footer .row {padding:20px 0;}
     footer .brand {width:95%;padding:10px;}
     footer .links {width:44%;padding:20px 2px 0 20px;}
 
     .doc-sider {display:none;}
-    .doc-content {left:0;right:0;bottom:0;padding:20px;overflow:auto}
+    .doc-content {left:0;padding:20px;overflow:auto}
 }
