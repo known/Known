@@ -54,6 +54,10 @@ footer ul li {height:30px;line-height:30px;}
 footer a {color:#fff;}
 .copyright {text-align:center;padding:10px;border-top:1px solid #494d59;}
 
+.doc-container {position:absolute;top:60px;left:0;right:0;bottom:0;}
+.doc-sider {position:absolute;top:0;left:0;bottom:0;width:200px;border-right:1px solid #ccc;overflow:auto;}
+.doc-content {position:absolute;top:0;left:201px;right:0;bottom:0;padding:20px;}
+
 @media (max-width: 1200px) {
     header, footer, .section {padding:0 100px;}
 }
