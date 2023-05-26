@@ -1,10 +1,11 @@
 ﻿@page "/doc/{id?}"
+@inject IJSRuntime JS;
 
 <div class="doc-container">
     <div class="doc-sider">
         <DocMenu CurItem="@curItem" />
     </div>
-    <div class="doc-content">
+    <div class="doc-content markdown-body">
         @DocService.GetDocHtml(curItem)
     </div>
 </div>

@@ -1297,7 +1297,7 @@ namespace WebSite.Core
             span = EncodeCode(span);
             span = SaveFromAutoLinking(span); // to prevent auto-linking. Not necessary in code *blocks*, but in code spans.
 
-            return string.Concat("<code>", span, "</code>");
+            return string.Concat("<pre><code>", span, "</code></pre>");
         }
 
         private static Regex _bold = new Regex(@"(\*\*|__) (?=\S) (.+?[*_]*) (?<=\S) \1",
