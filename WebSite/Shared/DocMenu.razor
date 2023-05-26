@@ -1,4 +1,6 @@
-﻿<div class="doc-menu">
+﻿@inject NavigationManager Nav;
+
+<div class="doc-menu">
     <div class="menus">
         @foreach (var menu in Menus)
         {
@@ -6,8 +8,8 @@
             <ul>
                 @foreach (var item in menu.Children)
                 {
-                    var cls = curItem == item.Name ? "active" : "";
-                    <li class="@cls" @onclick="@(e => OnMenuItemClick(item))"><a href="@item.Url">@item.Name</a></li>
+                    var cls = CurItem == item.Id ? "active" : "";
+                    <li class="@cls" @onclick="@(e => OnMenuItemClick(item))">@item.Name</li>
                 }
             </ul>
         }
@@ -15,11 +17,13 @@
 </div>
 
 @code {
-    private string? curItem;
-    private List<MenuItem> Menus = MenuService.GetDocMenus();
+    private List<MenuItem> Menus = DocService.GetDocMenus();
+
+    [Parameter] public string? CurItem { get; set; }
 
     private void OnMenuItemClick(MenuItem item)
     {
-        curItem = item.Name;
+        CurItem = item.Id;
+        Nav.NavigateTo($"/doc/{item.Id}");
     }
 }

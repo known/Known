@@ -1,0 +1,16 @@
+﻿@page "/doc/{id?}"
+
+<div class="doc-container">
+    <div class="doc-sider">
+        <DocMenu CurItem="@curItem" />
+    </div>
+    <div class="doc-content">
+        @DocService.GetDocHtml(curItem)
+    </div>
+</div>
+
+@code {
+    private string? curItem => Id ?? "profile";
+
+    [Parameter] public string? Id { get; set; }
+}
