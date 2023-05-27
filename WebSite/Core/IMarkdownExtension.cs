@@ -3,15 +3,14 @@
 * For the full copyright and license information,
 * view the LICENSE file that was distributed with this source code.
 */
-namespace WebSite.Core
+namespace WebSite.Core;
+
+public interface IMarkdownExtension
 {
-    public interface IMarkdownExtension
-    {
-        /// <summary>
-        /// Replace inline element
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        string Transform(string text);
-    }
+    /// <summary>
+    /// Replace inline element
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    string Transform(string text);
 }

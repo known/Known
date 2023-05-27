@@ -23,7 +23,7 @@ nav, .logo {float:left;height:60px;}
 nav a {font-weight:bold;font-size:1.3rem;color:#fff;margin-left:15px;}
 nav a:hover {color:#fff;}
 
-.hero {position:relative;padding:150px 200px 100px 200px;}
+.hero {position:relative;padding-top:150px;padding-bottom:100px;}
 .hero .name {text-align:center;font-weight:bold;font-size:4rem;}
 .hero .desc {text-align:center;font-size:1.2rem;padding-top:20px;}
 .hero .btns {text-align:center;padding-top:40px;}
@@ -36,22 +36,30 @@ nav a:hover {color:#fff;}
 
 section:after {display:block;content:'';clear:both;}
 section .column {float:left;width:50%;padding:30px 0;text-align:center;}
-section .column img {width:100%;height:100%;}
 .install {
     border:1px solid #ccc;margin-right:50px;padding:50px;overflow:auto;text-align:left;
     -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;background-color:#000;color:#fff;
+    box-shadow: 3px 3px 5px #909090;
+    -webkit-box-shadow: 3px 3px 5px #909090;
+    -moz-box-shadow: 3px 3px 5px #909090;
 }
 .install h4 {font-size:2.1rem;margin-bottom:20px;}
 .install pre {font-size:1.6rem;}
+.picture {
+    box-shadow: 3px 3px 5px #909090;
+    -webkit-box-shadow: 3px 3px 5px #909090;
+    -moz-box-shadow: 3px 3px 5px #909090;
+}
+.picture img {width:100%;height:100%;}
 
-footer {background-color:#393d49;color:#fff;}
+footer {background-color:#393d49;color:#fff;padding-top:20px;}
 footer .brand {width:55%;}
 footer .links {width:20%;}
 footer .desc {padding:0 10px;}
 footer ul {padding:10px 0;list-style:none;}
 footer ul li {height:30px;line-height:30px;}
 footer a {color:#fff;}
-.copyright {text-align:center;padding:10px 50px;border-top:1px solid #494d59;}
+.copyright {text-align:center;padding:20px 50px;border-top:1px solid #494d59;}
 
 input {
     outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;
@@ -92,8 +100,8 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
     .hero .btns {padding-top:30px;}
     section {margin-top:0;}
     section .column {width:100%;padding:0;margin-top:20px;}
-    section .body {padding:0 20px;}
-    section .install {margin:0;}
+    section .install, section .picture {margin:0 20px;}
+    section .install {padding:20px;}
     .install h4 {font-size:1.5rem;margin-bottom:20px;}
     .install pre {font-size:1.2rem;}
     footer .row {padding:20px 0;}
