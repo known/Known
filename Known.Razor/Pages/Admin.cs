@@ -2,7 +2,6 @@
 
 class Admin : BaseComponent
 {
-    private readonly string wrapperId = "wrapper";
     private bool isInitialized;
     private bool isMultiTab;
     private MenuItem topMenu;
@@ -37,14 +36,9 @@ class Admin : BaseComponent
         if (!isInitialized)
             return;
 
-        builder.Div("app", attr =>
-        {
-            attr.Id(wrapperId);
-            BuildHeader(builder);
-            BuildSider(builder);
-            BuildBody(builder);
-        });
-        builder.Component<DialogContainer>().Build();
+        BuildHeader(builder);
+        BuildSider(builder);
+        BuildBody(builder);
     }
 
     private void BuildHeader(RenderTreeBuilder builder)
@@ -81,7 +75,7 @@ class Admin : BaseComponent
         StateChanged();
     }
 
-    private void OnToggleSide(bool isMini) => UI.ToggleClass(wrapperId, "kui-mini");
+    private void OnToggleSide(bool isMini) => UI.ToggleClass("app", "kui-mini");
 
     private static List<MenuItem> GetUserMenus(List<MenuInfo> menus)
     {

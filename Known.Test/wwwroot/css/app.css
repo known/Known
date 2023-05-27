@@ -21,8 +21,7 @@ h1 {font-size:1.5rem;font-weight:bold;padding:10px 0;}
 .caption {font-weight:bold;height:40px;line-height:40px;}
 
 /*Login*/
-.login {width:100%;height:100%;background-color:#1c66b9;}
-.login-box {
+.login {
     position:absolute;top:50%;left:50%;background-color:#fff;
     width:800px;height:400px;margin-left:-400px;margin-top:-200px;
     -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;

@@ -32,18 +32,15 @@ public class Login : BaseComponent
     {
         builder.Div("login", attr =>
         {
-            builder.Div("login-box", attr =>
+            builder.Div("login-left", attr =>
             {
-                builder.Div("login-left", attr =>
-                {
-                    builder.Div("slogan", Config.AppName);
-                    builder.Div("image", attr => builder.Img(attr => attr.Src("img/login.jpg")));
-                });
-                builder.Div("login-form", attr =>
-                {
-                    builder.Div("login-title", $"{Config.AppId}用户登录");
-                    BuildForm(builder);
-                });
+                builder.Div("slogan", Config.AppName);
+                builder.Div("image", attr => builder.Img(attr => attr.Src("img/login.jpg")));
+            });
+            builder.Div("login-form", attr =>
+            {
+                builder.Div("login-title", $"{Config.AppId}用户登录");
+                BuildForm(builder);
             });
         });
     }
