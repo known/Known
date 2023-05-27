@@ -1,3 +1,4 @@
+using Markdig;
 using Microsoft.AspNetCore.Components;
 using WebSite.Core;
 
@@ -17,6 +18,8 @@ class DocService
         foreach (var info in infos)
         {
             var item = GetMenuItem(info);
+            if (item == null) continue;
+
             if (!string.IsNullOrWhiteSpace(info.Extension))
             {
                 overview.Children.Add(item);
@@ -28,7 +31,8 @@ class DocService
             foreach (var subInfo in subInfos)
             {
                 var subItem = GetMenuItem(subInfo);
-                item.Children.Add(subItem);
+                if (subItem != null)
+                    item.Children.Add(subItem);
             }
         }
         return items;
@@ -43,9 +47,8 @@ class DocService
         if (!File.Exists(path))
             return new MarkupString("");
 
-        var markdown = new Markdown();
         var text = File.ReadAllText(path);
-        var html = markdown.Transform(text);
+        var html = Markdown.ToHtml(text);
         return new MarkupString(html);
     }
 
