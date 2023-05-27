@@ -3,14 +3,17 @@
 /*Index*/
 .kui-header {
     position:absolute;top:0;left:180px;right:0;height:50px;border-bottom:1px solid #ccc;
-    background-color:#fafafa;
+    background-color:#fafafa;box-shadow:0 1px 1px 0 #eee;
 }
 .kui-sider {
     position:absolute;top:0;left:0;bottom:0;width:180px;
     background-color:#1c66b9;color:#fff;overflow:hidden;
 }
 .kui-scroll {position:absolute;top:51px;left:0;bottom:0;width:190px;overflow-x:hidden;}
-.kui-body {position:absolute;top:51px;left:180px;right:0;bottom:0;overflow:hidden;}
+.kui-body {
+    position:absolute;top:52px;left:180px;right:0;bottom:0;overflow:hidden;
+    background-color:#f1f1f1;
+}
 .kui-footer {
     position:absolute;left:180px;right:0;bottom:0;display:none;
     height:30px;line-height:30px;
@@ -73,15 +76,19 @@
 
 /*body*/
 .kui-module-tips {
-    margin:10px;padding:5px 10px;border:1px solid #ccc;background-color:#fafafa;border-left:3px solid #1c66b9;
-    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
+    margin:10px;padding:0 10px;border:1px solid #ccc;background-color:#fafafa;border-left:3px solid #1c66b9;
+    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;height:40px;line-height:40px;
 }
 .kui-module-tips .name {font-weight:bold;font-size:1.2rem;margin-right:10px;}
 .kui-module-tips .description {font-size:1rem;color:#555;}
 .kui-tips-tr {position:absolute;top:10px;right:10px;font-weight:bold;}
 .kui-tips-bl {position:absolute;left:10px;bottom:10px;font-weight:bold;}
-.kui-content {position:absolute;top:0;left:0;bottom:0;right:0;padding:10px;overflow:auto;}
-.kui-content1 {position:absolute;top:50px;left:0;bottom:0;right:0;padding:10px;overflow:auto;}
+.kui-content, .kui-content1 {
+    position:absolute;top:0px;left:0px;bottom:0px;right:0px;overflow:hidden;background-color:#f1f1f1;
+}
+.kui-content1 {top:58px;}
+.kui-content .grid-view, 
+.kui-content1 .grid-view {top:4px;left:10px;right:10px;bottom:10px;background-color:#fff;}
 
 .kui-tabs .tab.header {height:45px;overflow:hidden;}
 .kui-tabs .tab li {margin:0;padding:10px 20px;font-size:1rem;position:relative;}
@@ -111,10 +118,14 @@
 }
 
 /*view*/
-.left-view {position:absolute;left:10px;top:10px;bottom:10px;overflow:auto;width:220px;border:1px solid #ccc;}
-.left-tree {left:232px;top:10px;bottom:8px;}
-.left-tree .tool.only {border-top-width:1px;margin-top:0;}
-.left-tree .grid {top:31px;}
+.left-view {
+    position:absolute;left:10px;top:4px;bottom:10px;overflow:auto;width:220px;border:1px solid #ccc;
+    background-color:#fff;
+}
+.left-tree {left:232px;top:0;bottom:8px;}
+.left-tree .tool.only {border-top-width:0;margin-top:2px;}
+.left-tree .grid {top:40px;}
+.grid-view.left-tree {left:240px;}
 
 /*form*/
 label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}
@@ -141,9 +152,17 @@ button, input, select, .form-input .text, .form-input .unit,
 .ss-pass, .ss-fail {font-weight:bold;}
 .ss-pass {color:#337ab7;}
 .ss-fail {color:#d9534f;}
-.ss-form .tab {position:absolute;left:0;top:20px;width:140px;height:auto;}
-.ss-form .userMessage {position:absolute;top:10px;left:141px;right:10px;bottom:10px;}
-.ss-form .content {position:absolute;top:20px;left:160px;right:0;padding:20px;}
+.ss-form {position:absolute;top:10px;left:10px;right:10px;bottom:10px;}
+.ss-form .tab {
+    position:absolute;left:0;top:0;bottom:0;width:140px;height:auto;
+    background-color:#fff;padding:0;border:1px solid #ccc;
+}
+.ss-form .userMessage {position:absolute;top:0;left:151px;right:0;bottom:0;background-color:#fff;}
+.userMessage .grid-view {top:0;left:0;right:0;bottom:0;}
+.ss-form .content {
+    position:absolute;top:0;left:151px;right:0;bottom:0;padding:50px;
+    background-color:#fff;border:1px solid #ccc;
+}
 .ss-form .avatar {position:absolute;top:70px;right:150px;}
 .ss-form .avatar .icon {
     font-size:7rem;width:150px;height:150px;line-height:150px;text-align:center;
