@@ -80,7 +80,8 @@
 .kui-content, .kui-content1 {position:absolute;top:0px;left:0px;bottom:0px;right:0px;overflow:hidden;background-color:#f1f1f1;}
 .kui-content1 {top:62px;}
 .kui-content .grid-view, .kui-content1 .grid-view,
-.kui-content .form-page, .kui-content1 .form-page {position:absolute;top:0;left:10px;right:10px;bottom:10px;}
+.kui-content .form-page, .kui-content1 .form-page,
+.kui-content .tabs, .kui-content1 .tabs {position:absolute;top:0;left:10px;right:10px;bottom:10px;}
 
 .kui-tabs .tab.header {height:45px;overflow:hidden;}
 .kui-tabs .tab li {margin:0;padding:10px 20px;font-size:1rem;position:relative;}
