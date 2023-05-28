@@ -1,6 +1,6 @@
 ﻿namespace Known.Razor.Pages.Forms;
 
-[Dialog(1000, 690)]
+[Dialog(1000, 680)]
 class SysModuleForm : BaseForm<SysModule>
 {
     private ColumnGrid grid;

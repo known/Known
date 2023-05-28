@@ -34,22 +34,26 @@ class CompanyForm : BaseForm<CompanyInfo>
             });
             table.Tr(attr => builder.Field<TextArea>(f => f.Note).ColSpan(3).ReadOnly(!isEdit).Build());
         });
+        BuildButton(builder.Builder);
     }
 
-    protected override void BuildButtons(RenderTreeBuilder builder)
+    private void BuildButton(RenderTreeBuilder builder)
     {
         if (!HasButton(FormButton.Edit))
             return;
 
-        if (!isEdit)
+        builder.Div("form-button", attr =>
         {
-            builder.Button(FormButton.Edit, Callback(e => isEdit = true));
-        }
-        else
-        {
-            builder.Button(FormButton.Save, Callback(OnSaveInfo));
-            builder.Button(FormButton.Cancel, Callback(e => isEdit = false));
-        }
+            if (!isEdit)
+            {
+                builder.Button(FormButton.Edit, Callback(e => isEdit = true));
+            }
+            else
+            {
+                builder.Button(FormButton.Save, Callback(OnSaveInfo));
+                builder.Button(FormButton.Cancel, Callback(e => isEdit = false));
+            }
+        });
     }
 
     private void OnSaveInfo()

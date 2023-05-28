@@ -80,11 +80,14 @@
 .kui-content, .kui-content1 {position:absolute;top:0px;left:0px;bottom:0px;right:0px;overflow:hidden;background-color:#f1f1f1;}
 .kui-content1 {top:62px;}
 
-.kui-tabs .tab.header {height:45px;overflow:hidden;background-color:#fff;}
+.kui-tabs .tab.header {
+    height:45px;overflow:hidden;background-color:#fff;
+    border-bottom:1px solid #ccc;box-shadow:0 1px 1px 0 #eee;
+}
 .kui-tabs .tab li {margin:0;padding:10px 20px;font-size:1rem;position:relative;}
 .kui-tabs .tab li .close {top:5px;right:0;color:#ccc;}
 .kui-tabs .tab li .close:hover {color:#d9534f;}
-.kui-tabs .tab-body.top {top:45px;}
+.kui-tabs .tab-body.top {top:47px;}
 
 /*mini side*/
 .kui-mini .kui-sider {width:50px !important;}
@@ -108,10 +111,12 @@
 
 /*view*/
 .left-view {position:absolute;left:10px;top:0;bottom:10px;overflow:auto;width:220px;}
-.kui-content .grid-view, .kui-content1 .grid-view, .tab-body .grid-view,
+.kui-content .grid-view, .kui-content1 .grid-view, .tab-body .grid-view, .dlg-content .grid-view,
 .kui-content .form-page, .kui-content1 .form-page, .tab-body .form-page,
 .kui-content .tabs, .kui-content1 .tabs {position:absolute;top:0;left:10px;right:10px;bottom:10px;}
 .tab-body .left-view, .tab-body .grid-view, .tab-body .form-page {top:10px;}
+.tab-body .grid-view.form-grid {bottom:60px;}
+.dlg-content .grid-view {top:10px;bottom:60px;}
 
 .left-tree {left:232px;top:0;bottom:8px;}
 .left-tree .tool.only {border-top-width:0;margin-top:2px;}
@@ -124,6 +129,7 @@ button, input, select, .form-input .text, .form-input .unit,
 .form-label, .form-text, .form-radio, .form-tips {height:30px;line-height:30px;}
 .form-input .icon, .form-input .unit, .form-input .btn {height:27px;line-height:27px;}
 .inline .form-item, .inline .form-label, .inline .form-text, .inline .form-input, .inline .form-tips {display:inline-block;}
+.dlg-content table .grid-view {top:0;left:0;right:0;bottom:0;border:0;}
 
 /*SysInstall*/
 .install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}

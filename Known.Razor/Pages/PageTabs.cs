@@ -28,11 +28,8 @@ class PageTabs : BaseComponent
                 var active = Active(item.Id);
                 builder.Li(active, attr =>
                 {
-                    builder.Span(attr =>
-                    {
-                        attr.OnClick(Callback(() => OnItemClick(item)));
-                        builder.IconName(item.Icon, item.Name);
-                    });
+                    attr.OnClick(Callback(() => OnItemClick(item)));
+                    builder.IconName(item.Icon, item.Name);
                     if (item.Id != "Home")
                         builder.Icon("close fa fa-close", attr => attr.OnClick(Callback(() => OnItemClose(item))));
                 });

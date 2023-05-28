@@ -508,7 +508,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
                 if (!CheckAction(action, item))
                     continue;
 
-                if (count++ < 2)
+                if (count++ < 2 || Actions.Count == 3)
                     actions.Add(action);
                 else
                     others.Add(action);

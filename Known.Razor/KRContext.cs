@@ -2,6 +2,7 @@
 
 public class KRContext : Context
 {
+    private readonly MenuItem account = new("个人中心", "fa fa-user", typeof(SysAccount), "当前用户个人中心和安全设置。");
     private MenuItem current;
 
     public KRContext() => Check = new CheckInfo();
@@ -21,12 +22,7 @@ public class KRContext : Context
     }
 
     public void NavigateToHome() => Navigate(KRConfig.Home);
-
-    public void NavigateToAccount()
-    {
-        var menu = new MenuItem("个人中心", "fa fa-user", typeof(SysAccount), "当前用户个人中心和安全设置。");
-        Navigate(menu);
-    }
+    public void NavigateToAccount() => Navigate(account);
 
     public void Navigate(MenuItem menu, Dictionary<string, object> prevParms = null)
     {

@@ -16,8 +16,8 @@ class ColumnGrid : EditGrid<ColumnInfo>
             models = modelTypes.Select(t => new CodeInfo(t.FullName, t.Name)).ToArray();
             ActionHead = b =>
             {
-                b.Link(Language.Add, Callback(OnAdd));
-                b.Link("插入", Callback(OnInsert));
+                b.Link(Language.Add, Callback(OnAdd), "bg-primary");
+                b.Link("插入", Callback(OnInsert), "bg-primary");
             };
         }
         else
