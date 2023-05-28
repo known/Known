@@ -244,19 +244,28 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .form-tabs .content {position:absolute;left:161px;top:1px;right:0;bottom:0;}
 
 /*tool*/
-.tool {border-top:1px solid #ccc;padding:0 10px;height:36px;line-height:36px;}
+.tool {padding:0 10px;height:36px;line-height:36px;}
 .tool.only {margin-top:10px;}
 .tool button {margin-right:5px;padding:0 10px;}
 .tool1 button {background-color:#fff;color:#000;}
 .tool1 button:hover {color:#fff;background-color:#337ab7;-moz-opacity:1;opacity:1;filter:alpha(opacity=100);}
 .form .tool {position:absolute;top:-40px;right:0;border:none;padding:5px;}
 
+/*query*/
+.query, .form .query {padding:0 10px;}
+.query .form-item {margin:0;}
+.query .form-item.more {display:none;}
+.query.more .form-item.more {display:inline-block;}
+
 /*data*/
 .list-view, .grid-view, .list, .grid, .pager {position:absolute;left:0;right:0;bottom:0;}
 .list, .grid {top:0;overflow:auto;}
 .list-view, .grid-view {top:0;border:1px solid #ddd;}
 .tab-body .grid-view {top:10px;left:10px;right:10px;bottom:10px;}
-.grid {left:0;right:0;top:1px;bottom:0;z-index:1000;}
+.toolbar {height:40px;line-height:40px;}
+.toolbar .tool {float:left;}
+.toolbar .query {float:right;}
+.grid {left:0;right:0;top:0;bottom:0;z-index:1000;}
 .grid .table {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
 .form .grid, .form .grid .table {left:0;right:0;top:0;bottom:0;}
 .form .table th {text-align:center;}
@@ -291,14 +300,9 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .table.fixed tfoot {bottom:0;z-index:1;}
 .table.fixed .index, .table.fixed .check, .table.fixed .action, th.fixed, td.fixed {position:sticky;z-index:2;}
 
+.hasToolbar {top:40px;}
 .hasPager, .form .hasPager {bottom:40px;}
-.query {padding:10px 10px 0 10px;}
-.form .query {padding:5px 10px 0 10px;}
-.query .form-item {margin:0 0 10px 0;}
-.query .form-item.more {display:none;}
-.query.more .form-item.more {display:inline-block;}
 
-.hasQuery, .form .hasQuery {top:51px;}
 .pager {height:40px;line-height:40px;text-align:right;padding-right:10px;}
 .pager .total, .pager .size {padding:0 5px;}
 .pager .size select {width:70px;min-width:70px;}
@@ -310,7 +314,6 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .pager .btns li .pp {left:5px;}
 .pager .btns li .pn {left:15px;}
 
-.hasTool {top:87px;}
 .onlyTool {top:43px;}
 .form .hasTool1 {top:-40px}
 .dlg-content .hasQuery {padding:10px 10px 0 10px;}

@@ -122,7 +122,6 @@ label.required:before, th.required:before {content:'*';color:#f00;padding-right:
 button, input, select, .form-input .text, .form-input .unit,
 .form-label, .form-text, .form-radio, .form-tips {height:30px;line-height:30px;}
 .form-input .icon, .form-input .unit, .form-input .btn {height:27px;line-height:27px;}
-.grid-view .tool button {height:26px;line-height:26px;}
 .inline .form-item, .inline .form-label, .inline .form-text, .inline .form-input, .inline .form-tips {display:inline-block;}
 
 /*SysInstall*/

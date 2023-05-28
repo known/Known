@@ -68,17 +68,17 @@ public class DataComponent<TItem> : BaseComponent
 
         var style = string.Empty;
         if (ShowQuery)
-            style += " hasQuery";
+            style += " hasToolbar";
         if (ShowPager)
             style += " hasPager";
 
         builder.Div($"{ContainerStyle} {Style}", attr =>
         {
-            BuildQuery(builder);
-            BuildTool(builder);
-
-            if (Tools != null && Tools.Count > 0 && !ReadOnly)
-                style += ShowQuery ? " hasTool" : " onlyTool";
+            builder.Div("toolbar", attr =>
+            {
+                BuildTool(builder);
+                BuildQuery(builder);
+            });
 
             builder.Div($"{ContentStyle}{style}", attr => BuildContent(builder));
             BuildPager(builder);
