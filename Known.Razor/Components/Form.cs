@@ -75,9 +75,9 @@ public class Form : BaseComponent
                 else
                     attr.Set(c => c.ChildContent, BuildTree(BuildFields));
             });
+            if (ChildContent == null)
+                builder.Div($"form-button {ButtonStyle}", attr => BuildButtons(builder));
         });
-        if (ChildContent == null)
-            builder.Div($"form-button {ButtonStyle}", attr => BuildButtons(builder));
     }
 
     protected virtual Task InitPageAsync() => Task.CompletedTask;

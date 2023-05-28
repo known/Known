@@ -4,6 +4,11 @@ class CompanyForm : BaseForm<CompanyInfo>
 {
     private bool isEdit = false;
 
+    public CompanyForm()
+    {
+        Style = "form-page inline box";
+    }
+
     protected override async Task InitPageAsync()
     {
         Model = await Platform.Company.GetCompanyAsync<CompanyInfo>();

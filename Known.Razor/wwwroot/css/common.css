@@ -149,6 +149,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .dlg-head .btns .bmin {position:absolute;top:13.5px;right:65px;font-size:0.9rem;cursor:pointer;}
 .dlg-head .btns .bmax {position:absolute;top:13.5px;right:35px;font-size:0.9rem;cursor:pointer;}
 .dlg-body, .dlg-content .form {top:50px;bottom:52px;padding:10px;overflow:auto;}
+.dlg-content .form {bottom:0;}
 .dlg-body .message {text-align:center;margin-top:20px;font-size:1.2rem;}
 .dlg-foot, .dlg-content .form-button {margin:0;bottom:0;text-align:right;border-top:1px solid #ccc;background-color:#fff;}
 .dlg-foot button {margin-left:10px;}

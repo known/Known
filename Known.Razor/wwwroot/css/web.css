@@ -10,10 +10,7 @@
     background-color:#1c66b9;color:#fff;overflow:hidden;
 }
 .kui-scroll {position:absolute;top:51px;left:0;bottom:0;width:190px;overflow-x:hidden;}
-.kui-body {
-    position:absolute;top:52px;left:180px;right:0;bottom:0;overflow:hidden;
-    background-color:#f1f1f1;
-}
+.kui-body {position:absolute;top:52px;left:180px;right:0;bottom:0;overflow:hidden;background-color:#f1f1f1;}
 .kui-footer {
     position:absolute;left:180px;right:0;bottom:0;display:none;
     height:30px;line-height:30px;
@@ -64,10 +61,7 @@
 .nav-tree .nav-child dd {padding-left:26px;}
 .nav-tree .nav-item {position:relative;line-height:45px;}
 .nav-tree .nav-title {padding:0 12px;}
-.nav-tree .nav-item span.fa {
-    position:absolute;top:13px;right:10px;
-    -webkit-transition:all .3s;transition:all .3s;
-}
+.nav-tree .nav-item span.fa {position:absolute;top:13px;right:10px;-webkit-transition:all .3s;transition:all .3s;}
 .nav-tree .nav-title,.nav-tree .nav-child dd {border-left:3px solid transparent;}
 .nav-tree .nav-title:hover,.nav-tree .nav-child dd:hover {
     border-left-color:#5FB878;-webkit-transition:all .3s;transition:all .3s;
@@ -83,12 +77,10 @@
 .kui-mod-tips .description {font-size:1rem;color:#555;}
 .kui-tips-tr {position:absolute;top:10px;right:10px;font-weight:bold;}
 .kui-tips-bl {position:absolute;left:10px;bottom:10px;font-weight:bold;}
-.kui-content, .kui-content1 {
-    position:absolute;top:0px;left:0px;bottom:0px;right:0px;overflow:hidden;background-color:#f1f1f1;
-}
+.kui-content, .kui-content1 {position:absolute;top:0px;left:0px;bottom:0px;right:0px;overflow:hidden;background-color:#f1f1f1;}
 .kui-content1 {top:62px;}
-.kui-content .grid-view, 
-.kui-content1 .grid-view {top:4px;left:10px;right:10px;bottom:10px;}
+.kui-content .grid-view, .kui-content1 .grid-view,
+.kui-content .form-page, .kui-content1 .form-page {position:absolute;top:0;left:10px;right:10px;bottom:10px;}
 
 .kui-tabs .tab.header {height:45px;overflow:hidden;}
 .kui-tabs .tab li {margin:0;padding:10px 20px;font-size:1rem;position:relative;}
@@ -118,7 +110,7 @@
 }
 
 /*view*/
-.left-view {position:absolute;left:10px;top:4px;bottom:10px;overflow:auto;width:220px;}
+.left-view {position:absolute;left:10px;top:0;bottom:10px;overflow:auto;width:220px;}
 .left-tree {left:232px;top:0;bottom:8px;}
 .left-tree .tool.only {border-top-width:0;margin-top:2px;}
 .left-tree .grid {top:40px;}
@@ -133,9 +125,7 @@ button, input, select, .form-input .text, .form-input .unit,
 .inline .form-item, .inline .form-label, .inline .form-text, .inline .form-input, .inline .form-tips {display:inline-block;}
 
 /*SysInstall*/
-.install {
-    position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;
-}
+.install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}
 .si-title {margin:50px 0 20px 0;font-size:2rem;font-weight:bold;text-align:center;}
 .si-button {padding:0 35px;height:40px;line-height:40px;}
 .si-form {width:450px;margin:0 auto;}
@@ -152,9 +142,7 @@ button, input, select, .form-input .text, .form-input .unit,
 .ss-form .leftBar {position:absolute;left:0;top:0;bottom:0;width:180px;text-align:center;padding:0;}
 .ss-form .content {position:absolute;top:0;left:191px;right:0;bottom:0;padding:50px;}
 .ss-form .leftBar img {width:100px;height:100px;margin-top:40px;}
-.ss-form .tab {
-    position:absolute;left:0;top:180px;bottom:0;right:0;height:auto;border-right-width:0;
-}
+.ss-form .tab {position:absolute;left:0;top:180px;bottom:0;right:0;height:auto;border-right-width:0;}
 .ss-form .tab li {text-align:center;}
 .ss-form .userMessage {position:absolute;top:0;left:191px;right:0;bottom:0;}
 .userMessage .grid-view {top:0;left:0;right:0;bottom:0;}
