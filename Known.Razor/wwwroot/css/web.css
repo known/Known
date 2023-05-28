@@ -79,16 +79,12 @@
 .kui-tips-bl {position:absolute;left:10px;bottom:10px;font-weight:bold;}
 .kui-content, .kui-content1 {position:absolute;top:0px;left:0px;bottom:0px;right:0px;overflow:hidden;background-color:#f1f1f1;}
 .kui-content1 {top:62px;}
-.kui-content .grid-view, .kui-content1 .grid-view,
-.kui-content .form-page, .kui-content1 .form-page,
-.kui-content .tabs, .kui-content1 .tabs {position:absolute;top:0;left:10px;right:10px;bottom:10px;}
 
-.kui-tabs .tab.header {height:45px;overflow:hidden;}
+.kui-tabs .tab.header {height:45px;overflow:hidden;background-color:#fff;}
 .kui-tabs .tab li {margin:0;padding:10px 20px;font-size:1rem;position:relative;}
 .kui-tabs .tab li .close {top:5px;right:0;color:#ccc;}
 .kui-tabs .tab li .close:hover {color:#d9534f;}
 .kui-tabs .tab-body.top {top:45px;}
-.kui-tabs .tab-body .grid-view {top:0;left:0;right:0;bottom:0;}
 
 /*mini side*/
 .kui-mini .kui-sider {width:50px !important;}
@@ -112,10 +108,15 @@
 
 /*view*/
 .left-view {position:absolute;left:10px;top:0;bottom:10px;overflow:auto;width:220px;}
+.kui-content .grid-view, .kui-content1 .grid-view, .tab-body .grid-view,
+.kui-content .form-page, .kui-content1 .form-page, .tab-body .form-page,
+.kui-content .tabs, .kui-content1 .tabs {position:absolute;top:0;left:10px;right:10px;bottom:10px;}
+.tab-body .left-view, .tab-body .grid-view, .tab-body .form-page {top:10px;}
+
 .left-tree {left:232px;top:0;bottom:8px;}
 .left-tree .tool.only {border-top-width:0;margin-top:2px;}
 .left-tree .grid {top:40px;}
-.grid-view.left-tree {left:240px;}
+.grid-view.left-tree, .tab-body .grid-view.left-tree {left:240px;}
 
 /*form*/
 label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}
@@ -139,6 +140,7 @@ button, input, select, .form-input .text, .form-input .unit,
 .ss-pass {color:#337ab7;}
 .ss-fail {color:#d9534f;}
 .ss-form {position:absolute;top:0;left:10px;right:10px;bottom:10px;}
+.tab-body .ss-form {top:10px;}
 .ss-form .leftBar {position:absolute;left:0;top:0;bottom:0;width:180px;text-align:center;padding:0;}
 .ss-form .content {position:absolute;top:0;left:191px;right:0;bottom:0;padding:50px;}
 .ss-form .leftBar img {width:100px;height:100px;margin-top:40px;}
