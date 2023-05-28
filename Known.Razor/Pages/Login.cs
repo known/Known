@@ -30,7 +30,7 @@ public class Login : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("login", attr =>
+        builder.Div("login animated fadeIn", attr =>
         {
             builder.Div("login-left", attr =>
             {

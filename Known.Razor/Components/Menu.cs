@@ -40,7 +40,10 @@ public class Menu : BaseComponent
 
     private void BuildItem(RenderTreeBuilder builder, MenuItem item)
     {
-        builder.Li($"menu-item {Active(item.Id)}", attr =>
+        var css = CssBuilder.Default("menu-item")
+                            .AddClass("active", CurItem != null && CurItem.Id == item.Id)
+                            .Build();
+        builder.Li(css, attr =>
         {
             attr.OnClick(Callback(e => OnItemClick(item)));
 
@@ -93,8 +96,6 @@ public class Menu : BaseComponent
         if (OnChanged.HasDelegate)
             OnChanged.InvokeAsync(item);
     }
-
-    private string Active(string id) => CurItem != null && CurItem.Id == id ? "active" : "";
 }
 
 public class MenuItem : MenuInfo

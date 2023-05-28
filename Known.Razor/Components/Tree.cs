@@ -4,7 +4,7 @@ public class Tree<TValue> : BaseComponent
 {
     private TreeItem<TValue> CurrentSelected;
     private IEnumerable<TreeItem<TValue>> dataView = new List<TreeItem<TValue>>();
-    private HashSet<TreeItem<TValue>> SelectedList = new();
+    private readonly HashSet<TreeItem<TValue>> SelectedList = new();
 
     [Parameter] public bool IsAccordion { get; set; }
     [Parameter] public bool ExpandOnClickNode { get; set; } = true;
@@ -93,27 +93,27 @@ public class Tree<TValue> : BaseComponent
         });
     }
 
-    private string GetItemCls(TreeItem<TValue> item)
+    private static string GetItemCls(TreeItem<TValue> item)
     {
         return CssBuilder.Default("tree-item")
-            .AddClass("active", item.IsSelected)
-            .AddClass("disabled", item.Disabled)
-            .AddClass("clickable", !item.Disabled)
-            .Build();
+                         .AddClass("active", item.IsSelected)
+                         .AddClass("disabled", item.Disabled)
+                         .AddClass("clickable", !item.Disabled)
+                         .Build();
     }
 
-    private string GetListCls(TreeItem<TValue> item)
+    private static string GetListCls(TreeItem<TValue> item)
     {
         return CssBuilder.Default("tree-list")
-            .AddClass("show", item.IsExpanded)
-            .Build();
+                         .AddClass("show", item.IsExpanded)
+                         .Build();
     }
 
-    private string GetCheckCls(TreeItem<TValue> item)
+    private static string GetCheckCls(TreeItem<TValue> item)
     {
         return CssBuilder.Default("cb")
-            .AddClass("active", item.GetHasChildrenChecked())
-            .Build();
+                         .AddClass("active", item.GetHasChildrenChecked())
+                         .Build();
     }
 
     private bool? GetItemChecked(TreeItem<TValue> item)
@@ -322,7 +322,8 @@ class TreeCheckBox : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Span($"icon-check-radio {Style} {Classes}", attr =>
+        var css = CssBuilder.Default("icon-check-radio").AddClass(Style).AddClass(Classes).Build();
+        builder.Span(css, attr =>
         {
             if (!ReadOnly)
                 attr.OnClick(Callback(async e => await ClickHandle()));

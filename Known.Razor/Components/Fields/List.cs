@@ -9,8 +9,8 @@ public class ListBox : ListField
 
     protected override void BuildChildContent(RenderTreeBuilder builder)
     {
-        var enabled = Enabled ? "" : " disabled";
-        builder.Ul($"list-box{enabled}", attr =>
+        var css = CssBuilder.Default("list-box").AddClass("disabled", !Enabled).Build();
+        builder.Ul(css, attr =>
         {
             if (ListItems != null && ListItems.Length > 0)
             {

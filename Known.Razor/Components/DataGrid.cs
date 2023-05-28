@@ -199,8 +199,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     protected override void BuildContent(RenderTreeBuilder builder)
     {
-        var isFixed = IsFixed ? "fixed" : "";
-        builder.Div($"table {isFixed}", attr =>
+        var css = CssBuilder.Default("table").AddClass("fixed", IsFixed).Build();
+        builder.Div(css, attr =>
         {
             if (Data == null || Data.Count == 0)
             {
@@ -351,9 +351,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     private void BuildHeadIndex(RenderTreeBuilder builder)
     {
-        builder.Th(attr =>
+        builder.Th("fixed index", attr =>
         {
-            attr.Class("fixed index");
             if (ShowSetting)
             {
                 builder.Icon("fa fa-cog", attr => attr.Title("表格设置").OnClick(Callback(ShowColumnSetting)));
@@ -402,10 +401,12 @@ public class DataGrid<TItem> : DataComponent<TItem>
     private void BuildRowItem(RenderTreeBuilder builder, int index, TItem item)
     {
         var rowNo = index + 1;
-        var even = rowNo % 2 == 0 ? "even" : "";
-        var active = curRow == index ? "active" : "";
-        var selected = SelectedItems.Contains(item) ? "selected" : "";
-        builder.Tr($"{even} {active} {selected}", attr =>
+        var css = CssBuilder.Default("")
+                            .AddClass("even", rowNo % 2 == 0)
+                            .AddClass("active", curRow == index)
+                            .AddClass("selected", SelectedItems.Contains(item))
+                            .Build();
+        builder.Tr(css, attr =>
         {
             attr.Title(RowTitle);
             var context = new FieldContext { Model = item };

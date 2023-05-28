@@ -97,7 +97,7 @@ class Dialog : BaseComponent
         var isMax = isClickMax;
         var max = isMax ? " max" : "";
         builder.Div("mask", attr => attr.Id($"mask-{dialogId}").Style($"z-index:{StartIndex + Index}"));
-        builder.Div($"dialog box{max}", attr =>
+        builder.Div($"dialog box{max} animated fadeIn", attr =>
         {
             attr.Id(dialogId).Style(GetStyle(isMax));
             BuildHead(builder, isMax);
@@ -119,8 +119,8 @@ class Dialog : BaseComponent
     {
         if (!string.IsNullOrWhiteSpace(Option.Title))
         {
-            var drag = !isMax ? "draggable" : "";
-            builder.Div($"dlg-head {drag} {Option.HeadStyle}", attr =>
+            var css = CssBuilder.Default("dlg-head").AddClass("draggable", !isMax).AddClass(Option.HeadStyle).Build();
+            builder.Div(css, attr =>
             {
                 builder.Span("title", Option.Title);
                 BuildHeadTools(builder, isMax);
@@ -154,7 +154,7 @@ class Dialog : BaseComponent
     {
         builder.Span("close fa fa-close", attr =>
         {
-            attr.Title("关闭").OnClick(Callback(e => OnClose()));
+            attr.Title("关闭").OnClick(Callback(OnClose));
         });
     }
 
@@ -162,10 +162,8 @@ class Dialog : BaseComponent
     {
         if (Option.Content != null)
         {
-            builder.Div($"dlg-content {Option.ContentStyle}", attr =>
-            {
-                builder.Fragment(Option.Content);
-            });
+            var css = CssBuilder.Default("dlg-content").AddClass(Option.ContentStyle).Build();
+            builder.Div(css, attr => builder.Fragment(Option.Content));
         }
         else
         {
@@ -179,10 +177,8 @@ class Dialog : BaseComponent
         if (Option.Body == null)
             return;
 
-        builder.Div($"dlg-body {Option.BodyStyle}", attr =>
-        {
-            builder.Fragment(Option.Body);
-        });
+        var css = CssBuilder.Default("dlg-body").AddClass(Option.BodyStyle).Build();
+        builder.Div(css, attr => builder.Fragment(Option.Body));
     }
 
     private void BuildFoot(RenderTreeBuilder builder)
@@ -190,10 +186,8 @@ class Dialog : BaseComponent
         if (Option.Foot == null)
             return;
 
-        builder.Div($"dlg-foot {Option.FootStyle}", attr =>
-        {
-            builder.Fragment(Option.Foot);
-        });
+        var css = CssBuilder.Default("dlg-foot").AddClass(Option.FootStyle).Build();
+        builder.Div(css, attr => builder.Fragment(Option.Foot));
     }
 
     private string GetStyle(bool isMax)

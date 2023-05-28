@@ -33,7 +33,8 @@ public class Topbar : AppComponent
         if (Tool == null)
             return;
 
-        builder.Span($"tool {Tool.Icon}", attr =>
+        var css = CssBuilder.Default("tool").AddClass(Tool.Icon).Build();
+        builder.Span(css, attr =>
         {
             attr.OnClick(Callback(e => Tool.Action()));
             if (!string.IsNullOrWhiteSpace(Tool.Name))

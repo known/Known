@@ -16,7 +16,8 @@ public class GroupList : AppComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div($"glist {Style}", attr =>
+        var css = CssBuilder.Default("glist").AddClass(Style).Build();
+        builder.Div(css, attr =>
         {
             if (Items != null && Items.Length > 0)
             {

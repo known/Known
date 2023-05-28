@@ -34,7 +34,8 @@ public class Carousel : BaseComponent
         for (int i = 0; i < Images.Length; i++)
         {
             var item = Images[i];
-            builder.Div($"slider-item {ActiveItem(i)}", attr =>
+            var css = CssBuilder.Default("slider-item").AddClass("active animated fadeIn", i == curIndex).Build();
+            builder.Div(css, attr =>
             {
                 builder.Img(attr => attr.Src(item));
             });
@@ -53,7 +54,7 @@ public class Carousel : BaseComponent
         {
             for (int i = 0; i < Images.Length; i++)
             {
-                builder.Span(attr => attr.Class(ActiveSnk(i)));
+                builder.Span(i == curIndex ? "active" : "", "");
             }
         });
     }
@@ -68,7 +69,4 @@ public class Carousel : BaseComponent
             StateChanged();
         });
     }
-
-    private string ActiveItem(int index) => index == curIndex ? "active fadeIn animated" : "";
-    private string ActiveSnk(int index) => index == curIndex ? "active" : "";
 }

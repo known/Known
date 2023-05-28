@@ -59,11 +59,12 @@ public class AppLayout : AppComponent
 
     private void BuildContent(RenderTreeBuilder builder)
     {
-        var style = new StyleBuilder()
+        var style = StyleBuilder.Default
             .Add("top", $"{conTop}px")
             .Add("bottom", $"{conBottom}px")
             .Build();
-        builder.Div($"content {Style}", attr =>
+        var css = CssBuilder.Default("content").AddClass(Style).Build();
+        builder.Div(css, attr =>
         {
             attr.Style(style);
             builder.Fragment(ChildContent);

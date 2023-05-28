@@ -23,7 +23,8 @@ public class Tab : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Ul($"tab {Position}", attr =>
+        var css = CssBuilder.Default("tab").AddClass(Position).Build();
+        builder.Ul(css, attr =>
         {
             var items = TabItems;
             if (items != null && items.Count != 0)

@@ -8,7 +8,8 @@ public class GroupBox : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div($"group-box {Style}", attr =>
+        var css = CssBuilder.Default("group-box").AddClass(Style).Build();
+        builder.Div(css, attr =>
         {
             builder.Label("legend", Title);
             builder.Fragment(ChildContent);

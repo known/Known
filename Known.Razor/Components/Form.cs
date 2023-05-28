@@ -64,7 +64,8 @@ public class Form : BaseComponent
 
     protected virtual void BuildForm(RenderTreeBuilder builder)
     {
-        builder.Div($"form {Style}", attr =>
+        var css = CssBuilder.Default("form").AddClass(Style).Build();
+        builder.Div(css, attr =>
         {
             builder.Component<CascadingValue<FormContext>>(attr =>
             {
@@ -77,7 +78,10 @@ public class Form : BaseComponent
             });
         });
         if (ChildContent == null)
-            builder.Div($"form-button {ButtonStyle}", attr => BuildButtons(builder));
+        {
+            css = CssBuilder.Default("form-button").AddClass(ButtonStyle).Build();
+            builder.Div(css, attr => BuildButtons(builder));
+        }
     }
 
     protected virtual Task InitPageAsync() => Task.CompletedTask;

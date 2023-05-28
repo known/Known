@@ -23,7 +23,8 @@ public class SearchBox : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div($"search-box {error}", attr =>
+        var css = CssBuilder.Default("search-box").AddClass(error).Build();
+        builder.Div(css, attr =>
         {
             builder.Input(attr => attr.Placeholder(Placeholder).OnChange(Callback<ChangeEventArgs>(e => OnKeyChanged(e))));
             builder.Icon("fa fa-search", attr => attr.OnClick(Callback(OnClick)));

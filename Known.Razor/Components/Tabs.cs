@@ -20,7 +20,8 @@ public class Tabs : BaseComponent
         if (Items == null || Items.Length == 0)
             return;
 
-        builder.Div($"tabs {Style}", attr =>
+        var css = CssBuilder.Default("tabs").AddClass(Style).Build();
+        builder.Div(css, attr =>
         {
             BuildTabHead(builder);
             BuildTabBody(builder);
@@ -29,11 +30,12 @@ public class Tabs : BaseComponent
 
     private void BuildTabHead(RenderTreeBuilder builder)
     {
-        builder.Ul($"tab {Position}", attr =>
+        var css = CssBuilder.Default("tab").AddClass(Position).Build();
+        builder.Ul(css, attr =>
         {
             foreach (var item in Items)
             {
-                builder.Li(Active(item.Title), attr =>
+                builder.Li(curItem == item.Title ? "active" : "", attr =>
                 {
                     attr.OnClick(Callback(e => OnItemClick(item.Title)));
                     builder.IconName(item.Icon, item.Title);
@@ -46,7 +48,11 @@ public class Tabs : BaseComponent
     {
         foreach (var item in Items)
         {
-            builder.Div($"tab-body {Position} {Active(item.Title)}", attr => builder.Fragment(item.ChildContent));
+            var css = CssBuilder.Default("tab-body")
+                                .AddClass(Position)
+                                .AddClass("active", curItem == item.Title)
+                                .Build();
+            builder.Div(css, attr => builder.Fragment(item.ChildContent));
         }
     }
 
@@ -55,8 +61,6 @@ public class Tabs : BaseComponent
         curItem = item;
         OnChanged?.Invoke(item);
     }
-
-    private string Active(string item) => curItem == item ? "active" : "";
 }
 
 public class TabItem

@@ -212,10 +212,11 @@ public abstract class Field : BaseComponent
 
     private void BuildDivField(RenderTreeBuilder builder)
     {
-        builder.Div($"form-item {Style}", attr =>
+        var css = CssBuilder.Default("form-item").AddClass(Style).Build();
+        builder.Div(css, attr =>
         {
-            var required = Required && !IsReadOnly ? " required" : "";
-            builder.Label($"form-label{required}", attr =>
+            var css1 = CssBuilder.Default("form-label").AddClass("required", Required && !IsReadOnly).Build();
+            builder.Label(css1, attr =>
             {
                 attr.For(Id);
                 builder.Text(Label);
