@@ -165,21 +165,6 @@ export class KRazor {
     static fixedTable(id) {
         var table = $('#' + id);
         var left = 0;
-        var index = table.find('th.index');
-        if (index.length) {
-            table.find('.index').css({ left: left });
-            left += index[0].clientWidth;
-        }
-        var check = table.find('th.check');
-        if (check.length) {
-            table.find('.check').css({ left: left });
-            left += check[0].clientWidth;
-        }
-        var action = table.find('th.action');
-        if (action.length) {
-            table.find('.action').css({ left: left });
-            left += action[0].clientWidth;
-        }
         var fixeds = table.find('th.fixed');
         if (fixeds.length) {
             var lefts = [];
@@ -222,6 +207,17 @@ export class KRazor {
     //UI
     static appendBody(html) {
         $('body').append(html);
+    }
+    static initDropdown() {
+        $('.dropdown .link').on('mouseenter', function () {
+            $(this).find('.icon').removeClass('fa-caret-down').addClass('fa-caret-up');
+            $(this).next().show();
+        });
+        $('.dropdown').on('mouseleave', function () {
+            var link = $(this).find('.link');
+            link.find('.icon').removeClass('fa-caret-up').addClass('fa-caret-down');
+            link.next().hide();
+        });
     }
     static showFrame(id, url) {
         $('#' + id).attr('src', url);

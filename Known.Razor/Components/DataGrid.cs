@@ -193,6 +193,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     {
         if (IsFixed)
             UI.FixedTable(id);
+        UI.InitDropdown();
         return base.OnAfterRenderAsync(firstRender);
     }
 
@@ -258,8 +259,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
             {
                 BuildHeadIndex(builder);
                 BuildHeadCheckBox(builder);
-                BuildHeadAction(builder);
-
+                
                 if (gridColumns != null && gridColumns.Count > 0)
                 {
                     foreach (var item in gridColumns)
@@ -280,6 +280,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
                         });
                     }
                 }
+
+                BuildHeadAction(builder);
             });
         });
     }
@@ -351,7 +353,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     {
         builder.Th(attr =>
         {
-            attr.Class("index");
+            attr.Class("fixed index");
             if (ShowSetting)
             {
                 builder.Icon("fa fa-cog", attr => attr.Title("表格设置").OnClick(Callback(ShowColumnSetting)));
@@ -364,7 +366,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         if (!ShowCheckBox)
             return;
 
-        builder.Th("check", attr =>
+        builder.Th("fixed check", attr =>
         {
             builder.Label("form-radio", attr =>
             {
@@ -390,7 +392,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
         builder.Th("action", attr =>
         {
-            attr.Style($"width:60px;");
             if (ActionHead != null)
                 ActionHead.Invoke(builder);
             else
@@ -418,8 +419,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
             attr.OnDoubleClick(Callback(() => OnRowDoubleClick(rowNo, item)));
             BuildRowIndex(builder, rowNo);
             BuildRowCheckBox(builder, rowNo, item);
-            BuildRowAction(builder, rowNo, item);
-
+            
             if (IsEdit)
             {
                 builder.Component((Action<AttributeBuilder<CascadingValue<FieldContext>>>)(attr =>
@@ -433,6 +433,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
             {
                 BuildRowContent(builder, item);
             }
+
+            BuildRowAction(builder, rowNo, item);
         });
     }
 
@@ -459,7 +461,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     private static void BuildRowIndex(RenderTreeBuilder builder, int index)
     {
-        builder.Td("index", attr => builder.Text($"{index}"));
+        builder.Td("fixed index", attr => builder.Text($"{index}"));
     }
 
     private void BuildRowCheckBox(RenderTreeBuilder builder, int index, TItem item)
@@ -467,7 +469,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         if (!ShowCheckBox)
             return;
 
-        builder.Td("check", attr =>
+        builder.Td("fixed check", attr =>
         {
             builder.Label("form-radio", attr =>
             {
@@ -498,7 +500,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
         builder.Td("action", attr =>
         {
-            //var count = 0;
+            var count = 0;
             var actions = new List<ButtonInfo>();
             var others = new List<ButtonInfo>();
             foreach (var action in Actions)
@@ -506,14 +508,13 @@ public class DataGrid<TItem> : DataComponent<TItem>
                 if (!CheckAction(action, item))
                     continue;
 
-                builder.Link(action.Name, Callback(() => OnRowAction(item, action)));
-                //if (count++ < 3)
-                //    actions.Add(action);
-                //else
-                //    others.Add(action);
+                if (count++ < 2)
+                    actions.Add(action);
+                else
+                    others.Add(action);
             }
-            //BuildRowAction(builder, item, actions);
-            //BuildRowOtherAction(builder, index, item, others);
+            BuildRowAction(builder, item, actions);
+            BuildRowMoreAction(builder, index, item, others);
         });
     }
 
@@ -521,24 +522,33 @@ public class DataGrid<TItem> : DataComponent<TItem>
     {
         foreach (var action in actions)
         {
-            builder.Link(action.Name, Callback(() => OnRowAction(item, action)));
+            builder.Link(action.Name, Callback(() => OnRowAction(item, action)), action.Style);
         }
     }
 
-    private void BuildRowOtherAction(RenderTreeBuilder builder, int index, TItem item, List<ButtonInfo> others)
+    private void BuildRowMoreAction(RenderTreeBuilder builder, int index, TItem item, List<ButtonInfo> others)
     {
         if (others.Count == 0)
             return;
 
-        var id = $"row{index}";
-        builder.Icon("fa fa-ellipsis-h", attr => attr.OnClick(Callback(() => UI.ToggleClass(id, "show"))));
-        builder.Div("other", attr =>
+        builder.Div("dropdown", attr =>
         {
-            attr.Id(id);
-            foreach (var action in others)
+            builder.Span("link bg-primary", attr =>
             {
-                builder.Link(action.Name, Callback(() => OnRowAction(item, action)));
-            }
+                builder.Text("更多");
+                builder.Icon("fa fa-caret-down");
+            });
+            builder.Ul("child box", attr =>
+            {
+                foreach (var action in others)
+                {
+                    builder.Li("item", attr =>
+                    {
+                        attr.OnClick(Callback(() => OnRowAction(item, action)));
+                        builder.Span("", action.Name);
+                    });
+                }
+            });
         });
     }
 
@@ -562,7 +572,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
             {
                 var colSpan = 1;
                 if (ShowCheckBox) colSpan++;
-                if (Actions != null && Actions.Count > 0) colSpan++;
+                //if (Actions != null && Actions.Count > 0) colSpan++;
                 if (gridColumns != null && gridColumns.Count > 0)
                 {
                     builder.Td("index", "合计", colSpan);
