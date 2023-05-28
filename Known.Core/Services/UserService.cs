@@ -1,4 +1,6 @@
-﻿namespace Known.Core.Services;
+﻿using System.Collections.Concurrent;
+
+namespace Known.Core.Services;
 
 class UserService : BaseService
 {
@@ -176,7 +178,7 @@ class UserService : BaseService
     internal Result SignOut(string token)
     {
         var user = CurrentUser;
-        cachedUsers.Remove(token);
+        cachedUsers.TryRemove(token, out UserInfo _);
 
         var type = Constants.LogTypeLogout;
         if (Context.IsMobile)
@@ -185,7 +187,7 @@ class UserService : BaseService
         return Result.Success("退出成功！");
     }
 
-    internal static Dictionary<string, UserInfo> cachedUsers = new();
+    internal static ConcurrentDictionary<string, UserInfo> cachedUsers = new();
 
     internal static UserInfo GetUserByToken(string token)
     {
