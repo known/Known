@@ -6,8 +6,8 @@
     background-color:#fafafa;box-shadow:0 1px 1px 0 #eee;
 }
 .kui-sider {
-    position:absolute;top:0;left:0;bottom:0;width:180px;
-    background:linear-gradient(#1c66b9, #9198e5);color:#fff;overflow:hidden;
+    position:absolute;top:0;left:0;bottom:0;width:180px;background-color:#1c66b9;
+    /*background:linear-gradient(#1c66b9, #1c66b9);*/color:#fff;overflow:hidden;
 }
 .kui-scroll {position:absolute;top:51px;left:0;bottom:0;width:190px;overflow-x:hidden;}
 .kui-body {position:absolute;top:52px;left:180px;right:0;bottom:0;overflow:hidden;background-color:#f1f1f1;}

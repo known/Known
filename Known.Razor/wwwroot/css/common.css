@@ -106,13 +106,6 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form-files span {margin-right:5px;}
 .form-file {padding:5px 0;}
 
-.dropdown {position:relative;display:inline-block;}
-.dropdown .title {padding:0 5px;cursor:pointer;-webkit-transition:all .3s;transition:all .3s;}
-.dropdown .title .icon {width:auto;margin-right:0;}
-.dropdown .child {position:absolute;z-index:999999;color:#333;display:none;right:0;}
-.dropdown .child .item {white-space:nowrap;padding:5px 15px;cursor:pointer;}
-.dropdown .child .item:hover {background-color:#f1f1f1;}
-
 input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 
 /*search-box*/
@@ -262,8 +255,6 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .list-view, .grid-view {top:0;border:1px solid #ddd;}
 .tab-body .grid-view {top:10px;left:10px;right:10px;bottom:10px;}
 .toolbar {height:40px;line-height:40px;}
-.toolbar .tool {float:left;}
-.toolbar .query {float:right;}
 .grid {left:0;right:0;top:0;bottom:0;z-index:1000;}
 .grid .table {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
 .form .grid, .form .grid .table {left:0;right:0;top:0;bottom:0;}
@@ -273,7 +264,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .table th, .table td {padding:5px 10px;border-bottom:1px solid #ccc;white-space:nowrap;text-align:left;}
 .table th .icon {margin-left:10px;color:#888;}
 .table th .icon.sort {color:#485fc7;}
-.table td {overflow:hidden;text-overflow:ellipsis;}
+.table td {text-overflow:ellipsis;}
 .table tfoot td {background-color:#fdfdfd;}
 .table .index, .table .check, .table .check-box {width:20px;min-width:20px;text-align:center;}
 .table .index .icon {color:#000;margin-left:0;text-align:center;}
@@ -300,9 +291,9 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 
 .table th, .table th.fixed, .table th.action {background-color:#fbfbfb;}
 .table tr.even, .table tr.even td.fixed, .table tr.even td.action {background-color:#fff;}
+.table tr:hover, .table tr:hover td.fixed, .table tr:hover td.action {background-color:#fcfcfc;}
 .table tr.active, .table tr.active td.fixed, .table tr.active td.action {background-color:#f8eaba;}
 .table tr.selected, .table tr.selected td.fixed, .table tr.selected td.action {background-color:#f0eebb;}
-.table tr:hover, .table tr:hover td.fixed, .table tr:hover td.action {background-color:#fcfcfc;}
 
 .hasToolbar {top:40px;}
 .hasPager, .form .hasPager {bottom:40px;}
@@ -362,6 +353,14 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .box-left, .box-right {position:absolute;top:0;bottom:0;}
 .box-left  {left:0;width:120px;}
 .box-right {right:0;left:120px;}
+
+.dropdown {position:relative;display:inline-block;}
+.dropdown .title {padding:0 5px;cursor:pointer;}
+.dropdown .title .icon {width:auto;margin-right:0;}
+.dropdown .child {display:none;position:absolute;right:0;z-index:9999;}
+.dropdown .child .item {white-space:nowrap;padding:5px 15px;cursor:pointer;}
+.dropdown .child .item:hover {background-color:#f1f1f1;}
+.dropdown:hover .child {display:block;}
 
 .clickable {cursor:pointer;pointer-events:all;}
 td .icon, .tab .icon {width:20px;text-align:center;margin-right:2px;}

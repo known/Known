@@ -208,17 +208,6 @@ export class KRazor {
     static appendBody(html) {
         $('body').append(html);
     }
-    static initDropdown() {
-        $('.dropdown .link').on('mouseenter', function () {
-            $(this).find('.icon').removeClass('fa-caret-down').addClass('fa-caret-up');
-            $(this).next().show();
-        });
-        $('.dropdown').on('mouseleave', function () {
-            var link = $(this).find('.link');
-            link.find('.icon').removeClass('fa-caret-up').addClass('fa-caret-down');
-            link.next().hide();
-        });
-    }
     static showFrame(id, url) {
         $('#' + id).attr('src', url);
     }

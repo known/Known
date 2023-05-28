@@ -14,7 +14,6 @@ public partial class UIService
     [JSInvokable]
     public static Task<string> Hello(string name) => Task.FromResult($"Hello {name}");
     public void AppendBody(string html) => InvokeVoidAsync("KRazor.appendBody", html);
-    public void InitDropdown() => InvokeVoidAsync("KRazor.initDropdown");
     public void ShowFrame(string id, string url) => InvokeVoidAsync("KRazor.showFrame", id, url);
     public void ShowLoading() => InvokeVoidAsync("KRazor.showLoading");
     public void HideLoading() => InvokeVoidAsync("KRazor.hideLoading");

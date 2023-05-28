@@ -106,7 +106,9 @@ public class DataComponent<TItem> : BaseComponent
         if (!ShowQuery)
             return;
 
-        builder.Div("query", attr =>
+        var hasTool = Tools != null && Tools.Count > 0;
+        var query = hasTool ? " right" : " left";
+        builder.Div($"query{query}", attr =>
         {
             builder.Component<CascadingValue<QueryContext>>(attr =>
             {
@@ -123,7 +125,7 @@ public class DataComponent<TItem> : BaseComponent
             return;
 
         var only = ShowQuery ? "" : " only";
-        builder.Div($"tool{only}", attr =>
+        builder.Div($"tool left{only}", attr =>
         {
             foreach (var item in Tools)
             {

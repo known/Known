@@ -193,7 +193,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     {
         if (IsFixed)
             UI.FixedTable(id);
-        UI.InitDropdown();
+
         return base.OnAfterRenderAsync(firstRender);
     }
 
