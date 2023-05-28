@@ -17,7 +17,7 @@ class SysSystem : PageComponent
         var style = string.IsNullOrWhiteSpace(status) ? "ss-pass" : "ss-fail";
         if (string.IsNullOrWhiteSpace(status))
             status = "已授权";
-        builder.Div("ss-form ss-system", attr =>
+        builder.Div("ss-form ss-system box", attr =>
         {
             builder.Field<Text>("企业名称：", "").Value($"{info?.CompNo}-{info?.CompName}").ReadOnly(true).Build();
             builder.Field<Text>("系统名称：", "").Value(info?.AppName).ReadOnly(true)

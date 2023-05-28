@@ -95,9 +95,9 @@ class Dialog : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         var isMax = isClickMax;
-        var className = isMax ? "dialog max" : "dialog";
+        var max = isMax ? " max" : "";
         builder.Div("mask", attr => attr.Id($"mask-{dialogId}").Style($"z-index:{StartIndex + Index}"));
-        builder.Div(className, attr =>
+        builder.Div($"dialog box{max}", attr =>
         {
             attr.Id(dialogId).Style(GetStyle(isMax));
             BuildHead(builder, isMax);

@@ -36,7 +36,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
 
     protected override void BuildOther(RenderTreeBuilder builder)
     {
-        builder.Div("left-view", attr =>
+        builder.Div("left-view box", attr =>
         {
             builder.Component<Tree<string>>()
                    .Set(c => c.Data, data)

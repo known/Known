@@ -31,7 +31,7 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
 
     protected override void BuildOther(RenderTreeBuilder builder)
     {
-        builder.Div("left-view", attr =>
+        builder.Div("left-view box", attr =>
         {
             builder.Component<Tree<SysOrganization>>()
                    .Set(c => c.Data, data)

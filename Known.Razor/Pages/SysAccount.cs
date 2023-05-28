@@ -20,14 +20,20 @@ class SysAccount : PageComponent
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
+        var user = CurrentUser;
         builder.Div("ss-form", attr =>
         {
-            builder.Component<Tab>()
+            builder.Div("leftBar box", attr =>
+            {
+                builder.Img(attr => attr.Src($"_content/Known.Razor{user?.AvatarUrl}"));
+                builder.Div("name", user?.Name);
+                builder.Component<Tab>()
                    .Set(c => c.Position, "left")
                    .Set(c => c.CurItem, curItem.Id)
                    .Set(c => c.Items, items)
                    .Set(c => c.OnChanged, OnTabChanged)
                    .Build();
+            });
             builder.DynamicComponent(curItem.ComType);
         });
     }

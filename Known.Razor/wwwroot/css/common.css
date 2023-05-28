@@ -44,6 +44,10 @@ input[type="checkbox"], input[type="radio"] {width:20px;min-width:20px;height:20
 input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .inline2 input {display:inline-block;width:50%;}
 
+.box {
+    background-color:#fff;border:1px solid #ccc;
+    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
+}
 .circle {-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;}
 .left {float:left;}
 .right {float:right;}
@@ -125,8 +129,8 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .group-box .legend {position:absolute;top:-10px;left:20px;background-color:#fff;padding:0 10px;}
 
 /*card*/
-.card {position:absolute;top:0;left:0;right:0;bottom:0;background-color:#fff;border:1px solid #d6d6d6;}
-.card-head {position:relative;height:40px;line-height:40px;padding:0 10px;border-bottom:1px solid #d6d6d6;}
+.card {position:absolute;top:0;left:0;right:0;bottom:0;}
+.card-head {position:relative;height:40px;line-height:40px;padding:0 10px;border-bottom:1px solid #ccc;}
 .card-head .icon {margin-right:5px;}
 .card-head .tool {position:absolute;top:0;right:10px;color:#00f;cursor:pointer;font-weight:normal;}
 .card-body {position:absolute;top:42px;left:1px;right:1px;bottom:1px;padding:5px;overflow:auto;}
@@ -135,21 +139,18 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .dialog, .dlg-tips, .dlg-body, .dlg-foot, 
 .dlg-content, .dlg-content .form, 
 .dlg-content .form-button {position:absolute;left:0;right:0;}
-.dialog, .dlg-tips {
-    top:50%;left:50%;background-color:#fff;border:1px solid #d6d6d6;z-index:9999999;
-    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
-}
-.dialog {border:2px solid #d6d6d6;}
+.dialog, .dlg-tips {top:50%;left:50%;z-index:9999999;}
+.dialog {border:2px solid #ccc;}
 .dialog.max {top:0;left:0;right:0;bottom:0;}
 .dlg-head, .dlg-foot {padding:0 10px;}
-.dlg-head {position:relative;border-bottom:1px solid #d6d6d6;font-weight:bold;font-size:1.2rem;}
+.dlg-head {position:relative;border-bottom:1px solid #ccc;font-weight:bold;font-size:1.2rem;}
 .dlg-head.draggable {cursor:move;}
 .dlg-head .btns {position:absolute;top:0;right:0;width:100px;}
 .dlg-head .btns .bmin {position:absolute;top:13.5px;right:65px;font-size:0.9rem;cursor:pointer;}
 .dlg-head .btns .bmax {position:absolute;top:13.5px;right:35px;font-size:0.9rem;cursor:pointer;}
 .dlg-body, .dlg-content .form {top:50px;bottom:52px;padding:10px;overflow:auto;}
 .dlg-body .message {text-align:center;margin-top:20px;font-size:1.2rem;}
-.dlg-foot, .dlg-content .form-button {margin:0;bottom:0;text-align:right;border-top:1px solid #d6d6d6;background-color:#fff;}
+.dlg-foot, .dlg-content .form-button {margin:0;bottom:0;text-align:right;border-top:1px solid #ccc;background-color:#fff;}
 .dlg-foot button {margin-left:10px;}
 .dlg-content {top:50px;bottom:0;}
 .dlg-content .form {top:1px;}
@@ -181,10 +182,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .attachFile {display:inline-block;width:50%;height:30px;line-height:30px;}
 
 /*pic*/
-.pic-box {
-    position:absolute;top:0;left:0;right:0;bottom:0;z-index:99999;border:1px solid #d6d6d6;
-    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;background-color:#fff;
-}
+.pic-box {position:absolute;top:0;left:0;right:0;bottom:0;z-index:99999;}
 .pic-box img {width:100%;height:auto;}
 
 /*empty*/
@@ -274,7 +272,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .table th .icon.sort {color:#485fc7;}
 .table .action {position:relative;width:30px;text-align:center;}
 .table .action .other {
-    display:none;position:absolute;top:30px;right:0;border:1px solid #d6d6d6;padding:5px 10px;
+    display:none;position:absolute;top:30px;right:0;border:1px solid #ccc;padding:5px 10px;
     z-index:99999;background-color:#fff;
 }
 .table .action .other.show {display:block;}

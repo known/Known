@@ -12,7 +12,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     public DataGrid()
     {
         id = Utils.GetGuid();
-        ContainerStyle = "grid-view";
+        ContainerStyle = "grid-view box";
         ContentStyle = "grid";
         InitMenu();
     }

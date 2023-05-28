@@ -18,7 +18,7 @@ class PageSingle : BaseComponent
 
     private void BuildModuleTips(RenderTreeBuilder builder)
     {
-        builder.Div("kui-module-tips", attr =>
+        builder.Div("kui-mod-tips box", attr =>
         {
             builder.Span("name", CurPage?.Name);
             builder.Span("description", CurPage?.Description);
