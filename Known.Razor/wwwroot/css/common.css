@@ -90,7 +90,6 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form-item, .form-button, .tips {padding:0 10px;}
 .block .form-radio {display:block;height:auto;}
 .form, .inline {padding:10px;}
-.query .form-item, .query .form-label, .query .form-input {display:inline-block;}
 .form th, .form td {padding:5px;border:1px solid #ccc;}
 .form th {background-color:#f5f5f5;text-align:right;font-weight:normal;}
 .form td .form-input {width:100%;}
@@ -99,10 +98,6 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form td.inline2 .form-input {display:inline-block;width:50%;}
 .form td.inline3 .form-input {display:inline-block;width:33.33%;}
 .form .form-caption {padding:0;}
-.query .form-item, .query .form-label {padding:0 5px 0 0;float:none;}
-.query input, .query select {width:130px;min-width:130px;}
-.query input[type="checkbox"], .query input[type="radio"] {width:20px;min-width:20px;}
-.query button {margin-right:5px;}
 .form-files span {margin-right:5px;}
 .form-file {padding:5px 0;}
 
@@ -243,9 +238,12 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 
 /*query*/
 .query, .form .query {padding:0 10px;}
-.query .form-item {margin:0;}
-.query .form-item.more {display:none;}
-.query.more .form-item.more {display:inline-block;}
+.query .form-item {display:inline-block;margin:0;}
+.query .form-label, .query .form-input {display:inline-block;}
+.query .form-item, .query .form-label {padding:0 5px 0 0;float:none;}
+.query input, .query select {width:130px;min-width:130px;}
+.query input[type="checkbox"], .query input[type="radio"] {width:20px;min-width:20px;}
+.query button {margin-left:5px;}
 
 /*data*/
 .list-view, .grid-view, .list, .grid, .pager {position:absolute;left:0;right:0;bottom:0;}

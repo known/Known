@@ -39,7 +39,7 @@ public class Login : BaseComponent
             });
             builder.Div("login-form", attr =>
             {
-                builder.Div("login-title", $"{Config.AppId}用户登录");
+                builder.Div("login-title", "用户登录");
                 BuildForm(builder);
             });
         });
