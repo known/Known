@@ -2,8 +2,8 @@
 
 public class AdminBody : BaseComponent
 {
-    private readonly List<MenuItem> menus = new();
     private MenuItem curPage;
+    private PageTabs tabs;
 
     [Parameter] public bool MultiTab { get; set; }
 
@@ -11,8 +11,6 @@ public class AdminBody : BaseComponent
     {
         KRContext.OnNavigate = OnNavigate;
         curPage = KRConfig.Home;
-        if (MultiTab && curPage != null)
-            menus.Add(curPage);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -21,10 +19,7 @@ public class AdminBody : BaseComponent
         {
             if (MultiTab)
             {
-                builder.Component<PageTabs>()
-                       .Set(c => c.CurPage, curPage)
-                       .Set(c => c.Menus, menus)
-                       .Build();
+                builder.Component<PageTabs>().Build(v => tabs = v);
             }
             else
             {
@@ -42,11 +37,13 @@ public class AdminBody : BaseComponent
         if (menu == null || menu.ComType == null)
             return;
 
-        curPage = menu;
         if (MultiTab)
-            UI.PageId = menu.Id;
-        if (MultiTab && !menus.Contains(menu))
-            menus.Add(menu);
+        {
+            tabs?.AddTab(menu);
+            return;
+        }
+
+        curPage = menu;
         StateChanged();
     }
 }

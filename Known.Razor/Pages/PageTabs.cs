@@ -2,10 +2,30 @@
 
 class PageTabs : BaseComponent
 {
-    private string Active(string item) => CurPage?.Id == item ? "active" : "";
+    private readonly List<MenuItem> menus = new();
+    private MenuItem curPage;
+    private string Active(string item) => curPage?.Id == item ? "active" : "";
 
-    [Parameter] public MenuItem CurPage { get; set; }
-    [Parameter] public List<MenuItem> Menus { get; set; }
+    public void AddTab(MenuItem item)
+    {
+        if (menus.Contains(item))
+        {
+            OnItemClick(item);
+            return;
+        }
+
+        menus.Add(item);
+        OnItemClick(item);
+    }
+
+    protected override void OnInitialized()
+    {
+        if (menus.Count == 0)
+        {
+            menus.Add(KRConfig.Home);
+            OnItemClick(KRConfig.Home);
+        }
+    }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -18,17 +38,14 @@ class PageTabs : BaseComponent
 
     private void BuildTabHead(RenderTreeBuilder builder)
     {
-        if (Menus == null || Menus.Count == 0)
-            return;
-
         builder.Ul("tab top header", attr =>
         {
-            foreach (var item in Menus)
+            foreach (var item in menus)
             {
                 var active = Active(item.Id);
                 builder.Li(active, attr =>
                 {
-                    attr.OnClick(Callback(() => OnItemClick(item)));
+                    attr.Id($"th-{item.Id}").OnClick(Callback(() => OnItemClick(item)));
                     builder.IconName(item.Icon, item.Name);
                     if (item.Id != "Home")
                         builder.Icon("close fa fa-close", attr => attr.OnClick(Callback(() => OnItemClose(item))));
@@ -39,14 +56,13 @@ class PageTabs : BaseComponent
 
     private void BuildTabBody(RenderTreeBuilder builder)
     {
-        if (Menus == null || Menus.Count == 0)
-            return;
-
-        foreach (var item in Menus)
+        foreach (var item in menus)
         {
             var active = Active(item.Id);
-            builder.Div($"tab-body top {active}", attr =>
+            var css = CssBuilder.Default("tab-body top").AddClass(active).Build();
+            builder.Div(css, attr =>
             {
+                attr.Id($"tb-{item.Id}");
                 builder.DynamicComponent(item.ComType, item.ComParameters);
                 if (item.Id != "Home")
                     builder.Component<DialogContainer>().Id(item.Id).Build();
@@ -56,21 +72,13 @@ class PageTabs : BaseComponent
 
     private void OnItemClick(MenuItem menu)
     {
-        CurPage = menu;
-        UI.PageId = CurPage.Id;
+        curPage = menu;
+        UI.PageId = curPage.Id;
         StateChanged();
     }
 
     private void OnItemClose(MenuItem menu)
     {
-        var curIndex = Menus.IndexOf(CurPage);
-        var index = Menus.IndexOf(menu);
-        Menus.Remove(menu);
-        if (index >= curIndex && curIndex > 0)
-        {
-            CurPage = index >= Menus.Count ? Menus.Last() : Menus[index];
-            UI.PageId = CurPage.Id;
-        }
-        StateChanged();
+        menus.Remove(menu);
     }
 }
