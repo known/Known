@@ -67,6 +67,7 @@ class ColumnGrid : EditGrid<ColumnInfo>
         builder.Field(r => r.Width).Name("宽度").Edit().Control<Number>().Center(100);
         builder.Field(r => r.IsVisible).Name("显示").Edit();
         builder.Field(r => r.IsQuery).Name("查询").Edit();
+        builder.Field(r => r.IsAdvQuery).Name("高级查询").Edit();
         if (isModule)
             builder.Field(r => r.IsFixed).Name("固定").Edit();
         builder.Field(r => r.IsSort).Name("排序").Edit();

@@ -228,27 +228,20 @@ public class DataGrid<TItem> : DataComponent<TItem>
         if (columns == null || columns.Count == 0)
             return;
 
-        var index = 0;
         foreach (var item in columns)
         {
-            item.BuildQuery(builder, this, index++ > 3);
+            item.BuildQuery(builder, this);
         }
         builder.Button(FormButton.Query, Callback(() =>
         {
             query = null;
             QueryData(true);
         }));
-        if (columns.Count > 4)
+
+        if (gridColumns != null && gridColumns.Any(c => c.IsAdvQuery))
         {
-            var moreId = $"qm_{id}";
-            builder.Span("link", attr =>
-            {
-                attr.Id(moreId).OnClick(Callback(() => UI.ToggleQuery(moreId)));
-                builder.Text("更多");
-            });
+            builder.Button(FormButton.AdvQuery, Callback(ShowQuerySetting));
         }
-        if (ShowCustQuery)
-            builder.Span("link", "自定义", Callback(ShowQuerySetting));
     }
 
     protected virtual void BuildHead(RenderTreeBuilder builder)
@@ -644,7 +637,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         var data = Setting.GetUserQuerys(Id);
         data ??= new List<QueryInfo>();
         var fields = Columns.Select(c => c.ToColumn()).ToList();
-        UI.Show<QueryGrid>("自定义查询", new(680, 500), action: attr =>
+        UI.Show<QueryGrid>("高级查询", new(680, 500), action: attr =>
         {
             attr.Set(c => c.Data, data)
                 .Set(c => c.Fields, fields)
@@ -668,7 +661,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     {
         var data = Setting.GetUserColumns(Id);
         data ??= Columns.Select(c => c.ToColumn()).ToList();
-        UI.Show<ColumnGrid>("表格设置", new(700, 500), action: attr =>
+        UI.Show<ColumnGrid>("表格设置", new(780, 500), action: attr =>
         {
             attr.Set(c => c.Data, data)
                 .Set(c => c.OnSetting, async value =>

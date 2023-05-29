@@ -23,7 +23,6 @@ public class DataComponent<TItem> : BaseComponent
     protected string ContentStyle { get; set; }
     protected string[] OrderBys { get; set; }
     protected bool ShowQuery { get; set; }
-    protected bool ShowCustQuery { get; set; }
     protected bool ShowPager { get; set; } = true;
     protected Dictionary<string, object> Sums { get; set; }
     protected List<ButtonInfo> Tools { get; set; }

@@ -41,6 +41,7 @@ public sealed class Setting
                 item.Width = column.Width;
                 item.IsVisible = column.IsVisible;
                 item.IsQuery = column.IsQuery;
+                item.IsAdvQuery = column.IsAdvQuery;
                 item.IsSort = column.IsSort;
                 item.SetColumnStyle();
                 lists.Add(item);

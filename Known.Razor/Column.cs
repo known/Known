@@ -72,30 +72,28 @@ public class Column<T> : ColumnInfo
         };
     }
 
-    internal void BuildQuery(RenderTreeBuilder builder, BaseComponent grid, bool more)
+    internal void BuildQuery(RenderTreeBuilder builder, BaseComponent grid)
     {
-        var style = more ? "more" : "";
         if (Control != null)
         {
             builder.Component(Control, attr =>
             {
                 attr.Add(nameof(Field.Id), Id)
-                    .Add(nameof(Field.Label), Name)
-                    .Add(nameof(Field.Style), style);
+                    .Add(nameof(Field.Label), Name);
             });
             return;
         }
 
         if (Type == ColumnType.Date || Type == ColumnType.DateTime)
         {
-            builder.Field<DateRange>(Name, Id).Set(f => f.Style, style).Build();
+            builder.Field<DateRange>(Name, Id).Build();
         }
         else
         {
             if (Select != null)
-                Select.BuildQuery(builder, this, style, grid.Refresh);
+                Select.BuildQuery(builder, this, grid.Refresh);
             else
-                builder.Field<Text>(Name, Id).Style(style).Build();
+                builder.Field<Text>(Name, Id).Build();
         }
     }
 
@@ -206,10 +204,10 @@ public class SelectOption
         return codes.FirstOrDefault(i => i.Code == str)?.Name;
     }
 
-    internal void BuildQuery(RenderTreeBuilder builder, ColumnInfo column, string style, Action refresh)
+    internal void BuildQuery(RenderTreeBuilder builder, ColumnInfo column, Action refresh)
     {
         var emptyText = ShowEmpty ? "全部" : "";
-        builder.Field<Select>(column.Name, column.Id).Style(style)
+        builder.Field<Select>(column.Name, column.Id)
                .ValueChanged(value =>
                {
                    ValueChanged?.Invoke(value);
