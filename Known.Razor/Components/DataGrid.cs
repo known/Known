@@ -566,7 +566,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
             {
                 var colSpan = 1;
                 if (ShowCheckBox) colSpan++;
-                //if (Actions != null && Actions.Count > 0) colSpan++;
                 if (gridColumns != null && gridColumns.Count > 0)
                 {
                     builder.Td("index", "合计", colSpan);
@@ -634,12 +633,10 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     private void ShowQuerySetting()
     {
-        var data = Setting.GetUserQuerys(Id);
-        data ??= new List<QueryInfo>();
         var fields = Columns.Select(c => c.ToColumn()).ToList();
-        UI.Show<QueryGrid>("高级查询", new(680, 500), action: attr =>
+        UI.Show<AdvQuery>("高级查询", new(680, 500), action: attr =>
         {
-            attr.Set(c => c.Data, data)
+            attr.Set(c => c.PageId, Id)
                 .Set(c => c.Fields, fields)
                 .Set(c => c.OnSetting, async value =>
                 {

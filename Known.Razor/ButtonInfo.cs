@@ -88,7 +88,7 @@ public sealed class FormButton
     private FormButton() { }
 
     public static ButtonInfo Query => new("Query", "查询", "fa fa-search", "bg-primary");
-    public static ButtonInfo AdvQuery => new("AdvQuery", "高级查询", "fa fa-search-plus", "bg-primary");
+    public static ButtonInfo AdvQuery => new("AdvQuery", "高级查询", "", "bg-primary");
     public static ButtonInfo Add => new("Add", "添加", "fa fa-plus", "bg-primary");
     public static ButtonInfo Save => new("Save", "保存", "fa fa-save", "bg-primary");
     public static ButtonInfo Close => new("Close", "关闭", "fa fa-close", "bg-danger");
