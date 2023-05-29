@@ -66,21 +66,20 @@ public class DataComponent<TItem> : BaseComponent
             return;
         }
 
-        var style = string.Empty;
-        if (ShowQuery)
-            style += " hasToolbar";
-        if (ShowPager)
-            style += " hasPager";
-
-        builder.Div($"{ContainerStyle} {Style}", attr =>
+        var css = CssBuilder.Default(ContainerStyle).AddClass(Style).Build();
+        builder.Div(css, attr =>
         {
             builder.Div("toolbar", attr =>
             {
-                BuildTool(builder);
                 BuildQuery(builder);
+                BuildTool(builder);
             });
 
-            builder.Div($"{ContentStyle}{style}", attr => BuildContent(builder));
+            var css = CssBuilder.Default(ContentStyle)
+                                .AddClass("hasToolbar", ShowQuery)
+                                .AddClass("hasPager", ShowPager)
+                                .Build();
+            builder.Div(css, attr => BuildContent(builder));
             BuildPager(builder);
         });
         BuildOther(builder);
@@ -124,8 +123,7 @@ public class DataComponent<TItem> : BaseComponent
         if (Tools == null || Tools.Count == 0)
             return;
 
-        var only = ShowQuery ? "" : " only";
-        builder.Div($"tool left{only}", attr =>
+        builder.Div("tool left", attr =>
         {
             foreach (var item in Tools)
             {

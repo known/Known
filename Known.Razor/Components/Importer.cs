@@ -1,4 +1,4 @@
-﻿namespace Known.Razor;
+﻿namespace Known.Razor.Components;
 
 class Importer : BaseComponent
 {

@@ -235,8 +235,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .form-tabs .content {position:absolute;left:161px;top:1px;right:0;bottom:0;}
 
 /*tool*/
-.tool {padding:0 10px;height:36px;line-height:36px;}
-.tool.only {margin-top:10px;}
+.tool {padding:0 10px;}
 .tool button {margin-right:5px;padding:0 10px;}
 .tool1 button {background-color:#fff;color:#000;}
 .tool1 button:hover {color:#fff;background-color:#337ab7;-moz-opacity:1;opacity:1;filter:alpha(opacity=100);}

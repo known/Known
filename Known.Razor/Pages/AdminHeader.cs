@@ -69,9 +69,9 @@ class AdminHeader : BaseComponent
     {
         builder.Ul("nav right", attr =>
         {
-            builder.Li("nav-item text danger", attr => builder.Text(KRConfig.AuthStatus));
+            //builder.Li("nav-item text danger", attr => builder.Text(KRConfig.AuthStatus));
             //builder.Li("nav-item text", attr => builder.Component<Components.Timer>().Build());
-            builder.Li("nav-item text", attr => builder.Text($"{DateTime.Now:yyyy-MM-dd dddd}"));
+            //builder.Li("nav-item text", attr => builder.Text($"{DateTime.Now:yyyy-MM-dd dddd}"));
             builder.Li("nav-item fa fa-home", attr => attr.Title("系统主页").OnClick(Callback(Context.NavigateToHome)));
             if (KRConfig.IsWeb)
                 builder.Li($"nav-item {ToggleScreen}", attr => attr.Title("全屏切换").OnClick(Callback(OnToggleScreen)));
@@ -79,6 +79,7 @@ class AdminHeader : BaseComponent
             builder.Li("nav-item fa fa-user", attr =>
             {
                 attr.Title("个人中心").OnClick(Callback(Context.NavigateToAccount));
+                builder.Span(CurrentUser.Name);
                 if (MessageCount > 0)
                     builder.Span("badge-top", $"{MessageCount}");
             });
