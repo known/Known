@@ -74,6 +74,14 @@ public class AttributeBuilder
         return this;
     }
 
+    public AttributeBuilder Role(string value)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+            builder.AddAttribute(1, "role", value);
+
+        return this;
+    }
+
     public AttributeBuilder Class(string value)
     {
         if (!string.IsNullOrWhiteSpace(value))

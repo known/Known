@@ -22,7 +22,10 @@ public class Button : BaseComponent
         builder.Button(Style, attr =>
         {
             attr.Id(id).Disabled(!Enabled).OnClick(Callback(OnButtonClick));
-            builder.IconName(Icon, Text);
+            if (KRConfig.IsPico)
+                builder.Text(Text);
+            else
+                builder.IconName(Icon, Text);
         });
     }
 

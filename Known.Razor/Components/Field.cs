@@ -113,8 +113,12 @@ public abstract class Field : BaseComponent
                     builder.Text(Label);
                 builder.Input(attr =>
                 {
-                    attr.Type(Type).Id(Id).Name(Id).Placeholder(Placeholder).Required(Required);
+                    attr.Type(Type).Id(Id).Name(Id).Placeholder(Placeholder).Required(Required).Value(Value);
+                    if (!string.IsNullOrWhiteSpace(error))
+                        attr.Add("aria-invalid", "true");
+                    AddAttribute(attr);
                 });
+                BuildText(builder);
             });
             return;
         }
@@ -135,6 +139,8 @@ public abstract class Field : BaseComponent
         }
     }
 
+    protected virtual void AddAttribute(AttributeBuilder attr) { }
+    protected virtual void BuildText(RenderTreeBuilder builder) { }
     protected virtual string FormatValue(object value) => value?.ToString();
     protected virtual void BuildChildText(RenderTreeBuilder builder) => builder.Span("text", Value);
     protected virtual void BuildChildContent(RenderTreeBuilder builder) { }
