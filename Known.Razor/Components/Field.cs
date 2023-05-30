@@ -5,7 +5,9 @@ public abstract class Field : BaseComponent
     private string error;
     private object orgValue;
 
+    [Parameter] public string Type { get; set; }
     [Parameter] public string Label { get; set; }
+    [Parameter] public string Placeholder { get; set; }
     [Parameter] public string Value { get; set; }
     [Parameter] public string Style { get; set; }
     [Parameter] public string Tips { get; set; }
@@ -101,6 +103,21 @@ public abstract class Field : BaseComponent
     {
         if (!Visible)
             return;
+
+        if (KRConfig.IsPico)
+        {
+            builder.Label(attr =>
+            {
+                attr.For(Id);
+                if (!string.IsNullOrWhiteSpace(Label))
+                    builder.Text(Label);
+                builder.Input(attr =>
+                {
+                    attr.Type(Type).Id(Id).Name(Id).Placeholder(Placeholder).Required(Required);
+                });
+            });
+            return;
+        }
 
         if (FieldContext != null && FieldContext.IsTableForm)
         {

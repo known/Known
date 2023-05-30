@@ -2,6 +2,7 @@
 
 public static class HtmlExtension
 {
+    public static RenderTreeBuilder Form(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("form", attr => child?.Invoke(attr));
     public static RenderTreeBuilder Div(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("div", attr => child?.Invoke(attr));
 
     public static RenderTreeBuilder Div(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)

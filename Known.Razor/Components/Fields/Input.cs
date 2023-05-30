@@ -30,7 +30,6 @@ public class Input : Field
     // tel            定义用于电话号码的文本字段。
     // text           默认。定义单行输入字段，用户可在其中输入文本。默认是 20 个字符。
     // url            定义用于 URL 的文本字段。
-    [Parameter] public string Type { get; set; }
     [Parameter] public string OnEnter { get; set; }
 
     protected override void BuildChildContent(RenderTreeBuilder builder) => BuildInput(builder, Type);

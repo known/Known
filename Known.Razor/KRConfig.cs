@@ -5,6 +5,7 @@ public sealed class KRConfig
     private KRConfig() { }
     static KRConfig() => Assemblies = new List<Assembly>();
 
+    public static bool IsPico { get; set; }
     public static string ValidDate { get; set; }
     public static string AuthStatus { get; set; }
     public static List<Assembly> Assemblies { get; }

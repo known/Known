@@ -2,9 +2,13 @@
 
 public class Password : Input
 {
-    [Parameter] public string Icon { get; set; }
-    [Parameter] public string Placeholder { get; set; }
+    public Password()
+    {
+        Type = "password";
+    }
 
+    [Parameter] public string Icon { get; set; }
+    
     protected override void BuildChildContent(RenderTreeBuilder builder)
     {
         BuildIcon(builder, Icon);
@@ -14,8 +18,12 @@ public class Password : Input
 
 public class Text : Input
 {
+    public Text()
+    {
+        Type = "text";
+    }
+
     [Parameter] public string Icon { get; set; }
-    [Parameter] public string Placeholder { get; set; }
 
     protected override void BuildChildContent(RenderTreeBuilder builder)
     {
@@ -26,8 +34,6 @@ public class Text : Input
 
 public class TextArea : Field
 {
-    [Parameter] public string Placeholder { get; set; }
-
     protected override void BuildChildText(RenderTreeBuilder builder)
     {
         builder.Pre(Value);

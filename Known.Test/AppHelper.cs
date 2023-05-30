@@ -16,6 +16,7 @@ class AppHelper
 
     internal static void Run()
     {
+        //KRConfig.IsPico = true;
         InitDatabase();
         InitConfig();
         Task.Run(() => CreateWebHostBuilder(Array.Empty<string>()).Build().Run());

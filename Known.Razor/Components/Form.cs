@@ -64,6 +64,24 @@ public class Form : BaseComponent
 
     protected virtual void BuildForm(RenderTreeBuilder builder)
     {
+        if (KRConfig.IsPico)
+        {
+            builder.Form(attr =>
+            {
+                attr.Class(Style);
+                builder.Component<CascadingValue<FormContext>>(attr =>
+                {
+                    attr.Set(c => c.IsFixed, false)
+                        .Set(c => c.Value, FormContext);
+                    if (ChildContent != null)
+                        attr.Set(c => c.ChildContent, ChildContent);
+                    else
+                        attr.Set(c => c.ChildContent, BuildTree(BuildFields));
+                });
+            });
+            return;
+        }
+
         var css = CssBuilder.Default("form").AddClass(Style).Build();
         builder.Div(css, attr =>
         {

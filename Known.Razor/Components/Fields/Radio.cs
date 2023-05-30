@@ -2,6 +2,11 @@
 
 public class CheckBox : Field
 {
+    public CheckBox()
+    {
+        Type = "checkbox";
+    }
+
     [Parameter] public string Text { get; set; }
     [Parameter] public bool Checked { get; set; }
 
