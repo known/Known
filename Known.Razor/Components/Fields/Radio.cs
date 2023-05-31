@@ -2,11 +2,6 @@
 
 public class CheckBox : Field
 {
-    public CheckBox()
-    {
-        Type = "checkbox";
-    }
-
     [Parameter] public string Text { get; set; }
     [Parameter] public bool Checked { get; set; }
 
@@ -17,7 +12,7 @@ public class CheckBox : Field
             attr.For(Id);
             builder.Input(attr =>
             {
-                attr.Type(Type).Id(Id).Name(Id).Placeholder(Placeholder).Role("switch")
+                attr.Type("checkbox").Id(Id).Name(Id).Role("switch")
                     .Disabled(!Enabled).Required(Required).Checked(IsChecked)
                     .OnChange(EventCallback.Factory.CreateBinder<bool>(this, isCheck =>
                     {

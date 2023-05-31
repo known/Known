@@ -40,9 +40,6 @@
 .login .form-radio input {height:20px;line-height:20px;}
 .login button {width:100%;height:40px;margin-left:0;}
 .login-msg {color:#d9534f;text-align:center;}
-.login form label {margin-bottom:20px;}
-.login form input {height:40px;margin:0;}
-.login form button {height:40px;margin:0;padding:0;}
 
 /*dashboard*/
 .ws-card {top:10px;left:10px;right:10px;height:150px;}

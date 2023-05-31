@@ -1,1 +1,3 @@
 ﻿@import "pico.min.css";
+
+form label {position:relative;}

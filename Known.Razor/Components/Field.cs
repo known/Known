@@ -5,9 +5,7 @@ public abstract class Field : BaseComponent
     private string error;
     private object orgValue;
 
-    [Parameter] public string Type { get; set; }
     [Parameter] public string Label { get; set; }
-    [Parameter] public string Placeholder { get; set; }
     [Parameter] public string Value { get; set; }
     [Parameter] public string Style { get; set; }
     [Parameter] public string Tips { get; set; }
@@ -126,28 +124,18 @@ public abstract class Field : BaseComponent
         }
     }
 
-    protected virtual void BuildInput(RenderTreeBuilder builder)
-    {
-        builder.Label(attr =>
-        {
-            attr.For(Id);
-            if (!string.IsNullOrWhiteSpace(Label))
-                builder.Text(Label);
-            builder.Input(attr =>
-            {
-                attr.Type(Type).Id(Id).Name(Id).Placeholder(Placeholder).Value(Value)
-                    .Disabled(!Enabled).Required(Required).OnChange(CreateBinder());
-                if (!string.IsNullOrWhiteSpace(error))
-                    attr.Add("aria-invalid", "true");
-            });
-        });
-    }
-
     protected virtual string FormatValue(object value) => value?.ToString();
+    protected virtual void BuildInput(RenderTreeBuilder builder) { }
     protected virtual void BuildChildText(RenderTreeBuilder builder) => builder.Span("text", Value);
     protected virtual void BuildChildContent(RenderTreeBuilder builder) { }
     protected virtual void SetInputValue(object value) => Value = FormatValue(value);
     protected virtual void SetFieldContext(FieldContext context) { }
+
+    protected void AddError(AttributeBuilder attr)
+    {
+        if (!string.IsNullOrWhiteSpace(error))
+            attr.Add("aria-invalid", "true");
+    }
 
     protected void BuildRadio(RenderTreeBuilder builder, string type, string text, string value, bool enabled, bool isChecked, Action<bool, string> action = null, int? columnCount = null)
     {

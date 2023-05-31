@@ -30,7 +30,26 @@ public class Input : Field
     // tel            定义用于电话号码的文本字段。
     // text           默认。定义单行输入字段，用户可在其中输入文本。默认是 20 个字符。
     // url            定义用于 URL 的文本字段。
+    [Parameter] public string Type { get; set; }
+    [Parameter] public string Placeholder { get; set; }
+    [Parameter] public string Icon { get; set; }
     [Parameter] public string OnEnter { get; set; }
+
+    protected override void BuildInput(RenderTreeBuilder builder)
+    {
+        builder.Label(attr =>
+        {
+            attr.For(Id);
+            if (!string.IsNullOrWhiteSpace(Label))
+                builder.Text(Label);
+            builder.Input(attr =>
+            {
+                attr.Type(Type).Id(Id).Name(Id).Placeholder(Placeholder).Value(Value)
+                    .Disabled(!Enabled).Required(Required).Readonly(ReadOnly).OnChange(CreateBinder());
+                AddError(attr);
+            });
+        });
+    }
 
     protected override void BuildChildContent(RenderTreeBuilder builder) => BuildInput(builder, Type);
 
