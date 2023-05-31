@@ -16,12 +16,18 @@ public class Install : Form
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        if (KRConfig.IsPico)
+        {
+            builder.Article("install", attr => BuildForm(builder));
+            return;
+        }
+
         builder.Div("install box", attr => BuildForm(builder));
     }
 
     protected override void BuildFields(RenderTreeBuilder builder)
     {
-        builder.Div("si-title", $"欢迎使用{Config.AppId}");
+        builder.Div("title", $"欢迎使用{Config.AppId}");
         builder.Field<Text>("企业编码：", nameof(InstallInfo.CompNo), true).Build();
         builder.Field<Text>("企业名称：", nameof(InstallInfo.CompName), true)
                .Set(f => f.OnValueChanged, OnCompNameChanged)

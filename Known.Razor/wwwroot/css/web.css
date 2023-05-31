@@ -132,7 +132,7 @@ button, input, select, .form-input .text, .form-input .unit,
 
 /*SysInstall*/
 .install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}
-.si-title {margin:50px 0 20px 0;font-size:2rem;font-weight:bold;text-align:center;}
+.install .title {margin:50px 0 20px 0;font-size:2rem;font-weight:bold;text-align:center;}
 .si-button {padding:0 35px;height:40px;line-height:40px;}
 .si-form {width:450px;margin:0 auto;}
 .si-form .form-label {width:120px;text-align:right;}

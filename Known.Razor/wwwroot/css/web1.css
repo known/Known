@@ -1,3 +1,6 @@
 ﻿@import "pico.min.css";
 
 form label {position:relative;}
+
+.install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}
+.install .title {font-size:2rem;font-weight:bold;text-align:center;}

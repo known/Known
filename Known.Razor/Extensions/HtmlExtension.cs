@@ -11,6 +11,15 @@ public static class HtmlExtension
         });
     }
 
+    public static RenderTreeBuilder Article(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
+    {
+        return builder.Element("article", attr =>
+        {
+            attr.Class(className);
+            child?.Invoke(attr);
+        });
+    }
+
     public static RenderTreeBuilder Div(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("div", attr => child?.Invoke(attr));
 
     public static RenderTreeBuilder Div(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
