@@ -1,6 +1,6 @@
 ﻿namespace Known.Razor.Components.Fields;
 
-public class Upload : Input
+public class Upload : Field
 {
     [Parameter] public bool CanDelete { get; set; }
     [Parameter] public bool IsMultiple { get; set; }

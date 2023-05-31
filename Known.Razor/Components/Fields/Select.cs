@@ -1,64 +1,35 @@
 ﻿namespace Known.Razor.Components.Fields;
 
-public class ListBox : ListField
-{
-    private string curItem;
-
-    [Parameter] public Action<CodeInfo> OnItemClick { get; set; }
-    [Parameter] public RenderFragment<CodeInfo> ItemTemplace { get; set; }
-
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
-        var css = CssBuilder.Default("list-box").AddClass("disabled", !Enabled).Build();
-        builder.Ul(css, attr =>
-        {
-            if (ListItems != null && ListItems.Length > 0)
-            {
-                foreach (var item in ListItems)
-                {
-                    item.IsActive = curItem == item.Code;
-                    var active = item.IsActive ? " active" : "";
-                    builder.Li($"item{active}", attr =>
-                    {
-                        if (Enabled)
-                        {
-                            attr.OnClick(Callback(e => OnClick(item)));
-                        }
-                        BuildItem(builder, item);
-                    });
-                }
-            }
-        });
-    }
-
-    private void BuildItem(RenderTreeBuilder builder, CodeInfo item)
-    {
-        if (ItemTemplace != null)
-            builder.Fragment(ItemTemplace, item);
-        else
-            builder.Text(item.Name);
-    }
-
-    private void OnClick(CodeInfo info)
-    {
-        curItem = info.Code;
-        OnItemClick?.Invoke(info);
-    }
-}
-
-public class Select : ListField
+public class Select : Field
 {
     private string Text { get; set; }
 
     [Parameter] public string Icon { get; set; }
     [Parameter] public string EmptyText { get; set; }
     [Parameter] public bool IsAuto { get; set; }
+    [Parameter] public string Codes { get; set; }
+    [Parameter] public CodeInfo[] Items { get; set; }
+    [Parameter] public Func<CodeInfo[]> CodeAction { get; set; }
+
+    protected CodeInfo[] ListItems { get; private set; }
+
+    public void SetCodes(string codes)
+    {
+        Codes = codes;
+        StateChanged();
+    }
 
     protected override void OnParametersSet()
     {
-        base.OnParametersSet();
+        ListItems = GetListItems();
         var code = ListItems.FirstOrDefault(c => c.Code == Value);
         Text = code?.Name ?? Value;
+    }
+
+    protected override void SetFieldContext(FieldContext context)
+    {
+        base.SetFieldContext(context);
+        context.FieldItems = GetListItems();
     }
 
     protected override void BuildChildText(RenderTreeBuilder builder)
@@ -72,7 +43,8 @@ public class Select : ListField
 
     protected override void BuildChildContent(RenderTreeBuilder builder)
     {
-        Input.BuildIcon(builder, Icon);
+        if (!string.IsNullOrWhiteSpace(Icon))
+            builder.Icon(Icon);
         if (IsAuto)
             BuildInputSelect(builder);
         else
@@ -80,6 +52,17 @@ public class Select : ListField
     }
 
     protected override void SetInputValue(object value) => Value = value?.ToString();
+
+    private CodeInfo[] GetListItems()
+    {
+        if (Items != null && Items.Length > 0)
+            return Items;
+
+        if (CodeAction != null)
+            return CodeAction();
+
+        return CodeInfo.GetCodes(Codes).ToArray();
+    }
 
     private void BuildInputSelect(RenderTreeBuilder builder)
     {

@@ -1,6 +1,6 @@
 ﻿namespace Known.Razor.Components.Fields;
 
-public abstract class ListField : Field
+public class RadioList : Field
 {
     [Parameter] public int ColumnCount { get; set; }
     [Parameter] public string Codes { get; set; }
@@ -19,6 +19,17 @@ public abstract class ListField : Field
     {
         base.OnParametersSet();
         ListItems = GetListItems();
+    }
+
+    protected override void BuildChildContent(RenderTreeBuilder builder)
+    {
+        if (ListItems == null || ListItems.Length == 0)
+            return;
+
+        foreach (var item in ListItems)
+        {
+            BuildRadio(builder, "radio", item.Name, item.Code, Enabled, Value == item.Code, columnCount: ColumnCount);
+        }
     }
 
     protected override void SetFieldContext(FieldContext context)

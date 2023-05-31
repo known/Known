@@ -2,28 +2,12 @@
 
 public enum DateType { Date, DateTime, Month }
 
-public class Date : Input
+public class Date : Field
 {
     [Parameter] public DateType DateType { get; set; }
     [Parameter] public DateTime? DateValue { get; set; }
-
-    private string Format
-    {
-        get
-        {
-            switch (DateType)
-            {
-                case DateType.Date:
-                    return Config.DateFormat;
-                case DateType.DateTime:
-                    return "yyyy-MM-dd HH:mm";
-                case DateType.Month:
-                    return "yyyy-MM";
-                default:
-                    return Config.DateFormat;
-            }
-        }
-    }
+    [Parameter] public string Type { get; set; }
+    [Parameter] public string Placeholder { get; set; }
 
     public override object GetValue()
     {
@@ -31,6 +15,22 @@ public class Date : Input
             return DateValue?.ToString("yyyy-MM");
         else
             return DateValue;
+    }
+
+    protected override void BuildInput(RenderTreeBuilder builder)
+    {
+        builder.Label(attr =>
+        {
+            attr.For(Id);
+            if (!string.IsNullOrWhiteSpace(Label))
+                builder.Text(Label);
+            builder.Input(attr =>
+            {
+                attr.Type(Type).Id(Id).Name(Id).Placeholder(Placeholder).Value(Value)
+                    .Disabled(!Enabled).Required(Required).Readonly(ReadOnly).OnChange(CreateBinder());
+                AddError(attr);
+            });
+        });
     }
 
     protected override void BuildChildContent(RenderTreeBuilder builder)
@@ -65,56 +65,32 @@ public class Date : Input
         var date = Utils.ConvertTo<DateTime?>(value);
         return date?.ToString(Format);
     }
-}
 
-public class DateRange : Input
-{
-    private readonly string format = Config.DateFormat;
-    private readonly string split = "~";
-    private readonly string[] values = new string[] { "", "" };
-    private string startId;
-    private string endId;
-
-    public DateRange()
+    private void BuidDate(RenderTreeBuilder builder, string id, string value, Action<DateTime?> action, string type = "date")
     {
-        Split = split;
-    }
-
-    [Parameter] public string Split { get; set; }
-    [Parameter] public DateTime? Start { get; set; }
-    [Parameter] public DateTime? End { get; set; }
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        startId = $"L{Id}";
-        endId = $"G{Id}";
-        SetValue(Start, 0);
-        SetValue(End, 1);
-    }
-
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
-        var start = Start?.ToString(format);
-        var end = End?.ToString(format);
-
-        BuidDate(builder, startId, start, v =>
+        builder.Input(attr =>
         {
-            SetValue(v, 0);
-            Start = v;
-        });
-        if (!string.IsNullOrWhiteSpace(Split))
-            builder.Span(attr => builder.Text(Split));
-        BuidDate(builder, endId, end, v =>
-        {
-            SetValue(v, 1);
-            End = v;
+            attr.Type(type).Id(id).Name(id).Disabled(!Enabled)
+                .Value(value).Required(Required)
+                .OnChange(CreateBinder(action));
         });
     }
 
-    private void SetValue(DateTime? date, int index)
+    private string Format
     {
-        values[index] = date?.ToString(format);
-        Value = string.Join(split, values);
+        get
+        {
+            switch (DateType)
+            {
+                case DateType.Date:
+                    return Config.DateFormat;
+                case DateType.DateTime:
+                    return "yyyy-MM-dd HH:mm";
+                case DateType.Month:
+                    return "yyyy-MM";
+                default:
+                    return Config.DateFormat;
+            }
+        }
     }
 }

@@ -1,10 +1,5 @@
 ﻿namespace Known.Razor.Components.Fields;
 
-public class Hidden : Field
-{
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Input(attr => attr.Type("hidden").Name(Id).Value(Value));
-}
-
 public class Input : Field
 {
     // button         定义可点击的按钮（大多与 JavaScript 使用来启动脚本）
@@ -42,6 +37,7 @@ public class Input : Field
             attr.For(Id);
             if (!string.IsNullOrWhiteSpace(Label))
                 builder.Text(Label);
+            BuildIcon(builder, Icon);
             builder.Input(attr =>
             {
                 attr.Type(Type).Id(Id).Name(Id).Placeholder(Placeholder).Value(Value)
@@ -51,39 +47,25 @@ public class Input : Field
         });
     }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder) => BuildInput(builder, Type);
-
-    internal static void BuildIcon(RenderTreeBuilder builder, string icon)
+    protected override void BuildChildContent(RenderTreeBuilder builder)
     {
-        if (!string.IsNullOrWhiteSpace(icon))
-        {
-            builder.Icon(icon);
-        }
-    }
-
-    protected void BuildInput(RenderTreeBuilder builder, string type, string placeholder = null)
-    {
+        BuildIcon(builder, Icon);
         builder.Input(attr =>
         {
             //var value = BindConverter.FormatValue(Value);
             //var hasChanged = !EqualityComparer<string>.Default.Equals(value, Value);
-            attr.Type(type).Id(Id).Name(Id).Disabled(!Enabled)
+            attr.Type(Type).Id(Id).Name(Id).Disabled(!Enabled)
                 .Value(Value).Required(Required)
-                .Placeholder(placeholder)
+                .Placeholder(Placeholder)
                 .Add("autocomplete", "off")
                 .OnChange(CreateBinder())
                 .OnEnter(OnEnter);
             //builder.SetUpdatesAttributeName("value");
         });
     }
-
-    protected void BuidDate(RenderTreeBuilder builder, string id, string value, Action<DateTime?> action, string type = "date")
+    private static void BuildIcon(RenderTreeBuilder builder, string icon)
     {
-        builder.Input(attr =>
-        {
-            attr.Type(type).Id(id).Name(id).Disabled(!Enabled)
-                .Value(value).Required(Required)
-                .OnChange(CreateBinder(action));
-        });
+        if (!string.IsNullOrWhiteSpace(icon))
+            builder.Icon(icon);
     }
 }

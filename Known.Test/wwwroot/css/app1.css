@@ -24,14 +24,14 @@
 .login .slogan {position:absolute;top:0;left:0;width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
 .login .image {position:absolute;top:50px;left:0;width:260px;height:180px;}
 .login-form {position:absolute;left:410px;right:0;top:0;bottom:0;padding:50px;}
-.login-form .title {padding-left:0;margin-bottom:20px;}
 .login-title {font-size:1.3rem;font-weight:bold;margin-bottom:20px;text-align:center;}
-.login .form .icon {
-    z-index:900;left:10px;top:10px;right:unset;color:#d2d2d2;font-size:1.3rem;
-    height:auto;line-height:normal;background-color:#fff;
-}
-.login .form-input .fa-lock {left:11px;top:9px;font-size:1.6rem;}
 .login-msg {color:#d9534f;text-align:center;}
 .login form label {margin-bottom:20px;}
 .login form input {height:40px;margin:0;}
 .login form button {height:40px;margin:0;padding:0;}
+/*TODO:登录输入框ICON*/
+.login form .icon {
+    z-index:900;left:10px;top:10px;right:unset;color:#d2d2d2;font-size:1.3rem;
+    height:auto;line-height:normal;background-color:#fff;
+}
+.login form .fa-lock {left:11px;top:9px;font-size:1.6rem;}
