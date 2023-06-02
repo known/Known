@@ -1,13 +1,81 @@
 ﻿@import "common.css";
 
-/*Index*/
+body {overflow:hidden;}
+
+@media screen and (max-width:768px) { /*1200,992,768,576*/
+    body {overflow:auto;}
+}
+
+.install {width:500px;margin:100px auto;padding:50px;}
+.install h1 {text-align:center;margin-bottom:1rem;}
+.install label {height:2rem;line-height:2rem;}
+.install input, .install label span {position:absolute;top:0;right:0;width:70%;}
+.install button {margin-top:1rem;padding:0.5rem;}
+.install .fa-refresh {position:absolute;top:unset;bottom:0.4rem;right:0.2rem;width:auto;font-size:1.3rem;}
+
+@media screen and (max-width:768px) {
+    .install {width:90%;margin:20px auto;padding:20px;}
+    .install label {height:auto;line-height:unset;}
+    .install input, .install label span {position:unset;top:unset;right:unset;width:100%;}
+}
+
+.login {width:800px;margin:150px auto;padding:50px;border-radius:0.5rem;}
+.login .left {text-align:center;padding:50px 0;}
+.login .right {text-align:center;padding:20px 0;}
+.login h1 {margin-bottom:1.5rem;font-size:1.8rem;}
+.login h2 {font-size:1.6rem;}
+.login form {text-align:left;padding:20px 50px;}
+.login label {margin-bottom:1.5rem;}
+.login label i {position:absolute;top:0.6rem;left:1rem;font-size:1.2rem;}
+.login label .fa-lock {font-size:1.4rem;}
+.login input {padding:0.5rem 0 0.5rem 2.5rem;}
+.login button {font-size:1.3rem;margin-bottom:1rem;}
+
+@media screen and (max-width:768px) {
+    .login {width:90%;margin:80px auto;padding:20px;grid-template-columns:1fr;}
+    .login .left {padding-bottom:0;}
+    .login img, .login h2 {display:none;}
+    .login form {padding:0 20px;}
+}
+
+nav, aside, main {position:absolute;}
+nav {height:50px;left:180px;right:0;background-color:#fafafa;box-shadow:0 1px 1px 0 #eee;}
+nav, nav h1, nav ul {display:flex;align-items:center;}
+nav {justify-content:space-between;}
+nav ul {font-size:1.1rem;margin-right:1rem;}
+nav ul li {padding:1rem 0.5rem;cursor:pointer;position:relative;}
+nav ul li.name {font-size:1.5rem;font-weight:bold;}
+nav ul li:before {font-size:1.2rem;}
+nav ul li:hover {background-color:#f1f1f1;}
+nav ul li .badge {position:absolute;top:5px;right:0;width:1rem;height:1rem;line-height:1rem;border-radius:50%;background-color:var(--danger);color:#fff;font-size:0.8rem;text-align:center;}
+
+aside {width:180px;top:0;bottom:0;color:#fff;}
+aside img {border-bottom:1px solid #3173bd;}
+aside article {font-size:1.1rem;}
+aside i {width:2rem;text-align:center;}
+aside summary {padding:0.5rem 0 0.5rem 1rem;cursor:pointer;}
+aside summary .right {float:right;padding-top:0.3rem;}
+aside details[open] .right {padding-top:0.1rem;}
+aside details[open] .right:before {content:'\f078';}
+aside ul {padding:0.3rem 0;background-color:#195aa4;}
+aside li {padding:0.3rem 0 0.3rem 1.5rem;border-left:3px solid transparent;cursor:pointer;}
+aside li:hover {border-left-color:#5FB878;-webkit-transition:all .3s;transition:all .3s;}
+
+main {top:50px;left:180px;right:0;bottom:0;background-color:#f1f1f1;}
+
+@media screen and (max-width:768px) {
+    nav, main {left:0;}
+    nav ul li.name {display:none;}
+    aside {display:none;}
+}
+/*Index*
 .kui-header {
     position:absolute;top:0;left:180px;right:0;height:50px;border-bottom:1px solid #ccc;
     background-color:#fafafa;box-shadow:0 1px 1px 0 #eee;
 }
 .kui-sider {
     position:absolute;top:0;left:0;bottom:0;width:180px;background-color:#1c66b9;
-    /*background:linear-gradient(#1c66b9, #1c66b9);*/color:#fff;overflow:hidden;
+    color:#fff;overflow:hidden;
 }
 .kui-scroll {position:absolute;top:51px;left:0;bottom:0;width:190px;overflow-x:hidden;}
 .kui-body {position:absolute;top:52px;left:180px;right:0;bottom:0;overflow:hidden;background-color:#f1f1f1;}
@@ -20,7 +88,6 @@
 .kui-error {position:absolute;top:40px;left:0;right:0;bottom:0;}
 .kui-sider .fa {width:16px;height:16px;margin-right:2px;text-align:center;}
 
-/*header*/
 .toggleMenu, .appName, .logo {height:50px;line-height:50px;}
 .toggleMenu {float:left;text-align:center;width:50px;cursor:pointer;}
 .appName {float:left;font-size:1.2rem;margin-left:10px;}
@@ -45,7 +112,6 @@
 .nav-child {display:none;top:50px;right:5px;-webkit-transition:all .3s;transition:all .3s;}
 .nav-child.show {display:block;}
 
-/*sider*/
 .side-user {text-align:center;padding-top:20px;}
 .side-user img {width:60px;height:60px;margin:0 auto;}
 .side-user .name {display:block;font-size:1rem;font-weight:bold;}
@@ -68,7 +134,6 @@
 }
 .nav-tree .nav-title.active,.nav-tree .nav-child dd.active {border-left-color:#5FB878;}
 
-/*body*/
 .kui-mod-tips {
     margin:10px;padding:0 10px;background-color:#fafafa;border-left:3px solid #1c66b9;
     height:40px;line-height:40px;
@@ -89,7 +154,6 @@
 .kui-tabs .tab li .close:hover {color:#d9534f;}
 .kui-tabs .tab-body.top {top:47px;}
 
-/*mini side*/
 .kui-mini .kui-sider {width:50px !important;}
 .kui-mini .kui-scroll {width:60px !important;}
 .kui-mini .kui-header,
@@ -109,7 +173,6 @@
     .kui-side .nav-tree span {display:none;}
 }
 
-/*view*/
 .left-view {position:absolute;left:10px;top:0;bottom:10px;overflow:auto;width:220px;}
 .kui-content .grid-view, .kui-content1 .grid-view, .tab-body .grid-view, .dlg-content .grid-view,
 .kui-content .form-page, .kui-content1 .form-page, .tab-body .form-page,
@@ -122,7 +185,6 @@
 .left-tree .grid {top:40px;}
 .grid-view.left-tree, .tab-body .grid-view.left-tree {left:240px;}
 
-/*form*/
 label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}
 button, input, select, .form-input .text, .form-input .unit,
 .form-label, .form-text, .form-radio, .form-tips {height:30px;line-height:30px;}
@@ -130,15 +192,12 @@ button, input, select, .form-input .text, .form-input .unit,
 .inline .form-item, .inline .form-label, .inline .form-text, .inline .form-input, .inline .form-tips {display:inline-block;}
 .dlg-content table .grid-view {top:0;left:0;right:0;bottom:0;border:0;}
 
-/*SysInstall*/
-.install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}
-.install .title {margin:50px 0 20px 0;font-size:2rem;font-weight:bold;text-align:center;}
+
 .si-button {padding:0 35px;height:40px;line-height:40px;}
 .si-form {width:450px;margin:0 auto;}
 .si-form .form-label {width:120px;text-align:right;}
 .si-form .form-input {width:250px;display:inline-block;}
 
-/*SysSystem*/
 .ss-system {padding:10px 60px;}
 .ss-terms .text {position:absolute;top:0;left:185px;}
 .ss-pass, .ss-fail {font-weight:bold;}
@@ -167,12 +226,11 @@ button, input, select, .form-input .text, .form-input .unit,
 .ss-form .userMessage .form-button {padding:10px;text-align:center;}
 .ss-form .userMessage .noread {font-weight:bold;color:#000;}
 
-/*SysDic*/
 .form th.dic-extend {text-align:left;line-height:30px;}
 
-/*SysRole*/
 .role-module {position:absolute;left:41%;top:0;right:180px;bottom:0;overflow:auto;padding:10px;background-color:#f1f1f1;}
 .role-button, .role-column {position:absolute;top:0;bottom:0;overflow:auto;padding:10px;background-color:#f3f3f3;width:160px;}
 .role-button .form-radio, .role-column .form-radio {display:block;}
 .role-button {right:161px;}
 .role-column {right:1px;}
+*/

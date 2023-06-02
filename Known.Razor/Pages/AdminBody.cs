@@ -15,7 +15,7 @@ public class AdminBody : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("kui-body", attr =>
+        builder.Main(attr =>
         {
             if (MultiTab)
             {

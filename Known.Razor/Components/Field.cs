@@ -17,7 +17,8 @@ public abstract class Field : BaseComponent
     [Parameter] public int ColSpan { get; set; }
     [Parameter] public int? Width { get; set; }
     [Parameter] public int? Height { get; set; }
-    
+
+    [Parameter] public Action<RenderTreeBuilder> Child { get; set; }
     [Parameter] public Action<string> ValueChanged { get; set; }
     [Parameter] public Action<FieldContext> OnValueChanged { get; set; }
     [Parameter] public Action<string> OnSave { get; set; }
@@ -102,26 +103,19 @@ public abstract class Field : BaseComponent
         if (!Visible)
             return;
 
-        if (KRConfig.IsPico)
+        builder.Label(attr =>
         {
-            BuildInput(builder);
-            return;
-        }
+            attr.For(Id).Class(error);
+            if (!string.IsNullOrWhiteSpace(Label))
+                builder.Text(Label);
 
-        if (FieldContext != null && FieldContext.IsTableForm)
-        {
-            if (IsInput)
-                BuildFormInput(builder);
+            if (ReadOnly)
+                builder.Span(Value);
             else
-                BuildTableField(builder);
-        }
-        else
-        {
-            if (string.IsNullOrWhiteSpace(Label))
-                BuildFormInput(builder);
-            else
-                BuildDivField(builder);
-        }
+                BuildInput(builder);
+
+            Child?.Invoke(builder);
+        });
     }
 
     protected virtual string FormatValue(object value) => value?.ToString();

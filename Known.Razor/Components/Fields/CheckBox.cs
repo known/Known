@@ -7,21 +7,17 @@ public class CheckBox : Field
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
-        builder.Label(attr =>
+        builder.Input(attr =>
         {
-            attr.For(Id);
-            builder.Input(attr =>
-            {
-                attr.Type("checkbox").Id(Id).Name(Id).Role("switch")
-                    .Disabled(!Enabled).Required(Required).Checked(IsChecked)
-                    .OnChange(EventCallback.Factory.CreateBinder<bool>(this, isCheck =>
-                    {
-                        Value = isCheck ? "True" : "False";
-                        OnValueChange();
-                    }, IsChecked));
-            });
-            builder.Text(Text);
+            attr.Type("checkbox").Id(Id).Name(Id).Role("switch")
+                .Disabled(!Enabled).Required(Required).Checked(IsChecked)
+                .OnChange(EventCallback.Factory.CreateBinder<bool>(this, isCheck =>
+                {
+                    Value = isCheck ? "True" : "False";
+                    OnValueChange();
+                }, IsChecked));
         });
+        builder.Text(Text);
     }
 
     protected override void BuildChildText(RenderTreeBuilder builder) => BuildRadio(builder, "checkbox", Text, "True", false, IsChecked);

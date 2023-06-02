@@ -3,7 +3,6 @@
 class AdminSider : BaseComponent
 {
     private MenuItem curPage;
-    private string IsShow(MenuItem menu) => CurMenu?.Id == menu.Id ? "show" : "";
     private string IsActive(MenuItem menu) => curPage?.Id == menu.Id ? "active" : "";
 
     [Parameter] public MenuItem CurMenu { get; set; }
@@ -11,10 +10,10 @@ class AdminSider : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("kui-sider", attr =>
+        builder.Aside(attr =>
         {
-            builder.Div("logo", attr => builder.Img(attr => attr.Src("img/logo.png")));
-            builder.Div("kui-scroll", attr => BuildNavTree(builder));
+            builder.Img(attr => attr.Src("img/logo.png"));
+            BuildNavTree(builder);
         });
     }
 
@@ -23,43 +22,42 @@ class AdminSider : BaseComponent
         if (Menus == null || Menus.Count == 0)
             return;
 
-        builder.Ul("nav-tree", attr =>
+        builder.Article(attr =>
         {
             foreach (var item in Menus)
             {
-                builder.Li("nav-item", attr =>
+                builder.Details(attr =>
                 {
-                    BuildNavTreeTitle(builder, item);
-                    BuildNavTreeChild(builder, item);
+                    BuildNavTitle(builder, item);
+                    BuildNavChild(builder, item);
                 });
             }
         });
     }
 
-    private void BuildNavTreeTitle(RenderTreeBuilder builder, MenuItem item)
+    private void BuildNavTitle(RenderTreeBuilder builder, MenuItem item)
     {
-        builder.Div("nav-title", attr =>
+        builder.Summary(attr =>
         {
             attr.OnClick(Callback(() => OnNavTitleClick(item)));
             builder.Icon(item.Icon, attr => attr.Title(item.Name));
             builder.Span(item.Name);
             if (item.Children.Any())
-                builder.Span("fa fa-chevron-down", "");
+                builder.Icon("right fa fa-chevron-right");
         });
     }
 
-    private void BuildNavTreeChild(RenderTreeBuilder builder, MenuItem item)
+    private void BuildNavChild(RenderTreeBuilder builder, MenuItem item)
     {
         if (!item.Children.Any())
             return;
 
-        var isShow = IsShow(item);
-        builder.Dl($"nav-child {isShow}", attr =>
+        builder.Ul(attr =>
         {
             foreach (var sub in item.Children)
             {
                 var active = IsActive(sub);
-                builder.Dd(active, attr =>
+                builder.Li(active, attr =>
                 {
                     attr.OnClick(Callback(() => OnNavItemClick(sub)));
                     builder.Icon(sub.Icon, attr => attr.Title(sub.Name));

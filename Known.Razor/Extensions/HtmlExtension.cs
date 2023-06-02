@@ -2,20 +2,27 @@
 
 public static class HtmlExtension
 {
-    public static RenderTreeBuilder Form(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null)
+    public static RenderTreeBuilder H1(this RenderTreeBuilder builder, string text) => builder.Element("h1", attr => builder.Text(text));
+    public static RenderTreeBuilder H2(this RenderTreeBuilder builder, string text) => builder.Element("h2", attr => builder.Text(text));
+    public static RenderTreeBuilder H3(this RenderTreeBuilder builder, string text) => builder.Element("h3", attr => builder.Text(text));
+    public static RenderTreeBuilder H4(this RenderTreeBuilder builder, string text) => builder.Element("h4", attr => builder.Text(text));
+    public static RenderTreeBuilder H5(this RenderTreeBuilder builder, string text) => builder.Element("h5", attr => builder.Text(text));
+    public static RenderTreeBuilder H6(this RenderTreeBuilder builder, string text) => builder.Element("h6", attr => builder.Text(text));
+    public static RenderTreeBuilder Small(this RenderTreeBuilder builder, string text) => builder.Element("small", attr => builder.Text(text));
+    public static RenderTreeBuilder Sup(this RenderTreeBuilder builder, string text) => builder.Element("sup", attr => builder.Text(text));
+    public static RenderTreeBuilder Header(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("header", attr => child?.Invoke(attr));
+    public static RenderTreeBuilder Aside(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("aside", attr => child?.Invoke(attr));
+    public static RenderTreeBuilder Main(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("main", attr => child?.Invoke(attr));
+    public static RenderTreeBuilder Nav(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("nav", attr => child?.Invoke(attr));
+    public static RenderTreeBuilder Article(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("article", attr => child?.Invoke(attr));
+    public static RenderTreeBuilder Details(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("details", attr => child?.Invoke(attr));
+    public static RenderTreeBuilder Summary(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("summary", attr => child?.Invoke(attr));
+
+    public static RenderTreeBuilder Form(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
     {
         return builder.Element("form", attr =>
         {
-            attr.Add("onsubmit", "return false;");
-            child?.Invoke(attr);
-        });
-    }
-
-    public static RenderTreeBuilder Article(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
-    {
-        return builder.Element("article", attr =>
-        {
-            attr.Class(className);
+            attr.Class(className).Add("onsubmit", "return false;");
             child?.Invoke(attr);
         });
     }
@@ -269,7 +276,7 @@ public static class HtmlExtension
     {
         return builder.Icon(attr =>
         {
-            attr.Class($"icon {icon}");
+            attr.Class(icon);
             child?.Invoke(attr);
         });
     }

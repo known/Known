@@ -8,18 +8,12 @@ public class Text : Field
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
-        builder.Label(attr =>
+        BuildIcon(builder, Icon);
+        builder.Input(attr =>
         {
-            attr.For(Id);
-            if (!string.IsNullOrWhiteSpace(Label))
-                builder.Text(Label);
-            BuildIcon(builder, Icon);
-            builder.Input(attr =>
-            {
-                attr.Type("text").Id(Id).Name(Id).Placeholder(Placeholder).Value(Value)
-                    .Disabled(!Enabled).Required(Required).Readonly(ReadOnly).OnChange(CreateBinder());
-                AddError(attr);
-            });
+            attr.Type("text").Id(Id).Name(Id).Placeholder(Placeholder).Value(Value)
+                .Disabled(!Enabled).Required(Required).Readonly(ReadOnly).OnChange(CreateBinder());
+            AddError(attr);
         });
     }
 
