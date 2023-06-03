@@ -13,7 +13,6 @@ public class Password : Field
         {
             attr.Type("password").Id(Id).Name(Id).Placeholder(Placeholder).Value(Value)
                 .Disabled(!Enabled).Required(Required).Readonly(ReadOnly).OnChange(CreateBinder());
-            AddError(attr);
         });
     }
 

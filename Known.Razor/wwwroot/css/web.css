@@ -3,20 +3,15 @@
 body {overflow:hidden;}
 
 @media screen and (max-width:768px) { /*1200,992,768,576*/
-    main {overflow:auto;}
+    body, main {overflow:auto;}
 }
 
 .install {width:500px;margin:100px auto;padding:50px;}
 .install h1 {text-align:center;margin-bottom:1rem;}
-.install label {height:2rem;line-height:2rem;}
-.install input, .install label span {position:absolute;top:0;right:0;width:70%;}
-.install button {margin-top:1rem;padding:0.5rem;}
 .install .fa-refresh {position:absolute;top:unset;bottom:0.4rem;right:0.2rem;width:auto;font-size:1.3rem;}
 
 @media screen and (max-width:768px) {
     .install {width:90%;margin:20px auto;padding:20px;}
-    .install label {height:auto;line-height:unset;}
-    .install input, .install label span {position:unset;top:unset;right:unset;width:100%;}
 }
 
 .login {width:800px;margin:150px auto;padding:50px;border-radius:0.5rem;}
@@ -77,14 +72,17 @@ main > .grid-view, .module .grid-view, .org .grid-view {
     aside {display:none;}
 }
 
+.module .box, .org .box {width:200px;}
+.module .grid-view, .org .grid-view {left:220px;top:60px;bottom:var(--margin);right:var(--margin);}
+
 .account .box, .module .box, .org .box {position:absolute;top:60px;bottom:var(--margin);left:var(--margin);right:var(--margin);}
 .account .box:first-child {text-align:center;width:190px;}
 .account .box:last-child {left:210px;}
 .account img {margin:2rem auto;}
 .account .name {font-size:1.2rem;font-weight:bold;}
-
-.module .box, .org .box {width:200px;}
-.module .grid-view, .org .grid-view {left:220px;top:60px;bottom:var(--margin);right:var(--margin);}
+.account form {padding:5rem 20rem;}
+.account label {font-weight:bold;}
+.account label span {font-weight:normal;}
 
 @media screen and (max-width:768px) {
     .account img, .account .name {display:none;}

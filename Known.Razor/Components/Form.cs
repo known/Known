@@ -16,6 +16,7 @@ public class Form : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     internal FormContext FormContext { get; }
+    protected bool IsInline { get; set; }
     protected bool IsTable { get; set; }
     protected string ButtonStyle { get; set; }
     protected string CheckFields { get; set; }
@@ -64,7 +65,8 @@ public class Form : BaseComponent
 
     protected virtual void BuildForm(RenderTreeBuilder builder)
     {
-        builder.Form(Style, attr =>
+        var css = CssBuilder.Default("").AddClass("inline", IsInline).AddClass(Style).Build();
+        builder.Form(css, attr =>
         {
             builder.Component<CascadingValue<FormContext>>(attr =>
             {
@@ -76,11 +78,6 @@ public class Form : BaseComponent
                     attr.Set(c => c.ChildContent, BuildTree(BuildFields));
             });
         });
-        //if (ChildContent == null)
-        //{
-        //    var css = CssBuilder.Default("form-button").AddClass(ButtonStyle).Build();
-        //    builder.Div(css, attr => BuildButtons(builder));
-        //}
     }
 
     protected virtual Task InitPageAsync() => Task.CompletedTask;
@@ -247,13 +244,6 @@ public class Form : BaseComponent
 
 public class BaseForm<T> : Form
 {
-    public BaseForm()
-    {
-        IsTable = true;
-        Style = "inline";
-        ButtonStyle = "inline";
-    }
-
     protected T TModel => (T)Model;
 
     protected Field Field(Expression<Func<T, object>> selector)

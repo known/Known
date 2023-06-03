@@ -11,23 +11,17 @@ class SysSettingForm : BaseForm<SettingInfo>
 
     protected override void OnInitialized()
     {
+        IsInline = true;
         Model = Setting.Info;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        BuildForm(builder);
-    }
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => BuildForm(builder);
 
     protected override void BuildFields(FieldBuilder<SettingInfo> builder)
     {
         builder.Field<Select>("系统主题", nameof(SettingInfo.Theme)).ReadOnly(!isEdit).Set(f => f.Items, themes).Build();
         builder.Field<CheckBox>("标签页", nameof(SettingInfo.MultiTab)).ReadOnly(!isEdit).Build();
         builder.Field<Select>("表格每页显示数量", nameof(SettingInfo.PageSize)).ReadOnly(!isEdit).Set(f => f.Codes, sizes).Build();
-    }
-
-    protected override void BuildButtons(RenderTreeBuilder builder)
-    {
         if (!isEdit)
         {
             builder.Button(FormButton.Edit, Callback(e => isEdit = true));

@@ -29,6 +29,26 @@ public class CheckList : Field
         context.FieldItems = GetListItems();
     }
 
+    protected override void BuildInput(RenderTreeBuilder builder)
+    {
+        if (ReadOnly)
+            Enabled = false;
+
+        values.Clear();
+        if (ListItems == null || ListItems.Length == 0)
+            return;
+
+        foreach (var item in ListItems)
+        {
+            values[item.Code] = CheckChecked(item.Code);
+            BuildRadio(builder, "checkbox", item.Name, item.Code, Enabled, values[item.Code], (isCheck, value) =>
+            {
+                values[value] = isCheck;
+                Value = string.Join(",", values.Where(v => v.Value).Select(k => k.Key));
+            }, ColumnCount);
+        }
+    }
+
     protected override void BuildChildText(RenderTreeBuilder builder)
     {
         Enabled = false;

@@ -30,6 +30,36 @@ public class ListBox : Field
         context.FieldItems = GetListItems();
     }
 
+    protected override void BuildInput(RenderTreeBuilder builder)
+    {
+        if (ReadOnly)
+        {
+            builder.Span(Value);
+            return;
+        }
+
+        var css = CssBuilder.Default("list-box").AddClass("disabled", !Enabled).Build();
+        builder.Ul(css, attr =>
+        {
+            if (ListItems != null && ListItems.Length > 0)
+            {
+                foreach (var item in ListItems)
+                {
+                    item.IsActive = curItem == item.Code;
+                    var active = item.IsActive ? " active" : "";
+                    builder.Li($"item{active}", attr =>
+                    {
+                        if (Enabled)
+                        {
+                            attr.OnClick(Callback(e => OnClick(item)));
+                        }
+                        BuildItem(builder, item);
+                    });
+                }
+            }
+        });
+    }
+
     protected override void BuildChildContent(RenderTreeBuilder builder)
     {
         var css = CssBuilder.Default("list-box").AddClass("disabled", !Enabled).Build();

@@ -24,12 +24,20 @@ public class Date : Field
             attr.For(Id);
             if (!string.IsNullOrWhiteSpace(Label))
                 builder.Text(Label);
-            builder.Input(attr =>
+            if (DateType == DateType.DateTime)
             {
-                attr.Type(Type).Id(Id).Name(Id).Placeholder(Placeholder).Value(Value)
-                    .Disabled(!Enabled).Required(Required).Readonly(ReadOnly).OnChange(CreateBinder());
-                AddError(attr);
-            });
+                var value = DateValue?.ToString("yyyy-MM-ddTHH:mm");
+                BuidDate(builder, Id, value, v => DateValue = v, "datetime-local");
+            }
+            else if (DateType == DateType.Month)
+            {
+                var value = DateValue?.ToString("yyyy-MM");
+                BuidDate(builder, Id, value, v => DateValue = v, "month");
+            }
+            else
+            {
+                BuidDate(builder, Id, DateValue?.ToString(Format), v => DateValue = v);
+            }
         });
     }
 

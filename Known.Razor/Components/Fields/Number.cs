@@ -10,6 +10,12 @@ public class Number : Field
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
+        if (ReadOnly)
+        {
+            builder.Span(Value);
+            return;
+        }
+
         builder.Label(attr =>
         {
             attr.For(Id);
@@ -19,7 +25,6 @@ public class Number : Field
             {
                 attr.Type(Type).Id(Id).Name(Id).Placeholder(Placeholder).Value(Value)
                     .Disabled(!Enabled).Required(Required).Readonly(ReadOnly).OnChange(CreateBinder());
-                AddError(attr);
             });
         });
     }

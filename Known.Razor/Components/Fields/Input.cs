@@ -42,7 +42,6 @@ public class Input : Field
             {
                 attr.Type(Type).Id(Id).Name(Id).Placeholder(Placeholder).Value(Value)
                     .Disabled(!Enabled).Required(Required).Readonly(ReadOnly).OnChange(CreateBinder());
-                AddError(attr);
             });
         });
     }

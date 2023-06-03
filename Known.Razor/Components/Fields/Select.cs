@@ -32,6 +32,19 @@ public class Select : Field
         context.FieldItems = GetListItems();
     }
 
+    protected override void BuildInput(RenderTreeBuilder builder)
+    {
+        if (ReadOnly)
+        {
+            builder.Span(Value);
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(Icon))
+            builder.Icon(Icon);
+        BuildSelect(builder);
+    }
+
     protected override void BuildChildText(RenderTreeBuilder builder)
     {
         var value = Value;

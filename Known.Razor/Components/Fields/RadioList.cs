@@ -21,6 +21,23 @@ public class RadioList : Field
         ListItems = GetListItems();
     }
 
+    protected override void BuildInput(RenderTreeBuilder builder)
+    {
+        if (ReadOnly)
+        {
+            builder.Span(Value);
+            return;
+        }
+
+        if (ListItems == null || ListItems.Length == 0)
+            return;
+
+        foreach (var item in ListItems)
+        {
+            BuildRadio(builder, "radio", item.Name, item.Code, Enabled, Value == item.Code, columnCount: ColumnCount);
+        }
+    }
+
     protected override void BuildChildContent(RenderTreeBuilder builder)
     {
         if (ListItems == null || ListItems.Length == 0)

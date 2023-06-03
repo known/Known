@@ -109,11 +109,7 @@ public abstract class Field : BaseComponent
             if (!string.IsNullOrWhiteSpace(Label))
                 builder.Text(Label);
 
-            if (ReadOnly)
-                builder.Span(Value);
-            else
-                BuildInput(builder);
-
+            BuildInput(builder);
             Child?.Invoke(builder);
         });
     }
@@ -133,7 +129,7 @@ public abstract class Field : BaseComponent
 
     protected void BuildRadio(RenderTreeBuilder builder, string type, string text, string value, bool enabled, bool isChecked, Action<bool, string> action = null, int? columnCount = null)
     {
-        builder.Label("form-radio", attr =>
+        builder.Label("radio", attr =>
         {
             if (columnCount != null && columnCount > 0)
             {
@@ -157,7 +153,7 @@ public abstract class Field : BaseComponent
                     attr.OnChange(CreateBinder());
                 }
             });
-            builder.Span(text);
+            builder.Text(text);
         });
     }
 

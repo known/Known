@@ -26,6 +26,31 @@ public class DateRange : Field
         SetValue(End, 1);
     }
 
+    protected override void BuildInput(RenderTreeBuilder builder)
+    {
+        if (ReadOnly)
+        {
+            builder.Span(Value);
+            return;
+        }
+
+        var start = Start?.ToString(format);
+        var end = End?.ToString(format);
+
+        BuidDate(builder, startId, start, v =>
+        {
+            SetValue(v, 0);
+            Start = v;
+        });
+        if (!string.IsNullOrWhiteSpace(Split))
+            builder.Span(attr => builder.Text(Split));
+        BuidDate(builder, endId, end, v =>
+        {
+            SetValue(v, 1);
+            End = v;
+        });
+    }
+
     protected override void BuildChildContent(RenderTreeBuilder builder)
     {
         var start = Start?.ToString(format);

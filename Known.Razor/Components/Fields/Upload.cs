@@ -34,6 +34,30 @@ public class Upload : Field
         return true;
     }
 
+    protected override void BuildInput(RenderTreeBuilder builder)
+    {
+        if (ReadOnly)
+        {
+            BuildFileContent(builder);
+            return;
+        }
+
+        if (Context.IsMobile && Accept == Constants.MimeImage)
+        {
+            builder.Div("file-item add", attr =>
+            {
+                builder.Icon(attr => attr.Class("fa fa-camera"));
+                BuildInputFile(builder);
+            });
+        }
+        else
+        {
+            BuildInputFile(builder);
+        }
+        BuildMultiFileName(builder);
+        BuildFileContent(builder);
+    }
+
     protected override void BuildChildText(RenderTreeBuilder builder) => BuildFileContent(builder);
 
     protected override void BuildChildContent(RenderTreeBuilder builder)

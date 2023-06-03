@@ -2,15 +2,12 @@
 
 public class Install : Form
 {
-    public Install()
-    {
-        Style = "box install";
-    }
-
     [Parameter] public Action<CheckInfo> OnInstall { get; set; }
 
     protected override void OnInitialized()
     {
+        Style = "box install";
+        IsInline = true;
         Model = Context.Check.Install;
     }
 

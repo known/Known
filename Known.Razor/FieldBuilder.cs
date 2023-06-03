@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Known.Razor;
+﻿namespace Known.Razor;
 
 public class FieldBuilder<T>
 {
@@ -11,6 +9,7 @@ public class FieldBuilder<T>
 
     public RenderTreeBuilder Builder { get; }
 
+    public void Button(ButtonInfo button, EventCallback onClick, bool visible = true, string style = null) => Builder.Button(button, onClick, visible, style);
     public void Hidden(Expression<Func<T, object>> selector) => Field<Hidden>(selector).Build();
 
     public FieldAttrBuilder<TField> Field<TField>(string label, string id, bool required = false) where TField : Field
