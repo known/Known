@@ -2,13 +2,6 @@
 
 class SysUserPwdForm : BaseForm<PwdFormInfo>
 {
-    public SysUserPwdForm()
-    {
-        IsTable = false;
-        Style = "";
-        ButtonStyle = "";
-    }
-
     protected override void OnInitialized()
     {
         Model = CurrentUser;
@@ -16,7 +9,7 @@ class SysUserPwdForm : BaseForm<PwdFormInfo>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("content box", attr => BuildForm(builder));
+        BuildForm(builder);
     }
 
     protected override void BuildFields(FieldBuilder<PwdFormInfo> builder)

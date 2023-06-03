@@ -9,7 +9,7 @@ public class Card : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        var css = CssBuilder.Default("card box").AddClass(Style).Build();
+        var css = CssBuilder.Default("card").AddClass(Style).Build();
         builder.Div(css, attr =>
         {
             BuildHead(builder);

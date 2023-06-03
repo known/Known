@@ -45,7 +45,7 @@ class Pager : BaseComponent
             builder.Text("条");
         });
 
-        builder.Ul("btns", attr =>
+        builder.Ul(attr =>
         {
             builder.Li(attr =>
             {

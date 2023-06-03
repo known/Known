@@ -9,13 +9,6 @@ class SysSettingForm : BaseForm<SettingInfo>
     };
     private readonly string sizes = string.Join(",", PagingCriteria.PageSizes);
 
-    public SysSettingForm()
-    {
-        IsTable = false;
-        Style = "";
-        ButtonStyle = "";
-    }
-
     protected override void OnInitialized()
     {
         Model = Setting.Info;
@@ -23,7 +16,7 @@ class SysSettingForm : BaseForm<SettingInfo>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("content box", attr => BuildForm(builder));
+        BuildForm(builder);
     }
 
     protected override void BuildFields(FieldBuilder<SettingInfo> builder)

@@ -18,6 +18,15 @@ public static class HtmlExtension
     public static RenderTreeBuilder Details(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("details", attr => child?.Invoke(attr));
     public static RenderTreeBuilder Summary(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("summary", attr => child?.Invoke(attr));
 
+    public static RenderTreeBuilder Blockquote(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
+    {
+        return builder.Element("blockquote", attr =>
+        {
+            attr.Class(className);
+            child?.Invoke(attr);
+        });
+    }
+
     public static RenderTreeBuilder Form(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
     {
         return builder.Element("form", attr =>
