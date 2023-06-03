@@ -8,25 +8,10 @@ public class TextArea : Field
     {
         if (ReadOnly)
         {
-            builder.Span(Value);
+            builder.Paragraph(attr => builder.Text(Value));
             return;
         }
 
-        builder.TextArea(attr =>
-        {
-            attr.Id(Id).Name(Id).Value(Value).Disabled(!Enabled)
-                .Placeholder(Placeholder)
-                .OnChange(CreateBinder());
-        });
-    }
-
-    protected override void BuildChildText(RenderTreeBuilder builder)
-    {
-        builder.Pre(Value);
-    }
-
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
         builder.TextArea(attr =>
         {
             attr.Id(Id).Name(Id).Value(Value).Disabled(!Enabled)

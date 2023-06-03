@@ -25,7 +25,7 @@ public class Install : Form
         builder.Field<Text>("产品密钥：", nameof(InstallInfo.ProductKey), true)
                .Set(c => c.Child, b =>
                {
-                   b.Span("fa fa-refresh", attr =>
+                   b.Icon("fa fa-refresh", attr =>
                    {
                        attr.Title("免费获取").OnClick(Callback(OnUpdateKey));
                    });

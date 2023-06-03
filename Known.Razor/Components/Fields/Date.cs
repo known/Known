@@ -19,30 +19,12 @@ public class Date : Field
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
-        builder.Label(attr =>
+        if (ReadOnly)
         {
-            attr.For(Id);
-            if (!string.IsNullOrWhiteSpace(Label))
-                builder.Text(Label);
-            if (DateType == DateType.DateTime)
-            {
-                var value = DateValue?.ToString("yyyy-MM-ddTHH:mm");
-                BuidDate(builder, Id, value, v => DateValue = v, "datetime-local");
-            }
-            else if (DateType == DateType.Month)
-            {
-                var value = DateValue?.ToString("yyyy-MM");
-                BuidDate(builder, Id, value, v => DateValue = v, "month");
-            }
-            else
-            {
-                BuidDate(builder, Id, DateValue?.ToString(Format), v => DateValue = v);
-            }
-        });
-    }
+            builder.Paragraph(attr => builder.Text(Value));
+            return;
+        }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
         if (DateType == DateType.DateTime)
         {
             var value = DateValue?.ToString("yyyy-MM-ddTHH:mm");

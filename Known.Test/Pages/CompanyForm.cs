@@ -6,7 +6,8 @@ class CompanyForm : BaseForm<CompanyInfo>
 
     public CompanyForm()
     {
-        Style = "form-page inline box";
+        IsInline = true;
+        Style = "company";
     }
 
     protected override async Task InitPageAsync()
@@ -17,23 +18,13 @@ class CompanyForm : BaseForm<CompanyInfo>
     protected override void BuildFields(FieldBuilder<CompanyInfo> builder)
     {
         builder.Hidden(f => f.Code);
-        builder.Table(table =>
-        {
-            table.ColGroup(15, 35, 15, 35);
-            table.Tr(attr =>
-            {
-                builder.Field<Text>(f => f.Name).ReadOnly(!isEdit).Build();
-                builder.Field<Text>(f => f.NameEn).ReadOnly(!isEdit).Build();
-            });
-            table.Tr(attr => builder.Field<Text>(f => f.Address).ColSpan(3).ReadOnly(!isEdit).Build());
-            table.Tr(attr => builder.Field<Text>(f => f.AddressEn).ColSpan(3).ReadOnly(!isEdit).Build());
-            table.Tr(attr =>
-            {
-                builder.Field<Text>(f => f.Contact).ReadOnly(!isEdit).Build();
-                builder.Field<Text>(f => f.Phone).ReadOnly(!isEdit).Build();
-            });
-            table.Tr(attr => builder.Field<TextArea>(f => f.Note).ColSpan(3).ReadOnly(!isEdit).Build());
-        });
+        builder.Field<Text>(f => f.Name).ReadOnly(!isEdit).Build();
+        builder.Field<Text>(f => f.NameEn).ReadOnly(!isEdit).Build();
+        builder.Field<Text>(f => f.Address).ColSpan(3).ReadOnly(!isEdit).Build();
+        builder.Field<Text>(f => f.AddressEn).ColSpan(3).ReadOnly(!isEdit).Build();
+        builder.Field<Text>(f => f.Contact).ReadOnly(!isEdit).Build();
+        builder.Field<Text>(f => f.Phone).ReadOnly(!isEdit).Build();
+        builder.Field<TextArea>(f => f.Note).ColSpan(3).ReadOnly(!isEdit).Build();
         BuildButton(builder.Builder);
     }
 

@@ -25,28 +25,20 @@ public class RadioList : Field
     {
         if (ReadOnly)
         {
-            builder.Span(Value);
+            builder.Paragraph(attr => builder.Text(Value));
             return;
         }
 
         if (ListItems == null || ListItems.Length == 0)
             return;
 
-        foreach (var item in ListItems)
+        builder.Div(attr =>
         {
-            BuildRadio(builder, "radio", item.Name, item.Code, Enabled, Value == item.Code, columnCount: ColumnCount);
-        }
-    }
-
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
-        if (ListItems == null || ListItems.Length == 0)
-            return;
-
-        foreach (var item in ListItems)
-        {
-            BuildRadio(builder, "radio", item.Name, item.Code, Enabled, Value == item.Code, columnCount: ColumnCount);
-        }
+            foreach (var item in ListItems)
+            {
+                BuildRadio(builder, "radio", item.Name, item.Code, Enabled, Value == item.Code, columnCount: ColumnCount);
+            }
+        });
     }
 
     protected override void SetFieldContext(FieldContext context)

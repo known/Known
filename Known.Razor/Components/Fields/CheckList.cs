@@ -38,38 +38,18 @@ public class CheckList : Field
         if (ListItems == null || ListItems.Length == 0)
             return;
 
-        foreach (var item in ListItems)
+        builder.Div(attr =>
         {
-            values[item.Code] = CheckChecked(item.Code);
-            BuildRadio(builder, "checkbox", item.Name, item.Code, Enabled, values[item.Code], (isCheck, value) =>
+            foreach (var item in ListItems)
             {
-                values[value] = isCheck;
-                Value = string.Join(",", values.Where(v => v.Value).Select(k => k.Key));
-            }, ColumnCount);
-        }
-    }
-
-    protected override void BuildChildText(RenderTreeBuilder builder)
-    {
-        Enabled = false;
-        BuildChildContent(builder);
-    }
-
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
-        values.Clear();
-        if (ListItems == null || ListItems.Length == 0)
-            return;
-
-        foreach (var item in ListItems)
-        {
-            values[item.Code] = CheckChecked(item.Code);
-            BuildRadio(builder, "checkbox", item.Name, item.Code, Enabled, values[item.Code], (isCheck, value) =>
-            {
-                values[value] = isCheck;
-                Value = string.Join(",", values.Where(v => v.Value).Select(k => k.Key));
-            }, ColumnCount);
-        }
+                values[item.Code] = CheckChecked(item.Code);
+                BuildRadio(builder, "checkbox", item.Name, item.Code, Enabled, values[item.Code], (isCheck, value) =>
+                {
+                    values[value] = isCheck;
+                    Value = string.Join(",", values.Where(v => v.Value).Select(k => k.Key));
+                }, ColumnCount);
+            }
+        });
     }
 
     private bool CheckChecked(string item)

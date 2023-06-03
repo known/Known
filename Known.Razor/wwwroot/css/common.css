@@ -18,7 +18,7 @@
 .box, .card, blockquote {
     background-color:#fff;border:1px solid #ccc;border-radius:0.15rem;box-shadow:0 0 2px rgba(0, 0, 0, 0.2);
 }
-.error input {border-bottom-color:var(--danger);}
+.error input, .error select, .error textarea {border-bottom-color:var(--danger);}
 .grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));grid-column-gap:var(--margin);}
 @media screen and (max-width:768px) { /*1200,992,768,576*/
     .grid {grid-template-columns:1fr;}
@@ -45,10 +45,8 @@ h5 {font-size:1.2rem;}
 h6 {font-size:1rem;}
 table {border-collapse:collapse;width:100%;}
 blockquote {padding:0.5rem 1rem;background-color:#fafafa;border-left:3px solid #1c66b9;}
-button, input, select, textarea {
-    background-color:#fff;border:1px solid #ccc;border-radius:0.15rem;padding:0.3rem;width:100%;
-}
-button {cursor:pointer;}
+button, input, select, textarea {background-color:#fff;border:1px solid #ccc;border-radius:0.15rem;padding:0.3rem;width:100%;}
+button {cursor:pointer;padding-left:0.5rem;padding-right:0.5rem;}
 button:hover {opacity:0.8;}
 button.info {color:#fff;background-color:var(--info);}
 button.primary {color:#fff;background-color:var(--primary);}
@@ -57,22 +55,27 @@ button.warning {color:#fff;background-color:var(--warning);}
 button.danger {color:#fff;background-color:var(--danger);}
 button.pink {color:#fff;background-color:var(--pink);}
 button.orange {color:#fff;background-color:var(--orange);}
+input:disabled {background-color:#f5f5f5;}
 input:focus, select:focus, textarea:focus {border-bottom-color:var(--info);}
 input[type="checkbox"], input[type="radio"] {
     width:1.4rem;height:1.4rem;vertical-align:middle;margin-top:-0.125rem;margin-right:0.375rem;
 }
+input[type="file"] {padding:0.125rem;}
 
-form label {display:block;position:relative;margin-bottom:0.5rem;}
-form label span {display:block;}
+form label {display:block;position:relative;margin-bottom:0.5rem;font-weight:bold;}
+form label p, form label label {display:block;font-weight:normal;}
+form label span {font-weight:normal;}
 form label .radio {display:inline-block;}
+form label i {position:absolute;top:unset;right:0;font-size:1.3rem;padding:0.5rem;}
 
 .inline label {height:2rem;line-height:2rem;}
-.inline input, .inline label span {position:absolute;top:0;right:0;width:70%;}
-.inline button {margin-top:1rem;padding:0.5rem;}
+.inline input, .inline select, .inline textarea, .inline label p {position:absolute;top:0;right:0;width:70%;}
+.inline input[type="checkbox"] {width:1.4rem;right:unset;left:30%;top:0.5rem;}
+.inline button {margin-top:1rem;padding:0.5rem;width:auto;margin:0 0.2rem;}
 
 @media screen and (max-width:768px) {
     .inline label {height:auto;line-height:unset;}
-    .inline input, .inline label span {position:unset;top:unset;right:unset;width:100%;}
+    .inline input, .inline select, .inline textarea, .inline label p {position:unset;top:unset;right:unset;width:100%;}
 }
 
 .tab.left, .tab li {padding:0.5rem 0;}
@@ -83,11 +86,13 @@ form label .radio {display:inline-block;}
 
 .grid-view, .table, .pager {position:absolute;left:0;right:0;overflow:hidden;background-color:#fff;}
 .grid-view {top:0;bottom:0;}
-.grid-view button, .grid-view input {display:inline-block;}
-.grid-view button, .grid-view input[type="text"] {width:auto;}
+.grid-view button {width:auto;}
 
 .toolbar {display:flex;align-items:center;justify-content:space-between;}
 .toolbar, .table th, .table td {padding:0.3rem 0.5rem;}
+.tool button, .query label {margin-right:0.2rem;}
+.query > label > div {display:inline-block;}
+.query input, .query select {width:130px;margin-left:0.2rem;}
 
 .table {top:2.5rem;bottom:40px;overflow:auto;border-top:2px solid #ccc;}
 .table th, .table td {border-bottom:1px solid #ccc;white-space:nowrap;text-align:left;}
@@ -106,7 +111,8 @@ form label .radio {display:inline-block;}
 .table .action .link .icon {width:10px;margin-left:2px;margin-right:0;}
 
 .table th, .table th.fixed, .table th.action {background-color:#f1f1f1;}
-.table td.fixed, .table tr.even, .table tr.even td.fixed, .table tr.even td.action {background-color:#fff;}
+.table tr, .table tr td.fixed, .table tr td.action {background-color:#fff;}
+.table tr.even, .table tr.even td.fixed, .table tr.even td.action {background-color:#fff;}
 .table tr:hover, .table tr:hover td.fixed, .table tr:hover td.action {background-color:#fcfcfc;}
 .table tr.active, .table tr.active td.fixed, .table tr.active td.action {background-color:#f8eaba;}
 .table tr.selected, .table tr.selected td.fixed, .table tr.selected td.action {background-color:#f0eebb;}

@@ -34,34 +34,10 @@ public class ListBox : Field
     {
         if (ReadOnly)
         {
-            builder.Span(Value);
+            builder.Paragraph(attr => builder.Text(Value));
             return;
         }
 
-        var css = CssBuilder.Default("list-box").AddClass("disabled", !Enabled).Build();
-        builder.Ul(css, attr =>
-        {
-            if (ListItems != null && ListItems.Length > 0)
-            {
-                foreach (var item in ListItems)
-                {
-                    item.IsActive = curItem == item.Code;
-                    var active = item.IsActive ? " active" : "";
-                    builder.Li($"item{active}", attr =>
-                    {
-                        if (Enabled)
-                        {
-                            attr.OnClick(Callback(e => OnClick(item)));
-                        }
-                        BuildItem(builder, item);
-                    });
-                }
-            }
-        });
-    }
-
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
         var css = CssBuilder.Default("list-box").AddClass("disabled", !Enabled).Build();
         builder.Ul(css, attr =>
         {

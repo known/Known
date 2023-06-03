@@ -15,7 +15,6 @@ public abstract class Field : BaseComponent
 
     [Parameter] public int RowSpan { get; set; }
     [Parameter] public int ColSpan { get; set; }
-    [Parameter] public int? Width { get; set; }
     [Parameter] public int? Height { get; set; }
 
     [Parameter] public Action<RenderTreeBuilder> Child { get; set; }
@@ -24,8 +23,6 @@ public abstract class Field : BaseComponent
     [Parameter] public Action<string> OnSave { get; set; }
 
     [CascadingParameter] protected FieldContext FieldContext { get; set; }
-
-    protected bool IsReadOnly => ReadOnly || FieldContext != null && FieldContext.ReadOnly;
 
     protected void SetError(bool isError) => error = isError ? "error" : "";
 
@@ -116,18 +113,10 @@ public abstract class Field : BaseComponent
 
     protected virtual string FormatValue(object value) => value?.ToString();
     protected virtual void BuildInput(RenderTreeBuilder builder) { }
-    protected virtual void BuildChildText(RenderTreeBuilder builder) => builder.Span("text", Value);
-    protected virtual void BuildChildContent(RenderTreeBuilder builder) { }
     protected virtual void SetInputValue(object value) => Value = FormatValue(value);
     protected virtual void SetFieldContext(FieldContext context) { }
 
-    protected void AddError(AttributeBuilder attr)
-    {
-        if (!string.IsNullOrWhiteSpace(error))
-            attr.Add("aria-invalid", "true");
-    }
-
-    protected void BuildRadio(RenderTreeBuilder builder, string type, string text, string value, bool enabled, bool isChecked, Action<bool, string> action = null, int? columnCount = null)
+    internal void BuildRadio(RenderTreeBuilder builder, string type, string text, string value, bool enabled, bool isChecked, Action<bool, string> action = null, int? columnCount = null)
     {
         builder.Label("radio", attr =>
         {
@@ -157,7 +146,7 @@ public abstract class Field : BaseComponent
         });
     }
 
-    protected EventCallback<ChangeEventArgs> CreateBinder(Action<DateTime?> action = null)
+    internal EventCallback<ChangeEventArgs> CreateBinder(Action<DateTime?> action = null)
     {
         return EventCallback.Factory.CreateBinder(this, value =>
         {
@@ -185,126 +174,5 @@ public abstract class Field : BaseComponent
             SetFieldContext(FieldContext);
             OnValueChanged?.Invoke(FieldContext);
         }
-    }
-
-    private void BuildTableField(RenderTreeBuilder builder)
-    {
-        if (!string.IsNullOrWhiteSpace(Label))
-        {
-            var required = Required && !IsReadOnly ? "required" : "";
-            builder.Th(required, attr =>
-            {
-                if (RowSpan > 1)
-                    attr.RowSpan(RowSpan);
-                builder.Label(attr =>
-                {
-                    attr.For(Id);
-                    builder.Text(Label);
-                });
-            });
-        }
-        builder.Td(Style, attr =>
-        {
-            if (RowSpan > 1)
-                attr.RowSpan(RowSpan);
-            if (ColSpan > 1)
-                attr.ColSpan(ColSpan);
-            BuildFormInput(builder);
-        });
-    }
-
-    private void BuildDivField(RenderTreeBuilder builder)
-    {
-        var css = CssBuilder.Default("form-item").AddClass(Style).Build();
-        builder.Div(css, attr =>
-        {
-            var css1 = CssBuilder.Default("form-label").AddClass("required", Required && !IsReadOnly).Build();
-            builder.Label(css1, attr =>
-            {
-                attr.For(Id);
-                builder.Text(Label);
-            });
-            BuildFormInput(builder);
-        });
-    }
-
-    private bool isEdit = false;
-    private void BuildFormInput(RenderTreeBuilder builder)
-    {
-        var isCheck = false;
-        if (FieldContext != null)
-        {
-            var checkFields = FieldContext.CheckFields;
-            isCheck = !string.IsNullOrWhiteSpace(checkFields) && checkFields.Contains(Id);
-        }
-
-        var sb = new StyleBuilder();
-        var style = sb.Width(Width).Height(Height).Build();
-        var className = CssBuilder.Default("form-input")
-                                  .AddClass(error)
-                                  .AddClass("readonly", IsReadOnly)
-                                  .AddClass("check", isCheck)
-                                  .Build();
-        builder.Div(className, attr =>
-        {
-            attr.Style(style);
-            if (IsReadOnly && !isEdit)
-            {
-                BuildChildText(builder);
-                if (IsEdit)
-                    BuildEditButton(builder);
-            }
-            else
-            {
-                BuildChildContent(builder);
-            }
-
-            if (isCheck)
-                BuildCheck(builder);
-        });
-
-        if (isEdit)
-            BuildEditAction(builder);
-
-        if (!string.IsNullOrWhiteSpace(Tips))
-            builder.Span("form-tips", Tips);
-    }
-
-    private void BuildCheck(RenderTreeBuilder builder)
-    {
-        builder.Label("form-check", attr =>
-        {
-            builder.Input(attr =>
-            {
-                attr.Type("checkbox").Name($"Check{Id}");
-            });
-        });
-    }
-
-    private void BuildEditButton(RenderTreeBuilder builder)
-    {
-        builder.Span("link", attr =>
-        {
-            attr.OnClick(Callback(e => isEdit = true));
-            builder.Text("更改");
-        });
-    }
-
-    private void BuildEditAction(RenderTreeBuilder builder)
-    {
-        builder.Span("link", attr =>
-        {
-            attr.OnClick(Callback(e =>
-            {
-                OnSave?.Invoke(Value);
-                isEdit = false;
-            }));
-            builder.Text("保存");
-        });
-        builder.Span("link", attr =>
-        {
-            attr.OnClick(Callback(e => isEdit = false));
-            builder.Text("取消");
-        });
     }
 }

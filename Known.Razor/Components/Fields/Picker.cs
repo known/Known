@@ -17,40 +17,10 @@ public class Picker : Field
     {
         if (ReadOnly)
         {
-            builder.Span(Value);
+            builder.Paragraph(attr => builder.Text(Value));
             return;
         }
 
-        builder.Input(attr =>
-        {
-            attr.Type("text").Id(Id).Name(Id).Disabled(!CanEdit)
-                .Value(Value).Required(Required)
-                .Add("autocomplete", "off")
-                .OnChange(CreateBinder());
-        });
-
-        if (Enabled)
-        {
-            builder.Icon("fa fa-ellipsis-h", attr =>
-            {
-                attr.OnClick(Callback(e =>
-                {
-                    if (!isInitOK && Pick != null)
-                    {
-                        Pick.OnOK = value =>
-                        {
-                            SetValue(value);
-                            OnValueChange();
-                        };
-                    }
-                    UI.Show(Pick);
-                }));
-            });
-        }
-    }
-
-    protected override void BuildChildContent(RenderTreeBuilder builder)
-    {
         builder.Input(attr =>
         {
             attr.Type("text").Id(Id).Name(Id).Disabled(!CanEdit)

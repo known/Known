@@ -47,12 +47,15 @@
 .ws-func-menu i {display:block;font-size:2.2rem;margin:8px auto;}
 .ws-func-menu span {display:block;width:100%;height:25px;overflow:hidden;}
 
-.demo .box {position:absolute;top:60px;bottom:var(--margin);left:var(--margin);right:var(--margin);}
-.demo .box:first-child {text-align:center;width:190px;}
-.demo .box:last-child {left:210px;}
-.demo form {padding:1rem;}
+.company {padding:2rem 20rem 1rem 5rem;}
+@media screen and (max-width:768px) {
+    .company {padding:1rem;}
+}
+
+.demo .box {position:absolute;top:60px;bottom:var(--margin);left:var(--margin);right:var(--margin);overflow:auto;}
+.demo .box:first-child {text-align:center;width:150px;}
+.demo .box:last-child {left:170px;padding:1rem;}
 .demo form button {width:auto;margin-right:1rem;}
 .demo-caption {font-size:1.1rem;font-weight:bold;margin:10px 0;padding-left:5px;border-left:5px solid #1c66b9;}
 .demo-box {display:inline-block;position:relative;width:100%;height:100px;}
 .demo-tips {margin:10px 0;padding:10px;border:1px solid #ccc;border-left:5px solid #d2d2d2;}
-.tab-body .demo {top:10px;left:10px;right:10px;bottom:10px;}
