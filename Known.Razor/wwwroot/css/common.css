@@ -15,6 +15,7 @@
     --margin: 10px;
 }
 
+* {margin:0;padding:0;outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;list-style:none;}
 .box, .card, blockquote {
     background-color:#fff;border:1px solid #ccc;border-radius:0.15rem;box-shadow:0 0 2px rgba(0, 0, 0, 0.2);
 }
@@ -36,16 +37,9 @@
 .card-head .tool {cursor:pointer;float:right;}
 .card-body {padding:1rem;overflow:auto;}
 
-* {margin:0;padding:0;outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;list-style:none;}
-h1 {font-size:2rem;}
-h2 {font-size:1.8rem;}
-h3 {font-size:1.6rem;}
-h4 {font-size:1.4rem;}
-h5 {font-size:1.2rem;}
-h6 {font-size:1rem;}
 table {border-collapse:collapse;width:100%;}
-blockquote {padding:0.5rem 1rem;background-color:#fafafa;border-left:3px solid #1c66b9;}
-button, input, select, textarea {background-color:#fff;border:1px solid #ccc;border-radius:0.15rem;padding:0.3rem;width:100%;}
+blockquote {padding:0.5rem 1rem;border-left:3px solid #1c66b9;}
+button, input, select, textarea {border:1px solid #ccc;border-radius:0.15rem;padding:0.3rem;}
 button {cursor:pointer;padding-left:0.5rem;padding-right:0.5rem;}
 button:hover {opacity:0.8;}
 button.info {color:#fff;background-color:var(--info);}
@@ -55,23 +49,20 @@ button.warning {color:#fff;background-color:var(--warning);}
 button.danger {color:#fff;background-color:var(--danger);}
 button.pink {color:#fff;background-color:var(--pink);}
 button.orange {color:#fff;background-color:var(--orange);}
-input:disabled {background-color:#f5f5f5;}
-input:focus, select:focus, textarea:focus {border-bottom-color:var(--info);}
-input[type="checkbox"], input[type="radio"] {
-    width:1.4rem;height:1.4rem;vertical-align:middle;margin-top:-0.125rem;margin-right:0.375rem;
-}
-input[type="file"] {padding:0.125rem;}
 
-form label {display:block;position:relative;margin-bottom:0.5rem;font-weight:bold;}
+form label {display:block;position:relative;font-weight:bold;}
 form label p, form label label {display:block;font-weight:normal;}
 form label span {font-weight:normal;}
 form label .radio {display:inline-block;}
-form label i {position:absolute;top:unset;right:0;font-size:1.3rem;padding:0.5rem;}
+form label i {position:absolute;right:0;bottom:1px;font-size:1.3rem;padding:0.6rem;}
+@media screen and (max-width:768px) {
+    form label i {bottom:1rem;}
+}
 
-.inline label {height:2rem;line-height:2rem;}
-.inline input, .inline select, .inline textarea, .inline label p {position:absolute;top:0;right:0;width:70%;}
-.inline input[type="checkbox"] {width:1.4rem;right:unset;left:30%;top:0.5rem;}
-.inline button {margin-top:1rem;padding:0.5rem;width:auto;margin:0 0.2rem;}
+.inline label {height:2.5rem;line-height:2.5rem;}
+.inline input, .inline select, .inline textarea, .inline label p {position:absolute;top:0;right:0;left:180px;width:auto;}
+.inline1 input[type="checkbox"] {width:1.4rem;right:unset;left:30%;top:0.5rem;}
+.inline1 button {margin-top:1rem;padding:0.5rem;width:auto;margin:0 0.2rem;}
 
 @media screen and (max-width:768px) {
     .inline label {height:auto;line-height:unset;}
@@ -91,6 +82,7 @@ form label i {position:absolute;top:unset;right:0;font-size:1.3rem;padding:0.5re
 .toolbar {display:flex;align-items:center;justify-content:space-between;}
 .toolbar, .table th, .table td {padding:0.3rem 0.5rem;}
 .tool button, .query label {margin-right:0.2rem;}
+.query * {display:inline-block;}
 .query > label > div {display:inline-block;}
 .query input, .query select {width:130px;margin-left:0.2rem;}
 

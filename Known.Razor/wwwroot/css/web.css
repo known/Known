@@ -1,29 +1,28 @@
 ﻿@import "common.css";
 
-body {overflow:hidden;}
+html, body, #app {height:100%;overflow:hidden;}
 
 @media screen and (max-width:768px) { /*1200,992,768,576*/
-    body, main {overflow:auto;}
+    body, #app, main {overflow:auto;}
 }
 
-.install {width:500px;margin:100px auto;padding:50px;}
+.install {width:500px;margin:50px auto;padding:50px;}
 .install h1 {text-align:center;margin-bottom:1rem;}
 
 @media screen and (max-width:768px) {
     .install {width:90%;margin:20px auto;padding:20px;}
 }
 
-.login {width:800px;margin:150px auto;padding:50px;border-radius:0.5rem;}
+.login {width:800px;margin:150px auto;padding:1rem;border-radius:0.5rem;}
 .login .left {text-align:center;padding:50px 0;}
 .login .right {text-align:center;padding:20px 0;}
 .login h1 {margin-bottom:1.5rem;font-size:1.8rem;}
 .login h2 {font-size:1.6rem;}
-.login form {text-align:left;padding:20px 50px;}
-.login label {margin-bottom:1.5rem;}
-.login label i {left:0.2rem;right:unset;padding:0.6rem;color:#ccc;}
-.login label .fa-lock {font-size:1.4rem;}
-.login input {padding:0.5rem 0 0.5rem 2.5rem;}
-.login button {font-size:1.3rem;margin-bottom:1rem;}
+.login form {text-align:left;padding:1rem 2rem 0 2rem;margin-bottom:0;}
+.login label i {left:0.2rem;top:0.1rem;right:unset;bottom:unset;padding:0.6rem;color:#ccc;}
+.login label .fa-lock {font-size:1.2rem;}
+.login input[type="text"], .login input[type="password"] {padding-left:2.5rem;}
+.login button {font-size:1.1rem;margin:1rem 0;}
 
 @media screen and (max-width:768px) {
     .login {width:90%;margin:80px auto;padding:20px;}
@@ -36,31 +35,37 @@ nav, aside, main {position:absolute;}
 nav {height:50px;left:180px;right:0;background-color:#fafafa;border-bottom:1px solid #ccc;}
 nav, nav h1, nav ul {display:flex;align-items:center;}
 nav {justify-content:space-between;}
-nav ul {font-size:1.1rem;}
-nav ul li {padding:0.9rem 0.8rem;cursor:pointer;position:relative;}
+nav ul:first-of-type{margin:0;}
+nav ul li {padding:0.6rem 0.8rem;cursor:pointer;position:relative;}
 nav ul li:last-child {padding-right:1rem;}
-nav ul li.name {font-size:1.5rem;font-weight:bold;padding:0 0.5rem;}
+nav ul li.name {font-size:1.2rem;font-weight:bold;padding:0 0.5rem;}
 nav ul li:before {font-size:1.2rem;}
 nav ul li:hover {background-color:#f1f1f1;}
 nav ul li.name:hover {background-color:#fafafa;}
 nav ul li .badge {position:absolute;top:5px;right:0;width:1rem;height:1rem;line-height:1rem;border-radius:50%;background-color:var(--danger);color:#fff;font-size:0.8rem;text-align:center;}
 
-aside {width:180px;top:0;bottom:0;color:#fff;}
+aside {width:180px;top:0;bottom:0;}
 aside img {border-bottom:1px solid #3173bd;}
 aside i {width:2rem;text-align:center;}
-aside summary {padding:0.5rem 0 0.5rem 1rem;cursor:pointer;font-size:1.1rem;}
-aside details .right {float:right;padding-top:0.3rem;}
-aside details[open] .right {padding-top:0.1rem;}
-aside details[open] .right:before {content:'\f078';}
-aside ul {padding:0.3rem 0;background-color:#195aa4;}
-aside li {padding:0.3rem 0 0.3rem 1.5rem;border-left:3px solid transparent;cursor:pointer;}
+aside article {background:transparent;margin:0;padding:0;}
+aside details {margin:0;padding:0;border:0;}
+aside summary {margin:0;padding:0.5rem 0 0.5rem 0.6rem;cursor:pointer;}
+aside details[open]>summary {margin:0;}
+aside details summary:not([role]),
+aside details[open]>summary:not([role]):not(:focus) {color:#fff;}
+aside ul {margin:0;padding:0.3rem 0;background-color:#195aa4;color:#fff;}
+aside li {margin:0;padding:0.3rem 0 0.3rem 1rem;border-left:3px solid transparent;cursor:pointer;}
 aside li:hover, aside li.active {border-left-color:#5FB878;-webkit-transition:all .3s;transition:all .3s;}
 
+main {
+    --main-margin-top: 75px;
+}
+
 main {top:50px;left:180px;right:0;bottom:0;background-color:#f1f1f1;padding:var(--margin);}
-main blockquote {font-weight:bold;font-size:1.1rem;margin-bottom:var(--margin);}
+main blockquote {margin:0;font-weight:bold;font-size:1.1rem;margin-bottom:var(--margin);}
 main blockquote small {font-weight:normal;font-size:0.9rem;margin-left:0.8rem;}
 main > .grid-view, main > form, .module .grid-view, .org .grid-view {
-    position:absolute;top:60px;bottom:var(--margin);left:var(--margin);right:var(--margin);
+    position:absolute;top:var(--main-margin-top);bottom:var(--margin);left:var(--margin);right:var(--margin);
     background-color:#fff;border:1px solid #ccc;border-radius:0.15rem;box-shadow:0 0 2px rgba(0, 0, 0, 0.2);
 }
 main > form {padding:1rem;}
@@ -72,15 +77,15 @@ main > form {padding:1rem;}
 }
 
 .module .box, .org .box {width:200px;}
-.module .grid-view, .org .grid-view {left:220px;top:60px;bottom:var(--margin);right:var(--margin);}
+.module .grid-view, .org .grid-view {left:220px;top:var(--main-margin-top);bottom:var(--margin);right:var(--margin);}
 
-.account .box, .module .box, .org .box {position:absolute;top:60px;bottom:var(--margin);left:var(--margin);right:var(--margin);}
+.account .box, .module .box, .org .box {position:absolute;top:var(--main-margin-top);bottom:var(--margin);left:var(--margin);right:var(--margin);}
 .account .box:first-child {text-align:center;width:190px;}
 .account .box:last-child {left:210px;}
 .account img {margin:2rem auto;}
 .account .name {font-size:1.2rem;font-weight:bold;}
-.account form {padding:5rem 20rem;}
-.account select {width:auto;right:unset;left:30%;}
+.account form {padding:5rem 10rem;}
+.account select {right:unset;}
 
 @media screen and (max-width:768px) {
     .account img, .account .name {display:none;}

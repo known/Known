@@ -42,8 +42,6 @@ class AdminSider : BaseComponent
             attr.OnClick(Callback(() => OnNavTitleClick(item)));
             builder.Icon(item.Icon, attr => attr.Title(item.Name));
             builder.Span(item.Name);
-            if (item.Children.Any())
-                builder.Icon("right fa fa-chevron-right");
         });
     }
 
