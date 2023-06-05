@@ -11,6 +11,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
     public SysModuleList()
     {
         Name = string.Empty;
+        Style = "left-tree";
         IsSort = false;
         ShowPager = false;
     }
@@ -22,21 +23,6 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
         await base.OnInitializedAsync();
     }
 
-    protected override void BuildPage(RenderTreeBuilder builder)
-    {
-        builder.Div("module", attr =>
-        {
-            builder.Div("box", attr =>
-            {
-                builder.Component<Tree<string>>()
-                   .Set(c => c.Data, data)
-                   .Set(c => c.OnItemClick, Callback<TreeItem<string>>(OnTreeItemClick))
-                   .Build();
-            });
-            base.BuildPage(builder);
-        });
-    }
-
     protected override Task<PagingResult<SysModule>> OnQueryData(PagingCriteria criteria)
     {
         var result = new PagingResult<SysModule> { PageData = Data };
@@ -46,6 +32,17 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
     protected override void FormatColumns()
     {
         Column(c => c.Name).Template((b, r) => b.IconName(r.Icon, r.Name));
+    }
+
+    protected override void BuildOther(RenderTreeBuilder builder)
+    {
+        builder.Div("left-view box", attr =>
+        {
+            builder.Component<Tree<string>>()
+                   .Set(c => c.Data, data)
+                   .Set(c => c.OnItemClick, Callback<TreeItem<string>>(OnTreeItemClick))
+                   .Build();
+        });
     }
 
     public void New() => ShowForm();

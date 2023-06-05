@@ -30,14 +30,8 @@ public class ListBox : Field
         context.FieldItems = GetListItems();
     }
 
-    protected override void BuildInput(RenderTreeBuilder builder)
+    protected override void BuildChildContent(RenderTreeBuilder builder)
     {
-        if (ReadOnly)
-        {
-            builder.Paragraph(attr => builder.Text(Value));
-            return;
-        }
-
         var css = CssBuilder.Default("list-box").AddClass("disabled", !Enabled).Build();
         builder.Ul(css, attr =>
         {

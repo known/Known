@@ -20,18 +20,15 @@ class DevSample : PageComponent
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("demo", attr =>
+        builder.Div("tabs box demo", attr =>
         {
-            builder.Div("box", attr =>
-            {
-                builder.Component<Tab>()
-                       .Set(c => c.Position, "left")
-                       .Set(c => c.CurItem, curItem?.Id)
-                       .Set(c => c.Items, items)
-                       .Set(c => c.OnChanged, OnTabChanged)
-                       .Build();
-            });
-            builder.Div("box", attr => builder.DynamicComponent(curItem.ComType));
+            builder.Component<Tab>()
+               .Set(c => c.Position, "left")
+               .Set(c => c.CurItem, curItem?.Id)
+               .Set(c => c.Items, items)
+               .Set(c => c.OnChanged, OnTabChanged)
+               .Build();
+            builder.Div("tab-body left content", attr => builder.DynamicComponent(curItem?.ComType));
         });
     }
 

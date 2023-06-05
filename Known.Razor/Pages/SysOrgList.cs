@@ -1,4 +1,5 @@
-﻿using Known.Razor.Pages.Forms;
+﻿using System.Reflection;
+using Known.Razor.Pages.Forms;
 
 namespace Known.Razor.Pages;
 
@@ -10,6 +11,7 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
 
     public SysOrgList()
     {
+        Style = "left-tree";
         IsSort = false;
         ShowPager = false;
     }
@@ -21,25 +23,21 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
         await base.OnInitializedAsync();
     }
 
-    protected override void BuildPage(RenderTreeBuilder builder)
-    {
-        builder.Div("org", attr =>
-        {
-            builder.Div("box", attr =>
-            {
-                builder.Component<Tree<SysOrganization>>()
-                   .Set(c => c.Data, data)
-                   .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(OnTreeItemClick))
-                   .Build();
-            });
-            base.BuildPage(builder);
-        });
-    }
-
     protected override Task<PagingResult<SysOrganization>> OnQueryData(PagingCriteria criteria)
     {
         var result = new PagingResult<SysOrganization> { PageData = Data };
         return Task.FromResult(result);
+    }
+
+    protected override void BuildOther(RenderTreeBuilder builder)
+    {
+        builder.Div("left-view box", attr =>
+        {
+            builder.Component<Tree<SysOrganization>>()
+                   .Set(c => c.Data, data)
+                   .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(OnTreeItemClick))
+                   .Build();
+        });
     }
 
     public void New() => ShowForm();

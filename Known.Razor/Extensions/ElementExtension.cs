@@ -81,7 +81,7 @@ public static class ElementExtension
     {
         if (!string.IsNullOrWhiteSpace(icon))
             builder.Icon(icon);
-        builder.Text(name);
+        builder.Span(name);
         return builder;
     }
 

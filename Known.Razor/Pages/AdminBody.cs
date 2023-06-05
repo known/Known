@@ -15,7 +15,7 @@ public class AdminBody : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Main(attr =>
+        builder.Div("kui-body", attr =>
         {
             if (MultiTab)
             {
@@ -25,6 +25,7 @@ public class AdminBody : BaseComponent
             {
                 builder.Component<PageSingle>()
                        .Set(c => c.CurPage, curPage)
+                       .Set(c => c.ShowTips, true)
                        .Build();
             }
         });

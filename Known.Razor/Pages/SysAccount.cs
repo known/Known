@@ -21,9 +21,9 @@ class SysAccount : PageComponent
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         var user = CurrentUser;
-        builder.Div("account", attr =>
+        builder.Div("ss-form", attr =>
         {
-            builder.Div("box", attr =>
+            builder.Div("leftBar box", attr =>
             {
                 builder.Img(attr => attr.Src($"_content/Known.Razor{user?.AvatarUrl}"));
                 builder.Div("name", user?.Name);
@@ -34,7 +34,7 @@ class SysAccount : PageComponent
                    .Set(c => c.OnChanged, OnTabChanged)
                    .Build();
             });
-            builder.Div("box", attr => builder.DynamicComponent(curItem.ComType));
+            builder.DynamicComponent(curItem.ComType);
         });
     }
 

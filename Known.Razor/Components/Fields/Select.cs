@@ -2,6 +2,8 @@
 
 public class Select : Field
 {
+    private string Text { get; set; }
+
     [Parameter] public string Icon { get; set; }
     [Parameter] public string EmptyText { get; set; }
     [Parameter] public bool IsAuto { get; set; }
@@ -20,6 +22,8 @@ public class Select : Field
     protected override void OnParametersSet()
     {
         ListItems = GetListItems();
+        var code = ListItems.FirstOrDefault(c => c.Code == Value);
+        Text = code?.Name ?? Value;
     }
 
     protected override void SetFieldContext(FieldContext context)
@@ -28,21 +32,23 @@ public class Select : Field
         context.FieldItems = GetListItems();
     }
 
-    protected override void BuildInput(RenderTreeBuilder builder)
+    protected override void BuildChildText(RenderTreeBuilder builder)
     {
-        if (ReadOnly)
-        {
-            var value = Value;
-            var code = ListItems.FirstOrDefault(c => c.Code == value);
-            if (code != null)
-                value = code.Name;
-            builder.Paragraph(attr => builder.Text(Value));
-            return;
-        }
+        var value = Value;
+        var code = ListItems.FirstOrDefault(c => c.Code == value);
+        if (code != null)
+            value = code.Name;
+        builder.Span("text", value);
+    }
 
+    protected override void BuildChildContent(RenderTreeBuilder builder)
+    {
         if (!string.IsNullOrWhiteSpace(Icon))
             builder.Icon(Icon);
-        BuildSelect(builder);
+        if (IsAuto)
+            BuildInputSelect(builder);
+        else
+            BuildSelect(builder);
     }
 
     protected override void SetInputValue(object value) => Value = value?.ToString();
@@ -56,6 +62,31 @@ public class Select : Field
             return CodeAction();
 
         return CodeInfo.GetCodes(Codes).ToArray();
+    }
+
+    private void BuildInputSelect(RenderTreeBuilder builder)
+    {
+        builder.Input(attr =>
+        {
+            attr.Type("text").Id(Id).Name(Id).Disabled(!Enabled).Class("select")
+                .Value(Text).Required(Required)
+                .Placeholder(EmptyText)
+                .Add("autocomplete", "off")
+                .Add("list", $"list{Id}")
+                .OnChange(CreateBinder());
+        });
+        builder.Icon("fa fa-angle-down");
+        builder.Element("datalist", attr =>
+        {
+            attr.Id($"list{Id}");
+            if (ListItems != null && ListItems.Length > 0)
+            {
+                foreach (var item in ListItems)
+                {
+                    BuildOption(builder, item.Code, item.Name, item.Code == Value);
+                }
+            }
+        });
     }
 
     private void BuildSelect(RenderTreeBuilder builder, Action onChanged = null)

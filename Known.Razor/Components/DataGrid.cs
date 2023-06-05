@@ -12,8 +12,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
     public DataGrid()
     {
         id = Utils.GetGuid();
-        ContainerStyle = "grid-view";
-        ContentStyle = "";
+        ContainerStyle = "grid-view box";
+        ContentStyle = "grid";
         InitMenu();
     }
 
@@ -335,7 +335,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     {
         builder.Table(attr =>
         {
-            attr.Id(id).Role("grid");
+            attr.Id(id);
             BuildHead(builder);
             builder.TBody(attr => action?.Invoke());
             BuildFoot(builder);

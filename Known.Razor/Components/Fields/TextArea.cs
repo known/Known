@@ -4,14 +4,13 @@ public class TextArea : Field
 {
     [Parameter] public string Placeholder { get; set; }
 
-    protected override void BuildInput(RenderTreeBuilder builder)
+    protected override void BuildChildText(RenderTreeBuilder builder)
     {
-        if (ReadOnly)
-        {
-            builder.Paragraph(attr => builder.Text(Value));
-            return;
-        }
+        builder.Pre(Value);
+    }
 
+    protected override void BuildChildContent(RenderTreeBuilder builder)
+    {
         builder.TextArea(attr =>
         {
             attr.Id(Id).Name(Id).Value(Value).Disabled(!Enabled)

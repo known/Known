@@ -13,14 +13,8 @@ public class Picker : Field
         return base.OnInitializedAsync();
     }
 
-    protected override void BuildInput(RenderTreeBuilder builder)
+    protected override void BuildChildContent(RenderTreeBuilder builder)
     {
-        if (ReadOnly)
-        {
-            builder.Paragraph(attr => builder.Text(Value));
-            return;
-        }
-
         builder.Input(attr =>
         {
             attr.Type("text").Id(Id).Name(Id).Disabled(!CanEdit)

@@ -18,7 +18,7 @@ class Home : PageComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         BuildWorkSpace(builder);
-        builder.Div("grid", attr =>
+        builder.Div("ws-row", attr =>
         {
             BuildDataChart(builder);
             BuildVisitMenus(builder);
@@ -33,25 +33,16 @@ class Home : PageComponent
 
     private void BuildWorkSpace(RenderTreeBuilder builder)
     {
-        builder.Div("box space", attr =>
-        {
-            builder.Div("ws-title", "工作台");
-            builder.Img(attr => attr.Class("ws-avatar").Src($"_content/Known.Razor{user?.AvatarUrl}"));
-            builder.Span("ws-name", info?.Greeting);
-            builder.Span("ws-tips", $"今天是：{DateTime.Now:yyyy-MM-dd dddd}");
-
-            builder.Ul("count", attr =>
-            {
-                BuildWDCount(builder, "用户数量", info?.Statistics?.UserCount);
-                BuildWDCount(builder, "日志数量", info?.Statistics?.LogCount);
-            });
-        });
+        builder.Component<Card>()
+               .Set(c => c.Style, "ws-card")
+               .Set(c => c.Body, BuildTree(BuildWSCard))
+               .Build();
     }
 
     private void BuildDataChart(RenderTreeBuilder builder)
     {
         builder.Component<Card>()
-               .Set(c => c.Style, "chart")
+               .Set(c => c.Style, "ws-chart")
                .Set(c => c.Head, BuildTree(BuildDCHead))
                .Set(c => c.Body, BuildTree(BuildDCBody))
                .Build();
@@ -60,11 +51,25 @@ class Home : PageComponent
     private void BuildVisitMenus(RenderTreeBuilder builder)
     {
         builder.Component<Card>()
-               .Set(c => c.Style, "visit")
+               .Set(c => c.Style, "ws-func")
                .Set(c => c.Icon, "fa fa-th")
                .Set(c => c.Name, "常用功能")
                .Set(c => c.Body, BuildTree(BuildVMBody))
                .Build();
+    }
+
+    private void BuildWSCard(RenderTreeBuilder builder)
+    {
+        builder.Div("ws-title", "工作台");
+        builder.Img(attr => attr.Class("ws-avatar").Src($"_content/Known.Razor{user?.AvatarUrl}"));
+        builder.Span("ws-name", info?.Greeting);
+        builder.Span("ws-tips", $"今天是：{DateTime.Now:yyyy-MM-dd dddd}");
+
+        builder.Ul("count", attr =>
+        {
+            BuildWDCount(builder, "用户数量", info?.Statistics?.UserCount);
+            BuildWDCount(builder, "日志数量", info?.Statistics?.LogCount);
+        });
     }
 
     private static void BuildWDCount(RenderTreeBuilder builder, string name, decimal? count)

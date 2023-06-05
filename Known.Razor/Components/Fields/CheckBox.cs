@@ -2,23 +2,18 @@
 
 public class CheckBox : Field
 {
-    private bool IsChecked => Checked || Value == "True";
-
     [Parameter] public string Text { get; set; }
     [Parameter] public bool Checked { get; set; }
 
-    protected override void BuildInput(RenderTreeBuilder builder)
+    protected override void BuildChildText(RenderTreeBuilder builder) => BuildRadio(builder, "checkbox", Text, "True", false, IsChecked);
+
+    protected override void BuildChildContent(RenderTreeBuilder builder)
     {
-        builder.Input(attr =>
+        BuildRadio(builder, "checkbox", Text, "True", Enabled, IsChecked, (isCheck, value) =>
         {
-            attr.Type("checkbox").Id(Id).Name(Id).Role("switch")
-                .Disabled(!Enabled).Required(Required).Checked(IsChecked)
-                .OnChange(EventCallback.Factory.CreateBinder<bool>(this, isCheck =>
-                {
-                    Value = isCheck ? "True" : "False";
-                    OnValueChange();
-                }, IsChecked));
+            Value = isCheck ? "True" : "False";
         });
-        builder.Span(Text);
     }
+
+    private bool IsChecked => Checked || Value == "True";
 }

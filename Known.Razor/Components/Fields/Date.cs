@@ -17,14 +17,8 @@ public class Date : Field
             return DateValue;
     }
 
-    protected override void BuildInput(RenderTreeBuilder builder)
+    protected override void BuildChildContent(RenderTreeBuilder builder)
     {
-        if (ReadOnly)
-        {
-            builder.Paragraph(attr => builder.Text(Value));
-            return;
-        }
-
         if (DateType == DateType.DateTime)
         {
             var value = DateValue?.ToString("yyyy-MM-ddTHH:mm");

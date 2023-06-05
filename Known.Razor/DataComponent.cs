@@ -65,22 +65,23 @@ public class DataComponent<TItem> : BaseComponent
             return;
         }
 
-        BuildPage(builder);
-    }
-
-    protected virtual void BuildPage(RenderTreeBuilder builder)
-    {
         var css = CssBuilder.Default(ContainerStyle).AddClass(Style).Build();
         builder.Div(css, attr =>
         {
             builder.Div("toolbar", attr =>
             {
-                BuildTool(builder);
                 BuildQuery(builder);
+                BuildTool(builder);
             });
-            BuildContent(builder);
+
+            var css = CssBuilder.Default(ContentStyle)
+                                .AddClass("hasToolbar", ShowQuery)
+                                .AddClass("hasPager", ShowPager)
+                                .Build();
+            builder.Div(css, attr => BuildContent(builder));
             BuildPager(builder);
         });
+        BuildOther(builder);
     }
 
     protected virtual void BuildContent(RenderTreeBuilder builder) { }
@@ -104,7 +105,8 @@ public class DataComponent<TItem> : BaseComponent
             return;
 
         var hasTool = Tools != null && Tools.Count > 0;
-        builder.Div("query", attr =>
+        var query = hasTool ? " right" : " left";
+        builder.Div($"query{query}", attr =>
         {
             builder.Component<CascadingValue<QueryContext>>(attr =>
             {
@@ -120,7 +122,7 @@ public class DataComponent<TItem> : BaseComponent
         if (Tools == null || Tools.Count == 0)
             return;
 
-        builder.Div("tool", attr =>
+        builder.Div("tool left", attr =>
         {
             foreach (var item in Tools)
             {

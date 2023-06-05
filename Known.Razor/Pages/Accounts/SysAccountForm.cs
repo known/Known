@@ -4,16 +4,26 @@ class SysAccountForm : BaseForm<SysUser>
 {
     private bool isEdit = false;
 
+    public SysAccountForm()
+    {
+        IsTable = false;
+        Style = "";
+        ButtonStyle = "";
+    }
+
     protected override void OnInitialized()
     {
-        IsInline = true;
         Model = CurrentUser;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => BuildForm(builder);
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Div("content box", attr => BuildForm(builder));
+    }
 
     protected override void BuildFields(FieldBuilder<SysUser> builder)
     {
+        builder.Div("avatar", attr => builder.Builder.Icon("fa fa-user"));
         builder.Hidden(f => f.Id);
         builder.Field<Text>(f => f.UserName).ReadOnly(true).Build();
         builder.Field<Text>(f => f.Name).ReadOnly(!isEdit).Build();
@@ -21,6 +31,10 @@ class SysAccountForm : BaseForm<SysUser>
         builder.Field<Text>(f => f.Mobile).ReadOnly(!isEdit).Build();
         builder.Field<Text>(f => f.Email).ReadOnly(!isEdit).Build();
         builder.Field<Text>(f => f.Role).ReadOnly(true).Build();
+    }
+
+    protected override void BuildButtons(RenderTreeBuilder builder)
+    {
         if (!isEdit)
         {
             builder.Button(FormButton.Edit, Callback(e => isEdit = true));

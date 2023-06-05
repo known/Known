@@ -1,6 +1,4 @@
-﻿using System.Formats.Asn1;
-
-namespace Known.Razor.Pages;
+﻿namespace Known.Razor.Pages;
 
 public class Login : BaseComponent
 {
@@ -13,7 +11,6 @@ public class Login : BaseComponent
     private readonly string KeyLoginInfo = "LoginInfo";
     private LoginInfo model;
     private Form form;
-    private string msgClass;
     private string message;
 
     [Parameter] public Action<UserInfo> OnLogin { get; set; }
@@ -24,23 +21,25 @@ public class Login : BaseComponent
         {
             model = await UI.GetLocalStorage<LoginInfo>(KeyLoginInfo);
             if (model != null)
+            {
                 form?.SetData(model);
+            }
             UI.BindEnter();
         }
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("box grid login animated fadeIn", attr =>
+        builder.Div("login animated fadeIn", attr =>
         {
-            builder.Div("left", attr =>
+            builder.Div("login-left", attr =>
             {
-                builder.H1(Config.AppName);
-                builder.Img(attr => attr.Src("img/login.jpg"));
+                builder.Div("slogan", Config.AppName);
+                builder.Div("image", attr => builder.Img(attr => attr.Src("img/login.jpg")));
             });
-            builder.Div("right", attr =>
+            builder.Div("login-form", attr =>
             {
-                builder.H2("用户登录");
+                builder.Div("login-title", "用户登录");
                 BuildForm(builder);
             });
         });
@@ -51,7 +50,7 @@ public class Login : BaseComponent
         builder.Component<Form>()
                .Set(c => c.ChildContent, BuildTree(BuildFields))
                .Build(value => form = value);
-        builder.Div(msgClass, message);
+        builder.Div("login-msg", message);
     }
 
     protected void OnUserLogin()
@@ -69,7 +68,6 @@ public class Login : BaseComponent
                 Remember = Utils.ConvertTo<bool>(data.Remember)
             });
             var result = await Platform.User.SignInAsync(info);
-            msgClass = result.IsValid ? KRStyle.Success : KRStyle.Danger;
             message = result.Message;
             if (result.IsValid)
             {
@@ -88,11 +86,11 @@ public class Login : BaseComponent
         builder.Field<Password>("Password", true)
                .Set(f => f.Icon, "fa fa-lock")
                .Set(f => f.Placeholder, "密码")
-               .Set(f => f.OnEnter, $"$('.{KRStyle.Primary}').click()")
+               .Set(f => f.OnEnter, "$('.btnLogin').click()")
                .Build();
         builder.Field<CheckBox>("Remember")
                .Set(f => f.Text, "记住用户名")
                .Build();
-        builder.Button("登 录", Callback(e => OnUserLogin()), KRStyle.Primary);
+        builder.Button("登 录", Callback(e => OnUserLogin()), "btnLogin");
     }
 }

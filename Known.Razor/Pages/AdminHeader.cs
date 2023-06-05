@@ -5,6 +5,7 @@ class AdminHeader : BaseComponent
     private bool isMini = false;
     private bool isFull = false;
     private MenuItem curMenu;
+    private string ToggleIcon => isMini ? "fa fa-indent" : "fa fa-dedent";
     private string ToggleScreen => isFull ? "fa fa-arrows" : "fa fa-arrows-alt";
     private string IsActive(MenuItem menu) => curMenu?.Id == menu.Id ? "active" : "";
 
@@ -29,53 +30,60 @@ class AdminHeader : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Nav(attr =>
+        builder.Div("kui-header", attr =>
         {
-            BuildNavLeft(builder);
+            if (Menus != null && Menus.Count > 0)
+                BuildMenus(builder, Menus);
+            else
+                BuildAppName(builder);
             BuildNavRight(builder);
         });
     }
 
-    private void BuildNavLeft(RenderTreeBuilder builder)
+    private void BuildMenus(RenderTreeBuilder builder, List<MenuItem> menus)
     {
-        builder.Ul(attr =>
+        builder.Ul("topMenu", attr =>
         {
-            builder.Li("fa fa-bars", attr => attr.Title("折叠/展开").OnClick(Callback(OnToggleMenu)));
-            builder.Li("name", attr => builder.Text(AppName));
-            if (Menus != null && Menus.Count > 0)
+            foreach (var item in menus)
             {
-                foreach (var item in Menus)
+                var active = IsActive(item);
+                builder.Li(active, attr =>
                 {
-                    var active = IsActive(item);
-                    builder.Li(active, attr =>
-                    {
-                        attr.OnClick(Callback(() => OnTopMenuClick(item)));
-                        builder.IconName(item.Icon, item.Name, "name");
-                    });
-                }
+                    attr.OnClick(Callback(() => OnTopMenuClick(item)));
+                    builder.IconName(item.Icon, item.Name, "name");
+                });
             }
         });
     }
 
+    private void BuildAppName(RenderTreeBuilder builder)
+    {
+        builder.Div("toggleMenu", attr =>
+        {
+            builder.Icon(ToggleIcon, attr => attr.Title("折叠/展开").OnClick(Callback(OnToggleMenu)));
+        });
+        builder.Div("appName", AppName);
+    }
+
     private void BuildNavRight(RenderTreeBuilder builder)
     {
-        builder.Ul(attr =>
+        builder.Ul("nav right", attr =>
         {
-            //builder.Li("text danger", attr => builder.Text(KRConfig.AuthStatus));
-            //builder.Li("text", attr => builder.Component<Components.Timer>().Build());
-            //builder.Li("text", attr => builder.Text($"{DateTime.Now:yyyy-MM-dd dddd}"));
-            builder.Li("fa fa-home", attr => attr.Title("系统主页").OnClick(Callback(Context.NavigateToHome)));
+            //builder.Li("nav-item text danger", attr => builder.Text(KRConfig.AuthStatus));
+            //builder.Li("nav-item text", attr => builder.Component<Components.Timer>().Build());
+            //builder.Li("nav-item text", attr => builder.Text($"{DateTime.Now:yyyy-MM-dd dddd}"));
+            builder.Li("nav-item fa fa-home", attr => attr.Title("系统主页").OnClick(Callback(Context.NavigateToHome)));
             if (KRConfig.IsWeb)
-                builder.Li($"{ToggleScreen}", attr => attr.Title("全屏切换").OnClick(Callback(OnToggleScreen)));
-            //builder.Li("fa fa-refresh", attr => attr.Title("刷新页面").OnClick(Callback(OnPageRefresh)));
-            builder.Li("fa fa-user", attr =>
+                builder.Li($"nav-item {ToggleScreen}", attr => attr.Title("全屏切换").OnClick(Callback(OnToggleScreen)));
+            //builder.Li("nav-item fa fa-refresh", attr => attr.Title("刷新页面").OnClick(Callback(OnPageRefresh)));
+            builder.Li("nav-item fa fa-user", attr =>
             {
                 attr.Title("个人中心").OnClick(Callback(Context.NavigateToAccount));
-                builder.Text(CurrentUser.Name);
+                builder.Span(CurrentUser.Name);
                 if (MessageCount > 0)
-                    builder.Span("badge", $"{MessageCount}");
+                    builder.Span("badge-top", $"{MessageCount}");
             });
-            builder.Li("fa fa-power-off", attr => attr.Title("安全退出").OnClick(Callback(OnUserLogout)));
+            builder.Li("nav-item fa fa-power-off", attr => attr.Title("安全退出").OnClick(Callback(OnUserLogout)));
         });
     }
 

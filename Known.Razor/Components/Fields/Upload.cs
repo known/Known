@@ -2,8 +2,6 @@
 
 public class Upload : Field
 {
-    private bool IsReadOnly => ReadOnly || FieldContext != null && FieldContext.ReadOnly;
-
     [Parameter] public bool CanDelete { get; set; }
     [Parameter] public bool IsMultiple { get; set; }
     [Parameter] public string Accept { get; set; }
@@ -36,14 +34,10 @@ public class Upload : Field
         return true;
     }
 
-    protected override void BuildInput(RenderTreeBuilder builder)
-    {
-        if (ReadOnly)
-        {
-            BuildFileContent(builder);
-            return;
-        }
+    protected override void BuildChildText(RenderTreeBuilder builder) => BuildFileContent(builder);
 
+    protected override void BuildChildContent(RenderTreeBuilder builder)
+    {
         if (Context.IsMobile && Accept == Constants.MimeImage)
         {
             builder.Div("file-item add", attr =>
