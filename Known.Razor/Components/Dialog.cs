@@ -97,7 +97,7 @@ class Dialog : BaseComponent
         var isMax = isClickMax;
         var max = isMax ? " max" : "";
         builder.Div("mask", attr => attr.Id($"mask-{dialogId}").Style($"z-index:{StartIndex + Index}"));
-        builder.Div($"dialog box{max} animated fadeIn", attr =>
+        builder.Div($"dialog {max} animated fadeIn", attr =>
         {
             attr.Id(dialogId).Style(GetStyle(isMax));
             BuildHead(builder, isMax);

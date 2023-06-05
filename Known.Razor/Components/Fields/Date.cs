@@ -6,10 +6,8 @@ public class Date : Field
 {
     [Parameter] public DateType DateType { get; set; }
     [Parameter] public DateTime? DateValue { get; set; }
-    [Parameter] public string Type { get; set; }
-    [Parameter] public string Placeholder { get; set; }
 
-    public override object GetValue()
+    internal override object GetValue()
     {
         if (DateType == DateType.Month)
             return DateValue?.ToString("yyyy-MM");
