@@ -1,4 +1,4 @@
-﻿namespace Known.Razor.Pages.Accounts;
+﻿namespace Known.Razor.Pages.Forms;
 
 class SysUserPwdForm : BaseForm<PwdFormInfo>
 {

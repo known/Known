@@ -1,4 +1,4 @@
-﻿using Known.Razor.Pages.Accounts;
+﻿using Known.Razor.Pages.Forms;
 
 namespace Known.Razor.Pages;
 
