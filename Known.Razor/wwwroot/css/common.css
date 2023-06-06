@@ -25,7 +25,7 @@ pre {
 }
 button, input, select, textarea {
     outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;
-    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
+    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;background-color:#fff;
 }
 button {color:#fff;background-color:#337ab7;cursor:pointer;border:none;padding:0 15px;}
 button .icon {text-align:center;margin-right:5px;}
