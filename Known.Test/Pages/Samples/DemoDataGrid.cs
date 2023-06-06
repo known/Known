@@ -34,7 +34,7 @@ class DemoDataGrid : BaseComponent
     }
 }
 
-class DmGoods
+class DmGoods : EntityBase
 {
     [Column("编码")] public string Code { get; set; }
     [Column("名称")] public string Name { get; set; }
@@ -46,10 +46,12 @@ class DmGoods
     [Column("备注")] public string Note { get; set; }
 }
 
-class Table : DataGrid<DmGoods>
+class Table : DataGrid<DmGoods, DemoGoodsForm>
 {
     public Table()
     {
+        Name = "测试示例";
+
         var builder = new ColumnBuilder<DmGoods>();
         builder.Field(r => r.Code, true);
         builder.Field(r => r.Name, true);
@@ -86,6 +88,11 @@ class Table : DataGrid<DmGoods>
             PageData = GetGoodses(criteria)
         });
     }
+
+    public void New() => ShowForm(new DmGoods());
+    public void DeleteM() => OnDeleteM(null);
+    public void Edit(DmGoods row) => ShowForm(row);
+    public void Delete(DmGoods row) => OnDelete(row, null);
 
     internal static List<DmGoods> GetGoodses(PagingCriteria criteria)
     {
