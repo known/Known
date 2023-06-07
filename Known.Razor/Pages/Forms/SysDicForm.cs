@@ -30,7 +30,7 @@ class SysDicForm : BaseForm<SysDictionary>
                 table.ColGroup(100, null);
             table.Tr(attr =>
             {
-                builder.Field<Text>(f => f.Code).Build();
+                table.Field<Text>(f => f.Code).Build();
                 if (model.HasChild)
                 {
                     table.Th("dic-extend", attr =>
@@ -42,7 +42,7 @@ class SysDicForm : BaseForm<SysDictionary>
             });
             table.Tr(attr =>
             {
-                builder.Field<Text>(f => f.Name).Build();
+                table.Field<Text>(f => f.Name).Build();
                 if (model.HasChild)
                 {
                     table.Td(attr =>
@@ -55,9 +55,9 @@ class SysDicForm : BaseForm<SysDictionary>
                     });
                 }
             });
-            table.Tr(attr => builder.Field<CheckBox>(f => f.Enabled).Build());
-            table.Tr(attr => builder.Field<Number>(f => f.Sort).Build());
-            table.Tr(attr => builder.Field<TextArea>(f => f.Note).Build());
+            table.Tr(attr => table.Field<CheckBox>(f => f.Enabled).Build());
+            table.Tr(attr => table.Field<Number>(f => f.Sort).Build());
+            table.Tr(attr => table.Field<TextArea>(f => f.Note).Build());
         });
     }
 

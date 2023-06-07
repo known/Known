@@ -31,9 +31,9 @@ class SysRoleForm : BaseForm<SysRole>
             builder.Table(table =>
             {
                 table.ColGroup(100, null);
-                table.Tr(attr => builder.Field<Text>(f => f.Name).Build());
-                table.Tr(attr => builder.Field<CheckBox>(f => f.Enabled).Build());
-                table.Tr(attr => builder.Field<TextArea>(f => f.Note).Build());
+                table.Tr(attr => table.Field<Text>(f => f.Name).Build());
+                table.Tr(attr => table.Field<CheckBox>(f => f.Enabled).Build());
+                table.Tr(attr => table.Field<TextArea>(f => f.Note).Build());
             });
         });
         BuildRoleModules(builder.Builder);

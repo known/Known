@@ -10,10 +10,10 @@ class SysOrgForm : BaseForm<SysOrganization>
         builder.Table(table =>
         {
             table.ColGroup(100, null);
-            table.Tr(attr => builder.Field<Text>(f => f.ParentName).ReadOnly(true).Build());
-            table.Tr(attr => builder.Field<Text>(f => f.Code).Build());
-            table.Tr(attr => builder.Field<Text>(f => f.Name).Build());
-            table.Tr(attr => builder.Field<TextArea>(f => f.Note).Build());
+            table.Tr(attr => table.Field<Text>(f => f.ParentName).ReadOnly(true).Build());
+            table.Tr(attr => table.Field<Text>(f => f.Code).Build());
+            table.Tr(attr => table.Field<Text>(f => f.Name).Build());
+            table.Tr(attr => table.Field<TextArea>(f => f.Note).Build());
         });
     }
 

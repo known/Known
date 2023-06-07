@@ -80,7 +80,7 @@ class AdminHeader : BaseComponent
             {
                 attr.Title("个人中心").OnClick(Callback(Context.NavigateToAccount));
                 builder.Span(CurrentUser.Name);
-                if (MessageCount > 0)
+                if (KRConfig.IsWeb && MessageCount > 0)
                     builder.Span("badge-top", $"{MessageCount}");
             });
             builder.Li("nav-item fa fa-power-off", attr => attr.Title("安全退出").OnClick(Callback(OnUserLogout)));

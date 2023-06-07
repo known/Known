@@ -20,31 +20,31 @@ class SysUserForm : BaseForm<SysUser>
             table.ColGroup(100, null, 100, null);
             table.Tr(attr =>
             {
-                builder.Field<Text>(f => f.UserName).Enabled(model.IsNew).Build();
-                builder.Field<Text>(f => f.Name).Build();
+                table.Field<Text>(f => f.UserName).Enabled(model.IsNew).Build();
+                table.Field<Text>(f => f.Name).Build();
             });
             table.Tr(attr =>
             {
-                builder.Field<RadioList>(f => f.Gender).Set(f => f.Codes, "男,女").Build();
-                builder.Field<Text>(f => f.Email).Build();
+                table.Field<RadioList>(f => f.Gender).Set(f => f.Codes, "男,女").Build();
+                table.Field<Text>(f => f.Email).Build();
             });
             table.Tr(attr =>
             {
-                builder.Field<Text>(f => f.Phone).Build();
-                builder.Field<Text>(f => f.Mobile).Build();
+                table.Field<Text>(f => f.Phone).Build();
+                table.Field<Text>(f => f.Mobile).Build();
             });
             table.Tr(attr =>
             {
-                builder.Field<CheckList>("角色", "RoleId", true).ColSpan(3)
-                       .Set(f => f.Value, auth?.RoleIds)
-                       .Set(f => f.Items, auth?.Roles)
-                       .Build();
+                table.Field<CheckList>("角色", "RoleId", true).ColSpan(3)
+                     .Set(f => f.Value, auth?.RoleIds)
+                     .Set(f => f.Items, auth?.Roles)
+                     .Build();
             });
             table.Tr(attr =>
             {
-                builder.Field<CheckList>("数据权限", nameof(SysUser.Data)).ColSpan(3)
-                       .Set(f => f.Items, auth?.Datas)
-                       .Build();
+                table.Field<CheckList>("数据权限", nameof(SysUser.Data)).ColSpan(3)
+                     .Set(f => f.Items, auth?.Datas)
+                     .Build();
             });
         });
     }

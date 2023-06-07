@@ -2,9 +2,9 @@
 
 public static class ButtonExtension
 {
-    public static RenderTreeBuilder Button(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
+    public static void Button(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
     {
-        return builder.Element("button", attr =>
+        builder.Element("button", attr =>
         {
             attr.Class(className);
             child?.Invoke(attr);

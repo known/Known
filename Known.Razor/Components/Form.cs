@@ -16,7 +16,6 @@ public class Form : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     internal FormContext FormContext { get; }
-    protected bool IsTable { get; set; }
     protected string CheckFields { get; set; }
     public dynamic Data => FormContext.Data;
     public Dictionary<string, Field> Fields => FormContext.Fields;
@@ -34,7 +33,6 @@ public class Form : BaseComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        FormContext.IsTableForm = IsTable;
         FormContext.ReadOnly = ReadOnly;
         FormContext.Model = Model;
         FormContext.CheckFields = CheckFields;
@@ -253,7 +251,6 @@ public class BaseForm<T> : Form
 {
     public BaseForm()
     {
-        IsTable = true;
         Style = "inline";
     }
 

@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Known.Razor;
+﻿namespace Known.Razor;
 
 public class FieldBuilder<T>
 {
@@ -32,17 +30,41 @@ public class FieldBuilder<T>
         return Field<TField>(paramAttr?.Description, propertyInfo.Name, required);
     }
 
-    public RenderTreeBuilder Div(string className, Action<AttributeBuilder> child = null)
+    public void Div(string className, Action<AttributeBuilder> child = null)
     {
-        return Builder.Div(attr =>
+        Builder.Div(attr =>
         {
             attr.Class(className);
             child?.Invoke(attr);
         });
     }
 
-    public RenderTreeBuilder Table(Action<RenderTreeBuilder> child = null) => Builder.Table(attr => child?.Invoke(Builder));
-    public RenderTreeBuilder Table(string className, Action<RenderTreeBuilder> child = null) => Builder.Table(className, attr => child?.Invoke(Builder));
+    public void Table(Action<FieldBuilder<T>> child = null)
+    {
+        var table = new TableContext();
+        Builder.Component<CascadingValue<TableContext>>(ab =>
+        {
+            ab.Set(c => c.IsFixed, false)
+              .Set(c => c.Value, table)
+              .Set(c => c.ChildContent, delegate (RenderTreeBuilder b)
+              {
+                  var fb = new FieldBuilder<T>(b);
+                  b.Element("table", attr => child?.Invoke(fb));
+              });
+        });
+    }
+
+    public ComponentBuilder<TC> Component<TC>() where TC : BaseComponent => Builder.Component<TC>();
+    public void Button(ButtonInfo button, EventCallback onClick, bool visible = true, string style = null) => Builder.Button(button, onClick, visible, style);
+    public void Label(string className, string text) => Builder.Label(className, text);
+    public void ColGroup(params int?[] widths) => Builder.ColGroup(widths);
+    public void Tr(Action<AttributeBuilder> child = null) => Builder.Tr(child);
+    public void Th(Action<AttributeBuilder> child = null) => Builder.Th(child);
+    public void Th(string className, Action<AttributeBuilder> child = null) => Builder.Th(className, child);
+    public void Th(string className, string text) => Builder.Th(className, text);
+    public void Td(Action<AttributeBuilder> child = null) => Builder.Td(child);
+    public void FormList<TC>(string title, int colSpan, int? height, Action<AttributeBuilder<TC>> child = null) where TC : notnull, IComponent => Builder.FormList(title, colSpan, height, child);
+    public void FormList(string title, int colSpan, int? height, Action child = null) => Builder.FormList(title, colSpan, height, child);
 }
 
 public class FieldAttrBuilder<T> : ComponentBuilder<T> where T : Field

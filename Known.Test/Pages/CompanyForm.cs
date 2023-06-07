@@ -22,17 +22,17 @@ class CompanyForm : BaseForm<CompanyInfo>
             table.ColGroup(15, 35, 15, 35);
             table.Tr(attr =>
             {
-                builder.Field<Text>(f => f.Name).ReadOnly(!isEdit).Build();
-                builder.Field<Text>(f => f.NameEn).ReadOnly(!isEdit).Build();
+                table.Field<Text>(f => f.Name).ReadOnly(!isEdit).Build();
+                table.Field<Text>(f => f.NameEn).ReadOnly(!isEdit).Build();
             });
-            table.Tr(attr => builder.Field<Text>(f => f.Address).ColSpan(3).ReadOnly(!isEdit).Build());
-            table.Tr(attr => builder.Field<Text>(f => f.AddressEn).ColSpan(3).ReadOnly(!isEdit).Build());
+            table.Tr(attr => table.Field<Text>(f => f.Address).ColSpan(3).ReadOnly(!isEdit).Build());
+            table.Tr(attr => table.Field<Text>(f => f.AddressEn).ColSpan(3).ReadOnly(!isEdit).Build());
             table.Tr(attr =>
             {
-                builder.Field<Text>(f => f.Contact).ReadOnly(!isEdit).Build();
-                builder.Field<Text>(f => f.Phone).ReadOnly(!isEdit).Build();
+                table.Field<Text>(f => f.Contact).ReadOnly(!isEdit).Build();
+                table.Field<Text>(f => f.Phone).ReadOnly(!isEdit).Build();
             });
-            table.Tr(attr => builder.Field<TextArea>(f => f.Note).ColSpan(3).ReadOnly(!isEdit).Build());
+            table.Tr(attr => table.Field<TextArea>(f => f.Note).ColSpan(3).ReadOnly(!isEdit).Build());
         });
     }
 

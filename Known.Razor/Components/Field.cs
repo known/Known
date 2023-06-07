@@ -22,6 +22,7 @@ public abstract class Field : BaseComponent
     [Parameter] public Action<FieldContext> OnValueChanged { get; set; }
     [Parameter] public Action<string> OnSave { get; set; }
 
+    [CascadingParameter] internal TableContext Table { get; set; }
     [CascadingParameter] protected FieldContext FieldContext { get; set; }
 
     protected bool IsReadOnly => ReadOnly || FieldContext != null && FieldContext.ReadOnly;
@@ -101,7 +102,7 @@ public abstract class Field : BaseComponent
         if (!Visible)
             return;
 
-        if (FieldContext != null && FieldContext.IsTableForm)
+        if (Table != null)
         {
             if (IsInput)
                 BuildFormInput(builder);

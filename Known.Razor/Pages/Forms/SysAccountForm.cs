@@ -6,7 +6,6 @@ class SysAccountForm : BaseForm<SysUser>
 
     public SysAccountForm()
     {
-        IsTable = false;
         Style = "";
     }
 

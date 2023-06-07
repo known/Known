@@ -14,11 +14,6 @@ partial class UIService
 
 class PromptForm : Form
 {
-    public PromptForm()
-    {
-        IsTable = true;
-    }
-
     [Parameter] public Action<RenderTreeBuilder> Content { get; set; }
     [Parameter] public Action<dynamic> Action { get; set; }
 

@@ -11,7 +11,6 @@ class SysSettingForm : BaseForm<SettingInfo>
 
     public SysSettingForm()
     {
-        IsTable = false;
         Style = "";
     }
 

@@ -112,14 +112,14 @@ class SysMessageForm : BaseForm<SysMessage>
             table.Tr(attr =>
             {
                 table.Th("", "级别");
-                table.Td(attr => SysMessageList.BuildMsgLevel(table, model.MsgLevel));
-                builder.Field<Text>(f => f.MsgBy).ReadOnly(true).Build();
-                builder.Field<Date>(f => f.CreateTime)
-                       .Label("收件时间").ReadOnly(true)
-                       .Set(f => f.DateType, DateType.DateTime)
-                       .Build();
+                table.Td(attr => SysMessageList.BuildMsgLevel(table.Builder, model.MsgLevel));
+                table.Field<Text>(f => f.MsgBy).ReadOnly(true).Build();
+                table.Field<Date>(f => f.CreateTime)
+                     .Label("收件时间").ReadOnly(true)
+                     .Set(f => f.DateType, DateType.DateTime)
+                     .Build();
             });
-            table.Tr(attr => builder.Field<Text>(f => f.Content).ColSpan(5).ReadOnly(true).Build());
+            table.Tr(attr => table.Field<Text>(f => f.Content).ColSpan(5).ReadOnly(true).Build());
         });
     }
 

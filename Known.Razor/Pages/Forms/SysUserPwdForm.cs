@@ -4,7 +4,6 @@ class SysUserPwdForm : BaseForm<PwdFormInfo>
 {
     public SysUserPwdForm()
     {
-        IsTable = false;
         Style = "";
     }
 
