@@ -44,7 +44,7 @@ input[type="checkbox"], input[type="radio"] {width:20px;min-width:20px;height:20
 input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .inline2 input {display:inline-block;width:50%;}
 
-.box, .card, .dialog, .grid-view, .kui-tips, .kui-content {
+.box, .card, .dialog, .kui-tips, .kui-content {
     background-color:#fff;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
 }
 .circle {-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;}
@@ -244,7 +244,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 
 /*data*/
 .list-view, .grid-view, .list, .grid, .pager {position:absolute;left:0;right:0;bottom:0;}
-.list-view, .grid-view {top:0;}
+.list-view, .grid-view {top:10px;bottom:10px;left:10px;right:10px;border:1px solid #ccc;}
 .list, .grid {top:0;overflow:auto;}
 .tab-body .grid-view {top:10px;left:10px;right:10px;bottom:10px;}
 .toolbar {height:40px;line-height:40px;}

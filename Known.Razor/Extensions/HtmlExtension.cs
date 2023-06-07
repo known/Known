@@ -47,9 +47,20 @@ public static class HtmlExtension
 
     public static void Table(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null)
     {
-        builder.Element("table", attr =>
+        builder.Element("table", child);
+    }
+
+    public static void Table(this RenderTreeBuilder builder, Action<RenderTreeBuilder> child = null)
+    {
+        var table = new TableContext();
+        builder.Component<CascadingValue<TableContext>>(ab =>
         {
-            child?.Invoke(attr);
+            ab.Set(c => c.IsFixed, false)
+              .Set(c => c.Value, table)
+              .Set(c => c.ChildContent, delegate (RenderTreeBuilder b)
+              {
+                  b.Element("table", attr => child?.Invoke(b));
+              });
         });
     }
 

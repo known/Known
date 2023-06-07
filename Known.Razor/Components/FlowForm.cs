@@ -42,26 +42,26 @@ class FlowForm : Form
 
     private void BuildTableFields(RenderTreeBuilder builder)
     {
-        builder.Table(attr =>
+        builder.Table(table =>
         {
             if (!string.IsNullOrWhiteSpace(Option.Status))
             {
-                builder.Tr(attr =>
+                table.Tr(attr =>
                 {
-                    builder.Field<Text>("状态", nameof(FlowFormInfo.BizStatus)).Value(Option.Status).ReadOnly(true).Build();
+                    table.Field<Text>("状态", nameof(FlowFormInfo.BizStatus)).Value(Option.Status).ReadOnly(true).Build();
                 });
             }
             if (!string.IsNullOrWhiteSpace(Option.UserRole))
             {
                 PickUser.SetRole(Option.UserRole);
-                builder.Tr(attr =>
+                table.Tr(attr =>
                 {
-                    builder.Field<Picker>(Option.UserLabel, nameof(FlowFormInfo.User), true).Set(f => f.Pick, PickUser).Build();
+                    table.Field<Picker>(Option.UserLabel, nameof(FlowFormInfo.User), true).Set(f => f.Pick, PickUser).Build();
                 });
             }
-            builder.Tr(attr =>
+            table.Tr(attr =>
             {
-                builder.Field<TextArea>(Option.NoteLabel, nameof(FlowFormInfo.Note), Option.NoteRequired).Build();
+                table.Field<TextArea>(Option.NoteLabel, nameof(FlowFormInfo.Note), Option.NoteRequired).Build();
             });
         });
     }
