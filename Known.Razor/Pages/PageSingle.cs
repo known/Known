@@ -10,15 +10,13 @@ class PageSingle : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (HasModuleTips)
-        {
             BuildModuleTips(builder);
-        }
         BuildContent(builder);
     }
 
     private void BuildModuleTips(RenderTreeBuilder builder)
     {
-        builder.Div("kui-mod-tips box", attr =>
+        builder.Div("kui-tips", attr =>
         {
             builder.Span("name", CurPage?.Name);
             builder.Span("description", CurPage?.Description);
@@ -27,12 +25,17 @@ class PageSingle : BaseComponent
 
     private void BuildContent(RenderTreeBuilder builder)
     {
-        builder.Div(HasModuleTips ? "kui-content1" : "kui-content", attr =>
-        {
-            if (CurPage != null && CurPage.ComType != null)
-            {
-                builder.DynamicComponent(CurPage.ComType, CurPage.ComParameters);
-            }
-        });
+        if (HasModuleTips)
+            builder.Div("kui-content", attr => BuildPage(builder));
+        else
+            BuildPage(builder);
+    }
+
+    private void BuildPage(RenderTreeBuilder builder)
+    {
+        if (CurPage == null || CurPage.ComType == null)
+            return;
+
+        builder.DynamicComponent(CurPage.ComType, CurPage.ComParameters);
     }
 }

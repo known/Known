@@ -89,7 +89,7 @@ class SysMessageForm : BaseForm<SysMessage>
 
     [Parameter] public Action OnBack { get; set; }
 
-    protected override async Task InitPageAsync()
+    protected override async Task InitFormAsync()
     {
         model = TModel;
         if (model.Status == Constants.UMStatusUnread)

@@ -38,4 +38,12 @@ public static class FormExtension
             fb.Add(nameof(Select.EmptyText), "请选择");
         return fb;
     }
+
+    public static void BuildFlowLog(this RenderTreeBuilder builder, string bizId, int colSpan)
+    {
+        builder.FormList<FlowLogGrid>("流程记录", colSpan, null, attr =>
+        {
+            attr.Set(c => c.BizId, bizId);
+        });
+    }
 }

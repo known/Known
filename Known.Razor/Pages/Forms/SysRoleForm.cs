@@ -10,7 +10,7 @@ class SysRoleForm : BaseForm<SysRole>
     private List<TreeItem<MenuInfo>> data;
     private TreeItem<MenuInfo> curItem;
 
-    protected override async Task InitPageAsync()
+    protected override async Task InitFormAsync()
     {
         info = await Platform.Role.GetRoleAsync(TModel.Id);
         foreach (var item in info.Menus)

@@ -16,7 +16,7 @@ public class Install : Form
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("install box", attr => BuildForm(builder));
+        builder.Div("install box", attr => BuildFields(builder));
     }
 
     protected override void BuildFields(RenderTreeBuilder builder)

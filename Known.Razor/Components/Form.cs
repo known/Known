@@ -17,19 +17,20 @@ public class Form : BaseComponent
 
     internal FormContext FormContext { get; }
     protected bool IsTable { get; set; }
-    protected string ButtonStyle { get; set; }
     protected string CheckFields { get; set; }
     public dynamic Data => FormContext.Data;
     public Dictionary<string, Field> Fields => FormContext.Fields;
     public T FieldAs<T>(string id) where T : Field => FormContext.FieldAs<T>(id);
 
+    protected virtual Task InitFormAsync() => Task.CompletedTask;
+
     protected override async Task OnInitializedAsync()
     {
         await AddVisitLogAsync();
-        await InitPageAsync();
+        await InitFormAsync();
         isInitialized = true;
     }
-
+    
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -59,32 +60,34 @@ public class Form : BaseComponent
             return;
         }
 
-        BuildForm(builder);
-    }
-
-    protected virtual void BuildForm(RenderTreeBuilder builder)
-    {
         var css = CssBuilder.Default("form").AddClass(Style).Build();
         builder.Div(css, attr =>
         {
-            builder.Component<CascadingValue<FormContext>>(attr =>
+            if (ChildContent == null)
             {
-                attr.Set(c => c.IsFixed, false)
-                    .Set(c => c.Value, FormContext);
-                if (ChildContent != null)
-                    attr.Set(c => c.ChildContent, ChildContent);
-                else
-                    attr.Set(c => c.ChildContent, BuildTree(BuildFields));
-            });
+                builder.Div("form-body", attr =>
+                {
+                    builder.Component<CascadingValue<FormContext>>(attr =>
+                    {
+                        attr.Set(c => c.IsFixed, false)
+                            .Set(c => c.Value, FormContext)
+                            .Set(c => c.ChildContent, BuildTree(BuildFields));
+                    });
+                });
+                builder.Div("form-button", attr => BuildButtons(builder));
+            }
+            else
+            {
+                builder.Component<CascadingValue<FormContext>>(attr =>
+                {
+                    attr.Set(c => c.IsFixed, false)
+                        .Set(c => c.Value, FormContext)
+                        .Set(c => c.ChildContent, ChildContent);
+                });
+            }
         });
-        if (ChildContent == null)
-        {
-            css = CssBuilder.Default("form-button").AddClass(ButtonStyle).Build();
-            builder.Div(css, attr => BuildButtons(builder));
-        }
     }
 
-    protected virtual Task InitPageAsync() => Task.CompletedTask;
     protected virtual void BuildFields(RenderTreeBuilder builder) { }
     protected virtual void BuildButtons(RenderTreeBuilder builder) => builder.Button(FormButton.Close, Callback(OnCancel));
 
@@ -252,7 +255,6 @@ public class BaseForm<T> : Form
     {
         IsTable = true;
         Style = "inline";
-        ButtonStyle = "inline";
     }
 
     protected T TModel => (T)Model;
@@ -271,12 +273,4 @@ public class BaseForm<T> : Form
 
     protected override void BuildFields(RenderTreeBuilder builder) => BuildFields(new FieldBuilder<T>(builder));
     protected virtual void BuildFields(FieldBuilder<T> builder) { }
-
-    protected void BuildFlowLog(RenderTreeBuilder builder, string bizId, int colSpan)
-    {
-        builder.FormList<FlowLogGrid>("流程记录", colSpan, null, attr =>
-        {
-            attr.Set(c => c.BizId, bizId);
-        });
-    }
 }

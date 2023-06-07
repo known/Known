@@ -6,10 +6,10 @@ class CompanyForm : BaseForm<CompanyInfo>
 
     public CompanyForm()
     {
-        Style = "form-page inline box";
+        //Style = "form-page inline";
     }
 
-    protected override async Task InitPageAsync()
+    protected override async Task InitFormAsync()
     {
         Model = await Platform.Company.GetCompanyAsync<CompanyInfo>();
     }
@@ -34,10 +34,9 @@ class CompanyForm : BaseForm<CompanyInfo>
             });
             table.Tr(attr => builder.Field<TextArea>(f => f.Note).ColSpan(3).ReadOnly(!isEdit).Build());
         });
-        BuildButton(builder.Builder);
     }
 
-    private void BuildButton(RenderTreeBuilder builder)
+    protected override void BuildButtons(RenderTreeBuilder builder)
     {
         if (!HasButton(FormButton.Edit))
             return;

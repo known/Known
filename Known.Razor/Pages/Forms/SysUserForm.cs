@@ -6,7 +6,7 @@ class SysUserForm : BaseForm<SysUser>
     private SysUser model;
     private UserAuthInfo auth;
 
-    protected override async Task InitPageAsync()
+    protected override async Task InitFormAsync()
     {
         model = TModel;
         auth = await Platform.User.GetUserAuthAsync(model?.Id);

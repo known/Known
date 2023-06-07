@@ -44,9 +44,8 @@ input[type="checkbox"], input[type="radio"] {width:20px;min-width:20px;height:20
 input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .inline2 input {display:inline-block;width:50%;}
 
-.box, .card, .dialog, .grid-view {
-    background-color:#fff;border:1px solid #ccc;
-    -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
+.box, .card, .dialog, .grid-view, .kui-tips, .kui-content {
+    background-color:#fff;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
 }
 .circle {-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;}
 .left {float:left;}
@@ -123,9 +122,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .card-body {position:absolute;top:42px;left:1px;right:1px;bottom:1px;padding:5px;overflow:auto;}
 
 /*dialog*/
-.dialog, .dlg-tips, .dlg-body, .dlg-foot, 
-.dlg-content, .dlg-content .form, 
-.dlg-content .form-button {position:absolute;left:0;right:0;}
+.dialog, .dlg-tips, .dlg-body, .dlg-foot, .dlg-content, .dlg-content .form, .dlg-content .form-button {position:absolute;left:0;right:0;}
 .dialog, .dlg-tips {top:50%;left:50%;z-index:9999999;}
 .dialog {border:2px solid #ccc;}
 .dialog.max {top:0;left:0;right:0;bottom:0;}
@@ -137,7 +134,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .dlg-head .btns .bmax {position:absolute;top:13.5px;right:35px;font-size:0.9rem;cursor:pointer;}
 .dlg-body, .dlg-content .form {top:50px;bottom:52px;padding:10px;overflow:auto;}
 .dlg-content {top:50px;bottom:0;}
-.dlg-content .form {top:1px;}
+.dlg-content .form {top:1px;bottom:0;}
 .dlg-body .message {text-align:center;margin-top:20px;font-size:1.2rem;}
 .dlg-foot, .dlg-content .form-button {margin:0;bottom:0;text-align:right;border-top:1px solid #ccc;}
 .dlg-foot button {margin-left:10px;}
@@ -247,8 +244,8 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 
 /*data*/
 .list-view, .grid-view, .list, .grid, .pager {position:absolute;left:0;right:0;bottom:0;}
+.list-view, .grid-view {top:0;}
 .list, .grid {top:0;overflow:auto;}
-.list-view, .grid-view {top:0;border:1px solid #ddd;}
 .tab-body .grid-view {top:10px;left:10px;right:10px;bottom:10px;}
 .toolbar {height:40px;line-height:40px;}
 .grid {left:0;right:0;top:0;bottom:0;z-index:1000;}

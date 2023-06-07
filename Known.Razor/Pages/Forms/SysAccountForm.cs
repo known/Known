@@ -8,7 +8,6 @@ class SysAccountForm : BaseForm<SysUser>
     {
         IsTable = false;
         Style = "";
-        ButtonStyle = "";
     }
 
     protected override void OnInitialized()
@@ -18,7 +17,7 @@ class SysAccountForm : BaseForm<SysUser>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("content box", attr => BuildForm(builder));
+        builder.Div("content box", attr => BuildFields(builder));
     }
 
     protected override void BuildFields(FieldBuilder<SysUser> builder)
