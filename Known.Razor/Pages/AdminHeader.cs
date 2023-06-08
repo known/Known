@@ -60,7 +60,7 @@ class AdminHeader : BaseComponent
     {
         builder.Div("toggleMenu", attr =>
         {
-            builder.Icon(ToggleIcon, attr => attr.Title("折叠/展开").OnClick(Callback(OnToggleMenu)));
+            builder.Icon(ToggleIcon, "折叠/展开", Callback(OnToggleMenu));
         });
         builder.Div("appName", AppName);
     }

@@ -15,6 +15,7 @@
 :root {
     --theme-color: #4188c8;
     --font-color: #413e3c;
+    --line-color: #ccc;
     --border-radius: 0.2rem;
 }
 
@@ -68,6 +69,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .list-box .item.active {background-color:#337ab7;color:#fff;}
 
 /*form*/
+.form-body {border-top:2px solid var(--line-color);}
 .form-title {font-size:1.5rem;font-weight:bold;text-align:center;padding:10px;}
 .form-caption {font-size:1.1rem;}
 .form-caption .text {display:inline-block;border-left:5px solid #337ab7;padding-left:5px;height:40px;line-height:40px;font-weight:bold;}
@@ -84,7 +86,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form-input .icon.fa-ellipsis-h {background-color:#f5f5f5;}
 .form-input .icon-select {background-color:#fff;z-index:9999;}
 .form-input .unit, .form-input .btn {position:absolute;right:0;padding:0 5px;}
-.form-input .btn {border:1.5px solid #ccc;background-color:#f1f1f1;cursor:pointer;}
+.form-input .btn {border:1.5px solid var(--line-color);background-color:#f1f1f1;cursor:pointer;}
 .form-input.check {font-weight:bold;}
 .form-check {position:absolute;top:5px;right:0;}
 .form-radio {position:relative;margin-right:10px;cursor:pointer;display:inline-block;}
@@ -96,7 +98,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form-item, .form-button, .tips {padding:0 10px;}
 .block .form-radio {display:block;height:auto;}
 .form, .inline {padding:10px;}
-.form th, .form td {padding:5px;border:1px solid #ccc;}
+.form th, .form td {padding:5px;border-bottom:1px solid var(--line-color);}
 .form th {background-color:#f0f0f0;text-align:right;font-weight:normal;}
 .form td .form-input {width:100%;}
 .form td .query .form-input, .form td .inline .form-input, 
@@ -116,14 +118,14 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 
 /*group-box*/
 .group-box {
-    position:relative;border:1px solid #ccc;
+    position:relative;border:1px solid var(--line-color);
     -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
 }
 .group-box .legend {position:absolute;top:-10px;left:20px;background-color:#fff;padding:0 10px;}
 
 /*card*/
 .card {position:absolute;top:0;left:0;right:0;bottom:0;}
-.card-head {position:relative;height:40px;line-height:40px;margin:0 10px;padding:0 5px;;border-bottom:1px solid #ccc;}
+.card-head {position:relative;height:40px;line-height:40px;margin:0 10px;padding:0 5px;;border-bottom:1px solid var(--line-color);}
 .card-head .icon {margin-right:5px;}
 .card-head .tool {position:absolute;top:0;right:10px;color:#00f;cursor:pointer;font-weight:normal;}
 .card-body {position:absolute;top:42px;left:1px;right:1px;bottom:1px;padding:5px;overflow:auto;}
@@ -131,10 +133,10 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 /*dialog*/
 .dialog, .dlg-tips, .dlg-body, .dlg-foot, .dlg-content, .dlg-content .form, .dlg-content .form-button {position:absolute;left:0;right:0;}
 .dialog, .dlg-tips {top:50%;left:50%;z-index:9999999;}
-.dialog {border:2px solid #ccc;}
+.dialog {border:2px solid var(--line-color);}
 .dialog.max {top:0;left:0;right:0;bottom:0;}
 .dlg-head, .dlg-foot {padding:0 10px;}
-.dlg-head {position:relative;border-bottom:1px solid #ccc;font-weight:bold;font-size:1.2rem;}
+.dlg-head {position:relative;border-bottom:1px solid var(--line-color);font-weight:bold;font-size:1.2rem;}
 .dlg-head.draggable {cursor:move;}
 .dlg-head .btns {position:absolute;top:0;right:0;width:100px;}
 .dlg-head .btns .bmin {position:absolute;top:13.5px;right:65px;font-size:0.9rem;cursor:pointer;}
@@ -143,7 +145,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .dlg-content {top:50px;bottom:0;}
 .dlg-content .form {top:1px;bottom:0;}
 .dlg-body .message {text-align:center;margin-top:20px;font-size:1.2rem;}
-.dlg-foot, .dlg-content .form-button {margin:0;bottom:0;text-align:right;border-top:1px solid #ccc;}
+.dlg-foot, .dlg-content .form-button {margin:0;bottom:0;text-align:right;}
 .dlg-foot button {margin-left:10px;}
 .dlg-content .form.nb {bottom:1px;}
 .dlg-content .form-button.inline {padding:0 10px;}
@@ -212,13 +214,13 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .tabs {position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;}
 .tab li {margin:0 20px;padding:10px 5px;cursor:pointer;}
 .tab li.active {font-weight:bold;border-radius:1px;}
-.tab.top {border-bottom:1px solid #ccc;}
+.tab.top {border-bottom:1px solid var(--line-color);}
 .tab.top li {display:inline-block;}
 .tab.top li.active {border-bottom:4px solid #5cb85c;}
-.tab.left {height:100%;border-right:1px solid #ccc;padding:10px 0;}
+.tab.left {height:100%;border-right:1px solid var(--line-color);padding:10px 0;}
 .tab.left li {text-align:right;margin:15px 0;padding:0 20px;border-right:4px solid #fff;}
 .tab.left li.active {border-right-color:#5cb85c;}
-.tab.bottom {border-top:1px solid #ccc;position:absolute;left:0;right:0;bottom:0;height:50px;}
+.tab.bottom {border-top:1px solid var(--line-color);position:absolute;left:0;right:0;bottom:0;height:50px;}
 .tab.bottom li {display:inline-block;}
 .tab.bottom li.active {border-top:4px solid #5cb85c;}
 .tab-body {position:absolute;top:0;left:0;right:0;bottom:0;display:none;padding:10px;overflow:auto;}
@@ -251,7 +253,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 
 /*data*/
 .list-view, .grid-view, .list, .grid, .pager {position:absolute;left:0;right:0;bottom:0;}
-.list-view, .grid-view {top:10px;bottom:10px;left:10px;right:10px;border:1px solid #ccc;}
+.list-view, .grid-view {top:10px;bottom:10px;left:10px;right:10px;}
 .list, .grid {top:0;overflow:auto;}
 .tab-body .grid-view {top:10px;left:10px;right:10px;bottom:10px;}
 .toolbar {height:40px;line-height:40px;}
@@ -260,8 +262,8 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .form .grid, .form .grid .table {left:0;right:0;top:0;bottom:0;}
 .form .table th {text-align:center;}
 
-.table {border-top:1px solid #ccc;border-bottom:1px solid #ccc;}
-.table th, .table td {padding:5px 10px;border-bottom:1px solid #ccc;white-space:nowrap;text-align:left;}
+.table {border-top:2px solid var(--line-color);border-bottom:1px solid var(--line-color);}
+.table th, .table td {padding:5px 10px;border-bottom:1px solid var(--line-color);white-space:nowrap;text-align:left;}
 .table th .icon {margin-left:10px;color:#888;}
 .table th .icon.sort {color:#485fc7;}
 .table td {text-overflow:ellipsis;}
@@ -282,8 +284,9 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .table th.fixed, .table td.fixed {position:sticky;z-index:2;background-color:#fff;}
 
 .table .action {width:30px;text-align:center;position:sticky;z-index:2;right:0;background-color:#fff;}
+.table .action .icon {margin:0 5px;cursor:pointer;font-size:1.2rem;}
 .table .action .link {
-    color:#fff;margin:0 5px;padding:3px 5px;font-size:0.9rem;
+    margin:0 5px;padding:3px 5px;font-size:0.9rem;
     -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
 }
 .table .action .link:hover {-moz-opacity:0.8;opacity:0.8;filter:alpha(opacity=80);}

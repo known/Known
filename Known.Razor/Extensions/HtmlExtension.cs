@@ -263,6 +263,11 @@ public static class HtmlExtension
         });
     }
 
+    public static void Icon(this RenderTreeBuilder builder, string icon, string title, EventCallback onClick)
+    {
+        builder.Icon(icon, attr => attr.Title(title).OnClick(onClick));
+    }
+
     public static void Label(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("label", attr => child?.Invoke(attr));
 
     public static void Label(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)

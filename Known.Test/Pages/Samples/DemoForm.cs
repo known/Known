@@ -5,9 +5,14 @@ class DemoForm : Razor.Components.Form
     private readonly string Codes = "孙膑,后羿,妲己";
     private string formData;
 
-    protected override void BuildFields(RenderTreeBuilder builder)
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("demo-caption", "默认表单");
+        base.BuildRenderTree(builder);
+    }
+
+    protected override void BuildFields(RenderTreeBuilder builder)
+    {
         builder.Table(table =>
         {
             table.ColGroup(10, 23, 10, 23, 10, 24);

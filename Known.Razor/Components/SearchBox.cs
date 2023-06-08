@@ -27,7 +27,7 @@ public class SearchBox : BaseComponent
         builder.Div(css, attr =>
         {
             builder.Input(attr => attr.Placeholder(Placeholder).OnChange(Callback<ChangeEventArgs>(e => OnKeyChanged(e))));
-            builder.Icon("fa fa-search", attr => attr.OnClick(Callback(OnClick)));
+            builder.Icon("fa fa-search", "", Callback(OnClick));
         });
     }
 

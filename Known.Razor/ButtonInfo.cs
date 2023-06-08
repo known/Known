@@ -71,7 +71,7 @@ public sealed class GridAction
 
     public static ButtonInfo View => new("View", "查看", "fa fa-info-circle", "bg-primary");
     public static ButtonInfo Edit => new("Edit", "编辑", "fa fa-edit", "bg-primary");
-    public static ButtonInfo Delete => new("Delete", "删除", "fa fa-close", "bg-danger");
+    public static ButtonInfo Delete => new("Delete", "删除", "fa fa-trash-o", "bg-danger");
     public static ButtonInfo Print => ToolButton.Print;
     public static ButtonInfo MoveUp => ToolButton.MoveUp;
     public static ButtonInfo MoveDown => ToolButton.MoveDown;

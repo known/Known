@@ -348,7 +348,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         {
             if (ShowSetting)
             {
-                builder.Icon("fa fa-cog", attr => attr.Title("表格设置").OnClick(Callback(ShowColumnSetting)));
+                builder.Icon("fa fa-cog", "表格设置", Callback(ShowColumnSetting));
             }
         });
     }
@@ -516,7 +516,9 @@ public class DataGrid<TItem> : DataComponent<TItem>
     {
         foreach (var action in actions)
         {
-            builder.Link(action.Name, Callback(() => OnRowAction(item, action)), action.Style);
+            var style = action.Style?.Replace("bg-", "");
+            builder.Icon($"{action.Icon} {style}", action.Name, Callback(() => OnRowAction(item, action)));
+            //builder.Link(action.Name, Callback(() => OnRowAction(item, action)), action.Style);
         }
     }
 
@@ -527,7 +529,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
         builder.Div("dropdown", attr =>
         {
-            builder.Span("link bg-primary", attr =>
+            builder.Span("link primary", attr =>
             {
                 builder.Text("更多");
                 builder.Icon("fa fa-caret-down");
