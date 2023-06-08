@@ -124,7 +124,7 @@ public abstract class Field : BaseComponent
     protected virtual void SetInputValue(object value) => Value = FormatValue(value);
     protected virtual void SetFieldContext(FieldContext context) { }
 
-    protected void BuildRadio(RenderTreeBuilder builder, string type, string text, string value, bool enabled, bool isChecked, Action<bool, string> action = null, int? columnCount = null)
+    internal void BuildRadio(RenderTreeBuilder builder, string type, string text, string value, bool enabled, bool isChecked, Action<bool, string> action = null, int? columnCount = null)
     {
         builder.Label("form-radio", attr =>
         {
@@ -154,7 +154,7 @@ public abstract class Field : BaseComponent
         });
     }
 
-    protected EventCallback<ChangeEventArgs> CreateBinder(Action<DateTime?> action = null)
+    internal EventCallback<ChangeEventArgs> CreateBinder(Action<DateTime?> action = null)
     {
         return EventCallback.Factory.CreateBinder(this, value =>
         {
