@@ -144,7 +144,8 @@ button, input, select, .form-input .text, .form-input .unit,
 .ss-form {position:absolute;top:0;left:10px;right:10px;bottom:10px;}
 .tab-body .ss-form {top:10px;}
 .ss-form .leftBar {position:absolute;left:0;top:0;bottom:0;width:180px;text-align:center;padding:0;}
-.ss-form .content {position:absolute;top:0;left:191px;right:0;bottom:0;padding:50px;}
+.ss-form .form {position:absolute;top:0;left:191px;right:0;bottom:0;padding:50px;}
+.ss-form .form-body {border-top:none;}
 .ss-form .leftBar img {width:100px;height:100px;margin-top:40px;}
 .ss-form .tab {position:absolute;left:0;top:180px;bottom:0;right:0;height:auto;border-right-width:0;}
 .ss-form .tab li {text-align:center;}

@@ -19,11 +19,6 @@ class SysSettingForm : BaseForm<SettingInfo>
         Model = Setting.Info;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.Div("content box", attr => BuildFields(builder));
-    }
-
     protected override void BuildFields(FieldBuilder<SettingInfo> builder)
     {
         builder.Field<Select>("系统主题", nameof(SettingInfo.Theme)).ReadOnly(!isEdit).Set(f => f.Items, themes).Build();

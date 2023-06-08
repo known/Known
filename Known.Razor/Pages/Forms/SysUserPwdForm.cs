@@ -12,11 +12,6 @@ class SysUserPwdForm : BaseForm<PwdFormInfo>
         Model = CurrentUser;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.Div("content box", attr => BuildFields(builder));
-    }
-
     protected override void BuildFields(FieldBuilder<PwdFormInfo> builder)
     {
         builder.Field<Password>("原密码", nameof(PwdFormInfo.OldPwd), true).Build();

@@ -14,11 +14,6 @@ class SysAccountForm : BaseForm<SysUser>
         Model = CurrentUser;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.Div("content box", attr => BuildFields(builder));
-    }
-
     protected override void BuildFields(FieldBuilder<SysUser> builder)
     {
         builder.Div("avatar", attr => builder.Builder.Icon("fa fa-user"));

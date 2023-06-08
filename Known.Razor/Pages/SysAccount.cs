@@ -22,7 +22,7 @@ class SysAccount : PageComponent
         var user = CurrentUser;
         builder.Div("ss-form", attr =>
         {
-            builder.Div("leftBar box", attr =>
+            builder.Div("leftBar", attr =>
             {
                 builder.Img(attr => attr.Src($"_content/Known.Razor{user?.AvatarUrl}"));
                 builder.Div("name", user?.Name);
