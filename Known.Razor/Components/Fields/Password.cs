@@ -6,7 +6,7 @@ public class Password : Field
     [Parameter] public string Placeholder { get; set; }
     [Parameter] public string OnEnter { get; set; }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
+    protected override void BuildInput(RenderTreeBuilder builder)
     {
         BuildIcon(builder, Icon);
         builder.Input(attr =>

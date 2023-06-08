@@ -8,7 +8,7 @@ public class Number : Field
     [Parameter] public string Placeholder { get; set; }
     [Parameter] public string OnEnter { get; set; }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
+    protected override void BuildInput(RenderTreeBuilder builder)
     {
         builder.Input(attr =>
         {
@@ -26,7 +26,7 @@ public class Number : Field
             builder.Span("unit", Unit);
     }
 
-    protected override void BuildChildText(RenderTreeBuilder builder) => builder.Span("text", attr => BuildValueUnit(builder, Value, Unit));
+    protected override void BuildText(RenderTreeBuilder builder) => builder.Span("text", attr => BuildValueUnit(builder, Value, Unit));
 
     private static void BuildValueUnit(RenderTreeBuilder builder, string value, string unit)
     {

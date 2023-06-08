@@ -15,7 +15,7 @@ public class Date : Field
             return DateValue;
     }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
+    protected override void BuildInput(RenderTreeBuilder builder)
     {
         if (DateType == DateType.DateTime)
         {

@@ -23,19 +23,19 @@ public class CheckList : Field
         ListItems = GetListItems();
     }
 
-    protected override void SetFieldContext(FieldContext context)
+    protected override void SetContext(FieldContext context)
     {
-        base.SetFieldContext(context);
+        base.SetContext(context);
         context.FieldItems = GetListItems();
     }
 
-    protected override void BuildChildText(RenderTreeBuilder builder)
+    protected override void BuildText(RenderTreeBuilder builder)
     {
         Enabled = false;
-        BuildChildContent(builder);
+        BuildInput(builder);
     }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
+    protected override void BuildInput(RenderTreeBuilder builder)
     {
         values.Clear();
         if (ListItems == null || ListItems.Length == 0)

@@ -4,12 +4,12 @@ public class TextArea : Field
 {
     [Parameter] public string Placeholder { get; set; }
 
-    protected override void BuildChildText(RenderTreeBuilder builder)
+    protected override void BuildText(RenderTreeBuilder builder)
     {
         builder.Pre(Value);
     }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
+    protected override void BuildInput(RenderTreeBuilder builder)
     {
         builder.TextArea(attr =>
         {

@@ -21,7 +21,7 @@ public class RadioList : Field
         ListItems = GetListItems();
     }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
+    protected override void BuildInput(RenderTreeBuilder builder)
     {
         if (ListItems == null || ListItems.Length == 0)
             return;
@@ -32,9 +32,9 @@ public class RadioList : Field
         }
     }
 
-    protected override void SetFieldContext(FieldContext context)
+    protected override void SetContext(FieldContext context)
     {
-        base.SetFieldContext(context);
+        base.SetContext(context);
         context.FieldItems = GetListItems();
     }
 

@@ -24,13 +24,13 @@ public class ListBox : Field
         ListItems = GetListItems();
     }
 
-    protected override void SetFieldContext(FieldContext context)
+    protected override void SetContext(FieldContext context)
     {
-        base.SetFieldContext(context);
+        base.SetContext(context);
         context.FieldItems = GetListItems();
     }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
+    protected override void BuildInput(RenderTreeBuilder builder)
     {
         var css = CssBuilder.Default("list-box").AddClass("disabled", !Enabled).Build();
         builder.Ul(css, attr =>

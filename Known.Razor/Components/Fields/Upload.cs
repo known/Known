@@ -34,9 +34,9 @@ public class Upload : Field
         return true;
     }
 
-    protected override void BuildChildText(RenderTreeBuilder builder) => BuildFileContent(builder);
+    protected override void BuildText(RenderTreeBuilder builder) => BuildFileContent(builder);
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
+    protected override void BuildInput(RenderTreeBuilder builder)
     {
         if (Context.IsMobile && Accept == Constants.MimeImage)
         {

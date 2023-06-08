@@ -119,10 +119,10 @@ public abstract class Field : BaseComponent
     }
 
     protected virtual string FormatValue(object value) => value?.ToString();
-    protected virtual void BuildChildText(RenderTreeBuilder builder) => builder.Span("text", Value);
-    protected virtual void BuildChildContent(RenderTreeBuilder builder) { }
+    protected virtual void BuildText(RenderTreeBuilder builder) => builder.Span("text", Value);
+    protected virtual void BuildInput(RenderTreeBuilder builder) { }
     protected virtual void SetInputValue(object value) => Value = FormatValue(value);
-    protected virtual void SetFieldContext(FieldContext context) { }
+    protected virtual void SetContext(FieldContext context) { }
 
     internal void BuildRadio(RenderTreeBuilder builder, string type, string text, string value, bool enabled, bool isChecked, Action<bool, string> action = null, int? columnCount = null)
     {
@@ -179,7 +179,7 @@ public abstract class Field : BaseComponent
             FieldContext.FieldId = Id;
             FieldContext.FieldValue = value;
             FieldContext.SetModel(Id, value);
-            SetFieldContext(FieldContext);
+            SetContext(FieldContext);
             OnValueChanged?.Invoke(FieldContext);
         }
     }
@@ -247,13 +247,13 @@ public abstract class Field : BaseComponent
             attr.Style(style);
             if (IsReadOnly && !isEdit)
             {
-                BuildChildText(builder);
+                BuildText(builder);
                 if (IsEdit)
                     BuildEditButton(builder);
             }
             else
             {
-                BuildChildContent(builder);
+                BuildInput(builder);
             }
 
             if (isCheck)

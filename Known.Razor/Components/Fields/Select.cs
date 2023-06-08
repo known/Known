@@ -26,13 +26,13 @@ public class Select : Field
         Text = code?.Name ?? Value;
     }
 
-    protected override void SetFieldContext(FieldContext context)
+    protected override void SetContext(FieldContext context)
     {
-        base.SetFieldContext(context);
+        base.SetContext(context);
         context.FieldItems = GetListItems();
     }
 
-    protected override void BuildChildText(RenderTreeBuilder builder)
+    protected override void BuildText(RenderTreeBuilder builder)
     {
         var value = Value;
         var code = ListItems.FirstOrDefault(c => c.Code == value);
@@ -41,7 +41,7 @@ public class Select : Field
         builder.Span("text", value);
     }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
+    protected override void BuildInput(RenderTreeBuilder builder)
     {
         if (!string.IsNullOrWhiteSpace(Icon))
             builder.Icon(Icon);

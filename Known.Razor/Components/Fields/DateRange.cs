@@ -26,7 +26,7 @@ public class DateRange : Field
         SetValue(End, 1);
     }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
+    protected override void BuildInput(RenderTreeBuilder builder)
     {
         var start = Start?.ToString(format);
         var end = End?.ToString(format);

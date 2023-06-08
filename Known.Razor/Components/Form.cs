@@ -52,12 +52,6 @@ public class Form : BaseComponent
         if (!isInitialized)
             return;
 
-        if (!Context.Check.IsCheckKey)
-        {
-            BuildAuthorize(builder);
-            return;
-        }
-
         var css = CssBuilder.Default("form").AddClass(Style).Build();
         builder.Div(css, attr =>
         {

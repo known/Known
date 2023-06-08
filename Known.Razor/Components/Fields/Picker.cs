@@ -13,7 +13,7 @@ public class Picker : Field
         return base.OnInitializedAsync();
     }
 
-    protected override void BuildChildContent(RenderTreeBuilder builder)
+    protected override void BuildInput(RenderTreeBuilder builder)
     {
         builder.Input(attr =>
         {
