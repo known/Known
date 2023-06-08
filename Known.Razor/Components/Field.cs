@@ -31,6 +31,12 @@ public abstract class Field : BaseComponent
 
     internal virtual object GetValue() => Value;
 
+    public T ValueAs<T>()
+    {
+        var value = GetValue();
+        return Utils.ConvertTo<T>(value);
+    }
+
     public virtual bool Validate()
     {
         error = string.Empty;
