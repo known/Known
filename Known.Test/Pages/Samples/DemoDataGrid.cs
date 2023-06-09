@@ -2,35 +2,19 @@
 
 class DemoDataGrid : BaseComponent
 {
+    private readonly TabItem[] items = new TabItem[]
+    {
+        new TabItem{Icon="fa fa-table",Title="普通表格",ChildContent=BuildTree(b=>b.Component<Table>().Set(c => c.Type, "common").Build())},
+        new TabItem{Icon="fa fa-table",Title="分页表格",ChildContent=BuildTree(b=>b.Component<Table>().Build())},
+        new TabItem{Icon="fa fa-table",Title="编辑表格",ChildContent=BuildTree(b=>b.Component<EditTable>().Build())},
+        new TabItem{Icon="fa fa-table",Title="综合表格",ChildContent=BuildTree(b=>b.Component<Table>().Set(c => c.Type, "all").Build())}
+    };
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("demo-caption", "普通表格");
-        builder.Div("demo-box", attr =>
-        {
-            attr.Style("height:300px;");
-            builder.Component<Table>().Set(c => c.Type, "common").Build();
-        });
-
-        builder.Div("demo-caption", "分页表格");
-        builder.Div("demo-box", attr =>
-        {
-            attr.Style("height:350px;");
-            builder.Component<Table>().Build();
-        });
-
-        builder.Div("demo-caption", "编辑表格");
-        builder.Div("demo-box", attr =>
-        {
-            attr.Style("height:300px;");
-            builder.Component<EditTable>().Build();
-        });
-
-        builder.Div("demo-caption", "综合表格");
-        builder.Div("demo-box", attr =>
-        {
-            attr.Style("height:350px;");
-            builder.Component<Table>().Set(c => c.Type, "all").Build();
-        });
+        builder.Component<Tabs>()
+               .Set(c => c.Items, items)
+               .Build();
     }
 }
 

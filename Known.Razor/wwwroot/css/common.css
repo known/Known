@@ -35,7 +35,7 @@ button, input, select, textarea {
     outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;background-color:#fff;
     -webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
 }
-button {color:#fff;background-color:#337ab7;cursor:pointer;border:none;padding:0 0.8rem;}
+button {cursor:pointer;border:none;padding:0 0.8rem;background-color:#3492d0;color:#fff;}
 button .icon {text-align:center;margin-right:5px;}
 button:hover {-moz-opacity:0.8;opacity:0.8;filter:alpha(opacity=80);}
 input:read-only, select:disabled, textarea:read-only {background-color:#f5f5f5;}
@@ -264,7 +264,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 
 .table {border-top:2px solid var(--line-color);border-bottom:1px solid var(--line-color);}
 .table th, .table td {padding:5px 10px;border-bottom:1px solid var(--line-color);white-space:nowrap;text-align:left;}
-.table th .icon {margin-left:10px;color:#888;}
+.table th .icon {margin-left:10px;color:#dfdfdf;}
 .table th .icon.sort {color:#485fc7;}
 .table td {text-overflow:ellipsis;}
 .table tfoot td {background-color:#fdfdfd;}
@@ -337,13 +337,13 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .close:hover {color:#d9534f;}
 .link {color:#00f;cursor:pointer;padding:0 5px;}
 .bold {font-weight:bold;}
-.primary {color:#337ab7;}
+.primary {color:#3492d0;}
 .success {color:#5cb85c;}
 .info    {color:#5bc0de;}
 .warning {color:#f0ad4e;}
 .danger  {color:#d9534f;}
 .orange  {color:#f0ad4e;}
-.bg-primary {background-color:#337ab7;color:#fff;}
+.bg-primary {background-color:#3492d0;color:#fff;}
 .bg-success {background-color:#5cb85c;color:#fff;}
 .bg-info    {background-color:#5bc0de;color:#fff;}
 .bg-warning {background-color:#f0ad4e;color:#fff;}
