@@ -22,6 +22,7 @@ class SysSettingForm : BaseForm<SettingInfo>
     protected override void BuildFields(FieldBuilder<SettingInfo> builder)
     {
         builder.Field<Select>("系统主题", nameof(SettingInfo.Theme)).ReadOnly(!isEdit).Set(f => f.Items, themes).Build();
+        builder.Field<CheckBox>("随机色", nameof(SettingInfo.RandomColor)).ReadOnly(!isEdit).Build();
         builder.Field<CheckBox>("标签页", nameof(SettingInfo.MultiTab)).ReadOnly(!isEdit).Build();
         builder.Field<Select>("表格每页显示数量", nameof(SettingInfo.PageSize)).ReadOnly(!isEdit).Set(f => f.Codes, sizes).Build();
     }
@@ -43,6 +44,7 @@ class SysSettingForm : BaseForm<SettingInfo>
     {
         SubmitAsync(data =>
         {
+            data.RandomColor = data.RandomColor == "True";
             data.MultiTab = data.MultiTab == "True";
             var info = new SettingFormInfo
             {

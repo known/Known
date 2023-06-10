@@ -24,6 +24,7 @@ public class Card : BaseComponent
 
         builder.Div("card-head", attr =>
         {
+            attr.AddRandomColor("border-bottom-color");
             if (Head != null)
                 builder.Fragment(Head);
             else

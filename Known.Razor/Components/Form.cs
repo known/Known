@@ -59,6 +59,7 @@ public class Form : BaseComponent
             {
                 builder.Div("form-body", attr =>
                 {
+                    attr.AddRandomColor("border-top-color");
                     builder.Component<CascadingValue<FormContext>>(attr =>
                     {
                         attr.Set(c => c.IsFixed, false)

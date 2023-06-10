@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Net.NetworkInformation;
+﻿using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
@@ -293,6 +292,12 @@ public sealed class Utils
     #endregion
 
     #region Color
+    public static Color GetRandomColor()
+    {
+        var random = new Random();
+        return Color.FromArgb(random.Next(255), random.Next(255), random.Next(255));
+    }
+
     public static Color FromHtml(string htmlColor) => ColorTranslator.FromHtml(htmlColor);
     public static string ToHtml(Color color) => ColorTranslator.ToHtml(color);
     #endregion
