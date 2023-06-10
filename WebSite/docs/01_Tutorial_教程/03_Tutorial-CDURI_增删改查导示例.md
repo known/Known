@@ -79,22 +79,22 @@ class GoodsForm : WebForm<KmGoods>
             table.ColGroup(15, 35, 15, 35);
             table.Tr(attr =>
             {
-                builder.Field<Text>(f => f.Code).Enabled(TModel.IsNew).Build();//编码，编辑时灰显
-                builder.Field<Text>(f => f.Name).Build();
+                table.Field<Text>(f => f.Code).Enabled(TModel.IsNew).Build();//编码，编辑时灰显
+                table.Field<Text>(f => f.Name).Build();
             });
             table.Tr(attr =>
             {
-                builder.Field<Select>(f => f.Type).Set(f => f.Codes, AppDictionary.GoodsType).Build();//下拉框
-                builder.Field<Select>(f => f.Unit).Set(f => f.Codes, AppDictionary.GoodsUnit).Build();
+                table.Field<Select>(f => f.Type).Set(f => f.Codes, AppDictionary.GoodsType).Build();//下拉框
+                table.Field<Select>(f => f.Unit).Set(f => f.Codes, AppDictionary.GoodsUnit).Build();
             });
-            table.Tr(attr => builder.Field<Text>(f => f.Model).ColSpan(3).Build());
-            table.Tr(attr => builder.Field<RadioList>(f => f.TaxRate).ColSpan(3).Set(f => f.Items, AppDictionary.TaxRates).Build());//单选按钮
+            table.Tr(attr => table.Field<Text>(f => f.Model).ColSpan(3).Build());
+            table.Tr(attr => table.Field<RadioList>(f => f.TaxRate).ColSpan(3).Set(f => f.Items, AppDictionary.TaxRates).Build());//单选按钮
             table.Tr(attr =>
             {
-                builder.Field<Number>(f => f.MinStock).Build();//数值框
-                builder.Field<Number>(f => f.MaxStock).Build();
+                table.Field<Number>(f => f.MinStock).Build();//数值框
+                table.Field<Number>(f => f.MaxStock).Build();
             });
-            table.Tr(attr => builder.Field<TextArea>(f => f.Note).ColSpan(3).Build());//文本域
+            table.Tr(attr => table.Field<TextArea>(f => f.Note).ColSpan(3).Build());//文本域
         });
     }
     //表单底部按钮
