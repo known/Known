@@ -130,36 +130,6 @@ public abstract class Field : BaseComponent
     protected virtual void SetInputValue(object value) => Value = FormatValue(value);
     protected virtual void SetContext(FieldContext context) { }
 
-    internal void BuildRadio(RenderTreeBuilder builder, string type, string text, string value, bool enabled, bool isChecked, Action<bool, string> action = null, int? columnCount = null)
-    {
-        builder.Label("form-radio", attr =>
-        {
-            if (columnCount != null && columnCount > 0)
-            {
-                var width = Utils.Round(100.0 / columnCount.Value, 2);
-                attr.Style($"width:{width}%;margin-right:0;");
-            }
-            builder.Input(attr =>
-            {
-                attr.Type(type).Name(Id).Disabled(!enabled)
-                    .Value(value).Checked(isChecked);
-                if (type == "checkbox")
-                {
-                    attr.OnChange(EventCallback.Factory.CreateBinder<bool>(this, v =>
-                    {
-                        action?.Invoke(v, value);
-                        OnValueChange();
-                    }, isChecked));
-                }
-                else
-                {
-                    attr.OnChange(CreateBinder());
-                }
-            });
-            builder.Span(text);
-        });
-    }
-
     internal EventCallback<ChangeEventArgs> CreateBinder(Action<DateTime?> action = null)
     {
         return EventCallback.Factory.CreateBinder(this, value =>

@@ -44,12 +44,32 @@ public class CheckList : Field
         foreach (var item in ListItems)
         {
             values[item.Code] = CheckChecked(item.Code);
-            BuildRadio(builder, "checkbox", item.Name, item.Code, Enabled, values[item.Code], (isCheck, value) =>
-            {
-                values[value] = isCheck;
-                Value = string.Join(",", values.Where(v => v.Value).Select(k => k.Key));
-            }, ColumnCount);
+            BuildRadio(builder, item.Name, item.Code, Enabled, values[item.Code], ColumnCount);
         }
+    }
+
+    private void BuildRadio(RenderTreeBuilder builder, string text, string value, bool enabled, bool isChecked, int? columnCount = null)
+    {
+        builder.Label("form-radio", attr =>
+        {
+            if (columnCount != null && columnCount > 0)
+            {
+                var width = Utils.Round(100.0 / columnCount.Value, 2);
+                attr.Style($"width:{width}%;margin-right:0;");
+            }
+            builder.Input(attr =>
+            {
+                attr.Type("checkbox").Name(Id).Disabled(!enabled)
+                    .Value(value).Checked(isChecked)
+                    .OnChange(EventCallback.Factory.CreateBinder<bool>(this, isCheck =>
+                    {
+                        values[value] = isCheck;
+                        Value = string.Join(",", values.Where(v => v.Value).Select(k => k.Key));
+                        OnValueChange();
+                    }, isChecked));
+            });
+            builder.Span(text);
+        });
     }
 
     private bool CheckChecked(string item)

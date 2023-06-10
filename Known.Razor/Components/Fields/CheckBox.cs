@@ -3,19 +3,35 @@
 public class CheckBox : Field
 {
     [Parameter] public string Text { get; set; }
+    [Parameter] public bool Switch { get; set; }
 
     protected override void BuildText(RenderTreeBuilder builder)
     {
-        BuildRadio(builder, "checkbox", Text, "True", false, IsChecked);
+        BuildCheckBox(builder, "True", false, IsChecked);
     }
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
-        BuildRadio(builder, "checkbox", Text, "True", Enabled, IsChecked, (isCheck, value) =>
-        {
-            Value = isCheck ? "True" : "False";
-        });
+        BuildCheckBox(builder, "True", Enabled, IsChecked);
     }
 
     private bool IsChecked => Value == "True";
+
+    private void BuildCheckBox(RenderTreeBuilder builder, string value, bool enabled, bool isChecked)
+    {
+        builder.Label("form-radio", attr =>
+        {
+            builder.Input(attr =>
+            {
+                attr.Type("checkbox").Name(Id).Disabled(!enabled)
+                    .Value(value).Checked(isChecked);
+                attr.OnChange(EventCallback.Factory.CreateBinder<bool>(this, isCheck =>
+                {
+                    Value = isCheck ? "True" : "False";
+                    OnValueChange();
+                }, isChecked));
+            });
+            builder.Span(Text);
+        });
+    }
 }
