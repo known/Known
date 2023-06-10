@@ -79,21 +79,22 @@ public class Column<T> : ColumnInfo
             builder.Component(Control, attr =>
             {
                 attr.Add(nameof(Field.Id), Id)
-                    .Add(nameof(Field.Label), Name);
+                    .Add(nameof(Field.Label), Name)
+                    .Add(nameof(Field.IsInput), true);
             });
             return;
         }
 
         if (Type == ColumnType.Date || Type == ColumnType.DateTime)
         {
-            builder.Field<DateRange>(Name, Id).Build();
+            builder.Field<DateRange>(Name, Id).IsInput(true).Build();
         }
         else
         {
             if (Select != null)
                 Select.BuildQuery(builder, this, grid.Refresh);
             else
-                builder.Field<Text>(Name, Id).Build();
+                builder.Field<Text>(Name, Id).IsInput(true).Build();
         }
     }
 
@@ -207,7 +208,7 @@ public class SelectOption
     internal void BuildQuery(RenderTreeBuilder builder, ColumnInfo column, Action refresh)
     {
         var emptyText = ShowEmpty ? "全部" : "";
-        builder.Field<Select>(column.Name, column.Id)
+        builder.Field<Select>(column.Name, column.Id).IsInput(true)
                .ValueChanged(value =>
                {
                    ValueChanged?.Invoke(value);
@@ -222,7 +223,7 @@ public class SelectOption
     internal void BuildCell(RenderTreeBuilder builder, string id, string value)
     {
         var emptyText = ShowEmpty ? "请选择" : "";
-        builder.Field<Select>(id).Value(value)
+        builder.Field<Select>(id).Value(value).IsInput(true)
                .ValueChanged(value => ValueChanged?.Invoke(value))
                .Set(c => c.EmptyText, emptyText)
                .Set(f => f.Codes, Codes)

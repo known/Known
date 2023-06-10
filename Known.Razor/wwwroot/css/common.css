@@ -31,9 +31,13 @@ pre {
     word-wrap:break-word;white-space:pre-wrap;font-family:inherit;
     white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;
 }
+button, input, select, textarea,
+.box, .card, .group-box, .dialog, .dlg-tips, .kui-tips, .kui-content,
+.switch[type="checkbox"]+span:before, .switch[type="checkbox"]+span:after {
+    -webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
+}
 button, input, select, textarea {
     outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;background-color:#fff;
-    -webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
 }
 button {cursor:pointer;border:none;padding:0 0.8rem;background-color:#3492d0;color:#fff;}
 button .icon {text-align:center;margin-right:5px;}
@@ -50,14 +54,11 @@ input[type="checkbox"]+span, input[type="radio"]+span {margin-left:25px;}
 
 .switch[type="checkbox"] {opacity:0;height:0;}
 .switch[type="checkbox"]+span {position:relative;margin-left:0;padding-left:3rem;}
-.switch[type="checkbox"]+span:before, .switch[type="checkbox"]+span:after {
-    position:absolute;display:block;content:'';
-    -webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
-}
-.switch[type="checkbox"]+span:before {background:#b5b5b5;width:2.6rem;height:1.3rem;top:-1px;left:0; }
-.switch[type="checkbox"]+span:after {background:#fff;width:1rem;height:1rem;top:0.11rem;left:0.2rem;}
+.switch[type="checkbox"]+span:before, .switch[type="checkbox"]+span:after {position:absolute;display:block;content:'';}
+.switch[type="checkbox"]+span:before {background:#b5b5b5;width:2.6rem;height:1.5rem;top:-2px;left:0;}
+.switch[type="checkbox"]+span:after {background:#fff;width:1rem;height:1rem;top:0.12rem;left:0.4rem;}
 .switch[type="checkbox"]:checked+span:before {background-color:#3492d0;}
-.switch[type="checkbox"]:checked+span:after {left:unset;left:1.4rem;}
+.switch[type="checkbox"]:checked+span:after {left:unset;left:1.2rem;}
 
 .error label {color:#d9534f;}
 .error input, .error select, .error textarea, 
@@ -65,9 +66,7 @@ input[type="checkbox"]+span, input[type="radio"]+span {margin-left:25px;}
 input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .inline2 input {display:inline-block;width:50%;}
 
-.box, .card, .dialog, .kui-tips, .kui-content {
-    background-color:#fff;-webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
-}
+.box, .card, .dialog, .kui-tips, .kui-content {background-color:#fff;}
 .circle {-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;}
 .left {float:left;}
 .right {float:right;}
@@ -92,10 +91,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form-label {float:left;padding:0 10px;}
 .form-input {position:relative;}
 .form-item:after, .form-input:after {display:block;content:'';clear:both;}
-.form-input .icon {
-    position:absolute;right:1px;bottom:1.5px;width:28px;
-    text-align:center;cursor:pointer;
-}
+.form-input .icon {position:absolute;right:1px;bottom:1.5px;width:28px;text-align:center;cursor:pointer;}
 .form-input .icon.fa-ellipsis-h {background-color:#f5f5f5;}
 .form-input .icon-select {background-color:#fff;z-index:9999;}
 .form-input .unit, .form-input .btn {position:absolute;right:0;padding:0 5px;}
@@ -129,10 +125,7 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .search-box .icon {position:absolute;top:5px;right:5px;color:#bbb;}
 
 /*group-box*/
-.group-box {
-    position:relative;border:1px solid var(--line-color);
-    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
-}
+.group-box {position:relative;border:1px solid var(--line-color);}
 .group-box .legend {position:absolute;top:-10px;left:20px;background-color:#fff;padding:0 10px;}
 
 /*card*/
@@ -143,9 +136,9 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .card-body {position:absolute;top:42px;left:1px;right:1px;bottom:1px;padding:5px;overflow:auto;}
 
 /*dialog*/
-.dialog, .dlg-tips, .dlg-body, .dlg-foot, .dlg-content, .dlg-content .form, .dlg-content .form-button {position:absolute;left:0;right:0;}
-.dialog, .dlg-tips {top:50%;left:50%;z-index:9999999;}
-.dialog {border:2px solid var(--line-color);}
+.dialog, .dlg-body, .dlg-foot, .dlg-content,
+.dlg-content .form, .dlg-content .form-button {position:absolute;left:0;right:0;}
+.dialog {border:2px solid var(--line-color);top:50%;left:50%;z-index:9999999;}
 .dialog.max {top:0;left:0;right:0;bottom:0;}
 .dlg-head, .dlg-foot {padding:0 10px;}
 .dlg-head {position:relative;border-bottom:1px solid var(--line-color);font-weight:bold;font-size:1.2rem;}
@@ -164,9 +157,8 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .dlg-content .form-button button {margin:0;margin-left:10px;}
 .dlg-head, .dlg-foot, .dlg-content .form-button {height:50px;line-height:50px;}
 .dlg-tips {
-    width:280px;height:40px;line-height:40px;
-    margin-left:-140px;top:10px;text-align:center;
-    color:#fff;background-color:#5bc0de;
+    position:absolute;width:auto;top:10px;right:10px;text-align:center;
+    color:#fff;background-color:#48c78e;margin:0 auto;padding:1rem 2rem;z-index:9999999;
 }
 
 /*import*/

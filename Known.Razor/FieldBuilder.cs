@@ -63,8 +63,8 @@ public class FieldBuilder<T>
     public void Th(string className, Action<AttributeBuilder> child = null) => Builder.Th(className, child);
     public void Th(string className, string text) => Builder.Th(className, text);
     public void Td(Action<AttributeBuilder> child = null) => Builder.Td(child);
-    public void FormList<TC>(string title, int colSpan, int? height, Action<AttributeBuilder<TC>> child = null) where TC : notnull, IComponent => Builder.FormList(title, colSpan, height, child);
-    public void FormList(string title, int colSpan, int? height, Action child = null) => Builder.FormList(title, colSpan, height, child);
+    public void FormList<TC>(string title, int colSpan, string style = null, int? height = null, Action<AttributeBuilder<TC>> child = null) where TC : notnull, IComponent => Builder.FormList(title, colSpan, style, height, child);
+    public void FormList(string title, int colSpan, string style = null, int? height = null, Action child = null) => Builder.FormList(title, colSpan, style, height, child);
 }
 
 public class FieldAttrBuilder<T> : ComponentBuilder<T> where T : Field

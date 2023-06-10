@@ -4,19 +4,19 @@ public static class FormExtension
 {
     public static void FormCaption(this RenderTreeBuilder builder, string title, int colSpan) => builder.Tr(attr => builder.Td("form-caption", title, colSpan));
 
-    public static void FormList<T>(this RenderTreeBuilder builder, string title, int colSpan, int? height, Action<AttributeBuilder<T>> child = null) where T : notnull, IComponent
+    public static void FormList<T>(this RenderTreeBuilder builder, string title, int colSpan, string style = null, int? height = null, Action<AttributeBuilder<T>> child = null) where T : notnull, IComponent
     {
-        builder.FormList(title, colSpan, height, () => builder.Component(child));
+        builder.FormList(title, colSpan, style, height, () => builder.Component(child));
     }
 
-    public static void FormList(this RenderTreeBuilder builder, string title, int colSpan, int? height, Action child = null)
+    public static void FormList(this RenderTreeBuilder builder, string title, int colSpan, string style = null, int? height = null, Action child = null)
     {
         builder.FormCaption(title, colSpan);
         builder.Tr(attr =>
         {
             builder.Td(attr =>
             {
-                attr.ColSpan(colSpan);
+                attr.Class(style).ColSpan(colSpan);
                 if (height != null && height.HasValue)
                     attr.Style($"position:relative;height:{height}px;");
                 child?.Invoke();
@@ -41,7 +41,7 @@ public static class FormExtension
 
     public static void BuildFlowLog(this RenderTreeBuilder builder, string bizId, int colSpan)
     {
-        builder.FormList<FlowLogGrid>("流程记录", colSpan, null, attr =>
+        builder.FormList<FlowLogGrid>("流程记录", colSpan, child: attr =>
         {
             attr.Set(c => c.BizId, bizId);
         });
