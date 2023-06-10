@@ -3,16 +3,28 @@
 class AdminSider : BaseComponent
 {
     private MenuItem curPage;
+    private string themeColor;
     private string IsShow(MenuItem menu) => CurMenu?.Id == menu.Id ? "show" : "";
     private string IsActive(MenuItem menu) => curPage?.Id == menu.Id ? "active" : "";
 
     [Parameter] public MenuItem CurMenu { get; set; }
     [Parameter] public List<MenuItem> Menus { get; set; }
 
+    protected override void OnInitialized()
+    {
+        themeColor = Setting.Info.ThemeColor;
+        PageAction.RefreshThemeColor = color =>
+        {
+            themeColor = color;
+            StateChanged();
+        };
+    }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("kui-sider", attr =>
         {
+            attr.Style($"background-color:{themeColor}");
             builder.Div("logo", attr => builder.Img(attr => attr.Src("img/logo.png")));
             builder.Div("kui-scroll", attr => BuildNavTree(builder));
         });

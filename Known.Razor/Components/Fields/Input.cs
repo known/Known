@@ -30,14 +30,27 @@ public class Input : Field
     [Parameter] public string Icon { get; set; }
     [Parameter] public string OnEnter { get; set; }
 
+    protected override void BuildText(RenderTreeBuilder builder)
+    {
+        if (Type == "color")
+        {
+            BuildInput(builder);
+            return;
+        }
+        base.BuildText(builder);
+    }
+
     protected override void BuildInput(RenderTreeBuilder builder)
     {
+        if (Type == "color")
+            Enabled = !ReadOnly;
+
         BuildIcon(builder, Icon);
         builder.Input(attr =>
         {
             //var value = BindConverter.FormatValue(Value);
             //var hasChanged = !EqualityComparer<string>.Default.Equals(value, Value);
-            attr.Type(Type).Id(Id).Name(Id).Disabled(!Enabled)
+            attr.Type(Type).Id(Id).Name(Id).Disabled(!Enabled).Readonly(ReadOnly)
                 .Value(Value).Required(Required)
                 .Placeholder(Placeholder)
                 .Add("autocomplete", "off")

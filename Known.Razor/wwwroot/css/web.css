@@ -3,7 +3,7 @@
 /*Index*/
 .kui-header {
     position:absolute;top:0;left:180px;right:0;height:50px;border-bottom:1px solid #ccc;
-    background-color:#fafafa;color:var(--theme-color);box-shadow:0 1px 1px 0 #eee;
+    background-color:#fafafa;color:#393D49;box-shadow:0 1px 1px 0 #eee;
 }
 .kui-sider {
     position:absolute;top:0;left:0;bottom:0;width:180px;background-color:var(--theme-color);
