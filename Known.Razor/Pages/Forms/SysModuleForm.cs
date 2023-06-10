@@ -68,7 +68,7 @@ class SysModuleForm : BaseForm<SysModule>
             table.Td(attr =>
             {
                 attr.ColSpan(3);
-                builder.Field<CheckBox>(f => f.Enabled).IsInput(true).Set(f => f.Text, "启用").Set(f => f.Switch, true).Build();
+                builder.Field<CheckBox>(f => f.Enabled).Label("").IsInput(true).Set(f => f.Text, "启用").Set(f => f.Switch, true).Build();
             });
             builder.Field<Text>(f => f.Note).ColSpan(3).Build();
         });
@@ -78,7 +78,7 @@ class SysModuleForm : BaseForm<SysModule>
             table.Td("inline", attr =>
             {
                 attr.ColSpan(7);
-                builder.Field<Text>(f => f.ButtonData).IsInput(true).ReadOnly(true).Build();
+                builder.Field<Text>(f => f.ButtonData).Label("").IsInput(true).ReadOnly(true).Build();
                 if (!ReadOnly)
                     table.Div("right", attr => table.Button(FormButton.Config, Callback(SetButton)));
             });
@@ -89,7 +89,7 @@ class SysModuleForm : BaseForm<SysModule>
             table.Td("inline", attr =>
             {
                 attr.ColSpan(7);
-                builder.Field<Text>(f => f.ActionData).IsInput(true).ReadOnly(true).Build();
+                builder.Field<Text>(f => f.ActionData).Label("").IsInput(true).ReadOnly(true).Build();
                 if (!ReadOnly)
                     table.Div("right", attr => table.Button(FormButton.Config, Callback(SetAction)));
             });
