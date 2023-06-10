@@ -102,7 +102,7 @@ class Home : PageComponent
         if (chart == null)
             return;
 
-        var title = $"{DateTime.Now:yyyyMM}月系统访问量统计";
+        var title = $"{DateTime.Now:yyyy年MM月}系统访问量统计";
         chart.YAxis = new { title = new { text = "数量" } };
         chart.ShowBar(title, info?.Statistics?.LogDatas);
     }

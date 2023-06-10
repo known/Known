@@ -8,8 +8,8 @@ class DemoGoodsGrid : DataGrid<DmGoods>
         ShowEmpty = false;
 
         var builder = new ColumnBuilder<DmGoods>();
-        builder.Field(r => r.Code);
-        builder.Field(r => r.Name);
+        builder.Field(r => r.Code, true);
+        builder.Field(r => r.Name, true);
         builder.Field(r => r.Model);
         builder.Field(r => r.Unit);
         builder.Field(r => r.Note);
