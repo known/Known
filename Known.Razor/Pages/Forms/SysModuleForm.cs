@@ -68,7 +68,7 @@ class SysModuleForm : BaseForm<SysModule>
             table.Td(attr =>
             {
                 attr.ColSpan(3);
-                builder.Field<CheckBox>(f => f.Enabled).IsInput(true).Set(f => f.Text, "启用").Build();
+                builder.Field<CheckBox>(f => f.Enabled).IsInput(true).Set(f => f.Text, "启用").Set(f => f.Switch, true).Build();
             });
             builder.Field<Text>(f => f.Note).ColSpan(3).Build();
         });

@@ -22,8 +22,8 @@ class SysSettingForm : BaseForm<SettingInfo>
                .Set(f => f.Type, "color")
                .Set(f => f.ValueChanged, value => PageAction.RefreshThemeColor?.Invoke(value))
                .Build();
-        builder.Field<CheckBox>("随机色", nameof(SettingInfo.RandomColor)).ReadOnly(!isEdit).Build();
-        builder.Field<CheckBox>("标签页", nameof(SettingInfo.MultiTab)).ReadOnly(!isEdit).Build();
+        builder.Field<CheckBox>("随机色", nameof(SettingInfo.RandomColor)).ReadOnly(!isEdit).Set(f => f.Switch, true).Build();
+        builder.Field<CheckBox>("标签页", nameof(SettingInfo.MultiTab)).ReadOnly(!isEdit).Set(f => f.Switch, true).Build();
         builder.Field<Select>("表格每页显示数量", nameof(SettingInfo.PageSize)).ReadOnly(!isEdit).Set(f => f.Codes, sizes).Build();
     }
 

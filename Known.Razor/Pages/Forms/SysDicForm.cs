@@ -55,7 +55,7 @@ class SysDicForm : BaseForm<SysDictionary>
                     });
                 }
             });
-            table.Tr(attr => table.Field<CheckBox>(f => f.Enabled).Build());
+            table.Tr(attr => table.Field<CheckBox>(f => f.Enabled).Set(f => f.Switch, true).Build());
             table.Tr(attr => table.Field<Number>(f => f.Sort).Build());
             table.Tr(attr => table.Field<TextArea>(f => f.Note).Build());
         });

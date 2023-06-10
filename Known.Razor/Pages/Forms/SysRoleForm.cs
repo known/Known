@@ -32,7 +32,7 @@ class SysRoleForm : BaseForm<SysRole>
             {
                 table.ColGroup(100, null);
                 table.Tr(attr => table.Field<Text>(f => f.Name).Build());
-                table.Tr(attr => table.Field<CheckBox>(f => f.Enabled).Build());
+                table.Tr(attr => table.Field<CheckBox>(f => f.Enabled).Set(f => f.Switch, true).Build());
                 table.Tr(attr => table.Field<TextArea>(f => f.Note).Build());
             });
         });

@@ -104,7 +104,7 @@ public class Column<T> : ColumnInfo
         else if (Template != null)
             Template.Invoke(builder, row);
         else if (Type == ColumnType.Boolean)
-            builder.Field<CheckBox>(Id).Value(value?.ToString()).Enabled(false).Build();
+            builder.Field<CheckBox>(Id).Value(value?.ToString()).Enabled(false).Set(f => f.Switch, true).Build();
         else
             builder.Text(Format(value));
     }
