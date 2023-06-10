@@ -108,20 +108,16 @@ public abstract class Field : BaseComponent
         if (!Visible)
             return;
 
+        if (IsInput)
+        {
+            BuildDivField(builder);
+            return;
+        }
+
         if (Table != null)
-        {
-            if (IsInput)
-                BuildFormInput(builder);
-            else
-                BuildTableField(builder);
-        }
+            BuildTableField(builder);
         else
-        {
-            if (string.IsNullOrWhiteSpace(Label))
-                BuildFormInput(builder);
-            else
-                BuildDivField(builder);
-        }
+            BuildDivField(builder);
     }
 
     protected virtual string FormatValue(object value) => value?.ToString();
@@ -162,20 +158,17 @@ public abstract class Field : BaseComponent
 
     private void BuildTableField(RenderTreeBuilder builder)
     {
-        if (!string.IsNullOrWhiteSpace(Label))
+        var required = Required && !IsReadOnly ? "required" : "";
+        builder.Th(required, attr =>
         {
-            var required = Required && !IsReadOnly ? "required" : "";
-            builder.Th(required, attr =>
+            if (RowSpan > 1)
+                attr.RowSpan(RowSpan);
+            builder.Label(attr =>
             {
-                if (RowSpan > 1)
-                    attr.RowSpan(RowSpan);
-                builder.Label(attr =>
-                {
-                    attr.For(Id);
-                    builder.Text(Label);
-                });
+                attr.For(Id);
+                builder.Text(Label);
             });
-        }
+        });
         builder.Td(Style, attr =>
         {
             if (RowSpan > 1)
@@ -188,17 +181,24 @@ public abstract class Field : BaseComponent
 
     private void BuildDivField(RenderTreeBuilder builder)
     {
-        var css = CssBuilder.Default("form-item").AddClass(Style).Build();
-        builder.Div(css, attr =>
+        if (string.IsNullOrWhiteSpace(Label))
         {
-            var css1 = CssBuilder.Default("form-label").AddClass("required", Required && !IsReadOnly).Build();
-            builder.Label(css1, attr =>
-            {
-                attr.For(Id);
-                builder.Text(Label);
-            });
             BuildFormInput(builder);
-        });
+        }
+        else
+        {
+            var css = CssBuilder.Default("form-item").AddClass(Style).Build();
+            builder.Div(css, attr =>
+            {
+                var css1 = CssBuilder.Default("form-label").AddClass("required", Required && !IsReadOnly).Build();
+                builder.Label(css1, attr =>
+                {
+                    attr.For(Id);
+                    builder.Text(Label);
+                });
+                BuildFormInput(builder);
+            });
+        }
     }
 
     private bool isEdit = false;
