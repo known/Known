@@ -32,9 +32,11 @@ class DemoForm : Razor.Components.Form
             {
                 table.Field<RadioList>("单选", "RadioList").Set(f => f.Codes, Codes).Build();
                 table.Th("", "选项");
-                table.Td(attr =>
+                table.Td("inline", attr =>
                 {
                     table.Field<Razor.Components.Fields.CheckBox>("CheckBox").IsInput(true).Set(f => f.Text, "启用").Build();
+                    table.Field<Razor.Components.Fields.CheckBox>("CheckBox").IsInput(true)
+                         .Set(f => f.Switch, true).Set(f => f.Text, "启用").Build();
                 });
                 table.Field<CheckList>("多选", "CheckList", true).Set(f => f.Codes, Codes).Build();
             });

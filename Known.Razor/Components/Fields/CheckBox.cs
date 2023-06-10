@@ -23,13 +23,14 @@ public class CheckBox : Field
         {
             builder.Input(attr =>
             {
+                var css = CssBuilder.Default("").AddClass("switch", Switch).Build();
                 attr.Type("checkbox").Name(Id).Disabled(!enabled)
-                    .Value(value).Checked(isChecked);
-                attr.OnChange(EventCallback.Factory.CreateBinder<bool>(this, isCheck =>
-                {
-                    Value = isCheck ? "True" : "False";
-                    OnValueChange();
-                }, isChecked));
+                    .Value(value).Checked(isChecked).Class(css)
+                    .OnChange(EventCallback.Factory.CreateBinder<bool>(this, isCheck =>
+                    {
+                        Value = isCheck ? "True" : "False";
+                        OnValueChange();
+                    }, isChecked));
             });
             builder.Span(Text);
         });

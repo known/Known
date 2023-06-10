@@ -46,6 +46,19 @@ input, select, textarea, .list-box {width:100%;min-width:100px;border:1.5px soli
 textarea {height:100%;min-height:5rem;padding:0.2rem;font-family:inherit;}
 input[type="color"] {width:2rem;min-width:2rem;padding:0 0.2rem;}
 input[type="checkbox"], input[type="radio"] {width:1.3rem;min-width:1.3rem;height:1.3rem;}
+input[type="checkbox"]+span, input[type="radio"]+span {margin-left:25px;}
+
+.switch[type="checkbox"] {opacity:0;height:0;}
+.switch[type="checkbox"]+span {position:relative;margin-left:0;padding-left:3rem;}
+.switch[type="checkbox"]+span:before, .switch[type="checkbox"]+span:after {
+    position:absolute;display:block;content:'';
+    -webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
+}
+.switch[type="checkbox"]+span:before {background:#b5b5b5;width:2.6rem;height:1.3rem;top:-1px;left:0; }
+.switch[type="checkbox"]+span:after {background:#fff;width:1rem;height:1rem;top:0.11rem;left:0.2rem;}
+.switch[type="checkbox"]:checked+span:before {background-color:#3492d0;}
+.switch[type="checkbox"]:checked+span:after {left:unset;left:1.4rem;}
+
 .error label {color:#d9534f;}
 .error input, .error select, .error textarea, 
 .error .list-box, .error .editor {border-bottom:1.5px solid #d9534f;}
@@ -91,7 +104,6 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form-check {position:absolute;top:5px;right:0;}
 .form-radio {position:relative;margin-right:10px;cursor:pointer;display:inline-block;}
 .form-radio input {position:absolute;top:5px;}
-.form-radio span {margin-left:25px;}
 .form-tips {padding-left:5px;color:#aaa;}
 .form-button {text-align:center;margin-top:10px;}
 .form-button button {margin:0 5px;}

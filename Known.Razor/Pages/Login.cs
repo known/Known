@@ -89,6 +89,7 @@ public class Login : BaseComponent
                .Set(f => f.OnEnter, "$('.btnLogin').click()")
                .Build();
         builder.Field<CheckBox>("Remember")
+               .Set(f => f.Switch, true)
                .Set(f => f.Text, "记住用户名")
                .Build();
         builder.Button("登 录", Callback(e => OnUserLogin()), "btnLogin");
