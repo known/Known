@@ -26,9 +26,17 @@ class PageSingle : BaseComponent
     private void BuildContent(RenderTreeBuilder builder)
     {
         if (HasModuleTips)
-            builder.Div("kui-content", attr => BuildPage(builder));
+        {
+            builder.Div("kui-content", attr =>
+            {
+                attr.AddRandomColor("border-top-color");
+                BuildPage(builder);
+            });
+        }
         else
+        {
             BuildPage(builder);
+        }
     }
 
     private void BuildPage(RenderTreeBuilder builder)

@@ -1,7 +1,9 @@
 ﻿namespace Known.Razor.Pages;
 
-class PageAction
+public sealed class PageAction
 {
-    internal static Action<string> RefreshThemeColor { get; set; }
-    internal static Action<int> RefreshMessageCount {  get; set; }
+    private PageAction() { }
+
+    public static Action<string> RefreshThemeColor { get; set; }
+    public static Action<int> RefreshMessageCount {  get; set; }
 }

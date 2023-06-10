@@ -202,7 +202,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
         var css = CssBuilder.Default("table").AddClass("fixed", IsFixed).Build();
         builder.Div(css, attr =>
         {
-            attr.AddRandomColor("border-top-color");
             if (Data == null || Data.Count == 0)
             {
                 BuildTable(builder);

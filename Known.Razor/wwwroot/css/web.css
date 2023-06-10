@@ -24,7 +24,7 @@
 .toggleMenu, .appName, .logo {height:50px;line-height:50px;}
 .toggleMenu {float:left;text-align:center;width:50px;cursor:pointer;}
 .appName {float:left;font-size:1.2rem;margin-left:10px;}
-.logo {overflow:hidden;border-bottom:1px solid #3173bd;}
+.logo {overflow:hidden;}
 .logo img {width:auto;}
 .logo .icon, .logo .text {display:block;font-size:2rem;font-weight:bold;color:#fff;text-align:center;}
 .logo .icon {display:none;}
@@ -76,7 +76,6 @@
 .kui-tips .description {font-size:1rem;color:#555;}
 .kui-tips-tr {position:absolute;top:10px;right:10px;font-weight:bold;}
 .kui-tips-bl {position:absolute;left:10px;bottom:10px;font-weight:bold;}
-.kui-content {position:absolute;top:62px;left:10px;bottom:10px;right:10px;overflow:hidden;padding:10px;}
 
 .kui-tabs .tab.header {
     height:45px;overflow:hidden;background-color:#fff;
@@ -85,7 +84,13 @@
 .kui-tabs .tab li {margin:0;padding:10px 20px;font-size:1rem;position:relative;}
 .kui-tabs .tab li .close {top:5px;right:0;color:#ccc;}
 .kui-tabs .tab li .close:hover {color:#d9534f;}
-.kui-tabs .tab-body.top {top:47px;}
+
+.kui-content {position:absolute;top:62px;}
+.kui-tabs .tab-body.top {top:57px;}
+.kui-content, .kui-tabs .tab-body.top {
+    left:10px;bottom:10px;right:10px;overflow:hidden;padding:10px;
+    border-top:3px solid var(--line-color);background-color:#fff;
+}
 
 /*mini side*/
 .kui-mini .kui-sider {width:50px !important;}

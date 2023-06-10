@@ -62,7 +62,7 @@ class PageTabs : BaseComponent
             var css = CssBuilder.Default("tab-body top").AddClass(active).Build();
             builder.Div(css, attr =>
             {
-                attr.Id($"tb-{item.Id}");
+                attr.Id($"tb-{item.Id}").AddRandomColor("border-top-color");
                 builder.DynamicComponent(item.ComType, item.ComParameters);
                 if (item.Id != "Home")
                     builder.Component<DialogContainer>().Id(item.Id).Build();

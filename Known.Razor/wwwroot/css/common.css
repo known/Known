@@ -32,7 +32,8 @@ pre {
     white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;
 }
 button, input, select, textarea,
-.box, .card, .group-box, .dialog, .dlg-tips, .kui-tips, .kui-content,
+.box, .card, .group-box, .dialog, .dlg-tips, 
+.kui-tips, .kui-content, .kui-tabs .tab-body.top,
 .switch[type="checkbox"]+span:before, .switch[type="checkbox"]+span:after {
     -webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
 }
