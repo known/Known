@@ -14,10 +14,10 @@ class SysSystem : PageComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         var status = KRConfig.AuthStatus;
-        var style = string.IsNullOrWhiteSpace(status) ? "ss-pass" : "ss-fail";
+        var style = string.IsNullOrWhiteSpace(status) ? "success" : "danger";
         if (string.IsNullOrWhiteSpace(status))
             status = "已授权";
-        builder.Div("ss-form ss-system box", attr =>
+        builder.Div("ss-form ss-system", attr =>
         {
             builder.Field<Text>("企业名称：", "").Value($"{info?.CompNo}-{info?.CompName}").ReadOnly(true).Build();
             builder.Field<Text>("系统名称：", "").Value(info?.AppName).ReadOnly(true)
@@ -48,8 +48,7 @@ class SysSystem : PageComponent
                         StateChanged();
                    })
                    .Build();
-            builder.Field<Text>("产品有效期：", "").Value(KRConfig.ValidDate).ReadOnly(true).Build();
-            builder.Field<Text>("授权信息：", "").Style(style).Value(status).ReadOnly(true).Build();
+            builder.Field<Text>("授权信息：", "").InputTemplate(b => b.Span($"text bold {style}", status)).Build();
             builder.Field<Text>("版权信息：", "").Value(Copyright).ReadOnly(true).Build();
             builder.Div("form-item ss-terms", attr =>
             {
