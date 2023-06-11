@@ -10,9 +10,18 @@ class SysSettingForm : BaseForm<SettingInfo>
         Style = "";
     }
 
+    [Parameter] public string Title { get; set; }
+
     protected override void OnInitialized()
     {
         Model = Setting.Info;
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if (!string.IsNullOrEmpty(Title))
+            builder.Div("title", Title);
+        base.BuildRenderTree(builder);
     }
 
     protected override void BuildFields(FieldBuilder<SettingInfo> builder)
@@ -24,7 +33,7 @@ class SysSettingForm : BaseForm<SettingInfo>
                .Build();
         builder.Field<CheckBox>("随机色", nameof(SettingInfo.RandomColor)).ReadOnly(!isEdit).Set(f => f.Switch, true).Build();
         builder.Field<CheckBox>("标签页", nameof(SettingInfo.MultiTab)).ReadOnly(!isEdit).Set(f => f.Switch, true).Build();
-        builder.Field<Select>("表格每页显示数量", nameof(SettingInfo.PageSize)).ReadOnly(!isEdit).Set(f => f.Codes, sizes).Build();
+        builder.Field<Select>("每页大小", nameof(SettingInfo.PageSize)).ReadOnly(!isEdit).Set(f => f.Codes, sizes).Build();
     }
 
     protected override void BuildButtons(RenderTreeBuilder builder)

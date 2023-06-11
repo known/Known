@@ -1,10 +1,13 @@
-﻿namespace Known.Razor.Pages;
+﻿using Known.Razor.Pages.Forms;
+
+namespace Known.Razor.Pages;
 
 class AdminHeader : BaseComponent
 {
     private bool isMini = false;
     private bool isFull = false;
     private MenuItem curMenu;
+    private readonly string qvSysSettingId = "qvSysSetting";
     private string ToggleIcon => isMini ? "fa fa-indent" : "fa fa-dedent";
     private string ToggleScreen => isFull ? "fa fa-arrows" : "fa fa-arrows-alt";
     private string IsActive(MenuItem menu) => curMenu?.Id == menu.Id ? "active" : "";
@@ -38,6 +41,10 @@ class AdminHeader : BaseComponent
                 BuildAppName(builder);
             BuildNavRight(builder);
         });
+        builder.Component<QuickView>()
+               .Set(c => c.Id, qvSysSettingId)
+               .Set(c => c.ChildContent, b => b.Component<SysSettingForm>().Set(s => s.Title, "系统设置").Build())
+               .Build();
     }
 
     private void BuildMenus(RenderTreeBuilder builder, List<MenuItem> menus)
@@ -84,6 +91,7 @@ class AdminHeader : BaseComponent
                     builder.Span("badge-top", $"{MessageCount}");
             });
             builder.Li("nav-item fa fa-power-off", attr => attr.Title("安全退出").OnClick(Callback(OnUserLogout)));
+            builder.Li("nav-item fa fa-ellipsis-v", attr => attr.Title("系统设置").OnClick(Callback(OnShowSetting)));
         });
     }
 
@@ -120,4 +128,6 @@ class AdminHeader : BaseComponent
             }
         }, true);
     }
+
+    private void OnShowSetting() => UI.ShowQuickView(qvSysSettingId);
 }
