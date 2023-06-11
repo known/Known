@@ -18,12 +18,6 @@ import "./libs/pdfobject.js";
 import "./libs/wangEditor.js";
 import "./libs/xlsxcore.js";
 
-export function hello(name) {
-    DotNet.invokeMethodAsync('Known', 'Hello', name).then(data => {
-        alert(data);
-    });
-}
-
 export class KRazor {
     //Alert
     static showTips(message) {
@@ -210,6 +204,14 @@ export class KRazor {
     }
     static showFrame(id, url) {
         $('#' + id).attr('src', url);
+    }
+    static showQuickView(id) {
+        $('#' + id).addClass('active');
+        $(document).click(function (e) {
+            if (e.target.id == id || $(e.target).parents("#" + id).length > 0)
+                return;
+            $('#' + id).removeClass('active');
+        });
     }
     static showLoading() {
         document.body.classList.add('loading');

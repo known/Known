@@ -11,10 +11,9 @@ public partial class UIService
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known.Razor/script.js").AsTask());
     }
 
-    [JSInvokable]
-    public static Task<string> Hello(string name) => Task.FromResult($"Hello {name}");
     public void AppendBody(string html) => InvokeVoidAsync("KRazor.appendBody", html);
     public void ShowFrame(string id, string url) => InvokeVoidAsync("KRazor.showFrame", id, url);
+    public void ShowQuickView(string id) => InvokeVoidAsync("KRazor.showQuickView", id);
     public void ShowLoading() => InvokeVoidAsync("KRazor.showLoading");
     public void HideLoading() => InvokeVoidAsync("KRazor.hideLoading");
     public void OpenFullScreen() => InvokeVoidAsync("KRazor.openFullScreen");
