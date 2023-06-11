@@ -13,6 +13,7 @@ public class Column<T> : ColumnInfo
         Type = info.Type;
         Align = info.Align;
         IsQuery = info.IsQuery;
+        IsAdvQuery = info.IsAdvQuery;
         IsSum = info.IsSum;
         IsSort = info.IsSort;
         IsVisible = info.IsVisible;
@@ -69,6 +70,7 @@ public class Column<T> : ColumnInfo
             Width = Width,
             IsVisible = IsVisible,
             IsQuery = IsQuery,
+            IsAdvQuery = IsAdvQuery,
             IsSort = IsSort
         };
     }
