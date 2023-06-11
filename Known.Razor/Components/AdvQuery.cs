@@ -11,6 +11,7 @@ class AdvQuery<TItem> : BaseComponent
     protected override void OnInitialized()
     {
         data = Setting.GetUserQuerys(PageId);
+        data ??= new List<QueryInfo>();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -25,6 +26,11 @@ class AdvQuery<TItem> : BaseComponent
                     if (column.IsAdvQuery)
                     {
                         var info = data?.FirstOrDefault(d => d.Id == column.Id);
+                        if (info == null)
+                        {
+                            info = new QueryInfo(column.Id, "");
+                            data.Add(info);
+                        }
                         column.BuildAdvQuery(builder, info);
                     }
                 }

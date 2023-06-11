@@ -75,7 +75,7 @@ public class Column<T> : ColumnInfo
 
     internal void BuildQuery(RenderTreeBuilder builder, BaseComponent grid = null)
     {
-        BuildQuery(builder, Name, "", grid);
+        BuildQuery(builder, Name, "", null, grid);
     }
 
     internal void BuildAdvQuery(RenderTreeBuilder builder, QueryInfo info)
@@ -83,10 +83,11 @@ public class Column<T> : ColumnInfo
         builder.Div("item", attr =>
         {
             builder.Label("form-label", Name);
-            builder.Field<Select>("", "QueryType").IsInput(true)
+            builder.Field<Select>("", "QueryType").IsInput(true).Value($"{(int)info.Type}")
                    .Set(f => f.Items, QueryTypes)
+                   .Set(f => f.ValueChanged, v => info.Type = (QueryType)int.Parse(v))
                    .Build();
-            BuildQuery(builder, "", info?.Value);
+            BuildQuery(builder, "", info.Value, v => info.Value = v);
         });
     }
 
@@ -143,7 +144,7 @@ public class Column<T> : ColumnInfo
         }
     }
 
-    private void BuildQuery(RenderTreeBuilder builder, string name, string value, BaseComponent grid = null)
+    private void BuildQuery(RenderTreeBuilder builder, string name, string value, Action<string> valueChanged = null, BaseComponent grid = null)
     {
         if (Control != null)
         {
@@ -152,21 +153,22 @@ public class Column<T> : ColumnInfo
                 attr.Add(nameof(Field.Id), Id)
                     .Add(nameof(Field.Label), name)
                     .Add(nameof(Field.IsInput), true)
-                    .Add(nameof(Field.Value), value);
+                    .Add(nameof(Field.Value), value)
+                    .Add(nameof(Field.ValueChanged), valueChanged);
             });
             return;
         }
 
         if (Type == ColumnType.Date || Type == ColumnType.DateTime)
         {
-            builder.Field<DateRange>(name, Id).IsInput(true).Value(value).Build();
+            builder.Field<DateRange>(name, Id).IsInput(true).Value(value).ValueChanged(valueChanged).Build();
         }
         else
         {
             if (Select != null)
-                Select.BuildQuery(builder, this, name, value, grid != null ? grid.Refresh : null);
+                Select.BuildQuery(builder, this, name, value, valueChanged, grid != null ? grid.Refresh : null);
             else
-                builder.Field<Text>(name, Id).IsInput(true).Value(value).Build();
+                builder.Field<Text>(name, Id).IsInput(true).Value(value).ValueChanged(valueChanged).Build();
         }
     }
 
@@ -224,12 +226,13 @@ public class SelectOption
         return codes.FirstOrDefault(i => i.Code == str)?.Name;
     }
 
-    internal void BuildQuery(RenderTreeBuilder builder, ColumnInfo column, string name, string value, Action refresh = null)
+    internal void BuildQuery(RenderTreeBuilder builder, ColumnInfo column, string name, string value, Action<string> valueChanged = null, Action refresh = null)
     {
         var emptyText = ShowEmpty ? "全部" : "";
         builder.Field<Select>(name, column.Id).IsInput(true).Value(value)
                .ValueChanged(value =>
                {
+                   valueChanged?.Invoke(value);
                    ValueChanged?.Invoke(value);
                    refresh?.Invoke();
                })
