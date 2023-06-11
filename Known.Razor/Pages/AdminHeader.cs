@@ -1,6 +1,4 @@
-﻿using Known.Razor.Pages.Forms;
-
-namespace Known.Razor.Pages;
+﻿namespace Known.Razor.Pages;
 
 class AdminHeader : BaseComponent
 {
@@ -43,7 +41,7 @@ class AdminHeader : BaseComponent
         });
         builder.Component<QuickView>()
                .Set(c => c.Id, qvSysSettingId)
-               .Set(c => c.ChildContent, b => b.Component<SysSettingForm>().Set(s => s.Title, "系统设置").Build())
+               .Set(c => c.ChildContent, b => b.Component<SettingForm>().Set(s => s.Title, "系统设置").Build())
                .Build();
     }
 

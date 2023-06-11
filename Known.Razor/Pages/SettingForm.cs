@@ -1,11 +1,11 @@
-﻿namespace Known.Razor.Pages.Forms;
+﻿namespace Known.Razor.Pages;
 
-class SysSettingForm : BaseForm<SettingInfo>
+public class SettingForm : BaseForm<SettingInfo>
 {
     private bool isEdit = false;
     private readonly string sizes = string.Join(",", PagingCriteria.PageSizes);
 
-    public SysSettingForm()
+    public SettingForm()
     {
         Style = "";
     }
