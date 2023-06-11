@@ -10,6 +10,11 @@ class SysRoleForm : BaseForm<SysRole>
     private List<TreeItem<MenuInfo>> data;
     private TreeItem<MenuInfo> curItem;
 
+    public SysRoleForm()
+    {
+        Style = "role";
+    }
+
     protected override async Task InitFormAsync()
     {
         info = await Platform.Role.GetRoleAsync(TModel.Id);
