@@ -17,7 +17,8 @@ public abstract class Field : BaseComponent
     [Parameter] public int ColSpan { get; set; }
     [Parameter] public int? Width { get; set; }
     [Parameter] public int? Height { get; set; }
-    
+
+    [Parameter] public Action<RenderTreeBuilder> InputTemplate { get; set; }
     [Parameter] public Action<string> ValueChanged { get; set; }
     [Parameter] public Action<FieldContext> OnValueChanged { get; set; }
     [Parameter] public Action<string> OnSave { get; set; }
@@ -221,15 +222,22 @@ public abstract class Field : BaseComponent
         builder.Div(className, attr =>
         {
             attr.Style(style);
-            if (IsReadOnly && !isEdit)
+            if (InputTemplate != null)
             {
-                BuildText(builder);
-                if (IsEdit)
-                    BuildEditButton(builder);
+                InputTemplate?.Invoke(builder);
             }
             else
             {
-                BuildInput(builder);
+                if (IsReadOnly && !isEdit)
+                {
+                    BuildText(builder);
+                    if (IsEdit)
+                        BuildEditButton(builder);
+                }
+                else
+                {
+                    BuildInput(builder);
+                }
             }
 
             if (isCheck)

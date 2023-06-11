@@ -124,4 +124,10 @@ public class FieldAttrBuilder<T> : ComponentBuilder<T> where T : Field
         Set(r => r.ValueChanged, valueChanged);
         return this;
     }
+
+    public FieldAttrBuilder<T> InputTemplate(Action<RenderTreeBuilder> template)
+    {
+        Set(r => r.InputTemplate, template);
+        return this;
+    }
 }
