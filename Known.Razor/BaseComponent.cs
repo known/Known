@@ -1,6 +1,6 @@
 ﻿namespace Known.Razor;
 
-public abstract class BaseComponent : ComponentBase, IDisposable
+public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 {
     private readonly Type type;
 
@@ -33,10 +33,11 @@ public abstract class BaseComponent : ComponentBase, IDisposable
         }
     }
 
-    protected virtual void Dispose(bool disposing) { }
-    public void Dispose()
+    protected virtual ValueTask DisposeAsync(bool disposing) => ValueTask.CompletedTask;
+
+    public async ValueTask DisposeAsync()
     {
-        Dispose(true);
+        await DisposeAsync(true);
         GC.SuppressFinalize(this);
     }
 

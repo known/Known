@@ -30,7 +30,11 @@ public class Timer : BaseComponent
         }
     }
 
-    protected override void Dispose(bool disposing) => timer.Dispose();
+    protected override ValueTask DisposeAsync(bool disposing)
+    {
+        timer.Dispose();
+        return base.DisposeAsync(disposing);
+    }
 
     private void OnTimerCallback()
     {
