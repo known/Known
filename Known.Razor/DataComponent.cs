@@ -136,7 +136,7 @@ public class DataComponent<TItem> : BaseComponent
         });
     }
 
-    private void BuildPager(RenderTreeBuilder builder)
+    protected virtual void BuildPager(RenderTreeBuilder builder)
     {
         if (!ShowPager)
             return;

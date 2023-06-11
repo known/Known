@@ -73,6 +73,12 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .right {float:right;}
 .icon {font-size:1rem;}
 .tips {color:#00f;}
+.quickview {
+    display:none;position:absolute;top:0;bottom:0;right:0;z-index:9999;width:50%;transition:.3s ease;
+    background-color:#fff;box-shadow:5px 0 13px 3px rgba(0,0,0,.1);
+}
+.quickview .title {font-weight:bold;padding:1rem 0 0 1rem;}
+.quickview.active {display:block;}
 
 /*listBox*/
 .list-box {padding:1px;overflow:auto;height:100%;min-height:200px;}
@@ -256,6 +262,8 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .query input, .query select {width:130px;min-width:130px;}
 .query input[type="checkbox"], .query input[type="radio"] {width:20px;min-width:20px;}
 .query button {margin-left:5px;}
+.query-adv {width:450px;}
+.query-adv .item {display:grid;grid-column-gap:5px;grid-template-columns:25% 25% auto;margin-top:0.8rem;}
 
 /*data*/
 .list-view, .grid-view, .list, .grid, .pager {position:absolute;left:0;right:0;bottom:0;}
@@ -370,11 +378,6 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .dropdown .child .item {white-space:nowrap;padding:5px 15px;cursor:pointer;}
 .dropdown .child .item:hover {background-color:#f1f1f1;}
 .dropdown:hover .child {display:block;}
-.quickview {
-    display:none;position:fixed;top:0;bottom:0;right:0;z-index:9999;width:50%;transition:.3s ease;
-    background-color:#fff;box-shadow:5px 0 13px 3px rgba(0,0,0,.1);
-}
-.quickview.active {display:block;}
 .clickable {cursor:pointer;pointer-events:all;}
 td .icon, .tab .icon {width:20px;text-align:center;margin-right:2px;}
 

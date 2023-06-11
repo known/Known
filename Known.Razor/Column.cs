@@ -3,6 +3,7 @@
 public class Column<T> : ColumnInfo
 {
     private readonly List<string> classNames = new();
+    private readonly CodeInfo[] QueryTypes = TypeHelper.GetEnumCodes<QueryType>().ToArray();
 
     public Column() { }
     internal Column(string name, string id) : base(name, id) { }
@@ -72,30 +73,21 @@ public class Column<T> : ColumnInfo
         };
     }
 
-    internal void BuildQuery(RenderTreeBuilder builder, BaseComponent grid)
+    internal void BuildQuery(RenderTreeBuilder builder, BaseComponent grid = null)
     {
-        if (Control != null)
-        {
-            builder.Component(Control, attr =>
-            {
-                attr.Add(nameof(Field.Id), Id)
-                    .Add(nameof(Field.Label), Name)
-                    .Add(nameof(Field.IsInput), true);
-            });
-            return;
-        }
+        BuildQuery(builder, Name, "", grid);
+    }
 
-        if (Type == ColumnType.Date || Type == ColumnType.DateTime)
+    internal void BuildAdvQuery(RenderTreeBuilder builder, QueryInfo info)
+    {
+        builder.Div("item", attr =>
         {
-            builder.Field<DateRange>(Name, Id).IsInput(true).Build();
-        }
-        else
-        {
-            if (Select != null)
-                Select.BuildQuery(builder, this, grid.Refresh);
-            else
-                builder.Field<Text>(Name, Id).IsInput(true).Build();
-        }
+            builder.Label("form-label", Name);
+            builder.Field<Select>("", "QueryType").IsInput(true)
+                   .Set(f => f.Items, QueryTypes)
+                   .Build();
+            BuildQuery(builder, "", info?.Value);
+        });
     }
 
     internal void BuildCell(RenderTreeBuilder builder, T row, object value, bool readOnly)
@@ -148,6 +140,33 @@ public class Column<T> : ColumnInfo
                 builder.Field<Text>(Id).IsInput(true).Value(value?.ToString())
                        .ValueChanged(value => OnValueChanged(row, value)).Build();
             }
+        }
+    }
+
+    private void BuildQuery(RenderTreeBuilder builder, string name, string value, BaseComponent grid = null)
+    {
+        if (Control != null)
+        {
+            builder.Component(Control, attr =>
+            {
+                attr.Add(nameof(Field.Id), Id)
+                    .Add(nameof(Field.Label), name)
+                    .Add(nameof(Field.IsInput), true)
+                    .Add(nameof(Field.Value), value);
+            });
+            return;
+        }
+
+        if (Type == ColumnType.Date || Type == ColumnType.DateTime)
+        {
+            builder.Field<DateRange>(name, Id).IsInput(true).Value(value).Build();
+        }
+        else
+        {
+            if (Select != null)
+                Select.BuildQuery(builder, this, name, value, grid != null ? grid.Refresh : null);
+            else
+                builder.Field<Text>(name, Id).IsInput(true).Value(value).Build();
         }
     }
 
@@ -205,14 +224,14 @@ public class SelectOption
         return codes.FirstOrDefault(i => i.Code == str)?.Name;
     }
 
-    internal void BuildQuery(RenderTreeBuilder builder, ColumnInfo column, Action refresh)
+    internal void BuildQuery(RenderTreeBuilder builder, ColumnInfo column, string name, string value, Action refresh = null)
     {
         var emptyText = ShowEmpty ? "全部" : "";
-        builder.Field<Select>(column.Name, column.Id).IsInput(true)
+        builder.Field<Select>(name, column.Id).IsInput(true).Value(value)
                .ValueChanged(value =>
                {
                    ValueChanged?.Invoke(value);
-                   refresh();
+                   refresh?.Invoke();
                })
                .Set(c => c.EmptyText, emptyText)
                .Set(f => f.Codes, Codes)

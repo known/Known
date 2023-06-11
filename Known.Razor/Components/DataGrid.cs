@@ -6,12 +6,14 @@ public class DataGrid<TItem> : DataComponent<TItem>
 {
     private bool checkAll = false;
     private readonly string id;
+    private readonly string qvAdvQueryId;
     private List<Column<TItem>> gridColumns;
     protected int curRow = -1;
 
     public DataGrid()
     {
         id = Utils.GetGuid();
+        qvAdvQueryId = $"qv-{id}";
         ContainerStyle = "grid-view";
         ContentStyle = "grid";
         InitMenu();
@@ -222,6 +224,12 @@ public class DataGrid<TItem> : DataComponent<TItem>
         });
     }
 
+    protected override void BuildPager(RenderTreeBuilder builder)
+    {
+        base.BuildPager(builder);
+        BuildAdvQuery(builder);
+    }
+
     protected override void BuildQuerys(RenderTreeBuilder builder)
     {
         var columns = gridColumns?.Where(c => c.IsQuery).ToList();
@@ -240,7 +248,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
         if (gridColumns != null && gridColumns.Any(c => c.IsAdvQuery))
         {
-            builder.Button(FormButton.AdvQuery, Callback(ShowQuerySetting));
+            builder.Button(FormButton.AdvQuery, Callback(ShowAdvQuery));
         }
     }
 
@@ -633,28 +641,35 @@ public class DataGrid<TItem> : DataComponent<TItem>
             builder.Icon("fa fa-sort");
     }
 
-    private void ShowQuerySetting()
+    private void BuildAdvQuery(RenderTreeBuilder builder)
     {
-        var fields = Columns.Select(c => c.ToColumn()).ToList();
-        UI.Show<AdvQuery>("高级查询", new(680, 500), action: attr =>
-        {
-            attr.Set(c => c.PageId, Id)
-                .Set(c => c.Fields, fields)
-                .Set(c => c.OnSetting, async value =>
-                {
-                    var info = new SettingFormInfo
+        builder.Component<QuickView>()
+               .Set(c => c.Id, qvAdvQueryId)
+               .Set(c => c.Style, "query-adv")
+               .Set(c => c.ChildContent, b =>
+               {
+                   b.Component<AdvQuery<TItem>>()
+                    .Set(c => c.PageId, Id)
+                    .Set(c => c.Columns, Columns)
+                    .Set(c => c.OnSetting, async value =>
                     {
-                        Type = UserSetting.KeyQuery,
-                        Name = Id,
-                        Data = Utils.ToJson(value)
-                    };
-                    await Platform.User.SaveSettingAsync(info);
-                    Setting.UserSetting.Querys[Id] = value;
-                    query = value;
-                    QueryData(true);
-                });
-        });
+                        var info = new SettingFormInfo
+                        {
+                            Type = UserSetting.KeyQuery,
+                            Name = Id,
+                            Data = Utils.ToJson(value)
+                        };
+                        await Platform.User.SaveSettingAsync(info);
+                        Setting.UserSetting.Querys[Id] = value;
+                        query = value;
+                        QueryData(true);
+                    })
+                    .Build();
+               })
+               .Build();
     }
+
+    private void ShowAdvQuery() => UI.ShowQuickView(qvAdvQueryId);
 
     private void ShowColumnSetting()
     {
