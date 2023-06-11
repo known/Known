@@ -34,15 +34,16 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
         Column(c => c.Name).Template((b, r) => b.IconName(r.Icon, r.Name));
     }
 
-    protected override void BuildOther(RenderTreeBuilder builder)
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("left-view box", attr =>
+        builder.Div("left-view", attr =>
         {
             builder.Component<Tree<string>>()
                    .Set(c => c.Data, data)
                    .Set(c => c.OnItemClick, Callback<TreeItem<string>>(OnTreeItemClick))
                    .Build();
         });
+        base.BuildRenderTree(builder);
     }
 
     public void New() => ShowForm();

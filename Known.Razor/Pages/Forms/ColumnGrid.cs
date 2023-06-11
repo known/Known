@@ -29,8 +29,9 @@ class ColumnGrid : EditGrid<ColumnInfo>
         Columns = GetColumns(IsModule);
     }
 
-    protected override void BuildOther(RenderTreeBuilder builder)
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        base.BuildRenderTree(builder);
         if (IsModule)
         {
             if (ReadOnly)

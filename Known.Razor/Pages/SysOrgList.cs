@@ -29,15 +29,16 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
         return Task.FromResult(result);
     }
 
-    protected override void BuildOther(RenderTreeBuilder builder)
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("left-view box", attr =>
+        builder.Div("left-view", attr =>
         {
             builder.Component<Tree<SysOrganization>>()
                    .Set(c => c.Data, data)
                    .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(OnTreeItemClick))
                    .Build();
         });
+        base.BuildRenderTree(builder);
     }
 
     public void New() => ShowForm();

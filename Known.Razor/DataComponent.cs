@@ -81,11 +81,9 @@ public class DataComponent<TItem> : BaseComponent
             builder.Div(css, attr => BuildContent(builder));
             BuildPager(builder);
         });
-        BuildOther(builder);
     }
 
     protected virtual void BuildContent(RenderTreeBuilder builder) { }
-    protected virtual void BuildOther(RenderTreeBuilder builder) { }
     protected void BuildEmpty(RenderTreeBuilder builder) => builder.Component<Empty>().Set(c => c.Text, EmptyText).Build();
 
     protected virtual List<string> GetSumColumns() => null;

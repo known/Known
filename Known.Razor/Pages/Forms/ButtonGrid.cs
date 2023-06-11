@@ -26,8 +26,9 @@ class ButtonGrid : EditGrid<ButtonInfo>
         return base.OnInitializedAsync();
     }
 
-    protected override void BuildOther(RenderTreeBuilder builder)
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        base.BuildRenderTree(builder);
         builder.Div("form-button", attr =>
         {
             builder.Button(FormButton.OK, Callback(OnOK));
