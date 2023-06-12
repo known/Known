@@ -384,10 +384,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     private void BuildHeadAction(RenderTreeBuilder builder)
     {
-        if (IsEdit && ReadOnly)
-            return;
-
-        if (Actions == null || Actions.Count == 0)
+        if (!HasAction())
             return;
 
         builder.Th("action", attr =>
@@ -494,10 +491,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     private void BuildRowAction(RenderTreeBuilder builder, int index, TItem item)
     {
-        if (IsEdit && ReadOnly)
-            return;
-
-        if (Actions == null || Actions.Count == 0)
+        if (!HasAction())
             return;
 
         builder.Td("action", attr =>
@@ -597,6 +591,9 @@ public class DataGrid<TItem> : DataComponent<TItem>
                         });
                     }
                 }
+
+                if (HasAction())
+                    builder.Td();
             });
         });
     }
@@ -611,6 +608,17 @@ public class DataGrid<TItem> : DataComponent<TItem>
             return true;
 
         return false;
+    }
+
+    private bool HasAction()
+    {
+        if (IsEdit && ReadOnly)
+            return false;
+
+        if (Actions == null || Actions.Count == 0)
+            return false;
+
+        return true;
     }
 
     private void OnMoveRow(TItem item, Action<TItem, TItem> success, int index, int index1)
