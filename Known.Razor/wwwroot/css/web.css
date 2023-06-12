@@ -137,13 +137,13 @@ button, input, select, .form-input .text, .form-input .unit,
 .dlg-content table .grid-view {top:0;left:0;right:0;bottom:0;border:0;}
 .module .tool {position:absolute;top:-35px;right:0;}
 
-/*SysInstall*/
+/*Install*/
 .install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}
 .install .title {margin:50px 0 20px 0;font-size:2rem;font-weight:bold;text-align:center;}
-.si-button {padding:0 35px;height:40px;line-height:40px;}
-.si-form {width:450px;margin:0 auto;}
-.si-form .form-label {width:120px;text-align:right;}
-.si-form .form-input {width:250px;display:inline-block;}
+.install .form-body {border:none;}
+.install .form-label {width:120px;text-align:right;}
+.install .form-input {width:250px;display:inline-block;}
+.install button {padding:0 35px;height:40px;line-height:40px;}
 
 /*SysSystem*/
 .ss-system {padding:10px 60px;}

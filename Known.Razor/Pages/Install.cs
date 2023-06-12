@@ -4,7 +4,7 @@ public class Install : Form
 {
     public Install()
     {
-        Style = "inline si-form";
+        Style = "box install animated fadeIn";
     }
 
     [Parameter] public Action<CheckInfo> OnInstall { get; set; }
@@ -12,11 +12,6 @@ public class Install : Form
     protected override void OnInitialized()
     {
         Model = Context.Check.Install;
-    }
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.Div("install box", attr => BuildFields(builder));
     }
 
     protected override void BuildFields(RenderTreeBuilder builder)
@@ -35,7 +30,7 @@ public class Install : Form
 
     protected override void BuildButtons(RenderTreeBuilder builder)
     {
-        builder.Button("开始使用", Callback(e => OnStart()), "si-button");
+        builder.Button("开始使用", Callback(e => OnStart()));
     }
 
     private void BuildProduct(RenderTreeBuilder builder)
