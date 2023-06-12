@@ -277,10 +277,10 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .form .table th {text-align:center;}
 
 .table {border-top:2px solid var(--line-color);border-bottom:1px solid var(--line-color);}
-.table th, .table td {padding:5px 10px;border-bottom:1px solid var(--line-color);white-space:nowrap;text-align:left;}
+.table th, .table td {padding:5px 10px;text-align:left;white-space:nowrap;}
 .table th .icon {margin-left:10px;color:#dfdfdf;}
 .table th .icon.sort {color:#485fc7;}
-.table td {text-overflow:ellipsis;}
+.table td {overflow:hidden;text-overflow:ellipsis;max-width:300px;}
 .table tfoot td {background-color:#fdfdfd;}
 .table .index, .table .check, .table .check-box {width:20px;min-width:20px;text-align:center;}
 .table .index .icon {color:#000;margin-left:0;text-align:center;}
@@ -290,7 +290,6 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .table .txt-center {text-align:center;}
 .table .txt-right {text-align:right;}
 
-.table.fixed {table-layout:fixed;}
 .table.fixed thead, .table.fixed tbody, .table.fixed tfoot {position:-webkit-sticky;position:sticky;}
 .table.fixed thead {top:0;z-index:1;}
 .table.fixed tbody {top:32px;}
@@ -306,8 +305,8 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .table .action .link:hover {-moz-opacity:0.8;opacity:0.8;filter:alpha(opacity=80);}
 .table .action .link .icon {width:10px;margin-left:2px;margin-right:0;}
 
-.table th, .table th.fixed, .table th.action {background-color:#fbfbfb;}
-.table tr.even, .table tr.even td.fixed, .table tr.even td.action {background-color:#fff;}
+.table th, .table th.fixed, .table th.action {background-color:#f1f1f1;}
+.table tr.even, .table tr.even td.fixed, .table tr.even td.action {background-color:#f8f8f8;}
 .table tr:hover, .table tr:hover td.fixed, .table tr:hover td.action {background-color:#fcfcfc;}
 .table tr.active, .table tr.active td.fixed, .table tr.active td.action {background-color:#f8eaba;}
 .table tr.selected, .table tr.selected td.fixed, .table tr.selected td.action {background-color:#f0eebb;}
