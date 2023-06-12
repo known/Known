@@ -42,8 +42,8 @@ class Table : DataGrid<DmGoods, DemoGoodsForm>
         builder.Field(r => r.Model);
         builder.Field(r => r.Unit).Center();
         builder.Field(r => r.TaxRate);
-        builder.Field(r => r.MinQty);
-        builder.Field(r => r.MaxQty);
+        builder.Field(r => r.MinQty).IsSum();
+        builder.Field(r => r.MaxQty).IsSum();
         builder.Field(r => r.Note);
         Columns = builder.ToColumns();
     }
