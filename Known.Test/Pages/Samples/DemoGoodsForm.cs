@@ -12,7 +12,7 @@ class DemoGoodsForm : BaseForm<DmGoods>
             table.Tr(attr =>
             {
                 table.Field<Text>(f => f.Code).Build();
-                table.Field<Date>(f => f.Name).Build();
+                table.Field<Text>(f => f.Name).Build();
                 table.Field<Text>(f => f.Unit).Build();
             });
             table.Tr(attr =>
