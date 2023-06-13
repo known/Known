@@ -171,8 +171,6 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 /*tool*/
 .tool {padding:0 10px;}
 .tool button {margin-right:5px;padding:0 10px;}
-.tool1 button {background-color:#fff;color:#000;}
-.tool1 button:hover {color:#fff;background-color:#337ab7;-moz-opacity:1;opacity:1;filter:alpha(opacity=100);}
 
 /*query*/
 .query, .form .query {padding:0 10px;}
@@ -194,7 +192,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .grid {left:0;right:0;top:0;bottom:0;z-index:1000;}
 .grid .table {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
 
-.table {border-bottom:1px solid var(--line-color);}
+.table {border-top:2px solid var(--line-color);border-bottom:1px solid var(--line-color);}
 .table th, .table td {padding:5px 10px;text-align:left;white-space:nowrap;}
 .table th .icon {margin-left:10px;color:#dfdfdf;}
 .table th .icon.sort {color:#485fc7;}
@@ -281,20 +279,17 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form-tabs {position:absolute;top:0;left:0;right:0;bottom:0;}
 .form-tabs .tab.left {position:absolute;top:1px;left:0;bottom:0;width:160px;height:auto;padding:0;overflow:auto;}
 .form-tabs .content {position:absolute;left:161px;top:1px;right:0;bottom:0;}
-.form1 .tool {position:absolute;top:-41px;right:0;border:none;padding:0 5px;height:40px;line-height:40px;}
 .form .tool button {background-color:transparent;color:#333;}
-.form1 .grid, .form1 .grid .table {left:0;right:0;top:0;bottom:0;}
+.form table {border-top:2px solid var(--line-color);}
+.form .table table {border-top:none;}
 .form .table th {text-align:center;}
 input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .onlyTool {top:43px;}
-.form .hasTool1 {top:-40px}
 
 .form .tabs .grid {padding:10px;}
 .form-tabs .tab-body .form {padding:0;}
 .form-tabs .tab-body .grid-view {top:0;left:0;right:0;bottom:0;}
 .form-grid {bottom:60px;}
-
-.form table, .table table {border-top:2px solid var(--line-color);}
 
 /*import*/
 .import-form .form-item {margin:5px 0;padding:0;}
