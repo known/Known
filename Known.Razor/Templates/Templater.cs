@@ -31,7 +31,7 @@ class Templater
     public IServiceProvider Services => provider.Value;
 
     private HtmlRenderer Renderer => renderer.Value;
-    private readonly Type layout;
+    //private readonly Type layout;
 
     public void AddServiceProvider(IServiceProvider serviceProvider)
     {
@@ -91,8 +91,8 @@ class Templater
     private Type GetLayout(Type componentType)
     {
         // Use layout override if set
-        if (layout != null)
-            return layout;
+        //if (layout != null)
+        //    return layout;
 
         // check top-level component for a layout attribute
         return GetLayoutFromAttribute(componentType);
