@@ -174,7 +174,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     protected override async Task OnInitializedAsync()
     {
-        FormatColumns();
         gridColumns = Setting.GetUserColumns(Id, Columns);
         ShowQuery = gridColumns != null && gridColumns.Any(c => c.IsQuery);
 
@@ -316,7 +315,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
     public virtual void Import() => ShowImport(Name, typeof(TItem));
     public virtual void Export() => ExportData(Name, ExportMode.Query);
 
-    protected virtual void FormatColumns() { }
     protected virtual bool CheckAction(ButtonInfo action, TItem item) => true;
     protected virtual void OnRowClick(int row, TItem item) { }
     protected virtual void OnRowDoubleClick(int row, TItem item) { }

@@ -18,20 +18,11 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
 
     protected override async Task OnInitializedAsync()
     {
+        Column(c => c.Name).Template((b, r) => b.IconName(r.Icon, r.Name));
+
         datas = await Platform.Module.GetModulesAsync();
         InitTreeNode();
         await base.OnInitializedAsync();
-    }
-
-    protected override Task<PagingResult<SysModule>> OnQueryData(PagingCriteria criteria)
-    {
-        var result = new PagingResult<SysModule> { PageData = Data };
-        return Task.FromResult(result);
-    }
-
-    protected override void FormatColumns()
-    {
-        Column(c => c.Name).Template((b, r) => b.IconName(r.Icon, r.Name));
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -44,6 +35,12 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
                    .Build();
         });
         base.BuildRenderTree(builder);
+    }
+
+    protected override Task<PagingResult<SysModule>> OnQueryData(PagingCriteria criteria)
+    {
+        var result = new PagingResult<SysModule> { PageData = Data };
+        return Task.FromResult(result);
     }
 
     public void New() => ShowForm();

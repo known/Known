@@ -16,7 +16,7 @@ class SysDicList : DataGrid<SysDictionary, SysDicForm>
         category = dicCates.Count > 0 ? dicCates[0].Name : "";
     }
 
-    protected override void FormatColumns()
+    protected override Task OnInitializedAsync()
     {
         Column(c => c.Category).Select(new SelectOption
         {
@@ -24,6 +24,7 @@ class SysDicList : DataGrid<SysDictionary, SysDicForm>
             Items = categories,
             ValueChanged = v => category = v
         });
+        return base.OnInitializedAsync();
     }
 
     protected override async Task<PagingResult<SysDictionary>> OnQueryData(PagingCriteria criteria)
