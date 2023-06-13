@@ -651,6 +651,9 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     private void BuildAdvQuery(RenderTreeBuilder builder)
     {
+        if (gridColumns == null || !gridColumns.Any(c => c.IsAdvQuery))
+            return;
+
         builder.Component<QuickView>()
                .Set(c => c.Id, qvAdvQueryId)
                .Set(c => c.Style, "query-adv")

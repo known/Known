@@ -194,7 +194,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .grid {left:0;right:0;top:0;bottom:0;z-index:1000;}
 .grid .table {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
 
-.table {border-top:2px solid var(--line-color);border-bottom:1px solid var(--line-color);}
+.table {border-bottom:1px solid var(--line-color);}
 .table th, .table td {padding:5px 10px;text-align:left;white-space:nowrap;}
 .table th .icon {margin-left:10px;color:#dfdfdf;}
 .table th .icon.sort {color:#485fc7;}
@@ -267,7 +267,6 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form-item, .form-button, .tips {padding:0 10px;}
 .block .form-radio {display:block;height:auto;}
 .form, .inline {padding:10px;}
-.form table {border-top:2px solid var(--line-color);}
 .form th, .form td {padding:5px;border-bottom:1px solid var(--line-color);}
 .form th {background-color:#f0f0f0;text-align:right;font-weight:normal;}
 .form td .form-input {width:100%;}
@@ -294,6 +293,8 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .form-tabs .tab-body .form {padding:0;}
 .form-tabs .tab-body .grid-view {top:0;left:0;right:0;bottom:0;}
 .form-grid {bottom:60px;}
+
+.form table, .table table {border-top:2px solid var(--line-color);}
 
 /*import*/
 .import-form .form-item {margin:5px 0;padding:0;}
