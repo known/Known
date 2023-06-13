@@ -87,45 +87,6 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .list-box .item:hover {background-color:#f1f1f1;}
 .list-box .item.active {background-color:#337ab7;color:#fff;}
 
-/*form*/
-.form-body {border-top:2px solid var(--line-color);}
-.form-title {font-size:1.5rem;font-weight:bold;text-align:center;padding:10px;}
-.form-caption {font-size:1.1rem;}
-.form-caption .text {display:inline-block;border-left:5px solid #337ab7;padding-left:5px;height:40px;line-height:40px;font-weight:bold;}
-.form-caption .right {margin-top:5px;margin-right:5px;}
-.form-item, .form-label, .form-text, .form-input, .form-tips {display:block;}
-.form-item {display:block;position:relative;margin-top:10px;}
-.form-label {float:left;padding:0 10px;}
-.form-input {position:relative;}
-.form-item:after, .form-input:after {display:block;content:'';clear:both;}
-.form-input .icon {position:absolute;right:1px;bottom:1.5px;width:28px;text-align:center;cursor:pointer;}
-.form-input .icon.fa-ellipsis-h {background-color:#f5f5f5;}
-.form-input .icon-select {background-color:#fff;z-index:9999;}
-.form-input .unit, .form-input .btn {position:absolute;right:0;padding:0 5px;}
-.form-input .btn {border:1.5px solid var(--line-color);background-color:#f1f1f1;cursor:pointer;}
-.form-input.check {font-weight:bold;}
-.form-check {position:absolute;top:5px;right:0;}
-.form-radio {position:relative;margin-right:10px;cursor:pointer;display:inline-block;}
-.form-radio input {position:absolute;top:5px;}
-.form-tips {padding-left:5px;color:#aaa;}
-.form-button {text-align:center;margin-top:10px;}
-.form-button button {margin:0 5px;}
-.form-item, .form-button, .tips {padding:0 10px;}
-.block .form-radio {display:block;height:auto;}
-.form, .inline {padding:10px;}
-.form th, .form td {padding:5px;border-bottom:1px solid var(--line-color);}
-.form th {background-color:#f0f0f0;text-align:right;font-weight:normal;}
-.form td .form-input {width:100%;}
-.form td .query .form-input, .form td .inline .form-input, 
-.form td.inline .form-input {display:inline-block;width:auto;}
-.form td.inline2 .form-input {display:inline-block;width:50%;}
-.form td.inline3 .form-input {display:inline-block;width:33.33%;}
-.form .form-caption {padding:0;}
-.form-files span {margin-right:5px;}
-.form-file {padding:5px 0;}
-
-input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
-
 /*search-box*/
 .search-box {position:relative;}
 .search-box input {width:100%;padding-left:10px;padding-right:38px;}
@@ -141,39 +102,6 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .card-head .icon {margin-right:5px;}
 .card-head .tool {position:absolute;top:0;right:10px;color:#00f;cursor:pointer;font-weight:normal;}
 .card-body {position:absolute;top:42px;left:1px;right:1px;bottom:1px;padding:5px;overflow:auto;}
-
-/*dialog*/
-.dialog, .dlg-body, .dlg-foot, .dlg-content,
-.dlg-content .form, .dlg-content .form-button {position:absolute;left:0;right:0;}
-.dialog {border:2px solid var(--line-color);top:50%;left:50%;z-index:9999999;}
-.dialog.max {top:0;left:0;right:0;bottom:0;}
-.dlg-head, .dlg-foot {padding:0 10px;}
-.dlg-head {position:relative;border-bottom:1px solid var(--line-color);font-weight:bold;font-size:1.2rem;}
-.dlg-head.draggable {cursor:move;}
-.dlg-head .btns {position:absolute;top:0;right:0;width:100px;}
-.dlg-head .btns .bmin {position:absolute;top:13.5px;right:65px;font-size:0.9rem;cursor:pointer;}
-.dlg-head .btns .bmax {position:absolute;top:13.5px;right:35px;font-size:0.9rem;cursor:pointer;}
-.dlg-body, .dlg-content .form {top:50px;bottom:52px;padding:10px;overflow:auto;}
-.dlg-content {top:50px;bottom:0;}
-.dlg-content .form {top:1px;bottom:0;}
-.dlg-body .message {text-align:center;margin-top:20px;font-size:1.2rem;}
-.dlg-foot, .dlg-content .form-button {margin:0;bottom:0;text-align:right;}
-.dlg-foot button {margin-left:10px;}
-.dlg-content .form.nb {bottom:1px;}
-.dlg-content .form-button.inline {padding:0 10px;}
-.dlg-content .form-button button {margin:0;margin-left:10px;}
-.dlg-head, .dlg-foot, .dlg-content .form-button {height:50px;line-height:50px;}
-.dlg-tips {
-    position:absolute;width:auto;top:10px;right:10px;text-align:center;
-    color:#fff;background-color:#48c78e;margin:0 auto;padding:1rem 2rem;z-index:9999999;
-}
-
-/*import*/
-.dlg-content .import-form {padding:20px;bottom:0;}
-.import-form .form-item {margin:5px 0;padding:0;}
-.import-form .form-input {display:inline-block;}
-.import-form .size {margin-left:10px;}
-.import-form .message {color:#337ab7;padding:10px 5px;}
 
 /*attach*/
 .attachButton {
@@ -239,20 +167,12 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .tab-body.top {top:50px;}
 .tab-body.left {left:100px;}
 .tab-tool {position:absolute;top:5px;right:10px;z-index:9999;}
-.form .tab li {padding:5px;}
-.form .tab-body.top {top:40px;}
-
-.form-tabs {position:absolute;top:0;left:0;right:0;bottom:0;}
-.form-tabs .tab.left {position:absolute;top:1px;left:0;bottom:0;width:160px;height:auto;padding:0;overflow:auto;}
-.form-tabs .content {position:absolute;left:161px;top:1px;right:0;bottom:0;}
 
 /*tool*/
 .tool {padding:0 10px;}
 .tool button {margin-right:5px;padding:0 10px;}
 .tool1 button {background-color:#fff;color:#000;}
 .tool1 button:hover {color:#fff;background-color:#337ab7;-moz-opacity:1;opacity:1;filter:alpha(opacity=100);}
-.form1 .tool {position:absolute;top:-41px;right:0;border:none;padding:0 5px;height:40px;line-height:40px;}
-.form .tool button {background-color:transparent;color:#333;}
 
 /*query*/
 .query, .form .query {padding:0 10px;}
@@ -273,8 +193,6 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .toolbar {height:40px;line-height:40px;}
 .grid {left:0;right:0;top:0;bottom:0;z-index:1000;}
 .grid .table {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
-.form1 .grid, .form1 .grid .table {left:0;right:0;top:0;bottom:0;}
-.form .table th {text-align:center;}
 
 .table {border-top:2px solid var(--line-color);border-bottom:1px solid var(--line-color);}
 .table th, .table td {padding:5px 10px;text-align:left;white-space:nowrap;}
@@ -325,14 +243,95 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .pager .btns li .pp {left:5px;}
 .pager .btns li .pn {left:15px;}
 
+/*form*/
+.form-title {font-size:1.5rem;font-weight:bold;text-align:center;padding:10px;}
+.form-caption {border-left:5px solid #337ab7;padding-left:5px;height:40px;line-height:40px;font-size:1.1rem;font-weight:bold;}
+.form-caption .right {margin-top:5px;margin-right:5px;}
+.form-item, .form-label, .form-text, .form-input, .form-tips {display:block;}
+.form-item {display:block;position:relative;margin-top:10px;}
+.form-label {float:left;padding:0 10px;}
+.form-input {position:relative;}
+.form-item:after, .form-input:after {display:block;content:'';clear:both;}
+.form-input .icon {position:absolute;right:1px;bottom:1.5px;width:28px;text-align:center;cursor:pointer;}
+.form-input .icon.fa-ellipsis-h {background-color:#f5f5f5;}
+.form-input .icon-select {background-color:#fff;z-index:9999;}
+.form-input .unit, .form-input .btn {position:absolute;right:0;padding:0 5px;}
+.form-input .btn {border:1.5px solid var(--line-color);background-color:#f1f1f1;cursor:pointer;}
+.form-input.check {font-weight:bold;}
+.form-check {position:absolute;top:5px;right:0;}
+.form-radio {position:relative;margin-right:10px;cursor:pointer;display:inline-block;}
+.form-radio input {position:absolute;top:5px;}
+.form-tips {padding-left:5px;color:#aaa;}
+.form-button {text-align:center;margin-top:10px;}
+.form-button button {margin:0 5px;}
+.form-item, .form-button, .tips {padding:0 10px;}
+.block .form-radio {display:block;height:auto;}
+.form, .inline {padding:10px;}
+.form table {border-top:2px solid var(--line-color);}
+.form th, .form td {padding:5px;border-bottom:1px solid var(--line-color);}
+.form th {background-color:#f0f0f0;text-align:right;font-weight:normal;}
+.form td .form-input {width:100%;}
+.form td .query .form-input, .form td .inline .form-input, 
+.form td.inline .form-input {display:inline-block;width:auto;}
+.form td.inline2 .form-input {display:inline-block;width:50%;}
+.form td.inline3 .form-input {display:inline-block;width:33.33%;}
+.form-files span {margin-right:5px;}
+.form-file {padding:5px 0;}
+.form .tab li {padding:5px;}
+.form .tab-body.top {top:40px;}
+.form-tabs {position:absolute;top:0;left:0;right:0;bottom:0;}
+.form-tabs .tab.left {position:absolute;top:1px;left:0;bottom:0;width:160px;height:auto;padding:0;overflow:auto;}
+.form-tabs .content {position:absolute;left:161px;top:1px;right:0;bottom:0;}
+.form1 .tool {position:absolute;top:-41px;right:0;border:none;padding:0 5px;height:40px;line-height:40px;}
+.form .tool button {background-color:transparent;color:#333;}
+.form1 .grid, .form1 .grid .table {left:0;right:0;top:0;bottom:0;}
+.form .table th {text-align:center;}
+input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .onlyTool {top:43px;}
 .form .hasTool1 {top:-40px}
-.dlg-content .hasQuery {padding:10px 10px 0 10px;}
-.dlg-content .pager {padding:0 10px;}
+
 .form .tabs .grid {padding:10px;}
 .form-tabs .tab-body .form {padding:0;}
 .form-tabs .tab-body .grid-view {top:0;left:0;right:0;bottom:0;}
 .form-grid {bottom:60px;}
+
+/*import*/
+.import-form .form-item {margin:5px 0;padding:0;}
+.import-form .form-input {display:inline-block;}
+.import-form .size {margin-left:10px;}
+.import-form .message {color:#337ab7;padding:10px 5px;}
+
+/*dialog*/
+.dlg-tips {
+    position:absolute;width:auto;top:10px;right:10px;text-align:center;
+    color:#fff;background-color:#48c78e;margin:0 auto;padding:1rem 2rem;z-index:9999999;
+}
+.dialog, .dlg-body, .dlg-foot, .dlg-content,
+.dialog .form, .dialog .form-body, .dialog .form-list, .dialog .form-button {position:absolute;left:0;right:0;}
+.dialog {border:2px solid var(--line-color);top:50%;left:50%;z-index:9999999;}
+.dialog.max {top:0;left:0;right:0;bottom:0;}
+.dlg-head, .dlg-foot {padding:0 10px;}
+.dlg-head {position:relative;border-bottom:1px solid var(--line-color);font-weight:bold;font-size:1.2rem;}
+.dlg-head.draggable {cursor:move;}
+.dlg-head .btns {position:absolute;top:0;right:0;width:100px;}
+.dlg-head .btns .bmin {position:absolute;top:13.5px;right:65px;font-size:0.9rem;cursor:pointer;}
+.dlg-head .btns .bmax {position:absolute;top:13.5px;right:35px;font-size:0.9rem;cursor:pointer;}
+.dlg-body, .dialog .form {top:50px;bottom:52px;padding:10px;overflow:auto;}
+.dlg-content {top:50px;bottom:0;}
+.dlg-body .message {text-align:center;margin-top:20px;font-size:1.2rem;}
+.dlg-foot, .dialog .form-button {margin:0;bottom:0;text-align:right;}
+.dlg-foot button {margin-left:10px;}
+.dlg-head, .dlg-foot, .dialog .form-button {height:50px;line-height:50px;}
+.dialog .form {top:1px;bottom:0;}
+.dialog .form.nb {bottom:1px;}
+.dialog .form-body {top:0;bottom:50px;padding:10px;}
+.dialog .form-list {top:80px;bottom:0;}
+.dialog .form-list .grid-view {top:0;bottom:0;}
+.dialog .form-button.inline {padding:0 10px;}
+.dialog .form-button button {margin:0;margin-left:10px;}
+.dialog .hasQuery {padding:10px 10px 0 10px;}
+.dialog .pager {padding:0 10px;}
+.dialog .import-form {padding:20px;bottom:0;}
 
 /*common*/
 .mask {

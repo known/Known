@@ -19,10 +19,10 @@ class DemoGoodsForm : BaseForm<DmGoods>
             {
                 table.Field<TextArea>(f => f.Model).ColSpan(5).Build();
             });
-            table.FormList<DemoGoodsGrid>("商品明细", 6, "", 235, attr =>
-            {
-                attr.Set(c => c.ReadOnly, ReadOnly);
-            });
+        });
+        builder.FormList<DemoGoodsGrid>("商品明细", 188, "", attr =>
+        {
+            attr.Set(c => c.ReadOnly, ReadOnly);
         });
     }
 

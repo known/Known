@@ -2,25 +2,19 @@
 
 public static class FormExtension
 {
-    public static void FormCaption(this RenderTreeBuilder builder, string title, int colSpan) => builder.Tr(attr => builder.Td("form-caption", title, colSpan));
-
-    public static void FormList<T>(this RenderTreeBuilder builder, string title, int colSpan, string style = null, int? height = null, Action<AttributeBuilder<T>> child = null) where T : notnull, IComponent
+    public static void FormList<T>(this RenderTreeBuilder builder, string title, int top, string style = null, Action<AttributeBuilder<T>> child = null) where T : notnull, IComponent
     {
-        builder.FormList(title, colSpan, style, height, () => builder.Component(child));
+        builder.FormList(title, top, style, () => builder.Component(child));
     }
 
-    public static void FormList(this RenderTreeBuilder builder, string title, int colSpan, string style = null, int? height = null, Action child = null)
+    public static void FormList(this RenderTreeBuilder builder, string title, int top, string style = null, Action child = null)
     {
-        builder.FormCaption(title, colSpan);
-        builder.Tr(attr =>
+        builder.Div("form-caption", title);
+        var css = CssBuilder.Default("form-list").AddClass(style).Build();
+        builder.Div(css, attr =>
         {
-            builder.Td(attr =>
-            {
-                attr.Class(style).ColSpan(colSpan);
-                if (height != null && height.HasValue)
-                    attr.Style($"position:relative;height:{height}px;");
-                child?.Invoke();
-            });
+            attr.Style($"top:{top}px;");
+            child.Invoke();
         });
     }
 

@@ -122,7 +122,6 @@
 .kui-content .form-page, .tab-body .form-page,
 .tab-body .left-view, .tab-body .grid-view, .tab-body .form-page {top:10px;}
 .tab-body .grid-view.form-grid {bottom:60px;}
-.dlg-content .grid-view {top:10px;bottom:60px;}
 
 .left-tree {left:232px;top:0;bottom:8px;}
 .left-tree .grid {top:40px;}
@@ -134,8 +133,7 @@ button, input, select, .form-input .text, .form-input .unit,
 .form-label, .form-text, .form-radio, .form-tips {height:30px;line-height:30px;}
 .form-input .icon, .form-input .unit, .form-input .btn {height:27px;line-height:27px;}
 .inline .form-item, .inline .form-label, .inline .form-text, .inline .form-input, .inline .form-tips {display:inline-block;}
-.dlg-content table .grid-view {top:0;left:0;right:0;bottom:0;border:0;}
-.module .tool {position:absolute;top:-35px;right:0;}
+.module .tool {position:absolute;top:-45px;right:0;}
 
 /*Install*/
 .install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}
