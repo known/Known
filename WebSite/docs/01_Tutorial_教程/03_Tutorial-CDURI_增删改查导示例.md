@@ -44,18 +44,20 @@ public class GoodsClient : BaseClient
 ```C#
 class GoodsList : WebGridView<KmGoods, GoodsForm>
 {
+    protected override Task OnInitializedAsync()
+    {
+        //表格栏位格式化显示
+        Column(c => c.Type).Select(new SelectOption { Codes = AppDictionary.GoodsType });
+        Column(c => c.TaxRate).Template((b, r) => b.Text(r.TaxRate?.ToString("P")));
+        return base.OnInitializedAsync();
+    }
+
     //分页查询
     protected override Task<PagingResult<KmGoods>> OnQueryData(PagingCriteria criteria)
     {
         return Client.Goods.QueryGoodsesAsync(criteria);
     }
-    //表格栏位格式化显示
-    protected override void FormatColumns()
-    {
-        Column(c => c.Type).Select(new SelectOption { Codes = AppDictionary.GoodsType });
-        Column(c => c.TaxRate).Template((b, r) => b.Text(r.TaxRate?.ToString("P")));
-    }
-
+    
     public void New() => ShowForm();//新增按钮方法
     public void DeleteM() => OnDeleteM(Client.Goods.DeleteGoodsesAsync);//批量删除按钮方法
     public void Edit(KmGoods row) => ShowForm(row);//编辑操作方法
