@@ -18,6 +18,16 @@ import "./libs/pdfobject.js";
 import "./libs/wangEditor.js";
 import "./libs/xlsxcore.js";
 
+$(function () {
+    $(document).click(function (e) {
+        if ($(e.target).hasClass('quickview') ||
+            $(e.target).hasClass('qvtrigger') ||
+            $(e.target).parents('.quickview').length > 0)
+            return;
+        $('.quickview').removeClass('active');
+    });
+});
+
 export class KRazor {
     //Alert
     static showTips(message) {
@@ -35,7 +45,6 @@ export class KRazor {
 
     //Chart
     static showChart(info) {
-        //console.log(info);
         Highcharts.chart(info.id, info.option);
     }
 
@@ -144,21 +153,6 @@ export class KRazor {
     }
 
     //Grid
-    static toggleQuery(id) {
-        var btn = $('#' + id);
-        var query = btn.parent();
-        var tool = query.parent().find('.tool');
-        if (btn.text() === '更多') {
-            btn.text('收起');
-            query.addClass('more');
-        } else {
-            btn.text('更多');
-            query.removeClass('more');
-        }
-        var queryHeight = query.outerHeight();
-        var toolHeight = tool.length ? tool.outerHeight() : 0;
-        query.parent().find('.grid').css({ top: (queryHeight + toolHeight) + 'px' });
-    }
     static fixedTable(id) {
         var table = $('#' + id);
         var left = 0;
@@ -208,14 +202,6 @@ export class KRazor {
     static showFrame(id, url) {
         $('#' + id).attr('src', url);
     }
-    static showQuickView(id) {
-        $('#' + id).addClass('active');
-        $(document).click(function (e) {
-            if (e.target.id == id || $(e.target).parents("#" + id).length > 0)
-                return;
-            $('#' + id).removeClass('active');
-        });
-    }
     static showLoading() {
         document.body.classList.add('loading');
     }
@@ -228,7 +214,6 @@ export class KRazor {
         if (rfs) {
             rfs.call(el);
         } else if (typeof window.ActiveXObject !== 'undefined') {
-            //for IE
             var wscript = new ActiveXObject('WScript.Shell');
             if (wscript !== null) {
                 wscript.SendKeys('{F11}');
@@ -241,7 +226,6 @@ export class KRazor {
         if (cfs) {
             cfs.call(el);
         } else if (typeof window.ActiveXObject !== 'undefined') {
-            //for IE
             var wscript = new ActiveXObject('WScript.Shell');
             if (wscript !== null) {
                 wscript.SendKeys('{F11}');

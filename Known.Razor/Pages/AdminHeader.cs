@@ -89,7 +89,7 @@ class AdminHeader : BaseComponent
                     builder.Span("badge-top", $"{MessageCount}");
             });
             builder.Li("nav-item fa fa-power-off", attr => attr.Title("安全退出").OnClick(Callback(OnUserLogout)));
-            builder.Li("nav-item fa fa-ellipsis-v", attr => attr.Title("系统设置").OnClick(Callback(OnShowSetting)));
+            builder.Li("nav-item fa fa-ellipsis-v qvtrigger", attr => attr.Title("系统设置").OnClick(Callback(OnShowSetting)));
         });
     }
 

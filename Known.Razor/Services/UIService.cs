@@ -13,7 +13,7 @@ public partial class UIService
 
     public void AppendBody(string html) => InvokeVoidAsync("KRazor.appendBody", html);
     public void ShowFrame(string id, string url) => InvokeVoidAsync("KRazor.showFrame", id, url);
-    public void ShowQuickView(string id) => InvokeVoidAsync("KRazor.showQuickView", id);
+    public void ShowQuickView(string id) => ToggleClass(id, "active");
     public void ShowLoading() => InvokeVoidAsync("KRazor.showLoading");
     public void HideLoading() => InvokeVoidAsync("KRazor.hideLoading");
     public void OpenFullScreen() => InvokeVoidAsync("KRazor.openFullScreen");
