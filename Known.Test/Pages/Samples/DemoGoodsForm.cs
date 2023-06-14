@@ -22,7 +22,8 @@ class DemoGoodsForm : BaseForm<DmGoods>
         });
         builder.FormList<DemoGoodsGrid>("商品明细", 188, "", attr =>
         {
-            attr.Set(c => c.ReadOnly, ReadOnly);
+            attr.Set(c => c.ReadOnly, ReadOnly)
+                .Set(c => c.Data, new List<DmGoods>());
         });
     }
 

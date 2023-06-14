@@ -1,33 +1,19 @@
 ﻿namespace Known.Test.Pages.Samples;
 
-class DemoGoodsGrid : DataGrid<DmGoods>
+class DemoGoodsGrid : EditGrid<DmGoods>
 {
     public DemoGoodsGrid()
     {
         Name = "商品明细";
-        ShowEmpty = false;
 
         var builder = new ColumnBuilder<DmGoods>();
-        builder.Field(r => r.Code, true);
+        builder.Field(r => r.Code, true).Edit();
         builder.Field(r => r.Name, true);
         builder.Field(r => r.Model);
         builder.Field(r => r.Unit);
-        builder.Field(r => r.Note);
+        builder.Field(r => r.MinQty).IsSum().Edit();
+        builder.Field(r => r.MaxQty).IsSum().Edit();
+        builder.Field(r => r.Note).Edit();
         Columns = builder.ToColumns();
-    }
-
-    protected override Task OnInitializedAsync()
-    {
-        ShowCheckBox = !ReadOnly;
-        if (!ReadOnly)
-        {
-            Tools = new List<ButtonInfo> { ToolButton.New, ToolButton.DeleteM, ToolButton.MoveUp, ToolButton.MoveDown, ToolButton.Import, ToolButton.Export };
-            Actions = new List<ButtonInfo> { GridAction.View, GridAction.Edit, GridAction.Delete };
-        }
-        else
-        {
-            Actions = new List<ButtonInfo> { GridAction.View };
-        }
-        return base.OnInitializedAsync();
     }
 }
