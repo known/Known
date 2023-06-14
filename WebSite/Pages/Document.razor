@@ -6,7 +6,7 @@
         <DocMenu CurItem="@curItem" />
     </div>
     <div class="doc-content markdown-body">
-        <span class="doc-nav oi oi-list" @onclick="OnDocNavClick"></span>
+        <span class="doc-nav oi oi-menu" @onclick="OnDocNavClick"></span>
         @DocService.GetDocHtml(curItem)
     </div>
 </div>
