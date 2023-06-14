@@ -1,5 +1,18 @@
 # 更新日志
 
+## V1.2.2 （2023-06-15）
+- 🐛修复一些功能问题
+- 😄新增主题色和随机色设置
+- 😄CheckBox新增Switch属性
+- 😄Field增加InputTemplate属性
+- 😄新增QuickView组件
+- 🔨优化布局和样式
+- 🔨优化表格高级查询
+- 🔨优化内置功能页面
+- ✂️Form组件InitPageAsync改成InitFormAsync
+- ✂️删除组件BuildOther，改用BuildRenderTree
+- ✂️删除DataGrid的FormatColumns，改用OnInitializedAsync
+
 ## V1.2.1 （2023-05-24）
 - 🐛修复获取菜单类型异常问题
 - 😄新增属性选择表单Field方法
