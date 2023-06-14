@@ -172,6 +172,13 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 /*tool*/
 .tool {padding:0 10px;}
 .tool button {margin-right:5px;padding:0 10px;}
+.dropdown {position:relative;display:inline-block;}
+.dropdown .link {padding:0 5px;cursor:pointer;}
+.dropdown .link .icon {width:auto;margin-right:0;}
+.dropdown .child {display:none;position:absolute;right:0;z-index:9999;background-color:#fff;border:1px solid var(--line-color);}
+.dropdown .child .item {white-space:nowrap;padding:5px 15px;cursor:pointer;}
+.dropdown .child .item:hover {background-color:#f1f1f1;}
+.dropdown:hover .child {display:block;}
 
 /*query*/
 .query, .form .query {padding:0 10px;}
@@ -208,12 +215,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 
 .table .action {width:30px;text-align:center;position:sticky;z-index:1;right:0;background-color:#fff;}
 .table .action .icon {margin:0 5px;cursor:pointer;font-size:1.2rem;}
-.table .action .link {
-    margin:0 5px;padding:3px 5px;font-size:0.9rem;
-    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
-}
-.table .action .link:hover {-moz-opacity:0.8;opacity:0.8;filter:alpha(opacity=80);}
-.table .action .link .icon {width:10px;margin-left:2px;margin-right:0;}
+.table td.action {overflow:unset;}
 
 .table.fixed thead th.fixed,
 .table.fixed tbody td.fixed,
@@ -369,14 +371,6 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .box-left, .box-right {position:absolute;top:0;bottom:0;}
 .box-left  {left:0;width:120px;}
 .box-right {right:0;left:120px;}
-
-.dropdown {position:relative;display:inline-block;}
-.dropdown .title {padding:0 5px;cursor:pointer;}
-.dropdown .title .icon {width:auto;margin-right:0;}
-.dropdown .child {display:none;position:absolute;right:0;z-index:9999;}
-.dropdown .child .item {white-space:nowrap;padding:5px 15px;cursor:pointer;}
-.dropdown .child .item:hover {background-color:#f1f1f1;}
-.dropdown:hover .child {display:block;}
 .clickable {cursor:pointer;pointer-events:all;}
 td .icon, .tab .icon {width:20px;text-align:center;margin-right:2px;}
 
