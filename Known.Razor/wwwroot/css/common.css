@@ -283,6 +283,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form table {border-top:2px solid var(--line-color);}
 .form .table table {border-top:none;}
 .form .table th {text-align:center;}
+.form .table td {border-bottom:none;}
 input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .onlyTool {top:43px;}
 

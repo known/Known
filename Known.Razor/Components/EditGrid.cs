@@ -20,20 +20,20 @@ public class EditGrid<TItem> : DataGrid<TItem> where TItem : class, new()
 
     private void AddData(TItem item)
     {
-        Data.Add(item);
+        Data?.Add(item);
         StateChanged();
     }
 
     private void InsertData(TItem item)
     {
         var index = curRow < 0 ? 0 : curRow;
-        Data.Insert(index, item);
+        Data?.Insert(index, item);
         StateChanged();
     }
 
     private void RemoveData(TItem item)
     {
-        Data.Remove(item);
+        Data?.Remove(item);
         StateChanged();
     }
 }
