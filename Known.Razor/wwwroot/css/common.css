@@ -16,6 +16,7 @@
     --theme-color: #4188c8;
     --font-color: #413e3c;
     --line-color: #ccc;
+    --th-bgcolor: #f1f1f1;
     --border-radius: 0.2rem;
 }
 
@@ -197,7 +198,6 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .table th .icon {margin-left:10px;color:#dfdfdf;}
 .table th .icon.sort {color:#485fc7;}
 .table td {overflow:hidden;text-overflow:ellipsis;max-width:300px;}
-.table tfoot td {background-color:#fdfdfd;}
 .table .index, .table .check, .table .check-box {width:20px;min-width:20px;text-align:center;}
 .table .index .icon {color:#000;margin-left:0;text-align:center;}
 .table .check .form-radio, .table .check-box .form-radio {margin-right:0;height:20px;line-height:20px;}
@@ -206,13 +206,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .table .txt-center {text-align:center;}
 .table .txt-right {text-align:right;}
 
-.table.fixed thead, .table.fixed tbody, .table.fixed tfoot {position:-webkit-sticky;position:sticky;}
-.table.fixed thead {top:0;z-index:1;}
-.table.fixed tbody {top:32px;}
-.table.fixed tfoot {bottom:0;z-index:1;}
-.table th.fixed, .table td.fixed {position:sticky;z-index:2;background-color:#fff;}
-
-.table .action {width:30px;text-align:center;position:sticky;z-index:2;right:0;background-color:#fff;}
+.table .action {width:30px;text-align:center;position:sticky;z-index:1;right:0;background-color:#fff;}
 .table .action .icon {margin:0 5px;cursor:pointer;font-size:1.2rem;}
 .table .action .link {
     margin:0 5px;padding:3px 5px;font-size:0.9rem;
@@ -221,7 +215,17 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .table .action .link:hover {-moz-opacity:0.8;opacity:0.8;filter:alpha(opacity=80);}
 .table .action .link .icon {width:10px;margin-left:2px;margin-right:0;}
 
-.table th, .table th.fixed, .table th.action {background-color:#f1f1f1;}
+.table.fixed thead th.fixed,
+.table.fixed tbody td.fixed,
+.table.fixed tfoot td:first-child {position:sticky;left:0;z-index:1;}
+.table.fixed tbody td.fixed {background-color:#fff;}
+.table.fixed thead th {position:sticky;top:0;z-index:2;}
+.table.fixed tfoot td {position:sticky;bottom:0;z-index:2;}
+.table.fixed thead th.fixed,
+.table.fixed thead th.action,
+.table.fixed tfoot td:first-child {z-index:3;}
+
+.table th, .table th.fixed, .table th.action, .table tfoot td {background-color:var(--th-bgcolor);}
 .table tr.even, .table tr.even td.fixed, .table tr.even td.action {background-color:#f8f8f8;}
 .table tr:hover, .table tr:hover td.fixed, .table tr:hover td.action {background-color:#fcfcfc;}
 .table tr.active, .table tr.active td.fixed, .table tr.active td.action {background-color:#f8eaba;}
@@ -266,7 +270,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .block .form-radio {display:block;height:auto;}
 .form, .inline {padding:10px;}
 .form th, .form td {padding:5px;border-bottom:1px solid var(--line-color);}
-.form th {background-color:#f0f0f0;text-align:right;font-weight:normal;}
+.form th {text-align:right;font-weight:normal;background-color:var(--th-bgcolor);}
 .form td .form-input {width:100%;}
 .form td .query .form-input, .form td .inline .form-input, 
 .form td.inline .form-input {display:inline-block;width:auto;}
