@@ -725,6 +725,16 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase w
         ShowCheckBox = true;
     }
 
+    [Parameter] public Action<object> OnOK { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        if (OnOK != null)
+            SetGridPicker();
+
+        return base.OnInitializedAsync();
+    }
+
     protected virtual Task<TItem> GetDefaultModelAsync() => default;
 
     protected virtual async void ShowForm(TItem model = null)
@@ -739,7 +749,8 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase w
         ShowSetting = false;
         ShowCheckBox = false;
         RowTitle = "双击选择数据。";
-        Tools = new List<ButtonInfo> { ToolButton.New };
+        if (HasButton(ToolButton.New))
+            Tools = new List<ButtonInfo> { ToolButton.New };
         Actions = null;
         Columns.ForEach(c => c.IsAdvQuery = false);
     }
