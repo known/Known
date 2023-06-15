@@ -29,7 +29,7 @@ class SysDicList : DataGrid<SysDictionary, SysDicForm>
 
     protected override async Task<PagingResult<SysDictionary>> OnQueryData(PagingCriteria criteria)
     {
-        criteria.SetValue(nameof(SysDictionary.Category), category);
+        criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category);
         var result = await Platform.Dictionary.QueryDictionarysAsync(criteria);
         total = result.TotalCount;
         return result;

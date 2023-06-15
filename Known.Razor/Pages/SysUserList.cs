@@ -29,7 +29,7 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
 
     protected override Task<PagingResult<SysUser>> OnQueryData(PagingCriteria criteria)
     {
-        criteria.SetValue(nameof(SysUser.Role), Role ?? "");
+        criteria.SetQuery(nameof(SysUser.Role), Role ?? "");
         return Platform.User.QueryUsersAsync(criteria);
     }
 

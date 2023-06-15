@@ -299,7 +299,7 @@ class UserService : BaseService
     //Message
     internal PagingResult<SysMessage> QueryMessages(PagingCriteria criteria)
     {
-        criteria.SetValue(nameof(SysMessage.UserId), CurrentUser.UserId);
+        criteria.SetQuery(nameof(SysMessage.UserId), CurrentUser.UserId);
         return UserRepository.QueryMessages(Database, criteria);
     }
 

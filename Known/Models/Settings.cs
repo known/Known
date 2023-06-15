@@ -14,11 +14,12 @@ public class UserSetting
 public class QueryInfo
 {
     public QueryInfo() { }
-    public QueryInfo(string id, string value)
+    public QueryInfo(string id, string value) : this(id, QueryType.Contain, value) { }
+    public QueryInfo(string id, QueryType type, string value)
     {
         Id = id;
+        Type = type;
         Value = value;
-        Type = QueryType.Contain;
     }
 
     public string Id { get; set; }

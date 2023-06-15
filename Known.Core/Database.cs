@@ -592,7 +592,7 @@ public class Database : IDisposable
         if (keys.Length > 1)
             key = keys[1];
 
-        if (!criteria.HasParameter(key))
+        if (!criteria.HasQuery(key))
             return;
 
         var query = criteria.Query.FirstOrDefault(q => q.Id == key);
@@ -687,20 +687,20 @@ public class Database : IDisposable
     {
         var paramName = $"L{key}";
         var date = GetDateSql(paramName);
-        if (criteria.HasParameter(paramName))
+        if (criteria.HasQuery(paramName))
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == paramName);
             sql += $" and {field}{symbol}{date}";
             query.Value = $"{query.Value} 00:00:00";
         }
-        else if (criteria.HasParameter(key))
+        else if (criteria.HasQuery(key))
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == key);
             var value = query.Value.Split('~')[0];
             if (!string.IsNullOrWhiteSpace(value))
             {
                 sql += $" and {field}{symbol}{date}";
-                criteria.SetValue(paramName, $"{value} 00:00:00");
+                criteria.SetQuery(paramName, $"{value} 00:00:00");
             }
         }
     }
@@ -709,20 +709,20 @@ public class Database : IDisposable
     {
         var paramName = $"G{key}";
         var date = GetDateSql(paramName);
-        if (criteria.HasParameter(paramName))
+        if (criteria.HasQuery(paramName))
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == paramName);
             sql += $" and {field}{symbol}{date}";
             query.Value = $"{query.Value} 23:59:59";
         }
-        else if (criteria.HasParameter(key))
+        else if (criteria.HasQuery(key))
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == key);
             var value = query.Value.Split('~')[1];
             if (!string.IsNullOrWhiteSpace(value))
             {
                 sql += $" and {field}{symbol}{date}";
-                criteria.SetValue(paramName, $"{value} 23:59:59");
+                criteria.SetQuery(paramName, $"{value} 23:59:59");
             }
         }
     }

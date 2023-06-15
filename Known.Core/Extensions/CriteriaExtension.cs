@@ -17,7 +17,7 @@ public static class CriteriaExtension
         return parameter;
     }
 
-    public static string GetValue(this PagingCriteria criteria, string id)
+    public static string GetQueryValue(this PagingCriteria criteria, string id)
     {
         var query = criteria.Query.FirstOrDefault(q => q.Id == id);
         if (query == null)
@@ -26,7 +26,7 @@ public static class CriteriaExtension
         return query.Value;
     }
 
-    public static T GetValue<T>(this PagingCriteria criteria, string id)
+    public static T GetQueryValue<T>(this PagingCriteria criteria, string id)
     {
         var query = criteria.Query.FirstOrDefault(q => q.Id == id);
         if (query == null)
@@ -35,7 +35,7 @@ public static class CriteriaExtension
         return Utils.ConvertTo<T>(query.Value);
     }
 
-    public static void SetType(this PagingCriteria criteria, string id, QueryType type)
+    public static void SetQueryType(this PagingCriteria criteria, string id, QueryType type)
     {
         var query = criteria.Query.FirstOrDefault(q => q.Id == id);
         if (query == null)
@@ -44,7 +44,7 @@ public static class CriteriaExtension
         query.Type = type;
     }
 
-    public static bool HasParameter(this PagingCriteria criteria, string id)
+    public static bool HasQuery(this PagingCriteria criteria, string id)
     {
         if (criteria.Query == null)
             return false;
@@ -54,5 +54,18 @@ public static class CriteriaExtension
             return false;
 
         return !string.IsNullOrEmpty(query.Value);
+    }
+
+    public static bool CheckParameter<T>(this PagingCriteria criteria, string id, T value)
+    {
+        if (criteria.Parameters == null)
+            return false;
+
+        if (!criteria.Parameters.ContainsKey(id))
+            return false;
+
+        var param = criteria.Parameters[id];
+        var data = Utils.ConvertTo<T>(param);
+        return data.Equals(value);
     }
 }

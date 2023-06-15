@@ -115,6 +115,7 @@ public class PagingCriteria
 {
     public PagingCriteria()
     {
+        Parameters = new Dictionary<string, string>();
         Query = new List<QueryInfo>();
     }
 
@@ -129,6 +130,7 @@ public class PagingCriteria
     public ExportMode ExportMode { get; set; }
     public string ExportExtension { get; set; }
     public Dictionary<string, string> ExportColumns { get; set; }
+    public Dictionary<string, string> Parameters { get; set; }
     public List<string> SumColumns { get; set; }
 
     public bool IsQuery { get; set; }
@@ -137,12 +139,28 @@ public class PagingCriteria
     public List<QueryInfo> Query { get; set; }
     public string[] OrderBys { get; set; }
 
-    public void SetValue(string id, string value)
+    public void SetQuery(string id, string value)
     {
         var query = Query.FirstOrDefault(q => q.Id == id);
         if (query == null)
+        {
             Query.Add(new(id, value));
-        else
-            query.Value = value;
+            return;
+        }
+
+        query.Value = value;
+    }
+
+    public void SetQuery(string id, QueryType type, string value)
+    {
+        var query = Query.FirstOrDefault(q => q.Id == id);
+        if (query == null)
+        {
+            Query.Add(new(id, type, value));
+            return;
+        }
+
+        query.Type = type;
+        query.Value = value;
     }
 }
