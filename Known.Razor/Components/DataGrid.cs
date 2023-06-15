@@ -597,9 +597,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
                             if (item.IsSum)
                             {
                                 attr.Class("txt-right");
-                                var value = Sums != null && Sums.ContainsKey(item.Id)
-                                          ? Sums[item.Id]
-                                          : 0;
+                                var value = GetSumValue(item.Id);
                                 builder.Text($"{value}");
                             }
                         });
@@ -609,6 +607,21 @@ public class DataGrid<TItem> : DataComponent<TItem>
                 if (HasAction())
                     builder.Td();
             });
+        });
+    }
+
+    private object GetSumValue(string id)
+    {
+        if (Sums != null && Sums.ContainsKey(id))
+            return Sums[id];
+
+        if (Data == null || Data.Count == 0)
+            return 0;
+
+        return Data.Sum(d =>
+        {
+            var data = Utils.MapTo<Dictionary<string, object>>(d);
+            return Utils.ConvertTo<decimal>(data[id]);
         });
     }
 
