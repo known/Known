@@ -22,7 +22,7 @@ class DemoGoodsForm : BaseForm<DmGoods>
                 table.Field<TextArea>(f => f.Model).ColSpan(5).Build();
             });
         });
-        builder.FormList<DemoGoodsGrid>("商品明细", 188, "", attr =>
+        builder.FormList<DemoGoodsGrid>("商品明细", "", attr =>
         {
             attr.Set(c => c.ReadOnly, ReadOnly)
                 .Set(c => c.Data, data);

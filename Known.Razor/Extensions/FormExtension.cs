@@ -2,20 +2,16 @@
 
 public static class FormExtension
 {
-    public static void FormList<T>(this RenderTreeBuilder builder, string title, int top, string style = null, Action<AttributeBuilder<T>> child = null) where T : notnull, IComponent
+    public static void FormList<T>(this RenderTreeBuilder builder, string title, string style = null, Action<AttributeBuilder<T>> child = null) where T : notnull, IComponent
     {
-        builder.FormList(title, top, style, () => builder.Component(child));
+        builder.FormList(title, style, () => builder.Component(child));
     }
 
-    public static void FormList(this RenderTreeBuilder builder, string title, int top, string style = null, Action child = null)
+    public static void FormList(this RenderTreeBuilder builder, string title, string style = null, Action child = null)
     {
         builder.Div("form-caption", title);
         var css = CssBuilder.Default("form-list").AddClass(style).Build();
-        builder.Div(css, attr =>
-        {
-            attr.Style($"top:{top}px;");
-            child.Invoke();
-        });
+        builder.Div(css, attr => child.Invoke());
     }
 
     public static void Hidden(this RenderTreeBuilder builder, string id) => builder.Field<Hidden>(id).Build();
@@ -33,9 +29,9 @@ public static class FormExtension
         return fb;
     }
 
-    public static void BuildFlowLog(this RenderTreeBuilder builder, string bizId, int colSpan)
+    public static void BuildFlowLog(this RenderTreeBuilder builder, string bizId)
     {
-        builder.FormList<FlowLogGrid>("流程记录", colSpan, child: attr =>
+        builder.FormList<FlowLogGrid>("流程记录", "flow-log", attr =>
         {
             attr.Set(c => c.BizId, bizId);
         });

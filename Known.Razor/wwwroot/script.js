@@ -137,7 +137,7 @@ export class KRazor {
     }
 
     //Form
-    static bindEnter() {
+    static initForm() {
         var inputs = $('.form input');
         inputs.keydown(function (event) {
             if ((event.keyCode || event.which) === 13) {
@@ -150,6 +150,12 @@ export class KRazor {
                     eval(method);
             }
         });
+        var list = $('.form-list');
+        if (list.length) {
+            var prev = list.prev();
+            var top = prev.position().top + prev.outerHeight(true);
+            list.css('top', top + 'px');
+        }
     }
 
     //Grid

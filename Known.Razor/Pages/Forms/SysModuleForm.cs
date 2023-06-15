@@ -23,7 +23,7 @@ class SysModuleForm : BaseForm<SysModule>
             table.ColGroup(10, 15, 10, 15, 10, 15, 10, 15);
             BuildHead(table.Builder, table);
         });
-        builder.FormList("列表栏位", 255, "module", () =>
+        builder.FormList("列表栏位", "module", () =>
         {
             builder.Component<ColumnGrid>()
                    .Set(c => c.ReadOnly, ReadOnly)

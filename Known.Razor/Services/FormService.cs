@@ -2,5 +2,5 @@
 
 partial class UIService
 {
-    public void BindEnter() => InvokeVoidAsync("KRazor.bindEnter");
+    public void InitForm() => InvokeVoidAsync("KRazor.initForm");
 }

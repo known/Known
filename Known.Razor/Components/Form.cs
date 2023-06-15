@@ -42,7 +42,7 @@ public class Form : BaseComponent
     {
         if (firstRender)
         {
-            UI.BindEnter();
+            UI.InitForm();
         }
         await base.OnAfterRenderAsync(firstRender);
     }

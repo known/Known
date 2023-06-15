@@ -24,7 +24,7 @@ public class Login : BaseComponent
             {
                 form?.SetData(model);
             }
-            UI.BindEnter();
+            UI.InitForm();
         }
     }
 
