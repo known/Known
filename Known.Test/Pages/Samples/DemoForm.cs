@@ -42,7 +42,7 @@ class DemoForm : Razor.Components.Form
             });
             table.Tr(attr =>
             {
-                table.Field<Picker>("选择（单选）", "Picker1").Build();
+                table.Field<Picker>("选择（单选）", "Picker1").Set(f => f.Pick, new CommonTable()).Build();
                 table.Field<Picker>("选择（多选）", "Picker2").Build();
                 table.Field<Upload>("附件", "Upload").Build();
             });
