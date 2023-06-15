@@ -3,6 +3,8 @@
 [Dialog(800, 550)]
 class DemoGoodsForm : BaseForm<DmGoods>
 {
+    private List<DmGoods> data = new();
+
     protected override void BuildFields(FieldBuilder<DmGoods> builder)
     {
         builder.Hidden(f => f.Id);
@@ -23,7 +25,7 @@ class DemoGoodsForm : BaseForm<DmGoods>
         builder.FormList<DemoGoodsGrid>("商品明细", 188, "", attr =>
         {
             attr.Set(c => c.ReadOnly, ReadOnly)
-                .Set(c => c.Data, new List<DmGoods>());
+                .Set(c => c.Data, data);
         });
     }
 
