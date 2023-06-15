@@ -16,8 +16,8 @@ class ColumnGrid : EditGrid<ColumnInfo>
             models = modelTypes.Select(t => new CodeInfo(t.FullName, t.Name)).ToArray();
             ActionHead = b =>
             {
-                b.Link(Language.Add, Callback(OnAdd), "bg-primary");
-                b.Link("插入", Callback(OnInsert), "bg-primary");
+                b.Link(Language.Add, Callback(OnAdd));
+                b.Link("插入", Callback(OnInsert));
             };
         }
         else
@@ -63,9 +63,9 @@ class ColumnGrid : EditGrid<ColumnInfo>
             builder.Field(r => r.Id).Name("ID").Edit().Width(100);
         builder.Field(r => r.Name).Name("名称").Edit();
         if (isModule)
-            builder.Field(r => r.Type).Name("类型").Edit().Width(100).Select(new SelectOption(typeof(ColumnType)));
-        builder.Field(r => r.Align).Name("对齐").Edit().Width(100).Select(new SelectOption(typeof(AlignType)));
-        builder.Field(r => r.Width).Name("宽度").Edit().Control<Number>().Center(100);
+            builder.Field(r => r.Type).Name("类型").Edit(new SelectOption(typeof(ColumnType))).Width(100);
+        builder.Field(r => r.Align).Name("对齐").Edit(new SelectOption(typeof(AlignType))).Width(100);
+        builder.Field(r => r.Width).Name("宽度").Edit<Number>().Center(100);
         builder.Field(r => r.IsVisible).Name("显示").Edit();
         builder.Field(r => r.IsQuery).Name("查询").Edit();
         builder.Field(r => r.IsAdvQuery).Name("高级查询").Edit();

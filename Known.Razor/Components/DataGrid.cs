@@ -734,5 +734,15 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase w
         ShowForm<TForm>($"{action}{Name}", model);
     }
 
+    protected void SetGridPicker()
+    {
+        ShowSetting = false;
+        ShowCheckBox = false;
+        RowTitle = "双击选择数据。";
+        Tools = new List<ButtonInfo> { ToolButton.New };
+        Actions = null;
+        Columns.ForEach(c => c.IsAdvQuery = false);
+    }
+
     public override void View(TItem row) => UI.ShowForm<TForm>($"查看{Name}", row);
 }

@@ -37,7 +37,7 @@ public class Column<T> : ColumnInfo
     public bool IsEdit { get; set; }
     public Type Control { get; set; }
     public SelectOption Select { get; set; }
-    public EditOption<T> Edit { get; set; }
+    public Action<T, string> ValueChanged { get; set; }
     public Action<RenderTreeBuilder, T> Template { get; set; }
 
     internal void Class(string className)
@@ -115,7 +115,7 @@ public class Column<T> : ColumnInfo
                     .Add(nameof(Field.Enabled), true)
                     .Add(nameof(Field.IsInput), true)
                     .Add(nameof(Field.Value), value?.ToString())
-                    .Add(nameof(Field.ValueChanged), delegate (string value) { OnValueChanged(row, value); });
+                    .Add(nameof(Field.ValueChanged), delegate (string val) { OnValueChanged(row, val); });
             });
             return;
         }
@@ -123,26 +123,27 @@ public class Column<T> : ColumnInfo
         if (Type == ColumnType.Boolean)
         {
             builder.Field<CheckBox>(Id).IsInput(true).Value(value?.ToString())
-                   .ValueChanged(value => OnValueChanged(row, value)).Build();
+                   .ValueChanged(val => OnValueChanged(row, val)).Build();
         }
-        else if (Type == ColumnType.Date || Type == ColumnType.DateTime)
+        else if (Type == ColumnType.Date)
         {
-            builder.Field<DateRange>(Id).IsInput(true).Value(value?.ToString())
-                   .ValueChanged(value => OnValueChanged(row, value))
-                   .Set(f => f.Split, "")
-                   .Build();
+            builder.Field<Date>(Id).IsInput(true).Value(value?.ToString())
+                   .ValueChanged(val => OnValueChanged(row, val))
+                   .Set(f => f.DateType, DateType.Date).Build();
+        }
+        else if (Type == ColumnType.DateTime)
+        {
+            builder.Field<Date>(Id).IsInput(true).Value(value?.ToString())
+                   .ValueChanged(val => OnValueChanged(row, val))
+                   .Set(f => f.DateType, DateType.DateTime).Build();
         }
         else
         {
             if (Select != null)
-            {
-                Select.BuildCell(builder, Id, value?.ToString());
-            }
+                Select.BuildCell(builder, Id, value?.ToString(), val => OnValueChanged(row, val));
             else
-            {
                 builder.Field<Text>(Id).IsInput(true).Value(value?.ToString())
-                       .ValueChanged(value => OnValueChanged(row, value)).Build();
-            }
+                       .ValueChanged(val => OnValueChanged(row, val)).Build();
         }
     }
 
@@ -177,7 +178,7 @@ public class Column<T> : ColumnInfo
     private void OnValueChanged(T row, string value)
     {
         TypeHelper.SetValue(row, Id, value);
-        Edit?.ValueChanged?.Invoke(row, value);
+        ValueChanged?.Invoke(row, value);
     }
 
     private string Format(object value)
@@ -207,6 +208,11 @@ public class SelectOption
 {
     public SelectOption() { }
 
+    public SelectOption(string codes)
+    {
+        Codes = codes;
+    }
+
     public SelectOption(Type enumType)
     {
         ShowEmpty = false;
@@ -217,6 +223,7 @@ public class SelectOption
     public string Codes { get; set; }
     public CodeInfo[] Items { get; set; }
     public Action<string> ValueChanged { get; set; }
+    public IPicker Pick { get; set; }
 
     internal string Format(object value)
     {
@@ -244,11 +251,27 @@ public class SelectOption
                .Build();
     }
 
-    internal void BuildCell(RenderTreeBuilder builder, string id, string value)
+    internal void BuildCell(RenderTreeBuilder builder, string id, string value, Action<string> valueChanged = null)
     {
+        if (Pick != null)
+        {
+            builder.Field<Picker>(id).Value(value).IsInput(true)
+                   .ValueChanged(value =>
+                   {
+                       valueChanged?.Invoke(value);
+                       ValueChanged?.Invoke(value);
+                   })
+                   .Set(f => f.Pick, Pick).Build();
+            return;
+        }
+
         var emptyText = ShowEmpty ? "请选择" : "";
         builder.Field<Select>(id).Value(value).IsInput(true)
-               .ValueChanged(value => ValueChanged?.Invoke(value))
+               .ValueChanged(value =>
+               {
+                   valueChanged?.Invoke(value);
+                   ValueChanged?.Invoke(value);
+               })
                .Set(c => c.EmptyText, emptyText)
                .Set(f => f.Codes, Codes)
                .Set(f => f.Items, Items)
@@ -256,7 +279,16 @@ public class SelectOption
     }
 }
 
-public class EditOption<T>
+public class SelectOption<T> : SelectOption
 {
-    public Action<T, string> ValueChanged { get; set; }
+    public SelectOption() { }
+    public SelectOption(string codes) : base(codes) { }
+    public SelectOption(Type enumType) : base(enumType) { }
+
+    public SelectOption(IPicker pick)
+    {
+        Pick = pick;
+    }
+
+    public new Action<T, string> ValueChanged { get; set; }
 }

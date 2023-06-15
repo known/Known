@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Known.Razor;
+﻿namespace Known.Razor;
 
 public class ColumnBuilder<T>
 {
@@ -49,12 +47,6 @@ public class ColumnBuilder<T>
     public ColumnBuilder<T> Template(Action<RenderTreeBuilder, T> template)
     {
         column.Template = template;
-        return this;
-    }
-
-    public ColumnBuilder<T> Set(Action<Column<T>> action)
-    {
-        action.Invoke(column);
         return this;
     }
 
@@ -116,10 +108,34 @@ public class ColumnBuilder<T>
         return this;
     }
 
-    public ColumnBuilder<T> Edit(EditOption<T> edit = null)
+    public ColumnBuilder<T> Edit(SelectOption select)
     {
+        column.Select = select;
         column.IsEdit = true;
-        column.Edit = edit;
+        return this;
+    }
+
+    public ColumnBuilder<T> Edit(SelectOption<T> select)
+    {
+        column.Select = select;
+        column.ValueChanged = select?.ValueChanged;
+        column.IsEdit = true;
+        return this;
+    }
+
+    public ColumnBuilder<T> Edit(Action<T, string> valueChanged = null)
+    {
+        column.ValueChanged = valueChanged;
+        column.IsEdit = true;
+        return this;
+    }
+
+    public ColumnBuilder<T> Edit<TField>(Action<T, string> valueChanged = null) where TField : Field
+    {
+        var type = typeof(TField);
+        column.Control = type;
+        column.ValueChanged = valueChanged;
+        column.IsEdit = true;
         return this;
     }
 

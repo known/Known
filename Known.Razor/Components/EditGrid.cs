@@ -8,7 +8,7 @@ public class EditGrid<TItem> : DataGrid<TItem> where TItem : class, new()
         IsSort = false;
         ShowEmpty = false;
         ShowPager = false;
-        ActionHead = b => b.Link(Language.Add, Callback(OnAdd), "bg-primary");
+        ActionHead = b => b.Link(Language.Add, Callback(OnAdd));
         Actions = new List<ButtonInfo> { GridAction.Delete, GridAction.MoveUp, GridAction.MoveDown };
     }
 
