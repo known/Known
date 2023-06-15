@@ -115,7 +115,7 @@ public class PagingCriteria
 {
     public PagingCriteria()
     {
-        Parameters = new Dictionary<string, string>();
+        Parameters = new Dictionary<string, object>();
         Query = new List<QueryInfo>();
     }
 
@@ -130,7 +130,7 @@ public class PagingCriteria
     public ExportMode ExportMode { get; set; }
     public string ExportExtension { get; set; }
     public Dictionary<string, string> ExportColumns { get; set; }
-    public Dictionary<string, string> Parameters { get; set; }
+    public Dictionary<string, object> Parameters { get; set; }
     public List<string> SumColumns { get; set; }
 
     public bool IsQuery { get; set; }

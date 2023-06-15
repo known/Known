@@ -28,11 +28,8 @@ public static class CriteriaExtension
 
     public static T GetQueryValue<T>(this PagingCriteria criteria, string id)
     {
-        var query = criteria.Query.FirstOrDefault(q => q.Id == id);
-        if (query == null)
-            return default;
-
-        return Utils.ConvertTo<T>(query.Value);
+        var value = criteria.GetQueryValue(id);
+        return Utils.ConvertTo<T>(value);
     }
 
     public static void SetQueryType(this PagingCriteria criteria, string id, QueryType type)
@@ -56,15 +53,24 @@ public static class CriteriaExtension
         return !string.IsNullOrEmpty(query.Value);
     }
 
-    public static T GetParameter<T>(this PagingCriteria criteria, string id)
+    public static string GetParameter(this PagingCriteria criteria, string id)
     {
         if (criteria.Parameters == null)
-            return default;
+            return string.Empty;
 
         if (!criteria.Parameters.ContainsKey(id))
-            return default;
+            return string.Empty;
 
         var param = criteria.Parameters[id];
+        if (param == null)
+            return string.Empty;
+
+        return param.ToString();
+    }
+
+    public static T GetParameter<T>(this PagingCriteria criteria, string id)
+    {
+        var param = criteria.GetParameter(id);
         return Utils.ConvertTo<T>(param);
     }
 
