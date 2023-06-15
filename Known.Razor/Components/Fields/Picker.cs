@@ -5,12 +5,12 @@ public class Picker : Field
     private bool isInitOK;
 
     [Parameter] public IPicker Pick { get; set; }
-    [Parameter] public Action<object> OnOK { get; set; }
+    [Parameter] public Action<object> OnPicked { get; set; }
     [Parameter] public bool CanEdit { get; set; }
 
     protected override Task OnInitializedAsync()
     {
-        isInitOK = Pick != null && Pick.OnOK != null;
+        isInitOK = Pick != null && Pick.OnPicked != null;
         return base.OnInitializedAsync();
     }
 
@@ -31,18 +31,18 @@ public class Picker : Field
         {
             attr.OnClick(Callback(e =>
             {
-                if (OnOK != null)
-                    Pick.OnOK = OnFieldOK;
+                if (OnPicked != null)
+                    Pick.OnPicked = OnFieldPicked;
                 else if (!isInitOK)
-                    Pick.OnOK = OnFieldChanged;
+                    Pick.OnPicked = OnFieldChanged;
                 UI.Show(Pick);
             }));
         });
     }
 
-    private void OnFieldOK(object value)
+    private void OnFieldPicked(object value)
     {
-        OnOK?.Invoke(value);
+        OnPicked?.Invoke(value);
         SetValue(value);
         OnValueChange();
     }

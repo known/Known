@@ -12,35 +12,20 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
     {
         builder.Component<SysUserList>()
                .Set(c => c.Role, Role)
-               .Set(c => c.OnOK, OnOK)
+               .Set(c => c.OnPicked, OnPicked)
                .Build();
     }
 
-    [Parameter] public Action<object> OnOK { get; set; }
     [Parameter] public string Role { get; set; }
 
     public void SetRole(string role) => Role = role;
 
-    protected override void OnRowDoubleClick(int row, SysUser item) => OnPicked(item);
-
-    private void OnPicked(SysUser item)
+    protected override void OnRowDoubleClick(int row, SysUser item)
     {
-        OnOK?.Invoke($"{item.UserName}-{item.Name}");
+        OnPicked?.Invoke($"{item.UserName}-{item.Name}");
         UI.CloseDialog();
     }
     #endregion
-
-    protected override Task OnInitializedAsync()
-    {
-        if (OnOK != null)
-        {
-            ShowCheckBox = false;
-            Tools = null;
-            Actions = null;
-        }
-
-        return base.OnInitializedAsync();
-    }
 
     protected override Task<PagingResult<SysUser>> OnQueryData(PagingCriteria criteria)
     {

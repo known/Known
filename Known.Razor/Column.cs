@@ -143,7 +143,7 @@ public class Column<T> : ColumnInfo
             if (Pick != null)
                 builder.Field<Picker>(Id).IsInput(true).Value(value?.ToString())
                        .Set(f => f.Pick, Pick)
-                       .Set(f => f.OnOK, val => ValueChanged?.Invoke(row, val))
+                       .Set(f => f.OnPicked, val => ValueChanged?.Invoke(row, val))
                        .Build();
             else if (Select != null)
                 Select.BuildCell(builder, Id, value?.ToString(), val => OnValueChanged(row, val));

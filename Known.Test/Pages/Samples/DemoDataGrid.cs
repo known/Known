@@ -99,13 +99,13 @@ class CommonTable : Table, IPicker
     public void BuildPick(RenderTreeBuilder builder)
     {
         builder.Component<CommonTable>()
-               .Set(c => c.OnOK, OnOK)
+               .Set(c => c.OnPicked, OnPicked)
                .Build();
     }
 
     protected override void OnRowDoubleClick(int row, DmGoods item)
     {
-        OnOK?.Invoke(item);
+        OnPicked?.Invoke(item);
         UI.CloseDialog();
     }
     #endregion

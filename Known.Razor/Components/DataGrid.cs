@@ -19,6 +19,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
         InitMenu();
     }
 
+    [Parameter] public Action<object> OnPicked { get; set; }
+
     protected List<Column<TItem>> Columns { get; set; }
     protected List<ButtonInfo> Actions { get; set; }
     protected Action<RenderTreeBuilder> ActionHead { get; set; }
@@ -174,6 +176,9 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     protected override async Task OnInitializedAsync()
     {
+        if (OnPicked != null)
+            SetGridPicker();
+
         gridColumns = Setting.GetUserColumns(Id, Columns);
         ShowQuery = gridColumns != null && gridColumns.Any(c => c.IsQuery);
 
@@ -284,6 +289,17 @@ public class DataGrid<TItem> : DataComponent<TItem>
                 BuildHeadAction(builder);
             });
         });
+    }
+
+    protected void SetGridPicker()
+    {
+        ShowSetting = false;
+        ShowCheckBox = false;
+        RowTitle = "双击选择数据。";
+        if (HasButton(ToolButton.New))
+            Tools = new List<ButtonInfo> { ToolButton.New };
+        Actions = null;
+        Columns.ForEach(c => c.IsAdvQuery = false);
     }
 
     protected void SetColumns(List<Column<TItem>> columns)
@@ -725,16 +741,6 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase w
         ShowCheckBox = true;
     }
 
-    [Parameter] public Action<object> OnOK { get; set; }
-
-    protected override Task OnInitializedAsync()
-    {
-        if (OnOK != null)
-            SetGridPicker();
-
-        return base.OnInitializedAsync();
-    }
-
     protected virtual Task<TItem> GetDefaultModelAsync() => default;
 
     protected virtual async void ShowForm(TItem model = null)
@@ -742,17 +748,6 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase w
         var action = model == null || model.IsNew ? "新增" : "编辑";
         model ??= await GetDefaultModelAsync();
         ShowForm<TForm>($"{action}{Name}", model);
-    }
-
-    protected void SetGridPicker()
-    {
-        ShowSetting = false;
-        ShowCheckBox = false;
-        RowTitle = "双击选择数据。";
-        if (HasButton(ToolButton.New))
-            Tools = new List<ButtonInfo> { ToolButton.New };
-        Actions = null;
-        Columns.ForEach(c => c.IsAdvQuery = false);
     }
 
     public override void View(TItem row) => UI.ShowForm<TForm>($"查看{Name}", row);
