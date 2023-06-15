@@ -161,6 +161,12 @@ class FullTable : Table
         Actions = new List<ButtonInfo> { GridAction.View, GridAction.Edit, GridAction.Delete };
     }
 
+    protected override Task OnInitializedAsync()
+    {
+        Column(r => r.Code).Template((b, r) => b.Link(r.Code, Callback(e => View(r))));
+        return base.OnInitializedAsync();
+    }
+
     public void New() => ShowForm(new DmGoods());
     public void DeleteM() => OnDeleteM(null);
     public void Edit(DmGoods row) => ShowForm(row);
