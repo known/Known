@@ -103,24 +103,12 @@ class CommonTable : Table, IPicker
                .Build();
     }
 
-    [Parameter] public Action<object> OnOK { get; set; }
-
-    protected override void OnRowDoubleClick(int row, DmGoods item) => OnPicked(item);
-
-    private void OnPicked(DmGoods item)
+    protected override void OnRowDoubleClick(int row, DmGoods item)
     {
         OnOK?.Invoke(item);
         UI.CloseDialog();
     }
     #endregion
-
-    protected override Task OnInitializedAsync()
-    {
-        if (OnOK != null)
-            SetGridPicker();
-
-        return base.OnInitializedAsync();
-    }
 }
 
 class PageTable : Table { }
