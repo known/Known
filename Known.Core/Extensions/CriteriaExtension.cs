@@ -56,16 +56,21 @@ public static class CriteriaExtension
         return !string.IsNullOrEmpty(query.Value);
     }
 
-    public static bool CheckParameter<T>(this PagingCriteria criteria, string id, T value)
+    public static T GetParameter<T>(this PagingCriteria criteria, string id)
     {
         if (criteria.Parameters == null)
-            return false;
+            return default;
 
         if (!criteria.Parameters.ContainsKey(id))
-            return false;
+            return default;
 
         var param = criteria.Parameters[id];
-        var data = Utils.ConvertTo<T>(param);
+        return Utils.ConvertTo<T>(param);
+    }
+
+    public static bool CheckParameter<T>(this PagingCriteria criteria, string id, T value)
+    {
+        var data = criteria.GetParameter<T>(id);
         return data.Equals(value);
     }
 }
