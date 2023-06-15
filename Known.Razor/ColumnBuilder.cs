@@ -123,14 +123,22 @@ public class ColumnBuilder<T>
         return this;
     }
 
-    public ColumnBuilder<T> Edit(Action<T, string> valueChanged = null)
+    public ColumnBuilder<T> Edit(IPicker pick, Action<T, object> valueChanged)
+    {
+        column.Pick = pick;
+        column.ValueChanged = valueChanged;
+        column.IsEdit = true;
+        return this;
+    }
+
+    public ColumnBuilder<T> Edit(Action<T, object> valueChanged = null)
     {
         column.ValueChanged = valueChanged;
         column.IsEdit = true;
         return this;
     }
 
-    public ColumnBuilder<T> Edit<TField>(Action<T, string> valueChanged = null) where TField : Field
+    public ColumnBuilder<T> Edit<TField>(Action<T, object> valueChanged = null) where TField : Field
     {
         var type = typeof(TField);
         column.Control = type;

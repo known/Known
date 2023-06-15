@@ -5,6 +5,7 @@ public class Picker : Field
     private bool isInitOK;
 
     [Parameter] public IPicker Pick { get; set; }
+    [Parameter] public Action<object> OnOK { get; set; }
     [Parameter] public bool CanEdit { get; set; }
 
     protected override Task OnInitializedAsync()
@@ -23,23 +24,32 @@ public class Picker : Field
                 .OnChange(CreateBinder());
         });
 
-        if (Enabled)
+        if (!Enabled || Pick == null)
+            return;
+
+        builder.Icon("fa fa-ellipsis-h", attr =>
         {
-            builder.Icon("fa fa-ellipsis-h", attr =>
+            attr.OnClick(Callback(e =>
             {
-                attr.OnClick(Callback(e =>
-                {
-                    if (!isInitOK && Pick != null)
-                    {
-                        Pick.OnOK = value =>
-                        {
-                            SetValue(value);
-                            OnValueChange();
-                        };
-                    }
-                    UI.Show(Pick);
-                }));
-            });
-        }
+                if (OnOK != null)
+                    Pick.OnOK = OnFieldOK;
+                else if (!isInitOK)
+                    Pick.OnOK = OnFieldChanged;
+                UI.Show(Pick);
+            }));
+        });
+    }
+
+    private void OnFieldOK(object value)
+    {
+        OnOK?.Invoke(value);
+        SetValue(value);
+        OnValueChange();
+    }
+
+    private void OnFieldChanged(object value)
+    {
+        SetValue(value);
+        OnValueChange();
     }
 }
