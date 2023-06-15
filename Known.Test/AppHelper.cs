@@ -118,4 +118,5 @@ class Startup
 public class AppDictionary
 {
     public const string Test = "测试";
+    public const string Type = "类型";
 }
