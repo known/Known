@@ -33,20 +33,14 @@ public class DataGrid<TItem> : DataComponent<TItem>
     protected string OrderBy { get; set; }
     protected string RowTitle { get; set; }
 
+    public virtual void View(TItem item) { }
+    public virtual void Import() => ShowImport(Name, typeof(TItem));
+    public virtual void Export(ExportMode mode = ExportMode.Query, string extension = null) => ExportData(Name, mode, extension);
+
     public override void Refresh()
     {
         query = null;
         QueryData();
-    }
-
-    protected void SetEdit(bool isEdit)
-    {
-        IsEdit = isEdit;
-        foreach (var item in gridColumns)
-        {
-            item.IsEdit = isEdit;
-        }
-        StateChanged();
     }
 
     public void SetColumn(string id, bool isVisible)
@@ -59,6 +53,16 @@ public class DataGrid<TItem> : DataComponent<TItem>
             return;
 
         column.IsVisible = isVisible;
+        StateChanged();
+    }
+
+    protected void SetEdit(bool isEdit)
+    {
+        IsEdit = isEdit;
+        foreach (var item in gridColumns)
+        {
+            item.IsEdit = isEdit;
+        }
         StateChanged();
     }
 
@@ -75,7 +79,11 @@ public class DataGrid<TItem> : DataComponent<TItem>
         Refresh();
     }
 
-    protected void SelectItem(Action<TItem> action)
+    protected virtual bool CheckAction(ButtonInfo action, TItem item) => true;
+    protected virtual void OnRowClick(int row, TItem item) { }
+    protected virtual void OnRowDoubleClick(int row, TItem item) { }
+
+    protected void SelectRow(Action<TItem> action)
     {
         var selected = SelectedItems;
         if (!selected.Any() || selected.Count > 1)
@@ -87,7 +95,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         action.Invoke(selected[0]);
     }
 
-    protected void SelectItems(Action<List<TItem>> action)
+    protected void SelectRows(Action<List<TItem>> action)
     {
         var selected = SelectedItems;
         if (!selected.Any())
@@ -110,7 +118,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     protected void DeleteRows(Func<List<TItem>, Task<Result>> action)
     {
-        SelectItems(items =>
+        SelectRows(items =>
         {
             UI.Confirm($"确定要删除选中的{items.Count}条记录？", async () =>
             {
@@ -149,29 +157,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         var model = await Platform.File.GetImportAsync(id);
         model.BizName = $"导入{name}";
         model.Type = type?.AssemblyQualifiedName;
-        ShowImport(new ImportOption { Id = id, Name = name, Model = model });
-    }
-
-    internal void ShowImport(ImportOption option)
-    {
-        UI.Show<Importer>($"导入{option.Name}", new Size(450, 220), action: attr => attr.Set(c => c.Option, option));
-    }
-
-    internal async void ExportData(string name, ExportMode mode, string extension = null)
-    {
-        criteria.ExportMode = mode;
-        criteria.ExportExtension = extension;
-        criteria.ExportColumns = GetExportColumns();
-        var result = await OnQueryData(criteria);
-        var bytes = result.ExportData;
-        if (bytes == null || bytes.Length == 0)
-        {
-            UI.Alert("无数据可导出！");
-            return;
-        }
-
-        var stream = new MemoryStream(bytes);
-        UI.DownloadFile($"{name}.xlsx", stream);
+        UI.ShowImport(new ImportOption { Id = id, Name = name, Model = model });
     }
 
     protected override async Task OnInitializedAsync()
@@ -326,18 +312,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
         return gridColumns.Where(c => c.IsSum).Select(c => c.Id).ToList();
     }
-
-    public virtual void View(TItem item) { }
-    public virtual void Import() => ShowImport(Name, typeof(TItem));
-    public virtual void Export() => ExportData(Name, ExportMode.Query);
-
-    protected virtual bool CheckAction(ButtonInfo action, TItem item) => true;
-    protected virtual void OnRowClick(int row, TItem item) { }
-    protected virtual void OnRowDoubleClick(int row, TItem item) { }
-    protected void OnDelete(TItem item, Func<List<TItem>, Task<Result>> action) => DeleteRow(item, action);
-    protected virtual void OnDeleteM(Func<List<TItem>, Task<Result>> action) => DeleteRows(action);
-    protected void OnExport(ExportMode mode, string extension = null) => ExportData(Name, mode, extension);
-
+    
     private void InitMenu()
     {
         var menu = KRConfig.UserMenus.FirstOrDefault(m => m.Code == Id);
@@ -743,6 +718,23 @@ public class DataGrid<TItem> : DataComponent<TItem>
             }
         }
         return columns;
+    }
+
+    private async void ExportData(string name, ExportMode mode, string extension = null)
+    {
+        criteria.ExportMode = mode;
+        criteria.ExportExtension = extension;
+        criteria.ExportColumns = GetExportColumns();
+        var result = await OnQueryData(criteria);
+        var bytes = result.ExportData;
+        if (bytes == null || bytes.Length == 0)
+        {
+            UI.Alert("无数据可导出！");
+            return;
+        }
+
+        var stream = new MemoryStream(bytes);
+        UI.DownloadFile($"{name}.xlsx", stream);
     }
 }
 

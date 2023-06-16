@@ -44,9 +44,9 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
     }
 
     public void New() => ShowForm();
-    public void Copy() => SelectItems(OnCopy);
-    public void DeleteM() => SelectItems(OnDeleteData);
-    public void Move() => SelectItems(OnMove);
+    public void Copy() => SelectRows(OnCopy);
+    public void DeleteM() => SelectRows(OnDeleteData);
+    public void Move() => SelectRows(OnMove);
     public void Edit(SysModule row) => ShowForm(row);
     public void Delete(SysModule row) => OnDeleteData(new List<SysModule> { row });
     public void MoveUp(SysModule row) => OnMove(row, true);

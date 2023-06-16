@@ -168,7 +168,7 @@ class FullTable : Table
     }
 
     public void New() => ShowForm(new DmGoods());
-    public void DeleteM() => OnDeleteM(null);
+    public void DeleteM() => DeleteRows(null);
     public void Edit(DmGoods row) => ShowForm(row);
-    public void Delete(DmGoods row) => OnDelete(row, null);
+    public void Delete(DmGoods row) => DeleteRow(row, null);
 }

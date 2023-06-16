@@ -42,7 +42,7 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
     }
 
     public void New() => ShowForm();
-    public void DeleteM() => SelectItems(OnDeleteData);
+    public void DeleteM() => SelectRows(OnDeleteData);
     public void Edit(SysOrganization row) => ShowForm(row);
     public void Delete(SysOrganization row) => OnDeleteData(new List<SysOrganization> { row });
 

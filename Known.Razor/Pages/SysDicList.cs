@@ -42,9 +42,9 @@ class SysDicList : DataGrid<SysDictionary, SysDicForm>
     }
 
     public void New() => ShowForm();
-    public void DeleteM() => OnDeleteM(Platform.Dictionary.DeleteDictionarysAsync);
+    public void DeleteM() => DeleteRows(Platform.Dictionary.DeleteDictionarysAsync);
     public void Edit(SysDictionary row) => ShowForm(row);
-    public void Delete(SysDictionary row) => OnDelete(row, Platform.Dictionary.DeleteDictionarysAsync);
+    public void Delete(SysDictionary row) => DeleteRow(row, Platform.Dictionary.DeleteDictionarysAsync);
 
     public override void View(SysDictionary row)
     {

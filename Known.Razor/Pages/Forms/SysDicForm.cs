@@ -69,7 +69,7 @@ class SysDicForm : BaseForm<SysDictionary>
 
     private void OnImport()
     {
-        grid.ShowImport(new ImportOption
+        UI.ShowImport(new ImportOption
         {
             Name = "子字典信息",
             Template = "代码,名称",

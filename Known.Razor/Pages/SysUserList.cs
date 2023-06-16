@@ -43,10 +43,10 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
     }
 
     public void New() => ShowForm(new SysUser { Enabled = true });
-    public void DeleteM() => OnDeleteM(Platform.User.DeleteUsersAsync);
-    public void ResetPassword() => SelectItem(OnResetPassword);
+    public void DeleteM() => DeleteRows(Platform.User.DeleteUsersAsync);
+    public void ResetPassword() => SelectRow(OnResetPassword);
     public void Edit(SysUser row) => ShowForm(row);
-    public void Delete(SysUser row) => OnDelete(row, Platform.User.DeleteUsersAsync);
+    public void Delete(SysUser row) => DeleteRow(row, Platform.User.DeleteUsersAsync);
     public override void View(SysUser row) => UI.ShowForm<SysUserForm>("查看用户", row);
 
     protected override void ShowForm(SysUser model = null)

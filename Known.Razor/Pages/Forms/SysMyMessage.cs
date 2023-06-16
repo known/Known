@@ -63,7 +63,7 @@ class SysMessageList : DataGrid<SysMessage>
         return Platform.User.QueryMessagesAsync(criteria);
     }
 
-    public void DeleteM() => OnDeleteM(Platform.User.DeleteMessagesAsync);
+    public void DeleteM() => DeleteRows(Platform.User.DeleteMessagesAsync);
 
     internal static void BuildMsgLevel(RenderTreeBuilder builder, string level)
     {
