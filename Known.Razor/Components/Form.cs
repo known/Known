@@ -38,13 +38,10 @@ public class Form : BaseComponent
         FormContext.CheckFields = CheckFields;
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            UI.InitForm();
-        }
-        await base.OnAfterRenderAsync(firstRender);
+        UI.InitForm();
+        return base.OnAfterRenderAsync(firstRender);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
