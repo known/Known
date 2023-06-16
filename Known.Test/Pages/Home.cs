@@ -35,7 +35,7 @@ class Home : PageComponent
     {
         builder.Component<Card>()
                .Set(c => c.Style, "ws-card")
-               .Set(c => c.Body, BuildTree(BuildWSCard))
+               .Set(c => c.Body, BuildWSCard)
                .Build();
     }
 
@@ -43,8 +43,8 @@ class Home : PageComponent
     {
         builder.Component<Card>()
                .Set(c => c.Style, "ws-chart")
-               .Set(c => c.Head, BuildTree(BuildDCHead))
-               .Set(c => c.Body, BuildTree(BuildDCBody))
+               .Set(c => c.Head, BuildDCHead)
+               .Set(c => c.Body, BuildDCBody)
                .Build();
     }
 
@@ -54,7 +54,7 @@ class Home : PageComponent
                .Set(c => c.Style, "ws-func")
                .Set(c => c.Icon, "fa fa-th")
                .Set(c => c.Name, "常用功能")
-               .Set(c => c.Body, BuildTree(BuildVMBody))
+               .Set(c => c.Body, BuildVMBody)
                .Build();
     }
 

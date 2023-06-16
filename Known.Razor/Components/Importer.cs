@@ -35,7 +35,7 @@ class Importer : BaseComponent
         builder.Component<Form>()
                .Set(c => c.Style, "import-form")
                .Set(c => c.Model, Option.Model)
-               .Set(c => c.ChildContent, BuildTree(BuildFields))
+               .Set(c => c.ChildContent, BuildFields)
                .Build(value => form = value);
     }
 

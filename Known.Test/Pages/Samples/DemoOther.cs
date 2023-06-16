@@ -4,8 +4,8 @@ class DemoOther : BaseComponent
 {
     private readonly TabItem[] tabItems = new TabItem[]
     {
-        new TabItem{Icon="fa fa-file-o",Title="Tab1",ChildContent=BuildTree(b=>b.Span("Tab1 Content"))},
-        new TabItem{Icon="fa fa-file-o",Title="Tab2",ChildContent=BuildTree(b=>b.Span("Tab2 Content"))}
+        new TabItem{Icon="fa fa-file-o",Title="Tab1",ChildContent=b => b.Span("Tab1 Content")},
+        new TabItem{Icon="fa fa-file-o",Title="Tab2",ChildContent=b => b.Span("Tab2 Content")}
     };
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

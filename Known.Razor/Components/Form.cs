@@ -60,7 +60,7 @@ public class Form : BaseComponent
                     {
                         attr.Set(c => c.IsFixed, false)
                             .Set(c => c.Value, FormContext)
-                            .Set(c => c.ChildContent, BuildTree(BuildFields));
+                            .Set(c => c.ChildContent, BuildFields);
                     });
                 });
                 builder.Div("form-button", attr => BuildButtons(builder));

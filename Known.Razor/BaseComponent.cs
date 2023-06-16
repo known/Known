@@ -47,7 +47,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     protected EventCallback<T> Callback<T>(Action<T> action) => EventCallback.Factory.Create(this, action);
 
     protected void StateChanged() => InvokeAsync(StateHasChanged);
-    protected static RenderFragment BuildTree(Action<RenderTreeBuilder> action) => delegate (RenderTreeBuilder builder) { action(builder); };
     protected static RenderFragment<T> BuildTree<T>(Action<RenderTreeBuilder, T> action) => (row) => delegate (RenderTreeBuilder builder) { action(builder, row); };
 
     protected void BuildDownload(RenderTreeBuilder builder, string fileId)

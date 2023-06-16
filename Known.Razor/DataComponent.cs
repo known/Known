@@ -110,7 +110,7 @@ public class DataComponent<TItem> : BaseComponent
             {
                 attr.Set(c => c.IsFixed, true)
                     .Set(c => c.Value, QueryContext)
-                    .Set(c => c.ChildContent, BuildTree(BuildQuerys));
+                    .Set(c => c.ChildContent, BuildQuerys);
             });
         });
     }
