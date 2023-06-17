@@ -339,16 +339,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
                    b.Component<AdvQuery<TItem>>()
                     .Set(c => c.PageId, Id)
                     .Set(c => c.Columns, Columns)
-                    .Set(c => c.OnSetting, async value =>
+                    .Set(c => c.OnSetting, value =>
                     {
-                        var info = new SettingFormInfo
-                        {
-                            Type = UserSetting.KeyQuery,
-                            Name = Id,
-                            Data = Utils.ToJson(value)
-                        };
-                        await Platform.User.SaveSettingAsync(info);
-                        Setting.UserSetting.Querys[Id] = value;
                         query = value;
                         QueryData(true);
                     })
@@ -361,21 +353,13 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     internal void ShowColumnSetting()
     {
-        var data = Setting.GetUserColumns(Id);
-        data ??= Columns.Select(c => c.ToColumn()).ToList();
+        var data = Columns.Where(c => !string.IsNullOrWhiteSpace(c.Id)).Select(c => c.ToColumn()).ToList();
         UI.Show<ColumnGrid>("表格设置", new(780, 500), action: attr =>
         {
-            attr.Set(c => c.Data, data)
-                .Set(c => c.OnSetting, async value =>
+            attr.Set(c => c.PageId, Id)
+                .Set(c => c.Data, data)
+                .Set(c => c.OnSetting, () =>
                 {
-                    var info = new SettingFormInfo
-                    {
-                        Type = UserSetting.KeyColumn,
-                        Name = Id,
-                        Data = Utils.ToJson(value)
-                    };
-                    await Platform.User.SaveSettingAsync(info);
-                    Setting.UserSetting.Columns[Id] = value;
                     var columns = Setting.GetUserColumns(Id, Columns);
                     SetColumns(columns);
                 });

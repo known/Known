@@ -4,12 +4,16 @@ class ColumnGrid : EditGrid<ColumnInfo>
 {
     private List<Type> modelTypes;
     private CodeInfo[] models;
+    private List<ColumnInfo> orgData;
 
     [Parameter] public bool IsModule { get; set; }
-    [Parameter] public Action<List<ColumnInfo>> OnSetting { get; set; }
+    [Parameter] public string PageId { get; set; }
+    [Parameter] public Action OnSetting { get; set; }
 
     protected override void OnInitialized()
     {
+        Columns = GetColumns(IsModule);
+
         if (IsModule)
         {
             modelTypes = KRConfig.GetModelTypes();
@@ -25,8 +29,10 @@ class ColumnGrid : EditGrid<ColumnInfo>
             Style = "form-grid";
             ActionHead = null;
             Actions = new List<ButtonInfo> { GridAction.MoveUp, GridAction.MoveDown };
+
+            orgData = Data;
+            Data = Setting.GetUserColumns(PageId, orgData);
         }
-        Columns = GetColumns(IsModule);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -50,6 +56,8 @@ class ColumnGrid : EditGrid<ColumnInfo>
         {
             builder.Div("form-button", attr =>
             {
+                if (OnSetting != null)
+                    builder.Button(FormButton.Reset, Callback(OnReset));
                 builder.Button(FormButton.OK, Callback(OnOK));
                 builder.Button(FormButton.Cancel, Callback(OnCancel));
             });
@@ -90,9 +98,30 @@ class ColumnGrid : EditGrid<ColumnInfo>
         StateChanged();
     }
 
-    private void OnOK()
+    private async void OnReset()
     {
-        OnSetting?.Invoke(Data);
+        var info = new SettingFormInfo { Type = UserSetting.KeyColumn, Name = PageId };
+        await Platform.User.DeleteSettingAsync(info);
+        Setting.UserSetting.Columns.Remove(PageId);
+        Data = Setting.GetUserColumns(PageId, orgData);
+        StateChanged();
+        OnSetting?.Invoke();
+    }
+
+    private async void OnOK()
+    {
+        if (OnSetting != null)
+        {
+            var info = new SettingFormInfo
+            {
+                Type = UserSetting.KeyColumn,
+                Name = PageId,
+                Data = Utils.ToJson(Data)
+            };
+            await Platform.User.SaveSettingAsync(info);
+            Setting.UserSetting.Columns[PageId] = Data;
+            OnSetting.Invoke();
+        }
         OnCancel();
     }
 

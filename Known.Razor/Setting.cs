@@ -16,12 +16,27 @@ public sealed class Setting
         return UserSetting.Querys[id];
     }
 
-    internal static List<ColumnInfo> GetUserColumns(string id)
+    internal static List<ColumnInfo> GetUserColumns(string id, List<ColumnInfo> columns)
     {
-        if (!UserSetting.Columns.ContainsKey(id))
-            return null;
-
-        return UserSetting.Columns[id];
+        var lists = new List<ColumnInfo>();
+        var userColumns = UserSetting.Columns.ContainsKey(id)
+                        ? UserSetting.Columns[id]
+                        : columns;
+        foreach (var column in userColumns)
+        {
+            lists.Add(new ColumnInfo
+            {
+                Id = column.Id,
+                Name = column.Name,
+                Align = column.Align,
+                Width = column.Width,
+                IsVisible = column.IsVisible,
+                IsQuery = column.IsQuery,
+                IsAdvQuery = column.IsAdvQuery,
+                IsSort = column.IsSort
+            });
+        }
+        return lists;
     }
 
     internal static List<Column<TItem>> GetUserColumns<TItem>(string id, List<Column<TItem>> columns)
