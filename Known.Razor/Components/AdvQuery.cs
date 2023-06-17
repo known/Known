@@ -38,15 +38,28 @@ class AdvQuery<TItem> : BaseComponent
             builder.Div("form-button", attr =>
             {
                 builder.Button(FormButton.Query, Callback(OnQuery));
+                builder.Button(FormButton.Reset, Callback(OnReset));
             });
         });
     }
 
-    private void OnQuery()
+    private async void OnQuery()
     {
+        var info = new SettingFormInfo
+        {
+            Type = UserSetting.KeyQuery,
+            Name = PageId,
+            Data = Utils.ToJson(data)
+        };
+        await Platform.User.SaveSettingAsync(info);
+        Setting.UserSetting.Querys[PageId] = data;
         OnSetting?.Invoke(data);
-        OnCancel();
     }
 
-    private void OnCancel() => UI.CloseDialog();
+    private void OnReset()
+    {
+        Setting.UserSetting.Querys.Remove(PageId);
+        data = new List<QueryInfo>();
+        StateChanged();
+    }
 }
