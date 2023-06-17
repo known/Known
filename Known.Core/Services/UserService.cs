@@ -252,6 +252,20 @@ class UserService : BaseService
         return Result.Success(Language.XXSuccess.Format(Language.Update), entity.Id);
     }
 
+    internal Result DeleteSetting(SettingFormInfo info)
+    {
+        var user = CurrentUser;
+        if (user == null)
+            return Result.Error(Language.NoLogin);
+
+        var setting = SettingRepository.GetSettingByUser(Database, info.Type, info.Name);
+        if (setting == null)
+            return Result.Error(Language.NotExists.Format("设置"));
+
+        Database.Delete(setting);
+        return Result.Success(Language.DeleteSuccess);
+    }
+
     internal Result SaveSetting(SettingFormInfo info)
     {
         var user = CurrentUser;

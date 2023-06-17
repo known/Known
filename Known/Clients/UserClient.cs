@@ -17,6 +17,7 @@ public class UserClient : ClientBase
     public Task<Result> SignOutAsync(string token) => Context.PostAsync($"User/SignOut/{token}");
     public Task<AdminInfo> GetAdminAsync() => Context.GetAsync<AdminInfo>("User/GetAdmin");
     public Task<Result> UpdatePasswordAsync(PwdFormInfo info) => Context.PostAsync("User/UpdatePassword", info);
+    public Task<Result> DeleteSettingAsync(SettingFormInfo info) => Context.PostAsync("User/DeleteSetting", info);
     public Task<Result> SaveSettingAsync(SettingFormInfo info) => Context.PostAsync("User/SaveSetting", info);
 
     //Message

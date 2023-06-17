@@ -45,6 +45,9 @@ public class UserController : BaseController
     public Result UpdatePassword([FromBody] PwdFormInfo info) => Service.UpdatePassword(info);
 
     [HttpPost("[action]")]
+    public Result DeleteSetting([FromBody] SettingFormInfo info) => Service.DeleteSetting(info);
+    
+    [HttpPost("[action]")]
     public Result SaveSetting([FromBody] SettingFormInfo info) => Service.SaveSetting(info);
 
     //Message
