@@ -27,7 +27,7 @@ public class ColumnInfo
     public int Width { get; set; }
     public int Sort { get; set; }
     public bool IsQuery { get; set; }
-    public bool IsAdvQuery { get; set; } = true;
+    public bool IsAdvQuery { get; set; }
     public bool IsSum { get; set; }
     public bool IsSort { get; set; } = true;
     public bool IsVisible { get; set; } = true;
