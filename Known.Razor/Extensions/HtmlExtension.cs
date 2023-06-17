@@ -301,6 +301,7 @@ public static class HtmlExtension
     public static void Select(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("select", attr => child?.Invoke(attr));
     public static void Option(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("option", attr => child?.Invoke(attr));
     public static void Img(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("img", attr => child?.Invoke(attr));
+    public static void Img(this RenderTreeBuilder builder, string src) => builder.Img(attr => attr.Src(src));
 
     public static void Link(this RenderTreeBuilder builder, string text, EventCallback onClick, string style = null)
     {
