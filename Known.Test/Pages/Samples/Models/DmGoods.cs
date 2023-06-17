@@ -13,4 +13,21 @@ class DmGoods : EntityBase
     [Column("图片")] public string Picture { get; set; }
 
     public override string ToString() => $"{Code}-{Name}";
+
+    private static readonly string[] Uints = new string[] { "个", "套", "项", "张", "台" };
+    internal static DmGoods RandomInfo(int id)
+    {
+        return new DmGoods
+        {
+            Code = $"G{id:0000}",
+            Name = $"测试商品名称{id}",
+            Model = $"测试商品规格型号{id}",
+            Unit = Uints.Random(),
+            TaxRate = 0.13M,
+            MinQty = 100,
+            MaxQty = 1000,
+            Note = $"测试商品备注{id}",
+            Picture = "/img/login.jpg"
+        };
+    }
 }

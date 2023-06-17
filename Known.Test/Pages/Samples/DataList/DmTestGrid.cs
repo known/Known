@@ -24,18 +24,7 @@ class DmTestGrid : DataGrid<DmGoods, DemoGoodsForm>
         for (int i = 0; i < criteria.PageSize; i++)
         {
             var id = (criteria.PageIndex - 1) * criteria.PageSize + i;
-            list.Add(new DmGoods
-            {
-                Code = $"G{id:0000}",
-                Name = $"测试商品名称{criteria.PageIndex}-{i}",
-                Model = $"测试商品规格型号{criteria.PageIndex}-{i}",
-                Unit = "个",
-                TaxRate = 0.13M,
-                MinQty = 100,
-                MaxQty = 1000,
-                Note = $"测试商品备注{criteria.PageIndex}-{i}",
-                Picture = "/img/login.jpg"
-            });
+            list.Add(DmGoods.RandomInfo(id));
         }
         return list;
     }

@@ -30,7 +30,7 @@ class FullTable : DmTestGrid
     private void BuildGoodsInfo(RenderTreeBuilder builder, DmGoods row)
     {
         builder.Link(row.Name, Callback(e => View(row)));
-        builder.Span("model", row.Model);
+        builder.Span("small", row.Model);
     }
 
     private void BuildQtyInfo(RenderTreeBuilder builder, DmGoods row)
