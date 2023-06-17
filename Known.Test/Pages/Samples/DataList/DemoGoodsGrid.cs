@@ -1,4 +1,6 @@
-﻿namespace Known.Test.Pages.Samples;
+﻿using Known.Test.Pages.Samples.Models;
+
+namespace Known.Test.Pages.Samples.DataList;
 
 class DemoGoodsGrid : EditGrid<DmGoods>
 {

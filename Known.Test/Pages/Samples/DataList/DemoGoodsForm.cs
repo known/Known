@@ -1,4 +1,6 @@
-﻿namespace Known.Test.Pages.Samples;
+﻿using Known.Test.Pages.Samples.Models;
+
+namespace Known.Test.Pages.Samples.DataList;
 
 [Dialog(800, 550)]
 class DemoGoodsForm : BaseForm<DmGoods>

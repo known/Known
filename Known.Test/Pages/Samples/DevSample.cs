@@ -4,12 +4,11 @@ class DevSample : PageComponent
 {
     private readonly List<MenuItem> items = new()
     {
-        new MenuItem("表单组件", "fa fa-th-list", typeof(DemoForm)),
-        new MenuItem("表格组件", "fa fa-table", typeof(DemoDataGrid)),
-        new MenuItem("列表组件", "fa fa-list", typeof(DemoDataList)),
-        new MenuItem("弹窗组件", "fa fa-window-maximize", typeof(DemoDialog)),
-        new MenuItem("图表组件", "fa fa-bar-chart", typeof(DemoChart)),
-        new MenuItem("其他组件", "fa fa-file-o", typeof(DemoOther))
+        new MenuItem("列表示例", "fa fa-list", typeof(DemoDataList)),
+        new MenuItem("表单示例", "fa fa-th-list", typeof(DemoForm)),
+        new MenuItem("弹窗示例", "fa fa-window-maximize", typeof(DemoDialog)),
+        new MenuItem("图表示例", "fa fa-bar-chart", typeof(DemoChart)),
+        new MenuItem("其他示例", "fa fa-file-o", typeof(DemoOther))
     };
     private MenuItem curItem;
 

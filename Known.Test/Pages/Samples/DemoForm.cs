@@ -1,4 +1,6 @@
-﻿namespace Known.Test.Pages.Samples;
+﻿using Known.Test.Pages.Samples.DataList;
+
+namespace Known.Test.Pages.Samples;
 
 class DemoForm : Razor.Components.Form
 {
