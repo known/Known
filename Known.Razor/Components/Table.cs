@@ -19,7 +19,7 @@ class Table<TItem> : BaseComponent
 
         builder.Table(attr =>
         {
-            attr.Id(Id);
+            attr.Id(Grid.GridId);
             builder.Component<CascadingValue<Table<TItem>>>(attr =>
             {
                 attr.Set(c => c.IsFixed, false)

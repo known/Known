@@ -4,16 +4,17 @@ namespace Known.Razor.Components;
 
 public class DataGrid<TItem> : DataComponent<TItem>
 {
-    private readonly string id;
     private readonly string qvAdvQueryId;
     private List<Column<TItem>> gridColumns;
+    internal string GridId;
     internal int CurRow = -1;
     internal bool CheckAll = false;
 
     public DataGrid()
     {
-        id = Utils.GetGuid();
+        var id = Utils.GetGuid();
         qvAdvQueryId = $"qv-{id}";
+        GridId = $"dg-{id}";
         ContainerStyle = "grid-view";
         ContentStyle = "grid";
         InitMenu();
@@ -179,7 +180,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (IsFixed)
-            UI.FixedTable(id);
+            UI.FixedTable(GridId);
 
         return base.OnAfterRenderAsync(firstRender);
     }
