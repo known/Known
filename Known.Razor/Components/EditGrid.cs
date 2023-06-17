@@ -26,7 +26,7 @@ public class EditGrid<TItem> : DataGrid<TItem> where TItem : class, new()
 
     private void InsertData(TItem item)
     {
-        var index = curRow < 0 ? 0 : curRow;
+        var index = CurRow < 0 ? 0 : CurRow;
         Data?.Insert(index, item);
         StateChanged();
     }

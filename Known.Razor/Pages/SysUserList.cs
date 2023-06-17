@@ -20,7 +20,7 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
 
     public void SetRole(string role) => Role = role;
 
-    protected override void OnRowDoubleClick(int row, SysUser item)
+    public override void OnRowDoubleClick(int row, SysUser item)
     {
         OnPicked?.Invoke($"{item.UserName}-{item.Name}");
         UI.CloseDialog();
@@ -33,7 +33,7 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
         return Platform.User.QueryUsersAsync(criteria);
     }
 
-    protected override bool CheckAction(ButtonInfo action, SysUser item)
+    public override bool CheckAction(ButtonInfo action, SysUser item)
     {
         var isAdmin = item.UserName == "admin" || item.UserName == item.CompNo;
         if (isAdmin && !action.Is(GridAction.View))

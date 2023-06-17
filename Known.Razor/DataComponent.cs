@@ -16,15 +16,16 @@ public class DataComponent<TItem> : BaseComponent
 
     internal QueryContext QueryContext { get; }
     internal int TotalCount { get; set; }
+    internal int PageSize => criteria.PageSize;
     internal List<TItem> SelectedItems { get; set; }
-    protected string EmptyText { get; set; } = Language.NoDataFound;
+    public string EmptyText { get; set; } = Language.NoDataFound;
     protected string Style { get; set; }
     protected string ContainerStyle { get; set; }
     protected string ContentStyle { get; set; }
     protected string[] OrderBys { get; set; }
     protected bool ShowQuery { get; set; }
     protected bool ShowPager { get; set; } = true;
-    protected Dictionary<string, object> Sums { get; set; }
+    internal Dictionary<string, object> Sums { get; set; }
     protected List<ButtonInfo> Tools { get; set; }
     protected object DefaultQuery { get; set; }
     [Parameter] public List<TItem> Data { get; set; }

@@ -4,11 +4,11 @@ namespace Known.Razor.Components;
 
 public class DataGrid<TItem> : DataComponent<TItem>
 {
-    private bool checkAll = false;
     private readonly string id;
     private readonly string qvAdvQueryId;
     private List<Column<TItem>> gridColumns;
-    protected int curRow = -1;
+    internal int CurRow = -1;
+    internal bool CheckAll = false;
 
     public DataGrid()
     {
@@ -21,17 +21,18 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     [Parameter] public Action<object> OnPicked { get; set; }
 
-    protected List<Column<TItem>> Columns { get; set; }
-    protected List<ButtonInfo> Actions { get; set; }
-    protected Action<RenderTreeBuilder> ActionHead { get; set; }
-    protected bool IsEdit { get; set; }
+    public List<Column<TItem>> Columns { get; set; }
+    public List<ButtonInfo> Actions { get; set; }
+    public Action<RenderTreeBuilder> ActionHead { get; set; }
+    public Action<RenderTreeBuilder> CustHead { get; set; }
+    public bool IsEdit { get; set; }
     protected bool IsFixed { get; set; } = true;
-    protected bool IsSort { get; set; } = true;
-    protected bool ShowEmpty { get; set; } = true;
-    protected bool ShowSetting { get; set; }
-    protected bool ShowCheckBox { get; set; }
-    protected string OrderBy { get; set; }
-    protected string RowTitle { get; set; }
+    public bool IsSort { get; set; } = true;
+    public bool ShowEmpty { get; set; } = true;
+    public bool ShowSetting { get; set; }
+    public bool ShowCheckBox { get; set; }
+    public string OrderBy { get; set; }
+    internal string RowTitle { get; set; }
 
     public virtual void View(TItem item) { }
     public virtual void Import() => ShowImport(Name, typeof(TItem));
@@ -79,9 +80,9 @@ public class DataGrid<TItem> : DataComponent<TItem>
         Refresh();
     }
 
-    protected virtual bool CheckAction(ButtonInfo action, TItem item) => true;
-    protected virtual void OnRowClick(int row, TItem item) { }
-    protected virtual void OnRowDoubleClick(int row, TItem item) { }
+    public virtual bool CheckAction(ButtonInfo action, TItem item) => true;
+    public virtual void OnRowClick(int row, TItem item) { }
+    public virtual void OnRowDoubleClick(int row, TItem item) { }
 
     protected void SelectRow(Action<TItem> action)
     {
@@ -169,13 +170,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         ShowQuery = gridColumns != null && gridColumns.Any(c => c.IsQuery);
 
         if (!string.IsNullOrWhiteSpace(OrderBy))
-        {
             OrderBys = new string[] { OrderBy };
-            var orders = OrderBy.Split(' ');
-            curId = orders[0];
-            if (orders.Length > 1)
-                curOrder = orders[1];
-        }
 
         await AddVisitLogAsync();
         await base.OnInitializedAsync();
@@ -194,23 +189,12 @@ public class DataGrid<TItem> : DataComponent<TItem>
         var css = CssBuilder.Default("table").AddClass("fixed", IsFixed).Build();
         builder.Div(css, attr =>
         {
-            if (Data == null || Data.Count == 0)
+            builder.Component<CascadingValue<DataGrid<TItem>>>(attr =>
             {
-                BuildTable(builder);
-                if (ShowEmpty) BuildEmpty(builder);
-            }
-            else
-            {
-                BuildTable(builder, () =>
-                {
-                    var index = 0;
-                    foreach (TItem item in Data)
-                    {
-                        BuildRowItem(builder, index, item);
-                        index++;
-                    }
-                });
-            }
+                attr.Set(c => c.IsFixed, false)
+                    .Set(c => c.Value, this)
+                    .Set(c => c.ChildContent, b => b.Component<Table<TItem>>().Build());
+            });
         });
     }
 
@@ -240,41 +224,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
         {
             builder.Button(FormButton.AdvQuery, Callback(ShowAdvQuery));
         }
-    }
-
-    protected virtual void BuildHead(RenderTreeBuilder builder)
-    {
-        builder.THead(attr =>
-        {
-            builder.Tr(attr =>
-            {
-                BuildHeadIndex(builder);
-                BuildHeadCheckBox(builder);
-                
-                if (gridColumns != null && gridColumns.Count > 0)
-                {
-                    foreach (var item in gridColumns)
-                    {
-                        if (!item.IsVisible)
-                            continue;
-
-                        builder.Th(item.ClassName, attr =>
-                        {
-                            var canSort = IsSort && item.IsSort && !string.IsNullOrWhiteSpace(item.Id);
-                            if (item.Width > 0)
-                                attr.Style($"width:{item.Width}px;");
-                            if (canSort)
-                                attr.OnClick(Callback(() => OnSort(item)));
-                            builder.Text(item.Name);
-                            if (canSort)
-                                SetSortIcon(builder, item);
-                        });
-                    }
-                }
-
-                BuildHeadAction(builder);
-            });
-        });
     }
 
     protected void SetGridPicker()
@@ -328,218 +277,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         }
     }
 
-    private void BuildTable(RenderTreeBuilder builder, Action action = null)
-    {
-        builder.Table(attr =>
-        {
-            attr.Id(id);
-            BuildHead(builder);
-            builder.TBody(attr => action?.Invoke());
-            BuildFoot(builder);
-        });
-    }
-
-    private void BuildHeadIndex(RenderTreeBuilder builder)
-    {
-        builder.Th("fixed index", attr =>
-        {
-            if (ShowSetting)
-            {
-                builder.Icon("fa fa-cog", "表格设置", Callback(ShowColumnSetting));
-            }
-        });
-    }
-
-    private void BuildHeadCheckBox(RenderTreeBuilder builder)
-    {
-        if (!ShowCheckBox)
-            return;
-
-        builder.Th("fixed check", attr =>
-        {
-            builder.Label("form-radio", attr =>
-            {
-                builder.Check(attr => attr.Checked(checkAll).OnClick(Callback(() =>
-                {
-                    checkAll = !checkAll;
-                    SelectedItems.Clear();
-                    if (checkAll && Data != null && Data.Count > 0)
-                        SelectedItems.AddRange(Data);
-                })));
-                builder.Span("");
-            });
-        });
-    }
-
-    private void BuildHeadAction(RenderTreeBuilder builder)
-    {
-        if (!HasAction())
-            return;
-
-        builder.Th("action", attr =>
-        {
-            if (ActionHead != null)
-                ActionHead.Invoke(builder);
-            else
-                builder.Text("操作");
-        });
-    }
-
-    private void BuildRowItem(RenderTreeBuilder builder, int index, TItem item)
-    {
-        var rowNo = index + 1;
-        var css = CssBuilder.Default("")
-                            .AddClass("even", rowNo % 2 == 0)
-                            .AddClass("active", curRow == index)
-                            .AddClass("selected", SelectedItems.Contains(item))
-                            .Build();
-        builder.Tr(css, attr =>
-        {
-            attr.Title(RowTitle);
-            var context = new FieldContext { Model = item };
-            attr.OnClick(Callback(() =>
-            {
-                OnRowClick(rowNo, item);
-                curRow = Data.IndexOf(item);
-                StateChanged();
-            }));
-
-            attr.OnDoubleClick(Callback(() => OnRowDoubleClick(rowNo, item)));
-            BuildRowIndex(builder, rowNo);
-            BuildRowCheckBox(builder, rowNo, item);
-            
-            if (IsEdit)
-            {
-                builder.Component((Action<AttributeBuilder<CascadingValue<FieldContext>>>)(attr =>
-                {
-                    attr.Set(c => c.IsFixed, false)
-                        .Set(c => c.Value, context)
-                        .Set(c => c.ChildContent, BuildTree<TItem>(BuildRowContent).Invoke(item));
-                }));
-            }
-            else
-            {
-                BuildRowContent(builder, item);
-            }
-
-            BuildRowAction(builder, rowNo, item);
-        });
-    }
-
-    private void BuildRowContent(RenderTreeBuilder builder, TItem item)
-    {
-        if (gridColumns == null || gridColumns.Count == 0)
-            return;
-
-        var data = Utils.MapTo<Dictionary<string, object>>(item);
-        foreach (var column in gridColumns)
-        {
-            if (!column.IsVisible)
-                continue;
-
-            builder.Td(column.ClassName, attr =>
-            {
-                var value = data != null && data.ContainsKey(column.Id)
-                          ? data[column.Id]
-                          : null;
-                column.BuildCell(builder, item, value, ReadOnly);
-            });
-        }
-    }
-
-    private static void BuildRowIndex(RenderTreeBuilder builder, int index)
-    {
-        builder.Td("fixed index", attr => builder.Text($"{index}"));
-    }
-
-    private void BuildRowCheckBox(RenderTreeBuilder builder, int index, TItem item)
-    {
-        if (!ShowCheckBox)
-            return;
-
-        builder.Td("fixed check", attr =>
-        {
-            builder.Label("form-radio", attr =>
-            {
-                builder.Check(attr =>
-                {
-                    attr.Checked(SelectedItems.Contains(item)).OnClick(Callback(e =>
-                    {
-                        if (SelectedItems.Contains(item))
-                            SelectedItems.Remove(item);
-                        else
-                            SelectedItems.Add(item);
-                        checkAll = SelectedItems.Count == TotalCount ||
-                                   SelectedItems.Count == criteria.PageSize;
-                    }));
-                });
-                builder.Span("");
-            });
-        });
-    }
-
-    private void BuildRowAction(RenderTreeBuilder builder, int index, TItem item)
-    {
-        if (!HasAction())
-            return;
-
-        builder.Td("action", attr =>
-        {
-            var count = 0;
-            var actions = new List<ButtonInfo>();
-            var others = new List<ButtonInfo>();
-            foreach (var action in Actions)
-            {
-                if (!CheckAction(action, item))
-                    continue;
-
-                if (count++ < 2 || Actions.Count == 3)
-                    actions.Add(action);
-                else
-                    others.Add(action);
-            }
-            BuildRowAction(builder, item, actions);
-            BuildRowMoreAction(builder, index, item, others);
-        });
-    }
-
-    private void BuildRowAction(RenderTreeBuilder builder, TItem item, List<ButtonInfo> actions)
-    {
-        foreach (var action in actions)
-        {
-            var style = action.Style?.Replace("bg-", "");
-            builder.Icon($"{action.Icon} {style}", action.Name, Callback(() => OnRowAction(item, action)));
-            //builder.Link(action.Name, Callback(() => OnRowAction(item, action)), action.Style);
-        }
-    }
-
-    private void BuildRowMoreAction(RenderTreeBuilder builder, int index, TItem item, List<ButtonInfo> others)
-    {
-        if (others.Count == 0)
-            return;
-
-        builder.Div("dropdown", attr =>
-        {
-            builder.Span("link primary", attr =>
-            {
-                builder.Text("更多");
-                builder.Icon("fa fa-caret-down");
-            });
-            builder.Ul("child box", attr =>
-            {
-                foreach (var action in others)
-                {
-                    builder.Li("item", attr =>
-                    {
-                        attr.OnClick(Callback(() => OnRowAction(item, action)));
-                        builder.Span("", action.Name);
-                    });
-                }
-            });
-        });
-    }
-
-    private void OnRowAction(TItem item, ButtonInfo action)
+    internal void OnRowAction(ButtonInfo action, TItem item)
     {
         var method = GetType().GetMethod(action.Id);
         if (method == null)
@@ -548,59 +286,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
             method.Invoke(this, new object[] { item });
     }
 
-    private void BuildFoot(RenderTreeBuilder builder)
-    {
-        if (!HasFoot())
-            return;
-
-        builder.TFoot(attr =>
-        {
-            builder.Tr(attr =>
-            {
-                var colSpan = 1;
-                if (ShowCheckBox) colSpan++;
-                if (gridColumns != null && gridColumns.Count > 0)
-                {
-                    builder.Td("index", "合计", colSpan);
-                    foreach (var item in gridColumns)
-                    {
-                        if (!item.IsVisible)
-                            continue;
-
-                        builder.Td(attr =>
-                        {
-                            if (item.IsSum)
-                            {
-                                attr.Class("txt-right");
-                                var value = GetSumValue(item.Id);
-                                builder.Text($"{value}");
-                            }
-                        });
-                    }
-                }
-
-                if (HasAction())
-                    builder.Td();
-            });
-        });
-    }
-
-    private object GetSumValue(string id)
-    {
-        if (Sums != null && Sums.ContainsKey(id))
-            return Sums[id];
-
-        if (Data == null || Data.Count == 0)
-            return 0;
-
-        return Data.Sum(d =>
-        {
-            var data = Utils.MapTo<Dictionary<string, object>>(d);
-            return Utils.ConvertTo<decimal>(data[id]);
-        });
-    }
-
-    private bool HasFoot()
+    internal bool HasFoot()
     {
         if (gridColumns == null || gridColumns.Count == 0)
             return false;
@@ -612,7 +298,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         return false;
     }
 
-    private bool HasAction()
+    internal bool HasAction()
     {
         if (IsEdit && ReadOnly)
             return false;
@@ -629,26 +315,14 @@ public class DataGrid<TItem> : DataComponent<TItem>
         Data[index1] = item;
         Data[index] = temp;
         success?.Invoke(item, temp);
-        curRow = index1;
+        CurRow = index1;
         StateChanged();
     }
 
-    private string curId = "";
-    private string curOrder = "asc";
-    private void OnSort(ColumnInfo item)
+    internal void OnSort(ColumnInfo item, string curOrder)
     {
-        curId = item.Id;
-        curOrder = curOrder == "asc" ? "desc" : "asc";
         OrderBys = new string[] { $"{item.Id} {curOrder}" };
         QueryData();
-    }
-
-    private void SetSortIcon(RenderTreeBuilder builder, ColumnInfo item)
-    {
-        if (curId == item.Id)
-            builder.Icon($"sort fa fa-sort-{curOrder}");
-        else
-            builder.Icon("fa fa-sort");
     }
 
     private void BuildAdvQuery(RenderTreeBuilder builder)
@@ -684,7 +358,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     private void ShowAdvQuery() => UI.ShowQuickView(qvAdvQueryId);
 
-    private void ShowColumnSetting()
+    internal void ShowColumnSetting()
     {
         var data = Setting.GetUserColumns(Id);
         data ??= Columns.Select(c => c.ToColumn()).ToList();

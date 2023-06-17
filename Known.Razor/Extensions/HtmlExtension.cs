@@ -57,10 +57,7 @@ public static class HtmlExtension
         {
             ab.Set(c => c.IsFixed, false)
               .Set(c => c.Value, table)
-              .Set(c => c.ChildContent, delegate (RenderTreeBuilder b)
-              {
-                  b.Element("table", attr => child?.Invoke(b));
-              });
+              .Set(c => c.ChildContent, b => b.Element("table", attr => child?.Invoke(b)));
         });
     }
 

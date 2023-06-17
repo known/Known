@@ -103,7 +103,7 @@ class CommonTable : Table, IPicker
                .Build();
     }
 
-    protected override void OnRowDoubleClick(int row, DmGoods item)
+    public override void OnRowDoubleClick(int row, DmGoods item)
     {
         OnPicked?.Invoke(item);
         UI.CloseDialog();
