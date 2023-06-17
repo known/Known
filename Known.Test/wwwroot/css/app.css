@@ -84,5 +84,5 @@
 .tab-body .demo {top:10px;left:10px;right:10px;bottom:10px;}
 .demo td {position:relative;}
 .demo td img {width:80px;}
-.demo td .link {display:block;padding:0;}
-.demo td .model {margin-top:5px;font-size:0.9rem;color:#888;}
+.demo td .link, .demo td .qty {display:block;padding:0;text-align:left;}
+.demo td .model {margin-top:5px;font-size:0.9rem;color:#888;} 

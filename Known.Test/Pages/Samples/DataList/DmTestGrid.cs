@@ -31,6 +31,8 @@ class DmTestGrid : DataGrid<DmGoods, DemoGoodsForm>
                 Model = $"测试商品规格型号{criteria.PageIndex}-{i}",
                 Unit = "个",
                 TaxRate = 0.13M,
+                MinQty = 100,
+                MaxQty = 1000,
                 Note = $"测试商品备注{criteria.PageIndex}-{i}",
                 Picture = "/img/login.jpg"
             });

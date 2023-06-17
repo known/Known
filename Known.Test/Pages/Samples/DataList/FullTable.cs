@@ -1,5 +1,4 @@
-﻿using Aspose.Cells;
-using Known.Test.Pages.Samples.Models;
+﻿using Known.Test.Pages.Samples.Models;
 
 namespace Known.Test.Pages.Samples.DataList;
 
@@ -13,14 +12,12 @@ class FullTable : DmTestGrid
         var builder = new ColumnBuilder<DmGoods>();
         builder.Field(r => r.Picture).Template((b, r) => b.Img(r.Picture));
         builder.Field(r => r.Code, true).IsVisible(false);
-        builder.Field(r => r.Name, true).IsVisible(false);
-        builder.Field("商品信息", "").Template(BuildGoodsInfo);
+        builder.Field(r => r.Name, true).Template(BuildGoodsInfo);
         builder.Field(r => r.Model).IsVisible(false);
         builder.Field(r => r.Unit).Center();
         builder.Field(r => r.TaxRate).Template((b, r) => b.Text(r.TaxRate?.ToString("P")));
         builder.Field(r => r.MinQty).IsVisible(false);
-        builder.Field(r => r.MaxQty).IsVisible(false);
-        builder.Field("库存预警", "").Template(BuildQtyInfo);
+        builder.Field(r => r.MaxQty).Template(BuildQtyInfo);
         builder.Field(r => r.Note);
         Columns = builder.ToColumns();
     }
