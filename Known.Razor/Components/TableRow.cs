@@ -108,21 +108,22 @@ class TableRow<TItem> : BaseComponent
 
         builder.Td("action", attr =>
         {
-            var count = 0;
-            var actions = new List<ButtonInfo>();
-            var others = new List<ButtonInfo>();
-            foreach (var action in Grid.Actions)
-            {
-                if (!Grid.CheckAction(action, item))
-                    continue;
+            BuildRowAction(builder, item, Grid.Actions);
+            //var count = 0;
+            //var actions = new List<ButtonInfo>();
+            //var others = new List<ButtonInfo>();
+            //foreach (var action in Grid.Actions)
+            //{
+            //    if (!Grid.CheckAction(action, item))
+            //        continue;
 
-                if (count++ < 2 || Grid.Actions.Count == 3)
-                    actions.Add(action);
-                else
-                    others.Add(action);
-            }
-            BuildRowAction(builder, item, actions);
-            BuildRowMoreAction(builder, index, item, others);
+            //    if (count++ < 2 || Grid.Actions.Count == 3)
+            //        actions.Add(action);
+            //    else
+            //        others.Add(action);
+            //}
+            //BuildRowAction(builder, item, actions);
+            //BuildRowMoreAction(builder, index, item, others);
         });
     }
 
@@ -136,16 +137,16 @@ class TableRow<TItem> : BaseComponent
         }
     }
 
-    private void BuildRowMoreAction(RenderTreeBuilder builder, int index, TItem item, List<ButtonInfo> others)
-    {
-        if (others.Count == 0)
-            return;
+    //private void BuildRowMoreAction(RenderTreeBuilder builder, int index, TItem item, List<ButtonInfo> others)
+    //{
+    //    if (others.Count == 0)
+    //        return;
 
-        var items = others.Select(i => new DropdownItem(i, () => Grid.OnAction(i, new object[] { item }))).ToList();
-        builder.Component<Dropdown>()
-               .Set(c => c.Style, "link primary")
-               .Set(c => c.Title, "更多")
-               .Set(c => c.Items, items)
-               .Build();
-    }
+    //    var items = others.Select(i => new DropdownItem(i, () => Grid.OnAction(i, new object[] { item }))).ToList();
+    //    builder.Component<Dropdown>()
+    //           .Set(c => c.Style, "link primary")
+    //           .Set(c => c.Title, "更多")
+    //           .Set(c => c.Items, items)
+    //           .Build();
+    //}
 }
