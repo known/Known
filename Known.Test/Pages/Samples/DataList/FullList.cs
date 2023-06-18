@@ -6,7 +6,12 @@ class FullList : DmTestList
 {
     public FullList()
     {
-        Tools = new List<ButtonInfo> { ToolButton.New, ToolButton.DeleteM, ToolButton.Import, ToolButton.Export };
+        var export = ToolButton.Export;
+        export.Children.Add(ToolButton.ExportQuery);
+        export.Children.Add(ToolButton.ExportPage);
+        export.Children.Add(ToolButton.ExportAll);
+
+        Tools = new List<ButtonInfo> { ToolButton.New, ToolButton.DeleteM, ToolButton.Import, export };
         Actions = new List<ButtonInfo> { GridAction.Edit, GridAction.Delete, GridAction.Print, GridAction.Return };
 
         var builder = new ColumnBuilder<DmTest>();
@@ -14,7 +19,7 @@ class FullList : DmTestList
         builder.Field(r => r.Title, true).IsVisible(false);
         builder.Field(r => r.Name, true).IsVisible(false);
         builder.Field(r => r.Picture).Template((b, r) => b.Img(r.Picture));
-        builder.Field("信息", "").Width(300).Template(BuildTestInfo);
+        builder.Field("信息", "").Width(200).Template(BuildTestInfo);
         builder.Field(r => r.Status).Center().Template((b, r) => b.BillStatus(r.Status));
         builder.Field(r => r.Time).Type(ColumnType.DateTime).IsVisible(false);
         builder.Field(r => r.Icon).Center().Template((b, r) => b.Icon(r.Icon));
@@ -26,6 +31,11 @@ class FullList : DmTestList
         Columns = builder.ToColumns();
     }
 
+    public void New() => ShowForm(new DmTest());
+    public void DeleteM() => DeleteRows(null);
+    public void Edit(DmTest row) => ShowForm(row);
+    public void Delete(DmTest row) => DeleteRow(row, null);
+
     private void BuildTestInfo(RenderTreeBuilder builder, DmTest row)
     {
         builder.Link(row.Title, Callback(e => { }));
@@ -35,7 +45,11 @@ class FullList : DmTestList
 
     private void BuildColorInfo(RenderTreeBuilder builder, DmTest row)
     {
-        builder.Span("badge color", attr => attr.Style($"background-color:{row.Color};"));
+        builder.Span("badge color", attr =>
+        {
+            attr.Style($"background-color:{row.Color};");
+            builder.Text(row.Color);
+        });
     }
 
     private void BuildProgressInfo(RenderTreeBuilder builder, DmTest row)
