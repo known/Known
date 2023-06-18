@@ -287,7 +287,7 @@ public class Database : IDisposable
 
             if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
             {
-                var columns = string.Join(",", criteria.SumColumns.Select(c => $"sum({c}) {c}"));
+                var columns = string.Join(",", criteria.SumColumns.Select(c => $"sum({c}) as {c}"));
                 sql = $"select {columns} from ({sql}) t";
                 sums = Query<Dictionary<string, object>>(sql, criteria.ToParameters(User));
             }
