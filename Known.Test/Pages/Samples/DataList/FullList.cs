@@ -19,7 +19,7 @@ class FullList : DmTestList
         builder.Field(r => r.Title, true).IsVisible(false);
         builder.Field(r => r.Name, true).IsVisible(false);
         builder.Field(r => r.Picture).Template((b, r) => b.Img(r.Picture));
-        builder.Field("信息", "").Width(200).Template(BuildTestInfo);
+        builder.Field("信息", "Info").Width(200).Template(BuildTestInfo);
         builder.Field(r => r.Status).Center().Template((b, r) => b.BillStatus(r.Status));
         builder.Field(r => r.Time).Type(ColumnType.DateTime).IsVisible(false);
         builder.Field(r => r.Icon).Center().Template((b, r) => b.Icon(r.Icon));

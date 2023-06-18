@@ -18,4 +18,10 @@ class PageTable : DmTestGrid
         builder.Field(r => r.Note);
         Columns = builder.ToColumns();
     }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-tips-tr primary", "实际库存 = 采购数量 - 销售数量 - 进退货数量 + 销退货数量");
+        base.BuildRenderTree(builder);
+    }
 }

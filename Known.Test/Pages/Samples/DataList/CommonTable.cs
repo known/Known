@@ -37,4 +37,11 @@ class CommonTable : DmTestGrid, IPicker
         UI.CloseDialog();
     }
     #endregion
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if (OnPicked == null)
+            builder.Div("kui-tips-tr primary", "销售毛利 = 销货总金额 + 进退货总金额 + 库存总金额 - 进货总金额 - 销退货总金额");
+        base.BuildRenderTree(builder);
+    }
 }
