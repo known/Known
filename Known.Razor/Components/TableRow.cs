@@ -131,6 +131,9 @@ class TableRow<TItem> : BaseComponent
     {
         foreach (var action in actions)
         {
+            if (!Grid.CheckAction(action, item))
+                continue;
+
             var style = action.Style?.Replace("bg-", "");
             builder.Icon($"{action.Icon} {style}", action.Name, Callback(() => Grid.OnAction(action, new object[] { item })));
             //builder.Link(action.Name, Callback(() => Table.OnRowAction(action, item)), action.Style);
