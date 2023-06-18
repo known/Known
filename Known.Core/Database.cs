@@ -1116,7 +1116,7 @@ select t.* from (
         var properties = value.GetType().GetProperties();
         foreach (var item in properties)
         {
-            if (item.CanRead && item.CanWrite && !item.GetGetMethod().IsVirtual)
+            if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
             {
                 dic[item.Name] = item.GetValue(value, null);
             }
