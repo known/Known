@@ -96,7 +96,7 @@ class TableRow<TItem> : BaseComponent
                 var value = data != null && data.ContainsKey(column.Id)
                           ? data[column.Id]
                           : null;
-                column.BuildCell(builder, item, value, ReadOnly);
+                column.BuildCell(builder, item, value, Grid.ReadOnly);
             });
         }
     }
