@@ -16,10 +16,10 @@ class TableFoot<TItem> : BaseComponent
             {
                 var colSpan = 1;
                 if (Grid.ShowCheckBox) colSpan++;
-                if (Grid.Columns != null && Grid.Columns.Count > 0)
+                if (Grid.GridColumns != null && Grid.GridColumns.Count > 0)
                 {
                     builder.Td("index", "合计", colSpan);
-                    foreach (var item in Grid.Columns)
+                    foreach (var item in Grid.GridColumns)
                     {
                         if (!item.IsVisible)
                             continue;

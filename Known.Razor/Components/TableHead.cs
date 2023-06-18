@@ -34,9 +34,9 @@ class TableHead<TItem> : BaseComponent
                     BuildHeadIndex(builder);
                     BuildHeadCheckBox(builder);
 
-                    if (Grid.Columns != null && Grid.Columns.Count > 0)
+                    if (Grid.GridColumns != null && Grid.GridColumns.Count > 0)
                     {
-                        foreach (var item in Grid.Columns)
+                        foreach (var item in Grid.GridColumns)
                         {
                             if (!item.IsVisible)
                                 continue;

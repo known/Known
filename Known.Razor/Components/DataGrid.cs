@@ -5,7 +5,7 @@ namespace Known.Razor.Components;
 public class DataGrid<TItem> : DataComponent<TItem>
 {
     private readonly string qvAdvQueryId;
-    private List<Column<TItem>> gridColumns;
+    internal List<Column<TItem>> GridColumns;
     internal string GridId;
     internal int CurRow = -1;
     internal bool CheckAll = false;
@@ -45,12 +45,33 @@ public class DataGrid<TItem> : DataComponent<TItem>
         QueryData();
     }
 
+    protected void SetGridPicker()
+    {
+        ShowSetting = false;
+        ShowCheckBox = false;
+        RowTitle = "双击选择数据。";
+        if (HasButton(ToolButton.New))
+            Tools = new List<ButtonInfo> { ToolButton.New };
+        Actions = null;
+        Columns.ForEach(c => c.IsAdvQuery = false);
+    }
+
+    protected void SetEdit(bool isEdit)
+    {
+        IsEdit = isEdit;
+        foreach (var item in GridColumns)
+        {
+            item.IsEdit = isEdit;
+        }
+        StateChanged();
+    }
+
     public void SetColumn(string id, bool isVisible)
     {
-        if (gridColumns == null || gridColumns.Count == 0)
+        if (GridColumns == null || GridColumns.Count == 0)
             return;
 
-        var column = gridColumns.FirstOrDefault(c => c.Id == id);
+        var column = GridColumns.FirstOrDefault(c => c.Id == id);
         if (column == null)
             return;
 
@@ -58,14 +79,29 @@ public class DataGrid<TItem> : DataComponent<TItem>
         StateChanged();
     }
 
-    protected void SetEdit(bool isEdit)
+    protected void SetColumns(List<Column<TItem>> columns)
     {
-        IsEdit = isEdit;
-        foreach (var item in gridColumns)
-        {
-            item.IsEdit = isEdit;
-        }
+        GridColumns = columns;
+        ShowQuery = GridColumns != null && GridColumns.Any(c => c.IsQuery);
         StateChanged();
+    }
+
+    protected ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
+    {
+        var property = TypeHelper.Property(selector);
+        var column = Columns?.FirstOrDefault(c => c.Id == property.Name);
+        if (column == null)
+            return new ColumnBuilder<TItem>();
+
+        return new ColumnBuilder<TItem>(column);
+    }
+
+    protected override List<string> GetSumColumns()
+    {
+        if (GridColumns == null || GridColumns.Count == 0)
+            return null;
+
+        return GridColumns.Where(c => c.IsSum).Select(c => c.Id).ToList();
     }
 
     protected void ShowForm<T>(string title, object model, Size? size = null, Action<AttributeBuilder<T>> action = null) where T : Form
@@ -167,8 +203,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
         if (OnPicked != null)
             SetGridPicker();
 
-        gridColumns = Setting.GetUserColumns(Id, Columns);
-        ShowQuery = gridColumns != null && gridColumns.Any(c => c.IsQuery);
+        GridColumns = Setting.GetUserColumns(Id, Columns);
+        ShowQuery = GridColumns != null && GridColumns.Any(c => c.IsQuery);
 
         if (!string.IsNullOrWhiteSpace(OrderBy))
             OrderBys = new string[] { OrderBy };
@@ -207,7 +243,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     protected override void BuildQuerys(RenderTreeBuilder builder)
     {
-        var columns = gridColumns?.Where(c => c.IsQuery).ToList();
+        var columns = GridColumns?.Where(c => c.IsQuery).ToList();
         if (columns == null || columns.Count == 0)
             return;
 
@@ -221,48 +257,12 @@ public class DataGrid<TItem> : DataComponent<TItem>
             QueryData(true);
         }));
 
-        if (gridColumns != null && gridColumns.Any(c => c.IsAdvQuery))
+        if (GridColumns != null && GridColumns.Any(c => c.IsAdvQuery))
         {
             builder.Button(FormButton.AdvQuery, Callback(ShowAdvQuery));
         }
     }
 
-    protected void SetGridPicker()
-    {
-        ShowSetting = false;
-        ShowCheckBox = false;
-        RowTitle = "双击选择数据。";
-        if (HasButton(ToolButton.New))
-            Tools = new List<ButtonInfo> { ToolButton.New };
-        Actions = null;
-        Columns.ForEach(c => c.IsAdvQuery = false);
-    }
-
-    protected void SetColumns(List<Column<TItem>> columns)
-    {
-        gridColumns = columns;
-        ShowQuery = gridColumns != null && gridColumns.Any(c => c.IsQuery);
-        StateChanged();
-    }
-
-    protected ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
-    {
-        var property = TypeHelper.Property(selector);
-        var column = Columns?.FirstOrDefault(c => c.Id == property.Name);
-        if (column == null)
-            return new ColumnBuilder<TItem>();
-
-        return new ColumnBuilder<TItem>(column);
-    }
-
-    protected override List<string> GetSumColumns()
-    {
-        if (gridColumns == null || gridColumns.Count == 0)
-            return null;
-
-        return gridColumns.Where(c => c.IsSum).Select(c => c.Id).ToList();
-    }
-    
     private void InitMenu()
     {
         var menu = KRConfig.UserMenus.FirstOrDefault(m => m.Code == Id);
@@ -280,10 +280,10 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     internal bool HasFoot()
     {
-        if (gridColumns == null || gridColumns.Count == 0)
+        if (GridColumns == null || GridColumns.Count == 0)
             return false;
 
-        var columns = gridColumns.Where(c => c.IsSum).ToList();
+        var columns = GridColumns.Where(c => c.IsSum).ToList();
         if (columns != null && columns.Count > 0)
             return true;
 
@@ -319,7 +319,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     private void BuildAdvQuery(RenderTreeBuilder builder)
     {
-        if (gridColumns == null || !gridColumns.Any(c => c.IsAdvQuery))
+        if (GridColumns == null || !GridColumns.Any(c => c.IsAdvQuery))
             return;
 
         builder.Component<QuickView>()
@@ -360,9 +360,9 @@ public class DataGrid<TItem> : DataComponent<TItem>
     private Dictionary<string, string> GetExportColumns()
     {
         var columns = new Dictionary<string, string>();
-        if (gridColumns != null && gridColumns.Count > 0)
+        if (GridColumns != null && GridColumns.Count > 0)
         {
-            foreach (var item in gridColumns)
+            foreach (var item in GridColumns)
             {
                 columns.Add(item.Id, item.Name);
             }

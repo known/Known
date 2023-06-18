@@ -82,11 +82,11 @@ class TableRow<TItem> : BaseComponent
 
     private void BuildRowContent(RenderTreeBuilder builder, TItem item)
     {
-        if (Grid.Columns == null || Grid.Columns.Count == 0)
+        if (Grid.GridColumns == null || Grid.GridColumns.Count == 0)
             return;
 
         var data = Utils.MapTo<Dictionary<string, object>>(item);
-        foreach (var column in Grid.Columns)
+        foreach (var column in Grid.GridColumns)
         {
             if (!column.IsVisible)
                 continue;
