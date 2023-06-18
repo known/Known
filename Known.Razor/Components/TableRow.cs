@@ -131,7 +131,7 @@ class TableRow<TItem> : BaseComponent
         foreach (var action in actions)
         {
             var style = action.Style?.Replace("bg-", "");
-            builder.Icon($"{action.Icon} {style}", action.Name, Callback(() => Grid.OnRowAction(action, item)));
+            builder.Icon($"{action.Icon} {style}", action.Name, Callback(() => Grid.OnAction(action, new object[] { item })));
             //builder.Link(action.Name, Callback(() => Table.OnRowAction(action, item)), action.Style);
         }
     }
@@ -141,24 +141,11 @@ class TableRow<TItem> : BaseComponent
         if (others.Count == 0)
             return;
 
-        builder.Div("dropdown", attr =>
-        {
-            builder.Span("link primary", attr =>
-            {
-                builder.Text("更多");
-                builder.Icon("fa fa-caret-down");
-            });
-            builder.Ul("child box", attr =>
-            {
-                foreach (var action in others)
-                {
-                    builder.Li("item", attr =>
-                    {
-                        attr.OnClick(Callback(() => Grid.OnRowAction(action, item)));
-                        builder.Span("", action.Name);
-                    });
-                }
-            });
-        });
+        var items = others.Select(i => new DropdownItem(i, () => Grid.OnAction(i, new object[] { item }))).ToList();
+        builder.Component<Dropdown>()
+               .Set(c => c.Style, "link primary")
+               .Set(c => c.Title, "更多")
+               .Set(c => c.Items, items)
+               .Build();
     }
 }

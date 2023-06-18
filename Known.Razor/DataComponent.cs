@@ -32,6 +32,16 @@ public class DataComponent<TItem> : BaseComponent
 
     protected virtual void BuildQuerys(RenderTreeBuilder builder) { }
     protected virtual Task<PagingResult<TItem>> OnQueryData(PagingCriteria criteria) => Task.FromResult(new PagingResult<TItem>());
+    protected virtual List<string> GetSumColumns() => null;
+
+    protected bool HasButton(ButtonInfo button)
+    {
+        var user = CurrentUser;
+        if (user == null)
+            return false;
+
+        return button.IsInMenu(Id);
+    }
 
     protected virtual async void QueryData(bool isQuery = false)
     {
@@ -87,15 +97,17 @@ public class DataComponent<TItem> : BaseComponent
     protected virtual void BuildContent(RenderTreeBuilder builder) { }
     protected void BuildEmpty(RenderTreeBuilder builder) => builder.Component<Empty>().Set(c => c.Text, EmptyText).Build();
 
-    protected virtual List<string> GetSumColumns() => null;
-
-    protected bool HasButton(ButtonInfo button)
+    protected virtual void BuildPager(RenderTreeBuilder builder)
     {
-        var user = CurrentUser;
-        if (user == null)
-            return false;
+        if (!ShowPager)
+            return;
 
-        return button.IsInMenu(Id);
+        builder.Component<Pager>()
+               .Set(c => c.TotalCount, TotalCount)
+               .Set(c => c.PageIndex, criteria.PageIndex)
+               .Set(c => c.PageSize, criteria.PageSize)
+               .Set(c => c.OnPageChanged, QueryPageData)
+               .Build();
     }
 
     private void BuildQuery(RenderTreeBuilder builder)
@@ -125,29 +137,35 @@ public class DataComponent<TItem> : BaseComponent
         {
             foreach (var item in Tools)
             {
-                builder.Button(item.Name, item.Icon, Callback(() =>
+                if (item.Children.Any())
                 {
-                    var method = GetType().GetMethod(item.Id);
-                    if (method == null)
-                        UI.Tips($"{item.Name}方法不存在！");
-                    else
-                        method.Invoke(this, null);
-                }), item.Style);
+                    var items = item.Children.Select(i => new DropdownItem(i, () => OnAction(i))).ToList();
+                    builder.Component<Dropdown>()
+                           .Set(c => c.Style, "button")
+                           .Set(c => c.Title, item.Name)
+                           .Set(c => c.Items, items)
+                           .Build();
+                }
+                else
+                {
+                    BuildButton(builder, item);
+                }
             }
         });
     }
 
-    protected virtual void BuildPager(RenderTreeBuilder builder)
+    private void BuildButton(RenderTreeBuilder builder, ButtonInfo item)
     {
-        if (!ShowPager)
-            return;
+        builder.Button(item.Name, item.Icon, Callback(() => OnAction(item)), item.Style);
+    }
 
-        builder.Component<Pager>()
-               .Set(c => c.TotalCount, TotalCount)
-               .Set(c => c.PageIndex, criteria.PageIndex)
-               .Set(c => c.PageSize, criteria.PageSize)
-               .Set(c => c.OnPageChanged, QueryPageData)
-               .Build();
+    internal void OnAction(ButtonInfo info, object[] parameters = null)
+    {
+        var method = GetType().GetMethod(info.Id);
+        if (method == null)
+            UI.Tips($"{info.Name}方法不存在！");
+        else
+            method.Invoke(this, parameters);
     }
 
     private async Task QueryPageData(PagingCriteria pc = null)

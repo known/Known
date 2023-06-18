@@ -278,15 +278,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
         }
     }
 
-    internal void OnRowAction(ButtonInfo action, TItem item)
-    {
-        var method = GetType().GetMethod(action.Id);
-        if (method == null)
-            UI.Tips($"{action.Name}方法不存在！");
-        else
-            method.Invoke(this, new object[] { item });
-    }
-
     internal bool HasFoot()
     {
         if (gridColumns == null || gridColumns.Count == 0)

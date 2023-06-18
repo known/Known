@@ -2,8 +2,12 @@
 
 public class ButtonInfo
 {
-    public ButtonInfo() { }
-    public ButtonInfo(string id, string name, string icon = null, string style = null)
+    public ButtonInfo()
+    {
+        Children = new List<ButtonInfo>();
+    }
+
+    public ButtonInfo(string id, string name, string icon = null, string style = null) : this()
     {
         Id = id;
         Name = name;
@@ -15,6 +19,7 @@ public class ButtonInfo
     public string Name { get; set; }
     public string Icon { get; set; }
     public string Style { get; set; }
+    public List<ButtonInfo> Children { get; }
 
     public bool Is(ButtonInfo info) => Id == info.Id;
 }
