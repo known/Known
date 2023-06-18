@@ -74,8 +74,8 @@
 }
 .kui-tips .name {font-weight:bold;font-size:1.2rem;margin-right:10px;}
 .kui-tips .description {font-size:1rem;color:#555;}
-.kui-tips-tr {position:absolute;top:10px;right:10px;font-weight:bold;}
-.kui-tips-bl {position:absolute;left:10px;bottom:10px;font-weight:bold;}
+.kui-tips-tr {position:absolute;top:10px;right:10px;font-weight:bold;z-index:9999;}
+.kui-tips-bl {position:absolute;left:10px;bottom:10px;font-weight:bold;z-index:9999;}
 
 .kui-tabs .tab.header {
     height:45px;overflow:hidden;background-color:#fff;
