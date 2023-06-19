@@ -17,7 +17,7 @@ class DemoForm : Razor.Components.Form
     {
         builder.Table(table =>
         {
-            table.ColGroup(10, 23, 10, 23, 10, 24);
+            table.ColGroup(11, 22, 11, 22, 11, 23);
             table.Tr(attr =>
             {
                 table.Field<Text>("文本", "Text", true).Build();

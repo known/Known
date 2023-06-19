@@ -271,7 +271,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form-input.check {font-weight:bold;}
 .form-check {position:absolute;top:5px;right:0;}
 .form-radio {position:relative;margin-right:1rem;cursor:pointer;display:inline-block;}
-.form-radio input {position:absolute;top:0.5rem;}
+.form-radio input {position:absolute;top:5px;}
 .form-tips {padding-left:5px;color:#aaa;}
 .form-button {text-align:center;margin-top:1rem;}
 .form-button button {margin-right:1rem;}
