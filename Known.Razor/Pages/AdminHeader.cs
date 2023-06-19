@@ -5,6 +5,7 @@ class AdminHeader : BaseComponent
     private bool isMini = false;
     private bool isFull = false;
     private MenuItem curMenu;
+    private string themeColor;
     private readonly string qvSysSettingId = "qvSysSetting";
     private string ToggleIcon => isMini ? "fa fa-indent" : "fa fa-dedent";
     private string ToggleScreen => isFull ? "fa fa-arrows" : "fa fa-arrows-alt";
@@ -22,6 +23,12 @@ class AdminHeader : BaseComponent
         if (Menus != null && Menus.Count > 0)
             curMenu = Menus.FirstOrDefault();
 
+        themeColor = Setting.Info.ThemeColor;
+        PageAction.RefreshHeadColor = () =>
+        {
+            themeColor = Setting.Info.ThemeColor;
+            StateChanged();
+        };
         PageAction.RefreshMessageCount = count =>
         {
             MessageCount = count;
@@ -33,6 +40,7 @@ class AdminHeader : BaseComponent
     {
         builder.Div("kui-header", attr =>
         {
+            attr.Style($"background-color:{themeColor}");
             if (Menus != null && Menus.Count > 0)
                 BuildMenus(builder, Menus);
             else

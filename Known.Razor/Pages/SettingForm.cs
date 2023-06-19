@@ -2,7 +2,6 @@
 
 public class SettingForm : BaseForm<SettingInfo>
 {
-    private bool isEdit = false;
     private readonly string sizes = string.Join(",", PagingCriteria.PageSizes);
 
     public SettingForm()
@@ -27,26 +26,35 @@ public class SettingForm : BaseForm<SettingInfo>
     protected override void BuildFields(FieldBuilder<SettingInfo> builder)
     {
         builder.Field<Input>("主题色", nameof(SettingInfo.ThemeColor))
-               .ReadOnly(!isEdit)
                .Set(f => f.Type, "color")
-               .Set(f => f.ValueChanged, value => PageAction.RefreshThemeColor?.Invoke(value))
+               .Set(f => f.ValueChanged, OnHeadColorChanged)
                .Build();
-        builder.Field<CheckBox>("随机色", nameof(SettingInfo.RandomColor)).ReadOnly(!isEdit).Set(f => f.Switch, true).Build();
-        builder.Field<CheckBox>("标签页", nameof(SettingInfo.MultiTab)).ReadOnly(!isEdit).Set(f => f.Switch, true).Build();
-        builder.Field<Select>("每页大小", nameof(SettingInfo.PageSize)).ReadOnly(!isEdit).Set(f => f.Codes, sizes).Build();
+        builder.Field<Input>("侧栏色", nameof(SettingInfo.SideColor))
+               .Set(f => f.Type, "color")
+               .Set(f => f.ValueChanged, OnSideColorChanged)
+               .Build();
+        builder.Field<CheckBox>("随机色", nameof(SettingInfo.RandomColor)).Set(f => f.Switch, true).Build();
+        builder.Field<CheckBox>("标签页", nameof(SettingInfo.MultiTab)).Set(f => f.Switch, true).Build();
+        builder.Field<Select>("每页大小", nameof(SettingInfo.PageSize)).Set(f => f.Codes, sizes).Build();
     }
 
     protected override void BuildButtons(RenderTreeBuilder builder)
     {
-        if (!isEdit)
-        {
-            builder.Button(FormButton.Edit, Callback(e => isEdit = true));
-        }
-        else
-        {
-            builder.Button(FormButton.Save, Callback(OnSave));
-            builder.Button(FormButton.Cancel, Callback(e => isEdit = false));
-        }
+        builder.Button(FormButton.Save, Callback(OnSave));
+        builder.Button(FormButton.Reset, Callback(OnReset));
+    }
+
+    private void OnHeadColorChanged(string color)
+    {
+        Setting.Info.ThemeColor = color;
+        PageAction.RefreshHeadColor?.Invoke();
+        PageAction.RefreshSideColor?.Invoke();
+    }
+
+    private void OnSideColorChanged(string color)
+    {
+        Setting.Info.SideColor = color;
+        PageAction.RefreshSideColor?.Invoke();
     }
 
     private void OnSave()
@@ -63,10 +71,14 @@ public class SettingForm : BaseForm<SettingInfo>
             };
             Setting.UserSetting.Info = Utils.FromJson<SettingInfo>(info.Data);
             return Platform.User.SaveSettingAsync(info);
-        }, result =>
-        {
-            isEdit = false;
-            StateChanged();
         });
+    }
+
+    private void OnReset()
+    {
+        Setting.UserSetting.Info = null;
+        PageAction.RefreshHeadColor?.Invoke();
+        PageAction.RefreshSideColor?.Invoke();
+        StateChanged();
     }
 }
