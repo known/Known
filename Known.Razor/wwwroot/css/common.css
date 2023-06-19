@@ -220,6 +220,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .table .txt-right {text-align:right;}
 
 .table .action {width:80px;text-align:center;position:sticky;z-index:1;right:0;background-color:#fff;}
+.table .action .link {padding:0 3px;}
 .table .action .icon {margin:0 5px;cursor:pointer;font-size:1.2rem;}
 .table td.action {overflow:unset;}
 
@@ -254,12 +255,12 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .pager .btns li .pn {left:15px;}
 
 /*form*/
-.form-title {font-size:1.5rem;font-weight:bold;text-align:center;padding:10px;}
-.form-caption {border-left:5px solid #337ab7;padding-left:5px;height:40px;line-height:40px;font-size:1.1rem;font-weight:bold;}
+.form-title {font-size:1.5rem;font-weight:bold;text-align:center;padding:1rem;}
+.form-caption {border-left:5px solid #337ab7;padding-left:5px;height:2rem;line-height:2rem;font-size:1.1rem;font-weight:bold;}
 .form-caption .right {margin-top:5px;margin-right:5px;}
 .form-item, .form-label, .form-text, .form-input, .form-tips {display:block;}
-.form-item {display:block;position:relative;margin-top:10px;}
-.form-label {float:left;padding:0 10px;}
+.form-item {display:block;position:relative;margin-top:1rem;}
+.form-label {float:left;padding:0 1rem;font-weight:bold;}
 .form-input {position:relative;}
 .form-item:after, .form-input:after {display:block;content:'';clear:both;}
 .form-input .icon {position:absolute;right:1px;bottom:1px;width:28px;text-align:center;cursor:pointer;margin:0;}
@@ -269,16 +270,17 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form-input .btn {border:1.5px solid var(--line-color);background-color:#f1f1f1;cursor:pointer;}
 .form-input.check {font-weight:bold;}
 .form-check {position:absolute;top:5px;right:0;}
-.form-radio {position:relative;margin-right:10px;cursor:pointer;display:inline-block;}
-.form-radio input {position:absolute;top:5px;}
+.form-radio {position:relative;margin-right:1rem;cursor:pointer;display:inline-block;}
+.form-radio input {position:absolute;top:0.5rem;}
 .form-tips {padding-left:5px;color:#aaa;}
-.form-button {text-align:center;margin-top:10px;}
-.form-button button {margin:0 5px;}
-.form-item, .form-button, .tips {padding:0 10px;}
+.form-button {text-align:center;margin-top:1rem;}
+.form-button button {margin-right:1rem;}
+.form-item, .form-button, .tips {padding:0 1rem;}
+.form-item .link {padding-left:0.5rem;}
 .block .form-radio {display:block;height:auto;}
-.form, .inline {padding:10px;}
+.form, .inline {padding:1rem;}
 .form th, .form td {padding:5px;border-bottom:1px solid var(--line-color);}
-.form th {text-align:right;font-weight:normal;background-color:var(--th-bgcolor);}
+.form th {text-align:right;padding-right:1rem;background-color:var(--th-bgcolor);}
 .form td .form-input {width:100%;}
 .form td .query .form-input, .form td .inline .form-input, 
 .form td.inline .form-input {display:inline-block;width:auto;}

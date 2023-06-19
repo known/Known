@@ -79,6 +79,6 @@ public class SettingForm : BaseForm<SettingInfo>
         Setting.UserSetting.Info = null;
         PageAction.RefreshHeadColor?.Invoke();
         PageAction.RefreshSideColor?.Invoke();
-        StateChanged();
+        SetData(Setting.Info);
     }
 }
