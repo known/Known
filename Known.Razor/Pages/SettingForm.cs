@@ -27,7 +27,7 @@ public class SettingForm : BaseForm<SettingInfo>
     {
         builder.Field<Input>("主题色", nameof(SettingInfo.ThemeColor))
                .Set(f => f.Type, "color")
-               .Set(f => f.ValueChanged, OnHeadColorChanged)
+               .Set(f => f.ValueChanged, OnThemeColorChanged)
                .Build();
         builder.Field<Input>("侧栏色", nameof(SettingInfo.SideColor))
                .Set(f => f.Type, "color")
@@ -44,10 +44,10 @@ public class SettingForm : BaseForm<SettingInfo>
         builder.Button(FormButton.Reset, Callback(OnReset));
     }
 
-    private void OnHeadColorChanged(string color)
+    private void OnThemeColorChanged(string color)
     {
         Setting.Info.ThemeColor = color;
-        PageAction.RefreshHeadColor?.Invoke();
+        PageAction.RefreshThemeColor?.Invoke();
         PageAction.RefreshSideColor?.Invoke();
     }
 
@@ -77,7 +77,7 @@ public class SettingForm : BaseForm<SettingInfo>
     private void OnReset()
     {
         Setting.UserSetting.Info = null;
-        PageAction.RefreshHeadColor?.Invoke();
+        PageAction.RefreshThemeColor?.Invoke();
         PageAction.RefreshSideColor?.Invoke();
         SetData(Setting.Info);
     }

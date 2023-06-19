@@ -24,7 +24,7 @@ class AdminHeader : BaseComponent
             curMenu = Menus.FirstOrDefault();
 
         themeColor = Setting.Info.ThemeColor;
-        PageAction.RefreshHeadColor = () =>
+        PageAction.RefreshThemeColor = () =>
         {
             themeColor = Setting.Info.ThemeColor;
             StateChanged();
