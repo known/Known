@@ -12,7 +12,6 @@ public class Index : BaseComponent
 
     protected override void OnInitialized()
     {
-        Context.Check = new CheckInfo { IsInstalled = true, IsCheckKey = true };
         Context.CurrentUser = new UserInfo { UserName = Constants.SysUserName };
         isLoaded = true;
     }

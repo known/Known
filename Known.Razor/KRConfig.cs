@@ -5,15 +5,15 @@ public sealed class KRConfig
     private KRConfig() { }
     static KRConfig() => Assemblies = new List<Assembly>();
 
-    public static string ValidDate { get; set; }
-    public static string AuthStatus { get; set; }
+    internal static string ValidDate { get; set; }
+    internal static string AuthStatus { get; set; }
     public static List<Assembly> Assemblies { get; }
     public static MenuItem Home { get; set; }
     public static bool IsWeb { get; set; }
     public static List<MenuInfo> UserMenus { get; set; }
 
     private static List<Type> modelTypes;
-    public static List<Type> GetModelTypes()
+    internal static List<Type> GetModelTypes()
     {
         if (modelTypes != null)
             return modelTypes;
@@ -41,7 +41,7 @@ public sealed class KRConfig
         return menus;
     }
 
-    public static Type GetType(string typeName)
+    internal static Type GetType(string typeName)
     {
         if (string.IsNullOrWhiteSpace(typeName))
             return null;

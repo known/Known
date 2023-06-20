@@ -8,9 +8,8 @@ public class KRContext : Context
     public KRContext() => Check = new CheckInfo();
 
     internal static Action<MenuItem> OnNavigate { get; set; }
-
+    internal CheckInfo Check { get; set; }
     public UIService UI { get; set; }
-    public CheckInfo Check { get; set; }
 
     public void Back()
     {
