@@ -27,7 +27,6 @@ html, body, img, iframe, .chart {width:100%;height:100%;}
 iframe {border:none;}
 a {text-decoration:none;}
 table {border-collapse:collapse;width:100%;}
-.tr {display:grid;width:100%;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
 ul {list-style:none;}
 pre {
     word-wrap:break-word;white-space:pre-wrap;font-family:inherit;
@@ -306,6 +305,11 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .form-tabs .tab-body .grid-view {top:0;left:0;right:0;bottom:0;}
 .form-grid {bottom:60px;}
 
+.row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
+.row .form-item {margin-top:0;padding-left:0;}
+.row .form-label {padding-left:0;min-width:80px;}
+.row .form-item input, .row .form-item select {min-width:200px;}
+
 /*import*/
 .import-form .form-item {margin:5px 0;padding:0;}
 .import-form .form-input {display:inline-block;}
@@ -381,6 +385,8 @@ input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .box-right {right:0;left:120px;}
 .clickable {cursor:pointer;pointer-events:all;}
 td .icon, .tab .icon {width:20px;text-align:center;margin-right:2px;}
+.mt10 {margin-top:10px;}
+.mb10 {margin-bottom:10px;}
 
 /*tree*/
 .tree {position:relative;color:#606266;}
