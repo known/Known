@@ -9,8 +9,8 @@ class DemoGoodsGrid : EditGrid<DmGoods>
         Name = "商品明细";
 
         var builder = new ColumnBuilder<DmGoods>();
-        builder.Field(r => r.Code, true).Edit(OnCodeChanged);
-        builder.Field(r => r.Name, true).Edit(new SelectOption<DmGoods>("测试,名称", OnNameChanged));
+        builder.Field(r => r.Code).Edit(OnCodeChanged);
+        builder.Field(r => r.Name).Edit(new SelectOption<DmGoods>("测试,名称", OnNameChanged));
         builder.Field(r => r.Model).Edit(new CommonTable(), OnModelChanged);
         builder.Field(r => r.Unit);
         builder.Field(r => r.MinQty).IsSum().Edit();
