@@ -9,9 +9,8 @@
     position:absolute;top:0;left:0;bottom:0;width:180px;background-color:var(--side-color);
     /*background:linear-gradient(#1c66b9, #1c66b9);*/color:#fff;overflow:hidden;
 }
-.kui-scroll {position:absolute;top:51px;left:0;bottom:0;width:190px;overflow-x:hidden;}
-.kui-body {position:absolute;top:52px;left:180px;right:0;bottom:0;overflow:hidden;background-color:#f1f1f1;}
-.kui-error {position:absolute;top:40px;left:0;right:0;bottom:0;}
+.kui-scroll {position:absolute;top:50px;left:0;bottom:0;width:190px;overflow-x:hidden;}
+.kui-body {position:absolute;top:50px;left:180px;right:0;bottom:0;overflow:hidden;background-color:#f1f1f1;}
 .kui-sider .fa {width:16px;height:16px;margin-right:2px;text-align:center;}
 
 /*header*/
@@ -127,7 +126,7 @@ button, .button, input, select, .form-input .text, .form-input .unit,
 .form-label, .form-text, .form-radio, .form-tips {height:30px;line-height:30px;}
 .form-input .icon, .form-input .unit, .form-input .btn, .search-box .icon {height:28px;line-height:29px;}
 .inline .form-item, .inline .form-label, .inline .form-text, .inline .form-input, .inline .form-tips {display:inline-block;}
-.module .tool {position:absolute;top:-45px;right:0;}
+.module .tool {position:absolute;top:-50px;right:0;}
 
 /*Install*/
 .install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}
