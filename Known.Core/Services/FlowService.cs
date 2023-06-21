@@ -42,7 +42,7 @@ public class FlowService : BaseService
             BizUrl = info.BizUrl,
             BizStatus = info.BizStatus,
             CurrStep = stepName,
-            CurrBy = db.User.UserId
+            CurrBy = db.User.UserName
         };
         db.Save(flow);
         AddFlowLog(db, info.BizId, stepName, "创建", info.BizName);
@@ -63,7 +63,7 @@ public class FlowService : BaseService
         {
             foreach (var flow in flows)
             {
-                if (flow.CurrBy != user.UserId)
+                if (flow.CurrBy != user.UserName)
                     Check.Throw($"无权操作[{flow.CurrBy}]的单据！");
 
                 info.BizId = flow.BizId;
@@ -85,7 +85,7 @@ public class FlowService : BaseService
                     noteText += $"，{info.Note}";
 
                 flow.BizStatus = info.BizStatus ?? FlowStatus.Verifing;
-                flow.ApplyBy = user.UserId;
+                flow.ApplyBy = user.UserName;
                 flow.ApplyTime = DateTime.Now;
                 db.Save(flow);
                 AddFlowLog(db, flow.BizId, "提交流程", Language.Submit, noteText);
@@ -108,7 +108,7 @@ public class FlowService : BaseService
         {
             foreach (var flow in flows)
             {
-                if (flow.PrevBy != user.UserId)
+                if (flow.PrevBy != user.UserName)
                     Check.Throw($"无权撤回[{flow.PrevBy}]的单据！");
 
                 info.BizId = flow.BizId;
@@ -143,7 +143,7 @@ public class FlowService : BaseService
         {
             foreach (var flow in flows)
             {
-                if (flow.CurrBy != user.UserId)
+                if (flow.CurrBy != user.UserName)
                     Check.Throw($"无权操作[{flow.CurrBy}]的单据！");
 
                 var stepName = flow.CurrStep;
@@ -183,7 +183,7 @@ public class FlowService : BaseService
         {
             foreach (var flow in flows)
             {
-                if (flow.CurrBy != user.UserId)
+                if (flow.CurrBy != user.UserName)
                     Check.Throw($"无权操作[{flow.CurrBy}]的单据！");
 
                 info.BizId = flow.BizId;
@@ -194,7 +194,7 @@ public class FlowService : BaseService
                     Check.Throw(result.Message);
 
                 flow.BizStatus = info.BizStatus;
-                flow.VerifyBy = user.UserId;
+                flow.VerifyBy = user.UserName;
                 flow.VerifyTime = DateTime.Now;
                 if (isPass)
                 {
@@ -202,7 +202,7 @@ public class FlowService : BaseService
 
                     if (next != null)
                     {
-                        flow.CurrBy = next.UserId;
+                        flow.CurrBy = next.UserName;
                         db.Save(flow);
                         AddFlowLog(db, flow.BizId, "审核流程", Language.Pass, info.Note);
                     }
@@ -302,7 +302,7 @@ public class FlowService : BaseService
             AppId = db.User.AppId,
             BizId = bizId,
             StepName = stepName,
-            ExecuteBy = db.User.UserId,
+            ExecuteBy = db.User.Name,
             ExecuteTime = DateTime.Now,
             Result = result,
             Note = note
@@ -336,6 +336,6 @@ public class FlowService : BaseService
     private static void SetCurrStep(SysFlow info, string stepName, UserInfo user)
     {
         info.CurrStep = stepName;
-        info.CurrBy = user.UserId;
+        info.CurrBy = user.UserName;
     }
 }

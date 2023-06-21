@@ -525,7 +525,7 @@ public class Database : IDisposable
         if (entity.IsNew)
         {
             if (entity.CreateBy == "temp")
-                entity.CreateBy = User.UserId;
+                entity.CreateBy = User.UserName;
             entity.CreateTime = DateTime.Now;
             if (entity.AppId == "temp")
                 entity.AppId = User.AppId;
@@ -537,7 +537,7 @@ public class Database : IDisposable
             entity.Version += 1;
         }
 
-        entity.ModifyBy = User.UserId;
+        entity.ModifyBy = User.UserName;
         entity.ModifyTime = DateTime.Now;
 
         var info = CommandInfo.GetSaveCommand(DatabaseType, entity);

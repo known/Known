@@ -8,10 +8,10 @@ class LogRepository
         return db.QueryPage<SysLog>(sql, criteria);
     }
 
-    internal static List<CountInfo> GetLogCounts(Database db, string userId, string logType)
+    internal static List<CountInfo> GetLogCounts(Database db, string userName, string logType)
     {
-        var sql = "select Target as Field1,count(*) as TotalCount from SysLog where CreateBy=@userId and Type=@logType group by Target";
-        return db.QueryList<CountInfo>(sql, new { userId, logType });
+        var sql = "select Target as Field1,count(*) as TotalCount from SysLog where CreateBy=@userName and Type=@logType group by Target";
+        return db.QueryList<CountInfo>(sql, new { userName, logType });
     }
 
     internal static List<SysLog> GetLogs(Database db, string bizId)

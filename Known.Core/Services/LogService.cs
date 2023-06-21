@@ -25,9 +25,9 @@ public class LogService : BaseService
         });
     }
 
-    public static List<string> GetVisitMenuIds(Database db, string userId, int size)
+    public static List<string> GetVisitMenuIds(Database db, string userName, int size)
     {
-        var logs = LogRepository.GetLogCounts(db, userId, Constants.LogTypePage)
+        var logs = LogRepository.GetLogCounts(db, userName, Constants.LogTypePage)
                                 .OrderByDescending(f => f.TotalCount).Take(size).ToList();
         return logs.Select(l => l.Field1).ToList();
     }

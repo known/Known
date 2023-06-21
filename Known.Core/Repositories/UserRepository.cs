@@ -80,7 +80,7 @@ class UserRepository
 
     internal static int GetMessageCount(Database db)
     {
-        var sql = $"select count(*) from SysMessage where UserId=@UserId and Status='{Constants.UMStatusUnread}'";
-        return db.Scalar<int>(sql, new { db.User.UserId });
+        var sql = $"select count(*) from SysMessage where UserId=@UserName and Status='{Constants.UMStatusUnread}'";
+        return db.Scalar<int>(sql, new { db.User.UserName });
     }
 }

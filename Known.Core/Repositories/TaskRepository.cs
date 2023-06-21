@@ -16,7 +16,7 @@ class TaskRepository
 
     internal static SysTask GetTaskByBizId(Database db, string bizId)
     {
-        var sql = "select * from SysTask where CompNo=@CompNo and CreateBy=@UserId and BizId=@bizId order by CreateTime desc";
-        return db.Query<SysTask>(sql, new { db.User.CompNo, db.User.UserId, bizId });
+        var sql = "select * from SysTask where CompNo=@CompNo and CreateBy=@UserName and BizId=@bizId order by CreateTime desc";
+        return db.Query<SysTask>(sql, new { db.User.CompNo, db.User.UserName, bizId });
     }
 }

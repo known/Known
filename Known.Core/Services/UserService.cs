@@ -171,7 +171,7 @@ class UserService : BaseService
         return database.Transaction(Language.Login, db =>
         {
             db.Save(entity);
-            LogService.AddLog(db, type, user.UserId, $"IP：{user.LastLoginIP}；所在地：{user.IPName}");
+            LogService.AddLog(db, type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}；所在地：{user.IPName}");
         }, user);
     }
 
@@ -183,7 +183,7 @@ class UserService : BaseService
         var type = Constants.LogTypeLogout;
         if (Context.IsMobile)
             type = "APP" + type;
-        LogService.AddLog(Database, type, user.UserId, $"token: {token}");
+        LogService.AddLog(Database, type, $"{user.UserName}-{user.Name}", $"token: {token}");
         return Result.Success("退出成功！");
     }
 
@@ -313,7 +313,7 @@ class UserService : BaseService
     //Message
     internal PagingResult<SysMessage> QueryMessages(PagingCriteria criteria)
     {
-        criteria.SetQuery(nameof(SysMessage.UserId), CurrentUser.UserId);
+        criteria.SetQuery(nameof(SysMessage.UserId), CurrentUser.UserName);
         return UserRepository.QueryMessages(Database, criteria);
     }
 

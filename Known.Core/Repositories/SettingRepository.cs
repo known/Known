@@ -16,13 +16,13 @@ class SettingRepository
 
     internal static SysSetting GetSettingByUser(Database db, string bizType)
     {
-        var sql = "select * from SysSetting where CreateBy=@UserId and BizType=@bizType";
-        return db.Query<SysSetting>(sql, new { db.User.UserId, bizType });
+        var sql = "select * from SysSetting where CreateBy=@UserName and BizType=@bizType";
+        return db.Query<SysSetting>(sql, new { db.User.UserName, bizType });
     }
 
     internal static SysSetting GetSettingByUser(Database db, string bizType, string bizName)
     {
-        var sql = "select * from SysSetting where CreateBy=@UserId and BizType=@bizType and BizName=@bizName";
-        return db.Query<SysSetting>(sql, new { db.User.UserId, bizType, bizName });
+        var sql = "select * from SysSetting where CreateBy=@UserName and BizType=@bizType and BizName=@bizName";
+        return db.Query<SysSetting>(sql, new { db.User.UserName, bizType, bizName });
     }
 }
