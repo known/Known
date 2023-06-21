@@ -36,16 +36,12 @@ public class LogService : BaseService
 
     internal Result AddLog(SysLog log)
     {
-        //if (!Config.IsDevelopment)
         Database.Save(log);
         return Result.Success("添加成功！");
     }
 
     internal static void AddLog(Database db, string type, string target, string content)
     {
-        //if (Config.IsDevelopment)
-        //    return;
-
         db.Save(new SysLog
         {
             Type = type,
