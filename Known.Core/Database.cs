@@ -136,8 +136,7 @@ public class Database : IDisposable
 
     public void Dispose()
     {
-        if (trans != null)
-            trans.Dispose();
+        trans?.Dispose();
         trans = null;
 
         if (conn.State != ConnectionState.Closed)
@@ -316,7 +315,7 @@ public class Database : IDisposable
         {
             if (!string.IsNullOrWhiteSpace(item.Value))
             {
-                if (item.Value.Contains("~") && item.Type != QueryType.Between)
+                if (item.Value.Contains('~') && item.Type != QueryType.Between)
                     item.Type = QueryType.Between;
             }
             querys.Add(item);
@@ -568,17 +567,8 @@ public class Database : IDisposable
         trans = conn.BeginTransaction();
     }
 
-    private void Commit()
-    {
-        if (trans != null)
-            trans.Commit();
-    }
-
-    private void Rollback()
-    {
-        if (trans != null)
-            trans.Rollback();
-    }
+    private void Commit() => trans?.Commit();
+    private void Rollback() => trans?.Rollback();
     #endregion
 
     #region Query
