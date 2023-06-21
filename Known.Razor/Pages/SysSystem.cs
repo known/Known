@@ -29,7 +29,8 @@ class SysSystem : PageComponent
                    })
                    .Build();
             builder.Field<Text>("系统版本：", "").Value(Config.AppVersion).ReadOnly(true).Build();
-            builder.Field<Text>("软件版本：", "").Value(Config.SysVersion).ReadOnly(true).Build();
+            builder.Field<Text>("软件版本：", "").Value(Config.SoftVersion).ReadOnly(true).Build();
+            builder.Field<Text>("框架版本：", "").Value(Config.FrameVersion).ReadOnly(true).Build();
             builder.Field<Text>("默认密码：", "").Value(info?.UserDefaultPwd).ReadOnly(true)
                    .Set(f => f.IsEdit, true)
                    .Set(f => f.OnSave, async value =>

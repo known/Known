@@ -9,7 +9,7 @@ public sealed class Config
         AppId = "KIMS";
         AppName = "Known信息管理系统";
         Version = "1.0";
-        SysVersion = "1.2.1";
+        FrameVersion = typeof(Config).Assembly.GetName().Version.ToString();
     }
 
     public static string DateFormat => "yyyy-MM-dd";
@@ -17,16 +17,21 @@ public sealed class Config
     public static string AppVersion => $"PM-{AppId} {Version}";
     public static string AppId { get; set; }
     public static string AppName { get; set; }
-    public static string Version { get; set; }
-    public static string SysVersion { get; set; }
-    public static Assembly AppAssembly { get; set; }
+    public static string Version { get; private set; }
+    public static string SoftVersion { get; private set; }
+    public static string FrameVersion { get; private set; }
+    public static Assembly AppAssembly { get; private set; }
+
+    public static void SetAppAssembly(Assembly assembly)
+    {
+        AppAssembly = assembly;
+        var version = assembly.GetName().Version;
+        SoftVersion = version.ToString();
+        Version = $"{version.Major}.{version.Minor}";
+    }
 
     public static string GetSysVersion(Assembly assembly)
     {
-        //var path = assembly.Location;
-        //var file = new FileInfo(path);
-        //return $"{Version}.{file.LastWriteTime:yyMMdd}";
-
         var version = assembly.GetName().Version;
         var date = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
         return $"{Version}.{date:yyMMdd}";
