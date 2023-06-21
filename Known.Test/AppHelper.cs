@@ -43,6 +43,7 @@ class AppHelper
     private static void InitConfig()
     {
         DicCategory.AddCategories<AppDictionary>();
+        Config.SetAppAssembly(typeof(AppHelper).Assembly);
         KRConfig.Home = new MenuItem("首页", "fa fa-home", typeof(Home));
         KCConfig.AddWebPlatform();
         KCConfig.WebRoot = Application.StartupPath;
