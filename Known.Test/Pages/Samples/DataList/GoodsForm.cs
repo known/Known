@@ -3,7 +3,7 @@
 namespace Known.Test.Pages.Samples.DataList;
 
 [Dialog(800, 550)]
-class DemoGoodsForm : BaseForm<DmGoods>
+class GoodsForm : BaseForm<DmGoods>
 {
     private List<DmGoods> data = new();
 
@@ -24,7 +24,7 @@ class DemoGoodsForm : BaseForm<DmGoods>
                 table.Field<TextArea>(f => f.Model).ColSpan(5).Build();
             });
         });
-        builder.FormList<DemoGoodsGrid>("商品明细", "", attr =>
+        builder.FormList<GoodsGrid>("商品明细", "", attr =>
         {
             attr.Set(c => c.ReadOnly, ReadOnly)
                 .Set(c => c.Data, data);

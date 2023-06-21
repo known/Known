@@ -10,12 +10,7 @@ class DemoForm2 : BaseForm
     protected override void OnInitialized()
     {
         Style = "inline bill-form form2";
-        model = new DmBill
-        {
-            BillNo = $"B{DateTime.Now:yyyyMM}00001",
-            BillDate = DateTime.Now,
-            Lists = new List<DmGoods>()
-        };
+        model = DmBill.LoadDefault();
         Model = model;
     }
 
@@ -31,7 +26,7 @@ class DemoForm2 : BaseForm
         {
             builder.Div("list", attr =>
             {
-                builder.Component<DemoGoodsGrid>()
+                builder.Component<GoodsGrid>()
                    .Set(c => c.Data, model.Lists)
                    .Build();
             });

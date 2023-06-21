@@ -2,9 +2,9 @@
 
 namespace Known.Test.Pages.Samples.DataList;
 
-class DemoGoodsGrid : EditGrid<DmGoods>
+class GoodsGrid : EditGrid<DmGoods>
 {
-    public DemoGoodsGrid()
+    public GoodsGrid()
     {
         Name = "商品明细";
 
