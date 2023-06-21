@@ -3,10 +3,9 @@ using Known.Test.Pages.Samples.Models;
 
 namespace Known.Test.Pages.Samples.Forms;
 
-class DemoForm2 : BaseForm<DmBill>
+class DemoForm2 : BaseForm
 {
     private DmBill model;
-    private string formData;
 
     protected override void OnInitialized()
     {
@@ -48,17 +47,9 @@ class DemoForm2 : BaseForm<DmBill>
                    .Set(f => f.Placeholder, "备注信息")
                    .Build();
         });
-        builder.Builder.Div("form-button", attr =>
-        {
-            builder.Builder.Button("保存", "fa fa-save", Callback(OnSaveData));
-            builder.Builder.Button("清空", "fa fa-trash-o", Callback(Clear));
-        });
-        builder.Builder.Div("demo-tips", formData);
     }
 
-    protected override void BuildButtons(RenderTreeBuilder builder) { }
-
-    private void OnSaveData() => Submit(data =>
+    protected override void OnSaveData() => Submit(data =>
     {
         model.FillModel(data);
         formData = Utils.ToJson(model);

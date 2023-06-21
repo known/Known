@@ -2,10 +2,9 @@
 
 namespace Known.Test.Pages.Samples.Forms;
 
-class DemoForm1 : Razor.Components.Form
+class DemoForm1 : BaseForm
 {
     private readonly string Codes = "孙膑,后羿,妲己";
-    private string formData;
 
     protected override void BuildFields(RenderTreeBuilder builder)
     {
@@ -30,7 +29,7 @@ class DemoForm1 : Razor.Components.Form
                 table.Th("", "选项");
                 table.Td("inline", attr =>
                 {
-                    table.Field<Razor.Components.Fields.CheckBox>("CheckBox").IsInput(true).Set(f => f.Text, "启用").Build();
+                    table.Field<Razor.Components.Fields.CheckBox>("CheckBox1").IsInput(true).Set(f => f.Text, "启用").Build();
                     table.Field<Razor.Components.Fields.CheckBox>("CheckBox").IsInput(true)
                          .Set(f => f.Switch, true).Set(f => f.Text, "启用").Build();
                 });
@@ -44,19 +43,10 @@ class DemoForm1 : Razor.Components.Form
             });
             table.Tr(attr => table.Field<TextArea>("文本域", "TextArea").ColSpan(5).Build());
         });
-        builder.Div("form-button", attr =>
-        {
-            builder.Button("加载", "fa fa-refresh", Callback(OnLoadData));
-            builder.Button("验证", "fa fa-check", Callback(OnCheckData));
-            builder.Button("保存", "fa fa-save", Callback(OnSaveData));
-            builder.Button("清空", "fa fa-trash-o", Callback(Clear));
-        });
-        builder.Div("demo-tips", formData);
+        base.BuildFields(builder);
     }
 
-    protected override void BuildButtons(RenderTreeBuilder builder) { }
-
-    private void OnLoadData()
+    protected override void OnLoadData()
     {
         SetData(new
         {
@@ -74,7 +64,4 @@ class DemoForm1 : Razor.Components.Form
             TextArea = "Test Note"
         });
     }
-
-    private void OnCheckData() => Validate();
-    private void OnSaveData() => Submit(data => formData = Utils.ToJson(data));
 }
