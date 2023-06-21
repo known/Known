@@ -41,7 +41,7 @@ public sealed class KRConfig
         return menus;
     }
 
-    internal static Type GetType(string typeName)
+    public static Type GetType(string typeName)
     {
         if (string.IsNullOrWhiteSpace(typeName))
             return null;
