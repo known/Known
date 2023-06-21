@@ -29,13 +29,10 @@ public class CheckList : Field
         context.FieldItems = GetListItems();
     }
 
-    protected override void BuildText(RenderTreeBuilder builder)
-    {
-        Enabled = false;
-        BuildInput(builder);
-    }
+    protected override void BuildText(RenderTreeBuilder builder) => BuildCheckList(builder, false);
+    protected override void BuildInput(RenderTreeBuilder builder) => BuildCheckList(builder, Enabled);
 
-    protected override void BuildInput(RenderTreeBuilder builder)
+    private void BuildCheckList(RenderTreeBuilder builder, bool enabled)
     {
         values.Clear();
         if (ListItems == null || ListItems.Length == 0)
@@ -44,7 +41,7 @@ public class CheckList : Field
         foreach (var item in ListItems)
         {
             values[item.Code] = CheckChecked(item.Code);
-            BuildRadio(builder, item.Name, item.Code, Enabled, values[item.Code], ColumnCount);
+            BuildRadio(builder, item.Name, item.Code, enabled, values[item.Code], ColumnCount);
         }
     }
 

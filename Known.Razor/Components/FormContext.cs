@@ -54,10 +54,10 @@ class FormContext : FieldContext
     internal bool Validate()
     {
         var errors = new List<string>();
-        foreach (var field in Fields)
+        foreach (var item in Fields)
         {
-            if (!field.Value.Validate())
-                errors.Add(field.Key);
+            if (!item.Value.Validate())
+                errors.Add(item.Key);
         }
 
         return errors.Count == 0;
@@ -66,10 +66,10 @@ class FormContext : FieldContext
     internal bool ValidateCheck(bool isPass)
     {
         var errors = new List<string>();
-        foreach (var field in Fields)
+        foreach (var item in Fields)
         {
-            if (!field.Value.Validate())
-                errors.Add(field.Key);
+            if (!item.Value.Validate())
+                errors.Add(item.Key);
         }
 
         return errors.Count == 0;
@@ -77,9 +77,9 @@ class FormContext : FieldContext
 
     internal void Clear()
     {
-        foreach (var field in Fields)
+        foreach (var item in Fields)
         {
-            field.Value.Clear();
+            item.Value.Clear();
         }
     }
 
@@ -90,6 +90,14 @@ class FormContext : FieldContext
         {
             var value = model.ContainsKey(item.Key) ? model[item.Key] : null;
             item.Value.SetValue(value);
+        }
+    }
+
+    internal void SetReadOnly(bool readOnly)
+    {
+        foreach (var item in Fields)
+        {
+            item.Value.SetReadOnly(readOnly);
         }
     }
 }
