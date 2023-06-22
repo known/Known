@@ -2,7 +2,7 @@
 
 namespace Known.Test.Pages.Samples;
 
-class DemoForm : Razor.Components.Form
+class DemoForm : BaseComponent
 {
     private readonly TabItem[] items = new TabItem[]
     {
