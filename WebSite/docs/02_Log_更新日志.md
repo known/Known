@@ -1,5 +1,15 @@
 # 更新日志
 
+## V1.2.3 （2023-06-23）
+- 😄查询条件增加参数
+- 😄新增Progress组件
+- 😄新增Dropdown组件
+- 🔨优化PagingCriteria，SetValue改成SetQuery
+- 🔨优化EditGrid和Picker
+- 🔨优化Form及FormList初始化
+- 🔨重构DataGrid
+- ✂️删除BaseComponent的BuildTree
+
 ## V1.2.2 （2023-06-15）
 - 🐛修复一些功能问题
 - 😄新增主题色和随机色设置
