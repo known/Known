@@ -11,6 +11,7 @@ public partial class UIService
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known.Razor/script.js").AsTask());
     }
 
+    internal void InitMenu() => InvokeVoidAsync("KRazor.initMenu");
     public void AppendBody(string html) => InvokeVoidAsync("KRazor.appendBody", html);
     public void ShowFrame(string id, string url) => InvokeVoidAsync("KRazor.showFrame", id, url);
     public void ShowQuickView(string id) => ToggleClass(id, "active");

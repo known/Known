@@ -43,23 +43,6 @@
 .side-user img {width:60px;height:60px;margin:0 auto;}
 .side-user .name {display:block;font-size:1rem;font-weight:bold;}
 
-.leftMenu {padding:20px 0;}
-.leftMenu li {cursor:pointer;height:60px;line-height:60px;padding:0 20px;font-weight:bold;}
-.leftMenu li .icon {display:inline-block;font-size:1.5rem;}
-.leftMenu li .name {display:inline-block;font-size:1.2rem;margin-left:15px;}
-.leftMenu li.active {background-color:#fff;color:#000;}
-
-.nav-tree {width:180px;}
-.nav-tree .nav-child dd {padding-left:26px;}
-.nav-tree .nav-item {position:relative;line-height:45px;}
-.nav-tree .nav-title {padding:0 12px;}
-.nav-tree .nav-item span.fa {position:absolute;top:13px;right:10px;-webkit-transition:all .3s;transition:all .3s;}
-.nav-tree .nav-title,.nav-tree .nav-child dd {border-left:3px solid transparent;}
-.nav-tree .nav-title:hover,.nav-tree .nav-child dd:hover {
-    border-left-color:#5FB878;-webkit-transition:all .3s;transition:all .3s;
-}
-.nav-tree .nav-title.active,.nav-tree .nav-child dd.active {border-left-color:#5FB878;background-color:#2fb2e8;}
-
 /*body*/
 .kui-tips-tr {position:absolute;top:10px;right:10px;font-weight:bold;z-index:9999;line-height:40px;}
 .kui-tips-bl {position:absolute;left:10px;bottom:10px;font-weight:bold;z-index:9999;}

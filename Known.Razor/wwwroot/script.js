@@ -202,6 +202,16 @@ export class KRazor {
     }
 
     //UI
+    static initMenu() {
+        $('.menu-tree .item').click(function (e) {
+            if ($(this).hasClass('active') && $(this).parent().hasClass('child')) {
+                $(this).removeClass('active');
+            } else {
+                $(this).parent().parent().find('.item').removeClass('active');
+                $(this).addClass('active');
+            }
+        });
+    }
     static appendBody(html) {
         $('body').append(html);
     }

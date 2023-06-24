@@ -4,7 +4,7 @@
 public class Index : BaseComponent
 {
     private bool isLoaded;
-    private static readonly MenuItem[] menus = new MenuItem[]
+    private static readonly List<MenuItem> menus = new()
     {
         new MenuItem("代码生成", "fa fa-code", typeof(DevCode))
     };
@@ -31,8 +31,7 @@ public class Index : BaseComponent
                        .Set(c => c.Style, "menu menu1")
                        .Set(c => c.OnlyIcon, true)
                        .Set(c => c.Items, menus)
-                       .Set(c => c.CurItem, curItem)
-                       .Set(c => c.OnChanged, Callback<MenuItem>(item => curItem = item))
+                       .Set(c => c.OnClick, item => curItem = item)
                        .Build();
             });
             builder.Div("title", curItem.Name);
