@@ -49,6 +49,7 @@ public static class MenuExtension
         foreach (var menu in items)
         {
             var sub = MenuItem.From(menu);
+            sub.Parent = item;
             item.Children.Add(sub);
             AddChildren(menus, sub);
         }

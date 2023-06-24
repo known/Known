@@ -4,7 +4,7 @@ public class Dropdown : BaseComponent
 {
     [Parameter] public string Style { get; set; }
     [Parameter] public string Title { get; set; }
-    [Parameter] public List<DropdownItem> Items { get; set; }
+    [Parameter] public List<MenuItem> Items { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -21,26 +21,11 @@ public class Dropdown : BaseComponent
                 {
                     builder.Li("item", attr =>
                     {
-                        attr.OnClick(Callback(item.Click));
+                        attr.OnClick(Callback(item.Action));
                         builder.IconName(item.Icon, item.Name);
                     });
                 }
             });
         });
     }
-}
-
-public class DropdownItem
-{
-    public DropdownItem() { }
-    internal DropdownItem(ButtonInfo info, Action click)
-    {
-        Icon = info.Icon;
-        Name = info.Name;
-        Click = click;
-    }
-
-    public string Icon { get; set; }
-    public string Name { get; set; }
-    public Action Click { get; set; }
 }

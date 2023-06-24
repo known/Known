@@ -25,7 +25,6 @@ public class AdminBody : BaseComponent
             {
                 builder.Component<PageSingle>()
                        .Set(c => c.CurPage, curPage)
-                       .Set(c => c.ShowTips, true)
                        .Build();
             }
         });

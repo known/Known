@@ -61,12 +61,6 @@
 .nav-tree .nav-title.active,.nav-tree .nav-child dd.active {border-left-color:#5FB878;background-color:#2fb2e8;}
 
 /*body*/
-.kui-tips {
-    margin:10px;padding:0 10px;background-color:#fafafa;border-left:3px solid #1c66b9;
-    height:40px;line-height:40px;
-}
-.kui-tips .name {font-weight:bold;font-size:1.2rem;margin-right:10px;}
-.kui-tips .description {font-size:1rem;color:#555;}
 .kui-tips-tr {position:absolute;top:10px;right:10px;font-weight:bold;z-index:9999;line-height:40px;}
 .kui-tips-bl {position:absolute;left:10px;bottom:10px;font-weight:bold;z-index:9999;}
 
@@ -78,7 +72,7 @@
 .kui-tabs .tab li .close {top:5px;right:0;color:#ccc;}
 .kui-tabs .tab li .close:hover {color:#d9534f;}
 
-.kui-content {position:absolute;top:62px;}
+.kui-content {position:absolute;top:40px;}
 .kui-tabs .tab-body.top {top:57px;}
 .kui-content, .kui-tabs .tab-body.top {
     left:10px;bottom:10px;right:10px;overflow:hidden;padding:10px;

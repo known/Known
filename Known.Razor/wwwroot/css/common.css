@@ -400,3 +400,10 @@ td .icon, .tab .icon {width:20px;text-align:center;margin-right:2px;}
 .tree .tree-item:hover {color:#1c66b9;font-weight:bold;}
 .tree .tree-item .tree-content {position:relative;display:flex;padding:.15em 0;align-items:center;flex-grow:1;}
 .tree .tree-root {padding:0;}
+
+/*breadcrumb*/
+.breadcrumb {height:1.5rem;line-height:1.5rem;padding:0.5rem 1rem;}
+.breadcrumb li {display:inline-block;padding-right:0.5rem;}
+.breadcrumb li.home {cursor:pointer;}
+.breadcrumb li:after {display:inline-block;content:'>';padding-left:0.5rem;}
+.breadcrumb li:last-child:after {content:'';}

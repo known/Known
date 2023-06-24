@@ -10,6 +10,15 @@ class DemoOther : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        builder.Div("demo-caption", "面包屑");
+        builder.Component<Breadcrumb>().Set(c => c.Items, new List<MenuItem>
+        {
+            new MenuItem("Test1", "测试1", "fa fa-user"),
+            new MenuItem("Test2", "测试2"),
+            new MenuItem("Test3", "测试3") {Action=()=>UI.Alert("Test")},
+            new MenuItem("Test4", "测试4")
+        }).Build();
+
         builder.Div("demo-caption", "时间");
         builder.Component<Razor.Components.Timer>().Build();
 
