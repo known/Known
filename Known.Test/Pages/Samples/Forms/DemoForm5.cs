@@ -2,19 +2,13 @@
 
 namespace Known.Test.Pages.Samples.Forms;
 
-class DemoForm5 : BaseForm<DmBill>
+class DemoForm5 : BaseForm
 {
     private DmBill model;
-    private string formData;
 
     protected override void OnInitialized()
     {
-        model = new DmBill
-        {
-            BillNo = $"B{DateTime.Now:yyyyMM}00001",
-            BillDate = DateTime.Now,
-            Lists = new List<DmGoods>()
-        };
+        model = DmBill.LoadDefault();
         Model = model;
     }
 
@@ -24,17 +18,9 @@ class DemoForm5 : BaseForm<DmBill>
         {
 
         });
-        builder.Builder.Div("form-button", attr =>
-        {
-            builder.Builder.Button("保存", "fa fa-save", Callback(OnSaveData));
-            builder.Builder.Button("清空", "fa fa-trash-o", Callback(Clear));
-        });
-        builder.Builder.Div("demo-tips", formData);
     }
 
-    protected override void BuildButtons(RenderTreeBuilder builder) { }
-
-    private void OnSaveData() => Submit(data =>
+    protected override void OnSaveData() => Submit(data =>
     {
         model.FillModel(data);
         formData = Utils.ToJson(model);
