@@ -13,6 +13,12 @@ public class Login : BaseComponent
     private Form form;
     private string message;
 
+    public Login()
+    {
+        IsCaptcha = KRConfig.IsWeb;
+    }
+
+    [Parameter] public bool IsCaptcha { get; set; }
     [Parameter] public Action<UserInfo> OnLogin { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -53,10 +59,43 @@ public class Login : BaseComponent
         builder.Div("login-msg", message);
     }
 
-    protected void OnUserLogin()
+    private void BuildFields(RenderTreeBuilder builder)
+    {
+        var enter = "$('.btnLogin').click()";
+        builder.Field<Text>("UserName", true)
+               .Set(f => f.Icon, "fa fa-user-o")
+               .Set(f => f.Placeholder, "用户名")
+               .Build();
+        builder.Field<Password>("Password", true)
+               .Set(f => f.Icon, "fa fa-lock")
+               .Set(f => f.Placeholder, "密码")
+               .Set(f => f.OnEnter, IsCaptcha ? "" : enter)
+               .Build();
+        if (IsCaptcha)
+        {
+            builder.Field<Captcha>("Captcha", true)
+                   .Set(f => f.Icon, "fa fa-check")
+                   .Set(f => f.Placeholder, "验证码")
+                   .Set(f => f.OnEnter, enter)
+                   .Build();
+        }
+        else
+        {
+            builder.Field<CheckBox>("Remember")
+                   .Set(f => f.Switch, true)
+                   .Set(f => f.Text, "记住用户名")
+                   .Build();
+        }
+        builder.Button("登 录", Callback(e => OnUserLogin()), "btnLogin");
+    }
+
+    private void OnUserLogin()
     {
         form?.Submit(async data =>
         {
+            string captcha = data.Captcha;
+
+
             var info = new LoginFormInfo
             {
                 UserName = data.UserName,
@@ -65,7 +104,7 @@ public class Login : BaseComponent
             UI.SetLocalStorage(KeyLoginInfo, new LoginInfo
             {
                 UserName = info.UserName,
-                Remember = Utils.ConvertTo<bool>(data.Remember)
+                Remember = IsCaptcha ? true : Utils.ConvertTo<bool>(data.Remember)
             });
             var result = await Platform.User.SignInAsync(info);
             message = result.Message;
@@ -75,23 +114,5 @@ public class Login : BaseComponent
                 OnLogin?.Invoke(user);
             }
         });
-    }
-
-    private void BuildFields(RenderTreeBuilder builder)
-    {
-        builder.Field<Text>("UserName", true)
-               .Set(f => f.Icon, "fa fa-user-o")
-               .Set(f => f.Placeholder, "用户名")
-               .Build();
-        builder.Field<Password>("Password", true)
-               .Set(f => f.Icon, "fa fa-lock")
-               .Set(f => f.Placeholder, "密码")
-               .Set(f => f.OnEnter, "$('.btnLogin').click()")
-               .Build();
-        builder.Field<CheckBox>("Remember")
-               .Set(f => f.Switch, true)
-               .Set(f => f.Text, "记住用户名")
-               .Build();
-        builder.Button("登 录", Callback(e => OnUserLogin()), "btnLogin");
     }
 }

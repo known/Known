@@ -157,6 +157,61 @@ export class KRazor {
             list.css('top', top + 'px');
         }
     }
+    static captcha(id, code) {
+        var canvas = document.getElementById(id);
+        var ctx = canvas.getContext("2d");
+        var width = ctx.canvas.width;
+        var height = ctx.canvas.height;
+        ctx.lineWidth = 2;
+        for (var i = 0; i < 1000; i++) {
+            ctx.beginPath();
+            var x = getRandom(width - 2);
+            var y = getRandom(height - 2);
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 1, y + 1);
+            ctx.strokeStyle = getColor();
+            ctx.stroke();
+        }
+        for (var i = 0; i < 20; i++) {
+            ctx.beginPath();
+            var x = getRandom(width - 2);
+            var y = getRandom(height - 2);
+            var w = getRandom(width - x);
+            var h = getRandom(height - y);
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + w, y + h);
+            ctx.strokeStyle = getColor();
+            ctx.stroke();
+        }
+        var strContainer = 'abcdefghijkmnpqrstuvwxyz2345678ABCDEFGHJKLMNPQRSTUVWXYZ';
+        ctx.font = width / 5 + 'px Î¢ÈíÑÅºÚ';
+        ctx.textBaseline = 'middle';
+        var str = '';
+        for (var i = 0; i < num; i++) {
+            ctx.beginPath();
+            ctx.fillStyle = '#f00';
+            var word = strContainer[getRandom(strContainer.length)];
+            var w = width / num;
+            var left = getRandom(i * w, (i + 1) * w - width / 5);
+            var top = getRandom(height / 2 - 10, height / 2 + 10);
+            ctx.fillText(word, left, top);
+            str += word;
+        }
+
+        function getRandom(a, b = 0) {
+            var max = a;
+            var min = b;
+            if (a < b) {
+                max = b;
+                min = a;
+            }
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function getColor() {
+            return `rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})`;
+        }
+    }
 
     //Grid
     static fixedTable(id) {
