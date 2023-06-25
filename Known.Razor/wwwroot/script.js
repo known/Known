@@ -162,6 +162,7 @@ export class KRazor {
         var ctx = canvas.getContext("2d");
         var width = ctx.canvas.width;
         var height = ctx.canvas.height;
+        ctx.clearRect(0, 0, width, height);
         ctx.lineWidth = 2;
         for (var i = 0; i < 1000; i++) {
             ctx.beginPath();
@@ -183,19 +184,17 @@ export class KRazor {
             ctx.strokeStyle = getColor();
             ctx.stroke();
         }
-        var strContainer = 'abcdefghijkmnpqrstuvwxyz2345678ABCDEFGHJKLMNPQRSTUVWXYZ';
         ctx.font = width / 5 + 'px Î¢ÈíÑÅºÚ';
         ctx.textBaseline = 'middle';
-        var str = '';
-        for (var i = 0; i < num; i++) {
+        var codes = code.split('');
+        for (var i = 0; i < codes.length; i++) {
             ctx.beginPath();
             ctx.fillStyle = '#f00';
-            var word = strContainer[getRandom(strContainer.length)];
-            var w = width / num;
+            var word = codes[i];
+            var w = width / codes.length;
             var left = getRandom(i * w, (i + 1) * w - width / 5);
             var top = getRandom(height / 2 - 10, height / 2 + 10);
             ctx.fillText(word, left, top);
-            str += word;
         }
 
         function getRandom(a, b = 0) {

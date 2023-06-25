@@ -267,7 +267,7 @@ input:focus, select:focus, textarea:focus {border-bottom:1.5px solid #5bc0de;}
 .form-input .icon-select {background-color:#fff;z-index:9999;}
 .form-input .unit, .form-input .btn, .form-input .captcha {position:absolute;right:0;padding:0 5px;}
 .form-input .btn {border:1.5px solid var(--line-color);background-color:#f1f1f1;cursor:pointer;}
-.form-input .captcha {width:86px;height:auto;padding:0;border:none;}
+.form-input .captcha {width:86px;height:40px;padding:0;border:none;}
 .form-input.check {font-weight:bold;}
 .form-check {position:absolute;top:5px;right:0;}
 .form-radio {position:relative;margin-right:1rem;cursor:pointer;display:inline-block;}

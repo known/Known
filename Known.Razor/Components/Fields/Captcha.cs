@@ -2,9 +2,26 @@
 
 public class Captcha : Field
 {
+    private const string Chars = "abcdefghijkmnpqrstuvwxyz2345678ABCDEFGHJKLMNPQRSTUVWXYZ";
+    private readonly string id;
+
+    public Captcha()
+    {
+        id = Utils.GetGuid();
+        CreateCode();
+    }
+
     [Parameter] public string Icon { get; set; }
     [Parameter] public string Placeholder { get; set; }
     [Parameter] public string OnEnter { get; set; }
+
+    public string Code { get; set; }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        UI.Captcha(id, Code);
+        return base.OnAfterRenderAsync(firstRender);
+    }
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
@@ -29,11 +46,19 @@ public class Captcha : Field
 
     private void BuildImage(RenderTreeBuilder builder)
     {
-        builder.Img(attr =>
+        builder.Element("canvas", attr =>
         {
-            var url = $"{Context.Http.BaseAddress}System/Captcha";
-            var refresh = $"this.src='{url}?_='+Math.random()";
-            attr.Class("captcha").Title("点击图片刷新").Src(url).Add("onclick", refresh);
+            attr.Id(id).Class("captcha").Title("点击图片刷新").OnClick(Callback(e => CreateCode()));
         });
+    }
+
+    private void CreateCode()
+    {
+        var rnd = new Random();
+        Code = "";
+        for (int i = 0; i < 4; i++)
+        {
+            Code += Chars[rnd.Next(Chars.Length)];
+        }
     }
 }

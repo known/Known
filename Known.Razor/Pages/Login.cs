@@ -11,6 +11,7 @@ public class Login : BaseComponent
     private readonly string KeyLoginInfo = "LoginInfo";
     private LoginInfo model;
     private Form form;
+    private Captcha captcha;
     private string message;
 
     public Login()
@@ -77,7 +78,7 @@ public class Login : BaseComponent
                    .Set(f => f.Icon, "fa fa-check")
                    .Set(f => f.Placeholder, "验证码")
                    .Set(f => f.OnEnter, enter)
-                   .Build();
+                   .Build(value => captcha = value);
         }
         else
         {
@@ -93,26 +94,37 @@ public class Login : BaseComponent
     {
         form?.Submit(async data =>
         {
-            string captcha = data.Captcha;
-
-
-            var info = new LoginFormInfo
+            if (IsCaptcha)
             {
-                UserName = data.UserName,
-                Password = data.Password
-            };
-            UI.SetLocalStorage(KeyLoginInfo, new LoginInfo
-            {
-                UserName = info.UserName,
-                Remember = IsCaptcha ? true : Utils.ConvertTo<bool>(data.Remember)
-            });
-            var result = await Platform.User.SignInAsync(info);
-            message = result.Message;
-            if (result.IsValid)
-            {
-                var user = result.DataAs<UserInfo>();
-                OnLogin?.Invoke(user);
+                string code = data.Captcha;
+                if (code != captcha.Code)
+                {
+                    message = "验证码不正确！";
+                    return;
+                }
             }
+            await OnUserLogin(data);
         });
+    }
+
+    private async Task OnUserLogin(dynamic data)
+    {
+        var info = new LoginFormInfo
+        {
+            UserName = data.UserName,
+            Password = data.Password
+        };
+        UI.SetLocalStorage(KeyLoginInfo, new LoginInfo
+        {
+            UserName = info.UserName,
+            Remember = IsCaptcha ? true : Utils.ConvertTo<bool>(data.Remember)
+        });
+        var result = await Platform.User.SignInAsync(info);
+        message = result.Message;
+        if (result.IsValid)
+        {
+            var user = result.DataAs<UserInfo>();
+            OnLogin?.Invoke(user);
+        }
     }
 }
