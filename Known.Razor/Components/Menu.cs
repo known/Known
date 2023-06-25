@@ -76,7 +76,7 @@ public class Menu : BaseComponent
         {
             builder.Icon(item.Icon, attr =>
             {
-                attr.Style($"background-color:{item.Color}");
+                attr.Title(item.Name).Style($"background-color:{item.Color}");
                 BuildBadge(builder, item);
             });
             builder.Span("name", item.Name);

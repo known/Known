@@ -68,18 +68,14 @@
 .kui-mini .kui-header,
 .kui-mini .kui-body,
 .kui-mini .kui-footer {left:50px !important;}
-.kui-mini .nav-tree .nav-child dd {padding-left:12px;}
-.kui-mini .nav-tree span {display:none;}
-.kui-mini .logo .icon {display:block;}
-.kui-mini .logo .text {display:none;}
+.kui-mini .menu-tree .item {padding-left:12px;}
+.kui-mini .menu-tree .name {display:none;}
 
 @media screen and (max-width:768px) {
-    .kui-sider,
-    .kui-scroll {width:50px !important;}
-    .kui-body,
-    .kui-footer {left:50px !important;}
-    .kui-side .nav-tree .nav-child dd {padding-left:12px;}
-    .kui-side .nav-tree span {display:none;}
+    .kui-sider, .kui-scroll {width:50px !important;}
+    .kui-body, .kui-footer {left:50px !important;}
+    .kui-sider .menu-tree .nav-child dd {padding-left:12px;}
+    .kui-sider .menu-tree .name {display:none;}
 }
 
 #qvSysSetting {width:300px;}
