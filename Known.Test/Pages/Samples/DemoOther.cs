@@ -10,54 +10,84 @@ class DemoOther : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("demo-caption", "面包屑");
-        builder.Component<Breadcrumb>().Set(c => c.Items, new List<MenuItem>
+        BuildBreadcrumb(builder);
+        builder.Div("row", attr =>
         {
-            new MenuItem("Test1", "测试1", "fa fa-user"),
-            new MenuItem("Test2", "测试2"),
-            new MenuItem("Test3", "测试3") {Action=()=>UI.Alert("Test")},
-            new MenuItem("Test4", "测试4")
-        }).Build();
+            BuildDemo(builder, "时间", () => builder.Component<Razor.Components.Timer>().Build());
+            BuildDemo(builder, "搜索框", () => builder.Component<SearchBox>().Build());
+            BuildDemo(builder, "验证码", () => builder.Component<Captcha>().Build());
+        });
+        BuildCarousel(builder);
+        BuildCard(builder);
+        BuildTabs(builder);
+    }
 
-        builder.Div("demo-caption", "时间");
-        builder.Component<Razor.Components.Timer>().Build();
+    private void BuildBreadcrumb(RenderTreeBuilder builder)
+    {
+        BuildDemo(builder, "面包屑", () =>
+        {
+            builder.Component<Breadcrumb>().Set(c => c.Items, new List<MenuItem>
+            {
+                new MenuItem("Test1", "测试1", "fa fa-user"),
+                new MenuItem("Test2", "测试2"),
+                new MenuItem("Test3", "测试3") {Action=()=>UI.Alert("Test")},
+                new MenuItem("Test4", "测试4")
+            }).Build();
+        });
+    }
 
-        builder.Div("demo-caption", "搜索框");
+    private static void BuildCarousel(RenderTreeBuilder builder)
+    {
+        BuildDemo(builder, "走马灯", () =>
+        {
+            builder.Div("demo-box", attr =>
+            {
+                attr.Style("width:50%;height:300px;");
+                builder.Component<Carousel>().Build();
+            });
+        });
+    }
+
+    private static void BuildCard(RenderTreeBuilder builder)
+    {
+        BuildDemo(builder, "卡片", () =>
+        {
+            builder.Div("demo-box", attr =>
+            {
+                attr.Style("width:50%;");
+                builder.Component<Card>().Set(c => c.Name, "Card1").Build();
+            });
+            builder.Div("demo-box", attr =>
+            {
+                attr.Style("width:50%;");
+                builder.Component<Card>().Set(c => c.Icon, "fa fa-list").Set(c => c.Name, "Card2").Build();
+            });
+        });
+    }
+
+    private void BuildTabs(RenderTreeBuilder builder)
+    {
+        BuildDemo(builder, "选项卡", () =>
+        {
+            builder.Div("demo-box", attr =>
+            {
+                attr.Style("width:50%;");
+                builder.Component<Tabs>().Set(c => c.Items, tabItems).Build();
+            });
+            builder.Div("demo-box", attr =>
+            {
+                attr.Style("width:50%;");
+                builder.Component<Tabs>().Set(c => c.Items, tabItems).Set(c => c.Position, "left").Build();
+            });
+        });
+    }
+
+    private static void BuildDemo(RenderTreeBuilder builder, string text, Action action)
+    {
         builder.Div(attr =>
         {
-            attr.Style("width:200px;");
-            builder.Component<SearchBox>().Build();
-        });
-
-        builder.Div("demo-caption", "走马灯");
-        builder.Div("demo-box", attr =>
-        {
-            attr.Style("width:50%;height:300px;");
-            builder.Component<Carousel>().Build();
-        });
-
-        builder.Div("demo-caption", "卡片");
-        builder.Div("demo-box", attr =>
-        {
-            attr.Style("width:50%;");
-            builder.Component<Card>().Set(c => c.Name, "Card1").Build();
-        });
-        builder.Div("demo-box", attr =>
-        {
-            attr.Style("width:50%;");
-            builder.Component<Card>().Set(c => c.Icon, "fa fa-list").Set(c => c.Name, "Card2").Build();
-        });
-
-        builder.Div("demo-caption", "选项卡");
-        builder.Div("demo-box", attr =>
-        {
-            attr.Style("width:50%;");
-            builder.Component<Tabs>().Set(c => c.Items, tabItems).Build();
-        });
-        builder.Div("demo-box", attr =>
-        {
-            attr.Style("width:50%;");
-            builder.Component<Tabs>().Set(c => c.Items, tabItems).Set(c => c.Position, "left").Build();
+            builder.Div("demo-caption", text);
+            action();
         });
     }
 }
