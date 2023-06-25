@@ -1,6 +1,6 @@
 ﻿namespace Known.Razor.Extensions;
 
-public static class UIServiceExtension
+static class ServiceExtension
 {
     internal static void ShowImport(this UIService ui, ImportOption option)
     {
