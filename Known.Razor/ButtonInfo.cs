@@ -33,8 +33,8 @@ public sealed class ToolButton
         Buttons.AddRange(new List<ButtonInfo> {
             FormButton.Edit,
             New, Copy, DeleteM, Import, Export, ExportPage, ExportQuery, ExportAll,
-            Print, Move, MoveUp, MoveDown,
-            Submit, Revoke, Pass, Return, Repeat
+            Print, Move, MoveUp, MoveDown, Enable, Disable,
+            Submit, Revoke, Pass, Return, Repeat, ResetPassword
         });
     }
 
@@ -52,6 +52,8 @@ public sealed class ToolButton
     public static ButtonInfo Move => new("Move", "移动", "fa fa-arrows", "bg-primary");
     public static ButtonInfo MoveUp => new("MoveUp", "上移", "fa fa-arrow-up", "bg-primary");
     public static ButtonInfo MoveDown => new("MoveDown", "下移", "fa fa-arrow-down", "bg-primary");
+    public static ButtonInfo Enable => new("Enable", "启用", "fa fa-check-circle-o", "bg-primary");
+    public static ButtonInfo Disable => new("Disable", "禁用", "fa fa-times-circle-o", "bg-danger");
     public static ButtonInfo Submit => new("Submit", "提交审核", "fa fa-send-o", "bg-primary");
     public static ButtonInfo Revoke => new("Revoke", "撤回", "fa fa-undo", "bg-primary");
     public static ButtonInfo Pass => new("Pass", "审核通过", "fa fa-check", "bg-primary");

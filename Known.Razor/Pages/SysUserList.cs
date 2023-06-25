@@ -45,6 +45,8 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
     public void New() => ShowForm(new SysUser { Enabled = true });
     public void DeleteM() => DeleteRows(Platform.User.DeleteUsersAsync);
     public void ResetPassword() => SelectRow(OnResetPassword);
+    public void Enable() => SelectRows(OnEnableUsers);
+    public void Disable() => SelectRows(OnDisableUsers);
     public void Edit(SysUser row) => ShowForm(row);
     public void Delete(SysUser row) => DeleteRow(row, Platform.User.DeleteUsersAsync);
     public override void View(SysUser row) => UI.ShowForm<SysUserForm>("查看用户", row);
@@ -61,6 +63,24 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
         {
             var result = await Platform.User.SetUserPwdsAsync(new List<SysUser> { model });
             UI.Result(result);
+        });
+    }
+
+    private void OnEnableUsers(List<SysUser> models)
+    {
+        UI.Confirm("确定要启用选中的用户？", async () =>
+        {
+            var result = await Platform.User.EnableUsersAsync(models);
+            UI.Result(result, Refresh);
+        });
+    }
+
+    private void OnDisableUsers(List<SysUser> models)
+    {
+        UI.Confirm("确定要禁用选中的用户？", async () =>
+        {
+            var result = await Platform.User.DisableUsersAsync(models);
+            UI.Result(result, Refresh);
         });
     }
 }

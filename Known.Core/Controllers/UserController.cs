@@ -15,6 +15,12 @@ public class UserController : BaseController
     public Result DeleteUsers([FromBody] List<SysUser> models) => Service.DeleteUsers(models);
 
     [HttpPost("[action]")]
+    public Result EnableUsers([FromBody] List<SysUser> models) => Service.EnableUsers(models);
+
+    [HttpPost("[action]")]
+    public Result DisableUsers([FromBody] List<SysUser> models) => Service.DisableUsers(models);
+
+    [HttpPost("[action]")]
     public Result SetUserPwds([FromBody] List<SysUser> models) => Service.SetUserPwds(models);
 
     [HttpPost("[action]")]

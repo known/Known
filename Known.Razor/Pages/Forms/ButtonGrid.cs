@@ -40,7 +40,7 @@ class ButtonGrid : EditGrid<ButtonInfo>
     {
         var buttons = GetButtons();
         var items = buttons.Where(b => !Data.Contains(b)).Select(b => new CodeInfo(b.Name, b.Name)).ToArray();
-        UI.Prompt("添加", new(450, 250), builder =>
+        UI.Prompt("添加", new(550, 350), builder =>
         {
             builder.Field<CheckList>("Data")
                    .Set(f => f.Items, items)

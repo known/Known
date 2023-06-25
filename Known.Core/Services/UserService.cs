@@ -27,6 +27,36 @@ class UserService : BaseService
         });
     }
 
+    internal Result EnableUsers(List<SysUser> entities)
+    {
+        if (entities == null || entities.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return Database.Transaction("启用", db =>
+        {
+            foreach (var item in entities)
+            {
+                item.Enabled = true;
+                db.Save(item);
+            }
+        });
+    }
+
+    internal Result DisableUsers(List<SysUser> entities)
+    {
+        if (entities == null || entities.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return Database.Transaction("禁用", db =>
+        {
+            foreach (var item in entities)
+            {
+                item.Enabled = false;
+                db.Save(item);
+            }
+        });
+    }
+
     internal Result SetUserPwds(List<SysUser> entities)
     {
         if (entities == null || entities.Count == 0)
