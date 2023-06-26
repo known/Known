@@ -36,7 +36,7 @@ public class SettingInfo
 
     public string Language { get; set; }
     public string Layout { get; set; }
-    public string ThemeColor { get; set; } = "#4188c8";//#54519a
+    public string ThemeColor { get; set; } = "#1c66b9";//#4188c8";//#54519a
     public string SiderColor { get; set; } = "#1c292e";
     public bool RandomColor { get; set; }
     public bool MultiTab { get; set; }
