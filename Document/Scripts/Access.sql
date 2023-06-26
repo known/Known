@@ -124,6 +124,46 @@ CREATE TABLE `SysTask` (
 )
 GO
 
+CREATE TABLE `SysDictionary` (
+    `Id`           VarChar(50)  NOT NULL PRIMARY KEY,
+    `CreateBy`     VarChar(50)  NOT NULL,
+    `CreateTime`   DateTime     NOT NULL,
+    `ModifyBy`     VarChar(50)  NULL,
+    `ModifyTime`   DateTime     NULL,
+    `Version`      Long         NOT NULL,
+    `Extension`    LongText     NULL,
+    `AppId`        VarChar(50)  NOT NULL,
+    `CompNo`       VarChar(50)  NOT NULL,
+    `Category`     VarChar(50)  NULL,
+    `CategoryName` VarChar(50)  NULL,
+    `Code`         VarChar(100) NULL,
+    `Name`         VarChar(250) NULL,
+    `Sort`         Long         NOT NULL,
+    `Enabled`      VarChar(50)  NOT NULL,
+    `Note`         LongText     NULL,
+    `Child`        LongText     NULL
+)
+GO
+
+CREATE TABLE `SysTenant` (
+    `Id`         VarChar(50)      NOT NULL PRIMARY KEY,
+    `CreateBy`   VarChar(50)      NOT NULL,
+    `CreateTime` DateTime         NOT NULL,
+    `ModifyBy`   VarChar(50)      NULL,
+    `ModifyTime` DateTime         NULL,
+    `Version`    Long             NOT NULL,
+    `Extension`  LongText         NULL,
+    `AppId`      VarChar(50)      NOT NULL,
+    `CompNo`     VarChar(50)      NOT NULL,
+    `Code`       VarChar(50)      NOT NULL,
+    `Name`       VarChar(50)      NOT NULL,
+    `Enabled`    VarChar(50)      NOT NULL,
+    `UserCount`  Long             NOT NULL,
+    `BillCount`  Long             NOT NULL,
+    `Note`       LongText         NULL
+)
+GO
+
 CREATE TABLE `SysCompany` (
     `Id`          VarChar(50)      NOT NULL PRIMARY KEY,
     `CreateBy`    VarChar(50)      NOT NULL,
@@ -147,27 +187,6 @@ CREATE TABLE `SysCompany` (
     `Note`        LongText         NULL,
     `SystemData`  LongText         NULL,
     `CompanyData` LongText         NULL
-)
-GO
-
-CREATE TABLE `SysDictionary` (
-    `Id`           VarChar(50)  NOT NULL PRIMARY KEY,
-    `CreateBy`     VarChar(50)  NOT NULL,
-    `CreateTime`   DateTime     NOT NULL,
-    `ModifyBy`     VarChar(50)  NULL,
-    `ModifyTime`   DateTime     NULL,
-    `Version`      Long         NOT NULL,
-    `Extension`    LongText     NULL,
-    `AppId`        VarChar(50)  NOT NULL,
-    `CompNo`       VarChar(50)  NOT NULL,
-    `Category`     VarChar(50)  NULL,
-    `CategoryName` VarChar(50)  NULL,
-    `Code`         VarChar(100) NULL,
-    `Name`         VarChar(250) NULL,
-    `Sort`         Long         NOT NULL,
-    `Enabled`      VarChar(50)  NOT NULL,
-    `Note`         LongText     NULL,
-    `Child`        LongText     NULL
 )
 GO
 

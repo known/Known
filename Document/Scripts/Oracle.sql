@@ -123,6 +123,46 @@ create table SysTask(
 );
 alter table SysTask add constraint PK_SysTask primary key(Id);
 
+create table SysDictionary (
+    Id           varchar2(50)    not null,
+    CreateBy     varchar2(50)    not null,
+    CreateTime   date            not null,
+    ModifyBy     varchar2(50)    null,
+    ModifyTime   date            null,
+    Version      number(8)       not null,
+    Extension    varchar2(4000)  null,
+    AppId        varchar2(50)    not null,
+    CompNo       varchar2(50)    not null,
+    Category     varchar2(50)    null,
+    CategoryName varchar2(50)    null,
+    Code         varchar2(100)   null,
+    Name         varchar2(250)   null,
+    Sort         number(8)       not null,
+    Enabled      varchar2(50)    not null,
+    Note         varchar2(4000)  null,
+    Child        varchar2(4000)  null
+);
+alter table SysDictionary add constraint PK_SysDictionary primary key (Id);
+
+create table SysTenant(
+    Id         varchar2(50)     not null,
+    CreateBy   varchar2(50)     not null,
+    CreateTime date             not null,
+    ModifyBy   varchar2(50)     null,
+    ModifyTime date             null,
+    Version    number(8)        not null,
+    Extension  varchar2(4000)   null,
+    AppId      varchar2(50)     not null,
+    CompNo     varchar2(50)     not null,
+    Code       varchar2(50)     not null,
+    Name       varchar2(50)     not null,
+    Enabled    varchar2(50)     not null,
+    UserCount  number(8)        not null,
+    BillCount  number(8)        not null,
+    Note       varchar2(4000)   null
+);
+alter table SysTenant add constraint PK_SysTenant primary key(Id);
+
 create table SysCompany(
     Id          varchar2(50)     not null,
     CreateBy    varchar2(50)     not null,
@@ -148,27 +188,6 @@ create table SysCompany(
     CompanyData varchar2(4000)   null
 );
 alter table SysCompany add constraint PK_SysCompany primary key(Id);
-
-create table SysDictionary (
-    Id           varchar2(50)    not null,
-    CreateBy     varchar2(50)    not null,
-    CreateTime   date            not null,
-    ModifyBy     varchar2(50)    null,
-    ModifyTime   date            null,
-    Version      number(8)       not null,
-    Extension    varchar2(4000)  null,
-    AppId        varchar2(50)    not null,
-    CompNo       varchar2(50)    not null,
-    Category     varchar2(50)    null,
-    CategoryName varchar2(50)    null,
-    Code         varchar2(100)   null,
-    Name         varchar2(250)   null,
-    Sort         number(8)       not null,
-    Enabled      varchar2(50)    not null,
-    Note         varchar2(4000)  null,
-    Child        varchar2(4000)  null
-);
-alter table SysDictionary add constraint PK_SysDictionary primary key (Id);
 
 create table SysOrganization (
     Id         varchar2(50)   not null,

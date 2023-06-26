@@ -130,6 +130,48 @@ CREATE TABLE [SysTask] (
 ) 
 GO
 
+CREATE TABLE [SysDictionary] (
+    [Id]           [varchar](50)   NOT NULL,
+    [CreateBy]     [nvarchar](50)  NOT NULL,
+    [CreateTime]   [datetime]      NOT NULL,
+    [ModifyBy]     [nvarchar](50)  NULL,
+    [ModifyTime]   [datetime]      NULL,
+    [Version]      [int]           NOT NULL,
+    [Extension]    [ntext]         NULL,
+    [AppId]        [varchar](50)   NOT NULL,
+    [CompNo]       [varchar](50)   NOT NULL,
+    [Category]     [nvarchar](50)  NULL,
+    [CategoryName] [nvarchar](50)  NULL,
+    [Code]         [nvarchar](100) NULL,
+    [Name]         [nvarchar](250) NULL,
+    [Sort]         [int]           NOT NULL,
+    [Enabled]      [varchar](50)   NOT NULL,
+    [Note]         [ntext]         NULL,
+    [Child]        [ntext]         NULL,
+    CONSTRAINT [PK_SysDictionary] PRIMARY KEY ([Id] ASC)
+) 
+GO
+
+CREATE TABLE [SysTenant] (
+    [Id]         [varchar](50)    NOT NULL,
+    [CreateBy]   [nvarchar](50)   NOT NULL,
+    [CreateTime] [datetime]       NOT NULL,
+    [ModifyBy]   [nvarchar](50)   NULL,
+    [ModifyTime] [datetime]       NULL,
+    [Version]    [int]            NOT NULL,
+    [Extension]  [ntext]          NULL,
+    [AppId]      [varchar](50)    NOT NULL,
+    [CompNo]     [varchar](50)    NOT NULL,
+    [Code]       [nvarchar](50)   NOT NULL,
+    [Name]       [nvarchar](50)   NOT NULL,
+    [Enabled]    [varchar](50)    NOT NULL,
+    [UserCount]  [int]            NOT NULL,
+    [BillCount]  [int]            NOT NULL,
+    [Note]       [ntext]          NULL,
+    CONSTRAINT [PK_SysTenant] PRIMARY KEY ([Id] ASC)
+) 
+GO
+
 CREATE TABLE [SysCompany] (
     [Id]          [varchar](50)    NOT NULL,
     [CreateBy]    [nvarchar](50)   NOT NULL,
@@ -154,28 +196,6 @@ CREATE TABLE [SysCompany] (
     [SystemData]  [ntext]          NULL,
     [CompanyData] [ntext]          NULL,
     CONSTRAINT [PK_SysCompany] PRIMARY KEY ([Id] ASC)
-) 
-GO
-
-CREATE TABLE [SysDictionary] (
-    [Id]           [varchar](50)   NOT NULL,
-    [CreateBy]     [nvarchar](50)  NOT NULL,
-    [CreateTime]   [datetime]      NOT NULL,
-    [ModifyBy]     [nvarchar](50)  NULL,
-    [ModifyTime]   [datetime]      NULL,
-    [Version]      [int]           NOT NULL,
-    [Extension]    [ntext]         NULL,
-    [AppId]        [varchar](50)   NOT NULL,
-    [CompNo]       [varchar](50)   NOT NULL,
-    [Category]     [nvarchar](50)  NULL,
-    [CategoryName] [nvarchar](50)  NULL,
-    [Code]         [nvarchar](100) NULL,
-    [Name]         [nvarchar](250) NULL,
-    [Sort]         [int]           NOT NULL,
-    [Enabled]      [varchar](50)   NOT NULL,
-    [Note]         [ntext]         NULL,
-    [Child]        [ntext]         NULL,
-    CONSTRAINT [PK_SysDictionary] PRIMARY KEY ([Id] ASC)
 ) 
 GO
 

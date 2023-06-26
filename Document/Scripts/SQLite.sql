@@ -117,6 +117,44 @@ CREATE TABLE [SysTask] (
     [Note]       ntext          NULL
 );
 
+CREATE TABLE [SysDictionary] (
+    [Id]           varchar(50)   NOT NULL PRIMARY KEY,
+    [CreateBy]     nvarchar(50)  NOT NULL,
+    [CreateTime]   datetime      NOT NULL,
+    [ModifyBy]     nvarchar(50)  NULL,
+    [ModifyTime]   datetime      NULL,
+    [Version]      int           NOT NULL,
+    [Extension]    ntext         NULL,
+    [AppId]        varchar(50)   NOT NULL,
+    [CompNo]       varchar(50)   NOT NULL,
+    [Category]     nvarchar(50)  NULL,
+    [CategoryName] nvarchar(50)  NULL,
+    [Code]         nvarchar(100) NULL,
+    [Name]         nvarchar(250) NULL,
+    [Sort]         int           NOT NULL,
+    [Enabled]      varchar(50)   NOT NULL,
+    [Note]         ntext         NULL,
+    [Child]        ntext         NULL
+);
+
+CREATE TABLE [SysTenant] (
+    [Id]         varchar(50)      NOT NULL PRIMARY KEY,
+    [CreateBy]   nvarchar(50)     NOT NULL,
+    [CreateTime] datetime         NOT NULL,
+    [ModifyBy]   nvarchar(50)     NULL,
+    [ModifyTime] datetime         NULL,
+    [Version]    int              NOT NULL,
+    [Extension]  ntext            NULL,
+    [AppId]      varchar(50)      NOT NULL,
+    [CompNo]     varchar(50)      NOT NULL,
+    [Code]       nvarchar(50)     NOT NULL,
+    [Name]       nvarchar(50)     NOT NULL,
+    [Enabled]    varchar(50)      NOT NULL,
+    [UserCount]  int              NOT NULL,
+    [BillCount]  int              NOT NULL,
+    [Note]       ntext            NULL
+);
+
 CREATE TABLE [SysCompany] (
     [Id]          varchar(50)   NOT NULL PRIMARY KEY,
     [CreateBy]    nvarchar(50)  NOT NULL,
@@ -140,26 +178,6 @@ CREATE TABLE [SysCompany] (
     [Note]        ntext         NULL,
     [SystemData]  ntext         NULL,
     [CompanyData] ntext         NULL
-);
-
-CREATE TABLE [SysDictionary] (
-    [Id]           varchar(50)   NOT NULL PRIMARY KEY,
-    [CreateBy]     nvarchar(50)  NOT NULL,
-    [CreateTime]   datetime      NOT NULL,
-    [ModifyBy]     nvarchar(50)  NULL,
-    [ModifyTime]   datetime      NULL,
-    [Version]      int           NOT NULL,
-    [Extension]    ntext         NULL,
-    [AppId]        varchar(50)   NOT NULL,
-    [CompNo]       varchar(50)   NOT NULL,
-    [Category]     nvarchar(50)  NULL,
-    [CategoryName] nvarchar(50)  NULL,
-    [Code]         nvarchar(100) NULL,
-    [Name]         nvarchar(250) NULL,
-    [Sort]         int           NOT NULL,
-    [Enabled]      varchar(50)   NOT NULL,
-    [Note]         ntext         NULL,
-    [Child]        ntext         NULL
 );
 
 CREATE TABLE [SysOrganization] (

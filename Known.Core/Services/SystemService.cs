@@ -6,6 +6,7 @@ class SystemService : BaseService
 
     internal SystemService(Context context) : base(context) { }
 
+    //Config
     internal string GetConfig(string key) => PlatformRepository.GetConfig(Database, Config.AppId, key);
 
     internal Result SaveConfig(ConfigInfo info)
@@ -14,8 +15,7 @@ class SystemService : BaseService
         return Result.Success("保存成功！");
     }
 
-    internal static SystemInfo GetSystem(Database db) => GetConfig<SystemInfo>(db, KeySystem);
-
+    //Install
     internal Result CheckInstall()
     {
         var data = new CheckInfo();
@@ -92,6 +92,9 @@ class SystemService : BaseService
             result = CheckInstall();
         return result;
     }
+
+    //System
+    internal static SystemInfo GetSystem(Database db) => GetConfig<SystemInfo>(db, KeySystem);
 
     internal Result SaveSystem(SystemInfo info)
     {
@@ -174,5 +177,47 @@ class SystemService : BaseService
         var info = GetSystem();
         var result = PlatformHelper.CheckSystem?.Invoke(Database, info);
         return result ?? Result.Success("");
+    }
+
+    //Tenant
+    internal PagingResult<SysTenant> QueryTenants(PagingCriteria criteria)
+    {
+        return SystemRepository.QueryTenants(Database, criteria);
+    }
+
+    internal Result SaveTenant(dynamic model)
+    {
+        var entity = Database.QueryById<SysTenant>((string)model.Id);
+        entity ??= new SysTenant();
+        entity.FillModel(model);
+        var vr = entity.Validate();
+        if (vr.IsValid)
+        {
+            entity.Code = entity.Code.ToLower();
+            if (SystemRepository.ExistsTenant(Database, entity.Id, entity.Code))
+                vr.AddError("账号已存在，请使用其他字符创建租户！");
+        }
+
+        if (!vr.IsValid)
+            return vr;
+
+        var info = new InstallInfo
+        {
+            CompNo = entity.Code,
+            CompName = entity.Name,
+            UserName = entity.Code,
+            Password = entity.Code
+        };
+        var user = GetUser(info);
+        var orga = GetOrganization(info);
+        return Database.Transaction(Language.Save, db =>
+        {
+            if (entity.IsNew)
+            {
+                db.Save(user);
+                db.Save(orga);
+            }
+            db.Save(entity);
+        }, entity);
     }
 }

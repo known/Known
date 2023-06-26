@@ -123,6 +123,46 @@ create table `SysTask` (
     PRIMARY KEY(`Id`)
 );
 
+create table `SysDictionary` (
+    `Id`           varchar(50)   not null,
+    `CreateBy`     varchar(50)   not null,
+    `CreateTime`   datetime      not null,
+    `ModifyBy`     varchar(50)   null,
+    `ModifyTime`   datetime      null,
+    `Version`      int           not null,
+    `Extension`    text          null,
+    `AppId`        varchar(50)   not null,
+    `CompNo`       varchar(50)   not null,
+    `Category`     varchar(50)   null,
+    `CategoryName` varchar(50)   null,
+    `Code`         varchar(100)  null,
+    `Name`         varchar(250)  null,
+    `Sort`         int           not null,
+    `Enabled`      varchar(50)   not null,
+    `Note`         text          null,
+    `Child`        text          null,
+    PRIMARY KEY (`Id`)
+);
+
+create table `SysTenant` (
+    `Id`         varchar(50)      not null,
+    `CreateBy`   varchar(50)      not null,
+    `CreateTime` datetime         not null,
+    `ModifyBy`   varchar(50)      null,
+    `ModifyTime` datetime         null,
+    `Version`    int              not null,
+    `Extension`  text             null,
+    `AppId`      varchar(50)      not null,
+    `CompNo`     varchar(50)      not null,
+    `Code`       varchar(50)      not null,
+    `Name`       varchar(50)      not null,
+    `Enabled`    varchar(50)      not null,
+    `UserCount`  int              not null,
+    `BillCount`  int              not null,
+    `Note`       text             null,
+    PRIMARY KEY(`Id`)
+);
+
 create table `SysCompany` (
     `Id`          varchar(50)  not null,
     `CreateBy`    varchar(50)  not null,
@@ -147,27 +187,6 @@ create table `SysCompany` (
     `SystemData`  text         null,
     `CompanyData` text         null,
     PRIMARY KEY(`Id`)
-);
-
-create table `SysDictionary` (
-    `Id`           varchar(50)   not null,
-    `CreateBy`     varchar(50)   not null,
-    `CreateTime`   datetime      not null,
-    `ModifyBy`     varchar(50)   null,
-    `ModifyTime`   datetime      null,
-    `Version`      int           not null,
-    `Extension`    text          null,
-    `AppId`        varchar(50)   not null,
-    `CompNo`       varchar(50)   not null,
-    `Category`     varchar(50)   null,
-    `CategoryName` varchar(50)   null,
-    `Code`         varchar(100)  null,
-    `Name`         varchar(250)  null,
-    `Sort`         int           not null,
-    `Enabled`      varchar(50)   not null,
-    `Note`         text          null,
-    `Child`        text          null,
-    PRIMARY KEY (`Id`)
 );
 
 create table `SysOrganization` (
