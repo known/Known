@@ -1,6 +1,6 @@
 ﻿namespace Known.Razor.Pages;
 
-public class Layout : BaseComponent
+class Layout : BaseComponent
 {
     internal bool IsAdmin { get; set; }
     internal string Header { get; set; } = "header";
