@@ -35,8 +35,9 @@ public class SettingInfo
     }
 
     public string Language { get; set; }
-    public string ThemeColor { get; set; } = "#4188c8";
-    public string SideColor { get; set; } = "#1c292e";
+    public string Layout { get; set; }
+    public string ThemeColor { get; set; } = "#4188c8";//#54519a
+    public string SiderColor { get; set; } = "#1c292e";
     public bool RandomColor { get; set; }
     public bool MultiTab { get; set; }
     public int PageSize { get; set; } = PagingCriteria.DefaultPageSize; 

@@ -15,19 +15,16 @@ public class AdminBody : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("kui-body", attr =>
+        if (MultiTab)
         {
-            if (MultiTab)
-            {
-                builder.Component<PageTabs>().Build(v => tabs = v);
-            }
-            else
-            {
-                builder.Component<PageSingle>()
-                       .Set(c => c.CurPage, curPage)
-                       .Build();
-            }
-        });
+            builder.Component<PageTabs>().Build(v => tabs = v);
+        }
+        else
+        {
+            builder.Component<PageSingle>()
+                   .Set(c => c.CurPage, curPage)
+                   .Build();
+        }
     }
 
     private void OnNavigate(MenuItem menu)

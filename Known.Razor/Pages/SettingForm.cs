@@ -6,7 +6,7 @@ public class SettingForm : BaseForm<SettingInfo>
 
     public SettingForm()
     {
-        Style = "";
+        Style = "setting";
     }
 
     [Parameter] public string Title { get; set; }
@@ -25,13 +25,17 @@ public class SettingForm : BaseForm<SettingInfo>
 
     protected override void BuildFields(FieldBuilder<SettingInfo> builder)
     {
+        builder.Field<LayoutField>("布局", nameof(SettingInfo.Layout))
+               .Set(f => f.Style, "layout")
+               .Set(f => f.ValueChanged, OnLayoutChanged)
+               .Build();
         builder.Field<Input>("主题色", nameof(SettingInfo.ThemeColor))
                .Set(f => f.Type, "color")
                .Set(f => f.ValueChanged, OnThemeColorChanged)
                .Build();
-        builder.Field<Input>("侧栏色", nameof(SettingInfo.SideColor))
+        builder.Field<Input>("侧栏色", nameof(SettingInfo.SiderColor))
                .Set(f => f.Type, "color")
-               .Set(f => f.ValueChanged, OnSideColorChanged)
+               .Set(f => f.ValueChanged, OnSiderColorChanged)
                .Build();
         builder.Field<CheckBox>("随机色", nameof(SettingInfo.RandomColor)).Set(f => f.Switch, true).Build();
         builder.Field<CheckBox>("标签页", nameof(SettingInfo.MultiTab)).Set(f => f.Switch, true).Build();
@@ -44,17 +48,22 @@ public class SettingForm : BaseForm<SettingInfo>
         builder.Button(FormButton.Reset, Callback(OnReset));
     }
 
-    private void OnThemeColorChanged(string color)
+    private void OnLayoutChanged(string value)
     {
-        Setting.Info.ThemeColor = color;
-        PageAction.RefreshThemeColor?.Invoke();
-        PageAction.RefreshSideColor?.Invoke();
+        Setting.Info.Layout = value;
+        OnThemeChanged();
     }
 
-    private void OnSideColorChanged(string color)
+    private void OnThemeColorChanged(string value)
     {
-        Setting.Info.SideColor = color;
-        PageAction.RefreshSideColor?.Invoke();
+        Setting.Info.ThemeColor = value;
+        OnThemeChanged();
+    }
+
+    private void OnSiderColorChanged(string value)
+    {
+        Setting.Info.SiderColor = value;
+        OnThemeChanged();
     }
 
     private void OnSave()
@@ -69,16 +78,43 @@ public class SettingForm : BaseForm<SettingInfo>
                 Name = "用户设置",
                 Data = Utils.ToJson(data)
             };
-            Setting.UserSetting.Info = Utils.FromJson<SettingInfo>(info.Data);
+            Setting.Info = Utils.FromJson<SettingInfo>(info.Data);
             return Platform.User.SaveSettingAsync(info);
         });
     }
 
     private void OnReset()
     {
-        Setting.UserSetting.Info = null;
-        PageAction.RefreshThemeColor?.Invoke();
-        PageAction.RefreshSideColor?.Invoke();
-        SetData(Setting.Info);
+        Setting.Info = SettingInfo.Default;
+        OnThemeChanged();
+        SetData(SettingInfo.Default);
+    }
+
+    private static void OnThemeChanged() => PageAction.RefreshTheme?.Invoke();
+}
+
+class LayoutField : Field
+{
+    protected override void BuildInput(RenderTreeBuilder builder)
+    {
+        BuildLayout(builder, "");
+        BuildLayout(builder, "layout-lr");
+    }
+
+    private void BuildLayout(RenderTreeBuilder builder, string layout)
+    {
+        var value = Value ?? "";
+        var style = CssBuilder.Default(layout).AddClass("checked", value == layout).Build();
+        builder.Div("slayout", attr =>
+        {
+            attr.OnClick(Callback(e => OnItemClick(layout)));
+            builder.Component<Layout>().Set(f => f.Style, style).Build();
+        });
+    }
+
+    private void OnItemClick(string value)
+    {
+        Value = value;
+        OnValueChange();
     }
 }

@@ -5,8 +5,6 @@ class AdminHeader : BaseComponent
     private bool isMini = false;
     private bool isFull = false;
     private MenuItem curMenu;
-    private string themeColor;
-    private readonly string qvSysSettingId = "qvSysSetting";
     private string ToggleIcon => isMini ? "fa fa-indent" : "fa fa-dedent";
     private string ToggleScreen => isFull ? "fa fa-arrows" : "fa fa-arrows-alt";
     private string IsActive(MenuItem menu) => curMenu?.Id == menu.Id ? "active" : "";
@@ -23,12 +21,6 @@ class AdminHeader : BaseComponent
         if (Menus != null && Menus.Count > 0)
             curMenu = Menus.FirstOrDefault();
 
-        themeColor = Setting.Info.ThemeColor;
-        PageAction.RefreshThemeColor = () =>
-        {
-            themeColor = Setting.Info.ThemeColor;
-            StateChanged();
-        };
         PageAction.RefreshMessageCount = count =>
         {
             MessageCount = count;
@@ -38,19 +30,11 @@ class AdminHeader : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("kui-header", attr =>
-        {
-            attr.Style($"background-color:{themeColor}");
-            if (Menus != null && Menus.Count > 0)
-                BuildMenus(builder, Menus);
-            else
-                BuildAppName(builder);
-            BuildNavRight(builder);
-        });
-        builder.Component<QuickView>()
-               .Set(c => c.Id, qvSysSettingId)
-               .Set(c => c.ChildContent, b => b.Component<SettingForm>().Set(s => s.Title, "系统设置").Build())
-               .Build();
+        if (Menus != null && Menus.Count > 0)
+            BuildMenus(builder, Menus);
+        else
+            BuildAppName(builder);
+        BuildNavRight(builder);
     }
 
     private void BuildMenus(RenderTreeBuilder builder, List<MenuItem> menus)
@@ -135,5 +119,5 @@ class AdminHeader : BaseComponent
         }, true);
     }
 
-    private void OnShowSetting() => UI.ShowQuickView(qvSysSettingId);
+    private void OnShowSetting() => UI.ShowQuickView(Admin.SysSettingId);
 }

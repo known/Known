@@ -5,8 +5,7 @@ public sealed class Setting
     private Setting() { }
 
     public static UserSetting UserSetting { get; set; }
-
-    public static SettingInfo Info => UserSetting.Info ?? SettingInfo.Default;
+    public static SettingInfo Info { get; set; }
 
     internal static List<QueryInfo> GetUserQuerys(string id)
     {

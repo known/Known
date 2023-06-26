@@ -1,13 +1,23 @@
 ﻿namespace Known.Razor.Pages;
 
-class Admin : BaseComponent
+class Admin : Layout
 {
+    internal const string SysSettingId = "qvSysSetting";
     private bool isInitialized;
     private bool isMultiTab;
     private MenuItem topMenu;
     private MenuItem curMenu;
     private AdminInfo info;
     private List<MenuItem> userMenus;
+
+    public Admin()
+    {
+        IsAdmin = true;
+        Style = "kui-layout";
+        Header = "kui-header";
+        Sider = "kui-sider";
+        Body = "kui-body";
+    }
 
     [Parameter] public bool TopMenu { get; set; }
     [Parameter] public Action OnLogout { get; set; }
@@ -16,6 +26,7 @@ class Admin : BaseComponent
     {
         info = await Platform.User.GetAdminAsync();
         Setting.UserSetting = info.UserSetting;
+        Setting.Info = info.UserSetting?.Info ?? SettingInfo.Default;
         isMultiTab = Setting.Info.MultiTab;
         
         userMenus = GetUserMenus(info.UserMenus);
@@ -28,6 +39,7 @@ class Admin : BaseComponent
             curMenu = topMenu.Children.FirstOrDefault();
         }
 
+        PageAction.RefreshTheme = StateChanged;
         isInitialized = true;
     }
 
@@ -36,12 +48,14 @@ class Admin : BaseComponent
         if (!isInitialized)
             return;
 
-        BuildHeader(builder);
-        BuildSider(builder);
-        BuildBody(builder);
+        base.BuildRenderTree(builder);
+        builder.Component<QuickView>()
+               .Set(c => c.Id, SysSettingId)
+               .Set(c => c.ChildContent, b => b.Component<SettingForm>().Set(s => s.Title, "系统设置").Build())
+               .Build();
     }
 
-    private void BuildHeader(RenderTreeBuilder builder)
+    protected override void BuildHeader(RenderTreeBuilder builder)
     {
         builder.Component<AdminHeader>()
                .Set(c => c.AppName, info?.AppName)
@@ -53,7 +67,7 @@ class Admin : BaseComponent
                .Build();
     }
 
-    private void BuildSider(RenderTreeBuilder builder)
+    protected override void BuildSider(RenderTreeBuilder builder)
     {
         builder.Component<AdminSider>()
                .Set(c => c.CurMenu, curMenu)
@@ -61,7 +75,7 @@ class Admin : BaseComponent
                .Build();
     }
 
-    private void BuildBody(RenderTreeBuilder builder)
+    protected override void BuildBody(RenderTreeBuilder builder)
     {
         builder.Component<AdminBody>()
                .Set(c => c.MultiTab, isMultiTab)

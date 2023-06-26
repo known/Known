@@ -1,17 +1,14 @@
 ﻿@import "common.css";
 
 /*Index*/
-.kui-header {
-    position:absolute;top:0;left:180px;right:0;height:50px;
-    background-color:var(--theme-color);color:#fff;
-}
-.kui-sider {
-    position:absolute;top:0;left:0;bottom:0;width:180px;background-color:var(--side-color);
-    /*background:linear-gradient(#1c66b9, #1c66b9);*/color:#fff;overflow:hidden;
-}
+.kui-layout {width:100%;height:100%;}
+.kui-header, .header {position:absolute;top:0;left:180px;right:0;height:50px;background-color:var(--theme-color);color:#fff;}
+.kui-sider, .sider {position:absolute;top:0;left:0;bottom:0;width:180px;overflow:hidden;background-color:var(--side-color);/*background:linear-gradient(#1c66b9, #1c66b9);*/color:#fff;}
 .kui-scroll {position:absolute;top:50px;left:0;bottom:0;width:190px;overflow-x:hidden;}
-.kui-body {position:absolute;top:50px;left:180px;right:0;bottom:0;overflow:hidden;background-color:#f1f1f1;}
+.kui-body, .body {position:absolute;top:50px;left:180px;right:0;bottom:0;overflow:hidden;background-color:#f1f1f1;}
 .kui-sider .fa {width:16px;height:16px;margin-right:2px;text-align:center;}
+.layout-lr .kui-sider, .slayout .layout-lr .sider, .logo, .layout-lr .logo {background-color:var(--theme-color);}
+.layout-lr .kui-header, .slayout .layout-lr .header {background-color:#f5f5f5;color:#333;border-bottom:1px solid #ccc;}
 
 /*header*/
 .toggleMenu, .appName, .logo {height:50px;line-height:50px;}
@@ -19,8 +16,6 @@
 .appName {float:left;font-size:1.2rem;margin-left:10px;}
 .logo {overflow:hidden;opacity:0.9;}
 .logo img {width:auto;}
-.logo .icon, .logo .text {display:block;font-size:2rem;font-weight:bold;color:#fff;text-align:center;}
-.logo .icon {display:none;}
 .logo:before {margin-right:15px;}
 .topMenu {float:left;height:50px;padding:5px 10px 0 10px;}
 .topMenu li {display:inline-block;height:43px;text-align:center;padding:0 15px;cursor:pointer;}
@@ -63,24 +58,18 @@
 }
 
 /*mini side*/
-.kui-mini .kui-sider {width:50px !important;}
-.kui-mini .kui-scroll {width:60px !important;}
-.kui-mini .kui-header,
-.kui-mini .kui-body,
-.kui-mini .kui-footer {left:50px !important;}
+.kui-mini .kui-sider {width:50px;}
+.kui-mini .kui-scroll {width:60px;}
+.kui-mini .kui-header, .kui-mini .kui-body {left:50px;}
 .kui-mini .menu-tree .item {padding-left:12px;}
 .kui-mini .menu-tree .name {display:none;}
 
 @media screen and (max-width:768px) {
-    .kui-sider, .kui-scroll {width:50px !important;}
-    .kui-body, .kui-footer {left:50px !important;}
+    .kui-sider, .kui-scroll {width:50px;}
+    .kui-header, .kui-body {left:50px;}
     .kui-sider .menu-tree .nav-child dd {padding-left:12px;}
     .kui-sider .menu-tree .name {display:none;}
 }
-
-#qvSysSetting {width:300px;}
-#qvSysSetting .form-label {width:80px;}
-#qvSysSetting .form-input {display:inline-block;}
 
 /*view*/
 .left-view {position:absolute;left:10px;top:10px;bottom:10px;overflow:auto;width:220px;}
@@ -158,6 +147,20 @@ button, .button, input, select, .form-input .text, .form-input .unit,
 .ss-form .userMessage .form {margin-top:10px;}
 .ss-form .userMessage .form-button {padding:10px;text-align:center;}
 .ss-form .userMessage .noread {font-weight:bold;color:#000;}
+
+/*SysSetting*/
+#qvSysSetting, .ss-form .layout .form-input {width:300px;}
+#qvSysSetting .form-label {width:80px;}
+#qvSysSetting select {width:auto;}
+#qvSysSetting .layout .form-label {width:100%;}
+.slayout {float:left;position:relative;width:45%;height:80px;margin:2% 2% 0 2%;}
+.slayout .checked:after {display:block;content:'V';position:absolute;right:1px;bottom:1px;color:#337ab7;font-size:0.5rem;font-weight:bold;}
+.ss-form .slayout {margin-left:0;}
+.slayout .header {height:10px;left:20px;}
+.slayout .sider {width:20px;}
+.slayout .body {top:10px;left:20px;}
+.slayout .logo {width:20px;height:10px;line-height:10px;}
+.slayout .logo img {width:100%;}
 
 /*SysDic*/
 .form th.dic-extend {text-align:left;line-height:30px;}
