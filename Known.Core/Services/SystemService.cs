@@ -82,7 +82,7 @@ class SystemService : BaseService
         var path = GetProductKeyPath();
         Utils.SaveFile(path, info.ProductKey);
 
-        var result = database.Transaction("初始化", db =>
+        var result = database.Transaction("安装", db =>
         {
             SaveConfig(db, KeySystem, sys);
             db.Save(user);

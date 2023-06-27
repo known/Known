@@ -40,5 +40,4 @@ public class SystemController : BaseController
 
     [HttpPost("[action]")]
     public Result SaveTenant([FromBody] object model) => Service.SaveTenant(GetDynamicModel(model));
-
 }

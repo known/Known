@@ -21,6 +21,12 @@ class UserRepository
         return db.Scalar<int>(sql, new { id, userName }) > 0;
     }
 
+    internal static int GetUserCount(Database db)
+    {
+        var sql = "select count(*) from SysUser where CompNo=@CompNo";
+        return db.Scalar<int>(sql, new { db.User.CompNo });
+    }
+
     internal static List<string> GetUserRoles(Database db, string userId)
     {
         var sql = "select RoleId from SysUserRole where UserId=@userId";

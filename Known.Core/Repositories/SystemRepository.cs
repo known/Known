@@ -9,6 +9,12 @@ class SystemRepository
         return db.QueryPage<SysTenant>(sql, criteria);
     }
 
+    internal static SysTenant GetTenant(Database db, string code)
+    {
+        var sql = "select * from SysTenant where Code=@code";
+        return db.Query<SysTenant>(sql, new { code });
+    }
+
     internal static bool ExistsTenant(Database db, string id, string code)
     {
         var sql = "select count(*) from SysTenant where Id<>@id and Code=@code";

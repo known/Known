@@ -4,14 +4,18 @@ public class SettingService : BaseService
 {
     internal SettingService(Context context) : base(context) { }
 
-    internal List<SysSetting> GetSettings(string bizType) => SettingRepository.GetSettings(Database, bizType);
-    internal SysSetting GetSettingByComp(string bizType) => GetSettingByComp(Database, bizType);
+    //Public
+    public static SysTenant GetTenant(Database db, string compNo) => SystemRepository.GetTenant(db, compNo);
     public static SysSetting GetSettingByComp(Database db, string bizType) => SettingRepository.GetSettingByComp(db, bizType) ?? new SysSetting { BizType = bizType };
     public static T GetSettingByComp<T>(Database db, string bizType) => GetSettingByComp(db, bizType).DataAs<T>();
+    public static SysSetting GetSettingByUser(Database db, string bizType) => SettingRepository.GetSettingByUser(db, bizType) ?? new SysSetting { BizType = bizType };
+    public static T GetSettingByUser<T>(Database db, string bizType) => GetSettingByUser(db, bizType).DataAs<T>();
+    
+    //Setting
+    internal List<SysSetting> GetSettings(string bizType) => SettingRepository.GetSettings(Database, bizType);
+    internal SysSetting GetSettingByComp(string bizType) => GetSettingByComp(Database, bizType);
     internal SysSetting GetSettingByUser(string bizType) => GetSettingByUser(Database, bizType);
-    internal static SysSetting GetSettingByUser(Database db, string bizType) => SettingRepository.GetSettingByUser(db, bizType) ?? new SysSetting { BizType = bizType };
-    internal static T GetSettingByUser<T>(Database db, string bizType) => GetSettingByUser(db, bizType).DataAs<T>();
-
+    
     internal Result DeleteSettings(List<SysSetting> models)
     {
         if (models == null || models.Count == 0)

@@ -40,12 +40,6 @@ class SysUserForm : BaseForm<SysUser>
                      .Set(f => f.Items, auth?.Roles)
                      .Build();
             });
-            table.Tr(attr =>
-            {
-                table.Field<CheckList>("数据权限", nameof(SysUser.Data)).ColSpan(3)
-                     .Set(f => f.Items, auth?.Datas)
-                     .Build();
-            });
         });
     }
 

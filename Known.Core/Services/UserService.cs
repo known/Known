@@ -96,6 +96,17 @@ class UserService : BaseService
             if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
                 return Result.Error("用户默认密码未配置！");
 
+            if (KCConfig.IsPlatform)
+            {
+                var tenant = SystemRepository.GetTenant(Database, user.CompNo);
+                if (tenant == null)
+                    return Result.Error("租户不存在！");
+
+                var userCount = UserRepository.GetUserCount(Database);
+                if (userCount >= tenant.UserCount)
+                    return Result.Error("用户数已达上限，不能新增！");
+            }
+
             var valid = PlatformHelper.CheckUser?.Invoke(Database, entity);
             if (valid != null && !valid.IsValid)
                 return valid;
