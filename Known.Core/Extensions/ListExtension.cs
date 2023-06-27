@@ -1,6 +1,6 @@
 ﻿namespace Known.Core.Extensions;
 
-static class Extension
+static class ListExtension
 {
     internal static List<MenuInfo> ToMenus(this List<SysModule> modules)
     {
@@ -17,5 +17,12 @@ static class Extension
             Actions = m.Actions,
             Columns = m.Columns
         }).ToList();
+    }
+
+    internal static void RemoveModule(this List<SysModule> modules, string code)
+    {
+        var module = modules.FirstOrDefault(m => m.Code == code);
+        if (module != null)
+            modules.Remove(module);
     }
 }

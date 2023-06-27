@@ -5,7 +5,13 @@ class ModuleRepository
     internal static List<SysModule> GetModules(Database db)
     {
         var sql = "select * from SysModule where Enabled='True'";
-        return db.QueryList<SysModule>(sql);
+        var modules = db.QueryList<SysModule>(sql);
+        if (db.User.IsTenantAdmin)
+        {
+            modules.RemoveModule("SysModuleList");
+            modules.RemoveModule("SysTenantList");
+        }
+        return modules;
     }
 
     internal static SysModule GetModule(Database db, string parentId, int sort)

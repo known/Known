@@ -32,6 +32,7 @@ public class UserInfo
     public string Extension { get; set; }
 
     public bool IsAdmin => UserName == Constants.SysUserName.ToLower() || CompNo == UserName;
+    public bool IsTenantAdmin => CompNo == UserName;
     public bool IsType(string type) => Type == type;
     public bool HasRole(string role) => !string.IsNullOrWhiteSpace(Role) && Role.Split(',').Contains(role);
 }
