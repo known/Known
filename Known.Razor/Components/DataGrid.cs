@@ -198,7 +198,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         UI.ShowImport(new ImportOption { Id = id, Name = name, Model = model });
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override Task InitPageAsync()
     {
         if (OnPicked != null)
             SetGridPicker();
@@ -209,8 +209,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         if (!string.IsNullOrWhiteSpace(OrderBy))
             OrderBys = new string[] { OrderBy };
 
-        await AddVisitLogAsync();
-        await base.OnInitializedAsync();
+        return base.InitPageAsync();
     }
 
     protected override Task OnAfterRenderAsync(bool firstRender)
@@ -221,7 +220,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         return base.OnAfterRenderAsync(firstRender);
     }
 
-    protected override void BuildContent(RenderTreeBuilder builder)
+    internal override void BuildContent(RenderTreeBuilder builder)
     {
         var css = CssBuilder.Default("table").AddClass("fixed", IsFixed).Build();
         builder.Div(css, attr =>
@@ -235,7 +234,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         });
     }
 
-    protected override void BuildPager(RenderTreeBuilder builder)
+    internal override void BuildPager(RenderTreeBuilder builder)
     {
         base.BuildPager(builder);
         BuildAdvQuery(builder);

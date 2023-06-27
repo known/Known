@@ -16,16 +16,16 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
         ShowPager = false;
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task InitPageAsync()
     {
         Column(c => c.Name).Template((b, r) => b.IconName(r.Icon, r.Name));
 
         datas = await Platform.Module.GetModulesAsync();
         InitTreeNode();
-        await base.OnInitializedAsync();
+        await base.InitPageAsync();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Div("left-view", attr =>
         {
@@ -34,7 +34,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
                    .Set(c => c.OnItemClick, Callback<TreeItem<string>>(OnTreeItemClick))
                    .Build();
         });
-        base.BuildRenderTree(builder);
+        base.BuildPage(builder);
     }
 
     protected override Task<PagingResult<SysModule>> OnQueryData(PagingCriteria criteria)

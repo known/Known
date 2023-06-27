@@ -16,11 +16,11 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
         ShowPager = false;
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task InitPageAsync()
     {
         datas = await Platform.Company.GetOrganizationsAsync();
         InitTreeNode();
-        await base.OnInitializedAsync();
+        await base.InitPageAsync();
     }
 
     protected override Task<PagingResult<SysOrganization>> OnQueryData(PagingCriteria criteria)
@@ -29,7 +29,7 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
         return Task.FromResult(result);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Div("left-view", attr =>
         {
@@ -38,7 +38,7 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
                    .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(OnTreeItemClick))
                    .Build();
         });
-        base.BuildRenderTree(builder);
+        base.BuildPage(builder);
     }
 
     public void New() => ShowForm();

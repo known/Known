@@ -12,7 +12,7 @@ public class DataList<TItem> : DataComponent<TItem>
     protected string ListStyle { get; set; } = "squared";
     protected string ItemStyle { get; set; }
 
-    protected override void BuildContent(RenderTreeBuilder builder)
+    internal override void BuildContent(RenderTreeBuilder builder)
     {
         if (Data == null || Data.Count == 0)
         {

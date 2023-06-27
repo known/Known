@@ -59,6 +59,9 @@ public class DataComponent<TItem> : BaseComponent
         criteria = new PagingCriteria(1);
         criteria.PageSize = Setting.Info.PageSize;
 
+        await AddVisitLogAsync();
+        await InitPageAsync();
+
         if (Data == null)
             await QueryPageData();
 
@@ -76,6 +79,12 @@ public class DataComponent<TItem> : BaseComponent
             return;
         }
 
+        BuildPage(builder);
+    }
+
+    protected virtual Task InitPageAsync() => Task.CompletedTask;
+    protected virtual void BuildPage(RenderTreeBuilder builder)
+    {
         var css = CssBuilder.Default(ContainerStyle).AddClass(Style).Build();
         builder.Div(css, attr =>
         {
@@ -94,10 +103,10 @@ public class DataComponent<TItem> : BaseComponent
         });
     }
 
-    protected virtual void BuildContent(RenderTreeBuilder builder) { }
-    protected void BuildEmpty(RenderTreeBuilder builder) => builder.Component<Empty>().Set(c => c.Text, EmptyText).Build();
+    internal virtual void BuildContent(RenderTreeBuilder builder) { }
+    internal void BuildEmpty(RenderTreeBuilder builder) => builder.Component<Empty>().Set(c => c.Text, EmptyText).Build();
 
-    protected virtual void BuildPager(RenderTreeBuilder builder)
+    internal virtual void BuildPager(RenderTreeBuilder builder)
     {
         if (!ShowPager)
             return;
