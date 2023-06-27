@@ -4,6 +4,37 @@ public class FileService : BaseService
 {
     internal FileService(Context context) : base(context) { }
 
+    //Public
+    public static void DeleteFiles(Database db, string bizId, List<string> oldFiles)
+    {
+        var files = FileRepository.GetFiles(db, bizId);
+        DeleteFiles(db, files, oldFiles);
+    }
+
+    public static SysFile SaveFile(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles, bool isThumb = false)
+    {
+        if (file == null)
+            return null;
+
+        DeleteFiles(db, bizId, bizType, oldFiles);
+        return AddFile(db, file, bizId, bizType, "", isThumb);
+    }
+
+    public static List<SysFile> AddFiles(Database db, List<AttachFile> files, string bizId, string bizType, bool isThumb = false)
+    {
+        if (files == null || files.Count == 0)
+            return null;
+
+        var sysFiles = new List<SysFile>();
+        foreach (var item in files)
+        {
+            var file = AddFile(db, item, bizId, bizType, "", isThumb);
+            sysFiles.Add(file);
+        }
+        return sysFiles;
+    }
+
+    //File
     internal PagingResult<SysFile> QueryFiles(PagingCriteria criteria)
     {
         return FileRepository.QueryFiles(Database, criteria);
@@ -90,9 +121,9 @@ public class FileService : BaseService
         return result;
     }
 
-    public static void DeleteFiles(Database db, string bizId, List<string> oldFiles)
+    internal static void DeleteFiles(Database db, string bizId, string bizType, List<string> oldFiles)
     {
-        var files = FileRepository.GetFiles(db, bizId);
+        var files = FileRepository.GetFiles(db, bizId, bizType);
         DeleteFiles(db, files, oldFiles);
     }
 
@@ -109,35 +140,6 @@ public class FileService : BaseService
 
             db.Delete(item);
         }
-    }
-
-    internal static void DeleteFiles(Database db, string bizId, string bizType, List<string> oldFiles)
-    {
-        var files = FileRepository.GetFiles(db, bizId, bizType);
-        DeleteFiles(db, files, oldFiles);
-    }
-
-    public static SysFile SaveFile(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles, bool isThumb = false)
-    {
-        if (file == null)
-            return null;
-
-        DeleteFiles(db, bizId, bizType, oldFiles);
-        return AddFile(db, file, bizId, bizType, "", isThumb);
-    }
-
-    public static List<SysFile> AddFiles(Database db, List<AttachFile> files, string bizId, string bizType, bool isThumb = false)
-    {
-        if (files == null || files.Count == 0)
-            return null;
-
-        var sysFiles = new List<SysFile>();
-        foreach (var item in files)
-        {
-            var file = AddFile(db, item, bizId, bizType, "", isThumb);
-            sysFiles.Add(file);
-        }
-        return sysFiles;
     }
 
     private static SysFile AddFile(Database db, AttachFile attach, string bizId, string bizType, string note, bool isThumb)
