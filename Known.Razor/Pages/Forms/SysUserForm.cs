@@ -35,7 +35,7 @@ class SysUserForm : BaseForm<SysUser>
             });
             table.Tr(attr =>
             {
-                table.Field<CheckList>("角色", "RoleId", true).ColSpan(3)
+                table.Field<CheckList>("角色", "RoleId").ColSpan(3)
                      .Set(f => f.Value, auth?.RoleIds)
                      .Set(f => f.Items, auth?.Roles)
                      .Build();

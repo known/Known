@@ -78,8 +78,13 @@ class UserService : BaseService
 
     internal Result SaveUser(dynamic model)
     {
-        var roleIds = ((string)model.RoleId).Split(',');
-        var roles = Database.QueryListById<SysRole>(roleIds);
+        List<SysRole> roles = null;
+        var roleId = (string)model.RoleId;
+        if (!string.IsNullOrWhiteSpace(roleId))
+        {
+            var roleIds = roleId.Split(',');
+            roles = Database.QueryListById<SysRole>(roleIds);
+        }
         var entity = Database.QueryById<SysUser>((string)model.Id);
         if (entity == null)
         {
@@ -142,7 +147,7 @@ class UserService : BaseService
             }
             db.Save(entity);
             PlatformHelper.SetBizUser(db, entity);
-        }, entity.Id);
+        }, entity);
     }
 
     internal Result UpdateUser(dynamic model)
