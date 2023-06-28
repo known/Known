@@ -21,6 +21,11 @@ class AdminHeader : BaseComponent
         if (Menus != null && Menus.Count > 0)
             curMenu = Menus.FirstOrDefault();
 
+        PageAction.RefreshAppName = appName =>
+        {
+            AppName = appName;
+            StateChanged();
+        };
         PageAction.RefreshMessageCount = count =>
         {
             MessageCount = count;

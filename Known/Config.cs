@@ -21,6 +21,7 @@ public sealed class Config
     public static string SoftVersion { get; private set; }
     public static string FrameVersion { get; private set; }
     public static Assembly AppAssembly { get; private set; }
+    public static bool IsPlatform { get; set; }
 
     public static void SetAppAssembly(Assembly assembly)
     {

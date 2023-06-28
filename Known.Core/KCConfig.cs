@@ -8,7 +8,6 @@ public sealed class KCConfig
     public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;
     public static string WebRoot { get; set; }
     public static string ContentRoot { get; set; }
-    public static bool IsPlatform { get; set; }
     public static bool IsDevelopment { get; set; }
 
     public static void AddWebPlatform()

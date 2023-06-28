@@ -9,7 +9,7 @@ public class CompanyService : BaseService
     //Company
     public static string GetCompany(Database db, UserInfo user)
     {
-        if (KCConfig.IsPlatform)
+        if (Config.IsPlatform)
             return GetCompanyData(db, user);
 
         var model = PlatformRepository.GetConfig(db, Config.AppId, KeyCompany);
@@ -27,7 +27,7 @@ public class CompanyService : BaseService
     internal Result SaveCompany(object model)
     {
         var user = CurrentUser;
-        if (KCConfig.IsPlatform)
+        if (Config.IsPlatform)
         {
             var company = CompanyRepository.GetCompany(Database, user.CompNo);
             if (company == null)

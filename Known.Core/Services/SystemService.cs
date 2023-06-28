@@ -32,18 +32,6 @@ class SystemService : BaseService
         data.IsCheckKey = result.IsValid;
         return Result.Success("产品已安装！", data);
     }
-    
-    internal SystemInfo GetSystem()
-    {
-        var info = GetSystem(Database);
-        if (info != null)
-        {
-            var install = GetInstall();
-            info.ProductId = install.ProductId;
-            info.ProductKey = install.ProductKey;
-        }
-        return info;
-    }
 
     internal Result UpdateKey(InstallInfo info)
     {
@@ -68,17 +56,8 @@ class SystemService : BaseService
         var database = Database;
         var user = GetUser(info);
         var orga = GetOrganization(info);
+        var sys = GetSystem(info);
         database.User = new UserInfo { AppId = user.AppId, CompNo = user.CompNo, UserName = user.UserName, Name = user.Name };
-        var sys = new SystemInfo
-        {
-            CompNo = info.CompNo,
-            CompName = info.CompName,
-            AppName = info.AppName,
-            ProductId = info.ProductId,
-            ProductKey = info.ProductKey,
-            UserDefaultPwd = "888888"
-        };
-
         var path = GetProductKeyPath();
         Utils.SaveFile(path, info.ProductKey);
 
@@ -94,11 +73,60 @@ class SystemService : BaseService
     }
 
     //System
-    internal static SystemInfo GetSystem(Database db) => GetConfig<SystemInfo>(db, KeySystem);
+    internal SystemInfo GetSystem()
+    {
+        var info = GetSystem(Database);
+        if (info != null)
+        {
+            var install = GetInstall();
+            info.ProductId = install.ProductId;
+            info.ProductKey = install.ProductKey;
+        }
+        return info;
+    }
+
+    internal static SystemInfo GetSystem(Database db)
+    {
+        if (!Config.IsPlatform)
+            return GetConfig<SystemInfo>(db, KeySystem);
+
+        if (db.User == null)
+            return new SystemInfo();
+
+        var company = CompanyRepository.GetCompany(db, db.User.CompNo);
+        if (company == null)
+            return GetSystem(db.User);
+
+        return Utils.FromJson<SystemInfo>(company.SystemData);
+    }
+
+    private static SystemInfo GetSystem(InstallInfo info)
+    {
+        return new SystemInfo
+        {
+            CompNo = info.CompNo,
+            CompName = info.CompName,
+            AppName = info.AppName,
+            ProductId = info.ProductId,
+            ProductKey = info.ProductKey,
+            UserDefaultPwd = "888888"
+        };
+    }
+
+    private static SystemInfo GetSystem(UserInfo info)
+    {
+        return new SystemInfo
+        {
+            CompNo = info.CompNo,
+            CompName = info.CompName,
+            AppName = Config.AppName,
+            UserDefaultPwd = "888888"
+        };
+    }
 
     internal Result SaveSystem(SystemInfo info)
     {
-        if (KCConfig.IsPlatform)
+        if (Config.IsPlatform)
         {
             var user = CurrentUser;
             var company = CompanyRepository.GetCompany(Database, user.CompNo);
@@ -205,19 +233,35 @@ class SystemService : BaseService
         {
             CompNo = entity.Code,
             CompName = entity.Name,
+            AppName = Config.AppName,
             UserName = entity.Code,
             Password = entity.Code
         };
+        var company = GetCompany(info);
         var user = GetUser(info);
         var orga = GetOrganization(info);
         return Database.Transaction(Language.Save, db =>
         {
             if (entity.IsNew)
             {
+                db.Save(company);
                 db.Save(user);
                 db.Save(orga);
             }
             db.Save(entity);
         }, entity);
+    }
+
+    private static SysCompany GetCompany(InstallInfo info)
+    {
+        var sys = GetSystem(info);
+        return new SysCompany
+        {
+            AppId = Config.AppId,
+            CompNo = info.CompNo,
+            Code = info.CompNo,
+            Name = info.CompName,
+            SystemData = Utils.ToJson(sys)
+        };
     }
 }

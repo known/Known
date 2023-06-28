@@ -19,13 +19,15 @@ class SysSystem : PageComponent
             status = "已授权";
         builder.Div("ss-form ss-system", attr =>
         {
-            builder.Field<Text>("企业名称：", "").Value($"{info?.CompNo}-{info?.CompName}").ReadOnly(true).Build();
+            var label = Config.IsPlatform ? "租户名称：" : "企业名称：";
+            builder.Field<Text>(label, "").Value($"{info?.CompNo}-{info?.CompName}").ReadOnly(true).Build();
             builder.Field<Text>("系统名称：", "").Value(info?.AppName).ReadOnly(true)
                    .Set(f => f.IsEdit, true)
                    .Set(f => f.OnSave, async value =>
                    {
-                        info.AppName = value;
-                        await Platform.System.SaveSystemAsync(info);
+                       info.AppName = value;
+                       await Platform.System.SaveSystemAsync(info);
+                       PageAction.RefreshAppName?.Invoke(value);
                    })
                    .Build();
             builder.Field<Text>("系统版本：", "").Value(Config.AppVersion).ReadOnly(true).Build();
@@ -39,17 +41,20 @@ class SysSystem : PageComponent
                         await Platform.System.SaveSystemAsync(info);
                    })
                    .Build();
-            builder.Field<Text>("产品ID：", "").Value(info?.ProductId).ReadOnly(true).Build();
-            builder.Field<Text>("产品密钥：", "ProductKey").Value(info?.ProductKey).ReadOnly(true)
-                   .Set(f => f.IsEdit, true)
-                   .Set(f => f.OnSave, async value =>
-                   {
-                        info.ProductKey = value;
-                        await Platform.System.SaveSystemAsync(info);
-                        StateChanged();
-                   })
-                   .Build();
-            builder.Field<Text>("授权信息：", "").InputTemplate(b => b.Span($"text bold {style}", status)).Build();
+            if (!Config.IsPlatform)
+            {
+                builder.Field<Text>("产品ID：", "").Value(info?.ProductId).ReadOnly(true).Build();
+                builder.Field<Text>("产品密钥：", "ProductKey").Value(info?.ProductKey).ReadOnly(true)
+                       .Set(f => f.IsEdit, true)
+                       .Set(f => f.OnSave, async value =>
+                       {
+                           info.ProductKey = value;
+                           await Platform.System.SaveSystemAsync(info);
+                           StateChanged();
+                       })
+                       .Build();
+                builder.Field<Text>("授权信息：", "").InputTemplate(b => b.Span($"text bold {style}", status)).Build();
+            }
             builder.Field<Text>("版权信息：", "").Value(Copyright).ReadOnly(true).Build();
             builder.Div("form-item ss-terms", attr =>
             {
