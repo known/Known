@@ -28,14 +28,13 @@ public class AppConfig
 {
     public static void Initialize()
     {
-        Config.AppId = "KIMS";                           //系统ID，自动生成，默认项目名称
-        Config.AppName = "Known管理系统";                 //在此配置你的系统名称
-        Config.SysVersion = "1.0.0";                     //系统版本号
-        Config.AppAssembly = typeof(AppConfig).Assembly; //实体模型程序集，用于模块管理配置列表字段
+        Config.AppId = "KIMS";                             //系统ID，自动生成，默认项目名称
+        Config.AppName = "Known管理系统";                   //在此配置你的系统名称
+        Config.SetAppAssembly(typeof(AppConfig).Assembly); //App程序集，自动获取版本，反射实体模型用于模块管理配置列表字段
 
-        PagingCriteria.DefaultPageSize = 20;             //默认分页大小
-        DicCategory.AddCategories<AppDictionary>();      //自动加载数据字典类别，在AppDictionary中增加类别
-        Cache.AttachCodes(typeof(AppConfig).Assembly);   //自动加载CodeTable特性类常量进入缓存
+        PagingCriteria.DefaultPageSize = 20;               //默认分页大小
+        DicCategory.AddCategories<AppDictionary>();        //自动加载数据字典类别，在AppDictionary中增加类别
+        Cache.AttachCodes(typeof(AppConfig).Assembly);     //自动加载CodeTable特性类常量进入缓存
         //在此配置你的系统其他全局配置
     }
 }

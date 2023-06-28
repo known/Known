@@ -44,12 +44,12 @@ public class GoodsClient : BaseClient
 ```C#
 class GoodsList : WebGridView<KmGoods, GoodsForm>
 {
-    protected override Task OnInitializedAsync()
+    protected override Task InitPageAsync()
     {
         //表格栏位格式化显示
         Column(c => c.Type).Select(new SelectOption { Codes = AppDictionary.GoodsType });
         Column(c => c.TaxRate).Template((b, r) => b.Text(r.TaxRate?.ToString("P")));
-        return base.OnInitializedAsync();
+        return base.InitPageAsync();
     }
 
     //分页查询
