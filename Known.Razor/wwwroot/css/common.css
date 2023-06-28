@@ -393,11 +393,15 @@ td .icon, .tab .icon {width:20px;text-align:center;margin-right:2px;}
 .tree .tree-item .tree-content {position:relative;display:flex;padding:.15em 0;align-items:center;flex-grow:1;}
 .tree .tree-root {padding:0;}
 
+/*font*/
+.breadcrumb li:after, 
+.menu-tree .child > .item:after {font:normal normal normal 1rem FontAwesome;}
+
 /*breadcrumb*/
 .breadcrumb {height:1.5rem;line-height:1.5rem;padding:0.5rem 1rem;}
 .breadcrumb li {display:inline-block;padding-right:0.5rem;}
 .breadcrumb li.home {cursor:pointer;}
-.breadcrumb li:after {display:inline-block;content:'>';padding-left:0.5rem;}
+.breadcrumb li:after {display:inline-block;content:'\f105';padding-left:0.5rem;}
 .breadcrumb li:last-child:after {content:'';}
 
 /*menu*/
@@ -412,8 +416,8 @@ td .icon, .tab .icon {width:20px;text-align:center;margin-right:2px;}
 .menu-tree .item:hover {border-left-color:#5cb85c;-webkit-transition:all .3s;transition:all .3s;}
 .menu-tree .item.active {border-left-color:#5cb85c;background-color:#2fb2e8;}
 .menu-tree .child > .active {border-left-color:transparent;background-color:transparent;}
-.menu-tree .child > .item:after {display:inline-block;content:'>';float:right;}
-.menu-tree .child > .active:after {content:'∨';}
+.menu-tree .child > .item:after {display:inline-block;content:'\f105';float:right;margin-top:0.75rem;}
+.menu-tree .child > .active:after {content:'\f107';}
 .menu-tree ul {display:none;background-color:rgb(255,255,255,0.1)}
 .menu-tree .item.active+ul {display:block;}
 .menu-tree > li > .item {padding:0 12px;}

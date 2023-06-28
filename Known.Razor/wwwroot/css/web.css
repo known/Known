@@ -148,13 +148,16 @@ button, .button, input, select, .form-input .text, .form-input .unit,
 .ss-form .userMessage .form-button {padding:10px;text-align:center;}
 .ss-form .userMessage .noread {font-weight:bold;color:#000;}
 
+/*font*/
+.slayout .checked:after {font:normal normal normal 1rem FontAwesome;}
+
 /*SysSetting*/
 #qvSysSetting, .ss-form .layout .form-input {width:300px;}
 #qvSysSetting .form-label {width:80px;}
 #qvSysSetting select {width:auto;}
 #qvSysSetting .layout .form-label {width:100%;}
 .slayout {float:left;position:relative;width:45%;height:80px;margin:2% 2% 0 2%;}
-.slayout .checked:after {display:block;content:'V';position:absolute;right:1px;bottom:1px;color:#337ab7;font-size:0.5rem;font-weight:bold;}
+.slayout .checked:after {display:block;content:'\f00c';position:absolute;right:1px;bottom:1px;color:#337ab7;font-size:0.5rem;font-weight:bold;}
 .ss-form .slayout {margin-left:0;}
 .slayout .header {height:10px;left:20px;}
 .slayout .sider {width:20px;}
