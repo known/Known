@@ -50,6 +50,7 @@ input.select:disabled {background-color:#f5f5f5;}
 input[type="text"], textarea {position:relative;}
 input, select, textarea, .list-box {width:100%;min-width:100px;border:1px solid #ccc;padding:0 0.5rem;}
 textarea {height:100%;min-height:4rem;padding:0.2rem;font-family:inherit;}
+input[type="number"] {padding-right:0;}
 input[type="color"] {width:2rem;min-width:2rem;padding:0 0.2rem;}
 input[type="checkbox"], input[type="radio"] {width:1.3rem;min-width:1.3rem;height:1.3rem;}
 input[type="checkbox"]+span, input[type="radio"]+span {margin-left:25px;}
@@ -137,7 +138,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 
 /*badge,progress*/
 .badge, .progress, .progress .value {color:#fff;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;}
-.badge {padding:2px 5px;background-color:#009688;cursor:pointer;}
+.badge {padding:3px 5px;background-color:#009688;cursor:pointer;font-size:1rem;}
 .badge-top {
     position:absolute;top:0;right:0;font-size:0.5rem;padding:0;width:16px;height:16px;line-height:16px;
     background-color:#d9534f;color:#fff;text-align:center;
@@ -145,7 +146,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 }
 .progress, .progress .value {display:block;height:20px;line-height:20px;}
 .progress {background-color:#ccc;width:100%;}
-.progress .value {background-color:#3399C6;text-align:right;font-size:12px;}
+.progress .value {background-color:#3399C6;text-align:right;font-size:0.8rem;padding-right:5px;}
 
 /*slider*/
 .slider {width:100%;height:100%;overflow:hidden;position:relative;}
