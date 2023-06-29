@@ -18,14 +18,11 @@ class SysActive : BaseComponent
                .Set(c => c.Icon, "fa fa-shield")
                .Set(c => c.Text, KRConfig.AuthStatus)
                .Build();
-        builder.Div("txt-center", $"产品ID：{info?.ProductId}");
-        builder.Div("txt-center inline", attr =>
+        builder.Div("sys-active", attr =>
         {
-            builder.Component<Text>()
-                   .Add(nameof(Text.Id), "ProductKey")
-                   .Add(nameof(Text.Value), info?.ProductKey)
-                   .Build(value => productKey = value);
-            builder.Button("授权", Callback(OnAuth));
+            builder.Field<Text>("产品ID：", "").Value(info?.ProductId).ReadOnly(true).Build();
+            builder.Field<Text>("产品密钥：", "ProductKey").Value(info?.ProductKey).Build(value => productKey = value);
+            builder.Div("form-button", attr => builder.Button("授权", Callback(OnAuth)));
         });
     }
 

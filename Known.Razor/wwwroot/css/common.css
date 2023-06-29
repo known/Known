@@ -66,7 +66,6 @@ input[type="checkbox"]+span, input[type="radio"]+span {margin-left:25px;}
 .error input, .error select, .error textarea, 
 .error .list-box, .error .editor {border-bottom:2px solid #d9534f;}
 input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
-.inline2 input {display:inline-block;width:50%;}
 
 .box, .card, .dialog, .kui-tips, .kui-content {background-color:#fff;}
 .circle {-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;}
@@ -295,7 +294,6 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .form .table table {border-top:none;}
 .form .table th {text-align:center;}
 .form .table td {border-bottom:none;}
-.onlyTool {top:43px;}
 
 .form .tabs .grid {padding:10px;}
 .form-tabs .tab-body .form {padding:0;}
@@ -304,6 +302,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 
 .row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
 .row .form-item {margin-top:0;padding-left:0;}
+.row .form-input {display:inline-block;}
 .row .form-label {padding-left:0;min-width:80px;}
 .row .form-item input, .row .form-item select {min-width:200px;}
 
@@ -418,3 +417,9 @@ td .icon, .tab .icon {width:20px;text-align:center;margin-right:2px;}
 .menu-tree .item.active+ul {display:block;}
 .menu-tree > li > .item {padding:0 12px;}
 .menu-tree > li > ul > li > .item {padding-left:2rem;}
+
+/*page*/
+.sys-active {margin:0 auto;width:360px;}
+.sys-active .form-item {}
+.sys-active .form-label {width:80px;}
+.sys-active input {width:auto;}

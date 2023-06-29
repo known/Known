@@ -2,4 +2,7 @@
 
 class DemoChart : BaseComponent
 {
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+    }
 }
