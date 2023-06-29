@@ -14,8 +14,7 @@
 
 :root {
     --theme-color: #1c66b9;/*#4188c8*/
-    --side-color: #1c292e;
-    --font-color: #413e3c;
+    --sider-color: #1c292e;
     --line-color: #ccc;
     --th-bgcolor: #f1f1f1;
     --border-radius: 0.2rem;
@@ -49,8 +48,8 @@ input:read-only, select:disabled, textarea:read-only {background-color:#f5f5f5;}
 input.select:read-only {background-color:#fff;}
 input.select:disabled {background-color:#f5f5f5;}
 input[type="text"], textarea {position:relative;}
-input, select, textarea, .list-box {width:100%;min-width:100px;border:1px solid #ccc;}
-textarea {height:100%;min-height:5rem;padding:0.2rem;font-family:inherit;}
+input, select, textarea, .list-box {width:100%;min-width:100px;border:1px solid #ccc;padding:0 0.5rem;}
+textarea {height:100%;min-height:4rem;padding:0.2rem;font-family:inherit;}
 input[type="color"] {width:2rem;min-width:2rem;padding:0 0.2rem;}
 input[type="checkbox"], input[type="radio"] {width:1.3rem;min-width:1.3rem;height:1.3rem;}
 input[type="checkbox"]+span, input[type="radio"]+span {margin-left:25px;}
@@ -91,8 +90,13 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 
 /*search-box*/
 .search-box {position:relative;}
-.search-box input {width:100%;padding-left:10px;padding-right:38px;}
-.search-box .icon {position:absolute;top:1px;right:1px;color:#bbb;width:30px;text-align:center;}
+.search-box input {width:100%;padding-left:0.5rem;}
+.search-box .icon, .form-input .icon {
+    position:absolute;top:0;bottom:0;right:0;cursor:pointer;
+    width:2rem;text-align:center;margin:0;padding-top:0.45rem;
+}
+.search-box .icon {color:#bbb;}
+.search-box:has(.icon) > input, .form-input:has(.icon) > input {padding-right:2.1rem;}
 
 /*group-box*/
 .group-box {position:relative;border:1px solid var(--line-color);}
@@ -262,31 +266,24 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .form-label {float:left;padding:0 1rem;font-weight:bold;}
 .form-input {position:relative;}
 .form-item:after, .form-input:after {display:block;content:'';clear:both;}
-.form-input .icon {position:absolute;right:1px;bottom:1px;width:28px;text-align:center;cursor:pointer;margin:0;}
-.form-input .icon.fa-ellipsis-h {background-color:#f5f5f5;}
-.form-input .icon-select {background-color:#fff;z-index:9999;}
 .form-input .unit, .form-input .btn, .form-input .captcha {position:absolute;right:0;padding:0 5px;}
 .form-input .btn {border:1.5px solid var(--line-color);background-color:#f1f1f1;cursor:pointer;}
-.form-input .captcha {width:86px;height:40px;padding:0;border:none;}
+.form-input .captcha {padding:0;border:none;}
 .form-input.check {font-weight:bold;}
 .form-check {position:absolute;top:5px;right:0;}
 .form-radio {position:relative;margin-right:1rem;cursor:pointer;display:inline-block;}
-.form-radio input {position:absolute;top:5px;}
+.form-radio input {position:absolute;top:0.4rem;}
 .form-tips {padding-left:5px;color:#aaa;}
 .form-button {text-align:center;margin-top:1rem;}
 .form-button button {margin-right:1rem;}
 .form-item, .form-button, .tips {padding:0 1rem;}
 .form-item .link {padding-left:0.5rem;}
 .block .form-radio {display:block;height:auto;}
-.form, .inline {padding:1rem;}
+.form {padding:1rem;}
 .form th, .form td {padding:5px;border-bottom:1px solid var(--line-color);}
 .form th {text-align:right;padding-right:1rem;background-color:var(--th-bgcolor);}
-.form td .form-input {width:100%;}
-.form td .query .form-input, .form td .inline .form-input, 
-.form td.inline .form-input {display:inline-block;width:auto;}
-.form td.inline2 .form-input {display:inline-block;width:50%;}
-.form td.inline3 .form-input {display:inline-block;width:33.33%;}
-.form-files span {margin-right:5px;}
+.form td.inline .form-input {display:inline-block;}
+.form td .query .form-input, .form td .inline .form-input, .form-files span {margin-right:5px;}
 .form-file {padding:5px 0;}
 .form .tab li {padding:5px;}
 .form .tab-body.top {top:40px;}
@@ -298,7 +295,6 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .form .table table {border-top:none;}
 .form .table th {text-align:center;}
 .form .table td {border-bottom:none;}
-input, select, textarea, .list-box, .dropdown-item {padding-left:5px;}
 .onlyTool {top:43px;}
 
 .form .tabs .grid {padding:10px;}

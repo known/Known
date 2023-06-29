@@ -244,11 +244,6 @@ public class Form : BaseComponent
 
 public class BaseForm<T> : Form
 {
-    public BaseForm()
-    {
-        Style = "inline";
-    }
-
     protected T TModel => (T)Model;
 
     protected Field Field(Expression<Func<T, object>> selector)
