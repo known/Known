@@ -246,7 +246,14 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .hasToolbar {top:40px;}
 .hasPager, .form .hasPager {bottom:40px;}
 
-.pager {height:40px;line-height:40px;text-align:right;padding-right:10px;}
+.pager {padding:5px 10px;}
+.pager ul {display:flex;height:30px;line-height:30px;}
+.pager ul li {padding:0 5px;}
+.pager input, .pager select, .pager button {height:30px;line-height:30px;padding:0 5px;}
+.pager input {width:50px;min-width:50px;margin:0 5px;}
+.pager button {padding:0 10px;margin:0 5px;}
+.pager .btn {width:30px;line-height:30px;cursor:pointer;text-align:center;}
+
 .pager .total, .pager .size {padding:0 5px;}
 .pager .size select {width:70px;min-width:70px;}
 .pager .btns {display:inline-block;}
