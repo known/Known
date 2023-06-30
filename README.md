@@ -7,6 +7,8 @@ Known是基于C#和Blazor开发的前后端分离快速开发框架，开箱即�
 [![License](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/known/Known/blob/master/LICENSE)
 ![DEV](https://img.shields.io/badge/DEV-.NET7/VS2022-brightgreen)
 
+![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
+
 ### 概述
 * 基于C#和Blazor实现的快速开发框架，前后端分离，开箱即用。
 * 跨平台，单页应用，混合桌面应用，Web和桌面共享一处代码。
@@ -51,13 +53,10 @@ dotnet new known --name=你的项目
 
 ### 效果图
 
-Web效果图|桌面效果图
+|
 :--:|:--:
-![Web效果图](Document/images/Web.png)|![桌面效果图](Document/images/WinForm.png)
-
-![桌面主页](https://foruda.gitee.com/images/1688092817417883098/53a1da51_14334.png "屏幕截图")
-![列表页面](https://foruda.gitee.com/images/1688093103502236712/7ad4f573_14334.png "屏幕截图")
-![表单页面](https://foruda.gitee.com/images/1688093130502934536/ee69a56f_14334.png "屏幕截图")
+![Web效果图](Document/images/Web.png)|![桌面主页](https://foruda.gitee.com/images/1688092817417883098/53a1da51_14334.png "屏幕截图")
+![列表页面](https://foruda.gitee.com/images/1688093103502236712/7ad4f573_14334.png "屏幕截图")|![表单页面](https://foruda.gitee.com/images/1688093130502934536/ee69a56f_14334.png "屏幕截图")
 
 ### 使用教程
 
