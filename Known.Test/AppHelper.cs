@@ -28,14 +28,17 @@ class AppHelper
         var path = Path.Combine(Application.StartupPath, fileName);
         if (!File.Exists(path))
         {
-            Utils.EnsureFile(path);
             var assembly = typeof(AppHelper).Assembly;
             var names = assembly.GetManifestResourceNames();
             var name = names.FirstOrDefault(n => n.Contains(fileName));
+            if (string.IsNullOrWhiteSpace(name))
+                return;
+
+            Utils.EnsureFile(path);
             using (var stream = assembly.GetManifestResourceStream(name))
             using (var fs = File.Create(path))
             {
-                stream.CopyTo(fs);
+                stream?.CopyTo(fs);
             }
         }
     }
