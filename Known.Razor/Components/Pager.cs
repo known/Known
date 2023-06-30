@@ -49,22 +49,24 @@ class Pager : BaseComponent
 
     private void BuildPages(RenderTreeBuilder builder)
     {
-        for (int i = 1; i <= PageCount; i++)
+        var start = PageIndex - 2 > 0 ? PageIndex - 2 : 1;
+        var end = PageIndex + 5 > PageCount ? PageCount : start + 4;
+        if (end == PageCount)
+            start = PageCount - 4;
+
+        if (start != 1)
         {
-            if (i == 2 && PageIndex - i > 2)
-            {
-                i = PageIndex - 3;
-                builder.Li(attr => builder.Text("..."));
-            }
-            else if (i - PageIndex > 2 && i + 3 < PageCount)
-            {
-                i = PageCount - 2;
-                builder.Li(attr => builder.Text("..."));
-            }
-            else
-            {
-                BuildPageButton(builder, i);
-            }
+            BuildPageButton(builder, 1);
+            builder.Li(attr => builder.Text("..."));
+        }
+        for (int i = start; i <= end; i++)
+        {
+            BuildPageButton(builder, i);
+        }
+        if (end != PageCount)
+        {
+            builder.Li(attr => builder.Text("..."));
+            BuildPageButton(builder, PageCount);
         }
     }
 
