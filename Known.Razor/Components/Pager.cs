@@ -49,10 +49,15 @@ class Pager : BaseComponent
 
     private void BuildPages(RenderTreeBuilder builder)
     {
-        var start = PageIndex - 2 > 0 ? PageIndex - 2 : 1;
-        var end = PageIndex + 5 > PageCount ? PageCount : start + 4;
-        if (end == PageCount)
-            start = PageCount - 4;
+        var start = 1;
+        var end = PageCount;
+        if (PageCount > 5)
+        {
+            start = PageIndex - 2 > 0 ? PageIndex - 2 : 1;
+            end = PageIndex + 5 > PageCount ? PageCount : start + 4;
+            if (end == PageCount && PageCount > 5)
+                start = PageCount - 4;
+        }
 
         if (start != 1)
         {
