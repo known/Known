@@ -16,7 +16,7 @@ class Pager : BaseComponent
             if (Context.IsMobile)
                 BuildAppPager(builder);
             else
-                BuildPager(builder);
+                BuildWebPager(builder);
         });
     }
 
@@ -25,62 +25,47 @@ class Pager : BaseComponent
         builder.Ul("btns", attr =>
         {
             BuildPageButton(builder, Language.PagerPrevious);
-            builder.Li("text", attr =>
-            {
-                builder.Text($"{PageIndex}/{PageCount}");
-            });
+            builder.Li("text", attr => builder.Text($"{PageIndex}/{PageCount}"));
             BuildPageButton(builder, Language.PagerNext);
         });
     }
 
-    private void BuildPager(RenderTreeBuilder builder)
+    private void BuildWebPager(RenderTreeBuilder builder)
     {
-        // < 1 2 3 ... 5 > 第_1_页 确定 共100条 [20条/页]
         builder.Ul(attr =>
         {
-            BuildPrevious(builder);
-            BuildPageButton(builder, 1);
-            if (PageCount <= 5)
-            {
-
-            }
-            for (int i = 0; i < 5; i++)
-            {
-                
-            }
-            BuildPageButton(builder, PageCount);
-            BuildNext(builder);
+            BuildPageButton(builder, Language.PagerPrevious, "fa fa-chevron-left");
+            BuildPages(builder);
+            BuildPageButton(builder, Language.PagerNext, "fa fa-chevron-right");
             builder.Li(attr => BuildGoPage(builder));
             builder.Li(attr => builder.Text($"共{TotalCount}条"));
             builder.Li(attr => BuildPageSize(builder));
+            //builder.Li("btn fa fa-refresh", attr =>
+            //{
+            //    attr.Title(Language.PagerRefresh).OnClick(Callback(async e => await OnRefresh()));
+            //});
         });
     }
 
-    private void BuildPrevious(RenderTreeBuilder builder)
+    private void BuildPages(RenderTreeBuilder builder)
     {
-        builder.Li("btn fa fa-chevron-left", attr =>
+        for (int i = 1; i <= PageCount; i++)
         {
-            if (PageIndex > 1)
-                attr.OnClick(Callback(async e => await PageChanged(PageIndex--)));
-        });
-    }
-
-    private void BuildNext(RenderTreeBuilder builder)
-    {
-        builder.Li("btn fa fa-chevron-right", attr =>
-        {
-            if (PageIndex < PageCount)
-                attr.OnClick(Callback(async e => await PageChanged(PageIndex++)));
-        });
-    }
-
-    private void BuildPageButton(RenderTreeBuilder builder, int pageIndex)
-    {
-        builder.Li("btn", attr =>
-        {
-            attr.OnClick(Callback(async e => await PageChanged(pageIndex)));
-            builder.Text($"{pageIndex}");
-        });
+            if (i == 2 && PageIndex - i > 2)
+            {
+                i = PageIndex - 3;
+                builder.Li(attr => builder.Text("..."));
+            }
+            else if (i - PageIndex > 2 && i + 3 < PageCount)
+            {
+                i = PageCount - 2;
+                builder.Li(attr => builder.Text("..."));
+            }
+            else
+            {
+                BuildPageButton(builder, i);
+            }
+        }
     }
 
     private void BuildGoPage(RenderTreeBuilder builder)
@@ -117,60 +102,29 @@ class Pager : BaseComponent
         });
     }
 
-    private Task PageChanged(int pageIndex)
+    private void BuildPageButton(RenderTreeBuilder builder, int pageIndex)
     {
-        PageIndex = pageIndex;
-        return OnRefresh();
-    }
-
-    private void BuildPager1(RenderTreeBuilder builder)
-    {
-        var total = Language.PagerTotalText.Format(TotalCount);
-        builder.Span("total", total);
-
-        builder.Span("size", attr =>
+        var css = CssBuilder.Default("btn").AddClass("active", pageIndex == PageIndex).Build();
+        builder.Li(css, attr =>
         {
-            builder.Text("每页");
-            BuildPageSize(builder);
-            builder.Text("条");
-        });
-
-        builder.Ul("btns", attr =>
-        {
-            builder.Li(attr =>
-            {
-                attr.Title(Language.PagerRefresh).OnClick(Callback(e => OnRefresh()));
-                builder.Icon("fa fa-refresh");
-            });
-            BuildPageButton(builder, Language.PagerFirst, "fa fa-step-backward");
-            BuildPageButton(builder, Language.PagerPrevious, "caret pp fa fa-caret-left");
-            builder.Li("text", attr =>
-            {
-                builder.Text($"{PageIndex}/{PageCount}");
-            });
-            BuildPageButton(builder, Language.PagerNext, "caret pn fa fa-caret-right");
-            BuildPageButton(builder, Language.PagerLast, "fa fa-step-forward");
+            attr.OnClick(Callback(async e => await PageChanged(pageIndex)));
+            builder.Text($"{pageIndex}");
         });
     }
 
     private void BuildPageButton(RenderTreeBuilder builder, string text, string icon = null)
     {
-        builder.Li(attr =>
+        var disabled = IsDisabled(text);
+        var css = CssBuilder.Default("btn").AddClass("disabled", disabled).AddClass(icon).Build();
+        builder.Li(css, attr =>
         {
-            if (IsDisabled(text))
-                attr.Class("disabled");
-            else
-                attr.OnClick(Callback(async e => await OnChangePage(text)));
+            if (!disabled)
+                attr.OnClick(Callback(async e => await PageChanged(text)));
 
             if (!string.IsNullOrWhiteSpace(icon))
-            {
                 attr.Title(text);
-                builder.Icon(icon);
-            }
             else
-            {
                 builder.Text(text);
-            }
         });
     }
 
@@ -189,22 +143,13 @@ class Pager : BaseComponent
         }
     }
 
-    private Task OnChangePage(string text)
+    private Task PageChanged(int pageIndex)
     {
-        SetPageIndex(text);
+        PageIndex = pageIndex;
         return OnRefresh();
     }
 
-    private Task OnRefresh()
-    {
-        return OnPageChanged?.Invoke(new PagingCriteria
-        {
-            PageIndex = PageIndex,
-            PageSize = PageSize
-        });
-    }
-
-    private void SetPageIndex(string text)
+    private Task PageChanged(string text)
     {
         switch (text)
         {
@@ -223,5 +168,15 @@ class Pager : BaseComponent
                 PageIndex = PageCount;
                 break;
         }
+        return OnRefresh();
+    }
+
+    private Task OnRefresh()
+    {
+        return OnPageChanged?.Invoke(new PagingCriteria
+        {
+            PageIndex = PageIndex,
+            PageSize = PageSize
+        });
     }
 }

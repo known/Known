@@ -246,23 +246,18 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .hasToolbar {top:40px;}
 .hasPager, .form .hasPager {bottom:40px;}
 
+/*pager*/
 .pager {padding:5px 10px;}
 .pager ul {display:flex;height:30px;line-height:30px;}
-.pager ul li {padding:0 5px;}
 .pager input, .pager select, .pager button {height:30px;line-height:30px;padding:0 5px;}
 .pager input {width:50px;min-width:50px;margin:0 5px;}
 .pager button {padding:0 10px;margin:0 5px;}
 .pager .btn {width:30px;line-height:30px;cursor:pointer;text-align:center;}
+.pager .btn.active {background-color:#3492d0;color:#fff;border-radius:var(--border-radius);}
 
-.pager .total, .pager .size {padding:0 5px;}
-.pager .size select {width:70px;min-width:70px;}
 .pager .btns {display:inline-block;}
 .pager .btns li {display:inline-block;width:30px;text-align:center;color:#00f;cursor:pointer;position:relative;}
-.pager .btns li.disabled {color:#000;cursor:default;}
 .pager .btns li.text {color:#333;cursor:default;font-weight:bold;width:auto;}
-.pager .btns li .caret {font-size:1.5rem;position:absolute;top:-18.1px;}
-.pager .btns li .pp {left:5px;}
-.pager .btns li .pn {left:15px;}
 
 /*form*/
 .form-title {font-size:1.5rem;font-weight:bold;text-align:center;padding:1rem;}
