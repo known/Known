@@ -62,6 +62,9 @@ class DocService
         if (entries == null || entries.Length == 0)
             return new List<FileSystemInfo>();
 
+        if (path.EndsWith("Log_更新日志"))
+            return entries.OrderByDescending(e => e.Name).ToList();
+
         return entries.OrderBy(e => e.Name).ToList();
     }
 
