@@ -49,16 +49,16 @@ dotnet new known --name=你的项目
 - [项目模板](https://gitee.com/known/known-template)
 - [开发示例](https://gitee.com/known/known-sample)
 
-### 效果图
+### 系统美图
 
-Web效果图|桌面效果图
-:--:|:--:
-![Web效果图](https://gitee.com/known/Known/raw/master/Document/images/Web.png)|![桌面效果图](https://gitee.com/known/Known/raw/master/Document/images/WinForm.png)
+![桌面主页](https://foruda.gitee.com/images/1688092817417883098/53a1da51_14334.png "屏幕截图")
+![列表页面](https://foruda.gitee.com/images/1688093103502236712/7ad4f573_14334.png "屏幕截图")
+![表单页面](https://foruda.gitee.com/images/1688093130502934536/ee69a56f_14334.png "屏幕截图")
 
 ### 使用教程
 
-* [Wiki教程](https://gitee.com/known/Known/wikis/pages)
+* [教程](/doc)
 
 ### 更新日志
 
-* [更新日志](Document/更新日志.md)
+* [更新日志](/doc/log)

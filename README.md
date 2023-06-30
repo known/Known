@@ -55,10 +55,14 @@ Web效果图|桌面效果图
 :--:|:--:
 ![Web效果图](Document/images/Web.png)|![桌面效果图](Document/images/WinForm.png)
 
+![桌面主页](https://foruda.gitee.com/images/1688092817417883098/53a1da51_14334.png "屏幕截图")
+![列表页面](https://foruda.gitee.com/images/1688093103502236712/7ad4f573_14334.png "屏幕截图")
+![表单页面](https://foruda.gitee.com/images/1688093130502934536/ee69a56f_14334.png "屏幕截图")
+
 ### 使用教程
 
-* [Wiki教程](https://gitee.com/known/Known/wikis/pages)
+* [教程](http://known.pumantech.com/doc)
 
 ### 更新日志
 
-* [更新日志](Document/更新日志.md)
+* [更新日志](http://known.pumantech.com/doc/log)
