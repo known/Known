@@ -11,7 +11,7 @@ class SysTenantForm : BaseForm<SysTenant>
             table.ColGroup(20, 30, 20, 30);
             table.Tr(attr =>
             {
-                table.Field<Text>(f => f.Code).Build();
+                table.Field<Text>(f => f.Code).Enabled(TModel.IsNew).Build();
                 table.Field<Text>(f => f.Name).Build();
             });
             table.Tr(attr => table.Field<CheckBox>(f => f.Enabled).ColSpan(3).Set(f => f.Switch, true).Build());
