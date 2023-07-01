@@ -97,7 +97,7 @@ public class Login : BaseComponent
             if (IsCaptcha)
             {
                 string code = data.Captcha;
-                if (code != captcha.Code)
+                if (!captcha.Code.Equals(code, StringComparison.OrdinalIgnoreCase))
                 {
                     message = "验证码不正确！";
                     return;

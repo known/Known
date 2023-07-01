@@ -115,6 +115,7 @@ button, .button, input, select,
 .login .form-input .fa-lock {font-size:1.6rem;}
 .login .form-input input {height:40px;padding-left:40px;background-color:#fff;}
 .login .form-radio input {height:20px;line-height:20px;}
+.login .captcha {height:40px;}
 .login button {width:100%;height:40px;margin-left:0;}
 .login-msg {color:#d9534f;text-align:center;}
 
