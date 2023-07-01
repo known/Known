@@ -34,12 +34,12 @@ class Pager : BaseComponent
     {
         builder.Ul(attr =>
         {
+            builder.Li(attr => builder.Text($"共{TotalCount}条"));
+            builder.Li(attr => BuildPageSize(builder));
             BuildPageButton(builder, Language.PagerPrevious, "fa fa-chevron-left");
             BuildPages(builder);
             BuildPageButton(builder, Language.PagerNext, "fa fa-chevron-right");
             builder.Li(attr => BuildGoPage(builder));
-            builder.Li(attr => builder.Text($"共{TotalCount}条"));
-            builder.Li(attr => BuildPageSize(builder));
             //builder.Li("btn fa fa-refresh", attr =>
             //{
             //    attr.Title(Language.PagerRefresh).OnClick(Callback(async e => await OnRefresh()));
@@ -62,7 +62,7 @@ class Pager : BaseComponent
         if (start != 1)
         {
             BuildPageButton(builder, 1);
-            builder.Li(attr => builder.Text("..."));
+            builder.Li("btn fa fa-ellipsis-h");
         }
         for (int i = start; i <= end; i++)
         {
@@ -70,7 +70,7 @@ class Pager : BaseComponent
         }
         if (end != PageCount)
         {
-            builder.Li(attr => builder.Text("..."));
+            builder.Li("btn fa fa-ellipsis-h");
             BuildPageButton(builder, PageCount);
         }
     }
@@ -84,7 +84,7 @@ class Pager : BaseComponent
                 .OnChange(EventCallback.Factory.CreateBinder(this, value => PageIndex = value, PageIndex));
         });
         builder.Text("页");
-        builder.Button("确定", Callback(async e => await OnRefresh()));
+        builder.Button("前往", Callback(async e => await OnRefresh()));
     }
 
     private void BuildPageSize(RenderTreeBuilder builder)
