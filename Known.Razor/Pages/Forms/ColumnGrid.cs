@@ -43,7 +43,7 @@ class ColumnGrid : EditGrid<ColumnInfo>
             if (ReadOnly)
                 return;
 
-            builder.Div("tool inline", attr =>
+            builder.Div("tool", attr =>
             {
                 builder.Span("实体模型：");
                 builder.Field<Select>("Model").IsInput(true)

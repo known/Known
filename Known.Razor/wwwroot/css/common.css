@@ -293,6 +293,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .form-tabs {position:absolute;top:0;left:0;right:0;bottom:0;}
 .form-tabs .tab.left {position:absolute;top:1px;left:0;bottom:0;width:160px;height:auto;padding:0;overflow:auto;}
 .form-tabs .content {position:absolute;left:161px;top:1px;right:0;bottom:0;}
+.form .tool {display:flex;line-height:2rem;}
 .form .tool button {background-color:transparent;color:#333;}
 .form table {border-top:2px solid var(--line-color);}
 .form .table table {border-top:none;}

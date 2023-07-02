@@ -88,7 +88,7 @@ button, .button, input, select,
 .form-input .text, .form-input .unit, .form-input .btn,
 .form-label, .form-text, .form-radio, .form-tips {height:2rem;line-height:2rem;}
 .form-input .captcha {width:86px;height:2rem;}
-.module .tool {position:absolute;top:-50px;right:0;}
+.module .tool {position:absolute;top:-2.2rem;right:10px;}
 
 /*Install*/
 .install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}
