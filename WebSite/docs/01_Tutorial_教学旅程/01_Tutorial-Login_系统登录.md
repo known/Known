@@ -1,8 +1,21 @@
-# 自定义登录页面
-自定义系统的登录页面只需要重写Login页面和Index页面的BuildLogin方法即可。
-## 1. 重写Login
+# 系统登录
+
+## 概述
+
+- 框架内置系统登录页面，也可以对其进行自定义。
+- Web程序默认显示图片验证码，单机桌面版默认不显示。
+
+
+## 自定义页面
+
+- 自定义系统的登录页面只需要重写Login页面和Index页面的BuildLogin方法即可。
+- 自定义样式可以在您的项目中重写CSS样式表。
+
+### 1. 重写Login
+
 - 方式一：继承Known.Razor.Pages.Login，重写BuildRenderTree方法，如下示例
 - 方式二：完全重新构建Login页面，无需继承Known.Razor.Pages.Login
+
 ```csharp
 class Login : Known.Razor.Pages.Login
 {
@@ -35,7 +48,8 @@ class Login : Known.Razor.Pages.Login
 }
 ```
 
-## 2. 重写Index的BuildLogin
+### 2. 重写Index的BuildLogin
+
 ```csharp
 public class Index : Known.Razor.Pages.Index
 {
@@ -46,3 +60,8 @@ public class Index : Known.Razor.Pages.Index
     }
 }
 ```
+
+## 效果图
+
+![登录页面](https://foruda.gitee.com/images/1688121567850878119/aeb0ba7c_14334.png "屏幕截图")
+![Captcha](https://foruda.gitee.com/images/1688197097755819765/80038310_14334.png "屏幕截图")

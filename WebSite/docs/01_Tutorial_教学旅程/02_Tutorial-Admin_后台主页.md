@@ -1,8 +1,21 @@
-# 自定义后台主页面
+# 后台主页
+
+## 概述
+
+- 框架内置系统后台主页，也可以对其布局进行自定义。
+- 框架主题布局支持两种，顶部+侧边栏背景色和仅侧边栏有背景色。
+- 框架页面支持单页和多标签页设置，默认为单页。
+- 框架主题颜色支持自定义设置。
+
+## 自定义页面
+
 自定义后台管理主页面只需要重写Admin页面和Index页面的BuildAdmin方法即可。
-## 1. 重写Admin
+
+### 1. 重写Admin
+
 - 方式一：使用框架内置Admin模板
 - 方式二：完全重新构建Admin页面
+
 ```csharp
 class CustomAdmin : BaseComponent
 {
@@ -40,7 +53,8 @@ class CustomAdmin : BaseComponent
 }
 ```
 
-## 2. 重写Index的BuildAdmin
+### 2. 重写Index的BuildAdmin
+
 ```csharp
 public class Index : Known.Razor.Pages.Index
 {
@@ -51,3 +65,7 @@ public class Index : Known.Razor.Pages.Index
     }
 }
 ```
+
+## 效果图
+
+![桌面主页](https://foruda.gitee.com/images/1688092817417883098/53a1da51_14334.png "屏幕截图")

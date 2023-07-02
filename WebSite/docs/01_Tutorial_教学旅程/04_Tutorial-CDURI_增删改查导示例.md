@@ -1,12 +1,16 @@
 # 增删改查导示例
+
 本章介绍学习增、删、改、查、导功能如何实现，下面以商品资料作为示例，该业务栏位如下：
 > 类型、编码、名称、规格、单位、库存下限、库存上限、备注
 
 ## 1. 前后端共用
+
 ### 1.1. 创建实体类
+
 - 在KIMS项目Entities文件夹下创建KmGoods实体类
 - 该类继承EntityBase类
 - 属性使用Column特性描述，用于生成页面字段和数据校验
+
 ```csharp
 public class KmGoods : EntityBase
 {
@@ -22,9 +26,11 @@ public class KmGoods : EntityBase
 ```
 
 ### 1.2. 创建Client类
+
 - 在KIMS项目Clients文件夹下创建GoodsClient类
 - 该类是前后端数据交互接口，继承BaseClient类
 - 该类只需提供分页查询、删除和保存，导入功能由框架统一异步处理
+
 ```csharp
 public class GoodsClient : BaseClient
 {
@@ -37,10 +43,13 @@ public class GoodsClient : BaseClient
 ```
 
 ## 2. 前端
+
 ### 2.1. 创建List页面
+
 - 在KIMS.Razor项目BaseData文件夹下创建GoodsList类
 - 该类是数据列表页面，继承WebGridView<KmGoods, GoodsForm>类
 - 列表页面按钮和栏位在框架模块管理中配置
+
 ```csharp
 class GoodsList : WebGridView<KmGoods, GoodsForm>
 {
@@ -66,8 +75,10 @@ class GoodsList : WebGridView<KmGoods, GoodsForm>
 ```
 
 ### 2.2. 创建Form页面
+
 - 在KIMS.Razor项目BaseData\Forms文件夹下创建GoodsForm类
 - 该类是数据编辑和查看明细页面，继承WebForm<KmGoods>类
+
 ```csharp
 [Dialog(800, 420)]//设置对话框大小
 class GoodsForm : WebForm<KmGoods>
@@ -111,9 +122,12 @@ class GoodsForm : WebForm<KmGoods>
 ```
 
 ## 3. 后端
+
 ### 3.1. 创建Controller类
+
 - 在KIMS.Core项目Controllers文件夹下创建GoodsController类
 - 该类为服务端WebApi，继承BaseController类
+
 ```csharp
 [Route("[controller]")]
 public class GoodsController : BaseController
@@ -132,8 +146,10 @@ public class GoodsController : BaseController
 ```
 
 ### 3.2. 创建Service类
+
 - 在KIMS.Core项目Services文件夹下创建GoodsService类
 - 该类为业务逻辑服务类，继承ServiceBase类
+
 ```csharp
 class GoodsService : ServiceBase
 {
@@ -196,8 +212,10 @@ class GoodsService : ServiceBase
 ```
 
 ### 3.3. 创建Repository类
+
 - 在KIMS.Core项目Repositories文件夹下创建GoodsRepository类
 - 该类为数据访问类
+
 ```csharp
 class GoodsRepository
 {
@@ -223,8 +241,10 @@ class GoodsRepository
 ```
 
 ### 3.4. 创建Import类
+
 - 在KIMS.Core项目Imports文件夹下创建KmGoodsImport类（约定：类名以实体类名+Import）
 - 该类为数据异步导入处理类，由框架自动调用，继承BaseImport类
+
 ```csharp
 class KmGoodsImport : BaseImport
 {
@@ -297,6 +317,7 @@ class KmGoodsImport : BaseImport
 ```
 
 ## 4. 运行测试
+
 - 运行效果如下
 
 ![输入图片说明](https://foruda.gitee.com/images/1684222123055577650/f6637b2f_14334.png "屏幕截图")

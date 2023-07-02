@@ -1,15 +1,20 @@
 # 快速开始
 
 ### 1. 安装项目模板并创建新项目
+
 - 打开命令行输入如下命令安装和创建。
+
 ```bash
 -- 安装模板
 dotnet new install KnownTemplate
 -- 创建项目
 dotnet new known --name=KIMS
 ```
+
 > 说明：KIMS为测试项目名称
+
 - 安装和创建成功后，项目文件夹自动生成如下内容
+
 ```plaintext
 ├─KIMS          ->项目前后端共用库，客户端和实体类等。
 ├─KIMS.Client   ->Web前端，Blazor WebAssembly。
@@ -22,7 +27,9 @@ dotnet new known --name=KIMS
 ```
 
 ### 2. 打开解决方案配置应用
+
 - 使用 VS2022 打开 KIMS.sln 文件，打开 KIMS 项目下 AppConfig.cs 文件，配置App名称，示例代码如下：
+
 ```csharp
 public class AppConfig
 {
@@ -41,7 +48,9 @@ public class AppConfig
 ```
 
 ### 3. 配置后端数据库连接
+
 - 打开 KIMS.Server 项目文件，添加你的系统使用的数据库访问包，常用数据库包如下
+
 ```xml
 -- SQLite
 <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.5" />
@@ -50,6 +59,7 @@ public class AppConfig
 -- MySQL
 <PackageReference Include="MySqlConnector" Version="2.2.5" />
 ```
+
 - 打开项目下 AppServer.cs 文件修改数据库连接，示例代码如下：
 
 ```csharp
@@ -97,6 +107,7 @@ class AppServer
 ```
 
 ### 4. 配置完成运行项目
+
 - 到此简单配置已完成，现在可以点击VS运行 KIMS.Server 项目啦，运行效果如下：
 
 ![输入图片说明](https://foruda.gitee.com/images/1684208404409711237/6154486a_14334.png "屏幕截图")
