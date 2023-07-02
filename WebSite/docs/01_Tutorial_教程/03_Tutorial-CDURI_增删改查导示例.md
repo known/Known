@@ -7,7 +7,7 @@
 - 在KIMS项目Entities文件夹下创建KmGoods实体类
 - 该类继承EntityBase类
 - 属性使用Column特性描述，用于生成页面字段和数据校验
-```C#
+```csharp
 public class KmGoods : EntityBase
 {
     [Column("商品类型", "", true, "1", "50")]
@@ -25,7 +25,7 @@ public class KmGoods : EntityBase
 - 在KIMS项目Clients文件夹下创建GoodsClient类
 - 该类是前后端数据交互接口，继承BaseClient类
 - 该类只需提供分页查询、删除和保存，导入功能由框架统一异步处理
-```C#
+```csharp
 public class GoodsClient : BaseClient
 {
     public GoodsClient(Context context) : base(context) { }
@@ -41,7 +41,7 @@ public class GoodsClient : BaseClient
 - 在KIMS.Razor项目BaseData文件夹下创建GoodsList类
 - 该类是数据列表页面，继承WebGridView<KmGoods, GoodsForm>类
 - 列表页面按钮和栏位在框架模块管理中配置
-```C#
+```csharp
 class GoodsList : WebGridView<KmGoods, GoodsForm>
 {
     protected override Task InitPageAsync()
@@ -68,7 +68,7 @@ class GoodsList : WebGridView<KmGoods, GoodsForm>
 ### 2.2. 创建Form页面
 - 在KIMS.Razor项目BaseData\Forms文件夹下创建GoodsForm类
 - 该类是数据编辑和查看明细页面，继承WebForm<KmGoods>类
-```C#
+```csharp
 [Dialog(800, 420)]//设置对话框大小
 class GoodsForm : WebForm<KmGoods>
 {
@@ -114,7 +114,7 @@ class GoodsForm : WebForm<KmGoods>
 ### 3.1. 创建Controller类
 - 在KIMS.Core项目Controllers文件夹下创建GoodsController类
 - 该类为服务端WebApi，继承BaseController类
-```C#
+```csharp
 [Route("[controller]")]
 public class GoodsController : BaseController
 {
@@ -134,7 +134,7 @@ public class GoodsController : BaseController
 ### 3.2. 创建Service类
 - 在KIMS.Core项目Services文件夹下创建GoodsService类
 - 该类为业务逻辑服务类，继承ServiceBase类
-```C#
+```csharp
 class GoodsService : ServiceBase
 {
     internal GoodsService(Context context) : base(context) { }
@@ -198,7 +198,7 @@ class GoodsService : ServiceBase
 ### 3.3. 创建Repository类
 - 在KIMS.Core项目Repositories文件夹下创建GoodsRepository类
 - 该类为数据访问类
-```C#
+```csharp
 class GoodsRepository
 {
     //分页查询
@@ -225,7 +225,7 @@ class GoodsRepository
 ### 3.4. 创建Import类
 - 在KIMS.Core项目Imports文件夹下创建KmGoodsImport类（约定：类名以实体类名+Import）
 - 该类为数据异步导入处理类，由框架自动调用，继承BaseImport类
-```C#
+```csharp
 class KmGoodsImport : BaseImport
 {
     public KmGoodsImport(Database database) : base(database) { }

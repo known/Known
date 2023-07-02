@@ -3,7 +3,7 @@
 ## 1. 重写Login
 - 方式一：继承Known.Razor.Pages.Login，重写BuildRenderTree方法，如下示例
 - 方式二：完全重新构建Login页面，无需继承Known.Razor.Pages.Login
-```C#
+```csharp
 class Login : Known.Razor.Pages.Login
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -36,7 +36,7 @@ class Login : Known.Razor.Pages.Login
 ```
 
 ## 2. 重写Index的BuildLogin
-```C#
+```csharp
 public class Index : Known.Razor.Pages.Index
 {
     protected override void BuildLogin(RenderTreeBuilder builder)

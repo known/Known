@@ -20,7 +20,7 @@
 
 ### 框架结构
 
-```
+```plaintext
 ├─Known         ->框架前后端共用库，前后端数据交互模型。
 ├─Known.Core    ->框架后端库，通用业务逻辑。
 ├─Known.Razor   ->框架前端库，Grid、Tree、Form等Blazor组件。
@@ -49,7 +49,7 @@
 
 ### 快速安装
 
-```
+```bash
 --安装模板
 dotnet new install KnownTemplate
 --创建项目

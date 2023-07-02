@@ -16,6 +16,12 @@
 
     [Parameter] public string? Id { get; set; }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("codeHighlight");
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
     private async void OnDocNavClick()
     {
         await JS.InvokeVoidAsync("showDocNav");

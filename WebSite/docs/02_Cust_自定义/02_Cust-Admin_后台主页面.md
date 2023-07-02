@@ -3,7 +3,7 @@
 ## 1. 重写Admin
 - 方式一：使用框架内置Admin模板
 - 方式二：完全重新构建Admin页面
-```C#
+```csharp
 class CustomAdmin : BaseComponent
 {
     private bool isInitialized;
@@ -41,7 +41,7 @@ class CustomAdmin : BaseComponent
 ```
 
 ## 2. 重写Index的BuildAdmin
-```C#
+```csharp
 public class Index : Known.Razor.Pages.Index
 {
     protected override void BuildAdmin(RenderTreeBuilder builder)

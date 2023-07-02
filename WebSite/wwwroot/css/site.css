@@ -5,9 +5,6 @@
 html, body, .page {width:100%;height:100%;font-family:'Microsoft YaHei', Helvetica, Arial, sans-serif;font-size:1rem;}
 a {text-decoration:none;}
 
-.gitee {position:fixed;top:0;right:0;width:60px;height:60px;z-index:99999;}
-.gitee img {width:100%;height:100%;}
-
 .show {display:block;}
 .row:after {display:block;content:'';clear:both;}
 .col {float:left;}
@@ -115,47 +112,6 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
     .doc-nav {display:none;}
     .doc-content {left:201px;padding:20px 200px;}
 }
-
-.pln {color:#4d4d4c; }
-@media screen {
-    .str {color:#718c00; }
-    .kwd {color:#8959a8; }
-    .com {color:#8e908c; }
-    .typ {color:#4271ae; }
-    .lit {color:#f5871f; }
-    .pun {color:#4d4d4c; }
-    .opn {color:#4d4d4c; }
-    .clo {color:#4d4d4c; }
-    .tag {color:#c82829; }
-    .atn {color:#f5871f; }
-    .atv {color:#3e999f; }
-    .dec {color:#f5871f; }
-    .var {color:#c82829; }
-    .fun {color:#4271ae; }
-}
-@media print, projection {
-    .str {color:#060; }
-    .kwd {color:#006;font-weight:bold; }
-    .com {color:#600;font-style:italic; }
-    .typ {color:#404;font-weight:bold; }
-    .lit {color:#044; }
-    .pun, .opn, .clo {color:#440; }
-    .tag {color:#006;font-weight:bold; }
-    .atn {color:#404; }
-    .atv {color:#060; } 
-}
-ol.linenums {margin-top:0;margin-bottom:0; }
-li.L0,li.L1,li.L2,li.L3,li.L4,li.L5,li.L6,li.L7,li.L8,li.L9 {  /* */ }
-li.L1,li.L3,li.L5,li.L7,li.L9 {  /* */ }
-
-pre.code {font-family:inherit;line-height:20px;}
-pre.code {
-    border:1px solid #ccc;border-left-width:5px;border-left-color:#337ab7;padding:5px;
-    -webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;
-}
-.source code {font-size:100%;display:block;padding:1px 12px;margin:0;background-color:#fff;color:#4D4E53;}
-.prettyprint.linenums {padding-left:50px;}
-.prettyprint.linenums li {border-left:3px solid #ccc;}
 
 .markdown-body {-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;word-wrap:break-word}
 .markdown-body strong {font-weight:inherit;font-weight:600}
