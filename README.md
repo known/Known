@@ -61,17 +61,19 @@ dotnet new known --name=你的项目
 - [项目模板](https://gitee.com/known/known-template)
 - [开发示例](https://gitee.com/known/known-sample)
 
-### 效果图
-
-效果图|效果图
-:--:|:--:
-![效果图](Document/images/Web.png)|![桌面主页](https://foruda.gitee.com/images/1688092817417883098/53a1da51_14334.png)
-![列表页面](https://foruda.gitee.com/images/1688093103502236712/7ad4f573_14334.png)|![表单页面](https://foruda.gitee.com/images/1688093130502934536/ee69a56f_14334.png)
-
 ### 使用教程
 
 - [在线教程](http://known.pumantech.com/doc)
 
 ### 更新日志
 
-- [更新日志](http://known.pumantech.com/doc/log)
+- [更新日志](Document/更新日志.md)
+
+### 系统美图
+
+效果图|效果图
+:--:|:--:
+![登录页面](https://foruda.gitee.com/images/1688121567850878119/aeb0ba7c_14334.png "屏幕截图")|![桌面主页](https://foruda.gitee.com/images/1688092817417883098/53a1da51_14334.png "屏幕截图")
+![数据字典](https://foruda.gitee.com/images/1688121245593898303/e45b1e89_14334.png "屏幕截图")|![模块管理](https://foruda.gitee.com/images/1688121372620870803/ca564f91_14334.png "屏幕截图")
+![角色管理](https://foruda.gitee.com/images/1688121430233035965/c6e8df7f_14334.png "屏幕截图")|![用户管理](https://foruda.gitee.com/images/1688121486294777387/218d0eb9_14334.png "屏幕截图")
+![列表页面](https://foruda.gitee.com/images/1688093103502236712/7ad4f573_14334.png)|![表单页面](https://foruda.gitee.com/images/1688093130502934536/ee69a56f_14334.png)
