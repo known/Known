@@ -32,6 +32,9 @@ public class SystemController : BaseController
     public SystemInfo GetSystem() => Service.GetSystem();
 
     [HttpPost("[action]")]
+    public Result SaveKey([FromBody] SystemInfo info) => Service.SaveKey(info);
+    
+    [HttpPost("[action]")]
     public Result SaveSystem([FromBody] SystemInfo info) => Service.SaveSystem(info);
 
     //Tenant

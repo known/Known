@@ -28,12 +28,17 @@ class SysActive : BaseComponent
 
     private async void OnAuth()
     {
+        productKey.ShowError(false);
         var key = productKey.Value;
         if (string.IsNullOrWhiteSpace(key))
+        {
+            productKey.ShowError(true);
             return;
+        }
 
         info.ProductKey = key;
-        var result = await Platform.System.SaveSystemAsync(info);
+        var result = await Platform.System.SaveKeyAsync(info);
+        UI.Result(result);
         OnCheck?.Invoke(result.IsValid);
     }
 }

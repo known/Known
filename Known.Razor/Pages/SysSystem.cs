@@ -49,7 +49,7 @@ class SysSystem : PageComponent
                        .Set(f => f.OnSave, async value =>
                        {
                            info.ProductKey = value;
-                           await Platform.System.SaveSystemAsync(info);
+                           await Platform.System.SaveKeyAsync(info);
                            StateChanged();
                        })
                        .Build();

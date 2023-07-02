@@ -20,6 +20,7 @@ public class SystemClient : ClientBase
 
     //System
     public Task<SystemInfo> GetSystemAsync() => Context.GetAsync<SystemInfo>("System/GetSystem");
+    public Task<Result> SaveKeyAsync(SystemInfo info) => Context.PostAsync("System/SaveKey", info);
     public Task<Result> SaveSystemAsync(SystemInfo info) => Context.PostAsync("System/SaveSystem", info);
 
     //Tenant

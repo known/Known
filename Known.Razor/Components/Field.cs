@@ -86,6 +86,12 @@ public abstract class Field : BaseComponent
         StateChanged();
     }
 
+    internal void ShowError(bool isError)
+    {
+        error = isError ? "error" : "";
+        StateChanged();
+    }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();

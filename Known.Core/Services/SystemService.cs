@@ -100,6 +100,51 @@ class SystemService : BaseService
         return Utils.FromJson<SystemInfo>(company.SystemData);
     }
 
+    internal Result SaveKey(SystemInfo info)
+    {
+        var path = GetProductKeyPath();
+        Utils.SaveFile(path, info.ProductKey);
+        SaveConfig(Database, KeySystem, info);
+        var result = CheckKey();
+        return result;
+    }
+
+    internal Result SaveSystem(SystemInfo info)
+    {
+        if (Config.IsPlatform)
+        {
+            var user = CurrentUser;
+            var company = CompanyRepository.GetCompany(Database, user.CompNo);
+            if (company == null)
+                return Result.Error("企业不存在！");
+
+            company.SystemData = Utils.ToJson(info);
+            Database.Save(company);
+        }
+        else
+        {
+            SaveConfig(Database, KeySystem, info);
+        }
+
+        return Result.Success("保存成功！");
+    }
+
+    private static InstallInfo GetInstall()
+    {
+        var app = KCConfig.App;
+        var path = GetProductKeyPath();
+        var info = new InstallInfo
+        {
+            CompNo = app.CompNo,
+            CompName = app.CompName,
+            AppName = Config.AppName,
+            ProductId = PlatformHelper.GetProductId(),
+            ProductKey = Utils.ReadFile(path),
+            UserName = Constants.SysUserName
+        };
+        return info;
+    }
+
     private static SystemInfo GetSystem(InstallInfo info)
     {
         return new SystemInfo
@@ -122,47 +167,6 @@ class SystemService : BaseService
             AppName = Config.AppName,
             UserDefaultPwd = "888888"
         };
-    }
-
-    internal Result SaveSystem(SystemInfo info)
-    {
-        if (Config.IsPlatform)
-        {
-            var user = CurrentUser;
-            var company = CompanyRepository.GetCompany(Database, user.CompNo);
-            if (company == null)
-                return Result.Error("企业不存在！");
-
-            company.SystemData = Utils.ToJson(info);
-            Database.Save(company);
-        }
-        else
-        {
-            var path = GetProductKeyPath();
-            Utils.SaveFile(path, info.ProductKey);
-            SaveConfig(Database, KeySystem, info);
-        }
-
-        var result = CheckKey();
-        return result;
-    }
-
-    private static InstallInfo GetInstall()
-    {
-        var app = KCConfig.App;
-        var mac = Platform.GetMacAddress();
-        var id = mac.Split(':').Select(m => Convert.ToInt32(m, 16)).Sum();
-        var path = GetProductKeyPath();
-        var info = new InstallInfo
-        {
-            CompNo = app.CompNo,
-            CompName = app.CompName,
-            AppName = Config.AppName,
-            ProductId = $"PM-{Config.AppId}-{id:000000}",
-            ProductKey = Utils.ReadFile(path),
-            UserName = Constants.SysUserName
-        };
-        return info;
     }
 
     private static SysUser GetUser(InstallInfo info)
