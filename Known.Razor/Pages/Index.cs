@@ -25,11 +25,16 @@ public class Index : BaseComponent
 
         var isInstalled = Context.Check != null && Context.Check.IsInstalled;
         if (!isInstalled)
-            builder.Component<Install>().Set(c => c.OnInstall, OnInstall).Build();
+            BuildInstall(builder);
         else if (!isLogin)
             BuildLogin(builder);
         else
             BuildAdmin(builder);
+    }
+
+    protected virtual void BuildInstall(RenderTreeBuilder builder)
+    {
+        builder.Component<Install>().Set(c => c.OnInstall, OnInstall).Build();
     }
 
     protected virtual void BuildLogin(RenderTreeBuilder builder)
@@ -40,6 +45,12 @@ public class Index : BaseComponent
     protected virtual void BuildAdmin(RenderTreeBuilder builder)
     {
         builder.Component<Admin>().Set(c => c.OnLogout, OnLogout).Set(c => c.TopMenu, TopMenu).Build();
+    }
+
+    protected void OnInstall(CheckInfo check)
+    {
+        Context.Check = check;
+        StateChanged();
     }
 
     protected void OnLogin(UserInfo user)
@@ -54,12 +65,6 @@ public class Index : BaseComponent
     {
         isLogin = false;
         UI.SetSessionStorage(key, null);
-        StateChanged();
-    }
-
-    private void OnInstall(CheckInfo check)
-    {
-        Context.Check = check;
         StateChanged();
     }
 }
