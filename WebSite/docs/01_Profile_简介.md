@@ -1,11 +1,13 @@
 # Known
 
-Known是基于C#和Blazor开发的前后端分离快速开发框架，开箱即用，跨平台，一处代码，多处运行。
+[Known](https://gitee.com/known/Known)是基于C#和Blazor开发的前后端分离快速开发框架，开箱即用，跨平台，一处代码，多处运行。
 
 [![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
 [![fork](https://gitee.com/known/Known/badge/fork.svg?theme=dark)](https://gitee.com/known/Known/members)
 [![License](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/known/Known/blob/master/LICENSE)
 ![DEV](https://img.shields.io/badge/DEV-.NET7/VS2022-brightgreen)
+
+![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
 ### 概述
 
@@ -60,14 +62,11 @@ dotnet new known --name=你的项目
 
 ### 系统美图
 
+![登录页面](https://foruda.gitee.com/images/1688121567850878119/aeb0ba7c_14334.png "屏幕截图")
 ![桌面主页](https://foruda.gitee.com/images/1688092817417883098/53a1da51_14334.png "屏幕截图")
+![数据字典](https://foruda.gitee.com/images/1688121245593898303/e45b1e89_14334.png "屏幕截图")
+![模块管理](https://foruda.gitee.com/images/1688121372620870803/ca564f91_14334.png "屏幕截图")
+![角色管理](https://foruda.gitee.com/images/1688121430233035965/c6e8df7f_14334.png "屏幕截图")
+![用户管理](https://foruda.gitee.com/images/1688121486294777387/218d0eb9_14334.png "屏幕截图")
 ![列表页面](https://foruda.gitee.com/images/1688093103502236712/7ad4f573_14334.png "屏幕截图")
 ![表单页面](https://foruda.gitee.com/images/1688093130502934536/ee69a56f_14334.png "屏幕截图")
-
-### 使用教程
-
-- [在线教程](http://known.pumantech.com/doc)
-
-### 更新日志
-
-- [更新日志](http://known.pumantech.com/doc/log)
