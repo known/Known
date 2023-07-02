@@ -50,7 +50,7 @@ input.select:disabled {background-color:#f5f5f5;}
 input[type="text"], textarea {position:relative;}
 input, select, textarea, .list-box {width:100%;min-width:100px;border:1px solid #ccc;padding:0 0.5rem;}
 textarea {height:100%;min-height:4rem;padding:0.2rem;font-family:inherit;}
-input[type="number"] {padding-right:0;}
+input[type="number"], input[type="password"] {padding-right:0;}
 input[type="color"] {width:2rem;min-width:2rem;padding:0 0.12rem;}
 input[type="checkbox"], input[type="radio"] {width:1.3rem;min-width:1.3rem;height:1.3rem;}
 input[type="checkbox"]+span, input[type="radio"]+span {margin-left:25px;}
