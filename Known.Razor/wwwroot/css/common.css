@@ -156,7 +156,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .slider-snk span {display:inline-block;width:10px;height:10px;background-color:#fff;margin:0 3px;}
 .slider-snk span.active {background-color:#08c4b1;}
 
-/*tab*/
+/*tabs*/
 .tabs {position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;}
 .tab li {margin:0 20px;padding:10px 5px;cursor:pointer;}
 .tab li.active {font-weight:bold;border-radius:1px;}
@@ -169,8 +169,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .tab.bottom {border-top:1px solid var(--line-color);position:absolute;left:0;right:0;bottom:0;height:50px;}
 .tab.bottom li {display:inline-block;}
 .tab.bottom li.active {border-top:4px solid #5cb85c;}
-.tab-body {position:absolute;top:0;left:0;right:0;bottom:0;display:none;padding:10px;overflow:auto;}
-.tab-body.active {display:block;}
+.tab-body {position:absolute;top:0;left:0;right:0;bottom:0;padding:10px;overflow:auto;}
 .tab-body.top {top:50px;}
 .tab-body.left {left:100px;}
 .tab-tool {position:absolute;top:5px;right:10px;z-index:9999;}

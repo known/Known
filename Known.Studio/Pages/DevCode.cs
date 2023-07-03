@@ -49,7 +49,7 @@ Demo|Dm
     {
         builder.Div("dc-right", attr =>
         {
-            builder.Component<Tab>()
+            builder.Component<Tabs>()
                    .Set(c => c.Codes, Codes)
                    .Set(c => c.CurItem, curItem)
                    .Set(c => c.OnChanged, OnTabChanged)

@@ -4,17 +4,21 @@ namespace Known.Test.Pages.Samples;
 
 class DemoDataList : BaseComponent
 {
-    private readonly TabItem[] items = new TabItem[]
+    private readonly List<MenuItem> items = new()
     {
-        new TabItem{Icon="fa fa-list",Title="综合列表",ChildContent=b => b.Component<FullList>().Build()},
-        new TabItem{Icon="fa fa-table",Title="综合表格",ChildContent=b => b.Component<FullTable>().Build()},
-        new TabItem{Icon="fa fa-table",Title="普通表格",ChildContent=b => b.Component<CommonTable>().Build()},
-        new TabItem{Icon="fa fa-table",Title="分页表格",ChildContent=b => b.Component<PageTable>().Build()},
-        new TabItem{Icon="fa fa-table",Title="编辑表格",ChildContent=b => b.Component<EditTable>().Build()}
+        new MenuItem{Icon="fa fa-list",Name="综合列表",ComType=typeof(FullList)},
+        new MenuItem{Icon="fa fa-table",Name="综合表格",ComType=typeof(FullTable)},
+        new MenuItem{Icon="fa fa-table",Name="普通表格",ComType=typeof(CommonTable)},
+        new MenuItem{Icon="fa fa-table",Name="分页表格",ComType=typeof(PageTable)},
+        new MenuItem{Icon="fa fa-table",Name="编辑表格",ComType=typeof(EditTable)}
     };
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<Tabs>().Set(c => c.Items, items).Build();
+        builder.Component<Tabs>()
+               .Set(c => c.CurItem, items[0])
+               .Set(c => c.Items, items)
+               .Set(c => c.Body, (b, m) => b.DynamicComponent(m.ComType))
+               .Build();
     }
 }

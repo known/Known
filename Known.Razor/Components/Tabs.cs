@@ -2,70 +2,76 @@
 
 public class Tabs : BaseComponent
 {
-    private string curItem;
+    private List<MenuItem> TabItems { get; set; }
+    private string PositionCss => Position.ToString().ToLower();
 
     [Parameter] public string Style { get; set; }
-    [Parameter] public string Position { get; set; } = "top";
-    [Parameter] public TabItem[] Items { get; set; }
-    [Parameter] public Action<string> OnChanged { get; set; }
+    [Parameter] public bool Justified { get; set; }
+    [Parameter] public PositionType Position { get; set; } = PositionType.Top;
+    [Parameter] public string Codes { get; set; }
+    [Parameter] public MenuItem CurItem { get; set; }
+    [Parameter] public List<MenuItem> Items { get; set; }
+    [Parameter] public Action<MenuItem> OnChanged { get; set; }
+    [Parameter] public Action<RenderTreeBuilder, MenuItem> Body { get; set; }
 
-    protected override Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        curItem = Items?.First().Title;
-        return base.OnInitializedAsync();
+        base.OnParametersSet();
+
+        if (Items != null && Items.Count > 0)
+            TabItems = Items;
+        else
+            TabItems = CodeInfo.GetCodes(Codes).Select(c => new MenuItem(c.Code, c.Name)).ToList();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (Items == null || Items.Length == 0)
+        var items = TabItems;
+        if (items == null || items.Count == 0)
             return;
 
-        var css = CssBuilder.Default("tabs").AddClass(Style).Build();
-        builder.Div(css, attr =>
+        if (Body == null)
         {
-            BuildTabHead(builder);
-            BuildTabBody(builder);
-        });
+            BuildTabHead(builder, items);
+        }
+        else
+        {
+            var css = CssBuilder.Default("tabs").AddClass(Style).Build();
+            builder.Div(css, attr =>
+            {
+                BuildTabHead(builder, items);
+                css = CssBuilder.Default("tab-body").AddClass(PositionCss).Build();
+                builder.Div(css, attr => Body.Invoke(builder, CurItem));
+            });
+        }
     }
 
-    private void BuildTabHead(RenderTreeBuilder builder)
+    private void BuildTabHead(RenderTreeBuilder builder, List<MenuItem> items)
     {
-        var css = CssBuilder.Default("tab").AddClass(Position).Build();
+        var css = CssBuilder.Default("tab").AddClass(PositionCss).Build();
         builder.Ul(css, attr =>
         {
-            foreach (var item in Items)
+            foreach (var item in items)
             {
-                builder.Li(curItem == item.Title ? "active" : "", attr =>
+                builder.Li(Active(item), attr =>
                 {
-                    attr.OnClick(Callback(e => OnItemClick(item.Title)));
-                    builder.IconName(item.Icon, item.Title);
+                    attr.OnClick(Callback(e => OnItemClick(item)));
+                    if (Justified && Position == PositionType.Top)
+                    {
+                        var width = Math.Round(100M / items.Count, 2);
+                        attr.Style($"width:{width}%");
+                    }
+                    builder.IconName(item.Icon, item.Name);
                 });
             }
         });
     }
 
-    private void BuildTabBody(RenderTreeBuilder builder)
+    private void OnItemClick(MenuItem item)
     {
-        foreach (var item in Items)
-        {
-            var css = CssBuilder.Default("tab-body")
-                                .AddClass(Position)
-                                .AddClass("active", curItem == item.Title)
-                                .Build();
-            builder.Div(css, attr => builder.Fragment(item.ChildContent));
-        }
-    }
-
-    private void OnItemClick(string item)
-    {
-        curItem = item;
+        CurItem = item;
         OnChanged?.Invoke(item);
     }
-}
 
-public class TabItem
-{
-    public string Icon { get; set; }
-    public string Title { get; set; }
-    public RenderFragment ChildContent { get; set; }
+    private string Active(MenuItem item) => CurItem == item ? "active" : "";
 }

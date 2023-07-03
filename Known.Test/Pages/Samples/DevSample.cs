@@ -10,30 +10,15 @@ class DevSample : PageComponent
         new MenuItem("图表示例", "fa fa-bar-chart", typeof(DemoChart)),
         new MenuItem("其他示例", "fa fa-file-o", typeof(DemoOther))
     };
-    private MenuItem curItem;
-
-    protected override void OnInitialized()
-    {
-        curItem = items[0];
-    }
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("tabs box demo", attr =>
-        {
-            builder.Component<Tab>()
-               .Set(c => c.Position, "left")
-               .Set(c => c.CurItem, curItem?.Id)
+        builder.Component<Tabs>()
+               .Set(c => c.Style, "box demo")
+               .Set(c => c.Position, PositionType.Left)
+               .Set(c => c.CurItem, items[0])
                .Set(c => c.Items, items)
-               .Set(c => c.OnChanged, OnTabChanged)
+               .Set(c => c.Body, (b, m) => b.DynamicComponent(m.ComType))
                .Build();
-            builder.Div("tab-body left content", attr => builder.DynamicComponent(curItem?.ComType));
-        });
-    }
-
-    private void OnTabChanged(MenuItem item)
-    {
-        curItem = item;
-        StateChanged();
     }
 }

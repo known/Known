@@ -2,10 +2,10 @@
 
 class DemoOther : BaseComponent
 {
-    private readonly TabItem[] tabItems = new TabItem[]
+    private readonly List<MenuItem> tabItems = new List<MenuItem>
     {
-        new TabItem{Icon="fa fa-file-o",Title="Tab1",ChildContent=b => b.Span("Tab1 Content")},
-        new TabItem{Icon="fa fa-file-o",Title="Tab2",ChildContent=b => b.Span("Tab2 Content")}
+        new MenuItem{Icon="fa fa-file-o",Name="Tab1"},
+        new MenuItem{Icon="fa fa-file-o",Name="Tab2"}
     };
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -72,12 +72,21 @@ class DemoOther : BaseComponent
             builder.Div("demo-box", attr =>
             {
                 attr.Style("width:50%;");
-                builder.Component<Tabs>().Set(c => c.Items, tabItems).Build();
+                builder.Component<Tabs>()
+                       .Set(c => c.CurItem, tabItems[0])
+                       .Set(c => c.Items, tabItems)
+                       .Set(c => c.Body, (b, m) => b.Span($"{m.Name} Content"))
+                       .Build();
             });
             builder.Div("demo-box", attr =>
             {
                 attr.Style("width:50%;");
-                builder.Component<Tabs>().Set(c => c.Items, tabItems).Set(c => c.Position, "left").Build();
+                builder.Component<Tabs>()
+                       .Set(c => c.CurItem, tabItems[0])
+                       .Set(c => c.Items, tabItems)
+                       .Set(c => c.Position, PositionType.Left)
+                       .Set(c => c.Body, (b, m) => b.Span($"{m.Name} Content"))
+                       .Build();
             });
         });
     }

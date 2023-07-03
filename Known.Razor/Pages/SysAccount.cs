@@ -26,12 +26,12 @@ class SysAccount : PageComponent
             {
                 builder.Img(attr => attr.Src($"_content/Known.Razor{user?.AvatarUrl}"));
                 builder.Div("name", user?.Name);
-                builder.Component<Tab>()
-                   .Set(c => c.Position, "left")
-                   .Set(c => c.CurItem, curItem.Id)
-                   .Set(c => c.Items, items)
-                   .Set(c => c.OnChanged, OnTabChanged)
-                   .Build();
+                builder.Component<Tabs>()
+                       .Set(c => c.Position, PositionType.Left)
+                       .Set(c => c.CurItem, curItem)
+                       .Set(c => c.Items, items)
+                       .Set(c => c.OnChanged, OnTabChanged)
+                       .Build();
             });
             builder.DynamicComponent(curItem.ComType);
         });
