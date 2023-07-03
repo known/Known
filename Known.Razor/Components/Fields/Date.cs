@@ -1,7 +1,5 @@
 ﻿namespace Known.Razor.Components.Fields;
 
-public enum DateType { Date, DateTime, Month }
-
 public class Date : Field
 {
     [Parameter] public DateType DateType { get; set; }
