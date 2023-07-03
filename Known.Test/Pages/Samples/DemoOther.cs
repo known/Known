@@ -40,9 +40,9 @@ class DemoOther : BaseComponent
     {
         BuildDemo(builder, "走马灯", () =>
         {
-            builder.Div("demo-box", attr =>
+            builder.Div("box", attr =>
             {
-                attr.Style("width:50%;height:300px;");
+                attr.Style("width:50%;height:100px;");
                 builder.Component<Carousel>().Build();
             });
         });
@@ -52,15 +52,16 @@ class DemoOther : BaseComponent
     {
         BuildDemo(builder, "卡片", () =>
         {
-            builder.Div("demo-box", attr =>
+            builder.Div("row", attr =>
             {
-                attr.Style("width:50%;");
-                builder.Component<Card>().Set(c => c.Name, "Card1").Build();
-            });
-            builder.Div("demo-box", attr =>
-            {
-                attr.Style("width:50%;");
-                builder.Component<Card>().Set(c => c.Icon, "fa fa-list").Set(c => c.Name, "Card2").Build();
+                builder.Div("box", attr =>
+                {
+                    builder.Component<Card>().Set(c => c.Name, "Card1").Build();
+                });
+                builder.Div("box", attr =>
+                {
+                    builder.Component<Card>().Set(c => c.Icon, "fa fa-list").Set(c => c.Name, "Card2").Build();
+                });
             });
         });
     }
@@ -69,31 +70,50 @@ class DemoOther : BaseComponent
     {
         BuildDemo(builder, "选项卡", () =>
         {
-            builder.Div("demo-box", attr =>
+            builder.Div("row", attr =>
             {
-                attr.Style("width:50%;");
-                builder.Component<Tabs>()
-                       .Set(c => c.CurItem, tabItems[0])
-                       .Set(c => c.Items, tabItems)
-                       .Set(c => c.Body, (b, m) => b.Span($"{m.Name} Content"))
-                       .Build();
-            });
-            builder.Div("demo-box", attr =>
-            {
-                attr.Style("width:50%;");
-                builder.Component<Tabs>()
-                       .Set(c => c.CurItem, tabItems[0])
-                       .Set(c => c.Items, tabItems)
-                       .Set(c => c.Position, PositionType.Left)
-                       .Set(c => c.Body, (b, m) => b.Span($"{m.Name} Content"))
-                       .Build();
+                builder.Div("box", attr =>
+                {
+                    builder.Component<Tabs>()
+                           .Set(c => c.CurItem, tabItems[0])
+                           .Set(c => c.Items, tabItems)
+                           .Set(c => c.Body, (b, m) => b.Span($"{m.Name} Content"))
+                           .Build();
+                });
+                builder.Div("box", attr =>
+                {
+                    builder.Component<Tabs>()
+                           .Set(c => c.Justified, true)
+                           .Set(c => c.CurItem, tabItems[0])
+                           .Set(c => c.Items, tabItems)
+                           .Set(c => c.Body, (b, m) => b.Span($"{m.Name} Content"))
+                           .Build();
+                });
+                builder.Div("box", attr =>
+                {
+                    builder.Component<Tabs>()
+                           .Set(c => c.CurItem, tabItems[0])
+                           .Set(c => c.Items, tabItems)
+                           .Set(c => c.Position, PositionType.Left)
+                           .Set(c => c.Body, (b, m) => b.Span($"{m.Name} Content"))
+                           .Build();
+                });
+                builder.Div("box", attr =>
+                {
+                    builder.Component<Tabs>()
+                           .Set(c => c.CurItem, tabItems[0])
+                           .Set(c => c.Items, tabItems)
+                           .Set(c => c.Position, PositionType.Bottom)
+                           .Set(c => c.Body, (b, m) => b.Span($"{m.Name} Content"))
+                           .Build();
+                });
             });
         });
     }
 
     private static void BuildDemo(RenderTreeBuilder builder, string text, Action action)
     {
-        builder.Div(attr =>
+        builder.Div("demo-row", attr =>
         {
             builder.Div("demo-caption", text);
             action();

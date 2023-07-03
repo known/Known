@@ -158,21 +158,36 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 
 /*tabs*/
 .tabs {position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;}
+.tab {display:flex;}
+.tab.left {flex-direction:column;}
 .tab li {margin:0 20px;padding:10px 5px;cursor:pointer;}
 .tab li.active {font-weight:bold;border-radius:1px;}
 .tab.top {border-bottom:1px solid var(--line-color);}
-.tab.top li {display:inline-block;}
 .tab.top li.active {border-bottom:4px solid #5cb85c;}
 .tab.left {height:100%;border-right:1px solid var(--line-color);padding:10px 0;}
-.tab.left li {text-align:right;margin:15px 0;padding:0 20px;border-right:4px solid #fff;}
+.tab.left li {text-align:right;margin:10px 0;padding:0 20px;border-right:4px solid #fff;}
 .tab.left li.active {border-right-color:#5cb85c;}
 .tab.bottom {border-top:1px solid var(--line-color);position:absolute;left:0;right:0;bottom:0;height:50px;}
-.tab.bottom li {display:inline-block;}
+.tab.bottom li {display:inline-block;border-top:4px solid transparent;}
 .tab.bottom li.active {border-top:4px solid #5cb85c;}
 .tab-body {position:absolute;top:0;left:0;right:0;bottom:0;padding:10px;overflow:auto;}
 .tab-body.top {top:50px;}
 .tab-body.left {left:100px;}
+.tab-body.bottom {bottom:50px;}
 .tab-tool {position:absolute;top:5px;right:10px;z-index:9999;}
+
+/*steps*/
+.steps ul {display:flex;justify-content:space-between;overflow:hidden;}
+.steps li {position:relative;}
+.steps li .item {padding:0.5rem 1rem;font-weight:bold;background-color:#fff;}
+.steps li:after {display:block;height:2px;background-color:#ccc;content:'';position:absolute;top:50%;left:100%;width:9999px;}
+.steps li:last-child:after {display:none;}
+.steps li.finish {color:#5cb85c;}
+.steps li.finish:after {background-color:#5cb85c;}
+.steps li.active {color:#3492d0;}
+.step-body {padding:1rem;}
+.step-btns {text-align:right;}
+.step-btns button {margin-left:1rem;}
 
 /*tool*/
 .tool button {margin-right:5px;padding:0 10px;}
@@ -254,7 +269,6 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .pager button {padding:0 10px;margin:0 5px;}
 .pager .btn {cursor:pointer;text-align:center;background-color:#f4f4f5;border-radius:var(--border-radius);}
 .pager .btn.active {background-color:#3492d0;color:#fff;}
-
 .pager .btns {display:inline-block;}
 .pager .btns li {display:inline-block;width:30px;text-align:center;color:#00f;cursor:pointer;position:relative;}
 .pager .btns li.text {color:#333;cursor:default;font-weight:bold;width:auto;}
@@ -287,21 +301,12 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .form td.inline .form-input {display:inline-block;}
 .form td .query .form-input, .form td .inline .form-input, .form-files span {margin-right:5px;}
 .form-file {padding:5px 0;}
-.form .tab li {padding:5px;}
-.form .tab-body.top {top:40px;}
-.form-tabs {position:absolute;top:0;left:0;right:0;bottom:0;}
-.form-tabs .tab.left {position:absolute;top:1px;left:0;bottom:0;width:160px;height:auto;padding:0;overflow:auto;}
-.form-tabs .content {position:absolute;left:161px;top:1px;right:0;bottom:0;}
 .form .tool {display:flex;line-height:2rem;}
 .form .tool button {background-color:transparent;color:#333;}
 .form table {border-top:2px solid var(--line-color);}
 .form .table table {border-top:none;}
 .form .table th {text-align:center;}
 .form .table td {border-bottom:none;}
-
-.form .tabs .grid {padding:10px;}
-.form-tabs .tab-body .form {padding:0;}
-.form-tabs .tab-body .grid-view {top:0;left:0;right:0;bottom:0;}
 .form-grid {bottom:60px;}
 
 .row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
