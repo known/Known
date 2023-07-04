@@ -87,11 +87,8 @@ class SystemService : BaseService
 
     internal static SystemInfo GetSystem(Database db)
     {
-        if (!Config.IsPlatform)
+        if (!Config.IsPlatform || db.User == null)
             return GetConfig<SystemInfo>(db, KeySystem);
-
-        if (db.User == null)
-            return new SystemInfo();
 
         var company = CompanyRepository.GetCompany(db, db.User.CompNo);
         if (company == null)
