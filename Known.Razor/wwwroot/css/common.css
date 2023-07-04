@@ -263,10 +263,11 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 /*pager*/
 .pager {padding:5px 0;font-size:0.9rem;}
 .pager ul {display:flex;justify-content:end;}
-.pager ul li {margin:0 5px;min-width:30px;line-height:28px;}
-.pager input, .pager select, .pager button {height:28px;line-height:28px;padding:0 5px;}
-.pager input {width:50px;min-width:50px;margin:0 5px;text-align:center;}
-.pager button {padding:0 10px;margin:0 5px;}
+.pager ul li {min-width:28px;}
+.pager ul li, .pager input, .pager select, .pager button {height:28px;line-height:28px;margin:0 5px;}
+.pager select {margin:0;}
+.pager input, .pager select, .pager button {padding:0 5px;}
+.pager input {width:50px;min-width:50px;text-align:center;}
 .pager .btn {cursor:pointer;text-align:center;background-color:#f4f4f5;border-radius:var(--border-radius);}
 .pager .btn.active {background-color:#3492d0;color:#fff;}
 .pager .btns {display:inline-block;}
