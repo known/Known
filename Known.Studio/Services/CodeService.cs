@@ -199,7 +199,7 @@ class CodeService
         sb.AppendLine("            table.ColGroup(100, null);");
         foreach (var item in model.Fields)
         {
-            sb.AppendLine("            table.Tr(attr => builder.Field<{0}>(f => f.{1}).Build());", item.Type, item.Code);
+            sb.AppendLine("            table.Tr(attr => table.Field<{0}>(f => f.{1}).Build());", item.Type, item.Code);
         }
         sb.AppendLine("        });");
         sb.AppendLine("    }");
