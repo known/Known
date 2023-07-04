@@ -51,7 +51,6 @@ Demo|Dm
         {
             builder.Component<Tabs>()
                    .Set(c => c.Codes, Codes)
-                   .Set(c => c.CurItem, curItem)
                    .Set(c => c.OnChanged, OnTabChanged)
                    .Build();
             builder.Element("pre", attr => attr.Id("code").Class("code prettyprint source linenums"));
