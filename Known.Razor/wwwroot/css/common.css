@@ -185,6 +185,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .steps li.finish {color:#5cb85c;}
 .steps li.finish:after {background-color:#5cb85c;}
 .steps li.active {color:#3492d0;}
+.steps li.active:after {background-color:#3492d0;}
 .step-body {padding:1rem;}
 .step-btns {text-align:right;}
 .step-btns button {margin-left:1rem;}
@@ -280,7 +281,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .form-caption .right {margin-top:5px;margin-right:5px;}
 .form-item, .form-label, .form-text, .form-input, .form-tips {display:block;}
 .form-item {display:block;position:relative;margin-top:1rem;}
-.form-label {float:left;padding:0 1rem;font-weight:bold;}
+.form-label {float:left;padding:0 0.5rem;font-weight:bold;}
 .form-input {position:relative;}
 .form-item:after, .form-input:after {display:block;content:'';clear:both;}
 .form-input .unit, .form-input .btn, .form-input .captcha {position:absolute;right:0;padding:0 5px;}
@@ -298,7 +299,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .block .form-radio {display:block;height:auto;}
 .form {padding:1rem;}
 .form th, .form td {padding:5px;border-bottom:1px solid var(--line-color);}
-.form th {text-align:right;padding-right:1rem;background-color:var(--th-bgcolor);}
+.form th {text-align:right;padding-right:0.5rem;background-color:var(--th-bgcolor);}
 .form td.inline .form-input {display:inline-block;}
 .form td .query .form-input, .form td .inline .form-input, .form-files span {margin-right:5px;}
 .form-file {padding:5px 0;}

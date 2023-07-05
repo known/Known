@@ -169,9 +169,11 @@ button, .button, input, select,
 .form th.dic-extend {text-align:left;line-height:30px;}
 
 /*SysRole*/
-.role .form-button {width:40%;}
-.role-module {position:absolute;left:41%;top:0;right:180px;bottom:0;overflow:auto;padding:10px;background-color:#f1f1f1;}
-.role-button, .role-column {position:absolute;top:0;bottom:0;overflow:auto;padding:10px;background-color:#f3f3f3;width:160px;}
+.role > .form-button {display:none;}
+.role .form-body {bottom:0;}
+.role .form-button {width:40%;padding:0;}
+.role-module, .role-button, .role-column {position:absolute;top:0;bottom:0;overflow:auto;padding:10px;}
+.role-module {left:41%;right:180px;background-color:#f1f1f1;}
+.role-button {right:161px;background-color:#f5f5f5;width:160px;}
+.role-column {right:1px;background-color:#f1f1f1;width:160px;}
 .role-button .form-radio, .role-column .form-radio {display:block;}
-.role-button {right:161px;}
-.role-column {right:1px;background-color:#f5f5f5;}

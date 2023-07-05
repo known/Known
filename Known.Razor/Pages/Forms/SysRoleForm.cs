@@ -40,17 +40,18 @@ class SysRoleForm : BaseForm<SysRole>
                 table.Tr(attr => table.Field<CheckBox>(f => f.Enabled).Set(f => f.Switch, true).Build());
                 table.Tr(attr => table.Field<TextArea>(f => f.Note).Build());
             });
+            builder.Div("form-button", attr =>
+            {
+                builder.Button(FormButton.Save, Callback(OnSave), !ReadOnly);
+                builder.Button(FormButton.Close, Callback(OnCancel));
+            });
         });
         BuildRoleModules(builder.Builder);
         BuildRoleButtons(builder.Builder);
         BuildRoleColumns(builder.Builder);
     }
 
-    protected override void BuildButtons(RenderTreeBuilder builder)
-    {
-        builder.Button(FormButton.Save, Callback(OnSave), !ReadOnly);
-        base.BuildButtons(builder);
-    }
+    protected override void BuildButtons(RenderTreeBuilder builder) { }
 
     private void BuildRoleModules(RenderTreeBuilder builder)
     {
