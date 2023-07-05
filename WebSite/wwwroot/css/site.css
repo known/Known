@@ -21,12 +21,13 @@ nav a:hover {color:#fff;}
 .hero {position:relative;padding:100px 30px 80px 30px;text-align:center;}
 .hero .name {font-weight:bold;font-size:4rem;}
 .hero .desc {font-size:1.2rem;text-align:justify;padding:10px 0;}
-.hero .btns {padding-top:30px;}
+.hero .btns {padding-top:30px;display:flex;justify-content:center;}
 .hero .btn {
     font-size:1.5rem;color:#fff;border:1px solid #eee;margin:0 10px;padding:10px 20px;
     -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
 }
 .hero .btn:hover {background-color:#fff;color:#000;}
+.hero .git img {margin:8px;}
 .hero .stats {text-align:center;padding-top:40px;}
 
 section {padding:1rem 0;}

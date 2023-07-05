@@ -9,6 +9,9 @@ Known是基于C#和Blazor开发的前后端分离快速开发框架，开箱即�
 
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
+- Gitee： [https://gitee.com/known/Known](https://gitee.com/known/Known)
+- Github：[https://github.com/known/Known](https://github.com/known/Known)
+
 ### 概述
 
 - 基于C#和Blazor实现的快速开发框架，前后端分离，开箱即用。
