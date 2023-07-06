@@ -2,7 +2,7 @@
 
 class DemoOther : BaseComponent
 {
-    private readonly List<MenuItem> tabItems = new List<MenuItem>
+    private readonly List<MenuItem> tabItems = new()
     {
         new MenuItem{Icon="fa fa-file-o",Name="Tab1"},
         new MenuItem{Icon="fa fa-file-o",Name="Tab2"}
