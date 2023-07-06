@@ -33,15 +33,6 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
         return Platform.User.QueryUsersAsync(criteria);
     }
 
-    public override bool CheckAction(ButtonInfo action, SysUser item)
-    {
-        var isAdmin = item.UserName == "admin" || item.UserName == item.CompNo;
-        if (isAdmin && !action.Is(GridAction.View))
-            return false;
-
-        return base.CheckAction(action, item);
-    }
-
     public void New() => ShowForm(new SysUser { Enabled = true });
     public void DeleteM() => DeleteRows(Platform.User.DeleteUsersAsync);
     public void ResetPassword() => SelectRow(OnResetPassword);

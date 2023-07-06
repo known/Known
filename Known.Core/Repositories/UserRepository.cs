@@ -5,7 +5,7 @@ class UserRepository
     //User
     internal static PagingResult<SysUser> QueryUsers(Database db, PagingCriteria criteria)
     {
-        var sql = "select * from SysUser where AppId=@AppId and CompNo=@CompNo";
+        var sql = "select * from SysUser where AppId=@AppId and CompNo=@CompNo and UserName<>'admin' and UserName<>CompNo";
         if (criteria.HasQuery("OrgNo"))
         {
             var orgNo = criteria.GetQueryValue("OrgNo");
