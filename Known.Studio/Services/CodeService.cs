@@ -1,14 +1,5 @@
 ﻿namespace Known.Studio.Services;
 
-static class ModelExtensions
-{
-    internal static void AppendLine(this StringBuilder sb, string format, params object[] args)
-    {
-        var value = string.Format(format, args);
-        sb.AppendLine(value);
-    }
-}
-
 class CodeService
 {
     internal static string GetCode(string type, string domain)
@@ -28,16 +19,18 @@ class CodeService
 
     public static string GetSQL(DomainInfo model)
     {
-        var columns = new List<FieldInfo>();
-        columns.Add(new FieldInfo { Code = "Id", Type = "Text", Length = "50", Required = true });
-        columns.Add(new FieldInfo { Code = "CreateBy", Type = "Text", Length = "50", Required = true });
-        columns.Add(new FieldInfo { Code = "CreateTime", Type = "Date", Required = true });
-        columns.Add(new FieldInfo { Code = "ModifyBy", Type = "Text", Length = "50" });
-        columns.Add(new FieldInfo { Code = "ModifyTime", Type = "Date" });
-        columns.Add(new FieldInfo { Code = "Version", Type = "Number", Required = true });
-        columns.Add(new FieldInfo { Code = "Extension", Type = "Text" });
-        columns.Add(new FieldInfo { Code = "AppId", Type = "Text", Length = "50", Required = true });
-        columns.Add(new FieldInfo { Code = "CompNo", Type = "Text", Length = "50", Required = true });
+        var columns = new List<FieldInfo>
+        {
+            new FieldInfo { Code = "Id", Type = "Text", Length = "50", Required = true },
+            new FieldInfo { Code = "CreateBy", Type = "Text", Length = "50", Required = true },
+            new FieldInfo { Code = "CreateTime", Type = "Date", Required = true },
+            new FieldInfo { Code = "ModifyBy", Type = "Text", Length = "50" },
+            new FieldInfo { Code = "ModifyTime", Type = "Date" },
+            new FieldInfo { Code = "Version", Type = "Number", Required = true },
+            new FieldInfo { Code = "Extension", Type = "Text" },
+            new FieldInfo { Code = "AppId", Type = "Text", Length = "50", Required = true },
+            new FieldInfo { Code = "CompNo", Type = "Text", Length = "50", Required = true }
+        };
         columns.AddRange(model.Fields);
 
         var maxLength = columns.Select(f => (f.Code ?? "").Length).Max();
@@ -172,7 +165,7 @@ class CodeService
         sb.AppendLine("        return Client.{0}.Query{0}sAsync(criteria);", model.Code);
         sb.AppendLine("    }");
         sb.AppendLine(" ");
-        sb.AppendLine("    protected override void FormatColumns() { }");
+        sb.AppendLine("    protected override Task InitPageAsync() { }");
         sb.AppendLine("    protected override bool CheckAction(ButtonInfo action, {0} item) => base.CheckAction(action, item);", model.Code);
         sb.AppendLine(" ");
         sb.AppendLine("    public void New() => ShowForm();");
@@ -244,12 +237,14 @@ class CodeService
         sb.AppendLine(" ");
         sb.AppendLine("class {0}Service : ServiceBase", model.Code);
         sb.AppendLine("{");
-        sb.AppendLine("    public PagingResult<{0}> Query{1}s(PagingCriteria criteria)", model.EntityName, model.Code);
+        sb.AppendLine("    internal {0}Service(Context context) : base(context) {{ }}", model.Code);
+        sb.AppendLine(" ");
+        sb.AppendLine("    internal PagingResult<{0}> Query{1}s(PagingCriteria criteria)", model.EntityName, model.Code);
         sb.AppendLine("    {");
         sb.AppendLine("        return Repository.Query{0}s(Database, criteria);", model.Code);
         sb.AppendLine("    }");
         sb.AppendLine(" ");
-        sb.AppendLine("    public Result Delete{0}s(List<{1}> models)", model.Code, model.EntityName);
+        sb.AppendLine("    internal Result Delete{0}s(List<{1}> models)", model.Code, model.EntityName);
         sb.AppendLine("    {");
         sb.AppendLine("        if (models == null || models.Count == 0)");
         sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
@@ -263,7 +258,7 @@ class CodeService
         sb.AppendLine("        });");
         sb.AppendLine("    }");
         sb.AppendLine(" ");
-        sb.AppendLine("    public Result Save{0}(dynamic model)", model.Code);
+        sb.AppendLine("    internal Result Save{0}(dynamic model)", model.Code);
         sb.AppendLine("    {");
         sb.AppendLine("        var entity = Database.QueryById<{0}>((string)model.Id);", model.EntityName);
         sb.AppendLine("        entity ??= new {0}();", model.EntityName);
@@ -288,7 +283,7 @@ class CodeService
         sb.AppendLine(" ");
         sb.AppendLine("class {0}Repository", model.Code);
         sb.AppendLine("{");
-        sb.AppendLine("    public PagingResult<{0}> Query{1}s(Database db, PagingCriteria criteria)", model.EntityName, model.Code);
+        sb.AppendLine("    internal static PagingResult<{0}> Query{1}s(Database db, PagingCriteria criteria)", model.EntityName, model.Code);
         sb.AppendLine("    {");
         sb.AppendLine("        var sql = \"select * from {0} where CompNo=@CompNo\";", model.EntityName);
         sb.AppendLine("        return db.QueryPage<{0}>(sql, criteria);", model.EntityName);
