@@ -1,6 +1,6 @@
 ﻿namespace Known.Razor.Components;
 
-class Pager : BaseComponent
+public class Pager : BaseComponent
 {
     [Parameter] public int TotalCount { get; set; }
     [Parameter] public int PageSize { get; set; }
