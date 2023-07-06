@@ -258,7 +258,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
         if (GridColumns != null && GridColumns.Any(c => c.IsAdvQuery))
         {
-            builder.Button(FormButton.AdvQuery, Callback(ShowAdvQuery));
+            builder.Button(FormButton.AdvQuery, Callback(ShowAdvQuery), style: "qvtrigger");
         }
     }
 

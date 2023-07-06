@@ -1,16 +1,9 @@
 /* -------------------------------------------------------------------------------
  * Copyright (c) Suzhou Puman Technology Co., Ltd. All rights reserved.
- * 
- * WebSite: www.pumantech.com
+ * WebSite: known.pumantech.com
  * Contact: knownchen@163.com
- * 
- * Change Logs:
- * Date           Author       Notes
- * 2022-04-01     KnownChen
  * ------------------------------------------------------------------------------- */
 
-// This is a JavaScript module that is loaded on demand. It can export any number of
-// functions, and may import other JavaScript modules if required.
 import "./libs/jquery.js";
 import "./libs/flow.js";
 import "./libs/highcharts.js";
@@ -20,8 +13,9 @@ import "./libs/xlsxcore.js";
 
 $(function () {
     $(document).click(function (e) {
-        if ($(e.target).hasClass('quickview') ||
-            $(e.target).hasClass('qvtrigger') ||
+        if ($(e.target).hasClass('qvtrigger') ||
+            $(e.target).parents('.qvtrigger').length > 0 ||
+            $(e.target).hasClass('quickview') ||
             $(e.target).parents('.quickview').length > 0)
             return;
         $('.quickview').removeClass('active');
