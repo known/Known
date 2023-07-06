@@ -12,14 +12,14 @@ class AppSetting
         if (dic == null)
             return;
 
-        ZoomFactor = dic.GetValue<double>("ZoomFactor");
+        ZoomFactor = dic.GetValue<double>(nameof(ZoomFactor));
     }
 
     internal static void Save()
     {
         var dic = new Dictionary<string, object>
         {
-            ["ZoomFactor"] = ZoomFactor
+            [nameof(ZoomFactor)] = ZoomFactor
         };
         var json = Utils.ToJson(dic);
         var path = GetSavePath();

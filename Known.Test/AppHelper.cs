@@ -12,10 +12,15 @@ namespace Known.Test;
 
 class AppHelper
 {
+    private const string MutexName = "Global\\KnownTest";
     internal const string Host = "http://localhost:5000";
 
     internal static void Run()
     {
+        using var mutex = new Mutex(true, MutexName, out var isFirstInstance);
+        if (!isFirstInstance)
+            return;
+
         InitDatabase();
         InitConfig();
         Task.Run(() => CreateWebHostBuilder(Array.Empty<string>()).Build().Run());
@@ -35,11 +40,9 @@ class AppHelper
                 return;
 
             Utils.EnsureFile(path);
-            using (var stream = assembly.GetManifestResourceStream(name))
-            using (var fs = File.Create(path))
-            {
-                stream?.CopyTo(fs);
-            }
+            using var stream = assembly.GetManifestResourceStream(name);
+            using var fs = File.Create(path);
+            stream?.CopyTo(fs);
         }
     }
 
