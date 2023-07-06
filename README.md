@@ -5,7 +5,8 @@ Known是基于C#和Blazor开发的前后端分离快速开发框架，开箱即�
 [![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
 [![fork](https://gitee.com/known/Known/badge/fork.svg?theme=dark)](https://gitee.com/known/Known/members)
 [![License](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/known/Known/blob/master/LICENSE)
-![DEV](https://img.shields.io/badge/DEV-.NET7/VS2022-brightgreen)
+![.NET](https://img.shields.io/badge/.NET-7.0.8-green)
+![DEV](https://img.shields.io/badge/DEV-VS2022-brightgreen)
 
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
@@ -21,7 +22,7 @@ Known是基于C#和Blazor开发的前后端分离快速开发框架，开箱即�
 
 > 如果对您有帮助，点击右上角⭐Star⭐关注 ，感谢支持开源！
 
-### 框架结构
+### 项目结构
 
 ```
 ├─Known         ->框架前后端共用库，前后端数据交互模型。
@@ -29,6 +30,7 @@ Known是基于C#和Blazor开发的前后端分离快速开发框架，开箱即�
 ├─Known.Razor   ->框架前端库，Grid、Tree、Form等Blazor组件。
 ├─Known.Studio  ->框架代码生成工具。
 ├─Known.Test    ->框架测试程序。
+├─WebSite       ->框架网站及在线文档。
 ```
 
 ### 主要功能
@@ -43,6 +45,14 @@ Known是基于C#和Blazor开发的前后端分离快速开发框架，开箱即�
 - 消息管理：系统内消息提醒，工作流消息通知。
 - 流程管理：系统内置工作流引擎，提供提交、撤回、分配、审核、重启操作。
 - 定时任务：导入和计算耗时的功能采用定时任务异步执行。
+
+### 主要组件
+
+- 输入类：Button、Select、Text、TextArea、CheckBox、Switch、Hidden、Input、Password、Captcha、Date、DateRange、Number、CheckList、RadioList、Picker、Upload、SearchBox
+- 导航类：Breadcrumb、Pager、Steps、Tabs、Tree、Menu
+- 展示类：Card、Carousel、Empty、Dropdown、GroupBox、ImageBox、Dialog、Chart、Form、QuickView、Badge、Icon
+- 反馈类：Toast、Progress
+- 数据类：DataList、DataTable、EditTable
 
 ### 在线体验
 
