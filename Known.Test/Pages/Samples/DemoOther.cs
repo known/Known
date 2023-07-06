@@ -11,9 +11,12 @@ class DemoOther : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         BuildBreadcrumb(builder);
-        BuildDemo(builder, "时间", () => builder.Component<Razor.Components.Timer>().Build());
-        BuildDemo(builder, "搜索框", () => builder.Component<SearchBox>().Build());
-        BuildDemo(builder, "验证码", () => builder.Component<Captcha>().Build());
+        builder.Div("row", attr =>
+        {
+            BuildDemo(builder, "时间", () => builder.Component<Razor.Components.Timer>().Build());
+            BuildDemo(builder, "搜索框", () => builder.Component<SearchBox>().Build());
+            BuildDemo(builder, "验证码", () => builder.Component<Captcha>().Build());
+        });
         BuildCarousel(builder);
         BuildCard(builder);
         BuildTabs(builder);
