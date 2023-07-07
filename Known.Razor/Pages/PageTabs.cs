@@ -38,7 +38,7 @@ class PageTabs : BaseComponent
 
     private void BuildTabHead(RenderTreeBuilder builder)
     {
-        builder.Ul("tab top header", attr =>
+        builder.Ul("tab top", attr =>
         {
             foreach (var item in menus)
             {

@@ -42,8 +42,10 @@
 .kui-tips-tr {position:absolute;top:10px;right:10px;font-weight:bold;z-index:9999;line-height:40px;}
 .kui-tips-bl {position:absolute;left:10px;bottom:10px;font-weight:bold;z-index:9999;}
 
-.kui-tabs .tab.header {
-    height:45px;overflow:hidden;background-color:#fff;
+.kui-tabs {border-top:1px solid #fff;}
+.layout-lr .kui-tabs {border-top-color:var(--line-color);}
+.kui-tabs .tab {
+    height:40px;overflow:hidden;background-color:#fff;
     border-bottom:1px solid #ccc;box-shadow:0 1px 1px 0 #eee;
 }
 .kui-tabs .tab li {margin:0;padding:10px 20px;font-size:1rem;position:relative;}
@@ -51,10 +53,12 @@
 .kui-tabs .tab li .close:hover {color:#d9534f;}
 
 .kui-content {position:absolute;top:40px;}
-.kui-tabs .tab-body.top {top:57px;}
-.kui-content, .kui-tabs .tab-body.top {
+.kui-tabs > .tab-body {top:50px;display:none;}
+.kui-tabs > .tab-body.active {display:block;}
+.kui-content, .kui-tabs .tab-body {
     left:10px;bottom:10px;right:10px;overflow:hidden;padding:10px;
     border-top:3px solid var(--line-color);background-color:#fff;
+    box-shadow:0 0 10px 3px rgba(0,0,0,.1);
 }
 
 /*mini side*/

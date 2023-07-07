@@ -37,6 +37,8 @@ button, .button, input, select, textarea, .form-input .icon, .search-box .icon,
 .switch[type="checkbox"]+span:before, .switch[type="checkbox"]+span:after {
     -webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
 }
+.card {box-shadow:0 0 5px 3px rgba(0,0,0,.1);}
+.dialog {box-shadow:0 0 10px 3px rgba(0,0,0,.5);}
 .button {display:block;}
 button, .button, input, select, textarea {
     outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;background-color:#fff;
@@ -330,7 +332,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 }
 .dialog, .dlg-body, .dlg-foot, .dlg-content,
 .dialog .form, .dialog .form-body, .dialog .form-list, .dialog .form-button {position:absolute;left:0;right:0;}
-.dialog {border:1px solid var(--line-color);border-top-width:5px;top:50%;left:50%;z-index:9999;box-shadow:0 0 10px 3px rgba(0,0,0,.5);}
+.dialog {border-top:5px solid var(--line-color);top:50%;left:50%;z-index:9999;}
 .dialog.max {top:0;left:0;right:0;bottom:0;}
 .dlg-head, .dlg-foot {padding:0 10px;}
 .dlg-head {position:relative;border-bottom:1px solid var(--line-color);font-weight:bold;font-size:1.2rem;}
