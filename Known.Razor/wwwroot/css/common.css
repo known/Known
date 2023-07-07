@@ -418,15 +418,15 @@ td .icon, .tab .icon {width:20px;text-align:center;margin-right:2px;}
 .menu-tab li .name {display:inline-block;font-size:1.2rem;margin-left:15px;}
 .menu-tab li.active {background-color:#fff;color:#000;}
 
-.menu-tree {width:180px;margin-top:1rem;}
-.menu-tree .item {display:block;position:relative;line-height:2.8rem;border-left:5px solid transparent;cursor:pointer;}
+.menu-tree {width:180px;margin-top:0.5rem;}
+.menu-tree .item {display:block;position:relative;line-height:2.6rem;border-left:5px solid transparent;cursor:pointer;}
 .menu-tree .item:hover {border-left-color:#5cb85c;-webkit-transition:all .3s;transition:all .3s;}
 .menu-tree .item.active {border-left-color:#5cb85c;background-color:#2fb2e8;}
 .menu-tree .item .icon {margin-right:0.8rem;}
 .menu-tree .child > .active {border-left-color:transparent;background-color:transparent;}
-.menu-tree .child > .item:after {display:inline-block;content:'\f105';float:right;margin-top:0.8rem;}
+.menu-tree .child > .item:after {display:inline-block;content:'\f105';float:right;margin-top:0.75rem;}
 .menu-tree .child > .active:after {content:'\f107';}
-.menu-tree ul {display:none;background-color:rgb(255,255,255,0.1)}
+.menu-tree ul {display:none;background-color:rgb(255,255,255,0.1);padding:0.5rem 0;}
 .menu-tree .item.active+ul {display:block;}
 .menu-tree > li > .item {padding:0 12px;}
 .menu-tree > li > ul > li > .item {padding-left:2rem;}
