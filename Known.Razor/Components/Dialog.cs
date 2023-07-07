@@ -202,6 +202,11 @@ class Dialog : BaseComponent
               .Add("margin-left", $"-{size?.Width / 2}px");
         }
         sb.Add("z-index", $"{StartIndex + Index + 1}");
+
+        var rndColor = StyleExtension.GetRandomColor();
+        if (!string.IsNullOrWhiteSpace(rndColor))
+            sb.Add("border-top-color", rndColor);
+
         return sb.Build();
     }
 }

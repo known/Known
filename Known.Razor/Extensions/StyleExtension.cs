@@ -7,8 +7,16 @@ public static class StyleExtension
         if (!Setting.Info.RandomColor)
             return;
 
-        var rndColor = Utils.GetRandomColor();
-        var color = Utils.ToHtml(rndColor);
+        var color = GetRandomColor();
         attr.Style($"{name}:{color}");
+    }
+
+    internal static string GetRandomColor()
+    {
+        if (!Setting.Info.RandomColor)
+            return string.Empty;
+
+        var rndColor = Utils.GetRandomColor();
+        return Utils.ToHtml(rndColor);
     }
 }
