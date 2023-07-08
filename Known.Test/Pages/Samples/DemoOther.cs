@@ -28,8 +28,8 @@ class DemoOther : BaseComponent
         {
             builder.Component<Breadcrumb>().Set(c => c.Items, new List<MenuItem>
             {
-                new MenuItem("Test1", "测试1", "fa fa-user"),
-                new MenuItem("Test2", "测试2"),
+                new MenuItem("Test1", "测试1", "fa fa-home"),
+                new MenuItem("Test2", "测试2", "fa fa-user"),
                 new MenuItem("Test3", "测试3") {Action=()=>UI.Alert("Test")},
                 new MenuItem("Test4", "测试4")
             }).Build();

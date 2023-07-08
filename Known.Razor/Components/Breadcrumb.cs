@@ -12,7 +12,7 @@ public class Breadcrumb : BaseComponent
             if (Menu != null)
             {
                 BuildHome(builder);
-                BuildItem(builder, Menu);
+                BuildItem(builder, Menu, false);
             }
             else if (Items != null && Items.Count > 0)
             {
@@ -33,16 +33,19 @@ public class Breadcrumb : BaseComponent
         });
     }
 
-    private void BuildItem(RenderTreeBuilder builder, MenuItem item)
+    private void BuildItem(RenderTreeBuilder builder, MenuItem item, bool showIcon = true)
     {
         if (item.Parent != null)
-            BuildItem(builder, item.Parent);
+            BuildItem(builder, item.Parent, showIcon);
 
         builder.Li(attr =>
         {
             if (item.Action != null)
                 attr.OnClick(Callback(item.Action));
-            builder.IconName(item.Icon, item.Name);
+            if (showIcon)
+                builder.IconName(item.Icon, item.Name);
+            else
+                builder.Span(item.Name);
         });
     }
 }
