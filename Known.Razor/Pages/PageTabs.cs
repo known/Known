@@ -75,11 +75,14 @@ class PageTabs : BaseComponent
     {
         if (isClickClose)
         {
+            menus.Remove(menu);
+            UI.RemoveDialig(menu.Id);
             isClickClose = false;
-            return;
         }
-
-        curPage = menu;
+        else
+        {
+            curPage = menu;
+        }
         UI.PageId = curPage.Id;
         StateChanged();
     }
@@ -90,9 +93,7 @@ class PageTabs : BaseComponent
         {
             var index = menus.IndexOf(menu);
             curPage = menus[index - 1];
-            UI.PageId = curPage.Id;
         }
-        menus.Remove(menu);
         isClickClose = true;
     }
 }

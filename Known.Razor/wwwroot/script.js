@@ -260,15 +260,6 @@ export class KRazor {
             }
         });
     }
-    static initTabs() {
-        var w1 = $('.kui-tabs .tab').outerWidth();
-        var tw = 0;
-        $('.kui-tabs .tab li').each(function () { tw += $(this).outerWidth(); });
-        if (tw > w1) {
-            alert('tw=' + tw + ',w1=' + w1);
-        }
-        console.log('tw=' + tw + ',w1=' + w1);
-    }
     static appendBody(html) {
         $('body').append(html);
     }

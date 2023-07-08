@@ -4,20 +4,25 @@ partial class UIService
 {
     private bool isTop = false;
     private readonly Dictionary<string, DialogContainer> dialogs = new();
-    private DialogContainer Dialog => !string.IsNullOrWhiteSpace(PageId) && dialogs.TryGetValue(PageId, out DialogContainer value) ? value : dialogs["top"];
 
     internal string PageId { get; set; }
 
     internal void Register(DialogContainer dialog) => dialogs[dialog.Id] = dialog;
+    internal void RemoveDialig(string dialogId) => dialogs.Remove(dialogId);
     internal void SetDialogMove(string dialogId) => InvokeVoidAsync("KRazor.setDialogMove", dialogId);
 
     public void Show(DialogOption option, bool isTop = false)
     {
         this.isTop = isTop;
         if (isTop)
+        {
             dialogs["top"].Show(option);
+        }
         else
-            Dialog.Show(option);
+        {
+            var dialog = GetCurrentDialog();
+            dialog.Show(option);
+        }
     }
 
     public void Show(IPicker picker)
@@ -65,9 +70,21 @@ partial class UIService
     public void CloseDialog()
     {
         if (isTop)
+        {
             dialogs["top"].Close();
+        }
         else
-            Dialog.Close();
+        {
+            var dialog = GetCurrentDialog();
+            dialog.Close();
+        }
         isTop = false;
+    }
+
+    private DialogContainer GetCurrentDialog()
+    {
+        return !string.IsNullOrWhiteSpace(PageId) && dialogs.TryGetValue(PageId, out DialogContainer value) 
+             ? value 
+             : dialogs["top"];
     }
 }
