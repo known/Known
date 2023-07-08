@@ -4,6 +4,7 @@ class PageTabs : BaseComponent
 {
     private readonly List<MenuItem> menus = new();
     private MenuItem curPage;
+    private bool isClickClose;
     private string Active(string item) => curPage?.Id == item ? "active" : "";
 
     public void AddTab(MenuItem item)
@@ -72,6 +73,12 @@ class PageTabs : BaseComponent
 
     private void OnItemClick(MenuItem menu)
     {
+        if (isClickClose)
+        {
+            isClickClose = false;
+            return;
+        }
+
         curPage = menu;
         UI.PageId = curPage.Id;
         StateChanged();
@@ -79,6 +86,13 @@ class PageTabs : BaseComponent
 
     private void OnItemClose(MenuItem menu)
     {
+        if (curPage == menu)
+        {
+            var index = menus.IndexOf(menu);
+            curPage = menus[index - 1];
+            UI.PageId = curPage.Id;
+        }
         menus.Remove(menu);
+        isClickClose = true;
     }
 }
