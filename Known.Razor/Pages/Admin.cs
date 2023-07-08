@@ -4,7 +4,6 @@ class Admin : Layout
 {
     internal const string SysSettingId = "qvSysSetting";
     private bool isInitialized;
-    private bool isMultiTab;
     private MenuItem topMenu;
     private MenuItem curMenu;
     private AdminInfo info;
@@ -27,7 +26,6 @@ class Admin : Layout
         info = await Platform.User.GetAdminAsync();
         Setting.UserSetting = info.UserSetting;
         Setting.Info = info.UserSetting?.Info ?? SettingInfo.Default;
-        isMultiTab = Setting.Info.MultiTab;
         
         userMenus = GetUserMenus(info.UserMenus);
         if (Context.IsWebApi)
@@ -78,7 +76,7 @@ class Admin : Layout
     protected override void BuildBody(RenderTreeBuilder builder)
     {
         builder.Component<AdminBody>()
-               .Set(c => c.MultiTab, isMultiTab)
+               .Set(c => c.MultiTab, Setting.Info.MultiTab)
                .Build();
     }
 

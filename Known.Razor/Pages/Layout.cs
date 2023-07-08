@@ -23,13 +23,13 @@ class Layout : BaseComponent
         {
             builder.Div(Header, attr =>
             {
-                if (string.IsNullOrWhiteSpace(info.Layout))
+                if (!string.IsNullOrWhiteSpace(info.Layout))
                     attr.Style($"background-color:{info.ThemeColor}");
                 BuildHeader(builder);
             });
             builder.Div(Sider, attr =>
             {
-                if (string.IsNullOrWhiteSpace(info.Layout))
+                if (!string.IsNullOrWhiteSpace(info.Layout))
                     attr.Style($"background-color:{info.SiderColor}");
                 else
                     attr.Style($"background-color:{info.ThemeColor}");

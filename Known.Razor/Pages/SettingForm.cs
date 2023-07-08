@@ -38,7 +38,10 @@ public class SettingForm : BaseForm<SettingInfo>
                .Set(f => f.ValueChanged, OnSiderColorChanged)
                .Build();
         builder.Field<CheckBox>("随机色", nameof(SettingInfo.RandomColor)).Set(f => f.Switch, true).Build();
-        builder.Field<CheckBox>("标签页", nameof(SettingInfo.MultiTab)).Set(f => f.Switch, true).Build();
+        builder.Field<CheckBox>("标签页", nameof(SettingInfo.MultiTab))
+               .Set(f => f.Switch, true)
+               .Set(f => f.ValueChanged, OnMultiTabChanged)
+               .Build();
         builder.Field<Select>("每页大小", nameof(SettingInfo.PageSize)).Set(f => f.Codes, sizes).Build();
     }
 
@@ -63,6 +66,12 @@ public class SettingForm : BaseForm<SettingInfo>
     private void OnSiderColorChanged(string value)
     {
         Setting.Info.SiderColor = value;
+        OnThemeChanged();
+    }
+
+    private void OnMultiTabChanged(string value)
+    {
+        Setting.Info.MultiTab = Utils.ConvertTo<bool>(value);
         OnThemeChanged();
     }
 
@@ -98,7 +107,7 @@ class LayoutField : Field
     protected override void BuildInput(RenderTreeBuilder builder)
     {
         BuildLayout(builder, "");
-        BuildLayout(builder, "layout-lr");
+        BuildLayout(builder, "layout-tl");
     }
 
     private void BuildLayout(RenderTreeBuilder builder, string layout)
