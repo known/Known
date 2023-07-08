@@ -55,10 +55,10 @@
 
 .kui-tabs {border-top:1px solid var(--line-color);}
 .kui-tabs > .tab {
-    height:40px;overflow:hidden;background-color:#fff;
+    height:40px;overflow:hidden;background-color:#fff;display:block;
     border-bottom:1px solid #ccc;box-shadow:0 1px 1px 0 #eee;
 }
-.kui-tabs > .tab li {margin:0;padding:8px 20px;font-size:1rem;position:relative;}
+.kui-tabs > .tab li {margin:0;padding:8px 20px;font-size:1rem;position:relative;display:inline-block;}
 .kui-tabs > .tab li .close {top:5px;right:0;color:#ccc;}
 .kui-tabs > .tab li .close:hover {color:#d9534f;}
 
@@ -80,10 +80,11 @@
 .kui-mini .menu-tree .name {display:none;}
 
 @media screen and (max-width:768px) {
-    .kui-sider, .kui-scroll {width:50px;}
+    .kui-sider {width:50px;}
+    .kui-scroll {width:60px;}
     .kui-header, .kui-body {left:50px;}
-    .kui-sider .menu-tree .nav-child dd {padding-left:12px;}
-    .kui-sider .menu-tree .name {display:none;}
+    .menu-tree > li > ul > li > .item {padding-left:12px;}
+    .menu-tree .name {display:none;}
 }
 
 /*view*/
