@@ -82,6 +82,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 }
 .quickview .title {font-weight:bold;padding:1rem 0 0 1rem;}
 .quickview.active {display:block;}
+.quickview .form-button {text-align:center;}
 
 /*listBox*/
 .list-box {padding:1px;overflow:auto;height:100%;min-height:200px;}
@@ -282,7 +283,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .form-caption {border-left:5px solid #337ab7;padding-left:5px;height:40px;line-height:40px;font-size:1.1rem;font-weight:bold;}
 .form-caption .right {margin-top:5px;margin-right:5px;}
 .form-item, .form-label, .form-text, .form-input, .form-tips {display:block;}
-.form-item {display:block;position:relative;margin-top:1rem;}
+.form-item {position:relative;margin-top:1rem;}
 .form-label {float:left;padding:0 0.5rem;font-weight:bold;}
 .form-input {position:relative;}
 .form-item:after, .form-input:after {display:block;content:'';clear:both;}
@@ -294,9 +295,9 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .form-radio {position:relative;margin-right:1rem;cursor:pointer;display:inline-block;}
 .form-radio input {position:absolute;top:0.4rem;}
 .form-tips {padding-left:5px;color:#aaa;}
-.form-button {text-align:center;margin-top:1rem;}
-.form-button button {margin-right:1rem;}
-.form-item, .form-button, .tips {padding:0 1rem;}
+.form-button {text-align:right;margin-top:1rem;}
+.form-button button {margin-left:1rem;}
+.form-item, .tips {padding:0 1rem;}
 .form-item .link {padding-left:0.5rem;}
 .block .form-radio {display:block;height:auto;}
 .form {padding:1rem;}
@@ -344,8 +345,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .dlg-body, .dialog .form {top:50px;bottom:52px;padding:10px;overflow:auto;}
 .dlg-content {top:50px;bottom:0;}
 .dlg-body .message {text-align:center;margin-top:20px;font-size:1.2rem;}
-.dlg-foot, .dialog .form-button {margin:0;bottom:0;text-align:right;}
-.dlg-foot button {margin-left:10px;}
+.dlg-foot, .dialog .form-button {margin:0;bottom:0;padding:0 10px;}
 .dlg-head, .dlg-foot, .dialog .form-button {height:50px;line-height:50px;}
 .dialog .form {top:1px;bottom:0;}
 .dialog .form.nb {bottom:1px;}

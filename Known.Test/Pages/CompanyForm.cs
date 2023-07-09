@@ -4,11 +4,6 @@ class CompanyForm : BaseForm<CompanyInfo>
 {
     private bool isEdit = false;
 
-    public CompanyForm()
-    {
-        //Style = "form-page inline";
-    }
-
     protected override async Task InitFormAsync()
     {
         Model = await Platform.Company.GetCompanyAsync<CompanyInfo>();
@@ -41,18 +36,15 @@ class CompanyForm : BaseForm<CompanyInfo>
         if (!HasButton(FormButton.Edit))
             return;
 
-        builder.Div("form-button", attr =>
+        if (!isEdit)
         {
-            if (!isEdit)
-            {
-                builder.Button(FormButton.Edit, Callback(e => isEdit = true));
-            }
-            else
-            {
-                builder.Button(FormButton.Save, Callback(OnSaveInfo));
-                builder.Button(FormButton.Cancel, Callback(e => isEdit = false));
-            }
-        });
+            builder.Button(FormButton.Edit, Callback(e => isEdit = true));
+        }
+        else
+        {
+            builder.Button(FormButton.Save, Callback(OnSaveInfo));
+            builder.Button(FormButton.Cancel, Callback(e => isEdit = false));
+        }
     }
 
     private void OnSaveInfo()

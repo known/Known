@@ -66,7 +66,7 @@
 .kui-tabs > .tab-body {top:50px;display:none;}
 .kui-tabs > .tab-body.active {display:block;}
 .kui-content, .kui-tabs > .tab-body {
-    left:10px;bottom:10px;right:10px;overflow:hidden;padding:10px;
+    left:10px;bottom:10px;right:10px;padding:10px;
     border-top:3px solid var(--line-color);background-color:#fff;
     box-shadow:0 0 10px 3px rgba(0,0,0,.1);
 }
@@ -139,8 +139,8 @@ button, .button, input, select,
 
 /*SysSystem*/
 .ss-system {padding:10px 60px;}
-.ss-terms .text {position:absolute;top:0;left:195px;}
-.ss-form {position:absolute;top:0;left:10px;right:10px;bottom:10px;}
+.ss-terms .text {position:absolute;top:5px;left:190px;right:120px;text-align:justify;}
+.ss-form1 {position:absolute;top:0;left:10px;right:10px;bottom:10px;}
 .tab-body .ss-form {top:10px;}
 .ss-form .leftBar {position:absolute;left:0;top:0;bottom:0;width:180px;text-align:center;padding:0;}
 .ss-form .form {position:absolute;top:0;left:191px;right:0;bottom:0;padding:50px;}
@@ -158,11 +158,17 @@ button, .button, input, select,
 }
 .ss-form .form-label {width:150px;padding-right:15px;text-align:right;}
 .ss-form .form-input {display:inline-block;}
-.ss-form .form-button {padding-left:195px;text-align:left;}
+.ss-form .form-button {padding-left:173px;text-align:left;}
 .ss-form .userMessage .form-label {width:auto;}
 .ss-form .userMessage .form {margin-top:10px;}
 .ss-form .userMessage .form-button {padding:10px;text-align:center;}
 .ss-form .userMessage .noread {font-weight:bold;color:#000;}
+
+@media screen and (max-width:768px) {
+    .ss-system {padding:10px;}
+    .ss-form .form-label {padding:0;text-align:left;width:100%;}
+    .ss-terms .text {position:unset;}
+}
 
 /*font*/
 .slayout .checked:after {font:normal normal normal 1rem FontAwesome;}

@@ -60,10 +60,9 @@ class Home : PageComponent
 
     private void BuildWSCard(RenderTreeBuilder builder)
     {
-        builder.Div("ws-title", "工作台");
         builder.Img(attr => attr.Class("ws-avatar").Src($"_content/Known.Razor{user?.AvatarUrl}"));
         builder.Span("ws-name", info?.Greeting);
-        builder.Span("ws-tips", $"今天是：{DateTime.Now:yyyy-MM-dd dddd}");
+        builder.Span("ws-tips", $"{DateTime.Now:yyyy-MM-dd dddd}");
 
         builder.Ul("count", attr =>
         {
