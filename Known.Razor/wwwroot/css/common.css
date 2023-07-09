@@ -296,7 +296,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .form-radio input {position:absolute;top:0.4rem;}
 .form-tips {padding-left:5px;color:#aaa;}
 .form-button {text-align:right;margin-top:1rem;}
-.form-button button {margin-left:1rem;}
+.form-button button, .dlg-foot button {margin-left:1rem;}
 .form-item, .tips {padding:0 1rem;}
 .form-item .link {padding-left:0.5rem;}
 .block .form-radio {display:block;height:auto;}
@@ -345,7 +345,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .dlg-body, .dialog .form {top:50px;bottom:52px;padding:10px;overflow:auto;}
 .dlg-content {top:50px;bottom:0;}
 .dlg-body .message {text-align:center;margin-top:20px;font-size:1.2rem;}
-.dlg-foot, .dialog .form-button {margin:0;bottom:0;padding:0 10px;}
+.dlg-foot, .dialog .form-button {margin:0;bottom:0;padding:0 10px;text-align:right;}
 .dlg-head, .dlg-foot, .dialog .form-button {height:50px;line-height:50px;}
 .dialog .form {top:1px;bottom:0;}
 .dialog .form.nb {bottom:1px;}
