@@ -58,7 +58,7 @@ public class AttachFile : BaseComponent
     {
         if (e.FileCount > 10)
         {
-            UI.Tips("一次最多上传10个文件！");
+            UI.Toast("一次最多上传10个文件！");
             return;
         }
 

@@ -17,9 +17,39 @@ class DemoOther : BaseComponent
             BuildDemo(builder, "搜索框", () => builder.Component<SearchBox>().Build());
             BuildDemo(builder, "验证码", () => builder.Component<Captcha>().Build());
         });
+        builder.Div("row", attr =>
+        {
+            BuildBanner(builder);
+            BuildNotification(builder);
+            BuildToast(builder);
+        });
         BuildCarousel(builder);
         BuildCard(builder);
         BuildTabs(builder);
+    }
+
+    private void BuildBanner(RenderTreeBuilder builder)
+    {
+        BuildDemo(builder, "通知横幅", () =>
+        {
+
+        });
+    }
+
+    private void BuildNotification(RenderTreeBuilder builder)
+    {
+        BuildDemo(builder, "通知", () =>
+        {
+
+        });
+    }
+
+    private void BuildToast(RenderTreeBuilder builder)
+    {
+        BuildDemo(builder, "提示", () =>
+        {
+            builder.Button("提示", Callback(() => UI.Toast("这里是提示信息！")));
+        });
     }
 
     private void BuildBreadcrumb(RenderTreeBuilder builder)

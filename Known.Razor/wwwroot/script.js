@@ -24,8 +24,10 @@ $(function () {
 
 export class KRazor {
     //Alert
-    static showTips(message) {
-        var tips = $('<div>').addClass('dlg-tips animated fadeInDown').html(message).appendTo($('body'));
+    static showToast(message) {
+        var tips = $('<div>').addClass('toast animated fadeInDown')
+            .html('<span>' + message + '</span>')
+            .appendTo($('body'));
         setTimeout(function () {
             tips.addClass('fadeOutUp');
             setTimeout(function () { tips.remove(); }, 500);

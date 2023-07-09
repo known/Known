@@ -32,7 +32,7 @@ pre {
     white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;
 }
 button, .button, input, select, textarea, .form-input .icon, .search-box .icon,
-.box, .card, .group-box, .dialog, .dlg-tips, 
+.box, .card, .group-box, .dialog, .toast span, 
 .kui-tips, .kui-content, .kui-tabs .tab-body.top,
 .switch[type="checkbox"]+span:before, .switch[type="checkbox"]+span:after {
     -webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
@@ -76,6 +76,12 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .right {float:right;}
 .icon {font-size:1rem;}
 .tips {color:#00f;}
+
+/*tips*/
+.toast {position:absolute;top:10px;left:0;right:0;text-align:center;z-index:9999;}
+.toast span {color:#fff;background-color:#48c78e;margin:0 auto;padding:0.5rem 2rem;}
+
+/*quickview*/
 .quickview {
     display:none;position:absolute;top:0;bottom:0;right:0;z-index:9999;width:50%;transition:.3s ease;
     background-color:#fff;box-shadow:0 0 10px 3px rgba(0,0,0,.3);
@@ -327,10 +333,6 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .import-form .message {color:#337ab7;padding:10px 5px;}
 
 /*dialog*/
-.dlg-tips {
-    position:absolute;width:auto;top:10px;right:10px;text-align:center;
-    color:#fff;background-color:#48c78e;margin:0 auto;padding:1rem 2rem;z-index:9999;
-}
 .dialog, .dlg-body, .dlg-foot, .dlg-content,
 .dialog .form, .dialog .form-body, .dialog .form-list, .dialog .form-button {position:absolute;left:0;right:0;}
 .dialog {border-top:5px solid var(--line-color);top:50%;left:50%;z-index:9999;}

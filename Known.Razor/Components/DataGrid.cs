@@ -126,7 +126,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         var selected = SelectedItems;
         if (!selected.Any() || selected.Count > 1)
         {
-            UI.Tips(Language.SelectOne);
+            UI.Toast(Language.SelectOne);
             return;
         }
 
@@ -138,7 +138,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         var selected = SelectedItems;
         if (!selected.Any())
         {
-            UI.Tips(Language.SelectOneAtLeast);
+            UI.Toast(Language.SelectOneAtLeast);
             return;
         }
 

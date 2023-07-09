@@ -123,7 +123,7 @@ class Importer : BaseComponent
                 UI.Alert(result.Message);
                 return;
             }
-            UI.Tips(result.Message);
+            UI.Toast(result.Message);
             UI.CloseDialog();
         }
         else if (Option.Upload != null)

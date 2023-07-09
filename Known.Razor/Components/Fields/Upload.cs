@@ -154,7 +154,7 @@ public class Upload : Field
         {
             if (e.FileCount > 20)
             {
-                UI.Tips("一次最多上传20个文件！");
+                UI.Toast("一次最多上传20个文件！");
                 return;
             }
 

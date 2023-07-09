@@ -32,11 +32,11 @@ class DemoForm4 : Razor.Components.Form
 
     private void OnChanged(MenuItem item)
     {
-        UI.Tips($"保存{item.Name}");
+        UI.Toast($"保存{item.Name}");
     }
 
     private void OnFinished()
     {
-        UI.Tips("完成分步表单");
+        UI.Toast("完成分步表单");
     }
 }

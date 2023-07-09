@@ -2,9 +2,9 @@
 
 partial class UIService
 {
-    public async void Tips(string message)
+    public async void Toast(string message)
     {
-        await InvokeAsync<string>("KRazor.showTips", message);
+        await InvokeAsync<string>("KRazor.showToast", message);
     }
 
     public void Alert(string message, bool isMax)
@@ -62,7 +62,7 @@ partial class UIService
         }
 
         action?.Invoke();
-        Tips(result.Message);
+        Toast(result.Message);
     }
 
     private static void BuildMessage(RenderTreeBuilder builder, string message)

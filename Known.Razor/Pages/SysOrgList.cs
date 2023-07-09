@@ -56,7 +56,7 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
     {
         if (current == null)
         {
-            UI.Tips("请先选择上级组织架构！");
+            UI.Toast("请先选择上级组织架构！");
             return;
         }
 
