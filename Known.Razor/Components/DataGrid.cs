@@ -302,11 +302,11 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     private void OnMoveRow(TItem item, Action<TItem, TItem> success, int index, int index1)
     {
+        CurRow = index1;
         var temp = Data[index1];
         Data[index1] = item;
         Data[index] = temp;
         success?.Invoke(item, temp);
-        CurRow = index1;
         StateChanged();
     }
 

@@ -20,13 +20,6 @@ class TableRow<TItem> : BaseComponent
         {
             attr.Title(Grid.RowTitle);
             var context = new FieldContext { Model = Item };
-            attr.OnClick(Callback(() =>
-            {
-                Grid.CurRow = Grid.Data.IndexOf(Item);
-                Grid.OnRowClick(rowNo, Item);
-                Table.Changed();
-            }));
-
             attr.OnDoubleClick(Callback(() => Grid.OnRowDoubleClick(rowNo, Item)));
             BuildRowIndex(builder, rowNo);
             BuildRowCheckBox(builder, rowNo, Item);
@@ -85,6 +78,7 @@ class TableRow<TItem> : BaseComponent
         if (Grid.GridColumns == null || Grid.GridColumns.Count == 0)
             return;
 
+        var rowNo = Index + 1;
         var data = Utils.MapTo<Dictionary<string, object>>(item);
         foreach (var column in Grid.GridColumns)
         {
@@ -93,6 +87,12 @@ class TableRow<TItem> : BaseComponent
 
             builder.Td(column.ClassName, attr =>
             {
+                attr.OnClick(Callback(() =>
+                {
+                    Grid.CurRow = Grid.Data.IndexOf(Item);
+                    Grid.OnRowClick(rowNo, Item);
+                    Table.Changed();
+                }));
                 var value = data != null && data.ContainsKey(column.Id)
                           ? data[column.Id]
                           : null;
