@@ -77,7 +77,6 @@ public class DialogContainer : BaseComponent
 
 class Dialog : BaseComponent
 {
-    private bool isClickMax;
     private readonly string dialogId;
 
     public Dialog()
@@ -90,11 +89,9 @@ class Dialog : BaseComponent
     [Parameter] public DialogOption Option { get; set; }
     [Parameter] public Action OnClose { get; set; }
 
-    protected override void OnParametersSet() => isClickMax = Option.IsMax;
-
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        var isMax = isClickMax;
+        var isMax = Option.IsMax;
         var max = isMax ? " max" : "";
         builder.Div("mask", attr => attr.Id($"mask-{dialogId}").Style($"z-index:{StartIndex + Index}"));
         builder.Div($"dialog {max} animated fadeIn", attr =>
@@ -108,7 +105,7 @@ class Dialog : BaseComponent
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
-        if (!isClickMax)
+        if (!Option.IsMax)
         {
             UI.SetDialogMove(dialogId);
         }
@@ -142,7 +139,7 @@ class Dialog : BaseComponent
                 var title = isMax ? "恢复" : "最大化";
                 builder.Span($"bmax fa {className}", attr =>
                 {
-                    attr.Title(title).OnClick(Callback(e => isClickMax = !isClickMax));
+                    attr.Title(title).OnClick(Callback(e => Option.IsMax = !Option.IsMax));
                 });
             }
 
