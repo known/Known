@@ -17,12 +17,9 @@ class DemoOther : BaseComponent
             BuildDemo(builder, "搜索框", () => builder.Component<SearchBox>().Build());
             BuildDemo(builder, "验证码", () => builder.Component<Captcha>().Build());
         });
-        builder.Div("row", attr =>
-        {
-            BuildBanner(builder);
-            BuildNotify(builder);
-            BuildToast(builder);
-        });
+        BuildBanner(builder);
+        BuildNotify(builder);
+        BuildToast(builder);
         BuildCarousel(builder);
         BuildCard(builder);
         BuildTabs(builder);
@@ -32,6 +29,12 @@ class DemoOther : BaseComponent
     {
         BuildDemo(builder, "横幅通知", () =>
         {
+            builder.Component<Banner>().Set(c => c.Content, b => b.Span("bold", "这里是默认横幅通知！")).Build();
+            builder.Component<Banner>().Set(c => c.Content, b => b.Text("这里是主要横幅通知！")).Set(c => c.Style, StyleType.Primary).Build();
+            builder.Component<Banner>().Set(c => c.Content, b => b.Text("这里是成功横幅通知！")).Set(c => c.Style, StyleType.Success).Build();
+            builder.Component<Banner>().Set(c => c.Content, b => b.Text("这里是信息横幅通知！")).Set(c => c.Style, StyleType.Info).Build();
+            builder.Component<Banner>().Set(c => c.Content, b => b.Text("这里是警告横幅通知！")).Set(c => c.Style, StyleType.Warning).Build();
+            builder.Component<Banner>().Set(c => c.Content, b => b.Text("这里是危险横幅通知！")).Set(c => c.Style, StyleType.Danger).Build();
         });
     }
 
