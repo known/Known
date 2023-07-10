@@ -108,11 +108,12 @@ button, .button, input, select,
 
 /*Install*/
 .install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}
-.install .title {margin:50px 0 20px 0;font-size:2rem;font-weight:bold;text-align:center;}
+.install .title {margin:20px 0;font-size:2rem;font-weight:bold;text-align:center;}
 .install .form-body {border:none;}
 .install .form-label {width:120px;text-align:right;}
 .install .form-input {width:250px;display:inline-block;}
-.install button {padding:0 35px;height:40px;line-height:40px;}
+.install .form-button {text-align:center;}
+.install button {margin:0;padding:0 35px;height:40px;line-height:40px;}
 
 /*Login*/
 .login {

@@ -179,7 +179,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 
 /*badge,progress*/
 .badge, .progress, .progress .value {color:#fff;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;}
-.badge {padding:3px 5px;background-color:#009688;cursor:pointer;font-size:1rem;}
+.badge {padding:3px 5px;cursor:pointer;font-size:1rem;}
 .badge-top {
     position:absolute;top:0;right:0;font-size:0.5rem;padding:0;width:16px;height:16px;line-height:16px;
     background-color:#d9534f;color:#fff;text-align:center;
