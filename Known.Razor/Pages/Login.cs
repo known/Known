@@ -62,7 +62,7 @@ public class Login : BaseComponent
 
     private void BuildFields(RenderTreeBuilder builder)
     {
-        var enter = "$('.btnLogin').click()";
+        var enter = "$('#btnLogin').click()";
         builder.Field<Text>("UserName", true)
                .Set(f => f.Icon, "fa fa-user-o")
                .Set(f => f.Placeholder, "用户名")
@@ -87,7 +87,11 @@ public class Login : BaseComponent
                    .Set(f => f.Text, "记住用户名")
                    .Build();
         }
-        builder.Button("登 录", "", Callback(e => OnUserLogin()), "btnLogin");
+        builder.Component<Button>()
+               .Set(c => c.Id, "btnLogin")
+               .Set(c => c.Text, "登 录")
+               .Set(c => c.OnClick, Callback(OnUserLogin))
+               .Build();
     }
 
     private void OnUserLogin()
