@@ -134,7 +134,7 @@ class TableRow<TItem> : BaseComponent
             if (!Grid.CheckAction(action, item))
                 continue;
 
-            var style = action.Style.ToString().ToLower();
+            var style = action.Type.ToString().ToLower();
             builder.Icon($"{action.Icon} {style}", action.Name, Callback(() => Grid.OnAction(action, new object[] { item })));
             //builder.Link(action.Name, Callback(() => Table.OnRowAction(action, item)), action.Style);
         }
