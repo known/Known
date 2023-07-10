@@ -2,6 +2,11 @@
 
 partial class UIService
 {
+    public async void Notify(string message, StyleType style = StyleType.Success, int timeout = 5000)
+    {
+        await InvokeAsync<string>("KRazor.showNotify", message, style.ToString().ToLower(), timeout);
+    }
+    
     public async void Toast(string message, StyleType style = StyleType.Success)
     {
         await InvokeAsync<string>("KRazor.showToast", message, style.ToString().ToLower());

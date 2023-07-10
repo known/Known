@@ -20,7 +20,7 @@ class DemoOther : BaseComponent
         builder.Div("row", attr =>
         {
             BuildBanner(builder);
-            BuildNotification(builder);
+            BuildNotify(builder);
             BuildToast(builder);
         });
         BuildCarousel(builder);
@@ -30,17 +30,21 @@ class DemoOther : BaseComponent
 
     private void BuildBanner(RenderTreeBuilder builder)
     {
-        BuildDemo(builder, "通知横幅", () =>
+        BuildDemo(builder, "横幅通知", () =>
         {
-
         });
     }
 
-    private void BuildNotification(RenderTreeBuilder builder)
+    private void BuildNotify(RenderTreeBuilder builder)
     {
         BuildDemo(builder, "通知", () =>
         {
-
+            builder.Button("默认", Callback(() => UI.Notify("<h1>这里是默认通知！</h1>")));
+            builder.Button("主要", Callback(() => UI.Notify("这里是主要通知！", StyleType.Primary, 10000)), StyleType.Primary);
+            builder.Button("成功", Callback(() => UI.Notify("这里是成功通知！", StyleType.Success)), StyleType.Success);
+            builder.Button("信息", Callback(() => UI.Notify("这里是信息通知！", StyleType.Info)), StyleType.Info);
+            builder.Button("警告", Callback(() => UI.Notify("这里是警告通知！", StyleType.Warning)), StyleType.Warning);
+            builder.Button("危险", Callback(() => UI.Notify("这里是危险通知！", StyleType.Danger)), StyleType.Danger);
         });
     }
 
