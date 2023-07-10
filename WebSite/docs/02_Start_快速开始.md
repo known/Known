@@ -53,7 +53,7 @@ public class AppConfig
 
 ```xml
 -- SQLite
-<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.5" />
+<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.8" />
 -- Access
 <PackageReference Include="System.Data.OleDb" Version="7.0.0" />
 -- MySQL
@@ -106,7 +106,12 @@ class AppServer
 }
 ```
 
-### 4. 配置完成运行项目
+### 4. 创建数据库表
+
+- 数据库表脚本详见框架源码文件夹Document\Scripts
+- 默认有Access、MySql、Oracle、SQLite、SqlServer脚本
+
+### 5. 配置完成运行项目
 
 - 到此简单配置已完成，现在可以点击VS运行 KIMS.Server 项目啦，运行效果如下：
 
