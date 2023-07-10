@@ -367,19 +367,19 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .close:hover {color:#d9534f;}
 .link {color:#00f;cursor:pointer;}
 .bold {font-weight:bold;}
+.bg-primary, .toast span.primary, button.primary {background-color:#3492d0;color:#fff;}
+.bg-success, .toast span.success, button.success {background-color:#5cb85c;color:#fff;}
+.bg-info,    .toast span.info,    button.info    {background-color:#5bc0de;color:#fff;}
+.bg-warning, .toast span.warning, button.warning {background-color:#f0ad4e;color:#fff;}
+.bg-danger,  .toast span.danger,  button.danger  {background-color:#d9534f;color:#fff;}
+.bg-default, button.bg-default {background-color:#bbb;color:#333;}
+.bg-gray,    button.bg-gray    {background-color:#ccc;color:#888;}
 .primary {color:#3492d0;}
 .success {color:#5cb85c;}
 .info    {color:#5bc0de;}
 .warning {color:#f0ad4e;}
 .danger  {color:#d9534f;}
 .orange  {color:#f0ad4e;}
-.bg-primary, .toast span.primary, .form .tool button.bg-primary:hover {background-color:#3492d0;color:#fff;}
-.bg-success, .toast span.success, .form .tool button.bg-success:hover {background-color:#5cb85c;color:#fff;}
-.bg-info,    .toast span.info,    .form .tool button.bg-info:hover    {background-color:#5bc0de;color:#fff;}
-.bg-warning, .toast span.warning, .form .tool button.bg-warning:hover {background-color:#f0ad4e;color:#fff;}
-.bg-danger,  .toast span.danger,  .form .tool button.bg-danger:hover  {background-color:#d9534f;color:#fff;}
-.bg-default, .form .tool button.bg-default:hover {background-color:#bbb;color:#333;}
-.bg-gray,    .form .tool button.bg-gray:hover    {background-color:#ccc;color:#888;}
 .txt-center {text-align:center;}
 .txt-left {text-align:left;}
 .txt-right  {text-align:right;}

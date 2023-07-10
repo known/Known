@@ -87,7 +87,7 @@ public class Login : BaseComponent
                    .Set(f => f.Text, "记住用户名")
                    .Build();
         }
-        builder.Button("登 录", Callback(e => OnUserLogin()), "btnLogin");
+        builder.Button("登 录", "", Callback(e => OnUserLogin()), "btnLogin");
     }
 
     private void OnUserLogin()

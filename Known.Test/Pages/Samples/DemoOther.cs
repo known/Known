@@ -49,11 +49,11 @@ class DemoOther : BaseComponent
         BuildDemo(builder, "提示", () =>
         {
             builder.Button("默认", Callback(() => UI.Toast("这里是默认提示！")));
-            builder.Button("主要", Callback(() => UI.Toast("这里是主要提示！", StyleType.Primary)));
-            builder.Button("成功", Callback(() => UI.Toast("这里是成功提示！", StyleType.Success)));
-            builder.Button("信息", Callback(() => UI.Toast("这里是信息提示！", StyleType.Info)));
-            builder.Button("警告", Callback(() => UI.Toast("这里是警告提示！", StyleType.Warning)));
-            builder.Button("危险", Callback(() => UI.Toast("这里是危险提示！", StyleType.Danger)));
+            builder.Button("主要", Callback(() => UI.Toast("这里是主要提示！", StyleType.Primary)), StyleType.Primary);
+            builder.Button("成功", Callback(() => UI.Toast("这里是成功提示！", StyleType.Success)), StyleType.Success);
+            builder.Button("信息", Callback(() => UI.Toast("这里是信息提示！", StyleType.Info)), StyleType.Info);
+            builder.Button("警告", Callback(() => UI.Toast("这里是警告提示！", StyleType.Warning)), StyleType.Warning);
+            builder.Button("危险", Callback(() => UI.Toast("这里是危险提示！", StyleType.Danger)), StyleType.Danger);
         });
     }
 

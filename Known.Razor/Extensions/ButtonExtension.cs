@@ -16,15 +16,16 @@ public static class ButtonExtension
         if (!visible)
             return;
 
+        var css = CssBuilder.Default(button.Style.ToString().ToLower()).AddClass(style).Build();
         builder.Component<Button>()
-               .Set(c => c.Style, $"{button.Style} {style}")
+               .Set(c => c.Style, css)
                .Set(c => c.Icon, button.Icon)
                .Set(c => c.Text, button.Name)
                .Set(c => c.OnClick, onClick)
                .Build();
     }
 
-    public static void Button(this RenderTreeBuilder builder, string text, EventCallback onClick, string style = null) => builder.Button(text, "", onClick, style);
+    public static void Button(this RenderTreeBuilder builder, string text, EventCallback onClick, StyleType style = StyleType.Default) => builder.Button(text, "", onClick, style.ToString().ToLower());
 
     public static void Button(this RenderTreeBuilder builder, string text, string icon, EventCallback onClick, string style = null)
     {

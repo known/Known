@@ -165,7 +165,7 @@ public class DataComponent<TItem> : BaseComponent
 
     private void BuildButton(RenderTreeBuilder builder, ButtonInfo item)
     {
-        builder.Button(item.Name, item.Icon, Callback(() => OnAction(item)), item.Style);
+        builder.Button(item, Callback(() => OnAction(item)));
     }
 
     internal void OnAction(ButtonInfo info, object[] parameters = null)
