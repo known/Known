@@ -48,10 +48,11 @@ section .column {padding:1rem;}
 }
 
 footer {background-color:#393d49;color:#fff;padding-top:20px;}
-footer .row {padding:20px 0;}
-footer .brand {width:95%;padding:10px;}
-footer .links {width:44%;padding:20px 2px 0 20px;}
+footer .row {padding:20px 0;display:flex;flex-direction:column;}
+footer .brand {padding:10px;}
+footer .links, footer .qrcode {padding:20px 2px 0 20px;}
 footer .desc {padding:0 10px;}
+footer .qrcode {text-align:center;}
 footer ul {padding:10px 0;list-style:none;}
 footer ul li {height:30px;line-height:30px;}
 footer a {color:#fff;}
@@ -106,8 +107,9 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 
     .picture {height:348px;}
 
-    footer .brand {width:50%;}
-    footer .links {width:20%;}
+    footer .row {flex-direction:row;}
+    footer .brand {width:45%;}
+    footer .links {width:15%;}
 
     .doc-sider {display:block;}
     .doc-nav {display:none;}
