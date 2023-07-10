@@ -24,9 +24,9 @@ $(function () {
 
 export class KRazor {
     //Alert
-    static showToast(message) {
+    static showToast(message, style) {
         var tips = $('<div>').addClass('toast animated fadeInDown')
-            .html('<span>' + message + '</span>')
+            .html('<span class="' + style + '">' + message + '</span>')
             .appendTo($('body'));
         setTimeout(function () {
             tips.addClass('fadeOutUp');

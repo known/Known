@@ -2,9 +2,9 @@
 
 partial class UIService
 {
-    public async void Toast(string message)
+    public async void Toast(string message, StyleType style = StyleType.Success)
     {
-        await InvokeAsync<string>("KRazor.showToast", message);
+        await InvokeAsync<string>("KRazor.showToast", message, style.ToString().ToLower());
     }
 
     public void Alert(string message, bool isMax)

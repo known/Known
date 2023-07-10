@@ -58,6 +58,7 @@
 .demo-row, .demo-row .box, .demo td {position:relative;}
 .demo-row .row {height:150px;}
 .demo-row .box, .demo .row .demo-row {margin:5px;}
+.demo-row button {margin-right:5px;}
 .demo td img {width:80px;}
 .demo td .icon {font-size:1.2rem;}
 .demo td .color {display:block;width:60px;height:20px;line-height:20px;font-size:0.8rem;text-align:center;}
