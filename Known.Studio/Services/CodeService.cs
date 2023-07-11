@@ -165,13 +165,13 @@ class CodeService
         sb.AppendLine("        return Client.{0}.Query{0}sAsync(criteria);", model.Code);
         sb.AppendLine("    }");
         sb.AppendLine(" ");
-        sb.AppendLine("    protected override Task InitPageAsync() { }");
-        sb.AppendLine("    protected override bool CheckAction(ButtonInfo action, {0} item) => base.CheckAction(action, item);", model.Code);
+        sb.AppendLine("    protected override Task InitPageAsync() => base.InitPageAsync();");
+        sb.AppendLine("    public override bool CheckAction(ButtonInfo action, {0} item) => base.CheckAction(action, item);", model.EntityName);
         sb.AppendLine(" ");
         sb.AppendLine("    public void New() => ShowForm();");
-        sb.AppendLine("    public void DeleteM() => OnDeleteM(Client.{0}.Delete{0}sAsync);", model.Code);
+        sb.AppendLine("    public void DeleteM() => DeleteRows(Client.{0}.Delete{0}sAsync);", model.Code);
         sb.AppendLine("    public void Edit({0} row) => ShowForm(row);", model.EntityName);
-        sb.AppendLine("    public void Delete({1} row) => OnDelete(row, Client.{0}.Delete{0}sAsync);", model.Code, model.EntityName);
+        sb.AppendLine("    public void Delete({1} row) => DeleteRow(row, Client.{0}.Delete{0}sAsync);", model.Code, model.EntityName);
         sb.AppendLine("}");
         return sb.ToString();
     }
