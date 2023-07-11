@@ -52,7 +52,8 @@ class AppHelper
 
         Config.IsPlatform = true;
         Config.SetAppAssembly(typeof(AppHelper).Assembly);
-        
+
+        KRConfig.IsWeb = true;
         KRConfig.Home = new MenuItem("首页", "fa fa-home", typeof(Home));
         
         KCConfig.AddWebPlatform();
