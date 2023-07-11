@@ -241,7 +241,7 @@ class CodeService
         sb.AppendLine(" ");
         sb.AppendLine("    internal PagingResult<{0}> Query{1}s(PagingCriteria criteria)", model.EntityName, model.Code);
         sb.AppendLine("    {");
-        sb.AppendLine("        return Repository.Query{0}s(Database, criteria);", model.Code);
+        sb.AppendLine("        return {0}Repository.Query{0}s(Database, criteria);", model.Code);
         sb.AppendLine("    }");
         sb.AppendLine(" ");
         sb.AppendLine("    internal Result Delete{0}s(List<{1}> models)", model.Code, model.EntityName);
