@@ -434,7 +434,8 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .menu-tree ul {display:none;background-color:rgb(255,255,255,0.1);padding:0.5rem 0;}
 .menu-tree .item.active+ul {display:block;}
 .menu-tree > li > .item {padding:0 12px;}
-.menu-tree > li > ul > li > .item {padding-left:2rem;}
+.menu-tree > li > ul > li > .item {padding-left:2rem;padding-right:12px;}
+.menu-tree > li > ul > li > ul > li > .item {padding-left:3rem;}
 
 /*page*/
 .sys-active {margin:0 auto;width:360px;}
