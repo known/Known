@@ -153,6 +153,7 @@ export class KRazor {
                     eval(method);
             }
         });
+        inputs[0].focus();
         var list = $('.form-list');
         if (list.length) {
             var prev = list.prev();
