@@ -387,7 +387,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     }
 }
 
-public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase where TForm : Form
+public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase, new() where TForm : Form
 {
     public DataGrid()
     {
@@ -395,7 +395,7 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase w
         ShowCheckBox = true;
     }
 
-    protected virtual Task<TItem> GetDefaultModelAsync() => default;
+    protected virtual Task<TItem> GetDefaultModelAsync() => Task.FromResult(new TItem());
 
     protected virtual async void ShowForm(TItem model = null)
     {
