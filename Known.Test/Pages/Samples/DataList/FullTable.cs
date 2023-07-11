@@ -22,7 +22,7 @@ class FullTable : DmTestGrid
         Columns = builder.ToColumns();
     }
 
-    public void New() => ShowForm(new DmGoods());
+    public void New() => ShowForm();
     public void DeleteM() => DeleteRows(null);
     public void Edit(DmGoods row) => ShowForm(row);
     public void Delete(DmGoods row) => DeleteRow(row, null);

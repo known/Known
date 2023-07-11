@@ -3,7 +3,7 @@
 class DmGoods : EntityBase
 {
     [Column("编码")] public string Code { get; set; }
-    [Column("名称")] public string Name { get; set; }
+    [Column("名称", true)] public string Name { get; set; }
     [Column("型号")] public string Model { get; set; }
     [Column("单位")] public string Unit { get; set; }
     [Column("增值税率")] public decimal? TaxRate { get; set; }

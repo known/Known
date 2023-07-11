@@ -31,7 +31,7 @@ class FullList : DmTestList
         Columns = builder.ToColumns();
     }
 
-    public void New() => ShowForm(new DmTest());
+    public void New() => ShowForm();
     public void DeleteM() => DeleteRows(null);
     public void Edit(DmTest row) => ShowForm(row);
     public void Delete(DmTest row) => DeleteRow(row, null);

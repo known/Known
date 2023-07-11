@@ -39,5 +39,6 @@ class GoodsForm : BaseForm<DmGoods>
 
     private void OnSave()
     {
+        Validate();
     }
 }
