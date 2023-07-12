@@ -73,11 +73,11 @@ input[type="checkbox"]+span, input[type="radio"]+span {margin-left:25px;}
 .close:hover {color:#d1231e;}
 .link {color:#00f;cursor:pointer;}
 .bold {font-weight:bold;}
-.bg-primary, .banner.primary, .notify.primary, .toast span.primary, button.primary {background-color:#3492d0;color:#fff;}
-.bg-success, .banner.success, .notify.success, .toast span.success, button.success {background-color:#5cb85c;color:#fff;}
-.bg-info,    .banner.info,    .notify.info,    .toast span.info,    button.info    {background-color:#5bc0de;color:#fff;}
-.bg-warning, .banner.warning, .notify.warning, .toast span.warning, button.warning {background-color:#f0ad4e;color:#fff;}
-.bg-danger,  .banner.danger,  .notify.danger,  .toast span.danger,  button.danger  {background-color:#d9534f;color:#fff;}
+.bg-primary, .banner.primary, .notify.primary, .toast span.primary, .timeline li.primary:before, button.primary {background-color:#3492d0;color:#fff;}
+.bg-success, .banner.success, .notify.success, .toast span.success, .timeline li.success:before, button.success {background-color:#5cb85c;color:#fff;}
+.bg-info,    .banner.info,    .notify.info,    .toast span.info,    .timeline li.info:before,    button.info    {background-color:#5bc0de;color:#fff;}
+.bg-warning, .banner.warning, .notify.warning, .toast span.warning, .timeline li.warning:before, button.warning {background-color:#f0ad4e;color:#fff;}
+.bg-danger,  .banner.danger,  .notify.danger,  .toast span.danger,  .timeline li.danger:before,  button.danger  {background-color:#d9534f;color:#fff;}
 .bg-default, button.bg-default {background-color:#bbb;color:#333;}
 .bg-gray,    button.bg-gray    {background-color:#ccc;color:#888;}
 .primary {color:#3492d0;}
@@ -100,7 +100,7 @@ td .icon, .tab .icon {width:20px;text-align:center;margin-right:2px;}
 input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 
 .box, .card, .dialog, .kui-tips, .kui-content {background-color:#fff;}
-.circle {-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;}
+.circle, .timeline li:before {-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;}
 .left {float:left;}
 .right {float:right;}
 .icon {font-size:1rem;}
@@ -230,6 +230,19 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .step-body {padding:1rem;}
 .step-btns {text-align:right;}
 .step-btns button {margin-left:1rem;}
+
+/*timeline*/
+.timeline {padding-left:1rem;}
+.timeline li {position:relative;padding-bottom:1rem;}
+.timeline li:before, 
+.timeline li:after {display:block;content:'';background-color:#ccc;position:absolute;}
+.timeline li:before {width:1rem;height:1rem;top:0.4rem;left:0;}
+.timeline li:after {width:2px;top:1.4rem;bottom:-1rem;left:calc(0.5rem - 1px);}
+.timeline li:last-child:after {display:none;}
+.timeline .item {display:inline-block;padding-left:1.5rem;}
+.timeline span {display:block;padding:2px;}
+.timeline .name {font-weight:bold;}
+.timeline .time, .timeline .text {color:#7c7474;font-size:0.8rem;}
 
 /*tool*/
 .tool button {margin-right:5px;padding:0 10px;}
@@ -415,13 +428,6 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .breadcrumb li.home {cursor:pointer;}
 .breadcrumb li:after {display:inline-block;content:'\f105';padding-left:0.5rem;}
 .breadcrumb li:last-child:after {content:'';}
-
-/*timeline*/
-.timeline {border-left:1px solid #ccc;padding-left:1rem;}
-.timeline li {padding-bottom:2rem;}
-.timeline span {display:block;padding:2px;}
-.timeline .name {font-weight:bold;}
-.timeline .time, .timeline .text {color:#7c7474;font-size:0.8rem;}
 
 /*menu*/
 .menu-tab {padding:20px 0;}

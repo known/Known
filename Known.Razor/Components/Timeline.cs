@@ -1,10 +1,9 @@
 ﻿namespace Known.Razor.Components;
 
-public class Timeline<T> : BaseComponent
+public class Timeline : BaseComponent
 {
     [Parameter] public string Style { get; set; }
-    [Parameter] public List<T> Items { get; set; }
-    [Parameter] public Action<RenderTreeBuilder, T> Template { get; set; }
+    [Parameter] public List<TimelineItem> Items { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -15,9 +14,39 @@ public class Timeline<T> : BaseComponent
             {
                 foreach (var item in Items)
                 {
-                    builder.Li(attr => Template?.Invoke(builder, item));
+                    BuildItem(builder, item);
                 }
             }
         });
     }
+
+    private void BuildItem(RenderTreeBuilder builder, TimelineItem item)
+    {
+        builder.Li(item.Type.ToString().ToLower(), attr =>
+        {
+            builder.Div("item", attr =>
+            {
+                if (item.Template != null)
+                {
+                    item.Template.Invoke(builder);
+                }
+                else
+                {
+                    builder.Span("name", item.Title);
+                    builder.Span("time", $"{item.Time:yyyy-MM-dd HH:mm:ss}");
+                    if (!string.IsNullOrWhiteSpace(item.Description))
+                        builder.Span("text", item.Description);
+                }
+            });
+        });
+    }
+}
+
+public class TimelineItem
+{
+    public StyleType Type { get; set; }
+    public DateTime Time { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public Action<RenderTreeBuilder> Template { get; set; }
 }
