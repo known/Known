@@ -6,7 +6,7 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<DebugType>embedded</DebugType>
-        <Version>1.0.1.59</Version>
+        <Version>1.1.6.0</Version>
         <ApplicationIcon>favicon.ico</ApplicationIcon>
 	</PropertyGroup>
 
@@ -15,9 +15,9 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.8" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="7.0.86" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="7.0.92" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
