@@ -1,9 +1,12 @@
-﻿namespace Known.Razor.Components.Fields;
+﻿using System;
+
+namespace Known.Razor.Components.Fields;
 
 public class Captcha : Field
 {
     private const string Chars = "abcdefghijkmnpqrstuvwxyz2345678ABCDEFGHJKLMNPQRSTUVWXYZ";
     private readonly string id;
+    private string lastCode;
 
     public Captcha()
     {
@@ -19,8 +22,11 @@ public class Captcha : Field
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (firstRender || Code != lastCode)
+        {
+            lastCode = Code;
             UI.Captcha(id, Code);
+        }
         return base.OnAfterRenderAsync(firstRender);
     }
 
