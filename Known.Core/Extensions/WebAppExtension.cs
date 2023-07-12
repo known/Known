@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Known.Core.Extensions;
 
-public static class DIExtension
+public static class WebAppExtension
 {
     public static void RunAsWebApi(this WebApplicationBuilder builder, Action<IServiceCollection> action = null)
     {
@@ -55,7 +55,6 @@ public static class DIExtension
 
         app.UseHttpsRedirection();
         action1?.Invoke(app);
-        app.UseStaticFiles();
         var upload = KCConfig.GetUploadPath();
         app.UseStaticFiles(new StaticFileOptions
         {
@@ -111,7 +110,6 @@ public static class DIExtension
         }
 
         app.UseHttpsRedirection();
-        app.UseStaticFiles();
         var upload = KCConfig.GetUploadPath();
         app.UseStaticFiles(new StaticFileOptions
         {
