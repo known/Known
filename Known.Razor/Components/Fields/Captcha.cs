@@ -19,7 +19,8 @@ public class Captcha : Field
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        UI.Captcha(id, Code);
+        if (firstRender)
+            UI.Captcha(id, Code);
         return base.OnAfterRenderAsync(firstRender);
     }
 
