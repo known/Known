@@ -416,6 +416,13 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .breadcrumb li:after {display:inline-block;content:'\f105';padding-left:0.5rem;}
 .breadcrumb li:last-child:after {content:'';}
 
+/*timeline*/
+.timeline {border-left:1px solid #ccc;padding-left:1rem;}
+.timeline li {padding-bottom:2rem;}
+.timeline span {display:block;padding:2px;}
+.timeline .name {font-weight:bold;}
+.timeline .time, .timeline .text {color:#7c7474;font-size:0.8rem;}
+
 /*menu*/
 .menu-tab {padding:20px 0;}
 .menu-tab li {cursor:pointer;height:60px;line-height:60px;padding:0 20px;font-weight:bold;}
