@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Known.Razor.Components.Fields;
+﻿namespace Known.Razor.Components.Fields;
 
 public class Captcha : Field
 {
