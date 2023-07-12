@@ -21,11 +21,10 @@ public static class WebAppExtension
         app.Run();
     }
 
-    public static void RunAsBlazorWebAssembly(this WebApplicationBuilder builder, Action<IServiceCollection> action, Action<WebApplication> action1)
+    public static void RunAsBlazorWebAssembly(this WebApplicationBuilder builder, Action<IServiceCollection> serviceAction, Action<WebApplication> appAction)
     {
         KCConfig.AddWebPlatform();
 
-        // Add services to the container.
         builder.Services.AddControllers(options =>
         {
             options.Filters.Add<ExceptionFilter>();
@@ -33,35 +32,12 @@ public static class WebAppExtension
         });
         builder.Services.AddRazorPages();
         AddCompression(builder.Services);
-        action?.Invoke(builder.Services);
-
-        var httpPort = builder.Configuration.GetSection("HttpPort").Get<int>();
-        var httpsPort = builder.Configuration.GetSection("HttpsPort").Get<int>();
-        if (httpsPort > 0)
-            builder.WebHost.UseUrls($"http://*:{httpPort}", $"https://*:{httpsPort}");
-        else
-            builder.WebHost.UseUrls($"http://*:{httpPort}");
+        serviceAction?.Invoke(builder.Services);
+        BuildHostUrl(builder);
 
         var app = builder.Build();
-        KCConfig.IsDevelopment = app.Environment.IsDevelopment();
-        // Configure the HTTP request pipeline.
-        if (!KCConfig.IsDevelopment)
-        {
-            app.UseResponseCompression();
-            app.UseExceptionHandler("/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            app.UseHsts();
-        }
-
-        app.UseHttpsRedirection();
-        action1?.Invoke(app);
-        var upload = KCConfig.GetUploadPath();
-        app.UseStaticFiles(new StaticFileOptions
-        {
-            FileProvider = new PhysicalFileProvider(upload),
-            RequestPath = "/UploadFiles"
-        });
-        app.UseRouting();
+        appAction?.Invoke(app);
+        UseWebApp(app);
         app.MapRazorPages();
         app.MapControllers();
         app.MapFallbackToFile("index.html");
@@ -85,38 +61,14 @@ public static class WebAppExtension
             options.MaximumReceiveMessageSize = 1024 * 1024;
             options.StreamBufferCapacity = 18;
         });
-        AddCompression(builder.Services);
-        action?.Invoke(builder.Services);
-
         builder.Services.AddScoped<ProtectedSessionStorage>();
         builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-
-        var httpPort = builder.Configuration.GetSection("HttpPort").Get<int>();
-        var httpsPort = builder.Configuration.GetSection("HttpsPort").Get<int>();
-        if (httpsPort > 0)
-            builder.WebHost.UseUrls($"http://*:{httpPort}", $"https://*:{httpsPort}");
-        else
-            builder.WebHost.UseUrls($"http://*:{httpPort}");
+        AddCompression(builder.Services);
+        action?.Invoke(builder.Services);
+        BuildHostUrl(builder);
 
         var app = builder.Build();
-        KCConfig.IsDevelopment = app.Environment.IsDevelopment();
-        // Configure the HTTP request pipeline.
-        if (!KCConfig.IsDevelopment)
-        {
-            app.UseResponseCompression();
-            app.UseExceptionHandler("/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            app.UseHsts();
-        }
-
-        app.UseHttpsRedirection();
-        var upload = KCConfig.GetUploadPath();
-        app.UseStaticFiles(new StaticFileOptions
-        {
-            FileProvider = new PhysicalFileProvider(upload),
-            RequestPath = "/UploadFiles"
-        });
-        app.UseRouting();
+        UseWebApp(app);
         app.MapBlazorHub();
         app.MapFallbackToPage("/_Host");
         app.Run();
@@ -137,5 +89,43 @@ public static class WebAppExtension
         {
             config.Level = CompressionLevel.Fastest;
         });
+    }
+
+    private static void BuildHostUrl(WebApplicationBuilder builder)
+    {
+        var httpPort = builder.Configuration.GetSection("HttpPort").Get<int>();
+        if (httpPort == 0)
+            httpPort = 5000;
+
+        var httpsPort = builder.Configuration.GetSection("HttpsPort").Get<int>();
+        if (httpsPort > 0)
+            builder.WebHost.UseUrls($"http://*:{httpPort}", $"https://*:{httpsPort}");
+        else
+            builder.WebHost.UseUrls($"http://*:{httpPort}");
+    }
+
+    private static void UseWebApp(WebApplication app)
+    {
+        KCConfig.IsDevelopment = app.Environment.IsDevelopment();
+        // Configure the HTTP request pipeline.
+        if (!KCConfig.IsDevelopment)
+        {
+            app.UseResponseCompression();
+            app.UseExceptionHandler("/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+
+        var upload = KCConfig.GetUploadPath();
+        app.UseStaticFiles();
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(upload),
+            RequestPath = "/UploadFiles"
+        });
+
+        app.UseRouting();
     }
 }
