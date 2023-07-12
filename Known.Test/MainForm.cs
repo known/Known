@@ -43,7 +43,7 @@ namespace Known.Test
         private void AddBlazorWebView()
         {
             var services = new ServiceCollection();
-            services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(AppHelper.Host) });
+            services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(AppHelper.Url) });
             services.AddWindowsFormsBlazorWebView();
 #if DEBUG
             services.AddBlazorWebViewDeveloperTools();

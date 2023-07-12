@@ -1,19 +1,11 @@
 ﻿using Known.Test.Pages;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Hosting;
 
 namespace Known.Test;
 
 class AppHelper
 {
     private const string MutexName = "Global\\KnownTest";
-    internal const string Host = "http://localhost:5000";
+    internal const string Url = "http://localhost:5000";
 
     internal static void Run()
     {
@@ -23,7 +15,7 @@ class AppHelper
 
         InitDatabase();
         InitConfig();
-        Task.Run(() => CreateWebHostBuilder(Array.Empty<string>()).Build().Run());
+        Host.RunWebApiAsync<App>(Url);
         Application.Run(new MainForm());
     }
 
@@ -74,56 +66,6 @@ class AppHelper
         {
             Connections = new List<ConnectionInfo> { connInfo }
         };
-    }
-
-    private static IWebHostBuilder CreateWebHostBuilder(string[] args)
-    {
-        return WebHost.CreateDefaultBuilder(args)
-                      .UseUrls(Host)
-                      .UseStartup<Startup>();
-    }
-}
-
-class Startup
-{
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
-    public IConfiguration Configuration { get; }
-
-    public void ConfigureServices(IServiceCollection services)
-    {
-        var builder = services.AddControllers();
-        builder.ConfigureApplicationPartManager(apm =>
-        {
-            apm.ApplicationParts.Add(new AssemblyPart(typeof(BaseController).Assembly));
-            apm.ApplicationParts.Add(new AssemblyPart(typeof(Startup).Assembly));
-        });
-    }
-
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
-
-        app.UseHttpsRedirection();
-        app.UseStaticFiles();
-        var upload = KCConfig.GetUploadPath();
-        app.UseStaticFiles(new StaticFileOptions
-        {
-            FileProvider = new PhysicalFileProvider(upload),
-            RequestPath = "/UploadFiles"
-        });
-        app.UseRouting();
-        app.UseAuthorization();
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-        });
     }
 }
 
