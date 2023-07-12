@@ -142,18 +142,21 @@ export class KRazor {
     //Form
     static initForm() {
         var inputs = $('.form input');
-        inputs.keydown(function (event) {
-            if ((event.keyCode || event.which) === 13) {
-                event.preventDefault();
-                var index = inputs.index(this);
-                if (index < inputs.length)
-                    $(inputs[index + 1]).focus();
-                var method = $(this).attr("onenter");
-                if (method && method.length)
-                    eval(method);
-            }
-        });
-        inputs[0].focus();
+        if (inputs.length) {
+            inputs.keydown(function (event) {
+                if ((event.keyCode || event.which) === 13) {
+                    event.preventDefault();
+                    var index = inputs.index(this);
+                    if (index < inputs.length - 1)
+                        inputs[index + 1].focus();
+                    this.blur();
+                    var method = $(this).attr("onenter");
+                    if (method && method.length)
+                        eval(method);
+                }
+            });
+            inputs[0].focus();
+        }
         var list = $('.form-list');
         if (list.length) {
             var prev = list.prev();
