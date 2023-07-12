@@ -4,8 +4,9 @@
 
 [![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
 [![fork](https://gitee.com/known/Known/badge/fork.svg?theme=dark)](https://gitee.com/known/Known/members)
+[![stars](https://img.shields.io/github/stars/known/known?color=%231890FF)](https://github.com/known/Known)
 [![License](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/known/Known/blob/master/LICENSE)
-![.NET](https://img.shields.io/badge/.NET-7.0.8-green)
+![.NET](https://img.shields.io/badge/.NET-7.0-green)
 ![DEV](https://img.shields.io/badge/DEV-VS2022-brightgreen)
 
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
@@ -25,12 +26,12 @@
 ### 项目结构
 
 ```
-├─Known         ->框架前后端共用库，前后端数据交互模型。
-├─Known.Core    ->框架后端库，通用业务逻辑。
-├─Known.Razor   ->框架前端库，Grid、Tree、Form等Blazor组件。
-├─Known.Studio  ->框架代码生成工具。
-├─Known.Test    ->框架测试程序。
-├─WebSite       ->框架网站及在线文档。
+├─Known         -> 框架前后端共用库，前后端数据交互模型。
+├─Known.Core    -> 框架后端库，通用业务逻辑。
+├─Known.Razor   -> 框架前端库，Grid、Tree、Form等Blazor组件。
+├─Known.Studio  -> 框架代码生成工具。
+├─Known.Test    -> 框架测试程序。
+├─WebSite       -> 框架网站及在线文档。
 ```
 
 ### 主要功能
