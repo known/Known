@@ -3,29 +3,32 @@
 
 <div class="doc-menu">
     <div class="menus">
-        @foreach (var menu in Menus)
+        @if (Items != null && Items.Count > 0)
         {
-            <div class="title">@menu.Name</div>
-            <ul>
-                @foreach (var item in menu.Children)
-                {
-                    var cls = CurItem == item.Id ? "active" : "";
-                    <li class="@cls" @onclick="@(e => OnMenuItemClick(item))">@item.Name</li>
-                }
-            </ul>
+            foreach(var menu in Items)
+            {
+                <div class="title">@menu.Name</div>
+                <ul>
+                    @foreach (var item in menu.Children)
+                    {
+                        var cls = CurItem == item.Id ? "active" : "";
+                        <li class="@cls" @onclick="@(e => OnMenuItemClick(item))">@item.Name</li>
+                    }
+                </ul>
+            }
         }
     </div>
 </div>
 
 @code {
-    private List<MenuItem> Menus = DocService.GetDocMenus();
-
+    [Parameter] public string? Type { get; set; }
     [Parameter] public string? CurItem { get; set; }
+    [Parameter] public List<MenuItem>? Items { get; set; }
 
     private async void OnMenuItemClick(MenuItem item)
     {
         CurItem = item.Id;
-        Nav.NavigateTo($"/doc/{item.Id}");
+        Nav.NavigateTo($"/{Type}/{item.Id}");
         await JS.InvokeVoidAsync("hideDocNav");
     }
 }

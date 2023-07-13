@@ -38,7 +38,7 @@ class DocService
         return items;
     }
 
-    internal static MarkupString GetDocHtml(string id)
+    internal static MarkupString GetDocHtml(string? id)
     {
         if (!menuItems.ContainsKey(id))
             return new MarkupString("");

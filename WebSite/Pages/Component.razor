@@ -1,9 +1,9 @@
-﻿@page "/doc/{id?}"
+﻿@page "/component/{id?}"
 @inject IJSRuntime JS;
 
 <div class="doc-container">
     <div id="docNav" class="doc-sider">
-        <DocMenu Type="doc" CurItem="@curItem" Items="@menus" />
+        <DocMenu Type="component" CurItem="@curItem" />
     </div>
     <div class="doc-content markdown-body">
         <span class="doc-nav oi oi-menu" @onclick="OnDocNavClick"></span>
@@ -12,8 +12,7 @@
 </div>
 
 @code {
-    private string? curItem => Id ?? "profile";
-    private List<MenuItem> menus = DocService.GetDocMenus();
+    private string? curItem => Id ?? "";
 
     [Parameter] public string? Id { get; set; }
 
