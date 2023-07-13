@@ -4,11 +4,11 @@ using WebSite.Core;
 
 namespace WebSite.Data;
 
-class DocService
+class DocumentService
 {
     private static readonly Dictionary<string, string> menuItems = new();
 
-    internal static List<MenuItem> GetDocMenus()
+    internal static List<MenuItem> GetMenus()
     {
         var path = Path.Combine(Config.RootPath, "docs");
         var infos = GetFileSystemInfos(path);

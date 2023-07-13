@@ -10,6 +10,6 @@ class Config
 
     internal static void Initialize()
     {
-        DocService.GetDocMenus();
+        DocumentService.GetMenus();
     }
 }

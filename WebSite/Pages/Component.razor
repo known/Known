@@ -1,18 +1,20 @@
 ﻿@page "/component/{id?}"
 @inject IJSRuntime JS;
+@inject NavigationManager Nav;
 
 <div class="doc-container">
     <div id="docNav" class="doc-sider">
-        <DocMenu CurItem="@curItem" />
+        <DocMenu CurItem="@curItem" Items="@menus" OnItemClick="@OnItemClick" OnFormatItem="@OnFormatItem" />
     </div>
     <div class="doc-content markdown-body">
         <span class="doc-nav oi oi-menu" @onclick="OnDocNavClick"></span>
-        @DocService.GetDocHtml(curItem)
+        @DocumentService.GetDocHtml(curItem)
     </div>
 </div>
 
 @code {
     private string? curItem => Id ?? "";
+    private List<MenuItem> menus = ComponentService.GetMenus();
 
     [Parameter] public string? Id { get; set; }
 
@@ -22,8 +24,12 @@
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    private async void OnDocNavClick()
+    private async void OnItemClick(MenuItem item)
     {
-        await JS.InvokeVoidAsync("showDocNav");
+        Nav.NavigateTo($"/component/{item.Id}");
+        await JS.InvokeVoidAsync("hideDocNav");
     }
+
+    private string OnFormatItem(MenuItem item) => $"{item.Name}({item.Id})";
+    private async void OnDocNavClick() => await JS.InvokeVoidAsync("showDocNav");
 }

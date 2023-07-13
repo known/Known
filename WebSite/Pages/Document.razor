@@ -8,13 +8,13 @@
     </div>
     <div class="doc-content markdown-body">
         <span class="doc-nav oi oi-menu" @onclick="OnDocNavClick"></span>
-        @DocService.GetDocHtml(curItem)
+        @DocumentService.GetDocHtml(curItem)
     </div>
 </div>
 
 @code {
     private string? curItem => Id ?? "profile";
-    private List<MenuItem> menus = DocService.GetDocMenus();
+    private List<MenuItem> menus = DocumentService.GetMenus();
 
     [Parameter] public string? Id { get; set; }
 
@@ -30,8 +30,5 @@
         await JS.InvokeVoidAsync("hideDocNav");
     }
 
-    private async void OnDocNavClick()
-    {
-        await JS.InvokeVoidAsync("showDocNav");
-    }
+    private async void OnDocNavClick() => await JS.InvokeVoidAsync("showDocNav");
 }
