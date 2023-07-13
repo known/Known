@@ -32,12 +32,12 @@ public static class WebAppExtension
         });
         builder.Services.AddRazorPages();
         AddCompression(builder.Services);
-        serviceAction?.Invoke(builder.Services);
         BuildHostUrl(builder);
+        serviceAction?.Invoke(builder.Services);
 
         var app = builder.Build();
-        appAction?.Invoke(app);
         UseWebApp(app);
+        appAction?.Invoke(app);
         app.MapRazorPages();
         app.MapControllers();
         app.MapFallbackToFile("index.html");
@@ -64,8 +64,8 @@ public static class WebAppExtension
         builder.Services.AddScoped<ProtectedSessionStorage>();
         builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
         AddCompression(builder.Services);
-        action?.Invoke(builder.Services);
         BuildHostUrl(builder);
+        action?.Invoke(builder.Services);
 
         var app = builder.Build();
         UseWebApp(app);
