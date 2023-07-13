@@ -51,8 +51,8 @@
 
 - 输入类：Button、Select、Text、TextArea、CheckBox、Switch、Hidden、Input、Password、Captcha、Date、DateRange、Number、CheckList、RadioList、Picker、Upload、SearchBox
 - 导航类：Breadcrumb、Pager、Steps、Tabs、Tree、Menu
-- 展示类：Card、Carousel、Empty、Dropdown、GroupBox、ImageBox、Dialog、Chart、Form、QuickView、Badge、Icon
-- 反馈类：Toast、Progress
+- 展示类：Card、Carousel、Empty、Dropdown、GroupBox、ImageBox、Dialog、Chart、Form、QuickView、Badge、Icon、Timeline
+- 反馈类：Toast、Notify、Banner、Progress
 - 数据类：DataList、DataTable、EditTable
 
 ### 在线体验
