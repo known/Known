@@ -9,7 +9,8 @@ public sealed class Config
         AppId = "KIMS";
         AppName = "Known信息管理系统";
         Version = "1.0";
-        FrameVersion = typeof(Config).Assembly.GetName().Version.ToString();
+        var version = typeof(Config).Assembly.GetName().Version;
+        FrameVersion = $"Known V{version.Major}.{version.Minor}.{version.Build}";
     }
 
     public static string DateFormat => "yyyy-MM-dd";
