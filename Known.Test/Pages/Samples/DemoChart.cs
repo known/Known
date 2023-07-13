@@ -34,11 +34,6 @@ class DemoChart : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        var dic = new Dictionary<string, object>
-        {
-            { "2010", 230 }
-        };
-
         builder.Div("row", attr =>
         {
             builder.Component<Chart>()
