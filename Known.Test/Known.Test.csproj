@@ -6,7 +6,7 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<DebugType>embedded</DebugType>
-        <Version>1.1.6.3</Version>
+        <Version>1.1.6.4</Version>
         <ApplicationIcon>favicon.ico</ApplicationIcon>
 	</PropertyGroup>
 
