@@ -1,9 +1,10 @@
 ﻿@page "/doc/{id?}"
 @inject IJSRuntime JS;
+@inject NavigationManager Nav;
 
 <div class="doc-container">
     <div id="docNav" class="doc-sider">
-        <DocMenu Type="doc" CurItem="@curItem" Items="@menus" />
+        <DocMenu CurItem="@curItem" Items="@menus" OnItemClick="@OnItemClick" />
     </div>
     <div class="doc-content markdown-body">
         <span class="doc-nav oi oi-menu" @onclick="OnDocNavClick"></span>
@@ -21,6 +22,12 @@
     {
         await JS.InvokeVoidAsync("codeHighlight");
         await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async void OnItemClick(MenuItem item)
+    {
+        Nav.NavigateTo($"/doc/{item.Id}");
+        await JS.InvokeVoidAsync("hideDocNav");
     }
 
     private async void OnDocNavClick()

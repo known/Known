@@ -1,7 +1,4 @@
-﻿@inject NavigationManager Nav;
-@inject IJSRuntime JS;
-
-<div class="doc-menu">
+﻿<div class="doc-menu">
     <div class="menus">
         @if (Items != null && Items.Count > 0)
         {
@@ -21,14 +18,13 @@
 </div>
 
 @code {
-    [Parameter] public string? Type { get; set; }
     [Parameter] public string? CurItem { get; set; }
     [Parameter] public List<MenuItem>? Items { get; set; }
+    [Parameter] public Action<MenuItem>? OnItemClick { get; set; }
 
-    private async void OnMenuItemClick(MenuItem item)
+    private void OnMenuItemClick(MenuItem item)
     {
         CurItem = item.Id;
-        Nav.NavigateTo($"/{Type}/{item.Id}");
-        await JS.InvokeVoidAsync("hideDocNav");
+        OnItemClick?.Invoke(item);
     }
 }
