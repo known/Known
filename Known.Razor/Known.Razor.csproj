@@ -6,7 +6,7 @@
         <DebugType>embedded</DebugType>
         <Authors>KnownChen</Authors>
         <Description>Known.Razor is a BlazorUI framework.</Description>
-        <Version>1.2.6</Version>
+        <Version>1.2.7</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>known, framework, .net, blazor</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
