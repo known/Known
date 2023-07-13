@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Known.Core;
 
-public sealed class Host
+public sealed class AppHost
 {
-    private Host() { }
+    private AppHost() { }
 
     internal static Assembly Assembly { get; private set; }
 
@@ -40,7 +40,7 @@ class Startup
         builder.ConfigureApplicationPartManager(apm =>
         {
             apm.ApplicationParts.Add(new AssemblyPart(typeof(BaseController).Assembly));
-            apm.ApplicationParts.Add(new AssemblyPart(Host.Assembly));
+            apm.ApplicationParts.Add(new AssemblyPart(AppHost.Assembly));
         });
     }
 

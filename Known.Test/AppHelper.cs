@@ -15,7 +15,7 @@ class AppHelper
 
         InitDatabase();
         InitConfig();
-        Host.RunWebApiAsync<App>(Url);
+        AppHost.RunWebApiAsync<App>(Url);
         Application.Run(new MainForm());
     }
 
