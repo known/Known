@@ -1,6 +1,4 @@
-﻿using Known.Test.Pages.Samples.Models;
-
-namespace Known.Test.Pages.Samples.Homes;
+﻿namespace Known.Test.Pages.Samples.Homes;
 
 class DemoHome1 : BaseComponent
 {
