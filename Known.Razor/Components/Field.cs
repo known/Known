@@ -248,13 +248,13 @@ public abstract class Field : BaseComponent
 
             if (isCheck)
                 BuildCheck(builder);
+
+            if (isEdit)
+                BuildEditAction(builder);
         });
 
-        if (isEdit)
-            BuildEditAction(builder);
-
         if (!string.IsNullOrWhiteSpace(Tips))
-            builder.Span("form-tips", Tips);
+            builder.Div("form-tips", Tips);
     }
 
     private void BuildCheck(RenderTreeBuilder builder)

@@ -333,11 +333,10 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .form-title {font-size:1.5rem;font-weight:bold;text-align:center;padding:1rem;}
 .form-caption {border-left:5px solid #337ab7;padding-left:5px;height:40px;line-height:40px;font-size:1.1rem;font-weight:bold;}
 .form-caption .right {margin-top:5px;margin-right:5px;}
-.form-item, .form-label, .form-text, .form-input, .form-tips {display:block;}
+.form-item, .form-label, .form-text, .form-tips {display:flex;}
 .form-item {position:relative;margin-top:1rem;}
-.form-label {float:left;padding:0 0.5rem;font-weight:bold;}
+.form-label {display:block;padding:0 0.5rem;font-weight:bold;}
 .form-input {position:relative;}
-.form-item:after, .form-input:after {display:block;content:'';clear:both;}
 .form-input .unit, .form-input .btn, .form-input .captcha {position:absolute;right:0;padding:0 5px;}
 .form-input .btn {border:1.5px solid var(--line-color);background-color:#f1f1f1;cursor:pointer;}
 .form-input .captcha {padding:0;border:none;}
