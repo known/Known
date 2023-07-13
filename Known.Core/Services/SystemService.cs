@@ -54,6 +54,7 @@ class SystemService : BaseService
             return Result.Error("确认密码不一致！");
 
         var database = Database;
+        var company = GetCompany(info);
         var user = GetUser(info);
         var orga = GetOrganization(info);
         var sys = GetSystem(info);
@@ -64,6 +65,7 @@ class SystemService : BaseService
         var result = database.Transaction("安装", db =>
         {
             SaveConfig(db, KeySystem, sys);
+            db.Save(company);
             db.Save(user);
             db.Save(orga);
         });

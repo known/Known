@@ -27,4 +27,6 @@ public class SystemInfo
     public string ProductId { get; set; }
     public string ProductKey { get; set; }
     public string UserDefaultPwd { get; set; }
+    public string Copyright { get; set; }
+    public string SoftTerms { get; set; }
 }
