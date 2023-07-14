@@ -49,11 +49,11 @@ Known是基于C#和Blazor开发的前后端分离快速开发框架，开箱即�
 
 ### 主要组件
 
-- 输入类：Button、Select、Text、TextArea、CheckBox、Switch、Hidden、Input、Password、Captcha、Date、DateRange、Number、CheckList、RadioList、Picker、Upload、SearchBox
-- 导航类：Breadcrumb、Pager、Steps、Tabs、Tree、Menu
-- 展示类：Card、Carousel、Empty、Dropdown、GroupBox、ImageBox、Dialog、Chart、Form、QuickView、Badge、Icon、Timeline
+- 输入类：Form、Button、Input、Hidden、Password、Select、Text、TextArea、CheckBox、Switch、Captcha、Date、DateRange、Number、CheckList、RadioList、Picker、Upload、SearchBox
+- 导航类：Menu、Breadcrumb、Pager、Steps、Tabs、Tree
+- 展示类：Badge、Tag、Card、Carousel、Empty、Dropdown、GroupBox、ImageBox、Dialog、Chart、QuickView、Icon、Timeline
 - 反馈类：Toast、Notify、Banner、Progress
-- 数据类：DataList、DataTable、EditTable
+- 数据类：DataList、DataGrid、EditGrid
 
 ### 在线体验
 

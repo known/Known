@@ -67,7 +67,7 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 
 .doc-container {position:absolute;top:60px;left:0;right:0;bottom:0;}
 .doc-sider {
-    display:none;position:absolute;top:0;left:0;bottom:0;width:200px;border-right:1px solid #ccc;overflow:auto;
+    display:none;position:absolute;top:0;left:0;bottom:0;width:220px;border-right:1px solid #ccc;overflow:auto;
     z-index:9999;background-color:#fff;
 }
 .doc-sider.show {display:block;}
@@ -82,7 +82,7 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 .doc-menu .menus {}
 .doc-menu .title {font-weight:bold;padding:10px 0 10px 10px;background-color:#f1f1f1;}
 .doc-menu ul {padding:10px;list-style:none;}
-.doc-menu li {height:40px;line-height:40px;cursor:pointer;padding-left:30px;color:#000;overflow:hidden;}
+.doc-menu li {height:40px;line-height:40px;cursor:pointer;padding-left:20px;color:#000;overflow:hidden;}
 .doc-menu li:hover {color:#1c66b9;}
 .doc-menu li.active {
     background-color:#1c66b9;color:#fff;
@@ -113,7 +113,7 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 
     .doc-sider {display:block;}
     .doc-nav {display:none;}
-    .doc-content {left:201px;padding:20px 200px;}
+    .doc-content {left:221px;padding:20px 200px;}
 }
 
 .markdown-body {-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;word-wrap:break-word}
