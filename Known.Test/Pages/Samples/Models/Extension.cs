@@ -14,15 +14,15 @@ static class Extension
 
     internal static void BillStatus(this RenderTreeBuilder builder, string status)
     {
-        var color = "bg-gray";
+        var style = StyleType.Default;
         if (status.Contains("待") || status.Contains("中"))
-            color = "bg-info";
+            style = StyleType.Info;
         else if (status.Contains("完成"))
-            color = "bg-primary";
+            style = StyleType.Primary;
         else if (status.Contains("退回") || status.Contains("不通过") || status.Contains("失败"))
-            color = "bg-danger";
+            style = StyleType.Danger;
         else if (status.Contains("已") || status.Contains("通过") || status.Contains("成功") || status == "正常")
-            color = "bg-success";
-        builder.Span($"badge {color}", status);
+            style = StyleType.Success;
+        builder.Component<Tag>().Set(c => c.Style, style).Set(c => c.Text, status).Build();
     }
 }

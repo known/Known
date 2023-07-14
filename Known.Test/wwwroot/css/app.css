@@ -61,7 +61,7 @@
 .demo-row button {margin-right:5px;}
 .demo td img {width:80px;}
 .demo td .icon {font-size:1.2rem;}
-.demo td .color {display:block;width:60px;height:20px;line-height:20px;font-size:0.8rem;text-align:center;}
+.demo td .color {display:block;width:60px;height:20px;line-height:20px;font-size:0.8rem;text-align:center;color:#fff;}
 .demo td .qty {display:block;padding:0;text-align:left;}
 .demo td .small {display:block;margin-top:5px;font-size:0.9rem;color:#888;}
 
