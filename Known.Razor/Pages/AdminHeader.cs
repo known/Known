@@ -83,7 +83,7 @@ class AdminHeader : BaseComponent
                 attr.Title("个人中心").OnClick(Callback(Context.NavigateToAccount));
                 builder.Span(CurrentUser.Name);
                 if (KRConfig.IsWeb && MessageCount > 0)
-                    builder.Span("badge-top", $"{MessageCount}");
+                    builder.Badge(StyleType.Danger, $"{MessageCount}");
             });
             builder.Li("nav-item fa fa-power-off", attr => attr.Title("安全退出").OnClick(Callback(OnUserLogout)));
             builder.Li("nav-item fa fa-ellipsis-v qvtrigger", attr => attr.Title("系统设置").OnClick(Callback(OnShowSetting)));
