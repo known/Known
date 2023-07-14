@@ -45,7 +45,7 @@ class FullList : DmTestList
 
     private void BuildColorInfo(RenderTreeBuilder builder, DmTest row)
     {
-        builder.Span("badge color", attr =>
+        builder.Span("color", attr =>
         {
             attr.Style($"background-color:{row.Color};");
             builder.Text(row.Color);
@@ -54,9 +54,6 @@ class FullList : DmTestList
 
     private void BuildProgressInfo(RenderTreeBuilder builder, DmTest row)
     {
-        builder.Component<Progress>()
-               .Set(c => c.Width, 100)
-               .Set(c => c.Value, row.Progress)
-               .Build();
+        builder.Progress(StyleType.Default, 100, row.Progress);
     }
 }

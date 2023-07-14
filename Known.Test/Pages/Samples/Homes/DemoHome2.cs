@@ -23,9 +23,18 @@ class DemoHome2 : BaseComponent
             BuildTag(builder, StyleType.Danger, "失败");
             BuildTag(builder, StyleType.Success, b => b.IconName("fa fa-user", "模板"));
         });
+        builder.Div("row", attr =>
+        {
+            BuildProgress(builder, StyleType.Default, 0.5M);
+            BuildProgress(builder, StyleType.Primary, 0.35M);
+            BuildProgress(builder, StyleType.Success, 1);
+            BuildProgress(builder, StyleType.Info, 0.6M);
+            BuildProgress(builder, StyleType.Warning, 0.55M);
+            BuildProgress(builder, StyleType.Danger, 0.8M);
+        });
     }
 
-    private void BuildBadge(RenderTreeBuilder builder, StyleType style, string text)
+    private static void BuildBadge(RenderTreeBuilder builder, StyleType style, string text)
     {
         builder.Div("demo-badge", attr =>
         {
@@ -34,13 +43,18 @@ class DemoHome2 : BaseComponent
         });
     }
 
-    private void BuildTag(RenderTreeBuilder builder, StyleType style, string text)
+    private static void BuildTag(RenderTreeBuilder builder, StyleType style, string text)
     {
         builder.Div("demo-tag", attr => builder.Tag(style, text));
     }
 
-    private void BuildTag(RenderTreeBuilder builder, StyleType style, Action<RenderTreeBuilder> content)
+    private static void BuildTag(RenderTreeBuilder builder, StyleType style, Action<RenderTreeBuilder> content)
     {
         builder.Div("demo-tag", attr => builder.Tag(style, content));
+    }
+
+    private static void BuildProgress(RenderTreeBuilder builder, StyleType style, decimal value)
+    {
+        builder.Progress(style, 100, value);
     }
 }
