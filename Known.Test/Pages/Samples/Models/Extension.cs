@@ -23,6 +23,6 @@ static class Extension
             style = StyleType.Danger;
         else if (status.Contains("已") || status.Contains("通过") || status.Contains("成功") || status == "正常")
             style = StyleType.Success;
-        builder.Component<Tag>().Set(c => c.Style, style).Set(c => c.Text, status).Build();
+        builder.Tag(style, status);
     }
 }
