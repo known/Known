@@ -27,12 +27,13 @@ public static class ButtonExtension
 
     public static void Button(this RenderTreeBuilder builder, string text, EventCallback onClick, StyleType type = StyleType.Default) => builder.Button(text, "", onClick, type);
 
-    public static void Button(this RenderTreeBuilder builder, string text, string icon, EventCallback onClick, StyleType type = StyleType.Default)
+    public static void Button(this RenderTreeBuilder builder, string text, string icon, EventCallback onClick, StyleType type = StyleType.Default, bool enabled = true)
     {
         builder.Component<Button>()
                .Set(c => c.Type, type)
                .Set(c => c.Icon, icon)
                .Set(c => c.Text, text)
+               .Set(c => c.Enabled, enabled)
                .Set(c => c.OnClick, onClick)
                .Build();
     }
