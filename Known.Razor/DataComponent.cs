@@ -23,8 +23,9 @@ public class DataComponent<TItem> : BaseComponent
     protected string ContainerStyle { get; set; }
     protected string ContentStyle { get; set; }
     protected string[] OrderBys { get; set; }
-    protected bool ShowQuery { get; set; }
     protected bool ShowPager { get; set; } = true;
+    internal bool HasTool { get; set; }
+    internal bool HasQuery { get; set; }
     internal Dictionary<string, object> Sums { get; set; }
     protected List<ButtonInfo> Tools { get; set; }
     protected object DefaultQuery { get; set; }
@@ -95,7 +96,7 @@ public class DataComponent<TItem> : BaseComponent
             });
 
             var css = CssBuilder.Default(ContentStyle)
-                                .AddClass("hasToolbar", ShowQuery)
+                                .AddClass("hasToolbar", HasTool || HasQuery)
                                 .AddClass("hasPager", ShowPager)
                                 .Build();
             builder.Div(css, attr => BuildContent(builder));
@@ -121,11 +122,10 @@ public class DataComponent<TItem> : BaseComponent
 
     private void BuildQuery(RenderTreeBuilder builder)
     {
-        if (!ShowQuery)
+        if (!HasQuery)
             return;
 
-        var hasTool = Tools != null && Tools.Count > 0;
-        var query = hasTool ? " right" : " left";
+        var query = HasTool ? " right" : " left";
         builder.Div($"query{query}", attr =>
         {
             builder.Component<CascadingValue<QueryContext>>(attr =>
@@ -139,7 +139,7 @@ public class DataComponent<TItem> : BaseComponent
 
     private void BuildTool(RenderTreeBuilder builder)
     {
-        if (Tools == null || Tools.Count == 0)
+        if (!HasTool)
             return;
 
         builder.Div("tool left", attr =>

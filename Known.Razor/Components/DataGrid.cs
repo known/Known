@@ -82,7 +82,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     protected void SetColumns(List<Column<TItem>> columns)
     {
         GridColumns = columns;
-        ShowQuery = GridColumns != null && GridColumns.Any(c => c.IsQuery);
+        HasQuery = GridColumns != null && GridColumns.Any(c => c.IsQuery);
         StateChanged();
     }
 
@@ -204,7 +204,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
             SetGridPicker();
 
         GridColumns = Setting.GetUserColumns(Id, Columns);
-        ShowQuery = GridColumns != null && GridColumns.Any(c => c.IsQuery);
+        HasTool = Tools != null && Tools.Count > 0;
+        HasQuery = GridColumns != null && GridColumns.Any(c => c.IsQuery);
 
         if (!string.IsNullOrWhiteSpace(OrderBy))
             OrderBys = new string[] { OrderBy };
