@@ -6,7 +6,7 @@ class ModuleRepository
     {
         var sql = "select * from SysModule where Enabled='True'";
         var modules = db.QueryList<SysModule>(sql);
-        if (db.User.IsTenantAdmin)
+        if (db.User.IsTenantAdmin())
         {
             modules.RemoveModule("SysModuleList");
             modules.RemoveModule("SysTenantList");

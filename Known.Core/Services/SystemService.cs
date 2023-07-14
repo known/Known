@@ -83,6 +83,13 @@ class SystemService : BaseService
             var install = GetInstall();
             info.ProductId = install.ProductId;
             info.ProductKey = install.ProductKey;
+
+            var config = GetConfig<SystemInfo>(Database, KeySystem);
+            if (config != null)
+            {
+                info.Copyright = config.Copyright;
+                info.SoftTerms = config.SoftTerms;
+            }
         }
         return info;
     }
@@ -125,6 +132,12 @@ class SystemService : BaseService
             SaveConfig(Database, KeySystem, info);
         }
 
+        return Result.Success("保存成功！");
+    }
+
+    internal Result SaveSystemConfig(SystemInfo info)
+    {
+        SaveConfig(Database, KeySystem, info);
         return Result.Success("保存成功！");
     }
 

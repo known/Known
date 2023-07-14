@@ -13,6 +13,7 @@ class SysSystem : PageComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        var user = CurrentUser;
         var status = KRConfig.AuthStatus;
         var style = string.IsNullOrWhiteSpace(status) ? "success" : "danger";
         if (string.IsNullOrWhiteSpace(status))
@@ -56,20 +57,20 @@ class SysSystem : PageComponent
                 builder.Field<Text>("授权信息：", "").InputTemplate(b => b.Span($"text bold {style}", status)).Build();
             }
             builder.Field<Text>("版权信息：", "").Style("ss-copyright").Value(info?.Copyright ?? Copyright).ReadOnly(true)
-                   .Set(f => f.IsEdit, true)
+                   .Set(f => f.IsEdit, user.IsSystemAdmin())
                    .Set(f => f.OnSave, async value =>
                    {
                        info.Copyright = value;
-                       await Platform.System.SaveSystemAsync(info);
+                       await Platform.System.SaveSystemConfigAsync(info);
                        StateChanged();
                    })
                    .Build();
             builder.Field<TextArea>("软件许可：", "").Style("ss-terms").Value(info?.SoftTerms ?? SoftTerms).ReadOnly(true)
-                   .Set(f => f.IsEdit, true)
+                   .Set(f => f.IsEdit, user.IsSystemAdmin())
                    .Set(f => f.OnSave, async value =>
                    {
                        info.SoftTerms = value;
-                       await Platform.System.SaveSystemAsync(info);
+                       await Platform.System.SaveSystemConfigAsync(info);
                        StateChanged();
                    })
                    .Build();

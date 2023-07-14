@@ -37,6 +37,9 @@ public class SystemController : BaseController
     [HttpPost("[action]")]
     public Result SaveSystem([FromBody] SystemInfo info) => Service.SaveSystem(info);
 
+    [HttpPost("[action]")]
+    public Result SaveSystemConfig([FromBody] SystemInfo info) => Service.SaveSystemConfig(info);
+
     //Tenant
     [HttpPost("[action]")]
     public PagingResult<SysTenant> QueryTenants([FromBody] PagingCriteria criteria) => Service.QueryTenants(criteria);
