@@ -73,11 +73,11 @@ input[type="checkbox"]+span, input[type="radio"]+span {margin-left:25px;}
 .close:hover {color:#d1231e;}
 .link {color:#00f;cursor:pointer;}
 .bold {font-weight:bold;}
-.badge.primary, .tag.primary, .banner.primary, .notify.primary, .toast span.primary, .timeline li.primary:before, button.primary {background-color:#3492d0;color:#fff;}
-.badge.success, .tag.success, .banner.success, .notify.success, .toast span.success, .timeline li.success:before, button.success {background-color:#5cb85c;color:#fff;}
-.badge.info,    .tag.info,    .banner.info,    .notify.info,    .toast span.info,    .timeline li.info:before,    button.info    {background-color:#5bc0de;color:#fff;}
-.badge.warning, .tag.warning, .banner.warning, .notify.warning, .toast span.warning, .timeline li.warning:before, button.warning {background-color:#f0ad4e;color:#fff;}
-.badge.danger,  .tag.danger,  .banner.danger,  .notify.danger,  .toast span.danger,  .timeline li.danger:before,  button.danger  {background-color:#d9534f;color:#fff;}
+.badge.primary, .tag.primary, .banner.primary, .notify.primary, .toast span.primary, .progress .value.primary, .timeline li.primary:before, button.primary {background-color:#3492d0;color:#fff;}
+.badge.success, .tag.success, .banner.success, .notify.success, .toast span.success, .progress .value.success, .timeline li.success:before, button.success {background-color:#5cb85c;color:#fff;}
+.badge.info,    .tag.info,    .banner.info,    .notify.info,    .toast span.info,    .progress .value.info,    .timeline li.info:before,    button.info    {background-color:#5bc0de;color:#fff;}
+.badge.warning, .tag.warning, .banner.warning, .notify.warning, .toast span.warning, .progress .value.warning, .timeline li.warning:before, button.warning {background-color:#f0ad4e;color:#fff;}
+.badge.danger,  .tag.danger,  .banner.danger,  .notify.danger,  .toast span.danger,  .progress .value.danger,  .timeline li.danger:before,  button.danger  {background-color:#d9534f;color:#fff;}
 .badge.default, .tag.default, button.bg-default {background-color:#bbb;color:#333;}
 .bg-gray,     button.bg-gray    {background-color:#ccc;color:#888;}
 .primary {color:#3492d0;}

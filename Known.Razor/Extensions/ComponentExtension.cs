@@ -16,4 +16,9 @@ public static class ComponentExtension
     {
         builder.Component<Tag>().Set(c => c.Style, style).Set(c => c.Content, content).Build();
     }
+
+    public static void Progress(this RenderTreeBuilder builder, StyleType style, int width, decimal value)
+    {
+        builder.Component<Progress>().Set(c => c.Style, style).Set(c => c.Width, width).Set(c => c.Value, value).Build();
+    }
 }
