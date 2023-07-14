@@ -68,9 +68,9 @@ class GoodsList : WebGridView<KmGoods, GoodsForm>
     }
     
     public void New() => ShowForm();//新增按钮方法
-    public void DeleteM() => OnDeleteM(Client.Goods.DeleteGoodsesAsync);//批量删除按钮方法
+    public void DeleteM() => DeleteRows(Client.Goods.DeleteGoodsesAsync);//批量删除按钮方法
     public void Edit(KmGoods row) => ShowForm(row);//编辑操作方法
-    public void Delete(KmGoods row) => OnDelete(row, Client.Goods.DeleteGoodsesAsync);//删除操作方法
+    public void Delete(KmGoods row) => DeleteRow(row, Client.Goods.DeleteGoodsesAsync);//删除操作方法
 }
 ```
 
