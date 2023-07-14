@@ -31,7 +31,7 @@ pre {
     word-wrap:break-word;white-space:pre-wrap;font-family:inherit;
     white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;
 }
-.box, .card, .group-box, .dialog, 
+.box, .card, .group-box, .dialog, .tag, .progress, .progress .value,
 .banner, .notify, .toast span, 
 .kui-tips, .kui-content, .kui-tabs .tab-body.top,
 button, .button, input, select, textarea, .form-input .icon, .search-box .icon,
@@ -73,13 +73,13 @@ input[type="checkbox"]+span, input[type="radio"]+span {margin-left:25px;}
 .close:hover {color:#d1231e;}
 .link {color:#00f;cursor:pointer;}
 .bold {font-weight:bold;}
-.bg-primary, .banner.primary, .notify.primary, .toast span.primary, .timeline li.primary:before, button.primary {background-color:#3492d0;color:#fff;}
-.bg-success, .banner.success, .notify.success, .toast span.success, .timeline li.success:before, button.success {background-color:#5cb85c;color:#fff;}
-.bg-info,    .banner.info,    .notify.info,    .toast span.info,    .timeline li.info:before,    button.info    {background-color:#5bc0de;color:#fff;}
-.bg-warning, .banner.warning, .notify.warning, .toast span.warning, .timeline li.warning:before, button.warning {background-color:#f0ad4e;color:#fff;}
-.bg-danger,  .banner.danger,  .notify.danger,  .toast span.danger,  .timeline li.danger:before,  button.danger  {background-color:#d9534f;color:#fff;}
-.bg-default, button.bg-default {background-color:#bbb;color:#333;}
-.bg-gray,    button.bg-gray    {background-color:#ccc;color:#888;}
+.tag.primary, .banner.primary, .notify.primary, .toast span.primary, .timeline li.primary:before, button.primary {background-color:#3492d0;color:#fff;}
+.tag.success, .banner.success, .notify.success, .toast span.success, .timeline li.success:before, button.success {background-color:#5cb85c;color:#fff;}
+.tag.info,    .banner.info,    .notify.info,    .toast span.info,    .timeline li.info:before,    button.info    {background-color:#5bc0de;color:#fff;}
+.tag.warning, .banner.warning, .notify.warning, .toast span.warning, .timeline li.warning:before, button.warning {background-color:#f0ad4e;color:#fff;}
+.tag.danger,  .banner.danger,  .notify.danger,  .toast span.danger,  .timeline li.danger:before,  button.danger  {background-color:#d9534f;color:#fff;}
+.tag.default, button.bg-default {background-color:#bbb;color:#333;}
+.bg-gray,     button.bg-gray    {background-color:#ccc;color:#888;}
 .primary {color:#3492d0;}
 .success {color:#5cb85c;}
 .info    {color:#5bc0de;}
@@ -177,9 +177,9 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid #5bc0de;}
 .error-box h1 {font-size:150px;}
 .error-box h3 {font-weight:bold;padding:5px;}
 
-/*badge,progress*/
-.badge, .progress, .progress .value {color:#fff;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;}
-.badge {padding:3px 5px;cursor:pointer;font-size:1rem;}
+/*tag,badge,progress*/
+.tag, .progress, .progress .value {color:#fff;}
+.tag {padding:3px 5px;cursor:pointer;font-size:1rem;}
 .badge-top {
     position:absolute;top:0;right:0;font-size:0.5rem;padding:0;width:16px;height:16px;line-height:16px;
     background-color:#d9534f;color:#fff;text-align:center;
