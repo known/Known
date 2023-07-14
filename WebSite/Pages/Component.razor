@@ -4,17 +4,16 @@
 
 <div class="doc-container">
     <div id="docNav" class="doc-sider">
-        <DocMenu CurItem="@curItem" Items="@menus" OnItemClick="@OnItemClick" OnFormatItem="@OnFormatItem" />
+        <DocMenu CurItem="@curItem" Items="@ComponentService.Menus" OnItemClick="@OnItemClick" OnFormatItem="@OnFormatItem" />
     </div>
     <div class="doc-content markdown-body">
         <span class="doc-nav oi oi-menu" @onclick="OnDocNavClick"></span>
-        @DocumentService.GetDocHtml(curItem)
+        @ComponentService.Render(curItem)
     </div>
 </div>
 
 @code {
-    private string? curItem => Id ?? "";
-    private List<MenuItem> menus = ComponentService.GetMenus();
+    private string? curItem => Id ?? "Introduction";
 
     [Parameter] public string? Id { get; set; }
 
