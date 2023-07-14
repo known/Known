@@ -53,7 +53,7 @@ class Importer : BaseComponent
                    .Set(f => f.Accept, "text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                    .Set(f => f.OnFileChanged, file => OnFileChanged(file))
                    .Build();
-            builder.Button("导入", "fa fa-check", Callback(OnImport));
+            builder.Button("导入", "fa fa-check", Callback(OnImport), enabled: isFinished);
         });
         builder.Div(attr =>
         {
@@ -62,7 +62,8 @@ class Importer : BaseComponent
                 builder.Link("错误信息", Callback(e => UI.Alert(error, true)));
             builder.Span("size", fileInfo);
         });
-        builder.Div("message", message);
+        var style = string.IsNullOrWhiteSpace(error) ? "primary" : "danger";
+        builder.Div($"message {style}", message);
     }
 
     private async void OnFileChanged(IBrowserFile file)
