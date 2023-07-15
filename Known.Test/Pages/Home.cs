@@ -18,7 +18,7 @@ class Home : PageComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         BuildWorkSpace(builder);
-        builder.Div("ws-row", attr =>
+        builder.Div("row ws-row", attr =>
         {
             BuildDataChart(builder);
             BuildVisitMenus(builder);
@@ -33,41 +33,46 @@ class Home : PageComponent
 
     private void BuildWorkSpace(RenderTreeBuilder builder)
     {
-        builder.Component<Card>()
-               .Set(c => c.Style, "ws-card")
-               .Set(c => c.Body, BuildWSCard)
-               .Build();
+        builder.Div("box row ws-card", attr =>
+        {
+            builder.Div("welcome", attr =>
+            {
+                builder.Img(attr => attr.Class("ws-avatar").Src($"_content/Known.Razor{user?.AvatarUrl}"));
+                builder.Div("ws-info", attr =>
+                {
+                    builder.Span("ws-name", info?.Greeting);
+                    builder.Span("ws-tips", $"{DateTime.Now:yyyy-MM-dd dddd}");
+                });
+            });
+
+            builder.Ul("count", attr =>
+            {
+                BuildWDCount(builder, "用户数量", info?.Statistics?.UserCount);
+                BuildWDCount(builder, "日志数量", info?.Statistics?.LogCount);
+            });
+        });
     }
 
     private void BuildDataChart(RenderTreeBuilder builder)
     {
-        builder.Component<Card>()
-               .Set(c => c.Style, "ws-chart")
-               .Set(c => c.Head, BuildDCHead)
-               .Set(c => c.Body, BuildDCBody)
-               .Build();
+        builder.Div("box ws-chart", attr =>
+        {
+            builder.Component<Card>()
+                   .Set(c => c.Head, BuildDCHead)
+                   .Set(c => c.Body, BuildDCBody)
+                   .Build();
+        });
     }
 
     private void BuildVisitMenus(RenderTreeBuilder builder)
     {
-        builder.Component<Card>()
-               .Set(c => c.Style, "ws-func")
-               .Set(c => c.Icon, "fa fa-th")
-               .Set(c => c.Name, "常用功能")
-               .Set(c => c.Body, BuildVMBody)
-               .Build();
-    }
-
-    private void BuildWSCard(RenderTreeBuilder builder)
-    {
-        builder.Img(attr => attr.Class("ws-avatar").Src($"_content/Known.Razor{user?.AvatarUrl}"));
-        builder.Span("ws-name", info?.Greeting);
-        builder.Span("ws-tips", $"{DateTime.Now:yyyy-MM-dd dddd}");
-
-        builder.Ul("count", attr =>
+        builder.Div("box ws-func", attr =>
         {
-            BuildWDCount(builder, "用户数量", info?.Statistics?.UserCount);
-            BuildWDCount(builder, "日志数量", info?.Statistics?.LogCount);
+            builder.Component<Card>()
+                   .Set(c => c.Icon, "fa fa-th")
+                   .Set(c => c.Name, "常用功能")
+                   .Set(c => c.Body, BuildVMBody)
+                   .Build();
         });
     }
 
