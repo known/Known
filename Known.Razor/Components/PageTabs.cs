@@ -1,4 +1,4 @@
-﻿namespace Known.Razor.Pages;
+﻿namespace Known.Razor.Components;
 
 class PageTabs : BaseComponent
 {
