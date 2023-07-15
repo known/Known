@@ -6,7 +6,7 @@
         <DebugType>embedded</DebugType>
         <Authors>KnownChen</Authors>
         <Description>Known.Core is a rapid development framework for .NET.</Description>
-        <Version>1.2.7</Version>
+        <Version>1.2.8</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>known, framework, .net, webapi</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
