@@ -1,17 +1,17 @@
 ﻿namespace Known.Core.Services;
 
-public class FileService : BaseService
+class FileService : BaseService
 {
     internal FileService(Context context) : base(context) { }
 
     //Public
-    public static void DeleteFiles(Database db, string bizId, List<string> oldFiles)
+    internal static void DeleteFiles(Database db, string bizId, List<string> oldFiles)
     {
         var files = FileRepository.GetFiles(db, bizId);
         DeleteFiles(db, files, oldFiles);
     }
 
-    public static SysFile SaveFile(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles, bool isThumb = false)
+    internal static SysFile SaveFile(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles, bool isThumb = false)
     {
         if (file == null)
             return null;
@@ -20,7 +20,7 @@ public class FileService : BaseService
         return AddFile(db, file, bizId, bizType, "", isThumb);
     }
 
-    public static List<SysFile> AddFiles(Database db, List<AttachFile> files, string bizId, string bizType, bool isThumb = false)
+    internal static List<SysFile> AddFiles(Database db, List<AttachFile> files, string bizId, string bizType, bool isThumb = false)
     {
         if (files == null || files.Count == 0)
             return null;

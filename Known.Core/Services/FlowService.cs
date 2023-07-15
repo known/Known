@@ -1,6 +1,6 @@
 ﻿namespace Known.Core.Services;
 
-public class FlowService : BaseService
+class FlowService : BaseService
 {
     internal FlowService(Context context) : base(context) { }
 
@@ -19,34 +19,6 @@ public class FlowService : BaseService
     }
 
     internal List<SysFlowLog> GetFlowLogs(string bizId) => FlowRepository.GetFlowLogs(Database, bizId);
-
-    public static void DeleteFlow(Database db, string bizId)
-    {
-        FlowRepository.DeleteFlowLogs(db, bizId);
-        FlowRepository.DeleteFlow(db, bizId);
-    }
-
-    public static void CreateFlow(Database db, FlowBizInfo info)
-    {
-        var stepName = "创建流程";
-        var flow = new SysFlow
-        {
-            Id = Utils.GetGuid(),
-            CompNo = db.User.CompNo,
-            AppId = db.User.AppId,
-            FlowCode = info.FlowCode,
-            FlowName = info.FlowName,
-            FlowStatus = FlowStatus.Open,
-            BizId = info.BizId,
-            BizName = info.BizName,
-            BizUrl = info.BizUrl,
-            BizStatus = info.BizStatus,
-            CurrStep = stepName,
-            CurrBy = db.User.UserName
-        };
-        db.Save(flow);
-        AddFlowLog(db, info.BizId, stepName, "创建", info.BizName);
-    }
 
     internal Result SubmitFlow(FlowFormInfo info)
     {
@@ -293,7 +265,7 @@ public class FlowService : BaseService
         });
     }
 
-    public static void AddFlowLog(Database db, string bizId, string stepName, string result, string note)
+    internal static void AddFlowLog(Database db, string bizId, string stepName, string result, string note)
     {
         db.Save(new SysFlowLog
         {

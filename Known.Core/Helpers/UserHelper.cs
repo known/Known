@@ -14,7 +14,7 @@ class UserHelper
     internal static UserSetting GetUserSetting(Database db)
     {
         db.Open();
-        var info = SettingService.GetSettingByUser<SettingInfo>(db, UserSetting.KeyInfo);
+        var info = PlatformHelper.GetSettingByUser<SettingInfo>(db, UserSetting.KeyInfo);
         var querys = SettingRepository.GetSettings(db, UserSetting.KeyQuery);
         var columns = SettingRepository.GetSettings(db, UserSetting.KeyColumn);
         db.Close();

@@ -13,6 +13,49 @@ public sealed class PlatformHelper
     public static Func<string> ProductId { get; set; }
     public static Func<InstallInfo, Result> UpdateKey { get; set; }
 
+    //Setting
+    public static SysTenant GetTenant(Database db, string compNo) => SystemRepository.GetTenant(db, compNo);
+    public static SysSetting GetSettingByComp(Database db, string bizType) => SettingRepository.GetSettingByComp(db, bizType) ?? new SysSetting { BizType = bizType };
+    public static T GetSettingByComp<T>(Database db, string bizType) => GetSettingByComp(db, bizType).DataAs<T>();
+    public static SysSetting GetSettingByUser(Database db, string bizType) => SettingRepository.GetSettingByUser(db, bizType) ?? new SysSetting { BizType = bizType };
+    public static T GetSettingByUser<T>(Database db, string bizType) => GetSettingByUser(db, bizType).DataAs<T>();
+    //Company
+    public static string GetCompany(Database db, UserInfo user) => CompanyService.GetCompany(db, user);
+    //File
+    public static void DeleteFiles(Database db, string bizId, List<string> oldFiles) => FileService.DeleteFiles(db, bizId, oldFiles);
+    public static SysFile SaveFile(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles, bool isThumb = false) => FileService.SaveFile(db, file, bizId, bizType, oldFiles, isThumb);
+    public static List<SysFile> AddFiles(Database db, List<AttachFile> files, string bizId, string bizType, bool isThumb = false) => FileService.AddFiles(db, files, bizId, bizType, isThumb);
+    //Flow
+    public static void CreateFlow(Database db, FlowBizInfo info)
+    {
+        var stepName = "创建流程";
+        var flow = new SysFlow
+        {
+            Id = Utils.GetGuid(),
+            CompNo = db.User.CompNo,
+            AppId = db.User.AppId,
+            FlowCode = info.FlowCode,
+            FlowName = info.FlowName,
+            FlowStatus = FlowStatus.Open,
+            BizId = info.BizId,
+            BizName = info.BizName,
+            BizUrl = info.BizUrl,
+            BizStatus = info.BizStatus,
+            CurrStep = stepName,
+            CurrBy = db.User.UserName
+        };
+        db.Save(flow);
+        AddFlowLog(db, info.BizId, stepName, "创建", info.BizName);
+    }
+
+    public static void DeleteFlow(Database db, string bizId)
+    {
+        FlowRepository.DeleteFlowLogs(db, bizId);
+        FlowRepository.DeleteFlow(db, bizId);
+    }
+
+    public static void AddFlowLog(Database db, string bizId, string stepName, string result, string note) => FlowService.AddFlowLog(db, bizId, stepName, result, note);
+
     internal static string GetProductId()
     {
         if (ProductId != null)

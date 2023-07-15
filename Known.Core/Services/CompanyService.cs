@@ -1,13 +1,13 @@
 ﻿namespace Known.Core.Services;
 
-public class CompanyService : BaseService
+class CompanyService : BaseService
 {
     private const string KeyCompany = "CompanyInfo";
 
     internal CompanyService(Context context) : base(context) { }
 
     //Company
-    public static string GetCompany(Database db, UserInfo user)
+    internal static string GetCompany(Database db, UserInfo user)
     {
         if (Config.IsPlatform)
             return GetCompanyData(db, user);
