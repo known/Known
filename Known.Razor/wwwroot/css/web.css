@@ -8,7 +8,7 @@
 .kui-sider, .sider {left:0;bottom:0;width:180px;overflow:hidden;/*background:linear-gradient(#1c66b9, #1c66b9);*/}
 .kui-scroll, .kui-body, .body {position:absolute;top:50px;bottom:0;}
 .kui-scroll {left:0;width:190px;overflow-x:hidden;}
-.kui-body, .body {left:180px;right:0;overflow:hidden;}
+.kui-body, .body {left:180px;right:0;overflow:auto;}
 .kui-sider .icon {width:16px;height:16px;margin-right:2px;text-align:center;}
 
 .kui-header, .header {background-color:#fff;color:#333;}

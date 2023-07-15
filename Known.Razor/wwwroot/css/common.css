@@ -34,11 +34,11 @@ pre {
 .box, .card, .group-box, .dialog, .tag, .progress, .progress .value,
 .banner, .notify, .toast span, 
 .kui-tips, .kui-content, .kui-tabs .tab-body.top,
-button, .button, input, select, textarea, .form-input .icon, .search-box .icon,
+.button, button, input, select, textarea, .form-input .icon, .search-box .icon,
 .switch[type="checkbox"]+span:before, .switch[type="checkbox"]+span:after {
     -webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
 }
-.card {box-shadow:0 0 5px 3px rgba(0,0,0,.1);}
+.box, .card {box-shadow:0 0 5px 3px rgba(0,0,0,.1);}
 .dialog {box-shadow:0 0 10px 3px rgba(0,0,0,.5);}
 .button {display:block;}
 button, .button, input, select, textarea {
