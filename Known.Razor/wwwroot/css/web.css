@@ -83,6 +83,7 @@
     .kui-sider {width:50px;}
     .kui-scroll {width:60px;}
     .kui-header, .kui-body {left:50px;}
+    .toggleMenu {display:none;}
     .menu-tree > li > ul > li > .item {padding-left:12px;}
     .menu-tree .name {display:none;}
 }
@@ -118,14 +119,15 @@ button, .button, input, select,
 /*Login*/
 .login {
     position:absolute;top:50%;left:50%;background-color:#fff;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));
     width:800px;height:400px;margin-left:-400px;margin-top:-200px;
     -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;
     box-shadow:0 0 10px 3px rgba(0,0,0,.3);
 }
-.login-left {position:absolute;top:70px;left:90px;width:320px;height:250px;border-right:1px solid #ccc;}
-.login .slogan {position:absolute;top:0;left:0;width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
-.login .image {position:absolute;top:50px;left:0;width:260px;height:180px;}
-.login-form {position:absolute;left:410px;right:0;top:0;bottom:0;padding:50px;}
+.login-left {margin-top:70px;padding-left:90px;width:320px;height:250px;border-right:1px solid #ccc;}
+.login .slogan {width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
+.login .image {width:260px;height:180px;margin-top:20px;}
+.login-form {padding:50px;}
 .login-form .title {padding-left:0;margin-bottom:20px;}
 .login-title {font-size:1.3rem;font-weight:bold;margin-bottom:10px;text-align:center;}
 .login .form-input {margin-bottom:1rem;}
@@ -137,6 +139,12 @@ button, .button, input, select,
 .login .captcha {height:40px;}
 .login button {width:100%;height:40px;margin-left:0;}
 .login-msg {color:#d9534f;text-align:center;}
+
+@media screen and (max-width:768px) {
+    .login {width:80%;margin-left:-40%;}
+    .login-left {display:none;}
+    .login-form {padding:50px 20px;}
+}
 
 /*SysSystem*/
 .ss-system {padding:10px 60px;}
