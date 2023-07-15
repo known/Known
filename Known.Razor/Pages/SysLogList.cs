@@ -9,6 +9,6 @@ class SysLogList : DataGrid<SysLog>
 
     protected override Task<PagingResult<SysLog>> OnQueryData(PagingCriteria criteria)
     {
-        return Platform.Log.QueryLogsAsync(criteria);
+        return Platform.System.QueryLogsAsync(criteria);
     }
 }

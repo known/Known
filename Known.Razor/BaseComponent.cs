@@ -70,7 +70,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         if (string.IsNullOrWhiteSpace(log.Type))
             return;
 
-        await Platform.Log.AddLogAsync(log);
+        await Platform.System.AddLogAsync(log);
     }
 
     internal void BuildAuthorize(RenderTreeBuilder builder)

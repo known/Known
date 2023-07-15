@@ -10,7 +10,7 @@ class HomeService : BaseService
         return new HomeInfo
         {
             Greeting = GetUserGreeting(),
-            VisitMenuIds = LogService.GetVisitMenuIds(Database, user.UserName, 12),
+            VisitMenuIds = Logger.GetVisitMenuIds(Database, user.UserName, 12),
             Statistics = GetStatisticsInfo()
         };
     }

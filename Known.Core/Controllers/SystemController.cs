@@ -46,4 +46,11 @@ public class SystemController : BaseController
 
     [HttpPost("[action]")]
     public Result SaveTenant([FromBody] object model) => Service.SaveTenant(GetDynamicModel(model));
+
+    //Log
+    [HttpPost("[action]")]
+    public PagingResult<SysLog> QueryLogs([FromBody] PagingCriteria criteria) => Service.QueryLogs(criteria);
+
+    [HttpPost("[action]")]
+    public Result AddLog([FromBody] SysLog log) => Service.AddLog(log);
 }

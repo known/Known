@@ -17,6 +17,23 @@ public sealed class Logger
 
     private Logger() { }
 
+    public static List<string> GetVisitMenuIds(Database db, string userName, int size)
+    {
+        var logs = LogRepository.GetLogCounts(db, userName, Constants.LogTypePage)
+                                .OrderByDescending(f => f.TotalCount).Take(size).ToList();
+        return logs.Select(l => l.Field1).ToList();
+    }
+
+    public static void AddLog(Database db, string type, string target, string content)
+    {
+        db.Save(new SysLog
+        {
+            Type = type,
+            Target = target,
+            Content = content
+        });
+    }
+
     public static ILogger GetLogger() => logger;
     public static void Error(string message) => logger.Error(message);
     public static void Info(string message) => logger.Info(message);

@@ -11,7 +11,6 @@ public class PlatformFactory
         Dictionary = new DictionaryClient(context);
         File = new FileClient(context);
         Flow = new FlowClient(context);
-        Log = new LogClient(context);
         Role = new RoleClient(context);
         User = new UserClient(context);
     }
@@ -23,7 +22,6 @@ public class PlatformFactory
     public DictionaryClient Dictionary { get; }
     public FileClient File { get; }
     public FlowClient Flow { get; }
-    public LogClient Log { get; }
     public RoleClient Role { get; }
     public UserClient User { get; }
 }
