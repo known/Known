@@ -4,6 +4,7 @@ public class FileClient : ClientBase
 {
     public FileClient(Context context) : base(context) { }
 
+    public Task<PagingResult<SysFile>> QueryFilesAsync(PagingCriteria criteria) => Context.QueryAsync<SysFile>("File/QueryFiles", criteria);
     public Task<ImportFormInfo> GetImportAsync(string bizId) => Context.GetAsync<ImportFormInfo>($"File/GetImport?bizId={bizId}");
     public Task<byte[]> GetImportRuleAsync(string bizId) => Context.GetAsync<byte[]>($"File/GetImportRule?bizId={bizId}");
     public Task<List<SysFile>> GetFilesAsync(string bizId) => Context.GetAsync<List<SysFile>>($"File/GetFiles?bizId={bizId}");

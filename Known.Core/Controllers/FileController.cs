@@ -5,6 +5,9 @@ public class FileController : BaseController
 {
     private FileService Service => new(Context);
 
+    [HttpPost("[action]")]
+    public PagingResult<SysFile> QueryFiles([FromBody] PagingCriteria criteria) => Service.QueryFiles(criteria);
+    
     [HttpGet("[action]")]
     public ImportFormInfo GetImport([FromQuery] string bizId) => Service.GetImport(bizId);
 
