@@ -281,6 +281,12 @@ class SystemService : BaseService
         };
     }
 
+    //Task
+    internal PagingResult<SysTask> QueryTasks(PagingCriteria criteria)
+    {
+        return TaskRepository.QueryTasks(Database, criteria);
+    }
+
     //Log
     internal PagingResult<SysLog> QueryLogs(PagingCriteria criteria)
     {

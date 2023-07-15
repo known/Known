@@ -2,9 +2,15 @@
 
 class TaskRepository
 {
+    internal static PagingResult<SysTask> QueryTasks(Database db, PagingCriteria criteria)
+    {
+        var sql = "select * from SysTask where AppId=@AppId and CompNo=@CompNo";
+        return db.QueryPage<SysTask>(sql, criteria);
+    }
+
     internal static SysTask GetPendingTaskByType(Database db, string type)
     {
-        var sql = $"select * from SysTask where Type='{type}' and Status='{Constants.TaskPending}' order by CreateTime";
+        var sql = $"select * from SysTask where Type='{type}' and Status='{TaskStatus.Pending}' order by CreateTime";
         return db.Query<SysTask>(sql);
     }
 

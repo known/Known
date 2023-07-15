@@ -6,6 +6,11 @@ public sealed class Cache
     private static readonly ConcurrentDictionary<string, object> cached = new();
 
     private Cache() { }
+    static Cache()
+    {
+        var assembly = typeof(Cache).Assembly;
+        AttachCodes(assembly);
+    }
 
     public static T Get<T>(string key)
     {

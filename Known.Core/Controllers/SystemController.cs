@@ -47,6 +47,10 @@ public class SystemController : BaseController
     [HttpPost("[action]")]
     public Result SaveTenant([FromBody] object model) => Service.SaveTenant(GetDynamicModel(model));
 
+    //Task
+    [HttpPost("[action]")]
+    public PagingResult<SysTask> QueryTasks([FromBody] PagingCriteria criteria) => Service.QueryTasks(criteria);
+
     //Log
     [HttpPost("[action]")]
     public PagingResult<SysLog> QueryLogs([FromBody] PagingCriteria criteria) => Service.QueryLogs(criteria);

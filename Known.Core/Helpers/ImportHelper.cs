@@ -15,19 +15,19 @@ public sealed class ImportHelper
         {
             switch (task.Status)
             {
-                case Constants.TaskPending:
+                case TaskStatus.Pending:
                     info.Message = "导入任务等待中...";
                     info.IsFinished = false;
                     break;
-                case Constants.TaskRunning:
+                case TaskStatus.Running:
                     info.Message = "导入任务执行中...";
                     info.IsFinished = false;
                     break;
-                case Constants.TaskFailed:
+                case TaskStatus.Failed:
                     info.Message = "导入失败！";
                     info.Error = task.Note;
                     break;
-                case Constants.TaskSuccess:
+                case TaskStatus.Success:
                     info.Message = "";
                     break;
             }
@@ -77,7 +77,7 @@ public sealed class ImportHelper
             Type = form.BizType,
             Name = form.BizName,
             Target = "",
-            Status = Constants.TaskPending
+            Status = TaskStatus.Pending
         };
     }
 

@@ -9,11 +9,6 @@ public class Constants
     public const string KeyDownload = "Known-Download";
     public const string SysUserName = "Admin";
 
-    public const string TaskPending = "待执行";
-    public const string TaskRunning = "执行中";
-    public const string TaskSuccess = "执行成功";
-    public const string TaskFailed = "执行失败";
-
     public const string UMTypeReceive = "收件";
     public const string UMTypeSend = "发件";
     public const string UMTypeDelete = "删除";
@@ -30,6 +25,17 @@ public class Constants
 
     public const string MimeImage = "image/jpeg,image/png";
     public const string MimeVideo = "audio/mp4,video/mp4";
+}
+
+[CodeTable]
+public class TaskStatus
+{
+    private TaskStatus() { }
+
+    public const string Pending = "待执行";
+    public const string Running = "执行中";
+    public const string Success = "执行成功";
+    public const string Failed = "执行失败";
 }
 
 public class FlowStatus

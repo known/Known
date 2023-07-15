@@ -28,6 +28,9 @@ public class SystemClient : ClientBase
     public Task<PagingResult<SysTenant>> QueryTenantsAsync(PagingCriteria criteria) => Context.QueryAsync<SysTenant>("System/QueryTenants", criteria);
     public Task<Result> SaveTenantAsync(object model) => Context.PostAsync("System/SaveTenant", model);
 
+    //Task
+    public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria) => Context.QueryAsync<SysTask>("System/QueryTasks", criteria);
+    
     //Log
     public Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria) => Context.QueryAsync<SysLog>("System/QueryLogs", criteria);
     public Task<Result> AddLogAsync(SysLog log) => Context.PostAsync("System/AddLog", log);

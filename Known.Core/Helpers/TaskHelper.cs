@@ -31,9 +31,9 @@ public sealed class TaskHelper
         {
             switch (task.Status)
             {
-                case Constants.TaskPending:
+                case TaskStatus.Pending:
                     return Result.Success("任务等待中...");
-                case Constants.TaskRunning:
+                case TaskStatus.Running:
                     return Result.Success("任务执行中...");
             }
         }
@@ -44,7 +44,7 @@ public sealed class TaskHelper
             Type = type,
             Name = name,
             Target = target,
-            Status = Constants.TaskPending
+            Status = TaskStatus.Pending
         });
         return Result.Success("任务添加成功，请稍后查询结果！");
     }
@@ -60,12 +60,12 @@ public sealed class TaskHelper
         db.User = UserRepository.GetUser(db, userName);
 
         task.BeginTime = DateTime.Now;
-        task.Status = Constants.TaskRunning;
+        task.Status = TaskStatus.Running;
         db.Save(task);
 
         var result = action.Invoke(db, task);
         task.EndTime = DateTime.Now;
-        task.Status = result.IsValid ? Constants.TaskSuccess : Constants.TaskFailed;
+        task.Status = result.IsValid ? TaskStatus.Success : TaskStatus.Failed;
         task.Note = result.Message;
         db.Save(task);
     }
