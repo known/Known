@@ -19,7 +19,7 @@
     --th-bgcolor: #f1f1f1;
     --border: #dcdee2;
     --border-radius: 0.25rem;
-    --disabled: #c5c8ce;
+    --disabled: #e7e9ee;/*#c5c8ce;*/
     --primary: #2d8cf0;/*#2d8cf0;#3492d0;*/
     --success: #19be6b;/*#19be6b;#5cb85c;*/
     --info: #2db7f5;/*#2db7f5;#5bc0de;*/
@@ -290,14 +290,13 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .table th .icon.sort {color:#485fc7;}
 .table td {overflow:hidden;text-overflow:ellipsis;max-width:300px;}
 .table tfoot td {font-weight:bold;}
-.table .index, .table .check, .table .check-box {width:20px;min-width:20px;text-align:center;}
+.table .index, .table .check-box {width:20px;min-width:20px;text-align:center;}
 .table .index .icon {color:#000;margin-left:0;text-align:center;}
+.table .check {width:20px;min-width:20px;}
 .table .check .form-radio, .table .check-box .form-radio {margin-right:0;height:20px;line-height:20px;}
-.table .check .form-radio input, .table .check-box .form-radio input {top:0;}
-.table .check .form-radio span, .table .check-box .form-radio span {margin-left:20px;}
+.table .check .form-radio input, .table .check-box .form-radio input {top:0.1rem;}
 .table .txt-center {text-align:center;}
 .table .txt-right {text-align:right;}
-
 .table .action {width:80px;text-align:center;position:sticky;z-index:1;right:0;background-color:#fff;}
 .table .action .link {padding:0 3px;}
 .table .action .icon {margin:0 5px;cursor:pointer;font-size:1.2rem;}

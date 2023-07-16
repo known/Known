@@ -32,7 +32,10 @@ public class CheckBox : Field
                         OnValueChange();
                     }, isChecked));
             });
-            builder.Span(Text);
+            if (Switch)
+                builder.Span(attr => builder.Text(Text));
+            else
+                builder.Span(Text);
         });
     }
 }

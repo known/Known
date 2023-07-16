@@ -15,6 +15,9 @@ public static class HtmlExtension
 
     public static void Div(this RenderTreeBuilder builder, string className, string text)
     {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
         builder.Div(attr =>
         {
             attr.Class(className);
@@ -24,6 +27,9 @@ public static class HtmlExtension
 
     public static void Anchor(this RenderTreeBuilder builder, string text, string url, string download = null)
     {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
         builder.Element("a", attr =>
         {
             attr.Add("href", url)
@@ -217,9 +223,19 @@ public static class HtmlExtension
         });
     }
 
-    public static void Pre(this RenderTreeBuilder builder, string text) => builder.Element("pre", attr => builder.Text(text));
+    public static void Pre(this RenderTreeBuilder builder, string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
+        builder.Element("pre", attr => builder.Text(text));
+    }
+
     public static void Pre(this RenderTreeBuilder builder, string className, string text)
     {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
         builder.Element("pre", attr =>
         {
             attr.Class(className);
@@ -238,10 +254,19 @@ public static class HtmlExtension
         });
     }
 
-    public static void Span(this RenderTreeBuilder builder, string text) => builder.Span(attr => builder.Text(text));
+    public static void Span(this RenderTreeBuilder builder, string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
+        builder.Span(attr => builder.Text(text));
+    }
 
     public static void Span(this RenderTreeBuilder builder, string className, string text, EventCallback? onClick = null)
     {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
         builder.Span(attr =>
         {
             attr.Class(className).OnClick(onClick);
@@ -305,6 +330,9 @@ public static class HtmlExtension
 
     public static void Link(this RenderTreeBuilder builder, string text, EventCallback onClick, string style = null)
     {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
         builder.Span($"link {style}", attr =>
         {
             attr.OnClick(onClick);
