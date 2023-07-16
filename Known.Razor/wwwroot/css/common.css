@@ -20,11 +20,11 @@
     --border: #dcdee2;
     --border-radius: 0.25rem;
     --disabled: #c5c8ce;
-    --primary: #2d8cf0;/*#3492d0*/
-    --success: #19be6b;/*#5cb85c*/
-    --info: #2db7f5;/*#5bc0de*/
-    --warning: #ff9900;/*#f0ad4e*/
-    --danger: #ed4014;/*#d9534f*/
+    --primary: #2d8cf0;/*#2d8cf0;#3492d0;*/
+    --success: #19be6b;/*#19be6b;#5cb85c;*/
+    --info: #2db7f5;/*#2db7f5;#5bc0de;*/
+    --warning: #ff9900;/*#ff9900;#f0ad4e;*/
+    --danger: #ed4014;/*#ed4014;#d9534f;*/
 }
 
 *{margin:0;padding:0;}
@@ -186,8 +186,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .error-box h3 {font-weight:bold;padding:5px;}
 
 /*tag,badge,progress*/
-.tag, .progress, .progress .value {color:#fff;}
-.tag {padding:3px 5px;cursor:pointer;font-size:1rem;}
+.tag {padding:0.2rem 0.3rem;cursor:pointer;font-size:0.9rem;}
 .badge {
     position:absolute;top:0;right:0;font-size:0.5rem;padding:0;width:16px;height:16px;line-height:16px;
     background-color:#d9534f;color:#fff;text-align:center;
@@ -255,7 +254,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 /*tool*/
 .tool button {margin-right:5px;padding:0 10px;}
 .dropdown {position:relative;display:inline-block;}
-.dropdown > .button, .dropdown > .link {display:block;padding-right:1.5rem;}
+.dropdown > .button, .dropdown > .link {display:block;padding-right:1.5rem;background-color:var(--primary);color:#fff;}
 .dropdown > .icon {position:absolute;top:7px;right:10px;color:#fff;}
 .dropdown > .link+.icon {color:#888;top:0;right:0;}
 .dropdown .child {display:none;position:absolute;right:0;z-index:9999;background-color:#fff;border:1px solid var(--border);margin-top:1px;}
