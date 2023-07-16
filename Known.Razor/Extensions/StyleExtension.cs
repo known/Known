@@ -4,7 +4,7 @@ public static class StyleExtension
 {
     public static void AddRandomColor(this AttributeBuilder attr, string name)
     {
-        if (!Setting.Info.RandomColor)
+        if (Setting.Info == null || !Setting.Info.RandomColor)
             return;
 
         var color = GetRandomColor();
@@ -13,7 +13,7 @@ public static class StyleExtension
 
     internal static string GetRandomColor()
     {
-        if (!Setting.Info.RandomColor)
+        if (Setting.Info == null || !Setting.Info.RandomColor)
             return string.Empty;
 
         var rndColor = Utils.GetRandomColor();
