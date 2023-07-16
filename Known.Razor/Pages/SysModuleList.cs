@@ -11,7 +11,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
     public SysModuleList()
     {
         Name = string.Empty;
-        Style = "left-tree";
+        Style = "right-view";
         IsSort = false;
         ShowPager = false;
     }

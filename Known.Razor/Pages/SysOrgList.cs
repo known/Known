@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Known.Razor.Pages.Forms;
+﻿using Known.Razor.Pages.Forms;
 
 namespace Known.Razor.Pages;
 
@@ -11,7 +10,7 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
 
     public SysOrgList()
     {
-        Style = "left-tree";
+        Style = "right-view";
         IsSort = false;
         ShowPager = false;
     }
