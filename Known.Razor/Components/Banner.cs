@@ -4,7 +4,7 @@ public class Banner : BaseComponent
 {
     private bool isShow = true;
 
-    [Parameter] public StyleType Style { get; set; } = StyleType.Primary;
+    [Parameter] public StyleType Style { get; set; }
     [Parameter] public Action<RenderTreeBuilder> Content { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

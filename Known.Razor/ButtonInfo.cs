@@ -103,7 +103,7 @@ public sealed class FormButton
     public static ButtonInfo OK => new("OK", "确定", "fa fa-check");
     public static ButtonInfo Cancel => new("Cancel", "取消", "fa fa-close", StyleType.Danger);
     public static ButtonInfo Back => new("Back", "返回", "fa fa-arrow-left");
-    public static ButtonInfo Config => new("Config", "配置", "fa fa-cog");
+    public static ButtonInfo Config => new("Config", "配置", "fa fa-cog", StyleType.Default);
     public static ButtonInfo Edit => new("Edit", "修改", "fa fa-edit");
     public static ButtonInfo EditOK => new("EditOK", "确定修改", "fa fa-check");
 }

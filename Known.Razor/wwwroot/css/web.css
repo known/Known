@@ -53,10 +53,10 @@
 .kui-tips-tr {position:absolute;top:10px;right:10px;font-weight:bold;z-index:9999;line-height:40px;}
 .kui-tips-bl {position:absolute;left:10px;bottom:10px;font-weight:bold;z-index:9999;}
 
-.kui-tabs {border-top:1px solid var(--line-color);}
+.kui-tabs {border-top:1px solid var(--border);}
 .kui-tabs > .tab {
     height:40px;overflow:hidden;background-color:#fff;display:block;
-    border-bottom:1px solid #ccc;box-shadow:0 1px 1px 0 #eee;
+    border-bottom:1px solid var(--border);box-shadow:0 1px 1px 0 #eee;
 }
 .kui-tabs > .tab li {margin:0;padding:8px 20px;font-size:1rem;position:relative;display:inline-block;}
 .kui-tabs > .tab li .close {top:5px;right:0;color:#ccc;}
@@ -67,7 +67,7 @@
 .kui-tabs > .tab-body.active {display:block;}
 .kui-content, .kui-tabs > .tab-body {
     left:10px;bottom:10px;right:10px;padding:10px;overflow:auto;
-    border-top:3px solid var(--line-color);background-color:#fff;
+    border-top:3px solid var(--border);background-color:#fff;
     box-shadow:0 0 10px 3px rgba(0,0,0,.1);
 }
 #tb-Home {border:none;top:41px;bottom:0;left:0;right:0;box-shadow:none;}
@@ -124,7 +124,7 @@ button, .button, input, select,
     -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;
     box-shadow:0 0 10px 3px rgba(0,0,0,.3);
 }
-.login-left {margin-top:70px;padding-left:90px;width:320px;height:250px;border-right:1px solid #ccc;}
+.login-left {margin-top:70px;padding-left:90px;width:320px;height:250px;border-right:1px solid var(--border);}
 .login .slogan {width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
 .login .image {width:260px;height:180px;margin-top:20px;}
 .login-form {padding:50px;}
@@ -167,7 +167,7 @@ button, .button, input, select,
 .ss-form .avatar {position:absolute;top:70px;right:150px;}
 .ss-form .avatar .icon {
     font-size:7rem;width:150px;height:150px;line-height:150px;text-align:center;
-    border:1px solid #ccc;background-color:#f1f1f1;color:#337ab7;
+    border:1px solid var(--border);background-color:#f1f1f1;color:#337ab7;
 }
 .ss-form .form-label {width:150px;padding-right:15px;text-align:right;}
 .ss-form .form-button {padding-left:173px;text-align:left;}
@@ -197,7 +197,7 @@ button, .button, input, select,
 #qvSysSetting .layout {flex-direction:column;}
 #qvSysSetting .layout .form-label {width:100%;}
 .slayout {float:left;position:relative;width:45%;height:80px;margin:2% 2% 0 2%;}
-.slayout > div {width:100%;height:100%;border:1px solid #ccc;}
+.slayout > div {width:100%;height:100%;border:1px solid var(--border);}
 .slayout .checked:after {display:block;content:'\f00c';position:absolute;right:1px;bottom:1px;color:#337ab7;font-size:0.5rem;font-weight:bold;}
 .ss-form .slayout {margin-left:0;}
 .slayout .header {top:1px;height:10px;left:20px;}

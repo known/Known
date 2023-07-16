@@ -89,6 +89,7 @@ public class Login : BaseComponent
         }
         builder.Component<Button>()
                .Set(c => c.Id, "btnLogin")
+               .Set(c => c.Type, StyleType.Primary)
                .Set(c => c.Text, "登 录")
                .Set(c => c.OnClick, Callback(OnUserLogin))
                .Build();
