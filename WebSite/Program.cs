@@ -1,4 +1,4 @@
-using WebSite.Core;
+using WebSite;
 
 var builder = WebApplication.CreateBuilder(args);
 Config.RootPath = builder.Environment.ContentRootPath;

@@ -1,6 +1,6 @@
 ﻿using WebSite.Data;
 
-namespace WebSite.Core;
+namespace WebSite;
 
 class Config
 {
