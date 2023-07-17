@@ -13,9 +13,9 @@ class DemoOther : BaseComponent
         BuildBreadcrumb(builder);
         builder.Div("row", attr =>
         {
-            BuildDemo(builder, "时间", () => builder.Component<Razor.Components.Timer>().Build());
-            BuildDemo(builder, "搜索框", () => builder.Component<SearchBox>().Build());
-            BuildDemo(builder, "验证码", () => builder.Component<Captcha>().Build());
+            builder.BuildDemo("时间", () => builder.Component<Razor.Components.Timer>().Build());
+            builder.BuildDemo("搜索框", () => builder.Component<SearchBox>().Build());
+            builder.BuildDemo("验证码", () => builder.Component<Captcha>().Build());
         });
         BuildBanner(builder);
         BuildNotify(builder);
@@ -25,9 +25,9 @@ class DemoOther : BaseComponent
         BuildTabs(builder);
     }
 
-    private void BuildBanner(RenderTreeBuilder builder)
+    private static void BuildBanner(RenderTreeBuilder builder)
     {
-        BuildDemo(builder, "横幅通知", () =>
+        builder.BuildDemo("横幅通知", () =>
         {
             builder.Component<Banner>().Set(c => c.Content, b => b.Span("bold", "这里是默认横幅通知！")).Build();
             builder.Component<Banner>().Set(c => c.Content, b => b.Text("这里是主要横幅通知！")).Set(c => c.Style, StyleType.Primary).Build();
@@ -40,7 +40,7 @@ class DemoOther : BaseComponent
 
     private void BuildNotify(RenderTreeBuilder builder)
     {
-        BuildDemo(builder, "通知", () =>
+        builder.BuildDemo("通知", () =>
         {
             builder.Button("默认", Callback(() => UI.Notify("<h1>这里是默认通知！</h1>")));
             builder.Button("主要", Callback(() => UI.Notify("这里是主要通知！", StyleType.Primary, 10000)), StyleType.Primary);
@@ -53,7 +53,7 @@ class DemoOther : BaseComponent
 
     private void BuildToast(RenderTreeBuilder builder)
     {
-        BuildDemo(builder, "提示", () =>
+        builder.BuildDemo("提示", () =>
         {
             builder.Button("默认", Callback(() => UI.Toast("这里是默认提示！")));
             builder.Button("主要", Callback(() => UI.Toast("这里是主要提示！", StyleType.Primary)), StyleType.Primary);
@@ -66,7 +66,7 @@ class DemoOther : BaseComponent
 
     private void BuildBreadcrumb(RenderTreeBuilder builder)
     {
-        BuildDemo(builder, "面包屑", () =>
+        builder.BuildDemo("面包屑", () =>
         {
             builder.Component<Breadcrumb>().Set(c => c.Items, new List<MenuItem>
             {
@@ -80,7 +80,7 @@ class DemoOther : BaseComponent
 
     private static void BuildCarousel(RenderTreeBuilder builder)
     {
-        BuildDemo(builder, "走马灯", () =>
+        builder.BuildDemo("走马灯", () =>
         {
             builder.Div("box", attr =>
             {
@@ -92,7 +92,7 @@ class DemoOther : BaseComponent
 
     private static void BuildCard(RenderTreeBuilder builder)
     {
-        BuildDemo(builder, "卡片", () =>
+        builder.BuildDemo("卡片", () =>
         {
             builder.Div("row", attr =>
             {
@@ -110,7 +110,7 @@ class DemoOther : BaseComponent
 
     private void BuildTabs(RenderTreeBuilder builder)
     {
-        BuildDemo(builder, "选项卡", () =>
+        builder.BuildDemo("选项卡", () =>
         {
             builder.Div("row", attr =>
             {
@@ -150,15 +150,6 @@ class DemoOther : BaseComponent
                            .Build();
                 });
             });
-        });
-    }
-
-    private static void BuildDemo(RenderTreeBuilder builder, string text, Action action)
-    {
-        builder.Div("demo-row", attr =>
-        {
-            builder.Div("demo-caption", text);
-            action();
         });
     }
 }
