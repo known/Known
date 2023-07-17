@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 Config.RootPath = builder.Environment.ContentRootPath;
 Config.Initialize();
 // Add services to the container.
+builder.Services.AddScoped(sp => new HttpClient());
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 

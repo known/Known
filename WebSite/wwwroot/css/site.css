@@ -10,6 +10,10 @@ a {text-decoration:none;}
 .col {float:left;}
 .code-comment {color:forestgreen;font-style:italic;}
 
+input, .hero .btn, .install, .picture, .doc-menu li.active, .demo, .demo .code {
+    -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
+}
+
 header, .hero {background-color:#1c66b9;color:#fff;}
 header {height:60px;line-height:60px;position:fixed;top:0;width:100%;z-index:9999;}
 nav, .logo {float:left;height:60px;}
@@ -22,10 +26,7 @@ nav a:hover {color:#fff;}
 .hero .name {font-weight:bold;font-size:4rem;}
 .hero .desc {font-size:1.2rem;text-align:justify;padding:10px 0;}
 .hero .btns {padding-top:30px;display:flex;justify-content:center;}
-.hero .btn {
-    font-size:1.5rem;color:#fff;border:1px solid #eee;margin:0 10px;padding:10px 20px;
-    -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
-}
+.hero .btn {font-size:1.5rem;color:#fff;border:1px solid #eee;margin:0 10px;padding:10px 20px;}
 .hero .btn:hover {background-color:#fff;color:#000;}
 .hero .git img {margin:8px;}
 .hero .stats {text-align:center;padding-top:40px;}
@@ -33,7 +34,7 @@ nav a:hover {color:#fff;}
 section {padding:1rem 0;}
 section .column {padding:1rem;}
 .install, .picture {
-    -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;background-color:#000;color:#fff;
+    background-color:#000;color:#fff;
     box-shadow: 3px 3px 5px #909090;
     -webkit-box-shadow: 3px 3px 5px #909090;
     -moz-box-shadow: 3px 3px 5px #909090;
@@ -58,11 +59,7 @@ footer ul li {height:30px;line-height:30px;}
 footer a {color:#fff;}
 .copyright {text-align:center;padding:20px 50px;border-top:1px solid #494d59;}
 
-input {
-    outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;
-    border:1.5px solid #ccc;
-    -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
-}
+input {outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;border:1.5px solid #ccc;}
 input:focus {border-bottom:1.5px solid #5bc0de;}
 
 .doc-container {position:absolute;top:60px;left:0;right:0;bottom:0;}
@@ -76,6 +73,7 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
     text-align:center;width:60px;height:60px;line-height:60px;color:#fff;background-color:#1c66b9;
 }
 .doc-content {position:absolute;top:0;right:0;bottom:0;left:0;padding:20px;overflow:auto}
+.doc-content ul {list-style:disc;}
 .doc-desc {color:#909090;padding:1rem 0;}
 
 .doc-menu .search {padding:10px;}
@@ -85,15 +83,17 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 .doc-menu ul {padding:10px;list-style:none;}
 .doc-menu li {height:40px;line-height:40px;cursor:pointer;padding-left:20px;color:#000;overflow:hidden;}
 .doc-menu li:hover {color:#1c66b9;}
-.doc-menu li.active {
-    background-color:#1c66b9;color:#fff;
-    -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
-}
+.doc-menu li.active {background-color:#1c66b9;color:#fff;}
+
+.demo {border:1px solid #ccc;}
+.demo .view {position:relative;padding:1rem;}
+.demo .code {background-color:#f6f8fa;}
+.demo .kui-layout {height:300px;}
 
 @media screen and (min-width: 769px), print {
     .row {padding:50px 0;}
     section, footer {margin-top:60px;}
-    section {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
+    section, .demo {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));grid-column-gap:10px;}
     section .column {padding:1.5rem;}
     .hero, section, footer {padding:0 180px;}
     .logo {width:180px;}
