@@ -11,7 +11,7 @@ public class Install : Form
 
     protected override void OnInitialized()
     {
-        Model = Context.Check.Install;
+        Model = Context.Check?.Install;
     }
 
     protected override void BuildFields(RenderTreeBuilder builder)
@@ -30,7 +30,7 @@ public class Install : Form
 
     protected override void BuildButtons(RenderTreeBuilder builder)
     {
-        builder.Button("开始使用", Callback(e => OnStart()));
+        builder.Button("开始使用", Callback(e => OnStart()), StyleType.Primary);
     }
 
     private void BuildProduct(RenderTreeBuilder builder)
