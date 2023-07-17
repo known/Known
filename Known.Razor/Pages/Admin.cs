@@ -11,7 +11,6 @@ class Admin : Layout
 
     public Admin()
     {
-        IsAdmin = true;
         Style = "kui-layout";
         Header = "kui-header";
         Sider = "kui-sider";

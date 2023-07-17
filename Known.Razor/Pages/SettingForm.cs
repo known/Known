@@ -117,7 +117,7 @@ class LayoutField : Field
         builder.Div("slayout", attr =>
         {
             attr.OnClick(Callback(e => OnItemClick(layout)));
-            builder.Component<Layout>().Set(f => f.Style, style).Build();
+            builder.Component<FLayout>().Set(f => f.Style, style).Build();
         });
     }
 
@@ -125,5 +125,13 @@ class LayoutField : Field
     {
         Value = value;
         OnValueChange();
+    }
+}
+
+class FLayout : Layout
+{
+    public FLayout()
+    {
+        IsDemo = true;
     }
 }

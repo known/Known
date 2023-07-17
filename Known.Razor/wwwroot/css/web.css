@@ -17,9 +17,9 @@
 
 .layout-tl .logo, 
 .layout-tl .kui-header,
-.slayout .layout-tl .header {background-color:var(--theme-color);color:#fff;}
+.layout-tl .header {background-color:var(--theme-color);color:#fff;}
 .layout-tl .kui-sider, 
-.slayout .layout-tl .sider {background-color:var(--sider-color);color:#fff;}
+.layout-tl .sider {background-color:var(--sider-color);color:#fff;}
 
 /*header*/
 .toggleMenu, .appName, .logo {height:50px;line-height:50px;}

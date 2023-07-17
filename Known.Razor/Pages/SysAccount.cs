@@ -13,7 +13,6 @@ class SysAccount : PageComponent
             items.Add(new MenuItem("我的消息", "fa fa-envelope-o", typeof(SysMyMessage)));
         items.Add(new MenuItem("我的信息", "fa fa-user", typeof(SysAccountForm)));
         items.Add(new MenuItem("安全设置", "fa fa-lock", typeof(SysUserPwdForm)));
-        items.Add(new MenuItem("系统设置", "fa fa-cog", typeof(SettingForm)));
         curItem = items[0];
     }
 

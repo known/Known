@@ -1,8 +1,8 @@
 ﻿namespace Known.Razor.Components;
 
-class Layout : BaseComponent
+public class Layout : BaseComponent
 {
-    internal bool IsAdmin { get; set; }
+    internal bool IsDemo { get; set; }
     internal string Header { get; set; } = "header";
     internal string Sider { get; set; } = "sider";
     internal string Body { get; set; } = "body";
@@ -11,31 +11,31 @@ class Layout : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (!IsAdmin)
+        if (IsDemo)
         {
             BuildLayout(builder);
             return;
         }
 
         var info = Setting.Info;
-        var css = CssBuilder.Default(Style).AddClass(info.Layout, IsAdmin).Build();
+        var css = CssBuilder.Default(Style).AddClass(info?.Layout).Build();
         builder.Div(css, attr =>
         {
             builder.Div(Header, attr =>
             {
-                if (!string.IsNullOrWhiteSpace(info.Layout))
-                    attr.Style($"background-color:{info.ThemeColor}");
+                if (!string.IsNullOrWhiteSpace(info?.Layout))
+                    attr.Style($"background-color:{info?.ThemeColor}");
                 BuildHeader(builder);
             });
             builder.Div(Sider, attr =>
             {
-                if (!string.IsNullOrWhiteSpace(info.Layout))
-                    attr.Style($"background-color:{info.SiderColor}");
+                if (!string.IsNullOrWhiteSpace(info?.Layout))
+                    attr.Style($"background-color:{info?.SiderColor}");
                 else
-                    attr.Style($"background-color:{info.ThemeColor}");
+                    attr.Style($"background-color:{info?.ThemeColor}");
                 builder.Div("logo", attr =>
                 {
-                    attr.Style($"background-color:{info.ThemeColor}");
+                    attr.Style($"background-color:{info?.ThemeColor}");
                     builder.Img(attr => attr.Src("img/logo.png"));
                 });
                 BuildSider(builder);
