@@ -1,14 +1,11 @@
-﻿using Known.Razor;
-using Known.Razor.Extensions;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace WebSite.Docus;
+﻿namespace WebSite.Docus;
 
 static class Extension
 {
-    internal static void BuildList(this RenderTreeBuilder builder, string[] items)
+    internal static void BuildList(this RenderTreeBuilder builder, string[] items) => builder.BuildList("", items);
+    internal static void BuildList(this RenderTreeBuilder builder, string className, string[] items)
     {
-        builder.Ul(attr =>
+        builder.Ul(className, attr =>
         {
             foreach (var item in items)
             {

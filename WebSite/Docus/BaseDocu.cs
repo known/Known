@@ -1,13 +1,8 @@
-﻿using Known.Razor.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using WebSite.Data;
+﻿namespace WebSite.Docus;
 
-namespace WebSite.Docus;
-
-class BaseDocu : ComponentBase
+class BaseDocu : BaseComponent
 {
-    [Parameter] public MenuItem? Item { get; set; }
+    [Parameter] public Data.MenuItem? Item { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {

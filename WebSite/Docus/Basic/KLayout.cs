@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
-
-namespace WebSite.Docus.Basic;
+﻿namespace WebSite.Docus.Basic;
 
 class KLayout : BaseDocu
 {

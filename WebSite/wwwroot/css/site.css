@@ -74,6 +74,8 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 }
 .doc-content {position:absolute;top:0;right:0;bottom:0;left:0;padding:20px;overflow:auto}
 .doc-content ul {list-style:disc;}
+.doc-content .icons li {display:inline-block;width:20%;height:3rem;font-size:1.5rem;text-align:center;margin-bottom:1.5rem;cursor:pointer;}
+.doc-content .icons li span {display:block;font-size:0.8rem;margin-top:5px;}
 .doc-desc {color:#909090;padding:1rem 0;}
 
 .doc-menu .search {padding:10px;}
