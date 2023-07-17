@@ -5,7 +5,7 @@ class DemoHome3 : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         BuildBarcode(builder);
-        
+        BuildQRCode(builder);
     }
 
     private static void BuildBarcode(RenderTreeBuilder builder)
@@ -24,6 +24,27 @@ class DemoHome3 : BaseComponent
                    {
                        Height = 50,
                        DisplayValue = false
+                   })
+                   .Build();
+        });
+    }
+
+    private static void BuildQRCode(RenderTreeBuilder builder)
+    {
+        builder.BuildDemo("二维码", () =>
+        {
+            builder.Component<QRCode>()
+                   .Set(c => c.Id, "qrcode1")
+                   .Set(c => c.Option, new { Text = "1234567890" })
+                   .Build();
+
+            builder.Component<QRCode>()
+                   .Set(c => c.Id, "qrcode2")
+                   .Set(c => c.Option, new
+                   {
+                       Text = "1234567890",
+                       Width = 180,
+                       Height = 180
                    })
                    .Build();
         });
