@@ -53,7 +53,7 @@ class Importer : BaseComponent
                    .Set(f => f.Accept, "text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                    .Set(f => f.OnFileChanged, file => OnFileChanged(file))
                    .Build();
-            builder.Button("导入", "fa fa-check", Callback(OnImport), enabled: isFinished);
+            builder.Button("导入", "fa fa-check", Callback(OnImport), StyleType.Primary, isFinished);
         });
         builder.Div(attr =>
         {
