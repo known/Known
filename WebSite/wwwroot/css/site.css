@@ -90,7 +90,9 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 .demo {border:1px solid #ccc;}
 .demo .view {position:relative;padding:1rem;}
 .demo .code {background-color:#f6f8fa;}
-.demo .kui-layout {height:300px;}
+.demo.layout {min-height:260px;}
+.demo.layout .view {height:250px;border:1px solid #ccc;top:5px;left:5px;}
+.demo.layout .logo img {background-color:transparent;margin-top:0;}
 
 @media screen and (min-width: 769px), print {
     .row {padding:50px 0;}

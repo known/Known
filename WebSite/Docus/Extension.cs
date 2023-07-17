@@ -14,10 +14,11 @@ static class Extension
         });
     }
 
-    internal static void BuildDemo<T>(this RenderTreeBuilder builder, string title, string code) where T : BaseComponent
+    internal static void BuildDemo<T>(this RenderTreeBuilder builder, string title, string code) where T : BaseComponent => builder.BuildDemo<T>("", title, code);
+    internal static void BuildDemo<T>(this RenderTreeBuilder builder, string style, string title, string code) where T : BaseComponent
     {
         builder.H3(title);
-        builder.Div("demo", attr =>
+        builder.Div($"demo {style}", attr =>
         {
             builder.Div("view", attr => builder.Component<T>().Build());
             builder.Div("code", attr =>
