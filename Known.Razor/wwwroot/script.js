@@ -332,4 +332,9 @@ export class KRazor {
         else
             elem.addClass(className);
     }
+    static copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(function () {
+            KRazor.showToast('Copied!', 'success');
+        });
+    }
 }

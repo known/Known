@@ -23,6 +23,7 @@ public partial class UIService
     public void Click(string clientId) => InvokeVoidAsync("KRazor.elemClick", clientId);
     public void Enabled(string clientId, bool enabled) => InvokeVoidAsync("KRazor.elemEnabled", clientId, enabled);
     public void ToggleClass(string clientId, string className) => InvokeVoidAsync("KRazor.toggleClass", clientId, className);
+    public void CopyToClipboard(string text) => InvokeVoidAsync("KRazor.copyToClipboard", text);
     public async void Back() => await jsRuntime.InvokeAsync<string>("history.go", -1);
 
     public async Task<T> InvokeAsync<T>(string identifier, params object[] args)
