@@ -1,4 +1,6 @@
-﻿namespace Known.Test.Pages.Samples.Homes;
+﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
+
+namespace Known.Test.Pages.Samples.Homes;
 
 class DemoHome3 : BaseComponent
 {
@@ -23,7 +25,9 @@ class DemoHome3 : BaseComponent
                    .Set(c => c.Option, new
                    {
                        Height = 50,
-                       DisplayValue = false
+                       DisplayValue = false,
+                       Background = "#f1f1f1",
+                       LineColor = "#4188c8"
                    })
                    .Build();
         });
@@ -44,7 +48,9 @@ class DemoHome3 : BaseComponent
                    {
                        Text = "1234567890",
                        Width = 180,
-                       Height = 180
+                       Height = 180,
+                       Background = "#f1f1f1",
+                       Foreground = "#4188c8"
                    })
                    .Build();
         });
