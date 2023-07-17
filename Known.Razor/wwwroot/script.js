@@ -7,9 +7,9 @@
 import "./libs/jquery.js";
 import "./libs/flow.js";
 import "./libs/barcode.js";
+import "./libs/qrcode.js";
 import "./libs/highcharts.js";
 import "./libs/pdfobject.js";
-import "./libs/wangEditor.js";
 import "./libs/xlsxcore.js";
 
 $(function () {
@@ -53,6 +53,9 @@ export class KRazor {
     }
     static showBarcode(id, value, option) {
         JsBarcode('#' + id, value, option);
+    }
+    static showQRCode(id, option) {
+        $('#' + id).qrcode(option);
     }
 
     //Dialog
