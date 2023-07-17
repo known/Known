@@ -2,6 +2,13 @@
 
 public static class HtmlExtension
 {
+    public static void H1(this RenderTreeBuilder builder, string text) => builder.Element("h1", attr => builder.Text(text));
+    public static void H2(this RenderTreeBuilder builder, string text) => builder.Element("h2", attr => builder.Text(text));
+    public static void H3(this RenderTreeBuilder builder, string text) => builder.Element("h3", attr => builder.Text(text));
+    public static void H4(this RenderTreeBuilder builder, string text) => builder.Element("h4", attr => builder.Text(text));
+    public static void H5(this RenderTreeBuilder builder, string text) => builder.Element("h5", attr => builder.Text(text));
+    public static void H6(this RenderTreeBuilder builder, string text) => builder.Element("h6", attr => builder.Text(text));
+    public static void Canvas(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("canvas", attr => child?.Invoke(attr));
     public static void Div(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("div", attr => child?.Invoke(attr));
 
     public static void Div(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)

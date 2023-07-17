@@ -28,9 +28,9 @@ public class Error : BaseComponent
 
         builder.Div("error-box", attr =>
         {
-            builder.Element("h1", attr => builder.Text(Code));
-            builder.Element("h3", attr => builder.Text(title));
-            builder.Div(attr => builder.Text(message));
+            builder.H1(Code);
+            builder.H3(title);
+            builder.Div("", message);
         });
     }
 }

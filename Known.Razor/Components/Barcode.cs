@@ -10,7 +10,7 @@ public class Barcode : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Element("canvas", attr => attr.Id(Id).Class(Style));
+        builder.Canvas(attr => attr.Id(Id).Class(Style));
     }
 
     protected override Task OnAfterRenderAsync(bool firstRender)

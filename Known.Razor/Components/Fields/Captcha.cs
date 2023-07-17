@@ -51,10 +51,7 @@ public class Captcha : Field
 
     private void BuildImage(RenderTreeBuilder builder)
     {
-        builder.Element("canvas", attr =>
-        {
-            attr.Id(id).Class("captcha").Title("点击图片刷新").OnClick(Callback(e => CreateCode()));
-        });
+        builder.Canvas(attr => attr.Id(id).Class("captcha").Title("点击图片刷新").OnClick(Callback(e => CreateCode())));
     }
 
     private void CreateCode()
