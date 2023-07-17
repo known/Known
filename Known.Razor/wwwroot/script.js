@@ -6,6 +6,7 @@
 
 import "./libs/jquery.js";
 import "./libs/flow.js";
+import "./libs/barcode.js";
 import "./libs/highcharts.js";
 import "./libs/pdfobject.js";
 import "./libs/wangEditor.js";
@@ -49,6 +50,9 @@ export class KRazor {
     //Chart
     static showChart(info) {
         Highcharts.chart(info.id, info.option);
+    }
+    static showBarcode(id, value, option) {
+        JsBarcode('#' + id, value, option);
     }
 
     //Dialog
