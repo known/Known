@@ -24,12 +24,12 @@ class Admin : Layout
     protected override async Task OnInitializedAsync()
     {
         info = await Platform.User.GetAdminAsync();
-        Setting.UserSetting = info.UserSetting;
-        Setting.Info = info.UserSetting?.Info ?? SettingInfo.Default;
+        Setting.UserSetting = info?.UserSetting;
+        Setting.Info = info?.UserSetting?.Info ?? SettingInfo.Default;
         
-        userMenus = GetUserMenus(info.UserMenus);
+        userMenus = GetUserMenus(info?.UserMenus);
         if (Context.IsWebApi)
-            Cache.AttachCodes(info.Codes);
+            Cache.AttachCodes(info?.Codes);
 
         if (TopMenu)
         {

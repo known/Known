@@ -6,7 +6,7 @@ class PageSingle : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (CurPage.Name != KRConfig.Home?.Name)
+        if (CurPage?.Name != KRConfig.Home?.Name)
         {
             builder.Component<Breadcrumb>().Set(c => c.Menu, CurPage).Build();
             builder.Div("kui-content", attr =>

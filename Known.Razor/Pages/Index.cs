@@ -12,7 +12,7 @@ public class Index : BaseComponent
     {
         isLoaded = false;
         var result = await Platform.System.CheckInstallAsync();
-        Context.Check = result.DataAs<CheckInfo>();
+        Context.Check = result.DataAs<CheckInfo>() ?? new CheckInfo();
         Context.CurrentUser = await UI.GetSessionStorage<UserInfo>(key);
         isLogin = Context.CurrentUser != null;
         isLoaded = true;
