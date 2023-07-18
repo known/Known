@@ -38,6 +38,9 @@ public class DataGrid<TItem> : DataComponent<TItem>
     public virtual void View(TItem item) { }
     public virtual void Import() => ShowImport(Name, typeof(TItem));
     public virtual void Export(ExportMode mode = ExportMode.Query, string extension = null) => ExportData(Name, mode, extension);
+    public virtual bool CheckAction(ButtonInfo action, TItem item) => true;
+    public virtual void OnRowClick(int row, TItem item) { }
+    public virtual void OnRowDoubleClick(int row, TItem item) { }
 
     public override void Refresh()
     {
@@ -116,10 +119,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
         Refresh();
     }
-
-    public virtual bool CheckAction(ButtonInfo action, TItem item) => true;
-    public virtual void OnRowClick(int row, TItem item) { }
-    public virtual void OnRowDoubleClick(int row, TItem item) { }
 
     protected void SelectRow(Action<TItem> action)
     {
