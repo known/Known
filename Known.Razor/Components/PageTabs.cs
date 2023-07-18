@@ -39,19 +39,24 @@ class PageTabs : BaseComponent
 
     private void BuildTabHead(RenderTreeBuilder builder)
     {
-        builder.Ul("tab top", attr =>
+        builder.Div("kui-tab", attr =>
         {
-            foreach (var item in menus)
+            builder.Icon("icon fa fa-chevron-left");
+            builder.Ul("tab top", attr =>
             {
-                var active = Active(item.Id);
-                builder.Li(active, attr =>
+                foreach (var item in menus)
                 {
-                    attr.Id($"th-{item.Id}").OnClick(Callback(() => OnItemClick(item)));
-                    builder.IconName(item.Icon, item.Name);
-                    if (item.Id != "Home")
-                        builder.Icon("close fa fa-close", "", Callback(() => OnItemClose(item)));
-                });
-            }
+                    var active = Active(item.Id);
+                    builder.Li(active, attr =>
+                    {
+                        attr.Id($"th-{item.Id}").OnClick(Callback(() => OnItemClick(item)));
+                        builder.IconName(item.Icon, item.Name);
+                        if (item.Id != "Home")
+                            builder.Icon("close fa fa-close", "", Callback(() => OnItemClose(item)));
+                    });
+                }
+            });
+            builder.Icon("icon fa fa-chevron-right");
         });
     }
 
