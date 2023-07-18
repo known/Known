@@ -15,7 +15,6 @@ class AppHelper
 
         InitDatabase();
         InitConfig();
-        AppHost.RunWebApiAsync<App>(Url);
         Application.Run(new MainForm());
     }
 
@@ -43,11 +42,16 @@ class AppHelper
         DicCategory.AddCategories<AppDictionary>();
 
         Config.IsPlatform = true;
+        Config.IsWebApi = false;
         Config.SetAppAssembly(typeof(AppHelper).Assembly);
+        if (Config.IsWebApi)
+            AppHost.RunWebApiAsync<App>(Url);
+        else
+            KCConfig.RegisterServices();
 
         //KRConfig.IsWeb = true;
         KRConfig.Home = new MenuItem("首页", "fa fa-home", typeof(Home));
-        
+
         KCConfig.AddWebPlatform();
         KCConfig.WebRoot = Application.StartupPath;
         KCConfig.ContentRoot = Application.StartupPath;
