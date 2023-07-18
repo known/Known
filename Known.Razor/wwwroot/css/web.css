@@ -89,15 +89,16 @@
 }
 
 /*view*/
-.left-view {position:absolute;left:10px;top:10px;bottom:10px;overflow:auto;width:220px;border-right:1px solid var(--border);}
+.left-view, .right-view {position:absolute;top:10px;bottom:10px;overflow:auto;}
+.left-view {left:10px;width:220px;border-right:1px solid var(--border);}
+.right-view {left:240px;right:10px;}
+.right-view .tab li {margin:0;padding-left:1rem;padding-right:1rem;}
+.right-view .grid {top:40px;}
+
 .kui-content .grid-view, .tab-body .grid-view, .dlg-content .grid-view,
 .kui-content .form-page, .tab-body .form-page,
 .tab-body .left-view, .tab-body .grid-view, .tab-body .form-page {top:10px;}
 .tab-body .grid-view.form-grid {bottom:60px;}
-
-.right-view {left:232px;top:0;}
-.right-view .grid {top:40px;}
-.grid-view.right-view, .tab-body .grid-view.right-view {left:240px;}
 
 /*form*/
 label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}
@@ -105,6 +106,7 @@ button, .button, input, select,
 .form-input .text, .form-input .unit, .form-input .btn, .form-input .link, .form-item .link,
 .form-label, .form-text, .form-radio, .form-tips {height:2rem;line-height:2rem;}
 .form-input .captcha {width:86px;height:2rem;}
+.form-input pre {margin-top:0.3rem;}
 .module .tool {position:absolute;top:-2.2rem;right:10px;}
 
 /*Install*/
@@ -152,29 +154,24 @@ button, .button, input, select,
 .ss-copyright input {width:300px;}
 .ss-terms .form-input {display:flex;}
 .ss-terms textarea, .ss-terms pre {width:800px;}
-.ss-terms textarea {height:5rem;}
+.ss-terms textarea, .ss-form textarea {height:5rem;}
 .ss-terms pre {text-align:justify;}
-.tab-body .ss-form {top:10px;}
-.ss-form .leftBar {position:absolute;left:0;top:0;bottom:0;width:180px;text-align:center;padding:0;}
-.ss-form .form {position:absolute;top:0;left:191px;right:0;bottom:0;padding:50px;}
-.ss-form .form-body {border-top:none;}
-.ss-form .leftBar img {width:100px;height:100px;margin-top:40px;}
-.ss-form .tab {position:absolute;left:0;top:180px;bottom:0;right:0;height:auto;border-right-width:0;}
-.ss-form .tab li {text-align:center;}
-.ss-form .userMessage {position:absolute;top:0;left:191px;right:0;bottom:0;}
-.userMessage .grid-view {top:0;left:0;right:0;bottom:0;}
 
-.ss-form .avatar {position:absolute;top:70px;right:150px;}
-.ss-form .avatar .icon {
-    font-size:7rem;width:150px;height:150px;line-height:150px;text-align:center;
-    border:1px solid var(--border);background-color:#f1f1f1;color:#337ab7;
-}
 .ss-form .form-label {width:150px;padding-right:15px;text-align:right;}
 .ss-form .form-button {padding-left:173px;text-align:left;}
-.ss-form .userMessage .form-label {width:auto;}
-.ss-form .userMessage .form {margin-top:10px;}
-.ss-form .userMessage .form-button {padding:10px;text-align:center;}
-.ss-form .userMessage .noread {font-weight:bold;color:#000;}
+.ss-form textarea {width:500px;}
+
+.user-info .avatar {text-align:center;}
+.user-info img {width:100px;height:100px;margin:20px auto;}
+.user-info .form-item {height:1rem;line-height:1rem;text-align:justify;}
+.user-info .form-item .icon {width:1.2rem;text-align:center;margin-right:0.5rem;color:var(--primary);}
+.user-info .form-item span {color:#333;font-size:0.9rem;}
+
+.user-message .grid-view {top:0;left:0;right:0;bottom:0;}
+.user-message .form-label {width:auto;}
+.user-message .form {margin-top:10px;}
+.user-message .form-button {padding:10px;text-align:center;}
+.user-message .noread {font-weight:bold;color:#000;}
 
 @media screen and (max-width:1024px) {
     .ss-terms textarea, .ss-terms pre {width:350px;}

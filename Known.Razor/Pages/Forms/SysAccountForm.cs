@@ -6,7 +6,7 @@ class SysAccountForm : BaseForm<SysUser>
 
     public SysAccountForm()
     {
-        Style = "";
+        Style = "ss-form";
     }
 
     protected override void OnInitialized()
@@ -16,7 +16,6 @@ class SysAccountForm : BaseForm<SysUser>
 
     protected override void BuildFields(FieldBuilder<SysUser> builder)
     {
-        builder.Div("avatar", attr => builder.Builder.Icon("fa fa-user"));
         builder.Hidden(f => f.Id);
         builder.Field<Text>(f => f.UserName).ReadOnly(true).Build();
         builder.Field<Text>(f => f.Name).ReadOnly(!isEdit).Build();
@@ -24,6 +23,7 @@ class SysAccountForm : BaseForm<SysUser>
         builder.Field<Text>(f => f.Mobile).ReadOnly(!isEdit).Build();
         builder.Field<Text>(f => f.Email).ReadOnly(!isEdit).Build();
         builder.Field<Text>(f => f.Role).ReadOnly(true).Build();
+        builder.Field<TextArea>(f => f.Note).ReadOnly(!isEdit).Build();
     }
 
     protected override void BuildButtons(RenderTreeBuilder builder)

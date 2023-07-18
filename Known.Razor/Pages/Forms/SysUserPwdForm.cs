@@ -4,7 +4,7 @@ class SysUserPwdForm : BaseForm<PwdFormInfo>
 {
     public SysUserPwdForm()
     {
-        Style = "";
+        Style = "ss-form";
     }
 
     protected override void OnInitialized()

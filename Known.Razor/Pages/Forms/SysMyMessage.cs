@@ -8,7 +8,7 @@ class SysMyMessage : PageComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         var box = isList ? "" : " box";
-        builder.Div($"userMessage {box}", attr =>
+        builder.Div($"user-message{box}", attr =>
         {
             if (isList)
                 BuildList(builder);

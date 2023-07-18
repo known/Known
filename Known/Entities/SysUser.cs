@@ -68,7 +68,7 @@ public class SysUser : EntityBase
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column("备注", "", false, "1", "500")]
+    [Column("简介", "", false, "1", "500")]
     public string Note { get; set; }
 
     /// <summary>
