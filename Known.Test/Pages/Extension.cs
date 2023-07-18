@@ -7,7 +7,7 @@ static class Extension
         builder.Div("demo-row", attr =>
         {
             builder.Div("demo-caption", text);
-            action();
+            builder.Div("row", attr => action());
         });
     }
 }
