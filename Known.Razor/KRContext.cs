@@ -23,16 +23,22 @@ public class KRContext : Context
     public void NavigateToHome() => Navigate(KRConfig.Home);
     public void NavigateToAccount() => Navigate(account);
 
-    public void Navigate(MenuItem menu, Dictionary<string, object> prevParms = null)
+    public void Navigate(MenuItem menu, Dictionary<string, object> prevParams = null)
     {
         if (menu == null)
             return;
 
         menu.Previous = current;
-        if (menu.Previous != null && prevParms != null)
-            menu.Previous.ComParameters = prevParms;
+        if (menu.Previous != null && prevParams != null)
+            menu.Previous.ComParameters = prevParams;
         current = menu;
         OnNavigate?.Invoke(current);
+    }
+
+    public void Navigate<T>(string name, string icon, Dictionary<string, object> comParams = null)
+    {
+        var menu = new MenuItem(name, icon, typeof(T)) { ComParameters = comParams };
+        Navigate(menu);
     }
 
     public void Navigate<T>()
