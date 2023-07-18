@@ -128,12 +128,7 @@ public class DataComponent<TItem> : BaseComponent
         var query = HasTool ? " right" : " left";
         builder.Div($"query{query}", attr =>
         {
-            builder.Component<CascadingValue<QueryContext>>(attr =>
-            {
-                attr.Set(c => c.IsFixed, true)
-                    .Set(c => c.Value, QueryContext)
-                    .Set(c => c.ChildContent, BuildQuerys);
-            });
+            builder.Cascading(QueryContext, BuildQuerys);
         });
     }
 

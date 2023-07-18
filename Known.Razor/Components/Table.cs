@@ -20,12 +20,7 @@ class Table<TItem> : BaseComponent
         builder.Table(attr =>
         {
             attr.Id(Grid.GridId);
-            builder.Component<CascadingValue<Table<TItem>>>(attr =>
-            {
-                attr.Set(c => c.IsFixed, false)
-                    .Set(c => c.Value, this)
-                    .Set(c => c.ChildContent, b => BuildDataTable(b));
-            });
+            builder.Cascading(this, b => BuildDataTable(b));
         });
     }
 
@@ -34,12 +29,7 @@ class Table<TItem> : BaseComponent
         builder.Table(attr =>
         {
             attr.Id(Id);
-            builder.Component<CascadingValue<Table<TItem>>>(attr =>
-            {
-                attr.Set(c => c.IsFixed, false)
-                    .Set(c => c.Value, this)
-                    .Set(c => c.ChildContent, b => b.Component<TableHead<TItem>>().Build());
-            });
+            builder.Cascading(this, b => b.Component<TableHead<TItem>>().Build());
         });
         if (Grid.ShowEmpty)
             builder.Component<Empty>().Set(c => c.Text, Grid.EmptyText).Build();

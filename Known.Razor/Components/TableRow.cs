@@ -26,12 +26,7 @@ class TableRow<TItem> : BaseComponent
 
             if (Grid.IsEdit)
             {
-                builder.Component((Action<AttributeBuilder<CascadingValue<FieldContext>>>)(attr =>
-                {
-                    attr.Set(c => c.IsFixed, false)
-                        .Set(c => c.Value, context)
-                        .Set(c => c.ChildContent, BuildTree<TItem>(BuildRowContent).Invoke(Item));
-                }));
+                builder.Cascading(context, BuildTree<TItem>(BuildRowContent).Invoke(Item));
             }
             else
             {

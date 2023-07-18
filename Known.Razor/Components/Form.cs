@@ -56,23 +56,13 @@ public class Form : BaseComponent
             {
                 builder.Div("form-body", attr =>
                 {
-                    builder.Component<CascadingValue<FormContext>>(attr =>
-                    {
-                        attr.Set(c => c.IsFixed, false)
-                            .Set(c => c.Value, FormContext)
-                            .Set(c => c.ChildContent, BuildFields);
-                    });
+                    builder.Cascading(FormContext, BuildFields);
                 });
                 builder.Div("form-button", attr => BuildButtons(builder));
             }
             else
             {
-                builder.Component<CascadingValue<FormContext>>(attr =>
-                {
-                    attr.Set(c => c.IsFixed, false)
-                        .Set(c => c.Value, FormContext)
-                        .Set(c => c.ChildContent, ChildContent);
-                });
+                builder.Cascading(FormContext, ChildContent);
             }
         });
     }

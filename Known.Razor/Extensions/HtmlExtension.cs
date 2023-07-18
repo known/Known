@@ -66,12 +66,7 @@ public static class HtmlExtension
     public static void Table(this RenderTreeBuilder builder, Action<RenderTreeBuilder> child = null)
     {
         var table = new TableContext();
-        builder.Component<CascadingValue<TableContext>>(ab =>
-        {
-            ab.Set(c => c.IsFixed, false)
-              .Set(c => c.Value, table)
-              .Set(c => c.ChildContent, b => b.Element("table", attr => child?.Invoke(b)));
-        });
+        builder.Cascading(table, b => b.Element("table", attr => child?.Invoke(b)));
     }
 
     public static void ColGroup(this RenderTreeBuilder builder, params int?[] widths)

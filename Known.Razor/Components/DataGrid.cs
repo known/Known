@@ -225,12 +225,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         var css = CssBuilder.Default("table").AddClass("fixed", IsFixed).Build();
         builder.Div(css, attr =>
         {
-            builder.Component<CascadingValue<DataGrid<TItem>>>(attr =>
-            {
-                attr.Set(c => c.IsFixed, false)
-                    .Set(c => c.Value, this)
-                    .Set(c => c.ChildContent, b => b.Component<Table<TItem>>().Build());
-            });
+            builder.Cascading(this, b => b.Component<Table<TItem>>().Build());
         });
     }
 
