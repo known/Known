@@ -27,7 +27,7 @@ class Admin : Layout
         Setting.Info = info?.UserSetting?.Info ?? SettingInfo.Default;
         
         userMenus = GetUserMenus(info?.UserMenus);
-        if (Context.IsWebApi)
+        if (Config.IsWebApi)
             Cache.AttachCodes(info?.Codes);
 
         if (TopMenu)

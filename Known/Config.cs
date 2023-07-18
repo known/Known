@@ -23,6 +23,7 @@ public sealed class Config
     public static string FrameVersion { get; private set; }
     public static Assembly AppAssembly { get; private set; }
     public static bool IsPlatform { get; set; }
+    public static bool IsWebApi { get; set; } = true;
 
     public static void SetAppAssembly(Assembly assembly)
     {

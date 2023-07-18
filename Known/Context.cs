@@ -3,13 +3,12 @@
 public class Context
 {
     public bool IsMobile { get; set; }
-    public bool IsWebApi { get; set; }
     public UserInfo CurrentUser { get; set; }
     public HttpClient Http { get; set; }
 
     public Task<string> GetAsync(string url)
     {
-        if (!IsWebApi)
+        if (!Config.IsWebApi)
             return ServiceHelper.GetAsync(this, url);
 
         SetTokenHeader();
@@ -18,7 +17,7 @@ public class Context
 
     public Task<TResult> GetAsync<TResult>(string url)
     {
-        if (!IsWebApi)
+        if (!Config.IsWebApi)
             return ServiceHelper.GetAsync<TResult>(this, url);
 
         SetTokenHeader();
@@ -27,7 +26,7 @@ public class Context
 
     public async Task<Result> PostAsync(string url, HttpContent content = null)
     {
-        if (!IsWebApi)
+        if (!Config.IsWebApi)
             return await ServiceHelper.PostAsync(this, url, content);
 
         SetTokenHeader();
@@ -37,7 +36,7 @@ public class Context
 
     public async Task<TResult> PostAsync<TParam, TResult>(string url, TParam data)
     {
-        if (!IsWebApi)
+        if (!Config.IsWebApi)
             return await ServiceHelper.PostAsync<TParam, TResult>(this, url, data);
 
         SetTokenHeader();
