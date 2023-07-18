@@ -2,19 +2,23 @@
 
 class SysUserInfo : BaseComponent
 {
-    [Parameter] public UserInfo User { get; set; }
+    public override void Refresh()
+    {
+        StateChanged();
+    }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        var user = CurrentUser;
         builder.Div("user-info", attr =>
         {
-            builder.Div("avatar", attr => builder.Img(attr => attr.Src($"_content/Known.Razor{User?.AvatarUrl}")));
-            BuildUserItem(builder, "fa fa-user", $"{User?.Name}({User?.UserName})");
-            BuildUserItem(builder, "fa fa-phone-square", User?.Phone);
-            BuildUserItem(builder, "fa fa-tablet", User?.Mobile);
-            BuildUserItem(builder, "fa fa-envelope-o", User?.Email);
-            BuildUserItem(builder, "fa fa-users", User?.Role);
-            BuildUserItem(builder, "fa fa-vcard-o", User?.Note);
+            builder.Div("avatar", attr => builder.Img(attr => attr.Src($"_content/Known.Razor{user?.AvatarUrl}")));
+            BuildUserItem(builder, "fa fa-user", $"{user?.Name}({user?.UserName})");
+            BuildUserItem(builder, "fa fa-phone-square", user?.Phone);
+            BuildUserItem(builder, "fa fa-tablet", user?.Mobile);
+            BuildUserItem(builder, "fa fa-envelope-o", user?.Email);
+            BuildUserItem(builder, "fa fa-users", user?.Role);
+            BuildUserItem(builder, "fa fa-vcard-o", user?.Note);
         });
     }
 

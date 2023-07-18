@@ -5,6 +5,7 @@ namespace Known.Razor.Pages;
 class SysAccount : PageComponent
 {
     private readonly List<MenuItem> items = new();
+    private SysUserInfo userInfo;
 
     protected override void OnInitialized()
     {
@@ -16,14 +17,18 @@ class SysAccount : PageComponent
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("left-view", attr => BuildUserInfo(builder));
-        builder.Div("right-view", attr => BuildUserTabs(builder));
+        builder.Cascading(this, b =>
+        {
+            b.Div("left-view", attr => BuildUserInfo(b));
+            b.Div("right-view", attr => BuildUserTabs(b));
+        });
     }
+
+    internal void RefreshUserInfo() => userInfo.Refresh();
 
     private void BuildUserInfo(RenderTreeBuilder builder)
     {
-        var user = CurrentUser;
-        builder.Component<SysUserInfo>().Set(c => c.User, user).Build();
+        builder.Component<SysUserInfo>().Build(value => userInfo = value);
     }
 
     private void BuildUserTabs(RenderTreeBuilder builder)

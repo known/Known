@@ -9,6 +9,8 @@ class SysAccountForm : BaseForm<SysUser>
         Style = "ss-form";
     }
 
+    [CascadingParameter] private SysAccount Account { get; set; }
+
     protected override void OnInitialized()
     {
         Model = CurrentUser;
@@ -53,6 +55,7 @@ class SysAccountForm : BaseForm<SysUser>
                 curUser.Email = user.Email;
             }
             isEdit = false;
+            Account.RefreshUserInfo();
             StateChanged();
         });
     }

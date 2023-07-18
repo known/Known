@@ -92,7 +92,7 @@
 .left-view, .right-view {position:absolute;top:10px;bottom:10px;overflow:auto;}
 .left-view {left:10px;width:220px;border-right:1px solid var(--border);}
 .right-view {left:240px;right:10px;}
-.right-view .tab li {margin:0;padding-left:1rem;padding-right:1rem;}
+.right-view .tab li {margin-left:0;}
 .right-view .grid {top:40px;}
 
 .kui-content .grid-view, .tab-body .grid-view, .dlg-content .grid-view,
