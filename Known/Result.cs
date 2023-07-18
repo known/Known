@@ -41,6 +41,9 @@ public class Result
         if (Data == null)
             return default;
 
+        if (Data is T data)
+            return data;
+
         var dataString = Data.ToString();
         return Utils.FromJson<T>(dataString);
     }

@@ -10,7 +10,7 @@ public class Context
     public Task<string> GetAsync(string url)
     {
         if (!IsWebApi)
-            return Task.FromResult("");
+            return ServiceHelper.GetAsync(this, url);
 
         SetTokenHeader();
         return Http.GetStringAsync(url);
@@ -19,7 +19,7 @@ public class Context
     public Task<TResult> GetAsync<TResult>(string url)
     {
         if (!IsWebApi)
-            return Task.FromResult(default(TResult));
+            return ServiceHelper.GetAsync<TResult>(this, url);
 
         SetTokenHeader();
         return Http.GetFromJsonAsync<TResult>(url);
@@ -28,7 +28,7 @@ public class Context
     public async Task<Result> PostAsync(string url, HttpContent content = null)
     {
         if (!IsWebApi)
-            return Result.Success("");
+            return await ServiceHelper.PostAsync(this, url, content);
 
         SetTokenHeader();
         var response = await Http.PostAsync(url, content);
@@ -38,7 +38,7 @@ public class Context
     public async Task<TResult> PostAsync<TParam, TResult>(string url, TParam data)
     {
         if (!IsWebApi)
-            return default;
+            return await ServiceHelper.PostAsync<TParam, TResult>(this, url, data);
 
         SetTokenHeader();
         var response = await Http.PostAsJsonAsync(url, data);

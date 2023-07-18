@@ -10,6 +10,12 @@ public sealed class KCConfig
     public static string ContentRoot { get; set; }
     public static bool IsDevelopment { get; set; }
 
+    public static void RegisterServices()
+    {
+        var assembly = typeof(KCConfig).Assembly;
+        Container.RegisterType<ServiceBase>(assembly);
+    }
+
     public static void AddWebPlatform()
     {
         Container.Register<IPlatform, WebPlatform>();

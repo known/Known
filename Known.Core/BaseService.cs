@@ -1,6 +1,6 @@
 ﻿namespace Known.Core;
 
-public abstract class BaseService
+public abstract class BaseService : ServiceBase
 {
     protected BaseService(Context context)
     {

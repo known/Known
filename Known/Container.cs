@@ -7,7 +7,20 @@ public sealed class Container
 
     private Container() { }
 
+    internal static Dictionary<string, Type> RegTypes { get; } = new();
+
     public static void RegisterType<T, TImpl>() where TImpl : T => types[typeof(T)] = typeof(TImpl);
+
+    public static void RegisterType<TBase>(Assembly assembly)
+    {
+        foreach (var item in assembly.GetTypes())
+        {
+            if (item.IsSubclassOf(typeof(TBase)) && !item.IsAbstract)
+            {
+                RegTypes[item.Name] = item;
+            }
+        }
+    }
 
     public static T Create<T>(params object[] args)
     {

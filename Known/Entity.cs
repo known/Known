@@ -1,7 +1,5 @@
 ﻿namespace Known;
 
-public class ModelBase { }
-
 public class EntityBase
 {
     private Dictionary<string, object> original;
