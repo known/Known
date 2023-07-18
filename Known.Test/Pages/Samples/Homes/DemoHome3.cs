@@ -14,13 +14,11 @@ class DemoHome3 : BaseComponent
     {
         builder.BuildDemo("条形码", () =>
         {
-            builder.Component<Barcode>()
-                   .Set(c => c.Id, "barcode1")
+            builder.Component<Barcode>().Id("barcode1")
                    .Set(c => c.Value, "1234567890")
                    .Build();
 
-            builder.Component<Barcode>()
-                   .Set(c => c.Id, "barcode2")
+            builder.Component<Barcode>().Id("barcode2")
                    .Set(c => c.Value, "1234567890")
                    .Set(c => c.Option, new
                    {
@@ -37,13 +35,11 @@ class DemoHome3 : BaseComponent
     {
         builder.BuildDemo("二维码", () =>
         {
-            builder.Component<QRCode>()
-                   .Set(c => c.Id, "qrcode1")
+            builder.Component<QRCode>().Id("qrcode1")
                    .Set(c => c.Option, new { Text = "1234567890" })
                    .Build();
 
-            builder.Component<QRCode>()
-                   .Set(c => c.Id, "qrcode2")
+            builder.Component<QRCode>().Id("qrcode2")
                    .Set(c => c.Option, new
                    {
                        Text = "1234567890",
