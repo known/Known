@@ -3,12 +3,59 @@
 [Dialog(1000, 500)]
 class SysRoleForm : BaseForm<SysRole>
 {
-    private readonly Dictionary<string, string> btnValues = new();
-    private readonly Dictionary<string, string> colValues = new();
+    class CheckInfo
+    {
+        public bool IsAll { get; set; }
+        public List<CodeInfo> Items { get; set; }
+        public string Value { get; set; }
+
+        internal void SetIsAll()
+        {
+            IsAll = IsCheckAll(Items, Value);
+        }
+
+        internal static CheckInfo LoadButton(MenuInfo menu, List<string> menuIds)
+        {
+            var info = new CheckInfo
+            {
+                Items = menu.GetButtonCodes(),
+                Value = string.Join(",", menuIds.Where(m => m.StartsWith($"b_{menu.Id}_")))
+            };
+            info.SetIsAll();
+            return info;
+        }
+
+        internal static CheckInfo LoadColumn(MenuInfo menu, List<string> menuIds)
+        {
+            var info = new CheckInfo
+            {
+                Items = menu.GetColumnCodes(),
+                Value = string.Join(",", menuIds.Where(m => m.StartsWith($"c_{menu.Id}_")))
+            };
+            info.SetIsAll();
+            return info;
+        }
+
+        private static bool IsCheckAll(List<CodeInfo> codes, string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return false;
+
+            var values = value.Split(',');
+            return values.Length == codes.Count;
+        }
+    }
+
+    private readonly Dictionary<string, CheckInfo> btnValues = new();
+    private readonly Dictionary<string, CheckInfo> colValues = new();
     private HashSet<MenuInfo> values = new();
     private RoleFormInfo info;
     private List<TreeItem<MenuInfo>> data;
     private TreeItem<MenuInfo> curItem;
+    private CheckList chkButton;
+    private CheckList chkColumn;
+    private CheckInfo curButton;
+    private CheckInfo curColumn;
 
     public SysRoleForm()
     {
@@ -20,8 +67,8 @@ class SysRoleForm : BaseForm<SysRole>
         info = await Platform.Role.GetRoleAsync(TModel.Id);
         foreach (var item in info.Menus)
         {
-            btnValues[item.Id] = string.Join(",", info.MenuIds.Where(m => m.StartsWith($"b_{item.Id}_")));
-            colValues[item.Id] = string.Join(",", info.MenuIds.Where(m => m.StartsWith($"c_{item.Id}_")));
+            btnValues[item.Id] = CheckInfo.LoadButton(item, info.MenuIds);
+            colValues[item.Id] = CheckInfo.LoadColumn(item, info.MenuIds);
         }
         values = info.Menus.Where(m => info.MenuIds.Contains(m.Id)).ToHashSet();
         data = info.Menus.ToTreeItems();
@@ -57,12 +104,13 @@ class SysRoleForm : BaseForm<SysRole>
     {
         builder.Div("role-module", attr =>
         {
+            builder.Div("title", "模块");
             builder.Component<Tree<MenuInfo>>()
                    .Set(c => c.Data, data)
                    .Set(c => c.ReadOnly, ReadOnly)
                    .Set(c => c.ShowCheckBox, true)
                    .Set(c => c.Values, values)
-                   .Set(c => c.OnItemClick, Callback<TreeItem<MenuInfo>>(v => curItem = v))
+                   .Set(c => c.OnItemClick, Callback<TreeItem<MenuInfo>>(OnMenuItemClick))
                    .Set(c => c.ValuesChanged, Callback<HashSet<MenuInfo>>(v => values = v))
                    .Build();
         });
@@ -72,21 +120,20 @@ class SysRoleForm : BaseForm<SysRole>
     {
         builder.Div("role-button", attr =>
         {
-            if (curItem != null)
+            if (curItem == null)
+            {
+                builder.Div("title", "按钮");
+            }
+            else
             {
                 var menu = curItem.Value;
-                var items = new List<CodeInfo>();
-                if (menu.Buttons != null && menu.Buttons.Count > 0)
-                    items.AddRange(menu.Buttons.Select(b => new CodeInfo($"b_{menu.Id}_{b}", b)));
-                if (menu.Actions != null && menu.Actions.Count > 0)
-                    items.AddRange(menu.Actions.Select(b => new CodeInfo($"b_{menu.Id}_{b}", b)));
-                var value = btnValues[menu.Id];
+                BuildButtonTitle(builder);
                 builder.Component<CheckList>()
                        .Set(c => c.IsInput, true)
-                       .Set(c => c.Items, items.ToArray())
-                       .Set(c => c.Value, value)
+                       .Set(c => c.Items, curButton.Items.ToArray())
+                       .Set(c => c.Value, curButton.Value)
                        .Set(c => c.ValueChanged, OnButtonValueChanged)
-                       .Build();
+                       .Build(value => chkButton = value);
             }
         });
     }
@@ -95,38 +142,87 @@ class SysRoleForm : BaseForm<SysRole>
     {
         builder.Div("role-column", attr =>
         {
-            if (curItem != null)
+            if (curItem == null)
+            {
+                builder.Div("title", "栏位");
+            }
+            else
             {
                 var menu = curItem.Value;
-                var items = new List<CodeInfo>();
-                if (menu.Columns != null && menu.Columns.Count > 0)
-                    items.AddRange(menu.Columns.Select(b => new CodeInfo($"c_{menu.Id}_{b.Id}", b.Name)));
-                var value = colValues[menu.Id];
+                BuildColumnTitle(builder);
                 builder.Component<CheckList>()
                        .Set(c => c.IsInput, true)
-                       .Set(c => c.Items, items.ToArray())
-                       .Set(c => c.Value, value)
+                       .Set(c => c.Items, curColumn.Items.ToArray())
+                       .Set(c => c.Value, curColumn.Value)
                        .Set(c => c.ValueChanged, OnColumnValueChanged)
-                       .Build();
+                       .Build(value => chkColumn = value);
             }
         });
     }
 
-    private void OnButtonValueChanged(string value) => btnValues[curItem.Value.Id] = value;
-    private void OnColumnValueChanged(string value) => colValues[curItem.Value.Id] = value;
+    private void BuildButtonTitle(RenderTreeBuilder builder)
+    {
+        builder.Div("title", attr =>
+        {
+            builder.Span("按钮");
+            builder.Check(attr => attr.Title("全选/取消").Checked(curButton.IsAll).OnClick(Callback(() =>
+            {
+                curButton.IsAll = !curButton.IsAll;
+                if (curButton.IsAll)
+                    chkButton.SetValue("");
+                else
+                    chkButton.SetValue("");
+            })));
+        });
+    }
+
+    private void BuildColumnTitle(RenderTreeBuilder builder)
+    {
+        builder.Div("title", attr =>
+        {
+            builder.Span("栏位");
+            builder.Check(attr => attr.Title("全选/取消").Checked(curColumn.IsAll).OnClick(Callback(() =>
+            {
+                curColumn.IsAll = !curColumn.IsAll;
+                if (curColumn.IsAll)
+                    chkColumn.SetValue("");
+                else
+                    chkColumn.SetValue("");
+            })));
+        });
+    }
+
+    private void OnMenuItemClick(TreeItem<MenuInfo> item)
+    {
+        curItem = item;
+        curButton = btnValues[item.Value.Id] ?? new CheckInfo();
+        curColumn = colValues[item.Value.Id] ?? new CheckInfo();
+    }
+
+    private void OnButtonValueChanged(string value)
+    {
+        curButton.Value = value;
+        btnValues[curItem.Value.Id] = curButton;
+    }
+
+    private void OnColumnValueChanged(string value)
+    {
+        curColumn.Value = value;
+        colValues[curItem.Value.Id] = curColumn;
+    }
 
     private void OnSave()
     {
         var menuIds = values.Select(v => v.Id).ToList();
-        var buttonIds = btnValues.Values.Where(v => !string.IsNullOrWhiteSpace(v)).ToList();
-        foreach (var item in buttonIds)
+        var buttons = btnValues.Values.Where(v => !string.IsNullOrWhiteSpace(v.Value)).ToList();
+        foreach (var item in buttons)
         {
-            menuIds.AddRange(item.Split(','));
+            menuIds.AddRange(item.Value.Split(','));
         }
-        var columnIds = colValues.Values.Where(v => !string.IsNullOrWhiteSpace(v)).ToList();
-        foreach (var item in columnIds)
+        var columns = colValues.Values.Where(v => !string.IsNullOrWhiteSpace(v.Value)).ToList();
+        foreach (var item in columns)
         {
-            menuIds.AddRange(item.Split(','));
+            menuIds.AddRange(item.Value.Split(','));
         }
         SubmitAsync(data =>
         {

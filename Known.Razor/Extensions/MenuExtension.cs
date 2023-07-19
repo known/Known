@@ -55,6 +55,24 @@ public static class MenuExtension
         }
     }
 
+    internal static List<CodeInfo> GetButtonCodes(this MenuInfo menu)
+    {
+        var items = new List<CodeInfo>();
+        if (menu.Buttons != null && menu.Buttons.Count > 0)
+            items.AddRange(menu.Buttons.Select(b => new CodeInfo($"b_{menu.Id}_{b}", b)));
+        if (menu.Actions != null && menu.Actions.Count > 0)
+            items.AddRange(menu.Actions.Select(b => new CodeInfo($"b_{menu.Id}_{b}", b)));
+        return items;
+    }
+
+    internal static List<CodeInfo> GetColumnCodes(this MenuInfo menu)
+    {
+        var items = new List<CodeInfo>();
+        if (menu.Columns != null && menu.Columns.Count > 0)
+            items.AddRange(menu.Columns.Select(b => new CodeInfo($"c_{menu.Id}_{b.Id}", b.Name)));
+        return items;
+    }
+
     internal static List<TreeItem<MenuInfo>> ToTreeItems(this List<MenuInfo> menus)
     {
         var items = new List<TreeItem<MenuInfo>>();
