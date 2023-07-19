@@ -14,6 +14,12 @@ class SettingRepository
         return db.Query<SysSetting>(sql, new { db.User.CompNo, bizType });
     }
 
+    internal static List<SysSetting> GetSettingsByUser(Database db, string bizType)
+    {
+        var sql = "select * from SysSetting where CreateBy=@UserName and BizType=@bizType";
+        return db.QueryList<SysSetting>(sql, new { db.User.UserName, bizType });
+    }
+
     internal static SysSetting GetSettingByUser(Database db, string bizType)
     {
         var sql = "select * from SysSetting where CreateBy=@UserName and BizType=@bizType";

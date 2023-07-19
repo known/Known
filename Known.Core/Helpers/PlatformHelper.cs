@@ -14,13 +14,14 @@ public sealed class PlatformHelper
     public static Func<InstallInfo, Result> UpdateKey { get; set; }
 
     //Setting
-    public static SysTenant GetTenant(Database db, string compNo) => SystemRepository.GetTenant(db, compNo);
     public static SysSetting GetSettingByComp(Database db, string bizType) => SettingRepository.GetSettingByComp(db, bizType) ?? new SysSetting { BizType = bizType };
     public static T GetSettingByComp<T>(Database db, string bizType) => GetSettingByComp(db, bizType).DataAs<T>();
+    public static List<SysSetting> GetSettingsByUser(Database db, string bizType) => SettingRepository.GetSettingsByUser(db, bizType);
     public static SysSetting GetSettingByUser(Database db, string bizType) => SettingRepository.GetSettingByUser(db, bizType) ?? new SysSetting { BizType = bizType };
     public static T GetSettingByUser<T>(Database db, string bizType) => GetSettingByUser(db, bizType).DataAs<T>();
     //Company
     public static string GetCompany(Database db, UserInfo user) => CompanyService.GetCompany(db, user);
+    public static SysTenant GetTenant(Database db, string compNo) => SystemRepository.GetTenant(db, compNo);
     //File
     public static void DeleteFiles(Database db, string bizId, List<string> oldFiles) => FileService.DeleteFiles(db, bizId, oldFiles);
     public static SysFile SaveFile(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles, bool isThumb = false) => FileService.SaveFile(db, file, bizId, bizType, oldFiles, isThumb);

@@ -15,8 +15,8 @@ class UserHelper
     {
         db.Open();
         var info = PlatformHelper.GetSettingByUser<SettingInfo>(db, UserSetting.KeyInfo);
-        var querys = SettingRepository.GetSettings(db, UserSetting.KeyQuery);
-        var columns = SettingRepository.GetSettings(db, UserSetting.KeyColumn);
+        var querys = PlatformHelper.GetSettingsByUser(db, UserSetting.KeyQuery);
+        var columns = PlatformHelper.GetSettingsByUser(db, UserSetting.KeyColumn);
         db.Close();
         return new UserSetting
         {
