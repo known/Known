@@ -33,7 +33,7 @@ class Home : PageComponent
 
     private void BuildWorkSpace(RenderTreeBuilder builder)
     {
-        builder.Div("box row ws-card", attr =>
+        builder.Div("box ws-card", attr =>
         {
             builder.Div("welcome", attr =>
             {
@@ -55,7 +55,7 @@ class Home : PageComponent
 
     private void BuildDataChart(RenderTreeBuilder builder)
     {
-        builder.Div("box ws-chart", attr =>
+        builder.Div("ws-chart", attr =>
         {
             builder.Component<Card>()
                    .Set(c => c.Head, BuildDCHead)
@@ -66,7 +66,7 @@ class Home : PageComponent
 
     private void BuildVisitMenus(RenderTreeBuilder builder)
     {
-        builder.Div("box ws-func", attr =>
+        builder.Div("ws-func", attr =>
         {
             builder.Component<Card>()
                    .Set(c => c.Icon, "fa fa-th")

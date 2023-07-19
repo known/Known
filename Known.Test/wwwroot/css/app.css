@@ -15,7 +15,9 @@
 .copyright a {color:#fff;margin:0 10px;}
 
 /*dashboard*/
-.ws-card, .ws-row {grid-template-columns:auto 40%;}
+#tb-Home .ws-card, #tb-Home .ws-row {margin:0;margin-bottom:10px;}
+
+.ws-card, .ws-row {display:grid;grid-template-columns:auto 40%;}
 .ws-card {margin:10px;background-color:#fff;padding:20px;}
 .ws-card .welcome {display:flex;padding:10px;}
 

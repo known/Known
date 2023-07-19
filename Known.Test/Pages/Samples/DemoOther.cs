@@ -103,14 +103,14 @@ class DemoOther : BaseComponent
     {
         builder.BuildDemo("卡片", () =>
         {
-            builder.Div("box", attr =>
+            builder.Div("", attr =>
             {
-                attr.Style("height:100px;");
+                attr.Style("position:relative;height:100px;");
                 builder.Component<Card>().Set(c => c.Name, "Card1").Build();
             });
-            builder.Div("box", attr =>
+            builder.Div("", attr =>
             {
-                attr.Style("height:100px;");
+                attr.Style("position:relative;height:100px;");
                 builder.Component<Card>().Set(c => c.Icon, "fa fa-list").Set(c => c.Name, "Card2").Build();
             });
         });
