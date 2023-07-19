@@ -17,7 +17,7 @@ public class AdminBody : BaseComponent
     {
         if (MultiTab)
         {
-            builder.Component<PageTabs>().Build(v => tabs = v);
+            builder.Component<PageTabs>().Build(value => tabs = value);
         }
         else
         {

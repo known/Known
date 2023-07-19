@@ -25,7 +25,7 @@ public class KRContext : Context
 
     public void Navigate(MenuItem menu, Dictionary<string, object> prevParams = null)
     {
-        if (menu == null)
+        if (menu == null || string.IsNullOrWhiteSpace(menu.Target))
             return;
 
         menu.Previous = current;

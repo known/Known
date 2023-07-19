@@ -77,7 +77,7 @@ class AdminHeader : BaseComponent
             builder.Li("nav-item fa fa-home", attr => attr.Title("系统主页").OnClick(Callback(Context.NavigateToHome)));
             if (KRConfig.IsWeb)
                 builder.Li($"nav-item {ToggleScreen}", attr => attr.Title("全屏切换").OnClick(Callback(OnToggleScreen)));
-            //builder.Li("nav-item fa fa-refresh", attr => attr.Title("刷新页面").OnClick(Callback(OnPageRefresh)));
+            //builder.Li("nav-item fa fa-refresh", attr => attr.Title("刷新页面").OnClick(Callback(Context.RefreshPage)));
             builder.Li("nav-item fa fa-user", attr =>
             {
                 attr.Title("个人中心").OnClick(Callback(Context.NavigateToAccount));
