@@ -227,6 +227,17 @@ export class KRazor {
     }
 
     //Grid
+    static initTable(id) {
+        $(window).resize(function () { KRazor.setTableTop(id); });
+    }
+    static setTableTop(id) {
+        var toolbar = $('#' + id + ' .toolbar');
+        var grid = $('#' + id + ' .grid');
+        if (toolbar.length && grid.length) {
+            var top = toolbar.outerHeight() + 8;
+            grid.css('top', top + 'px');
+        }
+    }
     static fixedTable(id) {
         var table = $('#' + id);
         var left = 0;

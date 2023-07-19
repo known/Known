@@ -263,6 +263,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .timeline .time, .timeline .text {color:#7c7474;font-size:0.8rem;}
 
 /*tool*/
+.toolbar {display:flex;justify-content:space-between;}
 .tool button {margin-right:5px;padding:0 10px;}
 .dropdown {position:relative;display:inline-block;}
 .dropdown > .button, .dropdown > .link {display:block;padding-right:1.5rem;background-color:var(--primary);color:#fff;}
@@ -275,6 +276,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .dropdown:hover .child {display:block;}
 
 /*query*/
+.query {text-align:right;}
 .query .form-item {display:inline-block;margin:0;}
 .query .form-label, .query .form-input {display:inline-block;}
 .query .form-item, .query .form-label {padding:0 5px 0 0;float:none;}
@@ -287,12 +289,17 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .query-adv .form-body {position:absolute;top:0;bottom:50px;left:0;right:0;padding:10px;overflow:auto;}
 .query-adv .form-button {position:absolute;bottom:0;left:0;right:0;height:50px;line-height:50px;margin:0;}
 
+@media screen and (max-width:768px) {
+    .toolbar {flex-direction:column;}
+    .tool {margin-bottom:10px;}
+    .query {text-align:left;}
+}
+
 /*data*/
 .list-view, .grid-view, .list, .grid, .pager {position:absolute;left:0;right:0;bottom:0;}
 .list-view, .grid-view {top:10px;bottom:10px;left:10px;right:10px;}
 .list, .grid {top:0;overflow:auto;}
 .tab-body .grid-view {top:10px;left:10px;right:10px;bottom:10px;}
-.toolbar {height:40px;line-height:40px;}
 .grid {left:0;right:0;top:0;bottom:0;z-index:1000;}
 .grid .table {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
 
@@ -330,7 +337,6 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .table tr.active, .table tr.active td.fixed, .table tr.active td.action {background-color:#f8eaba;}
 .table tr.selected, .table tr.selected td.fixed, .table tr.selected td.action {background-color:#f0eebb;}
 
-.hasToolbar {top:40px;}
 .hasPager, .form .hasPager {bottom:40px;}
 
 /*pager*/

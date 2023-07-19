@@ -89,14 +89,14 @@ public class DataComponent<TItem> : BaseComponent
         var css = CssBuilder.Default(ContainerStyle).AddClass(Style).Build();
         builder.Div(css, attr =>
         {
+            attr.Id(Id);
             builder.Div("toolbar", attr =>
             {
-                BuildQuery(builder);
                 BuildTool(builder);
+                BuildQuery(builder);
             });
 
             var css = CssBuilder.Default(ContentStyle)
-                                .AddClass("hasToolbar", HasTool || HasQuery)
                                 .AddClass("hasPager", ShowPager)
                                 .Build();
             builder.Div(css, attr => BuildContent(builder));
@@ -125,8 +125,7 @@ public class DataComponent<TItem> : BaseComponent
         if (!HasQuery)
             return;
 
-        var query = HasTool ? " right" : " left";
-        builder.Div($"query{query}", attr =>
+        builder.Div("query", attr =>
         {
             builder.Cascading(QueryContext, BuildQuerys);
         });
@@ -137,7 +136,7 @@ public class DataComponent<TItem> : BaseComponent
         if (!HasTool)
             return;
 
-        builder.Div("tool left", attr =>
+        builder.Div("tool", attr =>
         {
             foreach (var item in Tools)
             {

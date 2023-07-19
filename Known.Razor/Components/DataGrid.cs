@@ -214,9 +214,13 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
+        if (firstRender)
+            UI.InitTable(Id);
+
         if (IsFixed)
             UI.FixedTable(GridId);
 
+        UI.SetTableTop(Id);
         return base.OnAfterRenderAsync(firstRender);
     }
 
