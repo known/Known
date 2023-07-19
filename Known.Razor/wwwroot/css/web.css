@@ -55,16 +55,15 @@
 
 .kui-tabs {border-top:1px solid var(--border);}
 .kui-tab {
-    height:40px;display:flex;justify-content:space-between;overflow:hidden;
+    height:40px;display:flex;justify-content:space-between;
     background-color:#fff;border-bottom:1px solid var(--border);box-shadow:0 1px 1px 0 #eee;
 }
-.kui-tab > .icon {width:40px;line-height:40px;text-align:center;cursor:pointer;}
-.kui-tab > .icon:first-child {border-right:1px solid var(--border);}
-.kui-tab > .icon:last-child {border-left:1px solid var(--border);}
-.kui-tab > .tab {width:100%;height:48px;overflow-x:scroll;overflow-y:hidden;white-space:nowrap;}
-.kui-tab > .tab li {margin:0;padding:9px 20px 3px 15px;font-size:1rem;position:relative;display:inline-block;}
-.kui-tab > .tab li .close {top:0;right:0;color:#ccc;width:16px;}
-.kui-tab > .tab li .close:hover {color:#d9534f;}
+.kui-tab > .icon, .kui-tab > .dropdown > .icon {color:#333;width:40px;line-height:40px;text-align:center;cursor:pointer;}
+.kui-tab > .icon {border-left:1px solid var(--border);border-right:1px solid var(--border);}
+.kui-tab > .dropdown {width:40px;}
+.kui-tab > .dropdown > .icon {top:0;right:0;}
+.kui-tab > .dropdown > .icon:before {content:"\f078";}
+.kui-tab > .dropdown > .child {top:40px;}
 
 .kui-tabs > .tab-body {top:50px;display:none;}
 .kui-tabs > .tab-body.active {display:block;}

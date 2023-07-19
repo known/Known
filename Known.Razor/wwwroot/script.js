@@ -280,6 +280,16 @@ export class KRazor {
             }
         });
     }
+    static initAdminTab() {
+        $('.btn-left').click(function () {
+            const dom = document.querySelector('.tab');
+            dom.scrollLeft -= 120;
+        });
+        $('.btn-right').click(function () {
+            const dom = document.querySelector('.tab');
+            dom.scrollLeft += 120;
+        });
+    }
     static appendBody(html) {
         $('body').append(html);
     }

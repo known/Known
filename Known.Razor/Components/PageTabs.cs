@@ -37,26 +37,44 @@ class PageTabs : BaseComponent
         });
     }
 
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            UI.InitAdminTab();
+
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
     private void BuildTabHead(RenderTreeBuilder builder)
     {
         builder.Div("kui-tab", attr =>
         {
-            builder.Icon("icon fa fa-chevron-left");
-            builder.Ul("tab top", attr =>
+            builder.Icon("btn-left fa fa-chevron-left");
+            builder.Div("tab-wrapper", attr => BuildTab(builder));
+            builder.Icon("btn-right fa fa-chevron-right");
+            builder.Dropdown(new List<MenuItem>
             {
-                foreach (var item in menus)
-                {
-                    var active = Active(item.Id);
-                    builder.Li(active, attr =>
-                    {
-                        attr.Id($"th-{item.Id}").OnClick(Callback(() => OnItemClick(item)));
-                        builder.IconName(item.Icon, item.Name);
-                        if (item.Id != "Home")
-                            builder.Icon("close fa fa-close", "", Callback(() => OnItemClose(item)));
-                    });
-                }
+                new MenuItem("关闭全部", "fa fa-close", CloseAll),
+                new MenuItem("关闭其他", "fa fa-close", CloseOther)
             });
-            builder.Icon("icon fa fa-chevron-right");
+        });
+    }
+
+    private void BuildTab(RenderTreeBuilder builder)
+    {
+        builder.Ul("tab top", attr =>
+        {
+            foreach (var item in menus)
+            {
+                var active = Active(item.Id);
+                builder.Li(active, attr =>
+                {
+                    attr.Id($"th-{item.Id}").OnClick(Callback(() => OnItemClick(item)));
+                    builder.IconName(item.Icon, item.Name);
+                    if (item.Id != "Home")
+                        builder.Icon("close fa fa-close", "", Callback(() => OnItemClose(item)));
+                });
+            }
         });
     }
 
@@ -100,5 +118,18 @@ class PageTabs : BaseComponent
             curPage = menus[index - 1];
         }
         isClickClose = true;
+    }
+
+    private void CloseAll()
+    {
+        menus.RemoveAll(m => m != KRConfig.Home);
+        curPage = KRConfig.Home;
+        StateChanged();
+    }
+
+    private void CloseOther()
+    {
+        menus.RemoveAll(m => m != KRConfig.Home && m != curPage);
+        StateChanged();
     }
 }
