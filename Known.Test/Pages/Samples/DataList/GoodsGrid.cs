@@ -24,7 +24,7 @@ class GoodsGrid : EditGrid<DmGoods>
         row.Name = "测试";
         row.Model = $"Model-{value}";
         row.Unit = "个";
-        OnNameChanged(row, row.Name);
+        //OnNameChanged(row, row.Name);
     }
 
     private void OnNameChanged(DmGoods row, object value)

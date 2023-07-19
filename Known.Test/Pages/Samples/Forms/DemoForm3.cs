@@ -9,7 +9,7 @@ class DemoForm3 : BaseForm
 
     protected override void OnInitialized()
     {
-        Style = "inline bill-form";
+        Style = "bill-form";
         model = DmBill.LoadDefault();
         Model = model;
     }
@@ -26,9 +26,7 @@ class DemoForm3 : BaseForm
         {
             builder.Div("list", attr =>
             {
-                builder.Component<GoodsGrid>()
-                   .Set(c => c.Data, model.Lists)
-                   .Build();
+                builder.Component<GoodsGrid>().Set(c => c.Data, model.Lists).Build();
             });
         });
         builder.Div("row", attr =>
