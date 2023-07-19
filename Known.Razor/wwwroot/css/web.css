@@ -152,19 +152,20 @@ button, .button, input, select,
     .login-form {padding:50px 20px;}
 }
 
-/*SysSystem*/
-.ss-system {padding:10px 60px;}
-.ss-system input {width:200px;}
-.ss-copyright input {width:300px;}
-.ss-terms .form-input {display:flex;}
-.ss-terms textarea, .ss-terms pre {width:800px;}
-.ss-terms textarea, .ss-form textarea {height:5rem;}
-.ss-terms pre {text-align:justify;}
-
 .ss-form .form-label {width:150px;padding-right:15px;text-align:right;}
 .ss-form .form-button {padding-left:173px;text-align:left;}
-.ss-form textarea {width:500px;}
+.ss-form .form-input {display:flex;width:70%;}
+.ss-form .form-input input {width:40%;}
+.ss-form .form-input textarea, .ss-form .form-input pre {width:80%;}
+.ss-form .form-input pre {text-align:justify;}
+.ss-terms textarea, .ss-form textarea {height:5rem;}
 
+/*SysSystem*/
+.ss-system {padding:10px 60px;}
+.ss-system .form-input input {width:200px;}
+.ss-copyright .form-input input {width:300px;}
+
+/*UserAccount*/
 .user-info .avatar {text-align:center;}
 .user-info img {width:100px;height:100px;margin:20px auto;}
 .user-info .form-item {height:1rem;line-height:1rem;text-align:justify;}
@@ -177,15 +178,15 @@ button, .button, input, select,
 .user-message .form-button {padding:10px;text-align:center;}
 .user-message .noread {font-weight:bold;color:#000;}
 
-@media screen and (max-width:1024px) {
-    .ss-terms textarea, .ss-terms pre {width:350px;}
-}
-
 @media screen and (max-width:768px) {
     .ss-system {padding:10px;}
     .ss-form .form-item {flex-direction:column;}
     .ss-form .form-label {text-align:left;padding:0;}
-    .ss-terms textarea, .ss-terms pre {width:300px;}
+    .ss-form .form-button {padding-left:0;}
+    .ss-form .form-input, .ss-form .form-input input, .ss-form .form-input textarea {width:100%;}
+
+    .ss-system .form-input input {width:200px;}
+    .ss-copyright .form-input input {width:300px;}
 }
 
 /*font*/

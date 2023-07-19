@@ -66,7 +66,7 @@ public class DialogContainer : BaseComponent
         {
             var option = item.Value;
             builder.Component<Dialog>()
-                   .Set(c => c.StartIndex, Id == "top" ? 100000 : 10000)
+                   .Set(c => c.StartIndex, Id == "top" ? 10000 : 1000)
                    .Set(c => c.Index, index++)
                    .Set(c => c.Option, option)
                    .Set(c => c.OnClose, Close)
@@ -84,7 +84,7 @@ class Dialog : BaseComponent
         dialogId = "dailog-" + Utils.GetGuid();
     }
 
-    [Parameter] public int StartIndex { get; set; } = 10000;
+    [Parameter] public int StartIndex { get; set; } = 1000;
     [Parameter] public int Index { get; set; }
     [Parameter] public DialogOption Option { get; set; }
     [Parameter] public Action OnClose { get; set; }

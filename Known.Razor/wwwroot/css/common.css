@@ -127,7 +127,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 
 /*quickview*/
 .quickview {
-    display:none;position:absolute;top:0;bottom:0;right:0;z-index:9999;width:50%;transition:.3s ease;
+    display:none;position:absolute;top:0;bottom:0;right:0;z-index:1000;width:50%;transition:.3s ease;
     background-color:#fff;box-shadow:0 0 10px 3px rgba(0,0,0,.3);
 }
 .quickview .title {font-weight:bold;font-size:1.1rem;margin:0 10px;padding:1rem 0 0.5rem 0;border-bottom:1px solid var(--border);}
@@ -398,7 +398,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 /*dialog*/
 .dialog, .dlg-body, .dlg-foot, .dlg-content,
 .dialog .form, .dialog .form-body, .dialog .form-list, .dialog .form-button {position:absolute;left:0;right:0;}
-.dialog {border-top:5px solid var(--border);top:50%;left:50%;z-index:9999;}
+.dialog {border-top:5px solid var(--border);top:50%;left:50%;}
 .dialog.max {top:0;left:0;right:0;bottom:0;}
 .dlg-head, .dlg-foot {padding:0 10px;}
 .dlg-head {position:relative;border-bottom:1px solid var(--border);font-weight:bold;font-size:1.2rem;}
