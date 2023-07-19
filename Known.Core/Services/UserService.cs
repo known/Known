@@ -224,6 +224,8 @@ class UserService : BaseService
     internal Result SignOut(string token)
     {
         var user = CurrentUser;
+        if (string.IsNullOrWhiteSpace(token))
+            token = user.Token;
         cachedUsers.TryRemove(token, out UserInfo _);
 
         var type = Constants.LogTypeLogout;
