@@ -90,11 +90,14 @@ public class DataComponent<TItem> : BaseComponent
         builder.Div(css, attr =>
         {
             attr.Id(Id);
-            builder.Div("toolbar", attr =>
+            if (HasTool || HasQuery)
             {
-                BuildTool(builder);
-                BuildQuery(builder);
-            });
+                builder.Div("toolbar", attr =>
+                {
+                    BuildTool(builder);
+                    BuildQuery(builder);
+                });
+            }
 
             var css = CssBuilder.Default(ContentStyle)
                                 .AddClass("hasPager", ShowPager)
