@@ -22,6 +22,13 @@ public class MenuItem : MenuInfo
         Children = new List<MenuItem>();
     }
 
+    public MenuItem(string name, string icon, Action action) : this()
+    {
+        Name = name;
+        Icon = icon;
+        Action = action;
+    }
+
     internal MenuItem(ButtonInfo info, Action action)
     {
         Icon = info.Icon;

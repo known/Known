@@ -21,4 +21,9 @@ public static class RazorExtension
     {
         builder.Component<Progress>().Set(c => c.Style, style).Set(c => c.Width, width).Set(c => c.Value, value).Build();
     }
+
+    public static void Dropdown(this RenderTreeBuilder builder, List<MenuItem> items, string text = null, string style = null)
+    {
+        builder.Component<Dropdown>().Set(c => c.Style, style).Set(c => c.Text, text).Set(c => c.Items, items).Build();
+    }
 }

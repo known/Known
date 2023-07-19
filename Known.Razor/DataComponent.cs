@@ -144,11 +144,7 @@ public class DataComponent<TItem> : BaseComponent
                 if (item.Children.Any())
                 {
                     var items = item.Children.Select(i => new MenuItem(i, () => OnAction(i))).ToList();
-                    builder.Component<Dropdown>()
-                           .Set(c => c.Style, "button")
-                           .Set(c => c.Title, item.Name)
-                           .Set(c => c.Items, items)
-                           .Build();
+                    builder.Dropdown(items, item.Name, "button");
                 }
                 else
                 {
