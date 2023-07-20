@@ -50,6 +50,7 @@ class PageTabs : BaseComponent
             builder.Icon("btn-right fa fa-chevron-right");
             builder.Dropdown(new List<MenuItem>
             {
+                new MenuItem("关闭当前", "fa fa-close", CloseCurrent),
                 new MenuItem("关闭全部", "fa fa-close", CloseAll),
                 new MenuItem("关闭其他", "fa fa-close", CloseOther)
             });
@@ -94,30 +95,39 @@ class PageTabs : BaseComponent
     {
         if (isClickClose)
         {
-            menus.Remove(menu);
-            UI.RemoveDialig(menu.Id);
             isClickClose = false;
+            return;
         }
-        else
-        {
-            curPage = menu;
-        }
+
+        curPage = menu;
         UI.PageId = curPage.Id;
         StateChanged();
     }
 
-    private void OnItemClose(MenuItem menu)
+    private void OnItemClose(MenuItem item)
     {
-        if (curPage == menu)
-        {
-            var index = menus.IndexOf(menu);
-            curPage = menus[index - 1];
-        }
         isClickClose = true;
+        CloseTab(item);
     }
+
+    private void CloseTab(MenuItem item)
+    {
+        if (curPage.Id == item.Id)
+        {
+            var index = menus.IndexOf(item);
+            curPage = menus[index - 1];
+            UI.PageId = curPage.Id;
+        }
+        UI.RemoveDialig(item.Id);
+        menus.Remove(item);
+        StateChanged();
+    }
+
+    private void CloseCurrent() => CloseTab(curPage);
 
     private void CloseAll()
     {
+        UI.ClearDialog();
         menus.RemoveAll(m => m != KRConfig.Home);
         curPage = KRConfig.Home;
         StateChanged();
@@ -125,7 +135,12 @@ class PageTabs : BaseComponent
 
     private void CloseOther()
     {
-        menus.RemoveAll(m => m != KRConfig.Home && m != curPage);
+        var items = menus.Where(m => m != KRConfig.Home && m.Id != curPage.Id).ToList();
+        foreach (var item in items)
+        {
+            UI.RemoveDialig(item.Id);
+        }
+        menus.RemoveAll(m => m != KRConfig.Home && m.Id != curPage.Id);
         StateChanged();
     }
 }

@@ -1,13 +1,17 @@
-﻿namespace Known.Razor;
+﻿using Known.Extensions;
+
+namespace Known.Razor;
 
 partial class UIService
 {
     private bool isTop = false;
     private readonly Dictionary<string, DialogContainer> dialogs = new();
 
+    private DialogContainer CurDialog => dialogs.GetValue(PageId) ?? dialogs["top"];
     internal string PageId { get; set; }
 
     internal void Register(DialogContainer dialog) => dialogs[dialog.Id] = dialog;
+    internal void ClearDialog() => dialogs.Clear();
     internal void RemoveDialig(string dialogId) => dialogs.Remove(dialogId);
     internal void SetDialogMove(string dialogId) => InvokeVoidAsync("KRazor.setDialogMove", dialogId);
 
@@ -15,14 +19,9 @@ partial class UIService
     {
         this.isTop = isTop;
         if (isTop)
-        {
             dialogs["top"].Show(option);
-        }
         else
-        {
-            var dialog = GetCurrentDialog();
-            dialog.Show(option);
-        }
+            CurDialog.Show(option);
     }
 
     public void Show(IPicker picker)
@@ -70,21 +69,9 @@ partial class UIService
     public void CloseDialog()
     {
         if (isTop)
-        {
             dialogs["top"].Close();
-        }
         else
-        {
-            var dialog = GetCurrentDialog();
-            dialog.Close();
-        }
+            CurDialog.Close();
         isTop = false;
-    }
-
-    private DialogContainer GetCurrentDialog()
-    {
-        return !string.IsNullOrWhiteSpace(PageId) && dialogs.TryGetValue(PageId, out DialogContainer value) 
-             ? value 
-             : dialogs["top"];
     }
 }
