@@ -35,7 +35,7 @@ public class AdminBody : BaseComponent
 
         if (MultiTab)
         {
-            tabs?.AddTab(menu);
+            tabs?.ShowTab(menu);
             return;
         }
 
