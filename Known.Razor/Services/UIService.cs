@@ -12,7 +12,6 @@ public partial class UIService
     }
 
     internal void InitMenu() => InvokeVoidAsync("KRazor.initMenu");
-    internal void InitAdminTab() => InvokeVoidAsync("KRazor.initAdminTab");
     public void AppendBody(string html) => InvokeVoidAsync("KRazor.appendBody", html);
     public void ShowFrame(string id, string url) => InvokeVoidAsync("KRazor.showFrame", id, url);
     public void ShowQuickView(string id) => ToggleClass(id, "active");

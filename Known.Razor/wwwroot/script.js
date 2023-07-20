@@ -280,6 +280,18 @@ export class KRazor {
             sessionStorage.removeItem(key);
     }
 
+    //Tab
+    static initAdminTab() {
+        $('.btn-left').click(function () {
+            const dom = document.querySelector('.tab');
+            dom.scrollLeft -= 120;
+        });
+        $('.btn-right').click(function () {
+            const dom = document.querySelector('.tab');
+            dom.scrollLeft += 120;
+        });
+    }
+
     //UI
     static initMenu() {
         $('.menu-tree .item').click(function (e) {
@@ -289,16 +301,6 @@ export class KRazor {
                 $(this).parent().parent().find('.item').removeClass('active');
                 $(this).addClass('active');
             }
-        });
-    }
-    static initAdminTab() {
-        $('.btn-left').click(function () {
-            const dom = document.querySelector('.tab');
-            dom.scrollLeft -= 120;
-        });
-        $('.btn-right').click(function () {
-            const dom = document.querySelector('.tab');
-            dom.scrollLeft += 120;
         });
     }
     static appendBody(html) {
