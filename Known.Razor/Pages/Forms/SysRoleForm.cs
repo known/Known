@@ -165,14 +165,14 @@ class SysRoleForm : BaseForm<SysRole>
         builder.Div("title", attr =>
         {
             builder.Span("按钮");
-            builder.Check(attr => attr.Title("全选/取消").Checked(curButton.IsAll).OnClick(Callback(() =>
-            {
-                curButton.IsAll = !curButton.IsAll;
-                if (curButton.IsAll)
-                    chkButton.SetValue("");
-                else
-                    chkButton.SetValue("");
-            })));
+            //builder.Check(attr => attr.Title("全选/取消").Checked(curButton.IsAll).OnClick(Callback(() =>
+            //{
+            //    curButton.IsAll = !curButton.IsAll;
+            //    if (curButton.IsAll)
+            //        chkButton.SetValue("");
+            //    else
+            //        chkButton.SetValue("");
+            //})));
         });
     }
 
@@ -181,14 +181,14 @@ class SysRoleForm : BaseForm<SysRole>
         builder.Div("title", attr =>
         {
             builder.Span("栏位");
-            builder.Check(attr => attr.Title("全选/取消").Checked(curColumn.IsAll).OnClick(Callback(() =>
-            {
-                curColumn.IsAll = !curColumn.IsAll;
-                if (curColumn.IsAll)
-                    chkColumn.SetValue("");
-                else
-                    chkColumn.SetValue("");
-            })));
+            //builder.Check(attr => attr.Title("全选/取消").Checked(curColumn.IsAll).OnClick(Callback(() =>
+            //{
+            //    curColumn.IsAll = !curColumn.IsAll;
+            //    if (curColumn.IsAll)
+            //        chkColumn.SetValue("");
+            //    else
+            //        chkColumn.SetValue("");
+            //})));
         });
     }
 
