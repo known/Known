@@ -2,13 +2,19 @@
 
 class PageSingle : BaseComponent
 {
-    [Parameter] public MenuItem CurPage { get; set; }
+    private MenuItem curPage = KRConfig.Home;
+
+    internal void ShowPage(MenuItem menu)
+    {
+        curPage = menu;
+        StateChanged();
+    }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (CurPage?.Name != KRConfig.Home?.Name)
+        if (curPage?.Name != KRConfig.Home?.Name)
         {
-            builder.Component<Breadcrumb>().Set(c => c.Menu, CurPage).Build();
+            builder.Component<Breadcrumb>().Set(c => c.Menu, curPage).Build();
             builder.Div("kui-content", attr =>
             {
                 attr.AddRandomColor("border-top-color");
@@ -23,9 +29,9 @@ class PageSingle : BaseComponent
 
     private void BuildPage(RenderTreeBuilder builder)
     {
-        if (CurPage == null || CurPage.ComType == null)
+        if (curPage == null || curPage.ComType == null)
             return;
 
-        builder.DynamicComponent(CurPage.ComType, CurPage.ComParameters);
+        builder.DynamicComponent(curPage.ComType, curPage.ComParameters);
     }
 }

@@ -7,7 +7,7 @@ class PageTabs : BaseComponent
     private bool isClickClose;
     private string Active(string item) => curPage?.Id == item ? "active" : "";
 
-    public void ShowTab(MenuItem item)
+    internal void ShowTab(MenuItem item)
     {
         if (!menus.Exists(m => m.Id == item.Id))
             menus.Add(item);

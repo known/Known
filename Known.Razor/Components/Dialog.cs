@@ -55,7 +55,6 @@ public class DialogContainer : BaseComponent
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         UI?.Register(this);
     }
 
@@ -104,7 +103,6 @@ class Dialog : BaseComponent
 
     protected override void OnAfterRender(bool firstRender)
     {
-        base.OnAfterRender(firstRender);
         if (!Option.IsMax)
         {
             UI.SetDialogMove(dialogId);
