@@ -25,10 +25,22 @@ public static class Extension
     //Dictionary
     public static T GetValue<T>(this IDictionary dic, string key)
     {
+        if (string.IsNullOrWhiteSpace(key))
+            return default;
+
         if (!dic.Contains(key))
             return default;
 
         var value = dic[key];
         return Utils.ConvertTo<T>(value);
+    }
+
+    public static T GetValue<T>(this Dictionary<string, T> dic, string key)
+    {
+        if (string.IsNullOrWhiteSpace(key))
+            return default;
+
+        dic.TryGetValue(key, out T value);
+        return value;
     }
 }
