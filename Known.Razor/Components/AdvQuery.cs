@@ -17,30 +17,30 @@ class AdvQuery<TItem> : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("title", "高级查询");
-        builder.Div("form", attr =>
+        builder.Form(BuildQueryForm, BuildQueryAction);
+    }
+
+    private void BuildQueryForm(RenderTreeBuilder builder)
+    {
+        foreach (var column in Columns)
         {
-            builder.Div("form-body", attr =>
+            if (column.IsAdvQuery)
             {
-                foreach (var column in Columns)
+                var info = data?.FirstOrDefault(d => d.Id == column.Id);
+                if (info == null)
                 {
-                    if (column.IsAdvQuery)
-                    {
-                        var info = data?.FirstOrDefault(d => d.Id == column.Id);
-                        if (info == null)
-                        {
-                            info = new QueryInfo(column.Id, "");
-                            data.Add(info);
-                        }
-                        column.BuildAdvQuery(builder, info);
-                    }
+                    info = new QueryInfo(column.Id, "");
+                    data.Add(info);
                 }
-            });
-            builder.Div("form-button", attr =>
-            {
-                builder.Button(FormButton.Query, Callback(OnQuery));
-                builder.Button(FormButton.Reset, Callback(OnReset));
-            });
-        });
+                column.BuildAdvQuery(builder, info);
+            }
+        }
+    }
+
+    private void BuildQueryAction(RenderTreeBuilder builder)
+    {
+        builder.Button(FormButton.Query, Callback(OnQuery));
+        builder.Button(FormButton.Reset, Callback(OnReset));
     }
 
     private async void OnQuery()

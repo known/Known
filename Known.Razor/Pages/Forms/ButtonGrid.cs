@@ -28,12 +28,13 @@ class ButtonGrid : EditGrid<ButtonInfo>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        base.BuildRenderTree(builder);
-        builder.Div("form-button", attr =>
-        {
-            builder.Button(FormButton.OK, Callback(OnOK));
-            builder.Button(FormButton.Cancel, Callback(OnCancel));
-        });
+        builder.Form(base.BuildRenderTree, BuildAction);
+    }
+
+    private void BuildAction(RenderTreeBuilder builder)
+    {
+        builder.Button(FormButton.OK, Callback(OnOK));
+        builder.Button(FormButton.Cancel, Callback(OnCancel));
     }
 
     protected override void OnAdd()

@@ -78,12 +78,16 @@ class SysRoleForm : BaseForm<SysRole>
     {
         builder.Div("form", attr =>
         {
-            builder.Hidden(f => f.Id);
-            builder.Div("", attr =>
+            builder.Div("form-body", attr =>
             {
-                builder.Field<Text>(f => f.Name).Build();
-                builder.Field<CheckBox>(f => f.Enabled).Set(f => f.Switch, true).Build();
-                builder.Field<TextArea>(f => f.Note).Build();
+                builder.Hidden(f => f.Id);
+                builder.Table(table =>
+                {
+                    table.ColGroup(100, null);
+                    table.Tr(attr => table.Field<Text>(f => f.Name).Build());
+                    table.Tr(attr => table.Field<CheckBox>(f => f.Enabled).Set(f => f.Switch, true).Build());
+                    table.Tr(attr => table.Field<TextArea>(f => f.Note).Build());
+                });
             });
             builder.Div("form-button", attr =>
             {

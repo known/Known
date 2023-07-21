@@ -2,6 +2,15 @@
 
 public static class FormExtension
 {
+    public static void Form(this RenderTreeBuilder builder, Action<RenderTreeBuilder> body, Action<RenderTreeBuilder> action)
+    {
+        builder.Div("form", attr =>
+        {
+            builder.Div("form-body", attr => body.Invoke(builder));
+            builder.Div("form-button", attr => action.Invoke(builder));
+        });
+    }
+
     public static void FormList<T>(this RenderTreeBuilder builder, string title, string style = null, Action<AttributeBuilder<T>> child = null) where T : notnull, IComponent
     {
         builder.FormList(title, style, () => builder.Component(child));

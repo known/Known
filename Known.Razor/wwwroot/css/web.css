@@ -99,7 +99,7 @@
 .right-view .tab li {margin-left:0;}
 .right-view .grid {top:40px;}
 
-.kui-content .grid-view, .tab-body .grid-view, .dlg-content .grid-view,
+.kui-content .grid-view, .tab-body .grid-view,
 .kui-content .form-page, .tab-body .form-page,
 .tab-body .left-view, .tab-body .grid-view, .tab-body .form-page {top:10px;}
 .tab-body .grid-view.form-grid {bottom:60px;}
@@ -113,7 +113,7 @@ button, .button, input, select,
 .form-input pre {margin-top:0.3rem;}
 .form-list {position:absolute;left:0;right:0;top:80px;bottom:0;}
 .form-list .grid-view {top:0;bottom:0;left:0;right:0;}
-.module .tool {position:absolute;top:-2.2rem;right:10px;}
+.module .tool {position:absolute;top:-2.2rem;right:5px;}
 
 /*Install*/
 .install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}
@@ -217,7 +217,7 @@ button, .button, input, select,
 .role {grid-template-rows:100%;padding:5px;}
 .role .form {padding:0;padding-right:0.5rem;}
 .role > .form-button {display:none;}
-.role .form-body {display:grid;grid-template-columns:auto 260px 160px 160px;}
+.role > .form-body {display:grid;grid-template-columns:auto 260px 160px 160px;}
 .role .form-button {padding:0;padding-top:0.3rem;}
 .role .title {font-weight:bold;height:30px;line-height:30px;padding-left:10px;position:relative;}
 .role .title input {position:absolute;top:5px;left:50px;}

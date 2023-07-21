@@ -37,9 +37,10 @@ class ColumnGrid : EditGrid<ColumnInfo>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        base.BuildRenderTree(builder);
         if (IsModule)
         {
+            base.BuildRenderTree(builder);
+            
             if (ReadOnly)
                 return;
 
@@ -54,14 +55,16 @@ class ColumnGrid : EditGrid<ColumnInfo>
         }
         else
         {
-            builder.Div("form-button", attr =>
-            {
-                if (OnSetting != null)
-                    builder.Button(FormButton.Reset, Callback(OnReset));
-                builder.Button(FormButton.OK, Callback(OnOK));
-                builder.Button(FormButton.Cancel, Callback(OnCancel));
-            });
+            builder.Form(base.BuildRenderTree, BuildAction);
         }
+    }
+
+    private void BuildAction(RenderTreeBuilder builder)
+    {
+        if (OnSetting != null)
+            builder.Button(FormButton.Reset, Callback(OnReset));
+        builder.Button(FormButton.OK, Callback(OnOK));
+        builder.Button(FormButton.Cancel, Callback(OnCancel));
     }
 
     private static List<Column<ColumnInfo>> GetColumns(bool isModule)
