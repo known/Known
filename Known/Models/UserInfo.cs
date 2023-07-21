@@ -25,6 +25,7 @@ public class UserInfo
     public string CompName { get; set; }
     public string OrgNo { get; set; }
     public string OrgName { get; set; }
+    public bool IsTenant { get; set; }
     public bool IsGroupUser { get; set; }
     public string Type { get; set; }
     public string Role { get; set; }

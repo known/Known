@@ -101,7 +101,7 @@ class UserService : BaseService
             if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
                 return Result.Error("用户默认密码未配置！");
 
-            if (Config.IsPlatform)
+            if (Config.IsPlatform && user.IsTenant)
             {
                 var tenant = SystemRepository.GetTenant(Database, user.CompNo);
                 if (tenant == null)
@@ -329,6 +329,8 @@ class UserService : BaseService
 
     private void SetUserInfo(UserInfo user)
     {
+        var sys = GetConfig<SystemInfo>(Database, SystemService.KeySystem);
+        user.IsTenant = user.CompNo != sys.CompNo;
         user.IsGroupUser = user.OrgNo == user.CompNo;
         user.AppName = Config.AppName;
         if (user.IsAdmin)

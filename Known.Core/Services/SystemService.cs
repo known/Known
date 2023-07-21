@@ -2,7 +2,7 @@
 
 class SystemService : BaseService
 {
-    private const string KeySystem = "SystemInfo";
+    internal const string KeySystem = "SystemInfo";
 
     internal SystemService(Context context) : base(context) { }
 
