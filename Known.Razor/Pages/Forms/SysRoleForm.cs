@@ -76,16 +76,14 @@ class SysRoleForm : BaseForm<SysRole>
 
     protected override void BuildFields(FieldBuilder<SysRole> builder)
     {
-        builder.Div("left", attr =>
+        builder.Div("form", attr =>
         {
-            attr.Style("width:40%;");
             builder.Hidden(f => f.Id);
-            builder.Table(table =>
+            builder.Div("", attr =>
             {
-                table.ColGroup(100, null);
-                table.Tr(attr => table.Field<Text>(f => f.Name).Build());
-                table.Tr(attr => table.Field<CheckBox>(f => f.Enabled).Set(f => f.Switch, true).Build());
-                table.Tr(attr => table.Field<TextArea>(f => f.Note).Build());
+                builder.Field<Text>(f => f.Name).Build();
+                builder.Field<CheckBox>(f => f.Enabled).Set(f => f.Switch, true).Build();
+                builder.Field<TextArea>(f => f.Note).Build();
             });
             builder.Div("form-button", attr =>
             {

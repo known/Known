@@ -72,6 +72,15 @@ public class DialogContainer : BaseComponent
                    .Build();
         }
     }
+
+    protected override ValueTask DisposeAsync(bool disposing)
+    {
+        if (disposing)
+        {
+            dialogs.Clear();
+        }
+        return base.DisposeAsync(disposing);
+    }
 }
 
 class Dialog : BaseComponent
@@ -91,9 +100,12 @@ class Dialog : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         var isMax = Option.IsMax;
-        var max = isMax ? " max" : "";
         builder.Div("mask", attr => attr.Id($"mask-{dialogId}").Style($"z-index:{StartIndex + Index}"));
-        builder.Div($"dialog {max} animated fadeIn", attr =>
+        var css = CssBuilder.Default("dialog animated fadeIn")
+                            .AddClass("max", isMax)
+                            .AddClass("hasFoot", Option.Content == null)
+                            .Build();
+        builder.Div(css, attr =>
         {
             attr.Id(dialogId).Style(GetStyle(isMax));
             BuildHead(builder, isMax);

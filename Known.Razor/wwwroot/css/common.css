@@ -353,6 +353,12 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .pager .btns li {display:inline-block;width:30px;text-align:center;color:#00f;cursor:pointer;position:relative;}
 .pager .btns li.text {color:#333;cursor:default;font-weight:bold;width:auto;}
 
+/*layout*/
+.dialog, .dlg-content, .form {display:grid;}
+.dialog {grid-template-rows:50px auto;}
+.dialog.hasFoot {grid-template-rows:50px auto 50px;}
+.form {grid-template-rows:auto 50px;padding:1rem 1rem 0 1rem;}
+
 /*form*/
 .form-title {font-size:1.5rem;font-weight:bold;text-align:center;padding:1rem;}
 .form-caption {border-left:5px solid var(--primary);padding-left:5px;height:40px;line-height:40px;font-size:1.1rem;font-weight:bold;}
@@ -360,7 +366,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-item, .form-label, .form-text, .form-tips {display:flex;}
 .form-item {position:relative;margin-top:1rem;}
 .form-label {display:block;padding:0 0.5rem;font-weight:bold;}
-.form-input {position:relative;}
+.form-input, .form-body {position:relative;}
 .form-input .unit, .form-input .btn, .form-input .captcha {position:absolute;right:0;padding:0 5px;}
 .form-input .btn {border:1.5px solid var(--border);background-color:#f1f1f1;cursor:pointer;}
 .form-input .captcha {padding:0;border:none;}
@@ -369,12 +375,11 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-radio {position:relative;margin-right:1rem;cursor:pointer;display:inline-block;}
 .form-radio input {position:absolute;top:0.4rem;}
 .form-tips {padding-left:5px;color:#aaa;}
-.form-button {text-align:right;margin-top:1rem;}
+.form-button {text-align:right;line-height:50px;}
 .form-button button, .dlg-foot button {margin-left:1rem;}
 .form-item, .tips {padding:0 1rem;}
 .form-item .link {padding-left:0.5rem;}
 .block .form-radio {display:block;height:auto;}
-.form {padding:1rem;}
 .form th, .form td {padding:5px;border-bottom:1px solid var(--border);}
 .form th {text-align:right;padding-right:0.5rem;background-color:var(--th-bgcolor);}
 .form td.inline .form-input {display:inline-block;}
@@ -395,39 +400,26 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .row .form-item input, .row .form-item select {min-width:200px;}
 
 /*import*/
-.import-form .form-item {margin:5px 0;padding:0;}
+.import-form {grid-template-rows:20px 50px auto;}
+.import-form .form-item {margin:8px 0;padding:0;}
 .import-form .form-input {display:inline-block;}
 .import-form .link {margin-right:10px;}
 .import-form .size {margin-left:10px;}
 .import-form .message {padding:10px 0;}
 
 /*dialog*/
-.dialog, .dlg-body, .dlg-foot, .dlg-content,
-.dialog .form, .dialog .form-body, .dialog .form-list, .dialog .form-button {position:absolute;left:0;right:0;}
-.dialog {border-top:5px solid var(--border);top:50%;left:50%;}
+.dialog {position:absolute;border-top:5px solid var(--border);top:50%;left:50%;}
 .dialog.max {top:0;left:0;right:0;bottom:0;}
-.dlg-head, .dlg-foot {padding:0 10px;}
+.dlg-head, .dlg-foot {padding:0 10px;line-height:50px;}
 .dlg-head {position:relative;border-bottom:1px solid var(--border);font-weight:bold;font-size:1.2rem;}
 .dlg-head.draggable {cursor:move;}
 .dlg-head .btns {position:absolute;top:0;right:0;width:100px;}
 .dlg-head .btns .bmin, .dlg-head .btns .bmax {position:absolute;top:13.5px;font-size:0.9rem;cursor:pointer;}
 .dlg-head .btns .bmin {right:65px;}
 .dlg-head .btns .bmax {right:35px;}
-.dlg-body, .dialog .form {top:50px;bottom:52px;padding:10px;overflow:auto;}
-.dlg-content {top:50px;bottom:0;}
+.dlg-body {padding:10px;overflow:auto;}
 .dlg-body .message {text-align:center;margin-top:20px;font-size:1.2rem;}
-.dlg-foot, .dialog .form-button {margin:0;bottom:0;padding:0 10px;text-align:right;}
-.dlg-head, .dlg-foot, .dialog .form-button {height:50px;line-height:50px;}
-.dialog .form {top:1px;bottom:0;}
-.dialog .form.nb {bottom:1px;}
-.dialog .form-body {top:0;bottom:50px;padding:10px;}
-.dialog .form-list {top:80px;bottom:0;}
-.dialog .form-list .grid-view {top:0;bottom:0;}
-.dialog .form-button.inline {padding:0 10px;}
-.dialog .form-button button {margin:0;margin-left:10px;}
-.dialog .hasQuery {padding:10px 10px 0 10px;}
-.dialog .pager {padding:0 10px;}
-.dialog .import-form {padding:20px;bottom:0;}
+.dlg-foot {margin:0;text-align:right;}
 
 /*tree*/
 .tree {position:relative;color:#606266;}
