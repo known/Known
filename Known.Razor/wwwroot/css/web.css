@@ -101,8 +101,7 @@
 
 .kui-content .grid-view, .tab-body .grid-view,
 .kui-content .form-page, .tab-body .form-page,
-.tab-body .left-view, .tab-body .grid-view, .tab-body .form-page {top:10px;}
-.tab-body .grid-view.form-grid {bottom:60px;}
+.tab-body .left-view, .tab-body .form-page {top:10px;}
 
 /*form*/
 label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}

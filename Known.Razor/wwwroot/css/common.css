@@ -391,7 +391,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form .table table {border-top:none;}
 .form .table th {text-align:center;}
 .form .table td {border-bottom:none;}
-.form-grid {top:0;bottom:0;left:0;right:0;}
+.form-grid, .tab-body .form-body .form-grid {top:0;bottom:0;left:0;right:0;}
 
 .row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
 .row .form-item {margin-top:0;padding-left:0;}
