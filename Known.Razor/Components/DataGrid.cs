@@ -313,6 +313,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     {
         OrderBys = new string[] { $"{item.Id} {curOrder}" };
         QueryData();
+        StateChanged();
     }
 
     private void BuildAdvQuery(RenderTreeBuilder builder)

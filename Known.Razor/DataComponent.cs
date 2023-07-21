@@ -119,7 +119,7 @@ public class DataComponent<TItem> : BaseComponent
                .Set(c => c.TotalCount, TotalCount)
                .Set(c => c.PageIndex, criteria.PageIndex)
                .Set(c => c.PageSize, criteria.PageSize)
-               .Set(c => c.OnPageChanged, QueryPageData)
+               .Set(c => c.OnPageChanged, OnPageChanged)
                .Build();
     }
 
@@ -170,6 +170,12 @@ public class DataComponent<TItem> : BaseComponent
             method.Invoke(this, parameters);
     }
 
+    private async Task OnPageChanged(PagingCriteria criteria)
+    {
+        await QueryPageData(criteria);
+        StateChanged();
+    }
+
     private async Task QueryPageData(PagingCriteria pc = null)
     {
         SelectedItems.Clear();
@@ -201,7 +207,6 @@ public class DataComponent<TItem> : BaseComponent
             Data = data.PageData;
             Sums = data.Sums;
         }
-        StateChanged();
     }
 
     private List<QueryInfo> GetQuery()
