@@ -31,9 +31,10 @@ class FullList : DmTestList
         Columns = builder.ToColumns();
     }
 
-    public void New() => ShowForm();
+    public override void View(DmTest row) => base.View(row);
+    public void New() => ShowForm(null, false);
     public void DeleteM() => DeleteRows(null);
-    public void Edit(DmTest row) => ShowForm(row);
+    public void Edit(DmTest row) => ShowForm(row, false);
     public void Delete(DmTest row) => DeleteRow(row, null);
 
     private void BuildTestInfo(RenderTreeBuilder builder, DmTest row)
