@@ -35,13 +35,13 @@ public class KRContext : Context
         OnNavigate?.Invoke(current);
     }
 
-    public void Navigate<T>(string name, string icon, Dictionary<string, object> comParams = null)
+    public void Navigate<T>(string name, string icon, Dictionary<string, object> comParams = null) where T : IComponent
     {
         var menu = new MenuItem(name, icon, typeof(T)) { ComParameters = comParams };
         Navigate(menu);
     }
 
-    public void Navigate<T>()
+    public void Navigate<T>() where T : IComponent
     {
         var type = typeof(T);
         var target = type.FullName;
