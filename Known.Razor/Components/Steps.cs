@@ -64,11 +64,11 @@ public class Steps : BaseComponent
         builder.Div("step-btns", attr =>
         {
             if (item != Items.First())
-                builder.Button("上一步", Callback(e => OnPrev(item)));
+                builder.Button("上一步", Callback(e => OnPrev(item)), StyleType.Info);
             if (item != Items.Last())
-                builder.Button("下一步", Callback(e => OnNext(item)));
+                builder.Button("下一步", Callback(e => OnNext(item)), StyleType.Info);
             else
-                builder.Button("完成", Callback(OnFinished));
+                builder.Button("完成", Callback(OnFinished), StyleType.Primary);
         });
     }
 
