@@ -302,12 +302,6 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .grid {z-index:1000;}
 .grid .table {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
 
-@media screen and (max-width:768px) {
-    .data-top {flex-direction:column;}
-    .toolbar {margin-bottom:10px;}
-    .query {text-align:left;}
-}
-
 .table {border-top:2px solid var(--border);border-bottom:1px solid var(--border);}
 .table th, .table td {padding:5px 10px;text-align:left;white-space:nowrap;}
 .table th .icon {margin-left:10px;color:#dfdfdf;}
@@ -354,9 +348,21 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .pager input {width:50px;min-width:50px;text-align:center;}
 .pager .btn {cursor:pointer;text-align:center;background-color:#f5f5f5;border-radius:var(--border-radius);}
 .pager .btn.active {background-color:var(--primary);color:#fff;}
-.pager .btns {display:inline-block;}
+.pager .app {display:none;justify-content:space-between;}
+.pager .app .btn {padding:0 10px;}
+/*.pager .btns {display:inline-block;}
 .pager .btns li {display:inline-block;width:30px;text-align:center;color:#00f;cursor:pointer;position:relative;}
-.pager .btns li.text {color:#333;cursor:default;font-weight:bold;width:auto;}
+.pager .btns li.text {color:#333;cursor:default;font-weight:bold;width:auto;}*/
+
+@media screen and (max-width:768px) {
+    .data-top {flex-direction:column;}
+    .toolbar {margin-bottom:10px;}
+    .query {text-align:left;}
+    .query .form-item {margin-bottom:5px;}
+    .query .form-label {min-width:80px;}
+    .pager .app {display:flex;}
+    .pager .web {display:none;}
+}
 
 /*form*/
 .form {padding:1rem 1rem 0 1rem;}

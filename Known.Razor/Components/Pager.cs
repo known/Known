@@ -19,26 +19,24 @@ public class Pager : BaseComponent
     {
         builder.Div("pager", attr =>
         {
-            if (Context.IsMobile)
-                BuildAppPager(builder);
-            else
-                BuildWebPager(builder);
+            BuildAppPager(builder);
+            BuildWebPager(builder);
         });
     }
 
     private void BuildAppPager(RenderTreeBuilder builder)
     {
-        builder.Ul("btns", attr =>
+        builder.Ul("app", attr =>
         {
             BuildPageButton(builder, Language.PagerPrevious);
-            builder.Li("text", attr => builder.Text($"{PageIndex}/{PageCount}"));
+            builder.Li("text", attr => builder.Text($"{TotalCount}条，{PageIndex}/{PageCount}页"));
             BuildPageButton(builder, Language.PagerNext);
         });
     }
 
     private void BuildWebPager(RenderTreeBuilder builder)
     {
-        builder.Ul(attr =>
+        builder.Ul("web", attr =>
         {
             builder.Li(attr => builder.Text($"共{TotalCount}条"));
             builder.Li(attr => BuildPageSize(builder));
