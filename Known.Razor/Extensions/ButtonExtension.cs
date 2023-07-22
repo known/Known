@@ -20,6 +20,7 @@ public static class ButtonExtension
                .Set(c => c.Type, button.Type)
                .Set(c => c.Icon, button.Icon)
                .Set(c => c.Text, button.Name)
+               .Set(c => c.Enabled, button.Enabled)
                .Set(c => c.Style, style)
                .Set(c => c.OnClick, onClick)
                .Build();

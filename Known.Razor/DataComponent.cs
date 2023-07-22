@@ -92,7 +92,7 @@ public class DataComponent<TItem> : BaseComponent
             attr.Id(Id);
             if (HasTool || HasQuery)
             {
-                builder.Div("toolbar", attr =>
+                builder.Div("data-top", attr =>
                 {
                     BuildTool(builder);
                     BuildQuery(builder);
@@ -139,29 +139,16 @@ public class DataComponent<TItem> : BaseComponent
         if (!HasTool)
             return;
 
-        builder.Div("tool", attr =>
-        {
-            foreach (var item in Tools)
-            {
-                if (item.Children.Any())
-                {
-                    var items = item.Children.Select(i => new MenuItem(i, () => OnAction(i))).ToList();
-                    builder.Dropdown(items, item.Name, "button");
-                }
-                else
-                {
-                    BuildButton(builder, item);
-                }
-            }
-        });
+        builder.Component<Toolbar>()
+               .Set(c => c.Style, "grid-tool")
+               .Set(c => c.Tools, Tools)
+               .Set(c => c.OnAction, OnAction)
+               .Build();
     }
 
-    private void BuildButton(RenderTreeBuilder builder, ButtonInfo item)
-    {
-        builder.Button(item, Callback(() => OnAction(item)));
-    }
+    private void OnAction(ButtonInfo info) => OnAction(info, null);
 
-    internal void OnAction(ButtonInfo info, object[] parameters = null)
+    internal void OnAction(ButtonInfo info, object[] parameters)
     {
         var method = GetType().GetMethod(info.Id);
         if (method == null)
