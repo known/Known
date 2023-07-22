@@ -76,9 +76,9 @@ public class Column<T> : ColumnInfo
         };
     }
 
-    internal void BuildQuery(RenderTreeBuilder builder, BaseComponent grid = null)
+    internal void BuildQuery(RenderTreeBuilder builder, string value, BaseComponent grid = null)
     {
-        BuildQuery(builder, Name, "", null, grid);
+        BuildQuery(builder, Name, value, null, grid);
     }
 
     internal void BuildAdvQuery(RenderTreeBuilder builder, QueryInfo info)

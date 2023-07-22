@@ -5,6 +5,8 @@ namespace Known.Razor.Components;
 public class DataGrid<TItem> : DataComponent<TItem>
 {
     private readonly string qvAdvQueryId;
+    private Table<TItem> table;
+    private bool shouldRender = true;
     internal List<Column<TItem>> GridColumns;
     internal string GridId;
     internal int CurRow = -1;
@@ -41,6 +43,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
     public virtual bool CheckAction(ButtonInfo action, TItem item) => true;
     public virtual void OnRowClick(int row, TItem item) { }
     public virtual void OnRowDoubleClick(int row, TItem item) { }
+
+    protected override bool ShouldRender() => shouldRender;
 
     public override void Refresh()
     {
@@ -128,7 +132,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
             UI.Toast(Language.SelectOne);
             return;
         }
-
         action.Invoke(selected[0]);
     }
 
@@ -140,7 +143,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
             UI.Toast(Language.SelectOneAtLeast);
             return;
         }
-
         action.Invoke(selected);
     }
 
@@ -224,13 +226,18 @@ public class DataGrid<TItem> : DataComponent<TItem>
         return base.OnAfterRenderAsync(firstRender);
     }
 
+    internal override void BuildQuery(RenderTreeBuilder builder)
+    {
+        if (!HasQuery)
+            return;
+
+        builder.Div("query", attr => builder.Cascading(QueryContext, BuildQuerys));
+    }
+
     internal override void BuildContent(RenderTreeBuilder builder)
     {
         var css = CssBuilder.Default("table").AddClass("fixed", IsFixed).Build();
-        builder.Div(css, attr =>
-        {
-            builder.Cascading(this, b => b.Component<Table<TItem>>().Build());
-        });
+        builder.Div(css, attr => builder.Cascading(this, b => b.Component<Table<TItem>>().Build(value => table = value)));
     }
 
     internal override void BuildPager(RenderTreeBuilder builder)
@@ -239,7 +246,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         BuildAdvQuery(builder);
     }
 
-    protected override void BuildQuerys(RenderTreeBuilder builder)
+    private void BuildQuerys(RenderTreeBuilder builder)
     {
         var columns = GridColumns?.Where(c => c.IsQuery).ToList();
         if (columns == null || columns.Count == 0)
@@ -247,18 +254,21 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
         foreach (var item in columns)
         {
-            item.BuildQuery(builder, this);
+            item.BuildQuery(builder, "", this);
         }
-        builder.Button(FormButton.Query, Callback(() =>
-        {
-            query = null;
-            QueryData(true);
-        }));
+        builder.Button(FormButton.Query, Callback(OnQuery));
 
-        if (GridColumns != null && GridColumns.Any(c => c.IsAdvQuery))
-        {
+        if (HasAdvQuery())
             builder.Button(FormButton.AdvQuery, Callback(ShowAdvQuery), style: "qvtrigger");
-        }
+    }
+
+    internal override void RefreshData() => table?.Changed();
+
+    private void OnQuery()
+    {
+        shouldRender = false;
+        query = null;
+        QueryData(true);
     }
 
     private void InitMenu()
@@ -299,6 +309,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
         return true;
     }
 
+    private bool HasAdvQuery() => GridColumns != null && GridColumns.Any(c => c.IsAdvQuery);
+
     private void OnMoveRow(TItem item, Action<TItem, TItem> success, int index, int index1)
     {
         CurRow = index1;
@@ -318,7 +330,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     private void BuildAdvQuery(RenderTreeBuilder builder)
     {
-        if (GridColumns == null || !GridColumns.Any(c => c.IsAdvQuery))
+        if (!HasAdvQuery())
             return;
 
         builder.Component<QuickView>()
@@ -339,7 +351,11 @@ public class DataGrid<TItem> : DataComponent<TItem>
                .Build();
     }
 
-    private void ShowAdvQuery() => UI.ShowQuickView(qvAdvQueryId);
+    private void ShowAdvQuery()
+    {
+        shouldRender = false;
+        UI.ShowQuickView(qvAdvQueryId);
+    }
 
     internal void ShowColumnSetting()
     {
@@ -395,8 +411,8 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase, 
         ShowCheckBox = true;
     }
 
+    public override void View(TItem row) => UI.ShowForm<TForm>($"查看{Name}", row);
     protected virtual Task<TItem> GetDefaultModelAsync() => Task.FromResult(new TItem());
-
     protected virtual void ShowForm(TItem model = null) => ShowForm(model, true);
 
     protected virtual async void ShowForm(TItem model, bool showInDialog)
@@ -409,6 +425,4 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase, 
         else
             Context.Navigate<TForm>(actionName, "", new Dictionary<string, object> { { nameof(Form.Model), model } });
     }
-
-    public override void View(TItem row) => UI.ShowForm<TForm>($"查看{Name}", row);
 }

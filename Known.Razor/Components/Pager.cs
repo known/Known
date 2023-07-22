@@ -9,6 +9,12 @@ public class Pager : BaseComponent
 
     public int PageCount => (int)Math.Ceiling(TotalCount * 1.0 / PageSize);
 
+    public void SetTotalCount(int totalCount)
+    {
+        TotalCount = totalCount;
+        StateChanged();
+    }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("pager", attr =>

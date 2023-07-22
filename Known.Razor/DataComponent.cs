@@ -4,6 +4,7 @@ public class DataComponent<TItem> : BaseComponent
 {
     private bool isInitialized;
     private bool isQuery;
+    private Pager pager;
     protected List<QueryInfo> query;
     protected PagingCriteria criteria;
 
@@ -31,7 +32,6 @@ public class DataComponent<TItem> : BaseComponent
     protected object DefaultQuery { get; set; }
     [Parameter] public List<TItem> Data { get; set; }
 
-    protected virtual void BuildQuerys(RenderTreeBuilder builder) { }
     protected virtual Task<PagingResult<TItem>> OnQueryData(PagingCriteria criteria) => Task.FromResult(new PagingResult<TItem>());
     protected virtual List<string> GetSumColumns() => null;
 
@@ -64,7 +64,7 @@ public class DataComponent<TItem> : BaseComponent
         await InitPageAsync();
 
         if (Data == null)
-            await QueryPageData();
+            await QueryPageData(null, false);
 
         isInitialized = true;
     }
@@ -120,19 +120,11 @@ public class DataComponent<TItem> : BaseComponent
                .Set(c => c.PageIndex, criteria.PageIndex)
                .Set(c => c.PageSize, criteria.PageSize)
                .Set(c => c.OnPageChanged, OnPageChanged)
-               .Build();
+               .Build(value => pager = value);
     }
 
-    private void BuildQuery(RenderTreeBuilder builder)
-    {
-        if (!HasQuery)
-            return;
-
-        builder.Div("query", attr =>
-        {
-            builder.Cascading(QueryContext, BuildQuerys);
-        });
-    }
+    internal virtual void RefreshData() { }
+    internal virtual void BuildQuery(RenderTreeBuilder builder) { }
 
     private void BuildTool(RenderTreeBuilder builder)
     {
@@ -160,10 +152,9 @@ public class DataComponent<TItem> : BaseComponent
     private async Task OnPageChanged(PagingCriteria criteria)
     {
         await QueryPageData(criteria);
-        StateChanged();
     }
 
-    private async Task QueryPageData(PagingCriteria pc = null)
+    private async Task QueryPageData(PagingCriteria pc = null, bool isRefresh = true)
     {
         SelectedItems.Clear();
         criteria.ExportMode = ExportMode.None;
@@ -193,6 +184,11 @@ public class DataComponent<TItem> : BaseComponent
             TotalCount = data.TotalCount;
             Data = data.PageData;
             Sums = data.Sums;
+        }
+        if (isRefresh)
+        {
+            RefreshData();
+            pager?.SetTotalCount(TotalCount);
         }
     }
 
