@@ -4,6 +4,7 @@ namespace Known.Test.Pages.Samples.Forms;
 
 class BaseForm : BaseForm<DmBill>
 {
+    protected Toolbar toolbar;
     protected string formData = "{}";
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -27,7 +28,7 @@ class BaseForm : BaseForm<DmBill>
         builder.Component<Toolbar>()
                .Set(c => c.Tools, tools)
                .Set(c => c.OnAction, OnAction)
-               .Build();
+               .Build(value => toolbar = value);
     }
 
     public virtual void Load() { }
