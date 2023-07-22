@@ -22,13 +22,15 @@
 .layout-tl .sider {background-color:var(--sider-color);color:#fff;}
 
 /*header*/
+.kui-header, .nav {display:flex;}
+.kui-header {justify-content:space-between;}
 .toggleMenu, .appName, .logo {height:50px;line-height:50px;}
-.toggleMenu {float:left;text-align:center;width:50px;cursor:pointer;}
-.appName {float:left;font-size:1.2rem;margin-left:10px;}
+.toggleMenu {text-align:center;width:50px;cursor:pointer;}
+.appName {font-size:1.2rem;margin-left:10px;}
 .logo {overflow:hidden;opacity:0.9;}
 .logo img {width:auto;}
 .logo:before {margin-right:15px;}
-.topMenu {float:left;height:50px;padding:5px 10px 0 10px;}
+.topMenu {height:50px;padding:5px 10px 0 10px;}
 .topMenu li {display:inline-block;height:43px;text-align:center;padding:0 15px;cursor:pointer;}
 .topMenu li .icon {display:block;font-size:1.5rem;}
 .topMenu li .name {display:block;font-size:0.8rem;}
@@ -84,6 +86,7 @@
 .kui-mini .menu-tree .name {display:none;}
 
 @media screen and (max-width:768px) {
+    .appName {display:none;}
     .kui-sider {width:50px;}
     .kui-scroll {width:60px;}
     .kui-header, .kui-body {left:50px;}

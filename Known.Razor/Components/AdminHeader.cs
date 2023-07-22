@@ -35,10 +35,14 @@ class AdminHeader : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (Menus != null && Menus.Count > 0)
-            BuildMenus(builder, Menus);
-        else
-            BuildAppName(builder);
+        builder.Div("nav", attr =>
+        {
+            builder.Div("toggleMenu", attr => builder.Icon(ToggleIcon, "折叠/展开", Callback(OnToggleMenu)));
+            if (Menus != null && Menus.Count > 0)
+                BuildMenus(builder, Menus);
+            else
+                builder.Div("appName", AppName);
+        });
         BuildNavRight(builder);
     }
 
@@ -58,18 +62,9 @@ class AdminHeader : BaseComponent
         });
     }
 
-    private void BuildAppName(RenderTreeBuilder builder)
-    {
-        builder.Div("toggleMenu", attr =>
-        {
-            builder.Icon(ToggleIcon, "折叠/展开", Callback(OnToggleMenu));
-        });
-        builder.Div("appName", AppName);
-    }
-
     private void BuildNavRight(RenderTreeBuilder builder)
     {
-        builder.Ul("nav right", attr =>
+        builder.Ul("nav", attr =>
         {
             //builder.Li("nav-item text danger", attr => builder.Text(KRConfig.AuthStatus));
             //builder.Li("nav-item text", attr => builder.Component<Components.Timer>().Build());
