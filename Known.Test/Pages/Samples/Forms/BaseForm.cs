@@ -26,6 +26,7 @@ class BaseForm : BaseForm<DmBill>
             new ButtonInfo("Clear", "禁用", "fa fa-trash-o", StyleType.Primary) { Enabled = false }
         };
         builder.Component<Toolbar>()
+               .Set(c => c.Style, "demo")
                .Set(c => c.Tools, tools)
                .Set(c => c.OnAction, OnAction)
                .Build(value => toolbar = value);
