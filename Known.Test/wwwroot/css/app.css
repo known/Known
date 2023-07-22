@@ -62,12 +62,13 @@
 .demo-row .row {margin-bottom:1rem;grid-column-gap:10px;}
 .demo-row .card, .demo-row .tabs {border:1px solid #ccc;}
 .demo-row, .demo-row .box, .demo td {position:relative;}
+.demo-row .box {display:grid;}
 .demo-row button {margin-right:5px;}
-.demo td img {width:80px;}
-.demo td .icon {font-size:1.2rem;}
-.demo td .color {display:block;width:60px;height:20px;line-height:20px;font-size:0.8rem;text-align:center;color:#fff;}
-.demo td .qty {display:block;padding:0;text-align:left;}
-.demo td .small {display:block;margin-top:5px;font-size:0.9rem;color:#888;}
+td img {width:80px;}
+td .icon {font-size:1.2rem;}
+td .color {display:block;width:60px;height:20px;line-height:20px;font-size:0.8rem;text-align:center;color:#fff;}
+td .qty {display:block;padding:0;text-align:left;}
+td .small {display:block;margin-top:5px;font-size:0.9rem;color:#888;}
 .demo-badge {position:relative;width:80px;height:40px;line-height:40px;}
 .toolbar.demo {margin-top:0.6rem;justify-content:end;}
 
