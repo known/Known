@@ -39,7 +39,7 @@ class DemoOther2 : BaseComponent
         {
             builder.Div("box", attr =>
             {
-                attr.Style("height:100px;");
+                attr.Style("height:150px;");
                 builder.Component<Tabs>()
                        .Set(c => c.CurItem, tabItems[0])
                        .Set(c => c.Items, tabItems)
@@ -48,7 +48,7 @@ class DemoOther2 : BaseComponent
             });
             builder.Div("box", attr =>
             {
-                attr.Style("height:100px;");
+                attr.Style("height:150px;");
                 builder.Component<Tabs>()
                        .Set(c => c.CurItem, tabItems[0])
                        .Set(c => c.Items, tabItems)
@@ -58,7 +58,7 @@ class DemoOther2 : BaseComponent
             });
             builder.Div("box", attr =>
             {
-                attr.Style("height:100px;");
+                attr.Style("height:150px;");
                 builder.Component<Tabs>()
                        .Set(c => c.CurItem, tabItems[0])
                        .Set(c => c.Items, tabItems)
@@ -68,7 +68,7 @@ class DemoOther2 : BaseComponent
             });
             builder.Div("box", attr =>
             {
-                attr.Style("height:100px;");
+                attr.Style("height:150px;");
                 builder.Component<Tabs>()
                        .Set(c => c.CurItem, tabItems[0])
                        .Set(c => c.Items, tabItems)
