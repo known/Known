@@ -317,12 +317,12 @@ public class Database : IDisposable
             {
                 if (item.Value.Contains('~') && item.Type != QueryType.Between)
                     item.Type = QueryType.Between;
+                querys.Add(item);
             }
-            querys.Add(item);
         }
         foreach (var item in querys)
         {
-            if (!sql.Contains(item.Id))
+            if (!sql.Contains($"@{item.Id}"))
                 SetQuery(ref sql, criteria, item.Type, item.Id);
         }
     }
