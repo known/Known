@@ -36,20 +36,18 @@ public class Tabs : BaseComponent
         }
         else
         {
-            var css = CssBuilder.Default("tabs").AddClass(Style).Build();
+            var css = CssBuilder.Default("tabs").AddClass(PositionCss).AddClass(Style).Build();
             builder.Div(css, attr =>
             {
                 BuildTabHead(builder, items);
-                css = CssBuilder.Default("tab-body").AddClass(PositionCss).Build();
-                builder.Div(css, attr => Body.Invoke(builder, CurItem));
+                builder.Div("tab-body", attr => Body.Invoke(builder, CurItem));
             });
         }
     }
 
     private void BuildTabHead(RenderTreeBuilder builder, List<MenuItem> items)
     {
-        var css = CssBuilder.Default("tab").AddClass(PositionCss).Build();
-        builder.Ul(css, attr =>
+        builder.Ul("tab", attr =>
         {
             foreach (var item in items)
             {

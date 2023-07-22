@@ -26,7 +26,7 @@ class PageTabs : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("tabs kui-tabs", attr =>
+        builder.Div("tabs top kui-tabs", attr =>
         {
             BuildTabHead(builder);
             BuildTabBody(builder);
@@ -59,7 +59,7 @@ class PageTabs : BaseComponent
 
     private void BuildTab(RenderTreeBuilder builder)
     {
-        builder.Ul("tab top", attr =>
+        builder.Ul("tab", attr =>
         {
             foreach (var item in menus)
             {
@@ -80,7 +80,7 @@ class PageTabs : BaseComponent
         foreach (var item in menus)
         {
             var active = Active(item.Id);
-            var css = CssBuilder.Default("tab-body top").AddClass(active).Build();
+            var css = CssBuilder.Default("tab-body").AddClass(active).Build();
             builder.Div(css, attr =>
             {
                 attr.Id($"tb-{item.Id}").AddRandomColor("border-top-color");
