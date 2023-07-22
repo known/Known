@@ -231,7 +231,7 @@ export class KRazor {
         $(window).resize(function () { KRazor.setTableTop(id); });
     }
     static setTableTop(id) {
-        var toolbar = $('#' + id + ' .toolbar');
+        var toolbar = $('#' + id + ' .data-top');
         var grid = $('#' + id + ' .grid');
         if (toolbar.length && grid.length) {
             var top = toolbar.outerHeight() + 8;
