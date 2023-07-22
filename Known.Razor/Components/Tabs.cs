@@ -39,8 +39,16 @@ public class Tabs : BaseComponent
             var css = CssBuilder.Default("tabs").AddClass(PositionCss).AddClass(Style).Build();
             builder.Div(css, attr =>
             {
-                BuildTabHead(builder, items);
-                builder.Div("tab-body", attr => Body.Invoke(builder, CurItem));
+                if (Position == PositionType.Top || Position == PositionType.Left)
+                {
+                    BuildTabHead(builder, items);
+                    builder.Div("tab-body", attr => Body.Invoke(builder, CurItem));
+                }
+                else
+                {
+                    builder.Div("tab-body", attr => Body.Invoke(builder, CurItem));
+                    BuildTabHead(builder, items);
+                }
             });
         }
     }
