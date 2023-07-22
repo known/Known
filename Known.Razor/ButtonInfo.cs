@@ -5,6 +5,7 @@ public class ButtonInfo
     public ButtonInfo()
     {
         Enabled = true;
+        Visible = true;
         Children = new List<ButtonInfo>();
     }
 
@@ -21,6 +22,7 @@ public class ButtonInfo
     public string Icon { get; set; }
     public StyleType Type { get; set; }
     public bool Enabled { get; set; }
+    public bool Visible { get; set; }
     public List<ButtonInfo> Children { get; }
 
     public bool Is(ButtonInfo info) => Id == info.Id;

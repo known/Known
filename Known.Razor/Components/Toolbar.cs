@@ -6,13 +6,39 @@ public class Toolbar : BaseComponent
     [Parameter] public List<ButtonInfo> Tools { get; set; }
     [Parameter] public Action<ButtonInfo> OnAction { get; set; }
 
+    public void SetItemEnabled(bool enabled, params string[] itemIds)
+    {
+        foreach (var id in itemIds)
+        {
+            var item = Tools?.FirstOrDefault(t => t.Id == id);
+            if (item != null)
+                item.Enabled = enabled;
+        }
+        StateChanged();
+    }
+
+    public void SetItemVisible(bool visible, params string[] itemIds)
+    {
+        foreach (var id in itemIds)
+        {
+            var item = Tools?.FirstOrDefault(t => t.Id == id);
+            if (item != null)
+                item.Visible = visible;
+        }
+        StateChanged();
+    }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        if (!Visible) return;
+
         var css = CssBuilder.Default("toolbar").AddClass(Style).Build();
         builder.Div(css, attr =>
         {
             foreach (var item in Tools)
             {
+                if (!item.Visible) continue;
+
                 if (item.Children.Any())
                 {
                     var items = item.Children.Select(i => new MenuItem(i, () => OnToolAction(i))).ToList();
