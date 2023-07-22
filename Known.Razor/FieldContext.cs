@@ -34,6 +34,18 @@ public class FieldContext
         TypeHelper.SetValue(Model, name, value);
     }
 
+    public string GetValue(string id)
+    {
+        var field = Fields.ContainsKey(id) ? Fields[id] : null;
+        return field?.Value;
+    }
+
+    public T GetValue<T>(string id)
+    {
+        var value = GetValue(id);
+        return Utils.MapTo<T>(value);
+    }
+
     public T FieldAs<T>(string id) where T : Field => Fields[id] as T;
     public T FieldValueAs<T>() => Utils.ConvertTo<T>(FieldValue);
 }
