@@ -50,9 +50,9 @@ class DemoOther2 : BaseComponent
             {
                 attr.Style("height:100px;");
                 builder.Component<Tabs>()
-                       .Set(c => c.Justified, true)
                        .Set(c => c.CurItem, tabItems[0])
                        .Set(c => c.Items, tabItems)
+                       .Set(c => c.Position, PositionType.Left)
                        .Set(c => c.Body, (b, m) => b.Span($"{m.Name} Content"))
                        .Build();
             });
@@ -62,7 +62,7 @@ class DemoOther2 : BaseComponent
                 builder.Component<Tabs>()
                        .Set(c => c.CurItem, tabItems[0])
                        .Set(c => c.Items, tabItems)
-                       .Set(c => c.Position, PositionType.Left)
+                       .Set(c => c.Position, PositionType.Right)
                        .Set(c => c.Body, (b, m) => b.Span($"{m.Name} Content"))
                        .Build();
             });
