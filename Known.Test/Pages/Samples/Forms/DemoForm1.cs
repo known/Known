@@ -43,10 +43,9 @@ class DemoForm1 : BaseForm
             });
             table.Tr(attr => table.Field<TextArea>("文本域", "TextArea").ColSpan(5).Build());
         });
-        base.BuildFields(builder);
     }
 
-    protected override void OnLoadData()
+    public override void Load()
     {
         SetData(new
         {

@@ -60,7 +60,7 @@
 .demo .content {display:block;left:140px;}
 .demo .row {margin-bottom:1rem;grid-column-gap:10px;}
 .demo-caption {font-size:1.1rem;font-weight:bold;margin:10px 0;padding-left:5px;border-left:5px solid #1c66b9;}
-.demo-tips {margin:10px 0;padding:10px;border:1px solid #ccc;border-left:5px solid #d2d2d2;}
+.demo-tips {margin:0 1rem;padding:10px;border:1px solid #ccc;border-left:5px solid #d2d2d2;overflow:auto;}
 .demo > .tab-body {left:130px;}
 .demo-row .card, .demo-row .tabs {border:1px solid #ccc;}
 .demo-row, .demo-row .box, .demo td {position:relative;}
@@ -71,13 +71,14 @@
 .demo td .qty {display:block;padding:0;text-align:left;}
 .demo td .small {display:block;margin-top:5px;font-size:0.9rem;color:#888;}
 .demo-badge {position:relative;width:80px;height:40px;line-height:40px;}
+.demo .form-button .toolbar {margin-top:0.6rem;justify-content:end;}
 
 .bill-form textarea {min-height:2rem;}
 .bill-form .grid-view {left:0;right:0;}
 .form2 .bill-row {grid-template-columns:auto 20%;}
 .bill-row .list {position:relative;height:210px;}
 .bill-row .table {border-left:1px solid var(--line-color);border-right:1px solid var(--line-color);}
-.bill-row .amount .form-item {margin-top:1rem;padding-left:1rem;flex-direction:column;}
+.bill-row .amount .form-item {margin-top:1rem;flex-direction:column;}
 .bill-row .amount input {font-size:3rem;height:3rem;border:none;border-bottom:1px solid #ccc;}
 .bill-form #TotalAmount {color:#6618b1;}
 .bill-form #PaidAmount {color:#a30e0e;}

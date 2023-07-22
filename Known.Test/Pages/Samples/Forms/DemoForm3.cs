@@ -43,7 +43,7 @@ class DemoForm3 : BaseForm
         });
     }
 
-    protected override void OnSaveData() => Submit(data =>
+    public override void Save() => Submit(data =>
     {
         model.FillModel(data);
         formData = Utils.ToJson(model);
