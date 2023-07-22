@@ -55,7 +55,7 @@
 .kui-tips-tr {position:absolute;top:10px;right:10px;font-weight:bold;z-index:9999;line-height:40px;}
 .kui-tips-bl {position:absolute;left:10px;bottom:10px;font-weight:bold;z-index:9999;}
 
-.kui-tabs {border-top:1px solid var(--border);}
+.kui-tabs {display:block;border-top:1px solid var(--border);}
 .kui-tab {
     height:40px;display:flex;justify-content:space-between;
     background-color:#fff;border-bottom:1px solid var(--border);box-shadow:0 1px 1px 0 #eee;
@@ -67,10 +67,10 @@
 .kui-tab > .dropdown > .icon:before {content:"\f078";}
 .kui-tab > .dropdown > .child {top:40px;}
 
-.kui-tabs > .tab-body {top:50px;display:none;}
-.kui-tabs > .tab-body.active {display:block;}
+.kui-tabs > .tab-body {display:none;position:absolute;top:50px;left:0;right:0;bottom:0;padding:10px;overflow:auto;}
+.kui-tabs > .tab-body.active {display:grid;}
 
-.kui-content {position:absolute;top:40px;}
+.kui-content {display:grid;position:absolute;top:40px;}
 .kui-content, .kui-tabs > .tab-body {
     left:10px;bottom:10px;right:10px;padding:10px;overflow:auto;
     border-top:3px solid var(--border);background-color:#fff;
@@ -86,7 +86,6 @@
 .kui-mini .menu-tree .name {display:none;}
 
 @media screen and (max-width:768px) {
-    .appName {display:none;}
     .kui-sider {width:50px;}
     .kui-scroll {width:60px;}
     .kui-header, .kui-body {left:50px;}
@@ -95,16 +94,28 @@
     .menu-tree .name {display:none;}
 }
 
-/*view*/
-.left-view, .right-view {position:absolute;top:10px;bottom:10px;overflow:auto;}
-.left-view {left:10px;width:220px;border-right:1px solid var(--border);}
-.right-view, .tab-body .right-view {left:240px;right:10px;}
-.right-view .tab li {margin-left:0;}
-.right-view .grid {top:40px;}
+@media screen and (max-width:400px) {
+    .appName {display:none;}
+}
 
-.kui-content .grid-view, .tab-body .grid-view,
-.kui-content .form-page, .tab-body .form-page,
-.tab-body .left-view, .tab-body .form-page {top:10px;}
+/*view*/
+.lr-view {display:flex;}
+.lr-view1 {display:grid;grid-template-columns:20% auto;}
+.left-view, .right-view {position:relative;overflow:auto;} 
+.left-view {width:20%;} 
+.right-view {width:80%;}
+.left-view {border-right:1px solid var(--border);}
+.right-view .tab li {margin-left:0;}
+.right-view .grid-view {left:10px;}
+.kui-content > .grid-view, .tab-body > .grid-view {top:10px;left:10px;right:10px;bottom:10px;}
+
+@media screen and (max-width:768px) {
+    .lr-view {flex-direction:column;}
+    .left-view, .right-view {width:100%;}
+    .left-view {border-right:none;border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:1rem;}
+    .right-view {min-height:500px;}
+    .right-view .grid-view {left:0;}
+}
 
 /*form*/
 label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}
@@ -169,7 +180,19 @@ button, .button, input, select,
 .ss-system .form-input input {width:200px;}
 .ss-copyright .form-input input {width:300px;}
 
+@media screen and (max-width:768px) {
+    .ss-system {padding:10px;}
+    .ss-form .form-item {flex-direction:column;}
+    .ss-form .form-label {text-align:left;padding:0;}
+    .ss-form .form-button {padding-left:0;}
+    .ss-form .form-input, .ss-form .form-input input, .ss-form .form-input textarea {width:100%;}
+
+    .ss-system .form-input input {width:200px;}
+    .ss-copyright .form-input input {width:300px;}
+}
+
 /*UserAccount*/
+.user-info {display:flex;flex-direction:column;}
 .user-info .avatar {text-align:center;}
 .user-info img {width:100px;height:100px;margin:20px auto;}
 .user-info .form-item {height:1rem;line-height:1rem;text-align:justify;}
@@ -183,14 +206,7 @@ button, .button, input, select,
 .user-message .noread {font-weight:bold;color:#000;}
 
 @media screen and (max-width:768px) {
-    .ss-system {padding:10px;}
-    .ss-form .form-item {flex-direction:column;}
-    .ss-form .form-label {text-align:left;padding:0;}
-    .ss-form .form-button {padding-left:0;}
-    .ss-form .form-input, .ss-form .form-input input, .ss-form .form-input textarea {width:100%;}
-
-    .ss-system .form-input input {width:200px;}
-    .ss-copyright .form-input input {width:300px;}
+    .user-info {flex-direction:row;}
 }
 
 /*font*/

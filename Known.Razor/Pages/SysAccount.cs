@@ -17,10 +17,13 @@ class SysAccount : PageComponent
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Cascading(this, b =>
+        builder.Div("lr-view", attr =>
         {
-            b.Div("left-view", attr => BuildUserInfo(b));
-            b.Div("right-view", attr => BuildUserTabs(b));
+            builder.Cascading(this, b =>
+            {
+                b.Div("left-view", attr => BuildUserInfo(b));
+                b.Div("right-view", attr => BuildUserTabs(b));
+            });
         });
     }
 

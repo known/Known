@@ -218,7 +218,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .slider-snk span.active {background-color:#08c4b1;}
 
 /*tabs*/
-.tabs {position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;}
+.tabs {display:grid;grid-template-rows:45px auto;}
 .tab-wrapper {width:100%;white-space:nowrap;overflow:hidden;}
 .tab-wrapper > .tab {overflow-x:scroll;overflow-y:hidden;}
 .tab-wrapper > .tab {height:48px;}
@@ -237,7 +237,6 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .tab.bottom {border-top:1px solid var(--border);position:absolute;left:0;right:0;bottom:0;height:50px;}
 .tab.bottom li {display:inline-block;border-top:4px solid transparent;}
 .tab.bottom li.active {border-top:4px solid #5cb85c;}
-.tab-body {position:absolute;top:0;left:0;right:0;bottom:0;padding:10px;overflow:auto;}
 .tab-body.top {top:50px;}
 .tab-body.left {left:100px;}
 .tab-body.bottom {bottom:50px;}
@@ -294,21 +293,20 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .query-adv {width:450px;}
 .query-adv .item {display:grid;grid-column-gap:5px;grid-template-columns:25% 25% auto;margin-bottom:0.8rem;}
 
-@media screen and (max-width:768px) {
-    .toolbar {flex-direction:column;}
-    .tool {margin-bottom:10px;}
-    .query {text-align:left;}
-}
-
 /*data*/
 .data-top {display:flex;justify-content:space-between;}
 .grid-tool button {margin-right:5px;padding:0 10px;}
 .list-view, .grid-view, .list, .grid, .pager {position:absolute;left:0;right:0;bottom:0;}
-.list-view, .grid-view {top:10px;bottom:10px;left:10px;right:10px;}
+.list-view, .grid-view {top:0;}
 .list, .grid {top:0;overflow:auto;}
-.tab-body .grid-view {top:10px;left:10px;right:10px;bottom:10px;}
-.grid {left:0;right:0;top:0;bottom:0;z-index:1000;}
+.grid {z-index:1000;}
 .grid .table {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
+
+@media screen and (max-width:768px) {
+    .data-top {flex-direction:column;}
+    .toolbar {margin-bottom:10px;}
+    .query {text-align:left;}
+}
 
 .table {border-top:2px solid var(--border);border-bottom:1px solid var(--border);}
 .table th, .table td {padding:5px 10px;text-align:left;white-space:nowrap;}

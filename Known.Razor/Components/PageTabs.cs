@@ -18,7 +18,10 @@ class PageTabs : BaseComponent
     protected override void OnInitialized()
     {
         if (menus.Count == 0)
-            ShowTab(KRConfig.Home);
+        {
+            menus.Add(KRConfig.Home);
+            curPage = menus[0];
+        }
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

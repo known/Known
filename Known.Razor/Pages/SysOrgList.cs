@@ -10,7 +10,6 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
 
     public SysOrgList()
     {
-        Style = "right-view";
         IsSort = false;
         ShowPager = false;
     }
@@ -30,14 +29,17 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("left-view", attr =>
+        builder.Div("lr-view", attr =>
         {
-            builder.Component<Tree<SysOrganization>>()
-                   .Set(c => c.Data, data)
-                   .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(OnTreeItemClick))
-                   .Build();
+            builder.Div("left-view", attr =>
+            {
+                builder.Component<Tree<SysOrganization>>()
+                       .Set(c => c.Data, data)
+                       .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(OnTreeItemClick))
+                       .Build();
+            });
+            builder.Div("right-view", attr => base.BuildPage(builder));
         });
-        base.BuildPage(builder);
     }
 
     public void New() => ShowForm();

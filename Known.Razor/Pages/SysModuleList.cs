@@ -11,7 +11,6 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
     public SysModuleList()
     {
         Name = string.Empty;
-        Style = "right-view";
         IsSort = false;
         ShowPager = false;
     }
@@ -27,14 +26,17 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("left-view", attr =>
+        builder.Div("lr-view", attr =>
         {
-            builder.Component<Tree<string>>()
-                   .Set(c => c.Data, data)
-                   .Set(c => c.OnItemClick, Callback<TreeItem<string>>(OnTreeItemClick))
-                   .Build();
+            builder.Div("left-view", attr =>
+            {
+                builder.Component<Tree<string>>()
+                       .Set(c => c.Data, data)
+                       .Set(c => c.OnItemClick, Callback<TreeItem<string>>(OnTreeItemClick))
+                       .Build();
+            });
+            builder.Div("right-view", attr => base.BuildPage(builder));
         });
-        base.BuildPage(builder);
     }
 
     protected override Task<PagingResult<SysModule>> OnQueryData(PagingCriteria criteria)
