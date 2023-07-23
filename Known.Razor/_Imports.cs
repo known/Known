@@ -7,6 +7,7 @@ global using System.Reflection;
 global using System.Text;
 global using Known.Clients;
 global using Known.Entities;
+global using Known.Extensions;
 global using Known.Models;
 global using Known.Razor.Components;
 global using Known.Razor.Components.Fields;
