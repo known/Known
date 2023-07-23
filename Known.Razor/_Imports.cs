@@ -1,4 +1,5 @@
-﻿global using System.Drawing;
+﻿global using System.Collections.Concurrent;
+global using System.Drawing;
 global using System.Dynamic;
 global using System.Linq.Expressions;
 global using System.Net.Http.Headers;
@@ -15,4 +16,5 @@ global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Forms;
 global using Microsoft.AspNetCore.Components.Rendering;
+global using Microsoft.AspNetCore.Components.Web;
 global using Microsoft.JSInterop;

@@ -27,7 +27,7 @@ public class Dropdown : BaseComponent
         {
             builder.Li("item", attr =>
             {
-                attr.OnClick(Callback(item.Action));
+                attr.Id(item.Code).OnClick(Callback(item.Action));
                 builder.IconName(item.Icon, item.Name);
             });
         }

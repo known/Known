@@ -182,10 +182,23 @@ public class AttributeBuilder
         return this;
     }
 
-    public AttributeBuilder OnClick(EventCallback? onClick)
+    public AttributeBuilder OnClick(string onClick)
     {
         if (onClick != null)
             builder.AddAttribute(1, "onclick", onClick);
+
+        return this;
+    }
+
+    public AttributeBuilder OnClick(EventCallback? onClick, bool stopPropagation = false)
+    {
+        if (onClick != null)
+        {
+            if (stopPropagation)
+                builder.AddEventStopPropagationAttribute(1, "onclick", true);
+
+            builder.AddAttribute(1, "onclick", onClick);
+        }
 
         return this;
     }
