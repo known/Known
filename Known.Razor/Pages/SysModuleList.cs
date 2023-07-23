@@ -70,7 +70,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
             UI.Result(result, () =>
             {
                 RefreshTreeNode(node, true);
-                RefreshData();
+                RefreshGridData();
                 StateChanged();
                 UI.CloseDialog();
             });
@@ -109,7 +109,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
             UI.Result(result, () =>
             {
                 RefreshTreeNode(node, true);
-                RefreshData();
+                RefreshGridData();
                 StateChanged();
                 UI.CloseDialog();
             });
@@ -144,17 +144,17 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
     private void OnTreeItemClick(TreeItem<string> item)
     {
         current = item;
-        RefreshData();
+        RefreshGridData();
     }
 
     private void OnDataChanged()
     {
         RefreshTreeNode(current);
-        RefreshData();
+        RefreshGridData();
         StateChanged();
     }
 
-    private void RefreshData() => Data = datas.Where(m => m.ParentId == current.Value).OrderBy(m => m.Sort).ToList();
+    private void RefreshGridData() => Data = datas.Where(m => m.ParentId == current.Value).OrderBy(m => m.Sort).ToList();
 
     private void InitTreeNode()
     {
@@ -163,7 +163,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
         data.Add(root);
         current = root;
         RefreshTreeNode(root);
-        RefreshData();
+        RefreshGridData();
     }
 
     private async void RefreshTreeNode(TreeItem<string> item, bool reload = false)

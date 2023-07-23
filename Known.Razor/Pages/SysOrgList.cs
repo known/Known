@@ -94,17 +94,17 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
     private void OnTreeItemClick(TreeItem<SysOrganization> item)
     {
         current = item;
-        RefreshData();
+        RefreshGridData();
     }
 
     private void OnDataChanged()
     {
         RefreshTreeNode(current);
-        RefreshData();
+        RefreshGridData();
         StateChanged();
     }
 
-    private void RefreshData() => Data = datas.Where(m => m.ParentId == current.Value.Id).ToList();
+    private void RefreshGridData() => Data = datas.Where(m => m.ParentId == current.Value.Id).ToList();
 
     private void InitTreeNode()
     {
@@ -114,7 +114,7 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
         data.Add(root);
         current = root;
         RefreshTreeNode(root);
-        RefreshData();
+        RefreshGridData();
     }
 
     private async void RefreshTreeNode(TreeItem<SysOrganization> item, bool reload = false)
