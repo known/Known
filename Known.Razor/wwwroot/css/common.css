@@ -361,16 +361,6 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .pager .app {display:none;justify-content:space-between;}
 .pager .app .btn {padding:0 10px;}
 
-@media screen and (max-width:768px) {
-    .data-top {flex-direction:column;}
-    .toolbar {margin-bottom:10px;}
-    .query {text-align:left;}
-    .query .form-item {margin-bottom:5px;}
-    .query .form-label {min-width:80px;}
-    .pager .app {display:flex;}
-    .pager .web {display:none;}
-}
-
 /*form*/
 .form {padding:1rem 1rem 0 1rem;}
 .form-title {font-size:1.5rem;font-weight:bold;text-align:center;padding:1rem;}
@@ -411,10 +401,6 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .row .form-label {padding-left:0;min-width:80px;}
 .row .form-item input, .row .form-item select {min-width:200px;}
 
-@media screen and (max-width:768px) {
-    .row {grid-template-columns:100%;grid-row-gap:10px;}
-}
-
 /*import*/
 .import-form {grid-template-rows:20px 50px auto;padding-left:1.5rem;}
 .import-form .form-item {margin:8px 0;padding:0;}
@@ -435,6 +421,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .dlg-body {padding:10px;overflow:auto;}
 .dlg-body .message {text-align:center;margin-top:20px;font-size:1.2rem;}
 .dlg-foot {margin:0;text-align:right;}
+.dlg-content {overflow:auto;}
 
 /*tree*/
 .tree {position:relative;color:#606266;}
@@ -486,3 +473,17 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .sys-active .form-item {}
 .sys-active .form-label {width:80px;}
 .sys-active input {width:auto;}
+
+@media screen and (max-width:768px) {
+    .row {grid-template-columns:100%;grid-row-gap:10px;}
+    .data-top {flex-direction:column;}
+    .toolbar {margin-bottom:10px;}
+    .query {text-align:left;}
+    .query .form-item {margin-bottom:5px;}
+    .query .form-label {min-width:80px;}
+    .pager .app {display:flex;}
+    .pager .web {display:none;}
+    .form table, .form tr {display:grid;}
+    .form th {text-align:left;background-color:#fff;border-bottom:none;}
+    .dialog {top:0;bottom:0;left:0;right:0;margin:0;}
+}
