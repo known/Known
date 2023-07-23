@@ -485,5 +485,4 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
     .pager .web {display:none;}
     .form table, .form tr {display:grid;}
     .form th {text-align:left;background-color:#fff;border-bottom:none;}
-    .dialog {top:0;bottom:0;left:0;right:0;margin:0;}
 }

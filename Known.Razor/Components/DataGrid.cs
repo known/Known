@@ -222,7 +222,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         if (IsFixed)
             UI.FixedTable(GridId);
 
-        UI.SetTableTop(Id);
+        UI.SetTable(Id);
         return base.OnAfterRenderAsync(firstRender);
     }
 

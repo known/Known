@@ -27,6 +27,14 @@ class PageSingle : BaseComponent
         }
     }
 
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            UI.Layout(curPage?.Id);
+
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
     private void BuildPage(RenderTreeBuilder builder)
     {
         if (curPage == null || curPage.ComType == null)

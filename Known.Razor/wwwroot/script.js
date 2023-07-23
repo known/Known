@@ -32,7 +32,10 @@ window.KAdmin = {
         const dom = document.querySelector('#tabAdmin');
         dom.scrollLeft += 120;
     },
-    setTableTop: function (id) {
+    layout: function (id) {
+        KAdmin.setTable(id);
+    },
+    setTable: function (id) {
         var toolbar = $('#' + id + ' .data-top');
         var grid = $('#' + id + ' .grid');
         if (toolbar.length && grid.length) {
@@ -247,10 +250,10 @@ export class KRazor {
 
     //Grid
     static initTable(id) {
-        $(window).resize(function () { KAdmin.setTableTop(id); });
+        $(window).resize(function () { KAdmin.setTable(id); });
     }
-    static setTableTop(id) {
-        KAdmin.setTableTop(id);
+    static setTable(id) {
+        KAdmin.setTable(id);
     }
     static fixedTable(id) {
         var table = $('#' + id);
@@ -298,8 +301,6 @@ export class KRazor {
     static initAdminTab() {
         $('.btn-left').click(KAdmin.scrollLeft);
         $('.btn-right').click(KAdmin.scrollRight);
-        $('#btnCloseCurrent').click(KAdmin.closeCurrent);
-        $('#btnCloseOther').click(KAdmin.closeOther);
     }
 
     //UI
@@ -312,6 +313,9 @@ export class KRazor {
                 $(this).addClass('active');
             }
         });
+    }
+    static layout(id) {
+        KAdmin.layout(id);
     }
     static appendBody(html) {
         $('body').append(html);
