@@ -43,6 +43,8 @@ public class MenuItem : MenuInfo
     public MenuItem Parent { get; set; }
     public List<MenuItem> Children { get; set; }
 
+    internal string PageId => $"{Id}-{Name}";
+
     public static MenuItem From(MenuInfo menu)
     {
         return new MenuItem

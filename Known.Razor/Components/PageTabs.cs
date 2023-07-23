@@ -17,27 +17,17 @@ class PageTabs : BaseComponent
             menus.Add(item);
 
         curPage = item;
-        UI.PageId = curPage.Id;
+        UI.PageId = curPage.PageId;
         StateChanged();
     }
 
     protected override void OnInitialized()
     {
-        CallbackHelper.Register(Id, "tab.click", new Func<Dictionary<string, object>, Task>(ClickTab));
-        CallbackHelper.Register(Id, "tab.close", new Func<Dictionary<string, object>, Task>(CloseTab));
-        CallbackHelper.Register(Id, "tab.closeCurrent", CloseCurrent);
-        CallbackHelper.Register(Id, "tab.closeOther", CloseOther);
         if (menus.Count == 0)
         {
             menus.Add(KRConfig.Home);
             curPage = menus[0];
         }
-    }
-
-    protected override ValueTask DisposeAsync(bool disposing)
-    {
-        CallbackHelper.Dispose(Id);
-        return base.DisposeAsync(disposing);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -54,6 +44,7 @@ class PageTabs : BaseComponent
         if (firstRender)
             UI.InitAdminTab();
 
+        UI.SetTableTop(curPage?.Id);
         return base.OnAfterRenderAsync(firstRender);
     }
 
@@ -66,9 +57,9 @@ class PageTabs : BaseComponent
             builder.Icon("btn-right fa fa-chevron-right");
             builder.Dropdown(new List<MenuItem>
             {
-                new MenuItem("btnCloseCurrent", "关闭当前", "fa fa-close"),
+                new MenuItem("关闭当前", "fa fa-close", CloseCurrent),
                 new MenuItem("关闭全部", "fa fa-close", CloseAll),
-                new MenuItem("btnCloseOther", "关闭其他", "fa fa-close")
+                new MenuItem("关闭其他", "fa fa-close", CloseOther)
             });
         });
     }
@@ -83,10 +74,10 @@ class PageTabs : BaseComponent
                 var active = Active(item.Id);
                 builder.Li(active, attr =>
                 {
-                    attr.Id($"th-{item.Id}").OnClick("KAdminTab.clickTab(this)");
+                    attr.Id($"th-{item.Id}").OnClick(Callback(() => ShowTab(item)));
                     builder.IconName(item.Icon, item.Name);
                     if (item.Id != "Home")
-                        builder.Icon("close fa fa-close", attr => attr.OnClick($"KAdminTab.closeTab('{item.Id}')"));
+                        builder.Icon("close fa fa-close", attr => attr.OnClick(Callback(() => CloseTab(item)), true));
                 });
             }
         });
@@ -103,44 +94,12 @@ class PageTabs : BaseComponent
                 attr.Id($"tb-{item.Id}").AddRandomColor("border-top-color");
                 builder.DynamicComponent(item.ComType, item.ComParameters);
                 if (item.Id != "Home")
-                    builder.Component<DialogContainer>().Id(item.Id).Build();
+                    builder.Component<DialogContainer>().Id(item.PageId).Build();
             });
         }
     }
 
-    private Task ClickTab(Dictionary<string, object> param)
-    {
-        var id = param.GetValue<string>("id");
-        var menu = menus.FirstOrDefault(m => m.Id == id);
-        if (menu != null)
-        {
-            curPage = menu;
-            UI.PageId = curPage.Id;
-        }
-        return Task.CompletedTask;
-    }
-
-    private Task CloseTab(Dictionary<string, object> param)
-    {
-        var id = param.GetValue<string>("id");
-        var menu = menus.FirstOrDefault(m => m.Id == id);
-        if (menu != null)
-            CloseTab(menu);
-
-        return Task.CompletedTask;
-    }
-
     private void CloseCurrent() => CloseTab(curPage);
-
-    private void CloseOther()
-    {
-        var items = menus.Where(m => m != KRConfig.Home && m.Id != curPage.Id).ToList();
-        foreach (var item in items)
-        {
-            UI.RemoveDialig(item.Id);
-        }
-        menus.RemoveAll(m => m != KRConfig.Home && m.Id != curPage.Id);
-    }
 
     private void CloseAll()
     {
@@ -150,15 +109,27 @@ class PageTabs : BaseComponent
         StateChanged();
     }
 
+    private void CloseOther()
+    {
+        var items = menus.Where(m => m != KRConfig.Home && m.Id != curPage.Id).ToList();
+        foreach (var item in items)
+        {
+            UI.RemoveDialig(item.PageId);
+        }
+        menus.RemoveAll(m => m != KRConfig.Home && m.Id != curPage.Id);
+        StateChanged();
+    }
+
     private void CloseTab(MenuItem item)
     {
         if (curPage.Id == item.Id)
         {
             var index = menus.IndexOf(item);
             curPage = menus[index - 1];
-            UI.PageId = curPage.Id;
+            UI.PageId = curPage.PageId;
         }
-        UI.RemoveDialig(item.Id);
+        UI.RemoveDialig(item.PageId);
         menus.Remove(item);
+        StateChanged();
     }
 }

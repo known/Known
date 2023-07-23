@@ -23,7 +23,7 @@ $(function () {
     });
 });
 
-window.KAdminTab = {
+window.KAdmin = {
     scrollLeft: function () {
         const dom = document.querySelector('#tabAdmin');
         dom.scrollLeft -= 120;
@@ -31,47 +31,6 @@ window.KAdminTab = {
     scrollRight: function () {
         const dom = document.querySelector('#tabAdmin');
         dom.scrollLeft += 120;
-    },
-    clickTab: function (obj) {
-        //e.stopPropagation();
-        var id = $(obj).attr('id').replace('th-', '');
-        DotNet.invokeMethodAsync('Known.Razor', 'CallbackByParamAsync', 'PageTabs', 'tab.click', { 'id': id })
-            .then(data => {
-                $('#tabAdmin li,.kui-tabs > .tab-body').removeClass('active');
-                $(obj).addClass('active');
-                $('#tb-' + id).addClass('active');
-                KAdminTab.setTableTop(id);
-            });
-    },
-    closeTab: function (id) {
-        //e.stopPropagation();
-        DotNet.invokeMethodAsync('Known.Razor', 'CallbackByParamAsync', 'PageTabs', 'tab.close', { 'id': id })
-            .then(data => { KAdminTab.closeTabPage(id); });
-    },
-    closeCurrent: function () {
-        DotNet.invokeMethodAsync('Known.Razor', 'CallbackAsync', 'PageTabs', 'tab.closeCurrent')
-            .then(data => {
-                var tab = $('#tabAdmin li.active');
-                var id = tab.attr('id').replace('th-', '');
-                KAdminTab.closeTabPage(id);
-            });
-    },
-    closeOther: function () {
-        DotNet.invokeMethodAsync('Known.Razor', 'CallbackAsync', 'PageTabs', 'tab.closeOther')
-            .then(data => {
-                $('#tabAdmin li').not('.active,#th-Home').remove();
-                $('.kui-tabs > .tab-body').not('.active,#tb-Home').remove();
-            });
-    },
-    closeTabPage: function (id) {
-        var th = $('#th-' + id);
-        var tb = $('#tb-' + id);
-        if (th.hasClass('active')) {
-            th.prev().addClass('active');
-            tb.prev().addClass('active');
-        }
-        th.remove();
-        tb.remove();
     },
     setTableTop: function (id) {
         var toolbar = $('#' + id + ' .data-top');
@@ -288,10 +247,10 @@ export class KRazor {
 
     //Grid
     static initTable(id) {
-        $(window).resize(function () { KAdminTab.setTableTop(id); });
+        $(window).resize(function () { KAdmin.setTableTop(id); });
     }
     static setTableTop(id) {
-        KAdminTab.setTableTop(id);
+        KAdmin.setTableTop(id);
     }
     static fixedTable(id) {
         var table = $('#' + id);
@@ -337,10 +296,10 @@ export class KRazor {
 
     //Tab
     static initAdminTab() {
-        $('.btn-left').click(KAdminTab.scrollLeft);
-        $('.btn-right').click(KAdminTab.scrollRight);
-        $('#btnCloseCurrent').click(KAdminTab.closeCurrent);
-        $('#btnCloseOther').click(KAdminTab.closeOther);
+        $('.btn-left').click(KAdmin.scrollLeft);
+        $('.btn-right').click(KAdmin.scrollRight);
+        $('#btnCloseCurrent').click(KAdmin.closeCurrent);
+        $('#btnCloseOther').click(KAdmin.closeOther);
     }
 
     //UI
