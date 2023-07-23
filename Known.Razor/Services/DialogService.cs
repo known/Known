@@ -3,37 +3,9 @@
 partial class UIService
 {
     private bool isTop = false;
-    private readonly ConcurrentDictionary<string, DialogContainer> dialogs = new();
 
-    private DialogContainer CurDialog
-    {
-        get
-        {
-            if (dialogs.TryGetValue(PageId, out DialogContainer dialog))
-                return dialog;
-
-            return dialogs["top"];
-        }
-    }
-
-    internal string PageId { get; set; }
-
-    internal void Register(DialogContainer dialog) => dialogs[dialog.Id] = dialog;
-
-    internal async void ClearDialog()
-    {
-        foreach (var item in dialogs)
-        {
-            await item.Value.DisposeAsync();
-        }
-        dialogs.Clear();
-    }
-
-    internal async void RemoveDialig(MenuItem item)
-    {
-        dialogs.TryRemove(item.PageId, out DialogContainer dialog);
-        await dialog.DisposeAsync();
-    }
+    internal DialogContainer TopDialog { get; set; }
+    internal DialogContainer CurDialog { get; set; }
 
     internal void SetDialogMove(string dialogId) => InvokeVoidAsync("KRazor.setDialogMove", dialogId);
 
@@ -41,9 +13,9 @@ partial class UIService
     {
         this.isTop = isTop;
         if (isTop)
-            dialogs["top"].Show(option);
+            TopDialog?.Show(option);
         else
-            CurDialog.Show(option);
+            CurDialog?.Show(option);
     }
 
     public void Show(IPicker picker)
@@ -91,9 +63,9 @@ partial class UIService
     public void CloseDialog()
     {
         if (isTop)
-            dialogs["top"].Close();
+            TopDialog?.Close();
         else
-            CurDialog.Close();
+            CurDialog?.Close();
         isTop = false;
     }
 }

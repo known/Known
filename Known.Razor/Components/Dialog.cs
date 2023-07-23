@@ -61,7 +61,10 @@ public class DialogContainer : BaseComponent
 
     protected override void OnInitialized()
     {
-        UI?.Register(this);
+        if (Id == "top")
+        {
+            UI.TopDialog = this;
+        }
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

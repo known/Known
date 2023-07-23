@@ -3,6 +3,7 @@
 class PageTabs : BaseComponent
 {
     private readonly List<MenuItem> menus = new();
+    private readonly ConcurrentDictionary<string, DialogContainer> dialogs = new();
     private MenuItem curPage;
     private string Active(string item) => curPage?.Id == item ? "active" : "";
 
@@ -17,7 +18,6 @@ class PageTabs : BaseComponent
             menus.Add(item);
 
         curPage = item;
-        UI.PageId = curPage.PageId;
         StateChanged();
     }
 
@@ -44,6 +44,7 @@ class PageTabs : BaseComponent
         if (firstRender)
             UI.InitAdminTab();
 
+        SetCurrentDialog();
         UI.SetTableTop(curPage?.Id);
         return base.OnAfterRenderAsync(firstRender);
     }
@@ -94,19 +95,32 @@ class PageTabs : BaseComponent
                 attr.Id($"tb-{item.Id}").AddRandomColor("border-top-color");
                 builder.DynamicComponent(item.ComType, item.ComParameters);
                 if (item.Id != "Home")
-                    builder.Component<DialogContainer>().Id(item.PageId).Build();
+                {
+                    builder.Component<DialogContainer>().Id(item.PageId).Build(async value =>
+                    {
+                        if (dialogs.ContainsKey(item.PageId))
+                        {
+                            await dialogs[item.PageId].DisposeAsync();
+                        }
+                        dialogs[item.PageId] = value;
+                    });
+                }
             });
         }
     }
 
     private void CloseCurrent() => CloseTab(curPage);
 
-    private void CloseAll()
+    private async void CloseAll()
     {
-        UI.ClearDialog();
+        foreach (var item in dialogs)
+        {
+            await item.Value.DisposeAsync();
+        }
+        dialogs.Clear();
         menus.RemoveAll(m => m != KRConfig.Home);
         curPage = KRConfig.Home;
-        UI.PageId = string.Empty;
+        UI.CurDialog = null;
         StateChanged();
     }
 
@@ -115,7 +129,7 @@ class PageTabs : BaseComponent
         var items = menus.Where(m => m != KRConfig.Home && m.Id != curPage.Id).ToList();
         foreach (var item in items)
         {
-            UI.RemoveDialig(item);
+            RemoveDialig(item);
         }
         menus.RemoveAll(m => m != KRConfig.Home && m.Id != curPage.Id);
         StateChanged();
@@ -127,10 +141,21 @@ class PageTabs : BaseComponent
         {
             var index = menus.IndexOf(item);
             curPage = menus[index - 1];
-            UI.PageId = curPage.PageId;
         }
-        UI.RemoveDialig(item);
+        RemoveDialig(item);
         menus.Remove(item);
         StateChanged();
+    }
+
+    private void SetCurrentDialog()
+    {
+        dialogs.TryGetValue(curPage?.PageId, out DialogContainer dialog);
+        UI.CurDialog = dialog;
+    }
+
+    private async void RemoveDialig(MenuItem item)
+    {
+        dialogs.TryRemove(item.PageId, out DialogContainer dialog);
+        await dialog.DisposeAsync();
     }
 }
