@@ -21,7 +21,8 @@ public class DialogOption
 public class DialogContainer : BaseComponent
 {
     private string current;
-    private readonly Dictionary<string, DialogOption> dialogs = new();
+    private readonly Dictionary<string, DialogOption> options = new();
+    private readonly Dictionary<string, Dialog> dialogs = new();
 
     public DialogContainer()
     {
@@ -30,24 +31,29 @@ public class DialogContainer : BaseComponent
 
     internal void Show(DialogOption option)
     {
+        if (string.IsNullOrWhiteSpace(option.Title))
+            return;
+
         option.Previous = current;
-        if (!string.IsNullOrWhiteSpace(option.Title) && !dialogs.ContainsKey(option.Title))
+        if (!options.ContainsKey(option.Title))
         {
             current = option.Title;
-            dialogs[current] = option;
+            options[current] = option;
             StateChanged();
         }
     }
 
-    internal void Close()
+    internal async void Close()
     {
         if (string.IsNullOrWhiteSpace(current))
             return;
 
-        if (dialogs.ContainsKey(current))
+        if (options.ContainsKey(current))
         {
-            var previous = dialogs[current].Previous;
+            var previous = options[current].Previous;
+            await dialogs[current].DisposeAsync();
             dialogs.Remove(current);
+            options.Remove(current);
             current = previous;
             StateChanged();
         }
@@ -61,7 +67,7 @@ public class DialogContainer : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         var index = 1;
-        foreach (var item in dialogs)
+        foreach (var item in options)
         {
             var option = item.Value;
             builder.Component<Dialog>()
@@ -69,17 +75,29 @@ public class DialogContainer : BaseComponent
                    .Set(c => c.Index, index++)
                    .Set(c => c.Option, option)
                    .Set(c => c.OnClose, Close)
-                   .Build();
+                   .Build(async value =>
+                   {
+                       if (dialogs.ContainsKey(option.Title))
+                       {
+                           await dialogs[option.Title].DisposeAsync();
+                       }
+                       dialogs[option.Title] = value;
+                   });
         }
     }
 
-    protected override ValueTask DisposeAsync(bool disposing)
+    protected override async ValueTask DisposeAsync(bool disposing)
     {
         if (disposing)
         {
+            foreach (var item in dialogs)
+            {
+                await item.Value.DisposeAsync();
+            }
             dialogs.Clear();
+            options.Clear();
         }
-        return base.DisposeAsync(disposing);
+        await base.DisposeAsync(disposing);
     }
 }
 
