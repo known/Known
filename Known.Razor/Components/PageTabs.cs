@@ -106,6 +106,7 @@ class PageTabs : BaseComponent
         UI.ClearDialog();
         menus.RemoveAll(m => m != KRConfig.Home);
         curPage = KRConfig.Home;
+        UI.PageId = string.Empty;
         StateChanged();
     }
 
@@ -114,7 +115,7 @@ class PageTabs : BaseComponent
         var items = menus.Where(m => m != KRConfig.Home && m.Id != curPage.Id).ToList();
         foreach (var item in items)
         {
-            UI.RemoveDialig(item.PageId);
+            UI.RemoveDialig(item);
         }
         menus.RemoveAll(m => m != KRConfig.Home && m.Id != curPage.Id);
         StateChanged();
@@ -128,7 +129,7 @@ class PageTabs : BaseComponent
             curPage = menus[index - 1];
             UI.PageId = curPage.PageId;
         }
-        UI.RemoveDialig(item.PageId);
+        UI.RemoveDialig(item);
         menus.Remove(item);
         StateChanged();
     }

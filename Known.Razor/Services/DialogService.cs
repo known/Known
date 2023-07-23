@@ -3,14 +3,38 @@
 partial class UIService
 {
     private bool isTop = false;
-    private readonly Dictionary<string, DialogContainer> dialogs = new();
+    private readonly ConcurrentDictionary<string, DialogContainer> dialogs = new();
 
-    private DialogContainer CurDialog => dialogs.GetValue(PageId) ?? dialogs["top"];
+    private DialogContainer CurDialog
+    {
+        get
+        {
+            if (dialogs.TryGetValue(PageId, out DialogContainer dialog))
+                return dialog;
+
+            return dialogs["top"];
+        }
+    }
+
     internal string PageId { get; set; }
 
     internal void Register(DialogContainer dialog) => dialogs[dialog.Id] = dialog;
-    internal void ClearDialog() => dialogs.Clear();
-    internal void RemoveDialig(string dialogId) => dialogs.Remove(dialogId);
+
+    internal async void ClearDialog()
+    {
+        foreach (var item in dialogs)
+        {
+            await item.Value.DisposeAsync();
+        }
+        dialogs.Clear();
+    }
+
+    internal async void RemoveDialig(MenuItem item)
+    {
+        dialogs.TryRemove(item.PageId, out DialogContainer dialog);
+        await dialog.DisposeAsync();
+    }
+
     internal void SetDialogMove(string dialogId) => InvokeVoidAsync("KRazor.setDialogMove", dialogId);
 
     public void Show(DialogOption option, bool isTop = false)
