@@ -27,4 +27,16 @@ static class Extension
             });
         });
     }
+
+    internal static void BuildDemo(this RenderTreeBuilder builder, string title, string code)
+    {
+        builder.H3(title);
+        builder.Div("demo", attr =>
+        {
+            builder.Div("code", attr =>
+            {
+                builder.Element("pre", attr => builder.Element("code", attr => builder.Text(code)));
+            });
+        });
+    }
 }

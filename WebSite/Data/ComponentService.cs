@@ -48,6 +48,7 @@ class ComponentService
         var nav = new MenuItem("nav", "导航类");
         nav.Children.Add<KMenu>("菜单", "后台主页侧边栏菜单组件。");
         nav.Children.Add<KBreadcrumb>("面包屑", "页面导航面包屑组件。");
+        nav.Children.Add<KToolbar>("工具条", "一组按钮组件。");
         nav.Children.Add<KPager>("分页", "数据分页导航组件。");
         nav.Children.Add<KSteps>("步骤", "用于分步表单。");
         nav.Children.Add<KTabs>("标签栏", "用于分组显示不同内容。");
