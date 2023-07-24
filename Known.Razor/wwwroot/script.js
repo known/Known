@@ -35,6 +35,7 @@ window.KAdmin = {
     layout: function (id) {
         KAdmin.setTable(id);
         KAdmin.setFormList();
+        KAdmin.setDialog();
     },
     setTable: function (id) {
         var toolbar = $('#' + id + ' .data-top');
@@ -46,11 +47,36 @@ window.KAdmin = {
     },
     setFormList: function () {
         var list = $('.form-list');
-        if (list.length) {
-            var prev = list.prev();
-            var top = prev.position().top + prev.outerHeight(true);
-            list.css('top', top + 'px');
-        }
+        if (!list.length)
+            return;
+
+        var prev = list.prev();
+        var top = prev.position().top + prev.outerHeight(true);
+        list.css('top', top + 'px');
+    },
+    setDialog: function () {
+        var dialog = $('.dialog');
+        if (!dialog.length)
+            return;
+
+        var width = document.body.clientWidth;
+        dialog.each(function (i, elem) {
+            var dlg = $(elem);
+            if (width < 786) {
+                if (!dlg.hasClass('max')) {
+                    dlg.addClass('max');
+                    dlg.data('style', dlg.attr('style'));
+                    var zIndex = dlg.css('z-index');
+                    var topColor = dlg.css('border-top-color');
+                    dlg.attr('style', 'z-index:' + zIndex + ';border-top-color:' + topColor);
+                }
+            } else {
+                if (dlg.hasClass('max')) {
+                    dlg.removeClass('max');
+                    dlg.attr('style', dlg.data('style'));
+                }
+            }
+        });
     }
 };
 
@@ -305,9 +331,9 @@ export class KRazor {
     static initAdminTab() {
         $('.btn-left').click(KAdmin.scrollLeft);
         $('.btn-right').click(KAdmin.scrollRight);
-        $(window).resize(function () { KAdmin.layout(id); });
     }
     static initPage(id) {
+        KAdmin.layout(id);
         $(window).resize(function () { KAdmin.layout(id); });
     }
 

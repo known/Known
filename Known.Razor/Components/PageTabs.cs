@@ -45,7 +45,7 @@ class PageTabs : BaseComponent
             UI.InitAdminTab();
 
         SetCurrentDialog();
-        UI.Layout(curPage?.Id);
+        UI.InitPage(curPage?.Id);
         return base.OnAfterRenderAsync(firstRender);
     }
 

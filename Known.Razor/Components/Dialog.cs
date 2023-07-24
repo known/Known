@@ -138,9 +138,8 @@ class Dialog : BaseComponent
     protected override void OnAfterRender(bool firstRender)
     {
         if (!Option.IsMax)
-        {
             UI.SetDialogMove(dialogId);
-        }
+        UI.Layout(Id);
         Option.OnShow?.Invoke(firstRender);
     }
 
