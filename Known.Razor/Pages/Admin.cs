@@ -36,7 +36,11 @@ class Admin : Layout
             curMenu = topMenu.Children.FirstOrDefault();
         }
 
-        PageAction.RefreshTheme = StateChanged;
+        PageAction.RefreshTheme = () =>
+        {
+            UI.CurDialog = UI.TopDialog;
+            StateChanged();
+        };
         isInitialized = true;
     }
 
