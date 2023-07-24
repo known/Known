@@ -144,7 +144,7 @@ public class DataComponent<TItem> : BaseComponent
     {
         var method = GetType().GetMethod(info.Id);
         if (method == null)
-            UI.Toast($"{info.Name}方法不存在！");
+            UI.Toast($"{info.Name}方法不存在！", StyleType.Danger);
         else
             method.Invoke(this, parameters);
     }
