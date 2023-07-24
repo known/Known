@@ -54,7 +54,7 @@ button, .button, input, select, textarea {
 button, .button {cursor:pointer;border:none;padding:0 0.8rem;}
 button .icon, .button .icon {text-align:center;margin-right:5px;}
 button:not(:disabled):hover, .button:not(:disabled):hover {-moz-opacity:0.8;opacity:0.8;filter:alpha(opacity=80);}
-button:disabled, .button:disabled {-moz-opacity:0.5;opacity:0.5;filter:alpha(opacity=50);}
+button:disabled, .button:disabled {-moz-opacity:0.5;opacity:0.5;filter:alpha(opacity=50);cursor:not-allowed;}
 input:read-only, select:disabled, textarea:read-only, input.select:disabled {background-color:var(--disabled);}
 input.select:read-only {background-color:#fff;}
 input[type="text"], textarea {position:relative;}

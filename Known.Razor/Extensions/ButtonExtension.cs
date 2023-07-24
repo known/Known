@@ -26,7 +26,7 @@ public static class ButtonExtension
                .Build();
     }
 
-    public static void Button(this RenderTreeBuilder builder, string text, EventCallback onClick, StyleType type = StyleType.Default) => builder.Button(text, "", onClick, type);
+    public static void Button(this RenderTreeBuilder builder, string text, EventCallback onClick, StyleType type = StyleType.Default, bool enabled = true) => builder.Button(text, "", onClick, type, enabled);
 
     public static void Button(this RenderTreeBuilder builder, string text, string icon, EventCallback onClick, StyleType type = StyleType.Default, bool enabled = true)
     {
