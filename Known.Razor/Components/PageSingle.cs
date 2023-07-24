@@ -30,7 +30,7 @@ class PageSingle : BaseComponent
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
-            UI.Layout(curPage?.Id);
+            UI.InitPage(curPage?.Id);
 
         return base.OnAfterRenderAsync(firstRender);
     }

@@ -66,7 +66,11 @@ public static class HtmlExtension
     public static void Table(this RenderTreeBuilder builder, Action<RenderTreeBuilder> child = null)
     {
         var table = new TableContext();
-        builder.Cascading(table, b => b.Element("table", attr => child?.Invoke(b)));
+        builder.Cascading(table, b => b.Element("table", attr =>
+        {
+            attr.Class("form-table");
+            child?.Invoke(b);
+        }));
     }
 
     public static void ColGroup(this RenderTreeBuilder builder, params int?[] widths)

@@ -34,6 +34,7 @@ window.KAdmin = {
     },
     layout: function (id) {
         KAdmin.setTable(id);
+        KAdmin.setFormList();
     },
     setTable: function (id) {
         var toolbar = $('#' + id + ' .data-top');
@@ -41,6 +42,14 @@ window.KAdmin = {
         if (toolbar.length && grid.length) {
             var top = toolbar.outerHeight() + 8;
             grid.css('top', top + 'px');
+        }
+    },
+    setFormList: function () {
+        var list = $('.form-list');
+        if (list.length) {
+            var prev = list.prev();
+            var top = prev.position().top + prev.outerHeight(true);
+            list.css('top', top + 'px');
         }
     }
 };
@@ -186,12 +195,7 @@ export class KRazor {
             });
             inputs[0].focus();
         }
-        var list = $('.form-list');
-        if (list.length) {
-            var prev = list.prev();
-            var top = prev.position().top + prev.outerHeight(true);
-            list.css('top', top + 'px');
-        }
+        KAdmin.setFormList();
     }
     static captcha(id, code) {
         var canvas = document.getElementById(id);
@@ -297,10 +301,14 @@ export class KRazor {
             sessionStorage.removeItem(key);
     }
 
-    //Tab
+    //Page
     static initAdminTab() {
         $('.btn-left').click(KAdmin.scrollLeft);
         $('.btn-right').click(KAdmin.scrollRight);
+        $(window).resize(function () { KAdmin.layout(id); });
+    }
+    static initPage(id) {
+        $(window).resize(function () { KAdmin.layout(id); });
     }
 
     //UI

@@ -49,7 +49,7 @@ pre {
 .dialog {box-shadow:0 0 10px 3px rgba(0,0,0,.5);}
 .button {display:block;}
 button, .button, input, select, textarea {
-    outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;background-color:#fff;
+    outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;background-color:#fff;overflow:hidden;
 }
 button, .button {cursor:pointer;border:none;padding:0 0.8rem;}
 button .icon, .button .icon {text-align:center;margin-right:5px;}
@@ -381,15 +381,13 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-button button, .dlg-foot button {margin-left:1rem;}
 .form-item, .tips {padding:0 1rem;}
 .form-item .link {padding-left:0.5rem;}
-.block .form-radio {display:block;height:auto;}
-.form th, .form td {padding:5px;border-bottom:1px solid var(--border);}
-.form th {text-align:right;padding-right:0.5rem;background-color:var(--th-bgcolor);}
-.form td.inline .form-input {display:inline-block;}
-.form td .query .form-input, .form td .inline .form-input, .form-files span {margin-right:5px;}
 .form-file {padding:5px 0;}
-.form .tool {display:flex;line-height:2rem;}
-.form .tool button {background-color:transparent;color:#333;}
-.form table {border-top:2px solid var(--border);}
+.block .form-radio {display:block;height:auto;}
+.form-table th, .form-table td {padding:5px;border-bottom:1px solid var(--border);}
+.form-table th {text-align:right;padding-right:0.5rem;background-color:var(--th-bgcolor);}
+.form-table td.inline .form-input {display:inline-block;}
+.form-table td .query .form-input, .form-table td .inline .form-input, .form-files span {margin-right:5px;}
+.form-table {border-top:2px solid var(--border);}
 .form .table table {border-top:none;}
 .form .table th {text-align:center;}
 .form .table td {border-bottom:none;}
@@ -483,6 +481,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
     .query .form-label {min-width:80px;}
     .pager .app {display:flex;}
     .pager .web {display:none;}
-    .form table, .form tr {display:grid;}
-    .form th {text-align:left;background-color:#fff;border-bottom:none;}
+    .form-table, .form-table tr {display:grid;}
+    .form-table, .form-table th, .form-table td {border:none;}
+    .form-table th {text-align:left;background-color:#fff;}
 }

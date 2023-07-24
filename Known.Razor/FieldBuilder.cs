@@ -42,10 +42,14 @@ public class FieldBuilder<T>
     public void Table(Action<FieldBuilder<T>> child = null)
     {
         var table = new TableContext();
-        Builder.Cascading(table, delegate (RenderTreeBuilder b)
+        Builder.Cascading(table, b =>
         {
             var fb = new FieldBuilder<T>(b);
-            b.Element("table", attr => child?.Invoke(fb));
+            b.Element("table", attr =>
+            {
+                attr.Class("form-table");
+                child?.Invoke(fb);
+            });
         });
     }
 
