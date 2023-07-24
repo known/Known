@@ -18,6 +18,17 @@ public class Captcha : Field
 
     public string Code { get; set; }
 
+    public bool Validate(out string message)
+    {
+        message = string.Empty;
+        if (!Code.Equals(Value, StringComparison.OrdinalIgnoreCase))
+        {
+            message = "验证码不正确！";
+            return false;
+        }
+        return true;
+    }
+
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender || Code != lastCode)
