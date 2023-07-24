@@ -2,6 +2,16 @@
 
 public static class RazorExtension
 {
+    public static void Banner(this RenderTreeBuilder builder, StyleType style, string text)
+    {
+        builder.Component<Banner>().Set(c => c.Content, b => b.Text(text)).Set(c => c.Style, style).Build();
+    }
+
+    public static void Banner(this RenderTreeBuilder builder, StyleType style, Action<RenderTreeBuilder> content)
+    {
+        builder.Component<Banner>().Set(c => c.Content, content).Set(c => c.Style, style).Build();
+    }
+
     public static void Badge(this RenderTreeBuilder builder, StyleType style, string text)
     {
         builder.Component<Badge>().Set(c => c.Style, style).Set(c => c.Text, text).Build();
