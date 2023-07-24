@@ -1,4 +1,6 @@
-﻿namespace WebSite.Docus.Feedback;
+﻿using WebSite.Docus.Feedback.Banners;
+
+namespace WebSite.Docus.Feedback;
 
 class KBanner : BaseDocu
 {
@@ -14,5 +16,7 @@ class KBanner : BaseDocu
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
+        builder.BuildDemo<Banner1>();
+        builder.BuildDemo<Banner2>();
     }
 }
