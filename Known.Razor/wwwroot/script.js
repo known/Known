@@ -55,7 +55,7 @@ window.KAdmin = {
         list.css('top', top + 'px');
     },
     setDialog: function () {
-        var dialog = $('.dialog');
+        var dialog = $('.dialog:not(.max)');
         if (!dialog.length)
             return;
 
@@ -63,16 +63,16 @@ window.KAdmin = {
         dialog.each(function (i, elem) {
             var dlg = $(elem);
             if (width < 786) {
-                if (!dlg.hasClass('max')) {
-                    dlg.addClass('max');
+                if (!dlg.hasClass('full')) {
+                    dlg.addClass('full');
                     dlg.data('style', dlg.attr('style'));
                     var zIndex = dlg.css('z-index');
                     var topColor = dlg.css('border-top-color');
                     dlg.attr('style', 'z-index:' + zIndex + ';border-top-color:' + topColor);
                 }
             } else {
-                if (dlg.hasClass('max')) {
-                    dlg.removeClass('max');
+                if (dlg.hasClass('full')) {
+                    dlg.removeClass('full');
                     dlg.attr('style', dlg.data('style'));
                 }
             }

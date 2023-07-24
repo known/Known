@@ -41,8 +41,8 @@ pre {
 }
 .box, .card, .group-box, .dialog, .tag, .progress, .progress .value,
 .banner, .notify, .toast span, 
-.kui-tips, .kui-content, .kui-tabs .tab-body.top,
-.button, button, input, select, textarea, .form-input .icon, .search-box .icon {
+.button, button, input, select, textarea, .form-input .icon, .search-box .icon,
+.kui-tips, .kui-content, .kui-tabs .tab-body {
     -webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
 }
 .box, .card {box-shadow:0 0 5px 3px rgba(0,0,0,.1);}
@@ -227,7 +227,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .tab-wrapper > .tab li .close {top:0;right:0;color:#ccc;width:16px;}
 .tab-wrapper > .tab li .close:hover {color:#d9534f;}
 .tab-body {display:grid;position:relative;padding:10px;overflow:auto;}
-.tab {display:flex;white-space:nowrap;}
+.tab {display:flex;white-space:nowrap;overflow:auto;}
 .tab li {cursor:pointer;}
 .tab li.active {font-weight:bold;border-radius:1px;}
 .tabs.top {grid-template-rows:45px auto;}
@@ -409,7 +409,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 
 /*dialog*/
 .dialog {position:absolute;border-top:5px solid var(--border);top:50%;left:50%;}
-.dialog.max {top:0;left:0;right:0;bottom:0;}
+.dialog.max, .dialog.full {top:0;left:0;right:0;bottom:0;}
 .dlg-head {display:flex;justify-content:space-between;border-bottom:1px solid var(--border);font-weight:bold;font-size:1.2rem;padding-right:0;}
 .dlg-head.draggable {cursor:move;}
 .dlg-head .btns {display:flex;cursor:pointer;}

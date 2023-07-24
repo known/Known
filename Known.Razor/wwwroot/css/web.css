@@ -251,3 +251,7 @@ button, .button, input, select,
 .role-button .form-radio, .role-column .form-radio {display:block;}
 .role-module .tree {overflow:auto;margin-bottom:10px;}
 .role-button .form-input, .role-column .form-input {overflow:auto;padding:0 10px;margin-bottom:10px;}
+
+@media screen and (max-width:768px) {
+    .role > .form-body {grid-template-columns:100%;}
+}
