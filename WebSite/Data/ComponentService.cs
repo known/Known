@@ -91,6 +91,19 @@ class ComponentService
 
     internal static List<MenuItem> Menus { get; }
 
+    internal static string GetCode(Type type)
+    {
+        if (type == null)
+            return string.Empty;
+
+        var file = type.FullName.Replace("WebSite.", "").Replace('.', '\\');
+        var path = Path.Combine(AppConfig.RootPath, $"{file}.cs");
+        if (!File.Exists(path))
+            return string.Empty;
+
+        return File.ReadAllText(path);
+    }
+
     internal static RenderFragment Render(string? id)
     {
         return builder =>

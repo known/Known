@@ -1,4 +1,7 @@
-﻿namespace WebSite.Docus;
+﻿using System.Reflection;
+using WebSite.Data;
+
+namespace WebSite.Docus;
 
 static class Extension
 {
@@ -14,9 +17,11 @@ static class Extension
         });
     }
 
-    internal static void BuildDemo<T>(this RenderTreeBuilder builder, string title, string code) where T : BaseComponent => builder.BuildDemo<T>("", title, code);
-    internal static void BuildDemo<T>(this RenderTreeBuilder builder, string style, string title, string code) where T : BaseComponent
+    internal static void BuildDemo<T>(this RenderTreeBuilder builder, string style = "") where T : BaseComponent
     {
+        var type = typeof(T);
+        var title = type.GetCustomAttribute<TitleAttribute>()?.Title;
+        var code = ComponentService.GetCode(type);
         builder.H3(title);
         builder.Div($"demo {style}", attr =>
         {

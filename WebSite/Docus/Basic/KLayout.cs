@@ -1,4 +1,4 @@
-﻿using Known.Razor.Components;
+﻿using WebSite.Docus.Basic.Layouts;
 
 namespace WebSite.Docus.Basic;
 
@@ -17,58 +17,8 @@ class KLayout : BaseDocu
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
-        builder.BuildDemo<KLayout1>("layout", "默认布局", "class KLayout1 : Layout { }");
-        builder.BuildDemo<KLayout2>("layout", "HS布局", @"class KLayout2 : Layout
-{
-    public KLayout2()
-    {
-        Style = ""layout-tl"";
-    }
-}");
-        builder.BuildDemo<KLayout3>("layout", "自定义布局", @"class KLayout3 : Layout
-{
-    protected override void BuildHeader(RenderTreeBuilder builder)
-    {
-        builder.Span(""自定义Header"");
-    }
-
-    protected override void BuildSider(RenderTreeBuilder builder)
-    {
-        builder.Span(""自定义Sider"");
-    }
-
-    protected override void BuildBody(RenderTreeBuilder builder)
-    {
-        builder.Span(""自定义Body"");
-    }
-}");
-    }
-
-    class KLayout1 : Layout { }
-
-    class KLayout2 : Layout
-    {
-        public KLayout2()
-        {
-            Style = "layout-tl";
-        }
-    }
-
-    class KLayout3 : Layout
-    {
-        protected override void BuildHeader(RenderTreeBuilder builder)
-        {
-            builder.Span("自定义Header");
-        }
-
-        protected override void BuildSider(RenderTreeBuilder builder)
-        {
-            builder.Span("自定义Sider");
-        }
-
-        protected override void BuildBody(RenderTreeBuilder builder)
-        {
-            builder.Span("自定义Body");
-        }
+        builder.BuildDemo<KLayout1>("layout");
+        builder.BuildDemo<KLayout2>("layout");
+        builder.BuildDemo<KLayout3>("layout");
     }
 }

@@ -6,7 +6,7 @@ class DocumentService
 
     internal static List<MenuItem> GetMenus()
     {
-        var path = Path.Combine(Config.RootPath, "docs");
+        var path = Path.Combine(AppConfig.RootPath, "docs");
         var infos = GetFileSystemInfos(path);
         var items = new List<MenuItem>();
         var overview = new MenuItem("overview", "¸ÅÊö");

@@ -2,9 +2,9 @@
 
 namespace WebSite;
 
-class Config
+class AppConfig
 {
-    private Config() { }
+    private AppConfig() { }
 
     internal static string RootPath { get; set; }
 

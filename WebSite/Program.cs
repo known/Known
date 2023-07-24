@@ -1,8 +1,8 @@
 using WebSite;
 
 var builder = WebApplication.CreateBuilder(args);
-Config.RootPath = builder.Environment.ContentRootPath;
-Config.Initialize();
+AppConfig.RootPath = builder.Environment.ContentRootPath;
+AppConfig.Initialize();
 // Add services to the container.
 builder.Services.AddScoped(sp => new HttpClient());
 builder.Services.AddRazorPages();
