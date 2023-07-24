@@ -88,7 +88,8 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 .doc-menu li.active {background-color:#1c66b9;color:#fff;}
 
 .demo {border:1px solid #ccc;}
-.demo button {margin-right:5px;margin-bottom:5px;}
+.demo button, .demo .form-input {margin-bottom:5px;}
+.demo button {margin-right:5px;}
 .demo .view {position:relative;padding:1rem;}
 .demo .code {background-color:#f6f8fa;}
 .demo.layout {min-height:260px;}
