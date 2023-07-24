@@ -29,7 +29,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     public Action<RenderTreeBuilder> ActionHead { get; set; }
     public Action<RenderTreeBuilder> CustHead { get; set; }
     public bool IsEdit { get; set; }
-    protected bool IsFixed { get; set; } = true;
+    public bool IsFixed { get; set; } = true;
     public bool IsSort { get; set; } = true;
     public bool ShowEmpty { get; set; } = true;
     public bool ShowSetting { get; set; }
@@ -218,9 +218,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
     {
         if (firstRender)
             UI.InitTable(Id);
-
-        if (IsFixed)
-            UI.FixedTable(GridId);
 
         UI.SetTable(Id);
         return base.OnAfterRenderAsync(firstRender);

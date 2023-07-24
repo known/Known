@@ -24,6 +24,13 @@ class Table<TItem> : BaseComponent
         });
     }
 
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Grid.IsFixed)
+            UI.FixedTable(Grid.GridId);
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
     private void BuildEmptyTable(RenderTreeBuilder builder)
     {
         builder.Table(attr =>
