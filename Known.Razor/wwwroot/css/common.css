@@ -133,7 +133,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .notify, .toast {position:absolute;z-index:9999;}
 .notify {right:10px;bottom:10px;padding:1rem;}
 .toast {top:10px;left:0;right:0;text-align:center;}
-.toast span {margin:0 auto;padding:0.5rem 2rem;}
+.toast span {display:inline-block;margin:0 auto;padding:0.5rem 2rem;}
 
 /*quickview*/
 .quickview {
