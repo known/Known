@@ -64,6 +64,7 @@ public class DialogContainer : BaseComponent
         if (Id == "top")
         {
             UI.TopDialog = this;
+            UI.CurDialog = this;
         }
     }
 
