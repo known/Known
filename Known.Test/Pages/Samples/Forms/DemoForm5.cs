@@ -17,16 +17,12 @@ class DemoForm5 : BaseForm
             {
                 table.Field<Input>("颜色", "Color").Set(f => f.Type, InputType.Color).Build();
                 table.Field<Input>("邮箱", "Email").Set(f => f.Type, InputType.Email).Build();
-                table.Field<Input>("图片", "Image").Set(f => f.Type, InputType.Image).Build();
+                table.Field<Input>("Slider", "Range").Set(f => f.Type, InputType.Range).Build();
             });
             table.Tr(attr =>
             {
-                table.Field<Input>("Slider", "Rrange").Set(f => f.Type, InputType.Rrange).Build();
                 table.Field<Input>("搜索", "Search").Set(f => f.Type, InputType.Search).Build();
                 table.Field<Input>("电话号码", "Tel").Set(f => f.Type, InputType.Tel).Build();
-            });
-            table.Tr(attr =>
-            {
                 table.Field<Input>("URL", "Url").Set(f => f.Type, InputType.Url).Build();
             });
         });

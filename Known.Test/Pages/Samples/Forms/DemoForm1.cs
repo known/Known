@@ -50,11 +50,12 @@ class DemoForm1 : BaseForm
                 table.Th("", "选项");
                 table.Td("inline", attr =>
                 {
-                    attr.ColSpan(5);
+                    attr.ColSpan(3);
                     table.Field<Razor.Components.Fields.CheckBox>("CheckBox1").IsInput(true).Set(f => f.Text, "启用").Build();
                     table.Field<Razor.Components.Fields.CheckBox>("ToolVisible").ValueChanged(OnToolVisibleChanged).IsInput(true).Set(f => f.Text, "工具条按钮可见").Build();
                     table.Field<Razor.Components.Fields.CheckBox>("ToolEnabled").ValueChanged(OnToolEnabledChanged).IsInput(true).Set(f => f.Text, "工具条按钮可用").Build();
                 });
+                table.Field<Input>("Slider", "Range").Set(f => f.Type, InputType.Range).Build();
             });
             table.Tr(attr =>
             {
@@ -103,7 +104,8 @@ class DemoForm1 : BaseForm
             Email = "test@test.com",
             Tel = "1234567890",
             Search = "test",
-            Url = "http://www.test.com"
+            Url = "http://www.test.com",
+            Range = 30
         });
     }
 }
