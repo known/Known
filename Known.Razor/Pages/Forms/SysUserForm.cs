@@ -26,12 +26,12 @@ class SysUserForm : BaseForm<SysUser>
             table.Tr(attr =>
             {
                 table.Field<RadioList>(f => f.Gender).Set(f => f.Codes, "男,女").Build();
-                table.Field<Text>(f => f.Email).Build();
+                table.Field<Input>(f => f.Email).Set(f => f.Type, InputType.Email).Build();
             });
             table.Tr(attr =>
             {
-                table.Field<Text>(f => f.Phone).Build();
-                table.Field<Text>(f => f.Mobile).Build();
+                table.Field<Input>(f => f.Phone).Set(f => f.Type, InputType.Tel).Build();
+                table.Field<Input>(f => f.Mobile).Set(f => f.Type, InputType.Tel).Build();
             });
             table.Tr(attr =>
             {

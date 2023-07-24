@@ -7,32 +7,52 @@ public class Date : Field
 
     internal override object GetValue()
     {
+        if (DateType == DateType.Week || DateType == DateType.Time)
+            return Value;
+
         if (DateType == DateType.Month)
             return DateValue?.ToString("yyyy-MM");
-        else
-            return DateValue;
+
+        return DateValue;
     }
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
-        if (DateType == DateType.DateTime)
+        var value = Value;
+        var type = string.Empty;
+        switch (DateType)
         {
-            var value = DateValue?.ToString("yyyy-MM-ddTHH:mm");
-            BuidDate(builder, Id, value, v => DateValue = v, "datetime-local");
+            case DateType.Date:
+                value = DateValue?.ToString(Format);
+                break;
+            case DateType.DateTime:
+                value = DateValue?.ToString("yyyy-MM-ddTHH:mm");
+                type = "datetime-local";
+                break;
+            case DateType.Month:
+                value = DateValue?.ToString("yyyy-MM");
+                break;
+            case DateType.Week:
+                break;
+            case DateType.Time:
+                break;
+            default:
+                break;
         }
-        else if (DateType == DateType.Month)
-        {
-            var value = DateValue?.ToString("yyyy-MM");
-            BuidDate(builder, Id, value, v => DateValue = v, "month");
-        }
+        if (DateType != DateType.Week && DateType != DateType.Time)
+            BuidDate(builder, Id, value, v => DateValue = v, type);
         else
-        {
-            BuidDate(builder, Id, DateValue?.ToString(Format), v => DateValue = v);
-        }
+            BuidDate(builder, Id, value, null, type);
     }
 
     protected override void SetInputValue(object value)
     {
+        if (DateType == DateType.Week || DateType == DateType.Time)
+        {
+            Value = value?.ToString();
+            return;
+        }
+
         DateValue = Utils.ConvertTo<DateTime?>(value);
         Value = DateValue?.ToString(Format);
     }
@@ -42,12 +62,18 @@ public class Date : Field
         if (value == null)
             return string.Empty;
 
+        if (DateType == DateType.Week || DateType == DateType.Time)
+            return value?.ToString();
+
         var date = Utils.ConvertTo<DateTime?>(value);
         return date?.ToString(Format);
     }
 
-    private void BuidDate(RenderTreeBuilder builder, string id, string value, Action<DateTime?> action, string type = "date")
+    private void BuidDate(RenderTreeBuilder builder, string id, string value, Action<DateTime?> action, string type = null)
     {
+        if (string.IsNullOrWhiteSpace(type))
+            type = DateType.ToString().ToLower();
+
         builder.Input(attr =>
         {
             attr.Type(type).Id(id).Name(id).Disabled(!Enabled)
@@ -69,7 +95,7 @@ public class Date : Field
                 case DateType.Month:
                     return "yyyy-MM";
                 default:
-                    return Config.DateFormat;
+                    return string.Empty;
             }
         }
     }

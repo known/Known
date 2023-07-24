@@ -30,11 +30,11 @@ public class SettingForm : BaseForm<SettingInfo>
                .Set(f => f.ValueChanged, OnLayoutChanged)
                .Build();
         builder.Field<Input>("主题色", nameof(SettingInfo.ThemeColor))
-               .Set(f => f.Type, "color")
+               .Set(f => f.Type, InputType.Color)
                .Set(f => f.ValueChanged, OnThemeColorChanged)
                .Build();
         builder.Field<Input>("侧栏色", nameof(SettingInfo.SiderColor))
-               .Set(f => f.Type, "color")
+               .Set(f => f.Type, InputType.Color)
                .Set(f => f.ValueChanged, OnSiderColorChanged)
                .Build();
         builder.Field<CheckBox>("随机色", nameof(SettingInfo.RandomColor)).Set(f => f.Switch, true).Build();

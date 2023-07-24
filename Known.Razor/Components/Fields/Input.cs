@@ -25,14 +25,16 @@ public class Input : Field
     // tel            定义用于电话号码的文本字段。
     // text           默认。定义单行输入字段，用户可在其中输入文本。默认是 20 个字符。
     // url            定义用于 URL 的文本字段。
-    [Parameter] public string Type { get; set; }
+    private string type => Type.ToString().ToLower();
+
+    [Parameter] public InputType Type { get; set; }
     [Parameter] public string Placeholder { get; set; }
     [Parameter] public string Icon { get; set; }
     [Parameter] public string OnEnter { get; set; }
 
     protected override void BuildText(RenderTreeBuilder builder)
     {
-        if (Type == "color")
+        if (Type == InputType.Color)
         {
             BuildInput(builder);
             return;
@@ -42,7 +44,7 @@ public class Input : Field
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
-        if (Type == "color")
+        if (Type == InputType.Color)
             Enabled = !ReadOnly;
 
         BuildIcon(builder, Icon);
@@ -50,7 +52,7 @@ public class Input : Field
         {
             //var value = BindConverter.FormatValue(Value);
             //var hasChanged = !EqualityComparer<string>.Default.Equals(value, Value);
-            attr.Type(Type).Id(Id).Name(Id).Disabled(!Enabled).Readonly(ReadOnly)
+            attr.Type(type).Id(Id).Name(Id).Disabled(!Enabled).Readonly(ReadOnly)
                 .Value(Value).Required(Required)
                 .Placeholder(Placeholder)
                 .Add("autocomplete", "off")

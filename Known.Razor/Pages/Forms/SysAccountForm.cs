@@ -21,9 +21,9 @@ class SysAccountForm : BaseForm<SysUser>
         builder.Hidden(f => f.Id);
         builder.Field<Text>(f => f.UserName).ReadOnly(true).Build();
         builder.Field<Text>(f => f.Name).ReadOnly(!isEdit).Build();
-        builder.Field<Text>(f => f.Phone).ReadOnly(!isEdit).Build();
-        builder.Field<Text>(f => f.Mobile).ReadOnly(!isEdit).Build();
-        builder.Field<Text>(f => f.Email).ReadOnly(!isEdit).Build();
+        builder.Field<Input>(f => f.Phone).ReadOnly(!isEdit).Set(f => f.Type, InputType.Tel).Build();
+        builder.Field<Input>(f => f.Mobile).ReadOnly(!isEdit).Set(f => f.Type, InputType.Tel).Build();
+        builder.Field<Input>(f => f.Email).ReadOnly(!isEdit).Set(f => f.Type, InputType.Email).Build();
         builder.Field<Text>(f => f.Role).ReadOnly(true).Build();
         builder.Field<TextArea>(f => f.Note).ReadOnly(!isEdit).Build();
     }
