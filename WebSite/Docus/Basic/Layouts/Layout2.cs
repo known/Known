@@ -1,9 +1,9 @@
 ﻿namespace WebSite.Docus.Basic.Layouts;
 
 [Title("HS布局")]
-class KLayout2 : Layout
+class Layout2 : Layout
 {
-    public KLayout2()
+    public Layout2()
     {
         Style = "layout-tl";
     }

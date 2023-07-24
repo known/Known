@@ -17,8 +17,8 @@ class KLayout : BaseDocu
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
-        builder.BuildDemo<KLayout1>("layout");
-        builder.BuildDemo<KLayout2>("layout");
-        builder.BuildDemo<KLayout3>("layout");
+        builder.BuildDemo<Layout1>("layout");
+        builder.BuildDemo<Layout2>("layout");
+        builder.BuildDemo<Layout3>("layout");
     }
 }
