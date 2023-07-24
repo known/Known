@@ -20,12 +20,13 @@ class DemoOther4 : BaseComponent
         {
             builder.Div(attr =>
             {
-                builder.Component<Banner>().Set(c => c.Content, b => b.Span("bold", "这里是默认横幅通知！")).Build();
-                builder.Component<Banner>().Set(c => c.Content, b => b.Text("这里是主要横幅通知！")).Set(c => c.Style, StyleType.Primary).Build();
-                builder.Component<Banner>().Set(c => c.Content, b => b.Text("这里是成功横幅通知！")).Set(c => c.Style, StyleType.Success).Build();
-                builder.Component<Banner>().Set(c => c.Content, b => b.Text("这里是信息横幅通知！")).Set(c => c.Style, StyleType.Info).Build();
-                builder.Component<Banner>().Set(c => c.Content, b => b.Text("这里是警告横幅通知！")).Set(c => c.Style, StyleType.Warning).Build();
-                builder.Component<Banner>().Set(c => c.Content, b => b.Text("这里是危险横幅通知！")).Set(c => c.Style, StyleType.Danger).Build();
+                builder.Banner(StyleType.Primary, b => b.Span("fa fa-check bold", "这里是自定义横幅通知！"));
+                builder.Banner(StyleType.Default, "这里是默认横幅通知！");
+                builder.Banner(StyleType.Primary, "这里是主要横幅通知！");
+                builder.Banner(StyleType.Success, "这里是成功横幅通知！");
+                builder.Banner(StyleType.Info, "这里是信息横幅通知！");
+                builder.Banner(StyleType.Warning, "这里是警告横幅通知！");
+                builder.Banner(StyleType.Danger, "这里是危险横幅通知！");
             });
         });
     }
