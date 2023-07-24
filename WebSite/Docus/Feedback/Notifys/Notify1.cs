@@ -13,10 +13,10 @@ class Notify1 : BaseComponent
         builder.Button("危险", Callback(OnDanger), StyleType.Danger);
     }
 
-    private void OnDefault() => UI.Notify("这里是默认通知！", StyleType.Default);
-    private void OnPrimary() => UI.Notify("这里是主要通知！", StyleType.Primary);
-    private void OnSuccess() => UI.Notify("这里是成功通知！", StyleType.Success);
-    private void OnInfo() => UI.Notify("这里是信息通知！", StyleType.Info);
-    private void OnWarning() => UI.Notify("这里是警告通知！", StyleType.Warning);
-    private void OnDanger() => UI.Notify("这里是危险通知！", StyleType.Danger);
+    private void OnDefault() => UI.Notify("这里是默认类通知！", StyleType.Default);
+    private void OnPrimary() => UI.Notify("这里是主要类通知！", StyleType.Primary);
+    private void OnSuccess() => UI.Notify("这里是成功类通知！", StyleType.Success);
+    private void OnInfo() => UI.Notify("这里是信息类通知！", StyleType.Info);
+    private void OnWarning() => UI.Notify("这里是警告类通知！", StyleType.Warning);
+    private void OnDanger() => UI.Notify("这里是危险类通知！", StyleType.Danger);
 }
