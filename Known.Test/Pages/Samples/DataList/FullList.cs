@@ -54,6 +54,6 @@ class FullList : DmTestList
 
     private void BuildProgressInfo(RenderTreeBuilder builder, DmTest row)
     {
-        builder.Progress(StyleType.Primary, 100, row.Progress);
+        builder.Progress(StyleType.Primary, row.Progress, 100);
     }
 }

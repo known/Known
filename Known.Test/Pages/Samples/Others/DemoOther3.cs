@@ -136,7 +136,7 @@ class DemoOther3 : BaseComponent
 
     private static void BuildProgress(RenderTreeBuilder builder, StyleType style, decimal value)
     {
-        builder.Progress(style, 100, value);
+        builder.Progress(style, value, 100);
     }
 
     private void BuildTimeline(RenderTreeBuilder builder)

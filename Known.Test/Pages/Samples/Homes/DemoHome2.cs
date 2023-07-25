@@ -55,6 +55,6 @@ class DemoHome2 : BaseComponent
 
     private static void BuildProgress(RenderTreeBuilder builder, StyleType style, decimal value)
     {
-        builder.Progress(style, 100, value);
+        builder.Progress(style, value, 100);
     }
 }
