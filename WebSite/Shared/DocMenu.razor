@@ -4,14 +4,16 @@
         {
             foreach(var menu in Items)
             {
-                <div class="title">@menu.Name</div>
-                <ul>
-                    @foreach (var item in menu.Children)
-                    {
-                        var cls = CurItem == item.Id ? "active" : "";
-                        <li class="@cls" @onclick="@(e => OnMenuItemClick(item))">@FormatName(item)</li>
-                    }
-                </ul>
+                <details open>
+                    <summary class="title">@menu.Name</summary>
+                    <ul>
+                        @foreach (var item in menu.Children)
+                        {
+                            var cls = CurItem == item.Id ? "active" : "";
+                            <li class="@cls" @onclick="@(e => OnMenuItemClick(item))">@FormatName(item)</li>
+                        }
+                    </ul>
+                </details>
             }
         }
     </div>
