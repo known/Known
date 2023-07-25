@@ -408,7 +408,7 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase, 
         ShowCheckBox = true;
     }
 
-    public override void View(TItem row) => UI.ShowForm<TForm>($"查看{Name}", row);
+    public override void View(TItem row) => View(row, true);
     protected virtual Task<TItem> GetDefaultModelAsync() => Task.FromResult(new TItem());
     protected virtual void ShowForm(TItem model = null) => ShowForm(model, true);
 
@@ -418,8 +418,30 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase, 
         var actionName = $"{action}{Name}";
         model ??= await GetDefaultModelAsync();
         if (showInDialog)
+        {
             ShowForm<TForm>(actionName, model);
+        }
         else
-            Context.Navigate<TForm>(actionName, "", new Dictionary<string, object> { { nameof(Form.Model), model } });
+        {
+            Context.Navigate<TForm>(actionName, "", new Dictionary<string, object> { 
+                { nameof(Form.Model), model }
+            });
+        }
+    }
+
+    protected void View(TItem model, bool showInDialog)
+    {
+        var actionName = $"查看{Name}";
+        if (showInDialog)
+        {
+            UI.ShowForm<TForm>(actionName, model);
+        }
+        else
+        {
+            Context.Navigate<TForm>(actionName, "", new Dictionary<string, object> {
+                { nameof(Form.ReadOnly), true },
+                { nameof(Form.Model), model }
+            });
+        }
     }
 }
