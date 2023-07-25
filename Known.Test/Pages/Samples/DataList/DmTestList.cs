@@ -2,7 +2,7 @@
 
 namespace Known.Test.Pages.Samples.DataList;
 
-class DmTestList : DataGrid<DmTest, GoodsForm>
+class DmTestList : DataGrid<DmTest, TestForm>
 {
     public DmTestList()
     {

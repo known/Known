@@ -2,12 +2,11 @@
 
 namespace Known.Test.Pages.Samples.DataList;
 
-[Dialog(800, 550)]
-class GoodsForm : BaseForm<DmGoods>
+class TestForm : BaseForm<DmTest>
 {
     private readonly List<DmGoods> data = new();
 
-    protected override void BuildFields(FieldBuilder<DmGoods> builder)
+    protected override void BuildFields(FieldBuilder<DmTest> builder)
     {
         builder.Hidden(f => f.Id);
         builder.Table(table =>
@@ -15,13 +14,13 @@ class GoodsForm : BaseForm<DmGoods>
             table.ColGroup(10, 23, 10, 23, 10, 24);
             table.Tr(attr =>
             {
-                table.Field<Text>(f => f.Code).Build();
+                table.Field<Text>(f => f.Title).Build();
                 table.Field<Text>(f => f.Name).Build();
-                table.Field<Text>(f => f.Unit).Build();
+                table.Field<Text>(f => f.Status).Build();
             });
             table.Tr(attr =>
             {
-                table.Field<TextArea>(f => f.Model).ColSpan(5).Build();
+                table.Field<TextArea>(f => f.Note).ColSpan(5).Build();
             });
         });
         builder.FormList<GoodsGrid>("商品明细", "", attr =>
