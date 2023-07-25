@@ -32,8 +32,7 @@ class ComponentService
         input.Children.Add<KText>("文本框", "单行文本框输入组件。");
         input.Children.Add<KTextArea>("文本域", "多行文本框输入组件。");
         input.Children.Add<KNumber>("数值框", "数值类型输入组件。");
-        input.Children.Add<KCheckBox>("复选框", "复选框组件。");
-        input.Children.Add<KSwitch>("开关", "用于切换两种状态。");
+        input.Children.Add<KCheckBox>("复选框", "复选框及开关组件，用于切换两种状态。");
         input.Children.Add<KDate>("日期框", "支持日期和时间格式。");
         input.Children.Add<KDateRange>("日期范围", "日期范围选择框组件。");
         input.Children.Add<KSelect>("选择框", "下拉选择框组件。");
