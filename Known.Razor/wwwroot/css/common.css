@@ -481,6 +481,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
     .query .form-label {min-width:80px;}
     .pager .app {display:flex;}
     .pager .web {display:none;}
+    .form-item {flex-direction:column;}
     .form-table, .form-table tr {display:grid;}
     .form-table, .form-table th, .form-table td {border:none;}
     .form-table th {text-align:left;background-color:#fff;}

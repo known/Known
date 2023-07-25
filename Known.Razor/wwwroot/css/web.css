@@ -127,20 +127,29 @@ button, .button, input, select,
 .form-list {position:absolute;left:0;right:0;top:80px;bottom:0;}
 .form-list .grid-view {top:0;bottom:0;left:0;right:0;}
 .module .tool {position:absolute;top:-2.2rem;right:5px;}
+.module .tool .form-input {display:inline-block;}
 
 @media screen and (max-width:768px) {
     label.required:before, th.required:before {display:none;}
     label.required:after, th.required:after {content:'*';color:#f00;padding-right:2px;}
+    .module .form-body {height:1000px;}
 }
 
 /*Install*/
-.install {position:absolute;top:50%;left:50%;width:500px;height:540px;margin-left:-250px;margin-top:-300px;}
+.install {position:absolute;top:50%;left:50%;width:500px;height:520px;margin-left:-250px;margin-top:-260px;}
 .install .title {margin:20px 0;font-size:2rem;font-weight:bold;text-align:center;}
 .install .form-body {border:none;}
 .install .form-label {width:120px;text-align:right;}
 .install .form-input {width:250px;display:inline-block;}
 .install .form-button {text-align:center;}
 .install button {margin:0;padding:0 35px;height:40px;line-height:40px;}
+
+@media screen and (max-width:768px) {
+    .install {position:static;margin:0;padding:0;width:100%;height:100%;overflow:auto;}
+    .install .form-body {padding:1rem;}
+    .install .form-label {text-align:left;padding:0;}
+    .install .form-input {width:100%;}
+}
 
 /*Login*/
 .login {
@@ -187,11 +196,10 @@ button, .button, input, select,
 
 @media screen and (max-width:768px) {
     .ss-system {padding:10px;}
-    .ss-form .form-item {flex-direction:column;}
     .ss-form .form-label {text-align:left;padding:0;}
     .ss-form .form-button {padding-left:0;}
     .ss-form .form-input, .ss-form .form-input input, .ss-form .form-input textarea {width:100%;}
-
+    
     .ss-system .form-input input {width:200px;}
     .ss-copyright .form-input input {width:300px;}
 }
@@ -211,7 +219,8 @@ button, .button, input, select,
 .user-message .noread {font-weight:bold;color:#000;}
 
 @media screen and (max-width:768px) {
-    .user-info {flex-direction:row;}
+    .user-info {flex-direction:row;padding-bottom:1rem;}
+    .user-info .form-item {flex-direction:row;}
 }
 
 /*font*/

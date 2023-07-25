@@ -7,6 +7,11 @@ class SysModuleForm : BaseForm<SysModule>
     private SysModule model;
     private List<ColumnInfo> columns;
 
+    public SysModuleForm()
+    {
+        Style = "module";
+    }
+
     protected override void OnInitialized()
     {
         model = TModel;
@@ -23,7 +28,7 @@ class SysModuleForm : BaseForm<SysModule>
             table.ColGroup(10, 15, 10, 15, 10, 15, 10, 15);
             BuildHead(table.Builder, table);
         });
-        builder.FormList("列表栏位", "module", () =>
+        builder.FormList("列表栏位", "", () =>
         {
             builder.Component<ColumnGrid>()
                    .Set(c => c.ReadOnly, ReadOnly)
