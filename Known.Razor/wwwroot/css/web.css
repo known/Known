@@ -100,8 +100,7 @@
 
 /*view*/
 .lr-view {display:flex;}
-.lr-view1 {display:grid;grid-template-columns:20% auto;}
-.left-view, .right-view {position:relative;overflow:auto;} 
+.left-view, .right-view {display:grid;position:relative;overflow:auto;} 
 .left-view {width:20%;} 
 .right-view {width:80%;}
 .left-view {border-right:1px solid var(--border);}
@@ -173,7 +172,7 @@ button, .button, input, select,
 .login .form-radio input {height:20px;line-height:20px;}
 .login .captcha {height:40px;}
 .login button {width:100%;height:40px;margin-left:0;}
-.login-msg {color:#d9534f;text-align:center;}
+.login-msg {color:#d9534f;text-align:center;margin-top:0.5rem;}
 
 @media screen and (max-width:768px) {
     .login {width:80%;margin-left:-40%;}
@@ -212,7 +211,7 @@ button, .button, input, select,
 .user-info .form-item .icon {width:1.2rem;text-align:center;margin-right:0.5rem;color:var(--primary);}
 .user-info .form-item span {color:#333;font-size:0.9rem;}
 
-.user-message .grid-view {top:0;left:0;right:0;bottom:0;}
+.user-message .grid-view {top:10px;}
 .user-message .form-label {width:auto;}
 .user-message .form {margin-top:10px;}
 .user-message .form-button {padding:10px;text-align:center;}
