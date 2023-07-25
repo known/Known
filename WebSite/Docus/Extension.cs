@@ -36,7 +36,7 @@ static class Extension
     internal static void BuildDemo(this RenderTreeBuilder builder, string title, string code)
     {
         builder.H3(title);
-        builder.Div("demo", attr =>
+        builder.Div("demo block", attr =>
         {
             builder.Div("code", attr =>
             {

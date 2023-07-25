@@ -125,6 +125,7 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
     .doc-content {left:221px;padding:20px 150px;}
 
     .demo {grid-template-columns:45% 55%;}
+    .demo.block {grid-template-columns:100%;}
     .demo.layout .sider, .demo.layout .logo {width:100px;}
     .demo.layout .header, .demo.layout .body {left:100px;}
 }

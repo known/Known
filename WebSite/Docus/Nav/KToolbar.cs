@@ -38,9 +38,9 @@ internal static readonly List<ButtonInfo> Tools = new()
     new ButtonInfo(""Clear"", ""禁用"", ""fa fa-trash-o"", StyleType.Primary) { Enabled = false }
 };");
 
-        builder.BuildDemo<Toolbar1>();
-        builder.BuildDemo<Toolbar2>();
-        builder.BuildDemo<Toolbar3>();
-        builder.BuildDemo<Toolbar4>();
+        builder.BuildDemo<Toolbar1>("block");
+        builder.BuildDemo<Toolbar2>("block");
+        builder.BuildDemo<Toolbar3>("block");
+        builder.BuildDemo<Toolbar4>("block");
     }
 }
