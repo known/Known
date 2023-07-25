@@ -26,9 +26,12 @@ class SysAccountForm : BaseForm<SysUser>
         builder.Field<Input>(f => f.Email).ReadOnly(!isEdit).Set(f => f.Type, InputType.Email).Build();
         builder.Field<Text>(f => f.Role).ReadOnly(true).Build();
         builder.Field<TextArea>(f => f.Note).ReadOnly(!isEdit).Build();
+        builder.Div("form-button", attr => BuildButton(builder.Builder));
     }
 
-    protected override void BuildButtons(RenderTreeBuilder builder)
+    protected override void BuildButtons(RenderTreeBuilder builder) { }
+
+    private void BuildButton(RenderTreeBuilder builder)
     {
         if (!isEdit)
         {

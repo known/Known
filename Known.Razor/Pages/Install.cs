@@ -26,9 +26,12 @@ public class Install : Form
         builder.Field<Text>("管理员账号：", nameof(InstallInfo.UserName)).ReadOnly(true).Build();
         builder.Field<Password>("管理员密码：", nameof(InstallInfo.Password), true).Build();
         builder.Field<Password>("确认密码：", nameof(InstallInfo.Password1), true).Build();
+        builder.Div("form-button", attr => BuildButton(builder));
     }
 
-    protected override void BuildButtons(RenderTreeBuilder builder)
+    protected override void BuildButtons(RenderTreeBuilder builder) { }
+
+    private void BuildButton(RenderTreeBuilder builder)
     {
         builder.Button("开始使用", Callback(e => OnStart()), StyleType.Primary);
     }

@@ -17,9 +17,12 @@ class SysUserPwdForm : BaseForm<PwdFormInfo>
         builder.Field<Password>("原密码", nameof(PwdFormInfo.OldPwd), true).Build();
         builder.Field<Password>("新密码", nameof(PwdFormInfo.NewPwd), true).Build();
         builder.Field<Password>("确认密码", nameof(PwdFormInfo.NewPwd1), true).Build();
+        builder.Div("form-button", attr => BuildButton(builder.Builder));
     }
 
-    protected override void BuildButtons(RenderTreeBuilder builder)
+    protected override void BuildButtons(RenderTreeBuilder builder) { }
+
+    private void BuildButton(RenderTreeBuilder builder)
     {
         builder.Button(FormButton.EditOK, Callback(e => OnSave()));
     }

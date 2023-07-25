@@ -76,7 +76,7 @@
     border-top:3px solid var(--border);background-color:#fff;
     box-shadow:0 0 10px 3px rgba(0,0,0,.1);
 }
-#tb-Home {border:none;top:42px;bottom:0;left:0;right:0;box-shadow:none;display:block;}
+#tb-Home {border:none;top:42px;bottom:0;left:0;right:0;box-shadow:none;}
 
 /*mini side*/
 .kui-mini .kui-sider {width:50px;}
@@ -140,7 +140,7 @@ button, .button, input, select,
 .install .form-body {border:none;}
 .install .form-label {width:120px;text-align:right;}
 .install .form-input {width:250px;display:inline-block;}
-.install .form-button {text-align:center;}
+.install .form-button {text-align:center;margin-top:10px;}
 .install button {margin:0;padding:0 35px;height:40px;line-height:40px;}
 
 @media screen and (max-width:768px) {
