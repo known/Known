@@ -17,11 +17,14 @@ class Home : PageComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        BuildWorkSpace(builder);
-        builder.Div("row ws-row", attr =>
+        builder.Div("ws", attr =>
         {
-            BuildDataChart(builder);
-            BuildVisitMenus(builder);
+            BuildWorkSpace(builder);
+            builder.Div("row ws-row", attr =>
+            {
+                BuildDataChart(builder);
+                BuildVisitMenus(builder);
+            });
         });
     }
 
