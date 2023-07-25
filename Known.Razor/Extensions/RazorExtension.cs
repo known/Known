@@ -27,9 +27,9 @@ public static class RazorExtension
         builder.Component<Tag>().Set(c => c.Style, style).Set(c => c.Content, content).Build();
     }
 
-    public static void Progress(this RenderTreeBuilder builder, StyleType style, int width, decimal value)
+    public static void Progress(this RenderTreeBuilder builder, StyleType style, decimal value, int? width = null)
     {
-        builder.Component<Progress>().Set(c => c.Style, style).Set(c => c.Width, width).Set(c => c.Value, value).Build();
+        builder.Component<Progress>().Set(c => c.Style, style).Set(c => c.Value, value).Set(c => c.Width, width).Build();
     }
 
     public static void Dropdown(this RenderTreeBuilder builder, List<MenuItem> items, string text = null, string style = null)
