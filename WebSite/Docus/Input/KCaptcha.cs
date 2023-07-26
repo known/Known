@@ -8,7 +8,9 @@ class KCaptcha : BaseDocu
     {
         builder.BuildList(new string[]
         {
-            "基于Canvas实现"
+            "基于Canvas实现",
+            "字母不区分大小写",
+            "点击图片可刷新验证码"
         });
     }
 
