@@ -62,45 +62,7 @@ footer a {color:#fff;}
 input {outline:none;box-sizing:border-box;font-family:inherit;font-size:inherit;border:1.5px solid #ccc;}
 input:focus {border-bottom:1.5px solid #5bc0de;}
 
-.doc-container {position:absolute;top:60px;left:0;right:0;bottom:0;}
-.doc-sider {
-    display:none;position:absolute;top:0;left:0;bottom:0;width:220px;border-right:1px solid #ccc;overflow:auto;
-    z-index:9999;background-color:#fff;
-}
-.doc-sider.show {display:block;}
-.doc-nav {
-    display:block;position:fixed;top:0;left:0;z-index:9999;cursor:pointer;font-size:1.5rem;
-    text-align:center;width:60px;height:60px;line-height:60px;color:#fff;background-color:#1c66b9;
-}
-.doc-content {position:absolute;top:0;right:0;bottom:0;left:0;padding:20px;overflow:auto}
-.doc-content > ul {list-style:disc;}
-.doc-content .icons li {display:inline-block;width:20%;height:3rem;font-size:1.5rem;text-align:center;margin-bottom:1.5rem;cursor:pointer;}
-.doc-content .icons li span {display:block;font-size:0.8rem;margin-top:5px;}
-.doc-desc {color:#909090;padding:1rem 0;}
-
-.doc-menu .search {padding:10px;}
-.doc-menu input {width:100%;height:30px;line-height:30px;}
-.doc-menu .title {font-weight:bold;padding:10px 0 10px 10px;background-color:#f1f1f1;}
-.doc-menu ul {padding:10px;list-style:none;}
-.doc-menu li {height:40px;line-height:40px;cursor:pointer;padding-left:20px;color:#000;overflow:hidden;}
-.doc-menu li:hover {color:#1c66b9;}
-.doc-menu li.active {background-color:#1c66b9;color:#fff;}
-
-.demo {display:grid;grid-template-columns:100%;border:1px solid #ccc;}
-.demo .control {display:flex;}
-.demo .form-input, .demo .progress {margin-bottom:10px;}
-.demo button {margin-right:5px;margin-bottom:5px;}
-.demo .view {position:relative;padding:1rem;}
-.demo .view .pager {position:static;}
-.demo .code {background-color:#f6f8fa;overflow:auto;}
-.demo.layout {min-height:200px;}
-.demo.layout .sider, .demo.layout .logo {width:80px;}
-.demo.layout .header, .demo.layout .body {left:80px;}
-.demo.layout .view {height:200px;border:1px solid #ccc;}
-.demo.layout .logo img {background-color:transparent;margin-top:0;}
-.demo-menu {margin:10px;position:relative;height:300px;border:1px solid #ccc;}
-
-@media screen and (min-width: 769px), print {
+@media screen and (min-width:769px) {
     .row {padding:50px 0;}
     section, footer {margin-top:60px;}
     section {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));grid-column-gap:10px;}
@@ -121,17 +83,9 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
     footer .row {flex-direction:row;}
     footer .brand {width:45%;}
     footer .links {width:15%;}
-
-    .doc-sider {display:block;}
-    .doc-nav {display:none;}
-    .doc-content {left:221px;padding:20px 150px;}
-
-    .demo {grid-template-columns:45% 55%;}
-    .demo.block {grid-template-columns:100%;}
-    .demo.layout .sider, .demo.layout .logo {width:100px;}
-    .demo.layout .header, .demo.layout .body {left:100px;}
 }
 
+/*markdown*/
 .markdown-body {-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;word-wrap:break-word}
 .markdown-body strong {font-weight:inherit;font-weight:600}
 .markdown-body img {border-style:none}
@@ -261,7 +215,59 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 .markdown-body .task-list-item input {margin:0 0.2em 0.25em -1.6em;vertical-align:middle}
 .markdown-body hr {border-bottom-color:#eee}
 
-.demo ul {padding:0;}
-
 /*highlight vs*/
 pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#fff;color:#000}.hljs-comment,.hljs-quote,.hljs-variable{color:green}.hljs-built_in,.hljs-keyword,.hljs-name,.hljs-selector-tag,.hljs-tag{color:#00f}.hljs-addition,.hljs-attribute,.hljs-literal,.hljs-section,.hljs-string,.hljs-template-tag,.hljs-template-variable,.hljs-title,.hljs-type{color:#a31515}.hljs-deletion,.hljs-meta,.hljs-selector-attr,.hljs-selector-pseudo{color:#2b91af}.hljs-doctag{color:grey}.hljs-attr{color:red}.hljs-bullet,.hljs-link,.hljs-symbol{color:#00b0e8}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
+
+/*doc*/
+.doc-container {position:absolute;top:60px;left:0;right:0;bottom:0;}
+.doc-sider {
+    display:none;position:absolute;top:0;left:0;bottom:0;width:220px;border-right:1px solid #ccc;overflow:auto;
+    z-index:9999;background-color:#fff;
+}
+.doc-sider.show {display:block;}
+.doc-nav {
+    display:block;position:fixed;top:0;left:0;z-index:9999;cursor:pointer;font-size:1.5rem;
+    text-align:center;width:60px;height:60px;line-height:60px;color:#fff;background-color:#1c66b9;
+}
+.doc-content {position:absolute;top:0;right:0;bottom:0;left:0;padding:20px;overflow:auto}
+.doc-content > ul {list-style:disc;}
+.doc-content .icons li {display:inline-block;width:20%;height:3rem;font-size:1.5rem;text-align:center;margin-bottom:1.5rem;cursor:pointer;}
+.doc-content .icons li span {display:block;font-size:0.8rem;margin-top:5px;}
+.doc-desc {color:#909090;padding:1rem 0;}
+
+.doc-menu .search {padding:10px;}
+.doc-menu input {width:100%;height:30px;line-height:30px;}
+.doc-menu .title {font-weight:bold;padding:10px 0 10px 10px;background-color:#f1f1f1;}
+.doc-menu ul {padding:10px;list-style:none;}
+.doc-menu li {height:40px;line-height:40px;cursor:pointer;padding-left:20px;color:#000;overflow:hidden;}
+.doc-menu li:hover {color:#1c66b9;}
+.doc-menu li.active {background-color:#1c66b9;color:#fff;}
+
+@media screen and (min-width:769px) {
+    .doc-sider {display:block;}
+    .doc-nav {display:none;}
+    .doc-content {left:221px;padding:20px 150px;}
+}
+
+/*componet*/
+.demo {display:grid;grid-template-columns:100%;border:1px solid #ccc;}
+.demo .control {display:flex;}
+.demo .form-input, .demo .progress {margin-bottom:10px;}
+.demo button {margin-right:5px;margin-bottom:5px;}
+.demo .view {position:relative;padding:1rem;}
+.demo .view .pager {position:static;}
+.demo .code {background-color:#f6f8fa;overflow:auto;}
+.demo.layout {min-height:200px;}
+.demo.layout .sider, .demo.layout .logo {width:80px;}
+.demo.layout .header, .demo.layout .body {left:80px;}
+.demo.layout .view {height:200px;border:1px solid #ccc;}
+.demo.layout .logo img {background-color:transparent;margin-top:0;}
+.demo-menu {margin:10px;position:relative;height:300px;border:1px solid #ccc;}
+.demo-menu ul {padding:0;}
+
+@media screen and (min-width:769px) {
+    .demo {grid-template-columns:45% 55%;}
+    .demo.block {grid-template-columns:100%;}
+    .demo.layout .sider, .demo.layout .logo {width:100px;}
+    .demo.layout .header, .demo.layout .body {left:100px;}
+}

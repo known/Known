@@ -140,7 +140,7 @@ class ComponentService
             sb.AppendLine();
             foreach (var sub in item.Children)
             {
-                sb.AppendLine($"- {sub.Name} ({sub.Id})：{sub.Description}");
+                sb.AppendLine($"- [{sub.Name} ({sub.Id})](/component/{sub.Id})：{sub.Description}");
             }
             sb.AppendLine();
         }
