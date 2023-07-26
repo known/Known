@@ -91,6 +91,7 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 .demo .form-input, .demo .progress {margin-bottom:10px;}
 .demo button {margin-right:5px;margin-bottom:5px;}
 .demo .view {position:relative;padding:1rem;}
+.demo .view .pager {position:static;}
 .demo .code {background-color:#f6f8fa;overflow:auto;}
 .demo.layout {min-height:200px;}
 .demo.layout .sider, .demo.layout .logo {width:80px;}
