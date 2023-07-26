@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Input.CheckBoxs;
 
-[Title("开关示例")]
 class CheckBox2 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)

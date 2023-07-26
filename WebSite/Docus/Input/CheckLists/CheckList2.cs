@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Input.CheckLists;
 
-[Title("控制示例")]
 class CheckList2 : BaseComponent
 {
     private CheckList? checkList;

@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Feedback.Toasts;
 
-[Title("默认示例")]
 class Toast1 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)

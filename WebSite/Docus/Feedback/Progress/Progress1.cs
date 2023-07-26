@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Feedback.Progress;
 
-[Title("默认示例")]
 class Progress1 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)

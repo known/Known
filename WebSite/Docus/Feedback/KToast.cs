@@ -17,7 +17,7 @@ class KToast : BaseDocu
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
-        builder.BuildDemo<Toast1>();
-        builder.BuildDemo<Toast2>();
+        builder.BuildDemo<Toast1>("1.默认示例");
+        builder.BuildDemo<Toast2>("2.自定义示例");
     }
 }

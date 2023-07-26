@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Input.CheckLists;
 
-[Title("默认示例")]
 class CheckList1 : BaseComponent
 {
     private readonly string Codes = "孙膑,后羿,妲己";

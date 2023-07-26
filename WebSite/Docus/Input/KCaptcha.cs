@@ -16,7 +16,7 @@ class KCaptcha : BaseDocu
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
-        builder.BuildDemo<Captcha1>();
-        builder.BuildDemo<Captcha2>();
+        builder.BuildDemo<Captcha1>("1.默认示例");
+        builder.BuildDemo<Captcha2>("2.验证示例");
     }
 }

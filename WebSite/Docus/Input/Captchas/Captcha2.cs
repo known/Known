@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Input.Captchas;
 
-[Title("验证示例")]
 class Captcha2 : BaseComponent
 {
     private Captcha? captcha;

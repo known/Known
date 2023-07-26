@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Feedback.Banners;
 
-[Title("默认示例")]
 class Banner1 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)

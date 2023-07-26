@@ -19,7 +19,7 @@ class KCheckList : BaseDocu
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
-        builder.BuildDemo<CheckList1>();
-        builder.BuildDemo<CheckList2>();
+        builder.BuildDemo<CheckList1>("1.默认示例");
+        builder.BuildDemo<CheckList2>("2.控制示例");
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Nav.Toolbars;
 
-[Title("默认示例")]
 class Toolbar1 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)

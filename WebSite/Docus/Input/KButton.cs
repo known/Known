@@ -14,8 +14,8 @@ class KButton : BaseDocu
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
-        builder.BuildDemo<Button1>("block");
-        builder.BuildDemo<Button2>("block");
-        builder.BuildDemo<Button3>("block");
+        builder.BuildDemo<Button1>("1.文本按钮示例", "block");
+        builder.BuildDemo<Button2>("2.图标按钮示例", "block");
+        builder.BuildDemo<Button3>("3.禁用按钮示例", "block");
     }
 }

@@ -16,7 +16,7 @@ class KBanner : BaseDocu
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
-        builder.BuildDemo<Banner1>();
-        builder.BuildDemo<Banner2>();
+        builder.BuildDemo<Banner1>("1.默认示例");
+        builder.BuildDemo<Banner2>("2.自定义模板示例");
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Input.Buttons;
 
-[Title("禁用按钮示例")]
 class Button3 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)

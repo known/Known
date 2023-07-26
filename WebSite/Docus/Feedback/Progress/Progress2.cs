@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Feedback.Progress;
 
-[Title("固定宽度示例")]
 class Progress2 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)

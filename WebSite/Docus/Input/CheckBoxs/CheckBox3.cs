@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Input.CheckBoxs;
 
-[Title("事件示例")]
 class CheckBox3 : BaseComponent
 {
     private string? message;

@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Basic.Layouts;
 
-[Title("自定义布局")]
 class Layout3 : Layout
 {
     protected override void BuildHeader(RenderTreeBuilder builder)

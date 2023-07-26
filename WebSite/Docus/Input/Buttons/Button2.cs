@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Input.Buttons;
 
-[Title("图标按钮示例")]
 class Button2 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)

@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Feedback.Notifys;
 
-[Title("默认示例")]
 class Notify1 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)

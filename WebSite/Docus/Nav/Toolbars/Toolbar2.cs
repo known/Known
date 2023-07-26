@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Nav.Toolbars;
 
-[Title("下拉按钮示例")]
 class Toolbar2 : BaseComponent
 {
     private readonly List<ButtonInfo> tools = new();

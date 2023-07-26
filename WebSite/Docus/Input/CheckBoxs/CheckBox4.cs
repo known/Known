@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Input.CheckBoxs;
 
-[Title("控制示例")]
 class CheckBox4 : BaseComponent
 {
     private CheckBox? checkBox;

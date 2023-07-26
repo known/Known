@@ -26,7 +26,7 @@ class KToolbar : BaseDocu
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
-        builder.BuildDemo("公用代码", @"//定义按钮组
+        builder.BuildDemo("1.公用代码", @"//定义按钮组
 internal static readonly List<ButtonInfo> Tools = new()
 {
     new ButtonInfo(""Load"", ""加载"", ""fa fa-refresh"", StyleType.Default),
@@ -38,9 +38,9 @@ internal static readonly List<ButtonInfo> Tools = new()
     new ButtonInfo(""Clear"", ""禁用"", ""fa fa-trash-o"", StyleType.Primary) { Enabled = false }
 };");
 
-        builder.BuildDemo<Toolbar1>("block");
-        builder.BuildDemo<Toolbar2>("block");
-        builder.BuildDemo<Toolbar3>("block");
-        builder.BuildDemo<Toolbar4>("block");
+        builder.BuildDemo<Toolbar1>("2.默认示例", "block");
+        builder.BuildDemo<Toolbar2>("3.下拉按钮示例", "block");
+        builder.BuildDemo<Toolbar3>("4.按钮可见示例", "block");
+        builder.BuildDemo<Toolbar4>("5.按钮可用示例", "block");
     }
 }

@@ -14,7 +14,7 @@ class KProgress : BaseDocu
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
-        builder.BuildDemo<Progress1>();
-        builder.BuildDemo<Progress2>();
+        builder.BuildDemo<Progress1>("1.默认示例");
+        builder.BuildDemo<Progress2>("2.固定宽度示例");
     }
 }

@@ -17,7 +17,7 @@ class KNotify : BaseDocu
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
-        builder.BuildDemo<Notify1>();
-        builder.BuildDemo<Notify2>();
+        builder.BuildDemo<Notify1>("1.默认示例");
+        builder.BuildDemo<Notify2>("2.自定义示例");
     }
 }

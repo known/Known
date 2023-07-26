@@ -1,6 +1,5 @@
 ﻿namespace WebSite.Docus.Nav.Toolbars;
 
-[Title("按钮可见示例")]
 class Toolbar3 : BaseComponent
 {
     private Toolbar? toolbar;
