@@ -14,10 +14,10 @@ class FieldControl : BaseComponent
         builder.Div("control", attr =>
         {
             builder.Field<CheckBox>("chkVisible")
-               .Set(f => f.Text, "可见")
-               .Set(f => f.Value, "True")
-               .Set(f => f.ValueChanged, OnVisibleChanged)
-               .Build();
+                   .Set(f => f.Text, "可见")
+                   .Set(f => f.Value, "True")
+                   .Set(f => f.ValueChanged, OnVisibleChanged)
+                   .Build();
             builder.Field<CheckBox>("chkEnabled")
                    .Set(f => f.Text, "可用")
                    .Set(f => f.Value, "True")

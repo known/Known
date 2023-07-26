@@ -1,37 +1,28 @@
 ﻿namespace WebSite.Docus.Input.CheckBoxs;
 
-[Title("控制示例")]
+[Title("事件示例")]
 class CheckBox3 : BaseComponent
 {
-    private CheckBox? checkBox;
+    private string? message;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<FieldControl>()
-               .Set(c => c.OnVisibleChanged, OnVisibleChanged)
-               .Set(c => c.OnEnabledChanged, OnEnabledChanged)
-               .Set(c => c.SetValue, SetValue)
-               .Set(c => c.GetValue, GetValue)
+        //ValueChanged事件
+        builder.Field<CheckBox>("CheckBox1")
+               .Set(f => f.Text, "ValueChanged事件")
+               .Set(f => f.ValueChanged, OnValueChanged)
                .Build();
-
-        builder.Field<CheckBox>("CheckBox")
-               .Set(f => f.Text, "启用")
-               .Build(value => checkBox = value);
+        builder.Field<CheckBox>("CheckBox2")
+               .Set(f => f.Text, "ValueChanged事件")
+               .Set(f => f.Switch, true)
+               .Set(f => f.ValueChanged, OnValueChanged)
+               .Build();
+        builder.Div("tips", message);
     }
 
-    private void OnVisibleChanged(string value)
+    private void OnValueChanged(string value)
     {
-        var visible = Utils.ConvertTo<bool>(value);
-        checkBox?.SetVisible(visible);
+        message = value;
+        StateChanged();
     }
-
-    private void OnEnabledChanged(string value)
-    {
-        var enabled = Utils.ConvertTo<bool>(value);
-        checkBox?.SetEnabled(enabled);
-    }
-
-    private void SetValue() => checkBox?.SetValue("True");
-
-    private string? GetValue() => checkBox?.Value;
 }

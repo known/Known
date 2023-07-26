@@ -17,5 +17,6 @@ class KCheckBox : BaseDocu
         builder.BuildDemo<CheckBox1>();
         builder.BuildDemo<CheckBox2>();
         builder.BuildDemo<CheckBox3>();
+        builder.BuildDemo<CheckBox4>();
     }
 }
