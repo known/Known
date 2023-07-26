@@ -1,6 +1,7 @@
-# 增删改查导示例
+# 单表增删改查导示例
 
-本章介绍学习增、删、改、查、导功能如何实现，下面以商品资料作为示例，该业务栏位如下：
+本章介绍学习单张表增、删、改、查、导功能如何实现，下面以商品资料作为示例，该业务栏位如下：
+
 > 类型、编码、名称、规格、单位、库存下限、库存上限、备注
 
 ## 1. 前后端共用
@@ -28,11 +29,11 @@ public class KmGoods : EntityBase
 ### 1.2. 创建Client类
 
 - 在KIMS项目Clients文件夹下创建GoodsClient类
-- 该类是前后端数据交互接口，继承BaseClient类
+- 该类是前后端数据交互接口，继承ClientBase类
 - 该类只需提供分页查询、删除和保存，导入功能由框架统一异步处理
 
 ```csharp
-public class GoodsClient : BaseClient
+public class GoodsClient : ClientBase
 {
     public GoodsClient(Context context) : base(context) { }
 
