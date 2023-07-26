@@ -73,7 +73,7 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
     text-align:center;width:60px;height:60px;line-height:60px;color:#fff;background-color:#1c66b9;
 }
 .doc-content {position:absolute;top:0;right:0;bottom:0;left:0;padding:20px;overflow:auto}
-.doc-content ul {list-style:disc;}
+.doc-content > ul {list-style:disc;}
 .doc-content .icons li {display:inline-block;width:20%;height:3rem;font-size:1.5rem;text-align:center;margin-bottom:1.5rem;cursor:pointer;}
 .doc-content .icons li span {display:block;font-size:0.8rem;margin-top:5px;}
 .doc-desc {color:#909090;padding:1rem 0;}
@@ -97,6 +97,7 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 .demo.layout .header, .demo.layout .body {left:80px;}
 .demo.layout .view {height:200px;border:1px solid #ccc;}
 .demo.layout .logo img {background-color:transparent;margin-top:0;}
+.demo-menu {margin:10px;position:relative;height:300px;border:1px solid #ccc;}
 
 @media screen and (min-width: 769px), print {
     .row {padding:50px 0;}
@@ -258,6 +259,8 @@ input:focus {border-bottom:1.5px solid #5bc0de;}
 .markdown-body .task-list-item+.task-list-item {margin-top:3px}
 .markdown-body .task-list-item input {margin:0 0.2em 0.25em -1.6em;vertical-align:middle}
 .markdown-body hr {border-bottom-color:#eee}
+
+.demo ul {padding:0;}
 
 /*highlight vs*/
 pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#fff;color:#000}.hljs-comment,.hljs-quote,.hljs-variable{color:green}.hljs-built_in,.hljs-keyword,.hljs-name,.hljs-selector-tag,.hljs-tag{color:#00f}.hljs-addition,.hljs-attribute,.hljs-literal,.hljs-section,.hljs-string,.hljs-template-tag,.hljs-template-variable,.hljs-title,.hljs-type{color:#a31515}.hljs-deletion,.hljs-meta,.hljs-selector-attr,.hljs-selector-pseudo{color:#2b91af}.hljs-doctag{color:grey}.hljs-attr{color:red}.hljs-bullet,.hljs-link,.hljs-symbol{color:#00b0e8}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
