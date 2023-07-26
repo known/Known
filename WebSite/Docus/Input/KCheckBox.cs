@@ -8,7 +8,7 @@ class KCheckBox : BaseDocu
     {
         builder.BuildList(new string[]
         {
-            "支持开关"
+            "支持开关类型"
         });
     }
 
@@ -16,5 +16,6 @@ class KCheckBox : BaseDocu
     {
         builder.BuildDemo<CheckBox1>();
         builder.BuildDemo<CheckBox2>();
+        builder.BuildDemo<CheckBox3>();
     }
 }
