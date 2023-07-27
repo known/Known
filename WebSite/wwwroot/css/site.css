@@ -266,6 +266,7 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
 .demo-menu ul {padding:0;}
 .demo-badge, .demo-tag {display:inline-block;position:relative;margin:0.5rem;padding:0.5rem;}
 .demo-card {position:relative;margin:1rem;height:200px;}
+.demo-carousel {height:200px;}
 
 @media screen and (min-width:769px) {
     .demo {grid-template-columns:45% 55%;}
