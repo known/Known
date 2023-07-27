@@ -264,6 +264,7 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
 .demo.layout .logo img {background-color:transparent;margin-top:0;}
 .demo-menu {margin:10px;position:relative;height:300px;border:1px solid #ccc;}
 .demo-menu ul {padding:0;}
+.demo-badge {display:inline-block;position:relative;margin:1rem;padding:0.5rem;}
 
 @media screen and (min-width:769px) {
     .demo {grid-template-columns:45% 55%;}
