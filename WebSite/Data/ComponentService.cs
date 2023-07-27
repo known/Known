@@ -1,7 +1,7 @@
 ﻿using WebSite.Docus;
 using WebSite.Docus.Basic;
 using WebSite.Docus.Feedback;
-using WebSite.Docus.Input;
+using WebSite.Docus.Inputs;
 using WebSite.Docus.Nav;
 using WebSite.Docus.Synthetical;
 using WebSite.Docus.View;
