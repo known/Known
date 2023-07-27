@@ -20,20 +20,14 @@ class DemoOther1 : BaseComponent
     {
         builder.BuildDemo("条形码", () =>
         {
-            builder.Component<Barcode>().Id("barcode1")
-                   .Set(c => c.Value, "1234567890")
-                   .Build();
-
-            builder.Component<Barcode>().Id("barcode2")
-                   .Set(c => c.Value, "1234567890")
-                   .Set(c => c.Option, new
-                   {
-                       Height = 50,
-                       DisplayValue = false,
-                       Background = "#f1f1f1",
-                       LineColor = "#4188c8"
-                   })
-                   .Build();
+            builder.Barcode("barcode1", "1234567890");
+            builder.Barcode("barcode2", "1234567890", new
+            {
+                Height = 50,
+                DisplayValue = false,
+                Background = "#f1f1f1",
+                LineColor = "#4188c8"
+            });
         });
     }
 
@@ -41,20 +35,15 @@ class DemoOther1 : BaseComponent
     {
         builder.BuildDemo("二维码", () =>
         {
-            builder.Component<QRCode>().Id("qrcode1")
-                   .Set(c => c.Option, new { Text = "1234567890" })
-                   .Build();
-
-            builder.Component<QRCode>().Id("qrcode2")
-                   .Set(c => c.Option, new
-                   {
-                       Text = "1234567890",
-                       Width = 180,
-                       Height = 180,
-                       Background = "#f1f1f1",
-                       Foreground = "#4188c8"
-                   })
-                   .Build();
+            builder.QRCode("qrcode1", new { Text = "1234567890" });
+            builder.QRCode("qrcode2", new
+            {
+                Text = "1234567890",
+                Width = 180,
+                Height = 180,
+                Background = "#f1f1f1",
+                Foreground = "#4188c8"
+            });
         });
     }
 }
