@@ -58,7 +58,7 @@ public class DataComponent<TItem> : BaseComponent
     protected override async Task OnInitializedAsync()
     {
         criteria = new PagingCriteria(1);
-        criteria.PageSize = Setting.Info.PageSize;
+        criteria.PageSize = Setting.Info != null ? Setting.Info.PageSize : PagingCriteria.DefaultPageSize;
 
         await AddVisitLogAsync();
         await InitPageAsync();

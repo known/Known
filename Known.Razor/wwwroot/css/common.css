@@ -309,6 +309,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .grid-tool button {margin-right:5px;padding:0 10px;}
 .list-view, .grid-view, .list, .grid, .pager {position:absolute;left:0;right:0;bottom:0;}
 .list-view, .grid-view {top:0;}
+.dlg-content > .grid-view {top:10px;bottom:10px;left:10px;right:10px;}
 .list, .grid {top:0;overflow:auto;}
 .grid {z-index:1000;}
 .grid .table {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}

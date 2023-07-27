@@ -40,7 +40,7 @@ public sealed class Setting
 
     internal static List<Column<TItem>> GetUserColumns<TItem>(string id, List<Column<TItem>> columns)
     {
-        if (!UserSetting.Columns.ContainsKey(id))
+        if (UserSetting == null || UserSetting.Columns == null || !UserSetting.Columns.ContainsKey(id))
             return columns;
 
         var lists = new List<Column<TItem>>();

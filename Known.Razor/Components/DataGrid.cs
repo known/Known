@@ -270,17 +270,20 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     private void InitMenu()
     {
+        if (KRConfig.UserMenus == null)
+            return;
+
         var menu = KRConfig.UserMenus.FirstOrDefault(m => m.Code == Id);
-        if (menu != null)
-        {
-            Id = menu.Id;
-            Name = menu.Name;
-            if (menu.Buttons != null && menu.Buttons.Count > 0)
-                Tools = menu.Buttons.Select(n => ToolButton.Buttons.FirstOrDefault(b => b.Name == n)).ToList();
-            if (menu.Actions != null && menu.Actions.Count > 0)
-                Actions = menu.Actions.Select(n => GridAction.Actions.FirstOrDefault(b => b.Name == n)).ToList();
-            Columns = menu.Columns?.Select(c => new Column<TItem>(c)).ToList();
-        }
+        if (menu == null)
+            return;
+
+        Id = menu.Id;
+        Name = menu.Name;
+        if (menu.Buttons != null && menu.Buttons.Count > 0)
+            Tools = menu.Buttons.Select(n => ToolButton.Buttons.FirstOrDefault(b => b.Name == n)).ToList();
+        if (menu.Actions != null && menu.Actions.Count > 0)
+            Actions = menu.Actions.Select(n => GridAction.Actions.FirstOrDefault(b => b.Name == n)).ToList();
+        Columns = menu.Columns?.Select(c => new Column<TItem>(c)).ToList();
     }
 
     internal bool HasFoot()
