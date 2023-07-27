@@ -257,6 +257,7 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
 .demo .view {position:relative;padding:1rem;}
 .demo .view .pager {position:static;}
 .demo .code {background-color:#f6f8fa;overflow:auto;}
+.demo .chart {height:300px;}
 .demo.layout {min-height:200px;}
 .demo.layout .sider, .demo.layout .logo {width:80px;}
 .demo.layout .header, .demo.layout .body {left:80px;}
