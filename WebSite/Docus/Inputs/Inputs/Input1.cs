@@ -13,11 +13,13 @@ class Input1 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Input>("日期", "Date").Value("2023-01-01").Build(value => input = value);
+        builder.Field<Input>("颜色", "Color")
+               .Set(f => f.Type, InputType.Color)
+               .Build(value => input = value);
     }
 
     private void OnVisibleChanged(bool value) => input?.SetVisible(value);
     private void OnEnabledChanged(bool value) => input?.SetEnabled(value);
-    private void SetValue() => input?.SetValue($"{DateTime.Now:yyyy-MM-dd}");
+    private void SetValue() => input?.SetValue("#009688");
     private string? GetValue() => input?.Value;
 }
