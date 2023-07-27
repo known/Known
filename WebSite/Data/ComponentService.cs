@@ -1,9 +1,9 @@
 ﻿using WebSite.Docus;
 using WebSite.Docus.Basic;
-using WebSite.Docus.Comprehensive;
 using WebSite.Docus.Feedback;
 using WebSite.Docus.Input;
 using WebSite.Docus.Nav;
+using WebSite.Docus.Synthetical;
 using WebSite.Docus.View;
 
 namespace WebSite.Data;
@@ -78,12 +78,12 @@ class ComponentService
         feedback.Children.Add<KProgress>("进度条", "支持不同样式。");
         items.Add(feedback);
 
-        var comprehensive = new MenuItem("comprehensive", "综合类");
-        comprehensive.Children.Add<KForm>("表单", "是一个页面级别表单布局组件。");
-        comprehensive.Children.Add<KDataList>("数据列表", "支持分页、查询、列模板。");
-        comprehensive.Children.Add<KDataGrid>("数据表格", "是一个集工具条、查询条件、表格、分页、操作等综合性的页面级组件。");
-        comprehensive.Children.Add<KEditGrid>("编辑表格", "可编辑的数据表格，继承自DataGrid。");
-        items.Add(comprehensive);
+        var synthetical = new MenuItem("comprehensive", "综合类");
+        synthetical.Children.Add<KForm>("表单", "是一个页面级别表单布局组件。");
+        synthetical.Children.Add<KDataList>("数据列表", "支持分页、查询、列模板。");
+        synthetical.Children.Add<KDataGrid>("数据表格", "是一个集工具条、查询条件、表格、分页、操作等综合性的页面级组件。");
+        synthetical.Children.Add<KEditGrid>("编辑表格", "可编辑的数据表格，继承自DataGrid。");
+        items.Add(synthetical);
 
         Menus = items;
     }
