@@ -26,7 +26,6 @@ class ComponentService
 
         var input = new MenuItem("input", "输入类");
         input.Children.Add<KButton>("按钮", "使用按钮触发操作，支持不同样式。");
-        input.Children.Add<KInput>("输入框", "通用输入框组件。");
         input.Children.Add<KHidden>("隐藏框", "隐藏字段组件。");
         input.Children.Add<KPassword>("密码框", "密码字段组件。");
         input.Children.Add<KText>("文本框", "单行文本框输入组件。");
@@ -39,6 +38,7 @@ class ComponentService
         input.Children.Add<KCheckList>("复选列表", "用于选中多个选项。");
         input.Children.Add<KRadioList>("单选列表", "单选框列表组件。");
         input.Children.Add<KPicker>("挑选框", "点击按钮弹出对话框挑选数据组件。");
+        input.Children.Add<KInput>("输入框", "通用输入框组件。");
         input.Children.Add<KUpload>("上传", "上传文件组件。");
         input.Children.Add<KCaptcha>("验证码", "前端图片验证码组件。");
         input.Children.Add<KSearchBox>("搜索框", "带搜索按钮的输入组件。");
