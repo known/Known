@@ -119,7 +119,8 @@
 /*form*/
 label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}
 button, .button, input, select, 
-.form-input .text, .form-input .unit, .form-input .btn, .form-input .link, .form-item .link,
+.form-item .link,
+.form-input span, .form-input .text, .form-input .unit, .form-input .btn, .form-input .link, 
 .form-label, .form-text, .form-radio, .form-tips {height:2rem;line-height:2rem;}
 .form-input .captcha {width:86px;height:2rem;}
 .form-input pre {margin-top:0.3rem;}
