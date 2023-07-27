@@ -59,8 +59,8 @@ class ComponentService
         view.Children.Add<KTag>("标签", "用于标记不同状态的数据。");
         view.Children.Add<KDialog>("对话框", "弹窗显示内容。");
         view.Children.Add<KCard>("卡片", "由标题和内容组成。");
-        view.Children.Add<KEmpty>("空状态", "用于列表无数据时显示。");
-        view.Children.Add<KDropdown>("下拉框", "用于向下弹窗菜单。");
+        view.Children.Add<KEmpty>("空状态", "用于无数据提示。");
+        view.Children.Add<KDropdown>("下拉框", "用于向下弹出内容。");
         //view.Children.Add<KGroupBox>("分组框", "");
         view.Children.Add<KImageBox>("图片框", "用于显示图片。");
         view.Children.Add<KTimeline>("时间轴", "用于显示时间节点内容。");
