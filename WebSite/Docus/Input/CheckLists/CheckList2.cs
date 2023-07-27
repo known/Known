@@ -18,19 +18,8 @@ class CheckList2 : BaseComponent
                .Build(value => checkList = value);
     }
 
-    private void OnVisibleChanged(string value)
-    {
-        var visible = Utils.ConvertTo<bool>(value);
-        checkList?.SetVisible(visible);
-    }
-
-    private void OnEnabledChanged(string value)
-    {
-        var enabled = Utils.ConvertTo<bool>(value);
-        checkList?.SetEnabled(enabled);
-    }
-
+    private void OnVisibleChanged(bool value) => checkList?.SetVisible(value);
+    private void OnEnabledChanged(bool value) => checkList?.SetEnabled(value);
     private void SetValue() => checkList?.SetValue("孙膑,妲己");
-
     private string? GetValue() => checkList?.Value;
 }

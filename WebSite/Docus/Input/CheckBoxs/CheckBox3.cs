@@ -7,14 +7,12 @@ class CheckBox3 : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         //ValueChanged事件
-        builder.Field<CheckBox>("CheckBox1")
+        builder.Field<CheckBox>("CheckBox1").ValueChanged(OnValueChanged)
                .Set(f => f.Text, "ValueChanged事件")
-               .Set(f => f.ValueChanged, OnValueChanged)
                .Build();
-        builder.Field<CheckBox>("CheckBox2")
+        builder.Field<CheckBox>("CheckBox2").ValueChanged(OnValueChanged)
                .Set(f => f.Text, "ValueChanged事件")
                .Set(f => f.Switch, true)
-               .Set(f => f.ValueChanged, OnValueChanged)
                .Build();
         builder.Div("tips", message);
     }

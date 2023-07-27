@@ -2,10 +2,12 @@
 
 class FieldControl : BaseComponent
 {
+    private string? visible = "True";
+    private string? enabled = "True";
     private string? value;
 
-    [Parameter] public Action<string>? OnVisibleChanged { get; set; }
-    [Parameter] public Action<string>? OnEnabledChanged { get; set; }
+    [Parameter] public Action<bool>? OnVisibleChanged { get; set; }
+    [Parameter] public Action<bool>? OnEnabledChanged { get; set; }
     [Parameter] public Action? SetValue { get; set; }
     [Parameter] public Func<string?>? GetValue { get; set; }
 
@@ -15,18 +17,32 @@ class FieldControl : BaseComponent
         {
             builder.Field<CheckBox>("chkVisible")
                    .Set(f => f.Text, "可见")
-                   .Set(f => f.Value, "True")
-                   .Set(f => f.ValueChanged, OnVisibleChanged)
+                   .Set(f => f.Value, visible)
+                   .Set(f => f.ValueChanged, OnVisibleValueChanged)
                    .Build();
             builder.Field<CheckBox>("chkEnabled")
                    .Set(f => f.Text, "可用")
-                   .Set(f => f.Value, "True")
-                   .Set(f => f.ValueChanged, OnEnabledChanged)
+                   .Set(f => f.Value, enabled)
+                   .Set(f => f.ValueChanged, OnEnabledValueChanged)
                    .Build();
             builder.Button("赋值", Callback(SetValue), StyleType.Primary);
             builder.Button("取值", Callback(OnGetValue), StyleType.Primary);
             builder.Div("tips", value);
         });
+    }
+
+    private void OnVisibleValueChanged(string value)
+    {
+        visible = value;
+        var check = Utils.ConvertTo<bool>(value);
+        OnVisibleChanged?.Invoke(check);
+    }
+
+    private void OnEnabledValueChanged(string value)
+    {
+        enabled = value;
+        var check = Utils.ConvertTo<bool>(value);
+        OnEnabledChanged?.Invoke(check);
     }
 
     private void OnGetValue() => value = GetValue?.Invoke();

@@ -18,19 +18,8 @@ class CheckBox4 : BaseComponent
                .Build(value => checkBox = value);
     }
 
-    private void OnVisibleChanged(string value)
-    {
-        var visible = Utils.ConvertTo<bool>(value);
-        checkBox?.SetVisible(visible);
-    }
-
-    private void OnEnabledChanged(string value)
-    {
-        var enabled = Utils.ConvertTo<bool>(value);
-        checkBox?.SetEnabled(enabled);
-    }
-
+    private void OnVisibleChanged(bool value) => checkBox?.SetVisible(value);
+    private void OnEnabledChanged(bool value) => checkBox?.SetEnabled(value);
     private void SetValue() => checkBox?.SetValue("True");
-
     private string? GetValue() => checkBox?.Value;
 }
