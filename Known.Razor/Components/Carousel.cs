@@ -54,7 +54,8 @@ public class Carousel : BaseComponent
         {
             for (int i = 0; i < Images.Length; i++)
             {
-                builder.Span(i == curIndex ? "active" : "", "");
+                var css = i == curIndex ? "active" : "";
+                builder.Span(attr => attr.Class(css));
             }
         });
     }
