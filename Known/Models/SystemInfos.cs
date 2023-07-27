@@ -14,7 +14,7 @@ public class InstallInfo
 
 public class CheckInfo
 {
-    public bool IsCheckKey { get; set; }
+    public bool IsCheckKey { get; set; } = true;
     public bool IsInstalled { get; set; } = true;
     public InstallInfo Install { get; set; }
 }
