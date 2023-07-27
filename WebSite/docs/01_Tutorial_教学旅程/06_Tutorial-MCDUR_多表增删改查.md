@@ -164,7 +164,7 @@ class BillForm : WebForm<KmBill>
 }
 ```
 
-### 2.2. 创建表体页面
+### 2.3. 创建表体页面
 
 - 在KIMS.Razor项目BillData\Forms文件夹下创建BillListGrid类
 - 该类是表体数据编辑表格，继承EditGrid<KmBillList>类
@@ -323,9 +323,6 @@ class BillService : ServiceBase
                 var lists = new List<KmBillList>();
                 foreach (var item in model.Lists)
                 {
-                    if (isReturn && item.Qty == 0)
-                        continue;
-
                     item.HeadId = model.Id;
                     item.ItemNo = ++index;
                     db.Insert(item);
