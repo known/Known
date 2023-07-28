@@ -4,25 +4,17 @@ class Tree2 : BaseComponent
 {
     private string? message;
     private HashSet<string> value = new string[] { "11", "22" }.ToHashSet();
-    private readonly List<TreeItem<string>> data = new()
-    {
-        new TreeItem<string>
-        {
-            Value = "1",
-            Text = "辅助",
-            IsExpanded = true,
-            Children = new List<TreeItem<string>>
-            {
+    private readonly List<TreeItem<string>> data = new() {
+        new TreeItem<string> {
+            Value = "1", Text = "辅助", IsExpanded = true,
+            Children = new List<TreeItem<string>> {
                 new TreeItem<string> { Value = "11", Text = "孙膑" },
                 new TreeItem<string> { Value = "12", Text = "庄周" }
             }
         },
-        new TreeItem<string>
-        {
-            Value = "2",
-            Text = "射手",
-            Children = new List<TreeItem<string>>
-            {
+        new TreeItem<string> {
+            Value = "2", Text = "射手",
+            Children = new List<TreeItem<string>> {
                 new TreeItem<string> { Value = "21", Text = "后羿" },
                 new TreeItem<string> { Value = "22", Text = "伽罗" }
             }
