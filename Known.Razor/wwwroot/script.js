@@ -293,7 +293,7 @@ export class KRazor {
             var lefts = [];
             for (var i = 0; i < fixeds.length; i++) {
                 lefts.push(left);
-                left += fixeds[i].clientWidth;
+                left += $(fixeds[i]).outerWidth();
             }
             var trs = table.find('tr');
             if (trs.length) {

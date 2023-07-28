@@ -116,7 +116,6 @@
     .right-view .grid-view {left:0;}
 }
 
-/*form*/
 label.required:before, th.required:before {content:'*';color:#f00;padding-right:2px;}
 button, .button, input, select, 
 .form-item .link,
@@ -124,6 +123,10 @@ button, .button, input, select,
 .form-label, .form-text, .form-radio, .form-tips {height:2rem;line-height:2rem;}
 .form-input .captcha {width:86px;height:2rem;}
 .form-input pre {margin-top:0.3rem;}
+.form-radio .switch[type="checkbox"]+span:before {top:0.35rem;}
+.form-radio .switch[type="checkbox"]+span:after {top:0.51rem;}
+.table .form-radio .switch[type="checkbox"]+span:before {top:0;}
+.table .form-radio .switch[type="checkbox"]+span:after {top:0.2rem;}
 .form-list {position:absolute;left:0;right:0;top:80px;bottom:0;}
 .form-list .grid-view {top:0;bottom:0;left:0;right:0;}
 .module .tool {position:absolute;top:-2.2rem;right:5px;}
