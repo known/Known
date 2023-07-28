@@ -51,8 +51,6 @@ public class Select : Field
             BuildSelect(builder);
     }
 
-    protected override void SetInputValue(object value) => Value = value?.ToString();
-
     private CodeInfo[] GetListItems()
     {
         if (Items != null && Items.Length > 0)

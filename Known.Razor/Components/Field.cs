@@ -130,21 +130,14 @@ public abstract class Field : BaseComponent
     protected virtual string FormatValue(object value) => value?.ToString();
     protected virtual void BuildText(RenderTreeBuilder builder) => builder.Span("text", Value);
     protected virtual void BuildInput(RenderTreeBuilder builder) { }
-    protected virtual void SetInputValue(object value) => Value = FormatValue(value);
     protected virtual void SetContext(FieldContext context) { }
+    internal virtual void SetInputValue(object value) => Value = FormatValue(value);
 
-    internal EventCallback<ChangeEventArgs> CreateBinder(Action<DateTime?> action = null)
+    internal EventCallback<ChangeEventArgs> CreateBinder()
     {
         return EventCallback.Factory.CreateBinder(this, value =>
         {
             Value = value;
-            if (action != null)
-            {
-                DateTime? date = null;
-                if (!string.IsNullOrWhiteSpace(value))
-                    date = DateTime.Parse(value);
-                action.Invoke(date);
-            }
             OnValueChange();
         }, Value);
     }

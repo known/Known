@@ -2,7 +2,6 @@
 
 public class DateRange : Field
 {
-    private readonly string format = Config.DateFormat;
     private readonly string split = "~";
     private readonly string[] values = new string[] { "", "" };
     private string startId;
@@ -14,71 +13,49 @@ public class DateRange : Field
     }
 
     [Parameter] public string Split { get; set; }
-    [Parameter] public DateTime? Start { get; set; }
-    [Parameter] public DateTime? End { get; set; }
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         startId = $"L{Id}";
         endId = $"G{Id}";
-        SetValue(Start, 0);
-        SetValue(End, 1);
     }
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
-        var start = Start?.ToString(format);
-        var end = End?.ToString(format);
-
-        BuidDate(builder, startId, start, v =>
-        {
-            SetValue(v, 0);
-            Start = v;
-        });
+        BuidDate(builder, startId, values[0], value => SetValue(value, 0));
         if (!string.IsNullOrWhiteSpace(Split))
             builder.Span(attr => builder.Text(Split));
-        BuidDate(builder, endId, end, v =>
-        {
-            SetValue(v, 1);
-            End = v;
-        });
+        BuidDate(builder, endId, values[1], value => SetValue(value, 1));
     }
 
-    protected override void SetInputValue(object value)
+    internal override void SetInputValue(object value)
     {
-        Value = value?.ToString();
-        var tmpValues = Value?.Split(Split);
+        var tmpValues = value?.ToString()?.Split(Split);
         if (tmpValues == null)
             return;
 
         if (tmpValues.Length > 0)
-        {
             values[0] = tmpValues[0];
-            if (DateTime.TryParseExact(tmpValues[0], format, null, DateTimeStyles.None, out DateTime start))
-                Start = start;
-        }
+
         if (tmpValues.Length > 1)
-        {
             values[1] = tmpValues[1];
-            if (DateTime.TryParseExact(tmpValues[1], format, null, DateTimeStyles.None, out DateTime end))
-                End = end;
-        }
     }
 
-    private void BuidDate(RenderTreeBuilder builder, string id, string value, Action<DateTime?> action, string type = "date")
+    private void BuidDate(RenderTreeBuilder builder, string id, string value, Action<string> action)
     {
         builder.Input(attr =>
         {
-            attr.Type(type).Id(id).Name(id).Disabled(!Enabled)
+            attr.Type("date").Id(id).Name(id).Disabled(!Enabled)
                 .Value(value).Required(Required)
-                .OnChange(CreateBinder(action));
+                .OnChange(EventCallback.Factory.CreateBinder(this, action, value));
         });
     }
 
-    private void SetValue(DateTime? date, int index)
+    private void SetValue(string value, int index)
     {
-        values[index] = date?.ToString(format);
+        values[index] = value;
         Value = string.Join(split, values);
+        OnValueChange();
     }
 }
