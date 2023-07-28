@@ -33,9 +33,13 @@ public class MenuItem : MenuInfo
     {
         Icon = info.Icon;
         Name = info.Name;
+        Enabled = info.Enabled;
+        Visible = info.Visible;
         Action = action;
     }
 
+    public bool Enabled { get; set; } = true;
+    public bool Visible { get; set; } = true;
     public Action Action { get; set; }
     public Type ComType { get; set; }
     public Dictionary<string, object> ComParameters { get; set; }

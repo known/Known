@@ -25,9 +25,14 @@ public class Dropdown : BaseComponent
 
         foreach (var item in Items)
         {
-            builder.Li("item", attr =>
+            if (!item.Visible) continue;
+
+            var css = CssBuilder.Default("item").AddClass("disabled", !item.Enabled).Build();
+            builder.Li(css, attr =>
             {
-                attr.Id(item.Code).OnClick(Callback(item.Action));
+                attr.Id(item.Code);
+                if (item.Enabled)
+                    attr.OnClick(Callback(item.Action));
                 builder.IconName(item.Icon, item.Name);
             });
         }

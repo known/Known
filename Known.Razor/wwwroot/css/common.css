@@ -76,7 +76,7 @@ input[type="checkbox"]+span, input[type="radio"]+span {display:block;margin-left
 
 /*common*/
 .mask {position:absolute;left:0;right:0;top:0;bottom:0;background-color:rgb(10,10,10,0.2);}
-.disabled {color:#ccc;}
+.disabled {color:#999;}
 .close {position:absolute;top:10px;right:10px;cursor:pointer;}
 .close:hover {color:#d1231e;}
 .link {color:#00f;cursor:pointer;}
