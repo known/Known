@@ -14,7 +14,7 @@ class Date4 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Date>("周别：", "Week").Value("2023-W10")
+        builder.Field<Date>("周别：", "Week")
                .Set(f => f.DateType, DateType.Week)
                .Build(value => date = value);
     }

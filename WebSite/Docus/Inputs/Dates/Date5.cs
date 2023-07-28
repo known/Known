@@ -14,7 +14,7 @@ class Date5 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Date>("时间：", "Time").Value("08:08")
+        builder.Field<Date>("时间：", "Time")
                .Set(f => f.DateType, DateType.Time)
                .Build(value => date = value);
     }

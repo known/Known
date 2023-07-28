@@ -14,7 +14,7 @@ class Date1 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Date>("日期：", "Date").Value("2023-01-01").Build(value => date = value);
+        builder.Field<Date>("日期：", "Date").Build(value => date = value);
     }
 
     private void OnVisibleChanged(bool value) => date?.SetVisible(value);
