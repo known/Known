@@ -20,6 +20,6 @@ class Date1 : BaseComponent
     private void OnVisibleChanged(bool value) => date?.SetVisible(value);
     private void OnEnabledChanged(bool value) => date?.SetEnabled(value);
     private void OnReadOnlyChanged(bool value) => date?.SetReadOnly(value);
-    private void SetValue() => date?.SetValue($"{DateTime.Now:yyyy-MM-dd}");
+    private void SetValue() => date?.SetValue(DateTime.Now);
     private string? GetValue() => date?.Value;
 }
