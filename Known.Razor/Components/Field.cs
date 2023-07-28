@@ -139,7 +139,7 @@ public abstract class Field : BaseComponent
     {
         return EventCallback.Factory.CreateBinder(this, value =>
         {
-            Value = value;
+            Value = FormatValue(value);
             OnValueChange();
         }, Value);
     }
