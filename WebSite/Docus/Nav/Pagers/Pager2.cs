@@ -3,8 +3,8 @@
 class Pager2 : BaseComponent
 {
     private Number? total;
-    private Pager? pager;
     private PagingCriteria criteria = new(1);
+    private int totalCount = 120;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -16,14 +16,14 @@ class Pager2 : BaseComponent
         });
 
         builder.Component<Pager>()
-               .Set(c => c.TotalCount, 120)
+               .Set(c => c.TotalCount, totalCount)
                .Set(c => c.PageIndex, criteria.PageIndex)
                .Set(c => c.PageSize, criteria.PageSize)
                .Set(c => c.OnPageChanged, OnPageChanged)
-               .Build(value => pager = value);
+               .Build();
     }
 
-    private void OnSetTotal() => pager?.SetTotalCount(total.ValueAs<int>());
+    private void OnSetTotal() => totalCount = total.ValueAs<int>();
 
     private Task OnPageChanged(PagingCriteria criteria)
     {
