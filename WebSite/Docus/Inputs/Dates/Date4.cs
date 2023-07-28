@@ -14,7 +14,7 @@ class Date4 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Date>("周别", "Week").Value("2023-W30")
+        builder.Field<Date>("周别", "Week").Value("2023-W10")
                .Set(f => f.DateType, DateType.Week)
                .Build(value => date = value);
     }
@@ -22,6 +22,6 @@ class Date4 : BaseComponent
     private void OnVisibleChanged(bool value) => date?.SetVisible(value);
     private void OnEnabledChanged(bool value) => date?.SetEnabled(value);
     private void OnReadOnlyChanged(bool value) => date?.SetReadOnly(value);
-    private void SetValue() => date?.SetValue("2023-W10");
+    private void SetValue() => date?.SetValue("2023-W30");
     private string? GetValue() => date?.Value;
 }

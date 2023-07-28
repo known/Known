@@ -14,9 +14,8 @@ class Date2 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Date>("日期时间", "DateTime")
+        builder.Field<Date>("日期时间", "DateTime").Value("2023-01-01 08:08")
                .Set(f => f.DateType, DateType.DateTime)
-               .Set(f => f.DateValue, DateTime.Now)
                .Build(value => date = value);
     }
 
