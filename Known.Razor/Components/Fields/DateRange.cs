@@ -45,6 +45,27 @@ public class DateRange : Field
         });
     }
 
+    protected override void SetInputValue(object value)
+    {
+        Value = value?.ToString();
+        var tmpValues = Value?.Split(Split);
+        if (tmpValues == null)
+            return;
+
+        if (tmpValues.Length > 0)
+        {
+            values[0] = tmpValues[0];
+            if (DateTime.TryParseExact(tmpValues[0], format, null, DateTimeStyles.None, out DateTime start))
+                Start = start;
+        }
+        if (tmpValues.Length > 1)
+        {
+            values[1] = tmpValues[1];
+            if (DateTime.TryParseExact(tmpValues[1], format, null, DateTimeStyles.None, out DateTime end))
+                End = end;
+        }
+    }
+
     private void BuidDate(RenderTreeBuilder builder, string id, string value, Action<DateTime?> action, string type = "date")
     {
         builder.Input(attr =>
