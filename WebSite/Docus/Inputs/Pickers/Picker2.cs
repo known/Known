@@ -9,6 +9,7 @@ class Picker2 : BaseComponent
         builder.Component<FieldControl>()
                .Set(c => c.OnVisibleChanged, OnVisibleChanged)
                .Set(c => c.OnEnabledChanged, OnEnabledChanged)
+               .Set(c => c.OnReadOnlyChanged, OnReadOnlyChanged)
                .Set(c => c.SetValue, SetValue)
                .Set(c => c.GetValue, GetValue)
                .Build();
@@ -20,6 +21,7 @@ class Picker2 : BaseComponent
 
     private void OnVisibleChanged(bool value) => picker?.SetVisible(value);
     private void OnEnabledChanged(bool value) => picker?.SetEnabled(value);
+    private void OnReadOnlyChanged(bool value) => picker?.SetReadOnly(value);
     private void SetValue() => picker?.SetValue("test");
     private string? GetValue() => picker?.Value;
 }

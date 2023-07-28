@@ -251,7 +251,7 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
 
 /*componet*/
 .demo {display:grid;grid-template-columns:100%;border:1px solid #ccc;}
-.demo .control {display:flex;}
+.demo .form-input, .demo .control {display:flex;}
 .demo .form-input, .demo .progress {margin-bottom:10px;}
 .demo button {margin-right:5px;margin-bottom:5px;}
 .demo .view {position:relative;padding:1rem;}

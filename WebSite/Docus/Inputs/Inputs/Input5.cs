@@ -9,6 +9,7 @@ class Input5 : BaseComponent
         builder.Component<FieldControl>()
                .Set(c => c.OnVisibleChanged, OnVisibleChanged)
                .Set(c => c.OnEnabledChanged, OnEnabledChanged)
+               .Set(c => c.OnReadOnlyChanged, OnReadOnlyChanged)
                .Set(c => c.SetValue, SetValue)
                .Set(c => c.GetValue, GetValue)
                .Build();
@@ -20,6 +21,7 @@ class Input5 : BaseComponent
 
     private void OnVisibleChanged(bool value) => input?.SetVisible(value);
     private void OnEnabledChanged(bool value) => input?.SetEnabled(value);
+    private void OnReadOnlyChanged(bool value) => input?.SetReadOnly(value);
     private void SetValue() => input?.SetValue("1234567890");
     private string? GetValue() => input?.Value;
 }

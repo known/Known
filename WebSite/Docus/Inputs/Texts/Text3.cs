@@ -9,6 +9,7 @@ class Text3 : BaseComponent
         builder.Component<FieldControl>()
                .Set(c => c.OnVisibleChanged, OnVisibleChanged)
                .Set(c => c.OnEnabledChanged, OnEnabledChanged)
+               .Set(c => c.OnReadOnlyChanged, OnReadOnlyChanged)
                .Set(c => c.SetValue, SetValue)
                .Set(c => c.GetValue, GetValue)
                .Build();
@@ -18,6 +19,7 @@ class Text3 : BaseComponent
 
     private void OnVisibleChanged(bool value) => text?.SetVisible(value);
     private void OnEnabledChanged(bool value) => text?.SetEnabled(value);
+    private void OnReadOnlyChanged(bool value) => text?.SetReadOnly(value);
     private void SetValue() => text?.SetValue("孙膑");
     private string? GetValue() => text?.Value;
 }

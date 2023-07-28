@@ -9,6 +9,7 @@ class Date2 : BaseComponent
         builder.Component<FieldControl>()
                .Set(c => c.OnVisibleChanged, OnVisibleChanged)
                .Set(c => c.OnEnabledChanged, OnEnabledChanged)
+               .Set(c => c.OnReadOnlyChanged, OnReadOnlyChanged)
                .Set(c => c.SetValue, SetValue)
                .Set(c => c.GetValue, GetValue)
                .Build();
@@ -21,6 +22,7 @@ class Date2 : BaseComponent
 
     private void OnVisibleChanged(bool value) => date?.SetVisible(value);
     private void OnEnabledChanged(bool value) => date?.SetEnabled(value);
+    private void OnReadOnlyChanged(bool value) => date?.SetReadOnly(value);
     private void SetValue() => date?.SetValue(DateTime.Now);
     private string? GetValue() => date?.Value;
 }

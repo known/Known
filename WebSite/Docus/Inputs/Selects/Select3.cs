@@ -9,6 +9,7 @@ class Select3 : BaseComponent
         builder.Component<FieldControl>()
                .Set(c => c.OnVisibleChanged, OnVisibleChanged)
                .Set(c => c.OnEnabledChanged, OnEnabledChanged)
+               .Set(c => c.OnReadOnlyChanged, OnReadOnlyChanged)
                .Set(c => c.SetValue, SetValue)
                .Set(c => c.GetValue, GetValue)
                .Build();
@@ -20,6 +21,7 @@ class Select3 : BaseComponent
 
     private void OnVisibleChanged(bool value) => select?.SetVisible(value);
     private void OnEnabledChanged(bool value) => select?.SetEnabled(value);
+    private void OnReadOnlyChanged(bool value) => select?.SetReadOnly(value);
     private void SetValue() => select?.SetValue("孙膑");
     private string? GetValue() => select?.Value;
 }
