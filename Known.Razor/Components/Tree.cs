@@ -135,6 +135,7 @@ public class Tree<TValue> : BaseComponent
     //选中值
     private void CheckValues(TreeItem<TValue> item, HashSet<TValue> values, int level)
     {
+        item.IsChecked = false;
         if (values.Contains(item.Value))
         {
             item.IsChecked = true;
