@@ -377,7 +377,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-input.check {font-weight:bold;}
 .form-check {position:absolute;top:5px;right:0;}
 .form-radio {margin-right:1rem;cursor:pointer;display:inline-block;}
-.form-radio input {position:absolute;top:0.4rem;}
+.form-radio input {position:absolute;top:0.45rem;}
 .form-tips {padding-left:5px;color:#aaa;}
 .form-button {text-align:right;padding:0;}
 .form-button button, .dlg-foot button {margin-left:1rem;}
