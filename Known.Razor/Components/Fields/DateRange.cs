@@ -14,11 +14,33 @@ public class DateRange : Field
 
     [Parameter] public string Split { get; set; }
 
+    internal override object GetValue() => string.Join(split, values);
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        FormatValue(Value);
+    }
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         startId = $"L{Id}";
         endId = $"G{Id}";
+    }
+
+    protected override string FormatValue(object value)
+    {
+        var tmpValues = value?.ToString()?.Split(Split);
+        if (tmpValues == null)
+            return string.Empty;
+
+        if (tmpValues.Length > 0)
+            values[0] = tmpValues[0];
+        if (tmpValues.Length > 1)
+            values[1] = tmpValues[1];
+
+        return string.Join(split, values);
     }
 
     protected override void BuildInput(RenderTreeBuilder builder)
@@ -27,19 +49,6 @@ public class DateRange : Field
         if (!string.IsNullOrWhiteSpace(Split))
             builder.Span(attr => builder.Text(Split));
         BuidDate(builder, endId, values[1], value => SetValue(value, 1));
-    }
-
-    internal override void SetInputValue(object value)
-    {
-        var tmpValues = value?.ToString()?.Split(Split);
-        if (tmpValues == null)
-            return;
-
-        if (tmpValues.Length > 0)
-            values[0] = tmpValues[0];
-
-        if (tmpValues.Length > 1)
-            values[1] = tmpValues[1];
     }
 
     private void BuidDate(RenderTreeBuilder builder, string id, string value, Action<string> action)

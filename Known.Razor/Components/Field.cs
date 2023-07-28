@@ -35,6 +35,9 @@ public abstract class Field : BaseComponent
     public T ValueAs<T>()
     {
         var value = GetValue();
+        if (value is T val)
+            return val;
+
         return Utils.ConvertTo<T>(value);
     }
 
@@ -52,13 +55,13 @@ public abstract class Field : BaseComponent
 
     public void Clear()
     {
-        SetInputValue(orgValue);
+        Value = FormatValue(orgValue);
         StateChanged();
     }
 
     public virtual void SetValue(object value)
     {
-        SetInputValue(value);
+        Value = FormatValue(value);
         StateChanged();
     }
 
@@ -105,7 +108,7 @@ public abstract class Field : BaseComponent
             if (model != null && model.ContainsKey(Id))
             {
                 orgValue = model[Id];
-                SetInputValue(orgValue);
+                Value = FormatValue(orgValue);
             }
         }
     }
@@ -131,7 +134,6 @@ public abstract class Field : BaseComponent
     protected virtual void BuildText(RenderTreeBuilder builder) => builder.Span("text", Value);
     protected virtual void BuildInput(RenderTreeBuilder builder) { }
     protected virtual void SetContext(FieldContext context) { }
-    internal virtual void SetInputValue(object value) => Value = FormatValue(value);
 
     internal EventCallback<ChangeEventArgs> CreateBinder()
     {
