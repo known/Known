@@ -7,8 +7,7 @@ class SysMyMessage : PageComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        var box = isList ? "" : " box";
-        builder.Div($"user-message{box}", attr =>
+        builder.Div("user-message", attr =>
         {
             if (isList)
                 BuildList(builder);
@@ -67,8 +66,8 @@ class SysMessageList : DataGrid<SysMessage>
 
     internal static void BuildMsgLevel(RenderTreeBuilder builder, string level)
     {
-        var color = level == Constants.UMLUrgent ? "bg-danger" : "bg-primary";
-        builder.Span($"badge {color}", level);
+        var style = level == Constants.UMLUrgent ? StyleType.Danger : StyleType.Primary;
+        builder.Tag(style, level);
     }
 
     private void BuildMsgLevel(RenderTreeBuilder builder, SysMessage row)
