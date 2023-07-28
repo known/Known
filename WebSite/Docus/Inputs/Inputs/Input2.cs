@@ -14,7 +14,7 @@ class Input2 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Input>("邮箱", "Email")
+        builder.Field<Input>("邮箱：", "Email")
                .Set(f => f.Type, InputType.Email)
                .Build(value => input = value);
     }

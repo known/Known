@@ -14,7 +14,7 @@ class Input5 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Input>("电话", "Tel")
+        builder.Field<Input>("电话：", "Tel")
                .Set(f => f.Type, InputType.Tel)
                .Build(value => input = value);
     }

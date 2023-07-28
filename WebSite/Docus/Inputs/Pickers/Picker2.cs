@@ -14,7 +14,7 @@ class Picker2 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Picker>("客户", "Picker")
+        builder.Field<Picker>("客户：", "Picker")
                .Set(f => f.Pick, new CustomerList())
                .Build(value => picker = value);
     }

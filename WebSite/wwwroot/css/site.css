@@ -251,7 +251,11 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
 
 /*componet*/
 .demo {display:grid;grid-template-columns:100%;border:1px solid #ccc;}
-.demo .form-input, .demo .control {display:flex;}
+.demo input[type="date"] {width:140px;}
+.demo input[type="file"] {width:200px;}
+.demo textarea {width:300px;}
+.demo .form-item.control {margin:0;flex-direction:row;}
+.demo .form-input {display:flex;}
 .demo .form-input, .demo .progress {margin-bottom:10px;}
 .demo button {margin-right:5px;margin-bottom:5px;}
 .demo .view {position:relative;padding:1rem;}
@@ -275,4 +279,8 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
     .demo.block {grid-template-columns:100%;}
     .demo.layout .sider, .demo.layout .logo {width:100px;}
     .demo.layout .header, .demo.layout .body {left:100px;}
+}
+
+@media screen and (max-width:1150px) {
+    .demo {grid-template-columns:100%;}
 }

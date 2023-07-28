@@ -14,7 +14,7 @@ class Input3 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Input>("Slider", "Range")
+        builder.Field<Input>("Slider：", "Range")
                .Set(f => f.Type, InputType.Range)
                .Build(value => input = value);
     }

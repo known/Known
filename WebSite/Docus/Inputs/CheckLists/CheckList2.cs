@@ -14,7 +14,7 @@ class CheckList2 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<CheckList>("CheckList")
+        builder.Field<CheckList>("英雄：", "CheckList")
                .Set(f => f.Codes, "孙膑,后羿,妲己")
                .Build(value => checkList = value);
     }

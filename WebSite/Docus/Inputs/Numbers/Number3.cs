@@ -4,15 +4,15 @@ class Number3 : Form
 {
     protected override void BuildFields(RenderTreeBuilder builder)
     {
-        builder.Field<Number>("数量", "Qty")
+        builder.Field<Number>("数量：", "Qty")
                .Set(f => f.Unit, "个")
                .Set(f => f.OnValueChanged, OnQPAChanged)
                .Build();
-        builder.Field<Number>("单价", "Price")
+        builder.Field<Number>("单价：", "Price")
                .Set(f => f.Unit, "元")
                .Set(f => f.OnValueChanged, OnQPAChanged)
                .Build();
-        builder.Field<Number>("金额", "Amount")
+        builder.Field<Number>("金额：", "Amount")
                .Set(f => f.Unit, "元")
                .Set(f => f.OnValueChanged, OnQPAChanged)
                .Build();

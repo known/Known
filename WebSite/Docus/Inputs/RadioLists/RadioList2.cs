@@ -14,7 +14,7 @@ class RadioList2 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<RadioList>("RadioList")
+        builder.Field<RadioList>("英雄：", "RadioList")
                .Set(f => f.Codes, "孙膑,后羿,妲己")
                .Build(value => radioList = value);
     }

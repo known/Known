@@ -14,7 +14,7 @@ class Input6 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Input>("网址", "Url")
+        builder.Field<Input>("网址：", "Url")
                .Set(f => f.Type, InputType.Url)
                .Build(value => input = value);
     }

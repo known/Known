@@ -14,7 +14,7 @@ class DateRange2 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<DateRange>("DateRange").Build(value => dateRange = value);
+        builder.Field<DateRange>("日期：", "DateRange").Build(value => dateRange = value);
     }
 
     private void OnVisibleChanged(bool value) => dateRange?.SetVisible(value);

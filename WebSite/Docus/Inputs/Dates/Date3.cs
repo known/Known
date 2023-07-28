@@ -14,7 +14,7 @@ class Date3 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Date>("月份", "Month").Value("2023-01")
+        builder.Field<Date>("月份：", "Month").Value("2023-01")
                .Set(f => f.DateType, DateType.Month)
                .Build(value => date = value);
     }

@@ -14,7 +14,7 @@ class Input4 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Input>("搜索", "Search")
+        builder.Field<Input>("搜索：", "Search")
                .Set(f => f.Type, InputType.Search)
                .Build(value => input = value);
     }

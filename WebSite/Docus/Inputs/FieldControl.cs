@@ -15,7 +15,7 @@ class FieldControl : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("control", attr =>
+        builder.Div("form-item control", attr =>
         {
             builder.Field<CheckBox>("chkVisible")
                    .Set(f => f.Text, "可见")
@@ -32,10 +32,13 @@ class FieldControl : BaseComponent
                    .Set(f => f.Value, readOnly)
                    .Set(f => f.ValueChanged, OnReadOnlyValueChanged)
                    .Build();
+        });
+        builder.Div("form-item control", attr =>
+        {
             builder.Button("赋值", Callback(SetValue), StyleType.Primary);
             builder.Button("取值", Callback(OnGetValue), StyleType.Primary);
-            builder.Div("tips", value);
         });
+        builder.Div("tips", value);
     }
 
     private void OnVisibleValueChanged(string value)
