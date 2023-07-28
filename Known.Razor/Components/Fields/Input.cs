@@ -44,15 +44,16 @@ public class Input : Field
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
-        if (Type == InputType.Color)
-            Enabled = !ReadOnly;
+        var enabled = Enabled;
+        if (Type == InputType.Color && ReadOnly)
+            enabled = false;
 
         BuildIcon(builder, Icon);
         builder.Input(attr =>
         {
             //var value = BindConverter.FormatValue(Value);
             //var hasChanged = !EqualityComparer<string>.Default.Equals(value, Value);
-            attr.Type(type).Id(Id).Name(Id).Disabled(!Enabled).Readonly(ReadOnly)
+            attr.Type(type).Id(Id).Name(Id).Disabled(!enabled).Readonly(ReadOnly)
                 .Value(Value).Required(Required)
                 .Placeholder(Placeholder)
                 .Add("autocomplete", "off")
