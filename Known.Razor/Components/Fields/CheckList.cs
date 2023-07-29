@@ -1,33 +1,10 @@
 ﻿namespace Known.Razor.Components.Fields;
 
-public class CheckList : Field
+public class CheckList : ListField
 {
     private readonly Dictionary<string, bool> values = new();
 
     [Parameter] public int ColumnCount { get; set; }
-    [Parameter] public string Codes { get; set; }
-    [Parameter] public CodeInfo[] Items { get; set; }
-    [Parameter] public Func<CodeInfo[]> CodeAction { get; set; }
-
-    protected CodeInfo[] ListItems { get; private set; }
-
-    public void SetCodes(string codes)
-    {
-        Codes = codes;
-        StateChanged();
-    }
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        ListItems = GetListItems();
-    }
-
-    protected override void SetContext(FieldContext context)
-    {
-        base.SetContext(context);
-        context.FieldItems = GetListItems();
-    }
 
     protected override void BuildText(RenderTreeBuilder builder) => BuildCheckList(builder, false);
     protected override void BuildInput(RenderTreeBuilder builder) => BuildCheckList(builder, Enabled);
@@ -75,16 +52,5 @@ public class CheckList : Field
             return false;
 
         return Value.Split(',').Contains(item);
-    }
-
-    private CodeInfo[] GetListItems()
-    {
-        if (Items != null && Items.Length > 0)
-            return Items;
-
-        if (CodeAction != null)
-            return CodeAction();
-
-        return CodeInfo.GetCodes(Codes).ToArray();
     }
 }

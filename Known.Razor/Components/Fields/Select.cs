@@ -1,35 +1,18 @@
 ﻿namespace Known.Razor.Components.Fields;
 
-public class Select : Field
+public class Select : ListField
 {
     private string Text { get; set; }
 
     [Parameter] public string Icon { get; set; }
     [Parameter] public string EmptyText { get; set; }
     [Parameter] public bool IsAuto { get; set; }
-    [Parameter] public string Codes { get; set; }
-    [Parameter] public CodeInfo[] Items { get; set; }
-    [Parameter] public Func<CodeInfo[]> CodeAction { get; set; }
-
-    protected CodeInfo[] ListItems { get; private set; }
-
-    public void SetCodes(string codes)
-    {
-        Codes = codes;
-        StateChanged();
-    }
 
     protected override void OnParametersSet()
     {
-        ListItems = GetListItems();
+        base.OnParametersSet();
         var code = ListItems.FirstOrDefault(c => c.Code == Value);
         Text = code?.Name ?? Value;
-    }
-
-    protected override void SetContext(FieldContext context)
-    {
-        base.SetContext(context);
-        context.FieldItems = GetListItems();
     }
 
     protected override void BuildText(RenderTreeBuilder builder)
@@ -49,17 +32,6 @@ public class Select : Field
             BuildInputSelect(builder);
         else
             BuildSelect(builder);
-    }
-
-    private CodeInfo[] GetListItems()
-    {
-        if (Items != null && Items.Length > 0)
-            return Items;
-
-        if (CodeAction != null)
-            return CodeAction();
-
-        return CodeInfo.GetCodes(Codes).ToArray();
     }
 
     private void BuildInputSelect(RenderTreeBuilder builder)

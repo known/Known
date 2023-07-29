@@ -1,34 +1,11 @@
 ﻿namespace Known.Razor.Components.Fields;
 
-public class ListBox : Field
+public class ListBox : ListField
 {
     private string curItem;
 
     [Parameter] public Action<CodeInfo> OnItemClick { get; set; }
     [Parameter] public RenderFragment<CodeInfo> ItemTemplace { get; set; }
-    [Parameter] public string Codes { get; set; }
-    [Parameter] public CodeInfo[] Items { get; set; }
-    [Parameter] public Func<CodeInfo[]> CodeAction { get; set; }
-
-    protected CodeInfo[] ListItems { get; private set; }
-
-    public void SetCodes(string codes)
-    {
-        Codes = codes;
-        StateChanged();
-    }
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        ListItems = GetListItems();
-    }
-
-    protected override void SetContext(FieldContext context)
-    {
-        base.SetContext(context);
-        context.FieldItems = GetListItems();
-    }
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
@@ -52,17 +29,6 @@ public class ListBox : Field
                 }
             }
         });
-    }
-
-    private CodeInfo[] GetListItems()
-    {
-        if (Items != null && Items.Length > 0)
-            return Items;
-
-        if (CodeAction != null)
-            return CodeAction();
-
-        return CodeInfo.GetCodes(Codes).ToArray();
     }
 
     private void BuildItem(RenderTreeBuilder builder, CodeInfo item)
