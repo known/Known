@@ -5,14 +5,23 @@ class SysRoleForm : BaseForm<SysRole>
 {
     class CheckInfo
     {
-        public bool IsAll { get; set; }
         public List<CodeInfo> Items { get; set; }
         public string Value { get; set; }
 
-        internal void SetIsAll()
+        private bool isAll;
+        public bool IsAll
         {
-            IsAll = IsCheckAll(Items, Value);
+            get { return isAll; }
+            set
+            {
+                isAll = value;
+                Value = isAll
+                      ? string.Join(",", Items.Select(c => c.Code))
+                      : string.Empty;
+            }
         }
+
+        internal void SetIsAll() => isAll = IsCheckAll(Items, Value);
 
         internal static CheckInfo LoadButton(MenuInfo menu, List<string> menuIds)
         {
@@ -167,14 +176,10 @@ class SysRoleForm : BaseForm<SysRole>
         builder.Div("title", attr =>
         {
             builder.Span("按钮");
-            //builder.Check(attr => attr.Title("全选/取消").Checked(curButton.IsAll).OnClick(Callback(() =>
-            //{
-            //    curButton.IsAll = !curButton.IsAll;
-            //    if (curButton.IsAll)
-            //        chkButton.SetValue("");
-            //    else
-            //        chkButton.SetValue("");
-            //})));
+            builder.Check(attr => attr.Title("全选/取消").Checked(curButton.IsAll).OnClick(Callback(() =>
+            {
+                curButton.IsAll = !curButton.IsAll;
+            })));
         });
     }
 
@@ -183,14 +188,10 @@ class SysRoleForm : BaseForm<SysRole>
         builder.Div("title", attr =>
         {
             builder.Span("栏位");
-            //builder.Check(attr => attr.Title("全选/取消").Checked(curColumn.IsAll).OnClick(Callback(() =>
-            //{
-            //    curColumn.IsAll = !curColumn.IsAll;
-            //    if (curColumn.IsAll)
-            //        chkColumn.SetValue("");
-            //    else
-            //        chkColumn.SetValue("");
-            //})));
+            builder.Check(attr => attr.Title("全选/取消").Checked(curColumn.IsAll).OnClick(Callback(() =>
+            {
+                curColumn.IsAll = !curColumn.IsAll;
+            })));
         });
     }
 
