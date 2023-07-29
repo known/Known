@@ -61,8 +61,6 @@ class SysRoleForm : BaseForm<SysRole>
     private RoleFormInfo info;
     private List<TreeItem<MenuInfo>> data;
     private TreeItem<MenuInfo> curItem;
-    private CheckList chkButton;
-    private CheckList chkColumn;
     private CheckInfo curButton;
     private CheckInfo curColumn;
 
@@ -127,74 +125,6 @@ class SysRoleForm : BaseForm<SysRole>
         });
     }
 
-    private void BuildRoleButtons(RenderTreeBuilder builder)
-    {
-        builder.Div("role-button", attr =>
-        {
-            if (curItem == null)
-            {
-                builder.Div("title", "按钮");
-            }
-            else
-            {
-                var menu = curItem.Value;
-                BuildButtonTitle(builder);
-                builder.Component<CheckList>()
-                       .Set(c => c.IsInput, true)
-                       .Set(c => c.Items, curButton.Items.ToArray())
-                       .Set(c => c.Value, curButton.Value)
-                       .Set(c => c.ValueChanged, OnButtonValueChanged)
-                       .Build(value => chkButton = value);
-            }
-        });
-    }
-
-    private void BuildRoleColumns(RenderTreeBuilder builder)
-    {
-        builder.Div("role-column", attr =>
-        {
-            if (curItem == null)
-            {
-                builder.Div("title", "栏位");
-            }
-            else
-            {
-                var menu = curItem.Value;
-                BuildColumnTitle(builder);
-                builder.Component<CheckList>()
-                       .Set(c => c.IsInput, true)
-                       .Set(c => c.Items, curColumn.Items.ToArray())
-                       .Set(c => c.Value, curColumn.Value)
-                       .Set(c => c.ValueChanged, OnColumnValueChanged)
-                       .Build(value => chkColumn = value);
-            }
-        });
-    }
-
-    private void BuildButtonTitle(RenderTreeBuilder builder)
-    {
-        builder.Div("title", attr =>
-        {
-            builder.Span("按钮");
-            builder.Check(attr => attr.Title("全选/取消").Checked(curButton.IsAll).OnClick(Callback(() =>
-            {
-                curButton.IsAll = !curButton.IsAll;
-            })));
-        });
-    }
-
-    private void BuildColumnTitle(RenderTreeBuilder builder)
-    {
-        builder.Div("title", attr =>
-        {
-            builder.Span("栏位");
-            builder.Check(attr => attr.Title("全选/取消").Checked(curColumn.IsAll).OnClick(Callback(() =>
-            {
-                curColumn.IsAll = !curColumn.IsAll;
-            })));
-        });
-    }
-
     private void OnMenuItemClick(TreeItem<MenuInfo> item)
     {
         curItem = item;
@@ -202,17 +132,29 @@ class SysRoleForm : BaseForm<SysRole>
         curColumn = colValues[item.Value.Id] ?? new CheckInfo();
     }
 
-    private void OnButtonValueChanged(string value)
+    private void BuildRoleButtons(RenderTreeBuilder builder)
     {
-        curButton.Value = value;
-        btnValues[curItem.Value.Id] = curButton;
+        builder.Component<RoleCheckList>()
+               .Set(c => c.Style, "role-button")
+               .Set(c => c.Title, "按钮")
+               .Set(c => c.Info, curButton)
+               .Set(c => c.OnChanged, OnButtonChanged)
+               .Build();
     }
 
-    private void OnColumnValueChanged(string value)
+    private void OnButtonChanged(CheckInfo info) => btnValues[curItem.Value.Id] = info;
+
+    private void BuildRoleColumns(RenderTreeBuilder builder)
     {
-        curColumn.Value = value;
-        colValues[curItem.Value.Id] = curColumn;
+        builder.Component<RoleCheckList>()
+               .Set(c => c.Style, "role-column")
+               .Set(c => c.Title, "栏位")
+               .Set(c => c.Info, curColumn)
+               .Set(c => c.OnChanged, OnColumnChanged)
+               .Build();
     }
+
+    private void OnColumnChanged(CheckInfo info) => colValues[curItem.Value.Id] = info;
 
     private void OnSave()
     {
@@ -232,5 +174,57 @@ class SysRoleForm : BaseForm<SysRole>
             var info = new RoleFormInfo { Model = data, MenuIds = menuIds };
             return Platform.Role.SaveRoleAsync(info);
         });
+    }
+
+    class RoleCheckList : BaseComponent
+    {
+        [Parameter] public string Style { get; set; }
+        [Parameter] public string Title { get; set; }
+        [Parameter] public CheckInfo Info { get; set; }
+        [Parameter] public Action<CheckInfo> OnChanged { get; set; }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+        }
+
+        protected override void BuildRenderTree(RenderTreeBuilder builder)
+        {
+            builder.Div(Style, attr =>
+            {
+                if (Info == null)
+                {
+                    builder.Div("title", Title);
+                }
+                else
+                {
+                    BuildTitle(builder);
+                    builder.Component<CheckList>()
+                           .Set(c => c.IsInput, true)
+                           .Set(c => c.Items, Info.Items.ToArray())
+                           .Set(c => c.Value, Info.Value)
+                           .Set(c => c.ValueChanged, OnValueChanged)
+                           .Build();
+                }
+            });
+        }
+
+        private void BuildTitle(RenderTreeBuilder builder)
+        {
+            builder.Div("title", attr =>
+            {
+                builder.Span(Title);
+                builder.Check(attr => attr.Title("全选/取消").Checked(Info.IsAll).OnClick(Callback(() =>
+                {
+                    Info.IsAll = !Info.IsAll;
+                })));
+            });
+        }
+
+        private void OnValueChanged(string value)
+        {
+            Info.Value = value;
+            OnChanged?.Invoke(Info);
+        }
     }
 }
