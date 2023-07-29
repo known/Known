@@ -6,7 +6,7 @@ public class Select : ListField
 
     [Parameter] public string Icon { get; set; }
     [Parameter] public string EmptyText { get; set; }
-    [Parameter] public bool IsAuto { get; set; }
+    [Parameter] public bool IsList { get; set; }
 
     protected override void OnParametersSet()
     {
@@ -28,13 +28,13 @@ public class Select : ListField
     {
         if (!string.IsNullOrWhiteSpace(Icon))
             builder.Icon(Icon);
-        if (IsAuto)
-            BuildInputSelect(builder);
+        if (IsList)
+            BuildDataList(builder);
         else
             BuildSelect(builder);
     }
 
-    private void BuildInputSelect(RenderTreeBuilder builder)
+    private void BuildDataList(RenderTreeBuilder builder)
     {
         builder.Input(attr =>
         {
