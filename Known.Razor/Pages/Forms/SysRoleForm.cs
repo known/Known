@@ -5,6 +5,7 @@ class SysRoleForm : BaseForm<SysRole>
 {
     class CheckInfo
     {
+        public bool IsChecked { get; set; }
         public List<CodeInfo> Items { get; set; }
         public string Value { get; set; }
 
@@ -119,17 +120,29 @@ class SysRoleForm : BaseForm<SysRole>
                    .Set(c => c.ReadOnly, ReadOnly)
                    .Set(c => c.ShowCheckBox, true)
                    .Set(c => c.Values, values)
+                   .Set(c => c.OnCheckClick, Callback<TreeItem<MenuInfo>>(OnMenuItemCheck))
                    .Set(c => c.OnItemClick, Callback<TreeItem<MenuInfo>>(OnMenuItemClick))
                    .Set(c => c.ValuesChanged, Callback<HashSet<MenuInfo>>(v => values = v))
                    .Build();
         });
     }
 
-    private void OnMenuItemClick(TreeItem<MenuInfo> item)
+    private void OnMenuItemCheck(TreeItem<MenuInfo> item) => SetCurItem(item, true);
+    private void OnMenuItemClick(TreeItem<MenuInfo> item) => SetCurItem(item);
+
+    private void SetCurItem(TreeItem<MenuInfo> item, bool isCheck = false)
     {
         curItem = item;
         curButton = btnValues[item.Value.Id] ?? new CheckInfo();
+        curButton.IsChecked = item.IsChecked;
         curColumn = colValues[item.Value.Id] ?? new CheckInfo();
+        curColumn.IsChecked = item.IsChecked;
+
+        if (isCheck)
+        {
+            curButton.IsAll = item.IsChecked;
+            curColumn.IsAll = item.IsChecked;
+        }
     }
 
     private void BuildRoleButtons(RenderTreeBuilder builder)
@@ -183,11 +196,6 @@ class SysRoleForm : BaseForm<SysRole>
         [Parameter] public CheckInfo Info { get; set; }
         [Parameter] public Action<CheckInfo> OnChanged { get; set; }
 
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
-        }
-
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.Div(Style, attr =>
@@ -201,6 +209,7 @@ class SysRoleForm : BaseForm<SysRole>
                     BuildTitle(builder);
                     builder.Component<CheckList>()
                            .Set(c => c.IsInput, true)
+                           .Set(c => c.Enabled, Info.IsChecked)
                            .Set(c => c.Items, Info.Items.ToArray())
                            .Set(c => c.Value, Info.Value)
                            .Set(c => c.ValueChanged, OnValueChanged)
@@ -214,10 +223,11 @@ class SysRoleForm : BaseForm<SysRole>
             builder.Div("title", attr =>
             {
                 builder.Span(Title);
-                builder.Check(attr => attr.Title("全选/取消").Checked(Info.IsAll).OnClick(Callback(() =>
+                builder.Check(attr =>
                 {
-                    Info.IsAll = !Info.IsAll;
-                })));
+                    attr.Title("全选/取消").Disabled(!Info.IsChecked).Checked(Info.IsAll)
+                        .OnClick(Callback(() => Info.IsAll = !Info.IsAll));
+                });
             });
         }
 
