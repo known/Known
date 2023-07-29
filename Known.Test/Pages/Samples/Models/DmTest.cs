@@ -24,6 +24,8 @@ class DmTest : EntityBase
         var color = Utils.ToHtml(rndColor);
         return new DmTest
         {
+            Id = $"test{id}",
+            IsNew = false,
             No = $"{id}",
             Name = $"测试名称数据{id}",
             Title = $"测试标题信息{id}",
