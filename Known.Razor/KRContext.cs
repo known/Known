@@ -53,4 +53,18 @@ public class KRContext : Context
         item.ComType = type;
         Navigate(item);
     }
+
+    internal void Navigate<TItem, TForm>(string name, string icon, TItem model, bool readOnly = false) where TItem : EntityBase, new() where TForm : BaseForm<TItem>
+    {
+        var menu = new MenuItem(name, icon, typeof(TForm))
+        {
+            ComParameters = new Dictionary<string, object> {
+                { nameof(Form.ReadOnly), readOnly },
+                { nameof(Form.Model), model }
+            }
+        };
+        var id = model == null || model.IsNew ? string.Empty : model.Id;
+        menu.Id = model.Id + name + id;
+        Navigate(menu);
+    }
 }

@@ -403,7 +403,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     }
 }
 
-public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase, new() where TForm : Form
+public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase, new() where TForm : BaseForm<TItem>
 {
     public DataGrid()
     {
@@ -421,30 +421,17 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase, 
         var actionName = $"{action}{Name}";
         model ??= await GetDefaultModelAsync();
         if (showInDialog)
-        {
             ShowForm<TForm>(actionName, model);
-        }
         else
-        {
-            Context.Navigate<TForm>(actionName, "", new Dictionary<string, object> { 
-                { nameof(Form.Model), model }
-            });
-        }
+            Context.Navigate<TItem, TForm>(actionName, "", model);
     }
 
     protected void View(TItem model, bool showInDialog)
     {
         var actionName = $"查看{Name}";
         if (showInDialog)
-        {
             UI.ShowForm<TForm>(actionName, model);
-        }
         else
-        {
-            Context.Navigate<TForm>(actionName, "", new Dictionary<string, object> {
-                { nameof(Form.ReadOnly), true },
-                { nameof(Form.Model), model }
-            });
-        }
+            Context.Navigate<TItem, TForm>(actionName, "", model, true);
     }
 }
