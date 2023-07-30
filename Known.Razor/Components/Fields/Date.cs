@@ -8,6 +8,9 @@ public class Date : Field
 
     internal override object GetFieldValue()
     {
+        if (string.IsNullOrWhiteSpace(Value))
+            return null;
+
         if (!IsDateValue)
             return Value;
 
