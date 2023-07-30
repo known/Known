@@ -41,7 +41,7 @@ pre {
 }
 .box, .card, .group-box, .dialog, .tag, .progress, .progress .value,
 .banner, .notify, .toast span, 
-.button, button, input, select, textarea, .form-input .icon, .search-box .icon,
+.button, button, input, select, textarea, .editor, .form-input .icon, .search-box .icon,
 .kui-tips, .kui-content, .kui-tabs .tab-body {
     -webkit-border-radius:var(--border-radius);-moz-border-radius:var(--border-radius);border-radius:var(--border-radius);
 }
@@ -58,8 +58,9 @@ button:disabled, .button:disabled {-moz-opacity:0.5;opacity:0.5;filter:alpha(opa
 input:read-only, select:disabled, textarea:read-only, input.select:disabled {background-color:var(--disabled);}
 input.select:read-only {background-color:#fff;}
 input[type="text"], textarea {position:relative;}
-input, select, textarea, .list-box {width:100%;min-width:100px;border:1px solid var(--border);padding:0 0.5rem;}
+input, select, textarea, .editor, .list-box {width:100%;min-width:100px;border:1px solid var(--border);padding:0 0.5rem;}
 textarea {height:100%;min-height:4rem;padding:0.2rem;font-family:inherit;}
+.editor {padding:0;}
 input[type="number"], input[type="password"] {padding-right:0;}
 input[type="color"] {width:2rem;min-width:2rem;padding:0 0.12rem;}
 input[type="checkbox"], input[type="radio"] {width:1.2rem;min-width:1.2rem;height:1.2rem;}

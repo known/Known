@@ -11,6 +11,7 @@ import "./libs/qrcode.js";
 import "./libs/highcharts.js";
 import "./libs/pdfobject.js";
 import "./libs/xlsxcore.js";
+import "./libs/wangEditor.js";
 
 $(function () {
     $(document).click(function (e) {
@@ -231,6 +232,15 @@ export class KRazor {
             inputs[0].focus();
         }
         KAdmin.setFormList();
+    }
+    static initEditor(id) {
+        var editor = new window.wangEditor('#' + id);
+        editor.config.onchange = function (html) {
+            elem.val(html);
+        };
+        editor.config.uploadImgServer = '/File/Upload';
+        editor.create();
+        console.log(editor);
     }
     static captcha(id, code) {
         var canvas = document.getElementById(id);
