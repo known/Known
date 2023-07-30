@@ -365,7 +365,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     internal void ShowColumnSetting()
     {
         var data = Columns.Select(c => c.ToColumn()).ToList();
-        UI.Show<ColumnGrid>("表格设置", new(780, 500), action: attr =>
+        UI.Show<ColumnSetting>("表格设置", new(780, 500), action: attr =>
         {
             attr.Set(c => c.PageId, Id)
                 .Set(c => c.Data, data)

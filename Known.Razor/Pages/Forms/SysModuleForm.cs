@@ -3,8 +3,8 @@
 [Dialog(1000, 680)]
 class SysModuleForm : BaseForm<SysModule>
 {
-    private ColumnGrid grid;
     private SysModule model;
+    private ColumnGrid grid;
     private List<ColumnInfo> columns;
 
     public SysModuleForm()
@@ -32,7 +32,6 @@ class SysModuleForm : BaseForm<SysModule>
         {
             builder.Component<ColumnGrid>()
                    .Set(c => c.ReadOnly, ReadOnly)
-                   .Set(c => c.IsModule, true)
                    .Set(c => c.Data, columns)
                    .Build(value => grid = value);
         });
