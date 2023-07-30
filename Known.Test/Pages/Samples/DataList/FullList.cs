@@ -21,7 +21,7 @@ class FullList : DmTestList
         builder.Field(r => r.Picture).Template((b, r) => b.Img(r.Picture));
         builder.Field("信息", "Info").Width(200).Template(BuildTestInfo);
         builder.Field(r => r.Status).Center().Template((b, r) => b.BillStatus(r.Status));
-        builder.Field(r => r.Time).Type(ColumnType.DateTime).IsVisible(false);
+        builder.Field(r => r.Time).Type(ColumnType.DateTime);
         builder.Field(r => r.Icon).Center().Template((b, r) => b.Icon(r.Icon));
         builder.Field(r => r.Color).Template(BuildColorInfo);
         builder.Field(r => r.Progress).Template(BuildProgressInfo);

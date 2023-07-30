@@ -20,6 +20,12 @@ class TestForm : BaseForm<DmTest>
             });
             table.Tr(attr =>
             {
+                table.Field<Date>(f => f.Time).Build();
+                table.Field<Text>(f => f.Picture).Build();
+                table.Field<Text>(f => f.Progress).Build();
+            });
+            table.Tr(attr =>
+            {
                 table.Field<TextArea>(f => f.Note).ColSpan(5).Build();
             });
         });

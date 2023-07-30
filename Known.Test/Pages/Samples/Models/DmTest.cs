@@ -6,7 +6,7 @@ class DmTest : EntityBase
     [Column("名称")] public string Name { get; set; }
     [Column("标题")] public string Title { get; set; }
     [Column("状态")] public string Status { get; set; }
-    [Column("时间")] public DateTime Time { get; set; }
+    [Column("时间")] public DateTime? Time { get; set; }
     [Column("图片")] public string Picture { get; set; }
     [Column("图标")] public string Icon { get; set; }
     [Column("颜色")] public string Color { get; set; }
@@ -30,7 +30,6 @@ class DmTest : EntityBase
             Name = $"测试名称数据{id}",
             Title = $"测试标题信息{id}",
             Status = Statuses.Random(),
-            Time = DateTime.Now,
             Picture = "/img/login.jpg",
             Icon = Icons.Random(),
             Color = color,
