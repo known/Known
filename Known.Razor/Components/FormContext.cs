@@ -9,7 +9,7 @@ class FormContext : FieldContext
             var obj = new ExpandoObject();
             foreach (var item in Fields)
             {
-                obj.TryAdd(item.Key, item.Value.GetValue());
+                obj.TryAdd(item.Key, item.Value.GetFieldValue());
             }
             return obj;
         }
