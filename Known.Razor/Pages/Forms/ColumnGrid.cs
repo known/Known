@@ -72,7 +72,7 @@ class ColumnGrid : EditGrid<ColumnInfo>
         var builder = new ColumnBuilder<ColumnInfo>();
         if (isModule)
             builder.Field(r => r.Id).Name("ID").Edit().Width(100);
-        builder.Field(r => r.Name).Name("名称").Edit();
+        builder.Field(r => r.Name).Name("名称").Edit().Width(100);
         if (isModule)
             builder.Field(r => r.Type).Name("类型").Edit(new SelectOption(typeof(ColumnType))).Width(100);
         builder.Field(r => r.Align).Name("对齐").Edit(new SelectOption(typeof(AlignType))).Width(100);

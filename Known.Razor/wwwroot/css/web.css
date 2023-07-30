@@ -132,6 +132,7 @@ button, .button, input, select,
 
 /*SysModule*/
 .module .table .action {width:140px;}
+.module .form-list .table .action {width:80px;}
 .module .tool {position:absolute;top:-2.2rem;right:5px;}
 .module .tool .form-input {display:inline-block;}
 
