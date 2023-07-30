@@ -34,8 +34,11 @@ class PageTabs : BaseComponent
     {
         builder.Div("tabs top kui-tabs", attr =>
         {
-            BuildTabHead(builder);
-            BuildTabBody(builder);
+            builder.Cascading(this, b =>
+            {
+                BuildTabHead(b);
+                BuildTabBody(b);
+            });
         });
     }
 
@@ -109,7 +112,7 @@ class PageTabs : BaseComponent
         }
     }
 
-    private void CloseCurrent() => CloseTab(curPage);
+    internal void CloseCurrent() => CloseTab(curPage);
 
     private async void CloseAll()
     {

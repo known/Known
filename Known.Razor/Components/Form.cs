@@ -15,6 +15,8 @@ public class Form : BaseComponent
     [Parameter] public Action<Result> OnSuccess { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    [CascadingParameter] internal PageTabs Tabs { get; set; }
+
     internal FormContext FormContext { get; }
     protected string CheckFields { get; set; }
     public dynamic Data => FormContext.Data;
@@ -80,7 +82,13 @@ public class Form : BaseComponent
         });
     }
 
-    protected virtual void OnCancel() => UI.CloseDialog();
+    protected virtual void OnCancel()
+    {
+        if (Tabs != null)
+            Tabs.CloseCurrent();
+        else
+            UI.CloseDialog();
+    }
 
     protected bool HasButton(ButtonInfo button)
     {
