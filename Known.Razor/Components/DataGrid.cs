@@ -234,7 +234,10 @@ public class DataGrid<TItem> : DataComponent<TItem>
     internal override void BuildContent(RenderTreeBuilder builder)
     {
         var css = CssBuilder.Default("table").AddClass("fixed", IsFixed).Build();
-        builder.Div(css, attr => builder.Cascading(this, b => b.Component<Table<TItem>>().Build(value => table = value)));
+        builder.Div(css, attr =>
+        {
+            builder.Cascading(this, b => b.Component<Table<TItem>>().Build(value => table = value));
+        });
     }
 
     internal override void BuildPager(RenderTreeBuilder builder)
