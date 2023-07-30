@@ -25,6 +25,7 @@ class DemoForm5 : BaseForm
                 table.Field<Input>("电话号码", "Tel").Set(f => f.Type, InputType.Tel).Build();
                 table.Field<Input>("URL", "Url").Set(f => f.Type, InputType.Url).Build();
             });
+            table.Tr(attr => table.Field<RichText>("富文本", "RichText").ColSpan(5).Build());
         });
     }
 
