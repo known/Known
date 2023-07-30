@@ -4,6 +4,16 @@ class DemoHome2 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        builder.Div("demo-row", attr =>
+        {
+            BuildBadge(builder);
+            BuildTag(builder);
+            BuildProgress(builder);
+        });
+    }
+
+    private static void BuildBadge(RenderTreeBuilder builder)
+    {
         builder.Div("row", attr =>
         {
             BuildBadge(builder, StyleType.Default, "10");
@@ -13,6 +23,10 @@ class DemoHome2 : BaseComponent
             BuildBadge(builder, StyleType.Warning, "10");
             BuildBadge(builder, StyleType.Danger, "10");
         });
+    }
+
+    private static void BuildTag(RenderTreeBuilder builder)
+    {
         builder.Div("row", attr =>
         {
             BuildTag(builder, StyleType.Default, "测试");
@@ -23,6 +37,10 @@ class DemoHome2 : BaseComponent
             BuildTag(builder, StyleType.Danger, "失败");
             BuildTag(builder, StyleType.Success, b => b.IconName("fa fa-user", "模板"));
         });
+    }
+
+    private static void BuildProgress(RenderTreeBuilder builder)
+    {
         builder.Div("row", attr =>
         {
             BuildProgress(builder, StyleType.Default, 0.5M);
