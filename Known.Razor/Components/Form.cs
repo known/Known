@@ -10,6 +10,7 @@ public class Form : BaseComponent
         FormContext = new FormContext();
     }
 
+    [Parameter] public bool InDialog { get; set; }
     [Parameter] public string Style { get; set; }
     [Parameter] public object Model { get; set; }
     [Parameter] public Action<Result> OnSuccess { get; set; }
@@ -85,10 +86,10 @@ public class Form : BaseComponent
     protected virtual void OnCancel()
     {
         FormContext.Clear();
-        if (Tabs != null)
-            Tabs.CloseCurrent();
-        else
+        if (InDialog)
             UI.CloseDialog();
+        else
+            Tabs?.CloseCurrent();
     }
 
     protected bool HasButton(ButtonInfo button)
