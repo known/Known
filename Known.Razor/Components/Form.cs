@@ -84,6 +84,7 @@ public class Form : BaseComponent
 
     protected virtual void OnCancel()
     {
+        FormContext.Clear();
         if (Tabs != null)
             Tabs.CloseCurrent();
         else
@@ -101,7 +102,12 @@ public class Form : BaseComponent
 
     public bool Validate() => FormContext.Validate();
     public bool ValidateCheck(bool isPass) => FormContext.ValidateCheck(isPass);
-    public void Clear() => FormContext.Clear();
+
+    public void Clear()
+    {
+        FormContext.Clear();
+        StateChanged();
+    }
 
     public void SetData(object data)
     {

@@ -32,6 +32,12 @@ public abstract class Field : BaseComponent
 
     internal virtual object GetFieldValue() => Value;
 
+    internal void ClearFieldValue()
+    {
+        Value = FormatValue(orgValue);
+        SetFieldContext();
+    }
+
     public T ValueAs<T>()
     {
         var value = GetFieldValue();
@@ -55,7 +61,7 @@ public abstract class Field : BaseComponent
 
     public void Clear()
     {
-        Value = FormatValue(orgValue);
+        ClearFieldValue();
         StateChanged();
     }
 
@@ -149,13 +155,21 @@ public abstract class Field : BaseComponent
         ValueChanged?.Invoke(Value);
         if (FieldContext != null)
         {
-            var value = GetFieldValue();
-            FieldContext.FieldId = Id;
-            FieldContext.FieldValue = value;
-            FieldContext.SetModel(Id, value);
-            SetContext(FieldContext);
+            SetFieldContext();
             OnValueChanged?.Invoke(FieldContext);
         }
+    }
+
+    private void SetFieldContext()
+    {
+        if (FieldContext == null)
+            return;
+
+        var value = GetFieldValue();
+        FieldContext.FieldId = Id;
+        FieldContext.FieldValue = value;
+        FieldContext.SetModel(Id, value);
+        SetContext(FieldContext);
     }
 
     private void BuildTableField(RenderTreeBuilder builder)

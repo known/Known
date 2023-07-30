@@ -79,7 +79,7 @@ class FormContext : FieldContext
     {
         foreach (var item in Fields)
         {
-            item.Value.Clear();
+            item.Value.ClearFieldValue();
         }
     }
 
