@@ -89,7 +89,7 @@ class FormContext : FieldContext
         foreach (var item in Fields)
         {
             var value = model.ContainsKey(item.Key) ? model[item.Key] : null;
-            item.Value.SetValue(value);
+            item.Value.SetFieldValue(value);
         }
     }
 
@@ -97,7 +97,15 @@ class FormContext : FieldContext
     {
         foreach (var item in Fields)
         {
-            item.Value.SetReadOnly(readOnly);
+            item.Value.SetFieldReadOnly(readOnly);
+        }
+    }
+
+    internal void SetEnabled(bool enabled)
+    {
+        foreach (var item in Fields)
+        {
+            item.Value.SetFieldEnabled(enabled);
         }
     }
 }

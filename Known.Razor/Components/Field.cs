@@ -30,7 +30,15 @@ public abstract class Field : BaseComponent
 
     protected void SetError(bool isError) => error = isError ? "error" : "";
 
+    internal void SetFieldReadOnly(bool readOnly) => ReadOnly = readOnly;
+    internal void SetFieldEnabled(bool enabled) => Enabled = enabled;
     internal virtual object GetFieldValue() => Value;
+
+    internal void SetFieldValue(object value)
+    {
+        Value = FormatValue(value);
+        SetFieldContext();
+    }
 
     internal void ClearFieldValue()
     {
@@ -67,7 +75,7 @@ public abstract class Field : BaseComponent
 
     public virtual void SetValue(object value)
     {
-        Value = FormatValue(value);
+        SetFieldValue(value);
         StateChanged();
     }
 

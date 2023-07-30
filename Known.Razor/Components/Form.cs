@@ -113,11 +113,19 @@ public class Form : BaseComponent
     {
         Model = data;
         FormContext.SetData(data);
+        StateChanged();
     }
 
     public void SetReadOnly(bool readOnly)
     {
         FormContext.SetReadOnly(readOnly);
+        StateChanged();
+    }
+
+    public void SetEnabled(bool enabled)
+    {
+        FormContext.SetEnabled(enabled);
+        StateChanged();
     }
 
     public void Submit(Action<dynamic> action)
