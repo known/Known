@@ -40,9 +40,18 @@ window.KAdmin = {
     setTable: function (id) {
         var toolbar = $('#' + id + ' .data-top');
         var grid = $('#' + id + ' .grid');
+        var table = $('#' + id + ' table');
         if (toolbar.length && grid.length) {
             var top = toolbar.outerHeight() + 8;
             grid.css('top', top + 'px');
+        }
+        if (table.length && grid.length) {
+            var tableWidth = table.outerWidth();
+            var gridWidth = grid.outerWidth();
+            if (tableWidth < gridWidth)
+                table.css({ width: '100%' });
+            else
+                table.css({ width: tableWidth + 'px' });
         }
     },
     setFormList: function () {

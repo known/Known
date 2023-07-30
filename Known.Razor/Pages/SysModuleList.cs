@@ -10,6 +10,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
 
     public SysModuleList()
     {
+        Style = "module";
         Name = string.Empty;
         IsSort = false;
         ShowPager = false;

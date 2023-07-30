@@ -53,8 +53,10 @@ public class Column<T> : ColumnInfo
     {
         if (Type == ColumnType.Boolean)
             classNames.Add("check-box");
-        else if (Type == ColumnType.Date || Type == ColumnType.DateTime)
-            classNames.Add("txt-center inline2");
+        else if (Type == ColumnType.Date)
+            classNames.Add("date");
+        else if (Type == ColumnType.DateTime)
+            classNames.Add("datetime");
         else if (Align == AlignType.Center)
             classNames.Add("txt-center");
         else if (Type == ColumnType.Number || Align == AlignType.Right)
@@ -103,7 +105,7 @@ public class Column<T> : ColumnInfo
         else if (Type == ColumnType.Boolean)
             builder.Field<CheckBox>(Id).Value(value?.ToString()).Enabled(false).Set(f => f.Switch, true).Build();
         else
-            builder.Text(Format(value));
+            builder.Div("", Format(value));
     }
 
     private void BuildEditCell(RenderTreeBuilder builder, T row, object value)
@@ -123,7 +125,7 @@ public class Column<T> : ColumnInfo
 
         if (Type == ColumnType.Boolean)
         {
-            builder.Field<CheckBox>(Id).IsInput(true).Value(value?.ToString())
+            builder.Field<CheckBox>(Id).Style("check").IsInput(true).Value(value?.ToString())
                    .ValueChanged(val => OnValueChanged(row, val)).Build();
         }
         else if (Type == ColumnType.Date)

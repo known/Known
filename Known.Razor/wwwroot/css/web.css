@@ -129,6 +129,9 @@ button, .button, input, select,
 .table .form-radio .switch[type="checkbox"]+span:after {top:0.2rem;}
 .form-list {position:absolute;left:0;right:0;top:80px;bottom:0;}
 .form-list .grid-view {top:0;bottom:0;left:0;right:0;}
+
+/*SysModule*/
+.module .table .action {width:140px;}
 .module .tool {position:absolute;top:-2.2rem;right:5px;}
 .module .tool .form-input {display:inline-block;}
 
