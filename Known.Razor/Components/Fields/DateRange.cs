@@ -14,7 +14,7 @@ public class DateRange : Field
 
     [Parameter] public string Split { get; set; }
 
-    internal override object GetValue() => string.Join(split, values);
+    internal override object GetFieldValue() => string.Join(split, values);
 
     protected override void OnInitialized()
     {

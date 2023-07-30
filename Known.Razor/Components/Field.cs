@@ -30,11 +30,11 @@ public abstract class Field : BaseComponent
 
     protected void SetError(bool isError) => error = isError ? "error" : "";
 
-    internal virtual object GetValue() => Value;
+    internal virtual object GetFieldValue() => Value;
 
     public T ValueAs<T>()
     {
-        var value = GetValue();
+        var value = GetFieldValue();
         if (value is T val)
             return val;
 
@@ -149,7 +149,7 @@ public abstract class Field : BaseComponent
         ValueChanged?.Invoke(Value);
         if (FieldContext != null)
         {
-            var value = GetValue();
+            var value = GetFieldValue();
             FieldContext.FieldId = Id;
             FieldContext.FieldValue = value;
             FieldContext.SetModel(Id, value);

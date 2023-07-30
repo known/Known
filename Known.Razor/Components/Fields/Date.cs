@@ -6,7 +6,7 @@ public class Date : Field
 
     [Parameter] public DateType DateType { get; set; }
 
-    internal override object GetValue()
+    internal override object GetFieldValue()
     {
         if (!IsDateValue)
             return Value;
