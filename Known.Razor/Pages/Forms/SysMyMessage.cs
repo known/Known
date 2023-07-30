@@ -51,7 +51,7 @@ class SysMessageList : DataGrid<SysMessage>
         builder.Field(r => r.MsgLevel).Center(100).Template(BuildMsgLevel);
         builder.Field(r => r.Subject, true).Template(BuildSubject);
         builder.Field(r => r.MsgBy).Center(100);
-        builder.Field(r => r.CreateTime).Name("收件时间").Center(120).Type(ColumnType.DateTime);
+        builder.Field(r => r.CreateTime).Name("收件时间").Type(ColumnType.DateTime);
         Columns = builder.ToColumns();
     }
 

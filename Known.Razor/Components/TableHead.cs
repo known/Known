@@ -53,13 +53,12 @@ class TableHead<TItem> : BaseComponent
 
     private void BuildHeadIndex(RenderTreeBuilder builder)
     {
-        //builder.Th("fixed index", "#");
         builder.Th("fixed index", attr =>
         {
             if (Grid.ShowSetting)
-            {
                 builder.Icon("fa fa-cog", "表格设置", Callback(Grid.ShowColumnSetting));
-            }
+            else
+                builder.Text("#");
         });
     }
 
@@ -80,7 +79,6 @@ class TableHead<TItem> : BaseComponent
                         Grid.SelectedItems.AddRange(Grid.Data);
                     Table.Changed();
                 })));
-                builder.Span("");
             });
         });
     }

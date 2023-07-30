@@ -63,7 +63,6 @@ class TableRow<TItem> : BaseComponent
                                         Grid.SelectedItems.Count == Grid.PageSize;
                     }));
                 });
-                builder.Span("");
             });
         });
     }
