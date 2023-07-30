@@ -6,7 +6,6 @@ public class Form : BaseComponent
 
     public Form()
     {
-        isInitialized = false;
         FormContext = new FormContext();
     }
 
@@ -88,8 +87,10 @@ public class Form : BaseComponent
         FormContext.Clear();
         if (InDialog)
             UI.CloseDialog();
+        else if (Tabs != null)
+            Tabs.CloseCurrent();
         else
-            Tabs?.CloseCurrent();
+            Context.Back();
     }
 
     protected bool HasButton(ButtonInfo button)
