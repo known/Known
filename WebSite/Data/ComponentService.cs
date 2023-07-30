@@ -42,6 +42,7 @@ class ComponentService
         input.Children.Add<KUpload>("上传", "上传文件组件。");
         input.Children.Add<KCaptcha>("验证码", "前端图片验证码组件。");
         input.Children.Add<KSearchBox>("搜索框", "带搜索按钮的输入组件。");
+        input.Children.Add<KRichText>("富文本", "基于wangEditor.js实现。");
         items.Add(input);
 
         var nav = new MenuItem("nav", "导航类");
