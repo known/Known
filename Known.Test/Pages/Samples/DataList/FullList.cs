@@ -33,12 +33,12 @@ class FullList : DmTestList
 
     public void New() => ShowForm(null, false);
     public void DeleteM() => DeleteRows(null);
-    public void Edit(DmTest row) => ShowForm(row, false);
+    public void Edit(DmTest row) => ShowForm(row, false, row.Name);
     public void Delete(DmTest row) => DeleteRow(row, null);
 
     private void BuildTestInfo(RenderTreeBuilder builder, DmTest row)
     {
-        builder.Link(row.Title, Callback(e => View(row, false)));
+        builder.Link(row.Title, Callback(e => View(row, false, row.Name)));
         builder.Span("small", row.Name);
         builder.Span("small", $"{row.Time:yyyy-MM-dd HH:mm:ss}");
     }
