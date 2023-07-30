@@ -4,6 +4,16 @@ namespace Known.Test.Pages.Samples.Forms;
 
 class BaseForm : BaseForm<DmBill>
 {
+    private readonly List<ButtonInfo> tools = new()
+    {
+        new ButtonInfo("Load", "加载", "fa fa-refresh", StyleType.Default),
+        new ButtonInfo("View", "只读", "fa fa-file-text-o", StyleType.Warning),
+        new ButtonInfo("Edit", "编辑", "fa fa-file-o", StyleType.Success),
+        new ButtonInfo("Check", "验证", "fa fa-check", StyleType.Info),
+        new ButtonInfo("Save", "保存", "fa fa-save", StyleType.Primary),
+        new ButtonInfo("Clear", "清空", "fa fa-trash-o", StyleType.Danger),
+        new ButtonInfo("Clear", "禁用", "fa fa-trash-o", StyleType.Primary) { Enabled = false }
+    };
     protected Toolbar toolbar;
     protected string formData = "{}";
 
@@ -15,21 +25,18 @@ class BaseForm : BaseForm<DmBill>
 
     protected override void BuildButtons(RenderTreeBuilder builder)
     {
-        var tools = new List<ButtonInfo>
+        builder.Div("demo-tool", attr =>
         {
-            new ButtonInfo("Load", "加载", "fa fa-refresh", StyleType.Default),
-            new ButtonInfo("View", "只读", "fa fa-file-text-o", StyleType.Warning),
-            new ButtonInfo("Edit", "编辑", "fa fa-file-o", StyleType.Success),
-            new ButtonInfo("Check", "验证", "fa fa-check", StyleType.Info),
-            new ButtonInfo("Save", "保存", "fa fa-save", StyleType.Primary),
-            new ButtonInfo("Clear", "清空", "fa fa-trash-o", StyleType.Danger),
-            new ButtonInfo("Clear", "禁用", "fa fa-trash-o", StyleType.Primary) { Enabled = false }
-        };
-        builder.Component<Toolbar>()
-               .Set(c => c.Style, "demo")
-               .Set(c => c.Tools, tools)
-               .Set(c => c.OnAction, OnAction)
-               .Build(value => toolbar = value);
+            builder.Field<Known.Razor.Components.Fields.CheckBox>("chkEnabled").Value("True")
+               .ValueChanged(OnFormEnabledChanged)
+               .Set(f => f.Text, "是否启用")
+               .Build();
+            builder.Component<Toolbar>()
+                   .Set(c => c.Style, "demo")
+                   .Set(c => c.Tools, tools)
+                   .Set(c => c.OnAction, OnAction)
+                   .Build(value => toolbar = value);
+        });
     }
 
     public virtual void Load() { }
@@ -46,5 +53,11 @@ class BaseForm : BaseForm<DmBill>
         else
             method.Invoke(this, null);
         StateChanged();
+    }
+
+    private void OnFormEnabledChanged(string value)
+    {
+        var enabled = Utils.ConvertTo<bool>(value);
+        SetEnabled(enabled);
     }
 }

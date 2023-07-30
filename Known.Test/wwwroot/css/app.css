@@ -64,6 +64,7 @@
 .demo-row, .demo-row .box, .demo td {position:relative;}
 .demo-row .box {display:grid;}
 .demo-row button {margin-right:5px;}
+.demo-tool {display:flex;justify-content:space-between;}
 td img {width:80px;}
 td .icon {font-size:1.2rem;}
 td .color {display:block;width:60px;height:20px;line-height:20px;font-size:0.8rem;text-align:center;color:#fff;}
@@ -87,3 +88,7 @@ td .small {display:block;margin-top:5px;font-size:0.9rem;color:#888;}
 .other {position:absolute;top:0;bottom:0;left:0;right:0;overflow:auto;padding:10px;}
 .other .search-box, .other .form-input {width:200px;}
 .other .progress, .demo-badge, .demo-tag {display:inline-block;margin-right:1rem;}
+
+@media screen and (max-width:768px) {
+    .demo-tool {flex-direction:column;}
+}
