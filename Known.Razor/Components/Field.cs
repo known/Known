@@ -207,7 +207,7 @@ public abstract class Field : BaseComponent
     {
         if (string.IsNullOrWhiteSpace(Label))
         {
-            BuildFormInput(builder);
+            BuildFormInput(builder, Style);
         }
         else
         {
@@ -226,7 +226,7 @@ public abstract class Field : BaseComponent
     }
 
     private bool isEdit = false;
-    private void BuildFormInput(RenderTreeBuilder builder)
+    private void BuildFormInput(RenderTreeBuilder builder, string style = null)
     {
         var isCheck = false;
         if (FieldContext != null)
@@ -235,16 +235,16 @@ public abstract class Field : BaseComponent
             isCheck = !string.IsNullOrWhiteSpace(checkFields) && checkFields.Contains(Id);
         }
 
-        var sb = new StyleBuilder();
-        var style = sb.Width(Width).Height(Height).Build();
+        var sb = StyleBuilder.Default.Width(Width).Height(Height).Build();
         var className = CssBuilder.Default("form-input")
                                   .AddClass(error)
+                                  .AddClass(style)
                                   .AddClass("readonly", IsReadOnly)
                                   .AddClass("check", isCheck)
                                   .Build();
         builder.Div(className, attr =>
         {
-            attr.Style(style);
+            attr.Style(sb);
             if (InputTemplate != null)
             {
                 InputTemplate?.Invoke(builder);
