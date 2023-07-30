@@ -418,10 +418,12 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase, 
     protected virtual Task<TItem> GetDefaultModelAsync() => Task.FromResult(new TItem());
     protected virtual void ShowForm(TItem model = null) => ShowForm(model, true);
 
-    protected virtual async void ShowForm(TItem model, bool showInDialog)
+    protected virtual async void ShowForm(TItem model, bool showInDialog, string title = null)
     {
         var action = model == null || model.IsNew ? "新增" : "编辑";
         var actionName = $"{action}{Name}";
+        if (!string.IsNullOrWhiteSpace(title))
+            actionName += $"-{title}";
         model ??= await GetDefaultModelAsync();
         if (showInDialog)
             ShowForm<TForm>(actionName, model);
@@ -429,9 +431,11 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase, 
             Context.Navigate<TItem, TForm>(actionName, "", model);
     }
 
-    protected void View(TItem model, bool showInDialog)
+    protected void View(TItem model, bool showInDialog, string title = null)
     {
         var actionName = $"查看{Name}";
+        if (!string.IsNullOrWhiteSpace(title))
+            actionName += $"-{title}";
         if (showInDialog)
             UI.ShowForm<TForm>(actionName, model);
         else
