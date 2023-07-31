@@ -6,7 +6,13 @@ class RichText2 : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Field<RichText>("内容：", "RichText2").ValueChanged(OnValueChanged).Build();
+        builder.Field<RichText>("内容：", "RichText2")
+               .ValueChanged(OnValueChanged)
+               .Set(f => f.Option, new
+               {
+                   Placeholder = "请输入通知内容",
+                   UploadImgShowBase64 = true //支持贴图
+               }).Build();
         builder.Div("tips", message);
     }
 

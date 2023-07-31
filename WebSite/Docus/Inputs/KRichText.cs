@@ -8,7 +8,9 @@ class KRichText : BaseDocu
     {
         builder.BuildList(new string[]
         {
-            "基于wangEditor.js实现"
+            "基于wangEditor.js实现",
+            "编辑器配置通过Option参数设置",
+            "配置选项参考：https://www.wangeditor.com/v4/"
         });
     }
 
