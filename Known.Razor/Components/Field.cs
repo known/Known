@@ -79,27 +79,27 @@ public abstract class Field : BaseComponent
         StateChanged();
     }
 
-    public void SetRequired(bool required)
+    public virtual void SetRequired(bool required)
     {
         Required = required;
         StateChanged();
     }
 
-    public void SetReadOnly(bool readOnly)
-    {
-        ReadOnly = readOnly;
-        StateChanged();
-    }
-
-    public void SetEnabled(bool enabled)
-    {
-        Enabled = enabled;
-        StateChanged();
-    }
-
-    public void SetVisible(bool visible)
+    public virtual void SetVisible(bool visible)
     {
         Visible = visible;
+        StateChanged();
+    }
+
+    public virtual void SetEnabled(bool enabled)
+    {
+        SetFieldEnabled(enabled);
+        StateChanged();
+    }
+
+    public virtual void SetReadOnly(bool readOnly)
+    {
+        SetFieldReadOnly(readOnly);
         StateChanged();
     }
 
