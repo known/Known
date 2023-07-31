@@ -9,7 +9,7 @@ public class RichText : Field
 
     public override void SetValue(object value)
     {
-        editor?.InvokeVoidAsync("txt.html", value?.ToString());
+        SetHtml(value?.ToString());
         SetFieldValue(value);
         StateChanged();
     }
@@ -58,6 +58,8 @@ public class RichText : Field
             if (isInit)
                 Destroy();
             editor = await UI.InitEditor(Id, Option);
+            if (!string.IsNullOrWhiteSpace(Value))
+                SetHtml(Value);
             isInit = false;
         }
 
@@ -73,5 +75,6 @@ public class RichText : Field
 
     protected override void BuildText(RenderTreeBuilder builder) => builder.Markup(Value);
     protected override void BuildInput(RenderTreeBuilder builder) => builder.Div("editor", attr => attr.Id(Id));
+    private void SetHtml(string html) => editor?.InvokeVoidAsync("txt.html", html);
     private void Destroy() => editor?.InvokeVoidAsync("destroy");
 }
