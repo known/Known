@@ -30,7 +30,7 @@
 
 *{margin:0;padding:0;}
 html, body {font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-size:1rem;overflow:hidden;}
-html, body, img, iframe, .chart {width:100%;height:100%;}
+html, body, iframe, .chart {width:100%;height:100%;}
 iframe {border:none;}
 a {text-decoration:none;}
 table {border-collapse:collapse;width:100%;}
