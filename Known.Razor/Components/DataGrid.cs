@@ -14,8 +14,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     public DataGrid()
     {
-        var type = GetType();
-        Id = type.FullName;
         var id = Utils.GetGuid();
         qvAdvQueryId = $"qv-{id}";
         GridId = $"dg-{id}";
@@ -278,7 +276,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
         if (KRConfig.UserMenus == null)
             return;
 
-        var menu = KRConfig.UserMenus.FirstOrDefault(m => m.Target == Id);
+        var type = GetType();
+        var menu = KRConfig.UserMenus.FirstOrDefault(m => m.Target == type.FullName);
         if (menu == null)
             return;
 
