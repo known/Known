@@ -25,7 +25,16 @@ class DemoForm5 : BaseForm
                 table.Field<Input>("电话号码", "Tel").Set(f => f.Type, InputType.Tel).Build();
                 table.Field<Input>("URL", "Url").Set(f => f.Type, InputType.Url).Build();
             });
-            table.Tr(attr => table.Field<RichText>("富文本", "RichText").ColSpan(5).Build());
+            table.Tr(attr =>
+            {
+                table.Field<RichText>("富文本", "RichText").ColSpan(5)
+                     .Set(f => f.Option, new
+                     {
+                         Height = 200,
+                         Placeholder = "请输入通知内容"
+                     })
+                     .Build();
+            });
         });
     }
 
