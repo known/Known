@@ -2,11 +2,42 @@
 
 public class RichText : Field
 {
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    private IJSObjectReference editor;
+
+    [Parameter] public object Option { get; set; }
+
+    public override void SetValue(object value)
+    {
+        editor?.InvokeVoidAsync("txt.html", value?.ToString());
+        SetFieldValue(value);
+        StateChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        CallbackHelper.Register(Id, "rich.onchange", new Func<Dictionary<string, object>, Task>(ChangeValue));
+        base.OnInitialized();
+    }
+
+    private Task ChangeValue(Dictionary<string, object> param)
+    {
+        Value = param["html"].ToString();
+        OnValueChange();
+        return Task.CompletedTask;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
-            UI.InitEditor(Id);
-        return base.OnAfterRenderAsync(firstRender);
+            editor = await UI.InitEditor(Id, Option);
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected override ValueTask DisposeAsync(bool disposing)
+    {
+        CallbackHelper.Dispose(Id);
+        return base.DisposeAsync(disposing);
     }
 
     protected override void BuildText(RenderTreeBuilder builder)

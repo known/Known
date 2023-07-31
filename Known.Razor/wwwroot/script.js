@@ -233,14 +233,14 @@ export class KRazor {
         }
         KAdmin.setFormList();
     }
-    static initEditor(id) {
+    static initEditor(id, option) {
         var editor = new window.wangEditor('#' + id);
+        Object.assign(editor.config, option);
         editor.config.onchange = function (html) {
-            elem.val(html);
+            DotNet.invokeMethodAsync('Known.Razor', 'CallbackByParamAsync', id, 'rich.onchange', { html: html });
         };
-        editor.config.uploadImgServer = '/File/Upload';
         editor.create();
-        console.log(editor);
+        return editor;
     }
     static captcha(id, code) {
         var canvas = document.getElementById(id);
