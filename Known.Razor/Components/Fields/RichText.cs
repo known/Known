@@ -5,6 +5,11 @@ public class RichText : Field
     private bool isInit = false;
     private IJSObjectReference editor;
 
+    public RichText()
+    {
+        Style = "editor";
+    }
+
     [Parameter] public object Option { get; set; }
 
     internal override void SetFieldVisible(bool visible)
@@ -40,11 +45,21 @@ public class RichText : Field
         base.OnInitialized();
     }
 
-    private Task ChangeValue(Dictionary<string, object> param)
+    protected override void OnParametersSet()
     {
-        Value = param["html"].ToString();
-        OnValueChange();
-        return Task.CompletedTask;
+        Height = null;
+        if (IsReadOnly)
+        {
+            var option = Utils.MapTo<Dictionary<string, object>>(Option);
+            if (option != null)
+            {
+                if (option.ContainsKey("Height"))
+                    Height = option.GetValue<int>("Height");
+                else if (option.ContainsKey("height"))
+                    Height = option.GetValue<int>("height");
+            }
+        }
+        base.OnParametersSet();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -70,7 +85,15 @@ public class RichText : Field
     }
 
     protected override void BuildText(RenderTreeBuilder builder) => builder.Markup(Value);
-    protected override void BuildInput(RenderTreeBuilder builder) => builder.Div("editor", attr => attr.Id(Id));
+    protected override void BuildInput(RenderTreeBuilder builder) => builder.Div(attr => attr.Id(Id));
+
+    private Task ChangeValue(Dictionary<string, object> param)
+    {
+        Value = param["html"].ToString();
+        OnValueChange();
+        return Task.CompletedTask;
+    }
+
     private void SetHtml(string html) => editor?.InvokeVoidAsync("txt.html", html);
     private void Destroy() => editor?.InvokeVoidAsync("destroy");
 }
