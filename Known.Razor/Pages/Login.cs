@@ -121,8 +121,12 @@ public class Login : BaseComponent
             Remember = IsCaptcha ? true : Utils.ConvertTo<bool>(data.Remember)
         });
         var result = await Platform.User.SignInAsync(info);
-        message = result.Message;
-        if (result.IsValid)
+        if (!result.IsValid)
+        {
+            message = result.Message;
+            StateChanged();
+        }
+        else
         {
             var user = result.DataAs<UserInfo>();
             OnLogin?.Invoke(user);
