@@ -30,11 +30,12 @@ public abstract class Field : BaseComponent
 
     protected void SetError(bool isError) => error = isError ? "error" : "";
 
-    internal void SetFieldReadOnly(bool readOnly) => ReadOnly = readOnly;
-    internal void SetFieldEnabled(bool enabled) => Enabled = enabled;
+    internal virtual void SetFieldVisible(bool visible) => Visible = visible;
+    internal virtual void SetFieldReadOnly(bool readOnly) => ReadOnly = readOnly;
+    internal virtual void SetFieldEnabled(bool enabled) => Enabled = enabled;
     internal virtual object GetFieldValue() => Value;
 
-    internal void SetFieldValue(object value)
+    internal virtual void SetFieldValue(object value)
     {
         Value = FormatValue(value);
         SetFieldContext();
@@ -73,31 +74,31 @@ public abstract class Field : BaseComponent
         StateChanged();
     }
 
-    public virtual void SetValue(object value)
+    public void SetValue(object value)
     {
         SetFieldValue(value);
         StateChanged();
     }
 
-    public virtual void SetRequired(bool required)
+    public void SetRequired(bool required)
     {
         Required = required;
         StateChanged();
     }
 
-    public virtual void SetVisible(bool visible)
+    public void SetVisible(bool visible)
     {
-        Visible = visible;
+        SetFieldVisible(visible);
         StateChanged();
     }
 
-    public virtual void SetEnabled(bool enabled)
+    public void SetEnabled(bool enabled)
     {
         SetFieldEnabled(enabled);
         StateChanged();
     }
 
-    public virtual void SetReadOnly(bool readOnly)
+    public void SetReadOnly(bool readOnly)
     {
         SetFieldReadOnly(readOnly);
         StateChanged();

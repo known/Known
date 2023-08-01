@@ -7,35 +7,31 @@ public class RichText : Field
 
     [Parameter] public object Option { get; set; }
 
-    public override void SetValue(object value)
-    {
-        SetHtml(value?.ToString());
-        SetFieldValue(value);
-        StateChanged();
-    }
-
-    public override void SetVisible(bool visible)
+    internal override void SetFieldVisible(bool visible)
     {
         isInit = visible;
-        Visible = visible;
-        StateChanged();
+        base.SetFieldVisible(visible);
     }
 
-    public override void SetEnabled(bool enabled)
+    internal override void SetFieldReadOnly(bool readOnly)
+    {
+        isInit = !readOnly;
+        base.SetFieldReadOnly(readOnly);
+    }
+
+    internal override void SetFieldEnabled(bool enabled)
     {
         if (enabled)
             editor?.InvokeVoidAsync("enable");
         else
             editor?.InvokeVoidAsync("disable");
-        SetFieldEnabled(enabled);
-        StateChanged();
+        base.SetFieldEnabled(enabled);
     }
 
-    public override void SetReadOnly(bool readOnly)
+    internal override void SetFieldValue(object value)
     {
-        isInit = !readOnly;
-        SetFieldReadOnly(readOnly);
-        StateChanged();
+        SetHtml(value?.ToString());
+        base.SetFieldValue(value);
     }
 
     protected override void OnInitialized()
