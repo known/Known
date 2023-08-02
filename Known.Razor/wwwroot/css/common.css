@@ -164,6 +164,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 /*group-box*/
 .group-box {position:relative;border:1px solid var(--border);}
 .group-box .legend {position:absolute;top:-10px;left:20px;background-color:#fff;padding:0 10px;}
+.group-box-body {padding:1rem;}
 
 /*card*/
 .card {position:absolute;top:0;left:0;right:0;bottom:0;}

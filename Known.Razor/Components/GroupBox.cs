@@ -12,7 +12,7 @@ public class GroupBox : BaseComponent
         builder.Div(css, attr =>
         {
             builder.Label("legend", Title);
-            builder.Fragment(ChildContent);
+            builder.Div("group-box-body", attr => builder.Fragment(ChildContent));
         });
     }
 }
