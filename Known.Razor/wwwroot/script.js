@@ -39,13 +39,23 @@ window.KAdmin = {
         KAdmin.setDialog();
     },
     setTable: function (id) {
+        var gridView = $('#' + id);
+        var prev = gridView.prev();
+        var top = 10;
+        if (prev.length && gridView.outerWidth() < 768) {
+            top = prev.outerHeight();
+        }
+        gridView.css('top', top + 'px');
+
+        top = 0;
         var toolbar = $('#' + id + ' .data-top');
         var grid = $('#' + id + ' .grid');
-        var table = $('#' + id + ' table');
         if (toolbar.length && grid.length) {
-            var top = toolbar.outerHeight() + 8;
-            grid.css('top', top + 'px');
+            top = toolbar.outerHeight() + 8;
         }
+        grid.css('top', top + 'px');
+
+        var table = $('#' + id + ' table');
         if (table.length && grid.length) {
             var tableWidth = table.outerWidth();
             var gridWidth = grid.outerWidth();

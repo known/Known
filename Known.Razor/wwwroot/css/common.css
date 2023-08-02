@@ -253,6 +253,13 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .tabs.bottom > .tab > li.active {border-top-color:var(--tab-active);}
 .tab-tool {position:absolute;top:5px;right:10px;z-index:9999;}
 
+@media screen and (max-width:768px) {
+    .tabs.left {grid-template-columns:40px auto;}
+    .tabs.right {grid-template-columns:auto 40px;}
+    .tabs.left > .tab > li, .tabs.right > .tab > li {margin:8px 0;padding:2px;}
+    .tabs.left > .tab > li > span, .tabs.right > .tab > li > span {display:none;}
+}
+
 /*steps*/
 .steps ul {display:flex;justify-content:space-between;overflow:hidden;}
 .steps li {position:relative;}
