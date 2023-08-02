@@ -85,7 +85,6 @@ td .small {display:block;margin-top:5px;font-size:0.9rem;color:#888;}
 .bill-form #TotalAmount {color:#6618b1;}
 .bill-form #PaidAmount {color:#a30e0e;}
 
-.other {position:absolute;top:0;bottom:0;left:0;right:0;overflow:auto;padding:10px;}
 .other .search-box, .other .form-input {width:200px;}
 .other .progress, .demo-badge, .demo-tag {display:inline-block;margin-right:1rem;}
 

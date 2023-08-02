@@ -14,13 +14,12 @@ class DemoOther : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("other", attr =>
-        {
-            builder.Component<Tabs>()
+        builder.Component<Tabs>()
+               .Set(c => c.Style, "other")
+               .Set(c => c.Position, PositionType.Left)
                .Set(c => c.CurItem, items[0])
                .Set(c => c.Items, items)
                .Set(c => c.Body, (b, m) => b.DynamicComponent(m.ComType))
                .Build();
-        });
     }
 }

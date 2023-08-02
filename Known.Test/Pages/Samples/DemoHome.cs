@@ -17,6 +17,7 @@ class DemoHome : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Component<Tabs>()
+               .Set(c => c.Position, PositionType.Left)
                .Set(c => c.CurItem, items[0])
                .Set(c => c.Items, items)
                .Set(c => c.Body, (b, m) => b.DynamicComponent(m.ComType))
