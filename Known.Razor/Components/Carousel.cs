@@ -19,7 +19,7 @@ public class Carousel : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("slider", attr =>
+        builder.Div("carousel", attr =>
         {
             BuildItems(builder);
             BuildSnks(builder);
@@ -34,7 +34,7 @@ public class Carousel : BaseComponent
         for (int i = 0; i < Images.Length; i++)
         {
             var item = Images[i];
-            var css = CssBuilder.Default("slider-item").AddClass("active animated fadeIn", i == curIndex).Build();
+            var css = CssBuilder.Default("carousel-item").AddClass("active animated fadeIn", i == curIndex).Build();
             builder.Div(css, attr =>
             {
                 builder.Img(attr => attr.Src(item));
@@ -50,7 +50,7 @@ public class Carousel : BaseComponent
         if (Images == null || Images.Length == 0)
             return;
 
-        builder.Div("slider-snk", attr =>
+        builder.Div("carousel-snk", attr =>
         {
             for (int i = 0; i < Images.Length; i++)
             {

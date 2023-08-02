@@ -210,13 +210,14 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .progress {background-color:#ccc;width:100%;}
 .progress .value {text-align:right;font-size:0.8rem;padding-right:5px;}
 
-/*slider*/
-.slider {width:100%;height:100%;overflow:hidden;position:relative;}
-.slider-item {position:absolute;top:0;left:0;width:100%;height:100%;display:none;}
-.slider-item.active {display:block;}
-.slider-snk {position:absolute;left:0;right:0;bottom:10px;z-index:9999;text-align:center;}
-.slider-snk span {display:inline-block;width:10px;height:10px;background-color:#fff;margin:0 3px;}
-.slider-snk span.active {background-color:#08c4b1;}
+/*carousel*/
+.carousel, .carousel img {width:100%;height:100%;}
+.carousel {overflow:hidden;position:relative;}
+.carousel-item {position:absolute;top:0;left:0;width:100%;height:100%;display:none;}
+.carousel-item.active {display:block;}
+.carousel-snk {position:absolute;left:0;right:0;bottom:10px;z-index:9999;text-align:center;}
+.carousel-snk span {display:inline-block;width:10px;height:10px;background-color:#fff;margin:0 3px;}
+.carousel-snk span.active {background-color:#08c4b1;}
 
 /*tabs*/
 .tabs {display:grid;}
