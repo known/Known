@@ -21,8 +21,7 @@ public static class ComponentExtension
         builder.OpenComponent<T>(0);
         var attr = new AttributeBuilder<T>(builder);
         child?.Invoke(attr);
-        if (attr.Parameters.Count > 0)
-            builder.AddMultipleAttributes(1, attr.Parameters);
+        builder.AddMultipleAttributes(1, attr.Parameters);
         builder.CloseComponent();
     }
 
@@ -34,15 +33,15 @@ public static class ComponentExtension
         builder.CloseComponent();
     }
 
-    public static void DynamicComponent(this RenderTreeBuilder builder, Type type, Dictionary<string, object> parameters = null)
+    public static void DynamicComponent(this RenderTreeBuilder builder, Type type, Dictionary<string, object> parameters = null, Action<DynamicComponent> action = null)
     {
         if (type == null)
             return;
 
         builder.OpenComponent<DynamicComponent>(0);
         builder.AddAttribute(1, "Type", RuntimeHelpers.TypeCheck(type));
-        if (parameters != null)
-            builder.AddAttribute(1, "Parameters", RuntimeHelpers.TypeCheck(parameters));
+        builder.AddAttribute(1, "Parameters", parameters);
+        builder.AddComponentReferenceCapture(2, value => action?.Invoke((DynamicComponent)value));
         builder.CloseComponent();
     }
 }

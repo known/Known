@@ -2,6 +2,7 @@
 
 class PageSingle : BaseComponent
 {
+    private DynamicComponent component;
     private MenuItem curPage = KRConfig.Home;
 
     internal void ShowPage(MenuItem menu)
@@ -40,6 +41,9 @@ class PageSingle : BaseComponent
         if (curPage == null || curPage.ComType == null)
             return;
 
-        builder.DynamicComponent(curPage.ComType, curPage.ComParameters);
+        if (component != null)
+            component = null;
+
+        builder.DynamicComponent(curPage.ComType, curPage.ComParameters, value => component = value);
     }
 }
