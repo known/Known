@@ -62,7 +62,7 @@ class ComponentService
         view.Children.Add<KCard>("卡片", "由标题和内容组成。");
         view.Children.Add<KEmpty>("空状态", "用于无数据提示。");
         view.Children.Add<KDropdown>("下拉框", "用于向下弹出内容。");
-        //view.Children.Add<KGroupBox>("分组框", "");
+        view.Children.Add<KGroupBox>("分组框", "");
         view.Children.Add<KImageBox>("图片框", "用于显示图片。");
         view.Children.Add<KTimeline>("时间轴", "用于显示时间节点内容。");
         view.Children.Add<KCarousel>("走马灯", "用于轮流播放一组图片。");

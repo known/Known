@@ -1,20 +1,19 @@
-﻿using WebSite.Docus.View.ImageBoxs;
+﻿using WebSite.Docus.View.GroupBoxs;
 
 namespace WebSite.Docus.View;
 
-class KImageBox : BaseDocu
+class KGroupBox : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
         builder.BuildList(new string[]
         {
-            "显示缩略图片",
-            "点击缩略图可放大查看原图"
+            "显示分组信息"
         });
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
     {
-        builder.BuildDemo<ImageBox1>("1.默认示例");
+        builder.BuildDemo<GroupBox1>("1.默认示例");
     }
 }
