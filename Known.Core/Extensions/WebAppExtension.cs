@@ -120,6 +120,13 @@ public static class WebAppExtension
             app.UseHsts();
         }
 
+        app.UseCors(options =>
+        {
+            options.WithOrigins();
+            options.AllowAnyHeader();
+            options.AllowAnyMethod();
+            options.AllowCredentials();
+        });
         app.UseHttpsRedirection();
 
         var upload = KCConfig.GetUploadPath();

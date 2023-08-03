@@ -54,6 +54,13 @@ class Startup
         if (env.IsDevelopment())
             app.UseDeveloperExceptionPage();
 
+        app.UseCors(options =>
+        {
+            options.WithOrigins();
+            options.AllowAnyHeader();
+            options.AllowAnyMethod();
+            options.AllowCredentials();
+        });
         app.UseHttpsRedirection();
         var upload = KCConfig.GetUploadPath();
         app.UseStaticFiles(new StaticFileOptions
