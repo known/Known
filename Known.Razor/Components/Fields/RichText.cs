@@ -4,6 +4,7 @@ public class RichText : Field
 {
     private bool isInit = false;
     private IJSObjectReference editor;
+    private object option;
 
     public RichText()
     {
@@ -41,6 +42,10 @@ public class RichText : Field
 
     protected override void OnInitialized()
     {
+        option = new
+        {
+            UploadImgServer = $"{Context.Http.BaseAddress}File/UploadEditorImage"
+        };
         CallbackHelper.Register(Id, "rich.onchange", new Func<Dictionary<string, object>, Task>(ChangeValue));
         base.OnInitialized();
     }
@@ -68,7 +73,9 @@ public class RichText : Field
         {
             if (isInit)
                 Destroy();
-            editor = await UI.InitEditor(Id, Option);
+
+            var option1 = option.Merge(Option);
+            editor = await UI.InitEditor(Id, option1);
             if (!string.IsNullOrWhiteSpace(Value))
                 SetHtml(Value);
             isInit = false;
