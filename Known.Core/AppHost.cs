@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Known.Core.Filters;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +37,11 @@ class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        var builder = services.AddControllers();
+        var builder = services.AddControllers(options =>
+        {
+            options.Filters.Add<ExceptionFilter>();
+            options.Filters.Add<AuthActionFilter>();
+        });
         builder.ConfigureApplicationPartManager(apm =>
         {
             apm.ApplicationParts.Add(new AssemblyPart(typeof(BaseController).Assembly));

@@ -11,7 +11,11 @@ public static class WebAppExtension
     {
         KCConfig.AddWebPlatform();
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers(options =>
+        {
+            options.Filters.Add<ExceptionFilter>();
+            options.Filters.Add<AuthActionFilter>();
+        });
         action?.Invoke(builder.Services);
 
         var app = builder.Build();
@@ -46,7 +50,6 @@ public static class WebAppExtension
 
     public static void RunAsBlazorServer(this WebApplicationBuilder builder, Action<IServiceCollection> action)
     {
-        KCConfig.RegisterServices();
         KCConfig.AddWebPlatform();
 
         builder.Services.AddHttpContextAccessor();
