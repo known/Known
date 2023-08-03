@@ -43,4 +43,50 @@ public static class Extension
         dic.TryGetValue(key, out T value);
         return value;
     }
+
+    //Object
+    public static object Merge(this object obj1, object obj2)
+    {
+        if (obj1 == null) return null;
+        if (obj2 == null) return obj1;
+
+        var obj1Type = obj1.GetType();
+        var obj2Type = obj2.GetType();
+        var obj1Properties = obj1Type.GetProperties();
+        var obj2Properties = obj2Type.GetProperties();
+        
+        var keyValues = new Dictionary<string, Type>();
+        foreach (var prop in obj1Properties)
+            keyValues[prop.Name] = prop.PropertyType;
+        foreach (var prop in obj2Properties)
+            keyValues[prop.Name] = prop.PropertyType;
+
+        var mergedType = TypeHelper.CreateType(keyValues);
+        var mergedObject = Activator.CreateInstance(mergedType);
+        
+        foreach (var property in obj1Properties)
+        {
+            var value = obj1Type.GetProperty(property.Name).GetValue(obj1, null);
+            mergedType.GetProperty(property.Name).SetValue(mergedObject, value, null);
+        }
+
+        foreach (var property in obj2Properties)
+        {
+            var value = obj2Type.GetProperty(property.Name).GetValue(obj2, null);
+            mergedType.GetProperty(property.Name).SetValue(mergedObject, value, null);
+        }
+
+        return mergedObject;
+    }
+
+    public static ExpandoObject Merge<TLeft, TRight>(this TLeft left, TRight right)
+    {
+        var expando = new ExpandoObject();
+        IDictionary<string, object> dict = expando;
+        foreach (var p in typeof(TLeft).GetProperties())
+            dict[p.Name] = p.GetValue(left);
+        foreach (var p in typeof(TRight).GetProperties())
+            dict[p.Name] = p.GetValue(right);
+        return expando;
+    }
 }

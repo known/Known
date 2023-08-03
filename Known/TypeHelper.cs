@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using System.Reflection.Emit;
+
+namespace Known;
 
 public sealed class TypeHelper
 {
@@ -122,5 +124,35 @@ public sealed class TypeHelper
 
         var unary = selector.Body as UnaryExpression;
         return unary != null ? unary.Operand as MemberExpression : null;
+    }
+
+    public static Type CreateType(Dictionary<string, Type> keyValues)
+    {
+        var assemblyName = new AssemblyName("DynamicAssembly");
+        var dyAssembly = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndCollect);
+        var dyModule = dyAssembly.DefineDynamicModule("DynamicModule");
+        var dyClass = dyModule.DefineType("MyDyClass", TypeAttributes.Public | TypeAttributes.Serializable | TypeAttributes.Class | TypeAttributes.AutoClass);
+        foreach (var item in keyValues)
+        {
+            var fb = dyClass.DefineField("_" + item.Key, item.Value, FieldAttributes.Private);
+            
+            var gmb = dyClass.DefineMethod("get_" + item.Key, MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, item.Value, Type.EmptyTypes);
+            var getIL = gmb.GetILGenerator();
+            getIL.Emit(OpCodes.Ldarg_0);
+            getIL.Emit(OpCodes.Ldfld, fb);
+            getIL.Emit(OpCodes.Ret);
+            
+            var smb = dyClass.DefineMethod("set_" + item.Key, MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, null, new Type[] { item.Value });
+            var setIL = smb.GetILGenerator();
+            setIL.Emit(OpCodes.Ldarg_0);
+            setIL.Emit(OpCodes.Ldarg_1);
+            setIL.Emit(OpCodes.Stfld, fb);
+            setIL.Emit(OpCodes.Ret);
+            
+            var pb = dyClass.DefineProperty(item.Key, PropertyAttributes.HasDefault, item.Value, null);
+            pb.SetGetMethod(gmb);
+            pb.SetSetMethod(smb);
+        }
+        return dyClass.CreateTypeInfo();
     }
 }
