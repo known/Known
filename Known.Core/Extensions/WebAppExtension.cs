@@ -13,8 +13,8 @@ public static class WebAppExtension
 
         builder.Services.AddControllers(options =>
         {
-            options.Filters.Add<ExceptionFilter>();
             options.Filters.Add<AuthActionFilter>();
+            options.Filters.Add<ExceptionFilter>();
         });
         action?.Invoke(builder.Services);
 
@@ -31,8 +31,8 @@ public static class WebAppExtension
 
         builder.Services.AddControllers(options =>
         {
-            options.Filters.Add<ExceptionFilter>();
             options.Filters.Add<AuthActionFilter>();
+            options.Filters.Add<ExceptionFilter>();
         });
         builder.Services.AddRazorPages();
         AddCompression(builder.Services);

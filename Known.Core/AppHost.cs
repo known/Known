@@ -37,10 +37,11 @@ class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddCors();
         var builder = services.AddControllers(options =>
         {
-            options.Filters.Add<ExceptionFilter>();
             options.Filters.Add<AuthActionFilter>();
+            options.Filters.Add<ExceptionFilter>();
         });
         builder.ConfigureApplicationPartManager(apm =>
         {
@@ -54,13 +55,6 @@ class Startup
         if (env.IsDevelopment())
             app.UseDeveloperExceptionPage();
 
-        app.UseCors(options =>
-        {
-            options.WithOrigins();
-            options.AllowAnyHeader();
-            options.AllowAnyMethod();
-            options.AllowCredentials();
-        });
         app.UseHttpsRedirection();
         var upload = KCConfig.GetUploadPath();
         app.UseStaticFiles(new StaticFileOptions
@@ -69,6 +63,7 @@ class Startup
             RequestPath = "/UploadFiles"
         });
         app.UseRouting();
+        app.UseCors();
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>
         {

@@ -1,4 +1,6 @@
-﻿namespace Known.Core.Controllers;
+﻿using Microsoft.AspNetCore.Cors;
+
+namespace Known.Core.Controllers;
 
 [Route("[controller]")]
 public class FileController : BaseController
@@ -40,6 +42,7 @@ public class FileController : BaseController
         return Service.UploadFiles(info);
     }
 
+    [EnableCors]
     [HttpPost("[action]")]
     public object UploadEditorImage()
     {
