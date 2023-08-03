@@ -39,4 +39,18 @@ public class FileController : BaseController
         info.MultiFiles["Files"] = GetAttachFiles(fileFiles);
         return Service.UploadFiles(info);
     }
+
+    [HttpPost("[action]")]
+    public object UploadEditorImage()
+    {
+        var ctx = Request.ContentLength;
+        return new
+        {
+            Errno = 0,
+            Data = new List<object>
+            {
+                new {Url="test.png",Alt="测试",Href="test"}
+            }
+        };
+    }
 }
