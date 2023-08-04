@@ -36,15 +36,23 @@ public class RichText : Field
 
     internal override void SetFieldValue(object value)
     {
-        SetHtml(value?.ToString());
         base.SetFieldValue(value);
+        SetHtml(Value);
+    }
+
+    internal override void ClearFieldValue()
+    {
+        //editor?.InvokeVoidAsync("txt.clear");
+        base.ClearFieldValue();
+        SetHtml(Value);
     }
 
     protected override void OnInitialized()
     {
         option = new
         {
-            UploadImgServer = $"{Context.Http.BaseAddress}File/UploadEditorImage"
+            Focus = false,
+            UploadImgServer = $"{Context.Http?.BaseAddress}File/UploadEditorImage"
         };
         CallbackHelper.Register(Id, "rich.onchange", new Func<Dictionary<string, object>, Task>(ChangeValue));
         base.OnInitialized();
@@ -76,8 +84,7 @@ public class RichText : Field
 
             var option1 = option.Merge(Option);
             editor = await UI.InitEditor(Id, option1);
-            if (!string.IsNullOrWhiteSpace(Value))
-                SetHtml(Value);
+            SetHtml(Value);
             isInit = false;
         }
 
@@ -101,6 +108,6 @@ public class RichText : Field
         return Task.CompletedTask;
     }
 
-    private void SetHtml(string html) => editor?.InvokeVoidAsync("txt.html", html);
+    private void SetHtml(string html) => editor?.InvokeVoidAsync("txt.html", html ?? "");
     private void Destroy() => editor?.InvokeVoidAsync("destroy");
 }

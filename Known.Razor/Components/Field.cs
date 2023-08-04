@@ -41,7 +41,7 @@ public abstract class Field : BaseComponent
         SetFieldContext();
     }
 
-    internal void ClearFieldValue()
+    internal virtual void ClearFieldValue()
     {
         Value = FormatValue(orgValue);
         SetFieldContext();
