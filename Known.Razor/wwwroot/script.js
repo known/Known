@@ -12,6 +12,9 @@ import "./libs/highcharts.js";
 import "./libs/pdfobject.js";
 import "./libs/xlsxcore.js";
 import "./libs/wangEditor.js";
+import "./js/kadmin.js";
+import "./js/kform.js";
+import "./js/keditor.js";
 
 $(function () {
     $(document).click(function (e) {
@@ -23,82 +26,6 @@ $(function () {
         $('.quickview').removeClass('active');
     });
 });
-
-window.KAdmin = {
-    scrollLeft: function () {
-        const dom = document.querySelector('#tabAdmin');
-        dom.scrollLeft -= 120;
-    },
-    scrollRight: function () {
-        const dom = document.querySelector('#tabAdmin');
-        dom.scrollLeft += 120;
-    },
-    layout: function (id) {
-        KAdmin.setTable(id);
-        KAdmin.setFormList();
-        KAdmin.setDialog();
-    },
-    setTable: function (id) {
-        var gridView = $('#' + id);
-        var prev = gridView.prev();
-        var top = 10;
-        if (prev.length && gridView.outerWidth() < 768) {
-            top = prev.outerHeight();
-        }
-        gridView.css('top', top + 'px');
-
-        top = 0;
-        var toolbar = $('#' + id + ' .data-top');
-        var grid = $('#' + id + ' .grid');
-        if (toolbar.length && grid.length) {
-            top = toolbar.outerHeight() + 8;
-        }
-        grid.css('top', top + 'px');
-
-        var table = $('#' + id + ' table');
-        if (table.length && grid.length) {
-            var tableWidth = table.outerWidth();
-            var gridWidth = grid.outerWidth();
-            if (tableWidth < gridWidth)
-                table.css({ width: '100%' });
-            else
-                table.css({ width: tableWidth + 'px' });
-        }
-    },
-    setFormList: function () {
-        var list = $('.form-list');
-        if (!list.length)
-            return;
-
-        var prev = list.prev();
-        var top = prev.position().top + prev.outerHeight(true);
-        list.css('top', top + 'px');
-    },
-    setDialog: function () {
-        var dialog = $('.dialog:not(.max)');
-        if (!dialog.length)
-            return;
-
-        var width = document.body.clientWidth;
-        dialog.each(function (i, elem) {
-            var dlg = $(elem);
-            if (width < 786) {
-                if (!dlg.hasClass('full')) {
-                    dlg.addClass('full');
-                    dlg.data('style', dlg.attr('style'));
-                    var zIndex = dlg.css('z-index');
-                    var topColor = dlg.css('border-top-color');
-                    dlg.attr('style', 'z-index:' + zIndex + ';border-top-color:' + topColor);
-                }
-            } else {
-                if (dlg.hasClass('full')) {
-                    dlg.removeClass('full');
-                    dlg.attr('style', dlg.data('style'));
-                }
-            }
-        });
-    }
-};
 
 export class KRazor {
     //Alert
@@ -136,30 +63,8 @@ export class KRazor {
     }
 
     //Dialog
-    static div = {};
-    static setDialogMove(dialogId) {
-        var layer = $('#' + dialogId);
-        $('#' + dialogId + ' .dlg-head').mousedown(function (e) {
-            e.preventDefault();
-            if (layer.hasClass('max'))
-                return;
-
-            KRazor.div.id = dialogId;
-            KRazor.div.move = true;
-            KRazor.div.offset = [
-                e.clientX - parseFloat(layer.css('left')),
-                e.clientY - parseFloat(layer.css('top'))
-            ];
-        }).mousemove(function (e) {
-            e.preventDefault();
-            if (KRazor.div.id === dialogId && KRazor.div.move) {
-                var left = e.clientX - KRazor.div.offset[0];
-                var top = e.clientY - KRazor.div.offset[1];
-                layer.css({ left: left, top: top });
-            }
-        }).mouseup(function () {
-            delete KRazor.div.move;
-        });
+    static setDialogMove(id) {
+        KAdmin.setDialogMove(id);
     }
 
     //Excel
@@ -225,86 +130,13 @@ export class KRazor {
 
     //Form
     static initForm() {
-        var inputs = $('.form input');
-        if (inputs.length) {
-            inputs.keydown(function (event) {
-                if ((event.keyCode || event.which) === 13) {
-                    event.preventDefault();
-                    var index = inputs.index(this);
-                    if (index < inputs.length - 1)
-                        inputs[index + 1].focus();
-                    this.blur();
-                    var method = $(this).attr("onenter");
-                    if (method && method.length)
-                        eval(method);
-                }
-            });
-            inputs[0].focus();
-        }
-        KAdmin.setFormList();
+        KForm.init();
     }
     static initEditor(id, option) {
-        var editor = new window.wangEditor('#' + id);
-        Object.assign(editor.config, option);
-        editor.config.onchange = function (html) {
-            DotNet.invokeMethodAsync('Known.Razor', 'CallbackByParamAsync', id, 'rich.onchange', { html: html });
-        };
-        editor.create();
-        return editor;
+        return KEditor.init(id, option);
     }
     static captcha(id, code) {
-        var canvas = document.getElementById(id);
-        var ctx = canvas.getContext("2d");
-        var width = ctx.canvas.width;
-        var height = ctx.canvas.height;
-        ctx.clearRect(0, 0, width, height);
-        ctx.lineWidth = 2;
-        for (var i = 0; i < 1000; i++) {
-            ctx.beginPath();
-            var x = getRandom(width - 2);
-            var y = getRandom(height - 2);
-            ctx.moveTo(x, y);
-            ctx.lineTo(x + 1, y + 1);
-            ctx.strokeStyle = getColor();
-            ctx.stroke();
-        }
-        for (var i = 0; i < 20; i++) {
-            ctx.beginPath();
-            var x = getRandom(width - 2);
-            var y = getRandom(height - 2);
-            var w = getRandom(width - x);
-            var h = getRandom(height - y);
-            ctx.moveTo(x, y);
-            ctx.lineTo(x + w, y + h);
-            ctx.strokeStyle = getColor();
-            ctx.stroke();
-        }
-        ctx.font = width / 5 + 'px Î¢ÈíÑÅºÚ';
-        ctx.textBaseline = 'middle';
-        var codes = code.split('');
-        for (var i = 0; i < codes.length; i++) {
-            ctx.beginPath();
-            ctx.fillStyle = '#f00';
-            var word = codes[i];
-            var w = width / codes.length;
-            var left = getRandom(i * w, (i + 1) * w - width / 5);
-            var top = getRandom(height / 2 - 10, height / 2 + 10);
-            ctx.fillText(word, left, top);
-        }
-
-        function getRandom(a, b = 0) {
-            var max = a;
-            var min = b;
-            if (a < b) {
-                max = b;
-                min = a;
-            }
-            return Math.floor(Math.random() * (max - min)) + min;
-        }
-
-        function getColor() {
-            return `rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})`;
-        }
+        KForm.captcha(id, code);
     }
 
     //Grid
@@ -315,25 +147,7 @@ export class KRazor {
         KAdmin.setTable(id);
     }
     static fixedTable(id) {
-        var table = $('#' + id);
-        var left = 0;
-        var fixeds = table.find('th.fixed');
-        if (fixeds.length) {
-            var lefts = [];
-            for (var i = 0; i < fixeds.length; i++) {
-                lefts.push(left);
-                left += $(fixeds[i]).outerWidth();
-            }
-            var trs = table.find('tr');
-            if (trs.length) {
-                for (var i = 0; i < trs.length; i++) {
-                    var tr = trs[i];
-                    for (var j = 0; j < lefts.length; j++) {
-                        $(tr).find('.fixed:eq(' + j + ')').css({ left: lefts[j] });
-                    }
-                }
-            }
-        }
+        KAdmin.fixedTable(id);
     }
 
     //Storage
@@ -358,8 +172,8 @@ export class KRazor {
 
     //Page
     static initAdminTab() {
-        $('.btn-left').click(KAdmin.scrollLeft);
-        $('.btn-right').click(KAdmin.scrollRight);
+        $('.btn-left').click(KAdmin.tabScrollLeft);
+        $('.btn-right').click(KAdmin.tabScrollRight);
     }
     static initPage(id) {
         KAdmin.layout(id);
