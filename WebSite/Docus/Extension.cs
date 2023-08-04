@@ -4,6 +4,12 @@ namespace WebSite.Docus;
 
 static class Extension
 {
+    internal static void BuildMarkdown(this RenderTreeBuilder builder, string markdown)
+    {
+        var html = Markdown.ToHtml(markdown);
+        builder.Markup(html);
+    }
+
     internal static void BuildList(this RenderTreeBuilder builder, string[] items) => builder.BuildList("", items);
     internal static void BuildList(this RenderTreeBuilder builder, string className, string[] items)
     {
