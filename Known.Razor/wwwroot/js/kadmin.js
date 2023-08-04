@@ -1,4 +1,7 @@
 window.KAdmin = {
+    invokeDotNet: function (id, key, param) {
+        return DotNet.invokeMethodAsync('Known.Razor', 'CallbackByParamAsync', id, key, param);
+    },
     tabScrollLeft: function () {
         const dom = document.querySelector('#tabAdmin');
         dom.scrollLeft -= 120;

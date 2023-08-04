@@ -110,12 +110,25 @@ public class RichText : Field
 
     private Task UploadImage(Dictionary<string, object> param)
     {
-        return Platform.File.UploadImageAsync(null);
+        var info = GetUploadInfo(param);
+        return Platform.File.UploadImageAsync(info);
     }
 
     private Task UploadVideo(Dictionary<string, object> param)
     {
-        return Platform.File.UploadVideoAsync(null);
+        var info = GetUploadInfo(param);
+        return Platform.File.UploadVideoAsync(info);
+    }
+
+    private static UploadInfo GetUploadInfo(Dictionary<string, object> param)
+    {
+        var data = Utils.FromJson<Dictionary<string, int>>(param.GetValue<string>("data"));
+        return new UploadInfo
+        {
+            Name = param.GetValue<string>("name"),
+            Type = param.GetValue<string>("type"),
+            Data = data.Values.ToArray()
+        };
     }
 
     private void SetHtml(string html) => editor?.InvokeVoidAsync("txt.html", html ?? "");

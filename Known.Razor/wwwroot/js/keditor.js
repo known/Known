@@ -3,7 +3,7 @@ window.KEditor = {
         var editor = new window.wangEditor('#' + id);
         Object.assign(editor.config, option);
         editor.config.onchange = function (html) {
-            DotNet.invokeMethodAsync('Known.Razor', 'CallbackByParamAsync', id, 'rich.onChange', { html: html });
+            KAdmin.invokeDotNet(id, 'rich.onChange', { html: html });
         };
         KEditor.customUpload(editor, id, option);
         editor.create();
@@ -16,12 +16,24 @@ window.KEditor = {
         var storage = option.storage;
         if (storage.type === 0) {
             editor.config.customUploadImg = function (resultFiles, insertImgFn) {
-                DotNet.invokeMethodAsync('Known.Razor', 'CallbackByParamAsync', id, 'rich.onUploadImage', { file: resultFiles[0] })
-                    .then(res => insertImgFn(res.url));
+                var file = resultFiles[0];
+                var reader = new FileReader();
+                reader.readAsArrayBuffer(file);
+                reader.onload = function () {
+                    var param = { name: file.name, type: file.type, data: new Int8Array(this.result) };
+                    KAdmin.invokeDotNet(id, 'rich.onUploadImage', param)
+                        .then(res => insertImgFn(res.url));
+                };
             }
             editor.config.customUploadVideo = function (resultFiles, insertVideoFn) {
-                DotNet.invokeMethodAsync('Known.Razor', 'CallbackByParamAsync', id, 'rich.onUploadVideo', { file: resultFiles[0] })
-                    .then(res => insertVideoFn(res.url));
+                var file = resultFiles[0];
+                var reader = new FileReader();
+                reader.readAsArrayBuffer(file);
+                reader.onload = function () {
+                    var param = { name: file.name, type: file.type, data: new Int8Array(this.result) };
+                    KAdmin.invokeDotNet(id, 'rich.onUploadVideo', param)
+                        .then(res => insertVideoFn(res.url));
+                };
             }
         } else if (storage.type === 1) {
             let client = new OSS({
