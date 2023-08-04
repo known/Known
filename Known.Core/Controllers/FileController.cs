@@ -42,9 +42,8 @@ public class FileController : BaseController
         return Service.UploadFiles(info);
     }
 
-    [EnableCors]
     [HttpPost("[action]")]
-    public object UploadEditorImage()
+    public object UploadImage([FromForm] IEnumerable<IFormFile> fileFile)
     {
         var ctx = Request.ContentLength;
         return new
@@ -54,6 +53,17 @@ public class FileController : BaseController
             {
                 new {Url="test.png",Alt="测试",Href="test"}
             }
+        };
+    }
+
+    [HttpPost("[action]")]
+    public object UploadVideo([FromForm] IEnumerable<IFormFile> fileFile)
+    {
+        var ctx = Request.ContentLength;
+        return new
+        {
+            Errno = 0,
+            Data = new { Url = "test.png" }
         };
     }
 }

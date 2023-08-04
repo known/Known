@@ -12,4 +12,6 @@ public class FileClient : ClientBase
     public Task<Result> DeleteFileAsync(SysFile file) => Context.PostAsync("File/DeleteFile", file);
     public Task<Result> UploadFileAsync(HttpContent content) => Context.PostAsync("File/UploadFile", content);
     public Task<Result> UploadFilesAsync(HttpContent content) => Context.PostAsync("File/UploadFiles", content);
+    public Task<Result> UploadImageAsync(HttpContent content) => Context.PostAsync("File/UploadImage", content);
+    public Task<Result> UploadVideoAsync(HttpContent content) => Context.PostAsync("File/UploadVideo", content);
 }

@@ -9,9 +9,11 @@ public class RichText : Field
     public RichText()
     {
         Style = "editor";
+        Storage = new StorageOption();
     }
 
     [Parameter] public object Option { get; set; }
+    [Parameter] public StorageOption Storage { get; set; }
 
     internal override void SetFieldVisible(bool visible)
     {
@@ -49,12 +51,10 @@ public class RichText : Field
 
     protected override void OnInitialized()
     {
-        option = new
-        {
-            Focus = false,
-            UploadImgServer = $"{Context.Http?.BaseAddress}File/UploadEditorImage"
-        };
-        CallbackHelper.Register(Id, "rich.onchange", new Func<Dictionary<string, object>, Task>(ChangeValue));
+        option = new { Focus = false, Storage };
+        CallbackHelper.Register(Id, "rich.onChange", new Func<Dictionary<string, object>, Task>(ChangeValue));
+        CallbackHelper.Register(Id, "rich.onUploadImage", new Func<Dictionary<string, object>, Task>(UploadImage));
+        CallbackHelper.Register(Id, "rich.onUploadVideo", new Func<Dictionary<string, object>, Task>(UploadVideo));
         base.OnInitialized();
     }
 
@@ -106,6 +106,16 @@ public class RichText : Field
         Value = param["html"].ToString();
         OnValueChange();
         return Task.CompletedTask;
+    }
+
+    private Task UploadImage(Dictionary<string, object> param)
+    {
+        return Platform.File.UploadImageAsync(null);
+    }
+
+    private Task UploadVideo(Dictionary<string, object> param)
+    {
+        return Platform.File.UploadVideoAsync(null);
     }
 
     private void SetHtml(string html) => editor?.InvokeVoidAsync("txt.html", html ?? "");
