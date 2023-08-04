@@ -121,6 +121,26 @@ class FileService : BaseService
         return result;
     }
 
+    internal Result UploadFile(UploadInfo info)
+    {
+        return Result.Success("");
+        //Image
+        //return new
+        //{
+        //    Errno = 0,
+        //    Data = new List<object>
+        //    {
+        //        new {Url="test.png",Alt="测试",Href="test"}
+        //    }
+        //};
+        //Video
+        //return new
+        //{
+        //    Errno = 0,
+        //    Data = new { Url = "test.png" }
+        //};
+    }
+
     internal static void DeleteFiles(Database db, string bizId, string bizType, List<string> oldFiles)
     {
         var files = FileRepository.GetFiles(db, bizId, bizType);

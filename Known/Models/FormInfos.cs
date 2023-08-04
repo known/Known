@@ -30,6 +30,13 @@ public class SettingFormInfo
     public string Data { get; set; }
 }
 
+public class UploadInfo
+{
+    public string Name { get; set; }
+    public string Type { get; set; }
+    public int[] Data { get; set; }
+}
+
 public class UploadFormInfo
 {
     public UploadFormInfo()

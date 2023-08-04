@@ -26,6 +26,12 @@ public class FileController : BaseController
     public Result DeleteFile([FromBody] SysFile file) => Service.DeleteFile(file);
 
     [HttpPost("[action]")]
+    public Result UploadImage([FromBody] UploadInfo info) => Service.UploadFile(info);
+
+    [HttpPost("[action]")]
+    public Result UploadVideo([FromBody] UploadInfo info) => Service.UploadFile(info);
+
+    [HttpPost("[action]")]
     public Result UploadFile([FromForm] string model, [FromForm] IEnumerable<IFormFile> fileFile)
     {
         var info = GetUploadFormInfo(model);
@@ -40,30 +46,5 @@ public class FileController : BaseController
         var info = GetUploadFormInfo(model);
         info.MultiFiles["Files"] = GetAttachFiles(fileFiles);
         return Service.UploadFiles(info);
-    }
-
-    [HttpPost("[action]")]
-    public object UploadImage([FromForm] IEnumerable<IFormFile> fileFile)
-    {
-        var ctx = Request.ContentLength;
-        return new
-        {
-            Errno = 0,
-            Data = new List<object>
-            {
-                new {Url="test.png",Alt="测试",Href="test"}
-            }
-        };
-    }
-
-    [HttpPost("[action]")]
-    public object UploadVideo([FromForm] IEnumerable<IFormFile> fileFile)
-    {
-        var ctx = Request.ContentLength;
-        return new
-        {
-            Errno = 0,
-            Data = new { Url = "test.png" }
-        };
     }
 }
