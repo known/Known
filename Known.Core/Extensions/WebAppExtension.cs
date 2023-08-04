@@ -29,6 +29,7 @@ public static class WebAppExtension
     {
         KCConfig.AddWebPlatform();
 
+        builder.Services.AddCors();
         builder.Services.AddControllers(options =>
         {
             options.Filters.Add<AuthActionFilter>();
@@ -52,6 +53,7 @@ public static class WebAppExtension
     {
         KCConfig.AddWebPlatform();
 
+        builder.Services.AddCors();
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddAuthenticationCore();
         builder.Services.AddRazorPages();
@@ -120,13 +122,6 @@ public static class WebAppExtension
             app.UseHsts();
         }
 
-        app.UseCors(options =>
-        {
-            options.WithOrigins();
-            options.AllowAnyHeader();
-            options.AllowAnyMethod();
-            options.AllowCredentials();
-        });
         app.UseHttpsRedirection();
 
         var upload = KCConfig.GetUploadPath();
@@ -138,5 +133,6 @@ public static class WebAppExtension
         });
 
         app.UseRouting();
+        app.UseCors();
     }
 }
