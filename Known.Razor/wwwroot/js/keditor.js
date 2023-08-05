@@ -20,9 +20,11 @@ window.KEditor = {
                 var reader = new FileReader();
                 reader.readAsArrayBuffer(file);
                 reader.onload = function () {
-                    var param = { name: file.name, type: file.type, data: new Int8Array(this.result) };
+                    var data = new Uint8Array(this.result);
+                    var param = { name: file.name, type: file.type, data: JSON.stringify(data) };
                     KAdmin.invokeDotNet(id, 'rich.onUploadImage', param)
-                        .then(res => insertImgFn(res.url));
+                        .then(res => insertImgFn(res.data))
+                        .catch(err => console.log(err));
                 };
             }
             editor.config.customUploadVideo = function (resultFiles, insertVideoFn) {
@@ -30,9 +32,11 @@ window.KEditor = {
                 var reader = new FileReader();
                 reader.readAsArrayBuffer(file);
                 reader.onload = function () {
-                    var param = { name: file.name, type: file.type, data: new Int8Array(this.result) };
+                    var data = new Uint8Array(this.result);
+                    var param = { name: file.name, type: file.type, data: JSON.stringify(data) };
                     KAdmin.invokeDotNet(id, 'rich.onUploadVideo', param)
-                        .then(res => insertVideoFn(res.url));
+                        .then(res => insertVideoFn(res.data))
+                        .catch(err => console.log(err));
                 };
             }
         } else if (storage.type === 1) {

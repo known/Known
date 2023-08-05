@@ -9,4 +9,6 @@ public class StorageOption
     public string KeySecret { get; set; }
     public string Region { get; set; }
     public string Bucket { get; set; }
+    public Func<UploadInfo, Task<Result>> UploadImage { get; set; }
+    public Func<UploadInfo, Task<Result>> UploadVideo { get; set; }
 }

@@ -24,14 +24,13 @@ public sealed class CallbackHelper
     }
 
     [JSInvokable]
-    public static Task<object> CallbackAsync(string id, string key)
+    public static object CallbackAsync(string id, string key)
     {
         if (actions.TryGetValue(id, out Dictionary<string, Delegate> handlers))
         {
             if (handlers.TryGetValue(key, out Delegate d))
             {
-                var data = d.DynamicInvoke();
-                return Task.FromResult(data);
+                return d.DynamicInvoke();
             }
         }
 
@@ -39,14 +38,13 @@ public sealed class CallbackHelper
     }
 
     [JSInvokable]
-    public static Task<object> CallbackByParamAsync(string id, string key, Dictionary<string, object> args)
+    public static object CallbackByParamAsync(string id, string key, Dictionary<string, object> args)
     {
         if (actions.TryGetValue(id, out Dictionary<string, Delegate> handlers))
         {
             if (handlers.TryGetValue(key, out Delegate d))
             {
-                var data = d.DynamicInvoke(args);
-                return Task.FromResult(data);
+                return d.DynamicInvoke(args);
             }
         }
 

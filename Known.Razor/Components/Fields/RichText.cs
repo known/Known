@@ -53,8 +53,8 @@ public class RichText : Field
     {
         option = new { Focus = false, Storage };
         CallbackHelper.Register(Id, "rich.onChange", new Func<Dictionary<string, object>, Task>(ChangeValue));
-        CallbackHelper.Register(Id, "rich.onUploadImage", new Func<Dictionary<string, object>, Task>(UploadImage));
-        CallbackHelper.Register(Id, "rich.onUploadVideo", new Func<Dictionary<string, object>, Task>(UploadVideo));
+        CallbackHelper.Register(Id, "rich.onUploadImage", new Func<Dictionary<string, object>, Task<Result>>(UploadImage));
+        CallbackHelper.Register(Id, "rich.onUploadVideo", new Func<Dictionary<string, object>, Task<Result>>(UploadVideo));
         base.OnInitialized();
     }
 
@@ -108,21 +108,30 @@ public class RichText : Field
         return Task.CompletedTask;
     }
 
-    private Task UploadImage(Dictionary<string, object> param)
+    private Task<Result> UploadImage(Dictionary<string, object> param)
     {
         var info = GetUploadInfo(param);
+        if (Storage?.UploadImage != null)
+            return Storage.UploadImage(info);
+
         return Platform.File.UploadImageAsync(info);
     }
 
-    private Task UploadVideo(Dictionary<string, object> param)
+    private Task<Result> UploadVideo(Dictionary<string, object> param)
     {
         var info = GetUploadInfo(param);
+        if (Storage?.UploadVideo != null)
+            return Storage.UploadVideo(info);
+
         return Platform.File.UploadVideoAsync(info);
     }
 
     private static UploadInfo GetUploadInfo(Dictionary<string, object> param)
     {
-        var data = Utils.FromJson<Dictionary<string, int>>(param.GetValue<string>("data"));
+        var data = Utils.FromJson<Dictionary<string, byte>>(param.GetValue<string>("data"));
+        if (data == null || data.Count == 0)
+            return null;
+
         return new UploadInfo
         {
             Name = param.GetValue<string>("name"),
