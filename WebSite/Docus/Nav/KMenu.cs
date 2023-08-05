@@ -6,10 +6,9 @@ class KMenu : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "支持折叠和选项卡模式"
-        });
+        builder.BuildMarkdown(@"
+- 支持折叠和选项卡模式
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

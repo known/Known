@@ -6,10 +6,10 @@ class KChart : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "基于Highcharts.js实现"
-        });
+        builder.BuildMarkdown(@"
+- 基于Highcharts.js实现
+- 参考网站：[Highcharts.js](https://www.hcharts.cn/)
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

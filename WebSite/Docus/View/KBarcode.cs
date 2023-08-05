@@ -6,10 +6,9 @@ class KBarcode : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "基于JsBarcode实现"
-        });
+        builder.BuildMarkdown(@"
+- 基于JsBarcode实现
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

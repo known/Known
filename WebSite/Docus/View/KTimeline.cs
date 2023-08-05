@@ -6,10 +6,9 @@ class KTimeline : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "支持自定义模板"
-        });
+        builder.BuildMarkdown(@"
+- 支持状态节点和自定义模板
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

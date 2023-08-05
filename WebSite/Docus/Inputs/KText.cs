@@ -6,10 +6,9 @@ class KText : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "文本字符输入框"
-        });
+        builder.BuildMarkdown(@"
+- 文本字符输入框
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

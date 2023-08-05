@@ -6,11 +6,10 @@ class KDate : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "基于HTML5标签实现",
-            "支持Date, DateTime, Month, Week, Time类型"
-        });
+        builder.BuildMarkdown(@"
+- 基于HTML5标签实现
+- 支持Date, DateTime, Month, Week, Time类型
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

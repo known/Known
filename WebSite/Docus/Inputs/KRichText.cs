@@ -6,7 +6,8 @@ class KRichText : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildMarkdown(@"- 基于wangEditor.js实现
+        builder.BuildMarkdown(@"
+- 基于wangEditor.js实现
 - 编辑器配置通过Option参数设置
 - 配置选项参考：[wangEditor文档](https://www.wangeditor.com/v4/)
 - 图片和视频默认上传本地服务器

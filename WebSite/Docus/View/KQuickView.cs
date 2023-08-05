@@ -6,10 +6,9 @@ class KQuickView : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "从屏幕边缘滑出的面板"
-        });
+        builder.BuildMarkdown(@"
+- 从屏幕边缘滑出的面板
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

@@ -22,12 +22,11 @@ class KIcon : BaseDocu
 
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "默认内置Font Awesome字体库",
-            "参考网站：https://fontawesome.com.cn/",
-            "点击下方示例可复制到剪切板"
-        });
+        builder.BuildMarkdown(@"
+- 默认内置Font Awesome字体库
+- 参考网站：[FontAwesome中文网](https://fontawesome.com.cn/)
+- 点击下方示例可复制到剪切板
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

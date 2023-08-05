@@ -6,11 +6,10 @@ class KImageBox : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "显示缩略图片",
-            "点击缩略图可放大查看原图"
-        });
+        builder.BuildMarkdown(@"
+- 显示缩略图片
+- 点击缩略图可放大查看原图
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

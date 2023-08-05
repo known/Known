@@ -6,10 +6,9 @@ class KDateRange : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "显示Date区间查询"
-        });
+        builder.BuildMarkdown(@"
+- 显示Date区间查询
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

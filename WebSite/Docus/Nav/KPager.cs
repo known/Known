@@ -6,10 +6,9 @@ class KPager : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "分页组件自适应PC和移动端"
-        });
+        builder.BuildMarkdown(@"
+- 分页组件自适应PC和移动端
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

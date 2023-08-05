@@ -6,10 +6,9 @@ class KPicker : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "点击弹出窗口双击选择数据"
-        });
+        builder.BuildMarkdown(@"
+- 点击弹出窗口双击选择数据
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

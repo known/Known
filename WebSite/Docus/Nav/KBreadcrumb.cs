@@ -6,11 +6,10 @@ class KBreadcrumb : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "数据源支持当前菜单和MenuItem列表",
-            "可定义图标和MenuItem事件"
-        });
+        builder.BuildMarkdown(@"
+- 数据源支持当前菜单和MenuItem列表
+- 可定义图标和MenuItem事件
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

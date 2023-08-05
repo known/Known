@@ -6,10 +6,9 @@ class KTree : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "树组件"
-        });
+        builder.BuildMarkdown(@"
+- 树组件
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

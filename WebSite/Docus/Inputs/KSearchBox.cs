@@ -6,10 +6,9 @@ class KSearchBox : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "搜索框组件"
-        });
+        builder.BuildMarkdown(@"
+- 搜索框组件
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

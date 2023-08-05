@@ -6,10 +6,9 @@ class KCard : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "由标题和内容组成"
-        });
+        builder.BuildMarkdown(@"
+- 由标题和内容组成
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

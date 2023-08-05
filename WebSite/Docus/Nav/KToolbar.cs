@@ -17,11 +17,10 @@ class KToolbar : BaseDocu
 
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "该组件用于显示一组按钮，可用于列表操作",
-            "可在外部设置按钮可见和可用"
-        });
+        builder.BuildMarkdown(@"
+- 该组件用于显示一组按钮，可用于列表操作
+- 可在外部设置按钮可见和可用
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

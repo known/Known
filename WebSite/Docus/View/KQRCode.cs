@@ -6,10 +6,9 @@ class KQRCode : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "基于jquery.qrcode实现"
-        });
+        builder.BuildMarkdown(@"
+- 基于jquery.qrcode实现
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

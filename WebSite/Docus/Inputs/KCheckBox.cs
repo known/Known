@@ -6,10 +6,9 @@ class KCheckBox : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "支持开关类型"
-        });
+        builder.BuildMarkdown(@"
+- 支持开关类型
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

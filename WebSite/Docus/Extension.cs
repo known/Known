@@ -10,18 +10,6 @@ static class Extension
         builder.Markup(html);
     }
 
-    internal static void BuildList(this RenderTreeBuilder builder, string[] items) => builder.BuildList("", items);
-    internal static void BuildList(this RenderTreeBuilder builder, string className, string[] items)
-    {
-        builder.Ul(className, attr =>
-        {
-            foreach (var item in items)
-            {
-                builder.Li(attr => builder.Text(item));
-            }
-        });
-    }
-
     internal static void BuildDemo<T>(this RenderTreeBuilder builder, string title, string style = "") where T : BaseComponent
     {
         var type = typeof(T);

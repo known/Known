@@ -6,10 +6,9 @@ class KDropdown : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "向下弹出内容"
-        });
+        builder.BuildMarkdown(@"
+- 向下弹出内容
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

@@ -6,10 +6,9 @@ class KNumber : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "基于HTML5标签实现"
-        });
+        builder.BuildMarkdown(@"
+- 基于HTML5标签实现
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

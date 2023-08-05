@@ -6,10 +6,9 @@ class KGroupBox : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "显示分组信息"
-        });
+        builder.BuildMarkdown(@"
+- 显示分组信息
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

@@ -6,11 +6,10 @@ class KTabs : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "选项卡组件",
-            "支持左右上下4种布局，默认顶部"
-        });
+        builder.BuildMarkdown(@"
+- 选项卡组件
+- 支持左右上下4种布局，默认顶部
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

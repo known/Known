@@ -6,12 +6,11 @@ class KCaptcha : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "基于Canvas实现",
-            "字母不区分大小写",
-            "点击图片可刷新验证码"
-        });
+        builder.BuildMarkdown(@"
+- 基于Canvas实现
+- 字母不区分大小写
+- 点击图片可刷新验证码
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)

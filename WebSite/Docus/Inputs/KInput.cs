@@ -6,11 +6,10 @@ class KInput : BaseDocu
 {
     protected override void BuildOverview(RenderTreeBuilder builder)
     {
-        builder.BuildList(new string[]
-        {
-            "基于HTML5标签实现",
-            "支持Color, Email, Range, Search, Tel, Url类型"
-        });
+        builder.BuildMarkdown(@"
+- 基于HTML5标签实现
+- 支持Color, Email, Range, Search, Tel, Url类型
+");
     }
 
     protected override void BuildCodeDemo(RenderTreeBuilder builder)
