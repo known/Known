@@ -14,7 +14,12 @@ public static class ComponentExtension
         });
     }
 
-    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder) where T : notnull, BaseComponent => new(builder);
+    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder, string id = null) where T : notnull, BaseComponent
+    {
+        var comBuilder = new ComponentBuilder<T>(builder);
+        comBuilder.Id(id);
+        return comBuilder;
+    }
 
     public static void Component<T>(this RenderTreeBuilder builder, Action<AttributeBuilder<T>> child) where T : notnull, IComponent
     {
