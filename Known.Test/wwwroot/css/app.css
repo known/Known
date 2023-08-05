@@ -65,9 +65,9 @@
 .demo-row .box {display:grid;}
 .demo-row button {margin-right:5px;}
 .demo-tool {display:flex;justify-content:space-between;}
-td img {width:80px;}
-td .icon {font-size:1.2rem;}
-td .color {display:block;width:60px;height:20px;line-height:20px;font-size:0.8rem;text-align:center;color:#fff;}
+#FullList td > img {width:80px;}
+#FullList td .icon {font-size:1.2rem;}
+#FullList td .color {display:block;width:60px;height:20px;line-height:20px;font-size:0.8rem;text-align:center;color:#fff;}
 td .qty {display:block;padding:0;text-align:left;}
 td .small {display:block;margin-top:5px;font-size:0.9rem;color:#888;}
 .demo-badge {position:relative;width:80px;height:40px;line-height:40px;}
