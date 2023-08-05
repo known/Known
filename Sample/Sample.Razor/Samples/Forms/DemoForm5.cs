@@ -1,13 +1,10 @@
-﻿using Sample.Razor.Samples.Models;
+﻿using Known.Razor.Components.Fields;
+using Sample.Razor.Samples.Models;
 
 namespace Sample.Razor.Samples.Forms;
 
 class DemoForm5 : BaseForm
 {
-    protected override void OnInitialized()
-    {
-    }
-
     protected override void BuildFields(FieldBuilder<DmBill> builder)
     {
         builder.Table(table =>
@@ -25,21 +22,39 @@ class DemoForm5 : BaseForm
                 table.Field<Input>("电话号码", "Tel").Set(f => f.Type, InputType.Tel).Build();
                 table.Field<Input>("URL", "Url").Set(f => f.Type, InputType.Url).Build();
             });
+            var option = new
+            {
+                Height = 200,
+                Placeholder = "请输入通知内容"
+            };
             table.Tr(attr =>
             {
-                table.Field<RichText>("富文本", "RichText").ColSpan(5)
-                     .Set(f => f.Option, new
-                     {
-                         Height = 200,
-                         Placeholder = "请输入通知内容"
-                     })
+                table.Field<RichText>("富文本1", "RichText1").ColSpan(5).ReadOnly(true)
+                     .Set(f => f.Option, option)
+                     .Build();
+            });
+            table.Tr(attr =>
+            {
+                table.Field<RichText>("富文本2", "RichText2").ColSpan(5)
+                     .Set(f => f.Option, option)
                      .Build();
             });
         });
     }
 
-    public override void Save() => Submit(data =>
+    public override void Load()
     {
-        formData = Utils.ToJson(data);
-    });
+        SetData(new
+        {
+            Color = "#009688",
+            Email = "test@test.com",
+            Range = 30,
+            Tel = "1234567890",
+            Search = "test",
+            Url = "http://www.test.com",
+            RichText1 = "<p><img src=\"Files/puman/Image/01d082276a354ec19f7141b348ad40bd.png\" style=\"max-width:100%;\"/><br/></p>",
+            RichText2 = "<p><img src=\"Files/puman/Image/4e98789b14ae49bfad4ddff8bea81d8d.png\" style=\"max-width:100%;\"/><br/></p>",
+            RichText3 = ""
+        });
+    }
 }

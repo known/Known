@@ -77,7 +77,7 @@ public class RichText : Field
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender || isInit)
+        if ((firstRender || isInit) && !IsReadOnly)
         {
             if (isInit)
                 Destroy();
