@@ -129,7 +129,7 @@ class FileService : BaseService
         var user = CurrentUser;
         var attach = new AttachFile(info, user);
         var fileId = Utils.GetGuid();
-        attach.IsWWW = true;
+        attach.IsWeb = true;
         attach.FilePath = $@"{user.CompNo}\{type}\{fileId}{attach.ExtName}";
         attach.ThumbPath = $@"{user.CompNo}\{type}\Thumbnails\{fileId}{attach.ExtName}";
         attach.Category1 = "WWW";

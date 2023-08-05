@@ -110,6 +110,23 @@ public static class WebAppExtension
             builder.WebHost.UseUrls($"http://*:{httpPort}");
     }
 
+    internal static void UseStaticPaths(this WebApplication app)
+    {
+        app.UseStaticFiles();
+        var webFiles = KCConfig.GetUploadPath(true);
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(webFiles),
+            RequestPath = "/Files"
+        });
+        var upload = KCConfig.GetUploadPath();
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(upload),
+            RequestPath = "/UploadFiles"
+        });
+    }
+
     private static void UseWebApp(WebApplication app)
     {
         KCConfig.IsDevelopment = app.Environment.IsDevelopment();
@@ -123,15 +140,7 @@ public static class WebAppExtension
         }
 
         app.UseHttpsRedirection();
-
-        var upload = KCConfig.GetUploadPath();
-        app.UseStaticFiles();
-        app.UseStaticFiles(new StaticFileOptions
-        {
-            FileProvider = new PhysicalFileProvider(upload),
-            RequestPath = "/UploadFiles"
-        });
-
+        app.UseStaticPaths();
         app.UseRouting();
         app.UseCors();
     }
