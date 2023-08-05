@@ -1,0 +1,12 @@
+﻿global using Known;
+global using Known.Core;
+global using Known.Core.Helpers;
+global using Known.Entities;
+global using Known.Models;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc;
+global using Sample.Core.Repositories;
+global using Sample.Core.Services;
+global using Sample.Core.WorkFlows;
+global using Sample.Entities;
+global using Sample.Models;

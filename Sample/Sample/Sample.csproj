@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <DebugType>embedded</DebugType>
+        <Version>1.0.4.12</Version>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Known\Known.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser" />
+    </ItemGroup>
+
+</Project>
