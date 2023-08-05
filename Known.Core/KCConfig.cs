@@ -5,9 +5,8 @@ public sealed class KCConfig
     private KCConfig() { }
 
     public static AppInfo App { get; set; } = new AppInfo();
-    public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;
-    public static string WebRoot { get; set; }
-    public static string ContentRoot { get; set; }
+    public static string RootPath { get; set; }
+    public static string WWWPath { get; set; }
     public static bool IsDevelopment { get; set; }
 
     public static void RegisterServices()
@@ -26,7 +25,7 @@ public sealed class KCConfig
         var app = App;
         var uploadPath = app.UploadPath;
         if (string.IsNullOrEmpty(uploadPath))
-            uploadPath = Path.Combine(ContentRoot, "UploadFiles");
+            uploadPath = Path.Combine(RootPath, "UploadFiles");
 
         if (!Directory.Exists(uploadPath))
             Directory.CreateDirectory(uploadPath);
@@ -34,10 +33,10 @@ public sealed class KCConfig
         return uploadPath;
     }
 
-    public static string GetUploadPath(string filePath)
+    public static string GetUploadPath(string filePath, bool isWWW = false)
     {
-        var uploadPath = GetUploadPath();
-        return Path.Combine(uploadPath, filePath);
+        var path = isWWW ? Path.Combine(WWWPath, "Files") : GetUploadPath();
+        return Path.Combine(path, filePath);
     }
 }
 

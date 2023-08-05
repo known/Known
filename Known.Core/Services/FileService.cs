@@ -46,7 +46,7 @@ class FileService : BaseService
             return Result.Error("文件不存在！");
 
         Database.Delete(file);
-        AttachFile.DeleteFile(file.Path);
+        AttachFile.DeleteFile(file);
         return Result.Success("删除成功！");
     }
 
@@ -124,11 +124,15 @@ class FileService : BaseService
     internal Result UploadFile(UploadInfo info, string type)
     {
         if (info == null || info.Data == null || info.Data.Length == 0)
-            return Result.Success("", new { Errno = -1 });
+            return Result.Success("", "");
 
         var user = CurrentUser;
-        var attach = new AttachFile(info, user, "Upload", type);
-        attach.Category1 = "Upload";
+        var attach = new AttachFile(info, user);
+        var fileId = Utils.GetGuid();
+        attach.IsWWW = true;
+        attach.FilePath = $@"{user.CompNo}\{type}\{fileId}{attach.ExtName}";
+        attach.ThumbPath = $@"{user.CompNo}\{type}\Thumbnails\{fileId}{attach.ExtName}";
+        attach.Category1 = "WWW";
         attach.Category2 = type;
         var file = AddFile(Database, attach, "Upload", type, "", false);
         return Result.Success("", file.Url);

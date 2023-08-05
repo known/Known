@@ -71,6 +71,8 @@ public class SysFile : EntityBase
     [Column("文件缩略图路径", "", false, "1", "500")]
     public string ThumbPath { get; set; }
 
+    public virtual bool IsWWW => Category1 == "WWW";
+
     public virtual string Url
     {
         get
@@ -79,7 +81,7 @@ public class SysFile : EntityBase
             if (string.IsNullOrWhiteSpace(path))
                 path = Path;
 
-            return GetFileUrl(path);
+            return GetFileUrl(path, IsWWW);
         }
     }
 
@@ -90,18 +92,18 @@ public class SysFile : EntityBase
             return new FileUrlInfo
             {
                 FileName = Name,
-                ThumbnailUrl = GetFileUrl(ThumbPath),
-                OriginalUrl = GetFileUrl(Path)
+                ThumbnailUrl = GetFileUrl(ThumbPath, IsWWW),
+                OriginalUrl = GetFileUrl(Path, IsWWW)
             };
         }
     }
 
-    public static string GetFileUrl(string filePath)
+    private static string GetFileUrl(string filePath, bool isWWW = false)
     {
         if (string.IsNullOrWhiteSpace(filePath))
             return string.Empty;
 
         var path = filePath.Replace("\\", "/");
-        return $"UploadFiles/{path}";
+        return isWWW ? $"Files/{path}" : $"UploadFiles/{path}";
     }
 }

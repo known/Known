@@ -29,36 +29,24 @@ public class AttachFile
         }
     }
 
-    internal AttachFile(UploadInfo info, UserInfo user, string typePath = null, string timePath = null)
-        : this(new ByteAttachFile(info?.Name, info?.Data), user, typePath, timePath) { }
+    internal AttachFile(UploadInfo info, UserInfo user) : this(new ByteAttachFile(info?.Name, info?.Data), user) { }
 
     internal UserInfo User { get; }
+    internal bool IsWWW { get; set; }
     public long Size { get; }
     public string SourceName { get; }
     public string ExtName { get; }
     public string FileName { get; }
-    public string FilePath { get; }
-    public string ThumbPath { get; private set; }
+    public string FilePath { get; internal set; }
+    public string ThumbPath { get; internal set; }
     public string BizId { get; set; }
     public string BizType { get; set; }
     public string Category1 { get; set; }
     public string Category2 { get; set; }
 
-    public FileUrlInfo ImageUrl
-    {
-        get
-        {
-            return new FileUrlInfo
-            {
-                ThumbnailUrl = SysFile.GetFileUrl(ThumbPath),
-                OriginalUrl = SysFile.GetFileUrl(FilePath)
-            };
-        }
-    }
-
     internal async Task Save(bool isThumb)
     {
-        var filePath = KCConfig.GetUploadPath(FilePath);
+        var filePath = KCConfig.GetUploadPath(FilePath, IsWWW);
         var info = new FileInfo(filePath);
         if (!info.Directory.Exists)
             info.Directory.Create();
@@ -83,42 +71,33 @@ public class AttachFile
 
     private void SaveThumbnail(string path)
     {
-        var thumbFilePath = KCConfig.GetUploadPath(ThumbPath);
-        var info = new FileInfo(thumbFilePath);
+        var filePath = KCConfig.GetUploadPath(ThumbPath, IsWWW);
+        var info = new FileInfo(filePath);
         if (!info.Directory.Exists)
             info.Directory.Create();
 
         using var stream = File.OpenRead(path);
-        Platform.MakeThumbnail(stream, thumbFilePath, 100, 100);
+        Platform.MakeThumbnail(stream, filePath, 100, 100);
     }
 
     private void SaveThumbnail(byte[] bytes)
     {
-        var thumbFilePath = KCConfig.GetUploadPath(ThumbPath);
-        var info = new FileInfo(thumbFilePath);
+        var filePath = KCConfig.GetUploadPath(ThumbPath, IsWWW);
+        var info = new FileInfo(filePath);
         if (!info.Directory.Exists)
             info.Directory.Create();
 
         var stream = new MemoryStream(bytes);
-        Platform.MakeThumbnail(stream, thumbFilePath, 100, 100);
+        Platform.MakeThumbnail(stream, filePath, 100, 100);
     }
 
-    internal static void DeleteFile(string filePath)
+    internal static void DeleteFile(SysFile file)
     {
-        var path = KCConfig.GetUploadPath(filePath);
+        var path = KCConfig.GetUploadPath(file.Path, file.IsWWW);
         Utils.DeleteFile(path);
     }
 
-    public static void DeleteFiles(List<string> filePaths) => filePaths.ForEach(DeleteFile);
-
-    internal static Task<byte[]> GetBytesAsync(string filePath)
-    {
-        var path = KCConfig.GetUploadPath(filePath);
-        if (!File.Exists(path))
-            return null;
-
-        return File.ReadAllBytesAsync(path);
-    }
+    public static void DeleteFiles(List<SysFile> files) => files.ForEach(DeleteFile);
 
     private static string GetFilePath(string compNo, string type = null)
     {
