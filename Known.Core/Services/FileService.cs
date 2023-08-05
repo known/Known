@@ -131,18 +131,7 @@ class FileService : BaseService
         attach.Category1 = "Upload";
         attach.Category2 = type;
         var file = AddFile(Database, attach, "Upload", type, "", false);
-
-        if (type == "Image")
-        {
-            //new { Url="test.png", Alt="测试", Href="test" }
-            var data = new { Errno = 0, Data = new List<object> { new { file.Url } } };
-            return Result.Success("", data);
-        }
-        else
-        {
-            var data = new { Errno = 0, Data = new { file.Url } };
-            return Result.Success("", data);
-        }
+        return Result.Success("", file.Url);
     }
 
     internal static void DeleteFiles(Database db, string bizId, string bizType, List<string> oldFiles)
