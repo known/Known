@@ -53,8 +53,8 @@ class AppHelper
         KRConfig.Home = new MenuItem("首页", "fa fa-home", typeof(Home));
 
         KCConfig.AddWebPlatform();
-        KCConfig.WebRoot = Application.StartupPath;
-        KCConfig.ContentRoot = Application.StartupPath;
+        KCConfig.RootPath = Application.StartupPath;
+        KCConfig.WWWPath = Path.Combine(Application.StartupPath, "wwwroot");
 
         Database.RegisterProviders(new Dictionary<string, Type>
         {
