@@ -21,6 +21,7 @@
 .demo-card {position:relative;margin:1rem;height:200px;}
 .demo-carousel {height:200px;}
 .demo-dialog {padding:1rem;}
+.demo-pdf {height:100%;}
 
 @media screen and (min-width:769px) {
     .demo {grid-template-columns:45% 55%;}
