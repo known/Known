@@ -1,4 +1,6 @@
-﻿namespace Known.Studio.Pages;
+﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
+
+namespace Known.Studio.Pages;
 
 class DevCode : BasePage
 {
@@ -35,25 +37,25 @@ Demo|Dm
 文本|Field1|Text|50|Y|Y
 数值|Field2|Number|18,5
 日期|Field3|Date");
-            builder.Field<TextArea>("领域模型", "Domain").ValueChanged(v => domain = v)
-                   .Set(f => f.Height, 320)
-                   .Build();
-            builder.Div("dc-btn", attr =>
+            builder.Div("dc-domain", attr =>
             {
-                builder.Button("生成", "fa fa-download", Callback(OnGenerate));
+                builder.Button("生成", "fa fa-download", Callback(OnGenerate), StyleType.Primary);
+                builder.Field<TextArea>("领域模型", "Domain").ValueChanged(v => domain = v)
+                       .Set(f => f.Height, 320)
+                       .Build();
             });
         });
     }
 
     private void BuildRight(RenderTreeBuilder builder)
     {
-        builder.Div("dc-right", attr =>
+        builder.Div("dc-right tabs top", attr =>
         {
             builder.Component<Tabs>()
                    .Set(c => c.Codes, Codes)
                    .Set(c => c.OnChanged, OnTabChanged)
                    .Build();
-            builder.Element("pre", attr => attr.Id("code").Class("code prettyprint source linenums"));
+            builder.Element("pre", attr => attr.Id("code").Class("tab-body code prettyprint source linenums"));
         });
     }
 
