@@ -71,6 +71,7 @@ class ComponentService
         view.Children.Add<KBarcode>("条形码", "基于JsBarcode实现。");
         view.Children.Add<KQRCode>("二维码", "基于jquery.qrcode实现。");
         view.Children.Add<KPdfView>("PDF预览", "基于pdfobject.js实现。");
+        view.Children.Add<KPrint>("打印", "打印自定义表单。");
         items.Add(view);
 
         var feedback = new MenuItem("feedback", "反馈类");
