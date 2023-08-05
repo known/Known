@@ -10,6 +10,8 @@ window.KEditor = {
         return editor;
     },
     customUpload: function (editor, id, option) {
+        if (option.uploadImgShowBase64)
+            return;
         if (!option.storage)
             return;
 
