@@ -34,7 +34,7 @@ public class UploadInfo
 {
     public string Name { get; set; }
     public string Type { get; set; }
-    public int[] Data { get; set; }
+    public byte[] Data { get; set; }
 }
 
 public class UploadFormInfo

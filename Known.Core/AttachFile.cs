@@ -29,6 +29,9 @@ public class AttachFile
         }
     }
 
+    internal AttachFile(UploadInfo info, UserInfo user, string typePath = null, string timePath = null)
+        : this(new ByteAttachFile(info?.Name, info?.Data), user, typePath, timePath) { }
+
     internal UserInfo User { get; }
     public long Size { get; }
     public string SourceName { get; }

@@ -1,6 +1,6 @@
 ﻿namespace Known.Core;
 
-public class FormAttachFile : IAttachFile
+class FormAttachFile : IAttachFile
 {
     private readonly IFormFile file;
     private readonly byte[] bytes;
