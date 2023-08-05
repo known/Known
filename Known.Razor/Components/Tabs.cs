@@ -22,6 +22,8 @@ public class Tabs : BaseComponent
             TabItems = Items;
         else
             TabItems = CodeInfo.GetCodes(Codes).Select(c => new MenuItem(c.Code, c.Name)).ToList();
+
+        CurItem ??= TabItems[0];
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
