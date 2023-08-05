@@ -40,7 +40,7 @@ public sealed class AppAlone
     private static void InitConfigCore()
     {
         KCConfig.AddWebPlatform();
-        KCConfig.WebRoot = Application.StartupPath;
+        KCConfig.WebRoot = Path.Combine(Application.StartupPath, "wwwroot");
         KCConfig.ContentRoot = Application.StartupPath;
 
         //初始化资源文件默认数据库
