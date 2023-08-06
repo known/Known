@@ -53,8 +53,7 @@ class DemoForm5 : BaseForm
             Search = "test",
             Url = "http://www.test.com",
             RichText1 = "<p><img src=\"Files/puman/Image/01d082276a354ec19f7141b348ad40bd.png\" style=\"max-width:100%;\"/><br/></p>",
-            RichText2 = "<p><img src=\"Files/puman/Image/4e98789b14ae49bfad4ddff8bea81d8d.png\" style=\"max-width:100%;\"/><br/></p>",
-            RichText3 = ""
+            RichText2 = ""
         });
     }
 }
