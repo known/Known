@@ -40,6 +40,9 @@ public sealed class Setting
 
     internal static List<Column<TItem>> GetUserColumns<TItem>(string id, List<Column<TItem>> columns)
     {
+        if (string.IsNullOrWhiteSpace(id))
+            return columns;
+
         if (UserSetting == null || UserSetting.Columns == null || !UserSetting.Columns.ContainsKey(id))
             return columns;
 

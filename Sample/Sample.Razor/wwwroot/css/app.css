@@ -58,7 +58,7 @@
 .demo-row .box {display:grid;}
 .demo-row button {margin-right:5px;}
 .demo-tool {display:flex;justify-content:space-between;}
-#FullList td > img {width:80px;}
+#FullList td > img, #FullTable td > img {width:80px;}
 #FullList td .icon {font-size:1.2rem;}
 #FullList td .color {display:block;width:60px;height:20px;line-height:20px;font-size:0.8rem;text-align:center;color:#fff;}
 td .qty {display:block;padding:0;text-align:left;}
