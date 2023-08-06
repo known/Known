@@ -2,7 +2,7 @@
 
 namespace Sample.Razor.BizApply.Forms;
 
-[Dialog(800, 600)]
+[Dialog(960, 600)]
 class ApplyForm : WebForm<TbApply>
 {
     private TbApply? model;
@@ -20,11 +20,23 @@ class ApplyForm : WebForm<TbApply>
         builder.Hidden(f => f.Id);
         builder.Table(table =>
         {
-            table.ColGroup(100, null);
-            table.Tr(attr => builder.Field<Text>(f => f.BizNo).Enabled(false).Build());
-            table.Tr(attr => builder.Field<Text>(f => f.BizTitle).Build());
-            table.Tr(attr => builder.Field<TextArea>(f => f.BizContent).Build());
-            table.Tr(attr => builder.Field<Text>(f => f.BizFile).Build());
+            table.ColGroup(15, 35, 15, 35);
+            table.Tr(attr =>
+            {
+                table.Field<Text>(f => f.BizNo).Enabled(false).Build();
+                table.Field<Text>(f => f.BizTitle).Build();
+            });
+            table.Tr(attr =>
+            {
+                table.Field<RichText>(f => f.BizContent).ColSpan(3)
+                     .Set(f => f.Option, new
+                     {
+                         Height = 200,
+                         Placeholder = "请输入申请单内容"
+                     })
+                     .Build();
+            });
+            table.Tr(attr => table.Field<Upload>(f => f.BizFile).ColSpan(3).Build());
         });
         builder.FormList<FlowLogGrid>("流程记录", "", attr =>
         {
