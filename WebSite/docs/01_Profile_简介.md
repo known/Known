@@ -30,7 +30,6 @@
 ├─Known.Core    -> 框架后端库，通用业务逻辑。
 ├─Known.Razor   -> 框架前端库，Grid、Tree、Form等Blazor组件。
 ├─Known.Studio  -> 框架代码生成工具。
-├─Known.Test    -> 框架测试程序。
 ├─WebSite       -> 框架网站及在线文档。
 ```
 
