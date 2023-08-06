@@ -12,8 +12,8 @@ window.KAdmin = {
     },
     layout: function (id) {
         KAdmin.setTable(id);
-        KAdmin.setFormList();
         KAdmin.setDialog();
+        KForm.setFormList();
     },
     setTable: function (id) {
         var gridView = $('#' + id);
@@ -62,15 +62,6 @@ window.KAdmin = {
                 }
             }
         }
-    },
-    setFormList: function () {
-        var list = $('.form-list');
-        if (!list.length)
-            return;
-
-        var prev = list.prev();
-        var top = prev.position().top + prev.outerHeight(true);
-        list.css('top', top + 'px');
     },
     setDialog: function () {
         var dialog = $('.dialog:not(.max)');

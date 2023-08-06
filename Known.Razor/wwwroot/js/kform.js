@@ -16,7 +16,16 @@ window.KForm = {
             });
             inputs[0].focus();
         }
-        KAdmin.setFormList();
+        KForm.setFormList();
+    },
+    setFormList: function () {
+        var list = $('.form-list');
+        if (!list.length)
+            return;
+
+        var prev = list.prev();
+        var top = prev.position().top + prev.outerHeight(true);
+        list.css('top', top + 'px');
     },
     captcha: function (id, code) {
         var canvas = document.getElementById(id);

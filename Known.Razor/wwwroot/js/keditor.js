@@ -7,6 +7,7 @@ window.KEditor = {
         };
         KEditor.customUpload(editor, id, option);
         editor.create();
+        KForm.setFormList();
         return editor;
     },
     customUpload: function (editor, id, option) {
