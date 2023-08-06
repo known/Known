@@ -99,8 +99,8 @@ public class PagingResult<T>
 public enum ExportMode { None, Page, Query, All }
 public enum QueryType
 {
-    [Description("不等于")] NotEqual,
     [Description("等于")] Equal,
+    [Description("不等于")] NotEqual,
     [Description("小于")] LessThan,
     [Description("小于等于")] LessEqual,
     [Description("大于")] GreatThan,

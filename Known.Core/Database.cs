@@ -587,11 +587,11 @@ public class Database : IDisposable
 
         switch (type)
         {
-            case QueryType.NotEqual:
-                sql += $" and {field}<>@{key}";
-                break;
             case QueryType.Equal:
                 sql += $" and {field}=@{key}";
+                break;
+            case QueryType.NotEqual:
+                sql += $" and {field}<>@{key}";
                 break;
             case QueryType.LessThan:
                 sql += $" and {field}<@{key}";

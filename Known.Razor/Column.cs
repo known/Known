@@ -3,7 +3,6 @@
 public class Column<T> : ColumnInfo
 {
     private readonly List<string> classNames = new();
-    private readonly CodeInfo[] QueryTypes = TypeHelper.GetEnumCodes<QueryType>().ToArray();
 
     public Column() { }
     internal Column(string name, string id) : base(name, id) { }
@@ -85,15 +84,10 @@ public class Column<T> : ColumnInfo
 
     internal void BuildAdvQuery(RenderTreeBuilder builder, QueryInfo info)
     {
-        builder.Div("item", attr =>
-        {
-            builder.Label("form-label", Name);
-            builder.Field<Select>("", "QueryType").IsInput(true).Value($"{(int)info.Type}")
-                   .Set(f => f.Items, QueryTypes)
-                   .Set(f => f.ValueChanged, v => info.Type = (QueryType)int.Parse(v))
-                   .Build();
-            BuildQuery(builder, "", info.Value, v => info.Value = v);
-        });
+        builder.Component<AdvQueryField<T>>()
+               .Set(c => c.Column, this)
+               .Set(c => c.Info, info)
+               .Build();
     }
 
     internal void BuildCell(RenderTreeBuilder builder, T row, object value, bool readOnly)
@@ -112,14 +106,7 @@ public class Column<T> : ColumnInfo
     {
         if (Control != null)
         {
-            builder.Component(Control, attr =>
-            {
-                attr.Add(nameof(Field.Id), Id)
-                    .Add(nameof(Field.Enabled), true)
-                    .Add(nameof(Field.IsInput), true)
-                    .Add(nameof(Field.Value), value?.ToString())
-                    .Add(nameof(Field.ValueChanged), delegate (string val) { OnValueChanged(row, val); });
-            });
+            BuildEditControl(builder, row, value);
             return;
         }
 
@@ -155,22 +142,31 @@ public class Column<T> : ColumnInfo
         }
     }
 
-    private void BuildQuery(RenderTreeBuilder builder, string name, string value, Action<string> valueChanged = null, BaseComponent grid = null)
+    private void BuildEditControl(RenderTreeBuilder builder, T row, object value)
+    {
+        builder.Component(Control, attr =>
+        {
+            attr.Add(nameof(Field.Id), Id)
+                .Add(nameof(Field.Enabled), true)
+                .Add(nameof(Field.IsInput), true)
+                .Add(nameof(Field.Value), value?.ToString())
+                .Add(nameof(Field.ValueChanged), delegate (string val) { OnValueChanged(row, val); });
+        });
+    }
+
+    internal void BuildQuery(RenderTreeBuilder builder, string name, string value, Action<string> valueChanged = null, BaseComponent grid = null)
     {
         if (Control != null)
         {
-            builder.Component(Control, attr =>
-            {
-                attr.Add(nameof(Field.Id), Id)
-                    .Add(nameof(Field.Label), name)
-                    .Add(nameof(Field.IsInput), true)
-                    .Add(nameof(Field.Value), value)
-                    .Add(nameof(Field.ValueChanged), valueChanged);
-            });
+            BuildQueryControl(builder, name, value, valueChanged);
             return;
         }
 
-        if (Type == ColumnType.Date || Type == ColumnType.DateTime)
+        if (Type == ColumnType.Boolean)
+        {
+            builder.Field<CheckBox>(Id).IsInput(true).Value(value).ValueChanged(valueChanged).Set(f => f.Switch, true).Build();
+        }
+        else if (Type == ColumnType.Date || Type == ColumnType.DateTime)
         {
             builder.Field<DateRange>(name, Id).IsInput(true).Value(value).ValueChanged(valueChanged).Build();
         }
@@ -181,6 +177,18 @@ public class Column<T> : ColumnInfo
             else
                 builder.Field<Text>(name, Id).IsInput(true).Value(value).ValueChanged(valueChanged).Build();
         }
+    }
+
+    private void BuildQueryControl(RenderTreeBuilder builder, string name, string value, Action<string> valueChanged)
+    {
+        builder.Component(Control, attr =>
+        {
+            attr.Add(nameof(Field.Id), Id)
+                .Add(nameof(Field.Label), name)
+                .Add(nameof(Field.IsInput), true)
+                .Add(nameof(Field.Value), value)
+                .Add(nameof(Field.ValueChanged), valueChanged);
+        });
     }
 
     private void OnValueChanged(T row, object value)
