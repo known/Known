@@ -9,6 +9,12 @@ public sealed class Setting
 
     internal static List<QueryInfo> GetUserQuerys(string id)
     {
+        if (string.IsNullOrWhiteSpace(id))
+            return null;
+
+        if (UserSetting == null || UserSetting.Querys == null)
+            return null;
+
         if (!UserSetting.Querys.ContainsKey(id))
             return null;
 
@@ -18,9 +24,8 @@ public sealed class Setting
     internal static List<ColumnInfo> GetUserColumns(string id, List<ColumnInfo> columns)
     {
         var lists = new List<ColumnInfo>();
-        var userColumns = UserSetting.Columns.ContainsKey(id)
-                        ? UserSetting.Columns[id]
-                        : columns;
+        var userColumns = GetUserColumns(id);
+        userColumns ??= columns;
         foreach (var column in userColumns)
         {
             lists.Add(new ColumnInfo
@@ -40,14 +45,11 @@ public sealed class Setting
 
     internal static List<Column<TItem>> GetUserColumns<TItem>(string id, List<Column<TItem>> columns)
     {
-        if (string.IsNullOrWhiteSpace(id))
-            return columns;
-
-        if (UserSetting == null || UserSetting.Columns == null || !UserSetting.Columns.ContainsKey(id))
+        var userColumns = GetUserColumns(id);
+        if (userColumns == null)
             return columns;
 
         var lists = new List<Column<TItem>>();
-        var userColumns = UserSetting.Columns[id];
         foreach (var column in userColumns)
         {
             var item = columns.FirstOrDefault(c => c.Id == column.Id);
@@ -65,5 +67,19 @@ public sealed class Setting
             }
         }
         return lists;
+    }
+
+    private static List<ColumnInfo> GetUserColumns(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return null;
+
+        if (UserSetting == null || UserSetting.Columns == null)
+            return null;
+
+        if (!UserSetting.Columns.ContainsKey(id))
+            return null;
+
+        return UserSetting.Columns[id];
     }
 }
