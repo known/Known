@@ -19,6 +19,9 @@ public static class CriteriaExtension
 
     public static string GetQueryValue(this PagingCriteria criteria, string id)
     {
+        if (criteria.Query == null)
+            return string.Empty;
+
         var query = criteria.Query.FirstOrDefault(q => q.Id == id);
         if (query == null)
             return string.Empty;

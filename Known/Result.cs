@@ -111,7 +111,8 @@ public enum QueryType
     [Description("两者之间(仅含后者)")] BetweenGreatEqual,
     [Description("包含于")] Contain,
     [Description("开头于")] StartWith,
-    [Description("结尾于")] EndWith
+    [Description("结尾于")] EndWith,
+    [Description("批量(逗号分割)")] Batch
 }
 
 public class PagingCriteria

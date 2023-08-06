@@ -585,7 +585,6 @@ public class Database : IDisposable
         if (!criteria.HasQuery(key))
             return;
 
-        var query = criteria.Query.FirstOrDefault(q => q.Id == key);
         switch (type)
         {
             case QueryType.NotEqual:
@@ -623,37 +622,16 @@ public class Database : IDisposable
                 SetGreatQuery(ref sql, criteria, field, key, "<=");
                 break;
             case QueryType.Contain:
-                if (DatabaseType == DatabaseType.Access)
-                {
-                    sql += $" and {field} like '%{query.Value}%'";
-                }
-                else
-                {
-                    sql += $" and {field} like @{key}";
-                    query.Value = $"%{query.Value}%";
-                }
+                SetLikeQuery(ref sql, criteria, field, key, "%{0}%");
                 break;
             case QueryType.StartWith:
-                if (DatabaseType == DatabaseType.Access)
-                {
-                    sql += $" and {field} like '{query.Value}%'";
-                }
-                else
-                {
-                    sql += $" and {field} like @{key}";
-                    query.Value = $"{query.Value}%";
-                }
+                SetLikeQuery(ref sql, criteria, field, key, "{0}%");
                 break;
             case QueryType.EndWith:
-                if (DatabaseType == DatabaseType.Access)
-                {
-                    sql += $" and {field} like '%{query.Value}'";
-                }
-                else
-                {
-                    sql += $" and {field} like @{key}";
-                    query.Value = $"%{query.Value}";
-                }
+                SetLikeQuery(ref sql, criteria, field, key, "%{0}");
+                break;
+            case QueryType.Batch:
+                SetBatchQuery(ref sql, criteria, field, key);
                 break;
             default:
                 break;
@@ -715,6 +693,35 @@ public class Database : IDisposable
                 criteria.SetQuery(paramName, $"{value} 23:59:59");
             }
         }
+    }
+
+    private void SetLikeQuery(ref string sql, PagingCriteria criteria, string field, string key, string format)
+    {
+        var query = criteria.Query.FirstOrDefault(q => q.Id == key);
+        query.Value = string.Format(format, query.Value);
+        if (DatabaseType == DatabaseType.Access)
+            sql += $" and {field} like '{query.Value}'";
+        else
+            sql += $" and {field} like @{key}";
+    }
+
+    private static void SetBatchQuery(ref string sql, PagingCriteria criteria, string field, string key)
+    {
+        var query = criteria.Query.FirstOrDefault(q => q.Id == key);
+        var value = query.Value;
+        if (string.IsNullOrWhiteSpace(value))
+            return;
+
+        var values = value.Split(',', '，');
+        var wheres = new List<string>();
+        for (int i = 0; i < values.Length; i++)
+        {
+            var pkey = $"{key}{i}";
+            wheres.Add($"{field}=@{pkey}");
+            criteria.SetQuery(pkey, QueryType.Equal, values[i]);
+        }
+        var where = string.Join(" or ", wheres);
+        sql += $" and ({where})";
     }
     #endregion
 
