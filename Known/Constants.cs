@@ -27,6 +27,15 @@ public class Constants
     public const string MimeVideo = "audio/mp4,video/mp4";
 }
 
+public class RegexPattern
+{
+    public const string Chinese = "^[\u4e00-\u9fa5]{0,}$";
+    public const string Phone = "^0\\d{2,3}-[1-9]\\d{6,7}$";
+    public const string Mobile = "^1[3-9]\\d{9}$";
+    public const string Email = "^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
+    public const string Url = "^(ht|f)tp(s?)\\:\\/\\/[0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])*(:(0-9)*)*(\\/?)([a-zA-Z0-9\\-\\.\\?\\,\\'\\/\\\\\\+&%\\$#_]*)?$";
+}
+
 [CodeTable]
 public class TaskStatus
 {

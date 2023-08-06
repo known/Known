@@ -10,7 +10,7 @@ public class TableAttribute : Attribute
         Name = name;
     }
 
-    public string Name { get; set; }
+    public string Name { get; }
 }
 
 [AttributeUsage(AttributeTargets.Property)]
@@ -107,5 +107,30 @@ public class ColumnAttribute : Attribute
             return 0;
 
         return Encoding.Default.GetBytes(value).Length;
+    }
+}
+
+public class RegexAttribute : Attribute
+{
+    public RegexAttribute(string pattern, string message)
+    {
+        Pattern = pattern;
+        Message = message;
+    }
+
+    public string Pattern { get; }
+    public string Message { get; }
+
+    internal virtual void Validate(object value, List<string> errors)
+    {
+        if (string.IsNullOrWhiteSpace(Pattern))
+            return;
+
+        var valueString = value == null ? "" : value.ToString().Trim();
+        var isMatch = Regex.IsMatch(valueString, Pattern);
+        if (isMatch)
+            return;
+
+        errors.Add(Message);
     }
 }

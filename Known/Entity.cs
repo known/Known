@@ -90,18 +90,17 @@ public class EntityBase
         foreach (var pi in properties)
         {
             var attrs = pi.GetCustomAttributes(true);
+            var value = pi.GetValue(this, null);
+            var errors = new List<string>();
             foreach (var item in attrs)
             {
-                if (item is ColumnAttribute attr)
-                {
-                    var errors = new List<string>();
-                    var value = pi.GetValue(this, null);
-                    attr.Validate(value, pi.PropertyType, errors);
-                    if (errors.Count > 0)
-                        dicError.Add(pi.Name, errors);
-                    break;
-                }
+                if (item is ColumnAttribute column)
+                    column.Validate(value, pi.PropertyType, errors);
+                if (item is RegexAttribute regex)
+                    regex.Validate(value, errors);
             }
+            if (errors.Count > 0)
+                dicError.Add(pi.Name, errors);
         }
 
         if (dicError.Count > 0)

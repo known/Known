@@ -45,18 +45,21 @@ public class SysUser : EntityBase
     /// 取得或设置固定电话。
     /// </summary>
     [Column("固定电话", "", false, "1", "50")]
+    [Regex(RegexPattern.Phone, "固定电话格式不正确！")]
     public string Phone { get; set; }
 
     /// <summary>
     /// 取得或设置移动电话。
     /// </summary>
     [Column("移动电话", "", false, "1", "50")]
+    [Regex(RegexPattern.Mobile, "移动电话格式不正确！")]
     public string Mobile { get; set; }
 
     /// <summary>
     /// 取得或设置电子邮件。
     /// </summary>
     [Column("电子邮件", "", false, "1", "50")]
+    [Regex(RegexPattern.Email, "电子邮件格式不正确！")]
     public string Email { get; set; }
 
     /// <summary>
