@@ -25,16 +25,10 @@ class ApplyList : WebGridView<TbApply, ApplyForm>
         return base.CheckAction(action, item);
     }
 
-    protected override void ShowForm(TbApply? model = null)
+    protected override async void ShowForm(TbApply? model = null)
     {
         var action = model == null ? "新增" : "编辑";
-        model ??= new TbApply
-        {
-            BizType = ApplyType.Test,
-            BizStatus = FlowStatus.Save,
-            ApplyBy = CurrentUser.Name,
-            ApplyTime = DateTime.Now
-        };
+        model ??= await Client.Apply.GetDefaultApplyAsync(ApplyType.Test);
         ShowForm<ApplyForm>($"{action}{Name}", model, action: attr =>
         {
             attr.Set(c => c.PageType, PageType.Apply);

@@ -5,12 +5,24 @@ class ApplyService : ServiceBase
     internal ApplyService(Context context) : base(context) { }
 
     //Apply
-    public PagingResult<TbApply> QueryApplys(PagingCriteria criteria)
+    internal PagingResult<TbApply> QueryApplys(PagingCriteria criteria)
     {
         return ApplyRepository.QueryApplys(Database, criteria);
     }
 
-    public Result DeleteApplys(List<TbApply> models)
+    internal TbApply GetDefaultApply(ApplyType bizType)
+    {
+        return new TbApply
+        {
+            BizType = bizType,
+            BizNo = GetMaxBizNo(Database, bizType),
+            BizStatus = FlowStatus.Save,
+            ApplyBy = CurrentUser.Name,
+            ApplyTime = DateTime.Now
+        };
+    }
+
+    internal Result DeleteApplys(List<TbApply> models)
     {
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
@@ -37,7 +49,7 @@ class ApplyService : ServiceBase
         return result;
     }
 
-    public Result SaveApply(UploadFormInfo info)
+    internal Result SaveApply(UploadFormInfo info)
     {
         var entity = Database.QueryById<TbApply>((string)info.Model.Id);
         entity ??= new TbApply();

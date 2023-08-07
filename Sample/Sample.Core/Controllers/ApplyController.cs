@@ -9,6 +9,9 @@ public class ApplyController : BaseController
     [HttpPost("[action]")]
     public PagingResult<TbApply> QueryApplys([FromBody] PagingCriteria criteria) => Service.QueryApplys(criteria);
 
+    [HttpGet("[action]")]
+    public TbApply GetDefaultApply([FromQuery] ApplyType bizType) => Service.GetDefaultApply(bizType);
+
     [HttpPost("[action]")]
     public Result DeleteApplys([FromBody] List<TbApply> models) => Service.DeleteApplys(models);
 

@@ -6,6 +6,7 @@ public class ApplyClient : ClientBase
 
     //Apply
     public Task<PagingResult<TbApply>> QueryApplysAsync(PagingCriteria criteria) => Context.QueryAsync<TbApply>("Apply/QueryApplys", criteria);
+    public Task<TbApply> GetDefaultApplyAsync(ApplyType bizType) => Context.GetAsync<TbApply>($"Apply/GetDefaultApply?bizType={bizType}");
     public Task<Result> DeleteApplysAsync(List<TbApply> models) => Context.PostAsync("Apply/DeleteApplys", models);
     public Task<Result> SaveApplyAsync(HttpContent content) => Context.PostAsync("Apply/SaveApply", content);
 }

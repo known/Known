@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DebugType>embedded</DebugType>
-        <Version>1.0.4.13</Version>
+        <Version>1.0.4.14</Version>
     </PropertyGroup>
 
     <ItemGroup>
