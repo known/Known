@@ -135,6 +135,9 @@ export class KRazor {
     static initEditor(id, option) {
         return KEditor.init(id, option);
     }
+    static setFormList() {
+        KForm.setFormList();
+    }
     static captcha(id, code) {
         KForm.captcha(id, code);
     }

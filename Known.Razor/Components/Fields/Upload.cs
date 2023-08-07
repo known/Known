@@ -13,9 +13,13 @@ public class Upload : Field
     protected override async Task OnInitializedAsync()
     {
         if (!string.IsNullOrWhiteSpace(Value))
-        {
             SysFiles ??= await Platform.File.GetFilesAsync(Value);
-        }
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        UI.SetFormList();
+        return base.OnAfterRenderAsync(firstRender);
     }
 
     public override bool Validate()
