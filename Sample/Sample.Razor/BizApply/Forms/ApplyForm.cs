@@ -36,7 +36,13 @@ class ApplyForm : WebForm<TbApply>
                      })
                      .Build();
             });
-            table.Tr(attr => table.Field<Upload>(f => f.BizFile).ColSpan(3).Build());
+            table.Tr(attr =>
+            {
+                table.Field<Upload>(f => f.BizFile).ColSpan(3)
+                     .Set(f => f.IsMultiple, true)
+                     .Set(f => f.CanDelete, true)
+                     .Build();
+            });
         });
         builder.FormList<FlowLogGrid>("流程记录", "", attr =>
         {

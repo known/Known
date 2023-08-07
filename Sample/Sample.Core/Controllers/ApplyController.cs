@@ -15,12 +15,12 @@ public class ApplyController : BaseController
     [HttpPost("[action]")]
     public Result DeleteApplys([FromBody] List<TbApply> models) => Service.DeleteApplys(models);
 
-    //附件参数名称规范：file[字段属性名]s，该实体附件字段名为：BizFile
+    //附件参数名称规范：file[字段属性名]，该实体附件字段名为：BizFile
     [HttpPost("[action]")]
-    public Result SaveApply([FromForm] string model, [FromForm] IEnumerable<IFormFile> fileBizFiles)
+    public Result SaveApply([FromForm] string model, [FromForm] IEnumerable<IFormFile> fileBizFile)
     {
-        var info = GetUploadFormInfo(model);
-        info.MultiFiles[nameof(TbApply.BizFile)] = GetAttachFiles(fileBizFiles);
+        var info = new UploadFormInfo(model);
+        info.Files[nameof(TbApply.BizFile)] = GetAttachFiles(fileBizFile);
         return Service.SaveApply(info);
     }
 }

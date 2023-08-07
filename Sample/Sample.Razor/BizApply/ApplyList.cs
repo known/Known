@@ -7,6 +7,8 @@ class ApplyList : WebGridView<TbApply, ApplyForm>
 {
     protected override Task InitPageAsync()
     {
+        Column(c => c.BizType).Template((b, r) => b.Text(r.BizType.ToString()));
+        Column(c => c.BizNo).Template((b, r) => b.Link(r.BizNo, Callback(() => View(r))));
         Column(c => c.BizStatus).Template((b, r) => b.BillStatus(r.BizStatus));
         return base.InitPageAsync();
     }
@@ -37,10 +39,10 @@ class ApplyList : WebGridView<TbApply, ApplyForm>
 
     public void New() => ShowForm();
     public void DeleteM() => DeleteRows(Client.Apply.DeleteApplysAsync);
-    public void Submit() => OnSubmitFlow();
-    public void Revoke() => OnRevokeFlow();
     public void Edit(TbApply row) => ShowForm(row);
     public void Delete(TbApply row) => DeleteRow(row, Client.Apply.DeleteApplysAsync);
+    public void Submit(TbApply row) => OnSubmitFlow();
+    public void Revoke(TbApply row) => OnRevokeFlow();
 
     private void OnSubmitFlow()
     {
