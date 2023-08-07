@@ -1,36 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <DebugType>embedded</DebugType>
-        <Authors>KnownChen</Authors>
-        <Description>Known.Core is a rapid development framework for .NET.</Description>
-        <Version>1.2.12</Version>
-        <PackageIcon>icon.png</PackageIcon>
-        <PackageTags>known, framework, .net, webapi</PackageTags>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-        <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
-        <PackageOutputPath>..\Library</PackageOutputPath>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<DebugType>embedded</DebugType>
+		<Authors>KnownChen</Authors>
+		<Description>Known.Core is a rapid development framework for .NET.</Description>
+		<Version>1.2.12</Version>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageTags>known, framework, .net, webapi</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
+		<PackageOutputPath>..\Library</PackageOutputPath>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-        <PackageReference Include="Aspose.Cells" Version="18.10.1" />
-    </ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+		<PackageReference Include="Aspose.Cells" Version="18.10.1" />
+	</ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Known\Known.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Known\Known.csproj" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\icon.png" />
-        <None Update="..\icon.png">
-            <Pack>True</Pack>
-            <PackagePath>\</PackagePath>
-        </None>
-    </ItemGroup>
+		<None Update="..\icon.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>
