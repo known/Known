@@ -72,7 +72,7 @@ public class AttachFile : BaseComponent
         {
             var fileContent = new StreamContent(item.OpenReadStream(Upload.MaxLength));
             fileContent.Headers.ContentType = new MediaTypeHeaderValue(item.ContentType);
-            content.Add(fileContent, "\"fileFiles\"", item.Name);
+            content.Add(fileContent, "\"fileUpload\"", item.Name);
             upload = true;
         }
 

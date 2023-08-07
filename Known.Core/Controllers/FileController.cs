@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Cors;
-
-namespace Known.Core.Controllers;
+﻿namespace Known.Core.Controllers;
 
 [Route("[controller]")]
 public class FileController : BaseController
@@ -32,19 +30,10 @@ public class FileController : BaseController
     public Result UploadVideo([FromBody] UploadInfo info) => Service.UploadFile(info, "Video");
 
     [HttpPost("[action]")]
-    public Result UploadFile([FromForm] string model, [FromForm] IEnumerable<IFormFile> fileFile)
+    public Result UploadFiles([FromForm] string model, [FromForm] IEnumerable<IFormFile> fileUpload)
     {
-        var info = GetUploadFormInfo(model);
-        var files = GetAttachFiles(fileFile);
-        info.Files["File"] = files.Count > 0 ? files[0] : null;
-        return Service.UploadFile(info);
-    }
-
-    [HttpPost("[action]")]
-    public Result UploadFiles([FromForm] string model, [FromForm] IEnumerable<IFormFile> fileFiles)
-    {
-        var info = GetUploadFormInfo(model);
-        info.MultiFiles["Files"] = GetAttachFiles(fileFiles);
+        var info = new UploadFormInfo(model);
+        info.Files["Upload"] = GetAttachFiles(fileUpload);
         return Service.UploadFiles(info);
     }
 }

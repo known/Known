@@ -5,11 +5,9 @@ public class Upload : Field
     [Parameter] public bool CanDelete { get; set; }
     [Parameter] public bool IsMultiple { get; set; }
     [Parameter] public string Accept { get; set; }
-    [Parameter] public Action<IBrowserFile> OnFileChanged { get; set; }
     [Parameter] public Action<List<IBrowserFile>> OnFilesChanged { get; set; }
     [Parameter] public List<SysFile> SysFiles { get; set; }
     public static long MaxLength { get; set; } = 1024 * 1024 * 50;
-    public IBrowserFile File { get; private set; }
     public List<IBrowserFile> Files { get; private set; }
 
     protected override async Task OnInitializedAsync()
@@ -22,9 +20,7 @@ public class Upload : Field
 
     public override bool Validate()
     {
-        var isNotValid = IsMultiple
-                       ? (Files == null || Files.Count == 0) && Required
-                       : File == null && Required;
+        var isNotValid = (Files == null || Files.Count == 0) && Required;
         if (isNotValid && (SysFiles == null || SysFiles.Count == 0))
         {
             SetError(true);
@@ -59,7 +55,7 @@ public class Upload : Field
         builder.OpenComponent<InputFile>(0);
         builder.AddAttribute(1, "class", "upload");
         builder.AddAttribute(1, "disabled", !Enabled);
-        builder.AddAttribute(1, nameof(InputFile.OnChange), Callback<InputFileChangeEventArgs>(e => OnInputFilesChanged(e)));
+        builder.AddAttribute(1, nameof(InputFile.OnChange), Callback<InputFileChangeEventArgs>(OnInputFilesChanged));
         if (IsMultiple)
             builder.AddAttribute(1, "multiple", true);
         if (!string.IsNullOrWhiteSpace(Accept))
@@ -84,7 +80,7 @@ public class Upload : Field
                 });
             }
         }
-        else
+        else if (Files.Count > 1)
         {
             builder.Div("form-files", attr =>
             {
@@ -150,25 +146,23 @@ public class Upload : Field
 
     private async void OnInputFilesChanged(InputFileChangeEventArgs e)
     {
+        if (IsMultiple && e.FileCount > 20)
+        {
+            UI.Toast("一次最多上传20个文件！");
+            return;
+        }
+
+        Files = new List<IBrowserFile>();
         if (IsMultiple)
         {
-            if (e.FileCount > 20)
-            {
-                UI.Toast("一次最多上传20个文件！");
-                return;
-            }
-
             var files = e.GetMultipleFiles(20);
             if (files == null || files.Count == 0)
                 return;
 
-            Files = new List<IBrowserFile>();
             foreach (var file in files)
             {
                 Files.Add(await GetFile(file));
             }
-            StateChanged();
-            OnFilesChanged?.Invoke(Files);
         }
         else
         {
@@ -176,10 +170,11 @@ public class Upload : Field
             if (file == null || file.Size == 0)
                 return;
 
-            File = await GetFile(file);
-            StateChanged();
-            OnFileChanged?.Invoke(File);
+            Files.Add(await GetFile(file));
         }
+
+        StateChanged();
+        OnFilesChanged?.Invoke(Files);
     }
 
     private async Task<IBrowserFile> GetFile(IBrowserFile file)
@@ -189,12 +184,6 @@ public class Upload : Field
 
         return await Task.FromResult(file);
     }
-
-    //private async Task<IAttachFile> GetAttachFile(IBrowserFile file)
-    //{
-    //    var bytes = await GetBytes(file);
-    //    return new BlazorAttachFile(file, bytes);
-    //}
 
     public static async Task<byte[]> GetBytes(IBrowserFile file)
     {

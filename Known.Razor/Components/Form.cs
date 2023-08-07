@@ -157,7 +157,6 @@ public class Form : BaseComponent
         var modelContent = new StringContent(json);
         content.Add(modelContent, "\"model\"");
         AddFiles(content);
-        AddMultiFiles(content);
         Result result = await action.Invoke(content);
         UI.Result(result, OnSubmitted(result, onSuccess));
     }
@@ -169,8 +168,7 @@ public class Form : BaseComponent
             var info = new UploadFormInfo
             {
                 Model = data,
-                Files = GetFiles(),
-                MultiFiles = GetMultiFiles()
+                Files = GetFiles()
             };
             return action.Invoke(info);
         }, OnSubmitted(onSuccess));
@@ -199,15 +197,6 @@ public class Form : BaseComponent
         var files = FormContext.Files;
         foreach (var item in files)
         {
-            AddFileContent(content, item.Key, item.Value);
-        }
-    }
-
-    private void AddMultiFiles(MultipartFormDataContent content)
-    {
-        var files = FormContext.MultiFiles;
-        foreach (var item in files)
-        {
             foreach (var file in item.Value)
             {
                 AddFileContent(content, item.Key, file);
@@ -222,20 +211,9 @@ public class Form : BaseComponent
         content.Add(fileContent, $"\"file{key}\"", file.Name);
     }
 
-    private Dictionary<string, IAttachFile> GetFiles()
+    private Dictionary<string, List<IAttachFile>> GetFiles()
     {
         var dicFiles = FormContext.Files;
-        var files = new Dictionary<string, IAttachFile>();
-        foreach (var item in dicFiles)
-        {
-            files.Add(item.Key, new BlazorAttachFile(item.Value));
-        }
-        return files;
-    }
-
-    private Dictionary<string, List<IAttachFile>> GetMultiFiles()
-    {
-        var dicFiles = FormContext.MultiFiles;
         var files = new Dictionary<string, List<IAttachFile>>();
         foreach (var item in dicFiles)
         {

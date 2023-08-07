@@ -15,25 +15,7 @@ class FormContext : FieldContext
         }
     }
 
-    internal Dictionary<string, IBrowserFile> Files
-    {
-        get
-        {
-            var dic = new Dictionary<string, IBrowserFile>();
-            foreach (var item in Fields)
-            {
-                if (item.Value is Upload)
-                {
-                    var upload = item.Value as Upload;
-                    if (upload.File != null)
-                        dic.TryAdd(item.Key, upload.File);
-                }
-            }
-            return dic;
-        }
-    }
-
-    internal Dictionary<string, List<IBrowserFile>> MultiFiles
+    internal Dictionary<string, List<IBrowserFile>> Files
     {
         get
         {

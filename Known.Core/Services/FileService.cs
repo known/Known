@@ -85,39 +85,25 @@ class FileService : BaseService
         return file.FileUrl;
     }
 
-    internal Result UploadFile(UploadFormInfo info)
-    {
-        ImportFormInfo form = Utils.MapTo<ImportFormInfo>(info.Model);
-        SysFile sysFile = null;
-        var user = CurrentUser;
-        var file = GetAttachFile(info, user, "File", form);
-        var result = Database.Transaction("上传", db =>
-        {
-            sysFile = AddFile(db, file, form.BizId, form.BizType, form.Type, Utils.ConvertTo<bool>(form.IsThumb));
-            if (form.BizType == ImportHelper.BizType)
-            {
-                var task = ImportHelper.CreateTask(form);
-                task.Target = sysFile.Id;
-                db.Save(task);
-            }
-        });
-        result.Data = sysFile;
-        if (result.IsValid && form.BizType == ImportHelper.BizType)
-            result.Message += "等待后台导入中...";
-        return result;
-    }
-
     internal Result UploadFiles(UploadFormInfo info)
     {
         ImportFormInfo form = Utils.MapTo<ImportFormInfo>(info.Model);
         var sysFiles = new List<SysFile>();
         var user = CurrentUser;
-        var files = GetAttachFiles(info, user, "Files", form);
+        var files = GetAttachFiles(info, user, "Upload", form);
         var result = Database.Transaction("上传", db =>
         {
             sysFiles = AddFiles(db, files, form.BizId, form.BizType, Utils.ConvertTo<bool>(form.IsThumb));
+            if (form.BizType == ImportHelper.BizType)
+            {
+                var task = ImportHelper.CreateTask(form);
+                task.Target = sysFiles[0].Id;
+                db.Save(task);
+            }
         });
         result.Data = sysFiles;
+        if (result.IsValid && form.BizType == ImportHelper.BizType)
+            result.Message += "等待后台导入中...";
         return result;
     }
 

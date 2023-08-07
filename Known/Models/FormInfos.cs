@@ -39,15 +39,16 @@ public class UploadInfo
 
 public class UploadFormInfo
 {
-    public UploadFormInfo()
+    public UploadFormInfo() { }
+
+    public UploadFormInfo(string model)
     {
-        Files = new Dictionary<string, IAttachFile>();
-        MultiFiles = new Dictionary<string, List<IAttachFile>>();
+        Model = Utils.ToDynamic(model);
+        Files = new Dictionary<string, List<IAttachFile>>();
     }
 
     public dynamic Model { get; set; }
-    public Dictionary<string, IAttachFile> Files { get; set; }
-    public Dictionary<string, List<IAttachFile>> MultiFiles { get; set; }
+    public Dictionary<string, List<IAttachFile>> Files { get; set; }
 }
 
 public class FileFormInfo

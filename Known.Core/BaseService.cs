@@ -44,9 +44,9 @@ public abstract class BaseService : ServiceBase
         PlatformRepository.SaveConfig(db, Config.AppId, key, json);
     }
 
-    protected static AttachFile GetAttachFile(UploadFormInfo info, UserInfo user, string key, string typePath) => GetAttachFile(info, user, key, new FileFormInfo { BizType = typePath });
+    protected static List<AttachFile> GetAttachFiles(UploadFormInfo info, UserInfo user, string key, string typePath) => GetAttachFiles(info, user, key, new FileFormInfo { BizType = typePath });
 
-    internal static AttachFile GetAttachFile(UploadFormInfo info, UserInfo user, string key, FileFormInfo form)
+    internal static List<AttachFile> GetAttachFiles(UploadFormInfo info, UserInfo user, string key, FileFormInfo form)
     {
         if (info.Files == null || info.Files.Count == 0)
             return null;
@@ -54,22 +54,8 @@ public abstract class BaseService : ServiceBase
         if (!info.Files.ContainsKey(key))
             return null;
 
-        var file = info.Files[key];
-        return new AttachFile(file, user, form.BizType, form.BizPath) { Category2 = form.Category };
-    }
-
-    protected static List<AttachFile> GetAttachFiles(UploadFormInfo info, UserInfo user, string key, string typePath) => GetAttachFiles(info, user, key, new FileFormInfo { BizType = typePath });
-
-    internal static List<AttachFile> GetAttachFiles(UploadFormInfo info, UserInfo user, string key, FileFormInfo form)
-    {
-        if (info.MultiFiles == null || info.MultiFiles.Count == 0)
-            return null;
-
-        if (!info.MultiFiles.ContainsKey(key))
-            return null;
-
         var attaches = new List<AttachFile>();
-        var files = info.MultiFiles[key];
+        var files = info.Files[key];
         foreach (var item in files)
         {
             var attach = new AttachFile(item, user, form.BizType, form.BizPath) { Category2 = form.Category };

@@ -49,9 +49,9 @@ class Importer : BaseComponent
         builder.Div("danger", "提示: 请上传单个txt或Excel格式附件！");
         builder.Div("form-item", attr =>
         {
-            builder.Field<Upload>("File").Required(true).Enabled(isFinished)
+            builder.Field<Upload>("Upload").Required(true).Enabled(isFinished)
                    .Set(f => f.Accept, "text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-                   .Set(f => f.OnFileChanged, file => OnFileChanged(file))
+                   .Set(f => f.OnFilesChanged, OnFilesChanged)
                    .Build();
             builder.Button("导入", "fa fa-check", Callback(OnImport), StyleType.Primary, isFinished);
         });
@@ -66,8 +66,9 @@ class Importer : BaseComponent
         builder.Div($"message {style}", message);
     }
 
-    private async void OnFileChanged(IBrowserFile file)
+    private async void OnFilesChanged(List<IBrowserFile> files)
     {
+        var file = files.FirstOrDefault();
         if (Option.Action != null)
         {
             datas.Clear();
@@ -142,7 +143,7 @@ class Importer : BaseComponent
         }
         else
         {
-            form.SubmitFilesAsync(Platform.File.UploadFileAsync, result =>
+            form.SubmitFilesAsync(Platform.File.UploadFilesAsync, result =>
             {
                 if (!result.IsValid)
                 {
