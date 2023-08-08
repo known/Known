@@ -35,6 +35,25 @@ class CodeService
 
         var maxLength = columns.Select(f => (f.Code ?? "").Length).Max();
         var sb = new StringBuilder();
+        sb.AppendLine("--Access");
+        sb.AppendLine("CREATE TABLE `{0}{1}` (", model.Prefix, model.Code);
+        var index = 0;
+        foreach (var item in columns)
+        {
+            var comma = ++index == columns.Count ? "" : ",";
+            var required = item.Required ? "NOT NULL" : "NULL";
+            var column = $"`{item.Code}`";
+            column = GetColumnName(column, maxLength + 2);
+            var type = GetAccessDbType(item);
+            if (item.Code == "Id")
+                sb.AppendLine($"    {column} {type} {required} PRIMARY KEY{comma}");
+            else
+                sb.AppendLine($"    {column} {type} {required}{comma}");
+        }
+        sb.AppendLine(")");
+        sb.AppendLine("GO");
+
+        sb.AppendLine("");
         sb.AppendLine("--MySql");
         sb.AppendLine("create table `{0}{1}` (", model.Prefix, model.Code);
         foreach (var item in columns)
@@ -51,7 +70,7 @@ class CodeService
         sb.AppendLine("");
         sb.AppendLine("--SqlLite");
         sb.AppendLine("CREATE TABLE [{0}{1}] (", model.Prefix, model.Code);
-        var index = 0;
+        index = 0;
         foreach (var item in columns)
         {
             var comma = ++index == columns.Count ? "" : ",";
@@ -426,6 +445,33 @@ class CodeService
             return string.IsNullOrWhiteSpace(item.Length) ? "int" : "decimal";
 
         return "string?";
+    }
+
+    private static object GetAccessDbType(FieldInfo item)
+    {
+        var type = item.Type ?? "";
+        if (type == "Date")
+        {
+            type = "DateTime";
+        }
+        else if (type == "Number")
+        {
+            type = string.IsNullOrWhiteSpace(item.Length) ? "Long" : $"decimal({item.Length})";
+        }
+        else
+        {
+            if (string.IsNullOrWhiteSpace(item.Length))
+                type = "LongText";
+            else if (item.Code.StartsWith("Is") || item.Code.EndsWith("Id") || item.Code.EndsWith("No") || item.Code == "CompNo")
+                type = $"VarChar({item.Length})";
+            else
+                type = $"VarChar({item.Length})";
+        }
+
+        if (type.Length < 16)
+            type += new string(' ', 16 - type.Length);
+
+        return type;
     }
 
     private static string GetMySqlDbType(FieldInfo item)
