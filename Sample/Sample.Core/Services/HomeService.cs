@@ -42,12 +42,11 @@ class HomeService : ServiceBase
 
     private StatisticsInfo GetStatisticsInfo()
     {
-        var user = CurrentUser;
         Database.Open();
         var info = new StatisticsInfo
         {
-            UserCount = Database.Scalar<int>("select count(*) from SysUser where CompNo=@CompNo", new { user.CompNo }),
-            LogCount = Database.Scalar<int>("select count(*) from SysLog where CompNo=@CompNo", new { user.CompNo })
+            UserCount = HomeRepository.GetUserCount(Database),
+            LogCount = HomeRepository.GetLogCount(Database)
         };
         var now = DateTime.Now;
         var endDay = now.AddDays(1 - now.Day).AddMonths(1).AddDays(-1).Day;
@@ -55,7 +54,7 @@ class HomeService : ServiceBase
         for (int i = 1; i <= endDay; i++)
         {
             var date = new DateTime(now.Year, now.Month, i);
-            seriesLog[i.ToString("00")] = GetLogCount(Database, date);
+            seriesLog[i.ToString("00")] = HomeRepository.GetLogCount(Database, date);
         }
         info.LogDatas = new ChartDataInfo[]
         {
@@ -63,14 +62,5 @@ class HomeService : ServiceBase
         };
         Database.Close();
         return info;
-    }
-
-    private static object GetLogCount(Database db, DateTime date)
-    {
-        var day = date.ToString("yyyy-MM-dd");
-        var sql = $@"select count(1) from SysLog where CompNo=@CompNo and CreateTime between '{day} 00:00:00' and '{day} 23:59:59'";
-        if (db.DatabaseType == DatabaseType.Access)
-            sql = sql.Replace("'", "#");
-        return db.Scalar<int>(sql, new { db.User.CompNo });
     }
 }
