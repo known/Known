@@ -186,9 +186,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         }
     }
 
-    protected void ImportList(string headId) => ShowImport(Name, typeof(TItem), headId);
-
-    protected async void ShowImport(string name, Type type, string param = null)
+    protected async void ShowImport(string name, Type type, bool isAsync = true, string param = null)
     {
         var id = $"{type.Name}Import";
         if (!string.IsNullOrWhiteSpace(param))
@@ -196,7 +194,14 @@ public class DataGrid<TItem> : DataComponent<TItem>
         var model = await Platform.File.GetImportAsync(id);
         model.BizName = $"导入{name}";
         model.Type = type?.AssemblyQualifiedName;
-        UI.ShowImport(new ImportOption { Id = id, Name = name, Model = model });
+        model.IsAsync = isAsync;
+        UI.ShowImport(new ImportOption
+        {
+            Id = id,
+            Name = name,
+            Model = model,
+            OnSuccess = Refresh
+        });
     }
 
     protected override Task InitPageAsync()

@@ -81,19 +81,21 @@ public sealed class ImportHelper
         };
     }
 
+    internal static Result Execute(Database db, SysTask task)
+    {
+        var import = BaseImport.Create(task.BizId, db);
+        if (import == null)
+            return Result.Error("导入方法未注册，无法执行！");
+
+        var file = db.QueryById<SysFile>(task.Target);
+        return import.Execute(file);
+    }
+
     public static Task Execute()
     {
         return Task.Run(() =>
         {
-            TaskHelper.Run(BizType, (db, task) =>
-            {
-                var import = BaseImport.Create(task.BizId, db);
-                if (import == null)
-                    return Result.Error("导入方法未注册，无法执行！");
-
-                var file = db.QueryById<SysFile>(task.Target);
-                return import.Execute(file);
-            });
+            TaskHelper.Run(BizType, Execute);
         });
     }
 
@@ -120,6 +122,9 @@ public sealed class ImportHelper
 
         var errors = new Dictionary<int, string>();
         var lines = excel.SheetToDictionaries(0, 2);
+        if (lines == null || lines.Count == 0)
+            return Result.Error("导入数据不能为空！");
+
         for (int i = 0; i < lines.Count; i++)
         {
             var item = new ImportRow();
@@ -138,6 +143,9 @@ public sealed class ImportHelper
     {
         var errors = new Dictionary<int, string>();
         var lines = File.ReadAllLines(path);
+        if (lines == null || lines.Length == 0)
+            return Result.Error("导入数据不能为空！");
+
         for (int i = 0; i < lines.Length; i++)
         {
             var line = lines[i];

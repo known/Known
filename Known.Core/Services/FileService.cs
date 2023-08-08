@@ -88,6 +88,7 @@ class FileService : BaseService
     internal Result UploadFiles(UploadFormInfo info)
     {
         ImportFormInfo form = Utils.MapTo<ImportFormInfo>(info.Model);
+        SysTask task = null;
         var sysFiles = new List<SysFile>();
         var user = CurrentUser;
         var files = GetAttachFiles(info, user, "Upload", form);
@@ -96,14 +97,19 @@ class FileService : BaseService
             sysFiles = AddFiles(db, files, form.BizId, form.BizType, Utils.ConvertTo<bool>(form.IsThumb));
             if (form.BizType == ImportHelper.BizType)
             {
-                var task = ImportHelper.CreateTask(form);
+                task = ImportHelper.CreateTask(form);
                 task.Target = sysFiles[0].Id;
                 db.Save(task);
             }
         });
         result.Data = sysFiles;
         if (result.IsValid && form.BizType == ImportHelper.BizType)
-            result.Message += "等待后台导入中...";
+        {
+            if (form.IsAsync)
+                result.Message += "等待后台导入中...";
+            else if (task != null)
+                result = TaskHelper.Run(Database, task, ImportHelper.Execute);
+        }
         return result;
     }
 

@@ -64,6 +64,7 @@ public class FileFormInfo
 public class ImportFormInfo : FileFormInfo
 {
     public string Type { get; set; }
+    public bool IsAsync { get; set; }
     public bool IsFinished { get; set; } = true;
     public string Message { get; set; }
     public string Error { get; set; }

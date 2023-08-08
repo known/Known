@@ -117,12 +117,16 @@ class Importer : BaseComponent
         if (!form.Validate())
             return;
 
+        message = "正在导入中...";
+        EnableControl(false);
+
         if (Option.Action != null)
         {
             var result = await Option.Action?.Invoke(datas);
             if (!result.IsValid)
             {
-                UI.Alert(result.Message);
+                message = result.Message;
+                EnableControl(true);
                 return;
             }
             UI.Toast(result.Message);
@@ -134,7 +138,8 @@ class Importer : BaseComponent
             {
                 if (!result.IsValid)
                 {
-                    UI.Alert(result.Message);
+                    message = result.Message;
+                    EnableControl(true);
                     return;
                 }
                 message = result.Message;
@@ -147,15 +152,29 @@ class Importer : BaseComponent
             {
                 if (!result.IsValid)
                 {
-                    UI.Alert(result.Message);
+                    message = result.Message;
+                    EnableControl(true);
                     return;
                 }
 
-                isFinished = false;
-                message = result.Message;
-                StateChanged();
+                if (Option.Model.IsAsync)
+                {
+                    message = result.Message;
+                    EnableControl(false);
+                }
+                else
+                {
+                    Option.OnSuccess?.Invoke();
+                    UI.CloseDialog();
+                }
             });
         }
+    }
+
+    private void EnableControl(bool isImport)
+    {
+        isFinished = isImport;
+        StateChanged();
     }
 
     private async void OnDownloadTemplate()

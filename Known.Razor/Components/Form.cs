@@ -143,8 +143,8 @@ public class Form : BaseComponent
         if (!Validate())
             return;
 
-        Result result = await action.Invoke(Data);
-        UI.Result(result, OnSubmitted(result, onSuccess));
+        var result = await action.Invoke(Data);
+        OnSubmited(result, onSuccess);
     }
 
     public async void SubmitFilesAsync(Func<MultipartFormDataContent, Task<Result>> action, Action<Result> onSuccess = null)
@@ -157,8 +157,8 @@ public class Form : BaseComponent
         var modelContent = new StringContent(json);
         content.Add(modelContent, "\"model\"");
         AddFiles(content);
-        Result result = await action.Invoke(content);
-        UI.Result(result, OnSubmitted(result, onSuccess));
+        var result = await action.Invoke(content);
+        OnSubmited(result, onSuccess);
     }
 
     internal void SubmitFilesAsync(Func<UploadFormInfo, Task<Result>> action, Action<Result> onSuccess = null)
@@ -171,25 +171,20 @@ public class Form : BaseComponent
                 Files = GetFiles()
             };
             return action.Invoke(info);
-        }, OnSubmitted(onSuccess));
+        }, result => OnSubmited(result, onSuccess));
     }
 
-    private Action OnSubmitted(Result result, Action<Result> onSuccess)
+    private void OnSubmited(Result result, Action<Result> onSuccess)
     {
-        return () =>
+        if (onSuccess == null)
         {
-            onSuccess?.Invoke(result);
-            OnSuccess?.Invoke(result);
-        };
-    }
-
-    private Action<Result> OnSubmitted(Action<Result> onSuccess)
-    {
-        return result =>
+            UI.Result(result, () => OnSuccess?.Invoke(result));
+        }
+        else
         {
-            onSuccess?.Invoke(result);
+            onSuccess.Invoke(result);
             OnSuccess?.Invoke(result);
-        };
+        }
     }
 
     private void AddFiles(MultipartFormDataContent content)

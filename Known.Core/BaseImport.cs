@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Known.Core.Imports;
 
 namespace Known.Core;
 
@@ -7,6 +8,12 @@ public abstract class BaseImport
     protected BaseImport(Database database)
     {
         Database = database;
+    }
+
+    static BaseImport()
+    {
+        var type = typeof(SysDictionaryImport);
+        importTypes[type.Name] = type;
     }
 
     public Database Database { get; }

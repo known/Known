@@ -56,7 +56,12 @@ public sealed class TaskHelper
         if (task == null)
             return;
 
-        var userName = task.CreateBy.Split('-')[0];
+        Run(db, task, action);
+    }
+
+    internal static Result Run(Database db, SysTask task, Func<Database, SysTask, Result> action)
+    {
+        var userName = task.CreateBy;
         db.User = UserRepository.GetUser(db, userName);
 
         task.BeginTime = DateTime.Now;
@@ -68,5 +73,6 @@ public sealed class TaskHelper
         task.Status = result.IsValid ? TaskStatus.Success : TaskStatus.Failed;
         task.Note = result.Message;
         db.Save(task);
+        return result;
     }
 }
