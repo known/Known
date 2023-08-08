@@ -127,6 +127,9 @@ public class RegexAttribute : Attribute
             return;
 
         var valueString = value == null ? "" : value.ToString().Trim();
+        if (string.IsNullOrWhiteSpace(valueString))
+            return;
+
         var isMatch = Regex.IsMatch(valueString, Pattern);
         if (isMatch)
             return;
