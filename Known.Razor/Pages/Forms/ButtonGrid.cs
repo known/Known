@@ -10,7 +10,7 @@ class ButtonGrid : EditGrid<ButtonInfo>
         Style = "form-grid";
         Data = new List<ButtonInfo>();
         var builder = new ColumnBuilder<ButtonInfo>();
-        builder.Field(f => f.Name).Name("按钮").ReadOnly();
+        builder.Field(f => f.Name).Name("按钮").ReadOnly().Template(BuildButton);
         Columns = builder.ToColumns();
     }
 
@@ -29,6 +29,11 @@ class ButtonGrid : EditGrid<ButtonInfo>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Form(base.BuildRenderTree, BuildAction);
+    }
+
+    private void BuildButton(RenderTreeBuilder builder, ButtonInfo row)
+    {
+        builder.IconName(row.Icon, row.Name);
     }
 
     private void BuildAction(RenderTreeBuilder builder)
