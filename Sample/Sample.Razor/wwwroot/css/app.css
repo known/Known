@@ -4,7 +4,8 @@
     margin-top:-80px;margin-left:-150px;background:url(../img/loading.png) no-repeat center;background-size:contain;
 }
 .copyright {position:absolute;bottom:50px;text-align:center;color:#fff;width:100%;font-size:1.1rem;}
-.copyright a {color:#fff;margin:0 10px;}
+.copyright span {margin:0 5px;}
+.copyright a {color:#fff;}
 .login .account {text-align:center;font-size:0.8rem;color:#968f8f;}
 
 /*dashboard*/

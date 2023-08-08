@@ -21,8 +21,8 @@ class Login : Known.Razor.Pages.Login
         builder.Div("copyright", attr =>
         {
             builder.Span($"©2020-{DateTime.Now:yyyy}");
-            builder.Anchor("而微云", "http://www.ewyun.com.cn");
-            builder.Span("版权所有");
+            builder.Span("Powered By");
+            builder.Anchor("Known", "http://known.pumantech.com");
         });
     }
 }
