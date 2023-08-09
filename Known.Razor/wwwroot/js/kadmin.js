@@ -18,7 +18,8 @@ window.KAdmin = {
     setTable: function (id) {
         var gridView = $('#' + id);
         var prev = gridView.prev();
-        var top = 10;
+        var parent = gridView.parent();
+        var top = parent.hasClass('kui-content') || parent.hasClass('tab-body') ? 10 : 0;
         if (prev.length && gridView.outerWidth() < 768) {
             top = prev.outerHeight();
         }

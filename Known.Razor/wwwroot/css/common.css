@@ -385,7 +385,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-caption .right {margin-top:5px;margin-right:5px;}
 .form-item, .form-label, .form-text, .form-tips {display:flex;}
 .form-item {margin-top:1rem;}
-.form-label {display:block;padding:0 0.5rem;font-weight:bold;}
+.form-label {display:block;padding:0 0.5rem;}
 .form-input .unit, .form-input .btn, .form-input .captcha {position:absolute;right:0;padding:0 5px;}
 .form-input .btn {border:1.5px solid var(--border);background-color:#f1f1f1;cursor:pointer;}
 .form-input .captcha {padding:0;border:none;}
@@ -401,6 +401,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-file {padding:5px 0;}
 .block .form-radio {display:block;height:auto;}
 .form-table {border-top:2px solid var(--border);}
+.form-table > tr > th {font-weight:normal;}
 .form-table th, .form-table td {padding:5px;border-bottom:1px solid var(--border);}
 .form-table th {text-align:right;padding-right:0.5rem;background-color:var(--th-bgcolor);}
 .form-table td.inline .form-input {display:inline-block;}
@@ -501,8 +502,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 @media screen and (max-width:768px) {
     .row {grid-template-columns:100%;grid-row-gap:10px;}
     .data-top {flex-direction:column;}
-    .toolbar {margin-bottom:10px;}
-    .query {text-align:left;}
+    .query {text-align:left;padding-top:10px;}
     .query .form-item {margin-bottom:5px;}
     .query .form-label {min-width:80px;}
     .pager .app {display:flex;}
