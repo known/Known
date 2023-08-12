@@ -4,6 +4,11 @@ public sealed class TaskHelper
 {
     private TaskHelper() { }
 
+    public static UserInfo GetUser(Database db, string userName)
+    {
+        return UserRepository.GetUser(db, userName);
+    }
+
     public static SysTask GetByType(Database db, string type)
     {
         return TaskRepository.GetTaskByType(db, type);
@@ -62,7 +67,7 @@ public sealed class TaskHelper
     internal static Result Run(Database db, SysTask task, Func<Database, SysTask, Result> action)
     {
         var userName = task.CreateBy;
-        db.User = UserRepository.GetUser(db, userName);
+        db.User = GetUser(db, userName);
 
         task.BeginTime = DateTime.Now;
         task.Status = TaskStatus.Running;
