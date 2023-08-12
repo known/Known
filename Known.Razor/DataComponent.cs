@@ -30,7 +30,14 @@ public class DataComponent<TItem> : BaseComponent
     internal Dictionary<string, object> Sums { get; set; }
     protected List<ButtonInfo> Tools { get; set; }
     protected object DefaultQuery { get; set; }
+
     [Parameter] public List<TItem> Data { get; set; }
+
+    public void SetData(List<TItem> data)
+    {
+        Data = data;
+        RefreshData();
+    }
 
     protected virtual Task<PagingResult<TItem>> OnQueryData(PagingCriteria criteria) => Task.FromResult(new PagingResult<TItem>());
     protected virtual List<string> GetSumColumns() => null;
