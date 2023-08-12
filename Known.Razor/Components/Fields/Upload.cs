@@ -2,6 +2,8 @@
 
 public class Upload : Field
 {
+    [Parameter] public bool IsButton { get; set; }
+    [Parameter] public string ButtonText { get; set; }
     [Parameter] public bool CanDelete { get; set; }
     [Parameter] public bool IsMultiple { get; set; }
     [Parameter] public string Accept { get; set; }
@@ -48,10 +50,26 @@ public class Upload : Field
         }
         else
         {
-            BuildInputFile(builder);
+            if (IsButton)
+                BuildButtonFile(builder);
+            else
+                BuildInputFile(builder);
         }
         BuildMultiFileName(builder);
         BuildFileContent(builder);
+    }
+
+    private void BuildButtonFile(RenderTreeBuilder builder)
+    {
+        builder.Label("file-button button primary", attr =>
+        {
+            BuildInputFile(builder);
+            builder.Span("file-text", attr =>
+            {
+                builder.Span(attr => attr.Class("fa fa-upload"));
+                builder.Span(ButtonText);
+            });
+        });
     }
 
     private void BuildInputFile(RenderTreeBuilder builder)

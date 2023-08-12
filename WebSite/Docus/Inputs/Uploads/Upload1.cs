@@ -11,5 +11,9 @@ class Upload1 : BaseComponent
         builder.Field<Upload>("附件3：", "Upload3")
                .Set(f => f.Accept, "image/jpeg,image/png")
                .Build();
+        builder.Field<Upload>("附件4：", "Upload4")
+               .Set(f => f.IsButton, true)
+               .Set(f => f.ButtonText, "导入附件")
+               .Build();
     }
 }

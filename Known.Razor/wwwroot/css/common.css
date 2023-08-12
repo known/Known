@@ -81,12 +81,12 @@ input[type="checkbox"]+span, input[type="radio"]+span {display:block;margin-left
 .close:hover {color:#d1231e;}
 .link {color:#00f;cursor:pointer;}
 .bold {font-weight:bold;}
-.badge.default, .tag.default, .banner.default, .notify.default, .toast span.default, .progress .value.default, .timeline li.default:before, button.default {background-color:#fff;border:1px solid var(--border);}
-.badge.primary, .tag.primary, .banner.primary, .notify.primary, .toast span.primary, .progress .value.primary, .timeline li.primary:before, button.primary {background-color:var(--primary);color:#fff;}
-.badge.success, .tag.success, .banner.success, .notify.success, .toast span.success, .progress .value.success, .timeline li.success:before, button.success {background-color:var(--success);color:#fff;}
-.badge.info,    .tag.info,    .banner.info,    .notify.info,    .toast span.info,    .progress .value.info,    .timeline li.info:before,    button.info    {background-color:var(--info);color:#fff;}
-.badge.warning, .tag.warning, .banner.warning, .notify.warning, .toast span.warning, .progress .value.warning, .timeline li.warning:before, button.warning {background-color:var(--warning);color:#fff;}
-.badge.danger,  .tag.danger,  .banner.danger,  .notify.danger,  .toast span.danger,  .progress .value.danger,  .timeline li.danger:before,  button.danger  {background-color:var(--danger);color:#fff;}
+.badge.default, .tag.default, .banner.default, .notify.default, .toast span.default, .progress .value.default, .timeline li.default:before, button.default, .button.default {background-color:#fff;border:1px solid var(--border);}
+.badge.primary, .tag.primary, .banner.primary, .notify.primary, .toast span.primary, .progress .value.primary, .timeline li.primary:before, button.primary, .button.primary {background-color:var(--primary);color:#fff;}
+.badge.success, .tag.success, .banner.success, .notify.success, .toast span.success, .progress .value.success, .timeline li.success:before, button.success, .button.success {background-color:var(--success);color:#fff;}
+.badge.info,    .tag.info,    .banner.info,    .notify.info,    .toast span.info,    .progress .value.info,    .timeline li.info:before,    button.info,    .button.info    {background-color:var(--info);color:#fff;}
+.badge.warning, .tag.warning, .banner.warning, .notify.warning, .toast span.warning, .progress .value.warning, .timeline li.warning:before, button.warning, .button.warning {background-color:var(--warning);color:#fff;}
+.badge.danger,  .tag.danger,  .banner.danger,  .notify.danger,  .toast span.danger,  .progress .value.danger,  .timeline li.danger:before,  button.danger,  .button.danger  {background-color:var(--danger);color:#fff;}
 td .tag.default {font-weight:bold;background-color:transparent;color:#555;border:none;}
 td .tag.primary {font-weight:bold;background-color:transparent;color:var(--primary);}
 td .tag.success {font-weight:bold;background-color:transparent;color:var(--success);}
@@ -409,6 +409,11 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form .table table {border-top:none;}
 .form .table td {border-bottom:none;}
 .form-grid, .tab-body .form-body .form-grid {top:0;bottom:0;left:0;right:0;}
+
+.file-button {display:flex;align-items:stretch;cursor:pointer;overflow:hidden;position:relative;}
+.file-button input {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;}
+.file-button .file-text {display:flex;height:2rem;line-height:2rem;}
+.file-button .file-text span {height:2rem;line-height:2rem;padding:0 2px;}
 
 .editor .readonly {padding:0;width:100%;overflow:auto;}
 .w-e-toolbar {
