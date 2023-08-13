@@ -150,7 +150,7 @@ class SystemService : BaseService
             CompNo = app.CompNo,
             CompName = app.CompName,
             AppName = Config.AppName,
-            ProductId = PlatformHelper.GetProductId(),
+            ProductId = KCConfig.ProductId,
             ProductKey = Utils.ReadFile(path),
             UserName = Constants.SysUserName
         };

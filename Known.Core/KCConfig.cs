@@ -5,6 +5,7 @@ public sealed class KCConfig
     private KCConfig() { }
 
     public static AppInfo App { get; set; } = new AppInfo();
+    public static string ProductId { get; set; }
     public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;
     public static string WebRoot { get; set; }
     public static string ContentRoot { get; set; }
@@ -19,6 +20,7 @@ public sealed class KCConfig
     public static void AddWebPlatform()
     {
         Container.Register<IPlatform, WebPlatform>();
+        ProductId = PlatformHelper.GetProductId();
     }
 
     internal static string GetUploadPath(bool isWeb = false)

@@ -10,7 +10,6 @@ public sealed class PlatformHelper
     public static Func<Database, List<CodeInfo>> Dictionary { get; set; }
     public static Func<Database, SystemInfo, Result> CheckSystem { get; set; }
     public static Func<Database, SysUser, Result> CheckUser { get; set; }
-    public static Func<string> ProductId { get; set; }
     public static Func<InstallInfo, Result> UpdateKey { get; set; }
 
     //Setting
@@ -59,9 +58,6 @@ public sealed class PlatformHelper
 
     internal static string GetProductId()
     {
-        if (ProductId != null)
-            return ProductId.Invoke();
-
         var mac = Platform.GetMacAddress();
         var id = mac.Split(':').Select(m => Convert.ToInt32(m, 16)).Sum();
         return $"PM-{Config.AppId}-{id:000000}";
