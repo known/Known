@@ -59,7 +59,9 @@ public sealed class PlatformHelper
     internal static string GetProductId()
     {
         var mac = Platform.GetMacAddress();
-        var id = mac.Split(':').Select(m => Convert.ToInt32(m, 16)).Sum();
+        var id = string.IsNullOrWhiteSpace(mac)
+               ? 0
+               : mac.Split(':').Select(m => Convert.ToInt32(m, 16)).Sum();
         return $"PM-{Config.AppId}-{id:000000}";
     }
 
