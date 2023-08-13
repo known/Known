@@ -29,6 +29,19 @@ $(function () {
 
 export class KRazor {
     //Alert
+    static showLoading(message) {
+        var mask = $('<div>').attr('id', 'kuiLoadMask').addClass('mask').css({ zIndex: 99998 }).appendTo($('body'));
+        var icon = '<i class="fa fa-spinner fa-spin fa-1x fa-fw">';
+        var load = $('<div>').attr('id', 'kuiLoad').addClass('loading').css({ zIndex: 99999 }).append(icon).append(message).appendTo(mask).appendTo($('body'));
+        load.css({
+            marginTop: -(load.outerHeight() / 2) + 'px',
+            marginLeft: -(load.outerWidth() / 2) + 'px'
+        });
+    }
+    static closeLoading() {
+        $('#kuiLoad').remove();
+        $('#kuiLoadMask').remove();
+    }
     static showNotify(message, style, timeout) {
         var tips = $('<div>').addClass('notify animated fadeInRight').addClass(style).html(message).appendTo($('body'));
         setTimeout(function () {
@@ -202,12 +215,6 @@ export class KRazor {
     }
     static showFrame(id, url) {
         $('#' + id).attr('src', url);
-    }
-    static showLoading() {
-        document.body.classList.add('loading');
-    }
-    static hideLoading() {
-        document.body.classList.remove('loading');
     }
     static openFullScreen() {
         var el = document.documentElement;

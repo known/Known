@@ -2,14 +2,17 @@
 
 partial class UIService
 {
-    public async void Notify(string message, StyleType style = StyleType.Success, int timeout = 5000)
+    public void ShowLoading(string message) => InvokeVoidAsync("KRazor.showLoading", message);
+    public void CloseLoading() => InvokeVoidAsync("KRazor.closeLoading");
+
+    public void Notify(string message, StyleType style = StyleType.Success, int timeout = 5000)
     {
-        await InvokeAsync<string>("KRazor.showNotify", message, style.ToString().ToLower(), timeout);
+        InvokeVoidAsync("KRazor.showNotify", message, style.ToString().ToLower(), timeout);
     }
     
-    public async void Toast(string message, StyleType style = StyleType.Success)
+    public void Toast(string message, StyleType style = StyleType.Success)
     {
-        await InvokeAsync<string>("KRazor.showToast", message, style.ToString().ToLower());
+        InvokeVoidAsync("KRazor.showToast", message, style.ToString().ToLower());
     }
 
     public void Alert(string message, bool isMax)

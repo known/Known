@@ -75,6 +75,7 @@ class ComponentService
         items.Add(view);
 
         var feedback = new MenuItem("feedback", "反馈类");
+        feedback.Children.Add<KLoading>("加载", "主要用于耗时操作等待提示。");
         feedback.Children.Add<KBanner>("横幅通知", "主要用于系统级和模块级重要通知提醒。");
         feedback.Children.Add<KNotify>("通知", "主要用于系统通知，位于页面右下角，支持不同样式。");
         feedback.Children.Add<KToast>("提示", "主要用于操作提示，支持不同样式。");
