@@ -20,7 +20,8 @@ public sealed class KCConfig
     public static void AddWebPlatform()
     {
         Container.Register<IPlatform, WebPlatform>();
-        ProductId = PlatformHelper.GetProductId();
+        if (string.IsNullOrWhiteSpace(ProductId))
+            ProductId = PlatformHelper.GetProductId();
     }
 
     internal static string GetUploadPath(bool isWeb = false)
