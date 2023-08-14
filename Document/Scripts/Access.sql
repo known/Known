@@ -118,7 +118,7 @@ CREATE TABLE `SysTask` (
     `Name`       VarChar(50)   NOT NULL,
     `Target`     VarChar(200)  NOT NULL,
     `Status`     VarChar(50)   NOT NULL,
-    `BegLongime` DateTime      NULL,
+    `BeginTime`  DateTime      NULL,
     `EndTime`    DateTime      NULL,
     `Note`       LongText      NULL
 )

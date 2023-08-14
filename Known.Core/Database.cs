@@ -741,8 +741,9 @@ public class Database : IDisposable
 
             return value;
         }
-        catch
+        catch (Exception ex)
         {
+            Logger.Exception(ex);
             Logger.Error(info.ToString());
             if (close)
                 conn.Close();
@@ -761,8 +762,9 @@ public class Database : IDisposable
             cmd.Parameters.Clear();
             return reader;
         }
-        catch
+        catch (Exception ex)
         {
+            Logger.Exception(ex);
             Logger.Error(info.ToString());
             if (close)
                 conn.Close();
