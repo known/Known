@@ -88,7 +88,7 @@ public class AppCore
     public static void Initialize()
     {
         //注册自定义产品ID，需在KCConfig.AddWebPlatform()之后添加
-        KCConfig.ProductId = MyCheck.GetProductId;
+        KCConfig.ProductId = MyCheck.GetProductId();
         ...
     }
 }
