@@ -505,6 +505,8 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .sys-active .form-item {}
 .sys-active .form-label {width:80px;}
 .sys-active input {width:auto;}
+.sys-active .form-button {text-align:left;padding-left:96px;margin-top:0.5rem;}
+.sys-active button {padding:0 2rem;}
 
 @media screen and (max-width:768px) {
     .row {grid-template-columns:100%;grid-row-gap:10px;}
