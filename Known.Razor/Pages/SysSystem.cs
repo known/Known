@@ -3,9 +3,7 @@
 class SysSystem : PageComponent
 {
     private SystemInfo info;
-    private readonly string Copyright = $"©2020-{DateTime.Now:yyyy} 普漫科技。保留所有权利。";
-    private readonly string SoftTerms = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
-
+    
     protected override async Task InitPageAsync()
     {
         info = await Platform.System.GetSystemAsync();
@@ -56,8 +54,8 @@ class SysSystem : PageComponent
                        .Build();
                 builder.Field<Text>("授权信息：", "").InputTemplate(b => b.Span($"text bold {style}", status)).Build();
             }
-            builder.Field<Text>("版权信息：", "").Style("ss-copyright").Value(info?.Copyright ?? Copyright).ReadOnly(true)
-                   .Set(f => f.IsEdit, user.IsSystemAdmin())
+            builder.Field<Text>("版权信息：", "").Style("ss-copyright").Value(info?.Copyright ?? KRConfig.Copyright).ReadOnly(true)
+                   .Set(f => f.IsEdit, KRConfig.IsEditCopyright && user.IsSystemAdmin())
                    .Set(f => f.OnSave, async value =>
                    {
                        info.Copyright = value;
@@ -65,8 +63,8 @@ class SysSystem : PageComponent
                        StateChanged();
                    })
                    .Build();
-            builder.Field<TextArea>("软件许可：", "").Style("ss-terms").Value(info?.SoftTerms ?? SoftTerms).ReadOnly(true)
-                   .Set(f => f.IsEdit, user.IsSystemAdmin())
+            builder.Field<TextArea>("软件许可：", "").Style("ss-terms").Value(info?.SoftTerms ?? KRConfig.SoftTerms).ReadOnly(true)
+                   .Set(f => f.IsEdit, KRConfig.IsEditCopyright && user.IsSystemAdmin())
                    .Set(f => f.OnSave, async value =>
                    {
                        info.SoftTerms = value;
