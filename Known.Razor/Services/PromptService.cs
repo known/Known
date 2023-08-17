@@ -6,7 +6,8 @@ partial class UIService
     {
         Show<PromptForm>(title, size, action: attr =>
         {
-            attr.Set(c => c.Content, content)
+            attr.Set(c => c.InDialog, true)
+                .Set(c => c.Content, content)
                 .Set(c => c.Action, action);
         });
     }

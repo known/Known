@@ -386,7 +386,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-caption {border-left:5px solid var(--primary);padding-left:5px;height:40px;line-height:40px;font-size:1.1rem;font-weight:bold;}
 .form-caption .right {margin-top:5px;margin-right:5px;}
 .form-item, .form-label, .form-text, .form-tips {display:flex;}
-.form-item {margin-top:1rem;}
+.form-item {margin-bottom:1rem;}
 .form-label {display:block;padding:0 0.5rem;}
 .form-input .unit, .form-input .btn, .form-input .captcha {position:absolute;right:0;padding:0 5px;}
 .form-input .btn {border:1.5px solid var(--border);background-color:#f1f1f1;cursor:pointer;}

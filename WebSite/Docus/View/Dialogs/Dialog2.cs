@@ -1,37 +1,26 @@
-﻿using WebSite.Docus.View.Charts;
-using WebSite.Docus.View.Timelines;
-
-namespace WebSite.Docus.View.Dialogs;
+﻿namespace WebSite.Docus.View.Dialogs;
 
 class Dialog2 : BaseComponent
 {
+    private string? formData;
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Button("弹出柱状图组件", Callback(OnChartBar), StyleType.Primary);
-        builder.Button("弹出自定义", Callback(OnCustom), StyleType.Primary);
+        builder.Button("处理", Callback(OnPrompt), StyleType.Primary);
+        builder.Span("tips", formData);
     }
 
-    private void OnChartBar()
+    private void OnPrompt()
     {
-        UI.Show<Chart2>("柱状图", new(500, 300));
-    }
-
-    private void OnCustom()
-    {
-        UI.Show(new DialogOption
+        UI.Prompt("异常处理", new(300, 200), builder =>
         {
-            Title = "自定义",
-            Size = new(600, 400),
-            Content = BuildContent
-        });
-    }
-
-    private void BuildContent(RenderTreeBuilder builder)
-    {
-        builder.Div("demo-dialog", attr =>
+            builder.Field<TextArea>("原因", "Reason", true).Build();
+        }, 
+        data =>
         {
-            builder.Div("title", "流程状态");
-            builder.Component<Timeline2>().Build();
+            formData = Utils.ToJson(data);
+            StateChanged();
+            UI.CloseDialog();
         });
     }
 }
