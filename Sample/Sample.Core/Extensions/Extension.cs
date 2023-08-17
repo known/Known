@@ -1,5 +1,4 @@
 ﻿using Coravel;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Sample.Core.TaskJobs;
 
@@ -14,9 +13,9 @@ public static class Extension
         return services;
     }
 
-    public static void UseApp(this WebApplication app)
+    public static void UseApp(this IServiceProvider provider)
     {
-        app.Services.UseScheduler(scheduler =>
+        provider.UseScheduler(scheduler =>
         {
             scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
         });

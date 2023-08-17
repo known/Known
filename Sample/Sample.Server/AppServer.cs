@@ -14,7 +14,7 @@ class AppServer
             if (KCConfig.IsDevelopment)
                 app.UseWebAssemblyDebugging();
             app.UseBlazorFrameworkFiles();
-            app.UseApp();
+            app.Services.UseApp();
         });
     }
 

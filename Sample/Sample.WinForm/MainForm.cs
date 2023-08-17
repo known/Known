@@ -44,6 +44,7 @@ partial class MainForm : Form
 #endif
         blazorWebView.HostPage = "wwwroot\\index.html";
         blazorWebView.Services = services.BuildServiceProvider();
+        blazorWebView.Services.UseAlone();
         blazorWebView.RootComponents.Add<App>("#app");
         blazorWebView.Visible = true;
     }

@@ -7,4 +7,9 @@ static class Extension
         services.AddApp();
         services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(AppAlone.Host) });
     }
+
+    internal static void UseAlone(this IServiceProvider provider)
+    {
+        provider.UseApp();
+    }
 }
