@@ -1,27 +1,27 @@
 # 上传文件
 
-本章介绍学习如何上传文件，上传文件的场景有如下3种：
+本章介绍学习如何上传文件，上传文件的场景有如下2种：
 
 - 通过点击按钮导入数据
 - 通过表单Upload字段选择附件与表单数据同时保存
-- 富文本编辑器文件上传
 
-## 1. 导入文件
+## 1. 点击按钮导入文件
 
-- 在页面添加按钮样式的Upload组件
-
-**1）TestClient**
+**1）Client类**
 
 ```csharp
 public class TestClient : ClientBase
 {
     public TestClient(Context context) : base(context) { }
-
+    //导入文件
     public Task<Result> ImportFileAsync(HttpContent content) => Context.PostAsync("Test/ImportFile", content);
 }
 ```
 
-**2）前端示例**
+**2）前端**
+
+- 在页面添加按钮样式的Upload组件
+- 在选择文件事件中封装HttpContent
 
 ```csharp
 //构建导入按钮
@@ -68,9 +68,9 @@ private async void OnFilesChanged(List<IBrowserFile> files)
 }
 ```
 
-> 注意：model和fileTest应与Controller接受参数名称一致
+> 注意：model和fileTest应与Controller接收参数名称一致
 
-**3）后端示例**
+**3）后端**
 
 ```csharp
 //Controller
@@ -83,6 +83,7 @@ public class TestController : BaseController
     public Result ImportFile([FromForm] string model, [FromForm] IEnumerable<IFormFile> fileTest)
     {
         var info = new UploadFormInfo(model);
+        //构造附件类实例
         info.Files["Test"] = GetAttachFiles(fileTest);
         return Service.ImportFile(info);
     }
@@ -121,3 +122,103 @@ class TestService : ServiceBase
 }
 ```
 
+## 2. 带附件字段表单
+
+- 使用SubmitFilesAsync保存带附件的表单数据
+
+**1）Client类**
+
+```csharp
+public class TestClient : ClientBase
+{
+    public TestClient(Context context) : base(context) { }
+    //保存数据
+    public Task<Result> SaveDataAsync(HttpContent content) => Context.PostAsync("Test/SaveData", content);
+}
+```
+
+**2）前端**
+
+```csharp
+class TestForm : WebForm<TbTest>
+{
+    //建造表单字段
+    protected override void BuildFields(FieldBuilder<TbTest> builder)
+    {
+        builder.Hidden(f => f.Id);
+        builder.Table(table =>
+        {
+            //此处省略其他字段
+            table.Tr(attr =>
+            {
+                //Upload字段
+                table.Field<Upload>(f => f.BizFile).ColSpan(3)
+                     .Set(f => f.IsMultiple, true) //是否上传多个文件
+                     .Set(f => f.CanDelete, true)  //编辑模式是否可删除
+                     .Build();
+            });
+        });
+    }
+    //建造按钮
+    protected override void BuildButtons(RenderTreeBuilder builder)
+    {
+        builder.Button(FormButton.Save, Callback(OnSave), !ReadOnly);
+        base.BuildButtons(builder);
+    }
+    //保存按钮方法
+    private void OnSave() => SubmitFilesAsync(Client.Test.SaveDataAsync);
+}
+```
+
+**3）后端**
+
+```csharp
+//Controller
+[Route("[controller]")]
+public class TestController : BaseController
+{
+    private TestService Service => new(Context);
+    //附件参数名称规范：file[字段属性名]，该实体附件字段名为：BizFile
+    [HttpPost("[action]")]
+    public Result SaveData([FromForm] string model, [FromForm] IEnumerable<IFormFile> fileBizFile)
+    {
+        var info = new UploadFormInfo(model);
+        //构造附件类实例
+        info.Files[nameof(TbTest.BizFile)] = GetAttachFiles(fileBizFile);
+        return Service.SaveData(info);
+    }
+}
+
+//Service
+class TestService : ServiceBase
+{
+    internal TestService(Context context) : base(context) { }
+
+    //保存数据
+    internal Result SaveData(UploadFormInfo info)
+    {
+        var entity = Database.QueryById<TbTest>((string)info.Model.Id);
+        entity ??= new TbTest();
+        entity.FillModel(info.Model);//填充表单数据到实体对象
+        var vr = entity.Validate();  //验证实体对象
+        if (!vr.IsValid)
+            return vr;
+
+        var user = CurrentUser;
+        var bizType = "TestFiles";//业务类型，将附件保存在该名称的文件夹中
+        //保存真实附件至磁盘
+        var bizFiles = GetAttachFiles(info, user, nameof(TbTest.BizFile), bizType);
+        return Database.Transaction(Language.Save, db =>
+        {
+            //保存附件，所有附件记录均保存在SysFile表中
+            //AddFiles方法为添加，SaveFile可替换存在的附件
+            //支持保存图片的缩略图
+            PlatformHelper.AddFiles(db, bizFiles, entity.Id, bizType);
+            //附件字段存储实体ID和业务类型
+            //表单页面根据该字段自动显示附件列表，可删除和下载
+            entity.BizFile = $"{entity.Id}_{bizType}";
+            db.Save(entity);
+        }, entity);
+    }
+}
+```
