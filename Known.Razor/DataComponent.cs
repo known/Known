@@ -5,6 +5,7 @@ public class DataComponent<TItem> : BaseComponent
     private bool isInitialized;
     private bool isQuery;
     private Pager pager;
+    internal string ViewId;
     protected List<QueryInfo> query;
     protected PagingCriteria criteria;
 
@@ -96,7 +97,7 @@ public class DataComponent<TItem> : BaseComponent
         var css = CssBuilder.Default(ContainerStyle).AddClass(Style).Build();
         builder.Div(css, attr =>
         {
-            attr.Id(Id);
+            attr.Id(ViewId);
             if (HasTool || HasQuery)
             {
                 builder.Div("data-top", attr =>

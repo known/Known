@@ -322,6 +322,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .grid-view, .grid, .pager {position:absolute;left:0;right:0;bottom:0;}
 .grid-view {top:0;}
 .dlg-content > .grid-view {top:10px;bottom:10px;left:10px;right:10px;}
+.dlg-content > .grid-view > .data-top {padding-top:10px;}
 .grid {top:0;overflow:auto;}
 .grid {z-index:1000;}
 .grid .table {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}

@@ -14,6 +14,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     {
         var id = Utils.GetGuid();
         qvAdvQueryId = $"qv-{id}";
+        ViewId = $"gv-{id}";
         GridId = $"dg-{id}";
         ContainerStyle = "grid-view";
         ContentStyle = "grid";
@@ -58,7 +59,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         if (HasButton(ToolButton.New))
             Tools = new List<ButtonInfo> { ToolButton.New };
         Actions = null;
-        Columns.ForEach(c => c.IsAdvQuery = false);
+        Columns?.ForEach(c => c.IsAdvQuery = false);
     }
 
     protected void SetEdit(bool isEdit)
@@ -220,9 +221,9 @@ public class DataGrid<TItem> : DataComponent<TItem>
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
-            UI.InitTable(Id);
+            UI.InitTable(ViewId);
 
-        UI.SetTable(Id);
+        UI.SetTable(ViewId);
         return base.OnAfterRenderAsync(firstRender);
     }
 
