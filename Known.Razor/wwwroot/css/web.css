@@ -28,7 +28,7 @@
 .toggleMenu {text-align:center;width:50px;cursor:pointer;}
 .appName {font-size:1.2rem;margin-left:10px;}
 .logo {overflow:hidden;opacity:0.9;}
-.logo img {width:100%;height:100%;}
+.logo img {width:auto;height:100%;}
 .logo:before {margin-right:15px;}
 .topMenu {height:50px;padding:5px 10px 0 10px;}
 .topMenu li {display:inline-block;height:43px;text-align:center;padding:0 15px;cursor:pointer;}
