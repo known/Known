@@ -32,7 +32,7 @@ class PageTabs : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("tabs top kui-tabs", attr =>
+        builder.Div("kui-tabs", attr =>
         {
             builder.Cascading(this, b =>
             {

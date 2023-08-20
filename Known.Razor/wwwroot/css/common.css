@@ -298,7 +298,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .dropdown > .button, .dropdown > .link {display:block;padding-right:1.5rem;background-color:var(--primary);color:#fff;}
 .dropdown > .icon {position:absolute;top:7px;right:10px;color:#fff;}
 .dropdown > .link+.icon {color:#888;top:0;right:0;}
-.dropdown .child {list-style:none;padding:0;display:none;position:absolute;right:0;z-index:9999;background-color:#fff;border:1px solid var(--border);margin-top:1px;}
+.dropdown .child {list-style:none;padding:0;display:none;position:absolute;right:0;z-index:9999;background-color:#fff;border:1px solid var(--border);}
 .dropdown .child .item {white-space:nowrap;padding:0 10px;cursor:pointer;line-height:36px;}
 .dropdown .child .item:hover {background-color:#f1f1f1;}
 .dropdown .child .item .icon {margin-right:5px;}

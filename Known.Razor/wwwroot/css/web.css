@@ -61,6 +61,9 @@
     height:40px;display:flex;justify-content:space-between;
     background-color:#fff;border-bottom:1px solid var(--border);box-shadow:0 1px 1px 0 #eee;
 }
+.kui-tab .tab > li {border-bottom:4px solid transparent;}
+.kui-tab .tab > li.active {border-bottom-color:var(--tab-active);}
+.kui-tab > .tab {border-bottom:1px solid var(--border);}
 .kui-tab > .icon, .kui-tab > .dropdown > .icon {color:#333;width:40px;line-height:40px;text-align:center;cursor:pointer;}
 .kui-tab > .icon {border-left:1px solid var(--border);border-right:1px solid var(--border);}
 .kui-tab > .dropdown {width:40px;}
