@@ -334,7 +334,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .table tfoot td {font-weight:bold;}
 .table .index, .table .index .icon, .table .check, .table .check-box, .table .action,
 .table .date, .table .datetime, .table .txt-center {text-align:center;}
-.table .index, .table .check {width:20px;}
+.table th.index, .table th.check {width:20px;}
 .table .index .icon {color:#000;margin-left:0;}
 .table .form-radio {display:block;margin:0 auto;height:1.4rem;line-height:1.4rem;}
 .table .form-radio input {top:0.15rem;left:0;}
@@ -344,10 +344,9 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .table .date {width:100px;}
 .table .datetime {width:150px;}
 .table .txt-right {text-align:right;}
-.table .action {width:80px;position:sticky;z-index:1;right:0;background-color:#fff;}
-.table .action .link {padding:0 3px;}
-.table .action .icon {margin:0 5px;cursor:pointer;font-size:1.2rem;}
-.table td.action {overflow:unset;}
+.table th.action, .table td.action {width:80px;position:sticky;z-index:1;right:0;background-color:#fff;overflow:unset;}
+.table td.action .link {padding:0 3px;}
+.table td.action .icon {margin:0 5px;cursor:pointer;font-size:1.2rem;}
 
 .table.fixed thead th.fixed,
 .table.fixed tbody td.fixed,
@@ -385,7 +384,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-title {font-size:1.5rem;font-weight:bold;text-align:center;padding:1rem;}
 .form-caption {border-left:5px solid var(--primary);padding-left:5px;height:40px;line-height:40px;font-size:1.1rem;font-weight:bold;}
 .form-caption .right {margin-top:5px;margin-right:5px;}
-.form-item, .form-label, .form-text, .form-tips {display:flex;}
+.form-item, .form-label, .form-input, .form-text, .form-tips {display:flex;}
 .form-item {margin-bottom:1rem;}
 .form-label {display:block;padding:0 0.5rem;}
 .form-input .unit, .form-input .btn, .form-input .captcha {position:absolute;right:0;padding:0 5px;}
@@ -393,7 +392,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-input .captcha {padding:0;border:none;}
 .form-input.check {font-weight:bold;}
 .form-check {position:absolute;top:5px;right:0;}
-.form-radio {margin-right:1rem;cursor:pointer;display:inline-block;text-align:left;}
+.form-radio {margin-right:1rem;cursor:pointer;text-align:left;}
 .form-radio input {position:absolute;top:0.45rem;}
 .form-tips {padding-left:5px;color:#aaa;}
 .form-button {text-align:right;padding:0;}
@@ -406,7 +405,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-table > tr > th {font-weight:normal;}
 .form-table th, .form-table td {padding:5px;border-bottom:1px solid var(--border);}
 .form-table th {text-align:right;padding-right:0.5rem;background-color:var(--th-bgcolor);}
-.form-table td.inline .form-input {display:inline-block;}
+.form-table .inline {display:flex;}
 .form-table td .query .form-input, .form-table td .inline .form-input, .form-files span {margin-right:5px;}
 .form .table table {border-top:none;}
 .form .table td {border-bottom:none;}

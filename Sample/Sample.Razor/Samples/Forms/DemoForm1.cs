@@ -48,12 +48,15 @@ class DemoForm1 : BaseForm
             table.Tr(attr =>
             {
                 table.Th("", "选项");
-                table.Td("inline", attr =>
+                table.Td("", attr =>
                 {
                     attr.ColSpan(3);
-                    table.Field<CheckBox>("CheckBox1").IsInput(true).Set(f => f.Text, "启用").Build();
-                    table.Field<CheckBox>("ToolVisible").ValueChanged(OnToolVisibleChanged).IsInput(true).Set(f => f.Text, "工具条按钮可见").Build();
-                    table.Field<CheckBox>("ToolEnabled").ValueChanged(OnToolEnabledChanged).IsInput(true).Set(f => f.Text, "工具条按钮可用").Build();
+                    table.Div("inline", attr =>
+                    {
+                        table.Field<CheckBox>("CheckBox1").IsInput(true).Set(f => f.Text, "启用").Build();
+                        table.Field<CheckBox>("ToolVisible").ValueChanged(OnToolVisibleChanged).IsInput(true).Set(f => f.Text, "工具条按钮可见").Build();
+                        table.Field<CheckBox>("ToolEnabled").ValueChanged(OnToolEnabledChanged).IsInput(true).Set(f => f.Text, "工具条按钮可用").Build();
+                    });
                 });
                 table.Field<Input>("Slider", "Range").Set(f => f.Type, InputType.Range).Build();
             });

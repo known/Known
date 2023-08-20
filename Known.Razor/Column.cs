@@ -164,7 +164,7 @@ public class Column<T> : ColumnInfo
 
         if (Type == ColumnType.Boolean)
         {
-            builder.Field<CheckBox>(Id).IsInput(true).Value(value).ValueChanged(valueChanged).Set(f => f.Switch, true).Build();
+            builder.Field<CheckBox>(name, Id).IsInput(true).Value(value).ValueChanged(valueChanged).Set(f => f.Switch, true).Build();
         }
         else if (Type == ColumnType.Date || Type == ColumnType.DateTime)
         {
