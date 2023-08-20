@@ -13,6 +13,8 @@
 .demo .code {background-color:#f6f8fa;overflow:auto;}
 .demo .chart {height:300px;}
 .demo.layout {min-height:200px;}
+.demo.layout .header, .demo.layout .logo {height:30px;}
+.demo.layout .body {top:30px;}
 .demo.layout .sider, .demo.layout .logo {width:80px;}
 .demo.layout .header, .demo.layout .body {left:80px;}
 .demo.layout .view {height:200px;border:1px solid #ccc;}
