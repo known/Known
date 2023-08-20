@@ -7,6 +7,15 @@ class ApplyForm : WebForm<TbApply>
 {
     private TbApply? model;
 
+    public ApplyForm()
+    {
+        TabItems = new List<MenuItem>
+        {
+            new MenuItem("BaseInfo", "基本信息"),
+            new MenuItem("FlowLog", "流程记录")
+        };
+    }
+
     [Parameter] public PageType PageType { get; set; }
 
     protected override Task InitFormAsync()
@@ -31,7 +40,7 @@ class ApplyForm : WebForm<TbApply>
                 table.Field<RichText>(f => f.BizContent).ColSpan(3)
                      .Set(f => f.Option, new
                      {
-                         Height = 200,
+                         Height = 150,
                          Placeholder = "请输入申请单内容"
                      })
                      .Build();
@@ -44,10 +53,16 @@ class ApplyForm : WebForm<TbApply>
                      .Build();
             });
         });
-        builder.FormList<FlowLogGrid>("流程记录", "", attr =>
+    }
+
+    protected override void BuildTabBody(RenderTreeBuilder builder, MenuItem item)
+    {
+        if (item.Name == "流程记录")
         {
-            attr.Set(c => c.BizId, model?.Id);
-        });
+            builder.Component<FlowLogGrid>()
+                   .Set(c => c.BizId, model?.Id)
+                   .Build();
+        }
     }
 
     protected override void BuildButtons(RenderTreeBuilder builder)

@@ -51,6 +51,11 @@ public class Form : BaseComponent
         if (!isInitialized)
             return;
 
+        BuildForm(builder);
+    }
+
+    internal virtual void BuildForm(RenderTreeBuilder builder)
+    {
         var css = CssBuilder.Default("form").AddClass(Style).Build();
         builder.Div(css, attr =>
         {
@@ -227,24 +232,4 @@ public class Form : BaseComponent
         }
         return files;
     }
-}
-
-public class BaseForm<T> : Form
-{
-    protected T TModel => (T)Model;
-
-    protected Field Field(Expression<Func<T, object>> selector)
-    {
-        var property = TypeHelper.Property(selector);
-        return Fields[property.Name];
-    }
-
-    protected TField Field<TField>(Expression<Func<T, object>> selector) where TField : Field
-    {
-        var property = TypeHelper.Property(selector);
-        return FieldAs<TField>(property.Name);
-    }
-
-    protected override void BuildFields(RenderTreeBuilder builder) => BuildFields(new FieldBuilder<T>(builder));
-    protected virtual void BuildFields(FieldBuilder<T> builder) { }
 }
