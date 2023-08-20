@@ -24,8 +24,10 @@ public sealed class Setting
     internal static List<ColumnInfo> GetUserColumns(string id, List<ColumnInfo> columns)
     {
         var lists = new List<ColumnInfo>();
-        var userColumns = GetUserColumns(id);
-        userColumns ??= columns;
+        var userColumns = GetUserColumns(id) ?? columns;
+        if (userColumns == null || userColumns.Count == 0)
+            return lists;
+
         foreach (var column in userColumns)
         {
             lists.Add(new ColumnInfo

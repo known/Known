@@ -1,6 +1,4 @@
-﻿using Known.Razor.Pages.Forms;
-
-namespace Known.Razor.Components;
+﻿namespace Known.Razor.Components;
 
 public class DataGrid<TItem> : DataComponent<TItem>
 {
@@ -276,25 +274,6 @@ public class DataGrid<TItem> : DataComponent<TItem>
         QueryData(true);
     }
 
-    private void InitMenu()
-    {
-        if (KRConfig.UserMenus == null)
-            return;
-
-        var type = GetType();
-        var menu = KRConfig.UserMenus.FirstOrDefault(m => m.Target == type.FullName);
-        if (menu == null)
-            return;
-
-        Id = menu.Id;
-        Name = menu.Name;
-        if (menu.Buttons != null && menu.Buttons.Count > 0)
-            Tools = menu.Buttons.Select(n => ToolButton.Buttons.FirstOrDefault(b => b.Name == n)).ToList();
-        if (menu.Actions != null && menu.Actions.Count > 0)
-            Actions = menu.Actions.Select(n => GridAction.Actions.FirstOrDefault(b => b.Name == n)).ToList();
-        Columns = menu.Columns?.Select(c => new Column<TItem>(c)).ToList();
-    }
-
     internal bool HasFoot()
     {
         if (GridColumns == null || GridColumns.Count == 0)
@@ -368,30 +347,17 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
     internal void ShowColumnSetting()
     {
-        var data = Columns.Select(c => c.ToColumn()).ToList();
-        UI.Show<ColumnSetting>("表格设置", new(780, 500), action: attr =>
+        var menu = GetPageMenu();
+        UI.Show<ColumnSetting>("表格设置", new(800, 500), action: attr =>
         {
             attr.Set(c => c.PageId, Id)
-                .Set(c => c.Data, data)
+                .Set(c => c.PageColumns, menu?.Columns)
                 .Set(c => c.OnSetting, () =>
                 {
                     var columns = Setting.GetUserColumns(Id, Columns);
                     SetColumns(columns);
                 });
         });
-    }
-
-    private Dictionary<string, string> GetExportColumns()
-    {
-        var columns = new Dictionary<string, string>();
-        if (GridColumns != null && GridColumns.Count > 0)
-        {
-            foreach (var item in GridColumns)
-            {
-                columns.Add(item.Id, item.Name);
-            }
-        }
-        return columns;
     }
 
     private async void ExportData(string name, ExportMode mode, string extension = null)
@@ -409,6 +375,43 @@ public class DataGrid<TItem> : DataComponent<TItem>
 
         var stream = new MemoryStream(bytes);
         UI.DownloadFile($"{name}.xlsx", stream);
+    }
+
+    private Dictionary<string, string> GetExportColumns()
+    {
+        var columns = new Dictionary<string, string>();
+        if (GridColumns == null || GridColumns.Count == 0)
+            return columns;
+
+        foreach (var item in GridColumns)
+        {
+            columns.Add(item.Id, item.Name);
+        }
+        return columns;
+    }
+
+    private void InitMenu()
+    {
+        var menu = GetPageMenu();
+        if (menu == null)
+            return;
+
+        Id = menu.Id;
+        Name = menu.Name;
+        if (menu.Buttons != null && menu.Buttons.Count > 0)
+            Tools = menu.Buttons.Select(n => ToolButton.Buttons.FirstOrDefault(b => b.Name == n)).ToList();
+        if (menu.Actions != null && menu.Actions.Count > 0)
+            Actions = menu.Actions.Select(n => GridAction.Actions.FirstOrDefault(b => b.Name == n)).ToList();
+        Columns = menu.Columns?.Select(c => new Column<TItem>(c)).ToList();
+    }
+
+    private MenuInfo GetPageMenu()
+    {
+        if (KRConfig.UserMenus == null)
+            return null;
+
+        var type = GetType();
+        return KRConfig.UserMenus.FirstOrDefault(m => m.Target == type.FullName);
     }
 }
 
