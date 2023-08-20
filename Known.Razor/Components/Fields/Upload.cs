@@ -2,6 +2,11 @@
 
 public class Upload : Field
 {
+    public Upload()
+    {
+        Style = "upload";
+    }
+
     [Parameter] public bool IsButton { get; set; }
     [Parameter] public string ButtonText { get; set; }
     [Parameter] public bool CanDelete { get; set; }
