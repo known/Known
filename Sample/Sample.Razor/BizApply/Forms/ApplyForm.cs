@@ -67,15 +67,43 @@ class ApplyForm : WebForm<TbApply>
 
     protected override void BuildButtons(RenderTreeBuilder builder)
     {
-        //审核页面显示通过和退回按钮
-        if (PageType == PageType.Verify)
+        if (PageType == PageType.Apply)
         {
+            builder.Button(ToolButton.Submit, Callback(OnSubmitFlow));
+        }
+        else if (PageType == PageType.Verify)
+        {
+            //审核页面显示通过和退回按钮
             builder.Button(ToolButton.Pass, Callback(OnPassFlow));
             builder.Button(ToolButton.Return, Callback(OnReturnFlow));
         }
 
         builder.Button(FormButton.Save, Callback(OnSave), !ReadOnly);
         base.BuildButtons(builder);
+    }
+
+    private void OnSubmitFlow()
+    {
+        if (!model.CanSubmit)
+        {
+            UI.Toast($"{model.BizStatus}记录不能提交审核！");
+            return;
+        }
+
+        var vr = model.ValidCommit();
+        if (!vr.IsValid)
+        {
+            UI.Alert(vr.Message);
+            return;
+        }
+
+        UI.SubmitFlow(Platform.Flow, new FlowFormInfo
+        {
+            UserRole = UserRole.Verifier,
+            BizId = model.Id,
+            BizStatus = FlowStatus.Verifing,
+            Model = model
+        }, Refresh);
     }
 
     private void OnPassFlow()

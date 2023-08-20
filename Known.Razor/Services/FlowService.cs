@@ -112,7 +112,8 @@ partial class UIService
         var size = option.Size ?? new Size(400, 260);
         Show<FlowForm>(title, size, action: attr =>
         {
-            attr.Set(c => c.Option, option)
+            attr.Set(c => c.InDialog, true)
+                .Set(c => c.Option, option)
                 .Set(c => c.Model, option.Model);
         });
     }

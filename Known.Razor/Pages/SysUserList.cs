@@ -27,6 +27,22 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
     }
     #endregion
 
+    protected override Task InitPageAsync()
+    {
+        if (OnPicked != null)
+        {
+            Tools = null;
+            var builder = new ColumnBuilder<SysUser>();
+            builder.Field(r => r.UserName);
+            builder.Field(r => r.Name, true);
+            builder.Field(r => r.Phone);
+            builder.Field(r => r.Mobile);
+            builder.Field(r => r.Email);
+            Columns = builder.ToColumns();
+        }
+        return base.InitPageAsync();
+    }
+
     protected override Task<PagingResult<SysUser>> OnQueryData(PagingCriteria criteria)
     {
         criteria.SetQuery(nameof(SysUser.Role), Role ?? "");
