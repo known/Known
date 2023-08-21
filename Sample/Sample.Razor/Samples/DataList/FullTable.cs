@@ -6,6 +6,7 @@ class FullTable : DmTestGrid
 {
     public FullTable()
     {
+        Style = "fullTable";
         Tools = new List<ButtonInfo> { ToolButton.New, ToolButton.DeleteM, ToolButton.Import, ToolButton.Export };
         Actions = new List<ButtonInfo> { GridAction.Edit, GridAction.Delete };
 

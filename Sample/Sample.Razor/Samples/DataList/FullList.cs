@@ -6,6 +6,8 @@ class FullList : DmTestList
 {
     public FullList()
     {
+        Style = "fullList";
+
         var export = ToolButton.Export;
         export.Children.Add(ToolButton.ExportQuery);
         export.Children.Add(ToolButton.ExportPage);
