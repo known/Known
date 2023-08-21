@@ -4,6 +4,7 @@ public class FlowLogGrid : DataGrid<SysFlowLog>
 {
     public FlowLogGrid()
     {
+        IsFixed = false;
         IsSort = false;
         ReadOnly = true;
         ShowEmpty = false;
