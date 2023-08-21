@@ -408,6 +408,8 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-table th, .form-table td {padding:5px;border-bottom:1px solid var(--border);}
 .form-table th {text-align:right;padding-right:0.5rem;background-color:var(--th-bgcolor);}
 .form-table .inline {display:flex;}
+.form-input.inline {display:block;}
+.form-input.inline .form-radio {display:inline-block;}
 .form-table td .query .form-input, .form-table td .inline .form-input, .form-files span {margin-right:5px;}
 .form .table table {border-top:none;}
 .form .table td {border-bottom:none;}

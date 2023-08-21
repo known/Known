@@ -49,6 +49,7 @@ class ButtonGrid : EditGrid<ButtonInfo>
         UI.Prompt("添加", new(550, 350), builder =>
         {
             builder.Field<CheckList>("Data")
+                   .Set(f => f.Style, "inline")
                    .Set(f => f.Items, items)
                    .Set(f => f.ColumnCount, 3)
                    .Build();
