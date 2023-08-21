@@ -46,11 +46,7 @@ class FlowService : BaseService
                     Check.Throw(result.Message);
 
                 SetCurrToPrevStep(flow);
-
-                if (!string.IsNullOrEmpty(flow.NextBy))
-                    SetNextToCurrStep(flow);
-                else
-                    SetCurrStep(flow, "提交流程", next);
+                SetCurrStep(flow, "提交流程", next);
 
                 var noteText = $"提交给[{flow.CurrBy}]";
                 if (!string.IsNullOrEmpty(info.Note))
