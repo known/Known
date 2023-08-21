@@ -10,10 +10,10 @@ public class FlowLogGrid : DataGrid<SysFlowLog>
         ShowPager = false;
 
         var builder = new ColumnBuilder<SysFlowLog>();
-        builder.Field(r => r.StepName).Center();
-        builder.Field(r => r.ExecuteBy).Center();
-        builder.Field(r => r.ExecuteTime).Type(ColumnType.DateTime);
-        builder.Field(r => r.Result).Center().Template(BuildResult);
+        builder.Field(r => r.StepName).Center(80);
+        builder.Field(r => r.ExecuteBy).Center(80);
+        builder.Field(r => r.ExecuteTime).Center(150).Type(ColumnType.DateTime);
+        builder.Field(r => r.Result).Center(80).Template(BuildResult);
         builder.Field(r => r.Note);
         Columns = builder.ToColumns();
     }

@@ -60,6 +60,7 @@ public sealed class ToolButton
     public static ButtonInfo Disable => new("Disable", "禁用", "fa fa-times-circle-o", StyleType.Danger);
     public static ButtonInfo Submit => new("Submit", "提交审核", "fa fa-send-o");
     public static ButtonInfo Revoke => new("Revoke", "撤回", "fa fa-undo");
+    public static ButtonInfo Assign => new("Assign", "分配给", "fa fa-hand-o-right");
     public static ButtonInfo Pass => new("Pass", "审核通过", "fa fa-check");
     public static ButtonInfo Return => new("Return", "审核退回", "fa fa-reply", StyleType.Danger);
     public static ButtonInfo Repeat => new("Repeat", "重新申请", "fa fa-repeat");

@@ -5,11 +5,13 @@ namespace Sample.Razor.BizApply;
 //申请列表
 class ApplyList : WebGridView<TbApply, ApplyForm>
 {
+    private string BixStatus = $"{FlowStatus.Save},{FlowStatus.Verifing},{FlowStatus.VerifyFail},{FlowStatus.ReApply}";
+
     protected override Task InitPageAsync()
     {
         Column(c => c.BizType).Template((b, r) => b.Text(r.BizType.ToString()));
         Column(c => c.BizNo).Template((b, r) => b.Link(r.BizNo, Callback(() => View(r))));
-        Column(c => c.BizStatus).Template((b, r) => b.BillStatus(r.BizStatus));
+        Column(c => c.BizStatus).Template((b, r) => b.BillStatus(r.BizStatus)).Select(new SelectOption(BixStatus));
         return base.InitPageAsync();
     }
 
@@ -21,7 +23,10 @@ class ApplyList : WebGridView<TbApply, ApplyForm>
 
     public override bool CheckAction(ButtonInfo action, TbApply item)
     {
-        if (item.BizStatus == FlowStatus.Verifing && !action.Is(GridAction.View))
+        if (item.BizStatus == FlowStatus.Save && action.Is(GridAction.Revoke))
+            return false;
+
+        if (item.BizStatus == FlowStatus.Verifing && !action.Is(GridAction.Revoke))
             return false;
 
         return base.CheckAction(action, item);

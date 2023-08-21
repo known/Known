@@ -16,7 +16,7 @@ where a.Id=b.BizId and a.CompNo=@CompNo";
         switch (type)
         {
             case PageType.Apply:
-                sql += $" and b.CurrBy='{db.UserName}'";
+                sql += $" and b.BizStatus<>'{FlowStatus.VerifyPass}' and (b.CreateBy='{db.UserName}' or b.ApplyBy='{db.UserName}' or (b.BizStatus='{FlowStatus.Verifing}' and b.ApplyBy='{db.UserName}'))";
                 break;
             case PageType.Verify:
                 sql += $" and b.BizStatus='{FlowStatus.Verifing}' and b.CurrBy='{db.UserName}'";

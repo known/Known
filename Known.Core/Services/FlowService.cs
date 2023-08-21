@@ -168,6 +168,7 @@ class FlowService : BaseService
                 flow.BizStatus = info.BizStatus;
                 flow.VerifyBy = user.UserName;
                 flow.VerifyTime = DateTime.Now;
+                flow.VerifyNote = info.Note;
                 if (isPass)
                 {
                     SetCurrToPrevStep(flow);

@@ -74,6 +74,7 @@ class ApplyForm : WebForm<TbApply>
         else if (PageType == PageType.Verify)
         {
             //审核页面显示通过和退回按钮
+            builder.Button(ToolButton.Assign, Callback(OnAssignFlow));
             builder.Button(ToolButton.Pass, Callback(OnPassFlow));
             builder.Button(ToolButton.Return, Callback(OnReturnFlow));
         }
@@ -84,6 +85,12 @@ class ApplyForm : WebForm<TbApply>
 
     private void OnSubmitFlow()
     {
+        if (model.IsNew)
+        {
+            UI.Toast("请先保存记录再提交审核！");
+            return;
+        }
+
         if (!model.CanSubmit)
         {
             UI.Toast($"{model.BizStatus}记录不能提交审核！");
@@ -102,8 +109,19 @@ class ApplyForm : WebForm<TbApply>
             UserRole = UserRole.Verifier,
             BizId = model.Id,
             BizStatus = FlowStatus.Verifing,
-            Model = model
-        }, Refresh);
+            Model = Model
+        }, OnSuccessed);
+    }
+
+    private void OnAssignFlow()
+    {
+        UI.AssignFlow(Platform.Flow, new FlowFormInfo
+        {
+            UserRole = UserRole.Verifier,
+            BizId = model?.Id,
+            BizStatus = model?.BizStatus,
+            Model = Model
+        }, OnSuccessed);
     }
 
     private void OnPassFlow()

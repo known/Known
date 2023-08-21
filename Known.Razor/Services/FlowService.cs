@@ -42,9 +42,11 @@ partial class UIService
     {
         Show("指派流程", new FlowFormOption
         {
+            Size = new Size(400, 300),
             UserLabel = "指派给",
             NoteLabel = "备注",
             ConfirmText = "确定要指派？",
+            Status = model.BizStatus,
             UserRole = model.UserRole,
             Model = model,
             OnConfirm = async info =>
