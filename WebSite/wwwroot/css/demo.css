@@ -4,7 +4,6 @@
 .demo input[type="file"] {width:200px;}
 .demo textarea {width:300px;}
 .demo .form-item.control {margin:0;flex-direction:row;}
-.demo .form-input {display:flex;}
 .demo .form-input, .demo .progress {margin-bottom:10px;}
 .demo button {margin-right:5px;margin-bottom:5px;}
 .demo .view {position:relative;padding:1rem;}

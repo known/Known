@@ -414,6 +414,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .form-grid, .tab-body .form-body .form-grid {top:0;bottom:0;left:0;right:0;}
 .block .form-radio {display:block;height:auto;}
 .upload > .form-input {flex-direction:column;}
+.editor > .form-input {display:block;}
 
 .file-button {display:flex;align-items:stretch;cursor:pointer;overflow:hidden;position:relative;}
 .file-button input {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;}
