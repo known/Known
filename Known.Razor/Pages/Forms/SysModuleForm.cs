@@ -79,23 +79,29 @@ class SysModuleForm : BaseForm<SysModule>
         table.Tr(attr =>
         {
             table.Th("", "按钮");
-            table.Td("inline", attr =>
+            table.Td("", attr =>
             {
                 attr.ColSpan(7);
-                builder.Field<Text>(f => f.ButtonData).Label("").IsInput(true).ReadOnly(true).Build();
-                if (!ReadOnly)
-                    table.Div("right", attr => table.Button(FormButton.Config, Callback(SetButton)));
+                builder.Div("inline", attr =>
+                {
+                    builder.Field<Text>(f => f.ButtonData).Label("").IsInput(true).ReadOnly(true).Build();
+                    if (!ReadOnly)
+                        table.Div(attr => table.Button(FormButton.Config, Callback(SetButton)));
+                });
             });
         });
         table.Tr(attr =>
         {
             table.Th("", "操作");
-            table.Td("inline", attr =>
+            table.Td("", attr =>
             {
                 attr.ColSpan(7);
-                builder.Field<Text>(f => f.ActionData).Label("").IsInput(true).ReadOnly(true).Build();
-                if (!ReadOnly)
-                    table.Div("right", attr => table.Button(FormButton.Config, Callback(SetAction)));
+                builder.Div("inline", attr =>
+                {
+                    builder.Field<Text>(f => f.ActionData).Label("").IsInput(true).ReadOnly(true).Build();
+                    if (!ReadOnly)
+                        table.Div(attr => table.Button(FormButton.Config, Callback(SetAction)));
+                });
             });
         });
     }
