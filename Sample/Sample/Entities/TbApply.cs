@@ -3,7 +3,7 @@
 /// <summary>
 /// 申请单实体类。
 /// </summary>
-public class TbApply : EntityBase
+public class TbApply : FlowEntity
 {
     /// <summary>
     /// 取得或设置业务类型。
@@ -35,18 +35,7 @@ public class TbApply : EntityBase
     [Column("业务附件", "", false, "1", "250")]
     public string? BizFile { get; set; }
 
-    [Column("流程状态")] public virtual string? BizStatus { get; set; }
-    [Column("当前人")] public virtual string? CurrBy { get; set; }
-    [Column("申请人")] public virtual string? ApplyBy { get; set; }
-    [Column("申请时间")] public virtual DateTime? ApplyTime { get; set; }
-    [Column("审核人")] public virtual string? VerifyBy { get; set; }
-    [Column("审核时间")] public virtual DateTime? VerifyTime { get; set; }
-    [Column("审核意见")] public virtual string? VerifyNote { get; set; }
-
-    public virtual bool CanSubmit => BizStatus == FlowStatus.Save || BizStatus == FlowStatus.Revoked || BizStatus == FlowStatus.VerifyFail || BizStatus == FlowStatus.ReApply;
-    public virtual bool CanRevoke => BizStatus == FlowStatus.Verifing;
-
-    public Result ValidCommit()
+    public override Result ValidCommit()
     {
         var vr = base.Validate();
         vr.Required("业务内容", BizContent);

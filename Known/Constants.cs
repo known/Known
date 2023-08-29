@@ -46,19 +46,3 @@ public class TaskStatus
     public const string Success = "执行成功";
     public const string Failed = "执行失败";
 }
-
-public class FlowStatus
-{
-    private FlowStatus() { }
-
-    public const string Open = "开启";
-    public const string Over = "结束";
-    public const string Stop = "终止";
-
-    public const string Save = "暂存";
-    public const string Revoked = "已撤回";
-    public const string Verifing = "待审核";
-    public const string VerifyPass = "审核通过";
-    public const string VerifyFail = "审核退回";
-    public const string ReApply = "重新申请";
-}

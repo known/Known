@@ -7,8 +7,7 @@ class ApplyRepository
     //Apply
     internal static PagingResult<TbApply> QueryApplys(Database db, PagingCriteria criteria)
     {
-        var sql = @"select a.*
-,b.BizStatus,b.CurrBy,b.ApplyBy,b.ApplyTime,b.VerifyBy,b.VerifyTime,b.VerifyNote 
+        var sql = @"select a.*,b.BizStatus,b.CurrBy,b.ApplyBy,b.ApplyTime,b.VerifyBy,b.VerifyTime,b.VerifyNote 
 from TbApply a,SysFlow b 
 where a.Id=b.BizId and a.CompNo=@CompNo";
 
