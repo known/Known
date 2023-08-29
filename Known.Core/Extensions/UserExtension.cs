@@ -2,7 +2,17 @@
 
 public static class UserExtension
 {
-    public static void SendMessage(this UserInfo user, Database db, string toUser, string level, string subject, string content, string filePath = null, string bizId = null)
+    public static void SendMessage(this UserInfo user, Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    {
+        user.SendMessage(db, Constants.UMLGeneral, toUser, subject, content, filePath, bizId);
+    }
+
+    public static void SendUrgentMessage(this UserInfo user, Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    {
+        user.SendMessage(db, Constants.UMLUrgent, toUser, subject, content, filePath, bizId);
+    }
+
+    private static void SendMessage(this UserInfo user, Database db, string level, string toUser, string subject, string content, string filePath = null, string bizId = null)
     {
         var model = new SysMessage
         {

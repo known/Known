@@ -225,8 +225,7 @@ button, .button, input, select,
 .user-info .form-item .icon {width:1.2rem;text-align:center;margin-right:0.5rem;color:var(--primary);}
 .user-info .form-item span {color:#333;font-size:0.9rem;}
 
-.user-message .grid-view {top:10px;}
-.user-message .grid-view .grid {top:40px;}
+.user-message .data-top {padding-top:10px;}
 .user-message .form-label {width:auto;}
 .user-message .form {margin-top:10px;}
 .user-message .form-button {padding:10px;text-align:center;}
