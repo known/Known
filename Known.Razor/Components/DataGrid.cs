@@ -438,7 +438,7 @@ public class DataGrid<TItem, TForm> : DataGrid<TItem> where TItem : EntityBase, 
         if (showInDialog)
             ShowForm<TForm>(actionName, model);
         else
-            Context.Navigate<TItem, TForm>(actionName, "", model);
+            Context.Navigate<TItem, TForm>(actionName, "", model, false, CloseForm);
     }
 
     protected void View(TItem model, bool showInDialog, string title = null)
