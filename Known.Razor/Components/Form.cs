@@ -181,15 +181,13 @@ public class Form : BaseComponent
 
     private void OnSubmited(Result result, Action<Result> onSuccess)
     {
-        if (onSuccess == null)
-        {
-            UI.Result(result, () => OnSuccess?.Invoke(result));
-        }
-        else
+        if (onSuccess != null)
         {
             onSuccess.Invoke(result);
-            OnSuccess?.Invoke(result);
+            return;
         }
+
+        UI.Result(result, () => OnSuccess?.Invoke(result));
     }
 
     private void AddFiles(MultipartFormDataContent content)

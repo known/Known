@@ -48,6 +48,12 @@ class SysAccountForm : BaseForm<SysUser>
     {
         SubmitAsync(Platform.User.UpdateUserAsync, result =>
         {
+            if (!result.IsValid)
+            {
+                UI.Alert(result.Message);
+                return;
+            }
+
             var curUser = CurrentUser;
             var user = result.DataAs<SysUser>();
             if (curUser != null && user != null)
