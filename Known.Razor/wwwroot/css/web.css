@@ -30,10 +30,10 @@
 .logo {overflow:hidden;opacity:0.9;}
 .logo img {width:auto;height:100%;}
 .logo:before {margin-right:15px;}
-.topMenu {height:50px;padding:5px 10px 0 10px;}
-.topMenu li {display:inline-block;height:43px;text-align:center;padding:0 15px;cursor:pointer;}
-.topMenu li .icon {display:block;font-size:1.5rem;}
-.topMenu li .name {display:block;font-size:0.8rem;}
+.topMenu {display:flex;}
+.topMenu li {height:47px;text-align:center;padding:0 15px;cursor:pointer;}
+.topMenu li .icon {display:none;font-size:1.2rem;margin-top:5px;}
+.topMenu li .name {display:block;font-size:1.1rem;margin-top:12px;}
 .topMenu li.active {border-bottom:3px solid #1c66b9;}
 .nav {box-sizing:border-box;padding-right:10px;}
 .nav-item {position:relative;cursor:pointer;}

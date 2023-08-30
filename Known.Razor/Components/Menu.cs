@@ -22,14 +22,6 @@ public class Menu : BaseComponent
         });
     }
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-            UI.InitMenu();
-
-        return base.OnAfterRenderAsync(firstRender);
-    }
-
     private void BuildItem(RenderTreeBuilder builder, MenuItem item)
     {
         var css = CssBuilder.Default("").AddClass("child", item.Children.Any()).Build();

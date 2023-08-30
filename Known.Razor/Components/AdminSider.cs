@@ -5,9 +5,19 @@ class AdminSider : BaseComponent
     [Parameter] public MenuItem CurMenu { get; set; }
     [Parameter] public List<MenuItem> Menus { get; set; }
 
+    [CascadingParameter] internal Admin Admin { get; set; }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("kui-scroll", attr => BuildMenuTree(builder));
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender || Admin.TopMenu)
+            UI.InitMenu();
+
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     private void BuildMenuTree(RenderTreeBuilder builder)

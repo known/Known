@@ -198,7 +198,7 @@ export class KRazor {
 
     //UI
     static initMenu() {
-        $('.menu-tree .item').click(function (e) {
+        $('.menu-tree .item').click(function () {
             if ($(this).hasClass('active') && $(this).parent().hasClass('child')) {
                 $(this).removeClass('active');
             } else {

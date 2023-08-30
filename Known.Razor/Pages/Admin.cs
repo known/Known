@@ -49,7 +49,7 @@ class Admin : Layout
         if (!isInitialized)
             return;
 
-        base.BuildRenderTree(builder);
+        builder.Cascading(this, b => base.BuildRenderTree(b));
         builder.Component<QuickView>()
                .Set(c => c.Id, SysSettingId)
                .Set(c => c.ChildContent, b => b.Component<SettingForm>().Set(s => s.Title, "系统设置").Build())
