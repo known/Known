@@ -25,7 +25,7 @@ partial class UIService
             Size = tuple.Item1,
             Body = builder => BuildMessage(builder, tuple.Item2),
             Foot = builder => BuildButton(builder, null)
-        });
+        }, true);
     }
 
     public void Alert(string message, Size? size = null, Action action = null)
@@ -37,10 +37,10 @@ partial class UIService
             Size = size ?? tuple.Item1,
             Body = builder => BuildMessage(builder, tuple.Item2),
             Foot = builder => BuildButton(builder, action)
-        });
+        }, true);
     }
 
-    public void Confirm(string message, Action action, bool isTop = false)
+    public void Confirm(string message, Action action, bool isTop = true)
     {
         var tuple = GetMessage(message);
         Show(new DialogOption
