@@ -6,6 +6,9 @@ public class FlowController : BaseController
     private FlowService Service => new(Context);
 
     [HttpGet("[action]")]
+    public List<SysFlow> GetFlowTodos() => Service.GetFlowTodos();
+
+    [HttpGet("[action]")]
     public List<SysFlowLog> GetFlowLogs([FromQuery] string bizId) => Service.GetFlowLogs(bizId);
 
     [HttpPost("[action]")]

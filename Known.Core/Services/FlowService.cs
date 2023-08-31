@@ -12,11 +12,7 @@ class FlowService : BaseService
         return FlowRepository.GetFlowStepUser(db, user.CompNo, user.AppId, flowCode, stepCode);
     }
 
-    internal List<SysFlow> GetFlowTodos()
-    {
-        var user = CurrentUser;
-        return FlowRepository.GetFlowTodos(Database, user.AppId, user.UserName);
-    }
+    internal List<SysFlow> GetFlowTodos() => FlowRepository.GetFlowTodos(Database);
 
     internal List<SysFlowLog> GetFlowLogs(string bizId) => FlowRepository.GetFlowLogs(Database, bizId);
 

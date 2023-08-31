@@ -4,6 +4,7 @@ public class FlowClient : ClientBase
 {
     public FlowClient(Context context) : base(context) { }
 
+    public Task<List<SysFlow>> GetFlowTodosAsync() => Context.GetAsync<List<SysFlow>>("Flow/GetFlowTodos");
     public Task<List<SysFlowLog>> GetFlowLogsAsync(string bizId) => Context.GetAsync<List<SysFlowLog>>($"Flow/GetFlowLogs?bizId={bizId}");
     public Task<Result> SubmitFlowAsync(FlowFormInfo info) => Context.PostAsync("Flow/SubmitFlow", info);
     public Task<Result> RevokeFlowAsync(FlowFormInfo info) => Context.PostAsync("Flow/RevokeFlow", info);

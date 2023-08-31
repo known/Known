@@ -39,10 +39,10 @@ where s.OperateBy=u.UserName and s.AppId=@appId and s.CompNo=@compNo
         db.Execute(sql, new { bizId });
     }
 
-    internal static List<SysFlow> GetFlowTodos(Database db, string appId, string userId)
+    internal static List<SysFlow> GetFlowTodos(Database db)
     {
-        var sql = $"select * from SysFlow where FlowStatus='{FlowStatus.Open}' and AppId=@appId and CurrBy=@userId order by CreateTime";
-        return db.QueryList<SysFlow>(sql, new { appId, userId });
+        var sql = $"select * from SysFlow where FlowStatus='{FlowStatus.Open}' and AppId=@AppId and CurrBy=@UserName order by CreateTime";
+        return db.QueryList<SysFlow>(sql, new { db.User.AppId, db.User.UserName });
     }
 
     internal static List<SysFlowLog> GetFlowLogs(Database db, string bizId)
