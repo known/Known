@@ -11,7 +11,7 @@ class ApplyList : WebGridView<TbApply, ApplyForm>
     {
         Column(c => c.BizType).Template((b, r) => b.Text(r.BizType.ToString()));
         Column(c => c.BizNo).Template((b, r) => b.Link(r.BizNo, Callback(() => View(r))));
-        Column(c => c.BizStatus).Template((b, r) => b.BillStatus(r.BizStatus)).Select(new SelectOption(BixStatus));
+        Column(c => c.BizStatus).Template((b, r) => b.StatusTag(r.BizStatus)).Select(new SelectOption(BixStatus));
         return base.InitPageAsync();
     }
 
