@@ -22,6 +22,11 @@ class ApplyService : ServiceBase
         };
     }
 
+    internal TbApply GetApply(string id)
+    {
+        return Database.QueryById<TbApply>(id);
+    }
+
     internal Result DeleteApplys(List<TbApply> models)
     {
         if (models == null || models.Count == 0)

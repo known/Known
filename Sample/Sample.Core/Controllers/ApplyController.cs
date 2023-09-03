@@ -12,6 +12,9 @@ public class ApplyController : BaseController
     [HttpGet("[action]")]
     public TbApply GetDefaultApply([FromQuery] ApplyType bizType) => Service.GetDefaultApply(bizType);
 
+    [HttpGet("[action]")]
+    public TbApply GetApply([FromQuery] string id) => Service.GetApply(id);
+    
     [HttpPost("[action]")]
     public Result DeleteApplys([FromBody] List<TbApply> models) => Service.DeleteApplys(models);
 
