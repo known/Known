@@ -11,7 +11,7 @@ class SysAccount : PageComponent
     {
         if (KRConfig.IsWeb)
         {
-            items.Add(new MenuItem("待办事项", "fa fa-tasks", typeof(SysMyTodoList)));
+            items.Add(new MenuItem("待办事项", "fa fa-tasks", typeof(SysMyFlowList)));
             items.Add(new MenuItem("我的消息", "fa fa-envelope-o", typeof(SysMyMessage)));
         }
         items.Add(new MenuItem("我的信息", "fa fa-user", typeof(SysAccountForm)));

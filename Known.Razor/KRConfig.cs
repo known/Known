@@ -14,6 +14,7 @@ public sealed class KRConfig
     public static List<Assembly> Assemblies { get; }
     public static MenuItem Home { get; set; }
     public static List<MenuInfo> UserMenus { get; set; }
+    public static Action<IMyFlow> ShowMyFlow { get; set; }
 
     private static List<Type> modelTypes;
     internal static List<Type> GetModelTypes()
