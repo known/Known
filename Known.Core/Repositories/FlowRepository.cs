@@ -41,8 +41,8 @@ where s.OperateBy=u.UserName and s.AppId=@appId and s.CompNo=@compNo
 
     internal static List<SysFlow> GetFlowTodos(Database db)
     {
-        var sql = $"select * from SysFlow where FlowStatus='{FlowStatus.Open}' and AppId=@AppId and CurrBy=@UserName order by CreateTime";
-        return db.QueryList<SysFlow>(sql, new { db.User.AppId, db.User.UserName });
+        var sql = $"select * from SysFlow where FlowStatus='{FlowStatus.Open}' and BizStatus<>'{FlowStatus.Save}' and CurrBy=@UserName order by CreateTime";
+        return db.QueryList<SysFlow>(sql, new { db.User.UserName });
     }
 
     internal static List<SysFlowLog> GetFlowLogs(Database db, string bizId)

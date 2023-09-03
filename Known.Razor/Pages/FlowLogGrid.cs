@@ -46,7 +46,7 @@ public class FlowLogGrid : DataGrid<SysFlowLog>
             style = StyleType.Primary;
         else if (log.Result == "终止" || log.Result == Language.Return || log.Result == Language.Revoke)
             style = StyleType.Danger;
-        else if (log.Result == "结束" || log.Result == Language.Pass)
+        else if (log.Result == Language.Pass)
             style = StyleType.Success;
         builder.Tag(style, log.Result);
     }
