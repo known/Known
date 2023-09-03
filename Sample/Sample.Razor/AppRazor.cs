@@ -1,4 +1,6 @@
-﻿namespace Sample.Razor;
+﻿using Sample.Razor.BizApply.Forms;
+
+namespace Sample.Razor;
 
 public sealed class AppRazor
 {
@@ -10,5 +12,11 @@ public sealed class AppRazor
         KRConfig.IsWeb = isWeb;
         //配置默认首页
         KRConfig.Home = new MenuItem("首页", "fa fa-home", typeof(Home));
+        //注册待办事项显示流程表单
+        KRConfig.ShowMyFlow = flow =>
+        {
+            if (flow.Flow.FlowCode == AppFlow.Apply.Code)
+                ApplyForm.ShowMyFlow(flow);
+        };
     }
 }

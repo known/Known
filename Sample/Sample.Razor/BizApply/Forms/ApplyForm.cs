@@ -17,11 +17,15 @@ class ApplyForm : WebForm<TbApply>
     }
 
     [Parameter] public PageType PageType { get; set; }
+    [Parameter] public SysFlow Flow { get; set; }
 
-    protected override Task InitFormAsync()
+    protected override async Task InitFormAsync()
     {
+        if (Flow != null)
+            Model = await Client.Apply.GetApplyAsync(Flow.BizId);
+
         model = TModel;
-        return base.InitFormAsync();
+        await base.InitFormAsync();
     }
 
     protected override void BuildFields(FieldBuilder<TbApply> builder)
@@ -152,5 +156,30 @@ class ApplyForm : WebForm<TbApply>
 
     private void OnSave() => SubmitFilesAsync(Client.Apply.SaveApplyAsync);
 
-    private void OnSuccessed() => OnSuccess?.Invoke(Result.Success(""));
+    private void OnSuccessed()
+    {
+        UI.CloseDialog();
+        OnSuccess?.Invoke(Result.Success(""));
+    }
+
+    internal static void ShowMyFlow(IMyFlow flow)
+    {
+        flow.UI.Show(new DialogOption
+        {
+            Title = "业务申请【审核】",
+            Size = new(960, 600),
+            Content = builder => BuildFlowForm(builder, flow)
+        });
+    }
+
+    private static void BuildFlowForm(RenderTreeBuilder builder, IMyFlow flow)
+    {
+        builder.Component<ApplyForm>()
+               .Set(c => c.InDialog, true)
+               .Set(c => c.ReadOnly, true)
+               .Set(c => c.PageType, PageType.Verify)
+               .Set(c => c.Flow, flow.Flow)
+               .Set(c => c.OnSuccess, result => flow.Refresh())
+               .Build();
+    }
 }
