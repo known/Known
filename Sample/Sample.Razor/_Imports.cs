@@ -1,5 +1,6 @@
 ﻿global using System.Drawing;
 global using Known;
+global using Known.Entities;
 global using Known.Models;
 global using Known.Razor;
 global using Known.Razor.Components;

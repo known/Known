@@ -2,15 +2,13 @@
 
 class ApplyFlow : BaseFlow
 {
-    private const string FlowCode = "ApplyFlow";
-    private const string FlowName = "申请流程";
-
     internal static FlowBizInfo GetBizInfo(TbApply entity)
     {
+        var apply = AppFlow.Apply;
         return new FlowBizInfo
         {
-            FlowCode = FlowCode,
-            FlowName = FlowName,
+            FlowCode = apply.Code,
+            FlowName = apply.Name,
             BizId = entity.Id,
             BizName = entity.BizNo,
             BizUrl = "",

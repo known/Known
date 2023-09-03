@@ -5,13 +5,13 @@ namespace Sample.Razor.BizApply;
 //申请列表
 class ApplyList : WebGridView<TbApply, ApplyForm>
 {
-    private string BixStatus = $"{FlowStatus.Save},{FlowStatus.Verifing},{FlowStatus.VerifyFail},{FlowStatus.ReApply}";
+    private string BizStatus = $"{FlowStatus.Save},{FlowStatus.Verifing},{FlowStatus.VerifyFail},{FlowStatus.ReApply}";
 
     protected override Task InitPageAsync()
     {
         Column(c => c.BizType).Template((b, r) => b.Text(r.BizType.ToString()));
         Column(c => c.BizNo).Template((b, r) => b.Link(r.BizNo, Callback(() => View(r))));
-        Column(c => c.BizStatus).Template((b, r) => b.StatusTag(r.BizStatus)).Select(new SelectOption(BixStatus));
+        Column(c => c.BizStatus).Template((b, r) => b.StatusTag(r.BizStatus)).Select(new SelectOption(BizStatus));
         return base.InitPageAsync();
     }
 
