@@ -19,7 +19,7 @@ header {height:60px;line-height:60px;position:fixed;top:0;width:100%;z-index:999
 nav, .logo {float:left;height:60px;}
 .logo {width:53px;overflow:hidden;}
 .logo img {margin-top:6px;}
-nav a {font-weight:bold;font-size:1.3rem;color:#fff;margin-left:15px;}
+nav a {font-weight:bold;font-size:1.2rem;color:#fff;margin-left:15px;}
 nav a:hover {color:#fff;}
 
 .hero {position:relative;padding:100px 30px 80px 30px;text-align:center;}
