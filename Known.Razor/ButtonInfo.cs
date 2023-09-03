@@ -100,7 +100,7 @@ public sealed class FormButton
     private FormButton() { }
 
     public static ButtonInfo Query => new("Query", "查询", "fa fa-search");
-    public static ButtonInfo Reset => new("Reset", "重置", "fa fa-undo");
+    public static ButtonInfo Reset => new("Reset", "重置", "fa fa-undo", StyleType.Default);
     public static ButtonInfo AdvQuery => new("AdvQuery", "高级查询", "");
     public static ButtonInfo Add => new("Add", "添加", "fa fa-plus");
     public static ButtonInfo Save => new("Save", "保存", "fa fa-save");
