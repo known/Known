@@ -8,10 +8,10 @@ class RoleRepository
         return db.QueryPage<SysRole>(sql, criteria);
     }
 
-    internal static List<SysRole> GetRoles(Database db, string appId, string compNo)
+    internal static List<SysRole> GetRoles(Database db)
     {
-        var sql = "select * from SysRole where AppId=@appId and CompNo=@compNo and Enabled='True' order by CreateTime";
-        return db.QueryList<SysRole>(sql, new { appId, compNo });
+        var sql = "select * from SysRole where AppId=@AppId and CompNo=@CompNo and Enabled='True' order by CreateTime";
+        return db.QueryList<SysRole>(sql, new { db.User.AppId, db.User.CompNo });
     }
 
     internal static void DeleteRoleUsers(Database db, string roleId)

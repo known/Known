@@ -171,8 +171,7 @@ class UserService : BaseService
 
     internal UserAuthInfo GetUserAuth(string userId)
     {
-        var user = CurrentUser;
-        var roles = RoleRepository.GetRoles(Database, user.AppId, user.CompNo);
+        var roles = RoleRepository.GetRoles(Database);
         var roleIds = UserRepository.GetUserRoles(Database, userId);
         var datas = PlatformHelper.UserDatas?.Invoke(Database);
         return new UserAuthInfo

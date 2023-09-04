@@ -48,7 +48,9 @@ class UserRepository
     //Account
     internal static List<string> GetUserModuleIds(Database db, string userId)
     {
-        var sql = "select ModuleId from SysRoleModule where RoleId in (select RoleId from SysUserRole where UserId=@userId)";
+        var sql = @"select a.ModuleId from SysRoleModule a 
+where a.RoleId in (select RoleId from SysUserRole where UserId=@userId)
+  and exists (select 1 from SysRole where Id=a.RoleId and Enabled='True')";
         return db.Scalars<string>(sql, new { userId });
     }
 
