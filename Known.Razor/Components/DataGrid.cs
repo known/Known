@@ -36,6 +36,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     public string OrderBy { get; set; }
     internal string RowTitle { get; set; }
 
+    protected virtual void BuildQueryExts(RenderTreeBuilder builder) { }
     public virtual void View(TItem item) { }
     public virtual void Import() => ShowImport(Name, typeof(TItem));
     public virtual void Export(ExportMode mode = ExportMode.Query, string extension = null) => ExportData(Name, mode, extension);
@@ -260,6 +261,8 @@ public class DataGrid<TItem> : DataComponent<TItem>
         {
             item.BuildQuery(builder, "", this);
         }
+
+        BuildQueryExts(builder);
         builder.Button(FormButton.Query, Callback(OnQuery));
 
         if (HasAdvQuery())
