@@ -4,6 +4,7 @@ public class CheckList : ListField
 {
     private readonly Dictionary<string, bool> values = new();
 
+    [Parameter] public bool IsPlain { get; set; }
     [Parameter] public int ColumnCount { get; set; }
 
     protected override void BuildText(RenderTreeBuilder builder) => BuildCheckList(builder, false);
@@ -24,7 +25,8 @@ public class CheckList : ListField
 
     private void BuildRadio(RenderTreeBuilder builder, string text, string value, bool enabled, bool isChecked, int? columnCount = null)
     {
-        builder.Label("form-radio", attr =>
+        var css = CssBuilder.Default("form-radio").AddClass("plain", IsPlain).Build();
+        builder.Label(css, attr =>
         {
             if (columnCount != null && columnCount > 0)
             {
@@ -42,7 +44,7 @@ public class CheckList : ListField
                         OnValueChange();
                     }, isChecked));
             });
-            builder.Span(text);
+            builder.Span(IsPlain && isChecked ? "checked" : "", text);
         });
     }
 
