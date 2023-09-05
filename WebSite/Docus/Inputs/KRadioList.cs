@@ -8,6 +8,7 @@ class KRadioList : BaseDocu
     {
         builder.BuildMarkdown(@"
 - 支持每行显示数量
+- 支持平原（Plain）模式
 - 支持4种列表项数据源
   - 数据字典类别
   - 逗号分割的字符串

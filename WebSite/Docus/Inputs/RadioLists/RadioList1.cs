@@ -20,5 +20,9 @@ class RadioList1 : BaseComponent
         //赋值
         builder.Field<RadioList>("示例3：", "RadioList3").Value("孙膑").Set(f => f.Codes, Codes).Build();
         builder.Field<RadioList>("示例4：", "RadioList4").Value("3").Set(f => f.Items, Items).Build();
+        builder.Field<RadioList>("平原模式：", "RadioList5").Value("3")
+               .Set(f => f.IsPlain, true)
+               .Set(f => f.Items, Items)
+               .Build();
     }
 }
