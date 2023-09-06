@@ -4,6 +4,11 @@ namespace Known.Razor.Pages;
 
 class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
 {
+    private readonly List<TreeItem<SysOrganization>> data = new();
+    private TreeItem<SysOrganization> current;
+    private List<SysOrganization> datas;
+    private bool hasOrg = false;
+
     #region IPicker
     public string Title => "选择用户";
     public Size Size => new(700, 400);
@@ -27,7 +32,7 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
     }
     #endregion
 
-    protected override Task InitPageAsync()
+    protected override async Task InitPageAsync()
     {
         if (OnPicked != null)
         {
@@ -40,16 +45,43 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
             builder.Field(r => r.Email);
             Columns = builder.ToColumns();
         }
-        return base.InitPageAsync();
+
+        datas = await Platform.Company.GetOrganizationsAsync();
+        hasOrg = datas != null && datas.Count > 1;
+        InitTreeNode();
+        await base.InitPageAsync();
     }
 
     protected override Task<PagingResult<SysUser>> OnQueryData(PagingCriteria criteria)
     {
+        if (OnPicked == null && current != null && current.Value.ParentId != "0")
+            criteria.SetQuery(nameof(SysUser.OrgNo), current?.Value.Id);
         criteria.SetQuery(nameof(SysUser.Role), Role ?? "");
         return Platform.User.QueryUsersAsync(criteria);
     }
 
-    public void New() => ShowForm(new SysUser { Enabled = true });
+    protected override void BuildPage(RenderTreeBuilder builder)
+    {
+        if (!hasOrg || OnPicked != null)
+        {
+            base.BuildPage(builder);
+            return;
+        }
+
+        builder.Div("lr-view", attr =>
+        {
+            builder.Div("left-view", attr =>
+            {
+                builder.Component<Tree<SysOrganization>>()
+                       .Set(c => c.Data, data)
+                       .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(OnTreeItemClick))
+                       .Build();
+            });
+            builder.Div("right-view", attr => base.BuildPage(builder));
+        });
+    }
+
+    public void New() => ShowForm(new SysUser { OrgNo = current?.Value.Id, Enabled = true });
     public void DeleteM() => DeleteRows(Platform.User.DeleteUsersAsync);
     public void ResetPassword() => SelectRow(OnResetPassword);
     public void Enable() => SelectRows(OnEnableUsers);
@@ -89,5 +121,46 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
             var result = await Platform.User.DisableUsersAsync(models);
             UI.Result(result, Refresh);
         });
+    }
+
+    private void InitTreeNode()
+    {
+        if (!hasOrg)
+            return;
+
+        data.Clear();
+        var org = datas.FirstOrDefault(d => d.ParentId == "0");
+        var root = new TreeItem<SysOrganization> { Value = org, Text = org.Name, IsExpanded = true };
+        data.Add(root);
+        current = root;
+        InitTreeNode(root);
+        Refresh();
+    }
+
+    private void OnTreeItemClick(TreeItem<SysOrganization> item)
+    {
+        current = item;
+        Refresh();
+    }
+
+    private async void InitTreeNode(TreeItem<SysOrganization> item, bool reload = false)
+    {
+        if (reload)
+            datas = await Platform.Company.GetOrganizationsAsync();
+
+        item.Children.Clear();
+        if (datas == null || datas.Count == 0)
+            return;
+
+        var children = datas.Where(m => m.ParentId == item.Value.Id).ToList();
+        if (children == null || children.Count == 0)
+            return;
+
+        foreach (var child in children)
+        {
+            var sub = new TreeItem<SysOrganization> { Value = child, Text = child.Name };
+            item.AddChild(sub);
+            InitTreeNode(sub);
+        }
     }
 }

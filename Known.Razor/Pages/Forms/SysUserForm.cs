@@ -15,6 +15,7 @@ class SysUserForm : BaseForm<SysUser>
     protected override void BuildFields(FieldBuilder<SysUser> builder)
     {
         builder.Hidden(f => f.Id);
+        builder.Hidden(f => f.OrgNo);
         builder.Table(table =>
         {
             table.ColGroup(100, null, 100, null);
