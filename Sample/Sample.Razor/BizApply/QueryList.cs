@@ -19,9 +19,9 @@ class QueryList : WebGridView<TbApply, ApplyForm>
     }
 
     public void Repeat() => OnRepeatFlow();
-    public void ExportPage() => Export(ExportMode.Page);
-    public void ExportQuery() => Export(ExportMode.Query);
-    public void ExportAll() => Export(ExportMode.All);
+    public void ExportPage() => ExportData(Name, ExportMode.Page);
+    public void ExportQuery() => ExportData(Name, ExportMode.Query);
+    public void ExportAll() => ExportData(Name, ExportMode.All);
 
     private void OnRepeatFlow()
     {

@@ -39,7 +39,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
     protected virtual void BuildQueryExts(RenderTreeBuilder builder) { }
     public virtual void View(TItem item) { }
     public virtual void Import() => ShowImport(Name, typeof(TItem));
-    public virtual void Export(ExportMode mode = ExportMode.Query, string extension = null) => ExportData(Name, mode, extension);
+    public virtual void Export() => ExportData(Name, ExportMode.Query);
     public virtual bool CheckAction(ButtonInfo action, TItem item) => true;
     public virtual void OnRowClick(int row, TItem item) { }
     public virtual void OnRowDoubleClick(int row, TItem item) { }
@@ -364,7 +364,7 @@ public class DataGrid<TItem> : DataComponent<TItem>
         });
     }
 
-    private async void ExportData(string name, ExportMode mode, string extension = null)
+    protected async void ExportData(string name, ExportMode mode, string extension = null)
     {
         criteria.ExportMode = mode;
         criteria.ExportExtension = extension;
