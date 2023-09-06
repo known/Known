@@ -4,6 +4,15 @@ class CompanyForm : WebForm<CompanyInfo>
 {
     private bool isEdit = false;
 
+    public CompanyForm()
+    {
+        TabItems = new List<MenuItem>
+        {
+            new MenuItem("BaseInfo", "基本信息"),
+            new MenuItem("Qualifications", "企业资质")
+        };
+    }
+
     protected override async Task InitFormAsync()
     {
         Model = await Platform.Company.GetCompanyAsync<CompanyInfo>();
@@ -29,6 +38,11 @@ class CompanyForm : WebForm<CompanyInfo>
             });
             table.Tr(attr => table.Field<TextArea>(f => f.Note).ColSpan(3).ReadOnly(!isEdit).Build());
         });
+    }
+
+    protected override void BuildTabBody(RenderTreeBuilder builder, MenuItem item)
+    {
+        builder.Span(item.Name);
     }
 
     protected override void BuildButtons(RenderTreeBuilder builder)
