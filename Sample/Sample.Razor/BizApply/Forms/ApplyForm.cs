@@ -30,18 +30,20 @@ class ApplyForm : WebForm<TbApply>
 
     protected override void BuildFields(FieldBuilder<TbApply> builder)
     {
+        var pickUser = PageAction.CreateUserPicker("TEST");
         builder.Hidden(f => f.Id);
         builder.Table(table =>
         {
-            table.ColGroup(15, 35, 15, 35);
+            table.ColGroup(10, 23, 10, 23, 10, 24);
             table.Tr(attr =>
             {
                 table.Field<Text>(f => f.BizNo).Enabled(false).Build();
                 table.Field<Text>(f => f.BizTitle).Build();
+                table.Field<Picker>(f => f.ApplyBy).Set(f => f.Pick, pickUser).Build();
             });
             table.Tr(attr =>
             {
-                table.Field<RichText>(f => f.BizContent).ColSpan(3)
+                table.Field<RichText>(f => f.BizContent).ColSpan(5)
                      .Set(f => f.Option, new
                      {
                          Height = 150,
@@ -51,7 +53,7 @@ class ApplyForm : WebForm<TbApply>
             });
             table.Tr(attr =>
             {
-                table.Field<Upload>(f => f.BizFile).ColSpan(3)
+                table.Field<Upload>(f => f.BizFile).ColSpan(5)
                      .Set(f => f.IsMultiple, true)
                      .Set(f => f.CanDelete, true)
                      .Build();

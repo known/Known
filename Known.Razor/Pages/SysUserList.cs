@@ -9,6 +9,13 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
     private List<SysOrganization> datas;
     private bool hasOrg = false;
 
+    public SysUserList() { }
+
+    public SysUserList(string role)
+    {
+        Role = role;
+    }
+
     #region IPicker
     public string Title => "选择用户";
     public Size Size => new(700, 400);
@@ -43,6 +50,7 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
             builder.Field(r => r.Phone);
             builder.Field(r => r.Mobile);
             builder.Field(r => r.Email);
+            builder.Field(r => r.Role);
             Columns = builder.ToColumns();
         }
 

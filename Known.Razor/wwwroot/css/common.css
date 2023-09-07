@@ -160,7 +160,7 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .search-box input {width:100%;padding-left:0.5rem;}
 .search-box .icon, .form-input .icon {
     position:absolute;top:0;bottom:0;right:0;cursor:pointer;
-    width:2rem;text-align:center;margin:0;padding-top:0.45rem;
+    width:2rem;text-align:center;margin:0;padding-top:0.55rem;
 }
 .search-box .icon {color:#bbb;}
 .search-box:has(.icon) > input, .form-input:has(.icon) > input {padding-right:2.1rem;}
