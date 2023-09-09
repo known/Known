@@ -36,6 +36,20 @@ class SysUserForm : BaseForm<SysUser>
             });
             table.Tr(attr =>
             {
+                table.Th("", "选项");
+                table.Td(attr =>
+                {
+                    attr.ColSpan(3);
+                    table.Div("inline", attr =>
+                    {
+                        table.Field<CheckBox>("", nameof(SysUser.Enabled), true).IsInput(true).Set(f => f.Text, "启用").Build();
+                        if (!CurrentUser.IsTenant)
+                            table.Field<CheckBox>("", nameof(SysUser.IsOperation)).IsInput(true).Set(f => f.Text, Constants.UTOperation).Build();
+                    });
+                });
+            });
+            table.Tr(attr =>
+            {
                 table.Field<CheckList>("角色", "RoleId").ColSpan(3)
                      .Set(f => f.Value, auth?.RoleIds)
                      .Set(f => f.Items, auth?.Roles)

@@ -9,6 +9,8 @@ public class Constants
     public const string KeyDownload = "Known-Download";
     public const string SysUserName = "Admin";
 
+    public const string UTOperation = "运维人员";
+
     public const string UMTypeReceive = "收件";
     public const string UMTypeSend = "发件";
     public const string UMTypeDelete = "删除";

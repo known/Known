@@ -120,6 +120,7 @@ class UserService : BaseService
         }
 
         entity.FillModel(model);
+        entity.Type = model.IsOperation == "True" ? Constants.UTOperation : "";
         var vr = entity.Validate();
         if (vr.IsValid)
         {
