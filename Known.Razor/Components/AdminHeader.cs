@@ -66,6 +66,8 @@ class AdminHeader : BaseComponent
     {
         builder.Ul("nav", attr =>
         {
+            if (CurrentUser.IsOperation)
+                builder.Li("nav-item", attr => builder.Component<CurrentTenant>().Build());
             //builder.Li("nav-item text danger", attr => builder.Text(KRConfig.AuthStatus));
             //builder.Li("nav-item text", attr => builder.Component<Components.Timer>().Build());
             //builder.Li("nav-item text", attr => builder.Text($"{DateTime.Now:yyyy-MM-dd dddd}"));
@@ -120,4 +122,17 @@ class AdminHeader : BaseComponent
     }
 
     private void OnShowSetting() => UI.ShowQuickView(Admin.SysSettingId);
+}
+
+class CurrentTenant : BaseComponent
+{
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Span("tenantName", $"当前租户：测试");
+        builder.Link("切换", Callback(OnChangeTenant));
+    }
+
+    private void OnChangeTenant()
+    {
+    }
 }

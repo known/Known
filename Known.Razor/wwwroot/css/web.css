@@ -27,6 +27,7 @@
 .toggleMenu, .appName, .logo {height:50px;line-height:50px;}
 .toggleMenu {text-align:center;width:50px;cursor:pointer;}
 .appName {font-size:1.2rem;margin-left:10px;}
+.tenantName {margin-right:10px;}
 .logo {overflow:hidden;opacity:0.9;}
 .logo img {width:auto;height:100%;}
 .logo:before {margin-right:15px;}
