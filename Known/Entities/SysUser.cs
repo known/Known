@@ -116,5 +116,14 @@ public class SysUser : EntityBase
     [Column("数据", "", false, IsGrid = false)]
     public string Data { get; set; }
 
-    public virtual bool IsOperation => Type == Constants.UTOperation;
+    private bool isOperation = false;
+    public virtual bool IsOperation
+    {
+        get
+        {
+            isOperation = Type == Constants.UTOperation;
+            return isOperation;
+        }
+        set { isOperation = value; }
+    }
 }
