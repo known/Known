@@ -12,8 +12,20 @@ class DemoOther1 : BaseComponent
     {
         builder.BuildDemo("搜索框", () => builder.Component<SearchBox>().Build());
         builder.BuildDemo("验证码", () => builder.Component<Captcha>().Build());
+        BuildAppJs(builder);
         BuildBarcode(builder);
         BuildQRCode(builder);
+    }
+
+    private void BuildAppJs(RenderTreeBuilder builder)
+    {
+        builder.BuildDemo("AppJs", () =>
+        {
+            builder.Link("测试JS", Callback(() =>
+            {
+                UI.InvokeAppVoidAsync("AppRazor.test", "这是AppJs弹出的消息！");
+            }));
+        });
     }
 
     private static void BuildBarcode(RenderTreeBuilder builder)

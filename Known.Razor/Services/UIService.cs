@@ -4,11 +4,14 @@ public partial class UIService
 {
     private readonly IJSRuntime jsRuntime;
     private readonly Lazy<Task<IJSObjectReference>> moduleTask;
+    private readonly Lazy<Task<IJSObjectReference>> appTask;
 
     public UIService(IJSRuntime jsRuntime)
     {
         this.jsRuntime = jsRuntime;
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known.Razor/script.js").AsTask());
+        if (!string.IsNullOrWhiteSpace(KRConfig.AppJsPath))
+            appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", KRConfig.AppJsPath).AsTask());
     }
 
     internal void InitMenu() => InvokeVoidAsync("KRazor.initMenu");
@@ -25,7 +28,19 @@ public partial class UIService
     public void CopyToClipboard(string text) => InvokeVoidAsync("KRazor.copyToClipboard", text);
     public async void Back() => await jsRuntime.InvokeAsync<string>("history.go", -1);
 
-    public async Task<T> InvokeAsync<T>(string identifier, params object[] args)
+    public async Task<T> InvokeAppAsync<T>(string identifier, params object[] args)
+    {
+        var module = await appTask.Value;
+        return await module.InvokeAsync<T>(identifier, args);
+    }
+
+    public async void InvokeAppVoidAsync(string identifier, params object[] args)
+    {
+        var module = await appTask.Value;
+        await module.InvokeVoidAsync(identifier, args);
+    }
+
+    private async Task<T> InvokeAsync<T>(string identifier, params object[] args)
     {
         var module = await moduleTask.Value;
         return await module.InvokeAsync<T>(identifier, args);

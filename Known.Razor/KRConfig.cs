@@ -11,6 +11,7 @@ public sealed class KRConfig
     public static bool IsEditCopyright { get; set; } = true;
     public static string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} 普漫科技。保留所有权利。";
     public static string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
+    public static string AppJsPath { get; set; }
     public static List<Assembly> Assemblies { get; }
     public static MenuItem Home { get; set; }
     public static List<MenuInfo> UserMenus { get; set; }
