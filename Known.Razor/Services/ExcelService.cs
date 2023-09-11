@@ -2,7 +2,7 @@
 
 partial class UIService
 {
-    public async ValueTask<string> ExcelImport(Stream stream)
+    internal async ValueTask<string> ExcelImport(Stream stream)
     {
         if (stream == null)
             return null;
@@ -12,5 +12,5 @@ partial class UIService
         return await module.InvokeAsync<string>("KRazor.excelImport", streamRef);
     }
 
-    public void ExcelExport(string fileName, List<string[]> datas) => InvokeVoidAsync("KRazor.excelExport", fileName, datas);
+    internal void ExcelExport(string fileName, List<string[]> datas) => InvokeVoidAsync("KRazor.excelExport", fileName, datas);
 }
