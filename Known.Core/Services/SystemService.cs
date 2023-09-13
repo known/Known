@@ -229,6 +229,17 @@ class SystemService : BaseService
         return SystemRepository.QueryTenants(Database, criteria);
     }
 
+    internal Result ChangeTenant(SysTenant tenant)
+    {
+        if (tenant == null)
+            return Result.Error("租户信息不能为空！");
+
+        var user = CurrentUser;
+        //TODO：切换租户逻辑
+        user.CompNo = tenant.Code;
+        return Result.Success("切换成功！");
+    }
+
     internal Result SaveTenant(dynamic model)
     {
         var entity = Database.QueryById<SysTenant>((string)model.Id);

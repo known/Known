@@ -45,6 +45,9 @@ public class SystemController : BaseController
     public PagingResult<SysTenant> QueryTenants([FromBody] PagingCriteria criteria) => Service.QueryTenants(criteria);
 
     [HttpPost("[action]")]
+    public Result ChangeTenant([FromBody] SysTenant tenant) => Service.ChangeTenant(tenant);
+
+    [HttpPost("[action]")]
     public Result SaveTenant([FromBody] object model) => Service.SaveTenant(GetDynamicModel(model));
 
     //Task

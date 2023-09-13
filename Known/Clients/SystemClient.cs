@@ -26,6 +26,7 @@ public class SystemClient : ClientBase
 
     //Tenant
     public Task<PagingResult<SysTenant>> QueryTenantsAsync(PagingCriteria criteria) => Context.QueryAsync<SysTenant>("System/QueryTenants", criteria);
+    public Task<Result> ChangeTenantAsync(SysTenant tenant) => Context.PostAsync("System/ChangeTenant", tenant);
     public Task<Result> SaveTenantAsync(object model) => Context.PostAsync("System/SaveTenant", model);
 
     //Task

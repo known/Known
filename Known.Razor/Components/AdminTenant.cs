@@ -18,9 +18,15 @@ class AdminTenant : BaseComponent
         });
     }
 
-    private void OnPicked(object row)
+    private async void OnPicked(object row)
     {
         tenant = row as SysTenant;
+        var result = await Platform.System.ChangeTenantAsync(tenant);
+        if (!result.IsValid)
+        {
+            UI.Alert(result.Message);
+            return;
+        }
         StateChanged();
     }
 }
