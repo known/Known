@@ -11,9 +11,10 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
 
     public SysUserList() { }
 
-    public SysUserList(string role)
+    public SysUserList(string role, string type = "")
     {
         Role = role;
+        Type = type;
     }
 
     #region IPicker
@@ -24,11 +25,13 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
     {
         builder.Component<SysUserList>()
                .Set(c => c.Role, Role)
+               .Set(c => c.Type, Type)
                .Set(c => c.OnPicked, OnPicked)
                .Build();
     }
 
     [Parameter] public string Role { get; set; }
+    [Parameter] public string Type { get; set; }
 
     public void SetRole(string role) => Role = role;
 
@@ -65,6 +68,7 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
         if (OnPicked == null && current != null && current.Value.ParentId != "0")
             criteria.SetQuery(nameof(SysUser.OrgNo), current?.Value.Id);
         criteria.SetQuery(nameof(SysUser.Role), Role ?? "");
+        criteria.SetQuery(nameof(SysUser.Type), Type ?? "");
         return Platform.User.QueryUsersAsync(criteria);
     }
 

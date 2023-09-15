@@ -150,6 +150,7 @@ CREATE TABLE [SysTenant] (
     [Code]       nvarchar(50)     NOT NULL,
     [Name]       nvarchar(50)     NOT NULL,
     [Enabled]    varchar(50)      NOT NULL,
+    [OperateBy]  nvarchar(250)    NULL,
     [UserCount]  int              NOT NULL,
     [BillCount]  int              NOT NULL,
     [Note]       ntext            NULL

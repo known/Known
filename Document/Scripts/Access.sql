@@ -158,6 +158,7 @@ CREATE TABLE `SysTenant` (
     `Code`       VarChar(50)      NOT NULL,
     `Name`       VarChar(50)      NOT NULL,
     `Enabled`    VarChar(50)      NOT NULL,
+    `OperateBy`  VarChar(250)     NULL,
     `UserCount`  Long             NOT NULL,
     `BillCount`  Long             NOT NULL,
     `Note`       LongText         NULL

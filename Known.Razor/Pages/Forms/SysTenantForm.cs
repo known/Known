@@ -14,7 +14,11 @@ class SysTenantForm : BaseForm<SysTenant>
                 table.Field<Text>(f => f.Code).Enabled(TModel.IsNew).Build();
                 table.Field<Text>(f => f.Name).Build();
             });
-            table.Tr(attr => table.Field<CheckBox>(f => f.Enabled).ColSpan(3).Set(f => f.Switch, true).Build());
+            table.Tr(attr =>
+            {
+                table.Field<CheckBox>(f => f.Enabled).Set(f => f.Switch, true).Build();
+                table.Field<Picker>(f => f.OperateBy).Set(f => f.Pick, new SysUserList("", Constants.UTOperation)).Build();
+            });
             table.Tr(attr =>
             {
                 table.Field<Number>(f => f.UserCount).Build();

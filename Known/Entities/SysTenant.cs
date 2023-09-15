@@ -24,6 +24,12 @@ public class SysTenant : EntityBase
     public bool Enabled { get; set; }
 
     /// <summary>
+    /// 取得或设置运维人员。
+    /// </summary>
+    [Column("运维人员", "", false, "1", "250")]
+    public string OperateBy { get; set; }
+
+    /// <summary>
     /// 取得或设置用户数量。
     /// </summary>
     [Column("用户数量", "", true)]
