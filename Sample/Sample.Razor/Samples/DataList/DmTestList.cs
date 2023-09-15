@@ -24,7 +24,10 @@ class DmTestList : DataGrid<DmTest, TestForm>
         for (int i = 0; i < criteria.PageSize; i++)
         {
             var id = (criteria.PageIndex - 1) * criteria.PageSize + i;
-            list.Add(DmTest.RandomInfo(id));
+            var item = DmTest.RandomInfo(id);
+            if (i == 0)
+                item.Progress = 0;
+            list.Add(item);
         }
         return list;
     }

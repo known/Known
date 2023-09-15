@@ -8,7 +8,7 @@ public class Progress : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        var css = CssBuilder.Default("value").AddClass(Style.ToString().ToLower()).Build();
+        var css = CssBuilder.Default("value").AddClass(Style.ToString().ToLower(), Value > 0).Build();
         builder.Div("progress", attr =>
         {
             if (Width != null && Width.Value > 0)

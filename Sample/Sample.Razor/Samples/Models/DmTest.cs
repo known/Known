@@ -18,6 +18,7 @@ class DmTest : EntityBase
     private static readonly string[] Icons = new string[] { "fa fa-toggle-on", "fa fa-user", "fa fa-list", "fa fa-file" };
     private static readonly string[] Statuses = new string[] { "暂存", "待审核", "已撤回", "审核通过", "审核退回" };
     private static readonly decimal[] Progresses = new decimal[] { 0.35M, 0.5M, 1, 0.8M, 0.75M };
+    
     internal static DmTest RandomInfo(int id)
     {
         var rndColor = Utils.GetRandomColor();
