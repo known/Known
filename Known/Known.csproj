@@ -6,7 +6,7 @@
 		<DebugType>embedded</DebugType>
 		<Authors>KnownChen</Authors>
 		<Description>Known is a rapid development framework for .NET.</Description>
-		<Version>1.2.14</Version>
+		<Version>1.2.15</Version>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageTags>known, framework, .net</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>

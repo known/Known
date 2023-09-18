@@ -44,6 +44,7 @@ class AdminTenantGrid : DataGrid<SysTenant>
 
     protected override Task<PagingResult<SysTenant>> OnQueryData(PagingCriteria criteria)
     {
+        criteria.Parameters["IsChanged"] = true;
         return Platform.System.QueryTenantsAsync(criteria);
     }
 

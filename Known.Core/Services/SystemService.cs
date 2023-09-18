@@ -226,7 +226,13 @@ class SystemService : BaseService
     //Tenant
     internal PagingResult<SysTenant> QueryTenants(PagingCriteria criteria)
     {
-        return SystemRepository.QueryTenants(Database, criteria);
+        var result = SystemRepository.QueryTenants(Database, criteria);
+        if (criteria.Parameters.ContainsKey("IsChanged"))
+        {
+            var info = GetConfig<SystemInfo>(Database, KeySystem);
+            result.PageData.Insert(0, new SysTenant { Code = info.CompNo, Name = info.CompName });
+        }
+        return result;
     }
 
     internal Result ChangeTenant(SysTenant tenant)
