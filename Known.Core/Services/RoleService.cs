@@ -9,14 +9,14 @@ class RoleService : BaseService
         return RoleRepository.QueryRoles(Database, criteria);
     }
 
-    internal Result DeleteRoles(List<SysRole> entities)
+    internal Result DeleteRoles(List<SysRole> models)
     {
-        if (entities == null || entities.Count == 0)
+        if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         return Database.Transaction(Language.Delete, db =>
         {
-            foreach (var item in entities)
+            foreach (var item in models)
             {
                 db.Delete(item);
                 RoleRepository.DeleteRoleUsers(db, item.Id);

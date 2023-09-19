@@ -18,6 +18,7 @@ class SysModuleList : DataGrid<SysModule, SysModuleForm>
 
     protected override async Task InitPageAsync()
     {
+        Column(c => c.Code).Template((b, r) => b.Link(r.Code, Callback(() => View(r))));
         Column(c => c.Name).Template((b, r) => b.IconName(r.Icon, r.Name));
 
         datas = await Platform.Module.GetModulesAsync();

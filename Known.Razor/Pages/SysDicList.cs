@@ -24,6 +24,7 @@ class SysDicList : DataGrid<SysDictionary, SysDicForm>
             Items = categories,
             ValueChanged = v => category = v
         });
+        Column(c => c.Code).Template((b, r) => b.Link(r.Code, Callback(() => View(r))));
         return base.InitPageAsync();
     }
 

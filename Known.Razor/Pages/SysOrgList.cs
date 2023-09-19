@@ -16,6 +16,8 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
 
     protected override async Task InitPageAsync()
     {
+        Column(c => c.Code).Template((b, r) => b.Link(r.Code, Callback(() => View(r))));
+
         datas = await Platform.Company.GetOrganizationsAsync();
         InitTreeNode();
         await base.InitPageAsync();

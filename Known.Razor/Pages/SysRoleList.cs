@@ -4,6 +4,12 @@ namespace Known.Razor.Pages;
 
 class SysRoleList : DataGrid<SysRole, SysRoleForm>
 {
+    protected override Task InitPageAsync()
+    {
+        Column(c => c.Name).Template((b, r) => b.Link(r.Name, Callback(() => View(r))));
+        return base.InitPageAsync();
+    }
+
     protected override Task<PagingResult<SysRole>> OnQueryData(PagingCriteria criteria)
     {
         return Platform.Role.QueryRolesAsync(criteria);

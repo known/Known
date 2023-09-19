@@ -1,12 +1,5 @@
 ﻿namespace Known.Models;
 
-public class RoleFormInfo
-{
-    public dynamic Model { get; set; }
-    public List<MenuInfo> Menus { get; set; }
-    public List<string> MenuIds { get; set; }
-}
-
 public class LoginFormInfo
 {
     public string UserName { get; set; }
@@ -21,6 +14,13 @@ public class PwdFormInfo
     public string OldPwd { get; set; }
     public string NewPwd { get; set; }
     public string NewPwd1 { get; set; }
+}
+
+public class RoleFormInfo
+{
+    public dynamic Model { get; set; }
+    public List<MenuInfo> Menus { get; set; }
+    public List<string> MenuIds { get; set; }
 }
 
 public class SettingFormInfo

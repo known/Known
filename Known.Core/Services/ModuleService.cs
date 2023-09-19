@@ -31,7 +31,7 @@ class ModuleService : BaseService
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return Database.Transaction(Language.Delete, db =>
+        return Database.Transaction(Language.Copy, db =>
         {
             foreach (var item in models)
             {
@@ -45,7 +45,7 @@ class ModuleService : BaseService
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return Database.Transaction(Language.Delete, db =>
+        return Database.Transaction(Language.Save, db =>
         {
             foreach (var item in models)
             {
