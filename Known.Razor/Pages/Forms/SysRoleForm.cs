@@ -149,6 +149,7 @@ class SysRoleForm : BaseForm<SysRole>
     {
         builder.Component<RoleCheckList>()
                .Set(c => c.Style, "role-button")
+               .Set(c => c.ReadOnly, ReadOnly)
                .Set(c => c.Title, "按钮")
                .Set(c => c.Info, curButton)
                .Set(c => c.OnChanged, OnButtonChanged)
@@ -161,6 +162,7 @@ class SysRoleForm : BaseForm<SysRole>
     {
         builder.Component<RoleCheckList>()
                .Set(c => c.Style, "role-column")
+               .Set(c => c.ReadOnly, ReadOnly)
                .Set(c => c.Title, "栏位")
                .Set(c => c.Info, curColumn)
                .Set(c => c.OnChanged, OnColumnChanged)
@@ -208,6 +210,7 @@ class SysRoleForm : BaseForm<SysRole>
                 {
                     BuildTitle(builder);
                     builder.Component<CheckList>()
+                           .Set(c => c.ReadOnly, ReadOnly)
                            .Set(c => c.IsInput, true)
                            .Set(c => c.Enabled, Info.IsChecked)
                            .Set(c => c.Items, Info.Items.ToArray())
@@ -225,7 +228,7 @@ class SysRoleForm : BaseForm<SysRole>
                 builder.Span(Title);
                 builder.Check(attr =>
                 {
-                    attr.Title("全选/取消").Disabled(!Info.IsChecked).Checked(Info.IsAll)
+                    attr.Title("全选/取消").Disabled(!Info.IsChecked || ReadOnly).Checked(Info.IsAll)
                         .OnClick(Callback(() => Info.IsAll = !Info.IsAll));
                 });
             });
