@@ -15,6 +15,9 @@ public class UserController : BaseController
     public Result DeleteUsers([FromBody] List<SysUser> models) => Service.DeleteUsers(models);
 
     [HttpPost("[action]")]
+    public Result ChangeDepartment([FromBody] List<SysUser> models) => Service.ChangeDepartment(models);
+
+    [HttpPost("[action]")]
     public Result EnableUsers([FromBody] List<SysUser> models) => Service.EnableUsers(models);
 
     [HttpPost("[action]")]

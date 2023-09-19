@@ -7,6 +7,7 @@ public class UserClient : ClientBase
     //User
     public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria) => Context.QueryAsync<SysUser>("User/QueryUsers", criteria);
     public Task<Result> DeleteUsersAsync(List<SysUser> models) => Context.PostAsync("User/DeleteUsers", models);
+    public Task<Result> ChangeDepartmentAsync(List<SysUser> models) => Context.PostAsync("User/ChangeDepartment", models);
     public Task<Result> EnableUsersAsync(List<SysUser> models) => Context.PostAsync("User/EnableUsers", models);
     public Task<Result> DisableUsersAsync(List<SysUser> models) => Context.PostAsync("User/DisableUsers", models);
     public Task<Result> SetUserPwdsAsync(List<SysUser> models) => Context.PostAsync("User/SetUserPwds", models);

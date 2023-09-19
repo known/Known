@@ -60,6 +60,9 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
         datas = await Platform.Company.GetOrganizationsAsync();
         hasOrg = datas != null && datas.Count > 1;
         InitTreeNode();
+
+        Column(c => c.Department).IsVisible(hasOrg);
+        Column(c => c.UserName).Template((b, r) => b.Link(r.UserName, Callback(() => View(r))));
         await base.InitPageAsync();
     }
 
@@ -96,6 +99,7 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
     public void New() => ShowForm(new SysUser { OrgNo = current?.Value.Id, Enabled = true });
     public void DeleteM() => DeleteRows(Platform.User.DeleteUsersAsync);
     public void ResetPassword() => SelectRow(OnResetPassword);
+    public void ChangeDepartment() => SelectRows(OnChangeDepartment);
     public void Enable() => SelectRows(OnEnableUsers);
     public void Disable() => SelectRows(OnDisableUsers);
     public void Edit(SysUser row) => ShowForm(row);
@@ -114,6 +118,27 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
         {
             var result = await Platform.User.SetUserPwdsAsync(new List<SysUser> { model });
             UI.Result(result);
+        });
+    }
+
+    private void OnChangeDepartment(List<SysUser> models)
+    {
+        TreeItem<SysOrganization> node = null;
+        UI.Prompt("更换部门", new(300, 300), builder =>
+        {
+            builder.Component<Tree<SysOrganization>>()
+                   .Set(c => c.Data, data)
+                   .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(n => node = n))
+                   .Build();
+        }, async model =>
+        {
+            models.ForEach(m => m.OrgNo = node.Value.Id);
+            var result = await Platform.User.ChangeDepartmentAsync(models);
+            UI.Result(result, () =>
+            {
+                Refresh();
+                UI.CloseDialog();
+            });
         });
     }
 

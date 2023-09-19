@@ -38,7 +38,8 @@ public sealed class ToolButton
             FormButton.Edit,
             New, Copy, DeleteM, Import, Export, ExportPage, ExportQuery, ExportAll,
             Print, Move, MoveUp, MoveDown, Enable, Disable,
-            Submit, Revoke, Pass, Return, Repeat, ResetPassword
+            Submit, Revoke, Pass, Return, Repeat,
+            ResetPassword, ChangeDepartment
         });
     }
 
@@ -65,6 +66,7 @@ public sealed class ToolButton
     public static ButtonInfo Return => new("Return", "审核退回", "fa fa-reply", StyleType.Danger);
     public static ButtonInfo Repeat => new("Repeat", "重新申请", "fa fa-repeat");
     public static ButtonInfo ResetPassword => new("ResetPassword", "重置密码", "fa fa-rotate-left");
+    public static ButtonInfo ChangeDepartment => new("ChangeDepartment", "更换部门", "fa fa-exchange");
 }
 
 public sealed class GridAction

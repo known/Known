@@ -12,14 +12,14 @@ class UserService : BaseService
         return UserRepository.QueryUsers(Database, criteria);
     }
 
-    internal Result DeleteUsers(List<SysUser> entities)
+    internal Result DeleteUsers(List<SysUser> models)
     {
-        if (entities == null || entities.Count == 0)
+        if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         return Database.Transaction(Language.Delete, db =>
         {
-            foreach (var item in entities)
+            foreach (var item in models)
             {
                 db.Delete(item);
                 UserRepository.DeleteUserRoles(db, item.Id);
@@ -27,14 +27,28 @@ class UserService : BaseService
         });
     }
 
-    internal Result EnableUsers(List<SysUser> entities)
+    internal Result ChangeDepartment(List<SysUser> models)
     {
-        if (entities == null || entities.Count == 0)
+        if (models == null || models.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return Database.Transaction(Language.Save, db =>
+        {
+            foreach (var item in models)
+            {
+                db.Save(item);
+            }
+        });
+    }
+
+    internal Result EnableUsers(List<SysUser> models)
+    {
+        if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         return Database.Transaction("启用", db =>
         {
-            foreach (var item in entities)
+            foreach (var item in models)
             {
                 item.Enabled = true;
                 db.Save(item);
@@ -42,14 +56,14 @@ class UserService : BaseService
         });
     }
 
-    internal Result DisableUsers(List<SysUser> entities)
+    internal Result DisableUsers(List<SysUser> models)
     {
-        if (entities == null || entities.Count == 0)
+        if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         return Database.Transaction("禁用", db =>
         {
-            foreach (var item in entities)
+            foreach (var item in models)
             {
                 item.Enabled = false;
                 db.Save(item);
@@ -57,9 +71,9 @@ class UserService : BaseService
         });
     }
 
-    internal Result SetUserPwds(List<SysUser> entities)
+    internal Result SetUserPwds(List<SysUser> models)
     {
-        if (entities == null || entities.Count == 0)
+        if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         var info = SystemService.GetSystem(Database);
@@ -68,7 +82,7 @@ class UserService : BaseService
 
         return Database.Transaction("重置", db =>
         {
-            foreach (var item in entities)
+            foreach (var item in models)
             {
                 item.Password = Utils.ToMd5(info.UserDefaultPwd);
                 db.Save(item);

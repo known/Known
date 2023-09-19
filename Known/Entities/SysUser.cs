@@ -116,6 +116,8 @@ public class SysUser : EntityBase
     [Column("数据", "", false, IsGrid = false)]
     public string Data { get; set; }
 
+    public virtual string Department { get; set; }
+
     private bool isOperation = false;
     public virtual bool IsOperation
     {
