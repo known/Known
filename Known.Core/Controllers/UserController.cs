@@ -48,6 +48,9 @@ public class UserController : BaseController
     public Result SignOut(string token) => Service.SignOut(token);
 
     [HttpGet("[action]")]
+    public UserInfo GetUser([FromQuery] string userName) => Service.GetUser(userName);
+
+    [HttpGet("[action]")]
     public AdminInfo GetAdmin() => Service.GetAdmin();
 
     [HttpPost("[action]")]

@@ -274,6 +274,8 @@ class UserService : BaseService
         return UserRepository.GetUser(db, userName);
     }
 
+    internal UserInfo GetUser(string userName) => GetUser(Database, userName);
+
     internal AdminInfo GetAdmin()
     {
         var result = DictionaryService.RefreshCache(Database, CurrentUser);
