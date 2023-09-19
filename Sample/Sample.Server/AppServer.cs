@@ -46,6 +46,9 @@ class AppServer
         Database.RegisterProviders(new Dictionary<string, Type>
         {
             ["SQLite"] = typeof(Microsoft.Data.Sqlite.SqliteFactory)
+            //["MySql"] = typeof(MySqlConnector.MySqlConnectorFactory)
+            //["Access"] = typeof(System.Data.OleDb.OleDbFactory)
+            //["SqlClient"] = typeof(System.Data.SqlClient.SqlClientFactory)
         });
         //配置数据库连接
         var connInfo = new Known.Core.ConnectionInfo
