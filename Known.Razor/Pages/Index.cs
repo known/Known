@@ -13,7 +13,7 @@ public class Index : BaseComponent
         isLoaded = false;
         var result = await Platform.System.CheckInstallAsync();
         Context.Check = result.DataAs<CheckInfo>() ?? new CheckInfo();
-        Context.CurrentUser = await UI.GetSessionStorage<UserInfo>(key);
+        Context.CurrentUser = await GetCurrentUserAsync();
         isLogin = Context.CurrentUser != null;
         isLoaded = true;
     }
@@ -45,6 +45,11 @@ public class Index : BaseComponent
     protected virtual void BuildAdmin(RenderTreeBuilder builder)
     {
         builder.Component<Admin>().Set(c => c.OnLogout, OnLogout).Set(c => c.TopMenu, TopMenu).Build();
+    }
+
+    protected virtual Task<UserInfo> GetCurrentUserAsync()
+    {
+        return UI.GetSessionStorage<UserInfo>(key);
     }
 
     protected void OnInstall(CheckInfo check)
