@@ -16,5 +16,9 @@ partial class UIService
         return Utils.FromJson<T>(value);
     }
 
-    public void SetSessionStorage(string key, object value) => InvokeVoidAsync("KRazor.setSessionStorage", key, value);
+    public async Task SetSessionStorage(string key, object value)
+    {
+        var module = await moduleTask.Value;
+        await module.InvokeVoidAsync("KRazor.setSessionStorage", key, value);
+    }
 }

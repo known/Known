@@ -4,6 +4,7 @@
 public class Index : Razor.Index
 {
     [CascadingParameter] private Task<AuthenticationState>? AuthState { get; set; }
+    [Inject] private AuthenticationStateProvider? AuthProvider { get; set; }
 
     protected override async Task<UserInfo> GetCurrentUserAsync()
     {
@@ -17,5 +18,13 @@ public class Index : Razor.Index
 
         var userName = state?.User?.Identity?.Name;
         return await Platform.User.GetUserAsync(userName);
+    }
+
+    protected override async Task UpdateCurrentUserAsync(UserInfo user)
+    {
+        if (AuthProvider is AuthStateProvider provider)
+        {
+            await provider.UpdateAuthenticationState(user);
+        }
     }
 }

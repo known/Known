@@ -52,24 +52,29 @@ public class Index : BaseComponent
         return UI.GetSessionStorage<UserInfo>(key);
     }
 
+    protected virtual Task UpdateCurrentUserAsync(UserInfo user)
+    {
+        return UI.SetSessionStorage(key, user);
+    }
+
     protected void OnInstall(CheckInfo check)
     {
         Context.Check = check;
         StateChanged();
     }
 
-    protected void OnLogin(UserInfo user)
+    protected async void OnLogin(UserInfo user)
     {
         Context.CurrentUser = user;
         isLogin = Context.CurrentUser != null;
-        UI.SetSessionStorage(key, user);
+        await UpdateCurrentUserAsync(user);
         StateChanged();
     }
 
-    protected void OnLogout()
+    protected async void OnLogout()
     {
         isLogin = false;
-        UI.SetSessionStorage(key, null);
+        await UpdateCurrentUserAsync(null);
         StateChanged();
     }
 }

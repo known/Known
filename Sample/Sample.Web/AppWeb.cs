@@ -1,7 +1,4 @@
-﻿using Known;
-using Sample.Razor;
-
-namespace Sample.Web;
+﻿namespace Sample.Web;
 
 class AppWeb
 {

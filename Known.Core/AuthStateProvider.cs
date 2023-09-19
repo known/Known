@@ -1,6 +1,6 @@
 ﻿namespace Known.Core;
 
-class AuthStateProvider : AuthenticationStateProvider
+public class AuthStateProvider : AuthenticationStateProvider
 {
     private const string KeyUser = "Known_User";
     private readonly ProtectedSessionStorage sessionStorage;
