@@ -99,10 +99,10 @@ class UserService : BaseService
             var roleIds = roleId.Split(',');
             roles = Database.QueryListById<SysRole>(roleIds);
         }
+        var user = CurrentUser;
         var entity = Database.QueryById<SysUser>((string)model.Id);
         if (entity == null)
         {
-            var user = CurrentUser;
             entity = new SysUser
             {
                 OrgNo = user.OrgNo,
@@ -134,6 +134,8 @@ class UserService : BaseService
         }
 
         entity.FillModel(model);
+        if (string.IsNullOrWhiteSpace(entity.OrgNo))
+            entity.OrgNo = user.OrgNo;
         entity.Type = model.IsOperation == "True" ? Constants.UTOperation : "";
         var vr = entity.Validate();
         if (vr.IsValid)

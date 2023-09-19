@@ -8,7 +8,7 @@ public class SysUser : EntityBase
     /// <summary>
     /// 取得或设置组织编码。
     /// </summary>
-    [Column("组织编码", "", true, "1", "50", IsGrid = false)]
+    [Column("组织编码", "", false, "1", "50", IsGrid = false)]
     public string OrgNo { get; set; }
 
     /// <summary>

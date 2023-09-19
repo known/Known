@@ -45,6 +45,8 @@ class SysUserForm : BaseForm<SysUser>
                         table.Field<CheckBox>("", nameof(SysUser.Enabled), true).IsInput(true).Set(f => f.Text, "启用").Build();
                         if (!CurrentUser.IsTenant)
                             table.Field<CheckBox>("", nameof(SysUser.IsOperation)).IsInput(true).Set(f => f.Text, Constants.UTOperation).Build();
+                        else
+                            table.Hidden(f => f.IsOperation);
                     });
                 });
             });
