@@ -24,10 +24,10 @@ public class FileController : BaseController
     public Result DeleteFile([FromBody] SysFile file) => Service.DeleteFile(file);
 
     [HttpPost("[action]")]
-    public Result UploadImage([FromBody] UploadInfo info) => Service.UploadFile(info, "Image");
+    public Result UploadImage([FromBody] UploadInfo info) => Service.UploadImage(info);
 
     [HttpPost("[action]")]
-    public Result UploadVideo([FromBody] UploadInfo info) => Service.UploadFile(info, "Video");
+    public Result UploadVideo([FromBody] UploadInfo info) => Service.UploadVideo(info);
 
     [HttpPost("[action]")]
     public Result UploadFiles([FromForm] string model, [FromForm] IEnumerable<IFormFile> fileUpload)

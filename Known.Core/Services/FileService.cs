@@ -113,7 +113,10 @@ class FileService : BaseService
         return result;
     }
 
-    internal Result UploadFile(UploadInfo info, string type)
+    internal Result UploadImage(UploadInfo info) => UploadFile(info, "Image");
+    internal Result UploadVideo(UploadInfo info) => UploadFile(info, "Video");
+
+    private Result UploadFile(UploadInfo info, string type)
     {
         if (info == null || info.Data == null || info.Data.Length == 0)
             return Result.Success("", "");
@@ -153,7 +156,10 @@ class FileService : BaseService
 
     private static SysFile AddFile(Database db, AttachFile attach, string bizId, string bizType, string note, bool isThumb)
     {
-        attach.SaveAsync(isThumb).Wait();
+        if (Config.IsWebApi)
+            attach.SaveAsync(isThumb).Wait();
+        else
+            attach.Save(isThumb);
         attach.BizId = bizId;
         attach.BizType = bizType;
         var file = new SysFile

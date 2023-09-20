@@ -44,6 +44,8 @@ public class AttachFile
     public string Category1 { get; set; }
     public string Category2 { get; set; }
 
+    internal async void Save(bool isThumb) => await SaveAsync(isThumb);
+
     internal async Task SaveAsync(bool isThumb)
     {
         var filePath = KCConfig.GetUploadPath(FilePath, IsWeb);
@@ -58,13 +60,13 @@ public class AttachFile
         if (bytes == null)
         {
             await file.SaveAsync(filePath);
-            if (isThumb)
+            if (isThumb && IsImage(filePath))
                 SaveThumbnail(filePath);
         }
         else
         {
             await File.WriteAllBytesAsync(filePath, bytes);
-            if (isThumb)
+            if (isThumb && IsImage(filePath))
                 SaveThumbnail(bytes);
         }
     }
@@ -89,6 +91,15 @@ public class AttachFile
 
         var stream = new MemoryStream(bytes);
         Platform.MakeThumbnail(stream, filePath, 100, 100);
+    }
+
+    private static bool IsImage(string path)
+    {
+        return path.EndsWith(".png") ||
+               path.EndsWith(".bmp") ||
+               path.EndsWith(".jpg") ||
+               path.EndsWith(".jpeg") ||
+               path.EndsWith(".gif");
     }
 
     internal static void DeleteFile(SysFile file)

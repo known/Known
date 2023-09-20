@@ -17,6 +17,5 @@ class ByteAttachFile : IAttachFile
 
     public byte[] GetBytes() => buffer;
     public Stream GetStream() => new MemoryStream(buffer);
-    public void Save(string path) => File.WriteAllBytes(path, buffer);
     public Task SaveAsync(string path) => File.WriteAllBytesAsync(path, buffer);
 }

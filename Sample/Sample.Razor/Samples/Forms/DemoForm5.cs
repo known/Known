@@ -29,13 +29,7 @@ class DemoForm5 : BaseForm
             };
             table.Tr(attr =>
             {
-                table.Field<RichText>("富文本1", "RichText1").ColSpan(5).ReadOnly(true)
-                     .Set(f => f.Option, option)
-                     .Build();
-            });
-            table.Tr(attr =>
-            {
-                table.Field<RichText>("富文本2", "RichText2").ColSpan(5)
+                table.Field<RichText>("富文本1", "RichText1").ColSpan(5)
                      .Set(f => f.Option, option)
                      .Build();
             });
