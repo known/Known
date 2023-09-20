@@ -69,7 +69,7 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
     protected override Task<PagingResult<SysUser>> OnQueryData(PagingCriteria criteria)
     {
         if (OnPicked == null && current != null && current.Value.ParentId != "0")
-            criteria.SetQuery(nameof(SysUser.OrgNo), current?.Value.Id);
+            criteria.SetQuery(nameof(SysUser.OrgNo), QueryType.Equal, current?.Value.Id);
         criteria.SetQuery(nameof(SysUser.Role), Role ?? "");
         criteria.SetQuery(nameof(SysUser.Type), Type ?? "");
         return Platform.User.QueryUsersAsync(criteria);
