@@ -83,7 +83,9 @@ class ServiceHelper
         {
             foreach (var parm in parameters)
             {
-                var value = item.Item3.ContainsKey(parm.Name) ? item.Item3[parm.Name] : null;
+                var value = item.Item3.ContainsKey(parm.Name)
+                          ? Utils.ConvertTo(parm.ParameterType, item.Item3[parm.Name], null)
+                          : null;
                 paras.Add(value);
             }
         }
