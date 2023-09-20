@@ -30,12 +30,6 @@ class BlazorAttachFile : IAttachFile
         return file.OpenReadStream(Upload.MaxLength);
     }
 
-    public async void Save(string path)
-    {
-        await using FileStream fs = new(path, FileMode.Create);
-        await file.OpenReadStream(Upload.MaxLength).CopyToAsync(fs);
-    }
-
     public async Task SaveAsync(string path)
     {
         await using FileStream fs = new(path, FileMode.Create);

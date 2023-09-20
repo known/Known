@@ -153,7 +153,7 @@ class FileService : BaseService
 
     private static SysFile AddFile(Database db, AttachFile attach, string bizId, string bizType, string note, bool isThumb)
     {
-        attach.Save(isThumb).Wait();
+        attach.SaveAsync(isThumb).Wait();
         attach.BizId = bizId;
         attach.BizType = bizType;
         var file = new SysFile

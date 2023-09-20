@@ -132,20 +132,6 @@ class Importer : BaseComponent
             UI.Toast(result.Message);
             UI.CloseDialog();
         }
-        else if (Option.Upload != null)
-        {
-            form.SubmitFilesAsync(Option.Upload.Invoke, result =>
-            {
-                if (!result.IsValid)
-                {
-                    message = result.Message;
-                    EnableControl(true);
-                    return;
-                }
-                message = result.Message;
-                StateChanged();
-            });
-        }
         else
         {
             form.SubmitFilesAsync(Platform.File.UploadFilesAsync, result =>

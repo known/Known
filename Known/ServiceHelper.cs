@@ -20,9 +20,9 @@ class ServiceHelper
         return Task.FromResult((TResult)result);
     }
 
-    internal static Task<Result> PostAsync(Context context, string url, HttpContent content = null)
+    internal static Task<Result> PostAsync(Context context, string url)
     {
-        var result = Invoke(context, url, content);
+        var result = Invoke(context, url);
         if (result == null)
             return Task.FromResult(Result.Error("操作失败！"));
 

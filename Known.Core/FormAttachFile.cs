@@ -30,12 +30,6 @@ class FormAttachFile : IAttachFile
         return file.OpenReadStream();
     }
 
-    public async void Save(string path)
-    {
-        await using FileStream fs = new(path, FileMode.Create);
-        await file.CopyToAsync(fs);
-    }
-
     public async Task SaveAsync(string path)
     {
         await using FileStream fs = new(path, FileMode.Create);

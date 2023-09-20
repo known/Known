@@ -9,5 +9,5 @@ public class ApplyClient : ClientBase
     public Task<TbApply> GetDefaultApplyAsync(ApplyType bizType) => Context.GetAsync<TbApply>($"Apply/GetDefaultApply?bizType={bizType}");
     public Task<TbApply> GetApplyAsync(string id) => Context.GetAsync<TbApply>($"Apply/GetApply?id={id}");
     public Task<Result> DeleteApplysAsync(List<TbApply> models) => Context.PostAsync("Apply/DeleteApplys", models);
-    public Task<Result> SaveApplyAsync(HttpContent content) => Context.PostAsync("Apply/SaveApply", content);
+    public Task<Result> SaveApplyAsync(object data) => Context.PostWithFileAsync("Apply/SaveApply", data);
 }

@@ -24,13 +24,13 @@ public class Context
         return Http.GetFromJsonAsync<TResult>(url);
     }
 
-    public async Task<Result> PostAsync(string url, HttpContent content = null)
+    public async Task<Result> PostAsync(string url)
     {
         if (!Config.IsWebApi)
-            return await ServiceHelper.PostAsync(this, url, content);
+            return await ServiceHelper.PostAsync(this, url);
 
         SetTokenHeader();
-        var response = await Http.PostAsync(url, content);
+        var response = await Http.PostAsync(url, null);
         return await response.Content.ReadFromJsonAsync<Result>();
     }
 
@@ -42,6 +42,16 @@ public class Context
         SetTokenHeader();
         var response = await Http.PostAsJsonAsync(url, data);
         return await response.Content.ReadFromJsonAsync<TResult>();
+    }
+
+    public async Task<Result> PostWithFileAsync(string url, object data)
+    {
+        if (!Config.IsWebApi)
+            return await PostAsync(url, (UploadFormInfo)data);
+
+        SetTokenHeader();
+        var response = await Http.PostAsync(url, (HttpContent)data);
+        return await response.Content.ReadFromJsonAsync<Result>();
     }
 
     public Task<Result> PostAsync<T>(string url, T data) => PostAsync<T, Result>(url, data);

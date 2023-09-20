@@ -44,7 +44,7 @@ public class AttachFile
     public string Category1 { get; set; }
     public string Category2 { get; set; }
 
-    internal async Task Save(bool isThumb)
+    internal async Task SaveAsync(bool isThumb)
     {
         var filePath = KCConfig.GetUploadPath(FilePath, IsWeb);
         var info = new FileInfo(filePath);

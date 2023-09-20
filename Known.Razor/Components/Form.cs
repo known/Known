@@ -152,31 +152,31 @@ public class Form : BaseComponent
         OnSubmited(result, onSuccess);
     }
 
-    public async void SubmitFilesAsync(Func<MultipartFormDataContent, Task<Result>> action, Action<Result> onSuccess = null)
+    public async void SubmitFilesAsync(Func<object, Task<Result>> action, Action<Result> onSuccess = null)
     {
         if (!Validate())
             return;
 
-        using var content = new MultipartFormDataContent();
-        var json = Utils.ToJson(Data);
-        var modelContent = new StringContent(json);
-        content.Add(modelContent, "\"model\"");
-        AddFiles(content);
-        var result = await action.Invoke(content);
-        OnSubmited(result, onSuccess);
-    }
-
-    internal void SubmitFilesAsync(Func<UploadFormInfo, Task<Result>> action, Action<Result> onSuccess = null)
-    {
-        SubmitAsync(data =>
+        if (Config.IsWebApi)
+        {
+            using var content = new MultipartFormDataContent();
+            var json = Utils.ToJson(Data);
+            var modelContent = new StringContent(json);
+            content.Add(modelContent, "\"model\"");
+            AddFiles(content);
+            var result = await action.Invoke(content);
+            OnSubmited(result, onSuccess);
+        }
+        else
         {
             var info = new UploadFormInfo
             {
-                Model = data,
+                Model = Data,
                 Files = GetFiles()
             };
-            return action.Invoke(info);
-        }, result => OnSubmited(result, onSuccess));
+            var result = await action.Invoke(info);
+            OnSubmited(result, onSuccess);
+        }
     }
 
     private void OnSubmited(Result result, Action<Result> onSuccess)
