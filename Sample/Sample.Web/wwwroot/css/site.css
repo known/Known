@@ -1,4 +1,4 @@
-body {width:100%;height:100%;background-color:#1c66b9;}
+#app {width:100%;height:100%;background-color:#1c66b9;}
 #blazor-error-ui {
     background: lightyellow;bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);display: none;left: 0;

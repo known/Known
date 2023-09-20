@@ -20,7 +20,7 @@ public class Index : Razor.Index
         return await Platform.User.GetUserAsync(userName);
     }
 
-    protected override async Task UpdateCurrentUserAsync(UserInfo user)
+    protected override async Task SetCurrentUserAsync(UserInfo user)
     {
         if (AuthProvider is AuthStateProvider provider)
         {

@@ -12,7 +12,12 @@ class Home : WebPage
         user = CurrentUser;
         info = await Client.Home.GetHomeAsync();
         visitMenus = KRConfig.GetMenus(info?.VisitMenuIds);
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
         ShowChart();
+        return base.OnAfterRenderAsync(firstRender);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

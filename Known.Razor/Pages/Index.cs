@@ -52,7 +52,7 @@ public class Index : BaseComponent
         return UI.GetSessionStorage<UserInfo>(key);
     }
 
-    protected virtual Task UpdateCurrentUserAsync(UserInfo user)
+    protected virtual Task SetCurrentUserAsync(UserInfo user)
     {
         return UI.SetSessionStorage(key, user);
     }
@@ -67,14 +67,14 @@ public class Index : BaseComponent
     {
         Context.CurrentUser = user;
         isLogin = Context.CurrentUser != null;
-        await UpdateCurrentUserAsync(user);
+        await SetCurrentUserAsync(user);
         StateChanged();
     }
 
     protected async void OnLogout()
     {
         isLogin = false;
-        await UpdateCurrentUserAsync(null);
+        await SetCurrentUserAsync(null);
         StateChanged();
     }
 }
