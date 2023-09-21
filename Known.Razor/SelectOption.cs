@@ -26,8 +26,9 @@ public class SelectOption
         if (codes == null || codes.Length == 0)
             codes = CodeInfo.GetCodes(Codes).ToArray();
 
-        var str = value?.ToString();
-        return codes.FirstOrDefault(i => i.Code == str)?.Name;
+        var item = value?.ToString();
+        var code = codes.FirstOrDefault(i => i.Code == item);
+        return code == null ? item : code.Name;
     }
 
     internal void BuildQuery(RenderTreeBuilder builder, ColumnInfo column, string name, string value, Action<string> valueChanged = null, Action refresh = null)
