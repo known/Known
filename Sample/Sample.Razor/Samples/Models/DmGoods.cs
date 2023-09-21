@@ -12,7 +12,7 @@ class DmGoods : EntityBase
     [Column("备注")] public string Note { get; set; }
     [Column("图片")] public string Picture { get; set; }
 
-    public override string ToString() => $"{Code}-{Name}";
+    public override string ToString() => Code;
 
     private static readonly string[] Uints = new string[] { "个", "套", "项", "张", "台" };
     internal static DmGoods RandomInfo(int id)

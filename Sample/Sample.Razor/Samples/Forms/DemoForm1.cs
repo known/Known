@@ -62,7 +62,10 @@ class DemoForm1 : BaseForm
             });
             table.Tr(attr =>
             {
-                table.Field<Picker>("选择（单选）", "Picker1").Set(f => f.Pick, new CommonTable()).Build();
+                table.Field<Picker>("选择（单选）", "Picker1")
+                     .Set(f => f.Pick, new CommonTable())
+                     .Set(f => f.TextField, "PickerName1")
+                     .Build();
                 table.Field<Picker>("选择（多选）", "Picker2").Build();
                 table.Field<Upload>("附件", "Upload").Build();
             });
@@ -102,6 +105,7 @@ class DemoForm1 : BaseForm
             ToolEnabled = true,
             CheckList = "孙膑,妲己",
             Picker1 = "test1",
+            PickerName1 = "测试1",
             Picker2 = "test1,test2",
             TextArea = "Test Note",
             Email = "test@test.com",

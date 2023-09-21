@@ -67,10 +67,10 @@ class FormContext : FieldContext
 
     internal void SetData(object data)
     {
-        var model = Utils.MapTo<Dictionary<string, object>>(data);
+        Model = data;
         foreach (var item in Fields)
         {
-            var value = model.ContainsKey(item.Key) ? model[item.Key] : null;
+            var value = DicModel != null && DicModel.ContainsKey(item.Key) ? DicModel[item.Key] : null;
             item.Value.SetFieldValue(value);
         }
     }
