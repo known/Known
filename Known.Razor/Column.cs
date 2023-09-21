@@ -164,18 +164,18 @@ public class Column<T> : ColumnInfo
 
         if (Type == ColumnType.Boolean)
         {
-            builder.Field<CheckBox>(name, Id).IsInput(true).Value(value).ValueChanged(valueChanged).Set(f => f.Switch, true).Build();
+            builder.Field<CheckBox>(name, Id).Value(value).ValueChanged(valueChanged).Set(f => f.Switch, true).Build();
         }
         else if (Type == ColumnType.Date || Type == ColumnType.DateTime)
         {
-            builder.Field<DateRange>(name, Id).IsInput(true).Value(value).ValueChanged(valueChanged).Build();
+            builder.Field<DateRange>(name, Id).Value(value).ValueChanged(valueChanged).Build();
         }
         else
         {
             if (Select != null)
                 Select.BuildQuery(builder, this, name, value, valueChanged, grid != null ? grid.Refresh : null);
             else
-                builder.Field<Text>(name, Id).IsInput(true).Value(value).ValueChanged(valueChanged).Build();
+                builder.Field<Text>(name, Id).Value(value).ValueChanged(valueChanged).Build();
         }
     }
 

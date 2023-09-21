@@ -135,7 +135,10 @@ public abstract class Field : BaseComponent
 
         if (IsInput)
         {
-            BuildDivField(builder);
+            if (IsReadOnly)
+                BuildText(builder);
+            else
+                BuildInput(builder);
             return;
         }
 

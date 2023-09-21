@@ -25,6 +25,9 @@ public static class Extension
     //Dictionary
     public static T GetValue<T>(this IDictionary dic, string key)
     {
+        if (dic == null)
+            return default;
+
         if (string.IsNullOrWhiteSpace(key))
             return default;
 

@@ -39,8 +39,7 @@ class ColumnGrid : EditGrid<ColumnInfo>
 
         builder.Div("tool", attr =>
         {
-            builder.Span("实体模型：");
-            builder.Field<Select>("Model").IsInput(true)
+            builder.Field<Select>("实体模型：", "Model")
                    .Set(f => f.Items, models)
                    .Set(f => f.ValueChanged, OnModelChanged)
                    .Build();

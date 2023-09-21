@@ -34,7 +34,7 @@ public class SelectOption
     internal void BuildQuery(RenderTreeBuilder builder, ColumnInfo column, string name, string value, Action<string> valueChanged = null, Action refresh = null)
     {
         var emptyText = ShowEmpty ? "全部" : "";
-        builder.Field<Select>(name, column.Id).IsInput(true).Value(value)
+        builder.Field<Select>(name, column.Id).Value(value)
                .ValueChanged(value =>
                {
                    valueChanged?.Invoke(value);

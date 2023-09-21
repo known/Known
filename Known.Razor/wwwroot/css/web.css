@@ -140,7 +140,7 @@ button, .button, input, select,
 .module .table .action {width:140px;}
 .module .form-list .table .action {width:80px;}
 .module .tool {position:absolute;top:-2.2rem;right:5px;}
-.module .tool .form-input {display:inline-block;}
+.module .tool .form-item {margin:0;padding:0;}
 
 @media screen and (max-width:768px) {
     label.required:before, th.required:before {display:none;}
