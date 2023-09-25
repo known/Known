@@ -13,7 +13,7 @@ class FullList : DmTestList
         export.Children.Add(ToolButton.ExportPage);
         export.Children.Add(ToolButton.ExportAll);
 
-        Tools = new List<ButtonInfo> { ToolButton.New, ToolButton.DeleteM, ToolButton.Import, export };
+        Tools = new List<ButtonInfo> { ToolButton.New, ToolButton.DeleteM, ToolButton.Import, export, ToolButton.Enable };
         Actions = new List<ButtonInfo> { GridAction.Edit, GridAction.Delete, GridAction.Print, GridAction.Return };
 
         var builder = new ColumnBuilder<DmTest>();
@@ -35,6 +35,16 @@ class FullList : DmTestList
 
     public void New() => ShowForm(null, false);
     public void DeleteM() => DeleteRows(null);
+
+    public void Enable()
+    {
+        var item = Tools?.FirstOrDefault(t => t.Id == "Enable");
+        if (item != null)
+        {
+            toolbar?.SetItemName(item.Id, item.Name == "启用" ? "禁用" : "启用");
+        }
+    }
+
     public void Edit(DmTest row) => ShowForm(row, false);
     public void Delete(DmTest row) => DeleteRow(row, null);
 

@@ -319,7 +319,8 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 
 /*data*/
 .data-top {display:flex;justify-content:space-between;}
-.grid-tool button {margin-right:5px;padding:0 10px;}
+.grid-tool button, .grid-tool .dropdown {margin-right:5px;}
+.grid-tool button {padding:0 10px;}
 .grid-view, .grid, .pager {position:absolute;left:0;right:0;bottom:0;}
 .grid-view {top:0;}
 .dlg-content > .grid-view {top:10px;bottom:10px;left:10px;right:10px;}

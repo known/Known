@@ -41,5 +41,6 @@ internal static readonly List<ButtonInfo> Tools = new()
         builder.BuildDemo<Toolbar2>("3.下拉按钮示例", "block");
         builder.BuildDemo<Toolbar3>("4.按钮可见示例", "block");
         builder.BuildDemo<Toolbar4>("5.按钮可用示例", "block");
+        builder.BuildDemo<Toolbar5>("6.更改名称示例", "block");
     }
 }

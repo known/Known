@@ -6,6 +6,7 @@ public class DataComponent<TItem> : BaseComponent
     private bool isQuery;
     private Pager pager;
     internal string ViewId;
+    protected Toolbar toolbar;
     protected List<QueryInfo> query;
     protected PagingCriteria criteria;
 
@@ -143,7 +144,7 @@ public class DataComponent<TItem> : BaseComponent
                .Set(c => c.Style, "grid-tool")
                .Set(c => c.Tools, Tools)
                .Set(c => c.OnAction, OnAction)
-               .Build();
+               .Build(value => toolbar = value);
     }
 
     private void OnAction(ButtonInfo info) => OnAction(info, null);

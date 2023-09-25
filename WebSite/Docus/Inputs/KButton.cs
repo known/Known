@@ -16,5 +16,6 @@ class KButton : BaseDocu
         builder.BuildDemo<Button1>("1.文本按钮示例", "block");
         builder.BuildDemo<Button2>("2.图标按钮示例", "block");
         builder.BuildDemo<Button3>("3.禁用按钮示例", "block");
+        builder.BuildDemo<Button4>("4.更改名称示例", "block");
     }
 }
