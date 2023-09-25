@@ -22,6 +22,8 @@ class AdvQuery<TItem> : BaseComponent
 
     private void BuildQueryForm(RenderTreeBuilder builder)
     {
+        if (Columns == null || Columns.Count == 0) return;
+
         foreach (var column in Columns)
         {
             if (column.IsAdvQuery)

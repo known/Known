@@ -31,6 +31,7 @@ public class Toolbar : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (!Visible) return;
+        if (Tools == null || Tools.Count == 0) return;
 
         var css = CssBuilder.Default("toolbar").AddClass(Style).Build();
         builder.Div(css, attr =>
