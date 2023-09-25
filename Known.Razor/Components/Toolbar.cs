@@ -48,7 +48,7 @@ public class Toolbar : BaseComponent
         {
             foreach (var item in Tools)
             {
-                if (!item.Visible) continue;
+                if (item == null || !item.Visible) continue;
 
                 if (item.Children.Any())
                 {

@@ -47,9 +47,9 @@ public static class ButtonExtension
 
         var hasButton = false;
         if (menu.Buttons != null && menu.Buttons.Count > 0)
-            hasButton = menu.Buttons.Contains(button.Name);
+            hasButton = menu.Buttons.Contains(button.Id) || menu.Buttons.Contains(button.Name);
         else if (menu.Actions != null && menu.Actions.Count > 0)
-            hasButton = menu.Actions.Contains(button.Name);
+            hasButton = menu.Actions.Contains(button.Id) || menu.Actions.Contains(button.Name);
         return hasButton;
     }
 }

@@ -10,7 +10,7 @@ class ButtonGrid : EditGrid<ButtonInfo>
         Style = "form-grid";
         Data = new List<ButtonInfo>();
         var builder = new ColumnBuilder<ButtonInfo>();
-        builder.Field(f => f.Name).Name("按钮").ReadOnly().Template(BuildButton);
+        builder.Field(f => f.Id).Name("按钮").ReadOnly().Template(BuildButton);
         Columns = builder.ToColumns();
     }
 
@@ -45,7 +45,7 @@ class ButtonGrid : EditGrid<ButtonInfo>
     protected override void OnAdd()
     {
         var buttons = GetButtons();
-        var items = buttons.Where(b => !Data.Contains(b)).Select(b => new CodeInfo(b.Name, b.Name)).ToArray();
+        var items = buttons.Where(b => !Data.Contains(b)).Select(b => new CodeInfo(b.Id, b.Name)).ToArray();
         UI.Prompt("添加", new(550, 350), builder =>
         {
             builder.Field<CheckList>("Data")
@@ -75,7 +75,7 @@ class ButtonGrid : EditGrid<ButtonInfo>
     }
 
     private void OnCancel() => UI.CloseDialog();
-    private void SetValue() => Value = string.Join(",", Data?.Select(b => b.Name));
+    private void SetValue() => Value = string.Join(",", Data?.Select(b => b.Id));
     private List<ButtonInfo> GetButtons() => Key == KeyButton ? ToolButton.Buttons : GridAction.Actions;
 
     private List<ButtonInfo> GetButtons(string value)
@@ -88,7 +88,7 @@ class ButtonGrid : EditGrid<ButtonInfo>
         var values = value.Split(',').ToList();
         foreach (var item in values)
         {
-            var info = buttons.FirstOrDefault(b => b.Name == item);
+            var info = buttons.FirstOrDefault(b => b.Id == item || b.Name == item);
             infos.Add(info);
         }
         return infos;
