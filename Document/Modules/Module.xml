@@ -1,0 +1,302 @@
+<?xml version="1.0" standalone="yes"?>
+<DocumentElement>
+  <SysModule>
+    <Id>aec2815390ab4af9943a051b6d67052b</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>0</ParentId>
+    <Code>BaseData</Code>
+    <Name>基础数据</Name>
+    <Icon>fa fa-database</Icon>
+    <Description>NULL</Description>
+    <Target>NULL</Target>
+    <Sort>1</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>NULL</ButtonData>
+    <ActionData>NULL</ActionData>
+    <ColumnData>NULL</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>c92e432ac89d4e668cf243fa9fededa6</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>0</ParentId>
+    <Code>System</Code>
+    <Name>系统管理</Name>
+    <Icon>fa fa-cogs</Icon>
+    <Description>NULL</Description>
+    <Target>NULL</Target>
+    <Sort>12</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>NULL</ButtonData>
+    <ActionData>NULL</ActionData>
+    <ColumnData>NULL</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>93afcd01f640476bb35daec485cb0b70</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>aec2815390ab4af9943a051b6d67052b</ParentId>
+    <Code>CompanyForm</Code>
+    <Name>企业信息</Name>
+    <Icon>fa fa-id-card-o</Icon>
+    <Description>维护企业基本资料。</Description>
+    <Target>Sample.Razor.BaseData.CompanyForm</Target>
+    <Sort>1</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>Edit</ButtonData>
+    <ActionData>NULL</ActionData>
+    <ColumnData>[]</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>d5ca63b57fb343c4992139fcf6215a01</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>aec2815390ab4af9943a051b6d67052b</ParentId>
+    <Code>SysOrgList</Code>
+    <Name>组织架构</Name>
+    <Icon>fa fa-sitemap</Icon>
+    <Description>维护企业组织架构信息。</Description>
+    <Target>Known.Razor.Pages.SysOrgList</Target>
+    <Sort>2</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>New,DeleteM</ButtonData>
+    <ActionData>Edit,Delete</ActionData>
+    <ColumnData>[{"Id":"Code","Name":"编码","Type":0,"Align":0,"Width":100,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Name","Name":"名称","Type":0,"Align":0,"Width":100,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Note","Name":"备注","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false}]</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>832cc5034c4c45d9ba7c6fd3f7cb5ade</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>aec2815390ab4af9943a051b6d67052b</ParentId>
+    <Code>SysDicList</Code>
+    <Name>数据字典</Name>
+    <Icon>fa fa-list-ul</Icon>
+    <Description>维护系统所需的下拉框数据源。</Description>
+    <Target>Known.Razor.Pages.SysDicList</Target>
+    <Sort>2</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>New,DeleteM,Import</ButtonData>
+    <ActionData>Edit,Delete</ActionData>
+    <ColumnData>[{"Id":"Category","Name":"类别","Type":0,"Align":0,"Width":100,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Code","Name":"代码","Type":0,"Align":0,"Width":100,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Name","Name":"名称","Type":0,"Align":0,"Width":100,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Enabled","Name":"状态","Type":2,"Align":1,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Sort","Name":"顺序","Type":1,"Align":1,"Width":60,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Note","Name":"备注","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false}]</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>12d3be601e804695a97530de6c4bea15</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>c92e432ac89d4e668cf243fa9fededa6</ParentId>
+    <Code>SysSystem</Code>
+    <Name>关于系统</Name>
+    <Icon>fa fa-info-circle</Icon>
+    <Description>显示系统版本及产品授权信息。</Description>
+    <Target>Known.Razor.Pages.SysSystem</Target>
+    <Sort>1</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>NULL</ButtonData>
+    <ActionData>NULL</ActionData>
+    <ColumnData>[]</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>2944632b28844a54aad68c0f584febe2</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>c92e432ac89d4e668cf243fa9fededa6</ParentId>
+    <Code>SysTenantList</Code>
+    <Name>租户管理</Name>
+    <Icon>fa fa-address-card-o</Icon>
+    <Description>维护平台租户信息。</Description>
+    <Target>Known.Razor.Pages.SysTenantList</Target>
+    <Sort>2</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>New</ButtonData>
+    <ActionData>Edit</ActionData>
+    <ColumnData>[{"Id":"Code","Name":"账号","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Name","Name":"名称","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Enabled","Name":"状态","Type":2,"Align":1,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"OperateBy","Name":"运维人员","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"UserCount","Name":"用户数量","Type":1,"Align":2,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"BillCount","Name":"单据数量","Type":1,"Align":2,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Note","Name":"备注","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"CreateBy","Name":"创建人","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"CreateTime","Name":"创建时间","Type":4,"Align":1,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false}]</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>5c9eb1bdf02b49afa1ac90e7ae01b090</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>c92e432ac89d4e668cf243fa9fededa6</ParentId>
+    <Code>SysRoleList</Code>
+    <Name>角色管理</Name>
+    <Icon>fa fa-users</Icon>
+    <Description>维护系统用户角色及其菜单权限信息。</Description>
+    <Target>Known.Razor.Pages.SysRoleList</Target>
+    <Sort>3</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>New,DeleteM</ButtonData>
+    <ActionData>Edit,Delete</ActionData>
+    <ColumnData>[{"Id":"Name","Name":"名称","Type":0,"Align":0,"Width":150,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Enabled","Name":"状态","Type":2,"Align":1,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Note","Name":"备注","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false}]</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>44856b50a77d4639b3298c66202abb6e</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>c92e432ac89d4e668cf243fa9fededa6</ParentId>
+    <Code>SysUserList</Code>
+    <Name>用户管理</Name>
+    <Icon>fa fa-user</Icon>
+    <Description>维护系统用户账号及角色信息。</Description>
+    <Target>Known.Razor.Pages.SysUserList</Target>
+    <Sort>4</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>New,DeleteM,ResetPassword,Enable,Disable</ButtonData>
+    <ActionData>Edit,Delete</ActionData>
+    <ColumnData>[{"Id":"UserName","Name":"用户名","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Name","Name":"姓名","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Gender","Name":"性别","Type":0,"Align":1,"Width":80,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Phone","Name":"固定电话","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Mobile","Name":"移动电话","Type":0,"Align":1,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Email","Name":"电子邮件","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Enabled","Name":"状态","Type":2,"Align":1,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Role","Name":"角色","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Type","Name":"类型","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false}]</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>91024299564b4b45a8d2de2d527028d4</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>c92e432ac89d4e668cf243fa9fededa6</ParentId>
+    <Code>SysTaskList</Code>
+    <Name>后台任务</Name>
+    <Icon>fa fa-tasks</Icon>
+    <Description>查询系统所有定时任务运行情况。</Description>
+    <Target>Known.Razor.Pages.SysTaskList</Target>
+    <Sort>6</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>NULL</ButtonData>
+    <ActionData>NULL</ActionData>
+    <ColumnData>[{"Id":"Type","Name":"类型","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Name","Name":"名称","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Target","Name":"执行目标","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Status","Name":"执行状态","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"BeginTime","Name":"开始时间","Type":3,"Align":1,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"EndTime","Name":"结束时间","Type":3,"Align":1,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Note","Name":"备注","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"CreateBy","Name":"创建人","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"CreateTime","Name":"创建时间","Type":3,"Align":1,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false}]</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>7214a7db358d4e968890fbd8573b49d3</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>c92e432ac89d4e668cf243fa9fededa6</ParentId>
+    <Code>SysFileList</Code>
+    <Name>系统附件</Name>
+    <Icon>fa fa-file-o</Icon>
+    <Description>查询系统所有附件信息。</Description>
+    <Target>Known.Razor.Pages.SysFileList</Target>
+    <Sort>6</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>NULL</ButtonData>
+    <ActionData>NULL</ActionData>
+    <ColumnData>[{"Id":"Category1","Name":"一级分类","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Category2","Name":"二级分类","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Name","Name":"文件名称","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Type","Name":"文件类型","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Size","Name":"文件大小","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"SourceName","Name":"原文件名","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"ExtName","Name":"扩展名","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Note","Name":"备注","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"CreateBy","Name":"创建人","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"CreateTime","Name":"创建时间","Type":3,"Align":1,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false}]</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>63ed9926f3fd4fe4a99a337d0f76fd3e</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>c92e432ac89d4e668cf243fa9fededa6</ParentId>
+    <Code>SysLogList</Code>
+    <Name>系统日志</Name>
+    <Icon>fa fa-clock-o</Icon>
+    <Description>查询系统用户操作日志信息。</Description>
+    <Target>Known.Razor.Pages.SysLogList</Target>
+    <Sort>7</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>NULL</ButtonData>
+    <ActionData>NULL</ActionData>
+    <ColumnData>[{"Id":"CreateBy","Name":"操作人","Type":0,"Align":0,"Width":100,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"CreateTime","Name":"操作时间","Type":4,"Align":1,"Width":150,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Type","Name":"操作类型","Type":0,"Align":1,"Width":100,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Target","Name":"操作对象","Type":0,"Align":0,"Width":200,"Sort":0,"IsQuery":false,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Content","Name":"操作内容","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":true,"IsAdvQuery":true,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false}]</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+  <SysModule>
+    <Id>d96d0db0b0694a48ab61ba00643a7884</Id>
+    <CreateBy>admin</CreateBy>
+    <CreateTime>2023-05-20 08:08:08.6859586</CreateTime>
+    <ModifyBy>admin</ModifyBy>
+    <ModifyTime>2023-05-20 08:08:08.6859586</ModifyTime>
+    <Version>1</Version>
+    <Extension>NULL</Extension>
+    <AppId>KIMS</AppId>
+    <CompNo>puman</CompNo>
+    <ParentId>c92e432ac89d4e668cf243fa9fededa6</ParentId>
+    <Code>SysModuleList</Code>
+    <Name>模块管理</Name>
+    <Icon>fa fa-cubes</Icon>
+    <Description>维护系统菜单按钮及列表栏位信息。</Description>
+    <Target>Known.Razor.Pages.SysModuleList</Target>
+    <Sort>8</Sort>
+    <Enabled>True</Enabled>
+    <ButtonData>New,Copy,DeleteM,Move</ButtonData>
+    <ActionData>Edit,Delete,MoveUp,MoveDown</ActionData>
+    <ColumnData>[{"Id":"Code","Name":"代码","Type":0,"Align":0,"Width":100,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Name","Name":"名称","Type":0,"Align":0,"Width":100,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Description","Name":"描述","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Target","Name":"目标","Type":0,"Align":0,"Width":100,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Sort","Name":"顺序","Type":1,"Align":1,"Width":80,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Enabled","Name":"可用","Type":2,"Align":1,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false},{"Id":"Note","Name":"备注","Type":0,"Align":0,"Width":0,"Sort":0,"IsQuery":false,"IsAdvQuery":false,"IsSum":false,"IsSort":true,"IsVisible":true,"IsFixed":false}]</ColumnData>
+    <Note>NULL</Note>
+  </SysModule>
+</DocumentElement>
