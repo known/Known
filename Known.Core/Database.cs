@@ -457,6 +457,15 @@ public class Database : IDisposable
         return Delete<T>(entity.Id);
     }
 
+    public void InsertData<T>(T data)
+    {
+        if (data == null)
+            return;
+
+        var info = CommandInfo.GetInsertCommand(DatabaseType, data);
+        ExecuteNonQuery(info);
+    }
+
     public void InsertDatas<T>(List<T> datas)
     {
         if (datas == null || datas.Count == 0)
@@ -490,15 +499,6 @@ public class Database : IDisposable
         {
             conn.Close();
         }
-    }
-
-    public void InsertData<T>(T data)
-    {
-        if (data == null)
-            return;
-
-        var info = CommandInfo.GetInsertCommand(DatabaseType, data);
-        ExecuteNonQuery(info);
     }
 
     public T Insert<T>(T entity) where T : EntityBase
@@ -542,6 +542,17 @@ public class Database : IDisposable
         var info = CommandInfo.GetSaveCommand(DatabaseType, entity);
         ExecuteNonQuery(info);
         entity.IsNew = false;
+    }
+
+    public void SaveDatas<T>(List<T> entities) where T : EntityBase
+    {
+        if (entities == null || entities.Count == 0)
+            return;
+
+        foreach (var entity in entities)
+        {
+            Save(entity);
+        }
     }
     #endregion
 
