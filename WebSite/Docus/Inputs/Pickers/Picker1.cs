@@ -21,8 +21,6 @@ class KmCustomer
 //在客户列表页面实现IPicker接口
 class CustomerList : DataGrid<KmCustomer>, IPicker
 {
-    private string separator;
-
     public CustomerList()
     {
         Name = string.Empty;//设为空不添加访问日志
@@ -30,23 +28,28 @@ class CustomerList : DataGrid<KmCustomer>, IPicker
 
     public CustomerList(string separator) :this()
     {
-        this.separator = separator;
+        Separator = separator;
     }
 
     #region IPicker
+    [Parameter] public string Separator { get; set; }
+
     public string Title => "选择客户";
 
     public Size Size => new(500, 400);
 
     public void BuildPick(RenderTreeBuilder builder)
     {
-        builder.Component<CustomerList>().Set(c => c.OnPicked, OnPicked).Build();
+        builder.Component<CustomerList>()
+               .Set(c => c.Separator, Separator)
+               .Set(c => c.OnPicked, OnPicked)
+               .Build();
     }
 
     public override void OnRowDoubleClick(int row, KmCustomer item)
     {
-        if (!string.IsNullOrWhiteSpace(separator))
-            OnPicked.Invoke($"{item.Code}{separator}{item.Name}");
+        if (!string.IsNullOrWhiteSpace(Separator))
+            OnPicked.Invoke($"{item.Code}{Separator}{item.Name}");
         else
             OnPicked?.Invoke(item);
         UI.CloseDialog();
