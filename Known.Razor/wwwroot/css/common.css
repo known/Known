@@ -17,7 +17,7 @@
     --sider-color: #1c292e;
     --line-color: #dcdee2;
     --th-bgcolor: #f1f1f1;
-    --border: #dcdee2;
+    --border: #d5d5d5;
     --border-radius: 0.25rem;
     --tab-active: #5cb85c;
     --disabled: #e7e9ee;/*#c5c8ce;*/
@@ -348,8 +348,8 @@ input:focus, select:focus, textarea:focus {border-bottom:2px solid var(--info);}
 .table .date {width:100px;}
 .table .datetime {width:150px;}
 .table .txt-right {text-align:right;}
+.table .action .link {padding:0 3px;}
 .table th.action, .table td.action {width:80px;position:sticky;z-index:1;right:0;background-color:#fff;overflow:unset;}
-.table td.action .link {padding:0 3px;}
 .table td.action .icon {margin:0 5px;cursor:pointer;font-size:1.2rem;}
 
 .table.fixed thead th.fixed,

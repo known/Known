@@ -26,19 +26,21 @@ public static class RazorExtension
                .Build();
     }
 
-    public static void Tag(this RenderTreeBuilder builder, StyleType style, string text)
+    public static void Tag(this RenderTreeBuilder builder, StyleType style, string text, Action onClick = null)
     {
         builder.Component<Tag>()
                .Set(c => c.Style, style)
                .Set(c => c.Text, text)
+               .Set(c => c.OnClick, onClick)
                .Build();
     }
 
-    public static void Tag(this RenderTreeBuilder builder, StyleType style, Action<RenderTreeBuilder> content)
+    public static void Tag(this RenderTreeBuilder builder, StyleType style, Action<RenderTreeBuilder> content, Action onClick = null)
     {
         builder.Component<Tag>()
                .Set(c => c.Style, style)
                .Set(c => c.Content, content)
+               .Set(c => c.OnClick, onClick)
                .Build();
     }
 

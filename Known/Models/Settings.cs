@@ -40,5 +40,5 @@ public class SettingInfo
     public string SiderColor { get; set; } = "#1c292e";
     public bool RandomColor { get; set; }
     public bool MultiTab { get; set; }
-    public int PageSize { get; set; } = PagingCriteria.DefaultPageSize; 
+    public int PageSize { get; set; } = PagingCriteria.DefaultPageSize;
 }
