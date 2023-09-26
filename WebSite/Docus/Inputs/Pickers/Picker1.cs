@@ -31,9 +31,9 @@ class CustomerList : DataGrid<KmCustomer>, IPicker
         Separator = separator;
     }
 
-    #region IPicker
-    [Parameter] public string Separator { get; set; }
+    [Parameter] public string? Separator { get; set; }
 
+    #region IPicker
     public string Title => "选择客户";
 
     public Size Size => new(500, 400);

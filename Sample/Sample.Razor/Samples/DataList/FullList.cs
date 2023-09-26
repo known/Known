@@ -41,7 +41,9 @@ class FullList : DmTestList
         var item = Tools?.FirstOrDefault(t => t.Id == "Enable");
         if (item != null)
         {
-            toolbar?.SetItemName(item.Id, item.Name == "启用" ? "禁用" : "启用");
+            var name = item.Name == "启用" ? "禁用" : "启用";
+            var icon = item.Name == "启用" ? "fa fa-times-circle-o" : "fa fa-check-circle-o";
+            toolbar?.SetItemName(item.Id, name, icon);
         }
     }
 

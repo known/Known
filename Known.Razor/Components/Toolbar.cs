@@ -6,12 +6,13 @@ public class Toolbar : BaseComponent
     [Parameter] public List<ButtonInfo> Tools { get; set; }
     [Parameter] public Action<ButtonInfo> OnAction { get; set; }
 
-    public void SetItemName(string id, string name)
+    public void SetItemName(string id, string name, string icon = null)
     {
         var item = Tools?.FirstOrDefault(t => t.Id == id);
         if (item != null)
         {
             item.Name = name;
+            item.Icon = icon ?? item.Icon;
             StateChanged();
         }
     }
