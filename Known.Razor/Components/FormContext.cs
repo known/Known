@@ -77,6 +77,7 @@ class FormContext : FieldContext
 
     internal void SetReadOnly(bool readOnly)
     {
+        ReadOnly = readOnly;
         foreach (var item in Fields)
         {
             item.Value.SetFieldReadOnly(readOnly);

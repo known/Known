@@ -26,11 +26,12 @@ public class FieldContext
         }
     }
 
-    internal void SetModel(string name, object value)
+    internal void SetField(string name, object value)
     {
         if (Model == null || string.IsNullOrWhiteSpace(name))
             return;
 
+        DicModel[name] = value;
         TypeHelper.SetValue(Model, name, value);
     }
 

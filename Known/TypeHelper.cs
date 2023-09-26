@@ -53,8 +53,24 @@ public sealed class TypeHelper
         return columns;
     }
 
+    public static T GetValue<T>(object model, string name)
+    {
+        if (model == null || string.IsNullOrWhiteSpace(name))
+            return default;
+
+        var property = model.GetType().GetProperty(name);
+        if (property == null || !property.CanRead)
+            return default;
+
+        var value = property.GetValue(model);
+        return Utils.ConvertTo<T>(value);
+    }
+
     public static void SetValue(object model, string name, object value)
     {
+        if (model == null || string.IsNullOrWhiteSpace(name))
+            return;
+
         var property = model.GetType().GetProperty(name);
         if (property != null && property.CanWrite)
         {
@@ -65,6 +81,9 @@ public sealed class TypeHelper
 
     public static void SetValue<T>(T model, string name, object value)
     {
+        if (model == null || string.IsNullOrWhiteSpace(name))
+            return;
+
         var property = typeof(T).GetProperty(name);
         if (property != null && property.CanWrite)
         {

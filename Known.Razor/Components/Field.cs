@@ -180,7 +180,7 @@ public abstract class Field : BaseComponent
         var value = GetFieldValue();
         FieldContext.FieldId = Id;
         FieldContext.FieldValue = value;
-        FieldContext.SetModel(Id, value);
+        FieldContext.SetField(Id, value);
         SetContext(FieldContext);
     }
 

@@ -33,7 +33,7 @@ class CommonTable : DmTestGrid, IPicker
 
     public override void OnRowDoubleClick(int row, DmGoods item)
     {
-        OnPicked?.Invoke(item);
+        OnPicked?.Invoke($"{item.Code}#{item.Name}");
         UI.CloseDialog();
     }
     #endregion
