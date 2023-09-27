@@ -38,6 +38,9 @@ public class Install : Form
 
     private void BuildProduct(RenderTreeBuilder builder)
     {
+        if (!KRConfig.IsProductKey)
+            return;
+
         builder.Field<Text>("产品ID：", nameof(InstallInfo.ProductId)).ReadOnly(true).Build();
         builder.Div("form-item", attr =>
         {

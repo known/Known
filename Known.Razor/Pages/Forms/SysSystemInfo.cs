@@ -32,7 +32,7 @@ class SysSystemInfo : PageComponent
             builder.Field<Text>("系统版本：", "").Value(Config.AppVersion).ReadOnly(true).Build();
             builder.Field<Text>("软件版本：", "").Value(Config.SoftVersion).ReadOnly(true).Build();
             builder.Field<Text>("框架版本：", "").Value(Config.FrameVersion).ReadOnly(true).Build();
-            if (!Config.IsPlatform)
+            if (!Config.IsPlatform && KRConfig.IsProductKey)
             {
                 builder.Field<Text>("产品ID：", "").Value(info?.ProductId).ReadOnly(true).Build();
                 builder.Field<Text>("产品密钥：", "ProductKey").Value(info?.ProductKey).ReadOnly(true)
