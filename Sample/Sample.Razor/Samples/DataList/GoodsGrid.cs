@@ -36,6 +36,6 @@ class GoodsGrid : EditGrid<DmGoods>
     private void OnModelChanged(DmGoods row, object value)
     {
         var g = value as DmGoods;
-        row.Note = $"{g.Code}-{g.Name}";
+        row.Note = $"{g?.Code}-{g?.Name}";
     }
 }
