@@ -74,10 +74,11 @@ public class Picker : Field
 
         if (!Enabled || ReadOnly || Pick == null)
             return;
-
+        
+        builder.Icon("fa fa-close picker-close", "清空", Callback(OnClear));
         builder.Icon("fa fa-ellipsis-h", attr =>
         {
-            attr.OnClick(Callback(e =>
+            attr.Title("选择").OnClick(Callback(e =>
             {
                 if (OnPicked != null)
                     Pick.OnPicked = OnFieldPicked;
@@ -86,6 +87,12 @@ public class Picker : Field
                 UI.Show(Pick);
             }));
         });
+    }
+
+    private void OnClear()
+    {
+        text = string.Empty;
+        Clear();
     }
 
     private void OnFieldPicked(object value)
