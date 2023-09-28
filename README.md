@@ -66,7 +66,8 @@ Known是基于C#和Blazor开发的前后端分离快速开发框架，开箱即�
 --安装模板
 dotnet new install KnownTemplate
 --创建项目
-dotnet new known --name=你的项目
+--host参数：full(默认)/hosted/server/winform
+dotnet new known --name=你的项目 --host=server
 ```
 
 ### 生态系统
