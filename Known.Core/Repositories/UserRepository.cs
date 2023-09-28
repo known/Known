@@ -6,7 +6,7 @@ class UserRepository
     internal static PagingResult<SysUser> QueryUsers(Database db, PagingCriteria criteria)
     {
         var sql = @"
-select a.*,b.Name Department 
+select a.*,b.Name as Department 
 from SysUser a 
 left join SysOrganization b on b.Id=a.OrgNo 
 where a.AppId=@AppId and a.CompNo=@CompNo and a.UserName<>'admin' and a.UserName<>a.CompNo";
