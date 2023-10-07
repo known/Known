@@ -5,10 +5,11 @@
 - 打开命令行输入如下命令安装和创建。
 
 ```bash
--- 安装模板
+--安装模板
 dotnet new install KnownTemplate
--- 创建项目
-dotnet new known --name=KIMS
+--创建项目
+--host参数：full(默认)/hosted/server/winform
+dotnet new known --name=KIMS --host=hosted
 ```
 
 > 说明：KIMS为测试项目名称
@@ -16,14 +17,12 @@ dotnet new known --name=KIMS
 - 安装和创建成功后，项目文件夹自动生成如下内容
 
 ```plaintext
-├─KIMS          ->项目前后端共用库，客户端和实体类等。
-├─KIMS.Client   ->Web前端，Blazor WebAssembly。
-├─KIMS.Core     ->项目后端库，控制器、服务、数据访问等。
-├─KIMS.Razor    ->项目前端库，模块页面和表单。
-├─KIMS.Server   ->Web后端。
-├─KIMS.WinForm  ->WinForm窗体及Razor页面。
-├─KIMSAlone     ->桌面exe程序。
-├─KIMS.sln      ->VS解决方案文件。
+├─KIMS          -> 项目前后端共用库，客户端和实体类等。
+├─KIMS.Client   -> Web前端，Blazor WebAssembly。
+├─KIMS.Core     -> 项目后端库，控制器、服务、数据访问等。
+├─KIMS.Razor    -> 项目前端库，模块页面和表单。
+├─KIMS.Server   -> Web后端。
+├─KIMS.sln      -> VS解决方案文件。
 ```
 
 ### 2. 打开解决方案配置应用
@@ -53,11 +52,13 @@ public class AppConfig
 
 ```xml
 -- SQLite
-<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.8" />
+<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.11" />
+-- MySQL
+<PackageReference Include="MySqlConnector" Version="2.2.7" />
 -- Access
 <PackageReference Include="System.Data.OleDb" Version="7.0.0" />
--- MySQL
-<PackageReference Include="MySqlConnector" Version="2.2.5" />
+-- SQLServer
+<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
 ```
 
 - 打开项目下 AppServer.cs 文件修改数据库连接，示例代码如下：
