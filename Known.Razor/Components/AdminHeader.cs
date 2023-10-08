@@ -66,7 +66,7 @@ class AdminHeader : BaseComponent
     {
         builder.Ul("nav", attr =>
         {
-            if (CurrentUser.IsOperation)
+            if (CurrentUser.IsOperation())
                 builder.Li("nav-item", attr => builder.Component<AdminTenant>().Build());
             //builder.Li("nav-item text danger", attr => builder.Text(KRConfig.AuthStatus));
             //builder.Li("nav-item text", attr => builder.Component<Components.Timer>().Build());

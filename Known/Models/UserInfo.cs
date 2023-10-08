@@ -25,17 +25,13 @@ public class UserInfo
     public string CompName { get; set; }
     public string OrgNo { get; set; }
     public string OrgName { get; set; }
-    public bool IsTenant { get; set; }
-    public bool IsGroupUser { get; set; }
-    public bool IsOperation { get; set; }
     public string Type { get; set; }
     public string Role { get; set; }
-    public string Data { get; set; }
-    public string Extension { get; set; }
-
+    public bool IsTenant { get; set; }
     public bool IsAdmin => IsSystemAdmin() || IsTenantAdmin();
     public bool IsSystemAdmin() => UserName == Constants.SysUserName.ToLower();
     public bool IsTenantAdmin() => CompNo == UserName;
-    public bool IsType(string type) => Type == type;
+    public bool IsGroupUser() => CompNo == OrgNo;
+    public bool IsOperation() => Type == Constants.UTOperation;
     public bool HasRole(string role) => !string.IsNullOrWhiteSpace(Role) && Role.Split(',').Contains(role);
 }

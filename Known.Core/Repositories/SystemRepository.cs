@@ -6,7 +6,7 @@ class SystemRepository
     internal static PagingResult<SysTenant> QueryTenants(Database db, PagingCriteria criteria)
     {
         var sql = "select * from SysTenant where AppId=@AppId";
-        if (db.User.IsOperation)
+        if (db.User.IsOperation())
         {
             sql += " and OperateBy=@OperateBy";
             criteria.SetQuery("OperateBy", QueryType.Equal, $"{db.User.UserName}-{db.User.Name}");

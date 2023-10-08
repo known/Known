@@ -349,8 +349,6 @@ class UserService : BaseService
     {
         var sys = GetConfig<SystemInfo>(Database, SystemService.KeySystem);
         user.IsTenant = user.CompNo != sys.CompNo;
-        user.IsGroupUser = user.OrgNo == user.CompNo;
-        user.IsOperation = user.Type == Constants.UTOperation;
         user.AppName = Config.AppName;
         if (user.IsAdmin)
             user.AppId = Config.AppId;
