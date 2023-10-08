@@ -62,6 +62,7 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
         InitTreeNode();
 
         Column(c => c.Department).IsVisible(hasOrg);
+        Column(c => c.Type).IsVisible(Config.IsPlatform && !CurrentUser.IsTenant);
         Column(c => c.UserName).Template((b, r) => b.Link(r.UserName, Callback(() => View(r))));
         await base.InitPageAsync();
     }
