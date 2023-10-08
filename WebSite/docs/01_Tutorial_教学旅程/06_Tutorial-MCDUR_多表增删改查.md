@@ -75,6 +75,20 @@ public class BillClient : ClientBase
 }
 ```
 
+- 在KIMS项目Clients\ClientFactory类中添加BillClient类的实例
+
+```csharp
+public class ClientFactory
+{
+    public ClientFactory(Context context)
+    {
+        Bill = new BillClient(context);
+    }
+
+    public BillClient Bill { get; }
+}
+```
+
 ## 2. 前端
 
 ### 2.1. 创建List页面

@@ -43,6 +43,20 @@ public class GoodsClient : ClientBase
 }
 ```
 
+- 在KIMS项目Clients\ClientFactory类中添加GoodsClient类的实例
+
+```csharp
+public class ClientFactory
+{
+    public ClientFactory(Context context)
+    {
+        Goods = new GoodsClient(context);
+    }
+
+    public GoodsClient Goods { get; }
+}
+```
+
 ## 2. 前端
 
 ### 2.1. 创建List页面
@@ -68,9 +82,9 @@ class GoodsList : WebGridView<KmGoods, GoodsForm>
         return Client.Goods.QueryGoodsesAsync(criteria);
     }
     
-    public void New() => ShowForm();//新增按钮方法
-    public void DeleteM() => DeleteRows(Client.Goods.DeleteGoodsesAsync);//批量删除按钮方法
-    public void Edit(KmGoods row) => ShowForm(row);//编辑操作方法
+    public void New() => ShowForm();                                                   //新增按钮方法
+    public void DeleteM() => DeleteRows(Client.Goods.DeleteGoodsesAsync);              //批量删除按钮方法
+    public void Edit(KmGoods row) => ShowForm(row);                                    //编辑操作方法
     public void Delete(KmGoods row) => DeleteRow(row, Client.Goods.DeleteGoodsesAsync);//删除操作方法
 }
 ```
