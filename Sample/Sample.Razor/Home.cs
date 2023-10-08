@@ -43,7 +43,7 @@ class Home : WebPage
                 builder.Div("ws-info", attr =>
                 {
                     builder.Span("ws-name", info?.Greeting);
-                    builder.Span("ws-tips", $"{DateTime.Now:yyyy-MM-dd dddd}");
+                    builder.Span("ws-tips", attr => builder.Component<Known.Razor.Components.Timer>().Build());
                 });
             });
 
