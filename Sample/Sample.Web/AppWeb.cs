@@ -44,6 +44,7 @@ class AppWeb
         Database.RegisterProviders(new Dictionary<string, Type>
         {
             ["SQLite"] = typeof(Microsoft.Data.Sqlite.SqliteFactory)
+            //["Npgsql"] = typeof(Npgsql.NpgsqlFactory)
             //["MySql"] = typeof(MySqlConnector.MySqlConnectorFactory)
             //["Access"] = typeof(System.Data.OleDb.OleDbFactory)
             //["SqlClient"] = typeof(System.Data.SqlClient.SqlClientFactory)

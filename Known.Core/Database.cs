@@ -8,7 +8,8 @@ public enum DatabaseType
     Oracle,
     MySql,
     SQLite,
-    Access
+    Access,
+    Npgsql
 }
 
 public class Database : IDisposable
@@ -51,6 +52,8 @@ public class Database : IDisposable
             DatabaseType = DatabaseType.SQLite;
         else if (providerName.Contains("Access"))
             DatabaseType = DatabaseType.Access;
+        else if (providerName.Contains("Npgsql"))
+            DatabaseType = DatabaseType.Npgsql;
         else
             DatabaseType = DatabaseType.SqlServer;
     }
