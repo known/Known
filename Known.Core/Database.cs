@@ -864,7 +864,7 @@ public class Database : IDisposable
         }
 
         cmd.Connection = conn;
-        cmd.CommandText = info.Text;
+        cmd.CommandText = FormatSQL(info.Text);
 
         if (trans != null)
         {
@@ -893,6 +893,17 @@ public class Database : IDisposable
                 }
             }
         }
+    }
+
+    private string FormatSQL(string text)
+    {
+        if (DatabaseType == DatabaseType.Npgsql)
+        {
+            text = text.Replace(" Type", "\"Type\"")
+                       .Replace(" Name", "\"Name\"");
+        }
+
+        return text;
     }
 
     private static byte[] GetExportData(DataTable dataTable)
@@ -1152,6 +1163,8 @@ select t.* from (
     {
         if (databaseType == DatabaseType.Access)
             return $"`{columnName}`";
+        else if (databaseType == DatabaseType.Npgsql)
+            return $"\"{columnName}\"";
 
         return columnName;
     }
