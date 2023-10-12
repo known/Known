@@ -899,8 +899,8 @@ public class Database : IDisposable
     {
         if (DatabaseType == DatabaseType.Npgsql)
         {
-            text = text.Replace(" Type", "\"Type\"")
-                       .Replace(" Name", "\"Name\"");
+            text = text.Replace(" Type", " \"Type\"")
+                       .Replace(" Name", " \"Name\"");
         }
 
         return text;
