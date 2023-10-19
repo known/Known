@@ -59,10 +59,18 @@ public static class MenuExtension
     {
         var items = new List<CodeInfo>();
         if (menu.Buttons != null && menu.Buttons.Count > 0)
-            items.AddRange(menu.Buttons.Select(b => new CodeInfo($"b_{menu.Id}_{b}", b)));
+            items.AddRange(menu.Buttons.Select(b => GetButton(menu, b, ToolButton.Buttons)));
         if (menu.Actions != null && menu.Actions.Count > 0)
-            items.AddRange(menu.Actions.Select(b => new CodeInfo($"b_{menu.Id}_{b}", b)));
+            items.AddRange(menu.Actions.Select(b => GetButton(menu, b, GridAction.Actions)));
         return items;
+    }
+
+    private static CodeInfo GetButton(MenuInfo menu, string id, List<ButtonInfo> buttons)
+    {
+        var code = $"b_{menu.Id}_{id}";
+        var button = buttons.FirstOrDefault(b => b.Id == id);
+        var name = button != null ? button.Name : id;
+        return new CodeInfo(code, name);
     }
 
     internal static List<CodeInfo> GetColumnCodes(this MenuInfo menu)
