@@ -49,6 +49,10 @@
     .ws-card, .ws-row {grid-template-columns:100%;}
 }
 
+/*CompanyForm*/
+.company-buttons {padding:0.5rem;text-align:center;}
+.company-buttons button {margin:0 0.5rem;}
+
 /*demo*/
 .demo {top:0;right:0;bottom:0;}
 .demo-caption {font-size:1.1rem;font-weight:bold;margin:10px 0;padding-left:5px;border-left:5px solid #1c66b9;}

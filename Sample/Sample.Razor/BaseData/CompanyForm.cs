@@ -38,6 +38,7 @@ class CompanyForm : WebForm<CompanyInfo>
             });
             table.Tr(attr => table.Field<TextArea>(f => f.Note).ColSpan(3).ReadOnly(!isEdit).Build());
         });
+        BuildButton(builder.Builder);
     }
 
     protected override void BuildTabBody(RenderTreeBuilder builder, MenuItem item)
@@ -45,20 +46,25 @@ class CompanyForm : WebForm<CompanyInfo>
         builder.Span(item.Name);
     }
 
-    protected override void BuildButtons(RenderTreeBuilder builder)
+    protected override void BuildButtons(RenderTreeBuilder builder) { }
+
+    private void BuildButton(RenderTreeBuilder builder)
     {
         if (!HasButton(FormButton.Edit))
             return;
 
-        if (!isEdit)
+        builder.Div("company-buttons", attr =>
         {
-            builder.Button(FormButton.Edit, Callback(e => isEdit = true));
-        }
-        else
-        {
-            builder.Button(FormButton.Save, Callback(OnSaveInfo));
-            builder.Button(FormButton.Cancel, Callback(e => isEdit = false));
-        }
+            if (!isEdit)
+            {
+                builder.Button(FormButton.Edit, Callback(e => isEdit = true));
+            }
+            else
+            {
+                builder.Button(FormButton.Save, Callback(OnSaveInfo));
+                builder.Button(FormButton.Cancel, Callback(e => isEdit = false));
+            }
+        });
     }
 
     private void OnSaveInfo()
