@@ -84,17 +84,13 @@ class SysUserList : DataGrid<SysUser, SysUserForm>, IPicker
             return;
         }
 
-        builder.Div("lr-view", attr =>
+        builder.ViewLR(left =>
         {
-            builder.Div("left-view", attr =>
-            {
-                builder.Component<Tree<SysOrganization>>()
-                       .Set(c => c.Data, data)
-                       .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(OnTreeItemClick))
-                       .Build();
-            });
-            builder.Div("right-view", attr => base.BuildPage(builder));
-        });
+            builder.Component<Tree<SysOrganization>>()
+                   .Set(c => c.Data, data)
+                   .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(OnTreeItemClick))
+                   .Build();
+        }, right => base.BuildPage(builder));
     }
 
     public void New() => ShowForm(new SysUser { OrgNo = current?.Value.Id, Enabled = true });

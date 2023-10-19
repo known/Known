@@ -31,17 +31,13 @@ class SysOrgList : DataGrid<SysOrganization, SysOrgForm>
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("lr-view", attr =>
+        builder.ViewLR(left =>
         {
-            builder.Div("left-view", attr =>
-            {
-                builder.Component<Tree<SysOrganization>>()
-                       .Set(c => c.Data, data)
-                       .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(OnTreeItemClick))
-                       .Build();
-            });
-            builder.Div("right-view", attr => base.BuildPage(builder));
-        });
+            builder.Component<Tree<SysOrganization>>()
+                   .Set(c => c.Data, data)
+                   .Set(c => c.OnItemClick, Callback<TreeItem<SysOrganization>>(OnTreeItemClick))
+                   .Build();
+        }, right => base.BuildPage(builder));
     }
 
     public void New() => ShowForm();
