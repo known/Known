@@ -129,7 +129,7 @@ button, .button, input, select,
 .form-input .captcha {width:86px;height:2rem;}
 .form-input > pre {margin-top:0.3rem;}
 .form-radio .switch[type="checkbox"]+span:before {top:0.35rem;}
-.form-radio .switch[type="checkbox"]+span:after {top:0.51rem;}
+.form-radio .switch[type="checkbox"]+span:after {top:0.534rem;}
 .table .form-radio .switch[type="checkbox"]+span:before {top:0;}
 .table .form-radio .switch[type="checkbox"]+span:after {top:0.2rem;}
 .form-list {position:absolute;left:0;right:0;top:80px;bottom:0;}
