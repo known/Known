@@ -2,7 +2,7 @@
 
 class Upload3 : BaseComponent
 {
-    private Upload? upload;
+    private KUpload? upload;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class Upload3 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Upload>("附件：", "Upload").Build(value => upload = value);
+        builder.Field<KUpload>("附件：", "Upload").Build(value => upload = value);
     }
 
     private void OnVisibleChanged(bool value) => upload?.SetVisible(value);

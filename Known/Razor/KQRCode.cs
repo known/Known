@@ -1,0 +1,23 @@
+﻿using Known.Extensions;
+
+namespace Known.Razor;
+
+public class KQRCode : BaseComponent
+{
+    [Parameter] public string Style { get; set; }
+    [Parameter] public object Option { get; set; }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Div(Style, attr => attr.Id(Id));
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            UI.ShowQRCode(Id, Option);
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}

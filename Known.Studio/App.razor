@@ -1,6 +1,5 @@
-﻿@using Known.Razor.Components
+﻿@using Known.Razor
 @using Microsoft.AspNetCore.Components.Routing
-@inject Microsoft.JSInterop.IJSRuntime JS
 @inherits BaseComponent
 
 <CascadingValue Value="Context">
@@ -9,18 +8,8 @@
             <RouteView RouteData="@routeData" />
         </Found>
         <NotFound>
-            <Error Code="404" />
+            <KError Code="404" />
         </NotFound>
     </Router>
-    <DialogContainer />
+    <KDialogContainer />
 </CascadingValue>
-
-@code {
-    protected override void OnInitialized()
-    {
-        Context = new KRContext
-        {
-            UI = new UIService(JS)
-        };
-    }
-}

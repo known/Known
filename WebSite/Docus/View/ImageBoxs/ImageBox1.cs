@@ -9,6 +9,6 @@ class ImageBox1 : BaseComponent
             OriginalUrl = "/img/demo/sunbin.jpg",
             ThumbnailUrl = "/img/demo/sunbin.jpg"
         };
-        builder.Component<ImageBox>().Set(c => c.Url, url).Build();
+        builder.Component<KImageBox>().Set(c => c.Url, url).Build();
     }
 }

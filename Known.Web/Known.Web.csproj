@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Coravel" Version="5.0.2" />
+        <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.13" />
+        <!--<PackageReference Include="Npgsql" Version="7.0.6" />
+        <PackageReference Include="MySqlConnector" Version="2.2.7" />
+	    <PackageReference Include="System.Data.OleDb" Version="7.0.0" />
+	    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />-->
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Known\Known.csproj" />
+        <ProjectReference Include="..\Known.Cells\Known.Cells.csproj" />
+        <ProjectReference Include="..\Known.Demo\Known.Demo.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -2,15 +2,15 @@
 
 class Breadcrumb1 : BaseComponent
 {
-    private readonly List<MenuItem> Items = new()
+    private readonly List<KMenuItem> Items = new()
     {
-        new MenuItem("Test1", "测试1", "fa fa-home"),
-        new MenuItem("Test2", "测试2", "fa fa-user"),
-        new MenuItem("Test3", "测试3")
+        new KMenuItem("Test1", "测试1", "fa fa-home"),
+        new KMenuItem("Test2", "测试2", "fa fa-user"),
+        new KMenuItem("Test3", "测试3")
     };
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<Breadcrumb>().Set(c => c.Items, Items).Build();
+        builder.Component<KBreadcrumb>().Set(c => c.Items, Items).Build();
     }
 }

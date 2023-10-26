@@ -2,12 +2,12 @@
 
 class Captcha2 : BaseComponent
 {
-    private Captcha? captcha;
+    private KCaptcha? captcha;
     private string? message;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Field<Captcha>("Captcha", true)
+        builder.Field<KCaptcha>("Captcha", true)
                .Set(f => f.Placeholder, "验证码")
                .Build(value => captcha = value);
 

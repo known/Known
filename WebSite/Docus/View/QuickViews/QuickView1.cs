@@ -5,7 +5,7 @@ class QuickView1 : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Button("显示", Callback(OnShow), StyleType.Primary);
-        builder.Component<QuickView>().Id("qvTest")
+        builder.Component<KQuickView>().Id("qvTest")
                .Set(c => c.ChildContent, BuildContent)
                .Build();
     }

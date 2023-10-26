@@ -6,7 +6,7 @@ class SearchBox1 : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<SearchBox>()
+        builder.Component<KSearchBox>()
                .Set(c => c.Required, true)
                .Set(c => c.Placeholder, "请输入关键字")
                .Set(c => c.OnSearh, OnSearh)

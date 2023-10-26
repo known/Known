@@ -1,6 +1,6 @@
 ﻿namespace WebSite.Docus.Basic.Layouts;
 
-class Layout3 : Layout
+class Layout3 : KLayout
 {
     protected override void BuildHeader(RenderTreeBuilder builder)
     {

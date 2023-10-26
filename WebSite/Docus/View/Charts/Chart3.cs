@@ -2,7 +2,7 @@
 
 class Chart3 : BaseComponent
 {
-    private Chart chart;
+    private KChart chart;
     private readonly ChartDataInfo[] datas;
 
     public Chart3()
@@ -21,7 +21,7 @@ class Chart3 : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<Chart>().Id("chart3").Build(value => chart = value);
+        builder.Component<KChart>().Id("chart3").Build(value => chart = value);
     }
 
     protected override void OnAfterRender(bool firstRender)

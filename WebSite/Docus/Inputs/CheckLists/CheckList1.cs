@@ -14,13 +14,13 @@ class CheckList1 : BaseComponent
     {
         //Codes属性设置列表项
         //该值为数据字典类别或逗号分割的字符串
-        builder.Field<CheckList>("示例1：", "CheckList1").Set(f => f.Codes, Codes).Build();
+        builder.Field<KCheckList>("示例1：", "CheckList1").Set(f => f.Codes, Codes).Build();
         //Items属性设置列表项
-        builder.Field<CheckList>("示例2：", "CheckList2").Set(f => f.Items, Items).Build();
+        builder.Field<KCheckList>("示例2：", "CheckList2").Set(f => f.Items, Items).Build();
         //赋值
-        builder.Field<CheckList>("示例3：", "CheckList3").Value("孙膑,妲己").Set(f => f.Codes, Codes).Build();
-        builder.Field<CheckList>("示例4：", "CheckList4").Value("3").Set(f => f.Items, Items).Build();
-        builder.Field<CheckList>("平原模式：", "CheckList5").Value("1,3")
+        builder.Field<KCheckList>("示例3：", "CheckList3").Value("孙膑,妲己").Set(f => f.Codes, Codes).Build();
+        builder.Field<KCheckList>("示例4：", "CheckList4").Value("3").Set(f => f.Items, Items).Build();
+        builder.Field<KCheckList>("平原模式：", "CheckList5").Value("1,3")
                .Set(f => f.IsPlain, true)
                .Set(f => f.Items, Items)
                .Build();

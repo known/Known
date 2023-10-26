@@ -7,7 +7,7 @@ class Select2 : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         //ValueChanged事件
-        builder.Field<Select>("英雄：", "Select").ValueChanged(OnValueChanged)
+        builder.Field<KSelect>("英雄：", "Select").ValueChanged(OnValueChanged)
                .Set(f => f.Codes, "孙膑,后羿,妲己")
                .Build();
         builder.Div("tips", message);

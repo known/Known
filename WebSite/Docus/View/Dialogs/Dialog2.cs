@@ -14,7 +14,7 @@ class Dialog2 : BaseComponent
     {
         UI.Prompt("异常处理", new(300, 200), builder =>
         {
-            builder.Field<TextArea>("原因", "Reason", true).Build();
+            builder.Field<KTextArea>("原因", "Reason", true).Build();
         }, 
         data =>
         {

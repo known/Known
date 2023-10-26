@@ -1,0 +1,18 @@
+﻿@using Known.Razor
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Routing
+@inherits BaseComponent
+
+<CascadingAuthenticationState>
+    <CascadingValue Value="Context">
+        <Router AppAssembly="typeof(App).Assembly">
+            <Found Context="routeData">
+                <AuthorizeRouteView RouteData="@routeData" />
+            </Found>
+            <NotFound>
+                <KError Code="404" />
+            </NotFound>
+        </Router>
+        <KDialogContainer />
+    </CascadingValue>
+</CascadingAuthenticationState>

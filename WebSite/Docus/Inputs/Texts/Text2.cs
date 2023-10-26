@@ -7,7 +7,7 @@ class Text2 : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         //ValueChanged事件
-        builder.Field<Text>("示例：", "Text").ValueChanged(OnValueChanged).Build();
+        builder.Field<KText>("示例：", "Text").ValueChanged(OnValueChanged).Build();
         builder.Div("tips", message);
     }
 

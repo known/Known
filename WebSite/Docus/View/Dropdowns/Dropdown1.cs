@@ -2,10 +2,10 @@
 
 class Dropdown1 : BaseComponent
 {
-    private readonly List<MenuItem> items = new()
+    private readonly List<KMenuItem> items = new()
     {
-        new MenuItem("Action1", "操作一", "fa fa-close"),
-        new MenuItem("Action2", "操作二", "fa fa-user")
+        new KMenuItem("Action1", "操作一", "fa fa-close"),
+        new KMenuItem("Action2", "操作二", "fa fa-user")
     };
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

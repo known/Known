@@ -2,7 +2,7 @@
 
 class Text3 : BaseComponent
 {
-    private Text? text;
+    private KText? text;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class Text3 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Text>("示例：", "Text").Build(value => text = value);
+        builder.Field<KText>("示例：", "Text").Build(value => text = value);
     }
 
     private void OnVisibleChanged(bool value) => text?.SetVisible(value);

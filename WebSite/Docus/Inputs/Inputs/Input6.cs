@@ -2,7 +2,7 @@
 
 class Input6 : BaseComponent
 {
-    private Input? input;
+    private KInput? input;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class Input6 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Input>("网址：", "Url")
+        builder.Field<KInput>("网址：", "Url")
                .Set(f => f.Type, InputType.Url)
                .Build(value => input = value);
     }

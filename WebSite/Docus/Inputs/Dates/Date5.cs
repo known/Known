@@ -2,7 +2,7 @@
 
 class Date5 : BaseComponent
 {
-    private Date? date;
+    private KDate? date;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class Date5 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Date>("时间：", "Time")
+        builder.Field<KDate>("时间：", "Time")
                .Set(f => f.DateType, DateType.Time)
                .Build(value => date = value);
     }

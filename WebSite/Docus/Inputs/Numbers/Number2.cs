@@ -2,7 +2,7 @@
 
 class Number2 : BaseComponent
 {
-    private Number? number;
+    private KNumber? number;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class Number2 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Number>("数量：", "Number").Set(f => f.Unit, "个").Build(value => number = value);
+        builder.Field<KNumber>("数量：", "Number").Set(f => f.Unit, "个").Build(value => number = value);
     }
 
     private void OnVisibleChanged(bool value) => number?.SetVisible(value);

@@ -2,7 +2,7 @@
 
 class Select3 : BaseComponent
 {
-    private Select? select;
+    private KSelect? select;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class Select3 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Select>("英雄：", "Select")
+        builder.Field<KSelect>("英雄：", "Select")
                .Set(f => f.Codes, "孙膑,后羿,妲己")
                .Build(value => select = value);
     }

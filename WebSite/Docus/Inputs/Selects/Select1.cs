@@ -14,11 +14,11 @@ class Select1 : BaseComponent
     {
         //Codes属性设置列表项
         //该值为数据字典类别或逗号分割的字符串
-        builder.Field<Select>("示例1：", "Select1").Set(f => f.Codes, Codes).Build();
+        builder.Field<KSelect>("示例1：", "Select1").Set(f => f.Codes, Codes).Build();
         //Items属性设置列表项
-        builder.Field<Select>("示例2：", "Select2").Set(f => f.Items, Items).Build();
+        builder.Field<KSelect>("示例2：", "Select2").Set(f => f.Items, Items).Build();
         //赋值
-        builder.Field<Select>("示例3：", "Select3").Value("孙膑").Set(f => f.Codes, Codes).Build();
-        builder.Field<Select>("示例4：", "Select4").Value("3").Set(f => f.Items, Items).Build();
+        builder.Field<KSelect>("示例3：", "Select3").Value("孙膑").Set(f => f.Codes, Codes).Build();
+        builder.Field<KSelect>("示例4：", "Select4").Value("3").Set(f => f.Items, Items).Build();
     }
 }

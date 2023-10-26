@@ -2,7 +2,7 @@
 
 class CheckList2 : BaseComponent
 {
-    private CheckList? checkList;
+    private KCheckList? checkList;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class CheckList2 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<CheckList>("英雄：", "CheckList")
+        builder.Field<KCheckList>("英雄：", "CheckList")
                .Set(f => f.Codes, "孙膑,后羿,妲己")
                .Build(value => checkList = value);
     }

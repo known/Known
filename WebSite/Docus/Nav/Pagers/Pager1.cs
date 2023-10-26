@@ -6,7 +6,7 @@ class Pager1 : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<Pager>()
+        builder.Component<KPager>()
                .Set(c => c.TotalCount, 120)
                .Set(c => c.PageIndex, criteria.PageIndex)
                .Set(c => c.PageSize, criteria.PageSize)

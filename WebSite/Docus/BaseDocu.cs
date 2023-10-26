@@ -2,7 +2,7 @@
 
 class BaseDocu : BaseComponent
 {
-    [Parameter] public Data.MenuItem? Item { get; set; }
+    [Parameter] public MenuItem? Item { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {

@@ -1,26 +1,30 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<DebugType>embedded</DebugType>
-		<Authors>KnownChen</Authors>
-		<Description>Known is a rapid development framework for .NET.</Description>
-		<Version>1.2.16</Version>
-		<PackageIcon>icon.png</PackageIcon>
-		<PackageTags>known, framework, .net</PackageTags>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
-		<PackageOutputPath>..\Library</PackageOutputPath>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Authors>KnownChen</Authors>
+        <Description>Known是基于C#和Blazor开发的快速开发框架，开箱即用，跨平台，一处代码，多处运行。</Description>
+        <Version>2.0.0</Version>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageTags>known, framework, .net, blazor</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
+        <PackageOutputPath>..\Library</PackageOutputPath>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<None Include="..\icon.png" />
-		<None Update="..\icon.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\icon.png" />
+        <None Update="..\icon.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
 
 </Project>

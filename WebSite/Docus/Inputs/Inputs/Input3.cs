@@ -2,7 +2,7 @@
 
 class Input3 : BaseComponent
 {
-    private Input? input;
+    private KInput? input;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class Input3 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<Input>("Slider：", "Range")
+        builder.Field<KInput>("Slider：", "Range")
                .Set(f => f.Type, InputType.Range)
                .Build(value => input = value);
     }

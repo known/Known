@@ -17,7 +17,7 @@ class Toolbar2 : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<Toolbar>()
+        builder.Component<KToolbar>()
                .Set(c => c.Tools, tools)
                .Set(c => c.OnAction, OnAction)
                .Build();

@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using System.ComponentModel;
+
+namespace Known;
 
 public class Result
 {
@@ -75,7 +77,9 @@ public class Result
         return result;
     }
 
+    public static Task<Result> ErrorAsync(string message, object data = null) => Task.FromResult(Error(message, data));
     public static Result Success(string message, object data = null) => new(message, data);
+    public static Task<Result> SuccessAsync(string message, object data = null) => Task.FromResult(Success(message, data));
 }
 
 public class PagingResult<T>

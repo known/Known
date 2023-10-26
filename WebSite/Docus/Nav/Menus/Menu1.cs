@@ -3,25 +3,25 @@
 class Menu1 : BaseComponent
 {
     private string? message;
-    private readonly List<MenuItem> Items = new()
+    private readonly List<KMenuItem> Items = new()
     {
-        new MenuItem("Test1", "基础数据", "fa fa-database") {
-            Children = new List<MenuItem> {
-                new MenuItem("Test11", "测试11"),
-                new MenuItem("Test12", "测试12")
+        new KMenuItem("Test1", "基础数据", "fa fa-database") {
+            Children = new List<KMenuItem> {
+                new KMenuItem("Test11", "测试11"),
+                new KMenuItem("Test12", "测试12")
             }
         },
-        new MenuItem("Test2", "业务管理", "fa fa-suitcase") {
+        new KMenuItem("Test2", "业务管理", "fa fa-suitcase") {
             Badge = 10,
-            Children = new List<MenuItem> {
-                new MenuItem("Test21", "测试21"),
-                new MenuItem("Test22", "测试22")
+            Children = new List<KMenuItem> {
+                new KMenuItem("Test21", "测试21"),
+                new KMenuItem("Test22", "测试22")
             }
         },
-        new MenuItem("Test3", "系统管理", "fa fa-cogs") { 
-            Children = new List<MenuItem> {
-                new MenuItem("Test31", "测试31"),
-                new MenuItem("Test32", "测试32")
+        new KMenuItem("Test3", "系统管理", "fa fa-cogs") { 
+            Children = new List<KMenuItem> {
+                new KMenuItem("Test31", "测试31"),
+                new KMenuItem("Test32", "测试32")
             }
         }
     };
@@ -32,7 +32,7 @@ class Menu1 : BaseComponent
         {
             builder.Div("sider", attr =>
             {
-                builder.Component<Menu>()
+                builder.Component<KMenu>()
                        .Set(c => c.Style, "menu-tree")
                        .Set(c => c.TextIcon, true)
                        .Set(c => c.Items, Items)
@@ -43,7 +43,7 @@ class Menu1 : BaseComponent
         });
     }
 
-    private void OnItemClick(MenuItem item)
+    private void OnItemClick(KMenuItem item)
     {
         message = $"点击菜单{item.Name}";
         StateChanged();

@@ -4,7 +4,7 @@ class GroupBox1 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<GroupBox>()
+        builder.Component<KGroupBox>()
                .Set(c => c.Title, "基本信息")
                .Set(c => c.ChildContent, BuildBody)
                .Build();

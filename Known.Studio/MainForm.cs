@@ -43,7 +43,7 @@ namespace Known.Studio
         private void AddBlazorWebView()
         {
             var services = new ServiceCollection();
-            services.AddScoped(sp => new HttpClient());
+            services.AddScoped<UIService>();
             services.AddWindowsFormsBlazorWebView();
             services.AddBlazorWebViewDeveloperTools();
             blazorWebView.HostPage = "wwwroot\\index.html";

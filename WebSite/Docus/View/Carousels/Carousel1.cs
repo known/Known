@@ -13,7 +13,7 @@ class Carousel1 : BaseComponent
     {
         builder.Div("demo-carousel", attr =>
         {
-            builder.Component<Carousel>()
+            builder.Component<KCarousel>()
                    .Set(c => c.Interval, 3000)
                    .Set(c => c.ShowSnk, true)
                    .Set(c => c.Images, images)

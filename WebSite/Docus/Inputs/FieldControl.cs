@@ -17,17 +17,17 @@ class FieldControl : BaseComponent
     {
         builder.Div("form-item control", attr =>
         {
-            builder.Field<CheckBox>("chkVisible")
+            builder.Field<KCheckBox>("chkVisible")
                    .Set(f => f.Text, "可见")
                    .Set(f => f.Value, visible)
                    .Set(f => f.ValueChanged, OnVisibleValueChanged)
                    .Build();
-            builder.Field<CheckBox>("chkEnabled")
+            builder.Field<KCheckBox>("chkEnabled")
                    .Set(f => f.Text, "可用")
                    .Set(f => f.Value, enabled)
                    .Set(f => f.ValueChanged, OnEnabledValueChanged)
                    .Build();
-            builder.Field<CheckBox>("chkReadOnly")
+            builder.Field<KCheckBox>("chkReadOnly")
                    .Set(f => f.Text, "只读")
                    .Set(f => f.Value, readOnly)
                    .Set(f => f.ValueChanged, OnReadOnlyValueChanged)

@@ -4,11 +4,11 @@
 public class Index : BaseComponent
 {
     private bool isLoaded;
-    private static readonly List<MenuItem> menus = new()
+    private static readonly List<KMenuItem> menus = new()
     {
-        new MenuItem("代码生成", "fa fa-code", typeof(DevCode))
+        new KMenuItem("代码生成", "fa fa-code", typeof(DevCode))
     };
-    private MenuItem curItem = menus[0];
+    private KMenuItem curItem = menus[0];
 
     protected override void OnInitialized()
     {
@@ -27,7 +27,7 @@ public class Index : BaseComponent
             builder.Div("sider", attr =>
             {
                 builder.Div("fa fa-university logo");
-                builder.Component<Menu>()
+                builder.Component<KMenu>()
                        .Set(c => c.Style, "menu menu1")
                        .Set(c => c.OnlyIcon, true)
                        .Set(c => c.Items, menus)

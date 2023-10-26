@@ -1,18 +1,18 @@
 ﻿namespace WebSite.Docus.Inputs.Numbers;
 
-class Number3 : Form
+class Number3 : KForm
 {
     protected override void BuildFields(RenderTreeBuilder builder)
     {
-        builder.Field<Number>("数量：", "Qty")
+        builder.Field<KNumber>("数量：", "Qty")
                .Set(f => f.Unit, "个")
                .Set(f => f.OnValueChanged, OnQPAChanged)
                .Build();
-        builder.Field<Number>("单价：", "Price")
+        builder.Field<KNumber>("单价：", "Price")
                .Set(f => f.Unit, "元")
                .Set(f => f.OnValueChanged, OnQPAChanged)
                .Build();
-        builder.Field<Number>("金额：", "Amount")
+        builder.Field<KNumber>("金额：", "Amount")
                .Set(f => f.Unit, "元")
                .Set(f => f.OnValueChanged, OnQPAChanged)
                .Build();

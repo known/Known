@@ -6,7 +6,7 @@ class Card2 : BaseComponent
     {
         builder.Div("demo-card", attr =>
         {
-            builder.Component<Card>()
+            builder.Component<KCard>()
                    .Set(c => c.Head, BuildHead)
                    .Set(c => c.Body, BuildBody)
                    .Build();

@@ -1,66 +1,71 @@
-﻿namespace Known;
+﻿using Known.Pages;
+
+namespace Known;
 
 public class Context
 {
-    public bool IsMobile { get; set; }
+    private readonly KMenuItem account = new("个人中心", "fa fa-user", typeof(SysAccount), "当前用户个人中心和安全设置。");
+    private KMenuItem current;
+
+    internal static Action<KMenuItem> OnNavigate { get; set; }
+
     public UserInfo CurrentUser { get; set; }
-    public HttpClient Http { get; set; }
 
-    public Task<string> GetAsync(string url)
+    public void Back()
     {
-        if (!Config.IsWebApi)
-            return ServiceHelper.GetAsync(this, url);
+        if (current == null || current.Previous == null)
+            return;
 
-        SetTokenHeader();
-        return Http.GetStringAsync(url);
+        current = current.Previous;
+        OnNavigate?.Invoke(current);
     }
 
-    public Task<TResult> GetAsync<TResult>(string url)
-    {
-        if (!Config.IsWebApi)
-            return ServiceHelper.GetAsync<TResult>(this, url);
+    public void NavigateToHome() => Navigate(KRConfig.Home);
+    public void NavigateToAccount() => Navigate(account);
 
-        SetTokenHeader();
-        return Http.GetFromJsonAsync<TResult>(url);
+    public void Navigate(KMenuItem menu, Dictionary<string, object> prevParams = null)
+    {
+        if (menu == null || string.IsNullOrWhiteSpace(menu.Target))
+            return;
+
+        menu.Previous = current;
+        if (menu.Previous != null && prevParams != null)
+            menu.Previous.ComParameters = prevParams;
+        current = menu;
+        OnNavigate?.Invoke(current);
     }
 
-    public async Task<Result> PostAsync(string url)
+    public void Navigate<T>(string name, string icon, Dictionary<string, object> comParams = null) where T : IComponent
     {
-        if (!Config.IsWebApi)
-            return await ServiceHelper.PostAsync(this, url);
-
-        SetTokenHeader();
-        var response = await Http.PostAsync(url, null);
-        return await response.Content.ReadFromJsonAsync<Result>();
+        var menu = new KMenuItem(name, icon, typeof(T)) { ComParameters = comParams };
+        Navigate(menu);
     }
 
-    public async Task<TResult> PostAsync<TParam, TResult>(string url, TParam data)
+    public void Navigate<T>() where T : IComponent
     {
-        if (!Config.IsWebApi)
-            return await ServiceHelper.PostAsync<TParam, TResult>(this, url, data);
+        var type = typeof(T);
+        var target = type.FullName;
+        var menu = KRConfig.UserMenus.FirstOrDefault(m => m.Target == target);
+        if (menu == null)
+            return;
 
-        SetTokenHeader();
-        var response = await Http.PostAsJsonAsync(url, data);
-        return await response.Content.ReadFromJsonAsync<TResult>();
+        var item = KMenuItem.From(menu);
+        item.ComType = type;
+        Navigate(item);
     }
 
-    public async Task<Result> PostWithFileAsync(string url, object data)
+    internal void Navigate<TItem, TForm>(string name, string icon, TItem model, bool readOnly = false, Action<Result> onSuccess = null) where TItem : EntityBase, new() where TForm : BaseForm<TItem>
     {
-        if (!Config.IsWebApi)
-            return await PostAsync(url, (UploadFormInfo)data);
-
-        SetTokenHeader();
-        var response = await Http.PostAsync(url, (HttpContent)data);
-        return await response.Content.ReadFromJsonAsync<Result>();
-    }
-
-    public Task<Result> PostAsync<T>(string url, T data) => PostAsync<T, Result>(url, data);
-    public Task<PagingResult<T>> QueryAsync<T>(string url, PagingCriteria criteria) => PostAsync<PagingCriteria, PagingResult<T>>(url, criteria);
-
-    private void SetTokenHeader()
-    {
-        var token = CurrentUser != null ? CurrentUser.Token : "none";
-        Http.DefaultRequestHeaders.Remove(Constants.KeyToken);
-        Http.DefaultRequestHeaders.Add(Constants.KeyToken, token);
+        var id = model == null || model.IsNew ? name : name + model.Id;
+        var menu = new KMenuItem(name, icon, typeof(TForm))
+        {
+            Id = id,
+            ComParameters = new Dictionary<string, object> {
+                { nameof(KForm.Model), model },
+                { nameof(KForm.ReadOnly), readOnly },
+                { nameof(KForm.OnSuccess), onSuccess }
+            }
+        };
+        Navigate(menu);
     }
 }

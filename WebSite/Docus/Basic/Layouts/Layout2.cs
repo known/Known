@@ -1,6 +1,6 @@
 ﻿namespace WebSite.Docus.Basic.Layouts;
 
-class Layout2 : Layout
+class Layout2 : KLayout
 {
     public Layout2()
     {

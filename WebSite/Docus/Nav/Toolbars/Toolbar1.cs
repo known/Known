@@ -4,8 +4,8 @@ class Toolbar1 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<Toolbar>()
-               .Set(c => c.Tools, KToolbar.Tools)
+        builder.Component<KToolbar>()
+               .Set(c => c.Tools, DToolbar.Tools)
                .Set(c => c.OnAction, OnAction)
                .Build();
     }

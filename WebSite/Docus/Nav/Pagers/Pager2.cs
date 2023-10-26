@@ -2,7 +2,7 @@
 
 class Pager2 : BaseComponent
 {
-    private Number? total;
+    private KNumber? total;
     private PagingCriteria criteria = new(1);
     private int totalCount = 120;
 
@@ -11,11 +11,11 @@ class Pager2 : BaseComponent
         builder.Div("control", attr =>
         {
             builder.Label("form-label", "条数：");
-            builder.Field<Number>("Total").Value("200").Set(f => f.Width, 100).Build(value => total = value);
+            builder.Field<KNumber>("Total").Value("200").Set(f => f.Width, 100).Build(value => total = value);
             builder.Button("设置", Callback(OnSetTotal), StyleType.Primary);
         });
 
-        builder.Component<Pager>()
+        builder.Component<KPager>()
                .Set(c => c.TotalCount, totalCount)
                .Set(c => c.PageIndex, criteria.PageIndex)
                .Set(c => c.PageSize, criteria.PageSize)

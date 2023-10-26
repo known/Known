@@ -2,7 +2,7 @@
 
 class TextArea3 : BaseComponent
 {
-    private TextArea? textArea;
+    private KTextArea? textArea;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class TextArea3 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<TextArea>("示例：", "TextArea").Build(value => textArea = value);
+        builder.Field<KTextArea>("示例：", "TextArea").Build(value => textArea = value);
     }
 
     private void OnVisibleChanged(bool value) => textArea?.SetVisible(value);

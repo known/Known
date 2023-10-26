@@ -15,7 +15,7 @@ public class EntityBase
         CompNo = "temp";
     }
 
-    public virtual bool IsNew { get; set; }
+    public virtual bool IsNew { get; internal set; }
 
     [Column("ID", "", false, "1", "50", IsGrid = false)]
     public string Id { get; set; }
@@ -44,13 +44,13 @@ public class EntityBase
     [Column(Language.CompNo, "", true, "1", "50", IsGrid = false)]
     public string CompNo { get; set; }
 
-    public void SetOriginal(Dictionary<string, object> original)
+    internal void SetOriginal(Dictionary<string, object> original)
     {
         IsNew = false;
         this.original = original;
     }
 
-    public bool IsChanged(string propertyName, object value)
+    internal bool IsChanged(string propertyName, object value)
     {
         if (original == null || !original.ContainsKey(propertyName))
             return true;

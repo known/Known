@@ -360,10 +360,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Sample/Sample.db
-/Sample/Sample.Server/Files
-/Sample/Sample.Server/UploadFiles
-/Sample/Sample.Server/wwwroot/Files
-/Sample/Sample.Web/Files
-/Sample/Sample.Web/UploadFiles
-/Sample/Sample.Web/wwwroot/Files
+/Known.Web/Files
+/Known.Web/UploadFiles
+/Known.Web/wwwroot/Files

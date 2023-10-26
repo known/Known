@@ -2,7 +2,7 @@
 
 class CheckBox4 : BaseComponent
 {
-    private CheckBox? checkBox;
+    private KCheckBox? checkBox;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class CheckBox4 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<CheckBox>("CheckBox")
+        builder.Field<KCheckBox>("CheckBox")
                .Set(f => f.Text, "启用")
                .Build(value => checkBox = value);
     }

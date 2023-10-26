@@ -2,7 +2,7 @@
 
 class RadioList2 : BaseComponent
 {
-    private RadioList? radioList;
+    private KRadioList? radioList;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class RadioList2 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<RadioList>("英雄：", "RadioList")
+        builder.Field<KRadioList>("英雄：", "RadioList")
                .Set(f => f.Codes, "孙膑,后羿,妲己")
                .Build(value => radioList = value);
     }

@@ -1,6 +1,6 @@
 # Known
 
-[Known](https://gitee.com/known/Known)是基于C#和Blazor开发的前后端分离快速开发框架，开箱即用，跨平台，一处代码，多处运行。
+[Known](https://gitee.com/known/Known)是基于C#和Blazor开发的快速开发框架，开箱即用，跨平台，一处代码，多处运行。
 
 [![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
 [![fork](https://gitee.com/known/Known/badge/fork.svg?theme=dark)](https://gitee.com/known/Known/members)
@@ -16,8 +16,8 @@
 
 ### 概述
 
-- 基于C#和Blazor实现的快速开发框架，前后端分离，开箱即用。
-- 跨平台，单页应用，混合桌面应用，Web和桌面共享一处代码。
+- 基于C#和Blazor实现的快速开发框架，跨平台，开箱即用。
+- 单页应用，混合桌面应用，Web和桌面共享一处代码。
 - 包含模块、字典、组织、角色、用户、日志、消息、工作流、定时任务等功能。
 - 代码简洁、易扩展，让开发更简单、更快捷！
 
@@ -26,10 +26,11 @@
 ### 项目结构
 
 ```
-├─Known         -> 框架前后端共用库，前后端数据交互模型。
-├─Known.Core    -> 框架后端库，通用业务逻辑。
-├─Known.Razor   -> 框架前端库，Grid、Tree、Form等Blazor组件。
+├─Known         -> 框架类库，包含通用后端、内置组件、内置模块。
+├─Known.Cells   -> 基于Aspose.Cells实现的Excel操作类库。
+├─Known.Demo    -> 框架示例模块。
 ├─Known.Studio  -> 框架代码生成工具。
+├─Known.Web     -> 框架Blazor Web App。
 ├─WebSite       -> 框架网站及在线文档。
 ```
 

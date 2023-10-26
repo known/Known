@@ -14,13 +14,13 @@ class RadioList1 : BaseComponent
     {
         //Codes属性设置列表项
         //该值为数据字典类别或逗号分割的字符串
-        builder.Field<RadioList>("示例1：", "RadioList1").Set(f => f.Codes, Codes).Build();
+        builder.Field<KRadioList>("示例1：", "RadioList1").Set(f => f.Codes, Codes).Build();
         //Items属性设置列表项
-        builder.Field<RadioList>("示例2：", "RadioList2").Set(f => f.Items, Items).Build();
+        builder.Field<KRadioList>("示例2：", "RadioList2").Set(f => f.Items, Items).Build();
         //赋值
-        builder.Field<RadioList>("示例3：", "RadioList3").Value("孙膑").Set(f => f.Codes, Codes).Build();
-        builder.Field<RadioList>("示例4：", "RadioList4").Value("3").Set(f => f.Items, Items).Build();
-        builder.Field<RadioList>("平原模式：", "RadioList5").Value("3")
+        builder.Field<KRadioList>("示例3：", "RadioList3").Value("孙膑").Set(f => f.Codes, Codes).Build();
+        builder.Field<KRadioList>("示例4：", "RadioList4").Value("3").Set(f => f.Items, Items).Build();
+        builder.Field<KRadioList>("平原模式：", "RadioList5").Value("3")
                .Set(f => f.IsPlain, true)
                .Set(f => f.Items, Items)
                .Build();

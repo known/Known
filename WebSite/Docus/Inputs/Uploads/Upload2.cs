@@ -8,11 +8,11 @@ class Upload2 : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Field<Upload>("附件1：", "Upload1")
+        builder.Field<KUpload>("附件1：", "Upload1")
                .ValueChanged(OnValueChanged)
                .Set(f => f.OnFilesChanged, OnFilesChanged)
                .Build();
-        builder.Field<Upload>("附件2：", "Upload2")
+        builder.Field<KUpload>("附件2：", "Upload2")
                .ValueChanged(OnValueChanged)
                .Set(f => f.IsMultiple, true)
                .Set(f => f.OnFilesChanged, OnFilesChanged)

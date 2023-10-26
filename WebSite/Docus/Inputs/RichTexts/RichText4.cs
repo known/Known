@@ -4,7 +4,7 @@ class RichText4 : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Field<RichText>("内容：", "RichText4")
+        builder.Field<KRichText>("内容：", "RichText4")
                .Set(f => f.Option, new
                {
                    Height = 200,

@@ -3,11 +3,11 @@
 class Menu2 : BaseComponent
 {
     private string? message;
-    private readonly List<MenuItem> Items = new()
+    private readonly List<KMenuItem> Items = new()
     {
-        new MenuItem("Test1", "基础数据", "fa fa-database"),
-        new MenuItem("Test2", "业务管理", "fa fa-suitcase"),
-        new MenuItem("Test3", "系统管理", "fa fa-cogs")
+        new KMenuItem("Test1", "基础数据", "fa fa-database"),
+        new KMenuItem("Test2", "业务管理", "fa fa-suitcase"),
+        new KMenuItem("Test3", "系统管理", "fa fa-cogs")
     };
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -16,7 +16,7 @@ class Menu2 : BaseComponent
         {
             builder.Div("sider", attr =>
             {
-                builder.Component<Menu>()
+                builder.Component<KMenu>()
                        .Set(c => c.Style, "menu-tab")
                        .Set(c => c.TextIcon, true)
                        .Set(c => c.Items, Items)
@@ -27,7 +27,7 @@ class Menu2 : BaseComponent
         });
     }
 
-    private void OnItemClick(MenuItem item)
+    private void OnItemClick(KMenuItem item)
     {
         message = $"点击菜单{item.Name}";
         StateChanged();

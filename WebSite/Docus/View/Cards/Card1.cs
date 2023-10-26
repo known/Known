@@ -6,7 +6,7 @@ class Card1 : BaseComponent
     {
         builder.Div("demo-card", attr =>
         {
-            builder.Component<Card>()
+            builder.Component<KCard>()
                    .Set(c => c.Icon, "fa fa-list")
                    .Set(c => c.Name, "Card1")
                    .Set(c => c.Body, BuildBody)

@@ -1,6 +1,4 @@
-﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
-
-namespace Known.Studio.Pages;
+﻿namespace Known.Studio.Pages;
 
 class DevCode : BasePage
 {
@@ -40,7 +38,7 @@ Demo|Dm
             builder.Div("dc-domain", attr =>
             {
                 builder.Button("生成", "fa fa-download", Callback(OnGenerate), StyleType.Primary);
-                builder.Field<TextArea>("领域模型", "Domain").ValueChanged(v => domain = v)
+                builder.Field<KTextArea>("领域模型", "Domain").ValueChanged(v => domain = v)
                        .Set(f => f.Height, 320)
                        .Build();
             });
@@ -51,7 +49,7 @@ Demo|Dm
     {
         builder.Div("dc-right tabs top", attr =>
         {
-            builder.Component<Tabs>()
+            builder.Component<KTabs>()
                    .Set(c => c.Codes, Codes)
                    .Set(c => c.OnChanged, OnTabChanged)
                    .Build();
@@ -65,7 +63,7 @@ Demo|Dm
         await JS.InvokeAsync<string>("printCode", new object[] { codeString });
     }
 
-    private async void OnTabChanged(MenuItem item)
+    private async void OnTabChanged(KMenuItem item)
     {
         await SetCode(item.Code);
     }

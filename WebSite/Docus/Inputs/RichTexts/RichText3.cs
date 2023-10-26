@@ -2,7 +2,7 @@
 
 class RichText3 : BaseComponent
 {
-    private RichText? richText;
+    private KRichText? richText;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -14,7 +14,7 @@ class RichText3 : BaseComponent
                .Set(c => c.GetValue, GetValue)
                .Build();
 
-        builder.Field<RichText>("内容：", "RichText3").Build(value => richText = value);
+        builder.Field<KRichText>("内容：", "RichText3").Build(value => richText = value);
     }
 
     private void OnVisibleChanged(bool value) => richText?.SetVisible(value);
