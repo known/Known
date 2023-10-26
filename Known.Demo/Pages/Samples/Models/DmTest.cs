@@ -1,6 +1,4 @@
-﻿using Known.Demo.Pages;
-
-namespace Known.Demo.Pages.Samples.Models;
+﻿namespace Known.Demo.Pages.Samples.Models;
 
 class DmTest : EntityBase
 {

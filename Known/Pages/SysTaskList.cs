@@ -1,7 +1,4 @@
-﻿using Known.Extensions;
-using Known.Razor;
-
-namespace Known.Pages;
+﻿namespace Known.Pages;
 
 [Route("/tasks")]
 public class SysTaskList : KDataGrid<SysTask>

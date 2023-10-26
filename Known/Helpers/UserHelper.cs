@@ -1,8 +1,4 @@
-﻿using Known.Core;
-using Known.Repositories;
-using Known.Services;
-
-namespace Known.Helpers;
+﻿namespace Known.Helpers;
 
 class UserHelper
 {

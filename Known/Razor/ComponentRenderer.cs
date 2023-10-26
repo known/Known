@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Known.Razor;
+﻿namespace Known.Razor;
 
 public class ComponentRenderer<T> where T : IComponent
 {

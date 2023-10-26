@@ -1,6 +1,4 @@
-﻿using Known.Razor;
-
-namespace Known.Pages;
+﻿namespace Known.Pages;
 
 class CodeNameGrid : KEditGrid<CodeName>
 {

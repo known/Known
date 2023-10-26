@@ -1,6 +1,4 @@
-﻿using Known.Cells;
-
-namespace Known.Core;
+﻿namespace Known.Core;
 
 public enum DatabaseType
 {

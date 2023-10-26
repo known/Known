@@ -1,5 +1,4 @@
-﻿using Known.Demo.Pages;
-using Known.Demo.Pages.Samples.Homes;
+﻿using Known.Demo.Pages.Samples.Homes;
 
 namespace Known.Demo.Pages.Samples;
 

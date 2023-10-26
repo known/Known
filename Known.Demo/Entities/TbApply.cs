@@ -1,6 +1,4 @@
-﻿using Known.Demo;
-
-namespace Known.Demo.Entities;
+﻿namespace Known.Demo.Entities;
 
 /// <summary>
 /// 申请单实体类。

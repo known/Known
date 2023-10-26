@@ -1,6 +1,4 @@
-﻿using Known.Razor;
-
-namespace Known.Extensions;
+﻿namespace Known.Extensions;
 
 public static class ElementExtension
 {

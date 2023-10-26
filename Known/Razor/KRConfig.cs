@@ -1,6 +1,4 @@
-﻿using Known.Pages;
-
-namespace Known.Razor;
+﻿namespace Known.Razor;
 
 public sealed class KRConfig
 {

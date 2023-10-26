@@ -1,6 +1,4 @@
-﻿using Known.Pages;
-
-namespace Known;
+﻿namespace Known;
 
 public class Context
 {

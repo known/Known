@@ -1,6 +1,4 @@
-﻿using Known.Razor;
-
-namespace Known.Demo.Pages;
+﻿namespace Known.Demo.Pages;
 
 class Home : WebPage
 {

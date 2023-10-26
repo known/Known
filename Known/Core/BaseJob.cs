@@ -3,7 +3,7 @@
 public abstract class BaseJob
 {
     protected static AppInfo App => Config.App;
-    protected UserInfo CurrentUser { get; }
+    public UserInfo CurrentUser { get; set; }
 
     private Database database;
     public virtual Database Database

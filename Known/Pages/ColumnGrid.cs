@@ -1,8 +1,4 @@
-﻿using Known.Extensions;
-using Known.Helpers;
-using Known.Razor;
-
-namespace Known.Pages;
+﻿namespace Known.Pages;
 
 class ColumnGrid : KEditGrid<ColumnInfo>
 {

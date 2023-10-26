@@ -94,8 +94,8 @@ public class KForm : BaseComponent
             UI.CloseDialog();
         else if (Tabs != null)
             Tabs.CloseCurrent();
-        //else
-        //    Context.Back();
+        else
+            Context.Back();
     }
 
     protected bool HasButton(ButtonInfo button)

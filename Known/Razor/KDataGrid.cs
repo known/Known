@@ -443,8 +443,8 @@ public class KDataGrid<TItem, TForm> : KDataGrid<TItem> where TItem : EntityBase
         model ??= await GetDefaultModelAsync();
         if (showInDialog)
             ShowForm<TForm>(actionName, model);
-        //else
-        //    Context.Navigate<TItem, TForm>(actionName, "", model, false, CloseForm);
+        else
+            Context.Navigate<TItem, TForm>(actionName, "", model, false, CloseForm);
     }
 
     protected void View(TItem model, bool showInDialog, string title = null)
@@ -454,7 +454,7 @@ public class KDataGrid<TItem, TForm> : KDataGrid<TItem> where TItem : EntityBase
             actionName += $"-{title}";
         if (showInDialog)
             UI.ShowForm<TForm>(actionName, model);
-        //else
-        //    Context.Navigate<TItem, TForm>(actionName, "", model, true);
+        else
+            Context.Navigate<TItem, TForm>(actionName, "", model, true);
     }
 }

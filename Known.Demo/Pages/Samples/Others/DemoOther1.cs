@@ -1,6 +1,4 @@
-﻿using Known.Demo.Pages.Samples;
-
-namespace Known.Demo.Pages.Samples.Others;
+﻿namespace Known.Demo.Pages.Samples.Others;
 
 /// <summary>
 /// 输入类

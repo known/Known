@@ -1,5 +1,4 @@
-﻿using Known.Demo.Pages;
-using Known.Demo.Pages.Samples.Models;
+﻿using Known.Demo.Pages.Samples.Models;
 
 namespace Known.Demo.Pages.Samples.DataList;
 

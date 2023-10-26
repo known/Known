@@ -4,7 +4,7 @@ public class KMenuItem : MenuInfo
 {
     public KMenuItem()
     {
-        Children = new List<KMenuItem>();
+        Children = [];
     }
 
     public KMenuItem(string code, string name, string icon = null) : this()

@@ -1,6 +1,4 @@
-﻿using Known.Extensions;
-
-namespace Known.Razor;
+﻿namespace Known.Razor;
 
 class Table<TItem> : BaseComponent
 {

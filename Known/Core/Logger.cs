@@ -1,7 +1,4 @@
-﻿using System.Collections.Concurrent;
-using Known.Repositories;
-
-namespace Known.Core;
+﻿namespace Known.Core;
 
 public interface ILogger
 {

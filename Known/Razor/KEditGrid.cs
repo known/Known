@@ -1,6 +1,4 @@
-﻿using Known.Extensions;
-
-namespace Known.Razor;
+﻿namespace Known.Razor;
 
 public class KEditGrid<TItem> : KDataGrid<TItem> where TItem : class, new()
 {
