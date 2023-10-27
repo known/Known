@@ -24,7 +24,7 @@ class VerifyList : WebGridView<TbApply, ApplyForm>
     {
         SelectRows(items =>
         {
-            UI.VerifyFlow(Platform.Flow, new FlowFormInfo
+            UI.VerifyFlow(Platform, new FlowFormInfo
             {
                 BizId = string.Join(",", items.Select(i => i.Id)),
                 BizStatus = FlowStatus.VerifyPass,
@@ -37,7 +37,7 @@ class VerifyList : WebGridView<TbApply, ApplyForm>
     {
         SelectRows(items =>
         {
-            UI.VerifyFlow(Platform.Flow, new FlowFormInfo
+            UI.VerifyFlow(Platform, new FlowFormInfo
             {
                 BizId = string.Join(",", items.Select(i => i.Id)),
                 BizStatus = FlowStatus.VerifyFail,

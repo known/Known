@@ -21,7 +21,7 @@ class ColumnGrid : KEditGrid<ColumnInfo>
         builder.Field(r => r.IsSum).Name("合计").Edit();
         Columns = builder.ToColumns();
 
-        modelTypes = KRConfig.GetModelTypes();
+        modelTypes = Config.GetModelTypes();
         models = modelTypes.Select(t => new CodeInfo(t.FullName, t.Name)).ToArray();
         ActionHead = b =>
         {

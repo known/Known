@@ -2,7 +2,7 @@
 
 namespace Known.Demo.Services;
 
-public class HomeService : BaseService
+class HomeService : BaseService
 {
     public async Task<HomeInfo> GetHomeAsync()
     {

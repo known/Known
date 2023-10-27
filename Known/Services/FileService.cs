@@ -1,6 +1,6 @@
 ﻿namespace Known.Services;
 
-public class FileService : BaseService
+class FileService : BaseService
 {
     //Public
     internal static async Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)

@@ -4,11 +4,11 @@ public sealed class PlatformHelper
 {
     private PlatformHelper() { }
 
-    public static Action<Database, SysOrganization>? Organization { get; set; }
-    public static Action<Database, UserInfo>? User { get; set; }
-    public static Func<Database, List<CodeInfo>>? UserDatas { get; set; }
-    public static Func<Database, List<CodeInfo>>? Dictionary { get; set; }
-    public static Func<Database, SysUser, Result>? CheckUser { get; set; }
+    public static Action<Database, SysOrganization> Organization { get; set; }
+    public static Action<Database, UserInfo> User { get; set; }
+    public static Func<Database, List<CodeInfo>> UserDatas { get; set; }
+    public static Func<Database, List<CodeInfo>> Dictionary { get; set; }
+    public static Func<Database, SysUser, Result> CheckUser { get; set; }
 
     //Setting
     public static async Task<SysSetting> GetSettingByCompAsync(Database db, string bizType) => await SettingRepository.GetSettingByCompAsync(db, bizType) ?? new SysSetting { BizType = bizType };

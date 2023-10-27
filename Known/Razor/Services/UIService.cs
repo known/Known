@@ -10,8 +10,8 @@ public partial class UIService
     {
         this.jsRuntime = jsRuntime;
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js").AsTask());
-        if (!string.IsNullOrWhiteSpace(KRConfig.AppJsPath))
-            appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", KRConfig.AppJsPath).AsTask());
+        if (!string.IsNullOrWhiteSpace(Config.AppJsPath))
+            appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.AppJsPath).AsTask());
     }
 
     internal void InitMenu() => InvokeVoidAsync("KRazor.initMenu");

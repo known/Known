@@ -1,7 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Route("/files")]
-public class SysFileList : KDataGrid<SysFile>
+class SysFileList : KDataGrid<SysFile>
 {
     public SysFileList()
     {

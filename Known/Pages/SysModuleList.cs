@@ -1,7 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Route("/modules")]
-public class SysModuleList : KDataGrid<SysModule, SysModuleForm>
+class SysModuleList : KDataGrid<SysModule, SysModuleForm>
 {
     private readonly List<KTreeItem<string>> data = new();
     private KTreeItem<string> current;

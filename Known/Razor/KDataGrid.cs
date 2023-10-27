@@ -414,11 +414,11 @@ public class KDataGrid<TItem> : DataComponent<TItem>
 
     private MenuInfo GetPageMenu()
     {
-        if (KRConfig.UserMenus == null)
+        if (Config.UserMenus == null)
             return null;
 
         var type = GetType();
-        return KRConfig.UserMenus.FirstOrDefault(m => m.Target == type.FullName);
+        return Config.UserMenus.FirstOrDefault(m => m.Target == type.FullName);
     }
 }
 

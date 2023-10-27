@@ -1,14 +1,13 @@
 ﻿namespace Known.Pages;
 
-[Route("/account")]
-public class SysAccount : PageComponent
+class SysAccount : PageComponent
 {
     private readonly List<KMenuItem> items = new();
     private SysUserInfo userInfo;
 
     protected override void OnInitialized()
     {
-        if (KRConfig.IsWeb)
+        if (Config.IsWeb)
         {
             items.Add(new KMenuItem("待办事项", "fa fa-tasks", typeof(SysMyFlowList)));
             items.Add(new KMenuItem("我的消息", "fa fa-envelope-o", typeof(SysMyMessage)));

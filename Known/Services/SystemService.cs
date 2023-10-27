@@ -1,6 +1,6 @@
 ﻿namespace Known.Services;
 
-public class SystemService : BaseService
+class SystemService : BaseService
 {
     internal const string KeySystem = "SystemInfo";
 

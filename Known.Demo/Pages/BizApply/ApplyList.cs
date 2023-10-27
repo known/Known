@@ -62,7 +62,7 @@ class ApplyList : WebGridView<TbApply, ApplyForm>
             return;
         }
 
-        UI.SubmitFlow(Platform.Flow, new FlowFormInfo
+        UI.SubmitFlow(Platform, new FlowFormInfo
         {
             UserRole = UserRole.Verifier,
             BizId = row.Id,
@@ -79,7 +79,7 @@ class ApplyList : WebGridView<TbApply, ApplyForm>
             return;
         }
 
-        UI.RevokeFlow(Platform.Flow, new FlowFormInfo
+        UI.RevokeFlow(Platform, new FlowFormInfo
         {
             BizId = row.Id,
             BizStatus = FlowStatus.Revoked,

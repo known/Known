@@ -1,7 +1,7 @@
 ﻿namespace Known.Pages;
 
 [Dialog(700, 350)]
-public class SysUserForm : BaseForm<SysUser>
+class SysUserForm : BaseForm<SysUser>
 {
     private SysUser model;
     private UserAuthInfo auth;

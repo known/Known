@@ -1,6 +1,6 @@
 ﻿namespace Known.Extensions;
 
-public static class ServiceExtension
+static class ServiceExtension
 {
     public static async Task RefreshCache(this DictionaryService service)
     {

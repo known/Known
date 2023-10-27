@@ -72,14 +72,14 @@ class AdminHeader : BaseComponent
             //builder.Li("nav-item text", attr => builder.Component<Components.Timer>().Build());
             //builder.Li("nav-item text", attr => builder.Text($"{DateTime.Now:yyyy-MM-dd dddd}"));
             builder.Li("nav-item fa fa-home", attr => attr.Title("系统主页").OnClick(Callback(Context.NavigateToHome)));
-            if (KRConfig.IsWeb)
+            if (Config.IsWeb)
                 builder.Li($"nav-item {ToggleScreen}", attr => attr.Title("全屏切换").OnClick(Callback(OnToggleScreen)));
             //builder.Li("nav-item fa fa-refresh", attr => attr.Title("刷新页面").OnClick(Callback(Context.RefreshPage)));
             builder.Li("nav-item fa fa-user", attr =>
             {
                 attr.Title("个人中心").OnClick(Callback(Context.NavigateToAccount));
                 builder.Span(CurrentUser.Name);
-                if (KRConfig.IsWeb && MessageCount > 0)
+                if (Config.IsWeb && MessageCount > 0)
                     builder.Badge(StyleType.Danger, $"{MessageCount}");
             });
             builder.Li("nav-item fa fa-power-off", attr => attr.Title("安全退出").OnClick(Callback(OnUserLogout)));

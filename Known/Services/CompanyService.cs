@@ -1,6 +1,6 @@
 ﻿namespace Known.Services;
 
-public class CompanyService : BaseService
+class CompanyService : BaseService
 {
     private const string KeyCompany = "CompanyInfo";
 

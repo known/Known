@@ -15,7 +15,7 @@ class CompanyForm : WebForm<CompanyInfo>
 
     protected override async Task InitFormAsync()
     {
-        Model = await Platform.Company.GetCompanyAsync<CompanyInfo>();
+        Model = await Platform.GetCompanyAsync<CompanyInfo>();
     }
 
     protected override void BuildFields(FieldBuilder<CompanyInfo> builder)
@@ -69,7 +69,7 @@ class CompanyForm : WebForm<CompanyInfo>
 
     private async Task OnSaveInfoAsync()
     {
-        await SubmitAsync(Platform.Company.SaveCompanyAsync, result =>
+        await SubmitAsync(Platform.SaveCompanyAsync, result =>
         {
             isEdit = false;
             StateChanged();

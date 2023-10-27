@@ -18,7 +18,7 @@ public class Context
         OnNavigate?.Invoke(current);
     }
 
-    public void NavigateToHome() => Navigate(KRConfig.Home);
+    public void NavigateToHome() => Navigate(Config.Home);
     public void NavigateToAccount() => Navigate(account);
 
     public void Navigate(KMenuItem menu, Dictionary<string, object> prevParams = null)
@@ -43,7 +43,7 @@ public class Context
     {
         var type = typeof(T);
         var target = type.FullName;
-        var menu = KRConfig.UserMenus.FirstOrDefault(m => m.Target == target);
+        var menu = Config.UserMenus.FirstOrDefault(m => m.Target == target);
         if (menu == null)
             return;
 

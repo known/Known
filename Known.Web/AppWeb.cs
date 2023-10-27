@@ -1,5 +1,4 @@
-﻿using Known.Demo;
-using Known.Razor;
+﻿using Known.Razor;
 
 namespace Known.Web;
 
@@ -7,19 +6,21 @@ class AppWeb
 {
     internal static void Initialize(WebApplicationBuilder builder)
     {
+        //设置根目录
         Config.WebRoot = builder.Environment.WebRootPath;
         Config.ContentRoot = builder.Environment.ContentRootPath;
 
         //设置项目ID和名称
         Config.AppId = "KIMS";
         Config.AppName = "Known信息管理系统";
+
+        //设置项目Js路径
+        Config.AppJsPath = "script.js";
+        
         //设置默认分页大小
         PagingCriteria.DefaultPageSize = 20;
-        //注入项目数据字典类别
-        DicCategory.AddCategories<AppDictionary>();
-        //注册AppJs路径
-        KRConfig.AppJsPath = "script.js";
 
+        //获取配置
         var configuration = builder.Configuration;
         var connString = configuration.GetSection("ConnString").Get<string>();
         var uploadPath = configuration.GetSection("UploadPath").Get<string>();

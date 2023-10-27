@@ -1,7 +1,7 @@
 ﻿namespace Known.Pages;
 
 [Dialog(1000, 680)]
-public class SysModuleForm : BaseForm<SysModule>
+class SysModuleForm : BaseForm<SysModule>
 {
     private SysModule model;
     private ColumnGrid grid;

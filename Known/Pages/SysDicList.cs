@@ -1,7 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Route("/dictionaries")]
-public class SysDicList : KDataGrid<SysDictionary, SysDicForm>
+class SysDicList : KDataGrid<SysDictionary, SysDicForm>
 {
     private readonly List<DicCategory> dicCates = DicCategory.Categories;
     private readonly CodeInfo[] categories;

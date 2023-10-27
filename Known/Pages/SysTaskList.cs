@@ -1,7 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Route("/tasks")]
-public class SysTaskList : KDataGrid<SysTask>
+class SysTaskList : KDataGrid<SysTask>
 {
     public SysTaskList()
     {

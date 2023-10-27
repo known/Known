@@ -25,7 +25,7 @@ class QueryList : WebGridView<TbApply, ApplyForm>
     {
         SelectRows(items =>
         {
-            UI.RepeatFlow(Platform.Flow, new FlowFormInfo
+            UI.RepeatFlow(Platform, new FlowFormInfo
             {
                 BizId = string.Join(",", items.Select(i => i.Id)),
                 BizStatus = FlowStatus.ReApply,

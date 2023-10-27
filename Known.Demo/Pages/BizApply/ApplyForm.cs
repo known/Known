@@ -108,7 +108,7 @@ class ApplyForm : WebForm<TbApply>
             return;
         }
 
-        UI.SubmitFlow(Platform.Flow, new FlowFormInfo
+        UI.SubmitFlow(Platform, new FlowFormInfo
         {
             UserRole = UserRole.Verifier,
             BizId = model.Id,
@@ -119,7 +119,7 @@ class ApplyForm : WebForm<TbApply>
 
     private void OnAssignFlow()
     {
-        UI.AssignFlow(Platform.Flow, new FlowFormInfo
+        UI.AssignFlow(Platform, new FlowFormInfo
         {
             UserRole = UserRole.Verifier,
             BizId = model?.Id,
@@ -133,7 +133,7 @@ class ApplyForm : WebForm<TbApply>
         if (!ValidateCheck(true))
             return;
 
-        UI.VerifyFlow(Platform.Flow, new FlowFormInfo
+        UI.VerifyFlow(Platform, new FlowFormInfo
         {
             BizId = model?.Id,
             BizStatus = FlowStatus.VerifyPass,
@@ -146,7 +146,7 @@ class ApplyForm : WebForm<TbApply>
         if (!ValidateCheck(false))
             return;
 
-        UI.VerifyFlow(Platform.Flow, new FlowFormInfo
+        UI.VerifyFlow(Platform, new FlowFormInfo
         {
             BizId = model?.Id,
             BizStatus = FlowStatus.VerifyFail,

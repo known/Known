@@ -22,7 +22,7 @@ public class AdminBody : BaseComponent
 
     private void OnNavigate(KMenuItem menu)
     {
-        menu.ComType = KRConfig.GetType(menu.Target);
+        menu.ComType = Config.GetType(menu.Target);
         if (menu == null || menu.ComType == null)
             return;
 

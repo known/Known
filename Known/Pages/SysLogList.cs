@@ -1,7 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Route("/logs")]
-public class SysLogList : KDataGrid<SysLog>
+class SysLogList : KDataGrid<SysLog>
 {
     public SysLogList()
     {

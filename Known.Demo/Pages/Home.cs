@@ -11,7 +11,7 @@ class Home : WebPage
     {
         user = CurrentUser;
         info = await Client.Home.GetHomeAsync();
-        visitMenus = KRConfig.GetMenus(info?.VisitMenuIds);
+        visitMenus = Config.GetMenus(info?.VisitMenuIds);
     }
 
     protected override Task OnAfterRenderAsync(bool firstRender)

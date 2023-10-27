@@ -94,7 +94,7 @@ public class Admin : KLayout
 
     private static List<KMenuItem> GetUserMenus(List<MenuInfo> menus)
     {
-        KRConfig.UserMenus = menus;
+        Config.UserMenus = menus;
         return menus.ToMenuItems();
     }
 }

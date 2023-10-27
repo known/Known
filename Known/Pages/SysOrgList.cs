@@ -1,7 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Route("/organizations")]
-public class SysOrgList : KDataGrid<SysOrganization, SysOrgForm>
+class SysOrgList : KDataGrid<SysOrganization, SysOrgForm>
 {
     private readonly List<KTreeItem<SysOrganization>> data = new();
     private KTreeItem<SysOrganization> current;

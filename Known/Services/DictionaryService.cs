@@ -1,6 +1,6 @@
 ﻿namespace Known.Services;
 
-public class DictionaryService : BaseService
+class DictionaryService : BaseService
 {
     public Task<Result> RefreshCacheAsync() => RefreshCacheAsync(Database, CurrentUser);
 

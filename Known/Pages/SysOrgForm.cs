@@ -1,7 +1,7 @@
 ﻿namespace Known.Pages;
 
 [Dialog(500, 340)]
-public class SysOrgForm : BaseForm<SysOrganization>
+class SysOrgForm : BaseForm<SysOrganization>
 {
     protected override void BuildFields(FieldBuilder<SysOrganization> builder)
     {

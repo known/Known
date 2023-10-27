@@ -22,12 +22,12 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
     protected UserInfo CurrentUser => Context.CurrentUser;
 
-    private PlatformFactory platform;
-    protected PlatformFactory Platform
+    private PlatformService platform;
+    protected PlatformService Platform
     {
         get
         {
-            platform ??= new PlatformFactory(CurrentUser);
+            platform ??= new PlatformService(CurrentUser);
             return platform;
         }
     }
@@ -65,7 +65,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
             return;
 
         var log = new SysLog { Target = Name, Content = type.FullName };
-        if (KRConfig.UserMenus.Exists(p => p.Code == type.Name))
+        if (Config.UserMenus.Exists(p => p.Code == type.Name))
             log.Type = Constants.LogTypePage;
 
         if (string.IsNullOrWhiteSpace(log.Type))

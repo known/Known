@@ -42,6 +42,6 @@ class SysMyFlowList : KDataGrid<SysFlow>, IMyFlow
     private void OnBizNameClick(SysFlow row)
     {
         Flow = row;
-        KRConfig.ShowMyFlow?.Invoke(this);
+        Config.ShowMyFlow?.Invoke(this);
     }
 }

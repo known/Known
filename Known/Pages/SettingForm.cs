@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-public class SettingForm : BaseForm<SettingInfo>
+class SettingForm : BaseForm<SettingInfo>
 {
     private readonly string sizes = string.Join(",", PagingCriteria.PageSizes);
 

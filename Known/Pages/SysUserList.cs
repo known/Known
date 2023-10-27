@@ -1,7 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Route("/users")]
-public class SysUserList : KDataGrid<SysUser, SysUserForm>, IPicker
+class SysUserList : KDataGrid<SysUser, SysUserForm>, IPicker
 {
     private readonly List<KTreeItem<SysOrganization>> data = new();
     private KTreeItem<SysOrganization> current;

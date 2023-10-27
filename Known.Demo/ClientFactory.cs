@@ -2,7 +2,7 @@
 
 namespace Known.Demo;
 
-public class ClientFactory
+class ClientFactory
 {
     public ClientFactory(UserInfo user)
     {

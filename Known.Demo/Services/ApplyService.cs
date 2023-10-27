@@ -3,7 +3,7 @@ using Known.Demo.WorkFlows;
 
 namespace Known.Demo.Services;
 
-public class ApplyService : BaseService
+class ApplyService : BaseService
 {
     //Apply
     public Task<PagingResult<TbApply>> QueryApplysAsync(PagingCriteria criteria)

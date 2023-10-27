@@ -41,7 +41,7 @@ public static class ButtonExtension
 
     internal static bool IsInMenu(this ButtonInfo button, string id)
     {
-        var menu = KRConfig.UserMenus.FirstOrDefault(m => m.Id == id || m.Code == id);
+        var menu = Config.UserMenus.FirstOrDefault(m => m.Id == id || m.Code == id);
         if (menu == null)
             return false;
 

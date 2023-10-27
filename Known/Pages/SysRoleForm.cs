@@ -1,7 +1,7 @@
 ﻿namespace Known.Pages;
 
 [Dialog(1000, 500)]
-public class SysRoleForm : BaseForm<SysRole>
+class SysRoleForm : BaseForm<SysRole>
 {
     class CheckInfo
     {

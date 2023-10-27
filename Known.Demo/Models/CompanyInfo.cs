@@ -1,6 +1,6 @@
 ﻿namespace Known.Demo.Models;
 
-public class CompanyInfo
+class CompanyInfo
 {
     [Column("企业编码", true)] public string? Code { get; set; }
     [Column("企业名称", true)] public string? Name { get; set; }

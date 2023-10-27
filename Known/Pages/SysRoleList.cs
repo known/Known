@@ -1,7 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Route("/roles")]
-public class SysRoleList : KDataGrid<SysRole, SysRoleForm>
+class SysRoleList : KDataGrid<SysRole, SysRoleForm>
 {
     protected override Task InitPageAsync()
     {

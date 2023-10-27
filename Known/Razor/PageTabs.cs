@@ -25,7 +25,7 @@ class PageTabs : BaseComponent
     {
         if (menus.Count == 0)
         {
-            menus.Add(KRConfig.Home);
+            menus.Add(Config.Home);
             curPage = menus[0];
         }
     }
@@ -121,20 +121,20 @@ class PageTabs : BaseComponent
             await item.Value.DisposeAsync();
         }
         dialogs.Clear();
-        menus.RemoveAll(m => m != KRConfig.Home);
-        curPage = KRConfig.Home;
+        menus.RemoveAll(m => m != Config.Home);
+        curPage = Config.Home;
         UI.CurDialog = null;
         StateChanged();
     }
 
     private void CloseOther()
     {
-        var items = menus.Where(m => m != KRConfig.Home && m.Id != curPage.Id).ToList();
+        var items = menus.Where(m => m != Config.Home && m.Id != curPage.Id).ToList();
         foreach (var item in items)
         {
             RemoveDialig(item);
         }
-        menus.RemoveAll(m => m != KRConfig.Home && m.Id != curPage.Id);
+        menus.RemoveAll(m => m != Config.Home && m.Id != curPage.Id);
         StateChanged();
     }
 

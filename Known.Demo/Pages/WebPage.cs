@@ -1,6 +1,6 @@
 ﻿namespace Known.Demo.Pages;
 
-public class WebPage : PageComponent
+class WebPage : PageComponent
 {
     private ClientFactory? client;
     protected ClientFactory Client
@@ -13,7 +13,7 @@ public class WebPage : PageComponent
     }
 }
 
-public class WebGridView<TModel> : KDataGrid<TModel>
+class WebGridView<TModel> : KDataGrid<TModel>
 {
     private ClientFactory? client;
     protected ClientFactory Client
@@ -26,7 +26,7 @@ public class WebGridView<TModel> : KDataGrid<TModel>
     }
 }
 
-public class WebGridView<TModel, TForm> : KDataGrid<TModel, TForm>
+class WebGridView<TModel, TForm> : KDataGrid<TModel, TForm>
     where TModel : EntityBase, new()
     where TForm : BaseForm<TModel>
 {
@@ -41,7 +41,7 @@ public class WebGridView<TModel, TForm> : KDataGrid<TModel, TForm>
     }
 }
 
-public class WebForm<TModel> : BaseForm<TModel>
+class WebForm<TModel> : BaseForm<TModel>
 {
     private ClientFactory? client;
     protected ClientFactory Client

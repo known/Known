@@ -1,6 +1,6 @@
 ﻿namespace Known.Services;
 
-public class RoleService : BaseService
+class RoleService : BaseService
 {
     public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria)
     {

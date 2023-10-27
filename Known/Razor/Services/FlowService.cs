@@ -4,7 +4,7 @@ partial class UIService
 {
     public Task ShowFlowChart(FlowInfo info) => InvokeAsync<FlowInfo>("KRazor.showFlow", info);
 
-    public void SubmitFlow(FlowService service, FlowFormInfo model, Action onSuccess = null)
+    public void SubmitFlow(PlatformService platform, FlowFormInfo model, Action onSuccess = null)
     {
         Show("提交流程", new FlowFormOption
         {
@@ -15,13 +15,13 @@ partial class UIService
             Model = model,
             OnConfirm = async info =>
             {
-                var result = await service.SubmitFlowAsync(info);
+                var result = await platform.Flow.SubmitFlowAsync(info);
                 ResultFlow(result, onSuccess);
             }
         });
     }
 
-    public void RevokeFlow(FlowService service, FlowFormInfo model, Action onSuccess = null)
+    public void RevokeFlow(PlatformService platform, FlowFormInfo model, Action onSuccess = null)
     {
         Show("撤回流程", new FlowFormOption
         {
@@ -32,13 +32,13 @@ partial class UIService
             Model = model,
             OnConfirm = async info =>
             {
-                var result = await service.RevokeFlowAsync(info);
+                var result = await platform.Flow.RevokeFlowAsync(info);
                 ResultFlow(result, onSuccess);
             }
         });
     }
 
-    public void AssignFlow(FlowService service, FlowFormInfo model, Action onSuccess = null)
+    public void AssignFlow(PlatformService platform, FlowFormInfo model, Action onSuccess = null)
     {
         Show("指派流程", new FlowFormOption
         {
@@ -51,13 +51,13 @@ partial class UIService
             Model = model,
             OnConfirm = async info =>
             {
-                var result = await service.AssignFlowAsync(info);
+                var result = await platform.Flow.AssignFlowAsync(info);
                 ResultFlow(result, onSuccess);
             }
         });
     }
 
-    public void VerifyFlow(FlowService service, FlowFormInfo model, Action onSuccess = null)
+    public void VerifyFlow(PlatformService platform, FlowFormInfo model, Action onSuccess = null)
     {
         Show("审核流程", new FlowFormOption
         {
@@ -69,13 +69,13 @@ partial class UIService
             Model = model,
             OnConfirm = async info =>
             {
-                var result = await service.VerifyFlowAsync(info);
+                var result = await platform.Flow.VerifyFlowAsync(info);
                 ResultFlow(result, onSuccess);
             }
         });
     }
 
-    public void RepeatFlow(FlowService service, FlowFormInfo model, Action onSuccess = null)
+    public void RepeatFlow(PlatformService platform, FlowFormInfo model, Action onSuccess = null)
     {
         Show("重启流程", new FlowFormOption
         {
@@ -86,13 +86,13 @@ partial class UIService
             Model = model,
             OnConfirm = async info =>
             {
-                var result = await service.RepeatFlowAsync(info);
+                var result = await platform.Flow.RepeatFlowAsync(info);
                 ResultFlow(result, onSuccess);
             }
         });
     }
 
-    public void StopFlow(FlowService service, FlowFormInfo model, Action onSuccess = null)
+    public void StopFlow(PlatformService platform, FlowFormInfo model, Action onSuccess = null)
     {
         Show("终止流程", new FlowFormOption
         {
@@ -103,7 +103,7 @@ partial class UIService
             Model = model,
             OnConfirm = async info =>
             {
-                var result = await service.StopFlowAsync(info);
+                var result = await platform.Flow.StopFlowAsync(info);
                 ResultFlow(result, onSuccess);
             }
         });

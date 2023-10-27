@@ -22,7 +22,7 @@ public class Index : Known.Pages.Index
             return null;
 
         var userName = state?.User?.Identity?.Name;
-        return await Platform.User.GetUserAsync(userName);
+        return await Platform.GetUserAsync(userName);
     }
 
     protected override async Task SetCurrentUserAsync(UserInfo user)

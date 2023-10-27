@@ -1,6 +1,6 @@
 ﻿namespace Known.Services;
 
-public class ModuleService : BaseService
+class ModuleService : BaseService
 {
     public Task<List<SysModule>> GetModulesAsync() => Database.QueryListAsync<SysModule>();
 

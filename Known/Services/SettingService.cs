@@ -1,6 +1,6 @@
 ﻿namespace Known.Services;
 
-public class SettingService : BaseService
+class SettingService : BaseService
 {
     //Setting
     public Task<List<SysSetting>> GetSettingsAsync(string bizType) => SettingRepository.GetSettingsAsync(Database, bizType);

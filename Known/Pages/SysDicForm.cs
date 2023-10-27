@@ -1,7 +1,7 @@
 ﻿namespace Known.Pages;
 
 [Dialog(500, 380)]
-public class SysDicForm : BaseForm<SysDictionary>
+class SysDicForm : BaseForm<SysDictionary>
 {
     private CodeNameGrid? grid;
     private List<CodeName>? children;

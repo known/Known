@@ -1,6 +1,6 @@
 ﻿namespace Known.Services;
 
-public class UserService : BaseService
+class UserService : BaseService
 {
     //User
     public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)

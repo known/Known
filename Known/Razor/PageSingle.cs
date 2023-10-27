@@ -3,7 +3,7 @@
 class PageSingle : BaseComponent
 {
     private DynamicComponent component;
-    private KMenuItem curPage = KRConfig.Home;
+    private KMenuItem curPage = Config.Home;
 
     internal void ShowPage(KMenuItem menu)
     {
@@ -13,7 +13,7 @@ class PageSingle : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (curPage?.Name != KRConfig.Home?.Name)
+        if (curPage?.Name != Config.Home?.Name)
         {
             builder.Component<KBreadcrumb>().Set(c => c.Menu, curPage).Build();
             builder.Div("kui-content", attr =>
