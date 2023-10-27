@@ -31,6 +31,7 @@ public sealed class PlatformHelper
     //Company
     public static Task<string> GetCompanyAsync(Database db, UserInfo user) => CompanyService.GetCompanyAsync(db, user);
     //File
+    public static void DeleteFiles(List<string> filePaths) => filePaths.ForEach(AttachFile.DeleteFile);
     public static Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles) => FileService.DeleteFilesAsync(db, bizId, oldFiles);
     public static Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles) => FileService.SaveFileAsync(db, file, bizId, bizType, oldFiles);
     public static Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType) => FileService.AddFilesAsync(db, files, bizId, bizType);

@@ -52,7 +52,7 @@ class ApplyService : BaseService
         });
         //如果事务执行成功，删除实际附件
         if (result.IsValid)
-            AttachFile.DeleteFiles(oldFiles);
+            PlatformHelper.DeleteFiles(oldFiles);
         return result;
     }
 

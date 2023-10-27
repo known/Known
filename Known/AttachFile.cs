@@ -64,8 +64,6 @@ public class AttachFile
         Utils.DeleteFile(path);
     }
 
-    public static void DeleteFiles(List<string> filePaths) => filePaths.ForEach(DeleteFile);
-
     private static string GetFilePath(string compNo, string type = null)
     {
         var filePath = compNo;

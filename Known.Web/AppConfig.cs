@@ -17,11 +17,11 @@ static class AppConfig
         Config.AppName = "Known信息管理系统";
         Config.SetAppVersion(typeof(AppConfig).Assembly);
 
-        //设置产品ID
+        //设置产品ID，根据硬件获取ID
         Config.ProductId = $"{Config.AppId}-000001";
 
-        //设置项目Js路径
-        Config.AppJsPath = "script.js";
+        //设置项目JS路径，通过UI.InvokeAppVoidAsync调用JS方法
+        Config.AppJsPath = "/script.js";
         
         //设置默认分页大小
         PagingCriteria.DefaultPageSize = 20;
@@ -56,14 +56,17 @@ static class AppConfig
 
     internal static void AddApp(this IServiceCollection services)
     {
+        //添加定时任务
         services.AddScheduler();
         services.AddTransient<ImportTaskJob>();
     }
 
     internal static void UseApp(this IServiceProvider provider)
     {
+        //配置定时任务
         provider.UseScheduler(scheduler =>
         {
+            //每5秒执行一次异步导入
             scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
         });
     }
