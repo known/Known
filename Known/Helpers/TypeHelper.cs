@@ -150,7 +150,7 @@ public sealed class TypeHelper
         var assemblyName = new AssemblyName("DynamicAssembly");
         var dyAssembly = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndCollect);
         var dyModule = dyAssembly.DefineDynamicModule("DynamicModule");
-        var dyClass = dyModule.DefineType("MyDyClass", TypeAttributes.Public | TypeAttributes.Serializable | TypeAttributes.Class | TypeAttributes.AutoClass);
+        var dyClass = dyModule.DefineType("MyDyClass", TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.AutoClass);
         foreach (var item in keyValues)
         {
             var fb = dyClass.DefineField("_" + item.Key, item.Value, FieldAttributes.Private);

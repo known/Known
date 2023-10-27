@@ -66,5 +66,5 @@ class SysUserForm : BaseForm<SysUser>
         base.BuildButtons(builder);
     }
 
-    private void OnSave() => SubmitAsync(Platform.User.SaveUserAsync);
+    private Task OnSave() => SubmitAsync(Platform.User.SaveUserAsync);
 }

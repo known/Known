@@ -12,7 +12,7 @@ static class Extension
         return lists.ElementAt(index);
     }
 
-    internal static void BillStatus(this RenderTreeBuilder builder, string? status)
+    internal static void BillStatus(this RenderTreeBuilder builder, string status)
     {
         if (string.IsNullOrWhiteSpace(status))
             return;

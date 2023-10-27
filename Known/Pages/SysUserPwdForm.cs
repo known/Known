@@ -27,9 +27,9 @@ class SysUserPwdForm : BaseForm<PwdFormInfo>
         builder.Button(FormButton.EditOK, Callback(e => OnSave()));
     }
 
-    private void OnSave()
+    private Task OnSave()
     {
-        SubmitAsync(data =>
+        return SubmitAsync(data =>
         {
             var info = new PwdFormInfo
             {

@@ -3,8 +3,8 @@
 [Route("/")]
 public class Index : Known.Pages.Index
 {
-    [CascadingParameter] private Task<AuthenticationState>? AuthState { get; set; }
-    [Inject] private AuthenticationStateProvider? AuthProvider { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
+    [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
 
     protected override void BuildLogin(RenderTreeBuilder builder)
     {

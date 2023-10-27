@@ -4,10 +4,10 @@
 public class Index : BaseComponent
 {
     private bool isLoaded;
-    private static readonly List<KMenuItem> menus = new()
-    {
+    private static readonly List<KMenuItem> menus =
+    [
         new KMenuItem("代码生成", "fa fa-code", typeof(DevCode))
-    };
+    ];
     private KMenuItem curItem = menus[0];
 
     protected override void OnInitialized()

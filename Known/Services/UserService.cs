@@ -273,7 +273,7 @@ class UserService : BaseService
         var result = await DictionaryService.RefreshCacheAsync(Database, CurrentUser);
         var admin = new AdminInfo
         {
-            AppName = UserHelper.GetSystemName(Database),
+            AppName = await UserHelper.GetSystemNameAsync(Database),
             MessageCount = await UserRepository.GetMessageCountAsync(Database),
             UserSetting = await UserHelper.GetUserSettingAsync(Database),
             UserMenus = await UserHelper.GetUserMenusAsync(Database),

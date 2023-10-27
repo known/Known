@@ -3,7 +3,7 @@
 [Dialog(960, 600)]
 class ApplyForm : WebForm<TbApply>
 {
-    private TbApply? model;
+    private TbApply model;
 
     public ApplyForm()
     {
@@ -154,7 +154,7 @@ class ApplyForm : WebForm<TbApply>
         }, OnSuccessed);
     }
 
-    private void OnSave() => SubmitFilesAsync(Client.Apply.SaveApplyAsync);
+    private Task OnSave() => SubmitFilesAsync(Client.Apply.SaveApplyAsync);
 
     private void OnSuccessed()
     {

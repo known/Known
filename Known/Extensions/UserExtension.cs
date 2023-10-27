@@ -2,17 +2,17 @@
 
 public static class UserExtension
 {
-    public static void SendMessage(this UserInfo user, Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    public static Task SendMessageAsync(this UserInfo user, Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
     {
-        user.SendMessage(db, Constants.UMLGeneral, toUser, subject, content, filePath, bizId);
+        return user.SendMessageAsync(db, Constants.UMLGeneral, toUser, subject, content, filePath, bizId);
     }
 
-    public static void SendUrgentMessage(this UserInfo user, Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    public static Task SendUrgentMessageAsync(this UserInfo user, Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
     {
-        user.SendMessage(db, Constants.UMLUrgent, toUser, subject, content, filePath, bizId);
+        return user.SendMessageAsync(db, Constants.UMLUrgent, toUser, subject, content, filePath, bizId);
     }
 
-    private static void SendMessage(this UserInfo user, Database db, string level, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    private static Task SendMessageAsync(this UserInfo user, Database db, string level, string toUser, string subject, string content, string filePath = null, string bizId = null)
     {
         var model = new SysMessage
         {
@@ -27,6 +27,6 @@ public static class UserExtension
             Status = Constants.UMStatusUnread,
             BizId = bizId
         };
-        db.SaveAsync(model);
+        return db.SaveAsync(model);
     }
 }

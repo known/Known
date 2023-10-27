@@ -171,7 +171,7 @@ class SysRoleForm : BaseForm<SysRole>
 
     private void OnColumnChanged(CheckInfo info) => colValues[curItem.Value.Id] = info;
 
-    private void OnSave()
+    private Task OnSave()
     {
         var menuIds = values.Select(v => v.Id).ToList();
         var buttons = btnValues.Values.Where(v => !string.IsNullOrWhiteSpace(v.Value)).ToList();
@@ -184,7 +184,7 @@ class SysRoleForm : BaseForm<SysRole>
         {
             menuIds.AddRange(item.Value.Split(','));
         }
-        SubmitAsync(data =>
+        return SubmitAsync(data =>
         {
             var info = new RoleFormInfo { Model = data, MenuIds = menuIds };
             return Platform.Role.SaveRoleAsync(info);

@@ -44,9 +44,9 @@ class SysAccountForm : BaseForm<SysUser>
         }
     }
 
-    private void OnSave()
+    private Task OnSave()
     {
-        SubmitAsync(Platform.User.UpdateUserAsync, result =>
+        return SubmitAsync(Platform.User.UpdateUserAsync, result =>
         {
             if (!result.IsValid)
             {

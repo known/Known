@@ -2,12 +2,12 @@
 
 class UserHelper
 {
-    internal static string GetSystemName(Database db)
+    internal static async Task<string> GetSystemNameAsync(Database db)
     {
-        //var sys = SystemService.GetSystem(db);
-        //var appName = sys?.AppName;
-        //if (string.IsNullOrWhiteSpace(appName))
-        var    appName = Config.AppName;
+        var sys = await SystemService.GetSystemAsync(db);
+        var appName = sys?.AppName;
+        if (string.IsNullOrWhiteSpace(appName))
+            appName = Config.AppName;
         return appName;
     }
 

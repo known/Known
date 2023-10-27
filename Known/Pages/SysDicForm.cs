@@ -3,9 +3,9 @@
 [Dialog(500, 380)]
 class SysDicForm : BaseForm<SysDictionary>
 {
-    private CodeNameGrid? grid;
-    private List<CodeName>? children;
-    private SysDictionary? model;
+    private CodeNameGrid grid;
+    private List<CodeName> children;
+    private SysDictionary model;
 
     protected override void OnInitialized()
     {

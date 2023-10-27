@@ -8,7 +8,9 @@ public sealed class PlatformHelper
     public static Action<Database, UserInfo> User { get; set; }
     public static Func<Database, List<CodeInfo>> UserDatas { get; set; }
     public static Func<Database, List<CodeInfo>> Dictionary { get; set; }
+    public static Func<Database, SystemInfo, Result> CheckSystem { get; set; }
     public static Func<Database, SysUser, Result> CheckUser { get; set; }
+    public static Func<InstallInfo, Result> UpdateKey { get; set; }
 
     //Setting
     public static async Task<SysSetting> GetSettingByCompAsync(Database db, string bizType) => await SettingRepository.GetSettingByCompAsync(db, bizType) ?? new SysSetting { BizType = bizType };

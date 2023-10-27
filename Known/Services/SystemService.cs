@@ -17,6 +17,155 @@ class SystemService : BaseService
         return Result.Success("保存成功！");
     }
 
+    //System
+    public async Task<SystemInfo> GetSystemAsync()
+    {
+        var info = await GetSystemAsync(Database);
+        if (info != null)
+        {
+            var install = GetInstall();
+            info.ProductId = install.ProductId;
+            info.ProductKey = install.ProductKey;
+
+            var config = await GetConfigAsync<SystemInfo>(Database, KeySystem);
+            if (config != null)
+            {
+                info.Copyright = config.Copyright;
+                info.SoftTerms = config.SoftTerms;
+            }
+        }
+        return info;
+    }
+
+    internal static async Task<SystemInfo> GetSystemAsync(Database db)
+    {
+        if (!Config.IsPlatform || db.User == null)
+            return await GetConfigAsync<SystemInfo>(db, KeySystem);
+
+        var company = await CompanyRepository.GetCompanyAsync(db, db.User.CompNo);
+        if (company == null)
+            return GetSystem(db.User);
+
+        return Utils.FromJson<SystemInfo>(company.SystemData);
+    }
+
+    public async Task<Result> SaveKeyAsync(SystemInfo info)
+    {
+        var path = GetProductKeyPath();
+        Utils.SaveFile(path, info.ProductKey);
+        await SaveConfigAsync(Database, KeySystem, info);
+        var result = await CheckKeyAsync();
+        return result;
+    }
+
+    public async Task<Result> SaveSystemAsync(SystemInfo info)
+    {
+        if (Config.IsPlatform)
+        {
+            var user = CurrentUser;
+            var company = await CompanyRepository.GetCompanyAsync(Database, user.CompNo);
+            if (company == null)
+                return Result.Error("企业不存在！");
+
+            company.SystemData = Utils.ToJson(info);
+            await Database.SaveAsync(company);
+        }
+        else
+        {
+            await SaveConfigAsync(Database, KeySystem, info);
+        }
+
+        return Result.Success("保存成功！");
+    }
+
+    public async Task<Result> SaveSystemConfigAsync(SystemInfo info)
+    {
+        await SaveConfigAsync(Database, KeySystem, info);
+        return Result.Success("保存成功！");
+    }
+
+    private static InstallInfo GetInstall()
+    {
+        var app = Config.App;
+        var path = GetProductKeyPath();
+        var info = new InstallInfo
+        {
+            CompNo = app.CompNo,
+            CompName = app.CompName,
+            AppName = Config.AppName,
+            ProductId = Config.ProductId,
+            ProductKey = Utils.ReadFile(path),
+            UserName = Constants.SysUserName
+        };
+        return info;
+    }
+
+    private static SystemInfo GetSystem(InstallInfo info)
+    {
+        return new SystemInfo
+        {
+            CompNo = info.CompNo,
+            CompName = info.CompName,
+            AppName = info.AppName,
+            ProductId = info.ProductId,
+            ProductKey = info.ProductKey,
+            UserDefaultPwd = "888888"
+        };
+    }
+
+    private static SystemInfo GetSystem(UserInfo info)
+    {
+        return new SystemInfo
+        {
+            CompNo = info.CompNo,
+            CompName = info.CompName,
+            AppName = Config.AppName,
+            UserDefaultPwd = "888888"
+        };
+    }
+
+    private static SysUser GetUser(InstallInfo info)
+    {
+        return new SysUser
+        {
+            AppId = Config.AppId,
+            CompNo = info.CompNo,
+            OrgNo = info.CompNo,
+            UserName = info.UserName.ToLower(),
+            Password = Utils.ToMd5(info.Password),
+            Name = "管理员",
+            EnglishName = info.UserName,
+            Gender = "男",
+            Role = "管理员",
+            Enabled = true
+        };
+    }
+
+    private static SysOrganization GetOrganization(InstallInfo info)
+    {
+        return new SysOrganization
+        {
+            AppId = Config.AppId,
+            CompNo = info.CompNo,
+            ParentId = "0",
+            Code = info.CompNo,
+            Name = info.CompName
+        };
+    }
+
+    private static string GetProductKeyPath()
+    {
+        var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        return Path.Combine(path, "Known", $"{Config.AppId}.key");
+    }
+
+    private async Task<Result> CheckKeyAsync()
+    {
+        var info = await GetSystemAsync();
+        var result = PlatformHelper.CheckSystem?.Invoke(Database, info);
+        return result ?? Result.Success("");
+    }
+
     //Task
     public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria)
     {

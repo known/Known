@@ -20,8 +20,8 @@ class DemoChart : BaseComponent
             }
         };
 
-        var data1 = new ChartDataInfo { Name = "类型一", Series = new Dictionary<string, object>() };
-        var data2 = new ChartDataInfo { Name = "类型二", Series = new Dictionary<string, object>() };
+        var data1 = new ChartDataInfo { Name = "类型一", Series = [] };
+        var data2 = new ChartDataInfo { Name = "类型二", Series = [] };
         for (int i = 2010; i < DateTime.Now.Year; i++)
         {
             var rand1 = new Random();

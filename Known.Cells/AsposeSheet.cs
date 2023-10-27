@@ -6,10 +6,10 @@ using Aspose.Cells.Drawing;
 
 namespace Known.Cells;
 
-public class AsposeSheet : ISheet
+class AsposeSheet : ISheet
 {
     private readonly Worksheet sheet;
-    private string dateFormat = "yyyy-MM-dd";
+    private readonly string dateFormat = "yyyy-MM-dd";
 
     internal AsposeSheet(Worksheet sheet)
     {

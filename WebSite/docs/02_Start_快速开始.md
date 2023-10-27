@@ -17,12 +17,13 @@ dotnet new known --name=KIMS --host=hosted
 - 安装和创建成功后，项目文件夹自动生成如下内容
 
 ```plaintext
-├─KIMS          -> 项目前后端共用库，客户端和实体类等。
-├─KIMS.Client   -> Web前端，Blazor WebAssembly。
-├─KIMS.Core     -> 项目后端库，控制器、服务、数据访问等。
-├─KIMS.Razor    -> 项目前端库，模块页面和表单。
-├─KIMS.Server   -> Web后端。
-├─KIMS.sln      -> VS解决方案文件。
+├─KIMS       -> 项目公用模块。
+├─KIMS.M1    -> 项目模块1。
+├─KIMS.M2    -> 项目模块2。
+├─    ...
+├─KIMS.Mn    -> 项目模块n。
+├─KIMS.Web   -> Blazor Web App。
+├─KIMS.sln   -> VS解决方案文件。
 ```
 
 ### 2. 打开解决方案配置应用

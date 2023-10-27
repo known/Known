@@ -6,22 +6,18 @@ public sealed class Config
 
     static Config()
     {
+        Version = new VersionInfo();
         AppId = "KIMS";
         AppName = "Known信息管理系统";
-        Version = "1.0";
         var version = typeof(Config).Assembly.GetName().Version;
-        FrameVersion = $"Known V{version.Major}.{version.Minor}.{version.Build}";
+        Version.FrameVersion = $"Known V{version.Major}.{version.Minor}.{version.Build}";
     }
 
-    public static string DateFormat => "yyyy-MM-dd";
-    public static string DateTimeFormat => "yyyy-MM-dd HH:mm:ss";
-    public static string AppVersion => $"PM-{AppId} {Version}";
+    public static string DateFormat { get; set; } = "yyyy-MM-dd";
+    public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss";
     public static string AppId { get; set; }
     public static string AppName { get; set; }
-    public static string Version { get; private set; }
-    public static string SoftVersion { get; private set; }
-    public static string FrameVersion { get; private set; }
-    public static Assembly AppAssembly { get; private set; }
+    public static VersionInfo Version { get; }
     public static bool IsPlatform { get; set; }
     public static bool IsWebApi { get; set; } = true;
 
@@ -38,15 +34,14 @@ public sealed class Config
         Cache.AttachCodes(assembly);
     }
 
-    public static void SetAppAssembly(Assembly assembly)
+    public static void SetAppVersion(Assembly assembly)
     {
-        AppAssembly = assembly;
         var version = assembly.GetName().Version;
-        SoftVersion = version.ToString();
-        Version = $"{version.Major}.{version.Minor}";
+        Version.AppVersion = $"{AppId} V{version.Major}.{version.Minor}";
+        Version.SoftVersion = version.ToString();
     }
 
-    public static string GetSysVersion(Assembly assembly)
+    private static string GetSysVersion(Assembly assembly)
     {
         var version = assembly.GetName().Version;
         var date = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
@@ -100,6 +95,7 @@ public sealed class Config
 
     internal static string ValidDate { get; set; }
     internal static string AuthStatus { get; set; }
+    public static string ProductId { get; set; }
     public static bool IsWeb { get; set; }
     public static bool IsProductKey { get; set; }
     public static bool IsEditCopyright { get; set; } = true;
@@ -113,7 +109,7 @@ public sealed class Config
     public static List<KMenuItem> GetMenus(List<string> menuIds)
     {
         if (menuIds == null || menuIds.Count == 0)
-            return new List<KMenuItem>();
+            return [];
 
         var menus = new List<KMenuItem>();
         foreach (var menuId in menuIds)

@@ -2,7 +2,7 @@
 
 namespace Known.Cells;
 
-public class AsposeExcel : IExcel, IDisposable
+class AsposeExcel : IExcel, IDisposable
 {
     public AsposeExcel()
     {
@@ -159,7 +159,6 @@ public class AsposeExcel : IExcel, IDisposable
 
     public void Dispose()
     {
-        if (Workbook != null)
-            Workbook.Dispose();
+        Workbook?.Dispose();
     }
 }

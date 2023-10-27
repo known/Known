@@ -2,7 +2,7 @@
 
 namespace Known.Studio;
 
-public class BasePage : BaseComponent
+class BasePage : BaseComponent
 {
     [Inject] public IJSRuntime JS { get; set; }
 }

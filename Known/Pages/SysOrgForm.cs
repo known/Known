@@ -23,5 +23,5 @@ class SysOrgForm : BaseForm<SysOrganization>
         base.BuildButtons(builder);
     }
 
-    private void OnSave() => SubmitAsync(Platform.Company.SaveOrganizationAsync);
+    private Task OnSave() => SubmitAsync(Platform.Company.SaveOrganizationAsync);
 }

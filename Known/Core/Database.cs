@@ -169,7 +169,7 @@ public class Database : IDisposable
         }
     }
 
-    public void InsertTable(DataTable data)
+    public async Task InsertTableAsync(DataTable data)
     {
         if (data == null || data.Rows.Count == 0)
             return;
@@ -177,7 +177,7 @@ public class Database : IDisposable
         foreach (DataRow item in data.Rows)
         {
             var info = CommandInfo.GetInsertCommand(DatabaseType, item);
-            ExecuteNonQueryAsync(info);
+            await ExecuteNonQueryAsync(info);
         }
     }
     #endregion
@@ -796,7 +796,6 @@ public class Database : IDisposable
 
     private async Task<List<T>> QueryListAsync<T>(CommandInfo info)
     {
-        bool close;
         var lists = new List<T>();
         using (var reader = await ExecuteReaderAsync(info))
         {

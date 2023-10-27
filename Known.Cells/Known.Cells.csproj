@@ -3,7 +3,6 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
         <Authors>KnownChen</Authors>
         <Description>Known.Cells是基于Aspose.Cells实现的Excel操作类库。</Description>
         <Version>1.0.0</Version>

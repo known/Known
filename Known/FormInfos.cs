@@ -2,12 +2,12 @@
 
 public class LoginFormInfo
 {
-    public string? UserName { get; set; }
-    public string? Password { get; set; }
-    public string? ClientId { get; set; }
+    public string UserName { get; set; }
+    public string Password { get; set; }
+    public string ClientId { get; set; }
     public bool IsForce { get; set; }
     public bool IsMobile { get; set; }
-    public string? IPAddress { get; set; }
+    public string IPAddress { get; set; }
 }
 
 public class PwdFormInfo

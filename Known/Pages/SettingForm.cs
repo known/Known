@@ -75,9 +75,9 @@ class SettingForm : BaseForm<SettingInfo>
         OnThemeChanged();
     }
 
-    private void OnSave()
+    private Task OnSave()
     {
-        SubmitAsync(data =>
+        return SubmitAsync(data =>
         {
             data.RandomColor = data.RandomColor == "True";
             data.MultiTab = data.MultiTab == "True";

@@ -43,9 +43,9 @@ class SysModuleForm : BaseForm<SysModule>
         base.BuildButtons(builder);
     }
 
-    private void OnSave()
+    private Task OnSave()
     {
-        SubmitAsync(data =>
+        return SubmitAsync(data =>
         {
             data.ColumnData = Utils.ToJson(grid.Data);
             return Platform.Module.SaveModuleAsync(data);

@@ -10,9 +10,10 @@ class AppWeb
         Config.WebRoot = builder.Environment.WebRootPath;
         Config.ContentRoot = builder.Environment.ContentRootPath;
 
-        //设置项目ID和名称
+        //设置项目ID、名称和版本
         Config.AppId = "KIMS";
         Config.AppName = "Known信息管理系统";
+        Config.SetAppVersion(typeof(AppWeb).Assembly);
 
         //设置项目Js路径
         Config.AppJsPath = "script.js";
@@ -43,7 +44,7 @@ class AppWeb
         };
         Config.App = new AppInfo
         {
-            Connections = new List<Known.ConnectionInfo> { connInfo },
+            Connections = [connInfo],
             UploadPath = uploadPath
         };
     }
