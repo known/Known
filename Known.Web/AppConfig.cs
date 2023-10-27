@@ -1,11 +1,12 @@
-﻿using System.Text;
-using Known.Razor;
+﻿using Coravel;
+using Coravel.Invocable;
+using Known.Helpers;
 
 namespace Known.Web;
 
-class AppWeb
+static class AppConfig
 {
-    internal static void Initialize(WebApplicationBuilder builder)
+    internal static void InitApp(this WebApplicationBuilder builder)
     {
         //设置根目录
         Config.WebRoot = builder.Environment.WebRootPath;
@@ -14,7 +15,7 @@ class AppWeb
         //设置项目ID、名称和版本
         Config.AppId = "KIMS";
         Config.AppName = "Known信息管理系统";
-        Config.SetAppVersion(typeof(AppWeb).Assembly);
+        Config.SetAppVersion(typeof(AppConfig).Assembly);
 
         //设置产品ID
         Config.ProductId = $"{Config.AppId}-000001";
@@ -52,4 +53,23 @@ class AppWeb
             UploadPath = uploadPath
         };
     }
+
+    internal static void AddApp(this IServiceCollection services)
+    {
+        services.AddScheduler();
+        services.AddTransient<ImportTaskJob>();
+    }
+
+    internal static void UseApp(this IServiceProvider provider)
+    {
+        provider.UseScheduler(scheduler =>
+        {
+            scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
+        });
+    }
+}
+
+class ImportTaskJob : IInvocable
+{
+    public Task Invoke() => ImportHelper.ExecuteAsync();
 }

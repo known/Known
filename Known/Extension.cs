@@ -9,8 +9,6 @@ public static class Extension
     {
         Config.Modules.Add(typeof(Config).Assembly);
 
-        services.AddRazorComponents()
-                .AddInteractiveServerComponents();
         //services.AddCascadingAuthenticationState();
 
         services.AddScoped<UIService>();

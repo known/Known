@@ -9,6 +9,7 @@ class Login : Known.Pages.Login
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        //自定义登录页面
         builder.Div("login animated fadeIn", attr =>                   //<div class="login animated fadeIn">
         {                                                              //
             builder.Div("login-left", attr =>                          //    <div class="login-left">

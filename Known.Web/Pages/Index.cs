@@ -3,33 +3,25 @@
 [Route("/")]
 public class Index : Known.Pages.Index
 {
-    [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
-    [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
-
     protected override void BuildLogin(RenderTreeBuilder builder)
     {
         builder.Component<Login>().Set(c => c.OnLogin, OnLogin).Build();
     }
 
-    protected override async Task<UserInfo> GetCurrentUserAsync()
-    {
-        if (AuthState == null)
-            return null;
+    //第三方登录设置当前用户
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //        await SetCurrentUserAsync(CurrentUser);
+    //    await base.OnAfterRenderAsync(firstRender);
+    //}
 
-        var state = await AuthState;
-        var isLogin = state != null && state.User != null && state.User.Identity != null && state.User.Identity.IsAuthenticated;
-        if (!isLogin)
-            return null;
-
-        var userName = state?.User?.Identity?.Name;
-        return await Platform.GetUserAsync(userName);
-    }
-
-    protected override async Task SetCurrentUserAsync(UserInfo user)
-    {
-        if (AuthProvider is AuthStateProvider provider)
-        {
-            await provider.UpdateAuthenticationState(user);
-        }
-    }
+    //第三方登录获取当前用户
+    //protected override async Task<UserInfo> GetThirdUserAsync()
+    //{
+    //    //var third = ThirdApi.GetUser();
+    //    var third = new { UserName = "admin" };
+    //    var user = await Platform.GetUserAsync(third.UserName);
+    //    return user;
+    //}
 }
