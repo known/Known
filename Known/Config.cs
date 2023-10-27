@@ -93,6 +93,7 @@ public sealed class Config
         return modelTypes;
     }
 
+    internal static bool IsCheckKey { get; set; } = true;
     internal static string ValidDate { get; set; }
     internal static string AuthStatus { get; set; }
     public static string ProductId { get; set; }

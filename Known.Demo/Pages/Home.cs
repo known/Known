@@ -2,10 +2,10 @@
 
 class Home : WebPage
 {
-    private UserInfo? user;
-    private HomeInfo? info;
-    private List<KMenuItem>? visitMenus;
-    private KChart? chart;
+    private UserInfo user;
+    private HomeInfo info;
+    private List<KMenuItem> visitMenus;
+    private KChart chart;
 
     protected override async Task InitPageAsync()
     {

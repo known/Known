@@ -2,7 +2,7 @@
 
 class WebPage : PageComponent
 {
-    private ClientFactory? client;
+    private ClientFactory client;
     protected ClientFactory Client
     {
         get
@@ -15,7 +15,7 @@ class WebPage : PageComponent
 
 class WebGridView<TModel> : KDataGrid<TModel>
 {
-    private ClientFactory? client;
+    private ClientFactory client;
     protected ClientFactory Client
     {
         get
@@ -30,7 +30,7 @@ class WebGridView<TModel, TForm> : KDataGrid<TModel, TForm>
     where TModel : EntityBase, new()
     where TForm : BaseForm<TModel>
 {
-    private ClientFactory? client;
+    private ClientFactory client;
     protected ClientFactory Client
     {
         get
@@ -43,7 +43,7 @@ class WebGridView<TModel, TForm> : KDataGrid<TModel, TForm>
 
 class WebForm<TModel> : BaseForm<TModel>
 {
-    private ClientFactory? client;
+    private ClientFactory client;
     protected ClientFactory Client
     {
         get

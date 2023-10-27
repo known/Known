@@ -74,14 +74,14 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         await Platform.System.AddLogAsync(log);
     }
 
-    //internal void BuildAuthorize(RenderTreeBuilder builder)
-    //{
-    //    builder.Component<SysActive>()
-    //           .Set(c => c.OnCheck, isCheck =>
-    //           {
-    //               Context.Check.IsCheckKey = isCheck;
-    //               StateChanged();
-    //           })
-    //           .Build();
-    //}
+    internal void BuildAuthorize(RenderTreeBuilder builder)
+    {
+        builder.Component<SysActive>()
+               .Set(c => c.OnCheck, isCheck =>
+               {
+                   Config.IsCheckKey = isCheck;
+                   StateChanged();
+               })
+               .Build();
+    }
 }

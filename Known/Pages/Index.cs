@@ -11,8 +11,7 @@ public class Index : BaseComponent
     protected override async Task OnInitializedAsync()
     {
         isLoaded = false;
-        //var result = await Platform.System.CheckInstallAsync();
-        //Context.Check = result.DataAs<CheckInfo>() ?? new CheckInfo();
+        Context.Install = await Platform.System.GetInstallAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
         isLogin = Context.CurrentUser != null;
         isLoaded = true;
@@ -23,20 +22,18 @@ public class Index : BaseComponent
         if (!isLoaded)
             return;
 
-        //var isInstalled = Context.Check != null && Context.Check.IsInstalled;
-        //if (!isInstalled)
-        //    BuildInstall(builder);
-        //else
-        if (!isLogin)
+        if (!Context.Install.IsInstalled)
+            BuildInstall(builder);
+        else if (!isLogin)
             BuildLogin(builder);
         else
             BuildAdmin(builder);
     }
 
-    //protected virtual void BuildInstall(RenderTreeBuilder builder)
-    //{
-    //    builder.Component<Install>().Set(c => c.OnInstall, OnInstall).Build();
-    //}
+    protected virtual void BuildInstall(RenderTreeBuilder builder)
+    {
+        builder.Component<Install>().Set(c => c.OnInstall, OnInstall).Build();
+    }
 
     protected virtual void BuildLogin(RenderTreeBuilder builder)
     {
@@ -58,11 +55,11 @@ public class Index : BaseComponent
         return UI.SetSessionStorage(key, user);
     }
 
-    //protected void OnInstall(CheckInfo check)
-    //{
-    //    Context.Check = check;
-    //    StateChanged();
-    //}
+    protected void OnInstall(InstallInfo install)
+    {
+        Context.Install = install;
+        StateChanged();
+    }
 
     protected async void OnLogin(UserInfo user)
     {

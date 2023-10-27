@@ -19,11 +19,11 @@ public class BaseForm<T> : KForm
 
     internal override void BuildForm(RenderTreeBuilder builder)
     {
-        //if (!Context.Check.IsCheckKey)
-        //{
-        //    BuildAuthorize(builder);
-        //    return;
-        //}
+        if (!Config.IsCheckKey)
+        {
+            BuildAuthorize(builder);
+            return;
+        }
 
         if (TabItems != null && TabItems.Count > 0)
         {

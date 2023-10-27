@@ -139,7 +139,7 @@ class CodeService
             var len = !string.IsNullOrWhiteSpace(item.Length) && !item.Length.Contains(",")
                     ? $", \"1\", \"{item.Length}\"" : "";
             var type = GetCSharpType(item);
-            if (!item.Required && type != "string?")
+            if (!item.Required && type != "string")
                 type += "?";
 
             sb.AppendLine("    /// <summary>");
@@ -154,32 +154,14 @@ class CodeService
         return sb.ToString();
     }
 
-    public static string GetClient(DomainInfo model)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Clients;", model.Project);
-        sb.AppendLine(" ");
-        sb.AppendLine("public class {0}Client : ClientBase", model.Code);
-        sb.AppendLine("{");
-        sb.AppendLine("    public {0}Client(Context context) : base(context) {{ }}", model.Code);
-        sb.AppendLine(" ");
-        sb.AppendLine("    public Task<PagingResult<{1}>> Query{0}sAsync(PagingCriteria criteria) => Context.QueryAsync<{1}>(\"{0}/Query{0}s\", criteria);", model.Code, model.EntityName);
-        sb.AppendLine("    public Task<Result> Delete{0}sAsync(List<{1}> models) => Context.PostAsync(\"{0}/Delete{0}s\", models);", model.Code, model.EntityName);
-        sb.AppendLine("    public Task<Result> Save{0}Async(object model) => Context.PostAsync(\"{0}/Save{0}\", model);", model.Code);
-        sb.AppendLine("}");
-        return sb.ToString();
-    }
-
     public static string GetList(DomainInfo model)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("using {0}.Razor.Pages.Forms;", model.Project);
-        sb.AppendLine(" ");
-        sb.AppendLine("namespace {0}.Razor.Pages;", model.Project);
+        sb.AppendLine("namespace {0}.Pages;", model.Project);
         sb.AppendLine(" ");
         sb.AppendLine("class {0}List : WebGridView<{1}, {0}Form>", model.Code, model.EntityName);
         sb.AppendLine("{");
-        sb.AppendLine("    protected override Task<PagingResult<{0}>> OnQueryData(PagingCriteria criteria)", model.EntityName);
+        sb.AppendLine("    protected override Task<PagingResult<{0}>> OnQueryDataAsync(PagingCriteria criteria)", model.EntityName);
         sb.AppendLine("    {");
         sb.AppendLine("        return Client.{0}.Query{0}sAsync(criteria);", model.Code);
         sb.AppendLine("    }");
@@ -198,7 +180,7 @@ class CodeService
     public static string GetForm(DomainInfo model)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Razor.Pages.Forms;", model.Project);
+        sb.AppendLine("namespace {0}.Pages;", model.Project);
         sb.AppendLine(" ");
         sb.AppendLine("[Dialog(800, 420)]");
         sb.AppendLine("class {0}Form : WebForm<{1}>", model.Code, model.EntityName);
@@ -222,29 +204,7 @@ class CodeService
         sb.AppendLine("        base.BuildButtons(builder);");
         sb.AppendLine("    }");
         sb.AppendLine(" ");
-        sb.AppendLine("    private void OnSave() => SubmitAsync(Client.{0}.Save{0}Async);", model.Code);
-        sb.AppendLine("}");
-        return sb.ToString();
-    }
-
-    public static string GetController(DomainInfo model)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Core.Controllers;", model.Project);
-        sb.AppendLine(" ");
-        sb.AppendLine("[Route(\"[controller]\")]");
-        sb.AppendLine("public class {0}Controller : BaseController", model.Code);
-        sb.AppendLine("{");
-        sb.AppendLine("    private {0}Service Service => new(Context);", model.Code);
-        sb.AppendLine(" ");
-        sb.AppendLine("    [HttpPost(\"[action]\")]");
-        sb.AppendLine("    public PagingResult<{1}> Query{0}s([FromBody] PagingCriteria criteria) => Service.Query{0}s(criteria);", model.Code, model.EntityName);
-        sb.AppendLine(" ");
-        sb.AppendLine("    [HttpPost(\"[action]\")]");
-        sb.AppendLine("    public Result Delete{0}s([FromBody] List<{1}> models) => Service.Delete{0}s(models);", model.Code, model.EntityName);
-        sb.AppendLine(" ");
-        sb.AppendLine("    [HttpPost(\"[action]\")]");
-        sb.AppendLine("    public Result Save{0}([FromBody] object model) => Service.Save{0}(GetDynamicModel(model));", model.Code);
+        sb.AppendLine("    private Task OnSave() => SubmitAsync(Client.{0}.Save{0}Async);", model.Code);
         sb.AppendLine("}");
         return sb.ToString();
     }
@@ -252,43 +212,41 @@ class CodeService
     public static string GetService(DomainInfo model)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Core.Services;", model.Project);
+        sb.AppendLine("namespace {0}.Services;", model.Project);
         sb.AppendLine(" ");
-        sb.AppendLine("class {0}Service : ServiceBase", model.Code);
+        sb.AppendLine("class {0}Service : BaseService", model.Code);
         sb.AppendLine("{");
-        sb.AppendLine("    internal {0}Service(Context context) : base(context) {{ }}", model.Code);
-        sb.AppendLine(" ");
-        sb.AppendLine("    internal PagingResult<{0}> Query{1}s(PagingCriteria criteria)", model.EntityName, model.Code);
+        sb.AppendLine("    public Task<PagingResult<{0}>> Query{1}sAsync(PagingCriteria criteria)", model.EntityName, model.Code);
         sb.AppendLine("    {");
-        sb.AppendLine("        return {0}Repository.Query{0}s(Database, criteria);", model.Code);
+        sb.AppendLine("        return {0}Repository.Query{0}sAsync(Database, criteria);", model.Code);
         sb.AppendLine("    }");
         sb.AppendLine(" ");
-        sb.AppendLine("    internal Result Delete{0}s(List<{1}> models)", model.Code, model.EntityName);
+        sb.AppendLine("    public async Task<Result> Delete{0}sAsync(List<{1}> models)", model.Code, model.EntityName);
         sb.AppendLine("    {");
         sb.AppendLine("        if (models == null || models.Count == 0)");
         sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
         sb.AppendLine(" ");
-        sb.AppendLine("        return Database.Transaction(Language.Delete, db =>");
+        sb.AppendLine("        return await Database.TransactionAsync(Language.Delete, db =>");
         sb.AppendLine("        {");
         sb.AppendLine("            foreach (var item in models)");
         sb.AppendLine("            {");
-        sb.AppendLine("                db.Delete(item);");
+        sb.AppendLine("                await db.DeleteAsync(item);");
         sb.AppendLine("            }");
         sb.AppendLine("        });");
         sb.AppendLine("    }");
         sb.AppendLine(" ");
-        sb.AppendLine("    internal Result Save{0}(dynamic model)", model.Code);
+        sb.AppendLine("    public async Task<Result> Save{0}Async(dynamic model)", model.Code);
         sb.AppendLine("    {");
-        sb.AppendLine("        var entity = Database.QueryById<{0}>((string)model.Id);", model.EntityName);
+        sb.AppendLine("        var entity = await Database.QueryByIdAsync<{0}>((string)model.Id);", model.EntityName);
         sb.AppendLine("        entity ??= new {0}();", model.EntityName);
         sb.AppendLine("        entity.FillModel(model);");
         sb.AppendLine("        var vr = entity.Validate();");
         sb.AppendLine("        if (!vr.IsValid)");
         sb.AppendLine("            return vr;");
         sb.AppendLine(" ");
-        sb.AppendLine("        return Database.Transaction(Language.Save, db =>");
+        sb.AppendLine("        return await Database.TransactionAsync(Language.Save, db =>");
         sb.AppendLine("        {");
-        sb.AppendLine("            db.Save(entity);");
+        sb.AppendLine("            await db.SaveAsync(entity);");
         sb.AppendLine("        }, entity);");
         sb.AppendLine("    }");
         sb.AppendLine("}");
@@ -298,128 +256,14 @@ class CodeService
     public static string GetRepository(DomainInfo model)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Core.Repositories;", model.Project);
+        sb.AppendLine("namespace {0}.Repositories;", model.Project);
         sb.AppendLine(" ");
         sb.AppendLine("class {0}Repository", model.Code);
         sb.AppendLine("{");
-        sb.AppendLine("    internal static PagingResult<{0}> Query{1}s(Database db, PagingCriteria criteria)", model.EntityName, model.Code);
+        sb.AppendLine("    internal static Task<PagingResult<{0}>> Query{1}sAsync(Database db, PagingCriteria criteria)", model.EntityName, model.Code);
         sb.AppendLine("    {");
         sb.AppendLine("        var sql = \"select * from {0} where CompNo=@CompNo\";", model.EntityName);
-        sb.AppendLine("        return db.QueryPage<{0}>(sql, criteria);", model.EntityName);
-        sb.AppendLine("    }");
-        sb.AppendLine("}");
-        return sb.ToString();
-    }
-
-    internal static string GetListRazorCode(DomainInfo model)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("@namespace Known.{0}.Pages", model.Project);
-        sb.AppendLine("@inherits BasePage");
-        sb.AppendLine(" ");
-        sb.AppendLine("<DataGridView @ref=\"grid\" OnQuery=\"OnQueryData\">");
-        sb.AppendLine("    <Tools>");
-        sb.AppendLine("        <Button Text=\"新增\" Icon=\"fa fa-plus\" OnClick=\"OnNew\" />");
-        sb.AppendLine("    </Tools>");
-        sb.AppendLine("    <Fields>");
-        sb.AppendLine("        <Field Label=\"操作\" Id=\"Action\" Width=\"60\" Context=\"row\">");
-        sb.AppendLine("            <span class=\"link\" @onclick=\"e => OnEdit(({0})row)\">编辑</span>", model.EntityName);
-        sb.AppendLine("            <span class=\"link\" @onclick=\"e => OnDelete(({0})row)\">删除</span>", model.EntityName);
-        sb.AppendLine("        </Field>");
-        foreach (var item in model.Fields)
-        {
-            var query = item.IsQuery ? " IsQuery=\"true\"" : "";
-            sb.AppendLine("        <{0} Label=\"{1}\" Id=\"{2}\"{3} />", item.Type, item.Name, item.Code, query);
-        }
-        sb.AppendLine("    </Fields>");
-        sb.AppendLine("</DataGridView>");
-        sb.AppendLine(" ");
-        sb.AppendLine("@code {");
-        sb.AppendLine("    private DataGridView<{0}> grid;", model.EntityName);
-        sb.AppendLine(" ");
-        sb.AppendLine("    private PagingResult<{0}> OnQueryData(PagingCriteria criteria)", model.EntityName);
-        sb.AppendLine("    {");
-        sb.AppendLine("        return Service.Query{0}s(criteria);", model.Code);
-        sb.AppendLine("    }");
-        sb.AppendLine(" ");
-        sb.AppendLine("    private void OnNew()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        ShowForm(\"新增\", new {0}());", model.EntityName);
-        sb.AppendLine("    }");
-        sb.AppendLine(" ");
-        sb.AppendLine("    private void OnEdit({0} model)", model.EntityName);
-        sb.AppendLine("    {");
-        sb.AppendLine("        ShowForm(\"编辑\", model);");
-        sb.AppendLine("    }");
-        sb.AppendLine(" ");
-        sb.AppendLine("    private void OnDelete({0} model)", model.EntityName);
-        sb.AppendLine("    {");
-        sb.AppendLine("        UI.Confirm($\"确定要删除记录？\", () =>");
-        sb.AppendLine("        {");
-        sb.AppendLine("            var result = Service.Delete{0}s(new[] {{ model }});", model.Code);
-        sb.AppendLine("            UI.Result(result, () => grid.QueryData());");
-        sb.AppendLine("        });");
-        sb.AppendLine("    }");
-        sb.AppendLine(" ");
-        sb.AppendLine("    private void ShowForm(string action, {0} model)", model.EntityName);
-        sb.AppendLine("    {");
-        sb.AppendLine("        UI.Show<{0}Form>($\"{{action}}{1}\", 800, 500, model, () => grid.QueryData());", model.Code, model.Name);
-        sb.AppendLine("    }");
-        sb.AppendLine("}");
-        return sb.ToString();
-    }
-
-    internal static string GetFormRazorCode(DomainInfo model)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("@namespace Known.{0}.Pages", model.Project);
-        sb.AppendLine("@inherits BaseForm");
-        sb.AppendLine(" ");
-        sb.AppendLine("<Form @ref=\"form\" IsTable=\"true\" Model=\"Model\">");
-        sb.AppendLine("    <Hidden Id=\"Id\" />");
-        sb.AppendLine("    @if (!IsDialog)");
-        sb.AppendLine("    {");
-        sb.AppendLine("        <div class=\"form-title\">{0}信息</div>", model.Name);
-        sb.AppendLine("    }");
-        sb.AppendLine("    <table style=\"@style\">");
-        sb.AppendLine("        <colgroup>");
-        sb.AppendLine("            <col style=\"width:120px\" />");
-        sb.AppendLine("            <col />");
-        sb.AppendLine("        </colgroup>");
-        foreach (var item in model.Fields)
-        {
-            var required = item.Required ? " Required=\"true\"" : "";
-            sb.AppendLine("        <tr><{0} Label=\"{1}\" Id=\"{2}\"{3} /></tr>", item.Type, item.Name, item.Code, required);
-        }
-        sb.AppendLine("    </table>");
-        sb.AppendLine("</Form>");
-        sb.AppendLine("<div class=\"form-button\">");
-        sb.AppendLine("    <ButtonSave OnClick=\"OnSubmit\" />");
-        sb.AppendLine("    @if (IsDialog)");
-        sb.AppendLine("    {");
-        sb.AppendLine("        <ButtonClose />");
-        sb.AppendLine("    }");
-        sb.AppendLine("</div>");
-        sb.AppendLine(" ");
-        sb.AppendLine("@code {");
-        sb.AppendLine("    private Form form;");
-        sb.AppendLine("    private string style;");
-        sb.AppendLine(" ");
-        sb.AppendLine("    protected override void OnInitialized()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        base.OnInitialized();");
-        sb.AppendLine("        style = IsDialog ? \"\" : \"width:60%;margin:0 auto;\";");
-        sb.AppendLine("        if (Model == null)");
-        sb.AppendLine("        {");
-        sb.AppendLine("            Model = new {0}", model.EntityName);
-        sb.AppendLine("            {");
-        sb.AppendLine("            };");
-        sb.AppendLine("        }");
-        sb.AppendLine("    }");
-        sb.AppendLine(" ");
-        sb.AppendLine("    private void OnSubmit()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        Submit(form, data => Service.Save{0}(data), !IsDialog);", model.Code);
+        sb.AppendLine("        return db.QueryPageAsync<{0}>(sql, criteria);", model.EntityName);
         sb.AppendLine("    }");
         sb.AppendLine("}");
         return sb.ToString();
@@ -444,7 +288,7 @@ class CodeService
         else if (type == "Number")
             return string.IsNullOrWhiteSpace(item.Length) ? "int" : "decimal";
 
-        return "string?";
+        return "string";
     }
 
     private static object GetAccessDbType(FieldInfo item)

@@ -17,6 +17,56 @@ class SystemService : BaseService
         return Result.Success("保存成功！");
     }
 
+    //Install
+    public async Task<InstallInfo> GetInstallAsync()
+    {
+        var info = GetInstall();
+        var sys = await GetSystemAsync(Database);
+        info.IsInstalled = sys != null;
+        return info;
+    }
+
+    public async Task<Result> UpdateKeyAsync(InstallInfo info)
+    {
+        if (info == null)
+            return Result.Error("安装信息不能为空！");
+
+        if (!Utils.HasNetwork())
+            return Result.Error("电脑未联网，无法获取产品密钥！");
+
+        var result = await PlatformHelper.UpdateKeyAsync?.Invoke(info);
+        return result ?? Result.Success("");
+    }
+
+    public async Task<Result> SaveInstallAsync(InstallInfo info)
+    {
+        if (info == null)
+            return Result.Error("安装信息不能为空！");
+
+        if (info.Password != info.Password1)
+            return Result.Error("确认密码不一致！");
+
+        var database = Database;
+        var company = GetCompany(info);
+        var user = GetUser(info);
+        var orga = GetOrganization(info);
+        var sys = GetSystem(info);
+        database.User = new UserInfo { AppId = user.AppId, CompNo = user.CompNo, UserName = user.UserName, Name = user.Name };
+        var path = GetProductKeyPath();
+        Utils.SaveFile(path, info.ProductKey);
+
+        var result = await database.TransactionAsync("安装", async db =>
+        {
+            await SaveConfigAsync(db, KeySystem, sys);
+            await db.SaveAsync(company);
+            await db.SaveAsync(user);
+            await db.SaveAsync(orga);
+        });
+        if (result.IsValid)
+            result.Data = await GetInstallAsync();
+        return result;
+    }
+
     //System
     public async Task<SystemInfo> GetSystemAsync()
     {
@@ -121,6 +171,19 @@ class SystemService : BaseService
             CompName = info.CompName,
             AppName = Config.AppName,
             UserDefaultPwd = "888888"
+        };
+    }
+
+    private static SysCompany GetCompany(InstallInfo info)
+    {
+        var sys = GetSystem(info);
+        return new SysCompany
+        {
+            AppId = Config.AppId,
+            CompNo = info.CompNo,
+            Code = info.CompNo,
+            Name = info.CompName,
+            SystemData = Utils.ToJson(sys)
         };
     }
 

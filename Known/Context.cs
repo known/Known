@@ -7,6 +7,7 @@ public class Context
 
     internal static Action<KMenuItem> OnNavigate { get; set; }
 
+    internal InstallInfo Install { get; set; }
     public UserInfo CurrentUser { get; set; }
 
     public void Back()

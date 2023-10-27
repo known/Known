@@ -2,6 +2,7 @@
 
 public class InstallInfo
 {
+    public bool IsInstalled { get; set; }
     public string CompNo { get; set; }
     public string CompName { get; set; }
     public string AppName { get; set; }
@@ -10,13 +11,6 @@ public class InstallInfo
     public string UserName { get; set; }
     public string Password { get; set; }
     public string Password1 { get; set; }
-}
-
-public class CheckInfo
-{
-    public bool IsCheckKey { get; set; } = true;
-    public bool IsInstalled { get; set; } = true;
-    public InstallInfo Install { get; set; }
 }
 
 public class SystemInfo

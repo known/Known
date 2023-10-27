@@ -30,7 +30,7 @@ class ApplyList : WebGridView<TbApply, ApplyForm>
         return base.CheckAction(action, item);
     }
 
-    protected override async void ShowForm(TbApply? model = null)
+    protected override async void ShowForm(TbApply model = null)
     {
         var action = model == null ? "新增" : "编辑";
         model ??= await Client.Apply.GetDefaultApplyAsync(ApplyType.Test);

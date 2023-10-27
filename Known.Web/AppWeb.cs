@@ -1,4 +1,5 @@
-﻿using Known.Razor;
+﻿using System.Text;
+using Known.Razor;
 
 namespace Known.Web;
 
@@ -14,6 +15,9 @@ class AppWeb
         Config.AppId = "KIMS";
         Config.AppName = "Known信息管理系统";
         Config.SetAppVersion(typeof(AppWeb).Assembly);
+
+        //设置产品ID
+        Config.ProductId = $"{Config.AppId}-000001";
 
         //设置项目Js路径
         Config.AppJsPath = "script.js";

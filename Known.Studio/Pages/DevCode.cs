@@ -2,7 +2,7 @@
 
 class DevCode : BasePage
 {
-    private readonly string Codes = "SQL,Entity,Client,List,Form,Controller,Service,Repository";
+    private readonly string Codes = "SQL,Entity,List,Form,Service,Repository";
     private string curItem = "SQL";
     private string domain;
     private string codeString;

@@ -22,11 +22,11 @@ public class PageComponent : BaseComponent
         if (!isInitialized)
             return;
 
-        //if (!Context.Check.IsCheckKey)
-        //{
-        //    BuildAuthorize(builder);
-        //    return;
-        //}
+        if (!Config.IsCheckKey)
+        {
+            BuildAuthorize(builder);
+            return;
+        }
 
         BuildPage(builder);
     }
