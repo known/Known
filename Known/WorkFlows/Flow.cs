@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.WorkFlows;
 
 public class FlowStatus
 {

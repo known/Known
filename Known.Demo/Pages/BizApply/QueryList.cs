@@ -1,4 +1,6 @@
-﻿namespace Known.Demo.Pages.BizApply;
+﻿using Known.WorkFlows;
+
+namespace Known.Demo.Pages.BizApply;
 
 class QueryList : WebGridView<TbApply, ApplyForm>
 {

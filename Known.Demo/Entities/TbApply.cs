@@ -1,4 +1,6 @@
-﻿namespace Known.Demo.Entities;
+﻿using Known.WorkFlows;
+
+namespace Known.Demo.Entities;
 
 /// <summary>
 /// 申请单实体类。

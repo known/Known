@@ -23,6 +23,7 @@ global using Known.Pages;
 global using Known.Razor;
 global using Known.Repositories;
 global using Known.Services;
+global using Known.WorkFlows;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Authorization;

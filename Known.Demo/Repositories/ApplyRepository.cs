@@ -1,4 +1,6 @@
-﻿namespace Known.Demo.Repositories;
+﻿using Known.WorkFlows;
+
+namespace Known.Demo.Repositories;
 
 class ApplyRepository
 {

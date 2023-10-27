@@ -9,16 +9,16 @@ class FileService : BaseService
         await DeleteFilesAsync(db, files, oldFiles);
     }
 
-    internal static async Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles, bool isThumb = false)
+    internal static async Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles)
     {
         if (file == null)
             return null;
 
         await DeleteFilesAsync(db, bizId, bizType, oldFiles);
-        return await AddFileAsync(db, file, bizId, bizType, "", isThumb);
+        return await AddFileAsync(db, file, bizId, bizType, "");
     }
 
-    internal static async Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType, bool isThumb = false)
+    internal static async Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType)
     {
         if (files == null || files.Count == 0)
             return null;
@@ -26,7 +26,7 @@ class FileService : BaseService
         var sysFiles = new List<SysFile>();
         foreach (var item in files)
         {
-            var file = await AddFileAsync(db, item, bizId, bizType, "", isThumb);
+            var file = await AddFileAsync(db, item, bizId, bizType, "");
             sysFiles.Add(file);
         }
         return sysFiles;
@@ -92,7 +92,7 @@ class FileService : BaseService
         var files = GetAttachFiles(info, user, "Upload", form);
         var result = await Database.TransactionAsync("上传", async db =>
         {
-            sysFiles = await AddFilesAsync(db, files, form.BizId, form.BizType, Utils.ConvertTo<bool>(form.IsThumb));
+            sysFiles = await AddFilesAsync(db, files, form.BizId, form.BizType);
             if (form.BizType == ImportHelper.BizType)
             {
                 task = ImportHelper.CreateTask(form);
@@ -124,10 +124,9 @@ class FileService : BaseService
         var fileId = Utils.GetGuid();
         attach.IsWeb = true;
         attach.FilePath = $@"{user.CompNo}\{type}\{fileId}{attach.ExtName}";
-        attach.ThumbPath = $@"{user.CompNo}\{type}\Thumbnails\{fileId}{attach.ExtName}";
         attach.Category1 = "WWW";
         attach.Category2 = type;
-        var file = await AddFileAsync(Database, attach, "Upload", type, "", false);
+        var file = await AddFileAsync(Database, attach, "Upload", type, "");
         return Result.Success("", file.Url);
     }
 
@@ -152,12 +151,9 @@ class FileService : BaseService
         }
     }
 
-    private static async Task<SysFile> AddFileAsync(Database db, AttachFile attach, string bizId, string bizType, string note, bool isThumb)
+    private static async Task<SysFile> AddFileAsync(Database db, AttachFile attach, string bizId, string bizType, string note)
     {
-        if (Config.IsWebApi)
-            await attach.SaveAsync(isThumb);
-        else
-            attach.Save(isThumb);
+        await attach.SaveAsync();
         attach.BizId = bizId;
         attach.BizType = bizType;
         var file = new SysFile

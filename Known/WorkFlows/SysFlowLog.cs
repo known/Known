@@ -1,4 +1,4 @@
-﻿namespace Known.Entities;
+﻿namespace Known.WorkFlows;
 
 /// <summary>
 /// 工作流日志实体类。

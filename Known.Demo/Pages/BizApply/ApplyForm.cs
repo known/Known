@@ -1,4 +1,6 @@
-﻿namespace Known.Demo.Pages.BizApply;
+﻿using Known.WorkFlows;
+
+namespace Known.Demo.Pages.BizApply;
 
 [Dialog(960, 600)]
 class ApplyForm : WebForm<TbApply>

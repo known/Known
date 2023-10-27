@@ -8,7 +8,6 @@ static class Extension
 {
     public static void AddKnownWeb(this IServiceCollection services)
     {
-        services.AddScoped<IPlatform, WebPlatform>();
         services.AddScheduler();
         services.AddTransient<ImportTaskJob>();
     }

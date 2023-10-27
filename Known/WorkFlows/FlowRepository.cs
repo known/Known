@@ -1,4 +1,4 @@
-﻿namespace Known.Repositories;
+﻿namespace Known.WorkFlows;
 
 class FlowRepository
 {

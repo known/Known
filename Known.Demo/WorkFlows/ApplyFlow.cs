@@ -1,4 +1,6 @@
-﻿namespace Known.Demo.WorkFlows;
+﻿using Known.WorkFlows;
+
+namespace Known.Demo.WorkFlows;
 
 class ApplyFlow : BaseFlow
 {

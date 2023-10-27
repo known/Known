@@ -1,4 +1,6 @@
-﻿namespace Known.Demo.Pages.BizApply;
+﻿using Known.WorkFlows;
+
+namespace Known.Demo.Pages.BizApply;
 
 //申请列表
 class ApplyList : WebGridView<TbApply, ApplyForm>
