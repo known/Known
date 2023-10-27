@@ -1,0 +1,19 @@
+﻿@using Known.Razor
+@using Known.WebAnt.Layout
+@inherits BaseComponent
+
+<CascadingAuthenticationState>
+    <CascadingValue Value="Context">
+        <Router AppAssembly="typeof(App).Assembly">
+            <Found Context="routeData">
+                <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                    <Authorizing></Authorizing>
+                </AuthorizeRouteView>
+            </Found>
+            <NotFound>
+                <Result Status="404" />
+            </NotFound>
+        </Router>
+        <AntContainer />
+    </CascadingValue>
+</CascadingAuthenticationState>

@@ -1,8 +1,8 @@
 using Known;
 using Known.Cells;
 using Known.Demo;
-using Known.Web;
-using Known.Web.Pages;
+using Known.WebAnt;
+using Known.WebAnt.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +11,7 @@ builder.InitApp();                //初始化配置
 builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
+builder.Services.AddAntDesign();
 builder.Services.AddKnown();      //添加Known框架
 builder.Services.AddKnownCells(); //添加Known.Cells处理Excel
 builder.Services.AddApp();        //添加APP全局设置
