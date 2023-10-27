@@ -1,4 +1,4 @@
-﻿namespace Known.Core;
+﻿namespace Known;
 
 public abstract class BaseImport
 {

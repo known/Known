@@ -15,7 +15,6 @@ global using System.Text;
 global using System.Text.Json;
 global using System.Text.RegularExpressions;
 global using Known.Cells;
-global using Known.Core;
 global using Known.Entities;
 global using Known.Extensions;
 global using Known.Helpers;

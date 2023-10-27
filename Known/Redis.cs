@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Net.Sockets;
 
-namespace Known.Core;
+namespace Known;
 
 enum RedisCmd
 {

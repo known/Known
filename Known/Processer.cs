@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Known.Core;
+namespace Known;
 
 public class StartResult
 {
