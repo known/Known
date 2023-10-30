@@ -21,6 +21,8 @@ public sealed class Config
     public static bool IsPlatform { get; set; }
     public static bool IsWebApi { get; set; } = true;
 
+    public static InteractiveServerRenderMode InteractiveServer { get; } = new(false);
+
     public static AppInfo App { get; set; } = new AppInfo();
     public static List<Assembly> Modules { get; } = [];
     public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;

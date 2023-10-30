@@ -22,7 +22,7 @@ public class Admin : KLayout
 
     protected override async Task OnInitializedAsync()
     {
-        info = await Platform.User.GetAdminAsync();
+        info = await Platform.GetAdminAsync();
         Setting.UserSetting = info?.UserSetting;
         Setting.Info = info?.UserSetting?.Info ?? SettingInfo.Default;
 

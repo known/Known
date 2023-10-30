@@ -28,4 +28,5 @@ public class PlatformService
     public Task<T> GetCompanyAsync<T>() => Company.GetCompanyAsync<T>();
     public Task<Result> SaveCompanyAsync(object model) => Company.SaveCompanyAsync(model);
     public Task<UserInfo> GetUserAsync(string userName) => User.GetUserAsync(userName);
+    public Task<AdminInfo> GetAdminAsync() => User.GetAdminAsync();
 }

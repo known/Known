@@ -1,12 +1,10 @@
-﻿@using Known.Razor
-@using Known.WebAnt.Layout
-@inherits BaseComponent
+﻿@inherits BaseComponent
 
 <CascadingAuthenticationState>
     <CascadingValue Value="Context">
         <Router AppAssembly="typeof(App).Assembly">
             <Found Context="routeData">
-                <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <AuthorizeRouteView RouteData="@routeData">
                     <Authorizing></Authorizing>
                 </AuthorizeRouteView>
             </Found>
