@@ -45,7 +45,6 @@ class Importer : BaseComponent
         builder.Hidden(nameof(ImportFormInfo.BizId));
         builder.Hidden(nameof(ImportFormInfo.BizName));
         builder.Hidden(nameof(ImportFormInfo.BizType));
-        builder.Hidden(nameof(ImportFormInfo.IsThumb));
         builder.Div("danger", "提示: 请上传单个txt或Excel格式附件！");
         builder.Div("form-item", attr =>
         {
