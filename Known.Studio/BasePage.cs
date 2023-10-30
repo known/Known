@@ -1,6 +1,4 @@
-﻿using Microsoft.JSInterop;
-
-namespace Known.Studio;
+﻿namespace Known.Studio;
 
 class BasePage : BaseComponent
 {

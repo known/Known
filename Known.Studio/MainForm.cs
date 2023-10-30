@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Known.Studio
 {
-    public partial class MainForm : System.Windows.Forms.Form
+    public partial class MainForm : Form
     {
         public MainForm()
         {
@@ -43,7 +43,7 @@ namespace Known.Studio
         private void AddBlazorWebView()
         {
             var services = new ServiceCollection();
-            services.AddScoped<UIService>();
+            services.AddKnown();
             services.AddWindowsFormsBlazorWebView();
             services.AddBlazorWebViewDeveloperTools();
             blazorWebView.HostPage = "wwwroot\\index.html";

@@ -16,6 +16,7 @@ where a.AppId=@AppId and a.CompNo=@CompNo and a.UserName<>'admin' and a.UserName
             if (orgNo != db.User.CompNo)
                 sql += " and a.OrgNo=@OrgNo";
         }
+        criteria.Fields[nameof(SysUser.Name)] = "a.Name";
         return db.QueryPageAsync<SysUser>(sql, criteria);
     }
 

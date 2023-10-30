@@ -123,8 +123,9 @@ public class PagingCriteria
 {
     public PagingCriteria()
     {
-        Parameters = new Dictionary<string, object>();
-        Query = new List<QueryInfo>();
+        Parameters = [];
+        Query = [];
+        Fields = [];
     }
 
     public PagingCriteria(int pageIndex) : this()
@@ -132,7 +133,7 @@ public class PagingCriteria
         PageIndex = pageIndex;
     }
 
-    public static int[] PageSizes { get; set; } = new int[] { 10, 15, 20, 25, 30, 40, 50, 100, 200, 500, 1000, 2000 };
+    public static int[] PageSizes { get; set; } = [10, 15, 20, 25, 30, 40, 50, 100, 200, 500, 1000, 2000];
     public static int DefaultPageSize { get; set; } = 10;
 
     public ExportMode ExportMode { get; set; }
@@ -146,6 +147,8 @@ public class PagingCriteria
     public int PageSize { get; set; } = DefaultPageSize;
     public List<QueryInfo> Query { get; set; }
     public string[] OrderBys { get; set; }
+
+    internal Dictionary<string, string> Fields { get; }
 
     public void SetQuery(string id, string value)
     {

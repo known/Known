@@ -1,6 +1,4 @@
-﻿using AntDesign.ProLayout;
-
-namespace Known.WebAnt.Extensions;
+﻿namespace Known.WebAnt.Extensions;
 
 static class MenuExtension
 {
@@ -28,16 +26,19 @@ static class MenuExtension
         if (items == null || items.Count == 0)
             return;
 
+        if (item.Children == null)
+            item.Children = [];
+
         foreach (var menu in items)
         {
             var sub = CreateAntMenuItem(menu);
             sub.ParentKeys = [item.Key];
-            //item.Children.Add(sub);
+            item.Children = item.Children.Add(sub);
             AddChildren(menus, sub);
         }
     }
 
-    public static MenuDataItem CreateAntMenuItem(MenuInfo menu)
+    private static MenuDataItem CreateAntMenuItem(MenuInfo menu)
     {
         return new MenuDataItem
         {
@@ -46,5 +47,14 @@ static class MenuExtension
             Name = menu.Name,
             Path = menu.Target
         };
+    }
+
+    private static MenuDataItem[] Add(this MenuDataItem[] items, MenuDataItem item)
+    {
+        var lists = new List<MenuDataItem>();
+        if (item != null)
+            lists = items.ToList();
+        lists.Add(item);
+        return lists.ToArray();
     }
 }

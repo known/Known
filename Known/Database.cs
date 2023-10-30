@@ -255,7 +255,7 @@ public class Database : IDisposable
         var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
         var close = await PrepareCommandAsync(conn, cmd, trans, info);
         cmd.CommandText = info.CountSql;
-        var value = cmd.ExecuteScalar();
+        var value = await cmd.ExecuteScalarAsync();
         var total = Utils.ConvertTo<int>(value);
         if (total > 0)
         {
@@ -591,6 +591,9 @@ public class Database : IDisposable
 
         if (!criteria.HasQuery(key))
             return;
+
+        if (criteria.Fields.ContainsKey(key))
+            field = criteria.Fields[key];
 
         switch (type)
         {

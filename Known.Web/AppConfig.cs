@@ -4,7 +4,8 @@ static class AppConfig
 {
     internal static void InitApp(this WebApplicationBuilder builder)
     {
-        //设置根目录
+        //设置Web及根目录
+        Config.IsWeb = true;
         Config.WebRoot = builder.Environment.WebRootPath;
         Config.ContentRoot = builder.Environment.ContentRootPath;
 

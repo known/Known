@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Known;
@@ -11,6 +12,8 @@ public static class Extension
 
         //services.AddCascadingAuthenticationState();
 
+        if (!Config.IsWeb)
+            services.AddScoped<IScrollToLocationHash, ScrollToLocationHash>();
         services.AddScoped<UIService>();
         services.AddScoped<ProtectedSessionStorage>();
         services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
@@ -26,5 +29,13 @@ public static class Extension
 
         services.AddHttpContextAccessor();
         //services.AddOptions().AddLogging();
+    }
+}
+
+class ScrollToLocationHash : IScrollToLocationHash
+{
+    public Task RefreshScrollPositionForHash(string locationAbsolute)
+    {
+        return Task.CompletedTask;
     }
 }
