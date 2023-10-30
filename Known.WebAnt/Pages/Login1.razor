@@ -1,0 +1,97 @@
+﻿@using System.ComponentModel.DataAnnotations
+@inherits BaseComponent
+
+<div class="login">
+    <Form Model="@_model" OnFinish="HandleSubmit">
+        <Tabs ActiveKey="@context.LoginType">
+            <TabPane Key="1" Tab="Account Login">
+                <FormItem>
+                    <AntDesign.Input Placeholder="Username: admin or user" Size="large" @bind-Value="@context.UserName">
+                        <Prefix><Icon Type="user" /></Prefix>
+                    </AntDesign.Input>
+                </FormItem>
+                <FormItem>
+                    <AntDesign.Input Placeholder="Password: ant.design" Size="large" @bind-Value="@context.Password" Type="password">
+                        <Prefix><Icon Type="lock" /></Prefix>
+                    </AntDesign.Input>
+                </FormItem>
+            </TabPane>
+            <TabPane Key="2" Tab="Mobile Login">
+                <FormItem>
+                    <AntDesign.Input Placeholder="Phone Number" Size="large" @bind-Value="@context.Mobile">
+                        <Prefix><Icon Type="mobile" /></Prefix>
+                    </AntDesign.Input>
+                </FormItem>
+                <FormItem>
+                    <Row Gutter="8">
+                        <AntDesign.Col Span="16">
+                            <AntDesign.Input Placeholder="Verification code" Size="large" @bind-Value="@context.Captcha">
+                                <Prefix><Icon Type="mail" /></Prefix>
+                            </AntDesign.Input>
+                        </AntDesign.Col>
+                        <AntDesign.Col Span="8">
+                            <Button Size="large" Block OnClick="GetCaptcha">Verify</Button>
+                         </AntDesign.Col>
+                     </Row>
+                 </FormItem>
+             </TabPane>
+         </Tabs>
+         <div>
+             <Checkbox Checked="@context.AutoLogin">
+                 Auto Login
+             </Checkbox>
+             <a style="float: right;">
+                 Forgot Password
+             </a>
+         </div>
+         <Button Type="primary" HtmlType="submit" Class="submit" Size="large" Block>Log in </Button>
+        <div class="other">
+            Other Login Methods
+            <Icon Class="icon" Type="alipay-circle" />
+            <Icon Class="icon" Type="taobao-circle" />
+            <Icon Class="icon" Type="weibo-circle" />
+            <a class="register" href="/user/register">Register Account</a>
+        </div>
+    </Form>
+</div>
+
+@code {
+    private readonly LoginParamsType _model = new LoginParamsType();
+
+    [Inject] public NavigationManager NavigationManager { get; set; }
+    [Inject] public MessageService Message { get; set; }
+
+    [Parameter] public Action<UserInfo> OnLogin { get; set; }
+
+    public void HandleSubmit()
+    {
+        if (_model.UserName == "admin" && _model.Password == "ant.design")
+        {
+            NavigationManager.NavigateTo("/");
+            return;
+        }
+
+        if (_model.UserName == "user" && _model.Password == "ant.design") NavigationManager.NavigateTo("/");
+    }
+
+    public async Task GetCaptcha()
+    {
+        //var captcha = await AccountService.GetCaptchaAsync(_model.Mobile);
+        await Message.Success($"Verification code validated successfully!");
+    }
+
+    public class LoginParamsType
+    {
+        [Required] public string UserName { get; set; }
+
+        [Required] public string Password { get; set; }
+
+        public string Mobile { get; set; }
+
+        public string Captcha { get; set; }
+
+        public string LoginType { get; set; }
+
+        public bool AutoLogin { get; set; }
+    }
+}

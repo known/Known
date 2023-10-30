@@ -14,7 +14,7 @@ public static class ComponentExtension
         });
     }
 
-    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder, string id = null) where T : notnull, BaseComponent
+    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder, string id = null) where T : notnull, IBaseComponent
     {
         var comBuilder = new ComponentBuilder<T>(builder);
         comBuilder.Id(id);
@@ -23,7 +23,7 @@ public static class ComponentExtension
 
     public static void Component<T>(this RenderTreeBuilder builder, Action<AttributeBuilder<T>> child) where T : notnull, IComponent
     {
-        builder.OpenComponent<T>(0);
+        builder.OpenComponent<T>();
         var attr = new AttributeBuilder<T>(builder);
         child?.Invoke(attr);
         builder.AddMultipleAttributes(1, attr.Parameters);
@@ -48,5 +48,18 @@ public static class ComponentExtension
         builder.AddAttribute(1, "Parameters", parameters);
         builder.AddComponentReferenceCapture(2, value => action?.Invoke((DynamicComponent)value));
         builder.CloseComponent();
+    }
+
+    internal static void OpenComponent<T>(this RenderTreeBuilder builder) where T : notnull, IComponent
+    {
+        if (typeof(T).IsInterface)
+        {
+            var type = typeof(T);
+            builder.OpenComponent(0, type);
+        }
+        else
+        {
+            builder.OpenComponent<T>(0);
+        }
     }
 }

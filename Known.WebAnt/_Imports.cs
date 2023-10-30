@@ -8,7 +8,7 @@ global using Known.Demo;
 global using Known.Extensions;
 global using Known.Helpers;
 global using Known.WebAnt;
-global using Known.WebAnt.Components;
+global using Known.WebAnt.Layouts;
 global using Known.WebAnt.Pages;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Rendering;

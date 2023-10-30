@@ -1,6 +1,6 @@
 ﻿namespace Known.Razor;
 
-public class ComponentBuilder<T> : AttributeBuilder<T> where T : BaseComponent
+public class ComponentBuilder<T> : AttributeBuilder<T> where T : IBaseComponent
 {
     internal ComponentBuilder(RenderTreeBuilder builder) : base(builder) { }
 
