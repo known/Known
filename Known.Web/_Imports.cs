@@ -1,3 +1,11 @@
-﻿global using Known.Extensions;
+﻿global using Coravel;
+global using Coravel.Invocable;
+global using Known;
+global using Known.Cells;
+global using Known.Demo;
+global using Known.Extensions;
+global using Known.Helpers;
+global using Known.Web;
+global using Known.Web.Pages;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Rendering;

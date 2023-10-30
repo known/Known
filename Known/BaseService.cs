@@ -4,6 +4,16 @@ public abstract class BaseService
 {
     public UserInfo CurrentUser { get; set; }
 
+    private PlatformService platform;
+    protected PlatformService Platform
+    {
+        get
+        {
+            platform ??= new PlatformService(CurrentUser);
+            return platform;
+        }
+    }
+
     private Database database;
     protected virtual Database Database
     {

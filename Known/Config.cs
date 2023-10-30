@@ -73,7 +73,7 @@ public sealed class Config
         return uploadPath;
     }
 
-    public static string GetUploadPath(string filePath, bool isWeb = false)
+    internal static string GetUploadPath(string filePath, bool isWeb = false)
     {
         var path = GetUploadPath(isWeb);
         return Path.Combine(path, filePath);
@@ -124,7 +124,7 @@ public sealed class Config
         return menus;
     }
 
-    public static Type GetType(string typeName)
+    internal static Type GetType(string typeName)
     {
         if (string.IsNullOrWhiteSpace(typeName))
             return null;

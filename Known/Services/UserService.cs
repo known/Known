@@ -72,15 +72,15 @@ class UserService : BaseService
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        //var info = SystemService.GetSystem(Database);
-        //if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
-        //    return Result.Error("用户默认密码未配置！");
+        var info = await SystemService.GetSystemAsync(Database);
+        if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
+            return Result.Error("用户默认密码未配置！");
 
         return await Database.TransactionAsync("重置", async db =>
         {
             foreach (var item in models)
             {
-                //item.Password = Utils.ToMd5(info.UserDefaultPwd);
+                item.Password = Utils.ToMd5(info.UserDefaultPwd);
                 await db.SaveAsync(item);
             }
         });
@@ -107,9 +107,9 @@ class UserService : BaseService
                 Enabled = true
             };
 
-            //var info = SystemService.GetSystem(Database);
-            //if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
-            //    return Result.Error("用户默认密码未配置！");
+            var info = await SystemService.GetSystemAsync(Database);
+            if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
+                return Result.Error("用户默认密码未配置！");
 
             if (Config.IsPlatform && user.IsTenant)
             {
@@ -126,7 +126,7 @@ class UserService : BaseService
             if (valid != null && !valid.IsValid)
                 return valid;
 
-            //entity.Password = Utils.ToMd5(info.UserDefaultPwd);
+            entity.Password = Utils.ToMd5(info.UserDefaultPwd);
         }
 
         entity.FillModel(model);
@@ -339,16 +339,16 @@ class UserService : BaseService
 
     private async Task SetUserInfoAsync(UserInfo user)
     {
-        //var sys = GetConfig<SystemInfo>(Database, SystemService.KeySystem);
-        //user.IsTenant = user.CompNo != sys.CompNo;
+        var sys = await GetConfigAsync<SystemInfo>(Database, SystemService.KeySystem);
+        user.IsTenant = user.CompNo != sys.CompNo;
         user.AppName = Config.AppName;
         if (user.IsAdmin)
             user.AppId = Config.AppId;
 
         Database.User = user;
-        //var info = SystemService.GetSystem(Database);
-        //user.AppName = info.AppName;
-        //user.CompName = info.CompName;
+        var info = await SystemService.GetSystemAsync(Database);
+        user.AppName = info.AppName;
+        user.CompName = info.CompName;
         if (!string.IsNullOrEmpty(user.OrgNo))
         {
             var orgName = await UserRepository.GetOrgNameAsync(Database, user.AppId, user.CompNo, user.OrgNo);

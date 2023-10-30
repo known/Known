@@ -28,44 +28,6 @@ public sealed class PlatformHelper
         return setting.DataAs<T>();
     }
 
-    //Company
-    public static Task<string> GetCompanyAsync(Database db, UserInfo user) => CompanyService.GetCompanyAsync(db, user);
-    //File
-    public static void DeleteFiles(List<string> filePaths) => filePaths.ForEach(AttachFile.DeleteFile);
-    public static Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles) => FileService.DeleteFilesAsync(db, bizId, oldFiles);
-    public static Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles) => FileService.SaveFileAsync(db, file, bizId, bizType, oldFiles);
-    public static Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType) => FileService.AddFilesAsync(db, files, bizId, bizType);
-    //Flow
-    public static async Task CreateFlowAsync(Database db, FlowBizInfo info)
-    {
-        var stepName = "创建流程";
-        var flow = new SysFlow
-        {
-            Id = Utils.GetGuid(),
-            CompNo = db.User.CompNo,
-            AppId = db.User.AppId,
-            FlowCode = info.FlowCode,
-            FlowName = info.FlowName,
-            FlowStatus = FlowStatus.Open,
-            BizId = info.BizId,
-            BizName = info.BizName,
-            BizUrl = info.BizUrl,
-            BizStatus = info.BizStatus,
-            CurrStep = stepName,
-            CurrBy = db.User.UserName
-        };
-        await db.SaveAsync(flow);
-        await AddFlowLogAsync(db, info.BizId, stepName, "创建", info.BizName);
-    }
-
-    public static async Task DeleteFlowAsync(Database db, string bizId)
-    {
-        await FlowRepository.DeleteFlowLogsAsync(db, bizId);
-        await FlowRepository.DeleteFlowAsync(db, bizId);
-    }
-
-    public static Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note) => FlowService.AddFlowLogAsync(db, bizId, stepName, result, note);
-
     internal static void SetBizOrganization(Database db, SysOrganization entity)
     {
         Organization?.Invoke(db, new SysOrganization

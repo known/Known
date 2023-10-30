@@ -43,16 +43,16 @@ class ApplyService : BaseService
             foreach (var item in models)
             {
                 //删除流程
-                await PlatformHelper.DeleteFlowAsync(db, item.Id);
+                await Platform.DeleteFlowAsync(db, item.Id);
                 //删除附件
-                await PlatformHelper.DeleteFilesAsync(db, item.Id, oldFiles);
+                await Platform.DeleteFilesAsync(db, item.Id, oldFiles);
                 //删除实体
                 await db.DeleteAsync(item);
             }
         });
         //如果事务执行成功，删除实际附件
         if (result.IsValid)
-            PlatformHelper.DeleteFiles(oldFiles);
+            Platform.DeleteFiles(oldFiles);
         return result;
     }
 
@@ -75,10 +75,10 @@ class ApplyService : BaseService
             {
                 entity.BizNo = await GetMaxBizNoAsync(db, entity.BizType);
                 //创建流程
-                await PlatformHelper.CreateFlowAsync(db, ApplyFlow.GetBizInfo(entity));
+                await Platform.CreateFlowAsync(db, ApplyFlow.GetBizInfo(entity));
             }
             //保存附件
-            await PlatformHelper.AddFilesAsync(db, bizFiles, entity.Id, bizType);
+            await Platform.AddFilesAsync(db, bizFiles, entity.Id, bizType);
             entity.BizFile = $"{entity.Id}_{bizType}";
             await db.SaveAsync(entity);
         }, entity);
