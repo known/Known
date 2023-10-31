@@ -7,8 +7,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddAntDesign();
 builder.Services.AddKnown();      //添加Known框架
-builder.Services.AddKnownCells(); //添加Known.Cells处理Excel
 builder.Services.AddKnownAntDesign(); //添加APP全局设置
+builder.Services.AddKnownCells(); //添加Known.Cells处理Excel
 builder.Services.AddApp();        //添加APP全局设置
 builder.Services.AddDemo();       //添加APP的Demo模块
 

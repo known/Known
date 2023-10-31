@@ -1,9 +1,6 @@
-﻿using Known.Razor;
-using Microsoft.AspNetCore.Components.Web;
+﻿namespace KnownAntDesign.Components;
 
-namespace Known.WebAnt.Components;
-
-public class AButton : BaseComponent
+public class KaButton : BaseComponent
 {
     [Parameter] public KButton Button { get; set; }
 

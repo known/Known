@@ -1,4 +1,4 @@
-﻿namespace Known.WebAnt.Pages;
+﻿namespace KnownAntDesign.Web.Pages;
 
 [Route("/")]
 public class Index : Known.Pages.Index

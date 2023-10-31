@@ -1,7 +1,4 @@
-﻿using Known.Razor;
-using Known.WebAnt.Components;
-
-namespace Known.WebAnt;
+﻿namespace KnownAntDesign.Web;
 
 static class AppConfig
 {
@@ -52,11 +49,6 @@ static class AppConfig
             Connections = [connInfo],
             UploadPath = uploadPath
         };
-    }
-
-    internal static void AddKnownAntDesign(this IServiceCollection services)
-    {
-        KButton.Render = (b, k) => b.Component<AButton>().Set(c => c.Button, k).Build();
     }
 
     internal static void AddApp(this IServiceCollection services)

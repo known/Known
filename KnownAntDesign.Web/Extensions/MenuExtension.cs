@@ -1,4 +1,4 @@
-﻿namespace Known.WebAnt.Extensions;
+﻿namespace KnownAntDesign.Web.Extensions;
 
 static class MenuExtension
 {

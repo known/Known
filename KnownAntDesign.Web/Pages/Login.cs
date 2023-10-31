@@ -1,4 +1,4 @@
-﻿namespace Known.WebAnt.Pages;
+﻿namespace KnownAntDesign.Web.Pages;
 
 class Login : Known.Pages.Login
 {
