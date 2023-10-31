@@ -19,7 +19,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter] protected Context Context { get; set; }
     [Inject] public UIService UI { get; set; }
 
-    protected UserInfo CurrentUser => Context.CurrentUser;
+    protected UserInfo CurrentUser => Context?.CurrentUser;
 
     private PlatformService platform;
     protected PlatformService Platform

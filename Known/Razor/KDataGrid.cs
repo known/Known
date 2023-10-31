@@ -419,7 +419,7 @@ public class KDataGrid<TItem> : DataComponent<TItem>
 
     private MenuInfo GetPageMenu()
     {
-        if (Context.UserMenus == null)
+        if (Context == null || Context.UserMenus == null)
             return null;
 
         var type = GetType();

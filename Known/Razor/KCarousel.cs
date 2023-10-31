@@ -29,7 +29,7 @@ public class KCarousel : BaseComponent
     private void BuildItems(RenderTreeBuilder builder)
     {
         if (Images == null || Images.Length == 0)
-            Images = new string[] { "_content/Known.Razor/img/none.png" };
+            Images = ["img/none.png"];
 
         for (int i = 0; i < Images.Length; i++)
         {

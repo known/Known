@@ -7,6 +7,8 @@ public class KButton : BaseComponent
         Id = Utils.GetGuid();
     }
 
+    public static Action<RenderTreeBuilder, KButton> Render { get; set; }
+
     [Parameter] public StyleType Type { get; set; }
     [Parameter] public string Icon { get; set; }
     [Parameter] public string Text { get; set; }
@@ -17,6 +19,12 @@ public class KButton : BaseComponent
     {
         if (!Visible)
             return;
+
+        if (Render != null)
+        {
+            Render(builder, this);
+            return;
+        }
 
         var css = CssBuilder.Default(Type.ToString().ToLower()).AddClass(Style).Build();
         builder.Button(css, attr =>
