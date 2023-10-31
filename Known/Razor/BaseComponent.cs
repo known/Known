@@ -1,14 +1,5 @@
 ﻿namespace Known.Razor;
 
-public interface IBaseComponent : IComponent
-{
-    string Id { get; set; }
-    string Name { get; set; }
-    bool ReadOnly { get; set; }
-    bool Enabled { get; set; }
-    bool Visible { get; set; }
-}
-
 public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 {
     private readonly Type type;

@@ -10,7 +10,6 @@ public static class Extension
     {
         var assembly = typeof(Config).Assembly;
         Config.AddModule(assembly);
-        Config.AddRazorTypes(assembly);
 
         //services.AddCascadingAuthenticationState();
 

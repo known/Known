@@ -1,15 +1,6 @@
 ﻿namespace Known.Razor;
 
-public interface IButton : IBaseComponent
-{
-    StyleType Type { get; set; }
-    string Icon { get; set; }
-    string Text { get; set; }
-    string Style { get; set; }
-    EventCallback OnClick { get; set; }
-}
-
-public class KButton : BaseComponent, IButton
+public class KButton : BaseComponent
 {
     public KButton()
     {

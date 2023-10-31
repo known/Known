@@ -46,22 +46,6 @@ public static class ComponentExtension
         builder.AddComponentReferenceCapture(2, value => action?.Invoke((DynamicComponent)value));
         builder.CloseComponent();
     }
-
-    internal static void OpenComponent<T>(this RenderTreeBuilder builder) where T : notnull, IComponent
-    {
-        var type = typeof(T);
-        if (type.IsInterface)
-        {
-            if (!Config.RazorTypes.TryGetValue(type, out Type value))
-                throw new Exception($"{type}未注册！");
-
-            builder.OpenComponent(0, value);
-        }
-        else
-        {
-            builder.OpenComponent<T>(0);
-        }
-    }
     #endregion
 
     #region Element

@@ -25,7 +25,7 @@ public class ComponentBuilder<T> where T : IComponent
 
     public void Build()
     {
-        builder.OpenComponent<T>();
+        builder.OpenComponent<T>(0);
         if (Parameters.Count > 0)
             builder.AddMultipleAttributes(1, Parameters);
         builder.CloseComponent();
@@ -33,7 +33,7 @@ public class ComponentBuilder<T> where T : IComponent
 
     public void Build(Action<T> action)
     {
-        builder.OpenComponent<T>();
+        builder.OpenComponent<T>(0);
         if (Parameters.Count > 0)
             builder.AddMultipleAttributes(1, Parameters);
         builder.AddComponentReferenceCapture(2, value => action?.Invoke((T)value));

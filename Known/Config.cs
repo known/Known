@@ -25,7 +25,6 @@ public sealed class Config
 
     public static AppInfo App { get; set; } = new AppInfo();
     internal static List<Assembly> Modules { get; } = [];
-    internal static Dictionary<Type, Type> RazorTypes { get; } = [];
     public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;
     public static string WebRoot { get; set; }
     public static string ContentRoot { get; set; }
@@ -34,21 +33,6 @@ public sealed class Config
     {
         Modules.Add(assembly);
         Cache.AttachCodes(assembly);
-    }
-
-    public static void AddRazorTypes(Assembly assembly)
-    {
-        var types = assembly.GetExportedTypes();
-        if (types == null || types.Length == 0)
-            return;
-
-        foreach (var item in types)
-        {
-            if (item.IsAssignableFrom(typeof(IBaseComponent)))
-            {
-
-            }
-        }
     }
 
     public static void SetAppVersion(Assembly assembly)
