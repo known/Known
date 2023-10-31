@@ -95,17 +95,7 @@ class AsposeSheet : ISheet
     #endregion
 
     #region Import
-    public void ImportData(DataTable dataTable, bool isFieldNameShown, int firstRow, int firstColumn)
-    {
-        if (dataTable == null || dataTable.Rows.Count == 0)
-            return;
-
-        var totalRows = dataTable.Rows.Count;
-        var totalColumns = dataTable.Columns.Count;
-        sheet.Cells.ImportDataTable(dataTable, isFieldNameShown, firstRow, firstColumn, totalRows, totalColumns, true, dateFormat, false);
-    }
-
-    public void ImportDataByExport(DataTable dataTable)
+    public void ImportData(DataTable dataTable)
     {
         if (dataTable == null || dataTable.Rows.Count == 0)
             return;
@@ -121,6 +111,16 @@ class AsposeSheet : ISheet
 
         SetRowStyle(0, new StyleInfo { IsBold = true, FontColor = Color.White, BackgroundColor = Utils.FromHtml("#6D87C1") });
         //sheet.AutoFitColumns(0, 0, 0, totalColumns);
+    }
+
+    public void ImportData(DataTable dataTable, bool isFieldNameShown, int firstRow, int firstColumn)
+    {
+        if (dataTable == null || dataTable.Rows.Count == 0)
+            return;
+
+        var totalRows = dataTable.Rows.Count;
+        var totalColumns = dataTable.Columns.Count;
+        sheet.Cells.ImportDataTable(dataTable, isFieldNameShown, firstRow, firstColumn, totalRows, totalColumns, true, dateFormat, false);
     }
     #endregion
 

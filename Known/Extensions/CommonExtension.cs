@@ -4,7 +4,7 @@ namespace Known.Extensions;
 
 public static class CommonExtension
 {
-    //Enum
+    #region Enum
     public static string GetDescription(this Enum value)
     {
         var type = value.GetType();
@@ -16,15 +16,9 @@ public static class CommonExtension
         var attr = field.GetCustomAttribute<DescriptionAttribute>();
         return attr != null ? attr.Description : name;
     }
+    #endregion
 
-    //Date
-    public static DateTime ToDate(this DateTime dateTime, string format = "yyyy-MM-dd")
-    {
-        var date = dateTime.ToString(format);
-        return DateTime.Parse(date);
-    }
-
-    //Dictionary
+    #region Dictionary
     public static T GetValue<T>(this IDictionary dic, string key)
     {
         if (dic == null)
@@ -48,8 +42,9 @@ public static class CommonExtension
         dic.TryGetValue(key, out T value);
         return value;
     }
+    #endregion
 
-    //Object
+    #region Object
     public static object Merge(this object obj1, object obj2)
     {
         if (obj1 == null) return null;
@@ -94,4 +89,5 @@ public static class CommonExtension
             dict[p.Name] = p.GetValue(right);
         return expando;
     }
+    #endregion
 }

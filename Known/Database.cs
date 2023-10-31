@@ -906,7 +906,7 @@ public class Database : IDisposable
 
         var excel = ExcelFactory.Create();
         var sheet = excel.CreateSheet("Sheet1");
-        sheet.ImportDataByExport(dataTable);
+        sheet.ImportData(dataTable);
         var stream = excel.SaveToStream();
         return stream.ToArray();
     }

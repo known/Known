@@ -27,8 +27,8 @@ public interface ISheet
     #endregion
 
     #region Import
+    void ImportData(DataTable dataTable);
     void ImportData(DataTable dataTable, bool isFieldNameShown, int firstRow, int firstColumn);
-    void ImportDataByExport(DataTable dataTable);
     #endregion
 
     #region Image

@@ -14,7 +14,7 @@ public sealed class TaskHelper
         return TaskRepository.GetTaskByTypeAsync(db, type);
     }
 
-    public static async Task<TaskSummaryInfo> GetTaskSummaryAsync(Database db, string type)
+    public static async Task<TaskSummaryInfo> GetSummaryAsync(Database db, string type)
     {
         var task = await TaskRepository.GetTaskByTypeAsync(db, type);
         if (task == null)
@@ -29,7 +29,7 @@ public sealed class TaskHelper
         };
     }
 
-    public static async Task<Result> AddTaskAsync(Database db, string type, string name, string target = "")
+    public static async Task<Result> AddAsync(Database db, string type, string name, string target = "")
     {
         var task = await TaskRepository.GetTaskByTypeAsync(db, type);
         if (task != null)

@@ -33,29 +33,7 @@ public static class ModelExtension
     #endregion
 
     #region Menu
-    public static KMenuItem Add(this List<KMenuItem> items, string code, string name, string icon, string description = null)
-    {
-        var item = new KMenuItem
-        {
-            Id = code,
-            Code = code,
-            Name = name,
-            Icon = icon,
-            Description = description
-        };
-        items.Add(item);
-        return item;
-    }
-
-    public static KMenuItem Add<T>(this List<KMenuItem> items, string name, string icon, string description = null)
-    {
-        var item = new KMenuItem(name, icon, typeof(T), description);
-        item.Code = item.Id;
-        items.Add(item);
-        return item;
-    }
-
-    public static List<KMenuItem> ToMenuItems(this List<MenuInfo> menus)
+    internal static List<KMenuItem> ToMenuItems(this List<MenuInfo> menus)
     {
         var items = new List<KMenuItem>();
         if (menus == null || menus.Count == 0)
