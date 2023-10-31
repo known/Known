@@ -17,7 +17,6 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     {
         type = GetType();
         Id = type.Name;
-        Context = new Context();
     }
 
     [Parameter] public string Id { get; set; }
@@ -68,13 +67,22 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
         }));
     }
 
+    protected bool HasButton(ButtonInfo button)
+    {
+        var user = CurrentUser;
+        if (user == null)
+            return false;
+
+        return IsInMenu(button, Id);
+    }
+
     internal async Task AddVisitLogAsync()
     {
         if (string.IsNullOrWhiteSpace(Name))
             return;
 
         var log = new SysLog { Target = Name, Content = type.FullName };
-        if (Config.UserMenus.Exists(p => p.Code == type.Name))
+        if (Context.UserMenus.Exists(p => p.Code == type.Name))
             log.Type = Constants.LogTypePage;
 
         if (string.IsNullOrWhiteSpace(log.Type))
@@ -92,5 +100,19 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
                    StateChanged();
                })
                .Build();
+    }
+
+    internal bool IsInMenu(ButtonInfo button, string id)
+    {
+        var menu = Context.UserMenus.FirstOrDefault(m => m.Id == id || m.Code == id);
+        if (menu == null)
+            return false;
+
+        var hasButton = false;
+        if (menu.Buttons != null && menu.Buttons.Count > 0)
+            hasButton = menu.Buttons.Contains(button.Id) || menu.Buttons.Contains(button.Name);
+        else if (menu.Actions != null && menu.Actions.Count > 0)
+            hasButton = menu.Actions.Contains(button.Id) || menu.Actions.Contains(button.Name);
+        return hasButton;
     }
 }

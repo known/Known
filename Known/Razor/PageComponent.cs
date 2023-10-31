@@ -33,13 +33,4 @@ public class PageComponent : BaseComponent
 
     protected virtual Task InitPageAsync() => Task.CompletedTask;
     protected virtual void BuildPage(RenderTreeBuilder builder) { }
-
-    protected bool HasButton(ButtonInfo button)
-    {
-        var user = CurrentUser;
-        if (user == null)
-            return false;
-
-        return button.IsInMenu(Id);
-    }
 }

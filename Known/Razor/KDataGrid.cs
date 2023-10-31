@@ -18,7 +18,6 @@ public class KDataGrid<TItem> : DataComponent<TItem>
         GridId = $"dg-{id}";
         ContainerStyle = "grid-view";
         ContentStyle = "grid";
-        InitMenu();
     }
 
     [Parameter] public Action<object> OnPicked { get; set; }
@@ -206,6 +205,8 @@ public class KDataGrid<TItem> : DataComponent<TItem>
 
     protected override Task InitPageAsync()
     {
+        InitMenu();
+
         if (OnPicked != null)
             SetGridPicker();
 
@@ -414,11 +415,11 @@ public class KDataGrid<TItem> : DataComponent<TItem>
 
     private MenuInfo GetPageMenu()
     {
-        if (Config.UserMenus == null)
+        if (Context.UserMenus == null)
             return null;
 
         var type = GetType();
-        return Config.UserMenus.FirstOrDefault(m => m.Target == type.FullName);
+        return Context.UserMenus.FirstOrDefault(m => m.Target == type.FullName);
     }
 }
 

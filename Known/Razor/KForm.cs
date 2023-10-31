@@ -98,15 +98,6 @@ public class KForm : BaseComponent
             Context.Back();
     }
 
-    protected bool HasButton(ButtonInfo button)
-    {
-        var user = CurrentUser;
-        if (user == null)
-            return false;
-
-        return button.IsInMenu(Id);
-    }
-
     public bool Validate() => FormContext.Validate();
     public bool ValidateCheck(bool isPass) => FormContext.ValidateCheck(isPass);
 

@@ -28,7 +28,6 @@ public sealed class Config
     public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;
     public static string WebRoot { get; set; }
     public static string ContentRoot { get; set; }
-    public static bool IsDevelopment { get; set; }
 
     public static void AddModule(Assembly assembly)
     {
@@ -96,7 +95,6 @@ public sealed class Config
     }
 
     internal static bool IsCheckKey { get; set; } = true;
-    internal static string ValidDate { get; set; }
     internal static string AuthStatus { get; set; }
     public static string ProductId { get; set; }
     public static bool IsWeb { get; set; }
@@ -106,23 +104,7 @@ public sealed class Config
     public static string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
     public static string AppJsPath { get; set; }
     public static KMenuItem Home { get; set; }
-    public static List<MenuInfo> UserMenus { get; set; }
     public static Action<IMyFlow> ShowMyFlow { get; set; }
-
-    public static List<KMenuItem> GetMenus(List<string> menuIds)
-    {
-        if (menuIds == null || menuIds.Count == 0)
-            return [];
-
-        var menus = new List<KMenuItem>();
-        foreach (var menuId in menuIds)
-        {
-            var menu = UserMenus.FirstOrDefault(m => !string.IsNullOrWhiteSpace(m.Target) && m.Name == menuId);
-            if (menu != null)
-                menus.Add(KMenuItem.From(menu));
-        }
-        return menus;
-    }
 
     internal static Type GetType(string typeName)
     {

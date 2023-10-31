@@ -29,7 +29,7 @@
         info = await Platform.GetAdminAsync();
         Setting.UserSetting = info?.UserSetting;
         Setting.Info = info?.UserSetting?.Info ?? SettingInfo.Default;
-
+        Context.UserMenus = info?.UserMenus;
         userMenus = info?.UserMenus.ToAntMenus().ToArray();
         if (Config.IsWebApi)
             Cache.AttachCodes(info?.Codes);

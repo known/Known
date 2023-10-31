@@ -44,15 +44,6 @@ public class DataComponent<TItem> : BaseComponent
     protected virtual Task<PagingResult<TItem>> OnQueryDataAsync(PagingCriteria criteria) => Task.FromResult(new PagingResult<TItem>());
     protected virtual List<string> GetSumColumns() => null;
 
-    protected bool HasButton(ButtonInfo button)
-    {
-        var user = CurrentUser;
-        if (user == null)
-            return false;
-
-        return button.IsInMenu(Id);
-    }
-
     protected virtual async void QueryData(bool isQuery = false)
     {
         this.isQuery = isQuery;

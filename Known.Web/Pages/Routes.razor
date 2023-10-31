@@ -18,3 +18,11 @@
         <KDialogContainer />
     </CascadingValue>
 </CascadingAuthenticationState>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Context = new Context();
+        base.OnInitialized();
+    }
+}

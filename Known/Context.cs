@@ -9,6 +9,7 @@ public class Context
 
     internal InstallInfo Install { get; set; }
     public UserInfo CurrentUser { get; set; }
+    public List<MenuInfo> UserMenus { get; set; }
 
     public void Back()
     {
@@ -17,6 +18,21 @@ public class Context
 
         current = current.Previous;
         OnNavigate?.Invoke(current);
+    }
+
+    public List<KMenuItem> GetMenus(List<string> menuIds)
+    {
+        if (menuIds == null || menuIds.Count == 0)
+            return [];
+
+        var menus = new List<KMenuItem>();
+        foreach (var menuId in menuIds)
+        {
+            var menu = UserMenus.FirstOrDefault(m => !string.IsNullOrWhiteSpace(m.Target) && m.Name == menuId);
+            if (menu != null)
+                menus.Add(KMenuItem.From(menu));
+        }
+        return menus;
     }
 
     public void NavigateToHome() => Navigate(Config.Home);
@@ -44,7 +60,7 @@ public class Context
     {
         var type = typeof(T);
         var target = type.FullName;
-        var menu = Config.UserMenus.FirstOrDefault(m => m.Target == target);
+        var menu = UserMenus.FirstOrDefault(m => m.Target == target);
         if (menu == null)
             return;
 

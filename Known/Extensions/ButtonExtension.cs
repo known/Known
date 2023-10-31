@@ -38,18 +38,4 @@ public static class ButtonExtension
                .Set(c => c.OnClick, onClick)
                .Build();
     }
-
-    internal static bool IsInMenu(this ButtonInfo button, string id)
-    {
-        var menu = Config.UserMenus.FirstOrDefault(m => m.Id == id || m.Code == id);
-        if (menu == null)
-            return false;
-
-        var hasButton = false;
-        if (menu.Buttons != null && menu.Buttons.Count > 0)
-            hasButton = menu.Buttons.Contains(button.Id) || menu.Buttons.Contains(button.Name);
-        else if (menu.Actions != null && menu.Actions.Count > 0)
-            hasButton = menu.Actions.Contains(button.Id) || menu.Actions.Contains(button.Name);
-        return hasButton;
-    }
 }

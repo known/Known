@@ -4,8 +4,6 @@ static class MenuExtension
 {
     internal static List<MenuDataItem> ToAntMenus(this List<MenuInfo> menus)
     {
-        Config.UserMenus = menus;
-
         var items = new List<MenuDataItem>();
         if (menus == null || menus.Count == 0)
             return items;

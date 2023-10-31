@@ -92,9 +92,9 @@ public class Admin : KLayout
 
     private void OnToggleSide(bool isMini) => UI.ToggleClass("app", "kui-mini");
 
-    private static List<KMenuItem> GetUserMenus(List<MenuInfo> menus)
+    private List<KMenuItem> GetUserMenus(List<MenuInfo> menus)
     {
-        Config.UserMenus = menus;
+        Context.UserMenus = menus;
         return menus.ToMenuItems();
     }
 }

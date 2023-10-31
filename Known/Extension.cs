@@ -8,7 +8,8 @@ public static class Extension
 {
     public static void AddKnown(this IServiceCollection services)
     {
-        Config.Modules.Add(typeof(Config).Assembly);
+        var assembly = typeof(Config).Assembly;
+        Config.Modules.Add(assembly);
 
         //services.AddCascadingAuthenticationState();
 
