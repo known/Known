@@ -43,10 +43,10 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     public virtual void Refresh() { }
     public EventCallback Callback(Func<Task> callback) => EventCallback.Factory.Create(this, callback);
     public EventCallback Callback(Action callback) => EventCallback.Factory.Create(this, callback);
-    protected EventCallback Callback(Action<object> callback) => EventCallback.Factory.Create(this, callback);
-    protected EventCallback<T> Callback<T>(Action<T> callback) => EventCallback.Factory.Create(this, callback);
+    public EventCallback Callback(Action<object> callback) => EventCallback.Factory.Create(this, callback);
+    public EventCallback<T> Callback<T>(Action<T> callback) => EventCallback.Factory.Create(this, callback);
 
-    protected void StateChanged() => InvokeAsync(StateHasChanged);
+    public void StateChanged() => InvokeAsync(StateHasChanged);
     protected static RenderFragment<T> BuildTree<T>(Action<RenderTreeBuilder, T> action) => (row) => delegate (RenderTreeBuilder builder) { action(builder, row); };
 
     protected void BuildDownload(RenderTreeBuilder builder, string fileId)

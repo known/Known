@@ -20,6 +20,7 @@ global using Known.Extensions;
 global using Known.Helpers;
 global using Known.Pages;
 global using Known.Razor;
+global using Known.Renders;
 global using Known.Repositories;
 global using Known.Services;
 global using Known.WorkFlows;
