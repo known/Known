@@ -203,10 +203,14 @@ public class KDataGrid<TItem> : DataComponent<TItem>
         });
     }
 
-    protected override Task InitPageAsync()
+    protected override Task OnInitializedAsync()
     {
         InitMenu();
+        return base.OnInitializedAsync();
+    }
 
+    protected override Task InitPageAsync()
+    {
         if (OnPicked != null)
             SetGridPicker();
 

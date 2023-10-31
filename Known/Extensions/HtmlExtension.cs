@@ -2,13 +2,20 @@
 
 public static class HtmlExtension
 {
+    #region Head
     public static void H1(this RenderTreeBuilder builder, string text) => builder.Element("h1", attr => builder.Text(text));
     public static void H2(this RenderTreeBuilder builder, string text) => builder.Element("h2", attr => builder.Text(text));
     public static void H3(this RenderTreeBuilder builder, string text) => builder.Element("h3", attr => builder.Text(text));
     public static void H4(this RenderTreeBuilder builder, string text) => builder.Element("h4", attr => builder.Text(text));
     public static void H5(this RenderTreeBuilder builder, string text) => builder.Element("h5", attr => builder.Text(text));
     public static void H6(this RenderTreeBuilder builder, string text) => builder.Element("h6", attr => builder.Text(text));
+    #endregion
+
+    #region Canvas
     public static void Canvas(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("canvas", attr => child?.Invoke(attr));
+    #endregion
+
+    #region Div
     public static void Div(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("div", attr => child?.Invoke(attr));
 
     public static void Div(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
@@ -31,6 +38,20 @@ public static class HtmlExtension
             builder.Text(text);
         });
     }
+    #endregion
+
+    #region Link
+    public static void Link(this RenderTreeBuilder builder, string text, EventCallback onClick, string style = null)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
+        builder.Span($"link {style}", attr =>
+        {
+            attr.OnClick(onClick);
+            builder.Text(text);
+        });
+    }
 
     public static void Anchor(this RenderTreeBuilder builder, string text, string url, string download = null)
     {
@@ -46,7 +67,9 @@ public static class HtmlExtension
             builder.Text(text);
         });
     }
+    #endregion
 
+    #region Paragraph
     public static void Paragraph(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("p", attr => child?.Invoke(attr));
 
     public static void Paragraph(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
@@ -57,7 +80,9 @@ public static class HtmlExtension
             child?.Invoke(attr);
         });
     }
+    #endregion
 
+    #region Table
     public static void Table(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null)
     {
         builder.Element("table", child);
@@ -184,7 +209,9 @@ public static class HtmlExtension
             builder.Div("form-input", attr => builder.Span("text", value));
         });
     }
+    #endregion
 
+    #region Ul
     public static void Ul(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("ul", attr => child?.Invoke(attr));
 
     public static void Ul(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
@@ -206,7 +233,9 @@ public static class HtmlExtension
             child?.Invoke(attr);
         });
     }
+    #endregion
 
+    #region Dl
     public static void Dl(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("dl", attr => child?.Invoke(attr));
 
     public static void Dl(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
@@ -228,7 +257,9 @@ public static class HtmlExtension
             child?.Invoke(attr);
         });
     }
+    #endregion
 
+    #region Pre
     public static void Pre(this RenderTreeBuilder builder, string text)
     {
         if (string.IsNullOrWhiteSpace(text))
@@ -248,7 +279,9 @@ public static class HtmlExtension
             builder.Text(text);
         });
     }
+    #endregion
 
+    #region Span
     public static void Span(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("span", attr => child?.Invoke(attr));
 
     public static void Span(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child)
@@ -279,7 +312,9 @@ public static class HtmlExtension
             builder.Text(text);
         });
     }
+    #endregion
 
+    #region Icon
     public static void Icon(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("i", attr => child?.Invoke(attr));
 
     public static void Icon(this RenderTreeBuilder builder, string icon, Action<AttributeBuilder> child = null)
@@ -295,7 +330,9 @@ public static class HtmlExtension
     {
         builder.Icon(icon, attr => attr.Title(title).OnClick(onClick));
     }
+    #endregion
 
+    #region Label
     public static void Label(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("label", attr => child?.Invoke(attr));
 
     public static void Label(this RenderTreeBuilder builder, string className, Action<AttributeBuilder> child = null)
@@ -308,6 +345,9 @@ public static class HtmlExtension
     }
 
     public static void Label(this RenderTreeBuilder builder, string className, string text) => builder.Label(className, attr => builder.Text(text));
+    #endregion
+
+    #region Input
     public static void Input(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("input", attr => child?.Invoke(attr));
 
     public static void Check(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null)
@@ -331,18 +371,10 @@ public static class HtmlExtension
     public static void TextArea(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("textarea", attr => child?.Invoke(attr));
     public static void Select(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("select", attr => child?.Invoke(attr));
     public static void Option(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("option", attr => child?.Invoke(attr));
+    #endregion
+
+    #region Img
     public static void Img(this RenderTreeBuilder builder, Action<AttributeBuilder> child = null) => builder.Element("img", attr => child?.Invoke(attr));
     public static void Img(this RenderTreeBuilder builder, string src) => builder.Img(attr => attr.Src(src));
-
-    public static void Link(this RenderTreeBuilder builder, string text, EventCallback onClick, string style = null)
-    {
-        if (string.IsNullOrWhiteSpace(text))
-            return;
-
-        builder.Span($"link {style}", attr =>
-        {
-            attr.OnClick(onClick);
-            builder.Text(text);
-        });
-    }
+    #endregion
 }

@@ -1,7 +1,38 @@
 ﻿namespace Known.Extensions;
 
-public static class MenuExtension
+public static class ModelExtension
 {
+    #region User
+    public static Task SendMessageAsync(this UserInfo user, Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    {
+        return user.SendMessageAsync(db, Constants.UMLGeneral, toUser, subject, content, filePath, bizId);
+    }
+
+    public static Task SendUrgentMessageAsync(this UserInfo user, Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    {
+        return user.SendMessageAsync(db, Constants.UMLUrgent, toUser, subject, content, filePath, bizId);
+    }
+
+    private static Task SendMessageAsync(this UserInfo user, Database db, string level, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    {
+        var model = new SysMessage
+        {
+            UserId = toUser,
+            Type = Constants.UMTypeReceive,
+            MsgBy = user.Name,
+            MsgLevel = level,
+            Subject = subject,
+            Content = content,
+            FilePath = filePath,
+            IsHtml = true,
+            Status = Constants.UMStatusUnread,
+            BizId = bizId
+        };
+        return db.SaveAsync(model);
+    }
+    #endregion
+
+    #region Menu
     public static KMenuItem Add(this List<KMenuItem> items, string code, string name, string icon, string description = null)
     {
         var item = new KMenuItem
@@ -110,4 +141,51 @@ public static class MenuExtension
             AddChildren(menus, sub);
         }
     }
+    #endregion
+
+    #region Module
+    internal static List<MenuInfo> ToMenus(this List<SysModule> modules)
+    {
+        if (modules == null || modules.Count == 0)
+            return new List<MenuInfo>();
+
+        return modules.Select(m => new MenuInfo(m.Id, m.Name, m.Icon, m.Description)
+        {
+            ParentId = m.ParentId,
+            Code = m.Code,
+            Target = m.Target,
+            Sort = m.Sort,
+            Buttons = m.Buttons,
+            Actions = m.Actions,
+            Columns = m.Columns
+        }).ToList();
+    }
+
+    internal static void RemoveModule(this List<SysModule> modules, string code)
+    {
+        var module = modules.FirstOrDefault(m => m.Code == code);
+        if (module != null)
+            modules.Remove(module);
+    }
+    #endregion
+
+    #region Column
+    public static void Add<T>(this List<ColumnInfo> lists, Expression<Func<T, object>> selector, string name = null)
+    {
+        var property = TypeHelper.Property(selector);
+        var attr = property.GetCustomAttribute<ColumnAttribute>(true);
+        var column = new ColumnInfo(attr?.Description, property.Name);
+        if (!string.IsNullOrWhiteSpace(name))
+            column.Name = name;
+        lists.Add(column);
+    }
+
+    public static void Add<T>(this List<ColumnInfo> lists, Expression<Func<T, object>> selector, ColumnType type)
+    {
+        var property = TypeHelper.Property(selector);
+        var attr = property.GetCustomAttribute<ColumnAttribute>(true);
+        var column = new ColumnInfo(attr?.Description, property.Name, type);
+        lists.Add(column);
+    }
+    #endregion
 }

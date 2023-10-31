@@ -1,4 +1,4 @@
-﻿namespace Known.Razor;
+﻿namespace Known.Pages;
 
 class AdminHeader : BaseComponent
 {

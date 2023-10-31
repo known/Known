@@ -2,7 +2,7 @@
 
 namespace Known.Extensions;
 
-public static class ComExtension
+public static class CommonExtension
 {
     //Enum
     public static string GetDescription(this Enum value)
