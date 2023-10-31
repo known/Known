@@ -97,15 +97,13 @@ public sealed class TypeHelper
         if (selector is null)
             throw new ArgumentNullException(nameof(selector));
 
-        if (selector.Body is not MemberExpression expression ||
-            expression.Member is not PropertyInfo propInfoCandidate)
+        if (selector.Body is not MemberExpression expression || expression.Member is not PropertyInfo propInfoCandidate)
             throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
 
         var type = typeof(T);
         var propertyInfo = propInfoCandidate.DeclaringType != type
                          ? type.GetProperty(propInfoCandidate.Name, propInfoCandidate.PropertyType)
                          : propInfoCandidate;
-
         if (propertyInfo is null)
             throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
 

@@ -30,7 +30,7 @@ partial class UIService
         Show(option);
     }
 
-    public void Show<T>(string title, Size? size, bool isMax = false, Action<AttributeBuilder<T>> action = null) where T : BaseComponent
+    public void Show<T>(string title, Size? size, bool isMax = false, Action<ComponentBuilder<T>> action = null) where T : BaseComponent
     {
         Show(new DialogOption
         {
@@ -42,7 +42,7 @@ partial class UIService
         });
     }
 
-    public void ShowForm<T>(string title, object model, Action<Result> onSuccess = null, Size? size = null, Action<AttributeBuilder<T>> action = null) where T : KForm
+    public void ShowForm<T>(string title, object model, Action<Result> onSuccess = null, Size? size = null, Action<ComponentBuilder<T>> action = null) where T : KForm
     {
         var dialog = typeof(T).GetCustomAttribute<DialogAttribute>();
         if (size == null)

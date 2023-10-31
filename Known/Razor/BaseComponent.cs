@@ -9,7 +9,7 @@ public interface IBaseComponent : IComponent
     bool Visible { get; set; }
 }
 
-public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDisposable
+public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 {
     private readonly Type type;
 

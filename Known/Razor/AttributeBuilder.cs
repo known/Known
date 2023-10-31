@@ -1,46 +1,5 @@
 ﻿namespace Known.Razor;
 
-public class AttributeBuilder<T> where T : IComponent
-{
-    private readonly RenderTreeBuilder builder;
-    internal readonly Dictionary<string, object> Parameters = new(StringComparer.Ordinal);
-
-    public AttributeBuilder(RenderTreeBuilder builder)
-    {
-        this.builder = builder;
-    }
-
-    public AttributeBuilder<T> Add(string name, object value)
-    {
-        Parameters[name] = value;
-        return this;
-    }
-
-    public AttributeBuilder<T> Set<TValue>(Expression<Func<T, TValue>> selector, TValue value)
-    {
-        var property = TypeHelper.Property(selector);
-        Parameters[property.Name] = value;
-        return this;
-    }
-
-    public void Build()
-    {
-        builder.OpenComponent<T>();
-        if (Parameters.Count > 0)
-            builder.AddMultipleAttributes(1, Parameters);
-        builder.CloseComponent();
-    }
-
-    public void Build(Action<T> action)
-    {
-        builder.OpenComponent<T>();
-        if (Parameters.Count > 0)
-            builder.AddMultipleAttributes(1, Parameters);
-        builder.AddComponentReferenceCapture(2, value => action?.Invoke((T)value));
-        builder.CloseComponent();
-    }
-}
-
 public class AttributeBuilder
 {
     private readonly RenderTreeBuilder builder;

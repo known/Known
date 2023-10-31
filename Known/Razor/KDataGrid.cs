@@ -110,7 +110,7 @@ public class KDataGrid<TItem> : DataComponent<TItem>
         return GridColumns.Where(c => c.IsSum).Select(c => c.Id).ToList();
     }
 
-    protected void ShowForm<T>(string title, object model, Size? size = null, Action<AttributeBuilder<T>> action = null) where T : KForm
+    protected void ShowForm<T>(string title, object model, Size? size = null, Action<ComponentBuilder<T>> action = null) where T : KForm
     {
         UI.ShowForm(title, model, CloseForm, size, action);
     }

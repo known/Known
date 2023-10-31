@@ -24,13 +24,12 @@ public class KAttach : BaseComponent
         builder.Div("attachButton", attr =>
         {
             builder.IconName(Icon, Text ?? "上传");
-            builder.Component<InputFile>(attr =>
-            {
-                //.Add("accept", Constants.MimeImage)
-                attr.Add("class", "upload")
-                    .Add("multiple", true)
-                    .Set(c => c.OnChange, Callback<InputFileChangeEventArgs>(async e => await OnFilesChangedAsync(e)));
-            });
+            builder.Component<InputFile>()
+                 .Add("class", "upload")
+                 .Add("multiple", true)
+                 .Set(c => c.OnChange, Callback<InputFileChangeEventArgs>(async e => await OnFilesChangedAsync(e)))
+                 .Build();
+            //.Add("accept", Constants.MimeImage)
         });
     }
 

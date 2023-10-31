@@ -9,7 +9,8 @@ public static class Extension
     public static void AddKnown(this IServiceCollection services)
     {
         var assembly = typeof(Config).Assembly;
-        Config.Modules.Add(assembly);
+        Config.AddModule(assembly);
+        Config.AddRazorTypes(assembly);
 
         //services.AddCascadingAuthenticationState();
 

@@ -15,20 +15,16 @@ public static class ComponentExtension
     }
 
     #region Component
-    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder, string id = null) where T : notnull, IBaseComponent
+    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder, string id = null) where T : notnull, IComponent
     {
-        var comBuilder = new ComponentBuilder<T>(builder);
-        comBuilder.Id(id);
-        return comBuilder;
+        return new ComponentBuilder<T>(builder).Id(id);
     }
 
-    public static void Component<T>(this RenderTreeBuilder builder, Action<AttributeBuilder<T>> child) where T : notnull, IComponent
+    internal static void Component<T>(this RenderTreeBuilder builder, Action<ComponentBuilder<T>> child) where T : notnull, IComponent
     {
-        builder.OpenComponent<T>();
-        var attr = new AttributeBuilder<T>(builder);
+        var attr = new ComponentBuilder<T>(builder);
         child?.Invoke(attr);
-        builder.AddMultipleAttributes(1, attr.Parameters);
-        builder.CloseComponent();
+        attr.Build();
     }
 
     public static void Component(this RenderTreeBuilder builder, Type type, Action<AttributeBuilder> child)
@@ -53,10 +49,13 @@ public static class ComponentExtension
 
     internal static void OpenComponent<T>(this RenderTreeBuilder builder) where T : notnull, IComponent
     {
-        if (typeof(T).IsInterface)
+        var type = typeof(T);
+        if (type.IsInterface)
         {
-            var type = typeof(T);
-            builder.OpenComponent(0, type);
+            if (!Config.RazorTypes.TryGetValue(type, out Type value))
+                throw new Exception($"{type}未注册！");
+
+            builder.OpenComponent(0, value);
         }
         else
         {

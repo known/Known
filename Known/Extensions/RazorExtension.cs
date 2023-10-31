@@ -184,7 +184,7 @@ public static class RazorExtension
         });
     }
 
-    public static void FormList<T>(this RenderTreeBuilder builder, string title, string style = null, Action<AttributeBuilder<T>> child = null) where T : notnull, IComponent
+    public static void FormList<T>(this RenderTreeBuilder builder, string title, string style = null, Action<ComponentBuilder<T>> child = null) where T : notnull, IComponent
     {
         builder.FormList(title, style, () => builder.Component(child));
     }
