@@ -1,0 +1,8 @@
+button, .button, input, select, 
+.form-item .link,
+.form-input > span, .form-input .text, .form-input .unit, .form-input .btn, .form-input .link, 
+.form-label, .form-text, .form-radio, .form-tips {height:auto;}
+
+.login .form-input input {height:auto;padding-left:2rem;}
+
+.ant-input-prefix {width:2rem;}

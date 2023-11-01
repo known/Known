@@ -2,6 +2,13 @@
 
 public class KInput : Field
 {
+    private BaseRender<KInput> render;
+
+    public KInput()
+    {
+        render = RenderFactory.Create<KInput>();
+    }
+
     // button         定义可点击的按钮（大多与 JavaScript 使用来启动脚本）
     // checkbox       定义复选框。
     // color          定义拾色器。
@@ -25,8 +32,6 @@ public class KInput : Field
     // tel            定义用于电话号码的文本字段。
     // text           默认。定义单行输入字段，用户可在其中输入文本。默认是 20 个字符。
     // url            定义用于 URL 的文本字段。
-    private string type => Type.ToString().ToLower();
-
     [Parameter] public InputType Type { get; set; }
     [Parameter] public string Placeholder { get; set; }
     [Parameter] public string Icon { get; set; }
@@ -44,27 +49,6 @@ public class KInput : Field
 
     protected override void BuildInput(RenderTreeBuilder builder)
     {
-        var enabled = Enabled;
-        if (Type == InputType.Color && ReadOnly)
-            enabled = false;
-
-        BuildIcon(builder, Icon);
-        builder.Input(attr =>
-        {
-            //var value = BindConverter.FormatValue(Value);
-            //var hasChanged = !EqualityComparer<string>.Default.Equals(value, Value);
-            attr.Type(type).Id(Id).Name(Id).Disabled(!enabled).Readonly(ReadOnly)
-                .Value(Value).Required(Required)
-                .Placeholder(Placeholder)
-                .Add("autocomplete", "off")
-                .OnChange(CreateBinder())
-                .OnEnter(OnEnter);
-            //builder.SetUpdatesAttributeName("value");
-        });
-    }
-    private static void BuildIcon(RenderTreeBuilder builder, string icon)
-    {
-        if (!string.IsNullOrWhiteSpace(icon))
-            builder.Icon(icon);
+        render?.BuildTree(this, builder);
     }
 }
