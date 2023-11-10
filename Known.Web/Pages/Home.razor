@@ -1,10 +1,10 @@
 ﻿@using Known.Web.Models
 @inherits BasePage
 
-<div class="ws">
-    <GridRow>
-        <GridCol Span="24">
-            <div class="welcome">
+<GridRow>
+    <GridCol Span="24">
+        <div class="ws-space">
+            <div class="ws-welcome">
                 <img class="ws-avatar" src="@user?.AvatarUrl" />
                 <div class="ws-info">
                     <span class="ws-name">@info?.Greeting</span>
@@ -21,35 +21,62 @@
                     <span class="amount">@info?.Statistics?.LogCount</span>
                 </li>
             </ul>
-        </GridCol>
-    </GridRow>
-    <GridRow>
-        <GridCol Span="14">
-            <Card>
+        </div>
+    </GridCol>
+</GridRow>
+<GridRow>
+    <GridCol Span="14">
+        <div style="height:400px;">
+            <Card Style="height:100%;">
                 <CardTabs>
                     <Tabs DefaultActiveKey="1">
                         <TabPane Key="1">
                             <TabTemplate>日志统计</TabTemplate>
                             <ChildContent>
-                                <HomeLogChart Datas="info?.Statistics?.LogDatas" />
+                                <AntDesign.Charts.Column Config="chartConfig" Data="chartData" />
                             </ChildContent>
                         </TabPane>
                     </Tabs>
                 </CardTabs>
             </Card>
-        </GridCol>
-        <GridCol Span="8">
-            <Card Title="常用功能">
-
+        </div>
+    </GridCol>
+    <GridCol Span="10">
+        <div style="height:400px;margin-left:10px;">
+            <Card Title="常用功能" Style="height:100%;">
+                @if (visitMenus != null && visitMenus.Count > 0)
+                {
+                    foreach (var item in visitMenus)
+                    {
+                        <div class="ws-func-menu" @onclick="e => Context.Navigate(item)">
+                            <Icon Type="@item.Icon" Theme="outline" />
+                            <span class="name">@item.Name</span>
+                        </div>
+                    }
+                }
             </Card>
-        </GridCol>
-    </GridRow>
-</div>
+        </div>
+    </GridCol>
+</GridRow>
 
 @code {
     private UserInfo user;
     private HomeInfo info;
+    private object[] chartData;
     private List<Known.MenuItem> visitMenus;
+    private ColumnConfig chartConfig = new()
+    {
+        Name = $"{DateTime.Now:yyyyMM}月系统访问量统计",
+        Height = 274,
+        Padding = "auto",
+        XField = "Day",
+        YField = "Count",
+        Meta = new
+        {
+            Day = new { Alias = "日期" },
+            Count = new { Alias = "数量" }
+        }
+    };
 
     protected override async Task OnInitPageAsync()
     {
@@ -58,6 +85,7 @@
         user = CurrentUser;
         var service = new HomeService { CurrentUser = user };
         info = await service.GetHomeAsync();
+        chartData = info?.Statistics?.LogDatas?.FirstOrDefault()?.Series.Select(d => new { Day = d.Key, Count = (int)d.Value }).ToArray();
         visitMenus = Context.GetMenus(info?.VisitMenuIds);
     }
 }

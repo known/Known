@@ -105,29 +105,3 @@ class HomeRepository
         return db.ScalarAsync<int>(sql, new { db.User.CompNo });
     }
 }
-
-class HomeLogChart : BaseComponent
-{
-    private ColumnConfig config = new()
-    {
-        Padding = "auto",
-        XField = "Day",
-        YField = "Count",
-        Meta = new
-        {
-            Type = new { Alias = "日期" },
-            Sales = new { Alias = "数量" }
-        }
-    };
-
-    [Parameter] public ChartDataInfo[] Datas { get; set; }
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        var data = Datas.FirstOrDefault().Series.Select(d => new { Month = d.Key, Count = d.Value }).ToArray();
-        builder.Component<AntDesign.Charts.Column>()
-               .Set(c => c.Config, config)
-               .Set(c => c.Data, data)
-               .Build();
-    }
-}

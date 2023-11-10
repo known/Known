@@ -54,23 +54,19 @@ html, body {
 }
 
 /*dashboard*/
-#tb-Home .ws-card, #tb-Home .ws-row {margin:0;margin-bottom:10px;}
+.ws-space {display:flex;justify-content:space-between;margin:10px 0;background-color:#fff;padding:20px;}
+.ws-welcome {display:flex;padding:10px;}
 
-.ws1 {margin:10px;background-color:#fff;padding:20px;}
-.ws .welcome {display:flex;padding:10px;}
-
-.ws-row {margin:0 10px 10px 10px;grid-column-gap:10px;grid-row-gap:10px;}
 .ws-avatar {width:80px;height:80px;}
 .ws-info {padding:10px;}
 .ws-info span {display:block;}
 .ws-name {font-size:1.4rem;}
 .ws-tips {margin-top:10px;color:#888;}
 
-.ws-chart, .ws-func {position:relative;height:400px;}
-.ws-func-menu {display:inline-block;width:80px;height:80px;padding:8px;text-align:center;font-size:1rem;cursor:pointer;color:#4188c8;}
+.ws-func-menu {display:inline-block;width:90px;height:80px;padding:8px;text-align:center;font-size:1rem;cursor:pointer;color:#4188c8;}
 .ws-func-menu:hover {color:#1c66b9;}
-.ws-func-menu i {display:block;font-size:2.2rem;margin:8px auto;}
-.ws-func-menu span {display:block;width:100%;height:25px;overflow:hidden;}
+.ws-func-menu .anticon {display:block;font-size:2.2rem;margin:8px auto;}
+.ws-func-menu .name {display:block;width:100%;height:25px;overflow:hidden;}
 
 .count {display:flex;justify-content:end;list-style:none;}
 .count li {
@@ -90,5 +86,5 @@ html, body {
 }
 
 @media screen and (max-width:768px) {
-    .ws-card, .ws-row {grid-template-columns:100%;}
+    .ws-space {justify-content:stretch;}
 }

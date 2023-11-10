@@ -28,7 +28,7 @@ public class Context
         var menus = new List<MenuItem>();
         foreach (var menuId in menuIds)
         {
-            var menu = UserMenus.FirstOrDefault(m => !string.IsNullOrWhiteSpace(m.Target) && m.Name == menuId);
+            var menu = UserMenus.FirstOrDefault(m => m.Name == menuId);
             if (menu != null)
                 menus.Add(MenuItem.From(menu));
         }

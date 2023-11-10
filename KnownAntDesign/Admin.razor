@@ -39,16 +39,23 @@
         </Sider>
         <Layout Class="site-layout">
             <Header Class="site-layout-background" Style="padding:0;">
-                <div style="padding:0 16px;display:flex;justify-content:space-between;">
+                <div style="padding:0 10px;display:flex;justify-content:space-between;">
                     <h1>@Config.AppName</h1>
                     <NavTopRight OnMenuClick="OnTopRightClick" />
                 </div>
             </Header>
-            <Content Style="margin:0 16px;">
-                <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnGoHome" />
-                <div class="site-layout-background" style="min-height:360px">
+            <Content Style="margin:0 10px;">
+                @if (CurrentMenu.Name == "首页")
+                {
                     <DynamicComponent Type="CurrentMenu.ComType" Parameters="CurrentMenu.ComParameters" />
-                </div>
+                }
+                else
+                {
+                    <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnGoHome" />
+                    <div class="site-layout-background" style="min-height:360px">
+                        <DynamicComponent Type="CurrentMenu.ComType" Parameters="CurrentMenu.ComParameters" />
+                    </div>
+                }
             </Content>
             <Footer Style="text-align:center ">Known ©2023 Created by AntDesign Blazor</Footer>
         </Layout>
