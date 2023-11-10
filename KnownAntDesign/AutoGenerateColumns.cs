@@ -1,4 +1,6 @@
 ﻿using AntDesign;
+using Known.Extensions;
+using Known.Helpers;
 using Known.Razor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -44,13 +46,22 @@ public class AutoGenerateColumns<TItem> : ComponentBase
                     builder1.AddContent(++i, template(Item));
                 });
             }
-            //else if (property.PropertyType == typeof(bool))
-            //{
-            //    builder.AddAttribute(++i, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
-            //    {
-            //        builder1.AddContent(++i, template(Item));
-            //    });
-            //}
+            else if (property.PropertyType == typeof(bool))
+            {
+                builder.AddAttribute(++i, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
+                {
+                    builder1.AddContent(++i, b =>
+                    {
+                        var value = TypeHelper.GetPropertyValue<bool>(Item, property.Name);
+                        b.Component<Switch>()
+                         .Set(c => c.Checked, value)
+                         .Set(c => c.Disabled, true)
+                         .Set(c => c.CheckedChildren, "是")
+                         .Set(c => c.UnCheckedChildren, "否")
+                         .Build();
+                    });
+                });
+            }
             builder.CloseComponent();
         }
     }
