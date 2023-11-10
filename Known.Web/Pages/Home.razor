@@ -1,8 +1,63 @@
-﻿@inherits BasePage
+﻿@using Known.Web.Models
+@inherits BasePage
 
-<h3>Home</h3>
+<div class="ws">
+    <GridRow>
+        <GridCol Span="24">
+            <div class="welcome">
+                <img class="ws-avatar" src="@user?.AvatarUrl" />
+                <div class="ws-info">
+                    <span class="ws-name">@info?.Greeting</span>
+                    <span class="ws-tips">今天是：@DateTime.Now.ToString("yyyy年MM月dd日 dddd")</span>
+                </div>
+            </div>
+            <ul class="count">
+                <li>
+                    <span class="name">用户数量<span class="month">总</span></span>
+                    <span class="amount">@info?.Statistics?.UserCount</span>
+                </li>
+                <li>
+                    <span class="name">日志数量<span class="month">总</span></span>
+                    <span class="amount">@info?.Statistics?.LogCount</span>
+                </li>
+            </ul>
+        </GridCol>
+    </GridRow>
+    <GridRow>
+        <GridCol Span="14">
+            <Card>
+                <CardTabs>
+                    <Tabs DefaultActiveKey="1">
+                        <TabPane Key="1">
+                            <TabTemplate>日志统计</TabTemplate>
+                            <ChildContent>
+                                <HomeLogChart Datas="info?.Statistics?.LogDatas" />
+                            </ChildContent>
+                        </TabPane>
+                    </Tabs>
+                </CardTabs>
+            </Card>
+        </GridCol>
+        <GridCol Span="8">
+            <Card Title="常用功能">
 
-<Button Type="primary">Hello World!</Button>
+            </Card>
+        </GridCol>
+    </GridRow>
+</div>
 
 @code {
+    private UserInfo user;
+    private HomeInfo info;
+    private List<Known.MenuItem> visitMenus;
+
+    protected override async Task OnInitPageAsync()
+    {
+        await base.OnInitPageAsync();
+
+        user = CurrentUser;
+        var service = new HomeService { CurrentUser = user };
+        info = await service.GetHomeAsync();
+        visitMenus = Context.GetMenus(info?.VisitMenuIds);
+    }
 }

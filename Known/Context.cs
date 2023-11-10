@@ -20,20 +20,20 @@ public class Context
         OnNavigate?.Invoke(current);
     }
 
-    //public List<KMenuItem> GetMenus(List<string> menuIds)
-    //{
-    //    if (menuIds == null || menuIds.Count == 0)
-    //        return [];
+    public List<MenuItem> GetMenus(List<string> menuIds)
+    {
+        if (menuIds == null || menuIds.Count == 0)
+            return [];
 
-    //    var menus = new List<KMenuItem>();
-    //    foreach (var menuId in menuIds)
-    //    {
-    //        var menu = UserMenus.FirstOrDefault(m => !string.IsNullOrWhiteSpace(m.Target) && m.Name == menuId);
-    //        if (menu != null)
-    //            menus.Add(KMenuItem.From(menu));
-    //    }
-    //    return menus;
-    //}
+        var menus = new List<MenuItem>();
+        foreach (var menuId in menuIds)
+        {
+            var menu = UserMenus.FirstOrDefault(m => !string.IsNullOrWhiteSpace(m.Target) && m.Name == menuId);
+            if (menu != null)
+                menus.Add(MenuItem.From(menu));
+        }
+        return menus;
+    }
 
     public void NavigateToHome() => Navigate(Config.GetHomeMenu());
     //public void NavigateToAccount() => Navigate(account);
