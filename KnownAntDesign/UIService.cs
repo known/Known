@@ -118,7 +118,7 @@ class UIService : IUIService
         });
     }
 
-    public void ShowForm<TItem>(FormModel<TItem> model)
+    public void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
         RenderFragment content = null;
         if (model.Type == null)
@@ -152,7 +152,7 @@ class UIService : IUIService
                .Build();
     }
 
-    public void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model)
+    public void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model) where TItem : class, new()
     {
         builder.Component<WebPage<TItem>>().Set(c => c.Model, model).Build();
     }

@@ -23,7 +23,7 @@ public class BasePage : BaseComponent
     }
 }
 
-public class BasePage<TItem> : BasePage
+public class BasePage<TItem> : BasePage where TItem : class, new()
 {
     private List<ActionInfo> Tools { get; set; }
     private List<ActionInfo> Actions { get; set; }

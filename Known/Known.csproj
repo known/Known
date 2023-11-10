@@ -18,4 +18,12 @@
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Include="..\icon.png" />
+        <None Update="..\icon.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
 </Project>

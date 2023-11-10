@@ -1,4 +1,4 @@
-﻿@typeparam TItem
+﻿@typeparam TItem where TItem : class, new()
 
 <Form @ref="_form" TModel="TItem" Model="@Model.Data" OnFinish="OnFinish">
     @if (Model.Fields != null && Model.Fields.Any())

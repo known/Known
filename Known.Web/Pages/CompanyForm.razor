@@ -1,0 +1,98 @@
+﻿@using Known.Web.Models
+@inherits BasePage
+
+<Tabs Animated>
+    <TabPane Tab="基本信息" Key="1">
+        <Form Model="@model" Style="margin-right:60px;padding-bottom:20px;">
+            <GridRow>
+                <GridCol Span="12">
+                    <FormItem LabelColSpan="8">
+                        <Input @bind-Value="@context.Code" Disabled />
+                    </FormItem>
+                </GridCol>
+                <GridCol Span="12">
+                    <FormItem LabelColSpan="8">
+                        <Input @bind-Value="@context.Name" Disabled=@(!isEdit) />
+                    </FormItem>
+                </GridCol>
+            </GridRow>
+            <GridRow>
+                <GridCol Span="12">
+                    <FormItem LabelColSpan="8">
+                        <Input @bind-Value="@context.NameEn" Disabled="@(!isEdit)" />
+                    </FormItem>
+                </GridCol>
+                <GridCol Span="12">
+                    <FormItem LabelColSpan="8">
+                        <Input @bind-Value="@context.SccNo" Disabled="@(!isEdit)" />
+                    </FormItem>
+                </GridCol>
+            </GridRow>
+            <GridRow>
+                <GridCol Span="24">
+                    <FormItem LabelColSpan="4">
+                        <Input @bind-Value="@context.Address" Disabled="@(!isEdit)" />
+                    </FormItem>
+                </GridCol>
+            </GridRow>
+            <GridRow>
+                <GridCol Span="24">
+                    <FormItem LabelColSpan="4">
+                        <Input @bind-Value="@context.AddressEn" Disabled="@(!isEdit)" />
+                    </FormItem>
+                </GridCol>
+            </GridRow>
+            <GridRow>
+                <GridCol Span="12">
+                    <FormItem LabelColSpan="8">
+                        <Input @bind-Value="@context.Contact" Disabled="@(!isEdit)" />
+                    </FormItem>
+                </GridCol>
+                <GridCol Span="12">
+                    <FormItem LabelColSpan="8">
+                        <Input @bind-Value="@context.Phone" Disabled="@(!isEdit)" />
+                    </FormItem>
+                </GridCol>
+            </GridRow>
+            <GridRow>
+                <GridCol Span="24">
+                    <FormItem LabelColSpan="4">
+                        <TextArea @bind-Value="@context.Note" Disabled="@(!isEdit)" />
+                    </FormItem>
+                </GridCol>
+            </GridRow>
+            <GridRow>
+                <GridCol Offset="4">
+                    @if (!isEdit)
+                    {
+                        <Button Type="@ButtonType.Primary" OnClick="e=>OnEdit(true)">编辑</Button>
+                    }
+                    else
+                    {
+                        <Button Type="@ButtonType.Primary" OnClick="e=>OnSave()">保存</Button>
+                        <Button Type="@ButtonType.Default" OnClick="e=>OnEdit(false)">取消</Button>
+                    }
+                </GridCol>
+            </GridRow>
+         </Form>
+    </TabPane>
+</Tabs>
+
+@code {
+    private bool isEdit = false;
+    private CompanyInfo model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = await Platform.GetCompanyAsync<CompanyInfo>();
+        await base.OnInitializedAsync();
+    }
+
+    private void OnEdit(bool edit) => isEdit = edit;
+
+    private async Task OnSave()
+    {
+        var result = await Platform.SaveCompanyAsync(model);
+        await UI.Result(result, () => isEdit = false);
+    }
+}

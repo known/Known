@@ -5,9 +5,9 @@ using Known.Razor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace KnownAntDesign;
+namespace KnownAntDesign.Components;
 
-public class AutoGenerateColumns<TItem> : ComponentBase
+public class AutoGenerateColumns<TItem> : ComponentBase where TItem : class, new()
 {
     [Parameter] public TableModel<TItem> Table { get; set; }
     [Parameter] public TItem Item { get; set; }

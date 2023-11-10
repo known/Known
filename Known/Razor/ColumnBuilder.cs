@@ -2,7 +2,7 @@
 
 namespace Known.Razor;
 
-public class ColumnBuilder<TItem>
+public class ColumnBuilder<TItem> where TItem : class, new()
 {
     private string name;
     private TableModel<TItem> table;

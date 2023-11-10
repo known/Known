@@ -10,8 +10,8 @@ public interface IUIService
     Task Result(Result result, Action action = null);
     void Alert(string message);
     void Confirm(string message, Func<Task> action);
-    void ShowForm<TItem>(FormModel<TItem> model);
+    void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new();
     void BuildTag(RenderTreeBuilder builder, string text, string color);
     void BuildResult(RenderTreeBuilder builder, string status, string message);
-    void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model);
+    void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model) where TItem : class, new();
 }

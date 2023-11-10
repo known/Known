@@ -23,4 +23,12 @@
       <ProjectReference Include="..\Known\Known.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Include="..\icon.png" />
+        <None Update="..\icon.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
 </Project>

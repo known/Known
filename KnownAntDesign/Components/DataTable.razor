@@ -1,6 +1,6 @@
 ﻿@using System.Reflection
 @using AntDesign.TableModels
-@typeparam TItem
+@typeparam TItem where TItem : class, new()
 
 <div class="table">
     <Table TItem="TItem"
