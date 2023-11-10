@@ -20,7 +20,7 @@ public class SysDictionary : EntityBase
     /// <summary>
     /// 取得或设置代码。
     /// </summary>
-    [Column("代码", "", true, "1", "100", IsGrid = true, IsQuery = true, IsForm = true)]
+    [Column("代码", "", true, "1", "100", IsGrid = true, IsQuery = true, IsForm = true, IsViewLink = true)]
     public string Code { get; set; }
 
     /// <summary>

@@ -55,6 +55,7 @@ public class ColumnAttribute : Attribute
     public string CodeType { get; set; }
     public bool IsForm { get; set; }
     public bool IsGrid { get; set; }
+    public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }
     public bool IsQueryAll { get; set; }
     public PropertyInfo Property { get; set; }

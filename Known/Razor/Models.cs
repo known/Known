@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using Known.Extensions;
 using Known.Helpers;
@@ -81,6 +82,16 @@ public class TableModel<TItem> where TItem : class, new()
     }
 
     public Task RefreshAsync() => OnRefresh?.Invoke();
+
+    public void ViewForm(TItem row)
+    {
+        UI.ShowForm<TItem>(new FormModel<TItem>(UI, Columns)
+        {
+            IsView = true,
+            Title = $"查看{PageName}",
+            Data = row
+        });
+    }
 
     public void ShowForm(Func<dynamic, Task<Result>> action, TItem row)
     {
@@ -202,6 +213,7 @@ public class FormModel<TItem> where TItem : class, new()
     }
 
     public IEnumerable<FieldModel<TItem>> Fields { get; }
+    public bool IsView { get; set; }
     public string Title { get; set; }
     public TItem Data { get; set; }
     public Type Type { get; set; }
@@ -266,6 +278,7 @@ public class FieldModel<TItem> where TItem : class, new()
 				{ "ValueExpression", expression.ValueExpression },
 				{ "autofocus", true },
 				{ "required", Column.Required },
+				{ "disabled", _form.IsView }
 			};
 			return attributes;
 		}

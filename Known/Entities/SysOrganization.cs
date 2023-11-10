@@ -14,13 +14,13 @@ public class SysOrganization : EntityBase
     /// <summary>
     /// 取得或设置编码。
     /// </summary>
-    [Column("编码", "", true, "1", "50", IsGrid = true, IsForm = true)]
+    [Column("编码", "", true, "1", "50", IsGrid = true, IsForm = true, IsViewLink = true)]
     public string Code { get; set; }
 
     /// <summary>
     /// 取得或设置名称。
     /// </summary>
-    [Column("名称", "", true, "1", "50", IsGrid = true, IsQuery = true, IsForm = true)]
+    [Column("名称", "", true, "1", "50", IsGrid = true, IsForm = true)]
     public string Name { get; set; }
 
     /// <summary>

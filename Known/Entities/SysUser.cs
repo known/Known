@@ -14,7 +14,7 @@ public class SysUser : EntityBase
     /// <summary>
     /// 取得或设置用户名。
     /// </summary>
-    [Column("用户名", "", true, "1", "50", IsGrid = true, IsQuery = true, IsForm = true)]
+    [Column("用户名", "", true, "1", "50", IsGrid = true, IsQuery = true, IsForm = true, IsViewLink = true)]
     public string UserName { get; set; }
 
     /// <summary>

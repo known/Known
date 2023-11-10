@@ -8,7 +8,7 @@ public class SysRole : EntityBase
     /// <summary>
     /// 取得或设置名称。
     /// </summary>
-    [Column("名称", "", true, "1", "50", IsGrid = true, IsQuery = true, IsForm = true)]
+    [Column("名称", "", true, "1", "50", IsGrid = true, IsQuery = true, IsForm = true, IsViewLink = true)]
     public string Name { get; set; }
 
     /// <summary>

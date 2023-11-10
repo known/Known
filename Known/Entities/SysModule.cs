@@ -14,7 +14,7 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置代码。
     /// </summary>
-    [Column("代码", "", false, "1", "50", IsGrid = true, IsForm = true)]
+    [Column("代码", "", false, "1", "50", IsGrid = true, IsForm = true, IsViewLink = true)]
     public string Code { get; set; }
 
     /// <summary>
