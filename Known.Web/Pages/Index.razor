@@ -1,0 +1,18 @@
+﻿@page "/"
+@inherits IndexPage
+
+@if (IsLoaded)
+{
+    @if (!Context.Install.IsInstalled)
+    {
+        <Install OnInstall="OnInstall" />
+    }
+    else if (!IsLogin)
+    {
+        <Login OnLogin="OnLogin" />
+    }
+    else
+    {
+        <Admin OnLogout="OnLogout" />
+    }
+}

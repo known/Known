@@ -10,10 +10,10 @@ public class MenuItem
         Children = new List<MenuItem>();
     }
 
-    public string? Id { get; set; }
-    public string? Name { get; set; }
+    public string Id { get; set; }
+    public string Name { get; set; }
     public string Description { get; set; }
-    public Type? Type { get; set; }
+    public Type Type { get; set; }
     public List<MenuItem> Children { get; set; }
 }
 

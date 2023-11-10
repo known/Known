@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using System.Dynamic;
+
+namespace Known;
 
 public class EntityBase
 {
@@ -17,31 +19,31 @@ public class EntityBase
 
     public virtual bool IsNew { get; internal set; }
 
-    [Column("ID", "", false, "1", "50", IsGrid = false)]
+    [Column("ID", "", false, "1", "50", IsForm = true)]
     public string Id { get; set; }
 
-    [Column(Language.CreateBy, "", true, "1", "50")]
+    [Column(Language.CreateBy, "", true, "1", "50", IsGrid = true)]
     public string CreateBy { get; set; }
 
-    [Column(Language.CreateTime, "", true)]
+    [Column(Language.CreateTime, "", true, IsGrid = true)]
     public DateTime CreateTime { get; set; }
 
-    [Column(Language.ModifyBy, "", false, "1", "50")]
+    [Column(Language.ModifyBy, "", false, "1", "50", IsGrid = true)]
     public string ModifyBy { get; set; }
 
-    [Column(Language.ModifyTime, "", false)]
+    [Column(Language.ModifyTime, "", false, IsGrid = true)]
     public DateTime? ModifyTime { get; set; }
 
-    [Column(Language.Version, "", true, IsGrid = false)]
+    [Column(Language.Version, "", true)]
     public int Version { get; set; }
 
-    [Column("Extension", IsGrid = false)]
+    [Column("Extension")]
     public string Extension { get; set; }
 
-    [Column("AppId", "", true, "1", "50", IsGrid = false)]
+    [Column("AppId", "", true, "1", "50")]
     public string AppId { get; set; }
 
-    [Column(Language.CompNo, "", true, "1", "50", IsGrid = false)]
+    [Column(Language.CompNo, "", true, "1", "50")]
     public string CompNo { get; set; }
 
     internal void SetOriginal(Dictionary<string, object> original)

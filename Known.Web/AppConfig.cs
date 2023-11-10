@@ -9,19 +9,21 @@ static class AppConfig
         Config.WebRoot = builder.Environment.WebRootPath;
         Config.ContentRoot = builder.Environment.ContentRootPath;
 
-        //设置项目ID、名称和版本
+        //设置项目ID、名称、版本和模块
+        var assembly = typeof(AppConfig).Assembly;
         Config.AppId = "KIMS";
         Config.AppName = "Known信息管理系统";
-        Config.SetAppVersion(typeof(AppConfig).Assembly);
+        Config.SetAppVersion(assembly);
+        Config.AddModule(assembly);
 
         //设置产品ID，根据硬件获取ID
         Config.ProductId = $"{Config.AppId}-000001";
 
         //设置项目JS路径，通过UI.InvokeAppVoidAsync调用JS方法
         Config.AppJsPath = "/script.js";
-        
-        //设置默认分页大小
-        PagingCriteria.DefaultPageSize = 20;
+
+        //添加数据字典类别
+        Cache.AddDicCategory<AppDictionary>();
 
         //获取配置
         var configuration = builder.Configuration;
@@ -32,13 +34,9 @@ static class AppConfig
         Database.RegisterProviders(new Dictionary<string, Type>
         {
             ["SQLite"] = typeof(Microsoft.Data.Sqlite.SqliteFactory)
-            //["Npgsql"] = typeof(Npgsql.NpgsqlFactory)
-            //["MySql"] = typeof(MySqlConnector.MySqlConnectorFactory)
-            //["Access"] = typeof(System.Data.OleDb.OleDbFactory)
-            //["SqlClient"] = typeof(System.Data.SqlClient.SqlClientFactory)
         });
         //配置数据库连接
-        var connInfo = new Known.ConnectionInfo
+        var connInfo = new ConnectionInfo
         {
             Name = "Default",
             ProviderName = "SQLite",
@@ -50,26 +48,9 @@ static class AppConfig
             UploadPath = uploadPath
         };
     }
-
-    internal static void AddApp(this IServiceCollection services)
-    {
-        //添加定时任务
-        services.AddScheduler();
-        services.AddTransient<ImportTaskJob>();
-    }
-
-    internal static void UseApp(this IServiceProvider provider)
-    {
-        //配置定时任务
-        provider.UseScheduler(scheduler =>
-        {
-            //每5秒执行一次异步导入
-            scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
-        });
-    }
 }
 
-class ImportTaskJob : IInvocable
+class AppDictionary
 {
-    public Task Invoke() => ImportHelper.ExecuteAsync();
+    public const string Test = "测试";
 }

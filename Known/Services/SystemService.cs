@@ -1,4 +1,7 @@
-﻿namespace Known.Services;
+﻿using Known.Entities;
+using Known.Repositories;
+
+namespace Known.Services;
 
 class SystemService : BaseService
 {
@@ -26,17 +29,18 @@ class SystemService : BaseService
         return info;
     }
 
-    public async Task<Result> UpdateKeyAsync(InstallInfo info)
-    {
-        if (info == null)
-            return Result.Error("安装信息不能为空！");
+    //public async Task<Result> UpdateKeyAsync(InstallInfo info)
+    //{
+    //    if (info == null)
+    //        return Result.Error("安装信息不能为空！");
 
-        if (!Utils.HasNetwork())
-            return Result.Error("电脑未联网，无法获取产品密钥！");
+    //    if (!Utils.HasNetwork())
+    //        return Result.Error("电脑未联网，无法获取产品密钥！");
 
-        var result = await PlatformHelper.UpdateKeyAsync?.Invoke(info);
-        return result ?? Result.Success("");
-    }
+    //    var result = await PlatformHelper.UpdateKeyAsync?.Invoke(info);
+    //    return result ?? Result.Success("");
+    //    return Result.Success("");
+    //}
 
     public async Task<Result> SaveInstallAsync(InstallInfo info)
     {
@@ -225,8 +229,9 @@ class SystemService : BaseService
     private async Task<Result> CheckKeyAsync()
     {
         var info = await GetSystemAsync();
-        var result = PlatformHelper.CheckSystem?.Invoke(Database, info);
-        return result ?? Result.Success("");
+        //var result = PlatformHelper.CheckSystem?.Invoke(Database, info);
+        //return result ?? Result.Success("");
+        return Result.Success("");
     }
 
     //Task

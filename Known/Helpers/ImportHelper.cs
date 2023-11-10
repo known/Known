@@ -1,4 +1,7 @@
-﻿namespace Known.Helpers;
+﻿using Known.Cells;
+using Known.Entities;
+
+namespace Known.Helpers;
 
 public sealed class ImportHelper
 {
@@ -59,7 +62,7 @@ public sealed class ImportHelper
             var column = columns[i];
             sheet.SetColumnWidth(i, 13);
             sheet.SetCellValue(1, i, column.Note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
-            var fontColor = column.Required ? Color.Red : Color.White;
+            var fontColor = column.Required ? System.Drawing.Color.Red : System.Drawing.Color.White;
             sheet.SetCellValue(2, i, column.Name, new StyleInfo { IsBorder = true, FontColor = fontColor, BackgroundColor = Utils.FromHtml("#6D87C1") });
         }
         sheet.SetRowHeight(1, 30);

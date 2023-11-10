@@ -1,0 +1,15 @@
+New              | 新增    | plus         | primary
+Edit             | 编辑    | edit         | primary
+Delete           | 删除    | delete       | danger
+Import           | 导入    | import       | primary
+Export           | 导出    | export       | primary
+Copy             | 复制    | copy         | primary
+Move             | 移动    | drag         | primary
+MoveUp           | 上移    | up           | primary
+MoveDown         | 下移    | down         | primary
+Enable           | 启用    | check-circle | primary
+Disable          | 禁用    | close-circle | primary
+
+DeleteM          | 批量删除 | delete      | danger
+ResetPassword    | 重置密码 | lock        | primary
+ChangeDepartment | 更换部门 | user-switch | primary

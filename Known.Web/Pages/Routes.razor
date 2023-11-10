@@ -1,7 +1,4 @@
-﻿@using Known.Razor
-@using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Components.Routing
-@inherits BaseComponent
+﻿@inherits BaseComponent
 
 <CascadingAuthenticationState>
     <CascadingValue Value="Context">
@@ -12,10 +9,10 @@
                 </AuthorizeRouteView>
             </Found>
             <NotFound>
-                <KError Code="404" />
+                <Result Status="404" />
             </NotFound>
         </Router>
-        <KDialogContainer />
+        <AntContainer />
     </CascadingValue>
 </CascadingAuthenticationState>
 

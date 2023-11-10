@@ -1,0 +1,142 @@
+﻿@using System.Reflection
+@using AntDesign.TableModels
+@typeparam TItem
+
+<div class="table">
+    <Table TItem="TItem"
+           DataSource="@Model.Result.PageData"
+           Total="@Model.Result.TotalCount"
+           @bind-PageIndex="Model.Criteria.PageIndex"
+           @bind-PageSize="Model.Criteria.PageSize"
+           @bind-SelectedRows="Model.SelectedRows"
+           OnChange="OnChange"
+           Size="TableSize.Small">
+        @if (Model.ShowCheckBox)
+        {
+            <Selection Width="50" />
+        }
+        <AutoGenerateColumns Table="Model" Item="context" />
+        @if (Model.Actions != null && Model.Actions.Count > 0)
+        {
+            <ActionColumn Title="操作" Fixed="true">
+                <Space>
+                    @if (Model.Actions.Count > 3)
+                    {
+                        var first = Model.Actions[0];
+                        <SpaceItem><Button Type="@ButtonType.Link" OnClick="e=>Model.OnAction?.Invoke(first, context)">@first.Name</Button></SpaceItem>
+                        <Dropdown>
+                            <Overlay>
+                                <Menu>
+                                    @for (int i = 1; i < Model.Actions.Count; i++)
+                                    {
+                                        var item = Model.Actions[i];
+                                        <MenuItem @key="@item.Id" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</MenuItem>
+                                    }
+                                </Menu>
+                            </Overlay>
+                            <ChildContent>
+                                <a class="ant-dropdown-link" @onclick:preventDefault>更多<Icon Type="down" /></a>
+                            </ChildContent>
+                        </Dropdown>
+                    }
+                    else
+                    {
+                        foreach (var item in Model.Actions)
+                        {
+                            <SpaceItem><Button Type="@ButtonType.Link" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Button></SpaceItem>
+                        }
+                    }
+                </Space>
+            </ActionColumn>
+        }
+     </Table>
+</div>
+
+@code {
+    private bool isFilter = false;
+
+    [Parameter] public TableModel<TItem> Model { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model.OnRefresh = RefreshAsync;
+        base.OnInitialized();
+    }
+
+    public void SetData(List<TItem> data)
+    {
+        Model.Result = new PagingResult<TItem> { PageData = data, TotalCount = data?.Count ?? 0 };
+        StateHasChanged();
+    }
+
+    public async Task RefreshAsync()
+    {
+        Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+        StateHasChanged();
+    }
+
+    private async Task OnChange(QueryModel<TItem> queryModel)
+    {
+        //页码
+        Model.Criteria.PageIndex = queryModel.PageIndex;
+        Model.Criteria.PageSize = queryModel.PageSize;
+        //TODO:筛选
+        // Model.Criteria.Query.Clear();
+        // foreach (var item in queryModel.FilterModel)
+        // {
+        //     foreach (var filter in item.Filters)
+        //     {
+        //         var type = GetQueryType(filter.FilterCompareOperator);
+        //         Model.Criteria.SetQuery(item.FieldName, type, $"{filter.Value}");
+        //     }
+        // }
+        //排序
+        var sorts = queryModel.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
+        Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
+        Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+    }
+
+    private QueryType GetQueryType(TableFilterCompareOperator tableFilter)
+    {
+        switch (tableFilter)
+        {
+            case TableFilterCompareOperator.Equals:
+                return QueryType.Equal;
+            case TableFilterCompareOperator.Contains:
+                return QueryType.Contain;
+            case TableFilterCompareOperator.StartsWith:
+                return QueryType.StartWith;
+            case TableFilterCompareOperator.EndsWith:
+                return QueryType.EndWith;
+            case TableFilterCompareOperator.GreaterThan:
+                return QueryType.GreatThan;
+            case TableFilterCompareOperator.LessThan:
+                return QueryType.LessThan;
+            case TableFilterCompareOperator.GreaterThanOrEquals:
+                return QueryType.GreatEqual;
+            case TableFilterCompareOperator.LessThanOrEquals:
+                return QueryType.LessEqual;
+            case TableFilterCompareOperator.Condition:
+                return QueryType.Batch;
+            case TableFilterCompareOperator.NotEquals:
+                return QueryType.NotEqual;
+            case TableFilterCompareOperator.IsNull:
+                return QueryType.Equal;
+            case TableFilterCompareOperator.IsNotNull:
+                return QueryType.NotEqual;
+            case TableFilterCompareOperator.NotContains:
+                return QueryType.NotEqual;
+            case TableFilterCompareOperator.TheSameDateWith:
+                return QueryType.Between;
+            default:
+                return QueryType.Contain;
+        }
+    }
+
+    private string GetOrderBy(ITableSortModel model)
+    {
+        //descend  ascend
+        var sort = model.Sort == "descend" ? "desc" : "asc";
+        return $"{model.FieldName} {sort}";
+    }
+}

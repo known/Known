@@ -13,10 +13,10 @@
 </div>
 
 @code {
-    private string? curItem => Id ?? "profile";
+    private string curItem => Id ?? "profile";
     private List<MenuItem> menus = DocumentService.GetMenus();
 
-    [Parameter] public string? Id { get; set; }
+    [Parameter] public string Id { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

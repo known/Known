@@ -1,4 +1,6 @@
-﻿namespace Known.Repositories;
+﻿using Known.Entities;
+
+namespace Known.Repositories;
 
 class RoleRepository
 {

@@ -4,11 +4,11 @@
 public class Index : BaseComponent
 {
     private bool isLoaded;
-    private static readonly List<KMenuItem> menus =
+    private static readonly List<MenuItem> menus =
     [
-        new KMenuItem("代码生成", "fa fa-code", typeof(DevCode))
+        new MenuItem("代码生成", "fa fa-code", typeof(DevCode))
     ];
-    private KMenuItem curItem = menus[0];
+    private MenuItem curItem = menus[0];
 
     protected override void OnInitialized()
     {
@@ -21,21 +21,21 @@ public class Index : BaseComponent
         if (!isLoaded)
             return;
 
-        builder.Div("app", attr =>
-        {
-            builder.Div("header", "Known开发工具");
-            builder.Div("sider", attr =>
-            {
-                builder.Div("fa fa-university logo");
-                builder.Component<KMenu>()
-                       .Set(c => c.Style, "menu menu1")
-                       .Set(c => c.OnlyIcon, true)
-                       .Set(c => c.Items, menus)
-                       .Set(c => c.OnClick, item => curItem = item)
-                       .Build();
-            });
-            builder.Div("title", curItem.Name);
-            builder.Div("content", attr => builder.DynamicComponent(curItem.ComType));
-        });
+        //builder.Div("app", attr =>
+        //{
+        //    builder.Div("header", "Known开发工具");
+        //    builder.Div("sider", attr =>
+        //    {
+        //        builder.Div("fa fa-university logo");
+        //        builder.Component<KMenu>()
+        //               .Set(c => c.Style, "menu menu1")
+        //               .Set(c => c.OnlyIcon, true)
+        //               .Set(c => c.Items, menus)
+        //               .Set(c => c.OnClick, item => curItem = item)
+        //               .Build();
+        //    });
+        //    builder.Div("title", curItem.Name);
+        //    builder.Div("content", attr => builder.DynamicComponent(curItem.ComType));
+        //});
     }
 }

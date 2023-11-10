@@ -22,9 +22,22 @@ public class QueryInfo
         Value = value;
     }
 
+    internal QueryInfo(ColumnAttribute attr)
+    {
+        Id = attr.Property.Name;
+        Value = "";
+        if (!attr.IsQueryAll)
+        {
+            var codes = Cache.GetCodes(attr.CodeType, false);
+            if (codes != null && codes.Count > 0)
+                Value = codes[0].Code;
+        }
+    }
+
     public string Id { get; set; }
     public string Value { get; set; }
     public QueryType Type { get; set; }
+    internal string ParamValue { get; set; }
 }
 
 public class SettingInfo

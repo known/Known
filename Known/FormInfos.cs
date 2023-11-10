@@ -1,10 +1,14 @@
-﻿namespace Known;
+﻿using System.ComponentModel.DataAnnotations;
+using Known.Helpers;
+
+namespace Known;
 
 public class LoginFormInfo
 {
-    public string UserName { get; set; }
-    public string Password { get; set; }
+    [Required] public string UserName { get; set; }
+    [Required] public string Password { get; set; }
     public string ClientId { get; set; }
+    public bool Remember { get; set; }
     public bool IsForce { get; set; }
     public bool IsMobile { get; set; }
     public string IPAddress { get; set; }
@@ -12,9 +16,9 @@ public class LoginFormInfo
 
 public class PwdFormInfo
 {
-    public string OldPwd { get; set; }
-    public string NewPwd { get; set; }
-    public string NewPwd1 { get; set; }
+    [Required] public string OldPwd { get; set; }
+    [Required] public string NewPwd { get; set; }
+    [Required] public string NewPwd1 { get; set; }
 }
 
 public class RoleFormInfo

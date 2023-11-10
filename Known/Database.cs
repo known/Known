@@ -1,4 +1,10 @@
-﻿namespace Known;
+﻿using System.Data;
+using System.Data.Common;
+using System.Text;
+using Known.Cells;
+using Known.Extensions;
+
+namespace Known;
 
 public enum DatabaseType
 {
@@ -319,6 +325,7 @@ public class Database : IDisposable
             {
                 if (item.Value.Contains('~') && item.Type != QueryType.Between)
                     item.Type = QueryType.Between;
+                item.ParamValue = item.Value;
                 querys.Add(item);
             }
         }
@@ -669,7 +676,7 @@ public class Database : IDisposable
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == paramName);
             sql += $" and {field}{symbol}{date}";
-            query.Value = $"{query.Value} 00:00:00";
+            query.ParamValue = $"{query.Value} 00:00:00";
         }
         else if (criteria.HasQuery(key))
         {
@@ -678,7 +685,8 @@ public class Database : IDisposable
             if (!string.IsNullOrWhiteSpace(value))
             {
                 sql += $" and {field}{symbol}{date}";
-                criteria.SetQuery(paramName, $"{value} 00:00:00");
+                var query1 = criteria.SetQuery(paramName, value);
+                query1.ParamValue = $"{value} 00:00:00";
             }
         }
     }
@@ -691,7 +699,7 @@ public class Database : IDisposable
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == paramName);
             sql += $" and {field}{symbol}{date}";
-            query.Value = $"{query.Value} 23:59:59";
+            query.ParamValue = $"{query.Value} 23:59:59";
         }
         else if (criteria.HasQuery(key))
         {
@@ -700,7 +708,8 @@ public class Database : IDisposable
             if (!string.IsNullOrWhiteSpace(value))
             {
                 sql += $" and {field}{symbol}{date}";
-                criteria.SetQuery(paramName, $"{value} 23:59:59");
+                var query1 = criteria.SetQuery(paramName, value);
+                query1.ParamValue = $"{value} 23:59:59";
             }
         }
     }
@@ -708,7 +717,7 @@ public class Database : IDisposable
     private void SetLikeQuery(ref string sql, PagingCriteria criteria, string field, string key, string format)
     {
         var query = criteria.Query.FirstOrDefault(q => q.Id == key);
-        query.Value = string.Format(format, query.Value);
+        query.ParamValue = string.Format(format, query.Value);
         if (DatabaseType == DatabaseType.Access)
             sql += $" and {field} like '{query.Value}'";
         else

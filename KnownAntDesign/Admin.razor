@@ -1,0 +1,81 @@
+﻿@inherits AdminPage
+
+<Layout Style="min-height:100vh;">
+    @if (IsLoaded)
+    {
+        <Sider Collapsible>
+        <div class="logo" />
+        <Menu Theme="MenuTheme.Dark" Mode="MenuMode.Inline">
+            @if (UserMenus != null)
+            {
+                foreach (var item in UserMenus)
+                {
+                    if (item.Children != null && item.Children.Count > 0)
+                    {
+                        RenderFragment subTitle = @<span>
+                            <Icon Type="@item.Icon" Theme="outline" />
+                            <span>@item.Name</span>
+                        </span>;
+                        <SubMenu Key="@item.Id" TitleTemplate=subTitle>
+                            @foreach (var child in item.Children)
+                            {
+                                <MenuItem Key="@child.Id" OnClick="e=>Context.Navigate(child)">
+                                    <Icon Type="@child.Icon" Theme="outline" />
+                                    <span>@child.Name</span>
+                                </MenuItem>
+                            }
+                        </SubMenu>
+                    }
+                    else
+                    {
+                        <MenuItem Key="@item.Id" OnClick="e=>Context.Navigate(item)">
+                            <Icon Type="@item.Icon" Theme="outline" />
+                            <span>@item.Name</span>
+                        </MenuItem>
+                    }
+                }
+            }
+            </Menu>
+        </Sider>
+        <Layout Class="site-layout">
+            <Header Class="site-layout-background" Style="padding:0;">
+                <div style="padding:0 16px;display:flex;justify-content:space-between;">
+                    <h1>@Config.AppName</h1>
+                    <NavTopRight OnMenuClick="OnTopRightClick" />
+                </div>
+            </Header>
+            <Content Style="margin:0 16px;">
+                <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnGoHome" />
+                <div class="site-layout-background" style="min-height:360px">
+                    <DynamicComponent Type="CurrentMenu.ComType" Parameters="CurrentMenu.ComParameters" />
+                </div>
+            </Content>
+            <Footer Style="text-align:center ">Known ©2023 Created by AntDesign Blazor</Footer>
+        </Layout>
+    }
+</Layout>
+
+@code{
+    private void OnTopRightClick(string id)
+    {
+        switch (id)
+        {
+            case "home":
+                OnGoHome();
+                break;
+            case "profile":
+                //Context.Navigate(new("个人中心", "user", typeof(UserProfile), "当前用户个人中心和安全设置。"));
+                break;
+            case "logout":
+                UI.Confirm("确定要退出系统？", async () =>
+                {
+                    var result = await SignOutAsync();
+                    if (result.IsValid)
+                    {
+                        OnLogout?.Invoke();
+                    }
+                });
+                break;
+        }
+    }
+}

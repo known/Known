@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Drawing;
 
 namespace Known;
 
@@ -150,28 +151,32 @@ public class PagingCriteria
 
     internal Dictionary<string, string> Fields { get; }
 
-    public void SetQuery(string id, string value)
+    public QueryInfo SetQuery(string id, string value)
     {
         var query = Query.FirstOrDefault(q => q.Id == id);
         if (query == null)
         {
-            Query.Add(new(id, value));
-            return;
+            query = new QueryInfo(id, value);
+            Query.Add(query);
         }
 
         query.Value = value;
+        query.ParamValue = value;
+        return query;
     }
 
-    public void SetQuery(string id, QueryType type, string value)
+    public QueryInfo SetQuery(string id, QueryType type, string value)
     {
         var query = Query.FirstOrDefault(q => q.Id == id);
         if (query == null)
         {
-            Query.Add(new(id, type, value));
-            return;
+            query = new QueryInfo(id, type, value);
+            Query.Add(query);
         }
 
         query.Type = type;
         query.Value = value;
+        query.ParamValue = value;
+        return query;
     }
 }

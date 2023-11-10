@@ -1,20 +1,18 @@
-﻿namespace Known.Helpers;
+﻿using Known.Entities;
+using Known.Repositories;
 
-public sealed class TaskHelper
+namespace Known.Helpers;
+
+sealed class TaskHelper
 {
     private TaskHelper() { }
 
-    public static Task<UserInfo> GetUserAsync(Database db, string userName)
-    {
-        return UserRepository.GetUserAsync(db, userName);
-    }
-
-    public static Task<SysTask> GetByTypeAsync(Database db, string type)
+    private static Task<SysTask> GetByTypeAsync(Database db, string type)
     {
         return TaskRepository.GetTaskByTypeAsync(db, type);
     }
 
-    public static async Task<TaskSummaryInfo> GetSummaryAsync(Database db, string type)
+    private static async Task<TaskSummaryInfo> GetSummaryAsync(Database db, string type)
     {
         var task = await TaskRepository.GetTaskByTypeAsync(db, type);
         if (task == null)
@@ -29,7 +27,7 @@ public sealed class TaskHelper
         };
     }
 
-    public static async Task<Result> AddAsync(Database db, string type, string name, string target = "")
+    private static async Task<Result> AddAsync(Database db, string type, string name, string target = "")
     {
         var task = await TaskRepository.GetTaskByTypeAsync(db, type);
         if (task != null)
@@ -54,7 +52,7 @@ public sealed class TaskHelper
         return Result.Success("任务添加成功，请稍后查询结果！");
     }
 
-    public static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)
+    internal static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)
     {
         var db = new Database();
         var task = await TaskRepository.GetPendingTaskByTypeAsync(db, bizType);
@@ -67,7 +65,7 @@ public sealed class TaskHelper
     internal static async Task<Result> RunAsync(Database db, SysTask task, Func<Database, SysTask, Task<Result>> action)
     {
         var userName = task.CreateBy;
-        db.User = await GetUserAsync(db, userName);
+        db.User = await UserRepository.GetUserAsync(db, userName);
 
         task.BeginTime = DateTime.Now;
         task.Status = TaskStatus.Running;

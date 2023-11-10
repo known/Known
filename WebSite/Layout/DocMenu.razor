@@ -20,10 +20,10 @@
 </div>
 
 @code {
-    [Parameter] public string? CurItem { get; set; }
-    [Parameter] public List<MenuItem>? Items { get; set; }
-    [Parameter] public Action<MenuItem>? OnItemClick { get; set; }
-    [Parameter] public Func<MenuItem, string>? OnFormatItem { get; set; }
+    [Parameter] public string CurItem { get; set; }
+    [Parameter] public List<MenuItem> Items { get; set; }
+    [Parameter] public Action<MenuItem> OnItemClick { get; set; }
+    [Parameter] public Func<MenuItem, string> OnFormatItem { get; set; }
 
     private void OnMenuItemClick(MenuItem item)
     {
@@ -31,7 +31,7 @@
         OnItemClick?.Invoke(item);
     }
 
-    private string? FormatName(MenuItem item)
+    private string FormatName(MenuItem item)
     {
         if (OnFormatItem != null)
             return OnFormatItem?.Invoke(item);

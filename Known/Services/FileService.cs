@@ -1,4 +1,8 @@
-﻿namespace Known.Services;
+﻿using Known.Entities;
+using Known.Helpers;
+using Known.Repositories;
+
+namespace Known.Services;
 
 class FileService : BaseService
 {

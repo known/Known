@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
-    <link rel="stylesheet" href="_content/Known/css/web.css" />
+    <link rel="stylesheet" href="_content/AntDesign/css/ant-design-blazor.css" />
+    <link rel="stylesheet" href="_content/KnownAntDesign/css/web.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="manifest" href="manifest.json" />
@@ -12,9 +13,8 @@
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
 </head>
 <body>
-    <div id="app">
-        <Routes @rendermode="@Config.InteractiveServer" />
-    </div>
+    <Routes @rendermode="@Microsoft.AspNetCore.Components.Web.RenderMode.InteractiveServer" />
+    <script src="_content/AntDesign/js/ant-design-blazor.js"></script>
     <script src="_framework/blazor.web.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>

@@ -1,4 +1,7 @@
-﻿using System.Reflection.Emit;
+﻿using System.Linq.Expressions;
+using System.Reflection;
+using System.Reflection.Emit;
+using Known.Extensions;
 
 namespace Known.Helpers;
 
@@ -24,7 +27,7 @@ public sealed class TypeHelper
         return codes;
     }
 
-    public static List<ColumnAttribute> GetColumnAttributes(string typeName)
+    internal static List<ColumnAttribute> GetColumnAttributes(string typeName)
     {
         var columns = new List<ColumnAttribute>();
         if (string.IsNullOrEmpty(typeName))
@@ -53,7 +56,7 @@ public sealed class TypeHelper
         return columns;
     }
 
-    public static T GetValue<T>(object model, string name)
+    public static T GetPropertyValue<T>(object model, string name)
     {
         if (model == null || string.IsNullOrWhiteSpace(name))
             return default;
@@ -66,7 +69,7 @@ public sealed class TypeHelper
         return Utils.ConvertTo<T>(value);
     }
 
-    public static void SetValue(object model, string name, object value)
+    public static void SetPropertyValue(object model, string name, object value)
     {
         if (model == null || string.IsNullOrWhiteSpace(name))
             return;
@@ -79,7 +82,7 @@ public sealed class TypeHelper
         }
     }
 
-    public static void SetValue<T>(T model, string name, object value)
+    public static void SetPropertyValue<T>(T model, string name, object value)
     {
         if (model == null || string.IsNullOrWhiteSpace(name))
             return;

@@ -1,0 +1,28 @@
+﻿@if (Items != null && Items.Count > 0)
+{
+    <div class="toolbar">
+        @foreach (var item in Items)
+        {
+            <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>OnItemClick?.Invoke(item)">@item.Name</Button>
+            @if (item.Children != null && item.Children.Count > 0)
+            {
+                <DropdownButton>
+                    <Overlay>
+                        <Menu>
+                            @foreach (var child in item.Children)
+                            {
+                                <MenuItem Key="@child.Id" Icon="@item.Icon" OnClick="e=>OnItemClick?.Invoke(child)">@child.Name</MenuItem>
+                            }
+                        </Menu>
+                    </Overlay>
+                    <Unbound>@item.Name</Unbound>
+                </DropdownButton>
+            }
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public List<ActionInfo> Items { get; set; }
+    [Parameter] public Action<ActionInfo> OnItemClick { get; set; }
+}

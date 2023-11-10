@@ -1,4 +1,7 @@
-﻿namespace Known.Services;
+﻿using Known.Entities;
+using Known.Repositories;
+
+namespace Known.Services;
 
 class CompanyService : BaseService
 {
@@ -106,7 +109,7 @@ class CompanyService : BaseService
         return await Database.TransactionAsync(Language.Save, async db =>
         {
             await db.SaveAsync(entity);
-            PlatformHelper.SetBizOrganization(db, entity);
+            //PlatformHelper.SetBizOrganization(db, entity);
         }, entity);
     }
 }

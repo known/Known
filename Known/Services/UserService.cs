@@ -1,4 +1,9 @@
-﻿namespace Known.Services;
+﻿using System.Collections.Concurrent;
+using Known.Entities;
+using Known.Helpers;
+using Known.Repositories;
+
+namespace Known.Services;
 
 class UserService : BaseService
 {
@@ -122,9 +127,9 @@ class UserService : BaseService
                 //    return Result.Error("用户数已达上限，不能新增！");
             }
 
-            var valid = PlatformHelper.CheckUser?.Invoke(Database, entity);
-            if (valid != null && !valid.IsValid)
-                return valid;
+            //var valid = PlatformHelper.CheckUser?.Invoke(Database, entity);
+            //if (valid != null && !valid.IsValid)
+            //    return valid;
 
             entity.Password = Utils.ToMd5(info.UserDefaultPwd);
         }
@@ -159,7 +164,7 @@ class UserService : BaseService
                 }
             }
             await db.SaveAsync(entity);
-            PlatformHelper.SetBizUser(db, entity);
+            //PlatformHelper.SetBizUser(db, entity);
         }, entity);
     }
 
@@ -186,12 +191,12 @@ class UserService : BaseService
     {
         var roles = await RoleRepository.GetRolesAsync(Database);
         var roleIds = await UserRepository.GetUserRolesAsync(Database, userId);
-        var datas = PlatformHelper.UserDatas?.Invoke(Database);
+        //var datas = PlatformHelper.UserDatas?.Invoke(Database);
         return new UserAuthInfo
         {
             Roles = roles.Select(r => new CodeInfo(r.Id, r.Name)).ToArray(),
             RoleIds = string.Join(",", roleIds),
-            Datas = datas?.ToArray()
+            //Datas = datas?.ToArray()
         };
     }
 
@@ -219,7 +224,7 @@ class UserService : BaseService
         await SetUserInfoAsync(user);
         cachedUsers[user.Token] = user;
 
-        var type = Constants.LogTypeLogin;
+        var type = LogType.Login;
         if (info.IsMobile)
             type = "APP" + type;
 
@@ -239,7 +244,7 @@ class UserService : BaseService
             token = user.Token;
         cachedUsers.TryRemove(token, out UserInfo _);
 
-        await Logger.AddLogAsync(Database, Constants.LogTypeLogout, $"{user.UserName}-{user.Name}", $"token: {token}");
+        await Logger.AddLogAsync(Database, LogType.Logout, $"{user.UserName}-{user.Name}", $"token: {token}");
         return Result.Success("退出成功！");
     }
 

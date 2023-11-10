@@ -1,4 +1,8 @@
-﻿namespace Known;
+﻿using System.Collections.Concurrent;
+using System.Reflection;
+using Known.Entities;
+
+namespace Known;
 
 public sealed class Cache
 {
@@ -6,11 +10,6 @@ public sealed class Cache
     private static readonly ConcurrentDictionary<string, object> cached = new();
 
     private Cache() { }
-    static Cache()
-    {
-        var assembly = typeof(Cache).Assembly;
-        AttachCodes(assembly);
-    }
 
     public static T Get<T>(string key)
     {
@@ -42,7 +41,30 @@ public sealed class Cache
         cached.TryRemove(key, out object _);
     }
 
-    public static List<CodeInfo> GetCodes(string category) => GetCodes().Where(c => c.Category == category).ToList();
+    public static List<CodeInfo> GetCodes(string category, bool isAll = true)
+    {
+        var codes = GetCodes().Where(c => c.Category == category).ToList();
+        if (isAll)
+        {
+            codes.Insert(0, new CodeInfo("", "全部"));
+        }
+        return codes;
+    }
+
+    public static void AddDicCategory<T>()
+    {
+        var datas = new List<CodeInfo>();
+        var fields = typeof(T).GetFields();
+        foreach (var item in fields)
+        {
+            if (!item.IsLiteral)
+                continue;
+
+            var value = item.GetRawConstantValue()?.ToString();
+            datas.Add(new CodeInfo(Constants.DicCategory, value, value));
+        }
+        AttachCodes(datas);
+    }
 
     public static void AttachCodes(List<CodeInfo> codes)
     {
@@ -61,21 +83,7 @@ public sealed class Cache
         Set(KeyCodes, datas);
     }
 
-    public static void AttachCodes(Assembly assembly)
-    {
-        var types = assembly.GetExportedTypes();
-        if (types == null || types.Length == 0)
-            return;
-
-        foreach (var item in types)
-        {
-            var attr = item.GetCustomAttributes<CodeTableAttribute>();
-            if (attr != null && attr.Any())
-                AttachCodes(item);
-        }
-    }
-
-    private static void AttachCodes(Type type)
+    internal static void AttachCodes(Type type)
     {
         var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
         if (fields == null || fields.Length == 0)
@@ -96,5 +104,86 @@ public sealed class Cache
         var codes = Get<List<CodeInfo>>(KeyCodes);
         codes ??= new List<CodeInfo>();
         return codes;
+    }
+}
+
+public class CodeInfo
+{
+    public CodeInfo() { }
+
+    public CodeInfo(string code, string name, object data = null)
+    {
+        Code = code;
+        Name = name;
+        Data = data;
+    }
+
+    public CodeInfo(string category, string code, string name, object data = null)
+    {
+        Category = category;
+        Code = code;
+        Name = name;
+        Data = data;
+    }
+
+    public string Category { get; set; }
+    public string Code { get; set; }
+    public string Name { get; set; }
+    public bool IsActive { get; set; }
+    public object Data { get; set; }
+
+    public T DataAs<T>()
+    {
+        if (Data == null)
+            return default;
+
+        var dataString = Data.ToString();
+        return Utils.FromJson<T>(dataString);
+    }
+
+    public static List<CodeInfo> GetCodes(string category)
+    {
+        if (string.IsNullOrEmpty(category))
+            return new List<CodeInfo>();
+
+        var codes = Cache.GetCodes(category);
+        if (codes != null && codes.Count > 0)
+            return codes;
+
+        return category.Split(',', ';').Select(d => new CodeInfo(d, d)).ToList();
+    }
+
+    public static CodeInfo[] GetChildCodes(string category, string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return null;
+
+        var codes = GetCodes(category);
+        var code = codes.FirstOrDefault(c => c.Code == value);
+        var dic = code?.Data is SysDictionary
+                ? code?.Data as SysDictionary
+                : Utils.FromJson<SysDictionary>(code?.Data?.ToString());
+        if (!string.IsNullOrWhiteSpace(dic?.Child))
+            return dic?.Children.Select(c => new CodeInfo(c.Code, c.Name)).ToArray();
+
+        if (!string.IsNullOrWhiteSpace(dic?.Extension))
+        {
+            return dic?.Extension.Split(Environment.NewLine.ToArray())
+                       .Where(s => !string.IsNullOrWhiteSpace(s))
+                       .Select(s => new CodeInfo(s, s))
+                       .ToArray();
+        }
+
+        return null;
+    }
+
+    public static string GetCode(string category, string codeOrName)
+    {
+        if (string.IsNullOrWhiteSpace(codeOrName))
+            return string.Empty;
+
+        var codes = GetCodes(category);
+        var code = codes.FirstOrDefault(c => c.Code == codeOrName || c.Name == codeOrName);
+        return code?.Code;
     }
 }

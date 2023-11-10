@@ -1,4 +1,8 @@
-﻿namespace Known;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+
+namespace Known;
 
 class AuthStateProvider : AuthenticationStateProvider
 {

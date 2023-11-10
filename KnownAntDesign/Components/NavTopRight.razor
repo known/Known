@@ -1,0 +1,49 @@
+﻿@inherits BaseComponent
+
+<Space Size="@("24")">
+    <SpaceItem>
+        <Icon Type="home" OnClick="@(e=>OnItemClick("home"))" />
+    </SpaceItem>
+    <SpaceItem>
+        <Icon Type="@iconFullScreen" OnClick="OnFullScreen" />
+    </SpaceItem>
+    <SpaceItem>
+        <Dropdown>
+            <Overlay>
+                <Menu>
+                    <MenuItem @key="0" OnClick="@(e=>OnItemClick("profile"))">
+                        <Icon Type="user" Theme="outline" />
+                        <span>个人中心</span>
+                    </MenuItem>
+                    <MenuItem @key="1" OnClick="@(e=>OnItemClick("logout"))">
+                        <Icon Type="poweroff" Theme="outline" />
+                        <span>安全退出</span>
+                    </MenuItem>
+                </Menu>
+            </Overlay>
+            <ChildContent>
+                <a class="ant-dropdown-link" @onclick:preventDefault>
+                    @CurrentUser.Name <Icon Type="down" />
+                </a>
+            </ChildContent>
+        </Dropdown>
+    </SpaceItem>
+</Space>
+
+@code {
+    private bool isFullScreen = false;
+    private string iconFullScreen => isFullScreen ? "fullscreen-exit" : "fullscreen";
+
+    [Parameter] public Action<string> OnMenuClick { get; set; }
+
+    private void OnItemClick(string id) => OnMenuClick?.Invoke(id);
+
+    private void OnFullScreen()
+    {
+        isFullScreen = !isFullScreen;
+        if (isFullScreen)
+            JS.OpenFullScreen();
+        else
+            JS.CloseFullScreen();
+    }
+}

@@ -1,4 +1,7 @@
-﻿namespace Known.Services;
+﻿using Known.Entities;
+using Known.Repositories;
+
+namespace Known.Services;
 
 class ModuleService : BaseService
 {

@@ -1,4 +1,8 @@
-﻿namespace Known.Services;
+﻿using Known.Entities;
+using Known.Extensions;
+using Known.Repositories;
+
+namespace Known.Services;
 
 class RoleService : BaseService
 {

@@ -4,6 +4,8 @@ public class Constants
 {
     private Constants() { }
 
+    internal const string DicCategory = "DicCategory";
+
     public const string KeyToken = "Known-Token";
     public const string KeyClient = "Known-Client";
     public const string KeyDownload = "Known-Download";
@@ -20,10 +22,6 @@ public class Constants
     public const string UMStatusUnread = "未读";
 
     public const string NSPublished = "已发布";
-
-    public const string LogTypeLogin = "登录";
-    public const string LogTypeLogout = "退出";
-    public const string LogTypePage = "页面";
 
     public const string MimeImage = "image/jpeg,image/png";
     public const string MimeVideo = "audio/mp4,video/mp4";

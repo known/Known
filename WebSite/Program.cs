@@ -5,7 +5,6 @@ var builder = WebApplication.CreateBuilder(args);
 AppConfig.RootPath = builder.Environment.ContentRootPath;
 AppConfig.Initialize();
 builder.Services.AddScoped(sp => new HttpClient());
-builder.Services.AddScoped<UIService>();
 // Add services to the container.
 builder.Services.AddRazorComponents()
        .AddInteractiveServerComponents();

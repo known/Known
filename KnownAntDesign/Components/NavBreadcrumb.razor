@@ -1,0 +1,25 @@
+﻿<Breadcrumb Style="margin:16px 0;">
+    <BreadcrumbItem OnClick="OnHome">
+        <Icon Type="home" Style="cursor:pointer;" />
+        <span style="cursor:pointer;">首页</span>
+    </BreadcrumbItem>
+    @if (CurrentMenu.Parent != null)
+    {
+        <BreadcrumbItem>
+            <Icon Type="@CurrentMenu.Parent.Icon" />
+            <span>@CurrentMenu.Parent.Name</span>
+        </BreadcrumbItem>
+    }
+    @if (CurrentMenu.Name != "首页")
+    {
+        <BreadcrumbItem>
+            <Icon Type="@CurrentMenu.Icon" />
+            <span>@CurrentMenu.Name</span>
+        </BreadcrumbItem>
+    }
+</Breadcrumb>
+
+@code {
+    [Parameter] public Known.MenuItem CurrentMenu { get; set; }
+    [Parameter] public Action OnHome { get; set; }
+}

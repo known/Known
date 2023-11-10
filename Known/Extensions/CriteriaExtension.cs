@@ -2,7 +2,7 @@
 
 public static class CriteriaExtension
 {
-    public static Dictionary<string, string> ToParameters(this PagingCriteria criteria, UserInfo user)
+    internal static Dictionary<string, string> ToParameters(this PagingCriteria criteria, UserInfo user)
     {
         var parameter = new Dictionary<string, string>
         {
@@ -12,7 +12,7 @@ public static class CriteriaExtension
 
         foreach (var item in criteria.Query)
         {
-            parameter[item.Id] = item.Value;
+            parameter[item.Id] = item.ParamValue;
         }
         return parameter;
     }

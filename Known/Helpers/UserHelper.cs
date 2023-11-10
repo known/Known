@@ -1,4 +1,9 @@
-﻿namespace Known.Helpers;
+﻿using Known.Entities;
+using Known.Extensions;
+using Known.Repositories;
+using Known.Services;
+
+namespace Known.Helpers;
 
 class UserHelper
 {
@@ -14,9 +19,9 @@ class UserHelper
     internal static async Task<UserSetting> GetUserSettingAsync(Database db)
     {
         await db.OpenAsync();
-        var info = await PlatformHelper.GetSettingByUserAsync<SettingInfo>(db, UserSetting.KeyInfo);
-        var querys = await PlatformHelper.GetSettingsByUserAsync(db, UserSetting.KeyQuery);
-        var columns = await PlatformHelper.GetSettingsByUserAsync(db, UserSetting.KeyColumn);
+        var info = await GetSettingByUserAsync<SettingInfo>(db, UserSetting.KeyInfo);
+        var querys = await GetSettingsByUserAsync(db, UserSetting.KeyQuery);
+        var columns = await GetSettingsByUserAsync(db, UserSetting.KeyColumn);
         await db.CloseAsync();
         return new UserSetting
         {
@@ -24,6 +29,14 @@ class UserHelper
             Querys = querys.ToDictionary(s => s.BizName, s => s.DataAs<List<QueryInfo>>()),
             Columns = columns.ToDictionary(s => s.BizName, s => s.DataAs<List<ColumnInfo>>())
         };
+    }
+
+    private static async Task<List<SysSetting>> GetSettingsByUserAsync(Database db, string bizType) => await SettingRepository.GetSettingsByUserAsync(db, bizType);
+    private static async Task<SysSetting> GetSettingByUserAsync(Database db, string bizType) => await SettingRepository.GetSettingByUserAsync(db, bizType) ?? new SysSetting { BizType = bizType };
+    private static async Task<T> GetSettingByUserAsync<T>(Database db, string bizType)
+    {
+        var setting = await GetSettingByUserAsync(db, bizType);
+        return setting.DataAs<T>();
     }
 
     internal static async Task<List<MenuInfo>> GetUserMenusAsync(Database db)

@@ -21,40 +21,40 @@ class DevCode : BasePage
 
     private void BuildLeft(RenderTreeBuilder builder)
     {
-        builder.Div("dc-left", attr =>
-        {
-            builder.Pre("tips", @"说明：
-项目：名称|表前缀
-实体：名称|代码
-字段：名称|代码|类型|长度|必填|查询
-字段类型：CheckBox,CheckList,Date,Number,RadioList,Select,Text,TextArea
+//        builder.Div("dc-left", attr =>
+//        {
+//            builder.Pre("tips", @"说明：
+//项目：名称|表前缀
+//实体：名称|代码
+//字段：名称|代码|类型|长度|必填|查询
+//字段类型：CheckBox,CheckList,Date,Number,RadioList,Select,Text,TextArea
 
-示例：
-Demo|Dm
-测试|Test
-文本|Field1|Text|50|Y|Y
-数值|Field2|Number|18,5
-日期|Field3|Date");
-            builder.Div("dc-domain", attr =>
-            {
-                builder.Button("生成", "fa fa-download", Callback(OnGenerate), StyleType.Primary);
-                builder.Field<KTextArea>("领域模型", "Domain").ValueChanged(v => domain = v)
-                       .Set(f => f.Height, 320)
-                       .Build();
-            });
-        });
+//示例：
+//Demo|Dm
+//测试|Test
+//文本|Field1|Text|50|Y|Y
+//数值|Field2|Number|18,5
+//日期|Field3|Date");
+//            builder.Div("dc-domain", attr =>
+//            {
+//                builder.Button("生成", "fa fa-download", Callback(OnGenerate), StyleType.Primary);
+//                builder.Field<KTextArea>("领域模型", "Domain").ValueChanged(v => domain = v)
+//                       .Set(f => f.Height, 320)
+//                       .Build();
+//            });
+//        });
     }
 
     private void BuildRight(RenderTreeBuilder builder)
     {
-        builder.Div("dc-right tabs top", attr =>
-        {
-            builder.Component<KTabs>()
-                   .Set(c => c.Codes, Codes)
-                   .Set(c => c.OnChanged, OnTabChanged)
-                   .Build();
-            builder.Element("pre", attr => attr.Id("code").Class("tab-body code prettyprint source linenums"));
-        });
+        //builder.Div("dc-right tabs top", attr =>
+        //{
+        //    builder.Component<KTabs>()
+        //           .Set(c => c.Codes, Codes)
+        //           .Set(c => c.OnChanged, OnTabChanged)
+        //           .Build();
+        //    builder.Element("pre", attr => attr.Id("code").Class("tab-body code prettyprint source linenums"));
+        //});
     }
 
     private async void OnGenerate()
@@ -63,7 +63,7 @@ Demo|Dm
         await JS.InvokeAsync<string>("printCode", new object[] { codeString });
     }
 
-    private async void OnTabChanged(KMenuItem item)
+    private async void OnTabChanged(MenuItem item)
     {
         await SetCode(item.Code);
     }

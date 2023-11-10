@@ -1,4 +1,8 @@
-﻿namespace Known;
+﻿using System.Collections.Concurrent;
+using Known.Entities;
+using Known.Repositories;
+
+namespace Known;
 
 public interface ILogger
 {
@@ -9,6 +13,16 @@ public interface ILogger
     void Flush();
 }
 
+[CodeTable]
+public class LogType
+{
+    private LogType() { }
+
+    public const string Login = "登录";
+    public const string Logout = "退出";
+    public const string Page = "页面";
+}
+
 public sealed class Logger
 {
     private static readonly ILogger logger = new FileLogger();
@@ -17,7 +31,7 @@ public sealed class Logger
 
     public static async Task<List<string>> GetVisitMenuIdsAsync(Database db, string userName, int size)
     {
-        var logs = await LogRepository.GetLogCountsAsync(db, userName, Constants.LogTypePage);
+        var logs = await LogRepository.GetLogCountsAsync(db, userName, LogType.Page);
         logs = logs.OrderByDescending(f => f.TotalCount).Take(size).ToList();
         return logs.Select(l => l.Field1).ToList();
     }

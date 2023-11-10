@@ -1,11 +1,14 @@
-﻿namespace Known.Services;
+﻿using Known.Entities;
+using Known.Repositories;
+
+namespace Known.Services;
 
 class SettingService : BaseService
 {
     //Setting
     public Task<List<SysSetting>> GetSettingsAsync(string bizType) => SettingRepository.GetSettingsAsync(Database, bizType);
-    public Task<SysSetting> GetSettingByCompAsync(string bizType) => PlatformHelper.GetSettingByCompAsync(Database, bizType);
-    public Task<SysSetting> GetSettingByUserAsync(string bizType) => PlatformHelper.GetSettingByUserAsync(Database, bizType);
+    public Task<SysSetting> GetSettingByCompAsync(string bizType) => SettingRepository.GetSettingByCompAsync(Database, bizType);
+    public Task<SysSetting> GetSettingByUserAsync(string bizType) => SettingRepository.GetSettingByUserAsync(Database, bizType);
 
     public async Task<Result> DeleteSettingsAsync(List<SysSetting> models)
     {

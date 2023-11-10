@@ -1,12 +1,16 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Known;
+using Known.Razor;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace KnownAntDesign;
 
 public static class Extension
 {
-    public static void AddKnownAntDesign(this IServiceCollection services)
+    public static void AddKAntDesign(this IServiceCollection services)
     {
-        var assembly = typeof(Extension).Assembly;
-        RenderFactory.AddRender(assembly);
+        //添加模块
+        Config.AddModule(typeof(Extension).Assembly);
+        //添加UI服务
+        services.AddScoped<IUIService, UIService>();
     }
 }

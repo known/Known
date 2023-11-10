@@ -1,0 +1,45 @@
+﻿@inherits BaseComponent
+@typeparam TItem
+
+@if (Model.Tree != null)
+{
+	<GridRow>
+		<GridCol Span="4">
+			<div style="padding:10px;">
+				<Tree TItem="Known.MenuItem" ShowIcon
+					DataSource="Model.Tree.Data" OnClick="OnTreeClick"
+					TitleExpression="x => x.DataItem.Name"
+					ChildrenExpression="x => x.DataItem.Children"
+					IconExpression="x => x.DataItem.Icon"
+					IsLeafExpression="x => x.DataItem.Children?.Count == 0"
+					KeyExpression="x => x.DataItem.Id" />
+			</div>
+		</GridCol>
+		<GridCol Span="20">
+			<QueryForm TItem="TItem" Model="Model.Table" OnSearch="OnSearchAsync" />
+			<Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
+			<DataTable @ref="table" TItem="TItem" Model="Model.Table" />
+		</GridCol>
+	</GridRow>
+}
+else
+{
+	<QueryForm TItem="TItem" Model="Model.Table" OnSearch="OnSearchAsync" />
+	<Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
+	<DataTable @ref="table" TItem="TItem" Model="Model.Table" />
+}
+
+@code {
+	DataTable<TItem> table;
+
+	[Parameter] public PageModel<TItem> Model { get; set; }
+
+	private Task OnSearchAsync() => table.RefreshAsync();
+
+	private void OnTreeClick(TreeEventArgs<Known.MenuItem> e)
+	{
+		var children = e.Node.DataItem.Children;
+		var data = children?.Select(c => (TItem)c.Data).ToList();
+		table.SetData(data);
+	}
+}

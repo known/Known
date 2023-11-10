@@ -2,7 +2,7 @@
 
 public interface IMyFlow
 {
-    UIService UI { get; }
+    //UIService UI { get; }
     SysFlow Flow { get; set; }
     void Refresh();
 }

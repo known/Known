@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Components.Routing;
+﻿using Known.Razor;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,13 +13,13 @@ public static class Extension
     {
         var assembly = typeof(Config).Assembly;
         Config.AddModule(assembly);
-        RenderFactory.AddRender(assembly);
+        ActionInfo.Load();
 
         //services.AddCascadingAuthenticationState();
 
         if (!Config.IsWeb)
             services.AddScoped<IScrollToLocationHash, ScrollToLocationHash>();
-        services.AddScoped<UIService>();
+        services.AddScoped<JSService>();
         services.AddScoped<ProtectedSessionStorage>();
         services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 

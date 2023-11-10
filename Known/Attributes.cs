@@ -1,5 +1,11 @@
-﻿namespace Known;
+﻿using System.Globalization;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 
+namespace Known;
+
+[AttributeUsage(AttributeTargets.Class)]
 public class CodeTableAttribute : Attribute { }
 
 [AttributeUsage(AttributeTargets.Class)]
@@ -20,6 +26,7 @@ public class ColumnAttribute : Attribute
     {
         Description = description;
         Required = required;
+        IsQueryAll = true;
     }
 
     public ColumnAttribute(
@@ -36,7 +43,7 @@ public class ColumnAttribute : Attribute
         MinLength = minLength;
         MaxLength = maxLength;
         DateFormat = dateFormat;
-        IsGrid = true;
+        IsQueryAll = true;
     }
 
     public string Description { get; }
@@ -45,7 +52,11 @@ public class ColumnAttribute : Attribute
     public string MinLength { get; }
     public string MaxLength { get; }
     public string DateFormat { get; }
+    public string CodeType { get; set; }
+    public bool IsForm { get; set; }
     public bool IsGrid { get; set; }
+    public bool IsQuery { get; set; }
+    public bool IsQueryAll { get; set; }
     public PropertyInfo Property { get; set; }
 
     internal virtual void Validate(object value, Type type, List<string> errors)
@@ -110,6 +121,7 @@ public class ColumnAttribute : Attribute
     }
 }
 
+[AttributeUsage(AttributeTargets.Property)]
 public class RegexAttribute : Attribute
 {
     public RegexAttribute(string pattern, string message)

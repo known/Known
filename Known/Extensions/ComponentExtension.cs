@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Components.CompilerServices;
+﻿using Known.Razor;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.CompilerServices;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Extensions;
 
@@ -15,9 +18,9 @@ public static class ComponentExtension
     }
 
     #region Component
-    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder, string id = null) where T : notnull, IComponent
+    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder) where T : notnull, IComponent
     {
-        return new ComponentBuilder<T>(builder).Id(id);
+        return new ComponentBuilder<T>(builder);
     }
 
     internal static void Component<T>(this RenderTreeBuilder builder, Action<ComponentBuilder<T>> child) where T : notnull, IComponent
@@ -27,11 +30,11 @@ public static class ComponentExtension
         attr.Build();
     }
 
-    public static void Component(this RenderTreeBuilder builder, Type type, Action<AttributeBuilder> child)
+    public static void Component(this RenderTreeBuilder builder, Type type, Dictionary<string, object> parameters = null)
     {
         builder.OpenComponent(0, type);
-        var attr = new AttributeBuilder(builder);
-        child?.Invoke(attr);
+        if (parameters.Count > 0)
+            builder.AddMultipleAttributes(1, parameters);
         builder.CloseComponent();
     }
 
@@ -45,16 +48,6 @@ public static class ComponentExtension
         builder.AddAttribute(1, "Parameters", parameters);
         builder.AddComponentReferenceCapture(2, value => action?.Invoke((DynamicComponent)value));
         builder.CloseComponent();
-    }
-    #endregion
-
-    #region Element
-    public static void Element(this RenderTreeBuilder builder, string name, Action<AttributeBuilder> child = null)
-    {
-        builder.OpenElement(0, name);
-        var attr = new AttributeBuilder(builder);
-        child?.Invoke(attr);
-        builder.CloseElement();
     }
     #endregion
 

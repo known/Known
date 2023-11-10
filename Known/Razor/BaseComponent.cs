@@ -1,4 +1,8 @@
-﻿namespace Known.Razor;
+﻿using Known.Entities;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Known.Razor;
 
 public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 {
@@ -17,8 +21,10 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Parameter] public bool Visible { get; set; } = true;
 
     [CascadingParameter] protected Context Context { get; set; }
-    [Inject] public UIService UI { get; set; }
+    [Inject] public JSService JS { get; set; }
+    [Inject] public IUIService UI { get; set; }
 
+    protected bool IsLoaded { get; set; }
     protected UserInfo CurrentUser => Context?.CurrentUser;
 
     private PlatformService platform;
@@ -31,7 +37,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
     }
 
-
     protected virtual ValueTask DisposeAsync(bool disposing) => ValueTask.CompletedTask;
 
     public async ValueTask DisposeAsync()
@@ -40,25 +45,25 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         GC.SuppressFinalize(this);
     }
 
-    public virtual void Refresh() { }
-    public EventCallback Callback(Func<Task> callback) => EventCallback.Factory.Create(this, callback);
-    public EventCallback Callback(Action callback) => EventCallback.Factory.Create(this, callback);
-    public EventCallback Callback(Action<object> callback) => EventCallback.Factory.Create(this, callback);
-    public EventCallback<T> Callback<T>(Action<T> callback) => EventCallback.Factory.Create(this, callback);
+    //public virtual void Refresh() { }
+    //public EventCallback Callback(Func<Task> callback) => EventCallback.Factory.Create(this, callback);
+    //public EventCallback Callback(Action callback) => EventCallback.Factory.Create(this, callback);
+    //public EventCallback Callback(Action<object> callback) => EventCallback.Factory.Create(this, callback);
+    //public EventCallback<T> Callback<T>(Action<T> callback) => EventCallback.Factory.Create(this, callback);
 
     public void StateChanged() => InvokeAsync(StateHasChanged);
-    protected static RenderFragment<T> BuildTree<T>(Action<RenderTreeBuilder, T> action) => (row) => delegate (RenderTreeBuilder builder) { action(builder, row); };
+    //protected RenderFragment<T> BuildTree<T>(Action<RenderTreeBuilder, T> action) => (row) => delegate (RenderTreeBuilder builder) { action(builder, row); };
 
-    protected void BuildDownload(RenderTreeBuilder builder, string fileId)
-    {
-        builder.Link(Language.Download, Callback(async () =>
-        {
-            var url = await Platform.File.GetFileUrlAsync(fileId);
-            UI.DownloadFile(url.FileName, url.OriginalUrl);
-        }));
-    }
+    //protected void BuildDownload(RenderTreeBuilder builder, string fileId)
+    //{
+    //    builder.Link(Language.Download, Callback(async () =>
+    //    {
+    //        var url = await Platform.File.GetFileUrlAsync(fileId);
+    //        UI.DownloadFile(url.FileName, url.OriginalUrl);
+    //    }));
+    //}
 
-    protected bool HasButton(ButtonInfo button)
+    protected bool HasButton(ActionInfo button)
     {
         var user = CurrentUser;
         if (user == null)
@@ -74,7 +79,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
         var log = new SysLog { Target = Name, Content = type.FullName };
         if (Context.UserMenus.Exists(p => p.Code == type.Name))
-            log.Type = Constants.LogTypePage;
+            log.Type = LogType.Page;
 
         if (string.IsNullOrWhiteSpace(log.Type))
             return;
@@ -82,18 +87,18 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         await Platform.System.AddLogAsync(log);
     }
 
-    internal void BuildAuthorize(RenderTreeBuilder builder)
-    {
-        builder.Component<SysActive>()
-               .Set(c => c.OnCheck, isCheck =>
-               {
-                   Config.IsCheckKey = isCheck;
-                   StateChanged();
-               })
-               .Build();
-    }
+    //internal void BuildAuthorize(RenderTreeBuilder builder)
+    //{
+    //    builder.Component<SysActive>()
+    //           .Set(c => c.OnCheck, isCheck =>
+    //           {
+    //               Config.IsCheckKey = isCheck;
+    //               StateChanged();
+    //           })
+    //           .Build();
+    //}
 
-    internal bool IsInMenu(ButtonInfo button, string id)
+    internal bool IsInMenu(ActionInfo button, string id)
     {
         var menu = Context.UserMenus.FirstOrDefault(m => m.Id == id || m.Code == id);
         if (menu == null)

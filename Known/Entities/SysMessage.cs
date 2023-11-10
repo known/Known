@@ -20,31 +20,31 @@ public class SysMessage : EntityBase
     /// <summary>
     /// 取得或设置发件人。
     /// </summary>
-    [Column("发件人", "", true, "1", "50")]
+    [Column("发件人", "", true, "1", "50", IsGrid = true)]
     public string MsgBy { get; set; }
 
     /// <summary>
     /// 取得或设置级别（普通、紧急）。
     /// </summary>
-    [Column("级别", "", true, "1", "50")]
+    [Column("级别", "", true, "1", "50", IsGrid = true)]
     public string MsgLevel { get; set; }
 
     /// <summary>
     /// 取得或设置分类。
     /// </summary>
-    [Column("分类", "", false, "1", "50")]
+    [Column("分类", "", false, "1", "50", IsGrid = true)]
     public string Category { get; set; }
 
     /// <summary>
     /// 取得或设置主题。
     /// </summary>
-    [Column("主题", "", true, "1", "250")]
+    [Column("主题", "", true, "1", "250", IsGrid = true, IsQuery = true)]
     public string Subject { get; set; }
 
     /// <summary>
     /// 取得或设置内容。
     /// </summary>
-    [Column("内容", "", true, "1", "4000")]
+    [Column("内容", "", true, "1", "4000", IsQuery = true)]
     public string Content { get; set; }
 
     /// <summary>

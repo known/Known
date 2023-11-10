@@ -1,4 +1,6 @@
-﻿namespace Known.Cells;
+﻿using System.Data;
+
+namespace Known.Cells;
 
 public interface ISheet
 {
