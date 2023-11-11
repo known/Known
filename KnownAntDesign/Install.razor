@@ -1,7 +1,7 @@
 ﻿@inherits InstallPage
 
 <div class="install">
-    <h1>欢迎使用@(Config.AppId)</h1>
+    <h1>欢迎使用@(Config.App.Id)</h1>
     <Form Model="@Model" OnFinish="OnStart" LabelColSpan="colLabel" WrapperColSpan="colWrapper">
         <FormItem Label="企业编码">
             <Input @bind-Value="@context.CompNo" />

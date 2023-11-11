@@ -67,7 +67,7 @@ public class ActionInfo
     public bool Visible { get; set; }
     public List<ActionInfo> Children { get; }
 
-    public bool Is(ActionInfo info) => Id == info.Id;
+    //public bool Is(ActionInfo info) => Id == info.Id;
 
     internal static void Load()
     {
@@ -101,8 +101,8 @@ public class ActionInfo
     }
 }
 
-public enum ColumnType { Text, Number, Boolean, Date, DateTime }
-public enum AlignType { Left, Center, Right }
+//public enum ColumnType { Text, Number, Boolean, Date, DateTime }
+//public enum AlignType { Left, Center, Right }
 
 public class ColumnInfo
 {
@@ -123,8 +123,8 @@ public class ColumnInfo
 
     public string Id { get; set; }
     public string Name { get; set; }
-    public ColumnType Type { get; set; }
-    public AlignType Align { get; set; }
+    //public ColumnType Type { get; set; }
+    //public AlignType Align { get; set; }
     public int Width { get; set; }
     public int Sort { get; set; }
     public bool IsQuery { get; set; }

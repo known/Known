@@ -29,7 +29,7 @@ class SysModuleList : BasePage<SysModule>
 
     private void OnCopy(List<SysModule> models)
     {
-        SysModule node = null;
+        //SysModule node = null;
         //UI.Prompt("复制到", builder =>
         //{
         //    builder.Component<KTree<string>>()
@@ -49,7 +49,7 @@ class SysModuleList : BasePage<SysModule>
 
     private void OnMove(List<SysModule> models)
     {
-        SysModule node = null;
+        //SysModule node = null;
         //UI.Prompt("移动到", builder =>
         //{
         //    builder.Component<KTree<string>>()

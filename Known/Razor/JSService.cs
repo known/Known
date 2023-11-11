@@ -15,8 +15,8 @@ public class JSService
     {
         this.jsRuntime = jsRuntime;
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js").AsTask());
-        if (!string.IsNullOrWhiteSpace(Config.AppJsPath))
-            appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.AppJsPath).AsTask());
+        if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
+            appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());
     }
 
     #region Invoke

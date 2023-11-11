@@ -29,51 +29,37 @@ public class Database : IDisposable
         var setting = Config.App.GetConnection(connName);
         if (setting != null)
         {
-            Init(setting.ProviderName, setting.ConnectionString, user);
+            Init(setting.DatabaseType, setting.ConnectionString, user);
         }
     }
 
-    public Database(string providerName, string connString, UserInfo user = null)
+    internal Database(DatabaseType databaseType, string connString, UserInfo user = null)
     {
-        Init(providerName, connString, user);
+        Init(databaseType, connString, user);
     }
 
-    private void Init(string providerName, string connString, UserInfo user = null)
+    private void Init(DatabaseType databaseType, string connString, UserInfo user = null)
     {
-        ProviderName = providerName;
+        DatabaseType = databaseType;
         ConnectionString = connString;
         User = user;
 
-        var factory = DbProviderFactories.GetFactory(providerName);
+        var factory = DbProviderFactories.GetFactory(databaseType.ToString());
         conn = factory.CreateConnection();
         conn.ConnectionString = connString;
-
-        if (providerName.Contains("Oracle"))
-            DatabaseType = DatabaseType.Oracle;
-        else if (providerName.Contains("MySql"))
-            DatabaseType = DatabaseType.MySql;
-        else if (providerName.Contains("SQLite"))
-            DatabaseType = DatabaseType.SQLite;
-        else if (providerName.Contains("Access"))
-            DatabaseType = DatabaseType.Access;
-        else if (providerName.Contains("Npgsql"))
-            DatabaseType = DatabaseType.Npgsql;
-        else
-            DatabaseType = DatabaseType.SqlServer;
     }
     #endregion
 
     #region Properties
     public DatabaseType DatabaseType { get; private set; }
-    public string ProviderName { get; private set; }
     public string ConnectionString { get; private set; }
     public UserInfo User { get; set; }
-    public string UserName => User?.UserName;
     #endregion
 
     #region Static
-    public static void RegisterProviders(Dictionary<string, Type> dbFactories)
+    internal static void RegisterProviders(List<ConnectionInfo> connections)
     {
+        var dbFactories = connections.ToDictionary(k => k.DatabaseType.ToString(), v => v.ProviderType);
         if (dbFactories != null && dbFactories.Count > 0)
         {
             foreach (var item in dbFactories)
@@ -154,7 +140,7 @@ public class Database : IDisposable
 
     public async Task<Result> TransactionAsync(string name, Action<Database> action, object data = null)
     {
-        using (var db = new Database(ProviderName, ConnectionString, User))
+        using (var db = new Database(DatabaseType, ConnectionString, User))
         {
             try
             {

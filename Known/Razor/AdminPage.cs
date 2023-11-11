@@ -25,9 +25,6 @@ public class AdminPage : BaseComponent
         //Setting.UserSetting = info?.UserSetting;
         //Setting.Info = info?.UserSetting?.Info ?? SettingInfo.Default;
 
-        if (Config.IsWebApi)
-            Cache.AttachCodes(Info?.Codes);
-
         //if (TopMenu)
         //{
         //    topMenu = userMenus.FirstOrDefault();

@@ -62,14 +62,14 @@ public abstract class BaseService
     #region Protected
     protected static async Task<T> GetConfigAsync<T>(Database db, string key)
     {
-        var json = await PlatformRepository.GetConfigAsync(db, Config.AppId, key);
+        var json = await PlatformRepository.GetConfigAsync(db, Config.App.Id, key);
         return Utils.FromJson<T>(json);
     }
 
     protected static async Task SaveConfigAsync(Database db, string key, object value)
     {
         var json = Utils.ToJson(value);
-        await PlatformRepository.SaveConfigAsync(db, Config.AppId, key, json);
+        await PlatformRepository.SaveConfigAsync(db, Config.App.Id, key, json);
     }
 
     protected static List<AttachFile> GetAttachFiles(UploadFormInfo info, UserInfo user, string key, string typePath) => GetAttachFiles(info, user, key, new FileFormInfo { BizType = typePath });

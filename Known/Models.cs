@@ -20,7 +20,7 @@ public class AdminInfo
     public int MessageCount { get; set; }
     public UserSetting UserSetting { get; set; }
     public List<MenuInfo> UserMenus { get; set; }
-    public List<CodeInfo> Codes { get; set; }
+    //public List<CodeInfo> Codes { get; set; }
 }
 
 public class FileUrlInfo

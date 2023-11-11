@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Known.Extensions;
 using Known.Razor;
-using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace Known;
@@ -10,29 +9,23 @@ public sealed class Config
 {
     private Config() { }
 
-    static Config()
-    {
-        Version = new VersionInfo();
-        AppId = "KIMS";
-        AppName = "Known信息管理系统";
-        var version = typeof(Config).Assembly.GetName().Version;
-        Version.FrameVersion = $"Known V{version.Major}.{version.Minor}.{version.Build}";
-    }
-
-    public static string DateFormat { get; set; } = "yyyy-MM-dd";
-    public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss";
-    public static string AppId { get; set; }
-    public static string AppName { get; set; }
-    public static VersionInfo Version { get; }
-    public static bool IsPlatform { get; set; }
-    public static bool IsWebApi { get; set; } = true;
+    //public static string DateFormat { get; set; } = "yyyy-MM-dd";
+    //public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss";
 
     public static InteractiveServerRenderMode InteractiveServer { get; } = new(false);
 
-    public static AppInfo App { get; set; } = new AppInfo();
+    public static AppInfo App { get; private set; }
+    public static VersionInfo Version { get; private set; }
+    public static CopyrightInfo Copyright { get; } = new();
     public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;
     public static string WebRoot { get; set; }
     public static string ContentRoot { get; set; }
+    internal static List<Type> ModelTypes { get; set; } = [];
+    internal static Dictionary<string, Type> PageTypes { get; } = [];
+    internal static Dictionary<string, Type> FormTypes { get; } = [];
+    //internal static bool IsCheckKey { get; set; } = true;
+    //internal static string AuthStatus { get; set; }
+    //public static Action<IMyFlow> ShowMyFlow { get; set; }
 
     public static void AddModule(Assembly assembly)
     {
@@ -51,11 +44,12 @@ public sealed class Config
         }
     }
 
-    public static void SetAppVersion(Assembly assembly)
+    public static void SetApp(AppInfo app)
     {
-        var version = assembly.GetName().Version;
-        Version.AppVersion = $"{AppId} V{version.Major}.{version.Minor}";
-        Version.SoftVersion = version.ToString();
+        App = app;
+        Version = new VersionInfo(app.Assembly);
+        Database.RegisterProviders(app.Connections);
+        AddModule(app.Assembly);
     }
 
     //private static string GetSysVersion(Assembly assembly)
@@ -94,20 +88,6 @@ public sealed class Config
         return Path.Combine(path, filePath);
     }
 
-    internal static List<Type> ModelTypes { get; set; } = [];
-    internal static Dictionary<string, Type> PageTypes { get; } = [];
-    internal static Dictionary<string, Type> FormTypes { get; } = [];
-    internal static bool IsCheckKey { get; set; } = true;
-    internal static string AuthStatus { get; set; }
-    public static string ProductId { get; set; }
-    public static bool IsWeb { get; set; }
-    public static bool IsProductKey { get; set; }
-    public static bool IsEditCopyright { get; set; } = true;
-    public static string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} 普漫科技。保留所有权利。";
-    public static string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
-    public static string AppJsPath { get; set; }
-    public static Action<IMyFlow> ShowMyFlow { get; set; }
-
     internal static MenuItem GetHomeMenu()
     {
         return new("首页", "home", PageTypes.GetValue("Home"));
@@ -116,50 +96,56 @@ public sealed class Config
 
 public class VersionInfo
 {
-    public string AppVersion { get; internal set; }
-    public string SoftVersion { get; internal set; }
-    public string FrameVersion { get; internal set; }
+    internal VersionInfo(Assembly assembly)
+    {
+        var version = assembly.GetName().Version;
+        AppVersion = $"{Config.App.Id} V{version.Major}.{version.Minor}";
+        SoftVersion = version.ToString();
+
+        var version1 = typeof(VersionInfo).Assembly.GetName().Version;
+        FrameVersion = $"Known V{version1.Major}.{version1.Minor}.{version1.Build}";
+    }
+
+    public string AppVersion { get; }
+    public string SoftVersion { get; }
+    public string FrameVersion { get; }
 }
+
+public enum AppType { Web, WinForm }
 
 public class AppInfo
 {
-    public string CompNo { get; set; }
-    public string CompName { get; set; }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public AppType Type { get; set; }
+    public Assembly Assembly { get; set; }
+    public bool IsPlatform { get; set; }
     public string UploadPath { get; set; }
-    public string Templates { get; set; }
-    public string ExportTemplate { get; set; }
-    public string ExportPath { get; set; }
-    public Dictionary<string, object> Params { get; set; }
+    public string JsPath { get; set; }
     public List<ConnectionInfo> Connections { get; set; }
 
-    public ConnectionInfo GetConnection(string name)
+    internal ConnectionInfo GetConnection(string name)
     {
         if (Connections == null || Connections.Count == 0)
             return null;
 
         return Connections.FirstOrDefault(c => c.Name == name);
     }
-
-    public T Param<T>(string key, T defaultValue = default)
-    {
-        if (Params == null || Params.Count == 0)
-            return defaultValue;
-
-        if (!Params.ContainsKey(key))
-            return defaultValue;
-
-        var value = Params[key];
-        if (typeof(T).IsClass)
-            return Utils.MapTo<T>(value);
-
-        return Utils.ConvertTo(Params[key], defaultValue);
-    }
 }
 
 public class ConnectionInfo
 {
     public string Name { get; set; }
-    public string ProviderName { get; set; }
-    public string ProviderType { get; set; }
+    public DatabaseType DatabaseType { get; set; }
+    public Type ProviderType { get; set; }
     public string ConnectionString { get; set; }
+}
+
+public class CopyrightInfo
+{
+    public string ProductId { get; set; }
+    public bool IsProductKey { get; set; }
+    public bool IsEditCopyright { get; set; } = true;
+    public string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} 普漫科技。保留所有权利。";
+    public string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
 }

@@ -116,7 +116,7 @@ class UserService : BaseService
             if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
                 return Result.Error("用户默认密码未配置！");
 
-            if (Config.IsPlatform && user.IsTenant)
+            if (Config.App.IsPlatform && user.IsTenant)
             {
                 //var tenant = SystemRepository.GetTenant(Database, user.CompNo);
                 //if (tenant == null)
@@ -282,7 +282,7 @@ class UserService : BaseService
             MessageCount = await UserRepository.GetMessageCountAsync(Database),
             UserSetting = await UserHelper.GetUserSettingAsync(Database),
             UserMenus = await UserHelper.GetUserMenusAsync(Database),
-            Codes = result.Data as List<CodeInfo>
+            //Codes = result.Data as List<CodeInfo>
         };
         return admin;
     }
@@ -346,9 +346,9 @@ class UserService : BaseService
     {
         var sys = await GetConfigAsync<SystemInfo>(Database, SystemService.KeySystem);
         user.IsTenant = user.CompNo != sys.CompNo;
-        user.AppName = Config.AppName;
+        user.AppName = Config.App.Name;
         if (user.IsAdmin)
-            user.AppId = Config.AppId;
+            user.AppId = Config.App.Id;
 
         Database.User = user;
         var info = await SystemService.GetSystemAsync(Database);

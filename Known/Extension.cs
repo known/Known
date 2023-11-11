@@ -11,13 +11,13 @@ public static class Extension
 {
     public static void AddKnown(this IServiceCollection services)
     {
-        var assembly = typeof(Config).Assembly;
+        var assembly = typeof(Extension).Assembly;
         Config.AddModule(assembly);
         ActionInfo.Load();
 
         //services.AddCascadingAuthenticationState();
 
-        if (!Config.IsWeb)
+        if (Config.App.Type == AppType.WinForm)
             services.AddScoped<IScrollToLocationHash, ScrollToLocationHash>();
         services.AddScoped<JSService>();
         services.AddScoped<ProtectedSessionStorage>();

@@ -6,7 +6,7 @@ namespace Known;
 
 public sealed class Cache
 {
-    private static readonly string KeyCodes = $"Known_Codes_{Config.AppId}";
+    private static readonly string KeyCodes = $"Known_Codes_{Config.App.Id}";
     private static readonly ConcurrentDictionary<string, object> cached = new();
 
     private Cache() { }

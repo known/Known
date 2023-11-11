@@ -12,7 +12,7 @@ class UserHelper
         var sys = await SystemService.GetSystemAsync(db);
         var appName = sys?.AppName;
         if (string.IsNullOrWhiteSpace(appName))
-            appName = Config.AppName;
+            appName = Config.App.Name;
         return appName;
     }
 

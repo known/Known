@@ -10,10 +10,10 @@ class CompanyService : BaseService
     //Company
     internal static async Task<string> GetCompanyAsync(Database db, UserInfo user)
     {
-        if (Config.IsPlatform)
+        if (Config.App.IsPlatform)
             return await GetCompanyDataAsync(db, user);
 
-        var model = await PlatformRepository.GetConfigAsync(db, Config.AppId, KeyCompany);
+        var model = await PlatformRepository.GetConfigAsync(db, Config.App.Id, KeyCompany);
         if (string.IsNullOrEmpty(model))
             model = GetDefaultData(user);
         return model;
@@ -29,7 +29,7 @@ class CompanyService : BaseService
     public async Task<Result> SaveCompanyAsync(object model)
     {
         var user = CurrentUser;
-        if (Config.IsPlatform)
+        if (Config.App.IsPlatform)
         {
             var company = await CompanyRepository.GetCompanyAsync(Database, user.CompNo);
             if (company == null)

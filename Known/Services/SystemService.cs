@@ -10,7 +10,7 @@ class SystemService : BaseService
     //Config
     public async Task<T> GetConfigAsync<T>(string key)
     {
-        var json = await PlatformRepository.GetConfigAsync(Database, Config.AppId, key);
+        var json = await PlatformRepository.GetConfigAsync(Database, Config.App.Id, key);
         return Utils.FromJson<T>(json);
     }
 
@@ -93,7 +93,7 @@ class SystemService : BaseService
 
     internal static async Task<SystemInfo> GetSystemAsync(Database db)
     {
-        if (!Config.IsPlatform || db.User == null)
+        if (!Config.App.IsPlatform || db.User == null)
             return await GetConfigAsync<SystemInfo>(db, KeySystem);
 
         var company = await CompanyRepository.GetCompanyAsync(db, db.User.CompNo);
@@ -114,7 +114,7 @@ class SystemService : BaseService
 
     public async Task<Result> SaveSystemAsync(SystemInfo info)
     {
-        if (Config.IsPlatform)
+        if (Config.App.IsPlatform)
         {
             var user = CurrentUser;
             var company = await CompanyRepository.GetCompanyAsync(Database, user.CompNo);
@@ -144,10 +144,8 @@ class SystemService : BaseService
         var path = GetProductKeyPath();
         var info = new InstallInfo
         {
-            CompNo = app.CompNo,
-            CompName = app.CompName,
-            AppName = Config.AppName,
-            ProductId = Config.ProductId,
+            AppName = app.Name,
+            ProductId = Config.Copyright.ProductId,
             ProductKey = Utils.ReadFile(path),
             UserName = Constants.SysUserName
         };
@@ -173,7 +171,7 @@ class SystemService : BaseService
         {
             CompNo = info.CompNo,
             CompName = info.CompName,
-            AppName = Config.AppName,
+            AppName = Config.App.Name,
             UserDefaultPwd = "888888"
         };
     }
@@ -183,7 +181,7 @@ class SystemService : BaseService
         var sys = GetSystem(info);
         return new SysCompany
         {
-            AppId = Config.AppId,
+            AppId = Config.App.Id,
             CompNo = info.CompNo,
             Code = info.CompNo,
             Name = info.CompName,
@@ -195,7 +193,7 @@ class SystemService : BaseService
     {
         return new SysUser
         {
-            AppId = Config.AppId,
+            AppId = Config.App.Id,
             CompNo = info.CompNo,
             OrgNo = info.CompNo,
             UserName = info.UserName.ToLower(),
@@ -212,7 +210,7 @@ class SystemService : BaseService
     {
         return new SysOrganization
         {
-            AppId = Config.AppId,
+            AppId = Config.App.Id,
             CompNo = info.CompNo,
             ParentId = "0",
             Code = info.CompNo,
@@ -223,7 +221,7 @@ class SystemService : BaseService
     private static string GetProductKeyPath()
     {
         var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        return Path.Combine(path, "Known", $"{Config.AppId}.key");
+        return Path.Combine(path, "Known", $"{Config.App.Id}.key");
     }
 
     private async Task<Result> CheckKeyAsync()
