@@ -53,6 +53,7 @@ public class ColumnAttribute : Attribute
     public string MaxLength { get; }
     public string DateFormat { get; }
     public string CodeType { get; set; }
+    public string Placeholder { get; set; }
     public bool IsForm { get; set; }
     public bool IsGrid { get; set; }
     public bool IsViewLink { get; set; }

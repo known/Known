@@ -1,13 +1,11 @@
-﻿using System.Reflection;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Razor;
 
 public interface IUIService
 {
     Type GetInputType(ColumnAttribute column);
-    Task Toast(string message, StyleType style = StyleType.Success);
-    Task Result(Result result, Action action = null);
+    void Toast(string message, StyleType style = StyleType.Success);
     void Alert(string message);
     void Confirm(string message, Func<Task> action);
     void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new();

@@ -1,6 +1,6 @@
 ﻿@typeparam TItem where TItem : class, new()
 
-<Form @ref="_form" TModel="TItem" Model="@Model.Data" OnFinish="OnFinish">
+<Form @ref="_form" TModel="TItem" Model="@Model.Data">
     @if (Model.Fields != null && Model.Fields.Any())
     {
         foreach (var field in Model.Fields)
@@ -22,8 +22,10 @@
 
     [Parameter] public FormModel<TItem> Model { get; set; }
 
-    private void OnFinish(EditContext editContext)
+    protected override void OnAfterRender(bool firstRender)
     {
-        
+        if (firstRender)
+            Model.OnValidate = _form.Validate;
+        base.OnAfterRender(firstRender);
     }
 }

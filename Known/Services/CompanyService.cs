@@ -92,15 +92,15 @@ class CompanyService : BaseService
         });
     }
 
-    public async Task<Result> SaveOrganizationAsync(dynamic model)
+    public async Task<Result> SaveOrganizationAsync(SysOrganization model)
     {
-        var entity = await Database.QueryByIdAsync<SysOrganization>((string)model.Id);
-        entity ??= new SysOrganization();
-        entity.FillModel(model);
-        var vr = entity.Validate();
+        //var entity = await Database.QueryByIdAsync<SysOrganization>((string)model.Id);
+        //entity ??= new SysOrganization();
+        //entity.FillModel(model);
+        var vr = model.Validate();
         if (vr.IsValid)
         {
-            if (await CompanyRepository.ExistsOrganizationAsync(Database, entity))
+            if (await CompanyRepository.ExistsOrganizationAsync(Database, model))
                 vr.AddError("组织编码已存在！");
         }
         if (!vr.IsValid)
@@ -108,8 +108,8 @@ class CompanyService : BaseService
 
         return await Database.TransactionAsync(Language.Save, async db =>
         {
-            await db.SaveAsync(entity);
+            await db.SaveAsync(model);
             //PlatformHelper.SetBizOrganization(db, entity);
-        }, entity);
+        }, model);
     }
 }

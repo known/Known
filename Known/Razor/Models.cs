@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 using Known.Extensions;
 using Known.Helpers;
@@ -22,8 +21,6 @@ public class TreeModel
 
 public class TableModel<TItem> where TItem : class, new()
 {
-    private readonly IUIService UI;
-
     internal TableModel(IUIService ui, List<ColumnInfo> columns, List<ActionInfo> actions)
     {
         UI = ui;
@@ -45,6 +42,7 @@ public class TableModel<TItem> where TItem : class, new()
         }
     }
 
+    internal IUIService UI { get; }
     public bool ShowCheckBox { get; set; }
     public string PageName { get; set; }
     public List<ColumnAttribute> Columns { get; }
@@ -58,6 +56,7 @@ public class TableModel<TItem> where TItem : class, new()
     public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }
     public Func<Task> OnRefresh { get; set; }
+    public Func<TItem, string> FormTitle { get; set; }
 
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
     {
@@ -85,22 +84,24 @@ public class TableModel<TItem> where TItem : class, new()
 
     public void ViewForm(TItem row)
     {
-        UI.ShowForm<TItem>(new FormModel<TItem>(UI, Columns)
+        var title = GetFormTitle(row);
+        UI.ShowForm<TItem>(new FormModel<TItem>(this, Columns)
         {
             IsView = true,
-            Title = $"查看{PageName}",
+            Title = $"查看{title}",
             Data = row
         });
     }
 
-    public void ShowForm(Func<dynamic, Task<Result>> action, TItem row)
+    public void ShowForm(Func<TItem, Task<Result>> onSave, TItem row)
     {
         var actionName = row == null ? "新增" : "编辑";
-        UI.ShowForm<TItem>(new FormModel<TItem>(UI, Columns)
+        var title = GetFormTitle(row);
+        UI.ShowForm<TItem>(new FormModel<TItem>(this, Columns)
         {
-            Title = $"{actionName}{PageName}",
+            Title = $"{actionName}{title}",
             Data = row,
-            Action = action
+            OnSave = onSave
         });
     }
 
@@ -136,13 +137,13 @@ public class TableModel<TItem> where TItem : class, new()
                 UI.Confirm($"确定要{confirmText}选中的记录？", async () =>
                 {
                     var result = await action?.Invoke(row);
-                    await UI.Result(result, async () => await RefreshAsync());
+                    UI.Result(result, async () => await RefreshAsync());
                 });
             }
             else
             {
                 var result = await action?.Invoke(row);
-                await UI.Result(result, async () => await RefreshAsync());
+                UI.Result(result, async () => await RefreshAsync());
             }
         });
     }
@@ -174,13 +175,13 @@ public class TableModel<TItem> where TItem : class, new()
                 UI.Confirm($"确定要{confirmText}选中的记录？", async () =>
                 {
                     var result = await action?.Invoke(rows);
-                    await UI.Result(result, async () => await RefreshAsync());
+                    UI.Result(result, async () => await RefreshAsync());
                 });
             }
             else
             {
                 var result = await action?.Invoke(rows);
-                await UI.Result(result, async () => await RefreshAsync());
+                UI.Result(result, async () => await RefreshAsync());
             }
         });
     }
@@ -190,7 +191,7 @@ public class TableModel<TItem> where TItem : class, new()
         UI.Confirm("确定要删除该记录？", async () =>
         {
             var result = await action?.Invoke([row]);
-            await UI.Result(result, async () => await RefreshAsync());
+            UI.Result(result, async () => await RefreshAsync());
         });
     }
 
@@ -203,22 +204,50 @@ public class TableModel<TItem> where TItem : class, new()
 
         return columns.Any(c => c.Id == id);
     }
+
+    private string GetFormTitle(TItem row)
+    {
+        var title = PageName;
+        if (FormTitle != null)
+            title = FormTitle.Invoke(row);
+        return title;
+    }
 }
 
 public class FormModel<TItem> where TItem : class, new()
 {
-    internal FormModel(IUIService ui, List<ColumnAttribute> columns)
+    internal FormModel(TableModel<TItem> table, List<ColumnAttribute> columns)
     {
-        Fields = columns.Where(c => c.IsForm).Select(c => new FieldModel<TItem>(ui, this, c));
+        Table = table;
+        Fields = columns.Where(c => c.IsForm).Select(c => new FieldModel<TItem>(table.UI, this, c));
     }
 
+    public TableModel<TItem> Table { get; }
     public IEnumerable<FieldModel<TItem>> Fields { get; }
     public bool IsView { get; set; }
     public string Title { get; set; }
     public TItem Data { get; set; }
     public Type Type { get; set; }
     public Dictionary<string, object> Parameters { get; set; }
-    public Func<dynamic, Task<Result>> Action { get; set; }
+    public Func<bool> OnValidate { get; set; }
+    public Func<Task> OnClose { get; set; }
+    public Func<TItem, Task<Result>> OnSave { get; set; }
+
+    public async Task SaveAsync()
+    {
+        if (OnValidate != null)
+        {
+            if (!OnValidate.Invoke()) return;
+        }
+
+        var result = await OnSave?.Invoke(Data);
+        Table.UI.Result(result, async () =>
+        {
+            if (result.IsClose)
+                await OnClose?.Invoke();
+            await Table.RefreshAsync();
+        });
+    }
 }
 
 public class FieldModel<TItem> where TItem : class, new()
@@ -271,17 +300,26 @@ public class FieldModel<TItem> where TItem : class, new()
         get
         {
             var expression = InputExpression.Create(this);
-			var attributes = new Dictionary<string, object>
-			{
-				{ "id", Column.Property.Name },
-				{ "Value", Value },
-				{ "ValueExpression", expression.ValueExpression },
-				{ "autofocus", true },
-				{ "required", Column.Required },
-				{ "disabled", _form.IsView }
-			};
-			return attributes;
-		}
+            var attributes = new Dictionary<string, object>
+            {
+                { "id", Column.Property.Name },
+                { "Value", Value },
+                { "ValueExpression", expression.ValueExpression },
+                { "autofocus", true },
+                { "required", Column.Required },
+                { "placeholder", Column.Placeholder },
+            };
+            if (_form.IsView)
+            {
+                attributes["disabled"] = "true";
+                attributes["readonly"] = "true";
+            }
+            else
+            {
+                attributes["ValueChanged"] = expression.ValueChanged;
+            }
+            return attributes;
+        }
     }
 }
 

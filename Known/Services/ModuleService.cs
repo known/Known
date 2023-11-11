@@ -78,18 +78,18 @@ class ModuleService : BaseService
         });
     }
 
-    public async Task<Result> SaveModuleAsync(dynamic model)
+    public async Task<Result> SaveModuleAsync(SysModule model)
     {
-        var entity = await Database.QueryByIdAsync<SysModule>((string)model.Id);
-        entity ??= new SysModule();
-        entity.FillModel(model);
-        var vr = entity.Validate();
+        //var entity = await Database.QueryByIdAsync<SysModule>((string)model.Id);
+        //entity ??= new SysModule();
+        //entity.FillModel(model);
+        var vr = model.Validate();
         if (!vr.IsValid)
             return vr;
 
         return await Database.TransactionAsync(Language.Save, async db =>
         {
-            await db.SaveAsync(entity);
-        }, entity);
+            await db.SaveAsync(model);
+        }, model);
     }
 }

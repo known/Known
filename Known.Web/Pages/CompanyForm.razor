@@ -93,6 +93,6 @@
     private async Task OnSave()
     {
         var result = await Platform.SaveCompanyAsync(model);
-        await UI.Result(result, () => isEdit = false);
+        UI.Result(result, () => isEdit = false);
     }
 }

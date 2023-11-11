@@ -69,33 +69,26 @@ class UIService : IUIService
         return typeof(Input<string>);
     }
 
-    public Task Toast(string message, StyleType style = StyleType.Success)
+    public async void Toast(string message, StyleType style = StyleType.Success)
     {
         switch (style)
         {
             case StyleType.Success:
-                return _message.Success(message);
+                await _message.Success(message);
+                break;
             case StyleType.Info:
-                return _message.Info(message);
+                await _message.Info(message);
+                break;
             case StyleType.Warning:
-                return _message.Warning(message);
+                await _message.Warning(message);
+                break;
             case StyleType.Error:
-                return _message.Error(message);
+                await _message.Error(message);
+                break;
             default:
-                return _message.Info(message);
+                await _message.Info(message);
+                break;
         }
-    }
-
-    public async Task Result(Known.Result result, Action action = null)
-    {
-        if (!result.IsValid)
-        {
-            await _message.Error(result.Message);
-            return;
-        }
-
-        action?.Invoke();
-        await _message.Success(result.Message);
     }
 
     public void Alert(string message)
@@ -118,7 +111,7 @@ class UIService : IUIService
         });
     }
 
-    public void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
+    public async void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
         RenderFragment content = null;
         if (model.Type == null)
@@ -126,13 +119,15 @@ class UIService : IUIService
         else
             content = b => b.Component(model.Type, model.Parameters);
 
-        _modal.CreateModalAsync(new ModalOptions
+        var modal = await _modal.CreateModalAsync(new ModalOptions
         {
             Title = model.Title,
             Content = content,
             OkText = "确定",
-            CancelText = "取消"
+            CancelText = "取消",
+            OnOk = e => model.SaveAsync()
         });
+        model.OnClose = modal.CloseAsync;
     }
 
     public void BuildTag(RenderTreeBuilder builder, string text, string color)

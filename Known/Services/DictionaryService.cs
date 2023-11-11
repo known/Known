@@ -47,17 +47,17 @@ class DictionaryService : BaseService
         });
     }
 
-    public async Task<Result> SaveDictionaryAsync(dynamic model)
+    public async Task<Result> SaveDictionaryAsync(SysDictionary model)
     {
-        var entity = await Database.QueryByIdAsync<SysDictionary>((string)model.Id);
-        entity ??= new SysDictionary();
-        entity.FillModel(model);
-        var vr = entity.Validate();
+        //var entity = await Database.QueryByIdAsync<SysDictionary>((string)model.Id);
+        //entity ??= new SysDictionary();
+        //entity.FillModel(model);
+        var vr = model.Validate();
         if (!vr.IsValid)
             return vr;
 
-        await Database.SaveAsync(entity);
+        await Database.SaveAsync(model);
         await RefreshCacheAsync();
-        return Result.Success(Language.SaveSuccess, entity.Id);
+        return Result.Success(Language.SaveSuccess, model.Id);
     }
 }
