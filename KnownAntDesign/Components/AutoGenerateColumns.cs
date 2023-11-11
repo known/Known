@@ -4,7 +4,6 @@ using Known.Helpers;
 using Known.Razor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace KnownAntDesign.Components;
 
@@ -51,31 +50,21 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             {
                 builder.AddAttribute(i++, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
                 {
-                    builder1.AddContent(i++, b =>
-                    {
-                        var value = TypeHelper.GetPropertyValue<bool>(Item, property.Name);
-                        b.Component<Switch>()
-                         .Set(c => c.Checked, value)
-                         .Set(c => c.Disabled, true)
-                         .Set(c => c.CheckedChildren, "是")
-                         .Set(c => c.UnCheckedChildren, "否")
-                         .Build();
-                    });
+                    var value = TypeHelper.GetPropertyValue<bool>(Item, property.Name);
+                    builder1.Component<Switch>()
+                            .Set(c => c.Checked, value)
+                            .Set(c => c.Disabled, true)
+                            .Set(c => c.CheckedChildren, "是")
+                            .Set(c => c.UnCheckedChildren, "否")
+                            .Build();
                 });
             }
             else if (item.IsViewLink)
             {
                 builder.AddAttribute(i++, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
                 {
-                    builder1.AddContent(i++, b =>
-                    {
-                        var value = TypeHelper.GetPropertyValue<string>(Item, property.Name);
-                        b.Component<Button>()
-                         .Set(c => c.Type, ButtonType.Link)
-                         .Set(c => c.OnClick, Callback<MouseEventArgs>(e => Table.ViewForm(Item)))
-                         .Set(c => c.ChildContent, b1 => b1.Span(value))
-                         .Build();
-                    });
+                    var value = TypeHelper.GetPropertyValue<string>(Item, property.Name);
+                    builder1.Link(value, Callback(() => Table.ViewForm(Item)));
                 });
             }
             builder.CloseComponent();

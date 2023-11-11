@@ -24,6 +24,7 @@
 
     protected override void OnAfterRender(bool firstRender)
     {
+        //TODO：表单验证
         if (firstRender)
             Model.OnValidate = _form.Validate;
         base.OnAfterRender(firstRender);

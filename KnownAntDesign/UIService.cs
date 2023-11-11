@@ -3,7 +3,6 @@ using Known;
 using Known.Extensions;
 using Known.Razor;
 using KnownAntDesign.Components;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace KnownAntDesign;
@@ -113,20 +112,23 @@ class UIService : IUIService
 
     public async void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
-        RenderFragment content = null;
-        if (model.Type == null)
-            content = b => b.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
-        else
-            content = b => b.Component(model.Type, model.Parameters);
-
-        var modal = await _modal.CreateModalAsync(new ModalOptions
+        var option = new ModalOptions
         {
             Title = model.Title,
-            Content = content,
             OkText = "确定",
             CancelText = "取消",
             OnOk = e => model.SaveAsync()
-        });
+        };
+
+        if (model.Type == null)
+            option.Content = b => b.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
+        else
+            option.Content = b => b.Component(model.Type, model.Parameters);
+
+        if (model.IsView)
+            option.Footer = null;
+
+        var modal = await _modal.CreateModalAsync(option);
         model.OnClose = modal.CloseAsync;
     }
 
@@ -134,7 +136,7 @@ class UIService : IUIService
     {
         builder.Component<Tag>()
                .Set(c => c.Color, color)
-               .Set(c => c.ChildContent, b => b.Markup(text))
+               .Set(c => c.ChildContent, b => b.Text(text))
                .Build();
     }
 
