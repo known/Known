@@ -17,8 +17,8 @@ class SysOrganizationList : BasePage<SysOrganization>
         };
     }
 
-    public void New() => Table.ShowForm(Platform.Company.SaveOrganizationAsync, new SysOrganization());
-    public void Edit(SysOrganization row) => Table.ShowForm(Platform.Company.SaveOrganizationAsync, row);
+    public void New() => Table.NewForm(Platform.Company.SaveOrganizationAsync, new SysOrganization());
+    public void Edit(SysOrganization row) => Table.EditForm(Platform.Company.SaveOrganizationAsync, row);
     public void Delete(SysOrganization row) => Table.Delete(Platform.Company.DeleteOrganizationsAsync, row);
     public void DeleteM() => Table.DeleteM(Platform.Company.DeleteOrganizationsAsync);
 }

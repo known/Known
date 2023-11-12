@@ -10,7 +10,7 @@ public class ComponentBuilder<T> where T : IComponent
     private readonly RenderTreeBuilder builder;
     internal readonly Dictionary<string, object> Parameters = new(StringComparer.Ordinal);
 
-    public ComponentBuilder(RenderTreeBuilder builder)
+    internal ComponentBuilder(RenderTreeBuilder builder)
     {
         this.builder = builder;
     }

@@ -8,7 +8,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     private TableModel<TItem> table;
     private ColumnAttribute column;
 
-    public ColumnBuilder(TableModel<TItem> table, string name, ColumnAttribute column)
+    internal ColumnBuilder(TableModel<TItem> table, string name, ColumnAttribute column)
     {
         this.name = name;
         this.table = table;

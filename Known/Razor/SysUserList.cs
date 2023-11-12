@@ -9,8 +9,8 @@ class SysUserList : BasePage<SysUser>
         return Platform.User.QueryUsersAsync(criteria);
     }
 
-    public void New() => Table.ShowForm(Platform.User.SaveUserAsync, new SysUser());
-    public void Edit(SysUser row) => Table.ShowForm(Platform.User.SaveUserAsync, row);
+    public void New() => Table.NewForm(Platform.User.SaveUserAsync, new SysUser());
+    public void Edit(SysUser row) => Table.EditForm(Platform.User.SaveUserAsync, row);
     public void Delete(SysUser row) => Table.Delete(Platform.User.DeleteUsersAsync, row);
     public void DeleteM() => Table.DeleteM(Platform.User.DeleteUsersAsync);
     public void ResetPassword() => Table.SelectRows(Platform.User.SetUserPwdsAsync, "重置");

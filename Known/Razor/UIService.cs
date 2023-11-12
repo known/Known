@@ -8,6 +8,7 @@ public interface IUIService
     void Toast(string message, StyleType style = StyleType.Success);
     void Alert(string message);
     void Confirm(string message, Func<Task> action);
+    void ShowModal(ModalOption option);
     void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new();
     void BuildTag(RenderTreeBuilder builder, string text, string color);
     void BuildResult(RenderTreeBuilder builder, string status, string message);

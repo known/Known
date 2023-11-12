@@ -19,6 +19,7 @@
     padding: 0;
 }
 
+.danger {color:#ed4014;}
 .link {color:#1890ff;cursor:pointer;}
 .query, .toolbar {padding:10px 10px 0 10px;}
 .table {padding-top:10px;}

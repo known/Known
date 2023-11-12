@@ -80,21 +80,27 @@ public class TableModel<TItem> where TItem : class, new()
         });
     }
 
-    public void ShowForm(Func<TItem, Task<Result>> onSave, TItem row)
+    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
+    public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
+
+    private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
     {
-        var actionName = row == null ? "新增" : "编辑";
         var title = GetFormTitle(row);
         UI.ShowForm<TItem>(new FormModel<TItem>(this, Columns)
         {
-            Title = $"{actionName}{title}",
+            Title = $"{action}{title}",
             Data = row,
             OnSave = onSave
         });
     }
 
-    public void ShowImportForm()
+    public void ImportForm(ImportFormInfo info)
     {
-        UI.Info("暂未实现导入表单！");
+        UI.ShowModal(new ModalOption
+        {
+            Title = $"导入{PageName}",
+            Content = builder => builder.Component<Importer>().Set(c => c.Model, info).Build()
+        });
     }
 
     public void SelectRow(Action<TItem> action)

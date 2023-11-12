@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Known;
@@ -22,16 +21,6 @@ public static class Extension
         services.AddScoped<JSService>();
         services.AddScoped<ProtectedSessionStorage>();
         services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-
-        services.AddAuthentication(IdentityConstants.ApplicationScheme)
-                .AddIdentityCookies(b =>
-                {
-                    b.ApplicationCookie?.Configure(o =>
-                    {
-                        o.LoginPath = "/login";
-                    });
-                });
-
         services.AddHttpContextAccessor();
         //services.AddOptions().AddLogging();
     }

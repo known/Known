@@ -17,8 +17,8 @@ class SysModuleList : BasePage<SysModule>
 		};
 	}
 
-    public void New() => Table.ShowForm(Platform.Module.SaveModuleAsync, new SysModule());
-    public void Edit(SysModule row) => Table.ShowForm(Platform.Module.SaveModuleAsync, row);
+    public void New() => Table.NewForm(Platform.Module.SaveModuleAsync, new SysModule());
+    public void Edit(SysModule row) => Table.EditForm(Platform.Module.SaveModuleAsync, row);
     public void Delete(SysModule row) => Table.Delete(Platform.Module.DeleteModulesAsync, row);
     public void DeleteM() => Table.DeleteM(Platform.Module.DeleteModulesAsync);
 

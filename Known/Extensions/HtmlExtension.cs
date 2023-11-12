@@ -5,6 +5,17 @@ namespace Known.Extensions;
 
 public static class HtmlExtension
 {
+    public static void Div(this RenderTreeBuilder builder, string className, string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
+        builder.OpenElement(0, "div");
+        builder.AddAttribute(1, "class", className);
+        builder.AddContent(2, text);
+        builder.CloseElement();
+    }
+
     public static void Span(this RenderTreeBuilder builder, string text, string className = null)
     {
         if (string.IsNullOrWhiteSpace(text))

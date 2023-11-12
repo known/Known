@@ -110,6 +110,21 @@ class UIService : IUIService
         });
     }
 
+    public async void ShowModal(ModalOption option)
+    {
+        var options = new ModalOptions
+        {
+            Title = option.Title,
+            Content = option.Content,
+            Footer = null
+        };
+        if (option.Footer != null)
+            options.Footer = option.Footer;
+
+        var modal = await _modal.CreateModalAsync(options);
+        option.OnClose = modal.CloseAsync;
+    }
+
     public async void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
         var option = new ModalOptions

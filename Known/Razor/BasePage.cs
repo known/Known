@@ -59,6 +59,16 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 
     protected virtual Task<PagingResult<TItem>> OnQueryAsync(PagingCriteria criteria) => Task.FromResult(new PagingResult<TItem>());
 
+    protected async void ShowImportForm(string param = null)
+    {
+        var type = typeof(TItem);
+        var id = $"{type.Name}Import";
+        if (!string.IsNullOrWhiteSpace(param))
+            id += $"_{param}";
+        var info = await Platform.File.GetImportAsync(id);
+        Table.ImportForm(info);
+    }
+
     private void OnToolClick(ActionInfo info) => OnAction(info, null);
     private void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
 
