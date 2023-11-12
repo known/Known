@@ -96,11 +96,19 @@ public class TableModel<TItem> where TItem : class, new()
 
     public void ImportForm(ImportFormInfo info)
     {
-        UI.ShowModal(new ModalOption
+        var option = new ModalOption { Title = $"导入{PageName}" };
+        option.Content = builder =>
         {
-            Title = $"导入{PageName}",
-            Content = builder => builder.Component<Importer>().Set(c => c.Model, info).Build()
-        });
+            builder.Component<Importer>()
+                   .Set(c => c.Model, info)
+                   .Set(c => c.OnSuccess, async () =>
+                   {
+                       option.OnClose?.Invoke();
+                       await RefreshAsync();
+                   })
+                   .Build();
+        };
+        UI.ShowModal(option);
     }
 
     public void SelectRow(Action<TItem> action)

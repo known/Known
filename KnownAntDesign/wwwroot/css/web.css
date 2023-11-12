@@ -4,6 +4,7 @@
 .ant-tabs-nav {padding:0 10px;}
 .ant-table-cell .ant-tag {cursor:pointer;}
 
+/*Install*/
 .install {
     position:absolute;top:50%;left:50%;width:500px;height:500px;margin-left:-250px;margin-top:-250px;
     background-color: #fff; padding: 30px;
@@ -14,6 +15,7 @@
 }
 .install h1 {text-align:center;}
 
+/*Common*/
 .site-layout .site-layout-background {
     background: #fff;
     padding: 0;
@@ -23,3 +25,12 @@
 .link {color:#1890ff;cursor:pointer;}
 .query, .toolbar {padding:10px 10px 0 10px;}
 .table {padding-top:10px;}
+
+/*Import*/
+/*import*/
+.form-import {grid-template-rows:20px 50px auto;}
+.form-import .item {display:flex;margin:8px 0;padding:2px;border:1px solid #d5d5d5;}
+.form-import .input {display:inline-block;}
+.form-import .link {margin-right:10px;}
+.form-import .size {margin-left:10px;}
+.form-import .message {padding:10px 0;}

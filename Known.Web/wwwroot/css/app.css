@@ -36,7 +36,7 @@ html, body {
     -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;
     box-shadow:0 0 10px 3px rgba(0,0,0,.3);
 }
-.login-left {margin-top:70px;padding-left:90px;width:320px;height:250px;border-right:1px solid var(--border);}
+.login-left {margin-top:70px;padding-left:90px;width:320px;height:250px;}
 .login .slogan {width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
 .login .image {width:260px;height:180px;margin-top:20px;}
 .login-form {padding:50px;}

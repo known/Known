@@ -95,6 +95,8 @@ public class AttachFile
 
     internal AttachFile(UploadInfo info, UserInfo user) : this(new ByteAttachFile(info?.Name, info?.Data), user) { }
 
+    public static long MaxLength { get; set; } = 1024 * 1024 * 50;
+
     internal UserInfo User { get; }
     internal bool IsWeb { get; set; }
     public long Size { get; }

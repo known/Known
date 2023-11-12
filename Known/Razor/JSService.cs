@@ -75,6 +75,29 @@ public class JSService
 
     public void Print(string content) => InvokeVoidAsync("KRazor.printContent", content);
     #endregion
+
+    #region Download
+    public void DownloadFile(string fileName, string url) => InvokeVoidAsync("KRazor.downloadFileByUrl", fileName, url);
+
+    public async void DownloadFile(string fileName, Stream stream)
+    {
+        var module = await moduleTask.Value;
+        using var streamRef = new DotNetStreamReference(stream);
+        await module.InvokeVoidAsync("KRazor.downloadFileByStream", fileName, streamRef);
+    }
+    #endregion
+
+    #region Pdf
+    public async void ShowPdf(string id, Stream stream)
+    {
+        if (stream == null)
+            return;
+
+        var module = await moduleTask.Value;
+        using var streamRef = new DotNetStreamReference(stream);
+        await module.InvokeVoidAsync("KRazor.showPdf", id, streamRef);
+    }
+    #endregion
 }
 
 class ComJSRuntime : IJSRuntime

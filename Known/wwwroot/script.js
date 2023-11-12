@@ -1,4 +1,6 @@
-﻿export class KRazor {
+﻿import "./libs/pdfobject.js";
+
+export class KRazor {
     //Storage
     static getLocalStorage(key) {
         return localStorage.getItem(key);
@@ -47,5 +49,31 @@
         doc.write(content);
         doc.close();
         iframe.contentWindow.print();
+    }
+    //Download
+    static async downloadFileByUrl(fileName, url) {
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        if (fileName) {
+            anchor.download = fileName;
+        }
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+    }
+    static async downloadFileByStream(fileName, stream) {
+        const buffer = await stream.arrayBuffer();
+        const blob = new Blob([buffer]);
+        const url = URL.createObjectURL(blob);
+        KRazor.downloadFileByUrl(fileName, url);
+        URL.revokeObjectURL(url);
+    }
+    //Pdf
+    static async showPdf(id, stream) {
+        const buffer = await stream.arrayBuffer();
+        const blob = new Blob([buffer], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        PDFObject.embed(url, '#' + id, { forceIframe: true });
+        URL.revokeObjectURL(url);
     }
 }

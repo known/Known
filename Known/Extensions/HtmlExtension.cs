@@ -5,18 +5,19 @@ namespace Known.Extensions;
 
 public static class HtmlExtension
 {
-    public static void Div(this RenderTreeBuilder builder, string className, string text)
+    public static void Div(this RenderTreeBuilder builder, Action child) => builder.Div("", child);
+    public static void Div(this RenderTreeBuilder builder, string className, string text) => builder.Div(className, () => builder.AddContent(2, text));
+    public static void Div(this RenderTreeBuilder builder, string className, Action child)
     {
-        if (string.IsNullOrWhiteSpace(text))
-            return;
-
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", className);
-        builder.AddContent(2, text);
+        if (!string.IsNullOrEmpty(className))
+            builder.AddAttribute(1, "class", className);
+        child?.Invoke();
         builder.CloseElement();
     }
 
-    public static void Span(this RenderTreeBuilder builder, string text, string className = null)
+    public static void Span(this RenderTreeBuilder builder, string text) => builder.Span("", text);
+    public static void Span(this RenderTreeBuilder builder, string className, string text)
     {
         if (string.IsNullOrWhiteSpace(text))
             return;

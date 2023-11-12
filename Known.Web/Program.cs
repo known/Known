@@ -1,4 +1,5 @@
 using Known;
+using Known.Cells;
 using Known.Web;
 using Known.Web.Pages;
 using KnownAntDesign;
@@ -9,6 +10,7 @@ builder.InitApp();
 builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 builder.Services.AddKnown();
+builder.Services.AddKnownCells();
 builder.Services.AddAntDesign();
 builder.Services.AddKAntDesign();
 

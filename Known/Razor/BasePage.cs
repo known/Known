@@ -66,6 +66,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         if (!string.IsNullOrWhiteSpace(param))
             id += $"_{param}";
         var info = await Platform.File.GetImportAsync(id);
+        info.Name = Name;
         Table.ImportForm(info);
     }
 

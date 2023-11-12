@@ -44,16 +44,14 @@ public class UploadInfo
 
 public class UploadFormInfo
 {
-    public UploadFormInfo() { }
-
-    public UploadFormInfo(string model)
+    public UploadFormInfo(ImportFormInfo model)
     {
-        Model = Utils.ToDynamic(model);
-        Files = new Dictionary<string, List<IAttachFile>>();
+        Model = model;
+        Files = [];
     }
 
-    public dynamic Model { get; set; }
-    public Dictionary<string, List<IAttachFile>> Files { get; set; }
+    public ImportFormInfo Model { get; }
+    public Dictionary<string, List<IAttachFile>> Files { get; }
 }
 
 public class FileFormInfo
@@ -68,6 +66,7 @@ public class FileFormInfo
 
 public class ImportFormInfo : FileFormInfo
 {
+    public string Name { get; set; }
     public string Type { get; set; }
     public bool IsAsync { get; set; }
     public bool IsFinished { get; set; } = true;
