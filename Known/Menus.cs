@@ -48,7 +48,7 @@ public class ActionInfo
         Id = idOrName;
         Name = idOrName;
 
-        var infos = Cache.Get<List<ActionInfo>>(Key);
+        var infos = Actions;
         var info = infos?.FirstOrDefault(a => a.Id == idOrName || a.Name == idOrName);
         if (info != null)
         {
@@ -68,6 +68,8 @@ public class ActionInfo
     public List<ActionInfo> Children { get; }
 
     //public bool Is(ActionInfo info) => Id == info.Id;
+
+    internal static List<ActionInfo> Actions => Cache.Get<List<ActionInfo>>(Key);
 
     internal static void Load()
     {

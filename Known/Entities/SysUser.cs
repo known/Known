@@ -5,6 +5,11 @@
 /// </summary>
 public class SysUser : EntityBase
 {
+    public SysUser()
+    {
+        Enabled = true;
+    }
+
     /// <summary>
     /// 取得或设置组织编码。
     /// </summary>

@@ -5,6 +5,11 @@
 /// </summary>
 public class SysDictionary : EntityBase
 {
+    public SysDictionary()
+    {
+        Enabled = true;
+    }
+
     /// <summary>
     /// 取得或设置类别。
     /// </summary>

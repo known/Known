@@ -32,7 +32,7 @@ class SysDictionaryList : BasePage<SysDictionary>
         return result;
     }
 
-    public void New() => Table.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1, Enabled = true });
+    public void New() => Table.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
     public void Edit(SysDictionary row) => Table.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
     public void Delete(SysDictionary row) => Table.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
     public void DeleteM() => Table.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);

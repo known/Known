@@ -5,6 +5,11 @@
 /// </summary>
 public class SysModule : EntityBase
 {
+    public SysModule()
+    {
+        Enabled = true;
+    }
+
     /// <summary>
     /// 取得或设置上级。
     /// </summary>

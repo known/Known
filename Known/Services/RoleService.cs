@@ -30,9 +30,11 @@ class RoleService : BaseService
     public async Task<SysRole> GetRoleAsync(string roleId)
     {
         var info = await Database.QueryByIdAsync<SysRole>(roleId);
+        info ??= new SysRole();
         var modules = await ModuleRepository.GetModulesAsync(Database);
-        info.Menus = modules.ToMenus();
-        info.MenuIds = await RoleRepository.GetRoleModuleIdsAsync(Database, roleId);
+        info.Menus = modules?.ToMenuItems();
+        var menuIds = await RoleRepository.GetRoleModuleIdsAsync(Database, roleId);
+        info.MenuIds = menuIds?.ToArray() ?? [];
         return info;
     }
 
@@ -49,7 +51,7 @@ class RoleService : BaseService
         {
             await db.SaveAsync(model);
             await RoleRepository.DeleteRoleModulesAsync(db, model.Id);
-            if (model.MenuIds != null && model.MenuIds.Count > 0)
+            if (model.MenuIds != null && model.MenuIds.Length > 0)
             {
                 foreach (var item in model.MenuIds)
                 {

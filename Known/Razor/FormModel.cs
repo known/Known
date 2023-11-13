@@ -15,6 +15,7 @@ public class FormModel<TItem> where TItem : class, new()
     public IEnumerable<FieldModel<TItem>> Fields { get; }
     public bool IsView { get; set; }
     public string Title { get; set; }
+    public double? Width { get; set; }
     public TItem Data { get; set; }
     public Type Type { get; set; }
     public Func<bool> OnValidate { get; set; }

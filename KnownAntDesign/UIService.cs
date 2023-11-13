@@ -148,6 +148,8 @@ class UIService : IUIService
             option.Content = b => b.Component(model.Type, parameters);
         }
 
+        if (model.Width != null)
+            option.Width = model.Width.Value;
         if (model.IsView)
             option.Footer = null;
 

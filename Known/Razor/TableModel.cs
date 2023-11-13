@@ -44,6 +44,7 @@ public class TableModel<TItem> where TItem : class, new()
     public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }
     public Func<Task> OnRefresh { get; set; }
+    public double? FormWidth { get; set; }
     public Func<TItem, string> FormTitle { get; set; }
 
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
@@ -77,6 +78,7 @@ public class TableModel<TItem> where TItem : class, new()
         {
             IsView = true,
             Title = $"查看{title}",
+            Width = FormWidth,
             Data = row
         });
     }
@@ -90,6 +92,7 @@ public class TableModel<TItem> where TItem : class, new()
         UI.ShowForm<TItem>(new FormModel<TItem>(this, allColumns)
         {
             Title = $"{action}{title}",
+            Width = FormWidth,
             Data = row,
             OnSave = onSave
         });

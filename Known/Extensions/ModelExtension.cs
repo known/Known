@@ -36,15 +36,16 @@ public static class ModelExtension
         }
     }
 
-    //internal static List<CodeInfo> GetButtonCodes(this MenuInfo menu)
-    //{
-    //    var items = new List<CodeInfo>();
-    //    if (menu.Buttons != null && menu.Buttons.Count > 0)
-    //        items.AddRange(menu.Buttons.Select(b => GetButton(menu, b, ToolButton.Buttons)));
-    //    if (menu.Actions != null && menu.Actions.Count > 0)
-    //        items.AddRange(menu.Actions.Select(b => GetButton(menu, b, GridAction.Actions)));
-    //    return items;
-    //}
+    public static List<CodeInfo> GetActionCodes(this MenuInfo menu)
+    {
+        var actions = ActionInfo.Actions;
+        var items = new List<CodeInfo>();
+        if (menu.Buttons != null && menu.Buttons.Count > 0)
+            items.AddRange(menu.Buttons.Select(b => GetButton(menu, b, actions)));
+        if (menu.Actions != null && menu.Actions.Count > 0)
+            items.AddRange(menu.Actions.Select(b => GetButton(menu, b, actions)));
+        return items;
+    }
 
     private static CodeInfo GetButton(MenuInfo menu, string id, List<ActionInfo> buttons)
     {
@@ -54,7 +55,7 @@ public static class ModelExtension
         return new CodeInfo(code, name);
     }
 
-    internal static List<CodeInfo> GetColumnCodes(this MenuInfo menu)
+    public static List<CodeInfo> GetColumnCodes(this MenuInfo menu)
     {
         var items = new List<CodeInfo>();
         if (menu.Columns != null && menu.Columns.Count > 0)

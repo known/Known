@@ -4,6 +4,12 @@ namespace Known.Razor;
 
 class SysRoleList : BasePage<SysRole>
 {
+    protected override async Task OnInitPageAsync()
+    {
+        await base.OnInitPageAsync();
+        Table.FormWidth = 1000;
+    }
+
     protected override Task<PagingResult<SysRole>> OnQueryAsync(PagingCriteria criteria)
     {
         return Platform.Role.QueryRolesAsync(criteria);
@@ -17,5 +23,9 @@ class SysRoleList : BasePage<SysRole>
 
 public class SysRoleForm : BaseForm<SysRole>
 {
-
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Model.Data = await Platform.Role.GetRoleAsync(Model.Data.Id);
+    }
 }

@@ -5,6 +5,11 @@
 /// </summary>
 public class SysRole : EntityBase
 {
+    public SysRole()
+    {
+        Enabled = true;
+    }
+
     /// <summary>
     /// 取得或设置名称。
     /// </summary>
@@ -23,6 +28,6 @@ public class SysRole : EntityBase
     [Column("备注", "", false, "1", "500", IsGrid = true, IsForm = true)]
     public string Note { get; set; }
 
-    public virtual List<MenuInfo> Menus { get; set; }
-    public virtual List<string> MenuIds { get; set; }
+    public virtual List<MenuItem> Menus { get; set; }
+    public virtual string[] MenuIds { get; set; }
 }

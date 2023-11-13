@@ -1,7 +1,93 @@
 ﻿@inherits Known.Razor.SysRoleForm
 
-<h3>SysRoleForm</h3>
+<div style="display:flex;">
+    <div style="width:400px;padding-right:20px;">
+        <Form TModel="SysRole" Model="@Model.Data">
+            <FormItem LabelColSpan="4" Label="名称" Required="true">
+                <Input @bind-Value="@context.Name" disabled="@Model.IsView" />
+            </FormItem>
+            <FormItem LabelColSpan="4" Label="状态" Required="true">
+                <Switch @bind-Value="@context.Enabled" disabled="@Model.IsView" />
+            </FormItem>
+            <FormItem LabelColSpan="4" Label="备注">
+                <TextArea @bind-Value="@context.Note" disabled="@Model.IsView" />
+            </FormItem>
+        </Form>
+    </div>
+    <div style="width:260px;">
+        <div>模块</div>
+        <Tree TItem="Known.MenuItem" ShowIcon Checkable Disabled="Model.IsView"
+              DataSource="Model.Data.Menus" OnClick="OnTreeClick"
+              DefaultCheckedKeys="Model.Data.MenuIds"
+              DisabledExpression="x => !x.DataItem.Enabled"
+              TitleExpression="x => x.DataItem.Name"
+              ChildrenExpression="x => x.DataItem.Children"
+              IconExpression="x => x.DataItem.Icon"
+              IsLeafExpression="x => x.DataItem.Children?.Count == 0"
+              KeyExpression="x => x.DataItem.Id" />
+    </div>
+    <div style="background-color:#f5f5f5;width:160px;">
+        <div>
+            <span>按钮</span>
+            <Checkbox Disabled="Model.IsView" Indeterminate="@indeterminateButton" Checked="@checkAllButton" CheckedChanged="ButtonAllChanged" />
+        </div>
+         <CheckboxGroup Disabled="Model.IsView" Options="@ckeckAllButtons" ValueChanged="OnButtonChanged" />
+    </div>
+    <div style="background-color:#f1f1f1;width:160px;">
+        <div>
+            <span>栏位</span>
+            <Checkbox Disabled="Model.IsView" Indeterminate="@indeterminateColumn" Checked="@checkAllColumn" CheckedChanged="ColumnAllChanged" />
+        </div>
+        <CheckboxGroup Disabled="Model.IsView" Options="@ckeckAllColumns" ValueChanged="OnColumnChanged" />
+    </div>
+</div>
 
-@code {
+ @code {
+    private void OnTreeClick(TreeEventArgs<Known.MenuItem> e)
+    {
+        var item = e.Node.DataItem;
+        ckeckAllButtons = item.GetActionCodes().Select(a => new CheckboxOption
+        {
+            Label = a.Name,
+            Value = a.Code,
+            Checked = Model.Data.MenuIds.Contains(a.Code),
+            Disabled = Model.IsView
+        }).ToArray();
 
+        ckeckAllColumns = item.GetColumnCodes().Select(a => new CheckboxOption
+        {
+            Label = a.Name,
+            Value = a.Code,
+            Checked = Model.Data.MenuIds.Contains(a.Code),
+            Disabled = Model.IsView
+        }).ToArray();
+    }
+
+    private CheckboxOption[] ckeckAllButtons = [];
+    private bool indeterminateButton => ckeckAllButtons.Count(o => o.Checked) > 0 && ckeckAllButtons.Count(o => o.Checked) < ckeckAllButtons.Count();
+    private bool checkAllButton => ckeckAllButtons.All(o => o.Checked);
+    private void ButtonAllChanged()
+    {
+        bool allChecked = checkAllButton;
+        ckeckAllButtons.ForEach(o => o.Checked = !allChecked);
+    }
+
+    private void OnButtonChanged(string[] items)
+    {
+
+    }
+
+    private CheckboxOption[] ckeckAllColumns = [];
+    private bool indeterminateColumn => ckeckAllColumns.Count(o => o.Checked) > 0 && ckeckAllColumns.Count(o => o.Checked) < ckeckAllColumns.Count();
+    private bool checkAllColumn => ckeckAllColumns.All(o => o.Checked);
+    private void ColumnAllChanged()
+    {
+        bool allChecked = checkAllColumn;
+        ckeckAllColumns.ForEach(o => o.Checked = !allChecked);
+    }
+
+    private void OnColumnChanged(string[] items)
+    {
+        
+    }
 }
