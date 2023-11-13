@@ -1,9 +1,16 @@
 ﻿using Known.Entities;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Razor;
 
 class SysUserList : BasePage<SysUser>
 {
+    protected override async Task OnInitPageAsync()
+    {
+        await base.OnInitPageAsync();
+        Table.Column(c => c.Gender).Template(BuildGender);
+    }
+
     protected override Task<PagingResult<SysUser>> OnQueryAsync(PagingCriteria criteria)
     {
         return Platform.User.QueryUsersAsync(criteria);
@@ -17,6 +24,12 @@ class SysUserList : BasePage<SysUser>
     public void ChangeDepartment() => Table.SelectRows(OnChangeDepartment);
     public void Enable() => Table.SelectRows(Platform.User.EnableUsersAsync, "启用");
     public void Disable() => Table.SelectRows(Platform.User.DisableUsersAsync, "禁用");
+
+    private void BuildGender(RenderTreeBuilder builder, SysUser row)
+    {
+        var color = row.Gender == "男" ? "#108ee9" : "hotpink";
+        UI.BuildTag(builder, row.Gender, color);
+    }
 
     private void OnChangeDepartment(List<SysUser> rows)
     {
@@ -38,4 +51,9 @@ class SysUserList : BasePage<SysUser>
         //    });
         //});
     }
+}
+
+public class SysUserForm : BaseForm<SysUser>
+{
+
 }

@@ -21,13 +21,6 @@ public class PwdFormInfo
     [Required] public string NewPwd1 { get; set; }
 }
 
-public class RoleFormInfo
-{
-    public dynamic Model { get; set; }
-    public List<MenuInfo> Menus { get; set; }
-    public List<string> MenuIds { get; set; }
-}
-
 public class SettingFormInfo
 {
     public string Type { get; set; }

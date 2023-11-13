@@ -1,5 +1,10 @@
-﻿namespace Known.Razor;
+﻿using Microsoft.AspNetCore.Components;
 
-public class BaseForm : BaseComponent
+namespace Known.Razor;
+
+public class BaseForm : BaseComponent { }
+
+public class BaseForm<TItem> : BaseForm where TItem : class, new()
 {
+    [Parameter] public FormModel<TItem> Model { get; set; }
 }

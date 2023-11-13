@@ -19,7 +19,7 @@ public class EntityBase
 
     public virtual bool IsNew { get; internal set; }
 
-    [Column("ID", "", false, "1", "50", IsForm = true)]
+    [Column("ID", "", false, "1", "50")]
     public string Id { get; set; }
 
     [Column(Language.CreateBy, "", true, "1", "50", IsGrid = true)]

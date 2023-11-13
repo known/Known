@@ -136,9 +136,17 @@ class UIService : IUIService
         };
 
         if (model.Type == null)
+        {
             option.Content = b => b.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
+        }
         else
-            option.Content = b => b.Component(model.Type, model.Parameters);
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { nameof(BaseForm<TItem>.Model), model }
+            };
+            option.Content = b => b.Component(model.Type, parameters);
+        }
 
         if (model.IsView)
             option.Footer = null;

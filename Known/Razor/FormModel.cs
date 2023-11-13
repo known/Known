@@ -8,6 +8,7 @@ public class FormModel<TItem> where TItem : class, new()
     {
         Table = table;
         Fields = columns.Where(c => c.IsForm).Select(c => new FieldModel<TItem>(table.UI, this, c));
+        Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
     }
 
     public TableModel<TItem> Table { get; }
@@ -16,7 +17,6 @@ public class FormModel<TItem> where TItem : class, new()
     public string Title { get; set; }
     public TItem Data { get; set; }
     public Type Type { get; set; }
-    public Dictionary<string, object> Parameters { get; set; }
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }
     public Func<TItem, Task<Result>> OnSave { get; set; }

@@ -49,7 +49,7 @@ public class AdminPage : BaseComponent
 
     private void OnNavigate(MenuItem item)
     {
-        item.ComType = Config.PageTypes.GetValue(item.Code);
+        item.ComType = Config.PageTypes.GetValueOrDefault(item.Code);
         if (item.ComType == null)
             item.ComType = typeof(BasePage);
         item.ComParameters = new Dictionary<string, object> { [nameof(BasePage.PageId)] = item.Id };

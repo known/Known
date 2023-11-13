@@ -90,7 +90,7 @@ public sealed class Config
 
     internal static MenuItem GetHomeMenu()
     {
-        return new("首页", "home", PageTypes.GetValue("Home"));
+        return new("首页", "home", PageTypes.GetValueOrDefault("Home"));
     }
 }
 

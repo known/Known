@@ -8,13 +8,14 @@ namespace Known.Razor;
 
 public class TableModel<TItem> where TItem : class, new()
 {
+    private readonly List<ColumnAttribute> allColumns;
+
     internal TableModel(IUIService ui, List<ColumnInfo> columns, List<ActionInfo> actions)
     {
+        allColumns = TypeHelper.GetColumnAttributes(typeof(TItem));
         UI = ui;
         Actions = actions;
-        Columns = TypeHelper.GetColumnAttributes(typeof(TItem))
-                            .Where(c => HasColumn(columns, c.Property.Name))
-                            .ToList();
+        Columns = allColumns.Where(c => HasColumn(columns, c.Property.Name)).ToList();
 
         if (Columns != null && Columns.Count > 0)
         {
@@ -30,8 +31,8 @@ public class TableModel<TItem> where TItem : class, new()
     }
 
     internal IUIService UI { get; }
+    public string Name { get; set; }
     public bool ShowCheckBox { get; set; }
-    public string PageName { get; set; }
     public List<ColumnAttribute> Columns { get; }
     public List<ColumnAttribute> QueryColumns { get; } = [];
     public Dictionary<string, QueryInfo> QueryData { get; } = [];
@@ -72,7 +73,7 @@ public class TableModel<TItem> where TItem : class, new()
     public void ViewForm(TItem row)
     {
         var title = GetFormTitle(row);
-        UI.ShowForm<TItem>(new FormModel<TItem>(this, Columns)
+        UI.ShowForm<TItem>(new FormModel<TItem>(this, allColumns)
         {
             IsView = true,
             Title = $"查看{title}",
@@ -86,7 +87,7 @@ public class TableModel<TItem> where TItem : class, new()
     private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
     {
         var title = GetFormTitle(row);
-        UI.ShowForm<TItem>(new FormModel<TItem>(this, Columns)
+        UI.ShowForm<TItem>(new FormModel<TItem>(this, allColumns)
         {
             Title = $"{action}{title}",
             Data = row,
@@ -96,7 +97,7 @@ public class TableModel<TItem> where TItem : class, new()
 
     public void ImportForm(ImportFormInfo info)
     {
-        var option = new ModalOption { Title = $"导入{PageName}" };
+        var option = new ModalOption { Title = $"导入{Name}" };
         option.Content = builder =>
         {
             builder.Component<Importer>()
@@ -208,7 +209,7 @@ public class TableModel<TItem> where TItem : class, new()
 
     private string GetFormTitle(TItem row)
     {
-        var title = PageName;
+        var title = Name;
         if (FormTitle != null)
             title = FormTitle.Invoke(row);
         return title;

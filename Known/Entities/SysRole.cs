@@ -22,4 +22,7 @@ public class SysRole : EntityBase
     /// </summary>
     [Column("备注", "", false, "1", "500", IsGrid = true, IsForm = true)]
     public string Note { get; set; }
+
+    public virtual List<MenuInfo> Menus { get; set; }
+    public virtual List<string> MenuIds { get; set; }
 }

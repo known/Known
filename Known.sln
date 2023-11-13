@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Web", "Known.Web\Know
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSite", "WebSite\WebSite.csproj", "{4040C3A0-1731-42A2-BAC9-2AAE815700A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnownAntDesign", "KnownAntDesign\KnownAntDesign.csproj", "{69EB6A63-AAD1-411E-8473-DF7BE4A23737}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KnownAntDesign", "KnownAntDesign\KnownAntDesign.csproj", "{69EB6A63-AAD1-411E-8473-DF7BE4A23737}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

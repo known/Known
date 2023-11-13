@@ -27,35 +27,35 @@ class RoleService : BaseService
         });
     }
 
-    public async Task<RoleFormInfo> GetRoleAsync(string roleId)
+    public async Task<SysRole> GetRoleAsync(string roleId)
     {
-        var info = new RoleFormInfo();
+        var info = await Database.QueryByIdAsync<SysRole>(roleId);
         var modules = await ModuleRepository.GetModulesAsync(Database);
         info.Menus = modules.ToMenus();
         info.MenuIds = await RoleRepository.GetRoleModuleIdsAsync(Database, roleId);
         return info;
     }
 
-    public async Task<Result> SaveRoleAsync(RoleFormInfo info)
+    public async Task<Result> SaveRoleAsync(SysRole model)
     {
-        var entity = await Database.QueryByIdAsync<SysRole>((string)info.Model.Id);
-        entity ??= new SysRole();
-        entity.FillModel(info.Model);
-        var vr = entity.Validate();
+        //var entity = await Database.QueryByIdAsync<SysRole>((string)info.Model.Id);
+        //entity ??= new SysRole();
+        //entity.FillModel(info.Model);
+        var vr = model.Validate();
         if (!vr.IsValid)
             return vr;
 
         return await Database.TransactionAsync(Language.Save, async db =>
         {
-            await db.SaveAsync(entity);
-            await RoleRepository.DeleteRoleModulesAsync(db, entity.Id);
-            if (info.MenuIds != null && info.MenuIds.Count > 0)
+            await db.SaveAsync(model);
+            await RoleRepository.DeleteRoleModulesAsync(db, model.Id);
+            if (model.MenuIds != null && model.MenuIds.Count > 0)
             {
-                foreach (var item in info.MenuIds)
+                foreach (var item in model.MenuIds)
                 {
-                    await RoleRepository.AddRoleModuleAsync(db, entity.Id, item);
+                    await RoleRepository.AddRoleModuleAsync(db, model.Id, item);
                 }
             }
-        }, entity.Id);
+        }, model.Id);
     }
 }

@@ -37,7 +37,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         InitMenu();
         Table = new TableModel<TItem>(UI, Columns, Actions)
         {
-            PageName = Name,
+            Name = Name,
             ShowCheckBox = Tools != null && Tools.Count > 0,
             Templates = [],
             OnQuery = OnQueryAsync,
