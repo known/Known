@@ -1,8 +1,73 @@
 ﻿@inherits Known.Razor.SysUserForm
 
-<h3>SysUserForm</h3>
-<p>@Model.Data.Name</p>
+<Form @ref="_form" Model="@Model.Data" Style="margin-right:60px;padding-bottom:20px;">
+    <GridRow>
+        <GridCol Span="12">
+            <FormItem LabelColSpan="8">
+                <Input @bind-Value="@context.UserName" Disabled="@Model.IsView" />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="12">
+            <FormItem LabelColSpan="8">
+                <Input @bind-Value="@context.Name" Disabled="@Model.IsView" />
+            </FormItem>
+        </GridCol>
+    </GridRow>
+    <GridRow>
+        <GridCol Span="12">
+            <FormItem LabelColSpan="8">
+                <Input @bind-Value="@context.EnglishName" Disabled="@Model.IsView" />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="12">
+            <FormItem LabelColSpan="8">
+                <RadioGroup @bind-Value="@context.Gender" Disabled="@Model.IsView">
+                    <Radio Value="@("男")">男</Radio>
+                    <Radio Value="@("女")">女</Radio>
+                </RadioGroup>
+            </FormItem>
+        </GridCol>
+    </GridRow>
+    <GridRow>
+        <GridCol Span="12">
+            <FormItem LabelColSpan="8">
+                <Input @bind-Value="@context.Phone" Disabled="@Model.IsView" />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="12">
+            <FormItem LabelColSpan="8">
+                <Input @bind-Value="@context.Mobile" Disabled="@Model.IsView" />
+            </FormItem>
+        </GridCol>
+    </GridRow>
+    <GridRow>
+        <GridCol Span="12">
+            <FormItem LabelColSpan="8">
+                <Input @bind-Value="@context.Email" Disabled="@Model.IsView" />
+            </FormItem>
+        </GridCol>
+        <GridCol Span="12">
+            <FormItem LabelColSpan="8">
+                <Switch @bind-Value="@context.Enabled" Disabled="@Model.IsView" />
+            </FormItem>
+        </GridCol>
+    </GridRow>
+    <GridRow>
+        <GridCol Span="24">
+            <FormItem LabelColSpan="4">
+                <CheckboxGroup @bind-Value="@context.Roles" Disabled="@Model.IsView" />
+            </FormItem>
+        </GridCol>
+    </GridRow>
+</Form>
 
 @code {
+    AntDesign.Internal.IForm _form;
 
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            Model.OnValidate = _form.Validate;
+        base.OnAfterRender(firstRender);
+    }
 }

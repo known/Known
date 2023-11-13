@@ -21,7 +21,7 @@ class UIService : IUIService
     public Type GetInputType(ColumnAttribute column)
     {
         var type = column.Property.PropertyType;
-        int.TryParse(column.MaxLength, out int maxLength);
+        var maxLength = column.Property.MaxLength();
 
         if (type == typeof(bool))
             return typeof(Switch);

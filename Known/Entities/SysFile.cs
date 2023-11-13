@@ -1,4 +1,7 @@
-﻿namespace Known.Entities;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace Known.Entities;
 
 /// <summary>
 /// 系统文件实体类。
@@ -8,67 +11,93 @@ public class SysFile : EntityBase
     /// <summary>
     /// 取得或设置一级分类。
     /// </summary>
-    [Column("一级分类", "", true, "1", "50", IsGrid = true, IsQuery = true)]
+    [Column(IsGrid = true, IsQuery = true)]
+    [DisplayName("一级分类")]
+    [Required(ErrorMessage = "一级分类不能为空！")]
+    [MinLength(1), MaxLength(50)]
     public string Category1 { get; set; }
 
     /// <summary>
     /// 取得或设置二级分类。
     /// </summary>
-    [Column("二级分类", "", false, "1", "50", IsGrid = true)]
+    [Column(IsGrid = true)]
+    [DisplayName("二级分类")]
+    [MinLength(1), MaxLength(50)]
     public string Category2 { get; set; }
 
     /// <summary>
     /// 取得或设置文件名称。
     /// </summary>
-    [Column("文件名称", "", true, "1", "250", IsGrid = true, IsQuery = true)]
+    [Column(IsGrid = true, IsQuery = true)]
+    [DisplayName("文件名称")]
+    [Required(ErrorMessage = "文件名称不能为空！")]
+    [MinLength(1), MaxLength(250)]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置文件类型。
     /// </summary>
-    [Column("文件类型", "", false, "1", "50", IsGrid = true)]
+    [Column(IsGrid = true)]
+    [DisplayName("文件类型")]
+    [MinLength(1), MaxLength(50)]
     public string Type { get; set; }
 
     /// <summary>
     /// 取得或设置文件路径。
     /// </summary>
-    [Column("文件路径", "", true, "1", "500")]
+    [Column]
+    [DisplayName("文件路径")]
+    [MinLength(1), MaxLength(500)]
     public string Path { get; set; }
 
     /// <summary>
     /// 取得或设置文件大小。
     /// </summary>
-    [Column("文件大小", "", true, IsGrid = true)]
+    [Column(IsGrid = true)]
+    [DisplayName("文件大小")]
+    [Required(ErrorMessage = "文件大小不能为空！")]
     public long Size { get; set; }
 
     /// <summary>
     /// 取得或设置原文件名。
     /// </summary>
-    [Column("原文件名", "", true, "1", "250", IsGrid = true)]
+    [Column(IsGrid = true)]
+    [DisplayName("原文件名")]
+    [Required(ErrorMessage = "原文件名不能为空！")]
+    [MinLength(1), MaxLength(250)]
     public string SourceName { get; set; }
 
     /// <summary>
     /// 取得或设置扩展名。
     /// </summary>
-    [Column("扩展名", "", true, "1", "50", IsGrid = true)]
+    [Column(IsGrid = true)]
+    [DisplayName("扩展名")]
+    [Required(ErrorMessage = "扩展名不能为空！")]
+    [MinLength(1), MaxLength(50)]
     public string ExtName { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column("备注", "", false, "1", "500", IsGrid = true)]
+    [Column(IsGrid = true)]
+    [DisplayName("备注")]
+    [MinLength(1), MaxLength(500)]
     public string Note { get; set; }
 
     /// <summary>
     /// 取得或设置业务ID。
     /// </summary>
-    [Column("业务ID", "", false, "1", "50")]
+    [Column]
+    [DisplayName("业务ID")]
+    [MinLength(1), MaxLength(50)]
     public string BizId { get; set; }
 
     /// <summary>
     /// 取得或设置文件缩略图路径。
     /// </summary>
-    [Column("文件缩略图路径", "", false, "1", "500")]
+    [Column]
+    [DisplayName("文件缩略图路径")]
+    [MinLength(1), MaxLength(500)]
     public string ThumbPath { get; set; }
 
     public virtual bool IsWeb => Category1 == "WWW";

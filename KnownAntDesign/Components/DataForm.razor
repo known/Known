@@ -6,9 +6,11 @@
         foreach (var field in Model.Fields)
         {
             var column = field.Column;
+            var label = column.Property.DisplayName();
+            var required = column.Property.IsRequired();
             <GridRow>
                 <GridCol Span="24">
-                    <FormItem LabelColSpan="4" Label="@column.Description" Required="@column.Required">
+                    <FormItem LabelColSpan="4" Label="@label" Required="@required">
                         @field.InputTemplate
                     </FormItem>
                 </GridCol>
@@ -24,7 +26,6 @@
 
     protected override void OnAfterRender(bool firstRender)
     {
-        //TODO：表单验证
         if (firstRender)
             Model.OnValidate = _form.Validate;
         base.OnAfterRender(firstRender);

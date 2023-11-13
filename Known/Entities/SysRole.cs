@@ -1,4 +1,7 @@
-﻿namespace Known.Entities;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace Known.Entities;
 
 /// <summary>
 /// 系统角色实体类。
@@ -13,19 +16,26 @@ public class SysRole : EntityBase
     /// <summary>
     /// 取得或设置名称。
     /// </summary>
-    [Column("名称", "", true, "1", "50", IsGrid = true, IsQuery = true, IsForm = true, IsViewLink = true)]
+    [Column(IsGrid = true, IsQuery = true, IsForm = true, IsViewLink = true)]
+    [DisplayName("名称")]
+    [Required(ErrorMessage = "名称不能为空！")]
+    [MinLength(1), MaxLength(50)]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置状态。
     /// </summary>
-    [Column("状态", "", true, IsGrid = true, IsForm = true)]
+    [Column(IsGrid = true, IsForm = true)]
+    [DisplayName("状态")]
+    [Required(ErrorMessage = "状态不能为空！")]
     public bool Enabled { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column("备注", "", false, "1", "500", IsGrid = true, IsForm = true)]
+    [Column(IsGrid = true, IsForm = true)]
+    [DisplayName("备注")]
+    [MinLength(1), MaxLength(500)]
     public string Note { get; set; }
 
     public virtual List<MenuItem> Menus { get; set; }

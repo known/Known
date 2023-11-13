@@ -8,11 +8,11 @@
 			<div style="padding:10px;">
 				<Tree TItem="Known.MenuItem" ShowIcon
 					DataSource="Model.Tree.Data" OnClick="OnTreeClick"
+					KeyExpression="x => x.DataItem.Id"
 					TitleExpression="x => x.DataItem.Name"
-					ChildrenExpression="x => x.DataItem.Children"
 					IconExpression="x => x.DataItem.Icon"
-					IsLeafExpression="x => x.DataItem.Children?.Count == 0"
-					KeyExpression="x => x.DataItem.Id" />
+					ChildrenExpression="x => x.DataItem.Children"
+					IsLeafExpression="x => x.DataItem.Children?.Count == 0" />
 			</div>
 		</GridCol>
 		<GridCol Span="20">

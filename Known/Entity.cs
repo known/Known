@@ -1,4 +1,6 @@
-﻿using System.Dynamic;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 
 namespace Known;
 
@@ -19,31 +21,50 @@ public class EntityBase
 
     public virtual bool IsNew { get; internal set; }
 
-    [Column("ID", "", false, "1", "50")]
+    [Column]
+    [DisplayName("ID")]
+    [MinLength(1), MaxLength(50)]
     public string Id { get; set; }
 
-    [Column(Language.CreateBy, "", true, "1", "50", IsGrid = true)]
+    [Column(IsGrid = true)]
+    [DisplayName(Language.CreateBy)]
+    [Required(ErrorMessage = $"{Language.CreateBy}不能为空！")]
+    [MinLength(1), MaxLength(50)]
     public string CreateBy { get; set; }
 
-    [Column(Language.CreateTime, "", true, IsGrid = true)]
+    [Column(IsGrid = true)]
+    [DisplayName(Language.CreateTime)]
+    [Required(ErrorMessage = $"{Language.CreateTime}不能为空！")]
     public DateTime CreateTime { get; set; }
 
-    [Column(Language.ModifyBy, "", false, "1", "50", IsGrid = true)]
+    [Column(IsGrid = true)]
+    [DisplayName(Language.ModifyBy)]
+    [MinLength(1), MaxLength(50)]
     public string ModifyBy { get; set; }
 
-    [Column(Language.ModifyTime, "", false, IsGrid = true)]
+    [Column(IsGrid = true)]
+    [DisplayName(Language.ModifyTime)]
     public DateTime? ModifyTime { get; set; }
 
-    [Column(Language.Version, "", true)]
+    [Column]
+    [DisplayName(Language.Version)]
+    [Required(ErrorMessage = $"{Language.Version}不能为空！")]
     public int Version { get; set; }
 
-    [Column("Extension")]
+    [Column]
+    [DisplayName("Extension")]
     public string Extension { get; set; }
 
-    [Column("AppId", "", true, "1", "50")]
+    [Column]
+    [DisplayName("AppId")]
+    [Required(ErrorMessage = "AppId不能为空！")]
+    [MinLength(1), MaxLength(50)]
     public string AppId { get; set; }
 
-    [Column(Language.CompNo, "", true, "1", "50")]
+    [Column]
+    [DisplayName(Language.CompNo)]
+    [Required(ErrorMessage = $"{Language.CompNo}不能为空！")]
+    [MinLength(1), MaxLength(50)]
     public string CompNo { get; set; }
 
     internal void SetOriginal(Dictionary<string, object> original)
@@ -93,11 +114,12 @@ public class EntityBase
         {
             var attrs = pi.GetCustomAttributes(true);
             var value = pi.GetValue(this, null);
+            var valueString = value == null ? "" : value.ToString().Trim();
             var errors = new List<string>();
             foreach (var item in attrs)
             {
                 if (item is ColumnAttribute column)
-                    column.Validate(value, pi.PropertyType, errors);
+                    column.Validate(value, pi, errors);
                 if (item is RegexAttribute regex)
                     regex.Validate(value, errors);
             }

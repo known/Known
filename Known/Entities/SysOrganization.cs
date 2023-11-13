@@ -1,4 +1,7 @@
-﻿namespace Known.Entities;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace Known.Entities;
 
 /// <summary>
 /// 组织架构实体类。
@@ -8,31 +11,43 @@ public class SysOrganization : EntityBase
     /// <summary>
     /// 取得或设置上级组织。
     /// </summary>
-    [Column("上级组织", "", false, "1", "50")]
+    [Column]
+    [DisplayName("上级组织")]
+    [MinLength(1), MaxLength(50)]
     public string ParentId { get; set; }
 
     /// <summary>
     /// 取得或设置编码。
     /// </summary>
-    [Column("编码", "", true, "1", "50", IsGrid = true, IsForm = true, IsViewLink = true)]
+    [Column(IsGrid = true, IsForm = true, IsViewLink = true)]
+    [DisplayName("编码")]
+    [Required(ErrorMessage = "编码不能为空！")]
+    [MinLength(1), MaxLength(50)]
     public string Code { get; set; }
 
     /// <summary>
     /// 取得或设置名称。
     /// </summary>
-    [Column("名称", "", true, "1", "50", IsGrid = true, IsForm = true)]
+    [Column(IsGrid = true, IsForm = true)]
+    [DisplayName("名称")]
+    [Required(ErrorMessage = "名称不能为空！")]
+    [MinLength(1), MaxLength(50)]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置管理者。
     /// </summary>
-    [Column("管理者", "", false, "1", "50", IsGrid = true)]
+    [Column]
+    [DisplayName("管理者")]
+    [MinLength(1), MaxLength(50)]
     public string ManagerId { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column("备注", "", false, "1", "500", IsGrid = true, IsForm = true)]
+    [Column(IsGrid = true, IsForm = true)]
+    [DisplayName("备注")]
+    [MinLength(1), MaxLength(500)]
     public string Note { get; set; }
 
     [Column("上级组织", IsGrid = true)]

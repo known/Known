@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
 using System.Reflection;
 using Known.Helpers;
@@ -83,6 +84,28 @@ public static class CommonExtension
         foreach (var p in typeof(TRight).GetProperties())
             dict[p.Name] = p.GetValue(right);
         return expando;
+    }
+    #endregion
+
+    #region Property
+    public static bool IsRequired(this PropertyInfo property)
+    {
+        return property?.GetCustomAttribute<RequiredAttribute>() is not null;
+    }
+
+    public static string DisplayName(this PropertyInfo property)
+    {
+        return property?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
+    }
+
+    public static int? MinLength(this PropertyInfo property)
+    {
+        return property?.GetCustomAttribute<MinLengthAttribute>()?.Length;
+    }
+
+    public static int? MaxLength(this PropertyInfo property)
+    {
+        return property?.GetCustomAttribute<MaxLengthAttribute>()?.Length;
     }
     #endregion
 }

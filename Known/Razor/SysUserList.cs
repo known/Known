@@ -8,6 +8,7 @@ class SysUserList : BasePage<SysUser>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Table.FormWidth = 800;
         Table.Column(c => c.Gender).Template(BuildGender);
     }
 

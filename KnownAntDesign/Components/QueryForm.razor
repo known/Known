@@ -12,7 +12,8 @@
                 var item = Model.QueryColumns[i];
                 var property = item.Property;
                 var itemType = property.PropertyType.Name;
-                <FormItem Label="@item.Description">
+                var label = property.DisplayName();
+                <FormItem Label="@label">
                     @if (!string.IsNullOrWhiteSpace(item.CodeType))
                     {
                         var codes = Cache.GetCodes(item.CodeType, item.IsQueryAll);

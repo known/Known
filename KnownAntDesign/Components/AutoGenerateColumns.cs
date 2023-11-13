@@ -34,7 +34,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             //    .Where(x => x.Value != null);
 
             builder.OpenComponent(i++, columnType);
-            builder.AddAttribute(i++, "Title", item.Description);
+            builder.AddAttribute(i++, "Title", property.DisplayName());
             builder.AddAttribute(i++, "DataIndex", property.Name);
             builder.AddAttribute(i++, "Sortable", true);
             //builder.AddAttribute(i++, "Filterable", true);

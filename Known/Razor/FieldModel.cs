@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 
 namespace Known.Razor;
@@ -60,7 +61,7 @@ public class FieldModel<TItem> where TItem : class, new()
                 { "Value", Value },
                 { "ValueExpression", expression.ValueExpression },
                 { "autofocus", true },
-                { "required", Column.Required },
+                { "required", Column.Property.IsRequired() },
                 { "placeholder", Column.Placeholder },
             };
             if (_form.IsView)
