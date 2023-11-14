@@ -54,6 +54,7 @@ public class Database : IDisposable
     public DatabaseType DatabaseType { get; private set; }
     public string ConnectionString { get; private set; }
     public UserInfo User { get; set; }
+    public string UserName => User?.UserName;
     #endregion
 
     #region Static
