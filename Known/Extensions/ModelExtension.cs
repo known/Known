@@ -196,6 +196,7 @@ public static class ModelExtension
 
         foreach (var item in items)
         {
+            item.ParentName = menu.Name;
             var sub = MenuItem.From(item);
             sub.Parent = menu;
             menu.Children.Add(sub);

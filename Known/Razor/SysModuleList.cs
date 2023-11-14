@@ -6,18 +6,29 @@ namespace Known.Razor;
 class SysModuleList : BasePage<SysModule>
 {
     private List<SysModule> datas;
+	private MenuItem parent;
 
-    protected override async Task OnInitPageAsync()
+	protected override async Task OnInitPageAsync()
 	{
         datas = await Platform.Module.GetModulesAsync();
 		await base.OnInitPageAsync();
         Page.Tree = new TreeModel
 		{
-			Data = datas.ToMenuItems()
+			Data = datas.ToMenuItems(),
+			OnNodeClick = OnNodeClick,
+            OnRefresh = OnTreeRefresh
 		};
 	}
 
-    public void New() => Page.NewForm(Platform.Module.SaveModuleAsync, new SysModule());
+	protected override Task<PagingResult<SysModule>> OnQueryAsync(PagingCriteria criteria)
+	{
+        var items = parent == null ? Page.Tree.Data : parent?.Children;
+        var data = items.Select(c => (SysModule)c.Data).ToList();
+		var result = new PagingResult<SysModule> { PageData = data, TotalCount = data?.Count ?? 0 };
+		return Task.FromResult(result);
+	}
+
+	public void New() => Page.NewForm(Platform.Module.SaveModuleAsync, new SysModule());
     public void Edit(SysModule row) => Page.EditForm(Platform.Module.SaveModuleAsync, row);
     public void Delete(SysModule row) => Page.Delete(Platform.Module.DeleteModulesAsync, row);
     public void DeleteM() => Page.DeleteM(Platform.Module.DeleteModulesAsync);
@@ -66,4 +77,16 @@ class SysModuleList : BasePage<SysModule>
         //    });
         //});
     }
+
+	private async void OnNodeClick(MenuItem item)
+	{
+		parent = item;
+		await Page.Table.RefreshAsync();
+	}
+
+	private async Task OnTreeRefresh()
+	{
+		datas = await Platform.Module.GetModulesAsync();
+        Page.Tree.Data = datas.ToMenuItems();
+	}
 }

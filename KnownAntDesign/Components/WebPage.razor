@@ -8,6 +8,7 @@
 			<div style="padding:10px;">
 				<Tree TItem="Known.MenuItem" ShowIcon 
 				    DefaultExpandParent="Model.Tree.ExpandParent"
+				    DefaultSelectedKeys="Model.Tree.SelectedKeys"
 					DataSource="Model.Tree.Data" OnClick="OnTreeClick"
 					KeyExpression="x => x.DataItem.Id"
 					TitleExpression="x => x.DataItem.Name"
@@ -39,14 +40,17 @@ else
 
 	[Parameter] public PageModel<TItem> Model { get; set; }
 
+	protected override void OnInitialized()
+	{
+		Model.StateChanged = StateHasChanged;
+		base.OnInitialized();
+	}
+
 	private Task OnSearchAsync() => table.RefreshAsync();
 
 	private void OnTreeClick(TreeEventArgs<Known.MenuItem> e)
 	{
 		var item = e.Node.DataItem;
-		var children = item.Children;
-		var data = children?.Select(c => (TItem)c.Data).ToList();
-		table.SetData(data);
 		Model.Tree.OnNodeClick?.Invoke(item);
 	}
 }

@@ -71,7 +71,13 @@ public class TableModel<TItem> where TItem : class, new()
         }
     }
 
-    public Task RefreshAsync() => OnRefresh?.Invoke();
+    public Task RefreshAsync()
+    {
+        if (OnRefresh == null)
+            return Task.CompletedTask;
+
+        return OnRefresh.Invoke();
+    }
 
     public void SelectRow(Action<TItem> action)
     {

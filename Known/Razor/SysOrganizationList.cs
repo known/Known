@@ -17,12 +17,26 @@ class SysOrganizationList : BasePage<SysOrganization>
         {
             ExpandParent = true,
             Data = datas.ToMenuItems(),
-            OnNodeClick = n => parent = n
+            OnNodeClick = OnNodeClick,
+            OnRefresh = OnTreeRefresh
         };
         Page.Table.ShowPager = false;
+
+        if (datas != null && datas.Count > 0)
+        {
+            parent = Page.Tree.Data[0];
+            Page.Tree.SelectedKeys = [parent.Id];
+        }
     }
 
-    public void New()
+	protected override Task<PagingResult<SysOrganization>> OnQueryAsync(PagingCriteria criteria)
+	{
+		var data = parent?.Children?.Select(c => (SysOrganization)c.Data).ToList();
+		var result = new PagingResult<SysOrganization> { PageData = data, TotalCount = data?.Count ?? 0 };
+		return Task.FromResult(result);
+	}
+
+	public void New()
     {
         if (parent == null)
         {
@@ -36,4 +50,16 @@ class SysOrganizationList : BasePage<SysOrganization>
     public void Edit(SysOrganization row) => Page.EditForm(Platform.Company.SaveOrganizationAsync, row);
     public void Delete(SysOrganization row) => Page.Delete(Platform.Company.DeleteOrganizationsAsync, row);
     public void DeleteM() => Page.DeleteM(Platform.Company.DeleteOrganizationsAsync);
+
+	private async void OnNodeClick(MenuItem item)
+	{
+		parent = item;
+        await Page.Table.RefreshAsync();
+	}
+
+	private async Task OnTreeRefresh()
+	{
+		datas = await Platform.Company.GetOrganizationsAsync();
+		Page.Tree.Data = datas.ToMenuItems();
+	}
 }

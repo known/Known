@@ -62,12 +62,6 @@
         base.OnInitialized();
     }
 
-    public void SetData(List<TItem> data)
-    {
-        Model.Result = new PagingResult<TItem> { PageData = data, TotalCount = data?.Count ?? 0 };
-        StateHasChanged();
-    }
-
     public async Task RefreshAsync()
     {
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);

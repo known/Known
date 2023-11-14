@@ -20,6 +20,7 @@ public class PageModel<TItem> where TItem : class, new()
     public TableModel<TItem> Table { get; }
     public List<ActionInfo> Tools { get; }
     public Action<ActionInfo> OnToolClick { get; internal set; }
+    public Action StateChanged { get; set; }
     public TreeModel Tree { get; set; }
     
     public double? FormWidth { get; set; }
@@ -31,6 +32,9 @@ public class PageModel<TItem> where TItem : class, new()
             await Tree.RefreshAsync();
         if (Table != null)
             await Table.RefreshAsync();
+
+        if (Tree != null)
+            StateChanged?.Invoke();
     }
 
     public void ViewForm(TItem row)
