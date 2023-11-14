@@ -6,7 +6,7 @@ namespace Known.Razor;
 class SysModuleList : BasePage<SysModule>
 {
     private List<SysModule> datas;
-	private MenuItem parent;
+	private MenuItem current;
 
 	protected override async Task OnInitPageAsync()
 	{
@@ -14,7 +14,7 @@ class SysModuleList : BasePage<SysModule>
 		await base.OnInitPageAsync();
         Page.Tree = new TreeModel
 		{
-			Data = datas.ToMenuItems(),
+			Data = datas.ToMenuItems(ref current),
 			OnNodeClick = OnNodeClick,
             OnRefresh = OnTreeRefresh
 		};
@@ -22,7 +22,7 @@ class SysModuleList : BasePage<SysModule>
 
 	protected override Task<PagingResult<SysModule>> OnQueryAsync(PagingCriteria criteria)
 	{
-        var items = parent == null ? Page.Tree.Data : parent?.Children;
+        var items = current == null ? Page.Tree.Data : current?.Children;
         var data = items.Select(c => (SysModule)c.Data).ToList();
 		var result = new PagingResult<SysModule> { PageData = data, TotalCount = data?.Count ?? 0 };
 		return Task.FromResult(result);
@@ -80,13 +80,13 @@ class SysModuleList : BasePage<SysModule>
 
 	private async void OnNodeClick(MenuItem item)
 	{
-		parent = item;
+		current = item;
 		await Page.Table.RefreshAsync();
 	}
 
 	private async Task OnTreeRefresh()
 	{
 		datas = await Platform.Module.GetModulesAsync();
-        Page.Tree.Data = datas.ToMenuItems();
+        Page.Tree.Data = datas.ToMenuItems(ref current);
 	}
 }

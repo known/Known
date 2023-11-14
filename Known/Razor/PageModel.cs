@@ -29,12 +29,12 @@ public class PageModel<TItem> where TItem : class, new()
     public async Task RefreshAsync()
     {
         if (Tree != null)
+        {
             await Tree.RefreshAsync();
-        if (Table != null)
-            await Table.RefreshAsync();
-
-        if (Tree != null)
             StateChanged?.Invoke();
+        }
+
+        await Table?.RefreshAsync();
     }
 
     public void ViewForm(TItem row)

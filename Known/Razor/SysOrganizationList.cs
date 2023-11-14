@@ -6,7 +6,7 @@ namespace Known.Razor;
 class SysOrganizationList : BasePage<SysOrganization>
 {
     private List<SysOrganization> datas;
-    private MenuItem parent;
+    private MenuItem current;
 
     protected override async Task OnInitPageAsync()
     {
@@ -16,7 +16,7 @@ class SysOrganizationList : BasePage<SysOrganization>
         Page.Tree = new TreeModel
         {
             ExpandParent = true,
-            Data = datas.ToMenuItems(),
+            Data = datas.ToMenuItems(ref current),
             OnNodeClick = OnNodeClick,
             OnRefresh = OnTreeRefresh
         };
@@ -24,27 +24,27 @@ class SysOrganizationList : BasePage<SysOrganization>
 
         if (datas != null && datas.Count > 0)
         {
-            parent = Page.Tree.Data[0];
-            Page.Tree.SelectedKeys = [parent.Id];
+            current = Page.Tree.Data[0];
+            Page.Tree.SelectedKeys = [current.Id];
         }
     }
 
 	protected override Task<PagingResult<SysOrganization>> OnQueryAsync(PagingCriteria criteria)
 	{
-		var data = parent?.Children?.Select(c => (SysOrganization)c.Data).ToList();
+		var data = current?.Children?.Select(c => (SysOrganization)c.Data).ToList();
 		var result = new PagingResult<SysOrganization> { PageData = data, TotalCount = data?.Count ?? 0 };
 		return Task.FromResult(result);
 	}
 
 	public void New()
     {
-        if (parent == null)
+        if (current == null)
         {
             UI.Error("请先选择上级组织！");
             return;
         }
 
-        Page.NewForm(Platform.Company.SaveOrganizationAsync, new SysOrganization { ParentId = parent.Id, ParentName = parent.Name });
+        Page.NewForm(Platform.Company.SaveOrganizationAsync, new SysOrganization { ParentId = current.Id, ParentName = current.Name });
     }
 
     public void Edit(SysOrganization row) => Page.EditForm(Platform.Company.SaveOrganizationAsync, row);
@@ -53,13 +53,13 @@ class SysOrganizationList : BasePage<SysOrganization>
 
 	private async void OnNodeClick(MenuItem item)
 	{
-		parent = item;
+		current = item;
         await Page.Table.RefreshAsync();
 	}
 
 	private async Task OnTreeRefresh()
 	{
 		datas = await Platform.Company.GetOrganizationsAsync();
-		Page.Tree.Data = datas.ToMenuItems();
+		Page.Tree.Data = datas.ToMenuItems(ref current);
 	}
 }
