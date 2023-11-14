@@ -37,14 +37,5 @@ static class AppConfig
 
         //设置产品ID，根据硬件获取ID
         Config.Copyright.ProductId = $"{Config.App.Id}-000001";
-
-        //添加数据字典类别
-        Cache.AddDicCategory<AppDictionary>();
     }
-}
-
-class AppDictionary
-{
-    public const string Test = "测试";
-    public const string Type = "类型";
 }

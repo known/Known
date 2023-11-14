@@ -6,7 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AntDesign.Charts" Version="0.3.2" />
         <PackageReference Include="Coravel" Version="5.0.2" />
         <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.13" />
@@ -19,6 +18,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Known\Known.csproj" />
         <ProjectReference Include="..\Known.Cells\Known.Cells.csproj" />
+        <ProjectReference Include="..\Known.Demo\Known.Demo.csproj" />
         <ProjectReference Include="..\KnownAntDesign\KnownAntDesign.csproj" />
     </ItemGroup>
 

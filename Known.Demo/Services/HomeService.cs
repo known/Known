@@ -1,20 +1,7 @@
-﻿using Known;
+﻿using Known.Demo.Models;
+using Known.Demo.Repositories;
 
-namespace Known.Web.Models;
-
-class HomeInfo
-{
-    public string Greeting { get; set; }
-    public List<string> VisitMenuIds { get; set; }
-    public StatisticsInfo Statistics { get; set; }
-}
-
-class StatisticsInfo
-{
-    public int UserCount { get; set; }
-    public int LogCount { get; set; }
-    public ChartDataInfo[] LogDatas { get; set; }
-}
+namespace Known.Demo.Services;
 
 class HomeService : BaseService
 {
@@ -77,27 +64,5 @@ class HomeService : BaseService
         };
         await Database.CloseAsync();
         return info;
-    }
-}
-
-class HomeRepository
-{
-    internal static Task<int> GetUserCountAsync(Database db)
-    {
-        return db.ScalarAsync<int>("select count(*) from SysUser where CompNo=@CompNo", new { db.User.CompNo });
-    }
-
-    internal static Task<int> GetLogCountAsync(Database db)
-    {
-        return db.ScalarAsync<int>("select count(*) from SysLog where CompNo=@CompNo", new { db.User.CompNo });
-    }
-
-    internal static Task<int> GetLogCountAsync(Database db, DateTime date)
-    {
-        var day = date.ToString("yyyy-MM-dd");
-        var sql = $@"select count(1) from SysLog where CompNo=@CompNo and CreateTime between '{day} 00:00:00' and '{day} 23:59:59'";
-        if (db.DatabaseType == DatabaseType.Access)
-            sql = sql.Replace("'", "#");
-        return db.ScalarAsync<int>(sql, new { db.User.CompNo });
     }
 }

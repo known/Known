@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Known.Web.Models;
+namespace Known.Demo.Models;
 
 class CompanyInfo
 {

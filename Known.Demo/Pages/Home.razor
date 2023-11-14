@@ -47,7 +47,7 @@
                 {
                     foreach (var item in visitMenus)
                     {
-                        <div class="ws-func-menu" @onclick="e => Context.Navigate(item)">
+                        <div class="ws-func-menu" onclick="@(() => Context.Navigate(item))">
                             <Icon Type="@item.Icon" Theme="outline" />
                             <span class="name">@item.Name</span>
                         </div>
@@ -82,7 +82,7 @@
         await base.OnInitPageAsync();
 
         user = CurrentUser;
-        var service = new HomeService { CurrentUser = user };
+        var service = new Services.HomeService { CurrentUser = user };
         info = await service.GetHomeAsync();
         chartData = info?.Statistics?.LogDatas?.FirstOrDefault()?.Series.Select(d => new { d.Key, d.Value }).ToArray();
         visitMenus = Context.GetMenus(info?.VisitMenuIds);
