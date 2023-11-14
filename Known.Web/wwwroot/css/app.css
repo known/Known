@@ -28,31 +28,6 @@ html, body {
     margin-left:10px;
 }
 
-/*Login*/
-.login {
-    position:absolute;top:50%;left:50%;background-color:#fff;
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));
-    width:800px;height:400px;margin-left:-400px;margin-top:-200px;
-    -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;
-    box-shadow:0 0 10px 3px rgba(0,0,0,.3);
-}
-.login-left {margin-top:70px;padding-left:90px;width:320px;height:250px;}
-.login .slogan {width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
-.login .image {width:260px;height:180px;margin-top:20px;}
-.login-form {padding:50px;}
-.login h1 {font-size:1.3rem;font-weight:bold;margin-bottom:10px;text-align:center;}
-.login .account {text-align:center;font-size:0.8rem;color:#968f8f;margin-bottom:10px;}
-
-.copyright {position:absolute;bottom:50px;text-align:center;color:#fff;width:100%;font-size:1.1rem;}
-.copyright span {margin:0 5px;}
-.copyright a {color:#fff;}
-
-@media screen and (max-width:768px) {
-    .login {width:80%;margin-left:-40%;}
-    .login-left {display:none;}
-    .login-form {padding:50px 20px;}
-}
-
 /*dashboard*/
 .ws-space {display:flex;justify-content:space-between;margin:10px 0;background-color:#fff;padding:20px;}
 .ws-welcome {display:flex;padding:10px;}

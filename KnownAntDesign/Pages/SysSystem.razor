@@ -1,0 +1,22 @@
+﻿@inherits BasePage
+
+<Tabs Animated>
+    <TabPane Tab="系统信息" Key="1">
+        <Form Model="@model" Style="margin-right:60px;padding-bottom:20px;">
+            <FormItem LabelColSpan="8" Label="企业名称：">
+                @($"{context.CompNo}-{context.CompName}")
+            </FormItem>
+        </Form>
+    </TabPane>
+    <TabPane Tab="安全设置" Key="2">
+        <Form Model="@model" Style="margin-right:60px;padding-bottom:20px;">
+            <FormItem LabelColSpan="8" Label="默认密码：">
+                @($"{context.CompNo}-{context.CompName}")
+            </FormItem>
+        </Form>
+    </TabPane>
+</Tabs>
+
+@code {
+    private SystemInfo model = new();
+}

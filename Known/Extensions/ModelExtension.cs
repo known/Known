@@ -62,36 +62,6 @@ public static class ModelExtension
             codes.AddRange(menu.Columns.Select(b => new CodeInfo($"c_{menu.Id}_{b.Id}", b.Name)));
         return codes;
     }
-
-	//internal static List<KTreeItem<MenuInfo>> ToTreeItems(this List<MenuInfo> menus)
-	//{
-	//    var items = new List<KTreeItem<MenuInfo>>();
-	//    if (menus == null || menus.Count == 0)
-	//        return items;
-
-	//    var tops = menus.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
-	//    foreach (var menu in tops)
-	//    {
-	//        var item = new KTreeItem<MenuInfo> { Value = menu, Text = menu.Name, Icon = menu.Icon };
-	//        items.Add(item);
-	//        AddChildren(menus, item);
-	//    }
-	//    return items;
-	//}
-
-	//private static void AddChildren(List<MenuInfo> menus, KTreeItem<MenuInfo> item)
-	//{
-	//    var items = menus.Where(m => m.ParentId == item.Value.Id).OrderBy(m => m.Sort).ToList();
-	//    if (items == null || items.Count == 0)
-	//        return;
-
-	//    foreach (var menu in items)
-	//    {
-	//        var sub = new KTreeItem<MenuInfo> { Value = menu, Text = menu.Name, Icon = menu.Icon };
-	//        item.Children.Add(sub);
-	//        AddChildren(menus, sub);
-	//    }
-	//}
 	#endregion
 
 	#region Module
