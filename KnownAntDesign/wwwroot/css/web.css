@@ -16,18 +16,20 @@
 .install h1 {text-align:center;}
 
 /*Common*/
-.site-layout .site-layout-background {
-    background: #fff;
-    padding: 0;
-}
+.site-layout .site-layout-background {background: #fff;padding: 0;}
 
 .danger {color:#ed4014;}
 .link {color:#1890ff;cursor:pointer;}
+
 .query, .toolbar {padding:10px 10px 0 10px;}
 .table {padding-top:10px;}
+.page-top {display:flex;justify-content:space-between;}
+
+@media screen and (max-width:768px) {
+    .page-top {flex-direction:column;}
+}
 
 /*Import*/
-/*import*/
 .form-import {grid-template-rows:20px 50px auto;}
 .form-import .item {display:flex;margin:8px 0;padding:2px;border:1px solid #d5d5d5;}
 .form-import .input {display:inline-block;}

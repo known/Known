@@ -10,6 +10,7 @@
            @bind-PageSize="Model.Criteria.PageSize"
            @bind-SelectedRows="Model.SelectedRows"
            OnChange="OnChange"
+           HidePagination="!Model.ShowPager"
            Size="TableSize.Small">
         @if (Model.ShowCheckBox)
         {

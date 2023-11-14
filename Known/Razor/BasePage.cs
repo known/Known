@@ -25,36 +25,25 @@ public class BasePage : BaseComponent
 
 public class BasePage<TItem> : BasePage where TItem : class, new()
 {
-    private List<ActionInfo> Tools { get; set; }
-    private List<ActionInfo> Actions { get; set; }
-    private List<ColumnInfo> Columns { get; set; }
+    internal List<ActionInfo> Tools { get; set; }
+    internal List<ActionInfo> Actions { get; set; }
+    internal List<ColumnInfo> Columns { get; set; }
 
-    protected TableModel<TItem> Table { get; private set; }
-    protected TreeModel Tree { get; set; }
+    public PageModel<TItem> Page { get; private set; }
 
     protected override Task OnInitPageAsync()
     {
         InitMenu();
-        Table = new TableModel<TItem>(UI, Columns, Actions)
-        {
-            Name = Name,
-            ShowCheckBox = Tools != null && Tools.Count > 0,
-            Templates = [],
-            OnQuery = OnQueryAsync,
-            OnAction = OnActionClick
-        };
+        Page = new PageModel<TItem>(this);
+        Page.OnToolClick = OnToolClick;
+        Page.Table.OnQuery = OnQueryAsync;
+        Page.Table.OnAction = OnActionClick;
         return base.OnInitPageAsync();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        UI.BuildPage(builder, new PageModel<TItem>
-        {
-            Tools = Tools,
-            OnToolClick = OnToolClick,
-            Table = Table,
-            Tree = Tree
-        });
+        UI.BuildPage(builder, Page);
     }
 
     protected virtual Task<PagingResult<TItem>> OnQueryAsync(PagingCriteria criteria) => Task.FromResult(new PagingResult<TItem>());
@@ -67,7 +56,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
             id += $"_{param}";
         var info = await Platform.File.GetImportAsync(id);
         info.Name = Name;
-        Table.ImportForm(info);
+        Page.ImportForm(info);
     }
 
     private void OnToolClick(ActionInfo info) => OnAction(info, null);

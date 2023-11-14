@@ -11,9 +11,9 @@ public class FieldModel<TItem> where TItem : class, new()
     private FormModel<TItem> _form;
     private RenderFragment _inputTemplate;
 
-    internal FieldModel(IUIService ui, FormModel<TItem> form, ColumnAttribute column)
+    internal FieldModel(FormModel<TItem> form, ColumnAttribute column)
     {
-        UI = ui;
+        UI = form.Page.UI;
         _form = form;
         Column = column;
         Data = form.Data;

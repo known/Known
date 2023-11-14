@@ -13,8 +13,8 @@ class SysLogList : BasePage<SysLog>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table.AddQueryColumn(c => c.CreateTime);
-        Table.Column(c => c.Type).Template(BuildLogType);
+        Page.Table.AddQueryColumn(c => c.CreateTime);
+        Page.Table.Column(c => c.Type).Template(BuildLogType);
     }
 
     protected override Task<PagingResult<SysLog>> OnQueryAsync(PagingCriteria criteria)

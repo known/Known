@@ -12,26 +12,26 @@ public static class ModelExtension
             return items;
 
         var tops = menus.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
-        foreach (var menu in tops)
+        foreach (var item in tops)
         {
-            var item = MenuItem.From(menu);
-            items.Add(item);
-            AddChildren(menus, item);
+            var menu = MenuItem.From(item);
+            items.Add(menu);
+            AddChildren(menus, menu);
         }
         return items;
     }
 
-    private static void AddChildren(List<MenuInfo> menus, MenuItem item)
+    private static void AddChildren(List<MenuInfo> menus, MenuItem menu)
     {
-        var items = menus.Where(m => m.ParentId == item.Id).OrderBy(m => m.Sort).ToList();
+        var items = menus.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Sort).ToList();
         if (items == null || items.Count == 0)
             return;
 
-        foreach (var menu in items)
+        foreach (var item in items)
         {
-            var sub = MenuItem.From(menu);
-            sub.Parent = item;
-            item.Children.Add(sub);
+            var sub = MenuItem.From(item);
+            sub.Parent = menu;
+            menu.Children.Add(sub);
             AddChildren(menus, sub);
         }
     }
@@ -39,12 +39,12 @@ public static class ModelExtension
     public static List<CodeInfo> GetActionCodes(this MenuInfo menu)
     {
         var actions = ActionInfo.Actions;
-        var items = new List<CodeInfo>();
+        var codes = new List<CodeInfo>();
         if (menu.Buttons != null && menu.Buttons.Count > 0)
-            items.AddRange(menu.Buttons.Select(b => GetButton(menu, b, actions)));
+            codes.AddRange(menu.Buttons.Select(b => GetButton(menu, b, actions)));
         if (menu.Actions != null && menu.Actions.Count > 0)
-            items.AddRange(menu.Actions.Select(b => GetButton(menu, b, actions)));
-        return items;
+            codes.AddRange(menu.Actions.Select(b => GetButton(menu, b, actions)));
+        return codes;
     }
 
     private static CodeInfo GetButton(MenuInfo menu, string id, List<ActionInfo> buttons)
@@ -57,10 +57,10 @@ public static class ModelExtension
 
     public static List<CodeInfo> GetColumnCodes(this MenuInfo menu)
     {
-        var items = new List<CodeInfo>();
+        var codes = new List<CodeInfo>();
         if (menu.Columns != null && menu.Columns.Count > 0)
-            items.AddRange(menu.Columns.Select(b => new CodeInfo($"c_{menu.Id}_{b.Id}", b.Name)));
-        return items;
+            codes.AddRange(menu.Columns.Select(b => new CodeInfo($"c_{menu.Id}_{b.Id}", b.Name)));
+        return codes;
     }
 
 	//internal static List<KTreeItem<MenuInfo>> ToTreeItems(this List<MenuInfo> menus)
@@ -95,34 +95,34 @@ public static class ModelExtension
 	#endregion
 
 	#region Module
-	internal static List<MenuItem> ToMenuItems(this List<SysModule> modules)
+	internal static List<MenuItem> ToMenuItems(this List<SysModule> models)
 	{
-		var items = new List<MenuItem>();
-		if (modules == null || modules.Count == 0)
-			return items;
+		var menus = new List<MenuItem>();
+		if (models == null || models.Count == 0)
+			return menus;
 
-		var tops = modules.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
-		foreach (var menu in tops)
+		var tops = models.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
+		foreach (var item in tops)
 		{
-			var item = MenuItem.From(menu);
-			items.Add(item);
-			AddChildren(modules, item);
+			var menu = MenuItem.From(item);
+			menus.Add(menu);
+			AddChildren(models, menu);
 		}
-		return items;
+		return menus;
 	}
 
-	private static void AddChildren(List<SysModule> modules, MenuItem item)
+	private static void AddChildren(List<SysModule> models, MenuItem menu)
 	{
-		var items = modules.Where(m => m.ParentId == item.Id).OrderBy(m => m.Sort).ToList();
+		var items = models.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Sort).ToList();
 		if (items == null || items.Count == 0)
 			return;
 
-		foreach (var menu in items)
+		foreach (var item in items)
 		{
-			var sub = MenuItem.From(menu);
-			sub.Parent = item;
-			item.Children.Add(sub);
-			AddChildren(modules, sub);
+			var sub = MenuItem.From(item);
+			sub.Parent = menu;
+			menu.Children.Add(sub);
+			AddChildren(models, sub);
 		}
 	}
 
@@ -174,32 +174,32 @@ public static class ModelExtension
     #region Organization
     internal static List<MenuItem> ToMenuItems(this List<SysOrganization> models)
     {
-        var items = new List<MenuItem>();
+        var menus = new List<MenuItem>();
         if (models == null || models.Count == 0)
-            return items;
+            return menus;
 
         var tops = models.Where(m => m.ParentId == "0").OrderBy(m => m.Code).ToList();
-        foreach (var menu in tops)
+        foreach (var item in tops)
         {
-            var item = MenuItem.From(menu);
-            items.Add(item);
-            AddChildren(models, item);
+            var menu = MenuItem.From(item);
+            menus.Add(menu);
+            AddChildren(models, menu);
         }
-        return items;
+        return menus;
     }
 
-    private static void AddChildren(List<SysOrganization> modules, MenuItem item)
+    private static void AddChildren(List<SysOrganization> models, MenuItem menu)
     {
-        var items = modules.Where(m => m.ParentId == item.Id).OrderBy(m => m.Code).ToList();
+        var items = models.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Code).ToList();
         if (items == null || items.Count == 0)
             return;
 
-        foreach (var menu in items)
+        foreach (var item in items)
         {
-            var sub = MenuItem.From(menu);
-            sub.Parent = item;
-            item.Children.Add(sub);
-            AddChildren(modules, sub);
+            var sub = MenuItem.From(item);
+            sub.Parent = menu;
+            menu.Children.Add(sub);
+            AddChildren(models, sub);
         }
     }
     #endregion

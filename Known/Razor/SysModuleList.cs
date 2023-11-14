@@ -11,19 +11,19 @@ class SysModuleList : BasePage<SysModule>
 	{
         datas = await Platform.Module.GetModulesAsync();
 		await base.OnInitPageAsync();
-		Tree = new TreeModel
+        Page.Tree = new TreeModel
 		{
 			Data = datas.ToMenuItems()
 		};
 	}
 
-    public void New() => Table.NewForm(Platform.Module.SaveModuleAsync, new SysModule());
-    public void Edit(SysModule row) => Table.EditForm(Platform.Module.SaveModuleAsync, row);
-    public void Delete(SysModule row) => Table.Delete(Platform.Module.DeleteModulesAsync, row);
-    public void DeleteM() => Table.DeleteM(Platform.Module.DeleteModulesAsync);
+    public void New() => Page.NewForm(Platform.Module.SaveModuleAsync, new SysModule());
+    public void Edit(SysModule row) => Page.EditForm(Platform.Module.SaveModuleAsync, row);
+    public void Delete(SysModule row) => Page.Delete(Platform.Module.DeleteModulesAsync, row);
+    public void DeleteM() => Page.DeleteM(Platform.Module.DeleteModulesAsync);
 
-    public void Copy() => Table.SelectRows(OnCopy);
-    public void Move() => Table.SelectRows(OnMove);
+    public void Copy() => Page.Table.SelectRows(OnCopy);
+    public void Move() => Page.Table.SelectRows(OnMove);
     //public void MoveUp(SysModule row) => OnMove(row, true);
     //public void MoveDown(SysModule row) => OnMove(row, false);
 

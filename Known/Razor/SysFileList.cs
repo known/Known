@@ -14,7 +14,7 @@ class SysFileList : BasePage<SysFile>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table.Column(c => c.Size).Template(BuildFileSize);
+        Page.Table.Column(c => c.Size).Template(BuildFileSize);
     }
 
     protected override Task<PagingResult<SysFile>> OnQueryAsync(PagingCriteria criteria)

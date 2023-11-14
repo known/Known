@@ -1,9 +1,98 @@
-﻿namespace Known.Razor;
+﻿using Known.Extensions;
+
+namespace Known.Razor;
 
 public class PageModel<TItem> where TItem : class, new()
 {
-    public List<ActionInfo> Tools { get; set; }
-    public Action<ActionInfo> OnToolClick { get; set; }
-    public TableModel<TItem> Table { get; set; }
+    internal PageModel(BasePage<TItem> page)
+    {
+        UI = page.UI;
+        Page = page;
+        Name = page.Name;
+        Tools = page.Tools;
+        Table = new TableModel<TItem>(this);
+    }
+
+    internal IUIService UI { get; }
+    internal BasePage<TItem> Page { get; }
+
+    public string Name { get; }
+    public TableModel<TItem> Table { get; }
+    public List<ActionInfo> Tools { get; }
+    public Action<ActionInfo> OnToolClick { get; internal set; }
     public TreeModel Tree { get; set; }
+    
+    public double? FormWidth { get; set; }
+    public Func<TItem, string> FormTitle { get; set; }
+
+    public async Task RefreshAsync()
+    {
+        if (Tree != null)
+            await Tree.RefreshAsync();
+        if (Table != null)
+            await Table.RefreshAsync();
+    }
+
+    public void ViewForm(TItem row)
+    {
+        var title = GetFormTitle(row);
+        UI.ShowForm<TItem>(new FormModel<TItem>(this)
+        {
+            IsView = true,
+            Title = $"查看{title}",
+            Width = FormWidth,
+            Data = row
+        });
+    }
+
+    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
+    public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
+
+    private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
+    {
+        var title = GetFormTitle(row);
+        UI.ShowForm<TItem>(new FormModel<TItem>(this)
+        {
+            Title = $"{action}{title}",
+            Width = FormWidth,
+            Data = row,
+            OnSave = onSave
+        });
+    }
+
+    public void ImportForm(ImportFormInfo info)
+    {
+        var option = new ModalOption { Title = $"导入{Name}" };
+        option.Content = builder =>
+        {
+            builder.Component<Importer>()
+                   .Set(c => c.Model, info)
+                   .Set(c => c.OnSuccess, async () =>
+                   {
+                       option.OnClose?.Invoke();
+                       await RefreshAsync();
+                   })
+                   .Build();
+        };
+        UI.ShowModal(option);
+    }
+
+    public void Delete(Func<List<TItem>, Task<Result>> action, TItem row)
+    {
+        UI.Confirm("确定要删除该记录？", async () =>
+        {
+            var result = await action?.Invoke([row]);
+            UI.Result(result, async () => await RefreshAsync());
+        });
+    }
+
+    public void DeleteM(Func<List<TItem>, Task<Result>> action) => Table?.SelectRows(action, "删除");
+
+    private string GetFormTitle(TItem row)
+    {
+        var title = Name;
+        if (FormTitle != null)
+            title = FormTitle.Invoke(row);
+        return title;
+    }
 }

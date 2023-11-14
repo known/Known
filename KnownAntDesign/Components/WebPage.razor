@@ -6,7 +6,8 @@
 	<GridRow>
 		<GridCol Span="4">
 			<div style="padding:10px;">
-				<Tree TItem="Known.MenuItem" ShowIcon
+				<Tree TItem="Known.MenuItem" ShowIcon 
+				    DefaultExpandParent="Model.Tree.ExpandParent"
 					DataSource="Model.Tree.Data" OnClick="OnTreeClick"
 					KeyExpression="x => x.DataItem.Id"
 					TitleExpression="x => x.DataItem.Name"
@@ -16,16 +17,20 @@
 			</div>
 		</GridCol>
 		<GridCol Span="20">
-			<QueryForm TItem="TItem" Model="Model.Table" OnSearch="OnSearchAsync" />
-			<Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
+			<div class="page-top">
+			    <Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
+				<QueryForm TItem="TItem" Model="Model.Table" OnSearch="OnSearchAsync" />
+			</div>
 			<DataTable @ref="table" TItem="TItem" Model="Model.Table" />
 		</GridCol>
 	</GridRow>
 }
 else
 {
-	<QueryForm TItem="TItem" Model="Model.Table" OnSearch="OnSearchAsync" />
-	<Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
+	<div class="page-top">
+		<Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
+		<QueryForm TItem="TItem" Model="Model.Table" OnSearch="OnSearchAsync" />
+	</div>
 	<DataTable @ref="table" TItem="TItem" Model="Model.Table" />
 }
 
@@ -38,8 +43,10 @@ else
 
 	private void OnTreeClick(TreeEventArgs<Known.MenuItem> e)
 	{
-		var children = e.Node.DataItem.Children;
+		var item = e.Node.DataItem;
+		var children = item.Children;
 		var data = children?.Select(c => (TItem)c.Data).ToList();
 		table.SetData(data);
+		Model.Tree.OnNodeClick?.Invoke(item);
 	}
 }

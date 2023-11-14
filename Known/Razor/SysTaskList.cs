@@ -13,7 +13,7 @@ class SysTaskList : BasePage<SysTask>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table.Column(c => c.Status).Template(BuildTaskStatus);
+        Page.Table.Column(c => c.Status).Template(BuildTaskStatus);
     }
 
     protected override Task<PagingResult<SysTask>> OnQueryAsync(PagingCriteria criteria)

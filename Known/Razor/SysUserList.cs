@@ -8,8 +8,8 @@ class SysUserList : BasePage<SysUser>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table.FormWidth = 800;
-        Table.Column(c => c.Gender).Template(BuildGender);
+        Page.FormWidth = 800;
+        Page.Table.Column(c => c.Gender).Template(BuildGender);
     }
 
     protected override Task<PagingResult<SysUser>> OnQueryAsync(PagingCriteria criteria)
@@ -17,14 +17,14 @@ class SysUserList : BasePage<SysUser>
         return Platform.User.QueryUsersAsync(criteria);
     }
 
-    public void New() => Table.NewForm(Platform.User.SaveUserAsync, new SysUser());
-    public void Edit(SysUser row) => Table.EditForm(Platform.User.SaveUserAsync, row);
-    public void Delete(SysUser row) => Table.Delete(Platform.User.DeleteUsersAsync, row);
-    public void DeleteM() => Table.DeleteM(Platform.User.DeleteUsersAsync);
-    public void ResetPassword() => Table.SelectRows(Platform.User.SetUserPwdsAsync, "重置");
-    public void ChangeDepartment() => Table.SelectRows(OnChangeDepartment);
-    public void Enable() => Table.SelectRows(Platform.User.EnableUsersAsync, "启用");
-    public void Disable() => Table.SelectRows(Platform.User.DisableUsersAsync, "禁用");
+    public void New() => Page.NewForm(Platform.User.SaveUserAsync, new SysUser());
+    public void Edit(SysUser row) => Page.EditForm(Platform.User.SaveUserAsync, row);
+    public void Delete(SysUser row) => Page.Delete(Platform.User.DeleteUsersAsync, row);
+    public void DeleteM() => Page.DeleteM(Platform.User.DeleteUsersAsync);
+    public void ResetPassword() => Page.Table.SelectRows(Platform.User.SetUserPwdsAsync, "重置");
+    public void ChangeDepartment() => Page.Table.SelectRows(OnChangeDepartment);
+    public void Enable() => Page.Table.SelectRows(Platform.User.EnableUsersAsync, "启用");
+    public void Disable() => Page.Table.SelectRows(Platform.User.DisableUsersAsync, "禁用");
 
     private void BuildGender(RenderTreeBuilder builder, SysUser row)
     {

@@ -8,15 +8,16 @@ namespace Known.Razor;
 
 public class TableModel<TItem> where TItem : class, new()
 {
-    private readonly List<ColumnAttribute> allColumns;
-
-    internal TableModel(IUIService ui, List<ColumnInfo> columns, List<ActionInfo> actions)
+    internal TableModel(PageModel<TItem> page)
     {
-        allColumns = TypeHelper.GetColumnAttributes(typeof(TItem));
-        UI = ui;
-        Actions = actions;
-        Columns = allColumns.Where(c => HasColumn(columns, c.Property.Name)).ToList();
+        ShowPager = true;
+        ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
+        AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem));
+        Page = page;
+        UI = page.UI;
+        Actions = page.Page.Actions;
 
+        Columns = AllColumns.Where(c => HasColumn(page.Page.Columns, c.Property.Name)).ToList();
         if (Columns != null && Columns.Count > 0)
         {
             QueryColumns = Columns.Where(c => c.IsQuery).ToList();
@@ -31,8 +32,11 @@ public class TableModel<TItem> where TItem : class, new()
     }
 
     internal IUIService UI { get; }
-    public string Name { get; set; }
-    public bool ShowCheckBox { get; set; }
+    internal List<ColumnAttribute> AllColumns { get; }
+
+    public PageModel<TItem> Page { get; }
+    public bool ShowCheckBox { get; }
+    public bool ShowPager { get; set; }
     public List<ColumnAttribute> Columns { get; }
     public List<ColumnAttribute> QueryColumns { get; } = [];
     public Dictionary<string, QueryInfo> QueryData { get; } = [];
@@ -40,12 +44,10 @@ public class TableModel<TItem> where TItem : class, new()
     public PagingResult<TItem> Result { get; set; } = new();
     public List<ActionInfo> Actions { get; }
     public IEnumerable<TItem> SelectedRows { get; set; }
-    public Dictionary<string, RenderFragment<TItem>> Templates { get; set; }
+    public Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];
     public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }
     public Func<Task> OnRefresh { get; set; }
-    public double? FormWidth { get; set; }
-    public Func<TItem, string> FormTitle { get; set; }
 
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
     {
@@ -70,50 +72,6 @@ public class TableModel<TItem> where TItem : class, new()
     }
 
     public Task RefreshAsync() => OnRefresh?.Invoke();
-
-    public void ViewForm(TItem row)
-    {
-        var title = GetFormTitle(row);
-        UI.ShowForm<TItem>(new FormModel<TItem>(this, allColumns)
-        {
-            IsView = true,
-            Title = $"查看{title}",
-            Width = FormWidth,
-            Data = row
-        });
-    }
-
-    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
-    public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
-
-    private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
-    {
-        var title = GetFormTitle(row);
-        UI.ShowForm<TItem>(new FormModel<TItem>(this, allColumns)
-        {
-            Title = $"{action}{title}",
-            Width = FormWidth,
-            Data = row,
-            OnSave = onSave
-        });
-    }
-
-    public void ImportForm(ImportFormInfo info)
-    {
-        var option = new ModalOption { Title = $"导入{Name}" };
-        option.Content = builder =>
-        {
-            builder.Component<Importer>()
-                   .Set(c => c.Model, info)
-                   .Set(c => c.OnSuccess, async () =>
-                   {
-                       option.OnClose?.Invoke();
-                       await RefreshAsync();
-                   })
-                   .Build();
-        };
-        UI.ShowModal(option);
-    }
 
     public void SelectRow(Action<TItem> action)
     {
@@ -191,30 +149,11 @@ public class TableModel<TItem> where TItem : class, new()
         });
     }
 
-    public void Delete(Func<List<TItem>, Task<Result>> action, TItem row)
-    {
-        UI.Confirm("确定要删除该记录？", async () =>
-        {
-            var result = await action?.Invoke([row]);
-            UI.Result(result, async () => await RefreshAsync());
-        });
-    }
-
-    public void DeleteM(Func<List<TItem>, Task<Result>> action) => SelectRows(action, "删除");
-
     private static bool HasColumn(List<ColumnInfo> columns, string id)
     {
         if (columns == null || columns.Count == 0)
             return true;
 
         return columns.Any(c => c.Id == id);
-    }
-
-    private string GetFormTitle(TItem row)
-    {
-        var title = Name;
-        if (FormTitle != null)
-            title = FormTitle.Invoke(row);
-        return title;
     }
 }

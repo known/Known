@@ -16,7 +16,7 @@ class SysDictionaryList : BasePage<SysDictionary>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table.FormTitle = row => $"{Name} - {row.CategoryName}";
+        Page.FormTitle = row => $"{Name} - {row.CategoryName}";
     }
 
     protected override async Task<PagingResult<SysDictionary>> OnQueryAsync(PagingCriteria criteria)
@@ -32,9 +32,9 @@ class SysDictionaryList : BasePage<SysDictionary>
         return result;
     }
 
-    public void New() => Table.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
-    public void Edit(SysDictionary row) => Table.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
-    public void Delete(SysDictionary row) => Table.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
-    public void DeleteM() => Table.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
+    public void New() => Page.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
+    public void Edit(SysDictionary row) => Page.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
+    public void Delete(SysDictionary row) => Page.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
+    public void DeleteM() => Page.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
     public void Import() => ShowImportForm();
 }

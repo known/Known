@@ -64,7 +64,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
                 builder.AddAttribute(i++, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
                 {
                     var value = TypeHelper.GetPropertyValue<string>(Item, property.Name);
-                    builder1.Link(value, Callback(() => Table.ViewForm(Item)));
+                    builder1.Link(value, Callback(() => Table.Page.ViewForm(Item)));
                 });
             }
             builder.CloseComponent();
