@@ -1,4 +1,6 @@
-﻿namespace Known.WorkFlows;
+﻿using System.ComponentModel;
+
+namespace Known.WorkFlows;
 
 public class FlowStatus
 {
@@ -18,13 +20,33 @@ public class FlowStatus
 
 public class FlowEntity : EntityBase
 {
-    [Column("流程状态")] public virtual string BizStatus { get; set; }
-    [Column("当前人")] public virtual string CurrBy { get; set; }
-    [Column("申请人")] public virtual string ApplyBy { get; set; }
-    [Column("申请时间")] public virtual DateTime? ApplyTime { get; set; }
-    [Column("审核人")] public virtual string VerifyBy { get; set; }
-    [Column("审核时间")] public virtual DateTime? VerifyTime { get; set; }
-    [Column("审核意见")] public virtual string VerifyNote { get; set; }
+    [Column(IsGrid = true, IsQuery = true)]
+    [DisplayName("流程状态")]
+    public virtual string BizStatus { get; set; }
+    
+    [Column]
+    [DisplayName("当前人")]
+    public virtual string CurrBy { get; set; }
+    
+    [Column(IsGrid = true)]
+    [DisplayName("申请人")]
+    public virtual string ApplyBy { get; set; }
+    
+    [Column(IsGrid = true)]
+    [DisplayName("申请时间")]
+    public virtual DateTime? ApplyTime { get; set; }
+    
+    [Column(IsGrid = true)]
+    [DisplayName("审核人")]
+    public virtual string VerifyBy { get; set; }
+    
+    [Column(IsGrid = true)]
+    [DisplayName("审核时间")]
+    public virtual DateTime? VerifyTime { get; set; }
+    
+    [Column(IsGrid = true)]
+    [DisplayName("审核意见")]
+    public virtual string VerifyNote { get; set; }
 
     public virtual bool CanSubmit => BizStatus == FlowStatus.Save || BizStatus == FlowStatus.Revoked || BizStatus == FlowStatus.VerifyFail || BizStatus == FlowStatus.ReApply;
     public virtual bool CanRevoke => BizStatus == FlowStatus.Verifing;

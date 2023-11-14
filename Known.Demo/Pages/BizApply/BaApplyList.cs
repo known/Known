@@ -1,7 +1,9 @@
 ﻿using Known.Demo.Entities;
 using Known.Demo.Services;
+using Known.Extensions;
 using Known.Razor;
 using Known.WorkFlows;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Demo.Pages.BizApply;
 
@@ -10,9 +12,10 @@ class BaApplyList : BasePage<TbApply>
     private string BizStatus = $"{FlowStatus.Save},{FlowStatus.Verifing},{FlowStatus.VerifyFail},{FlowStatus.ReApply}";
     private ApplyService Service => new() { CurrentUser = CurrentUser };
 
-    protected override Task OnInitPageAsync()
+    protected override async Task OnInitPageAsync()
     {
-        return base.OnInitPageAsync();
+        await base.OnInitPageAsync();
+        Page.Table.Column(c => c.BizStatus).Template(BuildBizStatus);
     }
 
     protected override Task<PagingResult<TbApply>> OnQueryAsync(PagingCriteria criteria)
@@ -25,4 +28,6 @@ class BaApplyList : BasePage<TbApply>
     //public void Edit(TbApply row) => Page.EditForm(Service.SaveDictionaryAsync, row);
     public void Delete(TbApply row) => Page.Delete(Service.DeleteApplysAsync, row);
     public void DeleteM() => Page.DeleteM(Service.DeleteApplysAsync);
+
+    private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
 }
