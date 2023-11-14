@@ -1,22 +1,50 @@
-﻿@inherits BasePage
+﻿@inherits Known.Razor.SysSystem
 
 <Tabs Animated>
     <TabPane Tab="系统信息" Key="1">
-        <Form Model="@model" Style="margin-right:60px;padding-bottom:20px;">
-            <FormItem LabelColSpan="8" Label="企业名称：">
+        <Form Model="@Model" LabelColSpan="@labelCol" WrapperColSpan="@valueCol">
+            <FormItem Label="企业名称">
                 @($"{context.CompNo}-{context.CompName}")
+            </FormItem>
+            <FormItem>
+                <Input @bind-Value="@context.AppName" />
+            </FormItem>
+            <FormItem Label="系统版本">
+                @Config.Version.AppVersion
+            </FormItem>
+            <FormItem Label="软件版本">
+                @Config.Version.SoftVersion
+            </FormItem>
+            <FormItem Label="框架版本">
+                @Config.Version.FrameVersion
+            </FormItem>
+            @if (!Config.App.IsPlatform && Config.Copyright.IsProductKey)
+            {
+                <FormItem>
+                    @context.ProductId
+                </FormItem>
+                <FormItem>
+                    @context.ProductKey
+                </FormItem>
+            }
+            <FormItem Label="版权信息">
+                @context.Copyright
+            </FormItem>
+            <FormItem Label="软件许可">
+                @context.SoftTerms
             </FormItem>
         </Form>
     </TabPane>
     <TabPane Tab="安全设置" Key="2">
-        <Form Model="@model" Style="margin-right:60px;padding-bottom:20px;">
-            <FormItem LabelColSpan="8" Label="默认密码：">
-                @($"{context.CompNo}-{context.CompName}")
+        <Form Model="@Model" LabelColSpan="@labelCol" WrapperColSpan="@valueCol">
+            <FormItem>
+                <Input @bind-Value="@context.UserDefaultPwd" />
             </FormItem>
         </Form>
     </TabPane>
 </Tabs>
 
 @code {
-    private SystemInfo model = new();
+    private int labelCol = 4;
+    private int valueCol = 10;
 }

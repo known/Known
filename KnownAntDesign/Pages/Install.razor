@@ -3,22 +3,22 @@
 <div class="install">
     <h1>欢迎使用@(Config.App.Id)</h1>
     <Form Model="@Model" OnFinish="OnStart" LabelColSpan="colLabel" WrapperColSpan="colWrapper">
-        <FormItem Label="企业编码">
+        <FormItem>
             <Input @bind-Value="@context.CompNo" />
         </FormItem>
-        <FormItem Label="企业名称">
+        <FormItem>
             <Input @bind-Value="@context.CompName" />
         </FormItem>
-        <FormItem Label="系统名称">
+        <FormItem>
             <Input @bind-Value="@context.AppName" />
         </FormItem>
-        <FormItem Label="管理员账号">
+        <FormItem>
             <Input @bind-Value="@context.UserName" ReadOnly />
         </FormItem>
-        <FormItem Label="管理员密码">
+        <FormItem>
             <InputPassword @bind-Value="@context.Password" />
         </FormItem>
-        <FormItem Label="确认密码">
+        <FormItem>
             <InputPassword @bind-Value="@context.Password1" />
         </FormItem>
         <FormItem WrapperColOffset="colLabel" WrapperColSpan="colWrapper">

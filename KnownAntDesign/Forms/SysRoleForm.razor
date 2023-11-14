@@ -2,14 +2,14 @@
 
 <div style="display:flex;">
     <div style="width:400px;padding-right:20px;">
-        <Form @ref="_form" Model="@Model.Data">
-            <FormItem LabelColSpan="4">
+        <Form @ref="_form" Model="@Model.Data" LabelColSpan="4">
+            <FormItem>
                 <Input @bind-Value="@context.Name" Disabled="@Model.IsView" />
             </FormItem>
-            <FormItem LabelColSpan="4">
+            <FormItem>
                 <Switch @bind-Value="@context.Enabled" Disabled="@Model.IsView" />
             </FormItem>
-            <FormItem LabelColSpan="4">
+            <FormItem>
                 <TextArea @bind-Value="@context.Note" Disabled="@Model.IsView" />
             </FormItem>
         </Form>
