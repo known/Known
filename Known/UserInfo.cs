@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using Known.Entities;
+
+namespace Known;
 
 public class UserInfo
 {
@@ -34,4 +36,32 @@ public class UserInfo
     public bool IsGroupUser() => CompNo == OrgNo;
     public bool IsOperation() => Type == Constants.UTOperation;
     public bool HasRole(string role) => !string.IsNullOrWhiteSpace(Role) && Role.Split(',').Contains(role);
+
+    public Task SendMessageAsync(Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    {
+        return SendMessageAsync(db, Constants.UMLGeneral, toUser, subject, content, filePath, bizId);
+    }
+
+    public Task SendUrgentMessageAsync(Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    {
+        return SendMessageAsync(db, Constants.UMLUrgent, toUser, subject, content, filePath, bizId);
+    }
+
+    private Task SendMessageAsync(Database db, string level, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    {
+        var model = new SysMessage
+        {
+            UserId = toUser,
+            Type = Constants.UMTypeReceive,
+            MsgBy = Name,
+            MsgLevel = level,
+            Subject = subject,
+            Content = content,
+            FilePath = filePath,
+            IsHtml = true,
+            Status = Constants.UMStatusUnread,
+            BizId = bizId
+        };
+        return db.SaveAsync(model);
+    }
 }

@@ -179,4 +179,97 @@ public class PagingCriteria
         query.ParamValue = value;
         return query;
     }
+
+    public void RemoveQuery(string id)
+    {
+        var query = Query.FirstOrDefault(q => q.Id == id);
+        if (query != null)
+        {
+            Query.Remove(query);
+        }
+    }
+
+    internal Dictionary<string, string> ToParameters(UserInfo user)
+    {
+        var parameter = new Dictionary<string, string>
+        {
+            ["AppId"] = user.AppId,
+            ["CompNo"] = user.CompNo
+        };
+
+        if (Query != null && Query.Count > 0)
+        {
+            foreach (var item in Query)
+            {
+                parameter[item.Id] = item.ParamValue;
+            }
+        }
+        return parameter;
+    }
+
+    public string GetQueryValue(string id)
+    {
+        if (Query == null)
+            return string.Empty;
+
+        var query = Query.FirstOrDefault(q => q.Id == id);
+        if (query == null)
+            return string.Empty;
+
+        return query.Value;
+    }
+
+    //public static T GetQueryValue<T>(string id)
+    //{
+    //    var value = GetQueryValue(id);
+    //    return Utils.ConvertTo<T>(value);
+    //}
+
+    //public static void SetQueryType(string id, QueryType type)
+    //{
+    //    var query = Query.FirstOrDefault(q => q.Id == id);
+    //    if (query == null)
+    //        return;
+
+    //    query.Type = type;
+    //}
+
+    internal bool HasQuery(string id)
+    {
+        if (Query == null)
+            return false;
+
+        var query = Query.FirstOrDefault(q => q.Id == id);
+        if (query == null)
+            return false;
+
+        return !string.IsNullOrEmpty(query.Value);
+    }
+
+    public string GetParameter(string id)
+    {
+        if (Parameters == null)
+            return string.Empty;
+
+        if (!Parameters.ContainsKey(id))
+            return string.Empty;
+
+        var param = Parameters[id];
+        if (param == null)
+            return string.Empty;
+
+        return param.ToString();
+    }
+
+    //public T GetParameter<T>(string id)
+    //{
+    //    var param = GetParameter(id);
+    //    return Utils.ConvertTo<T>(param);
+    //}
+
+    //public bool CheckParameter<T>(string id, T value)
+    //{
+    //    var data = GetParameter<T>(id);
+    //    return data.Equals(value);
+    //}
 }

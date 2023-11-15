@@ -2,7 +2,6 @@
 using System.Data.Common;
 using System.Text;
 using Known.Cells;
-using Known.Extensions;
 
 namespace Known;
 

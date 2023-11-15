@@ -30,6 +30,33 @@ public class MenuInfo
     public List<string> Buttons { get; set; }
     public List<string> Actions { get; set; }
     public List<ColumnInfo> Columns { get; set; }
+
+    public List<CodeInfo> GetActionCodes()
+    {
+        var actions = ActionInfo.Actions;
+        var codes = new List<CodeInfo>();
+        if (Buttons != null && Buttons.Count > 0)
+            codes.AddRange(Buttons.Select(b => GetButton(this, b, actions)));
+        if (Actions != null && Actions.Count > 0)
+            codes.AddRange(Actions.Select(b => GetButton(this, b, actions)));
+        return codes;
+    }
+
+    private static CodeInfo GetButton(MenuInfo menu, string id, List<ActionInfo> buttons)
+    {
+        var code = $"b_{menu.Id}_{id}";
+        var button = buttons.FirstOrDefault(b => b.Id == id);
+        var name = button != null ? button.Name : id;
+        return new CodeInfo(code, name);
+    }
+
+    public List<CodeInfo> GetColumnCodes()
+    {
+        var codes = new List<CodeInfo>();
+        if (Columns != null && Columns.Count > 0)
+            codes.AddRange(Columns.Select(b => new CodeInfo($"c_{Id}_{b.Id}", b.Name)));
+        return codes;
+    }
 }
 
 public class ActionInfo

@@ -31,7 +31,7 @@ class SysUserList : BasePage<SysUser>
     protected override Task<PagingResult<SysUser>> OnQueryAsync(PagingCriteria criteria)
     {
         if (currentOrg != null)
-            criteria.SetQuery(nameof(SysUser.OrgNo), QueryType.Equal, currentOrg?.Id);
+            criteria.Parameters[nameof(SysUser.OrgNo)] = currentOrg?.Id;
         return Platform.User.QueryUsersAsync(criteria);
     }
 

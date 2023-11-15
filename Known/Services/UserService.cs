@@ -172,15 +172,9 @@ class UserService : BaseService
 
     public async Task<Result> UpdateUserAsync(SysUser model)
     {
-        //var user = CurrentUser;
-        //if (user == null)
-        //    return Result.Error(Language.NoLogin);
-
-        //var entity = await Database.QueryByIdAsync<SysUser>(user.Id);
         if (model == null)
             return Result.Error(Language.NoUser);
 
-        //entity.FillModel(model);
         var vr = model.Validate();
         if (!vr.IsValid)
             return vr;

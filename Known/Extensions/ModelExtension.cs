@@ -2,7 +2,7 @@
 
 namespace Known.Extensions;
 
-public static class ModelExtension
+static class ModelExtension
 {
     #region Menu
     internal static List<MenuItem> ToMenuItems(this List<MenuInfo> menus)
@@ -34,33 +34,6 @@ public static class ModelExtension
             menu.Children.Add(sub);
             AddChildren(menus, sub);
         }
-    }
-
-    public static List<CodeInfo> GetActionCodes(this MenuInfo menu)
-    {
-        var actions = ActionInfo.Actions;
-        var codes = new List<CodeInfo>();
-        if (menu.Buttons != null && menu.Buttons.Count > 0)
-            codes.AddRange(menu.Buttons.Select(b => GetButton(menu, b, actions)));
-        if (menu.Actions != null && menu.Actions.Count > 0)
-            codes.AddRange(menu.Actions.Select(b => GetButton(menu, b, actions)));
-        return codes;
-    }
-
-    private static CodeInfo GetButton(MenuInfo menu, string id, List<ActionInfo> buttons)
-    {
-        var code = $"b_{menu.Id}_{id}";
-        var button = buttons.FirstOrDefault(b => b.Id == id);
-        var name = button != null ? button.Name : id;
-        return new CodeInfo(code, name);
-    }
-
-    public static List<CodeInfo> GetColumnCodes(this MenuInfo menu)
-    {
-        var codes = new List<CodeInfo>();
-        if (menu.Columns != null && menu.Columns.Count > 0)
-            codes.AddRange(menu.Columns.Select(b => new CodeInfo($"c_{menu.Id}_{b.Id}", b.Name)));
-        return codes;
     }
 	#endregion
 
@@ -196,36 +169,6 @@ public static class ModelExtension
 			menu.Children.Add(sub);
             AddChildren(models, sub, ref current);
         }
-    }
-    #endregion
-
-    #region User
-    public static Task SendMessageAsync(this UserInfo user, Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
-    {
-        return user.SendMessageAsync(db, Constants.UMLGeneral, toUser, subject, content, filePath, bizId);
-    }
-
-    public static Task SendUrgentMessageAsync(this UserInfo user, Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
-    {
-        return user.SendMessageAsync(db, Constants.UMLUrgent, toUser, subject, content, filePath, bizId);
-    }
-
-    private static Task SendMessageAsync(this UserInfo user, Database db, string level, string toUser, string subject, string content, string filePath = null, string bizId = null)
-    {
-        var model = new SysMessage
-        {
-            UserId = toUser,
-            Type = Constants.UMTypeReceive,
-            MsgBy = user.Name,
-            MsgLevel = level,
-            Subject = subject,
-            Content = content,
-            FilePath = filePath,
-            IsHtml = true,
-            Status = Constants.UMStatusUnread,
-            BizId = bizId
-        };
-        return db.SaveAsync(model);
     }
     #endregion
 }

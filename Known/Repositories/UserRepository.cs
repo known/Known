@@ -1,26 +1,29 @@
 ﻿using Known.Entities;
-using Known.Extensions;
 
 namespace Known.Repositories;
 
 class UserRepository
 {
     //User
-    internal static Task<PagingResult<SysUser>> QueryUsersAsync(Database db, PagingCriteria criteria)
+    internal static async Task<PagingResult<SysUser>> QueryUsersAsync(Database db, PagingCriteria criteria)
     {
         var sql = @"
 select a.*,b.Name as Department 
 from SysUser a 
 left join SysOrganization b on b.Id=a.OrgNo 
 where a.AppId=@AppId and a.CompNo=@CompNo and a.UserName<>'admin' and a.UserName<>a.CompNo";
-        if (criteria.HasQuery("OrgNo"))
+        var orgNoId = nameof(SysUser.OrgNo);
+        var orgNo = criteria.GetParameter(orgNoId);
+        if (!string.IsNullOrWhiteSpace(orgNo))
         {
-            var orgNo = criteria.GetQueryValue("OrgNo");
-            if (orgNo != db.User.CompNo)
-                sql += " and a.OrgNo=@OrgNo";
+            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
+            if (org != null && org.Code != db.User.CompNo)
+                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
+            else
+                criteria.RemoveQuery(orgNoId);
         }
         criteria.Fields[nameof(SysUser.Name)] = "a.Name";
-        return db.QueryPageAsync<SysUser>(sql, criteria);
+        return await db.QueryPageAsync<SysUser>(sql, criteria);
     }
 
     internal static async Task<bool> ExistsUserNameAsync(Database db, string id, string userName)
