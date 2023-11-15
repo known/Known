@@ -35,7 +35,7 @@ class SysUserList : BasePage<SysUser>
         return Platform.User.QueryUsersAsync(criteria);
     }
 
-    public void New() => Page.NewForm(Platform.User.SaveUserAsync, new SysUser());
+    public void New() => Page.NewForm(Platform.User.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
     public void Edit(SysUser row) => Page.EditForm(Platform.User.SaveUserAsync, row);
     public void Delete(SysUser row) => Page.Delete(Platform.User.DeleteUsersAsync, row);
     public void DeleteM() => Page.DeleteM(Platform.User.DeleteUsersAsync);
@@ -80,5 +80,9 @@ class SysUserList : BasePage<SysUser>
 
 public class SysUserForm : BaseForm<SysUser>
 {
-
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Model.Data = await Platform.User.GetUserAsync(Model.Data);
+    }
 }

@@ -4,6 +4,7 @@
 }
 .ant-tabs-nav {padding:0 10px;}
 .ant-table-cell .ant-tag {cursor:pointer;}
+.ant-table-pagination.ant-pagination {margin:10px;}
 
 /*Common*/
 .site-layout .site-layout-background {background: #fff;padding: 0;}

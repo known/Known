@@ -30,14 +30,6 @@ public class FileUrlInfo
     public string OriginalUrl { get; set; }
 }
 
-public class UserAuthInfo
-{
-    public CodeInfo[] Roles { get; set; }
-    public string RoleIds { get; set; }
-    public CodeInfo[] Datas { get; set; }
-    public string DataIds { get; set; }
-}
-
 public class TaskSummaryInfo
 {
     public string Status { get; set; }

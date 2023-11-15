@@ -7,6 +7,7 @@ class SysLogList : BasePage<SysLog>
 {
     public SysLogList()
     {
+        //TODO：默认排序
         //OrderBy = $"{nameof(SysLog.CreateTime)} desc";
     }
 

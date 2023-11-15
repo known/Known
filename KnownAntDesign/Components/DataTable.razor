@@ -11,48 +11,61 @@
            @bind-SelectedRows="Model.SelectedRows"
            OnChange="OnChange"
            HidePagination="!Model.ShowPager"
+           PaginationPosition="bottomRight"
            Size="TableSize.Small">
-        @if (Model.ShowCheckBox)
-        {
-            <Selection Width="50" />
-        }
-        <AutoGenerateColumns Table="Model" Item="context" />
-        @if (Model.Actions != null && Model.Actions.Count > 0)
-        {
-            <ActionColumn Title="操作" Fixed="true" Width="120">
-                @if (Model.Actions.Count > 3)
-                {
-                    var first = Model.Actions[0];
-                    <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Model.OnAction?.Invoke(first, context)">@first.Name</Tag>
-                    <Dropdown>
-                        <Overlay>
-                            <Menu>
-                                @for (int i = 1; i < Model.Actions.Count; i++)
-                                {
-                                    var item = Model.Actions[i];
-                                    <MenuItem @key="@item.Id" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</MenuItem>
-                                }
-                            </Menu>
-                        </Overlay>
-                        <ChildContent>
-                            <a class="ant-dropdown-link" @onclick:preventDefault>更多<Icon Type="down" /></a>
-                        </ChildContent>
-                    </Dropdown>
-                }
-                else
-                {
-                    foreach (var item in Model.Actions)
+        <ChildContent>
+            @if (Model.ShowCheckBox)
+            {
+                <Selection Width="50" />
+            }
+            <AutoGenerateColumns Table="Model" Item="context" />
+            @if (Model.Actions != null && Model.Actions.Count > 0)
+            {
+                <ActionColumn Title="操作" Fixed="true" Width="120">
+                    @if (Model.Actions.Count > 3)
                     {
-                        <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
+                        var first = Model.Actions[0];
+                        <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Model.OnAction?.Invoke(first, context)">@first.Name</Tag>
+                        <Dropdown>
+                            <Overlay>
+                                <Menu>
+                                    @for (int i = 1; i < Model.Actions.Count; i++)
+                                    {
+                                        var item = Model.Actions[i];
+                                        <MenuItem @key="@item.Id" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</MenuItem>
+                                    }
+                                </Menu>
+                            </Overlay>
+                            <ChildContent>
+                                <a class="ant-dropdown-link" @onclick:preventDefault>更多<Icon Type="down" /></a>
+                            </ChildContent>
+                        </Dropdown>
                     }
-                }
-            </ActionColumn>
-        }
+                    else
+                    {
+                        foreach (var item in Model.Actions)
+                        {
+                            <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
+                        }
+                    }
+                </ActionColumn>
+            }
+        </ChildContent>
+        <PaginationTemplate>
+            <Pagination Class="@context.PaginationClass"
+                        Total="context.Total"
+                        PageSize="context.PageSize"
+                        Current="context.PageIndex"
+                        ShowTotal="showTotal"
+                        ShowSizeChanger ShowQuickJumper
+                        OnChange="context.HandlePageChange" />
+        </PaginationTemplate>
      </Table>
 </div>
 
 @code {
     private string GetActionColor(string style) => style == "danger" ? "red-inverse" : "blue-inverse";
+    private Func<PaginationTotalContext, string> showTotal = ctx => $"共 {ctx.Total} 条记录";
 
     [Parameter] public TableModel<TItem> Model { get; set; }
 

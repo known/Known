@@ -161,8 +161,12 @@ public class SysUser : EntityBase
     public string Data { get; set; }
 
     public virtual string Department { get; set; }
+    public virtual List<CodeInfo> Roles { get; set; }
     [DisplayName("角色")]
-    public virtual string[] Roles { get; set; }
+    public virtual string[] RoleIds { get; set; }
+    public virtual List<CodeInfo> Datas { get; set; }
+    [DisplayName("数据")]
+    public virtual string[] DataIds { get; set; }
 
     private bool isOperation = false;
     public virtual bool IsOperation

@@ -4,7 +4,7 @@
     <GridRow>
         <GridCol Span="12">
             <FormItem LabelColSpan="8">
-                <Input @bind-Value="@context.UserName" Disabled="@Model.IsView" />
+                <Input @bind-Value="@context.UserName" Disabled="@(Model.IsView || !Model.Data.IsNew)" />
             </FormItem>
         </GridCol>
         <GridCol Span="12">
@@ -55,7 +55,7 @@
     <GridRow>
         <GridCol Span="24">
             <FormItem LabelColSpan="4">
-                <CheckboxGroup @bind-Value="@context.Roles" Disabled="@Model.IsView" />
+                <CheckboxGroup @bind-Value="@context.RoleIds" Options="@checkRoles" Disabled="@Model.IsView" />
             </FormItem>
         </GridCol>
     </GridRow>
@@ -63,6 +63,13 @@
 
 @code {
     AntDesign.Internal.IForm _form;
+    private CheckboxOption[] checkRoles = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        checkRoles = Model.Data.Roles.ToOptions();
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {

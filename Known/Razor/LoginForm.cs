@@ -43,7 +43,7 @@ public class LoginForm : BaseComponent
             });
         }
 
-        var result = await Platform.User.SignInAsync(Model);
+        var result = await Platform.Auth.SignInAsync(Model);
         if (!result.IsValid)
         {
             UI.Error(result.Message);

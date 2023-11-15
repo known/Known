@@ -42,7 +42,7 @@ public class AdminPage : BaseComponent
     protected Task<Result> SignOutAsync()
     {
         var user = CurrentUser;
-        return Platform.User.SignOutAsync(user?.Token);
+        return Platform.Auth.SignOutAsync(user?.Token);
     }
 
     private void OnNavigate(MenuItem item)

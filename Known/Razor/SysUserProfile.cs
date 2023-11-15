@@ -12,20 +12,20 @@ public class SysUserProfile : BasePage
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        User = await Platform.User.GetUserByIdAsync(CurrentUser.Id);
+        User = await Platform.User.GetUserAsync(CurrentUser.Id);
     }
 
     protected void OnEdit(bool edit) => IsEdit = edit;
 
     protected async Task OnSaveUserInfo()
     {
-        var result = await Platform.User.UpdateUserAsync(User);
+        var result = await Platform.Auth.UpdateUserAsync(User);
         UI.Result(result, () => IsEdit = false);
     }
 
     protected async Task OnSavePassword()
     {
-        var result = await Platform.User.UpdatePasswordAsync(PwdModel);
+        var result = await Platform.Auth.UpdatePasswordAsync(PwdModel);
         UI.Result(result);
     }
 }

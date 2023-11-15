@@ -42,7 +42,7 @@
     </div>
 </div>
 
- @code {
+@code {
     AntDesign.Internal.IForm _form;
 
     protected override void OnAfterRender(bool firstRender)
@@ -55,21 +55,17 @@
     private void OnTreeClick(TreeEventArgs<Known.MenuItem> e)
     {
         var item = e.Node.DataItem;
-        checkAllButtons = item.GetActionCodes().Select(a => new CheckboxOption
+        checkAllButtons = item.GetActionCodes().ToOptions(o =>
         {
-            Label = a.Name,
-            Value = a.Code,
-            Checked = Model.Data.MenuIds.Contains(a.Code),
-            Disabled = Model.IsView
-        }).ToArray();
+            o.Checked = Model.Data.MenuIds.Contains(o.Value);
+            o.Disabled = Model.IsView;
+        });
 
-        checkAllColumns = item.GetColumnCodes().Select(a => new CheckboxOption
+        checkAllColumns = item.GetColumnCodes().ToOptions(o =>
         {
-            Label = a.Name,
-            Value = a.Code,
-            Checked = Model.Data.MenuIds.Contains(a.Code),
-            Disabled = Model.IsView
-        }).ToArray();
+            o.Checked = Model.Data.MenuIds.Contains(o.Value);
+            o.Disabled = Model.IsView;
+        });
     }
 
     private CheckboxOption[] checkAllButtons = [];

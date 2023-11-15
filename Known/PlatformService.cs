@@ -17,6 +17,7 @@ public class PlatformService
         Flow = new FlowService { CurrentUser = user };
         Role = new RoleService { CurrentUser = user };
         User = new UserService { CurrentUser = user };
+        Auth = new AuthService { CurrentUser = user };
     }
 
     internal ModuleService Module { get; }
@@ -28,6 +29,7 @@ public class PlatformService
     internal FlowService Flow { get; }
     internal RoleService Role { get; }
     internal UserService User { get; }
+    internal AuthService Auth { get; }
 
     #region Company
     public Task<string> GetCompanyAsync(Database db, UserInfo user) => CompanyService.GetCompanyAsync(db, user);
@@ -36,8 +38,8 @@ public class PlatformService
     #endregion
 
     #region User
-    public Task<UserInfo> GetUserAsync(string userName) => User.GetUserAsync(userName);
-    public Task<AdminInfo> GetAdminAsync() => User.GetAdminAsync();
+    public Task<UserInfo> GetUserAsync(string userName) => Auth.GetUserAsync(userName);
+    public Task<AdminInfo> GetAdminAsync() => Auth.GetAdminAsync();
     #endregion
 
     #region File

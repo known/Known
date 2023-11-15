@@ -22,7 +22,7 @@ class FlowService : BaseService
         if (flows == null || flows.Count == 0)
             return Result.Error("流程未创建，无法执行！");
 
-        var next = await UserService.GetUserAsync(Database, info.User);
+        var next = await AuthService.GetUserAsync(Database, info.User);
         if (next == null)
             return Result.Error($"账号[{info.User}]不存在！");
 
@@ -98,7 +98,7 @@ class FlowService : BaseService
         if (flows == null || flows.Count == 0)
             return Result.Error("流程未创建，无法执行！");
 
-        var next = await UserService.GetUserAsync(Database, info.User);
+        var next = await AuthService.GetUserAsync(Database, info.User);
         if (next == null)
             return Result.Error($"下一步执行人[{info.User}]不存在！");
 
@@ -137,7 +137,7 @@ class FlowService : BaseService
         UserInfo next = null;
         if (isPass && !string.IsNullOrWhiteSpace(info.User))
         {
-            next = await UserService.GetUserAsync(Database, info.User);
+            next = await AuthService.GetUserAsync(Database, info.User);
             if (next == null)
                 return Result.Error($"账号[{info.User}]不存在！");
         }
