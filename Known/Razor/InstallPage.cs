@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Known.Extensions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Known.Razor;
@@ -17,14 +18,10 @@ public class InstallPage : BaseComponent
     protected async Task OnStart(EditContext context)
     {
         var result = await Platform.System.SaveInstallAsync(Model);
-        if (!result.IsValid)
-        {
-            //message = result.Message;
-        }
-        else
+        UI.Result(result, () =>
         {
             var info = result.DataAs<InstallInfo>();
             OnInstall?.Invoke(info);
-        }
+        });
     }
 }

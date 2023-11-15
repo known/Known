@@ -13,6 +13,8 @@ class UserService : BaseService
         return UserRepository.QueryUsersAsync(Database, criteria);
     }
 
+    public Task<SysUser> GetUserByIdAsync(string id) => Database.QueryByIdAsync<SysUser>(id);
+
     public async Task<Result> DeleteUsersAsync(List<SysUser> models)
     {
         if (models == null || models.Count == 0)
@@ -168,23 +170,23 @@ class UserService : BaseService
         }, entity);
     }
 
-    public async Task<Result> UpdateUserAsync(dynamic model)
+    public async Task<Result> UpdateUserAsync(SysUser model)
     {
-        var user = CurrentUser;
-        if (user == null)
-            return Result.Error(Language.NoLogin);
+        //var user = CurrentUser;
+        //if (user == null)
+        //    return Result.Error(Language.NoLogin);
 
-        var entity = await Database.QueryByIdAsync<SysUser>(user.Id);
-        if (entity == null)
+        //var entity = await Database.QueryByIdAsync<SysUser>(user.Id);
+        if (model == null)
             return Result.Error(Language.NoUser);
 
-        entity.FillModel(model);
-        var vr = entity.Validate();
+        //entity.FillModel(model);
+        var vr = model.Validate();
         if (!vr.IsValid)
             return vr;
 
-        await Database.SaveAsync(entity);
-        return Result.Success(Language.XXSuccess.Format(Language.Save), entity);
+        await Database.SaveAsync(model);
+        return Result.Success(Language.XXSuccess.Format(Language.Save), model);
     }
 
     public async Task<UserAuthInfo> GetUserAuthAsync(string userId)
