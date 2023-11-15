@@ -14,7 +14,7 @@ public class SysSetting : EntityBase
     [Column]
     [DisplayName("业务类型")]
     [Required(ErrorMessage = "业务类型不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string BizType { get; set; }
 
     /// <summary>
@@ -22,7 +22,7 @@ public class SysSetting : EntityBase
     /// </summary>
     [Column]
     [DisplayName("业务名称")]
-    [MinLength(1), MaxLength(250)]
+    [MaxLength(250)]
     public string BizName { get; set; }
 
     /// <summary>

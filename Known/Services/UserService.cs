@@ -102,58 +102,64 @@ class UserService : BaseService
         });
     }
 
-    public async Task<Result> SaveUserAsync(dynamic model)
+    public async Task<Result> SaveUserAsync(SysUser model)
     {
         List<SysRole> roles = null;
-        var roleId = (string)model.RoleId;
-        if (!string.IsNullOrWhiteSpace(roleId))
-        {
-            var roleIds = roleId.Split(',');
-            roles = await Database.QueryListByIdAsync<SysRole>(roleIds);
-        }
+        //var roleId = (string)model.RoleId;
+        if (model.RoleIds != null && model.RoleIds.Length > 0)
+            roles = await Database.QueryListByIdAsync<SysRole>(model.RoleIds);
         var user = CurrentUser;
-        var entity = await Database.QueryByIdAsync<SysUser>((string)model.Id);
-        if (entity == null)
-        {
-            entity = new SysUser
-            {
-                OrgNo = user.OrgNo,
-                FirstLoginTime = DateTime.Now,
-                LastLoginTime = DateTime.Now,
-                Enabled = true
-            };
+        //var entity = await Database.QueryByIdAsync<SysUser>((string)model.Id);
+        //if (entity == null)
+        //{
+        //    entity = new SysUser
+        //    {
+        //        OrgNo = user.OrgNo,
+        //        FirstLoginTime = DateTime.Now,
+        //        LastLoginTime = DateTime.Now,
+        //        Enabled = true
+        //    };
 
+        //    var info = await SystemService.GetSystemAsync(Database);
+        //    if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
+        //        return Result.Error("用户默认密码未配置！");
+
+        //    if (Config.App.IsPlatform && user.IsTenant)
+        //    {
+        //        //var tenant = SystemRepository.GetTenant(Database, user.CompNo);
+        //        //if (tenant == null)
+        //        //    return Result.Error("租户不存在！");
+
+        //        //var userCount = UserRepository.GetUserCount(Database);
+        //        //if (userCount >= tenant.UserCount)
+        //        //    return Result.Error("用户数已达上限，不能新增！");
+        //    }
+
+        //    //var valid = PlatformHelper.CheckUser?.Invoke(Database, entity);
+        //    //if (valid != null && !valid.IsValid)
+        //    //    return valid;
+
+        //    entity.Password = Utils.ToMd5(info.UserDefaultPwd);
+        //}
+
+        //entity.FillModel(model);
+        if (model.IsNew)
+        {
             var info = await SystemService.GetSystemAsync(Database);
             if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
                 return Result.Error("用户默认密码未配置！");
 
-            if (Config.App.IsPlatform && user.IsTenant)
-            {
-                //var tenant = SystemRepository.GetTenant(Database, user.CompNo);
-                //if (tenant == null)
-                //    return Result.Error("租户不存在！");
-
-                //var userCount = UserRepository.GetUserCount(Database);
-                //if (userCount >= tenant.UserCount)
-                //    return Result.Error("用户数已达上限，不能新增！");
-            }
-
-            //var valid = PlatformHelper.CheckUser?.Invoke(Database, entity);
-            //if (valid != null && !valid.IsValid)
-            //    return valid;
-
-            entity.Password = Utils.ToMd5(info.UserDefaultPwd);
+            model.Password = Utils.ToMd5(info.UserDefaultPwd);
         }
 
-        entity.FillModel(model);
-        if (string.IsNullOrWhiteSpace(entity.OrgNo))
-            entity.OrgNo = user.OrgNo;
-        entity.Type = model.IsOperation == "True" ? Constants.UTOperation : "";
-        var vr = entity.Validate();
+        if (string.IsNullOrWhiteSpace(model.OrgNo))
+            model.OrgNo = user.OrgNo;
+        model.Type = model.IsOperation ? Constants.UTOperation : "";
+        var vr = model.Validate();
         if (vr.IsValid)
         {
-            entity.UserName = entity.UserName.ToLower();
-            if (await UserRepository.ExistsUserNameAsync(Database, entity.Id, entity.UserName))
+            model.UserName = model.UserName.ToLower();
+            if (await UserRepository.ExistsUserNameAsync(Database, model.Id, model.UserName))
             {
                 vr.AddError("用户名已存在，请使用其他字符创建用户！");
             }
@@ -164,19 +170,19 @@ class UserService : BaseService
 
         return await Database.TransactionAsync(Language.Save, async db =>
         {
-            entity.Role = string.Empty;
-            await UserRepository.DeleteUserRolesAsync(db, entity.Id);
+            model.Role = string.Empty;
+            await UserRepository.DeleteUserRolesAsync(db, model.Id);
             if (roles != null && roles.Count > 0)
             {
-                entity.Role = string.Join(",", roles.Select(r => r.Name).ToArray());
+                model.Role = string.Join(",", roles.Select(r => r.Name).ToArray());
                 foreach (var item in roles)
                 {
-                    await UserRepository.AddUserRoleAsync(db, entity.Id, item.Id);
+                    await UserRepository.AddUserRoleAsync(db, model.Id, item.Id);
                 }
             }
-            await db.SaveAsync(entity);
-            //PlatformHelper.SetBizUser(db, entity);
-        }, entity);
+            await db.SaveAsync(model);
+            //PlatformHelper.SetBizUser(db, model);
+        }, model);
     }
 
     //Setting

@@ -1,50 +1,50 @@
 ﻿@typeparam TItem where TItem : class, new()
 
+<div class="query">
 @if (Model.QueryColumns != null && Model.QueryColumns.Count > 0)
 {
     var length = Model.QueryColumns.Count;
     if (length > 3)
         length = _expand ? length : 3;
-    <div class="query">
-        <Form @ref="_form" Model="Model.QueryData" Layout="@FormLayout.Inline">
-            @for (var i = 0; i < length; i++)
-            {
-                var item = Model.QueryColumns[i];
-                var property = item.Property;
-                var itemType = property.PropertyType.Name;
-                var label = property.DisplayName();
-                <FormItem Label="@label">
-                    @if (!string.IsNullOrWhiteSpace(item.CodeType))
-                    {
-                        var codes = Cache.GetCodes(item.CodeType, item.IsQueryAll);
-                        <Select TItemValue="string" TItem="CodeInfo" DataSource="codes"
-                                ValueName="@nameof(CodeInfo.Code)" LabelName="@nameof(CodeInfo.Name)"
-                                @bind-Value="@(context[property.Name].Value)"
-                                Style="width:180px" />
-                    }
-                    else if (itemType.Contains("DateTime"))
-                    {
-                        <RangePicker TValue="DateTime?[]" OnChange="e=>OnDateRangeChange(e,context[property.Name])" />
-                    }
-                    else
-                    {
-                        <Input @bind-Value="@(context[property.Name].Value)" Style="width:180px" />
-                    }
-                </FormItem>
-            }
-            <div>
-                <Button Type="primary" HtmlType="submit" OnClick="e=>OnSearchAsync()">搜索</Button>
-                <Button Style="margin-left:8px;" OnClick="()=>{_form?.Reset();}">重置</Button>
-                @if (length > 3)
+    <Form @ref="_form" Model="Model.QueryData" Layout="@FormLayout.Inline">
+        @for (var i = 0; i < length; i++)
+        {
+            var item = Model.QueryColumns[i];
+            var property = item.Property;
+            var itemType = property.PropertyType.Name;
+            var label = property.DisplayName();
+            <FormItem Label="@label">
+                @if (!string.IsNullOrWhiteSpace(item.CodeType))
                 {
-                    <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
-                        <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? "折叠" : "展开")
-                    </a>
+                    var codes = Cache.GetCodes(item.CodeType, item.IsQueryAll);
+                    <Select TItemValue="string" TItem="CodeInfo" DataSource="codes"
+                            ValueName="@nameof(CodeInfo.Code)" LabelName="@nameof(CodeInfo.Name)"
+                            @bind-Value="@(context[property.Name].Value)"
+                            Style="width:180px" />
                 }
-            </div>
-        </Form>
-    </div>
+                else if (itemType.Contains("DateTime"))
+                {
+                    <RangePicker TValue="DateTime?[]" OnChange="e=>OnDateRangeChange(e,context[property.Name])" />
+                }
+                else
+                {
+                    <Input @bind-Value="@(context[property.Name].Value)" Style="width:180px" />
+                }
+            </FormItem>
+        }
+        <div>
+            <Button Type="primary" HtmlType="submit" OnClick="e=>OnSearchAsync()">搜索</Button>
+            <Button Style="margin-left:8px;" OnClick="()=>{_form?.Reset();}">重置</Button>
+            @if (length > 3)
+            {
+                <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
+                    <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? "折叠" : "展开")
+                </a>
+            }
+        </div>
+    </Form>
 }
+</div>
 
 @code {
     bool _expand = false;

@@ -19,7 +19,7 @@ public class SysRole : EntityBase
     [Column(IsGrid = true, IsQuery = true, IsForm = true, IsViewLink = true)]
     [DisplayName("名称")]
     [Required(ErrorMessage = "名称不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Name { get; set; }
 
     /// <summary>
@@ -35,7 +35,7 @@ public class SysRole : EntityBase
     /// </summary>
     [Column(IsGrid = true, IsForm = true)]
     [DisplayName("备注")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string Note { get; set; }
 
     public virtual List<MenuItem> Menus { get; set; }

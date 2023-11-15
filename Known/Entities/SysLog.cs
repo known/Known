@@ -14,7 +14,7 @@ public class SysLog : EntityBase
     [Column(IsGrid = true, IsQuery = true, CodeType = nameof(LogType))]
     [DisplayName("操作类型")]
     [Required(ErrorMessage = "操作类型不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Type { get; set; }
 
     /// <summary>
@@ -23,7 +23,7 @@ public class SysLog : EntityBase
     [Column(IsGrid = true, IsQuery = true)]
     [DisplayName("操作对象")]
     [Required(ErrorMessage = "操作对象不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Target { get; set; }
 
     /// <summary>

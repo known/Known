@@ -14,7 +14,7 @@ public class SysFile : EntityBase
     [Column(IsGrid = true, IsQuery = true)]
     [DisplayName("一级分类")]
     [Required(ErrorMessage = "一级分类不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Category1 { get; set; }
 
     /// <summary>
@@ -22,7 +22,7 @@ public class SysFile : EntityBase
     /// </summary>
     [Column(IsGrid = true)]
     [DisplayName("二级分类")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Category2 { get; set; }
 
     /// <summary>
@@ -31,7 +31,7 @@ public class SysFile : EntityBase
     [Column(IsGrid = true, IsQuery = true)]
     [DisplayName("文件名称")]
     [Required(ErrorMessage = "文件名称不能为空！")]
-    [MinLength(1), MaxLength(250)]
+    [MaxLength(250)]
     public string Name { get; set; }
 
     /// <summary>
@@ -39,7 +39,7 @@ public class SysFile : EntityBase
     /// </summary>
     [Column(IsGrid = true)]
     [DisplayName("文件类型")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Type { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class SysFile : EntityBase
     /// </summary>
     [Column]
     [DisplayName("文件路径")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string Path { get; set; }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class SysFile : EntityBase
     [Column(IsGrid = true)]
     [DisplayName("原文件名")]
     [Required(ErrorMessage = "原文件名不能为空！")]
-    [MinLength(1), MaxLength(250)]
+    [MaxLength(250)]
     public string SourceName { get; set; }
 
     /// <summary>
@@ -73,7 +73,7 @@ public class SysFile : EntityBase
     [Column(IsGrid = true)]
     [DisplayName("扩展名")]
     [Required(ErrorMessage = "扩展名不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string ExtName { get; set; }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class SysFile : EntityBase
     /// </summary>
     [Column(IsGrid = true)]
     [DisplayName("备注")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string Note { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class SysFile : EntityBase
     /// </summary>
     [Column]
     [DisplayName("业务ID")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string BizId { get; set; }
 
     /// <summary>
@@ -97,7 +97,7 @@ public class SysFile : EntityBase
     /// </summary>
     [Column]
     [DisplayName("文件缩略图路径")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string ThumbPath { get; set; }
 
     public virtual bool IsWeb => Category1 == "WWW";

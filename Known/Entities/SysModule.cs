@@ -18,7 +18,7 @@ public class SysModule : EntityBase
     /// </summary>
     [Column]
     [DisplayName("上级")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string ParentId { get; set; }
 
     /// <summary>
@@ -27,7 +27,7 @@ public class SysModule : EntityBase
     [Column(IsGrid = true, IsForm = true, IsViewLink = true)]
     [DisplayName("代码")]
     [Required(ErrorMessage = "代码不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Code { get; set; }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class SysModule : EntityBase
     [Column(IsGrid = true, IsForm = true)]
     [DisplayName("名称")]
     [Required(ErrorMessage = "名称不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Name { get; set; }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class SysModule : EntityBase
     /// </summary>
     [Column(IsForm = true)]
     [DisplayName("图标")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Icon { get; set; }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class SysModule : EntityBase
     /// </summary>
     [Column(IsGrid = true, IsForm = true)]
     [DisplayName("描述")]
-    [MinLength(1), MaxLength(200)]
+    [MaxLength(200)]
     public string Description { get; set; }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class SysModule : EntityBase
     /// </summary>
     [Column]
     [DisplayName("目标")]
-    [MinLength(1), MaxLength(250)]
+    [MaxLength(250)]
     public string Target { get; set; }
 
     /// <summary>
@@ -103,7 +103,7 @@ public class SysModule : EntityBase
     /// </summary>
     [Column(IsGrid = true, IsForm = true)]
     [DisplayName("备注")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string Note { get; set; }
 
     public virtual bool IsMoveUp { get; set; }

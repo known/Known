@@ -19,8 +19,8 @@
 		</GridCol>
 		<GridCol Span="20">
 			<div class="page-top">
-			    <Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
 				<QueryForm TItem="TItem" Model="Model.Table" OnSearch="OnSearchAsync" />
+			    <Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
 			</div>
 			<DataTable @ref="table" TItem="TItem" Model="Model.Table" />
 		</GridCol>
@@ -29,8 +29,8 @@
 else
 {
 	<div class="page-top">
-		<Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
 		<QueryForm TItem="TItem" Model="Model.Table" OnSearch="OnSearchAsync" />
+		<Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
 	</div>
 	<DataTable @ref="table" TItem="TItem" Model="Model.Table" />
 }

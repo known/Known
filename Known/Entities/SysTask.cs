@@ -14,7 +14,7 @@ public class SysTask : EntityBase
     [Column]
     [DisplayName("业务ID")]
     [Required(ErrorMessage = "业务ID不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string BizId { get; set; }
 
     /// <summary>
@@ -23,7 +23,7 @@ public class SysTask : EntityBase
     [Column(IsGrid = true, IsQuery = true)]
     [DisplayName("类型")]
     [Required(ErrorMessage = "类型不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Type { get; set; }
 
     /// <summary>
@@ -32,7 +32,7 @@ public class SysTask : EntityBase
     [Column(IsGrid = true, IsQuery = true)]
     [DisplayName("名称")]
     [Required(ErrorMessage = "名称不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Name { get; set; }
 
     /// <summary>
@@ -40,7 +40,7 @@ public class SysTask : EntityBase
     /// </summary>
     [Column(IsGrid = true)]
     [DisplayName("执行目标")]
-    [MinLength(1), MaxLength(200)]
+    [MaxLength(200)]
     public string Target { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class SysTask : EntityBase
     [Column(IsGrid = true, CodeType = nameof(TaskStatus))]
     [DisplayName("执行状态")]
     [Required(ErrorMessage = "执行状态不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Status { get; set; }
 
     /// <summary>

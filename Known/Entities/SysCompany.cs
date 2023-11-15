@@ -13,7 +13,7 @@ public class SysCompany : EntityBase
     /// </summary>
     [Column]
     [DisplayName("企业编码")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Code { get; set; }
 
     /// <summary>
@@ -21,7 +21,7 @@ public class SysCompany : EntityBase
     /// </summary>
     [Column]
     [DisplayName("企业名称")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Name { get; set; }
 
     /// <summary>
@@ -29,7 +29,7 @@ public class SysCompany : EntityBase
     /// </summary>
     [Column]
     [DisplayName("英文名称")]
-    [MinLength(1), MaxLength(250)]
+    [MaxLength(250)]
     public string NameEn { get; set; }
 
     /// <summary>
@@ -37,7 +37,7 @@ public class SysCompany : EntityBase
     /// </summary>
     [Column]
     [DisplayName("社会信用代码")]
-    [MinLength(1), MaxLength(18)]
+    [MaxLength(18)]
     public string SccNo { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public class SysCompany : EntityBase
     /// </summary>
     [Column]
     [DisplayName("所属行业")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Industry { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public class SysCompany : EntityBase
     /// </summary>
     [Column]
     [DisplayName("所属区域")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Region { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class SysCompany : EntityBase
     /// </summary>
     [Column]
     [DisplayName("中文地址")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string Address { get; set; }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class SysCompany : EntityBase
     /// </summary>
     [Column]
     [DisplayName("英文地址")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string AddressEn { get; set; }
 
     /// <summary>
@@ -77,7 +77,7 @@ public class SysCompany : EntityBase
     /// </summary>
     [Column]
     [DisplayName("联系人")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Contact { get; set; }
 
     /// <summary>
@@ -85,7 +85,7 @@ public class SysCompany : EntityBase
     /// </summary>
     [Column]
     [DisplayName("联系人电话")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Phone { get; set; }
 
     /// <summary>

@@ -13,7 +13,6 @@ public class UserSetting
 
 public class QueryInfo
 {
-    public QueryInfo() { }
     public QueryInfo(string id, string value) : this(id, QueryType.Contain, value) { }
     public QueryInfo(string id, QueryType type, string value)
     {
@@ -25,6 +24,7 @@ public class QueryInfo
     internal QueryInfo(ColumnAttribute attr)
     {
         Id = attr.Property.Name;
+        Type = QueryType.Contain;
         Value = "";
         if (!attr.IsQueryAll)
         {

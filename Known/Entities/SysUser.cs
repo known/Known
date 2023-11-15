@@ -18,7 +18,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Column]
     [DisplayName("组织编码")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string OrgNo { get; set; }
 
     /// <summary>
@@ -27,15 +27,14 @@ public class SysUser : EntityBase
     [Column(IsGrid = true, IsQuery = true, IsForm = true, IsViewLink = true)]
     [DisplayName("用户名")]
     [Required(ErrorMessage = "用户名不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string UserName { get; set; }
 
     /// <summary>
     /// 取得或设置密码。
     /// </summary>
     [Column]
-    [Required(ErrorMessage = "密码不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Password { get; set; }
 
     /// <summary>
@@ -44,7 +43,7 @@ public class SysUser : EntityBase
     [Column(IsGrid = true, IsQuery = true, IsForm = true)]
     [DisplayName("姓名")]
     [Required(ErrorMessage = "姓名不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Name { get; set; }
 
     /// <summary>
@@ -52,7 +51,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Column(IsGrid = true, IsForm = true)]
     [DisplayName("英文名")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string EnglishName { get; set; }
 
     /// <summary>
@@ -61,7 +60,7 @@ public class SysUser : EntityBase
     [Column(IsGrid = true, IsForm = true)]
     [DisplayName("性别")]
     [Required(ErrorMessage = "性别不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Gender { get; set; }
 
     /// <summary>
@@ -69,7 +68,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Column(IsGrid = true, IsForm = true)]
     [DisplayName("固定电话")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     [Regex(RegexPattern.Phone, "固定电话格式不正确！")]
     public string Phone { get; set; }
 
@@ -78,7 +77,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Column(IsGrid = true, IsForm = true)]
     [DisplayName("移动电话")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     [Regex(RegexPattern.Mobile, "移动电话格式不正确！")]
     public string Mobile { get; set; }
 
@@ -87,7 +86,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Column(IsGrid = true, IsForm = true)]
     [DisplayName("电子邮件")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     [Regex(RegexPattern.Email, "电子邮件格式不正确！")]
     public string Email { get; set; }
 
@@ -104,7 +103,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Column(IsForm = true)]
     [DisplayName("简介")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string Note { get; set; }
 
     /// <summary>
@@ -119,7 +118,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Column(IsGrid = true)]
     [DisplayName("首次登录IP")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string FirstLoginIP { get; set; }
 
     /// <summary>
@@ -134,7 +133,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Column(IsGrid = true)]
     [DisplayName("最近登录IP")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string LastLoginIP { get; set; }
 
     /// <summary>
@@ -142,7 +141,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Column]
     [DisplayName("类型")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string Type { get; set; }
 
     /// <summary>
@@ -150,7 +149,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Column(IsGrid = true, IsForm = true)]
     [DisplayName("角色")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string Role { get; set; }
 
     /// <summary>

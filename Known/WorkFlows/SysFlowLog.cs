@@ -14,7 +14,7 @@ public class SysFlowLog : EntityBase
     [Column]
     [DisplayName("业务ID")]
     [Required(ErrorMessage = "业务ID不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string BizId { get; set; }
 
     /// <summary>
@@ -23,7 +23,7 @@ public class SysFlowLog : EntityBase
     [Column]
     [DisplayName("步骤")]
     [Required(ErrorMessage = "步骤不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string StepName { get; set; }
 
     /// <summary>
@@ -32,7 +32,7 @@ public class SysFlowLog : EntityBase
     [Column]
     [DisplayName("操作人")]
     [Required(ErrorMessage = "操作人不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string ExecuteBy { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class SysFlowLog : EntityBase
     [Column]
     [DisplayName("操作结果")]
     [Required(ErrorMessage = "操作结果不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Result { get; set; }
 
     /// <summary>
@@ -57,6 +57,6 @@ public class SysFlowLog : EntityBase
     /// </summary>
     [Column]
     [DisplayName("操作内容")]
-    [MinLength(1), MaxLength(1000)]
+    [MaxLength(1000)]
     public string Note { get; set; }
 }

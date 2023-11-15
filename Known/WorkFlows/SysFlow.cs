@@ -14,7 +14,7 @@ public class SysFlow : EntityBase
     [Column]
     [DisplayName("流程代码")]
     [Required(ErrorMessage = "流程代码不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string FlowCode { get; set; }
 
     /// <summary>
@@ -23,7 +23,7 @@ public class SysFlow : EntityBase
     [Column]
     [DisplayName("流程名称")]
     [Required(ErrorMessage = "流程名称不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string FlowName { get; set; }
 
     /// <summary>
@@ -32,7 +32,7 @@ public class SysFlow : EntityBase
     [Column]
     [DisplayName("流程状态")]
     [Required(ErrorMessage = "流程状态不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string FlowStatus { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class SysFlow : EntityBase
     [Column]
     [DisplayName("业务ID")]
     [Required(ErrorMessage = "业务ID不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string BizId { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class SysFlow : EntityBase
     [Column]
     [DisplayName("业务描述")]
     [Required(ErrorMessage = "业务描述不能为空！")]
-    [MinLength(1), MaxLength(200)]
+    [MaxLength(200)]
     public string BizName { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class SysFlow : EntityBase
     [Column]
     [DisplayName("业务Url")]
     [Required(ErrorMessage = "业务Url不能为空！")]
-    [MinLength(1), MaxLength(200)]
+    [MaxLength(200)]
     public string BizUrl { get; set; }
 
     /// <summary>
@@ -68,7 +68,7 @@ public class SysFlow : EntityBase
     [Column]
     [DisplayName("业务状态")]
     [Required(ErrorMessage = "业务状态不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string BizStatus { get; set; }
 
     /// <summary>
@@ -77,7 +77,7 @@ public class SysFlow : EntityBase
     [Column]
     [DisplayName("当前步骤")]
     [Required(ErrorMessage = "当前步骤不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string CurrStep { get; set; }
 
     /// <summary>
@@ -86,7 +86,7 @@ public class SysFlow : EntityBase
     [Column]
     [DisplayName("当前执行人")]
     [Required(ErrorMessage = "当前执行人不能为空！")]
-    [MinLength(1), MaxLength(200)]
+    [MaxLength(200)]
     public string CurrBy { get; set; }
 
     /// <summary>
@@ -94,7 +94,7 @@ public class SysFlow : EntityBase
     /// </summary>
     [Column]
     [DisplayName("上一步骤")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string PrevStep { get; set; }
 
     /// <summary>
@@ -102,7 +102,7 @@ public class SysFlow : EntityBase
     /// </summary>
     [Column]
     [DisplayName("上一步执行人")]
-    [MinLength(1), MaxLength(200)]
+    [MaxLength(200)]
     public string PrevBy { get; set; }
 
     /// <summary>
@@ -110,7 +110,7 @@ public class SysFlow : EntityBase
     /// </summary>
     [Column]
     [DisplayName("下一步骤")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string NextStep { get; set; }
 
     /// <summary>
@@ -118,7 +118,7 @@ public class SysFlow : EntityBase
     /// </summary>
     [Column]
     [DisplayName("下一步执行人")]
-    [MinLength(1), MaxLength(200)]
+    [MaxLength(200)]
     public string NextBy { get; set; }
 
     /// <summary>
@@ -126,7 +126,7 @@ public class SysFlow : EntityBase
     /// </summary>
     [Column]
     [DisplayName("申请人")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string ApplyBy { get; set; }
 
     /// <summary>
@@ -141,7 +141,7 @@ public class SysFlow : EntityBase
     /// </summary>
     [Column]
     [DisplayName("审核人")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string VerifyBy { get; set; }
 
     /// <summary>
@@ -156,6 +156,6 @@ public class SysFlow : EntityBase
     /// </summary>
     [Column]
     [DisplayName("审核人意见")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string VerifyNote { get; set; }
 }

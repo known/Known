@@ -14,7 +14,7 @@ public class SysMessage : EntityBase
     [Column(IsGrid = false)]
     [DisplayName("用户ID")]
     [Required(ErrorMessage = "用户ID不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string UserId { get; set; }
 
     /// <summary>
@@ -23,7 +23,7 @@ public class SysMessage : EntityBase
     [Column]
     [DisplayName("类型")]
     [Required(ErrorMessage = "类型不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Type { get; set; }
 
     /// <summary>
@@ -32,7 +32,7 @@ public class SysMessage : EntityBase
     [Column(IsGrid = true)]
     [DisplayName("发件人")]
     [Required(ErrorMessage = "发件人不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string MsgBy { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class SysMessage : EntityBase
     [Column(IsGrid = true)]
     [DisplayName("级别")]
     [Required(ErrorMessage = "级别不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string MsgLevel { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class SysMessage : EntityBase
     /// </summary>
     [Column(IsGrid = true)]
     [DisplayName("分类")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Category { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class SysMessage : EntityBase
     [Column(IsGrid = true, IsQuery = true)]
     [DisplayName("主题")]
     [Required(ErrorMessage = "主题不能为空！")]
-    [MinLength(1), MaxLength(250)]
+    [MaxLength(250)]
     public string Subject { get; set; }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class SysMessage : EntityBase
     /// </summary>
     [Column]
     [DisplayName("附件")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string FilePath { get; set; }
 
     /// <summary>
@@ -90,7 +90,7 @@ public class SysMessage : EntityBase
     [Column]
     [DisplayName("状态")]
     [Required(ErrorMessage = "状态不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Status { get; set; }
 
     /// <summary>
@@ -98,6 +98,6 @@ public class SysMessage : EntityBase
     /// </summary>
     [Column]
     [DisplayName("业务ID")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string BizId { get; set; }
 }

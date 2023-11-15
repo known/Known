@@ -19,7 +19,7 @@ public class SysDictionary : EntityBase
     [Column(IsGrid = true, IsQuery = true, CodeType = Constants.DicCategory, IsQueryAll = false)]
     [DisplayName("类别")]
     [Required(ErrorMessage = "类别不能为空！")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string Category { get; set; }
 
     /// <summary>
@@ -27,7 +27,7 @@ public class SysDictionary : EntityBase
     /// </summary>
     [Column]
     [DisplayName("类别名称")]
-    [MinLength(1), MaxLength(50)]
+    [MaxLength(50)]
     public string CategoryName { get; set; }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class SysDictionary : EntityBase
     [Column(IsGrid = true, IsQuery = true, IsForm = true, IsViewLink = true)]
     [DisplayName("代码")]
     [Required(ErrorMessage = "代码不能为空！")]
-    [MinLength(1), MaxLength(100)]
+    [MaxLength(100)]
     public string Code { get; set; }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class SysDictionary : EntityBase
     /// </summary>
     [Column(IsGrid = true, IsQuery = true, IsForm = true)]
     [DisplayName("名称")]
-    [MinLength(1), MaxLength(150)]
+    [MaxLength(150)]
     public string Name { get; set; }
 
     /// <summary>
@@ -68,7 +68,7 @@ public class SysDictionary : EntityBase
     /// </summary>
     [Column(IsGrid = true, IsForm = true)]
     [DisplayName("备注")]
-    [MinLength(1), MaxLength(500)]
+    [MaxLength(500)]
     public string Note { get; set; }
 
     /// <summary>
