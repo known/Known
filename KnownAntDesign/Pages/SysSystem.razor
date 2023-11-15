@@ -6,8 +6,8 @@
             <FormItem Label="企业名称">
                 @($"{context.CompNo}-{context.CompName}")
             </FormItem>
-            <FormItem>
-                <Input @bind-Value="@context.AppName" />
+            <FormItem Label="系统名称">
+                @context.AppName
             </FormItem>
             <FormItem Label="系统版本">
                 @Config.Version.AppVersion
@@ -20,10 +20,10 @@
             </FormItem>
             @if (!Config.App.IsPlatform && Config.Copyright.IsProductKey)
             {
-                <FormItem>
+                <FormItem Label="产品ID">
                     @context.ProductId
                 </FormItem>
-                <FormItem>
+                <FormItem Label="产品密钥">
                     @context.ProductKey
                 </FormItem>
             }
@@ -37,8 +37,8 @@
     </TabPane>
     <TabPane Tab="安全设置" Key="2">
         <Form Model="@Model" LabelColSpan="@labelCol" WrapperColSpan="@valueCol">
-            <FormItem>
-                <Input @bind-Value="@context.UserDefaultPwd" />
+            <FormItem Label="默认密码">
+                @context.UserDefaultPwd
             </FormItem>
         </Form>
     </TabPane>

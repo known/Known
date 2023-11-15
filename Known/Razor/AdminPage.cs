@@ -39,8 +39,6 @@ public class AdminPage : BaseComponent
         IsLoaded = true;
     }
 
-    protected void OnGoHome() => Context.NavigateToHome();
-
     protected Task<Result> SignOutAsync()
     {
         var user = CurrentUser;

@@ -10,8 +10,8 @@ class SysOrganizationList : BasePage<SysOrganization>
 
     protected override async Task OnInitPageAsync()
     {
-        datas = await Platform.Company.GetOrganizationsAsync();
         await base.OnInitPageAsync();
+        datas = await Platform.Company.GetOrganizationsAsync();
         Page.FormTitle = row => $"{Name} - {row.ParentName}";
         Page.Tree = new TreeModel
         {

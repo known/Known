@@ -55,6 +55,19 @@
     .login-form {padding:50px 20px;}
 }
 
+/*UserProfile*/
+.avatar {text-align:center;}
+.avatar img {width:100px;height:100px;margin:20px auto;}
+.userInfo li {list-style:none;height:2rem;line-height:2rem;text-align:justify;}
+.userInfo li .anticon {color:#2d8cf0;}
+.userInfo li span {color:#333;font-size:0.9rem;}
+
+.user-message .data-top {padding-top:10px;}
+.user-message .form-label {width:auto;}
+.user-message .form {margin-top:10px;}
+.user-message .form-button {padding:10px;text-align:center;}
+.user-message .noread {font-weight:bold;color:#000;}
+
 /*Import*/
 .form-import {grid-template-rows:20px 50px auto;}
 .form-import .item {display:flex;margin:8px 0;padding:2px;border:1px solid #d5d5d5;}

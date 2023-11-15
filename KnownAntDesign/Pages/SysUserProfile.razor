@@ -1,0 +1,64 @@
+﻿@inherits Known.Razor.SysUserProfile
+
+<GridRow>
+	<GridCol Span="4">
+		<div style="padding:10px;">
+            <div class="avatar"><img src="@user?.AvatarUrl" /></div>
+            <ul class="userInfo">
+                <li>
+                    <Icon Type="user" Theme="outline" />
+                    <span>@($"{user?.Name}({user?.UserName})")</span>
+                </li>
+                <li>
+                    <Icon Type="phone" Theme="outline" />
+                    <span>@user?.Phone</span>
+                </li>
+                <li>
+                    <Icon Type="mobile" Theme="outline" />
+                    <span>@user?.Mobile</span>
+                </li>
+                <li>
+                    <Icon Type="inbox" Theme="outline" />
+                    <span>@user?.Email</span>
+                </li>
+                <li>
+                    <Icon Type="team" Theme="outline" />
+                    <span>@user?.Role</span>
+                </li>
+                <li>
+                    <Icon Type="comment" Theme="outline" />
+                    <span>@user?.Note</span>
+                </li>
+            </ul>
+		</div>
+	</GridCol>
+	<GridCol Span="20">
+        <Tabs Animated>
+            @if (Config.App.Type == AppType.Web)
+            {
+                <TabPane Tab="待办事项" Key="1">
+
+                </TabPane>
+                <TabPane Tab="我的消息" Key="2">
+
+                </TabPane>
+            }
+            <TabPane Tab="我的信息" Key="3">
+
+            </TabPane>
+            <TabPane Tab="安全设置" Key="4">
+
+            </TabPane>
+        </Tabs>
+	</GridCol>
+</GridRow>
+
+@code {
+    private UserInfo user;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        user = CurrentUser;
+    }
+}

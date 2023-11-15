@@ -41,7 +41,7 @@
             <Header Class="site-layout-background" Style="padding:0;">
                 <div style="padding:0 10px;display:flex;justify-content:space-between;">
                     <h1>@Config.App.Name</h1>
-                    <NavTopRight OnMenuClick="OnTopRightClick" />
+                    <NavTopRight OnMenuClick="OnMenuClick" />
                 </div>
             </Header>
             <Content Style="margin:0 10px;">
@@ -51,7 +51,7 @@
                 }
                 else
                 {
-                    <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnGoHome" />
+                    <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnHome" />
                     <div class="site-layout-background" style="min-height:360px">
                         <DynamicComponent Type="CurrentMenu.ComType" Parameters="CurrentMenu.ComParameters" />
                     </div>
@@ -63,15 +63,17 @@
 </Layout>
 
 @code{
-    private void OnTopRightClick(string id)
+    private void OnHome()=> OnMenuClick("home");
+
+    private void OnMenuClick(string id)
     {
         switch (id)
         {
             case "home":
-                OnGoHome();
+                Context.Navigate(Config.GetHomeMenu());
                 break;
             case "profile":
-                //Context.Navigate(new("个人中心", "user", typeof(UserProfile), "当前用户个人中心和安全设置。"));
+                Context.Navigate(new("个人中心", "user", typeof(SysUserProfile), "当前用户个人中心和安全设置。"));
                 break;
             case "logout":
                 UI.Confirm("确定要退出系统？", async () =>

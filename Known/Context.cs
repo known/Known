@@ -2,7 +2,6 @@
 
 public class Context
 {
-    //private readonly KMenuItem account = new("个人中心", "fa fa-user", typeof(SysAccount), "当前用户个人中心和安全设置。");
     private MenuItem current;
 
     internal static Action<MenuItem> OnNavigate { get; set; }
@@ -34,9 +33,6 @@ public class Context
         }
         return menus;
     }
-
-    public void NavigateToHome() => Navigate(Config.GetHomeMenu());
-    //public void NavigateToAccount() => Navigate(account);
 
     public void Navigate(MenuItem menu, Dictionary<string, object> prevParams = null)
     {

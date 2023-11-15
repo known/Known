@@ -88,7 +88,7 @@ public sealed class Config
         return Path.Combine(path, filePath);
     }
 
-    internal static MenuItem GetHomeMenu()
+    public static MenuItem GetHomeMenu()
     {
         return new("首页", "home", PageTypes.GetValueOrDefault("Home"));
     }

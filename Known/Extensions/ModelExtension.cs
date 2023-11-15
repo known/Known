@@ -154,6 +154,12 @@ public static class ModelExtension
     //#endregion
 
     #region Organization
+    internal static List<MenuItem> ToMenuItems(this List<SysOrganization> models)
+    {
+        MenuItem current = null;
+        return models.ToMenuItems(ref current);
+    }
+
     internal static List<MenuItem> ToMenuItems(this List<SysOrganization> models, ref MenuItem current)
     {
         var menus = new List<MenuItem>();

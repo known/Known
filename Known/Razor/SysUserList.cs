@@ -1,19 +1,37 @@
 ﻿using Known.Entities;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Razor;
 
 class SysUserList : BasePage<SysUser>
 {
+    private SysOrganization currentOrg;
+
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        var datas = await Platform.Company.GetOrganizationsAsync();
+        if (datas != null && datas.Count > 0)
+        {
+            currentOrg = datas[0];
+            Page.Tree = new TreeModel
+            {
+                ExpandParent = true,
+                Data = datas.ToMenuItems(),
+                OnNodeClick = OnNodeClick,
+                SelectedKeys = [currentOrg.Id]
+            };
+        }
+
         Page.FormWidth = 800;
         Page.Table.Column(c => c.Gender).Template(BuildGender);
     }
 
     protected override Task<PagingResult<SysUser>> OnQueryAsync(PagingCriteria criteria)
     {
+        if (currentOrg != null)
+            criteria.SetQuery(nameof(SysUser.OrgNo), QueryType.Equal, currentOrg?.Id);
         return Platform.User.QueryUsersAsync(criteria);
     }
 
@@ -51,6 +69,12 @@ class SysUserList : BasePage<SysUser>
         //        UI.CloseDialog();
         //    });
         //});
+    }
+
+    private async void OnNodeClick(MenuItem item)
+    {
+        currentOrg = item.Data as SysOrganization;
+        await Page.Table.RefreshAsync();
     }
 }
 
