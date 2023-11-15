@@ -48,6 +48,28 @@
 - 流程管理：系统内置工作流引擎，提供提交、撤回、分配、审核、重启操作。
 - 定时任务：导入和计算耗时的功能采用定时任务异步执行。
 
+### 在线体验
+
+- 官网地址：[http://known.pumantech.com](http://known.pumantech.com)
+- 演示地址：[http://demo.pumantech.com](http://demo.pumantech.com)
+- 登录信息：Admin/888888
+
+### 生态系统
+
+- [项目模板](https://gitee.com/known/known-template)
+- [开发示例](https://gitee.com/known/known-sample)
+
+### AntDesign版本截图
+
+![登录页面](https://foruda.gitee.com/images/1700054333326089784/0d22dcba_14334.png "屏幕截图")
+![系统主页](https://foruda.gitee.com/images/1700054395179186493/6c574df9_14334.png "屏幕截图")
+![数据字典](https://foruda.gitee.com/images/1700054455264217536/4c154259_14334.png "屏幕截图")
+![模块管理](https://foruda.gitee.com/images/1700054506626636592/98b9add3_14334.png "屏幕截图")
+![角色管理](https://foruda.gitee.com/images/1700054617363123970/48133586_14334.png "屏幕截图")
+![用户管理](https://foruda.gitee.com/images/1700054722192459256/2308879c_14334.png "屏幕截图")
+
+# 1.2版本
+
 ### 主要组件
 
 - 输入类：Form、Button、Input、Hidden、Password、Select、Text、TextArea、CheckBox、Switch、Captcha、Date、DateRange、Number、CheckList、RadioList、Picker、Upload、SearchBox
@@ -55,12 +77,6 @@
 - 展示类：Badge、Tag、Card、Carousel、Empty、Dropdown、GroupBox、ImageBox、Dialog、Chart、QuickView、Icon、Timeline
 - 反馈类：Toast、Notify、Banner、Progress
 - 数据类：DataList、DataGrid、EditGrid
-
-### 在线体验
-
-- 官网地址：[http://known.pumantech.com](http://known.pumantech.com)
-- 演示地址：[http://demo.pumantech.com](http://demo.pumantech.com)
-- 登录信息：Admin/888888
 
 ### 快速安装
 
@@ -72,12 +88,7 @@ dotnet new install KnownTemplate
 dotnet new known --name=你的项目 --host=server
 ```
 
-### 生态系统
-
-- [项目模板](https://gitee.com/known/known-template)
-- [开发示例](https://gitee.com/known/known-sample)
-
-### 系统美图
+### 内置UI截图
 
 ![登录页面](https://foruda.gitee.com/images/1688121567850878119/aeb0ba7c_14334.png "屏幕截图")
 ![桌面主页](https://foruda.gitee.com/images/1688092817417883098/53a1da51_14334.png "屏幕截图")
