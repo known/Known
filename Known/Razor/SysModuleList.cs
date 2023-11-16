@@ -1,36 +1,61 @@
 ﻿using Known.Entities;
 using Known.Extensions;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Razor;
 
 class SysModuleList : BasePage<SysModule>
 {
-    private List<SysModule> datas;
 	private MenuItem current;
+    private int total;
 
 	protected override async Task OnInitPageAsync()
 	{
-        datas = await Platform.Module.GetModulesAsync();
 		await base.OnInitPageAsync();
-        Page.Tree = new TreeModel
-		{
-			Data = datas.ToMenuItems(ref current),
-			OnNodeClick = OnNodeClick,
-            OnRefresh = OnTreeRefresh
-		};
-        Page.Form.Width = 1000;
-        Page.Form.NoFooter = true;
-	}
+        
+        Page.FormTitle = row => $"{Name} - {row.ParentName}";
+        //Page.Form.Width = 1000;
+        //Page.Form.NoFooter = true;
+        Page.Table.ShowPager = false;
 
-	protected override Task<PagingResult<SysModule>> OnQueryAsync(PagingCriteria criteria)
+        Page.Tree = new TreeModel
+        {
+            ExpandParent = true,
+            OnNodeClick = OnNodeClick,
+            OnRefresh = OnTreeRefresh
+        };
+        await OnTreeRefresh();
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if (!Config.IsDevelopment)
+        {
+            UI.BuildResult(builder, "403", "非开发环境，不可访问该页面！");
+            return;
+        }
+        base.BuildRenderTree(builder);
+    }
+
+    protected override Task<PagingResult<SysModule>> OnQueryAsync(PagingCriteria criteria)
 	{
-        var items = current == null ? Page.Tree.Data : current?.Children;
-        var data = items.Select(c => (SysModule)c.Data).ToList();
-		var result = new PagingResult<SysModule> { PageData = data, TotalCount = data?.Count ?? 0 };
+        var data = current?.Children?.Select(c => (SysModule)c.Data).ToList();
+        total = data?.Count ?? 0;
+        var result = new PagingResult<SysModule> { PageData = data, TotalCount = total };
 		return Task.FromResult(result);
 	}
 
-	public void New() => Page.NewForm(Platform.Module.SaveModuleAsync, new SysModule());
+    public void New()
+    {
+        if (current == null)
+        {
+            UI.Error("请先选择上级模块！");
+            return;
+        }
+
+        Page.NewForm(Platform.Module.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
+    }
+
     public void Edit(SysModule row) => Page.EditForm(Platform.Module.SaveModuleAsync, row);
     public void Delete(SysModule row) => Page.Delete(Platform.Module.DeleteModulesAsync, row);
     public void DeleteM() => Page.DeleteM(Platform.Module.DeleteModulesAsync);
@@ -88,25 +113,21 @@ class SysModuleList : BasePage<SysModule>
 
 	private async Task OnTreeRefresh()
 	{
-		datas = await Platform.Module.GetModulesAsync();
-        Page.Tree.Data = datas.ToMenuItems(ref current);
-	}
+        var datas = await Platform.Module.GetModulesAsync();
+        var root = new MenuItem("0", Config.App.Name, "desktop");
+        root.Children.AddRange(datas.ToMenuItems(ref current));
+        if (current == null || current.Id == "0")
+            current = root;
+        Page.Tree.Data = [root];
+        Page.Tree.SelectedKeys = [current?.Id];
+    }
 }
 
-public class SysModuleForm : BaseForm<SysModule>
-{
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    await base.OnInitializedAsync();
-    //    Model.Data = await Platform.Role.GetRoleAsync(Model.Data.Id);
-    //}
-
-    protected StepItem[] Steps =
-    [
-        new() { Title = "基本信息" },
-        new() { Title = "字段信息" },
-        new() { Title = "功能按钮" },
-        new() { Title = "页面设置" },
-        new() { Title = "表单设置" }
-    ];
-}
+//public class SysModuleForm : BaseForm<SysModule>
+//{
+//    //protected override async Task OnInitializedAsync()
+//    //{
+//    //    await base.OnInitializedAsync();
+//    //    Model.Data = await Platform.Role.GetRoleAsync(Model.Data.Id);
+//    //}
+//}

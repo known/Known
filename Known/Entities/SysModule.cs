@@ -106,6 +106,7 @@ public class SysModule : EntityBase
     [MaxLength(500)]
     public string Note { get; set; }
 
+    public virtual string ParentName { get; set; }
     public virtual bool IsMoveUp { get; set; }
     public virtual List<string> Buttons => ButtonData?.Split(",").ToList();
     public virtual List<string> Actions => ActionData?.Split(",").ToList();

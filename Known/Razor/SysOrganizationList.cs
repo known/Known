@@ -5,25 +5,25 @@ namespace Known.Razor;
 
 class SysOrganizationList : BasePage<SysOrganization>
 {
-    private List<SysOrganization> datas;
     private MenuItem current;
 
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        datas = await Platform.Company.GetOrganizationsAsync();
+        
         Page.FormTitle = row => $"{Name} - {row.ParentName}";
         Page.Tree = new TreeModel
         {
             ExpandParent = true,
-            Data = datas.ToMenuItems(ref current),
             OnNodeClick = OnNodeClick,
             OnRefresh = OnTreeRefresh
         };
         Page.Table.ShowPager = false;
 
+        var datas = await Platform.Company.GetOrganizationsAsync();
         if (datas != null && datas.Count > 0)
         {
+            Page.Tree.Data = datas.ToMenuItems(ref current);
             current = Page.Tree.Data[0];
             Page.Tree.SelectedKeys = [current.Id];
         }
@@ -44,7 +44,7 @@ class SysOrganizationList : BasePage<SysOrganization>
             return;
         }
 
-        Page.NewForm(Platform.Company.SaveOrganizationAsync, new SysOrganization { ParentId = current.Id, ParentName = current.Name });
+        Page.NewForm(Platform.Company.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
     }
 
     public void Edit(SysOrganization row) => Page.EditForm(Platform.Company.SaveOrganizationAsync, row);
@@ -59,7 +59,7 @@ class SysOrganizationList : BasePage<SysOrganization>
 
 	private async Task OnTreeRefresh()
 	{
-		datas = await Platform.Company.GetOrganizationsAsync();
+		var datas = await Platform.Company.GetOrganizationsAsync();
 		Page.Tree.Data = datas.ToMenuItems(ref current);
 	}
 }

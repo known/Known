@@ -1,7 +1,8 @@
 ﻿using System.Reflection;
-using Known.Extensions;
 using Known.Razor;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Known;
 
@@ -18,8 +19,9 @@ public sealed class Config
     public static VersionInfo Version { get; private set; }
     public static CopyrightInfo Copyright { get; } = new();
     public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;
-    public static string WebRoot { get; set; }
-    public static string ContentRoot { get; set; }
+    public static string WebRoot { get; private set; }
+    public static string ContentRoot { get; private set; }
+    public static bool IsDevelopment { get; private set; }
     internal static List<Type> ModelTypes { get; set; } = [];
     internal static Dictionary<string, Type> PageTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
@@ -42,6 +44,13 @@ public sealed class Config
             if (attr != null && attr.Any())
                 Cache.AttachCodes(item);
         }
+    }
+
+    public static void SetEnvironment(IWebHostEnvironment environment)
+    {
+        WebRoot = environment.WebRootPath;
+        ContentRoot = environment.ContentRootPath;
+        IsDevelopment = environment.IsDevelopment();
     }
 
     public static void SetApp(AppInfo app)

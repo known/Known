@@ -106,13 +106,13 @@ public class TableModel<TItem> where TItem : class, new()
                 UI.Confirm($"确定要{confirmText}选中的记录？", async () =>
                 {
                     var result = await action?.Invoke(row);
-                    UI.Result(result, async () => await RefreshAsync());
+                    UI.Result(result, async () => await Page.RefreshAsync());
                 });
             }
             else
             {
                 var result = await action?.Invoke(row);
-                UI.Result(result, async () => await RefreshAsync());
+                UI.Result(result, async () => await Page.RefreshAsync());
             }
         });
     }
@@ -144,13 +144,13 @@ public class TableModel<TItem> where TItem : class, new()
                 UI.Confirm($"确定要{confirmText}选中的记录？", async () =>
                 {
                     var result = await action?.Invoke(rows);
-                    UI.Result(result, async () => await RefreshAsync());
+                    UI.Result(result, async () => await Page.RefreshAsync());
                 });
             }
             else
             {
                 var result = await action?.Invoke(rows);
-                UI.Result(result, async () => await RefreshAsync());
+                UI.Result(result, async () => await Page.RefreshAsync());
             }
         });
     }

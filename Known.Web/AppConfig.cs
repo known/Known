@@ -4,9 +4,8 @@ static class AppConfig
 {
     internal static void InitApp(this WebApplicationBuilder builder)
     {
-        //设置根目录
-        Config.WebRoot = builder.Environment.WebRootPath;
-        Config.ContentRoot = builder.Environment.ContentRootPath;
+        //设置环境
+        Config.SetEnvironment(builder.Environment);
 
         //获取配置
         var configuration = builder.Configuration;

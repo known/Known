@@ -53,6 +53,7 @@ static class ModelExtension
 		var tops = models.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
 		foreach (var item in tops)
 		{
+            item.ParentName = Config.App.Name;
 			var menu = MenuItem.From(item);
 			if (current != null && current.Id == menu.Id)
 				current = menu;
@@ -71,7 +72,8 @@ static class ModelExtension
 
 		foreach (var item in items)
 		{
-			var sub = MenuItem.From(item);
+            item.ParentName = menu.Name;
+            var sub = MenuItem.From(item);
 			sub.Parent = menu;
 			if (current != null && current.Id == sub.Id)
 				current = sub;

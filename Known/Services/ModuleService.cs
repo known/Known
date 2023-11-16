@@ -84,6 +84,9 @@ class ModuleService : BaseService
         if (!vr.IsValid)
             return vr;
 
+        if (string.IsNullOrWhiteSpace(model.Icon))
+            model.Icon = "";//AntDesign不识别null值
+
         return await Database.TransactionAsync(Language.Save, async db =>
         {
             await db.SaveAsync(model);
