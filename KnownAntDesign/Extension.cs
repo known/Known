@@ -8,8 +8,11 @@ namespace KnownAntDesign;
 
 public static class Extension
 {
-    public static void AddKAntDesign(this IServiceCollection services, Action<AntDesignOption> action = null)
+    public static void AddKnownAntDesign(this IServiceCollection services, Action<AntDesignOption> action = null)
     {
+        //添加AntDesign
+        services.AddAntDesign();
+
         KaConfig.Option = new AntDesignOption();
         action?.Invoke(KaConfig.Option);
 

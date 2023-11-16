@@ -39,10 +39,8 @@ builder.Services.AddKnown(info =>
 });
 //添加默认Excel实现
 builder.Services.AddKnownCells();
-//添加AntDesign
-builder.Services.AddAntDesign();
 //添加KnownAntDesign页面
-builder.Services.AddKAntDesign(option =>
+builder.Services.AddKnownAntDesign(option =>
 {
     option.Footer = b => b.Span($"{Config.App.Id} ©2023-{DateTime.Now:yyyy} Created by Known");
 });
