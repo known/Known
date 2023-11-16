@@ -40,9 +40,6 @@ class RoleService : BaseService
 
     public async Task<Result> SaveRoleAsync(SysRole model)
     {
-        //var entity = await Database.QueryByIdAsync<SysRole>((string)info.Model.Id);
-        //entity ??= new SysRole();
-        //entity.FillModel(info.Model);
         var vr = model.Validate();
         if (!vr.IsValid)
             return vr;

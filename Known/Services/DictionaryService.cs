@@ -49,9 +49,6 @@ class DictionaryService : BaseService
 
     public async Task<Result> SaveDictionaryAsync(SysDictionary model)
     {
-        //var entity = await Database.QueryByIdAsync<SysDictionary>((string)model.Id);
-        //entity ??= new SysDictionary();
-        //entity.FillModel(model);
         var vr = model.Validate();
         if (!vr.IsValid)
             return vr;

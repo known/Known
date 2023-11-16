@@ -80,9 +80,6 @@ class ModuleService : BaseService
 
     public async Task<Result> SaveModuleAsync(SysModule model)
     {
-        //var entity = await Database.QueryByIdAsync<SysModule>((string)model.Id);
-        //entity ??= new SysModule();
-        //entity.FillModel(model);
         var vr = model.Validate();
         if (!vr.IsValid)
             return vr;

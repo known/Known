@@ -1,0 +1,41 @@
+﻿@inherits Known.Razor.SysModuleForm
+
+<div>
+    <Steps Current="current">
+        @foreach (var item in Steps)
+        {
+            <Step Title="@item.Title" />
+        }
+    </Steps>
+    <div class="steps-content">
+        @Steps[current].Content
+    </div>
+    <div class="steps-action">
+        @if (current > 0)
+        {
+            <Button Type="primary" OnClick="OnPrevClick">上一步</Button>
+        }
+        @if (current < Steps.Length - 1)
+        {
+            <Button Type="primary" OnClick="OnNextClick">下一步</Button>
+        }
+        @if (current == Steps.Length - 1 && !Model.IsView)
+        {
+            <Button Type="primary" OnClick="OnNextClick">完成</Button>
+        }
+    </div>
+</div>
+
+@code {
+    public int current { get; set; } = 0;
+
+    void OnPrevClick()
+    {
+        current--;
+    }
+
+    void OnNextClick()
+    {
+        current++;
+    }
+}

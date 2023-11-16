@@ -94,9 +94,6 @@ class CompanyService : BaseService
 
     public async Task<Result> SaveOrganizationAsync(SysOrganization model)
     {
-        //var entity = await Database.QueryByIdAsync<SysOrganization>((string)model.Id);
-        //entity ??= new SysOrganization();
-        //entity.FillModel(model);
         var vr = model.Validate();
         if (vr.IsValid)
         {

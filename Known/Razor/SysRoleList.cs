@@ -7,7 +7,7 @@ class SysRoleList : BasePage<SysRole>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Page.FormWidth = 1000;
+        Page.Form.Width = 1000;
     }
 
     protected override Task<PagingResult<SysRole>> OnQueryAsync(PagingCriteria criteria)

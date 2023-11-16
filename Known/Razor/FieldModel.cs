@@ -10,6 +10,7 @@ public class FieldModel<TItem> where TItem : class, new()
     private readonly IUIService UI;
     private FormModel<TItem> _form;
     private RenderFragment _inputTemplate;
+    //private RenderFragment _viewTemplate;
 
     internal FieldModel(FormModel<TItem> form, ColumnAttribute column)
     {
@@ -49,6 +50,11 @@ public class FieldModel<TItem> where TItem : class, new()
             };
         }
     }
+
+    //public RenderFragment ViewTemplate
+    //{
+    //    get { return _viewTemplate ??= builder => builder.Span($"{Value}"); }
+    //}
 
     private IDictionary<string, object> InputAttributes
     {

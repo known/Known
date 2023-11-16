@@ -24,7 +24,7 @@ class SysUserList : BasePage<SysUser>
             };
         }
 
-        Page.FormWidth = 800;
+        Page.Form.Width = 800;
         Page.Table.Column(c => c.Gender).Template(BuildGender);
     }
 

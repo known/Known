@@ -18,6 +18,8 @@ class SysModuleList : BasePage<SysModule>
 			OnNodeClick = OnNodeClick,
             OnRefresh = OnTreeRefresh
 		};
+        Page.Form.Width = 1000;
+        Page.Form.NoFooter = true;
 	}
 
 	protected override Task<PagingResult<SysModule>> OnQueryAsync(PagingCriteria criteria)
@@ -89,4 +91,22 @@ class SysModuleList : BasePage<SysModule>
 		datas = await Platform.Module.GetModulesAsync();
         Page.Tree.Data = datas.ToMenuItems(ref current);
 	}
+}
+
+public class SysModuleForm : BaseForm<SysModule>
+{
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await base.OnInitializedAsync();
+    //    Model.Data = await Platform.Role.GetRoleAsync(Model.Data.Id);
+    //}
+
+    protected StepItem[] Steps =
+    [
+        new() { Title = "基本信息" },
+        new() { Title = "字段信息" },
+        new() { Title = "功能按钮" },
+        new() { Title = "页面设置" },
+        new() { Title = "表单设置" }
+    ];
 }

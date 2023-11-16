@@ -11,19 +11,20 @@ public class PageModel<TItem> where TItem : class, new()
         Name = page.Name;
         Tools = page.Tools;
         Table = new TableModel<TItem>(this);
+        Form = new FormOption();
     }
 
     internal IUIService UI { get; }
     internal BasePage<TItem> Page { get; }
 
     public string Name { get; }
+    public FormOption Form { get; }
     public TableModel<TItem> Table { get; }
     public List<ActionInfo> Tools { get; }
     public Action<ActionInfo> OnToolClick { get; internal set; }
     public Action StateChanged { get; set; }
     public TreeModel Tree { get; set; }
     
-    public double? FormWidth { get; set; }
     public Func<TItem, string> FormTitle { get; set; }
 
     public async Task RefreshAsync()
@@ -40,11 +41,10 @@ public class PageModel<TItem> where TItem : class, new()
     public void ViewForm(TItem row)
     {
         var title = GetFormTitle(row);
-        UI.ShowForm<TItem>(new FormModel<TItem>(this)
+        UI.ShowForm<TItem>(new FormModel<TItem>(Form, this)
         {
             IsView = true,
             Title = $"查看{title}",
-            Width = FormWidth,
             Data = row
         });
     }
@@ -55,10 +55,9 @@ public class PageModel<TItem> where TItem : class, new()
     private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
     {
         var title = GetFormTitle(row);
-        UI.ShowForm<TItem>(new FormModel<TItem>(this)
+        UI.ShowForm<TItem>(new FormModel<TItem>(Form, this)
         {
             Title = $"{action}{title}",
-            Width = FormWidth,
             Data = row,
             OnSave = onSave
         });

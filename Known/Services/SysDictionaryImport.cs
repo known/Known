@@ -11,14 +11,14 @@ class SysDictionaryImport : BaseImport
     {
         get
         {
-            return new List<ImportColumn>
-            {
-                new ImportColumn("类别", true),
-                new ImportColumn("代码"),
-                new ImportColumn("名称"),
-                new ImportColumn("顺序"),
-                new ImportColumn("备注")
-            };
+            return
+            [
+                new("类别", true),
+                new("代码"),
+                new("名称"),
+                new("顺序"),
+                new("备注")
+            ];
         }
     }
 
