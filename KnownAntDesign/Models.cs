@@ -2,6 +2,11 @@
 
 namespace KnownAntDesign;
 
+class KaConfig
+{
+    public static AntDesignOption Option { get; set; }
+}
+
 class StepItem
 {
     public string Title { get; set; }

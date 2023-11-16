@@ -8,11 +8,10 @@ namespace Known;
 
 public static class Extension
 {
-    public static void AddKnown(this IServiceCollection services)
+    public static void AddKnown(this IServiceCollection services, Action<AppInfo> action = null)
     {
-        var assembly = typeof(Extension).Assembly;
-        Config.AddModule(assembly);
-        ActionInfo.Load();
+        action?.Invoke(Config.App);
+        Config.AddApp();
 
         //services.AddCascadingAuthenticationState();
 

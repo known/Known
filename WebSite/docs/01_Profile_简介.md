@@ -30,7 +30,6 @@
 ├─Known          -> 框架类库，包含通用后端、内置组件、内置模块。
 ├─Known.Cells    -> 基于Aspose.Cells实现的Excel操作类库。
 ├─Known.Demo     -> 框架示例模块。
-├─Known.Studio   -> 框架代码生成工具。
 ├─Known.Web      -> 框架Blazor Web App。
 ├─KnownAntDesign -> 基于AntDesign Blazor的界面。
 ├─WebSite        -> 框架网站及在线文档。

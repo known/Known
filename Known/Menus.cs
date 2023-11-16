@@ -100,7 +100,7 @@ public class ActionInfo
 
     internal static void Load()
     {
-        var path = Path.Combine(Config.ContentRoot, "actions.txt");
+        var path = Path.Combine(Config.App.ContentRoot, "actions.txt");
         if (!File.Exists(path))
             return;
 

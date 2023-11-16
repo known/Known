@@ -1,17 +1,19 @@
 ﻿using AntDesign;
 using Known;
 using Known.Razor;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KnownAntDesign;
 
 public static class Extension
 {
-    public static void AddKAntDesign(this IServiceCollection services)
+    public static void AddKAntDesign(this IServiceCollection services, Action<AntDesignOption> action = null)
     {
-        //添加模块
+        KaConfig.Option = new AntDesignOption();
+        action?.Invoke(KaConfig.Option);
+
         Config.AddModule(typeof(Extension).Assembly);
-        //添加UI服务
         services.AddScoped<IUIService, UIService>();
     }
 
@@ -28,4 +30,9 @@ public static class Extension
             return option;
         }).ToArray();
     }
+}
+
+public class AntDesignOption
+{
+    public RenderFragment Footer { get; set; }
 }

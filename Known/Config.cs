@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
 using Known.Razor;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 
 namespace Known;
 
@@ -15,14 +13,11 @@ public sealed class Config
 
     public static InteractiveServerRenderMode InteractiveServer { get; } = new(false);
 
-    public static AppInfo App { get; private set; }
+    public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
     public static CopyrightInfo Copyright { get; } = new();
-    public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;
-    public static string WebRoot { get; private set; }
-    public static string ContentRoot { get; private set; }
-    public static bool IsDevelopment { get; private set; }
-    internal static List<Type> ModelTypes { get; set; } = [];
+    //public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;
+    internal static List<Type> ModelTypes { get; } = [];
     internal static Dictionary<string, Type> PageTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
     //internal static bool IsCheckKey { get; set; } = true;
@@ -46,19 +41,14 @@ public sealed class Config
         }
     }
 
-    public static void SetEnvironment(IWebHostEnvironment environment)
+    internal static void AddApp()
     {
-        WebRoot = environment.WebRootPath;
-        ContentRoot = environment.ContentRootPath;
-        IsDevelopment = environment.IsDevelopment();
-    }
+        Version = new VersionInfo(App.Assembly);
+        Database.RegisterProviders(App.Connections);
+        ActionInfo.Load();
 
-    public static void SetApp(AppInfo app)
-    {
-        App = app;
-        Version = new VersionInfo(app.Assembly);
-        Database.RegisterProviders(app.Connections);
-        AddModule(app.Assembly);
+        AddModule(typeof(Config).Assembly);
+        AddModule(App.Assembly);
     }
 
     //private static string GetSysVersion(Assembly assembly)
@@ -72,7 +62,7 @@ public sealed class Config
     {
         if (isWeb)
         {
-            var path = WebRoot ?? ContentRoot;
+            var path = App.WebRoot ?? App.ContentRoot;
             var filePath = Path.Combine(path, "Files");
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
@@ -83,7 +73,7 @@ public sealed class Config
         var app = App;
         var uploadPath = app.UploadPath;
         if (string.IsNullOrEmpty(uploadPath))
-            uploadPath = Path.Combine(ContentRoot, "UploadFiles");
+            uploadPath = Path.Combine(App.ContentRoot, "UploadFiles");
 
         if (!Directory.Exists(uploadPath))
             Directory.CreateDirectory(uploadPath);
@@ -129,6 +119,9 @@ public class AppInfo
     public AppType Type { get; set; }
     public Assembly Assembly { get; set; }
     public bool IsPlatform { get; set; }
+    public bool IsDevelopment { get; set; }
+    public string WebRoot { get; set; }
+    public string ContentRoot { get; set; }
     public string UploadPath { get; set; }
     public string JsPath { get; set; }
     public List<ConnectionInfo> Connections { get; set; }

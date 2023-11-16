@@ -35,6 +35,13 @@
     .page-top {flex-direction:column;}
 }
 
+.logo {
+    height: 50px;
+    background-image:url(/img/logo.png);
+    margin-top:10px;
+    margin-left:10px;
+}
+
 /*Install*/
 .install {
     position:absolute;top:50%;left:50%;width:500px;height:500px;margin-left:-250px;margin-top:-250px;

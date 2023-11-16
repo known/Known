@@ -57,7 +57,10 @@
                     </div>
                 }
             </Content>
-            <Footer Style="text-align:center ">Known ©2023 Created by AntDesign Blazor</Footer>
+            @if (KaConfig.Option.Footer != null)
+            {
+                <Footer Style="text-align:center">@KaConfig.Option.Footer</Footer>
+            }
         </Layout>
     }
 </Layout>
