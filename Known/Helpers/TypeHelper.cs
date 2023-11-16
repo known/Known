@@ -37,7 +37,7 @@ public sealed class TypeHelper
         return GetColumnAttributes(type);
     }
 
-    public static List<ColumnAttribute> GetColumnAttributes(Type type)
+    internal static List<ColumnAttribute> GetColumnAttributes(Type type)
     {
         var columns = new List<ColumnAttribute>();
         if (type == null)

@@ -27,6 +27,8 @@ public sealed class Config
                 PageTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseForm)))
                 FormTypes[item.Name] = item;
+            else if(item.IsEnum)
+                Cache.AttachEnumCodes(item);
 
             var attr = item.GetCustomAttributes<CodeTableAttribute>();
             if (attr != null && attr.Any())

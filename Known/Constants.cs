@@ -1,6 +1,6 @@
 ﻿namespace Known;
 
-public class Constants
+class Constants
 {
     private Constants() { }
 

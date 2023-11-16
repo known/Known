@@ -5,7 +5,7 @@ namespace Known.Helpers;
 
 public sealed class ImportHelper
 {
-    public const string BizType = "ImportFiles";
+    internal const string BizType = "ImportFiles";
 
     private ImportHelper() { }
 

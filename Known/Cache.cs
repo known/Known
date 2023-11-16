@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Reflection;
 using Known.Entities;
+using Known.Helpers;
 
 namespace Known;
 
@@ -97,6 +98,12 @@ public sealed class Cache
             datas.Add(code);
         }
         AttachCodes(datas);
+    }
+
+    internal static void AttachEnumCodes(Type type)
+    {
+        var codes = TypeHelper.GetEnumCodes(type);
+        AttachCodes(codes);
     }
 
     private static List<CodeInfo> GetCodes()
