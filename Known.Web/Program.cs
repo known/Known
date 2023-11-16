@@ -35,7 +35,7 @@ builder.Services.AddKnown(info =>
     info.JsPath = "/script.js";
 
     //设置产品ID，根据硬件获取ID
-    Config.Copyright.ProductId = $"{Config.App.Id}-000001";
+    info.ProductId = $"{Config.App.Id}-000001";
 });
 //添加默认Excel实现
 builder.Services.AddKnownCells();

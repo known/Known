@@ -145,7 +145,7 @@ class SystemService : BaseService
         var info = new InstallInfo
         {
             AppName = app.Name,
-            ProductId = Config.Copyright.ProductId,
+            ProductId = app.ProductId,
             ProductKey = Utils.ReadFile(path),
             UserName = Constants.SysUserName
         };

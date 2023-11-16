@@ -18,10 +18,10 @@
             <FormItem Label="框架版本">
                 @Config.Version.FrameVersion
             </FormItem>
-            @if (!Config.App.IsPlatform && Config.Copyright.IsProductKey)
+            @if (!Config.App.IsPlatform && !string.IsNullOrWhiteSpace(Config.App.ProductId))
             {
                 <FormItem Label="产品ID">
-                    @context.ProductId
+                    @Config.App.ProductId
                 </FormItem>
                 <FormItem Label="产品密钥">
                     @context.ProductKey

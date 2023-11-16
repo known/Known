@@ -8,15 +8,8 @@ public sealed class Config
 {
     private Config() { }
 
-    //public static string DateFormat { get; set; } = "yyyy-MM-dd";
-    //public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss";
-
-    public static InteractiveServerRenderMode InteractiveServer { get; } = new(false);
-
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
-    public static CopyrightInfo Copyright { get; } = new();
-    //public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;
     internal static List<Type> ModelTypes { get; } = [];
     internal static Dictionary<string, Type> PageTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
@@ -70,8 +63,7 @@ public sealed class Config
             return filePath;
         }
 
-        var app = App;
-        var uploadPath = app.UploadPath;
+        var uploadPath = App.UploadPath;
         if (string.IsNullOrEmpty(uploadPath))
             uploadPath = Path.Combine(App.ContentRoot, "UploadFiles");
 
@@ -124,7 +116,11 @@ public class AppInfo
     public string ContentRoot { get; set; }
     public string UploadPath { get; set; }
     public string JsPath { get; set; }
+    public string ProductId { get; set; }
     public List<ConnectionInfo> Connections { get; set; }
+    //public string DateFormat { get; set; } = "yyyy-MM-dd";
+    //public string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss";
+    public InteractiveServerRenderMode InteractiveServer { get; set; } = new(false);
 
     internal ConnectionInfo GetConnection(string name)
     {
@@ -143,11 +139,11 @@ public class ConnectionInfo
     public string ConnectionString { get; set; }
 }
 
-public class CopyrightInfo
-{
-    public string ProductId { get; set; }
-    public bool IsProductKey { get; set; }
-    public bool IsEditCopyright { get; set; } = true;
-    public string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} 普漫科技。保留所有权利。";
-    public string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
-}
+//public class CopyrightInfo
+//{
+//    public string ProductId { get; set; }
+//    public bool IsProductKey { get; set; }
+//    public bool IsEditCopyright { get; set; } = true;
+//    public string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} 普漫科技。保留所有权利。";
+//    public string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
+//}

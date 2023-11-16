@@ -16,10 +16,10 @@ public sealed class Cache
         if (string.IsNullOrEmpty(key))
             return default;
 
-        if (!cached.ContainsKey(key))
+        if (!cached.TryGetValue(key, out object value))
             return default;
 
-        return (T)cached[key];
+        return (T)value;
     }
 
     public static void Set(string key, object value)
@@ -102,7 +102,7 @@ public sealed class Cache
     private static List<CodeInfo> GetCodes()
     {
         var codes = Get<List<CodeInfo>>(KeyCodes);
-        codes ??= new List<CodeInfo>();
+        codes ??= [];
         return codes;
     }
 }
@@ -144,7 +144,7 @@ public class CodeInfo
     public static List<CodeInfo> GetCodes(string category)
     {
         if (string.IsNullOrEmpty(category))
-            return new List<CodeInfo>();
+            return [];
 
         var codes = Cache.GetCodes(category);
         if (codes != null && codes.Count > 0)
