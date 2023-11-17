@@ -12,9 +12,13 @@
             <GridRow>
                 <GridCol Span="24">
                     <FormItem LabelColSpan="4" Label="@label" Required="@required">
-                        @if (column.IsFile)
+                        @if (column.IsFile || column.IsMultiFile)
                         {
-                            <InputFile OnChange="OnInputFilesChanged" />
+                            var attrs = new Dictionary<string, object>();
+                            if (column.IsMultiFile)
+                                attrs.Add("multiple", true);
+
+                            <InputFile @attributes="attrs" OnChange="e=>OnFilesChanged(e,column)" />
                         }
                         else
                         {
@@ -39,13 +43,16 @@
         base.OnAfterRender(firstRender);
     }
 
-    private void OnInputFilesChanged(InputFileChangeEventArgs e)
+    private void OnFilesChanged(InputFileChangeEventArgs e, ColumnAttribute column)
     {
-        var file = e.File;
-        if (file == null || file.Size == 0)
-            return;
-
-        //fileInfo = $"大小:{file.Size / 1024}KB";
-        //attach = new BlazorAttachFile(file);
+        if (column.IsMultiFile)
+        {
+            var files = e.GetMultipleFiles();
+            Model.Files[column.Property.Name] = files.ToList();
+        }
+        else
+        {
+            Model.Files[column.Property.Name] = [e.File];
+        }
     }
 }

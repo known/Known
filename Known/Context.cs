@@ -47,38 +47,4 @@ public class Context
         current = menu;
         OnNavigate?.Invoke(current);
     }
-
-    //public void Navigate<T>(string name, string icon, Dictionary<string, object> comParams = null) where T : IComponent
-    //{
-    //    var menu = new KMenuItem(name, icon, typeof(T)) { ComParameters = comParams };
-    //    Navigate(menu);
-    //}
-
-    //public void Navigate<T>() where T : IComponent
-    //{
-    //    var type = typeof(T);
-    //    var target = type.FullName;
-    //    var menu = UserMenus.FirstOrDefault(m => m.Target == target);
-    //    if (menu == null)
-    //        return;
-
-    //    var item = KMenuItem.From(menu);
-    //    item.ComType = type;
-    //    Navigate(item);
-    //}
-
-    //internal void Navigate<TItem, TForm>(string name, string icon, TItem model, bool readOnly = false, Action<Result> onSuccess = null) where TItem : EntityBase, new() where TForm : BaseForm<TItem>
-    //{
-    //    var id = model == null || model.IsNew ? name : name + model.Id;
-    //    var menu = new KMenuItem(name, icon, typeof(TForm))
-    //    {
-    //        Id = id,
-    //        ComParameters = new Dictionary<string, object> {
-    //            { nameof(KForm.Model), model },
-    //            { nameof(KForm.ReadOnly), readOnly },
-    //            { nameof(KForm.OnSuccess), onSuccess }
-    //        }
-    //    };
-    //    Navigate(menu);
-    //}
 }

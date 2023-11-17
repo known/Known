@@ -62,7 +62,6 @@ class ApplyService : ServiceBase
     {
         var entity = info.Model;
         entity ??= new TbApply();
-        //entity.FillModel(info.Model);
         var vr = entity.Validate();
         if (!vr.IsValid)
             return vr;

@@ -15,7 +15,6 @@ public class TbApply : FlowEntity
     [Column(IsGrid = true, IsQuery = true, CodeType = nameof(ApplyType))]
     [DisplayName("业务类型")]
     [Required(ErrorMessage = "业务类型不能为空！")]
-    [MaxLength(50)]
     public ApplyType BizType { get; set; }
 
     /// <summary>
@@ -41,12 +40,13 @@ public class TbApply : FlowEntity
     /// </summary>
     [Column(IsForm = true)]
     [DisplayName("业务内容")]
+    [MaxLength(4000)]
     public string BizContent { get; set; }
 
     /// <summary>
     /// 取得或设置业务附件。
     /// </summary>
-    [Column(IsForm = true, IsFile = true)]
+    [Column(IsForm = true, IsMultiFile = true)]
     [DisplayName("业务附件")]
     [MaxLength(250)]
     public string BizFile { get; set; }

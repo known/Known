@@ -1,4 +1,5 @@
 ﻿using Known.Extensions;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Known.Razor;
 
@@ -18,6 +19,7 @@ public class FormModel<TItem> where TItem : class, new()
     public bool IsView { get; internal set; }
     public string Title { get; internal set; }
     public TItem Data { get; set; }
+    public Dictionary<string, List<IBrowserFile>> Files { get; } = [];
     public Type Type { get; internal set; }
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }
@@ -32,11 +34,18 @@ public class FormModel<TItem> where TItem : class, new()
                 return;
         }
 
-        //TODO：保存附件表单
         Result result;
         if (OnSaveFile != null)
         {
             var info = new UploadInfo<TItem>(Data);
+            foreach (var file in Files)
+            {
+                info.Files[file.Key] = [];
+                foreach (var item in file.Value)
+                {
+                    info.Files[file.Key].Add(new BlazorAttachFile(item));
+                }
+            }
             result = await OnSaveFile?.Invoke(info);
         }
         else
