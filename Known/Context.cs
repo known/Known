@@ -6,9 +6,9 @@ public class Context
 
     internal static Action<MenuItem> OnNavigate { get; set; }
 
-    public InstallInfo Install { get; set; }
-    public UserInfo CurrentUser { get; set; }
-    public List<MenuInfo> UserMenus { get; set; }
+    public InstallInfo Install { get; internal set; }
+    public UserInfo CurrentUser { get; internal set; }
+    public List<MenuInfo> UserMenus { get; internal set; }
 
     public void Back()
     {
@@ -33,6 +33,8 @@ public class Context
         }
         return menus;
     }
+
+    public void NavigateToHome() => Navigate(Config.GetHomeMenu());
 
     public void Navigate(MenuItem menu, Dictionary<string, object> prevParams = null)
     {

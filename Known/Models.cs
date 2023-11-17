@@ -18,7 +18,7 @@ public class AdminInfo
 {
     public string AppName { get; set; }
     public int MessageCount { get; set; }
-    public UserSetting UserSetting { get; set; }
+    //public UserSetting UserSetting { get; set; }
     public List<MenuInfo> UserMenus { get; set; }
     //public List<CodeInfo> Codes { get; set; }
 }

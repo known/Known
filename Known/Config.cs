@@ -30,7 +30,7 @@ public sealed class Config
             else if(item.IsEnum)
                 Cache.AttachEnumCodes(item);
 
-            var attr = item.GetCustomAttributes<CodeTableAttribute>();
+            var attr = item.GetCustomAttributes<CodeInfoAttribute>();
             if (attr != null && attr.Any())
                 Cache.AttachCodes(item);
         }
@@ -81,7 +81,7 @@ public sealed class Config
         return Path.Combine(path, filePath);
     }
 
-    public static MenuItem GetHomeMenu()
+    internal static MenuItem GetHomeMenu()
     {
         return new("首页", "home", PageTypes.GetValueOrDefault("Home"));
     }

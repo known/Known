@@ -16,20 +16,20 @@ class UserHelper
         return appName;
     }
 
-    internal static async Task<UserSetting> GetUserSettingAsync(Database db)
-    {
-        await db.OpenAsync();
-        var info = await GetSettingByUserAsync<SettingInfo>(db, UserSetting.KeyInfo);
-        var querys = await GetSettingsByUserAsync(db, UserSetting.KeyQuery);
-        var columns = await GetSettingsByUserAsync(db, UserSetting.KeyColumn);
-        await db.CloseAsync();
-        return new UserSetting
-        {
-            Info = info,
-            Querys = querys.ToDictionary(s => s.BizName, s => s.DataAs<List<QueryInfo>>()),
-            Columns = columns.ToDictionary(s => s.BizName, s => s.DataAs<List<ColumnInfo>>())
-        };
-    }
+    //internal static async Task<SettingInfo> GetUserSettingAsync(Database db)
+    //{
+    //    await db.OpenAsync();
+    //    var info = await GetSettingByUserAsync<SettingInfo>(db, SettingInfo.KeyInfo);
+    //    if (info != null)
+    //    {
+    //        var querys = await GetSettingsByUserAsync(db, SettingInfo.KeyQuery);
+    //        info.Querys = querys.ToDictionary(s => s.BizName, s => s.DataAs<List<QueryInfo>>());
+    //        //var columns = await GetSettingsByUserAsync(db, SettingInfo.KeyColumn);
+    //        //info.Columns = columns.ToDictionary(s => s.BizName, s => s.DataAs<List<ColumnInfo>>());
+    //    }
+    //    await db.CloseAsync();
+    //    return info;
+    //}
 
     private static async Task<List<SysSetting>> GetSettingsByUserAsync(Database db, string bizType) => await SettingRepository.GetSettingsByUserAsync(db, bizType);
     private static async Task<SysSetting> GetSettingByUserAsync(Database db, string bizType) => await SettingRepository.GetSettingByUserAsync(db, bizType) ?? new SysSetting { BizType = bizType };

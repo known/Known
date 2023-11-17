@@ -9,9 +9,9 @@ public sealed class TypeHelper
 {
     private TypeHelper() { }
 
-    public static List<CodeInfo> GetEnumCodes<T>() => GetEnumCodes(typeof(T));
+    //public static List<CodeInfo> GetEnumCodes<T>() => GetEnumCodes(typeof(T));
 
-    public static List<CodeInfo> GetEnumCodes(Type type)
+    internal static List<CodeInfo> GetEnumCodes(Type type)
     {
         var category = type.Name;
         var codes = new List<CodeInfo>();

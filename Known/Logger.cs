@@ -13,7 +13,7 @@ public interface ILogger
     void Flush();
 }
 
-[CodeTable]
+[CodeInfo]
 public class LogType
 {
     private LogType() { }

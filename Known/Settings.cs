@@ -1,16 +1,5 @@
 ﻿namespace Known;
 
-public class UserSetting
-{
-    internal const string KeyInfo = "UserSetting";
-    internal const string KeyQuery = "UserQuery";
-    internal const string KeyColumn = "UserColumn";
-
-    public SettingInfo Info { get; set; }
-    public Dictionary<string, List<QueryInfo>> Querys { get; set; }
-    public Dictionary<string, List<ColumnInfo>> Columns { get; set; }
-}
-
 public class QueryInfo
 {
     public QueryInfo(string id, string value) : this(id, QueryType.Contain, value) { }
@@ -40,18 +29,25 @@ public class QueryInfo
     internal string ParamValue { get; set; }
 }
 
-public class SettingInfo
-{
-    public static SettingInfo Default
-    {
-        get { return new SettingInfo(); }
-    }
+//public class SettingInfo
+//{
+//    internal const string KeyInfo = "UserSetting";
+//    internal const string KeyQuery = "UserQuery";
+//    //internal const string KeyColumn = "UserColumn";
 
-    public string Language { get; set; }
-    public string Layout { get; set; }
-    public string ThemeColor { get; set; } = "#1c66b9";//#4188c8";//#54519a
-    public string SiderColor { get; set; } = "#1c292e";
-    public bool RandomColor { get; set; }
-    public bool MultiTab { get; set; }
-    public int PageSize { get; set; } = PagingCriteria.DefaultPageSize;
-}
+//    public static SettingInfo Default
+//    {
+//        get { return new SettingInfo(); }
+//    }
+
+//    public string Language { get; set; }
+//    public string Layout { get; set; }
+//    public string ThemeColor { get; set; } = "#1c66b9";//#4188c8";//#54519a
+//    public string SiderColor { get; set; } = "#1c292e";
+//    public bool RandomColor { get; set; }
+//    public bool MultiTab { get; set; }
+//    public int PageSize { get; set; } = PagingCriteria.DefaultPageSize;
+
+//    public virtual Dictionary<string, List<QueryInfo>> Querys { get; set; }
+//    //public virtual Dictionary<string, List<ColumnInfo>> Columns { get; set; }
+//}

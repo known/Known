@@ -73,7 +73,7 @@
         switch (id)
         {
             case "home":
-                Context.Navigate(Config.GetHomeMenu());
+                Context.NavigateToHome();
                 break;
             case "profile":
                 Context.Navigate(new("个人中心", "user", typeof(SysUserProfile), "当前用户个人中心和安全设置。"));

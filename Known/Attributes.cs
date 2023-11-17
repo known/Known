@@ -7,7 +7,7 @@ using Known.Extensions;
 namespace Known;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class CodeTableAttribute : Attribute { }
+public class CodeInfoAttribute : Attribute { }
 
 [AttributeUsage(AttributeTargets.Class)]
 public class TableAttribute : Attribute

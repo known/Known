@@ -13,9 +13,9 @@ public class UserInfo
     public string Mobile { get; set; }
     public string Email { get; set; }
     public string Note { get; set; }
-    public bool Enabled { get; set; }
-    public DateTime? FirstLoginTime { get; set; }
-    public string FirstLoginIP { get; set; }
+    //public bool Enabled { get; set; }
+    //public DateTime? FirstLoginTime { get; set; }
+    //public string FirstLoginIP { get; set; }
     public DateTime? LastLoginTime { get; set; }
     public string LastLoginIP { get; set; }
     public string IPName { get; set; }
@@ -29,6 +29,7 @@ public class UserInfo
     public string OrgName { get; set; }
     //public string Type { get; set; }
     public string Role { get; set; }
+    //internal SettingInfo Setting { get; set; }
     internal bool IsTenant { get; set; }
     internal bool IsAdmin => IsSystemAdmin() || IsTenantAdmin();
     private bool IsSystemAdmin() => UserName == Constants.SysUserName.ToLower();
