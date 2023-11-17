@@ -1,0 +1,64 @@
+﻿@using Known.Entities
+@inherits BaseComponent
+@typeparam TItem where TItem : class, new()
+
+@if (!Model.Form.IsView)
+{
+    var attrs = new Dictionary<string, object>();
+    if (Model.Column.IsMultiFile)
+        attrs.Add("multiple", true);
+
+    <InputFile @attributes="attrs" OnChange="e=>OnFilesChanged(e,Model.Column)" />
+}
+
+@if (sysFiles != null && sysFiles.Count > 0)
+{
+    <div class="form-files">
+        @foreach (var item in sysFiles)
+        {
+            var url = item.FileUrl;
+            <div>
+                @if (!Model.Form.IsView)
+                {
+                    <span class="link danger" @onclick="e=>OnDeleteFile(item)">删除</span>
+                }
+                <a href="@url.OriginalUrl" target="_blank" download="@url.FileName">@item.Name</a>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<SysFile> sysFiles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        sysFiles = await Platform.GetFilesAsync($"{Model.Value}");
+    }
+
+    [Parameter] public FieldModel<TItem> Model { get; set; }
+
+    private void OnFilesChanged(InputFileChangeEventArgs e, ColumnAttribute column)
+    {
+        if (column.IsMultiFile)
+        {
+            var files = e.GetMultipleFiles();
+            Model.Form.Files[column.Property.Name] = files.ToList();
+        }
+        else
+        {
+            Model.Form.Files[column.Property.Name] = [e.File];
+        }
+    }
+
+    private void OnDeleteFile(SysFile item)
+    {
+        UI.Confirm($"确定要删除{item.Name}？", async () =>
+        {
+            await Platform.DeleteFileAsync(item);
+            sysFiles.Remove(item);
+            StateChanged();
+        });
+    }
+}

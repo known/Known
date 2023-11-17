@@ -43,6 +43,8 @@ public class PlatformService
     #endregion
 
     #region File
+    public Task<List<SysFile>> GetFilesAsync(string bizId) => File.GetFilesAsync(bizId);
+    public Task<Result> DeleteFileAsync(SysFile file) => File.DeleteFileAsync(file);
     public void DeleteFiles(List<string> filePaths) => filePaths.ForEach(AttachFile.DeleteFile);
     public Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles) => FileService.DeleteFilesAsync(db, bizId, oldFiles);
     public Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles) => FileService.SaveFileAsync(db, file, bizId, bizType, oldFiles);

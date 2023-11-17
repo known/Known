@@ -76,17 +76,17 @@ class FileService : ServiceBase
              : FileRepository.GetFilesAsync(Database, bizId);
     }
 
-    internal Task<bool> HasFilesAsync(string bizId) => FileRepository.HasFilesAsync(Database, bizId);
+    //internal Task<bool> HasFilesAsync(string bizId) => FileRepository.HasFilesAsync(Database, bizId);
 
-    public async Task<FileUrlInfo> GetFileUrlAsync(string bizId)
-    {
-        var files = await GetFilesAsync(bizId);
-        if (files == null || files.Count == 0)
-            return null;
+    //public async Task<FileUrlInfo> GetFileUrlAsync(string bizId)
+    //{
+    //    var files = await GetFilesAsync(bizId);
+    //    if (files == null || files.Count == 0)
+    //        return null;
 
-        var file = files.FirstOrDefault();
-        return file.FileUrl;
-    }
+    //    var file = files.FirstOrDefault();
+    //    return file.FileUrl;
+    //}
 
     public async Task<Result> UploadFilesAsync<TModel>(UploadInfo<TModel> info)
     {

@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Components.Forms
-@typeparam TItem where TItem : class, new()
+﻿@typeparam TItem where TItem : class, new()
 
 <Form @ref="_form" TModel="TItem" Model="@Model.Data">
     @if (Model.Fields != null && Model.Fields.Any())
@@ -14,11 +13,7 @@
                     <FormItem LabelColSpan="4" Label="@label" Required="@required">
                         @if (column.IsFile || column.IsMultiFile)
                         {
-                            var attrs = new Dictionary<string, object>();
-                            if (column.IsMultiFile)
-                                attrs.Add("multiple", true);
-
-                            <InputFile @attributes="attrs" OnChange="e=>OnFilesChanged(e,column)" />
+                            <UploadField Model="field" />
                         }
                         else
                         {
@@ -41,18 +36,5 @@
         if (firstRender)
             Model.OnValidate = _form.Validate;
         base.OnAfterRender(firstRender);
-    }
-
-    private void OnFilesChanged(InputFileChangeEventArgs e, ColumnAttribute column)
-    {
-        if (column.IsMultiFile)
-        {
-            var files = e.GetMultipleFiles();
-            Model.Files[column.Property.Name] = files.ToList();
-        }
-        else
-        {
-            Model.Files[column.Property.Name] = [e.File];
-        }
     }
 }

@@ -24,8 +24,8 @@
     text-align: right;
 }
 
-.danger {color:#ed4014;}
 .link {color:#1890ff;cursor:pointer;}
+.danger {color:#ed4014;}
 
 .query, .toolbar {padding:10px 10px 0 10px;}
 .table {padding-top:10px;}
@@ -98,3 +98,7 @@
 .form-import .link {margin-right:10px;}
 .form-import .size {margin-left:10px;}
 .form-import .message {padding:10px 0;}
+
+/*File*/
+.form-files {margin-top:5px;}
+.form-files span {margin-right:5px;}

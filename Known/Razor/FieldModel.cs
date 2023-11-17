@@ -8,31 +8,31 @@ namespace Known.Razor;
 public class FieldModel<TItem> where TItem : class, new()
 {
     private readonly IUIService UI;
-    private FormModel<TItem> _form;
     private RenderFragment _inputTemplate;
     //private RenderFragment _viewTemplate;
 
     internal FieldModel(FormModel<TItem> form, ColumnAttribute column)
     {
         UI = form.Page.UI;
-        _form = form;
+        Form = form;
         Column = column;
         Data = form.Data;
     }
 
+    public FormModel<TItem> Form { get; }
     public ColumnAttribute Column { get; }
     public TItem Data { get; }
     public Action<TItem, object> ValueChanged { get; set; }
 
     public object Value
     {
-        get => Column.Property.GetValue(_form.Data);
+        get => Column.Property.GetValue(Form.Data);
         set
         {
             if (Column.Property.SetMethod is not null && !Equals(Value, value))
             {
-                Column.Property.SetValue(_form.Data, value);
-                ValueChanged?.Invoke(_form.Data, value);
+                Column.Property.SetValue(Form.Data, value);
+                ValueChanged?.Invoke(Form.Data, value);
             }
         }
     }
@@ -70,7 +70,7 @@ public class FieldModel<TItem> where TItem : class, new()
                 { "required", Column.Property.IsRequired() },
                 { "placeholder", Column.Placeholder },
             };
-            if (_form.IsView)
+            if (Form.IsView)
             {
                 attributes["disabled"] = true;
                 attributes["readonly"] = true;
