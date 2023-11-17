@@ -15,11 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="actions.txt" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Include="actions.txt" />
+        <EmbeddedResource Include="actions.txt" />
     </ItemGroup>
 
     <ItemGroup>

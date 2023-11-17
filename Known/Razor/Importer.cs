@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Razor;
 
@@ -33,7 +34,13 @@ class Importer : BaseComponent
             {
                 BuildInputFile(builder);
                 if (isFinished)
-                    builder.Link("导入", Callback(OnImportAsync));
+                {
+                    UI.BuildButton(builder, new ButtonOption
+                    {
+                        Text = "导入",
+                        OnClick = Callback<MouseEventArgs>(OnImportAsync)
+                    });
+                }
             });
             builder.Div(() =>
             {
@@ -59,10 +66,9 @@ class Importer : BaseComponent
     private void BuildInputFile(RenderTreeBuilder builder)
     {
         builder.OpenComponent<InputFile>(0);
-        builder.AddAttribute(1, "class", "upload");
+        builder.AddAttribute(1, "accept", "text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         builder.AddAttribute(2, "disabled", !isFinished);
         builder.AddAttribute(3, "OnChange", Callback<InputFileChangeEventArgs>(OnInputFilesChanged));
-        builder.AddAttribute(4, "accept", "text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         builder.CloseComponent();
     }
 
@@ -76,7 +82,7 @@ class Importer : BaseComponent
         attach = new BlazorAttachFile(file);
     }
 
-    private async Task OnImportAsync()
+    private async void OnImportAsync(MouseEventArgs e)
     {
         if (attach == null)
         {

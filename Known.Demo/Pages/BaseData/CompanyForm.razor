@@ -60,19 +60,22 @@
                     </FormItem>
                 </GridCol>
             </GridRow>
-            <GridRow>
-                <GridCol Offset="4">
-                    @if (!isEdit)
-                    {
-                        <Button Type="@ButtonType.Primary" OnClick="e=>OnEdit(true)">编辑</Button>
-                    }
-                    else
-                    {
-                        <Button Type="@ButtonType.Primary" OnClick="e=>OnSave()">保存</Button>
-                        <Button Type="@ButtonType.Default" OnClick="e=>OnEdit(false)">取消</Button>
-                    }
-                </GridCol>
-            </GridRow>
+            @if (HasButton("Edit"))
+            {
+                <GridRow>
+                    <GridCol Offset="4">
+                        @if (!isEdit)
+                        {
+                            <Button Type="@ButtonType.Primary" OnClick="e=>OnEdit(true)">编辑</Button>
+                        }
+                        else
+                        {
+                            <Button Type="@ButtonType.Primary" OnClick="e=>OnSave()">保存</Button>
+                            <Button Type="@ButtonType.Default" OnClick="e=>OnEdit(false)">取消</Button>
+                        }
+                    </GridCol>
+                </GridRow>
+            }
          </Form>
     </TabPane>
 </Tabs>

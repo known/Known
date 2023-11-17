@@ -34,18 +34,18 @@ public sealed class ImportHelper
             }
         }
 
-        info.Columns = GetRuleColumns(bizId);
+        //info.Columns = GetRuleColumns(bizId);
         return info;
     }
 
-    private static List<string> GetRuleColumns(string bizId)
-    {
-        var columns = ImportBase.GetImportColumns(bizId);
-        if (columns == null || columns.Count == 0)
-            return new List<string>();
+    //private static List<string> GetRuleColumns(string bizId)
+    //{
+    //    var columns = ImportBase.GetImportColumns(bizId);
+    //    if (columns == null || columns.Count == 0)
+    //        return new List<string>();
 
-        return columns.Select(c => c.Name).ToList();
-    }
+    //    return columns.Select(c => c.Name).ToList();
+    //}
 
     internal static Task<byte[]> GetImportRuleAsync(string bizId)
     {

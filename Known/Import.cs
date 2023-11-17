@@ -43,10 +43,9 @@ public abstract class ImportBase
         if (string.IsNullOrWhiteSpace(name))
             return null;
 
-        if (!importTypes.ContainsKey(name))
+        if (!importTypes.TryGetValue(name, out Type type))
             return null;
 
-        var type = importTypes[name];
         var import = Activator.CreateInstance(type, database) as ImportBase;
         import.BizId = bizId;
         return import;
@@ -58,10 +57,9 @@ public abstract class ImportBase
         if (string.IsNullOrWhiteSpace(name))
             return null;
 
-        if (!importTypes.ContainsKey(name))
+        if (!importTypes.TryGetValue(name, out Type type))
             return null;
 
-        var type = importTypes[name];
         var import = Activator.CreateInstance(type, new Database()) as ImportBase;
         import.BizId = bizId;
         return import.Columns;

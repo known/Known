@@ -157,6 +157,11 @@ class UIService : IUIService
         model.OnClose = modal.CloseAsync;
     }
 
+    public void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model) where TItem : class, new()
+    {
+        builder.Component<WebPage<TItem>>().Set(c => c.Model, model).Build();
+    }
+
     public void BuildTag(RenderTreeBuilder builder, string text, string color)
     {
         builder.Component<Tag>()
@@ -174,8 +179,16 @@ class UIService : IUIService
                .Build();
     }
 
-    public void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model) where TItem : class, new()
+    public void BuildButton(RenderTreeBuilder builder, ButtonOption option)
     {
-        builder.Component<WebPage<TItem>>().Set(c => c.Model, model).Build();
+        if (string.IsNullOrWhiteSpace(option.Type))
+            option.Type = ButtonType.Primary;
+
+        builder.Component<Button>()
+               .Set(c => c.Icon, option.Icon)
+               .Set(c => c.Type, option.Type)
+               .Set(c => c.OnClick, option.OnClick)
+               .Set(c => c.ChildContent, b => b.Text(option.Text))
+               .Build();
     }
 }

@@ -9,10 +9,29 @@
     }
     else if (!IsLogin)
     {
-        <Login OnLogin="OnLogin" />
+        <Known.Demo.Pages.Login OnLogin="OnLogin" />
     }
     else
     {
         <Admin OnLogout="OnLogout" />
     }
+}
+
+@code {
+    // //第三方登录设置当前用户
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //    if (firstRender)
+    //        await SetCurrentUserAsync(CurrentUser);
+    //    await base.OnAfterRenderAsync(firstRender);
+    // }
+
+    // //第三方登录获取当前用户
+    // protected override async Task<UserInfo> GetThirdUserAsync()
+    // {
+    //    //var third = ThirdApi.GetUser();
+    //    var third = new { UserName = "admin" };
+    //    var user = await Platform.GetUserAsync(third.UserName);
+    //    return user;
+    // }
 }

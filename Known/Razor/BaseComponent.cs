@@ -1,6 +1,5 @@
 ﻿using Known.Entities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Razor;
 
@@ -45,10 +44,8 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         GC.SuppressFinalize(this);
     }
 
-    //public virtual void Refresh() { }
     public EventCallback Callback(Func<Task> callback) => EventCallback.Factory.Create(this, callback);
     public EventCallback Callback(Action callback) => EventCallback.Factory.Create(this, callback);
-    //public EventCallback Callback(Action<object> callback) => EventCallback.Factory.Create(this, callback);
     public EventCallback<T> Callback<T>(Action<T> callback) => EventCallback.Factory.Create(this, callback);
 
     public void StateChanged() => InvokeAsync(StateHasChanged);
@@ -63,13 +60,13 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     //    }));
     //}
 
-    protected bool HasButton(ActionInfo button)
+    protected bool HasButton(string buttonId)
     {
         var user = CurrentUser;
         if (user == null)
             return false;
 
-        return IsInMenu(button, Id);
+        return IsInMenu(Id, buttonId);
     }
 
     internal async Task AddVisitLogAsync()
@@ -98,17 +95,17 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     //           .Build();
     //}
 
-    internal bool IsInMenu(ActionInfo button, string id)
+    private bool IsInMenu(string pageId, string buttonId)
     {
-        var menu = Context.UserMenus.FirstOrDefault(m => m.Id == id || m.Code == id);
+        var menu = Context.UserMenus.FirstOrDefault(m => m.Id == pageId || m.Code == pageId);
         if (menu == null)
             return false;
 
         var hasButton = false;
         if (menu.Buttons != null && menu.Buttons.Count > 0)
-            hasButton = menu.Buttons.Contains(button.Id) || menu.Buttons.Contains(button.Name);
+            hasButton = menu.Buttons.Contains(buttonId);
         else if (menu.Actions != null && menu.Actions.Count > 0)
-            hasButton = menu.Actions.Contains(button.Id) || menu.Actions.Contains(button.Name);
+            hasButton = menu.Actions.Contains(buttonId);
         return hasButton;
     }
 }

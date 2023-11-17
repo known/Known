@@ -93,8 +93,8 @@
 
 /*Import*/
 .form-import {grid-template-rows:20px 50px auto;}
-.form-import .item {display:flex;margin:8px 0;padding:2px;border:1px solid #d5d5d5;}
-.form-import .input {display:inline-block;}
+.form-import .item {display:flex;margin:8px 0;}
+.form-import .item input {display:inline-block;border:1px solid #d5d5d5;}
 .form-import .link {margin-right:10px;}
 .form-import .size {margin-left:10px;}
 .form-import .message {padding:10px 0;}

@@ -49,7 +49,9 @@ class AuthService : ServiceBase
         var user = CurrentUser;
         if (string.IsNullOrWhiteSpace(token))
             token = user.Token;
-        cachedUsers.TryRemove(token, out UserInfo _);
+
+        if (!string.IsNullOrWhiteSpace(token))
+            cachedUsers.TryRemove(token, out UserInfo _);
 
         await Logger.AddLogAsync(Database, LogType.Logout, $"{user.UserName}-{user.Name}", $"token: {token}");
         return Result.Success("退出成功！");

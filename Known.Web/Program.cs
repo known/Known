@@ -42,6 +42,7 @@ builder.Services.AddKnownCells();
 //添加KnownAntDesign页面
 builder.Services.AddKnownAntDesign(option =>
 {
+    //添加页脚内容
     option.Footer = b => b.Span($"{Config.App.Id} ©2023-{DateTime.Now:yyyy} Created by Known");
 });
 //添加Demo模块

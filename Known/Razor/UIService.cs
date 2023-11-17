@@ -10,7 +10,8 @@ public interface IUIService
     void Confirm(string message, Func<Task> action);
     void ShowModal(ModalOption option);
     void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new();
+    void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model) where TItem : class, new();
     void BuildTag(RenderTreeBuilder builder, string text, string color);
     void BuildResult(RenderTreeBuilder builder, string status, string message);
-    void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model) where TItem : class, new();
+    void BuildButton(RenderTreeBuilder builder, ButtonOption option);
 }
