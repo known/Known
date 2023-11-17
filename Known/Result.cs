@@ -127,15 +127,13 @@ public class PagingCriteria
         Parameters = [];
         Query = [];
         Fields = [];
+        PageSize = Config.App.DefaultPageSize;
     }
 
-    public PagingCriteria(int pageIndex) : this()
-    {
-        PageIndex = pageIndex;
-    }
-
-    public static int[] PageSizes { get; set; } = [10, 15, 20, 25, 30, 40, 50, 100, 200, 500, 1000, 2000];
-    public static int DefaultPageSize { get; set; } = 10;
+    //public PagingCriteria(int pageIndex) : this()
+    //{
+    //    PageIndex = pageIndex;
+    //}
 
     public ExportMode ExportMode { get; set; }
     public string ExportExtension { get; set; }
@@ -145,7 +143,7 @@ public class PagingCriteria
 
     public bool IsQuery { get; set; }
     public int PageIndex { get; set; }
-    public int PageSize { get; set; } = DefaultPageSize;
+    public int PageSize { get; set; }
     public List<QueryInfo> Query { get; set; }
     public string[] OrderBys { get; set; }
 

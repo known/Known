@@ -234,20 +234,15 @@ class UserService : ServiceBase
         });
     }
 
-    public async Task<Result> SaveMessageAsync(dynamic model)
+    public async Task<Result> SaveMessageAsync(SysMessage model)
     {
-        var entity = await Database.QueryByIdAsync<SysMessage>((string)model.Id);
-        if (entity == null)
-            return Result.Error("消息不存在！");
-
-        entity.FillModel(model);
-        var vr = entity.Validate();
+        var vr = model.Validate();
         if (!vr.IsValid)
             return vr;
 
         var result = await Database.TransactionAsync(Language.Save, async db =>
         {
-            await db.SaveAsync(entity);
+            await db.SaveAsync(model);
         });
         result.Data = UserRepository.GetMessageCountAsync(Database);
         return result;

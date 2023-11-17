@@ -117,6 +117,9 @@ public class AppInfo
     public string WebRoot { get; set; }
     public string ContentRoot { get; set; }
     public string UploadPath { get; set; }
+    public long UploadMaxSize { get; set; } = 1024 * 1024 * 50;
+    //public int[] PageSizes { get; set; } = [10, 15, 20, 25, 30, 40, 50, 100, 200, 500, 1000, 2000];
+    public int DefaultPageSize { get; set; } = 10;
     public string JsPath { get; set; }
     public string ProductId { get; set; }
     public List<ConnectionInfo> Connections { get; set; }

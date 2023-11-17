@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Dynamic;
 
 namespace Known;
 
@@ -85,24 +84,24 @@ public class EntityBase
         return !orgValue.Equals(value);
     }
 
-    public void FillModel(ExpandoObject model)
-    {
-        var properties = GetType().GetProperties();
-        foreach (var pi in model)
-        {
-            var name = pi.Key;
-            if (name == "Id")
-                continue;
+    //public void FillModel(ExpandoObject model)
+    //{
+    //    var properties = GetType().GetProperties();
+    //    foreach (var pi in model)
+    //    {
+    //        var name = pi.Key;
+    //        if (name == "Id")
+    //            continue;
 
-            var value = pi.Value;
-            var property = properties.FirstOrDefault(p => p.Name == name);
-            if (property != null)
-            {
-                value = Utils.ConvertTo(property.PropertyType, value);
-                property.SetValue(this, value);
-            }
-        }
-    }
+    //        var value = pi.Value;
+    //        var property = properties.FirstOrDefault(p => p.Name == name);
+    //        if (property != null)
+    //        {
+    //            value = Utils.ConvertTo(property.PropertyType, value);
+    //            property.SetValue(this, value);
+    //        }
+    //    }
+    //}
 
     public virtual Result Validate()
     {

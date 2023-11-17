@@ -149,7 +149,7 @@ public class CodeInfo
     public string Category { get; set; }
     public string Code { get; set; }
     public string Name { get; set; }
-    public bool IsActive { get; set; }
+    //public bool IsActive { get; set; }
     public object Data { get; set; }
 
     public T DataAs<T>()

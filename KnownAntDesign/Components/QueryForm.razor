@@ -55,6 +55,7 @@
 
     private async Task OnSearchAsync()
     {
+        Model.Criteria.IsQuery = true;
         Model.Criteria.Query = Model.QueryData.Select(d => d.Value).ToList();
         await OnSearch?.Invoke();
     }

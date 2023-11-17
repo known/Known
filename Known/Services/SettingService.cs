@@ -24,18 +24,15 @@ class SettingService : ServiceBase
         });
     }
 
-    public async Task<Result> SaveSettingAsync(dynamic model)
+    public async Task<Result> SaveSettingAsync(SysSetting model)
     {
-        var entity = await Database.QueryByIdAsync<SysSetting>((string)model.Id);
-        entity ??= new SysSetting();
-        entity.FillModel(model);
-        var vr = entity.Validate();
+        var vr = model.Validate();
         if (!vr.IsValid)
             return vr;
 
         return await Database.TransactionAsync(Language.Save, async db =>
         {
-            await db.SaveAsync(entity);
-        }, entity);
+            await db.SaveAsync(model);
+        }, model);
     }
 }

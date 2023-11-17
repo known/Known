@@ -100,13 +100,26 @@ public class ActionInfo
 
     internal static void Load()
     {
-        //TODO：按钮信息外围配置
+        var content = Utils.GetResource(typeof(ActionInfo).Assembly, "actions");
+        var lines = content.Split(Environment.NewLine);
+        var infos = new List<ActionInfo>();
+        AddActions(infos, lines);
+
         var path = Path.Combine(Config.App.ContentRoot, "actions.txt");
-        if (!File.Exists(path))
+        if (File.Exists(path))
+        {
+            var lines1 = File.ReadAllLines(path);
+            AddActions(infos, lines);
+        }
+
+        Cache.Set(Key, infos);
+    }
+
+    private static void AddActions(List<ActionInfo> infos, string[] lines)
+    {
+        if (lines == null || lines.Length == 0)
             return;
 
-        var infos = new List<ActionInfo>();
-        var lines = File.ReadAllLines(path);
         foreach (var item in lines)
         {
             if (string.IsNullOrWhiteSpace(item))
@@ -116,18 +129,20 @@ public class ActionInfo
             if (values.Length < 2)
                 continue;
 
-            var info = new ActionInfo();
-            if (values.Length > 0)
-                info.Id = values[0].Trim();
+            var id = values[0].Trim();
+            var info = infos.FirstOrDefault(i => i.Id == id);
+            if (info == null)
+            {
+                info = new ActionInfo { Id = id };
+                infos.Add(info);
+            }
             if (values.Length > 1)
                 info.Name = values[1].Trim();
             if (values.Length > 2)
                 info.Icon = values[2].Trim();
             if (values.Length > 3)
                 info.Style = values[3].Trim();
-            infos.Add(info);
         }
-        Cache.Set(Key, infos);
     }
 }
 
@@ -176,7 +191,7 @@ public class MenuItem : MenuInfo
     public List<MenuItem> Children { get; set; }
     public object Data { get; set; }
 
-    internal string PageId => $"{Id}-{Name}";
+    //internal string PageId => $"{Id}-{Name}";
 
 	internal static MenuItem From(MenuInfo model)
     {

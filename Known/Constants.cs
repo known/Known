@@ -29,6 +29,8 @@ class Constants
 
 public class RegexPattern
 {
+    private RegexPattern() { }
+
     public const string Chinese = "^[\u4e00-\u9fa5]{0,}$";
     public const string Phone = "^0\\d{2,3}-[1-9]\\d{6,7}$";
     public const string Mobile = "^1[3-9]\\d{9}$";

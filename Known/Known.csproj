@@ -15,6 +15,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="actions.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="actions.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 

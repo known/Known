@@ -23,7 +23,7 @@ public abstract class ImportBase
 
     public virtual Task<Result> ExecuteAsync(SysFile file) => Result.SuccessAsync("");
 
-    private static readonly Dictionary<string, Type> importTypes = new();
+    private static readonly Dictionary<string, Type> importTypes = [];
     public static void Register(Assembly assembly)
     {
         var types = assembly.GetTypes();

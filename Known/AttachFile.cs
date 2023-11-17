@@ -28,8 +28,6 @@ public class AttachFile
 
     //internal AttachFile(UploadInfo info, UserInfo user) : this(new ByteAttachFile(info?.Name, info?.Data), user) { }
 
-    public static long MaxLength { get; set; } = 1024 * 1024 * 50;
-
     internal UserInfo User { get; }
     internal bool IsWeb { get; set; }
     public long Size { get; }
@@ -104,10 +102,10 @@ class BlazorAttachFile : IAttachFile
         FileName = file.Name;
     }
 
-    internal BlazorAttachFile(IBrowserFile file, byte[] bytes) : this(file)
-    {
-        this.bytes = bytes;
-    }
+    //internal BlazorAttachFile(IBrowserFile file, byte[] bytes) : this(file)
+    //{
+    //    this.bytes = bytes;
+    //}
 
     public long Length { get; }
     public string FileName { get; }
@@ -119,13 +117,13 @@ class BlazorAttachFile : IAttachFile
         if (bytes != null)
             return new MemoryStream(bytes);
 
-        return file.OpenReadStream(AttachFile.MaxLength);
+        return file.OpenReadStream(Config.App.UploadMaxSize);
     }
 
     public async Task SaveAsync(string path)
     {
         await using FileStream fs = new(path, FileMode.Create);
-        await file.OpenReadStream(AttachFile.MaxLength).CopyToAsync(fs);
+        await file.OpenReadStream(Config.App.UploadMaxSize).CopyToAsync(fs);
     }
 }
 
@@ -166,22 +164,22 @@ class BlazorAttachFile : IAttachFile
 //    }
 //}
 
-class ByteAttachFile : IAttachFile
-{
-    private readonly byte[] buffer;
+//class ByteAttachFile : IAttachFile
+//{
+//    private readonly byte[] buffer;
 
-    public ByteAttachFile(string name, byte[] bytes)
-    {
-        buffer = bytes;
-        if (bytes != null)
-            Length = bytes.Length;
-        FileName = name;
-    }
+//    public ByteAttachFile(string name, byte[] bytes)
+//    {
+//        buffer = bytes;
+//        if (bytes != null)
+//            Length = bytes.Length;
+//        FileName = name;
+//    }
 
-    public long Length { get; }
-    public string FileName { get; }
+//    public long Length { get; }
+//    public string FileName { get; }
 
-    public byte[] GetBytes() => buffer;
-    public Stream GetStream() => new MemoryStream(buffer);
-    public Task SaveAsync(string path) => File.WriteAllBytesAsync(path, buffer);
-}
+//    public byte[] GetBytes() => buffer;
+//    public Stream GetStream() => new MemoryStream(buffer);
+//    public Task SaveAsync(string path) => File.WriteAllBytesAsync(path, buffer);
+//}

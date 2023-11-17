@@ -15,11 +15,11 @@ class AuthStateProvider : AuthenticationStateProvider
         this.sessionStorage = sessionStorage;
     }
 
-    public async Task<UserInfo> GetUserAsync()
-    {
-        var result = await sessionStorage.GetAsync<UserInfo>(KeyUser);
-        return result.Value;
-    }
+    //public async Task<UserInfo> GetUserAsync()
+    //{
+    //    var result = await sessionStorage.GetAsync<UserInfo>(KeyUser);
+    //    return result.Value;
+    //}
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
