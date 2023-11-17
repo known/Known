@@ -31,29 +31,29 @@ public class PwdFormInfo
     public string NewPwd1 { get; set; }
 }
 
-public class SettingFormInfo
-{
-    public string Type { get; set; }
-    public string Name { get; set; }
-    public string Data { get; set; }
-}
+//public class SettingFormInfo
+//{
+//    public string Type { get; set; }
+//    public string Name { get; set; }
+//    public string Data { get; set; }
+//}
 
-public class UploadInfo
-{
-    public string Name { get; set; }
-    public string Type { get; set; }
-    public byte[] Data { get; set; }
-}
+//public class UploadInfo
+//{
+//    public string Name { get; set; }
+//    public string Type { get; set; }
+//    public byte[] Data { get; set; }
+//}
 
-public class UploadFormInfo
+public class UploadInfo<TModel>
 {
-    public UploadFormInfo(ImportFormInfo model)
+    public UploadInfo(TModel model)
     {
         Model = model;
         Files = [];
     }
 
-    public ImportFormInfo Model { get; }
+    public TModel Model { get; }
     public Dictionary<string, List<IAttachFile>> Files { get; }
 }
 

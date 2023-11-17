@@ -42,16 +42,16 @@ public class ConfigInfo
     public object Value { get; set; }
 }
 
-public class CodeName
-{
-    public CodeName() { }
+//public class CodeName
+//{
+//    public CodeName() { }
 
-    public CodeName(string code, string name)
-    {
-        Code = code;
-        Name = name;
-    }
+//    public CodeName(string code, string name)
+//    {
+//        Code = code;
+//        Name = name;
+//    }
 
-    public string Code { get; set; }
-    public string Name { get; set; }
-}
+//    public string Code { get; set; }
+//    public string Name { get; set; }
+//}

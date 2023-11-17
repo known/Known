@@ -186,32 +186,32 @@ class UserService : ServiceBase
     }
 
     //Setting
-    public async Task<Result> DeleteSettingAsync(SettingFormInfo info)
-    {
-        var user = CurrentUser;
-        if (user == null)
-            return Result.Error(Language.NoLogin);
+    //public async Task<Result> DeleteSettingAsync(SettingFormInfo info)
+    //{
+    //    var user = CurrentUser;
+    //    if (user == null)
+    //        return Result.Error(Language.NoLogin);
 
-        var setting = await SettingRepository.GetSettingByUserAsync(Database, info.Type, info.Name);
-        if (setting == null)
-            return Result.Error(Language.NotExists.Format("设置"));
+    //    var setting = await SettingRepository.GetSettingByUserAsync(Database, info.Type, info.Name);
+    //    if (setting == null)
+    //        return Result.Error(Language.NotExists.Format("设置"));
 
-        await Database.DeleteAsync(setting);
-        return Result.Success(Language.DeleteSuccess);
-    }
+    //    await Database.DeleteAsync(setting);
+    //    return Result.Success(Language.DeleteSuccess);
+    //}
 
-    public async Task<Result> SaveSettingAsync(SettingFormInfo info)
-    {
-        var user = CurrentUser;
-        if (user == null)
-            return Result.Error(Language.NoLogin);
+    //public async Task<Result> SaveSettingAsync(SettingFormInfo info)
+    //{
+    //    var user = CurrentUser;
+    //    if (user == null)
+    //        return Result.Error(Language.NoLogin);
 
-        var setting = await SettingRepository.GetSettingByUserAsync(Database, info.Type, info.Name);
-        setting ??= new SysSetting { BizType = info.Type, BizName = info.Name };
-        setting.BizData = info.Data;
-        await Database.SaveAsync(setting);
-        return Result.Success(Language.SaveSuccess);
-    }
+    //    var setting = await SettingRepository.GetSettingByUserAsync(Database, info.Type, info.Name);
+    //    setting ??= new SysSetting { BizType = info.Type, BizName = info.Name };
+    //    setting.BizData = info.Data;
+    //    await Database.SaveAsync(setting);
+    //    return Result.Success(Language.SaveSuccess);
+    //}
 
     //Message
     public Task<PagingResult<SysMessage>> QueryMessagesAsync(PagingCriteria criteria)

@@ -51,25 +51,5 @@ public abstract class ServiceBase
         var json = Utils.ToJson(value);
         await PlatformRepository.SaveConfigAsync(db, Config.App.Id, key, json);
     }
-
-    protected static List<AttachFile> GetAttachFiles(UploadFormInfo info, UserInfo user, string key, string typePath) => GetAttachFiles(info, user, key, new FileFormInfo { BizType = typePath });
-
-    internal static List<AttachFile> GetAttachFiles(UploadFormInfo info, UserInfo user, string key, FileFormInfo form)
-    {
-        if (info.Files == null || info.Files.Count == 0)
-            return null;
-
-        if (!info.Files.ContainsKey(key))
-            return null;
-
-        var attaches = new List<AttachFile>();
-        var files = info.Files[key];
-        foreach (var item in files)
-        {
-            var attach = new AttachFile(item, user, form.BizType, form.BizPath) { Category2 = form.Category };
-            attaches.Add(attach);
-        }
-        return attaches;
-    }
     #endregion
 }

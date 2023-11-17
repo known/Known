@@ -78,6 +78,6 @@ public class SysDictionary : EntityBase
     [DisplayName("子字典")]
     public string Child { get; set; }
 
-    public virtual bool HasChild { get; set; }
-    public virtual List<CodeName> Children => Utils.FromJson<List<CodeName>>(Child);
+    //public virtual bool HasChild { get; set; }
+    //public virtual List<CodeName> Children => Utils.FromJson<List<CodeName>>(Child);
 }

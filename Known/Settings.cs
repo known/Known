@@ -2,9 +2,9 @@
 
 public class UserSetting
 {
-    public const string KeyInfo = "UserSetting";
-    public const string KeyQuery = "UserQuery";
-    public const string KeyColumn = "UserColumn";
+    internal const string KeyInfo = "UserSetting";
+    internal const string KeyQuery = "UserQuery";
+    internal const string KeyColumn = "UserColumn";
 
     public SettingInfo Info { get; set; }
     public Dictionary<string, List<QueryInfo>> Querys { get; set; }

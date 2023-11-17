@@ -7,7 +7,7 @@ public class AttachFile
 {
     private readonly IAttachFile file;
 
-    public AttachFile(IAttachFile file, UserInfo user, string typePath = null, string timePath = null)
+    internal AttachFile(IAttachFile file, UserInfo user, string typePath = null, string timePath = null)
     {
         this.file = file;
         User = user;
@@ -26,7 +26,7 @@ public class AttachFile
             FilePath = Path.Combine(filePath, timePath, fileName);
     }
 
-    internal AttachFile(UploadInfo info, UserInfo user) : this(new ByteAttachFile(info?.Name, info?.Data), user) { }
+    //internal AttachFile(UploadInfo info, UserInfo user) : this(new ByteAttachFile(info?.Name, info?.Data), user) { }
 
     public static long MaxLength { get; set; } = 1024 * 1024 * 50;
 

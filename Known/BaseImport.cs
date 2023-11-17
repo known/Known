@@ -72,8 +72,6 @@ public abstract class ImportBase
 
 public class ImportColumn
 {
-    public ImportColumn() { }
-
     public ImportColumn(string name, bool required = false, string note = null)
     {
         Name = name;
@@ -89,13 +87,15 @@ public class ImportColumn
         Note = $"填写：{string.Join(",", codes.Select(c => c.Code))}";
     }
 
-    public string Name { get; set; }
-    public bool Required { get; set; }
-    public string Note { get; set; }
+    public string Name { get; }
+    public bool Required { get; }
+    public string Note { get; }
 }
 
 public class ImportRow : Dictionary<string, string>
 {
+    internal ImportRow() { }
+
     public string ErrorMessage { get; set; }
 
     public string GetValue(string key)

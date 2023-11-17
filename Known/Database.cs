@@ -153,7 +153,7 @@ public class Database : IDisposable
             {
                 await db.RollbackAsync();
                 Logger.Exception(ex);
-                if (ex is CheckException)
+                if (ex is SystemException)
                     return Result.Error(ex.Message);
                 else
                     return Result.Error(Language.TransError);
@@ -1158,12 +1158,7 @@ select t.* from (
     }
 }
 
-public class CheckException : Exception
-{
-    public CheckException(string message) : base(message) { }
-}
-
-public sealed class Check
+class Check
 {
     private Check() { }
 
@@ -1175,6 +1170,6 @@ public sealed class Check
 
     public static void Throw(string message)
     {
-        throw new CheckException(message);
+        throw new SystemException(message);
     }
 }

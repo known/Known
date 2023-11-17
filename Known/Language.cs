@@ -1,6 +1,6 @@
 ﻿namespace Known;
 
-public static class Language
+static class Language
 {
     public static string Format(this string format, params object[] args) => string.Format(format, args);
 
@@ -97,25 +97,25 @@ public static class Language
     public const string CompNo = "公司编码";
 
     //Biz
-    public const string LocalUser = "本地用户";
-    public const string ProdActiveFail = "激活失败！";
-    public const string ProdServerError = "激活服务器出错！";
-    public const string ProdNotNetwork = "计算机未联网，无法激活！";
+    //public const string LocalUser = "本地用户";
+    //public const string ProdActiveFail = "激活失败！";
+    //public const string ProdServerError = "激活服务器出错！";
+    //public const string ProdNotNetwork = "计算机未联网，无法激活！";
     
-    public const string Error403Title = "无权限访问！";
-    public const string Error403Content = "抱歉，您无权限访问该页面~";
-    public const string Error404Title = "页面未找到！";
-    public const string Error404Content = "抱歉，页面好像去火星了~";
-    public const string Error500Title = "服务器内部错误！";
-    public const string Error500Content = "服务器好像出错了...";
+    //public const string Error403Title = "无权限访问！";
+    //public const string Error403Content = "抱歉，您无权限访问该页面~";
+    //public const string Error404Title = "页面未找到！";
+    //public const string Error404Content = "抱歉，页面好像去火星了~";
+    //public const string Error500Title = "服务器内部错误！";
+    //public const string Error500Content = "服务器好像出错了...";
 
-    public const string DataByList = "列表显示";
-    public const string DataBySquared = "宫格显示";
+    //public const string DataByList = "列表显示";
+    //public const string DataBySquared = "宫格显示";
 
-    public const string PagerTotalText = "共{0}条";
-    public const string PagerRefresh = "刷新";
-    public const string PagerFirst = "第一页";
-    public const string PagerPrevious = "上一页";
-    public const string PagerNext = "下一页";
-    public const string PagerLast = "最后一页";
+    //public const string PagerTotalText = "共{0}条";
+    //public const string PagerRefresh = "刷新";
+    //public const string PagerFirst = "第一页";
+    //public const string PagerPrevious = "上一页";
+    //public const string PagerNext = "下一页";
+    //public const string PagerLast = "最后一页";
 }

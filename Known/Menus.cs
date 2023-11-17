@@ -100,6 +100,7 @@ public class ActionInfo
 
     internal static void Load()
     {
+        //TODO：按钮信息外围配置
         var path = Path.Combine(Config.App.ContentRoot, "actions.txt");
         if (!File.Exists(path))
             return;
@@ -134,14 +135,14 @@ public class ColumnInfo
 {
     public string Id { get; set; }
     public string Name { get; set; }
-    public int Width { get; set; }
-    public int Sort { get; set; }
-    public bool IsQuery { get; set; }
-    public bool IsAdvQuery { get; set; }
-    public bool IsSum { get; set; }
-    public bool IsSort { get; set; } = true;
-    public bool IsVisible { get; set; } = true;
-    public bool IsFixed { get; set; }
+    //public int Width { get; set; }
+    //public int Sort { get; set; }
+    //public bool IsQuery { get; set; }
+    //public bool IsAdvQuery { get; set; }
+    //public bool IsSum { get; set; }
+    //public bool IsSort { get; set; } = true;
+    //public bool IsVisible { get; set; } = true;
+    //public bool IsFixed { get; set; }
 }
 
 public class MenuItem : MenuInfo

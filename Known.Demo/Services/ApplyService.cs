@@ -1,6 +1,7 @@
 ﻿using Known.Demo.Entities;
 using Known.Demo.Repositories;
 using Known.Demo.WorkFlows;
+using Known.Extensions;
 using Known.WorkFlows;
 
 namespace Known.Demo.Services;
@@ -33,13 +34,13 @@ class ApplyService : ServiceBase
     public async Task<Result> DeleteApplysAsync(List<TbApply> models)
     {
         if (models == null || models.Count == 0)
-            return Result.Error(Language.SelectOneAtLeast);
+            return Result.Error("请至少选择一条记录进行操作！");
 
         if (models.Exists(m => m.BizStatus != FlowStatus.Save))
             return Result.Error("只能删除暂存状态的记录！");
 
         var oldFiles = new List<string>();
-        var result = await Database.TransactionAsync(Language.Delete, async db =>
+        var result = await Database.TransactionAsync("删除", async db =>
         {
             foreach (var item in models)
             {
@@ -57,9 +58,9 @@ class ApplyService : ServiceBase
         return result;
     }
 
-    public async Task<Result> SaveApplyAsync(UploadFormInfo info)
+    public async Task<Result> SaveApplyAsync(UploadInfo<TbApply> info)
     {
-        var entity = await Database.QueryByIdAsync<TbApply>((string)info.Model.BizId);
+        var entity = info.Model;
         entity ??= new TbApply();
         //entity.FillModel(info.Model);
         var vr = entity.Validate();
@@ -69,8 +70,8 @@ class ApplyService : ServiceBase
         var user = CurrentUser;
         //保存实际附件
         var bizType = "ApplyFiles";
-        var bizFiles = GetAttachFiles(info, user, nameof(TbApply.BizFile), bizType);
-        return await Database.TransactionAsync(Language.Save, async db =>
+        var bizFiles = info.Files.GetAttachFiles(user, nameof(TbApply.BizFile), bizType);
+        return await Database.TransactionAsync("保存", async db =>
         {
             if (entity.IsNew)
             {

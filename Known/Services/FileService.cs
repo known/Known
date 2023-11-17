@@ -1,4 +1,5 @@
 ﻿using Known.Entities;
+using Known.Extensions;
 using Known.Helpers;
 using Known.Repositories;
 
@@ -87,13 +88,13 @@ class FileService : ServiceBase
         return file.FileUrl;
     }
 
-    public async Task<Result> UploadFilesAsync(UploadFormInfo info)
+    public async Task<Result> UploadFilesAsync<TModel>(UploadInfo<TModel> info)
     {
         ImportFormInfo form = Utils.MapTo<ImportFormInfo>(info.Model);
         SysTask task = null;
         var sysFiles = new List<SysFile>();
         var user = CurrentUser;
-        var files = GetAttachFiles(info, user, "Upload", form);
+        var files = info.Files.GetAttachFiles(user, "Upload", form);
         var result = await Database.TransactionAsync("上传", async db =>
         {
             sysFiles = await AddFilesAsync(db, files, form.BizId, form.BizType);
@@ -115,24 +116,24 @@ class FileService : ServiceBase
         return result;
     }
 
-    public Task<Result> UploadImageAsync(UploadInfo info) => UploadFileAsync(info, "Image");
-    public Task<Result> UploadVideoAsync(UploadInfo info) => UploadFileAsync(info, "Video");
+    //public Task<Result> UploadImageAsync(UploadInfo info) => UploadFileAsync(info, "Image");
+    //public Task<Result> UploadVideoAsync(UploadInfo info) => UploadFileAsync(info, "Video");
 
-    private async Task<Result> UploadFileAsync(UploadInfo info, string type)
-    {
-        if (info == null || info.Data == null || info.Data.Length == 0)
-            return Result.Success("", "");
+    //private async Task<Result> UploadFileAsync(UploadInfo info, string type)
+    //{
+    //    if (info == null || info.Data == null || info.Data.Length == 0)
+    //        return Result.Success("", "");
 
-        var user = CurrentUser;
-        var attach = new AttachFile(info, user);
-        var fileId = Utils.GetGuid();
-        attach.IsWeb = true;
-        attach.FilePath = $@"{user.CompNo}\{type}\{fileId}{attach.ExtName}";
-        attach.Category1 = "WWW";
-        attach.Category2 = type;
-        var file = await AddFileAsync(Database, attach, "Upload", type, "");
-        return Result.Success("", file.Url);
-    }
+    //    var user = CurrentUser;
+    //    var attach = new AttachFile(info, user);
+    //    var fileId = Utils.GetGuid();
+    //    attach.IsWeb = true;
+    //    attach.FilePath = $@"{user.CompNo}\{type}\{fileId}{attach.ExtName}";
+    //    attach.Category1 = "WWW";
+    //    attach.Category2 = type;
+    //    var file = await AddFileAsync(Database, attach, "Upload", type, "");
+    //    return Result.Success("", file.Url);
+    //}
 
     internal static async Task DeleteFilesAsync(Database db, string bizId, string bizType, List<string> oldFiles)
     {

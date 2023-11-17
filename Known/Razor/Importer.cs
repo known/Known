@@ -87,7 +87,7 @@ class Importer : BaseComponent
         message = "正在导入中...";
         isFinished = false;
 
-        var info = new UploadFormInfo(Model);
+        var info = new UploadInfo<ImportFormInfo>(Model);
         info.Files["Upload"] = [attach];
         var result = await Platform.File.UploadFilesAsync(info);
         if (!result.IsValid)

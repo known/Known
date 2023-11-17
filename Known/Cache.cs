@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Reflection;
-using Known.Entities;
 using Known.Helpers;
 
 namespace Known;
@@ -44,12 +43,28 @@ public sealed class Cache
 
     public static List<CodeInfo> GetCodes(string category, bool isAll = true)
     {
-        var codes = GetCodes().Where(c => c.Category == category).ToList();
+        var infos = new List<CodeInfo>();
         if (isAll)
-        {
-            codes.Insert(0, new CodeInfo("", "全部"));
-        }
-        return codes;
+            infos.Add(new CodeInfo("", "全部"));
+
+        var codes = GetCodes().Where(c => c.Category == category).ToList();
+        if (codes == null || codes.Count == 0)
+            codes = category.Split(',', ';').Select(d => new CodeInfo(d, d)).ToList();
+
+        if (codes != null && codes.Count > 0)
+            infos.AddRange(codes);
+
+        return infos;
+    }
+
+    public static string GetCode(string category, string codeOrName)
+    {
+        if (string.IsNullOrWhiteSpace(codeOrName))
+            return string.Empty;
+
+        var codes = GetCodes(category);
+        var code = codes.FirstOrDefault(c => c.Code == codeOrName || c.Name == codeOrName);
+        return code?.Code;
     }
 
     public static void AddDicCategory<T>()
@@ -116,8 +131,6 @@ public sealed class Cache
 
 public class CodeInfo
 {
-    public CodeInfo() { }
-
     public CodeInfo(string code, string name, object data = null)
     {
         Code = code;
@@ -144,53 +157,34 @@ public class CodeInfo
         if (Data == null)
             return default;
 
+        if (Data is T data)
+            return data;
+
         var dataString = Data.ToString();
         return Utils.FromJson<T>(dataString);
     }
 
-    public static List<CodeInfo> GetCodes(string category)
-    {
-        if (string.IsNullOrEmpty(category))
-            return [];
+    //public static CodeInfo[] GetChildCodes(string category, string value)
+    //{
+    //    if (string.IsNullOrWhiteSpace(value))
+    //        return null;
 
-        var codes = Cache.GetCodes(category);
-        if (codes != null && codes.Count > 0)
-            return codes;
+    //    var codes = GetCodes(category);
+    //    var code = codes.FirstOrDefault(c => c.Code == value);
+    //    var dic = code?.Data is SysDictionary
+    //            ? code?.Data as SysDictionary
+    //            : Utils.FromJson<SysDictionary>(code?.Data?.ToString());
+    //    if (!string.IsNullOrWhiteSpace(dic?.Child))
+    //        return dic?.Children.Select(c => new CodeInfo(c.Code, c.Name)).ToArray();
 
-        return category.Split(',', ';').Select(d => new CodeInfo(d, d)).ToList();
-    }
+    //    if (!string.IsNullOrWhiteSpace(dic?.Extension))
+    //    {
+    //        return dic?.Extension.Split(Environment.NewLine.ToArray())
+    //                   .Where(s => !string.IsNullOrWhiteSpace(s))
+    //                   .Select(s => new CodeInfo(s, s))
+    //                   .ToArray();
+    //    }
 
-    public static CodeInfo[] GetChildCodes(string category, string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-            return null;
-
-        var codes = GetCodes(category);
-        var code = codes.FirstOrDefault(c => c.Code == value);
-        var dic = code?.Data is SysDictionary
-                ? code?.Data as SysDictionary
-                : Utils.FromJson<SysDictionary>(code?.Data?.ToString());
-        if (!string.IsNullOrWhiteSpace(dic?.Child))
-            return dic?.Children.Select(c => new CodeInfo(c.Code, c.Name)).ToArray();
-
-        if (!string.IsNullOrWhiteSpace(dic?.Extension))
-        {
-            return dic?.Extension.Split(Environment.NewLine.ToArray())
-                       .Where(s => !string.IsNullOrWhiteSpace(s))
-                       .Select(s => new CodeInfo(s, s))
-                       .ToArray();
-        }
-
-        return null;
-    }
-
-    public static string GetCode(string category, string codeOrName)
-    {
-        if (string.IsNullOrWhiteSpace(codeOrName))
-            return string.Empty;
-
-        var codes = GetCodes(category);
-        var code = codes.FirstOrDefault(c => c.Code == codeOrName || c.Name == codeOrName);
-        return code?.Code;
-    }
+    //    return null;
+    //}
 }

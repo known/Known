@@ -2,7 +2,7 @@
 
 namespace Known.Extensions;
 
-static class ModelExtension
+public static class ModelExtension
 {
     #region Menu
     internal static List<MenuItem> ToMenuItems(this List<MenuInfo> menus)
@@ -171,6 +171,27 @@ static class ModelExtension
 			menu.Children.Add(sub);
             AddChildren(models, sub, ref current);
         }
+    }
+    #endregion
+
+    #region File
+    public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<IAttachFile>> files, UserInfo user, string key, string typePath) => files?.GetAttachFiles(user, key, new FileFormInfo { BizType = typePath });
+
+    internal static List<AttachFile> GetAttachFiles(this Dictionary<string, List<IAttachFile>> files, UserInfo user, string key, FileFormInfo form)
+    {
+        if (files == null || files.Count == 0)
+            return null;
+
+        if (!files.TryGetValue(key, out List<IAttachFile> value))
+            return null;
+
+        var attaches = new List<AttachFile>();
+        foreach (var item in value)
+        {
+            var attach = new AttachFile(item, user, form.BizType, form.BizPath) { Category2 = form.Category };
+            attaches.Add(attach);
+        }
+        return attaches;
     }
     #endregion
 }
