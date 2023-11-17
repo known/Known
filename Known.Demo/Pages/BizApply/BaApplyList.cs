@@ -24,8 +24,8 @@ class BaApplyList : BasePage<TbApply>
         return Service.QueryApplysAsync(criteria);
     }
 
-    //public void New() => Page.NewForm(Service.SaveApplyAsync, new TbApply());
-    //public void Edit(TbApply row) => Page.EditForm(Service.SaveDictionaryAsync, row);
+    public void New() => Page.NewForm(Service.SaveApplyAsync, new TbApply());
+    public void Edit(TbApply row) => Page.EditForm(Service.SaveApplyAsync, row);
     public void Delete(TbApply row) => Page.Delete(Service.DeleteApplysAsync, row);
     public void DeleteM() => Page.DeleteM(Service.DeleteApplysAsync);
 

@@ -1,4 +1,5 @@
-﻿@typeparam TItem where TItem : class, new()
+﻿@using Microsoft.AspNetCore.Components.Forms
+@typeparam TItem where TItem : class, new()
 
 <Form @ref="_form" TModel="TItem" Model="@Model.Data">
     @if (Model.Fields != null && Model.Fields.Any())
@@ -11,7 +12,14 @@
             <GridRow>
                 <GridCol Span="24">
                     <FormItem LabelColSpan="4" Label="@label" Required="@required">
-                        @field.InputTemplate
+                        @if (column.IsFile)
+                        {
+                            <InputFile OnChange="OnInputFilesChanged" />
+                        }
+                        else
+                        {
+                            @field.InputTemplate
+                        }
                     </FormItem>
                 </GridCol>
             </GridRow>
@@ -29,5 +37,15 @@
         if (firstRender)
             Model.OnValidate = _form.Validate;
         base.OnAfterRender(firstRender);
+    }
+
+    private void OnInputFilesChanged(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file == null || file.Size == 0)
+            return;
+
+        //fileInfo = $"大小:{file.Size / 1024}KB";
+        //attach = new BlazorAttachFile(file);
     }
 }

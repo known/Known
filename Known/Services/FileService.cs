@@ -90,7 +90,7 @@ class FileService : ServiceBase
 
     public async Task<Result> UploadFilesAsync<TModel>(UploadInfo<TModel> info)
     {
-        ImportFormInfo form = Utils.MapTo<ImportFormInfo>(info.Model);
+        var form = info.Model as ImportFormInfo;
         SysTask task = null;
         var sysFiles = new List<SysFile>();
         var user = CurrentUser;

@@ -56,6 +56,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
             id += $"_{param}";
         var info = await Platform.File.GetImportAsync(id);
         info.Name = Name;
+        info.BizName = $"导入{Name}";
         Page.ImportForm(info);
     }
 

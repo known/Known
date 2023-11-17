@@ -1,7 +1,9 @@
-﻿using Known;
+﻿using Coravel;
+using Known;
 using Known.Cells;
 using Known.Demo;
 using Known.Extensions;
+using Known.Web;
 using Known.Web.Pages;
 using KnownAntDesign;
 
@@ -9,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
-//添加Known框架
+
+//1.添加Known框架
 builder.Services.AddKnown(info =>
 {
     //设置环境
@@ -37,18 +40,37 @@ builder.Services.AddKnown(info =>
     //设置产品ID，根据硬件获取ID
     info.ProductId = $"{Config.App.Id}-000001";
 });
-//添加默认Excel实现
+
+//2.添加默认Excel实现
 builder.Services.AddKnownCells();
-//添加KnownAntDesign页面
+
+//3.添加KnownAntDesign页面
 builder.Services.AddKnownAntDesign(option =>
 {
     //添加页脚内容
-    option.Footer = b => b.Span($"{Config.App.Id} ©2023-{DateTime.Now:yyyy} Created by Known");
+    var html = $@"
+<span>{Config.App.Id} ©2023-{DateTime.Now:yyyy} Powered By </span>
+<a href=""http://known.pumantech.com"" target=""_blank"">Known</a>
+";
+    option.Footer = b => b.Markup(html);
 });
-//添加Demo模块
+
+//4.添加Demo模块
 builder.Services.AddDemo();
 
+//5.添加定时任务
+builder.Services.AddScheduler();
+builder.Services.AddTransient<ImportTaskJob>();
+
 var app = builder.Build();
+
+//6.配置定时任务
+app.Services.UseScheduler(scheduler =>
+{
+    //每5秒执行一次异步导入
+    scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
+});
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

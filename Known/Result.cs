@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Drawing;
 
 namespace Known;
 
@@ -11,7 +10,6 @@ public class Result
     public Result()
     {
         errors.Clear();
-        Size = null;
         IsValid = true;
     }
 
@@ -23,7 +21,6 @@ public class Result
 
     public bool IsClose { get; set; } = true;
     public bool IsValid { get; set; }
-    public Size? Size { get; set; }
 
     public string Message
     {
@@ -96,6 +93,9 @@ public class PagingResult<T>
         if (Summary == null)
             return default;
 
+        if (Summary is TSummary data)
+            return data;
+
         var dataString = Summary.ToString();
         return Utils.FromJson<TSummary>(dataString);
     }
@@ -130,13 +130,7 @@ public class PagingCriteria
         PageSize = Config.App.DefaultPageSize;
     }
 
-    //public PagingCriteria(int pageIndex) : this()
-    //{
-    //    PageIndex = pageIndex;
-    //}
-
     public ExportMode ExportMode { get; set; }
-    public string ExportExtension { get; set; }
     public Dictionary<string, string> ExportColumns { get; set; }
     public Dictionary<string, object> Parameters { get; set; }
     public List<string> SumColumns { get; set; }
@@ -217,21 +211,6 @@ public class PagingCriteria
         return query.Value;
     }
 
-    //public static T GetQueryValue<T>(string id)
-    //{
-    //    var value = GetQueryValue(id);
-    //    return Utils.ConvertTo<T>(value);
-    //}
-
-    //public static void SetQueryType(string id, QueryType type)
-    //{
-    //    var query = Query.FirstOrDefault(q => q.Id == id);
-    //    if (query == null)
-    //        return;
-
-    //    query.Type = type;
-    //}
-
     internal bool HasQuery(string id)
     {
         if (Query == null)
@@ -249,25 +228,12 @@ public class PagingCriteria
         if (Parameters == null)
             return string.Empty;
 
-        if (!Parameters.ContainsKey(id))
+        if (!Parameters.TryGetValue(id, out object value))
             return string.Empty;
 
-        var param = Parameters[id];
-        if (param == null)
+        if (value == null)
             return string.Empty;
 
-        return param.ToString();
+        return value.ToString();
     }
-
-    //public T GetParameter<T>(string id)
-    //{
-    //    var param = GetParameter(id);
-    //    return Utils.ConvertTo<T>(param);
-    //}
-
-    //public bool CheckParameter<T>(string id, T value)
-    //{
-    //    var data = GetParameter<T>(id);
-    //    return data.Equals(value);
-    //}
 }

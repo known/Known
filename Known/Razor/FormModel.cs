@@ -22,15 +22,27 @@ public class FormModel<TItem> where TItem : class, new()
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }
     public Func<TItem, Task<Result>> OnSave { get; internal set; }
+    public Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; internal set; }
 
     public async Task SaveAsync()
     {
         if (OnValidate != null)
         {
-            if (!OnValidate.Invoke()) return;
+            if (!OnValidate.Invoke())
+                return;
         }
 
-        var result = await OnSave?.Invoke(Data);
+        //TODO：保存附件表单
+        Result result;
+        if (OnSaveFile != null)
+        {
+            var info = new UploadInfo<TItem>(Data);
+            result = await OnSaveFile?.Invoke(info);
+        }
+        else
+        {
+            result = await OnSave?.Invoke(Data);
+        }
         Page.UI.Result(result, async () =>
         {
             if (result.IsClose)

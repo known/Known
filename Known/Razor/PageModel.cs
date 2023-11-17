@@ -50,7 +50,9 @@ public class PageModel<TItem> where TItem : class, new()
     }
 
     public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
+    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
     public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
+    public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
 
     private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
     {
@@ -60,6 +62,17 @@ public class PageModel<TItem> where TItem : class, new()
             Title = $"{action}{title}",
             Data = row,
             OnSave = onSave
+        });
+    }
+
+    private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
+    {
+        var title = GetFormTitle(row);
+        UI.ShowForm<TItem>(new FormModel<TItem>(Form, this)
+        {
+            Title = $"{action}{title}",
+            Data = row,
+            OnSaveFile = onSave
         });
     }
 

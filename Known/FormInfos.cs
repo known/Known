@@ -70,20 +70,10 @@ public class FileFormInfo
 public class ImportFormInfo : FileFormInfo
 {
     public string Name { get; set; }
-    //public string Type { get; set; }
     public bool IsAsync { get; set; }
     public bool IsFinished { get; set; } = true;
     public string Message { get; set; }
     public string Error { get; set; }
-    //public List<string> Columns { get; set; }
-
-    //public List<string> GetImportColumns()
-    //{
-    //    if (Columns != null && Columns.Count > 0)
-    //        return Columns;
-
-    //    return GetImportColumns(Type);
-    //}
 
     public static List<string> GetImportColumns(string modelType)
     {
