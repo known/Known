@@ -32,7 +32,7 @@ public class PlatformService
     internal AuthService Auth { get; }
 
     #region Company
-    public Task<string> GetCompanyAsync(Database db, UserInfo user) => CompanyService.GetCompanyAsync(db, user);
+    //public Task<string> GetCompanyAsync(Database db) => CompanyService.GetCompanyAsync(db);
     public Task<T> GetCompanyAsync<T>() => Company.GetCompanyAsync<T>();
     public Task<Result> SaveCompanyAsync(object model) => Company.SaveCompanyAsync(model);
     #endregion

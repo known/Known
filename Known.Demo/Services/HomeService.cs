@@ -3,7 +3,7 @@ using Known.Demo.Repositories;
 
 namespace Known.Demo.Services;
 
-class HomeService : BaseService
+class HomeService : ServiceBase
 {
     public async Task<HomeInfo> GetHomeAsync()
     {

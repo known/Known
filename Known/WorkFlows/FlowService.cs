@@ -2,7 +2,7 @@
 
 namespace Known.WorkFlows;
 
-class FlowService : BaseService
+class FlowService : ServiceBase
 {
     internal static Task<SysFlow> GetFlowAsync(Database db, string bizId) => FlowRepository.GetFlowAsync(db, bizId);
 

@@ -40,7 +40,7 @@ public sealed class ImportHelper
 
     private static List<string> GetRuleColumns(string bizId)
     {
-        var columns = BaseImport.GetImportColumns(bizId);
+        var columns = ImportBase.GetImportColumns(bizId);
         if (columns == null || columns.Count == 0)
             return new List<string>();
 
@@ -49,7 +49,7 @@ public sealed class ImportHelper
 
     internal static Task<byte[]> GetImportRuleAsync(string bizId)
     {
-        var columns = BaseImport.GetImportColumns(bizId);
+        var columns = ImportBase.GetImportColumns(bizId);
         if (columns == null || columns.Count == 0)
             return Task.FromResult(Array.Empty<byte>());
 
@@ -84,7 +84,7 @@ public sealed class ImportHelper
 
     internal static async Task<Result> ExecuteAsync(Database db, SysTask task)
     {
-        var import = BaseImport.Create(task.BizId, db);
+        var import = ImportBase.Create(task.BizId, db);
         if (import == null)
             return Result.Error("导入方法未注册，无法执行！");
 

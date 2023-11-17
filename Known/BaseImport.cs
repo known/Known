@@ -4,14 +4,14 @@ using Known.Services;
 
 namespace Known;
 
-public abstract class BaseImport
+public abstract class ImportBase
 {
-    protected BaseImport(Database database)
+    protected ImportBase(Database database)
     {
         Database = database;
     }
 
-    static BaseImport()
+    static ImportBase()
     {
         var type = typeof(SysDictionaryImport);
         importTypes[type.Name] = type;
@@ -32,12 +32,12 @@ public abstract class BaseImport
 
         foreach (var item in types)
         {
-            if (item.IsSubclassOf(typeof(BaseImport)))
+            if (item.IsSubclassOf(typeof(ImportBase)))
                 importTypes[item.Name] = item;
         }
     }
 
-    internal static BaseImport Create(string bizId, Database database)
+    internal static ImportBase Create(string bizId, Database database)
     {
         var name = GetImportName(bizId);
         if (string.IsNullOrWhiteSpace(name))
@@ -47,7 +47,7 @@ public abstract class BaseImport
             return null;
 
         var type = importTypes[name];
-        var import = Activator.CreateInstance(type, database) as BaseImport;
+        var import = Activator.CreateInstance(type, database) as ImportBase;
         import.BizId = bizId;
         return import;
     }
@@ -62,7 +62,7 @@ public abstract class BaseImport
             return null;
 
         var type = importTypes[name];
-        var import = Activator.CreateInstance(type, new Database()) as BaseImport;
+        var import = Activator.CreateInstance(type, new Database()) as ImportBase;
         import.BizId = bizId;
         return import.Columns;
     }

@@ -5,10 +5,10 @@ namespace Known.Repositories;
 class CompanyRepository
 {
     //Company
-    internal static Task<SysCompany> GetCompanyAsync(Database db, string code)
+    internal static Task<SysCompany> GetCompanyAsync(Database db)
     {
         var sql = "select * from SysCompany where Code=@code";
-        return db.QueryAsync<SysCompany>(sql, new { code });
+        return db.QueryAsync<SysCompany>(sql, new { code = db.User.CompNo });
     }
 
     //Organization

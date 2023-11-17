@@ -3,7 +3,7 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class SettingService : BaseService
+class SettingService : ServiceBase
 {
     //Setting
     public Task<List<SysSetting>> GetSettingsAsync(string bizType) => SettingRepository.GetSettingsAsync(Database, bizType);

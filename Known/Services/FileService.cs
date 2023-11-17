@@ -4,7 +4,7 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class FileService : BaseService
+class FileService : ServiceBase
 {
     //Public
     internal static async Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)

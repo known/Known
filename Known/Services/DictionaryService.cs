@@ -3,7 +3,7 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class DictionaryService : BaseService
+class DictionaryService : ServiceBase
 {
     public Task<Result> RefreshCacheAsync() => RefreshCacheAsync(Database, CurrentUser);
 

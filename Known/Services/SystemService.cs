@@ -3,7 +3,7 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class SystemService : BaseService
+class SystemService : ServiceBase
 {
     internal const string KeySystem = "SystemInfo";
 
@@ -96,7 +96,7 @@ class SystemService : BaseService
         if (!Config.App.IsPlatform || db.User == null)
             return await GetConfigAsync<SystemInfo>(db, KeySystem);
 
-        var company = await CompanyRepository.GetCompanyAsync(db, db.User.CompNo);
+        var company = await CompanyRepository.GetCompanyAsync(db);
         if (company == null)
             return GetSystem(db.User);
 
@@ -116,8 +116,7 @@ class SystemService : BaseService
     {
         if (Config.App.IsPlatform)
         {
-            var user = CurrentUser;
-            var company = await CompanyRepository.GetCompanyAsync(Database, user.CompNo);
+            var company = await CompanyRepository.GetCompanyAsync(Database);
             if (company == null)
                 return Result.Error("企业不存在！");
 

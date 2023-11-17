@@ -5,7 +5,7 @@ using Known.WorkFlows;
 
 namespace Known.Demo.Services;
 
-class ApplyService : BaseService
+class ApplyService : ServiceBase
 {
     //Apply
     public Task<PagingResult<TbApply>> QueryApplysAsync(PagingCriteria criteria)

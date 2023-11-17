@@ -27,24 +27,20 @@ public class UserInfo
     public string CompName { get; set; }
     public string OrgNo { get; set; }
     public string OrgName { get; set; }
-    public string Type { get; set; }
+    //public string Type { get; set; }
     public string Role { get; set; }
-    public bool IsTenant { get; set; }
-    public bool IsAdmin => IsSystemAdmin() || IsTenantAdmin();
-    public bool IsSystemAdmin() => UserName == Constants.SysUserName.ToLower();
-    public bool IsTenantAdmin() => CompNo == UserName;
-    public bool IsGroupUser() => CompNo == OrgNo;
-    public bool IsOperation() => Type == Constants.UTOperation;
-    public bool HasRole(string role) => !string.IsNullOrWhiteSpace(Role) && Role.Split(',').Contains(role);
+    internal bool IsTenant { get; set; }
+    internal bool IsAdmin => IsSystemAdmin() || IsTenantAdmin();
+    private bool IsSystemAdmin() => UserName == Constants.SysUserName.ToLower();
+    internal bool IsTenantAdmin() => CompNo == UserName;
+    //public bool IsGroupUser() => CompNo == OrgNo;
+    //public bool IsOperation() => Type == Constants.UTOperation;
+    //public bool HasRole(string role) => !string.IsNullOrWhiteSpace(Role) && Role.Split(',').Contains(role);
 
-    public Task SendMessageAsync(Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
+    public Task SendMessageAsync(Database db, string toUser, string subject, string content, bool isUrgent = false, string filePath = null, string bizId = null)
     {
-        return SendMessageAsync(db, Constants.UMLGeneral, toUser, subject, content, filePath, bizId);
-    }
-
-    public Task SendUrgentMessageAsync(Database db, string toUser, string subject, string content, string filePath = null, string bizId = null)
-    {
-        return SendMessageAsync(db, Constants.UMLUrgent, toUser, subject, content, filePath, bizId);
+        var level = isUrgent ? Constants.UMLUrgent : Constants.UMLGeneral;
+        return SendMessageAsync(db, level, toUser, subject, content, filePath, bizId);
     }
 
     private Task SendMessageAsync(Database db, string level, string toUser, string subject, string content, string filePath = null, string bizId = null)

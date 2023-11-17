@@ -11,9 +11,9 @@ public class LoginFormInfo
     public string UserName { get; set; }
     [Required(ErrorMessage = "请输入密码！")]
     public string Password { get; set; }
-    public string ClientId { get; set; }
+    //public string ClientId { get; set; }
     public bool Remember { get; set; }
-    public bool IsForce { get; set; }
+    //public bool IsForce { get; set; }
     public bool IsMobile { get; set; }
     public string IPAddress { get; set; }
 }

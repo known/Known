@@ -3,7 +3,7 @@ using Known.Helpers;
 
 namespace Known.Services;
 
-class SysDictionaryImport : BaseImport
+class SysDictionaryImport : ImportBase
 {
     public SysDictionaryImport(Database database) : base(database) { }
 

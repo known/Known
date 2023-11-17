@@ -4,27 +4,7 @@ namespace Known;
 
 public class ModelBase { }
 
-public abstract class BaseJob
-{
-    protected static AppInfo App => Config.App;
-    public UserInfo CurrentUser { get; set; }
-
-    private Database database;
-    public virtual Database Database
-    {
-        get
-        {
-            database ??= new Database();
-            database.User = CurrentUser;
-            return database;
-        }
-        set { database = value; }
-    }
-
-    public abstract Result Execute();
-}
-
-public abstract class BaseService
+public abstract class ServiceBase
 {
     public UserInfo CurrentUser { get; set; }
 

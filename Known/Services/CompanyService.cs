@@ -3,35 +3,33 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class CompanyService : BaseService
+class CompanyService : ServiceBase
 {
     private const string KeyCompany = "CompanyInfo";
 
     //Company
-    internal static async Task<string> GetCompanyAsync(Database db, UserInfo user)
+    internal static async Task<string> GetCompanyAsync(Database db)
     {
         if (Config.App.IsPlatform)
-            return await GetCompanyDataAsync(db, user);
+            return await GetCompanyDataAsync(db);
 
         var model = await PlatformRepository.GetConfigAsync(db, Config.App.Id, KeyCompany);
         if (string.IsNullOrEmpty(model))
-            model = GetDefaultData(user);
+            model = GetDefaultData(db.User);
         return model;
     }
 
     public async Task<T> GetCompanyAsync<T>()
     {
-        var user = CurrentUser;
-        var json = await GetCompanyAsync(Database, user);
+        var json = await GetCompanyAsync(Database);
         return Utils.FromJson<T>(json);
     }
 
     public async Task<Result> SaveCompanyAsync(object model)
     {
-        var user = CurrentUser;
         if (Config.App.IsPlatform)
         {
-            var company = await CompanyRepository.GetCompanyAsync(Database, user.CompNo);
+            var company = await CompanyRepository.GetCompanyAsync(Database);
             if (company == null)
                 return Result.Error("企业不存在！");
 
@@ -45,11 +43,11 @@ class CompanyService : BaseService
         return Result.Success("保存成功！");
     }
 
-    private static async Task<string> GetCompanyDataAsync(Database db, UserInfo user)
+    private static async Task<string> GetCompanyDataAsync(Database db)
     {
-        var company = await CompanyRepository.GetCompanyAsync(db, user.CompNo);
+        var company = await CompanyRepository.GetCompanyAsync(db);
         if (company == null)
-            return GetDefaultData(user);
+            return GetDefaultData(db.User);
 
         var model = company.CompanyData;
         if (string.IsNullOrEmpty(model))

@@ -1,74 +1,7 @@
 ﻿using Known.Entities;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Known;
-
-public interface IAttachFile
-{
-    long Length { get; }
-    string FileName { get; }
-
-    byte[] GetBytes();
-    Stream GetStream();
-    Task SaveAsync(string path);
-}
-
-class FormAttachFile : IAttachFile
-{
-    private readonly IFormFile file;
-    private readonly byte[] bytes;
-
-    public FormAttachFile(IFormFile file)
-    {
-        this.file = file;
-        Length = file.Length;
-        FileName = file.FileName;
-    }
-
-    public FormAttachFile(IFormFile file, byte[] bytes) : this(file)
-    {
-        this.bytes = bytes;
-    }
-
-    public long Length { get; }
-    public string FileName { get; }
-
-    public byte[] GetBytes() => bytes;
-
-    public Stream GetStream()
-    {
-        if (bytes != null)
-            return new MemoryStream(bytes);
-
-        return file.OpenReadStream();
-    }
-
-    public async Task SaveAsync(string path)
-    {
-        await using FileStream fs = new(path, FileMode.Create);
-        await file.CopyToAsync(fs);
-    }
-}
-
-class ByteAttachFile : IAttachFile
-{
-    private readonly byte[] buffer;
-
-    public ByteAttachFile(string name, byte[] bytes)
-    {
-        buffer = bytes;
-        if (bytes != null)
-            Length = bytes.Length;
-        FileName = name;
-    }
-
-    public long Length { get; }
-    public string FileName { get; }
-
-    public byte[] GetBytes() => buffer;
-    public Stream GetStream() => new MemoryStream(buffer);
-    public Task SaveAsync(string path) => File.WriteAllBytesAsync(path, buffer);
-}
 
 public class AttachFile
 {
@@ -147,4 +80,108 @@ public class AttachFile
 
         return filePath;
     }
+}
+
+public interface IAttachFile
+{
+    long Length { get; }
+    string FileName { get; }
+
+    byte[] GetBytes();
+    Stream GetStream();
+    Task SaveAsync(string path);
+}
+
+class BlazorAttachFile : IAttachFile
+{
+    private readonly IBrowserFile file;
+    private readonly byte[] bytes;
+
+    internal BlazorAttachFile(IBrowserFile file)
+    {
+        this.file = file;
+        Length = file.Size;
+        FileName = file.Name;
+    }
+
+    internal BlazorAttachFile(IBrowserFile file, byte[] bytes) : this(file)
+    {
+        this.bytes = bytes;
+    }
+
+    public long Length { get; }
+    public string FileName { get; }
+
+    public byte[] GetBytes() => bytes;
+
+    public Stream GetStream()
+    {
+        if (bytes != null)
+            return new MemoryStream(bytes);
+
+        return file.OpenReadStream(AttachFile.MaxLength);
+    }
+
+    public async Task SaveAsync(string path)
+    {
+        await using FileStream fs = new(path, FileMode.Create);
+        await file.OpenReadStream(AttachFile.MaxLength).CopyToAsync(fs);
+    }
+}
+
+//class FormAttachFile : IAttachFile
+//{
+//    private readonly IFormFile file;
+//    private readonly byte[] bytes;
+
+//    public FormAttachFile(IFormFile file)
+//    {
+//        this.file = file;
+//        Length = file.Length;
+//        FileName = file.FileName;
+//    }
+
+//    public FormAttachFile(IFormFile file, byte[] bytes) : this(file)
+//    {
+//        this.bytes = bytes;
+//    }
+
+//    public long Length { get; }
+//    public string FileName { get; }
+
+//    public byte[] GetBytes() => bytes;
+
+//    public Stream GetStream()
+//    {
+//        if (bytes != null)
+//            return new MemoryStream(bytes);
+
+//        return file.OpenReadStream();
+//    }
+
+//    public async Task SaveAsync(string path)
+//    {
+//        await using FileStream fs = new(path, FileMode.Create);
+//        await file.CopyToAsync(fs);
+//    }
+//}
+
+class ByteAttachFile : IAttachFile
+{
+    private readonly byte[] buffer;
+
+    public ByteAttachFile(string name, byte[] bytes)
+    {
+        buffer = bytes;
+        if (bytes != null)
+            Length = bytes.Length;
+        FileName = name;
+    }
+
+    public long Length { get; }
+    public string FileName { get; }
+
+    public byte[] GetBytes() => buffer;
+    public Stream GetStream() => new MemoryStream(buffer);
+    public Task SaveAsync(string path) => File.WriteAllBytesAsync(path, buffer);
 }
