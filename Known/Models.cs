@@ -20,7 +20,6 @@ public class AdminInfo
     public int MessageCount { get; set; }
     //public UserSetting UserSetting { get; set; }
     public List<MenuInfo> UserMenus { get; set; }
-    //public List<CodeInfo> Codes { get; set; }
 }
 
 public class FileUrlInfo
@@ -41,17 +40,3 @@ public class ConfigInfo
     public string Key { get; set; }
     public object Value { get; set; }
 }
-
-//public class CodeName
-//{
-//    public CodeName() { }
-
-//    public CodeName(string code, string name)
-//    {
-//        Code = code;
-//        Name = name;
-//    }
-
-//    public string Code { get; set; }
-//    public string Name { get; set; }
-//}

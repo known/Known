@@ -22,23 +22,15 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
 
             var property = item.Property;
             var columnType = typeof(Column<>).MakeGenericType(property.PropertyType.UnderlyingSystemType);
-            //var instance = Activator.CreateInstance(columnType);
 
             RenderFragment<TItem> template = null;
             Table.Templates?.TryGetValue(property.Name, out template);
-
-            //var attributes = columnType.GetProperties()
-            //    .Where(x => x.GetCustomAttribute<ParameterAttribute>() != null)
-            //    .Where(x => !x.Name.IsIn("DataIndex"))
-            //    .ToDictionary(x => x.Name, x => x.GetValue(instance))
-            //    .Where(x => x.Value != null);
 
             builder.OpenComponent(i++, columnType);
             builder.AddAttribute(i++, "Title", property.DisplayName());
             builder.AddAttribute(i++, "DataIndex", property.Name);
             builder.AddAttribute(i++, "Sortable", true);
             //builder.AddAttribute(i++, "Filterable", true);
-            //builder.AddMultipleAttributes(i++, attributes);
             if (template != null)
             {
                 builder.AddAttribute(i++, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)

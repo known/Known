@@ -13,9 +13,6 @@ public sealed class Config
     internal static List<Type> ModelTypes { get; } = [];
     internal static Dictionary<string, Type> PageTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
-    //internal static bool IsCheckKey { get; set; } = true;
-    //internal static string AuthStatus { get; set; }
-    //public static Action<IMyFlow> ShowMyFlow { get; set; }
 
     public static void AddModule(Assembly assembly)
     {
@@ -118,13 +115,10 @@ public class AppInfo
     public string ContentRoot { get; set; }
     public string UploadPath { get; set; }
     public long UploadMaxSize { get; set; } = 1024 * 1024 * 50;
-    //public int[] PageSizes { get; set; } = [10, 15, 20, 25, 30, 40, 50, 100, 200, 500, 1000, 2000];
     public int DefaultPageSize { get; set; } = 10;
     public string JsPath { get; set; }
     public string ProductId { get; set; }
     public List<ConnectionInfo> Connections { get; set; }
-    //public string DateFormat { get; set; } = "yyyy-MM-dd";
-    //public string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss";
     public InteractiveServerRenderMode InteractiveServer { get; set; } = new(false);
 
     internal ConnectionInfo GetConnection(string name)
@@ -143,12 +137,3 @@ public class ConnectionInfo
     public Type ProviderType { get; set; }
     public string ConnectionString { get; set; }
 }
-
-//public class CopyrightInfo
-//{
-//    public string ProductId { get; set; }
-//    public bool IsProductKey { get; set; }
-//    public bool IsEditCopyright { get; set; } = true;
-//    public string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} 普漫科技。保留所有权利。";
-//    public string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
-//}

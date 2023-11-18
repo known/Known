@@ -1,4 +1,6 @@
-﻿using Known.Entities;
+﻿using System.Reflection;
+using Known.Entities;
+using Known.Razor;
 
 namespace Known;
 
@@ -94,8 +96,6 @@ public class ActionInfo
     public bool Visible { get; set; }
     public List<ActionInfo> Children { get; }
 
-    //public bool Is(ActionInfo info) => Id == info.Id;
-
     internal static List<ActionInfo> Actions => Cache.Get<List<ActionInfo>>(Key);
 
     internal static void Load()
@@ -109,7 +109,7 @@ public class ActionInfo
         if (File.Exists(path))
         {
             var lines1 = File.ReadAllLines(path);
-            AddActions(infos, lines);
+            AddActions(infos, lines1);
         }
 
         Cache.Set(Key, infos);
@@ -191,9 +191,17 @@ public class MenuItem : MenuInfo
     public List<MenuItem> Children { get; set; }
     public object Data { get; set; }
 
-    //internal string PageId => $"{Id}-{Name}";
+    private PageAttribute page;
+    public PageAttribute Page
+    {
+        get
+        {
+            page ??= ComType?.GetCustomAttribute<PageAttribute>();
+            return page;
+        }
+    }
 
-	internal static MenuItem From(MenuInfo model)
+    internal static MenuItem From(MenuInfo model)
     {
         return new MenuItem
         {

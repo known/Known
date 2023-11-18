@@ -11,9 +11,7 @@ public class LoginFormInfo
     public string UserName { get; set; }
     [Required(ErrorMessage = "请输入密码！")]
     public string Password { get; set; }
-    //public string ClientId { get; set; }
     public bool Remember { get; set; }
-    //public bool IsForce { get; set; }
     public bool IsMobile { get; set; }
     public string IPAddress { get; set; }
 }
@@ -38,13 +36,6 @@ public class PwdFormInfo
 //    public string Data { get; set; }
 //}
 
-//public class UploadInfo
-//{
-//    public string Name { get; set; }
-//    public string Type { get; set; }
-//    public byte[] Data { get; set; }
-//}
-
 public class UploadInfo<TModel>
 {
     public UploadInfo(TModel model)
@@ -64,7 +55,6 @@ public class FileFormInfo
     public string BizName { get; set; }
     public string BizType { get; set; }
     public string BizPath { get; set; }
-    //public string IsThumb { get; set; }
 }
 
 public class ImportFormInfo : FileFormInfo
