@@ -31,19 +31,19 @@ class UserHelper
     //    return info;
     //}
 
-    private static async Task<List<SysSetting>> GetSettingsByUserAsync(Database db, string bizType) => await SettingRepository.GetSettingsByUserAsync(db, bizType);
+    //private static async Task<List<SysSetting>> GetSettingsByUserAsync(Database db, string bizType) => await SettingRepository.GetSettingsByUserAsync(db, bizType);
     private static async Task<SysSetting> GetSettingByUserAsync(Database db, string bizType) => await SettingRepository.GetSettingByUserAsync(db, bizType) ?? new SysSetting { BizType = bizType };
-    private static async Task<T> GetSettingByUserAsync<T>(Database db, string bizType)
-    {
-        var setting = await GetSettingByUserAsync(db, bizType);
-        return setting.DataAs<T>();
-    }
+    //private static async Task<T> GetSettingByUserAsync<T>(Database db, string bizType)
+    //{
+    //    var setting = await GetSettingByUserAsync(db, bizType);
+    //    return setting.DataAs<T>();
+    //}
 
     internal static async Task<List<MenuInfo>> GetUserMenusAsync(Database db)
     {
         var user = db.User;
         if (user == null)
-            return new List<MenuInfo>();
+            return [];
 
         var modules = await ModuleRepository.GetModulesAsync(db);
         if (user.IsAdmin)

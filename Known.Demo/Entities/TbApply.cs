@@ -20,7 +20,7 @@ public class TbApply : FlowEntity
     /// <summary>
     /// 取得或设置业务单号。
     /// </summary>
-    [Column(IsGrid = true, IsQuery = true, IsForm = true, IsViewLink = true)]
+    [Column(IsGrid = true, IsQuery = true, IsForm = true, IsReadOnly = true, IsViewLink = true)]
     [DisplayName("业务单号")]
     [Required(ErrorMessage = "业务单号不能为空！")]
     [MaxLength(50)]

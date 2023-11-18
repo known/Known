@@ -5,7 +5,7 @@
         <Icon Type="home" OnClick="@(e=>OnItemClick("home"))" />
     </SpaceItem>
     <SpaceItem>
-        <Icon Type="@iconFullScreen" OnClick="OnFullScreen" />
+        <Icon Type="@IconFullScreen" OnClick="OnFullScreen" />
     </SpaceItem>
     <SpaceItem>
         <Dropdown>
@@ -32,7 +32,7 @@
 
 @code {
     private bool isFullScreen = false;
-    private string iconFullScreen => isFullScreen ? "fullscreen-exit" : "fullscreen";
+    private string IconFullScreen => isFullScreen ? "fullscreen-exit" : "fullscreen";
 
     [Parameter] public Action<string> OnMenuClick { get; set; }
 

@@ -43,7 +43,6 @@ class HomeService : ServiceBase
 
     private async Task<StatisticsInfo> GetStatisticsInfoAsync()
     {
-        var user = CurrentUser;
         await Database.OpenAsync();
         var info = new StatisticsInfo
         {
@@ -58,10 +57,10 @@ class HomeService : ServiceBase
             var date = new DateTime(now.Year, now.Month, i);
             seriesLog[i.ToString("00")] = await HomeRepository.GetLogCountAsync(Database, date);
         }
-        info.LogDatas = new ChartDataInfo[]
-        {
+        info.LogDatas =
+        [
             new ChartDataInfo { Name = "访问量", Series = seriesLog }
-        };
+        ];
         await Database.CloseAsync();
         return info;
     }

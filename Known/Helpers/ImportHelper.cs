@@ -100,7 +100,7 @@ public sealed class ImportHelper
             return ReadExcelFile(path, action);
 
         var columns = string.IsNullOrWhiteSpace(file.Note)
-                    ? new List<string>()
+                    ? []
                     : ImportFormInfo.GetImportColumns(file.Note);
         return ReadTextFile(path, columns, action);
     }

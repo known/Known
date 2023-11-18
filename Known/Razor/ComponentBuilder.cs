@@ -24,54 +24,22 @@ public class ComponentBuilder<T> where T : IComponent
     public ComponentBuilder<T> Set<TValue>(Expression<Func<T, TValue>> selector, TValue value)
     {
         var property = TypeHelper.Property(selector);
-        Parameters[property.Name] = value;
-        return this;
+        return Add(property.Name, value);
     }
 
-    public void Build()
+    public void Build(Action<T> action = null)
     {
         builder.OpenComponent<T>(0);
         if (Parameters.Count > 0)
             builder.AddMultipleAttributes(1, Parameters);
+        if (action != null)
+            builder.AddComponentReferenceCapture(2, value => action.Invoke((T)value));
         builder.CloseComponent();
     }
 
-    public void Build(Action<T> action)
-    {
-        builder.OpenComponent<T>(0);
-        if (Parameters.Count > 0)
-            builder.AddMultipleAttributes(1, Parameters);
-        builder.AddComponentReferenceCapture(2, value => action?.Invoke((T)value));
-        builder.CloseComponent();
-    }
-
-    public ComponentBuilder<T> Id(string id)
-    {
-        Add(nameof(BaseComponent.Id), id);
-        return this;
-    }
-
-    public ComponentBuilder<T> Name(string name)
-    {
-        Add(nameof(BaseComponent.Name), name);
-        return this;
-    }
-
-    public ComponentBuilder<T> ReadOnly(bool readOnly)
-    {
-        Add(nameof(BaseComponent.ReadOnly), readOnly);
-        return this;
-    }
-
-    public ComponentBuilder<T> Enabled(bool enabled)
-    {
-        Add(nameof(BaseComponent.Enabled), enabled);
-        return this;
-    }
-    
-    public ComponentBuilder<T> Visible(bool visible)
-    {
-        Add(nameof(BaseComponent.Visible), visible);
-        return this;
-    }
+    public ComponentBuilder<T> Id(string id) => Add(nameof(BaseComponent.Id), id);
+    public ComponentBuilder<T> Name(string name) => Add(nameof(BaseComponent.Name), name);
+    public ComponentBuilder<T> ReadOnly(bool readOnly) => Add(nameof(BaseComponent.ReadOnly), readOnly);
+    public ComponentBuilder<T> Enabled(bool enabled) => Add(nameof(BaseComponent.Enabled), enabled);
+    public ComponentBuilder<T> Visible(bool visible) => Add(nameof(BaseComponent.Visible), visible);
 }

@@ -51,15 +51,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     public void StateChanged() => InvokeAsync(StateHasChanged);
     //protected RenderFragment<T> BuildTree<T>(Action<RenderTreeBuilder, T> action) => (row) => delegate (RenderTreeBuilder builder) { action(builder, row); };
 
-    //protected void BuildDownload(RenderTreeBuilder builder, string fileId)
-    //{
-    //    builder.Link(Language.Download, Callback(async () =>
-    //    {
-    //        var url = await Platform.File.GetFileUrlAsync(fileId);
-    //        UI.DownloadFile(url.FileName, url.OriginalUrl);
-    //    }));
-    //}
-
     protected bool HasButton(string buttonId)
     {
         var user = CurrentUser;

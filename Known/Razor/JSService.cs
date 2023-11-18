@@ -65,7 +65,6 @@ public class JSService
     {
         var services = new ServiceCollection();
         services.AddScoped<IJSRuntime, ComJSRuntime>();
-        //services.AddScoped<UIService>();
         var provider = services.BuildServiceProvider();
         var component = new ComponentRenderer<T>().AddServiceProvider(provider);
         action?.Invoke(component);

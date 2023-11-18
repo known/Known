@@ -21,7 +21,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
                 continue;
 
             var property = item.Property;
-            var columnType = typeof(Column<>).MakeGenericType(property.PropertyType.GetUnderlyingType());
+            var columnType = typeof(Column<>).MakeGenericType(property.PropertyType.UnderlyingSystemType);
             //var instance = Activator.CreateInstance(columnType);
 
             RenderFragment<TItem> template = null;

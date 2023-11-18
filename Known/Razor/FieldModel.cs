@@ -70,7 +70,7 @@ public class FieldModel<TItem> where TItem : class, new()
                 { "required", Column.Property.IsRequired() },
                 { "placeholder", Column.Placeholder },
             };
-            if (Form.IsView)
+            if (Form.IsView || Column.IsReadOnly)
             {
                 attributes["disabled"] = true;
                 attributes["readonly"] = true;

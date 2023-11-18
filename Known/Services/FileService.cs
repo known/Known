@@ -64,7 +64,7 @@ class FileService : ServiceBase
     public Task<List<SysFile>> GetFilesAsync(string bizId)
     {
         if (string.IsNullOrWhiteSpace(bizId))
-            return null;
+            return Task.FromResult(new List<SysFile>());
 
         var bizIds = bizId.Split(';');
         if (bizIds.Length > 1)

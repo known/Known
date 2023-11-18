@@ -24,18 +24,6 @@ public class AdminPage : BaseComponent
         UserMenus = GetUserMenus(Info?.UserMenus);
         //Setting.UserSetting = info?.UserSetting;
         //Setting.Info = info?.UserSetting?.Info ?? SettingInfo.Default;
-
-        //if (TopMenu)
-        //{
-        //    topMenu = userMenus.FirstOrDefault();
-        //    curMenu = topMenu.Children.FirstOrDefault();
-        //}
-
-        //PageAction.RefreshTheme = () =>
-        //{
-        //    UI.CurDialog = UI.TopDialog;
-        //    StateChanged();
-        //};
         IsLoaded = true;
     }
 

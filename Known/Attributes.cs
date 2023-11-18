@@ -36,6 +36,7 @@ public class ColumnAttribute : Attribute
     public bool IsForm { get; set; }
     public bool IsFile { get; set; }
     public bool IsMultiFile { get; set; }
+    public bool IsReadOnly { get; set; }
     public bool IsGrid { get; set; }
     public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }

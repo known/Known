@@ -4,13 +4,13 @@ namespace Known.Razor;
 
 public class ColumnBuilder<TItem> where TItem : class, new()
 {
-    private string name;
-    private TableModel<TItem> table;
-    private ColumnAttribute column;
+    private readonly string name;
+    private readonly TableModel<TItem> table;
+    private readonly ColumnAttribute column;
 
-    internal ColumnBuilder(TableModel<TItem> table, string name, ColumnAttribute column)
+    internal ColumnBuilder(TableModel<TItem> table, ColumnAttribute column)
     {
-        this.name = name;
+        this.name = column.Property.Name;
         this.table = table;
         this.column = column;
     }

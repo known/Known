@@ -26,11 +26,6 @@ class ApplyService : ServiceBase
         };
     }
 
-    public Task<TbApply> GetApplyAsync(string id)
-    {
-        return Database.QueryByIdAsync<TbApply>(id);
-    }
-
     public async Task<Result> DeleteApplysAsync(List<TbApply> models)
     {
         if (models == null || models.Count == 0)

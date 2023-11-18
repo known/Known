@@ -7,11 +7,6 @@ sealed class TaskHelper
 {
     private TaskHelper() { }
 
-    private static Task<SysTask> GetByTypeAsync(Database db, string type)
-    {
-        return TaskRepository.GetTaskByTypeAsync(db, type);
-    }
-
     private static async Task<TaskSummaryInfo> GetSummaryAsync(Database db, string type)
     {
         var task = await TaskRepository.GetTaskByTypeAsync(db, type);
