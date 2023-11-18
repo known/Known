@@ -12,7 +12,7 @@ class SysUserList : BasePage<SysUser>
     {
         await base.OnInitPageAsync();
         var datas = await Platform.Company.GetOrganizationsAsync();
-        if (datas != null && datas.Count > 0)
+        if (datas != null && datas.Count > 1)
         {
             currentOrg = datas[0];
             Page.Tree = new TreeModel
