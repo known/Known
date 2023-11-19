@@ -38,18 +38,22 @@ public static class ModelExtension
 	#endregion
 
 	#region Module
-	internal static List<MenuItem> ToMenuItems(this List<SysModule> models)
+	internal static List<MenuItem> ToMenuItems(this List<SysModule> models, bool showRoot = true)
     {
         MenuItem current = null;
-		return models.ToMenuItems(ref current);
+		return models.ToMenuItems(ref current, showRoot);
     }
 
-	internal static List<MenuItem> ToMenuItems(this List<SysModule> models, ref MenuItem current)
+	internal static List<MenuItem> ToMenuItems(this List<SysModule> models, ref MenuItem current, bool showRoot = true)
 	{
-		var menus = new List<MenuItem>();
-		var root = new MenuItem("0", Config.App.Name, "desktop");
-        root.Data = new SysModule { Id = root.Id, Name = root.Name };
-        menus.Add(root);
+        MenuItem root = null;
+        var menus = new List<MenuItem>();
+        if (showRoot)
+        {
+            root = new MenuItem("0", Config.App.Name, "desktop");
+            root.Data = new SysModule { Id = root.Id, Name = root.Name };
+            menus.Add(root);
+        }
 		if (models == null || models.Count == 0)
 			return menus;
 
@@ -61,7 +65,10 @@ public static class ModelExtension
 			if (current != null && current.Id == menu.Id)
 				current = menu;
 
-			root.Children.Add(menu);
+            if (showRoot)
+                root.Children.Add(menu);
+            else
+                menus.Add(menu);
 			AddChildren(models, menu, ref current);
 		}
 		return menus;

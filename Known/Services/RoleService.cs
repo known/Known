@@ -32,9 +32,9 @@ class RoleService : ServiceBase
         var info = await Database.QueryByIdAsync<SysRole>(roleId);
         info ??= new SysRole();
         var modules = await ModuleRepository.GetModulesAsync(Database);
-        info.Menus = modules?.ToMenuItems();
+        info.Menus = modules?.ToMenuItems(false);
         var menuIds = await RoleRepository.GetRoleModuleIdsAsync(Database, roleId);
-        info.MenuIds = menuIds?.ToArray() ?? [];
+        info.MenuIds = menuIds;
         return info;
     }
 
@@ -48,7 +48,7 @@ class RoleService : ServiceBase
         {
             await db.SaveAsync(model);
             await RoleRepository.DeleteRoleModulesAsync(db, model.Id);
-            if (model.MenuIds != null && model.MenuIds.Length > 0)
+            if (model.MenuIds != null && model.MenuIds.Count > 0)
             {
                 foreach (var item in model.MenuIds)
                 {

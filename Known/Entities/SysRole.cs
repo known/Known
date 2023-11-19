@@ -39,5 +39,5 @@ public class SysRole : EntityBase
     public string Note { get; set; }
 
     public virtual List<MenuItem> Menus { get; set; }
-    public virtual string[] MenuIds { get; set; }
+    public virtual List<string> MenuIds { get; set; }
 }
