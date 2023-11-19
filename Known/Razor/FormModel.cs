@@ -23,8 +23,8 @@ public class FormModel<TItem> where TItem : class, new()
     public Type Type { get; internal set; }
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }
-    public Func<TItem, Task<Result>> OnSave { get; internal set; }
-    public Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; internal set; }
+    internal Func<TItem, Task<Result>> OnSave { get; set; }
+    internal Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
 
     public async Task SaveAsync()
     {

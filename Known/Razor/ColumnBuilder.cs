@@ -20,4 +20,10 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         table.Templates[name] = (row) => delegate (RenderTreeBuilder builder) { template(builder, row); };
         return this;
     }
+
+    public ColumnBuilder<TItem> Visible(bool visible)
+    {
+        column.IsGrid = visible;
+        return this;
+    }
 }

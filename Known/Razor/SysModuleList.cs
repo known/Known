@@ -125,9 +125,9 @@ class SysModuleList : BasePage<SysModule>
 
 //public class SysModuleForm : BaseForm<SysModule>
 //{
-//    //protected override async Task OnInitializedAsync()
+//    //protected override async Task OnInitFormAsync()
 //    //{
-//    //    await base.OnInitializedAsync();
+//    //    await base.OnInitFormAsync();
 //    //    Model.Data = await Platform.Role.GetRoleAsync(Model.Data.Id);
 //    //}
 //}

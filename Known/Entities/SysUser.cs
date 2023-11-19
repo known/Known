@@ -21,6 +21,10 @@ public class SysUser : EntityBase
     [MaxLength(50)]
     public string OrgNo { get; set; }
 
+    [Column]
+    [DisplayName("部门")]
+    public virtual string Department { get; set; }
+
     /// <summary>
     /// 取得或设置用户名。
     /// </summary>
@@ -159,7 +163,6 @@ public class SysUser : EntityBase
     [DisplayName("数据")]
     public string Data { get; set; }
 
-    public virtual string Department { get; set; }
     public virtual List<CodeInfo> Roles { get; set; }
     [DisplayName("角色")]
     public virtual string[] RoleIds { get; set; }

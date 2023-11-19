@@ -23,9 +23,9 @@ class SysRoleList : BasePage<SysRole>
 
 public class SysRoleForm : BaseForm<SysRole>
 {
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitFormAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitFormAsync();
         Model.Data = await Platform.Role.GetRoleAsync(Model.Data.Id);
     }
 }

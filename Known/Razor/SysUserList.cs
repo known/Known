@@ -12,7 +12,8 @@ class SysUserList : BasePage<SysUser>
     {
         await base.OnInitPageAsync();
         var datas = await Platform.Company.GetOrganizationsAsync();
-        if (datas != null && datas.Count > 1)
+        var hasOrg = datas != null && datas.Count > 1;
+        if (hasOrg)
         {
             currentOrg = datas[0];
             Page.Tree = new TreeModel
@@ -25,6 +26,7 @@ class SysUserList : BasePage<SysUser>
         }
 
         Page.Form.Width = 800;
+        Page.Table.Column(c => c.Department).Visible(hasOrg);
         Page.Table.Column(c => c.Gender).Template(BuildGender);
     }
 
@@ -80,9 +82,9 @@ class SysUserList : BasePage<SysUser>
 
 public class SysUserForm : BaseForm<SysUser>
 {
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitFormAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitFormAsync();
         Model.Data = await Platform.User.GetUserAsync(Model.Data);
     }
 }

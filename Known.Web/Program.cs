@@ -41,7 +41,7 @@ builder.Services.AddKnown(info =>
     info.ProductId = $"{Config.App.Id}-000001";
 });
 
-//2.添加默认Excel实现
+//2.添加KnownExcel实现
 builder.Services.AddKnownCells();
 
 //3.添加KnownAntDesign页面
