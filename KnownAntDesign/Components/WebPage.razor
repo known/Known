@@ -6,15 +6,7 @@
 	<GridRow>
 		<GridCol Span="4">
 			<div style="padding:10px;">
-				<Tree TItem="Known.MenuItem" ShowIcon 
-				    DefaultExpandParent="Model.Tree.ExpandParent"
-				    DefaultSelectedKeys="Model.Tree.SelectedKeys"
-					DataSource="Model.Tree.Data" OnClick="OnTreeClick"
-					KeyExpression="x => x.DataItem.Id"
-					TitleExpression="x => x.DataItem.Name"
-					IconExpression="x => x.DataItem.Icon"
-					ChildrenExpression="x => x.DataItem.Children"
-					IsLeafExpression="x => x.DataItem.Children?.Count == 0" />
+				<AntTree Model="Model.Tree" />
 			</div>
 		</GridCol>
 		<GridCol Span="20">
@@ -47,10 +39,4 @@ else
 	}
 
 	private Task OnSearchAsync() => table.RefreshAsync();
-
-	private void OnTreeClick(TreeEventArgs<Known.MenuItem> e)
-	{
-		var item = e.Node.DataItem;
-		Model.Tree.OnNodeClick?.Invoke(item);
-	}
 }

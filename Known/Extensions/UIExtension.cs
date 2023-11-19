@@ -21,16 +21,6 @@ public static class UIExtension
         service.Toast(result.Message);
     }
 
-    public static void Prompt(this IUIService service, string title, Action<RenderTreeBuilder> content, Action<dynamic> action)
-    {
-        //Show<PromptForm>(title, size, action: attr =>
-        //{
-        //    attr.Set(c => c.InDialog, true)
-        //        .Set(c => c.Content, content)
-        //        .Set(c => c.Action, action);
-        //});
-    }
-
     public static void BizStatus(this IUIService service, RenderTreeBuilder builder, string status)
     {
         if (string.IsNullOrWhiteSpace(status))

@@ -9,8 +9,8 @@ namespace KnownAntDesign;
 
 class UIService : IUIService
 {
-    private ModalService _modal;
-    private MessageService _message;
+    private readonly ModalService _modal;
+    private readonly MessageService _message;
 
     public UIService(ModalService modal, MessageService message)
     {
@@ -115,9 +115,20 @@ class UIService : IUIService
         var options = new ModalOptions
         {
             Title = option.Title,
-            Content = option.Content,
-            Footer = null
+            Content = option.Content
         };
+
+        if (option.OnOk != null)
+        {
+            options.OkText = "确定";
+            options.CancelText = "取消";
+            options.OnOk = e => option.OnOk.Invoke();
+		}
+        else
+        {
+			options.Footer = null;
+		}
+
         if (option.Footer != null)
             options.Footer = option.Footer;
 
@@ -160,6 +171,11 @@ class UIService : IUIService
     public void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model) where TItem : class, new()
     {
         builder.Component<WebPage<TItem>>().Set(c => c.Model, model).Build();
+    }
+
+    public void BuildTree(RenderTreeBuilder builder, TreeModel model)
+    {
+        builder.Component<AntTree>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTag(RenderTreeBuilder builder, string text, string color)

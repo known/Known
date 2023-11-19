@@ -6,20 +6,21 @@ namespace Known.Razor;
 
 class SysUserList : BasePage<SysUser>
 {
+    private List<SysOrganization> orgs;
     private SysOrganization currentOrg;
 
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        var datas = await Platform.Company.GetOrganizationsAsync();
-        var hasOrg = datas != null && datas.Count > 1;
+        orgs = await Platform.Company.GetOrganizationsAsync();
+        var hasOrg = orgs != null && orgs.Count > 1;
         if (hasOrg)
         {
-            currentOrg = datas[0];
+            currentOrg = orgs[0];
             Page.Tree = new TreeModel
             {
                 ExpandParent = true,
-                Data = datas.ToMenuItems(),
+                Data = orgs.ToMenuItems(),
                 OnNodeClick = OnNodeClick,
                 SelectedKeys = [currentOrg.Id]
             };
@@ -54,24 +55,38 @@ class SysUserList : BasePage<SysUser>
 
     private void OnChangeDepartment(List<SysUser> rows)
     {
-        //KTreeItem<SysOrganization> node = null;
-        //UI.Prompt("更换部门", new(300, 300), builder =>
-        //{
-        //    builder.Component<KTree<SysOrganization>>()
-        //           .Set(c => c.Data, data)
-        //           .Set(c => c.OnItemClick, Callback<KTreeItem<SysOrganization>>(n => node = n))
-        //           .Build();
-        //}, async model =>
-        //{
-        //    rows.ForEach(m => m.OrgNo = node.Value.Id);
-        //    var result = await Platform.User.ChangeDepartmentAsync(rows);
-        //    UI.Result(result, () =>
-        //    {
-        //        Refresh();
-        //        UI.CloseDialog();
-        //    });
-        //});
-    }
+        SysOrganization org = null;
+        var model = new ModalOption
+        {
+            Title = "更换部门",
+            Content = builder =>
+            {
+                UI.BuildTree(builder, new TreeModel
+                {
+                    ExpandParent = true,
+                    Data = orgs.ToMenuItems(),
+                    OnNodeClick = n => org = n.Data as SysOrganization
+                });
+            }
+        };
+        model.OnOk = async () =>
+        {
+            if (org == null)
+            {
+                UI.Error("请选择更换的部门！");
+                return;
+            }
+
+            rows.ForEach(m => m.OrgNo = org.Id);
+            var result = await Platform.User.ChangeDepartmentAsync(rows);
+            UI.Result(result, async () =>
+            {
+                await model.OnClose?.Invoke();
+                await Page.Table.RefreshAsync();
+            });
+        };
+		UI.ShowModal(model);
+	}
 
     private async void OnNodeClick(MenuItem item)
     {
