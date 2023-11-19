@@ -175,7 +175,7 @@ class UIService : IUIService
 
     public void BuildTree(RenderTreeBuilder builder, TreeModel model)
     {
-        builder.Component<AntTree>().Set(c => c.Model, model).Build();
+        builder.Component<DataTree>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTag(RenderTreeBuilder builder, string text, string color)

@@ -6,6 +6,7 @@ namespace Known.Razor;
 
 class SysModuleList : BasePage<SysModule>
 {
+    private List<SysModule> modules;
 	private MenuItem current;
     private int total;
 
@@ -62,48 +63,33 @@ class SysModuleList : BasePage<SysModule>
 
     public void Copy() => Page.Table.SelectRows(OnCopy);
     public void Move() => Page.Table.SelectRows(OnMove);
-    //public void MoveUp(SysModule row) => OnMove(row, true);
-    //public void MoveDown(SysModule row) => OnMove(row, false);
+    public void MoveUp(SysModule row) => OnMove(row, true);
+    public void MoveDown(SysModule row) => OnMove(row, false);
 
-    private void OnCopy(List<SysModule> models)
+    private void OnCopy(List<SysModule> rows)
     {
-        //SysModule node = null;
-        //UI.Prompt("复制到", builder =>
-        //{
-        //    builder.Component<KTree<string>>()
-        //           .Set(c => c.Data, data)
-        //           .Set(c => c.OnItemClick, Callback<KTreeItem<string>>(n => node = n))
-        //           .Build();
-        //}, async model =>
-        //{
-        //    models.ForEach(m => m.ParentId = node.Id);
-        //    var result = await Platform.Module.CopyModulesAsync(models);
-        //    UI.Result(result, () =>
-        //    {
-        //        StateChanged();
-        //    });
-        //});
-    }
+		OpenTreeModal("复制到", node =>
+		{
+			rows.ForEach(m => m.ParentId = node.Id);
+			return Platform.Module.CopyModulesAsync(rows);
+		});
+	}
 
-    private void OnMove(List<SysModule> models)
+    private void OnMove(List<SysModule> rows)
     {
-        //SysModule node = null;
-        //UI.Prompt("移动到", builder =>
-        //{
-        //    builder.Component<KTree<string>>()
-        //           .Set(c => c.Data, data)
-        //           .Set(c => c.OnItemClick, Callback<KTreeItem<string>>(n => node = n))
-        //           .Build();
-        //}, async model =>
-        //{
-        //    models.ForEach(m => m.ParentId = node.Id);
-        //    var result = await Platform.Module.MoveModulesAsync(models);
-        //    UI.Result(result, () =>
-        //    {
-        //        StateChanged();
-        //    });
-        //});
-    }
+		OpenTreeModal("移动到", node =>
+		{
+			rows.ForEach(m => m.ParentId = node.Id);
+			return Platform.Module.MoveModulesAsync(rows);
+		});
+	}
+
+	private async void OnMove(SysModule row, bool isMoveUp)
+	{
+		row.IsMoveUp = isMoveUp;
+		var result = await Platform.Module.MoveModuleAsync(row);
+		UI.Result(result, async () => await Page.RefreshAsync());
+	}
 
 	private async void OnNodeClick(MenuItem item)
 	{
@@ -113,14 +99,46 @@ class SysModuleList : BasePage<SysModule>
 
 	private async Task OnTreeRefresh()
 	{
-        var datas = await Platform.Module.GetModulesAsync();
-        var root = new MenuItem("0", Config.App.Name, "desktop");
-        root.Children.AddRange(datas.ToMenuItems(ref current));
-        if (current == null || current.Id == "0")
-            current = root;
-        Page.Tree.Data = [root];
-        Page.Tree.SelectedKeys = [current?.Id];
+        modules = await Platform.Module.GetModulesAsync();
+        Page.Tree.Data = modules.ToMenuItems(ref current);
+		if (current == null || current.Id == "0")
+			current = Page.Tree.Data[0];
+		Page.Tree.SelectedKeys = [current?.Id];
     }
+
+	private void OpenTreeModal(string title, Func<SysModule, Task<Result>> action)
+	{
+		SysModule node = null;
+		var model = new ModalOption
+		{
+			Title = title,
+			Content = builder =>
+			{
+				UI.BuildTree(builder, new TreeModel
+				{
+					ExpandParent = true,
+					Data = modules.ToMenuItems(),
+					OnNodeClick = n => node = n.Data as SysModule
+				});
+			}
+		};
+		model.OnOk = async () =>
+		{
+			if (node == null)
+			{
+				UI.Error("请选择模块！");
+				return;
+			}
+
+			var result = await action?.Invoke(node);
+			UI.Result(result, async () =>
+			{
+				await model.OnClose?.Invoke();
+				await Page.RefreshAsync();
+			});
+		};
+		UI.ShowModal(model);
+	}
 }
 
 //public class SysModuleForm : BaseForm<SysModule>

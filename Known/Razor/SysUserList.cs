@@ -55,7 +55,7 @@ class SysUserList : BasePage<SysUser>
 
     private void OnChangeDepartment(List<SysUser> rows)
     {
-        SysOrganization org = null;
+        SysOrganization node = null;
         var model = new ModalOption
         {
             Title = "更换部门",
@@ -65,19 +65,19 @@ class SysUserList : BasePage<SysUser>
                 {
                     ExpandParent = true,
                     Data = orgs.ToMenuItems(),
-                    OnNodeClick = n => org = n.Data as SysOrganization
+                    OnNodeClick = n => node = n.Data as SysOrganization
                 });
             }
         };
         model.OnOk = async () =>
         {
-            if (org == null)
+            if (node == null)
             {
                 UI.Error("请选择更换的部门！");
                 return;
             }
 
-            rows.ForEach(m => m.OrgNo = org.Id);
+            rows.ForEach(m => m.OrgNo = node.Id);
             var result = await Platform.User.ChangeDepartmentAsync(rows);
             UI.Result(result, async () =>
             {

@@ -47,6 +47,9 @@ public static class ModelExtension
 	internal static List<MenuItem> ToMenuItems(this List<SysModule> models, ref MenuItem current)
 	{
 		var menus = new List<MenuItem>();
+		var root = new MenuItem("0", Config.App.Name, "desktop");
+        root.Data = new SysModule { Id = root.Id, Name = root.Name };
+        menus.Add(root);
 		if (models == null || models.Count == 0)
 			return menus;
 
@@ -58,7 +61,7 @@ public static class ModelExtension
 			if (current != null && current.Id == menu.Id)
 				current = menu;
 
-			menus.Add(menu);
+			root.Children.Add(menu);
 			AddChildren(models, menu, ref current);
 		}
 		return menus;
