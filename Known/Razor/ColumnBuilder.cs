@@ -26,4 +26,10 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         column.IsGrid = visible;
         return this;
     }
+
+    public ColumnBuilder<TItem> DefaultSort(string sort)
+    {
+        column.DefaultSort = sort;
+        return this;
+    }
 }

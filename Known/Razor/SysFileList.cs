@@ -6,15 +6,11 @@ namespace Known.Razor;
 
 class SysFileList : BasePage<SysFile>
 {
-    public SysFileList()
-    {
-        //OrderBy = $"{nameof(SysTask.CreateTime)} desc";
-    }
-
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         Page.Table.Column(c => c.Size).Template(BuildFileSize);
+        Page.Table.Column(c => c.CreateTime).DefaultSort("desc");
     }
 
     protected override Task<PagingResult<SysFile>> OnQueryAsync(PagingCriteria criteria)

@@ -30,6 +30,11 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             builder.AddAttribute(i++, "Title", property.DisplayName());
             builder.AddAttribute(i++, "DataIndex", property.Name);
             builder.AddAttribute(i++, "Sortable", true);
+            if (!string.IsNullOrWhiteSpace(item.DefaultSort))
+            {
+                var sortName = item.DefaultSort == "desc" ? "descend" : "ascend";
+                builder.AddAttribute(i++, "DefaultSortOrder", SortDirection.Parse(sortName));
+            }
             //builder.AddAttribute(i++, "Filterable", true);
             if (template != null)
             {

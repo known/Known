@@ -5,15 +5,11 @@ namespace Known.Razor;
 
 class SysTaskList : BasePage<SysTask>
 {
-    public SysTaskList()
-    {
-        //OrderBy = $"{nameof(SysTask.CreateTime)} desc";
-    }
-
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         Page.Table.Column(c => c.Status).Template(BuildTaskStatus);
+        Page.Table.Column(c => c.CreateTime).DefaultSort("desc");
     }
 
     protected override Task<PagingResult<SysTask>> OnQueryAsync(PagingCriteria criteria)

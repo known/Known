@@ -1,5 +1,4 @@
 ﻿using Known.Entities;
-using Known.Extensions;
 
 namespace Known.Razor;
 
@@ -8,15 +7,11 @@ class SysDictionaryList : BasePage<SysDictionary>
     private string category;
     private int total;
 
-    public SysDictionaryList()
-    {
-        //OrderBy = $"{nameof(SysDictionary.Sort)} asc";
-    }
-
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         Page.FormTitle = row => $"{Name} - {row.CategoryName}";
+        Page.Table.Column(c => c.Sort).DefaultSort("asc");
     }
 
     protected override async Task<PagingResult<SysDictionary>> OnQueryAsync(PagingCriteria criteria)

@@ -5,17 +5,12 @@ namespace Known.Razor;
 
 class SysLogList : BasePage<SysLog>
 {
-    public SysLogList()
-    {
-        //TODO：默认排序
-        //OrderBy = $"{nameof(SysLog.CreateTime)} desc";
-    }
-
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         Page.Table.AddQueryColumn(c => c.CreateTime);
         Page.Table.Column(c => c.Type).Template(BuildLogType);
+        Page.Table.Column(c => c.CreateTime).DefaultSort("desc");
     }
 
     protected override Task<PagingResult<SysLog>> OnQueryAsync(PagingCriteria criteria)
