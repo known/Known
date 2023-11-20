@@ -10,5 +10,26 @@ public class SysSystem : BasePage
         Model = await Platform.System.GetSystemAsync();
     }
 
-    protected Task<Result> SaveModelAsync() => Platform.System.SaveSystemAsync(Model);
+    protected async void OnSaveAppName(string value)
+    {
+        Model.AppName = value;
+        var result = await Platform.System.SaveSystemAsync(Model);
+        if (result.IsValid)
+        {
+            CurrentUser.AppName = value;
+            Context.RefreshPage();
+        }
+    }
+
+    protected async void OnSaveProductKey(string value)
+    {
+        Model.ProductKey = value;
+        await Platform.System.SaveSystemAsync(Model);
+    }
+
+    protected async void OnSaveDefaultPwd(string value)
+    {
+        Model.UserDefaultPwd = value;
+        await Platform.System.SaveSystemAsync(Model);
+    }
 }

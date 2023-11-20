@@ -8,6 +8,7 @@ public class AdminPage : BaseComponent
     public AdminPage()
     {
         Context.OnNavigate = OnNavigate;
+        Context.OnRefreshPage = StateChanged;
     }
 
     [Parameter] public Action OnLogout { get; set; }

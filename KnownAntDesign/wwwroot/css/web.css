@@ -31,6 +31,10 @@
 .table {padding-top:10px;}
 .page-top {display:flex;justify-content:space-between;}
 
+.edit-input {display:flex;}
+.edit-input input {width:200px;}
+.edit-input .link {margin-left:10px;display:flex;align-items:center;}
+
 @media screen and (max-width:768px) {
     .page-top {flex-direction:column;}
 }

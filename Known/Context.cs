@@ -5,6 +5,7 @@ public class Context
     private MenuItem current;
 
     internal static Action<MenuItem> OnNavigate { get; set; }
+    internal static Action OnRefreshPage { get; set; }
 
     public InstallInfo Install { get; internal set; }
     public UserInfo CurrentUser { get; internal set; }
@@ -33,6 +34,8 @@ public class Context
         }
         return menus;
     }
+
+    public void RefreshPage() => OnRefreshPage?.Invoke();
 
     public void NavigateToHome() => Navigate(Config.GetHomeMenu());
 

@@ -7,7 +7,7 @@
                 @($"{context.CompNo}-{context.CompName}")
             </FormItem>
             <FormItem Label="系统名称">
-                @context.AppName
+                <EditInput Value="@context.AppName" OnSave="OnSaveAppName" />
             </FormItem>
             <FormItem Label="系统版本">
                 @Config.Version.AppVersion
@@ -24,7 +24,7 @@
                     @Config.App.ProductId
                 </FormItem>
                 <FormItem Label="产品密钥">
-                    @context.ProductKey
+                    <EditInput Value="@context.ProductKey" OnSave="OnSaveProductKey" />
                 </FormItem>
             }
             <FormItem Label="版权信息">
@@ -38,7 +38,7 @@
     <TabPane Tab="安全设置" Key="2">
         <Form Model="@Model" LabelColSpan="@labelCol" WrapperColSpan="@valueCol">
             <FormItem Label="默认密码">
-                @context.UserDefaultPwd
+                <EditInput Value="@context.UserDefaultPwd" OnSave="OnSaveDefaultPwd" />
             </FormItem>
         </Form>
     </TabPane>
