@@ -10,12 +10,15 @@ public sealed class Config
 
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
+    internal static List<ActionInfo> Actions { get; set; } = [];
     internal static List<Type> ModelTypes { get; } = [];
     internal static Dictionary<string, Type> PageTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
 
     public static void AddModule(Assembly assembly)
     {
+        AddActions(assembly);
+
         foreach (var item in assembly.GetTypes())
         {
             if (item.BaseType == typeof(EntityBase) || item.BaseType == typeof(ModelBase))
@@ -37,7 +40,6 @@ public sealed class Config
     {
         Version = new VersionInfo(App.Assembly);
         Database.RegisterProviders(App.Connections);
-        ActionInfo.Load();
 
         AddModule(typeof(Config).Assembly);
         AddModule(App.Assembly);
@@ -81,6 +83,41 @@ public sealed class Config
     internal static MenuItem GetHomeMenu()
     {
         return new("首页", "home", PageTypes.GetValueOrDefault("Home"));
+    }
+
+    private static void AddActions(Assembly assembly)
+    {
+        var content = Utils.GetResource(assembly, "actions");
+        if (string.IsNullOrWhiteSpace(content))
+            return;
+
+        var lines = content.Split(Environment.NewLine);
+        if (lines == null || lines.Length == 0)
+            return;
+
+        foreach (var item in lines)
+        {
+            if (string.IsNullOrWhiteSpace(item))
+                continue;
+
+            var values = item.Split('|');
+            if (values.Length < 2)
+                continue;
+
+            var id = values[0].Trim();
+            var info = Actions.FirstOrDefault(i => i.Id == id);
+            if (info == null)
+            {
+                info = new ActionInfo { Id = id };
+                Actions.Add(info);
+            }
+            if (values.Length > 1)
+                info.Name = values[1].Trim();
+            if (values.Length > 2)
+                info.Icon = values[2].Trim();
+            if (values.Length > 3)
+                info.Style = values[3].Trim();
+        }
     }
 }
 

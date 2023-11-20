@@ -81,7 +81,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseKnownStaticFiles();//使用Known框架静态文件
+//7.使用Known框架静态文件
+app.UseKnownStaticFiles();
 app.UseAntiforgery();
 app.MapRazorComponents<App>()
    .AddInteractiveServerRenderMode();

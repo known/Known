@@ -31,14 +31,14 @@
             <span>按钮</span>
             @* <Checkbox Disabled="Model.IsView" Indeterminate="indButton" CheckedChanged="ButtonAllChanged" /> *@
         </div>
-        <CheckboxGroup Disabled="Model.IsView" Options="allButtons" ValueChanged="OnButtonChanged" />
+        <CheckboxGroup Disabled="CheckDisabled" Options="allButtons" ValueChanged="OnButtonChanged" />
     </div>
     <div style="background-color:#f1f1f1;width:160px;">
         <div>
             <span>栏位</span>
             @* <Checkbox Disabled="Model.IsView" Indeterminate="indColumn" CheckedChanged="ColumnAllChanged" /> *@
         </div>
-        <CheckboxGroup Disabled="Model.IsView" Options="allColumns" ValueChanged="OnColumnChanged" />
+        <CheckboxGroup Disabled="CheckDisabled" Options="allColumns" ValueChanged="OnColumnChanged" />
     </div>
 </div>
 
@@ -48,7 +48,8 @@
 
  @code {
     private AntDesign.Internal.IForm _form;
-    private Known.MenuItem current;
+    private TreeNode<Known.MenuItem> current;
+    private bool CheckDisabled => Model.IsView || current == null || !current.Checked;
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -57,11 +58,11 @@
         base.OnAfterRender(firstRender);
     }
 
-    private void OnTreeClick(TreeEventArgs<Known.MenuItem> e) => SelectNode(e.Node.DataItem);
+    private void OnTreeClick(TreeEventArgs<Known.MenuItem> e) => SelectNode(e.Node);
 
     private void OnTreeCheck(TreeEventArgs<Known.MenuItem> e)
     {
-        SelectNode(e.Node.DataItem);
+        SelectNode(e.Node);
 
         var btnItems = e.Node.Checked ? allButtons.Select(o => o.Value).ToArray() : null;
         var colItems = e.Node.Checked ? allColumns.Select(o => o.Value).ToArray() : null;
@@ -87,7 +88,7 @@
     private void OnButtonChanged(string[] items)
     {
         //indButton = Indeterminate(allButtons);
-        Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"b_{current.Id}"));
+        Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"b_{current.DataItem.Id}"));
         if (items != null && items.Length > 0)
             Model.Data.MenuIds.AddRange(items);
     }
@@ -104,21 +105,21 @@
     private void OnColumnChanged(string[] items)
     {
         //indColumn = Indeterminate(allColumns);
-        Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"c_{current.Id}"));
+        Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"c_{current.DataItem.Id}"));
         if (items != null && items.Length > 0)
             Model.Data.MenuIds.AddRange(items);
     }
 
-    private void SelectNode(Known.MenuItem item)
+    private void SelectNode(TreeNode<Known.MenuItem> node)
     {
-        current = item;
-        allButtons = current.GetActionCodes().ToOptions(o =>
+        current = node;
+        allButtons = current.DataItem.GetActionCodes().ToOptions(o =>
         {
             o.Checked = Model.Data.MenuIds.Contains(o.Value);
             o.Disabled = Model.IsView;
         });
 
-        allColumns = current.GetColumnCodes().ToOptions(o =>
+        allColumns = current.DataItem.GetColumnCodes().ToOptions(o =>
         {
             o.Checked = Model.Data.MenuIds.Contains(o.Value);
             o.Disabled = Model.IsView;

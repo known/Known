@@ -35,7 +35,7 @@ public class MenuInfo
 
     public List<CodeInfo> GetActionCodes()
     {
-        var actions = ActionInfo.Actions;
+        var actions = Config.Actions;
         var codes = new List<CodeInfo>();
         if (Buttons != null && Buttons.Count > 0)
             codes.AddRange(Buttons.Select(b => GetButton(this, b, actions)));
@@ -63,8 +63,6 @@ public class MenuInfo
 
 public class ActionInfo
 {
-    private const string Key = "Key_ActionInfo";
-
     public ActionInfo()
     {
         Enabled = true;
@@ -77,7 +75,7 @@ public class ActionInfo
         Id = idOrName;
         Name = idOrName;
 
-        var infos = Actions;
+        var infos = Config.Actions;
         var info = infos?.FirstOrDefault(a => a.Id == idOrName || a.Name == idOrName);
         if (info != null)
         {
@@ -95,55 +93,6 @@ public class ActionInfo
     public bool Enabled { get; set; }
     public bool Visible { get; set; }
     public List<ActionInfo> Children { get; }
-
-    internal static List<ActionInfo> Actions => Cache.Get<List<ActionInfo>>(Key);
-
-    internal static void Load()
-    {
-        var content = Utils.GetResource(typeof(ActionInfo).Assembly, "actions");
-        var lines = content.Split(Environment.NewLine);
-        var infos = new List<ActionInfo>();
-        AddActions(infos, lines);
-
-        var path = Path.Combine(Config.App.ContentRoot, "actions.txt");
-        if (File.Exists(path))
-        {
-            var lines1 = File.ReadAllLines(path);
-            AddActions(infos, lines1);
-        }
-
-        Cache.Set(Key, infos);
-    }
-
-    private static void AddActions(List<ActionInfo> infos, string[] lines)
-    {
-        if (lines == null || lines.Length == 0)
-            return;
-
-        foreach (var item in lines)
-        {
-            if (string.IsNullOrWhiteSpace(item))
-                continue;
-
-            var values = item.Split('|');
-            if (values.Length < 2)
-                continue;
-
-            var id = values[0].Trim();
-            var info = infos.FirstOrDefault(i => i.Id == id);
-            if (info == null)
-            {
-                info = new ActionInfo { Id = id };
-                infos.Add(info);
-            }
-            if (values.Length > 1)
-                info.Name = values[1].Trim();
-            if (values.Length > 2)
-                info.Icon = values[2].Trim();
-            if (values.Length > 3)
-                info.Style = values[3].Trim();
-        }
-    }
 }
 
 public class ColumnInfo

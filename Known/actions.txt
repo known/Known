@@ -9,6 +9,15 @@ MoveUp           | 上移    | up           | primary
 MoveDown         | 下移    | down         | primary
 Enable           | 启用    | check-circle | primary
 Disable          | 禁用    | close-circle | primary
+Print            | 打印    | printer      | primary
+
+Submit           | 提交审核 | send         | primary
+Revoke           | 撤回    | undo         | primary
+Assign           | 分配给  | user-switch  | primary
+Verify           | 审核    | check        | primary
+Pass             | 审核通过 | check-circle | primary
+Return           | 审核退回 | close-circle | primary
+Repeat           | 重新申请 | redo         | primary
 
 DeleteM          | 批量删除 | delete      | danger
 ResetPassword    | 重置密码 | lock        | primary
