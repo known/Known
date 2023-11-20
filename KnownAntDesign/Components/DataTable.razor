@@ -4,8 +4,8 @@
 
 <div class="table">
     <Table TItem="TItem"
-           DataSource="@Model.Result.PageData"
-           Total="@Model.Result.TotalCount"
+           DataSource="Model.Result.PageData"
+           Total="Model.Result.TotalCount"
            @bind-PageIndex="Model.Criteria.PageIndex"
            @bind-PageSize="Model.Criteria.PageSize"
            @bind-SelectedRows="Model.SelectedRows"

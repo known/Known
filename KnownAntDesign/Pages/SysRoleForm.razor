@@ -2,17 +2,7 @@
 
 <div class="role" style="display:flex;">
     <div style="width:400px;padding-right:20px;">
-        <Form @ref="_form" Model="@Model.Data" LabelColSpan="4">
-            <FormItem>
-                <Input @bind-Value="@context.Name" Disabled="@Model.IsView" />
-            </FormItem>
-            <FormItem>
-                <Switch @bind-Value="@context.Enabled" Disabled="@Model.IsView" />
-            </FormItem>
-            <FormItem>
-                <TextArea @bind-Value="@context.Note" Disabled="@Model.IsView" />
-            </FormItem>
-        </Form>
+        <DataForm Model="Model" />
     </div>
     <div style="width:260px;">
         <div>模块</div>
@@ -47,16 +37,8 @@
 </style>
 
  @code {
-    private AntDesign.Internal.IForm _form;
     private TreeNode<Known.MenuItem> current;
     private bool CheckDisabled => Model.IsView || current == null || !current.Checked;
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-            Model.OnValidate = _form.Validate;
-        base.OnAfterRender(firstRender);
-    }
 
     private void OnTreeClick(TreeEventArgs<Known.MenuItem> e) => SelectNode(e.Node);
 
