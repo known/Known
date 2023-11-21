@@ -212,4 +212,12 @@ class UIService : IUIService
                .Set(c => c.ChildContent, b => b.Text(option.Text))
                .Build();
     }
+
+    public void BuildInput<TValue>(RenderTreeBuilder builder, InputOption<TValue> option)
+    {
+        builder.Component<Input<TValue>>()
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
 }

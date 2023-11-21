@@ -1,10 +1,8 @@
-﻿using AntDesign;
-using Known.Extensions;
-using Known.Razor;
+﻿using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace KnownAntDesign.Components;
+namespace Known.Razor;
 
 public class EditInput : BaseComponent
 {
@@ -19,10 +17,11 @@ public class EditInput : BaseComponent
         {
             if (isEdit)
             {
-                builder.Component<Input<string>>()
-                       .Set(c => c.Value, Value)
-                       .Set(c => c.ValueChanged, Callback<string>(value => Value = value))
-                       .Build();
+                UI.BuildInput<string>(builder, new InputOption<string>
+                {
+                    Value = Value,
+                    ValueChanged = Callback<string>(value => Value = value)
+                });
                 builder.Link("确定", Callback(OnSaveClick));
                 builder.Link("取消", Callback(() => isEdit = false));
             }

@@ -19,3 +19,9 @@ public class ButtonOption
     public string Type { get; set; }
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 }
+
+public class InputOption<TValue>
+{
+    public TValue Value { get; set; }
+    public EventCallback<TValue> ValueChanged { get; set; }
+}

@@ -16,4 +16,5 @@ public interface IUIService
     void BuildTag(RenderTreeBuilder builder, string text, string color);
     void BuildResult(RenderTreeBuilder builder, string status, string message);
     void BuildButton(RenderTreeBuilder builder, ButtonOption option);
+    void BuildInput<TValue>(RenderTreeBuilder builder, InputOption<TValue> option);
 }
