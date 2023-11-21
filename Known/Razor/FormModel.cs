@@ -26,13 +26,18 @@ public class FormModel<TItem> where TItem : class, new()
     internal Func<TItem, Task<Result>> OnSave { get; set; }
     internal Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
 
-    public async Task SaveAsync()
+    public bool Validate()
     {
-        if (OnValidate != null)
-        {
-            if (!OnValidate.Invoke())
-                return;
-        }
+        if (OnValidate == null)
+            return true;
+
+        return OnValidate.Invoke();
+    }
+
+    public async Task SaveAsync(bool isClose = false)
+    {
+        if (!Validate())
+            return;
 
         Result result;
         if (OnSaveFile != null)
@@ -54,7 +59,7 @@ public class FormModel<TItem> where TItem : class, new()
         }
         Page.UI.Result(result, async () =>
         {
-            if (result.IsClose)
+            if (result.IsClose || isClose)
                 await OnClose?.Invoke();
             await Page.RefreshAsync();
         });

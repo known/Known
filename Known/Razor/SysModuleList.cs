@@ -15,8 +15,8 @@ class SysModuleList : BasePage<SysModule>
 		await base.OnInitPageAsync();
         
         Page.FormTitle = row => $"{Name} - {row.ParentName}";
-        //Page.Form.Width = 1000;
-        //Page.Form.NoFooter = true;
+        Page.Form.Width = 1000;
+        Page.Form.NoFooter = true;
         Page.Table.ShowPager = false;
 
         Page.Tree = new TreeModel
@@ -140,12 +140,3 @@ class SysModuleList : BasePage<SysModule>
 		UI.ShowModal(model);
 	}
 }
-
-//public class SysModuleForm : BaseForm<SysModule>
-//{
-//    //protected override async Task OnInitFormAsync()
-//    //{
-//    //    await base.OnInitFormAsync();
-//    //    Model.Data = await Platform.Role.GetRoleAsync(Model.Data.Id);
-//    //}
-//}

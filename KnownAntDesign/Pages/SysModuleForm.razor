@@ -1,4 +1,7 @@
-﻿<div>
+﻿@using Microsoft.AspNetCore.Components.Rendering
+@inherits Known.Razor.BaseForm<SysModule>
+
+<div>
     <Steps Current="current">
         @foreach (var item in steps)
         {
@@ -17,32 +20,59 @@
         {
             <Button Type="primary" OnClick="OnNextClick">下一步</Button>
         }
-        @if (current == steps.Length - 1)
+        @if (current == steps.Length - 1 && !Model.IsView)
         {
-            <Button Type="primary" OnClick="OnNextClick">完成</Button>
+            <Button Type="primary" OnClick="OnComplete">完成</Button>
         }
     </div>
 </div>
 
 @code {
-    private StepItem[] steps =
-    [
-        new() { Title = "基本信息" },
-        new() { Title = "字段信息" },
-        new() { Title = "功能按钮" },
-        new() { Title = "页面设置" },
-        new() { Title = "表单设置" }
-    ];
-
+    private StepItem[] steps;
     private int current = 0;
 
-    void OnPrevClick()
+    protected override void OnInitialized()
     {
+        steps =
+        [
+            new() { Title = "基本信息", Content = @<ModuleInfo Model="Model" /> },
+            // new() { Title = "字段信息" },
+            // new() { Title = "功能按钮" },
+            // new() { Title = "页面设置" },
+            // new() { Title = "表单设置" }
+        ];
+    }
+
+    private async void OnPrevClick()
+    {
+        if (!await SaveAsync())
+            return;
+
         current--;
     }
 
-    void OnNextClick()
+    private async void OnNextClick()
     {
+        if (!await SaveAsync())
+            return;
+
         current++;
+    }
+
+    private async void OnComplete()
+    {
+        await SaveAsync(true);
+    }
+
+    private async Task<bool> SaveAsync(bool isClose = false)
+    {
+        if (Model.IsView)
+            return true;
+
+        if (!Model.Validate())
+            return false;
+
+        await Model.SaveAsync(isClose);
+        return true;
     }
 }

@@ -87,9 +87,11 @@ class ModuleService : ServiceBase
         if (string.IsNullOrWhiteSpace(model.Icon))
             model.Icon = "";//AntDesign不识别null值
 
-        return await Database.TransactionAsync(Language.Save, async db =>
+        var result = await Database.TransactionAsync(Language.Save, async db =>
         {
             await db.SaveAsync(model);
         }, model);
+        result.IsClose = false;
+        return result;
     }
 }
