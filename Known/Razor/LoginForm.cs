@@ -9,7 +9,6 @@ public class LoginForm : BaseComponent
     private readonly string KeyLoginInfo = "LoginInfo";
     protected LoginFormInfo Model = new();
 
-    [Parameter] public bool IsCaptcha { get; set; }
     [Parameter] public Action<UserInfo> OnLogin { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -30,11 +29,11 @@ public class LoginForm : BaseComponent
 
     protected async Task OnUserLogin(EditContext context)
     {
-        if (IsCaptcha || !Model.Remember)
+        if (!Model.Remember)
         {
             JS.SetLocalStorage(KeyLoginInfo, null);
         }
-        else if (Model.Remember)
+        else
         {
             JS.SetLocalStorage(KeyLoginInfo, new LoginInfo
             {

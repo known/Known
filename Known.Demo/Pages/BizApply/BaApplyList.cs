@@ -15,6 +15,7 @@ class BaApplyList : BasePage<TbApply>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Page.Form.Width = 800;
         Page.Table.Column(c => c.BizStatus).Template(BuildBizStatus);
     }
 

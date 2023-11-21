@@ -8,11 +8,21 @@ namespace Known.Razor;
 
 public class TableModel<TItem> where TItem : class, new()
 {
-    internal TableModel(PageModel<TItem> page)
+    internal TableModel()
+    {
+        AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem));
+        Columns = AllColumns;
+        if (Columns != null && Columns.Count > 0)
+        {
+            QueryColumns = Columns.Where(c => c.IsQuery).ToList();
+            InitQueryData();
+        }
+    }
+
+    internal TableModel(PageModel<TItem> page) : this()
     {
         ShowPager = true;
         ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
-        AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem));
         Page = page;
         UI = page.UI;
         Actions = page.Page.Actions;
@@ -21,13 +31,7 @@ public class TableModel<TItem> where TItem : class, new()
         if (Columns != null && Columns.Count > 0)
         {
             QueryColumns = Columns.Where(c => c.IsQuery).ToList();
-            if (QueryColumns != null && QueryColumns.Count > 0)
-            {
-                foreach (var item in QueryColumns)
-                {
-                    QueryData[item.Property.Name] = new QueryInfo(item);
-                }
-            }
+            InitQueryData();
         }
     }
 
@@ -161,5 +165,16 @@ public class TableModel<TItem> where TItem : class, new()
             return true;
 
         return columns.Any(c => c.Id == id);
+    }
+
+    private void InitQueryData()
+    {
+        if (QueryColumns != null && QueryColumns.Count > 0)
+        {
+            foreach (var item in QueryColumns)
+            {
+                QueryData[item.Property.Name] = new QueryInfo(item);
+            }
+        }
     }
 }

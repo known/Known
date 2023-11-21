@@ -63,7 +63,7 @@
      </Table>
 </div>
 
-@code {
+ @code {
     private string GetActionColor(string style) => style == "danger" ? "red-inverse" : "blue-inverse";
     private Func<PaginationTotalContext, string> showTotal = ctx => $"共 {ctx.Total} 条记录";
 
@@ -83,6 +83,9 @@
 
     private async Task OnChange(QueryModel<TItem> queryModel)
     {
+        if (Model.OnQuery == null)
+            return;
+
         //页码
         Model.Criteria.PageIndex = queryModel.PageIndex;
         Model.Criteria.PageSize = queryModel.PageSize;

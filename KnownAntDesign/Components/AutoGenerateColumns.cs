@@ -14,6 +14,9 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        if (Table == null || Table.Columns == null)
+            return;
+
         var i = 0;
         foreach (var item in Table.Columns)
         {

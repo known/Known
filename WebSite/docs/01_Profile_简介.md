@@ -20,7 +20,7 @@
 - 单页应用，混合桌面应用，Web和桌面共享一处代码。
 - UI默认支持AntDesign，可扩展其他UI组件库。
 - 包含模块、字典、组织、角色、用户、日志、消息、工作流、定时任务等功能。
-- 代码简洁、易扩展，让开发更简单、更快捷！
+- 低代码、简洁、易扩展，让开发更简单、更快捷！
 
 > 如果对您有帮助，点击[⭐Star⭐](https://gitee.com/known/Known)关注 ，感谢支持开源！
 
@@ -47,16 +47,38 @@
 - 流程管理：系统内置工作流引擎，提供提交、撤回、分配、审核、重启操作。
 - 定时任务：导入和计算耗时的功能采用定时任务异步执行。
 
+### 快速开始
+
+- 通过实体类配置列表和表单字段
+- 简单几行代码即可完成增删改查
+
+```csharp
+//实体类
+public class Todo
+{
+    [Column(IsGrid = true, IsQuery = true, IsForm = true)]
+    [DisplayName("项目")]
+    public string Item { get; set; }
+}
+//列表页面
+class TodoList : BasePage<Todo>
+{
+    //查询
+    protected override Task<PagingResult<Todo>> OnQueryAsync(PagingCriteria criteria) => QueryApplysAsync(criteria);
+    //新增
+    public void New() => Page.NewForm(SaveTodoAsync, new Todo());
+    //编辑
+    public void Edit(Todo row) => Page.EditForm(SaveTodoAsync, row);
+    //删除
+    public void Delete(Todo row) => Page.Delete(DeleteTodosAsync, row);
+}
+```
+
 ### 在线体验
 
 - 官网地址：[http://known.pumantech.com](http://known.pumantech.com)
 - 演示地址：[http://demo.pumantech.com](http://demo.pumantech.com)
 - 登录信息：Admin/888888
-
-### 生态系统
-
-- [项目模板](https://gitee.com/known/known-template)
-- [开发示例](https://gitee.com/known/known-sample)
 
 ### AntDesign版本截图
 

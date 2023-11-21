@@ -173,6 +173,11 @@ class UIService : IUIService
         builder.Component<WebPage<TItem>>().Set(c => c.Model, model).Build();
     }
 
+    public void BuildTable<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
+    {
+        builder.Component<DataTable<TItem>>().Set(c => c.Model, model).Build();
+    }
+
     public void BuildTree(RenderTreeBuilder builder, TreeModel model)
     {
         builder.Component<DataTree>().Set(c => c.Model, model).Build();

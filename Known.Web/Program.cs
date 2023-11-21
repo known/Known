@@ -36,9 +36,6 @@ builder.Services.AddKnown(info =>
     info.UploadPath = builder.Configuration.GetSection("UploadPath").Get<string>();
     //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
     info.JsPath = "/script.js";
-
-    //设置产品ID，根据硬件获取ID
-    info.ProductId = $"{Config.App.Id}-000001";
 });
 
 //2.添加KnownExcel实现

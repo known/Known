@@ -27,9 +27,9 @@ public static class UIExtension
             return;
 
         var color = "";
-        if (status.Contains("待") || status.Contains("中"))
+        if (status.Contains("待") || status.Contains("中") || status.Contains("提交"))
             color = "#2db7f5";
-        else if (status.Contains("完成"))
+        else if (status.Contains("完成") || status.Contains("结束"))
             color = "#108ee9";
         else if (status.Contains("退回") || status.Contains("不通过") || status.Contains("失败"))
             color = "#f50";

@@ -20,7 +20,7 @@ public class SysFlowLog : EntityBase
     /// <summary>
     /// 取得或设置步骤。
     /// </summary>
-    [Column]
+    [Column(IsGrid = true)]
     [DisplayName("步骤")]
     [Required(ErrorMessage = "步骤不能为空！")]
     [MaxLength(50)]
@@ -29,7 +29,7 @@ public class SysFlowLog : EntityBase
     /// <summary>
     /// 取得或设置操作人。
     /// </summary>
-    [Column]
+    [Column(IsGrid = true)]
     [DisplayName("操作人")]
     [Required(ErrorMessage = "操作人不能为空！")]
     [MaxLength(50)]
@@ -38,7 +38,7 @@ public class SysFlowLog : EntityBase
     /// <summary>
     /// 取得或设置操作时间。
     /// </summary>
-    [Column]
+    [Column(IsGrid = true)]
     [DisplayName("操作时间")]
     [Required(ErrorMessage = "操作时间不能为空！")]
     public DateTime ExecuteTime { get; set; }
@@ -46,7 +46,7 @@ public class SysFlowLog : EntityBase
     /// <summary>
     /// 取得或设置操作结果（通过、退回、撤回）。
     /// </summary>
-    [Column]
+    [Column(IsGrid = true)]
     [DisplayName("操作结果")]
     [Required(ErrorMessage = "操作结果不能为空！")]
     [MaxLength(50)]
@@ -55,7 +55,7 @@ public class SysFlowLog : EntityBase
     /// <summary>
     /// 取得或设置操作内容。
     /// </summary>
-    [Column]
+    [Column(IsGrid = true)]
     [DisplayName("操作内容")]
     [MaxLength(1000)]
     public string Note { get; set; }
