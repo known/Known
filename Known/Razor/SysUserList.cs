@@ -38,14 +38,14 @@ class SysUserList : BasePage<SysUser>
         return Platform.User.QueryUsersAsync(criteria);
     }
 
-    public void New() => Page.NewForm(Platform.User.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
-    public void Edit(SysUser row) => Page.EditForm(Platform.User.SaveUserAsync, row);
-    public void Delete(SysUser row) => Page.Delete(Platform.User.DeleteUsersAsync, row);
-    public void DeleteM() => Page.DeleteM(Platform.User.DeleteUsersAsync);
-    public void ResetPassword() => Page.Table.SelectRows(Platform.User.SetUserPwdsAsync, "重置");
-    public void ChangeDepartment() => Page.Table.SelectRows(OnChangeDepartment);
-    public void Enable() => Page.Table.SelectRows(Platform.User.EnableUsersAsync, "启用");
-    public void Disable() => Page.Table.SelectRows(Platform.User.DisableUsersAsync, "禁用");
+    [Action] public void New() => Page.NewForm(Platform.User.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
+    [Action] public void Edit(SysUser row) => Page.EditForm(Platform.User.SaveUserAsync, row);
+    [Action] public void Delete(SysUser row) => Page.Delete(Platform.User.DeleteUsersAsync, row);
+    [Action] public void DeleteM() => Page.DeleteM(Platform.User.DeleteUsersAsync);
+    [Action] public void ResetPassword() => Page.Table.SelectRows(Platform.User.SetUserPwdsAsync, "重置");
+    [Action] public void ChangeDepartment() => Page.Table.SelectRows(OnChangeDepartment);
+    [Action] public void Enable() => Page.Table.SelectRows(Platform.User.EnableUsersAsync, "启用");
+    [Action] public void Disable() => Page.Table.SelectRows(Platform.User.DisableUsersAsync, "禁用");
 
     private void BuildGender(RenderTreeBuilder builder, SysUser row)
     {

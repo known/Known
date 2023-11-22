@@ -36,10 +36,8 @@
         steps =
         [
             new() { Title = "基本信息", Content = @<ModuleInfo Model="Model" /> },
-            // new() { Title = "字段信息" },
-            // new() { Title = "功能按钮" },
-            // new() { Title = "页面设置" },
-            // new() { Title = "表单设置" }
+            new() { Title = "页面设置", Content = @<ModulePage Model="Model" /> },
+            new() { Title = "表单设置", Content = @<ModuleForm Model="Model" /> }
         ];
     }
 

@@ -66,65 +66,56 @@ class UserHelper
                     userModules.Add(parent);
             }
 
-            item.ButtonData = GetUserButtonData(moduleIds, item);
-            item.ActionData = GetUserActionData(moduleIds, item);
-            item.ColumnData = GetUserColumnData(moduleIds, item);
+            item.Buttons = GetUserButtons(moduleIds, item);
+            item.Actions = GetUserActions(moduleIds, item);
+            item.Columns = GetUserColumns(moduleIds, item);
             userModules.Add(item);
         }
         return userModules.ToMenus();
     }
 
-    private static string GetUserButtonData(List<string> moduleIds, SysModule module)
+    private static List<string> GetUserButtons(List<string> moduleIds, SysModule module)
     {
-        if (module.Buttons == null || module.Buttons.Count == 0)
+        Config.PageButtons.TryGetValue(module.Code, out List<string> buttons);
+        if (buttons == null || buttons.Count == 0)
             return null;
 
-        var buttons = new List<string>();
-        foreach (var item in module.Buttons)
+        var datas = new List<string>();
+        foreach (var item in buttons)
         {
             if (moduleIds.Contains($"b_{module.Id}_{item}"))
-                buttons.Add(item);
+                datas.Add(item);
         }
-
-        if (buttons.Count == 0)
-            return null;
-
-        return string.Join(",", buttons);
+        return datas;
     }
 
-    private static string GetUserActionData(List<string> moduleIds, SysModule module)
+    private static List<string> GetUserActions(List<string> moduleIds, SysModule module)
     {
-        if (module.Actions == null || module.Actions.Count == 0)
+        Config.PageActions.TryGetValue(module.Code, out List<string> actions);
+        if (actions == null || actions.Count == 0)
             return null;
 
-        var actions = new List<string>();
-        foreach (var item in module.Actions)
+        var datas = new List<string>();
+        foreach (var item in actions)
         {
             if (moduleIds.Contains($"b_{module.Id}_{item}"))
-                actions.Add(item);
+                datas.Add(item);
         }
-
-        if (actions.Count == 0)
-            return null;
-
-        return string.Join(",", actions);
+        return datas;
     }
 
-    private static string GetUserColumnData(List<string> moduleIds, SysModule module)
+    private static List<ColumnInfo> GetUserColumns(List<string> moduleIds, SysModule module)
     {
-        if (module.Columns == null || module.Columns.Count == 0)
+        var columns = Utils.FromJson<List<ColumnInfo>>(module.ColumnData);
+        if (columns == null || columns.Count == 0)
             return null;
 
-        var columns = new List<ColumnInfo>();
-        foreach (var item in module.Columns)
+        var datas = new List<ColumnInfo>();
+        foreach (var item in columns)
         {
             if (moduleIds.Contains($"c_{module.Id}_{item.Id}"))
-                columns.Add(item);
+                datas.Add(item);
         }
-
-        if (columns.Count == 0)
-            return null;
-
-        return Utils.ToJson(columns);
+        return datas;
     }
 }

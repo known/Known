@@ -95,13 +95,13 @@
     private void SelectNode(TreeNode<Known.MenuItem> node)
     {
         current = node;
-        allButtons = current.DataItem.GetActionCodes().ToOptions(o =>
+        allButtons = current.DataItem.GetAllActions().ToOptions(o =>
         {
             o.Checked = Model.Data.MenuIds.Contains(o.Value);
             o.Disabled = Model.IsView;
         });
 
-        allColumns = current.DataItem.GetColumnCodes().ToOptions(o =>
+        allColumns = current.DataItem.GetAllColumns().ToOptions(o =>
         {
             o.Checked = Model.Data.MenuIds.Contains(o.Value);
             o.Disabled = Model.IsView;

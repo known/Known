@@ -27,9 +27,9 @@ class SysDictionaryList : BasePage<SysDictionary>
         return result;
     }
 
-    public void New() => Page.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
-    public void Edit(SysDictionary row) => Page.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
-    public void Delete(SysDictionary row) => Page.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
-    public void DeleteM() => Page.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
-    public void Import() => ShowImportForm();
+    [Action] public void New() => Page.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
+    [Action] public void Edit(SysDictionary row) => Page.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
+    [Action] public void Delete(SysDictionary row) => Page.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
+    [Action] public void DeleteM() => Page.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
+    [Action] public void Import() => ShowImportForm();
 }

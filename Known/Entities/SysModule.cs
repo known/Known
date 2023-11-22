@@ -108,7 +108,17 @@ public class SysModule : EntityBase
 
     public virtual string ParentName { get; set; }
     public virtual bool IsMoveUp { get; set; }
-    public virtual List<string> Buttons => ButtonData?.Split(",").ToList();
-    public virtual List<string> Actions => ActionData?.Split(",").ToList();
-    public virtual List<ColumnInfo> Columns => Utils.FromJson<List<ColumnInfo>>(ColumnData);
+
+    internal virtual List<string> Buttons { get; set; }
+    internal virtual List<string> Actions { get; set; }
+    internal virtual List<ColumnInfo> Columns { get; set; }
+
+    internal void LoadData()
+    {
+        Config.PageButtons.TryGetValue(Code, out List<string> buttons);
+        Config.PageActions.TryGetValue(Code, out List<string> actions);
+        Buttons = buttons;
+        Actions = actions;
+        Columns = Utils.FromJson<List<ColumnInfo>>(ColumnData);
+    }
 }

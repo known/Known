@@ -46,6 +46,7 @@ class SysModuleList : BasePage<SysModule>
 		return Task.FromResult(result);
 	}
 
+    [Action]
     public void New()
     {
         if (current == null)
@@ -57,14 +58,14 @@ class SysModuleList : BasePage<SysModule>
         Page.NewForm(Platform.Module.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
     }
 
-    public void Edit(SysModule row) => Page.EditForm(Platform.Module.SaveModuleAsync, row);
-    public void Delete(SysModule row) => Page.Delete(Platform.Module.DeleteModulesAsync, row);
-    public void DeleteM() => Page.DeleteM(Platform.Module.DeleteModulesAsync);
+    [Action] public void Edit(SysModule row) => Page.EditForm(Platform.Module.SaveModuleAsync, row);
+    [Action] public void Delete(SysModule row) => Page.Delete(Platform.Module.DeleteModulesAsync, row);
+    [Action] public void DeleteM() => Page.DeleteM(Platform.Module.DeleteModulesAsync);
 
-    public void Copy() => Page.Table.SelectRows(OnCopy);
-    public void Move() => Page.Table.SelectRows(OnMove);
-    public void MoveUp(SysModule row) => OnMove(row, true);
-    public void MoveDown(SysModule row) => OnMove(row, false);
+    [Action] public void Copy() => Page.Table.SelectRows(OnCopy);
+    [Action] public void Move() => Page.Table.SelectRows(OnMove);
+    [Action] public void MoveUp(SysModule row) => OnMove(row, true);
+    [Action] public void MoveDown(SysModule row) => OnMove(row, false);
 
     private void OnCopy(List<SysModule> rows)
     {

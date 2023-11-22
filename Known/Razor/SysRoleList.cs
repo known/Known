@@ -15,10 +15,10 @@ class SysRoleList : BasePage<SysRole>
         return Platform.Role.QueryRolesAsync(criteria);
     }
 
-    public void New() => Page.NewForm(Platform.Role.SaveRoleAsync, new SysRole());
-    public void Edit(SysRole row) => Page.EditForm(Platform.Role.SaveRoleAsync, row);
-    public void Delete(SysRole row) => Page.Delete(Platform.Role.DeleteRolesAsync, row);
-    public void DeleteM() => Page.DeleteM(Platform.Role.DeleteRolesAsync);
+    [Action] public void New() => Page.NewForm(Platform.Role.SaveRoleAsync, new SysRole());
+    [Action] public void Edit(SysRole row) => Page.EditForm(Platform.Role.SaveRoleAsync, row);
+    [Action] public void Delete(SysRole row) => Page.Delete(Platform.Role.DeleteRolesAsync, row);
+    [Action] public void DeleteM() => Page.DeleteM(Platform.Role.DeleteRolesAsync);
 }
 
 public class SysRoleForm : BaseForm<SysRole>

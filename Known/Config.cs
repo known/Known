@@ -12,8 +12,10 @@ public sealed class Config
     public static VersionInfo Version { get; private set; }
     internal static List<ActionInfo> Actions { get; set; } = [];
     internal static List<Type> ModelTypes { get; } = [];
-    internal static Dictionary<string, Type> PageTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
+    internal static Dictionary<string, Type> PageTypes { get; } = [];
+    internal static Dictionary<string, List<string>> PageButtons { get; } = [];
+    internal static Dictionary<string, List<string>> PageActions { get; } = [];
 
     public static void AddModule(Assembly assembly)
     {
@@ -22,13 +24,22 @@ public sealed class Config
         foreach (var item in assembly.GetTypes())
         {
             if (item.BaseType == typeof(EntityBase) || item.BaseType == typeof(ModelBase))
+            {
                 ModelTypes.Add(item);
+            }
             else if (item.IsAssignableTo(typeof(BasePage)))
+            {
                 PageTypes[item.Name] = item;
+                AddActions(item);
+            }
             else if (item.IsAssignableTo(typeof(BaseForm)))
+            {
                 FormTypes[item.Name] = item;
-            else if(item.IsEnum)
+            }
+            else if (item.IsEnum)
+            {
                 Cache.AttachEnumCodes(item);
+            }
 
             var attr = item.GetCustomAttributes<CodeInfoAttribute>();
             if (attr != null && attr.Any())
@@ -117,6 +128,24 @@ public sealed class Config
                 info.Icon = values[2].Trim();
             if (values.Length > 3)
                 info.Style = values[3].Trim();
+        }
+    }
+
+    private static void AddActions(Type item)
+    {
+        PageButtons[item.Name] = [];
+        PageActions[item.Name] = [];
+        var methods = item.GetMethods();
+        foreach (var method in methods)
+        {
+            var attr = method.GetCustomAttribute<ActionAttribute>();
+            if (attr != null)
+            {
+                if (method.GetParameters().Length > 0)
+                    PageActions[item.Name].Add(method.Name);
+                else
+                    PageButtons[item.Name].Add(method.Name);
+            }
         }
     }
 }

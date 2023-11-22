@@ -25,15 +25,16 @@ class BaApplyList : BasePage<TbApply>
         return Service.QueryApplysAsync(criteria);
     }
 
+    [Action]
     public async void New()
     {
         var row = await Service.GetDefaultApplyAsync(ApplyType.Test);
         Page.NewForm(Service.SaveApplyAsync, row);
     }
 
-    public void Edit(TbApply row) => Page.EditForm(Service.SaveApplyAsync, row);
-    public void Delete(TbApply row) => Page.Delete(Service.DeleteApplysAsync, row);
-    public void DeleteM() => Page.DeleteM(Service.DeleteApplysAsync);
+    [Action] public void Edit(TbApply row) => Page.EditForm(Service.SaveApplyAsync, row);
+    [Action] public void Delete(TbApply row) => Page.Delete(Service.DeleteApplysAsync, row);
+    [Action] public void DeleteM() => Page.DeleteM(Service.DeleteApplysAsync);
 
     private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
 }

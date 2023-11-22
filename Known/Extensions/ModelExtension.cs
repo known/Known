@@ -14,7 +14,7 @@ public static class ModelExtension
         var tops = menus.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
         foreach (var item in tops)
         {
-            var menu = MenuItem.From(item);
+            var menu = new MenuItem(item);
             items.Add(menu);
             AddChildren(menus, menu);
         }
@@ -29,7 +29,7 @@ public static class ModelExtension
 
         foreach (var item in items)
         {
-            var sub = MenuItem.From(item);
+            var sub = new MenuItem(item);
             sub.Parent = menu;
             menu.Children.Add(sub);
             AddChildren(menus, sub);
@@ -61,7 +61,7 @@ public static class ModelExtension
 		foreach (var item in tops)
 		{
             item.ParentName = Config.App.Name;
-			var menu = MenuItem.From(item);
+			var menu = new MenuItem(item);
 			if (current != null && current.Id == menu.Id)
 				current = menu;
 
@@ -83,7 +83,7 @@ public static class ModelExtension
 		foreach (var item in items)
 		{
             item.ParentName = menu.Name;
-            var sub = MenuItem.From(item);
+            var sub = new MenuItem(item);
 			sub.Parent = menu;
 			if (current != null && current.Id == sub.Id)
 				current = sub;
@@ -98,16 +98,7 @@ public static class ModelExtension
         if (modules == null || modules.Count == 0)
             return [];
 
-        return modules.Select(m => new MenuInfo(m.Id, m.Name, m.Icon, m.Description)
-        {
-            ParentId = m.ParentId,
-            Code = m.Code,
-            Target = m.Target,
-            Sort = m.Sort,
-            Buttons = m.Buttons,
-            Actions = m.Actions,
-            Columns = m.Columns
-        }).ToList();
+        return modules.Select(m => new MenuInfo(m)).ToList();
     }
 
     internal static void RemoveModule(this List<SysModule> modules, string code)
@@ -134,7 +125,7 @@ public static class ModelExtension
         var tops = models.Where(m => m.ParentId == "0").OrderBy(m => m.Code).ToList();
         foreach (var item in tops)
         {
-            var menu = MenuItem.From(item);
+            var menu = new MenuItem(item);
 			if (current != null && current.Id == menu.Id)
 				current = menu;
 
@@ -153,7 +144,7 @@ public static class ModelExtension
         foreach (var item in items)
         {
             item.ParentName = menu.Name;
-            var sub = MenuItem.From(item);
+            var sub = new MenuItem(item);
             sub.Parent = menu;
 			if (current != null && current.Id == sub.Id)
 				current = sub;

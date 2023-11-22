@@ -66,11 +66,11 @@ class TodoList : BasePage<Todo>
     //查询
     protected override Task<PagingResult<Todo>> OnQueryAsync(PagingCriteria criteria) => QueryApplysAsync(criteria);
     //新增
-    public void New() => Page.NewForm(SaveTodoAsync, new Todo());
+    [Action] public void New() => Page.NewForm(SaveTodoAsync, new Todo());
     //编辑
-    public void Edit(Todo row) => Page.EditForm(SaveTodoAsync, row);
+    [Action] public void Edit(Todo row) => Page.EditForm(SaveTodoAsync, row);
     //删除
-    public void Delete(Todo row) => Page.Delete(DeleteTodosAsync, row);
+    [Action] public void Delete(Todo row) => Page.Delete(DeleteTodosAsync, row);
 }
 ```
 

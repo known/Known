@@ -30,7 +30,7 @@ public class Context
         {
             var menu = UserMenus.FirstOrDefault(m => m.Name == menuId);
             if (menu != null)
-                menus.Add(MenuItem.From(menu));
+                menus.Add(new MenuItem(menu));
         }
         return menus;
     }

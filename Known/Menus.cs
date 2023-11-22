@@ -19,6 +19,22 @@ public class MenuInfo
         Description = description;
     }
 
+    internal MenuInfo(SysModule module)
+    {
+        module.LoadData();
+        Id = module.Id;
+        Name = module.Name;
+        Icon = module.Icon;
+        Description = module.Description;
+        ParentId = module.ParentId;
+        Code = module.Code;
+        Target = module.Target;
+        Sort = module.Sort;
+        Buttons = module.Buttons;
+        Actions = module.Actions;
+        Columns = module.Columns;
+    }
+
     public string Id { get; set; }
     public string ParentId { get; set; }
     public string Code { get; set; }
@@ -33,31 +49,30 @@ public class MenuInfo
     public List<string> Actions { get; set; }
     public List<ColumnInfo> Columns { get; set; }
 
-    public List<CodeInfo> GetActionCodes()
+    public List<CodeInfo> GetAllActions()
     {
-        var actions = Config.Actions;
         var codes = new List<CodeInfo>();
         if (Buttons != null && Buttons.Count > 0)
-            codes.AddRange(Buttons.Select(b => GetButton(this, b, actions)));
+            codes.AddRange(Buttons.Select(b => GetAction(this, b)));
         if (Actions != null && Actions.Count > 0)
-            codes.AddRange(Actions.Select(b => GetButton(this, b, actions)));
+            codes.AddRange(Actions.Select(b => GetAction(this, b)));
         return codes;
     }
 
-    private static CodeInfo GetButton(MenuInfo menu, string id, List<ActionInfo> buttons)
-    {
-        var code = $"b_{menu.Id}_{id}";
-        var button = buttons.FirstOrDefault(b => b.Id == id);
-        var name = button != null ? button.Name : id;
-        return new CodeInfo(code, name);
-    }
-
-    public List<CodeInfo> GetColumnCodes()
+    public List<CodeInfo> GetAllColumns()
     {
         var codes = new List<CodeInfo>();
         if (Columns != null && Columns.Count > 0)
             codes.AddRange(Columns.Select(b => new CodeInfo($"c_{Id}_{b.Id}", b.Name)));
         return codes;
+    }
+
+    private static CodeInfo GetAction(MenuInfo menu, string id)
+    {
+        var code = $"b_{menu.Id}_{id}";
+        var button = Config.Actions.FirstOrDefault(b => b.Id == id);
+        var name = button != null ? button.Name : id;
+        return new CodeInfo(code, name);
     }
 }
 
@@ -116,6 +131,38 @@ public class MenuItem : MenuInfo
         Children = [];
     }
 
+    internal MenuItem(SysModule module) : base(module)
+    {
+        Data = module;
+        Children = [];
+    }
+
+    internal MenuItem(SysOrganization model) : this()
+    {
+        Id = model.Id;
+        ParentId = model.ParentId;
+        Code = model.Code;
+        Name = model.Name;
+        Data = model;
+    }
+
+    internal MenuItem(MenuInfo model) : this()
+    {
+        Id = model.Id;
+        ParentId = model.ParentId;
+        Code = model.Code;
+        Name = model.Name;
+        Icon = model.Icon;
+        Description = model.Description;
+        Target = model.Target;
+        Sort = model.Sort;
+        Color = model.Color;
+        Badge = model.Badge;
+        Buttons = model.Buttons;
+        Actions = model.Actions;
+        Columns = model.Columns;
+    }
+
     internal MenuItem(string id, string name, string icon = null) : this()
     {
         Id = id;
@@ -148,56 +195,5 @@ public class MenuItem : MenuInfo
             page ??= ComType?.GetCustomAttribute<PageAttribute>();
             return page;
         }
-    }
-
-    internal static MenuItem From(MenuInfo model)
-    {
-        return new MenuItem
-        {
-            Id = model.Id,
-            ParentId = model.ParentId,
-            Code = model.Code,
-            Name = model.Name,
-            Icon = model.Icon,
-            Description = model.Description,
-            Target = model.Target,
-            Sort = model.Sort,
-            Color = model.Color,
-            Badge = model.Badge,
-            Buttons = model.Buttons,
-            Actions = model.Actions,
-            Columns = model.Columns
-        };
-    }
-
-	internal static MenuItem From(SysModule model)
-	{
-		return new MenuItem
-		{
-			Id = model.Id,
-			ParentId = model.ParentId,
-			Code = model.Code,
-			Name = model.Name,
-			Icon = model.Icon,
-			Description = model.Description,
-			Target = model.Target,
-			Sort = model.Sort,
-			Buttons = model.Buttons,
-			Actions = model.Actions,
-			Columns = model.Columns,
-            Data = model
-		};
-	}
-
-    internal static MenuItem From(SysOrganization model)
-    {
-        return new MenuItem
-        {
-            Id = model.Id,
-            ParentId = model.ParentId,
-            Code = model.Code,
-            Name = model.Name,
-            Data = model
-        };
     }
 }
