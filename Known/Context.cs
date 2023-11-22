@@ -9,6 +9,7 @@ public class Context
 
     public InstallInfo Install { get; internal set; }
     public UserInfo CurrentUser { get; internal set; }
+    public SettingInfo UserSetting { get; internal set; }
     public List<MenuInfo> UserMenus { get; internal set; }
 
     public void Back()

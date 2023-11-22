@@ -25,7 +25,6 @@ public class UserInfo
     public string OrgNo { get; set; }
     public string OrgName { get; set; }
     public string Role { get; set; }
-    //internal SettingInfo Setting { get; set; }
     internal bool IsTenant { get; set; }
     internal bool IsAdmin => IsSystemAdmin() || IsTenantAdmin();
     private bool IsSystemAdmin() => UserName == Constants.SysUserName.ToLower();

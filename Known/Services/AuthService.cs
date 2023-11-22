@@ -84,14 +84,13 @@ class AuthService : ServiceBase
 
     public async Task<AdminInfo> GetAdminAsync()
     {
-        //CurrentUser.Setting = await UserHelper.GetUserSettingAsync(Database);
-        var result = await DictionaryService.RefreshCacheAsync(Database, CurrentUser);
+        //await DictionaryService.RefreshCacheAsync(Database, CurrentUser);
         var admin = new AdminInfo
         {
             AppName = await UserHelper.GetSystemNameAsync(Database),
             MessageCount = await UserRepository.GetMessageCountAsync(Database),
             UserMenus = await UserHelper.GetUserMenusAsync(Database),
-            //Codes = result.Data as List<CodeInfo>
+            UserSetting = await UserHelper.GetUserSettingAsync(Database)
         };
         return admin;
     }

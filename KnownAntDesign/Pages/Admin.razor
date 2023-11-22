@@ -3,38 +3,38 @@
 <Layout Style="min-height:100vh;">
     @if (IsLoaded)
     {
-        <Sider Collapsible>
-        <div class="logo" />
-        <Menu Theme="MenuTheme.Dark" Mode="MenuMode.Inline">
-            @if (UserMenus != null)
-            {
-                foreach (var item in UserMenus)
+        <Sider Collapsible Theme="ThemeSider">
+            <div class="logo" />
+            <Menu Theme="ThemeMenu" Mode="MenuMode.Inline" Accordion="Context.UserSetting.Accordion">
+                @if (UserMenus != null)
                 {
-                    if (item.Children != null && item.Children.Count > 0)
+                    foreach (var item in UserMenus)
                     {
-                        RenderFragment subTitle = @<span>
-                            <Icon Type="@item.Icon" Theme="outline" />
-                            <span>@item.Name</span>
-                        </span>;
-                        <SubMenu Key="@item.Id" TitleTemplate=subTitle>
-                            @foreach (var child in item.Children)
-                            {
-                                <MenuItem Key="@child.Id" OnClick="e=>Context.Navigate(child)">
-                                    <Icon Type="@child.Icon" Theme="outline" />
-                                    <span>@child.Name</span>
-                                </MenuItem>
-                            }
-                        </SubMenu>
-                    }
-                    else
-                    {
-                        <MenuItem Key="@item.Id" OnClick="e=>Context.Navigate(item)">
-                            <Icon Type="@item.Icon" Theme="outline" />
-                            <span>@item.Name</span>
-                        </MenuItem>
+                        if (item.Children != null && item.Children.Count > 0)
+                        {
+                            RenderFragment subTitle = @<span>
+                                <Icon Type="@item.Icon" Theme="outline" />
+                                <span>@item.Name</span>
+                            </span>;
+                            <SubMenu Key="@item.Id" TitleTemplate=subTitle>
+                                @foreach (var child in item.Children)
+                                {
+                                    <MenuItem Key="@child.Id" OnClick="e=>Context.Navigate(child)">
+                                        <Icon Type="@child.Icon" Theme="outline" />
+                                        <span>@child.Name</span>
+                                    </MenuItem>
+                                }
+                            </SubMenu>
+                        }
+                        else
+                        {
+                            <MenuItem Key="@item.Id" OnClick="e=>Context.Navigate(item)">
+                                <Icon Type="@item.Icon" Theme="outline" />
+                                <span>@item.Name</span>
+                            </MenuItem>
+                        }
                     }
                 }
-            }
             </Menu>
         </Sider>
         <Layout Class="site-layout">
@@ -66,6 +66,9 @@
 </Layout>
 
 @code{
+    private SiderTheme ThemeSider => Context.UserSetting.IsLight ? SiderTheme.Light : SiderTheme.Dark;
+    private MenuTheme ThemeMenu => Context.UserSetting.IsLight ? MenuTheme.Light : MenuTheme.Dark;
+
     private void OnHome() => OnMenuClick("home");
 
     private void OnMenuClick(string id)

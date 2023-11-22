@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using System.ComponentModel;
+
+namespace Known;
 
 public class QueryInfo
 {
@@ -29,25 +31,38 @@ public class QueryInfo
     internal string ParamValue { get; set; }
 }
 
-//public class SettingInfo
-//{
-//    internal const string KeyInfo = "UserSetting";
-//    internal const string KeyQuery = "UserQuery";
-//    //internal const string KeyColumn = "UserColumn";
+public class SettingInfo
+{
+    internal const string KeyInfo = "UserSetting";
+    //    internal const string KeyQuery = "UserQuery";
+    //    //internal const string KeyColumn = "UserColumn";
 
-//    public static SettingInfo Default
-//    {
-//        get { return new SettingInfo(); }
-//    }
+    //    public static SettingInfo Default
+    //    {
+    //        get { return new SettingInfo(); }
+    //    }
 
-//    public string Language { get; set; }
-//    public string Layout { get; set; }
-//    public string ThemeColor { get; set; } = "#1c66b9";//#4188c8";//#54519a
-//    public string SiderColor { get; set; } = "#1c292e";
-//    public bool RandomColor { get; set; }
-//    public bool MultiTab { get; set; }
-//    public int PageSize { get; set; } = PagingCriteria.DefaultPageSize;
+    //    public string Language { get; set; }
+    //    public string Layout { get; set; }
+    //    public string ThemeColor { get; set; } = "#1c66b9";//#4188c8";//#54519a
+    //    public string SiderColor { get; set; } = "#1c292e";
+    //    public bool RandomColor { get; set; }
 
-//    public virtual Dictionary<string, List<QueryInfo>> Querys { get; set; }
-//    //public virtual Dictionary<string, List<ColumnInfo>> Columns { get; set; }
-//}
+    public SettingInfo()
+    {
+        Accordion = true;
+    }
+
+    [DisplayName("暗亮模式")]
+    public bool IsLight { get; set; }
+
+    [DisplayName("手风琴菜单")]
+    public bool Accordion { get; set; }
+
+    [DisplayName("标签页")]
+    public bool MultiTab { get; set; }
+    //    public int PageSize { get; set; } = PagingCriteria.DefaultPageSize;
+
+    //    public virtual Dictionary<string, List<QueryInfo>> Querys { get; set; }
+    //    //public virtual Dictionary<string, List<ColumnInfo>> Columns { get; set; }
+}

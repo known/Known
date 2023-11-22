@@ -2,10 +2,10 @@
 
 <Space Size="@("24")">
     <SpaceItem>
-        <Icon Type="home" OnClick="@(e=>OnItemClick("home"))" />
+        <Tooltip Title="系统首页"><Icon Type="home" OnClick="@(e=>OnItemClick("home"))" /></Tooltip>
     </SpaceItem>
     <SpaceItem>
-        <Icon Type="@IconFullScreen" OnClick="OnFullScreen" />
+        <Tooltip Title="@FullScreenTitle"><Icon Type="@FullScreenIcon" OnClick="OnFullScreen" /></Tooltip>
     </SpaceItem>
     <SpaceItem>
         <Dropdown>
@@ -28,11 +28,20 @@
             </ChildContent>
         </Dropdown>
     </SpaceItem>
+    <SpaceItem>
+        <Tooltip Title="系统设置"><Icon Type="more" OnClick="@(e=>showSetting=true)" /></Tooltip>
+    </SpaceItem>
 </Space>
 
+<Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='("系统设置")' Width="300">
+    <KnownAntDesign.Components.SettingForm />
+</Drawer>
+
 @code {
+    private bool showSetting = false;
     private bool isFullScreen = false;
-    private string IconFullScreen => isFullScreen ? "fullscreen-exit" : "fullscreen";
+    private string FullScreenTitle => isFullScreen ? "退出全屏" : "全屏显示";
+    private string FullScreenIcon => isFullScreen ? "fullscreen-exit" : "fullscreen";
 
     [Parameter] public Action<string> OnMenuClick { get; set; }
 

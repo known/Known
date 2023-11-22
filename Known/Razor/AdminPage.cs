@@ -23,8 +23,7 @@ public class AdminPage : BaseComponent
         CurrentMenu = Config.GetHomeMenu();
         Info = await Platform.GetAdminAsync();
         UserMenus = GetUserMenus(Info?.UserMenus);
-        //Setting.UserSetting = info?.UserSetting;
-        //Setting.Info = info?.UserSetting?.Info ?? SettingInfo.Default;
+        Context.UserSetting = Info?.UserSetting ?? new();
         IsLoaded = true;
     }
 
