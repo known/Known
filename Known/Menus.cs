@@ -8,6 +8,7 @@ public class MenuInfo
 {
     public MenuInfo()
     {
+        Closable = true;
         Columns = [];
     }
 
@@ -19,7 +20,7 @@ public class MenuInfo
         Description = description;
     }
 
-    internal MenuInfo(SysModule module)
+    internal MenuInfo(SysModule module) : this()
     {
         module.LoadData();
         Id = module.Id;
@@ -45,6 +46,7 @@ public class MenuInfo
     public string Color { get; set; }
     public int Sort { get; set; }
     public int Badge { get; set; }
+    public bool Closable { get; set; }
     public List<string> Buttons { get; set; }
     public List<string> Actions { get; set; }
     public List<ColumnInfo> Columns { get; set; }

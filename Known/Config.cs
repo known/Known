@@ -93,7 +93,7 @@ public sealed class Config
 
     internal static MenuItem GetHomeMenu()
     {
-        return new("首页", "home", PageTypes.GetValueOrDefault("Home"));
+        return new("首页", "home", PageTypes.GetValueOrDefault("Home")) { Closable = false };
     }
 
     private static void AddActions(Assembly assembly)

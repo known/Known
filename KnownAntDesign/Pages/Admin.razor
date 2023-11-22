@@ -45,16 +45,13 @@
                 </div>
             </Header>
             <Content Style="margin:0 10px;">
-                @if (CurrentMenu.Page !=null && CurrentMenu.Page.NoBreadcrumb)
+                @if (Context.UserSetting.MultiTab)
                 {
-                    <DynamicComponent Type="CurrentMenu.ComType" Parameters="CurrentMenu.ComParameters" />
+                    <PageTabs Menu="CurrentMenu" />
                 }
                 else
                 {
-                    <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnHome" />
-                    <div class="site-layout-background" style="min-height:360px">
-                        <DynamicComponent Type="CurrentMenu.ComType" Parameters="CurrentMenu.ComParameters" />
-                    </div>
+                    <PageSingle Menu="CurrentMenu" OnHome="OnHome" />
                 }
             </Content>
             @if (KaConfig.Option.Footer != null)
