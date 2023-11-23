@@ -9,12 +9,14 @@ public class AdminPage : BaseComponent
     {
         Context.OnNavigate = OnNavigate;
         Context.OnRefreshPage = StateChanged;
+        TabMenus = [];
     }
 
     [Parameter] public Action OnLogout { get; set; }
 
     protected AdminInfo Info { get; private set; }
     protected List<MenuItem> UserMenus { get; private set; }
+    protected List<MenuItem> TabMenus { get; }
     protected MenuItem CurrentMenu { get; private set; }
 
     protected override async Task OnInitializedAsync()
@@ -24,6 +26,10 @@ public class AdminPage : BaseComponent
         Info = await Platform.GetAdminAsync();
         UserMenus = GetUserMenus(Info?.UserMenus);
         Context.UserSetting = Info?.UserSetting ?? new();
+        if (Context.UserSetting.MultiTab)
+        {
+            TabMenus.Add(Config.GetHomeMenu());
+        }
         IsLoaded = true;
     }
 
@@ -40,6 +46,13 @@ public class AdminPage : BaseComponent
             item.ComType = typeof(BasePage);
         item.ComParameters = new Dictionary<string, object> { [nameof(BasePage.PageId)] = item.Id };
         CurrentMenu = item;
+
+        if (Context.UserSetting.MultiTab)
+        {
+            if (!TabMenus.Exists(m => m.Id == item.Id))
+                TabMenus.Add(item);
+        }
+
         StateChanged();
     }
 

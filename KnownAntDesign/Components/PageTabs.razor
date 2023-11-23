@@ -1,5 +1,5 @@
-﻿<Tabs Type="@TabType.EditableCard" HideAdd @bind-ActiveKey="activeKey" OnClose="OnClose">
-    @foreach (var item in items)
+﻿<Tabs Class="layout-tabs" Type="@TabType.EditableCard" HideAdd @bind-ActiveKey="activeKey" OnClose="OnClose">
+    @foreach (var item in Items)
     {
         <TabPane Key="@item.Id" Tab="@item.Name" Closable="@item.Closable">
             <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
@@ -9,27 +9,19 @@
 
 @code {
     private string activeKey;
-    private List<Known.MenuItem> items = [];
 
+    [Parameter] public List<Known.MenuItem> Items { get; set; }
     [Parameter] public Known.MenuItem Menu { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        items.Add(Menu);
-    }
 
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        if (!items.Contains(Menu))
-            items.Add(Menu);   
         activeKey = Menu.Id;
     }
 
     private void OnClose(string tab)
     {
-        var item = items.FirstOrDefault(t => t.Id == tab);
-        items.Remove(item);
+        var item = Items.FirstOrDefault(t => t.Id == tab);
+        Items.Remove(item);
     }
 }

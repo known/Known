@@ -80,6 +80,13 @@
     .login-form {padding:50px 20px;}
 }
 
+/*Layout*/
+.layout-tabs > .ant-tabs-nav {background-color:#fff;margin-bottom:10px;}
+.layout-tabs > .ant-tabs-content-holder {background-color:#fff;margin:0 10px;}
+.layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab-active {
+    background-color:#f0f2f5;border-bottom-color:#f0f2f5;
+}
+
 /*UserProfile*/
 .avatar {text-align:center;}
 .avatar img {width:100px;height:100px;margin:20px auto;}

@@ -1,14 +1,16 @@
-﻿@if (Menu.Page != null && Menu.Page.NoBreadcrumb)
-{
-    <DynamicComponent Type="Menu.ComType" Parameters="Menu.ComParameters" />
-}
-else
-{
-    <NavBreadcrumb CurrentMenu="Menu" OnHome="OnHome" />
-    <div class="site-layout-background" style="min-height:360px">
+﻿<div style="margin:0 10px;">
+    @if (Menu.Page != null && Menu.Page.NoBreadcrumb)
+    {
         <DynamicComponent Type="Menu.ComType" Parameters="Menu.ComParameters" />
-    </div>
-}
+    }
+    else
+    {
+        <NavBreadcrumb CurrentMenu="Menu" OnHome="OnHome" />
+        <div class="site-layout-background" style="min-height:360px">
+            <DynamicComponent Type="Menu.ComType" Parameters="Menu.ComParameters" />
+        </div>
+    }
+</div>
 
 @code {
     [Parameter] public Known.MenuItem Menu { get; set; }

@@ -44,10 +44,10 @@
                     <NavTopRight OnMenuClick="OnMenuClick" />
                 </div>
             </Header>
-            <Content Style="margin:0 10px;">
+            <Content>
                 @if (Context.UserSetting.MultiTab)
                 {
-                    <PageTabs Menu="CurrentMenu" />
+                    <PageTabs Menu="CurrentMenu" Items="TabMenus" />
                 }
                 else
                 {
