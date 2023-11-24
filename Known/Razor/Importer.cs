@@ -35,9 +35,8 @@ class Importer : BaseComponent
                 BuildInputFile(builder);
                 if (isFinished)
                 {
-                    UI.BuildButton(builder, new ButtonOption
+                    UI.BuildButton(builder, new ActionInfo("Import")
                     {
-                        Text = "导入", Type = "primary",
                         OnClick = Callback<MouseEventArgs>(OnImportAsync)
                     });
                 }

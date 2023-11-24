@@ -13,9 +13,10 @@ public interface IUIService
     void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model) where TItem : class, new();
     void BuildTable<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new();
     void BuildTree(RenderTreeBuilder builder, TreeModel model);
-    void BuildTab(RenderTreeBuilder builder, TabModel model);
+    void BuildSteps(RenderTreeBuilder builder, StepModel model);
+    void BuildTabs(RenderTreeBuilder builder, TabModel model);
     void BuildTag(RenderTreeBuilder builder, string text, string color);
     void BuildResult(RenderTreeBuilder builder, string status, string message);
-    void BuildButton(RenderTreeBuilder builder, ButtonOption option);
+    void BuildButton(RenderTreeBuilder builder, ActionInfo info);
     void BuildInput<TValue>(RenderTreeBuilder builder, InputOption<TValue> option);
 }

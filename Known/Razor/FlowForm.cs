@@ -16,11 +16,9 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         builder.Div("form-content", () => Content?.Invoke(builder));
         builder.Div("form-action", () =>
         {
-            if (Model.Data.CanSubmit)
-                UI.BuildButton(builder, new ButtonOption { Type = "primary", Text = "提交审核" });
             if (!Model.IsView)
-                UI.BuildButton(builder, new ButtonOption { Type = "primary", Text = "确定", OnClick = Callback<MouseEventArgs>(OnSave) });
-            UI.BuildButton(builder, new ButtonOption { Text = "取消", OnClick = Callback<MouseEventArgs>(OnClose) });
+                UI.BuildButton(builder, new ActionInfo("OK", "") { OnClick = Callback<MouseEventArgs>(OnSave) });
+            UI.BuildButton(builder, new ActionInfo("Cancel", "") { OnClick = Callback<MouseEventArgs>(OnClose) });
         });
     }
 

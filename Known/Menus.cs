@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using Known.Entities;
 using Known.Razor;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known;
 
@@ -84,7 +86,7 @@ public class ActionInfo
         Children = [];
     }
 
-    internal ActionInfo(string idOrName)
+    public ActionInfo(string idOrName)
     {
         Id = idOrName;
         Name = idOrName;
@@ -100,6 +102,11 @@ public class ActionInfo
         }
     }
 
+    public ActionInfo(string idOrName, string icon) : this(idOrName)
+    {
+        Icon = icon;
+    }
+
     public string Id { get; set; }
     public string Name { get; set; }
     public string Icon { get; set; }
@@ -107,6 +114,7 @@ public class ActionInfo
     public bool Enabled { get; set; }
     public bool Visible { get; set; }
     public List<ActionInfo> Children { get; }
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
 }
 
 public class ColumnInfo

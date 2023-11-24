@@ -11,9 +11,15 @@ class TbApplyForm : BaseFlowForm<TbApply>
 {
     protected override async Task OnInitFormAsync()
     {
+        //添加流程步骤
+        Steps.Clear();
+        Steps.Add(new ItemModel("业务申请"));
+        Steps.Add(new ItemModel("业务审核"));
+        Steps.Add(new ItemModel("流程结束"));
+
         //添加表单信息Tab
         Tabs.Clear();
-        Tabs.Add(new ItemModel { Title = "基本信息", Content = BuildBaseInfo });
+        Tabs.Add(new ItemModel("基本信息") { Content = BuildBaseInfo });
         await base.OnInitFormAsync();
     }
 

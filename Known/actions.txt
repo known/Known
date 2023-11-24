@@ -10,6 +10,8 @@ MoveDown         | 下移    | down         | primary
 Enable           | 启用    | check-circle | primary
 Disable          | 禁用    | close-circle | primary
 Print            | 打印    | printer      | primary
+OK               | 确定    | check        | primary
+Cancel           | 取消    | close        | 
 
 Submit           | 提交审核 | send         | primary
 Revoke           | 撤回    | undo         | primary

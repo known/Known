@@ -182,10 +182,15 @@ class UIService : IUIService
     {
         builder.Component<DataTree>().Set(c => c.Model, model).Build();
     }
-    
-    public void BuildTab(RenderTreeBuilder builder, TabModel model)
+
+    public void BuildSteps(RenderTreeBuilder builder, StepModel model)
     {
-        builder.Component<DataTab>().Set(c => c.Model, model).Build();
+        builder.Component<DataSteps>().Set(c => c.Model, model).Build();
+    }
+
+    public void BuildTabs(RenderTreeBuilder builder, TabModel model)
+    {
+        builder.Component<DataTabs>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTag(RenderTreeBuilder builder, string text, string color)
@@ -205,13 +210,13 @@ class UIService : IUIService
                .Build();
     }
 
-    public void BuildButton(RenderTreeBuilder builder, ButtonOption option)
+    public void BuildButton(RenderTreeBuilder builder, ActionInfo info)
     {
         builder.Component<Button>()
-               .Set(c => c.Icon, option.Icon)
-               .Set(c => c.Type, option.Type)
-               .Set(c => c.OnClick, option.OnClick)
-               .Set(c => c.ChildContent, b => b.Text(option.Text))
+               .Set(c => c.Icon, info.Icon)
+               .Set(c => c.Type, info.Style)
+               .Set(c => c.OnClick, info.OnClick)
+               .Set(c => c.ChildContent, b => b.Text(info.Name))
                .Build();
     }
 

@@ -6,14 +6,32 @@ public class TabModel
 {
     public TabModel()
     {
-        Tabs = [];
+        Items = [];
     }
 
-    public List<ItemModel> Tabs { get; }
+    public List<ItemModel> Items { get; }
+}
+
+public class StepModel
+{
+    public StepModel()
+    {
+        Items = [];
+    }
+
+    public List<ItemModel> Items { get; }
+    public bool IsContent { get; set; }
+    public bool IsView { get; set; }
+    public Func<bool, Task<bool>> OnSave { get; set; }
 }
 
 public class ItemModel
 {
-    public string Title { get; set; }
+    public ItemModel(string title)
+    {
+        Title = title;
+    }
+
+    public string Title { get; }
     public RenderFragment Content { get; set; }
 }

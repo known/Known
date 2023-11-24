@@ -1,72 +1,21 @@
-﻿@using Microsoft.AspNetCore.Components.Rendering
-@inherits Known.Razor.BaseForm<SysModule>
+﻿@inherits Known.Razor.BaseForm<SysModule>
 
-<div>
-    <Steps Current="current">
-        @foreach (var item in steps)
-        {
-            <Step Title="@item.Title" />
-        }
-    </Steps>
-    <div class="steps-content">
-        @steps[current].Content
-    </div>
-    <div class="form-action">
-        @if (current > 0)
-        {
-            <Button Type="primary" OnClick="OnPrevClick">上一步</Button>
-        }
-        @if (current < steps.Length - 1)
-        {
-            <Button Type="primary" OnClick="OnNextClick">下一步</Button>
-        }
-        @if (current == steps.Length - 1 && !Model.IsView)
-        {
-            <Button Type="primary" OnClick="OnComplete">完成</Button>
-        }
-    </div>
-</div>
+<DataSteps Model="model" />
 
 @code {
-    private ItemModel[] steps;
-    private int current = 0;
+    private StepModel model = new() { IsContent = true };
 
     protected override void OnInitialized()
     {
-        steps =
-        [
-            new() { Title = "基本信息", Content = @<ModuleInfo Model="Model" /> },
-            new() { Title = "页面设置", Content = @<ModulePage Model="Model" /> },
-            new() { Title = "表单设置", Content = @<ModuleForm Model="Model" /> }
-        ];
-    }
-
-    private async void OnPrevClick()
-    {
-        if (!await SaveAsync())
-            return;
-
-        current--;
-    }
-
-    private async void OnNextClick()
-    {
-        if (!await SaveAsync())
-            return;
-
-        current++;
-    }
-
-    private async void OnComplete()
-    {
-        await SaveAsync(true);
+        model.Items.Add(new("基本信息") { Content = @<ModuleInfo Model="Model" /> });
+        model.Items.Add(new("页面设置") { Content = @<ModulePage Model="Model" /> });
+        model.Items.Add(new("表单设置") { Content = @<ModuleForm Model="Model" /> });
+        model.IsView = Model.IsView;
+        model.OnSave = SaveAsync;
     }
 
     private async Task<bool> SaveAsync(bool isClose = false)
     {
-        if (Model.IsView)
-            return true;
-
         if (!Model.Validate())
             return false;
 
