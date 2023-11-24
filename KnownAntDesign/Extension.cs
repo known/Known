@@ -39,3 +39,8 @@ public class AntDesignOption
 {
     public RenderFragment Footer { get; set; }
 }
+
+class KaConfig
+{
+    public static AntDesignOption Option { get; set; }
+}

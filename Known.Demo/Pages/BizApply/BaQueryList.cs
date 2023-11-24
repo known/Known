@@ -23,5 +23,10 @@ class BaQueryList : BasePage<TbApply>
         return Service.QueryApplysAsync(criteria);
     }
 
+    [Action] public void Repeat() { }
+    [Action] public void Export() { }
+
+    [Action] public void Print(TbApply row) { }
+
     private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
 }

@@ -23,5 +23,7 @@ class BaVerifyList : BasePage<TbApply>
         return Service.QueryApplysAsync(criteria);
     }
 
+    [Action] public void Verify(TbApply row) { }
+
     private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
 }

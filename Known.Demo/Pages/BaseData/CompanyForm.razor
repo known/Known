@@ -66,7 +66,7 @@
                     <GridCol Offset="4">
                         @if (!isEdit)
                         {
-                            <Button Type="@ButtonType.Primary" OnClick="e=>OnEdit(true)">编辑</Button>
+                            <Button Type="@ButtonType.Primary" OnClick="Edit">编辑</Button>
                         }
                         else
                         {
@@ -89,6 +89,8 @@
         model = await Platform.GetCompanyAsync<CompanyInfo>();
         await base.OnInitializedAsync();
     }
+
+    [Action] public void Edit() => OnEdit(true);
 
     private void OnEdit(bool edit) => isEdit = edit;
 

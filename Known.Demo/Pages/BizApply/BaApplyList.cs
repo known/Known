@@ -36,5 +36,8 @@ class BaApplyList : BasePage<TbApply>
     [Action] public void Delete(TbApply row) => Page.Delete(Service.DeleteApplysAsync, row);
     [Action] public void DeleteM() => Page.DeleteM(Service.DeleteApplysAsync);
 
+    [Action] public void Submit(TbApply row) { }
+    [Action] public void Revoke(TbApply row) { }
+
     private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
 }

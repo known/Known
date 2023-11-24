@@ -1,0 +1,16 @@
+﻿@typeparam TItem where TItem : class, new()
+
+<Tabs Animated>
+    @foreach (var item in Model.Tabs)
+    {
+        <TabPane Key="@($"{key++}")" Tab="@item.Title">
+            @item.Content
+        </TabPane>
+    }
+</Tabs>
+
+@code {
+    private int key = 1;
+
+    [Parameter] public TabFormModel<TItem> Model { get; set; }
+}
