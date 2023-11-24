@@ -12,7 +12,7 @@ public class SettingForm : BaseComponent
 
     protected async Task SaveAsync()
     {
-        var result = await Platform.SaveSettingAsync(SettingInfo.KeyInfo, Model);
+        var result = await Platform.Setting.SaveSettingAsync(SettingInfo.KeyInfo, Model);
         if (result.IsValid)
         {
             Context.UserSetting = Model;
@@ -22,7 +22,7 @@ public class SettingForm : BaseComponent
 
     protected async Task ResetAsync()
     {
-        var result = await Platform.DeleteUserSettingAsync(SettingInfo.KeyInfo);
+        var result = await Platform.Setting.DeleteUserSettingAsync(SettingInfo.KeyInfo);
         if (result.IsValid)
         {
             Model = new();

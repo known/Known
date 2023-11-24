@@ -66,30 +66,4 @@ class SettingService : ServiceBase
         await DeleteUserSettingAsync(Database, bizType);
         return Result.Success("删除成功！");
     }
-
-    public async Task<Result> DeleteSettingsAsync(List<SysSetting> models)
-    {
-        if (models == null || models.Count == 0)
-            return Result.Error(Language.SelectOneAtLeast);
-
-        return await Database.TransactionAsync(Language.Delete, async db =>
-        {
-            foreach (var item in models)
-            {
-                await db.DeleteAsync(item);
-            }
-        });
-    }
-
-    public async Task<Result> SaveSettingAsync(SysSetting model)
-    {
-        var vr = model.Validate();
-        if (!vr.IsValid)
-            return vr;
-
-        return await Database.TransactionAsync(Language.Save, async db =>
-        {
-            await db.SaveAsync(model);
-        }, model);
-    }
 }

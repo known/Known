@@ -41,11 +41,9 @@ public class PlatformService
     public Task<T> GetSettingAsync<T>(string bizType) => Setting.GetSettingAsync<T>(bizType);
     public Task DeleteSettingAsync(Database db, string bizType) => Setting.DeleteSettingAsync(db, bizType);
     public Task SaveSettingAsync(Database db, string bizType, object bizData) => Setting.SaveSettingAsync(db, bizType, bizData);
-    public Task<Result> SaveSettingAsync(string bizType, object bizData) => Setting.SaveSettingAsync(bizType, bizData);
     public Task<List<SysSetting>> GetUserSettingsAsync(string bizType) => Setting.GetUserSettingsAsync(bizType);
     public Task<T> GetUserSettingAsync<T>(string bizType) => Setting.GetUserSettingAsync<T>(bizType);
     public Task DeleteUserSettingAsync(Database db, string bizType) => Setting.DeleteUserSettingAsync(db, bizType);
-    public Task<Result> DeleteUserSettingAsync(string bizType) => Setting.DeleteUserSettingAsync(bizType);
     #endregion
 
     #region Company

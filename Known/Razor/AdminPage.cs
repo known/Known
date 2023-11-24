@@ -9,7 +9,7 @@ public class AdminPage : BaseComponent
     {
         Context.OnNavigate = OnNavigate;
         Context.OnRefreshPage = StateChanged;
-        TabMenus = [];
+        TabMenus = [Config.GetHomeMenu()];
     }
 
     [Parameter] public Action OnLogout { get; set; }
@@ -26,10 +26,6 @@ public class AdminPage : BaseComponent
         Info = await Platform.GetAdminAsync();
         UserMenus = GetUserMenus(Info?.UserMenus);
         Context.UserSetting = Info?.UserSetting ?? new();
-        if (Context.UserSetting.MultiTab)
-        {
-            TabMenus.Add(Config.GetHomeMenu());
-        }
         IsLoaded = true;
     }
 
