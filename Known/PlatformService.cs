@@ -31,11 +31,6 @@ public class PlatformService
     internal UserService User { get; }
     internal AuthService Auth { get; }
 
-    #region Config
-    public Task<T> GetConfigAsync<T>(Database db, string key) => System.GetConfigAsync<T>(db, key);
-    public Task SaveConfigAsync(Database db, string key, object value) => System.SaveConfigAsync(db, key, value);
-    #endregion
-
     #region Setting
     public Task<List<SysSetting>> GetSettingsAsync(string bizType) => Setting.GetSettingsAsync(bizType);
     public Task<T> GetSettingAsync<T>(string bizType) => Setting.GetSettingAsync<T>(bizType);
@@ -51,14 +46,7 @@ public class PlatformService
     public Task<Result> SaveCompanyAsync(object model) => Company.SaveCompanyAsync(model);
     #endregion
 
-    #region User
-    public Task<UserInfo> GetUserAsync(string userName) => Auth.GetUserAsync(userName);
-    public Task<AdminInfo> GetAdminAsync() => Auth.GetAdminAsync();
-    #endregion
-
     #region File
-    public Task<List<SysFile>> GetFilesAsync(string bizId) => File.GetFilesAsync(bizId);
-    public Task<Result> DeleteFileAsync(SysFile file) => File.DeleteFileAsync(file);
     public void DeleteFiles(List<string> filePaths) => filePaths.ForEach(AttachFile.DeleteFile);
     public Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles) => File.DeleteFilesAsync(db, bizId, oldFiles);
     public Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles) => File.SaveFileAsync(db, file, bizId, bizType, oldFiles);

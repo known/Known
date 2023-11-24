@@ -20,17 +20,17 @@ class SystemService : ServiceBase
         await SystemRepository.SaveConfigAsync(db, key, json);
     }
 
-    public async Task<T> GetConfigAsync<T>(string key)
-    {
-        var json = await SystemRepository.GetConfigAsync(Database, key);
-        return Utils.FromJson<T>(json);
-    }
+    //public async Task<T> GetConfigAsync<T>(string key)
+    //{
+    //    var json = await SystemRepository.GetConfigAsync(Database, key);
+    //    return Utils.FromJson<T>(json);
+    //}
 
-    public async Task<Result> SaveConfigAsync(ConfigInfo info)
-    {
-        await Platform.SaveConfigAsync(Database, info.Key, info.Value);
-        return Result.Success("保存成功！");
-    }
+    //public async Task<Result> SaveConfigAsync(ConfigInfo info)
+    //{
+    //    await Platform.System.SaveConfigAsync(Database, info.Key, info.Value);
+    //    return Result.Success("保存成功！");
+    //}
 
     //Install
     public async Task<InstallInfo> GetInstallAsync()
@@ -73,7 +73,7 @@ class SystemService : ServiceBase
 
         var result = await database.TransactionAsync("安装", async db =>
         {
-            await Platform.SaveConfigAsync(db, KeySystem, sys);
+            await Platform.System.SaveConfigAsync(db, KeySystem, sys);
             await db.SaveAsync(company);
             await db.SaveAsync(user);
             await db.SaveAsync(orga);
@@ -93,7 +93,7 @@ class SystemService : ServiceBase
             info.ProductId = install.ProductId;
             info.ProductKey = install.ProductKey;
 
-            var config = await Platform.GetConfigAsync<SystemInfo>(Database, KeySystem);
+            var config = await Platform.System.GetConfigAsync<SystemInfo>(Database, KeySystem);
             if (config != null)
             {
                 info.Copyright = config.Copyright;
@@ -118,14 +118,14 @@ class SystemService : ServiceBase
         return Utils.FromJson<SystemInfo>(company.SystemData);
     }
 
-    public async Task<Result> SaveKeyAsync(SystemInfo info)
-    {
-        var path = GetProductKeyPath();
-        Utils.SaveFile(path, info.ProductKey);
-        await Platform.SaveConfigAsync(Database, KeySystem, info);
-        var result = await CheckKeyAsync();
-        return result;
-    }
+    //public async Task<Result> SaveKeyAsync(SystemInfo info)
+    //{
+    //    var path = GetProductKeyPath();
+    //    Utils.SaveFile(path, info.ProductKey);
+    //    await Platform.System.SaveConfigAsync(Database, KeySystem, info);
+    //    var result = await CheckKeyAsync();
+    //    return result;
+    //}
 
     public async Task<Result> SaveSystemAsync(SystemInfo info)
     {
@@ -140,15 +140,9 @@ class SystemService : ServiceBase
         }
         else
         {
-            await Platform.SaveConfigAsync(Database, KeySystem, info);
+            await Platform.System.SaveConfigAsync(Database, KeySystem, info);
         }
 
-        return Result.Success("保存成功！");
-    }
-
-    public async Task<Result> SaveSystemConfigAsync(SystemInfo info)
-    {
-        await Platform.SaveConfigAsync(Database, KeySystem, info);
         return Result.Success("保存成功！");
     }
 
@@ -273,8 +267,6 @@ class SystemService : ServiceBase
             }
         });
     }
-
-    internal Task<List<SysLog>> GetLogsAsync(string bizId) => SystemRepository.GetLogsAsync(Database, bizId);
 
     public async Task<Result> AddLogAsync(SysLog log)
     {

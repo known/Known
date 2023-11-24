@@ -34,7 +34,7 @@ public class IndexPage : BaseComponent
         if (state != null && state.User != null && state.User.Identity != null && state.User.Identity.IsAuthenticated)
         {
             var userName = state.User.Identity.Name;
-            return await Platform.GetUserAsync(userName);
+            return await Platform.Auth.GetUserAsync(userName);
         }
 
         return await GetThirdUserAsync();

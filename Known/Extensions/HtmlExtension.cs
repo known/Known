@@ -16,8 +16,8 @@ public static class HtmlExtension
         builder.CloseElement();
     }
 
-    public static void Span(this RenderTreeBuilder builder, string text) => builder.Span("", text);
-    public static void Span(this RenderTreeBuilder builder, string className, string text)
+    public static void Span(this RenderTreeBuilder builder, string text, EventCallback? onClick = null) => builder.Span("", text, onClick);
+    public static void Span(this RenderTreeBuilder builder, string className, string text, EventCallback? onClick = null)
     {
         if (string.IsNullOrWhiteSpace(text))
             return;
@@ -25,6 +25,8 @@ public static class HtmlExtension
         builder.OpenElement(0, "span");
         if (!string.IsNullOrWhiteSpace(className))
             builder.AddAttribute(1, "class", className);
+        if (onClick != null)
+            builder.AddAttribute(1, "onclick", onClick);
         builder.AddContent(1, text);
         builder.CloseElement();
     }
@@ -38,6 +40,16 @@ public static class HtmlExtension
         builder.AddAttribute(1, "class", "link");
         builder.AddAttribute(2, "onclick", onClick);
         builder.AddContent(3, text);
+        builder.CloseElement();
+    }
+
+    public static void DownloadLink(this RenderTreeBuilder builder, string text, FileUrlInfo url)
+    {
+        builder.OpenElement(0, "a");
+        builder.AddAttribute(1, "href", url.OriginalUrl);
+        builder.AddAttribute(2, "target", "_blank");
+        builder.AddAttribute(3, "download", url.FileName);
+        builder.AddContent(4, text);
         builder.CloseElement();
     }
 }

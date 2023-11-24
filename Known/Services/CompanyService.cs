@@ -38,7 +38,7 @@ class CompanyService : ServiceBase
         }
         else
         {
-            await Platform.SaveConfigAsync(Database, KeyCompany, model);
+            await Platform.System.SaveConfigAsync(Database, KeyCompany, model);
         }
         return Result.Success("保存成功！");
     }
