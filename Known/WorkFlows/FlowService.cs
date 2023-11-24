@@ -42,7 +42,7 @@ class FlowService : ServiceBase
                     Check.Throw(result.Message);
 
                 SetCurrToPrevStep(flow);
-                SetCurrStep(flow, "提交流程", next);
+                SetCurrStep(flow, FlowStatus.StepSubmit, next);
 
                 var noteText = $"提交给[{flow.CurrBy}]";
                 if (!string.IsNullOrEmpty(info.Note))
@@ -52,7 +52,7 @@ class FlowService : ServiceBase
                 flow.ApplyBy = user.UserName;
                 flow.ApplyTime = DateTime.Now;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, "提交流程", Language.Submit, noteText);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepSubmit, Language.Submit, noteText);
                 await biz.OnCommitedAsync(db, info);
             }
         });
@@ -86,7 +86,7 @@ class FlowService : ServiceBase
                 SetPrevToCurrStep(flow);
                 flow.BizStatus = info.BizStatus ?? FlowStatus.Revoked;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, "撤回流程", Language.Revoke, info.Note);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepRevoke, Language.Revoke, info.Note);
                 await biz.OnRevokedAsync(db, info);
             }
         });
@@ -119,7 +119,7 @@ class FlowService : ServiceBase
                     noteText += $"，{info.Note}";
 
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, "任务分配", "分配", noteText);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepAssign, "分配", noteText);
             }
         });
     }
@@ -169,15 +169,15 @@ class FlowService : ServiceBase
                     {
                         flow.CurrBy = next.UserName;
                         await db.SaveAsync(flow);
-                        await AddFlowLogAsync(db, flow.BizId, "审核流程", Language.Pass, info.Note);
+                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Language.Pass, info.Note);
                     }
                     else
                     {
                         flow.CurrBy = flow.ApplyBy;
                         flow.FlowStatus = FlowStatus.Over;
                         await db.SaveAsync(flow);
-                        await AddFlowLogAsync(db, flow.BizId, "审核流程", Language.Pass, info.Note);
-                        await AddFlowLogAsync(db, flow.BizId, "结束流程", "结束", "流程结束");
+                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Language.Pass, info.Note);
+                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepOver, "结束", "流程结束");
                     }
                 }
                 else
@@ -190,7 +190,7 @@ class FlowService : ServiceBase
                         noteText += $"，{info.Note}";
 
                     await db.SaveAsync(flow);
-                    await AddFlowLogAsync(db, flow.BizId, "审核流程", Language.Return, noteText);
+                    await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Language.Return, noteText);
                 }
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnVerifiedAsync(db, info);
@@ -221,7 +221,7 @@ class FlowService : ServiceBase
                 flow.BizStatus = info.BizStatus ?? FlowStatus.ReApply;
                 flow.FlowStatus = FlowStatus.Open;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, "重启流程", "重启", info.Note);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepRepeat, "重启", info.Note);
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnRepeatedAsync(db, info);
             }
@@ -251,7 +251,7 @@ class FlowService : ServiceBase
                 flow.BizStatus = FlowStatus.Stop;
                 flow.FlowStatus = FlowStatus.Stop;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, "终止流程", "终止", info.Note);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepStop, "终止", info.Note);
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnStoppedAsync(db, info);
             }
@@ -260,7 +260,7 @@ class FlowService : ServiceBase
 
     internal async Task CreateFlowAsync(Database db, FlowBizInfo info)
     {
-        var stepName = "创建流程";
+        var stepName = FlowStatus.StepCreate;
         var flow = new SysFlow
         {
             Id = Utils.GetGuid(),

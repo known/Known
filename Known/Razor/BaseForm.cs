@@ -37,12 +37,20 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
         if (Steps.Count > 0)
             step.Items.AddRange(Steps);
 
+        var logs = await Platform.Flow.GetFlowLogsAsync(Model.Data.Id);
+        if (logs != null && logs.Count > 0)
+        {
+            var last = logs.OrderByDescending(l => l.CreateTime).FirstOrDefault();
+            if (last.StepName == FlowStatus.StepOver)
+                step.Current = step.Items.Last();
+        }
+
         tab.Items.Clear();
         if (Tabs.Count > 0)
             tab.Items.AddRange(Tabs);
         tab.Items.Add(new ItemModel("流程记录")
         {
-            Content = b => b.Component<FlowLogGrid>().Set(c => c.BizId, Model.Data.Id).Build()
+            Content = b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build()
         });
     }
 

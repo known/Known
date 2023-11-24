@@ -41,6 +41,14 @@ public class FieldModel<TItem> where TItem : class, new()
     {
         get
         {
+            if (Column.IsFile || Column.IsMultiFile)
+            {
+                _inputTemplate = builder =>
+                {
+                    builder.Component<UploadField<TItem>>().Set(c => c.Model, this).Build();
+                };
+            }
+
             return _inputTemplate ??= builder =>
             {
                 var inputType = UI.GetInputType(Column);

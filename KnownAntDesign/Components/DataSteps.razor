@@ -4,7 +4,7 @@
         {
             foreach (var item in Model.Items)
             {
-                <Step Title="@item.Title" />
+                <Step Title="@item.Title" Subtitle="@item.SubTitle" Description="@item.Description" />
             }
         }
     </Steps>
@@ -34,6 +34,12 @@
     private int current = 0;
 
     [Parameter] public StepModel Model { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        current = Model.GetCurrentIndex();
+    }
 
     private async void OnPrevClick()
     {

@@ -11,14 +11,7 @@
             <GridRow>
                 <GridCol Span="24">
                     <FormItem LabelColSpan="4" Label="@label" Required="required">
-                        @if (column.IsFile || column.IsMultiFile)
-                        {
-                            <UploadField Model="field" />
-                        }
-                        else
-                        {
-                            @field.InputTemplate
-                        }
+                        @field.InputTemplate
                     </FormItem>
                 </GridCol>
             </GridRow>

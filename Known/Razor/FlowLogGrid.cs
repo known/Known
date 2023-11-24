@@ -10,6 +10,7 @@ public class FlowLogGrid : BaseComponent
     private TableModel<SysFlowLog> model;
 
     [Parameter] public string BizId { get; set; }
+    [Parameter] public List<SysFlowLog> Logs { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -28,7 +29,7 @@ public class FlowLogGrid : BaseComponent
 
     private async Task<PagingResult<SysFlowLog>> OnQueryLogs(PagingCriteria criteria)
     {
-        var logs = await Platform.Flow.GetFlowLogsAsync(BizId);
-        return new PagingResult<SysFlowLog>(logs);
+        Logs ??= await Platform.Flow.GetFlowLogsAsync(BizId);
+        return new PagingResult<SysFlowLog>(Logs);
     }
 }

@@ -10,6 +10,15 @@ public class FlowStatus
     public const string Over = "结束";
     public const string Stop = "终止";
 
+    internal const string StepCreate = "创建流程";
+    internal const string StepSubmit = "提交流程";
+    internal const string StepRevoke = "撤回流程";
+    internal const string StepVerify = "审核流程";
+    internal const string StepAssign = "任务分配";
+    internal const string StepStop = "终止流程";
+    internal const string StepRepeat = "重启流程";
+    internal const string StepOver = "结束流程";
+
     public const string Save = "暂存";
     public const string Revoked = "已撤回";
     public const string Verifing = "待审核";
