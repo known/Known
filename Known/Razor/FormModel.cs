@@ -1,5 +1,4 @@
 ﻿using Known.Extensions;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Known.Razor;
@@ -65,22 +64,6 @@ public class FormModel<TItem> where TItem : class, new()
             await Page.RefreshAsync();
         });
     }
-}
-
-public class TabFormModel<TItem> : FormModel<TItem> where TItem : class, new()
-{
-    internal TabFormModel(FormOption option, PageModel<TItem> page) : base(option, page)
-    {
-        Tabs = [];
-    }
-
-    public List<ItemModel> Tabs { get; }
-}
-
-public class ItemModel
-{
-    public string Title { get; set; }
-    public RenderFragment Content { get; set; }
 }
 
 public class FormOption

@@ -182,6 +182,11 @@ class UIService : IUIService
     {
         builder.Component<DataTree>().Set(c => c.Model, model).Build();
     }
+    
+    public void BuildTab(RenderTreeBuilder builder, TabModel model)
+    {
+        builder.Component<DataTab>().Set(c => c.Model, model).Build();
+    }
 
     public void BuildTag(RenderTreeBuilder builder, string text, string color)
     {

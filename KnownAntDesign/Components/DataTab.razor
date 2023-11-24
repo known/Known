@@ -1,0 +1,16 @@
+﻿<Tabs Animated>
+    @if (Model.Tabs != null && Model.Tabs.Count > 0)
+    {
+        var key = 1;
+        foreach (var item in Model.Tabs)
+        {
+            <TabPane Key="@($"{key++}")" Tab="@item.Title">
+                @item.Content
+            </TabPane>
+        }
+    }
+</Tabs>
+
+@code {
+    [Parameter] public TabModel Model { get; set; }
+}

@@ -4,9 +4,11 @@ using Known.WorkFlows;
 
 namespace Known.Demo.Repositories;
 
+//业务申请数据访问
 class ApplyRepository
 {
     //Apply
+    //分页查询
     internal static Task<PagingResult<TbApply>> QueryApplysAsync(Database db, PagingCriteria criteria)
     {
         var sql = @"select a.*,b.BizStatus,b.CurrBy,b.ApplyBy,b.ApplyTime,b.VerifyBy,b.VerifyTime,b.VerifyNote 
@@ -31,6 +33,7 @@ where a.Id=b.BizId and a.CompNo=@CompNo";
         return db.QueryPageAsync<TbApply>(sql, criteria);
     }
 
+    //获取最大业务申请单号
     internal static Task<string> GetMaxBizNoAsync(Database db, string prefix)
     {
         var sql = $"select max(BizNo) from TbApply where CompNo=@CompNo and BizNo like '{prefix}%'";

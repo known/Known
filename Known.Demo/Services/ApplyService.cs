@@ -6,14 +6,17 @@ using Known.WorkFlows;
 
 namespace Known.Demo.Services;
 
+//业务申请逻辑服务
 class ApplyService : ServiceBase
 {
     //Apply
+    //列表分页查询
     public Task<PagingResult<TbApply>> QueryApplysAsync(PagingCriteria criteria)
     {
         return ApplyRepository.QueryApplysAsync(Database, criteria);
     }
 
+    //获取默认业务申请实体
     public async Task<TbApply> GetDefaultApplyAsync(ApplyType bizType)
     {
         return new TbApply
@@ -26,6 +29,7 @@ class ApplyService : ServiceBase
         };
     }
 
+    //删除业务申请
     public async Task<Result> DeleteApplysAsync(List<TbApply> models)
     {
         if (models == null || models.Count == 0)
@@ -53,6 +57,7 @@ class ApplyService : ServiceBase
         return result;
     }
 
+    //保存业务申请
     public async Task<Result> SaveApplyAsync(UploadInfo<TbApply> info)
     {
         var entity = info.Model;
@@ -72,13 +77,15 @@ class ApplyService : ServiceBase
                 //创建流程
                 await Platform.CreateFlowAsync(db, ApplyFlow.GetBizInfo(entity));
             }
-            //保存附件
+            //添加附件
             await Platform.AddFilesAsync(db, bizFiles, entity.Id, bizType);
             entity.BizFile = $"{entity.Id}_{bizType}";
+            //保存实体
             await db.SaveAsync(entity);
         }, entity);
     }
 
+    //获取最大业务申请单号
     private static async Task<string> GetMaxBizNoAsync(Database db, ApplyType bizType)
     {
         var prefix = "T";

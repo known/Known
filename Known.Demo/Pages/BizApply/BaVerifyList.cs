@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Demo.Pages.BizApply;
 
+//业务审核列表
 class BaVerifyList : BasePage<TbApply>
 {
     private ApplyService Service => new() { CurrentUser = CurrentUser };
@@ -23,6 +24,7 @@ class BaVerifyList : BasePage<TbApply>
         return Service.QueryApplysAsync(criteria);
     }
 
+    //审核操作
     [Action] public void Verify(TbApply row) { }
 
     private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
