@@ -31,8 +31,24 @@ public class PlatformService
     internal UserService User { get; }
     internal AuthService Auth { get; }
 
+    #region Config
+    public Task<T> GetConfigAsync<T>(Database db, string key) => System.GetConfigAsync<T>(db, key);
+    public Task SaveConfigAsync(Database db, string key, object value) => System.SaveConfigAsync(db, key, value);
+    #endregion
+
+    #region Setting
+    public Task<List<SysSetting>> GetSettingsAsync(string bizType) => Setting.GetSettingsAsync(bizType);
+    public Task<T> GetSettingAsync<T>(string bizType) => Setting.GetSettingAsync<T>(bizType);
+    public Task DeleteSettingAsync(Database db, string bizType) => Setting.DeleteSettingAsync(db, bizType);
+    public Task SaveSettingAsync(Database db, string bizType, object bizData) => Setting.SaveSettingAsync(db, bizType, bizData);
+    public Task<Result> SaveSettingAsync(string bizType, object bizData) => Setting.SaveSettingAsync(bizType, bizData);
+    public Task<List<SysSetting>> GetUserSettingsAsync(string bizType) => Setting.GetUserSettingsAsync(bizType);
+    public Task<T> GetUserSettingAsync<T>(string bizType) => Setting.GetUserSettingAsync<T>(bizType);
+    public Task DeleteUserSettingAsync(Database db, string bizType) => Setting.DeleteUserSettingAsync(db, bizType);
+    public Task<Result> DeleteUserSettingAsync(string bizType) => Setting.DeleteUserSettingAsync(bizType);
+    #endregion
+
     #region Company
-    //public Task<string> GetCompanyAsync(Database db) => CompanyService.GetCompanyAsync(db);
     public Task<T> GetCompanyAsync<T>() => Company.GetCompanyAsync<T>();
     public Task<Result> SaveCompanyAsync(object model) => Company.SaveCompanyAsync(model);
     #endregion
@@ -46,40 +62,14 @@ public class PlatformService
     public Task<List<SysFile>> GetFilesAsync(string bizId) => File.GetFilesAsync(bizId);
     public Task<Result> DeleteFileAsync(SysFile file) => File.DeleteFileAsync(file);
     public void DeleteFiles(List<string> filePaths) => filePaths.ForEach(AttachFile.DeleteFile);
-    public Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles) => FileService.DeleteFilesAsync(db, bizId, oldFiles);
-    public Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles) => FileService.SaveFileAsync(db, file, bizId, bizType, oldFiles);
-    public Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType) => FileService.AddFilesAsync(db, files, bizId, bizType);
+    public Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles) => File.DeleteFilesAsync(db, bizId, oldFiles);
+    public Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles) => File.SaveFileAsync(db, file, bizId, bizType, oldFiles);
+    public Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType) => File.AddFilesAsync(db, files, bizId, bizType);
     #endregion
 
     #region Flow
-    public async Task CreateFlowAsync(Database db, FlowBizInfo info)
-    {
-        var stepName = "创建流程";
-        var flow = new SysFlow
-        {
-            Id = Utils.GetGuid(),
-            CompNo = db.User.CompNo,
-            AppId = db.User.AppId,
-            FlowCode = info.FlowCode,
-            FlowName = info.FlowName,
-            FlowStatus = FlowStatus.Open,
-            BizId = info.BizId,
-            BizName = info.BizName,
-            BizUrl = info.BizUrl,
-            BizStatus = info.BizStatus,
-            CurrStep = stepName,
-            CurrBy = db.User.UserName
-        };
-        await db.SaveAsync(flow);
-        await AddFlowLogAsync(db, info.BizId, stepName, "创建", info.BizName);
-    }
-
-    public async Task DeleteFlowAsync(Database db, string bizId)
-    {
-        await FlowRepository.DeleteFlowLogsAsync(db, bizId);
-        await FlowRepository.DeleteFlowAsync(db, bizId);
-    }
-
-    public Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note) => FlowService.AddFlowLogAsync(db, bizId, stepName, result, note);
+    public Task CreateFlowAsync(Database db, FlowBizInfo info) => Flow.CreateFlowAsync(db, info);
+    public Task DeleteFlowAsync(Database db, string bizId) => Flow.DeleteFlowAsync(db, bizId);
+    public Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note) => Flow.AddFlowLogAsync(db, bizId, stepName, result, note);
     #endregion
 }

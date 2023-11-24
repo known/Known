@@ -8,15 +8,27 @@ class SystemService : ServiceBase
     internal const string KeySystem = "SystemInfo";
 
     //Config
+    public async Task<T> GetConfigAsync<T>(Database db, string key)
+    {
+        var json = await SystemRepository.GetConfigAsync(db, key);
+        return Utils.FromJson<T>(json);
+    }
+
+    public async Task SaveConfigAsync(Database db, string key, object value)
+    {
+        var json = Utils.ToJson(value);
+        await SystemRepository.SaveConfigAsync(db, key, json);
+    }
+
     public async Task<T> GetConfigAsync<T>(string key)
     {
-        var json = await PlatformRepository.GetConfigAsync(Database, Config.App.Id, key);
+        var json = await SystemRepository.GetConfigAsync(Database, key);
         return Utils.FromJson<T>(json);
     }
 
     public async Task<Result> SaveConfigAsync(ConfigInfo info)
     {
-        await SaveConfigAsync(Database, info.Key, info.Value);
+        await Platform.SaveConfigAsync(Database, info.Key, info.Value);
         return Result.Success("保存成功！");
     }
 
@@ -61,7 +73,7 @@ class SystemService : ServiceBase
 
         var result = await database.TransactionAsync("安装", async db =>
         {
-            await SaveConfigAsync(db, KeySystem, sys);
+            await Platform.SaveConfigAsync(db, KeySystem, sys);
             await db.SaveAsync(company);
             await db.SaveAsync(user);
             await db.SaveAsync(orga);
@@ -81,7 +93,7 @@ class SystemService : ServiceBase
             info.ProductId = install.ProductId;
             info.ProductKey = install.ProductKey;
 
-            var config = await GetConfigAsync<SystemInfo>(Database, KeySystem);
+            var config = await Platform.GetConfigAsync<SystemInfo>(Database, KeySystem);
             if (config != null)
             {
                 info.Copyright = config.Copyright;
@@ -94,7 +106,10 @@ class SystemService : ServiceBase
     internal static async Task<SystemInfo> GetSystemAsync(Database db)
     {
         if (!Config.App.IsPlatform || db.User == null)
-            return await GetConfigAsync<SystemInfo>(db, KeySystem);
+        {
+            var json = await SystemRepository.GetConfigAsync(db, KeySystem);
+            return Utils.FromJson<SystemInfo>(json);
+        }
 
         var company = await CompanyRepository.GetCompanyAsync(db);
         if (company == null)
@@ -107,7 +122,7 @@ class SystemService : ServiceBase
     {
         var path = GetProductKeyPath();
         Utils.SaveFile(path, info.ProductKey);
-        await SaveConfigAsync(Database, KeySystem, info);
+        await Platform.SaveConfigAsync(Database, KeySystem, info);
         var result = await CheckKeyAsync();
         return result;
     }
@@ -125,7 +140,7 @@ class SystemService : ServiceBase
         }
         else
         {
-            await SaveConfigAsync(Database, KeySystem, info);
+            await Platform.SaveConfigAsync(Database, KeySystem, info);
         }
 
         return Result.Success("保存成功！");
@@ -133,7 +148,7 @@ class SystemService : ServiceBase
 
     public async Task<Result> SaveSystemConfigAsync(SystemInfo info)
     {
-        await SaveConfigAsync(Database, KeySystem, info);
+        await Platform.SaveConfigAsync(Database, KeySystem, info);
         return Result.Success("保存成功！");
     }
 
@@ -234,13 +249,13 @@ class SystemService : ServiceBase
     //Task
     public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria)
     {
-        return TaskRepository.QueryTasksAsync(Database, criteria);
+        return SystemRepository.QueryTasksAsync(Database, criteria);
     }
 
     //Log
     public Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria)
     {
-        return LogRepository.QueryLogsAsync(Database, criteria);
+        return SystemRepository.QueryLogsAsync(Database, criteria);
     }
 
     internal async Task<Result> DeleteLogsAsync(string data)
@@ -259,7 +274,7 @@ class SystemService : ServiceBase
         });
     }
 
-    internal Task<List<SysLog>> GetLogsAsync(string bizId) => LogRepository.GetLogsAsync(Database, bizId);
+    internal Task<List<SysLog>> GetLogsAsync(string bizId) => SystemRepository.GetLogsAsync(Database, bizId);
 
     public async Task<Result> AddLogAsync(SysLog log)
     {

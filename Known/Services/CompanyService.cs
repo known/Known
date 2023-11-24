@@ -13,7 +13,7 @@ class CompanyService : ServiceBase
         if (Config.App.IsPlatform)
             return await GetCompanyDataAsync(db);
 
-        var model = await PlatformRepository.GetConfigAsync(db, Config.App.Id, KeyCompany);
+        var model = await SystemRepository.GetConfigAsync(db, KeyCompany);
         if (string.IsNullOrEmpty(model))
             model = GetDefaultData(db.User);
         return model;
@@ -38,7 +38,7 @@ class CompanyService : ServiceBase
         }
         else
         {
-            await SaveConfigAsync(Database, KeyCompany, model);
+            await Platform.SaveConfigAsync(Database, KeyCompany, model);
         }
         return Result.Success("保存成功！");
     }

@@ -32,7 +32,7 @@ class SysOrganizationList : BasePage<SysOrganization>
 	protected override Task<PagingResult<SysOrganization>> OnQueryAsync(PagingCriteria criteria)
 	{
 		var data = current?.Children?.Select(c => (SysOrganization)c.Data).ToList();
-		var result = new PagingResult<SysOrganization> { PageData = data, TotalCount = data?.Count ?? 0 };
+		var result = new PagingResult<SysOrganization>(data);
 		return Task.FromResult(result);
 	}
 

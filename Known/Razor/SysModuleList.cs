@@ -42,7 +42,7 @@ class SysModuleList : BasePage<SysModule>
 	{
         var data = current?.Children?.Select(c => (SysModule)c.Data).ToList();
         total = data?.Count ?? 0;
-        var result = new PagingResult<SysModule> { PageData = data, TotalCount = total };
+        var result = new PagingResult<SysModule>(data);
 		return Task.FromResult(result);
 	}
 

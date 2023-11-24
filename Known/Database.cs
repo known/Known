@@ -293,10 +293,8 @@ public class Database : IDisposable
         if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
             pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
 
-        return new PagingResult<T>
+        return new PagingResult<T>(total, pageData)
         {
-            TotalCount = total,
-            PageData = pageData,
             ExportData = exportData,
             Sums = sums
         };
@@ -364,11 +362,7 @@ public class Database : IDisposable
                        .ToList();
         }
 
-        return new PagingResult<Dictionary<string, object>>
-        {
-            TotalCount = total,
-            PageData = data
-        };
+        return new PagingResult<Dictionary<string, object>>(total, data);
     }
 
     public async Task<DataTable> QueryTableAsync(string sql, object param = null)

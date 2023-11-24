@@ -258,7 +258,35 @@ class FlowService : ServiceBase
         });
     }
 
-    internal static Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note)
+    internal async Task CreateFlowAsync(Database db, FlowBizInfo info)
+    {
+        var stepName = "创建流程";
+        var flow = new SysFlow
+        {
+            Id = Utils.GetGuid(),
+            CompNo = db.User.CompNo,
+            AppId = db.User.AppId,
+            FlowCode = info.FlowCode,
+            FlowName = info.FlowName,
+            FlowStatus = FlowStatus.Open,
+            BizId = info.BizId,
+            BizName = info.BizName,
+            BizUrl = info.BizUrl,
+            BizStatus = info.BizStatus,
+            CurrStep = stepName,
+            CurrBy = db.User.UserName
+        };
+        await db.SaveAsync(flow);
+        await AddFlowLogAsync(db, info.BizId, stepName, "创建", info.BizName);
+    }
+
+    internal async Task DeleteFlowAsync(Database db, string bizId)
+    {
+        await FlowRepository.DeleteFlowLogsAsync(db, bizId);
+        await FlowRepository.DeleteFlowAsync(db, bizId);
+    }
+
+    internal Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note)
     {
         return db.SaveAsync(new SysFlowLog
         {

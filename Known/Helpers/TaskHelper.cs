@@ -9,7 +9,7 @@ sealed class TaskHelper
 
     private static async Task<TaskSummaryInfo> GetSummaryAsync(Database db, string type)
     {
-        var task = await TaskRepository.GetTaskByTypeAsync(db, type);
+        var task = await SystemRepository.GetTaskByTypeAsync(db, type);
         if (task == null)
             return null;
 
@@ -24,7 +24,7 @@ sealed class TaskHelper
 
     private static async Task<Result> AddAsync(Database db, string type, string name, string target = "")
     {
-        var task = await TaskRepository.GetTaskByTypeAsync(db, type);
+        var task = await SystemRepository.GetTaskByTypeAsync(db, type);
         if (task != null)
         {
             switch (task.Status)
@@ -50,7 +50,7 @@ sealed class TaskHelper
     internal static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)
     {
         var db = new Database();
-        var task = await TaskRepository.GetPendingTaskByTypeAsync(db, bizType);
+        var task = await SystemRepository.GetPendingTaskByTypeAsync(db, bizType);
         if (task == null)
             return;
 

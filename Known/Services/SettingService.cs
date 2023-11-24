@@ -6,9 +6,66 @@ namespace Known.Services;
 class SettingService : ServiceBase
 {
     //Setting
-    public Task<List<SysSetting>> GetSettingsAsync(string bizType) => SettingRepository.GetSettingsAsync(Database, bizType);
-    public Task<SysSetting> GetSettingByCompAsync(string bizType) => SettingRepository.GetSettingByCompAsync(Database, bizType);
-    public Task<SysSetting> GetSettingByUserAsync(string bizType) => SettingRepository.GetSettingByUserAsync(Database, bizType);
+    internal Task<List<SysSetting>> GetSettingsAsync(string bizType) => SettingRepository.GetSettingsAsync(Database, bizType);
+
+    internal async Task<T> GetSettingAsync<T>(string bizType)
+    {
+        var setting = await SettingRepository.GetSettingAsync(Database, bizType);
+        if (setting == null)
+            return default;
+
+        return setting.DataAs<T>();
+    }
+
+    internal async Task DeleteSettingAsync(Database db, string bizType)
+    {
+        var setting = await SettingRepository.GetSettingAsync(db, bizType);
+        if (setting == null)
+            return;
+
+        await db.DeleteAsync(setting);
+    }
+
+    internal async Task SaveSettingAsync(Database db, string bizType, object bizData)
+    {
+        var setting = await SettingRepository.GetSettingAsync(db, bizType);
+        setting ??= new SysSetting();
+        setting.BizType = bizType;
+        setting.BizData = Utils.ToJson(bizData);
+        await db.SaveAsync(setting);
+    }
+
+    internal async Task<Result> SaveSettingAsync(string bizType, object bizData)
+    {
+        await SaveSettingAsync(Database, bizType, bizData);
+        return Result.Success("保存成功！");
+    }
+
+    internal Task<List<SysSetting>> GetUserSettingsAsync(string bizType) => SettingRepository.GetUserSettingsAsync(Database, bizType);
+
+    internal async Task<T> GetUserSettingAsync<T>(string bizType)
+    {
+        var setting = await SettingRepository.GetUserSettingAsync(Database, bizType);
+        if (setting == null)
+            return default;
+
+        return setting.DataAs<T>();
+    }
+
+    internal async Task DeleteUserSettingAsync(Database db, string bizType)
+    {
+        var setting = await SettingRepository.GetUserSettingAsync(db, bizType);
+        if (setting == null)
+            return;
+
+        await db.DeleteAsync(setting);
+    }
+
+    internal async Task<Result> DeleteUserSettingAsync(string bizType)
+    {
+        await DeleteUserSettingAsync(Database, bizType);
+        return Result.Success("删除成功！");
+    }
 
     public async Task<Result> DeleteSettingsAsync(List<SysSetting> models)
     {

@@ -10,7 +10,6 @@ public class Result
     public Result()
     {
         errors.Clear();
-        IsValid = true;
     }
 
     private Result(string message, object data) : this()
@@ -20,7 +19,7 @@ public class Result
     }
 
     public bool IsClose { get; set; } = true;
-    public bool IsValid { get; set; }
+    public bool IsValid => errors.Count == 0;
 
     public string Message
     {
@@ -31,7 +30,7 @@ public class Result
 
             return string.Join(Environment.NewLine, errors.ToArray());
         }
-        set { message = value; }
+        internal set { message = value; }
     }
 
     public object Data { get; set; }
@@ -50,7 +49,6 @@ public class Result
 
     public void AddError(string message)
     {
-        IsValid = false;
         errors.Add(message);
     }
 
@@ -82,11 +80,25 @@ public class Result
 
 public class PagingResult<T>
 {
-    public int TotalCount { get; set; }
-    public List<T> PageData { get; set; }
-    public Dictionary<string, object> Sums { get; set; }
-    public object Summary { get; set; }
-    public byte[] ExportData { get; set; }
+    public PagingResult() { }
+
+    public PagingResult(List<T> pageData)
+    {
+        TotalCount = pageData?.Count ?? 0;
+        PageData = pageData;
+    }
+
+    public PagingResult(int totalCount, List<T> pageData)
+    {
+        TotalCount = totalCount;
+        PageData = pageData;
+    }
+
+    public int TotalCount { get; }
+    public List<T> PageData { get; }
+    public Dictionary<string, object> Sums { get; internal set; }
+    public object Summary { get; internal set; }
+    public byte[] ExportData { get; internal set; }
 
     public TSummary SummaryAs<TSummary>()
     {

@@ -1,6 +1,4 @@
-﻿using Known.Entities;
-
-namespace Known.Razor;
+﻿namespace Known.Razor;
 
 public class SettingForm : BaseComponent
 {
@@ -14,10 +12,7 @@ public class SettingForm : BaseComponent
 
     protected async Task SaveAsync()
     {
-        var setting = await Platform.Setting.GetSettingByUserAsync(SettingInfo.KeyInfo);
-        setting ??= new SysSetting { BizType = SettingInfo.KeyInfo, BizName = "系统设置" };
-        setting.BizData = Utils.ToJson(Model);
-        var result = await Platform.Setting.SaveSettingAsync(setting);
+        var result = await Platform.SaveSettingAsync(SettingInfo.KeyInfo, Model);
         if (result.IsValid)
         {
             Context.UserSetting = Model;
@@ -27,8 +22,7 @@ public class SettingForm : BaseComponent
 
     protected async Task ResetAsync()
     {
-        var setting = await Platform.Setting.GetSettingByUserAsync(SettingInfo.KeyInfo);
-        var result = await Platform.Setting.DeleteSettingsAsync([setting]);
+        var result = await Platform.DeleteUserSettingAsync(SettingInfo.KeyInfo);
         if (result.IsValid)
         {
             Model = new();

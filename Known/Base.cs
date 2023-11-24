@@ -1,6 +1,4 @@
-﻿using Known.Repositories;
-
-namespace Known;
+﻿namespace Known;
 
 public class ModelBase { }
 
@@ -38,18 +36,4 @@ public abstract class ServiceBase
         var no = string.IsNullOrWhiteSpace(lastNo) ? 0 : int.Parse(lastNo);
         return string.Format("{0}{1:D" + length + "}", prefix, no + 1);
     }
-
-    #region Protected
-    protected static async Task<T> GetConfigAsync<T>(Database db, string key)
-    {
-        var json = await PlatformRepository.GetConfigAsync(db, Config.App.Id, key);
-        return Utils.FromJson<T>(json);
-    }
-
-    protected static async Task SaveConfigAsync(Database db, string key, object value)
-    {
-        var json = Utils.ToJson(value);
-        await PlatformRepository.SaveConfigAsync(db, Config.App.Id, key, json);
-    }
-    #endregion
 }

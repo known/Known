@@ -138,7 +138,7 @@ class AuthService : ServiceBase
 
     private async Task SetUserInfoAsync(UserInfo user)
     {
-        var sys = await GetConfigAsync<SystemInfo>(Database, SystemService.KeySystem);
+        var sys = await Platform.GetConfigAsync<SystemInfo>(Database, SystemService.KeySystem);
         user.IsTenant = user.CompNo != sys.CompNo;
         user.AppName = Config.App.Name;
         if (user.IsAdmin)

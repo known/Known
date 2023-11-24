@@ -29,6 +29,6 @@ public class FlowLogGrid : BaseComponent
     private async Task<PagingResult<SysFlowLog>> OnQueryLogs(PagingCriteria criteria)
     {
         var logs = await Platform.Flow.GetFlowLogsAsync(BizId);
-        return new PagingResult<SysFlowLog> { PageData = logs };
+        return new PagingResult<SysFlowLog>(logs);
     }
 }
