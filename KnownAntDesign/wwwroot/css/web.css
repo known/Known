@@ -10,17 +10,15 @@
 .site-layout .site-layout-background {background: #fff;padding: 0;}
 
 .steps-content {
-    margin-top: 16px; padding: 10px;
+    margin-top: 16px; padding:10px;
     border: 1px dashed #e9e9e9;
     border-radius: 6px;
     background-color: #fafafa;
     min-height: 200px;
 }
 
-.steps-action {
-    margin-top: 24px;
-    text-align: right;
-}
+.form-content {padding:10px;}
+.form-action {margin-top:24px;text-align:right;}
 
 .link {color:#1890ff;cursor:pointer;}
 .danger {color:#ed4014;}

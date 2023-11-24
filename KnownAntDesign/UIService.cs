@@ -207,9 +207,6 @@ class UIService : IUIService
 
     public void BuildButton(RenderTreeBuilder builder, ButtonOption option)
     {
-        if (string.IsNullOrWhiteSpace(option.Type))
-            option.Type = ButtonType.Primary;
-
         builder.Component<Button>()
                .Set(c => c.Icon, option.Icon)
                .Set(c => c.Type, option.Type)

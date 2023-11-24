@@ -37,7 +37,7 @@ class Importer : BaseComponent
                 {
                     UI.BuildButton(builder, new ButtonOption
                     {
-                        Text = "导入",
+                        Text = "导入", Type = "primary",
                         OnClick = Callback<MouseEventArgs>(OnImportAsync)
                     });
                 }

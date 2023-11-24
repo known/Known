@@ -34,6 +34,8 @@ public class FormModel<TItem> where TItem : class, new()
         return OnValidate.Invoke();
     }
 
+    public Task CloseAsync() => OnClose?.Invoke();
+
     public async Task SaveAsync(bool isClose = false)
     {
         if (!Validate())
@@ -60,7 +62,7 @@ public class FormModel<TItem> where TItem : class, new()
         Page.UI.Result(result, async () =>
         {
             if (result.IsClose || isClose)
-                await OnClose?.Invoke();
+                await CloseAsync();
             await Page.RefreshAsync();
         });
     }
