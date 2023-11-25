@@ -4,13 +4,12 @@ using Known.Demo;
 using Microsoft.AspNetCore.Components.WebView;
 using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using Microsoft.Extensions.DependencyInjection;
-using WinForm.Pages;
 
 namespace WinForm;
 
 public partial class MainForm : Form
 {
-    private BlazorWebView blazorWebView;
+    private readonly BlazorWebView blazorWebView;
 
     public MainForm()
     {
@@ -19,7 +18,7 @@ public partial class MainForm : Form
         AppSetting.Load();
         WindowState = FormWindowState.Maximized;
         Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-        Text = "Known Studio 1.0";
+        Text = Config.App.Name;
 
         blazorWebView = new BlazorWebView();
         blazorWebView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -65,6 +64,6 @@ public partial class MainForm : Form
         });
         blazorWebView.HostPage = "wwwroot\\index.html";
         blazorWebView.Services = services.BuildServiceProvider();
-        blazorWebView.RootComponents.Add<App>("#app");
+        blazorWebView.RootComponents.Add<WinForm.Pages.App>("#app");
     }
 }

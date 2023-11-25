@@ -28,7 +28,7 @@ public static class AppModule
                 //ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
             }];
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
-            info.JsPath = "/script.js";
+            info.JsPath = "./script.js";
             action?.Invoke(info);
         });
 
@@ -50,10 +50,7 @@ public static class AppModule
         services.AddScheduler();
         services.AddTransient<ImportTaskJob>();
 
-        //添加模块程序集
-        var assembly = typeof(AppModule).Assembly;
-        Config.AddModule(assembly);
-
+        //5.添加Demo
         //添加数据字典类别
         Cache.AddDicCategory<AppDictionary>();
 

@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Known\Known.csproj" />
         <ProjectReference Include="..\Known.Cells\Known.Cells.csproj" />
         <ProjectReference Include="..\Known.AntBlazor\Known.AntBlazor.csproj" />
     </ItemGroup>

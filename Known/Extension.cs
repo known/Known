@@ -1,7 +1,6 @@
 ﻿using Known.Blazor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -16,11 +15,8 @@ public static class Extension
         Config.AddApp();
 
         //services.AddCascadingAuthenticationState();
-
-        //if (Config.App.Type == AppType.WinForm)
-        //    services.AddScoped<IScrollToLocationHash, ScrollToLocationHash>();
         services.AddScoped<JSService>();
-        //services.AddScoped<ProtectedSessionStorage>();
+        services.AddScoped<ProtectedSessionStorage>();
         services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
         services.AddHttpContextAccessor();
         //services.AddOptions().AddLogging();
@@ -40,13 +36,5 @@ public static class Extension
             FileProvider = new PhysicalFileProvider(upload),
             RequestPath = "/UploadFiles"
         });
-    }
-}
-
-class ScrollToLocationHash : IScrollToLocationHash
-{
-    public Task RefreshScrollPositionForHash(string locationAbsolute)
-    {
-        return Task.CompletedTask;
     }
 }
