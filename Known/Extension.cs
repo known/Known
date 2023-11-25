@@ -16,8 +16,16 @@ public static class Extension
 
         //services.AddCascadingAuthenticationState();
         services.AddScoped<JSService>();
-        services.AddScoped<ProtectedSessionStorage>();
-        services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+        if (Config.App.Type == AppType.Web)
+        {
+            services.AddScoped<ProtectedSessionStorage>();
+            services.AddScoped<AuthenticationStateProvider, WebAuthStateProvider>();
+        }
+        else if (Config.App.Type == AppType.WinForm)
+        {
+            services.AddAuthorizationCore();
+            services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
+        }
         services.AddHttpContextAccessor();
         //services.AddOptions().AddLogging();
     }

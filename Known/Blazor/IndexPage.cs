@@ -33,8 +33,8 @@ public class IndexPage : BaseComponent
         var state = await AuthState;
         if (state != null && state.User != null && state.User.Identity != null && state.User.Identity.IsAuthenticated)
         {
-            var userName = state.User.Identity.Name;
-            return await Platform.Auth.GetUserAsync(userName);
+            if (AuthProvider is IAuthStateProvider provider)
+                return await provider.GetUserAsync();
         }
 
         return await GetThirdUserAsync();
@@ -42,9 +42,9 @@ public class IndexPage : BaseComponent
 
     protected virtual async Task SetCurrentUserAsync(UserInfo user)
     {
-        if (AuthProvider is AuthStateProvider provider)
+        if (AuthProvider is IAuthStateProvider provider)
         {
-            await provider.UpdateAuthenticationState(user);
+            await provider.UpdateUserAsync(user);
         }
     }
 

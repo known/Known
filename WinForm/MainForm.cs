@@ -52,15 +52,19 @@ public partial class MainForm : Form
     {
         var services = new ServiceCollection();
         services.AddWindowsFormsBlazorWebView();
+#if DEBUG
         services.AddBlazorWebViewDeveloperTools();
+#endif
         services.AddDemo(info =>
         {
             //…Ë÷√ª∑æ≥
             info.Type = AppType.WinForm;
             info.WebRoot = Application.StartupPath;
             info.ContentRoot = Application.StartupPath;
-            //info.IsDevelopment = builder.Environment.IsDevelopment();
-            //info.Connections[0].ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>();
+#if DEBUG
+            info.IsDevelopment = true;
+#endif
+            info.Connections[0].ConnectionString = "Data Source=..\\Sample.db";
         });
         blazorWebView.HostPage = "wwwroot\\index.html";
         blazorWebView.Services = services.BuildServiceProvider();

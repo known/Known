@@ -4,57 +4,50 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 namespace Known.Blazor;
 
-class AuthStateProvider : AuthenticationStateProvider
+interface IAuthStateProvider
+{
+    Task<UserInfo> GetUserAsync();
+    Task UpdateUserAsync(UserInfo user);
+}
+
+class WebAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 {
     private const string KeyUser = "Known_User";
     private readonly ProtectedSessionStorage sessionStorage;
     private readonly ClaimsPrincipal anonymous = new(new ClaimsIdentity());
 
-    public AuthStateProvider(ProtectedSessionStorage sessionStorage)
+    public WebAuthStateProvider(ProtectedSessionStorage sessionStorage)
     {
         this.sessionStorage = sessionStorage;
     }
 
-    //public async Task<UserInfo> GetUserAsync()
-    //{
-    //    var result = await sessionStorage.GetAsync<UserInfo>(KeyUser);
-    //    return result.Value;
-    //}
-
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        try
+        var state = new AuthenticationState(anonymous);
+        var result = await sessionStorage.GetAsync<UserInfo>(KeyUser);
+        var user = result.Success ? result.Value : null;
+        if (user != null)
         {
-            var result = await sessionStorage.GetAsync<UserInfo>(KeyUser);
-            var user = result.Success ? result.Value : null;
-            if (user == null)
-                return new AuthenticationState(anonymous);
-
-            var principal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.Role)
-            }, "Known_Auth"));
-            return new AuthenticationState(principal);
+            var principal = GetPrincipal(user);
+            state = new AuthenticationState(principal);
         }
-        catch
-        {
-            return new AuthenticationState(anonymous);
-        }
+        return state;
     }
 
-    public async Task UpdateAuthenticationState(UserInfo user)
+    public async Task<UserInfo> GetUserAsync()
+    {
+        var result = await sessionStorage.GetAsync<UserInfo>(KeyUser);
+        return result.Value;
+    }
+
+    public async Task UpdateUserAsync(UserInfo user)
     {
         ClaimsPrincipal principal;
 
         if (user != null)
         {
             await sessionStorage.SetAsync(KeyUser, user);
-            principal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.Role)
-            }));
+            principal = GetPrincipal(user);
         }
         else
         {
@@ -63,5 +56,54 @@ class AuthStateProvider : AuthenticationStateProvider
         }
 
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
+    }
+
+    private static ClaimsPrincipal GetPrincipal(UserInfo user)
+    {
+        return new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+        {
+            new(ClaimTypes.Name, user.UserName),
+            new(ClaimTypes.Role, user.Role)
+        }, "Known_Auth"));
+    }
+}
+
+class WinAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
+{
+    private UserInfo current;
+    private readonly ClaimsPrincipal anonymous = new(new ClaimsIdentity());
+
+    public override Task<AuthenticationState> GetAuthenticationStateAsync()
+    {
+        var state = new AuthenticationState(anonymous);
+        if (current != null)
+        {
+            var principal = GetPrincipal(current);
+            state = new AuthenticationState(principal);
+        }
+        return Task.FromResult(state);
+    }
+
+    public Task<UserInfo> GetUserAsync() => Task.FromResult(current);
+
+    public Task UpdateUserAsync(UserInfo user)
+    {
+        var principal = anonymous;
+        current = user;
+        
+        if (user != null)
+            principal = GetPrincipal(user);
+
+        NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
+        return Task.CompletedTask;
+    }
+
+    private static ClaimsPrincipal GetPrincipal(UserInfo user)
+    {
+        return new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+        {
+            new(ClaimTypes.Name, user.UserName),
+            new(ClaimTypes.Role, user.Role)
+        }, "Known_Auth"));
     }
 }
