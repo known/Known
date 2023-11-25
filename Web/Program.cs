@@ -3,9 +3,9 @@ using Known;
 using Known.Cells;
 using Known.Demo;
 using Known.Extensions;
-using Known.Web;
-using Known.Web.Pages;
 using KnownAntDesign;
+using Web;
+using Web.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.

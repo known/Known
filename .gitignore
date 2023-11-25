@@ -360,6 +360,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Known.Web/Files
-/Known.Web/UploadFiles
-/Known.Web/wwwroot/Files
+/Web/Files
+/Web/UploadFiles
+/Web/wwwroot/Files

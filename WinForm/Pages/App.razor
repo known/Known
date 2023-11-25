@@ -1,0 +1,25 @@
+﻿@inherits BaseComponent
+
+<CascadingAuthenticationState>
+    <CascadingValue Value="Context">
+        <Router AppAssembly="typeof(App).Assembly">
+            <Found Context="routeData">
+                <AuthorizeRouteView RouteData="@routeData">
+                    <Authorizing></Authorizing>
+                </AuthorizeRouteView>
+            </Found>
+            <NotFound>
+                <Result Status="404" />
+            </NotFound>
+        </Router>
+        <AntContainer />
+    </CascadingValue>
+</CascadingAuthenticationState>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Context = new Context();
+        base.OnInitialized();
+    }
+}
