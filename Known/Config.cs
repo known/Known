@@ -19,6 +19,9 @@ public sealed class Config
 
     public static void AddModule(Assembly assembly)
     {
+        if (assembly == null)
+            return;
+
         AddActions(assembly);
 
         foreach (var item in assembly.GetTypes())
@@ -154,9 +157,12 @@ public class VersionInfo
 {
     internal VersionInfo(Assembly assembly)
     {
-        var version = assembly.GetName().Version;
-        AppVersion = $"{Config.App.Id} V{version.Major}.{version.Minor}";
-        SoftVersion = version.ToString();
+        if (assembly != null)
+        {
+            var version = assembly.GetName().Version;
+            AppVersion = $"{Config.App.Id} V{version.Major}.{version.Minor}";
+            SoftVersion = version.ToString();
+        }
 
         var version1 = typeof(VersionInfo).Assembly.GetName().Version;
         FrameVersion = $"Known V{version1.Major}.{version1.Minor}.{version1.Build}";

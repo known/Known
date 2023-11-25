@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Known.AntBlazor;
 using Microsoft.AspNetCore.Components.WebView;
 using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +45,7 @@ namespace Known.Studio
         {
             var services = new ServiceCollection();
             services.AddKnown();
+            services.AddKnownAntDesign();
             services.AddWindowsFormsBlazorWebView();
             services.AddBlazorWebViewDeveloperTools();
             blazorWebView.HostPage = "wwwroot\\index.html";

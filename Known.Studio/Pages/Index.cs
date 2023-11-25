@@ -12,7 +12,7 @@ public class Index : BaseComponent
 
     protected override void OnInitialized()
     {
-        Context.CurrentUser = new UserInfo { UserName = Constants.SysUserName };
+        //Context.CurrentUser = new UserInfo { UserName = Constants.SysUserName };
         isLoaded = true;
     }
 

@@ -7,6 +7,8 @@ class DevCode : BasePage
     private string domain;
     private string codeString;
 
+    [Inject] private IJSRuntime js { get; set; }
+
     protected override async void OnAfterRender(bool firstRender)
     {
         if (firstRender)
@@ -60,7 +62,7 @@ class DevCode : BasePage
     private async void OnGenerate()
     {
         codeString = CodeService.GetCode(curItem, domain);
-        await JS.InvokeAsync<string>("printCode", new object[] { codeString });
+        await js.InvokeAsync<string>("printCode", new object[] { codeString });
     }
 
     private async void OnTabChanged(MenuItem item)
@@ -72,6 +74,6 @@ class DevCode : BasePage
     {
         curItem = code;
         codeString = CodeService.GetCode(code, domain);
-        await JS.InvokeAsync<string>("printCode", new object[] { codeString });
+        await js.InvokeAsync<string>("printCode", new object[] { codeString });
     }
 }

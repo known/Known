@@ -1,5 +1,4 @@
-﻿@using Known.Razor
-@using Microsoft.AspNetCore.Components.Routing
+﻿@using Microsoft.AspNetCore.Components.Routing
 @inherits BaseComponent
 
 <CascadingValue Value="Context">
@@ -7,9 +6,14 @@
         <Found Context="routeData">
             <RouteView RouteData="@routeData" />
         </Found>
-        <NotFound>
-            <KError Code="404" />
-        </NotFound>
+        <NotFound></NotFound>
     </Router>
-    <KDialogContainer />
 </CascadingValue>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Context = new Context();
+        base.OnInitialized();
+    }
+}

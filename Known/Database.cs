@@ -59,6 +59,9 @@ public class Database : IDisposable
     #region Static
     internal static void RegisterProviders(List<ConnectionInfo> connections)
     {
+        if (connections == null || connections.Count == 0)
+            return;
+
         var dbFactories = connections.ToDictionary(k => k.DatabaseType.ToString(), v => v.ProviderType);
         if (dbFactories != null && dbFactories.Count > 0)
         {
