@@ -1,4 +1,4 @@
-﻿using Known.Razor;
+﻿using Known.Blazor;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Extensions;

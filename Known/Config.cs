@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Known.Razor;
+using Known.Blazor;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace Known;

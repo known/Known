@@ -1,7 +1,7 @@
-﻿using Known.Demo.Entities;
+﻿using Known.Blazor;
+using Known.Demo.Entities;
 using Known.Demo.Services;
 using Known.Extensions;
-using Known.Razor;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Demo.Pages.BizApply;

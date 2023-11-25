@@ -1,4 +1,4 @@
-﻿using Known.Razor;
+﻿using Known.Blazor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Routing;
@@ -17,10 +17,10 @@ public static class Extension
 
         //services.AddCascadingAuthenticationState();
 
-        if (Config.App.Type == AppType.WinForm)
-            services.AddScoped<IScrollToLocationHash, ScrollToLocationHash>();
+        //if (Config.App.Type == AppType.WinForm)
+        //    services.AddScoped<IScrollToLocationHash, ScrollToLocationHash>();
         services.AddScoped<JSService>();
-        services.AddScoped<ProtectedSessionStorage>();
+        //services.AddScoped<ProtectedSessionStorage>();
         services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
         services.AddHttpContextAccessor();
         //services.AddOptions().AddLogging();

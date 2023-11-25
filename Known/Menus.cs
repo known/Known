@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
+using Known.Blazor;
 using Known.Entities;
-using Known.Razor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 

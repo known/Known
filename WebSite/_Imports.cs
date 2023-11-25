@@ -2,7 +2,7 @@
 global using System.Text;
 global using Known;
 global using Known.Extensions;
-global using Known.Razor;
+global using Known.Blazor;
 global using Markdig;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Rendering;

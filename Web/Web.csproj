@@ -6,19 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Coravel" Version="5.0.2" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
-        <!--<PackageReference Include="Npgsql" Version="7.0.6" />
-        <PackageReference Include="MySqlConnector" Version="2.3.1" />
-	    <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
-	    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />-->
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Known\Known.csproj" />
-        <ProjectReference Include="..\Known.Cells\Known.Cells.csproj" />
         <ProjectReference Include="..\Known.Demo\Known.Demo.csproj" />
-        <ProjectReference Include="..\KnownAntDesign\KnownAntDesign.csproj" />
     </ItemGroup>
 
 </Project>
