@@ -31,9 +31,9 @@ Known是基于C#和Blazor的快速开发框架，开箱即用，跨平台，一�
 ├─Known.AntBlazor -> 基于AntDesign Blazor的界面。
 ├─Known.Cells     -> 基于Aspose.Cells实现的Excel操作类库。
 ├─Known.Demo      -> 框架示例模块。
-├─Web             -> Demo Web App。
+├─Web             -> 框架示例Web App。
 ├─WebSite         -> 框架网站及在线文档。
-├─WinForm         -> Demo WinForm App。
+├─WinForm         -> 框架示例WinForm App。
 ```
 
 ### 主要功能

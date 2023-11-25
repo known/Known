@@ -65,8 +65,7 @@
 .login .slogan {width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
 .login .image {width:260px;height:180px;margin-top:20px;}
 .login-form {padding:50px;}
-.login h1 {font-size:1.3rem;font-weight:bold;margin-bottom:10px;text-align:center;}
-.login .account {text-align:center;font-size:0.8rem;color:#968f8f;margin-bottom:10px;}
+.login h1 {font-size:1.3rem;font-weight:bold;margin-bottom:20px;text-align:center;}
 
 .copyright {position:absolute;bottom:50px;text-align:center;color:#fff;width:100%;font-size:1.1rem;}
 .copyright span {margin:0 5px;}

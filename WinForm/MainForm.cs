@@ -15,16 +15,17 @@ public partial class MainForm : Form
     {
         CheckForIllegalCrossThreadCalls = false;
         InitializeComponent();
-        AppSetting.Load();
-        WindowState = FormWindowState.Maximized;
-        Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-        Text = Config.App.Name;
 
+        AppSetting.Load();
         blazorWebView = new BlazorWebView();
         blazorWebView.Dock = System.Windows.Forms.DockStyle.Fill;
         blazorWebView.BlazorWebViewInitialized = new EventHandler<BlazorWebViewInitializedEventArgs>(WebViewInitialized);
         Controls.Add(blazorWebView);
         AddBlazorWebView();
+
+        WindowState = FormWindowState.Maximized;
+        Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+        Text = Config.App.Name;
     }
 
     protected override void OnClosing(CancelEventArgs e)

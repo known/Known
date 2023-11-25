@@ -70,7 +70,7 @@ class WebAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 
 class WinAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 {
-    private UserInfo current;
+    private static UserInfo current;
     private readonly ClaimsPrincipal anonymous = new(new ClaimsIdentity());
 
     public override Task<AuthenticationState> GetAuthenticationStateAsync()
