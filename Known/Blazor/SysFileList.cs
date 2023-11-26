@@ -10,7 +10,7 @@ class SysFileList : BasePage<SysFile>
     {
         await base.OnInitPageAsync();
         Page.Table.Column(c => c.Size).Template(BuildFileSize);
-        Page.Table.Column(c => c.CreateTime).DefaultSort("desc");
+        Page.Table.Column(c => c.CreateTime).DefaultDescend();
     }
 
     protected override Task<PagingResult<SysFile>> OnQueryAsync(PagingCriteria criteria)

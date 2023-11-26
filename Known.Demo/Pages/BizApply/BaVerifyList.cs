@@ -15,6 +15,7 @@ class BaVerifyList : BasePage<TbApply>
     {
         await base.OnInitPageAsync();
         Page.Form.Width = 800;
+        Page.Table.Column(c => c.BizNo).DefaultDescend();
         Page.Table.Column(c => c.BizStatus).Template(BuildBizStatus);
     }
 

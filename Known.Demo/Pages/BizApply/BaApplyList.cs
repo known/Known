@@ -16,6 +16,7 @@ class BaApplyList : BasePage<TbApply>
         await base.OnInitPageAsync();
         Page.Form.Width = 800;    //定义表单宽度
         Page.Form.NoFooter = true;//表单不显示默认底部按钮
+        Page.Table.Column(c => c.BizNo).DefaultDescend();
         Page.Table.Column(c => c.BizStatus).Template(BuildBizStatus);//自定义状态列
     }
 

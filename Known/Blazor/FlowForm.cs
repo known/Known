@@ -14,10 +14,13 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("form-content", () => Content?.Invoke(builder));
+        
+        if (Model.IsView)
+            return;
+
         builder.Div("form-action", () =>
         {
-            if (!Model.IsView)
-                UI.BuildButton(builder, new ActionInfo("OK", "") { OnClick = Callback<MouseEventArgs>(OnSave) });
+            UI.BuildButton(builder, new ActionInfo("OK", "") { OnClick = Callback<MouseEventArgs>(OnSave) });
             UI.BuildButton(builder, new ActionInfo("Cancel", "") { OnClick = Callback<MouseEventArgs>(OnClose) });
         });
     }

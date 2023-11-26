@@ -8,7 +8,7 @@ namespace Known.Blazor;
 public class ComponentBuilder<T> where T : IComponent
 {
     private readonly RenderTreeBuilder builder;
-    internal readonly Dictionary<string, object> Parameters = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, object> Parameters = new(StringComparer.Ordinal);
 
     internal ComponentBuilder(RenderTreeBuilder builder)
     {
@@ -36,10 +36,4 @@ public class ComponentBuilder<T> where T : IComponent
             builder.AddComponentReferenceCapture(2, value => action.Invoke((T)value));
         builder.CloseComponent();
     }
-
-    public ComponentBuilder<T> Id(string id) => Add(nameof(BaseComponent.Id), id);
-    public ComponentBuilder<T> Name(string name) => Add(nameof(BaseComponent.Name), name);
-    public ComponentBuilder<T> ReadOnly(bool readOnly) => Add(nameof(BaseComponent.ReadOnly), readOnly);
-    public ComponentBuilder<T> Enabled(bool enabled) => Add(nameof(BaseComponent.Enabled), enabled);
-    public ComponentBuilder<T> Visible(bool visible) => Add(nameof(BaseComponent.Visible), visible);
 }

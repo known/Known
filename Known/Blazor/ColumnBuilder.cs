@@ -27,7 +27,10 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
-    public ColumnBuilder<TItem> DefaultSort(string sort)
+    public ColumnBuilder<TItem> DefaultAscend() => DefaultSort("asc");
+    public ColumnBuilder<TItem> DefaultDescend() => DefaultSort("desc");
+
+    private ColumnBuilder<TItem> DefaultSort(string sort)
     {
         column.DefaultSort = sort;
         return this;

@@ -9,7 +9,7 @@ class SysTaskList : BasePage<SysTask>
     {
         await base.OnInitPageAsync();
         Page.Table.Column(c => c.Status).Template(BuildTaskStatus);
-        Page.Table.Column(c => c.CreateTime).DefaultSort("desc");
+        Page.Table.Column(c => c.CreateTime).DefaultDescend();
     }
 
     protected override Task<PagingResult<SysTask>> OnQueryAsync(PagingCriteria criteria)

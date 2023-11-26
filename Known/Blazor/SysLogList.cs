@@ -10,7 +10,7 @@ class SysLogList : BasePage<SysLog>
         await base.OnInitPageAsync();
         Page.Table.AddQueryColumn(c => c.CreateTime);
         Page.Table.Column(c => c.Type).Template(BuildLogType);
-        Page.Table.Column(c => c.CreateTime).DefaultSort("desc");
+        Page.Table.Column(c => c.CreateTime).DefaultDescend();
     }
 
     protected override Task<PagingResult<SysLog>> OnQueryAsync(PagingCriteria criteria)

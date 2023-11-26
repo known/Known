@@ -11,7 +11,7 @@ class SysDictionaryList : BasePage<SysDictionary>
     {
         await base.OnInitPageAsync();
         Page.FormTitle = row => $"{Name} - {row.CategoryName}";
-        Page.Table.Column(c => c.Sort).DefaultSort("asc");
+        Page.Table.Column(c => c.Sort).DefaultAscend();
     }
 
     protected override async Task<PagingResult<SysDictionary>> OnQueryAsync(PagingCriteria criteria)
