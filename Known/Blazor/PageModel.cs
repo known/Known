@@ -41,7 +41,7 @@ public class PageModel<TItem> where TItem : class, new()
     public void ViewForm(TItem row)
     {
         var title = GetFormTitle(row);
-        UI.ShowForm(new FormModel<TItem>(Form, this)
+        UI.ShowForm(new FormModel<TItem>(this, Form)
         {
             IsView = true,
             Title = $"查看{title}",
@@ -57,7 +57,7 @@ public class PageModel<TItem> where TItem : class, new()
     private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
     {
         var title = GetFormTitle(row);
-        UI.ShowForm(new FormModel<TItem>(Form, this)
+        UI.ShowForm(new FormModel<TItem>(this, Form)
         {
             Title = $"{action}{title}",
             Data = row,
@@ -68,7 +68,7 @@ public class PageModel<TItem> where TItem : class, new()
     private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
     {
         var title = GetFormTitle(row);
-        UI.ShowForm(new FormModel<TItem>(Form, this)
+        UI.ShowForm(new FormModel<TItem>(this, Form)
         {
             Title = $"{action}{title}",
             Data = row,

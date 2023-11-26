@@ -2,6 +2,7 @@
 using Known.Demo.Entities;
 using Known.Demo.Services;
 using Known.Extensions;
+using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Demo.Pages.BizApply;
@@ -16,7 +17,7 @@ class BaApplyList : BasePage<TbApply>
         await base.OnInitPageAsync();
         Page.Form.Width = 800;    //定义表单宽度
         Page.Form.NoFooter = true;//表单不显示默认底部按钮
-        Page.Table.Column(c => c.BizNo).DefaultDescend();
+        Page.Table.Column(c => c.BizNo).DefaultDescend();//业务单号默认降序
         Page.Table.Column(c => c.BizStatus).Template(BuildBizStatus);//自定义状态列
     }
 
@@ -42,9 +43,9 @@ class BaApplyList : BasePage<TbApply>
     //批量删除操作
     [Action] public void DeleteM() => Page.DeleteM(Service.DeleteApplysAsync);
     //提交审核
-    [Action] public void Submit(TbApply row) { }
+    [Action] public void Submit(TbApply row) => Page.SubmitFlow(row);
     //撤回
-    [Action] public void Revoke(TbApply row) { }
+    [Action] public void Revoke(TbApply row) => Page.RevokeFlow(row);
 
     private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
 }

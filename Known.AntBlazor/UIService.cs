@@ -158,9 +158,14 @@ class UIService : IUIService
             option.Content = b => b.Component(model.Type, parameters);
         }
 
-        if (model.Option.Width != null)
-            option.Width = model.Option.Width.Value;
-        if (model.IsView || model.Option.NoFooter)
+        var noFooter = false;
+        if (model.Option != null)
+        {
+            noFooter = model.Option.NoFooter;
+            if (model.Option.Width != null)
+                option.Width = model.Option.Width.Value;
+        }
+        if (model.IsView || noFooter)
             option.Footer = null;
 
         var modal = await _modal.CreateModalAsync(option);

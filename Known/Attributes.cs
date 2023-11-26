@@ -13,26 +13,15 @@ public class ActionAttribute : Attribute { }
 public class CodeInfoAttribute : Attribute { }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class TableAttribute : Attribute
+public class TableAttribute(string name) : Attribute
 {
-    public TableAttribute(string name)
-    {
-        Name = name;
-    }
-
-    public string Name { get; }
+    public string Name { get; } = name;
 }
 
 [AttributeUsage(AttributeTargets.Property)]
-public class ColumnAttribute : Attribute
+public class ColumnAttribute(string columnName = null) : Attribute
 {
-    public ColumnAttribute(string columnName = null)
-    {
-        ColumnName = columnName;
-        IsQueryAll = true;
-    }
-
-    public string ColumnName { get; }
+    public string ColumnName { get; } = columnName;
     public string DateFormat { get; set; }
     public string CodeType { get; set; }
     public string Placeholder { get; set; }
@@ -44,7 +33,7 @@ public class ColumnAttribute : Attribute
     public bool IsGrid { get; set; }
     public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }
-    public bool IsQueryAll { get; set; }
+    public bool IsQueryAll { get; set; } = true;
     public PropertyInfo Property { get; set; }
 
     internal virtual void Validate(object value, PropertyInfo property, List<string> errors)
@@ -113,16 +102,10 @@ public class ColumnAttribute : Attribute
 }
 
 [AttributeUsage(AttributeTargets.Property)]
-public class RegexAttribute : Attribute
+public class RegexAttribute(string pattern, string message) : Attribute
 {
-    public RegexAttribute(string pattern, string message)
-    {
-        Pattern = pattern;
-        Message = message;
-    }
-
-    public string Pattern { get; }
-    public string Message { get; }
+    public string Pattern { get; } = pattern;
+    public string Message { get; } = message;
 
     internal virtual void Validate(object value, List<string> errors)
     {

@@ -4,9 +4,12 @@ namespace Known.WorkFlows;
 
 public abstract class BaseFlow
 {
-    private static readonly Dictionary<string, Type> flowTypes = new();
+    private static readonly Dictionary<string, Type> flowTypes = [];
     public static void Register(Assembly assembly)
     {
+        if (assembly == null)
+            return;
+
         var types = assembly.GetTypes();
         if (types == null || types.Length == 0)
             return;

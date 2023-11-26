@@ -5,16 +5,21 @@ namespace Known.Blazor;
 
 public class FormModel<TItem> where TItem : class, new()
 {
-    internal FormModel(FormOption option, PageModel<TItem> page)
+    internal FormModel(PageModel<TItem> page)
     {
-        Option = option;
         Page = page;
+    }
+
+    internal FormModel(PageModel<TItem> page, FormOption option)
+    {
+        Page = page;
+        Option = option;
         Fields = page.Table.AllColumns.Where(c => c.IsForm).Select(c => new FieldModel<TItem>(this, c));
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
     }
 
-    public FormOption Option { get; }
     public PageModel<TItem> Page { get; }
+    public FormOption Option { get; }
     public IEnumerable<FieldModel<TItem>> Fields { get; }
     public bool IsView { get; internal set; }
     public string Title { get; internal set; }
