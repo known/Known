@@ -11,7 +11,7 @@ public class FieldModel<TItem> where TItem : class, new()
     private RenderFragment _inputTemplate;
     //private RenderFragment _viewTemplate;
 
-    internal FieldModel(FormModel<TItem> form, ColumnAttribute column)
+    internal FieldModel(FormModel<TItem> form, ColumnInfo column)
     {
         UI = form.Page.UI;
         Form = form;
@@ -20,7 +20,7 @@ public class FieldModel<TItem> where TItem : class, new()
     }
 
     public FormModel<TItem> Form { get; }
-    public ColumnAttribute Column { get; }
+    public ColumnInfo Column { get; }
     public TItem Data { get; }
     public Action<TItem, object> ValueChanged { get; set; }
 

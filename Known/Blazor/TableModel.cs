@@ -10,7 +10,7 @@ public class TableModel<TItem> where TItem : class, new()
 {
     internal TableModel()
     {
-        AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem));
+        AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
         Columns = AllColumns;
         if (Columns != null && Columns.Count > 0)
         {
@@ -36,13 +36,13 @@ public class TableModel<TItem> where TItem : class, new()
     }
 
     internal IUIService UI { get; }
-    internal List<ColumnAttribute> AllColumns { get; }
+    internal List<ColumnInfo> AllColumns { get; }
 
     public PageModel<TItem> Page { get; }
     public bool ShowCheckBox { get; }
     public bool ShowPager { get; set; }
-    public List<ColumnAttribute> Columns { get; }
-    public List<ColumnAttribute> QueryColumns { get; } = [];
+    public List<ColumnInfo> Columns { get; }
+    public List<ColumnInfo> QueryColumns { get; } = [];
     public Dictionary<string, QueryInfo> QueryData { get; } = [];
     public PagingCriteria Criteria { get; } = new();
     public PagingResult<TItem> Result { get; set; } = new();
@@ -56,22 +56,23 @@ public class TableModel<TItem> where TItem : class, new()
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
     {
         var property = TypeHelper.Property(selector);
-        var column = Columns?.FirstOrDefault(c => c.Property.Name == property.Name);
+        var column = Columns?.FirstOrDefault(c => c.Id == property.Name);
         return new ColumnBuilder<TItem>(this, column);
     }
 
     public void AddQueryColumn(Expression<Func<TItem, object>> selector)
     {
         var property = TypeHelper.Property(selector);
-        if (QueryColumns.Exists(c => c.Property.Name == property.Name))
+        if (QueryColumns.Exists(c => c.Id == property.Name))
             return;
 
         var attr = property.GetCustomAttribute<ColumnAttribute>();
         if (attr != null)
         {
             attr.Property = property;
-            QueryColumns.Add(attr);
-            QueryData[property.Name] = new QueryInfo(attr);
+            var column = new ColumnInfo(attr);
+            QueryColumns.Add(column);
+            QueryData[property.Name] = new QueryInfo(column);
         }
     }
 

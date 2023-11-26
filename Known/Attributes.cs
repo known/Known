@@ -25,7 +25,6 @@ public class ColumnAttribute(string columnName = null) : Attribute
     public string DateFormat { get; set; }
     public string CodeType { get; set; }
     public string Placeholder { get; set; }
-    public string DefaultSort { get; set; }
     public bool IsForm { get; set; }
     public bool IsFile { get; set; }
     public bool IsMultiFile { get; set; }

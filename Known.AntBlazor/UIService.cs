@@ -17,10 +17,11 @@ class UIService : IUIService
         _message = message;
     }
 
-    public Type GetInputType(ColumnAttribute column)
+    public Type GetInputType(ColumnInfo column)
     {
-        var type = column.Property.PropertyType;
-        var maxLength = column.Property.MaxLength();
+        var property = column.GetProperty();
+        var type = property.PropertyType;
+        var maxLength = property.MaxLength();
 
         if (type == typeof(bool))
             return typeof(Switch);

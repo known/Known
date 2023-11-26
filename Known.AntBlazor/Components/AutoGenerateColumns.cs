@@ -23,7 +23,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             if (!item.IsGrid)
                 continue;
 
-            var property = item.Property;
+            var property = item.GetProperty();
             var columnType = typeof(Column<>).MakeGenericType(property.PropertyType.UnderlyingSystemType);
 
             RenderFragment<TItem> template = null;

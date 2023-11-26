@@ -12,14 +12,14 @@ public class QueryInfo
         Value = value;
     }
 
-    internal QueryInfo(ColumnAttribute attr)
+    internal QueryInfo(ColumnInfo column)
     {
-        Id = attr.Property.Name;
+        Id = column.Id;
         Type = QueryType.Contain;
         Value = "";
-        if (!attr.IsQueryAll)
+        if (!column.IsQueryAll)
         {
-            var codes = Cache.GetCodes(attr.CodeType, false);
+            var codes = Cache.GetCodes(column.CodeType, false);
             if (codes != null && codes.Count > 0)
                 Value = codes[0].Code;
         }
@@ -34,19 +34,6 @@ public class QueryInfo
 public class SettingInfo
 {
     internal const string KeyInfo = "UserSetting";
-    //    internal const string KeyQuery = "UserQuery";
-    //    //internal const string KeyColumn = "UserColumn";
-
-    //    public static SettingInfo Default
-    //    {
-    //        get { return new SettingInfo(); }
-    //    }
-
-    //    public string Language { get; set; }
-    //    public string Layout { get; set; }
-    //    public string ThemeColor { get; set; } = "#1c66b9";//#4188c8";//#54519a
-    //    public string SiderColor { get; set; } = "#1c292e";
-    //    public bool RandomColor { get; set; }
 
     public SettingInfo()
     {
@@ -61,8 +48,4 @@ public class SettingInfo
 
     [DisplayName("标签页")]
     public bool MultiTab { get; set; }
-    //    public int PageSize { get; set; } = PagingCriteria.DefaultPageSize;
-
-    //    public virtual Dictionary<string, List<QueryInfo>> Querys { get; set; }
-    //    //public virtual Dictionary<string, List<ColumnInfo>> Columns { get; set; }
 }

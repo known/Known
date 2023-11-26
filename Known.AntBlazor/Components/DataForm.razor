@@ -6,11 +6,11 @@
         foreach (var field in Model.Fields)
         {
             var column = field.Column;
-            var label = column.Property.DisplayName();
-            var required = column.Property.IsRequired();
+            var property = column.GetProperty();
+            var required = property.IsRequired();
             <GridRow>
                 <GridCol Span="24">
-                    <FormItem LabelColSpan="4" Label="@label" Required="required">
+                    <FormItem LabelColSpan="4" Label="@column.Name" Required="required">
                         @field.InputTemplate
                     </FormItem>
                 </GridCol>

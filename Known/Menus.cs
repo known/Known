@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Known.Blazor;
 using Known.Entities;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -119,8 +120,40 @@ public class ActionInfo
 
 public class ColumnInfo
 {
+    internal PropertyInfo Property;
+
+    public ColumnInfo() { }
+
+    internal ColumnInfo(ColumnAttribute attr)
+    {
+        Property = attr.Property;
+        Id = Property.Name;
+        Name = Property.DisplayName();
+        CodeType = attr.CodeType;
+        Placeholder = attr.Placeholder;
+        IsGrid = attr.IsGrid;
+        IsViewLink = attr.IsViewLink;
+        IsQuery = attr.IsQuery;
+        IsQueryAll = attr.IsQueryAll;
+        IsForm = attr.IsForm;
+        IsFile = attr.IsFile;
+        IsMultiFile = attr.IsMultiFile;
+        IsReadOnly = attr.IsReadOnly;
+    }
+
     public string Id { get; set; }
     public string Name { get; set; }
+    public string CodeType { get; set; }
+    public string Placeholder { get; set; }
+    public string DefaultSort { get; set; }
+    public bool IsGrid { get; set; }
+    public bool IsViewLink { get; set; }
+    public bool IsQuery { get; set; }
+    public bool IsQueryAll { get; set; }
+    public bool IsForm { get; set; }
+    public bool IsFile { get; set; }
+    public bool IsMultiFile { get; set; }
+    public bool IsReadOnly { get; set; }
     //public int Width { get; set; }
     //public int Sort { get; set; }
     //public bool IsQuery { get; set; }
@@ -129,6 +162,7 @@ public class ColumnInfo
     //public bool IsSort { get; set; } = true;
     //public bool IsVisible { get; set; } = true;
     //public bool IsFixed { get; set; }
+    public PropertyInfo GetProperty() => Property;
 }
 
 public class MenuItem : MenuInfo

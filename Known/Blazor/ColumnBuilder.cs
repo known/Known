@@ -6,9 +6,9 @@ public class ColumnBuilder<TItem> where TItem : class, new()
 {
     private readonly string name;
     private readonly TableModel<TItem> table;
-    private readonly ColumnAttribute column;
+    private readonly ColumnInfo column;
 
-    internal ColumnBuilder(TableModel<TItem> table, ColumnAttribute column)
+    internal ColumnBuilder(TableModel<TItem> table, ColumnInfo column)
     {
         name = column.Property.Name;
         this.table = table;
