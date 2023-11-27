@@ -1,5 +1,6 @@
 ﻿using Known.Entities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http;
 
 namespace Known.Blazor;
 
@@ -20,11 +21,13 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Parameter] public bool Visible { get; set; } = true;
 
     [CascadingParameter] protected Context Context { get; set; }
+    [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
     [Inject] public JSService JS { get; set; }
     [Inject] public IUIService UI { get; set; }
 
     protected bool IsLoaded { get; set; }
     protected UserInfo CurrentUser => Context?.CurrentUser;
+    protected HttpContext HttpContext => HttpAccessor.HttpContext;
 
     private PlatformService platform;
     protected PlatformService Platform

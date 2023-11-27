@@ -40,7 +40,7 @@ class AuthService : ServiceBase
         return await database.TransactionAsync(Language.Login, async db =>
         {
             await db.SaveAsync(entity);
-            await Logger.AddLogAsync(db, type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}；所在地：{user.IPName}");
+            await Logger.AddLogAsync(db, type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
         }, user);
     }
 

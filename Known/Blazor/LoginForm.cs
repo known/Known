@@ -1,6 +1,5 @@
 ﻿using Known.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 
 namespace Known.Blazor;
 
@@ -27,7 +26,7 @@ public class LoginForm : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    protected async Task OnUserLogin(EditContext context)
+    protected async Task OnUserLogin()
     {
         if (!Model.Remember)
         {
@@ -42,6 +41,7 @@ public class LoginForm : BaseComponent
             });
         }
 
+        Model.IPAddress = HttpContext.Connection?.RemoteIpAddress.ToString();
         var result = await Platform.Auth.SignInAsync(Model);
         if (!result.IsValid)
         {

@@ -15,7 +15,6 @@ public class UserInfo
     public string Note { get; set; }
     public DateTime? LastLoginTime { get; set; }
     public string LastLoginIP { get; set; }
-    public string IPName { get; set; }
     public string Token { get; set; }
     public string AvatarUrl { get; set; }
     public string AppId { get; set; }
