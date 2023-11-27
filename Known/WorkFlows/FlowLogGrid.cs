@@ -1,9 +1,9 @@
-﻿using Known.Extensions;
-using Known.WorkFlows;
+﻿using Known.Blazor;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace Known.Blazor;
+namespace Known.WorkFlows;
 
 public class FlowLogGrid : BaseComponent
 {
