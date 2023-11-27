@@ -1,5 +1,5 @@
-﻿using Known.Extensions;
-using Known.WorkFlows;
+﻿using System.ComponentModel;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Known.Blazor;
@@ -29,7 +29,7 @@ public class FormModel<TItem> where TItem : class, new()
     public Type Type { get; internal set; }
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }
-    internal FlowAction FlowAction { get; set; }
+    internal FormType FormType { get; set; }
     internal Func<TItem, Task<Result>> OnSave { get; set; }
     internal Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
 
@@ -79,4 +79,11 @@ public class FormOption
 {
     public double? Width { get; set; }
     public bool NoFooter { get; set; }
+}
+
+enum FormType
+{
+    [Description("查看")] View,
+    [Description("提交")] Submit,
+    [Description("审核")] Verify
 }

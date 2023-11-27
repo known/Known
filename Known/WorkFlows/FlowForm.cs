@@ -55,14 +55,17 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     {
         builder.Div("form-content", () => Content?.Invoke(builder));
 
-        if (Model.IsView && Model.FlowAction == FlowAction.None)
+        if (Model.IsView && Model.FormType == FormType.View)
             return;
 
-        if (Model.FlowAction != FlowAction.None)
+        if (Model.FormType != FormType.View)
             BuildFlowAction(builder);
 
         builder.Div("form-action", () =>
         {
+            if (Model.FormType == FormType.Verify)
+                UI.BuildButton(builder, new ActionInfo("Assign", "") { OnClick = Callback<MouseEventArgs>(OnAssign) });
+
             UI.BuildButton(builder, new ActionInfo("OK", "") { OnClick = Callback<MouseEventArgs>(OnSave) });
             UI.BuildButton(builder, new ActionInfo("Cancel", "") { OnClick = Callback<MouseEventArgs>(OnClose) });
         });
@@ -72,37 +75,38 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     {
         builder.Div("form-flow", () =>
         {
-            var action = Model.FlowAction.GetDescription();
+            var action = Model.FormType.GetDescription();
             builder.Span("title", $"{action}流程");
-            switch (Model.FlowAction)
+            switch (Model.FormType)
             {
-                case FlowAction.Submit:
-
+                case FormType.Submit:
+                    //提交给
+                    //备注
                     break;
-                case FlowAction.Revoke:
-                    break;
-                case FlowAction.Verify:
-                    break;
-                case FlowAction.Repeat:
+                case FormType.Verify:
+                    //指派给、备注
+                    //审核结果：通过、退回
+                    //退回原因
                     break;
             }
         });
     }
 
+    private void OnAssign(MouseEventArgs args)
+    {
+
+    }
+
     private async void OnSave(MouseEventArgs args)
     {
         var info = new FlowFormInfo();
-        switch (Model.FlowAction)
+        switch (Model.FormType)
         {
-            case FlowAction.Submit:
+            case FormType.Submit:
                 await Platform.Flow.SubmitFlowAsync(info);
                 break;
-            case FlowAction.Revoke:
-                await Platform.Flow.RevokeFlowAsync(info);
-                break;
-            case FlowAction.Verify:
-                break;
-            case FlowAction.Repeat:
+            case FormType.Verify:
+                await Platform.Flow.VerifyFlowAsync(info);
                 break;
             default:
                 await Model.SaveAsync();
