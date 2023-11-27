@@ -2,6 +2,7 @@
 using Known.Demo.Entities;
 using Known.Demo.Services;
 using Known.Extensions;
+using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Demo.Pages.BizApply;
@@ -26,7 +27,7 @@ class BaQueryList : BasePage<TbApply>
     }
 
     //重新申请
-    [Action] public void Repeat() { }
+    [Action] public void Repeat() => Page.Table.SelectRows(Page.RepeatFlow);
     //导出列表
     [Action] public void Export() { }
     //打印

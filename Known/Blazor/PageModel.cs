@@ -1,4 +1,5 @@
 ﻿using Known.Extensions;
+using Known.WorkFlows;
 
 namespace Known.Blazor;
 
@@ -38,21 +39,24 @@ public class PageModel<TItem> where TItem : class, new()
         await Table?.RefreshAsync();
     }
 
-    public void ViewForm(TItem row)
-    {
-        var title = GetFormTitle(row);
-        UI.ShowForm(new FormModel<TItem>(this, Form)
-        {
-            IsView = true,
-            Title = $"查看{title}",
-            Data = row
-        });
-    }
-
+    public void ViewForm(TItem row) => ViewForm(FlowAction.None, row);
     public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
     public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
     public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
     public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
+
+    internal void ViewForm(FlowAction action, TItem row)
+    {
+        var actionName = action.GetDescription();
+        var title = GetFormTitle(row);
+        UI.ShowForm(new FormModel<TItem>(this, Form)
+        {
+            FlowAction = action,
+            IsView = true,
+            Title = $"{actionName}{title}",
+            Data = row
+        });
+    }
 
     private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
     {

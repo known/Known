@@ -4,13 +4,9 @@ namespace Known.WorkFlows;
 
 public static class FlowExtension
 {
-    public static void SubmitFlow<TItem>(this PageModel<TItem> page, TItem model) where TItem : class, new()
+    public static void SubmitFlow<TItem>(this PageModel<TItem> page, TItem row) where TItem : class, new()
     {
-        page.UI.ShowForm(new FormModel<TItem>(page)
-        {
-            Title = "提交流程",
-            Data = model
-        });
+        page.ViewForm(FlowAction.Submit, row);
         //Show("提交流程", new FlowFormOption
         //{
         //    UserLabel = "提交给",
@@ -26,13 +22,9 @@ public static class FlowExtension
         //});
     }
 
-    public static void RevokeFlow<TItem>(this PageModel<TItem> page, TItem model) where TItem : class, new()
+    public static void RevokeFlow<TItem>(this PageModel<TItem> page, TItem row) where TItem : class, new()
     {
-        page.UI.ShowForm(new FormModel<TItem>(page)
-        {
-            Title = "撤回流程",
-            Data = model
-        });
+        page.ViewForm(FlowAction.Revoke, row);
         //Show("撤回流程", new FlowFormOption
         //{
         //    Size = new Size(400, 210),
@@ -47,6 +39,18 @@ public static class FlowExtension
         //    }
         //});
     }
+
+    public static void VerifyFlow<TItem>(this PageModel<TItem> page, TItem row) where TItem : class, new()
+    {
+        page.ViewForm(FlowAction.Verify, row);
+    }
+
+    public static void RepeatFlow<TItem>(this PageModel<TItem> page, List<TItem> rows) where TItem : class, new()
+    {
+        //row.Action = FlowAction.Repeat;
+
+    }
+
     /*
     public static void AssignFlow(PlatformService platform, FlowFormInfo model, Action onSuccess = null)
     {

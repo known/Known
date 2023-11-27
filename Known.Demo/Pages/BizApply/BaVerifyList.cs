@@ -2,6 +2,7 @@
 using Known.Demo.Entities;
 using Known.Demo.Services;
 using Known.Extensions;
+using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Demo.Pages.BizApply;
@@ -26,7 +27,7 @@ class BaVerifyList : BasePage<TbApply>
     }
 
     //审核操作
-    [Action] public void Verify(TbApply row) { }
+    [Action] public void Verify(TbApply row) => Page.VerifyFlow(row);
 
     private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
 }

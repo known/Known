@@ -1,4 +1,5 @@
 ﻿using Known.Extensions;
+using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Known.Blazor;
@@ -28,6 +29,7 @@ public class FormModel<TItem> where TItem : class, new()
     public Type Type { get; internal set; }
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }
+    internal FlowAction FlowAction { get; set; }
     internal Func<TItem, Task<Result>> OnSave { get; set; }
     internal Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
 

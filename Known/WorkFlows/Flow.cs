@@ -2,6 +2,15 @@
 
 namespace Known.WorkFlows;
 
+public enum FlowAction
+{
+    [Description("查看")] None,
+    [Description("提交")] Submit,
+    [Description("撤回")] Revoke,
+    [Description("审核")] Verify,
+    [Description("重新申请")] Repeat
+}
+
 public class FlowStatus
 {
     private FlowStatus() { }

@@ -41,7 +41,7 @@ public class LoginForm : BaseComponent
             });
         }
 
-        Model.IPAddress = HttpContext.Connection?.RemoteIpAddress.ToString();
+        Model.IPAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString();
         var result = await Platform.Auth.SignInAsync(Model);
         if (!result.IsValid)
         {
