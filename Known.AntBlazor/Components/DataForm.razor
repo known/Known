@@ -1,19 +1,24 @@
 ﻿@typeparam TItem where TItem : class, new()
 
 <Form @ref="_form" TModel="TItem" Model="Model.Data">
-    @if (Model.Fields != null && Model.Fields.Any())
+    @if (rows != null && rows.Count > 0)
     {
-        foreach (var field in Model.Fields)
+        foreach (var row in rows)
         {
-            var column = field.Column;
-            var property = column.GetProperty();
-            var required = property.IsRequired();
+            var colSpan = 24 / row.Fields.Count;
+            var lblSpan = GetLabelSpan(colSpan);
             <GridRow>
-                <GridCol Span="24">
-                    <FormItem LabelColSpan="4" Label="@column.Name" Required="required">
-                        @field.InputTemplate
-                    </FormItem>
-                </GridCol>
+                @foreach (var field in row.Fields)
+                {
+                    var column = field.Column;
+                    var property = column.GetProperty();
+                    var required = property.IsRequired();
+                    <GridCol Span="colSpan">
+                        <FormItem LabelColSpan="lblSpan" Label="@column.Name" Required="required">
+                            @field.InputTemplate
+                        </FormItem>
+                    </GridCol>
+                }
             </GridRow>
         }
     }
@@ -21,13 +26,30 @@
 
 @code {
     AntDesign.Internal.IForm _form;
+    private List<FormRow<TItem>> rows;
 
     [Parameter] public FormModel<TItem> Model { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        rows = Model.Rows;
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
             Model.OnValidate = _form.Validate;
         base.OnAfterRender(firstRender);
+    }
+
+    private int GetLabelSpan(int colSpan)
+    {
+        if (colSpan == 24)
+            return 4;
+        else if (colSpan == 12)
+            return 8;
+
+        return 0;
     }
 }

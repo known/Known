@@ -71,7 +71,7 @@ public class FieldModel<TItem> where TItem : class, new()
             var expression = InputExpression.Create(this);
             var attributes = new Dictionary<string, object>
             {
-                { "id", Column.Property.Name },
+                { "id", Column.Id },
                 { "Value", Value },
                 { "ValueExpression", expression.ValueExpression },
                 { "autofocus", true },

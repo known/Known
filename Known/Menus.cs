@@ -139,6 +139,8 @@ public class ColumnInfo
         IsFile = attr.IsFile;
         IsMultiFile = attr.IsMultiFile;
         IsReadOnly = attr.IsReadOnly;
+        Row = attr.Row;
+        Column = attr.Column;
     }
 
     public string Id { get; set; }
@@ -154,8 +156,8 @@ public class ColumnInfo
     public bool IsFile { get; set; }
     public bool IsMultiFile { get; set; }
     public bool IsReadOnly { get; set; }
-    //public int Width { get; set; }
-    //public int Sort { get; set; }
+    public int Row { get; set; } = 1;
+    public int Column { get; set; } = 1;
     //public bool IsQuery { get; set; }
     //public bool IsAdvQuery { get; set; }
     //public bool IsSum { get; set; }

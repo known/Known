@@ -15,13 +15,44 @@ public class FormModel<TItem> where TItem : class, new()
     {
         Page = page;
         Option = option;
-        Fields = page.Table.AllColumns.Where(c => c.IsForm).Select(c => new FieldModel<TItem>(this, c));
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
+    }
+
+    public List<FormRow<TItem>> Rows
+    {
+        get
+        {
+            var rows = new List<FormRow<TItem>>();
+            var columns = Page.Table.AllColumns.Where(c => c.IsForm).ToList();
+            var rowNos = columns.Select(c => c.Row).Distinct().ToList();
+            if (rowNos.Count == 1)
+            {
+                foreach (var item in columns)
+                {
+                    var row = new FormRow<TItem>();
+                    row.Fields.Add(new FieldModel<TItem>(this, item));
+                    rows.Add(row);
+                }
+            }
+            else
+            {
+                foreach (var rowNo in rowNos)
+                {
+                    var row = new FormRow<TItem>();
+                    var fields = columns.Where(c => c.Row == rowNo).OrderBy(c => c.Column).ToList();
+                    foreach (var item in fields)
+                    {
+                        row.Fields.Add(new FieldModel<TItem>(this, item));
+                    }
+                    rows.Add(row);
+                }
+            }
+            return rows;
+        }
     }
 
     public PageModel<TItem> Page { get; }
     public FormOption Option { get; }
-    public IEnumerable<FieldModel<TItem>> Fields { get; }
     public bool IsView { get; internal set; }
     public string Title { get; internal set; }
     public TItem Data { get; set; }
@@ -73,6 +104,11 @@ public class FormModel<TItem> where TItem : class, new()
             await Page.RefreshAsync();
         });
     }
+}
+
+public class FormRow<TItem> where TItem : class, new()
+{
+    public List<FieldModel<TItem>> Fields { get; } = [];
 }
 
 public class FormOption
