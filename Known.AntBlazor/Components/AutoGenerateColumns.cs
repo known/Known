@@ -17,7 +17,6 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
         if (Table == null || Table.Columns == null)
             return;
 
-        var i = 0;
         foreach (var item in Table.Columns)
         {
             if (!item.IsGrid)
@@ -29,26 +28,26 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             RenderFragment<TItem> template = null;
             Table.Templates?.TryGetValue(property.Name, out template);
 
-            builder.OpenComponent(i++, columnType);
-            builder.AddAttribute(i++, "Title", property.DisplayName());
-            builder.AddAttribute(i++, "DataIndex", property.Name);
-            builder.AddAttribute(i++, "Sortable", true);
+            builder.OpenComponent(0, columnType);
+            builder.AddAttribute(1, "Title", property.DisplayName());
+            builder.AddAttribute(1, "DataIndex", property.Name);
+            builder.AddAttribute(1, "Sortable", true);
             if (!string.IsNullOrWhiteSpace(item.DefaultSort))
             {
                 var sortName = item.DefaultSort == "desc" ? "descend" : "ascend";
-                builder.AddAttribute(i++, "DefaultSortOrder", SortDirection.Parse(sortName));
+                builder.AddAttribute(1, "DefaultSortOrder", SortDirection.Parse(sortName));
             }
-            //builder.AddAttribute(i++, "Filterable", true);
+            //builder.AddAttribute(1, "Filterable", true);
             if (template != null)
             {
-                builder.AddAttribute(i++, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
+                builder.AddAttribute(1, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
                 {
-                    builder1.AddContent(i++, template(Item));
+                    builder1.AddContent(1, template(Item));
                 });
             }
             else if (property.PropertyType == typeof(bool))
             {
-                builder.AddAttribute(i++, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
+                builder.AddAttribute(1, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
                 {
                     var value = TypeHelper.GetPropertyValue<bool>(Item, property.Name);
                     builder1.Component<Switch>()
@@ -61,7 +60,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             }
             else if (item.IsViewLink)
             {
-                builder.AddAttribute(i++, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
+                builder.AddAttribute(1, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
                 {
                     var value = TypeHelper.GetPropertyValue<string>(Item, property.Name);
                     builder1.Link(value, Callback(() => Table.Page.ViewForm(Item)));

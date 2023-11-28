@@ -7,13 +7,11 @@ namespace Known.Blazor;
 
 public class JSService
 {
-    private readonly IJSRuntime jsRuntime;
     private readonly Lazy<Task<IJSObjectReference>> moduleTask;
     private readonly Lazy<Task<IJSObjectReference>> appTask;
 
     public JSService(IJSRuntime jsRuntime)
     {
-        this.jsRuntime = jsRuntime;
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js").AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
             appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());

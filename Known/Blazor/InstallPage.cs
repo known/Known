@@ -15,7 +15,7 @@ public class InstallPage : BaseComponent
         Model = Context.Install;
     }
 
-    protected async Task OnStart(EditContext context)
+    protected async Task OnStart()
     {
         var result = await Platform.System.SaveInstallAsync(Model);
         UI.Result(result, () =>

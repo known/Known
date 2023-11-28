@@ -4,7 +4,7 @@ namespace Known;
 
 public class Result
 {
-    private readonly List<string> errors = new();
+    private readonly List<string> errors = [];
     private string message;
 
     public Result()

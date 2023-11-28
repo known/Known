@@ -78,17 +78,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         await Platform.System.AddLogAsync(log);
     }
 
-    //internal void BuildAuthorize(RenderTreeBuilder builder)
-    //{
-    //    builder.Component<SysActive>()
-    //           .Set(c => c.OnCheck, isCheck =>
-    //           {
-    //               Config.IsCheckKey = isCheck;
-    //               StateChanged();
-    //           })
-    //           .Build();
-    //}
-
     private bool IsInMenu(string pageId, string buttonId)
     {
         var menu = Context.UserMenus.FirstOrDefault(m => m.Id == pageId || m.Code == pageId);

@@ -119,7 +119,6 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
 
     public static InputExpression Create<TItem>(FieldModel<TItem> model) where TItem : class, new()
     {
-        // () => Owner.Property
         var property = model.Column.Property;
         var access = Expression.Property(
             Expression.Constant(model.Data, typeof(TItem)),

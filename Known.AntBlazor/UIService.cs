@@ -6,16 +6,10 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.AntBlazor;
 
-class UIService : IUIService
+class UIService(ModalService modal, MessageService message) : IUIService
 {
-    private readonly ModalService _modal;
-    private readonly MessageService _message;
-
-    public UIService(ModalService modal, MessageService message)
-    {
-        _modal = modal;
-        _message = message;
-    }
+    private readonly ModalService _modal = modal;
+    private readonly MessageService _message = message;
 
     public Type GetInputType(ColumnInfo column)
     {

@@ -29,23 +29,10 @@ public class PwdFormInfo
     public string NewPwd1 { get; set; }
 }
 
-//public class SettingFormInfo
-//{
-//    public string Type { get; set; }
-//    public string Name { get; set; }
-//    public string Data { get; set; }
-//}
-
-public class UploadInfo<TModel>
+public class UploadInfo<TModel>(TModel model)
 {
-    public UploadInfo(TModel model)
-    {
-        Model = model;
-        Files = [];
-    }
-
-    public TModel Model { get; }
-    public Dictionary<string, List<IAttachFile>> Files { get; }
+    public TModel Model { get; } = model;
+    public Dictionary<string, List<IAttachFile>> Files { get; } = [];
 }
 
 public class FileFormInfo

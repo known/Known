@@ -5,7 +5,7 @@ namespace Known.Blazor;
 class BlazorAttachFile : IAttachFile
 {
     private readonly IBrowserFile file;
-    private readonly byte[] bytes;
+    private readonly byte[] bytes = null;
 
     internal BlazorAttachFile(IBrowserFile file)
     {

@@ -25,7 +25,7 @@ public class LogType
 
 public sealed class Logger
 {
-    private static readonly ILogger logger = new FileLogger();
+    private static readonly FileLogger logger = new();
 
     private Logger() { }
 

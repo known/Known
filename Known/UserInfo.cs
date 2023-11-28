@@ -26,7 +26,7 @@ public class UserInfo
     public string Role { get; set; }
     internal bool IsTenant { get; set; }
     internal bool IsAdmin => IsSystemAdmin() || IsTenantAdmin();
-    private bool IsSystemAdmin() => UserName == Constants.SysUserName.ToLower();
+    private bool IsSystemAdmin() => UserName.Equals(Constants.SysUserName, StringComparison.CurrentCultureIgnoreCase);
     internal bool IsTenantAdmin() => CompNo == UserName;
     //public bool IsGroupUser() => CompNo == OrgNo;
     //public bool IsOperation() => Type == Constants.UTOperation;

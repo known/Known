@@ -149,7 +149,6 @@ public class CodeInfo
     public string Category { get; set; }
     public string Code { get; set; }
     public string Name { get; set; }
-    //public bool IsActive { get; set; }
     public object Data { get; set; }
 
     public T DataAs<T>()
@@ -163,28 +162,4 @@ public class CodeInfo
         var dataString = Data.ToString();
         return Utils.FromJson<T>(dataString);
     }
-
-    //public static CodeInfo[] GetChildCodes(string category, string value)
-    //{
-    //    if (string.IsNullOrWhiteSpace(value))
-    //        return null;
-
-    //    var codes = GetCodes(category);
-    //    var code = codes.FirstOrDefault(c => c.Code == value);
-    //    var dic = code?.Data is SysDictionary
-    //            ? code?.Data as SysDictionary
-    //            : Utils.FromJson<SysDictionary>(code?.Data?.ToString());
-    //    if (!string.IsNullOrWhiteSpace(dic?.Child))
-    //        return dic?.Children.Select(c => new CodeInfo(c.Code, c.Name)).ToArray();
-
-    //    if (!string.IsNullOrWhiteSpace(dic?.Extension))
-    //    {
-    //        return dic?.Extension.Split(Environment.NewLine.ToArray())
-    //                   .Where(s => !string.IsNullOrWhiteSpace(s))
-    //                   .Select(s => new CodeInfo(s, s))
-    //                   .ToArray();
-    //    }
-
-    //    return null;
-    //}
 }
