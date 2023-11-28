@@ -75,7 +75,6 @@ public class FieldModel<TItem> where TItem : class, new()
                 { "Value", Value },
                 { "ValueExpression", expression.ValueExpression },
                 { "autofocus", true },
-                { "required", Column.Property.IsRequired() },
                 { "placeholder", Column.Placeholder },
             };
             if (Form.IsView || Column.IsReadOnly)
@@ -85,6 +84,7 @@ public class FieldModel<TItem> where TItem : class, new()
             }
             else
             {
+                attributes["required"] = Column.Property.IsRequired();
                 attributes["ValueChanged"] = expression.ValueChanged;
             }
             return attributes;
@@ -120,9 +120,7 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
     public static InputExpression Create<TItem>(FieldModel<TItem> model) where TItem : class, new()
     {
         var property = model.Column.Property;
-        var access = Expression.Property(
-            Expression.Constant(model.Data, typeof(TItem)),
-            property);
+        var access = Expression.Property(Expression.Constant(model.Data, typeof(TItem)), property);
         var lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(property.PropertyType), access);
 
         // Create(object receiver, Action<object>) callback

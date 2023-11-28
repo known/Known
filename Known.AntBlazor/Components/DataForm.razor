@@ -10,11 +10,8 @@
             <GridRow>
                 @foreach (var field in row.Fields)
                 {
-                    var column = field.Column;
-                    var property = column.GetProperty();
-                    var required = property.IsRequired();
                     <GridCol Span="colSpan">
-                        <FormItem LabelColSpan="lblSpan" Label="@column.Name" Required="required">
+                        <FormItem LabelColSpan="lblSpan" Label="@field.Column.Name">
                             @field.InputTemplate
                         </FormItem>
                     </GridCol>

@@ -56,6 +56,9 @@ class UIService(ModalService modal, MessageService message) : IUIService
         if (type == typeof(DateTimeOffset?))
             return typeof(DatePicker<DateTimeOffset?>);
 
+        if (type == typeof(string[]))
+            return typeof(CheckboxGroup);
+
         //if (type.IsEnum && !type.IsDefined(typeof(FlagsAttribute), inherit: true))
         //    return typeof(Select<>).MakeGenericType(type);
 
@@ -165,6 +168,11 @@ class UIService(ModalService modal, MessageService message) : IUIService
 
         var modal = await _modal.CreateModalAsync(option);
         model.OnClose = modal.CloseAsync;
+    }
+
+    public void BuildForm<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
+    {
+        builder.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
     }
 
     public void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model) where TItem : class, new()

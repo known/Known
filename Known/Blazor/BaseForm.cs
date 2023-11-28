@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
@@ -16,4 +17,9 @@ public class BaseForm : BaseComponent
 public class BaseForm<TItem> : BaseForm where TItem : class, new()
 {
     [Parameter] public FormModel<TItem> Model { get; set; }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        UI.BuildForm(builder, Model);
+    }
 }
