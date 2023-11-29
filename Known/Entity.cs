@@ -25,23 +25,23 @@ public class EntityBase
     [MinLength(1), MaxLength(50)]
     public string Id { get; set; }
 
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName(Language.CreateBy)]
     [Required(ErrorMessage = $"{Language.CreateBy}不能为空！")]
     [MinLength(1), MaxLength(50)]
     public string CreateBy { get; set; }
 
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName(Language.CreateTime)]
     [Required(ErrorMessage = $"{Language.CreateTime}不能为空！")]
     public DateTime CreateTime { get; set; }
 
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName(Language.ModifyBy)]
     [MinLength(1), MaxLength(50)]
     public string ModifyBy { get; set; }
 
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName(Language.ModifyTime)]
     public DateTime? ModifyTime { get; set; }
 

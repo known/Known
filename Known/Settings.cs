@@ -19,7 +19,7 @@ public class QueryInfo
         Value = "";
         if (!column.IsQueryAll)
         {
-            var codes = Cache.GetCodes(column.CodeType, false);
+            var codes = Cache.GetCodes(column.Category, false);
             if (codes != null && codes.Count > 0)
                 Value = codes[0].Code;
         }

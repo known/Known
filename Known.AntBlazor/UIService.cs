@@ -53,7 +53,7 @@ class UIService(ModalService modal, MessageService message) : IUIService
         if (type == typeof(string[]))
             return typeof(AntCheckboxGroup);
 
-        if (type == typeof(string) && !string.IsNullOrWhiteSpace(column.CodeType))
+        if (type == typeof(string) && !string.IsNullOrWhiteSpace(column.Category))
             return typeof(AntRadioGroup);
 
         if (type == typeof(string) && maxLength >= 500)
@@ -70,13 +70,13 @@ class UIService(ModalService modal, MessageService message) : IUIService
         var property = column.GetProperty();
         var type = property.PropertyType;
 
-        if (!string.IsNullOrWhiteSpace(column.CodeType))
+        if (!string.IsNullOrWhiteSpace(column.Category))
         {
             if (type == typeof(string))
-                attributes[nameof(AntRadioGroup.CodeType)] = column.CodeType;
+                attributes[nameof(AntRadioGroup.CodeType)] = column.Category;
 
             if (type == typeof(string[]))
-                attributes[nameof(AntCheckboxGroup.CodeType)] = column.CodeType;
+                attributes[nameof(AntCheckboxGroup.CodeType)] = column.Category;
         }
     }
 

@@ -124,7 +124,7 @@ public sealed class Cache
         AttachCodes(codes);
     }
 
-    private static List<CodeInfo> GetCodes()
+    internal static List<CodeInfo> GetCodes()
     {
         var codes = Get<List<CodeInfo>>(KeyCodes);
         codes ??= [];
@@ -164,5 +164,46 @@ public class CodeInfo
 
         var dataString = Data.ToString();
         return Utils.FromJson<T>(dataString);
+    }
+}
+
+public class CodeOption
+{
+    public CodeOption(string category)
+    {
+        Category = category;
+    }
+
+    public CodeOption(Func<List<CodeInfo>> action)
+    {
+        Action = action;
+    }
+
+    public string Category { get; }
+    public Func<List<CodeInfo>> Action { get; }
+
+    public List<CodeInfo> GetCodes(bool isAll = true)
+    {
+        var infos = new List<CodeInfo>();
+        if (isAll)
+            infos.Add(new CodeInfo("", "全部"));
+
+        if (!string.IsNullOrWhiteSpace(Category))
+        {
+            var codes = Cache.GetCodes().Where(c => c.Category == Category).ToList();
+            if (codes == null || codes.Count == 0)
+                codes = Category.Split(',', ';').Select(d => new CodeInfo(d, d)).ToList();
+
+            if (codes != null && codes.Count > 0)
+                infos.AddRange(codes);
+        }
+        else if (Action != null)
+        {
+            var codes = Action?.Invoke();
+            if (codes != null && codes.Count > 0)
+                infos.AddRange(codes);
+        }
+
+        return infos;
     }
 }

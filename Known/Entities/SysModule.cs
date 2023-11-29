@@ -24,7 +24,9 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置代码。
     /// </summary>
-    [Column(IsGrid = true, IsForm = true, IsViewLink = true, Row = 1, Column = 1)]
+    [Column]
+    [Grid(IsViewLink = true)]
+    [Form(Row = 1, Column = 1)]
     [DisplayName("代码")]
     [Required(ErrorMessage = "代码不能为空！")]
     [MaxLength(50)]
@@ -33,7 +35,8 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置名称。
     /// </summary>
-    [Column(IsGrid = true, IsForm = true, Row = 1, Column = 2)]
+    [Column, Grid]
+    [Form(Row = 1, Column = 2)]
     [DisplayName("名称")]
     [Required(ErrorMessage = "名称不能为空！")]
     [MaxLength(50)]
@@ -42,7 +45,8 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置图标。
     /// </summary>
-    [Column(IsForm = true, Row = 2, Column = 1)]
+    [Column]
+    [Form(Row = 2, Column = 1)]
     [DisplayName("图标")]
     [MaxLength(50)]
     public string Icon { get; set; }
@@ -50,7 +54,8 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置描述。
     /// </summary>
-    [Column(IsGrid = true, IsForm = true, Row = 3, Column = 1)]
+    [Column, Grid]
+    [Form(Row = 3, Column = 1)]
     [DisplayName("描述")]
     [MaxLength(200)]
     public string Description { get; set; }
@@ -66,14 +71,15 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置顺序。
     /// </summary>
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName("顺序")]
     public int Sort { get; set; }
 
     /// <summary>
     /// 取得或设置可用。
     /// </summary>
-    [Column(IsGrid = true, IsForm = true, Row = 2, Column = 2)]
+    [Column, Grid]
+    [Form(Row = 2, Column = 2)]
     [DisplayName("可用")]
     public bool Enabled { get; set; }
 
@@ -101,7 +107,8 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column(IsGrid = true, IsForm = true, Row = 4, Column = 1)]
+    [Column, Grid]
+    [Form(Row = 4, Column = 1)]
     [DisplayName("备注")]
     [MaxLength(500)]
     public string Note { get; set; }

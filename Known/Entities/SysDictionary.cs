@@ -16,7 +16,9 @@ public class SysDictionary : EntityBase
     /// <summary>
     /// 取得或设置类别。
     /// </summary>
-    [Column(IsGrid = true, IsQuery = true, CodeType = Constants.DicCategory, IsQueryAll = false)]
+    [Column, Grid]
+    [Query(IsQueryAll = false)]
+    [Code(Category = Constants.DicCategory)]
     [DisplayName("类别")]
     [Required(ErrorMessage = "类别不能为空！")]
     [MaxLength(50)]
@@ -33,7 +35,8 @@ public class SysDictionary : EntityBase
     /// <summary>
     /// 取得或设置代码。
     /// </summary>
-    [Column(IsGrid = true, IsQuery = true, IsForm = true, IsViewLink = true)]
+    [Column, Form, Query]
+    [Grid(IsViewLink = true)]
     [DisplayName("代码")]
     [Required(ErrorMessage = "代码不能为空！")]
     [MaxLength(100)]
@@ -42,7 +45,7 @@ public class SysDictionary : EntityBase
     /// <summary>
     /// 取得或设置名称。
     /// </summary>
-    [Column(IsGrid = true, IsQuery = true, IsForm = true)]
+    [Column, Grid, Form, Query]
     [DisplayName("名称")]
     [MaxLength(150)]
     public string Name { get; set; }
@@ -50,7 +53,7 @@ public class SysDictionary : EntityBase
     /// <summary>
     /// 取得或设置顺序。
     /// </summary>
-    [Column(IsGrid = true, IsForm = true)]
+    [Column, Grid, Form]
     [DisplayName("顺序")]
     [Required(ErrorMessage = "顺序不能为空！")]
     public int Sort { get; set; }
@@ -58,7 +61,7 @@ public class SysDictionary : EntityBase
     /// <summary>
     /// 取得或设置状态。
     /// </summary>
-    [Column(IsGrid = true, IsForm = true)]
+    [Column, Grid, Form]
     [DisplayName("状态")]
     [Required(ErrorMessage = "状态不能为空！")]
     public bool Enabled { get; set; }
@@ -66,7 +69,7 @@ public class SysDictionary : EntityBase
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column(IsGrid = true, IsForm = true)]
+    [Column, Grid, Form]
     [DisplayName("备注")]
     [MaxLength(500)]
     public string Note { get; set; }

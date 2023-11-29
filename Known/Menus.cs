@@ -129,23 +129,43 @@ public class ColumnInfo
         Property = attr.Property;
         Id = Property.Name;
         Name = Property.DisplayName();
-        CodeType = attr.CodeType;
-        Placeholder = attr.Placeholder;
-        IsGrid = attr.IsGrid;
-        IsViewLink = attr.IsViewLink;
-        IsQuery = attr.IsQuery;
-        IsQueryAll = attr.IsQueryAll;
-        IsForm = attr.IsForm;
-        IsFile = attr.IsFile;
-        IsMultiFile = attr.IsMultiFile;
-        IsReadOnly = attr.IsReadOnly;
-        Row = attr.Row;
-        Column = attr.Column;
+
+        var grid = Property.GetCustomAttribute<GridAttribute>();
+        if (grid != null)
+        {
+            IsGrid = true;
+            IsViewLink = grid.IsViewLink;
+        }
+
+        var query = Property.GetCustomAttribute<QueryAttribute>();
+        if (query != null)
+        {
+            IsQuery = true;
+            IsQueryAll = query.IsQueryAll;
+        }
+
+        var form = Property.GetCustomAttribute<FormAttribute>();
+        if (form != null)
+        {
+            IsForm = true;
+            IsFile = form.IsFile;
+            IsMultiFile = form.IsMultiFile;
+            IsReadOnly = form.IsReadOnly;
+            Row = form.Row;
+            Column = form.Column;
+            Placeholder = form.Placeholder;
+        }
+
+        var code = Property.GetCustomAttribute<CodeAttribute>();
+        if (code != null)
+        {
+            Category = code.Category;
+        }
     }
 
     public string Id { get; set; }
     public string Name { get; set; }
-    public string CodeType { get; set; }
+    public string Category { get; set; }
     public string Placeholder { get; set; }
     public string DefaultSort { get; set; }
     public bool IsGrid { get; set; }

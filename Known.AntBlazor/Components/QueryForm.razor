@@ -13,9 +13,9 @@
             var property = item.GetProperty();
             var itemType = property.PropertyType.Name;
             <FormItem Label="@item.Name">
-                @if (!string.IsNullOrWhiteSpace(item.CodeType))
+                @if (!string.IsNullOrWhiteSpace(item.Category))
                 {
-                    var codes = Cache.GetCodes(item.CodeType, item.IsQueryAll);
+                    var codes = Cache.GetCodes(item.Category, item.IsQueryAll);
                     <Select TItemValue="string" TItem="CodeInfo" DataSource="codes"
                             ValueName="@nameof(CodeInfo.Code)" LabelName="@nameof(CodeInfo.Name)"
                             @bind-Value="@(context[property.Name].Value)"

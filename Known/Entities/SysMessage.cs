@@ -11,7 +11,7 @@ public class SysMessage : EntityBase
     /// <summary>
     /// 取得或设置用户ID。
     /// </summary>
-    [Column(IsGrid = false)]
+    [Column]
     [DisplayName("用户ID")]
     [Required(ErrorMessage = "用户ID不能为空！")]
     [MaxLength(50)]
@@ -29,7 +29,7 @@ public class SysMessage : EntityBase
     /// <summary>
     /// 取得或设置发件人。
     /// </summary>
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName("发件人")]
     [Required(ErrorMessage = "发件人不能为空！")]
     [MaxLength(50)]
@@ -38,7 +38,7 @@ public class SysMessage : EntityBase
     /// <summary>
     /// 取得或设置级别（普通、紧急）。
     /// </summary>
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName("级别")]
     [Required(ErrorMessage = "级别不能为空！")]
     [MaxLength(50)]
@@ -47,7 +47,7 @@ public class SysMessage : EntityBase
     /// <summary>
     /// 取得或设置分类。
     /// </summary>
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName("分类")]
     [MaxLength(50)]
     public string Category { get; set; }
@@ -55,7 +55,7 @@ public class SysMessage : EntityBase
     /// <summary>
     /// 取得或设置主题。
     /// </summary>
-    [Column(IsGrid = true, IsQuery = true)]
+    [Column, Grid, Query]
     [DisplayName("主题")]
     [Required(ErrorMessage = "主题不能为空！")]
     [MaxLength(250)]
@@ -64,7 +64,7 @@ public class SysMessage : EntityBase
     /// <summary>
     /// 取得或设置内容。
     /// </summary>
-    [Column(IsQuery = true)]
+    [Column, Query]
     [Required(ErrorMessage = "内容不能为空！")]
     [DisplayName("内容")]
     public string Content { get; set; }

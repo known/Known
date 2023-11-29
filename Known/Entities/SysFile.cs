@@ -11,7 +11,7 @@ public class SysFile : EntityBase
     /// <summary>
     /// 取得或设置一级分类。
     /// </summary>
-    [Column(IsGrid = true, IsQuery = true)]
+    [Column, Grid, Query]
     [DisplayName("一级分类")]
     [Required(ErrorMessage = "一级分类不能为空！")]
     [MaxLength(50)]
@@ -20,7 +20,7 @@ public class SysFile : EntityBase
     /// <summary>
     /// 取得或设置二级分类。
     /// </summary>
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName("二级分类")]
     [MaxLength(50)]
     public string Category2 { get; set; }
@@ -28,7 +28,7 @@ public class SysFile : EntityBase
     /// <summary>
     /// 取得或设置文件名称。
     /// </summary>
-    [Column(IsGrid = true, IsQuery = true)]
+    [Column, Grid, Query]
     [DisplayName("文件名称")]
     [Required(ErrorMessage = "文件名称不能为空！")]
     [MaxLength(250)]
@@ -37,7 +37,7 @@ public class SysFile : EntityBase
     /// <summary>
     /// 取得或设置文件类型。
     /// </summary>
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName("文件类型")]
     [MaxLength(50)]
     public string Type { get; set; }
@@ -53,7 +53,7 @@ public class SysFile : EntityBase
     /// <summary>
     /// 取得或设置文件大小。
     /// </summary>
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName("文件大小")]
     [Required(ErrorMessage = "文件大小不能为空！")]
     public long Size { get; set; }
@@ -61,7 +61,7 @@ public class SysFile : EntityBase
     /// <summary>
     /// 取得或设置原文件名。
     /// </summary>
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName("原文件名")]
     [Required(ErrorMessage = "原文件名不能为空！")]
     [MaxLength(250)]
@@ -70,7 +70,7 @@ public class SysFile : EntityBase
     /// <summary>
     /// 取得或设置扩展名。
     /// </summary>
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName("扩展名")]
     [Required(ErrorMessage = "扩展名不能为空！")]
     [MaxLength(50)]
@@ -79,7 +79,7 @@ public class SysFile : EntityBase
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column(IsGrid = true)]
+    [Column, Grid]
     [DisplayName("备注")]
     [MaxLength(500)]
     public string Note { get; set; }

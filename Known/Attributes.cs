@@ -19,22 +19,39 @@ public class TableAttribute(string name) : Attribute
 }
 
 [AttributeUsage(AttributeTargets.Property)]
+public class GridAttribute() : Attribute
+{
+    public bool IsViewLink { get; set; }
+}
+
+[AttributeUsage(AttributeTargets.Property)]
+public class QueryAttribute() : Attribute
+{
+    public bool IsQueryAll { get; set; } = true;
+}
+
+[AttributeUsage(AttributeTargets.Property)]
+public class FormAttribute() : Attribute
+{
+    public bool IsFile { get; set; }
+    public bool IsMultiFile { get; set; }
+    public bool IsReadOnly { get; set; }
+    public string Placeholder { get; set; }
+    public int Row { get; set; } = 1;
+    public int Column { get; set; } = 1;
+}
+
+[AttributeUsage(AttributeTargets.Property)]
+public class CodeAttribute() : Attribute
+{
+    public string Category { get; set; }
+}
+
+[AttributeUsage(AttributeTargets.Property)]
 public class ColumnAttribute(string columnName = null) : Attribute
 {
     public string ColumnName { get; } = columnName;
     public string DateFormat { get; set; }
-    public string CodeType { get; set; }
-    public string Placeholder { get; set; }
-    public int Row { get; set; } = 1;
-    public int Column { get; set; } = 1;
-    public bool IsForm { get; set; }
-    public bool IsFile { get; set; }
-    public bool IsMultiFile { get; set; }
-    public bool IsReadOnly { get; set; }
-    public bool IsGrid { get; set; }
-    public bool IsViewLink { get; set; }
-    public bool IsQuery { get; set; }
-    public bool IsQueryAll { get; set; } = true;
     public PropertyInfo Property { get; set; }
 
     internal virtual void Validate(object value, PropertyInfo property, List<string> errors)
