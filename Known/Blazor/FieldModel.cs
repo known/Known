@@ -49,13 +49,18 @@ public class FieldModel<TItem> where TItem : class, new()
                 };
             }
 
-            return _inputTemplate ??= builder =>
+            if (_inputTemplate == null)
             {
-                var inputType = UI.GetInputType(Column);
-                builder.OpenComponent(0, inputType);
-                builder.AddMultipleAttributes(1, InputAttributes);
-                builder.CloseComponent();
-            };
+                _inputTemplate = builder =>
+                {
+                    var inputType = UI.GetInputType(Column);
+                    builder.OpenComponent(0, inputType);
+                    builder.AddMultipleAttributes(1, InputAttributes);
+                    builder.CloseComponent();
+                };
+            }
+
+            return _inputTemplate;
         }
     }
 

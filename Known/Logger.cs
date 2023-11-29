@@ -23,11 +23,15 @@ public class LogType
     public const string Page = "页面";
 }
 
+public enum LogLevel { Error, Info, Debug }
+
 public sealed class Logger
 {
     private static readonly FileLogger logger = new();
 
     private Logger() { }
+
+    public static LogLevel Level { get; set; }
 
     public static async Task<List<string>> GetVisitMenuIdsAsync(Database db, string userName, int size)
     {
@@ -46,10 +50,20 @@ public sealed class Logger
         });
     }
 
-    public static ILogger GetLogger() => logger;
     public static void Error(string message) => logger.Error(message);
-    public static void Info(string message) => logger.Info(message);
-    public static void Debug(string message) => logger.Debug(message);
+
+    public static void Info(string message)
+    {
+        if (Level > LogLevel.Error)
+            logger.Info(message);
+    }
+
+    public static void Debug(string message)
+    {
+        if (Level > LogLevel.Info)
+            logger.Debug(message);
+    }
+
     public static void Flush() => logger.Flush();
 
     public static void Exception(Exception ex)

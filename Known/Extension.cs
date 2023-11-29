@@ -14,6 +14,11 @@ public static class Extension
         action?.Invoke(Config.App);
         Config.AddApp();
 
+        if (Config.App.IsDevelopment)
+            Logger.Level = LogLevel.Debug;
+        else
+            Logger.Level = LogLevel.Info;
+
         //services.AddCascadingAuthenticationState();
         services.AddScoped<JSService>();
         if (Config.App.Type == AppType.Web)

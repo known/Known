@@ -73,10 +73,10 @@ class UIService(ModalService modal, MessageService message) : IUIService
         if (!string.IsNullOrWhiteSpace(column.CodeType))
         {
             if (type == typeof(string))
-                attributes.Add(nameof(AntRadioGroup.CodeType), column.CodeType);
+                attributes[nameof(AntRadioGroup.CodeType)] = column.CodeType;
 
             if (type == typeof(string[]))
-                attributes.Add(nameof(AntCheckboxGroup.CodeType), column.CodeType);
+                attributes[nameof(AntCheckboxGroup.CodeType)] = column.CodeType;
         }
     }
 

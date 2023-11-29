@@ -6,6 +6,8 @@ namespace Known.Blazor;
 
 public class FormModel<TItem> where TItem : class, new()
 {
+    private List<FormRow<TItem>> rows;
+
     internal FormModel(PageModel<TItem> page)
     {
         Page = page;
@@ -22,29 +24,32 @@ public class FormModel<TItem> where TItem : class, new()
     {
         get
         {
-            var rows = new List<FormRow<TItem>>();
-            var columns = Page.Table.AllColumns.Where(c => c.IsForm).ToList();
-            var rowNos = columns.Select(c => c.Row).Distinct().ToList();
-            if (rowNos.Count == 1)
+            if (rows == null)
             {
-                foreach (var item in columns)
+                rows = [];
+                var columns = Page.Table.AllColumns.Where(c => c.IsForm).ToList();
+                var rowNos = columns.Select(c => c.Row).Distinct().ToList();
+                if (rowNos.Count == 1)
                 {
-                    var row = new FormRow<TItem>();
-                    row.Fields.Add(new FieldModel<TItem>(this, item));
-                    rows.Add(row);
-                }
-            }
-            else
-            {
-                foreach (var rowNo in rowNos)
-                {
-                    var row = new FormRow<TItem>();
-                    var fields = columns.Where(c => c.Row == rowNo).OrderBy(c => c.Column).ToList();
-                    foreach (var item in fields)
+                    foreach (var item in columns)
                     {
+                        var row = new FormRow<TItem>();
                         row.Fields.Add(new FieldModel<TItem>(this, item));
+                        rows.Add(row);
                     }
-                    rows.Add(row);
+                }
+                else
+                {
+                    foreach (var rowNo in rowNos)
+                    {
+                        var row = new FormRow<TItem>();
+                        var fields = columns.Where(c => c.Row == rowNo).OrderBy(c => c.Column).ToList();
+                        foreach (var item in fields)
+                        {
+                            row.Fields.Add(new FieldModel<TItem>(this, item));
+                        }
+                        rows.Add(row);
+                    }
                 }
             }
             return rows;

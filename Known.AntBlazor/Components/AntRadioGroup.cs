@@ -12,5 +12,7 @@ class AntRadioGroup : RadioGroup<string>
         base.OnInitialized();
         var codes = Cache.GetCodes(CodeType, false);
         Options = codes.ToRadioOptions();
+        //Fixed单选按钮组切换不刷新问题
+        OnChange = EventCallback.Factory.Create<string>(this, value => StateHasChanged());
     }
 }

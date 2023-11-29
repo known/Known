@@ -27,9 +27,9 @@
 
     [Parameter] public FormModel<TItem> Model { get; set; }
 
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
-        base.OnParametersSet();
+        base.OnInitialized();
         rows = Model.Rows;
     }
 
