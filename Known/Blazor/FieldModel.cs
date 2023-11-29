@@ -77,6 +77,7 @@ public class FieldModel<TItem> where TItem : class, new()
                 { "autofocus", true },
                 { "placeholder", Column.Placeholder },
             };
+
             if (Form.IsView || Column.IsReadOnly)
             {
                 attributes["disabled"] = true;
@@ -87,6 +88,8 @@ public class FieldModel<TItem> where TItem : class, new()
                 attributes["required"] = Column.Property.IsRequired();
                 attributes["ValueChanged"] = expression.ValueChanged;
             }
+
+            UI.AddInputAttributes(attributes, Column);
             return attributes;
         }
     }

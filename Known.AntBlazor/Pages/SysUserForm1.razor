@@ -21,10 +21,7 @@
         </GridCol>
         <GridCol Span="12">
             <FormItem LabelColSpan="8">
-                <RadioGroup @bind-Value="@context.Gender" Disabled="@Model.IsView">
-                    <Radio Value="@("男")">男</Radio>
-                    <Radio Value="@("女")">女</Radio>
-                </RadioGroup>
+                <RadioGroup @bind-Value="@context.Gender" Options="@(new string[]{"男","女"})" Disabled="@Model.IsView" />
             </FormItem>
         </GridCol>
     </GridRow>
@@ -68,7 +65,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        checkRoles = Model.Data.Roles.ToOptions();
+        checkRoles = Model.Data.Roles.ToCheckboxOptions();
     }
 
     protected override void OnAfterRender(bool firstRender)

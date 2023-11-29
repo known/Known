@@ -47,6 +47,9 @@ public sealed class Cache
         if (isAll)
             infos.Add(new CodeInfo("", "全部"));
 
+        if (string.IsNullOrWhiteSpace(category))
+            return infos;
+
         var codes = GetCodes().Where(c => c.Category == category).ToList();
         if (codes == null || codes.Count == 0)
             codes = category.Split(',', ';').Select(d => new CodeInfo(d, d)).ToList();

@@ -19,7 +19,16 @@ public static class Extension
         services.AddScoped<IUIService, UIService>();
     }
 
-    internal static CheckboxOption[] ToOptions(this List<CodeInfo> codes, Action<CheckboxOption> action = null)
+    internal static RadioOption<string>[] ToRadioOptions(this List<CodeInfo> codes)
+    {
+        return codes.Select(a => new RadioOption<string>
+        {
+            Label = a.Name,
+            Value = a.Code
+        }).ToArray();
+    }
+
+    internal static CheckboxOption[] ToCheckboxOptions(this List<CodeInfo> codes, Action<CheckboxOption> action = null)
     {
         return codes.Select(a =>
         {

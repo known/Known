@@ -38,12 +38,6 @@ class UIService(ModalService modal, MessageService message) : IUIService
         if (type == typeof(decimal))
             return typeof(InputNumber<decimal>);
 
-        if (type == typeof(string) && maxLength >= 500)
-            return typeof(TextArea);
-
-        if (type == typeof(string))
-            return typeof(Input<string>);
-
         if (type == typeof(DateTime))
             return typeof(DatePicker<DateTime>);
 
@@ -57,12 +51,33 @@ class UIService(ModalService modal, MessageService message) : IUIService
             return typeof(DatePicker<DateTimeOffset?>);
 
         if (type == typeof(string[]))
-            return typeof(CheckboxGroup);
+            return typeof(AntCheckboxGroup);
+
+        if (type == typeof(string) && !string.IsNullOrWhiteSpace(column.CodeType))
+            return typeof(AntRadioGroup);
+
+        if (type == typeof(string) && maxLength >= 500)
+            return typeof(TextArea);
 
         //if (type.IsEnum && !type.IsDefined(typeof(FlagsAttribute), inherit: true))
         //    return typeof(Select<>).MakeGenericType(type);
 
         return typeof(Input<string>);
+    }
+
+    public void AddInputAttributes(Dictionary<string, object> attributes, ColumnInfo column)
+    {
+        var property = column.GetProperty();
+        var type = property.PropertyType;
+
+        if (!string.IsNullOrWhiteSpace(column.CodeType))
+        {
+            if (type == typeof(string))
+                attributes.Add(nameof(AntRadioGroup.CodeType), column.CodeType);
+
+            if (type == typeof(string[]))
+                attributes.Add(nameof(AntCheckboxGroup.CodeType), column.CodeType);
+        }
     }
 
     public async void Toast(string message, StyleType style = StyleType.Success)

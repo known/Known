@@ -61,7 +61,7 @@ public class SysUser : EntityBase
     /// <summary>
     /// 取得或设置性别。
     /// </summary>
-    [Column(IsGrid = true, IsForm = true, Row = 2, Column = 2)]
+    [Column(IsGrid = true, IsForm = true, CodeType = "男,女", Row = 2, Column = 2)]
     [DisplayName("性别")]
     [Required(ErrorMessage = "性别不能为空！")]
     [MaxLength(50)]
