@@ -30,11 +30,11 @@ class SysModuleList : BasePage<SysModule>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (!Config.App.IsDevelopment)
-        {
-            UI.BuildResult(builder, "403", "非开发环境，不可访问该页面！");
-            return;
-        }
+        //if (!Config.App.IsDevelopment)
+        //{
+        //    UI.BuildResult(builder, "403", "非开发环境，不可访问该页面！");
+        //    return;
+        //}
         base.BuildRenderTree(builder);
     }
 

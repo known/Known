@@ -12,8 +12,8 @@ public static class Extension
         //添加AntDesign
         services.AddAntDesign();
 
-        KaConfig.Option = new AntDesignOption();
-        action?.Invoke(KaConfig.Option);
+        AntConfig.Option = new AntDesignOption();
+        action?.Invoke(AntConfig.Option);
 
         Config.AddModule(typeof(Extension).Assembly);
         services.AddScoped<IUIService, UIService>();
@@ -48,7 +48,7 @@ public class AntDesignOption
     public RenderFragment Footer { get; set; }
 }
 
-class KaConfig
+class AntConfig
 {
     public static AntDesignOption Option { get; set; }
 }
