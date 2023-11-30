@@ -1,0 +1,108 @@
+/*Common*/
+.layout-background {background:#fff;}
+.layout-header {display:flex;justify-content:space-between;padding:0 10px;}
+
+.steps-content {
+    margin-top: 16px; padding:10px;
+    border: 1px dashed #e9e9e9;
+    border-radius: 6px;
+    background-color: #fafafa;
+    min-height: 200px;
+}
+
+.form-content {padding:10px;}
+.form-action {margin-top:24px;text-align:right;}
+
+.link {color:#1890ff;cursor:pointer;}
+.danger {color:#ed4014;}
+
+.query, .toolbar {padding:10px 10px 0 10px;}
+.table {padding-top:10px;}
+.page-top {display:flex;justify-content:space-between;}
+
+.edit-input {display:flex;}
+.edit-input input {width:200px;}
+.edit-input .link {margin-left:10px;display:flex;align-items:center;}
+
+@media screen and (max-width:768px) {
+    .page-top {flex-direction:column;}
+}
+
+.logo {
+    height: 50px;
+    background-image:url(/img/logo.png);
+    margin-top:10px;
+    margin-left:10px;
+}
+
+/*Install*/
+.install {
+    position:absolute;top:50%;left:50%;width:500px;height:500px;margin-left:-250px;margin-top:-250px;
+    background-color: #fff; padding: 30px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 3px rgba(0,0,0,.3);
+}
+.install h1 {text-align:center;}
+.install .button {text-align:center;}
+
+/*Login*/
+.login {
+    position:absolute;top:50%;left:50%;background-color:#fff;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));
+    width:800px;height:400px;margin-left:-400px;margin-top:-200px;
+    -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;
+    box-shadow:0 0 10px 3px rgba(0,0,0,.3);
+}
+.login-left {margin-top:70px;padding-left:90px;width:320px;height:250px;}
+.login .slogan {width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
+.login .image {width:260px;height:180px;margin-top:20px;}
+.login-form {padding:50px;}
+.login h1 {font-size:1.3rem;font-weight:bold;margin-bottom:20px;text-align:center;}
+
+.copyright {position:absolute;bottom:50px;text-align:center;color:#fff;width:100%;font-size:1.1rem;}
+.copyright span {margin:0 5px;}
+.copyright a {color:#fff;}
+
+@media screen and (max-width:768px) {
+    .login {width:80%;margin-left:-40%;}
+    .login-left {display:none;}
+    .login-form {padding:50px 20px;}
+}
+
+/*Layout*/
+.layout-tabs > .ant-tabs-nav {background-color:#fff;margin-bottom:10px;}
+.layout-tabs > .ant-tabs-content-holder {background-color:#fff;margin:0 10px;}
+.layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab-active {
+    background-color:#f0f2f5;border-bottom-color:#f0f2f5;
+}
+
+/*UserProfile*/
+.avatar {text-align:center;}
+.avatar img {width:100px;height:100px;margin:20px auto;}
+.userInfo li {list-style:none;text-align:justify;margin-bottom:10px;}
+.userInfo li .anticon {color:#2d8cf0;}
+.userInfo li span {color:#333;font-size:0.9rem;}
+
+.user-message .data-top {padding-top:10px;}
+.user-message .form-label {width:auto;}
+.user-message .form {margin-top:10px;}
+.user-message .form-button {padding:10px;text-align:center;}
+.user-message .noread {font-weight:bold;color:#000;}
+
+/*Import*/
+.form-import {grid-template-rows:20px 50px auto;}
+.form-import .item {display:flex;margin:8px 0;}
+.form-import .item input {display:inline-block;border:1px solid #d5d5d5;}
+.form-import .link {margin-right:10px;}
+.form-import .size {margin-left:10px;}
+.form-import .message {padding:10px 0;}
+
+/*File*/
+.form-files {margin-top:5px;}
+.form-files span {margin-right:5px;}
+
+/*Setting*/
+.form-setting .ant-form-item-label {text-align:left;padding-left:10px;}
+.form-setting .ant-form-item-control {text-align:right;padding-right:10px;}

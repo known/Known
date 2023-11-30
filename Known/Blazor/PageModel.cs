@@ -4,6 +4,11 @@ namespace Known.Blazor;
 
 public class PageModel<TItem> where TItem : class, new()
 {
+    internal PageModel(IUIService ui)
+    {
+        UI = ui;
+    }
+
     internal PageModel(BasePage<TItem> page)
     {
         UI = page.UI;

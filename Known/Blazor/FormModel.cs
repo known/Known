@@ -1,13 +1,17 @@
 ﻿using System.ComponentModel;
 using System.Linq.Expressions;
 using Known.Extensions;
+using Known.Helpers;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Known.Blazor;
 
 public class FormModel<TItem> where TItem : class, new()
 {
-    private List<FormRow<TItem>> rows;
+    internal FormModel(IUIService ui)
+    {
+        Page = new PageModel<TItem>(ui);
+    }
 
     internal FormModel(PageModel<TItem> page)
     {
@@ -21,47 +25,13 @@ public class FormModel<TItem> where TItem : class, new()
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
     }
 
-    public List<FormRow<TItem>> Rows
-    {
-        get
-        {
-            if (rows == null)
-            {
-                rows = [];
-                var columns = Page.Table.AllColumns.Where(c => c.IsForm).ToList();
-                var rowNos = columns.Select(c => c.Row).Distinct().ToList();
-                if (rowNos.Count == 1)
-                {
-                    foreach (var item in columns)
-                    {
-                        var row = new FormRow<TItem>();
-                        row.Fields.Add(new FieldModel<TItem>(this, item));
-                        rows.Add(row);
-                    }
-                }
-                else
-                {
-                    foreach (var rowNo in rowNos)
-                    {
-                        var row = new FormRow<TItem>();
-                        var fields = columns.Where(c => c.Row == rowNo).OrderBy(c => c.Column).ToList();
-                        foreach (var item in fields)
-                        {
-                            row.Fields.Add(new FieldModel<TItem>(this, item));
-                        }
-                        rows.Add(row);
-                    }
-                }
-            }
-            return rows;
-        }
-    }
-
     public PageModel<TItem> Page { get; }
     public FormOption Option { get; }
     public bool IsView { get; internal set; }
     public string Title { get; internal set; }
     public TItem Data { get; set; }
+    public int? LabelSpan { get; set; }
+    public List<FormRow<TItem>> Rows { get; } = [];
     public Dictionary<string, List<CodeInfo>> Codes { get; } = [];
     public Dictionary<string, List<IBrowserFile>> Files { get; } = [];
     public Type Type { get; internal set; }
@@ -79,7 +49,38 @@ public class FormModel<TItem> where TItem : class, new()
         return null;
     }
 
+    public FormRow<TItem> AddRow()
+    {
+        var row = new FormRow<TItem>(this);
+        Rows.Add(row);
+        return row;
+    }
+
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector) => Page.Table.Column(selector);
+
+    public void Initialize()
+    {
+        if (Page != null && Page.Table != null && Page.Table.AllColumns != null)
+        {
+            var columns = Page.Table.AllColumns.Where(c => c.IsForm).ToList();
+            var rowNos = columns.Select(c => c.Row).Distinct().ToList();
+            if (rowNos.Count == 1)
+            {
+                foreach (var item in columns)
+                {
+                    AddRow().AddColumn(item);
+                }
+            }
+            else
+            {
+                foreach (var rowNo in rowNos)
+                {
+                    var fields = columns.Where(c => c.Row == rowNo).OrderBy(c => c.Column).ToArray();
+                    AddRow().AddColumn(fields);
+                }
+            }
+        }
+    }
 
     public bool Validate()
     {
@@ -125,7 +126,29 @@ public class FormModel<TItem> where TItem : class, new()
 
 public class FormRow<TItem> where TItem : class, new()
 {
+    internal FormRow(FormModel<TItem> form)
+    {
+        Form = form;
+    }
+
+    public FormModel<TItem> Form { get; }
     public List<FieldModel<TItem>> Fields { get; } = [];
+
+    public FormRow<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector)
+    {
+        var property = TypeHelper.Property(selector);
+        var column = new ColumnInfo(property);
+        return AddColumn(column);
+    }
+
+    public FormRow<TItem> AddColumn(params ColumnInfo[] columns)
+    {
+        foreach (var item in columns)
+        {
+            Fields.Add(new FieldModel<TItem>(Form, item));
+        }
+        return this;
+    }
 }
 
 public class FormOption

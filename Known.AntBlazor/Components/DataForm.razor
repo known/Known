@@ -6,7 +6,7 @@
         foreach (var row in rows)
         {
             var colSpan = 24 / row.Fields.Count;
-            var lblSpan = GetLabelSpan(colSpan);
+            var lblSpan = Model.LabelSpan ?? GetLabelSpan(colSpan);
             <GridRow>
                 @foreach (var field in row.Fields)
                 {
@@ -30,6 +30,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        Model.Initialize();
         rows = Model.Rows;
     }
 

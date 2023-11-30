@@ -5,7 +5,7 @@
 {
     @if (!Context.Install.IsInstalled)
     {
-        <Known.AntBlazor.Pages.Install OnInstall="OnInstall" />
+        <Known.Blazor.InstallPage OnInstall="OnInstall" />
     }
     else if (!IsLogin)
     {

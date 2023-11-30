@@ -27,6 +27,7 @@ public class InstallInfo
     [Required(ErrorMessage = "产品密钥不能为空！")]
     public string ProductKey { get; set; }
 
+    [Form(IsReadOnly = true)]
     [DisplayName("管理员账号")]
     [Required(ErrorMessage = "管理员账号不能为空！")]
     public string UserName { get; set; }

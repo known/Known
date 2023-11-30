@@ -124,9 +124,11 @@ public class ColumnInfo
 
     public ColumnInfo() { }
 
-    internal ColumnInfo(ColumnAttribute attr)
+    internal ColumnInfo(ColumnAttribute attr) : this(attr.Property) { }
+
+    internal ColumnInfo(PropertyInfo property)
     {
-        Property = attr.Property;
+        Property = property;
         Id = Property.Name;
         Name = Property.DisplayName();
 
