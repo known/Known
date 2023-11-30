@@ -5,7 +5,7 @@ namespace Known.Blazor;
 public interface IUIService
 {
     Type GetInputType(ColumnInfo column);
-    void AddInputAttributes(Dictionary<string, object> attributes, ColumnInfo column);
+    void AddInputAttributes<TItem>(Dictionary<string, object> attributes, FieldModel<TItem> model) where TItem : class, new();
     void Toast(string message, StyleType style = StyleType.Success);
     void Alert(string message);
     void Confirm(string message, Func<Task> action);

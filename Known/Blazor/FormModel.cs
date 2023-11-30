@@ -61,6 +61,7 @@ public class FormModel<TItem> where TItem : class, new()
     public bool IsView { get; internal set; }
     public string Title { get; internal set; }
     public TItem Data { get; set; }
+    public Dictionary<string, List<CodeInfo>> Codes { get; } = [];
     public Dictionary<string, List<IBrowserFile>> Files { get; } = [];
     public Type Type { get; internal set; }
     public Func<bool> OnValidate { get; set; }
@@ -68,6 +69,14 @@ public class FormModel<TItem> where TItem : class, new()
     internal FormType FormType { get; set; }
     internal Func<TItem, Task<Result>> OnSave { get; set; }
     internal Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
+
+    internal List<CodeInfo> GetCodes(ColumnInfo column)
+    {
+        if (Codes.TryGetValue(column.Category, out List<CodeInfo> value))
+            return value;
+
+        return null;
+    }
 
     public bool Validate()
     {

@@ -5,12 +5,11 @@ namespace Known.AntBlazor.Components;
 
 class AntCheckboxGroup : CheckboxGroup
 {
-    [Parameter] public string CodeType { get; set; }
+    [Parameter] public List<CodeInfo> Codes { get; set; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        var codes = Cache.GetCodes(CodeType, false);
-        Options = codes.ToCheckboxOptions();
+        Options = Codes.ToCheckboxOptions();
     }
 }

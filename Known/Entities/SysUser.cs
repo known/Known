@@ -175,16 +175,17 @@ public class SysUser : EntityBase
 
     [Column]
     [Form(Row = 5, Column = 1)]
+    [Code(Category = "Roles")]
     [DisplayName("角色")]
     public virtual string[] RoleIds { get; set; }
     [DisplayName("数据")]
     public virtual string[] DataIds { get; set; }
 
-    public virtual List<CodeInfo> Roles { get; set; }
-    public virtual List<CodeInfo> Datas { get; set; }
+    internal virtual List<CodeInfo> Roles { get; set; }
+    internal virtual List<CodeInfo> Datas { get; set; }
 
     private bool isOperation = false;
-    public virtual bool IsOperation
+    internal virtual bool IsOperation
     {
         get
         {

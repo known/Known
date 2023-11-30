@@ -95,11 +95,12 @@ class SysUserList : BasePage<SysUser>
     }
 }
 
-public class SysUserForm : BaseForm<SysUser>
+class SysUserForm : BaseForm<SysUser>
 {
     protected override async Task OnInitFormAsync()
     {
-        await base.OnInitFormAsync();
         Model.Data = await Platform.User.GetUserAsync(Model.Data);
+        Model.Codes["Roles"] = Model.Data.Roles;
+        await base.OnInitFormAsync();
     }
 }

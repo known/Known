@@ -8,7 +8,7 @@
     protected override void OnInitialized()
     {
         model.Items.Add(new("基本信息") { Content = @<DataForm Model="Model" /> });
-        model.Items.Add(new("页面设置") { Content = @<ModulePage Model="Model" /> });
+        model.Items.Add(new("字段信息") { Content = @<ModuleField Model="Model" /> });
         model.Items.Add(new("表单设置") { Content = @<ModuleForm Model="Model" /> });
         model.IsView = Model.IsView;
         model.OnSave = SaveAsync;

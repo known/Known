@@ -38,11 +38,9 @@
             </Menu>
         </Sider>
         <Layout Class="site-layout">
-            <Header Class="site-layout-background" Style="padding:0;">
-                <div style="padding:0 10px;display:flex;justify-content:space-between;">
-                    <h1>@CurrentUser?.AppName</h1>
-                    <NavTopRight OnMenuClick="OnMenuClick" />
-                </div>
+            <Header Class="layout-background layout-header">
+                <h1>@CurrentUser?.AppName</h1>
+                <NavTopRight OnMenuClick="OnMenuClick" />
             </Header>
             <Content>
                 @if (Context.UserSetting.MultiTab)

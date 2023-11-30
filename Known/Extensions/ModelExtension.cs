@@ -4,6 +4,20 @@ namespace Known.Extensions;
 
 public static class ModelExtension
 {
+    #region CodeInfo
+    public static List<CodeInfo> ToCodes(this List<CodeInfo> codes, string emptyText = "")
+    {
+        var infos = new List<CodeInfo>();
+        if (!string.IsNullOrWhiteSpace(emptyText))
+            infos.Add(new CodeInfo("", emptyText));
+
+        if (codes != null && codes.Count > 0)
+            infos.AddRange(codes);
+
+        return infos;
+    }
+    #endregion
+
     #region Menu
     internal static List<MenuItem> ToMenuItems(this List<MenuInfo> menus)
     {

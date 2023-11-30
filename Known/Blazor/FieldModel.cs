@@ -69,16 +69,22 @@ public class FieldModel<TItem> where TItem : class, new()
     //    get { return _viewTemplate ??= builder => builder.Span($"{Value}"); }
     //}
 
+    public List<CodeInfo> GetCodes(string emptyText = "请选择")
+    {
+        var codes = Form.GetCodes(Column);
+        if (codes == null || codes.Count == 0)
+            codes = Cache.GetCodes(Column.Category);
+
+        return codes.ToCodes(emptyText);
+    }
+
     private IDictionary<string, object> InputAttributes
     {
         get
         {
-            var expression = InputExpression.Create(this);
             var attributes = new Dictionary<string, object>
             {
                 { "id", Column.Id },
-                { "Value", Value },
-                { "ValueExpression", expression.ValueExpression },
                 { "autofocus", true },
                 { "placeholder", Column.Placeholder },
             };
@@ -91,10 +97,17 @@ public class FieldModel<TItem> where TItem : class, new()
             else
             {
                 attributes["required"] = Column.Property.IsRequired();
-                attributes["ValueChanged"] = expression.ValueChanged;
             }
 
-            UI.AddInputAttributes(attributes, Column);
+            UI.AddInputAttributes(attributes, this);
+
+            attributes["Value"] = Value;
+            
+            var expression = InputExpression.Create(this);
+            if (!Form.IsView && !Column.IsReadOnly)
+                attributes["ValueChanged"] = expression.ValueChanged;
+            attributes["ValueExpression"] = expression.ValueExpression;
+            
             return attributes;
         }
     }

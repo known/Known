@@ -41,12 +41,9 @@ public sealed class Cache
         cached.TryRemove(key, out object _);
     }
 
-    public static List<CodeInfo> GetCodes(string category, bool isAll = true)
+    public static List<CodeInfo> GetCodes(string category)
     {
         var infos = new List<CodeInfo>();
-        if (isAll)
-            infos.Add(new CodeInfo("", "全部"));
-
         if (string.IsNullOrWhiteSpace(category))
             return infos;
 

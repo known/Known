@@ -65,18 +65,19 @@ class UIService(ModalService modal, MessageService message) : IUIService
         return typeof(Input<string>);
     }
 
-    public void AddInputAttributes(Dictionary<string, object> attributes, ColumnInfo column)
+    public void AddInputAttributes<TItem>(Dictionary<string, object> attributes, FieldModel<TItem> model) where TItem : class, new()
     {
-        var property = column.GetProperty();
-        var type = property.PropertyType;
-
+        var column = model.Column;
         if (!string.IsNullOrWhiteSpace(column.Category))
         {
+            var property = column.GetProperty();
+            var type = property.PropertyType;
+
             if (type == typeof(string))
-                attributes[nameof(AntRadioGroup.CodeType)] = column.Category;
+                attributes[nameof(AntRadioGroup.Codes)] = model.GetCodes("");
 
             if (type == typeof(string[]))
-                attributes[nameof(AntCheckboxGroup.CodeType)] = column.Category;
+                attributes[nameof(AntCheckboxGroup.Codes)] = model.GetCodes("");
         }
     }
 

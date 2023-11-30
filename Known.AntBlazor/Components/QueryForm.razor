@@ -15,7 +15,7 @@
             <FormItem Label="@item.Name">
                 @if (!string.IsNullOrWhiteSpace(item.Category))
                 {
-                    var codes = Cache.GetCodes(item.Category, item.IsQueryAll);
+                    var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? "全部" : "");
                     <Select TItemValue="string" TItem="CodeInfo" DataSource="codes"
                             ValueName="@nameof(CodeInfo.Code)" LabelName="@nameof(CodeInfo.Name)"
                             @bind-Value="@(context[property.Name].Value)"

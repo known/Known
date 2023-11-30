@@ -19,7 +19,7 @@ class SysDictionaryList : BasePage<SysDictionary>
         category = criteria.GetQueryValue(nameof(SysDictionary.Category));
         if (string.IsNullOrWhiteSpace(category))
         {
-            category = Cache.GetCodes(Constants.DicCategory, false)?.FirstOrDefault()?.Code;
+            category = Cache.GetCodes(Constants.DicCategory)?.FirstOrDefault()?.Code;
             criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category);
         }
         var result = await Platform.Dictionary.QueryDictionarysAsync(criteria);

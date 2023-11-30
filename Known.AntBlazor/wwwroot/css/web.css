@@ -7,7 +7,8 @@
 .ant-table-pagination.ant-pagination {margin:10px;}
 
 /*Common*/
-.site-layout .site-layout-background {background: #fff;padding: 0;}
+.layout-background {background:#fff;}
+.layout-header {display:flex;justify-content:space-between;padding:0 10px;}
 
 .steps-content {
     margin-top: 16px; padding:10px;
