@@ -14,7 +14,7 @@ public class MenuInfo
         Columns = [];
     }
 
-    public MenuInfo(string id, string name, string icon = null, string description = null) : this()
+    internal MenuInfo(string id, string name, string icon = null, string description = null) : this()
     {
         Id = id;
         Name = name;
@@ -47,9 +47,9 @@ public class MenuInfo
     public string Target { get; set; }
     public string Color { get; set; }
     public int Sort { get; set; }
-    public List<string> Buttons { get; set; }
-    public List<string> Actions { get; set; }
-    public List<ColumnInfo> Columns { get; set; }
+    internal List<string> Buttons { get; set; }
+    internal List<string> Actions { get; set; }
+    internal List<ColumnInfo> Columns { get; set; }
 
     public List<CodeInfo> GetAllActions()
     {
@@ -87,7 +87,7 @@ public class ActionInfo
         Children = [];
     }
 
-    public ActionInfo(string idOrName)
+    internal ActionInfo(string idOrName)
     {
         Id = idOrName;
         Name = idOrName;
@@ -103,7 +103,7 @@ public class ActionInfo
         }
     }
 
-    public ActionInfo(string idOrName, string icon) : this(idOrName)
+    internal ActionInfo(string idOrName, string icon) : this(idOrName)
     {
         Icon = icon;
     }

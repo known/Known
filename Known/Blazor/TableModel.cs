@@ -12,11 +12,7 @@ public class TableModel<TItem> where TItem : class, new()
     {
         AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
         Columns = AllColumns;
-        if (Columns != null && Columns.Count > 0)
-        {
-            QueryColumns = Columns.Where(c => c.IsQuery).ToList();
-            InitQueryData();
-        }
+        InitQueryColumns();
     }
 
     internal TableModel(PageModel<TItem> page) : this()
@@ -28,11 +24,7 @@ public class TableModel<TItem> where TItem : class, new()
         Actions = page.Page.Actions;
 
         Columns = AllColumns.Where(c => HasColumn(page.Page.Columns, c.Property.Name)).ToList();
-        if (Columns != null && Columns.Count > 0)
-        {
-            QueryColumns = Columns.Where(c => c.IsQuery).ToList();
-            InitQueryData();
-        }
+        InitQueryColumns();
     }
 
     internal IUIService UI { get; }
@@ -168,8 +160,11 @@ public class TableModel<TItem> where TItem : class, new()
         return columns.Any(c => c.Id == id);
     }
 
-    private void InitQueryData()
+    private void InitQueryColumns()
     {
+        if (Columns != null && Columns.Count > 0)
+            QueryColumns.AddRange(Columns.Where(c => c.IsQuery));
+
         if (QueryColumns != null && QueryColumns.Count > 0)
         {
             foreach (var item in QueryColumns)

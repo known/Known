@@ -78,6 +78,8 @@ public class FieldModel<TItem> where TItem : class, new()
         return codes.ToCodes(emptyText);
     }
 
+    private bool IsReadOnly => Form.IsView || Column.IsReadOnly;
+
     private IDictionary<string, object> InputAttributes
     {
         get
@@ -89,7 +91,7 @@ public class FieldModel<TItem> where TItem : class, new()
                 { "placeholder", Column.Placeholder },
             };
 
-            if (Form.IsView || Column.IsReadOnly)
+            if (IsReadOnly)
             {
                 attributes["disabled"] = true;
                 attributes["readonly"] = true;
@@ -104,7 +106,7 @@ public class FieldModel<TItem> where TItem : class, new()
             attributes["Value"] = Value;
             
             var expression = InputExpression.Create(this);
-            if (!Form.IsView && !Column.IsReadOnly)
+            if (!IsReadOnly)
                 attributes["ValueChanged"] = expression.ValueChanged;
             attributes["ValueExpression"] = expression.ValueExpression;
             

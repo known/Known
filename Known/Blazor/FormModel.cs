@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq.Expressions;
 using Known.Extensions;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -77,6 +78,8 @@ public class FormModel<TItem> where TItem : class, new()
 
         return null;
     }
+
+    public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector) => Page.Table.Column(selector);
 
     public bool Validate()
     {

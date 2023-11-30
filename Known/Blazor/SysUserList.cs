@@ -100,6 +100,7 @@ class SysUserForm : BaseForm<SysUser>
     protected override async Task OnInitFormAsync()
     {
         Model.Data = await Platform.User.GetUserAsync(Model.Data);
+        Model.Column(c => c.UserName).ReadOnly(!Model.Data.IsNew);
         Model.Codes["Roles"] = Model.Data.Roles;
         await base.OnInitFormAsync();
     }

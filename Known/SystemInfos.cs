@@ -6,11 +6,11 @@ namespace Known;
 public class InstallInfo
 {
     public bool IsInstalled { get; set; }
-    
+
     [DisplayName("企业编码")]
     [Required(ErrorMessage = "企业编码不能为空！")]
     public string CompNo { get; set; }
-    
+
     [DisplayName("企业名称")]
     [Required(ErrorMessage = "企业名称不能为空！")]
     public string CompName { get; set; }

@@ -27,6 +27,12 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    public ColumnBuilder<TItem> ReadOnly(bool readOnly)
+    {
+        column.IsReadOnly = readOnly;
+        return this;
+    }
+
     public ColumnBuilder<TItem> DefaultAscend() => DefaultSort("asc");
     public ColumnBuilder<TItem> DefaultDescend() => DefaultSort("desc");
 
