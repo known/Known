@@ -1,4 +1,6 @@
-﻿namespace Known.WorkFlows;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Known.WorkFlows;
 
 public class FlowFormInfo
 {
@@ -6,6 +8,7 @@ public class FlowFormInfo
     public string BizStatus { get; set; }
     public string User { get; set; }
     public string UserRole { get; set; }
+    [MaxLength(500)]
     public string Note { get; set; }
     public string FlowStatus { get; set; }
     public object Model { get; set; }

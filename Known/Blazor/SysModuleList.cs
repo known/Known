@@ -69,7 +69,7 @@ class SysModuleList : BasePage<SysModule>
 
     private void OnCopy(List<SysModule> rows)
     {
-        OpenTreeModal("复制到", node =>
+        ShowTreeModal("复制到", node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
             return Platform.Module.CopyModulesAsync(rows);
@@ -78,7 +78,7 @@ class SysModuleList : BasePage<SysModule>
 
     private void OnMove(List<SysModule> rows)
     {
-        OpenTreeModal("移动到", node =>
+        ShowTreeModal("移动到", node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
             return Platform.Module.MoveModulesAsync(rows);
@@ -107,10 +107,10 @@ class SysModuleList : BasePage<SysModule>
         Page.Tree.SelectedKeys = [current?.Id];
     }
 
-    private void OpenTreeModal(string title, Func<SysModule, Task<Result>> action)
+    private void ShowTreeModal(string title, Func<SysModule, Task<Result>> action)
     {
         SysModule node = null;
-        var model = new ModalOption
+        var option = new ModalOption
         {
             Title = title,
             Content = builder =>
@@ -123,7 +123,7 @@ class SysModuleList : BasePage<SysModule>
                 });
             }
         };
-        model.OnOk = async () =>
+        option.OnOk = async () =>
         {
             if (node == null)
             {
@@ -134,10 +134,10 @@ class SysModuleList : BasePage<SysModule>
             var result = await action?.Invoke(node);
             UI.Result(result, async () =>
             {
-                await model.OnClose?.Invoke();
+                await option.OnClose?.Invoke();
                 await Page.RefreshAsync();
             });
         };
-        UI.ShowModal(model);
+        UI.ShowModal(option);
     }
 }

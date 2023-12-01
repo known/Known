@@ -26,11 +26,11 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Inject] public IUIService UI { get; set; }
 
     protected bool IsLoaded { get; set; }
-    protected UserInfo CurrentUser => Context?.CurrentUser;
-    protected HttpContext HttpContext => HttpAccessor.HttpContext;
+    public UserInfo CurrentUser => Context?.CurrentUser;
+    public HttpContext HttpContext => HttpAccessor.HttpContext;
 
     private PlatformService platform;
-    protected PlatformService Platform
+    public PlatformService Platform
     {
         get
         {

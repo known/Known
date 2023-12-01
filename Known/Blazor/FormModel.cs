@@ -134,10 +134,11 @@ public class FormRow<TItem> where TItem : class, new()
     public FormModel<TItem> Form { get; }
     public List<FieldModel<TItem>> Fields { get; } = [];
 
-    public FormRow<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector)
+    public FormRow<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector, Action<ColumnInfo> action = null)
     {
         var property = TypeHelper.Property(selector);
         var column = new ColumnInfo(property);
+        action?.Invoke(column);
         return AddColumn(column);
     }
 
@@ -145,6 +146,7 @@ public class FormRow<TItem> where TItem : class, new()
     {
         foreach (var item in columns)
         {
+            item.IsForm = true;
             Fields.Add(new FieldModel<TItem>(Form, item));
         }
         return this;
