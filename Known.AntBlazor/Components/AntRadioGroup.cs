@@ -9,9 +9,9 @@ class AntRadioGroup : RadioGroup<string>
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         Options = Codes.ToRadioOptions();
         //Fixed单选按钮组切换不刷新问题
         OnChange = EventCallback.Factory.Create<string>(this, value => StateHasChanged());
+        base.OnInitialized();
     }
 }

@@ -9,7 +9,7 @@ class AntCheckboxGroup : CheckboxGroup
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         Options = Codes.ToCheckboxOptions();
+        base.OnInitialized();
     }
 }
