@@ -17,6 +17,7 @@ class SysModuleList : BasePage<SysModule>
         Page.FormTitle = row => $"{Name} - {row.ParentName}";
         Page.Form.Width = 1000;
         Page.Form.NoFooter = true;
+        Page.Table.RowKey = r => r.Id;
         Page.Table.ShowPager = false;
 
         Page.Tree = new TreeModel

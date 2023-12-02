@@ -62,6 +62,7 @@ public class FormModel<TItem> where TItem : class, new()
     {
         if (Page != null && Page.Table != null && Page.Table.AllColumns != null)
         {
+            Rows.Clear();
             var columns = Page.Table.AllColumns.Where(c => c.IsForm).ToList();
             var rowNos = columns.Select(c => c.Row).Distinct().ToList();
             if (rowNos.Count == 1)

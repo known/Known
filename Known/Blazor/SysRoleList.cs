@@ -8,6 +8,7 @@ class SysRoleList : BasePage<SysRole>
     {
         await base.OnInitPageAsync();
         Page.Form.Width = 1000;
+        Page.Table.RowKey = r => r.Id;
     }
 
     protected override Task<PagingResult<SysRole>> OnQueryAsync(PagingCriteria criteria)

@@ -18,6 +18,7 @@ class SysOrganizationList : BasePage<SysOrganization>
             OnNodeClick = OnNodeClick,
             OnRefresh = OnTreeRefresh
         };
+        Page.Table.RowKey = r => r.Id;
         Page.Table.ShowPager = false;
 
         var datas = await Platform.Company.GetOrganizationsAsync();

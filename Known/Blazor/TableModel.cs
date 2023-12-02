@@ -41,6 +41,7 @@ public class TableModel<TItem> where TItem : class, new()
     public List<ActionInfo> Actions { get; }
     public IEnumerable<TItem> SelectedRows { get; set; }
     public Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];
+    public Func<TItem, object> RowKey { get; set; }
     public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }
     public Func<Task> OnRefresh { get; set; }

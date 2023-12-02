@@ -27,6 +27,7 @@ class SysUserList : BasePage<SysUser>
         }
 
         Page.Form.Width = 800;
+        Page.Table.RowKey = r => r.Id;
         Page.Table.Column(c => c.Department).Visible(hasOrg);
         Page.Table.Column(c => c.Gender).Template(BuildGender);
     }

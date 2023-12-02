@@ -11,6 +11,7 @@ class SysDictionaryList : BasePage<SysDictionary>
     {
         await base.OnInitPageAsync();
         Page.FormTitle = row => $"{Name} - {row.CategoryName}";
+        Page.Table.RowKey = r => r.Id;
         Page.Table.Column(c => c.Sort).DefaultAscend();
     }
 
