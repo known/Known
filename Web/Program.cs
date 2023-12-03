@@ -4,7 +4,12 @@ using Web.Pages;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
-                .AddInteractiveServerComponents();
+                .AddInteractiveServerComponents()
+                .AddHubOptions(options =>
+                {
+                    options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
+                    options.HandshakeTimeout = TimeSpan.FromSeconds(30);
+                });
 builder.Services.AddDemo(info =>
 {
     //设置环境
