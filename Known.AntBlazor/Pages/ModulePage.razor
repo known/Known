@@ -1,0 +1,21 @@
+﻿<GridRow>
+	<GridCol Span="10">
+		<FormItem Label="实体类型">
+			
+		</FormItem>
+		<Table DataSource="columns">
+
+		</Table>
+	</GridCol>
+	<GridCol Span="14">
+		<WebPage Model="pageModel" />
+	</GridCol>
+</GridRow>
+
+@code {
+	private List<Type> modelTypes;
+	private PageModel<SysModule> pageModel;
+	private List<SysModule> columns;
+
+    [Parameter] public FormModel<SysModule> Model { get; set; }
+}

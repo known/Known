@@ -1,6 +1,6 @@
 ﻿@typeparam TItem where TItem : class, new()
 
-<Form @ref="_form" TModel="TItem" Model="Model.Data">
+<Form @ref="_form" Model="Model.Data">
     @if (rows != null && rows.Count > 0)
     {
         foreach (var row in rows)
