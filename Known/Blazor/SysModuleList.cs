@@ -16,6 +16,7 @@ class SysModuleList : BasePage<SysModule>
 
         Page.FormTitle = row => $"{Name} - {row.ParentName}";
         Page.Form.Width = 1000;
+        Page.Form.Maximizable = true;
         Page.Form.NoFooter = true;
         Page.Table.RowKey = r => r.Id;
         Page.Table.ShowPager = false;
@@ -141,4 +142,15 @@ class SysModuleList : BasePage<SysModule>
         };
         UI.ShowModal(option);
     }
+}
+
+public class SysModuleForm : BaseForm<SysModule>
+{
+    public List<CodeInfo> ModelTypes { get; private set; }
+
+	protected override async Task OnInitFormAsync()
+	{
+		await base.OnInitFormAsync();
+        ModelTypes = Config.ModelTypes.Select(m => new CodeInfo(m.Name, m.Name)).ToList();
+	}
 }

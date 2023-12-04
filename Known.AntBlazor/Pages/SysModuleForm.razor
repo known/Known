@@ -1,6 +1,8 @@
-﻿@inherits BaseForm<SysModule>
+﻿@inherits Known.Blazor.SysModuleForm
 
-<DataSteps Model="model" />
+<CascadingValue Value="this">
+    <DataSteps Model="model" />
+</CascadingValue>
 
 @code {
     private StepModel model = new() { IsContent = true };

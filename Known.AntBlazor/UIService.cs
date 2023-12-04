@@ -175,6 +175,8 @@ class UIService(ModalService modal, MessageService message) : IUIService
         var noFooter = false;
         if (model.Option != null)
         {
+            option.Maximizable = model.Option.Maximizable;
+            option.DefaultMaximized = model.Option.DefaultMaximized;
             noFooter = model.Option.NoFooter;
             if (model.Option.Width != null)
                 option.Width = model.Option.Width.Value;

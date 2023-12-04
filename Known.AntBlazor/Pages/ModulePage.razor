@@ -1,21 +1,21 @@
 ﻿<GridRow>
 	<GridCol Span="10">
-		<FormItem Label="实体类型">
-			
-		</FormItem>
+		<div>
+			<label>实体类型</label>
+			<AntSelect Codes="Form.ModelTypes" @bind-Value="modelType" />
+		</div>
 		<Table DataSource="columns">
-
+			<PropertyColumn Property="c=>c.Name" />
 		</Table>
 	</GridCol>
 	<GridCol Span="14">
-		<WebPage Model="pageModel" />
 	</GridCol>
 </GridRow>
 
 @code {
-	private List<Type> modelTypes;
-	private PageModel<SysModule> pageModel;
+	private string modelType;
 	private List<SysModule> columns;
 
-    [Parameter] public FormModel<SysModule> Model { get; set; }
+	[CascadingParameter] private SysModuleForm Form { get; set; }
+	[Parameter] public FormModel<SysModule> Model { get; set; }
 }
