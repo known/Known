@@ -22,9 +22,11 @@ public class MenuInfo
         Description = description;
     }
 
-    internal MenuInfo(SysModule module) : this()
+    internal MenuInfo(SysModule module, bool isAdmin = true) : this()
     {
-        module.LoadData();
+        if (isAdmin)
+            module.LoadData();
+
         Id = module.Id;
         Name = module.Name;
         Icon = module.Icon;

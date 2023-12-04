@@ -15,7 +15,7 @@ public class TableModel<TItem> where TItem : class, new()
         InitQueryColumns();
     }
 
-    internal TableModel(PageModel<TItem> page) : this()
+    internal TableModel(PageModel<TItem> page)
     {
         ShowPager = true;
         ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
@@ -23,6 +23,7 @@ public class TableModel<TItem> where TItem : class, new()
         UI = page.UI;
         Actions = page.Page.Actions;
 
+        AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
         Columns = AllColumns.Where(c => HasColumn(page.Page.Columns, c.Property.Name)).ToList();
         InitQueryColumns();
     }

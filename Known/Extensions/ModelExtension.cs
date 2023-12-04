@@ -107,12 +107,12 @@ public static class ModelExtension
 		}
 	}
 
-	internal static List<MenuInfo> ToMenus(this List<SysModule> modules)
+	internal static List<MenuInfo> ToMenus(this List<SysModule> modules, bool isAdmin)
     {
         if (modules == null || modules.Count == 0)
             return [];
 
-        return modules.Select(m => new MenuInfo(m)).ToList();
+        return modules.Select(m => new MenuInfo(m, isAdmin)).ToList();
     }
 
     internal static void RemoveModule(this List<SysModule> modules, string code)

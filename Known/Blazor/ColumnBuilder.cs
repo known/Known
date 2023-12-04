@@ -10,26 +10,33 @@ public class ColumnBuilder<TItem> where TItem : class, new()
 
     internal ColumnBuilder(TableModel<TItem> table, ColumnInfo column)
     {
-        name = column.Property.Name;
         this.table = table;
         this.column = column;
+
+        if (column != null)
+            name = column.Property.Name;
     }
 
     public ColumnBuilder<TItem> Template(Action<RenderTreeBuilder, TItem> template)
     {
+        if (string.IsNullOrWhiteSpace(name))
+            return this;
+
         table.Templates[name] = (row) => delegate (RenderTreeBuilder builder) { template(builder, row); };
         return this;
     }
 
     public ColumnBuilder<TItem> Visible(bool visible)
     {
-        column.IsGrid = visible;
+        if (column != null)
+            column.IsGrid = visible;
         return this;
     }
 
     public ColumnBuilder<TItem> ReadOnly(bool readOnly)
     {
-        column.IsReadOnly = readOnly;
+        if (column != null)
+            column.IsReadOnly = readOnly;
         return this;
     }
 
@@ -38,7 +45,8 @@ public class ColumnBuilder<TItem> where TItem : class, new()
 
     private ColumnBuilder<TItem> DefaultSort(string sort)
     {
-        column.DefaultSort = sort;
+        if (column != null)
+            column.DefaultSort = sort;
         return this;
     }
 }

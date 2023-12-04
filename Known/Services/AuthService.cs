@@ -84,6 +84,7 @@ class AuthService : ServiceBase
 
     public async Task<AdminInfo> GetAdminAsync()
     {
+        await Database.OpenAsync();
         //await DictionaryService.RefreshCacheAsync(Database, CurrentUser);
         var admin = new AdminInfo
         {
@@ -92,6 +93,7 @@ class AuthService : ServiceBase
             UserMenus = await UserHelper.GetUserMenusAsync(Database),
             UserSetting = await UserHelper.GetUserSettingAsync(Database)
         };
+        await Database.CloseAsync();
         return admin;
     }
 

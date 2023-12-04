@@ -19,10 +19,10 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
         await base.OnInitFormAsync();
 
         var logs = await Platform.Flow.GetFlowLogsAsync(Model.Data.Id);
-        step.Current = GetCurrentStep(logs);
         step.Items.Clear();
         if (Steps.Count > 0)
             step.Items.AddRange(Steps);
+        step.Current = GetCurrentStep(logs);
 
         tab.Items.Clear();
         if (Tabs.Count > 0)
@@ -44,7 +44,7 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
         if (logs != null && logs.Count > 0)
         {
             var last = logs.OrderByDescending(l => l.CreateTime).FirstOrDefault();
-            if (last.StepName == FlowStatus.StepOver)
+            if (last.StepName == FlowStatus.StepOver && step.Items.Count > 0)
                 return step.Items.Last();
         }
 

@@ -18,7 +18,6 @@ class UserHelper
 
     internal static async Task<SettingInfo> GetUserSettingAsync(Database db)
     {
-        await db.OpenAsync();
         var info = await GetUserSettingAsync<SettingInfo>(db, SettingInfo.KeyInfo);
         if (info != null)
         {
@@ -27,7 +26,6 @@ class UserHelper
             //var columns = await GetUserSettingsAsync(db, SettingInfo.KeyColumn);
             //info.Columns = columns.ToDictionary(s => s.BizName, s => s.DataAs<List<ColumnInfo>>());
         }
-        await db.CloseAsync();
         return info;
     }
 
@@ -47,7 +45,7 @@ class UserHelper
 
         var modules = await ModuleRepository.GetModulesAsync(db);
         if (user.IsAdmin)
-            return modules.ToMenus();
+            return modules.ToMenus(true);
 
         var moduleIds = await UserRepository.GetUserModuleIdsAsync(db, user.Id);
         var userModules = new List<SysModule>();
@@ -71,7 +69,7 @@ class UserHelper
             item.Columns = GetUserColumns(moduleIds, item);
             userModules.Add(item);
         }
-        return userModules.ToMenus();
+        return userModules.ToMenus(false);
     }
 
     private static List<string> GetUserButtons(List<string> moduleIds, SysModule module)
