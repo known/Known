@@ -28,7 +28,8 @@
 
 ```
 ├─Known           -> 框架类库，包含通用后端、内置组件、内置模块。
-├─Known.AntBlazor -> 基于AntDesign Blazor的界面。
+├─Known.AntBlazor -> 基于AntDesign Blazor的界面库。
+├─Known.Blazor    -> 框架内置Blazor的界面库。
 ├─Known.Cells     -> 基于Aspose.Cells实现的Excel操作类库。
 ├─Known.Demo      -> 框架示例模块。
 ├─Web             -> 框架示例Web App。
@@ -57,7 +58,7 @@
 //实体类
 public class Todo
 {
-    [Column(IsGrid = true, IsQuery = true, IsForm = true)]
+    [Column, Grid, Query, Form)]
     [DisplayName("项目")]
     public string Item { get; set; }
 }
