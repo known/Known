@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Known.AntBlazor.Components;
 
-class AntCheckboxGroup : CheckboxGroup
+public class AntCheckboxGroup : CheckboxGroup
 {
     [Parameter] public List<CodeInfo> Codes { get; set; }
 
