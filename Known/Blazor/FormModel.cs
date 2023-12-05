@@ -11,11 +11,7 @@ public class FormModel<TItem> where TItem : class, new()
     internal FormModel(IUIService ui)
     {
         Page = new PageModel<TItem>(ui);
-    }
-
-    internal FormModel(PageModel<TItem> page)
-    {
-        Page = page;
+        Option = new FormOption();
     }
 
     internal FormModel(PageModel<TItem> page, FormOption option)
@@ -156,6 +152,7 @@ public class FormRow<TItem> where TItem : class, new()
 
 public class FormOption
 {
+    public string Class { get; set; }
     public double? Width { get; set; }
     public bool Maximizable { get; set; }
     public bool DefaultMaximized { get; set; }

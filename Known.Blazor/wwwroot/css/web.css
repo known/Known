@@ -256,7 +256,7 @@ button, .button, input, select,
 /*SysDic*/
 .form th.dic-extend {text-align:left;line-height:30px;}
 
-/*SysRole*/
+/*SysRole
 .role {grid-template-rows:100%;padding:5px;}
 .role .form {padding:0;padding-right:0.5rem;}
 .role > .form-button {display:none;}
@@ -274,4 +274,4 @@ button, .button, input, select,
 
 @media screen and (max-width:768px) {
     .role > .form-body {grid-template-columns:100%;}
-}
+}*/

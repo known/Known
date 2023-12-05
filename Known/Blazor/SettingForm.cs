@@ -1,32 +1,63 @@
-﻿namespace Known.Blazor;
+﻿using Known.Extensions;
+using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
+
+namespace Known.Blazor;
 
 public class SettingForm : BaseComponent
 {
-    protected SettingInfo Model = new();
+    private FormModel<SettingInfo> model;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Model = Context.UserSetting;
+        model = new FormModel<SettingInfo>(UI);
+        model.Data = Context.UserSetting;
+        model.LabelSpan = 10;
+        model.AddRow().AddColumn(c => c.IsLight);
+        model.AddRow().AddColumn(c => c.Accordion);
+        model.AddRow().AddColumn(c => c.MultiTab);
     }
 
-    protected async Task SaveAsync()
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        var result = await Platform.Setting.SaveSettingAsync(SettingInfo.KeyInfo, Model);
+        builder.Div("form-setting", () =>
+        {
+            UI.BuildForm(builder, model);
+            builder.Div("center", () =>
+            {
+                UI.BuildButton(builder, new ActionInfo
+                {
+                    Style = "primary",
+                    Name = "保存",
+                    OnClick = Callback<MouseEventArgs>(SaveAsync)
+                });
+                UI.BuildButton(builder, new ActionInfo
+                {
+                    Name = "重置",
+                    OnClick = Callback<MouseEventArgs>(ResetAsync)
+                });
+            });
+        });
+    }
+
+    private async void SaveAsync(MouseEventArgs arg)
+    {
+        var result = await Platform.Setting.SaveSettingAsync(SettingInfo.KeyInfo, model.Data);
         if (result.IsValid)
         {
-            Context.UserSetting = Model;
+            Context.UserSetting = model.Data;
             Context.RefreshPage();
         }
     }
 
-    protected async Task ResetAsync()
+    private async void ResetAsync(MouseEventArgs arg)
     {
         var result = await Platform.Setting.DeleteUserSettingAsync(SettingInfo.KeyInfo);
         if (result.IsValid)
         {
-            Model = new();
-            Context.UserSetting = Model;
+            model.Data = new();
+            Context.UserSetting = model.Data;
             Context.RefreshPage();
         }
     }

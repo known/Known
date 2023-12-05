@@ -21,6 +21,7 @@
 
 .link {color:#1890ff;cursor:pointer;}
 .danger {color:#ed4014;}
+.center {text-align:center;}
 
 .query, .toolbar {padding:10px 10px 0 10px;}
 .table {padding-top:10px;}
@@ -77,13 +78,6 @@
     .login-right {padding:50px 20px;}
 }
 
-/*Layout*/
-.layout-tabs > .ant-tabs-nav {background-color:#fff;margin-bottom:10px;}
-.layout-tabs > .ant-tabs-content-holder {background-color:#fff;margin:0 10px;}
-.layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab-active {
-    background-color:#f0f2f5;border-bottom-color:#f0f2f5;
-}
-
 /*UserProfile*/
 .avatar {text-align:center;}
 .avatar img {width:100px;height:100px;margin:20px auto;}
@@ -110,5 +104,4 @@
 .form-files span {margin-right:5px;}
 
 /*Setting*/
-.form-setting .ant-form-item-label {text-align:left;padding-left:10px;}
-.form-setting .ant-form-item-control {text-align:right;padding-right:10px;}
+.form-setting button {margin:0 5px;}
