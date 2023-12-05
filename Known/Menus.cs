@@ -250,6 +250,7 @@ public class MenuItem : MenuInfo
     public bool Enabled { get; set; } = true;
     public bool Visible { get; set; } = true;
     public bool Closable { get; set; }
+    public bool Checked { get; set; }
     public int Badge { get; set; }
     public Type ComType { get; set; }
     public Dictionary<string, object> ComParameters { get; set; }

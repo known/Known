@@ -6,15 +6,7 @@
     </div>
     <div style="width:260px;">
         <div>模块</div>
-        <Tree TItem="Known.MenuItem" ShowIcon Checkable
-              DataSource="Model.Data.Menus" OnClick="OnTreeClick" OnCheck="OnTreeCheck"
-              DefaultCheckedKeys="Model.Data.MenuIds.ToArray()"
-              DisabledExpression="x => !x.DataItem.Enabled || Model.IsView"
-              KeyExpression="x => x.DataItem.Id"
-              TitleExpression="x => x.DataItem.Name"
-              IconExpression="x => x.DataItem.Icon"
-              ChildrenExpression="x => x.DataItem.Children"
-              IsLeafExpression="x => x.DataItem.Children?.Count == 0" />
+        <AntTree Model="tree" />
     </div>
     <div style="background-color:#f5f5f5;width:160px;">
         <div>
@@ -36,26 +28,46 @@
      .role .ant-checkbox-group {display:flex;flex-direction:column;padding:5px;}
 </style>
 
- @code {
-    private TreeNode<Known.MenuItem> current;
+@code {
+    private TreeModel tree;
+    private Known.MenuItem current;
     private bool CheckDisabled => Model.IsView || current == null || !current.Checked;
 
-    private void OnTreeClick(TreeEventArgs<Known.MenuItem> e) => SelectNode(e.Node);
-
-    private void OnTreeCheck(TreeEventArgs<Known.MenuItem> e)
+    protected override async Task OnInitializedAsync()
     {
-        SelectNode(e.Node);
+        await base.OnInitializedAsync();
+        tree = new TreeModel
+        {
+            Checkable = true,
+            IsView = Model.IsView,
+            Data = Model.Data.Menus,
+            DefaultCheckedKeys = Model.Data.MenuIds.ToArray(),
+            OnNodeClick = OnTreeClick,
+            OnNodeCheck = OnTreeCheck
+        };
+    }
 
-        var btnItems = e.Node.Checked ? allButtons.Select(o => o.Value).ToArray() : null;
-        var colItems = e.Node.Checked ? allColumns.Select(o => o.Value).ToArray() : null;
-        allButtons.ForEach(o => o.Checked = e.Node.Checked);
-        allColumns.ForEach(o => o.Checked = e.Node.Checked);
+    private void OnTreeClick(Known.MenuItem item)
+    {
+        SelectNode(item);
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void OnTreeCheck(Known.MenuItem item)
+    {
+        SelectNode(item);
+
+        var btnItems = item.Checked ? allButtons.Select(o => o.Value).ToArray() : null;
+        var colItems = item.Checked ? allColumns.Select(o => o.Value).ToArray() : null;
+        allButtons.ForEach(o => o.Checked = item.Checked);
+        allColumns.ForEach(o => o.Checked = item.Checked);
         OnButtonChanged(btnItems);
         OnColumnChanged(colItems);
 
-        Model.Data.MenuIds.Remove(e.Node.DataItem.Id);
-        if (e.Node.Checked)
-            Model.Data.MenuIds.Add(e.Node.DataItem.Id);
+        Model.Data.MenuIds.Remove(item.Id);
+        if (item.Checked)
+            Model.Data.MenuIds.Add(item.Id);
+        InvokeAsync(StateHasChanged);
     }
 
     private CheckboxOption[] allButtons = [];
@@ -70,7 +82,7 @@
     private void OnButtonChanged(string[] items)
     {
         //indButton = Indeterminate(allButtons);
-        Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"b_{current.DataItem.Id}"));
+        Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"b_{current.Id}"));
         if (items != null && items.Length > 0)
             Model.Data.MenuIds.AddRange(items);
     }
@@ -87,21 +99,21 @@
     private void OnColumnChanged(string[] items)
     {
         //indColumn = Indeterminate(allColumns);
-        Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"c_{current.DataItem.Id}"));
+        Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"c_{current.Id}"));
         if (items != null && items.Length > 0)
             Model.Data.MenuIds.AddRange(items);
     }
 
-    private void SelectNode(TreeNode<Known.MenuItem> node)
+    private void SelectNode(Known.MenuItem item)
     {
-        current = node;
-        allButtons = current.DataItem.GetAllActions().ToCheckboxOptions(o =>
+        current = item;
+        allButtons = current.GetAllActions().ToCheckboxOptions(o =>
         {
             o.Checked = Model.Data.MenuIds.Contains(o.Value);
             o.Disabled = Model.IsView;
         });
 
-        allColumns = current.DataItem.GetAllColumns().ToCheckboxOptions(o =>
+        allColumns = current.GetAllColumns().ToCheckboxOptions(o =>
         {
             o.Checked = Model.Data.MenuIds.Contains(o.Value);
             o.Disabled = Model.IsView;

@@ -205,7 +205,7 @@ class UIService(ModalService modal, MessageService message) : IUIService
 
     public void BuildTree(RenderTreeBuilder builder, TreeModel model)
     {
-        builder.Component<DataTree>().Set(c => c.Model, model).Build();
+        builder.Component<AntTree>().Set(c => c.Model, model).Build();
     }
 
     public void BuildSteps(RenderTreeBuilder builder, StepModel model)

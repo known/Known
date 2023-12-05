@@ -144,13 +144,62 @@ class SysModuleList : BasePage<SysModule>
     }
 }
 
-public class SysModuleForm : BaseForm<SysModule>
+class SysModuleForm : BaseForm<SysModule>
 {
-    public List<CodeInfo> ModelTypes { get; private set; }
+	private readonly StepModel step = new() { IsContent = true };
+
+	private List<CodeInfo> ModelTypes { get; set; }
 
 	protected override async Task OnInitFormAsync()
 	{
 		await base.OnInitFormAsync();
         ModelTypes = Config.ModelTypes.Select(m => new CodeInfo(m.Name, m.Name)).ToList();
+
+		step.Items.Add(new("基本信息") { Content = BuildDataForm });
+		step.Items.Add(new("页面设置") { Content = BuildModulePage });
+		step.Items.Add(new("表单设置") { Content = BuildModuleForm });
+		step.IsView = Model.IsView;
+		step.OnSave = SaveAsync;
+	}
+
+	protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading<SysModuleForm>(this, BuildForm);
+
+	private void BuildForm(RenderTreeBuilder builder) => UI.BuildSteps(builder, step);
+	private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
+
+	private void BuildModulePage(RenderTreeBuilder builder)
+	{
+        builder.Div("module-page", () =>
+        {
+            builder.Div("left", () =>
+            {
+                builder.Div("", () =>
+                {
+                    builder.Span("实体类型");
+                    UI.BuildInput(builder, new InputOption<string> { ValueChanged = Callback<string>(OnModelChanged) });
+                });
+            });
+			builder.Div("right", () =>
+			{
+
+			});
+		});
+	}
+
+	private void OnModelChanged(string obj)
+	{
+	}
+
+	private void BuildModuleForm(RenderTreeBuilder builder)
+	{
+	}
+
+	private async Task<bool> SaveAsync(bool isClose = false)
+	{
+		if (!Model.Validate())
+			return false;
+
+		await Model.SaveAsync(isClose);
+		return true;
 	}
 }
