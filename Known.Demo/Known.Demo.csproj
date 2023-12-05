@@ -22,6 +22,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Known.Cells\Known.Cells.csproj" />
+        <ProjectReference Include="..\Known.Blazor\Known.Blazor.csproj" />
         <ProjectReference Include="..\Known.AntBlazor\Known.AntBlazor.csproj" />
     </ItemGroup>
 

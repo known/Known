@@ -5,7 +5,7 @@ namespace Known.Blazor;
 
 public class LoginForm : BaseComponent
 {
-    private readonly string KeyLoginInfo = "LoginInfo";
+    private readonly string KeyLoginInfo = "Known_LoginInfo";
     protected LoginFormInfo Model = new();
 
     [Parameter] public Action<UserInfo> OnLogin { get; set; }

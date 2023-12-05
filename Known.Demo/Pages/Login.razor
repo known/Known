@@ -1,30 +1,35 @@
 ﻿@inherits LoginForm
 
 <div class="login">
-    <div class="login-left">
-        <div class="slogan">@Config.App.Name</div>
-        <div class="image"><img src="_content/Known.Demo/img/login.jpg" /></div>
-    </div>
+    <Tooltip Title="在此处切换界面类型" Style="margin:5px;">
+        <Segmented TValue="string" Labels="uis" OnChange="OnUIChanged" />
+    </Tooltip>
     <div class="login-form">
-        <h1>用户登录</h1>
-        <Form Model="@Model" OnFinish="OnUserLogin" LabelCol="null">
-            <FormItem>
-                <Input @bind-Value="@context.UserName" Placeholder="用户名">
+        <div class="login-left">
+            <div class="slogan">@Config.App.Name</div>
+            <div class="image"><img src="_content/Known.Demo/img/login.jpg" /></div>
+        </div>
+        <div class="login-right">
+            <h1>用户登录</h1>
+            <Form Model="@Model" OnFinish="OnUserLogin" LabelCol="null">
+                <FormItem>
+                    <Input @bind-Value="@context.UserName" Placeholder="用户名">
                     <Prefix><Icon Type="user" /></Prefix>
-                </Input>
-            </FormItem>
-            <FormItem>
-                <InputPassword @bind-Value="@context.Password" Placeholder="密码">
-                    <Prefix><Icon Type="lock" /></Prefix>
-                </InputPassword>
-            </FormItem>
-            <FormItem>
-                <Switch @bind-Checked="@context.Remember" /> 记住用户名
-            </FormItem>
-            <FormItem>
-                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>登 录</Button>
-            </FormItem>
-        </Form>
+                    </Input>
+                </FormItem>
+                <FormItem>
+                    <InputPassword @bind-Value="@context.Password" Placeholder="密码">
+                        <Prefix><Icon Type="lock" /></Prefix>
+                    </InputPassword>
+                </FormItem>
+                <FormItem>
+                    <Switch @bind-Checked="@context.Remember" /> 记住用户名
+                </FormItem>
+                <FormItem>
+                    <Button Type="@ButtonType.Primary" HtmlType="submit" Block>登 录</Button>
+                </FormItem>
+            </Form>
+        </div>
     </div>
 </div>
 <div class="copyright">
@@ -34,10 +39,18 @@
 </div>
 
 @code {
+    string[] uis = ["AntDesign", "Bootstrap", "KBlazor"];
+    [CascadingParameter] private Index Index { get; set; }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Model.UserName = "Admin";
         Model.Password = "888888";
+    }
+
+    private void OnUIChanged(string item)
+    {
+        Index.SetUIType(item);
     }
 }

@@ -1,0 +1,42 @@
+﻿@inherits IndexPage
+
+<CascadingValue Value="this">
+    @if (IsLoaded)
+    {
+        @if (!Context.Install.IsInstalled)
+        {
+            <Known.Blazor.InstallPage OnInstall="OnInstall" />
+        }
+        else if (!IsLogin)
+        {
+            <Known.Demo.Pages.Login OnLogin="OnLogin" />
+        }
+        else if (UIType == "AntDesign")
+        {
+            <Known.AntBlazor.Pages.Admin OnLogout="OnLogout" />
+        }
+        else
+        {
+            <Known.Blazor.Pages.Admin OnLogout="OnLogout" />
+        }
+    }
+</CascadingValue>
+
+@code {
+    // //第三方登录设置当前用户
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //    if (firstRender)
+    //        await SetCurrentUserAsync(CurrentUser);
+    //    await base.OnAfterRenderAsync(firstRender);
+    // }
+
+    // //第三方登录获取当前用户
+    // protected override async Task<UserInfo> GetThirdUserAsync()
+    // {
+    //    //var third = ThirdApi.GetUser();
+    //    var third = new { UserName = "admin" };
+    //    var user = await Platform.GetUserAsync(third.UserName);
+    //    return user;
+    // }
+}
