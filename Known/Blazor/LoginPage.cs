@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Known.Blazor;
 
-public class LoginForm : BaseComponent
+public class LoginPage : BaseComponent
 {
     private readonly string KeyLoginInfo = "Known_LoginInfo";
     protected LoginFormInfo Model = new();

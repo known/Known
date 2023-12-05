@@ -5,7 +5,7 @@
     {
         @if (!Context.Install.IsInstalled)
         {
-            <Known.Blazor.InstallPage OnInstall="OnInstall" />
+            <InstallPage OnInstall="OnInstall" />
         }
         else if (!IsLogin)
         {
@@ -13,11 +13,11 @@
         }
         else if (UIType == "AntDesign")
         {
-            <Known.AntBlazor.Pages.Admin OnLogout="OnLogout" />
+            <Known.AntBlazor.Admin OnLogout="OnLogout" />
         }
         else
         {
-            <Known.Blazor.Pages.Admin OnLogout="OnLogout" />
+            <Known.Blazor.Admin OnLogout="OnLogout" />
         }
     }
 </CascadingValue>

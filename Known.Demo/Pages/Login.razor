@@ -1,4 +1,4 @@
-﻿@inherits LoginForm
+﻿@inherits LoginPage
 
 <div class="login">
     <Tooltip Title="在此处切换界面类型" Style="margin:5px;">
@@ -11,24 +11,7 @@
         </div>
         <div class="login-right">
             <h1>用户登录</h1>
-            <Form Model="@Model" OnFinish="OnUserLogin" LabelCol="null">
-                <FormItem>
-                    <Input @bind-Value="@context.UserName" Placeholder="用户名">
-                    <Prefix><Icon Type="user" /></Prefix>
-                    </Input>
-                </FormItem>
-                <FormItem>
-                    <InputPassword @bind-Value="@context.Password" Placeholder="密码">
-                        <Prefix><Icon Type="lock" /></Prefix>
-                    </InputPassword>
-                </FormItem>
-                <FormItem>
-                    <Switch @bind-Checked="@context.Remember" /> 记住用户名
-                </FormItem>
-                <FormItem>
-                    <Button Type="@ButtonType.Primary" HtmlType="submit" Block>登 录</Button>
-                </FormItem>
-            </Form>
+            <Known.AntBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" />
         </div>
     </div>
 </div>
