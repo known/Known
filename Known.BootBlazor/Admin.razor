@@ -1,0 +1,65 @@
+﻿@inherits AdminPage
+
+<Layout ShowFooter="true" IsFullSide="true">
+    <Header>
+        <div style="padding:0 10px;display:flex;justify-content:space-between;">
+            <h1>@CurrentUser?.AppName</h1>
+            <NavTopRight OnMenuClick="OnMenuClick" />
+        </div>
+    </Header>
+    <Side>
+        <div class="logo" />
+        <Menu Items="@SideMenuItems" DisableNavigation IsVertical OnClick="OnSideMenuClick" style="border-right:1px solid #e6e6e6;width:220px;" />
+    </Side>
+    <Main>
+        @if (Context.UserSetting.MultiTab)
+        {
+            <PageTabs Menu="CurrentMenu" Items="TabMenus" />
+        }
+        else
+        {
+            <PageSingle Menu="CurrentMenu" OnHome="OnHome" />
+        }
+    </Main>
+</Layout>
+
+@code{
+    private List<BootstrapBlazor.Components.MenuItem> SideMenuItems = [];
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        SideMenuItems = UserMenus.ToSideMenuItems();
+    }
+
+    private void OnHome() => OnMenuClick("home");
+
+    private void OnMenuClick(string id)
+    {
+        switch (id)
+        {
+            case "home":
+                Context.NavigateToHome();
+                break;
+            case "profile":
+                //Context.Navigate(new("个人中心", "user", typeof(UserProfile), "当前用户个人中心和安全设置。"));
+                break;
+            case "logout":
+                UI.Confirm("确定要退出系统？", async () =>
+                {
+                    var result = await SignOutAsync();
+                    if (result.IsValid)
+                    {
+                        OnLogout?.Invoke();
+                    }
+                });
+                break;
+        }
+    }
+
+    private Task OnSideMenuClick(BootstrapBlazor.Components.MenuItem item)
+    {
+        //Context.Navigate(child)
+        return Task.CompletedTask;
+    }
+}

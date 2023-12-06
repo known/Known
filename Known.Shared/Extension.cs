@@ -1,5 +1,6 @@
 ﻿using Coravel;
 using Known.AntBlazor;
+using Known.BootBlazor;
 using Known.Cells;
 using Known.Demo;
 using Known.Extensions;
@@ -36,7 +37,8 @@ public static class Extension
         //2.添加KnownExcel实现
         services.AddKnownCells();
 
-        //3.添加KnownAntDesign页面
+        //3.添加UI扩展库
+        //添加KnownAntDesign
         services.AddKnownAntDesign(option =>
         {
             //添加页脚内容
@@ -46,6 +48,8 @@ public static class Extension
 ";
             option.Footer = b => b.Markup(html);
         });
+        //添加KnownBootstrap
+        services.AddKnownBootstrap();
 
         //4.添加Demo
         services.AddDemoModule();

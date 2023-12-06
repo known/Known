@@ -4,10 +4,10 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Authors>KnownChen</Authors>
-        <Description>Known.Blazor是基于Blazor的实现Known框架界面的类库。</Description>
+        <Description>Known.BootBlazor是基于Bootstrap Blazor的实现Known框架界面的类库。</Description>
         <Version>1.0.0.0</Version>
         <PackageIcon>icon.png</PackageIcon>
-        <PackageTags>Known, UI, Blazor</PackageTags>
+        <PackageTags>Known, Bootstrap, UI, Blazor</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
@@ -16,6 +16,7 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="BootstrapBlazor" Version="8.0.3" />
     </ItemGroup>
 
     <ItemGroup>
