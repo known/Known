@@ -6,6 +6,9 @@ public static class Extension
 {
     public static void AddDemoModule(this IServiceCollection services)
     {
+        //添加模块
+        Config.AddModule(typeof(Extension).Assembly);
+
         //添加数据字典类别
         Cache.AddDicCategory<AppDictionary>();
 

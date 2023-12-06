@@ -9,7 +9,7 @@ builder.Services.AddRazorComponents()
                     options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
                     options.HandshakeTimeout = TimeSpan.FromSeconds(30);
                 });
-builder.Services.AddDemoApp(info =>
+builder.Services.AddApp(info =>
 {
     //设置环境
     info.WebRoot = builder.Environment.WebRootPath;
@@ -29,7 +29,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAntiforgery();
-app.UseDemoApp();
+app.UseApp();
 app.MapRazorComponents<Known.Web.App>()
    .AddInteractiveServerRenderMode();
 app.Run();

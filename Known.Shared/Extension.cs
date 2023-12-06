@@ -11,7 +11,7 @@ namespace Known.Shared;
 
 public static class Extension
 {
-    public static void AddDemoApp(this IServiceCollection services, Action<AppInfo> action = null)
+    public static void AddApp(this IServiceCollection services, Action<AppInfo> action = null)
     {
         //1.添加Known框架
         services.AddKnown(info =>
@@ -49,7 +49,7 @@ public static class Extension
             option.Footer = b => b.Markup(html);
         });
         //添加KnownBootstrap
-        services.AddKnownBootstrap();
+        //services.AddKnownBootstrap();
 
         //4.添加Demo
         services.AddDemoModule();
@@ -59,7 +59,7 @@ public static class Extension
         services.AddTransient<ImportTaskJob>();
     }
 
-    public static void UseDemoApp(this WebApplication app)
+    public static void UseApp(this WebApplication app)
     {
         //6.配置定时任务
         app.Services.UseScheduler(scheduler =>

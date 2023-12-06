@@ -55,7 +55,7 @@ public partial class MainForm : Form
 #if DEBUG
         services.AddBlazorWebViewDeveloperTools();
 #endif
-        services.AddDemoApp(info =>
+        services.AddApp(info =>
         {
             //…Ë÷√ª∑æ≥
             info.Type = AppType.WinForm;

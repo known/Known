@@ -30,5 +30,6 @@ class CompanyInfo
     public string Phone { get; set; }
 
     [DisplayName("备注")]
+    [MaxLength(500)]
     public string Note { get; set; }
 }

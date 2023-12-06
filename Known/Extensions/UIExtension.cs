@@ -1,10 +1,31 @@
 ﻿using Known.Blazor;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Extensions;
 
 public static class UIExtension
 {
+    #region Button
+    public static void Button(this IUIService service, RenderTreeBuilder builder, ActionInfo action, EventCallback<MouseEventArgs> onClick)
+    {
+        action.OnClick = onClick;
+        service.BuildButton(builder, action);
+    }
+
+    public static void Button(this IUIService service, RenderTreeBuilder builder, string name, EventCallback<MouseEventArgs> onClick, string style = null)
+    {
+        service.BuildButton(builder, new ActionInfo
+        {
+            Name = name,
+            OnClick = onClick,
+            Style = style
+        });
+    }
+    #endregion
+
+    #region Toast
     public static void Info(this IUIService service, string message) => service.Toast(message, StyleType.Info);
     public static void Warning(this IUIService service, string message) => service.Toast(message, StyleType.Warning);
     public static void Error(this IUIService service, string message) => service.Toast(message, StyleType.Error);
@@ -20,7 +41,9 @@ public static class UIExtension
         onSuccess?.Invoke();
         service.Toast(result.Message);
     }
+    #endregion
 
+    #region Status
     public static void BizStatus(this IUIService service, RenderTreeBuilder builder, string status)
     {
         if (string.IsNullOrWhiteSpace(status))
@@ -37,4 +60,5 @@ public static class UIExtension
             color = "#87d068";
         service.BuildTag(builder, status, color);
     }
+    #endregion
 }

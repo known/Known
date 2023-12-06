@@ -32,12 +32,7 @@ public class InstallPage : BaseComponent
             UI.BuildForm(builder, model);
             builder.Div("button", () =>
             {
-                UI.BuildButton(builder, new ActionInfo
-                {
-                    Style = "primary",
-                    Name = "开始使用",
-                    OnClick = Callback<MouseEventArgs>(OnStart)
-                });
+                UI.Button(builder, "开始使用", Callback<MouseEventArgs>(OnStart), "primary");
             });
         });
     }

@@ -8,7 +8,7 @@ namespace Known.Blazor;
 
 public class FormModel<TItem> where TItem : class, new()
 {
-    internal FormModel(IUIService ui)
+    public FormModel(IUIService ui)
     {
         Page = new PageModel<TItem>(ui);
         Option = new FormOption();
