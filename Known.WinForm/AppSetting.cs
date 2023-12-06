@@ -1,7 +1,6 @@
-﻿using Known;
-using Known.Extensions;
+﻿using Known.Extensions;
 
-namespace WinForm;
+namespace Known.WinForm;
 
 class AppSetting
 {

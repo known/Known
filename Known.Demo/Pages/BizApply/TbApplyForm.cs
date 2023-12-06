@@ -1,5 +1,4 @@
-﻿using Known.AntBlazor.Components;
-using Known.Blazor;
+﻿using Known.Blazor;
 using Known.Demo.Entities;
 using Known.Extensions;
 using Known.WorkFlows;
@@ -28,7 +27,7 @@ class TbApplyForm : BaseFlowForm<TbApply>
     {
         builder.Component<FlowForm<TbApply>>()
                .Set(c => c.Model, Model)
-               .Set(c => c.Content, b => b.Component<DataForm<TbApply>>().Set(c => c.Model, Model).Build())
+               .Set(c => c.Content, b => UI.BuildForm(b, Model))
                .Build();
     }
 }

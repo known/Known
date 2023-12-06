@@ -32,9 +32,10 @@
 ├─Known.Blazor    -> 框架内置Blazor的界面库。
 ├─Known.Cells     -> 基于Aspose.Cells实现的Excel操作类库。
 ├─Known.Demo      -> 框架示例模块。
-├─Web             -> 框架示例Web App。
+├─Known.Shared    -> Web和WinForm共享类库。
+├─Known.Web       -> 框架示例Web App。
+├─Known.WinForm   -> 框架示例WinForm App。
 ├─WebSite         -> 框架网站及在线文档。
-├─WinForm         -> 框架示例WinForm App。
 ```
 
 ### 主要功能

@@ -1,5 +1,4 @@
-﻿using Known.Demo;
-using Web.Pages;
+﻿using Known.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -10,7 +9,7 @@ builder.Services.AddRazorComponents()
                     options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
                     options.HandshakeTimeout = TimeSpan.FromSeconds(30);
                 });
-builder.Services.AddDemo(info =>
+builder.Services.AddDemoApp(info =>
 {
     //设置环境
     info.WebRoot = builder.Environment.WebRootPath;
@@ -30,7 +29,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAntiforgery();
-app.UseDemo();
-app.MapRazorComponents<App>()
+app.UseDemoApp();
+app.MapRazorComponents<Known.Web.App>()
    .AddInteractiveServerRenderMode();
 app.Run();

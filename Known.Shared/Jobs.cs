@@ -1,7 +1,7 @@
 ﻿using Coravel.Invocable;
 using Known.Helpers;
 
-namespace Known.Demo;
+namespace Known.Shared;
 
 class ImportTaskJob : IInvocable
 {

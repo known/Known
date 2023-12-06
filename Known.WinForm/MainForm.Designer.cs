@@ -1,4 +1,4 @@
-﻿namespace WinForm
+﻿namespace Known.WinForm
 {
     partial class MainForm
     {

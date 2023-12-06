@@ -1,4 +1,5 @@
-﻿@inherits IndexPage
+﻿@page "/"
+@inherits IndexPage
 
 <CascadingValue Value="this">
     @if (IsLoaded)
@@ -9,7 +10,7 @@
         }
         else if (!IsLogin)
         {
-            <Known.Demo.Pages.Login OnLogin="OnLogin" />
+            <Known.Shared.Login OnLogin="OnLogin" />
         }
         else if (UIType == "AntDesign")
         {

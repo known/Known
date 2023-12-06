@@ -18,21 +18,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{25F5
 		Document\Scripts\SqlServer.sql = Document\Scripts\SqlServer.sql
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSite", "WebSite\WebSite.csproj", "{4040C3A0-1731-42A2-BAC9-2AAE815700A1}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known", "Known\Known.csproj", "{7ECA9043-B6CC-4532-9881-FC5F4EFCD9A1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.AntBlazor", "Known.AntBlazor\Known.AntBlazor.csproj", "{69EB6A63-AAD1-411E-8473-DF7BE4A23737}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Blazor", "Known.Blazor\Known.Blazor.csproj", "{1288B0CE-8251-4320-9A29-25A24B7623F3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Cells", "Known.Cells\Known.Cells.csproj", "{28031FDC-5821-4E6C-A7EA-5E17086929F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Demo", "Known.Demo\Known.Demo.csproj", "{EF128732-EA7C-4DB9-B50D-DB6D85584C84}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{03F192BD-104A-4D5E-9C15-02FBBB82EA71}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Shared", "Known.Shared\Known.Shared.csproj", "{EF7D7751-DDA4-4140-8A45-0F69FBDDB2DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSite", "WebSite\WebSite.csproj", "{4040C3A0-1731-42A2-BAC9-2AAE815700A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Web", "Known.Web\Known.Web.csproj", "{03F192BD-104A-4D5E-9C15-02FBBB82EA71}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinForm", "WinForm\WinForm.csproj", "{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Blazor", "Known.Blazor\Known.Blazor.csproj", "{1288B0CE-8251-4320-9A29-25A24B7623F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.WinForm", "Known.WinForm\Known.WinForm.csproj", "{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +74,10 @@ Global
 		{1288B0CE-8251-4320-9A29-25A24B7623F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1288B0CE-8251-4320-9A29-25A24B7623F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1288B0CE-8251-4320-9A29-25A24B7623F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF7D7751-DDA4-4140-8A45-0F69FBDDB2DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF7D7751-DDA4-4140-8A45-0F69FBDDB2DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF7D7751-DDA4-4140-8A45-0F69FBDDB2DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF7D7751-DDA4-4140-8A45-0F69FBDDB2DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

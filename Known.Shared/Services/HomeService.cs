@@ -1,7 +1,7 @@
-﻿using Known.Demo.Models;
-using Known.Demo.Repositories;
+﻿using Known.Shared.Models;
+using Known.Shared.Repositories;
 
-namespace Known.Demo.Services;
+namespace Known.Shared.Services;
 
 class HomeService : ServiceBase
 {

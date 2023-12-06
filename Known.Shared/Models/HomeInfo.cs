@@ -1,4 +1,4 @@
-﻿namespace Known.Demo.Models;
+﻿namespace Known.Shared.Models;
 
 class HomeInfo
 {

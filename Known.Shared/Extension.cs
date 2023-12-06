@@ -1,15 +1,16 @@
 ﻿using Coravel;
 using Known.AntBlazor;
 using Known.Cells;
+using Known.Demo;
 using Known.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Known.Demo;
+namespace Known.Shared;
 
-public static class AppModule
+public static class Extension
 {
-    public static void AddDemo(this IServiceCollection services, Action<AppInfo> action = null)
+    public static void AddDemoApp(this IServiceCollection services, Action<AppInfo> action = null)
     {
         //1.添加Known框架
         services.AddKnown(info =>
@@ -18,9 +19,9 @@ public static class AppModule
             info.Id = "KIMS";
             info.Name = "Known信息管理系统";
             info.Type = AppType.Web;
-            info.Assembly = typeof(AppModule).Assembly;
+            info.Assembly = typeof(Extension).Assembly;
             //数据库连接
-            info.Connections = [new Known.ConnectionInfo
+            info.Connections = [new ConnectionInfo
             {
                 Name = "Default",
                 DatabaseType = DatabaseType.SQLite,
@@ -46,23 +47,15 @@ public static class AppModule
             option.Footer = b => b.Markup(html);
         });
 
-        //4.添加定时任务
+        //4.添加Demo
+        services.AddDemoModule();
+
+        //5.添加定时任务
         services.AddScheduler();
         services.AddTransient<ImportTaskJob>();
-
-        //5.添加Demo
-        //添加数据字典类别
-        Cache.AddDicCategory<AppDictionary>();
-
-        //注册待办事项显示流程表单
-        //Config.ShowMyFlow = flow =>
-        //{
-        //    if (flow.Flow.FlowCode == AppFlow.Apply.Code)
-        //        ApplyForm.ShowMyFlow(flow);
-        //};
     }
 
-    public static void UseDemo(this WebApplication app)
+    public static void UseDemoApp(this WebApplication app)
     {
         //6.配置定时任务
         app.Services.UseScheduler(scheduler =>

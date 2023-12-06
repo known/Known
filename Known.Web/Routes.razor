@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inherits Known.Blazor.BaseComponent
+
+<CascadingAuthenticationState>
+    <CascadingValue Value="Context">
+        <Known.AntBlazor.Routes AppAssembly="typeof(App).Assembly" />
+    </CascadingValue>
+</CascadingAuthenticationState>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Context = new Context();
+        base.OnInitialized();
+    }
+}

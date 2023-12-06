@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Known.Demo\Known.Demo.csproj" />
+        <ProjectReference Include="..\Known.Shared\Known.Shared.csproj" />
     </ItemGroup>
 
 </Project>

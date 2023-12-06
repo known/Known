@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Routing
+@using System.Reflection
+
+<Router AppAssembly="AppAssembly">
+    <Found Context="routeData">
+        <AuthorizeRouteView RouteData="@routeData">
+            <Authorizing></Authorizing>
+        </AuthorizeRouteView>
+    </Found>
+    <NotFound>
+        <Result Status="404" />
+    </NotFound>
+</Router>
+<AntContainer />
+
+@code {
+    [Parameter] public Assembly AppAssembly { get; set; }
+}

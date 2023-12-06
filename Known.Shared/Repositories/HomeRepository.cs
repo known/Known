@@ -1,4 +1,4 @@
-﻿namespace Known.Demo.Repositories;
+﻿namespace Known.Shared.Repositories;
 
 class HomeRepository
 {

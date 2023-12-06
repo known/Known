@@ -1,11 +1,10 @@
 using System.ComponentModel;
-using Known;
-using Known.Demo;
+using Known.Shared;
 using Microsoft.AspNetCore.Components.WebView;
 using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WinForm;
+namespace Known.WinForm;
 
 public partial class MainForm : Form
 {
@@ -18,7 +17,7 @@ public partial class MainForm : Form
 
         AppSetting.Load();
         blazorWebView = new BlazorWebView();
-        blazorWebView.Dock = System.Windows.Forms.DockStyle.Fill;
+        blazorWebView.Dock = DockStyle.Fill;
         blazorWebView.BlazorWebViewInitialized = new EventHandler<BlazorWebViewInitializedEventArgs>(WebViewInitialized);
         Controls.Add(blazorWebView);
         AddBlazorWebView();
@@ -56,7 +55,7 @@ public partial class MainForm : Form
 #if DEBUG
         services.AddBlazorWebViewDeveloperTools();
 #endif
-        services.AddDemo(info =>
+        services.AddDemoApp(info =>
         {
             //…Ë÷√ª∑æ≥
             info.Type = AppType.WinForm;
@@ -69,6 +68,6 @@ public partial class MainForm : Form
         });
         blazorWebView.HostPage = "wwwroot\\index.html";
         blazorWebView.Services = services.BuildServiceProvider();
-        blazorWebView.RootComponents.Add<WinForm.Pages.App>("#app");
+        blazorWebView.RootComponents.Add<App>("#app");
     }
 }
