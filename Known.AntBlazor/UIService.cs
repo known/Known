@@ -56,6 +56,9 @@ class UIService(ModalService modal, MessageService message) : IUIService
         if (type == typeof(string) && !string.IsNullOrWhiteSpace(column.Category))
             return typeof(AntRadioGroup);
 
+        if (type == typeof(string) && column.IsPassword)
+            return typeof(InputPassword);
+
         if (type == typeof(string) && maxLength >= 500)
             return typeof(TextArea);
 

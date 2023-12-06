@@ -36,6 +36,7 @@ public class FormAttribute() : Attribute
     public bool IsFile { get; set; }
     public bool IsMultiFile { get; set; }
     public bool IsReadOnly { get; set; }
+    public bool IsPassword { get; set; }
     public string Placeholder { get; set; }
     public int Row { get; set; } = 1;
     public int Column { get; set; } = 1;

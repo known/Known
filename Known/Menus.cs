@@ -155,6 +155,7 @@ public class ColumnInfo
             IsFile = form.IsFile;
             IsMultiFile = form.IsMultiFile;
             IsReadOnly = form.IsReadOnly;
+            IsPassword = form.IsPassword;
             Row = form.Row;
             Column = form.Column;
             Placeholder = form.Placeholder;
@@ -180,6 +181,7 @@ public class ColumnInfo
     public bool IsFile { get; set; }
     public bool IsMultiFile { get; set; }
     public bool IsReadOnly { get; set; }
+    public bool IsPassword { get; set; }
     public int Row { get; set; } = 1;
     public int Column { get; set; } = 1;
     //public bool IsQuery { get; set; }

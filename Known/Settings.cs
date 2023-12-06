@@ -40,12 +40,12 @@ public class SettingInfo
         Accordion = true;
     }
 
-    [DisplayName("暗亮模式")]
+    [Form, DisplayName("暗亮模式")]
     public bool IsLight { get; set; }
 
-    [DisplayName("手风琴菜单")]
+    [Form, DisplayName("手风琴菜单")]
     public bool Accordion { get; set; }
 
-    [DisplayName("标签页")]
+    [Form, DisplayName("标签页")]
     public bool MultiTab { get; set; }
 }

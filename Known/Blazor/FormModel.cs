@@ -8,14 +8,24 @@ namespace Known.Blazor;
 
 public class FormModel<TItem> where TItem : class, new()
 {
+    private readonly List<ColumnInfo> columns;
+
     public FormModel(IUIService ui)
     {
+        columns = typeof(TItem).GetProperties()
+                               .Select(p => new ColumnInfo(p))
+                               .Where(c => c.IsForm)
+                               .ToList();
+
         Page = new PageModel<TItem>(ui);
         Option = new FormOption();
     }
 
     internal FormModel(PageModel<TItem> page, FormOption option)
     {
+        if (page != null && page.Table != null && page.Table.AllColumns != null)
+            columns = page.Table.AllColumns.Where(c => c.IsForm).ToList();
+
         Page = page;
         Option = option;
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
@@ -23,8 +33,8 @@ public class FormModel<TItem> where TItem : class, new()
 
     public PageModel<TItem> Page { get; }
     public FormOption Option { get; }
-    public bool IsView { get; internal set; }
     public string Title { get; internal set; }
+    public bool IsView { get; set; }
     public TItem Data { get; set; }
     public int? LabelSpan { get; set; }
     public List<FormRow<TItem>> Rows { get; } = [];
@@ -56,10 +66,9 @@ public class FormModel<TItem> where TItem : class, new()
 
     public void Initialize()
     {
-        if (Page != null && Page.Table != null && Page.Table.AllColumns != null)
+        if (columns != null && columns.Count > 0)
         {
             Rows.Clear();
-            var columns = Page.Table.AllColumns.Where(c => c.IsForm).ToList();
             var rowNos = columns.Select(c => c.Row).Distinct().ToList();
             if (rowNos.Count == 1)
             {

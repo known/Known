@@ -11,12 +11,11 @@ public class SettingForm : BaseComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        model = new FormModel<SettingInfo>(UI);
-        model.Data = Context.UserSetting;
-        model.LabelSpan = 10;
-        model.AddRow().AddColumn(c => c.IsLight);
-        model.AddRow().AddColumn(c => c.Accordion);
-        model.AddRow().AddColumn(c => c.MultiTab);
+        model = new FormModel<SettingInfo>(UI)
+        {
+            LabelSpan = 10,
+            Data = Context.UserSetting
+        };
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

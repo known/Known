@@ -7,15 +7,15 @@ public class InstallInfo
 {
     public bool IsInstalled { get; set; }
 
-    [DisplayName("企业编码")]
+    [Form, DisplayName("企业编码")]
     [Required(ErrorMessage = "企业编码不能为空！")]
     public string CompNo { get; set; }
 
-    [DisplayName("企业名称")]
+    [Form, DisplayName("企业名称")]
     [Required(ErrorMessage = "企业名称不能为空！")]
     public string CompName { get; set; }
 
-    [DisplayName("系统名称")]
+    [Form, DisplayName("系统名称")]
     [Required(ErrorMessage = "系统名称不能为空！")]
     public string AppName { get; set; }
 
@@ -32,10 +32,12 @@ public class InstallInfo
     [Required(ErrorMessage = "管理员账号不能为空！")]
     public string UserName { get; set; }
 
+    [Form(IsPassword = true)]
     [DisplayName("管理员密码")]
     [Required(ErrorMessage = "管理员密码不能为空！")]
     public string Password { get; set; }
 
+    [Form(IsPassword = true)]
     [DisplayName("确认密码")]
     [Required(ErrorMessage = "确认密码不能为空！")]
     public string Password1 { get; set; }
