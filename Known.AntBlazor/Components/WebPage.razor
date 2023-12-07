@@ -20,11 +20,30 @@
 }
 else
 {
-	<div class="page-top">
-		<QueryForm TItem="TItem" Model="Model.Table" OnSearch="OnSearchAsync" />
-		<Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
-	</div>
-	<DataTable @ref="table" TItem="TItem" Model="Model.Table" />
+	if (Model.Contents != null && Model.Contents.Count > 0)
+	{
+		if (Model.Type == PageType.None)
+		{
+			@Model.Contents[0]
+		}
+		else if (Model.Type == PageType.Column)
+		{
+			<GridRow>
+				@for (int i = 0; i < Model.Contents.Count; i++)
+				{
+					var span = Model.Spans[i];
+					<GridCol Span="@span">@Model.Contents[i]</GridCol>
+				}
+			</GridRow>
+		}
+		else if (Model.Type == PageType.Row)
+		{
+			foreach (var item in Model.Contents)
+			{
+				<GridRow><GridCol Span="24">@item</GridCol></GridRow>
+			}
+		}
+	}
 }
 
 @code {

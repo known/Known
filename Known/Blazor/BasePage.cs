@@ -51,24 +51,9 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         return base.OnInitPageAsync();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        UI.BuildPage(builder, Page);
-    }
+	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildPage(builder, Page);
 
-    protected virtual Task<PagingResult<TItem>> OnQueryAsync(PagingCriteria criteria) => Task.FromResult(new PagingResult<TItem>());
-
-    protected async void ShowImportForm(string param = null)
-    {
-        var type = typeof(TItem);
-        var id = $"{type.Name}Import";
-        if (!string.IsNullOrWhiteSpace(param))
-            id += $"_{param}";
-        var info = await Platform.File.GetImportAsync(id);
-        info.Name = Name;
-        info.BizName = $"导入{Name}";
-        Page.ImportForm(info);
-    }
+	protected virtual Task<PagingResult<TItem>> OnQueryAsync(PagingCriteria criteria) => Task.FromResult(new PagingResult<TItem>());
 
     protected void OnToolClick(ActionInfo info) => OnAction(info, null);
 	protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
@@ -104,23 +89,32 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 
 public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 {
-    protected TablePageModel<TItem> Model { get; private set; }
-
-	public override Task RefreshAsync() => Model.RefreshAsync();
-
-	public override void ViewForm(FormType type, TItem row) => Model.ViewForm(type, row);
-
-	protected override async Task OnInitPageAsync()
-	{
-		await base.OnInitPageAsync();
-        Model = new TablePageModel<TItem>(this);
-		Model.OnToolClick = OnToolClick;
-		Model.OnQuery = OnQueryAsync;
-		Model.OnAction = OnActionClick;
+    public BaseTablePage()
+    {
+		Model = new TablePageModel<TItem>(this)
+		{
+			OnToolClick = OnToolClick,
+			OnQuery = OnQueryAsync,
+			OnAction = OnActionClick
+		};
 	}
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected TablePageModel<TItem> Model { get; }
+
+	public override Task RefreshAsync() => Model.RefreshAsync();
+	public override void ViewForm(FormType type, TItem row) => Model.ViewForm(type, row);
+
+	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTablePage(builder, Model);
+
+	protected async void ShowImportForm(string param = null)
 	{
-		UI.BuildTablePage(builder, Model);
+		var type = typeof(TItem);
+		var id = $"{type.Name}Import";
+		if (!string.IsNullOrWhiteSpace(param))
+			id += $"_{param}";
+		var info = await Platform.File.GetImportAsync(id);
+		info.Name = Name;
+		info.BizName = $"导入{Name}";
+		Model.ImportForm(info);
 	}
 }

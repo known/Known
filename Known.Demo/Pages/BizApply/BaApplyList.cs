@@ -22,13 +22,6 @@ class BaApplyList : BaseTablePage<TbApply>
 		Model.Column(c => c.BizStatus).Template(BuildBizStatus);//自定义状态列
     }
 
-    //列表分页查询
-    private Task<PagingResult<TbApply>> QueryApplysAsync(PagingCriteria criteria)
-    {
-        criteria.Parameters[nameof(PageType)] = PageType.Apply;
-        return Service.QueryApplysAsync(criteria);
-    }
-
     //新增按钮事件
     [Action]
     public async void New()
@@ -48,5 +41,12 @@ class BaApplyList : BaseTablePage<TbApply>
     //撤回
     [Action] public void Revoke(TbApply row) => this.RevokeFlow(row);
 
-    private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
+	//列表分页查询
+	private Task<PagingResult<TbApply>> QueryApplysAsync(PagingCriteria criteria)
+	{
+		criteria.Parameters[nameof(PageType)] = PageType.Apply;
+		return Service.QueryApplysAsync(criteria);
+	}
+
+	private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
 }

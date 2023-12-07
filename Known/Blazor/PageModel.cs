@@ -1,14 +1,17 @@
 ﻿using Known.Extensions;
+using Microsoft.AspNetCore.Components;
 
 namespace Known.Blazor;
 
-public class PageModel<TItem> where TItem : class, new()
+public class PageModel
 {
-    internal PageModel(IUIService ui)
-    {
-        UI = ui;
-    }
+    public PageType Type { get; set; }
+    public int[] Spans { get; set; }
+	public List<RenderFragment> Contents { get; set; }
+}
 
+public class PageModel<TItem> : PageModel where TItem : class, new()
+{
     internal PageModel(BasePage<TItem> page)
     {
         UI = page.UI;
@@ -55,23 +58,6 @@ public class PageModel<TItem> where TItem : class, new()
             Data = row,
             OnSave = onSave
         });
-    }
-
-    public void ImportForm(ImportFormInfo info)
-    {
-        var option = new ModalOption { Title = $"导入{Name}" };
-        option.Content = builder =>
-        {
-            builder.Component<Importer>()
-                   .Set(c => c.Model, info)
-                   .Set(c => c.OnSuccess, async () =>
-                   {
-                       option.OnClose?.Invoke();
-                       await RefreshAsync();
-                   })
-                   .Build();
-        };
-        UI.ShowModal(option);
     }
 
     public void Delete(Func<List<TItem>, Task<Result>> action, TItem row)
