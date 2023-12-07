@@ -3,22 +3,14 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-class SysTaskList : BasePage<SysTask>
+class SysTaskList : BaseTablePage<SysTask>
 {
-	private TableModel<SysTask> model;
-
 	protected override async Task OnInitPageAsync()
 	{
 		await base.OnInitPageAsync();
-		model = new TableModel<SysTask>(this);
-		model.OnQuery = Platform.System.QueryTasksAsync;
-		model.Column(c => c.Status).Template(BuildTaskStatus);
-		model.Column(c => c.CreateTime).DefaultDescend();
-	}
-
-	protected override void BuildRenderTree(RenderTreeBuilder builder)
-	{
-		UI.BuildTablePage(builder, model);
+		Model.OnQuery = Platform.System.QueryTasksAsync;
+		Model.Column(c => c.Status).Template(BuildTaskStatus);
+		Model.Column(c => c.CreateTime).DefaultDescend();
 	}
 
     private void BuildTaskStatus(RenderTreeBuilder builder, SysTask row)

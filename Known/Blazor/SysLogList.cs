@@ -3,24 +3,16 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-class SysLogList : BasePage<SysLog>
+class SysLogList : BaseTablePage<SysLog>
 {
-    private TableModel<SysLog> model;
-
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        model = new TableModel<SysLog>(this);
-        model.OnQuery = Platform.System.QueryLogsAsync;
-		model.AddQueryColumn(c => c.CreateTime);
-		model.Column(c => c.Type).Template(BuildLogType);
-		model.Column(c => c.CreateTime).DefaultDescend();
+		Model.OnQuery = Platform.System.QueryLogsAsync;
+		Model.AddQueryColumn(c => c.CreateTime);
+		Model.Column(c => c.Type).Template(BuildLogType);
+		Model.Column(c => c.CreateTime).DefaultDescend();
     }
-
-	protected override void BuildRenderTree(RenderTreeBuilder builder)
-	{
-        UI.BuildTablePage(builder, model);
-	}
 
     private void BuildLogType(RenderTreeBuilder builder, SysLog row)
     {

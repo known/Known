@@ -10,28 +10,30 @@ public class FormModel<TItem> where TItem : class, new()
 {
     private readonly List<ColumnInfo> columns;
 
-    public FormModel(IUIService ui)
+    public FormModel(IUIService ui, FormOption option = null)
     {
         columns = typeof(TItem).GetProperties()
                                .Select(p => new ColumnInfo(p))
                                .Where(c => c.IsForm)
                                .ToList();
-
-        Page = new PageModel<TItem>(ui);
-        Option = new FormOption();
+        UI = ui;
+        Option = option ?? new FormOption();
     }
 
-    internal FormModel(PageModel<TItem> page, FormOption option)
+    internal FormModel(BasePage<TItem> page, FormOption option)
     {
-        if (page != null && page.Table != null && page.Table.AllColumns != null)
-            columns = page.Table.AllColumns.Where(c => c.IsForm).ToList();
+        if (page != null && page.AllColumns != null)
+            columns = page.AllColumns.Where(c => c.IsForm).ToList();
 
+        UI = page.UI;
         Page = page;
         Option = option;
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
     }
 
-    public PageModel<TItem> Page { get; }
+    public IUIService UI { get; }
+    public BasePage<TItem> Page { get; }
+    public TableModel<TItem> Table { get; }
     public FormOption Option { get; }
     public string Title { get; internal set; }
     public bool IsView { get; set; }
@@ -62,7 +64,7 @@ public class FormModel<TItem> where TItem : class, new()
         return row;
     }
 
-    public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector) => Page.Table.Column(selector);
+    public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector) => Table.Column(selector);
 
     public void Initialize()
     {
@@ -168,7 +170,7 @@ public class FormOption
     public bool NoFooter { get; set; }
 }
 
-enum FormType
+public enum FormType
 {
     [Description("查看")] View,
     [Description("提交")] Submit,

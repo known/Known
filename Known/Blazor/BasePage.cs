@@ -1,4 +1,5 @@
 ﻿using Known.Extensions;
+using Known.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -15,7 +16,8 @@ public class BasePage : BaseComponent
         await base.OnInitializedAsync();
     }
 
-    protected virtual Task OnInitPageAsync() => Task.CompletedTask;
+	public virtual Task RefreshAsync() => Task.CompletedTask;
+	protected virtual Task OnInitPageAsync() => Task.CompletedTask;
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -25,13 +27,21 @@ public class BasePage : BaseComponent
 
 public class BasePage<TItem> : BasePage where TItem : class, new()
 {
-    internal List<ActionInfo> Tools { get; set; }
+    public BasePage()
+    {
+		AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
+	}
+
+	internal List<ColumnInfo> AllColumns { get; }
+	internal List<ActionInfo> Tools { get; set; }
     internal List<ActionInfo> Actions { get; set; }
     internal List<ColumnInfo> Columns { get; set; }
 
     public PageModel<TItem> Page { get; private set; }
 
-    protected override Task OnInitPageAsync()
+    public virtual void ViewForm(FormType type, TItem row) { }
+
+	protected override Task OnInitPageAsync()
     {
         InitMenu();
         Page = new PageModel<TItem>(this);
@@ -60,8 +70,8 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         Page.ImportForm(info);
     }
 
-    private void OnToolClick(ActionInfo info) => OnAction(info, null);
-    private void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
+    protected void OnToolClick(ActionInfo info) => OnAction(info, null);
+	protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
 
     private void OnAction(ActionInfo info, object[] parameters)
     {
@@ -90,4 +100,27 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
             Actions = menu.Actions.Select(n => new ActionInfo(n)).ToList();
         Columns = menu.Columns;
     }
+}
+
+public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
+{
+    protected TablePageModel<TItem> Model { get; private set; }
+
+	public override Task RefreshAsync() => Model.RefreshAsync();
+
+	public override void ViewForm(FormType type, TItem row) => Model.ViewForm(type, row);
+
+	protected override async Task OnInitPageAsync()
+	{
+		await base.OnInitPageAsync();
+        Model = new TablePageModel<TItem>(this);
+		Model.OnToolClick = OnToolClick;
+		Model.OnQuery = OnQueryAsync;
+		Model.OnAction = OnActionClick;
+	}
+
+	protected override void BuildRenderTree(RenderTreeBuilder builder)
+	{
+		UI.BuildTablePage(builder, Model);
+	}
 }

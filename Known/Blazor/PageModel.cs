@@ -15,7 +15,7 @@ public class PageModel<TItem> where TItem : class, new()
         Page = page;
         Name = page.Name;
         Tools = page.Tools;
-        Table = new TableModel<TItem>(this);
+        Table = new TableModel<TItem>(page);
         Form = new FormOption();
     }
 
@@ -43,44 +43,17 @@ public class PageModel<TItem> where TItem : class, new()
         await Table?.RefreshAsync();
     }
 
-    public void ViewForm(TItem row) => ViewForm(FormType.View, row);
     public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
-    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
     public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
-    public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
-
-    internal void ViewForm(FormType type, TItem row)
-    {
-        var actionName = type.GetDescription();
-        var title = GetFormTitle(row);
-        UI.ShowForm(new FormModel<TItem>(this, Form)
-        {
-            FormType = type,
-            IsView = true,
-            Title = $"{actionName}{title}",
-            Data = row
-        });
-    }
 
     private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
     {
         var title = GetFormTitle(row);
-        UI.ShowForm(new FormModel<TItem>(this, Form)
+        UI.ShowForm(new FormModel<TItem>(Page, Form)
         {
             Title = $"{action}{title}",
             Data = row,
             OnSave = onSave
-        });
-    }
-
-    private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
-    {
-        var title = GetFormTitle(row);
-        UI.ShowForm(new FormModel<TItem>(this, Form)
-        {
-            Title = $"{action}{title}",
-            Data = row,
-            OnSaveFile = onSave
         });
     }
 

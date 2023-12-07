@@ -8,16 +8,16 @@ using Microsoft.AspNetCore.Components.Rendering;
 namespace Known.Demo.Pages.BizApply;
 
 //业务查询列表
-class BaQueryList : BasePage<TbApply>
+class BaQueryList : BaseTablePage<TbApply>
 {
     private ApplyService Service => new() { CurrentUser = CurrentUser };
 
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Page.Form.Width = 800;
-        Page.Table.Column(c => c.BizNo).DefaultDescend();
-        Page.Table.Column(c => c.BizStatus).Template(BuildBizStatus);
+		Model.Form.Width = 800;
+        Model.Column(c => c.BizNo).DefaultDescend();
+        Model.Column(c => c.BizStatus).Template(BuildBizStatus);
     }
 
     protected override Task<PagingResult<TbApply>> OnQueryAsync(PagingCriteria criteria)
@@ -27,7 +27,7 @@ class BaQueryList : BasePage<TbApply>
     }
 
     //重新申请
-    [Action] public void Repeat() => Page.Table.SelectRows(Page.RepeatFlow);
+    [Action] public void Repeat() => Model.SelectRows(this.RepeatFlow);
     //导出列表
     [Action] public void Export() { }
     //打印

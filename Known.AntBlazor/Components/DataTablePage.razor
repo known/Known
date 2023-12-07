@@ -9,7 +9,7 @@
 @code {
 	DataTable<TItem> table;
 
-	[Parameter] public TableModel<TItem> Model { get; set; }
+	[Parameter] public TablePageModel<TItem> Model { get; set; }
 
 	private Task OnSearchAsync() => table.RefreshAsync();
 }

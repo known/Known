@@ -13,7 +13,7 @@ public class FieldModel<TItem> where TItem : class, new()
 
     internal FieldModel(FormModel<TItem> form, ColumnInfo column)
     {
-        UI = form.Page.UI;
+        UI = form.UI;
         Form = form;
         Column = column;
         Data = form.Data;

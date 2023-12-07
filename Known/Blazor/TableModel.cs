@@ -18,29 +18,18 @@ public class TableModel<TItem> where TItem : class, new()
 	internal TableModel(BasePage<TItem> page)
 	{
 		UI = page.UI;
+		Actions = page.Actions;
+		ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
 		ShowPager = true;
-		AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
+        AllColumns = page.AllColumns;
 		Columns = AllColumns.Where(c => HasColumn(page.Columns, c.Property.Name)).ToList();
 		InitQueryColumns();
 	}
 
-	internal TableModel(PageModel<TItem> page)
-    {
-        ShowPager = true;
-        ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
-        Page = page;
-        UI = page.UI;
-        Actions = page.Page.Actions;
-
-        AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
-        Columns = AllColumns.Where(c => HasColumn(page.Page.Columns, c.Property.Name)).ToList();
-        InitQueryColumns();
-    }
-
     internal IUIService UI { get; }
     internal List<ColumnInfo> AllColumns { get; }
 
-    public PageModel<TItem> Page { get; }
+    public BasePage<TItem> Page { get; }
     public bool ShowCheckBox { get; }
     public bool ShowPager { get; set; }
     public List<ColumnInfo> Columns { get; }
@@ -55,8 +44,6 @@ public class TableModel<TItem> where TItem : class, new()
     public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }
     public Func<Task> OnRefresh { get; set; }
-    public List<ActionInfo> Tools { get; }
-    public Action<ActionInfo> OnToolClick { get; internal set; }
 
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
     {
@@ -89,7 +76,10 @@ public class TableModel<TItem> where TItem : class, new()
         return OnRefresh.Invoke();
     }
 
-    public void SelectRow(Action<TItem> action)
+	public void ViewForm(TItem row) => ViewForm(FormType.View, row);
+	public virtual void ViewForm(FormType type, TItem row) { }
+
+	public void SelectRow(Action<TItem> action)
     {
         if (SelectedRows == null)
         {
@@ -165,7 +155,7 @@ public class TableModel<TItem> where TItem : class, new()
         });
     }
 
-    private static bool HasColumn(List<ColumnInfo> columns, string id)
+	private static bool HasColumn(List<ColumnInfo> columns, string id)
     {
         if (columns == null || columns.Count == 0)
             return true;
@@ -186,4 +176,98 @@ public class TableModel<TItem> where TItem : class, new()
             }
         }
     }
+}
+
+public class TablePageModel<TItem> : TableModel<TItem> where TItem : class, new()
+{
+    private BasePage<TItem> page;
+
+    internal TablePageModel(BasePage<TItem> page) : base(page)
+    {
+        this.page = page;
+		Form = new FormOption();
+		Tools = page.Tools;
+	}
+
+	public string Name { get; }
+	public FormOption Form { get; }
+	public Func<TItem, string> FormTitle { get; set; }
+	public List<ActionInfo> Tools { get; }
+	public Action<ActionInfo> OnToolClick { get; internal set; }
+
+	public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
+	public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
+	public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
+	public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
+
+	public override void ViewForm(FormType type, TItem row)
+	{
+		var actionName = type.GetDescription();
+		var title = GetFormTitle(row);
+		UI.ShowForm(new FormModel<TItem>(page, Form)
+		{
+			FormType = type,
+			IsView = true,
+			Title = $"{actionName}{title}",
+			Data = row
+		});
+	}
+
+	private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
+	{
+		var title = GetFormTitle(row);
+		UI.ShowForm(new FormModel<TItem>(page, Form)
+		{
+			Title = $"{action}{title}",
+			Data = row,
+			OnSave = onSave
+		});
+	}
+
+	private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
+	{
+		var title = GetFormTitle(row);
+		UI.ShowForm(new FormModel<TItem>(page, Form)
+		{
+			Title = $"{action}{title}",
+			Data = row,
+			OnSaveFile = onSave
+		});
+	}
+
+	public void ImportForm(ImportFormInfo info)
+	{
+		var option = new ModalOption { Title = $"导入{Name}" };
+		option.Content = builder =>
+		{
+			builder.Component<Importer>()
+				   .Set(c => c.Model, info)
+				   .Set(c => c.OnSuccess, async () =>
+				   {
+					   option.OnClose?.Invoke();
+					   await RefreshAsync();
+				   })
+				   .Build();
+		};
+		UI.ShowModal(option);
+	}
+
+	public void Delete(Func<List<TItem>, Task<Result>> action, TItem row)
+	{
+		UI.Confirm("确定要删除该记录？", async () =>
+		{
+			var result = await action?.Invoke([row]);
+			UI.Result(result, async () => await RefreshAsync());
+		});
+	}
+
+	public void DeleteM(Func<List<TItem>, Task<Result>> action) => SelectRows(action, "删除");
+
+	private string GetFormTitle(TItem row)
+	{
+		var title = Name;
+		if (FormTitle != null)
+			title = FormTitle.Invoke(row);
+		return title;
+	}
 }

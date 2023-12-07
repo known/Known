@@ -206,7 +206,7 @@ class UIService(ModalService modal, MessageService message) : IUIService
         builder.Component<DataTable<TItem>>().Set(c => c.Model, model).Build();
     }
 
-	public void BuildTablePage<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
+	public void BuildTablePage<TItem>(RenderTreeBuilder builder, TablePageModel<TItem> model) where TItem : class, new()
 	{
 		builder.Component<DataTablePage<TItem>>().Set(c => c.Model, model).Build();
 	}

@@ -2,20 +2,21 @@
 
 namespace Known.Blazor;
 
-class SysDictionaryList : BasePage<SysDictionary>
+class SysDictionaryList : BaseTablePage<SysDictionary>
 {
     private string category;
     private int total;
 
-    protected override async Task OnInitPageAsync()
-    {
-        await base.OnInitPageAsync();
-        Page.FormTitle = row => $"{Name} - {row.CategoryName}";
-        Page.Table.RowKey = r => r.Id;
-        Page.Table.Column(c => c.Sort).DefaultAscend();
-    }
+	protected override async Task OnInitPageAsync()
+	{
+		await base.OnInitPageAsync();
+		Model.OnQuery = QueryDictionarysAsync;
+		Model.RowKey = r => r.Id;
+		Model.Column(c => c.Sort).DefaultAscend();
+		Model.FormTitle = row => $"{Name} - {row.CategoryName}";
+	}
 
-    protected override async Task<PagingResult<SysDictionary>> OnQueryAsync(PagingCriteria criteria)
+    private async Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
     {
         category = criteria.GetQueryValue(nameof(SysDictionary.Category));
         if (string.IsNullOrWhiteSpace(category))
@@ -28,9 +29,9 @@ class SysDictionaryList : BasePage<SysDictionary>
         return result;
     }
 
-    [Action] public void New() => Page.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
-    [Action] public void Edit(SysDictionary row) => Page.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
-    [Action] public void Delete(SysDictionary row) => Page.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
-    [Action] public void DeleteM() => Page.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
+    [Action] public void New() => Model.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
+    [Action] public void Edit(SysDictionary row) => Model.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
+    [Action] public void Delete(SysDictionary row) => Model.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
+    [Action] public void DeleteM() => Model.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
     [Action] public void Import() => ShowImportForm();
 }
