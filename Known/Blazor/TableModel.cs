@@ -29,8 +29,8 @@ public class TableModel<TItem> where TItem : class, new()
 
     internal IUIService UI { get; }
     internal List<ColumnInfo> AllColumns { get; }
+	internal BasePage<TItem> Page { get; }
 
-    public BasePage<TItem> Page { get; }
     public bool ShowCheckBox { get; }
     public bool ShowPager { get; set; }
     public List<ColumnInfo> Columns { get; }
@@ -243,7 +243,7 @@ public class TablePageModel<TItem> : TableModel<TItem> where TItem : class, new(
 				   .Set(c => c.OnSuccess, async () =>
 				   {
 					   option.OnClose?.Invoke();
-					   await RefreshAsync();
+					   await Page.RefreshAsync();
 				   })
 				   .Build();
 		};
@@ -255,7 +255,7 @@ public class TablePageModel<TItem> : TableModel<TItem> where TItem : class, new(
 		UI.Confirm("确定要删除该记录？", async () =>
 		{
 			var result = await action?.Invoke([row]);
-			UI.Result(result, async () => await RefreshAsync());
+			UI.Result(result, async () => await Page.RefreshAsync());
 		});
 	}
 
