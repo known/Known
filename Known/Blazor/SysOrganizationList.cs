@@ -7,16 +7,16 @@ namespace Known.Blazor;
 class SysOrganizationList : BasePage<SysOrganization>
 {
     private MenuItem current;
-    private PageModel<SysOrganization> model;
     private TreeModel tree;
     private TablePageModel<SysOrganization> table;
 
-    public SysOrganizationList()
-    {
-        model = new PageModel<SysOrganization>(this);
-        model.Type = PageType.Column;
-        model.Spans = [4, 20];
-        model.Contents = [BuildTree, BuildTable];
+	protected override async Task OnInitPageAsync()
+	{
+		await base.OnInitPageAsync();
+
+		Page.Type = PageType.Column;
+		Page.Spans = [4, 20];
+		Page.Contents = [BuildTree, BuildTable];
 
 		tree = new TreeModel
 		{
@@ -25,21 +25,15 @@ class SysOrganizationList : BasePage<SysOrganization>
 			OnRefresh = OnTreeRefresh
 		};
 
-        table = new TablePageModel<SysOrganization>(this)
-        {
+		table = new TablePageModel<SysOrganization>(this)
+		{
 			FormTitle = row => $"{Name} - {row.ParentName}",
 			RowKey = r => r.Id,
-			ShowPager = false
+			ShowPager = false,
+			OnQuery = OnQueryOrganizationsAsync,
+			OnToolClick = OnToolClick,
+			OnAction = OnActionClick
 		};
-	}
-
-	protected override async Task OnInitPageAsync()
-	{
-		await base.OnInitPageAsync();
-
-		//Page.FormTitle = row => $"{Name} - {row.ParentName}";
-		//Page.Table.RowKey = r => r.Id;
-		//Page.Table.ShowPager = false;
 
 		var datas = await Platform.Company.GetOrganizationsAsync();
 		if (datas != null && datas.Count > 0)
@@ -50,15 +44,18 @@ class SysOrganizationList : BasePage<SysOrganization>
 		}
 	}
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder)
+	public override async Task RefreshAsync()
 	{
-		UI.BuildPage(builder, model);
+		await tree.RefreshAsync();
+		//model.StateChanged.Invoke();
+		await table.RefreshAsync();
+		StateChanged();
 	}
 
-	private void BuildTree(RenderTreeBuilder builder) => UI.BuildTree(builder, tree);
-	private void BuildTable(RenderTreeBuilder builder) => UI.BuildTablePage(builder, table);
+	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
+	private void BuildTable(RenderTreeBuilder builder) => UI.BuildPage(builder, table);
 
-	protected override Task<PagingResult<SysOrganization>> OnQueryAsync(PagingCriteria criteria)
+	private Task<PagingResult<SysOrganization>> OnQueryOrganizationsAsync(PagingCriteria criteria)
     {
         var data = current?.Children?.Select(c => (SysOrganization)c.Data).ToList();
         var result = new PagingResult<SysOrganization>(data);
@@ -74,17 +71,17 @@ class SysOrganizationList : BasePage<SysOrganization>
             return;
         }
 
-        Page.NewForm(Platform.Company.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
+		table.NewForm(Platform.Company.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
     }
 
-    [Action] public void Edit(SysOrganization row) => Page.EditForm(Platform.Company.SaveOrganizationAsync, row);
-    [Action] public void Delete(SysOrganization row) => Page.Delete(Platform.Company.DeleteOrganizationsAsync, row);
-    [Action] public void DeleteM() => Page.DeleteM(Platform.Company.DeleteOrganizationsAsync);
+    [Action] public void Edit(SysOrganization row) => table.EditForm(Platform.Company.SaveOrganizationAsync, row);
+    [Action] public void Delete(SysOrganization row) => table.Delete(Platform.Company.DeleteOrganizationsAsync, row);
+    [Action] public void DeleteM() => table.DeleteM(Platform.Company.DeleteOrganizationsAsync);
 
     private async void OnNodeClick(MenuItem item)
     {
         current = item;
-        await Page.Table.RefreshAsync();
+        await table.RefreshAsync();
     }
 
     private async Task OnTreeRefresh()

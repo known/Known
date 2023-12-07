@@ -15,11 +15,11 @@ class BaApplyList : BaseTablePage<TbApply>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-		Model.Form.Width = 800;    //定义表单宽度
-		Model.Form.NoFooter = true;//表单不显示默认底部按钮
-        Model.OnQuery = QueryApplysAsync;
-		Model.Column(c => c.BizNo).DefaultDescend();//业务单号默认降序
-		Model.Column(c => c.BizStatus).Template(BuildBizStatus);//自定义状态列
+		Table.Form.Width = 800;    //定义表单宽度
+		Table.Form.NoFooter = true;//表单不显示默认底部按钮
+        Table.OnQuery = QueryApplysAsync;
+		Table.Column(c => c.BizNo).DefaultDescend();//业务单号默认降序
+		Table.Column(c => c.BizStatus).Template(BuildBizStatus);//自定义状态列
     }
 
     //新增按钮事件
@@ -27,15 +27,15 @@ class BaApplyList : BaseTablePage<TbApply>
     public async void New()
     {
         var row = await Service.GetDefaultApplyAsync(ApplyType.Test);
-		Model.NewForm(Service.SaveApplyAsync, row);
+		Table.NewForm(Service.SaveApplyAsync, row);
     }
 
     //编辑操作
-    [Action] public void Edit(TbApply row) => Model.EditForm(Service.SaveApplyAsync, row);
+    [Action] public void Edit(TbApply row) => Table.EditForm(Service.SaveApplyAsync, row);
     //删除操作
-    [Action] public void Delete(TbApply row) => Model.Delete(Service.DeleteApplysAsync, row);
+    [Action] public void Delete(TbApply row) => Table.Delete(Service.DeleteApplysAsync, row);
     //批量删除操作
-    [Action] public void DeleteM() => Model.DeleteM(Service.DeleteApplysAsync);
+    [Action] public void DeleteM() => Table.DeleteM(Service.DeleteApplysAsync);
     //提交审核
     [Action] public void Submit(TbApply row) => this.SubmitFlow(row);
     //撤回

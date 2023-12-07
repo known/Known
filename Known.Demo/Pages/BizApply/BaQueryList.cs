@@ -15,14 +15,14 @@ class BaQueryList : BaseTablePage<TbApply>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Model.OnQuery = QueryApplysAsync;
-		Model.Form.Width = 800;
-        Model.Column(c => c.BizNo).DefaultDescend();
-        Model.Column(c => c.BizStatus).Template(BuildBizStatus);
+        Table.OnQuery = QueryApplysAsync;
+		Table.Form.Width = 800;
+        Table.Column(c => c.BizNo).DefaultDescend();
+        Table.Column(c => c.BizStatus).Template(BuildBizStatus);
     }
 
     //重新申请
-    [Action] public void Repeat() => Model.SelectRows(this.RepeatFlow);
+    [Action] public void Repeat() => Table.SelectRows(this.RepeatFlow);
     //导出列表
     [Action] public void Export() { }
     //打印

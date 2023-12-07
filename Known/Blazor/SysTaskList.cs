@@ -8,9 +8,9 @@ class SysTaskList : BaseTablePage<SysTask>
 	protected override async Task OnInitPageAsync()
 	{
 		await base.OnInitPageAsync();
-		Model.OnQuery = Platform.System.QueryTasksAsync;
-		Model.Column(c => c.Status).Template(BuildTaskStatus);
-		Model.Column(c => c.CreateTime).DefaultDescend();
+		Table.OnQuery = Platform.System.QueryTasksAsync;
+		Table.Column(c => c.Status).Template(BuildTaskStatus);
+		Table.Column(c => c.CreateTime).DefaultDescend();
 	}
 
     private void BuildTaskStatus(RenderTreeBuilder builder, SysTask row)

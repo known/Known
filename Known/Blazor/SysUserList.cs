@@ -8,45 +8,71 @@ class SysUserList : BasePage<SysUser>
 {
     private List<SysOrganization> orgs;
     private SysOrganization currentOrg;
+	private TreeModel tree;
+	private TablePageModel<SysUser> table;
 
-    protected override async Task OnInitPageAsync()
+	protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        orgs = await Platform.Company.GetOrganizationsAsync();
-        var hasOrg = orgs != null && orgs.Count > 1;
-        if (hasOrg)
-        {
-            currentOrg = orgs[0];
-            Page.Tree = new TreeModel
-            {
-                ExpandParent = true,
-                Data = orgs.ToMenuItems(),
-                OnNodeClick = OnNodeClick,
-                SelectedKeys = [currentOrg.Id]
-            };
-        }
 
-        Page.Form.Width = 800;
-        Page.Table.RowKey = r => r.Id;
-        Page.Table.Column(c => c.Department).Visible(hasOrg);
-        Page.Table.Column(c => c.Gender).Template(BuildGender);
+		orgs = await Platform.Company.GetOrganizationsAsync();
+		var hasOrg = orgs != null && orgs.Count > 1;
+		if (hasOrg)
+		{
+			Page.Type = PageType.Column;
+			Page.Spans = [4, 20];
+
+			currentOrg = orgs[0];
+			tree = new TreeModel
+			{
+				ExpandParent = true,
+				Data = orgs.ToMenuItems(),
+				OnNodeClick = OnNodeClick,
+				SelectedKeys = [currentOrg.Id]
+			};
+
+			Page.Contents.Add(BuildTree);
+		}
+
+		table = new TablePageModel<SysUser>(this)
+		{
+			RowKey = r => r.Id,
+			OnQuery = OnQueryUsersAsync,
+			OnToolClick = OnToolClick,
+			OnAction = OnActionClick
+		};
+		table.Form.Width = 800;
+		table.Column(c => c.Department).Visible(hasOrg);
+		table.Column(c => c.Gender).Template(BuildGender);
+		Page.Contents.Add(BuildTable);
     }
 
-    protected override Task<PagingResult<SysUser>> OnQueryAsync(PagingCriteria criteria)
+	public override async Task RefreshAsync()
+	{
+		await tree.RefreshAsync();
+		//model.StateChanged.Invoke();
+		await table.RefreshAsync();
+		StateChanged();
+	}
+
+	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
+	private void BuildTable(RenderTreeBuilder builder) => UI.BuildPage(builder, table);
+
+	private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
     {
         if (currentOrg != null)
             criteria.Parameters[nameof(SysUser.OrgNo)] = currentOrg?.Id;
         return Platform.User.QueryUsersAsync(criteria);
     }
 
-    [Action] public void New() => Page.NewForm(Platform.User.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
-    [Action] public void Edit(SysUser row) => Page.EditForm(Platform.User.SaveUserAsync, row);
-    [Action] public void Delete(SysUser row) => Page.Delete(Platform.User.DeleteUsersAsync, row);
-    [Action] public void DeleteM() => Page.DeleteM(Platform.User.DeleteUsersAsync);
-    [Action] public void ResetPassword() => Page.Table.SelectRows(Platform.User.SetUserPwdsAsync, "重置");
-    [Action] public void ChangeDepartment() => Page.Table.SelectRows(OnChangeDepartment);
-    [Action] public void Enable() => Page.Table.SelectRows(Platform.User.EnableUsersAsync, "启用");
-    [Action] public void Disable() => Page.Table.SelectRows(Platform.User.DisableUsersAsync, "禁用");
+    [Action] public void New() => table.NewForm(Platform.User.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
+    [Action] public void Edit(SysUser row) => table.EditForm(Platform.User.SaveUserAsync, row);
+    [Action] public void Delete(SysUser row) => table.Delete(Platform.User.DeleteUsersAsync, row);
+    [Action] public void DeleteM() => table.DeleteM(Platform.User.DeleteUsersAsync);
+    [Action] public void ResetPassword() => table.SelectRows(Platform.User.SetUserPwdsAsync, "重置");
+    [Action] public void ChangeDepartment() => table.SelectRows(OnChangeDepartment);
+    [Action] public void Enable() => table.SelectRows(Platform.User.EnableUsersAsync, "启用");
+    [Action] public void Disable() => table.SelectRows(Platform.User.DisableUsersAsync, "禁用");
 
     private void BuildGender(RenderTreeBuilder builder, SysUser row)
     {
@@ -83,7 +109,7 @@ class SysUserList : BasePage<SysUser>
             UI.Result(result, async () =>
             {
                 await model.OnClose?.Invoke();
-                await Page.Table.RefreshAsync();
+                await table.RefreshAsync();
             });
         };
         UI.ShowModal(model);
@@ -92,7 +118,7 @@ class SysUserList : BasePage<SysUser>
     private async void OnNodeClick(MenuItem item)
     {
         currentOrg = item.Data as SysOrganization;
-        await Page.Table.RefreshAsync();
+        await table.RefreshAsync();
     }
 }
 

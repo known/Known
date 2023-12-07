@@ -10,10 +10,10 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
 	protected override async Task OnInitPageAsync()
 	{
 		await base.OnInitPageAsync();
-		Model.OnQuery = QueryDictionarysAsync;
-		Model.RowKey = r => r.Id;
-		Model.Column(c => c.Sort).DefaultAscend();
-		Model.FormTitle = row => $"{Name} - {row.CategoryName}";
+		Table.FormTitle = row => $"{Name} - {row.CategoryName}";
+		Table.OnQuery = QueryDictionarysAsync;
+		Table.RowKey = r => r.Id;
+		Table.Column(c => c.Sort).DefaultAscend();
 	}
 
     private async Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
@@ -29,9 +29,9 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
         return result;
     }
 
-    [Action] public void New() => Model.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
-    [Action] public void Edit(SysDictionary row) => Model.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
-    [Action] public void Delete(SysDictionary row) => Model.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
-    [Action] public void DeleteM() => Model.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
+    [Action] public void New() => Table.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
+    [Action] public void Edit(SysDictionary row) => Table.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
+    [Action] public void Delete(SysDictionary row) => Table.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
+    [Action] public void DeleteM() => Table.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
     [Action] public void Import() => ShowImportForm();
 }

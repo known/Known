@@ -9,9 +9,9 @@ class SysFileList : BaseTablePage<SysFile>
 	protected override async Task OnInitPageAsync()
 	{
 		await base.OnInitPageAsync();
-		Model.OnQuery = Platform.File.QueryFilesAsync;
-		Model.Column(c => c.Size).Template(BuildFileSize);
-		Model.Column(c => c.CreateTime).DefaultDescend();
+		Table.OnQuery = Platform.File.QueryFilesAsync;
+		Table.Column(c => c.Size).Template(BuildFileSize);
+		Table.Column(c => c.CreateTime).DefaultDescend();
 	}
 
     private void BuildFileSize(RenderTreeBuilder builder, SysFile row)

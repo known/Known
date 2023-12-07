@@ -9,25 +9,38 @@ class SysModuleList : BasePage<SysModule>
     private List<SysModule> modules;
     private MenuItem current;
     private int total;
+	private TreeModel tree;
+	private TablePageModel<SysModule> table;
 
-    protected override async Task OnInitPageAsync()
+	protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
 
-        Page.FormTitle = row => $"{Name} - {row.ParentName}";
-        Page.Form.Width = 1000;
-        Page.Form.Maximizable = true;
-        Page.Form.NoFooter = true;
-        Page.Table.RowKey = r => r.Id;
-        Page.Table.ShowPager = false;
+		Page.Type = PageType.Column;
+		Page.Spans = [4, 20];
+		Page.Contents = [BuildTree, BuildTable];
 
-        Page.Tree = new TreeModel
-        {
-            ExpandParent = true,
-            OnNodeClick = OnNodeClick,
-            OnRefresh = OnTreeRefresh
-        };
-        await OnTreeRefresh();
+		tree = new TreeModel
+		{
+			ExpandParent = true,
+			OnNodeClick = OnNodeClick,
+			OnRefresh = OnTreeRefresh
+		};
+
+		table = new TablePageModel<SysModule>(this)
+		{
+			FormTitle = row => $"{Name} - {row.ParentName}",
+			RowKey = r => r.Id,
+			ShowPager = false,
+			OnQuery = OnQueryModulesAsync,
+			OnToolClick = OnToolClick,
+			OnAction = OnActionClick
+		};
+		table.Form.Width = 1000;
+		table.Form.Maximizable = true;
+		table.Form.NoFooter = true;
+
+		await OnTreeRefresh();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -40,7 +53,18 @@ class SysModuleList : BasePage<SysModule>
         base.BuildRenderTree(builder);
     }
 
-    protected override Task<PagingResult<SysModule>> OnQueryAsync(PagingCriteria criteria)
+	public override async Task RefreshAsync()
+	{
+		await tree.RefreshAsync();
+		//model.StateChanged.Invoke();
+		await table.RefreshAsync();
+		StateChanged();
+	}
+
+	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
+	private void BuildTable(RenderTreeBuilder builder) => UI.BuildPage(builder, table);
+
+	private Task<PagingResult<SysModule>> OnQueryModulesAsync(PagingCriteria criteria)
     {
         var data = current?.Children?.Select(c => (SysModule)c.Data).ToList();
         total = data?.Count ?? 0;
@@ -57,15 +81,15 @@ class SysModuleList : BasePage<SysModule>
             return;
         }
 
-        Page.NewForm(Platform.Module.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
+		table.NewForm(Platform.Module.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
     }
 
-    [Action] public void Edit(SysModule row) => Page.EditForm(Platform.Module.SaveModuleAsync, row);
-    [Action] public void Delete(SysModule row) => Page.Delete(Platform.Module.DeleteModulesAsync, row);
-    [Action] public void DeleteM() => Page.DeleteM(Platform.Module.DeleteModulesAsync);
+    [Action] public void Edit(SysModule row) => table.EditForm(Platform.Module.SaveModuleAsync, row);
+    [Action] public void Delete(SysModule row) => table.Delete(Platform.Module.DeleteModulesAsync, row);
+    [Action] public void DeleteM() => table.DeleteM(Platform.Module.DeleteModulesAsync);
 
-    [Action] public void Copy() => Page.Table.SelectRows(OnCopy);
-    [Action] public void Move() => Page.Table.SelectRows(OnMove);
+    [Action] public void Copy() => table.SelectRows(OnCopy);
+    [Action] public void Move() => table.SelectRows(OnMove);
     [Action] public void MoveUp(SysModule row) => OnMove(row, true);
     [Action] public void MoveDown(SysModule row) => OnMove(row, false);
 
@@ -91,22 +115,22 @@ class SysModuleList : BasePage<SysModule>
     {
         row.IsMoveUp = isMoveUp;
         var result = await Platform.Module.MoveModuleAsync(row);
-        UI.Result(result, async () => await Page.RefreshAsync());
+        UI.Result(result, async () => await RefreshAsync());
     }
 
     private async void OnNodeClick(MenuItem item)
     {
         current = item;
-        await Page.Table.RefreshAsync();
+        await table.RefreshAsync();
     }
 
     private async Task OnTreeRefresh()
     {
         modules = await Platform.Module.GetModulesAsync();
-        Page.Tree.Data = modules.ToMenuItems(ref current);
+        tree.Data = modules.ToMenuItems(ref current);
         if (current == null || current.Id == "0")
-            current = Page.Tree.Data[0];
-        Page.Tree.SelectedKeys = [current?.Id];
+            current = tree.Data[0];
+        tree.SelectedKeys = [current?.Id];
     }
 
     private void ShowTreeModal(string title, Func<SysModule, Task<Result>> action)
@@ -137,7 +161,7 @@ class SysModuleList : BasePage<SysModule>
             UI.Result(result, async () =>
             {
                 await option.OnClose?.Invoke();
-                await Page.RefreshAsync();
+                await RefreshAsync();
             });
         };
         UI.ShowModal(option);

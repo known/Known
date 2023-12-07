@@ -196,20 +196,20 @@ class UIService(ModalService modal, MessageService message) : IUIService
         builder.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
     }
 
-    public void BuildPage<TItem>(RenderTreeBuilder builder, PageModel<TItem> model) where TItem : class, new()
+    public void BuildPage(RenderTreeBuilder builder, PageModel model)
     {
-        builder.Component<WebPage<TItem>>().Set(c => c.Model, model).Build();
+        builder.Component<WebPage>().Set(c => c.Model, model).Build();
+    }
+
+    public void BuildPage<TItem>(RenderTreeBuilder builder, TablePageModel<TItem> model) where TItem : class, new()
+    {
+        builder.Component<DataTablePage<TItem>>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTable<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
     {
         builder.Component<DataTable<TItem>>().Set(c => c.Model, model).Build();
     }
-
-	public void BuildTablePage<TItem>(RenderTreeBuilder builder, TablePageModel<TItem> model) where TItem : class, new()
-	{
-		builder.Component<DataTablePage<TItem>>().Set(c => c.Model, model).Build();
-	}
 
 	public void BuildTree(RenderTreeBuilder builder, TreeModel model)
     {

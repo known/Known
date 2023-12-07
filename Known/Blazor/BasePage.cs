@@ -7,7 +7,7 @@ namespace Known.Blazor;
 
 public class BasePage : BaseComponent
 {
-    [Parameter] public string PageId { get; set; }
+	[Parameter] public string PageId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -29,46 +29,40 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 {
     public BasePage()
     {
+		Page = new PageModel();
 		AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
 	}
 
+	protected PageModel Page { get; }
 	internal List<ColumnInfo> AllColumns { get; }
 	internal List<ActionInfo> Tools { get; set; }
     internal List<ActionInfo> Actions { get; set; }
     internal List<ColumnInfo> Columns { get; set; }
-
-    public PageModel<TItem> Page { get; private set; }
 
     public virtual void ViewForm(FormType type, TItem row) { }
 
 	protected override Task OnInitPageAsync()
     {
         InitMenu();
-        Page = new PageModel<TItem>(this);
-        Page.OnToolClick = OnToolClick;
-        Page.Table.OnQuery = OnQueryAsync;
-        Page.Table.OnAction = OnActionClick;
         return base.OnInitPageAsync();
     }
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildPage(builder, Page);
 
-	protected virtual Task<PagingResult<TItem>> OnQueryAsync(PagingCriteria criteria) => Task.FromResult(new PagingResult<TItem>());
-
-    protected void OnToolClick(ActionInfo info) => OnAction(info, null);
+	protected void OnToolClick(ActionInfo info) => OnAction(info, null);
 	protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
 
-    private void OnAction(ActionInfo info, object[] parameters)
-    {
-        var type = GetType();
-        var method = type.GetMethod(info.Id);
-        if (method == null)
-            UI.Error($"{info.Name}【{type.Name}.{info.Id}】方法不存在！");
-        else
-            method.Invoke(this, parameters);
-    }
+	private void OnAction(ActionInfo info, object[] parameters)
+	{
+		var type = GetType();
+		var method = type.GetMethod(info.Id);
+		if (method == null)
+			UI.Error($"{info.Name}【{type.Name}.{info.Id}】方法不存在！");
+		else
+			method.Invoke(this, parameters);
+	}
 
-    private void InitMenu()
+	private void InitMenu()
     {
         if (Context == null || Context.UserMenus == null)
             return;
@@ -89,22 +83,22 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 
 public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 {
-    public BaseTablePage()
-    {
-		Model = new TablePageModel<TItem>(this)
+    protected TablePageModel<TItem> Table { get; private set; }
+
+	public override Task RefreshAsync() => Table.RefreshAsync();
+	public override void ViewForm(FormType type, TItem row) => Table.ViewForm(type, row);
+
+	protected override async Task OnInitPageAsync()
+	{
+		await base.OnInitPageAsync();
+		Table = new TablePageModel<TItem>(this)
 		{
 			OnToolClick = OnToolClick,
-			OnQuery = OnQueryAsync,
 			OnAction = OnActionClick
 		};
 	}
 
-    protected TablePageModel<TItem> Model { get; }
-
-	public override Task RefreshAsync() => Model.RefreshAsync();
-	public override void ViewForm(FormType type, TItem row) => Model.ViewForm(type, row);
-
-	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTablePage(builder, Model);
+	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildPage(builder, Table);
 
 	protected async void ShowImportForm(string param = null)
 	{
@@ -115,6 +109,6 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 		var info = await Platform.File.GetImportAsync(id);
 		info.Name = Name;
 		info.BizName = $"导入{Name}";
-		Model.ImportForm(info);
+		Table.ImportForm(info);
 	}
 }

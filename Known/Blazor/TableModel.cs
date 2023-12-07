@@ -17,6 +17,7 @@ public class TableModel<TItem> where TItem : class, new()
 
 	internal TableModel(BasePage<TItem> page)
 	{
+        Page = page;
 		UI = page.UI;
 		Actions = page.Actions;
 		ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
@@ -180,11 +181,8 @@ public class TableModel<TItem> where TItem : class, new()
 
 public class TablePageModel<TItem> : TableModel<TItem> where TItem : class, new()
 {
-    private BasePage<TItem> page;
-
     internal TablePageModel(BasePage<TItem> page) : base(page)
     {
-        this.page = page;
 		Form = new FormOption();
 		Tools = page.Tools;
 	}
@@ -204,7 +202,7 @@ public class TablePageModel<TItem> : TableModel<TItem> where TItem : class, new(
 	{
 		var actionName = type.GetDescription();
 		var title = GetFormTitle(row);
-		UI.ShowForm(new FormModel<TItem>(page, Form)
+		UI.ShowForm(new FormModel<TItem>(this, Form)
 		{
 			FormType = type,
 			IsView = true,
@@ -216,7 +214,7 @@ public class TablePageModel<TItem> : TableModel<TItem> where TItem : class, new(
 	private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
 	{
 		var title = GetFormTitle(row);
-		UI.ShowForm(new FormModel<TItem>(page, Form)
+		UI.ShowForm(new FormModel<TItem>(this, Form)
 		{
 			Title = $"{action}{title}",
 			Data = row,
@@ -227,7 +225,7 @@ public class TablePageModel<TItem> : TableModel<TItem> where TItem : class, new(
 	private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
 	{
 		var title = GetFormTitle(row);
-		UI.ShowForm(new FormModel<TItem>(page, Form)
+		UI.ShowForm(new FormModel<TItem>(this, Form)
 		{
 			Title = $"{action}{title}",
 			Data = row,

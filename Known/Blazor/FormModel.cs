@@ -20,20 +20,21 @@ public class FormModel<TItem> where TItem : class, new()
         Option = option ?? new FormOption();
     }
 
-    internal FormModel(BasePage<TItem> page, FormOption option)
+    internal FormModel(TableModel<TItem> table, FormOption option)
     {
-        if (page != null && page.AllColumns != null)
-            columns = page.AllColumns.Where(c => c.IsForm).ToList();
+        Table = table;
+        if (table.AllColumns != null)
+            columns = table.AllColumns.Where(c => c.IsForm).ToList();
 
-        UI = page.UI;
-        Page = page;
+        UI = table.UI;
+        Page = table.Page;
         Option = option;
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
     }
 
-    public IUIService UI { get; }
-    public BasePage<TItem> Page { get; }
-    public TableModel<TItem> Table { get; }
+    internal IUIService UI { get; }
+	internal BasePage<TItem> Page { get; }
+	internal TableModel<TItem> Table { get; }
     public FormOption Option { get; }
     public string Title { get; internal set; }
     public bool IsView { get; set; }
@@ -123,7 +124,7 @@ public class FormModel<TItem> where TItem : class, new()
         {
             result = await OnSave?.Invoke(Data);
         }
-        Page.UI.Result(result, async () =>
+        UI.Result(result, async () =>
         {
             if (result.IsClose || isClose)
                 await CloseAsync();

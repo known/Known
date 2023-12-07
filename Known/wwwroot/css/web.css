@@ -22,6 +22,7 @@
 .link {color:#1890ff;cursor:pointer;}
 .danger {color:#ed4014;}
 .center {text-align:center;}
+.p10 {padding:10px;}
 
 .query, .toolbar {padding:10px 10px 0 10px;}
 .table {padding-top:10px;}

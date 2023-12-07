@@ -8,10 +8,10 @@ class SysLogList : BaseTablePage<SysLog>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-		Model.OnQuery = Platform.System.QueryLogsAsync;
-		Model.AddQueryColumn(c => c.CreateTime);
-		Model.Column(c => c.Type).Template(BuildLogType);
-		Model.Column(c => c.CreateTime).DefaultDescend();
+		Table.OnQuery = Platform.System.QueryLogsAsync;
+		Table.AddQueryColumn(c => c.CreateTime);
+		Table.Column(c => c.Type).Template(BuildLogType);
+		Table.Column(c => c.CreateTime).DefaultDescend();
     }
 
     private void BuildLogType(RenderTreeBuilder builder, SysLog row)
