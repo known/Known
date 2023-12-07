@@ -14,23 +14,15 @@ class CompanyForm : BasePage
     {
         await base.OnInitializedAsync();
         model = new TabModel();
-        model.Items.Add(new ItemModel("基本信息") { Content = BuildBaseInfo });
+        model.Items.Add(new ItemModel("基本信息") { Content = builder => builder.Component<CompanyBaseInfo>().Build() });
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        UI.BuildTabs(builder, model);
-    }
-
-    private void BuildBaseInfo(RenderTreeBuilder builder)
-    {
-        builder.Component<CompanyInfoForm>().Build();
-    }
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTabs(builder, model);
 
     [Action] public void Edit() { }
 }
 
-class CompanyInfoForm : BaseComponent
+class CompanyBaseInfo : BaseComponent
 {
     private bool isEdit = false;
     private FormModel<CompanyInfo> model;
@@ -49,18 +41,9 @@ class CompanyInfoForm : BaseComponent
     {
         builder.Div("form-company", () =>
         {
-            //TODO：使用动态组件刷新表单状态
-            if (isEdit)
-            {
-                model.IsView = false;
-                UI.BuildForm(builder, model);
-            }
-            else
-            {
-                model.IsView = true;
-                UI.BuildForm(builder, model);
-            }
-            builder.Div("buttons", () =>
+            model.IsView = !isEdit;
+            UI.BuildForm(builder, model);
+            builder.Div("center", () =>
             {
                 if (!isEdit)
                 {

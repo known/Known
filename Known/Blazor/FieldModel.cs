@@ -88,28 +88,17 @@ public class FieldModel<TItem> where TItem : class, new()
             {
                 { "id", Column.Id },
                 { "autofocus", true },
-                { "placeholder", Column.Placeholder },
+                { "disabled", IsReadOnly },
+                { "readonly", IsReadOnly },
+                { "required", Column.Property.IsRequired() },
+                { "placeholder", Column.Placeholder }
             };
-
-            if (IsReadOnly)
-            {
-                attributes["disabled"] = true;
-                attributes["readonly"] = true;
-            }
-            else
-            {
-                attributes["required"] = Column.Property.IsRequired();
-            }
-
             UI.AddInputAttributes(attributes, this);
 
-            attributes["Value"] = Value;
-            
             var expression = InputExpression.Create(this);
-            if (!IsReadOnly)
-                attributes["ValueChanged"] = expression.ValueChanged;
+            attributes["Value"] = Value;
+            attributes["ValueChanged"] = expression.ValueChanged;
             attributes["ValueExpression"] = expression.ValueExpression;
-            
             return attributes;
         }
     }
