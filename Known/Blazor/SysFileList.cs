@@ -6,17 +6,21 @@ namespace Known.Blazor;
 
 class SysFileList : BasePage<SysFile>
 {
-    protected override async Task OnInitPageAsync()
-    {
-        await base.OnInitPageAsync();
-        Page.Table.Column(c => c.Size).Template(BuildFileSize);
-        Page.Table.Column(c => c.CreateTime).DefaultDescend();
-    }
+	private TableModel<SysFile> model;
 
-    protected override Task<PagingResult<SysFile>> OnQueryAsync(PagingCriteria criteria)
-    {
-        return Platform.File.QueryFilesAsync(criteria);
-    }
+	protected override async Task OnInitPageAsync()
+	{
+		await base.OnInitPageAsync();
+		model = new TableModel<SysFile>(this);
+		model.OnQuery = Platform.File.QueryFilesAsync;
+		model.Column(c => c.Size).Template(BuildFileSize);
+		model.Column(c => c.CreateTime).DefaultDescend();
+	}
+
+	protected override void BuildRenderTree(RenderTreeBuilder builder)
+	{
+		UI.BuildTablePage(builder, model);
+	}
 
     private void BuildFileSize(RenderTreeBuilder builder, SysFile row)
     {

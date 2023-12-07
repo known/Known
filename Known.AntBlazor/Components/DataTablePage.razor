@@ -1,0 +1,15 @@
+﻿@typeparam TItem where TItem : class, new()
+
+<div class="page-top">
+	<QueryForm TItem="TItem" Model="Model" OnSearch="OnSearchAsync" />
+	<Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
+</div>
+<DataTable @ref="table" TItem="TItem" Model="Model" />
+
+@code {
+	DataTable<TItem> table;
+
+	[Parameter] public TableModel<TItem> Model { get; set; }
+
+	private Task OnSearchAsync() => table.RefreshAsync();
+}

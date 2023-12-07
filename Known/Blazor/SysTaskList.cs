@@ -5,17 +5,21 @@ namespace Known.Blazor;
 
 class SysTaskList : BasePage<SysTask>
 {
-    protected override async Task OnInitPageAsync()
-    {
-        await base.OnInitPageAsync();
-        Page.Table.Column(c => c.Status).Template(BuildTaskStatus);
-        Page.Table.Column(c => c.CreateTime).DefaultDescend();
-    }
+	private TableModel<SysTask> model;
 
-    protected override Task<PagingResult<SysTask>> OnQueryAsync(PagingCriteria criteria)
-    {
-        return Platform.System.QueryTasksAsync(criteria);
-    }
+	protected override async Task OnInitPageAsync()
+	{
+		await base.OnInitPageAsync();
+		model = new TableModel<SysTask>(this);
+		model.OnQuery = Platform.System.QueryTasksAsync;
+		model.Column(c => c.Status).Template(BuildTaskStatus);
+		model.Column(c => c.CreateTime).DefaultDescend();
+	}
+
+	protected override void BuildRenderTree(RenderTreeBuilder builder)
+	{
+		UI.BuildTablePage(builder, model);
+	}
 
     private void BuildTaskStatus(RenderTreeBuilder builder, SysTask row)
     {

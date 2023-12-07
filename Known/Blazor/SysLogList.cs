@@ -5,18 +5,22 @@ namespace Known.Blazor;
 
 class SysLogList : BasePage<SysLog>
 {
+    private TableModel<SysLog> model;
+
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Page.Table.AddQueryColumn(c => c.CreateTime);
-        Page.Table.Column(c => c.Type).Template(BuildLogType);
-        Page.Table.Column(c => c.CreateTime).DefaultDescend();
+        model = new TableModel<SysLog>(this);
+        model.OnQuery = Platform.System.QueryLogsAsync;
+		model.AddQueryColumn(c => c.CreateTime);
+		model.Column(c => c.Type).Template(BuildLogType);
+		model.Column(c => c.CreateTime).DefaultDescend();
     }
 
-    protected override Task<PagingResult<SysLog>> OnQueryAsync(PagingCriteria criteria)
-    {
-        return Platform.System.QueryLogsAsync(criteria);
-    }
+	protected override void BuildRenderTree(RenderTreeBuilder builder)
+	{
+        UI.BuildTablePage(builder, model);
+	}
 
     private void BuildLogType(RenderTreeBuilder builder, SysLog row)
     {

@@ -15,7 +15,16 @@ public class TableModel<TItem> where TItem : class, new()
         InitQueryColumns();
     }
 
-    internal TableModel(PageModel<TItem> page)
+	internal TableModel(BasePage<TItem> page)
+	{
+		UI = page.UI;
+		ShowPager = true;
+		AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
+		Columns = AllColumns.Where(c => HasColumn(page.Columns, c.Property.Name)).ToList();
+		InitQueryColumns();
+	}
+
+	internal TableModel(PageModel<TItem> page)
     {
         ShowPager = true;
         ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
@@ -46,6 +55,8 @@ public class TableModel<TItem> where TItem : class, new()
     public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }
     public Func<Task> OnRefresh { get; set; }
+    public List<ActionInfo> Tools { get; }
+    public Action<ActionInfo> OnToolClick { get; internal set; }
 
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
     {

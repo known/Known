@@ -206,7 +206,12 @@ class UIService(ModalService modal, MessageService message) : IUIService
         builder.Component<DataTable<TItem>>().Set(c => c.Model, model).Build();
     }
 
-    public void BuildTree(RenderTreeBuilder builder, TreeModel model)
+	public void BuildTablePage<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
+	{
+		builder.Component<DataTablePage<TItem>>().Set(c => c.Model, model).Build();
+	}
+
+	public void BuildTree(RenderTreeBuilder builder, TreeModel model)
     {
         builder.Component<AntTree>().Set(c => c.Model, model).Build();
     }
