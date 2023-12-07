@@ -156,7 +156,7 @@ class SysModuleForm : BaseForm<SysModule>
         ModelTypes = Config.ModelTypes.Select(m => new CodeInfo(m.Name, m.Name)).ToList();
 
 		step.Items.Add(new("基本信息") { Content = BuildDataForm });
-		step.Items.Add(new("页面设置") { Content = BuildModulePage });
+		step.Items.Add(new("页面设置") { Content = BuildModulePage });//TODO：模块页面和表单配置组件开发
 		step.Items.Add(new("表单设置") { Content = BuildModuleForm });
 		step.IsView = Model.IsView;
 		step.OnSave = SaveAsync;

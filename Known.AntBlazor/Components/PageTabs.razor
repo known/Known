@@ -2,7 +2,16 @@
     @foreach (var item in Items)
     {
         <TabPane Key="@item.Id" Tab="@item.Name" Closable="@item.Closable">
-            <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
+            @if (item.Page != null && item.Page.NoBreadcrumb)
+            {
+                <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
+            }
+            else
+            {
+                <div class="layout-background" style="min-height:360px;margin:10px 0;">
+                    <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
+                </div>
+            }
         </TabPane>
     }
 </Tabs>

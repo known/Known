@@ -49,6 +49,7 @@ class CompanyInfoForm : BaseComponent
     {
         builder.Div("form-company", () =>
         {
+            //TODO：使用动态组件刷新表单状态
             if (isEdit)
             {
                 model.IsView = false;
