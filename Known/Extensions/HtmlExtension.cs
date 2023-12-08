@@ -16,6 +16,27 @@ public static class HtmlExtension
         builder.CloseElement();
     }
 
+    public static void Ul(this RenderTreeBuilder builder, Action child) => builder.Ul("", child);
+    public static void Ul(this RenderTreeBuilder builder, string className, Action child)
+    {
+        builder.OpenElement(0, "ul");
+        if (!string.IsNullOrEmpty(className))
+            builder.AddAttribute(1, "class", className);
+        child?.Invoke();
+        builder.CloseElement();
+    }
+
+    public static void Li(this RenderTreeBuilder builder, Action child) => builder.Li("", child);
+    public static void Li(this RenderTreeBuilder builder, string className, string text) => builder.Li(className, () => builder.AddContent(2, text));
+    public static void Li(this RenderTreeBuilder builder, string className, Action child)
+    {
+        builder.OpenElement(0, "li");
+        if (!string.IsNullOrEmpty(className))
+            builder.AddAttribute(1, "class", className);
+        child?.Invoke();
+        builder.CloseElement();
+    }
+
     public static void Span(this RenderTreeBuilder builder, string text, EventCallback? onClick = null) => builder.Span("", text, onClick);
     public static void Span(this RenderTreeBuilder builder, string className, string text, EventCallback? onClick = null)
     {

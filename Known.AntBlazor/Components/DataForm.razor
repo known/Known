@@ -1,6 +1,6 @@
 ﻿@typeparam TItem where TItem : class, new()
 
-<Form @ref="_form" Model="Model.Data" Class="@Model.Option?.Class">
+<Form @ref="_form" Model="Model.Data" LabelColSpan="@LabelSpan" WrapperColSpan="@WrapperSpan">
     @if (rows != null && rows.Count > 0)
     {
         foreach (var row in rows)
@@ -22,8 +22,10 @@
 </Form>
 
 @code {
-    AntDesign.Internal.IForm _form;
-    List<FormRow<TItem>> rows;
+    private AntDesign.Internal.IForm _form;
+    private List<FormRow<TItem>> rows;
+    private int LabelSpan => Model.LabelSpan ?? 0;
+    private int WrapperSpan => Model.WrapperSpan ?? 0;
 
     [Parameter] public FormModel<TItem> Model { get; set; }
 

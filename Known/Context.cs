@@ -39,6 +39,7 @@ public class Context
     public void RefreshPage() => OnRefreshPage?.Invoke();
 
     public void NavigateToHome() => Navigate(Config.GetHomeMenu());
+    public void NavigateToUserProfile() => Navigate(Config.GetUserProfileMenu());
 
     public void Navigate(MenuItem menu, Dictionary<string, object> prevParams = null)
     {

@@ -18,8 +18,5 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
 {
     [Parameter] public FormModel<TItem> Model { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        UI.BuildForm(builder, Model);
-    }
+	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
 }

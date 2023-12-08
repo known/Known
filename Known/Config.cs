@@ -99,6 +99,11 @@ public sealed class Config
         return new("首页", "home", PageTypes.GetValueOrDefault("Home")) { Closable = false };
     }
 
+    internal static MenuItem GetUserProfileMenu()
+    {
+        return new("个人中心", "user", typeof(SysUserProfile), "当前用户个人中心和安全设置。");
+    }
+
     private static void AddActions(Assembly assembly)
     {
         var content = Utils.GetResource(assembly, "actions");

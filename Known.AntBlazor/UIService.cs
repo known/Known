@@ -234,6 +234,11 @@ class UIService(ModalService modal, MessageService message) : IUIService
                .Build();
     }
 
+    public void BuildIcon(RenderTreeBuilder builder, string type)
+    {
+        builder.Component<Icon>().Set(c => c.Type, type).Set(c => c.Theme, "outline").Build();
+    }
+
     public void BuildResult(RenderTreeBuilder builder, string status, string message)
     {
         builder.Component<AntDesign.Result>()

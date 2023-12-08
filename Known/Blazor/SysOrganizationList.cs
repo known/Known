@@ -46,10 +46,11 @@ class SysOrganizationList : BasePage<SysOrganization>
 
 	public override async Task RefreshAsync()
 	{
+		//TODO：保存删除时，左侧树刷新问题
 		await tree.RefreshAsync();
 		//model.StateChanged.Invoke();
 		await table.RefreshAsync();
-		StateChanged();
+		//StateChanged();
 	}
 
 	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));

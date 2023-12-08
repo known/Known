@@ -42,7 +42,7 @@
                 Context.NavigateToHome();
                 break;
             case "profile":
-                //Context.Navigate(new("个人中心", "user", typeof(UserProfile), "当前用户个人中心和安全设置。"));
+                Context.NavigateToUserProfile();
                 break;
             case "logout":
                 UI.Confirm("确定要退出系统？", async () =>

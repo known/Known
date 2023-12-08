@@ -6,31 +6,25 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Demo.Pages.BaseData;
 
-class CompanyForm : BasePage
+class CompanyForm : BaseTabPage
 {
-    private TabModel model;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        model = new TabModel();
-        model.Items.Add(new ItemModel("基本信息") { Content = builder => builder.Component<CompanyBaseInfo>().Build() });
+	protected override async Task OnInitPageAsync()
+	{
+		await base.OnInitPageAsync();
+        Tab.Items.Add(new ItemModel("基本信息") { Content = builder => builder.Component<CompanyBaseInfo>().Build() });
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTabs(builder, model);
-
-    [Action] public void Edit() { }
+	[Action] public void Edit() { }
 }
 
-class CompanyBaseInfo : BaseComponent
+class CompanyBaseInfo : BaseForm<CompanyInfo>
 {
     private bool isEdit = false;
-    private FormModel<CompanyInfo> model;
 
-    protected override async Task OnInitializedAsync()
+	protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        model = new FormModel<CompanyInfo>(UI)
+        Model = new FormModel<CompanyInfo>(UI)
         {
             IsView = true,
             Data = await Platform.GetCompanyAsync<CompanyInfo>()
@@ -41,9 +35,9 @@ class CompanyBaseInfo : BaseComponent
     {
         builder.Div("form-company", () =>
         {
-            model.IsView = !isEdit;
-            UI.BuildForm(builder, model);
-            builder.Div("center", () =>
+            Model.IsView = !isEdit;
+            base.BuildRenderTree(builder);
+            builder.Div("col-offset-4", () =>
             {
                 if (!isEdit)
                 {
@@ -60,7 +54,10 @@ class CompanyBaseInfo : BaseComponent
 
     private async void OnSave()
     {
-        var result = await Platform.SaveCompanyAsync(model.Data);
+        if (!Model.Validate())
+            return;
+
+        var result = await Platform.SaveCompanyAsync(Model.Data);
         UI.Result(result, () => OnEdit(false));
     }
 

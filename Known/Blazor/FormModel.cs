@@ -41,6 +41,7 @@ public class FormModel<TItem> where TItem : class, new()
     public bool IsView { get; set; }
     public TItem Data { get; set; }
     public int? LabelSpan { get; set; }
+    public int? WrapperSpan { get; set; }
     public List<FormRow<TItem>> Rows { get; } = [];
     public Dictionary<string, List<CodeInfo>> Codes { get; } = [];
     public Dictionary<string, List<IBrowserFile>> Files { get; } = [];
@@ -166,7 +167,6 @@ public class FormRow<TItem> where TItem : class, new()
 
 public class FormOption
 {
-    public string Class { get; set; }
     public double? Width { get; set; }
     public bool Maximizable { get; set; }
     public bool DefaultMaximized { get; set; }

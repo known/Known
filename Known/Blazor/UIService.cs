@@ -19,6 +19,7 @@ public interface IUIService
     void BuildSteps(RenderTreeBuilder builder, StepModel model);
     void BuildTabs(RenderTreeBuilder builder, TabModel model);
     void BuildTag(RenderTreeBuilder builder, string text, string color);
+    void BuildIcon(RenderTreeBuilder builder, string type);
     void BuildResult(RenderTreeBuilder builder, string status, string message);
     void BuildButton(RenderTreeBuilder builder, ActionInfo info);
     void BuildInput<TValue>(RenderTreeBuilder builder, InputOption<TValue> option);

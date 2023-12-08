@@ -22,4 +22,4 @@ html, body {
 #blazor-error-ui .dismiss {cursor:pointer;position:absolute;right:0.75rem;top:0.5rem;}
 
 .form-company {padding:0 50px 20px 0;}
-.form-company button {margin:0 5px;}
+.form-company button {margin-right:10px;}

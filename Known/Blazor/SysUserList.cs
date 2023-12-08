@@ -49,10 +49,11 @@ class SysUserList : BasePage<SysUser>
 
 	public override async Task RefreshAsync()
 	{
-		await tree.RefreshAsync();
+        //TODO：保存时表格刷新问题
+		//await tree.RefreshAsync();
 		//model.StateChanged.Invoke();
 		await table.RefreshAsync();
-		StateChanged();
+		//StateChanged();
 	}
 
 	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));

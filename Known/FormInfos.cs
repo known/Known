@@ -18,12 +18,17 @@ public class LoginFormInfo
 
 public class PwdFormInfo
 {
+    [Form(IsPassword = true)]
     [DisplayName("原密码")]
     [Required(ErrorMessage = "请输入原密码！")]
     public string OldPwd { get; set; }
+
+    [Form(IsPassword = true)]
     [DisplayName("新密码")]
     [Required(ErrorMessage = "请输入新密码！")]
     public string NewPwd { get; set; }
+
+    [Form(IsPassword = true)]
     [DisplayName("确认密码")]
     [Required(ErrorMessage = "请输入确认密码！")]
     public string NewPwd1 { get; set; }

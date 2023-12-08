@@ -23,7 +23,7 @@ public class TableModel<TItem> where TItem : class, new()
 		ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
 		ShowPager = true;
         AllColumns = page.AllColumns;
-		Columns = AllColumns.Where(c => HasColumn(page.Columns, c.Property.Name)).ToList();
+		Columns = AllColumns.Where(c => c.IsGrid && HasColumn(page.Columns, c.Property.Name)).ToList();
 		InitQueryColumns();
 	}
 

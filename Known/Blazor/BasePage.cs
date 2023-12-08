@@ -112,3 +112,15 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 		Table.ImportForm(info);
 	}
 }
+
+public class BaseTabPage : BasePage
+{
+	public BaseTabPage()
+	{
+		Tab = new TabModel();
+	}
+
+	protected TabModel Tab { get; }
+
+	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
+}
