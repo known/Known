@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.AntBlazor;
 
-class UIService(ModalService modal, MessageService message) : IUIService
+public class UIService(ModalService modal, MessageService message) : IUIService
 {
     private readonly ModalService _modal = modal;
     private readonly MessageService _message = message;

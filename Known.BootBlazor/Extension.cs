@@ -1,5 +1,4 @@
-﻿using Known.Blazor;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Known.BootBlazor;
@@ -15,7 +14,7 @@ public static class Extension
         action?.Invoke(BootConfig.Option);
 
         Config.AddModule(typeof(Extension).Assembly);
-        services.AddScoped<IUIService, UIService>();
+        services.AddScoped<UIService>();
     }
 
     internal static List<BootstrapBlazor.Components.MenuItem> ToSideMenuItems(this List<MenuItem> menus)

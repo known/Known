@@ -1,5 +1,4 @@
 ﻿using AntDesign;
-using Known.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +15,7 @@ public static class Extension
         action?.Invoke(AntConfig.Option);
 
         Config.AddModule(typeof(Extension).Assembly);
-        services.AddScoped<IUIService, UIService>();
+        services.AddScoped<UIService>();
     }
 
     internal static RadioOption<string>[] ToRadioOptions(this List<CodeInfo> codes)

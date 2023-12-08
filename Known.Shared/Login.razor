@@ -24,6 +24,8 @@
 @code {
     string[] uis = ["AntDesign", "Bootstrap", "KBlazor"];
     [CascadingParameter] private Index Index { get; set; }
+    [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
+    //[Inject] private Known.BootBlazor.UIService BootUI { get; set; }
 
     protected override void OnInitialized()
     {
@@ -35,5 +37,11 @@
     private void OnUIChanged(string item)
     {
         Index.SetUIType(item);
+        if (item == "AntDesign")
+            Context.UI = AntUI;
+        else if (item == "Bootstrap")
+            Context.UI = AntUI;
+        else
+            Context.UI = AntUI;
     }
 }

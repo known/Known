@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using Known.Blazor;
+
+namespace Known;
 
 public class Context
 {
@@ -7,6 +9,7 @@ public class Context
     internal static Action<MenuItem> OnNavigate { get; set; }
     internal static Action OnRefreshPage { get; set; }
 
+    public IUIService UI { get; set; }
     public InstallInfo Install { get; internal set; }
     public UserInfo CurrentUser { get; internal set; }
     public SettingInfo UserSetting { get; internal set; }

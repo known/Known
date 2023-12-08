@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.BootBlazor;
 
-class UIService : IUIService
+public class UIService : IUIService
 {
     private readonly MessageService _message;
 
