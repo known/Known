@@ -21,6 +21,9 @@ public static class Extension
 
     internal static RadioOption<string>[] ToRadioOptions(this List<CodeInfo> codes)
     {
+        if (codes == null || codes.Count == 0)
+            return null;
+
         return codes.Select(a => new RadioOption<string>
         {
             Label = a.Name,
@@ -30,6 +33,9 @@ public static class Extension
 
     internal static CheckboxOption[] ToCheckboxOptions(this List<CodeInfo> codes, Action<CheckboxOption> action = null)
     {
+        if (codes == null || codes.Count == 0)
+            return null;
+
         return codes.Select(a =>
         {
             var option = new CheckboxOption

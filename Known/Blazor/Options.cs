@@ -16,3 +16,11 @@ public class InputOption<TValue>
     public TValue Value { get; set; }
     public EventCallback<TValue> ValueChanged { get; set; }
 }
+
+public class ListOption<TValue>
+{
+    public bool Disabled { get; set; }
+    public List<CodeInfo> Codes { get; set; }
+    public TValue Value { get; set; }
+    public EventCallback<TValue> ValueChanged { get; set; }
+}

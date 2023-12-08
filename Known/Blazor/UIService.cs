@@ -23,4 +23,5 @@ public interface IUIService
     void BuildResult(RenderTreeBuilder builder, string status, string message);
     void BuildButton(RenderTreeBuilder builder, ActionInfo info);
     void BuildInput<TValue>(RenderTreeBuilder builder, InputOption<TValue> option);
+    void BuildCheckList(RenderTreeBuilder builder, ListOption<string[]> option);
 }

@@ -107,3 +107,10 @@
 
 /*Setting*/
 .form-setting button {margin:0 5px;}
+
+/*Role*/
+.role {display:flex;}
+.role-form {width:400px;padding-right:20px;}
+.role-module {width:260px;}
+.role-button {background-color:#f5f5f5;width:160px;}
+.role-column {background-color:#f1f1f1;width:160px;}

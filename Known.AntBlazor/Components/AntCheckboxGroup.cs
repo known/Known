@@ -3,13 +3,16 @@ using Microsoft.AspNetCore.Components;
 
 namespace Known.AntBlazor.Components;
 
-public class AntCheckboxGroup : CheckboxGroup
+class AntCheckboxGroup : CheckboxGroup
 {
     [Parameter] public List<CodeInfo> Codes { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnParametersSetAsync()
     {
-        Options = Codes.ToCheckboxOptions();
-        base.OnInitialized();
+        await base.OnParametersSetAsync();
+        Options = Codes.ToCheckboxOptions(o =>
+        {
+            o.Checked = Value.Contains(o.Value);
+        });
     }
 }

@@ -268,4 +268,14 @@ class UIService(ModalService modal, MessageService message) : IUIService
                .Set(c => c.ValueChanged, option.ValueChanged)
                .Build();
     }
+
+    public void BuildCheckList(RenderTreeBuilder builder, ListOption<string[]> option)
+    {
+        builder.Component<AntCheckboxGroup>()
+               .Set(c => c.Disabled, option.Disabled)
+               .Set(c => c.Codes, option.Codes)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
 }
