@@ -5,14 +5,10 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.BootBlazor;
 
-public class UIService : IUIService
+public class UIService(DialogService modal, MessageService message) : IUIService
 {
-    private readonly MessageService _message;
-
-    public UIService(MessageService message)
-    {
-        _message = message;
-    }
+    private readonly DialogService _modal = modal;
+    private readonly MessageService _message = message;
 
     public Type GetInputType(ColumnInfo column)
     {
@@ -23,41 +19,41 @@ public class UIService : IUIService
         if (type == typeof(bool))
             return typeof(Switch);
 
-        //if (type == typeof(short))
-        //    return typeof(InputNumber<short>);
+        if (type == typeof(short))
+            return typeof(BootstrapInputNumber<short>);
 
-        //if (type == typeof(int))
-        //    return typeof(InputNumber<int>);
+        if (type == typeof(int))
+            return typeof(BootstrapInputNumber<int>);
 
-        //if (type == typeof(long))
-        //    return typeof(InputNumber<long>);
+        if (type == typeof(long))
+            return typeof(BootstrapInputNumber<long>);
 
-        //if (type == typeof(float))
-        //    return typeof(InputNumber<float>);
+        if (type == typeof(float))
+            return typeof(BootstrapInputNumber<float>);
 
-        //if (type == typeof(double))
-        //    return typeof(InputNumber<double>);
+        if (type == typeof(double))
+            return typeof(BootstrapInputNumber<double>);
 
-        //if (type == typeof(decimal))
-        //    return typeof(InputNumber<decimal>);
+        if (type == typeof(decimal))
+            return typeof(BootstrapInputNumber<decimal>);
 
-        //if (type == typeof(string) && maxLength >= 500)
-        //    return typeof(TextArea);
+        if (type == typeof(string) && maxLength >= 500)
+            return typeof(Textarea);
 
-        //if (type == typeof(string))
-        //    return typeof(Input<string>);
+        if (type == typeof(string))
+            return typeof(BootstrapInput<string>);
 
-        //if (type == typeof(DateTime))
-        //    return typeof(DatePicker<DateTime>);
+        if (type == typeof(DateTime))
+            return typeof(DateTimePicker<DateTime>);
 
-        //if (type == typeof(DateTime?))
-        //    return typeof(DatePicker<DateTime?>);
+        if (type == typeof(DateTime?))
+            return typeof(DateTimePicker<DateTime?>);
 
-        //if (type == typeof(DateTimeOffset))
-        //    return typeof(DatePicker<DateTimeOffset>);
+        if (type == typeof(DateTimeOffset))
+            return typeof(DateTimePicker<DateTimeOffset>);
 
-        //if (type == typeof(DateTimeOffset?))
-        //    return typeof(DatePicker<DateTimeOffset?>);
+        if (type == typeof(DateTimeOffset?))
+            return typeof(DateTimePicker<DateTimeOffset?>);
 
         //if (type.IsEnum && !type.IsDefined(typeof(FlagsAttribute), inherit: true))
         //    return typeof(Select<>).MakeGenericType(type);
@@ -114,6 +110,11 @@ public class UIService : IUIService
 
     public void Confirm(string message, Func<Task> action)
     {
+        _modal.Show(new DialogOption
+        {
+            Title = "询问",
+            BodyTemplate = b => b.Text(message)
+        });
         //_modal.Confirm(new ConfirmOptions
         //{
         //    Title = "询问",

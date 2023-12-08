@@ -1,15 +1,13 @@
 ﻿@inherits AdminPage
 
-<Layout ShowFooter="true" IsFullSide="true">
+<Layout ShowFooter="BootConfig.Option.Footer != null" IsFullSide="true" SideWidth="200px">
     <Header>
-        <div style="padding:0 10px;display:flex;justify-content:space-between;">
-            <h1>@CurrentUser?.AppName</h1>
-            <NavTopRight OnMenuClick="OnMenuClick" />
-        </div>
+        <div style="font-size:1.2rem">@CurrentUser?.AppName</div>
+        <NavTopRight OnMenuClick="OnMenuClick" />
     </Header>
     <Side>
         <div class="logo" />
-        <Menu Items="@SideMenuItems" DisableNavigation IsVertical OnClick="OnSideMenuClick" style="border-right:1px solid #e6e6e6;width:220px;" />
+        <Menu Items="@SideMenuItems" DisableNavigation IsVertical OnClick="OnSideMenuClick" />
     </Side>
     <Main>
         @if (Context.UserSetting.MultiTab)
@@ -21,14 +19,20 @@
             <PageSingle Menu="CurrentMenu" OnHome="OnHome" />
         }
     </Main>
+    <Footer>
+        @if (BootConfig.Option.Footer != null)
+        {
+            <div style="text-align:center">@BootConfig.Option.Footer</div>
+        }
+    </Footer>
 </Layout>
 
 @code{
     private List<BootstrapBlazor.Components.MenuItem> SideMenuItems = [];
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await base.OnInitializedAsync();
         SideMenuItems = UserMenus.ToSideMenuItems();
     }
 

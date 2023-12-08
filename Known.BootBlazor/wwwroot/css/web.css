@@ -1,1 +1,6 @@
-﻿
+﻿.layout {background-color:#fff;}
+.layout-side {background-color:#001529;}
+.layout-header {height:60px;line-height:60px;}
+.layout-nav {list-style:none;display:flex;}
+.layout-nav li {padding:0 10px;}
+.layout-main {background-color:#f0f2f5;}

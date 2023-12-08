@@ -1,0 +1,36 @@
+﻿<Tab ShowExtendButtons ShowClose class="mt-3">
+    @foreach (var item in Items)
+    {
+        <TabItem Text="@item.Name" Closable="@item.Closable">
+            @if (item.Page != null && item.Page.NoBreadcrumb)
+            {
+                <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
+            }
+            else
+            {
+                <div class="layout-background" style="min-height:360px;margin:10px 0;">
+                    <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
+                </div>
+            }
+        </TabItem>
+    }
+</Tab>
+
+@code {
+    private string activeKey;
+
+    [Parameter] public List<Known.MenuItem> Items { get; set; }
+    [Parameter] public Known.MenuItem Menu { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        activeKey = Menu.Id;
+    }
+
+    private void OnClose(string tab)
+    {
+        var item = Items.FirstOrDefault(t => t.Id == tab);
+        Items.Remove(item);
+    }
+}
