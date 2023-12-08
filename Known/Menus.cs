@@ -185,6 +185,7 @@ public class ColumnInfo
     public bool IsPassword { get; set; }
     public int Row { get; set; } = 1;
     public int Column { get; set; } = 1;
+    public RenderFragment Template { get; set; }
     //public bool IsAdvQuery { get; set; }
     //public bool IsSum { get; set; }
     //public bool IsSort { get; set; } = true;

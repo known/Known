@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using Known.Extensions;
 using Known.Helpers;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Known.Blazor;
@@ -157,6 +158,14 @@ public class FormRow<TItem> where TItem : class, new()
 
     public FormModel<TItem> Form { get; }
     public List<FieldModel<TItem>> Fields { get; } = [];
+
+    public FormRow<TItem> AddColumn(string label, string text) => AddColumn(label, b => b.Text(text));
+
+    public FormRow<TItem> AddColumn(string label, RenderFragment template)
+    {
+        var column = new ColumnInfo() { Name = label, Template = template };
+        return AddColumn(column);
+    }
 
     public FormRow<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector, Action<ColumnInfo> action = null)
     {

@@ -41,22 +41,25 @@ public class FieldModel<TItem> where TItem : class, new()
     {
         get
         {
-            if (Column.IsFile || Column.IsMultiFile)
+            if (Column.Template != null)
             {
-                _inputTemplate = builder =>
-                {
-                    builder.Component<UploadField<TItem>>().Set(c => c.Model, this).Build();
-                };
+                _inputTemplate = Column.Template;
             }
-
-            if (_inputTemplate == null)
+            else if (Column.IsFile || Column.IsMultiFile)
+            {
+                _inputTemplate = builder => builder.Component<UploadField<TItem>>().Set(c => c.Model, this).Build();
+            }
+            else
             {
                 _inputTemplate = builder =>
                 {
                     var inputType = UI.GetInputType(Column);
-                    builder.OpenComponent(0, inputType);
-                    builder.AddMultipleAttributes(1, InputAttributes);
-                    builder.CloseComponent();
+                    if (inputType != null)
+                    {
+                        builder.OpenComponent(0, inputType);
+                        builder.AddMultipleAttributes(1, InputAttributes);
+                        builder.CloseComponent();
+                    }
                 };
             }
 

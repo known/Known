@@ -34,45 +34,35 @@ class SysSystemInfo : BaseForm<SystemInfo>
             WrapperSpan = 10,
             Data = Parent.Data
         };
-        //TODO：添加表单列模板
-        //Model.AddRow().AddColumn(c => c.CompNo);
-        /*
-         <FormItem Label="企业名称">
-            @($"{context.CompNo}-{context.CompName}")
-        </FormItem>
-        <FormItem Label="系统名称">
-            <EditInput Value="@context.AppName" OnSave="OnSaveAppName" />
-        </FormItem>
-        <FormItem Label="系统版本">
-            @Config.Version.AppVersion
-        </FormItem>
-        <FormItem Label="软件版本">
-            @Config.Version.SoftVersion
-        </FormItem>
-        <FormItem Label="框架版本">
-            @Config.Version.FrameVersion
-        </FormItem>
-        @if (!Config.App.IsPlatform && !string.IsNullOrWhiteSpace(Config.App.ProductId))
+        Model.AddRow().AddColumn("企业名称", $"{Parent.Data.CompNo}-{Parent.Data.CompName}");
+        Model.AddRow().AddColumn("系统名称", b =>
         {
-            <FormItem Label="产品ID">
-                @Config.App.ProductId
-            </FormItem>
-            <FormItem Label="产品密钥">
-                <EditInput Value="@context.ProductKey" OnSave="OnSaveProductKey" />
-            </FormItem>
+            b.Component<EditInput>()
+             .Set(c => c.Value, Parent.Data.AppName)
+             .Set(c => c.OnSave, OnSaveAppName)
+             .Build();
+        });
+        Model.AddRow().AddColumn("系统版本", Config.Version.AppVersion);
+        Model.AddRow().AddColumn("软件版本", Config.Version.SoftVersion);
+        Model.AddRow().AddColumn("框架版本", Config.Version.FrameVersion);
+        if (!Config.App.IsPlatform && !string.IsNullOrWhiteSpace(Config.App.ProductId))
+        {
+            Model.AddRow().AddColumn("产品ID", Config.App.ProductId);
+            Model.AddRow().AddColumn("产品密钥", b =>
+            {
+                b.Component<EditInput>()
+                 .Set(c => c.Value, Parent.Data.ProductKey)
+                 .Set(c => c.OnSave, OnSaveProductKey)
+                 .Build();
+            });
         }
-        <FormItem Label="版权信息">
-            @context.Copyright
-        </FormItem>
-        <FormItem Label="软件许可">
-            @context.SoftTerms
-        </FormItem>
-         */
+        Model.AddRow().AddColumn("版权信息", Parent.Data.Copyright);
+        Model.AddRow().AddColumn("软件许可", Parent.Data.SoftTerms);
     }
 
     private async void OnSaveAppName(string value)
 	{
-		Model.Data.AppName = value;
+        Model.Data.AppName = value;
 		var result = await Platform.System.SaveSystemAsync(Model.Data);
 		if (result.IsValid)
 		{
@@ -83,7 +73,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
 
 	private async void OnSaveProductKey(string value)
 	{
-		Model.Data.ProductKey = value;
+        Model.Data.ProductKey = value;
 		await Platform.System.SaveSystemAsync(Model.Data);
 	}
 }
@@ -102,12 +92,13 @@ class SysSystemSafe : BaseForm<SystemInfo>
             WrapperSpan = 10,
             Data = Parent.Data
         };
-        //Model.AddRow().AddColumn(c => c.CompNo);
-        /*
-         <FormItem Label="默认密码">
-                <EditInput Value="@context.UserDefaultPwd" OnSave="OnSaveDefaultPwd" />
-            </FormItem>
-         */
+        Model.AddRow().AddColumn("默认密码", b =>
+        {
+            b.Component<EditInput>()
+             .Set(c => c.Value, Parent.Data.UserDefaultPwd)
+             .Set(c => c.OnSave, OnSaveDefaultPwd)
+             .Build();
+        });
     }
 
     private async void OnSaveDefaultPwd(string value)

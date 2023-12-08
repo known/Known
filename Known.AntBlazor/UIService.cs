@@ -14,6 +14,9 @@ class UIService(ModalService modal, MessageService message) : IUIService
     public Type GetInputType(ColumnInfo column)
     {
         var property = column.GetProperty();
+        if (property == null)
+            return null;
+
         var type = property.PropertyType;
         var maxLength = property.MaxLength();
 
