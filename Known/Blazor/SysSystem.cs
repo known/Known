@@ -34,6 +34,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
             WrapperSpan = 10,
             Data = Parent.Data
         };
+        //TODO：添加表单列模板
         //Model.AddRow().AddColumn(c => c.CompNo);
         /*
          <FormItem Label="企业名称">

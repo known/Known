@@ -10,14 +10,17 @@ public class FormModel<TItem> where TItem : class, new()
 {
     private readonly List<ColumnInfo> columns;
 
-    public FormModel(IUIService ui, FormOption option = null)
+    public FormModel(IUIService ui, bool isAuto = true)
     {
-        columns = typeof(TItem).GetProperties()
-                               .Select(p => new ColumnInfo(p))
-                               .Where(c => c.IsForm)
-                               .ToList();
+        if (isAuto)
+        {
+            columns = typeof(TItem).GetProperties()
+                                   .Select(p => new ColumnInfo(p))
+                                   .Where(c => c.IsForm)
+                                   .ToList();
+        }
         UI = ui;
-        Option = option ?? new FormOption();
+        Option = new FormOption();
     }
 
     internal FormModel(TableModel<TItem> table, FormOption option)
@@ -68,17 +71,26 @@ public class FormModel<TItem> where TItem : class, new()
         return row;
     }
 
-    public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector) => Table.Column(selector);
+    public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
+    {
+        if (Table != null)
+            return Table.Column(selector);
+
+        var property = TypeHelper.Property(selector);
+        var column = columns?.FirstOrDefault(c => c.Id == property.Name);
+        return new ColumnBuilder<TItem>(column);
+    }
 
     public void Initialize()
     {
         if (columns != null && columns.Count > 0)
         {
             Rows.Clear();
-            var rowNos = columns.Select(c => c.Row).Distinct().ToList();
+            var fields = columns.Where(c => c.IsVisible);
+            var rowNos = fields.Select(c => c.Row).Distinct().ToList();
             if (rowNos.Count == 1)
             {
-                foreach (var item in columns)
+                foreach (var item in fields)
                 {
                     AddRow().AddColumn(item);
                 }
@@ -87,8 +99,8 @@ public class FormModel<TItem> where TItem : class, new()
             {
                 foreach (var rowNo in rowNos)
                 {
-                    var fields = columns.Where(c => c.Row == rowNo).OrderBy(c => c.Column).ToArray();
-                    AddRow().AddColumn(fields);
+                    var infos = fields.Where(c => c.Row == rowNo).OrderBy(c => c.Column).ToArray();
+                    AddRow().AddColumn(infos);
                 }
             }
         }

@@ -5,13 +5,13 @@ namespace Known.Blazor;
 public class ColumnBuilder<TItem> where TItem : class, new()
 {
     private readonly string name;
-    private readonly TableModel<TItem> table;
     private readonly ColumnInfo column;
+    private readonly TableModel<TItem> table;
 
-    internal ColumnBuilder(TableModel<TItem> table, ColumnInfo column)
+    internal ColumnBuilder(ColumnInfo column, TableModel<TItem> table = null)
     {
-        this.table = table;
         this.column = column;
+        this.table = table;
 
         if (column != null)
             name = column.Property.Name;
@@ -22,14 +22,15 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         if (string.IsNullOrWhiteSpace(name))
             return this;
 
-        table.Templates[name] = (row) => delegate (RenderTreeBuilder builder) { template(builder, row); };
+        if (table != null)
+            table.Templates[name] = (row) => delegate (RenderTreeBuilder builder) { template(builder, row); };
         return this;
     }
 
     public ColumnBuilder<TItem> Visible(bool visible)
     {
         if (column != null)
-            column.IsGrid = visible;
+            column.IsVisible = visible;
         return this;
     }
 

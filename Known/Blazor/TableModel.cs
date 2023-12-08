@@ -50,7 +50,7 @@ public class TableModel<TItem> where TItem : class, new()
     {
         var property = TypeHelper.Property(selector);
         var column = Columns?.FirstOrDefault(c => c.Id == property.Name);
-        return new ColumnBuilder<TItem>(this, column);
+        return new ColumnBuilder<TItem>(column, this);
     }
 
     public void AddQueryColumn(Expression<Func<TItem, object>> selector)

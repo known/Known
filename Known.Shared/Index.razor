@@ -16,9 +16,12 @@
         {
             <Known.AntBlazor.Admin OnLogout="OnLogout" />
         }
+        else if (UIType == "Bootstrap")
+        {
+            <Known.BootBlazor.Admin OnLogout="OnLogout" />
+        }
         else
         {
-            <Known.Blazor.Admin OnLogout="OnLogout" />
         }
     }
 </CascadingValue>

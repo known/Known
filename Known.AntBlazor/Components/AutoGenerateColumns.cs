@@ -19,7 +19,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
 
         foreach (var item in Table.Columns)
         {
-            if (!item.IsGrid)
+            if (!item.IsGrid || !item.IsVisible)
                 continue;
 
             var property = item.GetProperty();

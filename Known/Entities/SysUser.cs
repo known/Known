@@ -21,7 +21,7 @@ public class SysUser : EntityBase
     [MaxLength(50)]
     public string OrgNo { get; set; }
 
-    [Column]
+    [Column, Grid]
     [DisplayName("部门")]
     public virtual string Department { get; set; }
 

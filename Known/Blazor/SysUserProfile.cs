@@ -8,6 +8,7 @@ namespace Known.Blazor;
 
 class SysUserProfile : BasePage<SysUser>
 {
+    private SysUserProfileInfo info;
     internal SysUser User { get; private set; }
 
     protected override async Task OnInitPageAsync()
@@ -21,10 +22,12 @@ class SysUserProfile : BasePage<SysUser>
         Page.Contents = [BuildUserInfo, BuildUserTabs];
     }
 
-    private void BuildUserInfo(RenderTreeBuilder builder) => builder.Div("p10", () => builder.Component<SysUserProfileInfo>().Build());
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildRenderTree);
+
+    private void BuildUserInfo(RenderTreeBuilder builder) => builder.Div("p10", () => builder.Component<SysUserProfileInfo>().Build(value => info = value));
     private void BuildUserTabs(RenderTreeBuilder builder) => builder.Component<SysUserProfileTabs>().Build();
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildRenderTree);
+    internal void UpdateProfileInfo() => info?.StateChanged();
 }
 
 class SysUserProfileInfo : BaseComponent
@@ -92,56 +95,21 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
     {
         await base.OnInitFormAsync();
 
-        Model = new FormModel<SysUser>(UI)
+        Model = new FormModel<SysUser>(UI, false)
         {
             LabelSpan = 4,
             WrapperSpan = 8,
             IsView = true,
             Data = Parent.User
         };
-        /*
-         <FormItem Label="用户名">
-            @context.UserName
-        </FormItem>
-        <FormItem>
-            <Input @bind-Value="@context.Name" Disabled="@(!IsEdit)" />
-        </FormItem>
-        <FormItem>
-            <Input @bind-Value="@context.EnglishName" Disabled="@(!IsEdit)" />
-        </FormItem>
-        <FormItem>
-            <RadioGroup @bind-Value="@context.Gender" Disabled="@(!IsEdit)">
-                <Radio Value="@("男")">男</Radio>
-                <Radio Value="@("女")">女</Radio>
-            </RadioGroup>
-        </FormItem>
-        <FormItem>
-            <Input @bind-Value="@context.Phone" Disabled="@(!IsEdit)" />
-        </FormItem>
-        <FormItem>
-            <Input @bind-Value="@context.Mobile" Disabled="@(!IsEdit)" />
-        </FormItem>
-        <FormItem>
-            <Input @bind-Value="@context.Email" Disabled="@(!IsEdit)" />
-        </FormItem>
-        <FormItem Label="角色">
-            @context.Role
-        </FormItem>
-        <FormItem>
-            <TextArea @bind-Value="@context.Note" Disabled="@(!IsEdit)" />
-        </FormItem>
-        <FormItem WrapperColOffset="labelCol" WrapperColSpan="valueCol">
-            @if (!IsEdit)
-            {
-                <Button Type="@ButtonType.Primary" OnClick="e=>OnEdit(true)">编辑</Button>
-            }
-            else
-            {
-                <Button Type="@ButtonType.Primary" OnClick="e=>OnSaveUserInfo()">保存</Button>
-                <Button Type="@ButtonType.Default" OnClick="e=>OnEdit(false)">取消</Button>
-            }
-        </FormItem>
-         */
+        Model.AddRow().AddColumn(c => c.UserName, c => c.IsReadOnly = true);
+        Model.AddRow().AddColumn(c => c.Name);
+        Model.AddRow().AddColumn(c => c.EnglishName);
+        Model.AddRow().AddColumn(c => c.Gender);
+        Model.AddRow().AddColumn(c => c.Phone);
+        Model.AddRow().AddColumn(c => c.Mobile);
+        Model.AddRow().AddColumn(c => c.Email);
+        Model.AddRow().AddColumn(c => c.Note);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -171,7 +139,11 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
             return;
 
         var result = await Platform.Auth.UpdateUserAsync(Model.Data);
-        UI.Result(result, () => OnEdit(false));
+        UI.Result(result, () =>
+        {
+            Parent.UpdateProfileInfo();
+            OnEdit(false);
+        });
     }
 
     private void OnEdit(bool edit) => isEdit = edit;

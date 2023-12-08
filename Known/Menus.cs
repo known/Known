@@ -124,6 +124,8 @@ public class ColumnInfo
 {
     internal PropertyInfo Property;
 
+    public ColumnInfo() { }
+
     internal ColumnInfo(ColumnAttribute attr) : this(attr.Property) { }
 
     internal ColumnInfo(PropertyInfo property)
@@ -171,6 +173,7 @@ public class ColumnInfo
     public string Category { get; set; }
     public string Placeholder { get; set; }
     public string DefaultSort { get; set; }
+    public bool IsVisible { get; set; } = true;
     public bool IsGrid { get; set; }
     public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }
@@ -182,11 +185,9 @@ public class ColumnInfo
     public bool IsPassword { get; set; }
     public int Row { get; set; } = 1;
     public int Column { get; set; } = 1;
-    //public bool IsQuery { get; set; }
     //public bool IsAdvQuery { get; set; }
     //public bool IsSum { get; set; }
     //public bool IsSort { get; set; } = true;
-    //public bool IsVisible { get; set; } = true;
     //public bool IsFixed { get; set; }
     public PropertyInfo GetProperty() => Property;
 }
