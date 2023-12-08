@@ -1,0 +1,30 @@
+﻿<ValidateForm Model="@Model">
+    <div class="boot-row">
+        <BootstrapInputGroup>
+            <BootstrapInputGroupLabel class="fa fa-user" />
+            <BootstrapInput DisplayText="" @bind-Value="@Model.UserName" PlaceHolder="用户名" />
+        </BootstrapInputGroup>
+    </div>
+    <div class="boot-row">
+        <BootstrapInputGroup>
+            <BootstrapInputGroupLabel class="fas fa-lock" />
+            <BootstrapInput DisplayText="" @bind-Value="@Model.Password" PlaceHolder="密码" type="password" />
+        </BootstrapInputGroup>
+    </div>
+    <div class="boot-row">
+        <Switch @bind-Value="@Model.Remember" OnText="记住用户名" OffText="记住用户名" />
+    </div>
+    <div class="boot-row">
+        <Button Color="Color.Primary" OnClick="OnLogin" IsBlock>登 录</Button>
+    </div>
+</ValidateForm>
+
+<style>
+    .boot-row {margin-bottom:20px;}
+    .boot-row .form-label {display:none;}
+</style>
+
+@code {
+    [Parameter] public LoginFormInfo Model { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnLogin { get; set; }
+}

@@ -17,6 +17,7 @@
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="BootstrapBlazor" Version="8.0.3" />
+        <PackageReference Include="BootstrapBlazor.FontAwesome" Version="8.0.1" />
     </ItemGroup>
 
     <ItemGroup>

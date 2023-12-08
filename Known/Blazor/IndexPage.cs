@@ -5,18 +5,10 @@ namespace Known.Blazor;
 
 public class IndexPage : BaseComponent
 {
-    private const string KeyUIType = "Known_UIType";
     [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
     [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
 
     protected bool IsLogin { get; private set; }
-    protected string UIType { get; private set; }
-
-    public void SetUIType(string type)
-    {
-        UIType = type;
-        JS.SetLocalStorage(KeyUIType, type);
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -24,7 +16,6 @@ public class IndexPage : BaseComponent
         Context.Install = await Platform.System.GetInstallAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
         IsLogin = Context.CurrentUser != null;
-        UIType = await JS.GetLocalStorage<string>(KeyUIType);
         IsLoaded = true;
     }
 

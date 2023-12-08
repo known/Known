@@ -81,8 +81,8 @@
 }
 
 /*UserProfile*/
-.avatar {text-align:center;}
-.avatar img {width:100px;height:100px;margin:20px auto;}
+.user-avatar {text-align:center;}
+.user-avatar img {width:100px;height:100px;margin:20px auto;}
 .userInfo li {list-style:none;text-align:justify;margin-bottom:10px;}
 .userInfo li .anticon {color:#2d8cf0;}
 .userInfo li span {color:#333;font-size:0.9rem;}

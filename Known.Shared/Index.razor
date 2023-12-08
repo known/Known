@@ -12,11 +12,11 @@
         {
             <Known.Shared.Login OnLogin="OnLogin" />
         }
-        else if (UIType == "AntDesign")
+        else if (UIType == UIType.AntDesign)
         {
             <Known.AntBlazor.Admin OnLogout="OnLogout" />
         }
-        else if (UIType == "Bootstrap")
+        else if (UIType == UIType.Bootstrap)
         {
             <Known.BootBlazor.Admin OnLogout="OnLogout" />
         }
@@ -27,6 +27,35 @@
 </CascadingValue>
 
 @code {
+    private const string KeyUIType = "Known_UIType";
+    [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
+    [Inject] private Known.BootBlazor.UIService BootUI { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        UIType = await JS.GetLocalStorage<UIType>(KeyUIType);
+        SetUIService();
+        await base.OnInitializedAsync();
+    }
+
+    public UIType UIType { get; private set; }
+
+    public void SetUIType(UIType type)
+    {
+        UIType = type;
+        SetUIService();
+        JS.SetLocalStorage(KeyUIType, type);
+    }
+
+    private void SetUIService()
+    {
+        Context.UI = AntUI;
+        if (UIType == UIType.AntDesign)
+            Context.UI = AntUI;
+        else if (UIType == UIType.Bootstrap)
+            Context.UI = BootUI;
+    }
+
     // //第三方登录设置当前用户
     // protected override async Task OnAfterRenderAsync(bool firstRender)
     // {

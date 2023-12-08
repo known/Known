@@ -37,7 +37,7 @@ class SysUserProfileInfo : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         var User = Parent.User;
-        builder.Div("avatar", () => builder.Markup($"<img src=\"{CurrentUser?.AvatarUrl}\" />"));
+        builder.Div("user-avatar", () => builder.Markup($"<img src=\"{CurrentUser?.AvatarUrl}\" />"));
         builder.Ul("userInfo", () =>
         {
             builder.Li(() =>

@@ -2,7 +2,7 @@
 
 <div class="login">
     <Tooltip Title="在此处切换界面类型" Style="margin:5px;">
-        <Segmented TValue="string" Labels="uis" OnChange="OnUIChanged" />
+        <Segmented TValue="string" Value="Index.UIType.ToString()" Labels="uiTypes" OnChange="OnUIChanged" />
     </Tooltip>
     <div class="login-form">
         <div class="login-left">
@@ -11,7 +11,18 @@
         </div>
         <div class="login-right">
             <h1>用户登录</h1>
-            <Known.AntBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" />
+            @if (Index.UIType == UIType.AntDesign)
+            {
+                <Known.AntBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" />
+            }
+            else if (Index.UIType == UIType.Bootstrap)
+            {
+                <Known.BootBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" />
+            }
+            else
+            {
+                <Known.AntBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" />
+            }
         </div>
     </div>
 </div>
@@ -22,10 +33,12 @@
 </div>
 
 @code {
-    string[] uis = ["AntDesign", "Bootstrap", "KBlazor"];
+    private string[] uiTypes = [
+        UIType.AntDesign.ToString(),
+        UIType.Bootstrap.ToString()
+    ];
+
     [CascadingParameter] private Index Index { get; set; }
-    [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
-    //[Inject] private Known.BootBlazor.UIService BootUI { get; set; }
 
     protected override void OnInitialized()
     {
@@ -36,12 +49,7 @@
 
     private void OnUIChanged(string item)
     {
-        Index.SetUIType(item);
-        if (item == "AntDesign")
-            Context.UI = AntUI;
-        else if (item == "Bootstrap")
-            Context.UI = AntUI;
-        else
-            Context.UI = AntUI;
+        var type = Utils.ConvertTo<UIType>(item);
+        Index.SetUIType(type);
     }
 }

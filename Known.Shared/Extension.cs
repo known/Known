@@ -1,13 +1,17 @@
 ﻿using Coravel;
+using Coravel.Invocable;
 using Known.AntBlazor;
 using Known.BootBlazor;
 using Known.Cells;
 using Known.Demo;
 using Known.Extensions;
+using Known.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Known.Shared;
+
+public enum UIType { AntDesign, Bootstrap }
 
 public static class Extension
 {
@@ -49,7 +53,7 @@ public static class Extension
             option.Footer = b => b.Markup(html);
         });
         //添加KnownBootstrap
-        //services.AddKnownBootstrap();
+        services.AddKnownBootstrap();
 
         //4.添加Demo
         services.AddDemoModule();
@@ -72,4 +76,9 @@ public static class Extension
         //7.使用Known框架静态文件
         app.UseKnownStaticFiles();
     }
+}
+
+class ImportTaskJob : IInvocable
+{
+    public Task Invoke() => ImportHelper.ExecuteAsync();
 }
