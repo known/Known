@@ -5,17 +5,48 @@
     <Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
 </div>
 <div class="page-table">
-    <Table @ref="table" TItem="TItem" IsPagination IsBordered>
+    <Table @ref="table" TItem="TItem" IsPagination IsBordered ShowEmpty ShowExtendButtons
+        ShowExtendEditButton="false" ShowExtendDeleteButton="false"
+        OnQueryAsync="OnQueryAsync">
         <TableColumns>
             <AutoGenerateColumns Table="Model" Item="context" />
         </TableColumns>
+        <RowButtonTemplate>
+            @if (Model.Actions != null && Model.Actions.Count > 0)
+            {
+                @if (Model.Actions.Count > 2)
+                {
+                    var first = Model.Actions[0];
+                    <TableCellButton Color="first.ToColor()" Text="@first.Name" OnClick="e=>Model.OnAction?.Invoke(first, context)" />
+                }
+                else
+                {
+                    foreach (var item in Model.Actions)
+                    {
+                        <TableCellButton Color="item.ToColor()" Text="@item.Name" OnClick="e=>Model.OnAction?.Invoke(item, context)" />
+                    }
+                }
+            }
+        </RowButtonTemplate>
     </Table>
 </div>
 
-@code {
+ @code {
     private Table<TItem> table;
 
     [Parameter] public TablePageModel<TItem> Model { get; set; }
 
-    private Task OnSearchAsync() => Task.CompletedTask;// table.RefreshAsync();
+    private Task OnSearchAsync() => table.QueryAsync();
+
+    private async Task<QueryData<TItem>> OnQueryAsync(QueryPageOptions options)
+    {
+        Model.Criteria.PageIndex = options.PageIndex;
+        Model.Criteria.PageSize = options.PageItems;
+        Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+        return new QueryData<TItem>
+        {
+            TotalCount = Model.Result.TotalCount,
+            Items = Model.Result.PageData
+        };
+    }
 }

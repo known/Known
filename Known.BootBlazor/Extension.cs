@@ -55,6 +55,16 @@ public static class Extension
             return option;
         });
     }
+
+    internal static Color ToColor(this ActionInfo action)
+    {
+        if (action.Style == "primary")
+            return Color.Primary;
+        else if (action.Style == "danger")
+            return Color.Danger;
+
+        return Color.Primary;
+    }
 }
 
 public class BootstrapOption

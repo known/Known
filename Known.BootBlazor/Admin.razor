@@ -1,12 +1,14 @@
 ﻿@inherits AdminPage
 
-<Layout ShowFooter="BootConfig.Option.Footer != null" IsFullSide="true" SideWidth="200px">
+<Layout ShowFooter="BootConfig.Option.Footer != null" SideWidth="200px">
     <Header>
-        <div style="font-size:1.2rem">@CurrentUser?.AppName</div>
-        <NavTopRight OnMenuClick="OnMenuClick" />
+        <div class="logo" />
+        <div class="page-header">
+            <div style="font-size:1.2rem">@CurrentUser?.AppName</div>
+            <NavTopRight OnMenuClick="OnMenuClick" />
+        </div>
     </Header>
     <Side>
-        <div class="logo" />
         <Menu Items="@SideMenuItems" DisableNavigation IsVertical OnClick="OnSideMenuClick" />
     </Side>
     <Main>

@@ -4,7 +4,9 @@
 	<QueryForm TItem="TItem" Model="Model" OnSearch="OnSearchAsync" />
 	<Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
 </div>
-<DataTable @ref="table" TItem="TItem" Model="Model" />
+<div class="page-table">
+	<DataTable @ref="table" TItem="TItem" Model="Model" />
+</div>
 
 @code {
 	DataTable<TItem> table;

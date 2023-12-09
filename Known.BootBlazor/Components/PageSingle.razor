@@ -1,4 +1,4 @@
-﻿<div style="margin:0 10px;">
+﻿<div style="margin:0 10px 10px 10px;">
     @if (Menu.Page != null && Menu.Page.NoBreadcrumb)
     {
         <DynamicComponent Type="Menu.ComType" Parameters="Menu.ComParameters" />
@@ -6,7 +6,7 @@
     else
     {
         <NavBreadcrumb CurrentMenu="Menu" OnHome="OnHome" />
-        <div class="layout-background boot-content" style="min-height:360px">
+        <div class="page-background boot-content" style="min-height:360px">
             <DynamicComponent Type="Menu.ComType" Parameters="Menu.ComParameters" />
         </div>
     }

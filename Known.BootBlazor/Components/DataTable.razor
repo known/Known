@@ -1,12 +1,10 @@
 ﻿@typeparam TItem where TItem : class, new()
 
-<div class="table">
-    <Table TItem="TItem" IsPagination>
-        <TableColumns>
-            <AutoGenerateColumns Table="Model" Item="context" />
-        </TableColumns>
-     </Table>
-</div>
+<Table TItem="TItem" IsBordered ShowEmpty>
+    <TableColumns>
+        <AutoGenerateColumns Table="Model" Item="context" />
+    </TableColumns>
+</Table>
 
  @code {
     [Parameter] public TableModel<TItem> Model { get; set; }

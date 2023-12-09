@@ -40,22 +40,9 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             //builder.AddAttribute(1, "Filterable", true);
             if (template != null)
             {
-                //builder.AddAttribute(1, "Template", (RenderFragment<TableColumnContext<TItem,>)delegate (RenderTreeBuilder builder1)
-                //{
-                //    builder1.AddContent(1, template(Item));
-                //});
-            }
-            else if (property.PropertyType == typeof(bool))
-            {
                 //builder.AddAttribute(1, "Template", (RenderFragment)delegate (RenderTreeBuilder builder1)
                 //{
-                //    var value = TypeHelper.GetPropertyValue<bool>(Item, property.Name);
-                //    builder1.Component<Switch>()
-                //            .Set(c => c.Value, value)
-                //            .Set(c => c.Disabled, true)
-                //            .Set(c => c.CheckedChildren, "是")
-                //            .Set(c => c.UnCheckedChildren, "否")
-                //            .Build();
+                //    builder1.AddContent(1, template(Item));
                 //});
             }
             else if (item.IsViewLink)
@@ -65,12 +52,6 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
                 //    var value = TypeHelper.GetPropertyValue<string>(Item, property.Name);
                 //    builder1.Link(value, Callback(() => Table.ViewForm(Item)));
                 //});
-            }
-            else
-            {
-                //builder.AddAttribute(1, "Field", property.Name);
-                //builder.AddAttribute(1, "FieldChanged", property.Name);
-                //builder.AddAttribute(1, "FieldExpression", property.Name);
             }
             builder.CloseComponent();
         }
