@@ -4,3 +4,7 @@
 .layout-nav {list-style:none;display:flex;}
 .layout-nav li {padding:0 10px;}
 .layout-main {background-color:#f0f2f5;}
+
+.boot-content {padding:10px;}
+.boot-query, .boot-query .item {display:flex;}
+.boot-query .item label {padding:.375rem .75rem;}

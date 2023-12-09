@@ -1,6 +1,6 @@
 ﻿@if (Items != null && Items.Count > 0)
 {
-    <div class="toolbar">
+    <div class="ant-toolbar">
         @foreach (var item in Items)
         {
             <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>OnItemClick?.Invoke(item)">@item.Name</Button>

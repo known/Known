@@ -19,23 +19,22 @@
 .form-action {margin-top:24px;text-align:right;}
 .form-action button {margin-left:8px;}
 
+.page-top {display:flex;justify-content:space-between;}
+.page-table {padding-top:10px;}
+
+@media screen and (max-width:768px) {
+    .page-top {flex-direction:column;}
+}
+
 .link {color:#1890ff;cursor:pointer;}
 .danger {color:#ed4014;}
 .center {text-align:center;}
 .p10 {padding:10px;}
 .col-offset-4 {margin-left:16.66666667%;}
 
-.query, .toolbar {padding:10px 10px 0 10px;}
-.table {padding-top:10px;}
-.page-top {display:flex;justify-content:space-between;}
-
 .edit-input {display:flex;}
 .edit-input input {width:200px;}
 .edit-input .link {margin-left:10px;display:flex;align-items:center;}
-
-@media screen and (max-width:768px) {
-    .page-top {flex-direction:column;}
-}
 
 .logo {
     height: 50px;

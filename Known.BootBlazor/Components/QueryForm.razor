@@ -1,44 +1,42 @@
 ﻿@typeparam TItem where TItem : class, new()
 
-<div class="query">
+<div class="boot-query">
 @if (Model.QueryColumns != null && Model.QueryColumns.Count > 0)
 {
     var length = Model.QueryColumns.Count;
     if (length > 3)
         length = _expand ? length : 3;
-    <div>
-        @for (var i = 0; i < length; i++)
-        {
-            var item = Model.QueryColumns[i];
-            var property = item.GetProperty();
-            var itemType = property.PropertyType.Name;
-            <div>
-                <label>@item.Name</label>
-                @if (!string.IsNullOrWhiteSpace(item.Category))
-                {
-                    var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? "全部" : "");
-                    @* <Select Codes="codes" @bind-Value="@(context[property.Name].Value)" Style="width:180px" /> *@
-                }
-                else if (itemType.Contains("DateTime"))
-                {
-                    <DateTimeRange OnConfirm="e=>OnDateRangeConfirm(e, Model.QueryData[property.Name])" />
-                }
-                else
-                {
-                    <BootstrapInput @bind-Value="@(Model.QueryData[property.Name].Value)" style="width:180px" />
-                }
-            </div>
-        }
-        <div>
-            <Button Color="Color.Primary" OnClick="e=>OnSearchAsync()">搜索</Button>
-            @* <Button style="margin-left:8px;" OnClick="()=>{_form?.Reset();}">重置</Button> *@
-            @if (length > 3)
+    @for (var i = 0; i < length; i++)
+    {
+        var item = Model.QueryColumns[i];
+        var property = item.GetProperty();
+        var itemType = property.PropertyType.Name;
+        <div class="item">
+            <label>@item.Name</label>
+            @if (!string.IsNullOrWhiteSpace(item.Category))
             {
-                @* <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
-                    <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? "折叠" : "展开")
-                </a> *@
+                var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? "全部" : "");
+                @* <Select Codes="codes" @bind-Value="@(context[property.Name].Value)" Style="width:180px" /> *@
+            }
+            else if (itemType.Contains("DateTime"))
+            {
+                <DateTimeRange OnConfirm="e=>OnDateRangeConfirm(e, Model.QueryData[property.Name])" />
+            }
+            else
+            {
+                <BootstrapInput @bind-Value="@(Model.QueryData[property.Name].Value)" style="width:180px" />
             }
         </div>
+    }
+    <div>
+        <Button Color="Color.Primary" OnClick="e=>OnSearchAsync()">搜索</Button>
+        @* <Button style="margin-left:8px;" OnClick="()=>{_form?.Reset();}">重置</Button> *@
+        @if (length > 3)
+        {
+            @* <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
+    <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? "折叠" : "展开")
+    </a> *@
+        }
     </div>
 }
 </div>
