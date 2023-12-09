@@ -2,7 +2,8 @@
 .layout-header .page-header {background-color:#17a2b8;color:#fff;padding-left:60px;height:50px;line-height:50px;}
 .layout-side {background-color:#f5f8fa;color:#dcdfe6;height:100%;}
 .menu.is-vertical:not(.is-collapsed) {width:200px;}
-.menu .text {color:#3f4254;}
+.menu .text, .menu .menu-icon, .menu .arrow {color:#3f4254;}
+.menu > .submenu > li > .submenu > li {padding-left:20px;}
 .layout-banner {
     display:flex;align-items:center;
     padding:0 .625rem;background-color:#702cf8;
