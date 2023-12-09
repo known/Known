@@ -1,0 +1,25 @@
+﻿@typeparam TItem where TItem : class, new()
+
+<div class="table">
+    <Table TItem="TItem" IsPagination>
+        <TableColumns>
+            <AutoGenerateColumns Table="Model" Item="context" />
+        </TableColumns>
+     </Table>
+</div>
+
+ @code {
+    [Parameter] public TableModel<TItem> Model { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model.OnRefresh = RefreshAsync;
+        base.OnInitialized();
+    }
+
+    public async Task RefreshAsync()
+    {
+        Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+        StateHasChanged();
+    }
+}

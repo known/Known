@@ -1,0 +1,18 @@
+﻿@if (Items != null && Items.Count > 0)
+{
+    <div class="toolbar">
+        @foreach (var item in Items)
+        {
+            <Button Color="Color.Primary" Icon="@item.Icon" OnClick="e=>OnItemClick?.Invoke(item)">@item.Name</Button>
+            @if (item.Children != null && item.Children.Count > 0)
+            {
+                @*<Dropdown TValue="ActionInfo" Items="item.Children" OnSelectedItemChanged="@(e=>OnItemClick?.Invoke(e.Value))" Color="Color.Secondary" />*@
+            }
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public List<ActionInfo> Items { get; set; }
+    [Parameter] public Action<ActionInfo> OnItemClick { get; set; }
+}

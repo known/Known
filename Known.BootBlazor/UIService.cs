@@ -1,5 +1,6 @@
 ﻿using BootstrapBlazor.Components;
 using Known.Blazor;
+using Known.BootBlazor.Components;
 using Known.Extensions;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -13,6 +14,9 @@ public class UIService(DialogService modal, MessageService message) : IUIService
     public Type GetInputType(ColumnInfo column)
     {
         var property = column.GetProperty();
+        if (property == null)
+            return null;
+
         var type = property.PropertyType;
         var maxLength = property.MaxLength();
 
@@ -55,6 +59,18 @@ public class UIService(DialogService modal, MessageService message) : IUIService
         if (type == typeof(DateTimeOffset?))
             return typeof(DateTimePicker<DateTimeOffset?>);
 
+        if (type == typeof(string[]))
+            return typeof(BootCheckboxList);
+
+        if (type == typeof(string) && !string.IsNullOrWhiteSpace(column.Category))
+            return typeof(BootRadioList);
+
+        if (type == typeof(string) && column.IsPassword)
+            return typeof(BootstrapPassword);
+
+        if (type == typeof(string) && maxLength >= 500)
+            return typeof(Textarea);
+
         //if (type.IsEnum && !type.IsDefined(typeof(FlagsAttribute), inherit: true))
         //    return typeof(Select<>).MakeGenericType(type);
 
@@ -69,11 +85,11 @@ public class UIService(DialogService modal, MessageService message) : IUIService
             var property = column.GetProperty();
             var type = property.PropertyType;
 
-            //if (type == typeof(string))
-            //    attributes[nameof(AntRadioGroup.Codes)] = model.GetCodes("");
+            if (type == typeof(string))
+                attributes[nameof(BootRadioList.Codes)] = model.GetCodes("");
 
-            //if (type == typeof(string[]))
-            //    attributes[nameof(AntCheckboxGroup.Codes)] = model.GetCodes("");
+            if (type == typeof(string[]))
+                attributes[nameof(BootCheckboxList.Codes)] = model.GetCodes("");
         }
     }
 
@@ -189,37 +205,37 @@ public class UIService(DialogService modal, MessageService message) : IUIService
 
     public void BuildForm<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
     {
-        //builder.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
+        builder.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
     }
 
     public void BuildPage(RenderTreeBuilder builder, PageModel model)
     {
-        //builder.Component<WebPage>().Set(c => c.Model, model).Build();
+        builder.Component<WebPage>().Set(c => c.Model, model).Build();
     }
 
     public void BuildPage<TItem>(RenderTreeBuilder builder, TablePageModel<TItem> model) where TItem : class, new()
     {
-        //builder.Component<DataTablePage<TItem>>().Set(c => c.Model, model).Build();
+        builder.Component<DataTablePage<TItem>>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTable<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
     {
-        //builder.Component<DataTable<TItem>>().Set(c => c.Model, model).Build();
+        builder.Component<DataTable<TItem>>().Set(c => c.Model, model).Build();
     }
 
 	public void BuildTree(RenderTreeBuilder builder, TreeModel model)
     {
-        //builder.Component<DataTree>().Set(c => c.Model, model).Build();
+        builder.Component<BootTree>().Set(c => c.Model, model).Build();
     }
 
     public void BuildSteps(RenderTreeBuilder builder, StepModel model)
     {
-        //builder.Component<DataSteps>().Set(c => c.Model, model).Build();
+        builder.Component<DataSteps>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTabs(RenderTreeBuilder builder, TabModel model)
     {
-        //builder.Component<DataTabs>().Set(c => c.Model, model).Build();
+        builder.Component<DataTabs>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTag(RenderTreeBuilder builder, string text, string color)
@@ -264,10 +280,10 @@ public class UIService(DialogService modal, MessageService message) : IUIService
 
     public void BuildCheckList(RenderTreeBuilder builder, ListOption<string[]> option)
     {
-        //builder.Component<AntCheckboxGroup>()
-        //       .Set(c => c.Codes, option.Codes)
-        //       .Set(c => c.Value, option.Value)
-        //       .Set(c => c.ValueChanged, option.ValueChanged)
-        //       .Build();
+        builder.Component<BootCheckboxList>()
+               .Set(c => c.Codes, option.Codes)
+               //.Set(c => c.Value, option.Value)
+               //.Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
     }
 }

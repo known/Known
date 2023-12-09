@@ -1,0 +1,40 @@
+﻿@typeparam TItem where TItem : class, new()
+
+<ValidateForm @ref="_form" Model="Model.Data">
+    @if (rows != null && rows.Count > 0)
+    {
+        foreach (var row in rows)
+        {
+            <Row>
+                @foreach (var field in row.Fields)
+                {
+                    <div>
+                        <label>@field.Column.Name</label>
+                        @field.InputTemplate
+                    </div>
+                }
+            </Row>
+        }
+    }
+</ValidateForm>
+
+@code {
+    private ValidateForm _form;
+    private List<FormRow<TItem>> rows;
+
+    [Parameter] public FormModel<TItem> Model { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Initialize();
+        rows = Model.Rows;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            Model.OnValidate = _form.Validate;
+        base.OnAfterRender(firstRender);
+    }
+}
