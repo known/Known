@@ -27,13 +27,8 @@ public static class Extension
         foreach (var menu in menus)
         {
             var item = new BootstrapBlazor.Components.MenuItem(menu.Name, icon: menu.Icon);
+            item.Items = menu.Children.Select(m => new BootstrapBlazor.Components.MenuItem(m.Name, icon: m.Icon));
             items.Add(item);
-
-            foreach (var sub in menu.Children)
-            {
-                var subItem = new BootstrapBlazor.Components.MenuItem(sub.Name, icon: sub.Icon);
-                item.Items.ToList().Add(subItem);
-            }
         }
 
         return items;

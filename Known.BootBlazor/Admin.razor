@@ -1,15 +1,16 @@
 ﻿@inherits AdminPage
 
-<Layout ShowFooter="BootConfig.Option.Footer != null" SideWidth="200px">
+<Layout SideWidth="0" IsFullSide ShowFooter ShowCollapseBar Menus="SideMenuItems">
     <Header>
-        <div class="logo" />
         <div class="page-header">
-            <div style="font-size:1.2rem">@CurrentUser?.AppName</div>
+            <div class="app-name">@CurrentUser?.AppName</div>
             <NavTopRight OnMenuClick="OnMenuClick" />
         </div>
     </Header>
     <Side>
-        <Menu Items="@SideMenuItems" DisableNavigation IsVertical OnClick="OnSideMenuClick" />
+        <div class="layout-banner">
+            <div class="logo" />
+        </div>
     </Side>
     <Main>
         @if (Context.UserSetting.MultiTab)

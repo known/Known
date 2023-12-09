@@ -53,7 +53,15 @@ public static class Extension
             option.Footer = b => b.Markup(html);
         });
         //添加KnownBootstrap
-        services.AddKnownBootstrap();
+        services.AddKnownBootstrap(option =>
+        {
+            //添加页脚内容
+            var html = $@"
+<span>{Config.App.Id} ©2023-{DateTime.Now:yyyy} Powered By </span>
+<a href=""http://known.pumantech.com"" target=""_blank"">Known</a>
+";
+            option.Footer = b => b.Markup(html);
+        });
 
         //4.添加Demo
         services.AddDemoModule();
