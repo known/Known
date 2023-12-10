@@ -20,7 +20,7 @@ class SysOrganizationList : BasePage<SysOrganization>
 
 		tree = new TreeModel
 		{
-			ExpandParent = true,
+			ExpandRoot = true,
 			OnNodeClick = OnNodeClick,
 			OnRefresh = OnTreeRefresh
 		};

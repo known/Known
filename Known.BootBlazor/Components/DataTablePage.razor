@@ -1,10 +1,10 @@
 ﻿@typeparam TItem where TItem : class, new()
 
-<div class="page-top">
+<div class="kui-top">
     <QueryForm TItem="TItem" Model="Model" OnSearch="OnSearchAsync" />
     <Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
 </div>
-<div class="page-table">
+<div class="kui-table">
     <Table @ref="table" TItem="TItem" IsPagination IsBordered ShowEmpty ShowExtendButtons
         ShowExtendEditButton="false" ShowExtendDeleteButton="false"
         OnQueryAsync="OnQueryAsync">

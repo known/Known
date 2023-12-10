@@ -22,7 +22,7 @@ class SysModuleList : BasePage<SysModule>
 
 		tree = new TreeModel
 		{
-			ExpandParent = true,
+			ExpandRoot = true,
 			OnNodeClick = OnNodeClick,
 			OnRefresh = OnTreeRefresh
 		};
@@ -144,7 +144,7 @@ class SysModuleList : BasePage<SysModule>
             {
                 UI.BuildTree(builder, new TreeModel
                 {
-                    ExpandParent = true,
+                    ExpandRoot = true,
                     Data = modules.ToMenuItems(),
                     OnNodeClick = n => node = n.Data as SysModule
                 });

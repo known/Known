@@ -1,20 +1,19 @@
 ﻿@inherits AdminPage
 
-<Layout SideWidth="0" IsFullSide ShowFooter 
-    ShowCollapseBar MenuBarIcon="fa fa-bars"
-    IsAccordion Menus="SideMenuItems" OnClickMenu="OnSideMenuClick">
-    <Header>
+<div class="bulma-layout">
+    <div class="bulma-header">
         <div class="kui-header">
             <div class="app-name">@CurrentUser?.AppName</div>
             <NavTopRight OnMenuClick="OnMenuClick" />
         </div>
-    </Header>
-    <Side>
-        <div class="boot-banner">
+    </div>
+    <div class="bulma-side">
+        <div class="bulma-banner">
             <div class="logo" />
         </div>
-    </Side>
-    <Main>
+        <Menu></Menu>
+    </div>
+    <div class="bulma-main">
         @if (Context.UserSetting.MultiTab)
         {
             <PageTabs Menu="CurrentMenu" Items="TabMenus" />
@@ -23,24 +22,14 @@
         {
             <PageSingle Menu="CurrentMenu" OnHome="OnHome" />
         }
-    </Main>
-    <Footer>
-        @if (BootConfig.Option.Footer != null)
+        @if (BulmaConfig.Option.Footer != null)
         {
-            <div style="text-align:center">@BootConfig.Option.Footer</div>
+            <div style="text-align:center;">@BulmaConfig.Option.Footer</div>
         }
-    </Footer>
-</Layout>
+    </div>
+</div>
 
 @code{
-    private List<BootstrapBlazor.Components.MenuItem> SideMenuItems = [];
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        SideMenuItems = UserMenus.ToSideMenuItems();
-    }
-
     private void OnHome() => OnMenuClick("home");
 
     private void OnMenuClick(string id)
@@ -66,17 +55,17 @@
         }
     }
 
-    private Task OnSideMenuClick(BootstrapBlazor.Components.MenuItem item)
+    private Task OnSideMenuClick(BulmaRazor.Components.MenuItem item)
     {
         foreach (var menu in UserMenus)
         {
             foreach (var sub in menu.Children)
             {
-                if (item.Id == sub.Id)
-                {
-                    Context.Navigate(sub);
-                    break;
-                }
+                // if (item.Id == sub.Id)
+                // {
+                //     Context.Navigate(sub);
+                //     break;
+                // }
             }
         }
         return Task.CompletedTask;

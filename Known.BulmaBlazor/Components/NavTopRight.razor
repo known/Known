@@ -1,0 +1,27 @@
+﻿@inherits BaseComponent
+
+<ul class="bulma-nav-right">
+    <li @onclick="@(e=>OnItemClick("home"))" data-tooltip="系统首页"><i class="fa fa-home" /></li>
+    <li @onclick="OnFullScreen" data-tooltip="@FullScreenTitle"><i class="@FullScreenIcon" /></li>
+    <li @onclick="@(e=>OnItemClick("profile"))" data-tooltip="个人中心"><i class="fa fa-user" />@CurrentUser?.Name</li>
+    <li @onclick="@(e=>OnItemClick("logout"))" data-tooltip="安全退出"><i class="fa fa-power-off" /></li>
+</ul>
+
+@code {
+    private bool isFullScreen = false;
+    private string FullScreenTitle => isFullScreen ? "退出全屏" : "全屏显示";
+    private string FullScreenIcon => isFullScreen ? "fa fa-arrows" : "fa fa-arrows-alt";
+
+    [Parameter] public Action<string> OnMenuClick { get; set; }
+
+    private void OnItemClick(string id) => OnMenuClick?.Invoke(id);
+
+    private void OnFullScreen()
+    {
+        isFullScreen = !isFullScreen;
+        if (isFullScreen)
+            JS.OpenFullScreen();
+        else
+            JS.CloseFullScreen();
+    }
+}

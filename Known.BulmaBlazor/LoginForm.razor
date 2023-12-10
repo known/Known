@@ -15,11 +15,11 @@
         <Switch @bind-Checked="@Model.Remember">记住用户名</Switch>
     </Field>
     <Field>
-        <Button Color="Color.Primary" IsFullwidth>登 录</Button>
+        <Button Color="Color.Primary" IsFullwidth @onclick="OnLogin">登 录</Button>
     </Field>
 </form>
 
-@code {
+ @code {
     [Parameter] public LoginFormInfo Model { get; set; }
-    [Parameter] public EventCallback<EditContext> OnLogin { get; set; }
+    [Parameter] public EventCallback OnLogin { get; set; }
 }

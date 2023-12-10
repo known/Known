@@ -23,7 +23,7 @@ class BootTree : Tree
         var nodes = new List<TreeItem>();
         foreach (var item in items)
         {
-            AddTreeItem(nodes, item, !Model.ExpandParent);
+            AddTreeItem(nodes, item, !Model.ExpandRoot);
         }
         return nodes;
     }

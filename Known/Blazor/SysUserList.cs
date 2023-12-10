@@ -25,7 +25,7 @@ class SysUserList : BasePage<SysUser>
 			currentOrg = orgs[0];
 			tree = new TreeModel
 			{
-				ExpandParent = true,
+				ExpandRoot = true,
 				Data = orgs.ToMenuItems(),
 				OnNodeClick = OnNodeClick,
 				SelectedKeys = [currentOrg.Id]
@@ -91,7 +91,7 @@ class SysUserList : BasePage<SysUser>
             {
                 UI.BuildTree(builder, new TreeModel
                 {
-                    ExpandParent = true,
+                    ExpandRoot = true,
                     Data = orgs.ToMenuItems(),
                     OnNodeClick = n => node = n.Data as SysOrganization
                 });

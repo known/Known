@@ -4,7 +4,7 @@ public class TreeModel
 {
     public bool IsView { get; set; }
     public bool Checkable { get; set; }
-    public bool ExpandParent { get; set; }
+    public bool ExpandRoot { get; set; }
     public string[] SelectedKeys { get; set; }
     public string[] DefaultCheckedKeys { get; set; }
     public List<MenuItem> Data { get; set; }

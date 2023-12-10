@@ -12,7 +12,7 @@ public class AntTree : Tree<Known.MenuItem>
 	{
 		ShowIcon = true;
 		Checkable = Model.Checkable;
-		DefaultExpandParent = Model.ExpandParent;
+		DefaultExpandParent = Model.ExpandRoot;
 		DefaultSelectedKeys = Model.SelectedKeys;
 		DefaultCheckedKeys = Model.DefaultCheckedKeys;
 		DisabledExpression = x => !x.DataItem.Enabled || Model.IsView;

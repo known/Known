@@ -1,0 +1,37 @@
+﻿@if (Model.Contents != null && Model.Contents.Count > 0)
+{
+	if (Model.Type == PageType.None)
+	{
+		foreach (var item in Model.Contents)
+		{
+			@item
+		}
+	}
+	else if (Model.Type == PageType.Column)
+	{
+		<div class="row">
+			@for (int i = 0; i < Model.Contents.Count; i++)
+			{
+				var span = $"col-{Model.Spans[i]/2}";
+				var content = Model.Contents[i];
+				<div class="@span">@content</div>
+			}
+		</div>
+	}
+	else if (Model.Type == PageType.Row)
+	{
+		foreach (var item in Model.Contents)
+		{
+			<div class="row">@item</div>
+		}
+	}
+}
+
+@code {
+	[Parameter] public PageModel Model { get; set; }
+
+	protected override void OnInitialized()
+	{
+		Model.StateChanged = StateHasChanged;
+	}
+}

@@ -1,7 +1,7 @@
-﻿<Tabs Class="layout-tabs" Type="@TabType.EditableCard" HideAdd @bind-ActiveKey="activeKey" OnClose="OnClose">
+﻿<Tabs Class="layout-tabs">
     @foreach (var item in Items)
     {
-        <TabPane Key="@item.Id" Tab="@item.Name" Closable="@item.Closable">
+        <TabItem Label="@item.Name">
             @if (item.Page != null && item.Page.NoBreadcrumb)
             {
                 <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
@@ -12,7 +12,7 @@
                     <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
                 </div>
             }
-        </TabPane>
+        </TabItem>
     }
 </Tabs>
 
