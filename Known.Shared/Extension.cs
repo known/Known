@@ -42,26 +42,15 @@ public static class Extension
         services.AddKnownCells();
 
         //3.添加UI扩展库
+        //页脚内容
+        var html = $@"
+<span>{Config.App.Id} ©2023-{DateTime.Now:yyyy} Powered By </span>
+<a href=""http://known.pumantech.com"" target=""_blank"">Known</a>
+";
         //添加KnownAntDesign
-        services.AddKnownAntDesign(option =>
-        {
-            //添加页脚内容
-            var html = $@"
-<span>{Config.App.Id} ©2023-{DateTime.Now:yyyy} Powered By </span>
-<a href=""http://known.pumantech.com"" target=""_blank"">Known</a>
-";
-            option.Footer = b => b.Markup(html);
-        });
+        services.AddKnownAntDesign(option => option.Footer = b => b.Markup(html));
         //添加KnownBootstrap
-        services.AddKnownBootstrap(option =>
-        {
-            //添加页脚内容
-            var html = $@"
-<span>{Config.App.Id} ©2023-{DateTime.Now:yyyy} Powered By </span>
-<a href=""http://known.pumantech.com"" target=""_blank"">Known</a>
-";
-            option.Footer = b => b.Markup(html);
-        });
+        services.AddKnownBootstrap(option => option.Footer = b => b.Markup(html));
 
         //4.添加Demo
         services.AddDemoModule();

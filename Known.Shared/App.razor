@@ -1,9 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Routing
 @inherits BaseComponent
 
 <CascadingAuthenticationState>
     <CascadingValue Value="Context">
-        <Known.AntBlazor.Routes AppAssembly="typeof(Index).Assembly" />
+        <Router AppAssembly="typeof(App).Assembly">
+            <Found Context="routeData">
+                <AuthorizeRouteView RouteData="@routeData">
+                    <Authorizing></Authorizing>
+                </AuthorizeRouteView>
+            </Found>
+            <NotFound>
+                <Result Status="404" />
+            </NotFound>
+        </Router>
+        <AntContainer />
     </CascadingValue>
 </CascadingAuthenticationState>
 

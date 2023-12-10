@@ -23,11 +23,7 @@ public static class Extension
         if (codes == null || codes.Count == 0)
             return null;
 
-        return codes.Select(a => new RadioOption<string>
-        {
-            Label = a.Name,
-            Value = a.Code
-        }).ToArray();
+        return codes.Select(a => new RadioOption<string> { Label = a.Name, Value = a.Code }).ToArray();
     }
 
     internal static CheckboxOption[] ToCheckboxOptions(this List<CodeInfo> codes, Action<CheckboxOption> action = null)
@@ -37,11 +33,7 @@ public static class Extension
 
         return codes.Select(a =>
         {
-            var option = new CheckboxOption
-            {
-                Label = a.Name,
-                Value = a.Code
-            };
+            var option = new CheckboxOption { Label = a.Name, Value = a.Code };
             action?.Invoke(option);
             return option;
         }).ToArray();

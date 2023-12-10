@@ -13,12 +13,8 @@
         base.OnInitialized();
         Items.Add(new BreadcrumbItem("首页"));
         if (CurrentMenu.Parent != null)
-        {
             Items.Add(new BreadcrumbItem(CurrentMenu.Parent.Name));
-        }
         if (CurrentMenu.Name != "首页")
-        {
             Items.Add(new BreadcrumbItem(CurrentMenu.Name));
-        }
     }
 }

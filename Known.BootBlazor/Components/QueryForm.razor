@@ -16,7 +16,7 @@
             @if (!string.IsNullOrWhiteSpace(item.Category))
             {
                 var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? "全部" : "");
-                @* <Select Codes="codes" @bind-Value="@(context[property.Name].Value)" Style="width:180px" /> *@
+                <BootSelect Codes="codes" @bind-Value="@(Model.QueryData[property.Name].Value)" style="width:180px" />
             }
             else if (itemType.Contains("DateTime"))
             {
@@ -28,7 +28,7 @@
             }
         </div>
     }
-    <div>
+    <div style="margin-left:10px;">
         <Button Color="Color.Primary" OnClick="e=>OnSearchAsync()">搜索</Button>
         @* <Button style="margin-left:8px;" OnClick="()=>{_form?.Reset();}">重置</Button> *@
         @if (length > 3)

@@ -9,20 +9,20 @@
 	}
 	else if (Model.Type == PageType.Column)
 	{
-		<Row>
+		<div class="row">
 			@for (int i = 0; i < Model.Contents.Count; i++)
 			{
-				var span = Model.Spans[i];
+				var span = $"col-{Model.Spans[i]/2}";
 				var content = Model.Contents[i];
-				<div>@content</div>
+				<div class="@span">@content</div>
 			}
-		</Row>
+		</div>
 	}
 	else if (Model.Type == PageType.Row)
 	{
 		foreach (var item in Model.Contents)
 		{
-			<Row><div>@item</div></Row>
+			<div class="row">@item</div>
 		}
 	}
 }

@@ -46,11 +46,7 @@ public static class Extension
 
         return codes.Select(a =>
         {
-            var option = new SelectedItem
-            {
-                Value = a.Code,
-                Text = a.Name
-            };
+            var option = new SelectedItem { Value = a.Code, Text = a.Name };
             action?.Invoke(option);
             return option;
         });
