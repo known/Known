@@ -4,14 +4,11 @@
 .menu.is-vertical:not(.is-collapsed) {width:200px;}
 .menu .text, .menu .menu-icon, .menu .arrow {color:#3f4254;}
 .menu > .submenu > li > .submenu > li {padding-left:20px;}
-.layout-banner {
-    display:flex;align-items:center;
-    padding:0 .625rem;background-color:#702cf8;
-    height:50px;font-size:1.5rem;
-}
+.layout-banner {display:flex;align-items:center;background-color:#702cf8;height:50px;font-size:1.5rem;}
 .layout-banner .logo {width:100%;}
 .layout-main {background-color:#f0f2f5;}
 .layout-footer {background-color:#f0f2f5;padding:10px;}
+.layout-menu .arrow {font:normal normal normal 14px/1 FontAwesome;}
 
 .boot-nav-right {list-style:none;display:flex;}
 .boot-nav-right li {padding:0 10px;}
@@ -19,3 +16,6 @@
 .boot-content {padding:10px;}
 .boot-query, .boot-query .item {display:flex;}
 .boot-query .item label {padding:.375rem .75rem;}
+
+/*Login*/
+.login-right .fa {padding-top:10px;}

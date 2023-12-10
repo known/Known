@@ -26,11 +26,11 @@ public static class Extension
 
         foreach (var menu in menus)
         {
-            menu.Icon = "fa-fw fa-solid fa-desktop";
+            menu.Icon = "fa fa-desktop";
             var item = new BootstrapBlazor.Components.MenuItem(menu.Name, icon: menu.Icon) { Id = menu.Id };
             item.Items = menu.Children.Select(m =>
             {
-                m.Icon = "fa-solid fa-bars";
+                m.Icon = "fa fa-bars";
                 return new BootstrapBlazor.Components.MenuItem(m.Name, icon: m.Icon) { Id = m.Id };
             });
             items.Add(item);

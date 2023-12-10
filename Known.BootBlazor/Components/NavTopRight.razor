@@ -18,7 +18,7 @@
 @code {
     private bool isFullScreen = false;
     private string FullScreenTitle => isFullScreen ? "退出全屏" : "全屏显示";
-    private string FullScreenIcon => isFullScreen ? "fa-solid fa-maximize" : "fa-solid fa-maximize";
+    private string FullScreenIcon => isFullScreen ? "fa fa-arrows" : "fa fa-arrows-alt";
 
     [Parameter] public Action<string> OnMenuClick { get; set; }
 

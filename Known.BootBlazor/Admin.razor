@@ -1,6 +1,8 @@
 ﻿@inherits AdminPage
 
-<Layout SideWidth="0" IsFullSide ShowFooter ShowCollapseBar IsAccordion Menus="SideMenuItems" OnClickMenu="OnSideMenuClick">
+<Layout SideWidth="0" IsFullSide ShowFooter 
+    ShowCollapseBar MenuBarIcon="fa fa-bars"
+    IsAccordion Menus="SideMenuItems" OnClickMenu="OnSideMenuClick">
     <Header>
         <div class="page-header">
             <div class="app-name">@CurrentUser?.AppName</div>
