@@ -1,0 +1,25 @@
+﻿<form>
+    <Field>
+        <Control HasIconsLeft HasIconsRight>
+            <Input @bind-Value="@Model.UserName" placeholder="用户名" />
+            <Icon IsLeft IsSmall IconClass="fa fa-user" />
+        </Control>
+    </Field>
+    <Field>
+        <Control HasIconsLeft HasIconsRight>
+            <Input @bind-Value="@Model.UserName" placeholder="密码" type="password" />
+            <Icon IsLeft IsSmall IconClass="fa fa-lock" />
+        </Control>
+    </Field>
+    <Field>
+        <Switch @bind-Checked="@Model.Remember">记住用户名</Switch>
+    </Field>
+    <Field>
+        <Button Color="Color.Primary" IsFullwidth>登 录</Button>
+    </Field>
+</form>
+
+@code {
+    [Parameter] public LoginFormInfo Model { get; set; }
+    [Parameter] public EventCallback<EditContext> OnLogin { get; set; }
+}
