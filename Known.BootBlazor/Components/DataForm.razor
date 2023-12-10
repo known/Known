@@ -5,15 +5,17 @@
     {
         foreach (var row in rows)
         {
-            <Row>
+            var col = 12 / row.Fields.Count;
+            var colSpan = $"col-{col}";
+            <div class="row">
                 @foreach (var field in row.Fields)
                 {
-                    <div>
-                        <label>@field.Column.Name</label>
+                    <div class="@colSpan">
+                        @* <label>@field.Column.Name</label> *@
                         @field.InputTemplate
                     </div>
                 }
-            </Row>
+            </div>
         }
     }
 </ValidateForm>

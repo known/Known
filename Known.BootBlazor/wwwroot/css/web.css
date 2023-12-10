@@ -8,7 +8,7 @@
 .layout-banner .logo {width:100%;}
 .layout-main {background-color:#f0f2f5;}
 .layout-footer {background-color:#f0f2f5;padding:10px;}
-.layout-menu .arrow {font:normal normal normal 14px/1 FontAwesome;}
+.layout-menu .arrow, .node-icon, .fa-solid {font:normal normal normal 14px/1 FontAwesome;}
 
 .boot-nav-right {list-style:none;display:flex;}
 .boot-nav-right li {padding:0 10px;}
