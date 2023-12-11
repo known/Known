@@ -84,6 +84,10 @@ class LoginForm : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         UI.BuildForm(builder, model);
-        UI.BuildButton(builder, new ActionInfo("登录") { OnClick = this.Callback<MouseEventArgs>(async e => await OnLogin()) });
+        UI.BuildButton(builder, new ActionInfo("登录")
+        {
+            Style = "kui-block",
+            OnClick = this.Callback<MouseEventArgs>(async e => await OnLogin())
+        });
     }
 }

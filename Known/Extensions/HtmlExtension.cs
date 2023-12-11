@@ -5,6 +5,14 @@ namespace Known.Extensions;
 
 public static class HtmlExtension
 {
+    public static void Label(this RenderTreeBuilder builder, string text) => builder.Label(() => builder.Text(text));
+    public static void Label(this RenderTreeBuilder builder, Action child)
+    {
+        builder.OpenElement("label");
+        child?.Invoke();
+        builder.CloseElement();
+    }
+
     public static void Div(this RenderTreeBuilder builder, Action child) => builder.Div("", child);
     public static void Div(this RenderTreeBuilder builder, string className, string text) => builder.Div(className, () => builder.AddContent(2, text));
     public static void Div(this RenderTreeBuilder builder, string className, Action child)

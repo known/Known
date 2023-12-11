@@ -14,6 +14,7 @@ public class LoginFormInfo
     [Required(ErrorMessage = "请输入密码！")]
     public string Password { get; set; }
     [Form]
+    [DisplayName("记住用户名")]
     public bool Remember { get; set; }
     public bool IsMobile { get; set; }
     public string IPAddress { get; set; }

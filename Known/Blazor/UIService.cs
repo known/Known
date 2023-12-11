@@ -186,7 +186,7 @@ public class UIService : IUIService
 
     public void BuildButton(RenderTreeBuilder builder, ActionInfo info)
     {
-        builder.OpenElement("button").Id(info.Id).OnClick(info.OnClick).Text(info.Name).CloseElement();
+        builder.OpenElement("button").Id(info.Id).Class($"kui-button {info.Style}").OnClick(info.OnClick).Text(info.Name).CloseElement();
     }
 
     public void BuildInput<TValue>(RenderTreeBuilder builder, InputOption<TValue> option)

@@ -1,11 +1,48 @@
 @import "font-awesome.css";
 
-/*Common*/
+/*KnownUI*/
+:root {
+    --kui-theme-color: #1c66b9;/*#4188c8*/
+    --kui-sider-color: #1c292e;
+    --kui-line-color: #dcdee2;
+    --kui-th-bgcolor: #f1f1f1;
+    --kui-border: #d5d5d5;
+    --kui-border-radius: 0.25rem;
+    --kui-tab-active: #5cb85c;
+    --kui-disabled: #e7e9ee;/*#c5c8ce;*/
+    --kui-primary: #2d8cf0;/*#2d8cf0;#3492d0;*/
+    --kui-success: #19be6b;/*#19be6b;#5cb85c;*/
+    --kui-info: #2db7f5;/*#2db7f5;#5bc0de;*/
+    --kui-warning: #ff9900;/*#ff9900;#f0ad4e;*/
+    --kui-danger: #ed4014;/*#ed4014;#d9534f;*/
+}
+
 .kui-background {background:#fff;}
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
 .kui-top {display:flex;justify-content:space-between;}
 .kui-table {padding-top:10px;}
 
+.kui-block {display:block;width:100%;}
+
+.kui-row {margin-bottom:1.5rem;}
+.kui-col {}
+.kui-col-24 {width:100%;}
+.kui-col-20 {width:83.333%;}
+.kui-col-18 {width:75%;}
+.kui-col-16 {width:66.667%;}
+.kui-col-12 {width:50%;}
+.kui-col-8 {width:33.333%;}
+.kui-col-6 {width:25%;}
+.kui-col-4 {width:16.667%;}
+
+.kui-field label {position:relative;padding-left:1.5rem;}
+.kui-field label input {position:absolute;top:2.5px;left:0;}
+.kui-field input {width:100%;border:1px solid var(--kui-border);padding:2.5px 5px;}
+.kui-field input[type="checkbox"] {width:1.2rem;min-width:1.2rem;height:1.2rem;}
+.kui-button {background-color:var(--kui-primary);color:#fff;border:1px solid transparent;padding:5px;}
+.kui-button:not(:disabled):hover {-moz-opacity:0.8;opacity:0.8;filter:alpha(opacity=80);}
+
+/*Common*/
 .steps-content {
     margin-top:16px;padding:10px;
     border:1px dashed #e9e9e9;
