@@ -118,6 +118,7 @@ public class UIService(ToastService toast) : IUIService
 
     public void Confirm(string message, Func<Task> action)
     {
+        action?.Invoke();
         //_toast.Confirm(new ConfirmOptions
         //{
         //    Title = "询问",

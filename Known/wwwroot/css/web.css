@@ -84,9 +84,10 @@
 /*UserProfile*/
 .user-avatar {text-align:center;}
 .user-avatar img {width:100px;height:100px;margin:20px auto;}
-.userInfo li {list-style:none;text-align:justify;margin-bottom:10px;}
-.userInfo li .anticon {color:#2d8cf0;}
-.userInfo li span {color:#333;font-size:0.9rem;}
+.user-info {padding:20px;}
+.user-info li {list-style:none;text-align:justify;margin-bottom:10px;}
+.user-info li .anticon {color:#2d8cf0;}
+.user-info li span {color:#333;font-size:0.9rem;}
 
 .user-message .data-top {padding-top:10px;}
 .user-message .form-label {width:auto;}

@@ -17,6 +17,7 @@
 .boot-content {padding:10px;}
 .boot-query, .boot-query .item {display:flex;}
 .boot-query .item label {padding:.375rem .75rem;}
+.boot-content .tree .tree-item {display:block;}
 
 /*Login*/
 .login-right .boot-row .fa {padding-top:10px;}

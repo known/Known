@@ -38,7 +38,7 @@ class SysUserProfileInfo : BaseComponent
     {
         var User = Parent.User;
         builder.Div("user-avatar", () => builder.Markup($"<img src=\"{CurrentUser?.AvatarUrl}\" />"));
-        builder.Ul("userInfo", () =>
+        builder.Ul("user-info", () =>
         {
             builder.Li(() =>
             {

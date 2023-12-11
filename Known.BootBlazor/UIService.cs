@@ -126,11 +126,12 @@ public class UIService(DialogService modal, MessageService message) : IUIService
 
     public void Confirm(string message, Func<Task> action)
     {
-        _modal.Show(new DialogOption
-        {
-            Title = "询问",
-            BodyTemplate = b => b.Text(message)
-        });
+        action?.Invoke();
+        //_modal.Show(new DialogOption
+        //{
+        //    Title = "询问",
+        //    BodyTemplate = b => b.Text(message)
+        //});
         //_modal.Confirm(new ConfirmOptions
         //{
         //    Title = "询问",
