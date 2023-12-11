@@ -65,6 +65,9 @@ public static class ModelExtension
         if (showRoot)
         {
             root = new MenuItem("0", Config.App.Name, "desktop");
+            if (current != null && current.Id == root.Id)
+                current = root;
+
             root.Data = new SysModule { Id = root.Id, Name = root.Name };
             menus.Add(root);
         }

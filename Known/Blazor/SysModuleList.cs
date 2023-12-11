@@ -24,7 +24,7 @@ class SysModuleList : BasePage<SysModule>
 		{
 			ExpandRoot = true,
 			OnNodeClick = OnNodeClick,
-			OnRefresh = OnTreeRefresh
+			OnQuery = OnTreeQuery
 		};
 
 		table = new TablePageModel<SysModule>(this)
@@ -40,7 +40,13 @@ class SysModuleList : BasePage<SysModule>
 		table.Form.Maximizable = true;
 		table.Form.NoFooter = true;
 
-		await OnTreeRefresh();
+        modules = await Platform.Module.GetModulesAsync();
+        if (modules != null && modules.Count > 0)
+        {
+            tree.Data = modules.ToMenuItems(ref current);
+            current = tree.Data[0];
+            tree.SelectedKeys = [current.Id];
+        }
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -55,11 +61,8 @@ class SysModuleList : BasePage<SysModule>
 
 	public override async Task RefreshAsync()
 	{
-		//TODO：保存删除时，左侧树刷新问题
 		await tree.RefreshAsync();
-		//model.StateChanged.Invoke();
 		await table.RefreshAsync();
-		//StateChanged();
 	}
 
 	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
@@ -125,13 +128,11 @@ class SysModuleList : BasePage<SysModule>
         await table.RefreshAsync();
     }
 
-    private async Task OnTreeRefresh()
+    private async Task<List<MenuItem>> OnTreeQuery()
     {
         modules = await Platform.Module.GetModulesAsync();
         tree.Data = modules.ToMenuItems(ref current);
-        if (current == null || current.Id == "0")
-            current = tree.Data[0];
-        tree.SelectedKeys = [current?.Id];
+        return tree.Data;
     }
 
     private void ShowTreeModal(string title, Func<SysModule, Task<Result>> action)

@@ -47,16 +47,9 @@ class SysUserList : BasePage<SysUser>
 		Page.Contents.Add(BuildTable);
     }
 
-	public override async Task RefreshAsync()
-	{
-        //TODO：保存时表格刷新问题
-		//await tree.RefreshAsync();
-		//model.StateChanged.Invoke();
-		await table.RefreshAsync();
-		//StateChanged();
-	}
+    public override Task RefreshAsync() => table.RefreshAsync();
 
-	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
+    private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
 	private void BuildTable(RenderTreeBuilder builder) => UI.BuildPage(builder, table);
 
 	private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
@@ -109,6 +102,7 @@ class SysUserList : BasePage<SysUser>
             var result = await Platform.User.ChangeDepartmentAsync(rows);
             UI.Result(result, async () =>
             {
+                //TODO：更换部门后，部门名称未刷新问题
                 await model.OnClose?.Invoke();
                 await table.RefreshAsync();
             });

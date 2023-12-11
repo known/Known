@@ -22,7 +22,7 @@ class SysOrganizationList : BasePage<SysOrganization>
 		{
 			ExpandRoot = true,
 			OnNodeClick = OnNodeClick,
-			OnRefresh = OnTreeRefresh
+			OnQuery = OnTreeQuery
 		};
 
 		table = new TablePageModel<SysOrganization>(this)
@@ -46,11 +46,8 @@ class SysOrganizationList : BasePage<SysOrganization>
 
 	public override async Task RefreshAsync()
 	{
-		//TODO：保存删除时，左侧树刷新问题
 		await tree.RefreshAsync();
-		//model.StateChanged.Invoke();
 		await table.RefreshAsync();
-		//StateChanged();
 	}
 
 	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
@@ -85,9 +82,10 @@ class SysOrganizationList : BasePage<SysOrganization>
         await table.RefreshAsync();
     }
 
-    private async Task OnTreeRefresh()
+    private async Task<List<MenuItem>> OnTreeQuery()
     {
         var datas = await Platform.Company.GetOrganizationsAsync();
         tree.Data = datas.ToMenuItems(ref current);
+		return tree.Data;
     }
 }

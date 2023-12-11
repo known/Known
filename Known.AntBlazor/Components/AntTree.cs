@@ -10,25 +10,36 @@ public class AntTree : Tree<MenuItem>
 
 	protected override void OnInitialized()
 	{
-		ShowIcon = true;
-		Checkable = Model.Checkable;
-		DefaultExpandParent = Model.ExpandRoot;
-		//DefaultExpandedKeys = [Model.Data[0].Id];
-		DefaultSelectedKeys = Model.SelectedKeys;
-		DefaultCheckedKeys = Model.DefaultCheckedKeys;
-		DisabledExpression = x => !x.DataItem.Enabled || Model.IsView;
-		KeyExpression = x => x.DataItem.Id;
-		TitleExpression = x => x.DataItem.Name;
-		IconExpression = x => x.DataItem.Icon;
-		ChildrenExpression = x => x.DataItem.Children;
-		IsLeafExpression = x => x.DataItem.Children?.Count == 0;
-		DataSource = Model.Data;
-		OnClick = Callback<TreeEventArgs<MenuItem>>(OnTreeClick);
+        Model.OnRefresh = RefreshAsync;
+        ShowIcon = true;
+        DisabledExpression = x => !x.DataItem.Enabled || Model.IsView;
+        KeyExpression = x => x.DataItem.Id;
+        TitleExpression = x => x.DataItem.Name;
+        IconExpression = x => x.DataItem.Icon;
+        ChildrenExpression = x => x.DataItem.Children;
+        IsLeafExpression = x => x.DataItem.Children?.Count == 0;
+        OnClick = Callback<TreeEventArgs<MenuItem>>(OnTreeClick);
 		OnCheck = Callback<TreeEventArgs<MenuItem>>(OnTreeCheck);
-		base.OnInitialized();
+
+        Checkable = Model.Checkable;
+        DefaultExpandParent = Model.ExpandRoot;
+        //DefaultExpandedKeys = [Model.Data[0].Id];
+        DefaultSelectedKeys = Model.SelectedKeys;
+        DefaultCheckedKeys = Model.DefaultCheckedKeys;
+        DataSource = Model.Data;
+
+        base.OnInitialized();
 	}
 
-	private void OnTreeClick(TreeEventArgs<MenuItem> e)
+    private async Task RefreshAsync()
+    {
+        //TODO：刷新时SelectedKeys未选中
+        Model.Data = await Model.OnQuery?.Invoke();
+        DataSource = Model.Data;
+        StateHasChanged();
+    }
+
+    private void OnTreeClick(TreeEventArgs<MenuItem> e)
 	{
 		var item = e.Node.DataItem;
         item.Checked = e.Node.Checked;
