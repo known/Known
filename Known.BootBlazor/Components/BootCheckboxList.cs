@@ -12,7 +12,7 @@ class BootCheckboxList : CheckboxList<string>
         await base.OnParametersSetAsync();
         Items = Codes.ToSelectedItems(o =>
         {
-            o.Active = Value.Contains(o.Value);
+            o.Active = !string.IsNullOrWhiteSpace(Value) && Value.Contains(o.Value);
         });
     }
 }

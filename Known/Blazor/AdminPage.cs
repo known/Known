@@ -34,7 +34,7 @@ public class AdminPage : BaseComponent
     {
         builder.Div("kui-layout", () =>
         {
-            builder.Link("退出", Callback(OnLogout));
+            builder.Link("退出", this.Callback(OnLogout));
         });
     }
 

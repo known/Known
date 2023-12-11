@@ -20,15 +20,15 @@ public class EditInput : BaseComponent
                 UI.BuildInput(builder, new InputOption<string>
                 {
                     Value = Value,
-                    ValueChanged = Callback<string>(value => Value = value)
+                    ValueChanged = this.Callback<string>(value => Value = value)
                 });
-                builder.Link("确定", Callback(OnSaveClick));
-                builder.Link("取消", Callback(() => isEdit = false));
+                builder.Link("确定", this.Callback(OnSaveClick));
+                builder.Link("取消", this.Callback(() => isEdit = false));
             }
             else
             {
                 builder.Span(Value);
-                builder.Link("编辑", Callback(() => isEdit = true));
+                builder.Link("编辑", this.Callback(() => isEdit = true));
             }
         });
     }

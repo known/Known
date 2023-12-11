@@ -42,8 +42,8 @@ class SysRoleForm : BaseForm<SysRole>
             OnNodeCheck = OnTreeCheck
         };
 
-        btnOption.ValueChanged = Callback<string[]>(OnButtonChanged);
-        colOption.ValueChanged = Callback<string[]>(OnColumnChanged);
+        btnOption.ValueChanged = this.Callback<string[]>(OnButtonChanged);
+        colOption.ValueChanged = this.Callback<string[]>(OnColumnChanged);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

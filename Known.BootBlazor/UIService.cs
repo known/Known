@@ -249,7 +249,7 @@ public class UIService(DialogService modal, MessageService message) : IUIService
 
     public void BuildIcon(RenderTreeBuilder builder, string type)
     {
-        //builder.Component<Icon>().Set(c => c.Type, type).Set(c => c.Theme, "outline").Build();
+        builder.OpenElement("i").Class(type).CloseElement();
     }
 
     public void BuildResult(RenderTreeBuilder builder, string status, string message)

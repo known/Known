@@ -41,12 +41,12 @@ class CompanyBaseInfo : BaseForm<CompanyInfo>
             {
                 if (!isEdit)
                 {
-                    UI.Button(builder, "编辑", Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
+                    UI.Button(builder, "编辑", this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
                 }
                 else
                 {
-                    UI.Button(builder, "保存", Callback<MouseEventArgs>(e => OnSave()), "primary");
-                    UI.Button(builder, "取消", Callback<MouseEventArgs>(e => OnEdit(false)), "default");
+                    UI.Button(builder, "保存", this.Callback<MouseEventArgs>(e => OnSave()), "primary");
+                    UI.Button(builder, "取消", this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
                 }
             });
         });

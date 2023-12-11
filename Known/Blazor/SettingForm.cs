@@ -25,8 +25,8 @@ public class SettingForm : BaseComponent
             UI.BuildForm(builder, model);
             builder.Div("center", () =>
             {
-                UI.Button(builder, "保存", Callback<MouseEventArgs>(SaveAsync), "primary");
-                UI.Button(builder, "重置", Callback<MouseEventArgs>(ResetAsync));
+                UI.Button(builder, "保存", this.Callback<MouseEventArgs>(SaveAsync), "primary");
+                UI.Button(builder, "重置", this.Callback<MouseEventArgs>(ResetAsync));
             });
         });
     }

@@ -51,7 +51,18 @@ public static class ComponentExtension
     }
     #endregion
 
+    #region Callback
+    public static EventCallback Callback(this ComponentBase component, Func<Task> callback) => EventCallback.Factory.Create(component, callback);
+    public static EventCallback Callback(this ComponentBase component, Action callback) => EventCallback.Factory.Create(component, callback);
+    public static EventCallback<T> Callback<T>(this ComponentBase component, Action<T> callback) => EventCallback.Factory.Create(component, callback);
+    #endregion
+
     #region Content
+    public static RenderFragment<T> BuildTree<T>(this ComponentBase component, Action<RenderTreeBuilder, T> action)
+    {
+        return row => delegate (RenderTreeBuilder builder) { action(builder, row); };
+    }
+
     public static RenderTreeBuilder Fragment(this RenderTreeBuilder builder, RenderFragment fragment)
     {
         if (fragment != null)

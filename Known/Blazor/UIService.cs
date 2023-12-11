@@ -93,6 +93,9 @@ public class UIService : IUIService
     public void AddInputAttributes<TItem>(Dictionary<string, object> attributes, FieldModel<TItem> model) where TItem : class, new()
     {
         var column = model.Column;
+        if (column.IsPassword)
+            attributes["type"] = "password";
+
         if (!string.IsNullOrWhiteSpace(column.Category))
         {
             var property = column.GetProperty();
@@ -133,7 +136,7 @@ public class UIService : IUIService
 
     public void BuildForm<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
     {
-
+        builder.Component<KForm<TItem>>().Set(c => c.Form, model).Build();
     }
 
     public void BuildPage(RenderTreeBuilder builder, PageModel model)
@@ -183,12 +186,12 @@ public class UIService : IUIService
 
     public void BuildButton(RenderTreeBuilder builder, ActionInfo info)
     {
-
+        builder.OpenElement("button").Id(info.Id).OnClick(info.OnClick).Text(info.Name).CloseElement();
     }
 
     public void BuildInput<TValue>(RenderTreeBuilder builder, InputOption<TValue> option)
     {
-
+        //builder.Component<InputBase<string>>().Set(c => c.Value, option.Value).Set(c => c.ValueChanged, option.ValueChanged).Build();
     }
 
     public void BuildCheckList(RenderTreeBuilder builder, ListOption<string[]> option)

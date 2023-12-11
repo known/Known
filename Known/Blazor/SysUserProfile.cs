@@ -122,12 +122,12 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
             {
                 if (!isEdit)
                 {
-                    UI.Button(builder, "编辑", Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
+                    UI.Button(builder, "编辑", this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
                 }
                 else
                 {
-                    UI.Button(builder, "保存", Callback<MouseEventArgs>(e => OnSave()), "primary");
-                    UI.Button(builder, "取消", Callback<MouseEventArgs>(e => OnEdit(false)), "default");
+                    UI.Button(builder, "保存", this.Callback<MouseEventArgs>(e => OnSave()), "primary");
+                    UI.Button(builder, "取消", this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
                 }
             });
         });
@@ -168,7 +168,7 @@ class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
         base.BuildRenderTree(builder);
         builder.Div("col-offset-4", () =>
         {
-            UI.Button(builder, "确定修改", Callback<MouseEventArgs>(e => OnSave()), "primary");
+            UI.Button(builder, "确定修改", this.Callback<MouseEventArgs>(e => OnSave()), "primary");
         });
     }
 

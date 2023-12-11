@@ -1,6 +1,7 @@
 ﻿using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
 
@@ -83,6 +84,6 @@ class LoginForm : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         UI.BuildForm(builder, model);
-        builder.OpenElement("button").Id("btnLogin").OnClick(Callback(OnLogin)).Text("登 录").CloseElement();
+        UI.BuildButton(builder, new ActionInfo("登录") { OnClick = this.Callback<MouseEventArgs>(async e => await OnLogin()) });
     }
 }

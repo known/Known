@@ -28,7 +28,7 @@ public class InstallPage : BaseComponent
             UI.BuildForm(builder, model);
             builder.Div("button", () =>
             {
-                UI.Button(builder, "开始使用", Callback<MouseEventArgs>(OnStart), "primary");
+                UI.Button(builder, "开始使用", this.Callback<MouseEventArgs>(OnStart), "primary");
             });
         });
     }

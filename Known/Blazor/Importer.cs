@@ -35,14 +35,14 @@ class Importer : BaseComponent
                 BuildInputFile(builder);
                 if (isFinished)
                 {
-                    UI.Button(builder, new ActionInfo("Import", ""), Callback<MouseEventArgs>(OnImportAsync));
+                    UI.Button(builder, new ActionInfo("Import", ""), this.Callback<MouseEventArgs>(OnImportAsync));
                 }
             });
             builder.Div(() =>
             {
-                builder.Link("模板下载", Callback(OnDownloadTemplateAsync));
+                builder.Link("模板下载", this.Callback(OnDownloadTemplateAsync));
                 if (!string.IsNullOrWhiteSpace(error))
-                    builder.Link("错误信息", Callback(OnErrorMessage));
+                    builder.Link("错误信息", this.Callback(OnErrorMessage));
                 builder.Span("size", fileInfo);
             });
             var style = string.IsNullOrWhiteSpace(error) ? "primary" : "danger";
@@ -64,7 +64,7 @@ class Importer : BaseComponent
         builder.OpenComponent<InputFile>(0);
         builder.AddAttribute(1, "accept", "text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         builder.AddAttribute(2, "disabled", !isFinished);
-        builder.AddAttribute(3, "OnChange", Callback<InputFileChangeEventArgs>(OnInputFilesChanged));
+        builder.AddAttribute(3, "OnChange", this.Callback<InputFileChangeEventArgs>(OnInputFilesChanged));
         builder.CloseComponent();
     }
 

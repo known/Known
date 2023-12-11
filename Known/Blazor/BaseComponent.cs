@@ -47,12 +47,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         GC.SuppressFinalize(this);
     }
 
-    public EventCallback Callback(Func<Task> callback) => EventCallback.Factory.Create(this, callback);
-    public EventCallback Callback(Action callback) => EventCallback.Factory.Create(this, callback);
-    public EventCallback<T> Callback<T>(Action<T> callback) => EventCallback.Factory.Create(this, callback);
-
     public void StateChanged() => InvokeAsync(StateHasChanged);
-    //protected RenderFragment<T> BuildTree<T>(Action<RenderTreeBuilder, T> action) => (row) => delegate (RenderTreeBuilder builder) { action(builder, row); };
 
     protected bool HasButton(string buttonId)
     {

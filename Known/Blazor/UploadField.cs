@@ -24,7 +24,7 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
         {
             builder.Component<InputFile>()
                    .Add("multiple", Model.Column.IsMultiFile)
-                   .Set(c => c.OnChange, Callback<InputFileChangeEventArgs>(OnFilesChanged))
+                   .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnFilesChanged))
                    .Build();
         }
 
@@ -39,7 +39,7 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
                     {
                         if (!Model.Form.IsView)
                         {
-                            builder.Span("link danger", "删除", Callback(() => OnDeleteFile(item)));
+                            builder.Span("link danger", "删除", this.Callback(() => OnDeleteFile(item)));
                         }
                         builder.DownloadLink(item.Name, item.FileUrl);
                     });

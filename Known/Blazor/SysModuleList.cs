@@ -201,7 +201,7 @@ class SysModuleForm : BaseForm<SysModule>
                 builder.Div("", () =>
                 {
                     builder.Span("实体类型");
-                    UI.BuildInput(builder, new InputOption<string> { ValueChanged = Callback<string>(OnModelChanged) });
+                    UI.BuildInput(builder, new InputOption<string> { ValueChanged = this.Callback<string>(OnModelChanged) });
                 });
             });
 			builder.Div("right", () =>
