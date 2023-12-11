@@ -1,5 +1,6 @@
 ﻿using Known.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
@@ -27,6 +28,14 @@ public class AdminPage : BaseComponent
         UserMenus = GetUserMenus(Info?.UserMenus);
         Context.UserSetting = Info?.UserSetting ?? new();
         IsLoaded = true;
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-layout", () =>
+        {
+            builder.Link("退出", Callback(OnLogout));
+        });
     }
 
     protected Task<Result> SignOutAsync()

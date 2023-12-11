@@ -43,6 +43,11 @@ public class JSService
     }
     #endregion
 
+    #region Common
+    public void Click(string clientId) => InvokeVoidAsync("KRazor.elemClick", clientId);
+    public void Enabled(string clientId, bool enabled) => InvokeVoidAsync("KRazor.elemEnabled", clientId, enabled);
+    #endregion
+
     #region LocalStorage
     public async Task<T> GetLocalStorage<T>(string key)
     {

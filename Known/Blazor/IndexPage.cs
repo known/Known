@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Known.Extensions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Known.Blazor;
@@ -9,6 +10,8 @@ public class IndexPage : BaseComponent
     [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
 
     protected bool IsLogin { get; private set; }
+
+    protected RenderFragment Admin => builder => builder.Component<AdminPage>().Set(c => c.OnLogout, OnLogout).Build();
 
     protected override async Task OnInitializedAsync()
     {

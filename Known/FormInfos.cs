@@ -7,10 +7,13 @@ namespace Known;
 
 public class LoginFormInfo
 {
+    [Form]
     [Required(ErrorMessage = "请输入用户名！")]
     public string UserName { get; set; }
+    [Form(IsPassword = true)]
     [Required(ErrorMessage = "请输入密码！")]
     public string Password { get; set; }
+    [Form]
     public bool Remember { get; set; }
     public bool IsMobile { get; set; }
     public string IPAddress { get; set; }

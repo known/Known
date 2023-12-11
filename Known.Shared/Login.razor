@@ -25,7 +25,7 @@
             }
             else
             {
-                <Known.AntBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" />
+                @LoginForm
             }
         </div>
     </div>
@@ -38,6 +38,7 @@
 
 @code {
     private string[] uiTypes = [
+        UIType.Default.ToString(),
         UIType.AntDesign.ToString(),
         UIType.Bootstrap.ToString(),
         UIType.Bulma.ToString()

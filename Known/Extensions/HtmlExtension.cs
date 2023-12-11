@@ -9,9 +9,9 @@ public static class HtmlExtension
     public static void Div(this RenderTreeBuilder builder, string className, string text) => builder.Div(className, () => builder.AddContent(2, text));
     public static void Div(this RenderTreeBuilder builder, string className, Action child)
     {
-        builder.OpenElement(0, "div");
+        builder.OpenElement("div");
         if (!string.IsNullOrEmpty(className))
-            builder.AddAttribute(1, "class", className);
+            builder.Class(className);
         child?.Invoke();
         builder.CloseElement();
     }
@@ -19,9 +19,9 @@ public static class HtmlExtension
     public static void Ul(this RenderTreeBuilder builder, Action child) => builder.Ul("", child);
     public static void Ul(this RenderTreeBuilder builder, string className, Action child)
     {
-        builder.OpenElement(0, "ul");
+        builder.OpenElement("ul");
         if (!string.IsNullOrEmpty(className))
-            builder.AddAttribute(1, "class", className);
+            builder.Class(className);
         child?.Invoke();
         builder.CloseElement();
     }
@@ -30,9 +30,9 @@ public static class HtmlExtension
     public static void Li(this RenderTreeBuilder builder, string className, string text) => builder.Li(className, () => builder.AddContent(2, text));
     public static void Li(this RenderTreeBuilder builder, string className, Action child)
     {
-        builder.OpenElement(0, "li");
+        builder.OpenElement("li");
         if (!string.IsNullOrEmpty(className))
-            builder.AddAttribute(1, "class", className);
+            builder.Class(className);
         child?.Invoke();
         builder.CloseElement();
     }
@@ -43,11 +43,11 @@ public static class HtmlExtension
         if (string.IsNullOrWhiteSpace(text))
             return;
 
-        builder.OpenElement(0, "span");
+        builder.OpenElement("span");
         if (!string.IsNullOrWhiteSpace(className))
-            builder.AddAttribute(1, "class", className);
+            builder.Class(className);
         if (onClick != null)
-            builder.AddAttribute(1, "onclick", onClick);
+            builder.OnClick(onClick);
         builder.AddContent(1, text);
         builder.CloseElement();
     }
@@ -57,11 +57,7 @@ public static class HtmlExtension
         if (string.IsNullOrWhiteSpace(text))
             return;
 
-        builder.OpenElement(0, "span");
-        builder.AddAttribute(1, "class", "link");
-        builder.AddAttribute(2, "onclick", onClick);
-        builder.AddContent(3, text);
-        builder.CloseElement();
+        builder.OpenElement("span").Class("link").OnClick(onClick).Text(text).CloseElement();
     }
 
     public static void DownloadLink(this RenderTreeBuilder builder, string text, FileUrlInfo url)

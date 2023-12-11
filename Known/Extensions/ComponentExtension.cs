@@ -52,28 +52,31 @@ public static class ComponentExtension
     #endregion
 
     #region Content
-    public static void Fragment(this RenderTreeBuilder builder, RenderFragment fragment)
+    public static RenderTreeBuilder Fragment(this RenderTreeBuilder builder, RenderFragment fragment)
     {
         if (fragment != null)
             builder.AddContent(1, fragment);
+        return builder;
     }
 
-    public static void Fragment<TValue>(this RenderTreeBuilder builder, RenderFragment<TValue> fragment, TValue value)
+    public static RenderTreeBuilder Fragment<TValue>(this RenderTreeBuilder builder, RenderFragment<TValue> fragment, TValue value)
     {
         if (fragment != null)
             builder.AddContent(1, fragment, value);
+        return builder;
     }
 
-    public static void Markup(this RenderTreeBuilder builder, string markup)
+    public static RenderTreeBuilder Markup(this RenderTreeBuilder builder, string markup)
     {
         if (!string.IsNullOrWhiteSpace(markup))
             builder.AddMarkupContent(1, markup);
+        return builder;
     }
 
-    public static void Text(this RenderTreeBuilder builder, string text)
+    public static RenderTreeBuilder Text(this RenderTreeBuilder builder, string text)
     {
-        if (!string.IsNullOrWhiteSpace(text))
-            builder.AddContent(1, text);
+        builder.AddContent(1, text);
+        return builder;
     }
     #endregion
 }

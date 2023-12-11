@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Known.Shared;
 
-public enum UIType { AntDesign, Bootstrap, Bulma }
+public enum UIType { Default, AntDesign, Bootstrap, Bulma }
 
 public static class Extension
 {

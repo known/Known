@@ -1,6 +1,13 @@
 ﻿import "./libs/pdfobject.js";
 
 export class KRazor {
+    //Common
+    static elemClick(id) {
+        document.getElementById(id).click();
+    }
+    static elemEnabled(id, enabled) {
+        document.getElementById(id).enabled = enabled;
+    }
     //Storage
     static getLocalStorage(key) {
         return localStorage.getItem(key);
