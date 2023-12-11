@@ -86,7 +86,7 @@ class LoginForm : BaseComponent
         UI.BuildForm(builder, model);
         UI.BuildButton(builder, new ActionInfo("登录")
         {
-            Style = "kui-block",
+            Style = "kui-block primary",
             OnClick = this.Callback<MouseEventArgs>(async e => await OnLogin())
         });
     }

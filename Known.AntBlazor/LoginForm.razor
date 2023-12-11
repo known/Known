@@ -1,10 +1,10 @@
 ﻿<Form Model="@Model" OnFinish="OnLogin" LabelCol="null">
-    <FormItem>
+    <FormItem Label="">
         <Input @bind-Value="@context.UserName" Placeholder="用户名">
         <Prefix><Icon Type="user" /></Prefix>
         </Input>
     </FormItem>
-    <FormItem>
+    <FormItem Label="">
         <InputPassword @bind-Value="@context.Password" Placeholder="密码">
             <Prefix><Icon Type="lock" /></Prefix>
         </InputPassword>

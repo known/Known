@@ -34,7 +34,10 @@ public class AdminPage : BaseComponent
     {
         builder.Div("kui-layout", () =>
         {
-            builder.Link("退出", this.Callback(OnLogout));
+            builder.Div("kui-head", () => BuildHead(builder));
+            builder.Div("kui-side", () => BuildSide(builder));
+            builder.Div("kui-body", () => BuildBody(builder));
+            //builder.Div("kui-foot", () => { });
         });
     }
 
@@ -42,6 +45,29 @@ public class AdminPage : BaseComponent
     {
         var user = CurrentUser;
         return Platform.Auth.SignOutAsync(user?.Token);
+    }
+
+    private void BuildHead(RenderTreeBuilder builder)
+    {
+        builder.Div("app-name", CurrentUser?.AppName);
+        builder.Link("退出", this.Callback(OnLogout));
+    }
+
+    private void BuildSide(RenderTreeBuilder builder)
+    {
+        builder.Div("logo", "");
+    }
+
+    private void BuildBody(RenderTreeBuilder builder)
+    {
+        if (Context.UserSetting.MultiTab)
+        {
+            //< PageTabs Menu = "CurrentMenu" Items = "TabMenus" />
+        }
+        else
+        {
+            //< PageSingle Menu = "CurrentMenu" OnHome = "OnHome" />
+        }
     }
 
     private void OnNavigate(MenuItem item)

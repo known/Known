@@ -3,7 +3,7 @@
 /*KnownUI*/
 :root {
     --kui-theme-color: #1c66b9;/*#4188c8*/
-    --kui-sider-color: #1c292e;
+    --kui-side-width: 200px;
     --kui-line-color: #dcdee2;
     --kui-th-bgcolor: #f1f1f1;
     --kui-border: #d5d5d5;
@@ -17,8 +17,13 @@
     --kui-danger: #ed4014;/*#ed4014;#d9534f;*/
 }
 
-.kui-background {background:#fff;}
+.kui-layout {width:100%;height:100%;}
+.kui-head {position:absolute;top:0;left:var(--kui-side-width);right:0;height:50px;background-color:#fff;}
+.kui-side {position:absolute;top:0;left:0;bottom:0;width:var(--kui-side-width);overflow:hidden;background-color:var(--kui-theme-color);}
+.kui-body {position:absolute;top:50px;left:var(--kui-side-width);right:0;bottom:0;background-color:#f0f2f5;}
+
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
+.kui-background {background:#fff;}
 .kui-top {display:flex;justify-content:space-between;}
 .kui-table {padding-top:10px;}
 
@@ -35,12 +40,26 @@
 .kui-col-6 {width:25%;}
 .kui-col-4 {width:16.667%;}
 
+.kui-field {position:relative;}
 .kui-field label {position:relative;padding-left:1.5rem;}
 .kui-field label input {position:absolute;top:2.5px;left:0;}
 .kui-field input {width:100%;border:1px solid var(--kui-border);padding:2.5px 5px;}
 .kui-field input[type="checkbox"] {width:1.2rem;min-width:1.2rem;height:1.2rem;}
-.kui-button {background-color:var(--kui-primary);color:#fff;border:1px solid transparent;padding:5px;}
+.kui-button {padding:5px;}
 .kui-button:not(:disabled):hover {-moz-opacity:0.8;opacity:0.8;filter:alpha(opacity=80);}
+
+.kui-badge.default, .kui-tag.default, .kui-banner.default, .kui-notify.default, .kui-toast span.default, .kui-progress .value.default, .kui-timeline li.default:before, .kui-button.default {background-color:#fff;border:1px solid var(--kui-border);}
+.kui-badge.primary, .kui-tag.primary, .kui-banner.primary, .kui-notify.primary, .kui-toast span.primary, .kui-progress .value.primary, .kui-timeline li.primary:before, .kui-button.primary {background-color:var(--kui-primary);color:#fff;border:1px solid transparent;}
+.kui-badge.success, .kui-tag.success, .kui-banner.success, .kui-notify.success, .kui-toast span.success, .kui-progress .value.success, .kui-timeline li.success:before, .kui-button.success {background-color:var(--kui-success);color:#fff;border:1px solid transparent;}
+.kui-badge.info,    .kui-tag.info,    .kui-banner.info,    .kui-notify.info,    .kui-toast span.info,    .kui-progress .value.info,    .kui-timeline li.info:before,    .kui-button.info    {background-color:var(--kui-info);color:#fff;border:1px solid transparent;}
+.kui-badge.warning, .kui-tag.warning, .kui-banner.warning, .kui-notify.warning, .kui-toast span.warning, .kui-progress .value.warning, .kui-timeline li.warning:before, .kui-button.warning {background-color:var(--kui-warning);color:#fff;border:1px solid transparent;}
+.kui-badge.danger,  .kui-tag.danger,  .kui-banner.danger,  .kui-notify.danger,  .kui-toast span.danger,  .kui-progress .value.danger,  .kui-timeline li.danger:before,  .kui-button.danger  {background-color:var(--kui-danger);color:#fff;border:1px solid transparent;}
+td .kui-tag.default {font-weight:bold;background-color:transparent;color:#555;border:none;}
+td .kui-tag.primary {font-weight:bold;background-color:transparent;color:var(--kui-primary);}
+td .kui-tag.success {font-weight:bold;background-color:transparent;color:var(--kui-success);}
+td .kui-tag.info    {font-weight:bold;background-color:transparent;color:var(--kui-info);}
+td .kui-tag.warning {font-weight:bold;background-color:transparent;color:var(--kui-warning);}
+td .kui-tag.danger  {font-weight:bold;background-color:transparent;color:var(--kui-danger);}
 
 /*Common*/
 .steps-content {
@@ -101,12 +120,14 @@
     -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;
     box-shadow:0 0 10px 3px rgba(0,0,0,.3);
 }
+.login h1 {font-size:1.3rem;font-weight:bold;margin-bottom:20px;text-align:center;}
 .login-form {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
 .login-left {margin-top:50px;padding-left:90px;height:250px;}
 .login .slogan {width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
 .login .image {width:260px;height:180px;margin-top:20px;}
 .login-right {padding:30px 50px;}
-.login h1 {font-size:1.3rem;font-weight:bold;margin-bottom:20px;text-align:center;}
+.login-right .kui-label {position:absolute;top:5px;left:10px;padding-left:0;}
+.login-right .kui-field input {padding-left:30px;}
 
 .copyright {position:absolute;bottom:50px;text-align:center;color:#fff;width:100%;font-size:1.1rem;}
 .copyright span {margin:0 5px;}

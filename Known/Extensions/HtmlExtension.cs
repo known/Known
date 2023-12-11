@@ -5,7 +5,7 @@ namespace Known.Extensions;
 
 public static class HtmlExtension
 {
-    public static void Label(this RenderTreeBuilder builder, string text) => builder.Label(() => builder.Text(text));
+    public static void Label(this RenderTreeBuilder builder, string text) => builder.Label(() => builder.Markup(text));
     public static void Label(this RenderTreeBuilder builder, Action child)
     {
         builder.OpenElement("label");
@@ -14,7 +14,7 @@ public static class HtmlExtension
     }
 
     public static void Div(this RenderTreeBuilder builder, Action child) => builder.Div("", child);
-    public static void Div(this RenderTreeBuilder builder, string className, string text) => builder.Div(className, () => builder.AddContent(2, text));
+    public static void Div(this RenderTreeBuilder builder, string className, string text) => builder.Div(className, () => builder.Markup(text));
     public static void Div(this RenderTreeBuilder builder, string className, Action child)
     {
         builder.OpenElement("div");
@@ -35,7 +35,7 @@ public static class HtmlExtension
     }
 
     public static void Li(this RenderTreeBuilder builder, Action child) => builder.Li("", child);
-    public static void Li(this RenderTreeBuilder builder, string className, string text) => builder.Li(className, () => builder.AddContent(2, text));
+    public static void Li(this RenderTreeBuilder builder, string className, string text) => builder.Li(className, () => builder.Markup(text));
     public static void Li(this RenderTreeBuilder builder, string className, Action child)
     {
         builder.OpenElement("li");
@@ -56,7 +56,7 @@ public static class HtmlExtension
             builder.Class(className);
         if (onClick != null)
             builder.OnClick(onClick);
-        builder.AddContent(1, text);
+        builder.Markup(text);
         builder.CloseElement();
     }
 

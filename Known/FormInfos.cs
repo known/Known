@@ -7,10 +7,12 @@ namespace Known;
 
 public class LoginFormInfo
 {
-    [Form]
+    [Form(Placeholder = "用户名")]
+    [DisplayName("<i class=\"fa fa-user\" />")]
     [Required(ErrorMessage = "请输入用户名！")]
     public string UserName { get; set; }
-    [Form(IsPassword = true)]
+    [Form(Placeholder = "密码", IsPassword = true)]
+    [DisplayName("<i class=\"fa fa-lock\" />")]
     [Required(ErrorMessage = "请输入密码！")]
     public string Password { get; set; }
     [Form]

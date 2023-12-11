@@ -57,7 +57,7 @@ class KForm<TItem> : EditForm where TItem : class, new()
             else
             {
                 if (!string.IsNullOrWhiteSpace(field.Column.Name))
-                    builder.Label(field.Column.Name);
+                    builder.Div("kui-label", field.Column.Name);
                 builder.Fragment(field.InputTemplate);
             }
         });

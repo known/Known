@@ -9,6 +9,8 @@
 .ant-table-pagination.ant-pagination {margin:10px;}
 .ant-layout-sider-light .logo {background-image:url(/img/logo1.png);}
 .anticon .icon {width:1rem;height:1rem;}
+.ant-table-column-sorter .anticon .icon {width:11px;height:11px;}
+.ant-dropdown-link {color:#1890ff;}
 
 /*Layout*/
 .layout-tabs > .ant-tabs-nav {background-color:#fff;margin-bottom:0;}
