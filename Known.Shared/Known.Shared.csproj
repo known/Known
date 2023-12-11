@@ -20,7 +20,6 @@
         <ProjectReference Include="..\Known.Cells\Known.Cells.csproj" />
         <ProjectReference Include="..\Known.AntBlazor\Known.AntBlazor.csproj" />
         <ProjectReference Include="..\Known.BootBlazor\Known.BootBlazor.csproj" />
-        <ProjectReference Include="..\Known.BulmaBlazor\Known.BulmaBlazor.csproj" />
         <ProjectReference Include="..\Known.Demo\Known.Demo.csproj" />
     </ItemGroup>
 

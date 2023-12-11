@@ -2,7 +2,6 @@
 using Coravel.Invocable;
 using Known.AntBlazor;
 using Known.BootBlazor;
-using Known.BulmaBlazor;
 using Known.Cells;
 using Known.Demo;
 using Known.Extensions;
@@ -12,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Known.Shared;
 
-public enum UIType { Default, AntDesign, Bootstrap, Bulma }
+public enum UIType { AntDesign, Bootstrap }
 
 public static class Extension
 {
@@ -52,8 +51,6 @@ public static class Extension
         services.AddKnownAntDesign(option => option.Footer = b => b.Markup(html));
         //添加KnownBootstrap
         services.AddKnownBootstrap(option => option.Footer = b => b.Markup(html));
-        //添加KnownBulma
-        services.AddKnownBulma(option => option.Footer = b => b.Markup(html));
 
         //4.添加Demo
         services.AddDemoModule();

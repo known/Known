@@ -1,6 +1,5 @@
 ﻿using Known.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
@@ -30,44 +29,10 @@ public class AdminPage : BaseComponent
         IsLoaded = true;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.Div("kui-layout", () =>
-        {
-            builder.Div("kui-head", () => BuildHead(builder));
-            builder.Div("kui-side", () => BuildSide(builder));
-            builder.Div("kui-body", () => BuildBody(builder));
-            //builder.Div("kui-foot", () => { });
-        });
-    }
-
     protected Task<Result> SignOutAsync()
     {
         var user = CurrentUser;
         return Platform.Auth.SignOutAsync(user?.Token);
-    }
-
-    private void BuildHead(RenderTreeBuilder builder)
-    {
-        builder.Div("app-name", CurrentUser?.AppName);
-        builder.Link("退出", this.Callback(OnLogout));
-    }
-
-    private void BuildSide(RenderTreeBuilder builder)
-    {
-        builder.Div("logo", "");
-    }
-
-    private void BuildBody(RenderTreeBuilder builder)
-    {
-        if (Context.UserSetting.MultiTab)
-        {
-            //< PageTabs Menu = "CurrentMenu" Items = "TabMenus" />
-        }
-        else
-        {
-            //< PageSingle Menu = "CurrentMenu" OnHome = "OnHome" />
-        }
     }
 
     private void OnNavigate(MenuItem item)

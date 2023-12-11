@@ -19,14 +19,6 @@
             {
                 <Known.BootBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" />
             }
-            else if (Index.UIType == UIType.Bulma)
-            {
-                <Known.BulmaBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" />
-            }
-            else
-            {
-                @LoginForm
-            }
         </div>
     </div>
 </div>
@@ -38,10 +30,8 @@
 
 @code {
     private string[] uiTypes = [
-        UIType.Default.ToString(),
         UIType.AntDesign.ToString(),
-        UIType.Bootstrap.ToString(),
-        UIType.Bulma.ToString()
+        UIType.Bootstrap.ToString()
     ];
 
     [CascadingParameter] private Index Index { get; set; }

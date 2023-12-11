@@ -26,8 +26,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.AntBlazor", "Known.An
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.BootBlazor", "Known.BootBlazor\Known.BootBlazor.csproj", "{1288B0CE-8251-4320-9A29-25A24B7623F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.BulmaBlazor", "Known.BulmaBlazor\Known.BulmaBlazor.csproj", "{7741BDC2-A0A2-45E2-8C2C-54839731C8A2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Cells", "Known.Cells\Known.Cells.csproj", "{28031FDC-5821-4E6C-A7EA-5E17086929F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Demo", "Known.Demo\Known.Demo.csproj", "{EF128732-EA7C-4DB9-B50D-DB6D85584C84}"
@@ -80,10 +78,6 @@ Global
 		{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7741BDC2-A0A2-45E2-8C2C-54839731C8A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7741BDC2-A0A2-45E2-8C2C-54839731C8A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7741BDC2-A0A2-45E2-8C2C-54839731C8A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7741BDC2-A0A2-45E2-8C2C-54839731C8A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

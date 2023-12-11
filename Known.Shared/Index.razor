@@ -20,23 +20,13 @@
         {
             <Known.BootBlazor.Admin OnLogout="OnLogout" />
         }
-        else if (UIType == UIType.Bulma)
-        {
-            <Known.BulmaBlazor.Admin OnLogout="OnLogout" />
-        }
-        else
-        {
-            @Admin
-        }
     }
 </CascadingValue>
 
 @code {
     private const string KeyUIType = "Known_UIType";
-    [Inject] private Known.Blazor.UIService Default { get; set; }
     [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
     [Inject] private Known.BootBlazor.UIService BootUI { get; set; }
-    [Inject] private Known.BulmaBlazor.UIService BulmaUI { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -61,10 +51,6 @@
             Context.UI = AntUI;
         else if (UIType == UIType.Bootstrap)
             Context.UI = BootUI;
-        else if (UIType == UIType.Bulma)
-            Context.UI = BulmaUI;
-        else
-            Context.UI = Default;
     }
 
     // //第三方登录设置当前用户

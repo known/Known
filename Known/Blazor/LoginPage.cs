@@ -1,7 +1,5 @@
 ﻿using Known.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
 
@@ -11,11 +9,6 @@ public class LoginPage : BaseComponent
     protected LoginFormInfo Model = new();
 
     [Parameter] public Action<UserInfo> OnLogin { get; set; }
-
-    protected RenderFragment LoginForm => builder => builder.Component<LoginForm>()
-                                                            .Set(c => c.Model, Model)
-                                                            .Set(c => c.OnLogin, OnUserLogin)
-                                                            .Build();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -65,29 +58,5 @@ public class LoginPage : BaseComponent
     {
         public string UserName { get; set; }
         public bool Remember { get; set; }
-    }
-}
-
-class LoginForm : BaseComponent
-{
-    private FormModel<LoginFormInfo> model;
-
-    [Parameter] public LoginFormInfo Model { get; set; }
-    [Parameter] public Func<Task> OnLogin { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        model = new FormModel<LoginFormInfo>(UI) { Data = Model };
-    }
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        UI.BuildForm(builder, model);
-        UI.BuildButton(builder, new ActionInfo("登录")
-        {
-            Style = "kui-block primary",
-            OnClick = this.Callback<MouseEventArgs>(async e => await OnLogin())
-        });
     }
 }

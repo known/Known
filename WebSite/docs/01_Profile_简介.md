@@ -16,8 +16,8 @@
 
 ### 概述
 
-- 基于C#和Blazor的快速开发框架，模块化，跨平台，开箱即用。
-- 单页应用，混合桌面应用，Web和桌面共享一处代码。
+- 基于C#和Blazor的快速开发框架，开箱即用，跨平台。
+- 模块化，单页应用，混合桌面应用，Web和桌面共享一处代码。
 - UI默认支持AntDesign，可扩展其他UI组件库。
 - 包含模块、字典、组织、角色、用户、日志、消息、工作流、定时任务等功能。
 - 低代码、简洁、易扩展，让开发更简单、更快捷！
@@ -30,7 +30,6 @@
 ├─Known             -> 框架类库，包含通用后端、内置组件、内置模块。
 ├─Known.AntBlazor   -> 基于AntDesign Blazor的界面库。
 ├─Known.BootBlazor  -> 基于Bootstrap Blazor的界面库。
-├─Known.BulmaBlazor -> 基于BulmaRazor的界面库。
 ├─Known.Cells       -> 基于Aspose.Cells实现的Excel操作类库。
 ├─Known.Demo        -> 框架示例模块。
 ├─Known.Shared      -> Web和WinForm共享类库。
