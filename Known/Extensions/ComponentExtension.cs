@@ -58,6 +58,11 @@ public static class ComponentExtension
     #endregion
 
     #region Content
+    public static RenderFragment BuildTree(this ComponentBase component, Action<RenderTreeBuilder> action)
+    {
+        return delegate (RenderTreeBuilder builder) { action(builder); };
+    }
+
     public static RenderFragment<T> BuildTree<T>(this ComponentBase component, Action<RenderTreeBuilder, T> action)
     {
         return row => delegate (RenderTreeBuilder builder) { action(builder, row); };

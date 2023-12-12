@@ -40,31 +40,27 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             //builder.AddAttribute(1, "Filterable", true);
             if (template != null)
             {
-                builder.AddAttribute(1, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
-                {
-                    builder1.AddContent(1, template(Item));
-                });
+                builder.AddAttribute(1, "ChildContent", this.BuildTree(b => b.AddContent(1, template(Item))));
             }
             else if (property.PropertyType == typeof(bool))
             {
-                builder.AddAttribute(1, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
+                builder.AddAttribute(1, "ChildContent", this.BuildTree(b =>
                 {
                     var value = TypeHelper.GetPropertyValue<bool>(Item, property.Name);
-                    builder1.Component<Switch>()
-                            .Set(c => c.Checked, value)
-                            .Set(c => c.Disabled, true)
-                            .Set(c => c.CheckedChildren, "是")
-                            .Set(c => c.UnCheckedChildren, "否")
-                            .Build();
-                });
+                    b.Component<Switch>().Set(c => c.Checked, value)
+                                         .Set(c => c.Disabled, true)
+                                         .Set(c => c.CheckedChildren, "是")
+                                         .Set(c => c.UnCheckedChildren, "否")
+                                         .Build();
+                }));
             }
             else if (item.IsViewLink)
             {
-                builder.AddAttribute(1, "ChildContent", (RenderFragment)delegate (RenderTreeBuilder builder1)
+                builder.AddAttribute(1, "ChildContent", this.BuildTree(b =>
                 {
                     var value = TypeHelper.GetPropertyValue<string>(Item, property.Name);
-                    builder1.Link(value, this.Callback(() => Table.ViewForm(Item)));
-                });
+                    b.Link(value, this.Callback(() => Table.ViewForm(Item)));
+                }));
             }
             builder.CloseComponent();
         }

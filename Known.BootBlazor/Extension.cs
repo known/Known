@@ -52,11 +52,12 @@ public static class Extension
         });
     }
 
-    internal static Color ToColor(this ActionInfo action)
+    internal static Color ToColor(this ActionInfo action) => action.Style.ToColor();
+    internal static Color ToColor(this string style)
     {
-        if (action.Style == "primary")
+        if (style == "primary")
             return Color.Primary;
-        else if (action.Style == "danger")
+        else if (style == "danger")
             return Color.Danger;
 
         return Color.Primary;

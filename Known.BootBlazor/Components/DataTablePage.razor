@@ -5,9 +5,9 @@
     <Toolbar Items="Model.Tools" OnItemClick="Model.OnToolClick" />
 </div>
 <div class="kui-table">
-    <Table @ref="table" TItem="TItem" IsPagination IsBordered ShowEmpty ShowExtendButtons
+    <Table @ref="table" TItem="TItem" IsBordered ShowEmpty ShowExtendButtons
         ShowExtendEditButton="false" ShowExtendDeleteButton="false"
-        OnQueryAsync="OnQueryAsync">
+        IsPagination="Model.ShowPager" PageItemsSource="[10,20,50,100]" OnQueryAsync="OnQueryAsync">
         <TableColumns>
             <AutoGenerateColumns Table="Model" Item="context" />
         </TableColumns>

@@ -41,12 +41,6 @@ public class UIService(DialogService modal, MessageService message) : IUIService
         if (type == typeof(decimal))
             return typeof(BootstrapInputNumber<decimal>);
 
-        if (type == typeof(string) && maxLength >= 500)
-            return typeof(Textarea);
-
-        if (type == typeof(string))
-            return typeof(BootstrapInput<string>);
-
         if (type == typeof(DateTime))
             return typeof(DateTimePicker<DateTime>);
 
@@ -242,7 +236,7 @@ public class UIService(DialogService modal, MessageService message) : IUIService
     public void BuildTag(RenderTreeBuilder builder, string text, string color)
     {
         builder.Component<Tag>()
-               //.Set(c => c.Color, color)
+               .Set(c => c.Color, color.ToColor())
                .Set(c => c.ChildContent, b => b.Text(text))
                .Build();
     }
@@ -254,18 +248,17 @@ public class UIService(DialogService modal, MessageService message) : IUIService
 
     public void BuildResult(RenderTreeBuilder builder, string status, string message)
     {
-        //builder.Component<AntDesign.Result>()
-        //       .Set(c => c.Status, status)
-        //       .Set(c => c.Title, status)
-        //       .Set(c => c.SubTitle, message)
-        //       .Build();
+        builder.Component<Empty>()
+               .Set(c => c.Image, "_content/Known.Demo/img/none.png")
+               .Set(c => c.Text, message)
+               .Build();
     }
 
     public void BuildButton(RenderTreeBuilder builder, ActionInfo info)
     {
         builder.Component<Button>()
                .Set(c => c.Icon, info.Icon)
-               //.Set(c => c.Type, info.Style)
+               .Set(c => c.Color, info.ToColor())
                .Set(c => c.OnClick, info.OnClick)
                .Set(c => c.ChildContent, b => b.Text(info.Name))
                .Build();
