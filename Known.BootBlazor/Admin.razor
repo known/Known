@@ -1,8 +1,6 @@
 ﻿@inherits AdminPage
 
-<Layout SideWidth="0" IsFullSide ShowFooter 
-    ShowCollapseBar MenuBarIcon="fa fa-bars"
-    IsAccordion Menus="SideMenuItems" OnClickMenu="OnSideMenuClick">
+<Layout SideWidth="0" IsFullSide ShowFooter ShowCollapseBar MenuBarIcon="fa fa-bars">
     <Header>
         <div class="kui-header">
             <div class="app-name">@CurrentUser?.AppName</div>
@@ -13,6 +11,7 @@
         <div class="boot-banner">
             <div class="logo" />
         </div>
+        <Menu DisableNavigation IsVertical IsAccordion Items="SideMenuItems" OnClick="OnSideMenuClick" />
     </Side>
     <Main>
         @if (Context.UserSetting.MultiTab)

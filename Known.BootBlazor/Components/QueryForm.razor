@@ -16,7 +16,8 @@
             @if (!string.IsNullOrWhiteSpace(item.Category))
             {
                 var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? "全部" : "");
-                <BootSelect Codes="codes" @bind-Value="@(Model.QueryData[property.Name].Value)" style="width:180px" />
+                <BootstrapInput @bind-Value="@(Model.QueryData[property.Name].Value)" style="width:180px" />
+                @* <BootSelect Codes="codes" @bind-Value="@(Model.QueryData[property.Name].Value)" style="width:180px" /> *@
             }
             else if (itemType.Contains("DateTime"))
             {

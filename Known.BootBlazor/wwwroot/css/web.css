@@ -2,6 +2,10 @@
 .layout-header .kui-header {background-color:#17a2b8;color:#fff;padding-left:60px;height:50px;line-height:50px;}
 .layout-side {background-color:#f5f8fa;color:#dcdfe6;height:100%;border-right:1px solid #dcdfe6;}
 .layout-main {background-color:#f0f2f5;}
+.layout-main > .tabs {border:none;}
+.layout-main > .tabs.tabs-border-card {background-color:#f0f2f5;}
+.layout-main > .tabs > .tabs-body {padding:0 10px 10px 10px;}
+.layout-main > .tabs.tabs-border-card > .tabs-header .tabs-item.active {background-color:#f0f2f5;}
 .layout-footer {background-color:#f0f2f5;padding:10px;}
 .layout-menu .arrow, .node-icon, .fa-solid {font:normal normal normal 14px/1 FontAwesome;}
 

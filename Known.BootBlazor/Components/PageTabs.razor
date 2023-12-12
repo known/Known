@@ -1,4 +1,4 @@
-﻿<Tab ShowExtendButtons ShowClose class="mt-3">
+﻿<Tab @ref="tab" ShowExtendButtons ShowClose>
     @foreach (var item in Items)
     {
         <TabItem Text="@item.Name" Closable="@item.Closable">
@@ -17,15 +17,16 @@
 </Tab>
 
 @code {
-    private string activeKey;
+    private Tab tab;
 
     [Parameter] public List<Known.MenuItem> Items { get; set; }
     [Parameter] public Known.MenuItem Menu { get; set; }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnParametersSetAsync();
-        activeKey = Menu.Id;
+        await base.OnAfterRenderAsync(firstRender);
+        var index = Items.IndexOf(Menu);
+        tab.ActiveTab(index);
     }
 
     private void OnClose(string tab)
