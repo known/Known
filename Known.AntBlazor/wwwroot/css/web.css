@@ -4,12 +4,14 @@
 :root {
     --rz-sidebar-width: 200px;
 }
+.ant-btn {padding:4px 10px;}
+.ant-btn > .anticon + span, .ant-btn > span + .anticon {margin-left:2px;}
 .ant-tabs-nav {padding:0 10px;}
 .ant-table-cell .ant-tag {cursor:pointer;}
 .ant-table-pagination.ant-pagination {margin:10px;}
 .ant-layout-sider-light .logo {background-image:url(/img/logo1.png);}
-.anticon .icon {width:1rem;height:1rem;}
-.ant-table-column-sorter .anticon .icon {width:11px;height:11px;}
+/*.anticon .icon {width:1rem;height:1rem;}
+.ant-table-column-sorter .anticon .icon {width:11px;height:11px;}*/
 .ant-dropdown-link {color:#1890ff;}
 
 /*Layout*/
