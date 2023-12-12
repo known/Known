@@ -55,7 +55,7 @@ public class SysModule : EntityBase
     /// 取得或设置描述。
     /// </summary>
     [Column, Grid]
-    [Form(Row = 3, Column = 1)]
+    [Form(Row = 4, Column = 1)]
     [DisplayName("描述")]
     [MaxLength(200)]
     public string Description { get; set; }
@@ -64,7 +64,8 @@ public class SysModule : EntityBase
     /// 取得或设置目标。
     /// </summary>
     [Column]
-    [DisplayName("目标")]
+    [Form(Row = 2, Column = 2)]
+    [DisplayName("类型")]
     [MaxLength(250)]
     public string Target { get; set; }
 
@@ -79,7 +80,7 @@ public class SysModule : EntityBase
     /// 取得或设置可用。
     /// </summary>
     [Column, Grid]
-    [Form(Row = 2, Column = 2)]
+    [Form(Row = 3, Column = 1)]
     [DisplayName("可用")]
     public bool Enabled { get; set; }
 
@@ -108,7 +109,7 @@ public class SysModule : EntityBase
     /// 取得或设置备注。
     /// </summary>
     [Column, Grid]
-    [Form(Row = 4, Column = 1)]
+    [Form(Row = 5, Column = 1)]
     [DisplayName("备注")]
     [MaxLength(500)]
     public string Note { get; set; }

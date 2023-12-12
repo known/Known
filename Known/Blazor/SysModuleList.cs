@@ -174,13 +174,16 @@ class SysModuleForm : BaseForm<SysModule>
 {
 	private readonly StepModel step = new() { IsContent = true };
 
-	private List<CodeInfo> ModelTypes { get; set; }
+    public SysModuleForm()
+    {
+        ModelTypes = Config.ModelTypes.Select(m => new CodeInfo(m.Name, m.Name)).ToList();
+    }
+
+    internal List<CodeInfo> ModelTypes { get; }
 
 	protected override async Task OnInitFormAsync()
 	{
 		await base.OnInitFormAsync();
-        ModelTypes = Config.ModelTypes.Select(m => new CodeInfo(m.Name, m.Name)).ToList();
-
 		step.Items.Add(new("基本信息") { Content = BuildDataForm });
 		step.Items.Add(new("页面设置") { Content = BuildModulePage });//TODO：模块页面和表单配置组件开发
 		step.Items.Add(new("表单设置") { Content = BuildModuleForm });
@@ -188,13 +191,27 @@ class SysModuleForm : BaseForm<SysModule>
 		step.OnSave = SaveAsync;
 	}
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading<SysModuleForm>(this, BuildForm);
+	protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, BuildForm);
 
 	private void BuildForm(RenderTreeBuilder builder) => UI.BuildSteps(builder, step);
 	private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
+    private void BuildModulePage(RenderTreeBuilder builder) => builder.Component<SysModuleFormPage>().Build();
+    private void BuildModuleForm(RenderTreeBuilder builder) => builder.Component<SysModuleFormForm>().Build();
 
-	private void BuildModulePage(RenderTreeBuilder builder)
+    private async Task<bool> SaveAsync(bool isClose = false)
 	{
+		if (!Model.Validate())
+			return false;
+
+		await Model.SaveAsync(isClose);
+		return true;
+	}
+}
+
+class SysModuleFormPage : BaseComponent
+{
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
         builder.Div("module-page", () =>
         {
             builder.Div("left", () =>
@@ -205,27 +222,19 @@ class SysModuleForm : BaseForm<SysModule>
                     UI.BuildInput(builder, new InputOption<string> { ValueChanged = this.Callback<string>(OnModelChanged) });
                 });
             });
-			builder.Div("right", () =>
-			{
+            builder.Div("right", () =>
+            {
 
-			});
-		});
-	}
+            });
+        });
+    }
 
-	private void OnModelChanged(string obj)
-	{
-	}
+    private void OnModelChanged(string obj)
+    {
+    }
+}
 
-	private void BuildModuleForm(RenderTreeBuilder builder)
-	{
-	}
+class SysModuleFormForm : BaseComponent
+{
 
-	private async Task<bool> SaveAsync(bool isClose = false)
-	{
-		if (!Model.Validate())
-			return false;
-
-		await Model.SaveAsync(isClose);
-		return true;
-	}
 }
