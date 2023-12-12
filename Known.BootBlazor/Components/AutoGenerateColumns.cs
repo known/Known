@@ -32,11 +32,12 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             builder.AddAttribute(1, "Text", property.DisplayName());
             builder.AddAttribute(1, "FieldName", property.Name);
             builder.AddAttribute(1, "Sortable", true);
-            //if (!string.IsNullOrWhiteSpace(item.DefaultSort))
-            //{
-            //    var sortName = item.DefaultSort == "desc" ? "descend" : "ascend";
-            //    builder.AddAttribute(1, "DefaultSortOrder", SortDirection.Parse(sortName));
-            //}
+            if (!string.IsNullOrWhiteSpace(item.DefaultSort))
+            {
+                var sortName = item.DefaultSort == "desc" ? "Desc" : "Asc";
+                builder.AddAttribute(1, "DefaultSort", true);
+                builder.AddAttribute(1, "DefaultSortOrder", Utils.ConvertTo<SortOrder>(sortName));
+            }
             //builder.AddAttribute(1, "Filterable", true);
             if (template != null)
             {

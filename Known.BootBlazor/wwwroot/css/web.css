@@ -23,5 +23,9 @@
 .boot-query .item label {padding:.375rem .75rem;}
 .boot-content .tree .tree-item {display:block;}
 
+.boot-row {margin-bottom:20px;}
+.boot-col {display:flex;}
+.boot-col > .form-label {width:200px;text-align:right;padding:10px 10px 0 0;}
+
 /*Login*/
 .login-right .boot-row .fa {padding-top:10px;}

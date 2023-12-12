@@ -6,8 +6,8 @@
         foreach (var row in rows)
         {
             var col = 12 / row.Fields.Count;
-            var colSpan = $"col-{col}";
-            <div class="row">
+            var colSpan = $"boot-col col-{col}";
+            <div class="boot-row row">
                 @foreach (var field in row.Fields)
                 {
                     <div class="@colSpan">
