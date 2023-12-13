@@ -13,6 +13,16 @@
 /*.anticon .icon {width:1rem;height:1rem;}
 .ant-table-column-sorter .anticon .icon {width:11px;height:11px;}*/
 .ant-dropdown-link {color:#1890ff;}
+.col-offset-4 {margin-left:16.66666667%;}
+
+@media screen and (max-width:768px) {
+    .ant-row {flex-direction:column;}
+    .ant-col-20, .ant-col-14, .ant-col-12, .ant-col-10, .ant-col-4 {max-width:100%;}
+    .col-offset-4 {margin-left:0;}
+    .ant-toolbar {padding-top:0;}
+    .ant-query-btn, .ant-toolbar button {margin-top:10px;}
+    .ant-form-item .ant-form-item-label {padding-bottom:0;}
+}
 
 /*Layout*/
 .layout-tabs > .ant-tabs-nav {background-color:#fff;margin-bottom:0;}

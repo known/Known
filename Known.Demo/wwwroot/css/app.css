@@ -23,3 +23,7 @@ html, body {
 
 .form-company {padding:0 50px 20px 0;}
 .form-company button {margin-right:10px;}
+
+@media screen and (max-width:768px) {
+    .form-company {padding:0 10px 20px 10px;}
+}

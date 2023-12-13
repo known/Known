@@ -114,7 +114,7 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("form-company", () =>
+        builder.Div("form-page", () =>
         {
             Model.IsView = !isEdit;
             base.BuildRenderTree(builder);
@@ -165,10 +165,13 @@ class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        base.BuildRenderTree(builder);
-        builder.Div("col-offset-4", () =>
+        builder.Div("form-page", () =>
         {
-            UI.Button(builder, "确定修改", this.Callback<MouseEventArgs>(e => OnSave()), "primary");
+            base.BuildRenderTree(builder);
+            builder.Div("col-offset-4", () =>
+            {
+                UI.Button(builder, "确定修改", this.Callback<MouseEventArgs>(e => OnSave()), "primary");
+            });
         });
     }
 
