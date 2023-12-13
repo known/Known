@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.BootBlazor;
 
-public class UIService(DialogService modal, MessageService message) : IUIService
+public class UIService(DialogService dialogService, MessageService messageService) : IUIService
 {
-    private readonly DialogService _modal = modal;
-    private readonly MessageService _message = message;
+    private readonly DialogService _dialog = dialogService;
+    private readonly MessageService _message = messageService;
 
     public Type GetInputType(ColumnInfo column)
     {
@@ -111,7 +111,7 @@ public class UIService(DialogService modal, MessageService message) : IUIService
 
     public void Alert(string message)
     {
-        //_modal.Info(new ConfirmOptions
+        //_dialog.Info(new ConfirmOptions
         //{
         //    Title = "提示",
         //    Content = message
@@ -121,12 +121,12 @@ public class UIService(DialogService modal, MessageService message) : IUIService
     public void Confirm(string message, Func<Task> action)
     {
         action?.Invoke();
-        //_modal.Show(new DialogOption
+        //_dialog.Show(new DialogOption
         //{
         //    Title = "询问",
         //    BodyTemplate = b => b.Text(message)
         //});
-        //_modal.Confirm(new ConfirmOptions
+        //_dialog.Confirm(new ConfirmOptions
         //{
         //    Title = "询问",
         //    Icon = b => b.Component<Icon>().Set(c => c.Type, "question-circle").Set(c => c.Theme, "outline").Build(),
@@ -157,7 +157,7 @@ public class UIService(DialogService modal, MessageService message) : IUIService
         //if (option.Footer != null)
         //    options.Footer = option.Footer;
 
-        //var modal = await _modal.CreateModalAsync(options);
+        //var modal = await _dialog.CreateModalAsync(options);
         //option.OnClose = modal.CloseAsync;
     }
 
@@ -194,7 +194,7 @@ public class UIService(DialogService modal, MessageService message) : IUIService
         //if (model.IsView || noFooter)
         //    option.Footer = null;
 
-        //var modal = await _modal.CreateModalAsync(option);
+        //var modal = await _dialog.CreateModalAsync(option);
         //model.OnClose = modal.CloseAsync;
     }
 

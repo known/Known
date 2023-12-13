@@ -1,4 +1,9 @@
-﻿.layout-header .layout-header-bar {position:absolute;margin:9px 14px;}
+﻿:root {
+    --bs-border-radius: 5px;
+    --bs-btn-border-radius: 5px;
+}
+
+.layout-header .layout-header-bar {position:absolute;margin:9px 14px;}
 .layout-header .kui-header {background-color:#17a2b8;color:#fff;padding-left:60px;height:50px;line-height:50px;}
 .layout-side {background-color:#f5f8fa;color:#dcdfe6;height:100%;border-right:1px solid #dcdfe6;}
 .layout-main {background-color:#f0f2f5;}
@@ -23,9 +28,10 @@
 .boot-query .item label {padding:.375rem .75rem;}
 .boot-content .tree .tree-item {display:block;}
 
-.boot-row {margin-bottom:20px;}
-.boot-col {display:flex;}
+.boot-row {margin:0;padding:0;margin-bottom:20px;}
+.boot-col {display:flex;margin:0;padding:0;}
 .boot-col > .form-label {width:200px;text-align:right;padding:10px 10px 0 0;}
+.boot-col > .form-control {width:calc(100% - 200px);padding:0 5px;}
 
 /*Login*/
 .login-right .boot-row .fa {padding-top:10px;}
