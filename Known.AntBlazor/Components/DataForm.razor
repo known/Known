@@ -1,9 +1,9 @@
 ﻿@typeparam TItem where TItem : class, new()
 
 <Form @ref="_form" Model="Model.Data" LabelColSpan="@LabelSpan" WrapperColSpan="@WrapperSpan">
-    @if (rows != null && rows.Count > 0)
+    @if (Model.Rows != null && Model.Rows.Count > 0)
     {
-        foreach (var row in rows)
+        foreach (var row in Model.Rows)
         {
             var colSpan = 24 / row.Fields.Count;
             var lblSpan = Model.LabelSpan ?? GetLabelSpan(colSpan);
@@ -12,7 +12,7 @@
                 {
                     <GridCol Span="colSpan">
                         <FormItem LabelColSpan="lblSpan" Label="@field.Column.Name">
-                            @field.InputTemplate
+                            <InputField Model="field" />
                         </FormItem>
                     </GridCol>
                 }
@@ -23,7 +23,6 @@
 
 @code {
     private AntDesign.Internal.IForm _form;
-    private List<FormRow<TItem>> rows;
     private int LabelSpan => Model.LabelSpan ?? 0;
     private int WrapperSpan => Model.WrapperSpan ?? 0;
 
@@ -33,7 +32,6 @@
     {
         base.OnInitialized();
         Model.Initialize();
-        rows = Model.Rows;
     }
 
     protected override void OnAfterRender(bool firstRender)

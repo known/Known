@@ -63,7 +63,7 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置目标。
     /// </summary>
-    [Column]
+    [Column, Grid]
     [Form(Row = 2, Column = 2)]
     [Category("菜单,页面")]
     [DisplayName("类型")]

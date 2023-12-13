@@ -1,9 +1,9 @@
 ﻿@typeparam TItem where TItem : class, new()
 
 <ValidateForm @ref="_form" Model="Model.Data" class="boot-form">
-    @if (rows != null && rows.Count > 0)
+    @if (Model.Rows != null && Model.Rows.Count > 0)
     {
-        foreach (var row in rows)
+        foreach (var row in Model.Rows)
         {
             var col = 12 / row.Fields.Count;
             var colSpan = $"boot-col col-{col}";
@@ -12,7 +12,7 @@
                 {
                     <div class="@colSpan">
                         @* <label>@field.Column.Name</label> *@
-                        @field.InputTemplate
+                        <InputField Model="field" />
                     </div>
                 }
             </div>
@@ -22,7 +22,6 @@
 
 @code {
     private ValidateForm _form;
-    private List<FormRow<TItem>> rows;
 
     [Parameter] public FormModel<TItem> Model { get; set; }
 
@@ -30,7 +29,6 @@
     {
         base.OnInitialized();
         Model.Initialize();
-        rows = Model.Rows;
     }
 
     protected override void OnAfterRender(bool firstRender)

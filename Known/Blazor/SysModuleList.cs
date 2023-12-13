@@ -186,13 +186,14 @@ class SysModuleForm : BaseForm<SysModule>
 	{
 		await base.OnInitFormAsync();
 		step.Items.Add(new("基本信息") { Content = BuildDataForm });
-		step.Items.Add(new("页面设置") { Content = BuildModulePage });//TODO：模块页面和表单配置组件开发
+		step.Items.Add(new("页面设置") { Content = BuildModulePage });
 		step.Items.Add(new("表单设置") { Content = BuildModuleForm });
 		step.IsView = Model.IsView;
 		step.OnSave = SaveAsync;
+        Model.OnFieldChanged = OnFieldChanged;
 	}
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, BuildForm);
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, BuildForm);
 
 	private void BuildForm(RenderTreeBuilder builder) => UI.BuildSteps(builder, step);
 	private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
@@ -207,12 +208,22 @@ class SysModuleForm : BaseForm<SysModule>
 		await Model.SaveAsync(isClose);
 		return true;
 	}
+
+    private void OnFieldChanged(string columnId)
+    {
+        if (columnId == nameof(SysModule.Target))
+        {
+            Model.Data.Description = $"{Model.Data.Target}的描述";
+            Model.StateChanged();
+        }
+    }
 }
 
 class SysModuleFormPage : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        //TODO：模块页面配置组件开发
         builder.Div("sys-module-page", () =>
         {
             builder.Div("left", () =>
@@ -237,5 +248,5 @@ class SysModuleFormPage : BaseComponent
 
 class SysModuleFormForm : BaseComponent
 {
-
+    //TODO：模块表单配置组件开发
 }

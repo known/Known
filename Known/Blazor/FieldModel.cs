@@ -8,11 +8,10 @@ namespace Known.Blazor;
 public class FieldModel<TItem> where TItem : class, new()
 {
     private readonly IUIService UI;
-    private RenderFragment _inputTemplate;
-    //private RenderFragment _viewTemplate;
 
     internal FieldModel(FormModel<TItem> form, ColumnInfo column)
     {
+        form.Fields[column.Id] = this;
         UI = form.UI;
         Form = form;
         Column = column;
@@ -21,8 +20,8 @@ public class FieldModel<TItem> where TItem : class, new()
 
     public FormModel<TItem> Form { get; }
     public ColumnInfo Column { get; }
-    public TItem Data { get; }
-    public Action<TItem, object> ValueChanged { get; set; }
+    internal TItem Data { get; }
+    internal Action OnStateChanged { get; set; }
 
     public object Value
     {
@@ -32,45 +31,12 @@ public class FieldModel<TItem> where TItem : class, new()
             if (Column.Property.SetMethod is not null && !Equals(Value, value))
             {
                 Column.Property.SetValue(Form.Data, value);
-                ValueChanged?.Invoke(Form.Data, value);
+                Form.OnFieldChanged?.Invoke(Column.Id);
             }
         }
     }
 
-    public RenderFragment InputTemplate
-    {
-        get
-        {
-            if (Column.Template != null)
-            {
-                _inputTemplate = Column.Template;
-            }
-            else if (Column.IsFile || Column.IsMultiFile)
-            {
-                _inputTemplate = builder => builder.Component<UploadField<TItem>>().Set(c => c.Model, this).Build();
-            }
-            else
-            {
-                _inputTemplate = builder =>
-                {
-                    var inputType = UI.GetInputType(Column);
-                    if (inputType != null)
-                    {
-                        builder.OpenComponent(0, inputType);
-                        builder.AddMultipleAttributes(1, InputAttributes);
-                        builder.CloseComponent();
-                    }
-                };
-            }
-
-            return _inputTemplate;
-        }
-    }
-
-    //public RenderFragment ViewTemplate
-    //{
-    //    get { return _viewTemplate ??= builder => builder.Span($"{Value}"); }
-    //}
+    public void StateChanged() => OnStateChanged?.Invoke();
 
     public List<CodeInfo> GetCodes(string emptyText = "请选择")
     {
@@ -83,7 +49,7 @@ public class FieldModel<TItem> where TItem : class, new()
 
     private bool IsReadOnly => Form.IsView || Column.IsReadOnly;
 
-    private IDictionary<string, object> InputAttributes
+    internal IDictionary<string, object> InputAttributes
     {
         get
         {
@@ -125,10 +91,10 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
                     return false;
 
                 var args = m.GetParameters();
-                return args.Length == 2
-                       && args[0].ParameterType == typeof(object)
-                       && args[1].ParameterType.IsGenericType
-                       && args[1].ParameterType.GetGenericTypeDefinition() == typeof(Action<>);
+                return args.Length == 2 &&
+                       args[0].ParameterType == typeof(object) &&
+                       args[1].ParameterType.IsGenericType &&
+                       args[1].ParameterType.GetGenericTypeDefinition() == typeof(Action<>);
             });
     }
 
