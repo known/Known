@@ -18,7 +18,7 @@ public class SysDictionary : EntityBase
     /// </summary>
     [Column, Grid]
     [Query(IsQueryAll = false)]
-    [Code(Category = Constants.DicCategory)]
+    [Category(Constants.DicCategory)]
     [DisplayName("类别")]
     [Required(ErrorMessage = "类别不能为空！")]
     [MaxLength(50)]

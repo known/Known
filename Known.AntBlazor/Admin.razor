@@ -3,7 +3,7 @@
 <Layout Style="min-height:100vh;">
     @if (IsLoaded)
     {
-        <Sider Collapsible Theme="ThemeSider">
+        <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible Theme="ThemeSider">
             <div class="logo" />
             <Menu Theme="ThemeMenu" Mode="MenuMode.Inline" Accordion="Context.UserSetting.Accordion">
                 @if (UserMenus != null)

@@ -67,7 +67,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Column, Grid]
     [Form(Row = 2, Column = 2)]
-    [Code(Category = "男,女")]
+    [Category("男,女")]
     [DisplayName("性别")]
     [Required(ErrorMessage = "性别不能为空！")]
     [MaxLength(50)]
@@ -175,7 +175,7 @@ public class SysUser : EntityBase
 
     [Column]
     [Form(Row = 5, Column = 1)]
-    [Code(Category = "Roles")]
+    [Category("Roles")]
     [DisplayName("角色")]
     public virtual string[] RoleIds { get; set; }
     [DisplayName("数据")]

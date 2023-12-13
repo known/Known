@@ -23,10 +23,6 @@
 .form-action {margin-top:24px;text-align:right;}
 .form-action button {margin-left:8px;}
 
-@media screen and (max-width:768px) {
-    .kui-top {flex-direction:column;}
-}
-
 .link {color:#1890ff;cursor:pointer;}
 .danger {color:#ed4014;}
 .center {text-align:center;}
@@ -38,12 +34,15 @@
 .edit-input .link {margin-left:10px;display:flex;align-items:center;}
 
 .logo {
-    height:50px;
-    background-image:url(/img/logo.png);
-    margin-top:5px;
-    margin-left:10px;
+    height:50px;background-image:url(/img/logo.png);
+    margin-top:5px;margin-left:10px;
 }
 .app-name {font-size:1.2rem}
+
+@media screen and (max-width:768px) {
+    .kui-top {flex-direction:column;}
+    .logo {margin-left:6px;}
+}
 
 /*Install*/
 .install {
@@ -113,8 +112,11 @@
 .form-setting button {margin:0 5px;}
 
 /*Role*/
-.role {display:flex;}
-.role-form {width:400px;padding-right:20px;}
-.role-module {width:260px;}
-.role-button {background-color:#f5f5f5;width:160px;}
-.role-column {background-color:#f1f1f1;width:160px;}
+.sys-role {display:flex;}
+.sys-role-form {width:400px;padding-right:20px;}
+.sys-role-module {width:260px;}
+.sys-role-button {background-color:#f5f5f5;width:160px;}
+.sys-role-column {background-color:#f1f1f1;width:160px;}
+
+/*Module*/
+.sys-module-page {display:grid;grid-template-columns:260px auto;}

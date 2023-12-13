@@ -13,7 +13,7 @@ public class TbApply : FlowEntity
     /// 取得或设置业务类型。
     /// </summary>
     [Column, Grid, Query]
-    [Code(Category = nameof(ApplyType))]
+    [Category(nameof(ApplyType))]
     [DisplayName("业务类型")]
     [Required(ErrorMessage = "业务类型不能为空！")]
     public ApplyType BizType { get; set; }

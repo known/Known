@@ -12,7 +12,7 @@ public class SysLog : EntityBase
     /// 取得或设置操作类型。
     /// </summary>
     [Column, Grid, Query]
-    [Code(Category = nameof(LogType))]
+    [Category(nameof(LogType))]
     [DisplayName("操作类型")]
     [Required(ErrorMessage = "操作类型不能为空！")]
     [MaxLength(50)]

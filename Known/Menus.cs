@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.Reflection;
 using Known.Blazor;
 using Known.Entities;
 using Known.Extensions;
@@ -156,12 +157,13 @@ public class ColumnInfo
             IsMultiFile = form.IsMultiFile;
             IsReadOnly = form.IsReadOnly;
             IsPassword = form.IsPassword;
+            IsSelect = form.IsSelect;
             Row = form.Row;
             Column = form.Column;
             Placeholder = form.Placeholder;
         }
 
-        var code = Property.GetCustomAttribute<CodeAttribute>();
+        var code = Property.GetCustomAttribute<CategoryAttribute>();
         if (code != null)
         {
             Category = code.Category;
@@ -183,6 +185,7 @@ public class ColumnInfo
     public bool IsMultiFile { get; set; }
     public bool IsReadOnly { get; set; }
     public bool IsPassword { get; set; }
+    public bool IsSelect { get; set; }
     public int Row { get; set; } = 1;
     public int Column { get; set; } = 1;
     public RenderFragment Template { get; set; }

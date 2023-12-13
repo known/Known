@@ -64,8 +64,10 @@ public class SysModule : EntityBase
     /// 取得或设置目标。
     /// </summary>
     [Column]
-    [Form(Row = 2, Column = 2)]
+    [Form(Row = 2, Column = 2, IsSelect = true)]
+    [Category("菜单,Tab页,列表页")]
     [DisplayName("类型")]
+    [Required(ErrorMessage = "请选择模块类型！")]
     [MaxLength(250)]
     public string Target { get; set; }
 

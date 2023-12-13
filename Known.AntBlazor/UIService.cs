@@ -53,6 +53,9 @@ public class UIService(ModalService modalService, MessageService messageService)
         if (type == typeof(DateTimeOffset?))
             return typeof(DatePicker<DateTimeOffset?>);
 
+        if (type.IsEnum || column.IsSelect)
+            return typeof(AntSelect);
+
         if (type == typeof(string[]))
             return typeof(AntCheckboxGroup);
 
@@ -65,9 +68,6 @@ public class UIService(ModalService modalService, MessageService messageService)
         if (type == typeof(string) && maxLength >= 500)
             return typeof(TextArea);
 
-        //if (type.IsEnum && !type.IsDefined(typeof(FlagsAttribute), inherit: true))
-        //    return typeof(Select<>).MakeGenericType(type);
-
         return typeof(Input<string>);
     }
 
@@ -78,6 +78,9 @@ public class UIService(ModalService modalService, MessageService messageService)
         {
             var property = column.GetProperty();
             var type = property.PropertyType;
+
+            if (type.IsEnum || column.IsSelect)
+                attributes[nameof(AntSelect.Codes)] = model.GetCodes();
 
             if (type == typeof(string))
                 attributes[nameof(AntRadioGroup.Codes)] = model.GetCodes("");

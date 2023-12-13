@@ -47,7 +47,7 @@ public class SysTask : EntityBase
     /// 取得或设置执行状态。
     /// </summary>
     [Column, Grid]
-    [Code(Category = nameof(TaskStatus))]
+    [Category(nameof(TaskStatus))]
     [DisplayName("执行状态")]
     [Required(ErrorMessage = "执行状态不能为空！")]
     [MaxLength(50)]

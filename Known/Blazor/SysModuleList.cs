@@ -212,7 +212,7 @@ class SysModuleFormPage : BaseComponent
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("module-page", () =>
+        builder.Div("sys-module-page", () =>
         {
             builder.Div("left", () =>
             {
