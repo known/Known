@@ -11,7 +11,8 @@ public class FieldModel<TItem> where TItem : class, new()
 
     internal FieldModel(FormModel<TItem> form, ColumnInfo column)
     {
-        form.Fields[column.Id] = this;
+        if (!string.IsNullOrWhiteSpace(column.Id))
+            form.Fields[column.Id] = this;
         UI = form.UI;
         Form = form;
         Column = column;
