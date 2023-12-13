@@ -88,7 +88,9 @@ public static class ModelExtension
                 menus.Add(menu);
 			AddChildren(models, menu, ref current);
 		}
-		return menus;
+
+        current ??= menus[0];
+        return menus;
 	}
 
 	private static void AddChildren(List<SysModule> models, MenuItem menu, ref MenuItem current)
@@ -149,6 +151,8 @@ public static class ModelExtension
 			menus.Add(menu);
 			AddChildren(models, menu, ref current);
         }
+
+        current ??= menus[0];
         return menus;
     }
 

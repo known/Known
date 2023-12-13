@@ -14,18 +14,22 @@ class SysOrganizationList : BasePage<SysOrganization>
 	{
 		await base.OnInitPageAsync();
 
+		//页面类型，左右布局
 		Page.Type = PageType.Column;
 		Page.Spans = [4, 20];
 		Page.Contents = [BuildTree, BuildTable];
 
+		//左侧组织架构树模型
 		tree = new TreeModel
 		{
 			ExpandRoot = true,
 			OnNodeClick = OnNodeClick,
-			OnQuery = OnTreeQuery
-		};
+			OnModelChanged = OnTreeModelChanged
+        };
+        tree.Load();
 
-		table = new TablePageModel<SysOrganization>(this)
+        //右侧组织架构表格模型
+        table = new TablePageModel<SysOrganization>(this)
 		{
 			FormTitle = row => $"{Name} - {row.ParentName}",
 			RowKey = r => r.Id,
@@ -34,14 +38,6 @@ class SysOrganizationList : BasePage<SysOrganization>
 			OnToolClick = OnToolClick,
 			OnAction = OnActionClick
 		};
-
-		var datas = await Platform.Company.GetOrganizationsAsync();
-		if (datas != null && datas.Count > 0)
-		{
-			tree.Data = datas.ToMenuItems(ref current);
-			current = tree.Data[0];
-			tree.SelectedKeys = [current.Id];
-		}
 	}
 
 	public override async Task RefreshAsync()
@@ -82,10 +78,15 @@ class SysOrganizationList : BasePage<SysOrganization>
         await table.RefreshAsync();
     }
 
-    private async Task<List<MenuItem>> OnTreeQuery()
+    private async void OnTreeModelChanged(TreeModel model)
     {
         var datas = await Platform.Company.GetOrganizationsAsync();
-        tree.Data = datas.ToMenuItems(ref current);
-		return tree.Data;
+        if (datas != null && datas.Count > 0)
+        {
+            tree.Data = datas.ToMenuItems(ref current);
+            tree.SelectedKeys = [current?.Id];
+        }
+        model.Data = tree.Data;
+        model.SelectedKeys = tree.SelectedKeys;
     }
 }

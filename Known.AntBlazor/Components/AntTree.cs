@@ -1,5 +1,6 @@
 ﻿using AntDesign;
 using Known.Blazor;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 
 namespace Known.AntBlazor.Components;
@@ -18,8 +19,8 @@ public class AntTree : Tree<MenuItem>
         IconExpression = x => x.DataItem.Icon;
         ChildrenExpression = x => x.DataItem.Children;
         IsLeafExpression = x => x.DataItem.Children?.Count == 0;
-        OnClick = Callback<TreeEventArgs<MenuItem>>(OnTreeClick);
-		OnCheck = Callback<TreeEventArgs<MenuItem>>(OnTreeCheck);
+        OnClick = this.Callback<TreeEventArgs<MenuItem>>(OnTreeClick);
+		OnCheck = this.Callback<TreeEventArgs<MenuItem>>(OnTreeCheck);
 
         Checkable = Model.Checkable;
         DefaultExpandParent = Model.ExpandRoot;
@@ -31,12 +32,13 @@ public class AntTree : Tree<MenuItem>
         base.OnInitialized();
 	}
 
-    private async Task RefreshAsync()
+    private Task RefreshAsync()
     {
-        //TODO：刷新时SelectedKeys未选中
-        Model.Data = await Model.OnQuery?.Invoke();
+        Model.OnModelChanged?.Invoke(Model);
         DataSource = Model.Data;
+        DefaultSelectedKeys = Model.SelectedKeys;
         StateHasChanged();
+        return Task.CompletedTask;
     }
 
     private void OnTreeClick(TreeEventArgs<MenuItem> e)
@@ -52,6 +54,4 @@ public class AntTree : Tree<MenuItem>
 		item.Checked = e.Node.Checked;
         Model.OnNodeCheck?.Invoke(item);
     }
-
-	private EventCallback<T> Callback<T>(Action<T> callback) => EventCallback.Factory.Create(this, callback);
 }

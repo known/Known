@@ -32,7 +32,7 @@
 }
 
 /*Role*/
-.role .ant-checkbox-group {display:flex;flex-direction:column;padding:5px;}
+.sys-role .ant-checkbox-group {display:flex;flex-direction:column;padding:5px;}
 
 /*Setting*/
 .form-setting .ant-form-item-label {text-align:left;padding-left:10px;}

@@ -10,11 +10,14 @@ public class TreeModel
     public List<MenuItem> Data { get; set; }
     public Action<MenuItem> OnNodeClick { get; set; }
     public Action<MenuItem> OnNodeCheck { get; set; }
-    public Func<Task<List<MenuItem>>> OnQuery { get; set; }
+    public Action<TreeModel> OnModelChanged { get; set; }
     public Func<Task> OnRefresh { get; set; }
+
+    public void Load() => OnModelChanged?.Invoke(this);
 
     public Task RefreshAsync()
     {
+        //TODO：CUD时根节点未选中问题
         if (OnRefresh == null)
             return Task.CompletedTask;
 

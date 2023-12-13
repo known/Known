@@ -26,11 +26,12 @@ class SysModuleList : BasePage<SysModule>
 		{
 			ExpandRoot = true,
 			OnNodeClick = OnNodeClick,
-			OnQuery = OnTreeQuery
-		};
+			OnModelChanged = OnTreeModelChanged
+        };
+        tree.Load();
 
         //右侧模块表格模型
-		table = new TablePageModel<SysModule>(this)
+        table = new TablePageModel<SysModule>(this)
 		{
 			FormTitle = row => $"{Name} - {row.ParentName}",
 			RowKey = r => r.Id,
@@ -42,14 +43,6 @@ class SysModuleList : BasePage<SysModule>
 		table.Form.Width = 1000;
 		table.Form.Maximizable = true;
 		table.Form.NoFooter = true;
-
-        modules = await Platform.Module.GetModulesAsync();
-        if (modules != null && modules.Count > 0)
-        {
-            tree.Data = modules.ToMenuItems(ref current);
-            current = tree.Data[0];
-            tree.SelectedKeys = [current.Id];
-        }
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -131,11 +124,16 @@ class SysModuleList : BasePage<SysModule>
         await table.RefreshAsync();
     }
 
-    private async Task<List<MenuItem>> OnTreeQuery()
+    private async void OnTreeModelChanged(TreeModel model)
     {
         modules = await Platform.Module.GetModulesAsync();
-        tree.Data = modules.ToMenuItems(ref current);
-        return tree.Data;
+        if (modules != null && modules.Count > 0)
+        {
+            tree.Data = modules.ToMenuItems(ref current);
+            tree.SelectedKeys = [current?.Id];
+        }
+        model.Data = tree.Data;
+        model.SelectedKeys = tree.SelectedKeys;
     }
 
     private void ShowTreeModal(string title, Func<SysModule, Task<Result>> action)
