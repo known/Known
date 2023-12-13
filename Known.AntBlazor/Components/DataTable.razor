@@ -2,17 +2,14 @@
 @using AntDesign.TableModels
 @typeparam TItem where TItem : class, new()
 
-<Table TItem="TItem"
+<Table TItem="TItem" Size="TableSize.Small"
        DataSource="Model.Result.PageData"
        Total="Model.Result.TotalCount"
        @bind-PageIndex="Model.Criteria.PageIndex"
        @bind-PageSize="Model.Criteria.PageSize"
        @bind-SelectedRows="Model.SelectedRows"
-       RowKey="Model.RowKey"
-       OnChange="OnChange"
-       HidePagination="!Model.ShowPager"
-       PaginationPosition="bottomRight"
-       Size="TableSize.Small">
+       RowKey="Model.RowKey" OnChange="OnChange"
+       HidePagination="!Model.ShowPager" PaginationPosition="bottomRight">
     <ChildContent>
         @if (Model.ShowCheckBox)
         {
@@ -53,12 +50,9 @@
     </ChildContent>
     <PaginationTemplate>
         <Pagination Class="@context.PaginationClass"
-                    Total="context.Total"
-                    PageSize="context.PageSize"
-                    Current="context.PageIndex"
-                    ShowTotal="showTotal"
-                        ShowSizeChanger ShowQuickJumper
-                     OnChange="context.HandlePageChange" />
+                    Total="context.Total" PageSize="context.PageSize" Current="context.PageIndex"
+                    ShowTotal="showTotal" ShowSizeChanger ShowQuickJumper
+                    OnChange="context.HandlePageChange" />
      </PaginationTemplate>
  </Table>
 

@@ -16,10 +16,12 @@ class SysModuleList : BasePage<SysModule>
     {
         await base.OnInitPageAsync();
 
+        //页面类型，左右布局
 		Page.Type = PageType.Column;
 		Page.Spans = [4, 20];
 		Page.Contents = [BuildTree, BuildTable];
 
+        //左侧模块树模型
 		tree = new TreeModel
 		{
 			ExpandRoot = true,
@@ -27,6 +29,7 @@ class SysModuleList : BasePage<SysModule>
 			OnQuery = OnTreeQuery
 		};
 
+        //右侧模块表格模型
 		table = new TablePageModel<SysModule>(this)
 		{
 			FormTitle = row => $"{Name} - {row.ParentName}",

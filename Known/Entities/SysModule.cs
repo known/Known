@@ -64,8 +64,8 @@ public class SysModule : EntityBase
     /// 取得或设置目标。
     /// </summary>
     [Column]
-    [Form(Row = 2, Column = 2, IsSelect = true)]
-    [Category("菜单,Tab页,列表页")]
+    [Form(Row = 2, Column = 2)]
+    [Category("菜单,页面")]
     [DisplayName("类型")]
     [Required(ErrorMessage = "请选择模块类型！")]
     [MaxLength(250)]
