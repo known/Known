@@ -32,9 +32,9 @@ create table SysModule (
     Target      varchar2(50)   null,
     Sort        number(8)      not null,
     Enabled     varchar2(50)   not null,
-    ButtonData  varchar2(4000) null,
-    ActionData  varchar2(4000) null,
-    ColumnData  varchar2(4000) null,
+    EntityType  varchar2(200)  null,
+    PageData    varchar2(4000) null,
+    FormData    varchar2(4000) null,
     Note        varchar2(4000) null
 );
 alter table SysModule add constraint PK_SysModule primary key (Id);

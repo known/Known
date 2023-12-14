@@ -60,7 +60,7 @@ public class FieldModel<TItem> where TItem : class, new()
                 { "autofocus", true },
                 { "disabled", IsReadOnly },
                 { "readonly", IsReadOnly },
-                { "required", Column.Property.IsRequired() },
+                { "required", Column.IsRequired },
                 { "placeholder", Column.Placeholder }
             };
             UI.AddInputAttributes(attributes, this);

@@ -104,7 +104,7 @@ class UserHelper
 
     private static List<ColumnInfo> GetUserColumns(List<string> moduleIds, SysModule module)
     {
-        var columns = Utils.FromJson<List<ColumnInfo>>(module.ColumnData);
+        var columns = Utils.FromJson<List<ColumnInfo>>(module.FormData);
         if (columns == null || columns.Count == 0)
             return null;
 

@@ -33,9 +33,9 @@ CREATE TABLE SysModule (
     [Target]      [varchar](50)   NULL,
     [Sort]        [int]           NOT NULL,
     [Enabled]     [varchar](50)   NOT NULL,
-    [ButtonData]  [ntext]         NULL,
-    [ActionData]  [ntext]         NULL,
-    [ColumnData]  [ntext]         NULL,
+    [EntityType]  [nvarchar](200) NULL,
+    [PageData]    [ntext]         NULL,
+    [FormData]    [ntext]         NULL,
     [Note]        [ntext]         NULL,
     CONSTRAINT [PK_SysModule] PRIMARY KEY ([Id] ASC)
 )

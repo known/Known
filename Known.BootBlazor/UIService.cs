@@ -53,6 +53,9 @@ public class UIService(DialogService dialogService, MessageService messageServic
         if (type == typeof(DateTimeOffset?))
             return typeof(DateTimePicker<DateTimeOffset?>);
 
+        if (type.IsEnum || column.IsSelect)
+            return typeof(BootSelect);
+
         if (type == typeof(string[]))
             return typeof(BootCheckboxList);
 
@@ -65,9 +68,6 @@ public class UIService(DialogService dialogService, MessageService messageServic
         if (type == typeof(string) && maxLength >= 500)
             return typeof(Textarea);
 
-        //if (type.IsEnum && !type.IsDefined(typeof(FlagsAttribute), inherit: true))
-        //    return typeof(Select<>).MakeGenericType(type);
-
         return typeof(BootstrapInput<string>);
     }
 
@@ -78,6 +78,9 @@ public class UIService(DialogService dialogService, MessageService messageServic
         {
             var property = column.GetProperty();
             var type = property.PropertyType;
+
+            if (type.IsEnum || column.IsSelect)
+                attributes[nameof(BootSelect.Codes)] = model.GetCodes();
 
             if (type == typeof(string))
                 attributes[nameof(BootRadioList.Codes)] = model.GetCodes("");

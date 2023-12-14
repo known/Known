@@ -123,7 +123,7 @@ class SysUserForm : BaseForm<SysUser>
     {
         await base.OnInitFormAsync();
         Model.Data = await Platform.User.GetUserAsync(Model.Data);
-        Model.Column(c => c.UserName).ReadOnly(!Model.Data.IsNew);
         Model.Codes["Roles"] = Model.Data.Roles;
+        Model.Column(c => c.UserName).ReadOnly(!Model.Data.IsNew);
     }
 }

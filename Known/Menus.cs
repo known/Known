@@ -134,6 +134,7 @@ public class ColumnInfo
         Property = property;
         Id = Property.Name;
         Name = Property.DisplayName();
+        IsRequired = Property.IsRequired();
 
         var grid = Property.GetCustomAttribute<GridAttribute>();
         if (grid != null)
@@ -183,6 +184,7 @@ public class ColumnInfo
     public bool IsForm { get; set; }
     public bool IsFile { get; set; }
     public bool IsMultiFile { get; set; }
+    public bool IsRequired { get; set; }
     public bool IsReadOnly { get; set; }
     public bool IsPassword { get; set; }
     public bool IsSelect { get; set; }

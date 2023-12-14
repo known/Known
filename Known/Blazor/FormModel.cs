@@ -84,9 +84,6 @@ public class FormModel<TItem> where TItem : class, new()
 
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
     {
-        if (Table != null)
-            return Table.Column(selector);
-
         var property = TypeHelper.Property(selector);
         var column = columns?.FirstOrDefault(c => c.Id == property.Name);
         return new ColumnBuilder<TItem>(column);

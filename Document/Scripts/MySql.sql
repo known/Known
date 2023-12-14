@@ -32,9 +32,9 @@ create table `SysModule` (
     `Target`      varchar(250) null,
     `Sort`        int          not null,
     `Enabled`     varchar(50)  not null,
-    `ButtonData`  text         null,
-    `ActionData`  text         null,
-    `ColumnData`  text         null,
+    `EntityType`  varchar(200) null,
+    `PageData`    text         null,
+    `FormData`    text         null,
     `Note`        text         null,
     PRIMARY KEY (`Id`)
 );

@@ -16,7 +16,7 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="BootstrapBlazor" Version="8.0.3" />
+        <PackageReference Include="BootstrapBlazor" Version="8.0.5" />
     </ItemGroup>
 
     <ItemGroup>

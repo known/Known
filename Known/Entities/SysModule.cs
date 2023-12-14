@@ -87,25 +87,27 @@ public class SysModule : EntityBase
     public bool Enabled { get; set; }
 
     /// <summary>
-    /// 取得或设置按钮。
+    /// 取得或设置实体类型。
     /// </summary>
     [Column]
-    [DisplayName("按钮")]
-    public string ButtonData { get; set; }
+    [Form(Row = 3, Column = 2, IsSelect = true)]
+    [Category("EntityTypes")]
+    [DisplayName("实体类型")]
+    public string EntityType { get; set; }
 
     /// <summary>
-    /// 取得或设置操作。
+    /// 取得或设置页面设置。
     /// </summary>
     [Column]
-    [DisplayName("操作")]
-    public string ActionData { get; set; }
+    [DisplayName("页面设置")]
+    public string PageData { get; set; }
 
     /// <summary>
-    /// 取得或设置栏位。
+    /// 取得或设置表单设置。
     /// </summary>
     [Column]
-    [DisplayName("栏位")]
-    public string ColumnData { get; set; }
+    [DisplayName("表单设置")]
+    public string FormData { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
@@ -129,6 +131,6 @@ public class SysModule : EntityBase
         Config.PageActions.TryGetValue(Code, out List<string> actions);
         Buttons = buttons;
         Actions = actions;
-        Columns = Utils.FromJson<List<ColumnInfo>>(ColumnData);
+        Columns = Utils.FromJson<List<ColumnInfo>>(FormData);
     }
 }
