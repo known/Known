@@ -38,9 +38,9 @@ class SysUserList : BasePage<SysUser>
 		{
 			RowKey = r => r.Id,
 			OnQuery = OnQueryUsersAsync,
-			OnToolClick = OnToolClick,
 			OnAction = OnActionClick
 		};
+        table.Toolbar.OnItemClick = OnToolClick;
 		table.Form.Width = 800;
 		table.Column(c => c.Department).Visible(hasOrg);
 		table.Column(c => c.Gender).Template(BuildGender);
@@ -50,7 +50,7 @@ class SysUserList : BasePage<SysUser>
     public override Task RefreshAsync() => table.RefreshAsync();
 
     private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
-	private void BuildTable(RenderTreeBuilder builder) => UI.BuildPage(builder, table);
+	private void BuildTable(RenderTreeBuilder builder) => builder.BuildTablePage(table);
 
 	private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
     {

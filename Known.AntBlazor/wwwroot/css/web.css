@@ -16,6 +16,7 @@
 .col-offset-4 {margin-left:16.66666667%;}
 
 @media screen and (max-width:768px) {
+    .ant-modal {top:0;margin-top:10px;margin-left:8px;}
     .ant-row {flex-direction:column;}
     .ant-col-20, .ant-col-14, .ant-col-12, .ant-col-10, .ant-col-4 {max-width:100%;}
     .col-offset-4 {margin-left:0;}

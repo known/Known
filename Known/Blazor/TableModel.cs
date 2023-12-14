@@ -183,15 +183,14 @@ public class TablePageModel<TItem> : TableModel<TItem> where TItem : class, new(
 {
     internal TablePageModel(BasePage<TItem> page) : base(page)
     {
-		Form = new FormOption();
-		Tools = page.Tools;
-	}
+        Form = new FormOption();
+        Toolbar = new ToolbarModel { Items = page.Tools };
+    }
 
 	public string Name { get; }
 	public FormOption Form { get; }
-	public Func<TItem, string> FormTitle { get; set; }
-	public List<ActionInfo> Tools { get; }
-	public Action<ActionInfo> OnToolClick { get; internal set; }
+    public ToolbarModel Toolbar { get; }
+    public Func<TItem, string> FormTitle { get; set; }
 
 	public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
 	public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);

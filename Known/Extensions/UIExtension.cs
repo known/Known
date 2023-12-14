@@ -7,6 +7,13 @@ namespace Known.Extensions;
 
 public static class UIExtension
 {
+    #region Internal
+    internal static void BuildTablePage<TItem>(this RenderTreeBuilder builder, TablePageModel<TItem> model) where TItem : class, new()
+    {
+        builder.Component<TablePage<TItem>>().Set(c => c.Model, model).Build();
+    }
+    #endregion
+
     #region Button
     public static void Button(this IUIService service, RenderTreeBuilder builder, ActionInfo action, EventCallback<MouseEventArgs> onClick)
     {

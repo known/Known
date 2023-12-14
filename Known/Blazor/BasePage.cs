@@ -91,16 +91,13 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 	protected override async Task OnInitPageAsync()
 	{
 		await base.OnInitPageAsync();
-		Table = new TablePageModel<TItem>(this)
-		{
-			OnToolClick = OnToolClick,
-			OnAction = OnActionClick
-		};
+		Table = new TablePageModel<TItem>(this) { OnAction = OnActionClick };
+		Table.Toolbar.OnItemClick = OnToolClick;
 	}
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildPage(builder, Table);
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.BuildTablePage(Table);
 
-	protected async void ShowImportForm(string param = null)
+    protected async void ShowImportForm(string param = null)
 	{
 		var type = typeof(TItem);
 		var id = $"{type.Name}Import";

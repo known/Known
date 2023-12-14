@@ -21,6 +21,12 @@ public class AntTree : Tree<MenuItem>
         IsLeafExpression = x => x.DataItem.Children?.Count == 0;
         OnClick = this.Callback<TreeEventArgs<MenuItem>>(OnTreeClick);
 		OnCheck = this.Callback<TreeEventArgs<MenuItem>>(OnTreeCheck);
+        base.OnInitialized();
+	}
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
 
         Checkable = Model.Checkable;
         DefaultExpandParent = Model.ExpandRoot;
@@ -28,9 +34,7 @@ public class AntTree : Tree<MenuItem>
         DefaultSelectedKeys = Model.SelectedKeys;
         DefaultCheckedKeys = Model.DefaultCheckedKeys;
         DataSource = Model.Data;
-
-        base.OnInitialized();
-	}
+    }
 
     private Task RefreshAsync()
     {

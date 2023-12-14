@@ -1,9 +1,28 @@
 ﻿@typeparam TItem where TItem : class, new()
 
-<Table TItem="TItem" IsBordered ShowEmpty>
-    <TableColumns>
-        <AutoGenerateColumns Table="Model" Item="context" />
-    </TableColumns>
+<Table TItem="TItem" IsBordered ShowEmpty ShowExtendButtons
+       ShowExtendEditButton="false" ShowExtendDeleteButton="false"
+       IsPagination="Model.ShowPager" PageItemsSource="[10,20,50,100]" OnQueryAsync="OnQueryAsync">
+     <TableColumns>
+         <AutoGenerateColumns Table="Model" Item="context" />
+     </TableColumns>
+     <RowButtonTemplate>
+         @if (Model.Actions != null && Model.Actions.Count > 0)
+        {
+            @if (Model.Actions.Count > 2)
+            {
+                var first = Model.Actions[0];
+                <TableCellButton Color="first.ToColor()" Text="@first.Name" OnClick="e=>Model.OnAction?.Invoke(first, context)" />
+            }
+            else
+            {
+                foreach (var item in Model.Actions)
+                {
+                    <TableCellButton Color="item.ToColor()" Text="@item.Name" OnClick="e=>Model.OnAction?.Invoke(item, context)" />
+                }
+            }
+        }
+    </RowButtonTemplate>
 </Table>
 
  @code {
@@ -19,5 +38,17 @@
     {
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
         StateHasChanged();
+    }
+
+    private async Task<QueryData<TItem>> OnQueryAsync(QueryPageOptions options)
+    {
+        Model.Criteria.PageIndex = options.PageIndex;
+        Model.Criteria.PageSize = options.PageItems;
+        Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+        return new QueryData<TItem>
+        {
+            TotalCount = Model.Result.TotalCount,
+            Items = Model.Result.PageData
+        };
     }
 }

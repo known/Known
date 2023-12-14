@@ -1,9 +1,9 @@
-﻿@if (Items != null && Items.Count > 0)
+﻿@if (Model.Items != null && Model.Items.Count > 0)
 {
     <div class="ant-toolbar">
-        @foreach (var item in Items)
+        @foreach (var item in Model.Items)
         {
-            <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>OnItemClick?.Invoke(item)">@item.Name</Button>
+            <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@item.Name</Button>
             @if (item.Children != null && item.Children.Count > 0)
             {
                 <DropdownButton>
@@ -11,7 +11,7 @@
                         <Menu>
                             @foreach (var child in item.Children)
                             {
-                                <MenuItem Key="@child.Id" Icon="@item.Icon" OnClick="e=>OnItemClick?.Invoke(child)">@child.Name</MenuItem>
+                                <MenuItem Key="@child.Id" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(child)">@child.Name</MenuItem>
                             }
                         </Menu>
                     </Overlay>
@@ -23,6 +23,5 @@
 }
 
 @code {
-    [Parameter] public List<ActionInfo> Items { get; set; }
-    [Parameter] public Action<ActionInfo> OnItemClick { get; set; }
+    [Parameter] public ToolbarModel Model { get; set; }
 }

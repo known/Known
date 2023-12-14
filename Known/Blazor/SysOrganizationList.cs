@@ -35,9 +35,9 @@ class SysOrganizationList : BasePage<SysOrganization>
 			RowKey = r => r.Id,
 			ShowPager = false,
 			OnQuery = OnQueryOrganizationsAsync,
-			OnToolClick = OnToolClick,
 			OnAction = OnActionClick
 		};
+        table.Toolbar.OnItemClick = OnToolClick;
 	}
 
 	public override async Task RefreshAsync()
@@ -47,7 +47,7 @@ class SysOrganizationList : BasePage<SysOrganization>
 	}
 
 	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
-	private void BuildTable(RenderTreeBuilder builder) => UI.BuildPage(builder, table);
+	private void BuildTable(RenderTreeBuilder builder) => builder.BuildTablePage(table);
 
 	private Task<PagingResult<SysOrganization>> OnQueryOrganizationsAsync(PagingCriteria criteria)
     {

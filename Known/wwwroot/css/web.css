@@ -120,5 +120,10 @@
 .sys-role-button {background-color:#f5f5f5;width:160px;}
 .sys-role-column {background-color:#f1f1f1;width:160px;}
 
+@media screen and (max-width:768px) {
+    .sys-role {flex-direction:column;}
+    .sys-role-form, .sys-role-module, .sys-role-button, .sys-role-column {width:100%;}
+}
+
 /*Module*/
 .sys-module-page {display:grid;grid-template-columns:260px auto;}

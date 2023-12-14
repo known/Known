@@ -208,9 +208,14 @@ public class UIService(DialogService dialogService, MessageService messageServic
         builder.Component<WebPage>().Set(c => c.Model, model).Build();
     }
 
-    public void BuildPage<TItem>(RenderTreeBuilder builder, TablePageModel<TItem> model) where TItem : class, new()
+    public void BuildToolbar(RenderTreeBuilder builder, ToolbarModel model)
     {
-        builder.Component<DataTablePage<TItem>>().Set(c => c.Model, model).Build();
+        builder.Component<Toolbar>().Set(c => c.Model, model).Build();
+    }
+
+    public void BuildQuery<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
+    {
+        builder.Component<QueryForm<TItem>>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTable<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()

@@ -20,3 +20,9 @@ public class StepModel
     public int Current { get; set; }
     public List<ItemModel> Items { get; } = [];
 }
+
+public class ToolbarModel
+{
+    public List<ActionInfo> Items { get; set; }
+    public Action<ActionInfo> OnItemClick { get; set; }
+}

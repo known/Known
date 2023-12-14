@@ -13,7 +13,8 @@ public interface IUIService
     void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new();
     void BuildForm<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new();
     void BuildPage(RenderTreeBuilder builder, PageModel model);
-    void BuildPage<TItem>(RenderTreeBuilder builder, TablePageModel<TItem> model) where TItem : class, new();
+    void BuildToolbar(RenderTreeBuilder builder, ToolbarModel model);
+    void BuildQuery<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new();
     void BuildTable<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new();
     void BuildTree(RenderTreeBuilder builder, TreeModel model);
     void BuildSteps(RenderTreeBuilder builder, StepModel model);

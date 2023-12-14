@@ -47,13 +47,12 @@
     AntDesign.Internal.IForm _form;
 
     [Parameter] public TableModel<TItem> Model { get; set; }
-    [Parameter] public Func<Task> OnSearch { get; set; }
 
     private async Task OnSearchAsync()
     {
         Model.Criteria.IsQuery = true;
         Model.Criteria.Query = Model.QueryData.Select(d => d.Value).ToList();
-        await OnSearch?.Invoke();
+        await Model.RefreshAsync();
     }
 
     private void OnDateRangeChange(DateRangeChangedEventArgs<DateTime?[]> e, QueryInfo query)

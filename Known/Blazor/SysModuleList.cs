@@ -37,10 +37,11 @@ class SysModuleList : BasePage<SysModule>
 			RowKey = r => r.Id,
 			ShowPager = false,
 			OnQuery = OnQueryModulesAsync,
-			OnToolClick = OnToolClick,
 			OnAction = OnActionClick
 		};
-		table.Form.Width = 1000;
+        table.Toolbar.OnItemClick = OnToolClick;
+
+        table.Form.Width = 1000;
 		table.Form.Maximizable = true;
 		table.Form.NoFooter = true;
     }
@@ -62,7 +63,7 @@ class SysModuleList : BasePage<SysModule>
 	}
 
 	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
-	private void BuildTable(RenderTreeBuilder builder) => UI.BuildPage(builder, table);
+	private void BuildTable(RenderTreeBuilder builder) => builder.BuildTablePage(table);
 
 	private Task<PagingResult<SysModule>> OnQueryModulesAsync(PagingCriteria criteria)
     {
