@@ -39,16 +39,16 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
         UI.BuildTabs(builder, tab);
     }
 
-    private ItemModel GetCurrentStep(List<SysFlowLog> logs)
+    private int GetCurrentStep(List<SysFlowLog> logs)
     {
         if (logs != null && logs.Count > 0)
         {
             var last = logs.OrderByDescending(l => l.CreateTime).FirstOrDefault();
             if (last.StepName == FlowStatus.StepOver && step.Items.Count > 0)
-                return step.Items.Last();
+                return step.Items.Count - 1;
         }
 
-        return null;
+        return 0;
     }
 }
 

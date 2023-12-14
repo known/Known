@@ -224,12 +224,35 @@ public class UIService(ModalService modalService, MessageService messageService)
 
     public void BuildSteps(RenderTreeBuilder builder, StepModel model)
     {
-        builder.Component<DataSteps>().Set(c => c.Model, model).Build();
+        builder.Component<Steps>()
+               .Set(c => c.Current, model.Current)
+               .Set(c=>c.ChildContent, delegate (RenderTreeBuilder b)
+               {
+                   foreach (var item in model.Items)
+                   {
+                       b.Component<Step>().Set(c => c.Title, item.Title)
+                                          .Set(c => c.Subtitle, item.SubTitle)
+                                          .Set(c => c.Description, item.Description)
+                                          .Build();
+                   }
+               }).Build();
     }
 
     public void BuildTabs(RenderTreeBuilder builder, TabModel model)
     {
-        builder.Component<DataTabs>().Set(c => c.Model, model).Build();
+        builder.Component<Tabs>()
+               .Set(c => c.Animated, true)
+               .Set(c => c.ChildContent, delegate (RenderTreeBuilder b)
+               {
+                   var key = 1;
+                   foreach (var item in model.Items)
+                   {
+                       b.Component<TabPane>().Set(c => c.Key, $"{key++}")
+                                             .Set(c => c.Tab, item.Title)
+                                             .Set(c => c.ChildContent, item.Content)
+                                             .Build();
+                   }
+               }).Build();
     }
 
     public void BuildTag(RenderTreeBuilder builder, string text, string color)

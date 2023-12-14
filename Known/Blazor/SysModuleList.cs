@@ -173,7 +173,7 @@ class SysModuleList : BasePage<SysModule>
 
 class SysModuleForm : BaseForm<SysModule>
 {
-	private readonly StepModel step = new() { IsContent = true };
+	private readonly StepModel step = new();
 
     public SysModuleForm()
     {
@@ -188,14 +188,20 @@ class SysModuleForm : BaseForm<SysModule>
 		step.Items.Add(new("基本信息") { Content = BuildDataForm });
 		step.Items.Add(new("页面设置") { Content = BuildModulePage });
 		step.Items.Add(new("表单设置") { Content = BuildModuleForm });
-		step.IsView = Model.IsView;
-		step.OnSave = SaveAsync;
         Model.OnFieldChanged = OnFieldChanged;
 	}
 
     protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, BuildForm);
 
-	private void BuildForm(RenderTreeBuilder builder) => UI.BuildSteps(builder, step);
+    private void BuildForm(RenderTreeBuilder builder)
+    {
+        builder.Component<StepForm>()
+               .Set(c => c.Model, step)
+               .Set(c => c.IsView, Model.IsView)
+               .Set(c => c.OnSave, SaveAsync)
+               .Build();
+    }
+
 	private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
     private void BuildModulePage(RenderTreeBuilder builder) => builder.Component<SysModuleFormPage>().Build();
     private void BuildModuleForm(RenderTreeBuilder builder) => builder.Component<SysModuleFormForm>().Build();

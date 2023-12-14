@@ -225,12 +225,25 @@ public class UIService(DialogService dialogService, MessageService messageServic
 
     public void BuildSteps(RenderTreeBuilder builder, StepModel model)
     {
-        builder.Component<DataSteps>().Set(c => c.Model, model).Build();
+        builder.Component<Step>().Set(c => c.Items, model?.Items?.Select(m => new StepOption
+        {
+            Text = m.Title,
+            Title = m.SubTitle,
+            Description = m.Description
+        }).ToList()).Build();
     }
 
     public void BuildTabs(RenderTreeBuilder builder, TabModel model)
     {
-        builder.Component<DataTabs>().Set(c => c.Model, model).Build();
+        builder.Component<Tab>().Set(c => c.ChildContent, delegate (RenderTreeBuilder b)
+        {
+            foreach (var item in model.Items)
+            {
+                b.Component<TabItem>().Set(c => c.Text, item.Title)
+                                      .Set(c => c.ChildContent, item.Content)
+                                      .Build();
+            }
+        }).Build();
     }
 
     public void BuildTag(RenderTreeBuilder builder, string text, string color)
