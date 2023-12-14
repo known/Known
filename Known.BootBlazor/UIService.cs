@@ -275,6 +275,7 @@ public class UIService(DialogService dialogService, MessageService messageServic
     public void BuildButton(RenderTreeBuilder builder, ActionInfo info)
     {
         builder.Component<Button>()
+               .Set(c => c.IsDisabled, !info.Enabled)
                .Set(c => c.Icon, info.Icon)
                .Set(c => c.Color, info.ToColor())
                .Set(c => c.OnClick, info.OnClick)
@@ -282,7 +283,43 @@ public class UIService(DialogService dialogService, MessageService messageServic
                .Build();
     }
 
-    public void BuildInput<TValue>(RenderTreeBuilder builder, InputOption<TValue> option)
+    public void BuildText(RenderTreeBuilder builder, InputOption<string> option)
+    {
+        builder.Component<BootstrapInput<string>>()
+               .Set(c => c.IsDisabled, option.Disabled)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildTextArea(RenderTreeBuilder builder, InputOption<string> option)
+    {
+        builder.Component<Textarea>()
+               .Set(c => c.IsDisabled, option.Disabled)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildPassword(RenderTreeBuilder builder, InputOption<string> option)
+    {
+        builder.Component<BootstrapPassword>()
+               .Set(c => c.IsDisabled, option.Disabled)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildDatePicker<TValue>(RenderTreeBuilder builder, InputOption<TValue> option)
+    {
+        builder.Component<DateTimePicker<TValue>>()
+               .Set(c => c.IsDisabled, option.Disabled)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildNumber<TValue>(RenderTreeBuilder builder, InputOption<TValue> option)
     {
         builder.Component<BootstrapInput<TValue>>()
                .Set(c => c.Value, option.Value)
@@ -290,12 +327,43 @@ public class UIService(DialogService dialogService, MessageService messageServic
                .Build();
     }
 
+    public void BuildCheckBox(RenderTreeBuilder builder, InputOption<bool> option)
+    {
+        builder.Component<Checkbox<bool>>()
+               .Set(c => c.IsDisabled, option.Disabled)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildSelect(RenderTreeBuilder builder, ListOption<string> option)
+    {
+        builder.Component<BootSelect>()
+               .Set(c => c.IsDisabled, option.Disabled)
+               .Set(c => c.Codes, option.Codes)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildRadioList(RenderTreeBuilder builder, ListOption<string> option)
+    {
+        builder.Component<BootRadioList>()
+               .Set(c => c.IsDisabled, option.Disabled)
+               .Set(c => c.Codes, option.Codes)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
     public void BuildCheckList(RenderTreeBuilder builder, ListOption<string[]> option)
     {
+        var value = option.Value != null ? string.Join(',', option.Value) : "";
         builder.Component<BootCheckboxList>()
+               .Set(c => c.IsDisabled, option.Disabled)
                .Set(c => c.Codes, option.Codes)
-               //.Set(c => c.Value, option.Value)
-               //.Set(c => c.ValueChanged, option.ValueChanged)
+               .Set(c => c.Value, value)
+               //.Set(c => c.ValueChanged, e=> option.ValueChanged?.InvokeAsync(e.sp)
                .Build();
     }
 }

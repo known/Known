@@ -2,7 +2,7 @@
 @using AntDesign.TableModels
 @typeparam TItem where TItem : class, new()
 
-<Table TItem="TItem" Size="TableSize.Small"
+<Table TItem="TItem" Size="TableSize.Small" Responsive
        DataSource="Model.Result.PageData"
        Total="Model.Result.TotalCount"
        @bind-PageIndex="Model.Criteria.PageIndex"

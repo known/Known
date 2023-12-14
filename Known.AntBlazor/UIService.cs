@@ -285,6 +285,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     public void BuildButton(RenderTreeBuilder builder, ActionInfo info)
     {
         builder.Component<Button>()
+               .Set(c => c.Disabled, !info.Enabled)
                .Set(c => c.Icon, info.Icon)
                .Set(c => c.Type, info.Style)
                .Set(c => c.OnClick, info.OnClick)
@@ -292,9 +293,75 @@ public class UIService(ModalService modalService, MessageService messageService)
                .Build();
     }
 
-    public void BuildInput<TValue>(RenderTreeBuilder builder, InputOption<TValue> option)
+    public void BuildText(RenderTreeBuilder builder, InputOption<string> option)
     {
-        builder.Component<Input<TValue>>()
+        builder.Component<Input<string>>()
+               .Set(c => c.Disabled, option.Disabled)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildTextArea(RenderTreeBuilder builder, InputOption<string> option)
+    {
+        builder.Component<TextArea>()
+               .Set(c => c.Disabled, option.Disabled)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildPassword(RenderTreeBuilder builder, InputOption<string> option)
+    {
+        builder.Component<InputPassword>()
+               .Set(c => c.Disabled, option.Disabled)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildDatePicker<TValue>(RenderTreeBuilder builder, InputOption<TValue> option)
+    {
+        builder.Component<DatePicker<TValue>>()
+               .Set(c => c.Disabled, option.Disabled)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildNumber<TValue>(RenderTreeBuilder builder, InputOption<TValue> option)
+    {
+        builder.Component<InputNumber<TValue>>()
+               .Set(c => c.Disabled, option.Disabled)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildCheckBox(RenderTreeBuilder builder, InputOption<bool> option)
+    {
+        builder.Component<Checkbox>()
+               .Set(c => c.Disabled, option.Disabled)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildSelect(RenderTreeBuilder builder, ListOption<string> option)
+    {
+        builder.Component<AntSelect>()
+               .Set(c => c.Disabled, option.Disabled)
+               .Set(c => c.Codes, option.Codes)
+               .Set(c => c.Value, option.Value)
+               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Build();
+    }
+
+    public void BuildRadioList(RenderTreeBuilder builder, ListOption<string> option)
+    {
+        builder.Component<AntRadioGroup>()
+               .Set(c => c.Disabled, option.Disabled)
+               .Set(c => c.Codes, option.Codes)
                .Set(c => c.Value, option.Value)
                .Set(c => c.ValueChanged, option.ValueChanged)
                .Build();

@@ -44,6 +44,8 @@ class SysModuleList : BasePage<SysModule>
         table.Form.Width = 1000;
 		table.Form.Maximizable = true;
 		table.Form.NoFooter = true;
+
+        table.Column(c => c.Target).Template(BuildTarget);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -65,7 +67,13 @@ class SysModuleList : BasePage<SysModule>
 	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
 	private void BuildTable(RenderTreeBuilder builder) => builder.BuildTablePage(table);
 
-	private Task<PagingResult<SysModule>> OnQueryModulesAsync(PagingCriteria criteria)
+    private void BuildTarget(RenderTreeBuilder builder, SysModule row)
+    {
+        var color = row.Target == "菜单" ? "purple" : "blue";
+        UI.BuildTag(builder, row.Target, color);
+    }
+
+    private Task<PagingResult<SysModule>> OnQueryModulesAsync(PagingCriteria criteria)
     {
         var data = current?.Children?.Select(c => (SysModule)c.Data).ToList();
         total = data?.Count ?? 0;
@@ -175,12 +183,14 @@ class SysModuleList : BasePage<SysModule>
 class SysModuleForm : BaseForm<SysModule>
 {
 	private readonly StepModel step = new();
+    private StepForm stepForm;
 
     public SysModuleForm()
     {
         ModelTypes = Config.ModelTypes.Select(m => new CodeInfo(m.Name, m.Name)).ToList();
     }
 
+    private int StepCount => Model.Data.Target == "菜单" ? 1 : 3;
     internal List<CodeInfo> ModelTypes { get; }
 
 	protected override async Task OnInitFormAsync()
@@ -199,8 +209,9 @@ class SysModuleForm : BaseForm<SysModule>
         builder.Component<StepForm>()
                .Set(c => c.Model, step)
                .Set(c => c.IsView, Model.IsView)
+               .Set(c => c.StepCount, StepCount)
                .Set(c => c.OnSave, SaveAsync)
-               .Build();
+               .Build(value => stepForm = value);
     }
 
 	private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
@@ -220,8 +231,7 @@ class SysModuleForm : BaseForm<SysModule>
     {
         if (columnId == nameof(SysModule.Target))
         {
-            Model.Data.Description = $"{Model.Data.Target}的描述";
-            Model.StateChanged();
+            stepForm.SetStepCount(StepCount);
         }
     }
 }
@@ -238,7 +248,10 @@ class SysModuleFormPage : BaseComponent
                 builder.Div("", () =>
                 {
                     builder.Span("实体类型");
-                    UI.BuildInput(builder, new InputOption<string> { ValueChanged = this.Callback<string>(OnModelChanged) });
+                    UI.BuildSelect(builder, new ListOption<string>
+                    {
+                        ValueChanged = this.Callback<string>(OnModelChanged)
+                    });
                 });
             });
             builder.Div("right", () =>

@@ -13,6 +13,7 @@ public class ModalOption
 
 public class InputOption<TValue>
 {
+    public bool Disabled { get; set; }
     public TValue Value { get; set; }
     public EventCallback<TValue> ValueChanged { get; set; }
 }

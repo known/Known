@@ -23,6 +23,13 @@ public interface IUIService
     void BuildIcon(RenderTreeBuilder builder, string type);
     void BuildResult(RenderTreeBuilder builder, string status, string message);
     void BuildButton(RenderTreeBuilder builder, ActionInfo info);
-    void BuildInput<TValue>(RenderTreeBuilder builder, InputOption<TValue> option);
+    void BuildText(RenderTreeBuilder builder, InputOption<string> option);
+    void BuildTextArea(RenderTreeBuilder builder, InputOption<string> option);
+    void BuildPassword(RenderTreeBuilder builder, InputOption<string> option);
+    void BuildDatePicker<TValue>(RenderTreeBuilder builder, InputOption<TValue> option);
+    void BuildNumber<TValue>(RenderTreeBuilder builder, InputOption<TValue> option);
+    void BuildCheckBox(RenderTreeBuilder builder, InputOption<bool> option);
+    void BuildSelect(RenderTreeBuilder builder, ListOption<string> option);
+    void BuildRadioList(RenderTreeBuilder builder, ListOption<string> option);
     void BuildCheckList(RenderTreeBuilder builder, ListOption<string[]> option);
 }
