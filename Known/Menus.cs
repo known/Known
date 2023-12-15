@@ -90,7 +90,7 @@ public class ActionInfo
         Children = [];
     }
 
-    internal ActionInfo(string idOrName)
+    internal ActionInfo(string idOrName) : this()
     {
         Id = idOrName;
         Name = idOrName;

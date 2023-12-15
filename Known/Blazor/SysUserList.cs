@@ -9,7 +9,7 @@ class SysUserList : BasePage<SysUser>
     private List<SysOrganization> orgs;
     private SysOrganization currentOrg;
 	private TreeModel tree;
-	private TablePageModel<SysUser> table;
+	private TableModel<SysUser> table;
 
 	protected override async Task OnInitPageAsync()
     {
@@ -34,7 +34,7 @@ class SysUserList : BasePage<SysUser>
 			Page.Contents.Add(BuildTree);
 		}
 
-		table = new TablePageModel<SysUser>(this)
+		table = new TableModel<SysUser>(this)
 		{
 			RowKey = r => r.Id,
 			OnQuery = OnQueryUsersAsync,

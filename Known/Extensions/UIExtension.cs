@@ -8,7 +8,7 @@ namespace Known.Extensions;
 public static class UIExtension
 {
     #region Internal
-    internal static void BuildTablePage<TItem>(this RenderTreeBuilder builder, TablePageModel<TItem> model) where TItem : class, new()
+    internal static void BuildTablePage<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
     {
         builder.Component<TablePage<TItem>>().Set(c => c.Model, model).Build();
     }

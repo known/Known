@@ -24,7 +24,7 @@ public class FormModel<TItem> where TItem : class, new()
         Option = new FormOption();
     }
 
-    internal FormModel(TableModel<TItem> table, FormOption option)
+    internal FormModel(TableModel<TItem> table)
     {
         Table = table;
         if (table.AllColumns != null)
@@ -32,16 +32,17 @@ public class FormModel<TItem> where TItem : class, new()
 
         UI = table.UI;
         Page = table.Page;
-        Option = option;
+        Option = table.Form;
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
     }
 
     internal IUIService UI { get; }
 	internal BasePage<TItem> Page { get; }
 	internal TableModel<TItem> Table { get; }
+    internal string Action { get; set; }
 
     public FormOption Option { get; }
-    public string Title { get; internal set; }
+    public string Title => GetFormTitle(Data);
     public bool IsView { get; set; }
     public TItem Data { get; set; }
     public int? LabelSpan { get; set; }
@@ -153,6 +154,14 @@ public class FormModel<TItem> where TItem : class, new()
                 await CloseAsync();
             await Page.RefreshAsync();
         });
+    }
+
+    private string GetFormTitle(TItem row)
+    {
+        var title = Table.Name;
+        if (Table.FormTitle != null)
+            title = Table.FormTitle.Invoke(row);
+        return title;
     }
 }
 

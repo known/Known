@@ -83,15 +83,15 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 
 public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 {
-    protected TablePageModel<TItem> Table { get; private set; }
+    protected TableModel<TItem> Table { get; private set; }
 
-	public override Task RefreshAsync() => Table.RefreshAsync();
+    public override Task RefreshAsync() => Table.RefreshAsync();
 	public override void ViewForm(FormType type, TItem row) => Table.ViewForm(type, row);
 
 	protected override async Task OnInitPageAsync()
 	{
 		await base.OnInitPageAsync();
-		Table = new TablePageModel<TItem>(this) { OnAction = OnActionClick };
+		Table = new TableModel<TItem>(this) { OnAction = OnActionClick };
 		Table.Toolbar.OnItemClick = OnToolClick;
 	}
 
@@ -106,8 +106,25 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 		var info = await Platform.File.GetImportAsync(id);
 		info.Name = Name;
 		info.BizName = $"导入{Name}";
-		Table.ImportForm(info);
+		ImportForm(info);
 	}
+
+    private void ImportForm(ImportFormInfo info)
+    {
+        var model = new DialogModel { Title = $"导入{Name}" };
+        model.Content = builder =>
+        {
+            builder.Component<Importer>()
+                   .Set(c => c.Model, info)
+                   .Set(c => c.OnSuccess, async () =>
+                   {
+                       model.OnClose?.Invoke();
+                       await RefreshAsync();
+                   })
+                   .Build();
+        };
+        UI.ShowDialog(model);
+    }
 }
 
 public class BaseTabPage : BasePage

@@ -6,7 +6,7 @@ namespace Known.Blazor;
 
 class TablePage<TItem> : BaseComponent where TItem : class, new()
 {
-    [Parameter] public TablePageModel<TItem> Model { get; set; }
+    [Parameter] public TableModel<TItem> Model { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {

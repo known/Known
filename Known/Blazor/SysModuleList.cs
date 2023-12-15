@@ -10,7 +10,7 @@ class SysModuleList : BasePage<SysModule>
     private MenuItem current;
     private int total;
 	private TreeModel tree;
-	private TablePageModel<SysModule> table;
+	private TableModel<SysModule> table;
 
 	protected override async Task OnInitPageAsync()
     {
@@ -31,7 +31,7 @@ class SysModuleList : BasePage<SysModule>
         tree.Load();
 
         //右侧模块表格模型
-        table = new TablePageModel<SysModule>(this)
+        table = new TableModel<SysModule>(this)
 		{
 			FormTitle = row => $"{Name} - {row.ParentName}",
 			RowKey = r => r.Id,
@@ -90,7 +90,7 @@ class SysModuleList : BasePage<SysModule>
             return;
         }
 
-		table.NewForm(Platform.Module.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
+        table.NewForm(Platform.Module.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
     }
 
     [Action] public void Edit(SysModule row) => table.EditForm(Platform.Module.SaveModuleAsync, row);

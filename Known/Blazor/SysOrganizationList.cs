@@ -8,7 +8,7 @@ class SysOrganizationList : BasePage<SysOrganization>
 {
     private MenuItem current;
     private TreeModel tree;
-    private TablePageModel<SysOrganization> table;
+    private TableModel<SysOrganization> table;
 
 	protected override async Task OnInitPageAsync()
 	{
@@ -29,7 +29,7 @@ class SysOrganizationList : BasePage<SysOrganization>
         tree.Load();
 
         //右侧组织架构表格模型
-        table = new TablePageModel<SysOrganization>(this)
+        table = new TableModel<SysOrganization>(this)
 		{
 			FormTitle = row => $"{Name} - {row.ParentName}",
 			RowKey = r => r.Id,
