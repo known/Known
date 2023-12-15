@@ -7,6 +7,8 @@ namespace Known.Designers;
 class UIDesigner : ComponentBase
 {
     private ColumnInfo current;
+    private BaseView view;
+    private BaseProperty property;
 
     [Parameter] public string Type { get; set; }
     [Parameter] public Type EntityType { get; set; }
@@ -24,25 +26,28 @@ class UIDesigner : ComponentBase
         {
             b.Div("kui-designer", () =>
             {
-                b.Div("kui-model-panel", () =>
+                b.Div("panel-model", () =>
                 {
                     b.Div("title", "字段列表");
-                    b.Component<ColumnPanel>().Set(c => c.Columns, Columns).Set(c => c.ColumnChanged, OnColumnChanged).Build();
+                    b.Component<ColumnPanel>()
+                     .Set(c => c.Columns, Columns)
+                     .Set(c => c.ColumnChanged, OnColumnChanged)
+                     .Build();
                 });
-                b.Div("kui-view-panel", () =>
+                b.Div("panel-view", () =>
                 {
                     if (Type == "Page")
-                        b.Component<PageView>().Build();
+                        b.Component<PageView>().Build(value => view = value);
                     else if (Type == "Form")
-                        b.Component<FormView>().Build();
+                        b.Component<FormView>().Build(value => view = value);
                 });
-                b.Div("kui-property-panel", () =>
+                b.Div("panel-property", () =>
                 {
-                    b.Div("title", "字段属性");
+                    b.Div("title", $"字段属性 - {current.Id}");
                     if (Type == "Page")
-                        b.Component<PageProperty>().Set(c => c.Column, current).Build();
+                        b.Component<PageProperty>().Set(c => c.Column, current).Build(value => property = value);
                     else if (Type == "Form")
-                        b.Component<FormProperty>().Set(c => c.Column, current).Build();
+                        b.Component<FormProperty>().Set(c => c.Column, current).Build(value => property = value);
                 });
             });
         }));
@@ -51,6 +56,8 @@ class UIDesigner : ComponentBase
     private Task OnColumnChanged(ColumnInfo column)
     {
         current = column;
+        view?.StateChanged();
+        property?.StateChanged();
         return Task.CompletedTask;
     }
 }

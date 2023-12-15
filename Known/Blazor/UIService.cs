@@ -29,6 +29,7 @@ public interface IUIService
     void BuildDatePicker<TValue>(RenderTreeBuilder builder, InputModel<TValue> model);
     void BuildNumber<TValue>(RenderTreeBuilder builder, InputModel<TValue> model);
     void BuildCheckBox(RenderTreeBuilder builder, InputModel<bool> model);
+    void BuildSwitch(RenderTreeBuilder builder, InputModel<bool> model);
     void BuildSelect(RenderTreeBuilder builder, InputModel<string> model);
     void BuildRadioList(RenderTreeBuilder builder, InputModel<string> model);
     void BuildCheckList(RenderTreeBuilder builder, InputModel<string[]> model);

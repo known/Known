@@ -1,4 +1,5 @@
 ﻿using Known.Blazor;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -8,14 +9,17 @@ class BaseProperty : BaseComponent
 {
     [Parameter] public ColumnInfo Column { get; set; }
 
-    protected FormModel<ColumnInfo> Model { get; set; }
-
-    protected override async Task OnInitializedAsync()
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        await base.OnInitializedAsync();
-        Model = new FormModel<ColumnInfo>(UI, false);
-        Model.Data = Column;
+        BuildPropertyItem(builder, "属性", b => b.Span(Column.Id));
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
+    protected void BuildPropertyItem(RenderTreeBuilder builder, string label, Action<RenderTreeBuilder> template)
+    {
+        builder.Div("item", () =>
+        {
+            builder.Label(label);
+            template?.Invoke(builder);
+        });
+    }
 }

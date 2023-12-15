@@ -1,21 +1,63 @@
-﻿using Known.Extensions;
+﻿using Known.Blazor;
+using Known.Extensions;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
 class FormProperty : BaseProperty
 {
-    protected override async Task OnInitializedAsync()
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        await base.OnInitializedAsync();
-        Model.AddRow().AddColumn("行", b => b.Span($"{Column.Row}"))
-                      .AddColumn("列", b => b.Span($"{Column.Column}"));
-        Model.AddRow().AddColumn("代码类别", b => b.Span(Column.Category));
-        Model.AddRow().AddColumn("占位符", b => b.Span($"{Column.Placeholder}"));
-        Model.AddRow().AddColumn("单附件", b => b.Span($"{Column.IsFile}"));
-        Model.AddRow().AddColumn("多附件", b => b.Span($"{Column.IsMultiFile}"));
-        Model.AddRow().AddColumn("必填", b => b.Span($"{Column.IsRequired}"));
-        Model.AddRow().AddColumn("只读", b => b.Span($"{Column.IsReadOnly}"));
-        Model.AddRow().AddColumn("密码框", b => b.Span($"{Column.IsPassword}"));
-        Model.AddRow().AddColumn("选择框", b => b.Span($"{Column.IsSelect}"));
+        base.BuildRenderTree(builder);
+        BuildPropertyItem(builder, "行序号", b => UI.BuildNumber<int>(b, new InputModel<int>
+        {
+            Value = Column.Row,
+            ValueChanged = this.Callback<int>(value => Column.Row = value)
+        }));
+        BuildPropertyItem(builder, "列序号", b => UI.BuildNumber<int>(b, new InputModel<int>
+        {
+            Value = Column.Column,
+            ValueChanged = this.Callback<int>(value => Column.Column = value)
+        }));
+        BuildPropertyItem(builder, "代码类别", b => UI.BuildText(b, new InputModel<string>
+        {
+            Value = Column.Category,
+            ValueChanged = this.Callback<string>(value => Column.Category = value)
+        }));
+        BuildPropertyItem(builder, "占位符", b => UI.BuildText(b, new InputModel<string>
+        {
+            Value = Column.Placeholder,
+            ValueChanged = this.Callback<string>(value => Column.Placeholder = value)
+        }));
+        BuildPropertyItem(builder, "单附件", b => UI.BuildSwitch(b, new InputModel<bool>
+        {
+            Value = Column.IsFile,
+            ValueChanged = this.Callback<bool>(value => Column.IsFile = value)
+        }));
+        BuildPropertyItem(builder, "多附件", b => UI.BuildSwitch(b, new InputModel<bool>
+        {
+            Value = Column.IsMultiFile,
+            ValueChanged = this.Callback<bool>(value => Column.IsMultiFile = value)
+        }));
+        BuildPropertyItem(builder, "必填", b => UI.BuildSwitch(b, new InputModel<bool>
+        {
+            Value = Column.IsRequired,
+            ValueChanged = this.Callback<bool>(value => Column.IsRequired = value)
+        }));
+        BuildPropertyItem(builder, "只读", b => UI.BuildSwitch(b, new InputModel<bool>
+        {
+            Value = Column.IsReadOnly,
+            ValueChanged = this.Callback<bool>(value => Column.IsReadOnly = value)
+        }));
+        BuildPropertyItem(builder, "密码框", b => UI.BuildSwitch(b, new InputModel<bool>
+        {
+            Value = Column.IsPassword,
+            ValueChanged = this.Callback<bool>(value => Column.IsPassword = value)
+        }));
+        BuildPropertyItem(builder, "选择框", b => UI.BuildSwitch(b, new InputModel<bool>
+        {
+            Value = Column.IsSelect,
+            ValueChanged = this.Callback<bool>(value => Column.IsSelect = value)
+        }));
     }
 }

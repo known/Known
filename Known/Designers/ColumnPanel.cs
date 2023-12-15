@@ -1,10 +1,11 @@
-﻿using Known.Extensions;
+﻿using Known.Blazor;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class ColumnPanel : ComponentBase
+class ColumnPanel : BaseComponent
 {
     private ColumnInfo current;
 
@@ -27,9 +28,16 @@ class ColumnPanel : ComponentBase
                     column.Id == nameof(EntityBase.CompNo))
                     continue;
 
-                var className = current?.Id == column.Id ? "active" : "";
-                var text = $"{column.Name}({column.Id})";
-                builder.Span(className, text, this.Callback(() => OnColumnChanged(column)));
+                var active = current?.Id == column.Id ? " active" : "";
+                builder.Div($"item{active}", () =>
+                {
+                    UI.BuildCheckBox(builder, new InputModel<bool>
+                    {
+                        //Value = 
+                    });
+                    var text = $"{column.Name}({column.Id})";
+                    builder.Span(text, this.Callback(() => OnColumnChanged(column)));
+                });
             }
         });
     }

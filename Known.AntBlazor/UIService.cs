@@ -347,6 +347,15 @@ public class UIService(ModalService modalService, MessageService messageService)
                .Build();
     }
 
+    public void BuildSwitch(RenderTreeBuilder builder, InputModel<bool> model)
+    {
+        builder.Component<Switch>()
+               .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
+               .Build();
+    }
+
     public void BuildSelect(RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<AntSelect>()
