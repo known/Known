@@ -173,15 +173,17 @@ public class ColumnInfo
 
     public string Id { get; set; }
     public string Name { get; set; }
-    public string Category { get; set; }
-    public string Placeholder { get; set; }
-    public string DefaultSort { get; set; }
     public bool IsVisible { get; set; } = true;
+
     public bool IsGrid { get; set; }
+    public string DefaultSort { get; set; }
     public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }
     public bool IsQueryAll { get; set; }
+    
     public bool IsForm { get; set; }
+    public string Category { get; set; }
+    public string Placeholder { get; set; }
     public bool IsFile { get; set; }
     public bool IsMultiFile { get; set; }
     public bool IsRequired { get; set; }
@@ -190,6 +192,7 @@ public class ColumnInfo
     public bool IsSelect { get; set; }
     public int Row { get; set; } = 1;
     public int Column { get; set; } = 1;
+    
     public RenderFragment Template { get; set; }
     //public bool IsAdvQuery { get; set; }
     //public bool IsSum { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Known.Entities;
 using Known.Extensions;
+using Known.Helpers;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
@@ -9,15 +10,12 @@ class SysModuleForm : BaseForm<SysModule>
     private readonly StepModel step = new();
     private StepForm stepForm;
 
-    public SysModuleForm()
-    {
-        ModelTypes = Config.ModelTypes.Select(m => new CodeInfo(m.Name, m.Name)).ToList();
-    }
-
     private bool IsMenu => Model.Data.Target == "菜单";
     private bool IsPage => Model.Data.Target == "页面";
     private int StepCount => IsMenu ? 1 : 3;
-    internal List<CodeInfo> ModelTypes { get; }
+
+    internal Type EntityType => Config.ModelTypes.FirstOrDefault(t => t.Name == Model.Data.EntityType);
+    internal List<ColumnInfo> Columns => TypeHelper.GetColumnAttributes(EntityType).Select(a => new ColumnInfo(a)).ToList();
 
     protected override async Task OnInitFormAsync()
     {
@@ -26,7 +24,7 @@ class SysModuleForm : BaseForm<SysModule>
         step.Items.Add(new("页面设置") { Content = BuildModulePage });
         step.Items.Add(new("表单设置") { Content = BuildModuleForm });
         Model.OnFieldChanged = OnFieldChanged;
-        Model.Codes["EntityTypes"] = ModelTypes;
+        Model.Codes["EntityTypes"] = Config.ModelTypes.Select(m => new CodeInfo(m.Name, m.Name)).ToList();
         //类型是菜单，则实体类型为只读
         Model.Column(c => c.EntityType).ReadOnly(IsMenu);
     }

@@ -1,4 +1,5 @@
-﻿using Known.Extensions;
+﻿using Known.Designers;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -10,23 +11,10 @@ class SysModuleFormPage : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        //TODO：模块页面配置组件开发
-        builder.Div("kui-module-page", () =>
-        {
-            builder.Div("left", () =>
-            {
-                builder.Div("", () =>
-                {
-                });
-            });
-            builder.Div("right", () =>
-            {
-
-            });
-        });
-    }
-
-    private void OnModelChanged(string obj)
-    {
+        builder.Component<UIDesigner>()
+               .Set(c => c.Type, "Page")
+               .Set(c => c.EntityType, Form.EntityType)
+               .Set(c => c.Columns, Form.Columns)
+               .Build();
     }
 }
