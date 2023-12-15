@@ -37,9 +37,9 @@ class CompanyBaseInfo : BaseForm<CompanyInfo>
         {
             Model.IsView = !isEdit;
             base.BuildRenderTree(builder);
-            if (HasButton("编辑"))
+            if (HasButton("Edit"))
             {
-                builder.Div("col-offset-4", () =>
+                builder.Div("kui-form-page-button", () =>
                 {
                     if (!isEdit)
                     {

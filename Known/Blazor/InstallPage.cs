@@ -22,7 +22,7 @@ public class InstallPage : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("install", () =>
+        builder.Div("kui-install", () =>
         {
             builder.Markup($"<h1>欢迎使用{Config.App.Id}</h1>");
             UI.BuildForm(builder, model);

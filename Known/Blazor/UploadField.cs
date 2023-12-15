@@ -30,7 +30,7 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
 
         if (sysFiles != null && sysFiles.Count > 0)
         {
-            builder.Div("form-files", () =>
+            builder.Div("kui-form-files", () =>
             {
                 foreach (var item in sysFiles)
                 {
@@ -39,7 +39,7 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
                     {
                         if (!Model.Form.IsView)
                         {
-                            builder.Span("link danger", "删除", this.Callback(() => OnDeleteFile(item)));
+                            builder.Span("kui-link danger", "删除", this.Callback(() => OnDeleteFile(item)));
                         }
                         builder.DownloadLink(item.Name, item.FileUrl);
                     });

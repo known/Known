@@ -20,7 +20,7 @@ public class SettingForm : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("form-setting", () =>
+        builder.Div("kui-form-setting", () =>
         {
             UI.BuildForm(builder, model);
             builder.Div("center", () =>

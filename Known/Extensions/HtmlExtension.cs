@@ -65,7 +65,7 @@ public static class HtmlExtension
         if (string.IsNullOrWhiteSpace(text))
             return;
 
-        builder.OpenElement("span").Class("link").OnClick(onClick).Text(text).CloseElement();
+        builder.OpenElement("span").Class("kui-link").OnClick(onClick).Text(text).CloseElement();
     }
 
     public static void DownloadLink(this RenderTreeBuilder builder, string text, FileUrlInfo url)

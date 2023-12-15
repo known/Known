@@ -68,7 +68,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("form-content", () => Content?.Invoke(builder));
+        builder.Div("kui-form-content", () => Content?.Invoke(builder));
 
         if (Model.IsView && Model.FormType == FormType.View)
             return;
@@ -76,7 +76,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         if (Model.FormType != FormType.View)
             BuildFlowAction(builder);
 
-        builder.Div("form-action", () =>
+        builder.FormAction(() =>
         {
             if (Model.FormType == FormType.Verify)
                 UI.Button(builder, new ActionInfo("Assign", ""), this.Callback<MouseEventArgs>(OnAssign));
@@ -88,7 +88,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
     private void BuildFlowAction(RenderTreeBuilder builder)
     {
-        builder.Div("form-flow", () =>
+        builder.Div("kui-form-flow", () =>
         {
             //var action = Model.FormType.GetDescription();
             //builder.Span("title", $"{action}流程");

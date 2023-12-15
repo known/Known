@@ -27,7 +27,7 @@ class Importer : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("form-import", () =>
+        builder.Div("kui-form-import", () =>
         {
             builder.Div("danger", "提示: 请上传单个txt或Excel格式附件！");
             builder.Div("item", () =>

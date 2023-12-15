@@ -1,4 +1,4 @@
-﻿<Tabs Class="layout-tabs" Type="@TabType.EditableCard" HideAdd @bind-ActiveKey="activeKey" OnClose="OnClose">
+﻿<Tabs Class="ant-layout-tabs" Type="@TabType.EditableCard" HideAdd @bind-ActiveKey="activeKey" OnClose="OnClose">
     @foreach (var item in Items)
     {
         <TabPane Key="@item.Id" Tab="@item.Name" Closable="@item.Closable">

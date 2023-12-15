@@ -21,11 +21,11 @@ public class StepForm : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         UI.BuildSteps(builder, Model);
-        builder.Div("steps-content", () =>
+        builder.Div("kui-steps-content", () =>
         {
             builder.Fragment(Model.Items[Model.Current].Content);
         });
-        builder.Div("form-action", () =>
+        builder.FormAction(() =>
         {
             if (Model.Current > 0)
                 UI.Button(builder, "上一步", this.Callback<MouseEventArgs>(e => OnPrevClick()), "primary");

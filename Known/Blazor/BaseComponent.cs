@@ -55,6 +55,9 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         if (user == null)
             return false;
 
+        if (user.IsAdmin)
+            return true;
+
         return IsInMenu(Id, buttonId);
     }
 

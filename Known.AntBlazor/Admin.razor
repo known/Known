@@ -4,7 +4,7 @@
     @if (IsLoaded)
     {
         <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible Theme="ThemeSider">
-            <div class="logo" />
+            <div class="kui-logo" />
             <Menu Theme="ThemeMenu" Mode="MenuMode.Inline" Accordion="Context.UserSetting.Accordion">
                 @if (UserMenus != null)
                 {
@@ -39,7 +39,7 @@
         </Sider>
         <Layout>
             <Header Class="kui-background kui-header">
-                <div class="app-name">@CurrentUser?.AppName</div>
+                <div class="kui-app-name">@CurrentUser?.AppName</div>
                 <NavTopRight OnMenuClick="OnMenuClick" />
             </Header>
             <Content>

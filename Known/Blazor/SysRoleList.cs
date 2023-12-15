@@ -48,20 +48,20 @@ class SysRoleForm : BaseForm<SysRole>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("sys-role", () =>
+        builder.Div("kui-role", () =>
         {
-            builder.Div("sys-role-form", () => UI.BuildForm(builder, Model));
-            builder.Div("sys-role-module", () =>
+            builder.Div("kui-role-form", () => UI.BuildForm(builder, Model));
+            builder.Div("kui-role-module", () =>
             {
                 builder.Div("", "模块");
                 UI.BuildTree(builder, tree);
             });
-            builder.Div("sys-role-button", () =>
+            builder.Div("kui-role-button", () =>
             {
                 builder.Div("", "按钮");
                 UI.BuildCheckList(builder, btnModel);
             });
-            builder.Div("sys-role-column", () =>
+            builder.Div("kui-role-column", () =>
             {
                 builder.Div("", "栏位");
                 UI.BuildCheckList(builder, colModel);

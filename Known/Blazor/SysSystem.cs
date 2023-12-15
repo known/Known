@@ -60,7 +60,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
         Model.AddRow().AddColumn("软件许可", Parent.Data.SoftTerms);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Div("form-page", () => base.BuildRenderTree(builder));
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildRenderTree(builder));
 
     private async void OnSaveAppName(string value)
 	{
@@ -103,7 +103,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
         });
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Div("form-page", () => base.BuildRenderTree(builder));
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildRenderTree(builder));
 
     private async void OnSaveDefaultPwd(string value)
 	{

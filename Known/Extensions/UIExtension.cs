@@ -8,6 +8,10 @@ namespace Known.Extensions;
 public static class UIExtension
 {
     #region Internal
+    internal static void FormPage(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-page", child);
+    internal static void FormPageButton(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-page-button", child);
+    internal static void FormAction(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-action", child);
+
     internal static void BuildTablePage<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
     {
         builder.Component<TablePage<TItem>>().Set(c => c.Model, model).Build();

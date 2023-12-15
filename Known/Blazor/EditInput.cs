@@ -13,7 +13,7 @@ public class EditInput : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("edit-input", () =>
+        builder.Div("kui-edit-input", () =>
         {
             if (isEdit)
             {

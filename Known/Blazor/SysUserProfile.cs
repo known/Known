@@ -37,8 +37,8 @@ class SysUserProfileInfo : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         var User = Parent.User;
-        builder.Div("user-avatar", () => builder.Markup($"<img src=\"{CurrentUser?.AvatarUrl}\" />"));
-        builder.Ul("user-info", () =>
+        builder.Div("kui-user-avatar", () => builder.Markup($"<img src=\"{CurrentUser?.AvatarUrl}\" />"));
+        builder.Ul("kui-user-info", () =>
         {
             builder.Li(() =>
             {
@@ -114,11 +114,11 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("form-page", () =>
+        builder.FormPage(() =>
         {
             Model.IsView = !isEdit;
             base.BuildRenderTree(builder);
-            builder.Div("col-offset-4", () =>
+            builder.FormPageButton(() =>
             {
                 if (!isEdit)
                 {
@@ -165,10 +165,10 @@ class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("form-page", () =>
+        builder.FormPage(() =>
         {
             base.BuildRenderTree(builder);
-            builder.Div("col-offset-4", () =>
+            builder.FormPageButton(() =>
             {
                 UI.Button(builder, "确定修改", this.Callback<MouseEventArgs>(e => OnSave()), "primary");
             });
