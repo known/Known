@@ -19,6 +19,22 @@ class FormProperty : BaseProperty
             Value = Column.Column,
             ValueChanged = this.Callback<int>(value => Column.Column = value)
         }));
+        BuildPropertyItem(builder, "控件类型", b => UI.BuildSelect(b, new InputModel<string>
+        {
+            Codes = Cache.GetCodes("升序,降序"),
+            Value = Column.DefaultSort,
+            ValueChanged = this.Callback<string>(value => Column.DefaultSort = value)
+        }));
+        BuildPropertyItem(builder, "必填", b => UI.BuildSwitch(b, new InputModel<bool>
+        {
+            Value = Column.IsRequired,
+            ValueChanged = this.Callback<bool>(value => Column.IsRequired = value)
+        }));
+        BuildPropertyItem(builder, "只读", b => UI.BuildSwitch(b, new InputModel<bool>
+        {
+            Value = Column.IsReadOnly,
+            ValueChanged = this.Callback<bool>(value => Column.IsReadOnly = value)
+        }));
         BuildPropertyItem(builder, "代码类别", b => UI.BuildText(b, new InputModel<string>
         {
             Value = Column.Category,
@@ -38,26 +54,6 @@ class FormProperty : BaseProperty
         {
             Value = Column.IsMultiFile,
             ValueChanged = this.Callback<bool>(value => Column.IsMultiFile = value)
-        }));
-        BuildPropertyItem(builder, "必填", b => UI.BuildSwitch(b, new InputModel<bool>
-        {
-            Value = Column.IsRequired,
-            ValueChanged = this.Callback<bool>(value => Column.IsRequired = value)
-        }));
-        BuildPropertyItem(builder, "只读", b => UI.BuildSwitch(b, new InputModel<bool>
-        {
-            Value = Column.IsReadOnly,
-            ValueChanged = this.Callback<bool>(value => Column.IsReadOnly = value)
-        }));
-        BuildPropertyItem(builder, "密码框", b => UI.BuildSwitch(b, new InputModel<bool>
-        {
-            Value = Column.IsPassword,
-            ValueChanged = this.Callback<bool>(value => Column.IsPassword = value)
-        }));
-        BuildPropertyItem(builder, "选择框", b => UI.BuildSwitch(b, new InputModel<bool>
-        {
-            Value = Column.IsSelect,
-            ValueChanged = this.Callback<bool>(value => Column.IsSelect = value)
         }));
     }
 }

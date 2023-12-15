@@ -45,6 +45,7 @@ class SysModuleList : BasePage<SysModule>
 		table.Form.Maximizable = true;
 		table.Form.NoFooter = true;
 
+        table.Column(c => c.Name).Template(BuildName);
         table.Column(c => c.Target).Template(BuildTarget);
     }
 
@@ -66,6 +67,12 @@ class SysModuleList : BasePage<SysModule>
 
 	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
 	private void BuildTable(RenderTreeBuilder builder) => builder.BuildTablePage(table);
+
+    private void BuildName(RenderTreeBuilder builder, SysModule row)
+    {
+        UI.BuildIcon(builder, row.Icon);
+        builder.Span(row.Name);
+    }
 
     private void BuildTarget(RenderTreeBuilder builder, SysModule row)
     {

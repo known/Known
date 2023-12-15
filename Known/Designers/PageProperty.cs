@@ -20,12 +20,12 @@ class PageProperty : BaseProperty
             Value = Column.IsViewLink,
             ValueChanged = this.Callback<bool>(value => Column.IsViewLink = value)
         }));
-        BuildPropertyItem(builder, "查询", b => UI.BuildSwitch(b, new InputModel<bool>
+        BuildPropertyItem(builder, "查询条件", b => UI.BuildSwitch(b, new InputModel<bool>
         {
             Value = Column.IsQuery,
             ValueChanged = this.Callback<bool>(value => Column.IsQuery = value)
         }));
-        BuildPropertyItem(builder, "全部查询", b => UI.BuildSwitch(b, new InputModel<bool>
+        BuildPropertyItem(builder, "显示查询全部", b => UI.BuildSwitch(b, new InputModel<bool>
         {
             Value = Column.IsQueryAll,
             ValueChanged = this.Callback<bool>(value => Column.IsQueryAll = value)
