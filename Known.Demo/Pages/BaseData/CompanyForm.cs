@@ -37,18 +37,21 @@ class CompanyBaseInfo : BaseForm<CompanyInfo>
         {
             Model.IsView = !isEdit;
             base.BuildRenderTree(builder);
-            builder.Div("col-offset-4", () =>
+            if (HasButton("编辑"))
             {
-                if (!isEdit)
+                builder.Div("col-offset-4", () =>
                 {
-                    UI.Button(builder, "编辑", this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
-                }
-                else
-                {
-                    UI.Button(builder, "保存", this.Callback<MouseEventArgs>(e => OnSave()), "primary");
-                    UI.Button(builder, "取消", this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
-                }
-            });
+                    if (!isEdit)
+                    {
+                        UI.Button(builder, "编辑", this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
+                    }
+                    else
+                    {
+                        UI.Button(builder, "保存", this.Callback<MouseEventArgs>(e => OnSave()), "primary");
+                        UI.Button(builder, "取消", this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
+                    }
+                });
+            }
         });
     }
 

@@ -19,26 +19,25 @@ public class TableModel<TItem> where TItem : class, new()
 	{
         Page = page;
 		UI = page.UI;
-        Toolbar = new ToolbarModel { Items = page.Tools };
+        Toolbar.Items = page.Tools;
         Actions = page.Actions;
 		ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
 		ShowPager = true;
-        AllColumns = page.AllColumns;
-		Columns = AllColumns.Where(c => c.IsGrid && HasColumn(page.Columns, c.Property.Name)).ToList();
-		InitQueryColumns();
-	}
+        AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
+        Columns = AllColumns.Where(c => c.IsGrid && HasColumn(page.Columns, c.Property.Name)).ToList();
+        InitQueryColumns();
+    }
 
     internal IUIService UI { get; }
-    internal List<ColumnInfo> AllColumns { get; }
-	internal BasePage<TItem> Page { get; }
+    internal List<ColumnInfo> AllColumns { get; private set; }
+    internal BasePage<TItem> Page { get; }
 
-    public FormOption Form { get; } = new();
-    public Func<TItem, string> FormTitle { get; set; }
-    public string Name { get; }
-    public ToolbarModel Toolbar { get; }
     public bool ShowCheckBox { get; }
     public bool ShowPager { get; set; }
-    public List<ColumnInfo> Columns { get; }
+    public FormOption Form { get; } = new();
+    public Func<TItem, string> FormTitle { get; set; }
+    public ToolbarModel Toolbar { get; } = new();
+    public List<ColumnInfo> Columns { get; private set; }
     public List<ColumnInfo> QueryColumns { get; } = [];
     public Dictionary<string, QueryInfo> QueryData { get; } = [];
     public PagingCriteria Criteria { get; } = new();
@@ -84,7 +83,7 @@ public class TableModel<TItem> where TItem : class, new()
 
 	public void ViewForm(TItem row) => ViewForm(FormType.View, row);
 
-    public void ViewForm(FormType type, TItem row)
+    internal void ViewForm(FormType type, TItem row)
     {
         UI.ShowForm(new FormModel<TItem>(this)
         {

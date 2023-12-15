@@ -158,10 +158,10 @@ public class FormModel<TItem> where TItem : class, new()
 
     private string GetFormTitle(TItem row)
     {
-        var title = Table.Name;
+        var title = Table.Page?.Name;
         if (Table.FormTitle != null)
             title = Table.FormTitle.Invoke(row);
-        return title;
+        return $"{Action}{title}";
     }
 }
 
@@ -210,7 +210,7 @@ public class FormOption
     public bool NoFooter { get; set; }
 }
 
-public enum FormType
+enum FormType
 {
     [Description("查看")] View,
     [Description("提交")] Submit,

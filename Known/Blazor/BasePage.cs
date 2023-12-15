@@ -1,5 +1,4 @@
 ﻿using Known.Extensions;
-using Known.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -27,19 +26,12 @@ public class BasePage : BaseComponent
 
 public class BasePage<TItem> : BasePage where TItem : class, new()
 {
-    public BasePage()
-    {
-		Page = new PageModel();
-		AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
-	}
-
-	protected PageModel Page { get; }
-	internal List<ColumnInfo> AllColumns { get; }
+    protected PageModel Page { get; } = new();
 	internal List<ActionInfo> Tools { get; set; }
     internal List<ActionInfo> Actions { get; set; }
     internal List<ColumnInfo> Columns { get; set; }
 
-    public virtual void ViewForm(FormType type, TItem row) { }
+    internal virtual void ViewForm(FormType type, TItem row) { }
 
 	protected override Task OnInitPageAsync()
     {
@@ -86,7 +78,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     protected TableModel<TItem> Table { get; private set; }
 
     public override Task RefreshAsync() => Table.RefreshAsync();
-	public override void ViewForm(FormType type, TItem row) => Table.ViewForm(type, row);
+    internal override void ViewForm(FormType type, TItem row) => Table.ViewForm(type, row);
 
 	protected override async Task OnInitPageAsync()
 	{
@@ -129,12 +121,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 
 public class BaseTabPage : BasePage
 {
-	public BaseTabPage()
-	{
-		Tab = new TabModel();
-	}
-
-	protected TabModel Tab { get; }
+    protected TabModel Tab { get; } = new();
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
 }
