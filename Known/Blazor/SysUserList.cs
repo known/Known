@@ -77,7 +77,7 @@ class SysUserList : BasePage<SysUser>
     private void OnChangeDepartment(List<SysUser> rows)
     {
         SysOrganization node = null;
-        var model = new ModalOption
+        var model = new DialogModel
         {
             Title = "更换部门",
             Content = builder =>
@@ -107,7 +107,7 @@ class SysUserList : BasePage<SysUser>
                 await table.RefreshAsync();
             });
         };
-        UI.ShowModal(model);
+        UI.ShowDialog(model);
     }
 
     private async void OnNodeClick(MenuItem item)

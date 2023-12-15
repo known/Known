@@ -2,7 +2,7 @@
 
 namespace Known.Blazor;
 
-public class ModalOption
+public class DialogModel
 {
     public string Title { get; set; }
     public Func<Task> OnOk { get; set; }
@@ -11,17 +11,10 @@ public class ModalOption
     public RenderFragment Footer { get; set; }
 }
 
-public class InputOption<TValue>
+public class InputModel<TValue>
 {
     public bool Disabled { get; set; }
     public TValue Value { get; set; }
     public EventCallback<TValue> ValueChanged { get; set; }
-}
-
-public class ListOption<TValue>
-{
-    public bool Disabled { get; set; }
     public List<CodeInfo> Codes { get; set; }
-    public TValue Value { get; set; }
-    public EventCallback<TValue> ValueChanged { get; set; }
 }

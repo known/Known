@@ -138,30 +138,30 @@ public class UIService(DialogService dialogService, MessageService messageServic
         //});
     }
 
-    public void ShowModal(ModalOption option)
+    public void ShowDialog(DialogModel model)
     {
         //var options = new ModalOptions
         //{
-        //    Title = option.Title,
-        //    Content = option.Content
+        //    Title = model.Title,
+        //    Content = model.Content
         //};
 
-        //if (option.OnOk != null)
+        //if (model.OnOk != null)
         //{
         //    options.OkText = "确定";
         //    options.CancelText = "取消";
-        //    options.OnOk = e => option.OnOk.Invoke();
+        //    options.OnOk = e => model.OnOk.Invoke();
         //}
         //else
         //{
         //    options.Footer = null;
         //}
 
-        //if (option.Footer != null)
-        //    options.Footer = option.Footer;
+        //if (model.Footer != null)
+        //    options.Footer = model.Footer;
 
         //var modal = await _dialog.CreateModalAsync(options);
-        //option.OnClose = modal.CloseAsync;
+        //model.OnClose = modal.CloseAsync;
     }
 
     public void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
@@ -286,80 +286,80 @@ public class UIService(DialogService dialogService, MessageService messageServic
                .Build();
     }
 
-    public void BuildText(RenderTreeBuilder builder, InputOption<string> option)
+    public void BuildText(RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<BootstrapInput<string>>()
-               .Set(c => c.IsDisabled, option.Disabled)
-               .Set(c => c.Value, option.Value)
-               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Set(c => c.IsDisabled, model.Disabled)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
     }
 
-    public void BuildTextArea(RenderTreeBuilder builder, InputOption<string> option)
+    public void BuildTextArea(RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<Textarea>()
-               .Set(c => c.IsDisabled, option.Disabled)
-               .Set(c => c.Value, option.Value)
-               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Set(c => c.IsDisabled, model.Disabled)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
     }
 
-    public void BuildPassword(RenderTreeBuilder builder, InputOption<string> option)
+    public void BuildPassword(RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<BootstrapPassword>()
-               .Set(c => c.IsDisabled, option.Disabled)
-               .Set(c => c.Value, option.Value)
-               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Set(c => c.IsDisabled, model.Disabled)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
     }
 
-    public void BuildDatePicker<TValue>(RenderTreeBuilder builder, InputOption<TValue> option)
+    public void BuildDatePicker<TValue>(RenderTreeBuilder builder, InputModel<TValue> model)
     {
         builder.Component<DateTimePicker<TValue>>()
-               .Set(c => c.IsDisabled, option.Disabled)
-               .Set(c => c.Value, option.Value)
-               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Set(c => c.IsDisabled, model.Disabled)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
     }
 
-    public void BuildNumber<TValue>(RenderTreeBuilder builder, InputOption<TValue> option)
+    public void BuildNumber<TValue>(RenderTreeBuilder builder, InputModel<TValue> model)
     {
         builder.Component<BootstrapInput<TValue>>()
-               .Set(c => c.Value, option.Value)
-               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
     }
 
-    public void BuildCheckBox(RenderTreeBuilder builder, InputOption<bool> option)
+    public void BuildCheckBox(RenderTreeBuilder builder, InputModel<bool> model)
     {
         builder.Component<Checkbox<bool>>()
-               .Set(c => c.IsDisabled, option.Disabled)
-               .Set(c => c.Value, option.Value)
-               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Set(c => c.IsDisabled, model.Disabled)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
     }
 
-    public void BuildSelect(RenderTreeBuilder builder, ListOption<string> option)
+    public void BuildSelect(RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<BootSelect>()
-               .Set(c => c.IsDisabled, option.Disabled)
-               .Set(c => c.Codes, option.Codes)
-               .Set(c => c.Value, option.Value)
-               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Set(c => c.IsDisabled, model.Disabled)
+               .Set(c => c.Codes, model.Codes)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
     }
 
-    public void BuildRadioList(RenderTreeBuilder builder, ListOption<string> option)
+    public void BuildRadioList(RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<BootRadioList>()
-               .Set(c => c.IsDisabled, option.Disabled)
-               .Set(c => c.Codes, option.Codes)
-               .Set(c => c.Value, option.Value)
-               .Set(c => c.ValueChanged, option.ValueChanged)
+               .Set(c => c.IsDisabled, model.Disabled)
+               .Set(c => c.Codes, model.Codes)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
     }
 
-    public void BuildCheckList(RenderTreeBuilder builder, ListOption<string[]> option)
+    public void BuildCheckList(RenderTreeBuilder builder, InputModel<string[]> option)
     {
         var value = option.Value != null ? string.Join(',', option.Value) : "";
         builder.Component<BootCheckboxList>()

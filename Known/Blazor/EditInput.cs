@@ -17,7 +17,7 @@ public class EditInput : BaseComponent
         {
             if (isEdit)
             {
-                UI.BuildText(builder, new InputOption<string>
+                UI.BuildText(builder, new InputModel<string>
                 {
                     Value = Value,
                     ValueChanged = this.Callback<string>(value => Value = value)

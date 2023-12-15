@@ -24,8 +24,8 @@ class SysRoleForm : BaseForm<SysRole>
 {
     private TreeModel tree;
     private MenuItem current;
-    private readonly ListOption<string[]> btnOption = new();
-    private readonly ListOption<string[]> colOption = new();
+    private readonly InputModel<string[]> btnModel = new();
+    private readonly InputModel<string[]> colModel = new();
     private bool ChkDisabled => Model.IsView || current == null || !current.Checked;
 
     protected override async Task OnInitFormAsync()
@@ -42,8 +42,8 @@ class SysRoleForm : BaseForm<SysRole>
             OnNodeCheck = OnTreeCheck
         };
 
-        btnOption.ValueChanged = this.Callback<string[]>(OnButtonChanged);
-        colOption.ValueChanged = this.Callback<string[]>(OnColumnChanged);
+        btnModel.ValueChanged = this.Callback<string[]>(OnButtonChanged);
+        colModel.ValueChanged = this.Callback<string[]>(OnColumnChanged);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -59,12 +59,12 @@ class SysRoleForm : BaseForm<SysRole>
             builder.Div("sys-role-button", () =>
             {
                 builder.Div("", "按钮");
-                UI.BuildCheckList(builder, btnOption);
+                UI.BuildCheckList(builder, btnModel);
             });
             builder.Div("sys-role-column", () =>
             {
                 builder.Div("", "栏位");
-                UI.BuildCheckList(builder, colOption);
+                UI.BuildCheckList(builder, colModel);
             });
         });
     }
@@ -79,8 +79,8 @@ class SysRoleForm : BaseForm<SysRole>
     {
         SelectNode(item);
 
-        var btnItems = item.Checked ? btnOption.Codes.Select(o => o.Code).ToArray() : null;
-        var colItems = item.Checked ? colOption.Codes.Select(o => o.Code).ToArray() : null;
+        var btnItems = item.Checked ? btnModel.Codes.Select(o => o.Code).ToArray() : null;
+        var colItems = item.Checked ? colModel.Codes.Select(o => o.Code).ToArray() : null;
         OnButtonChanged(btnItems);
         OnColumnChanged(colItems);
 
@@ -95,7 +95,7 @@ class SysRoleForm : BaseForm<SysRole>
         Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"b_{current.Id}"));
         if (items != null && items.Length > 0)
             Model.Data.MenuIds.AddRange(items);
-        btnOption.Value = Model.Data.MenuIds.ToArray();
+        btnModel.Value = Model.Data.MenuIds.ToArray();
     }
 
     private void OnColumnChanged(string[] items)
@@ -103,19 +103,19 @@ class SysRoleForm : BaseForm<SysRole>
         Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"c_{current.Id}"));
         if (items != null && items.Length > 0)
             Model.Data.MenuIds.AddRange(items);
-        colOption.Value = Model.Data.MenuIds.ToArray();
+        colModel.Value = Model.Data.MenuIds.ToArray();
     }
 
     private void SelectNode(MenuItem item)
     {
         current = item;
 
-        btnOption.Disabled = ChkDisabled;
-        btnOption.Codes = current.GetAllActions();
-        btnOption.Value = Model.Data.MenuIds.ToArray();
+        btnModel.Disabled = ChkDisabled;
+        btnModel.Codes = current.GetAllActions();
+        btnModel.Value = Model.Data.MenuIds.ToArray();
 
-        colOption.Disabled = ChkDisabled;
-        colOption.Codes = current.GetAllColumns();
-        colOption.Value = Model.Data.MenuIds.ToArray();
+        colModel.Disabled = ChkDisabled;
+        colModel.Codes = current.GetAllColumns();
+        colModel.Value = Model.Data.MenuIds.ToArray();
     }
 }

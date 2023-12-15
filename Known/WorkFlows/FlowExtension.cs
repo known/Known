@@ -52,7 +52,7 @@ public static class FlowExtension
             c.Name = $"{name}原因";
         });
 
-        var option = new ModalOption
+        var option = new DialogModel
         {
             Title = $"{name}流程",
             Content = builder =>
@@ -69,6 +69,6 @@ public static class FlowExtension
                 await page.RefreshAsync();
             });
         };
-        page.UI.ShowModal(option);
+        page.UI.ShowDialog(option);
     }
 }

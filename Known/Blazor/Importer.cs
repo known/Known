@@ -52,7 +52,7 @@ class Importer : BaseComponent
 
     private void OnErrorMessage()
     {
-        UI.ShowModal(new ModalOption
+        UI.ShowDialog(new DialogModel
         {
             Title = "错误信息",
             Content = builder => builder.Markup(error)

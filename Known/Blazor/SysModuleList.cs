@@ -148,7 +148,7 @@ class SysModuleList : BasePage<SysModule>
     private void ShowTreeModal(string title, Func<SysModule, Task<Result>> action)
     {
         SysModule node = null;
-        var option = new ModalOption
+        var model = new DialogModel
         {
             Title = title,
             Content = builder =>
@@ -161,7 +161,7 @@ class SysModuleList : BasePage<SysModule>
                 });
             }
         };
-        option.OnOk = async () =>
+        model.OnOk = async () =>
         {
             if (node == null)
             {
@@ -172,10 +172,10 @@ class SysModuleList : BasePage<SysModule>
             var result = await action?.Invoke(node);
             UI.Result(result, async () =>
             {
-                await option.OnClose?.Invoke();
+                await model.OnClose?.Invoke();
                 await RefreshAsync();
             });
         };
-        UI.ShowModal(option);
+        UI.ShowDialog(model);
     }
 }
