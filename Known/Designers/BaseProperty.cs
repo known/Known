@@ -7,11 +7,16 @@ namespace Known.Designers;
 
 class BaseProperty : BaseComponent
 {
-    [Parameter] public ColumnInfo Column { get; set; }
+    public BaseProperty()
+    {
+        Column = new ColumnInfo();
+    }
+
+    public ColumnInfo Column { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        BuildPropertyItem(builder, "属性", b => b.Span(Column.Id));
+        BuildPropertyItem(builder, "属性", b => b.Span(Column?.Id));
     }
 
     protected void BuildPropertyItem(RenderTreeBuilder builder, string label, Action<RenderTreeBuilder> template)

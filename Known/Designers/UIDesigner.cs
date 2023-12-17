@@ -43,11 +43,11 @@ class UIDesigner : ComponentBase
                 });
                 b.Div("panel-property", () =>
                 {
-                    b.Div("title", $"字段属性 - {current.Id}");
+                    b.Div("title", $"字段属性 - {current?.Id}");
                     if (Type == "Page")
-                        b.Component<PageProperty>().Set(c => c.Column, current).Build(value => property = value);
+                        b.Component<PageProperty>().Build(value => property = value);
                     else if (Type == "Form")
-                        b.Component<FormProperty>().Set(c => c.Column, current).Build(value => property = value);
+                        b.Component<FormProperty>().Build(value => property = value);
                 });
             });
         }));

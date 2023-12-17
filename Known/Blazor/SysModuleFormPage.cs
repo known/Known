@@ -13,8 +13,6 @@ class SysModuleFormPage : BaseComponent
     {
         builder.Component<UIDesigner>()
                .Set(c => c.Type, "Page")
-               .Set(c => c.EntityType, Form.EntityType)
-               .Set(c => c.Columns, Form.Columns)
                .Build();
     }
 }

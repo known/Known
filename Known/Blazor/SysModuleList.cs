@@ -76,7 +76,9 @@ class SysModuleList : BasePage<SysModule>
 
     private void BuildTarget(RenderTreeBuilder builder, SysModule row)
     {
-        var color = row.Target == "菜单" ? "purple" : "blue";
+        var color = "blue";
+        if (row.Target == "菜单") color = "purple";
+        if (row.Target == "自定义") color = "green";
         UI.BuildTag(builder, row.Target, color);
     }
 

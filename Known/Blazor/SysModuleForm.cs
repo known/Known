@@ -1,6 +1,5 @@
 ﻿using Known.Entities;
 using Known.Extensions;
-using Known.Helpers;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
@@ -10,23 +9,17 @@ class SysModuleForm : BaseForm<SysModule>
     private readonly StepModel step = new();
     private StepForm stepForm;
 
-    private bool IsMenu => Model.Data.Target == "菜单";
     private bool IsPage => Model.Data.Target == "页面";
-    private int StepCount => IsMenu ? 1 : 3;
-
-    internal Type EntityType => Config.ModelTypes.FirstOrDefault(t => t.Name == Model.Data.EntityType);
-    internal List<ColumnInfo> Columns => TypeHelper.GetColumnAttributes(EntityType).Select(a => new ColumnInfo(a)).ToList();
+    private int StepCount => IsPage ? 4 : 1;
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
         step.Items.Add(new("基本信息") { Content = BuildDataForm });
+        step.Items.Add(new("模型设置") { Content = BuildModuleModel });
         step.Items.Add(new("页面设置") { Content = BuildModulePage });
         step.Items.Add(new("表单设置") { Content = BuildModuleForm });
         Model.OnFieldChanged = OnFieldChanged;
-        Model.Codes["EntityTypes"] = Config.ModelTypes.Select(m => new CodeInfo(m.Name, m.Name)).ToList();
-        //类型是菜单，则实体类型为只读
-        Model.Column(c => c.EntityType).ReadOnly(IsMenu);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, BuildForm);
@@ -42,6 +35,7 @@ class SysModuleForm : BaseForm<SysModule>
     }
 
     private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
+    private void BuildModuleModel(RenderTreeBuilder builder) => builder.Component<SysModuleFormModel>().Build();
     private void BuildModulePage(RenderTreeBuilder builder) => builder.Component<SysModuleFormPage>().Build();
     private void BuildModuleForm(RenderTreeBuilder builder) => builder.Component<SysModuleFormForm>().Build();
 
@@ -58,16 +52,7 @@ class SysModuleForm : BaseForm<SysModule>
     {
         if (columnId == nameof(SysModule.Target))
         {
-            SetEntityTypeStatus();
             stepForm.SetStepCount(StepCount);
         }
-    }
-
-    private void SetEntityTypeStatus()
-    {
-        var fdEntityType = Model.Fields[nameof(SysModule.EntityType)];
-        fdEntityType.Column.IsReadOnly = IsMenu;
-        fdEntityType.Column.IsRequired = IsPage;
-        fdEntityType.StateChanged();
     }
 }

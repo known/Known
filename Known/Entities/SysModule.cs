@@ -65,7 +65,7 @@ public class SysModule : EntityBase
     /// </summary>
     [Column, Grid]
     [Form(Row = 2, Column = 2)]
-    [Category("菜单,页面")]
+    [Category("菜单,页面,自定义")]
     [DisplayName("类型")]
     [Required(ErrorMessage = "请选择模块类型！")]
     [MaxLength(250)]
@@ -87,13 +87,11 @@ public class SysModule : EntityBase
     public bool Enabled { get; set; }
 
     /// <summary>
-    /// 取得或设置实体类型。
+    /// 取得或设置模型设置。
     /// </summary>
     [Column]
-    [Form(Row = 3, Column = 2, IsSelect = true)]
-    [Category("EntityTypes")]
-    [DisplayName("实体类型")]
-    public string EntityType { get; set; }
+    [DisplayName("模型设置")]
+    public string ModelData { get; set; }
 
     /// <summary>
     /// 取得或设置页面设置。
