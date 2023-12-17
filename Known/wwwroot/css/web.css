@@ -122,6 +122,7 @@
 
 /*Designer*/
 .kui-designer {display:grid;grid-template-columns:20% auto 20%;min-height:300px;}
+.kui-designer.entity {grid-template-columns:40% auto;}
 .kui-designer .title {
     padding:10px;padding-top:11px;padding-bottom:12px;font-weight:bold;
     border-bottom:1px solid #dedede;border-left:3px solid #1890ff;

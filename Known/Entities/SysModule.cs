@@ -87,11 +87,11 @@ public class SysModule : EntityBase
     public bool Enabled { get; set; }
 
     /// <summary>
-    /// 取得或设置模型设置。
+    /// 取得或设置实体设置。
     /// </summary>
     [Column]
-    [DisplayName("模型设置")]
-    public string ModelData { get; set; }
+    [DisplayName("实体设置")]
+    public string EntityData { get; set; }
 
     /// <summary>
     /// 取得或设置页面设置。
@@ -118,6 +118,18 @@ public class SysModule : EntityBase
 
     public virtual string ParentName { get; set; }
     public virtual bool IsMoveUp { get; set; }
+
+    internal virtual PageInfo Page
+    {
+        get { return Utils.FromJson<PageInfo>(PageData) ?? new(); }
+        set { PageData = Utils.ToJson(value); }
+    }
+
+    internal virtual FormInfo Form
+    {
+        get { return Utils.FromJson<FormInfo>(FormData) ?? new(); }
+        set { FormData = Utils.ToJson(value); }
+    }
 
     internal virtual List<string> Buttons { get; set; }
     internal virtual List<string> Actions { get; set; }
