@@ -7,11 +7,11 @@ namespace Known;
 
 public enum DatabaseType
 {
+    Access,
+    SQLite,
     SqlServer,
     Oracle,
     MySql,
-    SQLite,
-    Access,
     Npgsql
 }
 

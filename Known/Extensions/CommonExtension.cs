@@ -3,12 +3,21 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
 using System.Reflection;
+using System.Text;
 using Known.Helpers;
 
 namespace Known.Extensions;
 
 public static class CommonExtension
 {
+    #region String
+    internal static void AppendLine(this StringBuilder sb, string format, params object[] args)
+    {
+        var value = string.Format(format, args);
+        sb.AppendLine(value);
+    }
+    #endregion
+
     #region Enum
     public static string GetDescription(this Enum value)
     {
