@@ -14,6 +14,8 @@ class ColumnPanel : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        builder.Div("caption", () => builder.Div("title", "字段列表"));
+        
         if (Columns == null || Columns.Count == 0)
             return;
 

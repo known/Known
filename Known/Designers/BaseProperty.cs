@@ -1,6 +1,5 @@
 ﻿using Known.Blazor;
 using Known.Extensions;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
@@ -16,7 +15,8 @@ class BaseProperty : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        BuildPropertyItem(builder, "属性", b => b.Span(Column?.Id));
+        builder.Div("caption", () => builder.Div("title", $"字段属性 - {Column?.Id}"));
+        BuildPropertyItem(builder, "属性", b => b.Span(Column?.Name));
     }
 
     protected void BuildPropertyItem(RenderTreeBuilder builder, string label, Action<RenderTreeBuilder> template)

@@ -266,13 +266,15 @@ class CodeService
         var sb = new StringBuilder();
         sb.AppendLine("using System.ComponentModel;");
         sb.AppendLine("using System.ComponentModel.DataAnnotations;");
+        if (model.IsFlow)
+            sb.AppendLine("using Known.WorkFlows;");
         sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Entities;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("/// &lt;summary&gt;");
         sb.AppendLine("/// {0}实体类。", model.Name);
         sb.AppendLine("/// &lt;/summary&gt;");
-        sb.AppendLine("public class {0} : EntityBase", model.Id);
+        sb.AppendLine("public class {0} : {1}", model.Id, model.IsFlow ? "FlowEntity" : "EntityBase");
         sb.AppendLine("{");
 
         var index = 0;

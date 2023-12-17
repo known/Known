@@ -7,8 +7,17 @@ namespace Known.Designers;
 
 class EntityDesigner : BaseComponent
 {
+    private readonly List<CodeInfo> AddTypes =
+    [
+        new CodeInfo("新建"),
+        new CodeInfo("从实体库中选择")
+    ];
+
+    private string addType;
     private EntityInfo entity = new();
     private EntityView view;
+
+    private bool IsNew => addType == AddTypes[0].Code;
 
     [Parameter] public string Model { get; set; }
     [Parameter] public Action<string> OnChanged { get; set; }
@@ -16,6 +25,8 @@ class EntityDesigner : BaseComponent
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        addType = !string.IsNullOrWhiteSpace(Model) && Model.Contains('|') 
+                ? AddTypes[0].Code : AddTypes[1].Code;
         entity = GetEntity(Model);
     }
 
@@ -27,23 +38,12 @@ class EntityDesigner : BaseComponent
             {
                 b.Div("panel-model", () =>
                 {
-                    b.Div("title", "实体模型");
-                    b.Markup(@"<pre>说明：
-实体：名称|代码
-字段：名称|代码|类型|长度|必填
-字段类型：CheckBox,CheckList,Date,Number,RadioList,Select,Text,TextArea
-示例：
-测试|KmTest
-文本|Field1|Text|50|Y
-数值|Field2|Number|18,5
-日期|Field3|Date</pre>");
-                    UI.BuildTextArea(b, new InputModel<string>
+                    b.Div("caption", () =>
                     {
-                        Disabled = ReadOnly,
-                        Rows = 10,
-                        Value = Model,
-                        ValueChanged = this.Callback<string>(OnModelChanged)
+                        b.Div("title", "实体模型");
+                        BuildModelType(b);
                     });
+                    BuildNewModel(b);
                 });
                 b.Div("panel-view", () =>
                 {
@@ -52,6 +52,56 @@ class EntityDesigner : BaseComponent
             });
         }));
     }
+
+    private void BuildModelType(RenderTreeBuilder builder)
+    {
+        builder.Div(() =>
+        {
+            UI.BuildRadioList(builder, new InputModel<string>
+            {
+                Disabled = ReadOnly,
+                Codes = AddTypes,
+                Value = addType,
+                ValueChanged = this.Callback<string>(OnTypeChanged)
+            });
+        });
+
+        if (!IsNew)
+        {
+            builder.Div(() =>
+            {
+                UI.BuildSelect(builder, new InputModel<string>
+                {
+                    Disabled = ReadOnly,
+                    Codes = Cache.GetCodes("TbApply"),
+                    Value = Model,
+                    ValueChanged = this.Callback<string>(OnModelChanged)
+                });
+            });
+        }
+    }
+
+    private void BuildNewModel(RenderTreeBuilder builder)
+    {
+        builder.Markup(@"<pre>说明：
+实体：名称|代码|流程类
+字段：名称|代码|类型|长度|必填
+字段类型：CheckBox,CheckList,Date,Number,RadioList,Select,Text,TextArea
+示例：
+测试|KmTest
+文本|Field1|Text|50|Y
+数值|Field2|Number|18,5
+日期|Field3|Date</pre>");
+        UI.BuildTextArea(builder, new InputModel<string>
+        {
+            Disabled = ReadOnly || !IsNew,
+            Rows = 10,
+            Value = Model,
+            ValueChanged = this.Callback<string>(OnModelChanged)
+        });
+    }
+
+    private void OnTypeChanged(string type) => addType = type;
 
     private async void OnModelChanged(string model)
     {
@@ -78,6 +128,8 @@ class EntityDesigner : BaseComponent
                 info.Name = values[0];
             if (values.Length > 1)
                 info.Id = values[1];
+            if (values.Length > 2)
+                info.IsFlow = values[2] == "Y";
         }
 
         if (lines.Length > 1)

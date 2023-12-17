@@ -123,10 +123,11 @@
 /*Designer*/
 .kui-designer {display:grid;grid-template-columns:20% auto 20%;min-height:300px;}
 .kui-designer.entity {grid-template-columns:40% auto;}
-.kui-designer .title {
-    padding:10px;padding-top:11px;padding-bottom:12px;font-weight:bold;
+.kui-designer .caption {
+    display:flex;height:46px;line-height:46px;
     border-bottom:1px solid #dedede;border-left:3px solid #1890ff;
 }
+.kui-designer .caption .title {font-weight:bold;padding:0 10px;}
 .kui-designer .columns, .kui-designer form {padding:10px;}
 
 .kui-designer .panel-model {background-color:#e9e9e9;}

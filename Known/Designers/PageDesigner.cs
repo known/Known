@@ -7,7 +7,6 @@ namespace Known.Designers;
 
 class PageDesigner : BaseComponent
 {
-    private ColumnInfo current;
     private BaseView view;
     private BaseProperty property;
 
@@ -30,7 +29,6 @@ class PageDesigner : BaseComponent
             {
                 b.Div("panel-model", () =>
                 {
-                    b.Div("title", "字段列表");
                     b.Component<ColumnPanel>()
                      .Set(c => c.Columns, Columns)
                      .Set(c => c.ColumnChanged, OnColumnChanged)
@@ -42,7 +40,6 @@ class PageDesigner : BaseComponent
                 });
                 b.Div("panel-property", () =>
                 {
-                    b.Div("title", $"字段属性 - {current?.Id}");
                     b.Component<PageProperty>().Build(value => property = value);
                 });
             });
@@ -51,7 +48,6 @@ class PageDesigner : BaseComponent
 
     private Task OnColumnChanged(ColumnInfo column)
     {
-        current = column;
         view?.StateChanged();
         property?.StateChanged();
         return Task.CompletedTask;

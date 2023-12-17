@@ -6,6 +6,7 @@ public class EntityInfo
 {
     public string Id { get; set; }
     public string Name { get; set; }
+    public bool IsFlow { get; set; }
     public List<FieldInfo> Fields { get; set; } = [];
 }
 

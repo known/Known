@@ -131,12 +131,8 @@ public sealed class Cache
 
 public class CodeInfo
 {
-    public CodeInfo(string code, string name, object data = null)
-    {
-        Code = code;
-        Name = name;
-        Data = data;
-    }
+    public CodeInfo(string code, object data = null) : this(code, code, data) { }
+    public CodeInfo(string code, string name, object data = null) : this("", code, name, data) { }
 
     public CodeInfo(string category, string code, string name, object data = null)
     {
