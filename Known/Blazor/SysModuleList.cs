@@ -43,6 +43,7 @@ class SysModuleList : BasePage<SysModule>
 
         table.Form.Width = 1200;
 		table.Form.Maximizable = true;
+		table.Form.DefaultMaximized = true;
 		table.Form.NoFooter = true;
 
         table.Column(c => c.Name).Template(BuildName);

@@ -127,8 +127,6 @@ public class ColumnInfo
 
     public ColumnInfo() { }
 
-    internal ColumnInfo(ColumnAttribute attr) : this(attr.Property) { }
-
     internal ColumnInfo(PropertyInfo property)
     {
         Property = property;

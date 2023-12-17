@@ -17,4 +17,5 @@ public class InputModel<TValue>
     public TValue Value { get; set; }
     public EventCallback<TValue> ValueChanged { get; set; }
     public List<CodeInfo> Codes { get; set; }
+    public uint Rows { get; set; }
 }

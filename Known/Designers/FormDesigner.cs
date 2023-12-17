@@ -1,10 +1,11 @@
-﻿using Known.Extensions;
+﻿using Known.Blazor;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class FormDesigner : ComponentBase
+class FormDesigner : BaseComponent
 {
     private ColumnInfo current;
     private BaseView view;

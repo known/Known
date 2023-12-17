@@ -30,15 +30,23 @@ class EntityDesigner : BaseComponent
 日期|Field3|Date</pre>");
                     UI.BuildTextArea(b, new InputModel<string>
                     {
+                        Disabled = ReadOnly,
+                        Rows = 10,
                         Value = Model,
-                        ValueChanged = this.Callback(OnChanged)
+                        ValueChanged = this.Callback<string>(OnModelChanged)
                     });
                 });
                 b.Div("panel-view", () =>
                 {
-                    b.Component<EntityView>().Build();
+                    b.Component<EntityView>().Set(c => c.Model, Model).Build();
                 });
             });
         }));
+    }
+
+    private void OnModelChanged(string model)
+    {
+        Model = model;
+        OnChanged?.Invoke(model);
     }
 }

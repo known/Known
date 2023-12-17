@@ -39,6 +39,7 @@ class SysModuleForm : BaseForm<SysModule>
     private void BuildModuleModel(RenderTreeBuilder builder)
     {
         builder.Component<SysModuleFormEntity>()
+               .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.Model, Model.Data.EntityData)
                .Set(c => c.OnChanged, model => Model.Data.EntityData = model)
                .Build();
@@ -47,6 +48,7 @@ class SysModuleForm : BaseForm<SysModule>
     private void BuildModulePage(RenderTreeBuilder builder)
     {
         builder.Component<SysModuleFormPage>()
+               .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.Model, Model.Data.Page)
                .Set(c => c.OnChanged, model => Model.Data.Page = model)
                .Build();
@@ -55,6 +57,7 @@ class SysModuleForm : BaseForm<SysModule>
     private void BuildModuleForm(RenderTreeBuilder builder)
     {
         builder.Component<SysModuleFormForm>()
+               .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.Model, Model.Data.Form)
                .Set(c => c.OnChanged, model => Model.Data.Form = model)
                .Build();
@@ -86,6 +89,7 @@ class SysModuleFormEntity : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Component<EntityDesigner>()
+               .Set(c => c.ReadOnly, ReadOnly)
                .Set(c => c.Model, Model)
                .Set(c => c.OnChanged, OnChanged)
                .Build();
@@ -100,6 +104,7 @@ class SysModuleFormPage : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Component<PageDesigner>()
+               .Set(c => c.ReadOnly, ReadOnly)
                .Set(c => c.Model, Model)
                .Set(c => c.OnChanged, OnChanged)
                .Build();
@@ -114,6 +119,7 @@ class SysModuleFormForm : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Component<FormDesigner>()
+               .Set(c => c.ReadOnly, ReadOnly)
                .Set(c => c.Model, Model)
                .Set(c => c.OnChanged, OnChanged)
                .Build();

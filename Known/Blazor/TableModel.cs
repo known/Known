@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using System.Reflection;
 using Known.Extensions;
 using Known.Helpers;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +9,7 @@ public class TableModel<TItem> where TItem : class, new()
 {
     internal TableModel()
     {
-        AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
+        AllColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
         Columns = AllColumns;
         InitQueryColumns();
     }
@@ -23,7 +22,7 @@ public class TableModel<TItem> where TItem : class, new()
         Actions = page.Actions;
 		ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
 		ShowPager = true;
-        AllColumns = TypeHelper.GetColumnAttributes(typeof(TItem)).Select(a => new ColumnInfo(a)).ToList();
+        AllColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
         Columns = AllColumns.Where(c => c.IsGrid && HasColumn(page.Columns, c.Property.Name)).ToList();
         InitQueryColumns();
     }
@@ -63,14 +62,9 @@ public class TableModel<TItem> where TItem : class, new()
         if (QueryColumns.Exists(c => c.Id == property.Name))
             return;
 
-        var attr = property.GetCustomAttribute<ColumnAttribute>();
-        if (attr != null)
-        {
-            attr.Property = property;
-            var column = new ColumnInfo(attr);
-            QueryColumns.Add(column);
-            QueryData[property.Name] = new QueryInfo(column);
-        }
+        var column = new ColumnInfo(property);
+        QueryColumns.Add(column);
+        QueryData[property.Name] = new QueryInfo(column);
     }
 
     public Task RefreshAsync()

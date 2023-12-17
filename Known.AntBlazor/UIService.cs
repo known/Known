@@ -306,6 +306,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         builder.Component<TextArea>()
                .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.Rows, model.Rows)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
