@@ -18,7 +18,7 @@ class SysUserProfile : BasePage<SysUser>
         User = await Platform.User.GetUserAsync(CurrentUser.Id);
 
         Page.Type = PageType.Column;
-        Page.Spans = [4, 20];
+        Page.Spans = [6, 18];
         Page.Contents = [BuildUserInfo, BuildUserTabs];
     }
 
@@ -40,36 +40,21 @@ class SysUserProfileInfo : BaseComponent
         builder.Div("kui-user-avatar", () => builder.Markup($"<img src=\"{CurrentUser?.AvatarUrl}\" />"));
         builder.Ul("kui-user-info", () =>
         {
-            builder.Li(() =>
-            {
-                UI.BuildIcon(builder, "user");
-                builder.Span($"{User?.Name}({User?.UserName}");
-            });
-            builder.Li(() =>
-            {
-                UI.BuildIcon(builder, "phone");
-                builder.Span(User?.Phone);
-            });
-            builder.Li(() =>
-            {
-                UI.BuildIcon(builder, "mobile");
-                builder.Span(User?.Mobile);
-            });
-            builder.Li(() =>
-            {
-                UI.BuildIcon(builder, "inbox");
-                builder.Span(User?.Email);
-            });
-            builder.Li(() =>
-            {
-                UI.BuildIcon(builder, "team");
-                builder.Span(User?.Role);
-            });
-            builder.Li(() =>
-            {
-                UI.BuildIcon(builder, "comment");
-                builder.Span(User?.Note);
-            });
+            BuildUserInfoItem(builder, "user", $"{User?.Name}({User?.UserName})");
+            BuildUserInfoItem(builder, "phone", User?.Phone);
+            BuildUserInfoItem(builder, "mobile", User?.Mobile);
+            BuildUserInfoItem(builder, "inbox", User?.Email);
+            BuildUserInfoItem(builder, "team", User?.Role);
+            BuildUserInfoItem(builder, "comment", User?.Note);
+        });
+    }
+
+    private void BuildUserInfoItem(RenderTreeBuilder builder, string icon, string text)
+    {
+        builder.Li(() =>
+        {
+            UI.BuildIcon(builder, icon);
+            builder.Span(text);
         });
     }
 }

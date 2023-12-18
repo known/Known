@@ -1,7 +1,6 @@
 ﻿using Known.Designers;
 using Known.Entities;
 using Known.Extensions;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
@@ -10,6 +9,7 @@ class SysModuleForm : BaseForm<SysModule>
 {
     private readonly StepModel step = new();
     private StepForm stepForm;
+    private List<string> models = [];
 
     private bool IsPage => Model.Data.Target == "页面";
     private int StepCount => IsPage ? 4 : 1;
@@ -24,6 +24,9 @@ class SysModuleForm : BaseForm<SysModule>
         step.Items.Add(new("页面设置") { Content = BuildModulePage });
         step.Items.Add(new("表单设置") { Content = BuildModuleForm });
         Model.OnFieldChanged = OnFieldChanged;
+
+        var modules = await Platform.Module.GetModulesAsync();
+        models = modules.Where(m => !string.IsNullOrWhiteSpace(m.EntityData) && m.EntityData.Contains('|')).Select(m => m.EntityData).ToList();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -43,17 +46,19 @@ class SysModuleForm : BaseForm<SysModule>
     
     private void BuildModuleModel(RenderTreeBuilder builder)
     {
-        builder.Component<SysModuleFormEntity>()
+        builder.Component<EntityDesigner>()
                .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.Model, Model.Data.EntityData)
+               .Set(c => c.Models, models)
                .Set(c => c.OnChanged, model => Model.Data.EntityData = model)
                .Build();
     }
 
     private void BuildModulePage(RenderTreeBuilder builder)
     {
-        builder.Component<SysModuleFormPage>()
+        builder.Component<PageDesigner>()
                .Set(c => c.ReadOnly, Model.IsView)
+               .Set(c => c.Entity, Entity)
                .Set(c => c.Model, Model.Data.Page)
                .Set(c => c.OnChanged, model => Model.Data.Page = model)
                .Build();
@@ -61,8 +66,9 @@ class SysModuleForm : BaseForm<SysModule>
 
     private void BuildModuleForm(RenderTreeBuilder builder)
     {
-        builder.Component<SysModuleFormForm>()
+        builder.Component<FormDesigner>()
                .Set(c => c.ReadOnly, Model.IsView)
+               .Set(c => c.Entity, Entity)
                .Set(c => c.Model, Model.Data.Form)
                .Set(c => c.OnChanged, model => Model.Data.Form = model)
                .Build();
@@ -83,66 +89,5 @@ class SysModuleForm : BaseForm<SysModule>
         {
             stepForm.SetStepCount(StepCount);
         }
-    }
-}
-
-class SysModuleFormEntity : BaseComponent
-{
-    private List<string> models = [];
-
-    [Parameter] public string Model { get; set; }
-    [Parameter] public Action<string> OnChanged { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        var modules = await Platform.Module.GetModulesAsync();
-        models = modules.Where(m => !string.IsNullOrWhiteSpace(m.EntityData) && m.EntityData.Contains('|')).Select(m => m.EntityData).ToList();
-    }
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.Component<EntityDesigner>()
-               .Set(c => c.ReadOnly, ReadOnly)
-               .Set(c => c.Model, Model)
-               .Set(c => c.Models, models)
-               .Set(c => c.OnChanged, OnChanged)
-               .Build();
-    }
-}
-
-class SysModuleFormPage : BaseComponent
-{
-    [CascadingParameter] private SysModuleForm Form { get; set; }
-
-    [Parameter] public PageInfo Model { get; set; }
-    [Parameter] public Action<PageInfo> OnChanged { get; set; }
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.Component<PageDesigner>()
-               .Set(c => c.ReadOnly, ReadOnly)
-               .Set(c => c.Entity, Form.Entity)
-               .Set(c => c.Model, Model)
-               .Set(c => c.OnChanged, OnChanged)
-               .Build();
-    }
-}
-
-class SysModuleFormForm : BaseComponent
-{
-    [CascadingParameter] private SysModuleForm Form { get; set; }
-
-    [Parameter] public FormInfo Model { get; set; }
-    [Parameter] public Action<FormInfo> OnChanged { get; set; }
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.Component<FormDesigner>()
-               .Set(c => c.ReadOnly, ReadOnly)
-               .Set(c => c.Entity, Form.Entity)
-               .Set(c => c.Model, Model)
-               .Set(c => c.OnChanged, OnChanged)
-               .Build();
     }
 }

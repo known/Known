@@ -7,15 +7,9 @@ namespace Known.Designers;
 
 class BaseProperty : BaseComponent
 {
-    public BaseProperty()
-    {
-        Column = new ColumnInfo();
-    }
-
-    public ColumnInfo Column { get; set; }
     [Parameter] public FieldInfo Field { get; set; }
 
-    public void SetField(FieldInfo field)
+    internal void SetField(FieldInfo field)
     {
         Field = field;
         StateChanged();

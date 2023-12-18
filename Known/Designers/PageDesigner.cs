@@ -20,4 +20,8 @@ class PageDesigner : BaseDesigner
             builder.Component<PageProperty>().Build(value => property = value);
         });
     }
+
+    protected override void OnFieldCheck()
+    {
+    }
 }

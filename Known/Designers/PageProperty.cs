@@ -1,11 +1,14 @@
 ﻿using Known.Blazor;
 using Known.Extensions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
 class PageProperty : BaseProperty
 {
+    [Parameter] public ColumnInfo1 Column { get; set; } = new();
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         base.BuildRenderTree(builder);

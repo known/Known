@@ -38,11 +38,7 @@ class BaseDesigner : BaseComponent
     }
 
     protected virtual void BuildDesigner(RenderTreeBuilder builder) { }
+    protected virtual void OnFieldCheck() { }
 
-    private void OnFieldCheck() { }
-
-    private void OnFieldClick(FieldInfo field)
-    {
-        property?.SetField(field);
-    }
+    private void OnFieldClick(FieldInfo field) => property?.SetField(field);
 }
