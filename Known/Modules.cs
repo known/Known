@@ -29,7 +29,7 @@ public class PageInfo
     public string Type { get; set; }
     public List<string> Tools { get; set; }
     public List<string> Actions { get; set; }
-    public List<ColumnInfo1> Columns { get; set; }
+    public List<ColumnInfo1> Columns { get; set; } = [];
 }
 
 public class ColumnInfo1

@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class BaseDesigner : BaseComponent
+class BaseDesigner<TModel> : BaseComponent
 {
-    internal BaseView view;
+    internal BaseView<TModel> view;
     internal BaseProperty property;
 
     [Parameter] public EntityInfo Entity { get; set; }
+    [Parameter] public TModel Model { get; set; }
+    [Parameter] public Action<TModel> OnChanged { get; set; }
 
     internal List<FieldInfo> Fields { get; set; } = [];
 

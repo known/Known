@@ -6,7 +6,7 @@ namespace Known.Designers;
 class CodeService
 {
     #region SQL
-    public string GetSQL(EntityInfo model, DatabaseType dbType)
+    internal string GetSQL(EntityInfo info, DatabaseType dbType)
     {
         var columns = new List<FieldInfo>
         {
@@ -20,22 +20,22 @@ class CodeService
             new() { Id = nameof(EntityBase.AppId), Type = "Text", Length = "50", Required = true },
             new() { Id = nameof(EntityBase.CompNo), Type = "Text", Length = "50", Required = true }
         };
-        columns.AddRange(model.Fields);
+        columns.AddRange(info.Fields);
 
         var maxLength = columns.Select(f => (f.Id ?? "").Length).Max();
         switch (dbType)
         {
             case DatabaseType.Access:
-                return GetAccessScript(model.Id, columns, maxLength);
+                return GetAccessScript(info.Id, columns, maxLength);
             case DatabaseType.SQLite:
-                return GetSQLiteScript(model.Id, columns, maxLength);
+                return GetSQLiteScript(info.Id, columns, maxLength);
             case DatabaseType.SqlServer:
-                return GetSqlServerScript(model.Id, columns, maxLength);
+                return GetSqlServerScript(info.Id, columns, maxLength);
             case DatabaseType.Oracle:
-                return GetOracleScript(model.Id, columns, maxLength);
+                return GetOracleScript(info.Id, columns, maxLength);
             case DatabaseType.MySql:
             case DatabaseType.Npgsql:
-                return GetMySqlScript(model.Id, columns, maxLength);
+                return GetMySqlScript(info.Id, columns, maxLength);
             default:
                 return string.Empty;
         }
@@ -261,24 +261,24 @@ class CodeService
     #endregion
 
     #region Entity
-    public string GetEntity(EntityInfo model)
+    internal string GetEntity(EntityInfo info)
     {
         var sb = new StringBuilder();
         sb.AppendLine("using System.ComponentModel;");
         sb.AppendLine("using System.ComponentModel.DataAnnotations;");
-        if (model.IsFlow)
+        if (info.IsFlow)
             sb.AppendLine("using Known.WorkFlows;");
         sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Entities;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("/// &lt;summary&gt;");
-        sb.AppendLine("/// {0}实体类。", model.Name);
+        sb.AppendLine("/// {0}实体类。", info.Name);
         sb.AppendLine("/// &lt;/summary&gt;");
-        sb.AppendLine("public class {0} : {1}", model.Id, model.IsFlow ? "FlowEntity" : "EntityBase");
+        sb.AppendLine("public class {0} : {1}", info.Id, info.IsFlow ? "FlowEntity" : "EntityBase");
         sb.AppendLine("{");
 
         var index = 0;
-        foreach (var item in model.Fields)
+        foreach (var item in info.Fields)
         {
             if (index++ > 0)
                 sb.AppendLine(" ");
@@ -297,9 +297,7 @@ class CodeService
                 sb.AppendLine("    [MaxLength({0})]", item.Length);
             sb.AppendLine("    public {0} {1} {{ get; set; }}", type, item.Id);
         }
-
         sb.AppendLine("}");
-
         return sb.ToString();
     }
 
@@ -314,6 +312,22 @@ class CodeService
             return string.IsNullOrWhiteSpace(item.Length) ? "int" : "decimal";
 
         return "string";
+    }
+    #endregion
+
+    #region Page
+    internal string GetPage(PageInfo info)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("using {0}.Entities;", Config.App.Id);
+        sb.AppendLine(" ");
+        sb.AppendLine("namespace {0}.Pages;", Config.App.Id);
+        sb.AppendLine(" ");
+        sb.AppendLine("class {0}List : BaseTablePage<{0}>", info.Type);
+        sb.AppendLine("{");
+        sb.AppendLine("");
+        sb.AppendLine("}");
+        return sb.ToString();
     }
     #endregion
 }

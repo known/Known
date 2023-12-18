@@ -1,14 +1,10 @@
 ﻿using Known.Extensions;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class FormDesigner : BaseDesigner
+class FormDesigner : BaseDesigner<FormInfo>
 {
-    [Parameter] public FormInfo Model { get; set; }
-    [Parameter] public Action<FormInfo> OnChanged { get; set; }
-
     protected override void BuildDesigner(RenderTreeBuilder builder)
     {
         builder.Div("panel-view", () =>

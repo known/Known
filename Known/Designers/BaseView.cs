@@ -1,13 +1,22 @@
 ﻿using Known.Blazor;
 using Known.Extensions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class BaseView : BaseComponent
+class BaseView<TModel> : BaseComponent
 {
     protected TabModel Tab { get; } = new();
     internal CodeService Service => new();
+
+    [Parameter] public TModel Model { get; set; }
+
+    internal virtual Task SetModelAsync(TModel model)
+    {
+        Model = model;
+        return Task.CompletedTask;
+    }
 
     protected override async Task OnInitializedAsync()
     {

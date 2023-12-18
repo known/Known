@@ -1,22 +1,19 @@
 ﻿using Known.Blazor;
 using Known.Extensions;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class EntityView : BaseView
+class EntityView : BaseView<EntityInfo>
 {
     private readonly TableModel<FieldInfo> table = new();
     private string code;
     private string script;
     private DatabaseType dbType;
 
-    [Parameter] public EntityInfo Model { get; set; }
-
-    internal async Task SetModelAsync(EntityInfo model)
+    internal override async Task SetModelAsync(EntityInfo model)
     {
-        Model = model;
+        await base.SetModelAsync(model);
         SetViewData(model);
         await table.RefreshAsync();
     }
