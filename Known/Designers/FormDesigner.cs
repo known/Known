@@ -1,11 +1,10 @@
-﻿using Known.Blazor;
-using Known.Extensions;
+﻿using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class FormDesigner : BaseComponent
+class FormDesigner : BaseDesigner
 {
     private BaseView view;
     private BaseProperty property;
@@ -13,43 +12,21 @@ class FormDesigner : BaseComponent
     [Parameter] public FormInfo Model { get; set; }
     [Parameter] public Action<FormInfo> OnChanged { get; set; }
 
-    [Parameter] public List<ColumnInfo> Columns { get; set; }
-
-    protected override async Task OnInitializedAsync()
+    protected override void BuildDesigner(RenderTreeBuilder builder)
     {
-        await base.OnInitializedAsync();
-        await OnColumnChanged(Columns?.FirstOrDefault());
-    }
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.Cascading(this, this.BuildTree(b =>
+        builder.Div("panel-view", () =>
         {
-            b.Div("kui-designer", () =>
-            {
-                b.Div("panel-model", () =>
-                {
-                    b.Component<ColumnPanel>()
-                     .Set(c => c.Columns, Columns)
-                     .Set(c => c.ColumnChanged, OnColumnChanged)
-                     .Build();
-                });
-                b.Div("panel-view", () =>
-                {
-                    b.Component<FormView>().Build(value => view = value);
-                });
-                b.Div("panel-property", () =>
-                {
-                    b.Component<FormProperty>().Build(value => property = value);
-                });
-            });
-        }));
+            builder.Component<FormView>().Build(value => view = value);
+        });
+        builder.Div("panel-property", () =>
+        {
+            builder.Component<FormProperty>().Build(value => property = value);
+        });
     }
 
-    private Task OnColumnChanged(ColumnInfo column)
+    protected override void FieldChanged(FieldInfo field)
     {
         view?.StateChanged();
         property?.StateChanged();
-        return Task.CompletedTask;
     }
 }

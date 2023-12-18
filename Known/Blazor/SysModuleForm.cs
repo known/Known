@@ -14,6 +14,8 @@ class SysModuleForm : BaseForm<SysModule>
     private bool IsPage => Model.Data.Target == "页面";
     private int StepCount => IsPage ? 4 : 1;
 
+    internal EntityInfo Entity {  get; set; }
+
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
@@ -26,12 +28,15 @@ class SysModuleForm : BaseForm<SysModule>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<StepForm>()
-               .Set(c => c.Model, step)
-               .Set(c => c.IsView, Model.IsView)
-               .Set(c => c.StepCount, StepCount)
-               .Set(c => c.OnSave, SaveAsync)
-               .Build(value => stepForm = value);
+        builder.Cascading(this, b =>
+        {
+            b.Component<StepForm>()
+             .Set(c => c.Model, step)
+             .Set(c => c.IsView, Model.IsView)
+             .Set(c => c.StepCount, StepCount)
+             .Set(c => c.OnSave, SaveAsync)
+             .Build(value => stepForm = value);
+        });
     }
 
     private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
@@ -108,6 +113,8 @@ class SysModuleFormEntity : BaseComponent
 
 class SysModuleFormPage : BaseComponent
 {
+    [CascadingParameter] private SysModuleForm Form { get; set; }
+
     [Parameter] public PageInfo Model { get; set; }
     [Parameter] public Action<PageInfo> OnChanged { get; set; }
 
@@ -115,6 +122,7 @@ class SysModuleFormPage : BaseComponent
     {
         builder.Component<PageDesigner>()
                .Set(c => c.ReadOnly, ReadOnly)
+               .Set(c => c.Entity, Form.Entity)
                .Set(c => c.Model, Model)
                .Set(c => c.OnChanged, OnChanged)
                .Build();
@@ -123,6 +131,8 @@ class SysModuleFormPage : BaseComponent
 
 class SysModuleFormForm : BaseComponent
 {
+    [CascadingParameter] private SysModuleForm Form { get; set; }
+
     [Parameter] public FormInfo Model { get; set; }
     [Parameter] public Action<FormInfo> OnChanged { get; set; }
 
@@ -130,6 +140,7 @@ class SysModuleFormForm : BaseComponent
     {
         builder.Component<FormDesigner>()
                .Set(c => c.ReadOnly, ReadOnly)
+               .Set(c => c.Entity, Form.Entity)
                .Set(c => c.Model, Model)
                .Set(c => c.OnChanged, OnChanged)
                .Build();

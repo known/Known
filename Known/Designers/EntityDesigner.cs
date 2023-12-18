@@ -20,6 +20,8 @@ class EntityDesigner : BaseComponent
 
     private bool IsNew => addType == addTypes[0].Code;
 
+    [CascadingParameter] private SysModuleForm Form { get; set; }
+
     [Parameter] public string Model { get; set; }
     [Parameter] public List<string> Models { get; set; }
     [Parameter] public Action<string> OnChanged { get; set; }
@@ -31,29 +33,27 @@ class EntityDesigner : BaseComponent
         addType = !string.IsNullOrWhiteSpace(Model) && Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
         entity = GetEntity(Model);
+        Form.Entity = entity;
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Cascading(this, this.BuildTree(b =>
+        builder.Div("kui-designer entity", () =>
         {
-            b.Div("kui-designer entity", () =>
+            builder.Div("panel-model", () =>
             {
-                b.Div("panel-model", () =>
+                builder.Div("caption", () =>
                 {
-                    b.Div("caption", () =>
-                    {
-                        b.Div("title", "实体模型");
-                        BuildModelType(b);
-                    });
-                    BuildNewModel(b);
+                    builder.Div("title", "实体模型");
+                    BuildModelType(builder);
                 });
-                b.Div("panel-view", () =>
-                {
-                    b.Component<EntityView>().Set(c => c.Model, entity).Build(value => view = value);
-                });
+                BuildNewModel(builder);
             });
-        }));
+            builder.Div("panel-view", () =>
+            {
+                builder.Component<EntityView>().Set(c => c.Model, entity).Build(value => view = value);
+            });
+        });
     }
 
     private void BuildModelType(RenderTreeBuilder builder)
@@ -71,7 +71,7 @@ class EntityDesigner : BaseComponent
 
         if (!IsNew)
         {
-            builder.Div(() =>
+            builder.Div("select", () =>
             {
                 UI.BuildSelect(builder, new InputModel<string>
                 {
@@ -86,11 +86,11 @@ class EntityDesigner : BaseComponent
 
     private void BuildNewModel(RenderTreeBuilder builder)
     {
-        builder.Markup(@"<pre>说明：
+        builder.Markup(@"<pre><b>说明：</b>
 实体：名称|代码|流程类
 字段：名称|代码|类型|长度|必填
 字段类型：CheckBox,CheckList,Date,Number,RadioList,Select,Text,TextArea
-示例：
+<b>示例：</b>
 测试|KmTest
 文本|Field1|Text|50|Y
 数值|Field2|Number|18,5
@@ -110,6 +110,7 @@ class EntityDesigner : BaseComponent
     {
         Model = model;
         entity = GetEntity(model);
+        Form.Entity = entity;
         await view?.SetModelAsync(entity);
         OnChanged?.Invoke(model);
     }
@@ -119,7 +120,7 @@ class EntityDesigner : BaseComponent
         entityModels.Clear();
         foreach (var model in models)
         {
-            var entity = GetEntity(model);
+            var entity = GetEntityInfo(model);
             entityModels.Add(new CodeInfo(entity.Id, $"{entity.Name}({entity.Id})", entity));
         }
     }
