@@ -9,14 +9,9 @@ public class AntSelect : Select<string, CodeInfo>
 
 	protected override void OnInitialized()
 	{
-		ValueName = nameof(CodeInfo.Code);
+        DataSource = Codes;
+        ValueName = nameof(CodeInfo.Code);
 		LabelName = nameof(CodeInfo.Name);
 		base.OnInitialized();
 	}
-
-    protected override async Task OnParametersSetAsync()
-    {
-        await base.OnParametersSetAsync();
-        DataSource = Codes;
-    }
 }

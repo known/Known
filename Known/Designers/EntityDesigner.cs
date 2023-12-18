@@ -7,26 +7,29 @@ namespace Known.Designers;
 
 class EntityDesigner : BaseComponent
 {
-    private readonly List<CodeInfo> AddTypes =
+    private readonly List<CodeInfo> addTypes =
     [
         new CodeInfo("新建"),
         new CodeInfo("从实体库中选择")
     ];
+    private readonly List<CodeInfo> entityModels = [];
 
     private string addType;
     private EntityInfo entity = new();
     private EntityView view;
 
-    private bool IsNew => addType == AddTypes[0].Code;
+    private bool IsNew => addType == addTypes[0].Code;
 
     [Parameter] public string Model { get; set; }
+    [Parameter] public List<string> Models { get; set; }
     [Parameter] public Action<string> OnChanged { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        addType = !string.IsNullOrWhiteSpace(Model) && Model.Contains('|') 
-                ? AddTypes[0].Code : AddTypes[1].Code;
+        LoadEntityModels(Models);
+        addType = !string.IsNullOrWhiteSpace(Model) && Model.Contains('|')
+                ? addTypes[0].Code : addTypes[1].Code;
         entity = GetEntity(Model);
     }
 
@@ -60,7 +63,7 @@ class EntityDesigner : BaseComponent
             UI.BuildRadioList(builder, new InputModel<string>
             {
                 Disabled = ReadOnly,
-                Codes = AddTypes,
+                Codes = addTypes,
                 Value = addType,
                 ValueChanged = this.Callback<string>(OnTypeChanged)
             });
@@ -73,7 +76,7 @@ class EntityDesigner : BaseComponent
                 UI.BuildSelect(builder, new InputModel<string>
                 {
                     Disabled = ReadOnly,
-                    Codes = Cache.GetCodes("TbApply"),
+                    Codes = entityModels,
                     Value = Model,
                     ValueChanged = this.Callback<string>(OnModelChanged)
                 });
@@ -95,7 +98,7 @@ class EntityDesigner : BaseComponent
         UI.BuildTextArea(builder, new InputModel<string>
         {
             Disabled = ReadOnly || !IsNew,
-            Rows = 10,
+            Rows = 11,
             Value = Model,
             ValueChanged = this.Callback<string>(OnModelChanged)
         });
@@ -111,25 +114,41 @@ class EntityDesigner : BaseComponent
         OnChanged?.Invoke(model);
     }
 
-    private static EntityInfo GetEntity(string model)
+    private void LoadEntityModels(List<string> models)
+    {
+        entityModels.Clear();
+        foreach (var model in models)
+        {
+            var entity = GetEntity(model);
+            entityModels.Add(new CodeInfo(entity.Id, $"{entity.Name}({entity.Id})", entity));
+        }
+    }
+
+    private EntityInfo GetEntity(string model)
     {
         var info = new EntityInfo();
         if (string.IsNullOrWhiteSpace(model))
             return info;
 
-        var lines = model.Split(Environment.NewLine.ToArray())
+        if (!model.Contains('|'))
+            return entityModels.FirstOrDefault(m => m.Code == model)?.DataAs<EntityInfo>();
+
+        return GetEntityInfo(model);
+    }
+
+    private static EntityInfo GetEntityInfo(string model)
+    {
+        var info = new EntityInfo();
+        var lines = model.Split([.. Environment.NewLine])
                          .Where(s => !string.IsNullOrWhiteSpace(s))
                          .ToArray();
 
         if (lines.Length > 0)
         {
             var values = lines[0].Split('|');
-            if (values.Length > 0)
-                info.Name = values[0];
-            if (values.Length > 1)
-                info.Id = values[1];
-            if (values.Length > 2)
-                info.IsFlow = values[2] == "Y";
+            if (values.Length > 0) info.Name = values[0];
+            if (values.Length > 1) info.Id = values[1];
+            if (values.Length > 2) info.IsFlow = values[2] == "Y";
         }
 
         if (lines.Length > 1)
@@ -138,16 +157,11 @@ class EntityDesigner : BaseComponent
             {
                 var field = new FieldInfo();
                 var values = lines[i].Split('|');
-                if (values.Length > 0)
-                    field.Name = values[0];
-                if (values.Length > 1)
-                    field.Id = values[1];
-                if (values.Length > 2)
-                    field.Type = values[2];
-                if (values.Length > 3)
-                    field.Length = values[3];
-                if (values.Length > 4)
-                    field.Required = values[4] == "Y";
+                if (values.Length > 0) field.Name = values[0];
+                if (values.Length > 1) field.Id = values[1];
+                if (values.Length > 2) field.Type = values[2];
+                if (values.Length > 3) field.Length = values[3];
+                if (values.Length > 4) field.Required = values[4] == "Y";
 
                 if (field.Type == "CheckBox")
                 {

@@ -60,32 +60,6 @@
 .kui-install h1 {text-align:center;}
 .kui-install .button {text-align:center;}
 
-/*Login*/
-.login {
-    position:absolute;top:50%;left:50%;background-color:#fff;
-    width:800px;height:400px;margin-left:-400px;margin-top:-200px;
-    -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;
-    box-shadow:0 0 10px 3px rgba(0,0,0,.3);
-}
-.login h1 {font-size:1.3rem;font-weight:bold;margin-bottom:20px;text-align:center;}
-.login-form {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
-.login-left {margin-top:50px;padding-left:90px;height:250px;}
-.login .slogan {width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
-.login .image {width:260px;height:180px;margin-top:20px;}
-.login-right {padding:30px 50px;}
-.login-right .kui-label {position:absolute;top:5px;left:10px;padding-left:0;}
-.login-right .kui-field input {padding-left:30px;}
-
-.copyright {position:absolute;bottom:50px;text-align:center;color:#fff;width:100%;font-size:1.1rem;}
-.copyright span {margin:0 5px;}
-.copyright a {color:#fff;}
-
-@media screen and (max-width:768px) {
-    .login {width:80%;margin-left:-40%;}
-    .login-left {display:none;}
-    .login-right {padding:50px 20px;}
-}
-
 /*UserProfile*/
 .kui-user-avatar {text-align:center;}
 .kui-user-avatar img {width:100px;height:100px;margin:20px auto;}
@@ -120,29 +94,42 @@
     .kui-role-form, .kui-role-module, .kui-role-button, .kui-role-column {width:100%;}
 }
 
-/*Designer*/
+/*----Designer begin----*/
+/*Layout*/
 .kui-designer {display:grid;grid-template-columns:20% auto 20%;min-height:300px;}
 .kui-designer.entity {grid-template-columns:40% auto;}
+
+/*Style*/
 .kui-designer .caption {
     display:flex;height:46px;line-height:46px;
     border-bottom:1px solid #dedede;border-left:3px solid #1890ff;
 }
 .kui-designer .caption .title {font-weight:bold;padding:0 10px;}
+.kui-designer .bold {font-weight:bold;}
+
 .kui-designer .columns, .kui-designer form {padding:10px;}
 
+/*Model*/
 .kui-designer .panel-model {background-color:#e9e9e9;}
 .kui-designer .panel-model .item {display:flex;margin-bottom:5px;cursor:pointer;}
 .kui-designer .panel-model .item > span {padding-left:5px;}
 .kui-designer.entity .panel-model pre {margin:0;padding:10px;}
 
+/*View*/
 .kui-designer .panel-view {}
 
+/*Property*/
 .kui-designer .panel-property {background-color:#e9e9e9;}
 .kui-designer .panel-property .item {
     display:grid;margin:10px;grid-template-columns:100px auto;
     height:32px;align-items:center;
 }
 .kui-designer .panel-property .item label {text-align:right;padding-right:15px;}
-.kui-designer .panel-property .item .ant-switch {width:44px;}
 
-.kui-code {margin-left:10px;padding:10px;border-left:3px solid #4775e0;height:400px;overflow:auto;}
+/*Code*/
+.kui-code {margin:0;padding:10px;border-left:3px solid #4775e0;height:428px;overflow:auto;}
+
+/*AntDesign*/
+.kui-designer .panel-view .ant-tabs-content-holder {padding-left:10px;}
+.kui-designer .panel-property .item .ant-switch {width:44px;}
+/*----Designer end----*/

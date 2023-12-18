@@ -1,4 +1,5 @@
 ﻿using Known.Blazor;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -29,7 +30,12 @@ class EntityView : BaseView
         table.OnQuery = OnQuery;
     }
 
-    protected override void BuildView(RenderTreeBuilder builder) => UI.BuildTable<FieldInfo>(builder, table);
+    protected override void BuildView(RenderTreeBuilder builder)
+    {
+        builder.Div("bold", $"{Model.Name}（{Model.Id}）");
+        UI.BuildTable(builder, table);
+    }
+
     protected override void BuildCode(RenderTreeBuilder builder) => BuildCode(builder, code);
     private void BuildScript(RenderTreeBuilder builder) => BuildCode(builder, script);
 

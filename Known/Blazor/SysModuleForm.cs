@@ -83,14 +83,24 @@ class SysModuleForm : BaseForm<SysModule>
 
 class SysModuleFormEntity : BaseComponent
 {
+    private List<string> models = [];
+
     [Parameter] public string Model { get; set; }
     [Parameter] public Action<string> OnChanged { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var modules = await Platform.Module.GetModulesAsync();
+        models = modules.Where(m => !string.IsNullOrWhiteSpace(m.EntityData) && m.EntityData.Contains('|')).Select(m => m.EntityData).ToList();
+    }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Component<EntityDesigner>()
                .Set(c => c.ReadOnly, ReadOnly)
                .Set(c => c.Model, Model)
+               .Set(c => c.Models, models)
                .Set(c => c.OnChanged, OnChanged)
                .Build();
     }
