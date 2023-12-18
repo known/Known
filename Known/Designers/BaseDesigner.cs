@@ -7,12 +7,17 @@ namespace Known.Designers;
 
 class BaseDesigner : BaseComponent
 {
+    internal BaseView view;
+    internal BaseProperty property;
+
     [Parameter] public EntityInfo Entity { get; set; }
+
+    internal List<FieldInfo> Fields { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        FieldChanged(Entity?.Fields?.FirstOrDefault());
+        OnFieldClick(Entity?.Fields?.FirstOrDefault());
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -23,7 +28,9 @@ class BaseDesigner : BaseComponent
             {
                 builder.Component<ColumnPanel>()
                        .Set(c => c.Entity, Entity)
-                       .Set(c => c.FieldChanged, OnFieldChanged)
+                       .Set(c => c.Fields, Fields)
+                       .Set(c => c.OnFieldCheck, OnFieldCheck)
+                       .Set(c => c.OnFieldClick, OnFieldClick)
                        .Build();
             });
             BuildDesigner(builder);
@@ -31,11 +38,11 @@ class BaseDesigner : BaseComponent
     }
 
     protected virtual void BuildDesigner(RenderTreeBuilder builder) { }
-    protected virtual void FieldChanged(FieldInfo field) { }
 
-    private Task OnFieldChanged(FieldInfo field)
+    private void OnFieldCheck() { }
+
+    private void OnFieldClick(FieldInfo field)
     {
-        FieldChanged(field);
-        return Task.CompletedTask;
+        property?.SetField(field);
     }
 }

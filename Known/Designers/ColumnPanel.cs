@@ -10,12 +10,14 @@ class ColumnPanel : BaseComponent
     private FieldInfo current;
 
     [Parameter] public EntityInfo Entity { get; set; }
-    [Parameter] public Func<FieldInfo, Task> FieldChanged { get; set; }
+    [Parameter] public List<FieldInfo> Fields { get; set; } = [];
+    [Parameter] public Action OnFieldCheck { get; set; }
+    [Parameter] public Action<FieldInfo> OnFieldClick { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("caption", () => builder.Div("title", "字段列表"));
-        
+
         if (Entity == null || Entity.Fields == null || Entity.Fields.Count == 0)
             return;
 
@@ -35,18 +37,35 @@ class ColumnPanel : BaseComponent
                 {
                     UI.BuildCheckBox(builder, new InputModel<bool>
                     {
-                        //Value = 
+                        Disabled = ReadOnly,
+                        Value = Fields.Contains(field),
+                        ValueChanged = this.Callback<bool>(c => OnFieldChecked(field, c))
                     });
                     var text = $"{field.Name}({field.Id})";
-                    builder.Span(text, this.Callback(() => OnFieldChanged(field)));
+                    builder.Span(text, this.Callback(() => OnFieldClicked(field)));
                 });
             }
         });
     }
 
-    private Task OnFieldChanged(FieldInfo field)
+    private void OnFieldChecked(FieldInfo field, bool isCheck)
+    {
+        if (isCheck)
+        {
+            if (!Fields.Contains(field))
+                Fields.Add(field);
+        }
+        else
+        {
+            Fields.Remove(field);
+        }
+
+        OnFieldCheck?.Invoke();
+    }
+
+    private void OnFieldClicked(FieldInfo field)
     {
         current = field;
-        return FieldChanged?.Invoke(field);
+        OnFieldClick?.Invoke(field);
     }
 }
