@@ -26,12 +26,12 @@ public class FieldModel<TItem> where TItem : class, new()
 
     public object Value
     {
-        get => Column.Property.GetValue(Form.Data);
+        get => Column.Property?.GetValue(Form.Data);
         set
         {
-            if (Column.Property.SetMethod is not null && !Equals(Value, value))
+            if (Column.Property?.SetMethod is not null && !Equals(Value, value))
             {
-                Column.Property.SetValue(Form.Data, value);
+                Column.Property?.SetValue(Form.Data, value);
                 Form.OnFieldChanged?.Invoke(Column.Id);
             }
         }

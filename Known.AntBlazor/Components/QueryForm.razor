@@ -10,21 +10,23 @@
         @for (var i = 0; i < length; i++)
         {
             var item = Model.QueryColumns[i];
+            var itemType = "String";
             var property = item.GetProperty();
-            var itemType = property.PropertyType.Name;
+            if (property != null)
+                itemType = property.PropertyType.Name;
             <FormItem Label="@item.Name">
                 @if (!string.IsNullOrWhiteSpace(item.Category))
                 {
                     var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? "全部" : "");
-                    <AntSelect Codes="codes" @bind-Value="@(context[property.Name].Value)" Style="width:180px" />
+                    <AntSelect Codes="codes" @bind-Value="@(context[item.Id].Value)" Style="width:180px" />
                 }
                 else if (itemType.Contains("DateTime"))
                 {
-                    <RangePicker TValue="DateTime?[]" OnChange="e=>OnDateRangeChange(e,context[property.Name])" />
+                    <RangePicker TValue="DateTime?[]" OnChange="e=>OnDateRangeChange(e,context[item.Id])" />
                 }
                 else
                 {
-                    <Input @bind-Value="@(context[property.Name].Value)" Style="width:180px" />
+                    <Input @bind-Value="@(context[item.Id].Value)" Style="width:180px" />
                 }
             </FormItem>
         }

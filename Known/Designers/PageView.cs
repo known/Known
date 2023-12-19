@@ -6,22 +6,29 @@ namespace Known.Designers;
 
 class PageView : BaseView<PageInfo>
 {
+    private TableModel<Dictionary<string, object>> table;
     private string code;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        table = new TableModel<Dictionary<string, object>>(Model);
+    }
 
     internal override void SetModel(PageInfo model)
     {
         base.SetModel(model);
+        table = new TableModel<Dictionary<string, object>>(Model);
         code = Service.GetPage(Model);
         StateChanged();
     }
 
     protected override void BuildView(RenderTreeBuilder builder)
     {
-        var table = new TableModel<Dictionary<string, object>>(Model);
         builder.Div("kui-top", () =>
         {
             UI.BuildQuery(builder, table);
-            UI.BuildToolbar(builder, table.Toolbar);
+            UI.BuildToolbar(builder, table?.Toolbar);
         });
         builder.Div("kui-table", () => UI.BuildTable(builder, table));
     }

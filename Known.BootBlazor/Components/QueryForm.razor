@@ -9,23 +9,25 @@
     @for (var i = 0; i < length; i++)
     {
         var item = Model.QueryColumns[i];
+        var itemType = "String";
         var property = item.GetProperty();
-        var itemType = property.PropertyType.Name;
+        if (property != null)
+            itemType = property.PropertyType.Name;
         <div class="item">
             <label>@item.Name</label>
             @if (!string.IsNullOrWhiteSpace(item.Category))
             {
                 var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? "全部" : "");
-                <BootstrapInput @bind-Value="@(Model.QueryData[property.Name].Value)" style="width:180px" />
-                @* <BootSelect Codes="codes" @bind-Value="@(Model.QueryData[property.Name].Value)" style="width:180px" /> *@
+                <BootstrapInput @bind-Value="@(Model.QueryData[item.Id].Value)" style="width:180px" />
+                @* <BootSelect Codes="codes" @bind-Value="@(Model.QueryData[item.Id].Value)" style="width:180px" /> *@
             }
             else if (itemType.Contains("DateTime"))
             {
-                <DateTimeRange OnConfirm="e=>OnDateRangeConfirm(e, Model.QueryData[property.Name])" />
+                <DateTimeRange OnConfirm="e=>OnDateRangeConfirm(e, Model.QueryData[item.Id])" />
             }
             else
             {
-                <BootstrapInput @bind-Value="@(Model.QueryData[property.Name].Value)" style="width:180px" />
+                <BootstrapInput @bind-Value="@(Model.QueryData[item.Id].Value)" style="width:180px" />
             }
         </div>
     }

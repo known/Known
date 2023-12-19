@@ -24,6 +24,23 @@ public class FormModel<TItem> where TItem : class, new()
         Option = new FormOption();
     }
 
+    internal FormModel(IUIService ui, FormInfo info) : this(ui, false)
+    {
+        Data = new();
+        columns = info.Fields.Select(f => new ColumnInfo
+        {
+            IsForm = true,
+            Row = f.Row,
+            Column = f.Column,
+            Id = f.Id,
+            Name = f.Name,
+            IsRequired = f.Required,
+            IsReadOnly = f.ReadOnly,
+            IsMultiFile = f.MultiFile,
+            Placeholder = f.Placeholder
+        }).ToList();
+    }
+
     internal FormModel(TableModel<TItem> table)
     {
         Table = table;

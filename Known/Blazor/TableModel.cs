@@ -24,6 +24,7 @@ public class TableModel<TItem> where TItem : class, new()
             IsViewLink = c.IsViewLink,
             IsQuery = c.IsQuery,
             IsQueryAll = c.IsQueryAll,
+            IsSort = c.IsSort,
             DefaultSort = c.DefaultSort
         }).ToList();
         Columns = AllColumns;
@@ -222,7 +223,7 @@ public class TableModel<TItem> where TItem : class, new()
         {
             foreach (var item in QueryColumns)
             {
-                QueryData[item.Property.Name] = new QueryInfo(item);
+                QueryData[item.Id] = new QueryInfo(item);
             }
         }
     }
