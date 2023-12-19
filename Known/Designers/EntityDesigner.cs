@@ -7,6 +7,7 @@ namespace Known.Designers;
 
 class EntityDesigner : BaseComponent
 {
+    internal const string DataTypes = "CheckBox,CheckList,Date,Number,RadioList,Select,Text,TextArea,File";
     private readonly List<CodeInfo> addTypes =
     [
         new CodeInfo("新建"),
@@ -86,10 +87,10 @@ class EntityDesigner : BaseComponent
 
     private void BuildNewModel(RenderTreeBuilder builder)
     {
-        builder.Markup(@"<pre><b>说明：</b>
+        builder.Markup($@"<pre><b>说明：</b>
 实体：名称|代码|流程类
 字段：名称|代码|类型|长度|必填
-字段类型：CheckBox,CheckList,Date,Number,RadioList,Select,Text,TextArea
+字段类型：{DataTypes}
 <b>示例：</b>
 测试|KmTest
 文本|Field1|Text|50|Y

@@ -26,11 +26,11 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             var columnType = typeof(Column<>).MakeGenericType(property.PropertyType.UnderlyingSystemType);
 
             RenderFragment<TItem> template = null;
-            Table.Templates?.TryGetValue(property.Name, out template);
+            Table.Templates?.TryGetValue(item.Id, out template);
 
             builder.OpenComponent(0, columnType);
-            builder.AddAttribute(1, "Title", property.DisplayName());
-            builder.AddAttribute(1, "DataIndex", property.Name);
+            builder.AddAttribute(1, "Title", item.Name);
+            builder.AddAttribute(1, "DataIndex", item.Id);
             builder.AddAttribute(1, "Sortable", true);
             if (!string.IsNullOrWhiteSpace(item.DefaultSort))
             {
@@ -46,7 +46,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             {
                 builder.AddAttribute(1, "ChildContent", this.BuildTree(b =>
                 {
-                    var value = TypeHelper.GetPropertyValue<bool>(Item, property.Name);
+                    var value = TypeHelper.GetPropertyValue<bool>(Item, item.Id);
                     b.Component<Switch>().Set(c => c.Checked, value)
                                          .Set(c => c.Disabled, true)
                                          .Set(c => c.CheckedChildren, "是")
@@ -58,7 +58,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             {
                 builder.AddAttribute(1, "ChildContent", this.BuildTree(b =>
                 {
-                    var value = TypeHelper.GetPropertyValue<string>(Item, property.Name);
+                    var value = TypeHelper.GetPropertyValue<string>(Item, item.Id);
                     b.Link(value, this.Callback(() => Table.ViewForm(Item)));
                 }));
             }

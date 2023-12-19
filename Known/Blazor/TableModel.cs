@@ -14,6 +14,22 @@ public class TableModel<TItem> where TItem : class, new()
         InitQueryColumns();
     }
 
+    internal TableModel(PageInfo info)
+    {
+        AllColumns = info.Columns.Select(c => new ColumnInfo
+        {
+            Id = c.Id,
+            Name = c.Name,
+            IsGrid = true,
+            IsViewLink = c.IsViewLink,
+            IsQuery = c.IsQuery,
+            IsQueryAll = c.IsQueryAll,
+            DefaultSort = c.DefaultSort
+        }).ToList();
+        Columns = AllColumns;
+        InitQueryColumns();
+    }
+
 	internal TableModel(BasePage<TItem> page)
 	{
         Page = page;

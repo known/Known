@@ -26,7 +26,7 @@ class FormProperty : BaseProperty<FormFieldInfo>
         BuildPropertyItem(builder, "控件类型", b => UI.BuildSelect(b, new InputModel<string>
         {
             Disabled = IsReadOnly,
-            Codes = Cache.GetCodes("升序,降序"),
+            Codes = Cache.GetCodes(EntityDesigner.DataTypes),
             Value = model.Type,
             ValueChanged = this.Callback<string>(value => { Model.Type = value; OnChanged?.Invoke(Model); })
         }));

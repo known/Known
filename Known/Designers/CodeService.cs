@@ -8,6 +8,9 @@ class CodeService
     #region SQL
     internal string GetSQL(EntityInfo info, DatabaseType dbType)
     {
+        if (info == null)
+            return string.Empty;
+
         var columns = new List<FieldInfo>
         {
             new() { Id = nameof(EntityBase.Id), Type = "Text", Length = "50", Required = true },
@@ -263,6 +266,9 @@ class CodeService
     #region Entity
     internal string GetEntity(EntityInfo info)
     {
+        if (info == null)
+            return string.Empty;
+
         var sb = new StringBuilder();
         sb.AppendLine("using System.ComponentModel;");
         sb.AppendLine("using System.ComponentModel.DataAnnotations;");

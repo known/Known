@@ -29,7 +29,7 @@ class EntityView : BaseView<EntityInfo>
 
     protected override void BuildView(RenderTreeBuilder builder)
     {
-        builder.Div("bold", $"{Model.Name}（{Model.Id}）");
+        builder.Div("bold", $"{Model?.Name}（{Model?.Id}）");
         UI.BuildTable(builder, table);
     }
 

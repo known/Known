@@ -1,4 +1,5 @@
-﻿using Known.Extensions;
+﻿using Known.Blazor;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
@@ -16,10 +17,13 @@ class PageView : BaseView<PageInfo>
 
     protected override void BuildView(RenderTreeBuilder builder)
     {
-        foreach (var item in Model.Columns)
+        var table = new TableModel<object>(Model);
+        builder.Div("kui-top", () =>
         {
-            builder.Div("", Utils.ToJson(item));
-        }
+            UI.BuildQuery(builder, table);
+            UI.BuildToolbar(builder, table.Toolbar);
+        });
+        builder.Div("kui-table", () => UI.BuildTable(builder, table));
     }
 
     protected override void BuildCode(RenderTreeBuilder builder) => BuildCode(builder, code);

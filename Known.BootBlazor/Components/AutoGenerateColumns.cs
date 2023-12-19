@@ -26,11 +26,11 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             var columnType = typeof(TableColumn<,>).MakeGenericType(typeof(TItem), propertyType);
 
             RenderFragment<TItem> template = null;
-            Table.Templates?.TryGetValue(property.Name, out template);
+            Table.Templates?.TryGetValue(item.Id, out template);
             
             builder.OpenComponent(0, columnType);
-            builder.AddAttribute(1, "Text", property.DisplayName());
-            builder.AddAttribute(1, "FieldName", property.Name);
+            builder.AddAttribute(1, "Text", item.Name);
+            builder.AddAttribute(1, "FieldName", item.Id);
             builder.AddAttribute(1, "Sortable", true);
             if (!string.IsNullOrWhiteSpace(item.DefaultSort))
             {

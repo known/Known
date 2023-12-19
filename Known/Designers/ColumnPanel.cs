@@ -76,10 +76,12 @@ class ColumnPanel : BaseComponent
     private static List<FieldInfo> GetFields(EntityInfo info)
     {
         var infos = new List<FieldInfo>();
+        if (info == null)
+            return infos;
 
         foreach (var field in info.Fields)
         {
-            infos.Add(new FieldInfo { Id = field.Id, Name = field.Name });
+            infos.Add(new FieldInfo { Id = field.Id, Name = field.Name, Type = field.Type, Required = field.Required });
         }
 
         if (info.IsFlow)
