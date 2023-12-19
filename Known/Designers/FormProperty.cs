@@ -26,9 +26,13 @@ class FormProperty : BaseProperty<FormFieldInfo>
         BuildPropertyItem(builder, "控件类型", b => UI.BuildSelect(b, new InputModel<string>
         {
             Disabled = IsReadOnly,
-            Codes = Cache.GetCodes(EntityDesigner.DataTypes),
-            Value = model.Type,
-            ValueChanged = this.Callback<string>(value => { Model.Type = value; OnChanged?.Invoke(Model); })
+            Codes = Cache.GetCodes(nameof(FieldType)),
+            Value = model.Type.ToString(),
+            ValueChanged = this.Callback<string>(value =>
+            {
+                Model.Type = Utils.ConvertTo<FieldType>(value);
+                OnChanged?.Invoke(Model);
+            })
         }));
         BuildPropertyItem(builder, "必填", b => UI.BuildSwitch(b, new InputModel<bool>
         {

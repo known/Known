@@ -194,7 +194,7 @@ public class ColumnInfo
     public RenderFragment Template { get; set; }
     //public bool IsAdvQuery { get; set; }
     //public bool IsSum { get; set; }
-    //public bool IsSort { get; set; } = true;
+    public bool IsSort { get; set; } = true;
     //public bool IsFixed { get; set; }
     public PropertyInfo GetProperty() => Property;
 }

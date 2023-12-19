@@ -10,6 +10,8 @@ public class EntityInfo
     public List<FieldInfo> Fields { get; set; } = [];
 }
 
+public enum FieldType { Text, TextArea, Date, Number, Switch, CheckBox, CheckList, RadioList, Select, File }
+
 public class FieldInfo
 {
     [Grid, DisplayName("ID")]
@@ -19,7 +21,7 @@ public class FieldInfo
     public string Name { get; set; }
     
     [Grid, DisplayName("类型")]
-    public string Type { get; set; }
+    public FieldType Type { get; set; }
     
     [Grid, DisplayName("长度")]
     public string Length { get; set; }
@@ -40,10 +42,11 @@ public class PageColumnInfo
 {
     public string Id { get; set; }
     public string Name { get; set; }
-    public string DefaultSort { get; set; }
     public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }
     public bool IsQueryAll { get; set; }
+    public bool IsSort { get; set; }
+    public string DefaultSort { get; set; }
 }
 
 public class FormInfo

@@ -17,7 +17,7 @@ class PageView : BaseView<PageInfo>
 
     protected override void BuildView(RenderTreeBuilder builder)
     {
-        var table = new TableModel<object>(Model);
+        var table = new TableModel<Dictionary<string, object>>(Model);
         builder.Div("kui-top", () =>
         {
             UI.BuildQuery(builder, table);

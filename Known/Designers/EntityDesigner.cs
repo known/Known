@@ -7,7 +7,7 @@ namespace Known.Designers;
 
 class EntityDesigner : BaseComponent
 {
-    internal const string DataTypes = "CheckBox,CheckList,Date,Number,RadioList,Select,Text,TextArea,File";
+    private string dataTypes;
     private readonly List<CodeInfo> addTypes =
     [
         new CodeInfo("新建"),
@@ -31,6 +31,7 @@ class EntityDesigner : BaseComponent
     {
         await base.OnInitializedAsync();
         LoadEntityModels(Models);
+        dataTypes = string.Join(",", Cache.GetCodes(nameof(FieldType)).Select(c => c.Name));
         addType = !string.IsNullOrWhiteSpace(Model) && Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
         entity = GetEntity(Model);
@@ -90,9 +91,9 @@ class EntityDesigner : BaseComponent
         builder.Markup($@"<pre><b>说明：</b>
 实体：名称|代码|流程类
 字段：名称|代码|类型|长度|必填
-字段类型：{DataTypes}
+类型：{dataTypes}
 <b>示例：</b>
-测试|KmTest
+测试|KmTest|Y
 文本|Field1|Text|50|Y
 数值|Field2|Number|18,5
 日期|Field3|Date</pre>");
@@ -161,11 +162,11 @@ class EntityDesigner : BaseComponent
                 var values = lines[i].Split('|');
                 if (values.Length > 0) field.Name = values[0];
                 if (values.Length > 1) field.Id = values[1];
-                if (values.Length > 2) field.Type = values[2];
+                if (values.Length > 2) field.Type = Utils.ConvertTo<FieldType>(values[2]);
                 if (values.Length > 3) field.Length = values[3];
                 if (values.Length > 4) field.Required = values[4] == "Y";
 
-                if (field.Type == "CheckBox")
+                if (field.Type == FieldType.CheckBox)
                 {
                     field.Length = "50";
                     field.Required = true;

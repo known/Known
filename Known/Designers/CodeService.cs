@@ -13,15 +13,15 @@ class CodeService
 
         var columns = new List<FieldInfo>
         {
-            new() { Id = nameof(EntityBase.Id), Type = "Text", Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CreateBy), Type = "Text", Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CreateTime), Type = "Date", Required = true },
-            new() { Id = nameof(EntityBase.ModifyBy), Type = "Text", Length = "50" },
-            new() { Id = nameof(EntityBase.ModifyTime), Type = "Date" },
-            new() { Id = nameof(EntityBase.Version), Type = "Number", Required = true },
-            new() { Id = nameof(EntityBase.Extension), Type = "Text" },
-            new() { Id = nameof(EntityBase.AppId), Type = "Text", Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CompNo), Type = "Text", Length = "50", Required = true }
+            new() { Id = nameof(EntityBase.Id), Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.CreateBy), Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.CreateTime), Type = FieldType.Date, Required = true },
+            new() { Id = nameof(EntityBase.ModifyBy), Type = FieldType.Text, Length = "50" },
+            new() { Id = nameof(EntityBase.ModifyTime), Type = FieldType.Date },
+            new() { Id = nameof(EntityBase.Version), Type = FieldType.Number, Required = true },
+            new() { Id = nameof(EntityBase.Extension), Type = FieldType.Text },
+            new() { Id = nameof(EntityBase.AppId), Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.CompNo), Type = FieldType.Text, Length = "50", Required = true }
         };
         columns.AddRange(info.Fields);
 
@@ -68,12 +68,12 @@ class CodeService
 
     private static string GetAccessDbType(FieldInfo item)
     {
-        var type = item.Type ?? "";
-        if (type == "Date")
+        string type;
+        if (item.Type == FieldType.Date)
         {
             type = "DateTime";
         }
-        else if (type == "Number")
+        else if (item.Type == FieldType.Number)
         {
             type = string.IsNullOrWhiteSpace(item.Length) ? "Long" : $"decimal({item.Length})";
         }
@@ -116,12 +116,12 @@ class CodeService
 
     private static string GetSQLiteDbType(FieldInfo item)
     {
-        var type = item.Type ?? "";
-        if (type == "Date")
+        string type;
+        if (item.Type == FieldType.Date)
         {
             type = "datetime";
         }
-        else if (type == "Number")
+        else if (item.Type == FieldType.Number)
         {
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
         }
@@ -161,12 +161,12 @@ class CodeService
 
     private static string GetSqlServerDbType(FieldInfo item)
     {
-        var type = item.Type ?? "";
-        if (type == "Date")
+        string type;
+        if (item.Type == FieldType.Date)
         {
             type = "[datetime]";
         }
-        else if (type == "Number")
+        else if (item.Type == FieldType.Number)
         {
             type = string.IsNullOrWhiteSpace(item.Length) ? "[int]" : $"[decimal]({item.Length})";
         }
@@ -206,10 +206,10 @@ class CodeService
 
     private static string GetOracleDbType(FieldInfo item)
     {
-        var type = item.Type ?? "";
-        if (type == "Date")
+        string type;
+        if (item.Type == FieldType.Date)
             type = "date";
-        else if (type == "Number")
+        else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "number(8)" : $"number({item.Length})";
         else
             type = string.IsNullOrWhiteSpace(item.Length) ? "varchar2(4000)" : $"varchar2({item.Length})";
@@ -239,10 +239,10 @@ class CodeService
 
     private static string GetMySqlDbType(FieldInfo item)
     {
-        var type = item.Type ?? "";
-        if (type == "Date")
+        string type;
+        if (item.Type == FieldType.Date)
             type = "datetime";
-        else if (type == "Number")
+        else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
         else
             type = string.IsNullOrWhiteSpace(item.Length) ? "text" : $"varchar({item.Length})";
@@ -255,7 +255,7 @@ class CodeService
 
     private static string GetColumnName(string column, int maxLength)
     {
-        column = column ?? "";
+        column ??= "";
         if (column.Length < maxLength)
             column += new string(' ', maxLength - column.Length);
 
@@ -309,12 +309,11 @@ class CodeService
 
     private static string GetCSharpType(FieldInfo item)
     {
-        var type = item.Type ?? "";
-        if (type == "CheckBox")
+        if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
             return "bool";
-        else if (type == "Date")
+        else if (item.Type == FieldType.Date)
             return "DateTime";
-        else if (type == "Number")
+        else if (item.Type == FieldType.Number)
             return string.IsNullOrWhiteSpace(item.Length) ? "int" : "decimal";
 
         return "string";
