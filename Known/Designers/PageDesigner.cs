@@ -5,6 +5,8 @@ namespace Known.Designers;
 
 class PageDesigner : BaseDesigner<PageInfo>
 {
+    private PageProperty property;
+
     protected override void BuildDesigner(RenderTreeBuilder builder)
     {
         builder.Div("panel-view", () =>
@@ -23,7 +25,7 @@ class PageDesigner : BaseDesigner<PageInfo>
         {
             if (!Model.Columns.Exists(c => c.Id == item.Id))
             {
-                Model.Columns.Add(new ColumnInfo1
+                Model.Columns.Add(new PageColumnInfo
                 {
                     Id = item.Id,
                     Name = item.Name
@@ -33,4 +35,6 @@ class PageDesigner : BaseDesigner<PageInfo>
         view?.SetModelAsync(Model);
         OnChanged?.Invoke(Model);
     }
+
+    protected override void OnFieldClick(FieldInfo field) => property?.SetField(field);
 }

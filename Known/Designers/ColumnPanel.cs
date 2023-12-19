@@ -1,5 +1,6 @@
 ﻿using Known.Blazor;
 using Known.Extensions;
+using Known.WorkFlows;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -8,30 +9,30 @@ namespace Known.Designers;
 class ColumnPanel : BaseComponent
 {
     private FieldInfo current;
+    private List<FieldInfo> fields;
 
     [Parameter] public EntityInfo Entity { get; set; }
     [Parameter] public List<FieldInfo> Fields { get; set; } = [];
     [Parameter] public Action OnFieldCheck { get; set; }
     [Parameter] public Action<FieldInfo> OnFieldClick { get; set; }
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        fields = GetFields(Entity);
+    }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("caption", () => builder.Div("title", "字段列表"));
 
-        if (Entity == null || Entity.Fields == null || Entity.Fields.Count == 0)
+        if (fields == null || fields.Count == 0)
             return;
 
         builder.Div("columns", () =>
         {
-            foreach (var field in Entity.Fields)
+            foreach (var field in fields)
             {
-                if (field.Id == nameof(EntityBase.Id) ||
-                    field.Id == nameof(EntityBase.Version) ||
-                    field.Id == nameof(EntityBase.Extension) ||
-                    field.Id == nameof(EntityBase.AppId) ||
-                    field.Id == nameof(EntityBase.CompNo))
-                    continue;
-
                 var active = current?.Id == field.Id ? " active" : "";
                 builder.Div($"item{active}", () =>
                 {
@@ -67,5 +68,32 @@ class ColumnPanel : BaseComponent
     {
         current = field;
         OnFieldClick?.Invoke(field);
+    }
+
+    private static List<FieldInfo> GetFields(EntityInfo info)
+    {
+        var infos = new List<FieldInfo>();
+
+        foreach (var field in info.Fields)
+        {
+            infos.Add(new FieldInfo { Id = field.Id, Name = field.Name });
+        }
+
+        if (info.IsFlow)
+        {
+            infos.Add(new FieldInfo { Id = nameof(FlowEntity.BizStatus), Name = "流程状态" });
+            infos.Add(new FieldInfo { Id = nameof(FlowEntity.ApplyBy), Name = "申请人" });
+            infos.Add(new FieldInfo { Id = nameof(FlowEntity.ApplyTime), Name = "申请时间" });
+            infos.Add(new FieldInfo { Id = nameof(FlowEntity.VerifyBy), Name = "审核人" });
+            infos.Add(new FieldInfo { Id = nameof(FlowEntity.VerifyTime), Name = "审核时间" });
+            infos.Add(new FieldInfo { Id = nameof(FlowEntity.VerifyNote), Name = "审核意见" });
+        }
+
+        infos.Add(new FieldInfo { Id = nameof(EntityBase.CreateBy), Name = "创建人" });
+        infos.Add(new FieldInfo { Id = nameof(EntityBase.CreateTime), Name = "创建时间" });
+        infos.Add(new FieldInfo { Id = nameof(EntityBase.ModifyBy), Name = "修改人" });
+        infos.Add(new FieldInfo { Id = nameof(EntityBase.ModifyTime), Name = "修改时间" });
+
+        return infos;
     }
 }

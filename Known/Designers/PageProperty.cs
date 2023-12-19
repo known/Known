@@ -1,13 +1,19 @@
 ﻿using Known.Blazor;
 using Known.Extensions;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class PageProperty : BaseProperty
+class PageProperty : BaseProperty<PageColumnInfo>
 {
-    [Parameter] public ColumnInfo1 Column { get; set; } = new();
+    protected override PageColumnInfo GetModel(FieldInfo field)
+    {
+        return new PageColumnInfo
+        {
+            Id = field.Id,
+            Name = field.Name
+        };
+    }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -15,23 +21,23 @@ class PageProperty : BaseProperty
         BuildPropertyItem(builder, "默认排序", b => UI.BuildSelect(b, new InputModel<string>
         {
             Codes = Cache.GetCodes("升序,降序"),
-            Value = Column.DefaultSort,
-            ValueChanged = this.Callback<string>(value => Column.DefaultSort = value)
+            Value = Model.DefaultSort,
+            ValueChanged = this.Callback<string>(value => Model.DefaultSort = value)
         }));
         BuildPropertyItem(builder, "查看链接", b => UI.BuildSwitch(b, new InputModel<bool>
         {
-            Value = Column.IsViewLink,
-            ValueChanged = this.Callback<bool>(value => Column.IsViewLink = value)
+            Value = Model.IsViewLink,
+            ValueChanged = this.Callback<bool>(value => Model.IsViewLink = value)
         }));
         BuildPropertyItem(builder, "查询条件", b => UI.BuildSwitch(b, new InputModel<bool>
         {
-            Value = Column.IsQuery,
-            ValueChanged = this.Callback<bool>(value => Column.IsQuery = value)
+            Value = Model.IsQuery,
+            ValueChanged = this.Callback<bool>(value => Model.IsQuery = value)
         }));
         BuildPropertyItem(builder, "显示查询全部", b => UI.BuildSwitch(b, new InputModel<bool>
         {
-            Value = Column.IsQueryAll,
-            ValueChanged = this.Callback<bool>(value => Column.IsQueryAll = value)
+            Value = Model.IsQueryAll,
+            ValueChanged = this.Callback<bool>(value => Model.IsQueryAll = value)
         }));
     }
 }

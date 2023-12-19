@@ -5,20 +5,24 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class BaseProperty : BaseComponent
+class BaseProperty<TModel> : BaseComponent where TModel : class, new()
 {
-    [Parameter] public FieldInfo Field { get; set; }
+    private FieldInfo _field;
+    [Parameter] public TModel Model { get; set; } = new();
 
     internal void SetField(FieldInfo field)
     {
-        Field = field;
+        _field = field;
+        Model = GetModel(field);
         StateChanged();
     }
 
+    protected virtual TModel GetModel(FieldInfo field) => new();
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("caption", () => builder.Div("title", $"字段属性 - {Field?.Id}"));
-        BuildPropertyItem(builder, "属性", b => b.Span(Field?.Name));
+        builder.Div("caption", () => builder.Div("title", $"字段属性 - {_field?.Id}"));
+        BuildPropertyItem(builder, "属性", b => b.Span(_field?.Name));
     }
 
     protected void BuildPropertyItem(RenderTreeBuilder builder, string label, Action<RenderTreeBuilder> template)

@@ -8,7 +8,6 @@ namespace Known.Designers;
 class BaseDesigner<TModel> : BaseComponent
 {
     internal BaseView<TModel> view;
-    internal BaseProperty property;
 
     [Parameter] public EntityInfo Entity { get; set; }
     [Parameter] public TModel Model { get; set; }
@@ -41,6 +40,5 @@ class BaseDesigner<TModel> : BaseComponent
 
     protected virtual void BuildDesigner(RenderTreeBuilder builder) { }
     protected virtual void OnFieldCheck() { }
-
-    private void OnFieldClick(FieldInfo field) => property?.SetField(field);
+    protected virtual void OnFieldClick(FieldInfo field) { }
 }
