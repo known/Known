@@ -7,22 +7,15 @@ namespace Known.Designers;
 
 class BaseProperty<TModel> : BaseComponent where TModel : class, new()
 {
-    private FieldInfo _field;
     [Parameter] public TModel Model { get; set; } = new();
+    [Parameter] public Action<TModel> OnChanged { get; set; }
 
-    internal void SetField(FieldInfo field)
+    internal bool IsReadOnly => ReadOnly || Model == null;
+
+    internal void SetModel(TModel model)
     {
-        _field = field;
-        Model = GetModel(field);
+        Model = model;
         StateChanged();
-    }
-
-    protected virtual TModel GetModel(FieldInfo field) => new();
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.Div("caption", () => builder.Div("title", $"字段属性 - {_field?.Id}"));
-        BuildPropertyItem(builder, "属性", b => b.Span(_field?.Name));
     }
 
     protected void BuildPropertyItem(RenderTreeBuilder builder, string label, Action<RenderTreeBuilder> template)

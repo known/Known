@@ -106,12 +106,12 @@ class EntityDesigner : BaseComponent
 
     private void OnTypeChanged(string type) => addType = type;
 
-    private async void OnModelChanged(string model)
+    private void OnModelChanged(string model)
     {
         Model = model;
         entity = GetEntity(model);
         Form.Entity = entity;
-        await view?.SetModelAsync(entity);
+        view?.SetModel(entity);
         OnChanged?.Invoke(model);
     }
 

@@ -48,7 +48,7 @@ public class PageColumnInfo
 
 public class FormInfo
 {
-    public List<FieldInfo> Fields { get; set; } = [];
+    public List<FormFieldInfo> Fields { get; set; } = [];
 }
 
 public class FormFieldInfo : FieldInfo

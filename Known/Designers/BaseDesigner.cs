@@ -15,12 +15,6 @@ class BaseDesigner<TModel> : BaseComponent
 
     internal List<FieldInfo> Fields { get; set; } = [];
 
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        OnFieldClick(Entity?.Fields?.FirstOrDefault());
-    }
-
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("kui-designer", () =>
@@ -28,6 +22,7 @@ class BaseDesigner<TModel> : BaseComponent
             builder.Div("panel-model", () =>
             {
                 builder.Component<ColumnPanel>()
+                       .Set(c => c.ReadOnly, ReadOnly)
                        .Set(c => c.Entity, Entity)
                        .Set(c => c.Fields, Fields)
                        .Set(c => c.OnFieldCheck, OnFieldCheck)

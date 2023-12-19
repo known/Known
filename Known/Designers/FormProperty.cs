@@ -6,61 +6,59 @@ namespace Known.Designers;
 
 class FormProperty : BaseProperty<FormFieldInfo>
 {
-    protected override FormFieldInfo GetModel(FieldInfo field)
-    {
-        return new FormFieldInfo
-        {
-            Id = field.Id,
-            Name = field.Name,
-            Type = field.Type,
-            Length = field.Length,
-            Required = field.Required
-        };
-    }
-
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        base.BuildRenderTree(builder);
-        BuildPropertyItem(builder, "行序号", b => UI.BuildNumber<int>(b, new InputModel<int>
+        var model = Model ?? new();
+        builder.Div("caption", () => builder.Div("title", $"字段属性 - {model.Id}"));
+        BuildPropertyItem(builder, "属性", b => b.Span(model.Name));
+        BuildPropertyItem(builder, "行序号", b => UI.BuildNumber(b, new InputModel<int>
         {
-            Value = Model.Row,
-            ValueChanged = this.Callback<int>(value => Model.Row = value)
+            Disabled = IsReadOnly,
+            Value = model.Row,
+            ValueChanged = this.Callback<int>(value => { Model.Row = value; OnChanged?.Invoke(Model); })
         }));
-        BuildPropertyItem(builder, "列序号", b => UI.BuildNumber<int>(b, new InputModel<int>
+        BuildPropertyItem(builder, "列序号", b => UI.BuildNumber(b, new InputModel<int>
         {
-            Value = Model.Column,
-            ValueChanged = this.Callback<int>(value => Model.Column = value)
+            Disabled = IsReadOnly,
+            Value = model.Column,
+            ValueChanged = this.Callback<int>(value => { Model.Column = value; OnChanged?.Invoke(Model); })
         }));
         BuildPropertyItem(builder, "控件类型", b => UI.BuildSelect(b, new InputModel<string>
         {
+            Disabled = IsReadOnly,
             Codes = Cache.GetCodes("升序,降序"),
-            Value = Model.Type,
-            ValueChanged = this.Callback<string>(value => Model.Type = value)
+            Value = model.Type,
+            ValueChanged = this.Callback<string>(value => { Model.Type = value; OnChanged?.Invoke(Model); })
         }));
         BuildPropertyItem(builder, "必填", b => UI.BuildSwitch(b, new InputModel<bool>
         {
-            Value = Model.Required,
-            ValueChanged = this.Callback<bool>(value => Model.Required = value)
+            Disabled = IsReadOnly,
+            Value = model.Required,
+            ValueChanged = this.Callback<bool>(value => { Model.Required = value; OnChanged?.Invoke(Model); })
         }));
         BuildPropertyItem(builder, "只读", b => UI.BuildSwitch(b, new InputModel<bool>
         {
-            Value = Model.ReadOnly,
-            ValueChanged = this.Callback<bool>(value => Model.ReadOnly = value)
+            Disabled = IsReadOnly,
+            Value = model.ReadOnly,
+            ValueChanged = this.Callback<bool>(value => { Model.ReadOnly = value; OnChanged?.Invoke(Model); })
         }));
         BuildPropertyItem(builder, "代码类别", b => UI.BuildText(b, new InputModel<string>
         {
-            Value = Model.Category,
-            ValueChanged = this.Callback<string>(value => Model.Category = value)
+            Disabled = IsReadOnly,
+            Value = model.Category,
+            ValueChanged = this.Callback<string>(value => { Model.Category = value; OnChanged?.Invoke(Model); })
         }));
         BuildPropertyItem(builder, "占位符", b => UI.BuildText(b, new InputModel<string>
         {
-            Value = Model.Placeholder,
-            ValueChanged = this.Callback<string>(value => Model.Placeholder = value)
+            Disabled = IsReadOnly,
+            Value = model.Placeholder,
+            ValueChanged = this.Callback<string>(value => { Model.Placeholder = value; OnChanged?.Invoke(Model); })
         }));
         BuildPropertyItem(builder, "多附件", b => UI.BuildSwitch(b, new InputModel<bool>
         {
-            Value = Model.MultiFile,
-            ValueChanged = this.Callback<bool>(value => Model.MultiFile = value)
+            Disabled = IsReadOnly,
+            Value = model.MultiFile,
+            ValueChanged = this.Callback<bool>(value => { Model.MultiFile = value; OnChanged?.Invoke(Model); })
         }));
     }
 }

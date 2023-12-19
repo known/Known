@@ -12,11 +12,7 @@ class BaseView<TModel> : BaseComponent
 
     [Parameter] public TModel Model { get; set; }
 
-    internal virtual Task SetModelAsync(TModel model)
-    {
-        Model = model;
-        return Task.CompletedTask;
-    }
+    internal virtual void SetModel(TModel model) => Model = model;
 
     protected override async Task OnInitializedAsync()
     {

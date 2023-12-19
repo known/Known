@@ -343,6 +343,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         builder.Component<Checkbox>()
                .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.Checked, model.Value)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
@@ -352,6 +353,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         builder.Component<Switch>()
                .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.Checked, model.Value)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();

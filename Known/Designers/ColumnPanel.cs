@@ -19,6 +19,7 @@ class ColumnPanel : BaseComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        current = Fields?.FirstOrDefault();
         fields = GetFields(Entity);
     }
 
@@ -39,7 +40,7 @@ class ColumnPanel : BaseComponent
                     UI.BuildCheckBox(builder, new InputModel<bool>
                     {
                         Disabled = ReadOnly,
-                        Value = Fields.Contains(field),
+                        Value = Fields.Exists(f => f.Id == field.Id),
                         ValueChanged = this.Callback<bool>(c => OnFieldChecked(field, c))
                     });
                     var text = $"{field.Name}({field.Id})";
@@ -51,17 +52,19 @@ class ColumnPanel : BaseComponent
 
     private void OnFieldChecked(FieldInfo field, bool isCheck)
     {
+        var info = Fields.FirstOrDefault(f => f.Id == field.Id);
         if (isCheck)
         {
-            if (!Fields.Contains(field))
-                Fields.Add(field);
+            if (info == null) Fields.Add(field);
         }
         else
         {
-            Fields.Remove(field);
+            Fields.Remove(info);
         }
 
+        current = field;
         OnFieldCheck?.Invoke();
+        OnFieldClick?.Invoke(field);
     }
 
     private void OnFieldClicked(FieldInfo field)

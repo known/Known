@@ -11,9 +11,9 @@ class EntityView : BaseView<EntityInfo>
     private string script;
     private DatabaseType dbType;
 
-    internal override async Task SetModelAsync(EntityInfo model)
+    internal override async void SetModel(EntityInfo model)
     {
-        await base.SetModelAsync(model);
+        base.SetModel(model);
         SetViewData(model);
         await table.RefreshAsync();
     }
