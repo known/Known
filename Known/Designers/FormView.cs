@@ -11,16 +11,21 @@ class FormView : BaseView<FormInfo>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        form = new FormModel<Dictionary<string, object>>(UI, Model);
+        SetFormModel();
     }
 
     internal override void SetModel(FormInfo model)
     {
         base.SetModel(model);
-        form = new FormModel<Dictionary<string, object>>(UI, Model);
+        SetFormModel();
         StateChanged();
     }
 
     protected override void BuildView(RenderTreeBuilder builder) => UI.BuildForm(builder, form);
     protected override void BuildCode(RenderTreeBuilder builder) => BuildCode(builder, code);
+
+    private void SetFormModel()
+    {
+        form = new FormModel<Dictionary<string, object>>(UI, Model);
+    }
 }

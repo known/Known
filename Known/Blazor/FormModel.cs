@@ -9,7 +9,7 @@ namespace Known.Blazor;
 
 public class FormModel<TItem> where TItem : class, new()
 {
-    private readonly List<ColumnInfo> columns;
+    private readonly List<ColumnInfo> columns = [];
 
     public FormModel(IUIService ui, bool isAuto = true)
     {
@@ -27,30 +27,27 @@ public class FormModel<TItem> where TItem : class, new()
     internal FormModel(IUIService ui, FormInfo info) : this(ui, false)
     {
         Data = new();
-        columns = info.Fields.Select(f => new ColumnInfo
-        {
-            IsForm = true,
-            Row = f.Row,
-            Column = f.Column,
-            Id = f.Id,
-            Name = f.Name,
-            IsRequired = f.Required,
-            IsReadOnly = f.ReadOnly,
-            IsMultiFile = f.MultiFile,
-            Placeholder = f.Placeholder
-        }).ToList();
+        columns = info.Fields.Select(f => new ColumnInfo(f)).ToList();
     }
 
     internal FormModel(TableModel<TItem> table)
     {
         Table = table;
-        if (table.AllColumns != null)
-            columns = table.AllColumns.Where(c => c.IsForm).ToList();
-
         UI = table.UI;
         Page = table.Page;
         Option = table.Form;
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
+
+        var allColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
+        foreach (var column in allColumns)
+        {
+            var info = Page?.Module?.Form?.Fields?.FirstOrDefault(p => p.Id == column.Id);
+            if (info != null)
+            {
+                column.SetFormFieldInfo(info);
+                columns.Add(column);
+            }
+        }
     }
 
     internal IUIService UI { get; }

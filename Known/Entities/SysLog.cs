@@ -11,7 +11,6 @@ public class SysLog : EntityBase
     /// <summary>
     /// 取得或设置操作类型。
     /// </summary>
-    [Column, Grid, Query]
     [Category(nameof(LogType))]
     [DisplayName("操作类型")]
     [Required(ErrorMessage = "操作类型不能为空！")]
@@ -21,7 +20,6 @@ public class SysLog : EntityBase
     /// <summary>
     /// 取得或设置操作对象。
     /// </summary>
-    [Column, Grid, Query]
     [DisplayName("操作对象")]
     [Required(ErrorMessage = "操作对象不能为空！")]
     [MaxLength(50)]
@@ -30,7 +28,6 @@ public class SysLog : EntityBase
     /// <summary>
     /// 取得或设置操作内容。
     /// </summary>
-    [Column, Grid]
     [DisplayName("操作内容")]
     public string Content { get; set; }
 }

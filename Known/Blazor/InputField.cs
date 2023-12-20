@@ -20,7 +20,7 @@ public class InputField<TItem> : BaseComponent where TItem : class, new()
         {
             builder.Fragment(Model.Column.Template);
         }
-        else if (Model.Column.IsFile || Model.Column.IsMultiFile)
+        else if (Model.Column.Type== FieldType.File)
         {
             builder.Component<UploadField<TItem>>().Set(c => c.Model, Model).Build();
         }

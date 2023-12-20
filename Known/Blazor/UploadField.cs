@@ -23,7 +23,7 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
         if (!Model.Form.IsView)
         {
             builder.Component<InputFile>()
-                   .Add("multiple", Model.Column.IsMultiFile)
+                   .Add("multiple", Model.Column.MultiFile)
                    .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnFilesChanged))
                    .Build();
         }
@@ -51,7 +51,7 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
     private void OnFilesChanged(InputFileChangeEventArgs e)
     {
         var column = Model.Column;
-        if (column.IsMultiFile)
+        if (column.MultiFile)
         {
             var files = e.GetMultipleFiles();
             Model.Form.Files[column.Property.Name] = [.. files];

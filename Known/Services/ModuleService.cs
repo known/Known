@@ -6,6 +6,7 @@ namespace Known.Services;
 class ModuleService : ServiceBase
 {
     public Task<List<SysModule>> GetModulesAsync() => Database.QueryListAsync<SysModule>();
+    public Task<SysModule> GetModuleAsync(string id) => Database.QueryByIdAsync<SysModule>(id);
 
     public async Task<Result> DeleteModulesAsync(List<SysModule> models)
     {

@@ -87,7 +87,7 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
             IsView = true,
             Data = Parent.User
         };
-        Model.AddRow().AddColumn(c => c.UserName, c => c.IsReadOnly = true);
+        Model.AddRow().AddColumn(c => c.UserName, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.Name);
         Model.AddRow().AddColumn(c => c.EnglishName);
         Model.AddRow().AddColumn(c => c.Gender);

@@ -13,20 +13,18 @@ public class UIService(DialogService dialogService, MessageService messageServic
 
     public Type GetInputType(ColumnInfo column)
     {
+        var type = typeof(string);
         var property = column.GetProperty();
-        if (property == null)
-            return null;
+        if (property != null)
+            type = property.PropertyType;
 
-        var type = property.PropertyType;
-        var maxLength = property.MaxLength();
-
-        if (type == typeof(bool))
+        if (type == typeof(bool) || column.Type == FieldType.Switch)
             return typeof(Switch);
 
         if (type == typeof(short))
             return typeof(BootstrapInputNumber<short>);
 
-        if (type == typeof(int))
+        if (type == typeof(int) || column.Type == FieldType.Number)
             return typeof(BootstrapInputNumber<int>);
 
         if (type == typeof(long))
@@ -41,7 +39,7 @@ public class UIService(DialogService dialogService, MessageService messageServic
         if (type == typeof(decimal))
             return typeof(BootstrapInputNumber<decimal>);
 
-        if (type == typeof(DateTime))
+        if (type == typeof(DateTime) || column.Type == FieldType.Date)
             return typeof(DateTimePicker<DateTime>);
 
         if (type == typeof(DateTime?))
@@ -53,19 +51,19 @@ public class UIService(DialogService dialogService, MessageService messageServic
         if (type == typeof(DateTimeOffset?))
             return typeof(DateTimePicker<DateTimeOffset?>);
 
-        if (type.IsEnum || column.IsSelect)
+        if (column.Type == FieldType.Select)
             return typeof(BootSelect);
 
-        if (type == typeof(string[]))
+        if (column.Type == FieldType.CheckList)
             return typeof(BootCheckboxList);
 
-        if (type == typeof(string) && !string.IsNullOrWhiteSpace(column.Category))
+        if (column.Type == FieldType.RadioList)
             return typeof(BootRadioList);
 
-        if (type == typeof(string) && column.IsPassword)
+        if (column.Type == FieldType.Password)
             return typeof(BootstrapPassword);
 
-        if (type == typeof(string) && maxLength >= 500)
+        if (column.Type == FieldType.TextArea)
             return typeof(Textarea);
 
         return typeof(BootstrapInput<string>);
@@ -76,16 +74,13 @@ public class UIService(DialogService dialogService, MessageService messageServic
         var column = model.Column;
         if (!string.IsNullOrWhiteSpace(column.Category))
         {
-            var property = column.GetProperty();
-            var type = property.PropertyType;
-
-            if (type.IsEnum || column.IsSelect)
+            if (column.Type == FieldType.Select)
                 attributes[nameof(BootSelect.Codes)] = model.GetCodes();
 
-            if (type == typeof(string))
+            if (column.Type == FieldType.RadioList)
                 attributes[nameof(BootRadioList.Codes)] = model.GetCodes("");
 
-            if (type == typeof(string[]))
+            if (column.Type == FieldType.CheckList)
                 attributes[nameof(BootCheckboxList.Codes)] = model.GetCodes("");
         }
     }

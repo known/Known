@@ -13,20 +13,18 @@ public class UIService(ModalService modalService, MessageService messageService)
 
     public Type GetInputType(ColumnInfo column)
     {
+        var type = typeof(string);
         var property = column.GetProperty();
-        if (property == null)
-            return null;
+        if (property != null)
+            type = property.PropertyType;
 
-        var type = property.PropertyType;
-        var maxLength = property.MaxLength();
-
-        if (type == typeof(bool))
+        if (type == typeof(bool) || column.Type == FieldType.Switch)
             return typeof(Switch);
 
         if (type == typeof(short))
             return typeof(InputNumber<short>);
 
-        if (type == typeof(int))
+        if (type == typeof(int) || column.Type == FieldType.Number)
             return typeof(InputNumber<int>);
 
         if (type == typeof(long))
@@ -41,7 +39,7 @@ public class UIService(ModalService modalService, MessageService messageService)
         if (type == typeof(decimal))
             return typeof(InputNumber<decimal>);
 
-        if (type == typeof(DateTime))
+        if (type == typeof(DateTime) || column.Type == FieldType.Date)
             return typeof(DatePicker<DateTime>);
 
         if (type == typeof(DateTime?))
@@ -53,19 +51,19 @@ public class UIService(ModalService modalService, MessageService messageService)
         if (type == typeof(DateTimeOffset?))
             return typeof(DatePicker<DateTimeOffset?>);
 
-        if (type.IsEnum || column.IsSelect)
+        if (column.Type == FieldType.Select)
             return typeof(AntSelect);
 
-        if (type == typeof(string[]))
+        if (type == typeof(string[]) || column.Type == FieldType.CheckList)
             return typeof(AntCheckboxGroup);
 
-        if (type == typeof(string) && !string.IsNullOrWhiteSpace(column.Category))
+        if (column.Type == FieldType.RadioList)
             return typeof(AntRadioGroup);
 
-        if (type == typeof(string) && column.IsPassword)
+        if (column.Type == FieldType.Password)
             return typeof(InputPassword);
 
-        if (type == typeof(string) && maxLength >= 500)
+        if (column.Type == FieldType.TextArea)
             return typeof(TextArea);
 
         return typeof(Input<string>);
@@ -76,16 +74,13 @@ public class UIService(ModalService modalService, MessageService messageService)
         var column = model.Column;
         if (!string.IsNullOrWhiteSpace(column.Category))
         {
-            var property = column.GetProperty();
-            var type = property.PropertyType;
-
-            if (type.IsEnum || column.IsSelect)
+            if (column.Type == FieldType.Select)
                 attributes[nameof(AntSelect.Codes)] = model.GetCodes();
 
-            if (type == typeof(string))
+            if (column.Type == FieldType.RadioList)
                 attributes[nameof(AntRadioGroup.Codes)] = model.GetCodes("");
 
-            if (type == typeof(string[]))
+            if (column.Type == FieldType.CheckList)
                 attributes[nameof(AntCheckboxGroup.Codes)] = model.GetCodes("");
         }
     }

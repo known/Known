@@ -6,6 +6,14 @@ namespace Known.Designers;
 
 class FormProperty : BaseProperty<FormFieldInfo>
 {
+    private List<CodeInfo> controlTypes;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        controlTypes = Cache.GetCodes(nameof(FieldType)).Select(c => new CodeInfo(c.Name, c.Name)).ToList();
+    }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         var model = Model ?? new();
@@ -26,11 +34,12 @@ class FormProperty : BaseProperty<FormFieldInfo>
         BuildPropertyItem(builder, "控件类型", b => UI.BuildSelect(b, new InputModel<string>
         {
             Disabled = IsReadOnly,
-            Codes = Cache.GetCodes(nameof(FieldType)),
+            Codes = controlTypes,
             Value = model.Type.ToString(),
             ValueChanged = this.Callback<string>(value =>
             {
-                Model.Type = Utils.ConvertTo<FieldType>(value);
+                if (Model != null)
+                    Model.Type = Utils.ConvertTo<FieldType>(value);
                 OnChanged?.Invoke(Model);
             })
         }));

@@ -10,23 +10,23 @@ public class EntityInfo
     public List<FieldInfo> Fields { get; set; } = [];
 }
 
-public enum FieldType { Text, TextArea, Date, Number, Switch, CheckBox, CheckList, RadioList, Select, File }
+public enum FieldType { Text, TextArea, Date, Number, Switch, CheckBox, CheckList, RadioList, Select, Password, File }
 
 public class FieldInfo
 {
-    [Grid, DisplayName("ID")]
+    [DisplayName("ID")]
     public string Id { get; set; }
     
-    [Grid, DisplayName("名称")]
+    [DisplayName("名称")]
     public string Name { get; set; }
     
-    [Grid, DisplayName("类型")]
+    [DisplayName("类型")]
     public FieldType Type { get; set; }
     
-    [Grid, DisplayName("长度")]
+    [DisplayName("长度")]
     public string Length { get; set; }
 
-    [Grid, DisplayName("必填")]
+    [DisplayName("必填")]
     public bool Required { get; set; }
 }
 

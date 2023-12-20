@@ -126,52 +126,15 @@ public class ColumnInfo
     internal PropertyInfo Property;
 
     public ColumnInfo() { }
-
-    internal ColumnInfo(PageColumnInfo info)
-    {
-        Id = info.Id;
-        Name = info.Name;
-        IsViewLink = info.IsViewLink;
-        IsQuery = info.IsQuery;
-        IsQueryAll = info.IsQueryAll;
-        IsSort = info.IsSort;
-        DefaultSort = info.DefaultSort;
-    }
+    internal ColumnInfo(PageColumnInfo info) => SetPageColumnInfo(info);
+    internal ColumnInfo(FormFieldInfo info) => SetFormFieldInfo(info);
 
     internal ColumnInfo(PropertyInfo property)
     {
         Property = property;
         Id = Property.Name;
         Name = Property.DisplayName();
-        IsRequired = Property.IsRequired();
-
-        var grid = Property.GetCustomAttribute<GridAttribute>();
-        if (grid != null)
-        {
-            IsGrid = true;
-            IsViewLink = grid.IsViewLink;
-        }
-
-        var query = Property.GetCustomAttribute<QueryAttribute>();
-        if (query != null)
-        {
-            IsQuery = true;
-            IsQueryAll = query.IsQueryAll;
-        }
-
-        var form = Property.GetCustomAttribute<FormAttribute>();
-        if (form != null)
-        {
-            IsForm = true;
-            IsFile = form.IsFile;
-            IsMultiFile = form.IsMultiFile;
-            IsReadOnly = form.IsReadOnly;
-            IsPassword = form.IsPassword;
-            IsSelect = form.IsSelect;
-            Row = form.Row;
-            Column = form.Column;
-            Placeholder = form.Placeholder;
-        }
+        //Required = Property.IsRequired();
 
         var code = Property.GetCustomAttribute<CategoryAttribute>();
         if (code != null)
@@ -184,7 +147,6 @@ public class ColumnInfo
     public string Name { get; set; }
     public bool IsVisible { get; set; } = true;
 
-    internal bool IsGrid { get; set; }
     public string DefaultSort { get; set; }
     public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }
@@ -193,21 +155,40 @@ public class ColumnInfo
     internal bool IsForm { get; set; }
     public string Category { get; set; }
     public string Placeholder { get; set; }
-    public bool IsFile { get; set; }
-    public bool IsMultiFile { get; set; }
-    public bool IsRequired { get; set; }
-    public bool IsReadOnly { get; set; }
-    public bool IsPassword { get; set; }
-    public bool IsSelect { get; set; }
     public int Row { get; set; } = 1;
     public int Column { get; set; } = 1;
+    public FieldType Type { get; set; }
+    public bool MultiFile { get; set; }
+    public bool Required { get; set; }
+    public bool ReadOnly { get; set; }
     
     public RenderFragment Template { get; set; }
-    //public bool IsAdvQuery { get; set; }
-    //public bool IsSum { get; set; }
     public bool IsSort { get; set; } = true;
-    //public bool IsFixed { get; set; }
     public PropertyInfo GetProperty() => Property;
+
+    internal void SetPageColumnInfo(PageColumnInfo info)
+    {
+        Id = info.Id;
+        Name = info.Name;
+        IsViewLink = info.IsViewLink;
+        IsQuery = info.IsQuery;
+        IsQueryAll = info.IsQueryAll;
+        IsSort = info.IsSort;
+        DefaultSort = info.DefaultSort;
+    }
+
+    internal void SetFormFieldInfo(FormFieldInfo info)
+    {
+        Id = info.Id;
+        Name = info.Name;
+        Row = info.Row;
+        Column = info.Column;
+        Type = info.Type;
+        MultiFile = info.MultiFile;
+        ReadOnly = info.ReadOnly;
+        Required = info.Required;
+        Placeholder = info.Placeholder;
+    }
 }
 
 public class MenuItem : MenuInfo

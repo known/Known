@@ -20,50 +20,28 @@ public class EntityBase
 
     public virtual bool IsNew { get; internal set; }
 
-    [Column]
-    [DisplayName("ID")]
-    [MinLength(1), MaxLength(50)]
     public string Id { get; set; }
 
-    [Column, Grid]
     [DisplayName(Language.CreateBy)]
-    [Required(ErrorMessage = $"{Language.CreateBy}不能为空！")]
-    [MinLength(1), MaxLength(50)]
     public string CreateBy { get; set; }
 
-    [Column, Grid]
     [DisplayName(Language.CreateTime)]
-    [Required(ErrorMessage = $"{Language.CreateTime}不能为空！")]
     public DateTime CreateTime { get; set; }
 
-    [Column, Grid]
     [DisplayName(Language.ModifyBy)]
-    [MinLength(1), MaxLength(50)]
     public string ModifyBy { get; set; }
 
-    [Column, Grid]
     [DisplayName(Language.ModifyTime)]
     public DateTime? ModifyTime { get; set; }
 
-    [Column]
-    [DisplayName(Language.Version)]
-    [Required(ErrorMessage = $"{Language.Version}不能为空！")]
     public int Version { get; set; }
 
-    [Column]
-    [DisplayName("Extension")]
     public string Extension { get; set; }
 
-    [Column]
-    [DisplayName("AppId")]
     [Required(ErrorMessage = "AppId不能为空！")]
-    [MinLength(1), MaxLength(50)]
     public string AppId { get; set; }
 
-    [Column]
-    [DisplayName(Language.CompNo)]
     [Required(ErrorMessage = $"{Language.CompNo}不能为空！")]
-    [MinLength(1), MaxLength(50)]
     public string CompNo { get; set; }
 
     internal void SetOriginal(Dictionary<string, object> original)

@@ -10,7 +10,7 @@ public class TableModel<TItem> where TItem : class, new()
     internal TableModel()
     {
         AllColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
-        Columns = AllColumns.Where(c => c.IsGrid).ToList();
+        Columns = AllColumns.Where(c => !string.IsNullOrWhiteSpace(c.Name)).ToList();
         InitQueryColumns();
     }
 
@@ -30,7 +30,15 @@ public class TableModel<TItem> where TItem : class, new()
 		ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
 		ShowPager = true;
         AllColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
-        Columns = AllColumns.Where(c => c.IsGrid && HasColumn(page.Columns, c.Property.Name)).ToList();
+        foreach (var column in AllColumns)
+        {
+            var info = page.Columns?.FirstOrDefault(p => p.Id == column.Id);
+            if (info != null)
+            {
+                column.SetPageColumnInfo(info);
+                Columns.Add(column);
+            }
+        }
         InitQueryColumns();
     }
 
@@ -43,7 +51,7 @@ public class TableModel<TItem> where TItem : class, new()
     public FormOption Form { get; } = new();
     public Func<TItem, string> FormTitle { get; set; }
     public ToolbarModel Toolbar { get; } = new();
-    public List<ColumnInfo> Columns { get; private set; }
+    public List<ColumnInfo> Columns { get; } = [];
     public List<ColumnInfo> QueryColumns { get; } = [];
     public Dictionary<string, QueryInfo> QueryData { get; } = [];
     public PagingCriteria Criteria { get; } = new();
@@ -194,14 +202,6 @@ public class TableModel<TItem> where TItem : class, new()
     private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
     {
         UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave });
-    }
-
-    private static bool HasColumn(List<PageColumnInfo> columns, string id)
-    {
-        if (columns == null || columns.Count == 0)
-            return true;
-
-        return columns.Any(c => c.Id == id);
     }
 
     private void InitQueryColumns()

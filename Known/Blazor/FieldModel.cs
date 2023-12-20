@@ -48,7 +48,7 @@ public class FieldModel<TItem> where TItem : class, new()
         return codes.ToCodes(emptyText);
     }
 
-    private bool IsReadOnly => Form.IsView || Column.IsReadOnly;
+    private bool IsReadOnly => Form.IsView || Column.ReadOnly;
 
     internal IDictionary<string, object> InputAttributes
     {
@@ -60,15 +60,15 @@ public class FieldModel<TItem> where TItem : class, new()
                 { "autofocus", true },
                 { "disabled", IsReadOnly },
                 { "readonly", IsReadOnly },
-                { "required", Column.IsRequired },
+                { "required", Column.Required },
                 { "placeholder", Column.Placeholder }
             };
             UI.AddInputAttributes(attributes, this);
 
             var expression = InputExpression.Create(this);
             attributes["Value"] = Value;
-            attributes["ValueChanged"] = expression.ValueChanged;
-            attributes["ValueExpression"] = expression.ValueExpression;
+            attributes["ValueChanged"] = expression?.ValueChanged;
+            attributes["ValueExpression"] = expression?.ValueExpression;
             return attributes;
         }
     }
@@ -102,6 +102,9 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
     public static InputExpression Create<TItem>(FieldModel<TItem> model) where TItem : class, new()
     {
         var property = model.Column.Property;
+        if (property == null)
+            return null;
+
         var access = Expression.Property(Expression.Constant(model.Data, typeof(TItem)), property);
         var lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(property.PropertyType), access);
 

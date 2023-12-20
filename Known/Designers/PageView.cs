@@ -19,7 +19,6 @@ class PageView : BaseView<PageInfo>
     {
         base.SetModel(model);
         SetTableModel();
-        code = Service.GetPage(Model);
         StateChanged();
     }
 
@@ -38,5 +37,6 @@ class PageView : BaseView<PageInfo>
     private void SetTableModel()
     {
         table = new TableModel<Dictionary<string, object>>(Model);
+        code = Service.GetPage(Model);
     }
 }

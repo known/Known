@@ -1,4 +1,5 @@
-﻿using Known.Extensions;
+﻿using Known.Entities;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -30,13 +31,14 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 	internal List<ActionInfo> Tools { get; set; }
     internal List<ActionInfo> Actions { get; set; }
     internal List<PageColumnInfo> Columns { get; set; }
+    internal SysModule Module { get; set; }
 
     internal virtual void ViewForm(FormType type, TItem row) { }
 
-	protected override Task OnInitPageAsync()
+	protected override async Task OnInitPageAsync()
     {
-        InitMenu();
-        return base.OnInitPageAsync();
+        await base.OnInitPageAsync();
+        await InitMenuAsync();
     }
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildPage(builder, Page);
@@ -54,8 +56,10 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 			method.Invoke(this, parameters);
 	}
 
-	private void InitMenu()
+	private async Task InitMenuAsync()
     {
+        Module = await Platform.Module.GetModuleAsync(PageId);
+
         if (Context == null || Context.UserMenus == null)
             return;
 

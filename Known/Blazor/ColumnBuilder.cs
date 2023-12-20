@@ -37,7 +37,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     public ColumnBuilder<TItem> ReadOnly(bool readOnly)
     {
         if (column != null)
-            column.IsReadOnly = readOnly;
+            column.ReadOnly = readOnly;
         return this;
     }
 
