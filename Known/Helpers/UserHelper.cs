@@ -102,13 +102,13 @@ class UserHelper
         return datas;
     }
 
-    private static List<ColumnInfo> GetUserColumns(List<string> moduleIds, SysModule module)
+    private static List<PageColumnInfo> GetUserColumns(List<string> moduleIds, SysModule module)
     {
-        var columns = Utils.FromJson<List<ColumnInfo>>(module.FormData);
+        var columns = module.Page?.Columns;
         if (columns == null || columns.Count == 0)
             return null;
 
-        var datas = new List<ColumnInfo>();
+        var datas = new List<PageColumnInfo>();
         foreach (var item in columns)
         {
             if (moduleIds.Contains($"c_{module.Id}_{item.Id}"))

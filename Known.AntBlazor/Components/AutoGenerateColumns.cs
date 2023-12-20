@@ -20,7 +20,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
         var isDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
         foreach (var item in Table.Columns)
         {
-            if (!item.IsGrid || !item.IsVisible)
+            if (!item.IsVisible)
                 continue;
 
             var propertyType = typeof(string);

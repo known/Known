@@ -133,7 +133,7 @@ public class SysModule : EntityBase
 
     internal virtual List<string> Buttons { get; set; }
     internal virtual List<string> Actions { get; set; }
-    internal virtual List<ColumnInfo> Columns { get; set; }
+    internal virtual List<PageColumnInfo> Columns { get; set; }
 
     internal void LoadData()
     {
@@ -141,6 +141,6 @@ public class SysModule : EntityBase
         Config.PageActions.TryGetValue(Code, out List<string> actions);
         Buttons = buttons;
         Actions = actions;
-        Columns = Utils.FromJson<List<ColumnInfo>>(FormData);
+        Columns = Page?.Columns;
     }
 }

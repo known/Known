@@ -52,7 +52,7 @@ public class MenuInfo
     public int Sort { get; set; }
     internal List<string> Buttons { get; set; }
     internal List<string> Actions { get; set; }
-    internal List<ColumnInfo> Columns { get; set; }
+    internal List<PageColumnInfo> Columns { get; set; }
 
     public List<CodeInfo> GetAllActions()
     {
@@ -127,6 +127,17 @@ public class ColumnInfo
 
     public ColumnInfo() { }
 
+    internal ColumnInfo(PageColumnInfo info)
+    {
+        Id = info.Id;
+        Name = info.Name;
+        IsViewLink = info.IsViewLink;
+        IsQuery = info.IsQuery;
+        IsQueryAll = info.IsQueryAll;
+        IsSort = info.IsSort;
+        DefaultSort = info.DefaultSort;
+    }
+
     internal ColumnInfo(PropertyInfo property)
     {
         Property = property;
@@ -173,13 +184,13 @@ public class ColumnInfo
     public string Name { get; set; }
     public bool IsVisible { get; set; } = true;
 
-    public bool IsGrid { get; set; }
+    internal bool IsGrid { get; set; }
     public string DefaultSort { get; set; }
     public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }
     public bool IsQueryAll { get; set; }
-    
-    public bool IsForm { get; set; }
+
+    internal bool IsForm { get; set; }
     public string Category { get; set; }
     public string Placeholder { get; set; }
     public bool IsFile { get; set; }

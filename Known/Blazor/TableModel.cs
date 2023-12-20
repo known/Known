@@ -10,23 +10,13 @@ public class TableModel<TItem> where TItem : class, new()
     internal TableModel()
     {
         AllColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
-        Columns = AllColumns;
+        Columns = AllColumns.Where(c => c.IsGrid).ToList();
         InitQueryColumns();
     }
 
     internal TableModel(PageInfo info)
     {
-        AllColumns = info.Columns.Select(c => new ColumnInfo
-        {
-            Id = c.Id,
-            Name = c.Name,
-            IsGrid = true,
-            IsViewLink = c.IsViewLink,
-            IsQuery = c.IsQuery,
-            IsQueryAll = c.IsQueryAll,
-            IsSort = c.IsSort,
-            DefaultSort = c.DefaultSort
-        }).ToList();
+        AllColumns = info.Columns.Select(c => new ColumnInfo(c)).ToList();
         Columns = AllColumns;
         InitQueryColumns();
     }
@@ -206,7 +196,7 @@ public class TableModel<TItem> where TItem : class, new()
         UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave });
     }
 
-    private static bool HasColumn(List<ColumnInfo> columns, string id)
+    private static bool HasColumn(List<PageColumnInfo> columns, string id)
     {
         if (columns == null || columns.Count == 0)
             return true;

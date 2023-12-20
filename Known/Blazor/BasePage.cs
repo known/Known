@@ -29,7 +29,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
     protected PageModel Page { get; } = new();
 	internal List<ActionInfo> Tools { get; set; }
     internal List<ActionInfo> Actions { get; set; }
-    internal List<ColumnInfo> Columns { get; set; }
+    internal List<PageColumnInfo> Columns { get; set; }
 
     internal virtual void ViewForm(FormType type, TItem row) { }
 

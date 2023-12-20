@@ -18,7 +18,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
 
         foreach (var item in Table.Columns)
         {
-            if (!item.IsGrid || !item.IsVisible)
+            if (!item.IsVisible)
                 continue;
 
             var propertyType = typeof(string);
