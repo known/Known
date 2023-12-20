@@ -19,18 +19,6 @@ public class TableAttribute(string name) : Attribute
 }
 
 [AttributeUsage(AttributeTargets.Property)]
-public class GridAttribute() : Attribute
-{
-    public bool IsViewLink { get; set; }
-}
-
-[AttributeUsage(AttributeTargets.Property)]
-public class QueryAttribute() : Attribute
-{
-    public bool IsQueryAll { get; set; } = true;
-}
-
-[AttributeUsage(AttributeTargets.Property)]
 public class FormAttribute() : Attribute
 {
     public bool IsFile { get; set; }

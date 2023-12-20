@@ -12,7 +12,6 @@ public class TbApply : FlowEntity
     /// <summary>
     /// 取得或设置业务类型。
     /// </summary>
-    [Column, Grid, Query]
     [Category(nameof(ApplyType))]
     [DisplayName("业务类型")]
     [Required(ErrorMessage = "业务类型不能为空！")]
@@ -21,9 +20,6 @@ public class TbApply : FlowEntity
     /// <summary>
     /// 取得或设置业务单号。
     /// </summary>
-    [Column, Query]
-    [Grid(IsViewLink = true)]
-    [Form(IsReadOnly = true)]
     [DisplayName("业务单号")]
     [Required(ErrorMessage = "业务单号不能为空！")]
     [MaxLength(50)]
@@ -32,7 +28,6 @@ public class TbApply : FlowEntity
     /// <summary>
     /// 取得或设置业务名称。
     /// </summary>
-    [Column, Grid, Query, Form]
     [DisplayName("业务名称")]
     [Required(ErrorMessage = "业务名称不能为空！")]
     [MaxLength(100)]
@@ -41,7 +36,6 @@ public class TbApply : FlowEntity
     /// <summary>
     /// 取得或设置业务内容。
     /// </summary>
-    [Column, Form]
     [DisplayName("业务内容")]
     [MaxLength(4000)]
     public string BizContent { get; set; }
@@ -49,8 +43,6 @@ public class TbApply : FlowEntity
     /// <summary>
     /// 取得或设置业务附件。
     /// </summary>
-    [Column]
-    [Form(IsMultiFile = true)]
     [DisplayName("业务附件")]
     [MaxLength(250)]
     public string BizFile { get; set; }
