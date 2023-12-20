@@ -4,7 +4,7 @@
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
 .kui-background {background:#fff;}
 .kui-top {display:flex;justify-content:space-between;}
-.kui-table {padding-top:10px;}
+.kui-table {padding:10px 10px 0 10px;}
 
 .kui-steps-content {
     margin-top:16px;padding:10px;
@@ -96,7 +96,7 @@
 
 /*----Designer begin----*/
 /*Layout*/
-.kui-designer {display:grid;grid-template-columns:20% auto 20%;min-height:300px;}
+.kui-designer {display:grid;grid-template-columns:200px auto 200px;min-height:300px;}
 .kui-designer.entity {grid-template-columns:40% auto;}
 
 /*Style*/
@@ -130,9 +130,10 @@
 .kui-designer .panel-property .item label {text-align:right;padding-right:15px;}
 
 /*Code*/
-.kui-code {margin:0;padding:10px;border-left:3px solid #4775e0;height:428px;overflow:auto;}
+.kui-code {margin:0 0 0 10px;padding:10px;border-left:3px solid #4775e0;height:428px;overflow:auto;}
+.kui-designer.entity .kui-code {margin:0;}
 
 /*AntDesign*/
-.kui-designer .panel-view .ant-tabs-content-holder {padding-left:10px;}
+.kui-designer.entity .panel-view .ant-tabs-content-holder {padding-left:10px;}
 .kui-designer .panel-property .item .ant-switch {width:44px;}
 /*----Designer end----*/

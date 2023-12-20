@@ -12,13 +12,13 @@ class PageView : BaseView<PageInfo>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        table = new TableModel<Dictionary<string, object>>(Model);
+        SetTableModel();
     }
 
     internal override void SetModel(PageInfo model)
     {
         base.SetModel(model);
-        table = new TableModel<Dictionary<string, object>>(Model);
+        SetTableModel();
         code = Service.GetPage(Model);
         StateChanged();
     }
@@ -34,4 +34,9 @@ class PageView : BaseView<PageInfo>
     }
 
     protected override void BuildCode(RenderTreeBuilder builder) => BuildCode(builder, code);
+
+    private void SetTableModel()
+    {
+        table = new TableModel<Dictionary<string, object>>(Model);
+    }
 }
