@@ -39,17 +39,17 @@ public class UIService(DialogService dialogService, MessageService messageServic
         if (type == typeof(decimal))
             return typeof(BootstrapInputNumber<decimal>);
 
-        if (type == typeof(DateTime) || column.Type == FieldType.Date)
-            return typeof(DateTimePicker<DateTime>);
-
         if (type == typeof(DateTime?))
             return typeof(DateTimePicker<DateTime?>);
 
-        if (type == typeof(DateTimeOffset))
-            return typeof(DateTimePicker<DateTimeOffset>);
+        if (type == typeof(DateTime) || column.Type == FieldType.Date)
+            return typeof(DateTimePicker<DateTime>);
 
         if (type == typeof(DateTimeOffset?))
             return typeof(DateTimePicker<DateTimeOffset?>);
+
+        if (type == typeof(DateTimeOffset))
+            return typeof(DateTimePicker<DateTimeOffset>);
 
         if (column.Type == FieldType.Select)
             return typeof(BootSelect);

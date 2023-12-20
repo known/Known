@@ -13,12 +13,12 @@
             var itemType = "String";
             var property = item.GetProperty();
             if (property != null)
-                itemType = property.PropertyType.Name;
+                itemType = property.PropertyType.ToString();
             <FormItem Label="@item.Name">
                 @if (!string.IsNullOrWhiteSpace(item.Category))
                 {
                     var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? "全部" : "");
-                    <AntSelect Codes="codes" @bind-Value="@(context[item.Id].Value)" Style="width:180px" />
+                    <AntSelect Style="width:110px;" Codes="codes" @bind-Value="@(context[item.Id].Value)" OnSelectedItemChanged="e=>OnSearchAsync()" />
                 }
                 else if (itemType.Contains("DateTime"))
                 {
@@ -26,14 +26,14 @@
                 }
                 else
                 {
-                    <Input @bind-Value="@(context[item.Id].Value)" Style="width:180px" />
+                    <Input @bind-Value="@(context[item.Id].Value)" />
                 }
             </FormItem>
         }
         <div class="ant-query-btn">
             <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">搜索</Button>
             <Button Icon="undo" OnClick="()=>{_form?.Reset();}">重置</Button>
-            @if (length > 3)
+            @if (Model.QueryColumns.Count > 3)
             {
                 <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
                     <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? "折叠" : "展开")

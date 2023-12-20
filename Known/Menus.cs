@@ -134,7 +134,18 @@ public class ColumnInfo
         Property = property;
         Id = Property.Name;
         Name = Property.DisplayName();
-        //Required = Property.IsRequired();
+        Required = Property.IsRequired();
+
+        var form = Property.GetCustomAttribute<FormAttribute>();
+        if (form != null)
+        {
+            IsForm = true;
+            Row = form.Row;
+            Column = form.Column;
+            Type = Utils.ConvertTo<FieldType>(form.Type);
+            ReadOnly = form.ReadOnly;
+            Placeholder = form.Placeholder;
+        }
 
         var code = Property.GetCustomAttribute<CategoryAttribute>();
         if (code != null)
@@ -147,6 +158,7 @@ public class ColumnInfo
     public string Name { get; set; }
     public bool IsVisible { get; set; } = true;
 
+    public bool IsSort { get; set; } = true;
     public string DefaultSort { get; set; }
     public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }
@@ -163,7 +175,6 @@ public class ColumnInfo
     public bool ReadOnly { get; set; }
     
     public RenderFragment Template { get; set; }
-    public bool IsSort { get; set; } = true;
     public PropertyInfo GetProperty() => Property;
 
     internal void SetPageColumnInfo(PageColumnInfo info)

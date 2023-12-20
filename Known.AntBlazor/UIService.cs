@@ -39,17 +39,17 @@ public class UIService(ModalService modalService, MessageService messageService)
         if (type == typeof(decimal))
             return typeof(InputNumber<decimal>);
 
-        if (type == typeof(DateTime) || column.Type == FieldType.Date)
-            return typeof(DatePicker<DateTime>);
-
         if (type == typeof(DateTime?))
             return typeof(DatePicker<DateTime?>);
 
-        if (type == typeof(DateTimeOffset))
-            return typeof(DatePicker<DateTimeOffset>);
+        if (type == typeof(DateTime) || column.Type == FieldType.Date)
+            return typeof(DatePicker<DateTime>);
 
         if (type == typeof(DateTimeOffset?))
             return typeof(DatePicker<DateTimeOffset?>);
+
+        if (type == typeof(DateTimeOffset))
+            return typeof(DatePicker<DateTimeOffset>);
 
         if (column.Type == FieldType.Select)
             return typeof(AntSelect);

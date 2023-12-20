@@ -11,10 +11,12 @@ public class LoginFormInfo
     [DisplayName("<i class=\"fa fa-user\" />")]
     [Required(ErrorMessage = "请输入用户名！")]
     public string UserName { get; set; }
-    [Form(Placeholder = "密码", IsPassword = true)]
+    
+    [Form(Placeholder = "密码", Type = "Password")]
     [DisplayName("<i class=\"fa fa-lock\" />")]
     [Required(ErrorMessage = "请输入密码！")]
     public string Password { get; set; }
+    
     [Form]
     [DisplayName("记住用户名")]
     public bool Remember { get; set; }
@@ -24,17 +26,17 @@ public class LoginFormInfo
 
 public class PwdFormInfo
 {
-    [Form(IsPassword = true)]
+    [Form(Type = "Password")]
     [DisplayName("原密码")]
     [Required(ErrorMessage = "请输入原密码！")]
     public string OldPwd { get; set; }
 
-    [Form(IsPassword = true)]
+    [Form(Type = "Password")]
     [DisplayName("新密码")]
     [Required(ErrorMessage = "请输入新密码！")]
     public string NewPwd { get; set; }
 
-    [Form(IsPassword = true)]
+    [Form(Type = "Password")]
     [DisplayName("确认密码")]
     [Required(ErrorMessage = "请输入确认密码！")]
     public string NewPwd1 { get; set; }

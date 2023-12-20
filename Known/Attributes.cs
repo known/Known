@@ -21,14 +21,11 @@ public class TableAttribute(string name) : Attribute
 [AttributeUsage(AttributeTargets.Property)]
 public class FormAttribute() : Attribute
 {
-    public bool IsFile { get; set; }
-    public bool IsMultiFile { get; set; }
-    public bool IsReadOnly { get; set; }
-    public bool IsPassword { get; set; }
-    public bool IsSelect { get; set; }
-    public string Placeholder { get; set; }
     public int Row { get; set; } = 1;
     public int Column { get; set; } = 1;
+    public string Type { get; set; } = FieldType.Text.ToString();
+    public bool ReadOnly { get; set; }
+    public string Placeholder { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Property)]

@@ -5,7 +5,7 @@ namespace Known.Demo.Models;
 
 class CompanyInfo
 {
-    [Form(Row = 1, Column = 1, IsReadOnly = true)]
+    [Form(Row = 1, Column = 1, ReadOnly = true)]
     [DisplayName("企业编码"), Required]
     public string Code { get; set; }
 
@@ -37,7 +37,7 @@ class CompanyInfo
     [DisplayName("联系人电话")]
     public string Phone { get; set; }
 
-    [Form(Row = 6, Column = 1)]
+    [Form(Row = 6, Column = 1, Type = "TextArea")]
     [DisplayName("备注")]
     [MaxLength(500)]
     public string Note { get; set; }

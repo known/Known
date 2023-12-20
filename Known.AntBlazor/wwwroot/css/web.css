@@ -1,4 +1,5 @@
 .ant-query, .ant-toolbar {padding:10px 10px 0 10px;}
+.ant-query input, .ant-query .select {width:110px;}
 
 /*Ant*/
 :root {

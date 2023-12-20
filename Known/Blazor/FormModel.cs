@@ -26,14 +26,12 @@ public class FormModel<TItem> where TItem : class, new()
 
     internal FormModel(IUIService ui, FormInfo info) : this(ui, false)
     {
-        Data = new();
         columns = info.Fields.Select(f => new ColumnInfo(f)).ToList();
     }
 
-    internal FormModel(TableModel<TItem> table)
+    internal FormModel(TableModel<TItem> table) : this(table.UI, false)
     {
         Table = table;
-        UI = table.UI;
         Page = table.Page;
         Option = table.Form;
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");

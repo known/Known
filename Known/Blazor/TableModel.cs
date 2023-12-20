@@ -9,7 +9,7 @@ public class TableModel<TItem> where TItem : class, new()
 {
     internal TableModel()
     {
-        AllColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
+        AllColumns = GetAllColumns();
         Columns = AllColumns.Where(c => !string.IsNullOrWhiteSpace(c.Name)).ToList();
         InitQueryColumns();
     }
@@ -29,7 +29,7 @@ public class TableModel<TItem> where TItem : class, new()
         Actions = page.Actions;
 		ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
 		ShowPager = true;
-        AllColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
+        AllColumns = GetAllColumns();
         foreach (var column in AllColumns)
         {
             var info = page.Columns?.FirstOrDefault(p => p.Id == column.Id);
@@ -202,6 +202,11 @@ public class TableModel<TItem> where TItem : class, new()
     private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
     {
         UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave });
+    }
+
+    private List<ColumnInfo> GetAllColumns()
+    {
+        return typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
     }
 
     private void InitQueryColumns()

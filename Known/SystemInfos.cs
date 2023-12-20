@@ -27,17 +27,17 @@ public class InstallInfo
     [Required(ErrorMessage = "产品密钥不能为空！")]
     public string ProductKey { get; set; }
 
-    [Form(IsReadOnly = true)]
+    [Form(ReadOnly = true)]
     [DisplayName("管理员账号")]
     [Required(ErrorMessage = "管理员账号不能为空！")]
     public string UserName { get; set; }
 
-    [Form(IsPassword = true)]
+    [Form(Type = "Password")]
     [DisplayName("管理员密码")]
     [Required(ErrorMessage = "管理员密码不能为空！")]
     public string Password { get; set; }
 
-    [Form(IsPassword = true)]
+    [Form(Type = "Password")]
     [DisplayName("确认密码")]
     [Required(ErrorMessage = "确认密码不能为空！")]
     public string Password1 { get; set; }

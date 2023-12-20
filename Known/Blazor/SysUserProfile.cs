@@ -90,11 +90,11 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
         Model.AddRow().AddColumn(c => c.UserName, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.Name);
         Model.AddRow().AddColumn(c => c.EnglishName);
-        Model.AddRow().AddColumn(c => c.Gender);
+        Model.AddRow().AddColumn(c => c.Gender, c => c.Type = FieldType.RadioList);
         Model.AddRow().AddColumn(c => c.Phone);
         Model.AddRow().AddColumn(c => c.Mobile);
         Model.AddRow().AddColumn(c => c.Email);
-        Model.AddRow().AddColumn(c => c.Note);
+        Model.AddRow().AddColumn(c => c.Note, c => c.Type = FieldType.TextArea);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

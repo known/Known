@@ -166,7 +166,7 @@ class EntityDesigner : BaseComponent
                 if (values.Length > 3) field.Length = values[3];
                 if (values.Length > 4) field.Required = values[4] == "Y";
 
-                if (field.Type == FieldType.CheckBox)
+                if (field.Type == FieldType.CheckBox || field.Type == FieldType.Switch)
                 {
                     field.Length = "50";
                     field.Required = true;

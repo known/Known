@@ -26,6 +26,9 @@ class FormView : BaseView<FormInfo>
 
     private void SetFormModel()
     {
-        form = new FormModel<Dictionary<string, object>>(UI, Model);
+        form = new FormModel<Dictionary<string, object>>(UI, Model)
+        {
+            Data = []
+        };
     }
 }
