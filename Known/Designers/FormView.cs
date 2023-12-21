@@ -5,7 +5,7 @@ namespace Known.Designers;
 
 class FormView : BaseView<FormInfo>
 {
-    private FormModel<Dictionary<string, object>> form;
+    private FormModel<Dictionary<string, string>> form;
     private string code;
 
     protected override void OnInitialized()
@@ -26,9 +26,10 @@ class FormView : BaseView<FormInfo>
 
     private void SetFormModel()
     {
-        form = new FormModel<Dictionary<string, object>>(UI, Model)
+        form = new FormModel<Dictionary<string, string>>(UI, Model) { Data = [] };
+        foreach (var item in Model.Fields)
         {
-            Data = []
-        };
+            form.Data[item.Id] = $"test-{item.Id}";
+        }
     }
 }

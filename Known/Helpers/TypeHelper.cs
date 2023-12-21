@@ -54,6 +54,18 @@ public sealed class TypeHelper
         return columns;
     }
 
+    public static object GetPropertyValue(object model, string name)
+    {
+        if (model == null || string.IsNullOrWhiteSpace(name))
+            return default;
+
+        var property = model.GetType().GetProperty(name);
+        if (property == null || !property.CanRead)
+            return default;
+
+        return property.GetValue(model);
+    }
+
     public static T GetPropertyValue<T>(object model, string name)
     {
         if (model == null || string.IsNullOrWhiteSpace(name))

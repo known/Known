@@ -36,7 +36,25 @@ class PageView : BaseView<PageInfo>
 
     private void SetTableModel()
     {
-        table = new TableModel<Dictionary<string, object>>(Model);
+        table = new TableModel<Dictionary<string, object>>(UI, Model) { OnQuery = OnQueryDatas };
         code = Service.GetPage(Model);
+    }
+
+    private Task<PagingResult<Dictionary<string, object>>> OnQueryDatas(PagingCriteria criteria)
+    {
+        var datas = new List<Dictionary<string, object>>();
+
+        for (int i = 0; i < 5; i++)
+        {
+            var data = new Dictionary<string, object>();
+            foreach (var item in Model.Columns)
+            {
+                data[item.Id] = $"{item.Id}{i}";
+            }
+            datas.Add(data);
+        }
+
+        var result = new PagingResult<Dictionary<string, object>>(datas);
+        return Task.FromResult(result);
     }
 }
