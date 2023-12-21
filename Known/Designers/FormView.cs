@@ -36,9 +36,6 @@ class FormView : BaseView<FormInfo>
     private void SetModel()
     {
         form = new FormModel<Dictionary<string, object>>(UI, Model) { Data = [] };
-        foreach (var item in Model.Fields)
-        {
-            form.Data[item.Id] = $"test-{item.Id}";
-        }
+        form.Initialize();
     }
 }

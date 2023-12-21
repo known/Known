@@ -16,6 +16,9 @@ class FormProperty : BaseProperty<FormFieldInfo>
 
     protected override void BuildForm(RenderTreeBuilder builder)
     {
+        if (Model == null)
+            return;
+
         builder.Div("caption", () => builder.Div("title", $"字段属性 - {Model.Id}"));
         BuildPropertyItem(builder, "显示名称", b => b.Span(Model.Name));
         BuildPropertyItem(builder, "行序号", b => UI.BuildNumber(b, new InputModel<int>

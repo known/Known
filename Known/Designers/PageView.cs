@@ -29,12 +29,11 @@ class PageView : BaseView<PageInfo>
         };
     }
 
-    internal override async void SetModel(PageInfo model)
+    internal override void SetModel(PageInfo model)
     {
         base.SetModel(model);
         SetModel();
         StateChanged();
-        await table.RefreshAsync();
     }
 
     private void BuildView(RenderTreeBuilder builder)

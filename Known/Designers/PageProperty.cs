@@ -8,6 +8,9 @@ class PageProperty : BaseProperty<PageColumnInfo>
 {
     protected override void BuildForm(RenderTreeBuilder builder)
     {
+        if (Model == null)
+            return;
+
         builder.Div("caption", () => builder.Div("title", $"字段属性 - {Model.Id}"));
         BuildPropertyItem(builder, "显示名称", b => b.Span(Model.Name));
         BuildPropertyItem(builder, "查看链接", b => UI.BuildSwitch(b, new InputModel<bool>

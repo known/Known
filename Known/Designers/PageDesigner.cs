@@ -45,6 +45,7 @@ class PageDesigner : BaseDesigner<PageInfo>
             columns.Add(column);
         }
         Model.Columns = columns;
+        OnFieldClick(field);
         ChangeView();
     }
 
@@ -62,13 +63,16 @@ class PageDesigner : BaseDesigner<PageInfo>
 
     private static void SetPageColumn(PageColumnInfo column, PageColumnInfo info)
     {
-        if (info != null)
-        {
-            column.DefaultSort = info.DefaultSort;
-            column.IsViewLink = info.IsViewLink;
-            column.IsQuery = info.IsQuery;
-            column.IsQueryAll = info.IsQueryAll;
-        }
+        if (column == null || info == null)
+            return;
+
+        column.IsViewLink = info.IsViewLink;
+        column.IsQuery = info.IsQuery;
+        column.IsQueryAll = info.IsQueryAll;
+        column.IsSort = info.IsSort;
+        column.DefaultSort = info.DefaultSort;
+        column.Fixed = info.Fixed;
+        column.Width = info.Width;
     }
 
     private void ChangeView()
