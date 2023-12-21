@@ -13,17 +13,7 @@ class BaseView<TModel> : BaseComponent
     [Parameter] public TModel Model { get; set; }
 
     internal virtual void SetModel(TModel model) => Model = model;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        Tab.Items.Add(new ItemModel("视图") { Content = BuildView });
-        Tab.Items.Add(new ItemModel("代码") { Content = BuildCode });
-    }
-
     protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
-    protected virtual void BuildView(RenderTreeBuilder builder) { }
-    protected virtual void BuildCode(RenderTreeBuilder builder) { }
-
+    protected void BuildList<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new() => builder.Div("list-view", () => UI.BuildTable(builder, model));
     protected void BuildCode(RenderTreeBuilder builder, string code) => builder.Markup($"<pre class=\"kui-code\">{code}</pre>");
 }

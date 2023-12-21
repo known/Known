@@ -23,24 +23,24 @@ class EntityView : BaseView<EntityInfo>
         await base.OnInitializedAsync();
         dbType = new Database().DatabaseType;
         SetViewData(Model);
+        Tab.Items.Add(new ItemModel("视图") { Content = BuildView });
+        Tab.Items.Add(new ItemModel("代码") { Content = BuildCode });
         Tab.Items.Add(new ItemModel("脚本") { Content = BuildScript });
-        table.OnQuery = OnQuery;
+        table.OnQuery = c=>
+        {
+            var result = new PagingResult<FieldInfo>(Model?.Fields);
+            return Task.FromResult(result);
+        };
     }
 
-    protected override void BuildView(RenderTreeBuilder builder)
+    private void BuildView(RenderTreeBuilder builder)
     {
         builder.Div("bold", $"{Model?.Name}（{Model?.Id}）");
         UI.BuildTable(builder, table);
     }
 
-    protected override void BuildCode(RenderTreeBuilder builder) => BuildCode(builder, code);
+    private void BuildCode(RenderTreeBuilder builder) => BuildCode(builder, code);
     private void BuildScript(RenderTreeBuilder builder) => BuildCode(builder, script);
-
-    private Task<PagingResult<FieldInfo>> OnQuery(PagingCriteria criteria)
-    {
-        var result = new PagingResult<FieldInfo>(Model?.Fields);
-        return Task.FromResult(result);
-    }
 
     private void SetViewData(EntityInfo model)
     {

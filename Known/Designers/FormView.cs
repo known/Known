@@ -5,28 +5,35 @@ namespace Known.Designers;
 
 class FormView : BaseView<FormInfo>
 {
-    private FormModel<Dictionary<string, string>> form;
-    private string code;
+    private FormModel<Dictionary<string, object>> form;
+    private readonly TableModel<FormFieldInfo> list = new();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        SetFormModel();
+        SetModel();
+        Tab.Items.Add(new ItemModel("视图") { Content = BuildView });
+        Tab.Items.Add(new ItemModel("列表") { Content = BuildList });
+        list.OnQuery = c =>
+        {
+            var result = new PagingResult<FormFieldInfo>(Model?.Fields);
+            return Task.FromResult(result);
+        };
     }
 
     internal override void SetModel(FormInfo model)
     {
         base.SetModel(model);
-        SetFormModel();
+        SetModel();
         StateChanged();
     }
 
-    protected override void BuildView(RenderTreeBuilder builder) => UI.BuildForm(builder, form);
-    protected override void BuildCode(RenderTreeBuilder builder) => BuildCode(builder, code);
+    private void BuildView(RenderTreeBuilder builder) => UI.BuildForm(builder, form);
+    private void BuildList(RenderTreeBuilder builder) => BuildList(builder, list);
 
-    private void SetFormModel()
+    private void SetModel()
     {
-        form = new FormModel<Dictionary<string, string>>(UI, Model) { Data = [] };
+        form = new FormModel<Dictionary<string, object>>(UI, Model) { Data = [] };
         foreach (var item in Model.Fields)
         {
             form.Data[item.Id] = $"test-{item.Id}";

@@ -19,7 +19,10 @@ class PageDesigner : BaseDesigner<PageInfo>
     {
         builder.Div("panel-view", () =>
         {
-            builder.Component<PageView>().Set(c => c.Model, Model).Build(value => view = value);
+            builder.Component<PageView>()
+                   .Set(c => c.Model, Model)
+                   .Set(c => c.Entity, Entity)
+                   .Build(value => view = value);
         });
         builder.Div("panel-property", () =>
         {
