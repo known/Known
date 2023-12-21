@@ -7,7 +7,7 @@ namespace Known.Designers;
 
 class BaseProperty<TModel> : BaseComponent where TModel : class, new()
 {
-    [Parameter] public TModel Model { get; set; } = new();
+    [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }
 
     internal bool IsReadOnly => ReadOnly || Model == null;
@@ -16,6 +16,12 @@ class BaseProperty<TModel> : BaseComponent where TModel : class, new()
     {
         Model = model ?? new();
         StateChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model ??= new();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Div("property", () => BuildForm(builder));

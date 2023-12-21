@@ -46,7 +46,7 @@ public class PageColumnInfo
     public bool IsViewLink { get; set; }
     [DisplayName("查询")]
     public bool IsQuery { get; set; }
-    [DisplayName("查询全部")]
+    [DisplayName("显示全部")]
     public bool IsQueryAll { get; set; }
     [DisplayName("排序")]
     public bool IsSort { get; set; }

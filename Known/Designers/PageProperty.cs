@@ -16,7 +16,7 @@ class PageProperty : BaseProperty<PageColumnInfo>
             Value = Model.IsViewLink,
             ValueChanged = this.Callback<bool>(value => { Model.IsViewLink = value; OnChanged?.Invoke(Model); })
         }));
-        BuildPropertyItem(builder, "查询条件", b => UI.BuildSwitch(b, new InputModel<bool>
+        BuildPropertyItem(builder, "查询", b => UI.BuildSwitch(b, new InputModel<bool>
         {
             Disabled = IsReadOnly,
             Value = Model.IsQuery,
@@ -47,5 +47,18 @@ class PageProperty : BaseProperty<PageColumnInfo>
                 ValueChanged = this.Callback<string>(value => { Model.DefaultSort = value; OnChanged?.Invoke(Model); })
             }));
         }
+        BuildPropertyItem(builder, "固定", b => UI.BuildSelect(b, new InputModel<string>
+        {
+            Disabled = IsReadOnly,
+            Codes = Cache.GetCodes(",left,right"),
+            Value = Model.Fixed,
+            ValueChanged = this.Callback<string>(value => { Model.Fixed = value; OnChanged?.Invoke(Model); })
+        }));
+        BuildPropertyItem(builder, "宽度", b => UI.BuildText(b, new InputModel<string>
+        {
+            Disabled = IsReadOnly,
+            Value = Model.Width,
+            ValueChanged = this.Callback<string>(value => { Model.Width = value; OnChanged?.Invoke(Model); })
+        }));
     }
 }

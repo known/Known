@@ -32,7 +32,7 @@ public class FormModel<TItem> where TItem : class, new()
 
     internal FormModel(TableModel<TItem> table) : this(table.UI, false)
     {
-        SetFormInfo(table.Page.Module?.Form);
+        SetFormInfo(table.Page?.Module?.Form);
         Table = table;
         Page = table.Page;
         Option = table.Form;

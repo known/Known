@@ -34,7 +34,7 @@ class PageDesigner : BaseDesigner<PageInfo>
         });
     }
 
-    protected override void OnFieldCheck()
+    protected override void OnFieldCheck(FieldInfo field)
     {
         var columns = new List<PageColumnInfo>();
         foreach (var item in Fields)

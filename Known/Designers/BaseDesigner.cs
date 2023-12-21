@@ -34,6 +34,6 @@ class BaseDesigner<TModel> : BaseComponent
     }
 
     protected virtual void BuildDesigner(RenderTreeBuilder builder) { }
-    protected virtual void OnFieldCheck() { }
+    protected virtual void OnFieldCheck(FieldInfo field) { }
     protected virtual void OnFieldClick(FieldInfo field) { }
 }

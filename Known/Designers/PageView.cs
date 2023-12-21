@@ -29,11 +29,12 @@ class PageView : BaseView<PageInfo>
         };
     }
 
-    internal override void SetModel(PageInfo model)
+    internal override async void SetModel(PageInfo model)
     {
         base.SetModel(model);
         SetModel();
         StateChanged();
+        await table.RefreshAsync();
     }
 
     private void BuildView(RenderTreeBuilder builder)
@@ -58,7 +59,6 @@ class PageView : BaseView<PageInfo>
     private Task<PagingResult<Dictionary<string, object>>> OnQueryDatas(PagingCriteria criteria)
     {
         var datas = new List<Dictionary<string, object>>();
-
         for (int i = 0; i < 3; i++)
         {
             var data = new Dictionary<string, object>();

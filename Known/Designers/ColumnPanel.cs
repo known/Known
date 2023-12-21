@@ -13,7 +13,7 @@ class ColumnPanel : BaseComponent
 
     [Parameter] public EntityInfo Entity { get; set; }
     [Parameter] public List<FieldInfo> Fields { get; set; } = [];
-    [Parameter] public Action OnFieldCheck { get; set; }
+    [Parameter] public Action<FieldInfo> OnFieldCheck { get; set; }
     [Parameter] public Action<FieldInfo> OnFieldClick { get; set; }
 
     protected override void OnInitialized()
@@ -63,7 +63,7 @@ class ColumnPanel : BaseComponent
         }
 
         current = field;
-        OnFieldCheck?.Invoke();
+        OnFieldCheck?.Invoke(field);
         OnFieldClick?.Invoke(field);
     }
 

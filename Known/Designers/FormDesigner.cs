@@ -31,17 +31,18 @@ class FormDesigner : BaseDesigner<FormInfo>
         });
     }
 
-    protected override void OnFieldCheck()
+    protected override void OnFieldCheck(FieldInfo field)
     {
         var fields = new List<FormFieldInfo>();
         foreach (var item in Fields)
         {
-            var field = new FormFieldInfo { Id = item.Id, Name = item.Name };
+            var field1 = new FormFieldInfo { Id = item.Id, Name = item.Name, Type = item.Type, Required = item.Required };
             var info = Model.Fields.FirstOrDefault(c => c.Id == item.Id);
-            SetFormField(field, info);
-            fields.Add(field);
+            SetFormField(field1, info);
+            fields.Add(field1);
         }
         Model.Fields = fields;
+        OnFieldClick(field);
         ChangeView();
     }
 
@@ -64,6 +65,8 @@ class FormDesigner : BaseDesigner<FormInfo>
 
         field.Row = info.Row;
         field.Column = info.Column;
+        field.Type = info.Type;
+        field.Required = info.Required;
         field.Category = info.Category;
         field.Placeholder = info.Placeholder;
         field.ReadOnly = info.ReadOnly;
