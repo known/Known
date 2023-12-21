@@ -6,21 +6,21 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class ColumnPanel : BaseComponent
+class ColumnPanel<TModel> : BaseComponent
 {
     private FieldInfo current;
     private List<FieldInfo> fields;
 
-    [Parameter] public EntityInfo Entity { get; set; }
-    [Parameter] public List<FieldInfo> Fields { get; set; } = [];
+    [CascadingParameter] private BaseDesigner<TModel> Designer { get; set; }
+
     [Parameter] public Action<FieldInfo> OnFieldCheck { get; set; }
     [Parameter] public Action<FieldInfo> OnFieldClick { get; set; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        current = Fields?.FirstOrDefault();
-        fields = GetFields(Entity);
+        current = Designer.Fields?.FirstOrDefault();
+        fields = GetFields(Designer.Entity);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -40,7 +40,7 @@ class ColumnPanel : BaseComponent
                     UI.BuildCheckBox(builder, new InputModel<bool>
                     {
                         Disabled = ReadOnly,
-                        Value = Fields.Exists(f => f.Id == field.Id),
+                        Value = Designer.Fields.Exists(f => f.Id == field.Id),
                         ValueChanged = this.Callback<bool>(c => OnFieldChecked(field, c))
                     });
                     var text = $"{field.Name}({field.Id})";
@@ -52,15 +52,16 @@ class ColumnPanel : BaseComponent
 
     private void OnFieldChecked(FieldInfo field, bool isCheck)
     {
-        var info = Fields.FirstOrDefault(f => f.Id == field.Id);
-        if (isCheck)
+        if (!isCheck)
+            Designer.Fields.Remove(field);
+
+        var infos = new List<FieldInfo>();
+        foreach (var item in fields)
         {
-            if (info == null) Fields.Add(field);
+            if (isCheck && item.Id == field.Id || Designer.Fields.Exists(f => f.Id == item.Id))
+                infos.Add(item);
         }
-        else
-        {
-            Fields.Remove(info);
-        }
+        Designer.Fields = infos;
 
         current = field;
         OnFieldCheck?.Invoke(field);

@@ -203,6 +203,7 @@ public class ColumnInfo
         ReadOnly = info.ReadOnly;
         Required = info.Required;
         Placeholder = info.Placeholder;
+        Category = info.Category;
     }
 }
 

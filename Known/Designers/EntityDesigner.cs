@@ -32,7 +32,7 @@ class EntityDesigner : BaseComponent
         await base.OnInitializedAsync();
         LoadEntityModels(Models);
         dataTypes = string.Join(",", Cache.GetCodes(nameof(FieldType)).Select(c => c.Name));
-        addType = !string.IsNullOrWhiteSpace(Model) && Model.Contains('|')
+        addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
         entity = GetEntity(Model);
         Form.Entity = entity;

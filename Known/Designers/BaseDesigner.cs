@@ -15,16 +15,16 @@ class BaseDesigner<TModel> : BaseComponent
 
     internal List<FieldInfo> Fields { get; set; } = [];
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, BuildTree);
+
+    private void BuildTree(RenderTreeBuilder builder)
     {
         builder.Div("kui-designer", () =>
         {
             builder.Div("panel-model", () =>
             {
-                builder.Component<ColumnPanel>()
+                builder.Component<ColumnPanel<TModel>>()
                        .Set(c => c.ReadOnly, ReadOnly)
-                       .Set(c => c.Entity, Entity)
-                       .Set(c => c.Fields, Fields)
                        .Set(c => c.OnFieldCheck, OnFieldCheck)
                        .Set(c => c.OnFieldClick, OnFieldClick)
                        .Build();
