@@ -59,15 +59,15 @@ class FormDesigner : BaseDesigner<FormInfo>
 
     private static void SetFormField(FormFieldInfo field, FormFieldInfo info)
     {
-        if (info != null)
-        {
-            field.Row = info.Row;
-            field.Column = info.Column;
-            field.Category = info.Category;
-            field.Placeholder = info.Placeholder;
-            field.ReadOnly = info.ReadOnly;
-            field.MultiFile = info.MultiFile;
-        }
+        if (field == null || info == null)
+            return;
+
+        field.Row = info.Row;
+        field.Column = info.Column;
+        field.Category = info.Category;
+        field.Placeholder = info.Placeholder;
+        field.ReadOnly = info.ReadOnly;
+        field.MultiFile = info.MultiFile;
     }
 
     private void ChangeView()

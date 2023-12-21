@@ -23,9 +23,11 @@ class EntityView : BaseView<EntityInfo>
         await base.OnInitializedAsync();
         dbType = new Database().DatabaseType;
         SetViewData(Model);
-        Tab.Items.Add(new ItemModel("视图") { Content = BuildView });
+        Tab.Items.Add(new ItemModel("字段") { Content = BuildView });
         Tab.Items.Add(new ItemModel("代码") { Content = BuildCode });
         Tab.Items.Add(new ItemModel("脚本") { Content = BuildScript });
+
+        table.ScrollY = "380px";
         table.OnQuery = c=>
         {
             var result = new PagingResult<FieldInfo>(Model?.Fields);

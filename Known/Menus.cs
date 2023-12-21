@@ -163,6 +163,8 @@ public class ColumnInfo
     public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }
     public bool IsQueryAll { get; set; }
+    public string Fixed { get; set; }
+    public string Width { get; set; }
 
     internal bool IsForm { get; set; }
     public string Category { get; set; }
@@ -186,6 +188,8 @@ public class ColumnInfo
         IsQueryAll = info.IsQueryAll;
         IsSort = info.IsSort;
         DefaultSort = info.DefaultSort;
+        Fixed = info.Fixed;
+        Width = info.Width;
     }
 
     internal void SetFormFieldInfo(FormFieldInfo info)

@@ -50,37 +50,39 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
         var columnType = typeof(Column<>).MakeGenericType(propertyType);
         var value = TypeHelper.GetPropertyValue(Item, item.Id);
         builder.OpenComponent(0, columnType);
-        builder.AddAttribute(1, "DataIndex", item.Id);
+        builder.AddAttribute(1, nameof(Column<TItem>.DataIndex), item.Id);
         AddAttributes(builder, item, value);
         builder.CloseComponent();
     }
 
     private static void AddPropertyColumn(RenderTreeBuilder builder, Expression<Func<Dictionary<string, object>, object>> property)
     {
-        builder.AddAttribute(1, "Property", property);
+        builder.AddAttribute(1, nameof(PropertyColumn<TItem, object>.Property), property);
     }
 
     private void AddAttributes(RenderTreeBuilder builder, ColumnInfo item, object value)
     {
-        builder.AddComponentParameter(1, "Title", item.Name);
-        builder.AddAttribute(1, "Sortable", item.IsSort);
+        builder.AddComponentParameter(1, nameof(Column<TItem>.Title), item.Name);
+        builder.AddAttribute(1, nameof(Column<TItem>.Sortable), item.IsSort);
+        builder.AddAttribute(1, nameof(Column<TItem>.Fixed), item.Fixed);
+        builder.AddAttribute(1, nameof(Column<TItem>.Width), item.Width);
         if (!string.IsNullOrWhiteSpace(item.DefaultSort))
         {
             var sortName = item.DefaultSort == "desc" ? "descend" : "ascend";
-            builder.AddAttribute(1, "DefaultSortOrder", SortDirection.Parse(sortName));
+            builder.AddAttribute(1, nameof(Column<TItem>.DefaultSortOrder), SortDirection.Parse(sortName));
         }
-        //builder.AddAttribute(1, "Filterable", true);
+        //builder.AddAttribute(1, nameof(Column<TItem>.Filterable), true);
 
         RenderFragment<TItem> template = null;
         Table.Templates?.TryGetValue(item.Id, out template);
 
         if (template != null)
         {
-            builder.AddAttribute(1, "ChildContent", this.BuildTree(b => b.AddContent(1, template(Item))));
+            builder.AddAttribute(1, nameof(Column<TItem>.ChildContent), this.BuildTree(b => b.AddContent(1, template(Item))));
         }
         else if (value?.GetType() == typeof(bool))
         {
-            builder.AddAttribute(1, "ChildContent", this.BuildTree(b =>
+            builder.AddAttribute(1, nameof(Column<TItem>.ChildContent), this.BuildTree(b =>
             {
                 var isChecked = Utils.ConvertTo<bool>(value);
                 b.Component<Switch>().Set(c => c.Checked, isChecked)
@@ -92,7 +94,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
         }
         else if (item.IsViewLink)
         {
-            builder.AddAttribute(1, "ChildContent", this.BuildTree(b =>
+            builder.AddAttribute(1, nameof(Column<TItem>.ChildContent), this.BuildTree(b =>
             {
                 b.Link($"{value}", this.Callback(() => Table.ViewForm(Item)));
             }));

@@ -26,11 +26,13 @@ public class FormModel<TItem> where TItem : class, new()
 
     internal FormModel(IUIService ui, FormInfo info) : this(ui, false)
     {
+        SetFormInfo(info);
         columns = info.Fields.Select(f => new ColumnInfo(f)).ToList();
     }
 
     internal FormModel(TableModel<TItem> table) : this(table.UI, false)
     {
+        SetFormInfo(table.Page.Module?.Form);
         Table = table;
         Page = table.Page;
         Option = table.Form;
@@ -174,6 +176,15 @@ public class FormModel<TItem> where TItem : class, new()
         if (Table.FormTitle != null)
             title = Table.FormTitle.Invoke(row);
         return $"{Action}{title}";
+    }
+
+    private void SetFormInfo(FormInfo info)
+    {
+        if (info == null)
+            return;
+
+        LabelSpan = info.LabelSpan;
+        WrapperSpan = info.WrapperSpan;
     }
 }
 

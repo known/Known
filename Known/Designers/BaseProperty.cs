@@ -14,9 +14,12 @@ class BaseProperty<TModel> : BaseComponent where TModel : class, new()
 
     internal void SetModel(TModel model)
     {
-        Model = model;
+        Model = model ?? new();
         StateChanged();
     }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Div("property", () => BuildForm(builder));
+    protected virtual void BuildForm(RenderTreeBuilder builder) { }
 
     protected void BuildPropertyItem(RenderTreeBuilder builder, string label, Action<RenderTreeBuilder> template)
     {

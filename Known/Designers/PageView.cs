@@ -18,8 +18,10 @@ class PageView : BaseView<PageInfo>
         base.OnInitialized();
         SetModel();
         Tab.Items.Add(new ItemModel("视图") { Content = BuildView });
-        Tab.Items.Add(new ItemModel("列表") { Content = BuildList });
+        Tab.Items.Add(new ItemModel("字段") { Content = BuildList });
         Tab.Items.Add(new ItemModel("代码") { Content = BuildCode });
+
+        list.ScrollY = "380px";
         list.OnQuery = c =>
         {
             var result = new PagingResult<PageColumnInfo>(Model?.Columns);
@@ -57,7 +59,7 @@ class PageView : BaseView<PageInfo>
     {
         var datas = new List<Dictionary<string, object>>();
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             var data = new Dictionary<string, object>();
             foreach (var item in Model.Columns)

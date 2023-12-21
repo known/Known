@@ -16,6 +16,7 @@ public class TableModel<TItem> where TItem : class, new()
 
     internal TableModel(IUIService ui, PageInfo info)
     {
+        SetPageInfo(info);
         UI = ui;
         Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
         Actions = info.Actions?.Select(t => new ActionInfo(t)).ToList();
@@ -28,6 +29,7 @@ public class TableModel<TItem> where TItem : class, new()
 
 	internal TableModel(BasePage<TItem> page)
 	{
+        SetPageInfo(page.Module?.Page);
         Page = page;
 		UI = page.UI;
         Toolbar.Items = page.Tools;
@@ -53,6 +55,8 @@ public class TableModel<TItem> where TItem : class, new()
 
     public bool ShowCheckBox { get; }
     public bool ShowPager { get; set; }
+    public string ScrollX { get; set; }
+    public string ScrollY { get; set; }
     public FormOption Form { get; } = new();
     public Func<TItem, string> FormTitle { get; set; }
     public ToolbarModel Toolbar { get; } = new();
@@ -209,9 +213,18 @@ public class TableModel<TItem> where TItem : class, new()
         UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave });
     }
 
-    private List<ColumnInfo> GetAllColumns()
+    private static List<ColumnInfo> GetAllColumns()
     {
         return typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
+    }
+
+    private void SetPageInfo(PageInfo info)
+    {
+        if (info == null)
+            return;
+
+        ScrollX = info.ScrollX;
+        ScrollY = info.ScrollY;
     }
 
     private void InitQueryColumns()

@@ -29,6 +29,8 @@ public class FieldInfo
 public class PageInfo
 {
     public string Type { get; set; }
+    public string ScrollX { get; set; }
+    public string ScrollY { get; set; }
     public List<string> Tools { get; set; }
     public List<string> Actions { get; set; }
     public List<PageColumnInfo> Columns { get; set; } = [];
@@ -50,10 +52,16 @@ public class PageColumnInfo
     public bool IsSort { get; set; }
     [DisplayName("默认排序")]
     public string DefaultSort { get; set; }
+    [DisplayName("固定")]
+    public string Fixed { get; set; }
+    [DisplayName("宽度")]
+    public string Width { get; set; }
 }
 
 public class FormInfo
 {
+    public int? LabelSpan { get; set; }
+    public int? WrapperSpan { get; set; }
     public List<FormFieldInfo> Fields { get; set; } = [];
 }
 

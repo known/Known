@@ -109,6 +109,7 @@
 .kui-designer .bold {font-weight:bold;}
 
 .kui-designer .columns, .kui-designer form {padding:10px;}
+.kui-designer .columns, .kui-designer .property {height:460px;overflow:auto;}
 .kui-designer .columns .item {padding:0 5px;}
 .kui-designer .columns .item.active {background-color:#1890ff;color:#fff;}
 
