@@ -58,6 +58,7 @@ public class SysUser : EntityBase
     [DisplayName("性别")]
     [Required(ErrorMessage = "性别不能为空！")]
     [MaxLength(50)]
+    [Category("男,女")]
     public string Gender { get; set; }
 
     /// <summary>

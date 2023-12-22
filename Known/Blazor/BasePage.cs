@@ -14,9 +14,9 @@ public class BasePage : BaseComponent
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         await OnInitPageAsync();
         await AddVisitLogAsync();
-        await base.OnInitializedAsync();
     }
 
 	public virtual Task RefreshAsync() => Task.CompletedTask;
@@ -27,9 +27,16 @@ public class BasePage : BaseComponent
             Module = await Platform.Module.GetModuleAsync(PageId);
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        if (!string.IsNullOrWhiteSpace(PageId))
+            Module = await Platform.Module.GetModuleAsync(PageId);
+    }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (Module == null || Module.Page == null)
+        if (Module == null || string.IsNullOrWhiteSpace(Module.EntityData))
             UI.BuildResult(builder, "404", $"页面不存在！PageId={PageId}");
         else
             BuildPrototype(builder);
