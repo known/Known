@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Known.Entities;
 using Known.Extensions;
 using Known.Helpers;
 using Microsoft.AspNetCore.Components;
@@ -12,6 +13,11 @@ public class TableModel<TItem> where TItem : class, new()
         AllColumns = GetAllColumns();
         Columns = AllColumns.Where(c => !string.IsNullOrWhiteSpace(c.Name)).ToList();
         InitQueryColumns();
+    }
+
+    internal TableModel(IUIService ui, SysModule module) : this(ui, module?.Page)
+    {
+        Module = module;
     }
 
     internal TableModel(IUIService ui, PageInfo info)
@@ -29,6 +35,7 @@ public class TableModel<TItem> where TItem : class, new()
 
 	internal TableModel(BasePage<TItem> page)
 	{
+        Module = page.Module;
         SetPageInfo(page.Module?.Page);
         Page = page;
 		UI = page.UI;
@@ -52,6 +59,7 @@ public class TableModel<TItem> where TItem : class, new()
     internal IUIService UI { get; }
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal BasePage<TItem> Page { get; }
+    internal SysModule Module { get; }
 
     public bool ShowCheckBox { get; }
     public bool ShowPager { get; set; }

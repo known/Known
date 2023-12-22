@@ -32,22 +32,12 @@ public class FormModel<TItem> where TItem : class, new()
 
     internal FormModel(TableModel<TItem> table) : this(table.UI, false)
     {
-        SetFormInfo(table.Page?.Module?.Form);
+        SetFormInfo(table.Module?.Form);
         Table = table;
         Page = table.Page;
         Option = table.Form;
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
-
-        var allColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
-        foreach (var column in allColumns)
-        {
-            var info = Page?.Module?.Form?.Fields?.FirstOrDefault(p => p.Id == column.Id);
-            if (info != null)
-            {
-                column.SetFormFieldInfo(info);
-                columns.Add(column);
-            }
-        }
+        columns = GetFormColumns(table);
     }
 
     internal IUIService UI { get; }
@@ -185,6 +175,30 @@ public class FormModel<TItem> where TItem : class, new()
 
         LabelSpan = info.LabelSpan;
         WrapperSpan = info.WrapperSpan;
+    }
+
+    private static List<ColumnInfo> GetFormColumns(TableModel<TItem> table)
+    {
+        var columns = new List<ColumnInfo>();
+        var isDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
+        if (isDictionary)
+        {
+            columns = table.Module?.Form?.Fields?.Select(f => new ColumnInfo(f)).ToList();
+        }
+        else
+        {
+            var allColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
+            foreach (var column in allColumns)
+            {
+                var info = table.Module?.Form?.Fields?.FirstOrDefault(p => p.Id == column.Id);
+                if (info != null)
+                {
+                    column.SetFormFieldInfo(info);
+                    columns.Add(column);
+                }
+            }
+        }
+        return columns;
     }
 }
 
