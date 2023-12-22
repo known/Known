@@ -10,7 +10,6 @@ class SysTaskList : BaseTablePage<SysTask>
 		await base.OnInitPageAsync();
 		Table.OnQuery = Platform.System.QueryTasksAsync;
 		Table.Column(c => c.Status).Template(BuildTaskStatus);
-		Table.Column(c => c.CreateTime).DefaultDescend();
 	}
 
     private void BuildTaskStatus(RenderTreeBuilder builder, SysTask row)

@@ -63,6 +63,12 @@ class PageView : BaseView<PageInfo>
     {
         builder.Div("setting-row", () =>
         {
+            BuildPropertyItem(builder, "显示分页", b => UI.BuildSwitch(b, new InputModel<bool>
+            {
+                Disabled = ReadOnly,
+                Value = Model.ShowPager,
+                ValueChanged = this.Callback<bool>(value => { Model.ShowPager = value; OnPropertyChanged(); })
+            }));
             BuildPropertyItem(builder, "滚动宽度", b => UI.BuildText(b, new InputModel<string>
             {
                 Disabled = ReadOnly,

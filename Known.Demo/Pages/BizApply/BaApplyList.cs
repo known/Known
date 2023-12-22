@@ -18,7 +18,6 @@ class BaApplyList : BaseTablePage<TbApply>
 		Table.Form.Width = 800;    //定义表单宽度
 		Table.Form.NoFooter = true;//表单不显示默认底部按钮
         Table.OnQuery = QueryApplysAsync;
-		Table.Column(c => c.BizNo).DefaultDescend();//业务单号默认降序
 		Table.Column(c => c.BizStatus).Template(BuildBizStatus);//自定义状态列
     }
 

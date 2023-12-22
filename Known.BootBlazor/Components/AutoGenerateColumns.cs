@@ -36,7 +36,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             builder.AddAttribute(1, "Sortable", item.IsSort);
             if (!string.IsNullOrWhiteSpace(item.DefaultSort))
             {
-                var sortName = item.DefaultSort == "desc" ? "Desc" : "Asc";
+                var sortName = item.DefaultSort == "降序" ? "Desc" : "Asc";
                 builder.AddAttribute(1, "DefaultSort", true);
                 builder.AddAttribute(1, "DefaultSortOrder", Utils.ConvertTo<SortOrder>(sortName));
             }

@@ -68,7 +68,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
         builder.AddAttribute(1, nameof(Column<TItem>.Width), item.Width);
         if (!string.IsNullOrWhiteSpace(item.DefaultSort))
         {
-            var sortName = item.DefaultSort == "desc" ? "descend" : "ascend";
+            var sortName = item.DefaultSort == "降序" ? "descend" : "ascend";
             builder.AddAttribute(1, nameof(Column<TItem>.DefaultSortOrder), SortDirection.Parse(sortName));
         }
         //builder.AddAttribute(1, nameof(Column<TItem>.Filterable), true);

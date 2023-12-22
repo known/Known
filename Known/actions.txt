@@ -1,6 +1,7 @@
 New              | 新增    | plus         | primary
 Edit             | 编辑    | edit         | primary
 Delete           | 删除    | delete       | danger
+DeleteM          | 批量删除 | delete      | danger
 Import           | 导入    | import       | primary
 Export           | 导出    | export       | primary
 Copy             | 复制    | copy         | primary
@@ -21,6 +22,5 @@ Pass             | 审核通过 | check-circle | primary
 Return           | 审核退回 | close-circle | primary
 Repeat           | 重新申请 | redo         | primary
 
-DeleteM          | 批量删除 | delete      | danger
 ResetPassword    | 重置密码 | lock        | primary
 ChangeDepartment | 更换部门 | user-switch | primary

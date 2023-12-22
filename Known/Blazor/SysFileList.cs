@@ -11,7 +11,6 @@ class SysFileList : BaseTablePage<SysFile>
 		await base.OnInitPageAsync();
 		Table.OnQuery = Platform.File.QueryFilesAsync;
 		Table.Column(c => c.Size).Template(BuildFileSize);
-		Table.Column(c => c.CreateTime).DefaultDescend();
 	}
 
     private void BuildFileSize(RenderTreeBuilder builder, SysFile row)

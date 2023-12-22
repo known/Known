@@ -17,7 +17,6 @@ class BaQueryList : BaseTablePage<TbApply>
         await base.OnInitPageAsync();
         Table.OnQuery = QueryApplysAsync;
 		Table.Form.Width = 800;
-        Table.Column(c => c.BizNo).DefaultDescend();
         Table.Column(c => c.BizStatus).Template(BuildBizStatus);
     }
 

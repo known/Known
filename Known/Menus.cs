@@ -86,7 +86,6 @@ public class ActionInfo
     public ActionInfo()
     {
         Enabled = true;
-        Visible = true;
         Children = [];
     }
 
@@ -116,7 +115,6 @@ public class ActionInfo
     public string Icon { get; set; }
     public string Style { get; set; }
     public bool Enabled { get; set; }
-    public bool Visible { get; set; }
     public List<ActionInfo> Children { get; }
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 }

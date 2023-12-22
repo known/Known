@@ -11,7 +11,6 @@ class SysLogList : BaseTablePage<SysLog>
 		Table.OnQuery = Platform.System.QueryLogsAsync;
 		Table.AddQueryColumn(c => c.CreateTime);
 		Table.Column(c => c.Type).Template(BuildLogType);
-		Table.Column(c => c.CreateTime).DefaultDescend();
     }
 
     private void BuildLogType(RenderTreeBuilder builder, SysLog row)

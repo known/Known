@@ -13,7 +13,6 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
 		Table.FormTitle = row => $"{Name} - {row.CategoryName}";
 		Table.OnQuery = QueryDictionarysAsync;
 		Table.RowKey = r => r.Id;
-		Table.Column(c => c.Sort).DefaultAscend();
 	}
 
     private async Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)

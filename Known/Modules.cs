@@ -29,6 +29,7 @@ public class FieldInfo
 public class PageInfo
 {
     public string Type { get; set; }
+    public bool ShowPager { get; set; }
     public string ScrollX { get; set; }
     public string ScrollY { get; set; }
     public string[] Tools { get; set; }

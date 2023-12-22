@@ -27,7 +27,6 @@ public class TableModel<TItem> where TItem : class, new()
         Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
         Actions = info.Actions?.Select(t => new ActionInfo(t)).ToList();
         ShowCheckBox = info.Tools != null && info.Tools.Length > 0;
-        ShowPager = true;
         AllColumns = info.Columns.Select(c => new ColumnInfo(c)).ToList();
         Columns = AllColumns;
         InitQueryColumns();
@@ -42,7 +41,6 @@ public class TableModel<TItem> where TItem : class, new()
         Toolbar.Items = page.Tools;
         Actions = page.Actions;
 		ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
-		ShowPager = true;
         AllColumns = GetAllColumns();
         foreach (var column in AllColumns)
         {
@@ -233,6 +231,7 @@ public class TableModel<TItem> where TItem : class, new()
 
         ScrollX = info.ScrollX;
         ScrollY = info.ScrollY;
+        ShowPager = info.ShowPager;
     }
 
     private void InitQueryColumns()
