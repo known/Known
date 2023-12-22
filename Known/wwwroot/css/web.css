@@ -98,6 +98,7 @@
 /*Layout*/
 .kui-designer {display:grid;grid-template-columns:220px auto 220px;min-height:300px;}
 .kui-designer.entity {grid-template-columns:40% auto;}
+.kui-designer-tips {padding:2px;background-color:#f2e595;color:#666;text-align:center;}
 
 /*Style*/
 .kui-designer .caption {

@@ -1,4 +1,5 @@
-﻿using Known.Entities;
+﻿using Known.Designers;
+using Known.Entities;
 using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -7,7 +8,9 @@ namespace Known.Blazor;
 
 public class BasePage : BaseComponent
 {
-	[Parameter] public string PageId { get; set; }
+    internal SysModule Module { get; set; }
+
+    [Parameter] public string PageId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -17,11 +20,26 @@ public class BasePage : BaseComponent
     }
 
 	public virtual Task RefreshAsync() => Task.CompletedTask;
-	protected virtual Task OnInitPageAsync() => Task.CompletedTask;
+
+    protected virtual async Task OnInitPageAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(PageId))
+            Module = await Platform.Module.GetModuleAsync(PageId);
+    }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        UI.BuildResult(builder, "404", $"页面不存在！PageId={PageId}");
+        if (Module == null || Module.Page == null)
+            UI.BuildResult(builder, "404", $"页面不存在！PageId={PageId}");
+        else
+            BuildPrototype(builder);
+    }
+
+    private void BuildPrototype(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-designer-tips", "这里是模块原型测试页");
+        var table = new DemoPageModel(UI, Module);
+        builder.BuildTablePage(table);
     }
 }
 
@@ -31,14 +49,13 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 	internal List<ActionInfo> Tools { get; set; }
     internal List<ActionInfo> Actions { get; set; }
     internal List<PageColumnInfo> Columns { get; set; }
-    internal SysModule Module { get; set; }
 
     internal virtual void ViewForm(FormType type, TItem row) { }
 
 	protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        await InitMenuAsync();
+        InitMenu();
     }
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildPage(builder, Page);
@@ -56,10 +73,8 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 			method.Invoke(this, parameters);
 	}
 
-	private async Task InitMenuAsync()
+	private void InitMenu()
     {
-        Module = await Platform.Module.GetModuleAsync(PageId);
-
         if (Context == null || Context.UserMenus == null)
             return;
 

@@ -13,7 +13,7 @@ class EntityDesigner : BaseComponent
         new CodeInfo("新建"),
         new CodeInfo("从实体库中选择")
     ];
-    private readonly List<CodeInfo> entityModels = [];
+    private List<CodeInfo> entityModels;
 
     private string addType;
     private EntityInfo entity = new();
@@ -30,11 +30,11 @@ class EntityDesigner : BaseComponent
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        LoadEntityModels(Models);
+        entityModels = EntityHelper.Models.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
         dataTypes = string.Join(",", Cache.GetCodes(nameof(FieldType)).Select(c => c.Name));
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
-        entity = GetEntity(Model);
+        entity = EntityHelper.GetEntity(Model);
         Form.Entity = entity;
     }
 
@@ -111,71 +111,9 @@ class EntityDesigner : BaseComponent
     private void OnModelChanged(string model)
     {
         Model = model;
-        entity = GetEntity(model);
+        entity = EntityHelper.GetEntity(model);
         Form.Entity = entity;
         view?.SetModel(entity);
         OnChanged?.Invoke(model);
-    }
-
-    private void LoadEntityModels(List<string> models)
-    {
-        entityModels.Clear();
-        foreach (var model in models)
-        {
-            var entity = GetEntityInfo(model);
-            entityModels.Add(new CodeInfo(entity.Id, $"{entity.Name}({entity.Id})", entity));
-        }
-    }
-
-    private EntityInfo GetEntity(string model)
-    {
-        var info = new EntityInfo();
-        if (string.IsNullOrWhiteSpace(model))
-            return info;
-
-        if (!model.Contains('|'))
-            return entityModels.FirstOrDefault(m => m.Code == model)?.DataAs<EntityInfo>();
-
-        return GetEntityInfo(model);
-    }
-
-    private static EntityInfo GetEntityInfo(string model)
-    {
-        var info = new EntityInfo();
-        var lines = model.Split([.. Environment.NewLine])
-                         .Where(s => !string.IsNullOrWhiteSpace(s))
-                         .ToArray();
-
-        if (lines.Length > 0)
-        {
-            var values = lines[0].Split('|');
-            if (values.Length > 0) info.Name = values[0];
-            if (values.Length > 1) info.Id = values[1];
-            if (values.Length > 2) info.IsFlow = values[2] == "Y";
-        }
-
-        if (lines.Length > 1)
-        {
-            for (int i = 1; i < lines.Length; i++)
-            {
-                var field = new FieldInfo();
-                var values = lines[i].Split('|');
-                if (values.Length > 0) field.Name = values[0];
-                if (values.Length > 1) field.Id = values[1];
-                if (values.Length > 2) field.Type = Utils.ConvertTo<FieldType>(values[2]);
-                if (values.Length > 3) field.Length = values[3];
-                if (values.Length > 4) field.Required = values[4] == "Y";
-
-                if (field.Type == FieldType.CheckBox || field.Type == FieldType.Switch)
-                {
-                    field.Length = "50";
-                    field.Required = true;
-                }
-
-                info.Fields.Add(field);
-            }
-        }
-
-        return info;
     }
 }

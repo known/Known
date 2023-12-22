@@ -9,7 +9,6 @@ class SysModuleForm : BaseForm<SysModule>
 {
     private readonly StepModel step = new();
     private StepForm stepForm;
-    private List<string> models = [];
 
     private bool IsPage => Model.Data.Target == "页面";
     private int StepCount => IsPage ? 4 : 1;
@@ -24,9 +23,6 @@ class SysModuleForm : BaseForm<SysModule>
         step.Items.Add(new("页面设置") { Content = BuildModulePage });
         step.Items.Add(new("表单设置") { Content = BuildModuleForm });
         Model.OnFieldChanged = OnFieldChanged;
-
-        var modules = await Platform.Module.GetModulesAsync();
-        models = modules.Where(m => !string.IsNullOrWhiteSpace(m.EntityData) && m.EntityData.Contains('|')).Select(m => m.EntityData).ToList();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -49,7 +45,6 @@ class SysModuleForm : BaseForm<SysModule>
         builder.Component<EntityDesigner>()
                .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.Model, Model.Data.EntityData)
-               .Set(c => c.Models, models)
                .Set(c => c.OnChanged, model => Model.Data.EntityData = model)
                .Build();
     }
@@ -80,6 +75,7 @@ class SysModuleForm : BaseForm<SysModule>
             return false;
 
         await Model.SaveAsync(isClose);
+        await EntityHelper.InitializeAsync(Platform.Module);
         return true;
     }
 
