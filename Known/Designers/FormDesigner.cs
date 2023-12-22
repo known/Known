@@ -15,20 +15,22 @@ class FormDesigner : BaseDesigner<FormInfo>
         current = Model.Fields.FirstOrDefault();
     }
 
-    protected override void BuildDesigner(RenderTreeBuilder builder)
+    protected override void BuildView(RenderTreeBuilder builder)
     {
-        builder.Div("panel-view", () =>
-        {
-            builder.Component<FormView>().Set(c => c.Model, Model).Build(value => view = value);
-        });
-        builder.Div("panel-property", () =>
-        {
-            builder.Component<FormProperty>()
-                   .Set(c => c.ReadOnly, ReadOnly)
-                   .Set(c => c.Model, current)
-                   .Set(c => c.OnChanged, OnPropertyChanged)
-                   .Build(value => property = value);
-        });
+        builder.Component<FormView>()
+               .Set(c => c.ReadOnly, ReadOnly)
+               .Set(c => c.Model, Model)
+               .Set(c => c.OnChanged, OnChanged)
+               .Build(value => view = value);
+    }
+
+    protected override void BuildProperty(RenderTreeBuilder builder)
+    {
+        builder.Component<FormProperty>()
+               .Set(c => c.ReadOnly, ReadOnly)
+               .Set(c => c.Model, current)
+               .Set(c => c.OnChanged, OnPropertyChanged)
+               .Build(value => property = value);
     }
 
     protected override void OnFieldCheck(FieldInfo field)

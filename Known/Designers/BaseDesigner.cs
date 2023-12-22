@@ -29,11 +29,13 @@ class BaseDesigner<TModel> : BaseComponent
                        .Set(c => c.OnFieldClick, OnFieldClick)
                        .Build();
             });
-            BuildDesigner(builder);
+            builder.Div("panel-view", () => BuildView(builder));
+            builder.Div("panel-property", () => BuildProperty(builder));
         });
     }
 
-    protected virtual void BuildDesigner(RenderTreeBuilder builder) { }
+    protected virtual void BuildView(RenderTreeBuilder builder) { }
+    protected virtual void BuildProperty(RenderTreeBuilder builder) { }
     protected virtual void OnFieldCheck(FieldInfo field) { }
     protected virtual void OnFieldClick(FieldInfo field) { }
 }

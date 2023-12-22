@@ -15,23 +15,23 @@ class PageDesigner : BaseDesigner<PageInfo>
         current = Model.Columns.FirstOrDefault();
     }
 
-    protected override void BuildDesigner(RenderTreeBuilder builder)
+    protected override void BuildView(RenderTreeBuilder builder)
     {
-        builder.Div("panel-view", () =>
-        {
-            builder.Component<PageView>()
-                   .Set(c => c.Model, Model)
-                   .Set(c => c.Entity, Entity)
-                   .Build(value => view = value);
-        });
-        builder.Div("panel-property", () =>
-        {
-            builder.Component<PageProperty>()
-                   .Set(c => c.ReadOnly, ReadOnly)
-                   .Set(c => c.Model, current)
-                   .Set(c => c.OnChanged, OnPropertyChanged)
-                   .Build(value => property = value);
-        });
+        builder.Component<PageView>()
+               .Set(c => c.ReadOnly, ReadOnly)
+               .Set(c => c.Model, Model)
+               .Set(c => c.Entity, Entity)
+               .Set(c => c.OnChanged, OnChanged)
+               .Build(value => view = value);
+    }
+
+    protected override void BuildProperty(RenderTreeBuilder builder)
+    {
+        builder.Component<PageProperty>()
+               .Set(c => c.ReadOnly, ReadOnly)
+               .Set(c => c.Model, current)
+               .Set(c => c.OnChanged, OnPropertyChanged)
+               .Build(value => property = value);
     }
 
     protected override void OnFieldCheck(FieldInfo field)

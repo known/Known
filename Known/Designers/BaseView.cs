@@ -11,9 +11,19 @@ class BaseView<TModel> : BaseComponent
     internal CodeService Service => new();
 
     [Parameter] public TModel Model { get; set; }
+    [Parameter] public Action<TModel> OnChanged { get; set; }
 
     internal virtual void SetModel(TModel model) => Model = model;
     protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
     protected void BuildList<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new() => builder.Div("list-view", () => UI.BuildTable(builder, model));
     protected void BuildCode(RenderTreeBuilder builder, string code) => builder.Markup($"<pre class=\"kui-code\">{code}</pre>");
+
+    protected void BuildPropertyItem(RenderTreeBuilder builder, string label, Action<RenderTreeBuilder> template)
+    {
+        builder.Div("item", () =>
+        {
+            builder.Label(label);
+            template?.Invoke(builder);
+        });
+    }
 }

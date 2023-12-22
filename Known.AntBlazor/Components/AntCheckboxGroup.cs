@@ -12,7 +12,7 @@ class AntCheckboxGroup : CheckboxGroup
         await base.OnParametersSetAsync();
         Options = Codes.ToCheckboxOptions(o =>
         {
-            o.Checked = Value.Contains(o.Value);
+            o.Checked = Value != null && Value.Contains(o.Value);
         });
     }
 }

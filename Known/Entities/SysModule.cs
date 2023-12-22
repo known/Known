@@ -53,7 +53,6 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置目标。
     /// </summary>
-    [Category("菜单,页面,自定义")]
     [DisplayName("类型")]
     [Required(ErrorMessage = "请选择模块类型！")]
     [MaxLength(250)]

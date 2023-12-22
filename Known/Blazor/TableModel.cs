@@ -20,7 +20,7 @@ public class TableModel<TItem> where TItem : class, new()
         UI = ui;
         Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
         Actions = info.Actions?.Select(t => new ActionInfo(t)).ToList();
-        ShowCheckBox = info.Tools != null && info.Tools.Count > 0;
+        ShowCheckBox = info.Tools != null && info.Tools.Length > 0;
         ShowPager = true;
         AllColumns = info.Columns.Select(c => new ColumnInfo(c)).ToList();
         Columns = AllColumns;

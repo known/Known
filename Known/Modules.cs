@@ -31,8 +31,8 @@ public class PageInfo
     public string Type { get; set; }
     public string ScrollX { get; set; }
     public string ScrollY { get; set; }
-    public List<string> Tools { get; set; }
-    public List<string> Actions { get; set; }
+    public string[] Tools { get; set; }
+    public string[] Actions { get; set; }
     public List<PageColumnInfo> Columns { get; set; } = [];
 }
 

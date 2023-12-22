@@ -120,16 +120,17 @@
 .kui-designer.entity .panel-model pre {margin:0;padding:10px;}
 
 /*View*/
-.kui-designer .panel-view {}
+.kui-designer .panel-view .view .ant-query, 
+.kui-designer .panel-view .view .ant-toolbar {padding:0;}
+.kui-designer .panel-view .view .ant-toolbar {padding-right:10px;padding-top:10px;}
+.kui-designer .panel-view .setting-row {display:flex;margin-bottom:10px;}
+.kui-designer .panel-view .setting .item {display:grid;grid-template-columns:80px auto;height:32px;align-items:center;margin-right:10px;}
 .kui-designer .list-view {padding:0 10px;}
 .kui-designer form {padding-right:50px;}
 
 /*Property*/
 .kui-designer .panel-property {background-color:#e9e9e9;}
-.kui-designer .panel-property .item {
-    display:grid;margin:10px;grid-template-columns:80px auto;
-    height:32px;align-items:center;
-}
+.kui-designer .panel-property .item {display:grid;margin:10px;grid-template-columns:80px auto;height:32px;align-items:center;}
 .kui-designer .panel-property .item label {text-align:right;padding-right:15px;}
 
 /*Code*/
@@ -138,5 +139,6 @@
 
 /*AntDesign*/
 .kui-designer.entity .panel-view .ant-tabs-content-holder {padding-left:10px;}
+.kui-designer .panel-view .setting .ant-tabs-content-holder {padding:0 10px;}
 .kui-designer .panel-property .item .ant-switch {width:44px;}
 /*----Designer end----*/
