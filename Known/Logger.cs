@@ -14,7 +14,7 @@ public interface ILogger
 }
 
 [CodeInfo]
-public class LogType
+class LogType
 {
     private LogType() { }
 

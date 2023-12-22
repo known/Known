@@ -1,7 +1,5 @@
 ﻿namespace Known;
 
-public class ModelBase { }
-
 public abstract class ServiceBase
 {
     public UserInfo CurrentUser { get; set; }

@@ -39,7 +39,7 @@ public class RegexPattern
 }
 
 [CodeInfo]
-public class TaskStatus
+class TaskStatus
 {
     private TaskStatus() { }
 

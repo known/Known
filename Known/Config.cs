@@ -11,7 +11,6 @@ public sealed class Config
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
     internal static List<ActionInfo> Actions { get; set; } = [];
-    internal static List<Type> ModelTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
     internal static Dictionary<string, Type> PageTypes { get; } = [];
     internal static Dictionary<string, List<string>> PageButtons { get; } = [];
@@ -26,11 +25,7 @@ public sealed class Config
 
         foreach (var item in assembly.GetTypes())
         {
-            if (item.BaseType == typeof(EntityBase) || item.BaseType == typeof(ModelBase))
-            {
-                ModelTypes.Add(item);
-            }
-            else if (item.IsAssignableTo(typeof(BasePage)))
+            if (item.IsAssignableTo(typeof(BasePage)))
             {
                 PageTypes[item.Name] = item;
                 AddActions(item);
