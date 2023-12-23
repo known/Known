@@ -31,10 +31,15 @@ public class AdminPage : BaseComponent
         IsLoaded = true;
     }
 
-    protected Task<Result> SignOutAsync()
+    protected async Task SignOutAsync()
     {
         var user = CurrentUser;
-        return Platform.Auth.SignOutAsync(user?.Token);
+        var result = await Platform.Auth.SignOutAsync(user?.Token);
+        if (result.IsValid)
+        {
+            OnLogout?.Invoke();
+            Config.OnExit?.Invoke();
+        }
     }
 
     private void OnNavigate(MenuItem item)

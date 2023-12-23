@@ -8,6 +8,7 @@ public sealed class Config
 {
     private Config() { }
 
+    public static Action OnExit { get; set; }
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
     internal static List<ActionInfo> Actions { get; set; } = [];

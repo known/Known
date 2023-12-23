@@ -1,6 +1,10 @@
 ﻿import "./libs/pdfobject.js";
 
 export class KRazor {
+    //Callback
+    static invokeDotNet(id, key, param) {
+        return DotNet.invokeMethodAsync('Known', 'CallbackByParamAsync', id, key, param);
+    }
     //Common
     static elemClick(id) {
         document.getElementById(id).click();

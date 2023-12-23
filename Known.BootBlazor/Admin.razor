@@ -53,14 +53,7 @@
                 Context.NavigateToUserProfile();
                 break;
             case "logout":
-                UI.Confirm("确定要退出系统？", async () =>
-                {
-                    var result = await SignOutAsync();
-                    if (result.IsValid)
-                    {
-                        OnLogout?.Invoke();
-                    }
-                });
+                UI.Confirm("确定要退出系统？", SignOutAsync);
                 break;
         }
     }

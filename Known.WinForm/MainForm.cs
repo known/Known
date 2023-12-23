@@ -30,17 +30,12 @@ public partial class MainForm : Form
     protected override void OnClosing(CancelEventArgs e)
     {
         base.OnClosing(e);
+
         var result = Dialog.Confirm("确定退出系统？");
         if (result == DialogResult.Cancel)
-        {
             e.Cancel = true;
-        }
         else
-        {
-            AppSetting.ZoomFactor = blazorWebView.WebView.ZoomFactor;
-            AppSetting.Save();
-            Environment.Exit(0);
-        }
+            OnClose();
     }
 
     private void WebViewInitialized(object sender, BlazorWebViewInitializedEventArgs e)
@@ -57,6 +52,7 @@ public partial class MainForm : Form
 #endif
         services.AddApp(info =>
         {
+            Config.OnExit = OnClose;
             //设置环境
             info.Type = AppType.WinForm;
             info.WebRoot = Application.StartupPath;
@@ -69,5 +65,12 @@ public partial class MainForm : Form
         blazorWebView.HostPage = "wwwroot\\index.html";
         blazorWebView.Services = services.BuildServiceProvider();
         blazorWebView.RootComponents.Add<App>("#app");
+    }
+
+    private void OnClose()
+    {
+        AppSetting.ZoomFactor = blazorWebView.WebView.ZoomFactor;
+        AppSetting.Save();
+        Environment.Exit(0);
     }
 }
