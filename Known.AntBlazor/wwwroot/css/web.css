@@ -1,3 +1,4 @@
+.ant-captcha + img {position:absolute;top:0;right:0;width:100px;height:31px;z-index:1000;}
 .ant-query, .ant-toolbar {padding:10px 10px 0 10px;}
 .ant-query input, .ant-query .select {width:110px;}
 

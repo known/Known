@@ -9,6 +9,11 @@
             <Prefix><Icon Type="lock" /></Prefix>
         </InputPassword>
     </FormItem>
+    <FormItem Label="">
+        <AntCaptcha @bind-Value="@context.Captcha" Placeholder="验证码">
+            <Prefix><Icon Type="check" /></Prefix>
+        </AntCaptcha>
+    </FormItem>
     <FormItem>
         <Switch @bind-Checked="@context.Remember" /> 记住用户名
     </FormItem>

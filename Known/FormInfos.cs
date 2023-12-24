@@ -16,7 +16,12 @@ public class LoginFormInfo
     [DisplayName("<i class=\"fa fa-lock\" />")]
     [Required(ErrorMessage = "请输入密码！")]
     public string Password { get; set; }
-    
+
+    [Form(Placeholder = "验证码")]
+    [DisplayName("<i class=\"fa fa-check\" />")]
+    [Required(ErrorMessage = "请输入验证码！")]
+    public string Captcha { get; set; }
+
     [Form]
     [DisplayName("记住用户名")]
     public bool Remember { get; set; }

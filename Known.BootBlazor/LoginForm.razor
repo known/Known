@@ -12,6 +12,12 @@
         </BootstrapInputGroup>
     </div>
     <div class="boot-row">
+        <BootstrapInputGroup>
+            <BootstrapInputGroupLabel class="fa fa-check" />
+            <BootCaptcha DisplayText="" @bind-Value="@Model.Captcha" PlaceHolder="验证码" />
+        </BootstrapInputGroup>
+    </div>
+    <div class="boot-row">
         <Switch @bind-Value="@Model.Remember" OnText="记住用户名" OffText="记住用户名" />
     </div>
     <div class="boot-row">
