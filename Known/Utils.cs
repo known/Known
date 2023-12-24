@@ -74,6 +74,18 @@ public sealed class Utils
     #region Round
     public static decimal Round(decimal value, int decimals) => Math.Round(value, decimals, MidpointRounding.AwayFromZero);
     public static double Round(double value, int decimals) => Math.Round(value, decimals, MidpointRounding.AwayFromZero);
+
+    public static string GetCaptcha(int length)
+    {
+        var chars = "abcdefghijkmnpqrstuvwxyz2345678ABCDEFGHJKLMNPQRSTUVWXYZ";
+        var rnd = new Random();
+        var code = "";
+        for (int i = 0; i < length; i++)
+        {
+            code += chars[rnd.Next(chars.Length)];
+        }
+        return code;
+    }
     #endregion
 
     #region Encryptor

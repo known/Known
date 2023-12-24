@@ -44,23 +44,23 @@ public class JSService
     #endregion
 
     #region Common
-    public void Click(string clientId) => InvokeVoidAsync("KRazor.elemClick", clientId);
-    public void Enabled(string clientId, bool enabled) => InvokeVoidAsync("KRazor.elemEnabled", clientId, enabled);
+    public void Click(string clientId) => InvokeVoidAsync("KBlazor.elemClick", clientId);
+    public void Enabled(string clientId, bool enabled) => InvokeVoidAsync("KBlazor.elemEnabled", clientId, enabled);
     #endregion
 
     #region LocalStorage
     public async Task<T> GetLocalStorage<T>(string key)
     {
-        var value = await InvokeAsync<string>("KRazor.getLocalStorage", key);
+        var value = await InvokeAsync<string>("KBlazor.getLocalStorage", key);
         return Utils.FromJson<T>(value);
     }
 
-    public void SetLocalStorage(string key, object value) => InvokeVoidAsync("KRazor.setLocalStorage", key, value);
+    public void SetLocalStorage(string key, object value) => InvokeVoidAsync("KBlazor.setLocalStorage", key, value);
     #endregion
 
     #region Screen
-    public void OpenFullScreen() => InvokeVoidAsync("KRazor.openFullScreen");
-    public void CloseFullScreen() => InvokeVoidAsync("KRazor.closeFullScreen");
+    public void OpenFullScreen() => InvokeVoidAsync("KBlazor.openFullScreen");
+    public void CloseFullScreen() => InvokeVoidAsync("KBlazor.closeFullScreen");
     #endregion
 
     #region Print
@@ -75,17 +75,17 @@ public class JSService
         Print(content);
     }
 
-    public void Print(string content) => InvokeVoidAsync("KRazor.printContent", content);
+    public void Print(string content) => InvokeVoidAsync("KBlazor.printContent", content);
     #endregion
 
     #region Download
-    public void DownloadFile(string fileName, string url) => InvokeVoidAsync("KRazor.downloadFileByUrl", fileName, url);
+    public void DownloadFile(string fileName, string url) => InvokeVoidAsync("KBlazor.downloadFileByUrl", fileName, url);
 
     public async void DownloadFile(string fileName, Stream stream)
     {
         var module = await moduleTask.Value;
         using var streamRef = new DotNetStreamReference(stream);
-        await module.InvokeVoidAsync("KRazor.downloadFileByStream", fileName, streamRef);
+        await module.InvokeVoidAsync("KBlazor.downloadFileByStream", fileName, streamRef);
     }
     #endregion
 
@@ -97,8 +97,12 @@ public class JSService
 
         var module = await moduleTask.Value;
         using var streamRef = new DotNetStreamReference(stream);
-        await module.InvokeVoidAsync("KRazor.showPdf", id, streamRef);
+        await module.InvokeVoidAsync("KBlazor.showPdf", id, streamRef);
     }
+    #endregion
+
+    #region Image
+    public void Captcha(string id, string code) => InvokeVoidAsync("KBlazor.captcha", id, code);
     #endregion
 }
 

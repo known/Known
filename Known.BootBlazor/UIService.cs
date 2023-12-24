@@ -85,26 +85,26 @@ public class UIService(DialogService dialogService, MessageService messageServic
         }
     }
 
-    public async void Toast(string message, StyleType style = StyleType.Success)
+    public void Toast(string message, StyleType style = StyleType.Success)
     {
-        switch (style)
-        {
-            case StyleType.Success:
-                await _message.Show(new MessageOption { Content = message });
-                break;
-            case StyleType.Info:
-                await _message.Show(new MessageOption { Content = message });
-                break;
-            case StyleType.Warning:
-                await _message.Show(new MessageOption { Content = message });
-                break;
-            case StyleType.Error:
-                await _message.Show(new MessageOption { Content = message });
-                break;
-            default:
-                await _message.Show(new MessageOption { Content = message });
-                break;
-        }
+        //switch (style)
+        //{
+        //    case StyleType.Success:
+        //        await _message.Show(new MessageOption { Content = message });
+        //        break;
+        //    case StyleType.Info:
+        //        await _message.Show(new MessageOption { Content = message });
+        //        break;
+        //    case StyleType.Warning:
+        //        await _message.Show(new MessageOption { Content = message });
+        //        break;
+        //    case StyleType.Error:
+        //        await _message.Show(new MessageOption { Content = message });
+        //        break;
+        //    default:
+        //        await _message.Show(new MessageOption { Content = message });
+        //        break;
+        //}
     }
 
     public void Alert(string message)

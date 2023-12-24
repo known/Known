@@ -1,4 +1,6 @@
-﻿<Form Model="@Model" OnFinish="OnLogin" LabelCol="null">
+﻿@inherits BaseComponent
+
+<Form Model="@Model" OnFinish="OnUserLogin" LabelCol="null">
     <FormItem Label="">
         <Input @bind-Value="@context.UserName" Placeholder="用户名">
         <Prefix><Icon Type="user" /></Prefix>
@@ -10,7 +12,7 @@
         </InputPassword>
     </FormItem>
     <FormItem Label="">
-        <AntCaptcha @bind-Value="@context.Captcha" Placeholder="验证码">
+        <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="验证码">
             <Prefix><Icon Type="check" /></Prefix>
         </AntCaptcha>
     </FormItem>
@@ -23,6 +25,19 @@
 </Form>
 
 @code {
+    private AntCaptcha captcha;
+
     [Parameter] public LoginFormInfo Model { get; set; }
     [Parameter] public EventCallback<EditContext> OnLogin { get; set; }
+
+    private async void OnUserLogin()
+    {
+        if (!captcha.Validate(out string message))
+        {
+            UI.Toast(message, StyleType.Error);
+            return;
+        }
+
+        await OnLogin.InvokeAsync();
+    }
 }
