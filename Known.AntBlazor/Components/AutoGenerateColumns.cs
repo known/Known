@@ -44,9 +44,8 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
     private void BuildColumn(RenderTreeBuilder builder, ColumnInfo item)
     {
         var propertyType = typeof(string);
-        var property = item.GetProperty();
-        if (property != null)
-            propertyType = property.PropertyType.UnderlyingSystemType;
+        if (item.Property != null)
+            propertyType = item.Property.PropertyType.UnderlyingSystemType;
         var columnType = typeof(Column<>).MakeGenericType(propertyType);
         var value = TypeHelper.GetPropertyValue(Item, item.Id);
         builder.OpenComponent(0, columnType);

@@ -121,9 +121,12 @@ public class ActionInfo
 
 public class ColumnInfo
 {
-    internal PropertyInfo Property;
+    internal ColumnInfo(string label, RenderFragment template)
+    {
+        Name = label;
+        Template = template;
+    }
 
-    public ColumnInfo() { }
     internal ColumnInfo(PageColumnInfo info) => SetPageColumnInfo(info);
     internal ColumnInfo(FormFieldInfo info) => SetFormFieldInfo(info);
 
@@ -174,8 +177,8 @@ public class ColumnInfo
     public bool Required { get; set; }
     public bool ReadOnly { get; set; }
     
-    public RenderFragment Template { get; set; }
-    public PropertyInfo GetProperty() => Property;
+    public RenderFragment Template { get; }
+    public PropertyInfo Property { get; }
 
     internal void SetPageColumnInfo(PageColumnInfo info)
     {

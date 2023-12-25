@@ -10,9 +10,8 @@
     {
         var item = Model.QueryColumns[i];
         var itemType = "String";
-        var property = item.GetProperty();
-        if (property != null)
-            itemType = property.PropertyType.Name;
+        if (item.Property != null)
+            itemType = item.Property.PropertyType.Name;
         <div class="item">
             <label>@item.Name</label>
             @if (!string.IsNullOrWhiteSpace(item.Category))

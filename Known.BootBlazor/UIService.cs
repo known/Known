@@ -14,9 +14,8 @@ public class UIService(DialogService dialogService, MessageService messageServic
     public Type GetInputType(ColumnInfo column)
     {
         var type = typeof(string);
-        var property = column.GetProperty();
-        if (property != null)
-            type = property.PropertyType;
+        if (column.Property != null)
+            type = column.Property.PropertyType;
 
         if (type == typeof(bool) || column.Type == FieldType.Switch)
             return typeof(Switch);

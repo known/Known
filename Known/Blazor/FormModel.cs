@@ -213,12 +213,7 @@ public class FormRow<TItem> where TItem : class, new()
     public List<FieldModel<TItem>> Fields { get; } = [];
 
     public FormRow<TItem> AddColumn(string label, string text) => AddColumn(label, b => b.Text(text));
-
-    public FormRow<TItem> AddColumn(string label, RenderFragment template)
-    {
-        var column = new ColumnInfo() { Name = label, Template = template };
-        return AddColumn(column);
-    }
+    public FormRow<TItem> AddColumn(string label, RenderFragment template) => AddColumn(new ColumnInfo(label, template));
 
     public FormRow<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector, Action<ColumnInfo> action = null)
     {
