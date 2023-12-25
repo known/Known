@@ -1,6 +1,10 @@
-# Known
+<div style="text-align:center">
 
-Known是基于C#和Blazor的低代码开发框架，开箱即用，跨平台，一处代码，多处运行。
+![Logo](https://foruda.gitee.com/images/1703494572944391289/24f26ae0_14334.png "屏幕截图")
+
+</div>
+
+Known是基于C#和Blazor的快速开发框架，开箱即用，跨平台，一处代码，多处运行。
 
 [![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
 [![fork](https://gitee.com/known/Known/badge/fork.svg?theme=dark)](https://gitee.com/known/Known/members)
@@ -16,7 +20,7 @@ Known是基于C#和Blazor的低代码开发框架，开箱即用，跨平台，�
 
 ### 概述
 
-- 基于C#和Blazor的低代码开发框架，开箱即用，跨平台。
+- 基于C#和Blazor的快速开发框架，开箱即用，跨平台。
 - 模块化，单页应用，混合桌面应用，Web和桌面共享一处代码。
 - UI默认支持AntDesign，可扩展其他UI组件库。
 - 包含模块、字典、组织、角色、用户、日志、消息、工作流、定时任务等功能。
@@ -39,7 +43,7 @@ Known是基于C#和Blazor的低代码开发框架，开箱即用，跨平台，�
 
 ### 主要功能
 
-- 模块管理：配置系统功能模块、操作按钮、列表栏位，供开发者使用。
+- 模块管理：配置系统功能模块，在线设计模型、页面和表单，生成代码，供开发者使用。
 - 数据字典：维护系统各模块下拉框数据源。
 - 组织架构：维护企业组织架构信息，树形结构。
 - 角色管理：维护系统角色及权限信息，权限可控制菜单，按钮，列表栏位。
@@ -48,33 +52,6 @@ Known是基于C#和Blazor的低代码开发框架，开箱即用，跨平台，�
 - 消息管理：系统内消息提醒，工作流消息通知。
 - 流程管理：系统内置工作流引擎，提供提交、撤回、分配、审核、重启操作。
 - 定时任务：导入和计算耗时的功能采用定时任务异步执行。
-
-### 快速开始
-
-- 通过实体类配置列表和表单字段
-- 简单几行代码即可完成增删改查
-
-```csharp
-//实体类
-public class Todo
-{
-    [Column, Grid, Query, Form)]
-    [DisplayName("项目")]
-    public string Item { get; set; }
-}
-//列表页面
-class TodoList : BasePage<Todo>
-{
-    //查询
-    protected override Task<PagingResult<Todo>> OnQueryAsync(PagingCriteria criteria) => QueryApplysAsync(criteria);
-    //新增
-    [Action] public void New() => Page.NewForm(SaveTodoAsync, new Todo());
-    //编辑
-    [Action] public void Edit(Todo row) => Page.EditForm(SaveTodoAsync, row);
-    //删除
-    [Action] public void Delete(Todo row) => Page.Delete(DeleteTodosAsync, row);
-}
-```
 
 ### 在线体验
 
@@ -85,9 +62,11 @@ class TodoList : BasePage<Todo>
 
 效果图|效果图
 :--:|:--:
-![登录页面](https://foruda.gitee.com/images/1700054333326089784/0d22dcba_14334.png "屏幕截图")|![系统主页](https://foruda.gitee.com/images/1700054395179186493/6c574df9_14334.png "屏幕截图")
+![登录页面](https://foruda.gitee.com/images/1703494409116815460/a1d8a5be_14334.png "屏幕截图")|![系统主页](https://foruda.gitee.com/images/1700054395179186493/6c574df9_14334.png "屏幕截图")
 ![数据字典](https://foruda.gitee.com/images/1700054455264217536/4c154259_14334.png "屏幕截图")|![模块管理](https://foruda.gitee.com/images/1700054506626636592/98b9add3_14334.png "屏幕截图")
 ![角色管理](https://foruda.gitee.com/images/1700054617363123970/48133586_14334.png "屏幕截图")|![用户管理](https://foruda.gitee.com/images/1700054722192459256/2308879c_14334.png "屏幕截图")
+![模块管理](https://foruda.gitee.com/images/1703494369039793921/74a4b867_14334.png "屏幕截图")|![模型设置](https://foruda.gitee.com/images/1703494151446430428/2e136a4e_14334.png "屏幕截图")
+![页面设置](https://foruda.gitee.com/images/1703494262522668999/941de354_14334.png "屏幕截图")|![表单设置](https://foruda.gitee.com/images/1703494306696925357/beeba7dc_14334.png "屏幕截图")
 
 # 1.2版本
 
