@@ -1,6 +1,6 @@
 # Known
 
-Known是基于C#和Blazor的快速开发框架，开箱即用，跨平台，一处代码，多处运行。
+Known是基于C#和Blazor的低代码开发框架，开箱即用，跨平台，一处代码，多处运行。
 
 [![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
 [![fork](https://gitee.com/known/Known/badge/fork.svg?theme=dark)](https://gitee.com/known/Known/members)
@@ -16,7 +16,7 @@ Known是基于C#和Blazor的快速开发框架，开箱即用，跨平台，一�
 
 ### 概述
 
-- 基于C#和Blazor的快速开发框架，开箱即用，跨平台。
+- 基于C#和Blazor的低代码开发框架，开箱即用，跨平台。
 - 模块化，单页应用，混合桌面应用，Web和桌面共享一处代码。
 - UI默认支持AntDesign，可扩展其他UI组件库。
 - 包含模块、字典、组织、角色、用户、日志、消息、工作流、定时任务等功能。
@@ -35,7 +35,6 @@ Known是基于C#和Blazor的快速开发框架，开箱即用，跨平台，一�
 ├─Known.Shared      -> Web和WinForm共享类库。
 ├─Known.Web         -> 框架示例Web App。
 ├─Known.WinForm     -> 框架示例WinForm App。
-├─WebSite           -> 框架网站及在线文档。
 ```
 
 ### 主要功能
@@ -81,7 +80,6 @@ class TodoList : BasePage<Todo>
 
 - 官网地址：[http://known.pumantech.com](http://known.pumantech.com)
 - 演示地址：[http://demo.pumantech.com](http://demo.pumantech.com)
-- 登录信息：Admin/888888
 
 ### AntDesign版本截图
 

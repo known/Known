@@ -18,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{25F5
 		Document\Scripts\SqlServer.sql = Document\Scripts\SqlServer.sql
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSite", "WebSite\WebSite.csproj", "{4040C3A0-1731-42A2-BAC9-2AAE815700A1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known", "Known\Known.csproj", "{7ECA9043-B6CC-4532-9881-FC5F4EFCD9A1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.AntBlazor", "Known.AntBlazor\Known.AntBlazor.csproj", "{69EB6A63-AAD1-411E-8473-DF7BE4A23737}"
@@ -42,10 +40,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4040C3A0-1731-42A2-BAC9-2AAE815700A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4040C3A0-1731-42A2-BAC9-2AAE815700A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4040C3A0-1731-42A2-BAC9-2AAE815700A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4040C3A0-1731-42A2-BAC9-2AAE815700A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7ECA9043-B6CC-4532-9881-FC5F4EFCD9A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7ECA9043-B6CC-4532-9881-FC5F4EFCD9A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ECA9043-B6CC-4532-9881-FC5F4EFCD9A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
