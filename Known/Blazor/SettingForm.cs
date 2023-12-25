@@ -16,6 +16,7 @@ public class SettingForm : BaseComponent
             LabelSpan = 10,
             Data = Context.UserSetting
         };
+        model.Initialize();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

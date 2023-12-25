@@ -1,4 +1,5 @@
-﻿@typeparam TItem where TItem : class, new()
+﻿@inherits BaseForm<TItem>
+@typeparam TItem where TItem : class, new()
 
 <ValidateForm @ref="_form" Model="Model.Data" class="boot-form">
     @if (Model.Rows != null && Model.Rows.Count > 0)
@@ -22,14 +23,6 @@
 
 @code {
     private ValidateForm _form;
-
-    [Parameter] public FormModel<TItem> Model { get; set; }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Model.Initialize();
-    }
 
     protected override void OnAfterRender(bool firstRender)
     {

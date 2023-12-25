@@ -26,8 +26,6 @@ class SysSystemInfo : BaseForm<SystemInfo>
 
     protected override async Task OnInitFormAsync()
     {
-        await base.OnInitFormAsync();
-
         Model = new FormModel<SystemInfo>(UI)
         {
             LabelSpan = 4,
@@ -58,6 +56,8 @@ class SysSystemInfo : BaseForm<SystemInfo>
         }
         Model.AddRow().AddColumn("版权信息", Parent.Data.Copyright);
         Model.AddRow().AddColumn("软件许可", Parent.Data.SoftTerms);
+
+        await base.OnInitFormAsync();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildRenderTree(builder));
@@ -86,8 +86,6 @@ class SysSystemSafe : BaseForm<SystemInfo>
 
     protected override async Task OnInitFormAsync()
     {
-        await base.OnInitFormAsync();
-
         Model = new FormModel<SystemInfo>(UI)
         {
             LabelSpan = 4,
@@ -101,6 +99,8 @@ class SysSystemSafe : BaseForm<SystemInfo>
              .Set(c => c.OnSave, OnSaveDefaultPwd)
              .Build();
         });
+
+        await base.OnInitFormAsync();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildRenderTree(builder));

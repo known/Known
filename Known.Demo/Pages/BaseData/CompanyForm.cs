@@ -21,14 +21,14 @@ class CompanyBaseInfo : BaseForm<CompanyInfo>
 {
     private bool isEdit = false;
 
-	protected override async Task OnInitializedAsync()
+	protected override async Task OnInitFormAsync()
     {
-        await base.OnInitializedAsync();
         Model = new FormModel<CompanyInfo>(UI)
         {
             IsView = true,
             Data = await Platform.GetCompanyAsync<CompanyInfo>()
         };
+        await base.OnInitFormAsync();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

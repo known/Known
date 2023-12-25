@@ -78,8 +78,6 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
 
     protected override async Task OnInitFormAsync()
     {
-        await base.OnInitFormAsync();
-
         Model = new FormModel<SysUser>(UI, false)
         {
             LabelSpan = 4,
@@ -95,6 +93,8 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
         Model.AddRow().AddColumn(c => c.Mobile);
         Model.AddRow().AddColumn(c => c.Email);
         Model.AddRow().AddColumn(c => c.Note, c => c.Type = FieldType.TextArea);
+
+        await base.OnInitFormAsync();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -138,14 +138,14 @@ class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
 {
     protected override async Task OnInitFormAsync()
     {
-        await base.OnInitFormAsync();
-
         Model = new FormModel<PwdFormInfo>(UI)
         {
             LabelSpan = 4,
             WrapperSpan = 6,
             Data = new PwdFormInfo()
         };
+
+        await base.OnInitFormAsync();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

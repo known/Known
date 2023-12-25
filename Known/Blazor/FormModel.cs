@@ -94,7 +94,7 @@ public class FormModel<TItem> where TItem : class, new()
         return new ColumnBuilder<TItem>(column);
     }
 
-    public void Initialize()
+    internal void Initialize()
     {
         if (columns != null && columns.Count > 0)
         {

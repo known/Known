@@ -7,8 +7,8 @@ public class BaseForm : BaseComponent
 {
     protected override async Task OnInitializedAsync()
     {
-        await OnInitFormAsync();
         await base.OnInitializedAsync();
+        await OnInitFormAsync();
     }
 
     protected virtual Task OnInitFormAsync() => Task.CompletedTask;
@@ -18,5 +18,11 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
 {
     [Parameter] public FormModel<TItem> Model { get; set; }
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
+    protected override async Task OnInitFormAsync()
+    {
+        await base.OnInitFormAsync();
+        Model.Initialize();
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
 }

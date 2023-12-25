@@ -1,4 +1,5 @@
-﻿@typeparam TItem where TItem : class, new()
+﻿@inherits BaseForm<TItem>
+@typeparam TItem where TItem : class, new()
 
 <Form @ref="_form" Model="Model.Data" LabelColSpan="@LabelSpan" WrapperColSpan="@WrapperSpan">
     @if (Model.Rows != null && Model.Rows.Count > 0)
@@ -25,14 +26,6 @@
     private AntDesign.Internal.IForm _form;
     private int LabelSpan => Model.LabelSpan ?? 0;
     private int WrapperSpan => Model.WrapperSpan ?? 0;
-
-    [Parameter] public FormModel<TItem> Model { get; set; }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Model.Initialize();
-    }
 
     protected override void OnAfterRender(bool firstRender)
     {
