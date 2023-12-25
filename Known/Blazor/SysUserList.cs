@@ -45,7 +45,6 @@ class SysUserList : BasePage<SysUser>
 		};
         table.Toolbar.OnItemClick = OnToolClick;
 		table.Form.Width = 800;
-		table.Column(c => c.Department).Visible(hasOrg);
 		table.Column(c => c.Gender).Template(BuildGender);
 		Page.Contents.Add(BuildTable);
     }

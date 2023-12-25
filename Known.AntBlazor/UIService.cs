@@ -53,7 +53,7 @@ public class UIService(ModalService modalService, MessageService messageService)
         if (column.Type == FieldType.Select)
             return typeof(AntSelect);
 
-        if (type == typeof(string[]) || column.Type == FieldType.CheckList)
+        if (column.Type == FieldType.CheckList)
             return typeof(AntCheckboxGroup);
 
         if (column.Type == FieldType.RadioList)

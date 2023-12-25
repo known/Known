@@ -20,9 +20,6 @@ public class SysUser : EntityBase
     [MaxLength(50)]
     public string OrgNo { get; set; }
 
-    [DisplayName("部门")]
-    public virtual string Department { get; set; }
-
     /// <summary>
     /// 取得或设置用户名。
     /// </summary>
@@ -145,6 +142,7 @@ public class SysUser : EntityBase
     [DisplayName("数据")]
     public string Data { get; set; }
 
+    [Form(Type = "CheckList")]
     [Category("Roles")]
     [DisplayName("角色")]
     public virtual string[] RoleIds { get; set; }

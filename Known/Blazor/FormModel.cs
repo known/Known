@@ -9,6 +9,7 @@ namespace Known.Blazor;
 
 public class FormModel<TItem> where TItem : class, new()
 {
+    private bool isInitColumns = false;
     private readonly List<ColumnInfo> columns = [];
 
     public FormModel(IUIService ui, bool isAuto = true)
@@ -96,6 +97,10 @@ public class FormModel<TItem> where TItem : class, new()
 
     internal void Initialize()
     {
+        if (isInitColumns)
+            return;
+
+        isInitColumns = true;
         if (columns != null && columns.Count > 0)
         {
             Rows.Clear();
