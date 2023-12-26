@@ -10,8 +10,20 @@ class SysModuleForm : BaseForm<SysModule>
     private readonly StepModel step = new();
     private StepForm stepForm;
 
-    private bool IsPage => Model.Data.Target == "页面";
-    private int StepCount => IsPage ? 4 : 1;
+    private int StepCount
+    {
+        get
+        {
+            if (Model.Data.Target != "页面")
+                return 1;
+
+            var page = Model.Data.Page;
+            if (page != null && page.Columns.Exists(c => c.IsViewLink))
+                return 4;
+
+            return 3;
+        }
+    }
 
     internal EntityInfo Entity {  get; set; }
 
@@ -55,7 +67,11 @@ class SysModuleForm : BaseForm<SysModule>
                .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.Entity, Entity)
                .Set(c => c.Model, Model.Data.Page)
-               .Set(c => c.OnChanged, model => Model.Data.Page = model)
+               .Set(c => c.OnChanged, model =>
+               {
+                   Model.Data.Page = model;
+                   stepForm.SetStepCount(StepCount);
+               })
                .Build();
     }
 

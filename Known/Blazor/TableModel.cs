@@ -22,26 +22,18 @@ public class TableModel<TItem> where TItem : class, new()
 
     internal TableModel(IUIService ui, PageInfo info)
     {
-        SetPageInfo(info);
         UI = ui;
-        Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
-        Actions = info.Actions?.Select(t => new ActionInfo(t)).ToList();
-        ShowCheckBox = info.Tools != null && info.Tools.Length > 0;
-        AllColumns = info.Columns.Select(c => new ColumnInfo(c)).ToList();
+        SetPageInfo(info);
         Columns = AllColumns;
         InitQueryColumns();
     }
 
 	internal TableModel(BasePage<TItem> page)
 	{
-        Module = page.Module;
-        SetPageInfo(page.Module?.Page);
         Page = page;
 		UI = page.UI;
-        Toolbar.Items = page.Tools;
-        Actions = page.Actions;
-		ShowCheckBox = page.Tools != null && page.Tools.Count > 0;
-        AllColumns = GetAllColumns();
+        Module = page.Module;
+        SetPageInfo(Module?.Page, page);
         foreach (var column in AllColumns)
         {
             var info = page.Columns?.FirstOrDefault(p => p.Id == column.Id);
@@ -59,7 +51,7 @@ public class TableModel<TItem> where TItem : class, new()
     internal BasePage<TItem> Page { get; }
     internal SysModule Module { get; }
 
-    public bool ShowCheckBox { get; }
+    public bool ShowCheckBox { get; private set; }
     public bool ShowPager { get; set; }
     public string ScrollX { get; set; }
     public string ScrollY { get; set; }
@@ -71,7 +63,7 @@ public class TableModel<TItem> where TItem : class, new()
     public Dictionary<string, QueryInfo> QueryData { get; } = [];
     public PagingCriteria Criteria { get; } = new();
     public PagingResult<TItem> Result { get; set; } = new();
-    public List<ActionInfo> Actions { get; }
+    public List<ActionInfo> Actions { get; private set; }
     public IEnumerable<TItem> SelectedRows { get; set; }
     public Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];
     public Func<TItem, object> RowKey { get; set; }
@@ -224,7 +216,7 @@ public class TableModel<TItem> where TItem : class, new()
         return typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
     }
 
-    private void SetPageInfo(PageInfo info)
+    private void SetPageInfo(PageInfo info, BasePage<TItem> page = null)
     {
         if (info == null)
             return;
@@ -232,6 +224,21 @@ public class TableModel<TItem> where TItem : class, new()
         ScrollX = info.ScrollX;
         ScrollY = info.ScrollY;
         ShowPager = info.ShowPager;
+
+        if (page == null)
+        {
+            Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
+            Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList();
+            AllColumns = info.Columns.Select(c => new ColumnInfo(c)).ToList();
+        }
+        else
+        {
+            Toolbar.Items = info.Tools?.Where(t => page.Tools.Contains(t)).Select(t => new ActionInfo(t)).ToList();
+            Actions = info.Actions?.Where(a => page.Actions.Contains(a)).Select(a => new ActionInfo(a)).ToList();
+            AllColumns = GetAllColumns();
+        }
+
+        ShowCheckBox = Toolbar.Items != null && Toolbar.Items.Count > 0;
     }
 
     private void InitQueryColumns()

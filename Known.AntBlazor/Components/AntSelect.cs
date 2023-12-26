@@ -12,6 +12,6 @@ public class AntSelect : Select<string, CodeInfo>
         DataSource = Codes;
         ValueName = nameof(CodeInfo.Code);
 		LabelName = nameof(CodeInfo.Name);
-		base.OnInitialized();
+        base.OnInitialized();
 	}
 }

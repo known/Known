@@ -21,10 +21,11 @@
 @media screen and (max-width:768px) {
     .ant-modal {top:0;margin-top:10px;margin-left:8px;}
     .ant-row {flex-direction:column;}
-    .ant-col-20, .ant-col-14, .ant-col-12, .ant-col-10, .ant-col-4 {max-width:100%;}
+    .ant-col-20, .ant-col-18, .ant-col-14, .ant-col-12, .ant-col-10, .ant-col-6, .ant-col-4 {max-width:100%;}
     .ant-toolbar {padding-top:0;}
     .ant-query-btn, .ant-toolbar button {margin-top:10px;}
     .ant-form-item .ant-form-item-label {padding-bottom:0;}
+    .ant-query input {width:100px;}
 }
 
 /*Layout*/

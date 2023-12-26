@@ -20,10 +20,6 @@ class DictionaryService : ServiceBase
                 code = $"{code}-{e.Name}";
             return new CodeInfo(e.Category, code, code, e);
         }).ToList();
-        //TODO：缓存数据字典
-        //var datas = PlatformHelper.Dictionary?.Invoke(db);
-        //if (datas != null && datas.Count > 0)
-        //    codes.AddRange(datas);
         Cache.AttachCodes(codes);
         return Result.Success("刷新成功！", codes);
     }

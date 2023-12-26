@@ -53,8 +53,8 @@ public class BasePage : BaseComponent
 public class BasePage<TItem> : BasePage where TItem : class, new()
 {
     protected PageModel Page { get; } = new();
-	internal List<ActionInfo> Tools { get; set; }
-    internal List<ActionInfo> Actions { get; set; }
+	internal List<string> Tools { get; set; }
+    internal List<string> Actions { get; set; }
     internal List<PageColumnInfo> Columns { get; set; }
 
     internal virtual void ViewForm(FormType type, TItem row) { }
@@ -80,7 +80,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 			method.Invoke(this, parameters);
 	}
 
-	private void InitMenu()
+    private void InitMenu()
     {
         if (Context == null || Context.UserMenus == null)
             return;
@@ -91,10 +91,8 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 
         Id = menu.Id;
         Name = menu.Name;
-        if (menu.Buttons != null && menu.Buttons.Count > 0)
-            Tools = menu.Buttons.Select(n => new ActionInfo(n)).ToList();
-        if (menu.Actions != null && menu.Actions.Count > 0)
-            Actions = menu.Actions.Select(n => new ActionInfo(n)).ToList();
+        Tools = menu.Buttons;
+        Actions = menu.Actions;
         Columns = menu.Columns;
     }
 }
