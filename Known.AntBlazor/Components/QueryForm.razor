@@ -17,7 +17,7 @@
                 @if (!string.IsNullOrWhiteSpace(item.Category))
                 {
                     var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? "全部" : "");
-                    <AntSelect Style="width:110px;" Codes="codes" @bind-Value="@(context[item.Id].Value)" OnSelectedItemChanged="e=>OnSearchAsync()" />
+                    <AntSelect Style="width:150px;" Codes="codes" @bind-Value="@(context[item.Id].Value)" OnSelectedItemChanged="e=>OnSearchAsync()" />
                 }
                 else if (itemType.Contains("DateTime"))
                 {
@@ -25,7 +25,7 @@
                 }
                 else
                 {
-                    <Input @bind-Value="@(context[item.Id].Value)" />
+                    <Input Style="width:150px;" @bind-Value="@(context[item.Id].Value)" />
                 }
             </FormItem>
         }

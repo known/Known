@@ -1,15 +1,23 @@
 ﻿@inherits LoginPage
 
 <div class="login">
-    <Tooltip Title="在此处切换界面类型" Style="margin:5px;">
-        <Segmented TValue="string" Value="Index.UIType.ToString()" Labels="uiTypes" OnChange="OnUIChanged" />
-    </Tooltip>
-    <div class="login-form">
+    <div class="login-logo">
+        <img src="img/logo1.png" />
+        <div>基于Blazor的快速开发框架</div>
+    </div>
+    <div class="login-body">
         <div class="login-left">
-            <div class="slogan">@Config.App.Name</div>
-            <div class="image"><img src="_content/Known.Demo/img/login.jpg" /></div>
+            <ul>
+                <li>开源</li>
+                <li>低代码</li>
+                <li>现代UI</li>
+            </ul>
+            <img src="_content/Known.Shared/img/login.png" />
         </div>
-        <div class="login-right">
+        <div class="login-form">
+            <Tooltip Title="在此处切换界面类型" Style="position:absolute;top:0;right:0;">
+                <Segmented TValue="string" Value="Index.UIType.ToString()" Labels="uiTypes" OnChange="OnUIChanged" />
+            </Tooltip>
             <h1>用户登录</h1>
             @if (Index.UIType == UIType.AntDesign)
             {
@@ -21,39 +29,19 @@
             }
         </div>
     </div>
+    <div class="login-copyright">
+        <div>
+            <span>&copy;2020-@DateTime.Now.ToString("yyyy")</span>
+            <span>Powered By</span>
+            <a href="http://known.pumantech.com" target="_blank">Known</a>
+        </div>
+        <div style="margin-top:10px;">
+            <a href="https://gitee.com/known/Known" target="_blank">GITEE</a>
+            <span>&sdot;</span>
+            <a href="https://github.com/known/Known" target="_blank">GITHUB</a>
+        </div>
+    </div>
 </div>
-<div class="copyright">
-    <span>©2020-@DateTime.Now.ToString("yyyy")</span>
-    <span>Powered By</span>
-    <a href="http://known.pumantech.com" target="_blank">Known</a>
-</div>
-
-<style>
-    .login {
-        position:absolute;top:50%;left:50%;background-color:#fff;
-        width:800px;height:400px;margin-left:-400px;margin-top:-200px;
-        -webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;
-        box-shadow:0 0 10px 3px rgba(0,0,0,.3);
-    }
-    .login h1 {font-size:1.3rem;font-weight:bold;margin-bottom:20px;text-align:center;}
-    .login-form {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
-    .login-left {margin-top:50px;padding-left:90px;height:250px;}
-    .login .slogan {width:260px;text-align:center;color:#333;font-size:1.3rem;font-weight:bold;}
-    .login .image {width:260px;height:180px;margin-top:20px;}
-    .login-right {padding:10px 50px;}
-    .login-right .ant-input-affix-wrapper > .ant-input:not(textarea) {padding-left:10px;}
-    .login-right .boot-row .fa {padding-top:10px;width:38px;}
-
-    .copyright {position:absolute;bottom:50px;text-align:center;color:#fff;width:100%;font-size:1.1rem;}
-    .copyright span {margin:0 5px;}
-    .copyright a {color:#fff;}
-
-    @@media screen and (max-width:768px) {
-        .login {width:80%;margin-left:-40%;}
-        .login-left {display:none;}
-        .login-right {padding:10px 20px;}
-    }
-</style>
 
 @code {
     private string[] uiTypes = [

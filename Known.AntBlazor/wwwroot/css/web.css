@@ -3,7 +3,7 @@
     width:100px;height:31px;line-height:31px;cursor:pointer;
 }
 .ant-query, .ant-toolbar {padding:10px 10px 0 10px;}
-.ant-query input, .ant-query .select {width:110px;}
+.ant-query input {width:110px;}
 
 /*Ant*/
 :root {
