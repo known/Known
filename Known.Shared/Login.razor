@@ -1,9 +1,14 @@
 ﻿@inherits LoginPage
 
 <div class="login">
-    <div class="login-logo">
-        <img src="img/logo1.png" />
-        <div>@AppConfig.SubTitle</div>
+    <div class="login-head">
+        <div class="login-logo">
+            <img src="img/logo1.png" />
+            <div>@AppConfig.SubTitle</div>
+        </div>
+        <ul>
+            <li><a href="http://known.pumantech.com/doc" target="_blank">文档</a></li>
+        </ul>
     </div>
     <div class="login-body">
         <div class="login-left">
@@ -15,10 +20,10 @@
             <img src="_content/Known.Shared/img/login.png" />
         </div>
         <div class="login-form">
-            <Tooltip Title="在此处切换界面类型" Style="position:absolute;top:0;right:0;">
-                <Segmented TValue="string" Value="Index.UIType.ToString()" Labels="uiTypes" OnChange="OnUIChanged" />
-            </Tooltip>
             <div class="login-form-body">
+                <Tooltip Title="在此处切换界面类型" Style="position:absolute;top:0;right:0;">
+                    <Segmented TValue="string" Value="Index.UIType.ToString()" Labels="uiTypes" OnChange="OnUIChanged" />
+                </Tooltip>
                 <h1>用户登录</h1>
                 @if (Index.UIType == UIType.AntDesign)
                 {

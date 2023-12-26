@@ -9,9 +9,12 @@ html, body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
 
 /*Login*/
 .login {position:absolute;left:0;right:0;}
-.login-logo {display:flex;font-size:1.2rem;padding:20px 200px;}
+.login-head {display:flex;justify-content:space-between;padding:20px 200px;font-size:1.2rem;}
+.login-logo {display:flex;}
 .login-logo img {width:180px;height:50px;}
-.login-logo div {padding-top:13px;}
+.login-logo div, .login-head ul {margin:0;padding:0;padding-top:13px;}
+.login-head ul li {list-style:none;}
+.login-head ul li a {color:#666;}
 .login-body {background:linear-gradient(135deg, #6da0f5, #c0e9fc);height:500px;padding:0 200px;display:grid;grid-template-columns:auto 430px;}
 .login-left {padding:60px 100px;}
 .login-left ul {padding:40px 10px 10px 50px;display:flex;}
@@ -19,11 +22,11 @@ html, body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
 .login-left ul li:first-child {list-style:none;}
 .login-left {color:#fff;font-size:1.5rem;font-weight:bold;}
 .login-left img {width:350px;}
-.login-form {position:relative;padding:80px 0 50px 50px;}
+.login-form {padding:70px 0 50px 50px;}
 .login-form h1 {font-size:1.2rem;margin-bottom:1rem;}
 .login-form .ant-input-affix-wrapper > .ant-input:not(textarea) {padding-left:10px;}
 .login-form .boot-row .fa {padding-top:10px;width:38px;}
-.login-form-body {background-color:#fff;border-radius:5px;padding:20px 30px;height:360px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);}
+.login-form-body {position:relative;background-color:#fff;border-radius:5px;padding:20px 30px;height:360px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);}
 .login-copyright {text-align:center;width:100%;font-size:1.1rem;margin-top:30px;}
 .login-copyright span {margin:0 5px;}
 
@@ -36,12 +39,13 @@ html, body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
 }
 @media screen and (max-width:768px) {
     .login {top:50%;margin-top:-320px;}
+    .login-head {padding:0;flex-direction:column;}
     .login-logo {padding:20px;flex-direction:column;}
     .login-logo div {padding-left:10px;}
     .login-body {padding:0 30px;grid-template-columns:100%;height:auto;}
-    .login-left {display:none;}
-    .login-form {padding-left:0;padding-bottom:30px;}
-    .login-form-body {background-color:transparent;padding:0;height:auto;box-shadow:none;}
+    .login-left, .login-head ul {display:none;}
+    .login-form {padding-left:0;padding-top:30px;padding-bottom:30px;}
+    .login-form-body {background-color:transparent;padding:0;height:300px;box-shadow:none;}
     .login-copyright {margin-top:20px;}
 }
 
