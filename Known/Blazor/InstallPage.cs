@@ -36,18 +36,7 @@ public class InstallPage : BaseComponent
                     });
                 });
             });
-            builder.Markup($@"<div class=""kui-install-foot"">
-        <div>
-            <span>&copy;2020-{DateTime.Now:yyyy}</span>
-            <span>Powered By</span>
-            <a href=""http://known.pumantech.com"" target=""_blank"">Known</a>
-        </div>
-        <div style=""margin-top:10px;"">
-            <a href=""https://gitee.com/known/Known"" target=""_blank"">GITEE</a>
-            <span>&sdot;</span>
-            <a href=""https://github.com/known/Known"" target=""_blank"">GITHUB</a>
-        </div>
-    </div>");
+            builder.Div("kui-install-foot", () => builder.Component<PageFooter>().Build());
         });
     }
 

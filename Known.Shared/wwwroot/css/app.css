@@ -9,10 +9,10 @@ html, body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
 
 /*Login*/
 .login {position:absolute;left:0;right:0;}
-.login-logo {display:flex;font-size:1.2rem;padding:50px 300px;padding-bottom:20px;}
+.login-logo {display:flex;font-size:1.2rem;padding:20px 200px;}
 .login-logo img {width:180px;height:50px;}
 .login-logo div {padding-top:13px;}
-.login-body {background:linear-gradient(135deg, #6da0f5, #c0e9fc);height:500px;padding:0 300px;display:grid;grid-template-columns:auto 430px;}
+.login-body {background:linear-gradient(135deg, #6da0f5, #c0e9fc);height:500px;padding:0 200px;display:grid;grid-template-columns:auto 430px;}
 .login-left {padding:60px 100px;}
 .login-left ul {padding:40px 10px 10px 50px;display:flex;}
 .login-left ul li {margin-right:33px;}
@@ -24,11 +24,10 @@ html, body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
 .login-form .ant-input-affix-wrapper > .ant-input:not(textarea) {padding-left:10px;}
 .login-form .boot-row .fa {padding-top:10px;width:38px;}
 .login-form-body {background-color:#fff;border-radius:5px;padding:20px 30px;height:360px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);}
-.login-copyright {text-align:center;width:100%;font-size:1.1rem;margin-top:60px;}
+.login-copyright {text-align:center;width:100%;font-size:1.1rem;margin-top:30px;}
 .login-copyright span {margin:0 5px;}
 
 @media screen and (max-width:1500px) {
-    .login-logo, .login-body {padding-left:200px;padding-right:200px;}
     .login-left {padding-left:50px;padding-right:50px;}
 }
 @media screen and (max-width:1200px) {

@@ -4,7 +4,6 @@ using Known.AntBlazor;
 using Known.BootBlazor;
 using Known.Cells;
 using Known.Demo;
-using Known.Extensions;
 using Known.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,15 +47,10 @@ public static class Extension
         services.AddKnownCells();
 
         //3.添加UI扩展库
-        //页脚内容
-        var html = $@"
-<span>{Config.App.Id} ©2023-{DateTime.Now:yyyy} Powered By </span>
-<a href=""http://known.pumantech.com"" target=""_blank"">Known</a>
-";
         //添加KnownAntDesign
-        services.AddKnownAntDesign(option => option.Footer = b => b.Markup(html));
+        services.AddKnownAntDesign();
         //添加KnownBootstrap
-        services.AddKnownBootstrap(option => option.Footer = b => b.Markup(html));
+        services.AddKnownBootstrap();
 
         //4.添加Demo
         services.AddDemoModule();
