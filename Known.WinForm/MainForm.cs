@@ -24,7 +24,7 @@ public partial class MainForm : Form
 
         WindowState = FormWindowState.Maximized;
         Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-        Text = Config.App.Name;
+        Text = $"{AppConfig.Branch}-{AppConfig.SubTitle}";
     }
 
     protected override void OnClosing(CancelEventArgs e)
