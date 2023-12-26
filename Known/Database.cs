@@ -36,17 +36,6 @@ public class Database : IDisposable
     {
         Init(databaseType, connString, user);
     }
-
-    private void Init(DatabaseType databaseType, string connString, UserInfo user = null)
-    {
-        DatabaseType = databaseType;
-        ConnectionString = connString;
-        User = user;
-
-        var factory = DbProviderFactories.GetFactory(databaseType.ToString());
-        conn = factory.CreateConnection();
-        conn.ConnectionString = connString;
-    }
     #endregion
 
     #region Properties
@@ -902,6 +891,38 @@ public class Database : IDisposable
         var stream = excel.SaveToStream();
         return stream.ToArray();
     }
+
+    private void Init(DatabaseType databaseType, string connString, UserInfo user = null)
+    {
+        DatabaseType = databaseType;
+        ConnectionString = connString;
+        User = user;
+
+        var factory = DbProviderFactories.GetFactory(databaseType.ToString());
+        conn = factory.CreateConnection();
+        conn.ConnectionString = connString;
+
+        InitScript();
+    }
+
+    private async void InitScript()
+    {
+        try
+        {
+            await ScalarAsync<int>("select count(*) from SysModule");
+        }
+        catch
+        {
+            var name = DatabaseType == DatabaseType.Npgsql ? "MySql" : DatabaseType.ToString();
+            var script = Utils.GetResource(typeof(Database).Assembly, $"{name}.sql");
+            if (string.IsNullOrWhiteSpace(script))
+                return;
+
+            Logger.Info("正在初始化数据库...");
+            await ExecuteAsync(script);
+            Logger.Info("数据库初始化完成");
+        }
+    }
     #endregion
 }
 
@@ -1158,12 +1179,6 @@ select t.* from (
 class Check
 {
     private Check() { }
-
-    public static void IsNull(string name, object value)
-    {
-        if (value == null)
-            throw new ArgumentNullException(name);
-    }
 
     public static void Throw(string message)
     {

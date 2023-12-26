@@ -24,12 +24,30 @@ public class InstallPage : BaseComponent
     {
         builder.Div("kui-install", () =>
         {
-            builder.Markup($"<h1>欢迎使用{Config.App.Id}</h1>");
-            UI.BuildForm(builder, model);
-            builder.Div("button", () =>
+            builder.Div("kui-install-head", $"{Config.App.Name}");
+            builder.Div("kui-install-body", () =>
             {
-                UI.Button(builder, "开始使用", this.Callback<MouseEventArgs>(OnStart), "primary");
+                builder.Div("kui-install-form", () =>
+                {
+                    UI.BuildForm(builder, model);
+                    builder.Div("button", () =>
+                    {
+                        UI.Button(builder, "开始使用", this.Callback<MouseEventArgs>(OnStart), "primary");
+                    });
+                });
             });
+            builder.Markup($@"<div class=""kui-install-foot"">
+        <div>
+            <span>&copy;2020-{DateTime.Now:yyyy}</span>
+            <span>Powered By</span>
+            <a href=""http://known.pumantech.com"" target=""_blank"">Known</a>
+        </div>
+        <div style=""margin-top:10px;"">
+            <a href=""https://gitee.com/known/Known"" target=""_blank"">GITEE</a>
+            <span>&sdot;</span>
+            <a href=""https://github.com/known/Known"" target=""_blank"">GITHUB</a>
+        </div>
+    </div>");
         });
     }
 
