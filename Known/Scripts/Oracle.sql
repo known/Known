@@ -1,20 +1,4 @@
-﻿create table APrototype (
-    Id         varchar2(50)   not null,
-    CreateBy   varchar2(50)   not null,
-    CreateTime date           not null,
-    ModifyBy   varchar2(50)   null,
-    ModifyTime date           null,
-    Version    number(8)      not null,
-    Extension  varchar2(4000) null,
-    AppId      varchar2(50)   null,
-    CompNo     varchar2(50)   not null,
-    Type       varchar2(50)   null,
-    HeadId     varchar2(50)   null,
-    Json       varchar2(4000) null
-);
-alter table APrototype add constraint PK_APrototype primary key (Id);
-
-create table SysModule (
+﻿create table SysModule (
     Id          varchar2(50)   not null,
     CreateBy    varchar2(50)   not null,
     CreateTime  date           not null,
@@ -144,26 +128,6 @@ create table SysDictionary (
 );
 alter table SysDictionary add constraint PK_SysDictionary primary key (Id);
 
-create table SysTenant(
-    Id         varchar2(50)     not null,
-    CreateBy   varchar2(50)     not null,
-    CreateTime date             not null,
-    ModifyBy   varchar2(50)     null,
-    ModifyTime date             null,
-    Version    number(8)        not null,
-    Extension  varchar2(4000)   null,
-    AppId      varchar2(50)     not null,
-    CompNo     varchar2(50)     not null,
-    Code       varchar2(50)     not null,
-    Name       varchar2(50)     not null,
-    Enabled    varchar2(50)     not null,
-    OperateBy  varchar2(250)    null,
-    UserCount  number(8)        not null,
-    BillCount  number(8)        not null,
-    Note       varchar2(4000)   null
-);
-alter table SysTenant add constraint PK_SysTenant primary key(Id);
-
 create table SysCompany(
     Id          varchar2(50)     not null,
     CreateBy    varchar2(50)     not null,
@@ -261,12 +225,6 @@ create table SysUser (
 );
 alter table SysUser add constraint PK_SysUser primary key (Id);
 
-create table SysUserModule (
-    UserId   varchar2(50) not null,
-    ModuleId varchar2(50) not null
-);
-alter table SysUserModule add constraint PK_SysUserModule primary key (UserId,ModuleId);
-
 create table SysUserRole (
     UserId varchar2(50) not null,
     RoleId varchar2(50) not null
@@ -290,23 +248,6 @@ create table SysNotice(
     PublishTime date           null
 );
 alter table SysNotice add constraint PK_SysNotice primary key(Id);
-
-create table SysUserLink(
-    Id         varchar2(50)   not null,
-    CreateBy   varchar2(50)   not null,
-    CreateTime date           not null,
-    ModifyBy   varchar2(50)   null,
-    ModifyTime date           null,
-    Version    number(8)      not null,
-    Extension  varchar2(4000) null,
-    AppId      varchar2(50)   not null,
-    CompNo     varchar2(50)   not null,
-    UserName   varchar2(50)   not null,
-    Type       varchar2(50)   not null,
-    Name       varchar2(50)   not null,
-    Address    varchar2(200)  not null,
-);
-alter table SysUserLink add constraint PK_SysUserLink primary key(Id);
 
 create table SysMessage(
     Id         varchar2(50)   not null,
@@ -406,27 +347,3 @@ create table SysFlowStep(
     Arrows        varchar2(4000) null
 );
 alter table SysFlowStep add constraint PK_SysFlowStep primary key(Id);
-
-create table SysNoRule(
-    Id          varchar2(50)   not null,
-    CreateBy    varchar2(50)   not null,
-    CreateTime  date           not null,
-    ModifyBy    varchar2(50)   null,
-    ModifyTime  date           null,
-    Version     number(8)      not null,
-    Extension   varchar2(4000) null,
-    AppId       varchar2(50)   not null,
-    CompNo      varchar2(50)   not null,
-    Code        varchar2(50)   not null,
-    Name        varchar2(50)   not null,
-    Description varchar2(500)  null,
-    RuleData    varchar2(4000) null
-);
-alter table SysNoRule add constraint PK_SysNoRule primary key(Id);
-
-create table SysNoRuleData(
-    AppId  varchar2(50) not null,
-    CompNo varchar2(50) not null,
-    RuleId varchar2(50) not null,
-    RuleNo varchar2(50) not null
-);

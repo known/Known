@@ -80,57 +80,6 @@
     </GridCol>
 </GridRow>
 
-<style>
-    .known, .ws-space {display:flex;justify-content:space-between;}
-    .known {margin-top:10px;background-color:#fff;padding:20px;border-left:5px solid #4188c8;}
-    .known-desc {text-align:justify;}
-
-    .ws-space {margin:10px 0;background-color:#fff;padding:20px;}
-    .ws-welcome {display:flex;padding:10px;}
-
-    .ws-avatar {width:80px;height:80px;}
-    .ws-info {padding:10px;}
-    .ws-info span {display:block;}
-    .ws-name {font-size:1.4rem;}
-    .ws-tips {margin-top:10px;color:#888;}
-
-    .ws-chart {height:400px;}
-
-    .ws-func {height:400px;margin-left:10px;}
-    .ws-func-menu {display:inline-block;width:90px;height:80px;padding:8px;text-align:center;font-size:1rem;cursor:pointer;color:#4188c8;}
-    .ws-func-menu:hover {color:#1c66b9;}
-    .ws-func-menu .anticon {display:block;font-size:2.2rem;margin:8px auto;}
-    .ws-func-menu .anticon .icon {width:2.2rem;height:2.2rem;}
-    .ws-func-menu .name {display:block;width:100%;height:25px;overflow:hidden;}
-
-    .ws-chart .ant-card-body, .ws-func .ant-card-body {padding:20px 10px;}
-
-    .count {display:flex;justify-content:end;list-style:none;margin:0;padding:0;}
-    .count li {
-        width:140px;height:110px;margin:0 10px;
-        background-color:#f5f5f5;position:relative;text-align:left;
-        -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;
-    }
-    .count li .name {display:block;border-bottom:1px solid #e8eaec;padding:5px 10px;}
-    .count li .month {
-        position:absolute;top:5px;right:5px;font-size:14px;padding:0 5px;
-        background-color:#e6f7ff;border:1px solid #91d5ff;color:#1890ff;
-        -webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;
-    }
-    .count li .amount {
-        position:absolute;top:45px;left:5px;right:5px;text-align:center;
-        font-size:1.8rem;height:50px;line-height:50px;
-    }
-
-    @@media screen and (max-width:768px) {
-        .known, .ws-space, .ws-welcome {flex-direction:column;}
-        .known {padding:15px;}
-        .known-url {margin-top:10px;}
-        .ws-space {justify-content:stretch;}
-        .ws-func {margin-left:0;margin-top:10px;height:auto;}
-    }
-</style>
-
 @code {
     private UserInfo user;
     private HomeInfo info;

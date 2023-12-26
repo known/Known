@@ -1,20 +1,4 @@
-﻿create table `APrototype` (
-    `Id`         varchar(50)  not null,
-    `CreateBy`   varchar(50)  not null,
-    `CreateTime` datetime     not null,
-    `ModifyBy`   varchar(50)  null,
-    `ModifyTime` datetime     null,
-    `Version`    int          not null,
-    `Extension`  text         null,
-    `AppId`      varchar(50)  null,
-    `CompNo`     varchar(50)  not null,
-    `Type`       varchar(50)  null,
-    `HeadId`     varchar(50)  null,
-    `Json`       text         null,
-    PRIMARY KEY (`Id`)
-);
-
-create table `SysModule` (
+﻿create table `SysModule` (
     `Id`          varchar(50)  not null,
     `CreateBy`    varchar(50)  not null,
     `CreateTime`  datetime     not null,
@@ -144,26 +128,6 @@ create table `SysDictionary` (
     PRIMARY KEY (`Id`)
 );
 
-create table `SysTenant` (
-    `Id`         varchar(50)      not null,
-    `CreateBy`   varchar(50)      not null,
-    `CreateTime` datetime         not null,
-    `ModifyBy`   varchar(50)      null,
-    `ModifyTime` datetime         null,
-    `Version`    int              not null,
-    `Extension`  text             null,
-    `AppId`      varchar(50)      not null,
-    `CompNo`     varchar(50)      not null,
-    `Code`       varchar(50)      not null,
-    `Name`       varchar(50)      not null,
-    `Enabled`    varchar(50)      not null,
-    `OperateBy`  varchar(250)     null,
-    `UserCount`  int              not null,
-    `BillCount`  int              not null,
-    `Note`       text             null,
-    PRIMARY KEY(`Id`)
-);
-
 create table `SysCompany` (
     `Id`          varchar(50)  not null,
     `CreateBy`    varchar(50)  not null,
@@ -261,12 +225,6 @@ create table `SysUser` (
     PRIMARY KEY (`Id`)
 );
 
-create table `SysUserModule` (
-    `UserId`   varchar(50) not null,
-    `ModuleId` varchar(50) not null,
-    PRIMARY KEY (`UserId`,`ModuleId`)
-);
-
 create table `SysUserRole` (
     `UserId` varchar(50) not null,
     `RoleId` varchar(50) not null,
@@ -288,23 +246,6 @@ create table `SysNotice` (
     `Content`     varchar(4000) null,
     `PublishBy`   varchar(50)   null,
     `PublishTime` datetime      null,
-    PRIMARY KEY(`Id`)
-);
-
-create table `SysUserLink` (
-    `Id`         varchar(50)  not null,
-    `CreateBy`   varchar(50)  not null,
-    `CreateTime` datetime     not null,
-    `ModifyBy`   varchar(50)  null,
-    `ModifyTime` datetime     null,
-    `Version`    int          not null,
-    `Extension`  text         null,
-    `AppId`      varchar(50)  not null,
-    `CompNo`     varchar(50)  not null,
-    `UserName`   varchar(50)  not null,
-    `Type`       varchar(50)  not null,
-    `Name`       varchar(50)  not null,
-    `Address`    varchar(200) not null,
     PRIMARY KEY(`Id`)
 );
 
@@ -405,28 +346,4 @@ create table `SysFlowStep` (
     `IsRound`       int           null,
     `Arrows`        varchar(4000) null,
     PRIMARY KEY(`Id`)
-);
-
-create table `SysNoRule` (
-    `Id`          varchar(50)   not null,
-    `CreateBy`    varchar(50)   not null,
-    `CreateTime`  datetime      not null,
-    `ModifyBy`    varchar(50)   null,
-    `ModifyTime`  datetime      null,
-    `Version`     int           not null,
-    `Extension`   text          null,
-    `AppId`       varchar(50)   not null,
-    `CompNo`      varchar(50)   not null,
-    `Code`        varchar(50)   not null,
-    `Name`        varchar(50)   not null,
-    `Description` varchar(500)  null,
-    `RuleData`    varchar(4000) null,
-    PRIMARY KEY(`Id`)
-);
-
-create table `SysNoRuleData` (
-    `AppId`      varchar(50) not null,
-    `CompNo`     varchar(50) not null,
-    `RuleId`     varchar(50) not null,
-    `RuleNo`     varchar(50) not null
 );

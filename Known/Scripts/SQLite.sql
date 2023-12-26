@@ -1,19 +1,4 @@
-﻿CREATE TABLE [APrototype] (
-    [Id]         varchar(50)  NOT NULL PRIMARY KEY,
-    [CreateBy]   nvarchar(50) NOT NULL,
-    [CreateTime] datetime     NOT NULL,
-    [ModifyBy]   nvarchar(50) NULL,
-    [ModifyTime] datetime     NULL,
-    [Version]    int          NOT NULL,
-    [Extension]  ntext        NULL,
-    [AppId]      varchar(50)  NULL,
-    [CompNo]     varchar(50)  NOT NULL,
-    [Type]       varchar(50)  NULL,
-    [HeadId]     varchar(50)  NULL,
-    [Json]       ntext        NULL
-);
-
-CREATE TABLE [SysModule] (
+﻿CREATE TABLE [SysModule] (
     [Id]          varchar(50)  NOT NULL PRIMARY KEY,
     [CreateBy]    nvarchar(50) NOT NULL,
     [CreateTime]  datetime     NOT NULL,
@@ -137,25 +122,6 @@ CREATE TABLE [SysDictionary] (
     [Child]        ntext         NULL
 );
 
-CREATE TABLE [SysTenant] (
-    [Id]         varchar(50)      NOT NULL PRIMARY KEY,
-    [CreateBy]   nvarchar(50)     NOT NULL,
-    [CreateTime] datetime         NOT NULL,
-    [ModifyBy]   nvarchar(50)     NULL,
-    [ModifyTime] datetime         NULL,
-    [Version]    int              NOT NULL,
-    [Extension]  ntext            NULL,
-    [AppId]      varchar(50)      NOT NULL,
-    [CompNo]     varchar(50)      NOT NULL,
-    [Code]       nvarchar(50)     NOT NULL,
-    [Name]       nvarchar(50)     NOT NULL,
-    [Enabled]    varchar(50)      NOT NULL,
-    [OperateBy]  nvarchar(250)    NULL,
-    [UserCount]  int              NOT NULL,
-    [BillCount]  int              NOT NULL,
-    [Note]       ntext            NULL
-);
-
 CREATE TABLE [SysCompany] (
     [Id]          varchar(50)   NOT NULL PRIMARY KEY,
     [CreateBy]    nvarchar(50)  NOT NULL,
@@ -249,12 +215,6 @@ CREATE TABLE [SysUser] (
     [Data]           ntext         NULL
 );
 
-CREATE TABLE [SysUserModule] (
-    [UserId]   varchar(50) NOT NULL,
-    [ModuleId] varchar(50) NOT NULL,
-    CONSTRAINT [PK_SysUserModule] PRIMARY KEY ([UserId] ASC,[ModuleId] ASC)
-);
-
 CREATE TABLE [SysUserRole] (
     [UserId] varchar(50) NOT NULL,
     [RoleId] varchar(50) NOT NULL,
@@ -276,22 +236,6 @@ CREATE TABLE [SysNotice] (
     [Content]     nvarchar(4000) NULL,
     [PublishBy]   nvarchar(50)   NULL,
     [PublishTime] datetime       NULL
-);
-
-CREATE TABLE [SysUserLink] (
-    [Id]         varchar(50)  NOT NULL PRIMARY KEY,
-    [CreateBy]   nvarchar(50) NOT NULL,
-    [CreateTime] datetime     NOT NULL,
-    [ModifyBy]   nvarchar(50) NULL,
-    [ModifyTime] datetime     NULL,
-    [Version]    int          NOT NULL,
-    [Extension]  ntext        NULL,
-    [AppId]      varchar(50)  NOT NULL,
-    [CompNo]     varchar(50)  NOT NULL,
-    [UserName]   varchar(50)  NOT NULL,
-    [Type]       varchar(50)  NOT NULL,
-    [Name]       nvarchar(50) NOT NULL,
-    [Address]    varchar(200) NOT NULL
 );
 
 CREATE TABLE [SysMessage] (
@@ -387,27 +331,4 @@ CREATE TABLE [SysFlowStep] (
     [Y]             int            NULL,
     [IsRound]       int            NULL,
     [Arrows]        nvarchar(4000) NULL
-);
-
-CREATE TABLE [SysNoRule] (
-    [Id]          varchar(50)    NOT NULL PRIMARY KEY,
-    [CreateBy]    nvarchar(50)   NOT NULL,
-    [CreateTime]  datetime       NOT NULL,
-    [ModifyBy]    nvarchar(50)   NULL,
-    [ModifyTime]  datetime       NULL,
-    [Version]     int            NOT NULL,
-    [Extension]   ntext          NULL,
-    [AppId]       varchar(50)    NOT NULL,
-    [CompNo]      varchar(50)    NOT NULL,
-    [Code]        varchar(50)    NOT NULL,
-    [Name]        nvarchar(50)   NOT NULL,
-    [Description] nvarchar(500)  NULL,
-    [RuleData]    nvarchar(4000) NULL
-);
-
-CREATE TABLE [SysNoRuleData] (
-    [AppId]  varchar(50)  NOT NULL,
-    [CompNo] varchar(50)  NOT NULL,
-    [RuleId] varchar(50)  NOT NULL,
-    [RuleNo] nvarchar(50) NOT NULL
 );

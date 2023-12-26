@@ -1,20 +1,4 @@
-﻿CREATE TABLE `APrototype` (
-    `Id`         VarChar(50)  NOT NULL PRIMARY KEY,
-    `CreateBy`   VarChar(50)  NOT NULL,
-    `CreateTime` DateTime     NOT NULL,
-    `ModifyBy`   VarChar(50)  NULL,
-    `ModifyTime` DateTime     NULL,
-    `Version`    Long         NOT NULL,
-    `Extension`  LongText     NULL,
-    `AppId`      VarChar(50)  NULL,
-    `CompNo`     VarChar(50)  NOT NULL,
-    `Type`       VarChar(50)  NULL,
-    `HeadId`     VarChar(50)  NULL,
-    `Json`       LongText     NULL
-)
-GO
-
-CREATE TABLE `SysModule` (
+﻿CREATE TABLE `SysModule` (
     `Id`          VarChar(50)  NOT NULL PRIMARY KEY,
     `CreateBy`    VarChar(50)  NOT NULL,
     `CreateTime`  DateTime     NOT NULL,
@@ -145,26 +129,6 @@ CREATE TABLE `SysDictionary` (
 )
 GO
 
-CREATE TABLE `SysTenant` (
-    `Id`         VarChar(50)      NOT NULL PRIMARY KEY,
-    `CreateBy`   VarChar(50)      NOT NULL,
-    `CreateTime` DateTime         NOT NULL,
-    `ModifyBy`   VarChar(50)      NULL,
-    `ModifyTime` DateTime         NULL,
-    `Version`    Long             NOT NULL,
-    `Extension`  LongText         NULL,
-    `AppId`      VarChar(50)      NOT NULL,
-    `CompNo`     VarChar(50)      NOT NULL,
-    `Code`       VarChar(50)      NOT NULL,
-    `Name`       VarChar(50)      NOT NULL,
-    `Enabled`    VarChar(50)      NOT NULL,
-    `OperateBy`  VarChar(250)     NULL,
-    `UserCount`  Long             NOT NULL,
-    `BillCount`  Long             NOT NULL,
-    `Note`       LongText         NULL
-)
-GO
-
 CREATE TABLE `SysCompany` (
     `Id`          VarChar(50)      NOT NULL PRIMARY KEY,
     `CreateBy`    VarChar(50)      NOT NULL,
@@ -263,13 +227,6 @@ CREATE TABLE `SysUser` (
 )
 GO
 
-CREATE TABLE `SysUserModule` (
-    `UserId`   VarChar(50) NOT NULL,
-    `ModuleId` VarChar(50) NOT NULL,
-    CONSTRAINT `PK_SysUserModule` PRIMARY KEY (`UserId`,`ModuleId`)
-)
-GO
-
 CREATE TABLE `SysUserRole` (
     `UserId` VarChar(50) NOT NULL,
     `RoleId` VarChar(50) NOT NULL,
@@ -292,23 +249,6 @@ CREATE TABLE `SysNotice` (
     `Content`     LongText      NULL,
     `PublishBy`   VarChar(50)   NULL,
     `PublishTime` DateTime      NULL
-)
-GO
-
-CREATE TABLE `SysUserLink` (
-    `Id`         VarChar(50)  NOT NULL PRIMARY KEY,
-    `CreateBy`   VarChar(50)  NOT NULL,
-    `CreateTime` DateTime     NOT NULL,
-    `ModifyBy`   VarChar(50)  NULL,
-    `ModifyTime` DateTime     NULL,
-    `Version`    Long         NOT NULL,
-    `Extension`  LongText     NULL,
-    `AppId`      VarChar(50)  NOT NULL,
-    `CompNo`     VarChar(50)  NOT NULL,
-    `UserName`   VarChar(50)  NOT NULL,
-    `Type`       VarChar(50)  NOT NULL,
-    `Name`       VarChar(50)  NOT NULL,
-    `Address`    VarChar(200) NOT NULL
 )
 GO
 
@@ -408,30 +348,5 @@ CREATE TABLE `SysFlowStep` (
     `Y`             Long          NULL,
     `IsRound`       Long          NULL,
     `Arrows`        LongText      NULL
-)
-GO
-
-CREATE TABLE `SysNoRule` (
-    `Id`          VarChar(50)   NOT NULL PRIMARY KEY,
-    `CreateBy`    VarChar(50)   NOT NULL,
-    `CreateTime`  DateTime      NOT NULL,
-    `ModifyBy`    VarChar(50)   NULL,
-    `ModifyTime`  DateTime      NULL,
-    `Version`     Long          NOT NULL,
-    `Extension`   LongText      NULL,
-    `AppId`       VarChar(50)   NOT NULL,
-    `CompNo`      VarChar(50)   NOT NULL,
-    `Code`        VarChar(50)   NOT NULL,
-    `Name`        VarChar(50)   NOT NULL,
-    `Description` LongText      NULL,
-    `RuleData`    LongText      NULL
-)
-GO
-
-CREATE TABLE `SysNoRuleData` (
-    `AppId`  VarChar(50)  NOT NULL,
-    `CompNo` VarChar(50)  NOT NULL,
-    `RuleId` VarChar(50)  NOT NULL,
-    `RuleNo` VarChar(50)  NOT NULL
 )
 GO

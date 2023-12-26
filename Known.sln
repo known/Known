@@ -9,15 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{C7
 		Document\更新日志.md = Document\更新日志.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{25F59B83-8869-4568-B0B9-ADABDB8AF9BC}"
-	ProjectSection(SolutionItems) = preProject
-		Document\Scripts\Access.sql = Document\Scripts\Access.sql
-		Document\Scripts\MySql.sql = Document\Scripts\MySql.sql
-		Document\Scripts\Oracle.sql = Document\Scripts\Oracle.sql
-		Document\Scripts\SQLite.sql = Document\Scripts\SQLite.sql
-		Document\Scripts\SqlServer.sql = Document\Scripts\SqlServer.sql
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known", "Known\Known.csproj", "{7ECA9043-B6CC-4532-9881-FC5F4EFCD9A1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.AntBlazor", "Known.AntBlazor\Known.AntBlazor.csproj", "{69EB6A63-AAD1-411E-8473-DF7BE4A23737}"
@@ -75,9 +66,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{25F59B83-8869-4568-B0B9-ADABDB8AF9BC} = {C7FBFD8E-8E5E-4F9D-9756-EB313FDDBCAA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0BB8F8E-546D-43AE-9698-433B50035E81}
