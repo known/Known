@@ -135,6 +135,7 @@ public class ColumnInfo
         Property = property;
         Id = Property.Name;
         Name = Property.DisplayName();
+        Required = Property.IsRequired();
 
         var form = Property.GetCustomAttribute<FormAttribute>();
         if (form != null)
@@ -145,7 +146,6 @@ public class ColumnInfo
             Type = Utils.ConvertTo<FieldType>(form.Type);
             ReadOnly = form.ReadOnly;
             Placeholder = form.Placeholder;
-            Required = Property.IsRequired();
         }
 
         var code = Property.GetCustomAttribute<CategoryAttribute>();
