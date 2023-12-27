@@ -11,8 +11,8 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
 	{
 		await base.OnInitPageAsync();
 		Table.FormTitle = row => $"{Name} - {row.CategoryName}";
-		Table.OnQuery = QueryDictionarysAsync;
 		Table.RowKey = r => r.Id;
+		Table.OnQuery = QueryDictionarysAsync;
 	}
 
     private async Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)

@@ -9,7 +9,9 @@ class PageView : BaseView<PageInfo>
 {
     private TableModel<Dictionary<string, object>> table;
     private readonly TableModel<PageColumnInfo> list = new();
-    private string code;
+    private string codePage;
+    private string codeService;
+    private string codeRepository;
     private readonly TabModel tab = new();
     private readonly List<CodeInfo> actions = Config.Actions.Select(a => new CodeInfo(a.Id, a.Name)).ToList();
 
@@ -21,7 +23,9 @@ class PageView : BaseView<PageInfo>
         SetModel();
         Tab.Items.Add(new ItemModel("视图") { Content = BuildView });
         Tab.Items.Add(new ItemModel("字段") { Content = BuildList });
-        Tab.Items.Add(new ItemModel("代码") { Content = BuildCode });
+        Tab.Items.Add(new ItemModel("页面层代码") { Content = BuildPageCode });
+        Tab.Items.Add(new ItemModel("服务层代码") { Content = BuildServiceCode });
+        Tab.Items.Add(new ItemModel("数据层代码") { Content = BuildRepositoryCode });
 
         list.ScrollY = "380px";
         list.OnQuery = c =>
@@ -57,7 +61,9 @@ class PageView : BaseView<PageInfo>
     }
 
     private void BuildList(RenderTreeBuilder builder) => BuildList(builder, list);
-    private void BuildCode(RenderTreeBuilder builder) => BuildCode(builder, code);
+    private void BuildPageCode(RenderTreeBuilder builder) => BuildCode(builder, codePage);
+    private void BuildServiceCode(RenderTreeBuilder builder) => BuildCode(builder, codeService);
+    private void BuildRepositoryCode(RenderTreeBuilder builder) => BuildCode(builder, codeRepository);
 
     private void BuildProperty(RenderTreeBuilder builder)
     {
@@ -109,7 +115,9 @@ class PageView : BaseView<PageInfo>
     private void SetModel()
     {
         table = new DemoPageModel(UI, Model, Entity);
-        code = Service.GetPage(Model);
+        codePage = Service.GetPage(Model, Entity);
+        codeService = Service.GetService(Model, Entity);
+        codeRepository = Service.GetRepository(Model, Entity);
     }
 
     private void OnPropertyChanged()

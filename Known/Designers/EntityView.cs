@@ -24,8 +24,8 @@ class EntityView : BaseView<EntityInfo>
         dbType = new Database().DatabaseType;
         SetViewData(Model);
         Tab.Items.Add(new ItemModel("字段") { Content = BuildView });
-        Tab.Items.Add(new ItemModel("代码") { Content = BuildCode });
-        Tab.Items.Add(new ItemModel("脚本") { Content = BuildScript });
+        Tab.Items.Add(new ItemModel("实体代码") { Content = BuildCode });
+        Tab.Items.Add(new ItemModel("建表脚本") { Content = BuildScript });
 
         table.ScrollY = "380px";
         table.OnQuery = c=>
