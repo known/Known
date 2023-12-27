@@ -12,7 +12,7 @@ public class SysSetting : EntityBase
     /// 取得或设置业务类型。
     /// </summary>
     [DisplayName("业务类型")]
-    [Required(ErrorMessage = "业务类型不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string BizType { get; set; }
 

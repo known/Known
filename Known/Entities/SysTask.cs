@@ -12,7 +12,7 @@ public class SysTask : EntityBase
     /// 取得或设置业务ID。
     /// </summary>
     [DisplayName("业务ID")]
-    [Required(ErrorMessage = "业务ID不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string BizId { get; set; }
 
@@ -20,7 +20,7 @@ public class SysTask : EntityBase
     /// 取得或设置类型。
     /// </summary>
     [DisplayName("类型")]
-    [Required(ErrorMessage = "类型不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Type { get; set; }
 
@@ -28,7 +28,7 @@ public class SysTask : EntityBase
     /// 取得或设置名称。
     /// </summary>
     [DisplayName("名称")]
-    [Required(ErrorMessage = "名称不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Name { get; set; }
 
@@ -44,7 +44,7 @@ public class SysTask : EntityBase
     /// </summary>
     [Category(nameof(TaskStatus))]
     [DisplayName("执行状态")]
-    [Required(ErrorMessage = "执行状态不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Status { get; set; }
 

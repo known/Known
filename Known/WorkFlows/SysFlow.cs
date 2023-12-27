@@ -12,7 +12,7 @@ public class SysFlow : EntityBase
     /// 取得或设置流程代码。
     /// </summary>
     [DisplayName("流程代码")]
-    [Required(ErrorMessage = "流程代码不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string FlowCode { get; set; }
 
@@ -20,7 +20,7 @@ public class SysFlow : EntityBase
     /// 取得或设置流程名称。
     /// </summary>
     [DisplayName("流程名称")]
-    [Required(ErrorMessage = "流程名称不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string FlowName { get; set; }
 
@@ -28,7 +28,7 @@ public class SysFlow : EntityBase
     /// 取得或设置流程状态（开启，结束，终止）。
     /// </summary>
     [DisplayName("流程状态")]
-    [Required(ErrorMessage = "流程状态不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string FlowStatus { get; set; }
 
@@ -36,7 +36,7 @@ public class SysFlow : EntityBase
     /// 取得或设置业务ID。
     /// </summary>
     [DisplayName("业务ID")]
-    [Required(ErrorMessage = "业务ID不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string BizId { get; set; }
 
@@ -44,7 +44,7 @@ public class SysFlow : EntityBase
     /// 取得或设置业务描述。
     /// </summary>
     [DisplayName("业务描述")]
-    [Required(ErrorMessage = "业务描述不能为空！")]
+    [Required]
     [MaxLength(200)]
     public string BizName { get; set; }
 
@@ -52,7 +52,7 @@ public class SysFlow : EntityBase
     /// 取得或设置业务Url。
     /// </summary>
     [DisplayName("业务Url")]
-    [Required(ErrorMessage = "业务Url不能为空！")]
+    [Required]
     [MaxLength(200)]
     public string BizUrl { get; set; }
 
@@ -60,7 +60,7 @@ public class SysFlow : EntityBase
     /// 取得或设置业务状态。
     /// </summary>
     [DisplayName("业务状态")]
-    [Required(ErrorMessage = "业务状态不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string BizStatus { get; set; }
 
@@ -68,7 +68,7 @@ public class SysFlow : EntityBase
     /// 取得或设置当前步骤。
     /// </summary>
     [DisplayName("当前步骤")]
-    [Required(ErrorMessage = "当前步骤不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string CurrStep { get; set; }
 
@@ -76,7 +76,7 @@ public class SysFlow : EntityBase
     /// 取得或设置当前执行人。
     /// </summary>
     [DisplayName("当前执行人")]
-    [Required(ErrorMessage = "当前执行人不能为空！")]
+    [Required]
     [MaxLength(200)]
     public string CurrBy { get; set; }
 

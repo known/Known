@@ -11,6 +11,7 @@ public class SysUser : EntityBase
     public SysUser()
     {
         Enabled = true;
+        Gender = "女";
     }
 
     /// <summary>
@@ -24,7 +25,7 @@ public class SysUser : EntityBase
     /// 取得或设置用户名。
     /// </summary>
     [DisplayName("用户名")]
-    [Required(ErrorMessage = "用户名不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string UserName { get; set; }
 
@@ -38,7 +39,7 @@ public class SysUser : EntityBase
     /// 取得或设置姓名。
     /// </summary>
     [DisplayName("姓名")]
-    [Required(ErrorMessage = "姓名不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Name { get; set; }
 
@@ -53,7 +54,7 @@ public class SysUser : EntityBase
     /// 取得或设置性别。
     /// </summary>
     [DisplayName("性别")]
-    [Required(ErrorMessage = "性别不能为空！")]
+    [Required]
     [MaxLength(50)]
     [Category("男,女")]
     public string Gender { get; set; }
@@ -86,7 +87,7 @@ public class SysUser : EntityBase
     /// 取得或设置状态。
     /// </summary>
     [DisplayName("状态")]
-    [Required(ErrorMessage = "状态不能为空！")]
+    [Required]
     public bool Enabled { get; set; }
 
     /// <summary>

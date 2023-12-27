@@ -17,7 +17,7 @@ public class SysRole : EntityBase
     /// 取得或设置名称。
     /// </summary>
     [DisplayName("名称")]
-    [Required(ErrorMessage = "名称不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Name { get; set; }
 
@@ -25,7 +25,7 @@ public class SysRole : EntityBase
     /// 取得或设置状态。
     /// </summary>
     [DisplayName("状态")]
-    [Required(ErrorMessage = "状态不能为空！")]
+    [Required]
     public bool Enabled { get; set; }
 
     /// <summary>

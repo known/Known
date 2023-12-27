@@ -24,7 +24,7 @@ public class SysModule : EntityBase
     /// 取得或设置代码。
     /// </summary>
     [DisplayName("代码")]
-    [Required(ErrorMessage = "代码不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Code { get; set; }
 
@@ -32,7 +32,7 @@ public class SysModule : EntityBase
     /// 取得或设置名称。
     /// </summary>
     [DisplayName("名称")]
-    [Required(ErrorMessage = "名称不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Name { get; set; }
 
@@ -54,7 +54,7 @@ public class SysModule : EntityBase
     /// 取得或设置目标。
     /// </summary>
     [DisplayName("类型")]
-    [Required(ErrorMessage = "请选择模块类型！")]
+    [Required]
     [MaxLength(250)]
     public string Target { get; set; }
 

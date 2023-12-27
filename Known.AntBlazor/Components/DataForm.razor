@@ -1,7 +1,7 @@
 ﻿@inherits BaseForm<TItem>
 @typeparam TItem where TItem : class, new()
 
-<Form @ref="_form" Model="Model.Data" LabelColSpan="@LabelSpan" WrapperColSpan="@WrapperSpan">
+<Form @ref="_form" Model="Model.Data" LabelColSpan="@LabelSpan" WrapperColSpan="@WrapperSpan" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
     @if (Model.Rows != null && Model.Rows.Count > 0)
     {
         foreach (var row in Model.Rows)
@@ -12,7 +12,7 @@
                 @foreach (var field in row.Fields)
                 {
                     <GridCol Span="colSpan">
-                        <FormItem LabelColSpan="lblSpan" Label="@field.Column.Name">
+                        <FormItem LabelColSpan="lblSpan" Label="@field.Column.Name" Required="field.Column.Required" Rules="field.ToRules()">
                             <InputField Model="field" />
                         </FormItem>
                     </GridCol>

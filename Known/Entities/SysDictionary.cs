@@ -18,7 +18,7 @@ public class SysDictionary : EntityBase
     /// </summary>
     [Category(Constants.DicCategory)]
     [DisplayName("类别")]
-    [Required(ErrorMessage = "类别不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Category { get; set; }
 
@@ -33,7 +33,7 @@ public class SysDictionary : EntityBase
     /// 取得或设置代码。
     /// </summary>
     [DisplayName("代码")]
-    [Required(ErrorMessage = "代码不能为空！")]
+    [Required]
     [MaxLength(100)]
     public string Code { get; set; }
 
@@ -48,14 +48,14 @@ public class SysDictionary : EntityBase
     /// 取得或设置顺序。
     /// </summary>
     [DisplayName("顺序")]
-    [Required(ErrorMessage = "顺序不能为空！")]
+    [Required]
     public int Sort { get; set; }
 
     /// <summary>
     /// 取得或设置状态。
     /// </summary>
     [DisplayName("状态")]
-    [Required(ErrorMessage = "状态不能为空！")]
+    [Required]
     public bool Enabled { get; set; }
 
     /// <summary>

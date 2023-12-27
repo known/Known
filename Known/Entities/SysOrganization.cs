@@ -19,7 +19,7 @@ public class SysOrganization : EntityBase
     /// 取得或设置编码。
     /// </summary>
     [DisplayName("编码")]
-    [Required(ErrorMessage = "编码不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Code { get; set; }
 
@@ -27,7 +27,7 @@ public class SysOrganization : EntityBase
     /// 取得或设置名称。
     /// </summary>
     [DisplayName("名称")]
-    [Required(ErrorMessage = "名称不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Name { get; set; }
 

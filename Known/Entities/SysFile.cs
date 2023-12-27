@@ -12,7 +12,7 @@ public class SysFile : EntityBase
     /// 取得或设置一级分类。
     /// </summary>
     [DisplayName("一级分类")]
-    [Required(ErrorMessage = "一级分类不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Category1 { get; set; }
 
@@ -27,7 +27,7 @@ public class SysFile : EntityBase
     /// 取得或设置文件名称。
     /// </summary>
     [DisplayName("文件名称")]
-    [Required(ErrorMessage = "文件名称不能为空！")]
+    [Required]
     [MaxLength(250)]
     public string Name { get; set; }
 
@@ -49,14 +49,14 @@ public class SysFile : EntityBase
     /// 取得或设置文件大小。
     /// </summary>
     [DisplayName("文件大小")]
-    [Required(ErrorMessage = "文件大小不能为空！")]
+    [Required]
     public long Size { get; set; }
 
     /// <summary>
     /// 取得或设置原文件名。
     /// </summary>
     [DisplayName("原文件名")]
-    [Required(ErrorMessage = "原文件名不能为空！")]
+    [Required]
     [MaxLength(250)]
     public string SourceName { get; set; }
 
@@ -64,7 +64,7 @@ public class SysFile : EntityBase
     /// 取得或设置扩展名。
     /// </summary>
     [DisplayName("扩展名")]
-    [Required(ErrorMessage = "扩展名不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string ExtName { get; set; }
 

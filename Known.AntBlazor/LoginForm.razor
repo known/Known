@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<Form Model="@Model" OnFinish="OnUserLogin" LabelCol="null">
+<Form Model="@Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange>
     <FormItem Label="">
         <Input @bind-Value="@context.UserName" Placeholder="用户名">
             <Prefix><Icon Type="user" /></Prefix>

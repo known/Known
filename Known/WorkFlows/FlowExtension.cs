@@ -50,6 +50,8 @@ public static class FlowExtension
         model.AddRow().AddColumn(c => c.Note, c =>
         {
             c.Name = $"{name}原因";
+            c.Required = true;
+            c.Type = FieldType.TextArea;
         });
 
         var option = new DialogModel
@@ -62,6 +64,9 @@ public static class FlowExtension
         };
         option.OnOk = async () =>
         {
+            if (!model.Validate())
+                return;
+
             var result = await action?.Invoke(model.Data);
             page.UI.Result(result, async () =>
             {

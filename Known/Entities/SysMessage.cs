@@ -12,7 +12,7 @@ public class SysMessage : EntityBase
     /// 取得或设置用户ID。
     /// </summary>
     [DisplayName("用户ID")]
-    [Required(ErrorMessage = "用户ID不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string UserId { get; set; }
 
@@ -20,7 +20,7 @@ public class SysMessage : EntityBase
     /// 取得或设置类型（收件、发件、删除）。
     /// </summary>
     [DisplayName("类型")]
-    [Required(ErrorMessage = "类型不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Type { get; set; }
 
@@ -28,7 +28,7 @@ public class SysMessage : EntityBase
     /// 取得或设置发件人。
     /// </summary>
     [DisplayName("发件人")]
-    [Required(ErrorMessage = "发件人不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string MsgBy { get; set; }
 
@@ -36,7 +36,7 @@ public class SysMessage : EntityBase
     /// 取得或设置级别（普通、紧急）。
     /// </summary>
     [DisplayName("级别")]
-    [Required(ErrorMessage = "级别不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string MsgLevel { get; set; }
 
@@ -51,14 +51,14 @@ public class SysMessage : EntityBase
     /// 取得或设置主题。
     /// </summary>
     [DisplayName("主题")]
-    [Required(ErrorMessage = "主题不能为空！")]
+    [Required]
     [MaxLength(250)]
     public string Subject { get; set; }
 
     /// <summary>
     /// 取得或设置内容。
     /// </summary>
-    [Required(ErrorMessage = "内容不能为空！")]
+    [Required]
     [DisplayName("内容")]
     public string Content { get; set; }
 
@@ -79,7 +79,7 @@ public class SysMessage : EntityBase
     /// 取得或设置状态（未读、已读）。
     /// </summary>
     [DisplayName("状态")]
-    [Required(ErrorMessage = "状态不能为空！")]
+    [Required]
     [MaxLength(50)]
     public string Status { get; set; }
 

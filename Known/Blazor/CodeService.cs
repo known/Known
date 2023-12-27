@@ -307,7 +307,7 @@ class CodeService : ICodeService
             sb.AppendLine("    /// &lt;/summary&gt;");
             sb.AppendLine("    [DisplayName(\"{0}\")]", item.Name);
             if (item.Required)
-                sb.AppendLine("    [Required(ErrorMessage = \"{0}不能为空！\")]", item.Name);
+                sb.AppendLine("    [Required]");
             if (!string.IsNullOrWhiteSpace(item.Length))
                 sb.AppendLine("    [MaxLength({0})]", item.Length);
             sb.AppendLine("    public {0} {1} {{ get; set; }}", type, item.Id);

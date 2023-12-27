@@ -100,6 +100,9 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
     private async void OnSaveAsync(MouseEventArgs args)
     {
+        if (!flow.Validate())
+            return;
+
         switch (Model.FormType)
         {
             case FormType.Submit:
@@ -131,9 +134,15 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
                 flow.AddRow().AddColumn(c => c.User, c =>
                 {
                     c.Name = "提交给";
+                    c.Required = true;
                     c.Category = "User";
+                    c.Type = FieldType.Select;
                 });
-                flow.AddRow().AddColumn(c => c.Note, c => c.Name = "备注");
+                flow.AddRow().AddColumn(c => c.Note, c =>
+                {
+                    c.Name = "备注";
+                    c.Type = FieldType.TextArea;
+                });
                 break;
             case FormType.Verify:
                 //指派给、备注
@@ -144,7 +153,11 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
                     c.Name = "审核结果";
                     c.Category = "通过,退回";
                 });
-                flow.AddRow().AddColumn(c => c.Note, c => c.Name = "备注");
+                flow.AddRow().AddColumn(c => c.Note, c =>
+                {
+                    c.Name = "备注";
+                    c.Type = FieldType.TextArea;
+                });
                 break;
         }
     }
