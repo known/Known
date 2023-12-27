@@ -54,8 +54,8 @@ class SysSystemInfo : BaseForm<SystemInfo>
                  .Build();
             });
         }
-        Model.AddRow().AddColumn("版权信息", Parent.Data.Copyright);
-        Model.AddRow().AddColumn("软件许可", Parent.Data.SoftTerms);
+        Model.AddRow().AddColumn("版权信息", Config.App.Copyright);
+        Model.AddRow().AddColumn("软件许可", Config.App.SoftTerms);
 
         await base.OnInitFormAsync();
     }

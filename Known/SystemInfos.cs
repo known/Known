@@ -62,10 +62,4 @@ public class SystemInfo
 
     [DisplayName("默认密码")]
     public string UserDefaultPwd { get; set; }
-
-    [DisplayName("版权信息")]
-    public string Copyright { get; set; }
-
-    [DisplayName("软件许可")]
-    public string SoftTerms { get; set; }
 }

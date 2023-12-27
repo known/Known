@@ -42,6 +42,7 @@ public class InstallPage : BaseComponent
 
     private async void OnStart(MouseEventArgs args)
     {
+        //TODO：安装表单验证问题
         if (!model.Validate())
             return;
 
