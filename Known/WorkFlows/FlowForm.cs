@@ -81,8 +81,8 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
             if (Model.FormType == FormType.Verify)
                 UI.Button(builder, new ActionInfo("Assign", ""), this.Callback<MouseEventArgs>(OnAssign));
 
-            UI.Button(builder, new ActionInfo("OK", ""), this.Callback<MouseEventArgs>(OnSave));
-            UI.Button(builder, new ActionInfo("Cancel", ""), this.Callback<MouseEventArgs>(OnClose));
+            UI.Button(builder, new ActionInfo("OK", ""), this.Callback<MouseEventArgs>(OnSaveAsync));
+            UI.Button(builder, new ActionInfo("Cancel", ""), this.Callback<MouseEventArgs>(OnCloseAsync));
         });
     }
 
@@ -98,7 +98,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
     private void OnAssign(MouseEventArgs args) => Model.Page.AssignFlow(Model.Data);
 
-    private async void OnSave(MouseEventArgs args)
+    private async void OnSaveAsync(MouseEventArgs args)
     {
         switch (Model.FormType)
         {
@@ -114,7 +114,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         }
     }
 
-    private async void OnClose(MouseEventArgs args) => await Model.CloseAsync();
+    private async void OnCloseAsync(MouseEventArgs args) => await Model.CloseAsync();
 
     private void InitFlowModel()
     {

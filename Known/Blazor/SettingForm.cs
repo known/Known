@@ -4,26 +4,23 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
 
-public class SettingForm : BaseComponent
+public class SettingForm : BaseForm<SettingInfo>
 {
-    private FormModel<SettingInfo> model;
-
-    protected override void OnInitialized()
+    protected override async Task OnInitFormAsync()
     {
-        base.OnInitialized();
-        model = new FormModel<SettingInfo>(UI)
+        Model = new FormModel<SettingInfo>(UI)
         {
             LabelSpan = 10,
             Data = Context.UserSetting
         };
-        model.Initialize();
+        await base.OnInitFormAsync();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("kui-form-setting", () =>
         {
-            UI.BuildForm(builder, model);
+            base.BuildRenderTree(builder);
             builder.Div("center", () =>
             {
                 UI.Button(builder, "保存", this.Callback<MouseEventArgs>(SaveAsync), "primary");
@@ -34,10 +31,10 @@ public class SettingForm : BaseComponent
 
     private async void SaveAsync(MouseEventArgs arg)
     {
-        var result = await Platform.Setting.SaveSettingAsync(SettingInfo.KeyInfo, model.Data);
+        var result = await Platform.Setting.SaveSettingAsync(SettingInfo.KeyInfo, Model.Data);
         if (result.IsValid)
         {
-            Context.UserSetting = model.Data;
+            Context.UserSetting = Model.Data;
             Context.RefreshPage();
         }
     }
@@ -47,8 +44,8 @@ public class SettingForm : BaseComponent
         var result = await Platform.Setting.DeleteUserSettingAsync(SettingInfo.KeyInfo);
         if (result.IsValid)
         {
-            model.Data = new();
-            Context.UserSetting = model.Data;
+            Model.Data = new();
+            Context.UserSetting = Model.Data;
             Context.RefreshPage();
         }
     }

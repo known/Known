@@ -111,14 +111,14 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
                 }
                 else
                 {
-                    UI.Button(builder, "保存", this.Callback<MouseEventArgs>(e => OnSave()), "primary");
+                    UI.Button(builder, "保存", this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
                     UI.Button(builder, "取消", this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
                 }
             });
         });
     }
 
-    private async void OnSave()
+    private async void OnSaveAsync(MouseEventArgs arg)
     {
         if (!Model.Validate())
             return;
@@ -155,12 +155,12 @@ class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
             base.BuildRenderTree(builder);
             builder.FormPageButton(() =>
             {
-                UI.Button(builder, "确定修改", this.Callback<MouseEventArgs>(e => OnSave()), "primary");
+                UI.Button(builder, "确定修改", this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
             });
         });
     }
 
-    private async void OnSave()
+    private async void OnSaveAsync(MouseEventArgs arg)
     {
         if (!Model.Validate())
             return;

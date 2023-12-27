@@ -5,34 +5,34 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
 
-public class InstallPage : BaseComponent
+public class InstallPage : BaseForm<InstallInfo>
 {
-    private FormModel<InstallInfo> model;
-
     [Parameter] public Action<InstallInfo> OnInstall { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitFormAsync()
     {
-        model = new FormModel<InstallInfo>(UI)
+        Model = new FormModel<InstallInfo>(UI)
         {
             LabelSpan = 6,
             Data = Context.Install
         };
+
+        await base.OnInitFormAsync();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("kui-install", () =>
         {
-            builder.Div("kui-install-head", $"{Config.App.Name}");
+            builder.Div("kui-install-head", $"{Config.App.Name} - 安装");
             builder.Div("kui-install-body", () =>
             {
                 builder.Div("kui-install-form", () =>
                 {
-                    UI.BuildForm(builder, model);
+                    base.BuildRenderTree(builder);
                     builder.Div("button", () =>
                     {
-                        UI.Button(builder, "开始使用", this.Callback<MouseEventArgs>(OnStart), "primary");
+                        UI.Button(builder, "开始使用", this.Callback<MouseEventArgs>(OnStartAsync), "primary");
                     });
                 });
             });
@@ -40,13 +40,13 @@ public class InstallPage : BaseComponent
         });
     }
 
-    private async void OnStart(MouseEventArgs args)
+    private async void OnStartAsync(MouseEventArgs args)
     {
         //TODO：安装表单验证问题
-        if (!model.Validate())
+        if (!Model.Validate())
             return;
 
-        var result = await Platform.System.SaveInstallAsync(model.Data);
+        var result = await Platform.System.SaveInstallAsync(Model.Data);
         UI.Result(result, () =>
         {
             var info = result.DataAs<InstallInfo>();

@@ -28,11 +28,11 @@ public class StepForm : BaseComponent
         builder.FormAction(() =>
         {
             if (Model.Current > 0)
-                UI.Button(builder, "上一步", this.Callback<MouseEventArgs>(e => OnPrevClick()), "primary");
+                UI.Button(builder, "上一步", this.Callback<MouseEventArgs>(OnPrevClickAsync), "primary");
             if (Model.Current < StepCount - 1)
-                UI.Button(builder, "下一步", this.Callback<MouseEventArgs>(e => OnNextClick()), "primary");
+                UI.Button(builder, "下一步", this.Callback<MouseEventArgs>(OnNextClickAsync), "primary");
             if (Model.Current == StepCount - 1 && !IsView)
-                UI.Button(builder, "完成", this.Callback<MouseEventArgs>(e => OnComplete()), "primary");
+                UI.Button(builder, "完成", this.Callback<MouseEventArgs>(OnCompleteAsync), "primary");
         });
     }
 
@@ -42,7 +42,7 @@ public class StepForm : BaseComponent
         StateChanged();
     }
 
-    private async void OnPrevClick()
+    private async void OnPrevClickAsync(MouseEventArgs arg)
     {
         if (!await SaveAsync())
             return;
@@ -50,7 +50,7 @@ public class StepForm : BaseComponent
         Model.Current--;
     }
 
-    private async void OnNextClick()
+    private async void OnNextClickAsync(MouseEventArgs arg)
     {
         if (!await SaveAsync())
             return;
@@ -58,7 +58,7 @@ public class StepForm : BaseComponent
         Model.Current++;
     }
 
-    private async void OnComplete()
+    private async void OnCompleteAsync(MouseEventArgs arg)
     {
         await SaveAsync(true);
     }

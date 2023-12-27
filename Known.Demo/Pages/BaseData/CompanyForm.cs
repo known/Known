@@ -47,7 +47,7 @@ class CompanyBaseInfo : BaseForm<CompanyInfo>
                     }
                     else
                     {
-                        UI.Button(builder, "保存", this.Callback<MouseEventArgs>(e => OnSave()), "primary");
+                        UI.Button(builder, "保存", this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
                         UI.Button(builder, "取消", this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
                     }
                 });
@@ -55,7 +55,7 @@ class CompanyBaseInfo : BaseForm<CompanyInfo>
         });
     }
 
-    private async void OnSave()
+    private async void OnSaveAsync(MouseEventArgs arg)
     {
         if (!Model.Validate())
             return;
