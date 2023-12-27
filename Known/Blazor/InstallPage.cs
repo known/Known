@@ -42,7 +42,6 @@ public class InstallPage : BaseForm<InstallInfo>
 
     private async void OnStartAsync(MouseEventArgs args)
     {
-        //TODO：安装表单验证问题
         if (!Model.Validate())
             return;
 

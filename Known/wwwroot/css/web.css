@@ -13,10 +13,6 @@
     background-color:#fafafa;
     min-height:200px;
 }
-.kui-form-flow {
-    padding:10px;border:1px dashed #e9e9e9;
-    border-radius:6px;background-color:#fafafa;
-}
 .kui-form-content {padding:10px;}
 .kui-form-action {margin-top:24px;text-align:right;}
 .kui-form-action button {margin-left:8px;}
@@ -29,6 +25,10 @@
 .center {text-align:center;}
 .p10 {padding:10px;}
 
+.kui-group-box {position:relative;border:1px dashed #e9e9e9;border-radius:6px;}
+.kui-group-box .legend {position:absolute;top:-10px;left:20px;padding:0 10px;}
+.kui-group-box .body {padding:1rem;}
+
 .kui-edit-input {display:flex;}
 .kui-edit-input input {width:190px;}
 .kui-edit-input .kui-link {margin-left:10px;display:flex;align-items:center;}
@@ -38,6 +38,9 @@
     margin-top:5px;margin-left:10px;
 }
 .kui-app-name {font-size:1.2rem}
+
+.kui-flow .kui-group-box {padding:10px;background-color:#fafafa;}
+.kui-flow .kui-group-box .legend {font-weight:bold;font-size:1.1rem;}
 
 @media screen and (max-width:768px) {
     .kui-top {flex-direction:column;}

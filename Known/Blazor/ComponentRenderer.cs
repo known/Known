@@ -61,15 +61,12 @@ public class ComponentRenderer<T> where T : IComponent
         return propertyInfo.Name;
     }
 
-    public string Render()
-    {
-        return templater.RenderComponent<T>(parameters);
-    }
+    public string Render() => templater.RenderComponent<T>(parameters);
 }
 
 class ComTemplater
 {
-    private readonly ComServiceCollection services = new();
+    private readonly ComServiceCollection services = [];
     private readonly Lazy<IServiceProvider> provider;
     private readonly Lazy<ComHtmlRenderer> renderer;
 
@@ -183,22 +180,13 @@ class ComServiceProviderFactory : IServiceProviderFactory<ComServiceBuilder>
         return new(provider);
     }
 
-    public IServiceProvider CreateServiceProvider(ComServiceBuilder builder)
-    {
-        return builder.Build();
-    }
+    public IServiceProvider CreateServiceProvider(ComServiceBuilder builder) => builder.Build();
 }
 
-class ComServiceBuilder
+class ComServiceBuilder(IServiceProvider provider, IEnumerable<IServiceProvider> providers = null)
 {
-    private readonly IServiceProvider provider;
-    private readonly IEnumerable<IServiceProvider> providers;
-
-    public ComServiceBuilder(IServiceProvider provider, IEnumerable<IServiceProvider> providers = null)
-    {
-        this.provider = provider;
-        this.providers = providers;
-    }
+    private readonly IServiceProvider provider = provider;
+    private readonly IEnumerable<IServiceProvider> providers = providers;
 
     public IServiceProvider Build()
     {
@@ -211,22 +199,10 @@ class ComServiceBuilder
     }
 }
 
-class ComServiceProvider : IServiceProvider, IDisposable
+class ComServiceProvider(IServiceProvider provider, IEnumerable<IServiceScope> scopes) : IServiceProvider, IDisposable
 {
-    private readonly IServiceProvider provider;
-    private readonly IEnumerable<IServiceScope> scopes;
-
-    public ComServiceProvider(IServiceProvider provider, IEnumerable<IServiceScope> scopes)
-    {
-        this.provider = provider;
-        this.scopes = new List<IServiceScope>(scopes);
-        // Force enumeration so to not need to re-execute the enumerator each time later in the foreach of GetService
-        // HINT: NOTE: do not use scopes.ToList() but use new List<IServiceScope>(scopes) instead because .ToList will not
-        // work as the real implementation of "scope" is an object that implments both IEnumerable<IServiceDescriptor>
-        // and IEnumerable<IServiceScope> the .ToList will default to the IEnumerable<IServiceScope>.GetEnumerator and
-        // will result in copying nothing. Instead the new List<IServiceScope> will use the correct override of the
-        // GetEnumerator to extract the elements
-    }
+    private readonly IServiceProvider provider = provider;
+    private readonly IEnumerable<IServiceScope> scopes = new List<IServiceScope>(scopes);
 
     public object GetService(Type serviceType)
     {
@@ -270,47 +246,20 @@ class ComServiceCollection : ServiceCollection, ICollection<IServiceProvider>, I
         providers.Clear();
     }
 
-    public bool Contains(IServiceProvider item)
-    {
-        return providers.Contains(item);
-    }
+    public bool Contains(IServiceProvider item) => providers.Contains(item);
+    public void CopyTo(IServiceProvider[] array, int arrayIndex) => providers.CopyTo(array, arrayIndex);
+    public int IndexOf(IServiceProvider item) => providers.IndexOf(item);
+    public void Insert(int index, IServiceProvider item) => providers.Insert(index, item);
+    public bool Remove(IServiceProvider item) => providers.Remove(item);
 
-    public void CopyTo(IServiceProvider[] array, int arrayIndex)
-    {
-        providers.CopyTo(array, arrayIndex);
-    }
-
-    public int IndexOf(IServiceProvider item)
-    {
-        return providers.IndexOf(item);
-    }
-
-    public void Insert(int index, IServiceProvider item)
-    {
-        providers.Insert(index, item);
-    }
-
-    public bool Remove(IServiceProvider item)
-    {
-        return providers.Remove(item);
-    }
-
-    IEnumerator<IServiceProvider> IEnumerable<IServiceProvider>.GetEnumerator()
-    {
-        return providers.GetEnumerator();
-    }
+    IEnumerator<IServiceProvider> IEnumerable<IServiceProvider>.GetEnumerator() => providers.GetEnumerator();
 }
 
 [SuppressMessage("Usage", "BL0006:Do not use RenderTree types", Justification = "<Pending>")]
-class ComHtmlRenderer : Renderer
+class ComHtmlRenderer(IServiceProvider serviceProvider, ILoggerFactory loggerFactory) : Renderer(serviceProvider, loggerFactory)
 {
     private Exception unhandledException;
     private TaskCompletionSource<object> nextRenderTcs = new TaskCompletionSource<object>();
-
-    public ComHtmlRenderer(IServiceProvider serviceProvider, ILoggerFactory loggerFactory)
-        : base(serviceProvider, loggerFactory)
-    {
-    }
 
     public new ArrayRange<RenderTreeFrame> GetCurrentRenderTreeFrames(int componentId) => base.GetCurrentRenderTreeFrames(componentId);
     public int AttachTestRootComponent(ComContainerComponent testRootComponent) => AssignRootComponentId(testRootComponent);
@@ -322,14 +271,9 @@ class ComHtmlRenderer : Renderer
         return task;
     }
 
-    public override Dispatcher Dispatcher { get; } = Dispatcher.CreateDefault();
-
     public Task NextRender => nextRenderTcs.Task;
-
-    protected override void HandleException(Exception exception)
-    {
-        unhandledException = exception;
-    }
+    public override Dispatcher Dispatcher { get; } = Dispatcher.CreateDefault();
+    protected override void HandleException(Exception exception) => unhandledException = exception;
 
     protected override Task UpdateDisplayAsync(in RenderBatch renderBatch)
     {
@@ -510,14 +454,10 @@ class ComHtmlizer
             var candidateIndex = position + i;
             ref var frame = ref frames.Array[candidateIndex];
             if (frame.FrameType != RenderTreeFrameType.Attribute)
-            {
                 return candidateIndex;
-            }
 
             if (frame.AttributeName.Equals("value", StringComparison.OrdinalIgnoreCase))
-            {
                 capturedValueAttribute = frame.AttributeValue as string;
-            }
 
             if (frame.AttributeEventHandlerId > 0)
             {
@@ -547,14 +487,9 @@ class ComHtmlizer
         return position + maxElements;
     }
 
-    private class HtmlRenderingContext
+    private class HtmlRenderingContext(ComHtmlRenderer renderer)
     {
-        public HtmlRenderingContext(ComHtmlRenderer renderer)
-        {
-            Renderer = renderer;
-        }
-
-        public ComHtmlRenderer Renderer { get; }
+        public ComHtmlRenderer Renderer { get; } = renderer;
         public List<string> Result { get; } = new List<string>();
         public string ClosestSelectValueAsString { get; set; }
     }
@@ -575,10 +510,7 @@ class ComRenderedComponent<T> where T : IComponent
 
     public T Instance => testInstance;
 
-    public string GetMarkup()
-    {
-        return ComHtmlizer.GetHtml(renderer, testId);
-    }
+    public string GetMarkup() => ComHtmlizer.GetHtml(renderer, testId);
 
     internal void SetParametersAndRender(ParameterView parameters)
     {
@@ -602,15 +534,8 @@ class ComContainerComponent : IComponent
         componentId = renderer.AttachTestRootComponent(this);
     }
 
-    public void Attach(RenderHandle renderHandle)
-    {
-        this.renderHandle = renderHandle;
-    }
-
-    public Task SetParametersAsync(ParameterView parameters)
-    {
-        throw new NotImplementedException($"{nameof(ComContainerComponent)} shouldn't receive any parameters");
-    }
+    public void Attach(RenderHandle renderHandle) => this.renderHandle = renderHandle;
+    public Task SetParametersAsync(ParameterView parameters) => throw new NotImplementedException($"{nameof(ComContainerComponent)} shouldn't receive any parameters");
 
     public (int, object) FindComponentUnderTest()
     {

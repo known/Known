@@ -67,7 +67,9 @@ public class JSService
     public void Print<T>(Action<ComponentRenderer<T>> action) where T : IComponent
     {
         var services = new ServiceCollection();
-        services.AddScoped<IJSRuntime, ComJSRuntime>();
+        services.AddScoped<IJSRuntime, PrintJSRuntime>();
+        services.AddScoped<JSService>();
+        services.AddHttpContextAccessor();
         var provider = services.BuildServiceProvider();
         var component = new ComponentRenderer<T>().AddServiceProvider(provider);
         action?.Invoke(component);
@@ -108,7 +110,7 @@ public class JSService
     #endregion
 }
 
-class ComJSRuntime : IJSRuntime
+class PrintJSRuntime : IJSRuntime
 {
     public ValueTask<TValue> InvokeAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] TValue>(string identifier, object[] args)
     {

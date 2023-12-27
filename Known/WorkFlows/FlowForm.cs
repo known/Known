@@ -88,12 +88,8 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
     private void BuildFlowAction(RenderTreeBuilder builder)
     {
-        builder.Div("kui-form-flow", () =>
-        {
-            //var action = Model.FormType.GetDescription();
-            //builder.Span("title", $"{action}流程");
-            UI.BuildForm(builder, flow);
-        });
+        var action = Model.FormType.GetDescription();
+        builder.Div("kui-flow", () => builder.GroupBox($"{action}流程", () => UI.BuildForm(builder, flow)));
     }
 
     private void OnAssign(MouseEventArgs args) => Model.Page.AssignFlow(Model.Data);

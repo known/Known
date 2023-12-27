@@ -18,6 +18,17 @@ public static class UIExtension
     }
     #endregion
 
+    #region Box
+    public static void GroupBox(this RenderTreeBuilder builder, string title, Action child)
+    {
+        builder.Div("kui-group-box", () =>
+        {
+            builder.Label().Class("legend").Text(title).Close();
+            builder.Div("body", child);
+        });
+    }
+    #endregion
+
     #region Button
     public static void Button(this IUIService service, RenderTreeBuilder builder, ActionInfo action, EventCallback<MouseEventArgs> onClick)
     {
