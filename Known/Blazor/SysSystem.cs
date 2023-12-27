@@ -35,7 +35,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
         Model.AddRow().AddColumn("企业名称", $"{Parent.Data.CompNo}-{Parent.Data.CompName}");
         Model.AddRow().AddColumn("系统名称", b =>
         {
-            b.Component<EditInput>()
+            b.Component<KEditInput>()
              .Set(c => c.Value, Parent.Data.AppName)
              .Set(c => c.OnSave, OnSaveAppName)
              .Build();
@@ -48,7 +48,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
             Model.AddRow().AddColumn("产品ID", Config.App.ProductId);
             Model.AddRow().AddColumn("产品密钥", b =>
             {
-                b.Component<EditInput>()
+                b.Component<KEditInput>()
                  .Set(c => c.Value, Parent.Data.ProductKey)
                  .Set(c => c.OnSave, OnSaveProductKey)
                  .Build();
@@ -94,7 +94,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
         };
         Model.AddRow().AddColumn("默认密码", b =>
         {
-            b.Component<EditInput>()
+            b.Component<KEditInput>()
              .Set(c => c.Value, Parent.Data.UserDefaultPwd)
              .Set(c => c.OnSave, OnSaveDefaultPwd)
              .Build();

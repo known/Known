@@ -6,44 +6,18 @@ namespace Known.Extensions;
 public static class HtmlExtension
 {
     public static void Label(this RenderTreeBuilder builder, string text) => builder.Label(() => builder.Markup(text));
-    public static void Label(this RenderTreeBuilder builder, Action child)
-    {
-        builder.OpenElement("label");
-        child?.Invoke();
-        builder.CloseElement();
-    }
+    public static void Label(this RenderTreeBuilder builder, Action child) => builder.Label().Children(child).Close();
 
     public static void Div(this RenderTreeBuilder builder, Action child) => builder.Div("", child);
     public static void Div(this RenderTreeBuilder builder, string className, string text) => builder.Div(className, () => builder.Markup(text));
-    public static void Div(this RenderTreeBuilder builder, string className, Action child)
-    {
-        builder.OpenElement("div");
-        if (!string.IsNullOrEmpty(className))
-            builder.Class(className);
-        child?.Invoke();
-        builder.CloseElement();
-    }
+    public static void Div(this RenderTreeBuilder builder, string className, Action child) => builder.Div().Class(className).Children(child).Close();
 
     public static void Ul(this RenderTreeBuilder builder, Action child) => builder.Ul("", child);
-    public static void Ul(this RenderTreeBuilder builder, string className, Action child)
-    {
-        builder.OpenElement("ul");
-        if (!string.IsNullOrEmpty(className))
-            builder.Class(className);
-        child?.Invoke();
-        builder.CloseElement();
-    }
+    public static void Ul(this RenderTreeBuilder builder, string className, Action child) => builder.Ul().Class(className).Children(child).Close();
 
     public static void Li(this RenderTreeBuilder builder, Action child) => builder.Li("", child);
     public static void Li(this RenderTreeBuilder builder, string className, string text) => builder.Li(className, () => builder.Markup(text));
-    public static void Li(this RenderTreeBuilder builder, string className, Action child)
-    {
-        builder.OpenElement("li");
-        if (!string.IsNullOrEmpty(className))
-            builder.Class(className);
-        child?.Invoke();
-        builder.CloseElement();
-    }
+    public static void Li(this RenderTreeBuilder builder, string className, Action child) => builder.Li().Class(className).Children(child).Close();
 
     public static void Span(this RenderTreeBuilder builder, string text, EventCallback? onClick = null) => builder.Span("", text, onClick);
     public static void Span(this RenderTreeBuilder builder, string className, string text, EventCallback? onClick = null)
@@ -51,13 +25,7 @@ public static class HtmlExtension
         if (string.IsNullOrWhiteSpace(text))
             return;
 
-        builder.OpenElement("span");
-        if (!string.IsNullOrWhiteSpace(className))
-            builder.Class(className);
-        if (onClick != null)
-            builder.OnClick(onClick);
-        builder.Markup(text);
-        builder.CloseElement();
+        builder.Span().Class(className).OnClick(onClick).Markup(text).Close();
     }
 
     public static void Link(this RenderTreeBuilder builder, string text, EventCallback onClick)
@@ -65,7 +33,7 @@ public static class HtmlExtension
         if (string.IsNullOrWhiteSpace(text))
             return;
 
-        builder.OpenElement("span").Class("kui-link").OnClick(onClick).Text(text).CloseElement();
+        builder.Span().Class("kui-link").OnClick(onClick).Markup(text).Close();
     }
 
     public static void DownloadLink(this RenderTreeBuilder builder, string text, FileUrlInfo url)

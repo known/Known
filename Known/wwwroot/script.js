@@ -1,4 +1,7 @@
-﻿import "./libs/pdfobject.js";
+﻿import "./libs/jquery.js";
+import "./libs/pdfobject.js";
+import "./libs/barcode.js";
+import "./libs/qrcode.js";
 
 export class KBlazor {
     //Callback
@@ -137,5 +140,11 @@ export class KBlazor {
         function getColor() {
             return `rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})`;
         }
+    }
+    static showBarcode(id, value, option) {
+        JsBarcode('#' + id, value, option);
+    }
+    static showQRCode(id, option) {
+        $('#' + id).qrcode(option);
     }
 }

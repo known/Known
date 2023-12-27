@@ -65,12 +65,12 @@ public class AntCaptcha : Input<string>
 
     private void BuildImage(RenderTreeBuilder builder)
     {
-        builder.OpenElement("img").Src(ImgUrl).Title(title).OnClick("alert(this.src);").CloseElement();
+        builder.Image().Src(ImgUrl).Title(title).OnClick("alert(this.src);").Close();
     }
 
     private void BuildCanvas(RenderTreeBuilder builder)
     {
-        builder.OpenElement("canvas").Id(id).Title(title).OnClick(this.Callback(() => CreateCode())).CloseElement();
+        builder.Canvas().Id(id).Title(title).OnClick(this.Callback(CreateCode)).Close();
     }
 
     private void CreateCode() => code = Utils.GetCaptcha(4);

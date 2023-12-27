@@ -103,6 +103,8 @@ public class JSService
 
     #region Image
     public void Captcha(string id, string code) => InvokeVoidAsync("KBlazor.captcha", id, code);
+    internal void ShowBarcode(string id, string value, object option) => InvokeVoidAsync("KBlazor.showBarcode", id, value, option);
+    internal void ShowQRCode(string id, object option) => InvokeVoidAsync("KBlazor.showQRCode", id, option);
     #endregion
 }
 
