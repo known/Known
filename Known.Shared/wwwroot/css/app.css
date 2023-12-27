@@ -106,3 +106,7 @@ html, body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
 @media screen and (max-width:768px) {
     .form-company {padding:0 10px 20px 10px;}
 }
+
+/*BizApply*/
+.apply-form {position:relative;}
+.apply-form canvas {position:absolute;top:-68px;right:0;width:180px;height:40px;}
