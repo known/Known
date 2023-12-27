@@ -8,7 +8,7 @@ namespace Known.Blazor;
 class SysModuleForm : BaseForm<SysModule>
 {
     private readonly StepModel step = new();
-    private KStepForm stepForm;
+    private StepForm stepForm;
 
     private int StepCount
     {
@@ -41,7 +41,7 @@ class SysModuleForm : BaseForm<SysModule>
     {
         builder.Cascading(this, b =>
         {
-            b.Component<KStepForm>()
+            b.Component<StepForm>()
              .Set(c => c.Model, step)
              .Set(c => c.IsView, Model.IsView)
              .Set(c => c.StepCount, StepCount)

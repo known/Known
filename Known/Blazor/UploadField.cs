@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-public class KUploadField<TItem> : BaseComponent where TItem : class, new()
+public class UploadField<TItem> : BaseComponent where TItem : class, new()
 {
     private List<SysFile> sysFiles;
 

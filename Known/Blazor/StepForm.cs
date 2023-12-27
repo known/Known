@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
 
-public class KStepForm : BaseComponent
+public class StepForm : BaseComponent
 {
     [Parameter] public StepModel Model { get; set; }
     [Parameter] public bool IsView { get; set; }
