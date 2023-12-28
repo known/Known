@@ -132,6 +132,7 @@
 .kui-designer.entity .panel-model pre {margin:0;padding:10px;}
 
 /*View*/
+.kui-designer .panel-view {overflow:auto;}
 .kui-designer .panel-view .view .ant-query, 
 .kui-designer .panel-view .view .ant-toolbar {padding:0;}
 .kui-designer .panel-view .view .ant-toolbar {padding-right:10px;padding-top:10px;}

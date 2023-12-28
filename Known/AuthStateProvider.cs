@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
-namespace Known.Blazor;
+namespace Known;
 
-interface IAuthStateProvider
+public interface IAuthStateProvider
 {
     Task<UserInfo> GetUserAsync();
     Task UpdateUserAsync(UserInfo user);
@@ -90,7 +90,7 @@ class WinAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
     {
         var principal = anonymous;
         current = user;
-        
+
         if (user != null)
             principal = GetPrincipal(user);
 

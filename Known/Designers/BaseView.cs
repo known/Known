@@ -8,7 +8,7 @@ namespace Known.Designers;
 class BaseView<TModel> : BaseComponent
 {
     protected TabModel Tab { get; } = new();
-    [Inject] internal ICodeService Service { get; set; }
+    [Inject] internal ICodeGenerator Generator { get; set; }
 
     [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }

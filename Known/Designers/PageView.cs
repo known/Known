@@ -115,9 +115,9 @@ class PageView : BaseView<PageInfo>
     private void SetModel()
     {
         table = new DemoPageModel(UI, Model, Entity);
-        codePage = Service.GetPage(Model, Entity);
-        codeService = Service.GetService(Model, Entity);
-        codeRepository = Service.GetRepository(Model, Entity);
+        codePage = Generator.GetPage(Model, Entity);
+        codeService = Generator.GetService(Model, Entity);
+        codeRepository = Generator.GetRepository(Model, Entity);
     }
 
     private void OnPropertyChanged()

@@ -1,23 +1,23 @@
 ﻿using System.Text;
 using Known.Extensions;
 
-namespace Known.Blazor;
+namespace Known;
 
-public interface ICodeService
+public interface ICodeGenerator
 {
-    string GetSQL(EntityInfo info, DatabaseType dbType);
-    string GetEntity(EntityInfo info);
-    string GetPage(PageInfo info, EntityInfo entity);
-    string GetService(PageInfo info, EntityInfo entity);
-    string GetRepository(PageInfo info, EntityInfo entity);
+    string GetScript(DatabaseType dbType, EntityInfo entity);
+    string GetEntity(EntityInfo entity);
+    string GetPage(PageInfo page, EntityInfo entity);
+    string GetService(PageInfo page, EntityInfo entity);
+    string GetRepository(PageInfo page, EntityInfo entity);
 }
 
-class CodeService : ICodeService
+class CodeGenerator : ICodeGenerator
 {
     #region SQL
-    public string GetSQL(EntityInfo info, DatabaseType dbType)
+    public string GetScript(DatabaseType dbType, EntityInfo entity)
     {
-        if (info == null)
+        if (entity == null)
             return string.Empty;
 
         var columns = new List<FieldInfo>
@@ -32,22 +32,22 @@ class CodeService : ICodeService
             new() { Id = nameof(EntityBase.AppId), Type = FieldType.Text, Length = "50", Required = true },
             new() { Id = nameof(EntityBase.CompNo), Type = FieldType.Text, Length = "50", Required = true }
         };
-        columns.AddRange(info.Fields);
+        columns.AddRange(entity.Fields);
 
         var maxLength = columns.Select(f => (f.Id ?? "").Length).Max();
         switch (dbType)
         {
             case DatabaseType.Access:
-                return GetAccessScript(info.Id, columns, maxLength);
+                return GetAccessScript(entity.Id, columns, maxLength);
             case DatabaseType.SQLite:
-                return GetSQLiteScript(info.Id, columns, maxLength);
+                return GetSQLiteScript(entity.Id, columns, maxLength);
             case DatabaseType.SqlServer:
-                return GetSqlServerScript(info.Id, columns, maxLength);
+                return GetSqlServerScript(entity.Id, columns, maxLength);
             case DatabaseType.Oracle:
-                return GetOracleScript(info.Id, columns, maxLength);
+                return GetOracleScript(entity.Id, columns, maxLength);
             case DatabaseType.MySql:
             case DatabaseType.Npgsql:
-                return GetMySqlScript(info.Id, columns, maxLength);
+                return GetMySqlScript(entity.Id, columns, maxLength);
             default:
                 return string.Empty;
         }
@@ -273,27 +273,27 @@ class CodeService : ICodeService
     #endregion
 
     #region Entity
-    public string GetEntity(EntityInfo info)
+    public string GetEntity(EntityInfo entity)
     {
-        if (info == null)
+        if (entity == null)
             return string.Empty;
 
         var sb = new StringBuilder();
         sb.AppendLine("using System.ComponentModel;");
         sb.AppendLine("using System.ComponentModel.DataAnnotations;");
-        if (info.IsFlow)
+        if (entity.IsFlow)
             sb.AppendLine("using Known.WorkFlows;");
         sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Entities;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("/// &lt;summary&gt;");
-        sb.AppendLine("/// {0}实体类。", info.Name);
+        sb.AppendLine("/// {0}实体类。", entity.Name);
         sb.AppendLine("/// &lt;/summary&gt;");
-        sb.AppendLine("public class {0} : {1}", info.Id, info.IsFlow ? "FlowEntity" : "EntityBase");
+        sb.AppendLine("public class {0} : {1}", entity.Id, entity.IsFlow ? "FlowEntity" : "EntityBase");
         sb.AppendLine("{");
 
         var index = 0;
-        foreach (var item in info.Fields)
+        foreach (var item in entity.Fields)
         {
             if (index++ > 0)
                 sb.AppendLine(" ");
@@ -330,7 +330,7 @@ class CodeService : ICodeService
     #endregion
 
     #region Page
-    public string GetPage(PageInfo info, EntityInfo entity)
+    public string GetPage(PageInfo page, EntityInfo entity)
     {
         var sb = new StringBuilder();
         sb.AppendLine("using {0}.Entities;", Config.App.Id);
@@ -349,9 +349,9 @@ class CodeService : ICodeService
         sb.AppendLine("    }");
         sb.AppendLine(" ");
 
-        if (info.Tools != null && info.Tools.Length > 0)
+        if (page.Tools != null && page.Tools.Length > 0)
         {
-            foreach (var item in info.Tools)
+            foreach (var item in page.Tools)
             {
                 if (item == "New")
                     sb.AppendLine("    [Action] public void New() =&gt; Table.NewForm(Service.Save{0}Async, new {0}());", entity.Id);
@@ -362,9 +362,9 @@ class CodeService : ICodeService
             }
         }
 
-        if (info.Actions != null && info.Actions.Length > 0)
+        if (page.Actions != null && page.Actions.Length > 0)
         {
-            foreach (var item in info.Actions)
+            foreach (var item in page.Actions)
             {
                 if (item == "Edit")
                     sb.AppendLine("    [Action] public void Edit({0} row) =&gt; Table.EditForm(Service.Save{0}Async, row);", entity.Id);
@@ -381,7 +381,7 @@ class CodeService : ICodeService
     #endregion
 
     #region Service
-    public string GetService(PageInfo info, EntityInfo entity)
+    public string GetService(PageInfo page, EntityInfo entity)
     {
         var sb = new StringBuilder();
         sb.AppendLine("using {0}.Entities;", Config.App.Id);
@@ -396,7 +396,7 @@ class CodeService : ICodeService
         sb.AppendLine("    {");
         sb.AppendLine("        return XXXRepository.Query{0}sAsync(Database, criteria);", entity.Id);
         sb.AppendLine("    }");
-        if (info.Tools != null && info.Tools.Contains("DeleteM"))
+        if (page.Tools != null && page.Tools.Contains("DeleteM"))
         {
             sb.AppendLine(" ");
             sb.AppendLine("    public async Task&lt;Result&gt; Delete{0}sAsync(List&lt;{0}&gt; models)", entity.Id);
@@ -413,7 +413,7 @@ class CodeService : ICodeService
             sb.AppendLine("        }, model);");
             sb.AppendLine("    }");
         }
-        if (info.Tools != null && info.Tools.Contains("New"))
+        if (page.Tools != null && page.Tools.Contains("New"))
         {
             sb.AppendLine(" ");
             sb.AppendLine("    public async Task&lt;Result&gt; Save{0}Async({0} model)", entity.Id);
@@ -434,7 +434,7 @@ class CodeService : ICodeService
     #endregion
 
     #region Repository
-    public string GetRepository(PageInfo info, EntityInfo entity)
+    public string GetRepository(PageInfo page, EntityInfo entity)
     {
         var sb = new StringBuilder();
         sb.AppendLine("using {0}.Entities;", Config.App.Id);
