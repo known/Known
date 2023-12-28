@@ -15,9 +15,9 @@ class FormView : BaseView<FormInfo>
         base.OnInitialized();
         SetModel();
         Tab.Items.Add(new ItemModel("视图") { Content = BuildView });
-        Tab.Items.Add(new ItemModel("字段") { Content = BuildList });
+        Tab.Items.Add(new ItemModel("字段列表") { Content = BuildList });
 
-        list.ScrollY = "380px";
+        list.FixedHeight = "380px";
         list.OnQuery = c =>
         {
             var result = new PagingResult<FormFieldInfo>(Model?.Fields);

@@ -53,8 +53,8 @@ public class TableModel<TItem> where TItem : class, new()
 
     public bool ShowCheckBox { get; private set; }
     public bool ShowPager { get; set; }
-    public string ScrollX { get; set; }
-    public string ScrollY { get; set; }
+    public string FixedWidth { get; set; }
+    public string FixedHeight { get; set; }
     public FormOption Form { get; } = new();
     public Func<TItem, string> FormTitle { get; set; }
     public ToolbarModel Toolbar { get; } = new();
@@ -221,8 +221,8 @@ public class TableModel<TItem> where TItem : class, new()
         if (info == null)
             return;
 
-        ScrollX = info.ScrollX;
-        ScrollY = info.ScrollY;
+        FixedWidth = info.FixedWidth;
+        FixedHeight = info.FixedHeight;
         ShowPager = info.ShowPager;
 
         if (page == null)

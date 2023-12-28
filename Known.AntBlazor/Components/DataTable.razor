@@ -2,7 +2,7 @@
 @using AntDesign.TableModels
 @typeparam TItem where TItem : class, new()
 
-<Table TItem="TItem" Size="TableSize.Small" ScrollX="@Model.ScrollX" ScrollY="@Model.ScrollY" Responsive
+<Table TItem="TItem" Size="TableSize.Small" ScrollX="@Model.FixedWidth" ScrollY="@Model.FixedHeight" Responsive
        DataSource="Model.Result.PageData" Total="Model.Result.TotalCount"
        @bind-PageIndex="Model.Criteria.PageIndex"
        @bind-PageSize="Model.Criteria.PageSize"

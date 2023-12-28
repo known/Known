@@ -50,7 +50,7 @@ class PageProperty : BaseProperty<PageColumnInfo>
                 ValueChanged = this.Callback<string>(value => { Model.DefaultSort = value; OnChanged?.Invoke(Model); })
             }));
         }
-        BuildPropertyItem(builder, "固定", b => UI.BuildSelect(b, new InputModel<string>
+        BuildPropertyItem(builder, "固定位置", b => UI.BuildSelect(b, new InputModel<string>
         {
             Disabled = IsReadOnly,
             Codes = Cache.GetCodes(",left,right"),

@@ -22,12 +22,12 @@ class PageView : BaseView<PageInfo>
         base.OnInitialized();
         SetModel();
         Tab.Items.Add(new ItemModel("视图") { Content = BuildView });
-        Tab.Items.Add(new ItemModel("字段") { Content = BuildList });
-        Tab.Items.Add(new ItemModel("页面层代码") { Content = BuildPageCode });
-        Tab.Items.Add(new ItemModel("服务层代码") { Content = BuildServiceCode });
-        Tab.Items.Add(new ItemModel("数据层代码") { Content = BuildRepositoryCode });
+        Tab.Items.Add(new ItemModel("字段列表") { Content = BuildList });
+        Tab.Items.Add(new ItemModel("页面层代码") { Content = BuildPage });
+        Tab.Items.Add(new ItemModel("服务层代码") { Content = BuildService });
+        Tab.Items.Add(new ItemModel("数据层代码") { Content = BuildRepository });
 
-        list.ScrollY = "380px";
+        list.FixedHeight = "380px";
         list.OnQuery = c =>
         {
             var result = new PagingResult<PageColumnInfo>(Model?.Columns);
@@ -61,9 +61,9 @@ class PageView : BaseView<PageInfo>
     }
 
     private void BuildList(RenderTreeBuilder builder) => BuildList(builder, list);
-    private void BuildPageCode(RenderTreeBuilder builder) => BuildCode(builder, codePage);
-    private void BuildServiceCode(RenderTreeBuilder builder) => BuildCode(builder, codeService);
-    private void BuildRepositoryCode(RenderTreeBuilder builder) => BuildCode(builder, codeRepository);
+    private void BuildPage(RenderTreeBuilder builder) => BuildCode(builder, codePage);
+    private void BuildService(RenderTreeBuilder builder) => BuildCode(builder, codeService);
+    private void BuildRepository(RenderTreeBuilder builder) => BuildCode(builder, codeRepository);
 
     private void BuildProperty(RenderTreeBuilder builder)
     {
@@ -75,17 +75,17 @@ class PageView : BaseView<PageInfo>
                 Value = Model.ShowPager,
                 ValueChanged = this.Callback<bool>(value => { Model.ShowPager = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, "滚动宽度", b => UI.BuildText(b, new InputModel<string>
+            BuildPropertyItem(builder, "固定宽度", b => UI.BuildText(b, new InputModel<string>
             {
                 Disabled = ReadOnly,
-                Value = Model.ScrollX,
-                ValueChanged = this.Callback<string>(value => { Model.ScrollX = value; OnPropertyChanged(); })
+                Value = Model.FixedWidth,
+                ValueChanged = this.Callback<string>(value => { Model.FixedWidth = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, "滚动高度", b => UI.BuildText(b, new InputModel<string>
+            BuildPropertyItem(builder, "固定高度", b => UI.BuildText(b, new InputModel<string>
             {
                 Disabled = ReadOnly,
-                Value = Model.ScrollY,
-                ValueChanged = this.Callback<string>(value => { Model.ScrollY = value; OnPropertyChanged(); })
+                Value = Model.FixedHeight,
+                ValueChanged = this.Callback<string>(value => { Model.FixedHeight = value; OnPropertyChanged(); })
             }));
         });
     }

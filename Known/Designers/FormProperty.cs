@@ -21,13 +21,13 @@ class FormProperty : BaseProperty<FormFieldInfo>
 
         builder.Div("caption", () => builder.Div("title", $"字段属性 - {Model.Id}"));
         BuildPropertyItem(builder, "显示名称", b => b.Span(Model.Name));
-        BuildPropertyItem(builder, "行序号", b => UI.BuildNumber(b, new InputModel<int>
+        BuildPropertyItem(builder, "行号", b => UI.BuildNumber(b, new InputModel<int>
         {
             Disabled = IsReadOnly,
             Value = Model.Row,
             ValueChanged = this.Callback<int>(value => { Model.Row = value; OnChanged?.Invoke(Model); })
         }));
-        BuildPropertyItem(builder, "列序号", b => UI.BuildNumber(b, new InputModel<int>
+        BuildPropertyItem(builder, "列号", b => UI.BuildNumber(b, new InputModel<int>
         {
             Disabled = IsReadOnly,
             Value = Model.Column,
