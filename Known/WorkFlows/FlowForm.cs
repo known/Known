@@ -55,7 +55,7 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
 public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 {
     private readonly FlowFormInfo info = new();
-    private FormModel<FlowFormInfo> flow;
+    private FlowFormModel flow;
 
     [Parameter] public FormModel<TItem> Model { get; set; }
     [Parameter] public Action<RenderTreeBuilder> Content { get; set; }
@@ -124,39 +124,62 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
             return;
 
         info.BizId = Model.Data?.Id;
-        flow = new FormModel<FlowFormInfo>(UI) { Data = info };
+        flow = new FlowFormModel(UI) { Data = info };
 
         switch (Model.FormType)
         {
             case FormType.Submit:
-                flow.AddRow().AddColumn(c => c.User, c =>
-                {
-                    c.Name = "提交给";
-                    c.Required = true;
-                    c.Category = "User";
-                    c.Type = FieldType.Select;
-                });
-                flow.AddRow().AddColumn(c => c.Note, c =>
-                {
-                    c.Name = "备注";
-                    c.Type = FieldType.TextArea;
-                });
+                flow.AddUserColumn("提交给", "User");
+                flow.AddNoteColumn();
                 break;
             case FormType.Verify:
-                //指派给、备注
                 //审核结果：通过、退回
                 //退回原因
-                flow.AddRow().AddColumn(c => c.BizStatus, c =>
-                {
-                    c.Name = "审核结果";
-                    c.Category = "通过,退回";
-                });
-                flow.AddRow().AddColumn(c => c.Note, c =>
-                {
-                    c.Name = "备注";
-                    c.Type = FieldType.TextArea;
-                });
+                flow.AddVerifyColumn();
+                flow.AddNoteColumn();
                 break;
         }
+    }
+}
+
+class FlowFormModel(IUIService ui) : FormModel<FlowFormInfo>(ui, true)
+{
+    internal void AddUserColumn(string name, string category)
+    {
+        AddRow().AddColumn(c => c.User, c =>
+        {
+            c.Name = name;
+            c.Required = true;
+            c.Category = category;
+            c.Type = FieldType.Select;
+        });
+    }
+
+    internal void AddVerifyColumn()
+    {
+        AddRow().AddColumn(c => c.BizStatus, c =>
+        {
+            c.Name = "审核结果";
+            c.Category = $"{FlowStatus.VerifyPass},{FlowStatus.VerifyFail}";
+        });
+    }
+
+    internal void AddNoteColumn()
+    {
+        AddRow().AddColumn(c => c.Note, c =>
+        {
+            c.Name = "备注";
+            c.Type = FieldType.TextArea;
+        });
+    }
+
+    internal void AddReasonColumn(string name)
+    {
+        AddRow().AddColumn(c => c.Note, c =>
+        {
+            c.Name = $"{name}原因";
+            c.Required = true;
+            c.Type = FieldType.TextArea;
+        });
     }
 }

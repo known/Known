@@ -44,36 +44,36 @@ public static class FlowExtension
 
     private static void ShowFlowModal<TItem>(this BasePage<TItem> page, string name, List<TItem> rows, Func<FlowFormInfo, Task<Result>> action) where TItem : FlowEntity, new()
     {
-        var model = new FormModel<FlowFormInfo>(page.UI);
-        model.Data = new FlowFormInfo();
-        model.Data.BizId = string.Join(",", rows.Select(r => r.Id));
-        model.AddRow().AddColumn(c => c.Note, c =>
+        var flow = new FlowFormModel(page.UI);
+        flow.Data = new FlowFormInfo { BizId = string.Join(",", rows.Select(r => r.Id)) };
+        if (name == "指派")
         {
-            c.Name = $"{name}原因";
-            c.Required = true;
-            c.Type = FieldType.TextArea;
-        });
+            //指派给、备注
+            flow.AddUserColumn("指派给", "User");
+            flow.AddNoteColumn();
+        }
+        else
+        {
+            flow.AddReasonColumn(name);
+        }
 
-        var option = new DialogModel
+        var model = new DialogModel
         {
             Title = $"{name}流程",
-            Content = builder =>
-            {
-                page.UI.BuildForm(builder, model);
-            }
+            Content = builder => page.UI.BuildForm(builder, flow)
         };
-        option.OnOk = async () =>
+        model.OnOk = async () =>
         {
-            if (!model.Validate())
+            if (!flow.Validate())
                 return;
 
-            var result = await action?.Invoke(model.Data);
+            var result = await action?.Invoke(flow.Data);
             page.UI.Result(result, async () =>
             {
-                await option.OnClose?.Invoke();
+                await model.OnClose?.Invoke();
                 await page.RefreshAsync();
             });
         };
-        page.UI.ShowDialog(option);
+        page.UI.ShowDialog(model);
     }
 }

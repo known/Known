@@ -11,7 +11,7 @@ public class TableModel<TItem> where TItem : class, new()
     internal TableModel()
     {
         AllColumns = GetAllColumns();
-        Columns = AllColumns.Where(c => !string.IsNullOrWhiteSpace(c.Name)).ToList();
+        Columns = AllColumns?.Where(c => !string.IsNullOrWhiteSpace(c.Name))?.ToList();
         InitQueryColumns();
     }
 
@@ -34,13 +34,16 @@ public class TableModel<TItem> where TItem : class, new()
 		UI = page.UI;
         Module = page.Module;
         SetPageInfo(Module?.Page, page);
-        foreach (var column in AllColumns)
+        if (AllColumns != null && AllColumns.Count > 0)
         {
-            var info = page.Columns?.FirstOrDefault(p => p.Id == column.Id);
-            if (info != null)
+            foreach (var column in AllColumns)
             {
-                column.SetPageColumnInfo(info);
-                Columns.Add(column);
+                var info = page.Columns?.FirstOrDefault(p => p.Id == column.Id);
+                if (info != null)
+                {
+                    column.SetPageColumnInfo(info);
+                    Columns.Add(column);
+                }
             }
         }
         InitQueryColumns();

@@ -139,6 +139,7 @@ public class PagingCriteria
         Parameters = [];
         Query = [];
         Fields = [];
+        PageIndex = 1;
         PageSize = Config.App.DefaultPageSize;
     }
 

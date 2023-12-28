@@ -20,6 +20,7 @@ class TbApplyForm : BaseFlowForm<TbApply>
         //添加表单信息Tab
         Tabs.Clear();
         Tabs.Add(new ItemModel("基本信息") { Content = BuildBaseInfo });
+        Tabs.Add(new ItemModel("表体信息") { Content = BuildBillList });
         await base.OnInitFormAsync();
     }
 
@@ -36,5 +37,9 @@ class TbApplyForm : BaseFlowForm<TbApply>
                    });
                })
                .Build();
+    }
+
+    private void BuildBillList(RenderTreeBuilder builder)
+    {
     }
 }
