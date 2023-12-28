@@ -51,7 +51,7 @@ class ApplyPrint : ComponentBase
     {
         builder.Markup(@"<style>
 .demo-print {position:relative;}
-.demo-print canvas {position:absolute;top:-68px;right:0;width:180px;height:40px;}
+.demo-print canvas {position:absolute;top:0;right:0;width:180px;height:40px;}
 .demo-print .txt-right {text-align:right;}
 .demo-print .field {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));grid-column-gap:10px;margin:10px 0;}
 .demo-print .title {font-size:1.5rem;font-weight:bold;text-align:center;}

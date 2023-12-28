@@ -54,7 +54,7 @@ public partial class MainForm : Form
         {
             Config.OnExit = OnClose;
             //…Ë÷√ª∑æ≥
-            info.Type = AppType.WinForm;
+            info.Type = AppType.Desktop;
             info.WebRoot = Application.StartupPath;
             info.ContentRoot = Application.StartupPath;
 #if DEBUG

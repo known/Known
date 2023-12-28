@@ -174,7 +174,7 @@ public class VersionInfo
     public string FrameVersion { get; }
 }
 
-public enum AppType { Web, WinForm }
+public enum AppType { Web, Desktop }
 
 public class AppInfo
 {

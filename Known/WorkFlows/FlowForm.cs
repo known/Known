@@ -99,13 +99,16 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         if (!flow.Validate())
             return;
 
+        Result result;
         switch (Model.FormType)
         {
             case FormType.Submit:
-                await Platform.Flow.SubmitFlowAsync(info);
+                result = await Platform.Flow.SubmitFlowAsync(info);
+                Model.HandleResult(result);
                 break;
             case FormType.Verify:
-                await Platform.Flow.VerifyFlowAsync(info);
+                result = await Platform.Flow.VerifyFlowAsync(info);
+                Model.HandleResult(result);
                 break;
             default:
                 await Model.SaveAsync();
@@ -121,8 +124,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
             return;
 
         info.BizId = Model.Data?.Id;
-        flow = new FormModel<FlowFormInfo>(UI);
-        flow.Data = info;
+        flow = new FormModel<FlowFormInfo>(UI) { Data = info };
 
         switch (Model.FormType)
         {

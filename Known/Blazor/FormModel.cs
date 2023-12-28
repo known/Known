@@ -157,6 +157,11 @@ public class FormModel<TItem> where TItem : class, new()
         {
             result = await OnSave?.Invoke(Data);
         }
+        HandleResult(result, isClose);
+    }
+
+    internal void HandleResult(Result result, bool isClose = false)
+    {
         UI.Result(result, async () =>
         {
             if (result.IsClose || isClose)

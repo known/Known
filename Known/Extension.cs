@@ -27,7 +27,7 @@ public static class Extension
             services.AddScoped<ProtectedSessionStorage>();
             services.AddScoped<AuthenticationStateProvider, WebAuthStateProvider>();
         }
-        else if (Config.App.Type == AppType.WinForm)
+        else if (Config.App.Type == AppType.Desktop)
         {
             services.AddAuthorizationCore();
             services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
