@@ -286,9 +286,9 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Entities;", Config.App.Id);
         sb.AppendLine(" ");
-        sb.AppendLine("/// &lt;summary&gt;");
+        sb.AppendLine("/// <summary>");
         sb.AppendLine("/// {0}实体类。", entity.Name);
-        sb.AppendLine("/// &lt;/summary&gt;");
+        sb.AppendLine("/// </summary>");
         sb.AppendLine("public class {0} : {1}", entity.Id, entity.IsFlow ? "FlowEntity" : "EntityBase");
         sb.AppendLine("{");
 
@@ -302,9 +302,9 @@ class CodeGenerator : ICodeGenerator
             if (!item.Required && type != "string")
                 type += "?";
 
-            sb.AppendLine("    /// &lt;summary&gt;");
+            sb.AppendLine("    /// <summary>");
             sb.AppendLine("    /// 取得或设置{0}。", item.Name);
-            sb.AppendLine("    /// &lt;/summary&gt;");
+            sb.AppendLine("    /// </summary>");
             sb.AppendLine("    [DisplayName(\"{0}\")]", item.Name);
             if (item.Required)
                 sb.AppendLine("    [Required]");
@@ -338,9 +338,9 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Pages;", Config.App.Id);
         sb.AppendLine(" ");
-        sb.AppendLine("class {0}List : BaseTablePage&lt;{0}&gt;", entity.Id);
+        sb.AppendLine("class {0}List : BaseTablePage<{0}>", entity.Id);
         sb.AppendLine("{");
-        sb.AppendLine("    private XXXService Service =&gt; new() { CurrentUser = CurrentUser };");
+        sb.AppendLine("    private XXXService Service => new() { CurrentUser = CurrentUser };");
         sb.AppendLine(" ");
         sb.AppendLine("    protected override async Task OnInitPageAsync()");
         sb.AppendLine("    {");
@@ -354,11 +354,11 @@ class CodeGenerator : ICodeGenerator
             foreach (var item in page.Tools)
             {
                 if (item == "New")
-                    sb.AppendLine("    [Action] public void New() =&gt; Table.NewForm(Service.Save{0}Async, new {0}());", entity.Id);
+                    sb.AppendLine("    [Action] public void New() => Table.NewForm(Service.Save{0}Async, new {0}());", entity.Id);
                 else if (item == "DeleteM")
-                    sb.AppendLine("    [Action] public void DeleteM() =&gt; Table.DeleteM(Service.Delete{0}sAsync);", entity.Id);
+                    sb.AppendLine("    [Action] public void DeleteM() => Table.DeleteM(Service.Delete{0}sAsync);", entity.Id);
                 else
-                    sb.AppendLine("    [Action] public void {0}() =&gt; {{}};", item);
+                    sb.AppendLine("    [Action] public void {0}() => {{}};", item);
             }
         }
 
@@ -367,11 +367,11 @@ class CodeGenerator : ICodeGenerator
             foreach (var item in page.Actions)
             {
                 if (item == "Edit")
-                    sb.AppendLine("    [Action] public void Edit({0} row) =&gt; Table.EditForm(Service.Save{0}Async, row);", entity.Id);
+                    sb.AppendLine("    [Action] public void Edit({0} row) => Table.EditForm(Service.Save{0}Async, row);", entity.Id);
                 else if (item == "Delete")
-                    sb.AppendLine("    [Action] public void Delete({0} row) =&gt; Table.Delete(Service.Delete{0}sAsync, row);", entity.Id);
+                    sb.AppendLine("    [Action] public void Delete({0} row) => Table.Delete(Service.Delete{0}sAsync, row);", entity.Id);
                 else
-                    sb.AppendLine("    [Action] public void {0}({1} row) =&gt; {{}};", item, entity.Id);
+                    sb.AppendLine("    [Action] public void {0}({1} row) => {{}};", item, entity.Id);
             }
         }
 
@@ -392,19 +392,19 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine("class XXXService : ServiceBase");
         sb.AppendLine("{");
         sb.AppendLine("    //{0}", entity.Id);
-        sb.AppendLine("    public Task&lt;PagingResult&lt;{0}&gt;&gt; Query{0}sAsync(PagingCriteria criteria)", entity.Id);
+        sb.AppendLine("    public Task<PagingResult<{0}>> Query{0}sAsync(PagingCriteria criteria)", entity.Id);
         sb.AppendLine("    {");
         sb.AppendLine("        return XXXRepository.Query{0}sAsync(Database, criteria);", entity.Id);
         sb.AppendLine("    }");
         if (page.Tools != null && page.Tools.Contains("DeleteM"))
         {
             sb.AppendLine(" ");
-            sb.AppendLine("    public async Task&lt;Result&gt; Delete{0}sAsync(List&lt;{0}&gt; models)", entity.Id);
+            sb.AppendLine("    public async Task<Result> Delete{0}sAsync(List<{0}> models)", entity.Id);
             sb.AppendLine("    {");
             sb.AppendLine("        if (models == null || models.Count == 0)");
             sb.AppendLine("            return Result.Error(\"请至少选择一条记录进行操作！\");");
             sb.AppendLine(" ");
-            sb.AppendLine("        return await Database.TransactionAsync(\"删除\", async db =&gt;", entity.Id);
+            sb.AppendLine("        return await Database.TransactionAsync(\"删除\", async db =>", entity.Id);
             sb.AppendLine("        {");
             sb.AppendLine("            foreach (var item in models)");
             sb.AppendLine("            {");
@@ -416,13 +416,13 @@ class CodeGenerator : ICodeGenerator
         if (page.Tools != null && page.Tools.Contains("New"))
         {
             sb.AppendLine(" ");
-            sb.AppendLine("    public async Task&lt;Result&gt; Save{0}Async({0} model)", entity.Id);
+            sb.AppendLine("    public async Task<Result> Save{0}Async({0} model)", entity.Id);
             sb.AppendLine("    {");
             sb.AppendLine("        var vr = model.Validate();");
             sb.AppendLine("        if (!vr.IsValid)");
             sb.AppendLine("            return vr;");
             sb.AppendLine(" ");
-            sb.AppendLine("        return await Database.TransactionAsync(\"保存\", async db =&gt;", entity.Id);
+            sb.AppendLine("        return await Database.TransactionAsync(\"保存\", async db =>", entity.Id);
             sb.AppendLine("        {");
             sb.AppendLine("            await db.SaveAsync(model);");
             sb.AppendLine("        }, model);");
@@ -444,10 +444,10 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine("class XXXRepository");
         sb.AppendLine("{");
         sb.AppendLine("    //{0}", entity.Id);
-        sb.AppendLine("    internal static Task&lt;PagingResult&lt;{0}&gt;&gt; Query{0}sAsync(Database db, PagingCriteria criteria)", entity.Id);
+        sb.AppendLine("    internal static Task<PagingResult<{0}>> Query{0}sAsync(Database db, PagingCriteria criteria)", entity.Id);
         sb.AppendLine("    {");
         sb.AppendLine("        var sql = \"select * from {0} where CompNo=@CompNo\";", entity.Id);
-        sb.AppendLine("        return db.Query{0}Async&lt;{0}&gt;(sql, criteria);", entity.Id);
+        sb.AppendLine("        return db.Query{0}Async<{0}>(sql, criteria);", entity.Id);
         sb.AppendLine("    }");
         sb.AppendLine("}");
         return sb.ToString();

@@ -2,6 +2,7 @@
 import "./libs/pdfobject.js";
 import "./libs/barcode.js";
 import "./libs/qrcode.js";
+import "./libs/prism.js";
 
 export class KBlazor {
     //Callback
@@ -14,6 +15,9 @@ export class KBlazor {
     }
     static elemEnabled(id, enabled) {
         document.getElementById(id).enabled = enabled;
+    }
+    static highlight(code, language) {
+        return Prism.highlight(code, Prism.languages[language], language);
     }
     //Storage
     static getLocalStorage(key) {

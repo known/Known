@@ -39,6 +39,17 @@ class PageView : BaseView<PageInfo>
         tab.Items.Add(new ItemModel("操作列") { Content = BuildAction });
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            codePage = await JS.HighlightAsync(codePage, "csharp");
+            codeService = await JS.HighlightAsync(codeService, "csharp");
+            codeRepository = await JS.HighlightAsync(codeRepository, "csharp");
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
     internal override void SetModel(PageInfo model)
     {
         base.SetModel(model);

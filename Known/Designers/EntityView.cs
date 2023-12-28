@@ -35,6 +35,16 @@ class EntityView : BaseView<EntityInfo>
         };
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            entity = await JS.HighlightAsync(entity, "csharp");
+            script = await JS.HighlightAsync(script, "csharp");
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
     private void BuildView(RenderTreeBuilder builder)
     {
         builder.Div("bold", $"{Model?.Name}（{Model?.Id}）");

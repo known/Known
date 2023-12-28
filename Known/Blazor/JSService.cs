@@ -46,6 +46,7 @@ public class JSService
     #region Common
     public void Click(string clientId) => InvokeVoidAsync("KBlazor.elemClick", clientId);
     public void Enabled(string clientId, bool enabled) => InvokeVoidAsync("KBlazor.elemEnabled", clientId, enabled);
+    internal Task<string> HighlightAsync(string code, string language) => InvokeAsync<string>("KBlazor.highlight", code, language);
     #endregion
 
     #region LocalStorage

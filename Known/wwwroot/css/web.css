@@ -1,4 +1,5 @@
 @import "font-awesome.css";
+@import "prism.css";
 
 /*Common*/
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
