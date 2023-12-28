@@ -148,7 +148,7 @@
 .kui-designer .panel-property .item label {text-align:right;padding-right:15px;}
 
 /*Code*/
-.kui-code {margin:0 0 0 10px;padding:10px;border-left:3px solid #4775e0;height:428px;overflow:auto;}
+.kui-code {margin:0 0 0 10px;border-left:3px solid #4775e0;height:428px;overflow:auto;}
 .kui-designer.entity .kui-code {margin:0;}
 
 /*AntDesign*/

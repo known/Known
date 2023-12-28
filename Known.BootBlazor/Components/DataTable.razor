@@ -7,16 +7,19 @@
          <AutoGenerateColumns Table="Model" Item="context" />
      </TableColumns>
      <RowButtonTemplate>
-         @if (Model.Actions != null && Model.Actions.Count > 0)
+        @if (Model.Actions != null && Model.Actions.Count > 0)
         {
-            @if (Model.Actions.Count > 2)
+            var actions = Model.RowActions?.Invoke(context);
+            if (actions == null)
+                actions = Model.Actions;
+            @if (actions.Count > 2)
             {
-                var first = Model.Actions[0];
+                var first = actions[0];
                 <TableCellButton Color="first.ToColor()" Text="@first.Name" OnClick="e=>Model.OnAction?.Invoke(first, context)" />
             }
             else
             {
-                foreach (var item in Model.Actions)
+                foreach (var item in actions)
                 {
                     <TableCellButton Color="item.ToColor()" Text="@item.Name" OnClick="e=>Model.OnAction?.Invoke(item, context)" />
                 }

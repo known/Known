@@ -5,6 +5,20 @@ namespace Known.WorkFlows;
 
 public static class FlowExtension
 {
+    public static List<ActionInfo> GetFlowRowActions<TItem>(this TableModel<TItem> table, TItem row) where TItem : FlowEntity, new()
+    {
+        var actions = new List<ActionInfo>();
+        foreach (var item in table.Actions)
+        {
+            if (item.Id == "Submit" && row.BizStatus == FlowStatus.Verifing)
+                continue;
+            if (item.Id == "Revoke" && row.BizStatus != FlowStatus.Verifing)
+                continue;
+            actions.Add(item);
+        }
+        return actions;
+    }
+
     public static void SubmitFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new()
     {
         page.ViewForm(FormType.Submit, row);

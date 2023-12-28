@@ -17,17 +17,20 @@
         <AutoGenerateColumns Table="Model" Item="context" />
         @if (Model.Actions != null && Model.Actions.Count > 0)
         {
+            var actions = Model.RowActions?.Invoke(context);
+            if (actions == null)
+                actions = Model.Actions;
             <ActionColumn Title="操作" Fixed="true" Width="120">
-                @if (Model.Actions.Count > 2)
+                @if (actions.Count > 2)
                 {
-                    var first = Model.Actions[0];
+                    var first = actions[0];
                     <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Model.OnAction?.Invoke(first, context)">@first.Name</Tag>
                     <Dropdown>
                         <Overlay>
                             <Menu>
-                                @for (int i = 1; i < Model.Actions.Count; i++)
+                                @for (int i = 1; i < actions.Count; i++)
                                 {
-                                    var item = Model.Actions[i];
+                                    var item = actions[i];
                                     <MenuItem @key="@item.Id" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</MenuItem>
                                 }
                             </Menu>
@@ -39,7 +42,7 @@
                 }
                 else
                 {
-                    foreach (var item in Model.Actions)
+                    foreach (var item in actions)
                     {
                         <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
                     }
