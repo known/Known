@@ -195,6 +195,7 @@ class SystemService : ServiceBase
         modules.Add(GetSysTask(system.Id));
         modules.Add(GetSysFile(system.Id));
         modules.Add(GetSysLog(system.Id));
+        modules.Add(GetSysFlow(system.Id));
         modules.Add(GetSysModule(system.Id));
 
         return modules;
@@ -399,6 +400,34 @@ class SystemService : ServiceBase
         };
     }
 
+    private static SysModule GetSysFlow(string parentId)
+    {
+        return new SysModule
+        {
+            ParentId = parentId,
+            Code = "SysFlowList",
+            Name = "流程管理",
+            Icon = "branches",
+            Description = "查询和维护系统工作流信息。",
+            Target = "页面",
+            Sort = 7,
+            Enabled = true,
+            EntityData = @"流程步骤|SysFlowStep
+流程代码|FlowCode|Text|50|Y
+流程名称|FlowName|Text|50|Y
+步骤代码|StepCode|Text|50|Y
+步骤名称|StepName|Text|50|Y
+步骤类型|StepType|Text|50|Y
+操作人|OperateBy|Text|500
+操作角色|OperateRole|Text|500
+备注|Note|TextArea
+结果数据|ResultData|TextArea
+设计数据|DesignData|TextArea",
+            PageData = "{\"Type\":null,\"ShowPager\":false,\"FixedWidth\":null,\"FixedHeight\":null,\"Tools\":[\"New\",\"DeleteM\"],\"Actions\":[\"Edit\",\"Delete\",\"MoveUp\",\"MoveDown\"],\"Columns\":[{\"Id\":\"StepCode\",\"Name\":\"步骤代码\",\"IsViewLink\":true,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"StepName\",\"Name\":\"步骤名称\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"StepType\",\"Name\":\"步骤类型\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"OperateBy\",\"Name\":\"操作人\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"OperateRole\",\"Name\":\"操作角色\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Note\",\"Name\":\"备注\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null}]}",
+            FormData = "{\"LabelSpan\":null,\"WrapperSpan\":null,\"Fields\":[{\"Row\":1,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"StepCode\",\"Name\":\"步骤代码\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":1,\"Column\":2,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"StepName\",\"Name\":\"步骤名称\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":2,\"Column\":1,\"Category\":\"开始,提交,审核,结束\",\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"StepType\",\"Name\":\"步骤类型\",\"Type\":7,\"Length\":null,\"Required\":true},{\"Row\":3,\"Column\":1,\"Category\":\"User\",\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"OperateBy\",\"Name\":\"操作人\",\"Type\":8,\"Length\":null,\"Required\":false},{\"Row\":3,\"Column\":2,\"Category\":\"Role\",\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"OperateRole\",\"Name\":\"操作角色\",\"Type\":8,\"Length\":null,\"Required\":false},{\"Row\":4,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Note\",\"Name\":\"备注\",\"Type\":1,\"Length\":null,\"Required\":false}]}"
+        };
+    }
+
     private static SysModule GetSysModule(string parentId)
     {
         return new SysModule
@@ -409,7 +438,7 @@ class SystemService : ServiceBase
             Icon = "appstore-add",
             Description = "维护系统菜单按钮及列表栏位信息。",
             Target = "页面",
-            Sort = 7,
+            Sort = 8,
             Enabled = true,
             EntityData = @"系统模块|SysModule
 上级|ParentId|Text|50

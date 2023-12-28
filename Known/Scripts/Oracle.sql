@@ -338,12 +338,10 @@ create table SysFlowStep(
     StepCode      varchar2(50)   not null,
     StepName      varchar2(50)   not null,
     StepType      varchar2(50)   not null,
-    OperateBy     varchar2(50)   null,
-    OperateByName varchar2(50)   null,
-    Note          varchar2(500)  null,
-    X             number(8)      null,
-    Y             number(8)      null,
-    IsRound       number(8)      null,
-    Arrows        varchar2(4000) null
+    OperateBy     varchar2(500)   null,
+    OperateRole   varchar2(500)   null,
+    Note          varchar2(4000)  null,
+    ResultData    varchar2(4000)  null,
+    DesignData    varchar2(4000) null
 );
 alter table SysFlowStep add constraint PK_SysFlowStep primary key(Id);

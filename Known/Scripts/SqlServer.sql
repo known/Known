@@ -355,13 +355,11 @@ CREATE TABLE [SysFlowStep] (
     [StepCode]      [varchar](50)    NOT NULL,
     [StepName]      [nvarchar](50)   NOT NULL,
     [StepType]      [nvarchar](50)   NOT NULL,
-    [OperateBy]     [varchar](50)    NULL,
-    [OperateByName] [nvarchar](50)   NULL,
-    [Note]          [nvarchar](500)  NULL,
-    [X]             [int]            NULL,
-    [Y]             [int]            NULL,
-    [IsRound]       [int]            NULL,
-    [Arrows]        [nvarchar](4000) NULL,
+    [OperateBy]     [varchar](500)   NULL,
+    [OperateRole]   [nvarchar](500)  NULL,
+    [Note]          [nvarchar](4000) NULL,
+    [ResultData]    [nvarchar](4000) NULL,
+    [DesignData]    [nvarchar](4000) NULL,
     CONSTRAINT [PK_SysFlowStep] PRIMARY KEY ([Id] ASC)
 ) 
 GO

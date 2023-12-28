@@ -341,12 +341,10 @@ CREATE TABLE `SysFlowStep` (
     `StepCode`      VarChar(50)   NOT NULL,
     `StepName`      VarChar(50)   NOT NULL,
     `StepType`      VarChar(50)   NOT NULL,
-    `OperateBy`     VarChar(50)   NULL,
-    `OperateByName` VarChar(50)   NULL,
+    `OperateBy`     VarChar(500)  NULL,
+    `OperateRole`   VarChar(500)  NULL,
     `Note`          LongText      NULL,
-    `X`             Long          NULL,
-    `Y`             Long          NULL,
-    `IsRound`       Long          NULL,
-    `Arrows`        LongText      NULL
+    `ResultData`    LongText      NULL,
+    `DesignData`    LongText      NULL
 )
 GO

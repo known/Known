@@ -338,12 +338,10 @@ create table `SysFlowStep` (
     `StepCode`      varchar(50)   not null,
     `StepName`      varchar(50)   not null,
     `StepType`      varchar(50)   not null,
-    `OperateBy`     varchar(50)   null,
-    `OperateByName` varchar(50)   null,
-    `Note`          varchar(500)  null,
-    `X`             int           null,
-    `Y`             int           null,
-    `IsRound`       int           null,
-    `Arrows`        varchar(4000) null,
+    `OperateBy`     varchar(500)  null,
+    `OperateRole`   varchar(500)  null,
+    `Note`          varchar(4000) null,
+    `ResultData`    varchar(4000) null,
+    `DesignData`    varchar(4000) null,
     PRIMARY KEY(`Id`)
 );
