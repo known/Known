@@ -18,7 +18,7 @@ class BaApplyList : BaseTablePage<TbApply>
 		Table.Form.Width = 800;    //定义表单宽度
 		Table.Form.NoFooter = true;//表单不显示默认底部按钮
         Table.RowActions = row => Table.GetFlowRowActions(row); //根据数据状态显示操作按钮
-        Table.OnQuery = QueryApplysAsync;
+        Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Apply, criteria);
 		Table.Column(c => c.BizStatus).Template(BuildBizStatus);//自定义状态列
     }
 
@@ -40,13 +40,6 @@ class BaApplyList : BaseTablePage<TbApply>
     [Action] public void Submit(TbApply row) => this.SubmitFlow(row);
     //撤回
     [Action] public void Revoke(TbApply row) => this.RevokeFlow(row);
-
-	//列表分页查询
-	private Task<PagingResult<TbApply>> QueryApplysAsync(PagingCriteria criteria)
-	{
-		criteria.Parameters[nameof(PageType)] = PageType.Apply;
-		return Service.QueryApplysAsync(criteria);
-	}
 
     private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
 }

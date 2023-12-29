@@ -2,6 +2,8 @@
 
 namespace Known.WorkFlows;
 
+public enum FlowPageType { None, Apply, Verify, Query }
+
 public class FlowStatus
 {
     private FlowStatus() { }
@@ -31,7 +33,10 @@ public class FlowEntity : EntityBase
 {
     [DisplayName("流程状态")]
     public virtual string BizStatus { get; set; }
-    
+
+    [DisplayName("当前步骤")]
+    public virtual string CurrStep { get; set; }
+
     [DisplayName("当前人")]
     public virtual string CurrBy { get; set; }
     

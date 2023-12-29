@@ -15,19 +15,13 @@ class BaVerifyList : BaseTablePage<TbApply>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-		Table.OnQuery = QueryApplysAsync;
-		Table.Form.Width = 800;
+        Table.Form.Width = 800;
+		Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Verify, criteria);
 		Table.Column(c => c.BizStatus).Template(BuildBizStatus);
     }
 
 	//审核操作
     [Action] public void Verify(TbApply row) => this.VerifyFlow(row);
-
-	private Task<PagingResult<TbApply>> QueryApplysAsync(PagingCriteria criteria)
-	{
-		criteria.Parameters[nameof(PageType)] = PageType.Verify;
-		return Service.QueryApplysAsync(criteria);
-	}
 
 	private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
 }
