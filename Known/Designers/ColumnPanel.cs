@@ -11,7 +11,7 @@ class ColumnPanel<TModel> : BaseComponent
     private FieldInfo current;
     private List<FieldInfo> fields;
 
-    [CascadingParameter] private BaseDesigner<TModel> Designer { get; set; }
+    [CascadingParameter] private BaseViewDesigner<TModel> Designer { get; set; }
 
     [Parameter] public Action<FieldInfo> OnFieldCheck { get; set; }
     [Parameter] public Action<FieldInfo> OnFieldClick { get; set; }

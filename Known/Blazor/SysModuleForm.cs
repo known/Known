@@ -25,13 +25,14 @@ class SysModuleForm : BaseForm<SysModule>
         }
     }
 
-    internal EntityInfo Entity {  get; set; }
+    internal EntityInfo Entity { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
         step.Items.Add(new("基本信息") { Content = BuildDataForm });
         step.Items.Add(new("模型设置") { Content = BuildModuleModel });
+        step.Items.Add(new("流程设置") { Content = BuildModuleFlow });
         step.Items.Add(new("页面设置") { Content = BuildModulePage });
         step.Items.Add(new("表单设置") { Content = BuildModuleForm });
         Model.OnFieldChanged = OnFieldChanged;
@@ -51,13 +52,22 @@ class SysModuleForm : BaseForm<SysModule>
     }
 
     private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
-    
+
     private void BuildModuleModel(RenderTreeBuilder builder)
     {
         builder.Component<EntityDesigner>()
                .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.Model, Model.Data.EntityData)
                .Set(c => c.OnChanged, model => Model.Data.EntityData = model)
+               .Build();
+    }
+
+    private void BuildModuleFlow(RenderTreeBuilder builder)
+    {
+        builder.Component<FlowDesigner>()
+               .Set(c => c.ReadOnly, Model.IsView)
+               .Set(c => c.Model, Model.Data.Flow)
+               .Set(c => c.OnChanged, model => Model.Data.Flow = model)
                .Build();
     }
 

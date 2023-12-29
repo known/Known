@@ -17,6 +17,7 @@
     [Sort]        [int]           NOT NULL,
     [Enabled]     [varchar](50)   NOT NULL,
     [EntityData]  [ntext]         NULL,
+    [FlowData]    [ntext]         NULL,
     [PageData]    [ntext]         NULL,
     [FormData]    [ntext]         NULL,
     [Note]        [ntext]         NULL,

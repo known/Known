@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Known.WorkFlows;
 
 namespace Known.Entities;
 
@@ -77,6 +78,12 @@ public class SysModule : EntityBase
     public string EntityData { get; set; }
 
     /// <summary>
+    /// 取得或设置流程设置。
+    /// </summary>
+    [DisplayName("流程设置")]
+    public string FlowData { get; set; }
+
+    /// <summary>
     /// 取得或设置页面设置。
     /// </summary>
     [DisplayName("页面设置")]
@@ -97,6 +104,12 @@ public class SysModule : EntityBase
 
     public virtual string ParentName { get; set; }
     public virtual bool IsMoveUp { get; set; }
+
+    internal virtual FlowInfo Flow
+    {
+        get { return Utils.FromJson<FlowInfo>(FlowData) ?? new(); }
+        set { FlowData = Utils.ToJson(value); }
+    }
 
     internal virtual PageInfo Page
     {

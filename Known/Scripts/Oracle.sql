@@ -17,6 +17,7 @@
     Sort        number(8)      not null,
     Enabled     varchar2(50)   not null,
     EntityData  varchar2(4000)  null,
+    FlowData    varchar2(4000) null,
     PageData    varchar2(4000) null,
     FormData    varchar2(4000) null,
     Note        varchar2(4000) null

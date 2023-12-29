@@ -17,6 +17,7 @@
     `Sort`        Long         NOT NULL,
     `Enabled`     VarChar(50)  NOT NULL,
     `EntityData`  LongText     NULL,
+    `FlowData`    LongText     NULL,
     `PageData`    LongText     NULL,
     `FormData`    LongText     NULL,
     `Note`        LongText     NULL

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class PageDesigner : BaseDesigner<PageInfo>
+class PageDesigner : BaseViewDesigner<PageInfo>
 {
     private PageProperty property;
     private PageColumnInfo current;

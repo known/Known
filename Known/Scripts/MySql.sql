@@ -17,6 +17,7 @@
     `Sort`        int          not null,
     `Enabled`     varchar(50)  not null,
     `EntityData`  text         null,
+    `FlowData`    text         null,
     `PageData`    text         null,
     `FormData`    text         null,
     `Note`        text         null,

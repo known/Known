@@ -7,12 +7,14 @@ namespace Known.Designers;
 
 class BaseDesigner<TModel> : BaseComponent
 {
-    internal BaseView<TModel> view;
-
     [Parameter] public EntityInfo Entity { get; set; }
     [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }
+}
 
+class BaseViewDesigner<TModel> : BaseDesigner<TModel>
+{
+    internal BaseView<TModel> view;
     internal List<FieldInfo> Fields { get; set; } = [];
 
     protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, BuildTree);

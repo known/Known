@@ -148,8 +148,8 @@
 .kui-designer .panel-property .item label {text-align:right;padding-right:15px;}
 
 /*Code*/
-.kui-code {margin:0 0 0 10px;border-left:3px solid #4775e0;height:428px;overflow:auto;}
-.kui-designer.entity .kui-code {margin:0;}
+.kui-code {margin:0 0 0 10px;border-left:3px solid #4775e0;height:445px;overflow:auto;}
+.kui-designer.entity .kui-code, .kui-code pre[class*=language-] {margin:0;}
 
 /*AntDesign*/
 .kui-designer.entity .panel-view .ant-tabs-content-holder {padding-left:10px;}

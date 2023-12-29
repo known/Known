@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class EntityDesigner : BaseComponent
+class EntityDesigner : BaseDesigner<string>
 {
     private string dataTypes;
     private readonly List<CodeInfo> addTypes =
@@ -22,10 +22,6 @@ class EntityDesigner : BaseComponent
     private bool IsNew => addType == addTypes[0].Code;
 
     [CascadingParameter] private SysModuleForm Form { get; set; }
-
-    [Parameter] public string Model { get; set; }
-    [Parameter] public List<string> Models { get; set; }
-    [Parameter] public Action<string> OnChanged { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

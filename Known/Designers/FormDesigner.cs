@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
 
-class FormDesigner : BaseDesigner<FormInfo>
+class FormDesigner : BaseViewDesigner<FormInfo>
 {
     private FormProperty property;
     private FormFieldInfo current;
