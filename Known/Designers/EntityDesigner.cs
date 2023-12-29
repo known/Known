@@ -14,7 +14,6 @@ class EntityDesigner : BaseDesigner<string>
         new CodeInfo("从实体库中选择")
     ];
     private List<CodeInfo> entityModels;
-
     private string addType;
     private EntityInfo entity = new();
     private EntityView view;
@@ -26,11 +25,11 @@ class EntityDesigner : BaseDesigner<string>
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        entityModels = EntityHelper.Models.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
+        entityModels = DataHelper.Models.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
         dataTypes = string.Join(",", Cache.GetCodes(nameof(FieldType)).Select(c => c.Name));
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
-        entity = EntityHelper.GetEntity(Model);
+        entity = DataHelper.GetEntity(Model);
         Form.Entity = entity;
     }
 
@@ -107,7 +106,7 @@ class EntityDesigner : BaseDesigner<string>
     private void OnModelChanged(string model)
     {
         Model = model;
-        entity = EntityHelper.GetEntity(model);
+        entity = DataHelper.GetEntity(model);
         Form.Entity = entity;
         view?.SetModel(entity);
         OnChanged?.Invoke(model);

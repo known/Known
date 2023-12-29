@@ -326,26 +326,3 @@ CREATE TABLE `SysFlowLog` (
     `Note`        LongText      NULL
 )
 GO
-
-CREATE TABLE `SysFlowStep` (
-    `Id`            VarChar(50)   NOT NULL PRIMARY KEY,
-    `CreateBy`      VarChar(50)   NOT NULL,
-    `CreateTime`    DateTime      NOT NULL,
-    `ModifyBy`      VarChar(50)   NULL,
-    `ModifyTime`    DateTime      NULL,
-    `Version`       Long          NOT NULL,
-    `Extension`     LongText      NULL,
-    `AppId`         VarChar(50)   NOT NULL,
-    `CompNo`        VarChar(50)   NOT NULL,
-    `FlowCode`      VarChar(50)   NOT NULL,
-    `FlowName`      VarChar(50)   NOT NULL,
-    `StepCode`      VarChar(50)   NOT NULL,
-    `StepName`      VarChar(50)   NOT NULL,
-    `StepType`      VarChar(50)   NOT NULL,
-    `OperateBy`     VarChar(500)  NULL,
-    `OperateRole`   VarChar(500)  NULL,
-    `Note`          LongText      NULL,
-    `ResultData`    LongText      NULL,
-    `DesignData`    LongText      NULL
-)
-GO

@@ -11,7 +11,7 @@ class DemoPageModel : TableModel<Dictionary<string, object>>
     internal DemoPageModel(IUIService ui, SysModule module) : base(ui, module)
     {
         _info = module.Page;
-        _entity = EntityHelper.GetEntity(module.EntityData);
+        _entity = DataHelper.GetEntity(module.EntityData);
         OnQuery = OnQueryDatas;
     }
 

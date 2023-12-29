@@ -340,27 +340,3 @@ CREATE TABLE [SysFlowLog] (
     CONSTRAINT [PK_SysFlowLog] PRIMARY KEY ([Id] ASC)
 ) 
 GO
-
-CREATE TABLE [SysFlowStep] (
-    [Id]            [varchar](50)    NOT NULL,
-    [CreateBy]      [nvarchar](50)   NOT NULL,
-    [CreateTime]    [datetime]       NOT NULL,
-    [ModifyBy]      [nvarchar](50)   NULL,
-    [ModifyTime]    [datetime]       NULL,
-    [Version]       [int]            NOT NULL,
-    [Extension]     [ntext]          NULL,
-    [AppId]         [varchar](50)    NOT NULL,
-    [CompNo]        [varchar](50)    NOT NULL,
-    [FlowCode]      [varchar](50)    NOT NULL,
-    [FlowName]      [nvarchar](50)   NOT NULL,
-    [StepCode]      [varchar](50)    NOT NULL,
-    [StepName]      [nvarchar](50)   NOT NULL,
-    [StepType]      [nvarchar](50)   NOT NULL,
-    [OperateBy]     [varchar](500)   NULL,
-    [OperateRole]   [nvarchar](500)  NULL,
-    [Note]          [nvarchar](4000) NULL,
-    [ResultData]    [nvarchar](4000) NULL,
-    [DesignData]    [nvarchar](4000) NULL,
-    CONSTRAINT [PK_SysFlowStep] PRIMARY KEY ([Id] ASC)
-) 
-GO

@@ -309,25 +309,3 @@ CREATE TABLE [SysFlowLog] (
     [Result]      nvarchar(50)   NOT NULL,
     [Note]        nvarchar(1000) NULL
 );
-
-CREATE TABLE [SysFlowStep] (
-    [Id]          varchar(50)    NOT NULL PRIMARY KEY,
-    [CreateBy]    nvarchar(50)   NOT NULL,
-    [CreateTime]  datetime       NOT NULL,
-    [ModifyBy]    nvarchar(50)   NULL,
-    [ModifyTime]  datetime       NULL,
-    [Version]     int            NOT NULL,
-    [Extension]   ntext          NULL,
-    [AppId]       varchar(50)    NOT NULL,
-    [CompNo]      varchar(50)    NOT NULL,
-    [FlowCode]    nvarchar(50)   NOT NULL,
-    [FlowName]    nvarchar(50)   NOT NULL,
-    [StepCode]    nvarchar(50)   NOT NULL,
-    [StepName]    nvarchar(50)   NOT NULL,
-    [StepType]    nvarchar(50)   NOT NULL,
-    [OperateBy]   nvarchar(500)  NULL,
-    [OperateRole] nvarchar(500)  NULL,
-    [Note]        ntext          NULL,
-    [ResultData]  ntext          NULL,
-    [DesignData]  ntext          NULL
-);

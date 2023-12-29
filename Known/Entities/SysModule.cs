@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Known.WorkFlows;
 
 namespace Known.Entities;
 
@@ -104,12 +103,6 @@ public class SysModule : EntityBase
 
     public virtual string ParentName { get; set; }
     public virtual bool IsMoveUp { get; set; }
-
-    internal virtual FlowInfo Flow
-    {
-        get { return Utils.FromJson<FlowInfo>(FlowData) ?? new(); }
-        set { FlowData = Utils.ToJson(value); }
-    }
 
     internal virtual PageInfo Page
     {

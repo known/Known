@@ -19,9 +19,9 @@ class SysModuleForm : BaseForm<SysModule>
 
             var page = Model.Data.Page;
             if (page != null && page.Columns.Exists(c => c.IsViewLink))
-                return 4;
+                return 5;
 
-            return 3;
+            return 4;
         }
     }
 
@@ -66,8 +66,9 @@ class SysModuleForm : BaseForm<SysModule>
     {
         builder.Component<FlowDesigner>()
                .Set(c => c.ReadOnly, Model.IsView)
-               .Set(c => c.Model, Model.Data.Flow)
-               .Set(c => c.OnChanged, model => Model.Data.Flow = model)
+               .Set(c => c.Entity, Entity)
+               .Set(c => c.Model, Model.Data.FlowData)
+               .Set(c => c.OnChanged, model => Model.Data.FlowData = model)
                .Build();
     }
 
@@ -101,7 +102,7 @@ class SysModuleForm : BaseForm<SysModule>
             return false;
 
         await Model.SaveAsync(isClose);
-        await EntityHelper.InitializeAsync(Platform.Module);
+        await DataHelper.InitializeAsync(Platform.Module);
         return true;
     }
 

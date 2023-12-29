@@ -323,26 +323,3 @@ create table `SysFlowLog` (
     `Note`        varchar(1000) null,
     PRIMARY KEY(`Id`)
 );
-
-create table `SysFlowStep` (
-    `Id`            varchar(50)   not null,
-    `CreateBy`      varchar(50)   not null,
-    `CreateTime`    datetime      not null,
-    `ModifyBy`      varchar(50)   null,
-    `ModifyTime`    datetime      null,
-    `Version`       int           not null,
-    `Extension`     text          null,
-    `AppId`         varchar(50)   not null,
-    `CompNo`        varchar(50)   not null,
-    `FlowCode`      varchar(50)   not null,
-    `FlowName`      varchar(50)   not null,
-    `StepCode`      varchar(50)   not null,
-    `StepName`      varchar(50)   not null,
-    `StepType`      varchar(50)   not null,
-    `OperateBy`     varchar(500)  null,
-    `OperateRole`   varchar(500)  null,
-    `Note`          varchar(4000) null,
-    `ResultData`    varchar(4000) null,
-    `DesignData`    varchar(4000) null,
-    PRIMARY KEY(`Id`)
-);

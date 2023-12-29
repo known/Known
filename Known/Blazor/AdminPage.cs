@@ -23,7 +23,7 @@ public class AdminPage : BaseComponent
     protected override async Task OnInitializedAsync()
     {
         IsLoaded = false;
-        await EntityHelper.InitializeAsync(Platform.Module);
+        await DataHelper.InitializeAsync(Platform.Module);
         CurrentMenu = Config.GetHomeMenu();
         Info = await Platform.Auth.GetAdminAsync();
         UserMenus = GetUserMenus(Info?.UserMenus);

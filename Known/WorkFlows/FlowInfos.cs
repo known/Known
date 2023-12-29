@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
 
 namespace Known.WorkFlows;
 
@@ -31,16 +31,23 @@ public class FlowInfo
     public string Description { get; set; }
     public int? Width { get; set; }
     public int? Height { get; set; }
-    public List<FlowStepInfo> Steps { get; set; }
+    public List<FlowStepInfo> Steps { get; set; } = [];
 }
 
 public class FlowStepInfo
 {
+    [DisplayName("ID")]
     public string Id { get; set; }
+    [DisplayName("名称")]
     public string Name { get; set; }
-    public string Flag { get; set; }
-    public bool Round { get; set; }
-    public int X { get; set; }
-    public int Y { get; set; }
-    public string Arrow { get; set; }
+    [DisplayName("类型")]
+    public string Type { get; set; }
+    [DisplayName("操作用户")]
+    public string User { get; set; }
+    [DisplayName("操作角色")]
+    public string Role { get; set; }
+    [DisplayName("通过状态")]
+    public string Pass { get; set; }
+    [DisplayName("退回状态")]
+    public string Fail { get; set; }
 }

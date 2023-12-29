@@ -323,26 +323,3 @@ create table SysFlowLog(
     Note        varchar2(1000) null
 );
 alter table SysFlowLog add constraint PK_SysFlowLog primary key(Id);
-
-create table SysFlowStep(
-    Id            varchar2(50)   not null,
-    CreateBy      varchar2(50)   not null,
-    CreateTime    date           not null,
-    ModifyBy      varchar2(50)   null,
-    ModifyTime    date           null,
-    Version       number(8)      not null,
-    Extension     varchar2(4000) null,
-    AppId         varchar2(50)   not null,
-    CompNo        varchar2(50)   not null,
-    FlowCode      varchar2(50)   not null,
-    FlowName      varchar2(50)   not null,
-    StepCode      varchar2(50)   not null,
-    StepName      varchar2(50)   not null,
-    StepType      varchar2(50)   not null,
-    OperateBy     varchar2(500)   null,
-    OperateRole   varchar2(500)   null,
-    Note          varchar2(4000)  null,
-    ResultData    varchar2(4000)  null,
-    DesignData    varchar2(4000) null
-);
-alter table SysFlowStep add constraint PK_SysFlowStep primary key(Id);
