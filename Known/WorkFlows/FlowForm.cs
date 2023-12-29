@@ -1,4 +1,5 @@
 ﻿using Known.Blazor;
+using Known.Designers;
 using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -11,7 +12,6 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
     private readonly StepModel step = new();
     private readonly TabModel tab = new();
 
-    protected List<ItemModel> Steps { get; } = [];
     protected List<ItemModel> Tabs { get; } = [];
 
     protected override async Task OnInitFormAsync()
@@ -20,8 +20,10 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
 
         var logs = await Platform.Flow.GetFlowLogsAsync(Model.Data.Id);
         step.Items.Clear();
-        if (Steps.Count > 0)
-            step.Items.AddRange(Steps);
+        var flow = DataHelper.GetFlow(Model.Table?.Module?.FlowData);
+        var steps = flow.GetFlowStepItems();
+        if (steps != null && steps.Count > 0)
+            step.Items.AddRange(steps);
         step.Current = GetCurrentStep(logs);
 
         tab.Items.Clear();

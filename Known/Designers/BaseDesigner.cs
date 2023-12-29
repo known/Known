@@ -7,6 +7,8 @@ namespace Known.Designers;
 
 class BaseDesigner<TModel> : BaseComponent
 {
+    [CascadingParameter] internal SysModuleForm Form { get; set; }
+
     [Parameter] public EntityInfo Entity { get; set; }
     [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }

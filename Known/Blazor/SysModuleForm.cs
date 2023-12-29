@@ -1,6 +1,7 @@
 ﻿using Known.Designers;
 using Known.Entities;
 using Known.Extensions;
+using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
@@ -26,6 +27,7 @@ class SysModuleForm : BaseForm<SysModule>
     }
 
     internal EntityInfo Entity { get; set; }
+    internal FlowInfo Flow { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
@@ -91,6 +93,7 @@ class SysModuleForm : BaseForm<SysModule>
         builder.Component<FormDesigner>()
                .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.Entity, Entity)
+               .Set(c => c.Flow, Flow)
                .Set(c => c.Model, Model.Data.Form)
                .Set(c => c.OnChanged, model => Model.Data.Form = model)
                .Build();

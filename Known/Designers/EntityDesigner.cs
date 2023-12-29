@@ -1,6 +1,5 @@
 ﻿using Known.Blazor;
 using Known.Extensions;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
@@ -19,8 +18,6 @@ class EntityDesigner : BaseDesigner<string>
     private EntityView view;
 
     private bool IsNew => addType == addTypes[0].Code;
-
-    [CascadingParameter] private SysModuleForm Form { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

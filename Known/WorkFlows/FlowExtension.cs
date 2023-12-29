@@ -5,6 +5,14 @@ namespace Known.WorkFlows;
 
 public static class FlowExtension
 {
+    internal static List<ItemModel> GetFlowStepItems(this FlowInfo info)
+    {
+        if (info == null || info.Steps == null || info.Steps.Count == 0)
+            return null;
+
+        return info.Steps.Select(s => new ItemModel(s.Name)).ToList();
+    }
+
     public static List<ActionInfo> GetFlowRowActions<TItem>(this TableModel<TItem> table, TItem row) where TItem : FlowEntity, new()
     {
         var actions = new List<ActionInfo>();
@@ -19,6 +27,7 @@ public static class FlowExtension
         return actions;
     }
 
+    #region FlowAction
     public static void SubmitFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new()
     {
         page.ViewForm(FormType.Submit, row);
@@ -90,4 +99,5 @@ public static class FlowExtension
         };
         page.UI.ShowDialog(model);
     }
+    #endregion
 }

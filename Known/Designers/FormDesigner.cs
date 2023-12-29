@@ -1,4 +1,6 @@
 ﻿using Known.Extensions;
+using Known.WorkFlows;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
@@ -7,6 +9,8 @@ class FormDesigner : BaseViewDesigner<FormInfo>
 {
     private FormProperty property;
     private FormFieldInfo current;
+
+    [Parameter] public FlowInfo Flow { get; set; }
 
     protected override void OnInitialized()
     {
@@ -19,6 +23,7 @@ class FormDesigner : BaseViewDesigner<FormInfo>
     {
         builder.Component<FormView>()
                .Set(c => c.ReadOnly, ReadOnly)
+               .Set(c => c.Flow, Flow)
                .Set(c => c.Model, Model)
                .Set(c => c.OnChanged, OnChanged)
                .Build(value => view = value);

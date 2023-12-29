@@ -27,6 +27,7 @@ class FlowDesigner : BaseDesigner<string>
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
         flow = DataHelper.GetFlow(Model);
+        Form.Flow = flow;
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -82,10 +83,10 @@ class FlowDesigner : BaseDesigner<string>
         builder.Markup($@"<pre><b>说明：</b>
 流程：名称|代码
 步骤：名称|代码|类型|默认操作用户|默认操作角色|通过状态|退回状态
-类型：开始,审核,结束
+类型：开始,提交,审核,结束
 <b>示例：</b>
 测试|TestFlow
-申请|Apply|开始|||待审核
+申请|Apply|提交|||待审核
 审核|Verify|审核||审核人|审核通过|审核退回
 结束|End|结束</pre>");
         UI.BuildTextArea(builder, new InputModel<string>
@@ -103,6 +104,7 @@ class FlowDesigner : BaseDesigner<string>
     {
         Model = model;
         flow = DataHelper.GetFlow(model);
+        Form.Flow = flow;
         view?.SetModel(flow);
         OnChanged?.Invoke(model);
     }

@@ -1,5 +1,7 @@
 ﻿using Known.Blazor;
 using Known.Extensions;
+using Known.WorkFlows;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Designers;
@@ -9,6 +11,8 @@ class FormView : BaseView<FormInfo>
     private FormModel<Dictionary<string, object>> form;
     private readonly TableModel<FormFieldInfo> list = new();
     private readonly TabModel tab = new();
+
+    [Parameter] public FlowInfo Flow { get; set; }
 
     protected override void OnInitialized()
     {
@@ -36,7 +40,17 @@ class FormView : BaseView<FormInfo>
 
     private void BuildView(RenderTreeBuilder builder)
     {
-        builder.Div("view", () => UI.BuildForm(builder, form));
+        builder.Div("view", () =>
+        {
+            var steps = Flow?.GetFlowStepItems();
+            if (steps != null && steps.Count > 0)
+            {
+                var step = new StepModel();
+                step.Items.AddRange(steps);
+                UI.BuildSteps(builder, step);
+            }
+            UI.BuildForm(builder, form);
+        });
         builder.Div("setting", () => UI.BuildTabs(builder, tab));
     }
 

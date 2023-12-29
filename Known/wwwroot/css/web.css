@@ -154,5 +154,6 @@
 /*AntDesign*/
 .kui-designer.entity .panel-view .ant-tabs-content-holder {padding-left:10px;}
 .kui-designer .panel-view .setting .ant-tabs-content-holder {padding:0 10px;}
+.kui-designer .panel-view .ant-steps {padding:0 30px 10px 30px;}
 .kui-designer .panel-property .item .ant-switch {width:44px;}
 /*----Designer end----*/
