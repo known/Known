@@ -5,37 +5,7 @@
     {
         <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible Theme="ThemeSider">
             <div class="kui-logo" />
-            <Menu Theme="ThemeMenu" Mode="MenuMode.Inline" Accordion="Context.UserSetting.Accordion">
-                @if (UserMenus != null)
-                {
-                    foreach (var item in UserMenus)
-                    {
-                        if (item.Children != null && item.Children.Count > 0)
-                        {
-                            RenderFragment subTitle = @<span>
-                                <Icon Type="@item.Icon" Theme="outline" />
-                                <span>@item.Name</span>
-                            </span>;
-                            <SubMenu Key="@item.Id" TitleTemplate=subTitle>
-                                @foreach (var child in item.Children)
-                                {
-                                    <MenuItem Key="@child.Id" OnClick="e=>Context.Navigate(child)">
-                                        <Icon Type="@child.Icon" Theme="outline" />
-                                        <span>@child.Name</span>
-                                    </MenuItem>
-                                }
-                            </SubMenu>
-                        }
-                        else
-                        {
-                            <MenuItem Key="@item.Id" OnClick="e=>Context.Navigate(item)">
-                                <Icon Type="@item.Icon" Theme="outline" />
-                                <span>@item.Name</span>
-                            </MenuItem>
-                        }
-                    }
-                }
-            </Menu>
+            <AntMenu Theme="ThemeMenu" Accordion="Context.UserSetting.Accordion" Items="UserMenus" OnClick="e=>Context.Navigate(e)" />
         </Sider>
         <Layout>
             <Header Class="kui-background kui-header">
