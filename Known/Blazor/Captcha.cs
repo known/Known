@@ -7,9 +7,8 @@ namespace Known.Blazor;
 public class CaptchaOption
 {
     public string ImgUrl { get; set; }
-    public bool IsSMS { get; set; }
-    public int SMSTimeout { get; set; }
-    public Func<Task> SMSAction { get; set; }
+    public int SMSCount { get; set; }
+    public Func<Task<Result>> SMSAction { get; set; }
 }
 
 public class Captcha : BaseComponent
@@ -18,11 +17,13 @@ public class Captcha : BaseComponent
     private readonly string id;
     private System.Timers.Timer timer;
     private string smsText = "获取验证码";
-    private int smsCounter;
+    private int smsCount;
     private string code;
     private string lastCode;
 
-    private bool IsLocalImage => Option == null || (!Option.IsSMS && string.IsNullOrWhiteSpace(Option.ImgUrl));
+    private bool IsSMS => Option != null && Option.SMSCount > 0;
+    private bool IsRemoteImage => Option != null && !string.IsNullOrWhiteSpace(Option.ImgUrl);
+    private bool IsLocalImage => !IsSMS && !IsRemoteImage;
 
     public Captcha()
     {
@@ -47,9 +48,9 @@ public class Captcha : BaseComponent
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        if (Option != null && Option.IsSMS)
+        if (IsSMS)
         {
-            smsCounter = Option.SMSTimeout;
+            smsCount = Option.SMSCount;
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += Timer_Elapsed;
         }
@@ -57,9 +58,9 @@ public class Captcha : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (Option != null && Option.IsSMS)
+        if (IsSMS)
             BuildSMS(builder);
-        else if (Option != null && !string.IsNullOrWhiteSpace(Option.ImgUrl))
+        else if (IsRemoteImage)
             BuildImage(builder);
         else
             BuildCanvas(builder);
@@ -88,7 +89,7 @@ public class Captcha : BaseComponent
 
     private void BuildImage(RenderTreeBuilder builder)
     {
-        builder.Image().Src(Option.ImgUrl).Title(title).OnClick("this.src=this.src;").Close();
+        builder.Image().Src(Option.ImgUrl).Title(title).OnClick("this.src=this.src.split('?')[0]+'?t='+Math.random();").Close();
     }
 
     private void BuildCanvas(RenderTreeBuilder builder)
@@ -98,14 +99,14 @@ public class Captcha : BaseComponent
 
     private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
     {
-        if (smsCounter > 0)
+        if (smsCount > 0)
         {
-            smsCounter--;
-            smsText = $"{smsCounter}秒后重新获取";
+            smsCount--;
+            smsText = $"{smsCount}秒后重新获取";
         }
         else
         {
-            smsCounter = Option.SMSTimeout;
+            smsCount = Option.SMSCount;
             timer.Enabled = false;
             smsText = "获取验证码";
         }
@@ -114,15 +115,18 @@ public class Captcha : BaseComponent
 
     private async void SendSMSCode()
     {
-        if (smsCounter < Option.SMSTimeout)
+        if (smsCount < Option.SMSCount)
             return;
 
-        if (Option.SMSAction != null)
-            await Option.SMSAction.Invoke();
+        if (Option.SMSAction == null)
+            return;
 
-        UI.Toast("获取成功！");
-        smsCounter = Option.SMSTimeout;
-        timer.Enabled = true;
+        var result = await Option.SMSAction.Invoke();
+        UI.Result(result, () =>
+        {
+            smsCount = Option.SMSCount;
+            timer.Enabled = true;
+        });
     }
 
     private void CreateCode() => code = Utils.GetCaptcha(4);

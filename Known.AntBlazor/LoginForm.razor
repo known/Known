@@ -12,7 +12,7 @@
         </InputPassword>
     </FormItem>
     <FormItem Label="">
-        <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="验证码">
+        <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="验证码" Option="option">
             <Prefix><Icon Type="check" /></Prefix>
         </AntCaptcha>
     </FormItem>
@@ -26,9 +26,20 @@
 
 @code {
     private AntCaptcha captcha;
+    private CaptchaOption option = new CaptchaOption { SMSCount = 60 };
 
     [Parameter] public LoginFormInfo Model { get; set; }
     [Parameter] public EventCallback<EditContext> OnLogin { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        option.SMSAction = () =>
+        {
+            var result = Known.Result.Success($"发送{Model.UserName}");
+            return Task.FromResult(result);
+        };
+    }
 
     private async void OnUserLogin()
     {
