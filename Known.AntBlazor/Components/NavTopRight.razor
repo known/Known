@@ -11,6 +11,20 @@
         <Dropdown>
             <Overlay>
                 <Menu>
+                    <MenuItem @key="0" OnClick="@(e=>OnLanguageChanged("zh-CN"))">简体中文</MenuItem>
+                    <MenuItem @key="1" OnClick="@(e=>OnLanguageChanged("zh-TW"))">繁体中文</MenuItem>
+                    <MenuItem @key="2" OnClick="@(e=>OnLanguageChanged("en-US"))">English</MenuItem>
+                </Menu>
+            </Overlay>
+            <ChildContent>
+                <Icon Type="global" Theme="outline" />
+            </ChildContent>
+        </Dropdown>
+    </SpaceItem>
+    <SpaceItem>
+        <Dropdown>
+            <Overlay>
+                <Menu>
                     <MenuItem @key="0" OnClick="@(e=>OnItemClick("profile"))">
                         <Icon Type="user" Theme="outline" />
                         <span>个人中心</span>
@@ -29,7 +43,7 @@
         </Dropdown>
     </SpaceItem>
     <SpaceItem>
-        <Tooltip Title="系统设置"><Icon Type="more" OnClick="@(e=>showSetting=true)" /></Tooltip>
+        <Tooltip Title="系统设置"><Icon Type="setting" OnClick="@(e=>showSetting=true)" /></Tooltip>
     </SpaceItem>
 </Space>
 
@@ -45,6 +59,7 @@
 
     [Parameter] public Action<string> OnMenuClick { get; set; }
 
+    private void OnLanguageChanged(string id) { }
     private void OnItemClick(string id) => OnMenuClick?.Invoke(id);
 
     private void OnFullScreen()
