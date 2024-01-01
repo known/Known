@@ -13,7 +13,7 @@ html, body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
 .login-logo {display:flex;}
 .login-logo img {width:180px;height:50px;}
 .login-logo div, .login-head ul {margin:0;padding:0;padding-top:13px;}
-.login-head ul li {list-style:none;}
+.login-head ul li {list-style:none;display:inline-block;margin-left:10px;}
 .login-head ul li a {color:#666;}
 .login-body {background:linear-gradient(135deg, #6da0f5, #c0e9fc);height:500px;padding:0 200px;display:grid;grid-template-columns:auto 430px;}
 .login-left {padding:60px 100px;}

@@ -2,7 +2,7 @@
 
 <Tabs Animated>
     <TabPane Key="1" Tab="用户名登录">
-        <Form Model="@Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange>
+        <Form Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange>
             <FormItem Label="">
                 <Input @bind-Value="@context.UserName" Placeholder="用户名">
                 <Prefix><Icon Type="user" /></Prefix>
@@ -14,7 +14,7 @@
                 </InputPassword>
             </FormItem>
             <FormItem Label="">
-                <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="验证码">
+                <AntCaptcha @ref="userCaptcha" @bind-Value="@context.Captcha" Placeholder="验证码">
                     <Prefix><Icon Type="check" /></Prefix>
                 </AntCaptcha>
             </FormItem>
@@ -27,7 +27,7 @@
         </Form>
     </TabPane>
     <TabPane Key="2" Tab="手机号登录">
-        <Form @ref="form" Model="@Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange>
+        <Form @ref="form" Model="phone" OnFinish="OnPhoneLogin" LabelCol="null" ValidateOnChange>
             <FormItem Label="">
                 <Input @bind-Value="@context.PhoneNo" Placeholder="手机号">
                 <Prefix><Icon Type="phone" /></Prefix>
@@ -39,7 +39,7 @@
                 </AntCaptcha>
             </FormItem>
             <FormItem Label="">
-                <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="验证码">
+                <AntCaptcha @ref="phoneCaptcha" @bind-Value="@context.Captcha" Placeholder="验证码">
                     <Prefix><Icon Type="check" /></Prefix>
                 </AntCaptcha>
             </FormItem>
@@ -55,8 +55,9 @@
 
 @code {
     private AntDesign.Internal.IForm form;
-    private AntCaptcha captcha;
+    private AntCaptcha userCaptcha;
     private AntCaptcha phoneCaptcha;
+    private LoginPhoneInfo phone = new();
     private CaptchaOption option = new CaptchaOption { SMSCount = 60 };
 
     [Parameter] public LoginFormInfo Model { get; set; }
@@ -70,7 +71,7 @@
             if (!form.Validate())
                 return Known.Result.ErrorAsync("");
 
-            if (!captcha.Validate(out string message))
+            if (!phoneCaptcha.Validate(out string message))
                 return Known.Result.ErrorAsync(message);
 
             return Known.Result.SuccessAsync("测试成功！");
@@ -79,7 +80,7 @@
 
     private async void OnUserLogin()
     {
-        if (!captcha.Validate(out string message))
+        if (!userCaptcha.Validate(out string message))
         {
             UI.Toast(message, StyleType.Error);
             return;
@@ -87,4 +88,6 @@
 
         await OnLogin.InvokeAsync();
     }
+
+    private void OnPhoneLogin() { }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Extensions;
 
@@ -33,6 +34,12 @@ public static class ElementExtension
     public static RenderTreeBuilder Style(this RenderTreeBuilder builder, string style) => builder.Attribute("style", style);
     public static RenderTreeBuilder Src(this RenderTreeBuilder builder, string src) => builder.Attribute("src", src);
     public static RenderTreeBuilder OnClick(this RenderTreeBuilder builder, object onclick) => builder.Attribute("onclick", onclick, true);
+
+    public static RenderTreeBuilder PreventDefault(this RenderTreeBuilder builder)
+    {
+        builder.AddEventPreventDefaultAttribute(1, "onclick", value: true);
+        return builder;
+    }
 
     public static RenderTreeBuilder Children(this RenderTreeBuilder builder, Action child)
     {

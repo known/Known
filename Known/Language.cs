@@ -1,7 +1,14 @@
 ﻿namespace Known;
 
-static class Language
+public static class Language
 {
+    public static List<ActionInfo> Items =
+    [
+        new ActionInfo { Id = "zh-CN", Name = "简体中文" },
+        new ActionInfo { Id = "zh-TW", Name = "繁体中文" },
+        new ActionInfo { Id = "en-US", Name = "English" }
+    ];
+
     public static string Format(this string format, params object[] args) => string.Format(format, args);
 
     //Respose

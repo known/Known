@@ -8,6 +8,9 @@
         </div>
         <ul>
             <li><a href="http://known.pumantech.com/doc" target="_blank">文档</a></li>
+            <li>
+                <AntDropdown Icon="global" Text="@language.Name" Items="Language.Items" OnItemClick="e=>OnLanguageChanged(e)" />
+            </li>
         </ul>
     </div>
     <div class="login-body">
@@ -39,6 +42,7 @@
 </div>
 
 @code {
+    private ActionInfo language = Language.Items[0];
     private string[] uiTypes = [
         UIType.AntDesign.ToString(),
         UIType.Bootstrap.ToString()
@@ -51,6 +55,12 @@
         base.OnInitialized();
         Model.UserName = "Admin";
         Model.Password = "888888";
+    }
+
+    private void OnLanguageChanged(ActionInfo item)
+    {
+        language = item;
+        StateChanged();
     }
 
     private void OnUIChanged(string item)

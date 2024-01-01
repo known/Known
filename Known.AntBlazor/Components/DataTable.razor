@@ -24,21 +24,9 @@
                 @if (actions.Count > 2)
                 {
                     var first = actions[0];
+                    var mores = actions.Skip(1).ToList();
                     <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Model.OnAction?.Invoke(first, context)">@first.Name</Tag>
-                    <Dropdown>
-                        <Overlay>
-                            <Menu>
-                                @for (int i = 1; i < actions.Count; i++)
-                                {
-                                    var item = actions[i];
-                                    <MenuItem @key="@item.Id" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</MenuItem>
-                                }
-                            </Menu>
-                        </Overlay>
-                        <ChildContent>
-                            <a class="ant-dropdown-link" @onclick:preventDefault>更多<Icon Type="down" /></a>
-                        </ChildContent>
-                    </Dropdown>
+                    <AntDropdown Text="更多" Items="mores" OnItemClick="e=>Model.OnAction?.Invoke(e, context)" />
                 }
                 else
                 {

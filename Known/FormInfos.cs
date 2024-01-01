@@ -22,6 +22,15 @@ public class LoginFormInfo
     [Required(ErrorMessage = "请输入验证码！")]
     public string Captcha { get; set; }
 
+    [Form]
+    [DisplayName("记住用户名")]
+    public bool Remember { get; set; }
+    public bool IsMobile { get; set; }
+    public string IPAddress { get; set; }
+}
+
+public class LoginPhoneInfo
+{
     [Form(Placeholder = "手机号")]
     [DisplayName("<i class=\"fa fa-phone\" />")]
     [Required(ErrorMessage = "请输入手机号！")]
@@ -32,11 +41,14 @@ public class LoginFormInfo
     //[Required(ErrorMessage = "请输入手机验证码！")]
     public string PhoneCode { get; set; }
 
+    [Form(Placeholder = "验证码")]
+    [DisplayName("<i class=\"fa fa-check\" />")]
+    [Required(ErrorMessage = "请输入验证码！")]
+    public string Captcha { get; set; }
+
     [Form]
-    [DisplayName("记住用户名")]
+    [DisplayName("记住手机号")]
     public bool Remember { get; set; }
-    public bool IsMobile { get; set; }
-    public string IPAddress { get; set; }
 }
 
 public class PwdFormInfo
