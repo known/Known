@@ -1,31 +1,62 @@
 ﻿@inherits BaseComponent
 
-<Form Model="@Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange>
-    <FormItem Label="">
-        <Input @bind-Value="@context.UserName" Placeholder="用户名">
-            <Prefix><Icon Type="user" /></Prefix>
-        </Input>
-    </FormItem>
-    <FormItem Label="">
-        <InputPassword @bind-Value="@context.Password" Placeholder="密码">
-            <Prefix><Icon Type="lock" /></Prefix>
-        </InputPassword>
-    </FormItem>
-    <FormItem Label="">
-        <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="验证码" Option="option">
-            <Prefix><Icon Type="check" /></Prefix>
-        </AntCaptcha>
-    </FormItem>
-    <FormItem>
-        <Switch @bind-Checked="@context.Remember" /> 记住用户名
-    </FormItem>
-    <FormItem>
-        <Button Type="@ButtonType.Primary" HtmlType="submit" Block>登 录</Button>
-    </FormItem>
-</Form>
+<Tabs Animated>
+    <TabPane Key="1" Tab="用户名登录">
+        <Form Model="@Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange>
+            <FormItem Label="">
+                <Input @bind-Value="@context.UserName" Placeholder="用户名">
+                <Prefix><Icon Type="user" /></Prefix>
+                </Input>
+            </FormItem>
+            <FormItem Label="">
+                <InputPassword @bind-Value="@context.Password" Placeholder="密码">
+                    <Prefix><Icon Type="lock" /></Prefix>
+                </InputPassword>
+            </FormItem>
+            <FormItem Label="">
+                <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="验证码">
+                    <Prefix><Icon Type="check" /></Prefix>
+                </AntCaptcha>
+            </FormItem>
+            <FormItem>
+                <Switch @bind-Checked="@context.Remember" /> 记住用户名
+            </FormItem>
+            <FormItem>
+                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>登 录</Button>
+            </FormItem>
+        </Form>
+    </TabPane>
+    <TabPane Key="2" Tab="手机号登录">
+        <Form @ref="form" Model="@Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange>
+            <FormItem Label="">
+                <Input @bind-Value="@context.PhoneNo" Placeholder="手机号">
+                <Prefix><Icon Type="phone" /></Prefix>
+                </Input>
+            </FormItem>
+            <FormItem Label="">
+                <AntCaptcha @bind-Value="@context.PhoneCode" Placeholder="手机验证码" Option="option">
+                    <Prefix><Icon Type="lock" /></Prefix>
+                </AntCaptcha>
+            </FormItem>
+            <FormItem Label="">
+                <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="验证码">
+                    <Prefix><Icon Type="check" /></Prefix>
+                </AntCaptcha>
+            </FormItem>
+            <FormItem>
+                <Switch @bind-Checked="@context.Remember" /> 记住手机号
+            </FormItem>
+            <FormItem>
+                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>登 录</Button>
+            </FormItem>
+        </Form>
+    </TabPane>
+</Tabs>
 
 @code {
+    private AntDesign.Internal.IForm form;
     private AntCaptcha captcha;
+    private AntCaptcha phoneCaptcha;
     private CaptchaOption option = new CaptchaOption { SMSCount = 60 };
 
     [Parameter] public LoginFormInfo Model { get; set; }
@@ -36,8 +67,13 @@
         await base.OnInitializedAsync();
         option.SMSAction = () =>
         {
-            var result = Known.Result.Success($"发送{Model.UserName}");
-            return Task.FromResult(result);
+            if (!form.Validate())
+                return Known.Result.ErrorAsync("");
+
+            if (!captcha.Validate(out string message))
+                return Known.Result.ErrorAsync(message);
+
+            return Known.Result.SuccessAsync("测试成功！");
         };
     }
 

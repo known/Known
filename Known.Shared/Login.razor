@@ -24,7 +24,6 @@
                 <Tooltip Title="在此处切换界面类型" Style="position:absolute;top:0;right:0;">
                     <Segmented TValue="string" Value="Index.UIType.ToString()" Labels="uiTypes" OnChange="OnUIChanged" />
                 </Tooltip>
-                <h1>用户登录</h1>
                 @if (Index.UIType == UIType.AntDesign)
                 {
                     <Known.AntBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" />

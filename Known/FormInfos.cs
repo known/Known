@@ -11,7 +11,7 @@ public class LoginFormInfo
     [DisplayName("<i class=\"fa fa-user\" />")]
     [Required(ErrorMessage = "请输入用户名！")]
     public string UserName { get; set; }
-    
+
     [Form(Placeholder = "密码", Type = "Password")]
     [DisplayName("<i class=\"fa fa-lock\" />")]
     [Required(ErrorMessage = "请输入密码！")]
@@ -21,6 +21,16 @@ public class LoginFormInfo
     [DisplayName("<i class=\"fa fa-check\" />")]
     [Required(ErrorMessage = "请输入验证码！")]
     public string Captcha { get; set; }
+
+    [Form(Placeholder = "手机号")]
+    [DisplayName("<i class=\"fa fa-phone\" />")]
+    [Required(ErrorMessage = "请输入手机号！")]
+    public string PhoneNo { get; set; }
+
+    [Form(Placeholder = "手机验证码")]
+    [DisplayName("<i class=\"fa fa-lock\" />")]
+    //[Required(ErrorMessage = "请输入手机验证码！")]
+    public string PhoneCode { get; set; }
 
     [Form]
     [DisplayName("记住用户名")]

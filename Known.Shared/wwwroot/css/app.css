@@ -23,10 +23,10 @@ html, body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
 .login-left {color:#fff;font-size:1.5rem;font-weight:bold;}
 .login-left img {width:350px;}
 .login-form {padding:70px 0 50px 50px;}
-.login-form h1 {font-size:1.2rem;margin-bottom:1rem;}
+.login-form h1 {font-size:1.2rem;margin-top:1rem;margin-bottom:1rem;}
 .login-form .ant-input-affix-wrapper > .ant-input:not(textarea) {padding-left:10px;}
 .login-form .boot-row .fa {padding-top:10px;width:38px;}
-.login-form-body {position:relative;background-color:#fff;border-radius:5px;padding:20px 30px;height:360px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);}
+.login-form-body {position:relative;background-color:#fff;border-radius:5px;padding:20px 30px;height:370px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);}
 .login-copyright {text-align:center;width:100%;font-size:1.1rem;margin-top:30px;}
 .login-copyright span {margin:0 5px;}
 
