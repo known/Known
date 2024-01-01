@@ -1,5 +1,6 @@
 ﻿using Known.Blazor;
 using Known.Extensions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.AntBlazor.Components;
@@ -7,6 +8,8 @@ namespace Known.AntBlazor.Components;
 public class AntLanguage : BaseComponent
 {
     private ActionInfo current;
+
+    [Parameter] public Action OnChanged { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -28,6 +31,6 @@ public class AntLanguage : BaseComponent
     {
         current = info;
         Context.SetCurrentLanguage(JS, current.Id);
-        StateChanged();
+        OnChanged?.Invoke();
     }
 }

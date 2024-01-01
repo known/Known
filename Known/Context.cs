@@ -6,6 +6,7 @@ namespace Known;
 public class Context
 {
     private MenuItem current;
+    private Dictionary<string, string> language;
 
     internal static Action<MenuItem> OnNavigate { get; set; }
     internal static Action OnRefreshPage { get; set; }
@@ -17,8 +18,18 @@ public class Context
     public List<MenuInfo> UserMenus { get; internal set; }
     public string CurrentLanguage { get; internal set; }
 
+    public Dictionary<string, string> Language
+    {
+        get
+        {
+            language ??= Known.Language.GetLanguages(CurrentLanguage);
+            return language;
+        }
+    }
+
     public void SetCurrentLanguage(JSService service, string language)
     {
+        this.language = Known.Language.GetLanguages(language);
         CurrentLanguage = language;
         service.SetCurrentLanguage(language);
     }

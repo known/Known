@@ -11,6 +11,52 @@ public static class Language
 
     public static ActionInfo GetLanguage(string language) => Items.FirstOrDefault(l => l.Id == language);
 
+    public static Dictionary<string,string> GetLanguages(string language)
+    {
+        if (language == "en-US")
+        {
+            return new Dictionary<string, string>
+            {
+                { "App.SubTitle", "A Rapid Development Framework Based on Blazor" },
+                { "Document", "Document" },
+                { "OpenSource", "Open Source" },
+                { "LowCode", "Low code" },
+                { "ModernUI", "Modern UI" },
+                { "Tip.SwitchUIType", "Switch interface types here" },
+                { "Login.WithAccount", "With Account" },
+                { "Login.WithPhone", "With Phone" },
+                { "UserName", "User Name" }
+            };
+        }
+        else if (language == "zh-TW")
+        {
+            return new Dictionary<string, string>
+            {
+                { "App.SubTitle", "基於Blazor的快速開發框架" },
+                { "Document", "檔案" },
+                { "OpenSource", "開源" },
+                { "LowCode", "低程式碼" },
+                { "ModernUI", "現代UI" },
+                { "Tip.SwitchUIType", "在此處切換介面類型" },
+                { "Login.WithAccount", "用戶名登入" },
+                { "Login.WithPhone", "手機號登入" },
+                { "UserName", "用戶名" }
+            };
+        }
+        return new Dictionary<string, string>
+        {
+            { "App.SubTitle", "基于Blazor的快速开发框架" },
+            { "Document", "文档" },
+            { "OpenSource", "开源" },
+            { "LowCode", "低代码" },
+            { "ModernUI", "现代UI" },
+            { "Tip.SwitchUIType", "在此处切换界面类型" },
+            { "Login.WithAccount", "用户名登录" },
+            { "Login.WithPhone", "手机号登录" },
+            { "UserName", "用户名" }
+        };
+    }
+
     public static string Format(this string format, params object[] args) => string.Format(format, args);
 
     //Respose

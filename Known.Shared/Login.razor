@@ -4,25 +4,25 @@
     <div class="login-head">
         <div class="login-logo">
             <img src="img/logo1.png" />
-            <div>@AppConfig.SubTitle</div>
+            <div>@Context.Language["App.SubTitle"]</div>
         </div>
         <ul>
-            <li><a href="http://known.pumantech.com/doc" target="_blank">文档</a></li>
-            <li style="width:30px;text-align:center;"><AntLanguage /></li>
+            <li><a href="http://known.pumantech.com/doc" target="_blank">@Context.Language["Document"]</a></li>
+            <li style="width:30px;text-align:center;"><AntLanguage OnChanged="StateChanged" /></li>
         </ul>
     </div>
     <div class="login-body">
         <div class="login-left">
             <ul>
-                <li>开源</li>
-                <li>低代码</li>
-                <li>现代UI</li>
+                <li>@Context.Language["OpenSource"]</li>
+                <li>@Context.Language["LowCode"]</li>
+                <li>@Context.Language["ModernUI"]</li>
             </ul>
             <img src="_content/Known.Shared/img/login.png" />
         </div>
         <div class="login-form">
             <div class="login-form-body">
-                <Tooltip Title="在此处切换界面类型" Style="position:absolute;top:0;right:0;">
+                <Tooltip Title="@Context.Language["Tip.SwitchUIType"]" Style="position:absolute;top:0;right:0;">
                     <Segmented TValue="string" Value="Index.UIType.ToString()" Labels="uiTypes" OnChange="OnUIChanged" />
                 </Tooltip>
                 @if (Index.UIType == UIType.AntDesign)

@@ -1,10 +1,10 @@
 ﻿@inherits BaseComponent
 
 <Tabs Animated>
-    <TabPane Key="1" Tab="用户名登录">
+    <TabPane Key="1" Tab="@Context.Language["Login.WithAccount"]">
         <Form Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange>
             <FormItem Label="">
-                <Input @bind-Value="@context.UserName" Placeholder="用户名">
+                <Input @bind-Value="@context.UserName" Placeholder="@Context.Language["UserName"]">
                 <Prefix><Icon Type="user" /></Prefix>
                 </Input>
             </FormItem>
@@ -26,7 +26,7 @@
             </FormItem>
         </Form>
     </TabPane>
-    <TabPane Key="2" Tab="手机号登录">
+    <TabPane Key="2" Tab="@Context.Language["Login.WithPhone"]">
         <Form @ref="form" Model="phone" OnFinish="OnPhoneLogin" LabelCol="null" ValidateOnChange>
             <FormItem Label="">
                 <Input @bind-Value="@context.PhoneNo" Placeholder="手机号">
