@@ -2,12 +2,14 @@
 
 public static class Language
 {
-    public static List<ActionInfo> Items =
+    public static List<ActionInfo> Items =>
     [
-        new ActionInfo { Id = "zh-CN", Name = "简体中文" },
-        new ActionInfo { Id = "zh-TW", Name = "繁体中文" },
-        new ActionInfo { Id = "en-US", Name = "English" }
+        new ActionInfo { Id = "zh-CN", Name = "简体中文", Icon = "简" },
+        new ActionInfo { Id = "zh-TW", Name = "繁体中文", Icon = "繁" },
+        new ActionInfo { Id = "en-US", Name = "English", Icon = "EN" }
     ];
+
+    public static ActionInfo GetLanguage(string language) => Items.FirstOrDefault(l => l.Id == language);
 
     public static string Format(this string format, params object[] args) => string.Format(format, args);
 

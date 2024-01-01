@@ -1,4 +1,5 @@
 ﻿using Known.Blazor;
+using Known.Extensions;
 
 namespace Known;
 
@@ -14,6 +15,13 @@ public class Context
     public UserInfo CurrentUser { get; internal set; }
     public SettingInfo UserSetting { get; internal set; }
     public List<MenuInfo> UserMenus { get; internal set; }
+    public string CurrentLanguage { get; internal set; }
+
+    public void SetCurrentLanguage(JSService service, string language)
+    {
+        CurrentLanguage = language;
+        service.SetCurrentLanguage(language);
+    }
 
     public void Back()
     {

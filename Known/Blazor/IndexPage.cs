@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Known.Extensions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Known.Blazor;
@@ -13,6 +14,7 @@ public class IndexPage : BaseComponent
     protected override async Task OnInitializedAsync()
     {
         IsLoaded = false;
+        Context.CurrentLanguage = await JS.GetCurrentLanguage();
         Context.Install = await Platform.System.GetInstallAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
         IsLogin = Context.CurrentUser != null;
