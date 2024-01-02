@@ -10,7 +10,7 @@ namespace Known.Demo.Pages.BizApply;
 //业务申请列表
 class BaApplyList : BaseTablePage<TbApply>
 {
-    private ApplyService Service => new() { CurrentUser = CurrentUser };
+    private ApplyService Service => new() { Context = Context };
 
     protected override async Task OnInitPageAsync()
     {

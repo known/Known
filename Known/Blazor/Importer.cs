@@ -14,6 +14,8 @@ class Importer : BaseComponent
     private string message;
     private IAttachFile attach;
 
+    private string ErrorMessage => Context.Language["Import.Error"];
+
     [Parameter] public ImportFormInfo Model { get; set; }
     [Parameter] public Action OnSuccess { get; set; }
 
@@ -29,7 +31,7 @@ class Importer : BaseComponent
     {
         builder.Div("kui-form-import", () =>
         {
-            builder.Div("danger", "提示: 请上传单个txt或Excel格式附件！");
+            builder.Div("danger", Context.Language["Import.Tips"]);
             builder.Div("item", () =>
             {
                 BuildInputFile(builder);
@@ -40,9 +42,9 @@ class Importer : BaseComponent
             });
             builder.Div(() =>
             {
-                builder.Link("模板下载", this.Callback(OnDownloadTemplateAsync));
+                builder.Link(Context.Language["Import.Download"], this.Callback(OnDownloadTemplateAsync));
                 if (!string.IsNullOrWhiteSpace(error))
-                    builder.Link("错误信息", this.Callback(OnErrorMessage));
+                    builder.Link(ErrorMessage, this.Callback(OnErrorMessage));
                 builder.Span("size", fileInfo);
             });
             var style = string.IsNullOrWhiteSpace(error) ? "primary" : "danger";
@@ -54,7 +56,7 @@ class Importer : BaseComponent
     {
         UI.ShowDialog(new DialogModel
         {
-            Title = "错误信息",
+            Title = ErrorMessage,
             Content = builder => builder.Markup(error)
         });
     }
@@ -74,7 +76,7 @@ class Importer : BaseComponent
         if (file == null || file.Size == 0)
             return;
 
-        fileInfo = $"大小:{file.Size / 1024}KB";
+        fileInfo = $"{Context.Language["Import.Size"]}{file.Size / 1024}KB";
         attach = new BlazorAttachFile(file);
     }
 
@@ -82,11 +84,11 @@ class Importer : BaseComponent
     {
         if (attach == null)
         {
-            UI.Error("请选择导入文件！");
+            UI.Error(Context.Language["Import.SelectFile"]);
             return;
         }
 
-        message = "正在导入中...";
+        message = Context.Language["Import.Importing"];
         isFinished = false;
 
         var info = new UploadInfo<ImportFormInfo>(Model);
@@ -116,7 +118,7 @@ class Importer : BaseComponent
         if (bytes != null && bytes.Length > 0)
         {
             var stream = new MemoryStream(bytes);
-            JS.DownloadFile($"{Model.Name}导入模板.xlsx", stream);
+            JS.DownloadFile($"{Context.Language["Import.Template"]}_{Model.Name}.xlsx", stream);
         }
     }
 }

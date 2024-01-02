@@ -15,6 +15,7 @@ class SysModuleForm : BaseForm<SysModule>
     {
         get
         {
+            //TODO:数据语言切换
             if (Model.Data.Target != "页面")
                 return 1;
 
@@ -32,11 +33,11 @@ class SysModuleForm : BaseForm<SysModule>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        step.Items.Add(new("基本信息") { Content = BuildDataForm });
-        step.Items.Add(new("模型设置") { Content = BuildModuleModel });
-        step.Items.Add(new("流程设置") { Content = BuildModuleFlow });
-        step.Items.Add(new("页面设置") { Content = BuildModulePage });
-        step.Items.Add(new("表单设置") { Content = BuildModuleForm });
+        step.Items.Add(new(Context.Language.BasicInfo) { Content = BuildDataForm });
+        step.Items.Add(new(Context.Language["Title.ModelSetting"]) { Content = BuildModuleModel });
+        step.Items.Add(new(Context.Language["Title.FlowSetting"]) { Content = BuildModuleFlow });
+        step.Items.Add(new(Context.Language["Title.PageSetting"]) { Content = BuildModulePage });
+        step.Items.Add(new(Context.Language["Title.FormSetting"]) { Content = BuildModuleForm });
         Model.OnFieldChanged = OnFieldChanged;
     }
 

@@ -23,8 +23,8 @@ public class SettingForm : BaseForm<SettingInfo>
             base.BuildRenderTree(builder);
             builder.Div("center", () =>
             {
-                UI.Button(builder, "保存", this.Callback<MouseEventArgs>(SaveAsync), "primary");
-                UI.Button(builder, "重置", this.Callback<MouseEventArgs>(ResetAsync));
+                UI.Button(builder, Context.Language.Save, this.Callback<MouseEventArgs>(SaveAsync), "primary");
+                UI.Button(builder, Context.Language.Reset, this.Callback<MouseEventArgs>(ResetAsync));
             });
         });
     }

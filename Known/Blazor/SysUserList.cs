@@ -65,13 +65,14 @@ class SysUserList : BasePage<SysUser>
     [Action] public void Edit(SysUser row) => table.EditForm(Platform.User.SaveUserAsync, row);
     [Action] public void Delete(SysUser row) => table.Delete(Platform.User.DeleteUsersAsync, row);
     [Action] public void DeleteM() => table.DeleteM(Platform.User.DeleteUsersAsync);
-    [Action] public void ResetPassword() => table.SelectRows(Platform.User.SetUserPwdsAsync, "重置");
+    [Action] public void ResetPassword() => table.SelectRows(Platform.User.SetUserPwdsAsync, Context.Language.Reset);
     [Action] public void ChangeDepartment() => table.SelectRows(OnChangeDepartment);
-    [Action] public void Enable() => table.SelectRows(Platform.User.EnableUsersAsync, "启用");
-    [Action] public void Disable() => table.SelectRows(Platform.User.DisableUsersAsync, "禁用");
+    [Action] public void Enable() => table.SelectRows(Platform.User.EnableUsersAsync, Context.Language.Enable);
+    [Action] public void Disable() => table.SelectRows(Platform.User.DisableUsersAsync, Context.Language.Disable);
 
     private void BuildGender(RenderTreeBuilder builder, SysUser row)
     {
+        //TODO:数据语言切换
         var color = row.Gender == "男" ? "#108ee9" : "hotpink";
         UI.BuildTag(builder, row.Gender, color);
     }
@@ -81,7 +82,7 @@ class SysUserList : BasePage<SysUser>
         SysOrganization node = null;
         var model = new DialogModel
         {
-            Title = "更换部门",
+            Title = Context.Language["Title.ChangeDepartment"],
             Content = builder =>
             {
                 UI.BuildTree(builder, new TreeModel
@@ -96,7 +97,7 @@ class SysUserList : BasePage<SysUser>
         {
             if (node == null)
             {
-                UI.Error("请选择更换的部门！");
+                UI.Error(Context.Language["Tip.SelectChangeOrganization"]);
                 return;
             }
 

@@ -2,14 +2,16 @@
 
 public abstract class ServiceBase
 {
-    public UserInfo CurrentUser { get; set; }
+    public Context Context { get; set; }
+    public UserInfo CurrentUser => Context.CurrentUser;
+    public Language Language => Context.Language;
 
     private PlatformService platform;
     protected PlatformService Platform
     {
         get
         {
-            platform ??= new PlatformService(CurrentUser);
+            platform ??= new PlatformService(Context);
             return platform;
         }
     }

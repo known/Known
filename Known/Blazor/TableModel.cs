@@ -49,6 +49,7 @@ public class TableModel<TItem> where TItem : class, new()
         InitQueryColumns();
     }
 
+    private Language Language => Page?.Context?.Language;
     internal IUIService UI { get; }
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal BasePage<TItem> Page { get; }
@@ -114,15 +115,15 @@ public class TableModel<TItem> where TItem : class, new()
         });
     }
 
-    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
-    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("新增", onSave, row);
-    public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
-    public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("编辑", onSave, row);
-    public void DeleteM(Func<List<TItem>, Task<Result>> action) => SelectRows(action, "删除");
+    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm(Language.New, onSave, row);
+    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm(Language.New, onSave, row);
+    public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm(Language.Edit, onSave, row);
+    public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm(Language.Edit, onSave, row);
+    public void DeleteM(Func<List<TItem>, Task<Result>> action) => SelectRows(action, Language.Delete);
 
     public void Delete(Func<List<TItem>, Task<Result>> action, TItem row)
     {
-        UI.Confirm("确定要删除该记录？", async () =>
+        UI.Confirm(Language["Tip.ConfirmDeleteRecord"], async () =>
         {
             var result = await action?.Invoke([row]);
             UI.Result(result, async () => await RefreshAsync());
@@ -153,7 +154,7 @@ public class TableModel<TItem> where TItem : class, new()
         {
             if (!string.IsNullOrWhiteSpace(confirmText))
             {
-                UI.Confirm($"确定要{confirmText}选中的记录？", async () =>
+                UI.Confirm(GetConfirmText(confirmText), async () =>
                 {
                     var result = await action?.Invoke(row);
                     UI.Result(result, async () => await Page.RefreshAsync());
@@ -191,7 +192,7 @@ public class TableModel<TItem> where TItem : class, new()
         {
             if (!string.IsNullOrWhiteSpace(confirmText))
             {
-                UI.Confirm($"确定要{confirmText}选中的记录？", async () =>
+                UI.Confirm(GetConfirmText(confirmText), async () =>
                 {
                     var result = await action?.Invoke(rows);
                     UI.Result(result, async () => await Page.RefreshAsync());
@@ -258,4 +259,6 @@ public class TableModel<TItem> where TItem : class, new()
             }
         }
     }
+
+    private string GetConfirmText(string text) => Language["Tip.ConfirmRecordName"].Replace("{text}", text);
 }

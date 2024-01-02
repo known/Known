@@ -69,7 +69,7 @@ class ApplyService : ServiceBase
         //保存实际附件
         var bizType = "ApplyFiles";
         var bizFiles = info.Files.GetAttachFiles(user, nameof(TbApply.BizFile), bizType);
-        return await Database.TransactionAsync("保存", async db =>
+        return await Database.TransactionAsync(Language.Save, async db =>
         {
             if (entity.IsNew)
             {

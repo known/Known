@@ -104,8 +104,7 @@
     {
         await base.OnInitPageAsync();
 
-        user = CurrentUser;
-        var service = new Services.HomeService { CurrentUser = user };
+        var service = new Services.HomeService { Context = Context };
         info = await service.GetHomeAsync();
         chartData = info?.Statistics?.LogDatas?.FirstOrDefault()?.Series.Select(d => new { d.Key, d.Value }).ToArray();
         visitMenus = Context.GetMenus(info?.VisitMenuIds);

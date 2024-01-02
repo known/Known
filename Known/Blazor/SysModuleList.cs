@@ -77,6 +77,7 @@ class SysModuleList : BasePage<SysModule>
 
     private void BuildTarget(RenderTreeBuilder builder, SysModule row)
     {
+        //TODO:数据语言切换
         var color = "blue";
         if (row.Target == "菜单") color = "purple";
         if (row.Target == "自定义") color = "green";
@@ -96,7 +97,7 @@ class SysModuleList : BasePage<SysModule>
     {
         if (current == null)
         {
-            UI.Error("请先选择上级模块！");
+            UI.Error(Context.Language["Tip.SelectParentModule"]);
             return;
         }
 
@@ -114,7 +115,7 @@ class SysModuleList : BasePage<SysModule>
 
     private void OnCopy(List<SysModule> rows)
     {
-        ShowTreeModal("复制到", node =>
+        ShowTreeModal(Context.Language["Title.CopyTo"], node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
             return Platform.Module.CopyModulesAsync(rows);
@@ -123,7 +124,7 @@ class SysModuleList : BasePage<SysModule>
 
     private void OnMove(List<SysModule> rows)
     {
-        ShowTreeModal("移动到", node =>
+        ShowTreeModal(Context.Language["Title.MoveTo"], node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
             return Platform.Module.MoveModulesAsync(rows);
@@ -175,7 +176,7 @@ class SysModuleList : BasePage<SysModule>
         {
             if (node == null)
             {
-                UI.Error("请选择模块！");
+                UI.Error(Context.Language["Tip.SelectModule"]);
                 return;
             }
 

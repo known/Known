@@ -13,8 +13,8 @@ class TbApplyForm : BaseFlowForm<TbApply>
     {
         //添加表单信息Tab
         Tabs.Clear();
-        Tabs.Add(new ItemModel("基本信息") { Content = BuildBaseInfo });
-        Tabs.Add(new ItemModel("表体信息") { Content = BuildBillList });
+        Tabs.Add(new ItemModel(Context.Language.BasicInfo) { Content = BuildBaseInfo });
+        Tabs.Add(new ItemModel(Context.Language["Title.TableList"]) { Content = BuildBillList });
         await base.OnInitFormAsync();
     }
 

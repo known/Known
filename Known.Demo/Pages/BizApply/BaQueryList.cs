@@ -11,7 +11,7 @@ namespace Known.Demo.Pages.BizApply;
 //业务查询列表
 class BaQueryList : BaseTablePage<TbApply>
 {
-    private ApplyService Service => new() { CurrentUser = CurrentUser };
+    private ApplyService Service => new() { Context = Context };
 
     protected override async Task OnInitPageAsync()
     {

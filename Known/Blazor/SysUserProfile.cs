@@ -64,10 +64,10 @@ class SysUserProfileTabs : BaseTabPage
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        //Tab.Items.Add(new ItemModel("待办事项") { Content = builder => builder.Component<SysSystemInfo>().Build() });
-        //Tab.Items.Add(new ItemModel("我的消息") { Content = builder => builder.Component<SysSystemSafe>().Build() });
-        Tab.Items.Add(new ItemModel("我的信息") { Content = builder => builder.Component<SysUserProfileTabsInfo>().Build() });
-        Tab.Items.Add(new ItemModel("安全设置") { Content = builder => builder.Component<SysUserProfileTabsSafe>().Build() });
+        //Tab.Items.Add(new ItemModel(Context.Language["Title.TodoList"]) { Content = builder => builder.Component<SysSystemInfo>().Build() });
+        //Tab.Items.Add(new ItemModel(Context.Language["Title.MyMessage"]) { Content = builder => builder.Component<SysSystemSafe>().Build() });
+        Tab.Items.Add(new ItemModel(Context.Language["Title.MyProfile"]) { Content = builder => builder.Component<SysUserProfileTabsInfo>().Build() });
+        Tab.Items.Add(new ItemModel(Context.Language["Title.SecuritySetting"]) { Content = builder => builder.Component<SysUserProfileTabsSafe>().Build() });
     }
 }
 

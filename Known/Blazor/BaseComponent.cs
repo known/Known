@@ -34,7 +34,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         get
         {
-            platform ??= new PlatformService(CurrentUser);
+            platform ??= new PlatformService(Context);
             return platform;
         }
     }

@@ -13,8 +13,8 @@ class SysSystem : BaseTabPage
         await base.OnInitPageAsync();
 		Data = await Platform.System.GetSystemAsync();
 
-		Tab.Items.Add(new ItemModel("系统信息") { Content = builder => builder.Component<SysSystemInfo>().Build() });
-		Tab.Items.Add(new ItemModel("安全设置") { Content = builder => builder.Component<SysSystemSafe>().Build() });
+		Tab.Items.Add(new ItemModel(Context.Language["Title.SystemInfo"]) { Content = builder => builder.Component<SysSystemInfo>().Build() });
+		Tab.Items.Add(new ItemModel(Context.Language["Title.SecuritySetting"]) { Content = builder => builder.Component<SysSystemSafe>().Build() });
     }
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildRenderTree);
@@ -32,21 +32,21 @@ class SysSystemInfo : BaseForm<SystemInfo>
             WrapperSpan = 10,
             Data = Parent.Data
         };
-        Model.AddRow().AddColumn("企业名称", $"{Parent.Data.CompNo}-{Parent.Data.CompName}");
-        Model.AddRow().AddColumn("系统名称", b =>
+        Model.AddRow().AddColumn("CompName", $"{Parent.Data.CompNo}-{Parent.Data.CompName}");
+        Model.AddRow().AddColumn("AppName", b =>
         {
             b.Component<EditInput>()
              .Set(c => c.Value, Parent.Data.AppName)
              .Set(c => c.OnSave, OnSaveAppName)
              .Build();
         });
-        Model.AddRow().AddColumn("系统版本", Config.Version.AppVersion);
-        Model.AddRow().AddColumn("软件版本", Config.Version.SoftVersion);
-        Model.AddRow().AddColumn("框架版本", Config.Version.FrameVersion);
+        Model.AddRow().AddColumn("AppVersion", Config.Version.AppVersion);
+        Model.AddRow().AddColumn("SoftVersion", Config.Version.SoftVersion);
+        Model.AddRow().AddColumn("FrameVersion", Config.Version.FrameVersion);
         if (!Config.App.IsPlatform && !string.IsNullOrWhiteSpace(Config.App.ProductId))
         {
-            Model.AddRow().AddColumn("产品ID", Config.App.ProductId);
-            Model.AddRow().AddColumn("产品密钥", b =>
+            Model.AddRow().AddColumn("ProductId", Config.App.ProductId);
+            Model.AddRow().AddColumn("ProductKey", b =>
             {
                 b.Component<EditInput>()
                  .Set(c => c.Value, Parent.Data.ProductKey)
@@ -54,8 +54,8 @@ class SysSystemInfo : BaseForm<SystemInfo>
                  .Build();
             });
         }
-        Model.AddRow().AddColumn("版权信息", Config.App.Copyright);
-        Model.AddRow().AddColumn("软件许可", Config.App.SoftTerms);
+        Model.AddRow().AddColumn("Copyright", Config.App.Copyright);
+        Model.AddRow().AddColumn("SoftTerms", Config.App.SoftTerms);
 
         await base.OnInitFormAsync();
     }
@@ -92,7 +92,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
             WrapperSpan = 10,
             Data = Parent.Data
         };
-        Model.AddRow().AddColumn("默认密码", b =>
+        Model.AddRow().AddColumn("UserDefaultPwd", b =>
         {
             b.Component<EditInput>()
              .Set(c => c.Value, Parent.Data.UserDefaultPwd)

@@ -121,9 +121,9 @@ public class ActionInfo
 
 public class ColumnInfo
 {
-    internal ColumnInfo(string label, RenderFragment template)
+    internal ColumnInfo(string id, RenderFragment template)
     {
-        Name = label;
+        Id = id;
         Template = template;
     }
 

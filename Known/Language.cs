@@ -67,10 +67,17 @@ public class Language
         }
     }
 
+    public string BasicInfo => this["Title.BasicInfo"];
+
     public string OK => this["Button.OK"];
     public string Cancel => this["Button.Cancel"];
+    public string New => this["Button.New"];
     public string Edit => this["Button.Edit"];
+    public string Delete => this["Button.Delete"];
     public string Save => this["Button.Save"];
+    public string Reset => this["Button.Reset"];
+    public string Enable => this["Button.Enable"];
+    public string Disable => this["Button.Disable"];
 
     //Respose
     public const string XXSuccess = "{0}成功！";
@@ -84,7 +91,6 @@ public class Language
     public const string UpdateSuccess = "修改成功！";
     public const string Copy = "复制";
     public const string CopySuccess = "复制成功！";
-    public const string Delete = "删除";
     public const string DeleteSuccess = "删除成功！";
     public const string Import = "导入";
     public const string ImportSuccess = "导入成功！";
@@ -116,7 +122,6 @@ public class Language
     public const string Query = "查询";
     public const string Detail = "查看";
     public const string Add = "添加";
-    public const string New = "新增";
     public const string DeleteM = "批量删除";
     public const string Remove = "移除";
     public const string MoveUp = "上移";

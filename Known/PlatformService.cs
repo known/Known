@@ -6,18 +6,18 @@ namespace Known;
 
 public class PlatformService
 {
-    public PlatformService(UserInfo user)
+    public PlatformService(Context context)
     {
-        Module = new ModuleService { CurrentUser = user };
-        System = new SystemService { CurrentUser = user };
-        Setting = new SettingService { CurrentUser = user };
-        Company = new CompanyService { CurrentUser = user };
-        Dictionary = new DictionaryService { CurrentUser = user };
-        File = new FileService { CurrentUser = user };
-        Flow = new FlowService { CurrentUser = user };
-        Role = new RoleService { CurrentUser = user };
-        User = new UserService { CurrentUser = user };
-        Auth = new AuthService { CurrentUser = user };
+        Module = new ModuleService { Context = context };
+        System = new SystemService { Context = context };
+        Setting = new SettingService { Context = context };
+        Company = new CompanyService { Context = context };
+        Dictionary = new DictionaryService { Context = context };
+        File = new FileService { Context = context };
+        Flow = new FlowService { Context = context };
+        Role = new RoleService { Context = context };
+        User = new UserService { Context = context };
+        Auth = new AuthService { Context = context };
     }
 
     internal ModuleService Module { get; }

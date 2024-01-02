@@ -61,7 +61,7 @@ class SysOrganizationList : BasePage<SysOrganization>
     {
         if (current == null)
         {
-            UI.Error("请先选择上级组织！");
+            UI.Error(Context.Language["Tip.SelectParentOrganization"]);
             return;
         }
 
