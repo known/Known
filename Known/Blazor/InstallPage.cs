@@ -7,6 +7,7 @@ namespace Known.Blazor;
 
 public class InstallPage : BaseForm<InstallInfo>
 {
+    [Parameter] public RenderFragment TopMenu { get; set; }
     [Parameter] public Action<InstallInfo> OnInstall { get; set; }
 
     protected override async Task OnInitFormAsync()
@@ -24,7 +25,11 @@ public class InstallPage : BaseForm<InstallInfo>
     {
         builder.Div("kui-install", () =>
         {
-            builder.Div("kui-install-head", $"{Config.App.Name} - 安装");
+            builder.Div("kui-install-head", () =>
+            {
+                builder.Div("", $"{Context.Language["App.Name"]} - {Context.Language["Install"]}");
+                builder.Fragment(TopMenu);
+            });
             builder.Div("kui-install-body", () =>
             {
                 builder.Div("kui-install-form", () =>
@@ -32,7 +37,7 @@ public class InstallPage : BaseForm<InstallInfo>
                     base.BuildRenderTree(builder);
                     builder.Div("button", () =>
                     {
-                        UI.Button(builder, "开始使用", this.Callback<MouseEventArgs>(OnStartAsync), "primary");
+                        UI.Button(builder, Context.Language["StartUsing"], this.Callback<MouseEventArgs>(OnStartAsync), "primary");
                     });
                 });
             });

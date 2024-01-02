@@ -5,49 +5,49 @@
         <Form Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange>
             <FormItem Label="">
                 <Input @bind-Value="@context.UserName" Placeholder="@Context.Language["UserName"]">
-                <Prefix><Icon Type="user" /></Prefix>
+                    <Prefix><Icon Type="user" /></Prefix>
                 </Input>
             </FormItem>
             <FormItem Label="">
-                <InputPassword @bind-Value="@context.Password" Placeholder="密码">
+                <InputPassword @bind-Value="@context.Password" Placeholder="@Context.Language["Password"]">
                     <Prefix><Icon Type="lock" /></Prefix>
                 </InputPassword>
             </FormItem>
             <FormItem Label="">
-                <AntCaptcha @ref="userCaptcha" @bind-Value="@context.Captcha" Placeholder="验证码">
+                <AntCaptcha @ref="userCaptcha" @bind-Value="@context.Captcha" Placeholder="@Context.Language["Captcha"]">
                     <Prefix><Icon Type="check" /></Prefix>
                 </AntCaptcha>
             </FormItem>
             <FormItem>
-                <Switch @bind-Checked="@context.Remember" /> 记住用户名
+                <Switch @bind-Checked="@context.Remember" /> @Context.Language["Login.RememberUser"]
             </FormItem>
             <FormItem>
-                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>登 录</Button>
+                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Context.Language["Login"]</Button>
             </FormItem>
         </Form>
     </TabPane>
     <TabPane Key="2" Tab="@Context.Language["Login.WithPhone"]">
         <Form @ref="form" Model="phone" OnFinish="OnPhoneLogin" LabelCol="null" ValidateOnChange>
             <FormItem Label="">
-                <Input @bind-Value="@context.PhoneNo" Placeholder="手机号">
+                <Input @bind-Value="@context.PhoneNo" Placeholder="@Context.Language["PhoneNo"]">
                 <Prefix><Icon Type="phone" /></Prefix>
                 </Input>
             </FormItem>
             <FormItem Label="">
-                <AntCaptcha @bind-Value="@context.PhoneCode" Placeholder="手机验证码" Option="option">
+                <AntCaptcha @bind-Value="@context.PhoneCode" Placeholder="@Context.Language["PhoneCode"]" Option="option">
                     <Prefix><Icon Type="lock" /></Prefix>
                 </AntCaptcha>
             </FormItem>
             <FormItem Label="">
-                <AntCaptcha @ref="phoneCaptcha" @bind-Value="@context.Captcha" Placeholder="验证码">
+                <AntCaptcha @ref="phoneCaptcha" @bind-Value="@context.Captcha" Placeholder="@Context.Language["Captcha"]">
                     <Prefix><Icon Type="check" /></Prefix>
                 </AntCaptcha>
             </FormItem>
             <FormItem>
-                <Switch @bind-Checked="@context.Remember" /> 记住手机号
+                <Switch @bind-Checked="@context.Remember" /> @Context.Language["Login.RememberPhone"]
             </FormItem>
             <FormItem>
-                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>登 录</Button>
+                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Context.Language["Login"]</Button>
             </FormItem>
         </Form>
     </TabPane>
@@ -74,7 +74,7 @@
             if (!phoneCaptcha.Validate(out string message))
                 return Known.Result.ErrorAsync(message);
 
-            return Known.Result.SuccessAsync("测试成功！");
+            return Known.Result.SuccessAsync("Test Successful!");
         };
     }
 

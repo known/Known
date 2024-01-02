@@ -55,7 +55,7 @@
 /*Install*/
 .kui-install {position:absolute;left:0;right:0;}
 .kui-install .button {text-align:center;}
-.kui-install-head {font-weight:bold;font-size:1.5rem;padding:30px 200px;}
+.kui-install-head {display:flex;justify-content:space-between;font-weight:bold;font-size:1.5rem;padding:30px 200px;}
 .kui-install-body {background:linear-gradient(135deg, #6da0f5, #c0e9fc);height:500px;padding:50px 200px;}
 .kui-install-form {background-color:#fff;border-radius:5px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);padding:20px;width:500px;height:400px;margin:0 auto;}
 .kui-install-foot {text-align:center;width:100%;font-size:1.1rem;margin-top:30px;}

@@ -125,13 +125,50 @@
 
   "localeName": "繁体中文",
   "localeIcon": "繁",
+
+  "Title.Prompt": "提示",
+  "Title.Question": "詢問",
+
+  "Tip.SwitchUIType": "在此處切換介面類型",
+  "Tip.Exits": "確定要退出系統？",
+
+  "CompNo": "企業編碼",
+  "CompName": "企業名稱",
+  "AppName": "系統名稱",
+  "ProductId": "產品ID",
+  "ProductKey": "產品金鑰",
+  "AdminName": "管理員帳號",
+  "AdminPassword": "管理員密碼",
+  "UserName": "用戶名",
+  "Password": "密碼",
+  "Password1": "確認密碼",
+  "OldPwd": "原密碼",
+  "NewPwd": "新密碼",
+  "NewPwd1": "確認密碼",
+  "UserDefaultPwd": "默認密碼",
+  "Captcha": "驗證碼",
+  "PhoneNo": "手機號",
+  "PhoneCode": "手機驗證碼",
+
+  "Install": "安裝",
+  "StartUsing": "開始使用",
+
+  "App.Name": "Known資訊管理系統",
   "App.SubTitle": "基於Blazor的快速開發框架",
   "Document": "檔案",
   "OpenSource": "開源",
   "LowCode": "低程式碼",
   "ModernUI": "現代UI",
-  "Tip.SwitchUIType": "在此處切換介面類型",
+  "Login": "登 入",
   "Login.WithAccount": "用戶名登入",
   "Login.WithPhone": "手機號登入",
-  "UserName": "用戶名"
+  "Login.RememberUser": "記住用戶名",
+  "Login.RememberPhone": "記住手機號",
+
+  "Nav.HomePage": "系統首頁",
+  "Nav.Setting": "系統設置",
+  "Nav.FullScreen": "全屏顯示",
+  "Nav.ExitScreen": "退出全屏",
+  "Nav.Profile": "個人中心",
+  "Nav.Exit": "安全退出"
 }

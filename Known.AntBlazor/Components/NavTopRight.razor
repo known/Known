@@ -2,34 +2,34 @@
 
 <Space Size="@("24")">
     <SpaceItem>
-        <Tooltip Title="系统首页"><Icon Type="home" OnClick="@(e=>OnItemClick("home"))" /></Tooltip>
+        <Tooltip Title="@Context.Language["Nav.HomePage"]"><Icon Type="home" OnClick="@(e=>OnItemClick("home"))" /></Tooltip>
     </SpaceItem>
     <SpaceItem>
         <Tooltip Title="@FullScreenTitle"><Icon Type="@FullScreenIcon" OnClick="OnFullScreen" /></Tooltip>
     </SpaceItem>
     <SpaceItem Style="width:20px;text-align:center;">
-        <AntLanguage />
+        <AntLanguage OnChanged="Context.RefreshPage" />
     </SpaceItem>
     <SpaceItem>
-        <AntDropdown Text="@CurrentUser.Name" Items="userItems" OnItemClick="e=>OnItemClick(e.Id)" />
+        <AntDropdown Text="@CurrentUser.Name" Items="UserItems" OnItemClick="e=>OnItemClick(e.Id)" />
     </SpaceItem>
     <SpaceItem>
-        <Tooltip Title="系统设置"><Icon Type="setting" OnClick="@(e=>showSetting=true)" /></Tooltip>
+        <Tooltip Title="@Context.Language["Nav.Setting"]"><Icon Type="setting" OnClick="@(e=>showSetting=true)" /></Tooltip>
     </SpaceItem>
 </Space>
 
-<Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='("系统设置")' Width="300">
+<Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Context.Language["Nav.Setting"])' Width="300">
     <Known.Blazor.SettingForm />
 </Drawer>
 
 @code {
     private bool showSetting = false;
     private bool isFullScreen = false;
-    private string FullScreenTitle => isFullScreen ? "退出全屏" : "全屏显示";
+    private string FullScreenTitle => isFullScreen ? Context.Language["Nav.ExitScreen"] : Context.Language["Nav.FullScreen"];
     private string FullScreenIcon => isFullScreen ? "fullscreen-exit" : "fullscreen";
-    private List<ActionInfo> userItems = [
-        new ActionInfo { Id = "profile", Name = "个人中心", Icon = "user" },
-        new ActionInfo { Id = "logout", Name = "安全退出", Icon = "poweroff" }
+    private List<ActionInfo> UserItems => [
+        new ActionInfo { Id = "profile", Name = Context.Language["Nav.Profile"], Icon = "user" },
+        new ActionInfo { Id = "logout", Name = Context.Language["Nav.Exit"], Icon = "poweroff" }
     ];
 
     [Parameter] public Action<string> OnMenuClick { get; set; }

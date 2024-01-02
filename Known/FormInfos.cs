@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Known.Extensions;
 using Known.Helpers;
 
@@ -7,23 +6,16 @@ namespace Known;
 
 public class LoginFormInfo
 {
-    [Form(Placeholder = "用户名")]
-    [DisplayName("<i class=\"fa fa-user\" />")]
-    [Required(ErrorMessage = "请输入用户名！")]
+    [Form, Required]
     public string UserName { get; set; }
 
-    [Form(Placeholder = "密码", Type = "Password")]
-    [DisplayName("<i class=\"fa fa-lock\" />")]
-    [Required(ErrorMessage = "请输入密码！")]
+    [Form(Type = "Password"), Required]
     public string Password { get; set; }
 
-    [Form(Placeholder = "验证码")]
-    [DisplayName("<i class=\"fa fa-check\" />")]
-    [Required(ErrorMessage = "请输入验证码！")]
+    [Form, Required]
     public string Captcha { get; set; }
 
     [Form]
-    [DisplayName("记住用户名")]
     public bool Remember { get; set; }
     public bool IsMobile { get; set; }
     public string IPAddress { get; set; }
@@ -31,41 +23,28 @@ public class LoginFormInfo
 
 public class LoginPhoneInfo
 {
-    [Form(Placeholder = "手机号")]
-    [DisplayName("<i class=\"fa fa-phone\" />")]
-    [Required(ErrorMessage = "请输入手机号！")]
+    [Form, Required]
     public string PhoneNo { get; set; }
 
-    [Form(Placeholder = "手机验证码")]
-    [DisplayName("<i class=\"fa fa-lock\" />")]
-    //[Required(ErrorMessage = "请输入手机验证码！")]
+    [Form]
     public string PhoneCode { get; set; }
 
-    [Form(Placeholder = "验证码")]
-    [DisplayName("<i class=\"fa fa-check\" />")]
-    [Required(ErrorMessage = "请输入验证码！")]
+    [Form, Required]
     public string Captcha { get; set; }
 
     [Form]
-    [DisplayName("记住手机号")]
     public bool Remember { get; set; }
 }
 
 public class PwdFormInfo
 {
-    [Form(Type = "Password")]
-    [DisplayName("原密码")]
-    [Required(ErrorMessage = "请输入原密码！")]
+    [Form(Type = "Password"), Required]
     public string OldPwd { get; set; }
 
-    [Form(Type = "Password")]
-    [DisplayName("新密码")]
-    [Required(ErrorMessage = "请输入新密码！")]
+    [Form(Type = "Password"), Required]
     public string NewPwd { get; set; }
 
-    [Form(Type = "Password")]
-    [DisplayName("确认密码")]
-    [Required(ErrorMessage = "请输入确认密码！")]
+    [Form(Type = "Password"), Required]
     public string NewPwd1 { get; set; }
 }
 

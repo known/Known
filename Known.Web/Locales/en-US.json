@@ -256,13 +256,50 @@
 
   "localeName": "English",
   "localeIcon": "EN",
+
+  "Title.Prompt": "Prompt",
+  "Title.Question": "Question",
+
+  "Tip.SwitchUIType": "Switch interface types here",
+  "Tip.Exits": "Are you sure exit the system?",
+
+  "CompNo": "Enterprise No.",
+  "CompName": "Enterprise Name",
+  "AppName": "System Name",
+  "ProductId": "Product ID",
+  "ProductKey": "Product Key",
+  "AdminName": "Admin Account",
+  "AdminPassword": "Password",
+  "UserName": "User Name",
+  "Password": "Password",
+  "Password1": "Confirm Password",
+  "OldPwd": "Old Password",
+  "NewPwd": "New Password",
+  "NewPwd1": "Confirm Password",
+  "UserDefaultPwd": "Default Password",
+  "Captcha": "Captcha",
+  "PhoneNo": "Phone No.",
+  "PhoneCode": "Phone Captcha",
+
+  "Install": "Install",
+  "StartUsing": "Start",
+
+  "App.Name": "Known Information Management System",
   "App.SubTitle": "A Rapid Development Framework Based on Blazor",
   "Document": "Document",
   "OpenSource": "Open Source",
   "LowCode": "Low code",
   "ModernUI": "Modern UI",
-  "Tip.SwitchUIType": "Switch interface types here",
+  "Login": "Sign In",
   "Login.WithAccount": "With Account",
   "Login.WithPhone": "With Phone",
-  "UserName": "User Name"
+  "Login.RememberUser": "Remember Account",
+  "Login.RememberPhone": "Remember Phone number",
+
+  "Nav.HomePage": "Home Page",
+  "Nav.Setting": "Setting",
+  "Nav.FullScreen": "Full Screen",
+  "Nav.ExitScreen": "Exit Full Screen",
+  "Nav.Profile": "Profile",
+  "Nav.Exit": "Sign Out"
 }

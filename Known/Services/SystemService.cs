@@ -59,7 +59,7 @@ class SystemService : ServiceBase
         if (info == null)
             return Result.Error("安装信息不能为空！");
 
-        if (info.Password != info.Password1)
+        if (info.AdminPassword != info.Password1)
             return Result.Error("确认密码不一致！");
 
         var database = Database;
@@ -150,7 +150,7 @@ class SystemService : ServiceBase
             AppName = app.Name,
             ProductId = app.ProductId,
             ProductKey = Utils.ReadFile(path),
-            UserName = Constants.SysUserName
+            AdminName = Constants.SysUserName
         };
         return info;
     }
@@ -449,10 +449,10 @@ class SystemService : ServiceBase
             AppId = Config.App.Id,
             CompNo = info.CompNo,
             OrgNo = info.CompNo,
-            UserName = info.UserName.ToLower(),
-            Password = Utils.ToMd5(info.Password),
+            UserName = info.AdminName.ToLower(),
+            Password = Utils.ToMd5(info.AdminPassword),
             Name = "管理员",
-            EnglishName = info.UserName,
+            EnglishName = info.AdminName,
             Gender = "男",
             Role = "管理员",
             Enabled = true

@@ -66,6 +66,7 @@ public static class Extension
             type = FormFieldType.Integer;
         else if (property.PropertyType == typeof(float) || property.PropertyType == typeof(double))
             type = FormFieldType.Float;
+
         return new FormValidationRule { Type = type, Required = true, Message = $"{column.Name}不能为空！" };
     }
 
