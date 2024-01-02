@@ -15,7 +15,6 @@ public class AntLanguage : BaseComponent
     {
         await base.OnInitializedAsync();
         current = Language.GetLanguage(Context.CurrentLanguage);
-        current ??= Language.Items.FirstOrDefault();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

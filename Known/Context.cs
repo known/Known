@@ -1,4 +1,5 @@
-﻿using Known.Blazor;
+﻿using System.Globalization;
+using Known.Blazor;
 using Known.Extensions;
 
 namespace Known;
@@ -6,7 +7,7 @@ namespace Known;
 public class Context
 {
     private MenuItem current;
-    private Dictionary<string, string> language;
+    private Language language;
 
     internal static Action<MenuItem> OnNavigate { get; set; }
     internal static Action OnRefreshPage { get; set; }
@@ -18,20 +19,23 @@ public class Context
     public List<MenuInfo> UserMenus { get; internal set; }
     public string CurrentLanguage { get; internal set; }
 
-    public Dictionary<string, string> Language
+    public Language Language
     {
         get
         {
-            language ??= Known.Language.GetLanguages(CurrentLanguage);
+            language ??= new Language(CurrentLanguage);
             return language;
         }
     }
 
-    public void SetCurrentLanguage(JSService service, string language)
+    public void SetCurrentLanguage(JSService service, string name)
     {
-        this.language = Known.Language.GetLanguages(language);
-        CurrentLanguage = language;
-        service.SetCurrentLanguage(language);
+        language = new Language(name);
+        CurrentLanguage = name;
+        service.SetCurrentLanguage(name);
+        var culture = new CultureInfo(name);
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
     }
 
     public void Back()

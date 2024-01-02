@@ -157,8 +157,6 @@ public class UIService(ModalService modalService, MessageService messageService)
         var option = new ModalOptions
         {
             Title = model.Title,
-            OkText = "确定",
-            CancelText = "取消",
             OnOk = e => model.SaveAsync()
         };
 

@@ -16,6 +16,8 @@ public static class CommonExtension
         var value = string.Format(format, args);
         sb.AppendLine(value);
     }
+
+    internal static string Format(this string format, params object[] args) => string.Format(format, args);
     #endregion
 
     #region Enum

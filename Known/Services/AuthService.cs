@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using Known.Entities;
+using Known.Extensions;
 using Known.Helpers;
 using Known.Repositories;
 

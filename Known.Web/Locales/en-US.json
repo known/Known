@@ -1,0 +1,268 @@
+﻿{
+  "locale": "en-US",
+  "Pagination": {
+    "items_per_page": "/ page",
+    "jump_to": "Go to",
+    "jump_to_confirm": "confirm",
+    "page": "",
+    "prev_page": "Previous Page",
+    "next_page": "Next Page",
+    "prev_5": "Previous 5 Pages",
+    "next_5": "Next 5 Pages",
+    "prev_3": "Previous 3 Pages",
+    "next_3": "Next 3 Pages"
+  },
+  "DatePicker": {
+    "firstDayOfWeek": "Sunday",
+    "lang": {
+      "placeholder": "Select date",
+      "yearPlaceholder": "Select year",
+      "quarterPlaceholder": "Select quarter",
+      "monthPlaceholder": "Select month",
+      "weekPlaceholder": "Select week",
+      "rangePlaceholder": [ "Start date", "End date" ],
+      "rangeYearPlaceholder": [ "Start year", "End year" ],
+      "rangeMonthPlaceholder": [ "Start month", "End month" ],
+      "rangeWeekPlaceholder": [ "Start week", "End week" ],
+      "locale": "en_US",
+      "today": "Today",
+      "now": "Now",
+      "backToToday": "Back to today",
+      "ok": "Ok",
+      "clear": "Clear",
+      "month": "Month",
+      "year": "Year",
+      "timeSelect": "Select time",
+      "dateSelect": "Select date",
+      "weekSelect": "Select week",
+      "monthSelect": "Select month",
+      "yearSelect": "Select year",
+      "decadeSelect": "Select decade",
+      "yearFormat": "yyyy",
+      "dateFormat": "yyyy-MM-dd",
+      "dayFormat": "d",
+      "dateTimeFormat": "yyyy-MM-dd HH:mm:ss",
+      "dateTimeFormat12Hour": "M/d/yyyy hh:mm:ss tt",
+      "timeFormat12Hour": "hh:mm:ss tt",
+      "monthBeforeYear": true,
+      "previousMonth": "Previous month (PageUp)",
+      "nextMonth": "Next month (PageDown)",
+      "previousYear": "Last year (Control + left)",
+      "nextYear": "Next year (Control + right)",
+      "previousDecade": "Last decade",
+      "nextDecade": "Next decade",
+      "previousCentury": "Last century",
+      "nextCentury": "Next century",
+      "startDate": "Start date",
+      "startWeek": "Start week",
+      "startMonth": "Start month",
+      "startYear": "Start year",
+      "startQuarter": "Start quarter",
+      "endDate": "End date",
+      "endWeek": "End week",
+      "endMonth": "End month",
+      "endYear": "End year",
+      "endQuarter": "End quarter",
+      "quarterSelect": "Select quarter",
+      "week": "Week",
+      "monthFormat": "MMM",
+      "shortWeekDays": [ "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa" ]
+    },
+    "timePickerLocale": {
+      "placeholder": "Select time",
+      "rangePlaceholder": [ "Start time", "End time" ]
+    }
+  },
+  "TimePicker": {
+    "placeholder": "Select time",
+    "rangePlaceholder": [ "Start time", "End time" ]
+  },
+  "Calendar": {
+    "lang": {
+      "placeholder": "Select date",
+      "yearPlaceholder": "Select year",
+      "quarterPlaceholder": "Select quarter",
+      "monthPlaceholder": "Select month",
+      "weekPlaceholder": "Select week",
+      "rangePlaceholder": [ "Start date", "End date" ],
+      "rangeYearPlaceholder": [ "Start year", "End year" ],
+      "rangeMonthPlaceholder": [ "Start month", "End month" ],
+      "rangeWeekPlaceholder": [ "Start week", "End week" ],
+      "locale": "en_US",
+      "today": "Today",
+      "now": "Now",
+      "backToToday": "Back to today",
+      "ok": "Ok",
+      "clear": "Clear",
+      "month": "Month",
+      "year": "Year",
+      "timeSelect": "Select time",
+      "dateSelect": "Select date",
+      "weekSelect": "Select week",
+      "monthSelect": "Select month",
+      "yearSelect": "Select year",
+      "decadeSelect": "Select decade",
+      "yearFormat": "yyyy",
+      "dateFormat": "M/d/yyyy",
+      "dayFormat": "d",
+      "dateTimeFormat": "M/d/yyyy HH:mm:ss",
+      "dateTimeFormat12Hour": "M/d/yyyy hh:mm:ss tt",
+      "timeFormat12Hour": "hh:mm:ss tt",
+      "monthBeforeYear": true,
+      "previousMonth": "Previous month (PageUp)",
+      "nextMonth": "Next month (PageDown)",
+      "previousYear": "Last year (Control + left)",
+      "nextYear": "Next year (Control + right)",
+      "previousDecade": "Last decade",
+      "nextDecade": "Next decade",
+      "previousCentury": "Last century",
+      "nextCentury": "Next century"
+    },
+    "timePickerLocale": {
+      "placeholder": "Select time",
+      "rangePlaceholder": [ "Start time", "End time" ]
+    }
+  },
+  "global": { "placeholder": "Please select" },
+  "Table": {
+    "filterTitle": "Filter menu",
+    "filterConfirm": "OK",
+    "filterReset": "Reset",
+    "selectAll": "Select current page",
+    "selectInvert": "Invert current page",
+    "selectionAll": "Select all data",
+    "sortTitle": "Sort",
+    "expand": "Expand row",
+    "collapse": "Collapse row",
+    "triggerDesc": "Click sort by descend",
+    "triggerAsc": "Click sort by ascend",
+    "cancelSort": "Click to cancel sort",
+    "filterOptions": {
+      "true": "True",
+      "false": "False",
+      "and": "And",
+      "or": "Or",
+      "equals": "Equal",
+      "notEquals": "Not Equal",
+      "contains": "Contains",
+      "notContains": "Not Contains",
+      "startsWith": "Start With",
+      "endsWith": "End With",
+      "greaterThan": "Greater Than",
+      "lessThan": "Less Than",
+      "greaterThanOrEquals": "Greater Than Or Equals",
+      "lessThanOrEquals": "Less Than Or Equals",
+      "isNull": "Is Null",
+      "isNotNull": "Is Not Null",
+      "theSameDateWith": "The Same Date With"
+    }
+  },
+  "Modal": {
+    "okText": "OK",
+    "cancelText": "Cancel"
+  },
+  "Confirm": {
+    "okText": "OK",
+    "cancelText": "Cancel",
+    "yesText": "Yes",
+    "noText": "No",
+    "retryText": "Retry",
+    "abortText": "Abort",
+    "ignoreText": "Ignore"
+  },
+  "Popconfirm": {
+    "okText": "OK",
+    "cancelText": "Cancel"
+  },
+  "Transfer": {
+    "titles": [ "", "" ],
+    "searchPlaceholder": "Search here",
+    "itemUnit": "item",
+    "itemsUnit": "items"
+  },
+  "Upload": {
+    "uploading": "Uploading...",
+    "removeFile": "Remove file",
+    "uploadError": "Upload error",
+    "previewFile": "Preview file",
+    "downloadFile": "Download file"
+  },
+  "Empty": { "description": "No Data" },
+  "Icon": { "icon": "icon" },
+  "Text": {
+    "edit": "Edit",
+    "copy": "Copy",
+    "copied": "Copied",
+    "expand": "Expand"
+  },
+  "PageHeader": { "back": "Back" },
+  "Form": {
+    "optional": "(optional)",
+    "defaultValidateMessages": {
+      "default": "Field validation error ${label}",
+      "required": "Please enter ${label}",
+      "enum": "${label} must be one of [${enum}]",
+      "whitespace": "${label} cannot be a blank character",
+      "date": {
+        "format": "${label} date format is invalid",
+        "parse": "${label} cannot be converted to a date",
+        "invalid": "${label} is an invalid date"
+      },
+      "types": {
+        "string": "${label} is not a valid ${type}",
+        "method": "${label} is not a valid ${type}",
+        "array": "${label} is not a valid ${type}",
+        "object": "${label} is not a valid ${type}",
+        "number": "${label} is not a valid ${type}",
+        "date": "${label} is not a valid ${type}",
+        "boolean": "${label} is not a valid ${type}",
+        "integer": "${label} is not a valid ${type}",
+        "float": "${label} is not a valid ${type}",
+        "regexp": "${label} is not a valid ${type}",
+        "email": "${label} is not a valid ${type}",
+        "url": "${label} is not a valid ${type}",
+        "hex": "${label} is not a valid ${type}"
+      },
+      "string": {
+        "len": "${label} must be ${len} characters",
+        "min": "${label} at least ${min} characters",
+        "max": "${label} up to ${max} characters",
+        "range": "${label} must be between ${min}-${max} characters"
+      },
+      "number": {
+        "len": "${label} must be equal to ${len}",
+        "min": "${label} minimum value is ${min}",
+        "max": "${label} maximum value is ${max}",
+        "range": "${label} must be between ${min}-${max}"
+      },
+      "array": {
+        "len": "Must be ${len} ${label}",
+        "min": "At least ${min} ${label}",
+        "max": "At most ${max} ${label}",
+        "range": "The amount of ${label} must be between ${min}-${max}"
+      },
+      "pattern": { "mismatch": "${label} does not match the pattern ${pattern}" }
+    }
+  },
+  "Image": {
+    "preview": "Preview"
+  },
+  "ReuseTabs": {
+    "Close": "Close",
+    "CloseAllTabs": "Close All Tabs",
+    "CloseAllButThis": "Close All But This",
+    "PinTab": "Pin Tab"
+  },
+
+  "localeName": "English",
+  "localeIcon": "EN",
+  "App.SubTitle": "A Rapid Development Framework Based on Blazor",
+  "Document": "Document",
+  "OpenSource": "Open Source",
+  "LowCode": "Low code",
+  "ModernUI": "Modern UI",
+  "Tip.SwitchUIType": "Switch interface types here",
+  "Login.WithAccount": "With Account",
+  "Login.WithPhone": "With Phone",
+  "UserName": "User Name"
+}

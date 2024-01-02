@@ -1,63 +1,71 @@
-﻿namespace Known;
+﻿using System.Collections.Concurrent;
+using System.Globalization;
 
-public static class Language
+namespace Known;
+
+public class Language
 {
-    public static List<ActionInfo> Items =>
-    [
-        new ActionInfo { Id = "zh-CN", Name = "简体中文", Icon = "简" },
-        new ActionInfo { Id = "zh-TW", Name = "繁体中文", Icon = "繁" },
-        new ActionInfo { Id = "en-US", Name = "English", Icon = "EN" }
-    ];
+    private readonly string lang;
+    private static readonly ConcurrentDictionary<string, Dictionary<string, object>> caches = new();
 
-    public static ActionInfo GetLanguage(string language) => Items.FirstOrDefault(l => l.Id == language);
-
-    public static Dictionary<string,string> GetLanguages(string language)
+    public Language(string lang)
     {
-        if (language == "en-US")
-        {
-            return new Dictionary<string, string>
-            {
-                { "App.SubTitle", "A Rapid Development Framework Based on Blazor" },
-                { "Document", "Document" },
-                { "OpenSource", "Open Source" },
-                { "LowCode", "Low code" },
-                { "ModernUI", "Modern UI" },
-                { "Tip.SwitchUIType", "Switch interface types here" },
-                { "Login.WithAccount", "With Account" },
-                { "Login.WithPhone", "With Phone" },
-                { "UserName", "User Name" }
-            };
-        }
-        else if (language == "zh-TW")
-        {
-            return new Dictionary<string, string>
-            {
-                { "App.SubTitle", "基於Blazor的快速開發框架" },
-                { "Document", "檔案" },
-                { "OpenSource", "開源" },
-                { "LowCode", "低程式碼" },
-                { "ModernUI", "現代UI" },
-                { "Tip.SwitchUIType", "在此處切換介面類型" },
-                { "Login.WithAccount", "用戶名登入" },
-                { "Login.WithPhone", "手機號登入" },
-                { "UserName", "用戶名" }
-            };
-        }
-        return new Dictionary<string, string>
-        {
-            { "App.SubTitle", "基于Blazor的快速开发框架" },
-            { "Document", "文档" },
-            { "OpenSource", "开源" },
-            { "LowCode", "低代码" },
-            { "ModernUI", "现代UI" },
-            { "Tip.SwitchUIType", "在此处切换界面类型" },
-            { "Login.WithAccount", "用户名登录" },
-            { "Login.WithPhone", "手机号登录" },
-            { "UserName", "用户名" }
-        };
+        if (string.IsNullOrWhiteSpace(lang))
+            lang = CultureInfo.CurrentCulture.Name;
+
+        this.lang = lang;
     }
 
-    public static string Format(this string format, params object[] args) => string.Format(format, args);
+    public string this[string name]
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(name))
+                return "";
+
+            if (!caches.TryGetValue(lang, out Dictionary<string, object> langs))
+                return name;
+
+            if (langs == null || !langs.TryGetValue(name, out object value))
+                return name;
+
+            return value?.ToString();
+        }
+    }
+
+    public static List<ActionInfo> Items { get; } = [];
+
+    public static ActionInfo GetLanguage(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            name = CultureInfo.CurrentCulture.Name;
+
+        var info = Items?.FirstOrDefault(l => l.Id == name);
+        info ??= Items?.FirstOrDefault();
+        return info;
+    }
+
+    internal static void Initialize()
+    {
+        var path = Path.GetFullPath("Locales");
+        if (!Directory.Exists(path))
+            return;
+
+        var files = Directory.GetFiles(path);
+        foreach (var file in files)
+        {
+            var name = new FileInfo(file).Name.Split('.')[0];
+            var json = File.ReadAllText(file);
+            var lang = Utils.FromJson<Dictionary<string, object>>(json);
+            caches[name] = lang;
+            Items.Add(new ActionInfo
+            {
+                Id = name,
+                Name = lang["localeName"].ToString(),
+                Icon = lang["localeIcon"].ToString()
+            });
+        }
+    }
 
     //Respose
     public const string XXSuccess = "{0}成功！";
@@ -119,10 +127,10 @@ public static class Language
     public const string Set = "设置";
     public const string More = "更多";
     public const string Error = "错误";
-	public const string Refresh = "刷新";
+    public const string Refresh = "刷新";
 
-	//Alert
-	public const string AlertTips = "提示";
+    //Alert
+    public const string AlertTips = "提示";
     public const string AlertConfirm = "确认";
     public const string AlertConfirmText = "确定要{0}吗？";
 
@@ -156,7 +164,7 @@ public static class Language
     //public const string ProdActiveFail = "激活失败！";
     //public const string ProdServerError = "激活服务器出错！";
     //public const string ProdNotNetwork = "计算机未联网，无法激活！";
-    
+
     //public const string Error403Title = "无权限访问！";
     //public const string Error403Content = "抱歉，您无权限访问该页面~";
     //public const string Error404Title = "页面未找到！";
