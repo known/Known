@@ -24,6 +24,7 @@ public class Captcha : BaseComponent
     private bool IsSMS => Option != null && Option.SMSCount > 0;
     private bool IsRemoteImage => Option != null && !string.IsNullOrWhiteSpace(Option.ImgUrl);
     private bool IsLocalImage => !IsSMS && !IsRemoteImage;
+    private string SmsText => Context.Language["Captcha.Fetch"];
 
     public Captcha()
     {
@@ -49,7 +50,7 @@ public class Captcha : BaseComponent
     {
         await base.OnInitializedAsync();
         title = Context.Language["Captcha.Refresh"];
-        smsText = Context.Language["Captcha.Fetch"];
+        smsText = SmsText;
         if (IsSMS)
         {
             smsCount = Option.SMSCount;
@@ -110,7 +111,7 @@ public class Captcha : BaseComponent
         {
             smsCount = Option.SMSCount;
             timer.Enabled = false;
-            smsText = Context.Language["Captcha.Fetch"];
+            smsText = SmsText;
         }
         StateChanged();
     }

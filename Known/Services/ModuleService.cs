@@ -47,7 +47,7 @@ class ModuleService : ServiceBase
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Save, async db =>
+        return await Database.TransactionAsync("保存", async db =>
         {
             foreach (var item in models)
             {
@@ -61,7 +61,7 @@ class ModuleService : ServiceBase
         if (model == null)
             return Result.Error(Language.SelectOne);
 
-        return await Database.TransactionAsync(Language.Save, async db =>
+        return await Database.TransactionAsync("保存", async db =>
         {
             var sort = model.IsMoveUp ? model.Sort - 1 : model.Sort + 1;
             var module = await ModuleRepository.GetModuleAsync(db, model.ParentId, sort);
@@ -88,7 +88,7 @@ class ModuleService : ServiceBase
         if (string.IsNullOrWhiteSpace(model.Icon))
             model.Icon = "";//AntDesign不识别null值
 
-        var result = await Database.TransactionAsync(Language.Save, async db =>
+        var result = await Database.TransactionAsync("保存", async db =>
         {
             await db.SaveAsync(model);
         }, model);

@@ -44,7 +44,7 @@ class UserService : ServiceBase
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Save, async db =>
+        return await Database.TransactionAsync("保存", async db =>
         {
             foreach (var item in models)
             {
@@ -168,7 +168,7 @@ class UserService : ServiceBase
         if (!vr.IsValid)
             return vr;
 
-        return await Database.TransactionAsync(Language.Save, async db =>
+        return await Database.TransactionAsync("保存", async db =>
         {
             model.Role = string.Empty;
             await UserRepository.DeleteUserRolesAsync(db, model.Id);
@@ -240,7 +240,7 @@ class UserService : ServiceBase
         if (!vr.IsValid)
             return vr;
 
-        var result = await Database.TransactionAsync(Language.Save, async db =>
+        var result = await Database.TransactionAsync("保存", async db =>
         {
             await db.SaveAsync(model);
         });

@@ -107,12 +107,12 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
             {
                 if (!isEdit)
                 {
-                    UI.Button(builder, "编辑", this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
+                    UI.Button(builder, Context.Language.Edit, this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
                 }
                 else
                 {
-                    UI.Button(builder, "保存", this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
-                    UI.Button(builder, "取消", this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
+                    UI.Button(builder, Context.Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+                    UI.Button(builder, Context.Language.Cancel, this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
                 }
             });
         });
@@ -155,7 +155,7 @@ class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
             base.BuildRenderTree(builder);
             builder.FormPageButton(() =>
             {
-                UI.Button(builder, "确定修改", this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+                UI.Button(builder, Context.Language["Button.ConfirmUpdate"], this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
             });
         });
     }

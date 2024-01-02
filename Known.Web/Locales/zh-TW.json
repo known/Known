@@ -128,12 +128,21 @@
 
   "Title.Prompt": "提示",
   "Title.Question": "詢問",
+  "Title.Import": "導入{name}",
 
-  "OkText": "確定",
-  "CancelText": "取消",
+  "Button.ConfirmUpdate": "確定修改",
+  "Button.OK": "確定",
+  "Button.Cancel": "取消",
+  "Button.Edit": "編輯",
+  "Button.Save": "保存",
 
   "Tip.SwitchUIType": "在此處切換介面類型",
   "Tip.Exits": "確定要退出系統？",
+  "Tip.Page404": "頁面不存在！",
+  "Tip.PageTest": "這裡是模塊原型測試頁",
+  "Tip.NoMethod": "{method}方法不存在！",
+
+  "Field.PleaseSelect": "請選擇",
 
   "Valid.Required": "{label}不能為空！",
   "Valid.MinLength": "{label}至少{length}個字元！",

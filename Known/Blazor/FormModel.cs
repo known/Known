@@ -255,6 +255,7 @@ public class FormOption
 
 enum FormType
 {
+    //TODO：替换语言
     [Description("查看")] View,
     [Description("提交")] Submit,
     [Description("审核")] Verify

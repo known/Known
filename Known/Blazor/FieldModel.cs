@@ -39,8 +39,11 @@ public class FieldModel<TItem> where TItem : class, new()
 
     public void StateChanged() => OnStateChanged?.Invoke();
 
-    public List<CodeInfo> GetCodes(string emptyText = "请选择")
+    public List<CodeInfo> GetCodes(string emptyText = "Please select")
     {
+        if (!string.IsNullOrWhiteSpace(emptyText))
+            emptyText = Form?.Page?.Context.Language["Field.PleaseSelect"];
+
         var codes = Form.GetCodes(Column);
         if (codes == null || codes.Count == 0)
             codes = Cache.GetCodes(Column.Category);

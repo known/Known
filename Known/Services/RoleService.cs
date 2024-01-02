@@ -44,7 +44,7 @@ class RoleService : ServiceBase
         if (!vr.IsValid)
             return vr;
 
-        return await Database.TransactionAsync(Language.Save, async db =>
+        return await Database.TransactionAsync("保存", async db =>
         {
             await db.SaveAsync(model);
             await RoleRepository.DeleteRoleModulesAsync(db, model.Id);

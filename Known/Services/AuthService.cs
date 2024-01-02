@@ -108,7 +108,7 @@ class AuthService : ServiceBase
             return vr;
 
         await Database.SaveAsync(model);
-        return Result.Success(Language.XXSuccess.Format(Language.Save), model);
+        return Result.Success("保存成功！", model);
     }
 
     public async Task<Result> UpdatePasswordAsync(PwdFormInfo info)

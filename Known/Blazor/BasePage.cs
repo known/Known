@@ -37,14 +37,14 @@ public class BasePage : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (Module == null || string.IsNullOrWhiteSpace(Module.EntityData))
-            UI.BuildResult(builder, "404", $"页面不存在！PageId={PageId}");
+            UI.BuildResult(builder, "404", $"{Context.Language["Tip.Page404"]}PageId={PageId}");
         else
             BuildPrototype(builder);
     }
 
     private void BuildPrototype(RenderTreeBuilder builder)
     {
-        builder.Div("kui-designer-tips", "这里是模块原型测试页");
+        builder.Div("kui-designer-tips", Context.Language["Tip.PageTest"]);
         var table = new DemoPageModel(UI, Module);
         builder.BuildTablePage(table);
     }
@@ -70,15 +70,19 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 	protected void OnToolClick(ActionInfo info) => OnAction(info, null);
 	protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
 
-	private void OnAction(ActionInfo info, object[] parameters)
-	{
-		var type = GetType();
-		var method = type.GetMethod(info.Id);
-		if (method == null)
-			UI.Error($"{info.Name}【{type.Name}.{info.Id}】方法不存在！");
-		else
-			method.Invoke(this, parameters);
-	}
+    private void OnAction(ActionInfo info, object[] parameters)
+    {
+        var type = GetType();
+        var method = type.GetMethod(info.Id);
+        if (method != null)
+        {
+            method.Invoke(this, parameters);
+            return;
+        }
+
+        var message = Context.Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
+        UI.Error(message);
+    }
 
     private void InitMenu()
     {
@@ -121,13 +125,13 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 			id += $"_{param}";
 		var info = await Platform.File.GetImportAsync(id);
 		info.Name = Name;
-		info.BizName = $"导入{Name}";
+        info.BizName = GetImportTitle(Name);
 		ImportForm(info);
 	}
 
     private void ImportForm(ImportFormInfo info)
     {
-        var model = new DialogModel { Title = $"导入{Name}" };
+        var model = new DialogModel { Title = GetImportTitle(Name) };
         model.Content = builder =>
         {
             builder.Component<Importer>()
@@ -141,6 +145,8 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         };
         UI.ShowDialog(model);
     }
+
+    private string GetImportTitle(string name) => Context.Language["Title.Import"].Replace("{name}", name);
 }
 
 public class BaseTabPage : BasePage

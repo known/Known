@@ -255,12 +255,21 @@
 
   "Title.Prompt": "提示",
   "Title.Question": "询问",
+  "Title.Import": "导入{name}",
 
-  "OkText": "确定",
-  "CancelText": "取消",
+  "Button.ConfirmUpdate": "确定修改",
+  "Button.OK": "确定",
+  "Button.Cancel": "取消",
+  "Button.Edit": "编辑",
+  "Button.Save": "保存",
 
   "Tip.SwitchUIType": "在此处切换界面类型",
   "Tip.Exits": "确定要退出系统？",
+  "Tip.Page404": "页面不存在！",
+  "Tip.PageTest": "这里是模块原型测试页",
+  "Tip.NoMethod": "{method}方法不存在！",
+
+  "Field.PleaseSelect": "请选择",
 
   "Valid.Required": "{label}不能为空！",
   "Valid.MinLength": "{label}至少{length}个字符！",

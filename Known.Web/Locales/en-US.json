@@ -259,12 +259,21 @@
 
   "Title.Prompt": "Prompt",
   "Title.Question": "Question",
+  "Title.Import": "Import {name}",
 
-  "OkText": "OK",
-  "CancelText": "Cancel",
+  "Button.ConfirmUpdate": "Update",
+  "Button.OK": "OK",
+  "Button.Cancel": "Cancel",
+  "Button.Edit": "Edit",
+  "Button.Save": "Save",
 
   "Tip.SwitchUIType": "Switch interface types here",
   "Tip.Exits": "Are you sure exit the system?",
+  "Tip.Page404": "The page does not exist!",
+  "Tip.PageTest": "This is the module prototype testing page",
+  "Tip.NoMethod": "Method {method} does not exist!",
+
+  "Field.PleaseSelect": "Please select",
 
   "Valid.Required": "{label} is required!",
   "Valid.MinLength": "{label} at least {length} characters!",

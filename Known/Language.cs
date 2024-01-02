@@ -8,7 +8,7 @@ public class Language
     private readonly string lang;
     private static readonly ConcurrentDictionary<string, Dictionary<string, object>> caches = new();
 
-    public Language(string lang)
+    internal Language(string lang)
     {
         if (string.IsNullOrWhiteSpace(lang))
             lang = CultureInfo.CurrentCulture.Name;
@@ -67,6 +67,11 @@ public class Language
         }
     }
 
+    public string OK => this["Button.OK"];
+    public string Cancel => this["Button.Cancel"];
+    public string Edit => this["Button.Edit"];
+    public string Save => this["Button.Save"];
+
     //Respose
     public const string XXSuccess = "{0}成功！";
     public const string TransError = "事务执行出错！";
@@ -74,7 +79,6 @@ public class Language
     public const string SelectOneAtLeast = "请至少选择一条记录进行操作！";
     public const string ImportOneAtLeast = "请至少导入一条记录！";
     public const string OperateRecord = "只能操作{0}的记录！";
-    public const string Save = "保存";
     public const string SaveSuccess = "保存成功！";
     public const string Update = "修改";
     public const string UpdateSuccess = "修改成功！";
@@ -106,8 +110,6 @@ public class Language
     public const string LoginDisabled = "用户已禁用！";
     public const string LoginOneAccount = "该账号已在其他地方登录，确定踢掉？<br/>IP:{0}";
     public const string LoginOffline = "您登录的账号已被踢出！";
-    public const string OK = "确定";
-    public const string Cancel = "取消";
     public const string Close = "关闭";
     public const string Send = "发送";
     public const string Search = "搜索";
@@ -115,7 +117,6 @@ public class Language
     public const string Detail = "查看";
     public const string Add = "添加";
     public const string New = "新增";
-    public const string Edit = "编辑";
     public const string DeleteM = "批量删除";
     public const string Remove = "移除";
     public const string MoveUp = "上移";
@@ -158,27 +159,4 @@ public class Language
     public const string ModifyTime = "修改时间";
     public const string Version = "版本号";
     public const string CompNo = "公司编码";
-
-    //Biz
-    //public const string LocalUser = "本地用户";
-    //public const string ProdActiveFail = "激活失败！";
-    //public const string ProdServerError = "激活服务器出错！";
-    //public const string ProdNotNetwork = "计算机未联网，无法激活！";
-
-    //public const string Error403Title = "无权限访问！";
-    //public const string Error403Content = "抱歉，您无权限访问该页面~";
-    //public const string Error404Title = "页面未找到！";
-    //public const string Error404Content = "抱歉，页面好像去火星了~";
-    //public const string Error500Title = "服务器内部错误！";
-    //public const string Error500Content = "服务器好像出错了...";
-
-    //public const string DataByList = "列表显示";
-    //public const string DataBySquared = "宫格显示";
-
-    //public const string PagerTotalText = "共{0}条";
-    //public const string PagerRefresh = "刷新";
-    //public const string PagerFirst = "第一页";
-    //public const string PagerPrevious = "上一页";
-    //public const string PagerNext = "下一页";
-    //public const string PagerLast = "最后一页";
 }
