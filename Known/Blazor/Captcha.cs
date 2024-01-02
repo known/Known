@@ -13,10 +13,10 @@ public class CaptchaOption
 
 public class Captcha : BaseComponent
 {
-    private const string title = "点击图片刷新";
     private readonly string id;
     private System.Timers.Timer timer;
-    private string smsText = "获取验证码";
+    private string title;
+    private string smsText;
     private int smsCount;
     private string code;
     private string lastCode;
@@ -39,7 +39,7 @@ public class Captcha : BaseComponent
         message = string.Empty;
         if (!code.Equals(value, StringComparison.OrdinalIgnoreCase))
         {
-            message = "验证码不正确！";
+            message = Context.Language["Captcha.NotValid"];
             return false;
         }
         return true;
@@ -48,6 +48,8 @@ public class Captcha : BaseComponent
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        title = Context.Language["Captcha.Refresh"];
+        smsText = Context.Language["Captcha.Fetch"];
         if (IsSMS)
         {
             smsCount = Option.SMSCount;
@@ -102,13 +104,13 @@ public class Captcha : BaseComponent
         if (smsCount > 0)
         {
             smsCount--;
-            smsText = $"{smsCount}秒后重新获取";
+            smsText = Context.Language["Captcha.Countdown"].Replace("{smsCount}", $"{smsCount}");
         }
         else
         {
             smsCount = Option.SMSCount;
             timer.Enabled = false;
-            smsText = "获取验证码";
+            smsText = Context.Language["Captcha.Fetch"];
         }
         StateChanged();
     }

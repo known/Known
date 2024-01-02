@@ -47,6 +47,7 @@ public class FormModel<TItem> where TItem : class, new()
     internal string Action { get; set; }
 
     public FormOption Option { get; }
+    public Context Context => Page?.Context;
     public string Title => GetFormTitle(Data);
     public bool IsView { get; set; }
     public TItem Data { get; set; }

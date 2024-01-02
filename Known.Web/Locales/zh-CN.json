@@ -256,8 +256,15 @@
   "Title.Prompt": "提示",
   "Title.Question": "询问",
 
+  "OkText": "确定",
+  "CancelText": "取消",
+
   "Tip.SwitchUIType": "在此处切换界面类型",
   "Tip.Exits": "确定要退出系统？",
+
+  "Valid.Required": "{label}不能为空！",
+  "Valid.MinLength": "{label}至少{length}个字符！",
+  "Valid.MaxLength": "{label}不能超过{length}个字符！",
 
   "CompNo": "企业编码",
   "CompName": "企业名称",
@@ -291,6 +298,11 @@
   "Login.WithPhone": "手机号登录",
   "Login.RememberUser": "记住用户名",
   "Login.RememberPhone": "记住手机号",
+
+  "Captcha.Refresh": "点击图片刷新",
+  "Captcha.Fetch": "获取验证码",
+  "Captcha.Countdown": "{smsCount}秒后重新获取",
+  "Captcha.NotValid": "验证码不正确！",
 
   "Nav.HomePage": "系统首页",
   "Nav.Setting": "系统设置",

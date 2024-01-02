@@ -20,9 +20,9 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Parameter] public bool Enabled { get; set; } = true;
     [Parameter] public bool Visible { get; set; } = true;
 
-    [CascadingParameter] protected Context Context { get; set; }
     [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
     [Inject] public JSService JS { get; set; }
+    [CascadingParameter] public Context Context { get; set; }
 
     protected bool IsLoaded { get; set; }
     public IUIService UI => Context?.UI;

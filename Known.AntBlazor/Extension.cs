@@ -21,7 +21,15 @@ public static class Extension
         services.AddScoped<UIService>();
     }
 
-    internal static FormValidationRule[] ToRules<TItem>(this FieldModel<TItem> model) where TItem : class, new()
+    internal static FormValidationRule[] RuleRequired(this Context context, string id)
+    {
+        var label = context.Language[id];
+        var message = context.Language["Valid.Required"].Replace("{label}", label);
+        var rule = new FormValidationRule { Type = FormFieldType.String, Required = true, Message = message };
+        return [rule];
+    }
+
+    internal static FormValidationRule[] ToRules<TItem>(this FieldModel<TItem> model, Context context) where TItem : class, new()
     {
         var column = model.Column;
         if (column == null || column.Property == null)
@@ -31,17 +39,17 @@ public static class Extension
         var rules = new List<FormValidationRule>();
         if (column.Required && property.PropertyType != typeof(bool))
         {
-            rules.Add(GetFormRuleRequired(column));
+            rules.Add(GetFormRuleRequired(context, column));
         }
         else
         {
             var min = property.MinLength();
             if (min != null)
-                rules.Add(GetFormRuleMin(column, min.Value));
+                rules.Add(GetFormRuleMin(context, column, min.Value));
 
             var max = property.MaxLength();
             if (max != null)
-                rules.Add(GetFormRuleMax(column, max.Value));
+                rules.Add(GetFormRuleMax(context, column, max.Value));
 
             var regex = property?.GetCustomAttribute<RegexAttribute>();
             if (regex != null)
@@ -51,7 +59,7 @@ public static class Extension
         return [.. rules];
     }
 
-    private static FormValidationRule GetFormRuleRequired(ColumnInfo column)
+    private static FormValidationRule GetFormRuleRequired(Context context, ColumnInfo column)
     {
         //String,Number,Boolean,Regexp,Integer,Float,Array,Object,Enum,Date,Url,Email
         var property = column.Property;
@@ -67,17 +75,23 @@ public static class Extension
         else if (property.PropertyType == typeof(float) || property.PropertyType == typeof(double))
             type = FormFieldType.Float;
 
-        return new FormValidationRule { Type = type, Required = true, Message = $"{column.Name}不能为空！" };
+        var label = context.Language[column.Id];
+        var message = context.Language["Valid.Required"].Replace("{label}", label);
+        return new FormValidationRule { Type = type, Required = true, Message = message };
     }
 
-    private static FormValidationRule GetFormRuleMin(ColumnInfo column, int length)
+    private static FormValidationRule GetFormRuleMin(Context context, ColumnInfo column, int length)
     {
-        return new FormValidationRule { Type = FormFieldType.String, Min = length, Message = $"{column.Name}至少{length}个字符！" };
+        var label = context.Language[column.Id];
+        var message = context.Language["Valid.MinLength"].Replace("{label}", label).Replace("{length}", $"{length}");
+        return new FormValidationRule { Type = FormFieldType.String, Min = length, Message = message };
     }
 
-    private static FormValidationRule GetFormRuleMax(ColumnInfo column, int length)
+    private static FormValidationRule GetFormRuleMax(Context context, ColumnInfo column, int length)
     {
-        return new FormValidationRule { Type = FormFieldType.String, Max = length, Message = $"{column.Name}不能超过{length}个字符！" };
+        var label = context.Language[column.Id];
+        var message = context.Language["Valid.MaxLength"].Replace("{label}", label).Replace("{length}", $"{length}");
+        return new FormValidationRule { Type = FormFieldType.String, Max = length, Message = message };
     }
 
     private static FormValidationRule GetFormRuleRegex(RegexAttribute regex)

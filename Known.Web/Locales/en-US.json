@@ -260,8 +260,15 @@
   "Title.Prompt": "Prompt",
   "Title.Question": "Question",
 
+  "OkText": "OK",
+  "CancelText": "Cancel",
+
   "Tip.SwitchUIType": "Switch interface types here",
   "Tip.Exits": "Are you sure exit the system?",
+
+  "Valid.Required": "{label} is required!",
+  "Valid.MinLength": "{label} at least {length} characters!",
+  "Valid.MaxLength": "{label} cannot exceed {length} characters!",
 
   "CompNo": "Enterprise No.",
   "CompName": "Enterprise Name",
@@ -295,6 +302,11 @@
   "Login.WithPhone": "With Phone",
   "Login.RememberUser": "Remember Account",
   "Login.RememberPhone": "Remember Phone number",
+
+  "Captcha.Refresh": "Click on the image to refresh",
+  "Captcha.Fetch": "Obtain Code",
+  "Captcha.Countdown": "Retrieve in {smsCount}",
+  "Captcha.NotValid": "The verification code is incorrect!",
 
   "Nav.HomePage": "Home Page",
   "Nav.Setting": "Setting",
