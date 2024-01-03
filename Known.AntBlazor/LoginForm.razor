@@ -1,53 +1,53 @@
 ﻿@inherits BaseComponent
 
 <Tabs Animated>
-    <TabPane Key="1" Tab="@Context.Language["Login.WithAccount"]">
+    <TabPane Key="1" Tab="@Language["Login.WithAccount"]">
         <Form Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
             <FormItem Label="" Required Rules="@Context.RuleRequired("UserName")">
-                <Input @bind-Value="@context.UserName" Placeholder="@Context.Language["UserName"]">
+                <Input @bind-Value="@context.UserName" Placeholder="@Language["UserName"]">
                     <Prefix><Icon Type="user" /></Prefix>
                 </Input>
             </FormItem>
             <FormItem Label="" Required Rules="@Context.RuleRequired("Password")">
-                <InputPassword @bind-Value="@context.Password" Placeholder="@Context.Language["Password"]">
+                <InputPassword @bind-Value="@context.Password" Placeholder="@Language["Password"]">
                     <Prefix><Icon Type="lock" /></Prefix>
                 </InputPassword>
             </FormItem>
             <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
-                <AntCaptcha @ref="userCaptcha" @bind-Value="@context.Captcha" Placeholder="@Context.Language["Captcha"]">
+                <AntCaptcha @ref="userCaptcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]">
                     <Prefix><Icon Type="check" /></Prefix>
                 </AntCaptcha>
             </FormItem>
             <FormItem>
-                <Switch @bind-Checked="@context.Remember" /> @Context.Language["Login.RememberUser"]
+                <Switch @bind-Checked="@context.Remember" /> @Language["Login.RememberUser"]
             </FormItem>
             <FormItem>
-                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Context.Language["Login"]</Button>
+                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Language["Login"]</Button>
             </FormItem>
         </Form>
     </TabPane>
-    <TabPane Key="2" Tab="@Context.Language["Login.WithPhone"]">
+    <TabPane Key="2" Tab="@Language["Login.WithPhone"]">
         <Form @ref="form" Model="phone" OnFinish="OnPhoneLogin" LabelCol="null" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
             <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneNo")">
-                <Input @bind-Value="@context.PhoneNo" Placeholder="@Context.Language["PhoneNo"]">
+                <Input @bind-Value="@context.PhoneNo" Placeholder="@Language["PhoneNo"]">
                     <Prefix><Icon Type="phone" /></Prefix>
                 </Input>
             </FormItem>
             <FormItem Label="" Required>
-                <AntCaptcha @bind-Value="@context.PhoneCode" Placeholder="@Context.Language["PhoneCode"]" Option="option">
+                <AntCaptcha @bind-Value="@context.PhoneCode" Placeholder="@Language["PhoneCode"]" Option="option">
                     <Prefix><Icon Type="lock" /></Prefix>
                 </AntCaptcha>
             </FormItem>
             <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
-                <AntCaptcha @ref="phoneCaptcha" @bind-Value="@context.Captcha" Placeholder="@Context.Language["Captcha"]">
+                <AntCaptcha @ref="phoneCaptcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]">
                     <Prefix><Icon Type="check" /></Prefix>
                 </AntCaptcha>
             </FormItem>
             <FormItem>
-                <Switch @bind-Checked="@context.Remember" /> @Context.Language["Login.RememberPhone"]
+                <Switch @bind-Checked="@context.Remember" /> @Language["Login.RememberPhone"]
             </FormItem>
             <FormItem>
-                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Context.Language["Login"]</Button>
+                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Language["Login"]</Button>
             </FormItem>
         </Form>
     </TabPane>

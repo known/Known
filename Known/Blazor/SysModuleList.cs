@@ -97,7 +97,7 @@ class SysModuleList : BasePage<SysModule>
     {
         if (current == null)
         {
-            UI.Error(Context.Language["Tip.SelectParentModule"]);
+            UI.Error(Language["Tip.SelectParentModule"]);
             return;
         }
 
@@ -115,7 +115,7 @@ class SysModuleList : BasePage<SysModule>
 
     private void OnCopy(List<SysModule> rows)
     {
-        ShowTreeModal(Context.Language["Title.CopyTo"], node =>
+        ShowTreeModal(Language["Title.CopyTo"], node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
             return Platform.Module.CopyModulesAsync(rows);
@@ -124,7 +124,7 @@ class SysModuleList : BasePage<SysModule>
 
     private void OnMove(List<SysModule> rows)
     {
-        ShowTreeModal(Context.Language["Title.MoveTo"], node =>
+        ShowTreeModal(Language["Title.MoveTo"], node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
             return Platform.Module.MoveModulesAsync(rows);
@@ -176,7 +176,7 @@ class SysModuleList : BasePage<SysModule>
         {
             if (node == null)
             {
-                UI.Error(Context.Language["Tip.SelectModule"]);
+                UI.Error(Language["Tip.SelectModule"]);
                 return;
             }
 

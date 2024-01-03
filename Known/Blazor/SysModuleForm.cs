@@ -33,11 +33,11 @@ class SysModuleForm : BaseForm<SysModule>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        step.Items.Add(new(Context.Language.BasicInfo) { Content = BuildDataForm });
-        step.Items.Add(new(Context.Language["Title.ModelSetting"]) { Content = BuildModuleModel });
-        step.Items.Add(new(Context.Language["Title.FlowSetting"]) { Content = BuildModuleFlow });
-        step.Items.Add(new(Context.Language["Title.PageSetting"]) { Content = BuildModulePage });
-        step.Items.Add(new(Context.Language["Title.FormSetting"]) { Content = BuildModuleForm });
+        step.Items.Add(new(Language.BasicInfo) { Content = BuildDataForm });
+        step.Items.Add(new(Language["Title.ModelSetting"]) { Content = BuildModuleModel });
+        step.Items.Add(new(Language["Title.FlowSetting"]) { Content = BuildModuleFlow });
+        step.Items.Add(new(Language["Title.PageSetting"]) { Content = BuildModulePage });
+        step.Items.Add(new(Language["Title.FormSetting"]) { Content = BuildModuleForm });
         Model.OnFieldChanged = OnFieldChanged;
     }
 

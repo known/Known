@@ -37,14 +37,14 @@ public class BasePage : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (Module == null || string.IsNullOrWhiteSpace(Module.EntityData))
-            UI.BuildResult(builder, "404", $"{Context.Language["Tip.Page404"]}PageId={PageId}");
+            UI.BuildResult(builder, "404", $"{Language["Tip.Page404"]}PageId={PageId}");
         else
             BuildPrototype(builder);
     }
 
     private void BuildPrototype(RenderTreeBuilder builder)
     {
-        builder.Div("kui-designer-tips", Context.Language["Tip.PageTest"]);
+        builder.Div("kui-designer-tips", Language["Tip.PageTest"]);
         var table = new DemoPageModel(UI, Module);
         builder.BuildTablePage(table);
     }
@@ -80,7 +80,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
             return;
         }
 
-        var message = Context.Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
+        var message = Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
         UI.Error(message);
     }
 
@@ -94,7 +94,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
             return;
 
         Id = menu.Id;
-        Name = Context.Language[$"Menu.{menu.Code}"] ?? menu.Name;
+        Name = Language[$"Menu.{menu.Code}"] ?? menu.Name;
         Tools = menu.Buttons;
         Actions = menu.Actions;
         Columns = menu.Columns;
@@ -146,7 +146,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         UI.ShowDialog(model);
     }
 
-    private string GetImportTitle(string name) => Context.Language["Title.Import"].Replace("{name}", name);
+    private string GetImportTitle(string name) => Language["Title.Import"].Replace("{name}", name);
 }
 
 public class BaseTabPage : BasePage

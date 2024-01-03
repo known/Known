@@ -29,7 +29,7 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
         tab.Items.Clear();
         if (Tabs.Count > 0)
             tab.Items.AddRange(Tabs);
-        tab.Items.Add(new ItemModel(Context.Language["Title.FlowLog"])
+        tab.Items.Add(new ItemModel(Language["Title.FlowLog"])
         {
             Content = b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build()
         });
@@ -90,8 +90,8 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
     private void BuildFlowAction(RenderTreeBuilder builder)
     {
-        var action = Context.Language[$"Button.{Model.FormType}"];
-        var title = Context.Language["Title.FlowAction"].Replace("{action}", action);
+        var action = Language[$"Button.{Model.FormType}"];
+        var title = Language["Title.FlowAction"].Replace("{action}", action);
         builder.Div("kui-flow", () => builder.GroupBox(title, () => UI.BuildForm(builder, flow)));
     }
 
@@ -132,7 +132,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         switch (Model.FormType)
         {
             case FormType.Submit:
-                flow.AddUserColumn(Context.Language["SubmitTo"], "User");
+                flow.AddUserColumn(Language["SubmitTo"], "User");
                 flow.AddNoteColumn();
                 break;
             case FormType.Verify:

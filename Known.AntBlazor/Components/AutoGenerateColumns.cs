@@ -61,7 +61,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
 
     private void AddAttributes(RenderTreeBuilder builder, ColumnInfo item, object value)
     {
-        builder.AddAttribute(1, nameof(Column<TItem>.Title), Context.Language[item.Id]);
+        builder.AddAttribute(1, nameof(Column<TItem>.Title), Language[item.Id]);
         builder.AddAttribute(1, nameof(Column<TItem>.Sortable), item.IsSort);
         builder.AddAttribute(1, nameof(Column<TItem>.Fixed), item.Fixed);
         builder.AddAttribute(1, nameof(Column<TItem>.Width), item.Width);

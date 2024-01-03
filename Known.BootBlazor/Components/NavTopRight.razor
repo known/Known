@@ -2,22 +2,22 @@
 
 <ul class="boot-nav-right">
     <li @onclick="@(e=>OnItemClick("home"))">
-        <Tooltip Placement="Placement.Top" Title="@Context.Language["Nav.HomePage"]"><i class="fa fa-home" /></Tooltip>
+        <Tooltip Placement="Placement.Top" Title="@Language["Nav.HomePage"]"><i class="fa fa-home" /></Tooltip>
     </li>
     <li @onclick="OnFullScreen">
         <Tooltip Placement="Placement.Top" Title="@FullScreenTitle"><i class="@FullScreenIcon" /></Tooltip>
     </li>
     <li @onclick="@(e=>OnItemClick("profile"))">
-        <Tooltip Placement="Placement.Top" Title="@Context.Language["Nav.Profile"]"><i class="fa fa-user" />@CurrentUser?.Name</Tooltip>
+        <Tooltip Placement="Placement.Top" Title="@Language["Nav.Profile"]"><i class="fa fa-user" />@CurrentUser?.Name</Tooltip>
     </li>
     <li @onclick="@(e=>OnItemClick("logout"))">
-        <Tooltip Placement="Placement.Top" Title="@Context.Language["Nav.Exit"]"><i class="fa fa-power-off" /></Tooltip>
+        <Tooltip Placement="Placement.Top" Title="@Language["Nav.Exit"]"><i class="fa fa-power-off" /></Tooltip>
     </li>
 </ul>
 
 @code {
     private bool isFullScreen = false;
-    private string FullScreenTitle => isFullScreen ? Context.Language["Nav.ExitScreen"] : Context.Language["Nav.FullScreen"];
+    private string FullScreenTitle => isFullScreen ? Language["Nav.ExitScreen"] : Language["Nav.FullScreen"];
     private string FullScreenIcon => isFullScreen ? "fa fa-arrows" : "fa fa-arrows-alt";
 
     [Parameter] public Action<string> OnMenuClick { get; set; }

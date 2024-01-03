@@ -28,11 +28,11 @@ public class StepForm : BaseComponent
         builder.FormAction(() =>
         {
             if (Model.Current > 0)
-                UI.Button(builder, Context.Language["Button.Previous"], this.Callback<MouseEventArgs>(OnPrevClickAsync), "primary");
+                UI.Button(builder, Language["Button.Previous"], this.Callback<MouseEventArgs>(OnPrevClickAsync), "primary");
             if (Model.Current < StepCount - 1)
-                UI.Button(builder, Context.Language["Button.Next"], this.Callback<MouseEventArgs>(OnNextClickAsync), "primary");
+                UI.Button(builder, Language["Button.Next"], this.Callback<MouseEventArgs>(OnNextClickAsync), "primary");
             if (Model.Current == StepCount - 1 && !IsView)
-                UI.Button(builder, Context.Language["Button.Finish"], this.Callback<MouseEventArgs>(OnCompleteAsync), "primary");
+                UI.Button(builder, Language["Button.Finish"], this.Callback<MouseEventArgs>(OnCompleteAsync), "primary");
         });
     }
 

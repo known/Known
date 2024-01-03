@@ -64,10 +64,10 @@ class SysUserProfileTabs : BaseTabPage
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        //Tab.Items.Add(new ItemModel(Context.Language["Title.TodoList"]) { Content = builder => builder.Component<SysSystemInfo>().Build() });
-        //Tab.Items.Add(new ItemModel(Context.Language["Title.MyMessage"]) { Content = builder => builder.Component<SysSystemSafe>().Build() });
-        Tab.Items.Add(new ItemModel(Context.Language["Title.MyProfile"]) { Content = builder => builder.Component<SysUserProfileTabsInfo>().Build() });
-        Tab.Items.Add(new ItemModel(Context.Language["Title.SecuritySetting"]) { Content = builder => builder.Component<SysUserProfileTabsSafe>().Build() });
+        //Tab.Items.Add(new ItemModel(Language["Title.TodoList"]) { Content = builder => builder.Component<SysSystemInfo>().Build() });
+        //Tab.Items.Add(new ItemModel(Language["Title.MyMessage"]) { Content = builder => builder.Component<SysSystemSafe>().Build() });
+        Tab.Items.Add(new ItemModel(Language["Title.MyProfile"]) { Content = builder => builder.Component<SysUserProfileTabsInfo>().Build() });
+        Tab.Items.Add(new ItemModel(Language["Title.SecuritySetting"]) { Content = builder => builder.Component<SysUserProfileTabsSafe>().Build() });
     }
 }
 
@@ -107,12 +107,12 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
             {
                 if (!isEdit)
                 {
-                    UI.Button(builder, Context.Language.Edit, this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
+                    UI.Button(builder, Language.Edit, this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
                 }
                 else
                 {
-                    UI.Button(builder, Context.Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
-                    UI.Button(builder, Context.Language.Cancel, this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
+                    UI.Button(builder, Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+                    UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
                 }
             });
         });
@@ -155,7 +155,7 @@ class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
             base.BuildRenderTree(builder);
             builder.FormPageButton(() =>
             {
-                UI.Button(builder, Context.Language["Button.ConfirmUpdate"], this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+                UI.Button(builder, Language["Button.ConfirmUpdate"], this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
             });
         });
     }

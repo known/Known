@@ -16,14 +16,14 @@
             @if (actions.Count > 2)
             {
                 var first = actions[0];
-                var firstName = Context.Language[$"Button.{first.Id}"];
+                var firstName = Language[$"Button.{first.Id}"];
                 <TableCellButton Color="first.ToColor()" Text="@firstName" OnClick="e=>Model.OnAction?.Invoke(first, context)" />
             }
             else
             {
                 foreach (var item in actions)
                 {
-                    var itemName = Context.Language[$"Button.{item.Id}"];
+                    var itemName = Language[$"Button.{item.Id}"];
                     <TableCellButton Color="item.ToColor()" Text="@itemName" OnClick="e=>Model.OnAction?.Invoke(item, context)" />
                 }
             }

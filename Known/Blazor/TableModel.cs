@@ -49,7 +49,7 @@ public class TableModel<TItem> where TItem : class, new()
         InitQueryColumns();
     }
 
-    private Language Language => Page?.Context?.Language;
+    private Language Language => Page?.Language;
     internal IUIService UI { get; }
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal BasePage<TItem> Page { get; }

@@ -61,7 +61,7 @@ class SysOrganizationList : BasePage<SysOrganization>
     {
         if (current == null)
         {
-            UI.Error(Context.Language["Tip.SelectParentOrganization"]);
+            UI.Error(Language["Tip.SelectParentOrganization"]);
             return;
         }
 

@@ -21,20 +21,20 @@
             var actions = Model.RowActions?.Invoke(context);
             if (actions == null)
                 actions = Model.Actions;
-            <ActionColumn Title="@Context.Language["Title.Action"]" Fixed="true" Width="140">
+            <ActionColumn Title="@Language["Title.Action"]" Fixed="true" Width="140">
                 @if (actions.Count > 2)
                 {
                     var first = actions[0];
-                    var firstName = Context.Language[$"Button.{first.Id}"];
+                    var firstName = Language[$"Button.{first.Id}"];
                     var mores = actions.Skip(1).ToList();
                     <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Model.OnAction?.Invoke(first, context)">@firstName</Tag>
-                    <AntDropdown Context="Context" Text="@Context.Language["Button.More"]" Items="mores" OnItemClick="e=>Model.OnAction?.Invoke(e, context)" />
+                    <AntDropdown Context="Context" Text="@Language["Button.More"]" Items="mores" OnItemClick="e=>Model.OnAction?.Invoke(e, context)" />
                 }
                 else
                 {
                     foreach (var item in actions)
                     {
-                        var itemName = Context.Language[$"Button.{item.Id}"];
+                        var itemName = Language[$"Button.{item.Id}"];
                         <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@itemName</Tag>
                     }
                 }

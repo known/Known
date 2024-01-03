@@ -22,13 +22,13 @@ public class EditInput : BaseComponent
                     Value = Value,
                     ValueChanged = this.Callback<string>(value => Value = value)
                 });
-                builder.Link(Context.Language.OK, this.Callback(OnSaveClick));
-                builder.Link(Context.Language.Cancel, this.Callback(() => isEdit = false));
+                builder.Link(Language.OK, this.Callback(OnSaveClick));
+                builder.Link(Language.Cancel, this.Callback(() => isEdit = false));
             }
             else
             {
                 builder.Span(Value);
-                builder.Link(Context.Language.Edit, this.Callback(() => isEdit = true));
+                builder.Link(Language.Edit, this.Callback(() => isEdit = true));
             }
         });
     }

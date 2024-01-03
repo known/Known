@@ -13,8 +13,8 @@ class SysSystem : BaseTabPage
         await base.OnInitPageAsync();
 		Data = await Platform.System.GetSystemAsync();
 
-		Tab.Items.Add(new ItemModel(Context.Language["Title.SystemInfo"]) { Content = builder => builder.Component<SysSystemInfo>().Build() });
-		Tab.Items.Add(new ItemModel(Context.Language["Title.SecuritySetting"]) { Content = builder => builder.Component<SysSystemSafe>().Build() });
+		Tab.Items.Add(new ItemModel(Language["Title.SystemInfo"]) { Content = builder => builder.Component<SysSystemInfo>().Build() });
+		Tab.Items.Add(new ItemModel(Language["Title.SecuritySetting"]) { Content = builder => builder.Component<SysSystemSafe>().Build() });
     }
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildRenderTree);

@@ -3,19 +3,19 @@
 <Breadcrumb Style="margin:16px 0;">
     <BreadcrumbItem OnClick="OnHome">
         <Icon Type="home" Style="cursor:pointer;" />
-        <span style="cursor:pointer;">@Context.Language.Home</span>
+        <span style="cursor:pointer;">@Language.Home</span>
     </BreadcrumbItem>
     @if (CurrentMenu.Parent != null)
     {
-        var parentName = Context.Language[$"Menu.{CurrentMenu.Parent.Code}"];
+        var parentName = Language[$"Menu.{CurrentMenu.Parent.Code}"];
         <BreadcrumbItem>
             <Icon Type="@CurrentMenu.Parent.Icon" />
             <span>@parentName</span>
         </BreadcrumbItem>
     }
-    @if (CurrentMenu.Name != Context.Language.Home)
+    @if (CurrentMenu.Name != Language.Home)
     {
-        var menuName = Context.Language[$"Menu.{CurrentMenu.Code}"];
+        var menuName = Language[$"Menu.{CurrentMenu.Code}"];
         <BreadcrumbItem>
             <Icon Type="@CurrentMenu.Icon" />
             <span>@menuName</span>

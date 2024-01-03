@@ -35,19 +35,19 @@ public static class FlowExtension
 
     public static void SubmitFlow<TItem>(this BasePage<TItem> page, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        page.ShowFlowModal(page.Context.Language["Button.Submit"], rows, page.Platform.Flow.SubmitFlowAsync);
+        page.ShowFlowModal(page.Language["Button.Submit"], rows, page.Platform.Flow.SubmitFlowAsync);
     }
 
     public static void RevokeFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new() => page.RevokeFlow([row]);
 
     public static void RevokeFlow<TItem>(this BasePage<TItem> page, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        page.ShowFlowModal(page.Context.Language["Button.Revoke"], rows, page.Platform.Flow.RevokeFlowAsync);
+        page.ShowFlowModal(page.Language["Button.Revoke"], rows, page.Platform.Flow.RevokeFlowAsync);
     }
 
     public static void AssignFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new()
     {
-        page.ShowFlowModal(page.Context.Language["Button.Assign"], [row], page.Platform.Flow.AssignFlowAsync);
+        page.ShowFlowModal(page.Language["Button.Assign"], [row], page.Platform.Flow.AssignFlowAsync);
     }
 
     public static void VerifyFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new()
@@ -57,22 +57,22 @@ public static class FlowExtension
 
     public static void StopFlow<TItem>(this BasePage<TItem> page, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        page.ShowFlowModal(page.Context.Language["Button.Stop"], rows, page.Platform.Flow.StopFlowAsync);
+        page.ShowFlowModal(page.Language["Button.Stop"], rows, page.Platform.Flow.StopFlowAsync);
     }
 
     public static void RepeatFlow<TItem>(this BasePage<TItem> page, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        page.ShowFlowModal(page.Context.Language["Button.Restart"], rows, page.Platform.Flow.RepeatFlowAsync);
+        page.ShowFlowModal(page.Language["Button.Restart"], rows, page.Platform.Flow.RepeatFlowAsync);
     }
 
     private static void ShowFlowModal<TItem>(this BasePage<TItem> page, string name, List<TItem> rows, Func<FlowFormInfo, Task<Result>> action) where TItem : FlowEntity, new()
     {
         var flow = new FlowFormModel(page.UI);
         flow.Data = new FlowFormInfo { BizId = string.Join(",", rows.Select(r => r.Id)) };
-        if (name == page.Context.Language["Button.Assign"])
+        if (name == page.Language["Button.Assign"])
         {
             //指派给、备注
-            flow.AddUserColumn(page.Context.Language["AssignTo"], "User");
+            flow.AddUserColumn(page.Language["AssignTo"], "User");
             flow.AddNoteColumn();
         }
         else
@@ -80,7 +80,7 @@ public static class FlowExtension
             flow.AddReasonColumn(name);
         }
 
-        var title = page.Context.Language["Title.FlowAction"].Replace("{action}", name);
+        var title = page.Language["Title.FlowAction"].Replace("{action}", name);
         var model = new DialogModel
         {
             Title = title,

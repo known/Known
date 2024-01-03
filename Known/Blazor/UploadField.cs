@@ -39,7 +39,7 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
                     {
                         if (!Model.Form.IsView)
                         {
-                            builder.Span("kui-link danger", Context.Language.Delete, this.Callback(() => OnDeleteFile(item)));
+                            builder.Span("kui-link danger", Language.Delete, this.Callback(() => OnDeleteFile(item)));
                         }
                         builder.DownloadLink(item.Name, item.FileUrl);
                     });
@@ -64,7 +64,7 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
 
     private void OnDeleteFile(SysFile item)
     {
-        var message = Context.Language["Tip.ConfirmDelete"].Replace("{name}", item.Name);
+        var message = Language["Tip.ConfirmDelete"].Replace("{name}", item.Name);
         UI.Confirm(message, async () =>
         {
             await Platform.File.DeleteFileAsync(item);

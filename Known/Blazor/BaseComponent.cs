@@ -26,6 +26,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
     protected bool IsLoaded { get; set; }
     public IUIService UI => Context?.UI;
+    public Language Language => Context?.Language;
     public UserInfo CurrentUser => Context?.CurrentUser;
     public HttpContext HttpContext => HttpAccessor.HttpContext;
 

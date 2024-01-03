@@ -14,7 +14,7 @@ class Importer : BaseComponent
     private string message;
     private IAttachFile attach;
 
-    private string ErrorMessage => Context.Language["Import.Error"];
+    private string ErrorMessage => Language["Import.Error"];
 
     [Parameter] public ImportFormInfo Model { get; set; }
     [Parameter] public Action OnSuccess { get; set; }
@@ -31,7 +31,7 @@ class Importer : BaseComponent
     {
         builder.Div("kui-form-import", () =>
         {
-            builder.Div("danger", Context.Language["Import.Tips"]);
+            builder.Div("danger", Language["Import.Tips"]);
             builder.Div("item", () =>
             {
                 BuildInputFile(builder);
@@ -42,7 +42,7 @@ class Importer : BaseComponent
             });
             builder.Div(() =>
             {
-                builder.Link(Context.Language["Import.Download"], this.Callback(OnDownloadTemplateAsync));
+                builder.Link(Language["Import.Download"], this.Callback(OnDownloadTemplateAsync));
                 if (!string.IsNullOrWhiteSpace(error))
                     builder.Link(ErrorMessage, this.Callback(OnErrorMessage));
                 builder.Span("size", fileInfo);
@@ -76,7 +76,7 @@ class Importer : BaseComponent
         if (file == null || file.Size == 0)
             return;
 
-        fileInfo = $"{Context.Language["Import.Size"]}{file.Size / 1024}KB";
+        fileInfo = $"{Language["Import.Size"]}{file.Size / 1024}KB";
         attach = new BlazorAttachFile(file);
     }
 
@@ -84,11 +84,11 @@ class Importer : BaseComponent
     {
         if (attach == null)
         {
-            UI.Error(Context.Language["Import.SelectFile"]);
+            UI.Error(Language["Import.SelectFile"]);
             return;
         }
 
-        message = Context.Language["Import.Importing"];
+        message = Language["Import.Importing"];
         isFinished = false;
 
         var info = new UploadInfo<ImportFormInfo>(Model);
@@ -118,7 +118,7 @@ class Importer : BaseComponent
         if (bytes != null && bytes.Length > 0)
         {
             var stream = new MemoryStream(bytes);
-            JS.DownloadFile($"{Context.Language["Import.Template"]}_{Model.Name}.xlsx", stream);
+            JS.DownloadFile($"{Language["Import.Template"]}_{Model.Name}.xlsx", stream);
         }
     }
 }

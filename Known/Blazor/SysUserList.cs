@@ -65,10 +65,10 @@ class SysUserList : BasePage<SysUser>
     [Action] public void Edit(SysUser row) => table.EditForm(Platform.User.SaveUserAsync, row);
     [Action] public void Delete(SysUser row) => table.Delete(Platform.User.DeleteUsersAsync, row);
     [Action] public void DeleteM() => table.DeleteM(Platform.User.DeleteUsersAsync);
-    [Action] public void ResetPassword() => table.SelectRows(Platform.User.SetUserPwdsAsync, Context.Language.Reset);
+    [Action] public void ResetPassword() => table.SelectRows(Platform.User.SetUserPwdsAsync, Language.Reset);
     [Action] public void ChangeDepartment() => table.SelectRows(OnChangeDepartment);
-    [Action] public void Enable() => table.SelectRows(Platform.User.EnableUsersAsync, Context.Language.Enable);
-    [Action] public void Disable() => table.SelectRows(Platform.User.DisableUsersAsync, Context.Language.Disable);
+    [Action] public void Enable() => table.SelectRows(Platform.User.EnableUsersAsync, Language.Enable);
+    [Action] public void Disable() => table.SelectRows(Platform.User.DisableUsersAsync, Language.Disable);
 
     private void BuildGender(RenderTreeBuilder builder, SysUser row)
     {
@@ -82,7 +82,7 @@ class SysUserList : BasePage<SysUser>
         SysOrganization node = null;
         var model = new DialogModel
         {
-            Title = Context.Language["Title.ChangeDepartment"],
+            Title = Language["Title.ChangeDepartment"],
             Content = builder =>
             {
                 UI.BuildTree(builder, new TreeModel
@@ -97,7 +97,7 @@ class SysUserList : BasePage<SysUser>
         {
             if (node == null)
             {
-                UI.Error(Context.Language["Tip.SelectChangeOrganization"]);
+                UI.Error(Language["Tip.SelectChangeOrganization"]);
                 return;
             }
 

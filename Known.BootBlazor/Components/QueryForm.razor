@@ -10,7 +10,7 @@
     @for (var i = 0; i < length; i++)
     {
         var item = Model.QueryColumns[i];
-        var itemName = Context.Language[item.Id];
+        var itemName = Language[item.Id];
         var itemType = "String";
         if (item.Property != null)
             itemType = item.Property.PropertyType.Name;
@@ -18,7 +18,7 @@
             <label>@itemName</label>
             @if (!string.IsNullOrWhiteSpace(item.Category))
             {
-                var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? Context.Language["All"] : "");
+                var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? Language["All"] : "");
                 <BootstrapInput @bind-Value="@(Model.QueryData[item.Id].Value)" style="width:180px" />
                 @* <BootSelect Codes="codes" @bind-Value="@(Model.QueryData[item.Id].Value)" style="width:180px" /> *@
             }
@@ -33,12 +33,12 @@
         </div>
     }
     <div style="margin-left:10px;">
-            <Button Color="Color.Primary" OnClick="e=>OnSearchAsync()">@Context.Language.Search</Button>
-            @* <Button style="margin-left:8px;" OnClick="()=>{_form?.Reset();}">@Context.Language.Reset</Button> *@
+            <Button Color="Color.Primary" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
+            @* <Button style="margin-left:8px;" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button> *@
         @if (length > 3)
         {
             @* <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
-    <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Context.Language["Collapse"] : Context.Language["Expand"])
+    <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language["Collapse"] : Language["Expand"])
     </a> *@
         }
     </div>

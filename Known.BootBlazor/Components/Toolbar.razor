@@ -5,7 +5,7 @@
     <div class="boot-toolbar btn-group" role="group">
         @foreach (var item in Model.Items)
         {
-            var itemName = Context.Language[$"Button.{item.Id}"];
+            var itemName = Language[$"Button.{item.Id}"];
             var color = item.Style == "danger" ? Color.Danger : Color.Primary;
             <Button Color="color" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
             @if (item.Children != null && item.Children.Count > 0)

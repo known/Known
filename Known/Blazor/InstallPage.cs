@@ -27,7 +27,7 @@ public class InstallPage : BaseForm<InstallInfo>
         {
             builder.Div("kui-install-head", () =>
             {
-                builder.Div("", $"{Context.Language["App.Name"]} - {Context.Language["Install"]}");
+                builder.Div("", $"{Language["App.Name"]} - {Language["Install"]}");
                 builder.Fragment(TopMenu);
             });
             builder.Div("kui-install-body", () =>
@@ -37,7 +37,7 @@ public class InstallPage : BaseForm<InstallInfo>
                     base.BuildRenderTree(builder);
                     builder.Div("button", () =>
                     {
-                        UI.Button(builder, Context.Language["StartUsing"], this.Callback<MouseEventArgs>(OnStartAsync), "primary");
+                        UI.Button(builder, Language["StartUsing"], this.Callback<MouseEventArgs>(OnStartAsync), "primary");
                     });
                 });
             });
