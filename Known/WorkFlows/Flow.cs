@@ -5,7 +5,7 @@ public enum FlowPageType { None, Apply, Verify, Query }
 public class FlowStatus
 {
     private FlowStatus() { }
-
+    //TODO:流程数据语言切换
     public const string Open = "开启";
     public const string Over = "结束";
     public const string Stop = "终止";

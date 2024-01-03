@@ -21,10 +21,10 @@ public abstract class BaseFlow
         }
     }
 
-    internal static BaseFlow Create(SysFlow flow)
+    internal static BaseFlow Create(Context context, SysFlow flow)
     {
         if (!flowTypes.ContainsKey(flow.FlowCode))
-            Check.Throw("流程未注册！");
+            Check.Throw(context.Language["Tip.NotRegisterFlow"]);
 
         var type = flowTypes[flow.FlowCode];
         var instance = Activator.CreateInstance(type);

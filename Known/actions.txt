@@ -16,7 +16,7 @@ Cancel           | 取消    | close        |
 
 Submit           | 提交    | send         | primary
 Revoke           | 撤回    | undo         | primary
-AssignTo         | 分配给  | user-switch  | primary
+Assign           | 分配    | user-switch  | primary
 Verify           | 审核    | check        | primary
 Pass             | 审核通过 | check-circle | primary
 Return           | 审核退回 | close-circle | primary

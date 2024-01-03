@@ -81,7 +81,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         builder.FormAction(() =>
         {
             if (Model.FormType == FormType.Verify)
-                UI.Button(builder, new ActionInfo(Context, "AssignTo", ""), this.Callback<MouseEventArgs>(OnAssign));
+                UI.Button(builder, new ActionInfo(Context, "Assign", ""), this.Callback<MouseEventArgs>(OnAssign));
 
             UI.Button(builder, new ActionInfo(Context, "OK", ""), this.Callback<MouseEventArgs>(OnSaveAsync));
             UI.Button(builder, new ActionInfo(Context, "Cancel", ""), this.Callback<MouseEventArgs>(OnCloseAsync));
@@ -132,7 +132,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         switch (Model.FormType)
         {
             case FormType.Submit:
-                flow.AddUserColumn("提交给", "User");
+                flow.AddUserColumn(Context.Language["SubmitTo"], "User");
                 flow.AddNoteColumn();
                 break;
             case FormType.Verify:
@@ -162,7 +162,7 @@ class FlowFormModel(IUIService ui) : FormModel<FlowFormInfo>(ui, true)
     {
         AddRow().AddColumn(c => c.BizStatus, c =>
         {
-            c.Name = "审核结果";
+            c.Name = Context.Language["VerifyResult"];
             c.Category = $"{FlowStatus.VerifyPass},{FlowStatus.VerifyFail}";
         });
     }
@@ -171,16 +171,17 @@ class FlowFormModel(IUIService ui) : FormModel<FlowFormInfo>(ui, true)
     {
         AddRow().AddColumn(c => c.Note, c =>
         {
-            c.Name = "备注";
+            c.Name = Context.Language["Note"];
             c.Type = FieldType.TextArea;
         });
     }
 
     internal void AddReasonColumn(string name)
     {
+        var reason = Context.Language["XXReason"].Replace("{name}", name);
         AddRow().AddColumn(c => c.Note, c =>
         {
-            c.Name = $"{name}原因";
+            c.Name = reason;
             c.Required = true;
             c.Type = FieldType.TextArea;
         });

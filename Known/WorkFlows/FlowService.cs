@@ -4,6 +4,10 @@ namespace Known.WorkFlows;
 
 class FlowService : ServiceBase
 {
+    private string FlowNotCreated => Context.Language["Tip.FlowNotCreate"];
+    private string UserNotExists(string user) => Context.Language["Tip.UserNotExists"].Replace("{user}", user);
+    private string NotExecuteFlow(string user) => Context.Language["Tip.NotExecuteFlow"].Replace("{user}", user);
+
     internal static Task<SysFlow> GetFlowAsync(Database db, string bizId) => FlowRepository.GetFlowAsync(db, bizId);
 
     internal async Task<UserInfo> GetFlowStepUserAsync(Database db, string flowCode, string stepCode)
@@ -20,23 +24,24 @@ class FlowService : ServiceBase
     {
         var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
-            return Result.Error("流程未创建，无法执行！");
+            return Result.Error(FlowNotCreated);
 
         var next = await AuthService.GetUserAsync(Database, info.User);
         if (next == null)
-            return Result.Error($"账号[{info.User}]不存在！");
+            return Result.Error(UserNotExists(info.User));
 
         var user = CurrentUser;
-        return await Database.TransactionAsync("提交", async db =>
+        var name = Context.Language["Button.Submit"];
+        return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {
                 if (flow.CurrBy != user.UserName)
-                    Check.Throw($"无权操作[{flow.CurrBy}]的单据！");
+                    Check.Throw(NotExecuteFlow(flow.CurrBy));
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = BaseFlow.Create(flow);
+                var biz = BaseFlow.Create(Context, flow);
                 var result = await biz.OnCommitingAsync(db, info);
                 if (!result.IsValid)
                     Check.Throw(result.Message);
@@ -44,7 +49,7 @@ class FlowService : ServiceBase
                 SetCurrToPrevStep(flow);
                 SetCurrStep(flow, FlowStatus.StepSubmit, next);
 
-                var noteText = $"提交给[{flow.CurrBy}]";
+                var noteText = Context.Language["SubmitToUser"].Replace("{user}", flow.CurrBy);
                 if (!string.IsNullOrEmpty(info.Note))
                     noteText += $"，{info.Note}";
 
@@ -61,23 +66,24 @@ class FlowService : ServiceBase
     public async Task<Result> RevokeFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error("撤回原因不能为空！");
+            return Result.Error(Context.Language["Tip.RevokeReason"]);
 
         var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
-            return Result.Error("流程未创建，无法执行！");
+            return Result.Error(FlowNotCreated);
 
         var user = CurrentUser;
-        return await Database.TransactionAsync("撤回", async db =>
+        var name = Context.Language["Button.Revoke"];
+        return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {
                 if (flow.PrevBy != user.UserName)
-                    Check.Throw($"无权撤回[{flow.PrevBy}]的单据！");
+                    Check.Throw(NotExecuteFlow(flow.CurrBy));
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = BaseFlow.Create(flow);
+                var biz = BaseFlow.Create(Context, flow);
                 var result = await biz.OnRevokingAsync(db, info);
                 if (!result.IsValid)
                     Check.Throw(result.Message);
@@ -96,30 +102,31 @@ class FlowService : ServiceBase
     {
         var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
-            return Result.Error("流程未创建，无法执行！");
+            return Result.Error(FlowNotCreated);
 
         var next = await AuthService.GetUserAsync(Database, info.User);
         if (next == null)
-            return Result.Error($"下一步执行人[{info.User}]不存在！");
+            return Result.Error(Context.Language["Tip.NextUserNotExists"].Replace("{user}", info.User));
 
         var user = CurrentUser;
-        return await Database.TransactionAsync("分配", async db =>
+        var name = Context.Language["Button.Assign"];
+        return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {
                 if (flow.CurrBy != user.UserName)
-                    Check.Throw($"无权操作[{flow.CurrBy}]的单据！");
+                    Check.Throw(NotExecuteFlow(flow.CurrBy));
 
                 var stepName = flow.CurrStep;
                 SetCurrToPrevStep(flow);
                 SetCurrStep(flow, stepName, next);
 
-                var noteText = $"指派给[{flow.CurrBy}]";
+                var noteText = Context.Language["AssignToUser"].Replace("{user}", flow.CurrBy);
                 if (!string.IsNullOrEmpty(info.Note))
                     noteText += $"，{info.Note}";
 
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepAssign, "分配", noteText);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepAssign, name, noteText);
             }
         });
     }
@@ -128,31 +135,32 @@ class FlowService : ServiceBase
     {
         var isPass = info.BizStatus == FlowStatus.VerifyPass;
         if (!isPass && string.IsNullOrEmpty(info.Note))
-            return Result.Error("退回原因不能为空！");
+            return Result.Error(Context.Language["Tip.ReturnReason"]);
 
         var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
-            return Result.Error("流程未创建，无法执行！");
+            return Result.Error(FlowNotCreated);
 
         UserInfo next = null;
         if (isPass && !string.IsNullOrWhiteSpace(info.User))
         {
             next = await AuthService.GetUserAsync(Database, info.User);
             if (next == null)
-                return Result.Error($"账号[{info.User}]不存在！");
+                return Result.Error(UserNotExists(info.User));
         }
 
         var user = CurrentUser;
-        return await Database.TransactionAsync("审核", async db =>
+        var name = Context.Language["Button.Verify"];
+        return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {
                 if (flow.CurrBy != user.UserName)
-                    Check.Throw($"无权操作[{flow.CurrBy}]的单据！");
+                    Check.Throw(NotExecuteFlow(flow.CurrBy));
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = BaseFlow.Create(flow);
+                var biz = BaseFlow.Create(Context, flow);
                 var result = await biz.OnVerifingAsync(db, info);
                 if (!result.IsValid)
                     Check.Throw(result.Message);
@@ -169,15 +177,15 @@ class FlowService : ServiceBase
                     {
                         flow.CurrBy = next.UserName;
                         await db.SaveAsync(flow);
-                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Language.Pass, info.Note);
+                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Context.Language["Pass"], info.Note);
                     }
                     else
                     {
                         flow.CurrBy = flow.ApplyBy;
                         flow.FlowStatus = FlowStatus.Over;
                         await db.SaveAsync(flow);
-                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Language.Pass, info.Note);
-                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepOver, "结束", "流程结束");
+                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Context.Language["Pass"], info.Note);
+                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepOver, Context.Language["End"], "");
                     }
                 }
                 else
@@ -185,12 +193,12 @@ class FlowService : ServiceBase
                     SetCurrToNextStep(flow);
                     SetPrevToCurrStep(flow);
 
-                    var noteText = $"退回给[{flow.CurrBy}]";
+                    var noteText = Context.Language["ReturnToUser"].Replace("{user}", flow.CurrBy);
                     if (!string.IsNullOrEmpty(info.Note))
                         noteText += $"，{info.Note}";
 
                     await db.SaveAsync(flow);
-                    await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Language.Return, noteText);
+                    await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Context.Language["Fail"], noteText);
                 }
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnVerifiedAsync(db, info);
@@ -201,19 +209,20 @@ class FlowService : ServiceBase
     public async Task<Result> RepeatFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error("重启原因不能为空！");
+            return Result.Error(Context.Language["Tip.RestartReason"]);
 
         var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
-            return Result.Error("流程未创建，无法执行！");
+            return Result.Error(FlowNotCreated);
 
-        return await Database.TransactionAsync("重启", async db =>
+        var name = Context.Language["Button.Restart"];
+        return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = BaseFlow.Create(flow);
+                var biz = BaseFlow.Create(Context, flow);
                 var result = await biz.OnRepeatingAsync(db, info);
                 if (!result.IsValid)
                     Check.Throw(result.Message);
@@ -221,7 +230,7 @@ class FlowService : ServiceBase
                 flow.BizStatus = info.BizStatus ?? FlowStatus.ReApply;
                 flow.FlowStatus = FlowStatus.Open;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepRepeat, "重启", info.Note);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepRepeat, name, info.Note);
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnRepeatedAsync(db, info);
             }
@@ -231,19 +240,20 @@ class FlowService : ServiceBase
     public async Task<Result> StopFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error("终止原因不能为空！");
+            return Result.Error(Context.Language["Tip.StopReason"]);
 
         var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
-            return Result.Error("流程未创建，无法执行！");
+            return Result.Error(FlowNotCreated);
 
-        return await Database.TransactionAsync("终止", async db =>
+        var name = Context.Language["Button.Stop"];
+        return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = BaseFlow.Create(flow);
+                var biz = BaseFlow.Create(Context, flow);
                 var result = await biz.OnStoppingAsync(db, info);
                 if (!result.IsValid)
                     Check.Throw(result.Message);
@@ -251,7 +261,7 @@ class FlowService : ServiceBase
                 flow.BizStatus = FlowStatus.Stop;
                 flow.FlowStatus = FlowStatus.Stop;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepStop, "终止", info.Note);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepStop, name, info.Note);
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnStoppedAsync(db, info);
             }
@@ -277,7 +287,7 @@ class FlowService : ServiceBase
             CurrBy = db.User.UserName
         };
         await db.SaveAsync(flow);
-        await AddFlowLogAsync(db, info.BizId, stepName, "创建", info.BizName);
+        await AddFlowLogAsync(db, info.BizId, stepName, Context.Language["Start"], info.BizName);
     }
 
     internal async Task DeleteFlowAsync(Database db, string bizId)
