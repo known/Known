@@ -14,13 +14,13 @@ Print            | 打印    | printer      | primary
 OK               | 确定    | check        | primary
 Cancel           | 取消    | close        | 
 
-Submit           | 提交审核 | send         | primary
+Submit           | 提交    | send         | primary
 Revoke           | 撤回    | undo         | primary
-Assign           | 分配给  | user-switch  | primary
+AssignTo         | 分配给  | user-switch  | primary
 Verify           | 审核    | check        | primary
 Pass             | 审核通过 | check-circle | primary
 Return           | 审核退回 | close-circle | primary
-Repeat           | 重新申请 | redo         | primary
+Reapply          | 重新申请 | redo         | primary
 
 ResetPassword    | 重置密码 | lock        | primary
 ChangeDepartment | 更换部门 | user-switch | primary

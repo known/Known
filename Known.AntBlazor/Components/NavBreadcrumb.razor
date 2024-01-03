@@ -1,7 +1,9 @@
-﻿<Breadcrumb Style="margin:16px 0;">
+﻿@inherits BaseComponent
+
+<Breadcrumb Style="margin:16px 0;">
     <BreadcrumbItem OnClick="OnHome">
         <Icon Type="home" Style="cursor:pointer;" />
-        <span style="cursor:pointer;">首页</span>
+        <span style="cursor:pointer;">@Context.Language.Home</span>
     </BreadcrumbItem>
     @if (CurrentMenu.Parent != null)
     {
@@ -10,7 +12,7 @@
             <span>@CurrentMenu.Parent.Name</span>
         </BreadcrumbItem>
     }
-    @if (CurrentMenu.Name != "首页")
+    @if (CurrentMenu.Name != Context.Language.Home)
     {
         <BreadcrumbItem>
             <Icon Type="@CurrentMenu.Icon" />

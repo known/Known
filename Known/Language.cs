@@ -67,6 +67,8 @@ public class Language
         }
     }
 
+    public string Home => this["Menu.Home"];
+
     public string BasicInfo => this["Title.BasicInfo"];
 
     public string OK => this["Button.OK"];
@@ -75,6 +77,7 @@ public class Language
     public string Edit => this["Button.Edit"];
     public string Delete => this["Button.Delete"];
     public string Save => this["Button.Save"];
+    public string Search => this["Button.Search"];
     public string Reset => this["Button.Reset"];
     public string Enable => this["Button.Enable"];
     public string Disable => this["Button.Disable"];
@@ -118,7 +121,6 @@ public class Language
     public const string LoginOffline = "您登录的账号已被踢出！";
     public const string Close = "关闭";
     public const string Send = "发送";
-    public const string Search = "搜索";
     public const string Query = "查询";
     public const string Detail = "查看";
     public const string Add = "添加";

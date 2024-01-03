@@ -1,4 +1,5 @@
-﻿@typeparam TItem where TItem : class, new()
+﻿@inherits BaseComponent
+@typeparam TItem where TItem : class, new()
 
 <div class="ant-query">
 @if (Model.QueryColumns != null && Model.QueryColumns.Count > 0)
@@ -10,13 +11,14 @@
         @for (var i = 0; i < length; i++)
         {
             var item = Model.QueryColumns[i];
+            var itemName = Context.Language[item.Id];
             var itemType = "String";
             if (item.Property != null)
                 itemType = item.Property.PropertyType.ToString();
-            <FormItem Label="@item.Name">
+            <FormItem Label="@itemName">
                 @if (!string.IsNullOrWhiteSpace(item.Category))
                 {
-                    var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? "全部" : "");
+                    var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? Context.Language["All"] : "");
                     <AntSelect Style="width:150px;" Codes="codes" @bind-Value="@(context[item.Id].Value)" OnSelectedItemChanged="e=>OnSearchAsync()" />
                 }
                 else if (itemType.Contains("DateTime"))
@@ -30,12 +32,12 @@
             </FormItem>
         }
         <div class="ant-query-btn">
-            <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">搜索</Button>
-            <Button Icon="undo" OnClick="()=>{_form?.Reset();}">重置</Button>
+            <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Context.Language.Search</Button>
+            <Button Icon="undo" OnClick="()=>{_form?.Reset();}">@Context.Language.Reset</Button>
             @if (Model.QueryColumns.Count > 3)
             {
                 <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
-                    <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? "折叠" : "展开")
+                        <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Context.Language["Collapse"] : Context.Language["Expand"])
                 </a>
             }
         </div>

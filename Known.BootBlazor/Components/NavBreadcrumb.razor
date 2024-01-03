@@ -1,4 +1,6 @@
-﻿<div style="margin:16px 0;">
+﻿@inherits BaseComponent
+
+<div style="margin:16px 0;">
     <Breadcrumb Value="@Items" />
 </div>
 
@@ -11,10 +13,10 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Items.Add(new BreadcrumbItem("首页"));
+        Items.Add(new BreadcrumbItem(Context.Language.Home));
         if (CurrentMenu.Parent != null)
             Items.Add(new BreadcrumbItem(CurrentMenu.Parent.Name));
-        if (CurrentMenu.Name != "首页")
+        if (CurrentMenu.Name != Context.Language.Home)
             Items.Add(new BreadcrumbItem(CurrentMenu.Name));
     }
 }

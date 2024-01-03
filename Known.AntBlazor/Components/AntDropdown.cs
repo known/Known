@@ -8,6 +8,7 @@ namespace Known.AntBlazor.Components;
 
 public class AntDropdown : Dropdown
 {
+    [Parameter] public Context Context { get; set; }
     [Parameter] public string Icon { get; set; }
     [Parameter] public string Text { get; set; }
     [Parameter] public string TextIcon { get; set; }
@@ -77,6 +78,11 @@ public class AntDropdown : Dropdown
                    .Set(c => c.Theme, "outline")
                    .Build();
         }
-        builder.Span(item.Name);
+        var itemName = Context?.Language[$"Button.{item.Id}"];
+        if (string.IsNullOrWhiteSpace(itemName))
+            itemName = Context?.Language[item.Id];
+        if (string.IsNullOrWhiteSpace(itemName))
+            itemName = item.Name;
+        builder.Span(itemName);
     }
 }

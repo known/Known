@@ -30,7 +30,7 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
             Table.Templates?.TryGetValue(item.Id, out template);
             
             builder.OpenComponent(0, columnType);
-            builder.AddAttribute(1, "Text", item.Name);
+            builder.AddAttribute(1, "Text", Context.Language[item.Id]);
             builder.AddAttribute(1, "FieldName", item.Id);
             builder.AddAttribute(1, "Sortable", item.IsSort);
             if (!string.IsNullOrWhiteSpace(item.DefaultSort))

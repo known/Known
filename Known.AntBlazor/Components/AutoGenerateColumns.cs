@@ -61,12 +61,13 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
 
     private void AddAttributes(RenderTreeBuilder builder, ColumnInfo item, object value)
     {
-        builder.AddComponentParameter(1, nameof(Column<TItem>.Title), item.Name);
+        builder.AddAttribute(1, nameof(Column<TItem>.Title), Context.Language[item.Id]);
         builder.AddAttribute(1, nameof(Column<TItem>.Sortable), item.IsSort);
         builder.AddAttribute(1, nameof(Column<TItem>.Fixed), item.Fixed);
         builder.AddAttribute(1, nameof(Column<TItem>.Width), item.Width);
         if (!string.IsNullOrWhiteSpace(item.DefaultSort))
         {
+            //TODO:数据语言切换
             var sortName = item.DefaultSort == "降序" ? "descend" : "ascend";
             builder.AddAttribute(1, nameof(Column<TItem>.DefaultSortOrder), SortDirection.Parse(sortName));
         }

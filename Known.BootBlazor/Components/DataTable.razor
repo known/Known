@@ -1,4 +1,5 @@
-﻿@typeparam TItem where TItem : class, new()
+﻿@inherits BaseComponent
+@typeparam TItem where TItem : class, new()
 
 <Table TItem="TItem" IsBordered ShowEmpty ShowExtendButtons
        ShowExtendEditButton="false" ShowExtendDeleteButton="false"
@@ -15,13 +16,15 @@
             @if (actions.Count > 2)
             {
                 var first = actions[0];
-                <TableCellButton Color="first.ToColor()" Text="@first.Name" OnClick="e=>Model.OnAction?.Invoke(first, context)" />
+                var firstName = Context.Language[$"Button.{first.Id}"];
+                <TableCellButton Color="first.ToColor()" Text="@firstName" OnClick="e=>Model.OnAction?.Invoke(first, context)" />
             }
             else
             {
                 foreach (var item in actions)
                 {
-                    <TableCellButton Color="item.ToColor()" Text="@item.Name" OnClick="e=>Model.OnAction?.Invoke(item, context)" />
+                    var itemName = Context.Language[$"Button.{item.Id}"];
+                    <TableCellButton Color="item.ToColor()" Text="@itemName" OnClick="e=>Model.OnAction?.Invoke(item, context)" />
                 }
             }
         }

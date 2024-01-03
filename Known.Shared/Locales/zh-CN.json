@@ -273,6 +273,7 @@
   "Title.Module": "模块",
   "Title.Button": "按钮",
   "Title.Column": "栏位",
+  "Title.Action": "操作",
 
   "Button.ConfirmUpdate": "确定修改",
   "Button.OK": "确定",
@@ -281,12 +282,31 @@
   "Button.Edit": "编辑",
   "Button.Delete": "删除",
   "Button.Save": "保存",
+  "Button.Search": "搜索",
   "Button.Reset": "重置",
   "Button.Previous": "上一步",
   "Button.Next": "下一步",
   "Button.Finish": "完成",
   "Button.Enable": "启用",
   "Button.Disable": "禁用",
+  "Button.More": "更多",
+  "Button.DeleteM": "批量删除",
+  "Button.Import": "导入",
+  "Button.Export": "导出",
+  "Button.Upload": "上传",
+  "Button.Download": "下载",
+  "Button.Print": "打印",
+  "Button.Copy": "复制",
+  "Button.Move": "移动",
+  "Button.MoveUp": "上移",
+  "Button.MoveDown": "下移",
+  "Button.Submit": "提交",
+  "Button.Revoke": "撤回",
+  "Button.AssignTo": "分配给",
+  "Button.Verify": "审核",
+  "Button.Reapply": "重新申请",
+  "Button.ResetPassword": "重置密码",
+  "Button.ChangeDepartment": "更换部门",
 
   "Tip.SwitchUIType": "在此处切换界面类型",
   "Tip.Exits": "确定要退出系统？",
@@ -309,7 +329,12 @@
   "Import.Template": "导入模板",
   "Import.Size": "大小：",
 
-  "Field.PleaseSelect": "请选择",
+  "PleaseSelect": "请选择",
+  "All": "全部",
+  "Collapse": "折叠",
+  "Expand": "展开",
+
+  "Page.Total": "共 {total} 条记录",
 
   "Valid.Required": "{label}不能为空！",
   "Valid.MinLength": "{label}至少{length}个字符！",
@@ -363,5 +388,7 @@
   "Nav.FullScreen": "全屏显示",
   "Nav.ExitScreen": "退出全屏",
   "Nav.Profile": "个人中心",
-  "Nav.Exit": "安全退出"
+  "Nav.Exit": "安全退出",
+
+  "Menu.Home": "首页"
 }

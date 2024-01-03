@@ -1,9 +1,12 @@
-﻿@if (Model.Items != null && Model.Items.Count > 0)
+﻿@inherits BaseComponent
+
+@if (Model.Items != null && Model.Items.Count > 0)
 {
     <div class="ant-toolbar">
         @foreach (var item in Model.Items)
         {
-            <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@item.Name</Button>
+            var itemName = Context.Language[$"Button.{item.Id}"];
+            <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
             @if (item.Children != null && item.Children.Count > 0)
             {
                 <DropdownButton>
@@ -11,11 +14,12 @@
                         <Menu>
                             @foreach (var child in item.Children)
                             {
-                                <MenuItem Key="@child.Id" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(child)">@child.Name</MenuItem>
+                                var childName = Context.Language[$"Button.{child.Id}"];
+                                <MenuItem Key="@child.Id" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(child)">@childName</MenuItem>
                             }
                         </Menu>
                     </Overlay>
-                    <Unbound>@item.Name</Unbound>
+                    <Unbound>@itemName</Unbound>
                 </DropdownButton>
             }
         }

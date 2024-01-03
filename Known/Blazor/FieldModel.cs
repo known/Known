@@ -42,7 +42,7 @@ public class FieldModel<TItem> where TItem : class, new()
     public List<CodeInfo> GetCodes(string emptyText = "Please select")
     {
         if (!string.IsNullOrWhiteSpace(emptyText))
-            emptyText = Form?.Page?.Context.Language["Field.PleaseSelect"];
+            emptyText = Form?.Page?.Context.Language["PleaseSelect"];
 
         var codes = Form.GetCodes(Column);
         if (codes == null || codes.Count == 0)

@@ -277,6 +277,7 @@
   "Title.Module": "Module",
   "Title.Button": "Button",
   "Title.Column": "Column",
+  "Title.Action": "Action",
 
   "Button.ConfirmUpdate": "Update",
   "Button.OK": "OK",
@@ -285,12 +286,31 @@
   "Button.Edit": "Edit",
   "Button.Delete": "Delete",
   "Button.Save": "Save",
+  "Button.Search": "Search",
   "Button.Reset": "Reset",
   "Button.Previous": "Previous",
   "Button.Next": "Next",
   "Button.Finish": "Finish",
   "Button.Enable": "Enable",
   "Button.Disable": "Disable",
+  "Button.More": "More",
+  "Button.DeleteM": "Batch Delete",
+  "Button.Import": "Import",
+  "Button.Export": "Export",
+  "Button.Upload": "Upload",
+  "Button.Download": "Download",
+  "Button.Print": "Print",
+  "Button.Copy": "Copy",
+  "Button.Move": "Move",
+  "Button.MoveUp": "Up",
+  "Button.MoveDown": "Down",
+  "Button.Submit": "Submit",
+  "Button.Revoke": "Revoke",
+  "Button.AssignTo": "AssignTo",
+  "Button.Verify": "Verify",
+  "Button.Reapply": "Reapply",
+  "Button.ResetPassword": "Reset Password",
+  "Button.ChangeDepartment": "Change Department",
 
   "Tip.SwitchUIType": "Switch interface types here",
   "Tip.Exits": "Are you sure to exit the system?",
@@ -313,7 +333,12 @@
   "Import.Template": "Template",
   "Import.Size": "Size:",
 
-  "Field.PleaseSelect": "Please select",
+  "PleaseSelect": "Please select",
+  "AllSelect": "All",
+  "Collapse": "Collapse",
+  "Expand": "Expand",
+
+  "Page.Total": "Total: {total}",
 
   "Valid.Required": "{label} is required!",
   "Valid.MinLength": "{label} at least {length} characters!",
@@ -367,5 +392,7 @@
   "Nav.FullScreen": "Full Screen",
   "Nav.ExitScreen": "Exit Full Screen",
   "Nav.Profile": "Profile",
-  "Nav.Exit": "Sign Out"
+  "Nav.Exit": "Sign Out",
+
+  "Menu.Home": "Home"
 }

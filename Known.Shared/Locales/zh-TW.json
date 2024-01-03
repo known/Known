@@ -146,6 +146,7 @@
   "Title.Module": "模塊",
   "Title.Button": "按鈕",
   "Title.Column": "欄位",
+  "Title.Action": "操作",
 
   "Button.ConfirmUpdate": "確定修改",
   "Button.OK": "確定",
@@ -154,12 +155,31 @@
   "Button.Edit": "編輯",
   "Button.Delete": "删除",
   "Button.Save": "保存",
+  "Button.Search": "搜尋",
   "Button.Reset": "重置",
   "Button.Previous": "上一步",
   "Button.Next": "下一步",
   "Button.Finish": "完成",
   "Button.Enable": "啟用",
   "Button.Disable": "禁用",
+  "Button.More": "更多",
+  "Button.DeleteM": "批量删除",
+  "Button.Import": "導入",
+  "Button.Export": "匯出",
+  "Button.Upload": "上傳",
+  "Button.Download": "下載",
+  "Button.Print": "列印",
+  "Button.Copy": "複製",
+  "Button.Move": "移動",
+  "Button.MoveUp": "上移",
+  "Button.MoveDown": "下移",
+  "Button.Submit": "提交",
+  "Button.Revoke": "撤回",
+  "Button.AssignTo": "分配給",
+  "Button.Verify": "審核",
+  "Button.Reapply": "重新申請",
+  "Button.ResetPassword": "重置密碼",
+  "Button.ChangeDepartment": "更換部門",
 
   "Tip.SwitchUIType": "在此處切換介面類型",
   "Tip.Exits": "確定要退出系統？",
@@ -182,7 +202,12 @@
   "Import.Template": "導入範本",
   "Import.Size": "大小：",
 
-  "Field.PleaseSelect": "請選擇",
+  "PleaseSelect": "請選擇",
+  "AllSelect": "全部",
+  "Collapse": "折疊",
+  "Expand": "展開",
+
+  "Page.Total": "共 {total} 條記錄",
 
   "Valid.Required": "{label}不能為空！",
   "Valid.MinLength": "{label}至少{length}個字元！",
@@ -236,5 +261,7 @@
   "Nav.FullScreen": "全屏顯示",
   "Nav.ExitScreen": "退出全屏",
   "Nav.Profile": "個人中心",
-  "Nav.Exit": "安全退出"
+  "Nav.Exit": "安全退出",
+
+  "Menu.Home": "首頁"
 }

@@ -1,10 +1,13 @@
-﻿@if (Model.Items != null && Model.Items.Count > 0)
+﻿@inherits BaseComponent
+
+@if (Model.Items != null && Model.Items.Count > 0)
 {
     <div class="boot-toolbar btn-group" role="group">
         @foreach (var item in Model.Items)
         {
+            var itemName = Context.Language[$"Button.{item.Id}"];
             var color = item.Style == "danger" ? Color.Danger : Color.Primary;
-            <Button Color="color" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@item.Name</Button>
+            <Button Color="color" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
             @if (item.Children != null && item.Children.Count > 0)
             {
                 @*<Dropdown TValue="ActionInfo" Items="item.Children" OnSelectedItemChanged="@(e=>Model.OnItemClick?.Invoke(e.Value))" Color="Color.Secondary" />*@

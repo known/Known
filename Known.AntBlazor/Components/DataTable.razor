@@ -1,5 +1,6 @@
 ﻿@using System.Reflection
 @using AntDesign.TableModels
+@inherits BaseComponent
 @typeparam TItem where TItem : class, new()
 
 <Table TItem="TItem" Size="TableSize.Small" ScrollX="@Model.FixedWidth" ScrollY="@Model.FixedHeight" Responsive
@@ -20,19 +21,21 @@
             var actions = Model.RowActions?.Invoke(context);
             if (actions == null)
                 actions = Model.Actions;
-            <ActionColumn Title="操作" Fixed="true" Width="120">
+            <ActionColumn Title="@Context.Language["Title.Action"]" Fixed="true" Width="140">
                 @if (actions.Count > 2)
                 {
                     var first = actions[0];
+                    var firstName = Context.Language[$"Button.{first.Id}"];
                     var mores = actions.Skip(1).ToList();
-                    <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Model.OnAction?.Invoke(first, context)">@first.Name</Tag>
-                    <AntDropdown Text="更多" Items="mores" OnItemClick="e=>Model.OnAction?.Invoke(e, context)" />
+                    <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Model.OnAction?.Invoke(first, context)">@firstName</Tag>
+                    <AntDropdown Context="Context" Text="@Context.Language["Button.More"]" Items="mores" OnItemClick="e=>Model.OnAction?.Invoke(e, context)" />
                 }
                 else
                 {
                     foreach (var item in actions)
                     {
-                        <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
+                        var itemName = Context.Language[$"Button.{item.Id}"];
+                        <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@itemName</Tag>
                     }
                 }
             </ActionColumn>
@@ -48,7 +51,7 @@
 
  @code {
     private string GetActionColor(string style) => style == "danger" ? "red-inverse" : "blue-inverse";
-    private Func<PaginationTotalContext, string> showTotal = ctx => $"共 {ctx.Total} 条记录";
+    private Func<PaginationTotalContext, string> showTotal => ctx => Context.Language["Page.Total"].Replace("{total}", $"{ctx.Total}");
 
     [Parameter] public TableModel<TItem> Model { get; set; }
 
