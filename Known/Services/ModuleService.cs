@@ -81,7 +81,7 @@ class ModuleService : ServiceBase
 
     public async Task<Result> SaveModuleAsync(SysModule model)
     {
-        var vr = model.Validate();
+        var vr = model.Validate(Context);
         if (!vr.IsValid)
             return vr;
 

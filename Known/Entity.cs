@@ -64,7 +64,7 @@ public class EntityBase
     //    }
     //}
 
-    public virtual Result Validate()
+    public virtual Result Validate(Context context)
     {
         var type = GetType();
         var properties = type.GetProperties();
@@ -79,7 +79,7 @@ public class EntityBase
             foreach (var item in attrs)
             {
                 if (item is ColumnAttribute column)
-                    column.Validate(value, pi, errors);
+                    column.Validate(context, value, pi, errors);
                 if (item is RegexAttribute regex)
                     regex.Validate(value, errors);
             }

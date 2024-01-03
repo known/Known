@@ -92,7 +92,7 @@ class CompanyService : ServiceBase
 
     public async Task<Result> SaveOrganizationAsync(SysOrganization model)
     {
-        var vr = model.Validate();
+        var vr = model.Validate(Context);
         if (vr.IsValid)
         {
             if (await CompanyRepository.ExistsOrganizationAsync(Database, model))

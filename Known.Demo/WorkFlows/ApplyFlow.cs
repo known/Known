@@ -8,6 +8,8 @@ class ApplyFlow : BaseFlow
     private const string FlowCode = "ApplyFlow";
     private const string FlowName = "申请流程";
 
+    public ApplyFlow(Context context) : base(context) { }
+
     internal static FlowBizInfo GetBizInfo(TbApply entity)
     {
         return new FlowBizInfo
@@ -25,7 +27,7 @@ class ApplyFlow : BaseFlow
     {
         //表单提交前的校验
         var model = await db.QueryByIdAsync<TbApply>(info.BizId);
-        var vr = model.Validate();
+        var vr = model.Validate(Context);
         if (!vr.IsValid)
             return vr;
 

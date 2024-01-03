@@ -24,7 +24,7 @@ public static class Extension
     internal static FormValidationRule[] RuleRequired(this Context context, string id)
     {
         var label = context.Language[id];
-        var message = context.Language["Valid.Required"].Replace("{label}", label);
+        var message = context.Language.GetString("Valid.Required", label);
         var rule = new FormValidationRule { Type = FormFieldType.String, Required = true, Message = message };
         return [rule];
     }
@@ -76,21 +76,21 @@ public static class Extension
             type = FormFieldType.Float;
 
         var label = context.Language[column.Id];
-        var message = context.Language["Valid.Required"].Replace("{label}", label);
+        var message = context.Language.GetString("Valid.Required", label);
         return new FormValidationRule { Type = type, Required = true, Message = message };
     }
 
     private static FormValidationRule GetFormRuleMin(Context context, ColumnInfo column, int length)
     {
         var label = context.Language[column.Id];
-        var message = context.Language["Valid.MinLength"].Replace("{label}", label).Replace("{length}", $"{length}");
+        var message = context.Language.GetString("Valid.MinLength", label, length);
         return new FormValidationRule { Type = FormFieldType.String, Min = length, Message = message };
     }
 
     private static FormValidationRule GetFormRuleMax(Context context, ColumnInfo column, int length)
     {
         var label = context.Language[column.Id];
-        var message = context.Language["Valid.MaxLength"].Replace("{label}", label).Replace("{length}", $"{length}");
+        var message = context.Language.GetString("Valid.MaxLength", label, length);
         return new FormValidationRule { Type = FormFieldType.String, Max = length, Message = message };
     }
 

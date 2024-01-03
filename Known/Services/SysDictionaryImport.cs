@@ -5,7 +5,7 @@ namespace Known.Services;
 
 class SysDictionaryImport : ImportBase
 {
-    public SysDictionaryImport(Database database) : base(database) { }
+    public SysDictionaryImport(Context context, Database database) : base(context, database) { }
 
     public override List<ImportColumn> Columns
     {
@@ -37,7 +37,7 @@ class SysDictionaryImport : ImportBase
                 Note = item.GetValue("备注"),
                 Enabled = true
             };
-            var vr = model.Validate();
+            var vr = model.Validate(Context);
             if (!vr.IsValid)
                 item.ErrorMessage = vr.Message;
             else

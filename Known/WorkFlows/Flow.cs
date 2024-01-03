@@ -40,5 +40,5 @@ public class FlowEntity : EntityBase
 
     public virtual bool CanSubmit => BizStatus == FlowStatus.Save || BizStatus == FlowStatus.Revoked || BizStatus == FlowStatus.VerifyFail || BizStatus == FlowStatus.ReApply;
     public virtual bool CanRevoke => BizStatus == FlowStatus.Verifing;
-    public virtual Result ValidCommit() => base.Validate();
+    public virtual Result ValidCommit(Context context) => base.Validate(context);
 }

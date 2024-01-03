@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Known.Extensions;
 
 namespace Known;
 
@@ -61,10 +60,10 @@ public class Result
         }
     }
 
-    public void Required(string name, string value)
+    public void Required(Context context, string name, string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            AddError(Language.NotEmpty.Format(name));
+            AddError(context.Language.GetString("Valid.Required", name));
     }
 
     public static Result Error(string message, object data = null)

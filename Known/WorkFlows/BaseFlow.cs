@@ -5,6 +5,14 @@ namespace Known.WorkFlows;
 public abstract class BaseFlow
 {
     private static readonly Dictionary<string, Type> flowTypes = [];
+
+    public BaseFlow(Context context)
+    {
+        Context = context;
+    }
+
+    public Context Context { get; }
+
     public static void Register(Assembly assembly)
     {
         if (assembly == null)
@@ -27,8 +35,8 @@ public abstract class BaseFlow
             Check.Throw(context.Language["Tip.NotRegisterFlow"]);
 
         var type = flowTypes[flow.FlowCode];
-        var instance = Activator.CreateInstance(type);
-        return (BaseFlow)instance;
+        var instance = Activator.CreateInstance(type, context) as BaseFlow;
+        return instance;
     }
 
     public virtual Task<Result> OnCommitingAsync(Database db, FlowFormInfo info) => Result.SuccessAsync("");

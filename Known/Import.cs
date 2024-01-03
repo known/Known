@@ -6,8 +6,9 @@ namespace Known;
 
 public abstract class ImportBase
 {
-    protected ImportBase(Database database)
+    protected ImportBase(Context context, Database database)
     {
+        Context = context;
         Database = database;
     }
 
@@ -17,6 +18,7 @@ public abstract class ImportBase
         importTypes[type.Name] = type;
     }
 
+    public Context Context { get; }
     public Database Database { get; }
     public string BizId { get; set; }
     public virtual List<ImportColumn> Columns { get; }
@@ -37,7 +39,7 @@ public abstract class ImportBase
         }
     }
 
-    internal static ImportBase Create(string bizId, Database database)
+    internal static ImportBase Create(string bizId, Context context, Database database)
     {
         var name = GetImportName(bizId);
         if (string.IsNullOrWhiteSpace(name))
@@ -46,7 +48,7 @@ public abstract class ImportBase
         if (!importTypes.TryGetValue(name, out Type type))
             return null;
 
-        var import = Activator.CreateInstance(type, database) as ImportBase;
+        var import = Activator.CreateInstance(type, context, database) as ImportBase;
         import.BizId = bizId;
         return import;
     }

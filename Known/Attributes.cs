@@ -35,13 +35,13 @@ public class ColumnAttribute(string columnName = null) : Attribute
     public string DateFormat { get; set; }
     public PropertyInfo Property { get; set; }
 
-    internal virtual void Validate(object value, PropertyInfo property, List<string> errors)
+    internal virtual void Validate(Context context, object value, PropertyInfo property, List<string> errors)
     {
-        var description = property.DisplayName();
+        var label = context.Language[property.Name];
         var valueString = value == null ? "" : value.ToString().Trim();
         if (property.IsRequired() && string.IsNullOrEmpty(valueString))
         {
-            errors.Add(Language.NotEmpty.Format(description));
+            errors.Add(context.Language.GetString("Valid.Required", label));
             return;
         }
         else if (!string.IsNullOrEmpty(valueString))
@@ -50,29 +50,29 @@ public class ColumnAttribute(string columnName = null) : Attribute
             var maxLength = property.MaxLength();
             var length = GetByteLength(valueString);
             if (minLength != null && length < minLength.Value)
-                errors.Add(Language.MinLength.Format(description, minLength));
+                errors.Add(context.Language.GetString("Valid.MinLength", label, minLength));
             if (maxLength != null && length > maxLength.Value)
-                errors.Add(Language.MaxLength.Format(description, maxLength));
+                errors.Add(context.Language.GetString("Valid.MaxLength", label, maxLength));
 
             var typeName = property.PropertyType.FullName;
             if (typeName.Contains("System.Int32"))
             {
                 if (!int.TryParse(value.ToString(), out int i))
-                    errors.Add(Language.MustInteger.Format(description));
+                    errors.Add(context.Language.GetString("Valid.MustInteger", label));
                 if (minLength != null && i < minLength.Value)
-                    errors.Add(Language.MustMinLength.Format(description, minLength));
+                    errors.Add(context.Language.GetString("Valid.MustMinLength", label, minLength));
                 if (maxLength != null && i > maxLength.Value)
-                    errors.Add(Language.MustMaxLength.Format(description, maxLength));
+                    errors.Add(context.Language.GetString("Valid.MustMaxLength", label, maxLength));
             }
 
             if (typeName.Contains("System.Decimal"))
             {
                 if (!decimal.TryParse(value.ToString(), out decimal d))
-                    errors.Add(Language.MustNumber.Format(description));
+                    errors.Add(context.Language.GetString("Valid.MustNumber", label));
                 if (minLength != null && d < minLength.Value)
-                    errors.Add(Language.MustMinLength.Format(description, minLength));
+                    errors.Add(context.Language.GetString("Valid.MustMinLength", label, minLength));
                 if (maxLength != null && d > maxLength.Value)
-                    errors.Add(Language.MustMaxLength.Format(description, maxLength));
+                    errors.Add(context.Language.GetString("Valid.MustMaxLength", label, maxLength));
             }
 
             if (typeName.Contains("System.DateTime"))
@@ -80,12 +80,12 @@ public class ColumnAttribute(string columnName = null) : Attribute
                 if (string.IsNullOrEmpty(DateFormat))
                 {
                     if (!DateTime.TryParse(value.ToString(), out _))
-                        errors.Add(Language.MustDateTime.Format(description));
+                        errors.Add(context.Language.GetString("Valid.MustDateTime", label));
                 }
                 else
                 {
                     if (!DateTime.TryParseExact(valueString, DateFormat, null, DateTimeStyles.None, out _))
-                        errors.Add(Language.MustDateFormat.Format(description, DateFormat));
+                        errors.Add(context.Language.GetString("Valid.MustDateFormat", label, DateFormat));
                 }
             }
         }

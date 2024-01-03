@@ -40,7 +40,7 @@ class RoleService : ServiceBase
 
     public async Task<Result> SaveRoleAsync(SysRole model)
     {
-        var vr = model.Validate();
+        var vr = model.Validate(Context);
         if (!vr.IsValid)
             return vr;
 

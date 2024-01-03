@@ -42,10 +42,10 @@ public class TbApply : FlowEntity
     [MaxLength(250)]
     public string BizFile { get; set; }
 
-    public override Result ValidCommit()
+    public override Result ValidCommit(Context context)
     {
-        var vr = base.Validate();
-        vr.Required("业务内容", BizContent);
+        var vr = base.Validate(context);
+        vr.Required(context, "业务内容", BizContent);
         return vr;
     }
 }

@@ -23,6 +23,7 @@ public abstract class ServiceBase
         {
             database ??= new Database();
             database.User = CurrentUser;
+            database.Context = Context;
             return database;
         }
         set { database = value; }

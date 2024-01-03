@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using Known.Entities;
-using Known.Extensions;
 using Known.Helpers;
 using Known.Repositories;
 
@@ -14,10 +13,10 @@ class AuthService : ServiceBase
         var userName = info.UserName.ToLower();
         var entity = await UserRepository.GetUserAsync(Database, userName, info.Password);
         if (entity == null)
-            return Result.Error(Language.LoginNoNamePwd);
+            return Result.Error(Language["Tip.LoginNoNamePwd"]);
 
         if (!entity.Enabled)
-            return Result.Error(Language.LoginDisabled);
+            return Result.Error(Language["Tip.LoginDisabled"]);
 
         if (!entity.FirstLoginTime.HasValue)
         {
@@ -38,7 +37,7 @@ class AuthService : ServiceBase
 
         var database = Database;
         database.User = user;
-        return await database.TransactionAsync(Language.Login, async db =>
+        return await database.TransactionAsync(Language["Login"], async db =>
         {
             await db.SaveAsync(entity);
             await Logger.AddLogAsync(db, type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
@@ -101,9 +100,9 @@ class AuthService : ServiceBase
     public async Task<Result> UpdateUserAsync(SysUser model)
     {
         if (model == null)
-            return Result.Error(Language.NoUser);
+            return Result.Error(Language["Tip.NoUser"]);
 
-        var vr = model.Validate();
+        var vr = model.Validate(Context);
         if (!vr.IsValid)
             return vr;
 
@@ -115,7 +114,7 @@ class AuthService : ServiceBase
     {
         var user = CurrentUser;
         if (user == null)
-            return Result.Error(Language.NoLogin);
+            return Result.Error(Language["Tip.NoLogin"]);
 
         var errors = new List<string>();
         if (string.IsNullOrEmpty(info.OldPwd))
@@ -136,7 +135,7 @@ class AuthService : ServiceBase
 
         entity.Password = Utils.ToMd5(info.NewPwd);
         await Database.SaveAsync(entity);
-        return Result.Success(Language.XXSuccess.Format(Language.Update), entity.Id);
+        return Result.Success(Language.Success(Language["Button.Update"]), entity.Id);
     }
 
     private async Task SetUserInfoAsync(UserInfo user)

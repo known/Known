@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.ComponentModel;
+using System.Data;
 using System.Data.Common;
 using System.Text;
 using Known.Cells;
@@ -44,6 +45,7 @@ public class Database : IDisposable
     public string ConnectionString { get; private set; }
     public UserInfo User { get; set; }
     public string UserName => User?.UserName;
+    internal Context Context { get; set; }
     #endregion
 
     #region Static
@@ -140,7 +142,7 @@ public class Database : IDisposable
                 await db.BeginTransAsync();
                 action(db);
                 await db.CommitAsync();
-                return Result.Success(Language.XXSuccess.Format(name), data);
+                return Result.Success(Context?.Language.Success(name), data);
             }
             catch (Exception ex)
             {
@@ -149,7 +151,7 @@ public class Database : IDisposable
                 if (ex is SystemException)
                     return Result.Error(ex.Message);
                 else
-                    return Result.Error(Language.TransError);
+                    return Result.Error(Context?.Language["Tip.TransError"]);
             }
         }
     }

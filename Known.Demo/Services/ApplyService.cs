@@ -61,7 +61,7 @@ class ApplyService : ServiceBase
     public async Task<Result> SaveApplyAsync(UploadInfo<TbApply> info)
     {
         var entity = info.Model;
-        var vr = entity.Validate();
+        var vr = entity.Validate(Context);
         if (!vr.IsValid)
             return vr;
 

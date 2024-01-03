@@ -45,12 +45,12 @@ class DictionaryService : ServiceBase
 
     public async Task<Result> SaveDictionaryAsync(SysDictionary model)
     {
-        var vr = model.Validate();
+        var vr = model.Validate(Context);
         if (!vr.IsValid)
             return vr;
 
         await Database.SaveAsync(model);
         await RefreshCacheAsync();
-        return Result.Success(Language.SaveSuccess, model.Id);
+        return Result.Success(Language.Success(Language.Save), model.Id);
     }
 }

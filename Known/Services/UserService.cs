@@ -155,7 +155,7 @@ class UserService : ServiceBase
         if (string.IsNullOrWhiteSpace(model.OrgNo))
             model.OrgNo = user.OrgNo;
         model.Type = model.IsOperation ? Constants.UTOperation : "";
-        var vr = model.Validate();
+        var vr = model.Validate(Context);
         if (vr.IsValid)
         {
             model.UserName = model.UserName.ToLower();
@@ -236,7 +236,7 @@ class UserService : ServiceBase
 
     public async Task<Result> SaveMessageAsync(SysMessage model)
     {
-        var vr = model.Validate();
+        var vr = model.Validate(Context);
         if (!vr.IsValid)
             return vr;
 

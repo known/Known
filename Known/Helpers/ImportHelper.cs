@@ -74,7 +74,7 @@ public sealed class ImportHelper
 
     internal static async Task<Result> ExecuteAsync(Database db, SysTask task)
     {
-        var import = ImportBase.Create(task.BizId, db);
+        var import = ImportBase.Create(task.BizId, null, db);
         if (import == null)
             return Result.Error("导入方法未注册，无法执行！");
 
