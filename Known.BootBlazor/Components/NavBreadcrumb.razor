@@ -14,9 +14,17 @@
     {
         base.OnInitialized();
         Items.Add(new BreadcrumbItem(Context.Language.Home));
+
         if (CurrentMenu.Parent != null)
-            Items.Add(new BreadcrumbItem(CurrentMenu.Parent.Name));
+        {
+            var parentName = Context.Language[$"Menu.{CurrentMenu.Parent.Code}"];
+            Items.Add(new BreadcrumbItem(parentName));
+        }
+
         if (CurrentMenu.Name != Context.Language.Home)
-            Items.Add(new BreadcrumbItem(CurrentMenu.Name));
+        {
+            var menuName = Context.Language[$"Menu.{CurrentMenu.Code}"];
+            Items.Add(new BreadcrumbItem(menuName));
+        }
     }
 }

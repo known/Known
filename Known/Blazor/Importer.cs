@@ -37,7 +37,7 @@ class Importer : BaseComponent
                 BuildInputFile(builder);
                 if (isFinished)
                 {
-                    UI.Button(builder, new ActionInfo("Import", ""), this.Callback<MouseEventArgs>(OnImportAsync));
+                    UI.Button(builder, new ActionInfo(Context, "Import", ""), this.Callback<MouseEventArgs>(OnImportAsync));
                 }
             });
             builder.Div(() =>

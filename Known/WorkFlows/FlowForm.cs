@@ -29,7 +29,7 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
         tab.Items.Clear();
         if (Tabs.Count > 0)
             tab.Items.AddRange(Tabs);
-        tab.Items.Add(new ItemModel("流程记录")
+        tab.Items.Add(new ItemModel(Context.Language["Title.FlowLog"])
         {
             Content = b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build()
         });
@@ -81,24 +81,25 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         builder.FormAction(() =>
         {
             if (Model.FormType == FormType.Verify)
-                UI.Button(builder, new ActionInfo("Assign", ""), this.Callback<MouseEventArgs>(OnAssign));
+                UI.Button(builder, new ActionInfo(Context, "AssignTo", ""), this.Callback<MouseEventArgs>(OnAssign));
 
-            UI.Button(builder, new ActionInfo("OK", ""), this.Callback<MouseEventArgs>(OnSaveAsync));
-            UI.Button(builder, new ActionInfo("Cancel", ""), this.Callback<MouseEventArgs>(OnCloseAsync));
+            UI.Button(builder, new ActionInfo(Context, "OK", ""), this.Callback<MouseEventArgs>(OnSaveAsync));
+            UI.Button(builder, new ActionInfo(Context, "Cancel", ""), this.Callback<MouseEventArgs>(OnCloseAsync));
         });
     }
 
     private void BuildFlowAction(RenderTreeBuilder builder)
     {
-        var action = Model.FormType.GetDescription();
-        builder.Div("kui-flow", () => builder.GroupBox($"{action}流程", () => UI.BuildForm(builder, flow)));
+        var action = Context.Language[$"Button.{Model.FormType}"];
+        var title = Context.Language["Title.FlowAction"].Replace("{action}", action);
+        builder.Div("kui-flow", () => builder.GroupBox(title, () => UI.BuildForm(builder, flow)));
     }
 
     private void OnAssign(MouseEventArgs args) => Model.Page.AssignFlow(Model.Data);
 
     private async void OnSaveAsync(MouseEventArgs args)
     {
-        if (!flow.Validate())
+        if (flow != null && !flow.Validate())
             return;
 
         Result result;

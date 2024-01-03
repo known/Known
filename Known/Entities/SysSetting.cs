@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Known.Entities;
 
@@ -11,7 +10,6 @@ public class SysSetting : EntityBase
     /// <summary>
     /// 取得或设置业务类型。
     /// </summary>
-    [DisplayName("业务类型")]
     [Required]
     [MaxLength(50)]
     public string BizType { get; set; }
@@ -19,14 +17,12 @@ public class SysSetting : EntityBase
     /// <summary>
     /// 取得或设置业务名称。
     /// </summary>
-    [DisplayName("业务名称")]
     [MaxLength(250)]
     public string BizName { get; set; }
 
     /// <summary>
     /// 取得或设置业务数据。
     /// </summary>
-    [DisplayName("业务数据")]
     public string BizData { get; set; }
 
     public T DataAs<T>() => Utils.FromJson<T>(BizData);

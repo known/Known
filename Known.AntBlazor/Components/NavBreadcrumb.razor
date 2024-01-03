@@ -7,16 +7,18 @@
     </BreadcrumbItem>
     @if (CurrentMenu.Parent != null)
     {
+        var parentName = Context.Language[$"Menu.{CurrentMenu.Parent.Code}"];
         <BreadcrumbItem>
             <Icon Type="@CurrentMenu.Parent.Icon" />
-            <span>@CurrentMenu.Parent.Name</span>
+            <span>@parentName</span>
         </BreadcrumbItem>
     }
     @if (CurrentMenu.Name != Context.Language.Home)
     {
+        var menuName = Context.Language[$"Menu.{CurrentMenu.Code}"];
         <BreadcrumbItem>
             <Icon Type="@CurrentMenu.Icon" />
-            <span>@CurrentMenu.Name</span>
+            <span>@menuName</span>
         </BreadcrumbItem>
     }
 </Breadcrumb>

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Known.WorkFlows;
+﻿namespace Known.WorkFlows;
 
 public enum FlowPageType { None, Apply, Verify, Query }
 
@@ -31,28 +29,13 @@ public class FlowStatus
 
 public class FlowEntity : EntityBase
 {
-    [DisplayName("流程状态")]
     public virtual string BizStatus { get; set; }
-
-    [DisplayName("当前步骤")]
     public virtual string CurrStep { get; set; }
-
-    [DisplayName("当前人")]
     public virtual string CurrBy { get; set; }
-    
-    [DisplayName("申请人")]
     public virtual string ApplyBy { get; set; }
-    
-    [DisplayName("申请时间")]
     public virtual DateTime? ApplyTime { get; set; }
-    
-    [DisplayName("审核人")]
     public virtual string VerifyBy { get; set; }
-    
-    [DisplayName("审核时间")]
     public virtual DateTime? VerifyTime { get; set; }
-    
-    [DisplayName("审核意见")]
     public virtual string VerifyNote { get; set; }
 
     public virtual bool CanSubmit => BizStatus == FlowStatus.Save || BizStatus == FlowStatus.Revoked || BizStatus == FlowStatus.VerifyFail || BizStatus == FlowStatus.ReApply;

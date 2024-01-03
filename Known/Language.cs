@@ -158,12 +158,4 @@ public class Language
     public const string NotUploadData = "不能上传空数据！";
     public const string NotImportData = "不能导入空数据！";
     public const string NotCaptcha = "验证码不正确！";
-
-    //Fields
-    public const string CreateBy = "创建人";
-    public const string CreateTime = "创建时间";
-    public const string ModifyBy = "修改人";
-    public const string ModifyTime = "修改时间";
-    public const string Version = "版本号";
-    public const string CompNo = "公司编码";
 }

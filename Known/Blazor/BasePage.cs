@@ -94,7 +94,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
             return;
 
         Id = menu.Id;
-        Name = menu.Name;
+        Name = Context.Language[$"Menu.{menu.Code}"] ?? menu.Name;
         Tools = menu.Buttons;
         Actions = menu.Actions;
         Columns = menu.Columns;

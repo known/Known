@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Known.Entities;
 
@@ -16,14 +15,12 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置上级。
     /// </summary>
-    [DisplayName("上级")]
     [MaxLength(50)]
     public string ParentId { get; set; }
 
     /// <summary>
     /// 取得或设置代码。
     /// </summary>
-    [DisplayName("代码")]
     [Required]
     [MaxLength(50)]
     public string Code { get; set; }
@@ -31,7 +28,6 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置名称。
     /// </summary>
-    [DisplayName("名称")]
     [Required]
     [MaxLength(50)]
     public string Name { get; set; }
@@ -39,21 +35,18 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置图标。
     /// </summary>
-    [DisplayName("图标")]
     [MaxLength(50)]
     public string Icon { get; set; }
 
     /// <summary>
     /// 取得或设置描述。
     /// </summary>
-    [DisplayName("描述")]
     [MaxLength(200)]
     public string Description { get; set; }
 
     /// <summary>
     /// 取得或设置目标。
     /// </summary>
-    [DisplayName("类型")]
     [Required]
     [MaxLength(250)]
     public string Target { get; set; }
@@ -61,43 +54,36 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置顺序。
     /// </summary>
-    [DisplayName("顺序")]
     public int Sort { get; set; }
 
     /// <summary>
     /// 取得或设置可用。
     /// </summary>
-    [DisplayName("可用")]
     public bool Enabled { get; set; }
 
     /// <summary>
     /// 取得或设置实体设置。
     /// </summary>
-    [DisplayName("实体设置")]
     public string EntityData { get; set; }
 
     /// <summary>
     /// 取得或设置流程设置。
     /// </summary>
-    [DisplayName("流程设置")]
     public string FlowData { get; set; }
 
     /// <summary>
     /// 取得或设置页面设置。
     /// </summary>
-    [DisplayName("页面设置")]
     public string PageData { get; set; }
 
     /// <summary>
     /// 取得或设置表单设置。
     /// </summary>
-    [DisplayName("表单设置")]
     public string FormData { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [DisplayName("备注")]
     [MaxLength(500)]
     public string Note { get; set; }
 

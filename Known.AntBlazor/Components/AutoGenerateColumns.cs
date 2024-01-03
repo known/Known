@@ -87,8 +87,6 @@ public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new
                 var isChecked = Utils.ConvertTo<bool>(value);
                 b.Component<Switch>().Set(c => c.Checked, isChecked)
                                      .Set(c => c.Disabled, true)
-                                     .Set(c => c.CheckedChildren, "是")
-                                     .Set(c => c.UnCheckedChildren, "否")
                                      .Build();
             }));
         }

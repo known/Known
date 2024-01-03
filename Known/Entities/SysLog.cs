@@ -12,7 +12,6 @@ public class SysLog : EntityBase
     /// 取得或设置操作类型。
     /// </summary>
     [Category(nameof(LogType))]
-    [DisplayName("操作类型")]
     [Required]
     [MaxLength(50)]
     public string Type { get; set; }
@@ -20,7 +19,6 @@ public class SysLog : EntityBase
     /// <summary>
     /// 取得或设置操作对象。
     /// </summary>
-    [DisplayName("操作对象")]
     [Required]
     [MaxLength(50)]
     public string Target { get; set; }
@@ -28,6 +26,5 @@ public class SysLog : EntityBase
     /// <summary>
     /// 取得或设置操作内容。
     /// </summary>
-    [DisplayName("操作内容")]
     public string Content { get; set; }
 }

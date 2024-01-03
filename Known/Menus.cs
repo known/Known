@@ -89,7 +89,9 @@ public class ActionInfo
         Children = [];
     }
 
-    internal ActionInfo(string idOrName) : this()
+    internal ActionInfo(string idOrName) : this(null, idOrName) { }
+
+    private ActionInfo(Context context, string idOrName) : this()
     {
         Id = idOrName;
         Name = idOrName;
@@ -99,13 +101,13 @@ public class ActionInfo
         if (info != null)
         {
             Id = info.Id;
-            Name = info.Name;
+            Name = context?.Language[$"Button.{info.Id}"] ?? info.Name;
             Icon = info.Icon;
             Style = info.Style;
         }
     }
 
-    internal ActionInfo(string idOrName, string icon) : this(idOrName)
+    internal ActionInfo(Context context, string idOrName, string icon) : this(context, idOrName)
     {
         Icon = icon;
     }

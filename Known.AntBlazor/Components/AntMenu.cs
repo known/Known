@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using Known.Blazor;
 using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.AntBlazor.Components;
 
-public class AntMenu : ComponentBase
+public class AntMenu : BaseComponent
 {
     [Parameter] public MenuTheme Theme { get; set; }
     [Parameter] public bool Accordion { get; set; }
@@ -73,6 +74,8 @@ public class AntMenu : ComponentBase
                .Set(c => c.Type, item.Icon)
                .Set(c => c.Theme, "outline")
                .Build();
-        builder.Span(item.Name);
+
+        var itemName = Context.Language[$"Menu.{item.Code}"];
+        builder.Span(itemName);
     }
 }
