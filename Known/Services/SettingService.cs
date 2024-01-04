@@ -38,7 +38,7 @@ class SettingService : ServiceBase
     internal async Task<Result> SaveSettingAsync(string bizType, object bizData)
     {
         await SaveSettingAsync(Database, bizType, bizData);
-        return Result.Success("保存成功！");
+        return Result.Success(Language.Success(Language.Save));
     }
 
     internal Task<List<SysSetting>> GetUserSettingsAsync(string bizType) => SettingRepository.GetUserSettingsAsync(Database, bizType);
@@ -64,6 +64,6 @@ class SettingService : ServiceBase
     internal async Task<Result> DeleteUserSettingAsync(string bizType)
     {
         await DeleteUserSettingAsync(Database, bizType);
-        return Result.Success("删除成功！");
+        return Result.Success(Language.Success(Language.Delete));
     }
 }

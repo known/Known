@@ -88,6 +88,10 @@ public class Language
     public string Reset => this["Button.Reset"];
     public string Enable => this["Button.Enable"];
     public string Disable => this["Button.Disable"];
+    public string Import => this["Button.Import"];
+    public string Export => this["Button.Export"];
+    public string Upload => this["Button.Upload"];
+    public string Download => this["Button.Download"];
     public string Copy => this["Button.Copy"];
     public string Submit => this["Button.Submit"];
     public string Revoke => this["Button.Revoke"];

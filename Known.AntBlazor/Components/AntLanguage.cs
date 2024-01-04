@@ -1,4 +1,5 @@
-﻿using Known.Blazor;
+﻿using System.Xml.Linq;
+using Known.Blazor;
 using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -29,7 +30,8 @@ public class AntLanguage : BaseComponent
     private void OnLanguageChanged(ActionInfo info)
     {
         current = info;
-        Context.SetCurrentLanguage(JS, current.Id);
+        Context.CurrentLanguage = current.Id;
+        JS.SetCurrentLanguage(current.Id);
         OnChanged?.Invoke();
     }
 }

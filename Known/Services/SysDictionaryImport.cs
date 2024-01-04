@@ -13,11 +13,11 @@ class SysDictionaryImport : ImportBase
         {
             return
             [
-                new("类别", true),
-                new("代码"),
-                new("名称"),
-                new("顺序"),
-                new("备注")
+                new(Language[nameof(SysDictionary.Category)], true),
+                new(Language[nameof(SysDictionary.Code)]),
+                new(Language[nameof(SysDictionary.Name)]),
+                new(Language[nameof(SysDictionary.Sort)]),
+                new(Language[nameof(SysDictionary.Note)])
             ];
         }
     }
@@ -25,16 +25,16 @@ class SysDictionaryImport : ImportBase
     public override async Task<Result> ExecuteAsync(SysFile file)
     {
         var models = new List<SysDictionary>();
-        var result = ImportHelper.ReadFile(file, item =>
+        var result = ImportHelper.ReadFile(Context, file, item =>
         {
             var model = new SysDictionary
             {
-                Category = item.GetValue("类别"),
-                CategoryName = item.GetValue("类别"),
-                Code = item.GetValue("代码"),
-                Name = item.GetValue("名称"),
-                Sort = item.GetValue<int>("顺序"),
-                Note = item.GetValue("备注"),
+                Category = item.GetValue(Language[nameof(SysDictionary.Category)]),
+                CategoryName = item.GetValue(Language[nameof(SysDictionary.Category)]),
+                Code = item.GetValue(Language[nameof(SysDictionary.Code)]),
+                Name = item.GetValue(Language[nameof(SysDictionary.Name)]),
+                Sort = item.GetValue<int>(Language[nameof(SysDictionary.Sort)]),
+                Note = item.GetValue(Language[nameof(SysDictionary.Note)]),
                 Enabled = true
             };
             var vr = model.Validate(Context);
@@ -47,7 +47,7 @@ class SysDictionaryImport : ImportBase
         if (!result.IsValid)
             return result;
 
-        return await Database.TransactionAsync("导入", async db =>
+        return await Database.TransactionAsync(Language.Import, async db =>
         {
             foreach (var item in models)
             {

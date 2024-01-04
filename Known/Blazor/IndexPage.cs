@@ -1,5 +1,4 @@
-﻿using Known.Extensions;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Known.Blazor;

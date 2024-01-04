@@ -16,7 +16,7 @@ class ModuleService : ServiceBase
         foreach (var model in models)
         {
             if (await ModuleRepository.ExistsChildAsync(Database, model.Id))
-                return Result.Error("存在子模块，不能删除！");
+                return Result.Error(Language["Tip.ModuleDeleteExistsChild"]);
         }
 
         return await Database.TransactionAsync(Language.Delete, async db =>

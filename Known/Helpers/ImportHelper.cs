@@ -9,7 +9,7 @@ public sealed class ImportHelper
 
     private ImportHelper() { }
 
-    internal static ImportFormInfo GetImport(string bizId, SysTask task)
+    internal static ImportFormInfo GetImport(Context context, string bizId, SysTask task)
     {
         var info = new ImportFormInfo { BizId = bizId, BizType = BizType, IsFinished = true };
         if (task != null)
@@ -17,15 +17,15 @@ public sealed class ImportHelper
             switch (task.Status)
             {
                 case TaskStatus.Pending:
-                    info.Message = "导入任务等待中...";
+                    info.Message = context.Language["Import.TaskPending"];
                     info.IsFinished = false;
                     break;
                 case TaskStatus.Running:
-                    info.Message = "导入任务执行中...";
+                    info.Message = context.Language["Import.TaskRunning"];
                     info.IsFinished = false;
                     break;
                 case TaskStatus.Failed:
-                    info.Message = "导入失败！";
+                    info.Message = context.Language["Import.TaskFailed"];
                     info.Error = task.Note;
                     break;
                 case TaskStatus.Success:
@@ -37,15 +37,15 @@ public sealed class ImportHelper
         return info;
     }
 
-    internal static Task<byte[]> GetImportRuleAsync(string bizId)
+    internal static Task<byte[]> GetImportRuleAsync(Context context, string bizId)
     {
-        var columns = ImportBase.GetImportColumns(bizId);
+        var columns = ImportBase.GetImportColumns(context, bizId);
         if (columns == null || columns.Count == 0)
             return Task.FromResult(Array.Empty<byte>());
 
         var excel = ExcelFactory.Create();
         var sheet = excel.CreateSheet("Sheet1");
-        sheet.SetCellValue("A1", "提示：红色栏位为必填栏位！", new StyleInfo { IsBorder = true });
+        sheet.SetCellValue("A1", context.Language["Import.TemplateTips"], new StyleInfo { IsBorder = true });
         sheet.MergeCells(0, 0, 1, columns.Count);
         for (int i = 0; i < columns.Count; i++)
         {
@@ -76,7 +76,7 @@ public sealed class ImportHelper
     {
         var import = ImportBase.Create(task.BizId, null, db);
         if (import == null)
-            return Result.Error("导入方法未注册，无法执行！");
+            return Result.Error("The import method is not registered and cannot be executed!");
 
         var file = await db.QueryByIdAsync<SysFile>(task.Target);
         return await import.ExecuteAsync(file);
@@ -90,31 +90,31 @@ public sealed class ImportHelper
         });
     }
 
-    public static Result ReadFile(SysFile file, Action<ImportRow> action)
+    public static Result ReadFile(Context context, SysFile file, Action<ImportRow> action)
     {
         var path = Config.GetUploadPath(file.Path);
         if (!File.Exists(path))
-            return Result.Error("导入文件不存在！");
+            return Result.Error(context.Language["Import.FileNotExists"]);
 
         if (!path.EndsWith(".txt"))
-            return ReadExcelFile(path, action);
+            return ReadExcelFile(context, path, action);
 
         var columns = string.IsNullOrWhiteSpace(file.Note)
                     ? []
                     : ImportFormInfo.GetImportColumns(file.Note);
-        return ReadTextFile(path, columns, action);
+        return ReadTextFile(context, path, columns, action);
     }
 
-    private static Result ReadExcelFile(string path, Action<ImportRow> action)
+    private static Result ReadExcelFile(Context context, string path, Action<ImportRow> action)
     {
         var excel = ExcelFactory.Create(path);
         if (excel == null)
-            return Result.Error("Excel创建失败！");
+            return Result.Error(context.Language["Import.ExcelFailed"]);
 
         var errors = new Dictionary<int, string>();
         var lines = excel.SheetToDictionaries(0, 2);
         if (lines == null || lines.Count == 0)
-            return Result.Error("导入数据不能为空！");
+            return Result.Error(context.Language["Import.DataRequired"]);
 
         for (int i = 0; i < lines.Count; i++)
         {
@@ -127,15 +127,15 @@ public sealed class ImportHelper
             if (!string.IsNullOrWhiteSpace(item.ErrorMessage))
                 errors.Add(i, item.ErrorMessage);
         }
-        return ReadResult(errors);
+        return ReadResult(context, errors);
     }
 
-    private static Result ReadTextFile(string path, List<string> columns, Action<ImportRow> action)
+    private static Result ReadTextFile(Context context, string path, List<string> columns, Action<ImportRow> action)
     {
         var errors = new Dictionary<int, string>();
         var lines = File.ReadAllLines(path);
         if (lines == null || lines.Length == 0)
-            return Result.Error("导入数据不能为空！");
+            return Result.Error(context.Language["Import.DataRequired"]);
 
         for (int i = 0; i < lines.Length; i++)
         {
@@ -156,15 +156,19 @@ public sealed class ImportHelper
             if (!string.IsNullOrWhiteSpace(item.ErrorMessage))
                 errors.Add(i, item.ErrorMessage);
         }
-        return ReadResult(errors);
+        return ReadResult(context, errors);
     }
 
-    private static Result ReadResult(Dictionary<int, string> errors)
+    private static Result ReadResult(Context context, Dictionary<int, string> errors)
     {
         if (errors.Count == 0)
-            return Result.Success("校验成功！");
+            return Result.Success(context.Language["Import.ValidSuccess"]);
 
-        var error = string.Join(Environment.NewLine, errors.Select(e => $"第{e.Key}行：{e.Value}"));
-        return Result.Error($"校验失败！{Environment.NewLine}{error}");
+        var error = string.Join(Environment.NewLine, errors.Select(e =>
+        {
+            var rowNo = context.Language["Import.RowNo"].Replace("{key}", $"{e.Key}");
+            return $"{rowNo}{e.Value}";
+        }));
+        return Result.Error($"{context.Language["Import.ValidFailed"]}{Environment.NewLine}{error}");
     }
 }

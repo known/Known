@@ -54,7 +54,7 @@ class AuthService : ServiceBase
             cachedUsers.TryRemove(token, out UserInfo _);
 
         await Logger.AddLogAsync(Database, LogType.Logout, $"{user.UserName}-{user.Name}", $"token: {token}");
-        return Result.Success("退出成功！");
+        return Result.Success(Language["Tip.ExitSuccess"]);
     }
 
     internal static ConcurrentDictionary<string, UserInfo> cachedUsers = new();
@@ -107,7 +107,7 @@ class AuthService : ServiceBase
             return vr;
 
         await Database.SaveAsync(model);
-        return Result.Success("保存成功！", model);
+        return Result.Success(Language.Success(Language.Save), model);
     }
 
     public async Task<Result> UpdatePasswordAsync(PwdFormInfo info)
@@ -118,20 +118,20 @@ class AuthService : ServiceBase
 
         var errors = new List<string>();
         if (string.IsNullOrEmpty(info.OldPwd))
-            errors.Add("当前密码不能为空！");
+            errors.Add(Language["Tip.CurPwdRequired"]);
         if (string.IsNullOrEmpty(info.NewPwd))
-            errors.Add("新密码不能为空！");
+            errors.Add(Language["Tip.NewPwdRequired"]);
         if (string.IsNullOrEmpty(info.NewPwd1))
-            errors.Add("确认新密码不能为空！");
+            errors.Add(Language["Tip.ConPwdRequired"]);
         if (info.NewPwd != info.NewPwd1)
-            errors.Add("两次密码输入不一致！");
+            errors.Add(Language["Tip.PwdNotEqual"]);
 
         if (errors.Count > 0)
             return Result.Error(string.Join(Environment.NewLine, errors.ToArray()));
 
         var entity = await UserRepository.GetUserAsync(Database, user.UserName, info.OldPwd);
         if (entity == null)
-            return Result.Error("当前密码不正确！");
+            return Result.Error(Language["Tip.CurPwdInvalid"]);
 
         entity.Password = Utils.ToMd5(info.NewPwd);
         await Database.SaveAsync(entity);
@@ -168,6 +168,7 @@ class AuthService : ServiceBase
         if (user == null)
             return;
 
+        //TODO:数据语言切换
         user.AvatarUrl = user.Gender == "女" ? "img/face2.png" : "img/face1.png";
     }
 }

@@ -29,7 +29,7 @@ class SystemService : ServiceBase
     //public async Task<Result> SaveConfigAsync(ConfigInfo info)
     //{
     //    await Platform.System.SaveConfigAsync(Database, info.Key, info.Value);
-    //    return Result.Success("保存成功！");
+    //    return Result.Success(Language.Success(Language.Save));
     //}
 
     //Install
@@ -44,10 +44,10 @@ class SystemService : ServiceBase
     //public async Task<Result> UpdateKeyAsync(InstallInfo info)
     //{
     //    if (info == null)
-    //        return Result.Error("安装信息不能为空！");
+    //        return Result.Error(Language["Tip.InstallRequired"]);
 
     //    if (!Utils.HasNetwork())
-    //        return Result.Error("电脑未联网，无法获取产品密钥！");
+    //        return Result.Error(Language["Tip.NotNetwork"]);
 
     //    var result = await PlatformHelper.UpdateKeyAsync?.Invoke(info);
     //    return result ?? Result.Success("");
@@ -57,10 +57,10 @@ class SystemService : ServiceBase
     public async Task<Result> SaveInstallAsync(InstallInfo info)
     {
         if (info == null)
-            return Result.Error("安装信息不能为空！");
+            return Result.Error(Language["Tip.InstallRequired"]);
 
         if (info.AdminPassword != info.Password1)
-            return Result.Error("确认密码不一致！");
+            return Result.Error(Language["Tip.PwdNotEqual"]);
 
         var database = Database;
         var modules = GetModules();
@@ -72,7 +72,7 @@ class SystemService : ServiceBase
         var path = GetProductKeyPath();
         Utils.SaveFile(path, info.ProductKey);
 
-        var result = await database.TransactionAsync("安装", async db =>
+        var result = await database.TransactionAsync(Language["Install"], async db =>
         {
             await Platform.System.SaveConfigAsync(db, KeySystem, sys);
             await db.SaveDatasAsync(modules);
@@ -128,7 +128,7 @@ class SystemService : ServiceBase
         {
             var company = await CompanyRepository.GetCompanyAsync(Database);
             if (company == null)
-                return Result.Error("企业不存在！");
+                return Result.Error(Language["Tip.CompanyNotExists"]);
 
             company.SystemData = Utils.ToJson(info);
             await Database.SaveAsync(company);
@@ -138,7 +138,7 @@ class SystemService : ServiceBase
             await Platform.System.SaveConfigAsync(Database, KeySystem, info);
         }
 
-        return Result.Success("保存成功！");
+        return Result.Success(Language.Success(Language.Save));
     }
 
     private static InstallInfo GetInstall()
@@ -444,6 +444,7 @@ class SystemService : ServiceBase
 
     private static SysUser GetUser(InstallInfo info)
     {
+        //TODO:数据语言切换
         return new SysUser
         {
             AppId = Config.App.Id,
@@ -513,9 +514,5 @@ class SystemService : ServiceBase
         });
     }
 
-    public async Task<Result> AddLogAsync(SysLog log)
-    {
-        await Database.SaveAsync(log);
-        return Result.Success("添加成功！");
-    }
+    public Task AddLogAsync(SysLog log) => Database.SaveAsync(log);
 }

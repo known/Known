@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using Known.Blazor;
-using Known.Extensions;
 
 namespace Known;
 
@@ -8,6 +7,7 @@ public class Context
 {
     private MenuItem current;
     private Language language;
+    private string currentLanguage;
 
     internal static Action<MenuItem> OnNavigate { get; set; }
     internal static Action OnRefreshPage { get; set; }
@@ -17,7 +17,19 @@ public class Context
     public UserInfo CurrentUser { get; internal set; }
     public SettingInfo UserSetting { get; internal set; }
     public List<MenuInfo> UserMenus { get; internal set; }
-    public string CurrentLanguage { get; internal set; }
+
+    public string CurrentLanguage
+    {
+        get { return currentLanguage; }
+        set
+        {
+            currentLanguage = value;
+            language = new Language(value);
+            var culture = new CultureInfo(value);
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+        }
+    }
 
     public Language Language
     {
@@ -26,16 +38,6 @@ public class Context
             language ??= new Language(CurrentLanguage);
             return language;
         }
-    }
-
-    public void SetCurrentLanguage(JSService service, string name)
-    {
-        language = new Language(name);
-        CurrentLanguage = name;
-        service.SetCurrentLanguage(name);
-        var culture = new CultureInfo(name);
-        CultureInfo.DefaultThreadCurrentCulture = culture;
-        CultureInfo.DefaultThreadCurrentUICulture = culture;
     }
 
     public void Back()
@@ -63,7 +65,6 @@ public class Context
     }
 
     public void RefreshPage() => OnRefreshPage?.Invoke();
-
     public void NavigateToHome() => Navigate(Config.GetHomeMenu());
     public void NavigateToUserProfile() => Navigate(Config.GetUserProfileMenu());
 

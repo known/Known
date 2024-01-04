@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using Known.Entities;
-using Known.Services;
+﻿using Known.Entities;
 
 namespace Known;
 
@@ -12,32 +10,13 @@ public abstract class ImportBase
         Database = database;
     }
 
-    static ImportBase()
-    {
-        var type = typeof(SysDictionaryImport);
-        importTypes[type.Name] = type;
-    }
-
     public Context Context { get; }
     public Database Database { get; }
+    public Language Language => Context?.Language;
     public string BizId { get; set; }
     public virtual List<ImportColumn> Columns { get; }
 
     public virtual Task<Result> ExecuteAsync(SysFile file) => Result.SuccessAsync("");
-
-    private static readonly Dictionary<string, Type> importTypes = [];
-    public static void Register(Assembly assembly)
-    {
-        var types = assembly.GetTypes();
-        if (types == null || types.Length == 0)
-            return;
-
-        foreach (var item in types)
-        {
-            if (item.IsSubclassOf(typeof(ImportBase)))
-                importTypes[item.Name] = item;
-        }
-    }
 
     internal static ImportBase Create(string bizId, Context context, Database database)
     {
@@ -45,7 +24,7 @@ public abstract class ImportBase
         if (string.IsNullOrWhiteSpace(name))
             return null;
 
-        if (!importTypes.TryGetValue(name, out Type type))
+        if (!Config.ImportTypes.TryGetValue(name, out Type type))
             return null;
 
         var import = Activator.CreateInstance(type, context, database) as ImportBase;
@@ -53,16 +32,16 @@ public abstract class ImportBase
         return import;
     }
 
-    internal static List<ImportColumn> GetImportColumns(string bizId)
+    internal static List<ImportColumn> GetImportColumns(Context context, string bizId)
     {
         var name = GetImportName(bizId);
         if (string.IsNullOrWhiteSpace(name))
             return null;
 
-        if (!importTypes.TryGetValue(name, out Type type))
+        if (!Config.ImportTypes.TryGetValue(name, out Type type))
             return null;
 
-        var import = Activator.CreateInstance(type, new Database()) as ImportBase;
+        var import = Activator.CreateInstance(type, context, new Database()) as ImportBase;
         import.BizId = bizId;
         return import.Columns;
     }

@@ -57,6 +57,14 @@ public class JSService
     }
 
     public void SetLocalStorage(string key, object value) => InvokeVoidAsync("KBlazor.setLocalStorage", key, value);
+
+    private readonly string KeyLanguage = "Known_Language";
+    internal Task<string> GetCurrentLanguage() => GetLocalStorage<string>(KeyLanguage);
+    public void SetCurrentLanguage(string language) => SetLocalStorage(KeyLanguage, language);
+
+    private readonly string KeyLoginInfo = "Known_LoginInfo";
+    internal Task<T> GetLoginInfo<T>() => GetLocalStorage<T>(KeyLoginInfo);
+    internal void SetLoginInfo(object value) => SetLocalStorage(KeyLoginInfo, value);
     #endregion
 
     #region Screen

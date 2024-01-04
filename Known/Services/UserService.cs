@@ -58,7 +58,7 @@ class UserService : ServiceBase
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync("启用", async db =>
+        return await Database.TransactionAsync(Language.Enable, async db =>
         {
             foreach (var item in models)
             {
@@ -73,7 +73,7 @@ class UserService : ServiceBase
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync("禁用", async db =>
+        return await Database.TransactionAsync(Language.Disable, async db =>
         {
             foreach (var item in models)
             {
@@ -90,9 +90,9 @@ class UserService : ServiceBase
 
         var info = await SystemService.GetSystemAsync(Database);
         if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
-            return Result.Error("用户默认密码未配置！");
+            return Result.Error(Language["Tip.NoDefaultPwd"]);
 
-        return await Database.TransactionAsync("重置", async db =>
+        return await Database.TransactionAsync(Language.Reset, async db =>
         {
             foreach (var item in models)
             {
@@ -105,49 +105,14 @@ class UserService : ServiceBase
     public async Task<Result> SaveUserAsync(SysUser model)
     {
         List<SysRole> roles = null;
-        //var roleId = (string)model.RoleId;
         if (model.RoleIds != null && model.RoleIds.Length > 0)
             roles = await Database.QueryListByIdAsync<SysRole>(model.RoleIds);
         var user = CurrentUser;
-        //var entity = await Database.QueryByIdAsync<SysUser>((string)model.Id);
-        //if (entity == null)
-        //{
-        //    entity = new SysUser
-        //    {
-        //        OrgNo = user.OrgNo,
-        //        FirstLoginTime = DateTime.Now,
-        //        LastLoginTime = DateTime.Now,
-        //        Enabled = true
-        //    };
-
-        //    var info = await SystemService.GetSystemAsync(Database);
-        //    if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
-        //        return Result.Error("用户默认密码未配置！");
-
-        //    if (Config.App.IsPlatform && user.IsTenant)
-        //    {
-        //        //var tenant = SystemRepository.GetTenant(Database, user.CompNo);
-        //        //if (tenant == null)
-        //        //    return Result.Error("租户不存在！");
-
-        //        //var userCount = UserRepository.GetUserCount(Database);
-        //        //if (userCount >= tenant.UserCount)
-        //        //    return Result.Error("用户数已达上限，不能新增！");
-        //    }
-
-        //    //var valid = PlatformHelper.CheckUser?.Invoke(Database, entity);
-        //    //if (valid != null && !valid.IsValid)
-        //    //    return valid;
-
-        //    entity.Password = Utils.ToMd5(info.UserDefaultPwd);
-        //}
-
-        //entity.FillModel(model);
         if (model.IsNew)
         {
             var info = await SystemService.GetSystemAsync(Database);
             if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
-                return Result.Error("用户默认密码未配置！");
+                return Result.Error(Language["Tip.NoDefaultPwd"]);
 
             model.Password = Utils.ToMd5(info.UserDefaultPwd);
         }
@@ -161,7 +126,7 @@ class UserService : ServiceBase
             model.UserName = model.UserName.ToLower();
             if (await UserRepository.ExistsUserNameAsync(Database, model.Id, model.UserName))
             {
-                vr.AddError("用户名已存在，请使用其他字符创建用户！");
+                vr.AddError(Language["Tip.UserNameExists"]);
             }
         }
 
@@ -190,7 +155,7 @@ class UserService : ServiceBase
     //{
     //    var user = CurrentUser;
     //    if (user == null)
-    //        return Result.Error(Language.NoLogin);
+    //        return Result.Error(Language["Tip.NoLogin"]);
 
     //    var setting = await SettingRepository.GetSettingByUserAsync(Database, info.Type, info.Name);
     //    if (setting == null)
@@ -204,7 +169,7 @@ class UserService : ServiceBase
     //{
     //    var user = CurrentUser;
     //    if (user == null)
-    //        return Result.Error(Language.NoLogin);
+    //        return Result.Error(Language["Tip.NoLogin"]);
 
     //    var setting = await SettingRepository.GetSettingByUserAsync(Database, info.Type, info.Name);
     //    setting ??= new SysSetting { BizType = info.Type, BizName = info.Name };

@@ -7,23 +7,6 @@ class DictionaryService : ServiceBase
 {
     public Task<Result> RefreshCacheAsync() => RefreshCacheAsync(Database, CurrentUser);
 
-    internal static async Task<Result> RefreshCacheAsync(Database db, UserInfo user)
-    {
-        if (user == null)
-            return Result.Error("用户未登录！");
-
-        var entities = await DictionaryRepository.GetDictionarysAsync(db, user.AppId, user.CompNo);
-        var codes = entities.Select(e =>
-        {
-            var code = e.Code;
-            if (!string.IsNullOrWhiteSpace(e.Name))
-                code = $"{code}-{e.Name}";
-            return new CodeInfo(e.Category, code, code, e);
-        }).ToList();
-        Cache.AttachCodes(codes);
-        return Result.Success("刷新成功！", codes);
-    }
-
     public Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
     {
         return DictionaryRepository.QueryDictionarysAsync(Database, criteria);
@@ -52,5 +35,22 @@ class DictionaryService : ServiceBase
         await Database.SaveAsync(model);
         await RefreshCacheAsync();
         return Result.Success(Language.Success(Language.Save), model.Id);
+    }
+
+    private async Task<Result> RefreshCacheAsync(Database db, UserInfo user)
+    {
+        if (user == null)
+            return Result.Error(Context.Language["Tip.NoLogin"]);
+
+        var entities = await DictionaryRepository.GetDictionarysAsync(db, user.AppId, user.CompNo);
+        var codes = entities.Select(e =>
+        {
+            var code = e.Code;
+            if (!string.IsNullOrWhiteSpace(e.Name))
+                code = $"{code}-{e.Name}";
+            return new CodeInfo(e.Category, code, code, e);
+        }).ToList();
+        Cache.AttachCodes(codes);
+        return Result.Success(Context.Language["Tip.RefreshSuccess"], codes);
     }
 }

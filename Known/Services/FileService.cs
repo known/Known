@@ -46,20 +46,20 @@ class FileService : ServiceBase
     public async Task<Result> DeleteFileAsync(SysFile file)
     {
         if (file == null || string.IsNullOrWhiteSpace(file.Path))
-            return Result.Error("文件不存在！");
+            return Result.Error(Language["Tip.FileNotExists"]);
 
         await Database.DeleteAsync(file);
         AttachFile.DeleteFile(file);
-        return Result.Success("删除成功！");
+        return Result.Success(Language.Success(Language.Delete));
     }
 
     public async Task<ImportFormInfo> GetImportAsync(string bizId)
     {
         var task = await SystemRepository.GetTaskByBizIdAsync(Database, bizId);
-        return ImportHelper.GetImport(bizId, task);
+        return ImportHelper.GetImport(Context, bizId, task);
     }
 
-    public Task<byte[]> GetImportRuleAsync(string bizId) => ImportHelper.GetImportRuleAsync(bizId);
+    public Task<byte[]> GetImportRuleAsync(string bizId) => ImportHelper.GetImportRuleAsync(Context, bizId);
 
     public Task<List<SysFile>> GetFilesAsync(string bizId)
     {
@@ -95,7 +95,7 @@ class FileService : ServiceBase
         var sysFiles = new List<SysFile>();
         var user = CurrentUser;
         var files = info.Files.GetAttachFiles(user, "Upload", form);
-        var result = await Database.TransactionAsync("上传", async db =>
+        var result = await Database.TransactionAsync(Language.Upload, async db =>
         {
             sysFiles = await AddFilesAsync(db, files, form.BizId, form.BizType);
             if (form.BizType == ImportHelper.BizType)
@@ -109,7 +109,7 @@ class FileService : ServiceBase
         if (result.IsValid && form.BizType == ImportHelper.BizType)
         {
             if (form.IsAsync)
-                result.Message += "等待后台导入中...";
+                result.Message += Language["Import.FileImporting"];
             else if (task != null)
                 result = await TaskHelper.RunAsync(Database, task, ImportHelper.ExecuteAsync);
         }
@@ -165,7 +165,7 @@ class FileService : ServiceBase
         {
             CompNo = attach.User.CompNo,
             AppId = attach.User.AppId,
-            Category1 = attach.Category1 ?? "附件",
+            Category1 = attach.Category1 ?? "File",
             Category2 = attach.Category2,
             Type = attach.BizType,
             BizId = attach.BizId,

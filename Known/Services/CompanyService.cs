@@ -31,7 +31,7 @@ class CompanyService : ServiceBase
         {
             var company = await CompanyRepository.GetCompanyAsync(Database);
             if (company == null)
-                return Result.Error("企业不存在！");
+                return Result.Error(Language["Tip.CompanyNotExists"]);
 
             company.CompanyData = Utils.ToJson(model);
             await Database.SaveAsync(company);
@@ -40,7 +40,7 @@ class CompanyService : ServiceBase
         {
             await Platform.System.SaveConfigAsync(Database, KeyCompany, model);
         }
-        return Result.Success("保存成功！");
+        return Result.Success(Language.Success(Language.Save));
     }
 
     private static async Task<string> GetCompanyDataAsync(Database db)
@@ -78,7 +78,7 @@ class CompanyService : ServiceBase
         foreach (var model in models)
         {
             if (await CompanyRepository.ExistsSubOrganizationAsync(Database, model.Id))
-                return Result.Error("存在子组织架构，不能删除！");
+                return Result.Error(Language["Tip.OrgDeleteExistsChild"]);
         }
 
         return await Database.TransactionAsync(Language.Delete, async db =>
@@ -96,7 +96,7 @@ class CompanyService : ServiceBase
         if (vr.IsValid)
         {
             if (await CompanyRepository.ExistsOrganizationAsync(Database, model))
-                vr.AddError("组织编码已存在！");
+                vr.AddError(Language["Tip.OrgCodeExists"]);
         }
         if (!vr.IsValid)
             return vr;
