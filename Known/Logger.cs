@@ -13,17 +13,7 @@ public interface ILogger
     void Flush();
 }
 
-[CodeInfo]
-class LogType
-{
-    private LogType() { }
-
-    //TODO:数据语言切换
-    public const string Login = "登录";
-    public const string Logout = "退出";
-    public const string Page = "页面";
-}
-
+enum LogType { Login, Logout, Page }
 public enum LogLevel { Error, Info, Debug }
 
 public sealed class Logger
@@ -36,7 +26,7 @@ public sealed class Logger
 
     public static async Task<List<string>> GetVisitMenuIdsAsync(Database db, string userName, int size)
     {
-        var logs = await SystemRepository.GetLogCountsAsync(db, userName, LogType.Page);
+        var logs = await SystemRepository.GetLogCountsAsync(db, userName, LogType.Page.ToString());
         logs = logs.OrderByDescending(f => f.TotalCount).Take(size).ToList();
         return logs.Select(l => l.Field1).ToList();
     }

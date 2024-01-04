@@ -69,7 +69,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
         var log = new SysLog { Target = Name, Content = type.FullName };
         if (Context.UserMenus != null && Context.UserMenus.Exists(p => p.Code == type.Name))
-            log.Type = LogType.Page;
+            log.Type = LogType.Page.ToString();
 
         if (string.IsNullOrWhiteSpace(log.Type))
             return;

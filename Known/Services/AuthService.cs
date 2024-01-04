@@ -31,7 +31,7 @@ class AuthService : ServiceBase
         await SetUserInfoAsync(user);
         cachedUsers[user.Token] = user;
 
-        var type = LogType.Login;
+        var type = LogType.Login.ToString();
         if (info.IsMobile)
             type = "APP" + type;
 
@@ -53,7 +53,7 @@ class AuthService : ServiceBase
         if (!string.IsNullOrWhiteSpace(token))
             cachedUsers.TryRemove(token, out UserInfo _);
 
-        await Logger.AddLogAsync(Database, LogType.Logout, $"{user.UserName}-{user.Name}", $"token: {token}");
+        await Logger.AddLogAsync(Database, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {token}");
         return Result.Success(Language["Tip.ExitSuccess"]);
     }
 

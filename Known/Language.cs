@@ -67,32 +67,32 @@ public class Language
         }
     }
 
-    public string Success(string action) => this["Tip.XXSuccess"].Replace("{action}", action);
     public string GetString(string id, string label) => this[id].Replace("{label}", label);
     public string GetString(string id, string label, int? length) => GetString(id, label).Replace("{length}", $"{length}");
-    public string GetString(string id, string label, string format) => GetString(id, label).Replace("{format}", format);
+    internal string GetString(string id, string label, string format) => GetString(id, label).Replace("{format}", format);
+    internal string Success(string action) => this["Tip.XXSuccess"].Replace("{action}", action);
 
     public string Home => this["Menu.Home"];
 
-    public string SelectOne => this["Tip.SelectOne"];
+    internal string SelectOne => this["Tip.SelectOne"];
     public string SelectOneAtLeast => this["Tip.SelectOneAtLeast"];
     public string BasicInfo => this["Title.BasicInfo"];
 
     public string OK => this["Button.OK"];
     public string Cancel => this["Button.Cancel"];
-    public string New => this["Button.New"];
+    internal string New => this["Button.New"];
     public string Edit => this["Button.Edit"];
     public string Delete => this["Button.Delete"];
     public string Save => this["Button.Save"];
     public string Search => this["Button.Search"];
     public string Reset => this["Button.Reset"];
-    public string Enable => this["Button.Enable"];
-    public string Disable => this["Button.Disable"];
-    public string Import => this["Button.Import"];
-    public string Export => this["Button.Export"];
-    public string Upload => this["Button.Upload"];
-    public string Download => this["Button.Download"];
-    public string Copy => this["Button.Copy"];
-    public string Submit => this["Button.Submit"];
-    public string Revoke => this["Button.Revoke"];
+    internal string Enable => this["Button.Enable"];
+    internal string Disable => this["Button.Disable"];
+    internal string Import => this["Button.Import"];
+    internal string Export => this["Button.Export"];
+    internal string Upload => this["Button.Upload"];
+    internal string Download => this["Button.Download"];
+    internal string Copy => this["Button.Copy"];
+    internal string Submit => this["Button.Submit"];
+    internal string Revoke => this["Button.Revoke"];
 }

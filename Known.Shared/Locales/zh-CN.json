@@ -580,6 +580,7 @@
   "Nav.Exit": "安全退出",
 
   "Menu.Home": "首页",
+  "Menu.SysUserProfile": "个人中心",
   "Menu.BaseData": "基础数据",
   "Menu.CompanyForm": "企业信息",
   "Menu.SysDictionaryList": "数据字典",

@@ -10,35 +10,9 @@ class HomeService : ServiceBase
         var user = CurrentUser;
         return new HomeInfo
         {
-            Greeting = GetUserGreeting(),
             VisitMenuIds = await Logger.GetVisitMenuIdsAsync(Database, user.UserName, 12),
             Statistics = await GetStatisticsInfoAsync()
         };
-    }
-
-    private string GetUserGreeting()
-    {
-        var user = CurrentUser;
-        var hour = DateTime.Now.Hour;
-        var greet = Language["Greeting0"].Replace("{name}", user?.Name);
-        if (5 <= hour && hour < 9)
-            greet = Language["Greeting5"].Replace("{name}", user?.Name);
-        else if (9 <= hour && hour < 11)
-            greet = Language["Greeting9"].Replace("{name}", user?.Name);
-        else if (11 <= hour && hour < 13)
-            greet = Language["Greeting11"].Replace("{name}", user?.Name);
-        else if (13 <= hour && hour < 15)
-            greet = Language["Greeting13"].Replace("{name}", user?.Name);
-        else if (15 <= hour && hour < 18)
-            greet = Language["Greeting15"].Replace("{name}", user?.Name);
-        else if (18 <= hour && hour < 22)
-            greet = Language["Greeting18"].Replace("{name}", user?.Name);
-        else if (22 <= hour && hour < 23)
-            greet = Language["Greeting22"].Replace("{name}", user?.Name);
-        else if (23 <= hour || hour < 5)
-            greet = Language["Greeting23"].Replace("{name}", user?.Name);
-
-        return greet;
     }
 
     private async Task<StatisticsInfo> GetStatisticsInfoAsync()

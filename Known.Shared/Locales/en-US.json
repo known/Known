@@ -584,6 +584,7 @@
   "Nav.Exit": "Sign Out",
 
   "Menu.Home": "Home",
+  "Menu.SysUserProfile": "Profile",
   "Menu.BaseData": "Base Data",
   "Menu.CompanyForm": "Company",
   "Menu.SysDictionaryList": "Dictionaries",

@@ -15,8 +15,11 @@ class SysLogList : BaseTablePage<SysLog>
 
     private void BuildLogType(RenderTreeBuilder builder, SysLog row)
     {
-        //TODO:数据语言切换
-        var color = row.Type == "登录" ? "success" : "blue";
+        var color = "blue";
+        if (row.Type == LogType.Login.ToString())
+            color = "success";
+        else if (row.Type == LogType.Logout.ToString())
+            color = "red";
         UI.BuildTag(builder, row.Type, color);
     }
 }
