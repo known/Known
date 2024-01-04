@@ -26,7 +26,7 @@ public class Context
             currentLanguage = value;
             language = new Language(value);
             UI.Language = language;
-            var culture = new CultureInfo(value);
+            var culture = new CultureInfo(language.Name);
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
         }

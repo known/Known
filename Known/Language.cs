@@ -5,16 +5,17 @@ namespace Known;
 
 public class Language
 {
-    private readonly string lang;
     private static readonly ConcurrentDictionary<string, Dictionary<string, object>> caches = new();
 
-    internal Language(string lang)
+    internal Language(string name)
     {
-        if (string.IsNullOrWhiteSpace(lang))
-            lang = CultureInfo.CurrentCulture.Name;
+        if (string.IsNullOrWhiteSpace(name))
+            name = CultureInfo.CurrentCulture.Name;
 
-        this.lang = lang;
+        Name = name;
     }
+
+    internal string Name { get; }
 
     public string this[string id]
     {
@@ -76,7 +77,7 @@ public class Language
         if (string.IsNullOrEmpty(id))
             return "";
 
-        if (!caches.TryGetValue(lang, out Dictionary<string, object> langs))
+        if (!caches.TryGetValue(Name, out Dictionary<string, object> langs))
             return "";
 
         if (langs == null || !langs.TryGetValue(id, out object value))
