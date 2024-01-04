@@ -50,7 +50,7 @@ class SysRoleForm : BaseForm<SysRole>
     {
         builder.Div("kui-role", () =>
         {
-            builder.Div("kui-role-form", () => UI.BuildForm(builder, Model));
+            builder.Div("kui-role-form", () => base.BuildRenderTree(builder));
             builder.Div("kui-role-module", () =>
             {
                 builder.Div("", Language["Title.Module"]);

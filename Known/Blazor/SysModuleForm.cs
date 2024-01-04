@@ -15,8 +15,7 @@ class SysModuleForm : BaseForm<SysModule>
     {
         get
         {
-            //TODO:数据语言切换
-            if (Model.Data.Target != "页面")
+            if (Model.Data.Target != ModuleType.Page.ToString())
                 return 1;
 
             var page = Model.Data.Page;

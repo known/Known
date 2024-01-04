@@ -454,6 +454,9 @@
   "Designer.FixedWidth": "固定宽度",
   "Designer.FixedHeight": "固定高度",
 
+  "Code.Female": "女",
+  "Code.Male": "男",
+
   "CreateBy": "创建人",
   "CreateTime": "创建时间",
   "ModifyBy": "修改人",
@@ -551,6 +554,7 @@
   "IsSort": "排序",
   "DefaultSort": "默认排序",
   "Fixed": "固定位置",
+  "SysModule.Icon": "图标",
 
   "Install": "安装",
   "StartUsing": "开始使用",

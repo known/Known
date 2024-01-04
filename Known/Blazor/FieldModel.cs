@@ -48,6 +48,12 @@ public class FieldModel<TItem> where TItem : class, new()
         if (codes == null || codes.Count == 0)
             codes = Cache.GetCodes(Column.Category);
 
+        foreach (var item in codes)
+        {
+            var name = Form?.Page?.Language.GetString($"Code.{item.Code}");
+            if (!string.IsNullOrWhiteSpace(name))
+                item.Name = name;
+        }
         return codes.ToCodes(emptyText);
     }
 

@@ -77,10 +77,9 @@ class SysModuleList : BasePage<SysModule>
 
     private void BuildTarget(RenderTreeBuilder builder, SysModule row)
     {
-        //TODO:数据语言切换
         var color = "blue";
-        if (row.Target == "菜单") color = "purple";
-        if (row.Target == "自定义") color = "green";
+        if (row.Target == ModuleType.Menu.ToString()) color = "purple";
+        if (row.Target == ModuleType.Custom.ToString()) color = "green";
         UI.BuildTag(builder, row.Target, color);
     }
 

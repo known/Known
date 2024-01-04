@@ -458,6 +458,9 @@
   "Designer.FixedWidth": "Fixed Width",
   "Designer.FixedHeight": "Fixed Height",
 
+  "Code.Female": "Female",
+  "Code.Male": "Male",
+
   "CreateBy": "Create By",
   "CreateTime": "Create Time",
   "ModifyBy": "Modify By",
@@ -555,6 +558,7 @@
   "IsSort": "Sort",
   "DefaultSort": "DefaultSort",
   "Fixed": "Fixed",
+  "SysModule.Icon": "Icon",
 
   "Install": "Install",
   "StartUsing": "Start",

@@ -16,10 +16,10 @@ public sealed class TypeHelper
         var values = Enum.GetValues(type);
         foreach (Enum item in values)
         {
-            var code = Convert.ToInt32(item).ToString();
+            var code = Enum.GetName(type, item);
             var name = item.GetDescription();
             if (string.IsNullOrWhiteSpace(name))
-                name = Enum.GetName(type, item);
+                name = code;
             codes.Add(new CodeInfo(category, code, name, null));
         }
         return codes;

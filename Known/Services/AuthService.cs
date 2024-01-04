@@ -168,7 +168,8 @@ class AuthService : ServiceBase
         if (user == null)
             return;
 
-        //TODO:数据语言切换
-        user.AvatarUrl = user.Gender == "女" ? "img/face2.png" : "img/face1.png";
+        user.AvatarUrl = user.Gender == GenderType.Female.ToString() 
+                       ? "img/face2.png" 
+                       : "img/face1.png";
     }
 }

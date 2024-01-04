@@ -1,4 +1,5 @@
-﻿using Known.Entities;
+﻿using Known.Blazor;
+using Known.Entities;
 using Known.Repositories;
 
 namespace Known.Services;
@@ -182,12 +183,12 @@ class SystemService : ServiceBase
     private static List<SysModule> GetModules()
     {
         var modules = new List<SysModule>();
-        var baseData = GetModule("BaseData", "基础数据", "database", "菜单", 1);
+        var baseData = GetModule("BaseData", "基础数据", "database", ModuleType.Menu.ToString(), 1);
         modules.Add(baseData);
         modules.Add(GetSysDictionary(baseData.Id));
         modules.Add(GetSysOrganization(baseData.Id));
 
-        var system = GetModule("System", "系统管理", "setting", "菜单", 2);
+        var system = GetModule("System", "系统管理", "setting", ModuleType.Menu.ToString(), 2);
         modules.Add(system);
         modules.Add(GetSysSystem(system.Id));
         modules.Add(GetSysRole(system.Id));
@@ -214,7 +215,7 @@ class SystemService : ServiceBase
             Name = "数据字典",
             Icon = "unordered-list",
             Description = "维护系统所需的下拉框数据源。",
-            Target = "页面",
+            Target = ModuleType.Page.ToString(),
             Sort = 1,
             Enabled = true,
             EntityData = @"数据字典|SysDictionary
@@ -240,7 +241,7 @@ class SystemService : ServiceBase
             Name = "组织架构",
             Icon = "partition",
             Description = "维护企业组织架构信息。",
-            Target = "页面",
+            Target = ModuleType.Page.ToString(),
             Sort = 2,
             Enabled = true,
             EntityData = @"组织架构|SysOrganization
@@ -263,7 +264,7 @@ class SystemService : ServiceBase
             Name = "关于系统",
             Icon = "info-circle",
             Description = "显示系统版本及产品授权信息。",
-            Target = "自定义",
+            Target = ModuleType.Custom.ToString(),
             Sort = 1,
             Enabled = true
         };
@@ -278,7 +279,7 @@ class SystemService : ServiceBase
             Name = "角色管理",
             Icon = "team",
             Description = "维护系统用户角色及其菜单权限信息。",
-            Target = "页面",
+            Target = ModuleType.Page.ToString(),
             Sort = 2,
             Enabled = true,
             EntityData = @"系统角色|SysRole
@@ -299,7 +300,7 @@ class SystemService : ServiceBase
             Name = "用户管理",
             Icon = "user",
             Description = "维护系统用户账号及角色信息。",
-            Target = "页面",
+            Target = ModuleType.Page.ToString(),
             Sort = 3,
             Enabled = true,
             EntityData = @"系统用户|SysUser
@@ -322,7 +323,7 @@ class SystemService : ServiceBase
 角色|Role|Text|500
 数据|Data|Text",
             PageData = "{\"Type\":null,\"ShowPager\":true,\"ScrollX\":null,\"ScrollY\":null,\"Tools\":[\"New\",\"DeleteM\",\"Enable\",\"Disable\",\"ResetPassword\",\"ChangeDepartment\"],\"Actions\":[\"Edit\",\"Delete\"],\"Columns\":[{\"Id\":\"UserName\",\"Name\":\"用户名\",\"IsViewLink\":true,\"IsQuery\":true,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Name\",\"Name\":\"姓名\",\"IsViewLink\":false,\"IsQuery\":true,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"EnglishName\",\"Name\":\"英文名\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Gender\",\"Name\":\"性别\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Phone\",\"Name\":\"固定电话\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Mobile\",\"Name\":\"移动电话\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Email\",\"Name\":\"电子邮件\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Enabled\",\"Name\":\"状态\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Role\",\"Name\":\"角色\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null}]}",
-            FormData = "{\"LabelSpan\":null,\"WrapperSpan\":null,\"Fields\":[{\"Row\":1,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"UserName\",\"Name\":\"用户名\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":1,\"Column\":2,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Name\",\"Name\":\"姓名\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":2,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"EnglishName\",\"Name\":\"英文名\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":2,\"Column\":2,\"Category\":\"男,女\",\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Gender\",\"Name\":\"性别\",\"Type\":7,\"Length\":null,\"Required\":false},{\"Row\":3,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Phone\",\"Name\":\"固定电话\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":3,\"Column\":2,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Mobile\",\"Name\":\"移动电话\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":4,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Email\",\"Name\":\"电子邮件\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":4,\"Column\":2,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Enabled\",\"Name\":\"状态\",\"Type\":4,\"Length\":null,\"Required\":true}]}"
+            FormData = "{\"LabelSpan\":null,\"WrapperSpan\":null,\"Fields\":[{\"Row\":1,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"UserName\",\"Name\":\"用户名\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":1,\"Column\":2,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Name\",\"Name\":\"姓名\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":2,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"EnglishName\",\"Name\":\"英文名\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":2,\"Column\":2,\"Category\":\"GenderType\",\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Gender\",\"Name\":\"性别\",\"Type\":7,\"Length\":null,\"Required\":false},{\"Row\":3,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Phone\",\"Name\":\"固定电话\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":3,\"Column\":2,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Mobile\",\"Name\":\"移动电话\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":4,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Email\",\"Name\":\"电子邮件\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":4,\"Column\":2,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Enabled\",\"Name\":\"状态\",\"Type\":4,\"Length\":null,\"Required\":true}]}"
         };
     }
 
@@ -335,7 +336,7 @@ class SystemService : ServiceBase
             Name = "后台任务",
             Icon = "control",
             Description = "查询系统所有定时任务运行情况。",
-            Target = "页面",
+            Target = ModuleType.Page.ToString(),
             Sort = 4,
             Enabled = true,
             EntityData = @"系统任务|SysTask
@@ -360,7 +361,7 @@ class SystemService : ServiceBase
             Name = "系统附件",
             Icon = "file",
             Description = "查询系统所有附件信息。",
-            Target = "页面",
+            Target = ModuleType.Page.ToString(),
             Sort = 5,
             Enabled = true,
             EntityData = @"系统文件|SysFile
@@ -388,7 +389,7 @@ class SystemService : ServiceBase
             Name = "系统日志",
             Icon = "clock-circle",
             Description = "查询系统用户操作日志信息。",
-            Target = "页面",
+            Target = ModuleType.Page.ToString(),
             Sort = 6,
             Enabled = true,
             EntityData = @"系统日志|SysLog
@@ -408,7 +409,7 @@ class SystemService : ServiceBase
             Name = "模块管理",
             Icon = "appstore-add",
             Description = "维护系统菜单按钮及列表栏位信息。",
-            Target = "页面",
+            Target = ModuleType.Page.ToString(),
             Sort = 7,
             Enabled = true,
             EntityData = @"系统模块|SysModule
@@ -425,7 +426,7 @@ class SystemService : ServiceBase
 表单设置|FormData|Text
 备注|Note|Text|500",
             PageData = "{\"Type\":null,\"ShowPager\":false,\"ScrollX\":null,\"ScrollY\":null,\"Tools\":[\"New\",\"DeleteM\",\"Copy\",\"Move\"],\"Actions\":[\"Edit\",\"Delete\",\"MoveUp\",\"MoveDown\"],\"Columns\":[{\"Id\":\"Code\",\"Name\":\"代码\",\"IsViewLink\":true,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Name\",\"Name\":\"名称\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Description\",\"Name\":\"描述\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Target\",\"Name\":\"类型\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Sort\",\"Name\":\"顺序\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Enabled\",\"Name\":\"可用\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null},{\"Id\":\"Note\",\"Name\":\"备注\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null}]}",
-            FormData = "{\"LabelSpan\":null,\"WrapperSpan\":null,\"Fields\":[{\"Row\":1,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Code\",\"Name\":\"代码\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":1,\"Column\":2,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Name\",\"Name\":\"名称\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":2,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Icon\",\"Name\":\"图标\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":3,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Description\",\"Name\":\"描述\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":2,\"Column\":2,\"Category\":\"菜单,页面,自定义\",\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Target\",\"Name\":\"类型\",\"Type\":7,\"Length\":null,\"Required\":true},{\"Row\":4,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Enabled\",\"Name\":\"可用\",\"Type\":4,\"Length\":null,\"Required\":true},{\"Row\":5,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Note\",\"Name\":\"备注\",\"Type\":1,\"Length\":null,\"Required\":false}]}"
+            FormData = "{\"LabelSpan\":null,\"WrapperSpan\":null,\"Fields\":[{\"Row\":1,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Code\",\"Name\":\"代码\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":1,\"Column\":2,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Name\",\"Name\":\"名称\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":2,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Icon\",\"Name\":\"图标\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":3,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Description\",\"Name\":\"描述\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":2,\"Column\":2,\"Category\":\"ModuleType\",\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Target\",\"Name\":\"类型\",\"Type\":7,\"Length\":null,\"Required\":true},{\"Row\":4,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Enabled\",\"Name\":\"可用\",\"Type\":4,\"Length\":null,\"Required\":true},{\"Row\":5,\"Column\":1,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Note\",\"Name\":\"备注\",\"Type\":1,\"Length\":null,\"Required\":false}]}"
         };
     }
 
@@ -444,7 +445,6 @@ class SystemService : ServiceBase
 
     private static SysUser GetUser(InstallInfo info)
     {
-        //TODO:数据语言切换
         return new SysUser
         {
             AppId = Config.App.Id,
@@ -452,10 +452,10 @@ class SystemService : ServiceBase
             OrgNo = info.CompNo,
             UserName = info.AdminName.ToLower(),
             Password = Utils.ToMd5(info.AdminPassword),
-            Name = "管理员",
+            Name = info.AdminName,
             EnglishName = info.AdminName,
-            Gender = "男",
-            Role = "管理员",
+            Gender = GenderType.Male.ToString(),
+            Role = "Admin",
             Enabled = true
         };
     }

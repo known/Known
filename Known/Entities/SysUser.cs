@@ -11,7 +11,7 @@ public class SysUser : EntityBase
     public SysUser()
     {
         Enabled = true;
-        Gender = "女";
+        Gender = GenderType.Female.ToString();
     }
 
     /// <summary>
@@ -51,7 +51,6 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Category("男,女")]
     public string Gender { get; set; }
 
     /// <summary>

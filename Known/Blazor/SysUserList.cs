@@ -72,9 +72,8 @@ class SysUserList : BasePage<SysUser>
 
     private void BuildGender(RenderTreeBuilder builder, SysUser row)
     {
-        //TODO:数据语言切换
-        var color = row.Gender == "男" ? "#108ee9" : "hotpink";
-        UI.BuildTag(builder, row.Gender, color);
+        var color = row.Gender == GenderType.Male.ToString() ? "#108ee9" : "hotpink";
+        UI.BuildTag(builder, Language[$"Code.{row.Gender}"], color);
     }
 
     private void OnChangeDepartment(List<SysUser> rows)

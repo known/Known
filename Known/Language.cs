@@ -20,16 +20,11 @@ public class Language
     {
         get
         {
-            if (string.IsNullOrEmpty(id))
-                return "";
-
-            if (!caches.TryGetValue(lang, out Dictionary<string, object> langs))
+            var text = GetString(id);
+            if (string.IsNullOrEmpty(text))
                 return id;
 
-            if (langs == null || !langs.TryGetValue(id, out object value))
-                return id;
-
-            return value?.ToString();
+            return text;
         }
     }
 
@@ -65,6 +60,29 @@ public class Language
                 Icon = lang["localeIcon"].ToString()
             });
         }
+    }
+
+    public string GetColumnName<T>(string id)
+    {
+        var key = $"{typeof(T).Name}.{id}";
+        var name = GetString(key);
+        if (string.IsNullOrWhiteSpace(name))
+            name = this[id];
+        return name;
+    }
+
+    internal string GetString(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return "";
+
+        if (!caches.TryGetValue(lang, out Dictionary<string, object> langs))
+            return "";
+
+        if (langs == null || !langs.TryGetValue(id, out object value))
+            return "";
+
+        return value?.ToString();
     }
 
     public string GetString(string id, string label) => this[id].Replace("{label}", label);
