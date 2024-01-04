@@ -3,10 +3,8 @@ using Known.Helpers;
 
 namespace Known.Services;
 
-class SysDictionaryImport : ImportBase
+class SysDictionaryImport(Context context, Database database) : ImportBase(context, database)
 {
-    public SysDictionaryImport(Context context, Database database) : base(context, database) { }
-
     public override List<ImportColumn> Columns
     {
         get

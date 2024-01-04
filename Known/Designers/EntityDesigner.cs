@@ -7,11 +7,7 @@ namespace Known.Designers;
 class EntityDesigner : BaseDesigner<string>
 {
     private string dataTypes;
-    private readonly List<CodeInfo> addTypes =
-    [
-        new CodeInfo("新建"),
-        new CodeInfo("从实体库中选择")
-    ];
+    private List<CodeInfo> addTypes;
     private List<CodeInfo> entityModels;
     private string addType;
     private EntityInfo entity = new();
@@ -21,6 +17,11 @@ class EntityDesigner : BaseDesigner<string>
 
     protected override async Task OnInitializedAsync()
     {
+        addTypes =
+        [
+            new CodeInfo("New", Language["Designer.New"]),
+            new CodeInfo("Select", Language["Designer.SelectEntity"])
+        ];
         await base.OnInitializedAsync();
         entityModels = DataHelper.Models.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
         dataTypes = string.Join(",", Cache.GetCodes(nameof(FieldType)).Select(c => c.Name));
@@ -38,7 +39,7 @@ class EntityDesigner : BaseDesigner<string>
             {
                 builder.Div("caption", () =>
                 {
-                    builder.Div("title", "实体模型");
+                    builder.Div("title", Language["Designer.Models"]);
                     BuildModelType(builder);
                 });
                 BuildNewModel(builder);
@@ -80,15 +81,15 @@ class EntityDesigner : BaseDesigner<string>
 
     private void BuildNewModel(RenderTreeBuilder builder)
     {
-        builder.Markup($@"<pre><b>说明：</b>
-实体：名称|代码|流程类
-字段：名称|代码|类型|长度|必填
-类型：{dataTypes}
-<b>示例：</b>
-测试|KmTest|Y
-文本|Field1|Text|50|Y
-数值|Field2|Number|18,5
-日期|Field3|Date</pre>");
+        builder.Markup($@"<pre><b>{Language["Designer.Explanation"]}</b>
+{Language["Designer.Entity"]}{Language["Name"]}|{Language["Code"]}|{Language["Designer.FlowClass"]}
+{Language["Designer.Field"]}{Language["Name"]}|{Language["Code"]}|{Language["Type"]}|{Language["Length"]}|{Language["Required"]}
+{Language["Designer.Type"]}{dataTypes}
+<b>{Language["Designer.Sample"]}</b>
+{Language["Designer.Test"]}|KmTest|Y
+{Language["Designer.Text"]}|Field1|Text|50|Y
+{Language["Designer.Number"]}|Field2|Number|18,5
+{Language["Designer.Date"]}|Field3|Date</pre>");
         UI.BuildTextArea(builder, new InputModel<string>
         {
             Disabled = ReadOnly || !IsNew,

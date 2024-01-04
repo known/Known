@@ -118,7 +118,7 @@ public sealed class ImportHelper
 
         for (int i = 0; i < lines.Count; i++)
         {
-            var item = new ImportRow();
+            var item = new ImportRow(context);
             foreach (var line in lines[i])
             {
                 item[line.Key] = line.Value;
@@ -147,7 +147,7 @@ public sealed class ImportHelper
             if (items[0] == columns[0])
                 continue;
 
-            var item = new ImportRow();
+            var item = new ImportRow(context);
             for (int j = 0; j < columns.Count; j++)
             {
                 item[columns[j]] = items.Length > j ? items[j] : "";

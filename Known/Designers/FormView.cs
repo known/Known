@@ -18,8 +18,8 @@ class FormView : BaseView<FormInfo>
     {
         base.OnInitialized();
         SetModel();
-        Tab.Items.Add(new ItemModel("视图") { Content = BuildView });
-        Tab.Items.Add(new ItemModel("字段列表") { Content = BuildList });
+        Tab.Items.Add(new ItemModel(Language["Designer.View"]) { Content = BuildView });
+        Tab.Items.Add(new ItemModel(Language["Designer.Fields"]) { Content = BuildList });
 
         list.FixedHeight = "380px";
         list.OnQuery = c =>
@@ -28,7 +28,7 @@ class FormView : BaseView<FormInfo>
             return Task.FromResult(result);
         };
 
-        tab.Items.Add(new ItemModel("属性") { Content = BuildProperty });
+        tab.Items.Add(new ItemModel(Language["Designer.Property"]) { Content = BuildProperty });
     }
 
     internal override void SetModel(FormInfo model)
@@ -60,13 +60,13 @@ class FormView : BaseView<FormInfo>
     {
         builder.Div("setting-row", () =>
         {
-            BuildPropertyItem(builder, "标题跨度", b => UI.BuildNumber(b, new InputModel<int?>
+            BuildPropertyItem(builder, Language["Designer.LabelSpan"], b => UI.BuildNumber(b, new InputModel<int?>
             {
                 Disabled = ReadOnly,
                 Value = Model.LabelSpan,
                 ValueChanged = this.Callback<int?>(value => { Model.LabelSpan = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, "控件跨度", b => UI.BuildNumber(b, new InputModel<int?>
+            BuildPropertyItem(builder, Language["Designer.WrapperSpan"], b => UI.BuildNumber(b, new InputModel<int?>
             {
                 Disabled = ReadOnly,
                 Value = Model.WrapperSpan,

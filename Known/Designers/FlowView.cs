@@ -18,7 +18,7 @@ class FlowView : BaseView<FlowInfo>
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Tab.Items.Add(new ItemModel("流程步骤") { Content = BuildView });
+        Tab.Items.Add(new ItemModel(Language["Designer.FlowStep"]) { Content = BuildView });
 
         table.FixedHeight = "380px";
         table.OnQuery = c =>

@@ -11,15 +11,15 @@ class PageProperty : BaseProperty<PageColumnInfo>
         if (Model == null)
             return;
 
-        builder.Div("caption", () => builder.Div("title", $"字段属性 - {Model.Id}"));
-        BuildPropertyItem(builder, "显示名称", b => b.Span(Model.Name));
-        BuildPropertyItem(builder, "查看链接", b => UI.BuildSwitch(b, new InputModel<bool>
+        builder.Div("caption", () => builder.Div("title", $"{Language["Designer.FieldProperty"]} - {Model.Id}"));
+        BuildPropertyItem(builder, Language["Name"], b => b.Span(Model.Name));
+        BuildPropertyItem(builder, Language["IsViewLink"], b => UI.BuildSwitch(b, new InputModel<bool>
         {
             Disabled = IsReadOnly,
             Value = Model.IsViewLink,
             ValueChanged = this.Callback<bool>(value => { Model.IsViewLink = value; OnChanged?.Invoke(Model); })
         }));
-        BuildPropertyItem(builder, "查询", b => UI.BuildSwitch(b, new InputModel<bool>
+        BuildPropertyItem(builder, Language["IsQuery"], b => UI.BuildSwitch(b, new InputModel<bool>
         {
             Disabled = IsReadOnly,
             Value = Model.IsQuery,
@@ -27,14 +27,14 @@ class PageProperty : BaseProperty<PageColumnInfo>
         }));
         if (Model.IsQuery)
         {
-            BuildPropertyItem(builder, "显示全部", b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, Language["IsQueryAll"], b => UI.BuildSwitch(b, new InputModel<bool>
             {
                 Disabled = IsReadOnly,
                 Value = Model.IsQueryAll,
                 ValueChanged = this.Callback<bool>(value => { Model.IsQueryAll = value; OnChanged?.Invoke(Model); })
             }));
         }
-        BuildPropertyItem(builder, "排序", b => UI.BuildSwitch(b, new InputModel<bool>
+        BuildPropertyItem(builder, Language["IsSort"], b => UI.BuildSwitch(b, new InputModel<bool>
         {
             Disabled = IsReadOnly,
             Value = Model.IsSort,
@@ -42,22 +42,22 @@ class PageProperty : BaseProperty<PageColumnInfo>
         }));
         if (Model.IsSort)
         {
-            BuildPropertyItem(builder, "默认排序", b => UI.BuildSelect(b, new InputModel<string>
+            BuildPropertyItem(builder, Language["DefaultSort"], b => UI.BuildSelect(b, new InputModel<string>
             {
                 Disabled = IsReadOnly,
-                Codes = Cache.GetCodes(",升序,降序"),
+                Codes = Cache.GetCodes(",Ascend,Descend"),
                 Value = Model.DefaultSort,
                 ValueChanged = this.Callback<string>(value => { Model.DefaultSort = value; OnChanged?.Invoke(Model); })
             }));
         }
-        BuildPropertyItem(builder, "固定位置", b => UI.BuildSelect(b, new InputModel<string>
+        BuildPropertyItem(builder, Language["Fixed"], b => UI.BuildSelect(b, new InputModel<string>
         {
             Disabled = IsReadOnly,
             Codes = Cache.GetCodes(",left,right"),
             Value = Model.Fixed,
             ValueChanged = this.Callback<string>(value => { Model.Fixed = value; OnChanged?.Invoke(Model); })
         }));
-        BuildPropertyItem(builder, "宽度", b => UI.BuildText(b, new InputModel<string>
+        BuildPropertyItem(builder, Language["Width"], b => UI.BuildText(b, new InputModel<string>
         {
             Disabled = IsReadOnly,
             Value = Model.Width,

@@ -25,7 +25,7 @@ class ColumnPanel<TModel> : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("caption", () => builder.Div("title", "字段列表"));
+        builder.Div("caption", () => builder.Div("title", Language["Designer.Fields"]));
 
         if (fields == null || fields.Count == 0)
             return;
@@ -74,7 +74,7 @@ class ColumnPanel<TModel> : BaseComponent
         OnFieldClick?.Invoke(field);
     }
 
-    private static List<FieldInfo> GetFields(EntityInfo info)
+    private List<FieldInfo> GetFields(EntityInfo info)
     {
         var infos = new List<FieldInfo>();
         if (info == null)
@@ -87,19 +87,21 @@ class ColumnPanel<TModel> : BaseComponent
 
         if (info.IsFlow)
         {
-            infos.Add(new FieldInfo { Id = nameof(FlowEntity.BizStatus), Name = "流程状态" });
-            infos.Add(new FieldInfo { Id = nameof(FlowEntity.ApplyBy), Name = "申请人" });
-            infos.Add(new FieldInfo { Id = nameof(FlowEntity.ApplyTime), Name = "申请时间" });
-            infos.Add(new FieldInfo { Id = nameof(FlowEntity.VerifyBy), Name = "审核人" });
-            infos.Add(new FieldInfo { Id = nameof(FlowEntity.VerifyTime), Name = "审核时间" });
-            infos.Add(new FieldInfo { Id = nameof(FlowEntity.VerifyNote), Name = "审核意见" });
+            infos.Add(GetFieldInfo(nameof(FlowEntity.BizStatus)));
+            infos.Add(GetFieldInfo(nameof(FlowEntity.ApplyBy)));
+            infos.Add(GetFieldInfo(nameof(FlowEntity.ApplyTime)));
+            infos.Add(GetFieldInfo(nameof(FlowEntity.VerifyBy)));
+            infos.Add(GetFieldInfo(nameof(FlowEntity.VerifyTime)));
+            infos.Add(GetFieldInfo(nameof(FlowEntity.VerifyNote)));
         }
 
-        infos.Add(new FieldInfo { Id = nameof(EntityBase.CreateBy), Name = "创建人" });
-        infos.Add(new FieldInfo { Id = nameof(EntityBase.CreateTime), Name = "创建时间" });
-        infos.Add(new FieldInfo { Id = nameof(EntityBase.ModifyBy), Name = "修改人" });
-        infos.Add(new FieldInfo { Id = nameof(EntityBase.ModifyTime), Name = "修改时间" });
+        infos.Add(GetFieldInfo(nameof(EntityBase.CreateBy)));
+        infos.Add(GetFieldInfo(nameof(EntityBase.CreateTime)));
+        infos.Add(GetFieldInfo(nameof(EntityBase.ModifyBy)));
+        infos.Add(GetFieldInfo(nameof(EntityBase.ModifyTime)));
 
         return infos;
     }
+
+    private FieldInfo GetFieldInfo(string id) => new FieldInfo { Id = id, Name = Language[id] };
 }

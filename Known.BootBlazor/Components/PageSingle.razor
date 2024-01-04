@@ -3,18 +3,25 @@
 <div style="margin:0 10px 10px 10px;">
     @if (Menu.Page != null && Menu.Page.NoBreadcrumb)
     {
-        <DynamicComponent Type="Menu.ComType" Parameters="Menu.ComParameters" />
+        <DynamicComponent @ref="dc" Type="Menu.ComType" Parameters="Menu.ComParameters" />
     }
     else
     {
         <NavBreadcrumb CurrentMenu="Menu" OnHome="OnHome" />
         <div class="kui-background boot-content" style="min-height:360px">
-            <DynamicComponent Type="Menu.ComType" Parameters="Menu.ComParameters" />
+            <DynamicComponent @ref="dc" Type="Menu.ComType" Parameters="Menu.ComParameters" />
         </div>
     }
 </div>
 
 @code {
+    private DynamicComponent dc;
+
     [Parameter] public Known.MenuItem Menu { get; set; }
     [Parameter] public Action OnHome { get; set; }
+
+    public override void StateChanged()
+    {
+        (dc?.Instance as BaseComponent)?.StateChanged();
+    }
 }

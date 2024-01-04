@@ -7,25 +7,30 @@ namespace Known.Designers;
 
 class PageView : BaseView<PageInfo>
 {
-    private TableModel<Dictionary<string, object>> table;
     private readonly TableModel<PageColumnInfo> list = new();
+    private readonly TabModel tab = new();
+    private TableModel<Dictionary<string, object>> table;
     private string codePage;
     private string codeService;
     private string codeRepository;
-    private readonly TabModel tab = new();
-    private readonly List<CodeInfo> actions = Config.Actions.Select(a => new CodeInfo(a.Id, a.Name)).ToList();
+    private List<CodeInfo> actions;
 
     [Parameter] public EntityInfo Entity { get; set; }
 
     protected override void OnInitialized()
     {
+        actions = Config.Actions.Select(a =>
+        {
+            var name = Language[$"Button.{a.Id}"];
+            return new CodeInfo(a.Id, name);
+        }).ToList();
         base.OnInitialized();
         SetModel();
-        Tab.Items.Add(new ItemModel("视图") { Content = BuildView });
-        Tab.Items.Add(new ItemModel("字段列表") { Content = BuildList });
-        Tab.Items.Add(new ItemModel("页面层代码") { Content = BuildPage });
-        Tab.Items.Add(new ItemModel("服务层代码") { Content = BuildService });
-        Tab.Items.Add(new ItemModel("数据层代码") { Content = BuildRepository });
+        Tab.Items.Add(new ItemModel(Language["Designer.View"]) { Content = BuildView });
+        Tab.Items.Add(new ItemModel(Language["Designer.Fields"]) { Content = BuildList });
+        Tab.Items.Add(new ItemModel(Language["Designer.PageCode"]) { Content = BuildPage });
+        Tab.Items.Add(new ItemModel(Language["Designer.ServiceCode"]) { Content = BuildService });
+        Tab.Items.Add(new ItemModel(Language["Designer.RepositoryCode"]) { Content = BuildRepository });
 
         list.FixedHeight = "380px";
         list.OnQuery = c =>
@@ -34,9 +39,9 @@ class PageView : BaseView<PageInfo>
             return Task.FromResult(result);
         };
 
-        tab.Items.Add(new ItemModel("属性") { Content = BuildProperty });
-        tab.Items.Add(new ItemModel("工具条") { Content = BuildToolbar });
-        tab.Items.Add(new ItemModel("操作列") { Content = BuildAction });
+        tab.Items.Add(new ItemModel(Language["Designer.Property"]) { Content = BuildProperty });
+        tab.Items.Add(new ItemModel(Language["Designer.Toolbar"]) { Content = BuildToolbar });
+        tab.Items.Add(new ItemModel(Language["Designer.Action"]) { Content = BuildAction });
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -80,19 +85,19 @@ class PageView : BaseView<PageInfo>
     {
         builder.Div("setting-row", () =>
         {
-            BuildPropertyItem(builder, "显示分页", b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, Language["Designer.ShowPager"], b => UI.BuildSwitch(b, new InputModel<bool>
             {
                 Disabled = ReadOnly,
                 Value = Model.ShowPager,
                 ValueChanged = this.Callback<bool>(value => { Model.ShowPager = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, "固定宽度", b => UI.BuildText(b, new InputModel<string>
+            BuildPropertyItem(builder, Language["Designer.FixedWidth"], b => UI.BuildText(b, new InputModel<string>
             {
                 Disabled = ReadOnly,
                 Value = Model.FixedWidth,
                 ValueChanged = this.Callback<string>(value => { Model.FixedWidth = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, "固定高度", b => UI.BuildText(b, new InputModel<string>
+            BuildPropertyItem(builder, Language["Designer.FixedHeight"], b => UI.BuildText(b, new InputModel<string>
             {
                 Disabled = ReadOnly,
                 Value = Model.FixedHeight,

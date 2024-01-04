@@ -58,12 +58,12 @@ public class ImportColumn
         Note = note;
     }
 
-    public ImportColumn(string name, bool required, Type codeType)
+    public ImportColumn(Context context, string name, bool required, Type codeType)
     {
         Name = name;
         Required = required;
         var codes = Cache.GetCodes(codeType.Name);
-        Note = $"填写：{string.Join(",", codes.Select(c => c.Code))}";
+        Note = context.Language["Import.TemplateFill"].Replace("{text}", $"{string.Join(",", codes.Select(c => c.Code))}");
     }
 
     public string Name { get; }
@@ -73,7 +73,12 @@ public class ImportColumn
 
 public class ImportRow : Dictionary<string, string>
 {
-    internal ImportRow() { }
+    private readonly Context context;
+
+    internal ImportRow(Context context)
+    {
+        this.context = context;
+    }
 
     public string ErrorMessage { get; set; }
 
@@ -89,7 +94,7 @@ public class ImportRow : Dictionary<string, string>
     {
         var value = GetValue(key);
         if (required && string.IsNullOrWhiteSpace(value))
-            vr.AddError($"{key}不能为空！");
+            vr.AddError(context.Language.GetString("Valid.Required", key));
 
         return value;
     }
@@ -107,7 +112,7 @@ public class ImportRow : Dictionary<string, string>
     {
         var value = GetValue<T>(key);
         if (required && value == null)
-            vr.AddError($"{key}格式不正确！");
+            vr.AddError(context.Language.GetString("Valid.FormatInvalid", key));
 
         return value;
     }

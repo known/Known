@@ -64,7 +64,7 @@ class DemoPageModel : TableModel<Dictionary<string, object>>
                 case FieldType.Select:
                     return item.Id;
                 case FieldType.File:
-                    return "附件";
+                    return "File";
             }
         }
 

@@ -16,11 +16,11 @@
     <Main>
         @if (Context.UserSetting.MultiTab)
         {
-            <PageTabs Menu="CurrentMenu" Items="TabMenus" />
+            <PageTabs @ref="tabs" Menu="CurrentMenu" Items="TabMenus" />
         }
         else
         {
-            <PageSingle Menu="CurrentMenu" OnHome="OnHome" />
+            <PageSingle @ref="page" Menu="CurrentMenu" OnHome="OnHome" />
         }
     </Main>
     <Footer>
@@ -36,12 +36,21 @@
 </Layout>
 
 @code{
+    private PageTabs tabs;
+    private PageSingle page;
     private List<BootstrapBlazor.Components.MenuItem> SideMenuItems = [];
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         SideMenuItems = UserMenus.ToSideMenuItems();
+    }
+
+    protected override void RefreshPage()
+    {
+        base.RefreshPage();
+        tabs?.StateChanged();
+        page?.StateChanged();
     }
 
     private void OnHome() => OnMenuClick("home");

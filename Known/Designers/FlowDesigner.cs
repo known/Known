@@ -1,4 +1,5 @@
-﻿using Known.Blazor;
+﻿using System.ComponentModel.DataAnnotations;
+using Known.Blazor;
 using Known.Extensions;
 using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -7,11 +8,7 @@ namespace Known.Designers;
 
 class FlowDesigner : BaseDesigner<string>
 {
-    private readonly List<CodeInfo> addTypes =
-    [
-        new CodeInfo("新建"),
-        new CodeInfo("从流程库中选择")
-    ];
+    private List<CodeInfo> addTypes;
     private List<CodeInfo> flowModels;
     private string addType;
     private FlowInfo flow = new();
@@ -22,6 +19,11 @@ class FlowDesigner : BaseDesigner<string>
 
     protected override async Task OnInitializedAsync()
     {
+        addTypes =
+        [
+            new CodeInfo("New", Language["Designer.New"]),
+            new CodeInfo("Select", Language["Designer.SelectFlow"])
+        ];
         await base.OnInitializedAsync();
         flowModels = DataHelper.Flows.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
@@ -38,7 +40,7 @@ class FlowDesigner : BaseDesigner<string>
             {
                 builder.Div("caption", () =>
                 {
-                    builder.Div("title", "流程模型");
+                    builder.Div("title", Language["Designer.FlowModel"]);
                     BuildModelType(builder);
                 });
                 BuildNewModel(builder);
@@ -80,12 +82,13 @@ class FlowDesigner : BaseDesigner<string>
 
     private void BuildNewModel(RenderTreeBuilder builder)
     {
-        builder.Markup($@"<pre><b>说明：</b>
-流程：名称|代码
-步骤：名称|代码|类型|默认操作用户|默认操作角色|通过状态|退回状态
-类型：开始,提交,审核,结束
-<b>示例：</b>
-测试|TestFlow
+        //TODO:示例语言切换
+        builder.Markup($@"<pre><b>{Language["Designer.Explanation"]}</b>
+{Language["Designer.Flow"]}{Language["Name"]}|{Language["Code"]}
+{Language["Designer.Step"]}{Language["Name"]}|{Language["Code"]}|{Language["Type"]}|{Language["User"]}|{Language["Role"]}|{Language["Pass"]}|{Language["Fail"]}
+{Language["Designer.Type"]}开始,提交,审核,结束
+<b>{Language["Designer.Sample"]}</b>
+{Language["Designer.Test"]}|TestFlow
 申请|Apply|提交|||待审核
 审核|Verify|审核||审核人|审核通过|审核退回
 结束|End|结束</pre>");

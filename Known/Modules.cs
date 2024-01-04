@@ -41,21 +41,21 @@ public class PageColumnInfo
 {
     [DisplayName("ID")]
     public string Id { get; set; }
-    [DisplayName("名称")]
+    [DisplayName("Name")]
     public string Name { get; set; }
-    [DisplayName("查看链接")]
+    [DisplayName("IsViewLink")]
     public bool IsViewLink { get; set; }
-    [DisplayName("查询")]
+    [DisplayName("IsQuery")]
     public bool IsQuery { get; set; }
-    [DisplayName("显示全部")]
+    [DisplayName("IsQueryAll")]
     public bool IsQueryAll { get; set; }
-    [DisplayName("排序")]
+    [DisplayName("IsSort")]
     public bool IsSort { get; set; }
-    [DisplayName("默认排序")]
+    [DisplayName("DefaultSort")]
     public string DefaultSort { get; set; }
-    [DisplayName("固定")]
+    [DisplayName("Fixed")]
     public string Fixed { get; set; }
-    [DisplayName("宽度")]
+    [DisplayName("Width")]
     public string Width { get; set; }
 }
 
@@ -68,16 +68,16 @@ public class FormInfo
 
 public class FormFieldInfo : FieldInfo
 {
-    [DisplayName("行")]
+    [DisplayName("Row")]
     public int Row { get; set; } = 1;
-    [DisplayName("列")]
+    [DisplayName("Column")]
     public int Column { get; set; } = 1;
-    [DisplayName("代码类别")]
+    [DisplayName("Category")]
     public string Category { get; set; }
-    [DisplayName("占位符")]
+    [DisplayName("Placeholder")]
     public string Placeholder { get; set; }
-    [DisplayName("只读")]
+    [DisplayName("ReadOnly")]
     public bool ReadOnly { get; set; }
-    [DisplayName("多文件")]
+    [DisplayName("MultiFile")]
     public bool MultiFile { get; set; }
 }
