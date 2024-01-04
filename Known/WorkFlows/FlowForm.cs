@@ -127,12 +127,12 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
             return;
 
         info.BizId = Model.Data?.Id;
-        flow = new FlowFormModel(UI) { Data = info };
+        flow = new FlowFormModel(Context, UI) { Data = info };
 
         switch (Model.FormType)
         {
             case FormType.Submit:
-                flow.AddUserColumn(Language["SubmitTo"], "User");
+                flow.AddUserColumn(Language?["SubmitTo"], "User");
                 flow.AddNoteColumn();
                 break;
             case FormType.Verify:
@@ -145,7 +145,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     }
 }
 
-class FlowFormModel(IUIService ui) : FormModel<FlowFormInfo>(ui, true)
+class FlowFormModel(Context context, IUIService ui) : FormModel<FlowFormInfo>(context, ui, true)
 {
     internal void AddUserColumn(string name, string category)
     {
@@ -162,7 +162,7 @@ class FlowFormModel(IUIService ui) : FormModel<FlowFormInfo>(ui, true)
     {
         AddRow().AddColumn(c => c.BizStatus, c =>
         {
-            c.Name = Context.Language["VerifyResult"];
+            c.Name = Context?.Language?["VerifyResult"];
             c.Category = $"{FlowStatus.VerifyPass},{FlowStatus.VerifyFail}";
         });
     }
@@ -171,14 +171,14 @@ class FlowFormModel(IUIService ui) : FormModel<FlowFormInfo>(ui, true)
     {
         AddRow().AddColumn(c => c.Note, c =>
         {
-            c.Name = Context.Language["Note"];
+            c.Name = Context?.Language?["Note"];
             c.Type = FieldType.TextArea;
         });
     }
 
     internal void AddReasonColumn(string name)
     {
-        var reason = Context.Language["XXReason"].Replace("{name}", name);
+        var reason = Context?.Language?["XXReason"]?.Replace("{name}", name);
         AddRow().AddColumn(c => c.Note, c =>
         {
             c.Name = reason;

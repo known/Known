@@ -151,6 +151,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 
 public class BaseTabPage : BasePage
 {
+    //TODO:切换语言Tab表单未刷新
     protected TabModel Tab { get; } = new();
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);

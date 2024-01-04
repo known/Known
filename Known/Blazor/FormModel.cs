@@ -24,6 +24,11 @@ public class FormModel<TItem> where TItem : class, new()
         Option = new FormOption();
     }
 
+    internal FormModel(Context context, IUIService ui, bool isAuto = true) : this(ui, false)
+    {
+        Context = context;
+    }
+
     internal FormModel(IUIService ui, FormInfo info) : this(ui, false)
     {
         SetFormInfo(info);
@@ -36,6 +41,7 @@ public class FormModel<TItem> where TItem : class, new()
         Table = table;
         Page = table.Page;
         Option = table.Form;
+        Context = Page?.Context;
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
         columns = GetFormColumns(table);
     }
@@ -46,7 +52,7 @@ public class FormModel<TItem> where TItem : class, new()
     internal string Action { get; set; }
 
     public FormOption Option { get; }
-    public Context Context => Page?.Context;
+    public Context Context { get; }
     public string Title => GetFormTitle(Data);
     public bool IsView { get; set; }
     public TItem Data { get; set; }

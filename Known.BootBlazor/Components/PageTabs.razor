@@ -3,15 +3,16 @@
 <Tab @ref="tab" ShowExtendButtons ShowClose>
     @foreach (var item in Items)
     {
-        <TabItem Text="@item.Name" Closable="@item.Closable">
+        var itemName = Context.Language[$"Menu.{item.Code}"];
+        <TabItem Text="@itemName" Closable="@item.Closable">
             @if (item.Page != null && item.Page.NoBreadcrumb)
             {
-                <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
+                <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
             }
             else
             {
                 <div class="kui-background boot-content" style="min-height:360px;margin:10px 0;">
-                    <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
+                    <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
                 </div>
             }
         </TabItem>
@@ -20,6 +21,7 @@
 
 @code {
     private Tab tab;
+    private Dictionary<string, DynamicComponent> dcs = [];
 
     [Parameter] public List<Known.MenuItem> Items { get; set; }
     [Parameter] public Known.MenuItem Menu { get; set; }
@@ -29,6 +31,14 @@
         await base.OnAfterRenderAsync(firstRender);
         var index = Items.IndexOf(Menu);
         tab.ActiveTab(index);
+    }
+
+    public override void StateChanged()
+    {
+        foreach (var dc in dcs)
+        {
+            (dc.Value.Instance as BaseComponent)?.StateChanged();
+        }
     }
 
     private void OnClose(string tab)

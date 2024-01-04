@@ -110,7 +110,7 @@ public class TableModel<TItem> where TItem : class, new()
         {
             FormType = type,
             IsView = true,
-            Action = type.GetDescription(),
+            Action = Language[$"Button.{type}"],
             Data = row
         });
     }

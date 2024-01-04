@@ -3,15 +3,16 @@
 <Tabs Class="ant-layout-tabs" Type="@TabType.EditableCard" HideAdd @bind-ActiveKey="activeKey" OnClose="OnClose">
     @foreach (var item in Items)
     {
-        <TabPane Key="@item.Id" Tab="@item.Name" Closable="@item.Closable">
+        var itemName = Context.Language[$"Menu.{item.Code}"];
+        <TabPane Key="@item.Id" Tab="@itemName" Closable="@item.Closable">
             @if (item.Page != null && item.Page.NoBreadcrumb)
             {
-                <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
+                <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
             }
             else
             {
                 <div class="kui-background" style="min-height:360px;margin:10px 0;">
-                    <DynamicComponent Type="item.ComType" Parameters="item.ComParameters" />
+                    <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
                 </div>
             }
         </TabPane>
@@ -20,6 +21,7 @@
 
 @code {
     private string activeKey;
+    private Dictionary<string, DynamicComponent> dcs = [];
 
     [Parameter] public List<Known.MenuItem> Items { get; set; }
     [Parameter] public Known.MenuItem Menu { get; set; }
@@ -28,6 +30,14 @@
     {
         await base.OnParametersSetAsync();
         activeKey = Menu.Id;
+    }
+
+    public override void StateChanged()
+    {
+        foreach (var dc in dcs)
+        {
+            (dc.Value.Instance as BaseComponent)?.StateChanged();
+        }
     }
 
     private void OnClose(string tab)
