@@ -30,16 +30,16 @@
                 <img class="ws-avatar" src="@user?.AvatarUrl" />
                 <div class="ws-info">
                     <span class="ws-name">@info?.Greeting</span>
-                    <span class="ws-tips">今天是：@DateTime.Now.ToString("yyyy年MM月dd日 dddd")</span>
+                    <span class="ws-tips">@Language["Home.Today"].Replace("{date}", DateTime.Now.ToString("yyyy-MM-dd dddd"))</span>
                 </div>
             </div>
             <ul class="count">
                 <li>
-                    <span class="name">用户数量<span class="month">总</span></span>
+                    <span class="name">@Language["Home.UserCount"]<span class="month">@Language["Home.Total"]</span></span>
                     <span class="amount">@info?.Statistics?.UserCount</span>
                 </li>
                 <li>
-                    <span class="name">日志数量<span class="month">总</span></span>
+                    <span class="name">@Language["Home.LogCount"]<span class="month">@Language["Home.Total"]</span></span>
                     <span class="amount">@info?.Statistics?.LogCount</span>
                 </li>
             </ul>
@@ -53,7 +53,7 @@
                 <CardTabs>
                     <Tabs DefaultActiveKey="1">
                         <TabPane Key="1">
-                            <TabTemplate>日志统计</TabTemplate>
+                            <TabTemplate>@Language["Home.LogStatistic"]</TabTemplate>
                             <ChildContent>
                                 <AntDesign.Charts.Column Config="chartConfig" Data="chartData" />
                             </ChildContent>
@@ -65,14 +65,14 @@
     </GridCol>
     <GridCol Span="10">
         <div class="ws-func">
-            <Card Title="常用功能" Style="height:100%;">
+            <Card Title="@Language["Home.CommonFunc"]" Style="height:100%;">
                 @if (visitMenus != null && visitMenus.Count > 0)
                 {
                     foreach (var item in visitMenus)
                     {
                         <div class="ws-func-menu" @onclick="e => Context.Navigate(item)">
                             <Icon Type="@item.Icon" Theme="outline" />
-                            <span class="name">@item.Name</span>
+                            <span class="name">@Language[$"Menu.{item.Code}"]</span>
                         </div>
                     }
                 }
@@ -86,23 +86,25 @@
     private HomeInfo info;
     private object[] chartData;
     private List<Known.MenuItem> visitMenus;
-    private ColumnConfig chartConfig = new()
-    {
-        Name = $"{DateTime.Now:yyyyMM}月系统访问量统计",
-        Height = 274,
-        Padding = "auto",
-        XField = "key",
-        YField = "value",
-        Meta = new
-        {
-            Key = new { Alias = "日期" },
-            Value = new { Alias = "数量" }
-        }
-    };
+    private ColumnConfig chartConfig;
 
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+
+        chartConfig = new()
+        {
+            Name = Language["Home.VisitTitle"].Replace("{month}", $"{DateTime.Now:yyyyMM}"),
+            Height = 274,
+            Padding = "auto",
+            XField = "key",
+            YField = "value",
+            Meta = new
+            {
+                Key = new { Alias = Language["Home.Date"] },
+                Value = new { Alias = Language["Home.Count"] }
+            }
+        };
 
         var service = new Services.HomeService { Context = Context };
         info = await service.GetHomeAsync();

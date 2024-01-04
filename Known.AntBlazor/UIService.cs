@@ -112,7 +112,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         _modal.Info(new ConfirmOptions
         {
-            Title = Language["Title.Prompt"],
+            Title = Language?["Title.Prompt"],
             Content = message
         });
     }
@@ -121,7 +121,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         _modal.Confirm(new ConfirmOptions
         {
-            Title = Language["Title.Question"],
+            Title = Language?["Title.Question"],
             Icon = b => b.Component<Icon>().Set(c => c.Type, "question-circle").Set(c => c.Theme, "outline").Build(),
             Content = message,
             OnOk = e => action?.Invoke()

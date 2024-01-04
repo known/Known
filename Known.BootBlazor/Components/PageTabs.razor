@@ -1,4 +1,6 @@
-﻿<Tab @ref="tab" ShowExtendButtons ShowClose>
+﻿@inherits BaseComponent
+
+<Tab @ref="tab" ShowExtendButtons ShowClose>
     @foreach (var item in Items)
     {
         <TabItem Text="@item.Name" Closable="@item.Closable">

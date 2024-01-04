@@ -9,7 +9,7 @@ public class AdminPage : BaseComponent
     public AdminPage()
     {
         Context.OnNavigate = OnNavigate;
-        Context.OnRefreshPage = StateChanged;
+        Context.OnRefreshPage = RefreshPage;
         TabMenus = [Config.GetHomeMenu()];
     }
 
@@ -19,6 +19,8 @@ public class AdminPage : BaseComponent
     protected List<MenuItem> UserMenus { get; private set; }
     protected List<MenuItem> TabMenus { get; }
     protected MenuItem CurrentMenu { get; private set; }
+
+    protected virtual void RefreshPage() => StateChanged();
 
     protected override async Task OnInitializedAsync()
     {

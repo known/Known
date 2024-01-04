@@ -15,11 +15,11 @@
             <Content>
                 @if (Context.UserSetting.MultiTab)
                 {
-                    <PageTabs Menu="CurrentMenu" Items="TabMenus" />
+                    <PageTabs @ref="tabs" Menu="CurrentMenu" Items="TabMenus" />
                 }
                 else
                 {
-                    <PageSingle Menu="CurrentMenu" OnHome="OnHome" />
+                    <PageSingle @ref="page" Menu="CurrentMenu" OnHome="OnHome" />
                 }
             </Content>
             @if (AntConfig.Option.Footer != null)
@@ -35,8 +35,17 @@
 </Layout>
 
 @code{
+    private PageTabs tabs;
+    private PageSingle page;
     private SiderTheme ThemeSider => Context.UserSetting.IsLight ? SiderTheme.Light : SiderTheme.Dark;
     private MenuTheme ThemeMenu => Context.UserSetting.IsLight ? MenuTheme.Light : MenuTheme.Dark;
+
+    protected override void RefreshPage()
+    {
+        base.RefreshPage();
+        tabs?.StateChanged();
+        page?.StateChanged();
+    }
 
     private void OnHome() => OnMenuClick("home");
 

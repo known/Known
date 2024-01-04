@@ -16,13 +16,13 @@ public class FieldInfo
 {
     [DisplayName("ID")]
     public string Id { get; set; }
-    [DisplayName("名称")]
+    [DisplayName("Name")]
     public string Name { get; set; }
-    [DisplayName("类型")]
+    [DisplayName("Type")]
     public FieldType Type { get; set; }
-    [DisplayName("长度")]
+    [DisplayName("Length")]
     public string Length { get; set; }
-    [DisplayName("必填")]
+    [DisplayName("Required")]
     public bool Required { get; set; }
 }
 

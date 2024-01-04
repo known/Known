@@ -8,7 +8,7 @@
         <Tooltip Title="@FullScreenTitle"><Icon Type="@FullScreenIcon" OnClick="OnFullScreen" /></Tooltip>
     </SpaceItem>
     <SpaceItem Style="width:20px;text-align:center;">
-        <AntLanguage OnChanged="Context.RefreshPage" />
+        <AntLanguage OnChanged="OnLanguageChanged" />
     </SpaceItem>
     <SpaceItem>
         <AntDropdown Text="@CurrentUser.Name" Items="UserItems" OnItemClick="e=>OnItemClick(e.Id)" />
@@ -19,10 +19,11 @@
 </Space>
 
 <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="300">
-    <Known.Blazor.SettingForm />
+    <Known.Blazor.SettingForm @ref="setting" />
 </Drawer>
 
 @code {
+    private Known.Blazor.SettingForm setting;
     private bool showSetting = false;
     private bool isFullScreen = false;
     private string FullScreenTitle => isFullScreen ? Language["Nav.ExitScreen"] : Language["Nav.FullScreen"];
@@ -43,5 +44,11 @@
             JS.OpenFullScreen();
         else
             JS.CloseFullScreen();
+    }
+
+    private void OnLanguageChanged()
+    {
+        setting?.StateChanged();
+        Context.RefreshPage();
     }
 }

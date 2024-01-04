@@ -1,30 +1,30 @@
 ﻿@inherits BaseComponent
 
-<h1>用户登录</h1>
+<h1>@Language["Login.WithAccount"]</h1>
 <ValidateForm Model="@Model">
     <div class="boot-row">
         <BootstrapInputGroup>
             <BootstrapInputGroupLabel class="fa fa-user" />
-            <BootstrapInput DisplayText="" @bind-Value="@Model.UserName" PlaceHolder="用户名" />
+            <BootstrapInput DisplayText="" @bind-Value="@Model.UserName" PlaceHolder="@Language["UserName"]" />
         </BootstrapInputGroup>
     </div>
     <div class="boot-row">
         <BootstrapInputGroup>
             <BootstrapInputGroupLabel class="fa fa-lock" />
-            <BootstrapPassword DisplayText="" @bind-Value="@Model.Password" PlaceHolder="密码" />
+            <BootstrapPassword DisplayText="" @bind-Value="@Model.Password" PlaceHolder="@Language["Password"]" />
         </BootstrapInputGroup>
     </div>
     <div class="boot-row">
         <BootstrapInputGroup>
             <BootstrapInputGroupLabel class="fa fa-check" />
-            <BootCaptcha @ref="captcha" DisplayText="" @bind-Value="@Model.Captcha" PlaceHolder="验证码" />
+            <BootCaptcha @ref="captcha" DisplayText="" @bind-Value="@Model.Captcha" PlaceHolder="@Language["Captcha"]" />
         </BootstrapInputGroup>
     </div>
     <div class="boot-row">
-        <Switch @bind-Value="@Model.Remember" OnText="记住用户名" OffText="记住用户名" />
+        <Switch @bind-Value="@Model.Remember" OnText="@Language["Login.RememberUser"]" OffText="@Language["Login.RememberUser"]" />
     </div>
     <div class="boot-row">
-        <Button Color="Color.Primary" OnClick="OnUserLogin" IsBlock>登 录</Button>
+        <Button Color="Color.Primary" OnClick="OnUserLogin" IsBlock>@Language["Login"]</Button>
     </div>
 </ValidateForm>
 

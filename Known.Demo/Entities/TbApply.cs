@@ -45,7 +45,7 @@ public class TbApply : FlowEntity
     public override Result ValidCommit(Context context)
     {
         var vr = base.Validate(context);
-        vr.Required(context, "业务内容", BizContent);
+        vr.Required(context, context.Language["BizContent"], BizContent);
         return vr;
     }
 }

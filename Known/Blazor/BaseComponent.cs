@@ -48,7 +48,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         GC.SuppressFinalize(this);
     }
 
-    public void StateChanged() => InvokeAsync(StateHasChanged);
+    public virtual void StateChanged() => InvokeAsync(StateHasChanged);
 
     protected bool HasButton(string buttonId)
     {

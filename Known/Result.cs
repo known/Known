@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Known;
+﻿namespace Known;
 
 public class Result
 {
@@ -116,20 +114,20 @@ public class PagingResult<T>
 public enum ExportMode { None, Page, Query, All }
 public enum QueryType
 {
-    [Description("等于")] Equal,
-    [Description("不等于")] NotEqual,
-    [Description("小于")] LessThan,
-    [Description("小于等于")] LessEqual,
-    [Description("大于")] GreatThan,
-    [Description("大于等于")] GreatEqual,
-    [Description("两者之间(含两者)")] Between,
-    [Description("两者之间(不含两者)")] BetweenNotEqual,
-    [Description("两者之间(仅含前者)")] BetweenLessEqual,
-    [Description("两者之间(仅含后者)")] BetweenGreatEqual,
-    [Description("包含于")] Contain,
-    [Description("开头于")] StartWith,
-    [Description("结尾于")] EndWith,
-    [Description("批量(逗号分割)")] Batch
+    Equal,
+    NotEqual,
+    LessThan,
+    LessEqual,
+    GreatThan,
+    GreatEqual,
+    Between,
+    BetweenNotEqual,
+    BetweenLessEqual,
+    BetweenGreatEqual,
+    Contain,
+    StartWith,
+    EndWith,
+    Batch
 }
 
 public class PagingCriteria

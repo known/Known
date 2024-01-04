@@ -36,7 +36,7 @@ class ApplyService : ServiceBase
             return Result.Error(Language.SelectOneAtLeast);
 
         if (models.Exists(m => m.BizStatus != FlowStatus.Save))
-            return Result.Error("只能删除暂存状态的记录！");
+            return Result.Error(Language["Tip.FlowDeleteSave"]);
 
         var oldFiles = new List<string>();
         var result = await Database.TransactionAsync(Language.Delete, async db =>
