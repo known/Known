@@ -18,7 +18,7 @@ sealed class TaskHelper
         return new TaskSummaryInfo
         {
             Status = task.Status,
-            Message = $"执行时间：{task.CreateTime:yyyy-MM-dd HH:mm:ss}，耗时：{time}毫秒"
+            Message = db.Context?.Language["Tip.TaskInfo"].Replace("{createTime}", $"{task.CreateTime:yyyy-MM-dd HH:mm:ss}").Replace("{time}", time)
         };
     }
 
@@ -30,9 +30,9 @@ sealed class TaskHelper
             switch (task.Status)
             {
                 case TaskStatus.Pending:
-                    return Result.Success("任务等待中...");
+                    return Result.Success(db.Context?.Language["Tip.TaskPending"]);
                 case TaskStatus.Running:
-                    return Result.Success("任务执行中...");
+                    return Result.Success(db.Context?.Language["Tip.TaskRunning"]);
             }
         }
 
@@ -44,7 +44,7 @@ sealed class TaskHelper
             Target = target,
             Status = TaskStatus.Pending
         });
-        return Result.Success("任务添加成功，请稍后查询结果！");
+        return Result.Success(db.Context?.Language["Tip.TaskAddSuccess"]);
     }
 
     internal static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)

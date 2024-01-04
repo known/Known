@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Known;
+﻿namespace Known;
 
 public class QueryInfo
 {
@@ -40,12 +38,7 @@ public class SettingInfo
         Accordion = true;
     }
 
-    [Form, DisplayName("暗亮模式")]
-    public bool IsLight { get; set; }
-
-    [Form, DisplayName("手风琴菜单")]
-    public bool Accordion { get; set; }
-
-    [Form, DisplayName("标签页")]
-    public bool MultiTab { get; set; }
+    [Form] public bool IsLight { get; set; }
+    [Form] public bool Accordion { get; set; }
+    [Form] public bool MultiTab { get; set; }
 }

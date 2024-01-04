@@ -4,9 +4,9 @@ namespace Known.WorkFlows;
 
 class FlowService : ServiceBase
 {
-    private string FlowNotCreated => Context.Language["Tip.FlowNotCreate"];
-    private string UserNotExists(string user) => Context.Language["Tip.UserNotExists"].Replace("{user}", user);
-    private string NotExecuteFlow(string user) => Context.Language["Tip.NotExecuteFlow"].Replace("{user}", user);
+    private string FlowNotCreated => Language["Tip.FlowNotCreate"];
+    private string UserNotExists(string user) => Language["Tip.UserNotExists"].Replace("{user}", user);
+    private string NotExecuteFlow(string user) => Language["Tip.NotExecuteFlow"].Replace("{user}", user);
 
     internal static Task<SysFlow> GetFlowAsync(Database db, string bizId) => FlowRepository.GetFlowAsync(db, bizId);
 
@@ -31,7 +31,7 @@ class FlowService : ServiceBase
             return Result.Error(UserNotExists(info.User));
 
         var user = CurrentUser;
-        var name = Context.Language["Button.Submit"];
+        var name = Language.Submit;
         return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -49,7 +49,7 @@ class FlowService : ServiceBase
                 SetCurrToPrevStep(flow);
                 SetCurrStep(flow, FlowStatus.StepSubmit, next);
 
-                var noteText = Context.Language["SubmitToUser"].Replace("{user}", flow.CurrBy);
+                var noteText = Language["SubmitToUser"].Replace("{user}", flow.CurrBy);
                 if (!string.IsNullOrEmpty(info.Note))
                     noteText += $"，{info.Note}";
 
@@ -57,7 +57,7 @@ class FlowService : ServiceBase
                 flow.ApplyBy = user.UserName;
                 flow.ApplyTime = DateTime.Now;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepSubmit, Language.Submit, noteText);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepSubmit, name, noteText);
                 await biz.OnCommitedAsync(db, info);
             }
         });
@@ -66,14 +66,14 @@ class FlowService : ServiceBase
     public async Task<Result> RevokeFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error(Context.Language["Tip.RevokeReason"]);
+            return Result.Error(Language["Tip.RevokeReason"]);
 
         var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
         var user = CurrentUser;
-        var name = Context.Language["Button.Revoke"];
+        var name = Language.Revoke;
         return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -92,7 +92,7 @@ class FlowService : ServiceBase
                 SetPrevToCurrStep(flow);
                 flow.BizStatus = info.BizStatus ?? FlowStatus.Revoked;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepRevoke, Language.Revoke, info.Note);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepRevoke, name, info.Note);
                 await biz.OnRevokedAsync(db, info);
             }
         });
@@ -106,10 +106,10 @@ class FlowService : ServiceBase
 
         var next = await AuthService.GetUserAsync(Database, info.User);
         if (next == null)
-            return Result.Error(Context.Language["Tip.NextUserNotExists"].Replace("{user}", info.User));
+            return Result.Error(Language["Tip.NextUserNotExists"].Replace("{user}", info.User));
 
         var user = CurrentUser;
-        var name = Context.Language["Button.Assign"];
+        var name = Language["Button.Assign"];
         return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -121,7 +121,7 @@ class FlowService : ServiceBase
                 SetCurrToPrevStep(flow);
                 SetCurrStep(flow, stepName, next);
 
-                var noteText = Context.Language["AssignToUser"].Replace("{user}", flow.CurrBy);
+                var noteText = Language["AssignToUser"].Replace("{user}", flow.CurrBy);
                 if (!string.IsNullOrEmpty(info.Note))
                     noteText += $"，{info.Note}";
 
@@ -135,7 +135,7 @@ class FlowService : ServiceBase
     {
         var isPass = info.BizStatus == FlowStatus.VerifyPass;
         if (!isPass && string.IsNullOrEmpty(info.Note))
-            return Result.Error(Context.Language["Tip.ReturnReason"]);
+            return Result.Error(Language["Tip.ReturnReason"]);
 
         var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
@@ -150,7 +150,7 @@ class FlowService : ServiceBase
         }
 
         var user = CurrentUser;
-        var name = Context.Language["Button.Verify"];
+        var name = Language["Button.Verify"];
         return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -177,15 +177,15 @@ class FlowService : ServiceBase
                     {
                         flow.CurrBy = next.UserName;
                         await db.SaveAsync(flow);
-                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Context.Language["Pass"], info.Note);
+                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Language["Pass"], info.Note);
                     }
                     else
                     {
                         flow.CurrBy = flow.ApplyBy;
                         flow.FlowStatus = FlowStatus.Over;
                         await db.SaveAsync(flow);
-                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Context.Language["Pass"], info.Note);
-                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepOver, Context.Language["End"], "");
+                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Language["Pass"], info.Note);
+                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepOver, Language["End"], "");
                     }
                 }
                 else
@@ -193,12 +193,12 @@ class FlowService : ServiceBase
                     SetCurrToNextStep(flow);
                     SetPrevToCurrStep(flow);
 
-                    var noteText = Context.Language["ReturnToUser"].Replace("{user}", flow.CurrBy);
+                    var noteText = Language["ReturnToUser"].Replace("{user}", flow.CurrBy);
                     if (!string.IsNullOrEmpty(info.Note))
                         noteText += $"，{info.Note}";
 
                     await db.SaveAsync(flow);
-                    await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Context.Language["Fail"], noteText);
+                    await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Language["Fail"], noteText);
                 }
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnVerifiedAsync(db, info);
@@ -209,13 +209,13 @@ class FlowService : ServiceBase
     public async Task<Result> RepeatFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error(Context.Language["Tip.RestartReason"]);
+            return Result.Error(Language["Tip.RestartReason"]);
 
         var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var name = Context.Language["Button.Restart"];
+        var name = Language["Button.Restart"];
         return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -240,13 +240,13 @@ class FlowService : ServiceBase
     public async Task<Result> StopFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error(Context.Language["Tip.StopReason"]);
+            return Result.Error(Language["Tip.StopReason"]);
 
         var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var name = Context.Language["Button.Stop"];
+        var name = Language["Button.Stop"];
         return await Database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -287,7 +287,7 @@ class FlowService : ServiceBase
             CurrBy = db.User.UserName
         };
         await db.SaveAsync(flow);
-        await AddFlowLogAsync(db, info.BizId, stepName, Context.Language["Start"], info.BizName);
+        await AddFlowLogAsync(db, info.BizId, stepName, Language["Start"], info.BizName);
     }
 
     internal async Task DeleteFlowAsync(Database db, string bizId)

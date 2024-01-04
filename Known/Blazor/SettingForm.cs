@@ -10,7 +10,7 @@ public class SettingForm : BaseForm<SettingInfo>
     {
         Model = new FormModel<SettingInfo>(UI)
         {
-            LabelSpan = 10,
+            LabelSpan = 12,
             Data = Context.UserSetting
         };
         await base.OnInitFormAsync();

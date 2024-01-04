@@ -260,6 +260,7 @@
   "Title.Prompt": "Prompt",
   "Title.Question": "Question",
   "Title.Import": "Import {name}",
+  "Title.FormAction": "{action} {title}",
   "Title.FlowAction": "{action} Flow",
   "Title.BasicInfo": "Basic",
   "Title.TableList": "Lists",
@@ -363,6 +364,10 @@
   "Tip.ModuleDeleteExistsChild": "There are sub modules present and cannot be deleted!",
   "Tip.InstallRequired": "Installation information is required!",
   "Tip.NotNetwork": "The computer is not connected to the internet!",
+  "Tip.TaskInfo": "Execution time: {createTime}, time taken: {time} milliseconds",
+  "Tip.TaskPending": "Task waiting...",
+  "Tip.TaskRunning": "Task in progress...",
+  "Tip.TaskAddSuccess": "Task added successfully, please check the results later!",
 
   "Import.Tips": "Tip: Please upload a single txt or Excel format attachment!",
   "Import.Download": "Template",
@@ -488,6 +493,9 @@
   "ReturnToUser": "Return to [{user}]",
   "Start": "Start",
   "End": "End",
+  "IsLight": "Dark/Light Mode",
+  "Accordion": "Accordion Menu",
+  "MultiTab": "Tabs",
 
   "Install": "Install",
   "StartUsing": "Start",

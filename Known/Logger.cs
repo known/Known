@@ -18,6 +18,7 @@ class LogType
 {
     private LogType() { }
 
+    //TODO:数据语言切换
     public const string Login = "登录";
     public const string Logout = "退出";
     public const string Page = "页面";

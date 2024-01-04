@@ -175,7 +175,7 @@ public class FormModel<TItem> where TItem : class, new()
         var title = Table.Page?.Name;
         if (Table.FormTitle != null)
             title = Table.FormTitle.Invoke(row);
-        return $"{Action}{title}";
+        return Page?.Language["Title.FormAction"].Replace("{action}", Action).Replace("{title}", title);
     }
 
     private void SetFormInfo(FormInfo info)

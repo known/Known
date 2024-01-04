@@ -1,4 +1,6 @@
-﻿namespace Known.WorkFlows;
+﻿using System.ComponentModel;
+
+namespace Known.WorkFlows;
 
 public class FlowFormInfo
 {
@@ -34,11 +36,11 @@ public class FlowInfo
 
 public class FlowStepInfo
 {
-    public string Id { get; set; }
-    public string Name { get; set; }
-    public string Type { get; set; }
-    public string User { get; set; }
-    public string Role { get; set; }
-    public string Pass { get; set; }
-    public string Fail { get; set; }
+    [DisplayName("Id")] public string Id { get; set; }
+    [DisplayName("Name")] public string Name { get; set; }
+    [DisplayName("Type")] public string Type { get; set; }
+    [DisplayName("User")] public string User { get; set; }
+    [DisplayName("Role")] public string Role { get; set; }
+    [DisplayName("Pass")] public string Pass { get; set; }
+    [DisplayName("Fail")] public string Fail { get; set; }
 }

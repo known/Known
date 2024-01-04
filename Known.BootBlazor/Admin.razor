@@ -57,7 +57,7 @@
                 Context.NavigateToUserProfile();
                 break;
             case "logout":
-                UI.Confirm("确定要退出系统？", SignOutAsync);
+                UI.Confirm(Language["Tip.Exits"], SignOutAsync);
                 break;
         }
     }

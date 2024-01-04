@@ -305,7 +305,6 @@ class CodeGenerator : ICodeGenerator
             sb.AppendLine("    /// <summary>");
             sb.AppendLine("    /// 取得或设置{0}。", item.Name);
             sb.AppendLine("    /// </summary>");
-            sb.AppendLine("    [DisplayName(\"{0}\")]", item.Name);
             if (item.Required)
                 sb.AppendLine("    [Required]");
             if (!string.IsNullOrWhiteSpace(item.Length))
@@ -340,7 +339,7 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine(" ");
         sb.AppendLine("class {0}List : BaseTablePage<{0}>", entity.Id);
         sb.AppendLine("{");
-        sb.AppendLine("    private XXXService Service => new() { CurrentUser = CurrentUser };");
+        sb.AppendLine("    private XXXService Service => new() { Context = Context };");
         sb.AppendLine(" ");
         sb.AppendLine("    protected override async Task OnInitPageAsync()");
         sb.AppendLine("    {");
@@ -358,7 +357,7 @@ class CodeGenerator : ICodeGenerator
                 else if (item == "DeleteM")
                     sb.AppendLine("    [Action] public void DeleteM() => Table.DeleteM(Service.Delete{0}sAsync);", entity.Id);
                 else
-                    sb.AppendLine("    [Action] public void {0}() => {{}};", item);
+                    sb.AppendLine("    [Action] public void {0}() => Table.SelectRows(Service.{0}{1}sAsync, Language[\"Button.{0}\"]);", item, entity.Id);
             }
         }
 
@@ -396,38 +395,63 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine("    {");
         sb.AppendLine("        return XXXRepository.Query{0}sAsync(Database, criteria);", entity.Id);
         sb.AppendLine("    }");
-        if (page.Tools != null && page.Tools.Contains("DeleteM"))
+
+        if (page.Tools != null && page.Tools.Length > 0)
         {
-            sb.AppendLine(" ");
-            sb.AppendLine("    public async Task<Result> Delete{0}sAsync(List<{0}> models)", entity.Id);
-            sb.AppendLine("    {");
-            sb.AppendLine("        if (models == null || models.Count == 0)");
-            sb.AppendLine("            return Result.Error(\"请至少选择一条记录进行操作！\");");
-            sb.AppendLine(" ");
-            sb.AppendLine("        return await Database.TransactionAsync(\"删除\", async db =>", entity.Id);
-            sb.AppendLine("        {");
-            sb.AppendLine("            foreach (var item in models)");
-            sb.AppendLine("            {");
-            sb.AppendLine("                await db.DeleteAsync(item);");
-            sb.AppendLine("            }");
-            sb.AppendLine("        }, model);");
-            sb.AppendLine("    }");
+            foreach (var item in page.Tools)
+            {
+                if (item == "New")
+                    continue;
+
+                if (item == "DeleteM")
+                {
+                    sb.AppendLine(" ");
+                    sb.AppendLine("    public async Task<Result> Delete{0}sAsync(List<{0}> models)", entity.Id);
+                    sb.AppendLine("    {");
+                    sb.AppendLine("        if (models == null || models.Count == 0)");
+                    sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
+                    sb.AppendLine(" ");
+                    sb.AppendLine("        return await Database.TransactionAsync(Language.Delete, async db =>");
+                    sb.AppendLine("        {");
+                    sb.AppendLine("            foreach (var item in models)");
+                    sb.AppendLine("            {");
+                    sb.AppendLine("                await db.DeleteAsync(item);");
+                    sb.AppendLine("            }");
+                    sb.AppendLine("        });");
+                    sb.AppendLine("    }");
+                }
+                else
+                {
+                    sb.AppendLine(" ");
+                    sb.AppendLine("    public async Task<Result> {0}{1}sAsync(List<{1}> models)", item, entity.Id);
+                    sb.AppendLine("    {");
+                    sb.AppendLine("        if (models == null || models.Count == 0)");
+                    sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
+                    sb.AppendLine(" ");
+                    sb.AppendLine("        return await Database.TransactionAsync(Language[\"Button.{0}\"], async db =>", item);
+                    sb.AppendLine("        {");
+                    sb.AppendLine("        });");
+                    sb.AppendLine("    }");
+                }
+            }
+
+            if (page.Tools.Contains("New"))
+            {
+                sb.AppendLine(" ");
+                sb.AppendLine("    public async Task<Result> Save{0}Async({0} model)", entity.Id);
+                sb.AppendLine("    {");
+                sb.AppendLine("        var vr = model.Validate(Context);");
+                sb.AppendLine("        if (!vr.IsValid)");
+                sb.AppendLine("            return vr;");
+                sb.AppendLine(" ");
+                sb.AppendLine("        return await Database.TransactionAsync(Language.Save, async db =>", entity.Id);
+                sb.AppendLine("        {");
+                sb.AppendLine("            await db.SaveAsync(model);");
+                sb.AppendLine("        }, model);");
+                sb.AppendLine("    }");
+            }
         }
-        if (page.Tools != null && page.Tools.Contains("New"))
-        {
-            sb.AppendLine(" ");
-            sb.AppendLine("    public async Task<Result> Save{0}Async({0} model)", entity.Id);
-            sb.AppendLine("    {");
-            sb.AppendLine("        var vr = model.Validate();");
-            sb.AppendLine("        if (!vr.IsValid)");
-            sb.AppendLine("            return vr;");
-            sb.AppendLine(" ");
-            sb.AppendLine("        return await Database.TransactionAsync(\"保存\", async db =>", entity.Id);
-            sb.AppendLine("        {");
-            sb.AppendLine("            await db.SaveAsync(model);");
-            sb.AppendLine("        }, model);");
-            sb.AppendLine("    }");
-        }
+
         sb.AppendLine("}");
         return sb.ToString();
     }

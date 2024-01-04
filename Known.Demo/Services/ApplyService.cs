@@ -33,13 +33,13 @@ class ApplyService : ServiceBase
     public async Task<Result> DeleteApplysAsync(List<TbApply> models)
     {
         if (models == null || models.Count == 0)
-            return Result.Error("请至少选择一条记录进行操作！");
+            return Result.Error(Language.SelectOneAtLeast);
 
         if (models.Exists(m => m.BizStatus != FlowStatus.Save))
             return Result.Error("只能删除暂存状态的记录！");
 
         var oldFiles = new List<string>();
-        var result = await Database.TransactionAsync("删除", async db =>
+        var result = await Database.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in models)
             {

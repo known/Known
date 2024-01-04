@@ -97,12 +97,12 @@ public sealed class Config
 
     internal static MenuItem GetHomeMenu()
     {
-        return new("首页", "home", PageTypes.GetValueOrDefault("Home")) { Closable = false };
+        return new("Home", "home", PageTypes.GetValueOrDefault("Home")) { Closable = false };
     }
 
     internal static MenuItem GetUserProfileMenu()
     {
-        return new("个人中心", "user", typeof(SysUserProfile), "当前用户个人中心和安全设置。");
+        return new("Profile", "user", typeof(SysUserProfile));
     }
 
     private static void AddActions(Assembly assembly)

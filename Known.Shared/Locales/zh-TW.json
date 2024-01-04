@@ -129,6 +129,7 @@
   "Title.Prompt": "提示",
   "Title.Question": "詢問",
   "Title.Import": "導入{name}",
+  "Title.FormAction": "{action}{title}",
   "Title.FlowAction": "{action}流程",
   "Title.BasicInfo": "基本資訊",
   "Title.TableList": "表體資訊",
@@ -232,6 +233,10 @@
   "Tip.ModuleDeleteExistsChild": "存在子模塊，不能删除！",
   "Tip.InstallRequired": "安裝資訊不能為空！",
   "Tip.NotNetwork": "電腦未聯網！",
+  "Tip.TaskInfo": "執行時間：{createTime}，耗時：{time}毫秒",
+  "Tip.TaskPending": "任務等待中…",
+  "Tip.TaskRunning": "任務執行中…",
+  "Tip.TaskAddSuccess": "任務添加成功，請稍後查詢結果！",
 
   "Import.Tips": "提示：請上傳單個txt或Excel格式附件！",
   "Import.Download": "範本下載",
@@ -357,6 +362,9 @@
   "ReturnToUser": "退回給[{user}]",
   "Start": "開始",
   "End": "結束",
+  "IsLight": "暗亮模式",
+  "Accordion": "手風琴選單",
+  "MultiTab": "標籤頁",
 
   "Install": "安裝",
   "StartUsing": "開始使用",

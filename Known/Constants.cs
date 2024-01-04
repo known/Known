@@ -11,6 +11,7 @@ class Constants
     public const string KeyDownload = "Known-Download";
     public const string SysUserName = "Admin";
 
+    //TODO:数据语言切换
     public const string UTOperation = "运维人员";
 
     public const string UMTypeReceive = "收件";

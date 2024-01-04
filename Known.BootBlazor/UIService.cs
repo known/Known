@@ -11,6 +11,8 @@ public class UIService(DialogService dialogService, MessageService messageServic
     private readonly DialogService _dialog = dialogService;
     private readonly MessageService _message = messageService;
 
+    public Language Language { get; set; }
+
     public Type GetInputType(ColumnInfo column)
     {
         var type = typeof(string);

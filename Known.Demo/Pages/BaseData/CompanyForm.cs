@@ -11,7 +11,7 @@ class CompanyForm : BaseTabPage
 	protected override async Task OnInitPageAsync()
 	{
 		await base.OnInitPageAsync();
-        Tab.Items.Add(new ItemModel(Context.Language.BasicInfo) { Content = builder => builder.Component<CompanyBaseInfo>().Build() });
+        Tab.Items.Add(new ItemModel(Language.BasicInfo) { Content = builder => builder.Component<CompanyBaseInfo>().Build() });
     }
 
 	[Action] public void Edit() { }
@@ -43,12 +43,12 @@ class CompanyBaseInfo : BaseForm<CompanyInfo>
                 {
                     if (!isEdit)
                     {
-                        UI.Button(builder, Context.Language.Edit, this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
+                        UI.Button(builder, Language.Edit, this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
                     }
                     else
                     {
-                        UI.Button(builder, Context.Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
-                        UI.Button(builder, Context.Language.Cancel, this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
+                        UI.Button(builder, Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+                        UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
                     }
                 });
             }

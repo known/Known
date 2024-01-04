@@ -11,6 +11,8 @@ public class UIService(ModalService modalService, MessageService messageService)
     private readonly ModalService _modal = modalService;
     private readonly MessageService _message = messageService;
 
+    public Language Language { get; set; }
+
     public Type GetInputType(ColumnInfo column)
     {
         var type = typeof(string);
@@ -110,7 +112,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         _modal.Info(new ConfirmOptions
         {
-            Title = "提示",
+            Title = Language["Title.Prompt"],
             Content = message
         });
     }
@@ -119,7 +121,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         _modal.Confirm(new ConfirmOptions
         {
-            Title = "询问",
+            Title = Language["Title.Question"],
             Icon = b => b.Component<Icon>().Set(c => c.Type, "question-circle").Set(c => c.Theme, "outline").Build(),
             Content = message,
             OnOk = e => action?.Invoke()
@@ -136,8 +138,8 @@ public class UIService(ModalService modalService, MessageService messageService)
 
         if (model.OnOk != null)
         {
-            options.OkText = "确定";
-            options.CancelText = "取消";
+            options.OkText = Language?.OK;
+            options.CancelText = Language?.Cancel;
             options.OnOk = e => model.OnOk.Invoke();
         }
         else
@@ -157,8 +159,8 @@ public class UIService(ModalService modalService, MessageService messageService)
         var option = new ModalOptions
         {
             Title = model.Title,
-            OkText = model.Context?.Language?.OK,
-            CancelText = model.Context?.Language?.Cancel,
+            OkText = Language?.OK,
+            CancelText = Language?.Cancel,
             OnOk = e => model.SaveAsync()
         };
 

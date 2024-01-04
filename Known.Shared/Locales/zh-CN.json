@@ -256,6 +256,7 @@
   "Title.Prompt": "提示",
   "Title.Question": "询问",
   "Title.Import": "导入{name}",
+  "Title.FormAction": "{action}{title}",
   "Title.FlowAction": "{action}流程",
   "Title.BasicInfo": "基本信息",
   "Title.TableList": "表体信息",
@@ -359,6 +360,10 @@
   "Tip.ModuleDeleteExistsChild": "存在子模块，不能删除！",
   "Tip.InstallRequired": "安装信息不能为空！",
   "Tip.NotNetwork": "电脑未联网！",
+  "Tip.TaskInfo": "执行时间：{createTime}，耗时：{time}毫秒",
+  "Tip.TaskPending": "任务等待中...",
+  "Tip.TaskRunning": "任务执行中...",
+  "Tip.TaskAddSuccess": "任务添加成功，请稍后查询结果！",
 
   "Import.Tips": "提示: 请上传单个txt或Excel格式附件！",
   "Import.Download": "模板下载",
@@ -484,6 +489,9 @@
   "ReturnToUser": "退回给[{user}]",
   "Start": "开始",
   "End": "结束",
+  "IsLight": "暗亮模式",
+  "Accordion": "手风琴菜单",
+  "MultiTab": "标签页",
 
   "Install": "安装",
   "StartUsing": "开始使用",

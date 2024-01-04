@@ -40,7 +40,7 @@ class DictionaryService : ServiceBase
     private async Task<Result> RefreshCacheAsync(Database db, UserInfo user)
     {
         if (user == null)
-            return Result.Error(Context.Language["Tip.NoLogin"]);
+            return Result.Error(Language["Tip.NoLogin"]);
 
         var entities = await DictionaryRepository.GetDictionarysAsync(db, user.AppId, user.CompNo);
         var codes = entities.Select(e =>
@@ -51,6 +51,6 @@ class DictionaryService : ServiceBase
             return new CodeInfo(e.Category, code, code, e);
         }).ToList();
         Cache.AttachCodes(codes);
-        return Result.Success(Context.Language["Tip.RefreshSuccess"], codes);
+        return Result.Success(Language["Tip.RefreshSuccess"], codes);
     }
 }
