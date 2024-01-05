@@ -9,13 +9,13 @@ class SystemService : ServiceBase
     internal const string KeySystem = "SystemInfo";
 
     //Config
-    public async Task<T> GetConfigAsync<T>(Database db, string key)
+    public static async Task<T> GetConfigAsync<T>(Database db, string key)
     {
         var json = await SystemRepository.GetConfigAsync(db, key);
         return Utils.FromJson<T>(json);
     }
 
-    public async Task SaveConfigAsync(Database db, string key, object value)
+    public static async Task SaveConfigAsync(Database db, string key, object value)
     {
         var json = Utils.ToJson(value);
         await SystemRepository.SaveConfigAsync(db, key, json);
@@ -78,7 +78,7 @@ class SystemService : ServiceBase
         };
         var result = await database.TransactionAsync(Language["Install"], async db =>
         {
-            await Platform.System.SaveConfigAsync(db, KeySystem, sys);
+            await SaveConfigAsync(db, KeySystem, sys);
             await db.SaveDatasAsync(modules);
             await db.SaveAsync(company);
             await db.SaveAsync(user);
@@ -139,7 +139,7 @@ class SystemService : ServiceBase
         }
         else
         {
-            await Platform.System.SaveConfigAsync(Database, KeySystem, info);
+            await SaveConfigAsync(Database, KeySystem, info);
         }
 
         return Result.Success(Language.Success(Language.Save));

@@ -38,7 +38,7 @@ class CompanyService : ServiceBase
         }
         else
         {
-            await Platform.System.SaveConfigAsync(Database, KeyCompany, model);
+            await SystemService.SaveConfigAsync(Database, KeyCompany, model);
         }
         return Result.Success(Language.Success(Language.Save));
     }
