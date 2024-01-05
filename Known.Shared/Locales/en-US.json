@@ -565,6 +565,7 @@
 
   "App.Name": "Known Information Management System",
   "App.SubTitle": "A Rapid Development Framework Based on Blazor",
+  "WebSite": "Website",
   "Document": "Document",
   "OpenSource": "Open Source",
   "LowCode": "Low code",
@@ -622,6 +623,14 @@
   "Home.VisitTitle": "{month} system access statistics",
   "Home.Date": "Date",
   "Home.Count": "Count",
+
+  "Known.Title": "Known is a fast development framework based on Blazor, which is out of the box, cross platform, one code, and runs anywhere.",
+  "Known.Note1": "Multilingual, modular, online forms, single page applications, hybrid desktop applications, web and desktop sharing of code.",
+  "Known.Note2": "Includes modules, dictionaries, organizations, roles, users, logs, messages, workflows, scheduled tasks, and other functions.",
+  "Known.Note3": "Low code, concise, and easy to expand, making development simpler and faster!",
+  "Known.WebSite": "Official Website:",
+  "Known.Source": "SourceCode Download:",
+  "Known.QQNo": "Communication ID:",
 
   "Menu.BizApply": "Biz Apply",
   "Menu.BaApplyList": "Apply List",
