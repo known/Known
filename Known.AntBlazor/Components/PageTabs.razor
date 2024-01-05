@@ -3,7 +3,7 @@
 <Tabs Class="ant-layout-tabs" Type="@TabType.EditableCard" HideAdd @bind-ActiveKey="activeKey" OnClose="OnClose">
     @foreach (var item in Items)
     {
-        var itemName = Context.Language[$"Menu.{item.Code}"];
+        var itemName = Context.Language.GetString(item);
         <TabPane Key="@item.Id" Tab="@itemName" Closable="@item.Closable">
             @if (item.Page != null && item.Page.NoBreadcrumb)
             {

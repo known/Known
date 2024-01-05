@@ -3,7 +3,7 @@
 <Tab @ref="tab" ShowExtendButtons ShowClose>
     @foreach (var item in Items)
     {
-        var itemName = Context.Language[$"Menu.{item.Code}"];
+        var itemName = Context.Language.GetString(item);
         <TabItem Text="@itemName" Closable="@item.Closable">
             @if (item.Page != null && item.Page.NoBreadcrumb)
             {
