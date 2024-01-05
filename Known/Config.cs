@@ -54,8 +54,6 @@ public sealed class Config
     internal static void AddApp()
     {
         Version = new VersionInfo(App.Assembly);
-        Database.RegisterProviders(App.Connections);
-
         AddModule(typeof(Config).Assembly);
         AddModule(App.Assembly);
     }

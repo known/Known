@@ -36,6 +36,14 @@ public static class Extension
                 Name = "Default",
                 DatabaseType = DatabaseType.SQLite,
                 ProviderType = typeof(Microsoft.Data.Sqlite.SqliteFactory),
+                //DatabaseType = DatabaseType.Access,
+                //ProviderType = typeof(System.Data.OleDb.OleDbFactory),
+                //DatabaseType = DatabaseType.MySql,
+                //ProviderType = typeof(MySqlConnector.MySqlConnectorFactory),
+                //DatabaseType = DatabaseType.Npgsql,
+                //ProviderType = typeof(Npgsql.NpgsqlFactory),
+                //DatabaseType = DatabaseType.SqlServer,
+                //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
                 //ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
             }];
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法

@@ -11,14 +11,16 @@ public static class Extension
 {
     public static void AddKnown(this IServiceCollection services, Action<AppInfo> action = null)
     {
-        Language.Initialize();
-        action?.Invoke(Config.App);
-        Config.AddApp();
-
         if (Config.App.IsDevelopment)
             Logger.Level = LogLevel.Debug;
         else
             Logger.Level = LogLevel.Info;
+
+        Language.Initialize();
+        action?.Invoke(Config.App);
+        Database.RegisterProviders(Config.App.Connections);
+        Database.Initialize();
+        Config.AddApp();
 
         //services.AddCascadingAuthenticationState();
         services.AddScoped<JSService>();

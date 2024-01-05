@@ -22,16 +22,14 @@
     [FormData]    [ntext]         NULL,
     [Note]        [ntext]         NULL,
     CONSTRAINT [PK_SysModule] PRIMARY KEY ([Id] ASC)
-)
-GO
+);
 
 CREATE TABLE [SysConfig] (
     [AppId]       [varchar](50)    NOT NULL,
     [ConfigKey]   [varchar](50)    NOT NULL,
     [ConfigValue] [ntext]          NOT NULL,
     CONSTRAINT [PK_SysConfig] PRIMARY KEY ([AppId] ASC,[ConfigKey] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysSetting] (
     [Id]         [varchar](50)   NOT NULL,
@@ -47,8 +45,7 @@ CREATE TABLE [SysSetting] (
     [BizName]    [nvarchar](250) NULL,
     [BizData]    [ntext]         NULL,
     CONSTRAINT [PK_SysSetting] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysLog] (
     [Id]         [varchar](50)  NOT NULL,
@@ -64,8 +61,7 @@ CREATE TABLE [SysLog] (
     [Target]     [nvarchar](50) NULL,
     [Content]    [ntext]        NULL,
     CONSTRAINT [PK_SysLog] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysFile] (
     [Id]         [varchar](50)   NOT NULL,
@@ -89,8 +85,7 @@ CREATE TABLE [SysFile] (
     [BizId]      [varchar](50)   NULL,
     [ThumbPath]  [nvarchar](500) NULL,
     CONSTRAINT [PK_SysFile] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysTask] (
     [Id]         [varchar](50)    NOT NULL,
@@ -111,8 +106,7 @@ CREATE TABLE [SysTask] (
     [EndTime]    [datetime]       NULL,
     [Note]       [ntext]          NULL,
     CONSTRAINT [PK_SysTask] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysDictionary] (
     [Id]           [varchar](50)   NOT NULL,
@@ -133,8 +127,7 @@ CREATE TABLE [SysDictionary] (
     [Note]         [ntext]         NULL,
     [Child]        [ntext]         NULL,
     CONSTRAINT [PK_SysDictionary] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysCompany] (
     [Id]          [varchar](50)    NOT NULL,
@@ -160,8 +153,7 @@ CREATE TABLE [SysCompany] (
     [SystemData]  [ntext]          NULL,
     [CompanyData] [ntext]          NULL,
     CONSTRAINT [PK_SysCompany] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysOrganization] (
     [Id]         [varchar](50)  NOT NULL,
@@ -179,8 +171,7 @@ CREATE TABLE [SysOrganization] (
     [ManagerId]  [varchar](50)  NULL,
     [Note]       [ntext]        NULL,
     CONSTRAINT [PK_SysOrganization] PRIMARY KEY ([Id] ASC)
-)
-GO
+);
 
 CREATE TABLE [SysRole] (
     [Id]         [varchar](50)  NOT NULL,
@@ -196,15 +187,13 @@ CREATE TABLE [SysRole] (
     [Enabled]    [varchar](50)  NOT NULL,
     [Note]       [ntext]        NULL,
     CONSTRAINT [PK_SysRole] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysRoleModule] (
     [RoleId]   [varchar](50) NOT NULL,
     [ModuleId] [varchar](50) NOT NULL,
     CONSTRAINT [PK_SysRoleModule] PRIMARY KEY ([RoleId] ASC,[ModuleId] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysUser] (
     [Id]             [varchar](50)   NOT NULL,
@@ -235,15 +224,13 @@ CREATE TABLE [SysUser] (
     [Role]           [nvarchar](500) NULL,
     [Data]           [ntext]         NULL,
     CONSTRAINT [PK_SysUser] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysUserRole] (
     [UserId] [varchar](50) NOT NULL,
     [RoleId] [varchar](50) NOT NULL,
     CONSTRAINT [PK_SysUserRole] PRIMARY KEY ([UserId] ASC,[RoleId] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysNotice] (
     [Id]          [varchar](50)    NOT NULL,
@@ -261,8 +248,7 @@ CREATE TABLE [SysNotice] (
     [PublishBy]   [nvarchar](50)   NULL,
     [PublishTime] [datetime]       NULL,
     CONSTRAINT [PK_SysNotice] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysMessage] (
     [Id]         [varchar](50)    NOT NULL,
@@ -286,8 +272,7 @@ CREATE TABLE [SysMessage] (
     [Status]     [nvarchar](50)   NOT NULL,
     [BizId]      [varchar](50)    NULL,
     CONSTRAINT [PK_SysMessage] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysFlow] (
     [Id]         [varchar](50)   NOT NULL,
@@ -318,8 +303,7 @@ CREATE TABLE [SysFlow] (
     [VerifyTime] [datetime]      NULL,
     [VerifyNote] [nvarchar](500) NULL,
     CONSTRAINT [PK_SysFlow] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);
 
 CREATE TABLE [SysFlowLog] (
     [Id]          [varchar](50)    NOT NULL,
@@ -338,5 +322,4 @@ CREATE TABLE [SysFlowLog] (
     [Result]      [nvarchar](50)   NOT NULL,
     [Note]        [nvarchar](1000) NULL,
     CONSTRAINT [PK_SysFlowLog] PRIMARY KEY ([Id] ASC)
-) 
-GO
+);

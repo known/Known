@@ -63,16 +63,19 @@ class SystemService : ServiceBase
         if (info.AdminPassword != info.Password1)
             return Result.Error(Language["Tip.PwdNotEqual"]);
 
-        var database = Database;
         var modules = GetModules();
         var company = GetCompany(info);
         var user = GetUser(info);
         var orga = GetOrganization(info);
         var sys = GetSystem(info);
-        database.User = new UserInfo { AppId = user.AppId, CompNo = user.CompNo, UserName = user.UserName, Name = user.Name };
         var path = GetProductKeyPath();
         Utils.SaveFile(path, info.ProductKey);
 
+        var database = new Database
+        {
+            Context = Context,
+            User = new UserInfo { AppId = user.AppId, CompNo = user.CompNo, UserName = user.UserName, Name = user.Name }
+        };
         var result = await database.TransactionAsync(Language["Install"], async db =>
         {
             await Platform.System.SaveConfigAsync(db, KeySystem, sys);

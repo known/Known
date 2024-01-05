@@ -1,9 +1,7 @@
-﻿using System.ComponentModel;
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using System.Text;
 using Known.Cells;
-using Known.Extensions;
 
 namespace Known;
 
@@ -65,6 +63,29 @@ public class Database : IDisposable
                 }
             }
         }
+    }
+
+    internal static void Initialize()
+    {
+        Task.Run(async () =>
+        {
+            var db = new Database();
+            try
+            {
+                await db.ScalarAsync<int>("select count(*) from SysModule");
+            }
+            catch
+            {
+                var name = db.DatabaseType == DatabaseType.Npgsql ? "MySql" : db.DatabaseType.ToString();
+                var script = Utils.GetResource(typeof(Database).Assembly, $"{name}.sql");
+                if (string.IsNullOrWhiteSpace(script))
+                    return;
+
+                Logger.Info("正在初始化数据库...");
+                await db.ExecuteAsync(script);
+                Logger.Info("数据库初始化完成");
+            }
+        });
     }
     #endregion
 
@@ -366,7 +387,8 @@ public class Database : IDisposable
         var info = new CommandInfo(DatabaseType, sql, param);
         using (var reader = await ExecuteReaderAsync(info))
         {
-            data.Load(reader);
+            if (reader != null)
+                data.Load(reader);
         }
 
         return data;
@@ -762,7 +784,7 @@ public class Database : IDisposable
             Logger.Error(info.ToString());
             if (close)
                 await conn.CloseAsync();
-            throw;
+            return null;
         }
     }
 
@@ -771,7 +793,7 @@ public class Database : IDisposable
         T obj = default;
         using (var reader = await ExecuteReaderAsync(info))
         {
-            if (reader.Read())
+            if (reader != null && reader.Read())
             {
                 obj = (T)ConvertTo<T>(reader);
             }
@@ -786,7 +808,7 @@ public class Database : IDisposable
         var lists = new List<T>();
         using (var reader = await ExecuteReaderAsync(info))
         {
-            while (reader.Read())
+            while (reader != null && reader.Read())
             {
                 var obj = ConvertTo<T>(reader);
                 lists.Add((T)obj);
@@ -904,27 +926,6 @@ public class Database : IDisposable
         var factory = DbProviderFactories.GetFactory(databaseType.ToString());
         conn = factory.CreateConnection();
         conn.ConnectionString = connString;
-
-        InitScript();
-    }
-
-    private async void InitScript()
-    {
-        try
-        {
-            await ScalarAsync<int>("select count(*) from SysModule");
-        }
-        catch
-        {
-            var name = DatabaseType == DatabaseType.Npgsql ? "MySql" : DatabaseType.ToString();
-            var script = Utils.GetResource(typeof(Database).Assembly, $"{name}.sql");
-            if (string.IsNullOrWhiteSpace(script))
-                return;
-
-            Logger.Info("正在初始化数据库...");
-            await ExecuteAsync(script);
-            Logger.Info("数据库初始化完成");
-        }
     }
     #endregion
 }

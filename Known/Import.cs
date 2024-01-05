@@ -32,20 +32,6 @@ public abstract class ImportBase
         return import;
     }
 
-    internal static List<ImportColumn> GetImportColumns(Context context, string bizId)
-    {
-        var name = GetImportName(bizId);
-        if (string.IsNullOrWhiteSpace(name))
-            return null;
-
-        if (!Config.ImportTypes.TryGetValue(name, out Type type))
-            return null;
-
-        var import = Activator.CreateInstance(type, context, new Database()) as ImportBase;
-        import.BizId = bizId;
-        return import.Columns;
-    }
-
     private static string GetImportName(string bizId) => bizId?.Split('_')[0];
 }
 

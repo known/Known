@@ -39,17 +39,17 @@ public sealed class ImportHelper
 
     internal static Task<byte[]> GetImportRuleAsync(Context context, string bizId)
     {
-        var columns = ImportBase.GetImportColumns(context, bizId);
-        if (columns == null || columns.Count == 0)
+        var import = ImportBase.Create(bizId, context, null);
+        if (import == null || import.Columns == null || import.Columns.Count == 0)
             return Task.FromResult(Array.Empty<byte>());
 
         var excel = ExcelFactory.Create();
         var sheet = excel.CreateSheet("Sheet1");
         sheet.SetCellValue("A1", context.Language["Import.TemplateTips"], new StyleInfo { IsBorder = true });
-        sheet.MergeCells(0, 0, 1, columns.Count);
-        for (int i = 0; i < columns.Count; i++)
+        sheet.MergeCells(0, 0, 1, import.Columns.Count);
+        for (int i = 0; i < import.Columns.Count; i++)
         {
-            var column = columns[i];
+            var column = import.Columns[i];
             sheet.SetColumnWidth(i, 13);
             sheet.SetCellValue(1, i, column.Note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
             var fontColor = column.Required ? System.Drawing.Color.Red : System.Drawing.Color.White;
@@ -74,7 +74,7 @@ public sealed class ImportHelper
 
     internal static async Task<Result> ExecuteAsync(Database db, SysTask task)
     {
-        var import = ImportBase.Create(task.BizId, null, db);
+        var import = ImportBase.Create(task.BizId, db.Context, db);
         if (import == null)
             return Result.Error("The import method is not registered and cannot be executed!");
 
