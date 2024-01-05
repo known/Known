@@ -72,7 +72,27 @@ public class Language
         return name;
     }
 
-    internal string GetString(string id)
+    public string GetString(MenuItem item)
+    {
+        var itemName = GetString($"Menu.{item.Code}");
+        if (string.IsNullOrWhiteSpace(itemName))
+            itemName = GetString(item.Code);
+        if (string.IsNullOrWhiteSpace(itemName))
+            itemName = item.Name;
+        return itemName;
+    }
+
+    public string GetString(ActionInfo info)
+    {
+        var itemName = GetString($"Button.{info.Id}");
+        if (string.IsNullOrWhiteSpace(itemName))
+            itemName = GetString(info.Id);
+        if (string.IsNullOrWhiteSpace(itemName))
+            itemName = info.Name;
+        return itemName;
+    }
+
+    public string GetString(string id)
     {
         if (string.IsNullOrEmpty(id))
             return "";

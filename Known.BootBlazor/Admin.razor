@@ -43,7 +43,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        SideMenuItems = UserMenus.ToSideMenuItems();
+        SideMenuItems = UserMenus.ToSideMenuItems(Context);
     }
 
     protected override void RefreshPage()

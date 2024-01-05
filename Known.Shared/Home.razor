@@ -72,7 +72,7 @@
                     {
                         <div class="ws-func-menu" @onclick="e => Context.Navigate(item)">
                             <Icon Type="@item.Icon" Theme="outline" />
-                            <span class="name">@Language[$"Menu.{item.Code}"]</span>
+                            <span class="name">@Language.GetString(item)</span>
                         </div>
                     }
                 }

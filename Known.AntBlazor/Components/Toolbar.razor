@@ -5,22 +5,11 @@
     <div class="ant-toolbar">
         @foreach (var item in Model.Items)
         {
-            var itemName = Language[$"Button.{item.Id}"];
+            var itemName = Language.GetString(item);
             <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
             @if (item.Children != null && item.Children.Count > 0)
             {
-                <DropdownButton>
-                    <Overlay>
-                        <Menu>
-                            @foreach (var child in item.Children)
-                            {
-                                var childName = Language[$"Button.{child.Id}"];
-                                <MenuItem Key="@child.Id" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(child)">@childName</MenuItem>
-                            }
-                        </Menu>
-                    </Overlay>
-                    <Unbound>@itemName</Unbound>
-                </DropdownButton>
+                <AntDropdown Context="Context" Text="@itemName" Items="item.Children" OnItemClick="Model.OnItemClick" />
             }
         }
     </div>

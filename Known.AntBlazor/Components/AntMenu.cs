@@ -75,7 +75,7 @@ public class AntMenu : BaseComponent
                .Set(c => c.Theme, "outline")
                .Build();
 
-        var itemName = Language[$"Menu.{item.Code}"];
+        var itemName = Language.GetString(item);
         builder.Span(itemName);
     }
 }

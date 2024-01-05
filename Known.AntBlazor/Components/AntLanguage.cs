@@ -21,6 +21,7 @@ public class AntLanguage : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Component<AntDropdown>()
+               .Set(c => c.Context, Context)
                .Set(c => c.TextIcon, current?.Icon)
                .Set(c => c.Items, Language.Items)
                .Set(c => c.OnItemClick, OnLanguageChanged)

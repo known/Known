@@ -15,7 +15,7 @@
         {
             <Selection Width="50" />
         }
-        <AutoGenerateColumns Table="Model" Item="context" />
+        <AntGenerateColumns Table="Model" Item="context" />
         @if (Model.Actions != null && Model.Actions.Count > 0)
         {
             var actions = Model.RowActions?.Invoke(context);
@@ -25,7 +25,7 @@
                 @if (actions.Count > 2)
                 {
                     var first = actions[0];
-                    var firstName = Language[$"Button.{first.Id}"];
+                    var firstName = Language.GetString(first);
                     var mores = actions.Skip(1).ToList();
                     <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Model.OnAction?.Invoke(first, context)">@firstName</Tag>
                     <AntDropdown Context="Context" Text="@Language["Button.More"]" Items="mores" OnItemClick="e=>Model.OnAction?.Invoke(e, context)" />
@@ -34,7 +34,7 @@
                 {
                     foreach (var item in actions)
                     {
-                        var itemName = Language[$"Button.{item.Id}"];
+                        var itemName = Language.GetString(item);
                         <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@itemName</Tag>
                     }
                 }

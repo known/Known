@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.AntBlazor.Components;
 
-public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new()
+public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new()
 {
     [Parameter] public TableModel<TItem> Table { get; set; }
     [Parameter] public TItem Item { get; set; }

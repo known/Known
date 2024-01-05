@@ -18,7 +18,7 @@ public static class Extension
         services.AddScoped<UIService>();
     }
 
-    internal static List<BootstrapBlazor.Components.MenuItem> ToSideMenuItems(this List<MenuItem> menus)
+    internal static List<BootstrapBlazor.Components.MenuItem> ToSideMenuItems(this List<MenuItem> menus, Context context)
     {
         var items = new List<BootstrapBlazor.Components.MenuItem>();
         if (menus == null || menus.Count == 0)
@@ -27,11 +27,13 @@ public static class Extension
         foreach (var menu in menus)
         {
             menu.Icon = "fa fa-desktop";
-            var item = new BootstrapBlazor.Components.MenuItem(menu.Name, icon: menu.Icon) { Id = menu.Id };
+            var menuName = context.Language.GetString(menu);
+            var item = new BootstrapBlazor.Components.MenuItem(menuName, icon: menu.Icon) { Id = menu.Id };
             item.Items = menu.Children.Select(m =>
             {
                 m.Icon = "fa fa-bars";
-                return new BootstrapBlazor.Components.MenuItem(m.Name, icon: m.Icon) { Id = m.Id };
+                var mName = context.Language.GetString(m);
+                return new BootstrapBlazor.Components.MenuItem(mName, icon: m.Icon) { Id = m.Id };
             });
             items.Add(item);
         }

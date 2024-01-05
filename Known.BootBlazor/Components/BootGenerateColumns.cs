@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.BootBlazor.Components;
 
-public class AutoGenerateColumns<TItem> : BaseComponent where TItem : class, new()
+public class BootGenerateColumns<TItem> : BaseComponent where TItem : class, new()
 {
     [Parameter] public TableModel<TItem> Table { get; set; }
     [Parameter] public TItem Item { get; set; }

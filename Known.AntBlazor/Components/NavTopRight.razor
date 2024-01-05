@@ -11,7 +11,7 @@
         <AntLanguage OnChanged="OnLanguageChanged" />
     </SpaceItem>
     <SpaceItem>
-        <AntDropdown Text="@CurrentUser.Name" Items="UserItems" OnItemClick="e=>OnItemClick(e.Id)" />
+        <AntDropdown Context="Context" Text="@CurrentUser.Name" Items="UserItems" OnItemClick="e=>OnItemClick(e.Id)" />
     </SpaceItem>
     <SpaceItem>
         <Tooltip Title="@Language["Nav.Setting"]"><Icon Type="setting" OnClick="@(e=>showSetting=true)" /></Tooltip>

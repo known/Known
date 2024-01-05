@@ -78,11 +78,7 @@ public class AntDropdown : Dropdown
                    .Set(c => c.Theme, "outline")
                    .Build();
         }
-        var itemName = Context?.Language[$"Button.{item.Id}"];
-        if (string.IsNullOrWhiteSpace(itemName))
-            itemName = Context?.Language[item.Id];
-        if (string.IsNullOrWhiteSpace(itemName))
-            itemName = item.Name;
+        var itemName = Context?.Language.GetString(item);
         builder.Span(itemName);
     }
 }
