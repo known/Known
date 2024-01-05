@@ -32,7 +32,7 @@ public class Database : IDisposable
         }
     }
 
-    internal Database(DatabaseType databaseType, string connString, UserInfo user = null)
+    private Database(DatabaseType databaseType, string connString, UserInfo user = null)
     {
         Init(databaseType, connString, user);
     }
@@ -199,9 +199,9 @@ public class Database : IDisposable
 
     public async Task<T> ScalarAsync<T>(string sql, object param = null)
     {
-        var cmd = conn.CreateCommand();
+        var close = false;
         var info = new CommandInfo(DatabaseType, sql, param);
-        var close = await PrepareCommandAsync(conn, cmd, trans, info);
+        var cmd = await PrepareCommandAsync(conn, trans, info, close);
         var scalar = await cmd.ExecuteScalarAsync();
         cmd.Parameters.Clear();
         if (close)
@@ -212,10 +212,10 @@ public class Database : IDisposable
 
     public async Task<List<T>> ScalarsAsync<T>(string sql, object param = null)
     {
+        var close = false;
         var data = new List<T>();
-        var cmd = conn.CreateCommand();
         var info = new CommandInfo(DatabaseType, sql, param);
-        var close = await PrepareCommandAsync(conn, cmd, trans, info);
+        var cmd = await PrepareCommandAsync(conn, trans, info, close);
         using (var reader = await cmd.ExecuteReaderAsync())
         {
             while (reader.Read())
@@ -255,13 +255,16 @@ public class Database : IDisposable
     {
         SetAutoQuery(ref sql, criteria);
 
+        if (conn.State != ConnectionState.Open)
+            await conn.OpenAsync();
+
+        var close = false;
         byte[] exportData = null;
         Dictionary<string, object> sums = null;
         var dataTable = new DataTable();
         var pageData = new List<T>();
-        var cmd = conn.CreateCommand();
         var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
-        var close = await PrepareCommandAsync(conn, cmd, trans, info);
+        var cmd = await PrepareCommandAsync(conn, trans, info, close);
         cmd.CommandText = info.CountSql;
         var value = await cmd.ExecuteScalarAsync();
         var total = Utils.ConvertTo<int>(value);
@@ -303,7 +306,7 @@ public class Database : IDisposable
         }
 
         cmd.Parameters.Clear();
-        if (close)
+        if (conn.State != ConnectionState.Closed)
             await conn.CloseAsync();
 
         if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
@@ -339,12 +342,12 @@ public class Database : IDisposable
     public async Task<PagingResult<Dictionary<string, object>>> QueryPageDictionaryAsync(string sql, PagingCriteria criteria)
     {
         if (conn.State != ConnectionState.Open)
-            conn.Open();
+            await conn.OpenAsync();
 
+        var close = false;
         var data = new List<Dictionary<string, object>>();
-        var cmd = conn.CreateCommand();
         var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
-        await PrepareCommandAsync(conn, cmd, trans, info);
+        var cmd = await PrepareCommandAsync(conn, trans, info, close);
         cmd.CommandText = info.CountSql;
         var scalar = await cmd.ExecuteScalarAsync();
         var total = Utils.ConvertTo<int>(scalar);
@@ -745,11 +748,9 @@ public class Database : IDisposable
     private async Task<int> ExecuteNonQueryAsync(CommandInfo info)
     {
         var close = false;
-        var cmd = conn.CreateCommand();
-
         try
         {
-            close = await PrepareCommandAsync(conn, cmd, trans, info);
+            var cmd = await PrepareCommandAsync(conn, trans, info, close);
             var value = await cmd.ExecuteNonQueryAsync();
             cmd.Parameters.Clear();
             if (close)
@@ -770,10 +771,9 @@ public class Database : IDisposable
     private async Task<DbDataReader> ExecuteReaderAsync(CommandInfo info)
     {
         var close = false;
-        var cmd = conn.CreateCommand();
         try
         {
-            close = await PrepareCommandAsync(conn, cmd, trans, info);
+            var cmd = await PrepareCommandAsync(conn, trans, info, close);
             var reader = await cmd.ExecuteReaderAsync();
             cmd.Parameters.Clear();
             return reader;
@@ -793,7 +793,7 @@ public class Database : IDisposable
         T obj = default;
         using (var reader = await ExecuteReaderAsync(info))
         {
-            if (reader != null && reader.Read())
+            if (reader != null && await reader.ReadAsync())
             {
                 obj = (T)ConvertTo<T>(reader);
             }
@@ -808,7 +808,7 @@ public class Database : IDisposable
         var lists = new List<T>();
         using (var reader = await ExecuteReaderAsync(info))
         {
-            while (reader != null && reader.Read())
+            while (reader != null && await reader.ReadAsync())
             {
                 var obj = ConvertTo<T>(reader);
                 lists.Add((T)obj);
@@ -851,23 +851,26 @@ public class Database : IDisposable
         return obj;
     }
 
-    private async Task<bool> PrepareCommandAsync(DbConnection conn, DbCommand cmd, DbTransaction trans, CommandInfo info)
+    private async Task<DbCommand> PrepareCommandAsync(DbConnection conn, DbTransaction trans, CommandInfo info, bool close)
     {
-        var close = false;
-        if (conn.State != ConnectionState.Open)
-        {
-            close = true;
-            await conn.OpenAsync();
-        }
-
-        cmd.Connection = conn;
+        close = false;
+        var cmd = conn.CreateCommand();
         cmd.CommandText = FormatSQL(info.Text);
 
         if (trans != null)
         {
             if (trans.Connection == null)
                 throw new ArgumentException("The transaction was rollbacked or commited, please provide an open transaction.", nameof(trans));
+            
             cmd.Transaction = trans;
+        }
+        else
+        {
+            if (conn.State != ConnectionState.Open)
+            {
+                close = true;
+                await conn.OpenAsync();
+            }
         }
 
         if (info.Params != null && info.Params.Count > 0)
@@ -891,7 +894,7 @@ public class Database : IDisposable
             }
         }
 
-        return close;
+        return cmd;
     }
 
     private string FormatSQL(string text)
