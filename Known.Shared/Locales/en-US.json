@@ -461,6 +461,19 @@
   "Code.Female": "Female",
   "Code.Male": "Male",
 
+  "Message.Receive": "Receive",
+  "Message.Send": "Send",
+  "Message.Delete": "Delete",
+  "Message.General": "General",
+  "Message.Urgent": "Urgent",
+  "Message.Read": "Read",
+  "Message.Unread": "Unread",
+
+  "Task.Pending": "Pending",
+  "Task.Running": "Running",
+  "Task.Success": "Success",
+  "Task.Failed": "Failed",
+
   "CreateBy": "Create By",
   "CreateTime": "Create Time",
   "ModifyBy": "Modify By",

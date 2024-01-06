@@ -30,9 +30,6 @@ public class UserInfo
     internal bool IsAdmin => IsSystemAdmin() || IsTenantAdmin();
     private bool IsSystemAdmin() => UserName.Equals(Constants.SysUserName, StringComparison.CurrentCultureIgnoreCase);
     internal bool IsTenantAdmin() => CompNo == UserName;
-    //public bool IsGroupUser() => CompNo == OrgNo;
-    //public bool IsOperation() => Type == Constants.UTOperation;
-    //public bool HasRole(string role) => !string.IsNullOrWhiteSpace(Role) && Role.Split(',').Contains(role);
 
     public Task SendMessageAsync(Database db, string toUser, string subject, string content, bool isUrgent = false, string filePath = null, string bizId = null)
     {

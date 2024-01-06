@@ -132,15 +132,4 @@ public class SysUser : EntityBase
 
     internal virtual List<CodeInfo> Roles { get; set; }
     internal virtual List<CodeInfo> Datas { get; set; }
-
-    private bool isOperation = false;
-    internal virtual bool IsOperation
-    {
-        get
-        {
-            isOperation = Type == Constants.UTOperation;
-            return isOperation;
-        }
-        set { isOperation = value; }
-    }
 }

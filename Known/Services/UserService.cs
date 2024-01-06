@@ -119,7 +119,6 @@ class UserService : ServiceBase
 
         if (string.IsNullOrWhiteSpace(model.OrgNo))
             model.OrgNo = user.OrgNo;
-        model.Type = model.IsOperation ? Constants.UTOperation : "";
         var vr = model.Validate(Context);
         if (vr.IsValid)
         {

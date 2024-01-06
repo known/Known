@@ -11,18 +11,15 @@ class Constants
     public const string KeyDownload = "Known-Download";
     public const string SysUserName = "Admin";
 
-    //TODO:数据语言切换
-    public const string UTOperation = "运维人员";
-
-    public const string UMTypeReceive = "收件";
-    public const string UMTypeSend = "发件";
-    public const string UMTypeDelete = "删除";
-    public const string UMLGeneral = "普通";
-    public const string UMLUrgent = "紧急";
-    public const string UMStatusRead = "已读";
-    public const string UMStatusUnread = "未读";
-
-    public const string NSPublished = "已发布";
+    //public const string UTOperation = "Operation";
+    public const string UMTypeReceive = "Receive";
+    public const string UMTypeSend = "Send";
+    public const string UMTypeDelete = "Delete";
+    public const string UMLGeneral = "General";
+    public const string UMLUrgent = "Urgent";
+    public const string UMStatusRead = "Read";
+    public const string UMStatusUnread = "Unread";
+    //public const string NSPublished = "Published";
 
     public const string MimeImage = "image/jpeg,image/png";
     public const string MimeVideo = "audio/mp4,video/mp4";
@@ -44,8 +41,8 @@ class TaskStatus
 {
     private TaskStatus() { }
 
-    public const string Pending = "待执行";
-    public const string Running = "执行中";
-    public const string Success = "执行成功";
-    public const string Failed = "执行失败";
+    public const string Pending = "Pending";
+    public const string Running = "Running";
+    public const string Success = "Success";
+    public const string Failed = "Failed";
 }

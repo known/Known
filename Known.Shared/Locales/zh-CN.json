@@ -457,6 +457,19 @@
   "Code.Female": "女",
   "Code.Male": "男",
 
+  "Message.Receive": "收件",
+  "Message.Send": "发件",
+  "Message.Delete": "删除",
+  "Message.General": "普通",
+  "Message.Urgent": "紧急",
+  "Message.Read": "已读",
+  "Message.Unread": "未读",
+
+  "Task.Pending": "待执行",
+  "Task.Running": "执行中",
+  "Task.Success": "执行成功",
+  "Task.Failed": "执行失败",
+
   "CreateBy": "创建人",
   "CreateTime": "创建时间",
   "ModifyBy": "修改人",
