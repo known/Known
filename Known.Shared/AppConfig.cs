@@ -12,14 +12,11 @@ namespace Known.Shared;
 
 public enum UIType { AntDesign, Bootstrap }
 
-public class AppConfig
+public static class AppConfig
 {
     public const string Branch = "Known";
     public const string SubTitle = "基于Blazor的快速开发框架";
-}
 
-public static class Extension
-{
     public static void AddApp(this IServiceCollection services, Action<AppInfo> action = null)
     {
         //1.添加Known框架
@@ -29,7 +26,7 @@ public static class Extension
             info.Id = "KIMS";
             info.Name = "Known信息管理系统";
             info.Type = AppType.Web;
-            info.Assembly = typeof(Extension).Assembly;
+            info.Assembly = typeof(AppConfig).Assembly;
             //数据库连接
             info.Connections = [new ConnectionInfo
             {
