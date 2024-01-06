@@ -185,7 +185,7 @@ class FlowService : ServiceBase
                         flow.FlowStatus = FlowStatus.Over;
                         await db.SaveAsync(flow);
                         await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepVerify, Language["Pass"], info.Note);
-                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepOver, Language["End"], "");
+                        await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepEnd, Language["End"], "");
                     }
                 }
                 else
@@ -227,10 +227,10 @@ class FlowService : ServiceBase
                 if (!result.IsValid)
                     Check.Throw(result.Message);
 
-                flow.BizStatus = info.BizStatus ?? FlowStatus.ReApply;
+                flow.BizStatus = info.BizStatus ?? FlowStatus.Reapply;
                 flow.FlowStatus = FlowStatus.Open;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepRepeat, name, info.Note);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepRestart, name, info.Note);
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnRepeatedAsync(db, info);
             }
@@ -261,7 +261,7 @@ class FlowService : ServiceBase
                 flow.BizStatus = FlowStatus.Stop;
                 flow.FlowStatus = FlowStatus.Stop;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepStop, name, info.Note);
+                await AddFlowLogAsync(db, flow.BizId, FlowStatus.StepStopped, name, info.Note);
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnStoppedAsync(db, info);
             }

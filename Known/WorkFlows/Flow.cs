@@ -5,26 +5,26 @@ public enum FlowPageType { None, Apply, Verify, Query }
 public class FlowStatus
 {
     private FlowStatus() { }
-    //TODO:流程数据语言切换
-    public const string Open = "开启";
-    public const string Over = "结束";
-    public const string Stop = "终止";
 
-    internal const string StepCreate = "创建流程";
-    internal const string StepSubmit = "提交流程";
-    internal const string StepRevoke = "撤回流程";
-    internal const string StepVerify = "审核流程";
-    internal const string StepAssign = "任务分配";
-    internal const string StepStop = "终止流程";
-    internal const string StepRepeat = "重启流程";
-    internal const string StepOver = "结束流程";
+    public const string Open = "Open";
+    public const string Over = "Over";
+    public const string Stop = "Stop";
 
-    public const string Save = "暂存";
-    public const string Revoked = "已撤回";
-    public const string Verifing = "待审核";
-    public const string VerifyPass = "审核通过";
-    public const string VerifyFail = "审核退回";
-    public const string ReApply = "重新申请";
+    internal const string StepCreate = "Create";
+    internal const string StepSubmit = "Submit";
+    internal const string StepRevoke = "Revoke";
+    internal const string StepVerify = "Verify";
+    internal const string StepAssign = "Assign";
+    internal const string StepStopped = "Stopped";
+    internal const string StepRestart = "Restart";
+    internal const string StepEnd = "End";
+
+    public const string Save = "Save";
+    public const string Revoked = "Revoked";
+    public const string Verifing = "Verifing";
+    public const string VerifyPass = "Pass";
+    public const string VerifyFail = "Fail";
+    public const string Reapply = "Reapply";
 }
 
 public class FlowEntity : EntityBase
@@ -38,7 +38,7 @@ public class FlowEntity : EntityBase
     public virtual DateTime? VerifyTime { get; set; }
     public virtual string VerifyNote { get; set; }
 
-    public virtual bool CanSubmit => BizStatus == FlowStatus.Save || BizStatus == FlowStatus.Revoked || BizStatus == FlowStatus.VerifyFail || BizStatus == FlowStatus.ReApply;
+    public virtual bool CanSubmit => BizStatus == FlowStatus.Save || BizStatus == FlowStatus.Revoked || BizStatus == FlowStatus.VerifyFail || BizStatus == FlowStatus.Reapply;
     public virtual bool CanRevoke => BizStatus == FlowStatus.Verifing;
     public virtual Result ValidCommit(Context context) => base.Validate(context);
 }

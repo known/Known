@@ -26,7 +26,6 @@ class FlowView : BaseView<FlowInfo>
             var result = new PagingResult<FlowStepInfo>(Model?.Steps);
             return Task.FromResult(result);
         };
-        table.Column(c => c.Type).Template((b, r) => BuildStatus(b, r.Type));
         table.Column(c => c.Pass).Template((b, r) => BuildStatus(b, r.Pass));
         table.Column(c => c.Fail).Template((b, r) => BuildStatus(b, r.Fail));
     }

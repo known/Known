@@ -46,7 +46,7 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
         if (logs != null && logs.Count > 0)
         {
             var last = logs.OrderByDescending(l => l.CreateTime).FirstOrDefault();
-            if (last.StepName == FlowStatus.StepOver && step.Items.Count > 0)
+            if (last.StepName == FlowStatus.StepEnd && step.Items.Count > 0)
                 return step.Items.Count - 1;
         }
 

@@ -120,11 +120,10 @@ class DataHelper
                 var values = lines[i].Split('|');
                 if (values.Length > 0) step.Name = values[0];
                 if (values.Length > 1) step.Id = values[1];
-                if (values.Length > 2) step.Type = values[2];
-                if (values.Length > 3) step.User = values[3];
-                if (values.Length > 4) step.Role = values[4];
-                if (values.Length > 5) step.Pass = values[5];
-                if (values.Length > 6) step.Fail = values[6];
+                if (values.Length > 2) step.User = values[2];
+                if (values.Length > 3) step.Role = values[3];
+                if (values.Length > 4) step.Pass = values[4];
+                if (values.Length > 5) step.Fail = values[5];
                 info.Steps.Add(step);
             }
         }

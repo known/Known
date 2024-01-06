@@ -38,7 +38,6 @@ public class FlowStepInfo
 {
     [DisplayName("Id")] public string Id { get; set; }
     [DisplayName("Name")] public string Name { get; set; }
-    [DisplayName("Type")] public string Type { get; set; }
     [DisplayName("User")] public string User { get; set; }
     [DisplayName("Role")] public string Role { get; set; }
     [DisplayName("Pass")] public string Pass { get; set; }

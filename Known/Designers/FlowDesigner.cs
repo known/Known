@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Known.Blazor;
+﻿using Known.Blazor;
 using Known.Extensions;
 using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -82,16 +81,14 @@ class FlowDesigner : BaseDesigner<string>
 
     private void BuildNewModel(RenderTreeBuilder builder)
     {
-        //TODO:示例语言切换
         builder.Markup($@"<pre><b>{Language["Designer.Explanation"]}</b>
 {Language["Designer.Flow"]}{Language["Name"]}|{Language["Code"]}
-{Language["Designer.Step"]}{Language["Name"]}|{Language["Code"]}|{Language["Type"]}|{Language["User"]}|{Language["Role"]}|{Language["Pass"]}|{Language["Fail"]}
-{Language["Designer.Type"]}开始,提交,审核,结束
+{Language["Designer.Step"]}{Language["Name"]}|{Language["Code"]}|{Language["User"]}|{Language["Role"]}|{Language["Pass"]}|{Language["Fail"]}
 <b>{Language["Designer.Sample"]}</b>
-{Language["Designer.Test"]}|TestFlow
-申请|Apply|提交|||待审核
-审核|Verify|审核||审核人|审核通过|审核退回
-结束|End|结束</pre>");
+{Language["BizApply"]}|BizApplyFlow
+{Language["BizApply"]}|Apply|||{Language["Flow.Verifing"]}
+{Language["BizVerify"]}|Verify||VerifyBy|{Language["Flow.Pass"]}|{Language["Flow.Fail"]}
+{Language["Flow.End"]}|End</pre>");
         UI.BuildTextArea(builder, new InputModel<string>
         {
             Disabled = ReadOnly || !IsNew,
