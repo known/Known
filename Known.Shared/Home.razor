@@ -91,6 +91,7 @@
     {
         await base.OnInitPageAsync();
 
+        user = CurrentUser;
         chartConfig = new()
         {
             Name = Language["Home.VisitTitle"].Replace("{month}", $"{DateTime.Now:yyyyMM}"),
@@ -113,7 +114,6 @@
 
     private string GetUserGreeting()
     {
-        var user = CurrentUser;
         var hour = DateTime.Now.Hour;
         var greet = Language["Greeting0"].Replace("{name}", user?.Name);
         if (5 <= hour && hour < 9)
