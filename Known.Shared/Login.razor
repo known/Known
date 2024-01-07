@@ -3,11 +3,11 @@
 <div class="login">
     <div class="login-head">
         <div class="login-logo">
-            <img src="img/logo1.png" />
+            <a href="@knownSite" target="_blank"><img src="img/logo1.png" /></a>
             <div>@Language["App.SubTitle"]</div>
         </div>
         <ul>
-            <li><a href="http://known.pumantech.com/doc" target="_blank">@Language["Document"]</a></li>
+            <li><a href="@knownSite/doc" target="_blank">@Language["Document"]</a></li>
             <li style="width:30px;text-align:center;"><AntLanguage OnChanged="StateChanged" /></li>
         </ul>
     </div>
@@ -40,6 +40,7 @@
 </div>
 
 @code {
+    private string knownSite = "http://known.pumantech.com";
     private string[] uiTypes = [
         UIType.AntDesign.ToString(),
         UIType.Bootstrap.ToString()

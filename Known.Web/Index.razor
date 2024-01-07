@@ -1,3 +1,81 @@
 ﻿@page "/"
+@inherits BaseComponent
 
-<Known.Shared.Index />
+<div class="page">
+    <header>
+        <div class="logo">
+            <a href="/"><img src="img/logo1.png" /></a>
+            <ul class="nav">
+                <li><a href="/">首页</a></li>
+                <li><a href="/doc">文档</a></li>
+                <li><a href="/demo">体验</a></li>
+            </ul>
+        </div>
+        <div class="nav">
+            <AntLanguage OnChanged="StateHasChanged" />
+        </div>
+    </header>
+    <section class="hero">
+        <div class="name">开源企业级开发框架</div>
+        <div class="desc">低代码，开箱即用，跨平台，一处代码，多处运行。</div>
+        <div class="btns">
+            <a class="btn" href="/doc/start">快速开始</a>
+            <a class="git" href="https://gitee.com/known/Known" target="_blank"><img src="img/gitee.png" alt="码云"></a>
+            <a class="git" href="https://github.com/known/Known" target="_blank"><img src="img/github.png" alt="Github"></a>
+        </div>
+        <div class="stats">
+            <a href="https://gitee.com/known/Known/stargazers"><img src="https://gitee.com/known/Known/badge/star.svg?theme=dark" alt="star"></a>
+            <a href="https://gitee.com/known/Known/members"><img src="https://gitee.com/known/Known/badge/fork.svg?theme=dark" alt="fork"></a>
+            <a href="https://github.com/known/Known"><img src="https://img.shields.io/github/stars/known/known?color=%231890FF" alt="stars"></a>
+            <a href="https://gitee.com/known/Known/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache2-yellow" alt="license"></a>
+            <a href="https://www.nuget.org/profiles/known"><img src="https://img.shields.io/badge/downloads-5.36K-%231890FF" alt="downloads"></a>
+            <img src="https://img.shields.io/badge/.NET-8.0-green" alt=".NET">
+            <img src="https://img.shields.io/badge/DEV-VS2022-brightgreen" alt="DEV">
+            <img src="https://img.shields.io/badge/QQ群-865982686-blue" alt="QQ群">
+        </div>
+    </section>
+
+    <section class="feature">
+        <h3>框架能力</h3>
+        <div class="item">
+            <div class="title">C#语言</div>
+            <div class="description"></div>
+        </div>
+        <div class="item">
+            <div class="title">低代码</div>
+            <div class="description"></div>
+        </div>
+        <div class="item">
+            <div class="title">通用权限</div>
+            <div class="description"></div>
+        </div>
+        <div class="item">
+            <div class="title">依赖少</div>
+            <div class="description"></div>
+        </div>
+        <div class="item">
+            <div class="title">多语言</div>
+            <div class="description"></div>
+        </div>
+        <div class="item">
+            <div class="title">多数据库</div>
+            <div class="description"></div>
+        </div>
+        <div class="item">
+            <div class="title">抽象UI</div>
+            <div class="description"></div>
+        </div>
+    </section>
+
+    <Known.Web.Footer />
+</div>
+
+@code {
+    [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Context.UI = AntUI;
+        await base.OnInitializedAsync();
+    }
+}

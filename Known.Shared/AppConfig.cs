@@ -15,7 +15,7 @@ public enum UIType { AntDesign, Bootstrap }
 public static class AppConfig
 {
     public const string Branch = "Known";
-    public const string SubTitle = "基于Blazor的快速开发框架";
+    public const string SubTitle = "基于Blazor的企业级快速开发框架";
 
     public static void AddApp(this IServiceCollection services, Action<AppInfo> action = null)
     {
