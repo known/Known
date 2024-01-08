@@ -1,34 +1,12 @@
 ﻿@page "/"
 @inherits BaseComponent
 
-<div class="homepage @theme">
+<div class="@theme">
     <div class="head">
         <div class="logo">
             <Icon Type="menu" Theme="outline" OnClick="_ => showDrawer = true" />
             <div class="img"></div>
-            <ul class="navi">
-                <li><a href="/">@Language["Menu.Home"]</a></li>
-                <li><a href="/doc">@Language["Document"]</a></li>
-                <li>
-                    <Dropdown>
-                        <Overlay>
-                            <Menu>
-                                <MenuItem>
-                                    <a class="git" href="https://gitee.com/known/Known" target="_blank"><img src="img/gitee.png" alt="Gitee">Gitee</a>
-                                </MenuItem>
-                                <MenuItem>
-                                    <a class="git" href="https://github.com/known/Known" target="_blank"><img src="img/github.png" alt="Github">Github</a>
-                                </MenuItem>
-                            </Menu>
-                        </Overlay>
-                        <ChildContent>
-                            <a class="ant-dropdown-link" @onclick:preventDefault>
-                                @Language["SourceCode"] <Icon Type="down" />
-                            </a>
-                        </ChildContent>
-                    </Dropdown>
-                </li>
-            </ul>
+            <NavMenu />
         </div>
         <div class="navi">
             <div class="version">
@@ -106,12 +84,7 @@
     <Known.Web.Footer @ref="footer" />
 
     <Drawer Class="side" Width="180" Visible="@showDrawer" Placement="left" OnClose="_ => showDrawer = false">
-        <ul class="navi">
-            <li><a href="/">@Language["Menu.Home"]</a></li>
-            <li><a href="/doc">@Language["Document"]</a></li>
-            <li><a class="git" href="https://gitee.com/known/Known" target="_blank"><img src="img/gitee.png" alt="Gitee">Gitee</a></li>
-            <li><a class="git" href="https://github.com/known/Known" target="_blank"><img src="img/github.png" alt="Github">Github</a></li>
-        </ul>
+        <NavMenu IsSide />
     </Drawer>
 </div>
 
