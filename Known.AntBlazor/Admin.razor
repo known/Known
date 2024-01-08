@@ -4,7 +4,9 @@
     @if (IsLoaded)
     {
         <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible Theme="ThemeSider">
-            <div class="kui-logo" />
+            <div class="kui-logo">
+                <img src="/img/logo.png" />
+            </div>
             <AntMenu Theme="ThemeMenu" Accordion="Context.UserSetting.Accordion" Items="UserMenus" OnClick="e=>Context.Navigate(e)" />
         </Sider>
         <Layout>

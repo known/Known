@@ -34,10 +34,6 @@
 .kui-edit-input input {width:190px;}
 .kui-edit-input .kui-link {margin-left:10px;display:flex;align-items:center;}
 
-.kui-logo {
-    height:50px;background-image:url(/img/logo.png);
-    margin-top:5px;margin-left:10px;
-}
 .kui-app-name {font-size:1.2rem}
 
 .kui-flow .kui-group-box {padding:10px;background-color:#fafafa;}

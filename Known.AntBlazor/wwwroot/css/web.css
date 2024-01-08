@@ -7,6 +7,13 @@
 .ant-query, .ant-toolbar {padding:10px 10px 0 10px;}
 .ant-query input {width:110px;}
 
+.kui-header, .kui-logo {position:fixed;z-index:101;top:0;transition:all 0.2s;}
+.kui-header {right:0;left:200px;}
+.kui-logo {left:0;width:200px;height:64px;background-color:#001529;padding-top:5px;padding-left:10px;}
+.ant-menu, .ant-layout-content {padding-top:64px;}
+.ant-layout-sider-collapsed .kui-logo {width:60px;padding-left:5px;}
+.ant-layout-sider-collapsed+section .kui-header {left:60px;}
+
 /*Ant*/
 :root {
     --rz-sidebar-width: 200px;
