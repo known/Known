@@ -22,7 +22,8 @@ public class AntLanguage : BaseComponent
     {
         builder.Component<AntDropdown>()
                .Set(c => c.Context, Context)
-               .Set(c => c.TextIcon, current?.Icon)
+               .Set(c => c.Icon, "translation")
+               .Set(c => c.Text, current?.Icon)
                .Set(c => c.Items, Language.Items)
                .Set(c => c.OnItemClick, OnLanguageChanged)
                .Build();

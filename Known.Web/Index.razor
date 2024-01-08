@@ -1,74 +1,92 @@
 ﻿@page "/"
 @inherits BaseComponent
 
-<div class="page">
-    <header>
-        <div class="logo">
-            <a href="/"><img src="img/logo1.png" /></a>
-            <ul class="nav">
-                <li><a href="/">首页</a></li>
-                <li><a href="/doc">文档</a></li>
-                <li><a href="/demo">体验</a></li>
-            </ul>
+<div class="head">
+    <div class="logo">
+        <a href="/"><img src="img/logo1.png" /></a>
+        <ul class="navi">
+            <li><a href="/">首页</a></li>
+            <li><a href="/doc">文档</a></li>
+            <li><Source /></li>
+        </ul>
+    </div>
+    <div class="navi">
+        <div class="version">
+            <Button>2.0.0</Button>
         </div>
-        <div class="nav">
+        <div class="language">
             <AntLanguage OnChanged="StateHasChanged" />
         </div>
-    </header>
-    <section class="hero">
+        <div style="margin-left:15px;">
+            <Switch CheckedChildren="🌜" UnCheckedChildren="🌞" />
+        </div>
+    </div>
+</div>
+
+<div class="hero">
+    <div class="content">
         <div class="name">开源企业级开发框架</div>
         <div class="desc">低代码，开箱即用，跨平台，一处代码，多处运行。</div>
-        <div class="btns">
-            <a class="btn" href="/doc/start">快速开始</a>
-            <a class="git" href="https://gitee.com/known/Known" target="_blank"><img src="img/gitee.png" alt="码云"></a>
-            <a class="git" href="https://github.com/known/Known" target="_blank"><img src="img/github.png" alt="Github"></a>
+        <div class="hero-btns">
+            <a href="/demo"><Button Class="hero-btn" Type="@ButtonType.Primary">预览</Button></a>
+            <a href="/doc"><Button Class="hero-btn">开始使用</Button></a>
+            <a href="https://www.nuget.org/profiles/known" target="_blank">
+                <img src="https://img.shields.io/badge/nuget-17,828-%231890FF" alt="downloads">
+            </a>
         </div>
-        <div class="stats">
-            <a href="https://gitee.com/known/Known/stargazers"><img src="https://gitee.com/known/Known/badge/star.svg?theme=dark" alt="star"></a>
-            <a href="https://gitee.com/known/Known/members"><img src="https://gitee.com/known/Known/badge/fork.svg?theme=dark" alt="fork"></a>
-            <a href="https://github.com/known/Known"><img src="https://img.shields.io/github/stars/known/known?color=%231890FF" alt="stars"></a>
-            <a href="https://gitee.com/known/Known/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache2-yellow" alt="license"></a>
-            <a href="https://www.nuget.org/profiles/known"><img src="https://img.shields.io/badge/downloads-5.36K-%231890FF" alt="downloads"></a>
-            <img src="https://img.shields.io/badge/.NET-8.0-green" alt=".NET">
-            <img src="https://img.shields.io/badge/DEV-VS2022-brightgreen" alt="DEV">
-            <img src="https://img.shields.io/badge/QQ群-865982686-blue" alt="QQ群">
-        </div>
-    </section>
-
-    <section class="feature">
-        <h3>框架能力</h3>
-        <div class="item">
-            <div class="title">C#语言</div>
-            <div class="description"></div>
-        </div>
-        <div class="item">
-            <div class="title">低代码</div>
-            <div class="description"></div>
-        </div>
-        <div class="item">
-            <div class="title">通用权限</div>
-            <div class="description"></div>
-        </div>
-        <div class="item">
-            <div class="title">依赖少</div>
-            <div class="description"></div>
-        </div>
-        <div class="item">
-            <div class="title">多语言</div>
-            <div class="description"></div>
-        </div>
-        <div class="item">
-            <div class="title">多数据库</div>
-            <div class="description"></div>
-        </div>
-        <div class="item">
-            <div class="title">抽象UI</div>
-            <div class="description"></div>
-        </div>
-    </section>
-
-    <Known.Web.Footer />
+    </div>
+    <div class="image"></div>
 </div>
+
+<div class="section feature">
+    <div class="item">
+        <img src="" />
+        <h3>快速开发</h3>
+        <p>基于 Blazor，在线表单设计，自动生成代码</p>
+    </div>
+    <div class="item">
+        <img src="" />
+        <h3>通用权限</h3>
+        <p>内置通用权限模块，只需专注业务功能</p>
+    </div>
+    <div class="item">
+        <img src="" />
+        <h3>国际化</h3>
+        <p>提供完备的国际化多语言解决方案</p>
+    </div>
+    <div class="item">
+        <img src="" />
+        <h3>抽象UI</h3>
+        <p>抽象UI层，易扩展，无缝对接 Ant Design 等</p>
+    </div>
+    <div class="item">
+        <img src="" />
+        <h3>最佳实践</h3>
+        <p>低代码，一人多角色，沟通高效，成本最低</p>
+    </div>
+    <div class="item">
+        <img src="" />
+        <h3>C#语言</h3>
+        <p>全量使用 C# 进行全栈开发</p>
+    </div>
+</div>
+
+<div class="section start">
+    <h3>Let’s Known</h3>
+    <p>命令行运行下列命令，快速创建项目：</p>
+    <div class="code">
+        <pre>
+<span class="code-comment">--安装模板</span>
+dotnet new install KnownTemplate
+
+<span class="code-comment">--创建项目</span>
+<span class="code-comment">--host参数：full(默认)/web/winform</span>
+dotnet new known --name=你的项目 --host=server
+        </pre>
+    </div>
+</div>
+
+<Known.Web.Footer />
 
 @code {
     [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
