@@ -1,5 +1,8 @@
-.head, .hero, .section, .foot {padding:20px 200px;font-size:1rem;}
-.head {display:flex;justify-content:space-between;font-size:1.2rem;}
+.hero, .section, .foot {padding:20px 200px;font-size:1rem;}
+.head {
+    position:fixed;top:0;left:0;right:0;z-index:101;padding:10px 200px;background-color:#fff;
+    display:flex;justify-content:space-between;font-size:1.2rem;box-shadow:0 1px 1px 1px rgba(185,185,185,.3);
+}
 .logo {display:flex;}
 .logo .anticon-menu {display:none;}
 .logo .img {width:180px;height:50px;background-image:url(../img/logo1.png);}
@@ -12,8 +15,11 @@
 .version .ant-btn {padding:0 10px;font-size:1.2rem;}
 .language {margin-left:15px;padding-top:2px;}
 
-.hero {background-color:#ddf1ed;padding:50px 210px;height:520px;display:flex;justify-content:space-around;align-items:center;}
-.hero .content, .hero .image {width:40%;}
+.hero {
+    background-color:#f8fcff;padding:120px 210px 50px 210px;height:520px;
+    display:flex;justify-content:space-around;align-items:center;
+}
+.hero .content {width:60%;}
 .hero-name {font-weight:bold;font-size:3rem;}
 .hero-desc {font-size:1.2rem;text-align:justify;padding:10px 0;}
 .hero-btns {padding-top:30px;display:flex;}
@@ -51,7 +57,7 @@
     .navi {padding-top:10px;}
     .logo .navi, .version {display:none;}
     .logo .anticon-menu {display:block;font-size:2rem;padding-top:8px;padding-left:8px;}
-    .hero {padding:20px 0;height:420px;}
+    .hero {padding:90px 0 20px 0;}
     .hero .content {width:80%;}
     .hero .image {display:none;}
     .hero-name {font-size:2rem;}

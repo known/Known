@@ -66,7 +66,7 @@ public partial class MainForm : Form
             //info.Connections[0].ConnectionString = "Data Source=localhost;Initial Catalog=Sample;User Id={userId};Password={password};";
             //info.Connections[0].ConnectionString = "Server=(localdb)\\MSSQLLocalDB;Database=Sample;Trusted_Connection=True";
         });
-        blazorWebView.HostPage = "wwwroot\\index.html";
+        blazorWebView.HostPage = "index.html";
         blazorWebView.Services = services.BuildServiceProvider();
         blazorWebView.RootComponents.Add<App>("#app");
     }

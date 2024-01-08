@@ -6,7 +6,7 @@
         <div class="logo">
             <Icon Type="menu" Theme="outline" OnClick="_ => showDrawer = true" />
             <div class="img"></div>
-            <NavMenu />
+            <NavMenu @ref="nav1" />
         </div>
         <div class="navi">
             <div class="version">
@@ -84,7 +84,7 @@
     <Known.Web.Footer @ref="footer" />
 
     <Drawer Class="side" Width="180" Visible="@showDrawer" Placement="left" OnClose="_ => showDrawer = false">
-        <NavMenu IsSide />
+        <NavMenu @ref="nav2" IsSide />
     </Drawer>
 </div>
 
@@ -93,6 +93,8 @@
     private string theme;
     private bool dark;
     private bool showDrawer;
+    private NavMenu nav1;
+    private NavMenu nav2;
     private Known.Web.Footer footer;
     [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
 
@@ -112,6 +114,8 @@
     public override void StateChanged()
     {
         base.StateChanged();
+        nav1?.StateChanged();
+        nav2?.StateChanged();
         footer?.StateChanged();
     }
 
