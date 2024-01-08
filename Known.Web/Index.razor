@@ -1,114 +1,126 @@
 ﻿@page "/"
 @inherits BaseComponent
 
-<div class="head">
-    <div class="logo">
-        <a href="/"><img src="img/logo1.png" /></a>
-        <ul class="navi">
-            <li><a href="/">@Language["Menu.Home"]</a></li>
-            <li><a href="/doc">@Language["Document"]</a></li>
-            <li>
-                <Dropdown>
-                    <Overlay>
-                        <Menu>
-                            <MenuItem>
-                                <a class="git" href="https://gitee.com/known/Known" target="_blank"><img src="img/gitee.png" alt="Gitee">Gitee</a>
-                            </MenuItem>
-                            <MenuItem>
-                                <a class="git" href="https://github.com/known/Known" target="_blank"><img src="img/github.png" alt="Github">Github</a>
-                            </MenuItem>
-                        </Menu>
-                    </Overlay>
-                    <ChildContent>
-                        <a class="ant-dropdown-link" @onclick:preventDefault>
-                            @Language["SourceCode"] <Icon Type="down" />
-                        </a>
-                    </ChildContent>
-                </Dropdown>
-            </li>
-        </ul>
-    </div>
-    <div class="navi">
-        <div class="version">
-            <Button>2.0.0</Button>
+<div class="homepage @theme">
+    <div class="head">
+        <div class="logo">
+            <div class="img"></div>
+            <ul class="navi">
+                <li><a href="/">@Language["Menu.Home"]</a></li>
+                <li><a href="/doc">@Language["Document"]</a></li>
+                <li>
+                    <Dropdown>
+                        <Overlay>
+                            <Menu>
+                                <MenuItem>
+                                    <a class="git" href="https://gitee.com/known/Known" target="_blank"><img src="img/gitee.png" alt="Gitee">Gitee</a>
+                                </MenuItem>
+                                <MenuItem>
+                                    <a class="git" href="https://github.com/known/Known" target="_blank"><img src="img/github.png" alt="Github">Github</a>
+                                </MenuItem>
+                            </Menu>
+                        </Overlay>
+                        <ChildContent>
+                            <a class="ant-dropdown-link" @onclick:preventDefault>
+                                @Language["SourceCode"] <Icon Type="down" />
+                            </a>
+                        </ChildContent>
+                    </Dropdown>
+                </li>
+            </ul>
         </div>
-        <div class="language">
-            <AntLanguage OnChanged="StateChanged" />
-        </div>
-        <div style="margin-left:15px;">
-            <Switch CheckedChildren="🌜" UnCheckedChildren="🌞" />
-        </div>
-    </div>
-</div>
-
-<div class="hero">
-    <div class="content">
-        <div class="hero-name">@Language["HomePage.Title"]</div>
-        <div class="hero-desc">@Language["HomePage.Description"]</div>
-        <div class="hero-btns">
-            <a href="/demo"><Button Class="hero-btn" Type="@ButtonType.Primary">@Language["HomePage.Preview"]</Button></a>
-            <a href="/doc"><Button Class="hero-btn">@Language["HomePage.Start"]</Button></a>
-            <a href="https://www.nuget.org/profiles/known" target="_blank">
-                <img src="https://img.shields.io/badge/nuget-17,828-%231890FF" alt="downloads">
-            </a>
+        <div class="navi">
+            <div class="version">
+                <Button>2.0.0</Button>
+            </div>
+            <div class="language">
+                <AntLanguage OnChanged="StateChanged" />
+            </div>
+            <div style="margin-left:15px;">
+                <Switch CheckedChildren="🌜" UnCheckedChildren="🌞" Value="dark" OnChange="ThemeChanged" />
+            </div>
         </div>
     </div>
-    <div class="image"></div>
-</div>
 
-<div class="section feature">
-    <div class="item">
-        <img src="img/item-dev.png" />
-        <h3>@Language["HomePage.FastDev"]</h3>
-        <p>@Language["HomePage.FastDevInfo"]</p>
+    <div class="hero">
+        <div class="content">
+            <div class="hero-name">@Language["HomePage.Title"]</div>
+            <div class="hero-desc">@Language["HomePage.Description"]</div>
+            <div class="hero-btns">
+                <a href="/demo"><Button Class="hero-btn" Type="@ButtonType.Primary">@Language["HomePage.Preview"]</Button></a>
+                <a href="/doc"><Button Class="hero-btn">@Language["HomePage.Start"]</Button></a>
+                <a href="https://www.nuget.org/profiles/known" target="_blank">
+                    <img src="https://img.shields.io/badge/nuget-17,828-%231890FF" alt="downloads">
+                </a>
+            </div>
+        </div>
+        <div class="image"></div>
     </div>
-    <div class="item">
-        <img src="img/item-comm.png" />
-        <h3>@Language["HomePage.Common"]</h3>
-        <p>@Language["HomePage.CommonInfo"]</p>
+        
+    <div class="section feature">
+        <div class="item">
+            <img src="img/item-dev.png" />
+            <h3>@Language["HomePage.FastDev"]</h3>
+            <p>@Language["HomePage.FastDevInfo"]</p>
+        </div>
+        <div class="item">
+            <img src="img/item-comm.png" />
+            <h3>@Language["HomePage.Common"]</h3>
+            <p>@Language["HomePage.CommonInfo"]</p>
+        </div>
+        <div class="item">
+            <img src="img/item-global.png" />
+            <h3>@Language["HomePage.Global"]</h3>
+            <p>@Language["HomePage.GlobalInfo"]</p>
+        </div>
+        <div class="item">
+            <img src="img/item-ui.png" />
+            <h3>@Language["HomePage.AbstractUI"]</h3>
+            <p>@Language["HomePage.AbstractInfo"]</p>
+        </div>
+        <div class="item">
+            <img src="img/item-best.png" />
+            <h3>@Language["HomePage.Best"]</h3>
+            <p>@Language["HomePage.BestInfo"]</p>
+        </div>
+        <div class="item">
+            <img src="img/item-csharp.png" />
+            <h3>@Language["HomePage.CSharp"]</h3>
+            <p>@Language["HomePage.CSharpInfo"]</p>
+        </div>
     </div>
-    <div class="item">
-        <img src="img/item-global.png" />
-        <h3>@Language["HomePage.Global"]</h3>
-        <p>@Language["HomePage.GlobalInfo"]</p>
-    </div>
-    <div class="item">
-        <img src="img/item-ui.png" />
-        <h3>@Language["HomePage.AbstractUI"]</h3>
-        <p>@Language["HomePage.AbstractInfo"]</p>
-    </div>
-    <div class="item">
-        <img src="img/item-best.png" />
-        <h3>@Language["HomePage.Best"]</h3>
-        <p>@Language["HomePage.BestInfo"]</p>
-    </div>
-    <div class="item">
-        <img src="img/item-csharp.png" />
-        <h3>@Language["HomePage.CSharp"]</h3>
-        <p>@Language["HomePage.CSharpInfo"]</p>
-    </div>
-</div>
 
-<div class="section start">
-    <h3>@Language["HomePage.LetsGO"]</h3>
-    <p>@Language["HomePage.CmdLine"]</p>
-    <div class="code">
-        <span class="code-comment">--@Language["HomePage.InstallTemplate"]</span><br />
-        <span>dotnet new install KnownTemplate</span><br /><br />
-        <span class="code-comment">--@Language["HomePage.CreateProject"]</span><br />
-        <span class="code-comment">--@Language["HomePage.HostParam"]：full(@Language["HomePage.Default"])/web/winform</span><br />
-        <span>dotnet new known --name=MyApp --host=server</span><br />
+    <div class="section start">
+        <h3>@Language["HomePage.LetsGO"]</h3>
+        <p>@Language["HomePage.CmdLine"]</p>
+        <div class="code">
+            <span class="code-comment">--@Language["HomePage.InstallTemplate"]</span><br />
+            <span>dotnet new install KnownTemplate</span><br /><br />
+            <span class="code-comment">--@Language["HomePage.CreateProject"]</span><br />
+            <span class="code-comment">--@Language["HomePage.HostParam"]：full(@Language["HomePage.Default"])/web/winform</span><br />
+            <span>dotnet new known --name=MyApp --host=server</span><br />
+        </div>
     </div>
-</div>
 
-<Known.Web.Footer @ref="footer" />
+    <Known.Web.Footer @ref="footer" />
+</div>
 
 @code {
+    private const string KeyTheme = "Known_IndexTheme";
+    private string theme;
+    private bool dark;
     private Known.Web.Footer footer;
     [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        theme = await JS.GetLocalStorage<string>(KeyTheme);
+        if (string.IsNullOrWhiteSpace(theme))
+        {
+            var hour = DateTime.Now.Hour;
+            theme = hour > 6 && hour < 20 ? "hlight" : "dark";
+        }
+        dark = theme == "dark";
         Context.UI = AntUI;
         await base.OnInitializedAsync();
     }
@@ -117,5 +129,12 @@
     {
         base.StateChanged();
         footer?.StateChanged();
+    }
+
+    private void ThemeChanged(bool isDark)
+    {
+        dark = isDark;
+        theme = isDark ? "dark" : "hlight";
+        JS.SetLocalStorage(KeyTheme, theme);
     }
 }

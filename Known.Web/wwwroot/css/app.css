@@ -1,7 +1,7 @@
 .head, .hero, .section, .foot {padding:20px 200px;font-size:1rem;}
 .head {display:flex;justify-content:space-between;font-size:1.2rem;}
 .logo {display:flex;}
-.logo img {width:180px;height:50px;}
+.logo .img {width:180px;height:50px;background-image:url(../img/logo1.png);}
 .navi {margin:0;padding:0;padding-top:13px;list-style:none;display:flex;}
 .navi a {color:#333;}
 .navi a:hover {color:#1c66b9;}
@@ -19,13 +19,13 @@
 .hero-btns img {height:30px;margin-top:5px;}
 .hero-btn {min-width:110px;height:40px;font-size:16px;border-radius:20px;margin-right:15px;}
 
-.feature {display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;margin:60px auto;}
+.feature {display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;margin:0 auto;padding-top:60px;}
 .feature .item {text-align:center;width:33.33%;margin-bottom:60px;}
 .feature .item img {width:60px;height:60px;}
 .feature .item h3 {font-size:20px;line-height:1;margin:20px 0;}
 .feature .item p {color:#697b8c;line-height:22px;height:44px;}
 .start {text-align:center;padding-top:0;padding-bottom:60px;}
-.start p {text-align:center;color:rgba(0,0,0,0.6);margin:25px auto 30px auto;}
+.start p {text-align:center;margin:25px auto 30px auto;}
 .start .code {
     width:90%;max-width:840px;margin:16px auto;padding:30px 50px;color:#151e26;
     font-family:sfmono-regular,Consolas,liberation mono,Menlo,Courier,monospace;
@@ -34,7 +34,7 @@
 }
 .start .code-comment {color:forestgreen;}
 
-.foot {background-color:#393d49;color:#fff;padding-top:40px;}
+.foot {background-color:#393d49;color:#d8d8d8;padding-top:40px;}
 .foot .content {display:flex;justify-content:space-between;padding:20px 0;}
 .foot .brand {padding:10px;width:40%;}
 .foot .links, footer .qrcode {padding:20px 2px 0 20px;}
@@ -54,9 +54,15 @@
     .hero-name {font-size:2rem;}
     .hero-btns {text-align:center;}
     .hero-btns img {display:none;}
-    .feature {margin-bottom:30px;}
+    .feature {padding-top:60px;}
     .feature .item {width:100%;}
     .start .code {padding:10px;}
     .foot .content {flex-direction:column;}
     .foot .brand {width:100%;}
 }
+
+.dark .head, .dark .hero, .dark .section {background-color:#202020;color:#d8d8d8;}
+.dark .logo .img {background-image:url(../img/logo.png);}
+.dark .navi a, .dark .navi a:hover {color:#d8d8d8;}
+.dark .hero, .dark .foot {background-color:rgb(45, 46, 46);}
+.dark .code {background-color:rgb(40, 44, 45);color:rgb(211, 206, 196);}
