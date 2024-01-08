@@ -83,9 +83,9 @@ public class Database : IDisposable
                 if (string.IsNullOrWhiteSpace(script))
                     return;
 
-                Logger.Info("正在初始化数据库...");
+                Logger.Info("Data table is initializing...");
                 await db.ExecuteAsync(script);
-                Logger.Info("数据库初始化完成");
+                Logger.Info("Data table is initialized");
             }
         });
     }

@@ -4,6 +4,7 @@
 <div class="homepage @theme">
     <div class="head">
         <div class="logo">
+            <Icon Type="menu" Theme="outline" OnClick="_ => showDrawer = true" />
             <div class="img"></div>
             <ul class="navi">
                 <li><a href="/">@Language["Menu.Home"]</a></li>
@@ -103,12 +104,22 @@
     </div>
 
     <Known.Web.Footer @ref="footer" />
+
+    <Drawer Class="side" Width="180" Visible="@showDrawer" Placement="left" OnClose="_ => showDrawer = false">
+        <ul class="navi">
+            <li><a href="/">@Language["Menu.Home"]</a></li>
+            <li><a href="/doc">@Language["Document"]</a></li>
+            <li><a class="git" href="https://gitee.com/known/Known" target="_blank"><img src="img/gitee.png" alt="Gitee">Gitee</a></li>
+            <li><a class="git" href="https://github.com/known/Known" target="_blank"><img src="img/github.png" alt="Github">Github</a></li>
+        </ul>
+    </Drawer>
 </div>
 
 @code {
     private const string KeyTheme = "Known_IndexTheme";
     private string theme;
     private bool dark;
+    private bool showDrawer;
     private Known.Web.Footer footer;
     [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
 
