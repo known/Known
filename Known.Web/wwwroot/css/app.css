@@ -23,7 +23,7 @@
 .feature .item {text-align:center;width:33.33%;margin-bottom:60px;}
 .feature .item img {width:60px;height:60px;}
 .feature .item h3 {font-size:20px;line-height:1;margin:20px 0;}
-.feature .item p {color:#697b8c;line-height:22px;}
+.feature .item p {color:#697b8c;line-height:22px;height:44px;}
 .start {text-align:center;padding-top:0;padding-bottom:60px;}
 .start p {text-align:center;color:rgba(0,0,0,0.6);margin:25px auto 30px auto;}
 .start .code {
@@ -36,7 +36,7 @@
 
 .foot {background-color:#393d49;color:#fff;padding-top:40px;}
 .foot .content {display:flex;justify-content:space-between;padding:20px 0;}
-.foot .brand {padding:10px;}
+.foot .brand {padding:10px;width:40%;}
 .foot .links, footer .qrcode {padding:20px 2px 0 20px;}
 .foot .desc {padding:0 10px;}
 .foot .qrcode {text-align:center;}
@@ -48,7 +48,7 @@
 @media screen and (max-width:768px) {
     .head, .hero, .section, .foot {padding:20px 10px;}
     .logo .navi, .version {display:none;}
-    .hero {padding:20px 0;height:320px;}
+    .hero {padding:20px 0;height:420px;}
     .hero .content {width:80%;}
     .hero .image {display:none;}
     .hero-name {font-size:2rem;}
@@ -58,4 +58,5 @@
     .feature .item {width:100%;}
     .start .code {padding:10px;}
     .foot .content {flex-direction:column;}
+    .foot .brand {width:100%;}
 }
