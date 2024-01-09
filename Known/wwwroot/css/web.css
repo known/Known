@@ -1,9 +1,12 @@
 @import "font-awesome.css";
 @import "prism.css";
 
+:root[theme=light] {--kui-bgcolor:#ffffff;--kui-color:#596172;--kui-border-color:#eef2f8;}
+:root[theme=dark]  {--kui-bgcolor:#202020;--kui-color:#d8d8d8;--kui-border-color:#2f2f2f;}
+
 /*Common*/
+body, .kui-background, .kui-install-form {background-color:var(--kui-bgcolor);color:var(--kui-color);}
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
-.kui-background {background:#fff;}
 .kui-top {display:flex;justify-content:space-between;}
 .kui-table {padding:10px 10px 0 10px;}
 
@@ -53,7 +56,7 @@
 .kui-install .button {text-align:center;}
 .kui-install-head {display:flex;justify-content:space-between;font-weight:bold;font-size:1.5rem;padding:30px 200px;}
 .kui-install-body {background:linear-gradient(135deg, #6da0f5, #c0e9fc);height:500px;padding:50px 200px;}
-.kui-install-form {background-color:#fff;border-radius:5px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);padding:20px;width:500px;height:400px;margin:0 auto;}
+.kui-install-form {border-radius:5px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);padding:20px;width:500px;height:400px;margin:0 auto;}
 .kui-install-foot {text-align:center;width:100%;font-size:1.1rem;margin-top:30px;}
 .kui-install-foot span {margin:0 5px;}
 
@@ -73,7 +76,7 @@
 .kui-user-avatar img {width:100px;height:100px;margin:20px auto;}
 .kui-user-info {padding:20px;}
 .kui-user-info li {list-style:none;text-align:justify;margin-bottom:10px;}
-.kui-user-info li span {color:#333;font-size:0.9rem;}
+.kui-user-info li span {color:var(--kui-color);font-size:0.9rem;}
 
 /*Import*/
 .kui-form-import {grid-template-rows:20px 50px auto;}

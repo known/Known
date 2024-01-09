@@ -23,7 +23,7 @@ public class AntTheme : BaseComponent
 
     private async void ThemeChanged(bool isDark)
     {
-        Theme = isDark ? "dark" : "klight";
+        Theme = isDark ? "dark" : "light";
         await JS.SetCurrentThemeAsync(Theme);
         OnChanged?.Invoke(Theme);
     }

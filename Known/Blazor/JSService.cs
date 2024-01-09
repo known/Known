@@ -69,7 +69,7 @@ public class JSService
         if (string.IsNullOrWhiteSpace(theme))
         {
             var hour = DateTime.Now.Hour;
-            theme = hour > 6 && hour < 20 ? "klight" : "dark";
+            theme = hour > 6 && hour < 20 ? "light" : "dark";
         }
         await SetThemeAsync(theme);
         return theme;

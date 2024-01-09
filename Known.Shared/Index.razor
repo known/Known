@@ -4,27 +4,25 @@
 <PageTitle>@AppConfig.Branch - @Language["App.SubTitle"]</PageTitle>
 
 <CascadingValue Value="this">
-    <div class="@Theme">
-        @if (IsLoaded)
+    @if (IsLoaded)
+    {
+        @if (!Context.Install.IsInstalled)
         {
-            @if (!Context.Install.IsInstalled)
-            {
-                <InstallPage OnInstall="OnInstall" TopMenu="installMenu" />
-            }
-            else if (!IsLogin)
-            {
-                <Known.Shared.Login OnLogin="OnLogin" />
-            }
-            else if (UIType == UIType.AntDesign)
-            {
-                <Known.AntBlazor.Admin OnLogout="OnLogout" />
-            }
-            else if (UIType == UIType.Bootstrap)
-            {
-                <Known.BootBlazor.Admin OnLogout="OnLogout" />
-            }
+            <InstallPage OnInstall="OnInstall" TopMenu="installMenu" />
         }
-    </div>
+        else if (!IsLogin)
+        {
+            <Known.Shared.Login OnLogin="OnLogin" />
+        }
+        else if (UIType == UIType.AntDesign)
+        {
+            <Known.AntBlazor.Admin OnLogout="OnLogout" />
+        }
+        else if (UIType == UIType.Bootstrap)
+        {
+            <Known.BootBlazor.Admin OnLogout="OnLogout" />
+        }
+    }
 </CascadingValue>
 
 @code {

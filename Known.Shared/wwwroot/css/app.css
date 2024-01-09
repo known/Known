@@ -7,6 +7,8 @@ html, body {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;width:100
 }
 #blazor-error-ui .dismiss {cursor:pointer;position:absolute;right:0.75rem;top:0.5rem;}
 
+.login-form-body, .known, .ws-space {background-color:var(--kui-bgcolor);color:var(--kui-color);}
+
 /*Login*/
 .login {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
 .login-head {display:flex;justify-content:space-between;padding:20px 200px;font-size:1.2rem;}
@@ -14,7 +16,7 @@ html, body {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;width:100
 .login-logo img {width:180px;height:50px;}
 .login-logo div, .login-head ul {margin:0;padding:0;padding-top:13px;}
 .login-head ul li {list-style:none;display:inline-block;margin-left:10px;}
-.login-head ul li a {color:#333;}
+.login-head ul li a {color:var(--kui-color);}
 .login-body {background:linear-gradient(135deg, #6da0f5, #c0e9fc);height:500px;padding:0 200px;display:grid;grid-template-columns:auto 430px;}
 .login-left {padding:60px 100px;}
 .login-left ul {padding:40px 10px 10px 50px;display:flex;}
@@ -26,7 +28,7 @@ html, body {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;width:100
 .login-form h1 {font-size:1.2rem;margin-top:1rem;margin-bottom:1rem;}
 .login-form .ant-input-affix-wrapper > .ant-input:not(textarea) {padding-left:10px;}
 .login-form .boot-row .fa {padding-top:10px;width:38px;}
-.login-form-body {position:relative;background-color:#fff;border-radius:5px;padding:20px 30px;height:370px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);}
+.login-form-body {position:relative;border-radius:5px;padding:20px 30px;height:370px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);}
 .login-copyright {text-align:center;width:100%;font-size:1.1rem;margin-top:30px;}
 .login-copyright span {margin:0 5px;}
 
@@ -51,10 +53,10 @@ html, body {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;width:100
 
 /*Home*/
 .known, .ws-space {display:flex;justify-content:space-between;}
-.known {margin-top:10px;background-color:#fff;padding:20px;border-left:5px solid #4188c8;}
+.known {margin-top:10px;padding:20px;border-left:5px solid #4188c8;}
 .known-desc {text-align:justify;}
 
-.ws-space {margin:10px 0;background-color:#fff;padding:20px;}
+.ws-space {margin:10px 0;padding:20px;}
 .ws-welcome {display:flex;padding:10px;}
 
 .ws-avatar {width:80px;height:80px;}
@@ -112,7 +114,4 @@ html, body {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;width:100
 .apply-form canvas {position:absolute;top:-68px;right:0;width:180px;height:40px;}
 
 /*Dark*/
-.dark .login, .dark .login-form-body, .dark .known, .dark .ws-space,
-.dark .ant-tabs, .dark .ant-segmented, .dark .ant-form-item {background-color:#202020;color:#d8d8d8;}
-.dark .login-head ul li a {color:#d8d8d8;}
-.dark .login-body, .dark .count li {background:linear-gradient(135deg, rgb(45, 46, 46), rgb(40, 41, 41));}
+:root[theme=dark] .login-body, :root[theme=dark] .count li {background:linear-gradient(135deg, rgb(45, 46, 46), rgb(40, 41, 41));}
