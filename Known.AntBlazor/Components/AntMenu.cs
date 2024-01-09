@@ -9,7 +9,6 @@ namespace Known.AntBlazor.Components;
 
 public class AntMenu : BaseComponent
 {
-    [Parameter] public MenuTheme Theme { get; set; }
     [Parameter] public bool Accordion { get; set; }
     [Parameter] public List<MenuItem> Items { get; set; }
     [Parameter] public Action<MenuItem> OnClick { get; set; }
@@ -17,7 +16,6 @@ public class AntMenu : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Component<Menu>()
-               .Set(c => c.Theme, Theme)
                .Set(c => c.Mode, MenuMode.Inline)
                .Set(c => c.Accordion, Accordion)
                .Set(c => c.ChildContent, BuildMenu)

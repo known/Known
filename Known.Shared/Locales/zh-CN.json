@@ -576,7 +576,7 @@
   "ReturnToUser": "退回给[{user}]",
   "Start": "开始",
   "End": "结束",
-  "IsLight": "暗亮模式",
+  "Theme": "主题",
   "Accordion": "手风琴菜单",
   "MultiTab": "标签页",
   "IsViewLink": "查看链接",

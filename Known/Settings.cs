@@ -38,7 +38,8 @@ public class SettingInfo
         Accordion = true;
     }
 
-    [Form] public bool IsLight { get; set; }
+    //[Form, Category("Light,Dark")]
+    //public string Theme { get; set; }
     [Form] public bool Accordion { get; set; }
     [Form] public bool MultiTab { get; set; }
 }

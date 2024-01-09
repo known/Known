@@ -3,11 +3,11 @@
 <Layout Style="min-height:100vh;">
     @if (IsLoaded)
     {
-        <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible Theme="ThemeSider">
+        <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible>
             <div class="kui-logo">
-                <img src="/img/logo.png" />
+                <img src="@Index.LogoUrl" />
             </div>
-            <AntMenu Theme="ThemeMenu" Accordion="Context.UserSetting.Accordion" Items="UserMenus" OnClick="e=>Context.Navigate(e)" />
+            <AntMenu Accordion="Context.UserSetting.Accordion" Items="UserMenus" OnClick="e=>Context.Navigate(e)" />
         </Sider>
         <Layout>
             <Header Class="kui-background kui-header">
@@ -39,8 +39,8 @@
 @code{
     private PageTabs tabs;
     private PageSingle page;
-    private SiderTheme ThemeSider => Context.UserSetting.IsLight ? SiderTheme.Light : SiderTheme.Dark;
-    private MenuTheme ThemeMenu => Context.UserSetting.IsLight ? MenuTheme.Light : MenuTheme.Dark;
+
+    [CascadingParameter] private IndexPage Index { get; set; }
 
     protected override void RefreshPage()
     {

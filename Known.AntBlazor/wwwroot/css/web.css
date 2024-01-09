@@ -9,7 +9,7 @@
 
 .kui-header, .kui-logo {position:fixed;z-index:101;top:0;transition:all 0.2s;}
 .kui-header {right:0;left:200px;}
-.kui-logo {left:0;width:200px;height:64px;background-color:#001529;padding-top:5px;padding-left:10px;}
+.kui-logo {left:0;width:200px;height:64px;background-color:#fff;padding-top:5px;padding-left:10px;}
 .ant-menu, .ant-layout-content {padding-top:64px;}
 .ant-layout-sider-collapsed .kui-logo {width:60px;padding-left:5px;}
 .ant-layout-sider-collapsed+section .kui-header {left:60px;}
@@ -38,6 +38,7 @@
 }
 
 /*Layout*/
+.ant-layout-sider, .ant-layout-sider-trigger {background-color:#fff;color:#333;}
 .ant-layout-tabs > .ant-tabs-nav {background-color:#fff;margin-bottom:0;}
 .ant-layout-tabs > .ant-tabs-content-holder {margin:0 10px;}
 .ant-layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab-active {
@@ -53,3 +54,11 @@
 /*Setting*/
 .kui-form-setting .ant-form-item-label {text-align:left;padding-left:10px;}
 .kui-form-setting .ant-form-item-control {text-align:right;padding-right:10px;}
+
+/*Dark*/
+.dark .ant-layout {background-color:rgb(45, 46, 46);}
+.dark .kui-background, .dark .kui-logo, .dark .ant-menu, .dark .ant-card, .dark .ant-card-head, .dark .ant-layout-footer,
+.dark .ant-layout-sider, .dark .ant-layout-sider-trigger,
+.dark .ant-modal-content {background-color:#202020;color:#d8d8d8;}
+.dark .ant-form-item-label > label, 
+.dark .ant-breadcrumb, .dark .ant-breadcrumb-separator, .dark .ant-breadcrumb li:last-child {color:#d8d8d8;}

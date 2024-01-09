@@ -14,6 +14,9 @@
         <AntDropdown Context="Context" Text="@CurrentUser.Name" Items="UserItems" OnItemClick="e=>OnItemClick(e.Id)" />
     </SpaceItem>
     <SpaceItem>
+        <AntTheme Theme="@Index.Theme" OnChanged="Index.SetTheme" />
+    </SpaceItem>
+    <SpaceItem>
         <Tooltip Title="@Language["Nav.Setting"]"><Icon Type="setting" OnClick="@(e=>showSetting=true)" /></Tooltip>
     </SpaceItem>
 </Space>
@@ -32,6 +35,8 @@
         new ActionInfo { Id = "profile", Name = Language["Nav.Profile"], Icon = "user" },
         new ActionInfo { Id = "logout", Name = Language["Nav.Exit"], Icon = "poweroff" }
     ];
+
+    [CascadingParameter] private IndexPage Index { get; set; }
 
     [Parameter] public Action<string> OnMenuClick { get; set; }
 

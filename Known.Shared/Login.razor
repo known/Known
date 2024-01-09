@@ -3,14 +3,14 @@
 <div class="login">
     <div class="login-head">
         <div class="login-logo">
-            <a href="@knownSite" target="_blank"><img src="img/logo1.png" /></a>
+            <a href="@knownSite" target="_blank"><img src="@Index.LogoUrl" /></a>
             <div>@Language["App.SubTitle"]</div>
         </div>
         <ul>
             <li><a href="@knownSite/doc" target="_blank">@Language["Document"]</a></li>
             <li style="width:60px;text-align:center;"><AntLanguage OnChanged="StateChanged" /></li>
             <li style="margin-left:15px;">
-                <Switch CheckedChildren="🌜" UnCheckedChildren="🌞" />
+                <AntTheme Theme="@Index.Theme" OnChanged="Index.SetTheme" />
             </li>
         </ul>
     </div>
@@ -51,9 +51,9 @@
 
     [CascadingParameter] private Index Index { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await base.OnInitializedAsync();
         Model.UserName = "Admin";
         Model.Password = "888888";
     }

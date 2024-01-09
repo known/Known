@@ -18,7 +18,7 @@
                 <AntLanguage OnChanged="StateChanged" />
             </div>
             <div style="margin-left:15px;">
-                <Switch CheckedChildren="🌜" UnCheckedChildren="🌞" Value="dark" OnChange="ThemeChanged" />
+                <AntTheme Theme="@theme" OnChanged="OnThemeChanged" />
             </div>
         </div>
     </div>
@@ -90,10 +90,8 @@
     </Drawer>
 </div>
 
-@code {
-    private const string KeyTheme = "Known_IndexTheme";
+ @code {
     private string theme;
-    private bool dark;
     private bool showDrawer;
     private NavMenu nav1;
     private NavMenu nav2;
@@ -102,15 +100,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        theme = await JS.GetLocalStorage<string>(KeyTheme);
-        if (string.IsNullOrWhiteSpace(theme))
-        {
-            var hour = DateTime.Now.Hour;
-            theme = hour > 6 && hour < 20 ? "hlight" : "dark";
-        }
-        dark = theme == "dark";
-        Context.UI = AntUI;
         await base.OnInitializedAsync();
+        theme = await JS.GetCurrentTheme();
+        Context.UI = AntUI;
     }
 
     public override void StateChanged()
@@ -121,10 +113,9 @@
         footer?.StateChanged();
     }
 
-    private void ThemeChanged(bool isDark)
+    private void OnThemeChanged(string value)
     {
-        dark = isDark;
-        theme = isDark ? "dark" : "hlight";
-        JS.SetLocalStorage(KeyTheme, theme);
+        theme = value;
+        base.StateChanged();
     }
 }

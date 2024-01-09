@@ -580,7 +580,7 @@
   "ReturnToUser": "Return to [{user}]",
   "Start": "Start",
   "End": "End",
-  "IsLight": "Dark/Light Mode",
+  "Theme": "Theme",
   "Accordion": "Accordion Menu",
   "MultiTab": "Tabs",
   "IsViewLink": "ViewLink",

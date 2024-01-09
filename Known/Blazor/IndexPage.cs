@@ -9,15 +9,24 @@ public class IndexPage : BaseComponent
     [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
 
     protected bool IsLogin { get; private set; }
+    public string Theme { get; private set; }
+    public string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";
 
     protected override async Task OnInitializedAsync()
     {
         IsLoaded = false;
+        Theme = await JS.GetCurrentTheme();
         Context.CurrentLanguage = await JS.GetCurrentLanguage();
         Context.Install = await Platform.System.GetInstallAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
         IsLogin = Context.CurrentUser != null;
         IsLoaded = true;
+    }
+
+    public void SetTheme(string theme)
+    {
+        Theme = theme;
+        StateChanged();
     }
 
     protected virtual Task<UserInfo> GetThirdUserAsync()

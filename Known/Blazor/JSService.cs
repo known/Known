@@ -62,6 +62,19 @@ public class JSService
     internal Task<string> GetCurrentLanguage() => GetLocalStorage<string>(KeyLanguage);
     public void SetCurrentLanguage(string language) => SetLocalStorage(KeyLanguage, language);
 
+    private readonly string KeyTheme = "Known_Theme";
+    public async Task<string> GetCurrentTheme()
+    {
+        var theme = await GetLocalStorage<string>(KeyTheme);
+        if (string.IsNullOrWhiteSpace(theme))
+        {
+            var hour = DateTime.Now.Hour;
+            theme = hour > 6 && hour < 20 ? "klight" : "dark";
+        }
+        return theme;
+    }
+    public void SetCurrentTheme(string theme) => SetLocalStorage(KeyTheme, theme);
+
     private readonly string KeyLoginInfo = "Known_LoginInfo";
     internal Task<T> GetLoginInfo<T>() => GetLocalStorage<T>(KeyLoginInfo);
     internal void SetLoginInfo(object value) => SetLocalStorage(KeyLoginInfo, value);
