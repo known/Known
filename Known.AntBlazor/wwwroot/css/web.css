@@ -42,7 +42,10 @@
 }
 
 /*Layout*/
-.ant-layout-sider, .ant-layout-sider-trigger, .ant-layout-tabs > .ant-tabs-nav {background-color:var(--kui-bgcolor);color:var(--kui-color);}
+.ant-layout-header {background-color:#f0f2f5;}
+.ant-layout-sider, .ant-layout-sider-trigger, .ant-layout-tabs > .ant-tabs-nav {
+    background-color:var(--kui-bgcolor);color:var(--kui-color);
+}
 .ant-layout-tabs > .ant-tabs-nav {margin-bottom:0;}
 .ant-layout-tabs > .ant-tabs-content-holder {margin:0 10px;}
 .ant-layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab-active {
@@ -60,7 +63,7 @@
 .kui-form-setting .ant-form-item-control {text-align:right;padding-right:10px;}
 
 /*Dark*/
-:root[theme=dark] .ant-layout {background-color:rgb(45, 46, 46);}
+:root[theme=dark] .ant-layout, :root[theme=dark] .ant-layout-header {background-color:rgb(45, 46, 46);}
 :root[theme=dark] .ant-tabs, :root[theme=dark] .ant-segmented, :root[theme=dark] .ant-table, :root[theme=dark] .ant-tree,
 :root[theme=dark] .ant-menu, :root[theme=dark] .ant-card, :root[theme=dark] .ant-card-head, :root[theme=dark] .ant-layout-footer,
 :root[theme=dark] .ant-form, :root[theme=dark] .ant-form-item, :root[theme=dark] .ant-table-thead > tr > th,

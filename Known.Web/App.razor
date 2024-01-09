@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="blazor,known,razor,react,vue,组件,dotnet">
+    <meta name="description" content="Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开箱即用，一处代码，多处运行。" />
     <base href="/" />
     <HeadOutlet @rendermode="@Config.App.InteractiveServer" />
     <!--AntDesign-->
@@ -20,6 +22,15 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?a3fd30ec1b2d12adb0aede63ac91c254";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body>
     <Routes @rendermode="@Config.App.InteractiveServer" />
