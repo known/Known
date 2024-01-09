@@ -13,7 +13,7 @@
             <span>@parentName</span>
         </BreadcrumbItem>
     }
-    @if (CurrentMenu.Name != Language.Home)
+    @if (CurrentMenu.Name != "Home")
     {
         var menuName = Language[$"Menu.{CurrentMenu.Code}"];
         <BreadcrumbItem>

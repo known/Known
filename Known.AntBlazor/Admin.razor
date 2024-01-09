@@ -4,17 +4,15 @@
     @if (IsLoaded)
     {
         <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible>
-            <div class="kui-logo">
-                <img src="@Index.LogoUrl" />
-            </div>
+            <div class="kui-logo"><img src="@Index.LogoUrl" /></div>
             <AntMenu Accordion="Context.UserSetting.Accordion" Items="UserMenus" OnClick="e=>Context.Navigate(e)" />
         </Sider>
         <Layout>
             <Header Class="kui-header">
-                <div class="kui-app-name">@CurrentUser?.AppName</div>
+                <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnHome" />
                 <NavTopRight OnMenuClick="OnMenuClick" />
             </Header>
-            <Content>
+            <Content Class="@Content">
                 @if (Context.UserSetting.MultiTab)
                 {
                     <PageTabs @ref="tabs" Menu="CurrentMenu" Items="TabMenus" />
@@ -36,9 +34,16 @@
     }
 </Layout>
 
+<Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="300">
+    <Known.Blazor.SettingForm @ref="setting" />
+</Drawer>
+
 @code{
     private PageTabs tabs;
     private PageSingle page;
+    private bool showSetting = false;
+    private Known.Blazor.SettingForm setting;
+    private string Content => Context.UserSetting.MultiTab ? "kui-tabs" : "kui-page";
 
     [CascadingParameter] private IndexPage Index { get; set; }
 
@@ -47,6 +52,7 @@
         base.RefreshPage();
         tabs?.StateChanged();
         page?.StateChanged();
+        setting?.StateChanged();
     }
 
     private void OnHome() => OnMenuClick("home");
@@ -63,6 +69,10 @@
                 break;
             case "logout":
                 UI.Confirm(Language["Tip.Exits"], SignOutAsync);
+                break;
+            case "setting":
+                showSetting = true;
+                StateChanged();
                 break;
         }
     }

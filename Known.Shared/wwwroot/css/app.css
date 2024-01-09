@@ -8,6 +8,7 @@ html, body {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;width:100
 #blazor-error-ui .dismiss {cursor:pointer;position:absolute;right:0.75rem;top:0.5rem;}
 
 .login-form-body, .known, .ws-space {background-color:var(--kui-bgcolor);color:var(--kui-color);}
+.known, .ws-space, .ws-chart .ant-card, .ws-func .ant-card {border-radius:5px;}
 
 /*Login*/
 .login {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
@@ -53,8 +54,9 @@ html, body {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;width:100
 
 /*Home*/
 .known, .ws-space {display:flex;justify-content:space-between;}
-.known {margin-top:10px;padding:20px;border-left:5px solid #4188c8;}
+.known {padding:20px;border-left:5px solid #4188c8;}
 .known-desc {text-align:justify;}
+.kui-tabs .known {margin-top:10px;}
 
 .ws-space {margin:10px 0;padding:20px;}
 .ws-welcome {display:flex;padding:10px;}
