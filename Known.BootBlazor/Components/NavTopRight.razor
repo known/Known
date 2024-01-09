@@ -15,7 +15,7 @@
     </li>
 </ul>
 
-@code {
+    @code {
     private bool isFullScreen = false;
     private string FullScreenTitle => isFullScreen ? Language["Nav.ExitScreen"] : Language["Nav.FullScreen"];
     private string FullScreenIcon => isFullScreen ? "fa fa-arrows" : "fa fa-arrows-alt";
@@ -24,12 +24,12 @@
 
     private void OnItemClick(string id) => OnMenuClick?.Invoke(id);
 
-    private void OnFullScreen()
+    private async void OnFullScreen()
     {
         isFullScreen = !isFullScreen;
         if (isFullScreen)
-            JS.OpenFullScreen();
+            await JS.OpenFullScreenAsync();
         else
-            JS.CloseFullScreen();
+            await JS.CloseFullScreenAsync();
     }
 }

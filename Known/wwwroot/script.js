@@ -19,6 +19,9 @@ export class KBlazor {
     static highlight(code, language) {
         return Prism.highlight(code, Prism.languages[language], language);
     }
+    static setTheme(theme) {
+        $('html').attr('theme', theme);
+    }
     //Storage
     static getLocalStorage(key) {
         return localStorage.getItem(key);

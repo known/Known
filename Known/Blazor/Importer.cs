@@ -118,7 +118,7 @@ class Importer : BaseComponent
         if (bytes != null && bytes.Length > 0)
         {
             var stream = new MemoryStream(bytes);
-            JS.DownloadFile($"{Language["Import.Template"]}_{Model.Name}.xlsx", stream);
+            await JS.DownloadFileAsync($"{Language["Import.Template"]}_{Model.Name}.xlsx", stream);
         }
     }
 }

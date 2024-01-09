@@ -15,8 +15,8 @@ public class IndexPage : BaseComponent
     protected override async Task OnInitializedAsync()
     {
         IsLoaded = false;
-        Theme = await JS.GetCurrentTheme();
-        Context.CurrentLanguage = await JS.GetCurrentLanguage();
+        Theme = await JS.GetCurrentThemeAsync();
+        Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
         Context.Install = await Platform.System.GetInstallAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
         IsLogin = Context.CurrentUser != null;

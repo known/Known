@@ -26,7 +26,7 @@ class BaQueryList : BaseTablePage<TbApply>
     //导出列表
     [Action] public void Export() { }
     //打印
-    [Action] public void Print(TbApply row) => JS.Print<ApplyPrint>(f => f.Set(c => c.Model, row));
+    [Action] public void Print(TbApply row) => JS.PrintAsync<ApplyPrint>(f => f.Set(c => c.Model, row));
 
 	private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
 }

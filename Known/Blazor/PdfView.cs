@@ -14,9 +14,9 @@ public class PdfView : BaseComponent
         builder.Div().Id(Id).Class(Style).Close();
     }
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        JS.ShowPdf(Id, Stream);
-        return base.OnAfterRenderAsync(firstRender);
+        await JS.ShowPdfAsync(Id, Stream);
+        await base.OnAfterRenderAsync(firstRender);
     }
 }

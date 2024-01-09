@@ -21,10 +21,10 @@ public class AntTheme : BaseComponent
                .Build();
     }
 
-    private void ThemeChanged(bool isDark)
+    private async void ThemeChanged(bool isDark)
     {
         Theme = isDark ? "dark" : "klight";
-        JS.SetCurrentTheme(Theme);
+        await JS.SetCurrentThemeAsync(Theme);
         OnChanged?.Invoke(Theme);
     }
 }

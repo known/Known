@@ -42,13 +42,13 @@
 
     private void OnItemClick(string id) => OnMenuClick?.Invoke(id);
 
-    private void OnFullScreen()
+    private async void OnFullScreen()
     {
         isFullScreen = !isFullScreen;
         if (isFullScreen)
-            JS.OpenFullScreen();
+            await JS.OpenFullScreenAsync();
         else
-            JS.CloseFullScreen();
+            await JS.CloseFullScreenAsync();
     }
 
     private void OnLanguageChanged()

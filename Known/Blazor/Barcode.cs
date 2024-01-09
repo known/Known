@@ -17,13 +17,13 @@ public class Barcode : BaseComponent
         builder.Canvas().Id(Id).Class(Style).Close();
     }
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender || Value != lastCode)
         {
             lastCode = Value;
-            JS.ShowBarcode(Id, Value, Option);
+            await JS.ShowBarcodeAsync(Id, Value, Option);
         }
-        return base.OnAfterRenderAsync(firstRender);
+        await base.OnAfterRenderAsync(firstRender);
     }
 }

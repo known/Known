@@ -69,14 +69,14 @@ public class Captcha : BaseComponent
             BuildCanvas(builder);
     }
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (IsLocalImage && (firstRender || code != lastCode))
         {
             lastCode = code;
-            JS.Captcha(id, code);
+            await JS.CaptchaAsync(id, code);
         }
-        return base.OnAfterRenderAsync(firstRender);
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     protected override ValueTask DisposeAsync(bool disposing)

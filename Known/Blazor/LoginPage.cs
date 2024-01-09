@@ -11,7 +11,7 @@ public class LoginPage : BaseComponent
 
     protected override async Task OnInitializedAsync()
     {
-        var info = await JS.GetLoginInfo<LoginInfo>();
+        var info = await JS.GetLoginInfoAsync<LoginInfo>();
         if (info != null)
         {
             Model.UserName = info.UserName;
@@ -22,9 +22,9 @@ public class LoginPage : BaseComponent
     protected async Task OnUserLogin()
     {
         if (!Model.Remember)
-            JS.SetLoginInfo(null);
+            await JS.SetLoginInfoAsync(null);
         else
-            JS.SetLoginInfo(new LoginInfo { UserName = Model.UserName, Remember = Model.Remember });
+            await JS.SetLoginInfoAsync(new LoginInfo { UserName = Model.UserName, Remember = Model.Remember });
 
         Model.IPAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString();
         var result = await Platform.Auth.SignInAsync(Model);

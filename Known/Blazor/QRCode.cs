@@ -14,10 +14,10 @@ public class QRCode : BaseComponent
         builder.Div().Id(Id).Class(Style).Close();
     }
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
-            JS.ShowQRCode(Id, Option);
-        return base.OnAfterRenderAsync(firstRender);
+            await JS.ShowQRCodeAsync(Id, Option);
+        await base.OnAfterRenderAsync(firstRender);
     }
 }

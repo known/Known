@@ -24,7 +24,7 @@ public class JSService
         return await module.InvokeAsync<T>(identifier, args);
     }
 
-    public async void InvokeAppVoidAsync(string identifier, params object[] args)
+    public async Task InvokeAppVoidAsync(string identifier, params object[] args)
     {
         var module = await appTask.Value;
         await module.InvokeVoidAsync(identifier, args);
@@ -36,7 +36,7 @@ public class JSService
         return await module.InvokeAsync<T>(identifier, args);
     }
 
-    private async void InvokeVoidAsync(string identifier, params object[] args)
+    private async Task InvokeVoidAsync(string identifier, params object[] args)
     {
         var module = await moduleTask.Value;
         await module.InvokeVoidAsync(identifier, args);
@@ -44,49 +44,55 @@ public class JSService
     #endregion
 
     #region Common
-    public void Click(string clientId) => InvokeVoidAsync("KBlazor.elemClick", clientId);
-    public void Enabled(string clientId, bool enabled) => InvokeVoidAsync("KBlazor.elemEnabled", clientId, enabled);
+    public Task ClickAsync(string clientId) => InvokeVoidAsync("KBlazor.elemClick", clientId);
+    public Task EnabledAsync(string clientId, bool enabled) => InvokeVoidAsync("KBlazor.elemEnabled", clientId, enabled);
     internal Task<string> HighlightAsync(string code, string language) => InvokeAsync<string>("KBlazor.highlight", code, language);
     #endregion
 
     #region LocalStorage
-    public async Task<T> GetLocalStorage<T>(string key)
+    public async Task<T> GetLocalStorageAsync<T>(string key)
     {
         var value = await InvokeAsync<string>("KBlazor.getLocalStorage", key);
         return Utils.FromJson<T>(value);
     }
 
-    public void SetLocalStorage(string key, object value) => InvokeVoidAsync("KBlazor.setLocalStorage", key, value);
+    public Task SetLocalStorageAsync(string key, object value) => InvokeVoidAsync("KBlazor.setLocalStorage", key, value);
 
     private readonly string KeyLanguage = "Known_Language";
-    internal Task<string> GetCurrentLanguage() => GetLocalStorage<string>(KeyLanguage);
-    public void SetCurrentLanguage(string language) => SetLocalStorage(KeyLanguage, language);
+    internal Task<string> GetCurrentLanguageAsync() => GetLocalStorageAsync<string>(KeyLanguage);
+    public Task SetCurrentLanguageAsync(string language) => SetLocalStorageAsync(KeyLanguage, language);
 
     private readonly string KeyTheme = "Known_Theme";
-    public async Task<string> GetCurrentTheme()
+    public async Task<string> GetCurrentThemeAsync()
     {
-        var theme = await GetLocalStorage<string>(KeyTheme);
+        var theme = await GetLocalStorageAsync<string>(KeyTheme);
         if (string.IsNullOrWhiteSpace(theme))
         {
             var hour = DateTime.Now.Hour;
             theme = hour > 6 && hour < 20 ? "klight" : "dark";
         }
+        await SetThemeAsync(theme);
         return theme;
     }
-    public void SetCurrentTheme(string theme) => SetLocalStorage(KeyTheme, theme);
+    public async Task SetCurrentThemeAsync(string theme)
+    {
+        await SetThemeAsync(theme);
+        await SetLocalStorageAsync(KeyTheme, theme);
+    }
+    private Task SetThemeAsync(string theme) => InvokeVoidAsync("KBlazor.setTheme", theme);
 
     private readonly string KeyLoginInfo = "Known_LoginInfo";
-    internal Task<T> GetLoginInfo<T>() => GetLocalStorage<T>(KeyLoginInfo);
-    internal void SetLoginInfo(object value) => SetLocalStorage(KeyLoginInfo, value);
+    internal Task<T> GetLoginInfoAsync<T>() => GetLocalStorageAsync<T>(KeyLoginInfo);
+    internal Task SetLoginInfoAsync(object value) => SetLocalStorageAsync(KeyLoginInfo, value);
     #endregion
 
     #region Screen
-    public void OpenFullScreen() => InvokeVoidAsync("KBlazor.openFullScreen");
-    public void CloseFullScreen() => InvokeVoidAsync("KBlazor.closeFullScreen");
+    public Task OpenFullScreenAsync() => InvokeVoidAsync("KBlazor.openFullScreen");
+    public Task CloseFullScreenAsync() => InvokeVoidAsync("KBlazor.closeFullScreen");
     #endregion
 
     #region Print
-    public void Print<T>(Action<ComponentRenderer<T>> action) where T : IComponent
+    public async Task PrintAsync<T>(Action<ComponentRenderer<T>> action) where T : IComponent
     {
         var services = new ServiceCollection();
         services.AddScoped<IJSRuntime, PrintJSRuntime>();
@@ -96,16 +102,16 @@ public class JSService
         var component = new ComponentRenderer<T>().AddServiceProvider(provider);
         action?.Invoke(component);
         var content = component.Render();
-        Print(content);
+        await PrintAsync(content);
     }
 
-    public void Print(string content) => InvokeVoidAsync("KBlazor.printContent", content);
+    public Task PrintAsync(string content) => InvokeVoidAsync("KBlazor.printContent", content);
     #endregion
 
     #region Download
-    public void DownloadFile(string fileName, string url) => InvokeVoidAsync("KBlazor.downloadFileByUrl", fileName, url);
+    public Task DownloadFileAsync(string fileName, string url) => InvokeVoidAsync("KBlazor.downloadFileByUrl", fileName, url);
 
-    public async void DownloadFile(string fileName, Stream stream)
+    public async Task DownloadFileAsync(string fileName, Stream stream)
     {
         var module = await moduleTask.Value;
         using var streamRef = new DotNetStreamReference(stream);
@@ -114,7 +120,7 @@ public class JSService
     #endregion
 
     #region Pdf
-    public async void ShowPdf(string id, Stream stream)
+    public async Task ShowPdfAsync(string id, Stream stream)
     {
         if (stream == null)
             return;
@@ -126,9 +132,9 @@ public class JSService
     #endregion
 
     #region Image
-    public void Captcha(string id, string code) => InvokeVoidAsync("KBlazor.captcha", id, code);
-    internal void ShowBarcode(string id, string value, object option) => InvokeVoidAsync("KBlazor.showBarcode", id, value, option);
-    internal void ShowQRCode(string id, object option) => InvokeVoidAsync("KBlazor.showQRCode", id, option);
+    public Task CaptchaAsync(string id, string code) => InvokeVoidAsync("KBlazor.captcha", id, code);
+    internal Task ShowBarcodeAsync(string id, string value, object option) => InvokeVoidAsync("KBlazor.showBarcode", id, value, option);
+    internal Task ShowQRCodeAsync(string id, object option) => InvokeVoidAsync("KBlazor.showQRCode", id, option);
     #endregion
 }
 

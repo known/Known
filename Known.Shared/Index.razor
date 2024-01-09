@@ -36,18 +36,18 @@
     protected override async Task OnInitializedAsync()
     {
         installMenu = @<AntLanguage OnChanged="StateChanged" />;
-        UIType = await JS.GetLocalStorage<UIType>(KeyUIType);
+        UIType = await JS.GetLocalStorageAsync<UIType>(KeyUIType);
         SetUIService();
         await base.OnInitializedAsync();
     }
 
     public UIType UIType { get; private set; }
 
-    public void SetUIType(UIType type)
+    public async void SetUIType(UIType type)
     {
         UIType = type;
         SetUIService();
-        JS.SetLocalStorage(KeyUIType, type);
+        await JS.SetLocalStorageAsync(KeyUIType, type);
     }
 
     private void SetUIService()

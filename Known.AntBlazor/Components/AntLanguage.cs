@@ -29,11 +29,11 @@ public class AntLanguage : BaseComponent
                .Build();
     }
 
-    private void OnLanguageChanged(ActionInfo info)
+    private async void OnLanguageChanged(ActionInfo info)
     {
         current = info;
         Context.CurrentLanguage = current.Id;
-        JS.SetCurrentLanguage(current.Id);
+        await JS.SetCurrentLanguageAsync(current.Id);
         OnChanged?.Invoke();
     }
 }
