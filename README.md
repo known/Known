@@ -10,6 +10,8 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 [![fork](https://gitee.com/known/Known/badge/fork.svg?theme=dark)](https://gitee.com/known/Known/members)
 [![stars](https://img.shields.io/github/stars/known/known?color=%231890FF)](https://github.com/known/Known)
 [![License](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/known/Known/blob/master/LICENSE)
+[![Nuget](https://img.shields.io/nuget/v/Known.svg?color=red&logo=nuget&logoColor=green)](https://www.nuget.org/packages/Known)
+[![Nuget](https://img.shields.io/nuget/dt/Known.svg?logo=nuget&logoColor=green)](https://www.nuget.org/packages/Known)
 ![.NET](https://img.shields.io/badge/.NET-8.0-green)
 ![DEV](https://img.shields.io/badge/DEV-VS2022-brightgreen)
 
