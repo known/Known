@@ -4,7 +4,7 @@
 
 </div>
 
-Known是基于C#和Blazor的快速开发框架，开箱即用，跨平台，一处代码，多处运行。
+Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开箱即用，一处代码，多处运行。
 
 [![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
 [![fork](https://gitee.com/known/Known/badge/fork.svg?theme=dark)](https://gitee.com/known/Known/members)

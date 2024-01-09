@@ -652,7 +652,7 @@
   "Home.Date": "日期",
   "Home.Count": "数量",
 
-  "Known.Title": "Known是基于Blazor的快速开发框架，开箱即用，跨平台，一处代码，多处运行。",
+  "Known.Title": "Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开箱即用，一处代码，多处运行。",
   "Known.Note1": "多语言，模块化，在线表单，单页应用，混合桌面应用，Web和桌面共享一处代码。",
   "Known.Note2": "包含模块、字典、组织、角色、用户、日志、消息、工作流、定时任务等功能。",
   "Known.Note3": "低代码、简洁、易扩展，让开发更简单、更快捷！",
@@ -661,7 +661,7 @@
   "Known.QQNo": "交流群号：",
 
   "HomePage.Title": "开源企业级开发框架",
-  "HomePage.Description": "低代码，开箱即用，跨平台，一处代码，多处运行。",
+  "HomePage.Description": "低代码，跨平台，开箱即用，一处代码，多处运行。",
   "HomePage.Preview": "预览",
   "HomePage.Start": "开始使用",
   "HomePage.FastDev": "快速开发",
