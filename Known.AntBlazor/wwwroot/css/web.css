@@ -3,7 +3,7 @@
     width:110px;height:31px;line-height:31px;cursor:pointer;
 }
 .ant-captcha + .btn-sms {background-color:#f8eeb8;top:1px;right:0.5px;height:30px;}
-.anticon + span {margin-left:5px;}
+.anticon-translation + span {margin-left:5px;}
 .ant-query, .ant-toolbar {padding:10px 10px 0 10px;}
 .ant-query input {width:110px;}
 
@@ -24,7 +24,7 @@
 .ant-layout-tabs > .ant-tabs-content-holder {margin:10px 10px 0 10px;}
 .ant-layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list {padding:4px 0;}
 .ant-layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab {
-    padding:4px 15px;border-radius:5px;margin-right:5px;
+    padding:4px 15px;margin-right:5px;border-radius:5px;
 }
 .ant-layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab-active {
     background-color:#f0f2f5;border-bottom-color:#f0f2f5;
@@ -38,10 +38,11 @@
 :root {--rz-sidebar-width: 200px;}
 .ant-btn {padding:4px 10px;}
 .ant-btn > .anticon + span, .ant-btn > span + .anticon {margin-left:2px;}
+.ant-modal-content {border-radius:5px;}
+.ant-modal-header {border-radius:5px 5px 0 0;}
 .ant-tabs-nav {padding:0 10px;}
 .ant-tabs-tab-remove {margin-left:0;}
 .ant-table-cell .ant-tag {cursor:pointer;}
-.ant-layout-sider-light .kui-logo {background-image:url(/img/logo1.png);}
 /*.anticon .icon {width:1rem;height:1rem;}
 .ant-table-column-sorter .anticon .icon {width:11px;height:11px;}*/
 .ant-dropdown-link {color:#1890ff;}
