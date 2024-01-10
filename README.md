@@ -7,7 +7,6 @@
 Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开箱即用，一处代码，多处运行。
 
 [![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
-[![fork](https://gitee.com/known/Known/badge/fork.svg?theme=dark)](https://gitee.com/known/Known/members)
 [![stars](https://img.shields.io/github/stars/known/known?color=%231890FF)](https://github.com/known/Known)
 [![License](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/known/Known/blob/master/LICENSE)
 [![Nuget](https://img.shields.io/nuget/v/Known.svg?color=red&logo=nuget&logoColor=green)](https://www.nuget.org/packages/Known)
@@ -17,16 +16,26 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
+- 官网：[http://known.pumantech.com](http://known.pumantech.com)
 - Gitee： [https://gitee.com/known/Known](https://gitee.com/known/Known)
 - Github：[https://github.com/known/Known](https://github.com/known/Known)
 
 ### 概述
 
-- 基于C#和Blazor的快速开发框架，开箱即用，跨平台。
+- 基于`C#`和`Blazor`的快速开发框架，开箱即用，跨平台。
 - 模块化，单页应用，混合桌面应用，Web和桌面共享一处代码。
-- UI默认支持AntDesign，可扩展其他UI组件库。
+- `UI`默认支持`AntDesign`，可扩展其他UI组件库。
 - 包含模块、字典、组织、角色、用户、日志、消息、工作流、定时任务等功能。
 - 低代码、简洁、易扩展，让开发更简单、更快捷！
+
+### 特性
+
+- 快速开发：基于`Blazor`，在线表单设计，自动生成代码
+- 通用权限：内置通用权限模块，只需专注业务功能
+- 国际化：提供完备的国际化多语言解决方案
+- 抽象`UI`：抽象UI层，易扩展，无缝对接`Ant Design`等
+- 最佳实践：低代码，一人多角色，沟通高效，成本最低
+- `C#`语言：全量使用`C#`进行全栈开发
 
 > 如果对您有帮助，点击右上角⭐Star⭐关注 ，感谢支持开源！
 
@@ -55,16 +64,14 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 - 流程管理：系统内置工作流引擎，提供提交、撤回、分配、审核、重启操作。
 - 定时任务：导入和计算耗时的功能采用定时任务异步执行。
 
-### 在线体验
-
-- 官网地址：[http://known.pumantech.com](http://known.pumantech.com)
-- 演示地址：[http://demo.pumantech.com](http://demo.pumantech.com)
-
 ### AntDesign版本截图
 
 效果图|效果图
 :--:|:--:
-![登录页面](https://foruda.gitee.com/images/1703494409116815460/a1d8a5be_14334.png "屏幕截图")|![系统主页](https://foruda.gitee.com/images/1700054395179186493/6c574df9_14334.png "屏幕截图")
+![登录页面](https://foruda.gitee.com/images/1704862471614256238/bcd00189_14334.png "屏幕截图")|![系统主页](https://foruda.gitee.com/images/1704862533488666485/5c79f459_14334.png "屏幕截图")
+![数据字典](https://foruda.gitee.com/images/1704862600410677167/ed1bb520_14334.png "屏幕截图")|![模块管理](https://foruda.gitee.com/images/1704862643924749072/d877454b_14334.png "屏幕截图")
+![模型设置](https://foruda.gitee.com/images/1704862710807573057/3d5d3a2b_14334.png "屏幕截图")|![页面设置](https://foruda.gitee.com/images/1704862788614790653/58c83e0d_14334.png "屏幕截图")
+![暗黑模式](https://foruda.gitee.com/images/1704862844381870249/2172fd58_14334.png "屏幕截图")|![系统主页](https://foruda.gitee.com/images/1700054395179186493/6c574df9_14334.png "屏幕截图")
 ![数据字典](https://foruda.gitee.com/images/1700054455264217536/4c154259_14334.png "屏幕截图")|![模块管理](https://foruda.gitee.com/images/1700054506626636592/98b9add3_14334.png "屏幕截图")
 ![角色管理](https://foruda.gitee.com/images/1700054617363123970/48133586_14334.png "屏幕截图")|![用户管理](https://foruda.gitee.com/images/1700054722192459256/2308879c_14334.png "屏幕截图")
 ![模块管理](https://foruda.gitee.com/images/1703494369039793921/74a4b867_14334.png "屏幕截图")|![模型设置](https://foruda.gitee.com/images/1703494151446430428/2e136a4e_14334.png "屏幕截图")
