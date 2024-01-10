@@ -8,20 +8,28 @@ namespace Known.Demo.Pages.BaseData;
 
 class CompanyForm : BaseTabPage
 {
-	protected override async Task OnInitPageAsync()
-	{
-		await base.OnInitPageAsync();
-        Tab.Items.Add(new ItemModel("BasicInfo") { Content = builder => builder.Component<CompanyBaseInfo>().Build() });
+    private CompanyBaseInfo info;
+
+    protected override async Task OnInitPageAsync()
+    {
+        await base.OnInitPageAsync();
+        Tab.Items.Add(new ItemModel("BasicInfo") { Content = builder => builder.Component<CompanyBaseInfo>().Build(value => info = value) });
     }
 
-	[Action] public void Edit() { }
+    public override void StateChanged()
+    {
+        info?.StateChanged();
+        base.StateChanged();
+    }
+
+    [Action] public void Edit() { }
 }
 
 class CompanyBaseInfo : BaseForm<CompanyInfo>
 {
     private bool isEdit = false;
 
-	protected override async Task OnInitFormAsync()
+    protected override async Task OnInitFormAsync()
     {
         Model = new FormModel<CompanyInfo>(UI)
         {

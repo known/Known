@@ -218,7 +218,7 @@ public class UIService(ModalService modalService, MessageService messageService)
         builder.Component<DataTable<TItem>>().Set(c => c.Model, model).Build();
     }
 
-	public void BuildTree(RenderTreeBuilder builder, TreeModel model)
+    public void BuildTree(RenderTreeBuilder builder, TreeModel model)
     {
         builder.Component<AntTree>().Set(c => c.Model, model).Build();
     }
@@ -227,7 +227,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         builder.Component<Steps>()
                .Set(c => c.Current, model.Current)
-               .Set(c=>c.ChildContent, delegate (RenderTreeBuilder b)
+               .Set(c => c.ChildContent, delegate (RenderTreeBuilder b)
                {
                    foreach (var item in model.Items)
                    {

@@ -71,7 +71,6 @@ public static class UIExtension
         if (string.IsNullOrWhiteSpace(status))
             return;
 
-        //TODO:数据语言切换
         var color = "";
         if (status.Contains("待") || status.Contains("中") || status.Contains("提交"))
             color = "#2db7f5";

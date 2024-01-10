@@ -9,7 +9,10 @@ namespace Known.Blazor;
 class SysUserProfile : BasePage<SysUser>
 {
     private SysUserProfileInfo info;
+    private SysUserProfileTabs tabs;
     internal SysUser User { get; private set; }
+
+    public override void StateChanged() => tabs?.StateChanged();
 
     protected override async Task OnInitPageAsync()
     {
@@ -25,7 +28,7 @@ class SysUserProfile : BasePage<SysUser>
     protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildRenderTree);
 
     private void BuildUserInfo(RenderTreeBuilder builder) => builder.Div("p10", () => builder.Component<SysUserProfileInfo>().Build(value => info = value));
-    private void BuildUserTabs(RenderTreeBuilder builder) => builder.Component<SysUserProfileTabs>().Build();
+    private void BuildUserTabs(RenderTreeBuilder builder) => builder.Component<SysUserProfileTabs>().Build(value => tabs = value);
 
     internal void UpdateProfileInfo() => info?.StateChanged();
 }
@@ -61,13 +64,23 @@ class SysUserProfileInfo : BaseComponent
 
 class SysUserProfileTabs : BaseTabPage
 {
+    private SysUserProfileTabsInfo info;
+    private SysUserProfileTabsSafe safe;
+
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        //Tab.Items.Add(new ItemModel(Language["Title.TodoList"]) { Content = builder => builder.Component<SysSystemInfo>().Build() });
-        //Tab.Items.Add(new ItemModel(Language["Title.MyMessage"]) { Content = builder => builder.Component<SysSystemSafe>().Build() });
-        Tab.Items.Add(new ItemModel(Language["Title.MyProfile"]) { Content = builder => builder.Component<SysUserProfileTabsInfo>().Build() });
-        Tab.Items.Add(new ItemModel(Language["Title.SecuritySetting"]) { Content = builder => builder.Component<SysUserProfileTabsSafe>().Build() });
+        //Tab.Items.Add(new ItemModel("TodoList") { Content = builder => builder.Component<SysSystemInfo>().Build() });
+        //Tab.Items.Add(new ItemModel("MyMessage") { Content = builder => builder.Component<SysSystemSafe>().Build() });
+        Tab.Items.Add(new ItemModel("MyProfile") { Content = builder => builder.Component<SysUserProfileTabsInfo>().Build(value => info = value) });
+        Tab.Items.Add(new ItemModel("SecuritySetting") { Content = builder => builder.Component<SysUserProfileTabsSafe>().Build(value => safe = value) });
+    }
+
+    public override void StateChanged()
+    {
+        info?.StateChanged();
+        safe?.StateChanged();
+        base.StateChanged();
     }
 }
 
