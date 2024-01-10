@@ -3,15 +3,13 @@
 <div class="login">
     <div class="login-head">
         <div class="login-logo">
-            <a href="@knownSite" target="_blank"><img src="@Index.LogoUrl" /></a>
+            <a href="@Config.SiteUrl" target="_blank"><img src="@Index.LogoUrl" /></a>
             <div>@Language["App.SubTitle"]</div>
         </div>
-        <ul>
-            <li><a href="@knownSite/doc" target="_blank">@Language["Document"]</a></li>
-            <li style="width:60px;text-align:center;"><AntLanguage OnChanged="StateChanged" /></li>
-            <li style="margin-left:15px;">
-                <AntTheme Theme="@Index.Theme" OnChanged="Index.SetTheme" />
-            </li>
+        <ul class="kui-menu">
+            <li><a href="@Config.SiteUrl/doc" target="_blank">@Language["Document"]</a></li>
+            <li style="text-align:center;"><AntLanguage OnChanged="StateChanged" /></li>
+            <li style="margin-left:15px;"><AntTheme Theme="@Index.Theme" OnChanged="Index.SetTheme" /></li>
         </ul>
     </div>
     <div class="login-body">
@@ -43,7 +41,6 @@
 </div>
 
 @code {
-    private string knownSite = "http://known.pumantech.com";
     private string[] uiTypes = [
         UIType.AntDesign.ToString(),
         UIType.Bootstrap.ToString()

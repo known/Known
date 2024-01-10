@@ -11,12 +11,12 @@ public class PageFooter : ComponentBase
         builder.Markup($@"<div>
             <span>&copy;2020-{DateTime.Now:yyyy}</span>
             <span>Powered By</span>
-            <a href=""http://known.pumantech.com"" target=""_blank"">Known</a>
+            <a href=""{Config.SiteUrl}"" target=""_blank"">Known</a>
         </div>
         <div style=""margin-top:10px;"">
-            <a href=""https://gitee.com/known/Known"" target=""_blank"">GITEE</a>
+            <a href=""{Config.GiteeUrl}"" target=""_blank"">GITEE</a>
             <span>&sdot;</span>
-            <a href=""https://github.com/known/Known"" target=""_blank"">GITHUB</a>
+            <a href=""{Config.GithubUrl}"" target=""_blank"">GITHUB</a>
         </div>");
     }
 }

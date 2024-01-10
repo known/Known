@@ -29,8 +29,8 @@
 </ul>
 
 @code {
-    RenderFragment gitee = @<a class="git" href="https://gitee.com/known/Known" target="_blank"><img src="img/gitee.png" alt="Gitee">Gitee</a>;
-    RenderFragment github =@<a class="git" href="https://github.com/known/Known" target="_blank"><img src="img/github.png" alt="Github">Github</a>;
+    RenderFragment gitee = @<a class="git" href="@Config.GiteeUrl" target="_blank"><img src="img/gitee.png" alt="Gitee">Gitee</a>;
+    RenderFragment github =@<a class="git" href="@Config.GithubUrl" target="_blank"><img src="img/github.png" alt="Github">Github</a>;
 
     [Parameter] public bool IsSide { get; set; }
 }

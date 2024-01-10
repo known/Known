@@ -8,7 +8,7 @@
     {
         @if (!Context.Install.IsInstalled)
         {
-            <InstallPage OnInstall="OnInstall" TopMenu="installMenu" />
+            <InstallPage OnInstall="OnInstall" TopMenu="InstallMenu" />
         }
         else if (!IsLogin)
         {
@@ -27,13 +27,15 @@
 
 @code {
     private const string KeyUIType = "Known_UIType";
-    private RenderFragment installMenu;
+    private RenderFragment InstallMenu => @<ul class="kui-menu">
+        <li style="text-align:center;"><AntLanguage OnChanged="StateChanged" /></li>
+        <li style="margin-left:15px;"><AntTheme Theme="@Theme" OnChanged="SetTheme" /></li>
+    </ul>;
     [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
     [Inject] private Known.BootBlazor.UIService BootUI { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        installMenu = @<AntLanguage OnChanged="StateChanged" />;
         UIType = await JS.GetLocalStorageAsync<UIType>(KeyUIType);
         SetUIService();
         await base.OnInitializedAsync();

@@ -8,6 +8,10 @@ public sealed class Config
 {
     private Config() { }
 
+    public const string SiteUrl = "http://known.pumantech.com";
+    public const string GiteeUrl = "https://gitee.com/known/Known";
+    public const string GithubUrl = "https://github.com/known/Known";
+
     public static Action OnExit { get; set; }
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
