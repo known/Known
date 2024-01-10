@@ -11,7 +11,7 @@ class CompanyForm : BaseTabPage
 	protected override async Task OnInitPageAsync()
 	{
 		await base.OnInitPageAsync();
-        Tab.Items.Add(new ItemModel(Language.BasicInfo) { Content = builder => builder.Component<CompanyBaseInfo>().Build() });
+        Tab.Items.Add(new ItemModel("BasicInfo") { Content = builder => builder.Component<CompanyBaseInfo>().Build() });
     }
 
 	[Action] public void Edit() { }

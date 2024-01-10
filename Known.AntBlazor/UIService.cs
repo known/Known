@@ -112,7 +112,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         _modal.Info(new ConfirmOptions
         {
-            Title = Language?["Title.Prompt"],
+            Title = Language?.GetTitle("Prompt"),
             Content = message
         });
     }
@@ -121,7 +121,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         _modal.Confirm(new ConfirmOptions
         {
-            Title = Language?["Title.Question"],
+            Title = Language?.GetTitle("Question"),
             Icon = b => b.Component<Icon>().Set(c => c.Type, "question-circle").Set(c => c.Theme, "outline").Build(),
             Content = message,
             OnOk = e => action?.Invoke()
@@ -158,7 +158,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         var option = new ModalOptions
         {
-            Title = model.Title,
+            Title = model.GetFormTitle(),
             OkText = Language?.OK,
             CancelText = Language?.Cancel,
             OnOk = e => model.SaveAsync()
@@ -231,9 +231,9 @@ public class UIService(ModalService modalService, MessageService messageService)
                {
                    foreach (var item in model.Items)
                    {
-                       b.Component<Step>().Set(c => c.Title, item.Title)
-                                          .Set(c => c.Subtitle, item.SubTitle)
-                                          .Set(c => c.Description, item.Description)
+                       b.Component<Step>().Set(c => c.Title, Language?.GetTitle(item.Title))
+                                          .Set(c => c.Subtitle, Language?.GetTitle(item.SubTitle))
+                                          .Set(c => c.Description, Language?.GetTitle(item.Description))
                                           .Build();
                    }
                }).Build();
@@ -249,7 +249,7 @@ public class UIService(ModalService modalService, MessageService messageService)
                    foreach (var item in model.Items)
                    {
                        b.Component<TabPane>().Set(c => c.Key, $"{key++}")
-                                             .Set(c => c.Tab, item.Title)
+                                             .Set(c => c.Tab, Language?.GetTitle(item.Title))
                                              .Set(c => c.ChildContent, item.Content)
                                              .Build();
                    }

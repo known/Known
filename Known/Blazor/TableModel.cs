@@ -15,10 +15,9 @@ public class TableModel<TItem> where TItem : class, new()
         InitQueryColumns();
     }
 
-    internal TableModel(IUIService ui, Language language, SysModule module) : this(ui, module?.Page)
+    internal TableModel(IUIService ui, Context context, SysModule module) : this(ui, module?.Page)
     {
-        Name = language.GetString(module);
-        Language = language;
+        Context = context;
         Module = module;
     }
 
@@ -32,9 +31,8 @@ public class TableModel<TItem> where TItem : class, new()
 
 	internal TableModel(BasePage<TItem> page)
 	{
-        Name = page.Name;
-        Language = page.Language;
         Page = page;
+        Context = page.Context;
 		UI = page.UI;
         Module = page.Module;
         SetPageInfo(Module?.Page, page);
@@ -53,8 +51,8 @@ public class TableModel<TItem> where TItem : class, new()
         InitQueryColumns();
     }
 
-    internal string Name { get; }
-    internal Language Language { get; }
+    internal Context Context { get; }
+    internal Language Language => Context?.Language;
     internal IUIService UI { get; }
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal BasePage<TItem> Page { get; }
@@ -113,18 +111,19 @@ public class TableModel<TItem> where TItem : class, new()
     {
         UI.ShowForm(new FormModel<TItem>(this)
         {
+            Context = Context,
             FormType = type,
             IsView = true,
-            Action = Language?[$"Button.{type}"],
+            Action = $"{type}",
             Data = row
         });
     }
 
-    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm(Language?.New, onSave, row);
-    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm(Language?.New, onSave, row);
-    public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm(Language?.Edit, onSave, row);
-    public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm(Language?.Edit, onSave, row);
-    public void DeleteM(Func<List<TItem>, Task<Result>> action) => SelectRows(action, Language?.Delete);
+    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("New", onSave, row);
+    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("New", onSave, row);
+    public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("Edit", onSave, row);
+    public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("Edit", onSave, row);
+    public void DeleteM(Func<List<TItem>, Task<Result>> action) => SelectRows(action, "Delete");
 
     public void Delete(Func<List<TItem>, Task<Result>> action, TItem row)
     {
@@ -213,12 +212,12 @@ public class TableModel<TItem> where TItem : class, new()
 
     private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
     {
-        UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSave = onSave });
+        UI.ShowForm(new FormModel<TItem>(this) { Context = Context, Action = action, Data = row, OnSave = onSave });
     }
 
     private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
     {
-        UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave });
+        UI.ShowForm(new FormModel<TItem>(this) { Context = Context, Action = action, Data = row, OnSaveFile = onSave });
     }
 
     private static List<ColumnInfo> GetAllColumns()

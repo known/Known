@@ -29,7 +29,7 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
         tab.Items.Clear();
         if (Tabs.Count > 0)
             tab.Items.AddRange(Tabs);
-        tab.Items.Add(new ItemModel(Language["Title.FlowLog"])
+        tab.Items.Add(new ItemModel("FlowLog")
         {
             Content = b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build()
         });
@@ -127,7 +127,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
             return;
 
         info.BizId = Model.Data?.Id;
-        flow = new FlowFormModel(Context, UI) { Data = info };
+        flow = new FlowFormModel(UI) { Data = info };
 
         switch (Model.FormType)
         {
@@ -145,7 +145,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     }
 }
 
-class FlowFormModel(Context context, IUIService ui) : FormModel<FlowFormInfo>(context, ui, true)
+class FlowFormModel(IUIService ui) : FormModel<FlowFormInfo>(ui, true)
 {
     internal void AddUserColumn(string name, string category)
     {

@@ -8,7 +8,7 @@ class DemoPageModel : TableModel<Dictionary<string, object>>
     private readonly PageInfo _info;
     private readonly EntityInfo _entity;
 
-    internal DemoPageModel(IUIService ui, Language language, SysModule module) : base(ui, language, module)
+    internal DemoPageModel(IUIService ui, Context context, SysModule module) : base(ui, context, module)
     {
         _info = module.Page;
         _entity = DataHelper.GetEntity(module.EntityData);

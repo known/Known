@@ -24,11 +24,6 @@ public class FormModel<TItem> where TItem : class, new()
         Option = new FormOption();
     }
 
-    internal FormModel(Context context, IUIService ui, bool isAuto = true) : this(ui, false)
-    {
-        Context = context;
-    }
-
     internal FormModel(IUIService ui, FormInfo info) : this(ui, false)
     {
         SetFormInfo(info);
@@ -41,7 +36,6 @@ public class FormModel<TItem> where TItem : class, new()
         Table = table;
         Page = table.Page;
         Option = table.Form;
-        Context = Page?.Context;
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
         columns = GetFormColumns(table);
     }
@@ -49,11 +43,10 @@ public class FormModel<TItem> where TItem : class, new()
     internal IUIService UI { get; }
 	internal BasePage<TItem> Page { get; }
 	internal TableModel<TItem> Table { get; }
+    internal Context Context { get; set; }
     internal string Action { get; set; }
 
     public FormOption Option { get; }
-    public Context Context { get; }
-    public string Title => GetFormTitle(Data);
     public bool IsView { get; set; }
     public TItem Data { get; set; }
     public int? LabelSpan { get; set; }
@@ -130,6 +123,15 @@ public class FormModel<TItem> where TItem : class, new()
         }
     }
 
+    public string GetFormTitle()
+    {
+        var action = Context?.Language?[$"Button.{Action}"];
+        var title = Context?.Language?.GetString(Table.Module);
+        if (Table.FormTitle != null)
+            title = Table.FormTitle.Invoke(Data);
+        return Context?.Language?["Title.FormAction"]?.Replace("{action}", action).Replace("{title}", title);
+    }
+
     public bool Validate()
     {
         if (OnValidate == null)
@@ -174,14 +176,6 @@ public class FormModel<TItem> where TItem : class, new()
                 await CloseAsync();
             await Page.RefreshAsync();
         });
-    }
-
-    private string GetFormTitle(TItem row)
-    {
-        var title = Table.Name;
-        if (Table.FormTitle != null)
-            title = Table.FormTitle.Invoke(row);
-        return Table.Language["Title.FormAction"].Replace("{action}", Action).Replace("{title}", title);
     }
 
     private void SetFormInfo(FormInfo info)
