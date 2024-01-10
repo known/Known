@@ -9,6 +9,7 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-nav, .kui-background {border-radius:5px;}
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
 .kui-nav {margin:10px 0 10px 10px;padding:10px 20px;}
+.kui-background {min-height:360px;}
 .kui-top {display:flex;justify-content:space-between;}
 .kui-table {padding:10px 10px 0 10px;}
 

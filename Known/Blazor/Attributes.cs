@@ -3,5 +3,5 @@
 [AttributeUsage(AttributeTargets.Class)]
 public class PageAttribute : Attribute
 {
-    public bool NoBreadcrumb { get; set; }
+    public bool NoBackground { get; set; }
 }

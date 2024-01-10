@@ -20,6 +20,12 @@ public class AdminPage : BaseComponent
     protected List<MenuItem> TabMenus { get; }
     protected MenuItem CurrentMenu { get; private set; }
 
+    public virtual void SetCurrentMenu(MenuItem item)
+    {
+        CurrentMenu = item;
+        StateChanged();
+    }
+
     protected virtual void RefreshPage() => StateChanged();
 
     protected override async Task OnInitializedAsync()

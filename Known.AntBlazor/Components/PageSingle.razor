@@ -1,13 +1,13 @@
 ﻿@inherits BaseComponent
 
 <div style="margin:0 10px;">
-    @if (Menu.Page != null && Menu.Page.NoBreadcrumb)
+    @if (Menu.Page != null && Menu.Page.NoBackground)
     {
         <DynamicComponent @ref="dc" Type="Menu.ComType" Parameters="Menu.ComParameters" />
     }
     else
     {
-        <div class="kui-background" style="min-height:360px">
+        <div class="kui-background">
             <DynamicComponent @ref="dc" Type="Menu.ComType" Parameters="Menu.ComParameters" />
         </div>
     }

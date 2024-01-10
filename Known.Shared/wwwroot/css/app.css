@@ -56,7 +56,6 @@ html, body {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;width:100
 .known, .ws-space {display:flex;justify-content:space-between;}
 .known {padding:20px;border-left:5px solid #4188c8;}
 .known-desc {text-align:justify;}
-.kui-tabs .known {margin-top:10px;}
 
 .ws-space {margin:10px 0;padding:20px;}
 .ws-welcome {display:flex;padding:10px;}

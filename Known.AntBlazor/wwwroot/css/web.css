@@ -11,7 +11,6 @@
 .kui-header, .kui-logo, .ant-layout-tabs > .ant-tabs-nav {position:fixed;z-index:101;transition:all 0.2s;}
 .kui-header {top:0;right:0;left:200px;}
 .kui-header .ant-breadcrumb {padding-top:5px;}
-.kui-logo, .ant-layout-sider, .ant-layout-tabs > .ant-tabs-nav {border-radius:5px;}
 .kui-logo {top:0;left:0;width:200px;height:64px;background-color:var(--kui-bgcolor);padding-top:5px;padding-left:10px;}
 .kui-logo + .ant-menu {position:fixed;top:64px;left:0;width:200px;}
 .kui-page {padding-top:64px;}
@@ -20,9 +19,9 @@
 .ant-layout-sider, .ant-layout-sider-trigger, .ant-layout-tabs > .ant-tabs-nav {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
-.ant-layout-tabs > .ant-tabs-nav {top:64px;left:210px;right:10px;margin-bottom:0;}
+.ant-layout-tabs > .ant-tabs-nav {top:64px;left:210px;right:10px;margin-bottom:0;border-radius:5px;}
 .ant-layout-tabs.ant-tabs-top > .ant-tabs-nav::before {border-bottom:none;}
-.ant-layout-tabs > .ant-tabs-content-holder {margin:0 10px;}
+.ant-layout-tabs > .ant-tabs-content-holder {margin:10px 10px 0 10px;}
 .ant-layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list {padding:4px 0;}
 .ant-layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab {
     padding:4px 15px;border-radius:5px;margin-right:5px;
@@ -40,6 +39,7 @@
 .ant-btn {padding:4px 10px;}
 .ant-btn > .anticon + span, .ant-btn > span + .anticon {margin-left:2px;}
 .ant-tabs-nav {padding:0 10px;}
+.ant-tabs-tab-remove {margin-left:0;}
 .ant-table-cell .ant-tag {cursor:pointer;}
 .ant-layout-sider-light .kui-logo {background-image:url(/img/logo1.png);}
 /*.anticon .icon {width:1rem;height:1rem;}

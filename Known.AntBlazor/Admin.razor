@@ -1,38 +1,40 @@
 ﻿@inherits AdminPage
 
-<Layout Style="min-height:100vh;">
-    @if (IsLoaded)
-    {
-        <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible>
-            <div class="kui-logo"><img src="@Index.LogoUrl" /></div>
-            <AntMenu Accordion="Context.UserSetting.Accordion" Items="UserMenus" OnClick="e=>Context.Navigate(e)" />
-        </Sider>
-        <Layout>
-            <Header Class="kui-header">
-                <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnHome" />
-                <NavTopRight OnMenuClick="OnMenuClick" />
-            </Header>
-            <Content Class="@Content">
-                @if (Context.UserSetting.MultiTab)
+<CascadingValue Value="this">
+    <Layout Style="min-height:100vh;">
+        @if (IsLoaded)
+        {
+            <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible>
+                <div class="kui-logo"><img src="@Index.LogoUrl" /></div>
+                <AntMenu Accordion="Context.UserSetting.Accordion" Items="UserMenus" OnClick="e=>Context.Navigate(e)" />
+            </Sider>
+            <Layout>
+                <Header Class="kui-header">
+                    <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnHome" />
+                    <NavTopRight OnMenuClick="OnMenuClick" />
+                </Header>
+                <Content Class="@Content">
+                    @if (Context.UserSetting.MultiTab)
+                    {
+                        <PageTabs @ref="tabs" Menu="CurrentMenu" Items="TabMenus" />
+                    }
+                    else
+                    {
+                        <PageSingle @ref="page" Menu="CurrentMenu" OnHome="OnHome" />
+                    }
+                </Content>
+                @if (AntConfig.Option.Footer != null)
                 {
-                    <PageTabs @ref="tabs" Menu="CurrentMenu" Items="TabMenus" />
+                    <Footer Style="text-align:center">@AntConfig.Option.Footer</Footer>
                 }
                 else
                 {
-                    <PageSingle @ref="page" Menu="CurrentMenu" OnHome="OnHome" />
+                    <Footer Style="text-align:center"><PageFooter /></Footer>
                 }
-            </Content>
-            @if (AntConfig.Option.Footer != null)
-            {
-                <Footer Style="text-align:center">@AntConfig.Option.Footer</Footer>
-            }
-            else
-            {
-                <Footer Style="text-align:center"><PageFooter /></Footer>
-            }
-        </Layout>
-    }
-</Layout>
+            </Layout>
+        }
+    </Layout>
+</CascadingValue>
 
 <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="300">
     <Known.Blazor.SettingForm @ref="setting" />

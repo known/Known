@@ -1,17 +1,17 @@
 ﻿@inherits BaseComponent
 
-<Tabs Class="ant-layout-tabs" Type="@TabType.EditableCard" HideAdd @bind-ActiveKey="activeKey" OnClose="OnClose">
+<Tabs Class="ant-layout-tabs" Type="@TabType.EditableCard" HideAdd @bind-ActiveKey="activeKey" OnClose="OnClose" OnChange="OnChange">
     @foreach (var item in Items)
     {
         var itemName = Context.Language.GetString(item);
         <TabPane Key="@item.Id" Tab="@itemName" Closable="@item.Closable">
-            @if (item.Page != null && item.Page.NoBreadcrumb)
+            @if (item.Page != null && item.Page.NoBackground)
             {
                 <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
             }
             else
             {
-                <div class="kui-background" style="min-height:360px;margin:10px 0;">
+                <div class="kui-background">
                     <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
                 </div>
             }
@@ -23,6 +23,7 @@
     private string activeKey;
     private Dictionary<string, DynamicComponent> dcs = [];
 
+    [CascadingParameter] private Admin Admin { get; set; }
     [Parameter] public List<Known.MenuItem> Items { get; set; }
     [Parameter] public Known.MenuItem Menu { get; set; }
 
@@ -44,5 +45,11 @@
     {
         var item = Items.FirstOrDefault(t => t.Id == tab);
         Items.Remove(item);
+    }
+
+    private void OnChange(string tab)
+    {
+        var item = Items.FirstOrDefault(t => t.Id == tab);
+        Admin.SetCurrentMenu(item);
     }
 }
