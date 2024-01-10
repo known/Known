@@ -222,7 +222,7 @@ public class UIService(DialogService dialogService, MessageService messageServic
         builder.Component<DataTable<TItem>>().Set(c => c.Model, model).Build();
     }
 
-	public void BuildTree(RenderTreeBuilder builder, TreeModel model)
+    public void BuildTree(RenderTreeBuilder builder, TreeModel model)
     {
         builder.Component<BootTree>().Set(c => c.Model, model).Build();
     }
@@ -231,9 +231,9 @@ public class UIService(DialogService dialogService, MessageService messageServic
     {
         builder.Component<Step>().Set(c => c.Items, model?.Items?.Select(m => new StepOption
         {
-            Text = m.Title,
-            Title = m.SubTitle,
-            Description = m.Description
+            Text = Language?.GetTitle(m.Title),
+            Title = Language?.GetTitle(m.SubTitle),
+            Description = Language?.GetTitle(m.Description)
         }).ToList()).Build();
     }
 
@@ -243,7 +243,7 @@ public class UIService(DialogService dialogService, MessageService messageServic
         {
             foreach (var item in model.Items)
             {
-                b.Component<TabItem>().Set(c => c.Text, item.Title)
+                b.Component<TabItem>().Set(c => c.Text, Language?.GetTitle(item.Title))
                                       .Set(c => c.ChildContent, item.Content)
                                       .Build();
             }

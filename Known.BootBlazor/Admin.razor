@@ -3,13 +3,13 @@
 <Layout SideWidth="0" IsFullSide ShowFooter ShowCollapseBar MenuBarIcon="fa fa-bars">
     <Header>
         <div class="kui-header">
-            <div class="kui-app-name">@CurrentUser?.AppName</div>
+            <Breadcrumb Value="@CrumbItems" />
             <NavTopRight OnMenuClick="OnMenuClick" />
         </div>
     </Header>
     <Side>
         <div class="boot-banner">
-            <div class="kui-logo" />
+            <div class="boot-logo"><img src="@Index.LogoUrl" /></div>
         </div>
         <Menu DisableNavigation IsVertical IsAccordion Items="SideMenuItems" OnClick="OnSideMenuClick" />
     </Side>
@@ -20,7 +20,7 @@
         }
         else
         {
-            <PageSingle @ref="page" Menu="CurrentMenu" OnHome="OnHome" />
+            <PageSingle @ref="page" Menu="CurrentMenu" />
         }
     </Main>
     <Footer>
@@ -38,11 +38,15 @@
 @code{
     private PageTabs tabs;
     private PageSingle page;
+    private List<BreadcrumbItem> CrumbItems = [];
     private List<BootstrapBlazor.Components.MenuItem> SideMenuItems = [];
+
+    [CascadingParameter] private IndexPage Index { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        CrumbItems = GetBreadcrumbItems();
         SideMenuItems = UserMenus.ToSideMenuItems(Context);
     }
 
@@ -79,11 +83,34 @@
             {
                 if (item.Id == sub.Id)
                 {
+                    CrumbItems = GetBreadcrumbItems(sub);
                     Context.Navigate(sub);
                     break;
                 }
             }
         }
         return Task.CompletedTask;
+    }
+
+    private List<BreadcrumbItem> GetBreadcrumbItems(Known.MenuItem item = null)
+    {
+        var items = new List<BreadcrumbItem>();
+        items.Add(new BreadcrumbItem(Language.Home));
+        if (item == null)
+            return items;
+
+        if (item.Parent != null)
+        {
+            var parentName = Language.GetString(item.Parent);
+            items.Add(new BreadcrumbItem(parentName));
+        }
+
+        if (item.Name != Language.Home)
+        {
+            var menuName = Language.GetString(item);
+            items.Add(new BreadcrumbItem(menuName));
+        }
+
+        return items;
     }
 }

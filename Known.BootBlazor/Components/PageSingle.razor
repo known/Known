@@ -7,7 +7,6 @@
     }
     else
     {
-        <NavBreadcrumb CurrentMenu="Menu" OnHome="OnHome" />
         <div class="kui-background boot-content">
             <DynamicComponent @ref="dc" Type="Menu.ComType" Parameters="Menu.ComParameters" />
         </div>
@@ -18,7 +17,6 @@
     private DynamicComponent dc;
 
     [Parameter] public Known.MenuItem Menu { get; set; }
-    [Parameter] public Action OnHome { get; set; }
 
     public override void StateChanged()
     {

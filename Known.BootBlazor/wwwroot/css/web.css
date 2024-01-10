@@ -9,10 +9,10 @@
 }
 .input-group .btn-sms {background-color:#f8eeb8;}
 
-.layout-header .layout-header-bar {position:absolute;margin:9px 14px;}
+.layout-header .layout-header-bar {position:absolute;margin:9px 14px;left:200px;}
 .layout-header .kui-header {background-color:#17a2b8;color:#fff;padding-left:60px;height:50px;line-height:50px;}
-.layout-side {background-color:#f5f8fa;color:#dcdfe6;height:100%;border-right:1px solid #dcdfe6;}
-.layout-main {background-color:#f0f2f5;}
+.layout-side {position:fixed;z-index:101;background-color:#f5f8fa;color:#dcdfe6;height:100%;border-right:1px solid #dcdfe6;}
+.layout-main {background-color:#f0f2f5;padding-top:60px;padding-left:200px;}
 .layout-main > .tabs {border:none;}
 .layout-main > .tabs.tabs-border-card {background-color:#f0f2f5;}
 .layout-main > .tabs > .tabs-body {padding:0 10px 10px 10px;}
@@ -25,7 +25,7 @@
 .menu > .submenu > li > .submenu > li {padding-left:20px;}
 
 .boot-banner {display:flex;align-items:center;background-color:#702cf8;height:50px;font-size:1.5rem;}
-.boot-banner .kui-logo {width:100%;}
+.boot-banner .boot-logo {width:100%;}
 .boot-nav-right {list-style:none;display:flex;}
 .boot-nav-right li {padding:0 10px;}
 
