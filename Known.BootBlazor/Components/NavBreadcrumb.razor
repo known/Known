@@ -17,13 +17,13 @@
 
         if (CurrentMenu.Parent != null)
         {
-            var parentName = Language[$"Menu.{CurrentMenu.Parent.Code}"];
+            var parentName = Language.GetString(CurrentMenu.Parent);
             Items.Add(new BreadcrumbItem(parentName));
         }
 
         if (CurrentMenu.Name != Language.Home)
         {
-            var menuName = Language[$"Menu.{CurrentMenu.Code}"];
+            var menuName = Language.GetString(CurrentMenu);
             Items.Add(new BreadcrumbItem(menuName));
         }
     }

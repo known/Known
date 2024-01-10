@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Globalization;
+using Known.Entities;
 
 namespace Known;
 
@@ -63,12 +64,14 @@ public class Language
         }
     }
 
-    public string GetColumnName<T>(string id)
+    public string GetString<T>(ColumnInfo info)
     {
-        var key = $"{typeof(T).Name}.{id}";
+        var key = $"{typeof(T).Name}.{info.Id}";
         var name = GetString(key);
         if (string.IsNullOrWhiteSpace(name))
-            name = this[id];
+            name = GetString(info.Id);
+        if (string.IsNullOrWhiteSpace(name))
+            name = info.Name;
         return name;
     }
 
@@ -87,6 +90,26 @@ public class Language
         var itemName = GetString($"Button.{info.Id}");
         if (string.IsNullOrWhiteSpace(itemName))
             itemName = GetString(info.Id);
+        if (string.IsNullOrWhiteSpace(itemName))
+            itemName = info.Name;
+        return itemName;
+    }
+
+    internal string GetString(SysModule module)
+    {
+        var itemName = GetString($"Menu.{module.Code}");
+        if (string.IsNullOrWhiteSpace(itemName))
+            itemName = GetString(module.Code);
+        if (string.IsNullOrWhiteSpace(itemName))
+            itemName = module.Name;
+        return itemName;
+    }
+
+    internal string GetString(MenuInfo info)
+    {
+        var itemName = GetString($"Menu.{info.Code}");
+        if (string.IsNullOrWhiteSpace(itemName))
+            itemName = GetString(info.Code);
         if (string.IsNullOrWhiteSpace(itemName))
             itemName = info.Name;
         return itemName;

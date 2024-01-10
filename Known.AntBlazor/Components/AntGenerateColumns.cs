@@ -61,7 +61,7 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
 
     private void AddAttributes(RenderTreeBuilder builder, ColumnInfo item, object value)
     {
-        var title = Language?.GetColumnName<TItem>(item.Id);
+        var title = Language?.GetString<TItem>(item);
         builder.AddAttribute(1, nameof(Column<TItem>.Title), title);
         builder.AddAttribute(1, nameof(Column<TItem>.Sortable), item.IsSort);
         builder.AddAttribute(1, nameof(Column<TItem>.Fixed), item.Fixed);

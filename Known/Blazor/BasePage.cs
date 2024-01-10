@@ -45,7 +45,7 @@ public class BasePage : BaseComponent
     private void BuildPrototype(RenderTreeBuilder builder)
     {
         builder.Div("kui-designer-tips", Language["Tip.PageTest"]);
-        var table = new DemoPageModel(UI, Module);
+        var table = new DemoPageModel(UI, Language, Module);
         builder.BuildTablePage(table);
     }
 }
@@ -94,7 +94,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
             return;
 
         Id = menu.Id;
-        Name = Language[$"Menu.{menu.Code}"] ?? menu.Name;
+        Name = Language.GetString(menu);
         Tools = menu.Buttons;
         Actions = menu.Actions;
         Columns = menu.Columns;

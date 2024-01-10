@@ -7,7 +7,7 @@
     </BreadcrumbItem>
     @if (CurrentMenu.Parent != null)
     {
-        var parentName = Language[$"Menu.{CurrentMenu.Parent.Code}"];
+        var parentName = Language.GetString(CurrentMenu.Parent);
         <BreadcrumbItem>
             <Icon Type="@CurrentMenu.Parent.Icon" />
             <span>@parentName</span>
@@ -15,7 +15,7 @@
     }
     @if (CurrentMenu.Name != "Home")
     {
-        var menuName = Language[$"Menu.{CurrentMenu.Code}"];
+        var menuName = Language.GetString(CurrentMenu);
         <BreadcrumbItem>
             <Icon Type="@CurrentMenu.Icon" />
             <span>@menuName</span>

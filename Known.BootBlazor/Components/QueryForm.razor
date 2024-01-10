@@ -10,7 +10,7 @@
     @for (var i = 0; i < length; i++)
     {
         var item = Model.QueryColumns[i];
-        var itemName = Language.GetColumnName<TItem>(item.Id);
+        var itemName = Language.GetString<TItem>(item);
         var itemType = "String";
         if (item.Property != null)
             itemType = item.Property.PropertyType.Name;

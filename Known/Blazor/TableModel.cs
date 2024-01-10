@@ -15,8 +15,10 @@ public class TableModel<TItem> where TItem : class, new()
         InitQueryColumns();
     }
 
-    internal TableModel(IUIService ui, SysModule module) : this(ui, module?.Page)
+    internal TableModel(IUIService ui, Language language, SysModule module) : this(ui, module?.Page)
     {
+        Name = language.GetString(module);
+        Language = language;
         Module = module;
     }
 
@@ -30,6 +32,8 @@ public class TableModel<TItem> where TItem : class, new()
 
 	internal TableModel(BasePage<TItem> page)
 	{
+        Name = page.Name;
+        Language = page.Language;
         Page = page;
 		UI = page.UI;
         Module = page.Module;
@@ -49,7 +53,8 @@ public class TableModel<TItem> where TItem : class, new()
         InitQueryColumns();
     }
 
-    private Language Language => Page?.Language;
+    internal string Name { get; }
+    internal Language Language { get; }
     internal IUIService UI { get; }
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal BasePage<TItem> Page { get; }
@@ -110,20 +115,20 @@ public class TableModel<TItem> where TItem : class, new()
         {
             FormType = type,
             IsView = true,
-            Action = Language[$"Button.{type}"],
+            Action = Language?[$"Button.{type}"],
             Data = row
         });
     }
 
-    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm(Language.New, onSave, row);
-    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm(Language.New, onSave, row);
-    public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm(Language.Edit, onSave, row);
-    public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm(Language.Edit, onSave, row);
-    public void DeleteM(Func<List<TItem>, Task<Result>> action) => SelectRows(action, Language.Delete);
+    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm(Language?.New, onSave, row);
+    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm(Language?.New, onSave, row);
+    public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm(Language?.Edit, onSave, row);
+    public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm(Language?.Edit, onSave, row);
+    public void DeleteM(Func<List<TItem>, Task<Result>> action) => SelectRows(action, Language?.Delete);
 
     public void Delete(Func<List<TItem>, Task<Result>> action, TItem row)
     {
-        UI.Confirm(Language["Tip.ConfirmDeleteRecord"], async () =>
+        UI.Confirm(Language?["Tip.ConfirmDeleteRecord"], async () =>
         {
             var result = await action?.Invoke([row]);
             UI.Result(result, async () => await RefreshAsync());
@@ -134,14 +139,14 @@ public class TableModel<TItem> where TItem : class, new()
     {
         if (SelectedRows == null)
         {
-            UI.Warning(Language.SelectOne);
+            UI.Warning(Language?.SelectOne);
             return;
         }
 
         var rows = SelectedRows.ToList();
         if (rows.Count == 0 || rows.Count > 1)
         {
-            UI.Warning(Language.SelectOne);
+            UI.Warning(Language?.SelectOne);
             return;
         }
 
@@ -172,14 +177,14 @@ public class TableModel<TItem> where TItem : class, new()
     {
         if (SelectedRows == null)
         {
-            UI.Warning(Language.SelectOneAtLeast);
+            UI.Warning(Language?.SelectOneAtLeast);
             return;
         }
 
         var rows = SelectedRows.ToList();
         if (rows.Count == 0)
         {
-            UI.Warning(Language.SelectOneAtLeast);
+            UI.Warning(Language?.SelectOneAtLeast);
             return;
         }
 
@@ -260,5 +265,5 @@ public class TableModel<TItem> where TItem : class, new()
         }
     }
 
-    private string GetConfirmText(string text) => Language["Tip.ConfirmRecordName"].Replace("{text}", text);
+    private string GetConfirmText(string text) => Language?["Tip.ConfirmRecordName"]?.Replace("{text}", text);
 }

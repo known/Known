@@ -1,8 +1,4 @@
-<div style="text-align:center">
-
 ![Logo](https://foruda.gitee.com/images/1703494572944391289/24f26ae0_14334.png "屏幕截图")
-
-</div>
 
 Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开箱即用，一处代码，多处运行。
 
@@ -39,6 +35,16 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 
 > 如果对您有帮助，点击右上角⭐Star⭐关注 ，感谢支持开源！
 
+### 快速安装
+
+```bash
+--安装模板
+dotnet new install KnownTemplate
+--创建项目
+--host参数：full(默认)/web/winform
+dotnet new known --name=MyApp
+```
+
 ### 项目结构
 
 ```
@@ -64,7 +70,7 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 - 流程管理：系统内置工作流引擎，提供提交、撤回、分配、审核、重启操作。
 - 定时任务：导入和计算耗时的功能采用定时任务异步执行。
 
-### AntDesign版本截图
+### AntDesign界面截图
 
 效果图|效果图
 :--:|:--:
@@ -76,32 +82,3 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 ![角色管理](https://foruda.gitee.com/images/1700054617363123970/48133586_14334.png "屏幕截图")|![用户管理](https://foruda.gitee.com/images/1700054722192459256/2308879c_14334.png "屏幕截图")
 ![模块管理](https://foruda.gitee.com/images/1703494369039793921/74a4b867_14334.png "屏幕截图")|![模型设置](https://foruda.gitee.com/images/1703494151446430428/2e136a4e_14334.png "屏幕截图")
 ![页面设置](https://foruda.gitee.com/images/1703494262522668999/941de354_14334.png "屏幕截图")|![表单设置](https://foruda.gitee.com/images/1703494306696925357/beeba7dc_14334.png "屏幕截图")
-
-# 1.2版本
-
-### 主要组件
-
-- 输入类：Form、Button、Input、Hidden、Password、Select、Text、TextArea、CheckBox、Switch、Captcha、Date、DateRange、Number、CheckList、RadioList、Picker、Upload、SearchBox
-- 导航类：Menu、Breadcrumb、Pager、Steps、Tabs、Tree
-- 展示类：Badge、Tag、Card、Carousel、Empty、Dropdown、GroupBox、ImageBox、Dialog、Chart、QuickView、Icon、Timeline
-- 反馈类：Toast、Notify、Banner、Progress
-- 数据类：DataList、DataGrid、EditGrid
-
-### 快速安装
-
-```bash
---安装模板
-dotnet new install KnownTemplate
---创建项目
---host参数：full(默认)/hosted/server/winform
-dotnet new known --name=你的项目 --host=server
-```
-
-### 内置UI截图
-
-效果图|效果图
-:--:|:--:
-![登录页面](https://foruda.gitee.com/images/1688121567850878119/aeb0ba7c_14334.png "屏幕截图")|![桌面主页](https://foruda.gitee.com/images/1688092817417883098/53a1da51_14334.png "屏幕截图")
-![数据字典](https://foruda.gitee.com/images/1688121245593898303/e45b1e89_14334.png "屏幕截图")|![模块管理](https://foruda.gitee.com/images/1688121372620870803/ca564f91_14334.png "屏幕截图")
-![角色管理](https://foruda.gitee.com/images/1688121430233035965/c6e8df7f_14334.png "屏幕截图")|![用户管理](https://foruda.gitee.com/images/1688121486294777387/218d0eb9_14334.png "屏幕截图")
-![列表页面](https://foruda.gitee.com/images/1688093103502236712/7ad4f573_14334.png)|![表单页面](https://foruda.gitee.com/images/1688093130502934536/ee69a56f_14334.png)

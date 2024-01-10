@@ -118,7 +118,7 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 /*Layout*/
 .kui-designer {display:grid;grid-template-columns:220px auto 220px;min-height:300px;}
 .kui-designer.entity {grid-template-columns:40% auto;}
-.kui-designer-tips {padding:2px;background-color:#f2e595;color:#666;text-align:center;}
+.kui-designer-tips {padding:2px;background-color:#f2e595;color:#666;text-align:center;border-radius:5px 5px 0 0;}
 
 /*Style*/
 .kui-designer .caption {

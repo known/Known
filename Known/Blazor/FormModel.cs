@@ -178,10 +178,10 @@ public class FormModel<TItem> where TItem : class, new()
 
     private string GetFormTitle(TItem row)
     {
-        var title = Table.Page?.Name;
+        var title = Table.Name;
         if (Table.FormTitle != null)
             title = Table.FormTitle.Invoke(row);
-        return Page?.Language["Title.FormAction"].Replace("{action}", Action).Replace("{title}", title);
+        return Table.Language["Title.FormAction"].Replace("{action}", Action).Replace("{title}", title);
     }
 
     private void SetFormInfo(FormInfo info)
