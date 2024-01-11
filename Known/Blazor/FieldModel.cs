@@ -45,9 +45,10 @@ public class FieldModel<TItem> where TItem : class, new()
             emptyText = Form?.Page?.Language["PleaseSelect"];
 
         var codes = Form.GetCodes(Column);
-        if (codes == null || codes.Count == 0)
-            codes = Cache.GetCodes(Column.Category);
+        if (codes != null)
+            return codes.ToCodes(emptyText);
 
+        codes = Cache.GetCodes(Column.Category);
         foreach (var item in codes)
         {
             var name = Form?.Page?.Language.GetCode(item.Code);

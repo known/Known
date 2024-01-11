@@ -24,6 +24,12 @@
 @code {
     private ValidateForm _form;
 
+    protected override async Task OnInitFormAsync()
+    {
+        await base.OnInitFormAsync();
+        Model.Initialize();
+    }
+
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)

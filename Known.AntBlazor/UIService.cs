@@ -166,7 +166,7 @@ public class UIService(ModalService modalService, MessageService messageService)
 
         if (model.Type == null)
         {
-            option.Content = b => b.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
+            option.Content = b => BuildForm(b, model);
         }
         else
         {

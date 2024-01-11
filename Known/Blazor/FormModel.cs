@@ -94,7 +94,7 @@ public class FormModel<TItem> where TItem : class, new()
         return new ColumnBuilder<TItem>(column);
     }
 
-    internal void Initialize()
+    public void Initialize()
     {
         if (isInitColumns)
             return;

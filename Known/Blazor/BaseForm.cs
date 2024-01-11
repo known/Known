@@ -18,11 +18,5 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
 {
     [Parameter] public FormModel<TItem> Model { get; set; }
 
-    protected override async Task OnInitFormAsync()
-    {
-        await base.OnInitFormAsync();
-        Model.Initialize();
-    }
-
     protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
 }
