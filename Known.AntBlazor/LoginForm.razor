@@ -2,92 +2,18 @@
 
 <Tabs Animated>
     <TabPane Key="1" Tab="@Language["Login.WithAccount"]">
-        <Form Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
-            <FormItem Label="" Required Rules="@Context.RuleRequired("UserName")">
-                <Input @bind-Value="@context.UserName" Placeholder="@Language["UserName"]">
-                    <Prefix><Icon Type="user" /></Prefix>
-                </Input>
-            </FormItem>
-            <FormItem Label="" Required Rules="@Context.RuleRequired("Password")">
-                <InputPassword @bind-Value="@context.Password" Placeholder="@Language["Password"]">
-                    <Prefix><Icon Type="lock" /></Prefix>
-                </InputPassword>
-            </FormItem>
-            <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
-                <AntCaptcha @ref="userCaptcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]">
-                    <Prefix><Icon Type="check" /></Prefix>
-                </AntCaptcha>
-            </FormItem>
-            <FormItem>
-                <Switch @bind-Checked="@context.Remember" /> @Language["Login.RememberUser"]
-            </FormItem>
-            <FormItem>
-                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Language["Login"]</Button>
-            </FormItem>
-        </Form>
+        <LoginFormUser Model="Model" OnLogin="OnLogin" />
     </TabPane>
-    <TabPane Key="2" Tab="@Language["Login.WithPhone"]">
-        <Form @ref="form" Model="phone" OnFinish="OnPhoneLogin" LabelCol="null" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
-            <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneNo")">
-                <Input @bind-Value="@context.PhoneNo" Placeholder="@Language["PhoneNo"]">
-                    <Prefix><Icon Type="phone" /></Prefix>
-                </Input>
-            </FormItem>
-            <FormItem Label="" Required>
-                <AntCaptcha @bind-Value="@context.PhoneCode" Placeholder="@Language["PhoneCode"]" Option="option">
-                    <Prefix><Icon Type="lock" /></Prefix>
-                </AntCaptcha>
-            </FormItem>
-            <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
-                <AntCaptcha @ref="phoneCaptcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]">
-                    <Prefix><Icon Type="check" /></Prefix>
-                </AntCaptcha>
-            </FormItem>
-            <FormItem>
-                <Switch @bind-Checked="@context.Remember" /> @Language["Login.RememberPhone"]
-            </FormItem>
-            <FormItem>
-                <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Language["Login"]</Button>
-            </FormItem>
-        </Form>
-    </TabPane>
+    @if (OnSendSMS != null)
+    {
+        <TabPane Key="2" Tab="@Language["Login.WithPhone"]">
+            <LoginFormPhone Model="Model" OnSendSMS="OnSendSMS" OnLogin="OnLogin" />
+        </TabPane>
+    }
 </Tabs>
 
 @code {
-    private AntDesign.Internal.IForm form;
-    private AntCaptcha userCaptcha;
-    private AntCaptcha phoneCaptcha;
-    private LoginPhoneInfo phone = new();
-    private CaptchaOption option = new CaptchaOption { SMSCount = 60 };
-
     [Parameter] public LoginFormInfo Model { get; set; }
-    [Parameter] public EventCallback<EditContext> OnLogin { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        option.SMSAction = () =>
-        {
-            if (!form.Validate())
-                return Known.Result.ErrorAsync("");
-
-            if (!phoneCaptcha.Validate(out string message))
-                return Known.Result.ErrorAsync(message);
-
-            return Known.Result.SuccessAsync("Test Successful!");
-        };
-    }
-
-    private async void OnUserLogin()
-    {
-        if (!userCaptcha.Validate(out string message))
-        {
-            UI.Toast(message, StyleType.Error);
-            return;
-        }
-
-        await OnLogin.InvokeAsync();
-    }
-
-    private void OnPhoneLogin() { }
+    [Parameter] public Func<Task> OnLogin { get; set; }
+    [Parameter] public Func<string, Task<Known.Result>> OnSendSMS { get; set; }
 }

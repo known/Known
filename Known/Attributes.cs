@@ -37,7 +37,7 @@ public class ColumnAttribute(string columnName = null) : Attribute
 
     internal virtual void Validate(Context context, object value, PropertyInfo property, List<string> errors)
     {
-        var label = context.Language[property.Name];
+        var label = property.Name;
         var valueString = value == null ? "" : value.ToString().Trim();
         if (property.IsRequired() && string.IsNullOrEmpty(valueString))
         {

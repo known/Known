@@ -168,8 +168,8 @@ class AuthService : ServiceBase
         if (user == null)
             return;
 
-        user.AvatarUrl = user.Gender == GenderType.Female.ToString() 
-                       ? "img/face2.png" 
+        user.AvatarUrl = user.Gender == GenderType.Female.ToString()
+                       ? "img/face2.png"
                        : "img/face1.png";
     }
 }

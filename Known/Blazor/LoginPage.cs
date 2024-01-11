@@ -15,6 +15,7 @@ public class LoginPage : BaseComponent
         if (info != null)
         {
             Model.UserName = info.UserName;
+            Model.PhoneNo = info.PhoneNo;
             Model.Remember = info.Remember;
         }
     }
@@ -24,7 +25,7 @@ public class LoginPage : BaseComponent
         if (!Model.Remember)
             await JS.SetLoginInfoAsync(null);
         else
-            await JS.SetLoginInfoAsync(new LoginInfo { UserName = Model.UserName, Remember = Model.Remember });
+            await JS.SetLoginInfoAsync(new LoginInfo { UserName = Model.UserName, PhoneNo = Model.PhoneNo, Remember = Model.Remember });
 
         Model.IPAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString();
         var result = await Platform.Auth.SignInAsync(Model);
@@ -42,6 +43,7 @@ public class LoginPage : BaseComponent
     class LoginInfo
     {
         public string UserName { get; set; }
+        public string PhoneNo { get; set; }
         public bool Remember { get; set; }
     }
 }

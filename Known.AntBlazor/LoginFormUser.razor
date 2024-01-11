@@ -1,0 +1,47 @@
+﻿@inherits BaseComponent
+
+<Form @ref="form" Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
+    <FormItem Label="" Required Rules="@Context.RuleRequired("UserName")">
+        <Input @bind-Value="@context.UserName" Placeholder="@Language["UserName"]">
+            <Prefix><Icon Type="user" /></Prefix>
+        </Input>
+    </FormItem>
+    <FormItem Label="" Required Rules="@Context.RuleRequired("Password")">
+        <InputPassword @bind-Value="@context.Password" Placeholder="@Language["Password"]">
+            <Prefix><Icon Type="lock" /></Prefix>
+        </InputPassword>
+    </FormItem>
+    <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
+        <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]">
+            <Prefix><Icon Type="check" /></Prefix>
+        </AntCaptcha>
+    </FormItem>
+    <FormItem>
+        <Switch @bind-Checked="@context.Remember" /> @Language["Login.RememberUser"]
+    </FormItem>
+    <FormItem>
+        <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Language["Login"]</Button>
+    </FormItem>
+</Form>
+
+    @code {
+    private AntDesign.Internal.IForm form;
+    private AntCaptcha captcha;
+
+    [Parameter] public LoginFormInfo Model { get; set; }
+    [Parameter] public Func<Task> OnLogin { get; set; }
+
+    private async void OnUserLogin()
+    {
+        if (!form.Validate())
+            return;
+
+        if (!captcha.Validate(out string message))
+        {
+            UI.Toast(message, StyleType.Error);
+            return;
+        }
+
+        await OnLogin?.Invoke();
+    }
+}

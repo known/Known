@@ -105,7 +105,7 @@ public class Language
     public string GetString(MenuItem item) => GetText("Menu", item.Code, item.Name);
     public string GetString(ActionInfo info) => GetText("Button", info.Id, info.Name);
     public string GetString<T>(ColumnInfo info) => GetText(typeof(T).Name, info.Id, info.Name);
-    public string GetString(string id, string label) => this[id].Replace("{label}", label);
+    public string GetString(string id, string label) => this[id].Replace("{label}", this[label]);
     public string GetString(string id, string label, int? length) => GetString(id, label).Replace("{length}", $"{length}");
     internal string GetString(string id, string label, string format) => GetString(id, label).Replace("{format}", format);
 

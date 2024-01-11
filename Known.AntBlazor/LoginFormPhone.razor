@@ -1,0 +1,59 @@
+﻿@inherits BaseComponent
+
+<Form @ref="form" Model="Model" OnFinish="OnPhoneLogin" LabelCol="null" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
+    <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneNo")">
+        <Input @bind-Value="@context.PhoneNo" Placeholder="@Language["PhoneNo"]">
+            <Prefix><Icon Type="phone" /></Prefix>
+        </Input>
+    </FormItem>
+    <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneCode")">
+        <AntCaptcha @bind-Value="@context.PhoneCode" Placeholder="@Language["PhoneCode"]" Option="option">
+            <Prefix><Icon Type="lock" /></Prefix>
+        </AntCaptcha>
+    </FormItem>
+    <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
+        <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]">
+             <Prefix><Icon Type="check" /></Prefix>
+        </AntCaptcha>
+    </FormItem>
+    <FormItem>
+        <Switch @bind-Checked="@context.Remember" /> @Language["Login.RememberPhone"]
+    </FormItem>
+    <FormItem>
+        <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Language["Login"]</Button>
+    </FormItem>
+</Form>
+
+    @code {
+    private AntDesign.Internal.IForm form;
+    private AntCaptcha captcha;
+    private CaptchaOption option = new CaptchaOption { SMSCount = 60 };
+
+    [Parameter] public LoginFormInfo Model { get; set; }
+    [Parameter] public Func<string, Task<Known.Result>> OnSendSMS { get; set; }
+    [Parameter] public Func<Task> OnLogin { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        option.SMSAction = () =>
+        {
+            if (string.IsNullOrWhiteSpace(Model.PhoneNo))
+                return Known.Result.ErrorAsync(Language.GetString("Valid.Required", "PhoneNo"));
+            if (string.IsNullOrWhiteSpace(Model.Captcha))
+                return Known.Result.ErrorAsync(Language.GetString("Valid.Required", "Captcha"));
+            if (!captcha.Validate(out string message))
+                return Known.Result.ErrorAsync(message);
+
+            return OnSendSMS?.Invoke(Model.PhoneNo);
+        };
+    }
+
+    private async void OnPhoneLogin()
+    {
+        if (!form.Validate())
+            return;
+
+        await OnLogin?.Invoke();
+    }
+}

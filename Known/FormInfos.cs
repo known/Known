@@ -6,34 +6,14 @@ namespace Known;
 
 public class LoginFormInfo
 {
-    [Form, Required]
     public string UserName { get; set; }
-
-    [Form(Type = "Password"), Required]
     public string Password { get; set; }
-
-    [Form, Required]
+    public string PhoneNo { get; set; }
+    public string PhoneCode { get; set; }
     public string Captcha { get; set; }
-
-    [Form]
     public bool Remember { get; set; }
     public bool IsMobile { get; set; }
     public string IPAddress { get; set; }
-}
-
-public class LoginPhoneInfo
-{
-    [Form, Required]
-    public string PhoneNo { get; set; }
-
-    [Form]
-    public string PhoneCode { get; set; }
-
-    [Form, Required]
-    public string Captcha { get; set; }
-
-    [Form]
-    public bool Remember { get; set; }
 }
 
 public class PwdFormInfo
