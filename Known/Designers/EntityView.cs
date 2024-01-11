@@ -23,9 +23,9 @@ class EntityView : BaseView<EntityInfo>
         await base.OnInitializedAsync();
         dbType = new Database().DatabaseType;
         SetViewData(Model);
-        Tab.Items.Add(new ItemModel(Language["Designer.Fields"]) { Content = BuildView });
-        Tab.Items.Add(new ItemModel(Language["Designer.EntityCode"]) { Content = BuildEntity });
-        Tab.Items.Add(new ItemModel(Language["Designer.TableScript"]) { Content = BuildScript });
+        Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildView });
+        Tab.Items.Add(new ItemModel("Designer.EntityCode") { Content = BuildEntity });
+        Tab.Items.Add(new ItemModel("Designer.TableScript") { Content = BuildScript });
 
         table.FixedHeight = "380px";
         table.OnQuery = c=>

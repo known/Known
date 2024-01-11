@@ -31,7 +31,7 @@ class BaseProperty<TModel> : BaseComponent where TModel : class, new()
     {
         builder.Div("item", () =>
         {
-            builder.Label(label);
+            builder.Label(Language[label]);
             template?.Invoke(builder);
         });
     }

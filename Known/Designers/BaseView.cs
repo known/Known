@@ -22,7 +22,7 @@ class BaseView<TModel> : BaseComponent
     {
         builder.Div("item", () =>
         {
-            builder.Label(label);
+            builder.Label(Language[label]);
             template?.Invoke(builder);
         });
     }

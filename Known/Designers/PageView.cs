@@ -21,16 +21,16 @@ class PageView : BaseView<PageInfo>
     {
         actions = Config.Actions.Select(a =>
         {
-            var name = Language[$"Button.{a.Id}"];
+            var name = Language.GetString(a);
             return new CodeInfo(a.Id, name);
         }).ToList();
         base.OnInitialized();
         SetModel();
-        Tab.Items.Add(new ItemModel(Language["Designer.View"]) { Content = BuildView });
-        Tab.Items.Add(new ItemModel(Language["Designer.Fields"]) { Content = BuildList });
-        Tab.Items.Add(new ItemModel(Language["Designer.PageCode"]) { Content = BuildPage });
-        Tab.Items.Add(new ItemModel(Language["Designer.ServiceCode"]) { Content = BuildService });
-        Tab.Items.Add(new ItemModel(Language["Designer.RepositoryCode"]) { Content = BuildRepository });
+        Tab.Items.Add(new ItemModel("Designer.View") { Content = BuildView });
+        Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildList });
+        Tab.Items.Add(new ItemModel("Designer.PageCode") { Content = BuildPage });
+        Tab.Items.Add(new ItemModel("Designer.ServiceCode") { Content = BuildService });
+        Tab.Items.Add(new ItemModel("Designer.RepositoryCode") { Content = BuildRepository });
 
         list.FixedHeight = "380px";
         list.OnQuery = c =>
@@ -39,9 +39,9 @@ class PageView : BaseView<PageInfo>
             return Task.FromResult(result);
         };
 
-        tab.Items.Add(new ItemModel(Language["Designer.Property"]) { Content = BuildProperty });
-        tab.Items.Add(new ItemModel(Language["Designer.Toolbar"]) { Content = BuildToolbar });
-        tab.Items.Add(new ItemModel(Language["Designer.Action"]) { Content = BuildAction });
+        tab.Items.Add(new ItemModel("Designer.Property") { Content = BuildProperty });
+        tab.Items.Add(new ItemModel("Designer.Toolbar") { Content = BuildToolbar });
+        tab.Items.Add(new ItemModel("Designer.Action") { Content = BuildAction });
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -85,19 +85,19 @@ class PageView : BaseView<PageInfo>
     {
         builder.Div("setting-row", () =>
         {
-            BuildPropertyItem(builder, Language["Designer.ShowPager"], b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, "Designer.ShowPager", b => UI.BuildSwitch(b, new InputModel<bool>
             {
                 Disabled = ReadOnly,
                 Value = Model.ShowPager,
                 ValueChanged = this.Callback<bool>(value => { Model.ShowPager = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, Language["Designer.FixedWidth"], b => UI.BuildText(b, new InputModel<string>
+            BuildPropertyItem(builder, "Designer.FixedWidth", b => UI.BuildText(b, new InputModel<string>
             {
                 Disabled = ReadOnly,
                 Value = Model.FixedWidth,
                 ValueChanged = this.Callback<string>(value => { Model.FixedWidth = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, Language["Designer.FixedHeight"], b => UI.BuildText(b, new InputModel<string>
+            BuildPropertyItem(builder, "Designer.FixedHeight", b => UI.BuildText(b, new InputModel<string>
             {
                 Disabled = ReadOnly,
                 Value = Model.FixedHeight,

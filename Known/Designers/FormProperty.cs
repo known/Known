@@ -20,20 +20,20 @@ class FormProperty : BaseProperty<FormFieldInfo>
             return;
 
         builder.Div("caption", () => builder.Div("title", $"{Language["Designer.FieldProperty"]} - {Model.Id}"));
-        BuildPropertyItem(builder, Language["Name"], b => b.Span(Model.Name));
-        BuildPropertyItem(builder, Language["Row"], b => UI.BuildNumber(b, new InputModel<int>
+        BuildPropertyItem(builder, "Name", b => b.Span(Model.Name));
+        BuildPropertyItem(builder, "Row", b => UI.BuildNumber(b, new InputModel<int>
         {
             Disabled = IsReadOnly,
             Value = Model.Row,
             ValueChanged = this.Callback<int>(value => { Model.Row = value; OnChanged?.Invoke(Model); })
         }));
-        BuildPropertyItem(builder, Language["Column"], b => UI.BuildNumber(b, new InputModel<int>
+        BuildPropertyItem(builder, "Column", b => UI.BuildNumber(b, new InputModel<int>
         {
             Disabled = IsReadOnly,
             Value = Model.Column,
             ValueChanged = this.Callback<int>(value => { Model.Column = value; OnChanged?.Invoke(Model); })
         }));
-        BuildPropertyItem(builder, Language["Type"], b => UI.BuildSelect(b, new InputModel<string>
+        BuildPropertyItem(builder, "Type", b => UI.BuildSelect(b, new InputModel<string>
         {
             Disabled = IsReadOnly,
             Codes = controlTypes,
@@ -45,19 +45,19 @@ class FormProperty : BaseProperty<FormFieldInfo>
                 OnChanged?.Invoke(Model);
             })
         }));
-        BuildPropertyItem(builder, Language["Required"], b => UI.BuildSwitch(b, new InputModel<bool>
+        BuildPropertyItem(builder, "Required", b => UI.BuildSwitch(b, new InputModel<bool>
         {
             Disabled = IsReadOnly,
             Value = Model.Required,
             ValueChanged = this.Callback<bool>(value => { Model.Required = value; OnChanged?.Invoke(Model); })
         }));
-        BuildPropertyItem(builder, Language["ReadOnly"], b => UI.BuildSwitch(b, new InputModel<bool>
+        BuildPropertyItem(builder, "ReadOnly", b => UI.BuildSwitch(b, new InputModel<bool>
         {
             Disabled = IsReadOnly,
             Value = Model.ReadOnly,
             ValueChanged = this.Callback<bool>(value => { Model.ReadOnly = value; OnChanged?.Invoke(Model); })
         }));
-        BuildPropertyItem(builder, Language["Placeholder"], b => UI.BuildText(b, new InputModel<string>
+        BuildPropertyItem(builder, "Placeholder", b => UI.BuildText(b, new InputModel<string>
         {
             Disabled = IsReadOnly,
             Value = Model.Placeholder,
@@ -65,7 +65,7 @@ class FormProperty : BaseProperty<FormFieldInfo>
         }));
         if (Model.Type == FieldType.Select || Model.Type == FieldType.RadioList || Model.Type == FieldType.CheckList)
         {
-            BuildPropertyItem(builder, Language["Category"], b => UI.BuildText(b, new InputModel<string>
+            BuildPropertyItem(builder, "Category", b => UI.BuildText(b, new InputModel<string>
             {
                 Disabled = IsReadOnly,
                 Value = Model.Category,
@@ -74,7 +74,7 @@ class FormProperty : BaseProperty<FormFieldInfo>
         }
         if (Model.Type == FieldType.File)
         {
-            BuildPropertyItem(builder, Language["MultiFile"], b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, "MultiFile", b => UI.BuildSwitch(b, new InputModel<bool>
             {
                 Disabled = IsReadOnly,
                 Value = Model.MultiFile,
