@@ -12,6 +12,10 @@ public class BasePage : BaseComponent
 
     [Parameter] public string PageId { get; set; }
 
+    public string PageName => Language.GetString(Module);
+
+    public virtual Task RefreshAsync() => Task.CompletedTask;
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -19,9 +23,7 @@ public class BasePage : BaseComponent
         await AddVisitLogAsync();
     }
 
-	public virtual Task RefreshAsync() => Task.CompletedTask;
-
-    protected virtual async Task OnInitPageAsync()
+	protected virtual async Task OnInitPageAsync()
     {
         if (!string.IsNullOrWhiteSpace(PageId))
             Module = await Platform.Module.GetModuleAsync(PageId);
@@ -94,7 +96,6 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
             return;
 
         Id = menu.Id;
-        Name = Language.GetString(menu);
         Tools = menu.Buttons;
         Actions = menu.Actions;
         Columns = menu.Columns;
@@ -124,14 +125,14 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 		if (!string.IsNullOrWhiteSpace(param))
 			id += $"_{param}";
 		var info = await Platform.File.GetImportAsync(id);
-		info.Name = Name;
-        info.BizName = GetImportTitle(Name);
+		info.Name = PageName;
+        info.BizName = ImportTitle;
 		ImportForm(info);
 	}
 
     private void ImportForm(ImportFormInfo info)
     {
-        var model = new DialogModel { Title = GetImportTitle(Name) };
+        var model = new DialogModel { Title = ImportTitle };
         model.Content = builder =>
         {
             builder.Component<Importer>()
@@ -146,7 +147,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         UI.ShowDialog(model);
     }
 
-    private string GetImportTitle(string name) => Language["Title.Import"].Replace("{name}", name);
+    private string ImportTitle => Language["Title.Import"].Replace("{name}", PageName);
 }
 
 public class BaseTabPage : BasePage

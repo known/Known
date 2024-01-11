@@ -15,7 +15,6 @@ builder.Services.AddRazorComponents()
                 });
 builder.Services.AddApp(info =>
 {
-    //设置环境
     info.WebRoot = builder.Environment.WebRootPath;
     info.ContentRoot = builder.Environment.ContentRootPath;
     info.IsDevelopment = builder.Environment.IsDevelopment();

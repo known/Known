@@ -31,7 +31,7 @@ class SysOrganizationList : BasePage<SysOrganization>
         //右侧组织架构表格模型
         table = new TableModel<SysOrganization>(this)
 		{
-			FormTitle = row => $"{Name} - {row.ParentName}",
+			FormTitle = row => $"{PageName} - {row.ParentName}",
 			RowKey = r => r.Id,
 			ShowPager = false,
 			OnQuery = OnQueryOrganizationsAsync,

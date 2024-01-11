@@ -53,7 +53,6 @@ public partial class MainForm : Form
         services.AddApp(info =>
         {
             Config.OnExit = OnClose;
-            //…Ë÷√ª∑æ≥
             info.Type = AppType.Desktop;
             info.WebRoot = Application.StartupPath;
             info.ContentRoot = Application.StartupPath;

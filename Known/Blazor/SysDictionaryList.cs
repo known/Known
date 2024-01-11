@@ -10,7 +10,7 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
 	protected override async Task OnInitPageAsync()
 	{
 		await base.OnInitPageAsync();
-		Table.FormTitle = row => $"{Name} - {row.CategoryName}";
+		Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
 		Table.RowKey = r => r.Id;
 		Table.OnQuery = QueryDictionarysAsync;
 	}

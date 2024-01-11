@@ -33,7 +33,7 @@ class SysModuleList : BasePage<SysModule>
         //右侧模块表格模型
         table = new TableModel<SysModule>(this)
 		{
-			FormTitle = row => $"{Name} - {row.ParentName} > {row.Name}",
+			FormTitle = row => $"{PageName} - {row.ParentName} > {row.Name}",
 			RowKey = r => r.Id,
 			ShowPager = false,
 			OnQuery = OnQueryModulesAsync,
