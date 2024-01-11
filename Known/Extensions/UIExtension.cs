@@ -64,23 +64,4 @@ public static class UIExtension
         service.Toast(result.Message);
     }
     #endregion
-
-    #region Status
-    public static void BizStatus(this IUIService service, RenderTreeBuilder builder, string status)
-    {
-        if (string.IsNullOrWhiteSpace(status))
-            return;
-
-        var color = "";
-        if (status.Contains("待") || status.Contains("中") || status.Contains("提交"))
-            color = "#2db7f5";
-        else if (status.Contains("完成") || status.Contains("结束"))
-            color = "#108ee9";
-        else if (status.Contains("退回") || status.Contains("不通过") || status.Contains("失败"))
-            color = "#f50";
-        else if (status.Contains("已") || status.Contains("通过") || status.Contains("成功") || status == "正常")
-            color = "#87d068";
-        service.BuildTag(builder, status, color);
-    }
-    #endregion
 }

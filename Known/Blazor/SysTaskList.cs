@@ -12,24 +12,5 @@ class SysTaskList : BaseTablePage<SysTask>
 		Table.Column(c => c.Status).Template(BuildTaskStatus);
 	}
 
-    private void BuildTaskStatus(RenderTreeBuilder builder, SysTask row)
-    {
-        var color = "default";
-        switch (row.Status)
-        {
-            case TaskStatus.Pending:
-                color = "default";
-                break;
-            case TaskStatus.Running:
-                color = "processing";
-                break;
-            case TaskStatus.Success:
-                color = "success";
-                break;
-            case TaskStatus.Failed:
-                color = "error";
-                break;
-        }
-        UI.BuildTag(builder, row.Status, color);
-    }
+    private void BuildTaskStatus(RenderTreeBuilder builder, SysTask row) => UI.BuildTag(builder, row.Status);
 }

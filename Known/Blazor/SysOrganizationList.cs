@@ -14,12 +14,10 @@ class SysOrganizationList : BasePage<SysOrganization>
 	{
 		await base.OnInitPageAsync();
 
-		//页面类型，左右布局
 		Page.Type = PageType.Column;
 		Page.Spans = [4, 20];
 		Page.Contents = [BuildTree, BuildTable];
 
-		//左侧组织架构树模型
 		tree = new TreeModel
 		{
 			ExpandRoot = true,
@@ -28,7 +26,6 @@ class SysOrganizationList : BasePage<SysOrganization>
         };
         tree.Load();
 
-        //右侧组织架构表格模型
         table = new TableModel<SysOrganization>(this)
 		{
 			FormTitle = row => $"{PageName} - {row.ParentName}",

@@ -250,11 +250,12 @@ public class UIService(DialogService dialogService, MessageService messageServic
         }).Build();
     }
 
-    public void BuildTag(RenderTreeBuilder builder, string text, string color)
+    public void BuildTag(RenderTreeBuilder builder, string text)
     {
+        var name = Language?.GetCode(text);
         builder.Component<Tag>()
-               .Set(c => c.Color, color.ToColor())
-               .Set(c => c.ChildContent, b => b.Text(text))
+               .Set(c => c.Color, Color.Primary)
+               .Set(c => c.ChildContent, b => b.Text(name))
                .Build();
     }
 

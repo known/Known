@@ -31,6 +31,28 @@ public class Language
     }
 
     public static List<ActionInfo> Items { get; } = [];
+    public string Home => this["Menu.Home"];
+
+    internal string SelectOne => this["Tip.SelectOne"];
+    public string SelectOneAtLeast => this["Tip.SelectOneAtLeast"];
+
+    public string OK => this["Button.OK"];
+    public string Cancel => this["Button.Cancel"];
+    internal string New => this["Button.New"];
+    public string Edit => this["Button.Edit"];
+    public string Delete => this["Button.Delete"];
+    public string Save => this["Button.Save"];
+    public string Search => this["Button.Search"];
+    public string Reset => this["Button.Reset"];
+    internal string Enable => this["Button.Enable"];
+    internal string Disable => this["Button.Disable"];
+    internal string Import => this["Button.Import"];
+    internal string Export => this["Button.Export"];
+    internal string Upload => this["Button.Upload"];
+    internal string Download => this["Button.Download"];
+    internal string Copy => this["Button.Copy"];
+    internal string Submit => this["Button.Submit"];
+    internal string Revoke => this["Button.Revoke"];
 
     public static ActionInfo GetLanguage(string name)
     {
@@ -64,57 +86,6 @@ public class Language
         }
     }
 
-    internal string GetString(SysModule module)
-    {
-        var itemName = GetString($"Menu.{module.Code}");
-        if (string.IsNullOrWhiteSpace(itemName))
-            itemName = GetString(module.Code);
-        if (string.IsNullOrWhiteSpace(itemName))
-            itemName = module.Name;
-        return itemName;
-    }
-
-    internal string GetString(MenuInfo info)
-    {
-        var itemName = GetString($"Menu.{info.Code}");
-        if (string.IsNullOrWhiteSpace(itemName))
-            itemName = GetString(info.Code);
-        if (string.IsNullOrWhiteSpace(itemName))
-            itemName = info.Name;
-        return itemName;
-    }
-
-    public string GetString(MenuItem item)
-    {
-        var itemName = GetString($"Menu.{item.Code}");
-        if (string.IsNullOrWhiteSpace(itemName))
-            itemName = GetString(item.Code);
-        if (string.IsNullOrWhiteSpace(itemName))
-            itemName = item.Name;
-        return itemName;
-    }
-
-    public string GetString(ActionInfo info)
-    {
-        var itemName = GetString($"Button.{info.Id}");
-        if (string.IsNullOrWhiteSpace(itemName))
-            itemName = GetString(info.Id);
-        if (string.IsNullOrWhiteSpace(itemName))
-            itemName = info.Name;
-        return itemName;
-    }
-
-    public string GetString<T>(ColumnInfo info)
-    {
-        var key = $"{typeof(T).Name}.{info.Id}";
-        var name = GetString(key);
-        if (string.IsNullOrWhiteSpace(name))
-            name = GetString(info.Id);
-        if (string.IsNullOrWhiteSpace(name))
-            name = info.Name;
-        return name;
-    }
-
     public string GetString(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -129,42 +100,29 @@ public class Language
         return value?.ToString();
     }
 
+    internal string GetString(SysModule module) => GetText("Menu", module.Code, module.Name);
+    internal string GetString(MenuInfo info) => GetText("Menu", info.Code, info.Name);
+    public string GetString(MenuItem item) => GetText("Menu", item.Code, item.Name);
+    public string GetString(ActionInfo info) => GetText("Button", info.Id, info.Name);
+    public string GetString<T>(ColumnInfo info) => GetText(typeof(T).Name, info.Id, info.Name);
     public string GetString(string id, string label) => this[id].Replace("{label}", label);
     public string GetString(string id, string label, int? length) => GetString(id, label).Replace("{length}", $"{length}");
     internal string GetString(string id, string label, string format) => GetString(id, label).Replace("{format}", format);
 
-    public string GetTitle(string title)
-    {
-        var name = GetString($"Title.{title}");
-        if (string.IsNullOrWhiteSpace(name))
-            name = GetString(title);
-        if (string.IsNullOrWhiteSpace(name))
-            name = title;
-        return name;
-    }
+    public string GetTitle(string title) => GetText("Title", title);
+    public string GetCode(string code) => GetText("Code", code);
 
     internal string Success(string action) => this["Tip.XXSuccess"].Replace("{action}", action);
 
-    public string Home => this["Menu.Home"];
-
-    internal string SelectOne => this["Tip.SelectOne"];
-    public string SelectOneAtLeast => this["Tip.SelectOneAtLeast"];
-
-    public string OK => this["Button.OK"];
-    public string Cancel => this["Button.Cancel"];
-    internal string New => this["Button.New"];
-    public string Edit => this["Button.Edit"];
-    public string Delete => this["Button.Delete"];
-    public string Save => this["Button.Save"];
-    public string Search => this["Button.Search"];
-    public string Reset => this["Button.Reset"];
-    internal string Enable => this["Button.Enable"];
-    internal string Disable => this["Button.Disable"];
-    internal string Import => this["Button.Import"];
-    internal string Export => this["Button.Export"];
-    internal string Upload => this["Button.Upload"];
-    internal string Download => this["Button.Download"];
-    internal string Copy => this["Button.Copy"];
-    internal string Submit => this["Button.Submit"];
-    internal string Revoke => this["Button.Revoke"];
+    private string GetText(string prefix, string code, string name = null)
+    {
+        var text = GetString($"{prefix}.{code}");
+        if (string.IsNullOrWhiteSpace(text))
+            text = GetString(code);
+        if (string.IsNullOrWhiteSpace(text))
+            text = name;
+        if (string.IsNullOrWhiteSpace(text))
+            text = code;
+        return text;
+    }
 }

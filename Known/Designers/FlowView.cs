@@ -36,5 +36,5 @@ class FlowView : BaseView<FlowInfo>
         UI.BuildTable(builder, table);
     }
 
-    private void BuildStatus(RenderTreeBuilder builder, string value) => UI.BizStatus(builder, value);
+    private void BuildStatus(RenderTreeBuilder builder, string value) => UI.BuildTag(builder, value);
 }

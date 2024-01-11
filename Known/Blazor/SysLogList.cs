@@ -13,13 +13,5 @@ class SysLogList : BaseTablePage<SysLog>
 		Table.Column(c => c.Type).Template(BuildLogType);
     }
 
-    private void BuildLogType(RenderTreeBuilder builder, SysLog row)
-    {
-        var color = "blue";
-        if (row.Type == LogType.Login.ToString())
-            color = "success";
-        else if (row.Type == LogType.Logout.ToString())
-            color = "red";
-        UI.BuildTag(builder, row.Type, color);
-    }
+    private void BuildLogType(RenderTreeBuilder builder, SysLog row) => UI.BuildTag(builder, row.Type);
 }

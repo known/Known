@@ -256,11 +256,13 @@ public class UIService(ModalService modalService, MessageService messageService)
                }).Build();
     }
 
-    public void BuildTag(RenderTreeBuilder builder, string text, string color)
+    public void BuildTag(RenderTreeBuilder builder, string text)
     {
+        var color = GetTagColor(text);
+        var name = Language?.GetCode(text);
         builder.Component<Tag>()
                .Set(c => c.Color, color)
-               .Set(c => c.ChildContent, b => b.Text(text))
+               .Set(c => c.ChildContent, b => b.Text(name))
                .Build();
     }
 
@@ -383,5 +385,34 @@ public class UIService(ModalService modalService, MessageService messageService)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
+    }
+
+    private static string GetTagColor(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return string.Empty;
+
+        //Module
+        if (text == "Menu") return "purple";
+        else if (text == "Page") return "blue";
+        else if (text == "Custom") return "green";
+        //Log
+        else if (text == "Login") return "success";
+        else if (text == "Logout") return "red";
+        //Task
+        else if (text == "Pending") return "default";
+        else if (text == "Running") return "processing";
+        else if (text == "Success") return "success";
+        else if (text == "Failed") return "error";
+        //User
+        else if (text == "Male") return "#108ee9";
+        else if (text == "Female") return "hotpink";
+        //Status
+        else if (text.Contains("待") || text.Contains("中") || text.Contains("提交")) return "#2db7f5";
+        else if (text.Contains("完成") || text.Contains("结束")) return "#108ee9";
+        else if (text.Contains("退回") || text.Contains("不通过") || text.Contains("失败")) return "#f50";
+        else if (text.Contains("已") || text.Contains("通过") || text.Contains("成功") || text == "正常") return "#87d068";
+
+        return "default";
     }
 }

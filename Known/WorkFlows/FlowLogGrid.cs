@@ -25,7 +25,7 @@ public class FlowLogGrid : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTable(builder, model);
 
-    private void BuildResult(RenderTreeBuilder builder, SysFlowLog row) => UI.BizStatus(builder, row.Result);
+    private void BuildResult(RenderTreeBuilder builder, SysFlowLog row) => UI.BuildTag(builder, row.Result);
 
     private async Task<PagingResult<SysFlowLog>> OnQueryLogs(PagingCriteria criteria)
     {

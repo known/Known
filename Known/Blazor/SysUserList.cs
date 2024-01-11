@@ -19,11 +19,9 @@ class SysUserList : BasePage<SysUser>
 		var hasOrg = orgs != null && orgs.Count > 1;
 		if (hasOrg)
 		{
-            //组织架构有数据时，显示2列布局
 			Page.Type = PageType.Column;
 			Page.Spans = [4, 20];
 
-            //组织架构树模型
 			currentOrg = orgs[0];
 			tree = new TreeModel
 			{
@@ -36,7 +34,6 @@ class SysUserList : BasePage<SysUser>
 			Page.Contents.Add(BuildTree);
 		}
 
-        //用户表格模型
 		table = new TableModel<SysUser>(this)
 		{
 			RowKey = r => r.Id,
@@ -70,11 +67,7 @@ class SysUserList : BasePage<SysUser>
     [Action] public void Enable() => table.SelectRows(Platform.User.EnableUsersAsync, Language.Enable);
     [Action] public void Disable() => table.SelectRows(Platform.User.DisableUsersAsync, Language.Disable);
 
-    private void BuildGender(RenderTreeBuilder builder, SysUser row)
-    {
-        var color = row.Gender == GenderType.Male.ToString() ? "#108ee9" : "hotpink";
-        UI.BuildTag(builder, Language[$"Code.{row.Gender}"], color);
-    }
+    private void BuildGender(RenderTreeBuilder builder, SysUser row) => UI.BuildTag(builder, row.Gender);
 
     private void OnChangeDepartment(List<SysUser> rows)
     {

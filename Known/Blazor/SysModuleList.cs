@@ -16,12 +16,10 @@ class SysModuleList : BasePage<SysModule>
     {
         await base.OnInitPageAsync();
 
-        //页面类型，左右布局
 		Page.Type = PageType.Column;
 		Page.Spans = [4, 20];
 		Page.Contents = [BuildTree, BuildTable];
 
-        //左侧模块树模型
 		tree = new TreeModel
 		{
 			ExpandRoot = true,
@@ -30,7 +28,6 @@ class SysModuleList : BasePage<SysModule>
         };
         tree.Load();
 
-        //右侧模块表格模型
         table = new TableModel<SysModule>(this)
 		{
 			FormTitle = row => $"{PageName} - {row.ParentName} > {row.Name}",
@@ -50,16 +47,6 @@ class SysModuleList : BasePage<SysModule>
         table.Column(c => c.Target).Template(BuildTarget);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        //if (!Config.App.IsDevelopment)
-        //{
-        //    UI.BuildResult(builder, "403", "非开发环境，不可访问该页面！");
-        //    return;
-        //}
-        base.BuildRenderTree(builder);
-    }
-
 	public override async Task RefreshAsync()
 	{
 		await tree.RefreshAsync();
@@ -75,13 +62,7 @@ class SysModuleList : BasePage<SysModule>
         builder.Span(row.Name);
     }
 
-    private void BuildTarget(RenderTreeBuilder builder, SysModule row)
-    {
-        var color = "blue";
-        if (row.Target == ModuleType.Menu.ToString()) color = "purple";
-        if (row.Target == ModuleType.Custom.ToString()) color = "green";
-        UI.BuildTag(builder, row.Target, color);
-    }
+    private void BuildTarget(RenderTreeBuilder builder, SysModule row) => UI.BuildTag(builder, row.Target);
 
     private Task<PagingResult<SysModule>> OnQueryModulesAsync(PagingCriteria criteria)
     {

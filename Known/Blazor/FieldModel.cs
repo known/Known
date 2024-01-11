@@ -50,7 +50,7 @@ public class FieldModel<TItem> where TItem : class, new()
 
         foreach (var item in codes)
         {
-            var name = Form?.Page?.Language.GetString($"Code.{item.Code}");
+            var name = Form?.Page?.Language.GetCode(item.Code);
             if (!string.IsNullOrWhiteSpace(name))
                 item.Name = name;
         }

@@ -41,5 +41,5 @@ class BaApplyList : BaseTablePage<TbApply>
     //撤回
     [Action] public void Revoke(TbApply row) => this.RevokeFlow(row);
 
-    private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BizStatus(builder, row.BizStatus);
+    private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BuildTag(builder, row.BizStatus);
 }
