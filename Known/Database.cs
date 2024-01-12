@@ -127,33 +127,30 @@ public class Database : IDisposable
     #endregion
 
     #region Public
-    public async Task OpenAsync()
+    public Task OpenAsync()
     {
-        if (conn == null)
-            return;
+        if (conn != null && conn.State != ConnectionState.Open)
+            conn.Open();
 
-        if (conn.State != ConnectionState.Open)
-            await conn.OpenAsync();
+        return Task.CompletedTask;
     }
 
-    public async Task CloseAsync()
+    public Task CloseAsync()
     {
-        if (conn == null)
-            return;
+        if (conn != null && conn.State != ConnectionState.Closed)
+            conn.Close();
 
-        if (conn.State != ConnectionState.Closed)
-            await conn.CloseAsync();
+        return Task.CompletedTask;
     }
 
-    public async void Dispose()
+    public void Dispose()
     {
-        if (trans != null)
-            await trans.DisposeAsync();
+        trans?.Dispose();
         trans = null;
 
         if (conn.State != ConnectionState.Closed)
-            await conn.CloseAsync();
-        await conn.DisposeAsync();
+            conn.Close();
+        conn.Dispose();
     }
 
     public async Task<Result> TransactionAsync(string name, Func<Database, Task> action, object data = null)
@@ -206,33 +203,49 @@ public class Database : IDisposable
 
     public async Task<T> ScalarAsync<T>(string sql, object param = null)
     {
-        var info = new CommandInfo(DatabaseType, sql, param);
-        var cmd = await PrepareCommandAsync(conn, trans, info);
-        var scalar = await cmd.ExecuteScalarAsync();
-        cmd.Parameters.Clear();
-        if (info.IsClose)
-            await conn.CloseAsync();
-        return Utils.ConvertTo<T>(scalar);
+        try
+        {
+            var info = new CommandInfo(DatabaseType, sql, param);
+            var cmd = await PrepareCommandAsync(conn, trans, info);
+            var scalar = cmd.ExecuteScalar();
+            cmd.Parameters.Clear();
+            if (info.IsClose)
+                conn.Close();
+            return Utils.ConvertTo<T>(scalar);
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex, sql);
+            throw;
+        }
     }
 
     public async Task<List<T>> ScalarsAsync<T>(string sql, object param = null)
     {
-        var data = new List<T>();
-        var info = new CommandInfo(DatabaseType, sql, param);
-        var cmd = await PrepareCommandAsync(conn, trans, info);
-        using (var reader = await cmd.ExecuteReaderAsync())
+        try
         {
-            while (await reader.ReadAsync())
+            var data = new List<T>();
+            var info = new CommandInfo(DatabaseType, sql, param);
+            var cmd = await PrepareCommandAsync(conn, trans, info);
+            using (var reader = cmd.ExecuteReader())
             {
-                var obj = Utils.ConvertTo<T>(reader[0]);
-                data.Add(obj);
+                while (reader.Read())
+                {
+                    var obj = Utils.ConvertTo<T>(reader[0]);
+                    data.Add(obj);
+                }
             }
-        }
 
-        cmd.Parameters.Clear();
-        if (info.IsClose)
-            await conn.CloseAsync();
-        return data;
+            cmd.Parameters.Clear();
+            if (info.IsClose)
+                conn.Close();
+            return data;
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex, sql);
+            throw;
+        }
     }
 
     public Task<T> QueryAsync<T>(string sql, object param = null)
@@ -256,69 +269,73 @@ public class Database : IDisposable
 
     public async Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria)
     {
-        SetAutoQuery(ref sql, criteria);
-
-        if (conn.State != ConnectionState.Open)
-            await conn.OpenAsync();
-
-        byte[] exportData = null;
-        Dictionary<string, object> sums = null;
-        var dataTable = new DataTable();
-        var pageData = new List<T>();
-        var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
-        var cmd = await PrepareCommandAsync(conn, trans, info);
-        cmd.CommandText = info.CountSql;
-        var value = await cmd.ExecuteScalarAsync();
-        var total = Utils.ConvertTo<int>(value);
-        if (total > 0)
+        try
         {
-            if (criteria.ExportMode == ExportMode.None)
+            SetAutoQuery(ref sql, criteria);
+
+            if (conn.State != ConnectionState.Open)
+                conn.Open();
+
+            byte[] exportData = null;
+            Dictionary<string, object> sums = null;
+            var dataTable = new DataTable();
+            var pageData = new List<T>();
+            var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
+            var cmd = await PrepareCommandAsync(conn, trans, info);
+            cmd.CommandText = info.CountSql;
+            var value = cmd.ExecuteScalar();
+            var total = Utils.ConvertTo<int>(value);
+            if (total > 0)
             {
-                cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
-                using var reader = await cmd.ExecuteReaderAsync();
-                while (await reader.ReadAsync())
+                if (criteria.ExportMode == ExportMode.None)
                 {
-                    var obj = ConvertTo<T>(reader);
-                    pageData.Add((T)obj);
+                    cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
+                    using var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var obj = ConvertTo<T>(reader);
+                        pageData.Add((T)obj);
+                    }
                 }
-            }
-            else
-            {
-                if (criteria.ExportMode != ExportMode.Page)
-                    criteria.PageIndex = -1;
-                cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
-                cmd.CommandText = CommandInfo.GetExportSql(cmd.CommandText, criteria);
-                using (var reader = await cmd.ExecuteReaderAsync())
+                else
                 {
-                    dataTable.Load(reader);
+                    if (criteria.ExportMode != ExportMode.Page)
+                        criteria.PageIndex = -1;
+                    cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
+                    cmd.CommandText = CommandInfo.GetExportSql(cmd.CommandText, criteria);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        dataTable.Load(reader);
+                    }
+                    foreach (var item in criteria.ExportColumns)
+                    {
+                        dataTable.Columns[item.Key].ColumnName = item.Value;
+                    }
+                    exportData = GetExportData(dataTable);
                 }
-                foreach (var item in criteria.ExportColumns)
+
+                if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
                 {
-                    dataTable.Columns[item.Key].ColumnName = item.Value;
+                    var columns = string.Join(",", criteria.SumColumns.Select(c => $"sum({c}) as {c}"));
+                    sql = $"select {columns} from ({sql}) t";
+                    sums = await QueryAsync<Dictionary<string, object>>(sql, criteria.ToParameters(User));
                 }
-                exportData = GetExportData(dataTable);
             }
 
-            if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
-            {
-                var columns = string.Join(",", criteria.SumColumns.Select(c => $"sum({c}) as {c}"));
-                sql = $"select {columns} from ({sql}) t";
-                sums = await QueryAsync<Dictionary<string, object>>(sql, criteria.ToParameters(User));
-            }
+            cmd.Parameters.Clear();
+            if (conn.State != ConnectionState.Closed)
+                conn.Close();
+
+            if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
+                pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
+
+            return new PagingResult<T>(total, pageData) { ExportData = exportData, Sums = sums };
         }
-
-        cmd.Parameters.Clear();
-        if (conn.State != ConnectionState.Closed)
-            await conn.CloseAsync();
-
-        if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
-            pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
-
-        return new PagingResult<T>(total, pageData)
+        catch (Exception ex)
         {
-            ExportData = exportData,
-            Sums = sums
-        };
+            HandleException(ex, sql);
+            throw;
+        }
     }
 
     private void SetAutoQuery(ref string sql, PagingCriteria criteria)
@@ -343,58 +360,74 @@ public class Database : IDisposable
 
     public async Task<PagingResult<Dictionary<string, object>>> QueryPageDictionaryAsync(string sql, PagingCriteria criteria)
     {
-        if (conn.State != ConnectionState.Open)
-            await conn.OpenAsync();
-
-        var data = new List<Dictionary<string, object>>();
-        var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
-        var cmd = await PrepareCommandAsync(conn, trans, info);
-        cmd.CommandText = info.CountSql;
-        var scalar = await cmd.ExecuteScalarAsync();
-        var total = Utils.ConvertTo<int>(scalar);
-        if (total > 0)
+        try
         {
-            cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
-            using (var reader = await cmd.ExecuteReaderAsync())
+            if (conn.State != ConnectionState.Open)
+                conn.Open();
+
+            var data = new List<Dictionary<string, object>>();
+            var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
+            var cmd = await PrepareCommandAsync(conn, trans, info);
+            cmd.CommandText = info.CountSql;
+            var scalar = cmd.ExecuteScalar();
+            var total = Utils.ConvertTo<int>(scalar);
+            if (total > 0)
             {
-                while (await reader.ReadAsync())
+                cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    var dic = new Dictionary<string, object>();
-                    for (int i = 0; i < reader.FieldCount; i++)
+                    while (reader.Read())
                     {
-                        var name = reader.GetName(i).Replace("_", "");
-                        var value = reader[i];
-                        dic.Add(name, value == DBNull.Value ? null : value);
+                        var dic = new Dictionary<string, object>();
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            var name = reader.GetName(i).Replace("_", "");
+                            var value = reader[i];
+                            dic.Add(name, value == DBNull.Value ? null : value);
+                        }
+                        data.Add(dic);
                     }
-                    data.Add(dic);
                 }
             }
+
+            cmd.Parameters.Clear();
+            if (conn.State != ConnectionState.Closed)
+                conn.Close();
+
+            if (data.Count > criteria.PageSize && criteria.PageSize > 0)
+            {
+                data = data.Skip((criteria.PageIndex - 1) * criteria.PageSize)
+                           .Take(criteria.PageSize)
+                           .ToList();
+            }
+
+            return new PagingResult<Dictionary<string, object>>(total, data);
         }
-
-        cmd.Parameters.Clear();
-        if (conn.State != ConnectionState.Closed)
-            await conn.CloseAsync();
-
-        if (data.Count > criteria.PageSize && criteria.PageSize > 0)
+        catch (Exception ex)
         {
-            data = data.Skip((criteria.PageIndex - 1) * criteria.PageSize)
-                       .Take(criteria.PageSize)
-                       .ToList();
+            HandleException(ex, sql);
+            throw;
         }
-
-        return new PagingResult<Dictionary<string, object>>(total, data);
     }
 
     public async Task<DataTable> QueryTableAsync(string sql, object param = null)
     {
-        var data = new DataTable();
-        var info = new CommandInfo(DatabaseType, sql, param);
-        using (var reader = await ExecuteReaderAsync(info))
+        try
         {
-            if (reader != null)
-                data.Load(reader);
+            var data = new DataTable();
+            var info = new CommandInfo(DatabaseType, sql, param);
+            using (var reader = await ExecuteReaderAsync(info))
+            {
+                if (reader != null)
+                    data.Load(reader);
+            }
+            return data;
         }
-        return data;
+        catch (Exception ex)
+        {
+            HandleException(ex, sql);
+            throw;
+        }
     }
     #endregion
 
@@ -482,7 +515,7 @@ public class Database : IDisposable
         if (conn.State != ConnectionState.Open)
         {
             close = true;
-            await conn.OpenAsync();
+            conn.Open();
         }
 
         foreach (var item in datas)
@@ -501,7 +534,7 @@ public class Database : IDisposable
         }
 
         if (close)
-            await conn.CloseAsync();
+            conn.Close();
     }
 
     public async Task<T> InsertAsync<T>(T entity) where T : EntityBase
@@ -574,15 +607,25 @@ public class Database : IDisposable
     #endregion
 
     #region Trans
-    private async Task BeginTransAsync()
+    private Task BeginTransAsync()
     {
         if (conn.State != ConnectionState.Open)
-            await conn.OpenAsync();
-        trans = await conn.BeginTransactionAsync();
+            conn.Open();
+        trans = conn.BeginTransaction();
+        return Task.CompletedTask;
     }
 
-    private Task CommitAsync() => trans?.CommitAsync();
-    private Task RollbackAsync() => trans?.RollbackAsync();
+    private Task CommitAsync()
+    {
+        trans?.Commit();
+        return Task.CompletedTask;
+    }
+
+    private Task RollbackAsync()
+    {
+        trans?.Rollback();
+        return Task.CompletedTask;
+    }
     #endregion
 
     #region Query
@@ -750,18 +793,15 @@ public class Database : IDisposable
         try
         {
             var cmd = await PrepareCommandAsync(conn, trans, info);
-            var value = await cmd.ExecuteNonQueryAsync();
+            var value = cmd.ExecuteNonQuery();
             cmd.Parameters.Clear();
             if (info.IsClose)
-                await conn.CloseAsync();
+                conn.Close();
             return value;
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
-            Logger.Error(info.ToString());
-            if (info.IsClose)
-                await conn.CloseAsync();
+            HandleException(ex, info);
             throw;
         }
     }
@@ -771,51 +811,77 @@ public class Database : IDisposable
         try
         {
             var cmd = await PrepareCommandAsync(conn, trans, info);
-            var reader = info.IsClose 
-                       ? await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection)
-                       : await cmd.ExecuteReaderAsync();
+            var reader = info.IsClose
+                       ? cmd.ExecuteReader(CommandBehavior.CloseConnection)
+                       : cmd.ExecuteReader();
             cmd.Parameters.Clear();
             return reader;
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
-            Logger.Error(info.ToString());
-            if (info.IsClose)
-                await conn.CloseAsync();
-            return null;
+            HandleException(ex, info);
+            throw;
         }
     }
 
     private async Task<T> QueryAsync<T>(CommandInfo info)
     {
-        T obj = default;
-        using (var reader = await ExecuteReaderAsync(info))
+        try
         {
-            if (reader != null && await reader.ReadAsync())
+            T obj = default;
+            using (var reader = await ExecuteReaderAsync(info))
             {
-                obj = (T)ConvertTo<T>(reader);
+                if (reader != null && reader.Read())
+                {
+                    obj = (T)ConvertTo<T>(reader);
+                }
             }
+            if (trans == null)
+                conn.Close();
+            return obj;
         }
-        if (trans == null)
-            await conn.CloseAsync();
-        return obj;
+        catch (Exception ex)
+        {
+            HandleException(ex, info);
+            throw;
+        }
     }
 
     private async Task<List<T>> QueryListAsync<T>(CommandInfo info)
     {
-        var lists = new List<T>();
-        using (var reader = await ExecuteReaderAsync(info))
+        try
         {
-            while (reader != null && await reader.ReadAsync())
+            var lists = new List<T>();
+            using (var reader = await ExecuteReaderAsync(info))
             {
-                var obj = ConvertTo<T>(reader);
-                lists.Add((T)obj);
+                while (reader.Read())
+                {
+                    var obj = ConvertTo<T>(reader);
+                    lists.Add((T)obj);
+                }
             }
+            if (trans == null)
+                conn.Close();
+            return lists;
         }
-        if (trans == null)
-            await conn.CloseAsync();
-        return lists;
+        catch (Exception ex)
+        {
+            HandleException(ex, info);
+            throw;
+        }
+    }
+
+    private void HandleException(Exception ex, string sql)
+    {
+        Logger.Exception(ex);
+        Logger.Error(sql);
+    }
+
+    private void HandleException(Exception ex, CommandInfo info)
+    {
+        HandleException(ex, info.ToString());
+        if (info.IsClose)
+            conn.Close();
     }
 
     private static object ConvertTo<T>(DbDataReader reader)
@@ -850,7 +916,7 @@ public class Database : IDisposable
         return obj;
     }
 
-    private async Task<DbCommand> PrepareCommandAsync(DbConnection conn, DbTransaction trans, CommandInfo info)
+    private Task<DbCommand> PrepareCommandAsync(DbConnection conn, DbTransaction trans, CommandInfo info)
     {
         info.IsClose = false;
         var cmd = conn.CreateCommand();
@@ -860,7 +926,7 @@ public class Database : IDisposable
         {
             if (trans.Connection == null)
                 throw new ArgumentException("The transaction was rollbacked or commited, please provide an open transaction.", nameof(trans));
-            
+
             cmd.Transaction = trans;
         }
         else
@@ -868,7 +934,7 @@ public class Database : IDisposable
             if (conn.State != ConnectionState.Open)
             {
                 info.IsClose = true;
-                await conn.OpenAsync();
+                conn.Open();
             }
         }
 
@@ -893,7 +959,7 @@ public class Database : IDisposable
             }
         }
 
-        return cmd;
+        return Task.FromResult(cmd);
     }
 
     private string FormatSQL(string text)
