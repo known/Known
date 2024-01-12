@@ -1,8 +1,8 @@
 @import "font-awesome.css";
 @import "prism.css";
 
-:root[theme=light] {--kui-bgcolor:#ffffff;--kui-color:#596172;--kui-border-color:#eef2f8;}
-:root[theme=dark]  {--kui-bgcolor:#202020;--kui-color:#d8d8d8;--kui-border-color:#2f2f2f;}
+:root[theme=light] {--kui-bgcolor:#ffffff;--kui-color:#596172;--kui-border-color:#f0f0f0;}
+:root[theme=dark]  {--kui-bgcolor:#202020;--kui-color:#d8d8d8;--kui-border-color:rgba(253, 253, 253, 0.12);}
 
 /*Common*/
 body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-bgcolor);color:var(--kui-color);}
@@ -17,11 +17,9 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-menu li a {color:var(--kui-color);}
 
 .kui-steps-content {
-    margin-top:16px;padding:10px;
-    border:1px dashed #e9e9e9;
-    border-radius:6px;
-    background-color:#fafafa;
-    min-height:200px;
+    margin-top:16px;padding:10px;background-color:var(--kui-bgcolor);
+    border:1px dashed var(--kui-border-color);
+    border-radius:6px;min-height:200px;
 }
 .kui-form-content {padding:10px;}
 .kui-form-action {margin-top:24px;text-align:right;}
@@ -35,7 +33,7 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .center {text-align:center;}
 .p10 {padding:10px;}
 
-.kui-group-box {position:relative;border:1px dashed #e9e9e9;border-radius:6px;}
+.kui-group-box {position:relative;border:1px dashed var(--kui-border-color);border-radius:6px;}
 .kui-group-box .legend {position:absolute;top:-10px;left:20px;padding:0 10px;}
 .kui-group-box .body {padding:1rem;}
 
@@ -45,7 +43,7 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 
 .kui-app-name {font-size:1.2rem}
 
-.kui-flow .kui-group-box {padding:10px;background-color:#fafafa;}
+.kui-flow .kui-group-box {padding:10px;background-color:var(--kui-bgcolor);}
 .kui-flow .kui-group-box .legend {font-weight:bold;font-size:1.1rem;}
 
 @media screen and (max-width:768px) {
@@ -90,7 +88,7 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 /*Import*/
 .kui-form-import {grid-template-rows:20px 50px auto;}
 .kui-form-import .item {display:flex;margin:8px 0;}
-.kui-form-import .item input {display:inline-block;border:1px solid #d5d5d5;}
+.kui-form-import .item input {display:inline-block;border:1px solid var(--kui-border-color);}
 .kui-form-import .kui-link {margin-right:10px;}
 .kui-form-import .size {margin-left:10px;}
 .kui-form-import .message {padding:10px 0;}
@@ -106,8 +104,8 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-role {display:flex;}
 .kui-role-form {width:400px;padding-right:20px;}
 .kui-role-module {width:260px;}
-.kui-role-button {background-color:#f5f5f5;width:160px;}
-.kui-role-column {background-color:#f1f1f1;width:160px;}
+.kui-role-button {background-color:var(--kui-bgcolor);width:160px;}
+.kui-role-column {background-color:var(--kui-bgcolor);width:160px;}
 
 @media screen and (max-width:768px) {
     .kui-role {flex-direction:column;}
@@ -121,10 +119,7 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-designer-tips {padding:2px;background-color:#f2e595;color:#666;text-align:center;border-radius:5px 5px 0 0;}
 
 /*Style*/
-.kui-designer .caption {
-    display:flex;height:46px;line-height:46px;
-    border-bottom:1px solid #dedede;border-left:3px solid #1890ff;
-}
+.kui-designer .caption {display:flex;height:46px;line-height:46px;border-bottom:1px solid var(--kui-border-color);}
 .kui-designer .caption .title {font-weight:bold;padding:0 10px;}
 .kui-designer .caption .select {width:150px;}
 .kui-designer .bold {font-weight:bold;}
@@ -135,7 +130,7 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-designer .columns .item.active {background-color:#1890ff;color:#fff;}
 
 /*Model*/
-.kui-designer .panel-model {background-color:#e9e9e9;}
+.kui-designer .panel-model {border-right:1px solid var(--kui-border-color);}
 .kui-designer .panel-model .item {display:flex;margin-bottom:5px;cursor:pointer;}
 .kui-designer .panel-model .item > span {padding-left:5px;}
 .kui-designer.entity .panel-model pre {margin:0;padding:10px;}
@@ -151,12 +146,12 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-designer form {padding-right:50px;}
 
 /*Property*/
-.kui-designer .panel-property {background-color:#e9e9e9;}
+.kui-designer .panel-property {border-left:1px solid var(--kui-border-color);}
 .kui-designer .panel-property .item {display:grid;margin:10px;grid-template-columns:80px auto;height:32px;align-items:center;}
 .kui-designer .panel-property .item label {text-align:right;padding-right:15px;}
 
 /*Code*/
-.kui-code {margin:0 0 0 10px;border-left:3px solid #4775e0;height:445px;overflow:auto;}
+.kui-code {margin:0 0 0 10px;border-left:3px solid var(--kui-border-color);height:445px;overflow:auto;}
 .kui-designer.entity .kui-code, .kui-code pre[class*=language-] {margin:0;}
 
 /*AntDesign*/
