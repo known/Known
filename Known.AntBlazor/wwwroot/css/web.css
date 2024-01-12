@@ -97,6 +97,10 @@
 :root[theme=dark] .ant-pagination-prev .ant-pagination-item-link, :root[theme=dark] .ant-pagination-next .ant-pagination-item-link,
 :root[theme=dark] .ant-segmented, :root[theme=dark] .ant-drawer-content,
 :root[theme=dark] .ant-input-affix-wrapper,
+:root[theme=dark] .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper,
+:root[theme=dark] .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover,
+:root[theme=dark] .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
+:root[theme=dark] .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover,
 :root[theme=dark] .ant-modal-header, :root[theme=dark] .ant-modal-content {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
@@ -113,6 +117,7 @@
 :root[theme=dark] .ant-pagination, :root[theme=dark] .ant-empty-normal,
 :root[theme=dark] .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis, 
 :root[theme=dark] .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis,
+:root[theme=dark] .ant-input-password-icon.anticon,
 :root[theme=dark] .ant-picker-separator, :root[theme=dark] .ant-picker-suffix,
 :root[theme=dark] .ant-checkbox-disabled + span, :root[theme=dark] .ant-radio-disabled + span,
 :root[theme=dark] .ant-radio-wrapper, :root[theme=dark] .ant-checkbox-wrapper,
