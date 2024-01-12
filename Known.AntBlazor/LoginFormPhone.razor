@@ -24,7 +24,7 @@
     </FormItem>
 </Form>
 
-    @code {
+@code {
     private AntDesign.Internal.IForm form;
     private AntCaptcha captcha;
     private CaptchaOption option = new CaptchaOption { SMSCount = 60 };
@@ -49,7 +49,7 @@
         };
     }
 
-    private async void OnPhoneLogin()
+    private async Task OnPhoneLogin()
     {
         if (!form.Validate())
             return;

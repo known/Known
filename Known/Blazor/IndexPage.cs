@@ -64,7 +64,7 @@ public class IndexPage : BaseComponent
         StateChanged();
     }
 
-    protected async void OnLogin(UserInfo user)
+    protected async Task OnLogin(UserInfo user)
     {
         Context.CurrentUser = user;
         IsLogin = Context.CurrentUser != null;
@@ -72,7 +72,7 @@ public class IndexPage : BaseComponent
         StateChanged();
     }
 
-    protected async void OnLogout()
+    protected async Task OnLogout()
     {
         IsLogin = false;
         await SetCurrentUserAsync(null);

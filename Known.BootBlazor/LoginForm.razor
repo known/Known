@@ -33,13 +33,13 @@
     .boot-row .form-label {display:none;}
 </style>
 
-    @code {
+@code {
     private BootCaptcha captcha;
 
     [Parameter] public LoginFormInfo Model { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
 
-    private async void OnUserLogin()
+    private async Task OnUserLogin()
     {
         if (!captcha.Validate(out string message))
         {

@@ -7,7 +7,7 @@ public class LoginPage : BaseComponent
 {
     protected LoginFormInfo Model = new();
 
-    [Parameter] public Action<UserInfo> OnLogin { get; set; }
+    [Parameter] public Func<UserInfo, Task> OnLogin { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,7 +36,7 @@ public class LoginPage : BaseComponent
         else
         {
             var user = result.DataAs<UserInfo>();
-            OnLogin?.Invoke(user);
+            await OnLogin?.Invoke(user);
         }
     }
 

@@ -146,7 +146,6 @@ class AuthService : ServiceBase
         if (user.IsAdmin)
             user.AppId = Config.App.Id;
 
-        Database.User = user;
         var info = await SystemService.GetSystemAsync(Database);
         user.AppName = info.AppName;
         user.CompName = info.CompName;

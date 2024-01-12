@@ -13,7 +13,7 @@ public class AdminPage : BaseComponent
         TabMenus = [Config.GetHomeMenu()];
     }
 
-    [Parameter] public Action OnLogout { get; set; }
+    [Parameter] public Func<Task> OnLogout { get; set; }
 
     protected AdminInfo Info { get; private set; }
     protected List<MenuItem> UserMenus { get; private set; }
@@ -45,7 +45,7 @@ public class AdminPage : BaseComponent
         var result = await Platform.Auth.SignOutAsync(user?.Token);
         if (result.IsValid)
         {
-            OnLogout?.Invoke();
+            await OnLogout?.Invoke();
             Config.OnExit?.Invoke();
         }
     }

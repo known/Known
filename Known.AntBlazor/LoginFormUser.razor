@@ -24,14 +24,14 @@
     </FormItem>
 </Form>
 
-    @code {
+@code {
     private AntDesign.Internal.IForm form;
     private AntCaptcha captcha;
 
     [Parameter] public LoginFormInfo Model { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
 
-    private async void OnUserLogin()
+    private async Task OnUserLogin()
     {
         if (!form.Validate())
             return;
