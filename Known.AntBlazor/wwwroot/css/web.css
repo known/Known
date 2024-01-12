@@ -144,10 +144,10 @@
 }
 :root[theme=dark] .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected,
 :root[theme=dark] td.ant-table-column-sort, :root[theme=dark] .ant-input[disabled],
-:root[theme=dark] .ant-pagination-disabled .ant-pagination-item-link, :root[theme=dark] .ant-pagination-disabled:hover .ant-pagination-item-link {
-    background-color:rgba(255, 255, 255, 0.08);
-}
+:root[theme=dark] .ant-pagination-disabled .ant-pagination-item-link,
+:root[theme=dark] .ant-pagination-disabled:hover .ant-pagination-item-link,
+:root[theme=dark] .ant-table-tbody > tr.ant-table-placeholder:hover > td,
 :root[theme=dark] .ant-table-tbody > tr.ant-table-row:hover > td,
 :root[theme=dark] .ant-table-tbody > tr > td.ant-table-cell-row-hover {
-    background:rgba(255, 255, 255, 0.08);
+    background-color:rgba(255, 255, 255, 0.08);
 }
