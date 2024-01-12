@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using Known.Designers;
 using Known.Entities;
 using Known.Helpers;
 using Known.Repositories;
@@ -85,6 +86,7 @@ class AuthService : ServiceBase
     public async Task<AdminInfo> GetAdminAsync()
     {
         await Database.OpenAsync();
+        await DataHelper.InitializeAsync(Platform.Module);
         //await DictionaryService.RefreshCacheAsync(Database, CurrentUser);
         var admin = new AdminInfo
         {

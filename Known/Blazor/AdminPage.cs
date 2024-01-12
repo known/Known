@@ -1,5 +1,4 @@
-﻿using Known.Designers;
-using Known.Extensions;
+﻿using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 
 namespace Known.Blazor;
@@ -31,7 +30,7 @@ public class AdminPage : BaseComponent
     protected override async Task OnInitializedAsync()
     {
         IsLoaded = false;
-        await DataHelper.InitializeAsync(Platform.Module);
+        await base.OnInitializedAsync();
         CurrentMenu = Config.GetHomeMenu();
         Info = await Platform.Auth.GetAdminAsync();
         UserMenus = GetUserMenus(Info?.UserMenus);
