@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Authors>KnownChen</Authors>
         <Description>Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开箱即用，一处代码，多处运行。</Description>
-        <Version>2.0.0</Version>
+        <Version>2.0.1</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Framework, .NET, Blazor</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
