@@ -122,7 +122,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         UI.Confirm(Language?["Tip.ConfirmDeleteRecord"], async () =>
         {
             var result = await action?.Invoke([row]);
-            UI.Result(result, async () => await RefreshAsync());
+            UI.Result(result, async () => await Page.RefreshAsync());
         });
     }
 
