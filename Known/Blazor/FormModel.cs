@@ -174,7 +174,8 @@ public class FormModel<TItem> where TItem : class, new()
         {
             if (result.IsClose || isClose)
                 await CloseAsync();
-            await Page.RefreshAsync();
+            if (Page != null)
+                await Page.RefreshAsync();
         });
     }
 
