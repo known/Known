@@ -286,9 +286,6 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Entities;", Config.App.Id);
         sb.AppendLine(" ");
-        sb.AppendLine("/// <summary>");
-        sb.AppendLine("/// {0}实体类。", entity.Name);
-        sb.AppendLine("/// </summary>");
         sb.AppendLine("public class {0} : {1}", entity.Id, entity.IsFlow ? "FlowEntity" : "EntityBase");
         sb.AppendLine("{");
 
@@ -302,9 +299,6 @@ class CodeGenerator : ICodeGenerator
             if (!item.Required && type != "string")
                 type += "?";
 
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine("    /// 取得或设置{0}。", item.Name);
-            sb.AppendLine("    /// </summary>");
             if (item.Required)
                 sb.AppendLine("    [Required]");
             if (!string.IsNullOrWhiteSpace(item.Length))
@@ -471,7 +465,7 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine("    internal static Task<PagingResult<{0}>> Query{0}sAsync(Database db, PagingCriteria criteria)", entity.Id);
         sb.AppendLine("    {");
         sb.AppendLine("        var sql = \"select * from {0} where CompNo=@CompNo\";", entity.Id);
-        sb.AppendLine("        return db.Query{0}Async<{0}>(sql, criteria);", entity.Id);
+        sb.AppendLine("        return db.QueryPageAsync<{0}>(sql, criteria);", entity.Id);
         sb.AppendLine("    }");
         sb.AppendLine("}");
         return sb.ToString();
