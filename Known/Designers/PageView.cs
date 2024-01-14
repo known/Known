@@ -7,8 +7,8 @@ namespace Known.Designers;
 
 class PageView : BaseView<PageInfo>
 {
-    private readonly TableModel<PageColumnInfo> list = new();
     private readonly TabModel tab = new();
+    private TableModel<PageColumnInfo> list;
     private TableModel<Dictionary<string, object>> table;
     private string codePage;
     private string codeService;
@@ -32,6 +32,7 @@ class PageView : BaseView<PageInfo>
         Tab.Items.Add(new ItemModel("Designer.ServiceCode") { Content = BuildService });
         Tab.Items.Add(new ItemModel("Designer.RepositoryCode") { Content = BuildRepository });
 
+        list = new(Context);
         list.FixedHeight = "380px";
         list.OnQuery = c =>
         {
@@ -130,7 +131,7 @@ class PageView : BaseView<PageInfo>
 
     private void SetModel()
     {
-        table = new DemoPageModel(UI, Model, Entity);
+        table = new DemoPageModel(Context, Model, Entity);
         codePage = Generator.GetPage(Model, Entity);
         codeService = Generator.GetService(Model, Entity);
         codeRepository = Generator.GetRepository(Model, Entity);

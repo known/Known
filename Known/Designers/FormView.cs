@@ -9,7 +9,7 @@ namespace Known.Designers;
 class FormView : BaseView<FormInfo>
 {
     private FormModel<Dictionary<string, object>> form;
-    private readonly TableModel<FormFieldInfo> list = new();
+    private TableModel<FormFieldInfo> list;
     private readonly TabModel tab = new();
 
     [Parameter] public FlowInfo Flow { get; set; }
@@ -21,6 +21,7 @@ class FormView : BaseView<FormInfo>
         Tab.Items.Add(new ItemModel("Designer.View") { Content = BuildView });
         Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildList });
 
+        list = new(Context);
         list.FixedHeight = "380px";
         list.OnQuery = c =>
         {
@@ -77,7 +78,7 @@ class FormView : BaseView<FormInfo>
 
     private void SetModel()
     {
-        form = new FormModel<Dictionary<string, object>>(UI, Model) { Data = [] };
+        form = new FormModel<Dictionary<string, object>>(Context, Model) { Data = [] };
         form.Initialize();
     }
 

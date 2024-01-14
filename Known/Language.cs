@@ -100,9 +100,10 @@ public class Language
         return value?.ToString();
     }
 
-    internal string GetString(SysModule module) => GetText("Menu", module.Code, module.Name);
+    internal string GetString(SysModule module) => GetText("Menu", module?.Code, module?.Name);
     internal string GetString(MenuInfo info) => GetText("Menu", info.Code, info.Name);
     public string GetString(MenuItem item) => GetText("Menu", item.Code, item.Name);
+    public string GetString(CodeInfo info) => GetText("Code", info.Code, info.Name);
     public string GetString(ActionInfo info) => GetText("Button", info.Id, info.Name);
     public string GetString<T>(ColumnInfo info) => GetText(typeof(T).Name, info.Id, info.Name);
     public string GetString(string id, string label) => this[id].Replace("{label}", this[label]);

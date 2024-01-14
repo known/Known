@@ -6,34 +6,30 @@ using Microsoft.AspNetCore.Components;
 
 namespace Known.Blazor;
 
-public class TableModel<TItem> where TItem : class, new()
+public class TableModel<TItem> : BaseModel where TItem : class, new()
 {
-    internal TableModel()
+    internal TableModel(Context context) : base(context)
     {
         AllColumns = GetAllColumns();
         Columns = AllColumns?.Where(c => !string.IsNullOrWhiteSpace(c.Name))?.ToList();
         InitQueryColumns();
     }
 
-    internal TableModel(IUIService ui, Context context, SysModule module) : this(ui, module?.Page)
+    internal TableModel(Context context, SysModule module) : this(context, module?.Page)
     {
-        Context = context;
         Module = module;
     }
 
-    internal TableModel(IUIService ui, PageInfo info)
+    internal TableModel(Context context, PageInfo info) : base(context)
     {
-        UI = ui;
         SetPageInfo(info);
         Columns = AllColumns;
         InitQueryColumns();
     }
 
-	internal TableModel(BasePage<TItem> page)
-	{
+	internal TableModel(BasePage<TItem> page) : base(page.Context)
+    {
         Page = page;
-        Context = page.Context;
-		UI = page.UI;
         Module = page.Module;
         SetPageInfo(Module?.Page, page);
         if (AllColumns != null && AllColumns.Count > 0)
@@ -51,9 +47,6 @@ public class TableModel<TItem> where TItem : class, new()
         InitQueryColumns();
     }
 
-    internal Context Context { get; }
-    internal Language Language => Context?.Language;
-    internal IUIService UI { get; }
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal BasePage<TItem> Page { get; }
     internal SysModule Module { get; }
@@ -111,7 +104,6 @@ public class TableModel<TItem> where TItem : class, new()
     {
         UI.ShowForm(new FormModel<TItem>(this)
         {
-            Context = Context,
             FormType = type,
             IsView = true,
             Action = $"{type}",
@@ -212,12 +204,12 @@ public class TableModel<TItem> where TItem : class, new()
 
     private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
     {
-        UI.ShowForm(new FormModel<TItem>(this) { Context = Context, Action = action, Data = row, OnSave = onSave });
+        UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSave = onSave });
     }
 
     private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
     {
-        UI.ShowForm(new FormModel<TItem>(this) { Context = Context, Action = action, Data = row, OnSaveFile = onSave });
+        UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave });
     }
 
     private static List<ColumnInfo> GetAllColumns()

@@ -12,7 +12,7 @@ public class InstallPage : BaseForm<InstallInfo>
 
     protected override async Task OnInitFormAsync()
     {
-        Model = new FormModel<InstallInfo>(UI)
+        Model = new FormModel<InstallInfo>(Context)
         {
             LabelSpan = 6,
             Data = Context.Install

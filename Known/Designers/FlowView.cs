@@ -7,7 +7,7 @@ namespace Known.Designers;
 
 class FlowView : BaseView<FlowInfo>
 {
-    private readonly TableModel<FlowStepInfo> table = new();
+    private TableModel<FlowStepInfo> table;
 
     internal override async void SetModel(FlowInfo model)
     {
@@ -20,6 +20,7 @@ class FlowView : BaseView<FlowInfo>
         await base.OnInitializedAsync();
         Tab.Items.Add(new ItemModel("Designer.FlowStep") { Content = BuildView });
 
+        table = new(Context);
         table.FixedHeight = "380px";
         table.OnQuery = c =>
         {

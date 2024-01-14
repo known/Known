@@ -9,7 +9,7 @@ class DemoPageModel : TableModel<Dictionary<string, object>>
     private readonly PageInfo _info;
     private readonly EntityInfo _entity;
 
-    internal DemoPageModel(IUIService ui, Context context, SysModule module) : base(ui, context, module)
+    internal DemoPageModel(Context context, SysModule module) : base(context, module)
     {
         _info = module.Page;
         _entity = DataHelper.GetEntity(module.EntityData);
@@ -18,7 +18,7 @@ class DemoPageModel : TableModel<Dictionary<string, object>>
         Toolbar.OnItemClick = OnItemClick;
     }
 
-    internal DemoPageModel(IUIService ui, PageInfo info, EntityInfo entity) : base(ui, info)
+    internal DemoPageModel(Context context, PageInfo info, EntityInfo entity) : base(context, info)
     {
         _info = info;
         _entity = entity;

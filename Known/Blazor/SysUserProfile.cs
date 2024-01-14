@@ -91,7 +91,7 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
 
     protected override async Task OnInitFormAsync()
     {
-        Model = new FormModel<SysUser>(UI, false)
+        Model = new FormModel<SysUser>(Context, false)
         {
             LabelSpan = 4,
             WrapperSpan = 8,
@@ -151,7 +151,7 @@ class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
 {
     protected override async Task OnInitFormAsync()
     {
-        Model = new FormModel<PwdFormInfo>(UI)
+        Model = new FormModel<PwdFormInfo>(Context)
         {
             LabelSpan = 4,
             WrapperSpan = 6,

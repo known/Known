@@ -15,7 +15,7 @@ public class FlowLogGrid : BaseComponent
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        model = new TableModel<SysFlowLog> { OnQuery = OnQueryLogs };
+        model = new TableModel<SysFlowLog>(Context) { OnQuery = OnQueryLogs };
         model.Column(c => c.CreateBy).Visible(false);
         model.Column(c => c.CreateTime).Visible(false);
         model.Column(c => c.ModifyBy).Visible(false);

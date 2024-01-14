@@ -47,7 +47,7 @@ public class BasePage : BaseComponent
     private void BuildPrototype(RenderTreeBuilder builder)
     {
         builder.Div("kui-designer-tips", Language["Tip.PageTest"]);
-        var table = new DemoPageModel(UI, Context, Module);
+        var table = new DemoPageModel(Context, Module);
         builder.BuildTablePage(table);
     }
 }

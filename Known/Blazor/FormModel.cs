@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Known.Blazor;
 
-public class FormModel<TItem> where TItem : class, new()
+public class FormModel<TItem> : BaseModel where TItem : class, new()
 {
     private bool isInitColumns = false;
     private readonly List<ColumnInfo> columns = [];
 
-    public FormModel(IUIService ui, bool isAuto = true)
+    public FormModel(Context context, bool isAuto = true) : base(context)
     {
         if (isAuto)
         {
@@ -20,17 +20,16 @@ public class FormModel<TItem> where TItem : class, new()
                                    .Where(c => c.IsForm)
                                    .ToList();
         }
-        UI = ui;
         Option = new FormOption();
     }
 
-    internal FormModel(IUIService ui, FormInfo info) : this(ui, false)
+    internal FormModel(Context context, FormInfo info) : this(context, false)
     {
         SetFormInfo(info);
         columns = info.Fields.Select(f => new ColumnInfo(f)).ToList();
     }
 
-    internal FormModel(TableModel<TItem> table) : this(table.UI, false)
+    internal FormModel(TableModel<TItem> table) : this(table.Context, false)
     {
         SetFormInfo(table.Module?.Form);
         Table = table;
@@ -40,10 +39,8 @@ public class FormModel<TItem> where TItem : class, new()
         columns = GetFormColumns(table);
     }
 
-    internal IUIService UI { get; }
-	internal BasePage<TItem> Page { get; }
-	internal TableModel<TItem> Table { get; }
-    internal Context Context { get; set; }
+    internal BasePage<TItem> Page { get; }
+    internal TableModel<TItem> Table { get; }
     internal string Action { get; set; }
 
     public FormOption Option { get; }
@@ -125,11 +122,11 @@ public class FormModel<TItem> where TItem : class, new()
 
     public string GetFormTitle()
     {
-        var action = Context?.Language?[$"Button.{Action}"];
-        var title = Context?.Language?.GetString(Table.Module);
+        var action = Language?[$"Button.{Action}"];
+        var title = Language?.GetString(Table.Module);
         if (Table.FormTitle != null)
             title = Table.FormTitle.Invoke(Data);
-        return Context?.Language?["Title.FormAction"]?.Replace("{action}", action).Replace("{title}", title);
+        return Language?["Title.FormAction"]?.Replace("{action}", action).Replace("{title}", title);
     }
 
     public bool Validate()

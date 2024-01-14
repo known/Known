@@ -6,7 +6,7 @@ namespace Known.Designers;
 
 class EntityView : BaseView<EntityInfo>
 {
-    private readonly TableModel<FieldInfo> table = new();
+    private TableModel<FieldInfo> table;
     private string entity;
     private string script;
     private DatabaseType dbType;
@@ -21,6 +21,7 @@ class EntityView : BaseView<EntityInfo>
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        table = new(Context);
         dbType = new Database().DatabaseType;
         SetViewData(Model);
         Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildView });

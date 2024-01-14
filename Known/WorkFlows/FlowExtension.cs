@@ -67,7 +67,7 @@ public static class FlowExtension
 
     private static void ShowFlowModal<TItem>(this BasePage<TItem> page, string name, List<TItem> rows, Func<FlowFormInfo, Task<Result>> action) where TItem : FlowEntity, new()
     {
-        var flow = new FlowFormModel(page.UI);
+        var flow = new FlowFormModel(page.Context);
         flow.Data = new FlowFormInfo { BizId = string.Join(",", rows.Select(r => r.Id)) };
         if (name == page.Language["Button.Assign"])
         {

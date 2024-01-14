@@ -5,15 +5,12 @@ using Microsoft.AspNetCore.Components;
 
 namespace Known.Blazor;
 
-public class FieldModel<TItem> where TItem : class, new()
+public class FieldModel<TItem> : BaseModel where TItem : class, new()
 {
-    private readonly IUIService UI;
-
-    internal FieldModel(FormModel<TItem> form, ColumnInfo column)
+    internal FieldModel(FormModel<TItem> form, ColumnInfo column) : base(form.Context)
     {
         if (!string.IsNullOrWhiteSpace(column.Id))
             form.Fields[column.Id] = this;
-        UI = form.UI;
         Form = form;
         Column = column;
         Data = form.Data;
@@ -42,7 +39,7 @@ public class FieldModel<TItem> where TItem : class, new()
     public List<CodeInfo> GetCodes(string emptyText = "Please select")
     {
         if (!string.IsNullOrWhiteSpace(emptyText))
-            emptyText = Form?.Page?.Language["PleaseSelect"];
+            emptyText = Language?["PleaseSelect"];
 
         var codes = Form.GetCodes(Column);
         if (codes != null)
@@ -51,7 +48,7 @@ public class FieldModel<TItem> where TItem : class, new()
         codes = Cache.GetCodes(Column.Category);
         foreach (var item in codes)
         {
-            var name = Form?.Page?.Language.GetCode(item.Code);
+            var name = Language?.GetString(item);
             if (!string.IsNullOrWhiteSpace(name))
                 item.Name = name;
         }
