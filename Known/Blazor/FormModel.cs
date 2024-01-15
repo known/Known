@@ -9,10 +9,11 @@ namespace Known.Blazor;
 public class FormModel<TItem> : BaseModel where TItem : class, new()
 {
     private bool isInitColumns = false;
-    private readonly List<ColumnInfo> columns = [];
+    private List<ColumnInfo> columns = [];
 
     public FormModel(Context context, bool isAuto = true) : base(context)
     {
+        Option = new FormOption();
         if (isAuto)
         {
             columns = typeof(TItem).GetProperties()
@@ -20,23 +21,15 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
                                    .Where(c => c.IsForm)
                                    .ToList();
         }
-        Option = new FormOption();
-    }
-
-    internal FormModel(Context context, FormInfo info) : this(context, false)
-    {
-        SetFormInfo(info);
-        columns = info.Fields.Select(f => new ColumnInfo(f)).ToList();
     }
 
     internal FormModel(TableModel<TItem> table) : this(table.Context, false)
     {
-        SetFormInfo(table.Module?.Form);
         Table = table;
         Page = table.Page;
         Option = table.Form;
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
-        columns = GetFormColumns(table);
+        SetFormInfo(table.Module?.Form);
     }
 
     internal BasePage<TItem> Page { get; }
@@ -97,27 +90,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
             return;
 
         isInitColumns = true;
-        if (columns != null && columns.Count > 0)
-        {
-            Rows.Clear();
-            var fields = columns.Where(c => c.IsVisible);
-            var rowNos = fields.Select(c => c.Row).Distinct().ToList();
-            if (rowNos.Count == 1)
-            {
-                foreach (var item in fields)
-                {
-                    AddRow().AddColumn(item);
-                }
-            }
-            else
-            {
-                foreach (var rowNo in rowNos)
-                {
-                    var infos = fields.Where(c => c.Row == rowNo).OrderBy(c => c.Column).ToArray();
-                    AddRow().AddColumn(infos);
-                }
-            }
-        }
+        InitColumns();
     }
 
     public string GetFormTitle()
@@ -176,29 +149,55 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         });
     }
 
-    private void SetFormInfo(FormInfo info)
+    internal void InitColumns()
+    {
+        Rows.Clear();
+        if (columns == null || columns.Count == 0)
+            return;
+
+        var fields = columns.Where(c => c.IsVisible);
+        var rowNos = fields.Select(c => c.Row).Distinct().ToList();
+        if (rowNos.Count == 1)
+        {
+            foreach (var item in fields)
+            {
+                AddRow().AddColumn(item);
+            }
+        }
+        else
+        {
+            foreach (var rowNo in rowNos)
+            {
+                var infos = fields.Where(c => c.Row == rowNo).OrderBy(c => c.Column).ToArray();
+                AddRow().AddColumn(infos);
+            }
+        }
+    }
+
+    internal void SetFormInfo(FormInfo info)
     {
         if (info == null)
             return;
 
         LabelSpan = info.LabelSpan;
         WrapperSpan = info.WrapperSpan;
+        columns = GetFormColumns(info);
     }
 
-    private static List<ColumnInfo> GetFormColumns(TableModel<TItem> table)
+    private static List<ColumnInfo> GetFormColumns(FormInfo form)
     {
         var columns = new List<ColumnInfo>();
         var isDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
         if (isDictionary)
         {
-            columns = table.Module?.Form?.Fields?.Select(f => new ColumnInfo(f)).ToList();
+            columns = form?.Fields?.Select(f => new ColumnInfo(f)).ToList();
         }
         else
         {
             var allColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
             foreach (var column in allColumns)
             {
-                var info = table.Module?.Form?.Fields?.FirstOrDefault(p => p.Id == column.Id);
+                var info = form?.Fields?.FirstOrDefault(p => p.Id == column.Id);
                 if (info != null)
                 {
                     column.SetFormFieldInfo(info);

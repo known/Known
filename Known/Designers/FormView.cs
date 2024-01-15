@@ -17,7 +17,10 @@ class FormView : BaseView<FormInfo>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        SetModel();
+
+        form = new FormModel<Dictionary<string, object>>(Context, false) { Data = [] };
+        SetForm();
+
         Tab.Items.Add(new ItemModel("Designer.View") { Content = BuildView });
         Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildList });
 
@@ -32,11 +35,12 @@ class FormView : BaseView<FormInfo>
         tab.Items.Add(new ItemModel("Designer.Property") { Content = BuildProperty });
     }
 
-    internal override void SetModel(FormInfo model)
+    internal override async void SetModel(FormInfo model)
     {
         base.SetModel(model);
-        SetModel();
+        SetForm();
         StateChanged();
+        await list.RefreshAsync();
     }
 
     private void BuildView(RenderTreeBuilder builder)
@@ -76,15 +80,15 @@ class FormView : BaseView<FormInfo>
         });
     }
 
-    private void SetModel()
-    {
-        form = new FormModel<Dictionary<string, object>>(Context, Model) { Data = [] };
-        form.Initialize();
-    }
-
     private void OnPropertyChanged()
     {
         SetModel(Model);
         OnChanged?.Invoke(Model);
+    }
+
+    private void SetForm()
+    {
+        form.SetFormInfo(Model);
+        form.InitColumns();
     }
 }
