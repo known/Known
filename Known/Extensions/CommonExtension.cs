@@ -118,5 +118,21 @@ public static class CommonExtension
     {
         return property?.GetCustomAttribute<MaxLengthAttribute>()?.Length;
     }
+
+    internal static FieldType GetFieldType(this PropertyInfo property)
+    {
+        var type = property.PropertyType;
+
+        if (type == typeof(bool))
+            return FieldType.Switch;
+
+        if (type == typeof(short) || type == typeof(int) || type == typeof(long) || type == typeof(float) || type == typeof(double) || type == typeof(decimal))
+            return FieldType.Number;
+
+        if (type == typeof(DateTime?) || type == typeof(DateTime) || type == typeof(DateTimeOffset?) || type == typeof(DateTimeOffset))
+            return FieldType.Date;
+
+        return FieldType.Text;
+    }
     #endregion
 }

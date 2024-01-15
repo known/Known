@@ -55,7 +55,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         return codes.ToCodes(emptyText);
     }
 
-    private bool IsReadOnly => Form.IsView || Column.ReadOnly;
+    public bool IsReadOnly => Form.IsView || Column.ReadOnly;
 
     internal IDictionary<string, object> InputAttributes
     {
@@ -65,11 +65,12 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             {
                 { "id", Column.Id },
                 { "autofocus", true },
-                { "disabled", IsReadOnly },
                 { "readonly", IsReadOnly },
                 { "required", Column.Required },
                 { "placeholder", Column.Placeholder }
             };
+            if (Column.Type != FieldType.Date)
+                attributes["disabled"] = IsReadOnly;
             UI.AddInputAttributes(attributes, this);
 
             var expression = InputExpression.Create(this);

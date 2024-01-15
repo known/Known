@@ -40,10 +40,10 @@ public class UIService(ModalService modalService, MessageService messageService)
         if (type == typeof(decimal))
             return typeof(InputNumber<decimal>);
 
-        if (type == typeof(DateTime?))
+        if (type == typeof(DateTime?) || column.Type == FieldType.Date)
             return typeof(DatePicker<DateTime?>);
 
-        if (type == typeof(DateTime) || column.Type == FieldType.Date)
+        if (type == typeof(DateTime))
             return typeof(DatePicker<DateTime>);
 
         if (type == typeof(DateTimeOffset?))
@@ -84,6 +84,9 @@ public class UIService(ModalService modalService, MessageService messageService)
             if (column.Type == FieldType.CheckList)
                 attributes[nameof(AntCheckboxGroup.Codes)] = model.GetCodes("");
         }
+
+        if (column.Type == FieldType.Date)
+            attributes["disabled"] = OneOf.OneOf<bool, bool[]>.FromT0(model.IsReadOnly);
     }
 
     public async void Toast(string message, StyleType style = StyleType.Success)

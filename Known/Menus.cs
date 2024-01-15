@@ -138,6 +138,7 @@ public class ColumnInfo
         Id = Property.Name;
         Name = Property.DisplayName();
         Required = Property.IsRequired();
+        Type = Property.GetFieldType();
 
         var form = Property.GetCustomAttribute<FormAttribute>();
         if (form != null)
@@ -145,7 +146,8 @@ public class ColumnInfo
             IsForm = true;
             Row = form.Row;
             Column = form.Column;
-            Type = Utils.ConvertTo<FieldType>(form.Type);
+            if (!string.IsNullOrWhiteSpace(form.Type))
+                Type = Utils.ConvertTo<FieldType>(form.Type);
             ReadOnly = form.ReadOnly;
             Placeholder = form.Placeholder;
         }
@@ -178,7 +180,7 @@ public class ColumnInfo
     public bool MultiFile { get; set; }
     public bool Required { get; set; }
     public bool ReadOnly { get; set; }
-    
+
     public RenderFragment Template { get; }
     public PropertyInfo Property { get; }
 
