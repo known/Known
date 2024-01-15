@@ -77,7 +77,7 @@ class PageDesigner : BaseViewDesigner<PageInfo>
 
     private void ChangeView()
     {
-        view?.SetModel(Model);
         OnChanged?.Invoke(Model);
+        view?.SetModel(Model);
     }
 }

@@ -1,29 +1,18 @@
 ﻿using Known.Blazor;
-using Known.Entities;
 using Known.Extensions;
 
 namespace Known.Designers;
 
 class DemoPageModel : TableModel<Dictionary<string, object>>
 {
-    private readonly PageInfo _info;
-    private readonly EntityInfo _entity;
-
-    internal DemoPageModel(Context context, SysModule module) : base(context, module)
+    internal DemoPageModel(Context context) : base(context)
     {
-        _info = module.Page;
-        _entity = DataHelper.GetEntity(module.EntityData);
         OnQuery = OnQueryDatas;
         OnAction = OnRowAction;
         Toolbar.OnItemClick = OnItemClick;
     }
 
-    internal DemoPageModel(Context context, PageInfo info, EntityInfo entity) : base(context, info)
-    {
-        _info = info;
-        _entity = entity;
-        OnQuery = OnQueryDatas;
-    }
+    internal EntityInfo Entity { get; set; }
 
     private Task<PagingResult<Dictionary<string, object>>> OnQueryDatas(PagingCriteria criteria)
     {
@@ -31,7 +20,7 @@ class DemoPageModel : TableModel<Dictionary<string, object>>
         for (int i = 0; i < 3; i++)
         {
             var data = new Dictionary<string, object>();
-            foreach (var item in _info.Columns)
+            foreach (var item in Columns)
             {
                 data[item.Id] = GetValue(item, i);
             }
@@ -75,10 +64,10 @@ class DemoPageModel : TableModel<Dictionary<string, object>>
         UI.Error(message);
     }
 
-    private object GetValue(PageColumnInfo item, int index)
+    private object GetValue(ColumnInfo item, int index)
     {
         var value = $"{item.Id}{index}";
-        var field = _entity?.Fields?.FirstOrDefault(f => f.Id == item.Id);
+        var field = Entity?.Fields?.FirstOrDefault(f => f.Id == item.Id);
         if (field != null)
         {
             switch (field.Type)

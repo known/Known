@@ -151,10 +151,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
     internal void InitColumns()
     {
-        Rows.Clear();
         if (columns == null || columns.Count == 0)
             return;
 
+        Rows.Clear();
         var fields = columns.Where(c => c.IsVisible);
         var rowNos = fields.Select(c => c.Row).Distinct().ToList();
         if (rowNos.Count == 1)

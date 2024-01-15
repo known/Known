@@ -15,41 +15,16 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         InitQueryColumns();
     }
 
-    internal TableModel(Context context, SysModule module) : this(context, module?.Page)
-    {
-        Module = module;
-    }
-
-    internal TableModel(Context context, PageInfo info) : base(context)
-    {
-        SetPageInfo(info);
-        Columns = AllColumns;
-        InitQueryColumns();
-    }
-
 	internal TableModel(BasePage<TItem> page) : base(page.Context)
     {
         Page = page;
         Module = page.Module;
         SetPageInfo(Module?.Page, page);
-        if (AllColumns != null && AllColumns.Count > 0)
-        {
-            foreach (var column in AllColumns)
-            {
-                var info = page.Columns?.FirstOrDefault(p => p.Id == column.Id);
-                if (info != null)
-                {
-                    column.SetPageColumnInfo(info);
-                    Columns.Add(column);
-                }
-            }
-        }
-        InitQueryColumns();
     }
 
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal BasePage<TItem> Page { get; }
-    internal SysModule Module { get; }
+    internal SysModule Module { get; set; }
 
     public bool ShowCheckBox { get; private set; }
     public bool ShowPager { get; set; }
@@ -217,7 +192,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         return typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
     }
 
-    private void SetPageInfo(PageInfo info, BasePage<TItem> page = null)
+    internal void SetPageInfo(PageInfo info, BasePage<TItem> page = null)
     {
         if (info == null)
             return;
@@ -226,24 +201,37 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         FixedHeight = info.FixedHeight;
         ShowPager = info.ShowPager;
 
+        Columns.Clear();
         if (page == null)
         {
             Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
             Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList();
             AllColumns = info.Columns.Select(c => new ColumnInfo(c)).ToList();
+            Columns.AddRange(AllColumns);
         }
         else
         {
             Toolbar.Items = info.Tools?.Where(t => page.Tools.Contains(t)).Select(t => new ActionInfo(t)).ToList();
             Actions = info.Actions?.Where(a => page.Actions.Contains(a)).Select(a => new ActionInfo(a)).ToList();
             AllColumns = GetAllColumns();
+            foreach (var item in AllColumns)
+            {
+                var column = page.Columns?.FirstOrDefault(p => p.Id == item.Id);
+                if (column != null)
+                {
+                    item.SetPageColumnInfo(column);
+                    Columns.Add(item);
+                }
+            }
         }
 
         ShowCheckBox = Toolbar.Items != null && Toolbar.Items.Count > 0;
+        InitQueryColumns();
     }
 
     private void InitQueryColumns()
     {
+        QueryColumns.Clear();
         if (Columns != null && Columns.Count > 0)
             QueryColumns.AddRange(Columns.Where(c => c.IsQuery));
 

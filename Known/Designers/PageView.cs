@@ -9,7 +9,7 @@ class PageView : BaseView<PageInfo>
 {
     private readonly TabModel tab = new();
     private TableModel<PageColumnInfo> list;
-    private TableModel<Dictionary<string, object>> table;
+    private DemoPageModel table;
     private string codePage;
     private string codeService;
     private string codeRepository;
@@ -25,12 +25,15 @@ class PageView : BaseView<PageInfo>
             return new CodeInfo(a.Id, name);
         }).ToList();
         base.OnInitialized();
-        SetModel();
+
         Tab.Items.Add(new ItemModel("Designer.View") { Content = BuildView });
         Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildList });
         Tab.Items.Add(new ItemModel("Designer.PageCode") { Content = BuildPage });
         Tab.Items.Add(new ItemModel("Designer.ServiceCode") { Content = BuildService });
         Tab.Items.Add(new ItemModel("Designer.RepositoryCode") { Content = BuildRepository });
+
+        SetTablePage();
+        SetCode();
 
         list = new(Context);
         list.FixedHeight = "380px";
@@ -56,11 +59,12 @@ class PageView : BaseView<PageInfo>
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    internal override void SetModel(PageInfo model)
+    internal override async void SetModel(PageInfo model)
     {
         base.SetModel(model);
-        SetModel();
+        SetTablePage();
         StateChanged();
+        await list.RefreshAsync();
     }
 
     private void BuildView(RenderTreeBuilder builder)
@@ -129,17 +133,26 @@ class PageView : BaseView<PageInfo>
         });
     }
 
-    private void SetModel()
+    private void OnPropertyChanged()
     {
-        table = new DemoPageModel(Context, Model, Entity);
+        OnChanged?.Invoke(Model);
+        SetCode();
+        table.SetPageInfo(Model);
+        StateChanged();
+    }
+
+    private void SetTablePage()
+    {
+        table = new DemoPageModel(Context);
+        table.Module = Form.Model.Data;
+        table.Entity = Entity;
+        table.SetPageInfo(Model);
+    }
+
+    private void SetCode()
+    {
         codePage = Generator.GetPage(Model, Entity);
         codeService = Generator.GetService(Model, Entity);
         codeRepository = Generator.GetRepository(Model, Entity);
-    }
-
-    private void OnPropertyChanged()
-    {
-        SetModel(Model);
-        OnChanged?.Invoke(Model);
     }
 }

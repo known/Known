@@ -8,9 +8,7 @@ class PageProperty : BaseProperty<PageColumnInfo>
 {
     protected override void BuildForm(RenderTreeBuilder builder)
     {
-        if (Model == null)
-            return;
-
+        Model ??= new();
         builder.Div("caption", () => builder.Div("title", $"{Language["Designer.FieldProperty"]} - {Model.Id}"));
         BuildPropertyItem(builder, "Name", b => b.Span(Model.Name));
         BuildPropertyItem(builder, "IsViewLink", b => UI.BuildSwitch(b, new InputModel<bool>
