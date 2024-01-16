@@ -4,12 +4,20 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-public class Picker : BaseComponent
+public abstract class BasePicker<TItem> : BaseComponent where TItem : class, new()
 {
+    public List<TItem> SelectedItems { get; } = [];
+}
+
+public class Picker<TComponent, TItem> : BaseComponent
+    where TComponent : BasePicker<TItem>
+    where TItem : class, new()
+{
+    private BasePicker<TItem> picker;
+
     [Parameter] public string Value { get; set; }
     [Parameter] public string Title { get; set; }
-    [Parameter] public RenderFragment Content { get; set; }
-    [Parameter] public Action<object> OnPicked { get; set; }
+    [Parameter] public Action<List<TItem>> OnPicked { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -22,12 +30,24 @@ public class Picker : BaseComponent
         if (ReadOnly)
             return;
 
-        var model = new DialogModel { Title = Title, Content = Content };
+        var model = new DialogModel { Title = Title, Content = BuildContent };
         model.OnOk = async () =>
         {
-            OnPicked?.Invoke("test");
+            var items = picker?.SelectedItems;
+            if (items == null || items.Count == 0)
+            {
+                UI.Error(Language.SelectOneAtLeast);
+                return;
+            }
+
+            OnPicked?.Invoke(items);
             await model.CloseAsync();
         };
         UI.ShowDialog(model);
+    }
+
+    private void BuildContent(RenderTreeBuilder builder)
+    {
+        builder.Component<TComponent>().Build(value => picker = value);
     }
 }

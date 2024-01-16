@@ -45,6 +45,10 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
     position:absolute;top:0;right:0;cursor:pointer;text-align:center;
     display:block;width:32px;height:32px;line-height:32px;
 }
+.kui-icon-picker {display:flex;}
+.kui-icon-picker .item {font-size:2rem;width:80px;text-align:center;}
+.kui-icon-picker .item.active {font-weight:bold;color:#1890ff;}
+.kui-icon-picker .item .name {display:block;font-size:1rem;}
 
 .kui-app-name {font-size:1.2rem}
 

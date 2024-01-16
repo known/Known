@@ -59,10 +59,10 @@ class SysModuleForm : BaseForm<SysModule>
 
     private void BuildIconField(RenderTreeBuilder builder)
     {
-        builder.Component<IconPicker>()
+        builder.Component<SysIconPicker>()
                .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.Value, Model.Data.Icon)
-               .Set(c => c.OnPicked, o => Model.Data.Icon = o?.ToString())
+               .Set(c => c.OnPicked, o => Model.Data.Icon = o[0].Icon)
                .Build();
     }
 
@@ -129,18 +129,64 @@ class SysModuleForm : BaseForm<SysModule>
     }
 }
 
-class IconPicker : Picker
+class IconInfo
+{
+    public string Icon { get; set; }
+}
+
+class IconPicker : BasePicker<IconInfo>
+{
+    private List<IconInfo> items = [];
+
+    public IconPicker()
+    {
+        items = [
+            new() { Icon = "database" },
+            new() { Icon = "file" }
+        ];
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-icon-picker", () =>
+        {
+            foreach (var item in items)
+            {
+                var className = "item";
+                if (SelectedItems.Contains(item))
+                    className += " active";
+                builder.Div().Class(className)
+                       .OnClick(this.Callback(() => OnSelectItem(item)))
+                       .Children(() =>
+                       {
+                           UI.BuildIcon(builder, item.Icon);
+                           builder.Span("name", item.Icon);
+                       })
+                       .Close();
+            }
+        });
+    }
+
+    private void OnSelectItem(IconInfo item)
+    {
+        if (!SelectedItems.Remove(item))
+            SelectedItems.Add(item);
+        StateChanged();
+    }
+}
+
+class SysIconPicker : Picker<IconPicker, IconInfo>
 {
     protected override async Task OnInitializedAsync()
     {
         Title = Language["Title.SelectIcon"];
-        Content = b => b.Text("ICON");
         await base.OnInitializedAsync();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("kui-module-icon", () => UI.BuildIcon(builder, Value));
+        if (!string.IsNullOrWhiteSpace(Value))
+            builder.Div("kui-module-icon", () => UI.BuildIcon(builder, Value));
         base.BuildRenderTree(builder);
     }
 }
