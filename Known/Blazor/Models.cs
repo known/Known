@@ -9,6 +9,14 @@ public class DialogModel
     public Func<Task> OnClose { get; set; }
     public RenderFragment Content { get; set; }
     public RenderFragment Footer { get; set; }
+
+    public Task CloseAsync()
+    {
+        if (OnClose == null)
+            return Task.CompletedTask;
+
+        return OnClose.Invoke();
+    }
 }
 
 public class InputModel<TValue>

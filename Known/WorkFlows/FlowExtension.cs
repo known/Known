@@ -94,7 +94,7 @@ public static class FlowExtension
             var result = await action?.Invoke(flow.Data);
             page.UI.Result(result, async () =>
             {
-                await model.OnClose?.Invoke();
+                await model.CloseAsync();
                 await page.RefreshAsync();
             });
         };

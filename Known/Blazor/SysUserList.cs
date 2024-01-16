@@ -98,7 +98,7 @@ class SysUserList : BasePage<SysUser>
             UI.Result(result, async () =>
             {
                 //TODO：更换部门后，部门名称未刷新问题
-                await model.OnClose?.Invoke();
+                await model.CloseAsync();
                 await table.RefreshAsync();
             });
         };

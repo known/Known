@@ -163,7 +163,7 @@ class SysModuleList : BasePage<SysModule>
             var result = await action?.Invoke(node);
             UI.Result(result, async () =>
             {
-                await model.OnClose?.Invoke();
+                await model.CloseAsync();
                 await RefreshAsync();
             });
         };

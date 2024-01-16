@@ -143,7 +143,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
                    .Set(c => c.Model, info)
                    .Set(c => c.OnSuccess, async () =>
                    {
-                       model.OnClose?.Invoke();
+                       await model.CloseAsync();
                        await RefreshAsync();
                    })
                    .Build();
