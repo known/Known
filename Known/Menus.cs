@@ -181,7 +181,7 @@ public class ColumnInfo
     public bool Required { get; set; }
     public bool ReadOnly { get; set; }
 
-    public RenderFragment Template { get; }
+    public RenderFragment Template { get; set; }
     public PropertyInfo Property { get; }
 
     internal void SetPageColumnInfo(PageColumnInfo info)

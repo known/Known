@@ -120,7 +120,7 @@ class SysUserForm : BaseForm<SysUser>
         Model.Initialize();
         Model.Data = await Platform.User.GetUserAsync(Model.Data);
         Model.Codes["Roles"] = Model.Data.Roles;
-        Model.Column(c => c.UserName).ReadOnly(!Model.Data.IsNew);
+        Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
         Model.AddRow().AddColumn(c => c.RoleIds);
     }
 }

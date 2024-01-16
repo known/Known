@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
@@ -15,6 +16,12 @@ public class ColumnBuilder<TItem> where TItem : class, new()
 
         if (column != null)
             name = column.Property.Name;
+    }
+
+    public ColumnBuilder<TItem> Template(RenderFragment template)
+    {
+        column.Template = template;
+        return this;
     }
 
     public ColumnBuilder<TItem> Template(Action<RenderTreeBuilder, TItem> template)

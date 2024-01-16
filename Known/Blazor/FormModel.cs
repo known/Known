@@ -77,7 +77,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         return row;
     }
 
-    public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
+    public ColumnBuilder<TItem> Field<TValue>(Expression<Func<TItem, TValue>> selector)
     {
         var property = TypeHelper.Property(selector);
         var column = columns?.FirstOrDefault(c => c.Id == property.Name);
