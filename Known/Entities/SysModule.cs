@@ -110,6 +110,8 @@ public class SysModule : EntityBase
     {
         Config.PageButtons.TryGetValue(Code, out List<string> buttons);
         Config.PageActions.TryGetValue(Code, out List<string> actions);
+        buttons ??= Page?.Tools?.ToList();
+        actions ??= Page?.Actions?.ToList();
         Buttons = buttons;
         Actions = actions;
         Columns = Page?.Columns;

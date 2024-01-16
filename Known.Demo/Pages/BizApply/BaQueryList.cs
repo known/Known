@@ -22,7 +22,7 @@ class BaQueryList : BaseTablePage<TbApply>
     }
 
     //重新申请
-    [Action] public void Repeat() => Table.SelectRows(this.RepeatFlow);
+    [Action] public void Reapply() => Table.SelectRows(this.RepeatFlow);
     //导出列表
     [Action] public void Export() { }
     //打印
