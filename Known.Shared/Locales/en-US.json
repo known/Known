@@ -262,6 +262,7 @@
   "Title.Import": "Import {name}",
   "Title.FormAction": "{action} {title}",
   "Title.FlowAction": "{action} Flow",
+  "Title.SelectIcon": "Select Icon",
   "Title.BasicInfo": "Basic Information",
   "Title.TableList": "Lists",
   "Title.FlowLog": "Flow Logs",

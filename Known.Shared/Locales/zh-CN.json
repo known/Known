@@ -258,6 +258,7 @@
   "Title.Import": "导入{name}",
   "Title.FormAction": "{action}{title}",
   "Title.FlowAction": "{action}流程",
+  "Title.SelectIcon": "选择图标",
   "Title.BasicInfo": "基本信息",
   "Title.TableList": "表体信息",
   "Title.FlowLog": "流程记录",

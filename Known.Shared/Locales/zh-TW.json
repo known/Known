@@ -131,6 +131,7 @@
   "Title.Import": "導入{name}",
   "Title.FormAction": "{action}{title}",
   "Title.FlowAction": "{action}流程",
+  "Title.SelectIcon": "選擇圖標",
   "Title.BasicInfo": "基本資訊",
   "Title.TableList": "表體資訊",
   "Title.FlowLog": "流程記錄",

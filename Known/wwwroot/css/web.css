@@ -41,6 +41,11 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-edit-input input {width:190px;}
 .kui-edit-input .kui-link {margin-left:10px;display:flex;align-items:center;}
 
+.kui-pick {
+    position:absolute;top:0;right:0;cursor:pointer;text-align:center;
+    display:block;width:32px;height:32px;line-height:32px;
+}
+
 .kui-app-name {font-size:1.2rem}
 
 .kui-flow .kui-group-box {padding:10px;background-color:var(--kui-bgcolor);}
@@ -99,6 +104,10 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 
 /*Setting*/
 .kui-form-setting button {margin:0 5px;}
+
+/*Module*/
+.kui-module-icon {position:absolute;top:5px;left:5px;z-index:101;}
+.kui-module-icon + input {padding-left:20px;}
 
 /*Role*/
 .kui-role {display:flex;}

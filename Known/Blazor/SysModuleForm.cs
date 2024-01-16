@@ -37,7 +37,9 @@ class SysModuleForm : BaseForm<SysModule>
         step.Items.Add(new("FlowSetting") { Content = BuildModuleFlow });
         step.Items.Add(new("PageSetting") { Content = BuildModulePage });
         step.Items.Add(new("FormSetting") { Content = BuildModuleForm });
+
         Model.OnFieldChanged = OnFieldChanged;
+        Model.Field(f => f.Icon).Template(BuildIconField);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -54,6 +56,15 @@ class SysModuleForm : BaseForm<SysModule>
     }
 
     private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
+
+    private void BuildIconField(RenderTreeBuilder builder)
+    {
+        builder.Component<IconPicker>()
+               .Set(c => c.ReadOnly, Model.IsView)
+               .Set(c => c.Value, Model.Data.Icon)
+               .Set(c => c.OnPicked, o => Model.Data.Icon = o?.ToString())
+               .Build();
+    }
 
     private void BuildModuleModel(RenderTreeBuilder builder)
     {
@@ -115,5 +126,21 @@ class SysModuleForm : BaseForm<SysModule>
         {
             stepForm.SetStepCount(StepCount);
         }
+    }
+}
+
+class IconPicker : Picker
+{
+    protected override async Task OnInitializedAsync()
+    {
+        Title = Language["Title.SelectIcon"];
+        Content = b => b.Text("ICON");
+        await base.OnInitializedAsync();
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-module-icon", () => UI.BuildIcon(builder, Value));
+        base.BuildRenderTree(builder);
     }
 }
