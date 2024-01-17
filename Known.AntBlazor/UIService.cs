@@ -155,6 +155,8 @@ public class UIService(ModalService modalService, MessageService messageService)
             options.Footer = null;
         }
 
+        if (model.Width != null)
+            options.Width = model.Width.Value;
         if (model.Footer != null)
             options.Footer = model.Footer;
 
