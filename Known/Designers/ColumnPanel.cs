@@ -3,6 +3,7 @@ using Known.Extensions;
 using Known.WorkFlows;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Designers;
 
@@ -44,7 +45,7 @@ class ColumnPanel<TModel> : BaseComponent
                         ValueChanged = this.Callback<bool>(c => OnFieldChecked(field, c))
                     });
                     var text = $"{field.Name}({field.Id})";
-                    builder.Span(text, this.Callback(() => OnFieldClicked(field)));
+                    builder.Span(text, this.Callback<MouseEventArgs>(e => OnFieldClicked(field)));
                 });
             }
         });

@@ -18,6 +18,19 @@ public static class UIExtension
     }
     #endregion
 
+    #region Icon
+    public static void Icon(this IUIService service, RenderTreeBuilder builder, string icon, EventCallback<MouseEventArgs>? onClick = null)
+    {
+        if (icon.StartsWith("fa"))
+        {
+            builder.Span(icon, "", onClick);
+            return;
+        }
+
+        service.BuildIcon(builder, icon, onClick);
+    }
+    #endregion
+
     #region Box
     public static void GroupBox(this RenderTreeBuilder builder, string title, Action child)
     {

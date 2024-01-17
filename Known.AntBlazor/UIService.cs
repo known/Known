@@ -2,7 +2,9 @@
 using Known.AntBlazor.Components;
 using Known.Blazor;
 using Known.Extensions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.AntBlazor;
 
@@ -272,9 +274,19 @@ public class UIService(ModalService modalService, MessageService messageService)
                .Build();
     }
 
-    public void BuildIcon(RenderTreeBuilder builder, string type)
+    public void BuildIcon(RenderTreeBuilder builder, string type, EventCallback<MouseEventArgs>? onClick = null)
     {
-        builder.Component<Icon>().Set(c => c.Type, type).Set(c => c.Theme, "outline").Build();
+        if (onClick == null)
+        {
+            builder.Component<Icon>().Set(c => c.Type, type).Set(c => c.Theme, "outline").Build();
+            return;
+        }
+
+        builder.Component<Icon>()
+               .Set(c => c.Type, type)
+               .Set(c => c.Theme, "outline")
+               .Set(c => c.OnClick, onClick)
+               .Build();
     }
 
     public void BuildResult(RenderTreeBuilder builder, string status, string message)

@@ -68,11 +68,7 @@ public class AntMenu : BaseComponent
 
     private void BuildItemName(RenderTreeBuilder builder, MenuItem item)
     {
-        builder.Component<Icon>()
-               .Set(c => c.Type, item.Icon)
-               .Set(c => c.Theme, "outline")
-               .Build();
-
+        UI.Icon(builder, item.Icon);
         var itemName = Language.GetString(item);
         builder.Span(itemName);
     }

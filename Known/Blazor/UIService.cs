@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
 
@@ -21,7 +23,7 @@ public interface IUIService
     void BuildSteps(RenderTreeBuilder builder, StepModel model);
     void BuildTabs(RenderTreeBuilder builder, TabModel model);
     void BuildTag(RenderTreeBuilder builder, string text);
-    void BuildIcon(RenderTreeBuilder builder, string type);
+    void BuildIcon(RenderTreeBuilder builder, string type, EventCallback<MouseEventArgs>? onClick = null);
     void BuildResult(RenderTreeBuilder builder, string status, string message);
     void BuildButton(RenderTreeBuilder builder, ActionInfo info);
     void BuildText(RenderTreeBuilder builder, InputModel<string> model);

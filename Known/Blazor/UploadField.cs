@@ -3,6 +3,7 @@ using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
 
@@ -39,7 +40,7 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
                     {
                         if (!Model.Form.IsView)
                         {
-                            builder.Span("kui-link danger", Language.Delete, this.Callback(() => OnDeleteFile(item)));
+                            builder.Span("kui-link danger", Language.Delete, this.Callback<MouseEventArgs>(e => OnDeleteFile(item)));
                         }
                         builder.DownloadLink(item.Name, item.FileUrl);
                     });

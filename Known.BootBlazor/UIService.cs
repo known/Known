@@ -2,7 +2,9 @@
 using Known.Blazor;
 using Known.BootBlazor.Components;
 using Known.Extensions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.BootBlazor;
 
@@ -259,9 +261,9 @@ public class UIService(DialogService dialogService, MessageService messageServic
                .Build();
     }
 
-    public void BuildIcon(RenderTreeBuilder builder, string type)
+    public void BuildIcon(RenderTreeBuilder builder, string type, EventCallback<MouseEventArgs>? onClick = null)
     {
-        builder.OpenElement("i").Class(type).CloseElement();
+        builder.Span().Class(type).OnClick(onClick).Close();
     }
 
     public void BuildResult(RenderTreeBuilder builder, string status, string message)
