@@ -289,6 +289,7 @@ public class UIService(DialogService dialogService, MessageService messageServic
     {
         builder.Component<BootstrapInput<string>>()
                .Set(c => c.IsDisabled, model.Disabled)
+               .Set(c => c.PlaceHolder, model.Placeholder)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
@@ -307,6 +308,7 @@ public class UIService(DialogService dialogService, MessageService messageServic
     {
         builder.Component<BootstrapPassword>()
                .Set(c => c.IsDisabled, model.Disabled)
+               .Set(c => c.PlaceHolder, model.Placeholder)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
@@ -324,6 +326,7 @@ public class UIService(DialogService dialogService, MessageService messageServic
     public void BuildNumber<TValue>(RenderTreeBuilder builder, InputModel<TValue> model)
     {
         builder.Component<BootstrapInput<TValue>>()
+               .Set(c => c.PlaceHolder, model.Placeholder)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
@@ -351,6 +354,7 @@ public class UIService(DialogService dialogService, MessageService messageServic
     {
         builder.Component<BootSelect>()
                .Set(c => c.IsDisabled, model.Disabled)
+               .Set(c => c.PlaceHolder, model.Placeholder)
                .Set(c => c.Codes, model.Codes)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)

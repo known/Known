@@ -313,6 +313,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         builder.Component<Input<string>>()
                .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.Placeholder, model.Placeholder)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
@@ -322,6 +323,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         builder.Component<TextArea>()
                .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.Placeholder, model.Placeholder)
                .Set(c => c.Rows, model.Rows)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
@@ -332,6 +334,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         builder.Component<InputPassword>()
                .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.Placeholder, model.Placeholder)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
@@ -341,6 +344,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         builder.Component<DatePicker<TValue>>()
                .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.Placeholder, model.Placeholder)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
@@ -379,6 +383,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         builder.Component<AntSelect>()
                .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.Placeholder, model.Placeholder)
                .Set(c => c.Codes, model.Codes)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)

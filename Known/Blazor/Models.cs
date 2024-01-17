@@ -22,6 +22,7 @@ public class DialogModel
 public class InputModel<TValue>
 {
     public bool Disabled { get; set; }
+    public string Placeholder { get; set; }
     public TValue Value { get; set; }
     public EventCallback<TValue> ValueChanged { get; set; }
     public List<CodeInfo> Codes { get; set; }
