@@ -434,6 +434,7 @@ public class UIService(ModalService modalService, MessageService messageService)
         else if (text == "Female") return "hotpink";
         //Flow
         else if (text == "Save") return "default";
+        else if (text == "Revoked") return "lime";
         else if (text == "Verifing") return "processing";
         else if (text == "Pass") return "success";
         else if (text == "Fail") return "error";

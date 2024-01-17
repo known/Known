@@ -209,6 +209,7 @@ class UserPicker : BasePicker<SysUser>
         model = new TableModel<SysUser>(Context)
         {
             ShowCheckBox = true,
+            ShowPager = true,
             OnQuery = Platform.User.QueryUsersAsync
         };
         model.AddColumn(c => c.UserName);
