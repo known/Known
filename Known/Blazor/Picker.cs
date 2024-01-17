@@ -7,7 +7,7 @@ namespace Known.Blazor;
 
 public abstract class BasePicker<TItem> : BaseComponent where TItem : class, new()
 {
-    public List<TItem> SelectedItems { get; } = [];
+    public virtual List<TItem> SelectedItems { get; } = [];
 }
 
 public class Picker<TComponent, TItem> : BaseComponent
@@ -16,6 +16,7 @@ public class Picker<TComponent, TItem> : BaseComponent
 {
     private BasePicker<TItem> picker;
 
+    [Parameter] public double? Width { get; set; }
     [Parameter] public bool AllowClear { get; set; }
     [Parameter] public string Value { get; set; }
     [Parameter] public string Title { get; set; }
@@ -47,7 +48,7 @@ public class Picker<TComponent, TItem> : BaseComponent
         if (ReadOnly)
             return;
 
-        var model = new DialogModel { Title = Title, Content = BuildContent };
+        var model = new DialogModel { Title = Title, Width = Width, Content = BuildContent };
         model.OnOk = async () =>
         {
             var items = picker?.SelectedItems;

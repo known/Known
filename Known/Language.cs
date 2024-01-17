@@ -117,7 +117,9 @@ public class Language
 
     private string GetText(string prefix, string code, string name = null)
     {
-        var text = GetString($"{prefix}.{code}");
+        var text = GetString($"Flow.{code}");
+        if (string.IsNullOrWhiteSpace(text))
+            text = GetString($"{prefix}.{code}");
         if (string.IsNullOrWhiteSpace(text))
             text = GetString(code);
         if (string.IsNullOrWhiteSpace(text))

@@ -432,6 +432,11 @@ public class UIService(ModalService modalService, MessageService messageService)
         //User
         else if (text == "Male") return "#108ee9";
         else if (text == "Female") return "hotpink";
+        //Flow
+        else if (text == "Save") return "default";
+        else if (text == "Verifing") return "processing";
+        else if (text == "Pass") return "success";
+        else if (text == "Fail") return "error";
         //Status
         else if (text.Contains("待") || text.Contains("中") || text.Contains("提交")) return "#2db7f5";
         else if (text.Contains("完成") || text.Contains("结束")) return "#108ee9";

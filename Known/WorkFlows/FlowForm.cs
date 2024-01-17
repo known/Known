@@ -1,5 +1,6 @@
 ﻿using Known.Blazor;
 using Known.Designers;
+using Known.Entities;
 using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -132,12 +133,10 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         switch (Model.FormType)
         {
             case FormType.Submit:
-                flow.AddUserColumn(Language?["SubmitTo"], "User");
+                flow.AddUserColumn("SubmitTo", "User");
                 flow.AddNoteColumn();
                 break;
             case FormType.Verify:
-                //审核结果：通过、退回
-                //退回原因
                 flow.AddVerifyColumn();
                 flow.AddNoteColumn();
                 break;
@@ -147,14 +146,22 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
 class FlowFormModel(Context context) : FormModel<FlowFormInfo>(context, true)
 {
-    internal void AddUserColumn(string name, string category)
+    internal void AddUserColumn(string id, string category)
     {
         AddRow().AddColumn(c => c.User, c =>
         {
-            c.Name = name;
+            c.Id = id;
             c.Required = true;
-            c.Category = category;
-            c.Type = FieldType.Select;
+            c.Template = b =>
+            {
+                b.Component<Picker<UserPicker, SysUser>>()
+                 .Set(c => c.Width, 800)
+                 .Set(c => c.AllowClear, true)
+                 .Set(c => c.Title, Language["Title.SelectUser"])
+                 .Set(c => c.Value, Data.User)
+                 .Set(c => c.OnPicked, o => Data.User = o?[0]?.UserName)
+                 .Build();
+            };
         });
     }
 
@@ -162,7 +169,9 @@ class FlowFormModel(Context context) : FormModel<FlowFormInfo>(context, true)
     {
         AddRow().AddColumn(c => c.BizStatus, c =>
         {
-            c.Name = Language?["VerifyResult"];
+            c.Id = "VerifyResult";
+            c.Required = true;
+            c.Type = FieldType.RadioList;
             c.Category = $"{FlowStatus.VerifyPass},{FlowStatus.VerifyFail}";
         });
     }
@@ -171,7 +180,7 @@ class FlowFormModel(Context context) : FormModel<FlowFormInfo>(context, true)
     {
         AddRow().AddColumn(c => c.Note, c =>
         {
-            c.Name = Language?["Note"];
+            c.Id = "Note";
             c.Type = FieldType.TextArea;
         });
     }
@@ -186,4 +195,28 @@ class FlowFormModel(Context context) : FormModel<FlowFormInfo>(context, true)
             c.Type = FieldType.TextArea;
         });
     }
+}
+
+class UserPicker : BasePicker<SysUser>
+{
+    private TableModel<SysUser> model;
+
+    public override List<SysUser> SelectedItems => model?.SelectedRows?.ToList();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        model = new TableModel<SysUser>(Context)
+        {
+            ShowCheckBox = true,
+            OnQuery = Platform.User.QueryUsersAsync
+        };
+        model.AddColumn(c => c.UserName);
+        model.AddColumn(c => c.Name, true);
+        model.AddColumn(c => c.Phone);
+        model.AddColumn(c => c.Email);
+        model.AddColumn(c => c.Role);
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.BuildTablePage(model);
 }

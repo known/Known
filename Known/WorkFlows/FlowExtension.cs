@@ -71,8 +71,7 @@ public static class FlowExtension
         flow.Data = new FlowFormInfo { BizId = string.Join(",", rows.Select(r => r.Id)) };
         if (name == page.Language["Button.Assign"])
         {
-            //指派给、备注
-            flow.AddUserColumn(page.Language["AssignTo"], "User");
+            flow.AddUserColumn("AssignTo", "User");
             flow.AddNoteColumn();
         }
         else

@@ -1,40 +1,15 @@
-﻿using System.Reflection;
+﻿namespace Known.WorkFlows;
 
-namespace Known.WorkFlows;
-
-public abstract class BaseFlow
+public abstract class BaseFlow(Context context)
 {
-    private static readonly Dictionary<string, Type> flowTypes = [];
-
-    public BaseFlow(Context context)
-    {
-        Context = context;
-    }
-
-    public Context Context { get; }
-
-    public static void Register(Assembly assembly)
-    {
-        if (assembly == null)
-            return;
-
-        var types = assembly.GetTypes();
-        if (types == null || types.Length == 0)
-            return;
-
-        foreach (var item in types)
-        {
-            if (item.IsSubclassOf(typeof(BaseFlow)))
-                flowTypes[item.Name] = item;
-        }
-    }
+    public Context Context { get; } = context;
 
     internal static BaseFlow Create(Context context, SysFlow flow)
     {
-        if (!flowTypes.ContainsKey(flow.FlowCode))
+        if (!Config.FlowTypes.ContainsKey(flow.FlowCode))
             Check.Throw(context.Language["Tip.NotRegisterFlow"]);
 
-        var type = flowTypes[flow.FlowCode];
+        var type = Config.FlowTypes[flow.FlowCode];
         var instance = Activator.CreateInstance(type, context) as BaseFlow;
         return instance;
     }

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Known.Blazor;
+using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace Known;
@@ -17,6 +18,7 @@ public sealed class Config
     public static VersionInfo Version { get; private set; }
     internal static List<ActionInfo> Actions { get; set; } = [];
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
+    internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
     internal static Dictionary<string, Type> PageTypes { get; } = [];
     internal static Dictionary<string, List<string>> PageButtons { get; } = [];
@@ -34,6 +36,10 @@ public sealed class Config
             if (item.IsAssignableTo(typeof(ImportBase)))
             {
                 ImportTypes[item.Name] = item;
+            }
+            else if (item.IsAssignableTo(typeof(BaseFlow)))
+            {
+                FlowTypes[item.Name] = item;
             }
             else if (item.IsAssignableTo(typeof(BasePage)))
             {
