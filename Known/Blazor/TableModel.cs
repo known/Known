@@ -26,7 +26,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     internal BasePage<TItem> Page { get; }
     internal SysModule Module { get; set; }
 
-    public bool ShowCheckBox { get; private set; }
+    public bool ShowCheckBox { get; set; }
     public bool ShowPager { get; set; }
     public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }
@@ -51,6 +51,19 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     {
         var property = TypeHelper.Property(selector);
         var column = Columns?.FirstOrDefault(c => c.Id == property.Name);
+        return new ColumnBuilder<TItem>(column, this);
+    }
+
+    public ColumnBuilder<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector, bool isQuery = false)
+    {
+        var property = TypeHelper.Property(selector);
+        var column = new ColumnInfo(property);
+        Columns.Add(column);
+        if (isQuery)
+        {
+            QueryColumns.Add(column);
+            QueryData[property.Name] = new QueryInfo(column);
+        }
         return new ColumnBuilder<TItem>(column, this);
     }
 

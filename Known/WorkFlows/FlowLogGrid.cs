@@ -1,5 +1,4 @@
 ﻿using Known.Blazor;
-using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -16,11 +15,11 @@ public class FlowLogGrid : BaseComponent
     {
         await base.OnInitializedAsync();
         model = new TableModel<SysFlowLog>(Context) { OnQuery = OnQueryLogs };
-        model.Column(c => c.CreateBy).Visible(false);
-        model.Column(c => c.CreateTime).Visible(false);
-        model.Column(c => c.ModifyBy).Visible(false);
-        model.Column(c => c.ModifyTime).Visible(false);
-        model.Column(c => c.Result).Template(BuildResult);
+        model.AddColumn(c => c.StepName);
+        model.AddColumn(c => c.ExecuteBy);
+        model.AddColumn(c => c.ExecuteTime);
+        model.AddColumn(c => c.Result).Template(BuildResult);
+        model.AddColumn(c => c.Note);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTable(builder, model);
