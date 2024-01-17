@@ -22,9 +22,6 @@ public static class HtmlExtension
     public static void Span(this RenderTreeBuilder builder, string text, EventCallback? onClick = null) => builder.Span("", text, onClick);
     public static void Span(this RenderTreeBuilder builder, string className, string text, EventCallback? onClick = null)
     {
-        if (string.IsNullOrWhiteSpace(text))
-            return;
-
         builder.Span().Class(className).OnClick(onClick).Markup(text).Close();
     }
 

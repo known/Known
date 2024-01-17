@@ -41,10 +41,11 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-edit-input input {width:190px;}
 .kui-edit-input .kui-link {margin-left:10px;display:flex;align-items:center;}
 
-.kui-pick {
+.kui-pick, .kui-pick-clear {
     position:absolute;top:0;right:0;cursor:pointer;text-align:center;
     display:block;width:32px;height:32px;line-height:32px;
 }
+.kui-pick-clear {right:28px;}
 .kui-icon-picker {display:flex;}
 .kui-icon-picker .item {font-size:2rem;width:80px;text-align:center;}
 .kui-icon-picker .item.active {font-weight:bold;color:#1890ff;}

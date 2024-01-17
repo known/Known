@@ -15,6 +15,7 @@ public class Picker<TComponent, TItem> : BaseComponent
 {
     private BasePicker<TItem> picker;
 
+    [Parameter] public bool AllowClear { get; set; }
     [Parameter] public string Value { get; set; }
     [Parameter] public string Title { get; set; }
     [Parameter] public Action<List<TItem>> OnPicked { get; set; }
@@ -22,7 +23,22 @@ public class Picker<TComponent, TItem> : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         UI.BuildText(builder, new InputModel<string> { Value = Value, Disabled = true });
-        builder.Span().Class("kui-pick fa fa-ellipsis-h").OnClick(this.Callback(ShowModal)).Close();
+
+        if (!ReadOnly)
+        {
+            if (AllowClear)
+                builder.Span("kui-pick-clear fa fa-close", "", this.Callback(OnClear));
+            builder.Span("kui-pick fa fa-ellipsis-h", "", this.Callback(ShowModal));
+        }
+    }
+
+    private void OnClear()
+    {
+        if (ReadOnly)
+            return;
+
+        Value = string.Empty;
+        OnPicked?.Invoke(null);
     }
 
     private void ShowModal()

@@ -61,8 +61,9 @@ class SysModuleForm : BaseForm<SysModule>
     {
         builder.Component<SysIconPicker>()
                .Set(c => c.ReadOnly, Model.IsView)
+               .Set(c => c.AllowClear, true)
                .Set(c => c.Value, Model.Data.Icon)
-               .Set(c => c.OnPicked, o => Model.Data.Icon = o[0].Icon)
+               .Set(c => c.OnPicked, o => Model.Data.Icon = o?[0]?.Icon)
                .Build();
     }
 
