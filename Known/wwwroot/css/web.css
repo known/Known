@@ -46,10 +46,12 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
     display:block;width:32px;height:32px;line-height:32px;
 }
 .kui-pick-clear {right:28px;}
-.kui-icon-picker {display:flex;}
-.kui-icon-picker .item {font-size:2rem;width:80px;text-align:center;}
+.kui-icon-picker {position:relative;height:300px;}
+.kui-icon-picker .search {position:absolute;top:0;left:0;right:0;}
+.kui-icon-picker .items {position:absolute;top:35px;left:0;bottom:0;right:0;overflow:auto;}
+.kui-icon-picker .item {display:inline-block;font-size:2rem;width:80px;text-align:center;margin:2px;}
 .kui-icon-picker .item.active {font-weight:bold;color:#1890ff;}
-.kui-icon-picker .item .name {display:block;font-size:1rem;}
+.kui-icon-picker .item .name {display:block;font-size:1rem;height:1rem;line-height:1rem;overflow:hidden;}
 
 .kui-app-name {font-size:1.2rem}
 

@@ -19,6 +19,11 @@ public static class Extension
 
         Config.AddModule(typeof(Extension).Assembly);
         services.AddScoped<UIService>();
+
+        UIConfig.Icons["AntDesign"] = typeof(IconType.Outline).GetProperties()
+            .Select(x => (string)x.GetValue(null))
+            .Where(x => x is not null)
+            .ToList();
     }
 
     internal static FormValidationRule[] RuleRequired(this Context context, string id)

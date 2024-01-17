@@ -38,6 +38,13 @@ public static class Extension
         }
         services.AddHttpContextAccessor();
         //services.AddOptions().AddLogging();
+
+        var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
+        if (!string.IsNullOrWhiteSpace(content))
+        {
+            var lines = content.Split([.. Environment.NewLine]);
+            UIConfig.Icons["FontAwesome"] = lines.Where(l => !string.IsNullOrWhiteSpace(l)).Select(l => $"fa fa-{l}").ToList();
+        }
     }
 
     public static void UseKnownStaticFiles(this IApplicationBuilder app)

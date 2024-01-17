@@ -137,19 +137,55 @@ class IconInfo
 
 class IconPicker : BasePicker<IconInfo>
 {
-    private List<IconInfo> items = [];
+    private const string KeyCustom = "Custom";
+    private readonly TabModel tab = new();
+    private readonly Dictionary<string, List<IconInfo>> icons = [];
+    private string searchKey;
 
     public IconPicker()
     {
-        items = [
-            new() { Icon = "database" },
-            new() { Icon = "file" }
-        ];
+        foreach (var item in UIConfig.Icons)
+        {
+            tab.Items.Add(new ItemModel(item.Key) { Content = b => BuildContent(b, item.Key) });
+        }
+        tab.Items.Add(new ItemModel(KeyCustom) { Content = b => BuildContent(b, KeyCustom) });
+        icons = UIConfig.Icons.ToDictionary(k => k.Key, v => v.Value.Select(x => new IconInfo { Icon = x }).ToList());
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTabs(builder, tab);
+
+    private void BuildContent(RenderTreeBuilder builder, string key)
     {
+        var value = SelectedItems.Count == 0 ? "" : SelectedItems[0].Icon;
         builder.Div("kui-icon-picker", () =>
+        {
+            if (key == KeyCustom)
+            {
+                UI.BuildText(builder, new InputModel<string>
+                {
+                    Value = value,
+                    ValueChanged = this.Callback<string>(value =>
+                    {
+                        SelectedItems.Clear();
+                        SelectedItems.Add(new IconInfo { Icon = value });
+                    })
+                });
+            }
+            else
+            {
+                BuildSearch(builder);
+                BuildIconList(builder, key);
+            }
+        });
+    }
+
+    private void BuildIconList(RenderTreeBuilder builder, string key)
+    {
+        var items = icons[key];
+        if (!string.IsNullOrWhiteSpace(searchKey))
+            items = items.Where(i => i.Icon.Contains(searchKey)).ToList();
+
+        builder.Div("items", () =>
         {
             foreach (var item in items)
             {
@@ -160,11 +196,31 @@ class IconPicker : BasePicker<IconInfo>
                        .OnClick(this.Callback(() => OnSelectItem(item)))
                        .Children(() =>
                        {
-                           UI.BuildIcon(builder, item.Icon);
+                           if (key == "FontAwesome")
+                               builder.Span(item.Icon, "");
+                           else
+                               UI.Icon(builder, item.Icon);
                            builder.Span("name", item.Icon);
                        })
                        .Close();
             }
+        });
+    }
+
+    private void BuildSearch(RenderTreeBuilder builder)
+    {
+        builder.Div("search", () =>
+        {
+            UI.BuildText(builder, new InputModel<string>
+            {
+                Placeholder = "Search",
+                Value = searchKey,
+                ValueChanged = this.Callback<string>(value =>
+                {
+                    searchKey = value;
+                    StateChanged();
+                })
+            });
         });
     }
 
@@ -187,7 +243,7 @@ class SysIconPicker : Picker<IconPicker, IconInfo>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (!string.IsNullOrWhiteSpace(Value))
-            builder.Div("kui-module-icon", () => UI.BuildIcon(builder, Value));
+            builder.Div("kui-module-icon", () => UI.Icon(builder, Value));
         base.BuildRenderTree(builder);
     }
 }

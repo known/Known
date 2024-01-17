@@ -21,6 +21,9 @@ public static class UIExtension
     #region Icon
     public static void Icon(this IUIService service, RenderTreeBuilder builder, string icon, EventCallback<MouseEventArgs>? onClick = null)
     {
+        if (string.IsNullOrWhiteSpace(icon))
+            return;
+
         if (icon.StartsWith("fa"))
         {
             builder.Span(icon, "", onClick);

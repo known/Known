@@ -1,6 +1,7 @@
 ﻿using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
 
@@ -27,12 +28,12 @@ public class Picker<TComponent, TItem> : BaseComponent
         if (!ReadOnly)
         {
             if (AllowClear)
-                builder.Span("kui-pick-clear fa fa-close", "", this.Callback(OnClear));
-            builder.Span("kui-pick fa fa-ellipsis-h", "", this.Callback(ShowModal));
+                builder.Icon("kui-pick-clear fa fa-close", this.Callback<MouseEventArgs>(OnClear));
+            builder.Icon("kui-pick fa fa-ellipsis-h", this.Callback<MouseEventArgs>(ShowModal));
         }
     }
 
-    private void OnClear()
+    private void OnClear(MouseEventArgs args)
     {
         if (ReadOnly)
             return;
@@ -41,7 +42,7 @@ public class Picker<TComponent, TItem> : BaseComponent
         OnPicked?.Invoke(null);
     }
 
-    private void ShowModal()
+    private void ShowModal(MouseEventArgs args)
     {
         if (ReadOnly)
             return;

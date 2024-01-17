@@ -410,6 +410,7 @@
   "AllSelect": "All",
   "Collapse": "Collapse",
   "Expand": "Expand",
+  "Custom": "Custom",
 
   "Page.Total": "Total: {total}",
 
