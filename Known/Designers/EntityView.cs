@@ -21,7 +21,7 @@ class EntityView : BaseView<EntityInfo>
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        table = new(Context);
+        table = new(Context, true);
         dbType = new Database().DatabaseType;
         SetViewData(Model);
         Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildView });

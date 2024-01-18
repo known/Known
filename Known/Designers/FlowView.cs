@@ -20,7 +20,7 @@ class FlowView : BaseView<FlowInfo>
         await base.OnInitializedAsync();
         Tab.Items.Add(new ItemModel("Designer.FlowStep") { Content = BuildView });
 
-        table = new(Context);
+        table = new(Context, true);
         table.FixedHeight = "380px";
         table.OnQuery = c =>
         {

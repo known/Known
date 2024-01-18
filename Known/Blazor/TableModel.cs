@@ -8,11 +8,14 @@ namespace Known.Blazor;
 
 public class TableModel<TItem> : BaseModel where TItem : class, new()
 {
-    internal TableModel(Context context) : base(context)
+    internal TableModel(Context context, bool isAuto = false) : base(context)
     {
-        AllColumns = GetAllColumns();
-        Columns = AllColumns?.Where(c => !string.IsNullOrWhiteSpace(c.Name))?.ToList();
-        InitQueryColumns();
+        if (isAuto)
+        {
+            AllColumns = GetAllColumns();
+            Columns = AllColumns;
+            InitQueryColumns();
+        }
     }
 
 	internal TableModel(BasePage<TItem> page) : base(page.Context)

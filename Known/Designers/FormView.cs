@@ -24,7 +24,7 @@ class FormView : BaseView<FormInfo>
         Tab.Items.Add(new ItemModel("Designer.View") { Content = BuildView });
         Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildList });
 
-        list = new(Context);
+        list = new(Context, true);
         list.FixedHeight = "380px";
         list.OnQuery = c =>
         {

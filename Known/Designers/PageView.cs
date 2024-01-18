@@ -35,7 +35,7 @@ class PageView : BaseView<PageInfo>
         SetTablePage();
         SetCode();
 
-        list = new(Context);
+        list = new(Context, true);
         list.FixedHeight = "380px";
         list.OnQuery = c =>
         {
