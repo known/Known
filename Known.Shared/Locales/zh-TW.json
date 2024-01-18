@@ -255,6 +255,8 @@
   "Tip.TaskPending": "任務等待中…",
   "Tip.TaskRunning": "任務執行中…",
   "Tip.TaskAddSuccess": "任務添加成功，請稍後查詢結果！",
+  "Tip.TableHasData": "資料表存在數據，不能執行！",
+  "Tip.ExecuteSuccess": "執行成功！",
 
   "Import.Tips": "提示：請上傳單個txt或Excel格式附件！",
   "Import.Download": "範本下載",
@@ -305,6 +307,7 @@
   "Designer.FlowModel": "流程模型",
   "Designer.FlowStep": "流程步驟",
   "Designer.FieldProperty": "欄位内容",
+  "Designer.Execute": "執行",
   "Designer.View": "視圖",
   "Designer.Property": "内容",
   "Designer.Toolbar": "工具條",

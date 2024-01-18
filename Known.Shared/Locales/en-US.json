@@ -386,6 +386,8 @@
   "Tip.TaskPending": "Task waiting...",
   "Tip.TaskRunning": "Task in progress...",
   "Tip.TaskAddSuccess": "Task added successfully, please check the results later!",
+  "Tip.TableHasData": "The data table contains data and cannot be executed!",
+  "Tip.ExecuteSuccess": "Execution successful!",
 
   "Import.Tips": "Tip: Please upload a single txt or Excel format attachment!",
   "Import.Download": "Template",
@@ -436,6 +438,7 @@
   "Designer.FlowModel": "Flow Model",
   "Designer.FlowStep": "Flow Steps",
   "Designer.FieldProperty": "Field",
+  "Designer.Execute": "Execute",
   "Designer.View": "View",
   "Designer.Property": "Property",
   "Designer.Toolbar": "Toolbar",

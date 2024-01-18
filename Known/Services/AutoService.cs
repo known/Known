@@ -31,4 +31,32 @@ class AutoService : ServiceBase
             await db.SaveAsync(tableName, model);
         }, model);
     }
+
+    public async Task<Result> CreateTableAsync(string tableName, string script)
+    {
+        try
+        {
+            try
+            {
+                var sql = $"select count(*) from {tableName}";
+                var count = await Database.ScalarAsync<int>(sql);
+                if (count > 0)
+                    return Result.Error(Language["Tip.TableHasData"]);
+
+                sql = $"drop table {tableName}";
+                await Database.ExecuteAsync(sql);
+            }
+            catch
+            {
+            }
+
+            await Database.ExecuteAsync(script);
+            return Result.Success(Language["Tip.ExecuteSuccess"]);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex.ToString());
+            return Result.Error(ex.Message);
+        }
+    }
 }

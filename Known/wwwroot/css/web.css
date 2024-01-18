@@ -169,6 +169,7 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 
 /*Code*/
 .kui-code {margin:0 0 0 10px;border-left:3px solid var(--kui-border-color);height:445px;overflow:auto;}
+.kui-code-action {position:absolute;top:-50px;right:0;}
 .kui-designer.entity .kui-code, .kui-code pre[class*=language-] {margin:0;}
 
 /*AntDesign*/

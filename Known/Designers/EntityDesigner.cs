@@ -46,7 +46,10 @@ class EntityDesigner : BaseDesigner<string>
             });
             builder.Div("panel-view", () =>
             {
-                builder.Component<EntityView>().Set(c => c.Model, entity).Build(value => view = value);
+                builder.Component<EntityView>()
+                       .Set(c => c.ReadOnly, ReadOnly)
+                       .Set(c => c.Model, entity)
+                       .Build(value => view = value);
             });
         });
     }

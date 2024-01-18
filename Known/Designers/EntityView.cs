@@ -1,6 +1,7 @@
 ﻿using Known.Blazor;
 using Known.Extensions;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Designers;
 
@@ -9,6 +10,8 @@ class EntityView : BaseView<EntityInfo>
     private TableModel<FieldInfo> table;
     private string entity;
     private string script;
+    private string tableName;
+    private string tableScript;
     private DatabaseType dbType;
 
     internal override async void SetModel(EntityInfo model)
@@ -24,6 +27,7 @@ class EntityView : BaseView<EntityInfo>
         table = new(Context, true);
         dbType = new Database().DatabaseType;
         SetViewData(Model);
+
         Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildView });
         Tab.Items.Add(new ItemModel("Designer.EntityCode") { Content = BuildEntity });
         Tab.Items.Add(new ItemModel("Designer.TableScript") { Content = BuildScript });
@@ -53,11 +57,30 @@ class EntityView : BaseView<EntityInfo>
     }
 
     private void BuildEntity(RenderTreeBuilder builder) => BuildCode(builder, entity);
-    private void BuildScript(RenderTreeBuilder builder) => BuildCode(builder, script);
+
+    private void BuildScript(RenderTreeBuilder builder)
+    {
+        if (!ReadOnly)
+        {
+            builder.Div("kui-code-action", () =>
+            {
+                UI.Button(builder, Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExecuteScript), "primary");
+            });
+        }
+        BuildCode(builder, script);
+    }
+
+    private async void OnExecuteScript(MouseEventArgs args)
+    {
+        var result = await Platform.Auto.CreateTableAsync(tableName, tableScript);
+        UI.Result(result);
+    }
 
     private void SetViewData(EntityInfo model)
     {
         entity = Generator.GetEntity(model);
         script = Generator.GetScript(dbType, model);
+        tableName = model.Id;
+        tableScript = script;
     }
 }

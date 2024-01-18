@@ -382,6 +382,8 @@
   "Tip.TaskPending": "任务等待中...",
   "Tip.TaskRunning": "任务执行中...",
   "Tip.TaskAddSuccess": "任务添加成功，请稍后查询结果！",
+  "Tip.TableHasData": "数据表存在数据，不能执行！",
+  "Tip.ExecuteSuccess": "执行成功！",
 
   "Import.Tips": "提示: 请上传单个txt或Excel格式附件！",
   "Import.Download": "模板下载",
@@ -432,6 +434,7 @@
   "Designer.FlowModel": "流程模型",
   "Designer.FlowStep": "流程步骤",
   "Designer.FieldProperty": "字段属性",
+  "Designer.Execute": "执行",
   "Designer.View": "视图",
   "Designer.Property": "属性",
   "Designer.Toolbar": "工具条",
