@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-@if (Model.Items != null && Model.Items.Count > 0)
+@if (Model.HasItem)
 {
     <div class="boot-toolbar btn-group" role="group">
         @foreach (var item in Model.Items)

@@ -238,7 +238,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
             }
         }
 
-        ShowCheckBox = Toolbar.Items != null && Toolbar.Items.Count > 0;
+        ShowCheckBox = Toolbar.HasItem;
         InitQueryColumns();
     }
 
