@@ -10,9 +10,6 @@ class PageView : BaseView<PageInfo>
     private readonly TabModel tab = new();
     private TableModel<PageColumnInfo> list;
     private DemoPageModel table;
-    private string codePage;
-    private string codeService;
-    private string codeRepository;
     private List<CodeInfo> actions;
 
     [Parameter] public EntityInfo Entity { get; set; }
@@ -28,12 +25,8 @@ class PageView : BaseView<PageInfo>
 
         Tab.Items.Add(new ItemModel("Designer.View") { Content = BuildView });
         Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildList });
-        Tab.Items.Add(new ItemModel("Designer.PageCode") { Content = BuildPage });
-        Tab.Items.Add(new ItemModel("Designer.ServiceCode") { Content = BuildService });
-        Tab.Items.Add(new ItemModel("Designer.RepositoryCode") { Content = BuildRepository });
 
         SetTablePage();
-        SetCode();
 
         list = new(Context, true);
         list.FixedHeight = "380px";
@@ -46,17 +39,6 @@ class PageView : BaseView<PageInfo>
         tab.Items.Add(new ItemModel("Designer.Property") { Content = BuildProperty });
         tab.Items.Add(new ItemModel("Designer.Toolbar") { Content = BuildToolbar });
         tab.Items.Add(new ItemModel("Designer.Action") { Content = BuildAction });
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            codePage = await JS.HighlightAsync(codePage, "csharp");
-            codeService = await JS.HighlightAsync(codeService, "csharp");
-            codeRepository = await JS.HighlightAsync(codeRepository, "csharp");
-        }
-        await base.OnAfterRenderAsync(firstRender);
     }
 
     internal override async void SetModel(PageInfo model)
@@ -82,9 +64,6 @@ class PageView : BaseView<PageInfo>
     }
 
     private void BuildList(RenderTreeBuilder builder) => BuildList(builder, list);
-    private void BuildPage(RenderTreeBuilder builder) => BuildCode(builder, codePage);
-    private void BuildService(RenderTreeBuilder builder) => BuildCode(builder, codeService);
-    private void BuildRepository(RenderTreeBuilder builder) => BuildCode(builder, codeRepository);
 
     private void BuildProperty(RenderTreeBuilder builder)
     {
@@ -136,7 +115,6 @@ class PageView : BaseView<PageInfo>
     private void OnPropertyChanged()
     {
         OnChanged?.Invoke(Model);
-        SetCode();
         table.SetPageInfo(Model);
         StateChanged();
     }
@@ -147,12 +125,5 @@ class PageView : BaseView<PageInfo>
         table.Module = Form.Model.Data;
         table.Entity = Entity;
         table.SetPageInfo(Model);
-    }
-
-    private void SetCode()
-    {
-        codePage = Generator.GetPage(Model, Entity);
-        codeService = Generator.GetService(Model, Entity);
-        codeRepository = Generator.GetRepository(Model, Entity);
     }
 }

@@ -7,6 +7,8 @@ namespace Known.Blazor;
 
 public class FieldModel<TItem> : BaseModel where TItem : class, new()
 {
+    private bool IsDictionary { get; }
+
     internal FieldModel(FormModel<TItem> form, ColumnInfo column) : base(form.Context)
     {
         if (!string.IsNullOrWhiteSpace(column.Id))
@@ -14,11 +16,11 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         Form = form;
         Column = column;
         Data = form.Data;
+        IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
     }
 
     public FormModel<TItem> Form { get; }
     public ColumnInfo Column { get; }
-    private bool IsDictionary => Form.Table != null && Form.Table.IsDictionary;
     public bool IsReadOnly => Form.IsView || Column.ReadOnly;
     internal TItem Data { get; }
     internal PropertyInfo Property => Column.Property;
@@ -29,7 +31,6 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         if (IsDictionary)
         {
             var value = Value;
-            Logger.Info($"{Column.Name} {value?.GetType()}");
             switch (Column.Type)
             {
                 case FieldType.Date:
@@ -57,10 +58,10 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             {
                 var data = Form.Data as Dictionary<string, object>;
                 data.TryGetValue(Column.Id, out object value);
-                if (Column.Type == FieldType.Date)
-                    return Utils.ConvertTo<DateTime?>(value);
+                if (Column.Type != FieldType.Date)
+                    return value;
 
-                return value;
+                return Utils.ConvertTo<DateTime?>(value);
             }
 
             return Column.Property?.GetValue(Form.Data);
@@ -152,8 +153,11 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
 
     public static InputExpression Create<TItem>(FieldModel<TItem> model) where TItem : class, new()
     {
-        LambdaExpression lambda = null;
         var propertyType = model.GetPropertyType();
+        if (propertyType == null)
+            return null;
+
+        LambdaExpression lambda = null;
         if (model.Property != null)
         {
             var access = Expression.Property(Expression.Constant(model.Data, typeof(TItem)), model.Property);
