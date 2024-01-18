@@ -31,7 +31,7 @@
 }
 .ant-layout-sider-collapsed .kui-logo {width:60px;padding-left:5px;}
 .ant-layout-sider-collapsed + section .kui-header {left:60px;}
-.ant-layout-sider-collapsed + section .ant-tabs-nav {left:70px;}
+.ant-layout-sider-collapsed + section > .kui-tabs > .ant-tabs > .ant-tabs-nav {left:70px;}
 .ant-layout-sider-children .ant-menu.ant-menu-inline-collapsed {width:60px;}
 
 /*Ant*/
@@ -51,11 +51,14 @@
 .ant-layout-footer {margin-top:10px;}
 
 @media screen and (max-width:768px) {
+    .kui-header .ant-breadcrumb, .kui-nav-full, .kui-nav-setting {display:none;}
+    .ant-layout-header {line-height:normal;}
     .ant-modal {top:0;margin-top:10px;margin-left:8px;}
     .ant-row {flex-direction:column;}
     .ant-col-20, .ant-col-18, .ant-col-14, .ant-col-12, .ant-col-10, .ant-col-6, .ant-col-4 {max-width:100%;}
     .ant-toolbar {padding-top:0;}
     .ant-query-btn, .ant-toolbar button {margin-top:10px;}
+    .ant-form-inline {flex-direction:column;}
     .ant-form-item .ant-form-item-label {padding-bottom:0;}
     .ant-query input {width:100px;}
 }

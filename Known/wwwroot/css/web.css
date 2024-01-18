@@ -62,7 +62,8 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
     .kui-top {flex-direction:column;}
     .kui-logo {margin-left:6px;}
     .kui-app-name {display:none;}
-    .kui-header {justify-content:flex-end;}
+    .kui-header {flex-direction:column;padding:0;}
+    .kui-nav {justify-content:flex-end;margin:10px;padding:10px;}
     .kui-form-page {padding:10px 10px 20px 10px;}
     .kui-form-page-button {margin-left:0;}
 }

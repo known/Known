@@ -4,7 +4,7 @@
     <SpaceItem>
         <Tooltip Title="@Language["Nav.HomePage"]"><Icon Type="home" OnClick="@(e=>OnItemClick("home"))" /></Tooltip>
     </SpaceItem>
-    <SpaceItem>
+    <SpaceItem Class="kui-nav-full">
         <Tooltip Title="@FullScreenTitle"><Icon Type="@FullScreenIcon" OnClick="OnFullScreen" /></Tooltip>
     </SpaceItem>
     <SpaceItem Style="width:40px;text-align:center;">
@@ -16,7 +16,7 @@
     <SpaceItem>
         <AntTheme Theme="@Index.Theme" OnChanged="Index.SetTheme" />
     </SpaceItem>
-    <SpaceItem>
+    <SpaceItem Class="kui-nav-setting">
         <Tooltip Title="@Language["Nav.Setting"]"><Icon Type="setting" OnClick="@(e=>OnItemClick("setting"))" /></Tooltip>
     </SpaceItem>
 </Space>
