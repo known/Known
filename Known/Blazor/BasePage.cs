@@ -1,5 +1,4 @@
-﻿using Known.Designers;
-using Known.Entities;
+﻿using Known.Entities;
 using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -41,17 +40,7 @@ public class BasePage : BaseComponent
         if (Module == null || string.IsNullOrWhiteSpace(Module.EntityData))
             UI.BuildResult(builder, "404", $"{Language["Tip.Page404"]}PageId={PageId}");
         else
-            BuildPrototype(builder);
-    }
-
-    private void BuildPrototype(RenderTreeBuilder builder)
-    {
-        builder.Div("kui-designer-tips", Language["Tip.PageTest"]);
-        var table = new DemoPageModel(Context);
-        table.Module = Module;
-        table.Entity = DataHelper.GetEntity(Module.EntityData);
-        table.SetPageInfo(Module.Page);
-        builder.BuildTablePage(table);
+            builder.Component<AutoTablePage>().Set(c => c.PageId, PageId).Build();
     }
 }
 

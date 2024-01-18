@@ -18,7 +18,7 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
         if (Table == null || Table.Columns == null)
             return;
 
-        var isDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
+        var isDictionary = Table.IsDictionary;
         foreach (var item in Table.Columns)
         {
             if (!item.IsVisible)

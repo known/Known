@@ -479,12 +479,8 @@ public class Database : IDisposable
 
     public Task<int> DeleteAsync<T>(string id) where T : EntityBase
     {
-        if (string.IsNullOrEmpty(id))
-            return Task.FromResult(0);
-
         var tableName = CommandInfo.GetTableName<T>();
-        var sql = $"delete from {tableName} where Id=@id";
-        return ExecuteAsync(sql, new { id });
+        return DeleteAsync(tableName, id);
     }
 
     public Task<int> DeleteAsync<T>(T entity) where T : EntityBase
@@ -593,16 +589,40 @@ public class Database : IDisposable
     #endregion
 
     #region Dictionary
+    public Task<int> ExistsAsync(string tableName, string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return Task.FromResult(0);
+
+        var sql = $"select count(*) from {tableName} where Id=@id";
+        return ScalarAsync<int>(sql, new { id });
+    }
+
     public Task<int> InsertAsync(string tableName, Dictionary<string, object> data)
     {
+        if (data == null || data.Count == 0)
+            return Task.FromResult(0);
+
         var info = CommandInfo.GetInsertCommand(DatabaseType, tableName, data);
         return ExecuteNonQueryAsync(info);
     }
 
     public Task<int> UpdateAsync(string tableName, string keyField, Dictionary<string, object> data)
     {
+        if (data == null || data.Count == 0)
+            return Task.FromResult(0);
+
         var info = CommandInfo.GetUpdateCommand(DatabaseType, tableName, keyField, data);
         return ExecuteNonQueryAsync(info);
+    }
+
+    public Task<int> DeleteAsync(string tableName, string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return Task.FromResult(0);
+
+        var sql = $"delete from {tableName} where Id=@id";
+        return ExecuteAsync(sql, new { id });
     }
     #endregion
 

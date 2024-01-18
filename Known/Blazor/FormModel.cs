@@ -184,11 +184,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         columns = GetFormColumns(info);
     }
 
-    private static List<ColumnInfo> GetFormColumns(FormInfo form)
+    private List<ColumnInfo> GetFormColumns(FormInfo form)
     {
         var columns = new List<ColumnInfo>();
-        var isDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
-        if (isDictionary)
+        if (Table.IsDictionary)
         {
             columns = form?.Fields?.Select(f => new ColumnInfo(f)).ToList();
         }

@@ -18,6 +18,7 @@ public class PlatformService
         Role = new RoleService { Context = context };
         User = new UserService { Context = context };
         Auth = new AuthService { Context = context };
+        Auto = new AutoService { Context = context };
     }
 
     internal ModuleService Module { get; }
@@ -30,6 +31,7 @@ public class PlatformService
     internal RoleService Role { get; }
     internal UserService User { get; }
     internal AuthService Auth { get; }
+    internal AutoService Auto { get; }
 
     #region Setting
     public Task<List<SysSetting>> GetSettingsAsync(string bizType) => Setting.GetSettingsAsync(bizType);

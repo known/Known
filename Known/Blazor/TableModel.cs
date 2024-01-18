@@ -26,6 +26,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     internal BasePage<TItem> Page { get; }
     internal SysModule Module { get; set; }
 
+    public bool IsDictionary => typeof(TItem) == typeof(Dictionary<string, object>);
     public bool ShowCheckBox { get; set; }
     public bool ShowPager { get; set; }
     public string FixedWidth { get; set; }
@@ -226,7 +227,9 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         {
             Toolbar.Items = info.Tools?.Where(t => page.Tools.Contains(t)).Select(t => new ActionInfo(t)).ToList();
             Actions = info.Actions?.Where(a => page.Actions.Contains(a)).Select(a => new ActionInfo(a)).ToList();
-            AllColumns = GetAllColumns();
+            AllColumns = IsDictionary
+                       ? info.Columns.Select(c => new ColumnInfo(c)).ToList()
+                       : GetAllColumns();
             foreach (var item in AllColumns)
             {
                 var column = page.Columns?.FirstOrDefault(p => p.Id == item.Id);
