@@ -49,8 +49,13 @@ public class AdminPage : BaseComponent
         }
     }
 
+    private bool isNavigating;
     private void OnNavigate(MenuItem item)
     {
+        if (isNavigating || CurrentMenu == item)
+            return;
+
+        isNavigating = true;
         item.ComType = Config.PageTypes.GetValueOrDefault(item.Code);
         if (item.ComType == null)
             item.ComType = typeof(BasePage);
@@ -64,6 +69,7 @@ public class AdminPage : BaseComponent
         }
 
         StateChanged();
+        isNavigating = false;
     }
 
     private List<MenuItem> GetUserMenus(List<MenuInfo> menus)
