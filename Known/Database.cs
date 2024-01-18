@@ -2,6 +2,7 @@
 using System.Data.Common;
 using System.Text;
 using Known.Cells;
+using Known.Extensions;
 
 namespace Known;
 
@@ -589,13 +590,38 @@ public class Database : IDisposable
     #endregion
 
     #region Dictionary
-    public Task<int> ExistsAsync(string tableName, string id)
+    internal async Task<int> SaveAsync(string tableName, Dictionary<string, object> data)
+    {
+        if (data == null || data.Count == 0)
+            return 0;
+
+        var id = data.GetValue<string>("Id");
+        var sql = $"select count(*) from {tableName} where Id=@id";
+        var count = await ScalarAsync<int>(sql, new { id });
+        if (count > 0)
+        {
+            data["Version"] = data.GetValue<int>("Version") + 1;
+            return await UpdateAsync(tableName, "Id", data);
+        }
+
+        data["Id"] = Utils.GetGuid();
+        data["CreateBy"] = User.UserName;
+        data["CreateTime"] = DateTime.Now;
+        data["ModifyBy"] = User.UserName;
+        data["ModifyTime"] = DateTime.Now;
+        data["Version"] = 1;
+        data["AppId"] = User.AppId;
+        data["CompNo"] = User.CompNo;
+        return await InsertAsync(tableName, data);
+    }
+
+    internal Task<int> DeleteAsync(string tableName, string id)
     {
         if (string.IsNullOrEmpty(id))
             return Task.FromResult(0);
 
-        var sql = $"select count(*) from {tableName} where Id=@id";
-        return ScalarAsync<int>(sql, new { id });
+        var sql = $"delete from {tableName} where Id=@id";
+        return ExecuteAsync(sql, new { id });
     }
 
     public Task<int> InsertAsync(string tableName, Dictionary<string, object> data)
@@ -614,15 +640,6 @@ public class Database : IDisposable
 
         var info = CommandInfo.GetUpdateCommand(DatabaseType, tableName, keyField, data);
         return ExecuteNonQueryAsync(info);
-    }
-
-    public Task<int> DeleteAsync(string tableName, string id)
-    {
-        if (string.IsNullOrEmpty(id))
-            return Task.FromResult(0);
-
-        var sql = $"delete from {tableName} where Id=@id";
-        return ExecuteAsync(sql, new { id });
     }
     #endregion
 

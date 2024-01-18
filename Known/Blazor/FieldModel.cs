@@ -18,17 +18,61 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
 
     public FormModel<TItem> Form { get; }
     public ColumnInfo Column { get; }
+    private bool IsDictionary => Form.Table != null && Form.Table.IsDictionary;
+    public bool IsReadOnly => Form.IsView || Column.ReadOnly;
     internal TItem Data { get; }
+    internal PropertyInfo Property => Column.Property;
     internal Action OnStateChanged { get; set; }
+
+    internal Type GetPropertyType()
+    {
+        if (IsDictionary)
+        {
+            var value = Value;
+            Logger.Info($"{Column.Name} {value?.GetType()}");
+            switch (Column.Type)
+            {
+                case FieldType.Date:
+                    return value != null ? value.GetType() : typeof(DateTime?);
+                case FieldType.Number:
+                    return value != null ? value.GetType() : typeof(int);
+                case FieldType.Switch:
+                case FieldType.CheckBox:
+                    return typeof(bool);
+                case FieldType.CheckList:
+                    return typeof(string[]);
+                default:
+                    return typeof(string);
+            }
+        }
+
+        return Property?.PropertyType;
+    }
 
     public object Value
     {
-        get => Column.Property?.GetValue(Form.Data);
+        get
+        {
+            if (IsDictionary)
+            {
+                var data = Form.Data as Dictionary<string, object>;
+                data.TryGetValue(Column.Id, out object value);
+                if (Column.Type == FieldType.Date)
+                    return Utils.ConvertTo<DateTime?>(value);
+
+                return value;
+            }
+
+            return Column.Property?.GetValue(Form.Data);
+        }
         set
         {
-            if (Column.Property?.SetMethod is not null && !Equals(Value, value))
+            if (!Equals(Value, value))
             {
-                Column.Property?.SetValue(Form.Data, value);
+                if (IsDictionary)
+                    (Form.Data as Dictionary<string, object>)[Column.Id] = value;
+                else if (Column.Property?.SetMethod is not null)
+                    Column.Property?.SetValue(Form.Data, value);
                 Form.OnFieldChanged?.Invoke(Column.Id);
             }
         }
@@ -55,8 +99,6 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         return codes.ToCodes(emptyText);
     }
 
-    public bool IsReadOnly => Form.IsView || Column.ReadOnly;
-
     internal IDictionary<string, object> InputAttributes
     {
         get
@@ -76,7 +118,8 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             var expression = InputExpression.Create(this);
             attributes["Value"] = Value;
             attributes["ValueChanged"] = expression?.ValueChanged;
-            attributes["ValueExpression"] = expression?.ValueExpression;
+            if (expression?.ValueExpression != null)
+                attributes["ValueExpression"] = expression?.ValueExpression;
             return attributes;
         }
     }
@@ -109,25 +152,26 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
 
     public static InputExpression Create<TItem>(FieldModel<TItem> model) where TItem : class, new()
     {
-        var property = model.Column.Property;
-        if (property == null)
-            return null;
-
-        var access = Expression.Property(Expression.Constant(model.Data, typeof(TItem)), property);
-        var lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(property.PropertyType), access);
+        LambdaExpression lambda = null;
+        var propertyType = model.GetPropertyType();
+        if (model.Property != null)
+        {
+            var access = Expression.Property(Expression.Constant(model.Data, typeof(TItem)), model.Property);
+            lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(propertyType), access);
+        }
 
         // Create(object receiver, Action<object>) callback
-        var method = EventCallbackFactory.MakeGenericMethod(property.PropertyType);
+        var method = EventCallbackFactory.MakeGenericMethod(propertyType);
 
         // value => Field.Value = value;
-        var changeHandlerParameter = Expression.Parameter(property.PropertyType);
+        var changeHandlerParameter = Expression.Parameter(propertyType);
 
         var body = Expression.Assign(
             Expression.Property(Expression.Constant(model), nameof(model.Value)),
             Expression.Convert(changeHandlerParameter, typeof(object)));
 
         var changeHandlerLambda = Expression.Lambda(
-            typeof(Action<>).MakeGenericType(property.PropertyType),
+            typeof(Action<>).MakeGenericType(propertyType),
             body,
             changeHandlerParameter);
 

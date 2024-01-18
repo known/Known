@@ -15,58 +15,57 @@ public class UIService(DialogService dialogService, MessageService messageServic
 
     public Language Language { get; set; }
 
-    public Type GetInputType(ColumnInfo column)
+    public Type GetInputType(Type dataType, FieldType fieldType)
     {
-        var type = typeof(string);
-        if (column.Property != null)
-            type = column.Property.PropertyType;
-
-        if (type == typeof(bool) || column.Type == FieldType.Switch)
+        if (dataType == typeof(bool))
             return typeof(Switch);
 
-        if (type == typeof(short))
+        if (dataType == typeof(short))
             return typeof(BootstrapInputNumber<short>);
 
-        if (type == typeof(int) || column.Type == FieldType.Number)
+        if (dataType == typeof(int))
             return typeof(BootstrapInputNumber<int>);
 
-        if (type == typeof(long))
+        if (dataType == typeof(long))
             return typeof(BootstrapInputNumber<long>);
 
-        if (type == typeof(float))
+        if (dataType == typeof(float))
             return typeof(BootstrapInputNumber<float>);
 
-        if (type == typeof(double))
+        if (dataType == typeof(double))
             return typeof(BootstrapInputNumber<double>);
 
-        if (type == typeof(decimal))
+        if (dataType == typeof(decimal))
             return typeof(BootstrapInputNumber<decimal>);
 
-        if (type == typeof(DateTime?))
+        if (dataType == typeof(DateTime?))
             return typeof(DateTimePicker<DateTime?>);
 
-        if (type == typeof(DateTime) || column.Type == FieldType.Date)
+        if (dataType == typeof(DateTime))
             return typeof(DateTimePicker<DateTime>);
 
-        if (type == typeof(DateTimeOffset?))
+        if (dataType == typeof(DateTimeOffset?))
             return typeof(DateTimePicker<DateTimeOffset?>);
 
-        if (type == typeof(DateTimeOffset))
+        if (dataType == typeof(DateTimeOffset))
             return typeof(DateTimePicker<DateTimeOffset>);
 
-        if (column.Type == FieldType.Select)
+        if (fieldType == FieldType.Select)
             return typeof(BootSelect);
 
-        if (column.Type == FieldType.CheckList)
+        if (fieldType == FieldType.CheckBox)
+            return typeof(Checkbox<bool>);
+
+        if (fieldType == FieldType.CheckList)
             return typeof(BootCheckboxList);
 
-        if (column.Type == FieldType.RadioList)
+        if (fieldType == FieldType.RadioList)
             return typeof(BootRadioList);
 
-        if (column.Type == FieldType.Password)
+        if (fieldType == FieldType.Password)
             return typeof(BootstrapPassword);
 
-        if (column.Type == FieldType.TextArea)
+        if (fieldType == FieldType.TextArea)
             return typeof(Textarea);
 
         return typeof(BootstrapInput<string>);

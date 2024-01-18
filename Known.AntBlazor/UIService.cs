@@ -15,61 +15,57 @@ public class UIService(ModalService modalService, MessageService messageService)
 
     public Language Language { get; set; }
 
-    public Type GetInputType(ColumnInfo column)
+    public Type GetInputType(Type dataType, FieldType fieldType)
     {
-        var type = typeof(string);
-        if (column.Property != null)
-            type = column.Property.PropertyType;
-
-        if (type == typeof(bool) || column.Type == FieldType.Switch)
+        if (dataType == typeof(bool))
             return typeof(Switch);
 
-        if (type == typeof(short))
+        if (dataType == typeof(short))
             return typeof(InputNumber<short>);
 
-        if (type == typeof(int) || column.Type == FieldType.Number)
+        if (dataType == typeof(int))
             return typeof(InputNumber<int>);
 
-        if (type == typeof(long))
+        if (dataType == typeof(long))
             return typeof(InputNumber<long>);
 
-        if (type == typeof(float))
+        if (dataType == typeof(float))
             return typeof(InputNumber<float>);
 
-        if (type == typeof(double))
+        if (dataType == typeof(double))
             return typeof(InputNumber<double>);
 
-        if (type == typeof(decimal))
+        if (dataType == typeof(decimal))
             return typeof(InputNumber<decimal>);
 
-        if (type == typeof(DateTime?) || column.Type == FieldType.Date)
+        if (dataType == typeof(DateTime?))
             return typeof(DatePicker<DateTime?>);
 
-        if (type == typeof(DateTime))
+        if (dataType == typeof(DateTime))
             return typeof(DatePicker<DateTime>);
 
-        if (type == typeof(DateTimeOffset?))
+        if (dataType == typeof(DateTimeOffset?))
             return typeof(DatePicker<DateTimeOffset?>);
 
-        if (type == typeof(DateTimeOffset))
+        if (dataType == typeof(DateTimeOffset))
             return typeof(DatePicker<DateTimeOffset>);
 
-        if (column.Type == FieldType.Select)
+        if (fieldType == FieldType.Select)
             return typeof(AntSelect);
 
-        if (column.Type == FieldType.CheckBox)
+        if (fieldType == FieldType.CheckBox)
             return typeof(Checkbox);
 
-        if (column.Type == FieldType.CheckList)
+        if (fieldType == FieldType.CheckList)
             return typeof(AntCheckboxGroup);
 
-        if (column.Type == FieldType.RadioList)
+        if (fieldType == FieldType.RadioList)
             return typeof(AntRadioGroup);
 
-        if (column.Type == FieldType.Password)
+        if (fieldType == FieldType.Password)
             return typeof(InputPassword);
 
-        if (column.Type == FieldType.TextArea)
+        if (fieldType == FieldType.TextArea)
             return typeof(TextArea);
 
         return typeof(Input<string>);

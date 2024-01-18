@@ -28,11 +28,7 @@ class AutoService : ServiceBase
     {
         return await Database.TransactionAsync(Language.Save, async db =>
         {
-            var count = await db.ExistsAsync(tableName, model.GetValue<string>("Id"));
-            if (count > 0)
-                await db.UpdateAsync(tableName, "Id", model);
-            else
-                await db.InsertAsync(tableName, model);
+            await db.SaveAsync(tableName, model);
         }, model);
     }
 }

@@ -26,7 +26,8 @@ public class InputField<TItem> : BaseComponent where TItem : class, new()
         }
         else
         {
-            var inputType = UI.GetInputType(Model.Column);
+            var dataType = Model.GetPropertyType();
+            var inputType = UI.GetInputType(dataType, Model.Column.Type);
             if (inputType != null)
             {
                 builder.OpenComponent(0, inputType);
