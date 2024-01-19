@@ -390,6 +390,7 @@
   "Tip.ExecuteSuccess": "Execution successful!",
 
   "Import.Tips": "Tip: Please upload a single txt or Excel format attachment!",
+  "Import.IsAsync": "Asynchronous",
   "Import.Download": "Template",
   "Import.Error": "Error",
   "Import.SelectFile": "Please select the import file!",

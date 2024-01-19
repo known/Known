@@ -29,7 +29,7 @@ class Importer : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Div("kui-form-import", () =>
+        builder.Div("kui-import", () =>
         {
             builder.Div("danger", Language["Import.Tips"]);
             builder.Div("item", () =>
@@ -39,6 +39,15 @@ class Importer : BaseComponent
                 {
                     UI.Button(builder, new ActionInfo(Context, "Import", ""), this.Callback<MouseEventArgs>(OnImportAsync));
                 }
+                builder.Div("async", () =>
+                {
+                    UI.BuildCheckBox(builder, new InputModel<bool>
+                    {
+                        Placeholder = Language["Import.IsAsync"],
+                        Value = Model.IsAsync,
+                        ValueChanged = this.Callback<bool>(v => Model.IsAsync = v)
+                    });
+                });
             });
             builder.Div(() =>
             {
@@ -48,7 +57,7 @@ class Importer : BaseComponent
                 builder.Span("size", fileInfo);
             });
             var style = string.IsNullOrWhiteSpace(error) ? "primary" : "danger";
-            builder.Div($"message {style}", message);
+            builder.Div($"kui-import-message {style}", message);
         });
     }
 

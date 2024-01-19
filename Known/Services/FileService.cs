@@ -111,7 +111,7 @@ class FileService : ServiceBase
             if (form.IsAsync)
                 result.Message += Language["Import.FileImporting"];
             else if (task != null)
-                result = await TaskHelper.RunAsync(Database, task, ImportHelper.ExecuteAsync);
+                result = await ImportHelper.ExecuteAsync(Database, task);
         }
         return result;
     }

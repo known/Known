@@ -29,6 +29,7 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-form-page-button button {margin-right:10px;}
 
 .kui-link {color:#1890ff;cursor:pointer;}
+.primary {color:#1890ff;}
 .danger {color:#ed4014;}
 .center {text-align:center;}
 .p10 {padding:10px;}
@@ -99,12 +100,13 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-user-info li span {color:var(--kui-color);font-size:0.9rem;}
 
 /*Import*/
-.kui-form-import {grid-template-rows:20px 50px auto;}
-.kui-form-import .item {display:flex;margin:8px 0;}
-.kui-form-import .item input {display:inline-block;border:1px solid var(--kui-border-color);}
-.kui-form-import .kui-link {margin-right:10px;}
-.kui-form-import .size {margin-left:10px;}
-.kui-form-import .message {padding:10px 0;}
+.kui-import {grid-template-rows:20px 50px auto;}
+.kui-import .item {display:flex;margin:8px 0;align-items:center;}
+.kui-import .item input {display:inline-block;border:1px solid var(--kui-border-color);}
+.kui-import .item .async {margin-left:10px;}
+.kui-import .kui-link {margin-right:10px;}
+.kui-import .size {margin-left:10px;}
+.kui-import-message {padding:10px 0;}
 
 /*File*/
 .kui-form-files {margin-top:5px;}

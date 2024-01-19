@@ -9,6 +9,13 @@ public class Context
     private Language language;
     private string currentLanguage;
 
+    public Context() { }
+
+    internal Context(string cultureName)
+    {
+        language = new Language(cultureName);
+    }
+
     internal static Action<MenuItem> OnNavigate { get; set; }
     internal static Action OnRefreshPage { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using Known.Entities;
+﻿using System.Globalization;
+using Known.Entities;
 using Known.Repositories;
 
 namespace Known.Helpers;
@@ -49,7 +50,7 @@ sealed class TaskHelper
 
     internal static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)
     {
-        var db = new Database();
+        var db = new Database { Context = new Context(CultureInfo.CurrentCulture.Name) };
         var task = await SystemRepository.GetPendingTaskByTypeAsync(db, bizType);
         if (task == null)
             return;
