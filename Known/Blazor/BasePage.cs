@@ -117,6 +117,8 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 		var id = $"{type.Name}Import";
 		if (!string.IsNullOrWhiteSpace(param))
 			id += $"_{param}";
+        if (Table.IsDictionary)
+            id += $"_{Context.Current.Id}";
 		var info = await Platform.File.GetImportAsync(id);
 		info.Name = PageName;
         info.BizName = ImportTitle;

@@ -37,9 +37,30 @@ public sealed class ImportHelper
         return info;
     }
 
+    internal static Task<byte[]> GetDictionaryRuleAsync(Context context, SysModule module)
+    {
+        var fields = module.Form.Fields;
+        var excel = ExcelFactory.Create();
+        var sheet = excel.CreateSheet("Sheet1");
+        sheet.SetCellValue("A1", context.Language["Import.TemplateTips"], new StyleInfo { IsBorder = true });
+        sheet.MergeCells(0, 0, 1, fields.Count);
+        for (int i = 0; i < fields.Count; i++)
+        {
+            var field = fields[i];
+            var note = !string.IsNullOrWhiteSpace(field.Length) ? $"{field.Length}" : "";
+            sheet.SetColumnWidth(i, 13);
+            sheet.SetCellValue(1, i, note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
+            var fontColor = field.Required ? System.Drawing.Color.Red : System.Drawing.Color.White;
+            sheet.SetCellValue(2, i, field.Name, new StyleInfo { IsBorder = true, FontColor = fontColor, BackgroundColor = Utils.FromHtml("#6D87C1") });
+        }
+        sheet.SetRowHeight(1, 30);
+        var stream = excel.SaveToStream();
+        return Task.FromResult(stream.ToArray());
+    }
+
     internal static Task<byte[]> GetImportRuleAsync(Context context, string bizId)
     {
-        var import = ImportBase.Create(bizId, context, null);
+        var import = ImportBase.Create(new ImportContext { Context = context, BizId = bizId });
         if (import == null || import.Columns == null || import.Columns.Count == 0)
             return Task.FromResult(Array.Empty<byte>());
 
@@ -74,7 +95,13 @@ public sealed class ImportHelper
 
     internal static async Task<Result> ExecuteAsync(Database db, SysTask task)
     {
-        var import = ImportBase.Create(task.BizId, db.Context, db);
+        var context = new ImportContext
+        {
+            Database = db,
+            Context = db.Context,
+            BizId = task.BizId
+        };
+        var import = ImportBase.Create(context);
         if (import == null)
             return Result.Error("The import method is not registered and cannot be executed!");
 

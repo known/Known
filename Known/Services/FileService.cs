@@ -59,7 +59,16 @@ class FileService : ServiceBase
         return ImportHelper.GetImport(Context, bizId, task);
     }
 
-    public Task<byte[]> GetImportRuleAsync(string bizId) => ImportHelper.GetImportRuleAsync(Context, bizId);
+    public async Task<byte[]> GetImportRuleAsync(string bizId)
+    {
+        if (bizId.StartsWith("Dictionary"))
+        {
+            var module = await Platform.Module.GetModuleAsync(Context.Current.Id);
+            return await ImportHelper.GetDictionaryRuleAsync(Context, module);
+        }
+
+        return await ImportHelper.GetImportRuleAsync(Context, bizId);
+    }
 
     public Task<List<SysFile>> GetFilesAsync(string bizId)
     {

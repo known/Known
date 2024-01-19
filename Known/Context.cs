@@ -5,7 +5,6 @@ namespace Known;
 
 public class Context
 {
-    private MenuItem current;
     private Language language;
     private string currentLanguage;
 
@@ -18,6 +17,7 @@ public class Context
 
     internal static Action<MenuItem> OnNavigate { get; set; }
     internal static Action OnRefreshPage { get; set; }
+    internal MenuItem Current { get; set; }
 
     public IUIService UI { get; set; }
     public InstallInfo Install { get; internal set; }
@@ -50,11 +50,11 @@ public class Context
 
     public void Back()
     {
-        if (current == null || current.Previous == null)
+        if (Current == null || Current.Previous == null)
             return;
 
-        current = current.Previous;
-        OnNavigate?.Invoke(current);
+        Current = Current.Previous;
+        OnNavigate?.Invoke(Current);
     }
 
     public List<MenuItem> GetMenus(List<string> menuIds)
@@ -81,10 +81,10 @@ public class Context
         if (menu == null)
             return;
 
-        menu.Previous = current;
+        menu.Previous = Current;
         if (menu.Previous != null && prevParams != null)
             menu.Previous.ComParameters = prevParams;
-        current = menu;
-        OnNavigate?.Invoke(current);
+        Current = menu;
+        OnNavigate?.Invoke(Current);
     }
 }

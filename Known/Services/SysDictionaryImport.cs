@@ -3,7 +3,7 @@ using Known.Helpers;
 
 namespace Known.Services;
 
-class SysDictionaryImport(Context context, Database database) : ImportBase(context, database)
+class SysDictionaryImport(ImportContext context) : ImportBase(context)
 {
     public override List<ImportColumn> Columns
     {
