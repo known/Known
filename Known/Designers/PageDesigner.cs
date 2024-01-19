@@ -57,6 +57,7 @@ class PageDesigner : BaseViewDesigner<PageInfo>
 
     private void OnPropertyChanged(PageColumnInfo info)
     {
+        current = Model.Columns.FirstOrDefault(c => c.Id == info.Id);
         SetPageColumn(current, info);
         ChangeView();
     }
@@ -77,7 +78,7 @@ class PageDesigner : BaseViewDesigner<PageInfo>
 
     private void ChangeView()
     {
-        OnChanged?.Invoke(Model);
         view?.SetModel(Model);
+        OnChanged?.Invoke(Model);
     }
 }

@@ -17,6 +17,24 @@ public class UIService(DialogService dialogService, MessageService messageServic
 
     public Type GetInputType(Type dataType, FieldType fieldType)
     {
+        if (fieldType == FieldType.Select)
+            return typeof(BootSelect);
+
+        if (fieldType == FieldType.CheckBox)
+            return typeof(Checkbox<bool>);
+
+        if (fieldType == FieldType.CheckList)
+            return typeof(BootCheckboxList);
+
+        if (fieldType == FieldType.RadioList)
+            return typeof(BootRadioList);
+
+        if (fieldType == FieldType.Password)
+            return typeof(BootstrapPassword);
+
+        if (fieldType == FieldType.TextArea)
+            return typeof(Textarea);
+
         if (dataType == typeof(bool))
             return typeof(Switch);
 
@@ -49,24 +67,6 @@ public class UIService(DialogService dialogService, MessageService messageServic
 
         if (dataType == typeof(DateTimeOffset))
             return typeof(DateTimePicker<DateTimeOffset>);
-
-        if (fieldType == FieldType.Select)
-            return typeof(BootSelect);
-
-        if (fieldType == FieldType.CheckBox)
-            return typeof(Checkbox<bool>);
-
-        if (fieldType == FieldType.CheckList)
-            return typeof(BootCheckboxList);
-
-        if (fieldType == FieldType.RadioList)
-            return typeof(BootRadioList);
-
-        if (fieldType == FieldType.Password)
-            return typeof(BootstrapPassword);
-
-        if (fieldType == FieldType.TextArea)
-            return typeof(Textarea);
 
         return typeof(BootstrapInput<string>);
     }

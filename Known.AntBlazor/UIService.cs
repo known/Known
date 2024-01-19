@@ -17,6 +17,24 @@ public class UIService(ModalService modalService, MessageService messageService)
 
     public Type GetInputType(Type dataType, FieldType fieldType)
     {
+        if (fieldType == FieldType.Select)
+            return typeof(AntSelect);
+
+        if (fieldType == FieldType.CheckBox)
+            return typeof(Checkbox);
+
+        if (fieldType == FieldType.CheckList)
+            return typeof(AntCheckboxGroup);
+
+        if (fieldType == FieldType.RadioList)
+            return typeof(AntRadioGroup);
+
+        if (fieldType == FieldType.Password)
+            return typeof(InputPassword);
+
+        if (fieldType == FieldType.TextArea)
+            return typeof(TextArea);
+
         if (dataType == typeof(bool))
             return typeof(Switch);
 
@@ -49,24 +67,6 @@ public class UIService(ModalService modalService, MessageService messageService)
 
         if (dataType == typeof(DateTimeOffset))
             return typeof(DatePicker<DateTimeOffset>);
-
-        if (fieldType == FieldType.Select)
-            return typeof(AntSelect);
-
-        if (fieldType == FieldType.CheckBox)
-            return typeof(Checkbox);
-
-        if (fieldType == FieldType.CheckList)
-            return typeof(AntCheckboxGroup);
-
-        if (fieldType == FieldType.RadioList)
-            return typeof(AntRadioGroup);
-
-        if (fieldType == FieldType.Password)
-            return typeof(InputPassword);
-
-        if (fieldType == FieldType.TextArea)
-            return typeof(TextArea);
 
         return typeof(Input<string>);
     }

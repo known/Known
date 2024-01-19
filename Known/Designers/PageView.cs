@@ -119,11 +119,12 @@ class PageView : BaseView<PageInfo>
         StateChanged();
     }
 
-    private void SetTablePage()
+    private async void SetTablePage()
     {
         table = new DemoPageModel(Context);
         table.Module = Form.Model.Data;
         table.Entity = Entity;
         table.SetPageInfo(Model);
+        table.Result = await table.OnQuery?.Invoke(table.Criteria);
     }
 }

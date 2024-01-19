@@ -61,6 +61,7 @@ class FormDesigner : BaseViewDesigner<FormInfo>
 
     private void OnPropertyChanged(FormFieldInfo info)
     {
+        current = Model.Fields.FirstOrDefault(c => c.Id == info.Id);
         SetFormField(current, info);
         ChangeView();
     }

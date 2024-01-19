@@ -36,7 +36,7 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
         var data = Item as Dictionary<string, object>;
         data.TryGetValue(item.Id, out var value);
         builder.OpenComponent<PropertyColumn<Dictionary<string, object>, object>>(0);
-        AddPropertyColumn(builder, (Dictionary<string, object> c) => c[item.Id]);
+        AddPropertyColumn(builder, (Dictionary<string, object> c) => c.ContainsKey(item.Id) ? c[item.Id] : "");
         AddAttributes(builder, item, value);
         builder.CloseComponent();
     }
