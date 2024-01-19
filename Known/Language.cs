@@ -112,7 +112,7 @@ public class Language
 
     public string GetTitle(string title) => GetText("Title", title);
     public string GetCode(string code) => GetText("Code", code);
-
+    public string Required(string label) => GetString("Valid.Required", label);
     internal string Success(string action) => this["Tip.XXSuccess"].Replace("{action}", action);
 
     private string GetText(string prefix, string code, string name = null)

@@ -39,9 +39,9 @@
         option.SMSAction = () =>
         {
             if (string.IsNullOrWhiteSpace(Model.PhoneNo))
-                return Known.Result.ErrorAsync(Language.GetString("Valid.Required", "PhoneNo"));
+                return Known.Result.ErrorAsync(Language.Required("PhoneNo"));
             if (string.IsNullOrWhiteSpace(Model.Captcha))
-                return Known.Result.ErrorAsync(Language.GetString("Valid.Required", "Captcha"));
+                return Known.Result.ErrorAsync(Language.Required("Captcha"));
             if (!captcha.Validate(out string message))
                 return Known.Result.ErrorAsync(message);
 

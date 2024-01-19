@@ -41,7 +41,7 @@ public class ColumnAttribute(string columnName = null) : Attribute
         var valueString = value == null ? "" : value.ToString().Trim();
         if (property.IsRequired() && string.IsNullOrEmpty(valueString))
         {
-            errors.Add(context.Language.GetString("Valid.Required", label));
+            errors.Add(context.Language.Required(label));
             return;
         }
         else if (!string.IsNullOrEmpty(valueString))

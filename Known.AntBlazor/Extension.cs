@@ -28,7 +28,7 @@ public static class Extension
 
     internal static FormValidationRule[] RuleRequired(this Context context, string id)
     {
-        var message = context.Language.GetString("Valid.Required", id);
+        var message = context.Language.Required(id);
         var rule = new FormValidationRule { Type = FormFieldType.String, Required = true, Message = message };
         return [rule];
     }
@@ -79,7 +79,7 @@ public static class Extension
         else if (property.PropertyType == typeof(float) || property.PropertyType == typeof(double))
             type = FormFieldType.Float;
 
-        var message = context.Language.GetString("Valid.Required", column.Id);
+        var message = context.Language.Required(column.Id);
         return new FormValidationRule { Type = type, Required = true, Message = message };
     }
 

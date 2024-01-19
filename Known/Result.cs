@@ -61,7 +61,7 @@ public class Result
     public void Required(Context context, string name, string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            AddError(context.Language.GetString("Valid.Required", name));
+            AddError(context.Language.Required(name));
     }
 
     public static Result Error(string message, object data = null)
