@@ -19,4 +19,5 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     [Action] public void Edit(Dictionary<string, object> row) => Table.EditForm(m => Platform.Auto.SaveModelAsync(TableName, m), row);
     [Action] public void Delete(Dictionary<string, object> row) => Table.Delete(m => Platform.Auto.DeleteModelsAsync(TableName, m), row);
     [Action] public void Import() => ShowImportForm(TableName);
+    [Action] public async void Export() => await ExportDataAsync(ExportMode.Query);
 }
