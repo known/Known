@@ -7,8 +7,6 @@ public class AdminPage : BaseComponent
 {
     public AdminPage()
     {
-        Context.OnNavigate = OnNavigate;
-        Context.OnRefreshPage = RefreshPage;
         TabMenus = [Config.GetHomeMenu()];
     }
 
@@ -31,6 +29,8 @@ public class AdminPage : BaseComponent
     {
         IsLoaded = false;
         await base.OnInitializedAsync();
+        Context.OnNavigate = OnNavigate;
+        Context.OnRefreshPage = RefreshPage;
         CurrentMenu = Config.GetHomeMenu();
         Info = await Platform.Auth.GetAdminAsync();
         UserMenus = GetUserMenus(Info?.UserMenus);

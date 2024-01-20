@@ -15,8 +15,8 @@ public class Context
         language = new Language(cultureName);
     }
 
-    internal static Action<MenuItem> OnNavigate { get; set; }
-    internal static Action OnRefreshPage { get; set; }
+    internal Action<MenuItem> OnNavigate { get; set; }
+    internal Action OnRefreshPage { get; set; }
     internal MenuItem Current { get; set; }
 
     public IUIService UI { get; set; }
