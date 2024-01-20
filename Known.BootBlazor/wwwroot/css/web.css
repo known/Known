@@ -36,6 +36,7 @@
 .boot-content .tree .tree-item {display:block;}
 
 .boot-row {margin:0;padding:0;margin-bottom:20px;}
+.boot-row .input-group-text {width:38px;padding:0 0 0 7px;}
 .boot-col {display:flex;margin:0;padding:0;}
 .boot-col > .form-label {width:200px;text-align:right;padding:10px 10px 0 0;}
 .boot-col > .form-control {width:calc(100% - 200px);padding:0 5px;}

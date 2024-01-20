@@ -4,19 +4,19 @@
 <ValidateForm Model="@Model">
     <div class="boot-row">
         <BootstrapInputGroup>
-            <BootstrapInputGroupLabel class="fa fa-user" />
+            <BootstrapInputGroupIcon Icon="fa fa-user" />
             <BootstrapInput DisplayText="" @bind-Value="@Model.UserName" PlaceHolder="@Language["UserName"]" />
         </BootstrapInputGroup>
     </div>
     <div class="boot-row">
         <BootstrapInputGroup>
-            <BootstrapInputGroupLabel class="fa fa-lock" />
+            <BootstrapInputGroupIcon Icon="fa fa-lock" />
             <BootstrapPassword DisplayText="" @bind-Value="@Model.Password" PlaceHolder="@Language["Password"]" />
         </BootstrapInputGroup>
     </div>
     <div class="boot-row">
         <BootstrapInputGroup>
-            <BootstrapInputGroupLabel class="fa fa-check" />
+            <BootstrapInputGroupIcon Icon="fa fa-check" />
             <BootCaptcha @ref="captcha" DisplayText="" @bind-Value="@Model.Captcha" PlaceHolder="@Language["Captcha"]" />
         </BootstrapInputGroup>
     </div>
