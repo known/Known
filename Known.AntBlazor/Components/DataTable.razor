@@ -3,7 +3,8 @@
 @inherits BaseComponent
 @typeparam TItem where TItem : class, new()
 
-<Table TItem="TItem" Size="TableSize.Small" ScrollX="@Model.FixedWidth" ScrollY="@Model.FixedHeight" Responsive
+<Table TItem="TItem" Size="TableSize.Small" Responsive
+       ScrollX="@Model.FixedWidth" ScrollY="@Model.FixedHeight" ScrollBarWidth="5px"
        DataSource="Model.Result.PageData" Total="Model.Result.TotalCount"
        @bind-PageIndex="Model.Criteria.PageIndex"
        @bind-PageSize="Model.Criteria.PageSize"
@@ -21,7 +22,7 @@
             var actions = Model.RowActions?.Invoke(context);
             if (actions == null)
                 actions = Model.Actions;
-            <ActionColumn Title="@Language["Title.Action"]" Fixed="true" Width="140">
+            <ActionColumn Title="@Language["Title.Action"]" Width="140">
                 @if (actions.Count > 2)
                 {
                     var first = actions[0];
