@@ -61,5 +61,12 @@ class PageProperty : BaseProperty<PageColumnInfo>
             Value = Model.Width,
             ValueChanged = this.Callback<string>(value => { Model.Width = value; OnChanged?.Invoke(Model); })
         }));
+        BuildPropertyItem(builder, "Align", b => UI.BuildSelect(b, new InputModel<string>
+        {
+            Disabled = IsReadOnly,
+            Codes = Cache.GetCodes(",left,center,right"),
+            Value = Model.Align,
+            ValueChanged = this.Callback<string>(value => { Model.Align = value; OnChanged?.Invoke(Model); })
+        }));
     }
 }

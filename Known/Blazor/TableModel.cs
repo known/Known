@@ -30,8 +30,8 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     internal SysModule Module { get; set; }
 
     public bool IsDictionary => typeof(TItem) == typeof(Dictionary<string, object>);
-    public bool ShowCheckBox { get; set; }
     public bool ShowPager { get; set; }
+    public string SelectType { get; set; }
     public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }
     public FormOption Form { get; } = new();
@@ -244,7 +244,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
             }
         }
 
-        ShowCheckBox = Toolbar.HasItem;
+        SelectType = Toolbar.HasItem ? "checkbox" : "";
         InitQueryColumns();
     }
 

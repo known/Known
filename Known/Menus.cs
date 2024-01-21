@@ -170,6 +170,7 @@ public class ColumnInfo
     public bool IsQueryAll { get; set; }
     public string Fixed { get; set; }
     public string Width { get; set; }
+    public string Align { get; set; }
 
     internal bool IsForm { get; set; }
     public string Category { get; set; }
@@ -195,6 +196,7 @@ public class ColumnInfo
         DefaultSort = info.DefaultSort;
         Fixed = info.Fixed;
         Width = info.Width;
+        Align = info.Align;
     }
 
     internal void SetFormFieldInfo(FormFieldInfo info)

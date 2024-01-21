@@ -63,10 +63,12 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
     {
         var title = Language?.GetString<TItem>(item);
         builder.AddAttribute(1, nameof(Column<TItem>.Title), title);
+        builder.AddAttribute(1, nameof(Column<TItem>.Hidden), !item.IsVisible);
         builder.AddAttribute(1, nameof(Column<TItem>.Sortable), item.IsSort);
         //TODO:固定列显示混乱问题
         //builder.AddAttribute(1, nameof(Column<TItem>.Fixed), item.Fixed);
         builder.AddAttribute(1, nameof(Column<TItem>.Width), item.Width);
+        builder.AddAttribute(1, nameof(Column<TItem>.Align), GetColumnAlign(item.Align));
         if (!string.IsNullOrWhiteSpace(item.DefaultSort))
         {
             var sortName = item.DefaultSort == "Descend" ? "descend" : "ascend";
@@ -98,5 +100,14 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
                 b.Link($"{value}", this.Callback(() => Table.ViewForm(Item)));
             }));
         }
+    }
+
+    private static ColumnAlign GetColumnAlign(string align)
+    {
+        if (align == "center")
+            return ColumnAlign.Center;
+        else if (align == "right")
+            return ColumnAlign.Right;
+        return ColumnAlign.Left;
     }
 }

@@ -74,6 +74,7 @@ class PageDesigner : BaseViewDesigner<PageInfo>
         column.DefaultSort = info.DefaultSort;
         column.Fixed = info.Fixed;
         column.Width = info.Width;
+        column.Align = info.Align;
     }
 
     private void ChangeView()

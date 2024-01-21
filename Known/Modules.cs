@@ -41,6 +41,7 @@ public class PageColumnInfo
     public string DefaultSort { get; set; }
     public string Fixed { get; set; }
     public string Width { get; set; }
+    public string Align { get; set; }
 }
 
 public class FormInfo

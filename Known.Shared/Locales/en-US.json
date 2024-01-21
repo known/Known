@@ -563,6 +563,7 @@
   "Fail": "Fail",
   "Width": "Width",
   "Height": "Height",
+  "Align": "Align",
   "Row": "Row",
   "Column": "Column",
   "Placeholder": "Placeholder",

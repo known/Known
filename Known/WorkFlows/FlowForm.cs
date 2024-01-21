@@ -208,14 +208,14 @@ class UserPicker : BasePicker<SysUser>
         await base.OnInitializedAsync();
         model = new TableModel<SysUser>(Context)
         {
-            ShowCheckBox = true,
+            SelectType = "radio",
             ShowPager = true,
             OnQuery = Platform.User.QueryUsersAsync
         };
-        model.AddColumn(c => c.UserName);
-        model.AddColumn(c => c.Name, true);
-        model.AddColumn(c => c.Phone);
-        model.AddColumn(c => c.Email);
+        model.AddColumn(c => c.UserName).Width("100");
+        model.AddColumn(c => c.Name, true).Width("100");
+        model.AddColumn(c => c.Phone).Width("100");
+        model.AddColumn(c => c.Email).Width("100");
         model.AddColumn(c => c.Role);
     }
 

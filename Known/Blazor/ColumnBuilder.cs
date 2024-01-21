@@ -34,6 +34,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    public ColumnBuilder<TItem> Width(string width)
+    {
+        if (column != null)
+            column.Width = width;
+        return this;
+    }
+
     public ColumnBuilder<TItem> Visible(bool visible)
     {
         if (column != null)
