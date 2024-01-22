@@ -74,9 +74,9 @@ class UserHelper
 
     private static List<string> GetUserButtons(List<string> moduleIds, SysModule module)
     {
-        Config.PageButtons.TryGetValue(module.Code, out List<string> buttons);
+        var buttons = module.GetButtons();
         if (buttons == null || buttons.Count == 0)
-            return null;
+            return [];
 
         var datas = new List<string>();
         foreach (var item in buttons)
@@ -89,9 +89,9 @@ class UserHelper
 
     private static List<string> GetUserActions(List<string> moduleIds, SysModule module)
     {
-        Config.PageActions.TryGetValue(module.Code, out List<string> actions);
+        var actions = module.GetActions();
         if (actions == null || actions.Count == 0)
-            return null;
+            return [];
 
         var datas = new List<string>();
         foreach (var item in actions)

@@ -108,12 +108,22 @@ public class SysModule : EntityBase
 
     internal void LoadData()
     {
-        Config.PageButtons.TryGetValue(Code, out List<string> buttons);
-        Config.PageActions.TryGetValue(Code, out List<string> actions);
-        buttons ??= Page?.Tools?.ToList();
-        actions ??= Page?.Actions?.ToList();
-        Buttons = buttons;
-        Actions = actions;
+        Buttons = GetButtons();
+        Actions = GetActions();
         Columns = Page?.Columns;
+    }
+
+    internal List<string> GetButtons()
+    {
+        Config.PageButtons.TryGetValue(Code, out List<string> buttons);
+        buttons ??= Page?.Tools?.ToList();
+        return buttons;
+    }
+
+    internal List<string> GetActions()
+    {
+        Config.PageActions.TryGetValue(Code, out List<string> actions);
+        actions ??= Page?.Actions?.ToList();
+        return actions;
     }
 }
