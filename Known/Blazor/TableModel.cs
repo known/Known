@@ -21,7 +21,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
 	internal TableModel(BasePage<TItem> page) : base(page.Context)
     {
         Page = page;
-        Module = page.Module;
+        Module = page.Context.Module;
         SetPageInfo(Module?.Page, page);
     }
 

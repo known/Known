@@ -1,5 +1,4 @@
-﻿using Known.Entities;
-using Known.Extensions;
+﻿using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -7,11 +6,9 @@ namespace Known.Blazor;
 
 public class BasePage : BaseComponent
 {
-    internal SysModule Module { get; set; }
-
     [Parameter] public string PageId { get; set; }
 
-    public string PageName => Language.GetString(Module);
+    public string PageName => Language.GetString(Context.Module);
 
     public virtual Task RefreshAsync() => Task.CompletedTask;
 
@@ -25,19 +22,19 @@ public class BasePage : BaseComponent
 	protected virtual async Task OnInitPageAsync()
     {
         if (!string.IsNullOrWhiteSpace(PageId))
-            Module = await Platform.Module.GetModuleAsync(PageId);
+            Context.Module = await Platform.Module.GetModuleAsync(PageId);
     }
 
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
         if (!string.IsNullOrWhiteSpace(PageId))
-            Module = await Platform.Module.GetModuleAsync(PageId);
+            Context.Module = await Platform.Module.GetModuleAsync(PageId);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (Module == null || string.IsNullOrWhiteSpace(Module.EntityData))
+        if (Context.Module == null || string.IsNullOrWhiteSpace(Context.Module.EntityData))
             UI.BuildResult(builder, "404", $"{Language["Tip.Page404"]}PageId={PageId}");
         else
             builder.Component<AutoTablePage>().Set(c => c.PageId, PageId).Build();

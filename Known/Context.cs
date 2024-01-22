@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Known.Blazor;
+using Known.Entities;
 
 namespace Known;
 
@@ -18,6 +19,7 @@ public class Context
     internal Action<MenuItem> OnNavigate { get; set; }
     internal Action OnRefreshPage { get; set; }
     internal MenuItem Current { get; set; }
+    internal SysModule Module { get; set; }
 
     public IUIService UI { get; set; }
     public InstallInfo Install { get; internal set; }

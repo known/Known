@@ -10,7 +10,7 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        TableName = DataHelper.GetEntity(Module?.EntityData)?.Id;
+        TableName = DataHelper.GetEntity(Context.Module?.EntityData)?.Id;
         Table.OnQuery = c => Platform.Auto.QueryModelsAsync(TableName, c);
     }
 

@@ -21,7 +21,7 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
 
         var logs = await Platform.Flow.GetFlowLogsAsync(Model.Data.Id);
         step.Items.Clear();
-        var flow = DataHelper.GetFlow(Model.Table?.Module?.FlowData);
+        var flow = DataHelper.GetFlow(Context.Module?.FlowData);
         var steps = flow.GetFlowStepItems();
         if (steps != null && steps.Count > 0)
             step.Items.AddRange(steps);
