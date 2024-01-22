@@ -15,19 +15,40 @@ class AutoService : ServiceBase
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Delete, async db =>
+        var oldFiles = new List<string>();
+        var result = await Database.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in models)
             {
-                await db.DeleteAsync(tableName, item.GetValue<string>("Id"));
+                var id = item.GetValue<string>("Id");
+                await Platform.DeleteFlowAsync(db, id);
+                await Platform.DeleteFilesAsync(db, id, oldFiles);
+                await db.DeleteAsync(tableName, id);
             }
         });
+        if (result.IsValid)
+            Platform.DeleteFiles(oldFiles);
+        return result;
     }
 
-    public async Task<Result> SaveModelAsync(string tableName, Dictionary<string, object> model)
+    public async Task<Result> SaveModelAsync(string tableName, UploadInfo<Dictionary<string, object>> info)
     {
+        var model = info.Model;
+        var user = CurrentUser;
         return await Database.TransactionAsync(Language.Save, async db =>
         {
+            var id = Utils.GetGuid();
+            if (info.Files != null && info.Files.Count > 0)
+            {
+                foreach (var file in info.Files)
+                {
+                    var bizType = $"{tableName}.{file.Key}";
+                    var files = info.Files.GetAttachFiles(user, file.Key, tableName);
+                    await Platform.AddFilesAsync(db, files, id, bizType);
+                    model[file.Key] = $"{id}_{bizType}";
+                }
+            }
+            model["Id"] = id;
             await db.SaveAsync(tableName, model);
         }, model);
     }

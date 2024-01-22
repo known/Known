@@ -604,7 +604,8 @@ public class Database : IDisposable
             return await UpdateAsync(tableName, "Id", data);
         }
 
-        data["Id"] = Utils.GetGuid();
+        if (string.IsNullOrWhiteSpace(id))
+            data["Id"] = Utils.GetGuid();
         data["CreateBy"] = User.UserName;
         data["CreateTime"] = DateTime.Now;
         data["ModifyBy"] = User.UserName;

@@ -55,11 +55,11 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
         if (column.MultiFile)
         {
             var files = e.GetMultipleFiles();
-            Model.Form.Files[column.Property.Name] = [.. files];
+            Model.Form.Files[column.Id] = [.. files];
         }
         else
         {
-            Model.Form.Files[column.Property.Name] = [e.File];
+            Model.Form.Files[column.Id] = [e.File];
         }
     }
 
