@@ -134,11 +134,8 @@ public class PagingCriteria
 {
     public PagingCriteria()
     {
-        Parameters = [];
-        Query = [];
-        Fields = [];
-        PageIndex = 1;
         PageSize = Config.App.DefaultPageSize;
+        Clear();
     }
 
     public ExportMode ExportMode { get; set; }
@@ -152,7 +149,15 @@ public class PagingCriteria
     public List<QueryInfo> Query { get; set; }
     public string[] OrderBys { get; set; }
 
-    internal Dictionary<string, string> Fields { get; }
+    internal Dictionary<string, string> Fields { get; set; }
+
+    internal void Clear()
+    {
+        Parameters = [];
+        Query = [];
+        Fields = [];
+        PageIndex = 1;
+    }
 
     public QueryInfo SetQuery(string id, string value)
     {
