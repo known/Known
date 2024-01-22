@@ -27,34 +27,36 @@ public class AntMenu : BaseComponent
         if (Items == null || Items.Count == 0)
             return;
 
-        foreach (var item in Items)
+        BuildMenu(builder, Items);
+    }
+
+    private void BuildMenu(RenderTreeBuilder builder, List<MenuItem> items)
+    {
+        foreach (var item in items)
         {
-            if (item.Children != null && item.Children.Count > 0)
-            {
-                builder.Component<SubMenu>()
-                       .Set(c => c.Key, item.Id)
-                       .Set(c => c.TitleTemplate, b => BuildTitle(b, item))
-                       .Set(c => c.ChildContent, b => BuildSubMenu(b, item.Children))
-                       .Build();
-            }
-            else
-            {
-                BuildMenuItem(builder, item);
-            }
+            BuildMenu(builder, item);
+        }
+    }
+
+    private void BuildMenu(RenderTreeBuilder builder, MenuItem item)
+    {
+        if (item.Children != null && item.Children.Count > 0)
+        {
+            builder.Component<SubMenu>()
+                   .Set(c => c.Key, item.Id)
+                   .Set(c => c.TitleTemplate, b => BuildTitle(b, item))
+                   .Set(c => c.ChildContent, b => BuildMenu(b, item.Children))
+                   .Build();
+        }
+        else
+        {
+            BuildMenuItem(builder, item);
         }
     }
 
     private void BuildTitle(RenderTreeBuilder builder, MenuItem item)
     {
         builder.Span().Children(() => BuildItemName(builder, item)).Close();
-    }
-
-    private void BuildSubMenu(RenderTreeBuilder builder, List<MenuItem> children)
-    {
-        foreach (var child in children)
-        {
-            BuildMenuItem(builder, child);
-        }
     }
 
     private void BuildMenuItem(RenderTreeBuilder builder, MenuItem item)
