@@ -37,7 +37,9 @@ class AutoService : ServiceBase
         var user = CurrentUser;
         return await Database.TransactionAsync(Language.Save, async db =>
         {
-            var id = Utils.GetGuid();
+            var id = model.GetValue<string>("Id");
+            if (string.IsNullOrWhiteSpace(id))
+                id = Utils.GetGuid();
             if (info.Files != null && info.Files.Count > 0)
             {
                 foreach (var file in info.Files)
