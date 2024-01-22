@@ -46,6 +46,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public Func<TItem, object> RowKey { get; set; }
     public Func<TItem, List<ActionInfo>> RowActions { get; set; }
     public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
+    public Func<TItem, Task> OnRowClick { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }
     public Func<Task> OnRefresh { get; set; }
 

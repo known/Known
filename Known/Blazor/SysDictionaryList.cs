@@ -1,19 +1,35 @@
 ﻿using Known.Entities;
+using Known.Extensions;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-class SysDictionaryList : BaseTablePage<SysDictionary>
+class SysDictionaryList : BasePage<SysDictionary>
 {
     private string category;
     private int total;
+    private TableModel<SysDictionary> tableCate;
+    private TableModel<SysDictionary> tableList;
 
-	protected override async Task OnInitPageAsync()
+    protected override async Task OnInitPageAsync()
 	{
 		await base.OnInitPageAsync();
-		Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
-		Table.RowKey = r => r.Id;
-		Table.OnQuery = QueryDictionarysAsync;
+
+        Page.Type = PageType.Column;
+        Page.Spans = [10, 14];
+        Page.Contents = [BuildCategory, BuildDictionary];
+
+        tableCate = new TableModel<SysDictionary>(this);
+        tableCate.OnQuery = QueryDictionarysAsync;
+
+        tableList = new TableModel<SysDictionary>(this);
+        tableList.FormTitle = row => $"{PageName} - {row.CategoryName}";
+        tableList.RowKey = r => r.Id;
+        tableList.OnQuery = QueryDictionarysAsync;
 	}
+
+    private void BuildCategory(RenderTreeBuilder builder) => builder.BuildTablePage(tableCate);
+    private void BuildDictionary(RenderTreeBuilder builder) => builder.BuildTablePage(tableList);
 
     private async Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
     {
@@ -28,9 +44,9 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
         return result;
     }
 
-    [Action] public void New() => Table.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
-    [Action] public void Edit(SysDictionary row) => Table.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
-    [Action] public void Delete(SysDictionary row) => Table.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
-    [Action] public void DeleteM() => Table.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
-    [Action] public void Import() => ShowImportForm();
+    [Action] public void New() => tableList.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
+    [Action] public void Edit(SysDictionary row) => tableList.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
+    [Action] public void Delete(SysDictionary row) => tableList.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
+    [Action] public void DeleteM() => tableList.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
+    //[Action] public void Import() => ShowImportForm();
 }

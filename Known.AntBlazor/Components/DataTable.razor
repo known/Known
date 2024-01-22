@@ -9,7 +9,7 @@
        @bind-PageIndex="Model.Criteria.PageIndex"
        @bind-PageSize="Model.Criteria.PageSize"
        @bind-SelectedRows="Model.SelectedRows"
-       RowKey="Model.RowKey" OnChange="OnChange"
+       RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick"
        HidePagination="!Model.ShowPager" PaginationPosition="bottomRight">
     <ChildContent>
         @if (!string.IsNullOrWhiteSpace(Model.SelectType))
@@ -90,6 +90,14 @@
         var sorts = queryModel.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
         Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+    }
+
+    private async void OnRowClick(RowData<TItem> row)
+    {
+        if (Model.OnRowClick == null)
+            return;
+
+        await Model.OnRowClick.Invoke(row.Data);
     }
 
     private QueryType GetQueryType(TableFilterCompareOperator tableFilter)
