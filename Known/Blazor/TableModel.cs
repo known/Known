@@ -20,13 +20,11 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
 
 	internal TableModel(BasePage<TItem> page) : base(page.Context)
     {
-        Page = page;
-        Module = page.Context.Module;
-        SetPageInfo(Module?.Page, page);
+        SetPage(page);
     }
 
     internal List<ColumnInfo> AllColumns { get; private set; }
-    internal BasePage<TItem> Page { get; }
+    internal BasePage<TItem> Page { get; private set; }
     internal SysModule Module { get; set; }
 
     public bool IsDictionary => typeof(TItem) == typeof(Dictionary<string, object>);
@@ -207,6 +205,13 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     private static List<ColumnInfo> GetAllColumns()
     {
         return typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
+    }
+
+    internal void SetPage(BasePage<TItem> page)
+    {
+        Page = page;
+        Module = page.Context.Module;
+        SetPageInfo(Module?.Page, page);
     }
 
     internal void SetPageInfo(PageInfo info, BasePage<TItem> page = null)
