@@ -396,6 +396,7 @@
   "PhoneNo": "手機號",
   "PhoneCode": "手機驗證碼",
   "Type": "類型",
+  "CategoryType": "類型",
   "Category": "類別",
   "Category1": "一級類別",
   "Category2": "二級類別",

@@ -87,7 +87,7 @@ class AuthService : ServiceBase
     {
         await Database.OpenAsync();
         await DataHelper.InitializeAsync(Platform.Module);
-        //await DictionaryService.RefreshCacheAsync(Database, CurrentUser);
+        await Platform.Dictionary.RefreshCacheAsync();
         var admin = new AdminInfo
         {
             AppName = await UserHelper.GetSystemNameAsync(Database),

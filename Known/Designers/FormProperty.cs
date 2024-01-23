@@ -7,11 +7,13 @@ namespace Known.Designers;
 class FormProperty : BaseProperty<FormFieldInfo>
 {
     private List<CodeInfo> controlTypes;
+    private List<CodeInfo> categories;
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
         base.OnInitialized();
         controlTypes = Cache.GetCodes(nameof(FieldType)).Select(c => new CodeInfo(c.Name, c.Name)).ToList();
+        categories = await Platform.Dictionary.GetCategoriesAsync();
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)
@@ -62,12 +64,32 @@ class FormProperty : BaseProperty<FormFieldInfo>
         }));
         if (Model.Type == FieldType.Select || Model.Type == FieldType.RadioList || Model.Type == FieldType.CheckList)
         {
-            BuildPropertyItem(builder, "Category", b => UI.BuildText(b, new InputModel<string>
+            BuildPropertyItem(builder, "CategoryType", b => UI.BuildSelect(b, new InputModel<string>
             {
                 Disabled = IsReadOnly,
-                Value = Model.Category,
-                ValueChanged = this.Callback<string>(value => { Model.Category = value; OnChanged?.Invoke(Model); })
+                Codes = Cache.GetCodes("Dictionary,Custom"),
+                Value = Model.CategoryType,
+                ValueChanged = this.Callback<string>(value => { Model.CategoryType = value; OnChanged?.Invoke(Model); })
             }));
+            if (Model.CategoryType == "Custom")
+            {
+                BuildPropertyItem(builder, "Category", b => UI.BuildText(b, new InputModel<string>
+                {
+                    Disabled = IsReadOnly,
+                    Value = Model.Category,
+                    ValueChanged = this.Callback<string>(value => { Model.Category = value; OnChanged?.Invoke(Model); })
+                }));
+            }
+            else
+            {
+                BuildPropertyItem(builder, "Category", b => UI.BuildSelect(b, new InputModel<string>
+                {
+                    Disabled = IsReadOnly,
+                    Codes = categories,
+                    Value = Model.Category,
+                    ValueChanged = this.Callback<string>(value => { Model.Category = value; OnChanged?.Invoke(Model); })
+                }));
+            }
         }
         if (Model.Type == FieldType.File)
         {

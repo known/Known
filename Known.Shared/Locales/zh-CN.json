@@ -523,6 +523,7 @@
   "PhoneNo": "手机号",
   "PhoneCode": "手机验证码",
   "Type": "类型",
+  "CategoryType": "类型",
   "Category": "类别",
   "Category1": "一级类别",
   "Category2": "二级类别",

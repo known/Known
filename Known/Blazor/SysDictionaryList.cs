@@ -8,6 +8,7 @@ namespace Known.Blazor;
 class SysDictionaryList : BaseTablePage<SysDictionary>
 {
     private List<CodeInfo> categories;
+    private bool isAddCategory;
     private CodeInfo category;
     private int total;
 
@@ -32,7 +33,7 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
 
     public override async Task RefreshAsync()
     {
-        if (category.Category == Constants.DicCategory)
+        if (isAddCategory)
         {
             await LoadCategoriesAsync();
             StateChanged();
@@ -70,13 +71,13 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
     [Action]
     public void AddCategory()
     {
+        isAddCategory = true;
         var code = Constants.DicCategory;
-        category = new CodeInfo(code, code, code, null);
-        total = categories.Count;
-        New();
+        var dicCate = new CodeInfo(code, code, code, null);
+        NewForm(dicCate, categories.Count, true);
     }
 
-    [Action] public void New() => Table.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category?.Code, CategoryName = category?.Name, Sort = total + 1 });
+    [Action] public void New() => NewForm(category, total, false);
     [Action] public void Edit(SysDictionary row) => Table.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
     [Action] public void Delete(SysDictionary row) => Table.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
     [Action] public void DeleteM() => Table.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
@@ -86,5 +87,16 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
     {
         categories = await Platform.Dictionary.GetCategoriesAsync();
         category ??= categories?.FirstOrDefault();
+    }
+
+    private void NewForm(CodeInfo info, int sort, bool isCategory)
+    {
+        isAddCategory = isCategory;
+        Table.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary
+        {
+            Category = info?.Code,
+            CategoryName = info?.Name,
+            Sort = sort + 1
+        });
     }
 }
