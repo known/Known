@@ -23,7 +23,7 @@ public class StepModel
 
 public class ToolbarModel
 {
-    public List<ActionInfo> Items { get; set; }
+    public List<ActionInfo> Items { get; set; } = [];
     public Action<ActionInfo> OnItemClick { get; set; }
 
     public bool HasItem => Items != null && Items.Count > 0;

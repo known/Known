@@ -377,6 +377,7 @@
   "Tip.CompanyNotExists": "The enterprise does not exist!",
   "Tip.OrgDeleteExistsChild": "There is a suborganization and it cannot be deleted!",
   "Tip.OrgCodeExists": "The organization code already exists!",
+  "Tip.DicCodeExists": "The dictionary code already exists!",
   "Tip.RefreshSuccess": "Refresh successful!",
   "Tip.FileNotExists": "The file does not exist!",
   "Tip.ModuleDeleteExistsChild": "There are sub modules present and cannot be deleted!",

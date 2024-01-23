@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Known.Entities;
 
@@ -16,7 +15,6 @@ public class SysDictionary : EntityBase
     /// <summary>
     /// 取得或设置类别。
     /// </summary>
-    [Category(Constants.DicCategory)]
     [Required]
     [MaxLength(50)]
     public string Category { get; set; }

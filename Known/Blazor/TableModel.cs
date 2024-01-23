@@ -40,7 +40,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public Dictionary<string, QueryInfo> QueryData { get; } = [];
     public PagingCriteria Criteria { get; } = new();
     public PagingResult<TItem> Result { get; set; } = new();
-    public List<ActionInfo> Actions { get; private set; }
+    public List<ActionInfo> Actions { get; private set; } = [];
     public IEnumerable<TItem> SelectedRows { get; set; }
     public Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];
     public Func<TItem, object> RowKey { get; set; }

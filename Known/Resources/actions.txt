@@ -24,3 +24,4 @@ Reapply          | 重新申请 | redo         | primary
 
 ResetPassword    | 重置密码 | lock        | primary
 ChangeDepartment | 更换部门 | user-switch | primary
+AddCategory      | 添加类别 | plus-circle | primary

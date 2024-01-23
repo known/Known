@@ -1,52 +1,90 @@
 ﻿using Known.Entities;
 using Known.Extensions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-class SysDictionaryList : BasePage<SysDictionary>
+class SysDictionaryList : BaseTablePage<SysDictionary>
 {
-    private string category;
+    private List<CodeInfo> categories;
+    private CodeInfo category;
     private int total;
-    private TableModel<SysDictionary> tableCate;
-    private TableModel<SysDictionary> tableList;
 
     protected override async Task OnInitPageAsync()
-	{
-		await base.OnInitPageAsync();
+    {
+        await base.OnInitPageAsync();
+        await LoadCategoriesAsync();
+        Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
+        Table.RowKey = r => r.Id;
+        Table.OnQuery = QueryDictionarysAsync;
+        Table.Column(c => c.Category).Template(BuildCategory);
+    }
 
-        Page.Type = PageType.Column;
-        Page.Spans = [10, 14];
-        Page.Contents = [BuildCategory, BuildDictionary];
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-row-28", () =>
+        {
+            builder.Div(() => BuildListBox(builder));
+            builder.Div(() => base.BuildRenderTree(builder));
+        });
+    }
 
-        tableCate = new TableModel<SysDictionary>(this);
-        tableCate.OnQuery = QueryDictionarysAsync;
+    public override async Task RefreshAsync()
+    {
+        if (category.Category == Constants.DicCategory)
+        {
+            await LoadCategoriesAsync();
+            StateChanged();
+        }
 
-        tableList = new TableModel<SysDictionary>(this);
-        tableList.FormTitle = row => $"{PageName} - {row.CategoryName}";
-        tableList.RowKey = r => r.Id;
-        tableList.OnQuery = QueryDictionarysAsync;
-	}
+        await base.RefreshAsync();
+    }
 
-    private void BuildCategory(RenderTreeBuilder builder) => builder.BuildTablePage(tableCate);
-    private void BuildDictionary(RenderTreeBuilder builder) => builder.BuildTablePage(tableList);
+    private void BuildListBox(RenderTreeBuilder builder)
+    {
+        builder.Component<ListBox>()
+               .Set(c => c.Items, categories)
+               .Set(c => c.ItemTemplate, ItemTemplate)
+               .Set(c => c.OnItemClick, OnCategoryClick)
+               .Build();
+    }
+
+    private RenderFragment ItemTemplate(CodeInfo info) => b => b.Text($"{info.Name} ({info.Code})");
+    private void BuildCategory(RenderTreeBuilder builder, SysDictionary row) => builder.Text($"{row.CategoryName} ({row.Category})");
+
+    private Task OnCategoryClick(CodeInfo info)
+    {
+        category = info;
+        return Table.RefreshAsync();
+    }
 
     private async Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
     {
-        category = criteria.GetQueryValue(nameof(SysDictionary.Category));
-        if (string.IsNullOrWhiteSpace(category))
-        {
-            category = Cache.GetCodes(Constants.DicCategory)?.FirstOrDefault()?.Code;
-            criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category);
-        }
+        criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category?.Code);
         var result = await Platform.Dictionary.QueryDictionarysAsync(criteria);
         total = result.TotalCount;
         return result;
     }
 
-    [Action] public void New() => tableList.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category, CategoryName = category, Sort = total + 1 });
-    [Action] public void Edit(SysDictionary row) => tableList.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
-    [Action] public void Delete(SysDictionary row) => tableList.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
-    [Action] public void DeleteM() => tableList.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
-    //[Action] public void Import() => ShowImportForm();
+    [Action]
+    public void AddCategory()
+    {
+        var code = Constants.DicCategory;
+        category = new CodeInfo(code, code, code, null);
+        total = categories.Count;
+        New();
+    }
+
+    [Action] public void New() => Table.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary { Category = category?.Code, CategoryName = category?.Name, Sort = total + 1 });
+    [Action] public void Edit(SysDictionary row) => Table.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
+    [Action] public void Delete(SysDictionary row) => Table.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
+    [Action] public void DeleteM() => Table.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
+    [Action] public void Import() => ShowImportForm();
+
+    private async Task LoadCategoriesAsync()
+    {
+        categories = await Platform.Dictionary.GetCategoriesAsync();
+        category ??= categories?.FirstOrDefault();
+    }
 }

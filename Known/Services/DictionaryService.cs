@@ -5,7 +5,13 @@ namespace Known.Services;
 
 class DictionaryService : ServiceBase
 {
-    public Task<Result> RefreshCacheAsync() => RefreshCacheAsync(Database, CurrentUser);
+    public Task<Result> RefreshCacheAsync() => RefreshCacheAsync(Database);
+
+    public async Task<List<CodeInfo>> GetCategoriesAsync()
+    {
+        var categories = await DictionaryRepository.GetCategoriesAsync(Database);
+        return categories?.Select(c => new CodeInfo(c.Category, c.Code, c.Name)).ToList();
+    }
 
     public Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
     {
@@ -21,6 +27,7 @@ class DictionaryService : ServiceBase
         {
             foreach (var item in models)
             {
+                await DictionaryRepository.DeleteDictionarysAsync(db, item.Code);
                 await db.DeleteAsync(item);
             }
         });
@@ -28,21 +35,23 @@ class DictionaryService : ServiceBase
 
     public async Task<Result> SaveDictionaryAsync(SysDictionary model)
     {
+        model.CompNo = CurrentUser.CompNo;
         var vr = model.Validate(Context);
         if (!vr.IsValid)
             return vr;
+
+        var exists = await DictionaryRepository.ExistsDictionary(Database, model);
+        if (exists)
+            return Result.Error(Language["Tip.DicCodeExists"]);
 
         await Database.SaveAsync(model);
         await RefreshCacheAsync();
         return Result.Success(Language.Success(Language.Save), model.Id);
     }
 
-    private async Task<Result> RefreshCacheAsync(Database db, UserInfo user)
+    private async Task<Result> RefreshCacheAsync(Database db)
     {
-        if (user == null)
-            return Result.Error(Language["Tip.NoLogin"]);
-
-        var entities = await DictionaryRepository.GetDictionarysAsync(db, user.AppId, user.CompNo);
+        var entities = await DictionaryRepository.GetDictionarysAsync(db);
         var codes = entities.Select(e =>
         {
             var code = e.Code;

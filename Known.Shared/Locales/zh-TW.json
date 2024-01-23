@@ -246,6 +246,7 @@
   "Tip.CompanyNotExists": "企業不存在！",
   "Tip.OrgDeleteExistsChild": "存在子組織架構，不能删除！",
   "Tip.OrgCodeExists": "組織編碼已存在！",
+  "Tip.DicCodeExists": "資料字典編碼已存在！",
   "Tip.RefreshSuccess": "重繪成功！",
   "Tip.FileNotExists": "檔案不存在！",
   "Tip.ModuleDeleteExistsChild": "存在子模塊，不能删除！",

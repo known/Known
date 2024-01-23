@@ -373,6 +373,7 @@
   "Tip.CompanyNotExists": "企业不存在！",
   "Tip.OrgDeleteExistsChild": "存在子组织架构，不能删除！",
   "Tip.OrgCodeExists": "组织编码已存在！",
+  "Tip.DicCodeExists": "数据字典编码已存在！",
   "Tip.RefreshSuccess": "刷新成功！",
   "Tip.FileNotExists": "文件不存在！",
   "Tip.ModuleDeleteExistsChild": "存在子模块，不能删除！",
