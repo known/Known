@@ -20,7 +20,7 @@ class SysUserList : BasePage<SysUser>
 		if (hasOrg)
 		{
 			Page.Type = PageType.Column;
-			Page.Spans = [4, 20];
+			Page.Spans = "28";
 
 			currentOrg = orgs[0];
 			tree = new TreeModel

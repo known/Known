@@ -37,7 +37,7 @@
             @if (Model.QueryColumns.Count > 3)
             {
                 <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
-                        <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language["Collapse"] : Language["Expand"])
+                    <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language["Collapse"] : Language["Expand"])
                 </a>
             }
         </div>

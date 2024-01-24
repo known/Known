@@ -62,13 +62,17 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
     private void AddAttributes(RenderTreeBuilder builder, ColumnInfo item, object value)
     {
         var title = Language?.GetString<TItem>(item);
+        //builder.AddAttribute(1, nameof(Column<TItem>.Ellipsis), true);
         builder.AddAttribute(1, nameof(Column<TItem>.Title), title);
         builder.AddAttribute(1, nameof(Column<TItem>.Hidden), !item.IsVisible);
         builder.AddAttribute(1, nameof(Column<TItem>.Sortable), item.IsSort);
         //TODO:固定列显示混乱问题
-        //builder.AddAttribute(1, nameof(Column<TItem>.Fixed), item.Fixed);
-        builder.AddAttribute(1, nameof(Column<TItem>.Width), item.Width);
-        builder.AddAttribute(1, nameof(Column<TItem>.Align), GetColumnAlign(item.Align));
+        //if (!string.IsNullOrWhiteSpace(item.Fixed))
+        //    builder.AddAttribute(1, nameof(Column<TItem>.Fixed), item.Fixed);
+        if (!string.IsNullOrWhiteSpace(item.Width))
+            builder.AddAttribute(1, nameof(Column<TItem>.Width), item.Width);
+        if (!string.IsNullOrWhiteSpace(item.Align))
+            builder.AddAttribute(1, nameof(Column<TItem>.Align), GetColumnAlign(item.Align));
         if (!string.IsNullOrWhiteSpace(item.DefaultSort))
         {
             var sortName = item.DefaultSort == "Descend" ? "descend" : "ascend";
@@ -78,7 +82,6 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
 
         RenderFragment<TItem> template = null;
         Table.Templates?.TryGetValue(item.Id, out template);
-
         if (template != null)
         {
             builder.AddAttribute(1, nameof(Column<TItem>.ChildContent), this.BuildTree(b => b.AddContent(1, template(Item))));

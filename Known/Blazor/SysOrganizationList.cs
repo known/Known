@@ -15,7 +15,7 @@ class SysOrganizationList : BasePage<SysOrganization>
 		await base.OnInitPageAsync();
 
 		Page.Type = PageType.Column;
-		Page.Spans = [4, 20];
+		Page.Spans = "28";
 		Page.Contents = [BuildTree, BuildTable];
 
 		tree = new TreeModel

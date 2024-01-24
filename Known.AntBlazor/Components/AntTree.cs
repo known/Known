@@ -31,7 +31,7 @@ public class AntTree : Tree<MenuItem>
         Checkable = Model.Checkable;
         //DefaultExpandParent = Model.ExpandRoot;
         if (Model.ExpandRoot)
-            DefaultExpandedKeys = [Model.Data[0].Id];
+            DefaultExpandedKeys = [Model.Data?[0]?.Id];
         DefaultSelectedKeys = Model.SelectedKeys;
         DefaultCheckedKeys = Model.DefaultCheckedKeys;
         DataSource = Model.Data;

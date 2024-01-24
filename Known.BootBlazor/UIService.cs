@@ -203,11 +203,6 @@ public class UIService(DialogService dialogService, MessageService messageServic
         builder.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
     }
 
-    public void BuildPage(RenderTreeBuilder builder, PageModel model)
-    {
-        builder.Component<WebPage>().Set(c => c.Model, model).Build();
-    }
-
     public void BuildToolbar(RenderTreeBuilder builder, ToolbarModel model)
     {
         builder.Component<Toolbar>().Set(c => c.Model, model).Build();

@@ -29,6 +29,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
 
     public bool IsDictionary => typeof(TItem) == typeof(Dictionary<string, object>);
     public bool ShowPager { get; set; }
+    public bool Resizable { get; set; }
     public string SelectType { get; set; }
     public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }

@@ -56,7 +56,10 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         InitMenu();
     }
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildPage(builder, Page);
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Component<WebPage>().Set(c => c.Model, Page).Build();
+    }
 
 	protected void OnToolClick(ActionInfo info) => OnAction(info, null);
 	protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);

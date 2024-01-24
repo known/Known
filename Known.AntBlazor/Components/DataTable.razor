@@ -3,7 +3,7 @@
 @inherits BaseComponent
 @typeparam TItem where TItem : class, new()
 
-<Table TItem="TItem" Size="TableSize.Small" Responsive
+<Table TItem="TItem" Size="TableSize.Small" Responsive Resizable="Model.Resizable"
        ScrollX="@Model.FixedWidth" ScrollY="@Model.FixedHeight" ScrollBarWidth="8px"
        DataSource="Model.Result.PageData" Total="Model.Result.TotalCount"
        @bind-PageIndex="Model.Criteria.PageIndex"
@@ -40,6 +40,17 @@
                     }
                 }
             </ActionColumn>
+        }
+        @if (Model.Result.Sums != null && Model.Result.Sums.Count > 0)
+        {
+            <SummaryRow>
+                <SummaryCell>Total</SummaryCell>
+                @foreach (var item in Model.Columns)
+                {
+                    Model.Result.Sums.TryGetValue(item.Id, out object value);
+                    <SummaryCell>@value</SummaryCell>
+                }
+            </SummaryRow>
         }
     </ChildContent>
     <PaginationTemplate>

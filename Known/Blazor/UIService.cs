@@ -15,7 +15,6 @@ public interface IUIService
     void ShowDialog(DialogModel model);
     void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new();
     void BuildForm<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new();
-    void BuildPage(RenderTreeBuilder builder, PageModel model);
     void BuildToolbar(RenderTreeBuilder builder, ToolbarModel model);
     void BuildQuery<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new();
     void BuildTable<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new();

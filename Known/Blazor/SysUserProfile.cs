@@ -21,7 +21,7 @@ class SysUserProfile : BasePage<SysUser>
         User = await Platform.User.GetUserAsync(CurrentUser.Id);
 
         Page.Type = PageType.Column;
-        Page.Spans = [6, 18];
+        Page.Spans = "28";
         Page.Contents = [BuildUserInfo, BuildUserTabs];
     }
 
