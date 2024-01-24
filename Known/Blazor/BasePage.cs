@@ -6,11 +6,19 @@ namespace Known.Blazor;
 
 public class BasePage : BaseComponent
 {
+    private AutoTablePage page;
+
     [Parameter] public string PageId { get; set; }
 
     public string PageName => Language.GetString(Context.Module);
 
     public virtual Task RefreshAsync() => Task.CompletedTask;
+
+    public override void StateChanged()
+    {
+        base.StateChanged();
+        page?.StateChanged();
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -37,7 +45,7 @@ public class BasePage : BaseComponent
         if (Context.Module == null || string.IsNullOrWhiteSpace(Context.Module.EntityData))
             UI.BuildResult(builder, "404", $"{Language["Tip.Page404"]}PageId={PageId}");
         else
-            builder.Component<AutoTablePage>().Set(c => c.PageId, PageId).Build();
+            builder.Component<AutoTablePage>().Set(c => c.PageId, PageId).Build(value => page = value);
     }
 }
 
