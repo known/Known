@@ -32,7 +32,13 @@ class PageProperty : BaseProperty<PageColumnInfo>
                 ValueChanged = this.Callback<bool>(value => { Model.IsQueryAll = value; OnChanged?.Invoke(Model); })
             }));
         }
-        BuildPropertyItem(builder, "IsSort", b => UI.BuildSwitch(b, new InputModel<bool>
+		BuildPropertyItem(builder, "IsSum", b => UI.BuildSwitch(b, new InputModel<bool>
+		{
+			Disabled = IsReadOnly,
+			Value = Model.IsSum,
+			ValueChanged = this.Callback<bool>(value => { Model.IsSum = value; OnChanged?.Invoke(Model); })
+		}));
+		BuildPropertyItem(builder, "IsSort", b => UI.BuildSwitch(b, new InputModel<bool>
         {
             Disabled = IsReadOnly,
             Value = Model.IsSort,

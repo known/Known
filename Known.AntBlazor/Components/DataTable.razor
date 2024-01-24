@@ -17,7 +17,7 @@
             <Selection Type="@Model.SelectType" Width="50" />
         }
         <AntGenerateColumns Table="Model" Item="context" />
-        @if (Model.Actions != null && Model.Actions.Count > 0)
+        @if (Model.HasAction)
         {
             var actions = Model.RowActions?.Invoke(context);
             if (actions == null)
@@ -40,17 +40,6 @@
                     }
                 }
             </ActionColumn>
-        }
-        @if (Model.Result.Sums != null && Model.Result.Sums.Count > 0)
-        {
-            <SummaryRow>
-                <SummaryCell>Total</SummaryCell>
-                @foreach (var item in Model.Columns)
-                {
-                    Model.Result.Sums.TryGetValue(item.Id, out object value);
-                    <SummaryCell>@value</SummaryCell>
-                }
-            </SummaryRow>
         }
     </ChildContent>
     <PaginationTemplate>

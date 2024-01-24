@@ -592,6 +592,7 @@
   "IsViewLink": "查看链接",
   "IsQuery": "查询",
   "IsQueryAll": "显示全部",
+  "IsSum": "合计",
   "IsSort": "排序",
   "DefaultSort": "默认排序",
   "Fixed": "固定位置",

@@ -596,6 +596,7 @@
   "IsViewLink": "ViewLink",
   "IsQuery": "Query",
   "IsQueryAll": "QueryAll",
+  "IsSum": "Sum",
   "IsSort": "Sort",
   "DefaultSort": "DefaultSort",
   "Fixed": "Fixed",

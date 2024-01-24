@@ -29,6 +29,39 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
             else
                 BuildColumn(builder, item);
         }
+
+        if (Table.HasSum)
+        {
+            //TODO：总结行重复加载
+            builder.Component<SummaryRow>()
+                   .Set(c => c.ChildContent, BuildSummaryRow)
+                   .Build();
+        }
+    }
+
+    private void BuildSummaryRow(RenderTreeBuilder builder)
+    {
+        BuildSummaryCell(builder, Language["IsSum"]);
+        foreach (var item in Table.Columns)
+        {
+            if (item.IsSum)
+            {
+                object value = null;
+                Table.Result?.Sums?.TryGetValue(item.Id, out value);
+                BuildSummaryCell(builder, $"{value}");
+            }
+            else
+            {
+                BuildSummaryCell(builder, "");
+            }
+        }
+        if (Table.HasAction)
+            BuildSummaryCell(builder, "");
+    }
+
+    private void BuildSummaryCell(RenderTreeBuilder builder, string text)
+    {
+        builder.Component<SummaryCell>().Set(c => c.ChildContent, b => b.Text(text)).Build();
     }
 
     private void BuildPropertyColumn(RenderTreeBuilder builder, ColumnInfo item)
@@ -62,7 +95,7 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
     private void AddAttributes(RenderTreeBuilder builder, ColumnInfo item, object value)
     {
         var title = Language?.GetString<TItem>(item);
-        //builder.AddAttribute(1, nameof(Column<TItem>.Ellipsis), true);
+        builder.AddAttribute(1, nameof(Column<TItem>.Ellipsis), true);
         builder.AddAttribute(1, nameof(Column<TItem>.Title), title);
         builder.AddAttribute(1, nameof(Column<TItem>.Hidden), !item.IsVisible);
         builder.AddAttribute(1, nameof(Column<TItem>.Sortable), item.IsSort);

@@ -163,6 +163,7 @@ public class ColumnInfo
     public string Name { get; set; }
     public bool IsVisible { get; set; } = true;
 
+    public bool IsSum { get; set; }
     public bool IsSort { get; set; } = true;
     public string DefaultSort { get; set; }
     public bool IsViewLink { get; set; }
@@ -192,6 +193,7 @@ public class ColumnInfo
         IsViewLink = info.IsViewLink;
         IsQuery = info.IsQuery;
         IsQueryAll = info.IsQueryAll;
+		IsSum = info.IsSum;
         IsSort = info.IsSort;
         DefaultSort = info.DefaultSort;
         Fixed = info.Fixed;

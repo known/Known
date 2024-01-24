@@ -37,6 +37,7 @@ public class PageColumnInfo
     public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }
     public bool IsQueryAll { get; set; }
+    public bool IsSum { get; set; }
     public bool IsSort { get; set; }
     public string DefaultSort { get; set; }
     public string Fixed { get; set; }

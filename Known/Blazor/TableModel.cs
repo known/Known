@@ -28,6 +28,8 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     internal SysModule Module { get; set; }
 
     public bool IsDictionary => typeof(TItem) == typeof(Dictionary<string, object>);
+    public bool HasAction => Actions != null && Actions.Count > 0;
+    public bool HasSum => Columns != null && Columns.Any(c => c.IsSum);
     public bool ShowPager { get; set; }
     public bool Resizable { get; set; }
     public string SelectType { get; set; }
