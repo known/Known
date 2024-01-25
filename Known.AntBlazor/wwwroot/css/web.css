@@ -40,7 +40,9 @@
 .ant-btn > .anticon + span, .ant-btn > span + .anticon {margin-left:2px;}
 .ant-modal-content {border-radius:5px;}
 .ant-modal-header {border-radius:5px 5px 0 0;}
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-more, .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-more {padding:8px 0 8px 10px;}
 .ant-tabs-nav {padding:0 10px;}
+.ant-tabs-tab .anticon {margin-right:5px;}
 .ant-tabs-tab-remove {margin-left:0;}
 .ant-table-thead > tr > th {font-weight:bold;}
 .ant-table-cell .ant-tag {cursor:pointer;}

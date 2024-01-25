@@ -164,7 +164,7 @@ public class ColumnInfo
     public bool IsVisible { get; set; } = true;
 
     public bool IsSum { get; set; }
-    public bool IsSort { get; set; } = true;
+    public bool IsSort { get; set; }
     public string DefaultSort { get; set; }
     public bool IsViewLink { get; set; }
     public bool IsQuery { get; set; }

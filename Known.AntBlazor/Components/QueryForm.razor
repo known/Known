@@ -4,11 +4,12 @@
 <div class="ant-query">
 @if (Model.QueryColumns != null && Model.QueryColumns.Count > 0)
 {
-    var length = Model.QueryColumns.Count;
-    if (length > 3)
-        length = _expand ? length : 3;
+    var showCount = 3;
+    var count = Model.QueryColumns.Count;
+    if (count > showCount)
+        count = _expand ? count : showCount;
     <Form @ref="_form" Model="Model.QueryData" Layout="@FormLayout.Inline">
-        @for (var i = 0; i < length; i++)
+        @for (var i = 0; i < count; i++)
         {
             var item = Model.QueryColumns[i];
             var itemName = Language.GetString<TItem>(item);
@@ -34,7 +35,7 @@
         <div class="ant-query-btn">
             <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
             <Button Icon="undo" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button>
-            @if (Model.QueryColumns.Count > 3)
+            @if (Model.QueryColumns.Count > showCount)
             {
                 <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
                     <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language["Collapse"] : Language["Expand"])
