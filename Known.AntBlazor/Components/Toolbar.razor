@@ -3,13 +3,37 @@
 @if (Model.HasItem)
 {
     <div class="ant-toolbar">
-        @foreach (var item in Model.Items)
+        @if (Model.Items.Count > 4)
         {
-            var itemName = Language.GetString(item);
-            <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
-            @if (item.Children != null && item.Children.Count > 0)
+            for (int i = 0; i < 3; i++)
             {
-                <AntDropdown Context="Context" Text="@itemName" Items="item.Children" OnItemClick="Model.OnItemClick" />
+                var item = Model.Items[i];
+                var itemName = Language.GetString(item);
+                if (item.Children != null && item.Children.Count > 0)
+                {
+                    <AntDropdown Context="Context" TextButton="@itemName" Items="item.Children" OnItemClick="Model.OnItemClick" />
+                }
+                else
+                {
+                    <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
+                }
+            }
+            var mores = Model.Items.Skip(3).ToList();
+            <AntDropdown Context="Context" TextButton="@Language["Button.More"]" Items="mores" OnItemClick="Model.OnItemClick" />
+        }
+        else
+        {
+            foreach (var item in Model.Items)
+            {
+                var itemName = Language.GetString(item);
+                if (item.Children != null && item.Children.Count > 0)
+                {
+                    <AntDropdown Context="Context" TextButton="@itemName" Items="item.Children" OnItemClick="Model.OnItemClick" />
+                }
+                else
+                {
+                    <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
+                }
             }
         }
     </div>

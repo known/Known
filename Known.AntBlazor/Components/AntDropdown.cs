@@ -12,6 +12,7 @@ public class AntDropdown : Dropdown
     [Parameter] public string Icon { get; set; }
     [Parameter] public string Text { get; set; }
     [Parameter] public string TextIcon { get; set; }
+    [Parameter] public string TextButton { get; set; }
     [Parameter] public List<ActionInfo> Items { get; set; }
     [Parameter] public Action<ActionInfo> OnItemClick { get; set; }
 
@@ -24,6 +25,8 @@ public class AntDropdown : Dropdown
             ChildContent = BuildText;
         else if (!string.IsNullOrWhiteSpace(TextIcon))
             ChildContent = BuildTextIcon;
+        else if (!string.IsNullOrWhiteSpace(TextButton))
+            ChildContent = BuildTextButton;
 
         if (Items != null && Items.Count > 0)
         {
@@ -50,6 +53,18 @@ public class AntDropdown : Dropdown
     private void BuildTextIcon(RenderTreeBuilder builder)
     {
         builder.Span().Role("img").Text(TextIcon).Close();
+    }
+
+    private void BuildTextButton(RenderTreeBuilder builder)
+    {
+        builder.Component<Button>()
+               .Set(c => c.Type, ButtonType.Primary)
+               .Set(c => c.ChildContent, b =>
+               {
+                   b.Markup(TextButton);
+                   b.Component<Icon>().Set(c => c.Type, "down").Build();
+               })
+               .Build();
     }
 
     private void BuildOverlay(RenderTreeBuilder builder)
