@@ -58,7 +58,6 @@ public class AntDropdown : Dropdown
     private void BuildTextButton(RenderTreeBuilder builder)
     {
         builder.Component<Button>()
-               .Set(c => c.Type, ButtonType.Primary)
                .Set(c => c.ChildContent, b =>
                {
                    b.Markup(TextButton);

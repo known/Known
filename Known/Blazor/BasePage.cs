@@ -86,7 +86,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         UI.Error(message);
     }
 
-    private void InitMenu()
+    internal void InitMenu()
     {
         if (Context == null || Context.UserMenus == null)
             return;

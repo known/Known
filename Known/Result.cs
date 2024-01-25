@@ -153,8 +153,12 @@ public class PagingCriteria
 
     internal void Clear()
     {
+        IsQuery = false;
+        ExportColumns = [];
         Parameters = [];
+        SumColumns = [];
         Query = [];
+        OrderBys = [];
         Fields = [];
         PageIndex = 1;
     }

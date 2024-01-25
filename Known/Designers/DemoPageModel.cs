@@ -16,6 +16,8 @@ class DemoPageModel : TableModel<Dictionary<string, object>>
 
     private Task<PagingResult<Dictionary<string, object>>> OnQueryDatas(PagingCriteria criteria)
     {
+        var total = 0;
+        var sums = new Dictionary<string, object>();
         var datas = new List<Dictionary<string, object>>();
         for (int i = 0; i < 3; i++)
         {
@@ -23,11 +25,16 @@ class DemoPageModel : TableModel<Dictionary<string, object>>
             foreach (var item in Columns)
             {
                 data[item.Id] = GetValue(item, i);
+                if (item.IsSum)
+                {
+                    total += i;
+                    sums[item.Id] = total;
+                }
             }
             datas.Add(data);
         }
 
-        var result = new PagingResult<Dictionary<string, object>>(datas);
+        var result = new PagingResult<Dictionary<string, object>>(datas) { Sums = sums };
         return Task.FromResult(result);
     }
 

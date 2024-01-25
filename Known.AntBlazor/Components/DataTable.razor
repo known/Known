@@ -65,7 +65,7 @@
     public async Task RefreshAsync()
     {
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
-        StateHasChanged();
+        StateChanged();
     }
 
     private async Task OnChange(QueryModel<TItem> queryModel)
@@ -89,6 +89,7 @@
         //排序
         var sorts = queryModel.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
         Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
+        Model.Criteria.SumColumns = Model.Columns.Where(c => c.IsSum).Select(c => c.Id).ToList();
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
     }
 

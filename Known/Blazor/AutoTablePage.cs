@@ -13,11 +13,12 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         if (pageId != PageId)
         {
             pageId = PageId;
+            InitMenu();
             Table.SetPage(this);
             TableName = DataHelper.GetEntity(Context.Module?.EntityData)?.Id;
             Table.OnQuery = c => Platform.Auto.QueryModelsAsync(TableName, c);
             Table.Criteria.Clear();
-            Table.Result = await Table.OnQuery?.Invoke(Table.Criteria);
+            await Table.RefreshAsync();
         }
     }
 
