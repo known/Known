@@ -16,6 +16,7 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-link {color:#1890ff;cursor:pointer;}
 .kui-menu li {list-style:none;display:inline-block;margin-left:10px;}
 .kui-menu li a {color:var(--kui-color);}
+.kui-logo img {width:100%;}
 .primary {color:#1890ff;}
 .danger {color:#ed4014;}
 .center {text-align:center;}

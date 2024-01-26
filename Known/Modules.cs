@@ -47,6 +47,7 @@ public class PageColumnInfo
 
 public class FormInfo
 {
+    public double? Width { get; set; }
     public int? LabelSpan { get; set; }
     public int? WrapperSpan { get; set; }
     public List<FormFieldInfo> Fields { get; set; } = [];

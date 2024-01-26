@@ -65,6 +65,12 @@ class FormView : BaseView<FormInfo>
     {
         builder.Div("setting-row", () =>
         {
+            BuildPropertyItem(builder, "Width", b => UI.BuildNumber(b, new InputModel<double?>
+            {
+                Disabled = ReadOnly,
+                Value = Model.Width,
+                ValueChanged = this.Callback<double?>(value => { Model.Width = value; OnPropertyChanged(); })
+            }));
             BuildPropertyItem(builder, "Designer.LabelSpan", b => UI.BuildNumber(b, new InputModel<int?>
             {
                 Disabled = ReadOnly,

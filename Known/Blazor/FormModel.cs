@@ -179,6 +179,8 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         if (info == null)
             return;
 
+        if (info.Width.HasValue)
+            Option.Width = info.Width;
         LabelSpan = info.LabelSpan;
         WrapperSpan = info.WrapperSpan;
         columns = GetFormColumns(info);
