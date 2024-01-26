@@ -17,7 +17,7 @@
         </AntCaptcha>
     </FormItem>
     <FormItem>
-        <Switch @bind-Checked="@context.Remember" /> @Language["Login.RememberUser"]
+        <Switch @bind-Value="@context.Remember" /> @Language["Login.RememberUser"]
     </FormItem>
     <FormItem>
         <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Language["Login"]</Button>

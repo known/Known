@@ -43,6 +43,7 @@ public class Language
     public string Delete => this["Button.Delete"];
     public string Save => this["Button.Save"];
     public string Search => this["Button.Search"];
+    public string AdvSearch => this["Button.AdvSearch"];
     public string Reset => this["Button.Reset"];
     internal string Enable => this["Button.Enable"];
     internal string Disable => this["Button.Disable"];

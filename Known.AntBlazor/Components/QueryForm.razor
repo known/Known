@@ -34,6 +34,7 @@
         }
         <div class="ant-query-btn">
             <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
+            <Button Type="primary" Icon="search" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
             <Button Icon="undo" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button>
             @if (Model.QueryColumns.Count > showCount)
             {
@@ -62,5 +63,10 @@
     private void OnDateRangeChange(DateRangeChangedEventArgs<DateTime?[]> e, QueryInfo query)
     {
         query.Value = $"{e.Dates[0]:yyyy-MM-dd}~{e.Dates[1]:yyyy-MM-dd}";
+    }
+
+    private void ShowAdvSearch()
+    {
+        
     }
 }
