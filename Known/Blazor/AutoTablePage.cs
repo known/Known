@@ -1,11 +1,24 @@
 ﻿using Known.Designers;
+using Known.Entities;
+using Known.Extensions;
+using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
 
 class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 {
+    private bool isEditPage;
     private string pageId;
     private string TableName { get; set; }
+
+    public override async Task RefreshAsync()
+    {
+        if (isEditPage)
+            InitTable();
+
+        await base.RefreshAsync();
+    }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -13,12 +26,20 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         if (pageId != PageId)
         {
             pageId = PageId;
-            InitMenu();
-            Table.SetPage(this);
-            TableName = DataHelper.GetEntity(Context.Module?.EntityData)?.Id;
-            Table.OnQuery = c => Platform.Auto.QueryModelsAsync(TableName, c);
-            Table.Criteria.Clear();
+            InitTable();
             await Table.RefreshAsync();
+        }
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        base.BuildRenderTree(builder);
+        if (CurrentUser.UserName == "admin")
+        {
+            builder.Div("kui-page-designer", () =>
+            {
+                builder.Icon("fa fa-edit", this.Callback<MouseEventArgs>(OnEditPage));
+            });
         }
     }
 
@@ -28,4 +49,37 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     [Action] public void Delete(Dictionary<string, object> row) => Table.Delete(m => Platform.Auto.DeleteModelsAsync(TableName, m), row);
     [Action] public void Import() => ShowImportForm(TableName);
     [Action] public async void Export() => await ExportDataAsync(ExportMode.Query);
+
+    private void InitTable()
+    {
+        InitMenu();
+        Table.SetPage(this);
+        TableName = DataHelper.GetEntity(Context.Module?.EntityData)?.Id;
+        Table.OnQuery = c => Platform.Auto.QueryModelsAsync(TableName, c);
+        Table.Criteria.Clear();
+    }
+
+    private void OnEditPage(MouseEventArgs args)
+    {
+        isEditPage = true;
+        var form = new FormModel<SysModule>(this)
+        {
+            Data = Context.Module,
+            OnDataChanged = data => Context.Module = data,
+            OnSave = Platform.Module.SaveModuleAsync
+        };
+        var model = new DialogModel
+        {
+            Title = $"{Language["Designer.EditPage"]} - {PageName}",
+            Maximizable = true,
+            Width = 1200,
+            Content = b => b.Component<SysModuleForm>().Set(c => c.Model, form).Set(c => c.IsPageEdit, true).Build()
+        };
+        UI.ShowDialog(model);
+        form.OnClose = async () =>
+        {
+            isEditPage = false;
+            await model.OnClose?.Invoke();
+        };
+    }
 }

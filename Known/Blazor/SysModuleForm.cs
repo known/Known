@@ -2,6 +2,7 @@
 using Known.Entities;
 using Known.Extensions;
 using Known.WorkFlows;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
@@ -20,26 +21,33 @@ class SysModuleForm : BaseForm<SysModule>
 
             var page = Model.Data.Page;
             if (page != null && page.Columns.Exists(c => c.IsViewLink))
-                return 5;
+                return IsPageEdit ? 2 : 5;
 
-            return 4;
+            return IsPageEdit ? 1 : 4;
         }
     }
 
     internal EntityInfo Entity { get; set; }
     internal FlowInfo Flow { get; set; }
 
+    [Parameter] public bool IsPageEdit { get; set; }
+
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        step.Items.Add(new("BasicInfo") { Content = BuildDataForm });
-        step.Items.Add(new("ModelSetting") { Content = BuildModuleModel });
-        step.Items.Add(new("FlowSetting") { Content = BuildModuleFlow });
+
+        Model.OnFieldChanged = OnFieldChanged;
+        if (!IsPageEdit)
+        {
+            Model.Field(f => f.Icon).Template(BuildIconField);
+            step.Items.Add(new("BasicInfo") { Content = BuildDataForm });
+            step.Items.Add(new("ModelSetting") { Content = BuildModuleModel });
+            step.Items.Add(new("FlowSetting") { Content = BuildModuleFlow });
+        }
         step.Items.Add(new("PageSetting") { Content = BuildModulePage });
         step.Items.Add(new("FormSetting") { Content = BuildModuleForm });
 
-        Model.OnFieldChanged = OnFieldChanged;
-        Model.Field(f => f.Icon).Template(BuildIconField);
+        Entity ??= DataHelper.GetEntity(Model.Data.EntityData);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

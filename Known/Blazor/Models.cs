@@ -5,6 +5,8 @@ namespace Known.Blazor;
 public class DialogModel
 {
     public string Title { get; set; }
+    public bool Maximizable { get; set; }
+    public bool DefaultMaximized { get; set; }
     public double? Width { get; set; }
     public Func<Task> OnOk { get; set; }
     public Func<Task> OnClose { get; set; }

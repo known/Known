@@ -23,16 +23,20 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    internal FormModel(TableModel<TItem> table) : this(table.Context, false)
+    internal FormModel(BasePage page) : this(page.Context, false)
+    {
+        Page = page;
+    }
+
+    internal FormModel(TableModel<TItem> table) : this(table.Page)
     {
         Table = table;
-        Page = table.Page;
         Option = table.Form;
         Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
         SetFormInfo(table.Module?.Form);
     }
 
-    internal BasePage<TItem> Page { get; }
+    internal BasePage Page { get; }
     internal TableModel<TItem> Table { get; }
     internal string Action { get; set; }
 
@@ -47,6 +51,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Type Type { get; internal set; }
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }
+    public Action<TItem> OnDataChanged { get; set; }
     public Action<string> OnFieldChanged { get; set; }
 
     internal FormType FormType { get; set; }
@@ -142,6 +147,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     {
         UI.Result(result, async () =>
         {
+            OnDataChanged?.Invoke(Data);
             if (result.IsClose || isClose)
                 await CloseAsync();
             if (Page != null)
@@ -179,8 +185,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         if (info == null)
             return;
 
-        if (info.Width.HasValue)
-            Option.Width = info.Width;
+        Option.LoadInfo(info);
         LabelSpan = info.LabelSpan;
         WrapperSpan = info.WrapperSpan;
         columns = GetFormColumns(info);
@@ -248,6 +253,13 @@ public class FormOption
     public bool Maximizable { get; set; }
     public bool DefaultMaximized { get; set; }
     public bool NoFooter { get; set; }
+
+    internal void LoadInfo(FormInfo info)
+    {
+        Width = info.Width;
+        Maximizable = info.Maximizable;
+        DefaultMaximized = info.DefaultMaximized;
+    }
 }
 
 enum FormType { View, Submit, Verify }

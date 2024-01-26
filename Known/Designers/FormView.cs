@@ -65,6 +65,18 @@ class FormView : BaseView<FormInfo>
     {
         builder.Div("setting-row", () =>
         {
+            BuildPropertyItem(builder, "Designer.Maximizable", b => UI.BuildSwitch(b, new InputModel<bool>
+            {
+                Disabled = ReadOnly,
+                Value = Model.Maximizable,
+                ValueChanged = this.Callback<bool>(value => { Model.Maximizable = value; OnPropertyChanged(); })
+            }));
+            BuildPropertyItem(builder, "Designer.DefaultMaximized", b => UI.BuildSwitch(b, new InputModel<bool>
+            {
+                Disabled = ReadOnly,
+                Value = Model.DefaultMaximized,
+                ValueChanged = this.Callback<bool>(value => { Model.DefaultMaximized = value; OnPropertyChanged(); })
+            }));
             BuildPropertyItem(builder, "Width", b => UI.BuildNumber(b, new InputModel<double?>
             {
                 Disabled = ReadOnly,

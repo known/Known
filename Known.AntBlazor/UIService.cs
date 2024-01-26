@@ -137,7 +137,9 @@ public class UIService(ModalService modalService, MessageService messageService)
         var options = new ModalOptions
         {
             Title = model.Title,
-            Content = model.Content
+            Content = model.Content,
+            Maximizable = model.Maximizable,
+            DefaultMaximized = model.DefaultMaximized
         };
 
         if (model.OnOk != null)

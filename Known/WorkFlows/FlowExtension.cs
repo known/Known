@@ -33,19 +33,19 @@ public static class FlowExtension
         page.ViewForm(FormType.Submit, row);
     }
 
-    public static void SubmitFlow<TItem>(this BasePage<TItem> page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static void SubmitFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
     {
         page.ShowFlowModal(page.Language["Button.Submit"], rows, page.Platform.Flow.SubmitFlowAsync);
     }
 
-    public static void RevokeFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new() => page.RevokeFlow([row]);
+    public static void RevokeFlow<TItem>(this BasePage page, TItem row) where TItem : FlowEntity, new() => page.RevokeFlow([row]);
 
-    public static void RevokeFlow<TItem>(this BasePage<TItem> page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static void RevokeFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
     {
         page.ShowFlowModal(page.Language["Button.Revoke"], rows, page.Platform.Flow.RevokeFlowAsync);
     }
 
-    public static void AssignFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new()
+    public static void AssignFlow<TItem>(this BasePage page, TItem row) where TItem : FlowEntity, new()
     {
         page.ShowFlowModal(page.Language["Button.Assign"], [row], page.Platform.Flow.AssignFlowAsync);
     }
@@ -55,17 +55,17 @@ public static class FlowExtension
         page.ViewForm(FormType.Verify, row);
     }
 
-    public static void StopFlow<TItem>(this BasePage<TItem> page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static void StopFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
     {
         page.ShowFlowModal(page.Language["Button.Stop"], rows, page.Platform.Flow.StopFlowAsync);
     }
 
-    public static void RepeatFlow<TItem>(this BasePage<TItem> page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static void RepeatFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
     {
         page.ShowFlowModal(page.Language["Button.Restart"], rows, page.Platform.Flow.RepeatFlowAsync);
     }
 
-    private static void ShowFlowModal<TItem>(this BasePage<TItem> page, string name, List<TItem> rows, Func<FlowFormInfo, Task<Result>> action) where TItem : FlowEntity, new()
+    private static void ShowFlowModal<TItem>(this BasePage page, string name, List<TItem> rows, Func<FlowFormInfo, Task<Result>> action) where TItem : FlowEntity, new()
     {
         var flow = new FlowFormModel(page.Context);
         flow.Data = new FlowFormInfo { BizId = string.Join(",", rows.Select(r => r.Id)) };

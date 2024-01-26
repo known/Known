@@ -300,6 +300,7 @@
   "Valid.MustDateFormat": "{label}必須是{format}格式的日期時間型！",
   "Valid.FormatInvalid": "{label}格式不正確！",
 
+  "Designer.EditPage": "編輯頁面",
   "Designer.Fields": "欄位清單",
   "Designer.Models": "實體模型",
   "Designer.EntityCode": "實體類程式碼",
@@ -335,6 +336,8 @@
   "Designer.ShowPager": "顯示分頁",
   "Designer.FixedWidth": "固定寬度",
   "Designer.FixedHeight": "固定高度",
+  "Designer.Maximizable": "最大化",
+  "Designer.DefaultMaximized": "默認最大化",
 
   "Code.Female": "女",
   "Code.Male": "男",

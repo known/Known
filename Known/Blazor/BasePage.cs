@@ -27,7 +27,7 @@ public class BasePage : BaseComponent
         await AddVisitLogAsync();
     }
 
-	protected virtual async Task OnInitPageAsync()
+    protected virtual async Task OnInitPageAsync()
     {
         if (!string.IsNullOrWhiteSpace(PageId))
             Context.Module = await Platform.Module.GetModuleAsync(PageId);
@@ -42,23 +42,23 @@ public class BasePage : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (Context.Module == null || string.IsNullOrWhiteSpace(Context.Module.EntityData))
-            UI.BuildResult(builder, "404", $"{Language["Tip.Page404"]}PageId={PageId}");
-        else
+        if (Context.Module != null && Context.Module.Target == "Page")
             builder.Component<AutoTablePage>().Set(c => c.PageId, PageId).Build(value => page = value);
+        else
+            UI.BuildResult(builder, "404", $"{Language["Tip.Page404"]}PageId={PageId}");
     }
 }
 
 public class BasePage<TItem> : BasePage where TItem : class, new()
 {
     protected PageModel Page { get; } = new();
-	internal List<string> Tools { get; set; }
+    internal List<string> Tools { get; set; }
     internal List<string> Actions { get; set; }
     internal List<PageColumnInfo> Columns { get; set; }
 
     internal virtual void ViewForm(FormType type, TItem row) { }
 
-	protected override async Task OnInitPageAsync()
+    protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         InitMenu();
@@ -69,8 +69,8 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         builder.Component<WebPage>().Set(c => c.Model, Page).Build();
     }
 
-	protected void OnToolClick(ActionInfo info) => OnAction(info, null);
-	protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
+    protected void OnToolClick(ActionInfo info) => OnAction(info, null);
+    protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
 
     private void OnAction(ActionInfo info, object[] parameters)
     {
@@ -110,28 +110,28 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     public override Task RefreshAsync() => Table.RefreshAsync();
     internal override void ViewForm(FormType type, TItem row) => Table.ViewForm(type, row);
 
-	protected override async Task OnInitPageAsync()
-	{
-		await base.OnInitPageAsync();
-		Table = new TableModel<TItem>(this) { OnAction = OnActionClick };
-		Table.Toolbar.OnItemClick = OnToolClick;
-	}
+    protected override async Task OnInitPageAsync()
+    {
+        await base.OnInitPageAsync();
+        Table = new TableModel<TItem>(this) { OnAction = OnActionClick };
+        Table.Toolbar.OnItemClick = OnToolClick;
+    }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.BuildTablePage(Table);
 
     protected async void ShowImportForm(string param = null)
-	{
-		var type = typeof(TItem);
-		var id = $"{type.Name}Import";
-		if (!string.IsNullOrWhiteSpace(param))
-			id += $"_{param}";
+    {
+        var type = typeof(TItem);
+        var id = $"{type.Name}Import";
+        if (!string.IsNullOrWhiteSpace(param))
+            id += $"_{param}";
         if (Table.IsDictionary)
             id += $"_{Context.Current.Id}";
-		var info = await Platform.File.GetImportAsync(id);
-		info.Name = PageName;
+        var info = await Platform.File.GetImportAsync(id);
+        info.Name = PageName;
         info.BizName = ImportTitle;
-		ImportForm(info);
-	}
+        ImportForm(info);
+    }
 
     private void ImportForm(ImportFormInfo info)
     {

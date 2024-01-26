@@ -48,6 +48,8 @@ public class PageColumnInfo
 public class FormInfo
 {
     public double? Width { get; set; }
+    public bool Maximizable { get; set; }
+    public bool DefaultMaximized { get; set; }
     public int? LabelSpan { get; set; }
     public int? WrapperSpan { get; set; }
     public List<FormFieldInfo> Fields { get; set; } = [];

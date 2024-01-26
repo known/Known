@@ -431,6 +431,7 @@
   "Valid.MustDateFormat": "{label} must be a datetime in {format} format!",
   "Valid.FormatInvalid": "The format of {label} is incorrect!",
 
+  "Designer.EditPage": "Edit Page",
   "Designer.Fields": "Fields",
   "Designer.Models": "Models",
   "Designer.EntityCode": "Entity Code",
@@ -466,6 +467,8 @@
   "Designer.ShowPager": "Show Pager",
   "Designer.FixedWidth": "Fixed Width",
   "Designer.FixedHeight": "Fixed Height",
+  "Designer.Maximizable": "Maximizable",
+  "Designer.DefaultMaximized": "DefaultMaximized",
 
   "Code.Female": "Female",
   "Code.Male": "Male",

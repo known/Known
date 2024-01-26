@@ -216,6 +216,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         Page = page;
         Module = page.Context.Module;
         SetPageInfo(Module?.Page, page);
+        Form.LoadInfo(Module?.Form);
     }
 
     internal void SetPageInfo(PageInfo info, BasePage<TItem> page = null)

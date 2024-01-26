@@ -427,6 +427,7 @@
   "Valid.MustDateFormat": "{label}必须是{format}格式的日期时间型！",
   "Valid.FormatInvalid": "{label}格式不正确！",
 
+  "Designer.EditPage": "编辑页面",
   "Designer.Fields": "字段列表",
   "Designer.Models": "实体模型",
   "Designer.EntityCode": "实体代码",
@@ -462,6 +463,8 @@
   "Designer.ShowPager": "显示分页",
   "Designer.FixedWidth": "固定宽度",
   "Designer.FixedHeight": "固定高度",
+  "Designer.Maximizable": "最大化",
+  "Designer.DefaultMaximized": "默认最大化",
 
   "Code.Female": "女",
   "Code.Male": "男",

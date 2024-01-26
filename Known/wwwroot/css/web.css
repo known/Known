@@ -162,6 +162,7 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 
 /*----Designer begin----*/
 /*Layout*/
+.kui-page-designer {position:fixed;right:10px;bottom:10px;font-size:1rem;cursor:pointer;}
 .kui-designer {display:grid;grid-template-columns:220px auto 220px;min-height:300px;}
 .kui-designer.entity {grid-template-columns:40% auto;}
 .kui-designer-tips {padding:2px;background-color:#f2e595;color:#666;text-align:center;border-radius:5px 5px 0 0;}
@@ -185,11 +186,12 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 
 /*View*/
 .kui-designer .panel-view {overflow:auto;}
+.kui-designer .panel-view .view {max-height:300px;overflow:auto;}
 .kui-designer .panel-view .view .ant-query, 
 .kui-designer .panel-view .view .ant-toolbar {padding:0;}
 .kui-designer .panel-view .view .ant-toolbar {padding-right:10px;padding-top:10px;}
-.kui-designer .panel-view .setting-row {display:flex;margin-bottom:10px;}
-.kui-designer .panel-view .setting .item {display:grid;grid-template-columns:80px auto;height:32px;align-items:center;margin-right:10px;}
+.kui-designer .panel-view .setting-row {display:grid;grid-template-columns:33% 33% auto;margin-bottom:10px;}
+.kui-designer .panel-view .setting .item {display:grid;grid-template-columns:80px auto;height:32px;align-items:center;margin:0 10px 10px 0;}
 .kui-designer .list-view {padding:0 10px;}
 .kui-designer form {padding-right:50px;}
 
