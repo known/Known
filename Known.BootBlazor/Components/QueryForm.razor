@@ -34,6 +34,7 @@
     }
     <div style="margin-left:10px;">
             <Button Color="Color.Primary" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
+            <Button Color="Color.Primary" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
             @* <Button style="margin-left:8px;" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button> *@
         @if (length > 3)
         {
@@ -62,4 +63,6 @@
         query.Value = $"{value.Start:yyyy-MM-dd}~{value.End:yyyy-MM-dd}";
         return Task.CompletedTask;
     }
+
+    private void ShowAdvSearch() => Model.ShowAdvancedSearch();
 }

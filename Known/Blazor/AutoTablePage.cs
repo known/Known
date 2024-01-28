@@ -72,6 +72,7 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         {
             Title = $"{Language["Designer.EditPage"]} - {PageName}",
             Maximizable = true,
+            DefaultMaximized = true,
             Width = 1200,
             Content = b => b.Component<SysModuleForm>().Set(c => c.Model, form).Set(c => c.IsPageEdit, true).Build()
         };

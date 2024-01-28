@@ -196,6 +196,23 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         });
     }
 
+    public void ShowAdvancedSearch()
+    {
+        AdvancedSearch search = null;
+        var model = new DialogModel
+        {
+            Title = Language.AdvSearch,
+            Content = b => b.Component<AdvancedSearch>().Build(value => search = value)
+        };
+        model.OnOk = async () =>
+        {
+            Criteria.Query = search?.Query;
+            await RefreshAsync();
+            await model.CloseAsync();
+        };
+        UI.ShowDialog(model);
+    }
+
     private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
     {
         UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSave = onSave });

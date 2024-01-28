@@ -6,6 +6,9 @@ class AutoService : ServiceBase
 {
     public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(string tableName, PagingCriteria criteria)
     {
+        if (string.IsNullOrWhiteSpace(tableName))
+            return Task.FromResult(new PagingResult<Dictionary<string, object>>());
+
         var sql = $"select * from {tableName} where CompNo=@CompNo";
         return Database.QueryPageAsync<Dictionary<string, object>>(sql, criteria);
     }

@@ -12,7 +12,7 @@
 .kui-header {top:0;right:0;left:200px;}
 .kui-header .ant-breadcrumb {padding-top:5px;}
 .kui-logo {top:0;left:0;width:200px;height:64px;background-color:var(--kui-bgcolor);padding-top:5px;padding-left:10px;}
-.kui-logo + .ant-menu {position:fixed;top:64px;left:0;width:200px;}
+.kui-logo + .ant-menu {position:fixed;top:64px;left:0;bottom:48px;width:200px;overflow-y:auto;overflow-x:hidden;}
 .kui-page {padding-top:64px;}
 .kui-tabs {padding-top:104px;}
 .ant-layout-header {background-color:#f0f2f5;}
