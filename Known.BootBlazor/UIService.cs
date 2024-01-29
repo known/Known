@@ -279,6 +279,16 @@ public class UIService(DialogService dialogService, MessageService messageServic
                .Build();
     }
 
+    public void BuildSearch(RenderTreeBuilder builder, InputModel<string> model)
+    {
+        builder.Component<BootstrapInput<string>>()
+               .Set(c => c.IsDisabled, model.Disabled)
+               .Set(c => c.PlaceHolder, model.Placeholder)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
+               .Build();
+    }
+
     public void BuildText(RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<BootstrapInput<string>>()

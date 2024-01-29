@@ -304,6 +304,17 @@ public class UIService(ModalService modalService, MessageService messageService)
                .Build();
     }
 
+    public void BuildSearch(RenderTreeBuilder builder, InputModel<string> model)
+    {
+        builder.Component<Search>()
+               .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.ClassicSearchIcon, true)
+               .Set(c => c.Placeholder, model.Placeholder)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
+               .Build();
+    }
+
     public void BuildText(RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<Input<string>>()

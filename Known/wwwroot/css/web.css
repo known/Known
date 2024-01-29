@@ -143,6 +143,9 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 /*Setting*/
 .kui-form-setting button {margin:0 5px;}
 
+/*Dictionary*/
+.kui-dict-search {margin:10px 10px 0 10px;}
+
 /*Module*/
 .kui-module-icon {position:absolute;top:5px;left:5px;z-index:101;}
 .kui-module-icon + input {padding-left:20px;}

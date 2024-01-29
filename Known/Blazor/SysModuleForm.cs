@@ -219,7 +219,7 @@ class IconPicker : BasePicker<IconInfo>
     {
         builder.Div("search", () =>
         {
-            UI.BuildText(builder, new InputModel<string>
+            UI.BuildSearch(builder, new InputModel<string>
             {
                 Placeholder = "Search",
                 Value = searchKey,

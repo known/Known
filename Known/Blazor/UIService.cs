@@ -25,6 +25,7 @@ public interface IUIService
     void BuildIcon(RenderTreeBuilder builder, string type, EventCallback<MouseEventArgs>? onClick = null);
     void BuildResult(RenderTreeBuilder builder, string status, string message);
     void BuildButton(RenderTreeBuilder builder, ActionInfo info);
+    void BuildSearch(RenderTreeBuilder builder, InputModel<string> model);
     void BuildText(RenderTreeBuilder builder, InputModel<string> model);
     void BuildTextArea(RenderTreeBuilder builder, InputModel<string> model);
     void BuildPassword(RenderTreeBuilder builder, InputModel<string> model);

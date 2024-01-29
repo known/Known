@@ -11,6 +11,7 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
     private bool isAddCategory;
     private CodeInfo category;
     private int total;
+    private string searchKey;
 
     protected override async Task OnInitPageAsync()
     {
@@ -44,8 +45,24 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
 
     private void BuildListBox(RenderTreeBuilder builder)
     {
+        builder.Div("kui-dict-search", () =>
+        {
+            UI.BuildSearch(builder, new InputModel<string>
+            {
+                Placeholder = "Search",
+                Value = searchKey,
+                ValueChanged = this.Callback<string>(value =>
+                {
+                    searchKey = value;
+                    StateChanged();
+                })
+            });
+        });
+        var items = categories;
+        if (!string.IsNullOrWhiteSpace(searchKey))
+            items = items.Where(c => c.Code.Contains(searchKey) || c.Name.Contains(searchKey)).ToList();
         builder.Component<ListBox>()
-               .Set(c => c.Items, categories)
+               .Set(c => c.Items, items)
                .Set(c => c.ItemTemplate, ItemTemplate)
                .Set(c => c.OnItemClick, OnCategoryClick)
                .Build();
