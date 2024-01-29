@@ -9,7 +9,6 @@ class SysRoleList : BaseTablePage<SysRole>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table.Form.Width = 1000;
         Table.OnQuery = Platform.Role.QueryRolesAsync;
 		Table.RowKey = r => r.Id;
     }

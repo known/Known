@@ -15,7 +15,6 @@ class BaVerifyList : BaseTablePage<TbApply>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table.Form.Width = 800;
 		Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Verify, criteria);
 		Table.Column(c => c.BizStatus).Template(BuildBizStatus);
     }

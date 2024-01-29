@@ -15,7 +15,6 @@ class BaApplyList : BaseTablePage<TbApply>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-		Table.Form.Width = 800;    //定义表单宽度
 		Table.Form.NoFooter = true;//表单不显示默认底部按钮
         Table.RowActions = row => Table.GetFlowRowActions(row); //根据数据状态显示操作按钮
         Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Apply, criteria);

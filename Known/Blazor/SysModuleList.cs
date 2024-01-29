@@ -38,9 +38,6 @@ class SysModuleList : BasePage<SysModule>
 		};
         table.Toolbar.OnItemClick = OnToolClick;
 
-        table.Form.Width = 1200;
-		table.Form.Maximizable = true;
-		//table.Form.DefaultMaximized = true;
 		table.Form.NoFooter = true;
 
         table.Column(c => c.Name).Template(BuildName);
