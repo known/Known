@@ -93,7 +93,7 @@ class AuthService : ServiceBase
             AppName = await UserHelper.GetSystemNameAsync(Database),
             MessageCount = await UserRepository.GetMessageCountAsync(Database),
             UserMenus = await UserHelper.GetUserMenusAsync(Database),
-            UserSetting = await UserHelper.GetUserSettingAsync(Database)
+            UserSetting = await Platform.Setting.GetUserSettingAsync<SettingInfo>(Database, SettingInfo.KeyInfo)
         };
         await Database.CloseAsync();
         return admin;

@@ -67,6 +67,9 @@ body, .kui-nav, .kui-background, .kui-install-form {background-color:var(--kui-b
 .kui-edit-input input {width:190px;}
 .kui-edit-input .kui-link {margin-left:10px;display:flex;align-items:center;}
 
+/*Search*/
+.kui-advanced-search .item {display:flex;margin-top:10px;}
+
 /*Pick*/
 .kui-pick, .kui-pick-clear {
     position:absolute;top:0;right:0;cursor:pointer;text-align:center;

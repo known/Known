@@ -41,6 +41,7 @@ public class PlatformService
     public Task<List<SysSetting>> GetUserSettingsAsync(string bizType) => Setting.GetUserSettingsAsync(bizType);
     public Task<T> GetUserSettingAsync<T>(string bizType) => Setting.GetUserSettingAsync<T>(bizType);
     public Task DeleteUserSettingAsync(Database db, string bizType) => Setting.DeleteUserSettingAsync(db, bizType);
+    public Task SaveUserSettingAsync(Database db, string bizType, object bizData) => Setting.SaveUserSettingAsync(db, bizType, bizData);
     #endregion
 
     #region Company

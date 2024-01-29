@@ -43,9 +43,10 @@ class SettingService : ServiceBase
 
     internal Task<List<SysSetting>> GetUserSettingsAsync(string bizType) => SettingRepository.GetUserSettingsAsync(Database, bizType);
 
-    internal async Task<T> GetUserSettingAsync<T>(string bizType)
+    internal Task<T> GetUserSettingAsync<T>(string bizType) => GetUserSettingAsync<T>(Database, bizType);
+    internal async Task<T> GetUserSettingAsync<T>(Database db, string bizType)
     {
-        var setting = await SettingRepository.GetUserSettingAsync(Database, bizType);
+        var setting = await SettingRepository.GetUserSettingAsync(db, bizType);
         if (setting == null)
             return default;
 
@@ -65,5 +66,20 @@ class SettingService : ServiceBase
     {
         await DeleteUserSettingAsync(Database, bizType);
         return Result.Success(Language.Success(Language.Delete));
+    }
+
+    internal async Task SaveUserSettingAsync(Database db, string bizType, object bizData)
+    {
+        var setting = await SettingRepository.GetUserSettingAsync(db, bizType);
+        setting ??= new SysSetting();
+        setting.BizType = bizType;
+        setting.BizData = Utils.ToJson(bizData);
+        await db.SaveAsync(setting);
+    }
+
+    internal async Task<Result> SaveUserSettingAsync(string bizType, object bizData)
+    {
+        await SaveUserSettingAsync(Database, bizType, bizData);
+        return Result.Success(Language.Success(Language.Save));
     }
 }

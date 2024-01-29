@@ -16,27 +16,6 @@ class UserHelper
         return appName;
     }
 
-    internal static async Task<SettingInfo> GetUserSettingAsync(Database db)
-    {
-        var info = await GetUserSettingAsync<SettingInfo>(db, SettingInfo.KeyInfo);
-        if (info != null)
-        {
-            //var querys = await GetUserSettingsAsync(db, SettingInfo.KeyQuery);
-            //info.Querys = querys.ToDictionary(s => s.BizName, s => s.DataAs<List<QueryInfo>>());
-            //var columns = await GetUserSettingsAsync(db, SettingInfo.KeyColumn);
-            //info.Columns = columns.ToDictionary(s => s.BizName, s => s.DataAs<List<ColumnInfo>>());
-        }
-        return info;
-    }
-
-    //private static async Task<List<SysSetting>> GetUserSettingsAsync(Database db, string bizType) => await SettingRepository.GetUserSettingsAsync(db, bizType);
-    private static async Task<SysSetting> GetUserSettingAsync(Database db, string bizType) => await SettingRepository.GetUserSettingAsync(db, bizType) ?? new SysSetting { BizType = bizType };
-    private static async Task<T> GetUserSettingAsync<T>(Database db, string bizType)
-    {
-        var setting = await GetUserSettingAsync(db, bizType);
-        return setting.DataAs<T>();
-    }
-
     internal static async Task<List<MenuInfo>> GetUserMenusAsync(Database db)
     {
         var user = db.User;

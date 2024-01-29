@@ -31,7 +31,7 @@ public class SettingForm : BaseForm<SettingInfo>
 
     private async void SaveAsync(MouseEventArgs arg)
     {
-        var result = await Platform.Setting.SaveSettingAsync(SettingInfo.KeyInfo, Model.Data);
+        var result = await Platform.Setting.SaveUserSettingAsync(SettingInfo.KeyInfo, Model.Data);
         if (result.IsValid)
         {
             Context.UserSetting = Model.Data;

@@ -2,6 +2,7 @@ New              | 新增    | plus         | primary
 Edit             | 编辑    | edit         | primary
 Delete           | 删除    | delete       | danger
 DeleteM          | 批量删除 | delete      | danger
+Clear            | 清空    | delete       | danger
 Import           | 导入    | import       | primary
 Export           | 导出    | export       | primary
 Copy             | 复制    | copy         | primary
@@ -11,6 +12,7 @@ MoveDown         | 下移    | down         | primary
 Enable           | 启用    | check-circle | primary
 Disable          | 禁用    | close-circle | primary
 Print            | 打印    | printer      | primary
+Reset            | 重置    | undo         | default
 OK               | 确定    | check        | primary
 Cancel           | 取消    | close        | 
 

@@ -206,7 +206,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         };
         model.OnOk = async () =>
         {
-            Criteria.Query = search?.Query;
+            Criteria.Query = await search?.SaveQueryAsync();
             await RefreshAsync();
             await model.CloseAsync();
         };
