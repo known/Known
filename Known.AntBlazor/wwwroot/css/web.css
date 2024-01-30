@@ -6,6 +6,10 @@
 .anticon-translation + span {margin-left:5px;}
 .ant-query, .ant-toolbar {padding:10px 10px 0 10px;}
 .ant-query input {width:110px;}
+.ant-table-thead > tr > th.kui-table-check {position:sticky;left:0;z-index:101;}
+.ant-table-tbody > tr > td.kui-table-check {position:sticky;left:0;z-index:101;background-color:var(--kui-bgcolor);}
+.ant-table-thead > tr > th.kui-table-action {position:sticky;right:0;z-index:101;}
+.ant-table-tbody > tr > td.kui-table-action {position:sticky;right:0;z-index:101;background-color:var(--kui-bgcolor);}
 
 /*Layout*/
 .kui-header, .kui-logo, .ant-layout-tabs > .ant-tabs-nav {position:fixed;z-index:101;transition:all 0.2s;}
