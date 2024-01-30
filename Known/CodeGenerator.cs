@@ -163,8 +163,7 @@ class CodeGenerator : ICodeGenerator
             sb.AppendLine($"    {column} {type} {required},");
         }
         sb.AppendLine("    CONSTRAINT [PK_{0}] PRIMARY KEY ([Id] ASC)", tableName);
-        sb.AppendLine(") ");
-        sb.AppendLine("GO");
+        sb.AppendLine(");");
         return sb.ToString();
     }
 
