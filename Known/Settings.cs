@@ -2,6 +2,7 @@
 
 public class QueryInfo
 {
+    public QueryInfo() { }
     public QueryInfo(string id, string value) : this(id, QueryType.Contain, value) { }
     public QueryInfo(string id, QueryType type, string value)
     {
@@ -38,8 +39,6 @@ public class SettingInfo
         Accordion = true;
     }
 
-    //[Form, Category("Light,Dark")]
-    //public string Theme { get; set; }
     [Form] public bool Accordion { get; set; }
     [Form] public bool MultiTab { get; set; }
 }
