@@ -14,4 +14,10 @@ public class AntSelect : Select<string, CodeInfo>
 		LabelName = nameof(CodeInfo.Name);
         base.OnInitialized();
 	}
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        DataSource = Codes;
+    }
 }

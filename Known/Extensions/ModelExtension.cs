@@ -1,4 +1,5 @@
 ﻿using Known.Entities;
+using Known.WorkFlows;
 
 namespace Known.Extensions;
 
@@ -16,6 +17,39 @@ public static class ModelExtension
 
         return infos;
     }
+    #endregion
+
+    #region Entity
+    internal static List<FieldInfo> GetFields(this EntityInfo info, Language language)
+    {
+        var infos = new List<FieldInfo>();
+        if (info == null)
+            return infos;
+
+        foreach (var field in info.Fields)
+        {
+            infos.Add(new FieldInfo { Id = field.Id, Name = field.Name, Type = field.Type, Required = field.Required });
+        }
+
+        if (info.IsFlow)
+        {
+            infos.Add(GetFieldInfo(language, nameof(FlowEntity.BizStatus), FieldType.Text));
+            infos.Add(GetFieldInfo(language, nameof(FlowEntity.ApplyBy), FieldType.Text));
+            infos.Add(GetFieldInfo(language, nameof(FlowEntity.ApplyTime), FieldType.Date));
+            infos.Add(GetFieldInfo(language, nameof(FlowEntity.VerifyBy), FieldType.Text));
+            infos.Add(GetFieldInfo(language, nameof(FlowEntity.VerifyTime), FieldType.Date));
+            infos.Add(GetFieldInfo(language, nameof(FlowEntity.VerifyNote), FieldType.Text));
+        }
+
+        infos.Add(GetFieldInfo(language, nameof(EntityBase.CreateBy), FieldType.Text));
+        infos.Add(GetFieldInfo(language, nameof(EntityBase.CreateTime), FieldType.Date));
+        infos.Add(GetFieldInfo(language, nameof(EntityBase.ModifyBy), FieldType.Text));
+        infos.Add(GetFieldInfo(language, nameof(EntityBase.ModifyTime), FieldType.Date));
+
+        return infos;
+    }
+
+    private static FieldInfo GetFieldInfo(Language language, string id, FieldType type) => new() { Id = id, Name = language[id], Type = type };
     #endregion
 
     #region Menu

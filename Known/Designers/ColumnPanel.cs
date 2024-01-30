@@ -1,6 +1,5 @@
 ﻿using Known.Blazor;
 using Known.Extensions;
-using Known.WorkFlows;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -21,7 +20,7 @@ class ColumnPanel<TModel> : BaseComponent
     {
         base.OnInitialized();
         current = Designer.Fields?.FirstOrDefault();
-        fields = GetFields(Designer.Entity);
+        fields = Designer.Entity.GetFields(Language);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -74,35 +73,4 @@ class ColumnPanel<TModel> : BaseComponent
         current = field;
         OnFieldClick?.Invoke(field);
     }
-
-    private List<FieldInfo> GetFields(EntityInfo info)
-    {
-        var infos = new List<FieldInfo>();
-        if (info == null)
-            return infos;
-
-        foreach (var field in info.Fields)
-        {
-            infos.Add(new FieldInfo { Id = field.Id, Name = field.Name, Type = field.Type, Required = field.Required });
-        }
-
-        if (info.IsFlow)
-        {
-            infos.Add(GetFieldInfo(nameof(FlowEntity.BizStatus)));
-            infos.Add(GetFieldInfo(nameof(FlowEntity.ApplyBy)));
-            infos.Add(GetFieldInfo(nameof(FlowEntity.ApplyTime)));
-            infos.Add(GetFieldInfo(nameof(FlowEntity.VerifyBy)));
-            infos.Add(GetFieldInfo(nameof(FlowEntity.VerifyTime)));
-            infos.Add(GetFieldInfo(nameof(FlowEntity.VerifyNote)));
-        }
-
-        infos.Add(GetFieldInfo(nameof(EntityBase.CreateBy)));
-        infos.Add(GetFieldInfo(nameof(EntityBase.CreateTime)));
-        infos.Add(GetFieldInfo(nameof(EntityBase.ModifyBy)));
-        infos.Add(GetFieldInfo(nameof(EntityBase.ModifyTime)));
-
-        return infos;
-    }
-
-    private FieldInfo GetFieldInfo(string id) => new FieldInfo { Id = id, Name = Language[id] };
 }
