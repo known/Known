@@ -348,12 +348,24 @@ public class UIService(ModalService modalService, MessageService messageService)
 
     public void BuildDatePicker<TValue>(RenderTreeBuilder builder, InputModel<TValue> model)
     {
-        builder.Component<DatePicker<TValue>>()
-               .Set(c => c.Disabled, model.Disabled)
-               .Set(c => c.Placeholder, model.Placeholder)
-               .Set(c => c.Value, model.Value)
-               .Set(c => c.ValueChanged, model.ValueChanged)
-               .Build();
+        if (typeof(TValue) == typeof(string))
+        {
+            builder.Component<AntRangePicker<TValue>>()
+                   .Set(c => c.Disabled, model.Disabled)
+                   .Set(c => c.Placeholder, model.Placeholder)
+                   .Set(c => c.RangeValue, model.Value)
+                   .Set(c => c.RangeValueChanged, model.ValueChanged)
+                   .Build();
+        }
+        else
+        {
+            builder.Component<DatePicker<TValue>>()
+                   .Set(c => c.Disabled, model.Disabled)
+                   .Set(c => c.Placeholder, model.Placeholder)
+                   .Set(c => c.Value, model.Value)
+                   .Set(c => c.ValueChanged, model.ValueChanged)
+                   .Build();
+        }
     }
 
     public void BuildNumber<TValue>(RenderTreeBuilder builder, InputModel<TValue> model)
@@ -391,7 +403,7 @@ public class UIService(ModalService modalService, MessageService messageService)
         builder.Component<AntSelect>()
                .Set(c => c.Disabled, model.Disabled)
                .Set(c => c.Placeholder, model.Placeholder)
-               .Set(c => c.Codes, model.Codes)
+               .Set(c => c.DataSource, model.Codes)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();

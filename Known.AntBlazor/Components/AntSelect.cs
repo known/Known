@@ -9,15 +9,8 @@ public class AntSelect : Select<string, CodeInfo>
 
 	protected override void OnInitialized()
 	{
-        DataSource = Codes;
         ValueName = nameof(CodeInfo.Code);
 		LabelName = nameof(CodeInfo.Name);
         base.OnInitialized();
 	}
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        DataSource = Codes;
-    }
 }

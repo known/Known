@@ -70,9 +70,9 @@ class AdvancedSearchItem : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        BuildQueryField(builder, Item);
-        BuildQueryType(builder, Item);
-        BuildQueryValue(builder, Item);
+        builder.Div(() => BuildQueryField(builder, Item));
+        builder.Div(() => BuildQueryType(builder, Item));
+        builder.Div(() => BuildQueryValue(builder, Item));
     }
 
     private void BuildQueryField(RenderTreeBuilder builder, QueryInfo item)
@@ -108,11 +108,38 @@ class AdvancedSearchItem : BaseComponent
 
     private void BuildQueryValue(RenderTreeBuilder builder, QueryInfo item)
     {
-        UI.BuildText(builder, new InputModel<string>
+        switch (field?.Type)
         {
-            Value = item.Value,
-            ValueChanged = this.Callback<string>(v => item.Value = v)
-        });
+            case FieldType.Switch:
+            case FieldType.CheckBox:
+                UI.BuildSwitch(builder, new InputModel<bool>
+                {
+                    Value = Utils.ConvertTo<bool>(item.Value),
+                    ValueChanged = this.Callback<bool>(v => item.Value = v.ToString())
+                });
+                break;
+            case FieldType.Number:
+                UI.BuildNumber(builder, new InputModel<decimal>
+                {
+                    Value = Utils.ConvertTo<decimal>(item.Value),
+                    ValueChanged = this.Callback<decimal>(v => item.Value = v.ToString())
+                });
+                break;
+            case FieldType.Date:
+                UI.BuildDatePicker(builder, new InputModel<string>
+                {
+                    Value = item.Value,
+                    ValueChanged = this.Callback<string>(v => item.Value = v)
+                });
+                break;
+            default:
+                UI.BuildText(builder, new InputModel<string>
+                {
+                    Value = item.Value,
+                    ValueChanged = this.Callback<string>(v => item.Value = v)
+                });
+                break;
+        }
     }
 
     private List<CodeInfo> GetQueryTypes()

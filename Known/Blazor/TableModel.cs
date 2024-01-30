@@ -202,6 +202,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         var model = new DialogModel
         {
             Title = Language.AdvSearch,
+            Width = 700,
             Content = b => b.Component<AdvancedSearch>().Build(value => search = value)
         };
         model.OnOk = async () =>

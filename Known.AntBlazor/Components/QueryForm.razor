@@ -20,15 +20,15 @@
                 @if (!string.IsNullOrWhiteSpace(item.Category))
                 {
                     var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? Language["All"] : "");
-                    <AntSelect Style="width:150px;" Codes="codes" @bind-Value="@(context[item.Id].Value)" OnSelectedItemChanged="e=>OnSearchAsync()" />
+                    <AntSelect Style="width:150px;" Codes="codes" @bind-Value="@context[item.Id].Value" OnSelectedItemChanged="e=>OnSearchAsync()" />
                 }
                 else if (itemType.Contains("DateTime"))
                 {
-                    <RangePicker TValue="DateTime?[]" OnChange="e=>OnDateRangeChange(e,context[item.Id])" />
+                    <AntRangePicker @bind-RangeValue="@context[item.Id].Value" />
                 }
                 else
                 {
-                    <Input Style="width:150px;" @bind-Value="@(context[item.Id].Value)" />
+                    <Input Style="width:150px;" @bind-Value="@context[item.Id].Value" />
                 }
             </FormItem>
         }
@@ -58,11 +58,6 @@
         Model.Criteria.IsQuery = true;
         Model.Criteria.Query = Model.QueryData.Select(d => d.Value).ToList();
         await Model.RefreshAsync();
-    }
-
-    private void OnDateRangeChange(DateRangeChangedEventArgs<DateTime?[]> e, QueryInfo query)
-    {
-        query.Value = $"{e.Dates[0]:yyyy-MM-dd}~{e.Dates[1]:yyyy-MM-dd}";
     }
 
     private void ShowAdvSearch() => Model.ShowAdvancedSearch();
