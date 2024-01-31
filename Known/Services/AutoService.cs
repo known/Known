@@ -1,4 +1,5 @@
-﻿using Known.Extensions;
+﻿using Known.Designers;
+using Known.Extensions;
 
 namespace Known.Services;
 
@@ -15,6 +16,9 @@ class AutoService : ServiceBase
 
     public async Task<Result> DeleteModelsAsync(string tableName, List<Dictionary<string, object>> models)
     {
+        if (string.IsNullOrWhiteSpace(tableName))
+            return Result.Error(Language.Required("tableName"));
+
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
@@ -36,7 +40,14 @@ class AutoService : ServiceBase
 
     public async Task<Result> SaveModelAsync(string tableName, UploadInfo<Dictionary<string, object>> info)
     {
+        if (string.IsNullOrWhiteSpace(tableName))
+            return Result.Error(Language.Required("tableName"));
+
         var model = info.Model;
+        var vr = DataHelper.Validate(Context, tableName, model);
+        if (!vr.IsValid)
+            return vr;
+
         var user = CurrentUser;
         return await Database.TransactionAsync(Language.Save, async db =>
         {

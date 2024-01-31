@@ -7,8 +7,6 @@ namespace Known.Blazor;
 
 public class FieldModel<TItem> : BaseModel where TItem : class, new()
 {
-    private bool IsDictionary { get; }
-
     internal FieldModel(FormModel<TItem> form, ColumnInfo column) : base(form.Context)
     {
         if (!string.IsNullOrWhiteSpace(column.Id))
@@ -22,11 +20,12 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
     public FormModel<TItem> Form { get; }
     public ColumnInfo Column { get; }
     public bool IsReadOnly => Form.IsView || Column.ReadOnly;
+    internal bool IsDictionary { get; }
     internal TItem Data { get; }
     internal PropertyInfo Property => Column.Property;
     internal Action OnStateChanged { get; set; }
 
-    internal Type GetPropertyType()
+    public Type GetPropertyType()
     {
         if (IsDictionary)
         {
@@ -121,6 +120,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             attributes["ValueChanged"] = expression?.ValueChanged;
             if (expression?.ValueExpression != null)
                 attributes["ValueExpression"] = expression?.ValueExpression;
+
             return attributes;
         }
     }
@@ -157,6 +157,7 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
         if (propertyType == null)
             return null;
 
+        //TODO：动态数据Value表达式
         LambdaExpression lambda = null;
         if (model.Property != null)
         {

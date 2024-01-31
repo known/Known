@@ -131,4 +131,39 @@ class DataHelper
         return info;
     }
     #endregion
+
+    #region Validate
+    internal static Result Validate(Context context, string tableName, Dictionary<string, object> model)
+    {
+        var entity = DataHelper.Models.FirstOrDefault(m => m.Id == tableName);
+        if (entity == null)
+            return Result.Error(context.Language.Required(tableName));
+
+        var dicError = new Dictionary<string, List<string>>();
+
+        foreach (var field in entity.Fields)
+        {
+            var errors = new List<string>();
+            model.TryGetValue(field.Id, out object value);
+            var valueString = value == null ? "" : value.ToString().Trim();
+            if (field.Required && string.IsNullOrWhiteSpace(valueString))
+                errors.Add(context.Language.Required(field.Name));
+
+            if (errors.Count > 0)
+                dicError.Add(field.Name, errors);
+        }
+
+        if (dicError.Count > 0)
+        {
+            var result = Result.Error("", dicError);
+            foreach (var item in dicError.Values)
+            {
+                item.ForEach(m => result.AddError(m));
+            }
+            return result;
+        }
+
+        return Result.Success("");
+    }
+    #endregion
 }

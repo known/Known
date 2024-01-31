@@ -36,22 +36,24 @@ public static class Extension
     internal static FormValidationRule[] ToRules<TItem>(this FieldModel<TItem> model, Context context) where TItem : class, new()
     {
         var column = model.Column;
-        if (column == null || column.Property == null)
+        if (column == null)
             return [];
 
-        var property = column.Property;
+        var type = model.GetPropertyType();
         var rules = new List<FormValidationRule>();
-        if (column.Required && property.PropertyType != typeof(bool))
+        if (column.Required && type != typeof(bool))
         {
-            rules.Add(GetFormRuleRequired(context, column));
+            //TODO：动态数据表单验证问题
+            rules.Add(GetFormRuleRequired(context, column.Id, type));
         }
         else
         {
-            var min = property.MinLength();
+            var property = column.Property;
+            var min = property?.MinLength();
             if (min != null)
                 rules.Add(GetFormRuleMin(context, column, min.Value));
 
-            var max = property.MaxLength();
+            var max = property?.MaxLength();
             if (max != null)
                 rules.Add(GetFormRuleMax(context, column, max.Value));
 
@@ -63,23 +65,22 @@ public static class Extension
         return [.. rules];
     }
 
-    private static FormValidationRule GetFormRuleRequired(Context context, ColumnInfo column)
+    private static FormValidationRule GetFormRuleRequired(Context context, string columnId, Type propertyType)
     {
         //String,Number,Boolean,Regexp,Integer,Float,Array,Object,Enum,Date,Url,Email
-        var property = column.Property;
         var type = FormFieldType.String;
-        if (property.PropertyType.IsEnum)
+        if (propertyType.IsEnum)
             type = FormFieldType.Enum;
-        else if (property.PropertyType == typeof(DateTime))
+        else if (propertyType == typeof(DateTime))
             type = FormFieldType.Date;
-        else if (property.PropertyType.IsArray)
+        else if (propertyType.IsArray)
             type = FormFieldType.Array;
-        else if (property.PropertyType == typeof(int) || property.PropertyType == typeof(uint))
+        else if (propertyType == typeof(int) || propertyType == typeof(uint))
             type = FormFieldType.Integer;
-        else if (property.PropertyType == typeof(float) || property.PropertyType == typeof(double))
+        else if (propertyType == typeof(float) || propertyType == typeof(double))
             type = FormFieldType.Float;
 
-        var message = context.Language.Required(column.Id);
+        var message = context.Language.Required(columnId);
         return new FormValidationRule { Type = type, Required = true, Message = message };
     }
 
