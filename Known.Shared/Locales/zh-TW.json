@@ -128,6 +128,8 @@
 
   "Title.Prompt": "提示",
   "Title.Question": "詢問",
+  "Title.Error": "錯誤",
+  "Title.Warning": "警告",
   "Title.Import": "導入{name}",
   "Title.FormAction": "{action}{title}",
   "Title.FlowAction": "{action}流程",

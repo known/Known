@@ -45,11 +45,11 @@ class SysRoleForm : BaseForm<SysRole>
         colModel.ValueChanged = this.Callback<string[]>(OnColumnChanged);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.Div("kui-role", () =>
         {
-            builder.Div("kui-role-form", () => base.BuildRenderTree(builder));
+            builder.Div("kui-role-form", () => base.BuildForm(builder));
             builder.Div("kui-role-module", () =>
             {
                 builder.Div("", Language["Title.Module"]);

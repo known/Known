@@ -50,7 +50,7 @@ class SysModuleForm : BaseForm<SysModule>
         Entity ??= DataHelper.GetEntity(Model.Data.EntityData);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.Cascading(this, b =>
         {

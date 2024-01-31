@@ -16,11 +16,11 @@ public class SettingForm : BaseForm<SettingInfo>
         await base.OnInitFormAsync();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.Div("kui-form-setting", () =>
         {
-            base.BuildRenderTree(builder);
+            base.BuildForm(builder);
             builder.Div("center", () =>
             {
                 UI.Button(builder, Language.Save, this.Callback<MouseEventArgs>(SaveAsync), "primary");

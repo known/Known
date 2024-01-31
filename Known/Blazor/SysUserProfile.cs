@@ -25,7 +25,7 @@ class SysUserProfile : BasePage<SysUser>
         Page.Contents = [BuildUserInfo, BuildUserTabs];
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildRenderTree);
+    protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
     private void BuildUserInfo(RenderTreeBuilder builder) => builder.Div("p10", () => builder.Component<SysUserProfileInfo>().Build(value => info = value));
     private void BuildUserTabs(RenderTreeBuilder builder) => builder.Component<SysUserProfileTabs>().Build(value => tabs = value);
@@ -110,12 +110,12 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
         await base.OnInitFormAsync();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.FormPage(() =>
         {
             Model.IsView = !isEdit;
-            base.BuildRenderTree(builder);
+            base.BuildForm(builder);
             builder.FormPageButton(() =>
             {
                 if (!isEdit)
@@ -161,11 +161,11 @@ class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
         await base.OnInitFormAsync();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.FormPage(() =>
         {
-            base.BuildRenderTree(builder);
+            base.BuildForm(builder);
             builder.FormPageButton(() =>
             {
                 UI.Button(builder, Language["Button.ConfirmUpdate"], this.Callback<MouseEventArgs>(OnSaveAsync), "primary");

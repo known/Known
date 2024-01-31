@@ -1,42 +1,40 @@
 ﻿@page "/"
 @inherits IndexPage
+@inject INotificationService _notice
 
 <PageTitle>@AppConfig.Branch - @Language["App.SubTitle"]</PageTitle>
 
-<CascadingValue Value="this">
-    @if (IsLoaded)
-    {
-        @if (!Context.Install.IsInstalled)
+<Error OnError="OnError">
+    <CascadingValue Value="this">
+        @if (IsLoaded)
         {
-            <InstallPage OnInstall="OnInstall" TopMenu="InstallMenu" />
+            @if (!Context.Install.IsInstalled)
+            {
+                <InstallPage OnInstall="OnInstall" TopMenu="InstallMenu" />
+            }
+            else if (!IsLogin)
+            {
+                <Known.Shared.Login OnLogin="OnLogin" />
+            }
+            else if (UIType == UIType.AntDesign)
+            {
+                <Known.AntBlazor.Admin OnLogout="OnLogout" />
+            }
+            else if (UIType == UIType.Bootstrap)
+            {
+                <Known.BootBlazor.Admin OnLogout="OnLogout" />
+            }
         }
-        else if (!IsLogin)
-        {
-            <Known.Shared.Login OnLogin="OnLogin" />
-        }
-        else if (UIType == UIType.AntDesign)
-        {
-            <Known.AntBlazor.Admin OnLogout="OnLogout" />
-        }
-        else if (UIType == UIType.Bootstrap)
-        {
-            <Known.BootBlazor.Admin OnLogout="OnLogout" />
-        }
-    }
-</CascadingValue>
-
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+    </CascadingValue>
+</Error>
 
 @code {
     private const string KeyUIType = "Known_UIType";
     private RenderFragment InstallMenu => @<ul class="kui-menu">
         <li style="text-align:center;"><AntLanguage OnChanged="StateChanged" /></li>
         <li style="margin-left:15px;"><AntTheme Theme="@Theme" OnChanged="SetTheme" /></li>
-    </ul>;
+    </ul>
+    ;
     [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
     [Inject] private Known.BootBlazor.UIService BootUI { get; set; }
 
@@ -63,6 +61,20 @@
             Context.UI = AntUI;
         else if (UIType == UIType.Bootstrap)
             Context.UI = BootUI;
+    }
+
+    private Task OnError(Exception ex)
+    {
+        var config = new NotificationConfig
+        {
+            Message = Language["Title.Error"],
+            Description = ex.Message,
+            Placement = NotificationPlacement.BottomRight,
+            Duration = null
+        };
+        if (Config.App.IsDevelopment)
+            config.Description = ex.ToString();
+        return _notice.Error(config);
     }
 
     // //第三方登录设置当前用户

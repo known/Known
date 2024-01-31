@@ -11,7 +11,7 @@ public static class ComponentExtension
     {
         builder.Component<CascadingValue<T>>(attr =>
         {
-            attr.Set(c => c.IsFixed, false)
+            attr.Set(c => c.IsFixed, true)
                 .Set(c => c.Value, value)
                 .Set(c => c.ChildContent, child);
         });

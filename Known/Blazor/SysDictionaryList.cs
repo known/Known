@@ -23,12 +23,12 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
         Table.Column(c => c.Category).Template(BuildCategory);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Div("kui-row-28", () =>
         {
             builder.Div(() => BuildListBox(builder));
-            builder.Div(() => base.BuildRenderTree(builder));
+            builder.Div(() => base.BuildPage(builder));
         });
     }
 

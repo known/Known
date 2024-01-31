@@ -259,6 +259,8 @@
 
   "Title.Prompt": "Prompt",
   "Title.Question": "Question",
+  "Title.Error": "Error",
+  "Title.Warning": "Warning",
   "Title.Import": "Import {name}",
   "Title.FormAction": "{action} {title}",
   "Title.FlowAction": "{action} Flow",

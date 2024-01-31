@@ -83,7 +83,7 @@ class FileLogger : ILogger
 
     private static string GetMessage(string type, string message)
     {
-        var text = $"{DateTime.Now:yyyy-MM-dd.HH:mm:ss.fff} {type} {message}";
+        var text = $"{Environment.NewLine}{DateTime.Now:yyyy-MM-dd.HH:mm:ss.fff} {type} {message}";
         Console.WriteLine(text);
         return text;
     }

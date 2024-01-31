@@ -15,7 +15,19 @@ class BaseView<TModel> : BaseComponent
     [Parameter] public Action<TModel> OnChanged { get; set; }
 
     internal virtual void SetModel(TModel model) => Model = model;
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
+
+    protected override async void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        try
+        {
+            UI.BuildTabs(builder, Tab);
+        }
+        catch (Exception ex)
+        {
+            await Error?.HandleAsync(ex);
+        }
+    }
+
     protected void BuildList<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new() => builder.Div("list-view", () => UI.BuildTable(builder, model));
     protected void BuildCode(RenderTreeBuilder builder, string code) => builder.Markup($"<div class=\"highlight kui-code\"><pre class=\"language-csharp\"><code>{code}</code></pre></div>");
 

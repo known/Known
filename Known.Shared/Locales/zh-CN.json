@@ -255,6 +255,8 @@
 
   "Title.Prompt": "提示",
   "Title.Question": "询问",
+  "Title.Error": "错误",
+  "Title.Warning": "警告",
   "Title.Import": "导入{name}",
   "Title.FormAction": "{action}{title}",
   "Title.FlowAction": "{action}流程",

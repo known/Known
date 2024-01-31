@@ -17,7 +17,7 @@ class SysSystem : BaseTabPage
 		Tab.Items.Add(new ItemModel("SecuritySetting") { Content = builder => builder.Component<SysSystemSafe>().Build() });
     }
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildRenderTree);
+	protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 }
 
 class SysSystemInfo : BaseForm<SystemInfo>
@@ -60,7 +60,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
         await base.OnInitFormAsync();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildRenderTree(builder));
+    protected override void BuildForm(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildForm(builder));
 
     private async void OnSaveAppName(string value)
 	{
@@ -103,7 +103,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
         await base.OnInitFormAsync();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildRenderTree(builder));
+    protected override void BuildForm(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildForm(builder));
 
     private async void OnSaveDefaultPwd(string value)
 	{

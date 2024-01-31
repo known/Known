@@ -1,7 +1,6 @@
 ﻿using Known.Blazor;
 using Known.Demo.Entities;
 using Known.Demo.Services;
-using Known.Extensions;
 using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -26,7 +25,7 @@ class BaApplyList : BaseTablePage<TbApply>
     public async void New()
     {
         var row = await Service.GetDefaultApplyAsync(ApplyType.Test);
-		Table.NewForm(Service.SaveApplyAsync, row);
+        Table.NewForm(Service.SaveApplyAsync, row);
     }
 
     //编辑操作

@@ -22,9 +22,16 @@ public class BasePage : BaseComponent
 
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
-        await OnInitPageAsync();
-        await AddVisitLogAsync();
+        try
+        {
+            await base.OnInitializedAsync();
+            await OnInitPageAsync();
+            await AddVisitLogAsync();
+        }
+        catch (Exception ex)
+        {
+            await Error?.HandleAsync(ex);
+        }
     }
 
     protected virtual async Task OnInitPageAsync()
@@ -40,7 +47,19 @@ public class BasePage : BaseComponent
             Context.Module = await Platform.Module.GetModuleAsync(PageId);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override async void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        try
+        {
+            BuildPage(builder);
+        }
+        catch (Exception ex)
+        {
+            await Error?.HandleAsync(ex);
+        }
+    }
+
+    protected virtual void BuildPage(RenderTreeBuilder builder)
     {
         if (Context.Module != null && Context.Module.Target == "Page")
             builder.Component<AutoTablePage>().Set(c => c.PageId, PageId).Build(value => page = value);
@@ -64,7 +83,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         InitMenu();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Component<WebPage>().Set(c => c.Model, Page).Build();
     }
@@ -72,18 +91,25 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
     protected void OnToolClick(ActionInfo info) => OnAction(info, null);
     protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
 
-    private void OnAction(ActionInfo info, object[] parameters)
+    private async void OnAction(ActionInfo info, object[] parameters)
     {
         var type = GetType();
         var method = type.GetMethod(info.Id);
-        if (method != null)
+        if (method == null)
         {
-            method.Invoke(this, parameters);
+            var message = Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
+            UI.Error(message);
             return;
         }
 
-        var message = Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
-        UI.Error(message);
+        try
+        {
+            method.Invoke(this, parameters);
+        }
+        catch (Exception ex)
+        {
+            await Error?.HandleAsync(ex);
+        }
     }
 
     internal void InitMenu()
@@ -117,7 +143,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         Table.Toolbar.OnItemClick = OnToolClick;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.BuildTablePage(Table);
+    protected override void BuildPage(RenderTreeBuilder builder) => builder.BuildTablePage(Table);
 
     protected async void ShowImportForm(string param = null)
     {
@@ -185,5 +211,5 @@ public class BaseTabPage : BasePage
 {
     protected TabModel Tab { get; } = new();
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
+    protected override void BuildPage(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
 }

@@ -21,7 +21,7 @@ public class InstallPage : BaseForm<InstallInfo>
         await base.OnInitFormAsync();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.Div("kui-install", () =>
         {
@@ -34,7 +34,7 @@ public class InstallPage : BaseForm<InstallInfo>
             {
                 builder.Div("kui-install-form", () =>
                 {
-                    base.BuildRenderTree(builder);
+                    base.BuildForm(builder);
                     builder.Div("button", () =>
                     {
                         UI.Button(builder, Language["StartUsing"], this.Callback<MouseEventArgs>(OnStartAsync), "primary");

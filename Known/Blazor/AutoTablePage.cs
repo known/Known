@@ -31,9 +31,9 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         }
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildPage(RenderTreeBuilder builder)
     {
-        base.BuildRenderTree(builder);
+        base.BuildPage(builder);
         if (CurrentUser.UserName == "admin")
         {
             builder.Div("kui-page-designer", () =>
