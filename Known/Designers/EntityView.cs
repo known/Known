@@ -78,9 +78,9 @@ class EntityView : BaseView<EntityInfo>
 
     private void SetViewData(EntityInfo model)
     {
-        entity = Generator.GetEntity(model);
-        script = Generator.GetScript(dbType, model);
-        tableName = model.Id;
+        entity = Generator?.GetEntity(model);
+        script = Generator?.GetScript(dbType, model);
+        tableName = model?.Id;
         tableScript = script;
     }
 }

@@ -39,31 +39,6 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
         }
     }
 
-    private void BuildSummaryRow(RenderTreeBuilder builder)
-    {
-        BuildSummaryCell(builder, Language["IsSum"]);
-        foreach (var item in Table.Columns)
-        {
-            if (item.IsSum)
-            {
-                object value = null;
-                Table.Result?.Sums?.TryGetValue(item.Id, out value);
-                BuildSummaryCell(builder, $"{value}");
-            }
-            else
-            {
-                BuildSummaryCell(builder, "");
-            }
-        }
-        if (Table.HasAction)
-            BuildSummaryCell(builder, "");
-    }
-
-    private void BuildSummaryCell(RenderTreeBuilder builder, string text)
-    {
-        builder.Component<SummaryCell>().Set(c => c.ChildContent, b => b.Text(text)).Build();
-    }
-
     private void BuildPropertyColumn(RenderTreeBuilder builder, ColumnInfo item)
     {
         var data = Item as Dictionary<string, object>;
@@ -85,6 +60,35 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
         builder.AddAttribute(1, nameof(Column<TItem>.DataIndex), item.Id);
         AddAttributes(builder, item, value);
         builder.CloseComponent();
+    }
+
+    private void BuildSummaryRow(RenderTreeBuilder builder)
+    {
+        builder.Component<SummaryCell>()
+               .Set(c => c.Class, "kui-table-check")
+               .Set(c => c.Align, ColumnAlign.Center)
+               .Set(c => c.ChildContent, b => b.Text(Language["IsSum"]))
+               .Build();
+        foreach (var item in Table.Columns)
+        {
+            if (item.IsSum)
+            {
+                object value = null;
+                Table.Result?.Sums?.TryGetValue(item.Id, out value);
+                BuildSummaryCell(builder, $"{value}");
+            }
+            else
+            {
+                BuildSummaryCell(builder, "");
+            }
+        }
+        if (Table.HasAction)
+            BuildSummaryCell(builder, "");
+    }
+
+    private void BuildSummaryCell(RenderTreeBuilder builder, string text)
+    {
+        builder.Component<SummaryCell>().Set(c => c.ChildContent, b => b.Text(text)).Build();
     }
 
     private static void AddPropertyColumn(RenderTreeBuilder builder, Expression<Func<Dictionary<string, object>, object>> property)

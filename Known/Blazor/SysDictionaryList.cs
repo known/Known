@@ -69,7 +69,7 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
     }
 
     private RenderFragment ItemTemplate(CodeInfo info) => b => b.Text($"{info.Name} ({info.Code})");
-    private void BuildCategory(RenderTreeBuilder builder, SysDictionary row) => builder.Text($"{row.CategoryName} ({row.Category})");
+    private void BuildCategory(RenderTreeBuilder builder, SysDictionary row) => builder.Text(row.CategoryName);
 
     private Task OnCategoryClick(CodeInfo info)
     {

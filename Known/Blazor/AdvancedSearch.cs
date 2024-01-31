@@ -97,7 +97,7 @@ class AdvancedSearchItem : BaseComponent
         {
             Placeholder = Language["PleaseSelect"],
             Codes = types,
-            Value = $"{(int)item.Type}",
+            Value = $"{item.Type}",
             ValueChanged = this.Callback<string>(v =>
             {
                 Enum.TryParse<QueryType>(v, true, out QueryType type);
@@ -181,7 +181,7 @@ class AdvancedSearchItem : BaseComponent
 
     private void AddQueryType(List<CodeInfo> types, QueryType type)
     {
-        var queryType = QueryTypes.FirstOrDefault(t => t.Code == $"{(int)type}");
+        var queryType = QueryTypes.FirstOrDefault(t => t.Code == $"{type}");
         queryType.Name = Language[$"QueryType.{type}"];
         types.Add(queryType);
     }

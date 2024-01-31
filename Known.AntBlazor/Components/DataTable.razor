@@ -14,7 +14,7 @@
     <ChildContent>
         @if (!string.IsNullOrWhiteSpace(Model.SelectType))
         {
-            <Selection Type="@Model.SelectType" Width="50" Class="kui-table-check" />
+            <Selection Type="@Model.SelectType" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
         }
         <AntGenerateColumns Table="Model" Item="context" />
         @if (Model.HasAction)
@@ -22,7 +22,7 @@
             var actions = Model.RowActions?.Invoke(context);
             if (actions == null)
                 actions = Model.Actions;
-            <ActionColumn Title="@Language["Title.Action"]" Width="140" Class="kui-table-action">
+            <ActionColumn Title="@Language["Title.Action"]" Align="ColumnAlign.Center" Width="140" Class="kui-table-action">
                 @if (actions.Count > 2)
                 {
                     var first = actions[0];
