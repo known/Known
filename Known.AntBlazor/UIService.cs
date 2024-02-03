@@ -77,7 +77,7 @@ public class UIService(ModalService modalService, MessageService messageService)
         if (!string.IsNullOrWhiteSpace(column.Category))
         {
             if (column.Type == FieldType.Select)
-                attributes[nameof(AntSelect.Codes)] = model.GetCodes();
+                attributes[nameof(AntSelect.DataSource)] = model.GetCodes();
 
             if (column.Type == FieldType.RadioList)
                 attributes[nameof(AntRadioGroup.Codes)] = model.GetCodes("");
