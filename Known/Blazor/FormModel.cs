@@ -162,7 +162,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
         Rows.Clear();
         var fields = columns.Where(c => c.IsVisible);
-        var rowNos = fields.Select(c => c.Row).Distinct().ToList();
+        var rowNos = fields.Select(c => c.Row).Distinct().OrderBy(r => r).ToList();
         if (rowNos.Count == 1)
         {
             foreach (var item in fields)

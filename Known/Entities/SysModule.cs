@@ -48,8 +48,14 @@ public class SysModule : EntityBase
     /// 取得或设置目标。
     /// </summary>
     [Required]
-    [MaxLength(250)]
+    [MaxLength(50)]
     public string Target { get; set; }
+
+    /// <summary>
+    /// 取得或设置Url地址。
+    /// </summary>
+    [MaxLength(200)]
+    public string Url { get; set; }
 
     /// <summary>
     /// 取得或设置顺序。

@@ -14,6 +14,7 @@
     [Icon]        varchar(50)  NULL,
     [Description] varchar(200) NULL,
     [Target]      varchar(50)  NULL,
+    [Url]         varchar(200) NULL,
     [Sort]        int          NOT NULL,
     [Enabled]     varchar(50)  NOT NULL,
     [EntityData]  ntext        NULL,

@@ -14,6 +14,7 @@
     Icon        varchar2(50)   null,
     Description varchar2(200)  null,
     Target      varchar2(50)   null,
+    Url         varchar2(200)  null,
     Sort        number(8)      not null,
     Enabled     varchar2(50)   not null,
     EntityData  varchar2(4000)  null,

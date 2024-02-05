@@ -27,6 +27,11 @@ public static class HtmlExtension
         builder.Span().Class(className).OnClick(onClick).Markup(text).Close();
     }
 
+    public static void IFrame(this RenderTreeBuilder builder, string url)
+    {
+        builder.IFrame().Class("kui-frame").Src(url).Close();
+    }
+
     public static void Link(this RenderTreeBuilder builder, string text, EventCallback onClick)
     {
         if (string.IsNullOrWhiteSpace(text))

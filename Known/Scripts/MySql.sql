@@ -14,6 +14,7 @@
     `Icon`        varchar(50)  null,
     `Description` varchar(200) null,
     `Target`      varchar(250) null,
+    `Url`         varchar(200) null,
     `Sort`        int          not null,
     `Enabled`     varchar(50)  not null,
     `EntityData`  text         null,

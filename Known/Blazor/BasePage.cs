@@ -61,10 +61,17 @@ public class BasePage : BaseComponent
 
     protected virtual void BuildPage(RenderTreeBuilder builder)
     {
-        if (Context.Module != null && Context.Module.Target == "Page")
-            builder.Component<AutoTablePage>().Set(c => c.PageId, PageId).Build(value => page = value);
-        else
+        if (Context.Module == null)
+        {
             UI.BuildResult(builder, "404", $"{Language["Tip.Page404"]}PageId={PageId}");
+            return;
+        }
+
+        var type = Utils.ConvertTo<ModuleType>(Context.Module.Target);
+        if (type == ModuleType.Page)
+            builder.Component<AutoTablePage>().Set(c => c.PageId, PageId).Build(value => page = value);
+        else if (type == ModuleType.IFrame)
+            builder.IFrame(Context.Module.Url);
     }
 }
 

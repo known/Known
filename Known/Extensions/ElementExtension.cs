@@ -18,6 +18,7 @@ public static class ElementExtension
     public static RenderTreeBuilder Li(this RenderTreeBuilder builder) => builder.OpenElement("li");
     public static RenderTreeBuilder Image(this RenderTreeBuilder builder) => builder.OpenElement("img");
     public static RenderTreeBuilder Canvas(this RenderTreeBuilder builder) => builder.OpenElement("canvas");
+    public static RenderTreeBuilder IFrame(this RenderTreeBuilder builder) => builder.OpenElement("iframe");
 
     public static RenderTreeBuilder Attribute(this RenderTreeBuilder builder, string name, object value, bool checkNull = false)
     {

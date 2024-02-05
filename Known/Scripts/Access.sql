@@ -14,6 +14,7 @@
     `Icon`        VarChar(50)  NULL,
     `Description` VarChar(200) NULL,
     `Target`      VarChar(50)  NULL,
+    `Url`         VarChar(200) NULL,
     `Sort`        Long         NOT NULL,
     `Enabled`     VarChar(50)  NOT NULL,
     `EntityData`  LongText     NULL,
