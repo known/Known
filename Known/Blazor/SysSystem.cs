@@ -54,8 +54,10 @@ class SysSystemInfo : BaseForm<SystemInfo>
                  .Build();
             });
         }
-        Model.AddRow().AddColumn("Copyright", Config.App.Copyright);
-        Model.AddRow().AddColumn("SoftTerms", Config.App.SoftTerms);
+        if (!string.IsNullOrWhiteSpace(Config.App.Copyright))
+            Model.AddRow().AddColumn("Copyright", Config.App.Copyright);
+        if (!string.IsNullOrWhiteSpace(Config.App.SoftTerms))
+            Model.AddRow().AddColumn("SoftTerms", Config.App.SoftTerms);
 
         await base.OnInitFormAsync();
     }

@@ -27,6 +27,7 @@ public static class AppConfig
             info.Name = "Known信息管理系统";
             info.Type = AppType.Web;
             info.Assembly = typeof(AppConfig).Assembly;
+            info.IsLanguage = true;
             //数据库连接
             info.Connections = [new ConnectionInfo
             {

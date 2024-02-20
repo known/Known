@@ -7,9 +7,12 @@
     <SpaceItem Class="kui-nav-full">
         <Tooltip Title="@FullScreenTitle"><Icon Type="@FullScreenIcon" OnClick="OnFullScreen" /></Tooltip>
     </SpaceItem>
-    <SpaceItem Style="width:40px;text-align:center;">
-        <AntLanguage OnChanged="OnLanguageChanged" />
-    </SpaceItem>
+    @if (Config.App.IsLanguage)
+    {
+        <SpaceItem Style="width:40px;text-align:center;">
+            <AntLanguage OnChanged="OnLanguageChanged" />
+        </SpaceItem>
+    }
     <SpaceItem>
         <AntDropdown Context="Context" Text="@CurrentUser.Name" Items="UserItems" OnItemClick="e=>OnItemClick(e.Id)" />
     </SpaceItem>

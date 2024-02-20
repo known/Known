@@ -196,6 +196,7 @@ public class AppInfo
     public AppType Type { get; set; }
     public Assembly Assembly { get; set; }
     public bool IsPlatform { get; set; }
+    public bool IsLanguage { get; set; }
     public bool IsDevelopment { get; set; }
     public string WebRoot { get; set; }
     public string ContentRoot { get; set; }
