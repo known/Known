@@ -22,6 +22,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
     [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
     [Inject] public JSService JS { get; set; }
+    [Inject] public NavigationManager Navigation { get; set; }
     [CascadingParameter] public Context Context { get; set; }
     [CascadingParameter] public Error Error { get; set; }
 
