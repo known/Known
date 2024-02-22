@@ -50,7 +50,7 @@
      </PaginationTemplate>
  </Table>
 
- @code {
+@code {
     private string GetActionColor(string style) => style == "danger" ? "red-inverse" : "blue-inverse";
     private Func<PaginationTotalContext, string> showTotal => ctx => Context.Language["Page.Total"].Replace("{total}", $"{ctx.Total}");
 
@@ -64,8 +64,15 @@
 
     public async Task RefreshAsync()
     {
-        Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
-        StateChanged();
+        try
+        {
+            Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+            StateChanged();
+        }
+        catch (Exception ex)
+        {
+            await Error.HandleAsync(ex);
+        }
     }
 
     private async Task OnChange(QueryModel<TItem> queryModel)
@@ -73,24 +80,31 @@
         if (Model.OnQuery == null)
             return;
 
-        //页码
-        Model.Criteria.PageIndex = queryModel.PageIndex;
-        Model.Criteria.PageSize = queryModel.PageSize;
-        //TODO：表格筛选
-        // Model.Criteria.Query.Clear();
-        // foreach (var item in queryModel.FilterModel)
-        // {
-        //     foreach (var filter in item.Filters)
-        //     {
-        //         var type = GetQueryType(filter.FilterCompareOperator);
-        //         Model.Criteria.SetQuery(item.FieldName, type, $"{filter.Value}");
-        //     }
-        // }
-        //排序
-        var sorts = queryModel.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
-        Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
-        Model.Criteria.SumColumns = Model.Columns.Where(c => c.IsSum).Select(c => c.Id).ToList();
-        Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+        try
+        {
+            //页码
+            Model.Criteria.PageIndex = queryModel.PageIndex;
+            Model.Criteria.PageSize = queryModel.PageSize;
+            //TODO：表格筛选
+            // Model.Criteria.Query.Clear();
+            // foreach (var item in queryModel.FilterModel)
+            // {
+            //     foreach (var filter in item.Filters)
+            //     {
+            //         var type = GetQueryType(filter.FilterCompareOperator);
+            //         Model.Criteria.SetQuery(item.FieldName, type, $"{filter.Value}");
+            //     }
+            // }
+            //排序
+            var sorts = queryModel.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
+            Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
+            Model.Criteria.SumColumns = Model.Columns.Where(c => c.IsSum).Select(c => c.Id).ToList();
+            Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+        }
+        catch (Exception ex)
+        {
+            await Error.HandleAsync(ex);
+        }
     }
 
     private async void OnRowClick(RowData<TItem> row)

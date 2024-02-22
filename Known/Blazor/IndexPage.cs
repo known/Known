@@ -14,13 +14,20 @@ public class IndexPage : BaseComponent
 
     protected override async Task OnInitializedAsync()
     {
-        IsLoaded = false;
-        Theme = await JS.GetCurrentThemeAsync();
-        Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
-        Context.Install = await Platform.System.GetInstallAsync();
-        Context.CurrentUser = await GetCurrentUserAsync();
-        IsLogin = Context.CurrentUser != null;
-        IsLoaded = true;
+        try
+        {
+            IsLoaded = false;
+            Theme = await JS.GetCurrentThemeAsync();
+            Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
+            Context.Install = await Platform.System.GetInstallAsync();
+            Context.CurrentUser = await GetCurrentUserAsync();
+            IsLogin = Context.CurrentUser != null;
+            IsLoaded = true;
+        }
+        catch (Exception ex)
+        {
+            await Error.HandleAsync(ex);
+        }
     }
 
     public void SetTheme(string theme)
@@ -74,6 +81,7 @@ public class IndexPage : BaseComponent
 
     protected async Task OnLogout()
     {
+        Context.CurrentUser = null;
         IsLogin = false;
         await SetCurrentUserAsync(null);
         StateChanged();

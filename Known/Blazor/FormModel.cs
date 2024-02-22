@@ -256,6 +256,9 @@ public class FormOption
 
     internal void LoadInfo(FormInfo info)
     {
+        if (info == null)
+            return;
+
         Width = info.Width;
         Maximizable = info.Maximizable;
         DefaultMaximized = info.DefaultMaximized;

@@ -18,7 +18,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-	internal TableModel(BasePage<TItem> page) : base(page.Context)
+    internal TableModel(BasePage<TItem> page) : base(page.Context)
     {
         SetPage(page);
     }
@@ -92,7 +92,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         return OnRefresh.Invoke();
     }
 
-	public void ViewForm(TItem row) => ViewForm(FormType.View, row);
+    public void ViewForm(TItem row) => ViewForm(FormType.View, row);
 
     internal void ViewForm(FormType type, TItem row)
     {
@@ -256,8 +256,8 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         }
         else
         {
-            Toolbar.Items = info.Tools?.Where(t => page.Tools.Contains(t)).Select(t => new ActionInfo(t)).ToList();
-            Actions = info.Actions?.Where(a => page.Actions.Contains(a)).Select(a => new ActionInfo(a)).ToList();
+            Toolbar.Items = info.Tools?.Where(t => page.Tools != null && page.Tools.Contains(t)).Select(t => new ActionInfo(t)).ToList();
+            Actions = info.Actions?.Where(a => page.Actions != null && page.Actions.Contains(a)).Select(a => new ActionInfo(a)).ToList();
             AllColumns = IsDictionary
                        ? info.Columns.Select(c => new ColumnInfo(c)).ToList()
                        : GetAllColumns();

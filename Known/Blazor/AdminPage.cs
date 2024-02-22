@@ -27,15 +27,22 @@ public class AdminPage : BaseComponent
 
     protected override async Task OnInitializedAsync()
     {
-        IsLoaded = false;
-        await base.OnInitializedAsync();
-        Context.OnNavigate = OnNavigate;
-        Context.OnRefreshPage = RefreshPage;
-        CurrentMenu = Config.GetHomeMenu();
-        Info = await Platform.Auth.GetAdminAsync();
-        UserMenus = GetUserMenus(Info?.UserMenus);
-        Context.UserSetting = Info?.UserSetting ?? new();
-        IsLoaded = true;
+        try
+        {
+            IsLoaded = false;
+            await base.OnInitializedAsync();
+            Context.OnNavigate = OnNavigate;
+            Context.OnRefreshPage = RefreshPage;
+            CurrentMenu = Config.GetHomeMenu();
+            Info = await Platform.Auth.GetAdminAsync();
+            UserMenus = GetUserMenus(Info?.UserMenus);
+            Context.UserSetting = Info?.UserSetting ?? new();
+            IsLoaded = true;
+        }
+        catch (Exception ex)
+        {
+            await Error.HandleAsync(ex);
+        }
     }
 
     protected async Task SignOutAsync()
