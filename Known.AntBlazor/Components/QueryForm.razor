@@ -34,7 +34,10 @@
         }
         <div class="ant-query-btn">
             <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
-            <Button Type="primary" Icon="search" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
+            @if (AdvSearch)
+            {
+                <Button Type="primary" Icon="search" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
+            }
             <Button Icon="undo" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button>
             @if (Model.QueryColumns.Count > showCount)
             {
@@ -52,12 +55,20 @@
     AntDesign.Internal.IForm _form;
 
     [Parameter] public TableModel<TItem> Model { get; set; }
+    [Parameter] public bool AdvSearch { get; set; } = true;
 
     private async Task OnSearchAsync()
     {
-        Model.Criteria.IsQuery = true;
-        Model.Criteria.Query = Model.QueryData.Select(d => d.Value).ToList();
-        await Model.RefreshAsync();
+        try
+        {
+            Model.Criteria.IsQuery = true;
+            Model.Criteria.Query = Model.QueryData.Select(d => d.Value).ToList();
+            await Model.RefreshAsync();
+        }
+        catch (Exception ex)
+        {
+            await Error.HandleAsync(ex);
+        }
     }
 
     private void ShowAdvSearch() => Model.ShowAdvancedSearch();
