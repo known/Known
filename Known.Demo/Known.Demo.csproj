@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Known.AntBlazor\Known.AntBlazor.csproj" />
         <ProjectReference Include="..\Known\Known.csproj" />
     </ItemGroup>
 
