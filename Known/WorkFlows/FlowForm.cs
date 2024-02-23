@@ -73,15 +73,15 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     {
         builder.Div("kui-form-content", () => Content?.Invoke(builder));
 
-        if (Model.IsView && Model.FormType == FormType.View)
+        if (Model.IsView && Model.FormType == FormViewType.View)
             return;
 
-        if (Model.FormType != FormType.View)
+        if (Model.FormType != FormViewType.View)
             BuildFlowAction(builder);
 
         builder.FormAction(() =>
         {
-            if (Model.FormType == FormType.Verify)
+            if (Model.FormType == FormViewType.Verify)
                 UI.Button(builder, new ActionInfo(Context, "Assign", ""), this.Callback<MouseEventArgs>(OnAssign));
 
             UI.Button(builder, new ActionInfo(Context, "OK", ""), this.Callback<MouseEventArgs>(OnSaveAsync));
@@ -106,11 +106,11 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         Result result;
         switch (Model.FormType)
         {
-            case FormType.Submit:
+            case FormViewType.Submit:
                 result = await Platform.Flow.SubmitFlowAsync(info);
                 Model.HandleResult(result);
                 break;
-            case FormType.Verify:
+            case FormViewType.Verify:
                 result = await Platform.Flow.VerifyFlowAsync(info);
                 Model.HandleResult(result);
                 break;
@@ -124,7 +124,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
     private void InitFlowModel()
     {
-        if (Model.FormType == FormType.View)
+        if (Model.FormType == FormViewType.View)
             return;
 
         info.BizId = Model.Data?.Id;
@@ -132,11 +132,11 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
         switch (Model.FormType)
         {
-            case FormType.Submit:
+            case FormViewType.Submit:
                 flow.AddUserColumn("SubmitTo", "User");
                 flow.AddNoteColumn();
                 break;
-            case FormType.Verify:
+            case FormViewType.Verify:
                 flow.AddVerifyColumn();
                 flow.AddNoteColumn();
                 break;

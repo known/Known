@@ -30,7 +30,7 @@ public static class FlowExtension
     #region FlowAction
     public static void SubmitFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new()
     {
-        page.ViewForm(FormType.Submit, row);
+        page.ViewForm(FormViewType.Submit, row);
     }
 
     public static void SubmitFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
@@ -52,7 +52,7 @@ public static class FlowExtension
 
     public static void VerifyFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new()
     {
-        page.ViewForm(FormType.Verify, row);
+        page.ViewForm(FormViewType.Verify, row);
     }
 
     public static void StopFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()

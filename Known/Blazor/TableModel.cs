@@ -92,9 +92,9 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         return OnRefresh.Invoke();
     }
 
-    public void ViewForm(TItem row) => ViewForm(FormType.View, row);
+    public void ViewForm(TItem row) => ViewForm(FormViewType.View, row);
 
-    internal void ViewForm(FormType type, TItem row)
+    internal void ViewForm(FormViewType type, TItem row)
     {
         UI.ShowForm(new FormModel<TItem>(this)
         {

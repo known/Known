@@ -82,7 +82,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
     internal List<string> Actions { get; set; }
     internal List<PageColumnInfo> Columns { get; set; }
 
-    internal virtual void ViewForm(FormType type, TItem row) { }
+    internal virtual void ViewForm(FormViewType type, TItem row) { }
 
     protected override async Task OnInitPageAsync()
     {
@@ -141,7 +141,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     protected TableModel<TItem> Table { get; private set; }
 
     public override Task RefreshAsync() => Table.RefreshAsync();
-    internal override void ViewForm(FormType type, TItem row) => Table.ViewForm(type, row);
+    internal override void ViewForm(FormViewType type, TItem row) => Table.ViewForm(type, row);
 
     protected override async Task OnInitPageAsync()
     {

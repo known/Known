@@ -54,7 +54,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Action<TItem> OnDataChanged { get; set; }
     public Action<string> OnFieldChanged { get; set; }
 
-    internal FormType FormType { get; set; }
+    internal FormViewType FormType { get; set; }
     internal Func<TItem, Task<Result>> OnSave { get; set; }
     internal Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
     internal Dictionary<string, List<IBrowserFile>> Files { get; } = [];
@@ -265,4 +265,4 @@ public class FormOption
     }
 }
 
-enum FormType { View, Submit, Verify }
+enum FormViewType { View, Submit, Verify }
