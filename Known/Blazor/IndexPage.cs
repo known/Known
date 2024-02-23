@@ -10,7 +10,7 @@ public class IndexPage : BaseComponent
 
     protected bool IsLogin { get; private set; }
     public string Theme { get; private set; }
-    public string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";
+    public virtual string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";
 
     protected override async Task OnInitializedAsync()
     {
