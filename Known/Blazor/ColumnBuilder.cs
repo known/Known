@@ -5,7 +5,7 @@ namespace Known.Blazor;
 
 public class ColumnBuilder<TItem> where TItem : class, new()
 {
-    private readonly string name;
+    private readonly string id;
     private readonly ColumnInfo column;
     private readonly TableModel<TItem> table;
 
@@ -15,7 +15,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         this.table = table;
 
         if (column != null)
-            name = column.Property.Name;
+            id = column.Id;
     }
 
     public ColumnBuilder<TItem> Template(RenderFragment template)
@@ -26,11 +26,11 @@ public class ColumnBuilder<TItem> where TItem : class, new()
 
     public ColumnBuilder<TItem> Template(Action<RenderTreeBuilder, TItem> template)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        if (string.IsNullOrWhiteSpace(id))
             return this;
 
         if (table != null)
-            table.Templates[name] = (row) => delegate (RenderTreeBuilder builder) { template(builder, row); };
+            table.Templates[id] = (row) => delegate (RenderTreeBuilder builder) { template(builder, row); };
         return this;
     }
 
