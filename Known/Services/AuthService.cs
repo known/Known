@@ -29,7 +29,7 @@ class AuthService : ServiceBase
 
         var user = Utils.MapTo<UserInfo>(entity);
         user.Token = Utils.GetGuid();
-        await SetUserInfoAsync(user);
+        await SetUserInfoAsync(Database, user);
         cachedUsers[user.Token] = user;
 
         var type = LogType.Login.ToString();
@@ -78,7 +78,9 @@ class AuthService : ServiceBase
         if (user != null)
             return user;
 
-        return await UserRepository.GetUserAsync(db, userName);
+        user = await UserRepository.GetUserAsync(db, userName);
+        await SetUserInfoAsync(db, user);
+        return user;
     }
 
     public Task<UserInfo> GetUserAsync(string userName) => GetUserAsync(Database, userName);
@@ -140,20 +142,20 @@ class AuthService : ServiceBase
         return Result.Success(Language.Success(Language["Button.Update"]), entity.Id);
     }
 
-    private async Task SetUserInfoAsync(UserInfo user)
+    private static async Task SetUserInfoAsync(Database db, UserInfo user)
     {
-        var sys = await SystemService.GetConfigAsync<SystemInfo>(Database, SystemService.KeySystem);
+        var sys = await SystemService.GetConfigAsync<SystemInfo>(db, SystemService.KeySystem);
         user.IsTenant = user.CompNo != sys.CompNo;
         user.AppName = Config.App.Name;
         if (user.IsAdmin)
             user.AppId = Config.App.Id;
 
-        var info = await SystemService.GetSystemAsync(Database);
+        var info = await SystemService.GetSystemAsync(db);
         user.AppName = info.AppName;
         user.CompName = info.CompName;
         if (!string.IsNullOrEmpty(user.OrgNo))
         {
-            var orgName = await UserRepository.GetOrgNameAsync(Database, user.AppId, user.CompNo, user.OrgNo);
+            var orgName = await UserRepository.GetOrgNameAsync(db, user.AppId, user.CompNo, user.OrgNo);
             if (string.IsNullOrEmpty(orgName))
                 orgName = user.CompName;
             user.OrgName = orgName;
