@@ -14,7 +14,7 @@ public static class UIExtension
 
     internal static void BuildTablePage<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
     {
-        builder.Component<AutoTablePage<TItem>>().Set(c => c.Model, model).Build();
+        builder.Component<TablePage<TItem>>().Set(c => c.Model, model).Build();
     }
 
     internal static void Build404Page(this IUIService service, RenderTreeBuilder builder, string pageId)

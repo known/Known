@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-class TablePage<TItem> : BaseComponent where TItem : class, new()
+public class TablePage<TItem> : BaseComponent where TItem : class, new()
 {
     [Parameter] public TableModel<TItem> Model { get; set; }
 
