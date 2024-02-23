@@ -1,10 +1,29 @@
 ﻿using Known.Designers;
 using Known.Entities;
 using Known.Extensions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
+
+class AutoTablePage<TItem> : BaseComponent where TItem : class, new()
+{
+    [Parameter] public TableModel<TItem> Model { get; set; }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if (Model.QueryColumns.Count > 0 || Model.Toolbar.HasItem)
+        {
+            builder.Div("kui-top", () =>
+            {
+                UI.BuildQuery(builder, Model);
+                UI.BuildToolbar(builder, Model.Toolbar);
+            });
+        }
+        builder.Div("kui-table", () => UI.BuildTable(builder, Model));
+    }
+}
 
 class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 {
