@@ -36,7 +36,7 @@ public class MenuInfo
         Code = module.Code;
         Target = module.Target;
         Sort = module.Sort;
-        Buttons = module.Buttons;
+        Tools = module.Buttons;
         Actions = module.Actions;
         Columns = module.Columns;
     }
@@ -50,15 +50,15 @@ public class MenuInfo
     public string Target { get; set; }
     public string Color { get; set; }
     public int Sort { get; set; }
-    internal List<string> Buttons { get; set; }
+    internal List<string> Tools { get; set; }
     internal List<string> Actions { get; set; }
     internal List<PageColumnInfo> Columns { get; set; }
 
     public List<CodeInfo> GetAllActions()
     {
         var codes = new List<CodeInfo>();
-        if (Buttons != null && Buttons.Count > 0)
-            codes.AddRange(Buttons.Select(b => GetAction(this, b)));
+        if (Tools != null && Tools.Count > 0)
+            codes.AddRange(Tools.Select(b => GetAction(this, b)));
         if (Actions != null && Actions.Count > 0)
             codes.AddRange(Actions.Select(b => GetAction(this, b)));
         return codes;
@@ -251,7 +251,7 @@ public class MenuItem : MenuInfo
         Target = model.Target;
         Sort = model.Sort;
         Color = model.Color;
-        Buttons = model.Buttons;
+        Tools = model.Tools;
         Actions = model.Actions;
         Columns = model.Columns;
     }

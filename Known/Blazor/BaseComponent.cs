@@ -86,8 +86,8 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
             return false;
 
         var hasButton = false;
-        if (menu.Buttons != null && menu.Buttons.Count > 0)
-            hasButton = menu.Buttons.Contains(buttonId);
+        if (menu.Tools != null && menu.Tools.Count > 0)
+            hasButton = menu.Tools.Contains(buttonId);
         else if (menu.Actions != null && menu.Actions.Count > 0)
             hasButton = menu.Actions.Contains(buttonId);
         return hasButton;

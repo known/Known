@@ -132,7 +132,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 
         Id = menu.Id;
         Name = menu.Name;
-        Tools = menu.Buttons;
+        Tools = menu.Tools;
         Actions = menu.Actions;
         Columns = menu.Columns;
     }
