@@ -12,7 +12,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     {
         if (isAuto)
         {
-            AllColumns = GetAllColumns();
+            AllColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
             Columns = AllColumns;
             InitQueryColumns();
         }
@@ -225,20 +225,17 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave });
     }
 
-    private static List<ColumnInfo> GetAllColumns()
-    {
-        return typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
-    }
-
     internal void SetPage(BasePage<TItem> page)
     {
         Page = page;
         Module = page.Context.Module;
-        SetPageInfo(Module?.Page, page);
         Form.LoadInfo(Module?.Form);
+        SetPage(Module?.Page);
+        SetPermission(page);
+        InitQueryColumns();
     }
 
-    internal void SetPageInfo(PageInfo info, BasePage<TItem> page = null)
+    internal void SetPage(PageInfo info)
     {
         if (info == null)
             return;
@@ -247,34 +244,39 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         FixedHeight = info.FixedHeight;
         ShowPager = info.ShowPager;
 
+        Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
+        Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList();
+        AllColumns = info.Columns?.Select(c => new ColumnInfo(c)).ToList();
         Columns.Clear();
-        if (page == null)
+        Columns.AddRange(AllColumns);
+
+        SelectType = Toolbar.HasItem ? "checkbox" : "";
+        InitQueryColumns();
+    }
+
+    private void SetPermission(BasePage<TItem> page)
+    {
+        var properties = typeof(TItem).GetProperties();
+        AllColumns = IsDictionary ? Columns : properties.Select(p => new ColumnInfo(p)).ToList();
+        Toolbar.Items = Toolbar.Items?.Where(t => page.Menu.HasTool(t.Id)).ToList();
+        Actions = Actions?.Where(a => page.Menu.HasAction(a.Id)).ToList();
+
+        var columns = Columns?.Where(c => page.Menu.HasColumn(c.Id)).ToList();
+        Columns.Clear();
+        Columns.AddRange(columns);
+        if (Columns == null || Columns.Count == 0)
         {
-            Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
-            Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList();
-            AllColumns = info.Columns.Select(c => new ColumnInfo(c)).ToList();
             Columns.AddRange(AllColumns);
         }
         else
         {
-            Toolbar.Items = info.Tools?.Where(t => page.Menu.Tools != null && page.Menu.Tools.Contains(t)).Select(t => new ActionInfo(t)).ToList();
-            Actions = info.Actions?.Where(a => page.Menu.Actions != null && page.Menu.Actions.Contains(a)).Select(a => new ActionInfo(a)).ToList();
-            AllColumns = IsDictionary
-                       ? info.Columns.Select(c => new ColumnInfo(c)).ToList()
-                       : GetAllColumns();
-            foreach (var item in AllColumns)
+            foreach (var item in Columns)
             {
-                var column = page.Menu.Columns?.FirstOrDefault(p => p.Id == item.Id);
-                if (column != null)
-                {
-                    item.SetPageColumnInfo(column);
-                    Columns.Add(item);
-                }
+                var info = properties.FirstOrDefault(p => p.Name == item.Id);
+                if (info != null)
+                    item.SetPropertyInfo(info);
             }
         }
-
-        SelectType = Toolbar.HasItem ? "checkbox" : "";
-        InitQueryColumns();
     }
 
     private void InitQueryColumns()

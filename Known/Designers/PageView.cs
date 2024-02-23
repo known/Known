@@ -115,7 +115,7 @@ class PageView : BaseView<PageInfo>
     private void OnPropertyChanged()
     {
         OnChanged?.Invoke(Model);
-        table.SetPageInfo(Model);
+        table.SetPage(Model);
         StateChanged();
     }
 
@@ -124,7 +124,7 @@ class PageView : BaseView<PageInfo>
         table = new DemoPageModel(Context);
         table.Module = Form.Model.Data;
         table.Entity = Entity;
-        table.SetPageInfo(Model);
+        table.SetPage(Model);
         table.Result = await table.OnQuery?.Invoke(table.Criteria);
     }
 }

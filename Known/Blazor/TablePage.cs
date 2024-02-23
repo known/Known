@@ -10,6 +10,9 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        if (Model == null)
+            return;
+
         if (Model.QueryColumns.Count > 0 || Model.Toolbar.HasItem)
         {
             builder.Div("kui-top", () =>

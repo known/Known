@@ -54,6 +54,10 @@ public class MenuInfo
     internal List<string> Actions { get; set; }
     internal List<PageColumnInfo> Columns { get; set; }
 
+    internal bool HasTool(string id) => Tools != null && Tools.Contains(id);
+    internal bool HasAction(string id) => Actions != null && Actions.Contains(id);
+    internal bool HasColumn(string id) => Columns != null && Columns.Exists(c => c.Id == id);
+
     public List<CodeInfo> GetAllActions()
     {
         var codes = new List<CodeInfo>();
@@ -131,33 +135,7 @@ public class ColumnInfo
 
     internal ColumnInfo(PageColumnInfo info) => SetPageColumnInfo(info);
     internal ColumnInfo(FormFieldInfo info) => SetFormFieldInfo(info);
-
-    internal ColumnInfo(PropertyInfo property)
-    {
-        Property = property;
-        Id = Property.Name;
-        Name = Property.DisplayName();
-        Required = Property.IsRequired();
-        Type = Property.GetFieldType();
-
-        var form = Property.GetCustomAttribute<FormAttribute>();
-        if (form != null)
-        {
-            IsForm = true;
-            Row = form.Row;
-            Column = form.Column;
-            if (!string.IsNullOrWhiteSpace(form.Type))
-                Type = Utils.ConvertTo<FieldType>(form.Type);
-            ReadOnly = form.ReadOnly;
-            Placeholder = form.Placeholder;
-        }
-
-        var code = Property.GetCustomAttribute<CategoryAttribute>();
-        if (code != null)
-        {
-            Category = code.Category;
-        }
-    }
+    internal ColumnInfo(PropertyInfo info) => SetPropertyInfo(info);
 
     public string Id { get; set; }
     public string Name { get; set; }
@@ -184,10 +162,13 @@ public class ColumnInfo
     public bool ReadOnly { get; set; }
 
     public RenderFragment Template { get; set; }
-    public PropertyInfo Property { get; }
+    public PropertyInfo Property { get; private set; }
 
     internal void SetPageColumnInfo(PageColumnInfo info)
     {
+        if (info == null)
+            return;
+
         Id = info.Id;
         Name = info.Name;
         IsViewLink = info.IsViewLink;
@@ -203,6 +184,9 @@ public class ColumnInfo
 
     internal void SetFormFieldInfo(FormFieldInfo info)
     {
+        if (info == null)
+            return;
+
         Id = info.Id;
         Name = info.Name;
         Row = info.Row;
@@ -213,6 +197,36 @@ public class ColumnInfo
         Required = info.Required;
         Placeholder = info.Placeholder;
         Category = info.Category;
+    }
+
+    internal void SetPropertyInfo(PropertyInfo info)
+    {
+        if (info == null)
+            return;
+
+        Property = info;
+        Id = info.Name;
+        Name = info.DisplayName();
+        Required = info.IsRequired();
+        Type = info.GetFieldType();
+
+        var form = info.GetCustomAttribute<FormAttribute>();
+        if (form != null)
+        {
+            IsForm = true;
+            Row = form.Row;
+            Column = form.Column;
+            if (!string.IsNullOrWhiteSpace(form.Type))
+                Type = Utils.ConvertTo<FieldType>(form.Type);
+            ReadOnly = form.ReadOnly;
+            Placeholder = form.Placeholder;
+        }
+
+        var code = info.GetCustomAttribute<CategoryAttribute>();
+        if (code != null)
+        {
+            Category = code.Category;
+        }
     }
 }
 
