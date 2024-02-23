@@ -16,6 +16,11 @@ public static class UIExtension
     {
         builder.Component<TablePage<TItem>>().Set(c => c.Model, model).Build();
     }
+
+    internal static void Build404Page(this IUIService service, RenderTreeBuilder builder, string pageId)
+    {
+        service.BuildResult(builder, "404", $"{service.Language["Tip.Page404"]}PageId={pageId}");
+    }
     #endregion
 
     #region Icon

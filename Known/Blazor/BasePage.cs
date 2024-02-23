@@ -63,13 +63,15 @@ public class BasePage : BaseComponent
     {
         if (Context.Module == null)
         {
-            UI.BuildResult(builder, "404", $"{Language["Tip.Page404"]}PageId={PageId}");
+            UI.Build404Page(builder, PageId);
             return;
         }
 
         var type = Utils.ConvertTo<ModuleType>(Context.Module.Target);
         if (type == ModuleType.Page)
             builder.Component<AutoTablePage>().Set(c => c.PageId, PageId).Build(value => page = value);
+        else if (type == ModuleType.Custom)
+            UI.Build404Page(builder, PageId);
         else if (type == ModuleType.IFrame)
             builder.IFrame(Context.Module.Url);
     }
