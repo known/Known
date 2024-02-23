@@ -257,14 +257,14 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         }
         else
         {
-            Toolbar.Items = info.Tools?.Where(t => page.Tools != null && page.Tools.Contains(t)).Select(t => new ActionInfo(t)).ToList();
-            Actions = info.Actions?.Where(a => page.Actions != null && page.Actions.Contains(a)).Select(a => new ActionInfo(a)).ToList();
+            Toolbar.Items = info.Tools?.Where(t => page.Menu.Tools != null && page.Menu.Tools.Contains(t)).Select(t => new ActionInfo(t)).ToList();
+            Actions = info.Actions?.Where(a => page.Menu.Actions != null && page.Menu.Actions.Contains(a)).Select(a => new ActionInfo(a)).ToList();
             AllColumns = IsDictionary
                        ? info.Columns.Select(c => new ColumnInfo(c)).ToList()
                        : GetAllColumns();
             foreach (var item in AllColumns)
             {
-                var column = page.Columns?.FirstOrDefault(p => p.Id == item.Id);
+                var column = page.Menu.Columns?.FirstOrDefault(p => p.Id == item.Id);
                 if (column != null)
                 {
                     item.SetPageColumnInfo(column);

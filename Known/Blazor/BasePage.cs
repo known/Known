@@ -80,9 +80,7 @@ public class BasePage : BaseComponent
 public class BasePage<TItem> : BasePage where TItem : class, new()
 {
     protected PageModel Page { get; } = new();
-    internal List<string> Tools { get; set; }
-    internal List<string> Actions { get; set; }
-    internal List<PageColumnInfo> Columns { get; set; }
+    internal MenuInfo Menu { get; set; }
 
     internal virtual void ViewForm(FormViewType type, TItem row) { }
 
@@ -126,15 +124,12 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         if (Context == null || Context.UserMenus == null)
             return;
 
-        var menu = Context.UserMenus.FirstOrDefault(m => m.Id == PageId);
-        if (menu == null)
+        Menu = Context.UserMenus.FirstOrDefault(m => m.Id == PageId);
+        if (Menu == null)
             return;
 
-        Id = menu.Id;
-        Name = menu.Name;
-        Tools = menu.Tools;
-        Actions = menu.Actions;
-        Columns = menu.Columns;
+        Id = Menu.Id;
+        Name = Menu.Name;
     }
 }
 
