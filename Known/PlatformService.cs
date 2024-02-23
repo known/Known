@@ -49,6 +49,10 @@ public class PlatformService
     public Task<Result> SaveCompanyAsync(object model) => Company.SaveCompanyAsync(model);
     #endregion
 
+    #region User
+    public Task<UserInfo> GetUserAsync(string userName) => Auth.GetUserAsync(userName);
+    #endregion
+
     #region File
     public void DeleteFiles(List<string> filePaths) => filePaths.ForEach(AttachFile.DeleteFile);
     public Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles) => File.DeleteFilesAsync(db, bizId, oldFiles);
