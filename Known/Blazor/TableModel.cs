@@ -36,6 +36,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }
     public FormOption Form { get; } = new();
+    public Type FormType { get; set; }
     public Func<TItem, string> FormTitle { get; set; }
     public ToolbarModel Toolbar { get; } = new();
     public List<ColumnInfo> Columns { get; } = [];

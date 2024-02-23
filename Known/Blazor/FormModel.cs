@@ -32,7 +32,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     {
         Table = table;
         Option = table.Form;
-        Type = Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
+        Type = table.FormType ?? Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
         SetFormInfo(table.Module?.Form);
     }
 
