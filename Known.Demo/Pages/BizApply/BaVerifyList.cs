@@ -1,7 +1,6 @@
 ﻿using Known.Blazor;
 using Known.Demo.Entities;
 using Known.Demo.Services;
-using Known.Extensions;
 using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -15,7 +14,8 @@ class BaVerifyList : BaseTablePage<TbApply>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-		Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Verify, criteria);
+        Table.FormType = typeof(ApplyForm);
+        Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Verify, criteria);
 		Table.Column(c => c.BizStatus).Template(BuildBizStatus);
     }
 

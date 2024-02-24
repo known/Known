@@ -16,6 +16,7 @@ class BaQueryList : BaseTablePage<TbApply>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Table.FormType = typeof(ApplyForm);
         Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Query, criteria);
         Table.Column(c => c.BizStatus).Template(BuildBizStatus);
     }

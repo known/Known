@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 namespace Known.Demo.Pages.BizApply;
 
 //申请表单，继承流程表单基类
-class TbApplyForm : BaseFlowForm<TbApply>
+class ApplyForm : BaseFlowForm<TbApply>
 {
     protected override async Task OnInitFormAsync()
     {
