@@ -1,5 +1,6 @@
 ﻿using Known.Entities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Http;
 
 namespace Known.Blazor;
@@ -42,6 +43,33 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await base.OnInitializedAsync();
+            await OnInitAsync();
+        }
+        catch (Exception ex)
+        {
+            await Error?.HandleAsync(ex);
+        }
+    }
+
+    protected override async void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        try
+        {
+            BuildRender(builder);
+        }
+        catch (Exception ex)
+        {
+            await Error?.HandleAsync(ex);
+        }
+    }
+
+    protected virtual Task OnInitAsync() => Task.CompletedTask;
+    protected virtual void BuildRender(RenderTreeBuilder builder) { }
     protected virtual ValueTask DisposeAsync(bool disposing) => ValueTask.CompletedTask;
 
     public async ValueTask DisposeAsync()

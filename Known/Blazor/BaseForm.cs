@@ -7,11 +7,11 @@ namespace Known.Blazor;
 
 public class BaseForm : BaseComponent
 {
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
         try
         {
-            await base.OnInitializedAsync();
+            await base.OnInitAsync();
             await OnInitFormAsync();
         }
         catch (Exception ex)
@@ -22,7 +22,7 @@ public class BaseForm : BaseComponent
 
     protected virtual Task OnInitFormAsync() => Task.CompletedTask;
 
-    protected override async void BuildRenderTree(RenderTreeBuilder builder)
+    protected override async void BuildRender(RenderTreeBuilder builder)
     {
         try
         {

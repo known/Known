@@ -20,11 +20,11 @@ public class BasePage : BaseComponent
         page?.StateChanged();
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
         try
         {
-            await base.OnInitializedAsync();
+            await base.OnInitAsync();
             await OnInitPageAsync();
             await AddVisitLogAsync();
         }
@@ -47,7 +47,7 @@ public class BasePage : BaseComponent
             Context.Module = await Platform.Module.GetModuleAsync(PageId);
     }
 
-    protected override async void BuildRenderTree(RenderTreeBuilder builder)
+    protected override async void BuildRender(RenderTreeBuilder builder)
     {
         try
         {
