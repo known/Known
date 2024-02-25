@@ -24,12 +24,14 @@ class FormView : BaseView<FormInfo>
         Tab.AddTab("Designer.View", BuildView);
         Tab.AddTab("Designer.Fields", BuildList);
 
-        list = new(Context, true);
-        list.FixedHeight = "380px";
-        list.OnQuery = c =>
+        list = new(Context, true)
         {
-            var result = new PagingResult<FormFieldInfo>(Model?.Fields);
-            return Task.FromResult(result);
+            FixedHeight = "380px",
+            OnQuery = c =>
+            {
+                var result = new PagingResult<FormFieldInfo>(Model?.Fields);
+                return Task.FromResult(result);
+            }
         };
 
         tab.AddTab("Designer.Property", BuildProperty);

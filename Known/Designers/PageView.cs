@@ -28,12 +28,14 @@ class PageView : BaseView<PageInfo>
 
         SetTablePage();
 
-        list = new(Context, true);
-        list.FixedHeight = "380px";
-        list.OnQuery = c =>
+        list = new(Context, true)
         {
-            var result = new PagingResult<PageColumnInfo>(Model?.Columns);
-            return Task.FromResult(result);
+            FixedHeight = "380px",
+            OnQuery = c =>
+            {
+                var result = new PagingResult<PageColumnInfo>(Model?.Columns);
+                return Task.FromResult(result);
+            }
         };
 
         tab.AddTab("Designer.Property", BuildProperty);
@@ -121,9 +123,11 @@ class PageView : BaseView<PageInfo>
 
     private async void SetTablePage()
     {
-        table = new DemoPageModel(Context);
-        table.Module = Form.Model.Data;
-        table.Entity = Entity;
+        table = new DemoPageModel(Context)
+        {
+            Module = Form.Model.Data,
+            Entity = Entity
+        };
         table.SetPage(Model);
         table.Result = await table.OnQuery?.Invoke(table.Criteria);
     }

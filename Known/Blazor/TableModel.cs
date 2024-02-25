@@ -256,6 +256,9 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
 
     private void SetPermission(BasePage<TItem> page)
     {
+        if (page == null || page.Menu == null)
+            return;
+
         var properties = typeof(TItem).GetProperties();
         AllColumns = IsDictionary ? Columns : properties.Select(p => new ColumnInfo(p)).ToList();
         Toolbar.Items = Toolbar.Items?.Where(t => page.Menu.HasTool(t.Id)).ToList();

@@ -20,12 +20,14 @@ class FlowView : BaseView<FlowInfo>
         await base.OnInitializedAsync();
         Tab.AddTab("Designer.FlowStep", BuildView);
 
-        table = new(Context, true);
-        table.FixedHeight = "380px";
-        table.OnQuery = c =>
+        table = new(Context, true)
         {
-            var result = new PagingResult<FlowStepInfo>(Model?.Steps);
-            return Task.FromResult(result);
+            FixedHeight = "380px",
+            OnQuery = c =>
+            {
+                var result = new PagingResult<FlowStepInfo>(Model?.Steps);
+                return Task.FromResult(result);
+            }
         };
         table.Column(c => c.Pass).Template((b, r) => BuildStatus(b, r.Pass));
         table.Column(c => c.Fail).Template((b, r) => BuildStatus(b, r.Fail));
