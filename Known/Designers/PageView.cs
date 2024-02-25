@@ -23,8 +23,8 @@ class PageView : BaseView<PageInfo>
         }).ToList();
         base.OnInitialized();
 
-        Tab.Items.Add(new ItemModel("Designer.View") { Content = BuildView });
-        Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildList });
+        Tab.AddTab("Designer.View", BuildView);
+        Tab.AddTab("Designer.Fields", BuildList);
 
         SetTablePage();
 
@@ -36,9 +36,9 @@ class PageView : BaseView<PageInfo>
             return Task.FromResult(result);
         };
 
-        tab.Items.Add(new ItemModel("Designer.Property") { Content = BuildProperty });
-        tab.Items.Add(new ItemModel("Designer.Toolbar") { Content = BuildToolbar });
-        tab.Items.Add(new ItemModel("Designer.Action") { Content = BuildAction });
+        tab.AddTab("Designer.Property", BuildProperty);
+        tab.AddTab("Designer.Toolbar", BuildToolbar);
+        tab.AddTab("Designer.Action", BuildAction);
     }
 
     internal override async void SetModel(PageInfo model)

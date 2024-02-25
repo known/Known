@@ -154,9 +154,9 @@ class IconPicker : BasePicker<IconInfo>
     {
         foreach (var item in UIConfig.Icons)
         {
-            tab.Items.Add(new ItemModel(item.Key) { Content = b => BuildContent(b, item.Key) });
+            tab.AddTab(item.Key, b => BuildContent(b, item.Key));
         }
-        tab.Items.Add(new ItemModel(KeyCustom) { Content = b => BuildContent(b, KeyCustom) });
+        tab.AddTab(KeyCustom, b => BuildContent(b, KeyCustom));
         icons = UIConfig.Icons.ToDictionary(k => k.Key, v => v.Value.Select(x => new IconInfo { Icon = x }).ToList());
     }
 

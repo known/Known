@@ -28,9 +28,9 @@ class EntityView : BaseView<EntityInfo>
         dbType = new Database().DatabaseType;
         SetViewData(Model);
 
-        Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildView });
-        Tab.Items.Add(new ItemModel("Designer.EntityCode") { Content = BuildEntity });
-        Tab.Items.Add(new ItemModel("Designer.TableScript") { Content = BuildScript });
+        Tab.AddTab("Designer.Fields", BuildView);
+        Tab.AddTab("Designer.EntityCode", BuildEntity);
+        Tab.AddTab("Designer.TableScript", BuildScript);
 
         table.FixedHeight = "380px";
         table.OnQuery = c=>

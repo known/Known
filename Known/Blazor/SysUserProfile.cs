@@ -70,10 +70,10 @@ class SysUserProfileTabs : BaseTabPage
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        //Tab.Items.Add(new ItemModel("TodoList") { Content = builder => builder.Component<SysSystemInfo>().Build() });
-        //Tab.Items.Add(new ItemModel("MyMessage") { Content = builder => builder.Component<SysSystemSafe>().Build() });
-        Tab.Items.Add(new ItemModel("MyProfile") { Content = builder => builder.Component<SysUserProfileTabsInfo>().Build(value => info = value) });
-        Tab.Items.Add(new ItemModel("SecuritySetting") { Content = builder => builder.Component<SysUserProfileTabsSafe>().Build(value => safe = value) });
+        //Tab.AddTab("TodoList", b => b.Component<SysSystemInfo>().Build());
+        //Tab.AddTab("MyMessage", b => b.Component<SysSystemSafe>().Build());
+        Tab.AddTab("MyProfile", b => b.Component<SysUserProfileTabsInfo>().Build(value => info = value));
+        Tab.AddTab("SecuritySetting", b => b.Component<SysUserProfileTabsSafe>().Build(value => safe = value));
     }
 
     public override void StateChanged()

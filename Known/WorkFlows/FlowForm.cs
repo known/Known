@@ -30,10 +30,7 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
         tab.Items.Clear();
         if (Tabs.Count > 0)
             tab.Items.AddRange(Tabs);
-        tab.Items.Add(new ItemModel("FlowLog")
-        {
-            Content = b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build()
-        });
+        tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build());
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)

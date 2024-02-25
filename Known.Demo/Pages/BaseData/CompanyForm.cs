@@ -13,7 +13,7 @@ class CompanyForm : BaseTabPage
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Tab.Items.Add(new ItemModel("BasicInfo") { Content = builder => builder.Component<CompanyBaseInfo>().Build(value => info = value) });
+        Tab.AddTab("BasicInfo", b => b.Component<CompanyBaseInfo>().Build(value => info = value));
     }
 
     public override void StateChanged()

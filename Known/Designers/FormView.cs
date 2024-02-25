@@ -21,8 +21,8 @@ class FormView : BaseView<FormInfo>
         form = new FormModel<Dictionary<string, object>>(Context, false) { Data = [] };
         SetForm();
 
-        Tab.Items.Add(new ItemModel("Designer.View") { Content = BuildView });
-        Tab.Items.Add(new ItemModel("Designer.Fields") { Content = BuildList });
+        Tab.AddTab("Designer.View", BuildView);
+        Tab.AddTab("Designer.Fields", BuildList);
 
         list = new(Context, true);
         list.FixedHeight = "380px";
@@ -32,7 +32,7 @@ class FormView : BaseView<FormInfo>
             return Task.FromResult(result);
         };
 
-        tab.Items.Add(new ItemModel("Designer.Property") { Content = BuildProperty });
+        tab.AddTab("Designer.Property", BuildProperty);
     }
 
     internal override async void SetModel(FormInfo model)

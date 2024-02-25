@@ -13,6 +13,11 @@ public class ItemModel(string title)
 public class TabModel
 {
     public List<ItemModel> Items { get; } = [];
+
+    public void AddTab(string title, RenderFragment content)
+    {
+        Items.Add(new ItemModel(title) { Content = content });
+    }
 }
 
 public class StepModel
