@@ -15,14 +15,14 @@ class EntityDesigner : BaseDesigner<string>
 
     private bool IsNew => addType == addTypes[0].Code;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
         addTypes =
         [
             new CodeInfo("New", Language["Designer.New"]),
             new CodeInfo("Select", Language["Designer.SelectEntity"])
         ];
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
         entityModels = DataHelper.Models.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
         dataTypes = string.Join(",", Cache.GetCodes(nameof(FieldType)).Select(c => c.Name));
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
@@ -31,7 +31,7 @@ class EntityDesigner : BaseDesigner<string>
         Form.Entity = entity;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-designer entity", () =>
         {

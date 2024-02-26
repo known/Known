@@ -12,13 +12,13 @@ public class AntLanguage : BaseComponent
 
     [Parameter] public Action OnChanged { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
         current = Language.GetLanguage(Context.CurrentLanguage);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Component<AntDropdown>()
                .Set(c => c.Context, Context)

@@ -12,7 +12,7 @@ public class ListBox : BaseComponent
     [Parameter] public Func<CodeInfo, Task> OnItemClick { get; set; }
     [Parameter] public RenderFragment<CodeInfo> ItemTemplate { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Ul().Class("kui-list-box").Children(() =>
         {

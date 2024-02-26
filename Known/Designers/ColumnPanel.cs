@@ -23,7 +23,7 @@ class ColumnPanel<TModel> : BaseComponent
         fields = Designer.Entity.GetFields(Language);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("caption", () => builder.Div("title", Language["Designer.Fields"]));
 

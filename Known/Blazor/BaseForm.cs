@@ -9,31 +9,12 @@ public class BaseForm : BaseComponent
 {
     protected override async Task OnInitAsync()
     {
-        try
-        {
-            await base.OnInitAsync();
-            await OnInitFormAsync();
-        }
-        catch (Exception ex)
-        {
-            await Error?.HandleAsync(ex);
-        }
+        await base.OnInitAsync();
+        await OnInitFormAsync();
     }
 
     protected virtual Task OnInitFormAsync() => Task.CompletedTask;
-
-    protected override async void BuildRender(RenderTreeBuilder builder)
-    {
-        try
-        {
-            BuildForm(builder);
-        }
-        catch (Exception ex)
-        {
-            await Error?.HandleAsync(ex);
-        }
-    }
-
+    protected override void BuildRender(RenderTreeBuilder builder) => BuildForm(builder);
     protected virtual void BuildForm(RenderTreeBuilder builder) { }
 }
 

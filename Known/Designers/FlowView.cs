@@ -15,9 +15,9 @@ class FlowView : BaseView<FlowInfo>
         await table.RefreshAsync();
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
         Tab.AddTab("Designer.FlowStep", BuildView);
 
         table = new(Context, true)

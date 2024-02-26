@@ -12,22 +12,15 @@ public class IndexPage : BaseComponent
     public string Theme { get; private set; }
     public virtual string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        try
-        {
-            IsLoaded = false;
-            Theme = await JS.GetCurrentThemeAsync();
-            Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
-            Context.Install = await Platform.System.GetInstallAsync();
-            Context.CurrentUser = await GetCurrentUserAsync();
-            IsLogin = Context.CurrentUser != null;
-            IsLoaded = true;
-        }
-        catch (Exception ex)
-        {
-            await Error.HandleAsync(ex);
-        }
+        IsLoaded = false;
+        Theme = await JS.GetCurrentThemeAsync();
+        Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
+        Context.Install = await Platform.System.GetInstallAsync();
+        Context.CurrentUser = await GetCurrentUserAsync();
+        IsLogin = Context.CurrentUser != null;
+        IsLoaded = true;
     }
 
     public void SetTheme(string theme)

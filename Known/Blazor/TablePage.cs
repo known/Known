@@ -8,7 +8,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
 {
     [Parameter] public TableModel<TItem> Model { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Model == null)
             return;

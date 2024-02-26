@@ -46,9 +46,9 @@ public class Captcha : BaseComponent
         return true;
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
         title = Language["Captcha.Refresh"];
         smsText = SmsText;
         if (IsSMS)
@@ -59,7 +59,7 @@ public class Captcha : BaseComponent
         }
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (IsSMS)
             BuildSMS(builder);

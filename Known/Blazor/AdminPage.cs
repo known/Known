@@ -25,24 +25,17 @@ public class AdminPage : BaseComponent
 
     protected virtual void RefreshPage() => StateChanged();
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        try
-        {
-            IsLoaded = false;
-            await base.OnInitializedAsync();
-            Context.OnNavigate = OnNavigate;
-            Context.OnRefreshPage = RefreshPage;
-            CurrentMenu = Config.GetHomeMenu();
-            Info = await Platform.Auth.GetAdminAsync();
-            UserMenus = GetUserMenus(Info?.UserMenus);
-            Context.UserSetting = Info?.UserSetting ?? new();
-            IsLoaded = true;
-        }
-        catch (Exception ex)
-        {
-            await Error.HandleAsync(ex);
-        }
+        IsLoaded = false;
+        await base.OnInitAsync();
+        Context.OnNavigate = OnNavigate;
+        Context.OnRefreshPage = RefreshPage;
+        CurrentMenu = Config.GetHomeMenu();
+        Info = await Platform.Auth.GetAdminAsync();
+        UserMenus = GetUserMenus(Info?.UserMenus);
+        Context.UserSetting = Info?.UserSetting ?? new();
+        IsLoaded = true;
     }
 
     protected async Task SignOutAsync()

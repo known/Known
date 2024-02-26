@@ -22,7 +22,7 @@ public class Picker<TComponent, TItem> : BaseComponent
     [Parameter] public string Title { get; set; }
     [Parameter] public Action<List<TItem>> OnPicked { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         UI.BuildText(builder, new InputModel<string> { Value = Value, Disabled = true });
 

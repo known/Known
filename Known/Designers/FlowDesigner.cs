@@ -16,14 +16,14 @@ class FlowDesigner : BaseDesigner<string>
     private bool IsNew => addType == addTypes[0].Code;
     private bool IsReadOnly => ReadOnly || !Entity.IsFlow;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
         addTypes =
         [
             new CodeInfo("New", Language["Designer.New"]),
             new CodeInfo("Select", Language["Designer.SelectFlow"])
         ];
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
         flowModels = DataHelper.Flows.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
@@ -31,7 +31,7 @@ class FlowDesigner : BaseDesigner<string>
         Form.Flow = flow;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-designer entity", () =>
         {

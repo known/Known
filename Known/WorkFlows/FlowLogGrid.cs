@@ -11,9 +11,9 @@ public class FlowLogGrid : BaseComponent
     [Parameter] public string BizId { get; set; }
     [Parameter] public List<SysFlowLog> Logs { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
         model = new TableModel<SysFlowLog>(Context) { OnQuery = OnQueryLogs };
         model.AddColumn(c => c.StepName).Template(BuildStepName);
         model.AddColumn(c => c.ExecuteBy);
@@ -22,7 +22,7 @@ public class FlowLogGrid : BaseComponent
         model.AddColumn(c => c.Note);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTable(builder, model);
+    protected override void BuildRender(RenderTreeBuilder builder) => UI.BuildTable(builder, model);
 
     private void BuildStepName(RenderTreeBuilder builder, SysFlowLog row) => UI.BuildTag(builder, row.StepName);
     private void BuildResult(RenderTreeBuilder builder, SysFlowLog row) => UI.BuildTag(builder, row.Result);

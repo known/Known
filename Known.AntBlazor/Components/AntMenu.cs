@@ -13,7 +13,7 @@ public class AntMenu : BaseComponent
     [Parameter] public List<MenuItem> Items { get; set; }
     [Parameter] public Action<MenuItem> OnClick { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Component<Menu>()
                .Set(c => c.Mode, MenuMode.Inline)

@@ -12,7 +12,7 @@ public class Barcode : BaseComponent
     [Parameter] public string Value { get; set; }
     [Parameter] public object Option { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Canvas().Id(Id).Class(Style).Close();
     }

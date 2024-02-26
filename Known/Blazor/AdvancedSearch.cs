@@ -19,9 +19,9 @@ class AdvancedSearch : BaseComponent
         return Query;
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
 
         entity = DataHelper.GetEntity(Context.Module.EntityData);
         Query.Clear();
@@ -30,7 +30,7 @@ class AdvancedSearch : BaseComponent
             Query.AddRange(items);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-advanced-search", () =>
         {
@@ -68,7 +68,7 @@ class AdvancedSearchItem : BaseComponent
         fields = Entity.GetFields(Language);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div(() => BuildQueryField(builder, Item));
         builder.Div(() => BuildQueryType(builder, Item));

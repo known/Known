@@ -9,7 +9,7 @@ public class QRCode : BaseComponent
     [Parameter] public string Style { get; set; }
     [Parameter] public object Option { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div().Id(Id).Class(Style).Close();
     }

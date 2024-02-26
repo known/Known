@@ -40,11 +40,11 @@
     [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
     [Inject] private Known.BootBlazor.UIService BootUI { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
         UIType = await JS.GetLocalStorageAsync<UIType>(KeyUIType);
         SetUIService();
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
     }
 
     public UIType UIType { get; private set; }

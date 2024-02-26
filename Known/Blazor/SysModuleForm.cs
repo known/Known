@@ -160,7 +160,7 @@ class IconPicker : BasePicker<IconInfo>
         icons = UIConfig.Icons.ToDictionary(k => k.Key, v => v.Value.Select(x => new IconInfo { Icon = x }).ToList());
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => UI.BuildTabs(builder, tab);
+    protected override void BuildRender(RenderTreeBuilder builder) => UI.BuildTabs(builder, tab);
 
     private void BuildContent(RenderTreeBuilder builder, string key)
     {
@@ -242,16 +242,16 @@ class IconPicker : BasePicker<IconInfo>
 
 class SysIconPicker : Picker<IconPicker, IconInfo>
 {
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
         Title = Language["Title.SelectIcon"];
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (!string.IsNullOrWhiteSpace(Value))
             builder.Div("kui-module-icon", () => UI.Icon(builder, Value));
-        base.BuildRenderTree(builder);
+        base.BuildRender(builder);
     }
 }

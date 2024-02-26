@@ -11,7 +11,7 @@ public class EditInput : BaseComponent
     [Parameter] public string Value { get; set; }
     [Parameter] public Action<string> OnSave { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-edit-input", () =>
         {

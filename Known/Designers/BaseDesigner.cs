@@ -19,17 +19,7 @@ class BaseViewDesigner<TModel> : BaseDesigner<TModel>
     internal BaseView<TModel> view;
     internal List<FieldInfo> Fields { get; set; } = [];
 
-    protected override async void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        try
-        {
-            builder.Cascading(this, BuildTree);
-        }
-        catch (Exception ex)
-        {
-            await Error?.HandleAsync(ex);
-        }
-    }
+    protected override void BuildRender(RenderTreeBuilder builder) => builder.Cascading(this, BuildTree);
 
     private void BuildTree(RenderTreeBuilder builder)
     {

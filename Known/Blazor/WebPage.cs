@@ -14,7 +14,7 @@ class WebPage : BaseComponent
         Model.StateChanged = StateChanged;
     }
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder)
+	protected override void BuildRender(RenderTreeBuilder builder)
 	{
 		if (Model.Contents == null || Model.Contents.Count == 0)
 			return;

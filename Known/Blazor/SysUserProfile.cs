@@ -37,7 +37,7 @@ class SysUserProfileInfo : BaseComponent
 {
     [CascadingParameter] private SysUserProfile Parent { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         var User = Parent.User;
         builder.Div("kui-user-avatar", () => builder.Markup($"<img src=\"{CurrentUser?.AvatarUrl}\" />"));

@@ -12,13 +12,13 @@ public class StepForm : BaseComponent
     [Parameter] public int? StepCount { get; set; }
     [Parameter] public Func<bool, Task<bool>> OnSave { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
         StepCount ??= Model.Items.Count;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         UI.BuildSteps(builder, Model);
         builder.Div("kui-steps-content", () =>

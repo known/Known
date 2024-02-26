@@ -14,7 +14,7 @@ public class InputField<TItem> : BaseComponent where TItem : class, new()
         Model.OnStateChanged = StateChanged;
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Model.Column.Template != null)
         {

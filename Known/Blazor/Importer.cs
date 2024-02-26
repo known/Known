@@ -19,15 +19,15 @@ class Importer : BaseComponent
     [Parameter] public ImportFormInfo Model { get; set; }
     [Parameter] public Action OnSuccess { get; set; }
 
-    protected override Task OnInitializedAsync()
+    protected override Task OnInitAsync()
     {
         isFinished = Model.IsFinished;
         error = Model.Error;
         message = Model.Message;
-        return base.OnInitializedAsync();
+        return base.OnInitAsync();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-import", () =>
         {

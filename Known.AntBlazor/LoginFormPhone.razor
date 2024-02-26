@@ -33,9 +33,9 @@
     [Parameter] public Func<string, Task<Known.Result>> OnSendSMS { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
         option.SMSAction = () =>
         {
             if (string.IsNullOrWhiteSpace(Model.PhoneNo))

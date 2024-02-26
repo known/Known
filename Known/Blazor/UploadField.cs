@@ -13,13 +13,13 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
 
     [Parameter] public FieldModel<TItem> Model { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
         sysFiles = await Platform.File.GetFilesAsync($"{Model.Value}");
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (!Model.Form.IsView)
         {

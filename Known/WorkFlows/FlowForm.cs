@@ -66,7 +66,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         InitFlowModel();
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-form-content", () => Content?.Invoke(builder));
 
@@ -200,9 +200,9 @@ class UserPicker : BasePicker<SysUser>
 
     public override List<SysUser> SelectedItems => model?.SelectedRows?.ToList();
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
         model = new TableModel<SysUser>(Context)
         {
             SelectType = "radio",
@@ -216,5 +216,5 @@ class UserPicker : BasePicker<SysUser>
         model.AddColumn(c => c.Role);
     }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.BuildTablePage(model);
+    protected override void BuildRender(RenderTreeBuilder builder) => builder.BuildTablePage(model);
 }

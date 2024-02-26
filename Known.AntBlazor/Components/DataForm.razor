@@ -30,15 +30,8 @@
 
     protected override async Task OnInitFormAsync()
     {
-        try
-        {
-            await base.OnInitFormAsync();
-            Model.Initialize();
-        }
-        catch (Exception ex)
-        {
-            await Error.HandleAsync(ex);
-        }
+        await base.OnInitFormAsync();
+        Model.Initialize();
     }
 
     protected override void OnAfterRender(bool firstRender)

@@ -9,7 +9,7 @@ public class LoginPage : BaseComponent
 
     [Parameter] public Func<UserInfo, Task> OnLogin { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
         var info = await JS.GetLoginInfoAsync<LoginInfo>();
         if (info != null)

@@ -51,9 +51,9 @@
 
     [CascadingParameter] private Index Index { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitializedAsync();
+        await base.OnInitAsync();
         Model.UserName = "Admin";
         Model.Password = "888888";
     }

@@ -11,7 +11,7 @@ public class AntTheme : BaseComponent
     [Parameter] public string Theme { get; set; }
     [Parameter] public Action<string> OnChanged { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Component<Switch>()
                .Set(c => c.CheckedChildren, "🌜")

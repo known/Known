@@ -11,7 +11,7 @@ public class BootGenerateColumns<TItem> : BaseComponent where TItem : class, new
     [Parameter] public TableModel<TItem> Table { get; set; }
     [Parameter] public TItem Item { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Table == null || Table.Columns == null)
             return;

@@ -259,20 +259,15 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         if (page == null || page.Menu == null)
             return;
 
-        var properties = typeof(TItem).GetProperties();
-        AllColumns = IsDictionary ? Columns : properties.Select(p => new ColumnInfo(p)).ToList();
         Toolbar.Items = Toolbar.Items?.Where(t => page.Menu.HasTool(t.Id)).ToList();
         Actions = Actions?.Where(a => page.Menu.HasAction(a.Id)).ToList();
 
         var columns = Columns?.Where(c => page.Menu.HasColumn(c.Id)).ToList();
         Columns.Clear();
         Columns.AddRange(columns);
-        if (Columns == null || Columns.Count == 0)
+        if (Columns != null && Columns.Count > 0)
         {
-            Columns.AddRange(AllColumns);
-        }
-        else
-        {
+            var properties = typeof(TItem).GetProperties();
             foreach (var item in Columns)
             {
                 var info = properties.FirstOrDefault(p => p.Name == item.Id);

@@ -22,16 +22,9 @@ public class BasePage : BaseComponent
 
     protected override async Task OnInitAsync()
     {
-        try
-        {
-            await base.OnInitAsync();
-            await OnInitPageAsync();
-            await AddVisitLogAsync();
-        }
-        catch (Exception ex)
-        {
-            await Error?.HandleAsync(ex);
-        }
+        await base.OnInitAsync();
+        await OnInitPageAsync();
+        await AddVisitLogAsync();
     }
 
     protected virtual async Task OnInitPageAsync()
@@ -47,17 +40,7 @@ public class BasePage : BaseComponent
             Context.Module = await Platform.Module.GetModuleAsync(PageId);
     }
 
-    protected override async void BuildRender(RenderTreeBuilder builder)
-    {
-        try
-        {
-            BuildPage(builder);
-        }
-        catch (Exception ex)
-        {
-            await Error?.HandleAsync(ex);
-        }
-    }
+    protected override void BuildRender(RenderTreeBuilder builder) => BuildPage(builder);
 
     protected virtual void BuildPage(RenderTreeBuilder builder)
     {
