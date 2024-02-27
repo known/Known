@@ -19,7 +19,7 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
     {
         await base.OnInitFormAsync();
 
-        var logs = await Platform.Flow.GetFlowLogsAsync(Model.Data.Id);
+        var logs = await Platform.GetFlowLogsAsync(Model.Data.Id);
         step.Items.Clear();
         var flow = DataHelper.GetFlow(Context.Module?.FlowData);
         var steps = flow.GetFlowStepItems();

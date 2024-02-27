@@ -1,0 +1,13 @@
+﻿@inherits BaseComponent
+@typeparam TItem where TItem : class, new()
+
+<FormItem LabelColSpan="LabelSpan" Label="@Label" Required="Model.Column.Required" Rules="Model.ToRules(Context)">
+    <InputField Model="Model" />
+</FormItem>
+
+@code {
+    private string Label => Language?.GetString<TItem>(Model.Column);
+
+    [Parameter] public int LabelSpan { get; set; }
+    [Parameter] public FieldModel<TItem> Model { get; set; }
+}

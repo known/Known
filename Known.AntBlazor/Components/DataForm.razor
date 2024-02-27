@@ -11,11 +11,8 @@
             <GridRow>
                 @foreach (var field in row.Fields)
                 {
-                    var label = Language?.GetString<TItem>(field.Column);
                     <GridCol Span="colSpan">
-                        <FormItem LabelColSpan="lblSpan" Label="@label" Required="field.Column.Required" Rules="field.ToRules(Context)">
-                            <InputField Model="field" />
-                        </FormItem>
+                        <DataItem Model="field" LabelSpan="lblSpan" />
                     </GridCol>
                 }
             </GridRow>
