@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
-using Known.Blazor;
 using Known.Entities;
 using Known.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -297,14 +296,4 @@ public class MenuItem : MenuInfo
     public MenuItem Parent { get; set; }
     public List<MenuItem> Children { get; set; }
     public object Data { get; set; }
-
-    private PageAttribute page;
-    public PageAttribute Page
-    {
-        get
-        {
-            page ??= ComType?.GetCustomAttribute<PageAttribute>();
-            return page;
-        }
-    }
 }

@@ -16,31 +16,31 @@ class WebPage : BaseComponent
 
 	protected override void BuildRender(RenderTreeBuilder builder)
 	{
-		if (Model.Contents == null || Model.Contents.Count == 0)
+		if (Model.Items == null || Model.Items.Count == 0)
 			return;
 
 		if (Model.Type == PageType.None)
 		{
-			foreach (var item in Model.Contents)
+			foreach (var item in Model.Items)
 			{
-				builder.Fragment(item);
+				builder.Fragment(item.Content);
 			}
 		}
 		else if (Model.Type == PageType.Column)
 		{
             builder.Div($"kui-row-{Model.Spans}", () =>
             {
-				foreach(var item in Model.Contents)
+				foreach(var item in Model.Items)
 				{
-                    builder.Div(() => builder.Fragment(item));
+                    builder.Div(item.ClassName, () => builder.Fragment(item.Content));
                 }
             });
         }
 		else if (Model.Type == PageType.Row)
 		{
-			foreach (var item in Model.Contents)
+			foreach (var item in Model.Items)
 			{
-				builder.Div(() => builder.Fragment(item));
+				builder.Div(item.ClassName, () => builder.Fragment(item.Content));
 			}
 		}
 	}

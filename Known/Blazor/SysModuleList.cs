@@ -18,7 +18,8 @@ class SysModuleList : BasePage<SysModule>
 
 		Page.Type = PageType.Column;
 		Page.Spans = "28";
-		Page.Contents = [BuildTree, BuildTable];
+        Page.AddItem("kui-card", BuildTree);
+        Page.AddItem(BuildTable);
 
 		tree = new TreeModel
 		{

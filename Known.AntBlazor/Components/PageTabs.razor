@@ -9,16 +9,7 @@
                 <span><Icon Type="@item.Icon" />@itemName</span>
             </TabTemplate>
             <ChildContent>
-                @if (item.Page != null && item.Page.NoBackground)
-                {
-                    <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
-                }
-                else
-                {
-                    <div class="kui-background">
-                        <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
-                    </div>
-                }
+                <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
             </ChildContent>
         </TabPane>
     }

@@ -31,8 +31,8 @@ class SysUserList : BasePage<SysUser>
 				SelectedKeys = [currentOrg.Id]
 			};
 
-			Page.Contents.Add(BuildTree);
-		}
+            Page.AddItem("kui-card", BuildTree);
+        }
 
 		table = new TableModel<SysUser>(this)
 		{
@@ -42,7 +42,7 @@ class SysUserList : BasePage<SysUser>
 		};
         table.Toolbar.OnItemClick = OnToolClick;
 		table.Column(c => c.Gender).Template(BuildGender);
-		Page.Contents.Add(BuildTable);
+        Page.AddItem(BuildTable);
     }
 
     public override Task RefreshAsync() => table.RefreshAsync();

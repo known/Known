@@ -1,0 +1,35 @@
+﻿@inherits BaseComponent
+
+<FormItem Label="@Label">
+    @if (!string.IsNullOrWhiteSpace(Item.Category))
+    {
+        var codes = Cache.GetCodes(Item.Category).ToCodes(Item.IsQueryAll ? Language["All"] : "");
+        <AntSelect Style="@SelectStyle" DataSource="codes" @bind-Value="@Data[Item.Id].Value" OnSelectedItemChanged="e=>OnSearch()" />
+    }
+    else if (itemType.Contains("DateTime"))
+    {
+        <AntRangePicker @bind-RangeValue="@Data[Item.Id].Value" />
+    }
+    else
+    {
+        <Input @bind-Value="@Data[Item.Id].Value" />
+    }
+</FormItem>
+
+@code {
+    private string itemType = "String";
+    private string SelectStyle => IsInline ? "width:194px;" : "";
+
+    [Parameter] public string Label { get; set; }
+    [Parameter] public bool IsInline { get; set; }
+    [Parameter] public ColumnInfo Item { get; set; }
+    [Parameter] public Dictionary<string, QueryInfo> Data{ get; set; }
+    [Parameter] public Func<Task> OnSearch { get; set; }
+
+    protected override Task OnInitAsync()
+    {
+        if (Item.Property != null)
+            itemType = Item.Property.PropertyType.ToString();
+        return base.OnInitAsync();
+    }
+}

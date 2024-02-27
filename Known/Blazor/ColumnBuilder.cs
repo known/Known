@@ -55,6 +55,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    public ColumnBuilder<TItem> Category(string category)
+    {
+        if (column != null)
+            column.Category = category;
+        return this;
+    }
+
     public ColumnBuilder<TItem> DefaultAscend() => DefaultSort("asc");
     public ColumnBuilder<TItem> DefaultDescend() => DefaultSort("desc");
 

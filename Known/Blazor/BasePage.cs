@@ -198,5 +198,8 @@ public class BaseTabPage : BasePage
 {
     protected TabModel Tab { get; } = new();
 
-    protected override void BuildPage(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
+    protected override void BuildPage(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-card", () => UI.BuildTabs(builder, Tab));
+    }
 }

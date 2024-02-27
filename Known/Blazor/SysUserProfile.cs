@@ -22,7 +22,8 @@ class SysUserProfile : BasePage<SysUser>
 
         Page.Type = PageType.Column;
         Page.Spans = "28";
-        Page.Contents = [BuildUserInfo, BuildUserTabs];
+        Page.AddItem("kui-card", BuildUserInfo);
+        Page.AddItem("kui-card", BuildUserTabs);
     }
 
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);

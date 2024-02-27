@@ -5,16 +5,7 @@
     {
         var itemName = Context.Language.GetString(item);
         <TabItem Text="@itemName" Closable="@item.Closable">
-            @if (item.Page != null && item.Page.NoBackground)
-            {
-                <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
-            }
-            else
-            {
-                <div class="kui-background boot-content">
-                    <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
-                </div>
-            }
+            <DynamicComponent @ref="dcs[item.Id]" Type="item.ComType" Parameters="item.ComParameters" />
         </TabItem>
     }
 </Tab>

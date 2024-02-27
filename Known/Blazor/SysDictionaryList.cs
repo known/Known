@@ -27,7 +27,7 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
     {
         builder.Div("kui-row-28", () =>
         {
-            builder.Div(() => BuildListBox(builder));
+            builder.Div("kui-card", () => BuildListBox(builder));
             builder.Div(() => base.BuildPage(builder));
         });
     }

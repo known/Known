@@ -1,4 +1,5 @@
-﻿using Known.Demo.Entities;
+﻿using Known.Blazor;
+using Known.Demo.Entities;
 using Known.Demo.Services;
 using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 namespace Known.Demo.Pages.BizApply;
 
 //业务申请列表
-partial class BaApplyList
+class BaApplyList : BaseTablePage<TbApply>
 {
     private ApplyService Service => new() { Context = Context };
 

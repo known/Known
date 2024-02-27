@@ -13,14 +13,20 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
         if (Model == null)
             return;
 
-        if (Model.QueryColumns.Count > 0 || Model.Toolbar.HasItem)
+        if (Model.QueryColumns.Count > 0)
+            builder.Div("kui-table-query", () => UI.BuildQuery(builder, Model));
+
+        builder.Div("kui-table", () =>
         {
-            builder.Div("kui-top", () =>
+            if (Model.Toolbar.HasItem)
             {
-                UI.BuildQuery(builder, Model);
-                UI.BuildToolbar(builder, Model.Toolbar);
-            });
-        }
-        builder.Div("kui-table", () => UI.BuildTable(builder, Model));
+                builder.Div("kui-table-toolbar", () =>
+                {
+                    builder.Div("kui-table-left", () => builder.Div("kui-table-title", Model.Module?.Name));
+                    builder.Div("kui-table-right", () => UI.BuildToolbar(builder, Model.Toolbar));
+                });
+            }
+            UI.BuildTable(builder, Model);
+        });
     }
 }

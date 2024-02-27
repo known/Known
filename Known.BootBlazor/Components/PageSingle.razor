@@ -1,16 +1,7 @@
 ﻿@inherits BaseComponent
 
 <div style="margin:10px;">
-    @if (Menu.Page != null && Menu.Page.NoBackground)
-    {
-        <DynamicComponent @ref="dc" Type="Menu.ComType" Parameters="Menu.ComParameters" />
-    }
-    else
-    {
-        <div class="kui-background boot-content">
-            <DynamicComponent @ref="dc" Type="Menu.ComType" Parameters="Menu.ComParameters" />
-        </div>
-    }
+    <DynamicComponent @ref="dc" Type="Menu.ComType" Parameters="Menu.ComParameters" />
 </div>
 
 @code {
