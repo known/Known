@@ -293,16 +293,7 @@ public class UIService(ModalService modalService, MessageService messageService)
                .Build();
     }
 
-    public void BuildButton(RenderTreeBuilder builder, ActionInfo info)
-    {
-        builder.Component<Button>()
-               .Set(c => c.Disabled, !info.Enabled)
-               .Set(c => c.Icon, info.Icon)
-               .Set(c => c.Type, info.Style)
-               .Set(c => c.OnClick, info.OnClick)
-               .Set(c => c.ChildContent, b => b.Text(info.Name))
-               .Build();
-    }
+    public void BuildButton(RenderTreeBuilder builder, ActionInfo info) => builder.Button(info);
 
     public void BuildSearch(RenderTreeBuilder builder, InputModel<string> model)
     {
