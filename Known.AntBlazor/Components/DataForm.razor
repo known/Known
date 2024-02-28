@@ -1,49 +1,18 @@
 ﻿@inherits BaseForm<TItem>
 @typeparam TItem where TItem : class, new()
 
-<Form @ref="_form" Model="Model.Data" LabelColSpan="@LabelSpan" WrapperColSpan="@WrapperSpan" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
+<AntForm Form="Model">
     @if (Model.Rows != null && Model.Rows.Count > 0)
     {
         foreach (var row in Model.Rows)
         {
             var colSpan = 24 / row.Fields.Count;
-            var lblSpan = Model.LabelSpan ?? GetLabelSpan(colSpan);
             <GridRow>
                 @foreach (var field in row.Fields)
                 {
-                    <GridCol Span="colSpan">
-                        <DataItem Model="field" LabelSpan="lblSpan" />
-                    </GridCol>
+                    <DataItem Model="field" ColSpan="colSpan" />
                 }
             </GridRow>
         }
     }
-</Form>
-
-@code {
-    private AntDesign.Internal.IForm _form;
-    private int LabelSpan => Model.LabelSpan ?? 0;
-    private int WrapperSpan => Model.WrapperSpan ?? 0;
-
-    protected override async Task OnInitFormAsync()
-    {
-        await base.OnInitFormAsync();
-        Model.Initialize();
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-            Model.OnValidate = _form.Validate;
-        base.OnAfterRender(firstRender);
-    }
-
-    private int GetLabelSpan(int colSpan)
-    {
-        if (colSpan == 24)
-            return 4;
-        else if (colSpan == 12)
-            return 8;
-        return 0;
-    }
-}
+</AntForm>
