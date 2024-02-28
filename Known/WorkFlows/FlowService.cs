@@ -2,7 +2,7 @@
 
 namespace Known.WorkFlows;
 
-class FlowService : ServiceBase
+class FlowService(Context context) : ServiceBase(context)
 {
     private string FlowNotCreated => Language["Tip.FlowNotCreate"];
     private string UserNotExists(string user) => Language["Tip.UserNotExists"].Replace("{user}", user);

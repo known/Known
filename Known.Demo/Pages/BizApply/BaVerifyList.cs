@@ -9,7 +9,7 @@ namespace Known.Demo.Pages.BizApply;
 //业务审核列表
 class BaVerifyList : BaseTablePage<TbApply>
 {
-    private ApplyService Service => new() { Context = Context };
+    private ApplyService Service => new(Context);
 
     protected override async Task OnInitPageAsync()
     {

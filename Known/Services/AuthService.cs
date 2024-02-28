@@ -6,7 +6,7 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class AuthService : ServiceBase
+class AuthService(Context context) : ServiceBase(context)
 {
     //Account
     public async Task<Result> SignInAsync(LoginFormInfo info)

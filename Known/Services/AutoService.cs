@@ -3,7 +3,7 @@ using Known.Extensions;
 
 namespace Known.Services;
 
-class AutoService : ServiceBase
+class AutoService(Context context) : ServiceBase(context)
 {
     public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(string tableName, PagingCriteria criteria)
     {

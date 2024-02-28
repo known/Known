@@ -4,7 +4,7 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class SystemService : ServiceBase
+class SystemService(Context context) : ServiceBase(context)
 {
     internal const string KeySystem = "SystemInfo";
 

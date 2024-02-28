@@ -4,7 +4,7 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class RoleService : ServiceBase
+class RoleService(Context context) : ServiceBase(context)
 {
     public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria)
     {

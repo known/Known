@@ -4,34 +4,19 @@ using Known.WorkFlows;
 
 namespace Known;
 
-public class PlatformService
+public class PlatformService(Context context)
 {
-    public PlatformService(Context context)
-    {
-        Module = new ModuleService { Context = context };
-        System = new SystemService { Context = context };
-        Setting = new SettingService { Context = context };
-        Company = new CompanyService { Context = context };
-        Dictionary = new DictionaryService { Context = context };
-        File = new FileService { Context = context };
-        Flow = new FlowService { Context = context };
-        Role = new RoleService { Context = context };
-        User = new UserService { Context = context };
-        Auth = new AuthService { Context = context };
-        Auto = new AutoService { Context = context };
-    }
-
-    internal ModuleService Module { get; }
-    internal SystemService System { get; }
-    internal SettingService Setting { get; }
-    internal CompanyService Company { get; }
-    internal DictionaryService Dictionary { get; }
-    internal FileService File { get; }
-    internal FlowService Flow { get; }
-    internal RoleService Role { get; }
-    internal UserService User { get; }
-    internal AuthService Auth { get; }
-    internal AutoService Auto { get; }
+    internal ModuleService Module { get; } = new ModuleService(context);
+    internal SystemService System { get; } = new SystemService(context);
+    internal SettingService Setting { get; } = new SettingService(context);
+    internal CompanyService Company { get; } = new CompanyService(context);
+    internal DictionaryService Dictionary { get; } = new DictionaryService(context);
+    internal FileService File { get; } = new FileService(context);
+    internal FlowService Flow { get; } = new FlowService(context);
+    internal RoleService Role { get; } = new RoleService(context);
+    internal UserService User { get; } = new UserService(context);
+    internal AuthService Auth { get; } = new AuthService(context);
+    internal AutoService Auto { get; } = new AutoService(context);
 
     #region Setting
     public Task<List<SysSetting>> GetSettingsAsync(string bizType) => Setting.GetSettingsAsync(bizType);

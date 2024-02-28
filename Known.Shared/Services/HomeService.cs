@@ -3,7 +3,7 @@ using Known.Shared.Repositories;
 
 namespace Known.Shared.Services;
 
-class HomeService : ServiceBase
+class HomeService(Context context) : ServiceBase(context)
 {
     public async Task<HomeInfo> GetHomeAsync()
     {

@@ -3,7 +3,7 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class ModuleService : ServiceBase
+class ModuleService(Context context) : ServiceBase(context)
 {
     public Task<List<SysModule>> GetModulesAsync() => Database.QueryListAsync<SysModule>();
     public Task<SysModule> GetModuleAsync(string id) => Database.QueryByIdAsync<SysModule>(id);

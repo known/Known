@@ -3,7 +3,7 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class UserService : ServiceBase
+class UserService(Context context) : ServiceBase(context)
 {
     //User
     public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)

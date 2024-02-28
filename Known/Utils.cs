@@ -69,6 +69,24 @@ public sealed class Utils
 
         return flag;
     }
+
+    public static string GetMaxFormNo(string prefix, string maxNo)
+    {
+        var lastNo = maxNo.Replace(prefix, "");
+        var length = lastNo.Length;
+        lastNo = lastNo.TrimStart('0');
+        var no = string.IsNullOrWhiteSpace(lastNo) ? 0 : int.Parse(lastNo);
+        return string.Format("{0}{1:D" + length + "}", prefix, no + 1);
+    }
+
+    public static string GetMaxFormNo(string prefix, string suffix, string maxNo)
+    {
+        var lastNo = maxNo.Replace(prefix, "").Replace(suffix, "");
+        var length = lastNo.Length;
+        lastNo = lastNo.TrimStart('0');
+        var no = string.IsNullOrWhiteSpace(lastNo) ? 0 : int.Parse(lastNo);
+        return string.Format("{0}{1:D" + length + "}{2}", prefix, no + 1, suffix);
+    }
     #endregion
 
     #region Round

@@ -3,7 +3,7 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class CompanyService : ServiceBase
+class CompanyService(Context context) : ServiceBase(context)
 {
     private const string KeyCompany = "CompanyInfo";
 

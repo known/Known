@@ -7,7 +7,7 @@ using Known.WorkFlows;
 namespace Known.Demo.Services;
 
 //业务申请逻辑服务
-class ApplyService : ServiceBase
+class ApplyService(Context context) : ServiceBase(context)
 {
     //Apply
     //列表分页查询
@@ -93,6 +93,6 @@ class ApplyService : ServiceBase
         var maxNo = await ApplyRepository.GetMaxBizNoAsync(db, prefix);
         if (string.IsNullOrWhiteSpace(maxNo))
             maxNo = $"{prefix}00000";
-        return GetMaxFormNo(prefix, maxNo);
+        return Utils.GetMaxFormNo(prefix, maxNo);
     }
 }

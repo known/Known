@@ -5,7 +5,7 @@ using Known.Repositories;
 
 namespace Known.Services;
 
-class FileService : ServiceBase
+class FileService(Context context) : ServiceBase(context)
 {
     //Public
     internal async Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)
