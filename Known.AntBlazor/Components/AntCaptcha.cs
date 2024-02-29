@@ -1,10 +1,4 @@
-﻿using AntDesign;
-using Known.Blazor;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.AntBlazor.Components;
+﻿namespace Known.AntBlazor.Components;
 
 public class AntCaptcha : Input<string>
 {

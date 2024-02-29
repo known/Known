@@ -1,8 +1,4 @@
-﻿using AntDesign;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-
-namespace Known.AntBlazor.Components;
+﻿namespace Known.AntBlazor.Components;
 
 public class AntRangePicker<TValue> : RangePicker<DateTime?[]>
 {

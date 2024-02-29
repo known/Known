@@ -1,18 +1,11 @@
-﻿using AntDesign;
-using Known.AntBlazor.Components;
-using Known.Blazor;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
-
-namespace Known.AntBlazor;
+﻿namespace Known.AntBlazor;
 
 public class UIService(ModalService modalService, MessageService messageService) : IUIService
 {
     private readonly ModalService _modal = modalService;
     private readonly MessageService _message = messageService;
 
+    public static Func<string, string> OnTagColor { get; set; }
     public Language Language { get; set; }
 
     public Type GetInputType(Type dataType, FieldType fieldType)
@@ -453,6 +446,9 @@ public class UIService(ModalService modalService, MessageService messageService)
         else if (text.Contains("完成") || text.Contains("结束")) return "#108ee9";
         else if (text.Contains("退回") || text.Contains("不通过") || text.Contains("失败") || text.Contains("异常")) return "#f50";
         else if (text.Contains("已") || text.Contains("通过") || text.Contains("成功") || text == "正常") return "#87d068";
+
+        if (OnTagColor != null)
+            return OnTagColor?.Invoke(text);
 
         return "default";
     }

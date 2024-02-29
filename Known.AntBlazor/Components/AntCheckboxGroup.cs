@@ -1,7 +1,4 @@
-﻿using AntDesign;
-using Microsoft.AspNetCore.Components;
-
-namespace Known.AntBlazor.Components;
+﻿namespace Known.AntBlazor.Components;
 
 class AntCheckboxGroup : CheckboxGroup
 {

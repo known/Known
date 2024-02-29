@@ -1,11 +1,10 @@
-﻿using AntDesign;
-using Microsoft.AspNetCore.Components;
-
-namespace Known.AntBlazor.Components;
+﻿namespace Known.AntBlazor.Components;
 
 public class AntSelect : Select<string, CodeInfo>
 {
-	[Parameter] public List<CodeInfo> Codes { get; set; }
+    [Parameter] public int ColSpan { get; set; }
+    [Parameter] public string Label { get; set; }
+    [Parameter] public List<CodeInfo> Codes { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -13,4 +12,13 @@ public class AntSelect : Select<string, CodeInfo>
 		LabelName = nameof(CodeInfo.Name);
         base.OnInitialized();
 	}
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if (string.IsNullOrWhiteSpace(Label))
+        {
+            base.BuildRenderTree(builder);
+            return;
+        }
+    }
 }

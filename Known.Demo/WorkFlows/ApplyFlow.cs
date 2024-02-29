@@ -3,12 +3,10 @@ using Known.WorkFlows;
 
 namespace Known.Demo.WorkFlows;
 
-class ApplyFlow : BaseFlow
+class ApplyFlow(Context context) : BaseFlow(context)
 {
     private const string FlowCode = "ApplyFlow";
     private const string FlowName = "申请流程";
-
-    public ApplyFlow(Context context) : base(context) { }
 
     internal static FlowBizInfo GetBizInfo(TbApply entity)
     {
