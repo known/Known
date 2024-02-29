@@ -1,7 +1,10 @@
 ﻿namespace Known.AntBlazor.Components;
 
-class AntCheckboxGroup : CheckboxGroup
+public class AntCheckboxGroup : CheckboxGroup, IAntField
 {
+    [Parameter] public int Span { get; set; }
+    [Parameter] public string Label { get; set; }
+    [Parameter] public bool Required { get; set; }
     [Parameter] public List<CodeInfo> Codes { get; set; }
 
     protected override async Task OnParametersSetAsync()
@@ -11,5 +14,13 @@ class AntCheckboxGroup : CheckboxGroup
         {
             o.Checked = Value != null && Value.Contains(o.Value);
         });
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if (string.IsNullOrWhiteSpace(Label))
+            base.BuildRenderTree(builder);
+        else
+            builder.FormItem(this, b => base.BuildRenderTree(b));
     }
 }

@@ -1,7 +1,10 @@
 ﻿namespace Known.AntBlazor.Components;
 
-public class AntDropdown : Dropdown
+public class AntDropdown : Dropdown, IAntField
 {
+    [Parameter] public int Span { get; set; }
+    [Parameter] public string Label { get; set; }
+    [Parameter] public bool Required { get; set; }
     [Parameter] public Context Context { get; set; }
     [Parameter] public string Icon { get; set; }
     [Parameter] public string Text { get; set; }
@@ -26,6 +29,14 @@ public class AntDropdown : Dropdown
         {
             Overlay = BuildOverlay;
         }
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if (string.IsNullOrWhiteSpace(Label))
+            base.BuildRenderTree(builder);
+        else
+            builder.FormItem(this, b => base.BuildRenderTree(b));
     }
 
     private void BuildIcon(RenderTreeBuilder builder)

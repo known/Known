@@ -1,9 +1,4 @@
-﻿using System.Reflection;
-using AntDesign;
-using Known.Blazor;
-using Known.Extensions;
-
-namespace Known.AntBlazor.Extensions;
+﻿namespace Known.AntBlazor.Extensions;
 
 static class ValidationExtension
 {
@@ -12,6 +7,16 @@ static class ValidationExtension
         var message = context.Language.Required(id);
         var rule = new FormValidationRule { Type = FormFieldType.String, Required = true, Message = message };
         return [rule];
+    }
+
+    internal static FormValidationRule[] ToRules(this IAntField field)
+    {
+        var rules = new List<FormValidationRule>();
+        if (field.Required)
+        {
+            rules.Add(new FormValidationRule { Type = FormFieldType.String, Required = true, Message = $"{field.Label}不能为空！" });
+        }
+        return [.. rules];
     }
 
     internal static FormValidationRule[] ToRules<TItem>(this FieldModel<TItem> model, Context context) where TItem : class, new()

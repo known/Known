@@ -1,7 +1,10 @@
 ﻿namespace Known.AntBlazor.Components;
 
-class AntRadioGroup : RadioGroup<string>
+public class AntRadioGroup : RadioGroup<string>, IAntField
 {
+    [Parameter] public int Span { get; set; }
+    [Parameter] public string Label { get; set; }
+    [Parameter] public bool Required { get; set; }
     [Parameter] public List<CodeInfo> Codes { get; set; }
 
     protected override void OnInitialized()
@@ -15,5 +18,13 @@ class AntRadioGroup : RadioGroup<string>
     {
         await base.OnParametersSetAsync();
         Options = Codes.ToRadioOptions();
+    }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if (string.IsNullOrWhiteSpace(Label))
+            base.BuildRenderTree(builder);
+        else
+            builder.FormItem(this, b => base.BuildRenderTree(b));
     }
 }

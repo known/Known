@@ -1,6 +1,4 @@
-﻿using AntDesign;
-
-namespace Known.AntBlazor.Extensions;
+﻿namespace Known.AntBlazor.Extensions;
 
 static class OptionExtension
 {
