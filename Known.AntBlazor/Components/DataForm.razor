@@ -10,7 +10,11 @@
             <GridRow>
                 @foreach (var field in row.Fields)
                 {
-                    <DataItem Span="colSpan" Model="field" />
+                    var label = Language?.GetString<TItem>(field.Column);
+                    var required = field.Column.Required;
+                    <DataItem Span="colSpan" Label="@label" Required="required" Rules="field.ToRules(Context)">
+                        <InputField Model="field" />
+                    </DataItem>
                 }
             </GridRow>
         }

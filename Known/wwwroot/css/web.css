@@ -1,6 +1,7 @@
 @import "font-awesome.css";
 @import "prism.css";
 
+:root {--kui-form-label-width:120px;}
 :root[theme=light] {--kui-bgcolor:#ffffff;--kui-color:#596172;--kui-border-color:#f0f0f0;}
 :root[theme=dark]  {--kui-bgcolor:#202020;--kui-color:#d8d8d8;--kui-border-color:rgba(253, 253, 253, 0.12);}
 
@@ -48,7 +49,7 @@
 .kui-form-action {margin-top:24px;text-align:right;}
 .kui-form-action button {margin-left:8px;}
 .kui-form-page {padding:10px 50px 20px 0;}
-.kui-form-page-button {margin-left:16.66666667%;}
+.kui-form-page-button {margin-left:var(--kui-form-label-width);}
 .kui-form-page-button button {margin-right:10px;}
 
 /*GroupBox*/

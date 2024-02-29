@@ -3,7 +3,7 @@
 public class AntDropdown : Dropdown
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
-    [CascadingParameter] private DataField Field { get; set; }
+    [CascadingParameter] private DataItem Item { get; set; }
 
     [Parameter] public Context Context { get; set; }
     [Parameter] public string Icon { get; set; }
@@ -17,8 +17,8 @@ public class AntDropdown : Dropdown
     {
         if (AntForm != null)
             Disabled = AntForm.IsView;
-        if (Field != null)
-            Field.Type = typeof(string);
+        if (Item != null)
+            Item.Type = typeof(string);
         base.OnInitialized();
         if (!string.IsNullOrWhiteSpace(Icon))
             ChildContent = BuildIcon;

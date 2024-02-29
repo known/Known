@@ -1,25 +1,25 @@
 ﻿@inherits BaseComponent
-@typeparam TItem where TItem : class, new()
 
 <GridCol Span="Span">
-    <FormItem LabelColSpan="LabelSpan" Label="@Label" Required="Model.Column.Required" Rules="Model.ToRules(Context)">
-        <InputField Model="Model" />
+    <FormItem Label="@Label" Required="Required" Rules="Rules">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
     </FormItem>
 </GridCol>
 
 @code {
-    private string Label => Language?.GetString<TItem>(Model.Column);
-    private int LabelSpan => Model?.Form?.LabelSpan ?? GetLabelSpan(Span);
-
+    public Type Type { get; set; } = typeof(string);
     [Parameter] public int Span { get; set; }
-    [Parameter] public FieldModel<TItem> Model { get; set; }
+    [Parameter] public string Label { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public FormValidationRule[] Rules { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
-    private int GetLabelSpan(int colSpan)
+    protected override void OnInitialized()
     {
-        if (colSpan == 24)
-            return 4;
-        else if (colSpan == 12)
-            return 8;
-        return 0;
+        if (Rules == null)
+            Rules = this.ToRules(Context);
+        base.OnInitialized();
     }
 }

@@ -9,15 +9,15 @@ static class ValidationExtension
         return [rule];
     }
 
-    internal static FormValidationRule[] ToRules(this DataField field, Context context = null)
+    internal static FormValidationRule[] ToRules(this DataItem item, Context context = null)
     {
         var rules = new List<FormValidationRule>();
-        if (field.Required)
+        if (item.Required)
         {
             var message = context != null
-                        ? context.Language.Required(field.Label)
-                        : $"{field.Label}不能为空！";
-            rules.Add(GetFormRuleRequired(message, field.Type));
+                        ? context.Language.Required(item.Label)
+                        : $"{item.Label}不能为空！";
+            rules.Add(GetFormRuleRequired(message, item.Type));
         }
         return [.. rules];
     }

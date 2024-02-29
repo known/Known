@@ -3,7 +3,7 @@
 public class AntRangePicker<TValue> : RangePicker<DateTime?[]>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
-    [CascadingParameter] private DataField Field { get; set; }
+    [CascadingParameter] private DataItem Item { get; set; }
 
     [Parameter] public TValue RangeValue { get; set; }
     [Parameter] public EventCallback<TValue> RangeValueChanged { get; set; }
@@ -12,8 +12,8 @@ public class AntRangePicker<TValue> : RangePicker<DateTime?[]>
     {
         if (AntForm != null)
             Disabled = AntForm.IsView;
-        if (Field != null)
-            Field.Type = typeof(TValue);
+        if (Item != null)
+            Item.Type = typeof(TValue);
         base.OnInitialized();
         if (RangeValue != null)
         {

@@ -3,7 +3,7 @@
 public class AntRadioGroup : RadioGroup<string>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
-    [CascadingParameter] private DataField Field { get; set; }
+    [CascadingParameter] private DataItem Item { get; set; }
 
     [Parameter] public List<CodeInfo> Codes { get; set; }
 
@@ -11,8 +11,8 @@ public class AntRadioGroup : RadioGroup<string>
     {
         if (AntForm != null)
             Disabled = AntForm.IsView;
-        if (Field != null)
-            Field.Type = typeof(string);
+        if (Item != null)
+            Item.Type = typeof(string);
         base.OnInitialized();
         //Fixed单选按钮组切换不刷新问题
         OnChange = EventCallback.Factory.Create<string>(this, value => StateHasChanged());
