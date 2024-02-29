@@ -1,0 +1,17 @@
+﻿@inherits BaseComponent
+
+<GridCol Span="Span">
+    <FormItem Label="@Label" Required="Required" Rules="this.ToRules(Context)">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
+    </FormItem>
+</GridCol>
+
+@code {
+    public Type Type { get; set; } = typeof(string);
+    [Parameter] public int Span { get; set; }
+    [Parameter] public string Label { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

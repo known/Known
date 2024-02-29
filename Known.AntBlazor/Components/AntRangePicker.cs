@@ -1,13 +1,10 @@
 ﻿namespace Known.AntBlazor.Components;
 
-public class AntRangePicker<TValue> : RangePicker<DateTime?[]>, IAntField
+public class AntRangePicker<TValue> : RangePicker<DateTime?[]>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private DataField Field { get; set; }
 
-    public Type ValueType => typeof(TValue);
-    [Parameter] public int Span { get; set; }
-    [Parameter] public string Label { get; set; }
-    [Parameter] public bool Required { get; set; }
     [Parameter] public TValue RangeValue { get; set; }
     [Parameter] public EventCallback<TValue> RangeValueChanged { get; set; }
 
@@ -15,6 +12,8 @@ public class AntRangePicker<TValue> : RangePicker<DateTime?[]>, IAntField
     {
         if (AntForm != null)
             Disabled = AntForm.IsView;
+        if (Field != null)
+            Field.Type = typeof(TValue);
         base.OnInitialized();
         if (RangeValue != null)
         {
@@ -25,14 +24,6 @@ public class AntRangePicker<TValue> : RangePicker<DateTime?[]>, IAntField
                 Value[1] = Utils.ConvertTo<DateTime?>(values[1]);
         }
         OnChange = this.Callback<DateRangeChangedEventArgs<DateTime?[]>>(OnDateRangeChange);
-    }
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        if (string.IsNullOrWhiteSpace(Label))
-            base.BuildRenderTree(builder);
-        else
-            builder.FormItem(this, b => base.BuildRenderTree(b));
     }
 
     private async void OnDateRangeChange(DateRangeChangedEventArgs<DateTime?[]> e)

@@ -26,42 +26,42 @@ public class UIService(ModalService modalService, MessageService messageService)
             return typeof(InputPassword);
 
         if (fieldType == FieldType.TextArea)
-            return typeof(TextArea);
+            return typeof(AntTextArea);
 
         if (dataType == typeof(bool))
             return typeof(Switch);
 
         if (dataType == typeof(short))
-            return typeof(InputNumber<short>);
+            return typeof(AntNumber<short>);
 
         if (dataType == typeof(int))
-            return typeof(InputNumber<int>);
+            return typeof(AntNumber<int>);
 
         if (dataType == typeof(long))
-            return typeof(InputNumber<long>);
+            return typeof(AntNumber<long>);
 
         if (dataType == typeof(float))
-            return typeof(InputNumber<float>);
+            return typeof(AntNumber<float>);
 
         if (dataType == typeof(double))
-            return typeof(InputNumber<double>);
+            return typeof(AntNumber<double>);
 
         if (dataType == typeof(decimal))
-            return typeof(InputNumber<decimal>);
+            return typeof(AntNumber<decimal>);
 
         if (dataType == typeof(DateTime?))
-            return typeof(DatePicker<DateTime?>);
+            return typeof(AntDatePicker<DateTime?>);
 
         if (dataType == typeof(DateTime))
-            return typeof(DatePicker<DateTime>);
+            return typeof(AntDatePicker<DateTime>);
 
         if (dataType == typeof(DateTimeOffset?))
-            return typeof(DatePicker<DateTimeOffset?>);
+            return typeof(AntDatePicker<DateTimeOffset?>);
 
         if (dataType == typeof(DateTimeOffset))
-            return typeof(DatePicker<DateTimeOffset>);
+            return typeof(AntDatePicker<DateTimeOffset>);
 
-        return typeof(Input<string>);
+        return typeof(AntInput<string>);
     }
 
     public void AddInputAttributes<TItem>(Dictionary<string, object> attributes, FieldModel<TItem> model) where TItem : class, new()

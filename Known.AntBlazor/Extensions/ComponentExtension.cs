@@ -12,20 +12,4 @@ static class ComponentExtension
                .Set(c => c.ChildContent, b => b.Text(info.Name))
                .Build();
     }
-
-    internal static void FormItem(this RenderTreeBuilder builder, IAntField field, Action<RenderTreeBuilder> child)
-    {
-        builder.Component<GridCol>()
-               .Set(c => c.Span, field.Span)
-               .Set(c => c.ChildContent, b =>
-               {
-                   b.Component<FormItem>()
-                    .Set(c => c.Label, field.Label)
-                    .Set(c => c.Required, field.Required)
-                    .Set(c => c.Rules, field.ToRules())
-                    .Set(c => c.ChildContent, b1 => child.Invoke(b1))
-                    .Build();
-               })
-               .Build();
-    }
 }
