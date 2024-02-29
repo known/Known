@@ -2,11 +2,20 @@
 
 public class AntCheckboxGroup : CheckboxGroup, IAntField
 {
+    [CascadingParameter] private IAntForm AntForm { get; set; }
+
     public Type ValueType => typeof(string);
     [Parameter] public int Span { get; set; }
     [Parameter] public string Label { get; set; }
     [Parameter] public bool Required { get; set; }
     [Parameter] public List<CodeInfo> Codes { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (AntForm != null)
+            Disabled = AntForm.IsView;
+        base.OnInitialized();
+    }
 
     protected override async Task OnParametersSetAsync()
     {

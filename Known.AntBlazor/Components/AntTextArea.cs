@@ -2,10 +2,19 @@
 
 public class AntTextArea : TextArea, IAntField
 {
+    [CascadingParameter] private IAntForm AntForm { get; set; }
+
     public Type ValueType => typeof(string);
     [Parameter] public int Span { get; set; }
     [Parameter] public string Label { get; set; }
     [Parameter] public bool Required { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (AntForm != null)
+            Disabled = AntForm.IsView;
+        base.OnInitialized();
+    }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {

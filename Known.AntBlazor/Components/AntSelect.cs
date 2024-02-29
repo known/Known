@@ -2,6 +2,8 @@
 
 public class AntSelect : Select<string, CodeInfo>, IAntField
 {
+    [CascadingParameter] private IAntForm AntForm { get; set; }
+
     public Type ValueType => typeof(string);
     [Parameter] public int Span { get; set; }
     [Parameter] public string Label { get; set; }
@@ -10,6 +12,8 @@ public class AntSelect : Select<string, CodeInfo>, IAntField
 
 	protected override void OnInitialized()
 	{
+        if (AntForm != null)
+            Disabled = AntForm.IsView;
         ValueName = nameof(CodeInfo.Code);
 		LabelName = nameof(CodeInfo.Name);
         base.OnInitialized();

@@ -2,6 +2,8 @@
 
 public class AntRadioGroup : RadioGroup<string>, IAntField
 {
+    [CascadingParameter] private IAntForm AntForm { get; set; }
+
     public Type ValueType => typeof(string);
     [Parameter] public int Span { get; set; }
     [Parameter] public string Label { get; set; }
@@ -10,6 +12,8 @@ public class AntRadioGroup : RadioGroup<string>, IAntField
 
     protected override void OnInitialized()
     {
+        if (AntForm != null)
+            Disabled = AntForm.IsView;
         base.OnInitialized();
         //Fixed单选按钮组切换不刷新问题
         OnChange = EventCallback.Factory.Create<string>(this, value => StateHasChanged());

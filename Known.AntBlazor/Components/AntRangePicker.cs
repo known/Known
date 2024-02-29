@@ -2,6 +2,8 @@
 
 public class AntRangePicker<TValue> : RangePicker<DateTime?[]>, IAntField
 {
+    [CascadingParameter] private IAntForm AntForm { get; set; }
+
     public Type ValueType => typeof(TValue);
     [Parameter] public int Span { get; set; }
     [Parameter] public string Label { get; set; }
@@ -11,6 +13,8 @@ public class AntRangePicker<TValue> : RangePicker<DateTime?[]>, IAntField
 
     protected override void OnInitialized()
     {
+        if (AntForm != null)
+            Disabled = AntForm.IsView;
         base.OnInitialized();
         if (RangeValue != null)
         {
