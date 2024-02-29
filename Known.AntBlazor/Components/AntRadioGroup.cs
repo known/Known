@@ -2,6 +2,7 @@
 
 public class AntRadioGroup : RadioGroup<string>, IAntField
 {
+    public Type ValueType => typeof(string);
     [Parameter] public int Span { get; set; }
     [Parameter] public string Label { get; set; }
     [Parameter] public bool Required { get; set; }

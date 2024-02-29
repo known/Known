@@ -2,6 +2,7 @@
 
 public class AntDatePicker<TValue> : DatePicker<TValue>, IAntField
 {
+    public Type ValueType => typeof(TValue);
     [Parameter] public int Span { get; set; }
     [Parameter] public string Label { get; set; }
     [Parameter] public bool Required { get; set; }

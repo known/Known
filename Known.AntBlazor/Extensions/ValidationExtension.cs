@@ -14,7 +14,7 @@ static class ValidationExtension
         var rules = new List<FormValidationRule>();
         if (field.Required)
         {
-            rules.Add(new FormValidationRule { Type = FormFieldType.String, Required = true, Message = $"{field.Label}不能为空！" });
+            rules.Add(GetFormRuleRequired($"{field.Label}不能为空！", field.ValueType));
         }
         return [.. rules];
     }
@@ -53,6 +53,12 @@ static class ValidationExtension
 
     private static FormValidationRule GetFormRuleRequired(Context context, string columnId, Type propertyType)
     {
+        var message = context.Language.Required(columnId);
+        return GetFormRuleRequired(message, propertyType);
+    }
+
+    private static FormValidationRule GetFormRuleRequired(string message, Type propertyType)
+    {
         //String,Number,Boolean,Regexp,Integer,Float,Array,Object,Enum,Date,Url,Email
         var type = FormFieldType.String;
         if (propertyType.IsEnum)
@@ -66,7 +72,6 @@ static class ValidationExtension
         else if (propertyType == typeof(float) || propertyType == typeof(double))
             type = FormFieldType.Float;
 
-        var message = context.Language.Required(columnId);
         return new FormValidationRule { Type = type, Required = true, Message = message };
     }
 

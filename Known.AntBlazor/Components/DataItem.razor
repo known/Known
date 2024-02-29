@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 @typeparam TItem where TItem : class, new()
 
-<GridCol Span="ColSpan">
+<GridCol Span="Span">
     <FormItem LabelColSpan="LabelSpan" Label="@Label" Required="Model.Column.Required" Rules="Model.ToRules(Context)">
         <InputField Model="Model" />
     </FormItem>
@@ -9,9 +9,9 @@
 
 @code {
     private string Label => Language?.GetString<TItem>(Model.Column);
-    private int LabelSpan => Model?.Form?.LabelSpan ?? GetLabelSpan(ColSpan);
+    private int LabelSpan => Model?.Form?.LabelSpan ?? GetLabelSpan(Span);
 
-    [Parameter] public int ColSpan { get; set; }
+    [Parameter] public int Span { get; set; }
     [Parameter] public FieldModel<TItem> Model { get; set; }
 
     private int GetLabelSpan(int colSpan)
