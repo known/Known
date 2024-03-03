@@ -25,7 +25,7 @@
                         <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
                         @if (AdvSearch)
                         {
-                            <Button Type="primary" Icon="search" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
+                            <Button Type="primary" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
                         }
                         <Button Icon="undo" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button>
                         @if (Model.QueryColumns.Count > showCount)
@@ -53,7 +53,7 @@
                     <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
                     @if (AdvSearch)
                     {
-                        <Button Type="primary" Icon="search" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
+                        <Button Type="primary" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
                     }
                     <Button Icon="undo" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button>
                 </div>
