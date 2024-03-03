@@ -53,15 +53,7 @@ class PageView : BaseView<PageInfo>
 
     private void BuildView(RenderTreeBuilder builder)
     {
-        builder.Div("view", () =>
-        {
-            builder.Div("kui-top", () =>
-            {
-                UI.BuildQuery(builder, table);
-                UI.BuildToolbar(builder, table?.Toolbar);
-            });
-            builder.Div("kui-table", () => UI.BuildTable(builder, table));
-        });
+        builder.Div("view", () => builder.BuildTablePage(table));
         builder.Div("setting", () => UI.BuildTabs(builder, tab));
     }
 

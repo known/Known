@@ -117,7 +117,7 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
         {
             Model.IsView = !isEdit;
             base.BuildForm(builder);
-            builder.FormPageButton(() =>
+            builder.FormButton(() =>
             {
                 if (!isEdit)
                 {
@@ -167,7 +167,7 @@ class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
         builder.FormPage(() =>
         {
             base.BuildForm(builder);
-            builder.FormPageButton(() =>
+            builder.FormButton(() =>
             {
                 UI.Button(builder, Language["Button.ConfirmUpdate"], this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
             });

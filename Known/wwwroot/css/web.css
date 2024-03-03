@@ -51,6 +51,7 @@
 .kui-form-page {padding:10px 50px 20px 0;}
 .kui-form-page-button {margin-left:var(--kui-form-label-width);}
 .kui-form-page-button button {margin-right:10px;}
+.kui-form-button {margin-left:16.66666667%;}
 
 /*GroupBox*/
 .kui-group-box {position:relative;border:1px dashed var(--kui-border-color);border-radius:6px;}
@@ -194,7 +195,7 @@
 
 /*View*/
 .kui-designer .panel-view {overflow:auto;}
-.kui-designer .panel-view .view {max-height:300px;overflow:auto;}
+.kui-designer .panel-view .view {max-height:300px;overflow:auto;padding:10px;background-color:#f0f2f5;}
 .kui-designer .panel-view .view .ant-query, 
 .kui-designer .panel-view .view .ant-toolbar {padding:0;}
 .kui-designer .panel-view .view .ant-toolbar {padding-right:10px;padding-top:10px;}

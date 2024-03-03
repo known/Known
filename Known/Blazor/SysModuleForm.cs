@@ -21,9 +21,9 @@ class SysModuleForm : BaseForm<SysModule>
 
             var page = Model.Data.Page;
             if (page != null && page.Columns.Exists(c => c.IsViewLink))
-                return IsPageEdit ? 2 : 5;
+                return IsPageEdit ? 2 : 4;
 
-            return IsPageEdit ? 1 : 4;
+            return IsPageEdit ? 1 : 3;
         }
     }
 
@@ -42,7 +42,7 @@ class SysModuleForm : BaseForm<SysModule>
             Model.Field(f => f.Icon).Template(BuildIconField);
             step.Items.Add(new("BasicInfo") { Content = BuildDataForm });
             step.Items.Add(new("ModelSetting") { Content = BuildModuleModel });
-            step.Items.Add(new("FlowSetting") { Content = BuildModuleFlow });
+            //step.Items.Add(new("FlowSetting") { Content = BuildModuleFlow });
         }
         step.Items.Add(new("PageSetting") { Content = BuildModulePage });
         step.Items.Add(new("FormSetting") { Content = BuildModuleForm });
