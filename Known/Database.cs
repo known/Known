@@ -50,7 +50,7 @@ public class Database : IDisposable
     #endregion
 
     #region Static
-    internal static void RegisterProviders(List<ConnectionInfo> connections)
+    public static void RegisterConnections(List<ConnectionInfo> connections)
     {
         if (connections == null || connections.Count == 0)
             return;
@@ -534,12 +534,13 @@ public class Database : IDisposable
             conn.Close();
     }
 
-    public async Task<T> InsertAsync<T>(T entity) where T : EntityBase
+    public async Task<T> InsertAsync<T>(T entity, bool newId = true) where T : EntityBase
     {
         if (entity == null)
             return entity;
 
-        entity.Id = Utils.GetGuid();
+        if (newId)
+            entity.Id = Utils.GetGuid();
         entity.IsNew = true;
         entity.Version = 1;
         await SaveAsync(entity);

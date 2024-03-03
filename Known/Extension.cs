@@ -19,7 +19,7 @@ public static class Extension
         else
             Logger.Level = LogLevel.Info;
 
-        Database.RegisterProviders(Config.App.Connections);
+        Database.RegisterConnections(Config.App.Connections);
         Database.Initialize();
         Config.AddApp();
 
