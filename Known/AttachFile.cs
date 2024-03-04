@@ -6,7 +6,7 @@ public class AttachFile
 {
     private readonly IAttachFile file;
 
-    internal AttachFile(IAttachFile file, UserInfo user, string typePath = null, string timePath = null)
+    internal AttachFile(IAttachFile file, UserInfo user, string bizType = null, string bizPath = null)
     {
         this.file = file;
         User = user;
@@ -16,13 +16,13 @@ public class AttachFile
         var index = SourceName.LastIndexOf('.');
         ExtName = SourceName.Substring(index);
         FileName = SourceName;
-        var filePath = GetFilePath(user.CompNo, typePath);
+        var filePath = GetFilePath(user.CompNo, bizType);
         var fileId = Utils.GetGuid();
         var fileName = $"{user.UserName}_{fileId}{ExtName}";
-        if (string.IsNullOrEmpty(timePath))
+        if (string.IsNullOrEmpty(bizPath))
             FilePath = Path.Combine(filePath, fileName);
         else
-            FilePath = Path.Combine(filePath, timePath, fileName);
+            FilePath = Path.Combine(filePath, bizPath, fileName);
     }
 
     internal UserInfo User { get; }

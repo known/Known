@@ -211,7 +211,7 @@ public static class ModelExtension
     #endregion
 
     #region File
-    public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<IAttachFile>> files, UserInfo user, string key, string typePath) => files?.GetAttachFiles(user, key, new FileFormInfo { BizType = typePath });
+    public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<IAttachFile>> files, UserInfo user, string key, string bizType, string bizPath = null) => files?.GetAttachFiles(user, key, new FileFormInfo { BizType = bizType, BizPath = bizPath });
 
     internal static List<AttachFile> GetAttachFiles(this Dictionary<string, List<IAttachFile>> files, UserInfo user, string key, FileFormInfo form)
     {

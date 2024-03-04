@@ -51,13 +51,13 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Type Type { get; internal set; }
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }
-    public Action<TItem> OnDataChanged { get; set; }
     public Action<string> OnFieldChanged { get; set; }
+    public Action<TItem> OnSaved { get; set; }
+    public Dictionary<string, List<IBrowserFile>> Files { get; } = [];
 
     internal FormViewType FormType { get; set; }
     internal Func<TItem, Task<Result>> OnSave { get; set; }
     internal Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
-    internal Dictionary<string, List<IBrowserFile>> Files { get; } = [];
 
     internal List<CodeInfo> GetCodes(ColumnInfo column)
     {
@@ -147,7 +147,8 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     {
         UI.Result(result, async () =>
         {
-            OnDataChanged?.Invoke(Data);
+            Data = result.DataAs<TItem>();
+            OnSaved?.Invoke(Data);
             if (result.IsClose || isClose)
                 await CloseAsync();
             if (Page != null)

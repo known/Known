@@ -7,25 +7,34 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
 
-public class UploadField<TItem> : BaseComponent where TItem : class, new()
+public class UploadInput : BaseComponent
 {
     private List<SysFile> sysFiles;
 
-    [Parameter] public FieldModel<TItem> Model { get; set; }
+    [Parameter] public string Value { get; set; }
+    [Parameter] public bool MultiFile { get; set; }
+    [Parameter] public Action<List<IBrowserFile>> OnFilesChanged { get; set; }
+
+    public async void SetValue(string value)
+    {
+        Value = value;
+        sysFiles = await Platform.File.GetFilesAsync(Value);
+        StateChanged();
+    }
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        sysFiles = await Platform.File.GetFilesAsync($"{Model.Value}");
+        sysFiles = await Platform.File.GetFilesAsync(Value);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        if (!Model.Form.IsView)
+        if (!ReadOnly)
         {
             builder.Component<InputFile>()
-                   .Add("multiple", Model.Column.MultiFile)
-                   .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnFilesChanged))
+                   .Add("multiple", MultiFile)
+                   .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnInputFileChanged))
                    .Build();
         }
 
@@ -38,7 +47,7 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
                     var url = item.FileUrl;
                     builder.Div(() =>
                     {
-                        if (!Model.Form.IsView)
+                        if (!ReadOnly)
                         {
                             builder.Span("kui-link danger", Language.Delete, this.Callback<MouseEventArgs>(e => OnDeleteFile(item)));
                         }
@@ -49,17 +58,16 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
         }
     }
 
-    private void OnFilesChanged(InputFileChangeEventArgs e)
+    private void OnInputFileChanged(InputFileChangeEventArgs e)
     {
-        var column = Model.Column;
-        if (column.MultiFile)
+        if (MultiFile)
         {
             var files = e.GetMultipleFiles();
-            Model.Form.Files[column.Id] = [.. files];
+            OnFilesChanged?.Invoke([.. files]);
         }
         else
         {
-            Model.Form.Files[column.Id] = [e.File];
+            OnFilesChanged?.Invoke([e.File]);
         }
     }
 
@@ -72,5 +80,20 @@ public class UploadField<TItem> : BaseComponent where TItem : class, new()
             sysFiles.Remove(item);
             StateChanged();
         });
+    }
+}
+
+class UploadField<TItem> : UploadInput where TItem : class, new()
+{
+    [Parameter] public FieldModel<TItem> Model { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        Id = Model.Column.Id;
+        ReadOnly = Model.Form.IsView;
+        Value = Model.Value?.ToString();
+        MultiFile = Model.Column.MultiFile;
+        OnFilesChanged = files => Model.Form.Files[Id] = files;
+        await base.OnInitAsync();
     }
 }

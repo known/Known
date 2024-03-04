@@ -65,8 +65,8 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         var form = new FormModel<SysModule>(this)
         {
             Data = Context.Module,
-            OnDataChanged = data => Context.Module = data,
-            OnSave = Platform.Module.SaveModuleAsync
+            OnSave = Platform.Module.SaveModuleAsync,
+            OnSaved = data => Context.Module = data
         };
         var model = new DialogModel
         {
