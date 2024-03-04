@@ -1,5 +1,6 @@
 ﻿import "./libs/jquery.js";
 import "./libs/pdfobject.js";
+import "./libs/highcharts.js";
 import "./libs/barcode.js";
 import "./libs/qrcode.js";
 import "./libs/prism.js";
@@ -147,6 +148,10 @@ export class KBlazor {
         function getColor() {
             return `rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})`;
         }
+    }
+    //Chart
+    static showChart(id, option) {
+        Highcharts.chart(id, option);
     }
     static showBarcode(id, value, option) {
         JsBarcode('#' + id, value, option);
