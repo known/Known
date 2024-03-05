@@ -33,7 +33,7 @@ static class ValidationExtension
         if (column.Required && type != typeof(bool))
         {
             //TODO：动态数据表单验证问题
-            rules.Add(GetFormRuleRequired(context, column.Id, type));
+            rules.Add(GetFormRuleRequired(context, column, type));
         }
         else
         {
@@ -54,9 +54,10 @@ static class ValidationExtension
         return [.. rules];
     }
 
-    private static FormValidationRule GetFormRuleRequired(Context context, string columnId, Type propertyType)
+    private static FormValidationRule GetFormRuleRequired(Context context, ColumnInfo column, Type propertyType)
     {
-        var message = context.Language.Required(columnId);
+        var label = context.Language.GetString(column);
+        var message = context.Language.Required(label);
         return GetFormRuleRequired(message, propertyType);
     }
 
