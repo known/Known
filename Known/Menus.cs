@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Known.Entities;
 using Known.Extensions;
@@ -205,8 +206,19 @@ public class ColumnInfo
 
         Property = info;
         Id = info.Name;
-        Name = info.DisplayName();
-        Required = info.IsRequired();
+
+        var name = info.GetCustomAttribute<DisplayNameAttribute>();
+        if (name != null)
+            Name = name.DisplayName;
+
+        var required = info.GetCustomAttribute<RequiredAttribute>();
+        if (required != null)
+            Required = true;
+
+        var code = info.GetCustomAttribute<CategoryAttribute>();
+        if (code != null)
+            Category = code.Category;
+
         Type = info.GetFieldType();
 
         var form = info.GetCustomAttribute<FormAttribute>();
@@ -219,12 +231,6 @@ public class ColumnInfo
                 Type = Utils.ConvertTo<FieldType>(form.Type);
             ReadOnly = form.ReadOnly;
             Placeholder = form.Placeholder;
-        }
-
-        var code = info.GetCustomAttribute<CategoryAttribute>();
-        if (code != null)
-        {
-            Category = code.Category;
         }
     }
 }
