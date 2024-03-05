@@ -58,7 +58,7 @@ public class Chart : BaseComponent
         var option = new
         {
             credits = new { enabled = false },
-            chart = new { type = "column" },
+            chart = new { type = "column", backgroundColor = "rgba(0,0,0,0)" },
             title = new { text = title },
             xAxis,
             yAxis = YAxis ?? new { },
@@ -86,7 +86,7 @@ public class Chart : BaseComponent
         var option = new
         {
             credits = new { enabled = false },
-            chart = new { type = "pie" },
+            chart = new { type = "pie", backgroundColor = "rgba(0,0,0,0)" },
             title = new { text = title },
             legend = Legend ?? new { },
             tooltip = Tooltip ?? new { pointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>" },
