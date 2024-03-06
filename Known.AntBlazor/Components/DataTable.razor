@@ -3,14 +3,12 @@
 @inherits BaseComponent
 @typeparam TItem where TItem : class, new()
 
-<Table TItem="TItem" Size="TableSize.Small" Responsive Resizable="Model.Resizable"
-       ScrollX="@Model.FixedWidth" ScrollY="@Model.FixedHeight" ScrollBarWidth="8px"
-       DataSource="Model.Result.PageData" Total="Model.Result.TotalCount"
-       @bind-PageIndex="Model.Criteria.PageIndex"
-       @bind-PageSize="Model.Criteria.PageSize"
-       @bind-SelectedRows="Model.SelectedRows"
-       RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick"
-       HidePagination="!Model.ShowPager" PaginationPosition="bottomRight">
+<AntTable TItem="TItem" Resizable="Model.Resizable"
+          ScrollX="@Model.FixedWidth" ScrollY="@Model.FixedHeight"
+          Context="Context" Criteria="Model.Criteria" Result="Model.Result"
+          @bind-SelectedRows="Model.SelectedRows"
+          RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick"
+          HidePagination="!Model.ShowPager">
     <ChildContent>
         @if (!string.IsNullOrWhiteSpace(Model.SelectType))
         {
@@ -42,17 +40,10 @@
             </ActionColumn>
         }
     </ChildContent>
-    <PaginationTemplate>
-        <Pagination Class="@context.PaginationClass"
-                    Total="context.Total" PageSize="context.PageSize" Current="context.PageIndex"
-                    ShowTotal="showTotal" ShowSizeChanger ShowQuickJumper
-                    OnChange="context.HandlePageChange" />
-     </PaginationTemplate>
- </Table>
+ </AntTable>
 
 @code {
     private string GetActionColor(string style) => style == "danger" ? "red-inverse" : "blue-inverse";
-    private Func<PaginationTotalContext, string> showTotal => ctx => Context.Language["Page.Total"].Replace("{total}", $"{ctx.Total}");
 
     [Parameter] public TableModel<TItem> Model { get; set; }
 
