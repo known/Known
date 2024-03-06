@@ -35,16 +35,16 @@ public static class ModelExtension
         {
             infos.Add(GetFieldInfo(language, nameof(FlowEntity.BizStatus), FieldType.Text));
             infos.Add(GetFieldInfo(language, nameof(FlowEntity.ApplyBy), FieldType.Text));
-            infos.Add(GetFieldInfo(language, nameof(FlowEntity.ApplyTime), FieldType.Date));
+            infos.Add(GetFieldInfo(language, nameof(FlowEntity.ApplyTime), FieldType.DateTime));
             infos.Add(GetFieldInfo(language, nameof(FlowEntity.VerifyBy), FieldType.Text));
-            infos.Add(GetFieldInfo(language, nameof(FlowEntity.VerifyTime), FieldType.Date));
+            infos.Add(GetFieldInfo(language, nameof(FlowEntity.VerifyTime), FieldType.DateTime));
             infos.Add(GetFieldInfo(language, nameof(FlowEntity.VerifyNote), FieldType.Text));
         }
 
         infos.Add(GetFieldInfo(language, nameof(EntityBase.CreateBy), FieldType.Text));
-        infos.Add(GetFieldInfo(language, nameof(EntityBase.CreateTime), FieldType.Date));
+        infos.Add(GetFieldInfo(language, nameof(EntityBase.CreateTime), FieldType.DateTime));
         infos.Add(GetFieldInfo(language, nameof(EntityBase.ModifyBy), FieldType.Text));
-        infos.Add(GetFieldInfo(language, nameof(EntityBase.ModifyTime), FieldType.Date));
+        infos.Add(GetFieldInfo(language, nameof(EntityBase.ModifyTime), FieldType.DateTime));
 
         return infos;
     }

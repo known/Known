@@ -126,6 +126,7 @@ class AdvancedSearchItem : BaseComponent
                 });
                 break;
             case FieldType.Date:
+            case FieldType.DateTime:
                 UI.BuildDatePicker(builder, new InputModel<string>
                 {
                     Value = item.Value,
@@ -162,6 +163,7 @@ class AdvancedSearchItem : BaseComponent
                 AddQueryType(types, QueryType.Batch);
                 break;
             case FieldType.Date:
+            case FieldType.DateTime:
                 AddQueryType(types, QueryType.Between);
                 AddQueryType(types, QueryType.BetweenNotEqual);
                 AddQueryType(types, QueryType.BetweenLessEqual);

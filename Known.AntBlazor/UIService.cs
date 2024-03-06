@@ -79,7 +79,7 @@ public class UIService(ModalService modalService, MessageService messageService)
                 attributes[nameof(AntCheckboxGroup.Codes)] = model.GetCodes("");
         }
 
-        if (column.Type == FieldType.Date)
+        if (column.Type == FieldType.Date || column.Type == FieldType.DateTime)
             attributes["disabled"] = OneOf.OneOf<bool, bool[]>.FromT0(model.IsReadOnly);
     }
 

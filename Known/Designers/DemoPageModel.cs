@@ -84,6 +84,7 @@ class DemoPageModel : TableModel<Dictionary<string, object>>
                 case FieldType.TextArea:
                     return "";
                 case FieldType.Date:
+                case FieldType.DateTime:
                     return DateTime.Now;
                 case FieldType.Number:
                     return index;

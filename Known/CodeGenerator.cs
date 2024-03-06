@@ -24,9 +24,9 @@ class CodeGenerator : ICodeGenerator
         {
             new() { Id = nameof(EntityBase.Id), Type = FieldType.Text, Length = "50", Required = true },
             new() { Id = nameof(EntityBase.CreateBy), Type = FieldType.Text, Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CreateTime), Type = FieldType.Date, Required = true },
+            new() { Id = nameof(EntityBase.CreateTime), Type = FieldType.DateTime, Required = true },
             new() { Id = nameof(EntityBase.ModifyBy), Type = FieldType.Text, Length = "50" },
-            new() { Id = nameof(EntityBase.ModifyTime), Type = FieldType.Date },
+            new() { Id = nameof(EntityBase.ModifyTime), Type = FieldType.DateTime },
             new() { Id = nameof(EntityBase.Version), Type = FieldType.Number, Required = true },
             new() { Id = nameof(EntityBase.Extension), Type = FieldType.Text },
             new() { Id = nameof(EntityBase.AppId), Type = FieldType.Text, Length = "50", Required = true },
@@ -78,7 +78,7 @@ class CodeGenerator : ICodeGenerator
     private static string GetAccessDbType(FieldInfo item)
     {
         string type;
-        if (item.Type == FieldType.Date)
+        if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
         {
             type = "DateTime";
         }
@@ -126,7 +126,7 @@ class CodeGenerator : ICodeGenerator
     private static string GetSQLiteDbType(FieldInfo item)
     {
         string type;
-        if (item.Type == FieldType.Date)
+        if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
         {
             type = "datetime";
         }
@@ -170,7 +170,7 @@ class CodeGenerator : ICodeGenerator
     private static string GetSqlServerDbType(FieldInfo item)
     {
         string type;
-        if (item.Type == FieldType.Date)
+        if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
         {
             type = "[datetime]";
         }
@@ -215,7 +215,7 @@ class CodeGenerator : ICodeGenerator
     private static string GetOracleDbType(FieldInfo item)
     {
         string type;
-        if (item.Type == FieldType.Date)
+        if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             type = "date";
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "number(8)" : $"number({item.Length})";
@@ -248,7 +248,7 @@ class CodeGenerator : ICodeGenerator
     private static string GetMySqlDbType(FieldInfo item)
     {
         string type;
-        if (item.Type == FieldType.Date)
+        if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             type = "datetime";
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
@@ -312,7 +312,7 @@ class CodeGenerator : ICodeGenerator
     {
         if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
             return "bool";
-        else if (item.Type == FieldType.Date)
+        else if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             return "DateTime";
         else if (item.Type == FieldType.Number)
             return string.IsNullOrWhiteSpace(item.Length) ? "int" : "decimal";

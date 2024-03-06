@@ -145,7 +145,7 @@ class DictionaryImport(ImportContext context) : ImportBase(context)
             var model = new Dictionary<string, object>();
             foreach (var field in module.Form.Fields)
             {
-                if (field.Type == FieldType.Date)
+                if (field.Type == FieldType.Date || field.Type == FieldType.DateTime)
                     model[field.Id] = item.GetValue<DateTime?>(field.Name);
                 else
                     model[field.Id] = item.GetValue(field.Name);

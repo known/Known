@@ -8,7 +8,7 @@ public class EntityInfo
     public List<FieldInfo> Fields { get; set; } = [];
 }
 
-public enum FieldType { Text, TextArea, Date, Number, Switch, CheckBox, CheckList, RadioList, Select, Password, File }
+public enum FieldType { Text, TextArea, Date, DateTime, Number, Switch, CheckBox, CheckList, RadioList, Select, Password, File }
 
 public class FieldInfo
 {

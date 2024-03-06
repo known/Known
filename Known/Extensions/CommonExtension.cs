@@ -129,8 +129,11 @@ public static class CommonExtension
         if (type == typeof(short) || type == typeof(int) || type == typeof(long) || type == typeof(float) || type == typeof(double) || type == typeof(decimal))
             return FieldType.Number;
 
-        if (type == typeof(DateTime?) || type == typeof(DateTime) || type == typeof(DateTimeOffset?) || type == typeof(DateTimeOffset))
+        if (type == typeof(DateOnly?) || type == typeof(DateOnly))
             return FieldType.Date;
+
+        if (type == typeof(DateTime?) || type == typeof(DateTime) || type == typeof(DateTimeOffset?) || type == typeof(DateTimeOffset))
+            return FieldType.DateTime;
 
         return FieldType.Text;
     }

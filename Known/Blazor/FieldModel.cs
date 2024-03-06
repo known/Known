@@ -33,6 +33,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             switch (Column.Type)
             {
                 case FieldType.Date:
+                case FieldType.DateTime:
                     return value != null ? value.GetType() : typeof(DateTime?);
                 case FieldType.Number:
                     return value != null ? value.GetType() : typeof(int);
@@ -57,7 +58,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             {
                 var data = Form.Data as Dictionary<string, object>;
                 data.TryGetValue(Column.Id, out object value);
-                if (Column.Type != FieldType.Date)
+                if (Column.Type != FieldType.Date && Column.Type != FieldType.DateTime)
                     return value;
 
                 return Utils.ConvertTo<DateTime?>(value);
@@ -111,7 +112,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
                 { "required", Column.Required },
                 { "placeholder", Column.Placeholder }
             };
-            if (Column.Type != FieldType.Date)
+            if (Column.Type != FieldType.Date && Column.Type != FieldType.DateTime)
                 attributes["disabled"] = IsReadOnly;
             UI.AddInputAttributes(attributes, this);
 

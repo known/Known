@@ -108,6 +108,10 @@ public class AntGenerateColumns<TItem> : BaseComponent where TItem : class, new(
             builder.AddAttribute(1, nameof(Column<TItem>.DefaultSortOrder), SortDirection.Parse(sortName));
         }
         //builder.AddAttribute(1, nameof(Column<TItem>.Filterable), true);
+        if (item.Type == FieldType.Date)
+            builder.AddAttribute(1, nameof(Column<TItem>.Format), "yyyy-MM-dd");
+        if (item.Type == FieldType.DateTime)
+            builder.AddAttribute(1, nameof(Column<TItem>.Format), "yyyy-MM-dd HH:mm:ss");
 
         RenderFragment<TItem> template = null;
         Table.Templates?.TryGetValue(item.Id, out template);

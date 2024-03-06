@@ -62,6 +62,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    public ColumnBuilder<TItem> Type(FieldType type)
+    {
+        if (column != null)
+            column.Type = type;
+        return this;
+    }
+
     public ColumnBuilder<TItem> DefaultAscend() => DefaultSort("asc");
     public ColumnBuilder<TItem> DefaultDescend() => DefaultSort("desc");
 
