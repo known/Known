@@ -46,7 +46,7 @@ class DictionaryService(Context context) : ServiceBase(context)
 
         await Database.SaveAsync(model);
         await RefreshCacheAsync();
-        return Result.Success(Language.Success(Language.Save), model.Id);
+        return Result.Success(Language.Success(Language.Save), model);
     }
 
     private async Task<Result> RefreshCacheAsync(Database db)

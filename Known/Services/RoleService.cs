@@ -55,6 +55,6 @@ class RoleService(Context context) : ServiceBase(context)
                     await RoleRepository.AddRoleModuleAsync(db, model.Id, item);
                 }
             }
-        }, model.Id);
+        }, model);
     }
 }

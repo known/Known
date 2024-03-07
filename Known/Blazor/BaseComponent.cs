@@ -52,7 +52,8 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await Error?.HandleAsync(ex);
+            if (Error != null)
+                await Error.HandleAsync(ex);
         }
     }
 
@@ -64,7 +65,8 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await Error?.HandleAsync(ex);
+            if (Error != null)
+                await Error.HandleAsync(ex);
         }
     }
 
