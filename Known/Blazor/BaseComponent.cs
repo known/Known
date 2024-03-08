@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 
 namespace Known.Blazor;
 
@@ -27,6 +28,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter] public Context Context { get; set; }
     [CascadingParameter] public Error Error { get; set; }
 
+    protected bool IsMobile { get; private set; }
     protected bool IsLoaded { get; set; }
     public IUIService UI => Context?.UI;
     public Language Language => Context?.Language;
@@ -47,6 +49,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         try
         {
+            IsMobile = CheckMobile(HttpAccessor.HttpContext.Request);
             await base.OnInitializedAsync();
             await OnInitAsync();
         }
@@ -121,5 +124,26 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         else if (menu.Actions != null && menu.Actions.Count > 0)
             hasButton = menu.Actions.Contains(buttonId);
         return hasButton;
+    }
+
+    private static bool CheckMobile(HttpRequest request)
+    {
+        var agent = request.Headers[HeaderNames.UserAgent].ToString();
+        if (agent.Contains("Windows NT") || agent.Contains("Macintosh"))
+            return false;
+
+        bool flag = false;
+        string[] keywords = ["Android", "iPhone", "iPod", "iPad", "Windows Phone", "MQQBrowser"];
+
+        foreach (string item in keywords)
+        {
+            if (agent.Contains(item))
+            {
+                flag = true;
+                break;
+            }
+        }
+
+        return flag;
     }
 }
