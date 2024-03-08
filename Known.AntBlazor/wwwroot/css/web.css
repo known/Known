@@ -209,3 +209,36 @@
 :root[theme=dark] .ant-table-tbody > tr > td.ant-table-cell-row-hover {
     background-color:rgba(255, 255, 255, 0.08);
 }
+
+/*App*/
+.kui-app {position:absolute;top:0;left:0;right:0;bottom:0;}
+
+.kui-app-nav {
+    position:absolute;top:0;left:0;right:0;padding:0 1rem;font-weight:bold;font-size:1rem;text-align:center;
+    border-bottom:1px solid #ccc;height:40px;line-height:40px;background-color:#1890ff;color:#fff;
+}
+.kui-app-nav .back {cursor:pointer;position:absolute;top:0;left:0;bottom:0;width:80px;}
+.kui-app-page {position:absolute;top:0;left:0;right:0;bottom:0;overflow:auto;}
+.kui-app-page.nav {top:40px;}
+.kui-app-page.tab {bottom:50px;}
+
+.kui-app-tab {
+    position:absolute;left:0;right:0;bottom:0;height:50px;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));list-style:none;
+    border-top:1px solid #ccc;margin:0;padding:0;
+}
+.kui-app-tab li {cursor:pointer;display:flex;flex-direction:column;text-align:center;padding-top:5px;}
+.kui-app-tab .anticon {font-size:18px;}
+.kui-app-tab .active {color:#1890ff;}
+
+.kui-app-menu {list-style:none;margin:0;padding:0;}
+.kui-app-menu li {display:inline-block;text-align:center;cursor:pointer;}
+.kui-app-menu-icon {color:#fff;border-radius:50%;width:60px;height:60px;margin:10px auto;}
+.kui-app-menu .anticon {font-size:40px;margin-top:10px;}
+
+.kui-app-row {display:flex;height:56px;}
+.kui-app-row > label, .kui-app-row > span {padding-top:5px;}
+.kui-app-row > label {padding-right:10px;}
+
+.carousel {background-color:#1890ff;}
+.carousel img {width:100%;height:200px;}

@@ -28,7 +28,7 @@ public class CssBuilder
         return this;
     }
 
-    public CssBuilder AddClass(string className, bool when = true) => when ? AddClass(className) : this;
+    public CssBuilder AddClass(string className, bool when) => when ? AddClass(className) : this;
     public string BuildClass() => classes.Count != 0 ? string.Join(" ", classes) : null;
     public string BuildStyle() => string.Join(";", styles.Select(s => $"{s.Key}:{s.Value}"));
 }

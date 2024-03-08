@@ -1,0 +1,62 @@
+﻿<div class="kui-app">
+    @if (!IsHome)
+    {
+        <div class="kui-app-nav">
+            @if (current?.Previous != null)
+            {
+                <span class="back" @onclick="e=>OnBack()">
+                    <Icon Type="left" Theme="outline" />
+                    <span>返回</span>
+                </span>
+            }
+            @current?.Name
+        </div>
+    }
+    <div class="@PageClass">
+        <DynamicComponent Type="current?.ComType" />
+    </div>
+    @if (IsTab)
+    {
+        <AppTab Items="Menus" OnClick="OnTabClick" />
+    }
+</div>
+
+@code {
+    private Known.MenuItem current;
+    private bool IsHome => current?.Id == "Home";
+    private bool IsTab => current?.Previous == null;
+    private string PageClass => CssBuilder.Default("kui-app-page").AddClass("nav", !IsHome).AddClass("tab", IsTab).BuildClass();
+
+    [Parameter] public List<Known.MenuItem> Menus { get; set; }
+    [Parameter] public Func<Task> OnLogout { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        current = Menus.FirstOrDefault();
+        //BasePage.OnNavigate = OnNavigate;
+    }
+
+    private void OnNavigate(Known.MenuItem info)
+    {
+        info.Previous = current;
+        current = info;
+        StateHasChanged();
+    }
+
+    private void OnBack()
+    {
+        if (current?.Previous == null)
+            return;
+
+        current = current.Previous;
+        StateHasChanged();
+    }
+
+    private void OnTabClick(Known.MenuItem info)
+    {
+        info.Previous = null;
+        current = info;
+        StateHasChanged();
+    }
+}
