@@ -1,0 +1,119 @@
+﻿@inherits BaseComponent
+@typeparam TItem where TItem : class, new()
+
+@if (Table != null && Table.Columns != null)
+{
+    var isDictionary = Table.IsDictionary;
+    foreach (var item in Table.Columns)
+    {
+        if (!item.IsVisible)
+            continue;
+
+        var title = Language?.GetString<TItem>(item);
+        if (isDictionary)
+        {
+            var value = GetValue(Item as Dictionary<string, object>, item.Id);
+            if (item.IsViewLink)
+            {
+                <PropertyColumn Title="@title" Property="(Dictionary<string, object> c) => GetValue(c, item.Id)">
+                    <span class="kui-link" @onclick="e=>Table.ViewForm(Item)">@value</span>
+                </PropertyColumn>
+            }
+            else
+            {
+                <PropertyColumn Title="@title" Property="(Dictionary<string, object> c) => GetValue(c, item.Id)" />
+            }
+        }
+        else
+        {
+            RenderFragment<TItem> template = null;
+            Table.Templates?.TryGetValue(item.Id, out template);
+            if (template != null)
+            {
+                continue;
+            }
+            var value = TypeHelper.GetPropertyValue(Item, item.Id);
+            var typeName = string.Empty;
+            if (item.Property != null)
+                typeName = item.Property.PropertyType.ToString();
+            //Logger.Info(typeName);
+            var propertyType = typeof(string);
+            if (item.Property != null)
+                propertyType = item.Property.PropertyType.UnderlyingSystemType;
+
+            if (propertyType.IsEnum)
+            {
+                //<Column @bind-Field="@value" />
+                continue;
+            }
+            
+            switch (typeName)
+            {
+                case "System.Boolean":
+                    var isChecked = Utils.ConvertTo<bool>(value);
+                    <AntColumn Title="@title" TData="Boolean" Info="item">
+                        <Switch Disabled Checked="isChecked" />
+                    </AntColumn>
+                    break;
+                case "System.DateTime":
+                    <AntColumn Title="@title" TData="DateTime" Info="item" />
+                    break;
+                case "System.Nullable`1[System.DateTime]":
+                    <AntColumn Title="@title" TData="DateTime?" Info="item" />
+                    break;
+                case "System.Int32":
+                    <AntColumn Title="@title" TData="Int32" Info="item" />
+                    break;
+                case "System.Int64":
+                    <AntColumn Title="@title" TData="Int64" Info="item" />
+                    break;
+                default:
+                    if (item.IsViewLink)
+                    {
+                        <AntColumn Title="@title" TData="string" Info="item">
+                            <span class="kui-link" @onclick="e=>Table.ViewForm(Item)">@value</span>
+                        </AntColumn>
+                    }
+                    else
+                    {
+                        <AntColumn Title="@title" TData="string" Info="item" />
+                    }
+                    break;
+            }
+        }
+    }
+
+    if (Table.HasSum)
+    {
+        <SummaryRow>
+            <SummaryCell Class="kui-table-check" Align="ColumnAlign.Center">@Language["IsSum"]</SummaryCell>
+        </SummaryRow>
+        foreach (var item in Table.Columns)
+        {
+            if (item.IsSum)
+            {
+                object value = null;
+                Table.Result?.Sums?.TryGetValue(item.Id, out value);
+                <SummaryCell>@value</SummaryCell>
+            }
+            else
+            {
+                <SummaryCell />
+            }
+        }
+        if (Table.HasAction)
+        {
+            <SummaryCell />
+        }
+    }
+}
+
+@code {
+    [Parameter] public TableModel<TItem> Table { get; set; }
+    [Parameter] public TItem Item { get; set; }
+
+    private object GetValue(Dictionary<string, object> dic, string id)
+    {
+        return dic.ContainsKey(id) ? dic[id] : "";
+    }
+}

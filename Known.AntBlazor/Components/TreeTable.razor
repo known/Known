@@ -1,0 +1,17 @@
+﻿@inherits BaseComponent
+@typeparam TItem where TItem : class, new()
+
+<AntTable Context="Context" Resizable="Model.Resizable" 
+          DataSource="Model.DataSource" TreeChildren="Model.TreeChildren"
+          @bind-SelectedRows="Model.SelectedRows">
+    @if (!string.IsNullOrWhiteSpace(Model.SelectType))
+    {
+        <Selection Type="@Model.SelectType" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
+    }
+    <DataColumn Table="Model" Item="context" />
+    <DataAction Table="Model" Item="context" />
+</AntTable>
+
+@code {
+    [Parameter] public TableModel<TItem> Model { get; set; }
+}

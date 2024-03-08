@@ -3,48 +3,21 @@
 @inherits BaseComponent
 @typeparam TItem where TItem : class, new()
 
-<AntTable TItem="TItem" Resizable="Model.Resizable"
+<AntTable TItem="TItem" Context="Context" Resizable="Model.Resizable"
           ScrollX="@Model.FixedWidth" ScrollY="@Model.FixedHeight"
-          Context="Context" Criteria="Model.Criteria" Result="Model.Result"
+          Criteria="Model.Criteria" Result="Model.Result"
           @bind-SelectedRows="Model.SelectedRows"
           RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick"
           HidePagination="!Model.ShowPager">
-    <ChildContent>
-        @if (!string.IsNullOrWhiteSpace(Model.SelectType))
-        {
-            <Selection Type="@Model.SelectType" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
-        }
-        <AntGenerateColumns Table="Model" Item="context" />
-        @if (Model.HasAction)
-        {
-            var actions = Model.RowActions?.Invoke(context);
-            if (actions == null)
-                actions = Model.Actions;
-            <ActionColumn Title="@Language["Title.Action"]" Align="ColumnAlign.Center" Width="140" Class="kui-table-action">
-                @if (actions.Count > 2)
-                {
-                    var first = actions[0];
-                    var firstName = Language.GetString(first);
-                    var mores = actions.Skip(1).ToList();
-                    <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Model.OnAction?.Invoke(first, context)">@firstName</Tag>
-                    <AntDropdown Context="Context" Text="@Language["Button.More"]" Items="mores" OnItemClick="e=>Model.OnAction?.Invoke(e, context)" />
-                }
-                else
-                {
-                    foreach (var item in actions)
-                    {
-                        var itemName = Language.GetString(item);
-                        <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@itemName</Tag>
-                    }
-                }
-            </ActionColumn>
-        }
-    </ChildContent>
+    @if (!string.IsNullOrWhiteSpace(Model.SelectType))
+    {
+        <Selection Type="@Model.SelectType" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
+    }
+    <AutoColumn Table="Model" Item="context" />
+    <DataAction Table="Model" Item="context" />
  </AntTable>
 
 @code {
-    private string GetActionColor(string style) => style == "danger" ? "red-inverse" : "blue-inverse";
-
     [Parameter] public TableModel<TItem> Model { get; set; }
 
     protected override void OnInitialized()

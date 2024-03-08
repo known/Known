@@ -1,0 +1,34 @@
+﻿@inherits BaseComponent
+@typeparam TItem where TItem : class, new()
+
+@if (Table.HasAction)
+{
+    var actions = Table.RowActions?.Invoke(Item);
+    if (actions == null)
+        actions = Table.Actions;
+    <ActionColumn Title="@Language["Title.Action"]" Align="ColumnAlign.Center" Width="140" Class="kui-table-action">
+        @if (actions.Count > 2)
+        {
+            var first = actions[0];
+            var firstName = Language.GetString(first);
+            var mores = actions.Skip(1).ToList();
+            <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Table.OnAction?.Invoke(first, Item)">@firstName</Tag>
+            <AntDropdown Context="Context" Text="@Language["Button.More"]" Items="mores" OnItemClick="e=>Table.OnAction?.Invoke(e, Item)" />
+        }
+        else
+        {
+            foreach (var item in actions)
+            {
+                var itemName = Language.GetString(item);
+                <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Table.OnAction?.Invoke(item, Item)">@itemName</Tag>
+            }
+        }
+    </ActionColumn>
+}
+
+@code {
+    private string GetActionColor(string style) => style == "danger" ? "red-inverse" : "blue-inverse";
+
+    [Parameter] public TableModel<TItem> Table { get; set; }
+    [Parameter] public TItem Item { get; set; }
+}

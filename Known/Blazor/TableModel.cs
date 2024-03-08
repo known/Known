@@ -53,6 +53,8 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public Func<TItem, Task> OnRowClick { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }
     public Func<Task> OnRefresh { get; set; }
+    public List<TItem> DataSource { get; set; }
+    public Func<TItem, List<TItem>> TreeChildren { get; set; }
 
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
     {
