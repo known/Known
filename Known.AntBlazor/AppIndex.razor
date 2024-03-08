@@ -13,7 +13,9 @@
         </div>
     }
     <div class="@PageClass">
-        <DynamicComponent Type="current?.ComType" />
+        <CascadingValue Value="this">
+            <DynamicComponent Type="current?.ComType" Parameters="current?.ComParameters" />
+        </CascadingValue>
     </div>
     @if (IsTab)
     {
@@ -34,13 +36,15 @@
     {
         base.OnInitialized();
         current = Menus.FirstOrDefault();
-        //BasePage.OnNavigate = OnNavigate;
     }
 
-    private void OnNavigate(Known.MenuItem info)
+    public void Navigate(Known.MenuItem item)
     {
-        info.Previous = current;
-        current = info;
+        if (item == null || item.ComType == null)
+            return;
+
+        item.Previous = current;
+        current = item;
         StateHasChanged();
     }
 
