@@ -126,7 +126,7 @@ class FileLogger : ILogger
 
     private static void WriteFile(string type, List<string> contents)
     {
-        var path = Path.Combine(Config.App.ContentRoot, "logs");
+        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
         path = Path.Combine(path, type);
         path = Path.Combine(path, $"{DateTime.Now:yyyyMMdd}.log");
         var info = new FileInfo(path);

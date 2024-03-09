@@ -98,7 +98,9 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         }
         catch (Exception ex)
         {
-            await Error?.HandleAsync(ex);
+            Logger.Exception(ex);
+            if (Error != null)
+                await Error.HandleAsync(ex);
         }
     }
 

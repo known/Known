@@ -62,7 +62,9 @@ public class AntTable<TItem> : Table<TItem>
         }
         catch (Exception ex)
         {
-            await Error.HandleAsync(ex);
+            Logger.Exception(ex);
+            if (Error != null)
+                await Error.HandleAsync(ex);
         }
     }
 }

@@ -49,12 +49,13 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         try
         {
-            IsMobile = CheckMobile(HttpAccessor.HttpContext.Request);
+            IsMobile = CheckMobile(HttpAccessor?.HttpContext?.Request);
             await base.OnInitializedAsync();
             await OnInitAsync();
         }
         catch (Exception ex)
         {
+            Logger.Exception(ex);
             if (Error != null)
                 await Error.HandleAsync(ex);
         }
@@ -68,6 +69,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
+            Logger.Exception(ex);
             if (Error != null)
                 await Error.HandleAsync(ex);
         }
@@ -128,6 +130,9 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
     private static bool CheckMobile(HttpRequest request)
     {
+        if (request == null)
+            return false;
+
         var agent = request.Headers[HeaderNames.UserAgent].ToString();
         if (agent.Contains("Windows NT") || agent.Contains("Macintosh"))
             return false;

@@ -16,7 +16,6 @@ public class Error : BaseComponent
 
     public Task HandleAsync(Exception exception)
     {
-        Logger.Exception(exception);
         return OnError?.Invoke(exception);
     }
 }
