@@ -54,7 +54,6 @@ class SysOrganizationList : BasePage<SysOrganization>
         return Task.FromResult(result);
     }
 
-    [Action]
     public void New()
     {
         if (current == null)
@@ -66,9 +65,9 @@ class SysOrganizationList : BasePage<SysOrganization>
 		table.NewForm(Platform.Company.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
     }
 
-    [Action] public void Edit(SysOrganization row) => table.EditForm(Platform.Company.SaveOrganizationAsync, row);
-    [Action] public void Delete(SysOrganization row) => table.Delete(Platform.Company.DeleteOrganizationsAsync, row);
-    [Action] public void DeleteM() => table.DeleteM(Platform.Company.DeleteOrganizationsAsync);
+    public void Edit(SysOrganization row) => table.EditForm(Platform.Company.SaveOrganizationAsync, row);
+    public void Delete(SysOrganization row) => table.Delete(Platform.Company.DeleteOrganizationsAsync, row);
+    public void DeleteM() => table.DeleteM(Platform.Company.DeleteOrganizationsAsync);
 
     private async void OnNodeClick(MenuItem item)
     {

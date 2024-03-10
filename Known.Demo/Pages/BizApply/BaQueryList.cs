@@ -22,11 +22,11 @@ class BaQueryList : BaseTablePage<TbApply>
     }
 
     //重新申请
-    [Action] public void Reapply() => Table.SelectRows(this.RepeatFlow);
+    public void Reapply() => Table.SelectRows(this.RepeatFlow);
     //导出列表
-    [Action] public void Export() { }
+    public void Export() { }
     //打印
-    [Action] public async void Print(TbApply row) => await JS.PrintAsync<ApplyPrint>(f => f.Set(c => c.Model, row));
+    public async void Print(TbApply row) => await JS.PrintAsync<ApplyPrint>(f => f.Set(c => c.Model, row));
 
 	private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BuildTag(builder, row.BizStatus);
 }
@@ -41,7 +41,7 @@ class ApplyPrint : ComponentBase
         BuildForm(builder);
     }
 
-    private void BuildStyle(RenderTreeBuilder builder)
+    private static void BuildStyle(RenderTreeBuilder builder)
     {
         builder.Markup(@"<style>
 .demo-print {position:relative;}

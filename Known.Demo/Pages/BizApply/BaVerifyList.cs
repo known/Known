@@ -20,7 +20,7 @@ class BaVerifyList : BaseTablePage<TbApply>
     }
 
 	//审核操作
-    [Action] public void Verify(TbApply row) => this.VerifyFlow(row);
+    public void Verify(TbApply row) => this.VerifyFlow(row);
 
 	private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BuildTag(builder, row.BizStatus);
 }

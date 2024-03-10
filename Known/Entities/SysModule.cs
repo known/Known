@@ -119,17 +119,6 @@ public class SysModule : EntityBase
         Columns = Page?.Columns;
     }
 
-    internal List<string> GetButtons()
-    {
-        Config.PageButtons.TryGetValue(Code, out List<string> buttons);
-        buttons ??= Page?.Tools?.ToList();
-        return buttons;
-    }
-
-    internal List<string> GetActions()
-    {
-        Config.PageActions.TryGetValue(Code, out List<string> actions);
-        actions ??= Page?.Actions?.ToList();
-        return actions;
-    }
+    internal List<string> GetButtons() => Page?.Tools?.ToList();
+    internal List<string> GetActions() => Page?.Actions?.ToList();
 }

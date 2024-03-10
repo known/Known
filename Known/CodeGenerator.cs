@@ -346,11 +346,11 @@ class CodeGenerator : ICodeGenerator
             foreach (var item in page.Tools)
             {
                 if (item == "New")
-                    sb.AppendLine("    [Action] public void New() => Table.NewForm(Service.Save{0}Async, new {0}());", entity.Id);
+                    sb.AppendLine("    public void New() => Table.NewForm(Service.Save{0}Async, new {0}());", entity.Id);
                 else if (item == "DeleteM")
-                    sb.AppendLine("    [Action] public void DeleteM() => Table.DeleteM(Service.Delete{0}sAsync);", entity.Id);
+                    sb.AppendLine("    public void DeleteM() => Table.DeleteM(Service.Delete{0}sAsync);", entity.Id);
                 else
-                    sb.AppendLine("    [Action] public void {0}() => Table.SelectRows(Service.{0}{1}sAsync, Language[\"Button.{0}\"]);", item, entity.Id);
+                    sb.AppendLine("    public void {0}() => Table.SelectRows(Service.{0}{1}sAsync, Language[\"Button.{0}\"]);", item, entity.Id);
             }
         }
 
@@ -359,11 +359,11 @@ class CodeGenerator : ICodeGenerator
             foreach (var item in page.Actions)
             {
                 if (item == "Edit")
-                    sb.AppendLine("    [Action] public void Edit({0} row) => Table.EditForm(Service.Save{0}Async, row);", entity.Id);
+                    sb.AppendLine("    public void Edit({0} row) => Table.EditForm(Service.Save{0}Async, row);", entity.Id);
                 else if (item == "Delete")
-                    sb.AppendLine("    [Action] public void Delete({0} row) => Table.Delete(Service.Delete{0}sAsync, row);", entity.Id);
+                    sb.AppendLine("    public void Delete({0} row) => Table.Delete(Service.Delete{0}sAsync, row);", entity.Id);
                 else
-                    sb.AppendLine("    [Action] public void {0}({1} row) => {{}};", item, entity.Id);
+                    sb.AppendLine("    public void {0}({1} row) => {{}};", item, entity.Id);
             }
         }
 

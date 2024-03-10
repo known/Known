@@ -43,12 +43,12 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         }
     }
 
-    [Action] public void New() => Table.NewForm(m => Platform.Auto.SaveModelAsync(TableName, m), []);
-    [Action] public void DeleteM() => Table.DeleteM(m => Platform.Auto.DeleteModelsAsync(TableName, m));
-    [Action] public void Edit(Dictionary<string, object> row) => Table.EditForm(m => Platform.Auto.SaveModelAsync(TableName, m), row);
-    [Action] public void Delete(Dictionary<string, object> row) => Table.Delete(m => Platform.Auto.DeleteModelsAsync(TableName, m), row);
-    [Action] public void Import() => ShowImportForm(TableName);
-    [Action] public async void Export() => await ExportDataAsync(ExportMode.Query);
+    public void New() => Table.NewForm(m => Platform.Auto.SaveModelAsync(TableName, m), []);
+    public void DeleteM() => Table.DeleteM(m => Platform.Auto.DeleteModelsAsync(TableName, m));
+    public void Edit(Dictionary<string, object> row) => Table.EditForm(m => Platform.Auto.SaveModelAsync(TableName, m), row);
+    public void Delete(Dictionary<string, object> row) => Table.Delete(m => Platform.Auto.DeleteModelsAsync(TableName, m), row);
+    public void Import() => ShowImportForm(TableName);
+    public async void Export() => await ExportDataAsync(ExportMode.Query);
 
     private void InitTable()
     {

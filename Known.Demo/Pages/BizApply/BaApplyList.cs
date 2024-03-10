@@ -22,7 +22,6 @@ class BaApplyList : BaseTablePage<TbApply>
     }
 
     //新增按钮事件
-    [Action]
     public async void New()
     {
         var row = await Service.GetDefaultApplyAsync(ApplyType.Test);
@@ -30,15 +29,15 @@ class BaApplyList : BaseTablePage<TbApply>
     }
 
     //编辑操作
-    [Action] public void Edit(TbApply row) => Table.EditForm(Service.SaveApplyAsync, row);
+    public void Edit(TbApply row) => Table.EditForm(Service.SaveApplyAsync, row);
     //删除操作
-    [Action] public void Delete(TbApply row) => Table.Delete(Service.DeleteApplysAsync, row);
+    public void Delete(TbApply row) => Table.Delete(Service.DeleteApplysAsync, row);
     //批量删除操作
-    [Action] public void DeleteM() => Table.DeleteM(Service.DeleteApplysAsync);
+    public void DeleteM() => Table.DeleteM(Service.DeleteApplysAsync);
     //提交审核
-    [Action] public void Submit(TbApply row) => this.SubmitFlow(row);
+    public void Submit(TbApply row) => this.SubmitFlow(row);
     //撤回
-    [Action] public void Revoke(TbApply row) => this.RevokeFlow(row);
+    public void Revoke(TbApply row) => this.RevokeFlow(row);
 
     private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BuildTag(builder, row.BizStatus);
 }

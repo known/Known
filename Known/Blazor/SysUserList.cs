@@ -57,14 +57,14 @@ class SysUserList : BasePage<SysUser>
         return Platform.User.QueryUsersAsync(criteria);
     }
 
-    [Action] public void New() => table.NewForm(Platform.User.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
-    [Action] public void Edit(SysUser row) => table.EditForm(Platform.User.SaveUserAsync, row);
-    [Action] public void Delete(SysUser row) => table.Delete(Platform.User.DeleteUsersAsync, row);
-    [Action] public void DeleteM() => table.DeleteM(Platform.User.DeleteUsersAsync);
-    [Action] public void ResetPassword() => table.SelectRows(Platform.User.SetUserPwdsAsync, Language.Reset);
-    [Action] public void ChangeDepartment() => table.SelectRows(OnChangeDepartment);
-    [Action] public void Enable() => table.SelectRows(Platform.User.EnableUsersAsync, Language.Enable);
-    [Action] public void Disable() => table.SelectRows(Platform.User.DisableUsersAsync, Language.Disable);
+    public void New() => table.NewForm(Platform.User.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
+    public void Edit(SysUser row) => table.EditForm(Platform.User.SaveUserAsync, row);
+    public void Delete(SysUser row) => table.Delete(Platform.User.DeleteUsersAsync, row);
+    public void DeleteM() => table.DeleteM(Platform.User.DeleteUsersAsync);
+    public void ResetPassword() => table.SelectRows(Platform.User.SetUserPwdsAsync, Language.Reset);
+    public void ChangeDepartment() => table.SelectRows(OnChangeDepartment);
+    public void Enable() => table.SelectRows(Platform.User.EnableUsersAsync, Language.Enable);
+    public void Disable() => table.SelectRows(Platform.User.DisableUsersAsync, Language.Disable);
 
     private void BuildGender(RenderTreeBuilder builder, SysUser row) => UI.BuildTag(builder, row.Gender);
 

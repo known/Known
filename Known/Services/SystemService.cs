@@ -482,13 +482,12 @@ URL|Url|Text|200
         return Path.Combine(path, "Known", $"{Config.App.Id}.key");
     }
 
-    private async Task<Result> CheckKeyAsync()
-    {
-        var info = await GetSystemAsync();
-        //var result = PlatformHelper.CheckSystem?.Invoke(Database, info);
-        //return result ?? Result.Success("");
-        return Result.Success("");
-    }
+    //private async Task<Result> CheckKeyAsync()
+    //{
+    //    var info = await GetSystemAsync();
+    //    var result = PlatformHelper.CheckSystem?.Invoke(Database, info);
+    //    return result ?? Result.Success("");
+    //}
 
     //Task
     public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria)

@@ -6,9 +6,6 @@ using Known.Extensions;
 
 namespace Known;
 
-[AttributeUsage(AttributeTargets.Method)]
-public class ActionAttribute : Attribute { }
-
 [AttributeUsage(AttributeTargets.Class)]
 public class CodeInfoAttribute : Attribute { }
 

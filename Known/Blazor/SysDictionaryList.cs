@@ -85,7 +85,6 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
         return result;
     }
 
-    [Action]
     public void AddCategory()
     {
         isAddCategory = true;
@@ -94,11 +93,11 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
         NewForm(dicCate, categories.Count, true);
     }
 
-    [Action] public void New() => NewForm(category, total, false);
-    [Action] public void Edit(SysDictionary row) => Table.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
-    [Action] public void Delete(SysDictionary row) => Table.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
-    [Action] public void DeleteM() => Table.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
-    [Action] public void Import() => ShowImportForm();
+    public void New() => NewForm(category, total, false);
+    public void Edit(SysDictionary row) => Table.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
+    public void Delete(SysDictionary row) => Table.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
+    public void DeleteM() => Table.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
+    public void Import() => ShowImportForm();
 
     private async Task LoadCategoriesAsync()
     {

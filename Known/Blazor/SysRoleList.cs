@@ -13,10 +13,10 @@ class SysRoleList : BaseTablePage<SysRole>
 		Table.RowKey = r => r.Id;
     }
 
-    [Action] public void New() => Table.NewForm(Platform.Role.SaveRoleAsync, new SysRole());
-    [Action] public void Edit(SysRole row) => Table.EditForm(Platform.Role.SaveRoleAsync, row);
-    [Action] public void Delete(SysRole row) => Table.Delete(Platform.Role.DeleteRolesAsync, row);
-    [Action] public void DeleteM() => Table.DeleteM(Platform.Role.DeleteRolesAsync);
+    public void New() => Table.NewForm(Platform.Role.SaveRoleAsync, new SysRole());
+    public void Edit(SysRole row) => Table.EditForm(Platform.Role.SaveRoleAsync, row);
+    public void Delete(SysRole row) => Table.Delete(Platform.Role.DeleteRolesAsync, row);
+    public void DeleteM() => Table.DeleteM(Platform.Role.DeleteRolesAsync);
 }
 
 class SysRoleForm : BaseForm<SysRole>
@@ -36,7 +36,7 @@ class SysRoleForm : BaseForm<SysRole>
             Checkable = true,
             IsView = Model.IsView,
             Data = Model.Data.Menus,
-            DefaultCheckedKeys = Model.Data.MenuIds.ToArray(),
+            DefaultCheckedKeys = [.. Model.Data.MenuIds],
             OnNodeClick = OnTreeClick,
             OnNodeCheck = OnTreeCheck
         };
@@ -94,7 +94,7 @@ class SysRoleForm : BaseForm<SysRole>
         Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"b_{current.Id}"));
         if (items != null && items.Length > 0)
             Model.Data.MenuIds.AddRange(items);
-        btnModel.Value = Model.Data.MenuIds.ToArray();
+        btnModel.Value = [.. Model.Data.MenuIds];
     }
 
     private void OnColumnChanged(string[] items)
@@ -102,7 +102,7 @@ class SysRoleForm : BaseForm<SysRole>
         Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"c_{current.Id}"));
         if (items != null && items.Length > 0)
             Model.Data.MenuIds.AddRange(items);
-        colModel.Value = Model.Data.MenuIds.ToArray();
+        colModel.Value = [.. Model.Data.MenuIds];
     }
 
     private void SelectNode(MenuItem item)
@@ -111,10 +111,10 @@ class SysRoleForm : BaseForm<SysRole>
 
         btnModel.Disabled = ChkDisabled;
         btnModel.Codes = current.GetAllActions();
-        btnModel.Value = Model.Data.MenuIds.ToArray();
+        btnModel.Value = [.. Model.Data.MenuIds];
 
         colModel.Disabled = ChkDisabled;
         colModel.Codes = current.GetAllColumns();
-        colModel.Value = Model.Data.MenuIds.ToArray();
+        colModel.Value = [.. Model.Data.MenuIds];
     }
 }

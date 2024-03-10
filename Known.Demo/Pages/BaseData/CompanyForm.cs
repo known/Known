@@ -21,8 +21,6 @@ class CompanyForm : BaseTabPage
         info?.StateChanged();
         base.StateChanged();
     }
-
-    [Action] public void Edit() { }
 }
 
 class CompanyBaseInfo : BaseForm<CompanyInfo>
