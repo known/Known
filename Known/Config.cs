@@ -197,6 +197,7 @@ public class AppInfo
     public Assembly Assembly { get; set; }
     public bool IsPlatform { get; set; }
     public bool IsLanguage { get; set; }
+    public bool IsTheme { get; set; }
     public bool IsDevelopment { get; set; }
     public string WebRoot { get; set; }
     public string ContentRoot { get; set; }

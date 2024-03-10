@@ -7,7 +7,7 @@ html, body {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;width:100
 }
 #blazor-error-ui .dismiss {cursor:pointer;position:absolute;right:0.75rem;top:0.5rem;}
 
-.login-form-body, .known, .ws-space {background-color:var(--kui-bgcolor);color:var(--kui-color);}
+.login, .login-form-body, .known, .ws-space {background-color:var(--kui-bgcolor);color:var(--kui-color);}
 .known, .ws-space, .ws-chart .ant-card, .ws-func .ant-card {border-radius:5px;}
 
 /*Login*/

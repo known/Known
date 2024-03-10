@@ -16,9 +16,12 @@
     <SpaceItem>
         <AntDropdown Context="Context" Text="@CurrentUser.Name" Items="UserItems" OnItemClick="e=>OnItemClick(e.Id)" />
     </SpaceItem>
-    <SpaceItem>
-        <AntTheme Theme="@Index.Theme" OnChanged="Index.SetTheme" />
-    </SpaceItem>
+    @if (Config.App.IsTheme)
+    {
+        <SpaceItem>
+            <AntTheme Theme="@Index.Theme" OnChanged="Index.SetTheme" />
+        </SpaceItem>
+    }
     <SpaceItem Class="kui-nav-setting">
         <Tooltip Title="@Language["Nav.Setting"]"><Icon Type="setting" OnClick="@(e=>OnItemClick("setting"))" /></Tooltip>
     </SpaceItem>

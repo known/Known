@@ -15,7 +15,8 @@ public class IndexPage : BaseComponent
     protected override async Task OnInitAsync()
     {
         IsLoaded = false;
-        Theme = await JS.GetCurrentThemeAsync();
+        if (Config.App.IsTheme)
+            Theme = await JS.GetCurrentThemeAsync();
         Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
         Context.Install = await Platform.System.GetInstallAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
@@ -25,6 +26,9 @@ public class IndexPage : BaseComponent
 
     public void SetTheme(string theme)
     {
+        if (!Config.App.IsTheme)
+            return;
+
         Theme = theme;
         StateChanged();
     }

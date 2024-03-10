@@ -28,6 +28,7 @@ public static class AppConfig
             info.Type = AppType.Web;
             info.Assembly = typeof(AppConfig).Assembly;
             info.IsLanguage = true;
+            info.IsTheme = true;
             //数据库连接
             info.Connections = [new ConnectionInfo
             {
