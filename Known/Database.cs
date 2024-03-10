@@ -910,7 +910,7 @@ public class Database : IDisposable
         }
     }
 
-    private void HandleException(Exception ex, string sql)
+    private static void HandleException(Exception ex, string sql)
     {
         Logger.Exception(ex);
         Logger.Error(sql);
