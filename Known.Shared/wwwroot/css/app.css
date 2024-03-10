@@ -27,25 +27,17 @@ html, body {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;width:100
 .login-form h1 {font-size:1.2rem;margin-top:1rem;margin-bottom:1rem;}
 .login-form .ant-input-affix-wrapper > .ant-input:not(textarea) {padding-left:10px;}
 .login-form-body {position:relative;border-radius:5px;padding:20px 30px;height:370px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);}
-.login-copyright {text-align:center;width:100%;font-size:1.1rem;margin-top:30px;}
+.login-copyright {text-align:center;width:100%;font-size:1rem;margin-top:30px;}
 .login-copyright span {margin:0 5px;}
 
-@media screen and (max-width:1500px) {
-    .login-left {padding-left:50px;padding-right:50px;}
-}
-@media screen and (max-width:1200px) {
-    .login-logo, .login-body {padding-left:100px;padding-right:100px;}
-    .login-left {padding-left:50px;padding-right:50px;}
-}
 @media screen and (max-width:768px) {
     .login {top:50%;margin-top:-320px;}
     .login-head {padding:0;flex-direction:column;}
     .login-logo {padding:20px;flex-direction:column;}
     .login-logo div {padding-left:10px;}
-    .login-body {padding:0 30px 20px 30px;grid-template-columns:100%;height:auto;}
+    .login-body {padding:20px 30px;grid-template-columns:100%;height:auto;}
     .login-left, .login-head ul {display:none;}
-    .login-form {padding-left:0;padding-top:0;}
-    .login-form-body {background-color:transparent;padding:30px 0 0 0;height:300px;box-shadow:none;}
+    .login-form {padding-left:0;padding:0;}
     .login-copyright {margin-top:20px;}
 }
 
