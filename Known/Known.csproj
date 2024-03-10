@@ -17,11 +17,11 @@
     <ItemGroup>
         <EmbeddedResource Include="Resources\actions.txt" />
         <EmbeddedResource Include="Resources\IconFA.txt" />
-        <EmbeddedResource Include="Scripts\Access.sql" />
-        <EmbeddedResource Include="Scripts\MySql.sql" />
-        <EmbeddedResource Include="Scripts\Oracle.sql" />
-        <EmbeddedResource Include="Scripts\SQLite.sql" />
-        <EmbeddedResource Include="Scripts\SqlServer.sql" />
+        <EmbeddedResource Include="Resources\Scripts\Access.sql" />
+        <EmbeddedResource Include="Resources\Scripts\MySql.sql" />
+        <EmbeddedResource Include="Resources\Scripts\Oracle.sql" />
+        <EmbeddedResource Include="Resources\Scripts\SQLite.sql" />
+        <EmbeddedResource Include="Resources\Scripts\SqlServer.sql" />
     </ItemGroup>
 
     <ItemGroup>
