@@ -52,7 +52,7 @@ class EntityView : BaseView<EntityInfo>
 
     private void BuildView(RenderTreeBuilder builder)
     {
-        builder.Div("bold", $"{Model?.Name}（{Model?.Id}）");
+        builder.Div("entity-title", $"{Model?.Name}（{Model?.Id}）");
         UI.BuildTable(builder, table);
     }
 
