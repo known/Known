@@ -20,19 +20,25 @@ public class StepForm : BaseComponent
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        UI.BuildSteps(builder, Model);
-        builder.Div("kui-steps-content", () =>
+        builder.Div($"kui-steps-form {Model.Direction}", () =>
         {
-            builder.Fragment(Model.Items[Model.Current].Content);
-        });
-        builder.FormAction(() =>
-        {
-            if (Model.Current > 0)
-                UI.Button(builder, Language["Button.Previous"], this.Callback<MouseEventArgs>(OnPrevClickAsync), "primary");
-            if (Model.Current < StepCount - 1)
-                UI.Button(builder, Language["Button.Next"], this.Callback<MouseEventArgs>(OnNextClickAsync), "primary");
-            if (Model.Current == StepCount - 1 && !IsView)
-                UI.Button(builder, Language["Button.Finish"], this.Callback<MouseEventArgs>(OnCompleteAsync), "primary");
+            UI.BuildSteps(builder, Model);
+            builder.Div(() =>
+            {
+                builder.Div("kui-steps-content", () =>
+                {
+                    builder.Fragment(Model.Items[Model.Current].Content);
+                });
+                builder.FormAction(() =>
+                {
+                    if (Model.Current > 0)
+                        UI.Button(builder, Language["Button.Previous"], this.Callback<MouseEventArgs>(OnPrevClickAsync), "primary");
+                    if (Model.Current < StepCount - 1)
+                        UI.Button(builder, Language["Button.Next"], this.Callback<MouseEventArgs>(OnNextClickAsync), "primary");
+                    if (Model.Current == StepCount - 1 && !IsView)
+                        UI.Button(builder, Language["Button.Finish"], this.Callback<MouseEventArgs>(OnCompleteAsync), "primary");
+                });
+            });
         });
     }
 

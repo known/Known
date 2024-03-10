@@ -22,6 +22,7 @@ public class TabModel
 
 public class StepModel
 {
+    public string Direction { get; set; }
     public int Current { get; set; }
     public List<ItemModel> Items { get; } = [];
 }
