@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="actions.txt" />
+        <EmbeddedResource Include="Resources\actions.txt" />
     </ItemGroup>
 
     <ItemGroup>
