@@ -86,6 +86,7 @@ class PageView : BaseView<PageInfo>
 
     private void BuildToolbar(RenderTreeBuilder builder)
     {
+        //TODO:按钮位置左右移动
         UI.BuildCheckList(builder, new InputModel<string[]>
         {
             Disabled = ReadOnly,

@@ -39,7 +39,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     internal BasePage Page { get; }
     internal TableModel<TItem> Table { get; }
     internal string Action { get; set; }
-
+    public string Title { get; set; }
     public FormOption Option { get; }
     public bool IsView { get; set; }
     public TItem Data { get; set; }
@@ -48,17 +48,17 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public List<FormRow<TItem>> Rows { get; } = [];
     public Dictionary<string, List<CodeInfo>> Codes { get; } = [];
     public Dictionary<string, FieldModel<TItem>> Fields { get; } = [];
-    public Type Type { get; internal set; }
+    public Type Type { get; set; }
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }
     public Action<string> OnFieldChanged { get; set; }
+    public Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
+    public Func<TItem, Task<Result>> OnSave { get; set; }
     public Action<TItem> OnSaved { get; set; }
     public Dictionary<string, List<IBrowserFile>> Files { get; } = [];
 
     internal FormViewType FormType { get; set; }
-    internal Func<TItem, Task<Result>> OnSave { get; set; }
-    internal Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
-
+    
     internal List<CodeInfo> GetCodes(ColumnInfo column)
     {
         if (Codes.TryGetValue(column.Category, out List<CodeInfo> value))
@@ -100,6 +100,9 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
     public string GetFormTitle()
     {
+        if (!string.IsNullOrWhiteSpace(Title))
+            return Title;
+
         var action = Language?[$"Button.{Action}"];
         var title = Language?.GetString(Table.Module);
         if (Table.FormTitle != null)
