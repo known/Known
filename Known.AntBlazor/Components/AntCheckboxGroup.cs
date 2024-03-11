@@ -5,6 +5,7 @@ public class AntCheckboxGroup : CheckboxGroup
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
+    [Parameter] public string Category { get; set; }
     [Parameter] public List<CodeInfo> Codes { get; set; }
 
     protected override void OnInitialized()
@@ -13,6 +14,8 @@ public class AntCheckboxGroup : CheckboxGroup
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(string);
+        if (!string.IsNullOrWhiteSpace(Category))
+            Codes = Cache.GetCodes(Category);
         base.OnInitialized();
     }
 

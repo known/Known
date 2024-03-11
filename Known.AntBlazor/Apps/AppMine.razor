@@ -1,7 +1,34 @@
 ﻿@inherits AppPage
 
-<h3>AppMine</h3>
+<div style="padding:50px 30px 20px 30px;text-align:center;">
+    <Avatar Size="5rem" Src="@user?.AvatarUrl" />
+    <div>@user.Name</div>
+</div>
+<div style="padding:20px;">
+    <ul class="kui-user-info">
+        <li><Icon Type="user" /><span>@user.Name</span></li>
+        <li><Icon Type="phone" /><span>@user.Phone</span></li>
+        <li><Icon Type="mobile" /><span>@user.Mobile</span></li>
+        <li><Icon Type="inbox" /><span>@user.Email</span></li>
+        <li><Icon Type="team" /><span>@user.Role</span></li>
+        <li><Icon Type="comment" /><span>@user.Note</span></li>
+    </ul>
+</div>
+<div style="padding:20px;">
+    <Button Type="@ButtonType.Primary" Danger Block OnClick="e=>Logout()">@Language["Nav.Exit"]</Button>
+</div>
 
 @code {
+    private UserInfo user;
 
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        user = CurrentUser;
+    }
+
+    private void Logout()
+    {
+        //UI.Confirm(Language["Tip.Exits"], SignOutAsync);
+    }
 }
