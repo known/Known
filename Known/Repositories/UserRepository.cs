@@ -11,7 +11,7 @@ class UserRepository
 select a.*,b.Name as Department 
 from SysUser a 
 left join SysOrganization b on b.Id=a.OrgNo 
-where a.AppId=@AppId and a.CompNo=@CompNo and a.UserName<>'admin' and a.UserName<>a.CompNo";
+where a.AppId=@AppId and a.CompNo=@CompNo and a.UserName<>'admin'";
         var orgNoId = nameof(SysUser.OrgNo);
         var orgNo = criteria.GetParameter(orgNoId);
         if (!string.IsNullOrWhiteSpace(orgNo))
