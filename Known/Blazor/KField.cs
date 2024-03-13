@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-public class InputField<TItem> : BaseComponent where TItem : class, new()
+public class KField<TItem> : BaseComponent where TItem : class, new()
 {
     [Parameter] public FieldModel<TItem> Model { get; set; }
 
@@ -22,7 +22,7 @@ public class InputField<TItem> : BaseComponent where TItem : class, new()
         }
         else if (Model.Column.Type == FieldType.File)
         {
-            builder.Component<UploadField<TItem>>().Set(c => c.Model, Model).Build();
+            builder.Component<KUploadField<TItem>>().Set(c => c.Model, Model).Build();
         }
         else
         {

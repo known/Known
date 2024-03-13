@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-public class Error : BaseComponent
+public class KError : BaseComponent
 {
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public Func<Exception, Task> OnError { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Cascading<Error>(this, ChildContent);
+        builder.Cascading<KError>(this, ChildContent);
     }
 
     public Task HandleAsync(Exception exception)

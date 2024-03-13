@@ -10,8 +10,8 @@
 .kui-nav, .kui-card, .kui-table-query, .kui-table {border-radius:5px;}
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
 .kui-nav {margin:10px 0 10px 10px;padding:10px 20px;}
+.kui-title {font-size:1rem;font-weight:bold;}
 .kui-table {padding:10px;}
-.kui-table-title {font-size:1rem;font-weight:bold;}
 .kui-table-query {margin-bottom:10px;padding:10px 20px;}
 .kui-table-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
 .kui-caption {font-weight:bold;font-size:1rem;margin:5px;padding:2px 10px;border-left:5px solid #1890ff;}

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-public class EditInput : BaseComponent
+public class KEditInput : BaseComponent
 {
     private bool isEdit;
 

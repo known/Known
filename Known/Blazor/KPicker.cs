@@ -10,7 +10,7 @@ public abstract class BasePicker<TItem> : BaseComponent where TItem : class, new
     public virtual List<TItem> SelectedItems { get; } = [];
 }
 
-public class Picker<TComponent, TItem> : BaseComponent
+public class KPicker<TComponent, TItem> : BaseComponent
     where TComponent : BasePicker<TItem>
     where TItem : class, new()
 {

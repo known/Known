@@ -11,7 +11,7 @@ public class CaptchaOption
     public Func<Task<Result>> SMSAction { get; set; }
 }
 
-public class Captcha : BaseComponent
+public class KCaptcha : BaseComponent
 {
     private readonly string id;
     private System.Timers.Timer timer;
@@ -26,7 +26,7 @@ public class Captcha : BaseComponent
     private bool IsLocalImage => !IsSMS && !IsRemoteImage;
     private string SmsText => Language["Captcha.Fetch"];
 
-    public Captcha()
+    public KCaptcha()
     {
         id = Utils.GetGuid();
         CreateCode();

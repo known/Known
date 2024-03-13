@@ -240,7 +240,7 @@ class IconPicker : BasePicker<IconInfo>
     }
 }
 
-class SysIconPicker : Picker<IconPicker, IconInfo>
+class SysIconPicker : KPicker<IconPicker, IconInfo>
 {
     protected override async Task OnInitAsync()
     {

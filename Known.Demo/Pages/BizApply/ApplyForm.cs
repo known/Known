@@ -26,7 +26,7 @@ class ApplyForm : BaseFlowForm<TbApply>
                {
                    b.Div("apply-form", () =>
                    {
-                       b.Component<Barcode>().Set(c => c.Id, "bcBizNo").Set(c => c.Value, Model.Data.BizNo).Build();
+                       b.Component<KBarcode>().Set(c => c.Id, "bcBizNo").Set(c => c.Value, Model.Data.BizNo).Build();
                        UI.BuildForm(b, Model);
                    });
                })

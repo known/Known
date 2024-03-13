@@ -211,7 +211,7 @@
 }
 
 /*App*/
-.kui-app {position:absolute;top:0;left:0;right:0;bottom:0;}
+.kui-app {position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;}
 
 .kui-app-nav {
     position:absolute;top:0;left:0;right:0;padding:0 1rem;font-weight:bold;font-size:1rem;text-align:center;

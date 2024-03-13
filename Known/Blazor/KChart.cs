@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-public class Chart : BaseComponent
+public class KChart : BaseComponent
 {
     [Parameter] public object YAxis { get; set; }
     [Parameter] public object Legend { get; set; }

@@ -35,7 +35,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
         Model.AddRow().AddColumn("CompName", $"{Parent.Data.CompNo}-{Parent.Data.CompName}");
         Model.AddRow().AddColumn("AppName", b =>
         {
-            b.Component<EditInput>()
+            b.Component<KEditInput>()
              .Set(c => c.Value, Parent.Data.AppName)
              .Set(c => c.OnSave, OnSaveAppName)
              .Build();
@@ -48,7 +48,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
             Model.AddRow().AddColumn("ProductId", Config.App.ProductId);
             Model.AddRow().AddColumn("ProductKey", b =>
             {
-                b.Component<EditInput>()
+                b.Component<KEditInput>()
                  .Set(c => c.Value, Parent.Data.ProductKey)
                  .Set(c => c.OnSave, OnSaveProductKey)
                  .Build();
@@ -96,7 +96,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
         };
         Model.AddRow().AddColumn("UserDefaultPwd", b =>
         {
-            b.Component<EditInput>()
+            b.Component<KEditInput>()
              .Set(c => c.Value, Parent.Data.UserDefaultPwd)
              .Set(c => c.OnSave, OnSaveDefaultPwd)
              .Build();

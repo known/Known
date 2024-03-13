@@ -7,7 +7,7 @@ namespace Known.BootBlazor.Components;
 
 public class BootCaptcha : BootstrapBlazor.Components.BootstrapInput<string>
 {
-    private Captcha captcha;
+    private KCaptcha captcha;
 
     [Parameter] public CaptchaOption Option { get; set; }
 
@@ -16,6 +16,6 @@ public class BootCaptcha : BootstrapBlazor.Components.BootstrapInput<string>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         base.BuildRenderTree(builder);
-        builder.Component<Captcha>().Set(c => c.Option, Option).Build(value => captcha = value);
+        builder.Component<KCaptcha>().Set(c => c.Option, Option).Build(value => captcha = value);
     }
 }

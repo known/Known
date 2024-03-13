@@ -13,7 +13,7 @@
                     var label = Language?.GetString<TItem>(field.Column);
                     var required = field.Column.Required;
                     <DataItem Span="colSpan" Label="@label" Required="required" Rules="field.ToRules(Context)">
-                        <InputField Model="field" />
+                        <KField Model="field" />
                     </DataItem>
                 }
             </GridRow>

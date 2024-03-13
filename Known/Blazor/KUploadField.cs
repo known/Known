@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Blazor;
 
-public class UploadInput : BaseComponent
+public class KUpload : BaseComponent
 {
     private List<SysFile> sysFiles;
 
@@ -83,7 +83,7 @@ public class UploadInput : BaseComponent
     }
 }
 
-class UploadField<TItem> : UploadInput where TItem : class, new()
+class KUploadField<TItem> : KUpload where TItem : class, new()
 {
     [Parameter] public FieldModel<TItem> Model { get; set; }
 

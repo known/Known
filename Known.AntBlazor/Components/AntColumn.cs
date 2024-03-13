@@ -12,8 +12,12 @@ public class AntColumn<TData> : Column<TData>
 
     private void AddAttributes()
     {
-        DataIndex = Info.Id;
         Ellipsis = true;
+
+        if (Info == null)
+            return;
+
+        DataIndex = Info.Id;
         Hidden = !Info.IsVisible;
         Sortable = Info.IsSort;
         //TODO:固定列显示混乱问题

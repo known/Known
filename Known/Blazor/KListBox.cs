@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-public class ListBox : BaseComponent
+public class KListBox : BaseComponent
 {
     private string curItem;
 

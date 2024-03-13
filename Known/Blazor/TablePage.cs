@@ -22,7 +22,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
             {
                 builder.Div("kui-table-toolbar", () =>
                 {
-                    builder.Div("kui-table-left", () => builder.Div("kui-table-title", Model.Module?.Name));
+                    builder.Div("kui-table-left", () => builder.Div("kui-title", Model.Module?.Name));
                     builder.Div("kui-table-right", () => UI.BuildToolbar(builder, Model.Toolbar));
                 });
             }

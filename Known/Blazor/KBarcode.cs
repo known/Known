@@ -4,19 +4,26 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-public class PdfView : BaseComponent
+public class KBarcode : BaseComponent
 {
+    private string lastCode;
+
     [Parameter] public string Style { get; set; }
-    [Parameter] public Stream Stream { get; set; }
+    [Parameter] public string Value { get; set; }
+    [Parameter] public object Option { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Div().Id(Id).Class(Style).Close();
+        builder.Canvas().Id(Id).Class(Style).Close();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await JS.ShowPdfAsync(Id, Stream);
+        if (firstRender || Value != lastCode)
+        {
+            lastCode = Value;
+            await JS.ShowBarcodeAsync(Id, Value, Option);
+        }
         await base.OnAfterRenderAsync(firstRender);
     }
 }

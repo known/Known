@@ -4,26 +4,20 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-public class Barcode : BaseComponent
+public class KQRCode : BaseComponent
 {
-    private string lastCode;
-
     [Parameter] public string Style { get; set; }
-    [Parameter] public string Value { get; set; }
     [Parameter] public object Option { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Canvas().Id(Id).Class(Style).Close();
+        builder.Div().Id(Id).Class(Style).Close();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender || Value != lastCode)
-        {
-            lastCode = Value;
-            await JS.ShowBarcodeAsync(Id, Value, Option);
-        }
+        if (firstRender)
+            await JS.ShowQRCodeAsync(Id, Option);
         await base.OnAfterRenderAsync(firstRender);
     }
 }

@@ -151,7 +151,7 @@ class FlowFormModel(Context context) : FormModel<FlowFormInfo>(context, true)
             c.Required = true;
             c.Template = b =>
             {
-                b.Component<Picker<UserPicker, SysUser>>()
+                b.Component<KPicker<UserPicker, SysUser>>()
                  .Set(c => c.Width, 800)
                  .Set(c => c.AllowClear, true)
                  .Set(c => c.Title, Language["Title.SelectUser"])

@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-public class QRCode : BaseComponent
+public class KPdfView : BaseComponent
 {
     [Parameter] public string Style { get; set; }
-    [Parameter] public object Option { get; set; }
+    [Parameter] public Stream Stream { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
@@ -16,8 +16,7 @@ public class QRCode : BaseComponent
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-            await JS.ShowQRCodeAsync(Id, Option);
+        await JS.ShowPdfAsync(Id, Stream);
         await base.OnAfterRenderAsync(firstRender);
     }
 }

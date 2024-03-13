@@ -61,7 +61,7 @@ class SysDictionaryList : BaseTablePage<SysDictionary>
         var items = categories;
         if (!string.IsNullOrWhiteSpace(searchKey))
             items = items.Where(c => c.Code.Contains(searchKey) || c.Name.Contains(searchKey)).ToList();
-        builder.Component<ListBox>()
+        builder.Component<KListBox>()
                .Set(c => c.Items, items)
                .Set(c => c.ItemTemplate, ItemTemplate)
                .Set(c => c.OnItemClick, OnCategoryClick)

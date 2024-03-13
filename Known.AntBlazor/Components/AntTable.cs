@@ -4,7 +4,7 @@ namespace Known.AntBlazor.Components;
 
 public class AntTable<TItem> : Table<TItem>
 {
-    [CascadingParameter] public Error Error { get; set; }
+    [CascadingParameter] public KError Error { get; set; }
 
     [Parameter] public Context Context { get; set; }
     [Parameter] public PagingCriteria Criteria { get; set; }

@@ -2,7 +2,7 @@
 
 public class AntCaptcha : Input<string>
 {
-    private Captcha captcha;
+    private KCaptcha captcha;
 
     public AntCaptcha()
     {
@@ -16,6 +16,6 @@ public class AntCaptcha : Input<string>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         base.BuildRenderTree(builder);
-        builder.Component<Captcha>().Set(c => c.Option, Option).Build(value => captcha = value);
+        builder.Component<KCaptcha>().Set(c => c.Option, Option).Build(value => captcha = value);
     }
 }

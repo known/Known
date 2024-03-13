@@ -4,7 +4,7 @@
 
 <PageTitle>@AppConfig.Branch - @Language["App.SubTitle"]</PageTitle>
 
-<Error OnError="OnError">
+<KError OnError="OnError">
     <CascadingValue Value="this">
         @if (IsLoaded)
         {
@@ -33,7 +33,7 @@
             }
         }
     </CascadingValue>
-</Error>
+</KError>
 
 @code {
     private const string KeyUIType = "Known_UIType";
