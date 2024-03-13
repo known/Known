@@ -285,6 +285,9 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Entities;", Config.App.Id);
         sb.AppendLine(" ");
+        sb.AppendLine("/// <summary>");
+        sb.AppendLine("/// {0}类。", entity.Name);
+        sb.AppendLine("/// </summary>");
         sb.AppendLine("public class {0} : {1}", entity.Id, entity.IsFlow ? "FlowEntity" : "EntityBase");
         sb.AppendLine("{");
 
@@ -298,6 +301,10 @@ class CodeGenerator : ICodeGenerator
             if (!item.Required && type != "string")
                 type += "?";
 
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine("    /// 取得或设置{0}。", item.Name);
+            sb.AppendLine("    /// </summary>");
+            sb.AppendLine("    [DisplayName(\"{0}\")]", item.Name);
             if (item.Required)
                 sb.AppendLine("    [Required]");
             if (!string.IsNullOrWhiteSpace(item.Length))

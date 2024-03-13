@@ -22,18 +22,20 @@
                         </GridCol>
                     }
                     <GridCol Span="6" Offset="offset" Style="text-align:right;">
-                        <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
-                        @if (AdvSearch)
-                        {
-                            <Button Type="primary" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
-                        }
-                        <Button Icon="undo" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button>
-                        @if (Model.QueryColumns.Count > showCount)
-                        {
-                            <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
-                                <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language["Collapse"] : Language["Expand"])
-                            </a>
-                        }
+                        <FormItem>
+                            <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
+                            @if (AdvSearch)
+                            {
+                                <Button Type="primary" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
+                            }
+                            <Button Icon="undo" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button>
+                            @if (Model.QueryColumns.Count > showCount)
+                            {
+                                <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
+                                    <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language["Collapse"] : Language["Expand"])
+                                </a>
+                            }
+                        </FormItem>
                     </GridCol>
                 </GridRow>
             </Form>
