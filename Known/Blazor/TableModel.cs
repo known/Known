@@ -55,6 +55,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public Func<Task> OnRefresh { get; set; }
     public List<TItem> DataSource { get; set; }
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
+    public RenderFragment ToolbarSlot { get; set; }
 
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
     {
