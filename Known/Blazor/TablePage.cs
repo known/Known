@@ -14,17 +14,19 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
             return;
 
         if (Model.QueryColumns.Count > 0)
-            builder.Div("kui-table-query", () => UI.BuildQuery(builder, Model));
+            builder.Div("kui-query", () => UI.BuildQuery(builder, Model));
 
         builder.Div("kui-table", () =>
         {
             if (Model.Toolbar.HasItem)
             {
-                builder.Div("kui-table-toolbar", () =>
-                {
-                    builder.Div("kui-table-left", () => builder.Div("kui-title", Model.Module?.Name));
-                    builder.Div("kui-table-right", () => UI.BuildToolbar(builder, Model.Toolbar));
-                });
+                builder.Component<KToolbar>()
+                       .Set(c => c.ChildContent, b =>
+                       {
+                           b.Div(() => b.Component<KTitle>().Set(c => c.Text, Model.Module?.Name).Build());
+                           b.Div(() => UI.BuildToolbar(b, Model.Toolbar));
+                       })
+                       .Build();
             }
             UI.BuildTable(builder, Model);
         });

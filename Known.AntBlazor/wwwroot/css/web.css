@@ -4,8 +4,8 @@
 }
 .ant-captcha + .btn-sms {background-color:#f8eeb8;color:#596172;top:1px;right:1px;height:30px;}
 .anticon-translation + span {margin-left:5px;}
-.ant-layout .kui-table-query {padding-bottom:0;}
-.kui-table-query .ant-form-item {margin-bottom:10px;}
+.ant-layout .kui-query {padding-bottom:0;}
+.kui-query .ant-form-item {margin-bottom:10px;}
 .ant-query-more .ant-form-item-label {width:100px;text-align:right;}
 .ant-table-thead > tr > th.kui-table-check {position:sticky;left:0;z-index:101;}
 .ant-table-tbody > tr > td.kui-table-check, .ant-table tfoot > tr > td.kui-table-check {
