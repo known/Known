@@ -117,7 +117,7 @@ public class Language
     public string Required(string label) => GetString("Valid.Required", label);
     internal string Success(string action) => this["Tip.XXSuccess"].Replace("{action}", action);
 
-    private string GetText(string prefix, string code, string name = null)
+    internal string GetText(string prefix, string code, string name = null)
     {
         var text = GetString($"{prefix}.{code}");
         if (string.IsNullOrWhiteSpace(text))

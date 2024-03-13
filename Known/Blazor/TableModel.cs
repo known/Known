@@ -57,6 +57,15 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
     public RenderFragment ToolbarSlot { get; set; }
 
+    public void Clear()
+    {
+        Columns.Clear();
+        QueryColumns.Clear();
+        QueryData.Clear();
+        Toolbar.Items?.Clear();
+        Actions.Clear();
+    }
+
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
     {
         var property = TypeHelper.Property(selector);
@@ -295,5 +304,9 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    private string GetConfirmText(string text) => Language?["Tip.ConfirmRecordName"]?.Replace("{text}", text);
+    private string GetConfirmText(string text)
+    {
+        text = Language.GetText("Button", text);
+        return Language?["Tip.ConfirmRecordName"]?.Replace("{text}", text);
+    }
 }
