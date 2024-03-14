@@ -41,7 +41,7 @@ public class AdminPage : BaseComponent
     protected async Task SignOutAsync()
     {
         var user = CurrentUser;
-        var result = await Platform.Auth.SignOutAsync(user?.Token);
+        var result = await Platform.SignOutAsync(user?.Token);
         if (result.IsValid)
         {
             await OnLogout?.Invoke();

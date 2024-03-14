@@ -36,6 +36,7 @@ public class PlatformService(Context context)
 
     #region User
     public Task<UserInfo> GetUserAsync(string userName) => Auth.GetUserAsync(userName);
+    public Task<Result> SignOutAsync(string token) => Auth.SignOutAsync(token);
     #endregion
 
     #region File
