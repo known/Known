@@ -1,0 +1,30 @@
+﻿@inherits BaseComponent
+
+<Tabs Animated Class="@Class" OnChange="OnChange">
+    @if (!string.IsNullOrWhiteSpace(Tabs))
+    {
+        var tabs = Tabs.Split(',');
+        foreach (var item in tabs)
+        {
+            <TabPane Key="@item" Tab="@item" />
+        }
+    }
+    else
+    {
+        var index = 1;
+        foreach (var item in Model.Items)
+        {
+            var key = (index++).ToString();
+            <TabPane Key="@key" Tab="@Language?.GetTitle(item.Title)">
+                @item.Content
+            </TabPane>
+        }
+    }
+</Tabs>
+
+@code {
+    [Parameter] public string Class { get; set; }
+    [Parameter] public string Tabs { get; set; }
+    [Parameter] public TabModel Model { get; set; }
+    [Parameter] public Action<string> OnChange { get; set; }
+}

@@ -1,0 +1,14 @@
+﻿@inherits BaseComponent
+
+<Steps Current="Model.Current">
+    @foreach (var item in Model.Items)
+    {
+        <Step Title="@Language?.GetTitle(item.Title)"
+              Subtitle="@Language?.GetTitle(item.SubTitle)"
+              Description="@Language?.GetTitle(item.Description)" />
+    }
+</Steps>
+
+@code {
+    [Parameter] public StepModel Model { get; set; }
+}
