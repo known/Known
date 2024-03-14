@@ -63,7 +63,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         QueryColumns.Clear();
         QueryData.Clear();
         Toolbar.Items?.Clear();
-        Actions.Clear();
+        Actions?.Clear();
     }
 
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)

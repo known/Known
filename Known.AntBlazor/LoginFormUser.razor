@@ -11,11 +11,22 @@
             <Prefix><Icon Type="lock" /></Prefix>
         </InputPassword>
     </FormItem>
-    <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
-        <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]">
-            <Prefix><Icon Type="check" /></Prefix>
-        </AntCaptcha>
-    </FormItem>
+    @if (Stations != null && Stations.Count > 0)
+    {
+        <FormItem Label="" Required Rules="@Context.RuleRequired("Station")">
+            <Select @bind-Value="@context.Station" DataSource="Stations" Placeholder="@Language["Station"]">
+                <PrefixIcon><Icon Type="control" Style="padding:0 9px 0 7px;" /></PrefixIcon>
+            </Select>
+        </FormItem>
+    }
+    @if (IsCaptcha)
+    {
+        <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
+            <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]">
+                <Prefix><Icon Type="check" /></Prefix>
+            </AntCaptcha>
+        </FormItem>
+    }
     <FormItem>
         <Switch @bind-Value="@context.Remember" /> @Language["Login.RememberUser"]
     </FormItem>
@@ -28,6 +39,8 @@
     private AntDesign.Internal.IForm form;
     private AntCaptcha captcha;
 
+    [Parameter] public bool IsCaptcha { get; set; }
+    [Parameter] public List<string> Stations { get; set; }
     [Parameter] public LoginFormInfo Model { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
 
@@ -36,12 +49,16 @@
         if (!form.Validate())
             return;
 
-        if (!captcha.Validate(out string message))
+        if (IsCaptcha)
         {
-            UI.Toast(message, StyleType.Error);
-            return;
+            if (!captcha.Validate(out string message))
+            {
+                UI.Toast(message, StyleType.Error);
+                return;
+            }
         }
 
+        Model.IsMobile = IsMobile;
         await OnLogin?.Invoke();
     }
 }

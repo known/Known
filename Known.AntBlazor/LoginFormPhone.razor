@@ -54,6 +54,7 @@
         if (!form.Validate())
             return;
 
+        Model.IsMobile = IsMobile;
         await OnLogin?.Invoke();
     }
 }

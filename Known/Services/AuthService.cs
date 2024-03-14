@@ -29,6 +29,7 @@ class AuthService(Context context) : ServiceBase(context)
 
         var user = Utils.MapTo<UserInfo>(entity);
         user.Token = Utils.GetGuid();
+        user.Station = info.Station;
         await SetUserInfoAsync(Database, user);
         cachedUsers[user.Token] = user;
 

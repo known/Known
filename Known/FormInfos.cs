@@ -11,6 +11,7 @@ public class LoginFormInfo
     public string PhoneNo { get; set; }
     public string PhoneCode { get; set; }
     public string Captcha { get; set; }
+    public string Station { get; set; }
     public bool Remember { get; set; }
     public bool IsMobile { get; set; }
     public string IPAddress { get; set; }
