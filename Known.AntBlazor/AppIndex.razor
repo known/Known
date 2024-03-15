@@ -48,6 +48,8 @@
         StateHasChanged();
     }
 
+    public Task LogoutAsync() => OnLogout?.Invoke();
+
     private void OnBack()
     {
         if (current?.Previous == null)

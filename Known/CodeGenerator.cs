@@ -307,7 +307,7 @@ class CodeGenerator : ICodeGenerator
             sb.AppendLine("    [DisplayName(\"{0}\")]", item.Name);
             if (item.Required)
                 sb.AppendLine("    [Required]");
-            if (!string.IsNullOrWhiteSpace(item.Length))
+            if (!string.IsNullOrWhiteSpace(item.Length) && type == "string")
                 sb.AppendLine("    [MaxLength({0})]", item.Length);
             sb.AppendLine("    public {0} {1} {{ get; set; }}", type, item.Id);
         }

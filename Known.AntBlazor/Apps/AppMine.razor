@@ -29,6 +29,15 @@
 
     private void Logout()
     {
-        //UI.Confirm(Language["Tip.Exits"], SignOutAsync);
+        UI.Confirm(Language["Tip.Exits"], async () =>
+        {
+            var user = CurrentUser;
+            var result = await Platform.SignOutAsync(user?.Token);
+            if (result.IsValid)
+            {
+                await App.LogoutAsync();
+                Config.OnExit?.Invoke();
+            }
+        });
     }
 }
