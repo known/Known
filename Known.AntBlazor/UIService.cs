@@ -34,34 +34,53 @@ public class UIService(ModalService modalService, MessageService messageService)
         if (dataType == typeof(short))
             return typeof(AntNumber<short>);
 
+        if (dataType == typeof(short?))
+            return typeof(AntNumber<short?>);
+
         if (dataType == typeof(int))
             return typeof(AntNumber<int>);
+
+        if (dataType == typeof(int?))
+            return typeof(AntNumber<int?>);
 
         if (dataType == typeof(long))
             return typeof(AntNumber<long>);
 
+        if (dataType == typeof(long?))
+            return typeof(AntNumber<long?>);
+
         if (dataType == typeof(float))
             return typeof(AntNumber<float>);
+
+        if (dataType == typeof(float?))
+            return typeof(AntNumber<float?>);
 
         if (dataType == typeof(double))
             return typeof(AntNumber<double>);
 
+        if (dataType == typeof(double?))
+            return typeof(AntNumber<double?>);
+
         if (dataType == typeof(decimal))
             return typeof(AntNumber<decimal>);
 
-        if (dataType == typeof(DateTime?))
-            return typeof(AntDatePicker<DateTime?>);
+        if (dataType == typeof(decimal?))
+            return typeof(AntNumber<decimal?>);
 
         if (dataType == typeof(DateTime))
             return typeof(AntDatePicker<DateTime>);
 
-        if (dataType == typeof(DateTimeOffset?))
-            return typeof(AntDatePicker<DateTimeOffset?>);
+        if (dataType == typeof(DateTime?))
+            return typeof(AntDatePicker<DateTime?>);
 
         if (dataType == typeof(DateTimeOffset))
             return typeof(AntDatePicker<DateTimeOffset>);
 
-        return typeof(AntInput<string>);
+        if (dataType == typeof(DateTimeOffset?))
+            return typeof(AntDatePicker<DateTimeOffset?>);
+
+        //return typeof(AntInput<string>);
+        return typeof(AntInput<>).MakeGenericType(dataType);
     }
 
     public void AddInputAttributes<TItem>(Dictionary<string, object> attributes, FieldModel<TItem> model) where TItem : class, new()
