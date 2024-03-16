@@ -148,6 +148,7 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         var options = new ModalOptions
         {
+            WrapClassName = model.ClassName,
             Title = model.Title,
             Content = model.Content,
             Maximizable = model.Maximizable,
@@ -200,6 +201,7 @@ public class UIService(ModalService modalService, MessageService messageService)
         var noFooter = false;
         if (model.Option != null)
         {
+            option.WrapClassName = model.Option.NoFooter ? "ant-tab-form" : "";
             option.Maximizable = model.Option.Maximizable;
             option.DefaultMaximized = model.Option.DefaultMaximized;
             noFooter = model.Option.NoFooter;

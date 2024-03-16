@@ -4,6 +4,7 @@ namespace Known.Blazor;
 
 public class DialogModel
 {
+    public string ClassName { get; set; }
     public string Title { get; set; }
     public bool Maximizable { get; set; }
     public bool DefaultMaximized { get; set; }

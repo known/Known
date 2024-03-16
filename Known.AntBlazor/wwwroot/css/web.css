@@ -20,6 +20,7 @@
 .ant-tab-only .ant-tabs-nav {margin:0;}
 .ant-tab-only > .ant-tabs-nav::before {border:none;}
 .ant-tab-only .ant-tabs-tab {padding:0 5px 1px 5px;margin-left:10px;}
+.ant-tab-form .ant-modal-body {padding:0 20px 20px 20px;}
 
 /*Layout*/
 .kui-header, .kui-logo, .ant-layout-tabs > .ant-tabs-nav {position:fixed;z-index:101;transition:all 0.2s;}
