@@ -1080,20 +1080,24 @@ class CommandInfo
 
         if (criteria.OrderBys != null)
             order = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)).ToArray());
-        if (string.IsNullOrEmpty(order))
+        if (string.IsNullOrEmpty(order) && Text.Contains("CreateTime"))
             order = "t1.CreateTime";
+        if (!string.IsNullOrWhiteSpace(order))
+            order = $"order by {order}";
 
         var startNo = criteria.PageSize * (criteria.PageIndex - 1);
         var endNo = startNo + criteria.PageSize;
         if (type == DatabaseType.MySql)
-            return $"select t1.* from ({Text}) t1 order by {order} limit {startNo}, {criteria.PageSize}";
+            return $"select t1.* from ({Text}) t1 {order} limit {startNo}, {criteria.PageSize}";
 
         if (type == DatabaseType.SQLite)
-            return $"select t1.* from ({Text}) t1 order by {order} limit {criteria.PageSize} offset {startNo}";
+            return $"select t1.* from ({Text}) t1 {order} limit {criteria.PageSize} offset {startNo}";
 
+        if (!string.IsNullOrWhiteSpace(order))
+            order = $"over ({order})";
         return $@"
 select t.* from (
-    select t1.*,row_number() over (order by {order}) row_no 
+    select t1.*,row_number() {order} row_no 
     from ({Text}) t1
 ) t where t.row_no>{startNo} and t.row_no<={endNo}";
     }

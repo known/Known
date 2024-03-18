@@ -13,14 +13,15 @@
 }
 .ant-table-thead > tr > th.kui-table-action {position:sticky;right:0;z-index:101;}
 .ant-table-tbody > tr > td.kui-table-action {position:sticky;right:0;z-index:101;background-color:var(--kui-bgcolor);}
-.kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
-.ant-form-toolbar button {margin-left:5px;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
-.ant-tab-only {margin:0 0 0 10px;}
-.ant-tab-only .ant-tabs-nav {margin:0;}
-.ant-tab-only > .ant-tabs-nav::before {border:none;}
-.ant-tab-only .ant-tabs-tab {padding:0 5px 1px 5px;margin-left:10px;}
-.ant-tab-form .ant-modal-body {padding:0 20px 20px 20px;}
+.kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
+.kui-form-toolbar button {margin-left:5px;}
+.kui-tab-only {margin:0 0 0 10px;}
+.kui-tab-only .ant-tabs-nav {margin:0;}
+.kui-tab-only > .ant-tabs-nav::before {border:none;}
+.kui-tab-only .ant-tabs-tab {padding:0 5px 1px 5px;margin-left:10px;}
+.kui-tab-form .ant-modal-body {padding:0 20px 20px 20px;}
+.kui-detail .ant-modal-body {padding:0;}
 
 /*Layout*/
 .kui-header, .kui-logo, .ant-layout-tabs > .ant-tabs-nav {position:fixed;z-index:101;transition:all 0.2s;}

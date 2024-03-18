@@ -201,7 +201,7 @@ public class UIService(ModalService modalService, MessageService messageService)
         var noFooter = false;
         if (model.Option != null)
         {
-            option.WrapClassName = model.Option.NoFooter ? "ant-tab-form" : "";
+            option.WrapClassName = model.Option.NoFooter ? "kui-tab-form" : "";
             option.Maximizable = model.Option.Maximizable;
             option.DefaultMaximized = model.Option.DefaultMaximized;
             noFooter = model.Option.NoFooter;
