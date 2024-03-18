@@ -245,12 +245,12 @@ public class UIService(ModalService modalService, MessageService messageService)
 
     public void BuildSteps(RenderTreeBuilder builder, StepModel model)
     {
-        builder.Component<AntSteps>().Set(c => c.Model, model).Build();
+        builder.Component<DataSteps>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTabs(RenderTreeBuilder builder, TabModel model)
     {
-        builder.Component<AntTabs>().Set(c => c.Model, model).Build();
+        builder.Component<DataTabs>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTag(RenderTreeBuilder builder, string text)
