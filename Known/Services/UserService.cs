@@ -11,6 +11,11 @@ class UserService(Context context) : ServiceBase(context)
         return UserRepository.QueryUsersAsync(Database, criteria);
     }
 
+    public Task<List<SysUser>> GetUsersByRoleAsync(string roleName)
+    {
+        return UserRepository.GetUsersByRoleAsync(Database, roleName);
+    }
+
     public Task<SysUser> GetUserAsync(string id) => Database.QueryByIdAsync<SysUser>(id);
 
     public async Task<SysUser> GetUserAsync(SysUser user)

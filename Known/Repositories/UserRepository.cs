@@ -26,6 +26,12 @@ where a.AppId=@AppId and a.CompNo=@CompNo and a.UserName<>'admin'";
         return await db.QueryPageAsync<SysUser>(sql, criteria);
     }
 
+    internal static Task<List<SysUser>> GetUsersByRoleAsync(Database db, string roleName)
+    {
+        var sql = $"select * from SysUser where Role like '%{roleName}%'";
+        return db.QueryListAsync<SysUser>(sql);
+    }
+
     internal static async Task<bool> ExistsUserNameAsync(Database db, string id, string userName)
     {
         var sql = "select count(*) from SysUser where Id<>@id and UserName=@userName";

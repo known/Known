@@ -35,6 +35,7 @@ public class PlatformService(Context context)
     #endregion
 
     #region User
+    public Task<List<SysUser>> GetUsersByRoleAsync(string roleName) => User.GetUsersByRoleAsync(roleName);
     public Task<UserInfo> GetUserAsync(string userName) => Auth.GetUserAsync(userName);
     public Task<Result> SignOutAsync(string token) => Auth.SignOutAsync(token);
     #endregion
