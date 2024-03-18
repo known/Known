@@ -18,7 +18,14 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
 
         builder.Div("kui-table", () =>
         {
-            if (Model.Toolbar.HasItem)
+            if (Model.Tab.HasItem)
+            {
+                Model.Tab.Left = b => b.Component<KTitle>().Set(c => c.Text, Model.Module?.Name).Build();
+                if (Model.Toolbar.HasItem)
+                    Model.Tab.Right = b => UI.BuildToolbar(b, Model.Toolbar);
+                builder.Div(() => UI.BuildTabs(builder, Model.Tab));
+            }
+            else
             {
                 builder.Component<KToolbar>()
                        .Set(c => c.ChildContent, b =>
@@ -28,7 +35,8 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
                                b.Component<KTitle>().Set(c => c.Text, Model.Module?.Name).Build();
                                Model.ToolbarSlot?.Invoke(b);
                            });
-                           b.Div(() => UI.BuildToolbar(b, Model.Toolbar));
+                           if (Model.Toolbar.HasItem)
+                               b.Div(() => UI.BuildToolbar(b, Model.Toolbar));
                        })
                        .Build();
             }

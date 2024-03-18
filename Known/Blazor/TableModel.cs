@@ -38,6 +38,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public FormOption Form { get; } = new();
     public Type FormType { get; set; }
     public Func<TItem, string> FormTitle { get; set; }
+    public TabModel Tab { get; } = new();
     public ToolbarModel Toolbar { get; } = new();
     public List<ColumnInfo> Columns { get; } = [];
     public List<ColumnInfo> QueryColumns { get; } = [];

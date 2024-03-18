@@ -12,7 +12,17 @@ public class ItemModel(string title)
 
 public class TabModel
 {
+    public RenderFragment Left { get; set; }
+    public RenderFragment Right { get; set; }
     public List<ItemModel> Items { get; } = [];
+    public Action<string> OnChange { get; set; }
+
+    public bool HasItem => Items != null && Items.Count > 0;
+
+    public void AddTab(string title)
+    {
+        Items.Add(new ItemModel(title));
+    }
 
     public void AddTab(string title, RenderFragment content)
     {

@@ -1,25 +1,38 @@
 ﻿@inherits BaseComponent
 
-<Tabs Animated Class="@Class" OnChange="OnChange">
-    @if (!string.IsNullOrWhiteSpace(Tabs))
-    {
-        var tabs = Tabs.Split(',');
-        foreach (var item in tabs)
+<Tabs Animated Class="@Class" OnChange="OnTabChange">
+    <TabBarExtraContentLeft>
+        @Model.Left
+    </TabBarExtraContentLeft>
+    <ChildContent>
+        @if (!string.IsNullOrWhiteSpace(Tabs))
         {
-            <TabPane Key="@item" Tab="@item" />
+            var tabs = Tabs.Split(',');
+            foreach (var item in tabs)
+            {
+                <TabPane Key="@item" Tab="@item" />
+            }
         }
-    }
-    else
-    {
-        var index = 1;
-        foreach (var item in Model.Items)
+        else
         {
-            var key = (index++).ToString();
-            <TabPane Key="@key" Tab="@Language?.GetTitle(item.Title)">
-                @item.Content
-            </TabPane>
+            foreach (var item in Model.Items)
+            {
+                if (item.Content != null)
+                {
+                    <TabPane Key="@item.Title" Tab="@Language?.GetTitle(item.Title)">
+                        @item.Content
+                    </TabPane>
+                }
+                else
+                {
+                    <TabPane Key="@item.Title" Tab="@Language?.GetTitle(item.Title)" />
+                }
+            }
         }
-    }
+    </ChildContent>
+    <TabBarExtraContentRight>
+        @Model.Right
+    </TabBarExtraContentRight>
 </Tabs>
 
 @code {
@@ -27,4 +40,10 @@
     [Parameter] public string Tabs { get; set; }
     [Parameter] public TabModel Model { get; set; }
     [Parameter] public Action<string> OnChange { get; set; }
+
+    private void OnTabChange(string tab)
+    {
+        OnChange?.Invoke(tab);
+        Model.OnChange?.Invoke(tab);
+    }
 }
