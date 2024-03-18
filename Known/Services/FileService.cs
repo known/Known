@@ -79,10 +79,12 @@ class FileService(Context context) : ServiceBase(context)
         if (bizIds.Length > 1)
             return FileRepository.GetFilesAsync(Database, bizIds);
 
-        var bizNos = bizId.Split('_');
-        return bizNos.Length == 2
-             ? FileRepository.GetFilesAsync(Database, bizNos[0], bizNos[1])
-             : FileRepository.GetFilesAsync(Database, bizId);
+        if (!bizId.Contains('_'))
+            return FileRepository.GetFilesAsync(Database, bizId);
+
+        var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
+        var bizType = bizId.Substring(bizId.IndexOf('_') + 1);
+        return FileRepository.GetFilesAsync(Database, bizId1, bizType);
     }
 
     //internal Task<bool> HasFilesAsync(string bizId) => FileRepository.HasFilesAsync(Database, bizId);
