@@ -3,9 +3,9 @@
 @if (Model.HasItem)
 {
     <div class="ant-toolbar">
-        @if (Model.Items.Count > 4)
+        @if (Model.Items.Count > Model.ShowCount)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < Model.ShowCount - 1; i++)
             {
                 var item = Model.Items[i];
                 var itemName = Language.GetString(item);
