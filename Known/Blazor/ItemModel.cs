@@ -46,5 +46,6 @@ public class ToolbarModel
 
     public bool HasItem => Items != null && Items.Count > 0;
 
+    public void AddAction(string idOrName) => Items.Add(new ActionInfo(idOrName));
     public void Refresh() => OnRefresh.Invoke();
 }

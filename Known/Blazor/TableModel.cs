@@ -8,7 +8,7 @@ namespace Known.Blazor;
 
 public class TableModel<TItem> : BaseModel where TItem : class, new()
 {
-    internal TableModel(Context context, bool isAuto = false) : base(context)
+    public TableModel(Context context, bool isAuto = false) : base(context)
     {
         if (isAuto)
         {
