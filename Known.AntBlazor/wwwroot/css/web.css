@@ -246,5 +246,8 @@
 .kui-app-row > label, .kui-app-row > span {padding-top:5px;}
 .kui-app-row > label {padding-right:10px;}
 
+.kui-app-fixed > .ant-tabs-nav {position:fixed;top:40px;left:0;right:0;z-index:101;background-color:var(--kui-bgcolor);}
+.kui-app-fixed > .ant-tabs-content-holder {padding-top:60px;}
+
 .carousel {background-color:#1890ff;}
 .carousel img {width:100%;height:200px;}
