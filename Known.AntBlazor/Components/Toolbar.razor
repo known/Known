@@ -8,6 +8,9 @@
             for (int i = 0; i < Model.ShowCount - 1; i++)
             {
                 var item = Model.Items[i];
+                if (!item.Visible)
+                    continue;
+
                 var itemName = Language.GetString(item);
                 if (item.Children != null && item.Children.Count > 0)
                 {
@@ -15,16 +18,19 @@
                 }
                 else
                 {
-                    <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
+                    <Button Disabled="@(!item.Enabled)" Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
                 }
             }
-            var mores = Model.Items.Skip(3).ToList();
+            var mores = Model.Items.Skip(Model.ShowCount - 1).ToList();
             <AntDropdown Context="Context" TextButton="@Language["Button.More"]" Items="mores" OnItemClick="Model.OnItemClick" />
         }
         else
         {
             foreach (var item in Model.Items)
             {
+                if (!item.Visible)
+                    continue;
+
                 var itemName = Language.GetString(item);
                 if (item.Children != null && item.Children.Count > 0)
                 {
@@ -32,7 +38,7 @@
                 }
                 else
                 {
-                    <Button Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
+                    <Button Disabled="@(!item.Enabled)" Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
                 }
             }
         }
@@ -41,4 +47,10 @@
 
 @code {
     [Parameter] public ToolbarModel Model { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model.OnRefresh = StateChanged;
+        base.OnInitialized();
+    }
 }

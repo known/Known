@@ -50,6 +50,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];
     public Func<TItem, object> RowKey { get; set; }
     public Func<TItem, List<ActionInfo>> RowActions { get; set; }
+    public Action<TItem, List<ActionInfo>> UpdateRowActions { get; set; }
     public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
     public Func<TItem, Task> OnRowClick { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }

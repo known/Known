@@ -6,6 +6,8 @@
     var actions = Table.RowActions?.Invoke(Item);
     if (actions == null)
         actions = Table.Actions;
+    Table.UpdateRowActions?.Invoke(Item, actions);
+    actions = actions.Where(a => a.Visible).ToList();
     <ActionColumn Title="@Language["Title.Action"]" Align="ColumnAlign.Center" Width="140" Class="kui-table-action">
         @if (actions.Count > 2)
         {

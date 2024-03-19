@@ -42,6 +42,9 @@ public class ToolbarModel
     public int ShowCount { get; set; } = 4;
     public List<ActionInfo> Items { get; set; } = [];
     public Action<ActionInfo> OnItemClick { get; set; }
+    public Action OnRefresh { get; set; }
 
     public bool HasItem => Items != null && Items.Count > 0;
+
+    public void Refresh() => OnRefresh.Invoke();
 }

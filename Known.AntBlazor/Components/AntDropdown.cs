@@ -78,6 +78,7 @@ public class AntDropdown : Dropdown
         {
             builder.Component<AntDesign.MenuItem>()
                    .Set(c => c.Key, item.Id)
+                   .Set(c => c.Disabled, !item.Enabled)
                    .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e => OnItemClick?.Invoke(item)))
                    .Set(c => c.ChildContent, b => BuildItemName(b, item))
                    .Build();
