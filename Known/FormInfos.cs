@@ -15,6 +15,7 @@ public class LoginFormInfo
     public bool Remember { get; set; }
     public bool IsMobile { get; set; }
     public string IPAddress { get; set; }
+    public string TabKey { get; set; }
 }
 
 public class PwdFormInfo
