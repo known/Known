@@ -28,7 +28,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         Page = page;
     }
 
-    internal FormModel(TableModel<TItem> table) : this(table.Page)
+    internal FormModel(TableModel<TItem> table) : this(table.Context, false)
     {
         Table = table;
         Option = table.Form;

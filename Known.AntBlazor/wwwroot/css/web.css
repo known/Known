@@ -19,6 +19,7 @@
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
 .kui-form-toolbar button {margin-left:5px;}
 .kui-tab-form .ant-modal-body {padding:0 20px 20px 20px;}
+.kui-tab-form .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
 .kui-detail .ant-modal-body {padding:0;}
 
 /*Layout*/

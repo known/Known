@@ -7,12 +7,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
 {
     private readonly string id;
     private readonly ColumnInfo column;
-    private readonly TableModel<TItem> table;
+
+    public TableModel<TItem> Table { get; }
 
     internal ColumnBuilder(ColumnInfo column, TableModel<TItem> table = null)
     {
         this.column = column;
-        this.table = table;
+        Table = table;
 
         if (column != null)
             id = column.Id;
@@ -29,8 +30,8 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         if (string.IsNullOrWhiteSpace(id))
             return this;
 
-        if (table != null)
-            table.Templates[id] = (row) => delegate (RenderTreeBuilder builder) { template(builder, row); };
+        if (Table != null)
+            Table.Templates[id] = (row) => delegate (RenderTreeBuilder builder) { template(builder, row); };
         return this;
     }
 
