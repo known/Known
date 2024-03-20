@@ -31,6 +31,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     internal FormModel(TableModel<TItem> table) : this(table.Context, false)
     {
         Table = table;
+        Page = table.Page;
         Option = table.Form;
         Type = table.FormType ?? Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
         SetFormInfo(table.Module?.Form);
