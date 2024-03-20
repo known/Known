@@ -99,6 +99,8 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         QueryData[property.Name] = new QueryInfo(column);
     }
 
+    public void AddAction(string idOrName) => Actions.Add(new ActionInfo(idOrName));
+
     public Task RefreshAsync()
     {
         if (OnRefresh == null)
