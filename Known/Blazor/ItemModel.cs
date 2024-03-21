@@ -35,6 +35,11 @@ public class StepModel
     public string Direction { get; set; }
     public int Current { get; set; }
     public List<ItemModel> Items { get; } = [];
+
+    public void AddStep(string title, RenderFragment content)
+    {
+        Items.Add(new ItemModel(title) { Content = content });
+    }
 }
 
 public class ToolbarModel

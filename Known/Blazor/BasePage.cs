@@ -206,3 +206,13 @@ public class BaseTabPage : BasePage
         builder.Div("kui-card", () => UI.BuildTabs(builder, Tab));
     }
 }
+
+public class BaseStepPage : BasePage
+{
+    protected StepModel Step { get; } = new();
+
+    protected override void BuildPage(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-card", () => UI.BuildSteps(builder, Step));
+    }
+}

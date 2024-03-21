@@ -9,13 +9,13 @@ namespace Known.Demo.Pages.BizApply;
 //申请表单，继承流程表单基类
 class ApplyForm : BaseFlowForm<TbApply>
 {
-    protected override async Task OnInitFormAsync()
+    protected override async Task OnInitPageAsync()
     {
         //添加表单信息Tab
         Tabs.Clear();
         Tabs.Add(new ItemModel("BasicInfo") { Content = BuildBaseInfo });
         Tabs.Add(new ItemModel("TableList") { Content = BuildBillList });
-        await base.OnInitFormAsync();
+        await base.OnInitPageAsync();
     }
 
     private void BuildBaseInfo(RenderTreeBuilder builder)

@@ -185,12 +185,16 @@ public class UIService(ModalService modalService, MessageService messageService)
             OnOk = e => model.SaveAsync()
         };
 
+        var isTabForm = false;
+        var isStepForm = false;
         if (model.Type == null)
         {
             option.Content = b => BuildForm(b, model);
         }
         else
         {
+            isTabForm = model.Type.IsSubclassOf(typeof(BaseTabPage));
+            isStepForm = model.Type.IsSubclassOf(typeof(BaseStepPage));
             var parameters = new Dictionary<string, object>
             {
                 { nameof(BaseForm<TItem>.Model), model }
@@ -198,17 +202,18 @@ public class UIService(ModalService modalService, MessageService messageService)
             option.Content = b => b.Component(model.Type, parameters);
         }
 
-        var noFooter = false;
+        if (isTabForm)
+            option.WrapClassName = "kui-tab-form";
+        else if (isStepForm)
+            option.WrapClassName = "kui-step-form";
         if (model.Option != null)
         {
-            option.WrapClassName = model.Option.NoFooter ? "kui-tab-form" : "";
             option.Maximizable = model.Option.Maximizable;
             option.DefaultMaximized = model.Option.DefaultMaximized;
-            noFooter = model.Option.NoFooter;
             if (model.Option.Width != null)
                 option.Width = model.Option.Width.Value;
         }
-        if (model.IsView || noFooter)
+        if (model.IsView || isTabForm || isStepForm)
             option.Footer = null;
 
         var modal = await _modal.CreateModalAsync(option);

@@ -8,16 +8,16 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.WorkFlows;
 
-public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new()
+public class BaseFlowForm<TItem> : BaseTabPage where TItem : FlowEntity, new()
 {
     private readonly StepModel step = new();
-    private readonly TabModel tab = new();
 
     protected List<ItemModel> Tabs { get; } = [];
+    [Parameter] public FormModel<TItem> Model { get; set; }
 
-    protected override async Task OnInitFormAsync()
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnInitFormAsync();
+        await base.OnInitPageAsync();
 
         var logs = await Platform.GetFlowLogsAsync(Model.Data.Id);
         step.Items.Clear();
@@ -27,16 +27,16 @@ public class BaseFlowForm<TItem> : BaseForm<TItem> where TItem : FlowEntity, new
             step.Items.AddRange(steps);
         step.Current = GetCurrentStep(logs);
 
-        tab.Items.Clear();
+        Tab.Items.Clear();
         if (Tabs.Count > 0)
-            tab.Items.AddRange(Tabs);
-        tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build());
+            Tab.Items.AddRange(Tabs);
+        Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build());
     }
 
-    protected override void BuildForm(RenderTreeBuilder builder)
+    protected override void BuildPage(RenderTreeBuilder builder)
     {
         UI.BuildSteps(builder, step);
-        UI.BuildTabs(builder, tab);
+        UI.BuildTabs(builder, Tab);
     }
 
     private int GetCurrentStep(List<SysFlowLog> logs)

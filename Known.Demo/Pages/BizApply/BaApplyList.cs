@@ -1,6 +1,7 @@
 ﻿using Known.Blazor;
 using Known.Demo.Entities;
 using Known.Demo.Services;
+using Known.Extensions;
 using Known.WorkFlows;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -14,8 +15,15 @@ class BaApplyList : BaseTablePage<TbApply>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        //添加列表状态标签
+        Table.Tab.AddTab("待审核");
+        Table.Tab.AddTab("已审核");
+        Table.Tab.OnChange = async t =>
+        {
+            UI.Info(t);
+            await Table.RefreshAsync();
+        };
         Table.FormType = typeof(ApplyForm);
-		Table.Form.NoFooter = true;//表单不显示默认底部按钮
         Table.RowActions = row => Table.GetFlowRowActions(row); //根据数据状态显示操作按钮
         Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Apply, criteria);
 		Table.Column(c => c.BizStatus).Template(BuildBizStatus);//自定义状态列

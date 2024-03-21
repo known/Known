@@ -30,16 +30,15 @@ class SysModuleList : BasePage<SysModule>
         tree.Load();
 
         table = new TableModel<SysModule>(this)
-		{
-			FormTitle = row => $"{PageName} - {row.ParentName} > {row.Name}",
-			RowKey = r => r.Id,
-			ShowPager = false,
-			OnQuery = OnQueryModulesAsync,
-			OnAction = OnActionClick
-		};
+        {
+            FormTitle = row => $"{PageName} - {row.ParentName} > {row.Name}",
+            RowKey = r => r.Id,
+            ShowPager = false,
+            OnQuery = OnQueryModulesAsync,
+            OnAction = OnActionClick,
+            FormType = typeof(SysModuleForm)
+        };
         table.Toolbar.OnItemClick = OnToolClick;
-
-		table.Form.NoFooter = true;
 
         table.Column(c => c.Name).Template(BuildName);
         table.Column(c => c.Target).Template(BuildTarget);

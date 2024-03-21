@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Known.Blazor;
 
-class SysModuleForm : BaseForm<SysModule>
+class SysModuleForm : BaseStepPage
 {
-    private readonly StepModel step = new();
     private StepForm stepForm;
 
     private int StepCount
@@ -30,32 +29,33 @@ class SysModuleForm : BaseForm<SysModule>
     internal EntityInfo Entity { get; set; }
     internal FlowInfo Flow { get; set; }
 
+    [Parameter] public FormModel<SysModule> Model { get; set; }
     [Parameter] public bool IsPageEdit { get; set; }
 
-    protected override async Task OnInitFormAsync()
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnInitFormAsync();
+        await base.OnInitPageAsync();
 
         Model.OnFieldChanged = OnFieldChanged;
         if (!IsPageEdit)
         {
             Model.Field(f => f.Icon).Template(BuildIconField);
-            step.Items.Add(new("BasicInfo") { Content = BuildDataForm });
-            step.Items.Add(new("ModelSetting") { Content = BuildModuleModel });
-            //step.Items.Add(new("FlowSetting") { Content = BuildModuleFlow });
+            Step.AddStep("BasicInfo", BuildDataForm);
+            Step.AddStep("ModelSetting", BuildModuleModel);
+            //Step.AddStep("FlowSetting", BuildModuleFlow);
         }
-        step.Items.Add(new("PageSetting") { Content = BuildModulePage });
-        step.Items.Add(new("FormSetting") { Content = BuildModuleForm });
+        Step.AddStep("PageSetting", BuildModulePage);
+        Step.AddStep("FormSetting", BuildModuleForm);
 
         Entity ??= DataHelper.GetEntity(Model.Data.EntityData);
     }
 
-    protected override void BuildForm(RenderTreeBuilder builder)
+    protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Cascading(this, b =>
         {
             b.Component<StepForm>()
-             .Set(c => c.Model, step)
+             .Set(c => c.Model, Step)
              .Set(c => c.IsView, Model.IsView)
              .Set(c => c.StepCount, StepCount)
              .Set(c => c.OnSave, SaveAsync)
