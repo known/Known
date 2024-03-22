@@ -1,4 +1,5 @@
 ﻿using Known.Entities;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Http;
@@ -114,6 +115,17 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         await Platform.System.AddLogAsync(log);
     }
 
+    internal void BuildAuthorize(RenderTreeBuilder builder)
+    {
+        builder.Component<SysActive>()
+               .Set(c => c.OnCheck, isCheck =>
+               {
+                   Config.IsAuth = isCheck;
+                   StateChanged();
+               })
+               .Build();
+    }
+
     private bool IsInMenu(string pageId, string buttonId)
     {
         var menu = Context.UserMenus.FirstOrDefault(m => m.Id == pageId || m.Code == pageId);
@@ -134,21 +146,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
             return false;
 
         var agent = request.Headers[HeaderNames.UserAgent].ToString();
-        if (agent.Contains("Windows NT") || agent.Contains("Macintosh"))
-            return false;
-
-        bool flag = false;
-        string[] keywords = ["Android", "iPhone", "iPod", "iPad", "Windows Phone", "MQQBrowser"];
-
-        foreach (string item in keywords)
-        {
-            if (agent.Contains(item))
-            {
-                flag = true;
-                break;
-            }
-        }
-
-        return flag;
+        return Utils.CheckMobile(agent);
     }
 }

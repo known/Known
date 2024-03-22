@@ -14,7 +14,18 @@ public class BaseForm : BaseComponent
     }
 
     protected virtual Task OnInitFormAsync() => Task.CompletedTask;
-    protected override void BuildRender(RenderTreeBuilder builder) => BuildForm(builder);
+
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        if (!Config.IsAuth)
+        {
+            BuildAuthorize(builder);
+            return;
+        }
+
+        BuildForm(builder);
+    }
+
     protected virtual void BuildForm(RenderTreeBuilder builder) { }
 }
 

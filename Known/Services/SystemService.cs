@@ -39,6 +39,7 @@ class SystemService(Context context) : ServiceBase(context)
         var info = GetInstall();
         var sys = await GetSystemAsync(Database);
         info.IsInstalled = sys != null;
+        await CheckKeyAsync();
         return info;
     }
 
@@ -117,14 +118,13 @@ class SystemService(Context context) : ServiceBase(context)
         return Utils.FromJson<SystemInfo>(company.SystemData);
     }
 
-    //public async Task<Result> SaveKeyAsync(SystemInfo info)
-    //{
-    //    var path = GetProductKeyPath();
-    //    Utils.SaveFile(path, info.ProductKey);
-    //    await Platform.System.SaveConfigAsync(Database, KeySystem, info);
-    //    var result = await CheckKeyAsync();
-    //    return result;
-    //}
+    public async Task<Result> SaveKeyAsync(SystemInfo info)
+    {
+        var path = GetProductKeyPath();
+        Utils.SaveFile(path, info.ProductKey);
+        await SaveConfigAsync(Database, KeySystem, info);
+        return await CheckKeyAsync();
+    }
 
     public async Task<Result> SaveSystemAsync(SystemInfo info)
     {
@@ -482,12 +482,11 @@ URL|Url|Text|200
         return Path.Combine(path, "Known", $"{Config.App.Id}.key");
     }
 
-    //private async Task<Result> CheckKeyAsync()
-    //{
-    //    var info = await GetSystemAsync();
-    //    var result = PlatformHelper.CheckSystem?.Invoke(Database, info);
-    //    return result ?? Result.Success("");
-    //}
+    private async Task<Result> CheckKeyAsync()
+    {
+        var info = await GetSystemAsync();
+        return Config.App.CheckSystemInfo(info);
+    }
 
     //Task
     public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria)

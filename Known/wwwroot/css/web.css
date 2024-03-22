@@ -54,6 +54,7 @@
 .kui-form-page-button {margin-left:var(--kui-form-label-width);}
 .kui-form-page-button button {margin-right:10px;}
 .kui-form-button {margin-left:16.66666667%;}
+.kui-form-auth {width:400px;margin:0 auto;}
 
 /*GroupBox*/
 .kui-group-box {position:relative;border:1px dashed var(--kui-border-color);border-radius:6px;}

@@ -16,6 +16,8 @@ public sealed class Config
     public static Action OnExit { get; set; }
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
+    internal static bool IsAuth { get; set; } = true;
+    internal static string AuthStatus { get; set; }
     internal static List<ActionInfo> Actions { get; set; } = [];
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
@@ -179,6 +181,18 @@ public class AppInfo
     public string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
     public List<ConnectionInfo> Connections { get; set; }
     public InteractiveServerRenderMode InteractiveServer { get; set; } = new(false);
+    public Func<SystemInfo, Result> CheckSystem { get; set; }
+
+    internal Result CheckSystemInfo(SystemInfo info)
+    {
+        if (CheckSystem == null)
+            return Result.Success("");
+
+        var result = CheckSystem.Invoke(info);
+        Config.IsAuth = result.IsValid;
+        Config.AuthStatus = result.Message;
+        return result;
+    }
 
     internal ConnectionInfo GetConnection(string name)
     {

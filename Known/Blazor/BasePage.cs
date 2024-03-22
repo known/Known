@@ -40,7 +40,16 @@ public class BasePage : BaseComponent
             Context.Module = await Platform.Module.GetModuleAsync(PageId);
     }
 
-    protected override void BuildRender(RenderTreeBuilder builder) => BuildPage(builder);
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        if (!Config.IsAuth)
+        {
+            BuildAuthorize(builder);
+            return;
+        }
+
+        BuildPage(builder);
+    }
 
     protected virtual void BuildPage(RenderTreeBuilder builder)
     {

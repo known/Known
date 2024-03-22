@@ -29,6 +29,8 @@ public static class AppConfig
             info.Assembly = typeof(AppConfig).Assembly;
             info.IsLanguage = true;
             info.IsTheme = true;
+            //info.ProductId = "Test";
+            //info.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
             //数据库连接
             info.Connections = [new ConnectionInfo
             {

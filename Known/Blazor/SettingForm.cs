@@ -16,7 +16,7 @@ public class SettingForm : BaseForm<SettingInfo>
         await base.OnInitFormAsync();
     }
 
-    protected override void BuildForm(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-form-setting", () =>
         {

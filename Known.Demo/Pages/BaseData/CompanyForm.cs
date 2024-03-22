@@ -39,13 +39,13 @@ class CompanyBaseInfo : BaseForm<CompanyInfo>
 
     protected override void BuildForm(RenderTreeBuilder builder)
     {
-        builder.Div("form-company", () =>
+        builder.FormPage(() =>
         {
             Model.IsView = !isEdit;
             base.BuildForm(builder);
             if (HasButton("Edit"))
             {
-                builder.Div("kui-form-page-button", () =>
+                builder.FormPageButton(() =>
                 {
                     if (!isEdit)
                     {
