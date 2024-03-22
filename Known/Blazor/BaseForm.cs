@@ -17,13 +17,7 @@ public class BaseForm : BaseComponent
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        if (!Config.IsAuth)
-        {
-            BuildAuthorize(builder);
-            return;
-        }
-
-        BuildForm(builder);
+        builder.Component<KAuthPanel>().Set(c => c.ChildContent, BuildForm).Build();
     }
 
     protected virtual void BuildForm(RenderTreeBuilder builder) { }

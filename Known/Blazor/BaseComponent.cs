@@ -1,5 +1,4 @@
 ﻿using Known.Entities;
-using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Http;
@@ -113,17 +112,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
             return;
 
         await Platform.System.AddLogAsync(log);
-    }
-
-    internal void BuildAuthorize(RenderTreeBuilder builder)
-    {
-        builder.Component<SysActive>()
-               .Set(c => c.OnCheck, isCheck =>
-               {
-                   Config.IsAuth = isCheck;
-                   StateChanged();
-               })
-               .Build();
     }
 
     private bool IsInMenu(string pageId, string buttonId)

@@ -42,13 +42,7 @@ public class BasePage : BaseComponent
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        if (!Config.IsAuth)
-        {
-            BuildAuthorize(builder);
-            return;
-        }
-
-        BuildPage(builder);
+        builder.Component<KAuthPanel>().Set(c => c.ChildContent, BuildPage).Build();
     }
 
     protected virtual void BuildPage(RenderTreeBuilder builder)
