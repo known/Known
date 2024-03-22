@@ -15,10 +15,10 @@ public class FlowLogGrid : BaseComponent
     {
         await base.OnInitAsync();
         model = new TableModel<SysFlowLog>(Context) { OnQuery = OnQueryLogs };
-        model.AddColumn(c => c.StepName).Template(BuildStepName);
-        model.AddColumn(c => c.ExecuteBy);
-        model.AddColumn(c => c.ExecuteTime);
-        model.AddColumn(c => c.Result).Template(BuildResult);
+        model.AddColumn(c => c.StepName).Width("100").Template(BuildStepName);
+        model.AddColumn(c => c.ExecuteBy).Width("100");
+        model.AddColumn(c => c.ExecuteTime).Width("180");
+        model.AddColumn(c => c.Result).Width("100").Template(BuildResult);
         model.AddColumn(c => c.Note);
     }
 
