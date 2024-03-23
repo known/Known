@@ -113,7 +113,8 @@ class FileService(Context context) : ServiceBase(context)
             {
                 task = ImportHelper.CreateTask(form);
                 task.Target = sysFiles[0].Id;
-                await db.SaveAsync(task);
+                if (form.IsAsync)
+                    await db.SaveAsync(task);
             }
         });
         result.Data = sysFiles;

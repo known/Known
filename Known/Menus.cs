@@ -166,6 +166,19 @@ public class ColumnInfo
     public RenderFragment Template { get; set; }
     public PropertyInfo Property { get; private set; }
 
+    public string Note { get; set; }
+
+    internal string GetImportRuleNote(Context context)
+    {
+        if (!string.IsNullOrWhiteSpace(Category))
+        {
+            var codes = Cache.GetCodes(Category);
+            return context.Language["Import.TemplateFill"].Replace("{text}", $"{string.Join(",", codes.Select(c => c.Code))}");
+        }
+
+        return Note;
+    }
+
     internal void SetPageColumnInfo(PageColumnInfo info)
     {
         if (info == null)

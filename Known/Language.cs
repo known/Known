@@ -47,7 +47,7 @@ public class Language
     public string Reset => this["Button.Reset"];
     internal string Enable => this["Button.Enable"];
     internal string Disable => this["Button.Disable"];
-    internal string Import => this["Button.Import"];
+    public string Import => this["Button.Import"];
     internal string Export => this["Button.Export"];
     internal string Upload => this["Button.Upload"];
     internal string Download => this["Button.Download"];

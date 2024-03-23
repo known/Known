@@ -1,4 +1,5 @@
-﻿using Known.Entities;
+﻿using System.Linq.Expressions;
+using Known.Entities;
 using Known.Helpers;
 
 namespace Known;
@@ -26,21 +27,15 @@ public class ImportContext
     }
 }
 
-public abstract class ImportBase
+public abstract class ImportBase(ImportContext context)
 {
-    protected ImportBase(ImportContext context)
-    {
-        ImportContext = context;
-        Context = context.Context;
-        Database = context.Database;
-    }
-
-    internal ImportContext ImportContext { get; }
-    public Context Context { get; }
-    public Database Database { get; }
+    internal ImportContext ImportContext { get; } = context;
+    public Context Context { get; } = context.Context;
+    public Database Database { get; } = context.Database;
     public Language Language => Context?.Language;
-    public virtual List<ImportColumn> Columns { get; }
+    public List<ColumnInfo> Columns { get; } = [];
 
+    public virtual void InitColumns() { }
     public virtual Task<Result> ExecuteAsync(SysFile file) => Result.SuccessAsync("");
 
     internal static ImportBase Create(ImportContext context)
@@ -55,29 +50,17 @@ public abstract class ImportBase
     }
 }
 
-public class ImportColumn
+public abstract class ImportBase<TItem>(ImportContext context) : ImportBase(context)
 {
-    public ImportColumn(string name, bool required = false, string note = null)
+    protected void AddColumn<TValue>(Expression<Func<TItem, TValue>> selector)
     {
-        Name = name;
-        Required = required;
-        Note = note;
+        var property = TypeHelper.Property(selector);
+        var column = new ColumnInfo(property);
+        Columns.Add(column);
     }
-
-    public ImportColumn(Context context, string name, bool required, Type codeType)
-    {
-        Name = name;
-        Required = required;
-        var codes = Cache.GetCodes(codeType.Name);
-        Note = context.Language["Import.TemplateFill"].Replace("{text}", $"{string.Join(",", codes.Select(c => c.Code))}");
-    }
-
-    public string Name { get; }
-    public bool Required { get; }
-    public string Note { get; }
 }
 
-public class ImportRow : Dictionary<string, string>
+public class ImportRow<TItem> : Dictionary<string, string>
 {
     private readonly Context context;
 
@@ -87,6 +70,30 @@ public class ImportRow : Dictionary<string, string>
     }
 
     public string ErrorMessage { get; set; }
+
+    public string GetValue<TValue>(Expression<Func<TItem, TValue>> selector)
+    {
+        var key = GetKey(selector);
+        return GetValue(key);
+    }
+
+    public string GetValue<TValue>(Result vr, Expression<Func<TItem, TValue>> selector, bool required)
+    {
+        var key = GetKey(selector);
+        return GetValue(vr, key, required);
+    }
+
+    public TValue GetValueT<TValue>(Expression<Func<TItem, TValue>> selector)
+    {
+        var key = GetKey(selector);
+        return GetValue<TValue>(key);
+    }
+
+    public TValue GetValueT<TValue>(Result vr, Expression<Func<TItem, TValue>> selector, bool required)
+    {
+        var key = GetKey(selector);
+        return GetValue<TValue>(vr, key, required);
+    }
 
     public string GetValue(string key)
     {
@@ -122,6 +129,13 @@ public class ImportRow : Dictionary<string, string>
 
         return value;
     }
+
+    private string GetKey<TValue>(Expression<Func<TItem, TValue>> selector)
+    {
+        var property = TypeHelper.Property(selector);
+        var column = new ColumnInfo(property);
+        return context.Language.GetString(column);
+    }
 }
 
 class DictionaryImport(ImportContext context) : ImportBase(context)
@@ -140,7 +154,7 @@ class DictionaryImport(ImportContext context) : ImportBase(context)
             return Result.Error(Language.Required("Form.Fields"));
 
         var models = new List<Dictionary<string, object>>();
-        var result = ImportHelper.ReadFile(Context, file, item =>
+        var result = ImportHelper.ReadFile<Dictionary<string, object>>(Context, file, item =>
         {
             var model = new Dictionary<string, object>();
             foreach (var field in module.Form.Fields)

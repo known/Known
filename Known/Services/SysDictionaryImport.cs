@@ -3,36 +3,30 @@ using Known.Helpers;
 
 namespace Known.Services;
 
-class SysDictionaryImport(ImportContext context) : ImportBase(context)
+class SysDictionaryImport(ImportContext context) : ImportBase<SysDictionary>(context)
 {
-    public override List<ImportColumn> Columns
+    public override void InitColumns()
     {
-        get
-        {
-            return
-            [
-                new(Language[nameof(SysDictionary.Category)], true),
-                new(Language[nameof(SysDictionary.Code)]),
-                new(Language[nameof(SysDictionary.Name)]),
-                new(Language[nameof(SysDictionary.Sort)]),
-                new(Language[nameof(SysDictionary.Note)])
-            ];
-        }
+        AddColumn(c => c.Category);
+        AddColumn(c => c.Code);
+        AddColumn(c => c.Name);
+        AddColumn(c => c.Sort);
+        AddColumn(c => c.Note);
     }
 
     public override async Task<Result> ExecuteAsync(SysFile file)
     {
         var models = new List<SysDictionary>();
-        var result = ImportHelper.ReadFile(Context, file, item =>
+        var result = ImportHelper.ReadFile<SysDictionary>(Context, file, item =>
         {
             var model = new SysDictionary
             {
-                Category = item.GetValue(Language[nameof(SysDictionary.Category)]),
-                CategoryName = item.GetValue(Language[nameof(SysDictionary.Category)]),
-                Code = item.GetValue(Language[nameof(SysDictionary.Code)]),
-                Name = item.GetValue(Language[nameof(SysDictionary.Name)]),
-                Sort = item.GetValue<int>(Language[nameof(SysDictionary.Sort)]),
-                Note = item.GetValue(Language[nameof(SysDictionary.Note)]),
+                Category = item.GetValue(c => c.Category),
+                CategoryName = item.GetValue(c => c.Category),
+                Code = item.GetValue(c => c.Code),
+                Name = item.GetValue(c => c.Name),
+                Sort = item.GetValueT(c => c.Sort),
+                Note = item.GetValue(c => c.Note),
                 Enabled = true
             };
             var vr = model.Validate(Context);

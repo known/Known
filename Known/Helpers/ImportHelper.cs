@@ -61,7 +61,11 @@ public sealed class ImportHelper
     internal static Task<byte[]> GetImportRuleAsync(Context context, string bizId)
     {
         var import = ImportBase.Create(new ImportContext { Context = context, BizId = bizId });
-        if (import == null || import.Columns == null || import.Columns.Count == 0)
+        if (import == null)
+            return Task.FromResult(Array.Empty<byte>());
+
+        import.InitColumns();
+        if (import.Columns == null || import.Columns.Count == 0)
             return Task.FromResult(Array.Empty<byte>());
 
         var excel = ExcelFactory.Create();
@@ -72,9 +76,11 @@ public sealed class ImportHelper
         {
             var column = import.Columns[i];
             sheet.SetColumnWidth(i, 13);
-            sheet.SetCellValue(1, i, column.Note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
+            var note = column.GetImportRuleNote(context);
+            sheet.SetCellValue(1, i, note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
             var fontColor = column.Required ? System.Drawing.Color.Red : System.Drawing.Color.White;
-            sheet.SetCellValue(2, i, column.Name, new StyleInfo { IsBorder = true, FontColor = fontColor, BackgroundColor = Utils.FromHtml("#6D87C1") });
+            var columnName = context.Language.GetString(column);
+            sheet.SetCellValue(2, i, columnName, new StyleInfo { IsBorder = true, FontColor = fontColor, BackgroundColor = Utils.FromHtml("#6D87C1") });
         }
         sheet.SetRowHeight(1, 30);
         var stream = excel.SaveToStream();
@@ -117,22 +123,22 @@ public sealed class ImportHelper
         });
     }
 
-    public static Result ReadFile(Context context, SysFile file, Action<ImportRow> action)
+    public static Result ReadFile<TItem>(Context context, SysFile file, Action<ImportRow<TItem>> action)
     {
         var path = Config.GetUploadPath(file.Path);
         if (!File.Exists(path))
             return Result.Error(context.Language["Import.FileNotExists"]);
 
         if (!path.EndsWith(".txt"))
-            return ReadExcelFile(context, path, action);
+            return ReadExcelFile<TItem>(context, path, action);
 
         var columns = string.IsNullOrWhiteSpace(file.Note)
                     ? []
                     : ImportFormInfo.GetImportColumns(file.Note);
-        return ReadTextFile(context, path, columns, action);
+        return ReadTextFile<TItem>(context, path, columns, action);
     }
 
-    private static Result ReadExcelFile(Context context, string path, Action<ImportRow> action)
+    private static Result ReadExcelFile<TItem>(Context context, string path, Action<ImportRow<TItem>> action)
     {
         var excel = ExcelFactory.Create(path);
         if (excel == null)
@@ -145,7 +151,7 @@ public sealed class ImportHelper
 
         for (int i = 0; i < lines.Count; i++)
         {
-            var item = new ImportRow(context);
+            var item = new ImportRow<TItem>(context);
             foreach (var line in lines[i])
             {
                 item[line.Key] = line.Value;
@@ -157,7 +163,7 @@ public sealed class ImportHelper
         return ReadResult(context, errors);
     }
 
-    private static Result ReadTextFile(Context context, string path, List<string> columns, Action<ImportRow> action)
+    private static Result ReadTextFile<TItem>(Context context, string path, List<string> columns, Action<ImportRow<TItem>> action)
     {
         var errors = new Dictionary<int, string>();
         var lines = File.ReadAllLines(path);
@@ -174,7 +180,7 @@ public sealed class ImportHelper
             if (items[0] == columns[0])
                 continue;
 
-            var item = new ImportRow(context);
+            var item = new ImportRow<TItem>(context);
             for (int j = 0; j < columns.Count; j++)
             {
                 item[columns[j]] = items.Length > j ? items[j] : "";
