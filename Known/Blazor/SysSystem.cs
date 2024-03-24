@@ -87,7 +87,8 @@ class SysSystemInfo : BaseForm<SystemInfo>
 	private async void OnSaveProductKey(string value)
 	{
         Model.Data.ProductKey = value;
-		await Platform.System.SaveSystemAsync(Model.Data);
+		await Platform.System.SaveKeyAsync(Model.Data);
+        StateChanged();
 	}
 }
 

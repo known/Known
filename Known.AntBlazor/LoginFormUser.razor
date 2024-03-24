@@ -19,7 +19,7 @@
             </Select>
         </FormItem>
     }
-    @if (IsCaptcha)
+    else if (IsCaptcha)
     {
         <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
             <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]">
@@ -38,12 +38,18 @@
 @code {
     private AntDesign.Internal.IForm form;
     private AntCaptcha captcha;
-    private string FormStyle => IsCaptcha ? "" : "kui-nocaptcha";
+    private string FormStyle => IsCaptcha || Stations != null ? "" : "kui-nocaptcha";
 
     [Parameter] public bool IsCaptcha { get; set; }
     [Parameter] public List<string> Stations { get; set; }
     [Parameter] public LoginFormInfo Model { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        IsCaptcha = Context.Install.System.IsLoginCaptcha;
+        await base.OnInitAsync();
+    }
 
     private async Task OnUserLogin()
     {

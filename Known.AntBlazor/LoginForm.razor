@@ -24,10 +24,4 @@
     [Parameter] public object QRCode { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
     [Parameter] public Func<string, Task<Known.Result>> OnSendSMS { get; set; }
-
-    protected override async Task OnInitAsync()
-    {
-        IsCaptcha = Context.Install.System.IsLoginCaptcha;
-        await base.OnInitAsync();
-    }
 }
