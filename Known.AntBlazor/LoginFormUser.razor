@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<Form @ref="form" Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
+<Form @ref="form" Class="@FormStyle" Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
     <FormItem Label="" Required Rules="@Context.RuleRequired("UserName")">
         <Input @bind-Value="@context.UserName" Placeholder="@Language["UserName"]">
             <Prefix><Icon Type="user" /></Prefix>
@@ -38,6 +38,7 @@
 @code {
     private AntDesign.Internal.IForm form;
     private AntCaptcha captcha;
+    private string FormStyle => IsCaptcha ? "" : "kui-nocaptcha";
 
     [Parameter] public bool IsCaptcha { get; set; }
     [Parameter] public List<string> Stations { get; set; }

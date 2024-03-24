@@ -618,6 +618,7 @@
   "ModernUI": "现代UI",
   "Login": "登录",
   "Login.WithAccount": "用户名登录",
+  "Login.WithQRCode": "扫码登录",
   "Login.WithPhone": "手机号登录",
   "Login.RememberUser": "记住用户名",
   "Login.RememberPhone": "记住手机号",

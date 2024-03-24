@@ -491,6 +491,7 @@
   "ModernUI": "現代UI",
   "Login": "登入",
   "Login.WithAccount": "用戶名登入",
+  "Login.WithQRCode": "掃碼登入",
   "Login.WithPhone": "手機號登入",
   "Login.RememberUser": "記住用戶名",
   "Login.RememberPhone": "記住手機號",

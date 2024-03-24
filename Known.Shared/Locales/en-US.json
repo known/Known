@@ -622,6 +622,7 @@
   "ModernUI": "Modern UI",
   "Login": "Sign In",
   "Login.WithAccount": "With Account",
+  "Login.WithQRCode": "With ScanCode",
   "Login.WithPhone": "With Phone",
   "Login.RememberUser": "Remember Account",
   "Login.RememberPhone": "Remember Phone number",

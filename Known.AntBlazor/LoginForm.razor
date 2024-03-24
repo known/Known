@@ -1,12 +1,18 @@
 ﻿@inherits BaseComponent
 
 <Tabs Animated>
-    <TabPane Key="1" Tab="@Language["Login.WithAccount"]">
-        <LoginFormUser Model="Model" OnLogin="OnLogin" IsCaptcha />
+    <TabPane Key="Account" Tab="@Language["Login.WithAccount"]">
+        <LoginFormUser Model="Model" OnLogin="OnLogin" IsCaptcha="IsCaptcha" />
     </TabPane>
+    @if (QRCode != null)
+    {
+        <TabPane Key="QRCode" Tab="@Language["Login.WithQRCode"]">
+            <div style="text-align:center;"><KQRCode Id="loginQRCode" Option="QRCode" /></div>
+        </TabPane>
+    }
     @if (OnSendSMS != null)
     {
-        <TabPane Key="2" Tab="@Language["Login.WithPhone"]">
+        <TabPane Key="Phone" Tab="@Language["Login.WithPhone"]">
             <LoginFormPhone Model="Model" OnSendSMS="OnSendSMS" OnLogin="OnLogin" />
         </TabPane>
     }
@@ -14,6 +20,8 @@
 
 @code {
     [Parameter] public LoginFormInfo Model { get; set; }
+    [Parameter] public bool IsCaptcha { get; set; } = true;
+    [Parameter] public object QRCode { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
     [Parameter] public Func<string, Task<Known.Result>> OnSendSMS { get; set; }
 }
