@@ -6,6 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Toolbelt.AspNetCore.CssLiveReloader" Version="1.1.4" />
+    </ItemGroup>    
+    
+    <ItemGroup>
         <ProjectReference Include="..\Known.Shared\Known.Shared.csproj" />
     </ItemGroup>
 

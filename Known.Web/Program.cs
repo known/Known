@@ -1,4 +1,5 @@
 ﻿using Known.Shared;
+using Toolbelt.Extensions.DependencyInjection;
 
 #if DEBUG
 Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -35,4 +36,5 @@ app.UseAntiforgery();
 app.UseApp();
 app.MapRazorComponents<Known.Web.App>()
    .AddInteractiveServerRenderMode();
+app.UseCssLiveReload();
 app.Run();
