@@ -10,7 +10,7 @@ public static class FlowExtension
         if (info == null || info.Steps == null || info.Steps.Count == 0)
             return null;
 
-        return info.Steps.Select(s => new ItemModel(s.Name)).ToList();
+        return info.Steps.Select(s => new ItemModel(s.Id, s.Name)).ToList();
     }
 
     public static List<ActionInfo> GetFlowRowActions<TItem>(this TableModel<TItem> table, TItem row) where TItem : FlowEntity, new()

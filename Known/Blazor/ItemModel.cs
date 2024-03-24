@@ -2,8 +2,9 @@
 
 namespace Known.Blazor;
 
-public class ItemModel(string title)
+public class ItemModel(string id, string title)
 {
+    public string Id { get; } = id;
     public string Title { get; } = title;
     public string SubTitle { get; set; }
     public string Description { get; set; }
@@ -19,14 +20,18 @@ public class TabModel
 
     public bool HasItem => Items != null && Items.Count > 0;
 
-    public void AddTab(string title)
+    public void AddTab(string id) => AddTab(id, id);
+
+    public void AddTab(string id, string title)
     {
-        Items.Add(new ItemModel(title));
+        Items.Add(new ItemModel(id, title));
     }
 
-    public void AddTab(string title, RenderFragment content)
+    public void AddTab(string id, RenderFragment content) => AddTab(id, id, content);
+
+    public void AddTab(string id, string title, RenderFragment content)
     {
-        Items.Add(new ItemModel(title) { Content = content });
+        Items.Add(new ItemModel(id, title) { Content = content });
     }
 }
 
@@ -36,9 +41,11 @@ public class StepModel
     public int Current { get; set; }
     public List<ItemModel> Items { get; } = [];
 
-    public void AddStep(string title, RenderFragment content)
+    public void AddStep(string id, RenderFragment content) => AddStep(id, id, content);
+
+    public void AddStep(string id, string title, RenderFragment content)
     {
-        Items.Add(new ItemModel(title) { Content = content });
+        Items.Add(new ItemModel(id, title) { Content = content });
     }
 }
 

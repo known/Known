@@ -19,13 +19,13 @@
             {
                 if (item.Content != null)
                 {
-                    <TabPane Key="@item.Title" Tab="@Language?.GetTitle(item.Title)">
+                    <TabPane Key="@item.Id" Tab="@Language?.GetTitle(item.Title)">
                         @item.Content
                     </TabPane>
                 }
                 else
                 {
-                    <TabPane Key="@item.Title" Tab="@Language?.GetTitle(item.Title)" />
+                    <TabPane Key="@item.Id" Tab="@Language?.GetTitle(item.Title)" />
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
+using Known.Extensions;
 
 namespace Known.Helpers;
 
@@ -15,8 +16,11 @@ public sealed class TypeHelper
         var values = Enum.GetValues(type);
         foreach (Enum item in values)
         {
-            var name = Enum.GetName(type, item);
-            codes.Add(new CodeInfo(category, name, name, null));
+            var code = Enum.GetName(type, item);
+            var name = item.GetDescription();
+            if (string.IsNullOrWhiteSpace(name))
+                name = code;
+            codes.Add(new CodeInfo(category, code, name, null));
         }
         return codes;
     }
