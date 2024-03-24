@@ -6,6 +6,8 @@ namespace Known.Blazor;
 
 class SysSystem : BaseTabPage
 {
+    private SysSystemInfo info;
+    private SysSystemSafe safe;
     internal SystemInfo Data { get; private set; }
 
     protected override async Task OnInitPageAsync()
@@ -13,11 +15,18 @@ class SysSystem : BaseTabPage
         await base.OnInitPageAsync();
 		Data = await Platform.System.GetSystemAsync();
 
-		Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build());
-		Tab.AddTab("SecuritySetting", b => b.Component<SysSystemSafe>().Build());
+		Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build(value => info = value));
+		Tab.AddTab("SecuritySetting", b => b.Component<SysSystemSafe>().Build(value => safe = value));
     }
 
 	protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
+
+    public override void StateChanged()
+    {
+        info?.StateChanged();
+        safe?.StateChanged();
+        base.StateChanged();
+    }
 }
 
 class SysSystemInfo : BaseForm<SystemInfo>
@@ -101,6 +110,14 @@ class SysSystemSafe : BaseForm<SystemInfo>
              .Set(c => c.OnSave, OnSaveDefaultPwd)
              .Build();
         });
+        Model.AddRow().AddColumn("IsLoginCaptcha", b =>
+        {
+            UI.BuildSwitch(b, new InputModel<bool>
+            {
+                Value=Parent.Data.IsLoginCaptcha,
+                ValueChanged = this.Callback<bool>(OnLoginCaptchaChanged)
+            });
+        });
 
         await base.OnInitFormAsync();
     }
@@ -112,4 +129,10 @@ class SysSystemSafe : BaseForm<SystemInfo>
 		Model.Data.UserDefaultPwd = value;
 		await Platform.System.SaveSystemAsync(Model.Data);
 	}
+
+    private async void OnLoginCaptchaChanged(bool value)
+    {
+        Model.Data.IsLoginCaptcha = value;
+        await Platform.System.SaveSystemAsync(Model.Data);
+    }
 }

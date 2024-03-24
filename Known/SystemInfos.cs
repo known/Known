@@ -29,6 +29,8 @@ public class InstallInfo
 
     [Form(Type = "Password"), Required]
     public string Password1 { get; set; }
+
+    public virtual SystemInfo System { get; set; }
 }
 
 public class SystemInfo
@@ -41,4 +43,5 @@ public class SystemInfo
     [Form, Required]
     public string ProductKey { get; set; }
     public string UserDefaultPwd { get; set; }
+    public bool IsLoginCaptcha { get; set; }
 }

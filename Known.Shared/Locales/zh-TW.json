@@ -399,6 +399,7 @@
   "NewPwd": "新密碼",
   "NewPwd1": "確認密碼",
   "UserDefaultPwd": "默認密碼",
+  "IsLoginCaptcha": "啟用登入驗證碼",
   "Captcha": "驗證碼",
   "PhoneNo": "手機號",
   "PhoneCode": "手機驗證碼",

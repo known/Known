@@ -37,8 +37,8 @@ class SystemService(Context context) : ServiceBase(context)
     public async Task<InstallInfo> GetInstallAsync()
     {
         var info = GetInstall();
-        var sys = await GetSystemAsync(Database);
-        info.IsInstalled = sys != null;
+        info.System = await GetSystemAsync(Database);
+        info.IsInstalled = info.System != null;
         await CheckKeyAsync();
         return info;
     }

@@ -526,6 +526,7 @@
   "NewPwd": "新密码",
   "NewPwd1": "确认密码",
   "UserDefaultPwd": "默认密码",
+  "IsLoginCaptcha": "启用登录验证码",
   "Captcha": "验证码",
   "PhoneNo": "手机号",
   "PhoneCode": "手机验证码",

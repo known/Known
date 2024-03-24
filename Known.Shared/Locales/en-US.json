@@ -530,6 +530,7 @@
   "NewPwd": "New Password",
   "NewPwd1": "Confirm Password",
   "UserDefaultPwd": "Default Password",
+  "IsLoginCaptcha": "Enable captcha for login form",
   "Captcha": "Captcha",
   "PhoneNo": "Phone No.",
   "PhoneCode": "Phone Captcha",

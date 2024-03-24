@@ -20,8 +20,14 @@
 
 @code {
     [Parameter] public LoginFormInfo Model { get; set; }
-    [Parameter] public bool IsCaptcha { get; set; } = true;
+    [Parameter] public bool IsCaptcha { get; set; }
     [Parameter] public object QRCode { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
     [Parameter] public Func<string, Task<Known.Result>> OnSendSMS { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        IsCaptcha = Context.Install.System.IsLoginCaptcha;
+        await base.OnInitAsync();
+    }
 }
