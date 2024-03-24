@@ -34,8 +34,8 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
             {
                 b.FormAction(() =>
                 {
-                    b.Button(new ActionInfo { Name = "确定", Style = ButtonType.Primary, OnClick = this.Callback<MouseEventArgs>(OnSaveAsync) });
-                    b.Button(new ActionInfo { Name = "取消", OnClick = this.Callback<MouseEventArgs>(OnCloseAsync) });
+                    b.AntButton(new ActionInfo { Name = "确定", Style = ButtonType.Primary, OnClick = this.Callback<MouseEventArgs>(OnSaveAsync) });
+                    b.AntButton(new ActionInfo { Name = "取消", OnClick = this.Callback<MouseEventArgs>(OnCloseAsync) });
                 });
             }
         });

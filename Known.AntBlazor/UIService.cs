@@ -260,164 +260,25 @@ public class UIService(ModalService modalService, MessageService messageService)
 
     public void BuildTag(RenderTreeBuilder builder, string text)
     {
-        var color = GetTagColor(text);
         var name = Language?.GetCode(text);
-        builder.Component<Tag>()
-               .Set(c => c.Color, color)
-               .Set(c => c.ChildContent, b => b.Text(name))
-               .Build();
+        var color = GetTagColor(text);
+        builder.AntTag(name, color);
     }
 
-    public void BuildIcon(RenderTreeBuilder builder, string type, EventCallback<MouseEventArgs>? onClick = null)
-    {
-        if (onClick == null)
-        {
-            builder.Component<Icon>().Set(c => c.Type, type).Set(c => c.Theme, "outline").Build();
-            return;
-        }
-
-        builder.Component<Icon>()
-               .Set(c => c.Type, type)
-               .Set(c => c.Theme, "outline")
-               .Set(c => c.OnClick, onClick)
-               .Build();
-    }
-
-    public void BuildResult(RenderTreeBuilder builder, string status, string message)
-    {
-        builder.Component<AntDesign.Result>()
-               .Set(c => c.Status, status)
-               .Set(c => c.Title, status)
-               .Set(c => c.SubTitle, message)
-               .Build();
-    }
-
-    public void BuildButton(RenderTreeBuilder builder, ActionInfo info) => builder.Button(info);
-
-    public void BuildSearch(RenderTreeBuilder builder, InputModel<string> model)
-    {
-        builder.Component<Search>()
-               .Set(c => c.Disabled, model.Disabled)
-               .Set(c => c.ClassicSearchIcon, true)
-               .Set(c => c.Placeholder, model.Placeholder)
-               .Set(c => c.Value, model.Value)
-               .Set(c => c.ValueChanged, model.ValueChanged)
-               .Build();
-    }
-
-    public void BuildText(RenderTreeBuilder builder, InputModel<string> model)
-    {
-        builder.Component<Input<string>>()
-               .Set(c => c.Disabled, model.Disabled)
-               .Set(c => c.Placeholder, model.Placeholder)
-               .Set(c => c.Value, model.Value)
-               .Set(c => c.ValueChanged, model.ValueChanged)
-               .Build();
-    }
-
-    public void BuildTextArea(RenderTreeBuilder builder, InputModel<string> model)
-    {
-        builder.Component<TextArea>()
-               .Set(c => c.Disabled, model.Disabled)
-               .Set(c => c.Placeholder, model.Placeholder)
-               .Set(c => c.Rows, model.Rows)
-               .Set(c => c.Value, model.Value)
-               .Set(c => c.ValueChanged, model.ValueChanged)
-               .Build();
-    }
-
-    public void BuildPassword(RenderTreeBuilder builder, InputModel<string> model)
-    {
-        builder.Component<InputPassword>()
-               .Set(c => c.Disabled, model.Disabled)
-               .Set(c => c.Placeholder, model.Placeholder)
-               .Set(c => c.Value, model.Value)
-               .Set(c => c.ValueChanged, model.ValueChanged)
-               .Build();
-    }
-
-    public void BuildDatePicker<TValue>(RenderTreeBuilder builder, InputModel<TValue> model)
-    {
-        if (typeof(TValue) == typeof(string))
-        {
-            builder.Component<AntRangePicker<TValue>>()
-                   .Set(c => c.Disabled, model.Disabled)
-                   .Set(c => c.Placeholder, model.Placeholder)
-                   .Set(c => c.RangeValue, model.Value)
-                   .Set(c => c.RangeValueChanged, model.ValueChanged)
-                   .Build();
-        }
-        else
-        {
-            builder.Component<DatePicker<TValue>>()
-                   .Set(c => c.Disabled, model.Disabled)
-                   .Set(c => c.Placeholder, model.Placeholder)
-                   .Set(c => c.Value, model.Value)
-                   .Set(c => c.ValueChanged, model.ValueChanged)
-                   .Build();
-        }
-    }
-
-    public void BuildNumber<TValue>(RenderTreeBuilder builder, InputModel<TValue> model)
-    {
-        builder.Component<InputNumber<TValue>>()
-               .Set(c => c.Disabled, model.Disabled)
-               .Set(c => c.Value, model.Value)
-               .Set(c => c.ValueChanged, model.ValueChanged)
-               .Build();
-    }
-
-    public void BuildCheckBox(RenderTreeBuilder builder, InputModel<bool> model)
-    {
-        builder.Component<Checkbox>()
-               .Set(c => c.Disabled, model.Disabled)
-               .Set(c => c.Checked, model.Value)
-               .Set(c => c.Label, model.Placeholder)
-               .Set(c => c.Value, model.Value)
-               .Set(c => c.ValueChanged, model.ValueChanged)
-               .Build();
-    }
-
-    public void BuildSwitch(RenderTreeBuilder builder, InputModel<bool> model)
-    {
-        builder.Component<Switch>()
-               .Set(c => c.Disabled, model.Disabled)
-               .Set(c => c.Checked, model.Value)
-               .Set(c => c.Value, model.Value)
-               .Set(c => c.ValueChanged, model.ValueChanged)
-               .Build();
-    }
-
-    public void BuildSelect(RenderTreeBuilder builder, InputModel<string> model)
-    {
-        builder.Component<AntSelect>()
-               .Set(c => c.Disabled, model.Disabled)
-               .Set(c => c.Placeholder, model.Placeholder)
-               .Set(c => c.DataSource, model.Codes)
-               .Set(c => c.Value, model.Value)
-               .Set(c => c.ValueChanged, model.ValueChanged)
-               .Build();
-    }
-
-    public void BuildRadioList(RenderTreeBuilder builder, InputModel<string> model)
-    {
-        builder.Component<AntRadioGroup>()
-               .Set(c => c.Disabled, model.Disabled)
-               .Set(c => c.Codes, model.Codes)
-               .Set(c => c.Value, model.Value)
-               .Set(c => c.ValueChanged, model.ValueChanged)
-               .Build();
-    }
-
-    public void BuildCheckList(RenderTreeBuilder builder, InputModel<string[]> model)
-    {
-        builder.Component<AntCheckboxGroup>()
-               .Set(c => c.Disabled, model.Disabled)
-               .Set(c => c.Codes, model.Codes)
-               .Set(c => c.Value, model.Value)
-               .Set(c => c.ValueChanged, model.ValueChanged)
-               .Build();
-    }
+    public void BuildIcon(RenderTreeBuilder builder, string type, EventCallback<MouseEventArgs>? onClick = null) => builder.AntIcon(type, onClick);
+    public void BuildResult(RenderTreeBuilder builder, string status, string message) => builder.AntResult(status, message);
+    public void BuildButton(RenderTreeBuilder builder, ActionInfo info) => builder.AntButton(info);
+    public void BuildSearch(RenderTreeBuilder builder, InputModel<string> model) => builder.AntSearch(model);
+    public void BuildText(RenderTreeBuilder builder, InputModel<string> model) => builder.AntText(model);
+    public void BuildTextArea(RenderTreeBuilder builder, InputModel<string> model) => builder.AntTextArea(model);
+    public void BuildPassword(RenderTreeBuilder builder, InputModel<string> model) => builder.AntPassword(model);
+    public void BuildDatePicker<TValue>(RenderTreeBuilder builder, InputModel<TValue> model) => builder.AntDatePicker(model);
+    public void BuildNumber<TValue>(RenderTreeBuilder builder, InputModel<TValue> model) => builder.AntNumber(model);
+    public void BuildCheckBox(RenderTreeBuilder builder, InputModel<bool> model) => builder.AntCheckBox(model);
+    public void BuildSwitch(RenderTreeBuilder builder, InputModel<bool> model) => builder.AntSwitch(model);
+    public void BuildSelect(RenderTreeBuilder builder, InputModel<string> model) => builder.AntSelect(model);
+    public void BuildRadioList(RenderTreeBuilder builder, InputModel<string> model) => builder.AntRadioList(model);
+    public void BuildCheckList(RenderTreeBuilder builder, InputModel<string[]> model) => builder.AntCheckList(model);
 
     private static string GetTagColor(string text)
     {
