@@ -67,6 +67,10 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
         }
     }
 
+    protected void OnToolClick(ActionInfo info) => OnAction(info, null);
+    protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
+    protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
+
     private async void OnSaveAsync(MouseEventArgs args) => await Model.SaveAsync();
     private async void OnCloseAsync(MouseEventArgs args) => await Model.CloseAsync();
 }
