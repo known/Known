@@ -85,29 +85,6 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
     protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
     protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
-    private async void OnAction(ActionInfo info, object[] parameters)
-    {
-        var type = GetType();
-        var method = type.GetMethod(info.Id);
-        if (method == null)
-        {
-            var message = Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
-            UI.Error(message);
-            return;
-        }
-
-        try
-        {
-            method.Invoke(this, parameters);
-        }
-        catch (Exception ex)
-        {
-            Logger.Exception(ex);
-            if (Error != null)
-                await Error.HandleAsync(ex);
-        }
-    }
-
     internal void InitMenu()
     {
         if (Context == null || Context.UserMenus == null)

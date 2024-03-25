@@ -1,4 +1,5 @@
 ﻿using Known.Entities;
+using Known.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Http;
@@ -87,18 +88,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
     public virtual void StateChanged() => InvokeAsync(StateHasChanged);
 
-    protected bool HasButton(string buttonId)
-    {
-        var user = CurrentUser;
-        if (user == null)
-            return false;
-
-        if (user.IsAdmin)
-            return true;
-
-        return IsInMenu(Id, buttonId);
-    }
-
     internal async Task AddVisitLogAsync()
     {
         if (string.IsNullOrWhiteSpace(Name))
@@ -114,18 +103,27 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         await Platform.System.AddLogAsync(log);
     }
 
-    private bool IsInMenu(string pageId, string buttonId)
+    internal async void OnAction(ActionInfo info, object[] parameters)
     {
-        var menu = Context.UserMenus.FirstOrDefault(m => m.Id == pageId || m.Code == pageId);
-        if (menu == null)
-            return false;
+        var type = GetType();
+        var method = type.GetMethod(info.Id);
+        if (method == null)
+        {
+            var message = Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
+            UI.Error(message);
+            return;
+        }
 
-        var hasButton = false;
-        if (menu.Tools != null && menu.Tools.Count > 0)
-            hasButton = menu.Tools.Contains(buttonId);
-        else if (menu.Actions != null && menu.Actions.Count > 0)
-            hasButton = menu.Actions.Contains(buttonId);
-        return hasButton;
+        try
+        {
+            method.Invoke(this, parameters);
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            if (Error != null)
+                await Error.HandleAsync(ex);
+        }
     }
 
     private static bool CheckMobile(HttpRequest request)

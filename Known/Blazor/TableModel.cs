@@ -133,7 +133,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         UI.Confirm(Language?["Tip.ConfirmDeleteRecord"], async () =>
         {
             var result = await action?.Invoke([row]);
-            UI.Result(result, async () => await Page.RefreshAsync());
+            UI.Result(result, async () => await PageRefreshAsync());
         });
     }
 
@@ -164,13 +164,13 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
                 UI.Confirm(GetConfirmText(confirmText), async () =>
                 {
                     var result = await action?.Invoke(row);
-                    UI.Result(result, async () => await Page.RefreshAsync());
+                    UI.Result(result, async () => await PageRefreshAsync());
                 });
             }
             else
             {
                 var result = await action?.Invoke(row);
-                UI.Result(result, async () => await Page.RefreshAsync());
+                UI.Result(result, async () => await PageRefreshAsync());
             }
         });
     }
@@ -202,13 +202,13 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
                 UI.Confirm(GetConfirmText(confirmText), async () =>
                 {
                     var result = await action?.Invoke(rows);
-                    UI.Result(result, async () => await Page.RefreshAsync());
+                    UI.Result(result, async () => await PageRefreshAsync());
                 });
             }
             else
             {
                 var result = await action?.Invoke(rows);
-                UI.Result(result, async () => await Page.RefreshAsync());
+                UI.Result(result, async () => await PageRefreshAsync());
             }
         });
     }
@@ -229,16 +229,6 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
             await model.CloseAsync();
         };
         UI.ShowDialog(model);
-    }
-
-    private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
-    {
-        UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSave = onSave });
-    }
-
-    private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
-    {
-        UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave });
     }
 
     internal void SetPage(BasePage<TItem> page)
@@ -268,6 +258,24 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
 
         SelectType = Toolbar.HasItem ? "checkbox" : "";
         InitQueryColumns();
+    }
+
+    private async Task PageRefreshAsync()
+    {
+        if (Page != null)
+            await Page.RefreshAsync();
+        else
+            await RefreshAsync();
+    }
+
+    private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
+    {
+        UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSave = onSave });
+    }
+
+    private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
+    {
+        UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave });
     }
 
     private void SetPermission(BasePage<TItem> page)
