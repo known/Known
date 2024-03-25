@@ -61,6 +61,9 @@ public class BasePage : BaseComponent
         else if (type == ModuleType.IFrame)
             builder.IFrame(Context.Module.Url);
     }
+
+    protected void OnToolClick(ActionInfo info) => OnAction(info, null);
+    protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 }
 
 public class BasePage<TItem> : BasePage where TItem : class, new()
@@ -81,9 +84,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         builder.Component<WebPage>().Set(c => c.Model, Page).Build();
     }
 
-    protected void OnToolClick(ActionInfo info) => OnAction(info, null);
     protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
-    protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
     internal void InitMenu()
     {

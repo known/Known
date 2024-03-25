@@ -79,7 +79,6 @@ public class UIService(ModalService modalService, MessageService messageService)
         if (dataType == typeof(DateTimeOffset?))
             return typeof(AntDatePicker<DateTimeOffset?>);
 
-        //return typeof(AntInput<string>);
         return typeof(AntInput<>).MakeGenericType(dataType);
     }
 
