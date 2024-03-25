@@ -7,11 +7,11 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="AntDesign.Charts" Version="0.5.0" />
-        <PackageReference Include="Coravel" Version="5.0.2" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.1" />
-        <!--<PackageReference Include="Npgsql" Version="8.0.1" />
-        <PackageReference Include="MySqlConnector" Version="2.3.3" />
+        <PackageReference Include="AntDesign.Charts" Version="0.5.1" />
+        <PackageReference Include="Coravel" Version="5.0.3" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.3" />
+        <!--<PackageReference Include="Npgsql" Version="8.0.2" />
+        <PackageReference Include="MySqlConnector" Version="2.3.6" />
 	    <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
         <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />-->
     </ItemGroup>

@@ -19,8 +19,11 @@ public static class Extension
         else
             Logger.Level = LogLevel.Info;
 
-        Database.RegisterConnections(Config.App.Connections);
-        Database.Initialize();
+        if (Config.App.Connections != null && Config.App.Connections.Count > 0)
+        {
+            Database.RegisterConnections(Config.App.Connections);
+            Database.Initialize();
+        }
         Config.AddApp();
 
         //services.AddCascadingAuthenticationState();

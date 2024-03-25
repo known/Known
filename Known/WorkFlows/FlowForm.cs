@@ -12,7 +12,6 @@ public class BaseFlowForm<TItem> : BaseTabPage where TItem : FlowEntity, new()
 {
     private readonly StepModel step = new();
 
-    protected List<ItemModel> Tabs { get; } = [];
     [Parameter] public FormModel<TItem> Model { get; set; }
 
     protected override async Task OnInitPageAsync()
@@ -20,17 +19,14 @@ public class BaseFlowForm<TItem> : BaseTabPage where TItem : FlowEntity, new()
         await base.OnInitPageAsync();
 
         var logs = await Platform.GetFlowLogsAsync(Model.Data.Id);
+        Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build());
+
         step.Items.Clear();
         var flow = DataHelper.GetFlow(Context.Module?.FlowData);
         var steps = flow.GetFlowStepItems();
         if (steps != null && steps.Count > 0)
             step.Items.AddRange(steps);
         step.Current = GetCurrentStep(logs);
-
-        Tab.Items.Clear();
-        if (Tabs.Count > 0)
-            Tab.Items.AddRange(Tabs);
-        Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build());
     }
 
     protected override void BuildPage(RenderTreeBuilder builder)

@@ -12,9 +12,8 @@ class ApplyForm : BaseFlowForm<TbApply>
     protected override async Task OnInitPageAsync()
     {
         //添加表单信息Tab
-        Tabs.Clear();
-        Tabs.Add(new ItemModel("BasicInfo") { Content = BuildBaseInfo });
-        Tabs.Add(new ItemModel("TableList") { Content = BuildBillList });
+        Tab.AddTab("BasicInfo", BuildBaseInfo);
+        Tab.AddTab("TableList", BuildBillList);
         await base.OnInitPageAsync();
     }
 
