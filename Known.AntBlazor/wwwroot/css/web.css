@@ -28,7 +28,7 @@
 
 /*Layout*/
 .kui-header, .kui-logo, .ant-layout-tabs > .ant-tabs-nav {position:fixed;z-index:101;transition:all 0.2s;}
-.kui-header {top:0;right:0;left:200px;}
+.kui-header {top:0;right:0;left:200px;z-index:102;}
 .kui-header .ant-breadcrumb {padding-top:5px;}
 .kui-logo {top:0;left:0;width:200px;height:64px;background-color:var(--kui-bgcolor);padding-top:5px;padding-left:10px;}
 .kui-logo + .ant-menu {position:fixed;top:64px;left:0;bottom:48px;width:200px;overflow-y:auto;overflow-x:hidden;}
