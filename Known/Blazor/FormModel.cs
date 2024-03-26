@@ -126,7 +126,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         if (!Validate())
             return;
 
-        Result result;
+        var result = Result.Error("No save action.");
         if (OnSaveFile != null)
         {
             var info = new UploadInfo<TItem>(Data);
@@ -138,11 +138,11 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
                     info.Files[file.Key].Add(new BlazorAttachFile(item));
                 }
             }
-            result = await OnSaveFile?.Invoke(info);
+            result = await OnSaveFile.Invoke(info);
         }
-        else
+        else if (OnSave != null)
         {
-            result = await OnSave?.Invoke(Data);
+            result = await OnSave.Invoke(Data);
         }
         HandleResult(result, isClose);
     }

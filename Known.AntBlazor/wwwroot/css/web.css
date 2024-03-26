@@ -17,6 +17,7 @@
 .ant-table-tbody > tr > td.kui-table-action {position:sticky;right:0;z-index:101;background-color:var(--kui-bgcolor);}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
+.kui-small .ant-form-item-label {width:85px;}
 .kui-form-caption {font-weight:bold;font-size:1rem;padding:0 0 10px 35px;}
 .kui-form-toolbar button {margin-left:5px;}
 .kui-step-form .ant-modal-body {padding:10px 20px;}
