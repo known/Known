@@ -31,6 +31,7 @@
         try
         {
             Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+            Model.SelectedRows = [];
             StateChanged();
         }
         catch (Exception ex)
