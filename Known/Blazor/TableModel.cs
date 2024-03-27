@@ -18,13 +18,13 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    internal TableModel(BasePage<TItem> page) : base(page.Context)
+    public TableModel(BasePage page) : base(page.Context)
     {
         SetPage(page);
     }
 
     internal List<ColumnInfo> AllColumns { get; private set; }
-    internal BasePage<TItem> Page { get; private set; }
+    internal BasePage Page { get; private set; }
     internal SysModule Module { get; set; }
 
     public bool IsDictionary => typeof(TItem) == typeof(Dictionary<string, object>);
@@ -231,7 +231,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         UI.ShowDialog(model);
     }
 
-    internal void SetPage(BasePage<TItem> page)
+    internal void SetPage(BasePage page)
     {
         Page = page;
         Module = page.Context.Module;
@@ -278,7 +278,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave });
     }
 
-    private void SetPermission(BasePage<TItem> page)
+    private void SetPermission(BasePage page)
     {
         if (page == null || page.Menu == null)
             return;
