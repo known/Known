@@ -90,7 +90,6 @@ class AuthService(Context context) : ServiceBase(context)
     {
         await Database.OpenAsync();
         await DataHelper.InitializeAsync(Platform.Module);
-        await Platform.Dictionary.RefreshCacheAsync();
         var admin = new AdminInfo
         {
             AppName = await UserHelper.GetSystemNameAsync(Database),

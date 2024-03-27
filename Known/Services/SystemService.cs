@@ -39,6 +39,7 @@ class SystemService(Context context) : ServiceBase(context)
         var info = GetInstall();
         info.System = await GetSystemAsync(Database);
         info.IsInstalled = info.System != null;
+        await Platform.Dictionary.RefreshCacheAsync();
         await CheckKeyAsync();
         return info;
     }

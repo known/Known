@@ -18,8 +18,8 @@ class DictionaryRepository
 
     internal static Task<List<SysDictionary>> GetDictionarysAsync(Database db)
     {
-        var sql = "select * from SysDictionary where Enabled='True' and CompNo=@CompNo order by Category,Sort";
-        return db.QueryListAsync<SysDictionary>(sql, new { db.User.CompNo });
+        var sql = "select * from SysDictionary where Enabled='True' order by Category,Sort";
+        return db.QueryListAsync<SysDictionary>(sql);
     }
 
     internal static async Task<bool> ExistsDictionary(Database db, SysDictionary dictionary)
