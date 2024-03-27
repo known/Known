@@ -7,6 +7,7 @@ namespace Known.Blazor;
 public class BasePage : BaseComponent
 {
     private AutoTablePage page;
+    internal MenuInfo Menu { get; set; }
 
     [Parameter] public string PageId { get; set; }
 
@@ -31,6 +32,7 @@ public class BasePage : BaseComponent
     {
         if (!string.IsNullOrWhiteSpace(PageId))
             Context.Module = await Platform.Module.GetModuleAsync(PageId);
+        InitMenu();
     }
 
     protected override async Task OnParametersSetAsync()
@@ -64,27 +66,6 @@ public class BasePage : BaseComponent
 
     protected void OnToolClick(ActionInfo info) => OnAction(info, null);
     protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
-}
-
-public class BasePage<TItem> : BasePage where TItem : class, new()
-{
-    protected PageModel Page { get; } = new();
-    internal MenuInfo Menu { get; set; }
-
-    internal virtual void ViewForm(FormViewType type, TItem row) { }
-
-    protected override async Task OnInitPageAsync()
-    {
-        await base.OnInitPageAsync();
-        InitMenu();
-    }
-
-    protected override void BuildPage(RenderTreeBuilder builder)
-    {
-        builder.Component<WebPage>().Set(c => c.Model, Page).Build();
-    }
-
-    protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
 
     internal void InitMenu()
     {
@@ -98,6 +79,20 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         Id = Menu.Id;
         Name = Menu.Name;
     }
+}
+
+public class BasePage<TItem> : BasePage where TItem : class, new()
+{
+    protected PageModel Page { get; } = new();
+
+    internal virtual void ViewForm(FormViewType type, TItem row) { }
+
+    protected override void BuildPage(RenderTreeBuilder builder)
+    {
+        builder.Component<WebPage>().Set(c => c.Model, Page).Build();
+    }
+
+    protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
 }
 
 public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
@@ -181,6 +176,12 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 public class BaseTabPage : BasePage
 {
     protected TabModel Tab { get; } = new();
+
+    protected override async Task OnInitPageAsync()
+    {
+        await base.OnInitPageAsync();
+        Tab.Left = b => b.Component<KTitle>().Set(c => c.Text, Name).Build();
+    }
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {

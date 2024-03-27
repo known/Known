@@ -13,7 +13,7 @@ public class KTitle : BaseComponent
     {
         if (!string.IsNullOrWhiteSpace(Text))
             builder.Div("kui-title", Text);
-        else
+        else if (ChildContent != null)
             builder.Div("kui-title", () => ChildContent(builder));
     }
 }
