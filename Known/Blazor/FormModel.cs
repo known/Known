@@ -41,6 +41,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     internal TableModel<TItem> Table { get; }
     internal string Action { get; set; }
     public string Title { get; set; }
+    public string ConfirmText { get; set; }
     public FormOption Option { get; }
     public bool IsView { get; set; }
     public TItem Data { get; set; }
@@ -126,6 +127,17 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         if (!Validate())
             return;
 
+        if (string.IsNullOrWhiteSpace(ConfirmText))
+        {
+            await OnSaveAsync(isClose);
+            return;
+        }
+
+        UI.Confirm("确定下单报修该设备问题？", async () => await OnSaveAsync(isClose));
+    }
+
+    private async Task OnSaveAsync(bool isClose)
+    {
         var result = Result.Error("No save action.");
         if (OnSaveFile != null)
         {
