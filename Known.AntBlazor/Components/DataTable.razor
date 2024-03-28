@@ -30,7 +30,8 @@
     {
         try
         {
-            Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+            if (Model.OnQuery != null)
+                Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
             Model.SelectedRows = [];
             StateChanged();
         }
