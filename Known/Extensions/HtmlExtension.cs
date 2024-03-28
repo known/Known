@@ -40,12 +40,13 @@ public static class HtmlExtension
         builder.Span().Class("kui-link").OnClick(onClick).Markup(text).Close();
     }
 
-    public static void DownloadLink(this RenderTreeBuilder builder, string text, FileUrlInfo url)
+    public static void OpenFile(this RenderTreeBuilder builder, string text, FileUrlInfo url, bool download = false)
     {
         builder.OpenElement(0, "a");
         builder.AddAttribute(1, "href", url.OriginalUrl);
         builder.AddAttribute(2, "target", "_blank");
-        builder.AddAttribute(3, "download", url.FileName);
+        if (download)
+            builder.AddAttribute(3, "download", url.FileName);
         builder.AddContent(4, text);
         builder.CloseElement();
     }

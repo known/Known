@@ -41,6 +41,7 @@ public class PlatformService(Context context)
     #endregion
 
     #region File
+    public Task<List<SysFile>> GetFilesAsync(string bizId) => File.GetFilesAsync(bizId);
     public void DeleteFiles(List<string> filePaths) => filePaths.ForEach(AttachFile.DeleteFile);
     public Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles) => File.DeleteFilesAsync(db, bizId, oldFiles);
     public Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles) => File.SaveFileAsync(db, file, bizId, bizType, oldFiles);
