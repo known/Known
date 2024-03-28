@@ -56,6 +56,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Action<string> OnFieldChanged { get; set; }
     public Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
     public Func<TItem, Task<Result>> OnSave { get; set; }
+    public Func<bool> OnSaving { get; set; }
     public Action<TItem> OnSaved { get; set; }
     public Dictionary<string, List<IBrowserFile>> Files { get; } = [];
 
@@ -67,6 +68,17 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
             return value;
 
         return null;
+    }
+
+    public bool HasFile(string key)
+    {
+        if (Files == null)
+            return false;
+
+        if (!Files.TryGetValue(key, out List<IBrowserFile> value))
+            return false;
+
+        return value.Count > 0;
     }
 
     public void StateChanged()
@@ -126,6 +138,12 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     {
         if (!Validate())
             return;
+
+        if (OnSaving != null)
+        {
+            if (!OnSaving.Invoke())
+                return;
+        }
 
         if (string.IsNullOrWhiteSpace(ConfirmText))
         {
