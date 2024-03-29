@@ -4,9 +4,20 @@
         foreach (var item in Items)
         {
             <li @onclick="e=>OnItemClick(item)" style="width:@(Width)%">
-                <div class="kui-app-menu-icon" style="background-color:@item.Color">
-                    <Icon Type="@item.Icon" Theme="outline" />
-                </div>
+                @if (item.Badge > 0)
+                {
+                    <Badge Count="item.Badge">
+                        <div class="kui-app-menu-icon" style="background-color:@item.Color">
+                            <Icon Type="@item.Icon" Theme="outline" />
+                        </div>
+                    </Badge>
+                }
+                else
+                {
+                    <div class="kui-app-menu-icon" style="background-color:@item.Color">
+                        <Icon Type="@item.Icon" Theme="outline" />
+                    </div>
+                }
                 <div>@item.Name</div>
             </li>
         }
