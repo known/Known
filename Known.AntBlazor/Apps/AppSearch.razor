@@ -25,8 +25,13 @@
         </AntList>
     }
 </div>
+<div class="kui-app-search-info">
+    <Alert Type="@AlertType.Success" Message="@Total" />
+</div>
 
 @code {
+    private string Total => Language["Page.Total"].Replace("{total}", $"{DataSource?.Count}");
+
     [Parameter] public string Placeholder { get; set; }
     [Parameter] public string EmptyText { get; set; }
     [Parameter] public EventCallback<string> OnSearch { get; set; }

@@ -1,10 +1,12 @@
-﻿<div class="kui-app">
+﻿@inherits BaseComponent
+
+<div class="kui-app">
     @if (!IsHome)
     {
         <div class="kui-app-nav">
             @if (current?.Previous != null)
             {
-                <span class="back" @onclick="e=>OnBack()">
+                <span class="back" @onclick="e=>Back()">
                     <Icon Type="left" Theme="outline" />
                     <span>返回</span>
                 </span>
@@ -45,24 +47,24 @@
 
         item.Previous = current;
         current = item;
-        StateHasChanged();
+        StateChanged();
     }
 
-    public Task LogoutAsync() => OnLogout?.Invoke();
-
-    private void OnBack()
+    public void Back()
     {
         if (current?.Previous == null)
             return;
 
         current = current.Previous;
-        StateHasChanged();
+        StateChanged();
     }
+
+    public Task LogoutAsync() => OnLogout?.Invoke();
 
     private void OnTabClick(Known.MenuItem info)
     {
         info.Previous = null;
         current = info;
-        StateHasChanged();
+        StateChanged();
     }
 }
