@@ -243,8 +243,8 @@
 .kui-app-tab .active {color:#1890ff;}
 
 .kui-app-menu {list-style:none;margin:0;padding:0;}
-.kui-app-menu li {display:inline-block;text-align:center;cursor:pointer;}
-.kui-app-menu-icon {color:#fff;border-radius:50%;width:60px;height:60px;margin:10px auto;}
+.kui-app-menu li {display:inline-block;text-align:center;cursor:pointer;margin-bottom:20px;}
+.kui-app-menu-icon {color:#fff;border-radius:50%;width:60px;height:60px;margin:0 auto 5px auto;}
 .kui-app-menu .anticon {font-size:40px;margin-top:10px;}
 
 .kui-app-row {display:flex;height:56px;}
