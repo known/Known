@@ -9,7 +9,7 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
     protected override void OnInitialized()
     {
         Class = "kui-form";
-        ValidateOnChange = true;
+        //ValidateOnChange = true;
         ValidateMode = FormValidateMode.Rules;
         LabelColSpan = Form?.LabelSpan ?? 0;
         WrapperColSpan = Form?.WrapperSpan ?? 0;

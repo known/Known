@@ -1,0 +1,28 @@
+﻿@inherits BaseComponent
+
+<Dropdown>
+    <Overlay>
+    </Overlay>
+    <Unbound>
+        <Input @bind-Value="@Value" Placeholder="@Placeholder" />
+    </Unbound>
+</Dropdown>
+
+@code {
+    private string Placeholder => Language.GetString("PleaseSelect");
+    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private DataItem Item { get; set; }
+
+    [Parameter] public string Value { get; set; }
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+    protected override void OnInitialized()
+    {
+        //if (AntForm != null)
+        //    Disabled = AntForm.IsView;
+        if (Item != null)
+            Item.Type = typeof(string);
+
+        base.OnInitialized();
+    }
+}

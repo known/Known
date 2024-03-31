@@ -15,6 +15,7 @@ Print            | 打印    | printer      | primary
 Reset            | 重置    | undo         | default
 OK               | 确定    | check        | primary
 Cancel           | 取消    | close        | 
+Restore          | 恢复    | rollback     | primary
 
 Submit           | 提交    | send         | primary
 Revoke           | 撤回    | undo         | primary

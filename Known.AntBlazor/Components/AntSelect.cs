@@ -11,13 +11,18 @@ public class AntSelect : Select<string, CodeInfo>
 	{
         if (AntForm != null)
             Disabled = AntForm.IsView;
+        var emptyText = "";
         if (Item != null)
+        {
             Item.Type = typeof(string);
+            emptyText = Item.Language.GetString("PleaseSelect");
+        }
         ValueName = nameof(CodeInfo.Code);
 		LabelName = nameof(CodeInfo.Name);
         if (!string.IsNullOrWhiteSpace(Category))
-            DataSource = Cache.GetCodes(Category).ToCodes("请选择");
-        Placeholder = "请选择";
+            DataSource = Cache.GetCodes(Category).ToCodes(emptyText);
+        Placeholder = emptyText;
+        EnableSearch = true;
         base.OnInitialized();
 	}
 }
