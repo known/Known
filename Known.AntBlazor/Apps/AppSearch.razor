@@ -1,0 +1,36 @@
+﻿@inherits BaseComponent
+@typeparam TItem where TItem : class, new()
+
+<div class="kui-app-search">
+    @if (Search != null)
+    {
+        @Search
+    }
+    else
+    {
+        <Search Placeholder="@Placeholder" ClassicSearchIcon OnSearch="OnSearch" />
+    }
+</div>
+<div class="kui-app-search-result">
+    @if (!DataSource.Any())
+    {
+        <Empty Description="@(EmptyText)" />
+    }
+    else
+    {
+        <AntList DataSource="DataSource" NoResult="@EmptyText">
+            <ListItem>
+                @ChildContent(context)
+            </ListItem>
+        </AntList>
+    }
+</div>
+
+@code {
+    [Parameter] public string Placeholder { get; set; }
+    [Parameter] public string EmptyText { get; set; }
+    [Parameter] public EventCallback<string> OnSearch { get; set; }
+    [Parameter] public List<TItem> DataSource { get; set; }
+    [Parameter] public RenderFragment Search { get; set; }
+    [Parameter] public RenderFragment<TItem> ChildContent { get; set; }
+}

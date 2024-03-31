@@ -254,5 +254,8 @@
 .kui-app-fixed > .ant-tabs-nav {position:fixed;top:40px;left:0;right:0;z-index:101;background-color:var(--kui-bgcolor);}
 .kui-app-fixed > .ant-tabs-content-holder {padding-top:60px;}
 
+.kui-app-search {position:fixed;top:40px;left:0;right:0;z-index:101;padding:20px;background:#fff;}
+.kui-app-search-result {padding:60px 20px 20px 20px;}
+
 .carousel {background-color:#1890ff;}
 .carousel img {width:100%;height:200px;}
