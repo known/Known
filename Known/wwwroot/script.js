@@ -99,6 +99,11 @@ export class KBlazor {
         URL.revokeObjectURL(url);
     }
     //Image
+    static previewImage(inputElem, imgElem) {
+        const url = URL.createObjectURL(inputElem.files[0]);
+        imgElem.addEventListener('load', () => URL.revokeObjectURL(url), { once: true });
+        imgElem.src = url;
+    }
     static captcha(id, code) {
         var canvas = document.getElementById(id);
         var ctx = canvas.getContext("2d");

@@ -19,7 +19,7 @@
     else
     {
         <AntList DataSource="DataSource" NoResult="@EmptyText">
-            <ListItem>
+            <ListItem OnClick="()=>OnListItemClick(context)">
                 @ChildContent(context)
             </ListItem>
         </AntList>
@@ -35,7 +35,10 @@
     [Parameter] public string Placeholder { get; set; }
     [Parameter] public string EmptyText { get; set; }
     [Parameter] public EventCallback<string> OnSearch { get; set; }
+    [Parameter] public Action<TItem> OnItemClick { get; set; }
     [Parameter] public List<TItem> DataSource { get; set; }
     [Parameter] public RenderFragment Search { get; set; }
     [Parameter] public RenderFragment<TItem> ChildContent { get; set; }
+
+    private void OnListItemClick(TItem item) => OnItemClick?.Invoke(item);
 }
