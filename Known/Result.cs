@@ -256,4 +256,18 @@ public class PagingCriteria
 
         return value.ToString();
     }
+
+    public T GetParameter<T>(string id)
+    {
+        if (Parameters == null)
+            return default;
+
+        if (!Parameters.TryGetValue(id, out object value))
+            return default;
+
+        if (value == null)
+            return default;
+
+        return (T)value;
+    }
 }

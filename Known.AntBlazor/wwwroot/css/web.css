@@ -258,5 +258,7 @@
 .kui-app-search-result {padding:60px 20px;}
 .kui-app-search-info {position:fixed;left:0;right:0;bottom:0;z-index:101;padding:10px;background:#fff;}
 
+.kui-app-rc2 {display:flex;justify-content:space-between;align-items:center;}
+
 .carousel {background-color:#1890ff;}
 .carousel img {width:100%;height:200px;}
