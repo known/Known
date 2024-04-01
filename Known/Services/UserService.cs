@@ -154,24 +154,30 @@ class UserService(Context context) : ServiceBase(context)
         }, model);
     }
 
-    public async Task SyncUserAsync(Database db, UserInfo info)
+    public async Task SyncUserAsync(Database db, SysUser user)
     {
-        var model = await UserRepository.GetUserByUserNameAsync(db, info.UserName);
+        var model = await UserRepository.GetUserByUserNameAsync(db, user.UserName);
         if (model == null)
         {
             model = new SysUser
             {
-                UserName = info.UserName,
-                Name = info.Name,
-                Gender = info.Gender,
-                Phone = info.Phone,
-                Mobile = info.Mobile,
-                Email = info.Email,
+                OrgNo = user.OrgNo,
+                UserName = user.UserName,
+                Name = user.Name,
+                Gender = user.Gender,
+                Phone = user.Phone,
+                Mobile = user.Mobile,
+                Email = user.Email,
                 Enabled = true,
-                Role = info.Role
+                Role = user.Role
             };
+            var info = await SystemService.GetSystemAsync(Database);
+            if (!string.IsNullOrWhiteSpace(user.Password))
+                model.Password = Utils.ToMd5(user.Password);
+            else if (info != null)
+                model.Password = Utils.ToMd5(info.UserDefaultPwd);
             await db.SaveAsync(model);
-            var role = await RoleRepository.GetRoleByNameAsync(db, info.Role);
+            var role = await RoleRepository.GetRoleByNameAsync(db, user.Role);
             if (role != null)
                 await UserRepository.AddUserRoleAsync(db, model.Id, role.Id);
         }
