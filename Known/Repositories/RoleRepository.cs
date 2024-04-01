@@ -16,6 +16,12 @@ class RoleRepository
         return db.QueryListAsync<SysRole>(sql, new { db.User.AppId, db.User.CompNo });
     }
 
+    internal static Task<SysRole> GetRoleByNameAsync(Database db, string name)
+    {
+        var sql = "select * from SysRole where AppId=@AppId and CompNo=@CompNo and Name=@name";
+        return db.QueryAsync<SysRole>(sql, new { db.User.AppId, db.User.CompNo, name });
+    }
+
     internal static Task<int> DeleteRoleUsersAsync(Database db, string roleId)
     {
         var sql = "delete from SysUserRole where RoleId=@roleId";

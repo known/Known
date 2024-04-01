@@ -154,6 +154,29 @@ class UserService(Context context) : ServiceBase(context)
         }, model);
     }
 
+    public async Task SyncUserAsync(Database db, UserInfo info)
+    {
+        var model = await UserRepository.GetUserByUserNameAsync(db, info.UserName);
+        if (model == null)
+        {
+            model = new SysUser
+            {
+                UserName = info.UserName,
+                Name = info.Name,
+                Gender = info.Gender,
+                Phone = info.Phone,
+                Mobile = info.Mobile,
+                Email = info.Email,
+                Enabled = true,
+                Role = info.Role
+            };
+            await db.SaveAsync(model);
+            var role = await RoleRepository.GetRoleByNameAsync(db, info.Role);
+            if (role != null)
+                await UserRepository.AddUserRoleAsync(db, model.Id, role.Id);
+        }
+    }
+
     //Setting
     //public async Task<Result> DeleteSettingAsync(SettingFormInfo info)
     //{

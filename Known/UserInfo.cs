@@ -32,6 +32,14 @@ public class UserInfo
     private bool IsSystemAdmin() => UserName.Equals(Constants.SysUserName, StringComparison.CurrentCultureIgnoreCase);
     internal bool IsTenantAdmin() => CompNo == UserName;
 
+    public bool HasRole(string role)
+    {
+        if (string.IsNullOrWhiteSpace(Role))
+            return false;
+
+        return Role.Contains(role);
+    }
+
     public Task SendMessageAsync(Database db, string toUser, string subject, string content, bool isUrgent = false, string filePath = null, string bizId = null)
     {
         var level = isUrgent ? Constants.UMLUrgent : Constants.UMLGeneral;
