@@ -9,6 +9,8 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
     protected override void OnInitialized()
     {
         Class = "kui-form";
+        //为true时，AutoComplete无法选中
+        //为false时，Select无法选中
         //ValidateOnChange = true;
         ValidateMode = FormValidateMode.Rules;
         LabelColSpan = Form?.LabelSpan ?? 0;
