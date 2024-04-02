@@ -65,16 +65,16 @@ class SysUserProfileInfo : BaseComponent
 
 class SysUserProfileTabs : BaseTabPage
 {
-    private SysUserProfileTabsInfo info;
-    private SysUserProfileTabsSafe safe;
+    private UserEditForm info;
+    private PasswordEditForm safe;
 
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         //Tab.AddTab("TodoList", b => b.Component<SysSystemInfo>().Build());
         //Tab.AddTab("MyMessage", b => b.Component<SysSystemSafe>().Build());
-        Tab.AddTab("MyProfile", b => b.Component<SysUserProfileTabsInfo>().Build(value => info = value));
-        Tab.AddTab("SecuritySetting", b => b.Component<SysUserProfileTabsSafe>().Build(value => safe = value));
+        Tab.AddTab("MyProfile", b => b.Component<UserEditForm>().Build(value => info = value));
+        Tab.AddTab("SecuritySetting", b => b.Component<PasswordEditForm>().Build(value => safe = value));
     }
 
     public override void StateChanged()
@@ -85,7 +85,7 @@ class SysUserProfileTabs : BaseTabPage
     }
 }
 
-class SysUserProfileTabsInfo : BaseForm<SysUser>
+public class UserEditForm : BaseForm<SysUser>
 {
     private bool isEdit = false;
     [CascadingParameter] private SysUserProfile Parent { get; set; }
@@ -97,8 +97,12 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
             LabelSpan = 4,
             WrapperSpan = 8,
             IsView = true,
-            Data = Parent.User
+            Data = Parent?.User
         };
+        if (Model.Data == null)
+        {
+            Model.Data = await Platform.User.GetUserAsync(CurrentUser.Id);
+        }
         Model.AddRow().AddColumn(c => c.UserName, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.Name);
         Model.AddRow().AddColumn(c => c.EnglishName);
@@ -113,21 +117,24 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
 
     protected override void BuildForm(RenderTreeBuilder builder)
     {
+        Model.IsView = !isEdit;
         builder.FormPage(() =>
         {
-            Model.IsView = !isEdit;
-            base.BuildForm(builder);
-            builder.FormButton(() =>
+            builder.Div("form-user", () =>
             {
-                if (!isEdit)
+                base.BuildForm(builder);
+                builder.FormButton(() =>
                 {
-                    UI.Button(builder, Language.Edit, this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
-                }
-                else
-                {
-                    UI.Button(builder, Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
-                    UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
-                }
+                    if (!isEdit)
+                    {
+                        UI.Button(builder, Language.Edit, this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
+                    }
+                    else
+                    {
+                        UI.Button(builder, Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+                        UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
+                    }
+                });
             });
         });
     }
@@ -140,7 +147,7 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
         var result = await Platform.Auth.UpdateUserAsync(Model.Data);
         UI.Result(result, () =>
         {
-            Parent.UpdateProfileInfo();
+            Parent?.UpdateProfileInfo();
             OnEdit(false);
         });
     }
@@ -148,7 +155,7 @@ class SysUserProfileTabsInfo : BaseForm<SysUser>
     private void OnEdit(bool edit) => isEdit = edit;
 }
 
-class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
+public class PasswordEditForm : BaseForm<PwdFormInfo>
 {
     protected override async Task OnInitFormAsync()
     {
@@ -166,10 +173,13 @@ class SysUserProfileTabsSafe : BaseForm<PwdFormInfo>
     {
         builder.FormPage(() =>
         {
-            base.BuildForm(builder);
-            builder.FormButton(() =>
+            builder.Div("form-password", () =>
             {
-                UI.Button(builder, Language["Button.ConfirmUpdate"], this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+                base.BuildForm(builder);
+                builder.FormButton(() =>
+                {
+                    UI.Button(builder, Language["Button.ConfirmUpdate"], this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+                });
             });
         });
     }

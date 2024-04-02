@@ -1,18 +1,22 @@
 ﻿@inherits AppPage
 
-<div style="padding:50px 30px 20px 30px;text-align:center;">
+<div style="padding:50px 30px;text-align:center;">
     <Avatar Size="5rem" Src="@user?.AvatarUrl" />
-    <div>@user.Name</div>
+    <div style="margin-top:10px;">@user?.Name (@user?.UserName)</div>
 </div>
 <div style="padding:20px;">
-    <ul class="kui-user-info">
-        <li><Icon Type="user" /><span>@user.Name</span></li>
-        <li><Icon Type="phone" /><span>@user.Phone</span></li>
-        <li><Icon Type="mobile" /><span>@user.Mobile</span></li>
-        <li><Icon Type="inbox" /><span>@user.Email</span></li>
-        <li><Icon Type="team" /><span>@user.Role</span></li>
-        <li><Icon Type="comment" /><span>@user.Note</span></li>
-    </ul>
+    <AntList DataSource="items">
+        <ListItem OnClick="()=>OnItemClick(context)">
+            <div>
+                <Icon Type="@context.Icon" />
+                <span>@context.Name</span>
+            </div>
+            @if (context.ComType != null)
+            {
+                <Icon Type="right" />
+            }
+        </ListItem>
+    </AntList>
 </div>
 <div style="padding:20px;">
     <Button Type="@ButtonType.Primary" Danger Block OnClick="e=>Logout()">@Language["Nav.Exit"]</Button>
@@ -20,12 +24,31 @@
 
 @code {
     private UserInfo user;
+    private List<Known.MenuItem> items = [];
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
         user = CurrentUser;
+        items.Add(new Known.MenuItem { Id = "Mobile", Name = user?.Mobile, Icon = "mobile" });
+        items.Add(new Known.MenuItem { Id = "Email", Name = user?.Email, Icon = "inbox" });
+        items.Add(new Known.MenuItem
+        {
+            Id = "Profile",
+            Name = Language.GetString("Title.MyProfile"),
+            Icon = "user",
+            ComType = typeof(UserEditForm)
+        });
+        items.Add(new Known.MenuItem
+        {
+            Id = "Password",
+            Name = Language.GetString("Title.SecuritySetting"),
+            Icon = "lock",
+            ComType = typeof(PasswordEditForm)
+        });
     }
+
+    private void OnItemClick(Known.MenuItem item) => App.Navigate(item);
 
     private void Logout()
     {
