@@ -3,6 +3,7 @@ using System.Data.Common;
 using System.Text;
 using Known.Cells;
 using Known.Extensions;
+using Known.Helpers;
 
 namespace Known;
 
@@ -279,7 +280,6 @@ public class Database : IDisposable
 
             byte[] exportData = null;
             Dictionary<string, object> sums = null;
-            var dataTable = new DataTable();
             var pageData = new List<T>();
             var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
             var cmd = await PrepareCommandAsync(conn, trans, info);
@@ -288,31 +288,35 @@ public class Database : IDisposable
             var total = Utils.ConvertTo<int>(value);
             if (total > 0)
             {
-                if (criteria.ExportMode == ExportMode.None)
+                if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
+                    criteria.PageIndex = -1;
+
+                cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
-                    using var reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        var obj = ConvertTo<T>(reader);
-                        pageData.Add((T)obj);
-                    }
+                    var obj = ConvertTo<T>(reader);
+                    pageData.Add((T)obj);
                 }
-                else
+
+                if (criteria.ExportMode != ExportMode.None)
                 {
-                    if (criteria.ExportMode != ExportMode.Page)
-                        criteria.PageIndex = -1;
-                    cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
-                    cmd.CommandText = CommandInfo.GetExportSql(cmd.CommandText, criteria);
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        dataTable.Load(reader);
-                    }
+                    var dataTable = new DataTable();
                     foreach (var item in criteria.ExportColumns)
                     {
-                        dataTable.Columns[item.Key].ColumnName = item.Value;
+                        dataTable.Columns.Add(item.Value);
+                    }
+
+                    foreach (var data in pageData)
+                    {
+                        var row = dataTable.Rows.Add();
+                        foreach (var item in criteria.ExportColumns)
+                        {
+                            row[item.Value] = TypeHelper.GetPropertyValue(data, item.Key);
+                        }
                     }
                     exportData = GetExportData(dataTable);
+                    pageData = [];
                 }
 
                 if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
@@ -1165,13 +1169,6 @@ select t.* from (
         }
 
         return type.Name;
-    }
-
-    internal static string GetExportSql(string sql, PagingCriteria criteria)
-    {
-        var columns = criteria.ExportColumns.Where(c => sql.Contains('*') || sql.Contains(c.Key)).Select(c => $"t.{c.Key}");
-        var columnStr = string.Join(",", columns);
-        return $"select {columnStr} from ({sql}) t";
     }
 
     internal static CommandInfo GetInsertCommand(DatabaseType databaseType, DataRow row)
