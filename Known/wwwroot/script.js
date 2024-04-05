@@ -104,6 +104,12 @@ export class KBlazor {
         imgElem.addEventListener('load', () => URL.revokeObjectURL(url), { once: true });
         imgElem.src = url;
     }
+    static previewImageById(inputElem, imgId) {
+        const url = URL.createObjectURL(inputElem.files[0]);
+        var imgElem = document.getElementById(imgId);
+        imgElem.addEventListener('load', () => URL.revokeObjectURL(url), { once: true });
+        imgElem.src = url;
+    }
     static captcha(id, code) {
         var canvas = document.getElementById(id);
         var ctx = canvas.getContext("2d");

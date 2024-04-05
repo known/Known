@@ -1,0 +1,33 @@
+﻿@inherits BaseComponent
+
+@if (files != null && files.Count > 0)
+{
+    for (int i = 0; i < files.Count; i++)
+    {
+        <div class="kui-app-upload"><img id="@ImgId(i)" /></div>
+    }
+}
+<div class="kui-app-upload">
+    <Icon Type="camera" Theme="outline" />
+    <InputFile id="" @ref="inputFile" OnChange="OnInputFileChanged" />
+</div>
+
+@code {
+    private InputFile inputFile;
+    private Dictionary<string, ElementReference> imgElems = [];
+    private List<IBrowserFile> files = [];
+    private string ImgId(int i) => $"img-{Id}-{i}";
+
+    [Parameter] public Action<List<IBrowserFile>> OnFilesChanged { get; set; }
+
+    private async void OnInputFileChanged(InputFileChangeEventArgs e)
+    {
+        if (e.FileCount == 0)
+            return;
+
+        files.Add(e.File);
+        OnFilesChanged?.Invoke(files);
+        StateChanged();
+        await JS.PreviewImageByIdAsync(inputFile.Element, ImgId(files.Count - 1));
+    }
+}

@@ -133,6 +133,7 @@ public class JSService
 
     #region Image
     public Task PreviewImageAsync(ElementReference? inputElem, ElementReference imgElem) => InvokeVoidAsync("KBlazor.previewImage", inputElem, imgElem);
+    public Task PreviewImageByIdAsync(ElementReference? inputElem, string imgId) => InvokeVoidAsync("KBlazor.previewImageById", inputElem, imgId);
     public Task CaptchaAsync(string id, string code) => InvokeVoidAsync("KBlazor.captcha", id, code);
     #endregion
 

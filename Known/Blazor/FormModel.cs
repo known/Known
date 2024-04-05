@@ -151,7 +151,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
             return;
         }
 
-        UI.Confirm("确定下单报修该设备问题？", async () => await OnSaveAsync(isClose));
+        UI.Confirm(ConfirmText, async () => await OnSaveAsync(isClose));
     }
 
     private async Task OnSaveAsync(bool isClose)

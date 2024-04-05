@@ -77,7 +77,8 @@
     .ant-layout-header {line-height:normal;}
     .ant-modal {top:0;margin-top:10px;margin-left:8px;}
     .ant-row {flex-direction:column;}
-    .ant-col-20, .ant-col-18, .ant-col-14, .ant-col-12, .ant-col-10, .ant-col-6, .ant-col-4 {max-width:100%;}
+    .ant-col-20, .ant-col-18, .ant-col-16, .ant-col-14, .ant-col-12, 
+    .ant-col-10, .ant-col-8, .ant-col-6, .ant-col-4 {max-width:100%;}
     .ant-toolbar {padding-top:0;}
     .ant-query-btn, .ant-toolbar button {margin-top:10px;}
     .ant-form-inline {flex-direction:column;}
@@ -225,7 +226,7 @@
 .kui-app {position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;}
 
 .kui-app-nav {
-    position:absolute;top:0;left:0;right:0;padding:0 1rem;font-weight:bold;font-size:1rem;text-align:center;
+    position:fixed;top:0;left:0;right:0;padding:0 1rem;font-weight:bold;font-size:1rem;text-align:center;
     border-bottom:1px solid #ccc;height:40px;line-height:40px;background-color:#1890ff;color:#fff;
 }
 .kui-app-nav .back {cursor:pointer;position:absolute;top:0;left:0;bottom:0;width:80px;}
@@ -234,7 +235,7 @@
 .kui-app-page.tab {bottom:50px;}
 
 .kui-app-tab {
-    position:absolute;left:0;right:0;bottom:0;height:50px;
+    position:fixed;left:0;right:0;bottom:0;height:50px;
     display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));list-style:none;
     border-top:1px solid #ccc;margin:0;padding:0;
 }
