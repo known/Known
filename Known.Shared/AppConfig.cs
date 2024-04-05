@@ -78,7 +78,6 @@ public static class AppConfig
             scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
         });
 
-        app.UseStaticFiles();
         //7.使用Known框架静态文件
         app.UseKnownStaticFiles();
     }

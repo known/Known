@@ -506,6 +506,7 @@
   "Nav.Setting": "系統設定",
   "Nav.FullScreen": "全屏顯示",
   "Nav.ExitScreen": "退出全屏",
+  "Nav.ClearCache": "清空緩存",
   "Nav.Profile": "個人中心",
   "Nav.Exit": "安全退出",
 

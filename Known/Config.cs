@@ -16,6 +16,7 @@ public sealed class Config
     public static Action OnExit { get; set; }
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
+    internal static bool IsClearCache { get; set; }
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
     internal static List<ActionInfo> Actions { get; set; } = [];

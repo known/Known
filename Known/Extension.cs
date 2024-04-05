@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 
@@ -52,6 +53,8 @@ public static class Extension
 
     public static void UseKnownStaticFiles(this IApplicationBuilder app)
     {
+        app.UseMiddleware<StaticFileClearner>();
+        app.UseStaticFiles();
         var webFiles = Config.GetUploadPath(true);
         app.UseStaticFiles(new StaticFileOptions
         {
@@ -64,5 +67,26 @@ public static class Extension
             FileProvider = new PhysicalFileProvider(upload),
             RequestPath = "/UploadFiles"
         });
+    }
+}
+
+class StaticFileClearner(RequestDelegate next)
+{
+    private readonly RequestDelegate _next = next;
+
+    public async Task Invoke(HttpContext context)
+    {
+        if (Config.IsClearCache)
+        {
+            if (context.Request.Path.Value.StartsWith("/_content/", StringComparison.OrdinalIgnoreCase))
+            {
+                context.Response.Headers.CacheControl = "no-cache, no-store, must-revalidate";
+                context.Response.Headers.Pragma = "no-cache";
+                context.Response.Headers.Expires = "0";
+                Console.WriteLine(context.Request.Path.Value);
+            }
+        }
+
+        await _next(context);
     }
 }

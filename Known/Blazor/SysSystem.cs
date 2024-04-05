@@ -115,7 +115,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
         {
             UI.BuildSwitch(b, new InputModel<bool>
             {
-                Value=Parent.Data.IsLoginCaptcha,
+                Value = Parent.Data.IsLoginCaptcha,
                 ValueChanged = this.Callback<bool>(OnLoginCaptchaChanged)
             });
         });
