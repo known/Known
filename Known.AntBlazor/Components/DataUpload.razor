@@ -1,5 +1,14 @@
 ﻿@inherits BaseComponent
 
+@if (sysFiles != null && sysFiles.Count > 0)
+{
+    foreach (var item in sysFiles)
+    {
+        <div class="kui-app-upload">
+            <img src="@item.FileUrl.OriginalUrl" />
+        </div>
+    }
+}
 @if (files != null && files.Count > 0)
 {
     for (int i = 0; i < files.Count; i++)
@@ -15,10 +24,20 @@
 @code {
     private InputFile inputFile;
     private Dictionary<string, ElementReference> imgElems = [];
+    private List<SysFile> sysFiles;
     private List<IBrowserFile> files = [];
     private string ImgId(int i) => $"img-{Id}-{i}";
 
+    [Parameter] public string Value { get; set; }
     [Parameter] public Action<List<IBrowserFile>> OnFilesChanged { get; set; }
+
+    public bool HasFile => sysFiles != null && sysFiles.Count > 0 || files.Count > 0;
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        sysFiles = await Platform.GetFilesAsync(Value);
+    }
 
     private async void OnInputFileChanged(InputFileChangeEventArgs e)
     {
