@@ -71,6 +71,7 @@
 .ant-dropdown-link {color:#1890ff;}
 .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {border-right:none;}
 .ant-layout-footer {margin-top:10px;}
+.ant-spin-nested-loading > div > .ant-spin .ant-spin-text {padding-top:20px;}
 
 @media screen and (max-width:768px) {
     .kui-header .ant-breadcrumb, .kui-nav-full, .kui-nav-setting {display:none;}

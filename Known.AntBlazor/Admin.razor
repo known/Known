@@ -1,39 +1,41 @@
 ﻿@inherits AdminPage
 
 <CascadingValue Value="this">
-    <Layout Style="min-height:100vh;">
-        @if (IsLoaded)
-        {
-            <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible>
-                <div class="kui-logo"><img src="@Index.LogoUrl" /></div>
-                <AntMenu Accordion="Context.UserSetting.Accordion" Items="UserMenus" OnClick="e=>Context.Navigate(e)" />
-            </Sider>
-            <Layout>
-                <Header Class="kui-header">
-                    <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnHome" />
-                    <NavTopRight OnMenuClick="OnMenuClick" />
-                </Header>
-                <Content Class="@Content">
-                    @if (Context.UserSetting.MultiTab)
+    <Spin Spinning="showSpin" Tip="@spinTip">
+        <Layout Style="min-height:100vh;">
+            @if (IsLoaded)
+            {
+                <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible>
+                    <div class="kui-logo"><img src="@Index.LogoUrl" /></div>
+                    <AntMenu Accordion="Context.UserSetting.Accordion" Items="UserMenus" OnClick="e=>Context.Navigate(e)" />
+                </Sider>
+                <Layout>
+                    <Header Class="kui-header">
+                        <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnHome" />
+                        <NavTopRight OnMenuClick="OnMenuClick" />
+                    </Header>
+                    <Content Class="@Content">
+                        @if (Context.UserSetting.MultiTab)
+                        {
+                            <PageTabs @ref="tabs" Menu="CurrentMenu" Items="TabMenus" />
+                        }
+                        else
+                        {
+                            <PageSingle @ref="page" Menu="CurrentMenu" />
+                        }
+                    </Content>
+                    @if (AntConfig.Option.Footer != null)
                     {
-                        <PageTabs @ref="tabs" Menu="CurrentMenu" Items="TabMenus" />
+                        <Footer Style="text-align:center">@AntConfig.Option.Footer</Footer>
                     }
                     else
                     {
-                        <PageSingle @ref="page" Menu="CurrentMenu" />
+                        <Footer Style="text-align:center"><PageFooter /></Footer>
                     }
-                </Content>
-                @if (AntConfig.Option.Footer != null)
-                {
-                    <Footer Style="text-align:center">@AntConfig.Option.Footer</Footer>
-                }
-                else
-                {
-                    <Footer Style="text-align:center"><PageFooter /></Footer>
-                }
-            </Layout>
-        }
-    </Layout>
+                </Layout>
+            }
+        </Layout>
+    </Spin>
 </CascadingValue>
 
 <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="300">
@@ -43,11 +45,26 @@
 @code{
     private PageTabs tabs;
     private PageSingle page;
+    private string spinTip = "";
+    private bool showSpin = false;
     private bool showSetting = false;
     private Known.Blazor.SettingForm setting;
     private string Content => Context.UserSetting.MultiTab ? "kui-tabs" : "kui-page";
 
     [CascadingParameter] private IndexPage Index { get; set; }
+
+    public override void ShowSpin(string text)
+    {
+        showSpin = true;
+        spinTip = text;
+        StateChanged();
+    }
+
+    public override void HideSpin()
+    {
+        showSpin = false;
+        StateChanged();
+    }
 
     protected override void RefreshPage()
     {

@@ -23,6 +23,9 @@ public class AdminPage : BaseComponent
         StateChanged();
     }
 
+    public virtual void ShowSpin(string text) { }
+    public virtual void HideSpin() { }
+
     protected virtual void RefreshPage() => StateChanged();
 
     protected override async Task OnInitAsync()
