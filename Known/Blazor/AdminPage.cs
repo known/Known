@@ -23,7 +23,7 @@ public class AdminPage : BaseComponent
         StateChanged();
     }
 
-    public virtual void ShowSpin(string text) { }
+    public virtual Task ShowSpinAsync(string text = null) => Task.CompletedTask;
     public virtual void HideSpin() { }
 
     protected virtual void RefreshPage() => StateChanged();

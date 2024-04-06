@@ -53,8 +53,9 @@
 
     [CascadingParameter] private IndexPage Index { get; set; }
 
-    public override void ShowSpin(string text)
+    public override async Task ShowSpinAsync(string text = null)
     {
+        await base.ShowSpinAsync(text);
         showSpin = true;
         spinTip = text;
         StateChanged();

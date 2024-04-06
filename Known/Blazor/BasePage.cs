@@ -148,15 +148,25 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 
     protected async Task ExportDataAsync(string name, ExportMode mode)
     {
-        Table.Criteria.ExportMode = mode;
-        Table.Criteria.ExportColumns = GetExportColumns();
-        var result = await Table.OnQuery?.Invoke(Table.Criteria);
-        var bytes = result.ExportData;
-        if (bytes == null || bytes.Length == 0)
-            return;
+        try
+        {
+            await Admin.ShowSpinAsync();
+            Table.Criteria.ExportMode = mode;
+            Table.Criteria.ExportColumns = GetExportColumns();
+            var result = await Table.OnQuery?.Invoke(Table.Criteria);
+            var bytes = result.ExportData;
+            if (bytes == null || bytes.Length == 0)
+                return;
 
-        var stream = new MemoryStream(bytes);
-        await JS.DownloadFileAsync($"{name}.xlsx", stream);
+            var stream = new MemoryStream(bytes);
+            await JS.DownloadFileAsync($"{name}.xlsx", stream);
+            Admin.HideSpin();
+        }
+        catch (Exception ex)
+        {
+            await Error.HandleAsync(ex);
+            Admin.HideSpin();
+        }
     }
 
     private Dictionary<string, string> GetExportColumns()

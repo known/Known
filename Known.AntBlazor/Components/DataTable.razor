@@ -5,7 +5,7 @@
 
 <AntTable TItem="TItem" Context="Context" Resizable="Model.Resizable"
           ScrollX="@Model.FixedWidth" ScrollY="@Model.FixedHeight"
-          Criteria="Model.Criteria" Result="Model.Result"
+          Loading="loading" Criteria="Model.Criteria" Result="Model.Result"
           @bind-SelectedRows="Model.SelectedRows"
           RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick"
           HidePagination="!Model.ShowPager">
@@ -18,6 +18,7 @@
  </AntTable>
 
 @code {
+    private bool loading = false;
     [Parameter] public TableModel<TItem> Model { get; set; }
 
     protected override void OnInitialized()
@@ -30,13 +31,16 @@
     {
         try
         {
+            loading = true;
             if (Model.OnQuery != null)
                 Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
             Model.SelectedRows = [];
+            loading = false;
             StateChanged();
         }
         catch (Exception ex)
         {
+            loading = false;
             Logger.Exception(ex);
             if (Error != null)
                 await Error.HandleAsync(ex);
@@ -50,6 +54,7 @@
 
         try
         {
+            loading = true;
             //页码
             Model.Criteria.PageIndex = queryModel.PageIndex;
             Model.Criteria.PageSize = queryModel.PageSize;
@@ -68,9 +73,11 @@
             Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
             Model.Criteria.SumColumns = Model.Columns.Where(c => c.IsSum).Select(c => c.Id).ToList();
             Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+            loading = false;
         }
         catch (Exception ex)
         {
+            loading = false;
             Logger.Exception(ex);
             if (Error != null)
                 await Error.HandleAsync(ex);

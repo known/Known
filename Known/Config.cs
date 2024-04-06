@@ -87,7 +87,7 @@ public sealed class Config
         return uploadPath;
     }
 
-    internal static string GetUploadPath(string filePath, bool isWeb = false)
+    public static string GetUploadPath(string filePath, bool isWeb = false)
     {
         var path = GetUploadPath(isWeb);
         return Path.Combine(path, filePath);

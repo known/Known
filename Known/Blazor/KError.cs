@@ -11,7 +11,7 @@ public class KError : BaseComponent
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Cascading<KError>(this, ChildContent);
+        builder.Cascading(this, ChildContent);
     }
 
     public Task HandleAsync(Exception exception)
