@@ -9,9 +9,17 @@ namespace Known.BMap;
 
 public class BaiduMap : BaseComponent
 {
+    private readonly string id;
     private string key = string.Empty;
     private IJSObjectReference module;
     private DotNetObjectReference<BaiduMap> Instance { get; set; }
+
+    public BaiduMap()
+    {
+        id = Utils.GetGuid();
+        id = $"map-{id}";
+    }
+
     [Inject] private IJSRuntime Js { get; set; }
     [Inject] private IConfiguration Config { get; set; }
 
@@ -23,7 +31,7 @@ public class BaiduMap : BaseComponent
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Div().Id(Id).Style(Style).Close();
+        builder.Div().Id(id).Style(Style).Close();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -41,7 +49,7 @@ public class BaiduMap : BaseComponent
         }
     }
 
-    private async Task<bool> InitMapScript() => await module!.InvokeAsync<bool>("addScript", [key, Id, Instance]);
+    private async Task<bool> InitMapScript() => await module!.InvokeAsync<bool>("addScript", [key, id, Instance]);
 
     public async Task ResetAsync() => await module!.InvokeVoidAsync("resetMaps");
     public async Task SearchAsync(string name)
