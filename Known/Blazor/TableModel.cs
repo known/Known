@@ -32,7 +32,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public bool HasSum => Columns != null && Columns.Any(c => c.IsSum);
     public bool ShowPager { get; set; }
     public bool Resizable { get; set; }
-    public string SelectType { get; set; }
+    public TableSelectType SelectType { get; set; }
     public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }
     public FormOption Form { get; } = new();
@@ -256,7 +256,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         Columns.Clear();
         Columns.AddRange(AllColumns);
 
-        SelectType = Toolbar.HasItem ? "checkbox" : "";
+        SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
         InitQueryColumns();
     }
 

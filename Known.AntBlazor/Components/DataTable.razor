@@ -9,9 +9,9 @@
           @bind-SelectedRows="Model.SelectedRows"
           RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick"
           HidePagination="!Model.ShowPager">
-    @if (!string.IsNullOrWhiteSpace(Model.SelectType))
+    @if (Model.SelectType != TableSelectType.None)
     {
-        <Selection Type="@Model.SelectType" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
+        <Selection Type="@Model.SelectType.ToString().ToLower()" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
     }
     <AutoColumn Table="Model" Item="context" />
     <DataAction Table="Model" Item="context" />

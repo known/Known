@@ -7,7 +7,22 @@ namespace Known.Blazor;
 
 public abstract class BasePicker<TItem> : BaseComponent where TItem : class, new()
 {
-    public virtual List<TItem> SelectedItems { get; } = [];
+    protected TableModel<TItem> Table;
+
+    public bool IsMulti { get; set; }
+    public virtual List<TItem> SelectedItems => Table?.SelectedRows?.ToList();
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Table = new TableModel<TItem>(Context)
+        {
+            SelectType = IsMulti ? TableSelectType.Checkbox : TableSelectType.Radio,
+            ShowPager = true
+        };
+    }
+
+    protected override void BuildRender(RenderTreeBuilder builder) => builder.BuildTablePage(Table);
 }
 
 public class KPicker<TComponent, TItem> : BaseComponent

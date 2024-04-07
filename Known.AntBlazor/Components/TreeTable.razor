@@ -4,9 +4,9 @@
 <AntTable Context="Context" Resizable="Model.Resizable" 
           DataSource="Model.DataSource" TreeChildren="Model.TreeChildren"
           @bind-SelectedRows="Model.SelectedRows">
-    @if (!string.IsNullOrWhiteSpace(Model.SelectType))
+    @if (Model.SelectType != TableSelectType.None)
     {
-        <Selection Type="@Model.SelectType" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
+        <Selection Type="@Model.SelectType.ToString().ToLower()" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
     }
     <DataColumn Table="Model" Item="context" />
     <DataAction Table="Model" Item="context" />

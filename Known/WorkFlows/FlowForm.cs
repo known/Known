@@ -192,25 +192,15 @@ class FlowFormModel(Context context) : FormModel<FlowFormInfo>(context, true)
 
 class UserPicker : BasePicker<SysUser>
 {
-    private TableModel<SysUser> model;
-
-    public override List<SysUser> SelectedItems => model?.SelectedRows?.ToList();
-
     protected override async Task OnInitAsync()
     {
+        IsMulti = false;
         await base.OnInitAsync();
-        model = new TableModel<SysUser>(Context)
-        {
-            SelectType = "radio",
-            ShowPager = true,
-            OnQuery = Platform.User.QueryUsersAsync
-        };
-        model.AddColumn(c => c.UserName).Width("100");
-        model.AddColumn(c => c.Name, true).Width("100");
-        model.AddColumn(c => c.Phone).Width("100");
-        model.AddColumn(c => c.Email).Width("100");
-        model.AddColumn(c => c.Role);
+        Table.OnQuery = Platform.User.QueryUsersAsync;
+        Table.AddColumn(c => c.UserName).Width("100");
+        Table.AddColumn(c => c.Name, true).Width("100");
+        Table.AddColumn(c => c.Phone).Width("100");
+        Table.AddColumn(c => c.Email).Width("100");
+        Table.AddColumn(c => c.Role);
     }
-
-    protected override void BuildRender(RenderTreeBuilder builder) => builder.BuildTablePage(model);
 }
