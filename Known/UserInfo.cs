@@ -32,6 +32,14 @@ public class UserInfo
     private bool IsSystemAdmin() => UserName.Equals(Constants.SysUserName, StringComparison.CurrentCultureIgnoreCase);
     internal bool IsTenantAdmin() => CompNo == UserName;
 
+    public bool IsRole(string role)
+    {
+        if (string.IsNullOrWhiteSpace(Role))
+            return false;
+
+        return Role == role;
+    }
+
     public bool HasRole(string role)
     {
         if (string.IsNullOrWhiteSpace(Role))
