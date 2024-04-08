@@ -185,7 +185,9 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
             OnSaved?.Invoke(Data);
             if (result.IsClose || isClose)
                 await CloseAsync();
-            if (Page != null)
+            if (Table != null)
+                await Table.PageRefreshAsync();
+            else if (Page != null)
                 await Page.RefreshAsync();
         });
     }

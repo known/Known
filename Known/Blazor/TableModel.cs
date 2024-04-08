@@ -261,7 +261,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
         InitQueryColumns();
     }
 
-    private async Task PageRefreshAsync()
+    internal async Task PageRefreshAsync()
     {
         if (Page != null)
             await Page.RefreshAsync();
