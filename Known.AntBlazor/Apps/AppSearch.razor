@@ -52,6 +52,13 @@
         result = await OnQuery.Invoke(criteria);
     }
 
+    public async Task SearchAsync(string key)
+    {
+        searchKey = key;
+        criteria.PageIndex = 1;
+        await RefreshAsync();
+    }
+
     public async Task RefreshAsync()
     {
         criteria.Parameters["Key"] = searchKey;
