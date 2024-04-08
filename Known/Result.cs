@@ -149,7 +149,7 @@ public class PagingCriteria
     public List<QueryInfo> Query { get; set; }
     public string[] OrderBys { get; set; }
 
-    internal Dictionary<string, string> Fields { get; set; }
+    public Dictionary<string, string> Fields { get; set; }
 
     internal void Clear()
     {

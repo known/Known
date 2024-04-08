@@ -12,13 +12,13 @@
     }
 </div>
 <div class="kui-app-search-result">
-    @if (!DataSource.Any())
+    @if (result.TotalCount == 0)
     {
         <Empty Description="@(EmptyText)" />
     }
     else
     {
-        <AntList DataSource="DataSource" NoResult="@EmptyText">
+        <AntList DataSource="result.PageData" NoResult="@EmptyText">
             <ListItem OnClick="()=>OnListItemClick(context)">
                 @ChildContent(context)
             </ListItem>
@@ -26,19 +26,51 @@
     }
 </div>
 <div class="kui-app-search-info">
-    <Alert Type="@AlertType.Success" Message="@Total" />
+    <Alert Type="@AlertType.Success" Style="padding:3px 15px;">
+        <div class="kui-app-rc2">
+            <div>@Language["Page.Total"].Replace("{total}", $"{result.TotalCount}")</div>
+            <AppPager Criteria="criteria" TotalCount="result.TotalCount" OnChanged="OnPageChanged" />
+        </div>
+    </Alert>
 </div>
 
 @code {
-    private string Total => Language["Page.Total"].Replace("{total}", $"{DataSource?.Count}");
+    private PagingCriteria criteria = new();
+    private PagingResult<TItem> result = new PagingResult<TItem>();
+    private string searchKey;
 
     [Parameter] public string Placeholder { get; set; }
     [Parameter] public string EmptyText { get; set; }
-    [Parameter] public EventCallback<string> OnSearch { get; set; }
+    [Parameter] public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
     [Parameter] public Action<TItem> OnItemClick { get; set; }
-    [Parameter] public List<TItem> DataSource { get; set; }
     [Parameter] public RenderFragment Search { get; set; }
     [Parameter] public RenderFragment<TItem> ChildContent { get; set; }
 
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        result = await OnQuery.Invoke(criteria);
+    }
+
+    public async Task RefreshAsync()
+    {
+        criteria.Parameters["Key"] = searchKey;
+        result = await OnQuery.Invoke(criteria);
+        StateChanged();
+    }
+
     private void OnListItemClick(TItem item) => OnItemClick?.Invoke(item);
+
+    private async void OnSearch(string key)
+    {
+        searchKey = key;
+        criteria.PageIndex = 1;
+        await RefreshAsync();
+    }
+
+    private async void OnPageChanged()
+    {
+        result = await OnQuery.Invoke(criteria);
+        StateChanged();
+    }
 }

@@ -1,0 +1,29 @@
+﻿@inherits BaseComponent
+
+<div>
+    <Button Type="@ButtonType.Link" Disabled="!CanPrevious" Icon="left-circle" OnClick="OnPrevious" Style="width:45px;" />
+    <span>@Criteria.PageIndex / @PageCount</span>
+    <Button Type="@ButtonType.Link" Disabled="!CanNext" Icon="right-circle" OnClick="OnNext" Style="width:45px;" />
+</div>
+
+@code {
+    private int PageCount => (int)Math.Ceiling(TotalCount * 1.0 / Criteria.PageSize);
+    private bool CanPrevious => Criteria.PageIndex > 1;
+    private bool CanNext => Criteria.PageIndex >= 1 && Criteria.PageIndex < PageCount;
+
+    [Parameter] public int TotalCount { get; set; }
+    [Parameter] public PagingCriteria Criteria { get; set; }
+    [Parameter] public Action OnChanged { get; set; }
+
+    private void OnPrevious()
+    {
+        Criteria.PageIndex--;
+        OnChanged?.Invoke();
+    }
+
+    private void OnNext()
+    {
+        Criteria.PageIndex++;
+        OnChanged?.Invoke();
+    }
+}
