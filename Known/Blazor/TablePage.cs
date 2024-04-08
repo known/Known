@@ -13,6 +13,34 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
         if (Model == null)
             return;
 
+        if (Model.IsFormList)
+            BuildFormList(builder);
+        else
+            BuildPageList(builder);
+    }
+
+    private void BuildFormList(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-table form-list", () =>
+        {
+            builder.Component<KToolbar>()
+                   .Set(c => c.ChildContent, b =>
+                   {
+                       b.Div(() =>
+                       {
+                           if (Model.QueryColumns.Count > 0)
+                               UI.BuildQuery(b, Model);
+                       });
+                       if (Model.Toolbar.HasItem)
+                           UI.BuildToolbar(b, Model.Toolbar);
+                   })
+                   .Build();
+            UI.BuildTable(builder, Model);
+        });
+    }
+
+    private void BuildPageList(RenderTreeBuilder builder)
+    {
         if (Model.QueryColumns.Count > 0)
             builder.Div("kui-query", () => UI.BuildQuery(builder, Model));
 
@@ -23,7 +51,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
                 Model.Tab.Left = b => b.Component<KTitle>().Set(c => c.Text, Model.Module?.Name).Build();
                 if (Model.Toolbar.HasItem)
                     Model.Tab.Right = b => UI.BuildToolbar(b, Model.Toolbar);
-                builder.Div(() => UI.BuildTabs(builder, Model.Tab));
+                UI.BuildTabs(builder, Model.Tab);
             }
             else
             {
@@ -36,7 +64,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
                                Model.ToolbarSlot?.Invoke(b);
                            });
                            if (Model.Toolbar.HasItem)
-                               b.Div(() => UI.BuildToolbar(b, Model.Toolbar));
+                               UI.BuildToolbar(b, Model.Toolbar);
                        })
                        .Build();
             }

@@ -15,6 +15,7 @@
 .kui-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
 .kui-toolbar > div {display:flex;align-items:center;}
 .kui-table > .kui-toolbar {padding:10px;}
+.kui-table.form-list > .kui-toolbar {padding:0 10px 10px 10px;}
 .kui-caption {font-weight:bold;font-size:1rem;margin:5px;padding:2px 10px;border-left:5px solid #1890ff;}
 .kui-link {color:#1890ff;cursor:pointer;}
 .kui-menu li {list-style:none;display:inline-block;margin-left:10px;}

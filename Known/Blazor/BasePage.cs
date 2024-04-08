@@ -98,6 +98,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 {
     protected TableModel<TItem> Table { get; private set; }
+    protected virtual bool IsFormList { get; }
 
     public override Task RefreshAsync() => Table.RefreshAsync();
     internal override void ViewForm(FormViewType type, TItem row) => Table.ViewForm(type, row);
@@ -105,7 +106,11 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table = new TableModel<TItem>(this) { OnAction = OnActionClick };
+        if (IsFormList)
+            Table = new TableModel<TItem>(Context) { IsFormList = true };
+        else
+            Table = new TableModel<TItem>(this);
+        Table.OnAction = OnActionClick;
         Table.Toolbar.OnItemClick = OnToolClick;
     }
 

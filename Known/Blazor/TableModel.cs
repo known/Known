@@ -26,6 +26,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal BasePage Page { get; private set; }
     internal SysModule Module { get; set; }
+    internal bool IsFormList { get; set; }
 
     public bool IsDictionary => typeof(TItem) == typeof(Dictionary<string, object>);
     public bool HasAction => Actions != null && Actions.Count > 0;
