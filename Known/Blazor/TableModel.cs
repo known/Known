@@ -10,6 +10,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
 {
     public TableModel(Context context, bool isAuto = false) : base(context)
     {
+        AdvSearch = false;
         if (isAuto)
         {
             AllColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
@@ -20,6 +21,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
 
     public TableModel(BasePage page) : base(page.Context)
     {
+        AdvSearch = true;
         SetPage(page);
     }
 
@@ -33,6 +35,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public bool HasSum => Columns != null && Columns.Any(c => c.IsSum);
     public bool ShowPager { get; set; }
     public bool Resizable { get; set; }
+    public bool AdvSearch { get; set; }
     public TableSelectType SelectType { get; set; }
     public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }

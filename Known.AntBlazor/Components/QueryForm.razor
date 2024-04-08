@@ -24,7 +24,7 @@
                     <GridCol Span="6" Offset="offset" Style="text-align:right;">
                         <FormItem>
                             <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
-                            @if (AdvSearch)
+                            @if (IsAdvSearch)
                             {
                                 <Button Type="primary" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
                             }
@@ -53,7 +53,7 @@
                 }
                 <div class="ant-query-btn">
                     <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
-                    @if (AdvSearch)
+                    @if (IsAdvSearch)
                     {
                         <Button Type="primary" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
                     }
@@ -67,9 +67,10 @@
 @code {
     private bool _expand = false;
     private AntDesign.Internal.IForm _form;
+    private bool IsAdvSearch => AdvSearch || Model.AdvSearch;
 
     [Parameter] public TableModel<TItem> Model { get; set; }
-    [Parameter] public bool AdvSearch { get; set; } = true;
+    [Parameter] public bool AdvSearch { get; set; }
 
     private async Task OnSearchAsync()
     {
