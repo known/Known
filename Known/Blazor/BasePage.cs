@@ -100,6 +100,8 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     protected TableModel<TItem> Table { get; private set; }
     protected virtual bool IsFormList { get; }
 
+    public IEnumerable<TItem> SelectedRows => Table.SelectedRows;
+
     public override Task RefreshAsync() => Table.RefreshAsync();
     internal override void ViewForm(FormViewType type, TItem row) => Table.ViewForm(type, row);
 

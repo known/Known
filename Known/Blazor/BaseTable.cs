@@ -6,6 +6,8 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
 {
     protected TableModel<TItem> Table { get; private set; }
 
+    public IEnumerable<TItem> SelectedRows => Table.SelectedRows;
+
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();

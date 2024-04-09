@@ -289,6 +289,7 @@ public class FormOption
     public double? Width { get; set; }
     public bool Maximizable { get; set; }
     public bool DefaultMaximized { get; set; }
+    public bool NoFooter { get; set; }
 
     internal void LoadInfo(FormInfo info)
     {

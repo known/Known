@@ -37,6 +37,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public bool Resizable { get; set; }
     public bool AdvSearch { get; set; }
     public TableSelectType SelectType { get; set; }
+    public string Name { get; set; }
     public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }
     public FormOption Form { get; } = new();

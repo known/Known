@@ -28,6 +28,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
                    {
                        b.Div(() =>
                        {
+                           b.Component<KTitle>().Set(c => c.Text, Model.Name).Build();
                            if (Model.QueryColumns.Count > 0)
                                UI.BuildQuery(b, Model);
                        });
