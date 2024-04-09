@@ -37,10 +37,12 @@ public class TabModel
 
 public class StepModel
 {
+    public string Class { get; set; }
     public string Direction { get; set; }
     public int Current { get; set; }
     public List<ItemModel> Items { get; } = [];
 
+    public void AddStep(string title) => Items.Add(new ItemModel("", title));
     public void AddStep(string id, RenderFragment content) => AddStep(id, id, content);
 
     public void AddStep(string id, string title, RenderFragment content)

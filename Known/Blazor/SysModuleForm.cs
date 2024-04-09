@@ -148,6 +148,7 @@ class IconPicker : BasePicker<IconInfo>
     private const string KeyCustom = "Custom";
     private readonly TabModel tab = new();
     private readonly Dictionary<string, List<IconInfo>> icons = [];
+    private readonly List<IconInfo> selectedItems = [];
     private string searchKey;
 
     public IconPicker()
@@ -160,11 +161,13 @@ class IconPicker : BasePicker<IconInfo>
         icons = UIConfig.Icons.ToDictionary(k => k.Key, v => v.Value.Select(x => new IconInfo { Icon = x }).ToList());
     }
 
+    public override List<IconInfo> SelectedItems => selectedItems;
+
     protected override void BuildRender(RenderTreeBuilder builder) => UI.BuildTabs(builder, tab);
 
     private void BuildContent(RenderTreeBuilder builder, string key)
     {
-        var value = SelectedItems.Count == 0 ? "" : SelectedItems[0].Icon;
+        var value = selectedItems.Count == 0 ? "" : selectedItems[0].Icon;
         builder.Div("kui-icon-picker", () =>
         {
             if (key == KeyCustom)
@@ -174,8 +177,8 @@ class IconPicker : BasePicker<IconInfo>
                     Value = value,
                     ValueChanged = this.Callback<string>(value =>
                     {
-                        SelectedItems.Clear();
-                        SelectedItems.Add(new IconInfo { Icon = value });
+                        selectedItems.Clear();
+                        selectedItems.Add(new IconInfo { Icon = value });
                     })
                 });
             }

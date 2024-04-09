@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<Steps Current="Model.Current">
+<Steps Class="@Model.Class" Current="Model.Current">
     @foreach (var item in Model.Items)
     {
         <Step Title="@Language?.GetTitle(item.Title)"
