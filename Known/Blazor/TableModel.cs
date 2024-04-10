@@ -60,6 +60,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public Func<TItem, Task> OnRowClick { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }
     public Func<Task> OnRefresh { get; set; }
+    public Action OnRefreshed { get; set; }
     public List<TItem> DataSource { get; set; }
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
     public RenderFragment ToolbarSlot { get; set; }
@@ -271,6 +272,8 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
             await Page.RefreshAsync();
         else
             await RefreshAsync();
+
+        OnRefreshed?.Invoke();
     }
 
     private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)

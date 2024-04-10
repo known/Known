@@ -34,6 +34,16 @@ public static class ComponentExtension
                .Build();
     }
 
+    public static void AntButton(this RenderTreeBuilder builder, string icon, string name, EventCallback<MouseEventArgs> onClick)
+    {
+        builder.Component<Button>()
+               .Set(c => c.Icon, icon)
+               .Set(c => c.Type, ButtonType.Primary)
+               .Set(c => c.OnClick, onClick)
+               .Set(c => c.ChildContent, b => b.Text(name))
+               .Build();
+    }
+
     public static void AntButton(this RenderTreeBuilder builder, ActionInfo info)
     {
         builder.Component<Button>()
