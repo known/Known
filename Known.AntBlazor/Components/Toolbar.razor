@@ -2,15 +2,13 @@
 
 @if (Model.HasItem)
 {
+    var items = Model.Items.Where(i => i.Visible).ToList();
     <div class="ant-toolbar">
-        @if (Model.Items.Count > Model.ShowCount)
+        @if (items.Count > Model.ShowCount)
         {
             for (int i = 0; i < Model.ShowCount - 1; i++)
             {
-                var item = Model.Items[i];
-                if (!item.Visible)
-                    continue;
-
+                var item = items[i];
                 var itemName = Language.GetString(item);
                 if (item.Children != null && item.Children.Count > 0)
                 {
@@ -21,16 +19,13 @@
                     <Button Disabled="@(!item.Enabled)" Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
                 }
             }
-            var mores = Model.Items.Skip(Model.ShowCount - 1).ToList();
+            var mores = items.Skip(Model.ShowCount - 1).ToList();
             <AntDropdown Context="Context" TextButton="@Language["Button.More"]" Items="mores" OnItemClick="Model.OnItemClick" />
         }
         else
         {
-            foreach (var item in Model.Items)
+            foreach (var item in items)
             {
-                if (!item.Visible)
-                    continue;
-
                 var itemName = Language.GetString(item);
                 if (item.Children != null && item.Children.Count > 0)
                 {
