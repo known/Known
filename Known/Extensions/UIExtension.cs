@@ -26,6 +26,13 @@ public static class UIExtension
     }
     #endregion
 
+    #region Tag
+    public static void Tag(this RenderTreeBuilder builder, string text)
+    {
+        builder.Component<KTag>().Set(c => c.Text, text).Build();
+    }
+    #endregion
+
     #region Icon
     public static void Icon(this IUIService service, RenderTreeBuilder builder, string icon, EventCallback<MouseEventArgs>? onClick = null)
     {
