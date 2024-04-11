@@ -107,7 +107,10 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     internal async void OnAction(ActionInfo info, object[] parameters)
     {
         var type = GetType();
-        var method = type.GetMethod(info.Id);
+        var paramTypes = parameters?.Select(p => p.GetType()).ToArray();
+        var method = paramTypes == null
+                   ? type.GetMethod(info.Id)
+                   : type.GetMethod(info.Id, paramTypes);
         if (method == null)
         {
             var message = Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
