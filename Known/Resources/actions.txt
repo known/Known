@@ -1,3 +1,4 @@
+Add              | 添加    | plus         | primary
 New              | 新增    | plus         | primary
 Edit             | 编辑    | edit         | primary
 Delete           | 删除    | delete       | danger

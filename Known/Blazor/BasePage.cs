@@ -97,7 +97,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 
 public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 {
-    protected TableModel<TItem> Table { get; private set; }
+    protected TableModel<TItem> Table { get; set; }
     protected virtual bool IsFormList { get; }
 
     public IEnumerable<TItem> SelectedRows => Table.SelectedRows;
