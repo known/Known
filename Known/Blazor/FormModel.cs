@@ -89,9 +89,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    public FormRow<TItem> AddRow()
+    public FormRow<TItem> AddRow(Action<FormRow<TItem>> action = null)
     {
         var row = new FormRow<TItem>(this);
+        action?.Invoke(row);
         Rows.Add(row);
         return row;
     }
@@ -264,6 +265,15 @@ public class FormRow<TItem> where TItem : class, new()
 
     public FormRow<TItem> AddColumn(string id, string text) => AddColumn(id, b => b.Text(text));
     public FormRow<TItem> AddColumn(string id, RenderFragment template) => AddColumn(new ColumnInfo(id, template));
+
+    public FormRow<TItem> AddColumn<TValue>(string name, Expression<Func<TItem, TValue>> selector, Action<ColumnInfo> action = null)
+    {
+        return AddColumn(selector, c =>
+        {
+            c.Name = name;
+            action?.Invoke(c);
+        });
+    }
 
     public FormRow<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector, Action<ColumnInfo> action = null)
     {
