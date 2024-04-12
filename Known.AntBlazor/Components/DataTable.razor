@@ -3,7 +3,7 @@
 @inherits BaseComponent
 @typeparam TItem where TItem : class, new()
 
-<AntTable TItem="TItem" Context="Context" Resizable="Model.Resizable"
+<AntTable @ref="table" TItem="TItem" Context="Context" Resizable="Model.Resizable"
           ScrollX="@Model.FixedWidth" ScrollY="@Model.FixedHeight"
           Loading="loading" Criteria="Model.Criteria" Result="Model.Result"
           @bind-SelectedRows="Model.SelectedRows"
@@ -19,6 +19,8 @@
 
 @code {
     private bool loading = false;
+    private AntTable<TItem> table;
+
     [Parameter] public TableModel<TItem> Model { get; set; }
 
     protected override void OnInitialized()
@@ -32,6 +34,7 @@
         try
         {
             loading = true;
+            table?.ReloadData();
             if (Model.OnQuery != null)
                 Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
             Model.SelectedRows = [];
