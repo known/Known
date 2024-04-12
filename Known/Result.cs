@@ -86,10 +86,11 @@ public class PagingResult<T>
         PageData = pageData;
     }
 
-    public PagingResult(int totalCount, List<T> pageData)
+    public PagingResult(int totalCount, List<T> pageData, object summary = null)
     {
         TotalCount = totalCount;
         PageData = pageData;
+        Summary = summary;
     }
 
     public int TotalCount { get; }
@@ -151,7 +152,7 @@ public class PagingCriteria
 
     public Dictionary<string, string> Fields { get; set; }
 
-    internal void Clear()
+    public void Clear()
     {
         IsQuery = false;
         ExportColumns = [];
