@@ -54,6 +54,9 @@
 
     public async Task SearchAsync(string key)
     {
+        if (string.IsNullOrWhiteSpace(key))
+            return;
+
         searchKey = key;
         criteria.PageIndex = 1;
         await RefreshAsync();
