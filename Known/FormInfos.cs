@@ -34,6 +34,17 @@ public class UploadInfo<TModel>(TModel model)
 {
     public TModel Model { get; } = model;
     public Dictionary<string, List<IAttachFile>> Files { get; } = [];
+
+    public bool HasFile(string key)
+    {
+        if (Files == null)
+            return false;
+
+        if (!Files.TryGetValue(key, out List<IAttachFile> value))
+            return false;
+
+        return value.Count > 0;
+    }
 }
 
 public class FileFormInfo
