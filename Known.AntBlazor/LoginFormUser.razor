@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<Form @ref="form" Class="@FormStyle" Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
+<Form @ref="form" Class="@FormStyle" Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateMode="@FormValidateMode.Rules">
     <FormItem Label="" Required Rules="@Context.RuleRequired("UserName")">
         <Input @bind-Value="@context.UserName" Placeholder="@Language["UserName"]">
             <Prefix><Icon Type="user" /></Prefix>

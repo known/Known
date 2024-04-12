@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<Form @ref="form" Model="Model" OnFinish="OnPhoneLogin" LabelCol="null" ValidateOnChange ValidateMode="@FormValidateMode.Rules">
+<Form @ref="form" Model="Model" OnFinish="OnPhoneLogin" LabelCol="null" ValidateMode="@FormValidateMode.Rules">
     <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneNo")">
         <Input @bind-Value="@context.PhoneNo" Placeholder="@Language["PhoneNo"]">
             <Prefix><Icon Type="phone" /></Prefix>
