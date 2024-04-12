@@ -16,7 +16,9 @@
     }
     <div class="@PageClass">
         <CascadingValue Value="this">
-            <DynamicComponent Type="current?.ComType" Parameters="current?.ComParameters" />
+            <Spin Spinning="showSpin" Tip="@spinTip">
+                <DynamicComponent Type="current?.ComType" Parameters="current?.ComParameters" />
+            </Spin>
         </CascadingValue>
     </div>
     @if (IsTab)
@@ -27,12 +29,28 @@
 
 @code {
     private Known.MenuItem current;
+    private string spinTip = "";
+    private bool showSpin = false;
     private bool IsHome => current?.Id == "Home";
     private bool IsTab => current?.Previous == null;
     private string PageClass => CssBuilder.Default("kui-app-page").AddClass("nav", !IsHome).AddClass("tab", IsTab).BuildClass();
 
     [Parameter] public List<Known.MenuItem> Menus { get; set; }
     [Parameter] public Func<Task> OnLogout { get; set; }
+
+    public async Task ShowSpinAsync(string text = null)
+    {
+        await Task.Run(() => { });
+        showSpin = true;
+        spinTip = text;
+        StateChanged();
+    }
+
+    public void HideSpin()
+    {
+        showSpin = false;
+        StateChanged();
+    }
 
     protected override void OnInitialized()
     {
