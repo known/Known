@@ -73,6 +73,7 @@
             Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
             Model.Criteria.SumColumns = Model.Columns.Where(c => c.IsSum).Select(c => c.Id).ToList();
             Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+            Model.SelectedRows = [];
             loading = false;
         }
         catch (Exception ex)
