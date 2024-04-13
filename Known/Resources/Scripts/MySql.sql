@@ -324,3 +324,28 @@ create table `SysFlowLog` (
     `Note`        varchar(1000) null,
     PRIMARY KEY(`Id`)
 );
+
+create table `SysWinxin` (
+    `Id`          varchar(50)   not null,
+    `CreateBy`    varchar(50)   not null,
+    `CreateTime`  datetime      not null,
+    `ModifyBy`    varchar(50)   null,
+    `ModifyTime`  datetime      null,
+    `Version`     int           not null,
+    `Extension`   text          null,
+    `AppId`       varchar(50)   not null,
+    `CompNo`      varchar(50)   not null,
+    `MPAppId`     varchar(50)   null,
+    `UserId`      varchar(50)   null,
+    `OpenId`      varchar(50)   null,
+    `UnionId`     varchar(50)   null,
+    `NickName`    varchar(50)   null,
+    `Sex`         varchar(50)   null,
+    `Country`     varchar(50)   null,
+    `Province`    varchar(50)   null,
+    `City`        varchar(50)   null,
+    `HeadImgUrl`  varchar(500)  null,
+    `Privilege`   text          null,
+    `Note`        text          null,
+    PRIMARY KEY(`Id`)
+);

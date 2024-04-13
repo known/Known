@@ -327,3 +327,28 @@ CREATE TABLE `SysFlowLog` (
     `Note`        LongText      NULL
 )
 GO
+
+CREATE TABLE `SysWinxin` (
+    `Id`          VarChar(50)   NOT NULL PRIMARY KEY,
+    `CreateBy`    VarChar(50)   NOT NULL,
+    `CreateTime`  DateTime      NOT NULL,
+    `ModifyBy`    VarChar(50)   NULL,
+    `ModifyTime`  DateTime      NULL,
+    `Version`     Long          NOT NULL,
+    `Extension`   LongText      NULL,
+    `AppId`       VarChar(50)   NOT NULL,
+    `CompNo`      VarChar(50)   NOT NULL,
+    `MPAppId`     VarChar(50)   NULL,
+    `UserId`      VarChar(50)   NULL,
+    `OpenId`      VarChar(50)   NULL,
+    `UnionId`     VarChar(50)   NULL,
+    `NickName`    VarChar(50)   NULL,
+    `Sex`         VarChar(50)   NULL,
+    `Country`     VarChar(50)   NULL,
+    `Province`    VarChar(50)   NULL,
+    `City`        VarChar(50)   NULL,
+    `HeadImgUrl`  VarChar(500)  NULL,
+    `Privilege`   LongText      NULL,
+    `Note`        LongText      NULL
+)
+GO

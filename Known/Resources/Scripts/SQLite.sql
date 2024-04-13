@@ -310,3 +310,27 @@ CREATE TABLE [SysFlowLog] (
     [Result]      nvarchar(50)   NOT NULL,
     [Note]        nvarchar(1000) NULL
 );
+
+CREATE TABLE [SysWinxin] (
+    [Id]         varchar(50)      NOT NULL PRIMARY KEY,
+    [CreateBy]   nvarchar(50)     NOT NULL,
+    [CreateTime] datetime         NOT NULL,
+    [ModifyBy]   nvarchar(50)     NULL,
+    [ModifyTime] datetime         NULL,
+    [Version]    int              NOT NULL,
+    [Extension]  ntext            NULL,
+    [AppId]      varchar(50)      NOT NULL,
+    [CompNo]     varchar(50)      NOT NULL,
+    [MPAppId]    varchar(50)      NULL,
+    [UserId]     varchar(50)      NULL,
+    [OpenId]     varchar(50)      NULL,
+    [UnionId]    varchar(50)      NULL,
+    [NickName]   nvarchar(50)     NULL,
+    [Sex]        nvarchar(50)     NULL,
+    [Country]    nvarchar(50)     NULL,
+    [Province]   nvarchar(50)     NULL,
+    [City]       nvarchar(50)     NULL,
+    [HeadImgUrl] nvarchar(500)    NULL,
+    [Privilege]  ntext            NULL,
+    [Note]       ntext            NULL
+);

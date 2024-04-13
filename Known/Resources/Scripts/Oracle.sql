@@ -324,3 +324,28 @@ create table SysFlowLog(
     Note        varchar2(1000) null
 );
 alter table SysFlowLog add constraint PK_SysFlowLog primary key(Id);
+
+CREATE TABLE SysWinxin(
+    Id          varchar2(50)   not null,
+    CreateBy    varchar2(50)   not null,
+    CreateTime  date           not null,
+    ModifyBy    varchar2(50)   null,
+    ModifyTime  date           null,
+    Version     number(8)      not null,
+    Extension   varchar2(4000) null,
+    AppId       varchar2(50)   not null,
+    CompNo      varchar2(50)   not null,
+    MPAppId     varchar2(50)   null,
+    UserId      varchar2(50)   null,
+    OpenId      varchar2(50)   null,
+    UnionId     varchar2(50)   null,
+    NickName    varchar2(50)   null,
+    Sex         varchar2(50)   null,
+    Country     varchar2(50)   null,
+    Province    varchar2(50)   null,
+    City        varchar2(50)   null,
+    HeadImgUrl  varchar2(500)  null,
+    Privilege   varchar2(4000) null,
+    Note        varchar2(4000) null
+);
+alter table SysWinxin add constraint PK_SysWinxin primary key(Id);
