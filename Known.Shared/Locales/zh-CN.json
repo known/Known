@@ -528,7 +528,6 @@
   "NewPwd1": "确认密码",
   "UserDefaultPwd": "默认密码",
   "IsLoginCaptcha": "启用登录验证码",
-  "IsWeixinAuth": "启用微信授权",
   "Captcha": "验证码",
   "PhoneNo": "手机号",
   "PhoneCode": "手机验证码",
@@ -607,6 +606,8 @@
   "DefaultSort": "默认排序",
   "Fixed": "固定位置",
   "SysModule.Icon": "图标",
+  "WeixinQRCodeAuth": "微信扫码授权",
+  "IsWeixinAuth": "启用微信授权",
   "WeixinInfo.AppId": "公众号AppId",
   "WeixinInfo.RedirectUri": "网页登录回调地址",
 

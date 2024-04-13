@@ -401,7 +401,6 @@
   "NewPwd1": "確認密碼",
   "UserDefaultPwd": "默認密碼",
   "IsLoginCaptcha": "啟用登入驗證碼",
-  "IsWeixinAuth": "啟用微信授權",
   "Captcha": "驗證碼",
   "PhoneNo": "手機號",
   "PhoneCode": "手機驗證碼",
@@ -480,6 +479,8 @@
   "DefaultSort": "默認排序",
   "Fixed": "固定位置",
   "SysModule.Icon": "圖標",
+  "WeixinQRCodeAuth": "微信掃碼授權",
+  "IsWeixinAuth": "啟用微信授權",
   "WeixinInfo.AppId": "公眾號AppId",
   "WeixinInfo.RedirectUri": "網頁登入回檔地址",
 

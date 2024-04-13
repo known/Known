@@ -532,7 +532,6 @@
   "NewPwd1": "Confirm Password",
   "UserDefaultPwd": "Default Password",
   "IsLoginCaptcha": "Enable captcha for login form",
-  "IsWeixinAuth": "Enable WeChat authorization",
   "Captcha": "Captcha",
   "PhoneNo": "Phone No.",
   "PhoneCode": "Phone Captcha",
@@ -611,6 +610,8 @@
   "DefaultSort": "DefaultSort",
   "Fixed": "Fixed",
   "SysModule.Icon": "Icon",
+  "WeixinQRCodeAuth": "WeChat QRCode Authorization",
+  "IsWeixinAuth": "Enable WeChat authorization",
   "WeixinInfo.AppId": "MP AppId",
   "WeixinInfo.RedirectUri": "Web login callback uri",
 

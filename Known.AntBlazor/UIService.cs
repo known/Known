@@ -147,6 +147,9 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         var options = new ModalOptions
         {
+            MaskClosable = false,
+            Draggable = model.Draggable,
+            Resizable = model.Resizable,
             WrapClassName = model.ClassName,
             Title = model.Title,
             Content = model.Content,
@@ -178,6 +181,9 @@ public class UIService(ModalService modalService, MessageService messageService)
     {
         var option = new ModalOptions
         {
+            MaskClosable = false,
+            Draggable = model.Draggable,
+            Resizable = model.Resizable,
             Title = model.GetFormTitle(),
             OkText = Language?.OK,
             CancelText = Language?.Cancel,

@@ -6,6 +6,8 @@ public class DialogModel
 {
     public string ClassName { get; set; }
     public string Title { get; set; }
+    public bool Draggable { get; set; } = true;
+    public bool Resizable { get; set; }
     public bool Maximizable { get; set; }
     public bool DefaultMaximized { get; set; }
     public double? Width { get; set; }

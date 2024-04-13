@@ -43,6 +43,8 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public string Title { get; set; }
     public string ConfirmText { get; set; }
     public FormOption Option { get; }
+    public bool Draggable { get; set; } = true;
+    public bool Resizable { get; set; }
     public bool IsView { get; set; }
     public TItem Data { get; set; }
     public int? LabelSpan { get; set; }
