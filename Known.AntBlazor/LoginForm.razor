@@ -2,7 +2,7 @@
 
 <Tabs Animated>
     <TabPane Key="Account" Tab="@Language["Login.WithAccount"]">
-        <LoginFormUser Model="Model" OnLogin="OnLogin" IsCaptcha="IsCaptcha" />
+        <LoginFormUser Model="Model" OnLogin="OnLogin" />
     </TabPane>
     @if (QRCode != null)
     {
@@ -20,7 +20,6 @@
 
 @code {
     [Parameter] public LoginFormInfo Model { get; set; }
-    [Parameter] public bool IsCaptcha { get; set; }
     [Parameter] public object QRCode { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
     [Parameter] public Func<string, Task<Known.Result>> OnSendSMS { get; set; }
