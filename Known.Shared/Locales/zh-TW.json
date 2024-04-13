@@ -144,6 +144,7 @@
   "Title.FormSetting": "表單設定",
   "Title.SystemInfo": "系統資訊",
   "Title.SecuritySetting": "安全設定",
+  "Title.WeChatSetting": "微信設定",
   "Title.ChangeDepartment": "更換部門",
   "Title.TodoList": "待辦事項",
   "Title.MyMessage": "我的消息",
@@ -479,6 +480,8 @@
   "DefaultSort": "默認排序",
   "Fixed": "固定位置",
   "SysModule.Icon": "圖標",
+  "WeixinInfo.AppId": "公眾號AppId",
+  "WeixinInfo.RedirectUri": "網頁登入回檔地址",
 
   "Install": "安裝",
   "StartUsing": "開始使用",

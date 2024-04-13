@@ -3,6 +3,7 @@ using Known.Designers;
 using Known.Entities;
 using Known.Helpers;
 using Known.Repositories;
+using Known.Winxins;
 
 namespace Known.Services;
 
@@ -31,6 +32,7 @@ class AuthService(Context context) : ServiceBase(context)
         user.Token = Utils.GetGuid();
         user.Station = info.Station;
         await SetUserInfoAsync(Database, user);
+        await SetUserWeixinAsync(Database, user);
         cachedUsers[user.Token] = user;
 
         var type = LogType.Login.ToString();
@@ -164,6 +166,16 @@ class AuthService(Context context) : ServiceBase(context)
         }
 
         SetUserAvatar(user);
+    }
+
+    private static async Task SetUserWeixinAsync(Database db, UserInfo user)
+    {
+        var weixin = await WeixinRepository.GetWinxinByUserIdAsync(db, user.Id);
+        if (weixin == null)
+            return;
+
+        user.OpenId = weixin.OpenId;
+        user.AvatarUrl = weixin.HeadImgUrl;
     }
 
     private static void SetUserAvatar(UserInfo user)

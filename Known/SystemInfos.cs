@@ -44,5 +44,4 @@ public class SystemInfo
     public string ProductKey { get; set; }
     public string UserDefaultPwd { get; set; }
     public bool IsLoginCaptcha { get; set; }
-    public bool IsWeixinAuth { get; set; }
 }

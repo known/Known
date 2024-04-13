@@ -27,6 +27,7 @@ public class UserInfo
     public string OrgName { get; set; }
     public string Role { get; set; }
     public string Station { get; set; }
+    public string OpenId { get; set; }
     internal bool IsTenant { get; set; }
     internal bool IsAdmin => IsSystemAdmin() || IsTenantAdmin();
     private bool IsSystemAdmin() => UserName.Equals(Constants.SysUserName, StringComparison.CurrentCultureIgnoreCase);

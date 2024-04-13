@@ -1,4 +1,5 @@
 ﻿using Known.Extensions;
+using Known.Winxins;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -8,23 +9,26 @@ class SysSystem : BaseTabPage
 {
     private SysSystemInfo info;
     private SysSystemSafe safe;
+    private SysSystemWeChat weChat;
     internal SystemInfo Data { get; private set; }
 
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-		Data = await Platform.System.GetSystemAsync();
+        Data = await Platform.System.GetSystemAsync();
 
-		Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build(value => info = value));
-		Tab.AddTab("SecuritySetting", b => b.Component<SysSystemSafe>().Build(value => safe = value));
+        Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build(value => info = value));
+        Tab.AddTab("SecuritySetting", b => b.Component<SysSystemSafe>().Build(value => safe = value));
+        Tab.AddTab("WeChatSetting", b => b.Component<SysSystemWeChat>().Build(value => weChat = value));
     }
 
-	protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
+    protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
     public override void StateChanged()
     {
         info?.StateChanged();
         safe?.StateChanged();
+        weChat?.StateChanged();
         base.StateChanged();
     }
 }
@@ -74,27 +78,27 @@ class SysSystemInfo : BaseForm<SystemInfo>
     protected override void BuildForm(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildForm(builder));
 
     private async void OnSaveAppName(string value)
-	{
+    {
         Model.Data.AppName = value;
-		var result = await Platform.System.SaveSystemAsync(Model.Data);
-		if (result.IsValid)
-		{
-			CurrentUser.AppName = value;
-			Context.RefreshPage();
-		}
-	}
+        var result = await Platform.System.SaveSystemAsync(Model.Data);
+        if (result.IsValid)
+        {
+            CurrentUser.AppName = value;
+            Context.RefreshPage();
+        }
+    }
 
-	private async void OnSaveProductKey(string value)
-	{
+    private async void OnSaveProductKey(string value)
+    {
         Model.Data.ProductKey = value;
-		await Platform.System.SaveKeyAsync(Model.Data);
+        await Platform.System.SaveKeyAsync(Model.Data);
         StateChanged();
-	}
+    }
 }
 
 class SysSystemSafe : BaseForm<SystemInfo>
 {
-	[CascadingParameter] private SysSystem Parent { get; set; }
+    [CascadingParameter] private SysSystem Parent { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
@@ -119,14 +123,6 @@ class SysSystemSafe : BaseForm<SystemInfo>
                 ValueChanged = this.Callback<bool>(OnLoginCaptchaChanged)
             });
         });
-        Model.AddRow().AddColumn(nameof(SystemInfo.IsWeixinAuth), b =>
-        {
-            UI.BuildSwitch(b, new InputModel<bool>
-            {
-                Value = Parent.Data.IsWeixinAuth,
-                ValueChanged = this.Callback<bool>(OnLoginWeixinChanged)
-            });
-        });
 
         await base.OnInitFormAsync();
     }
@@ -134,20 +130,48 @@ class SysSystemSafe : BaseForm<SystemInfo>
     protected override void BuildForm(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildForm(builder));
 
     private async void OnSaveDefaultPwd(string value)
-	{
-		Model.Data.UserDefaultPwd = value;
-		await Platform.System.SaveSystemAsync(Model.Data);
-	}
+    {
+        Model.Data.UserDefaultPwd = value;
+        await Platform.System.SaveSystemAsync(Model.Data);
+    }
 
     private async void OnLoginCaptchaChanged(bool value)
     {
         Model.Data.IsLoginCaptcha = value;
         await Platform.System.SaveSystemAsync(Model.Data);
     }
+}
 
-    private async void OnLoginWeixinChanged(bool value)
+class SysSystemWeChat : BaseEditForm<WeixinInfo>
+{
+    protected override async Task OnInitFormAsync()
     {
-        Model.Data.IsWeixinAuth = value;
-        await Platform.System.SaveSystemAsync(Model.Data);
+        var data = await Platform.Weixin.GetWeixinAsync();
+        data ??= new WeixinInfo();
+        Model = new FormModel<WeixinInfo>(Context)
+        {
+            IsView = true,
+            LabelSpan = 4,
+            WrapperSpan = 10,
+            Data = data
+        };
+        Model.AddRow().AddColumn(c => c.IsWeixinAuth);
+        Model.AddRow().AddColumn(c => c.AppId);
+        Model.AddRow().AddColumn(c => c.RedirectUri);
+        await base.OnInitFormAsync();
+    }
+
+    protected override void BuildFormContent(RenderTreeBuilder builder)
+    {
+        builder.FormPage(() =>
+        {
+            UI.BuildForm(builder, Model);
+            builder.FormButton(() => BuildAction(builder));
+        });
+    }
+
+    protected override Task<Result> OnSaveAsync(WeixinInfo model)
+    {
+        return Platform.Weixin.SaveWeixinAsync(model);
     }
 }

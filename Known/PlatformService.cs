@@ -1,5 +1,6 @@
 ﻿using Known.Entities;
 using Known.Services;
+using Known.Winxins;
 using Known.WorkFlows;
 
 namespace Known;
@@ -17,6 +18,7 @@ public class PlatformService(Context context)
     internal UserService User { get; } = new UserService(context);
     internal AuthService Auth { get; } = new AuthService(context);
     internal AutoService Auto { get; } = new AutoService(context);
+    internal WeixinService Weixin { get; } = new WeixinService(context);
 
     #region Setting
     public Task<List<SysSetting>> GetSettingsAsync(string bizType) => Setting.GetSettingsAsync(bizType);

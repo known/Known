@@ -275,6 +275,7 @@
   "Title.FormSetting": "Form Settings",
   "Title.SystemInfo": "System Information",
   "Title.SecuritySetting": "Security Settings",
+  "Title.WeChatSetting": "WeChat Settings",
   "Title.ChangeDepartment": "Change Department",
   "Title.TodoList": "TodoLists",
   "Title.MyMessage": "Messages",
@@ -610,6 +611,8 @@
   "DefaultSort": "DefaultSort",
   "Fixed": "Fixed",
   "SysModule.Icon": "Icon",
+  "WeixinInfo.AppId": "MP AppId",
+  "WeixinInfo.RedirectUri": "Web login callback uri",
 
   "Install": "Install",
   "StartUsing": "Start",

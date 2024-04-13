@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Known.Winxin;
+namespace Known.Winxins;
 
 /// <summary>
 /// 系统用户微信信息类。

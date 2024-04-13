@@ -73,6 +73,14 @@ public class IndexPage : BaseComponent
         Context.CurrentUser = user;
         IsLogin = Context.CurrentUser != null;
         await SetCurrentUserAsync(user);
+
+        var uri = await Platform.Weixin.GetAuthorizeUrlAsync("wxlogin");
+        if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))
+        {
+            if (IsMobile)
+                Navigation.NavigateTo(uri, true);
+        }
+
         StateChanged();
     }
 
