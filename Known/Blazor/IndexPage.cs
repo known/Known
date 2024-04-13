@@ -75,7 +75,7 @@ public class IndexPage : BaseComponent
         IsLogin = Context.CurrentUser != null;
         await SetCurrentUserAsync(user);
 
-        var state = IsMobile ? "wxlogin" : "wxscan";
+        var state = GetWeixinAuthState();
         var uri = await Platform.Weixin.GetAuthorizeUrlAsync(state);
         if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))
         {
@@ -86,6 +86,13 @@ public class IndexPage : BaseComponent
         }
 
         StateChanged();
+    }
+
+    protected virtual string GetWeixinAuthState()
+    {
+        var url = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host;
+        var type = IsMobile ? "wxlogin" : "wxscan";
+        return $"{url}?type={type}&";
     }
 
     protected virtual void ShowWeixinQRCode(string uri)
