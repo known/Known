@@ -1,6 +1,4 @@
-﻿using System.Web;
-
-namespace Known.Winxins;
+﻿namespace Known.Winxins;
 
 class WeixinApi
 {
@@ -11,8 +9,6 @@ class WeixinApi
     //网页登录
     public static string GetAuthorizeUrl(string appId, string redirectUri, string state, string scope = "snsapi_userinfo")
     {
-        redirectUri = HttpUtility.UrlEncode(redirectUri);
-        state = HttpUtility.UrlEncode(state);
         return $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={appId}&redirect_uri={redirectUri}&response_type=code&scope={scope}&state={state}#wechat_redirect";
     }
 }
