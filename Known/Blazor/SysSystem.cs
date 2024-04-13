@@ -9,7 +9,7 @@ class SysSystem : BaseTabPage
 {
     private SysSystemInfo info;
     private SysSystemSafe safe;
-    private SysSystemWeChat weChat;
+    private WeChatSetting weChat;
     internal SystemInfo Data { get; private set; }
 
     protected override async Task OnInitPageAsync()
@@ -19,7 +19,7 @@ class SysSystem : BaseTabPage
 
         Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build(value => info = value));
         Tab.AddTab("SecuritySetting", b => b.Component<SysSystemSafe>().Build(value => safe = value));
-        Tab.AddTab("WeChatSetting", b => b.Component<SysSystemWeChat>().Build(value => weChat = value));
+        Tab.AddTab("WeChatSetting", b => b.Component<WeChatSetting>().Build(value => weChat = value));
     }
 
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
@@ -139,39 +139,5 @@ class SysSystemSafe : BaseForm<SystemInfo>
     {
         Model.Data.IsLoginCaptcha = value;
         await Platform.System.SaveSystemAsync(Model.Data);
-    }
-}
-
-class SysSystemWeChat : BaseEditForm<WeixinInfo>
-{
-    protected override async Task OnInitFormAsync()
-    {
-        var data = await Platform.Weixin.GetWeixinAsync();
-        data ??= new WeixinInfo();
-        Model = new FormModel<WeixinInfo>(Context)
-        {
-            IsView = true,
-            LabelSpan = 4,
-            WrapperSpan = 10,
-            Data = data
-        };
-        Model.AddRow().AddColumn(c => c.IsWeixinAuth);
-        Model.AddRow().AddColumn(c => c.AppId);
-        Model.AddRow().AddColumn(c => c.RedirectUri);
-        await base.OnInitFormAsync();
-    }
-
-    protected override void BuildFormContent(RenderTreeBuilder builder)
-    {
-        builder.FormPage(() =>
-        {
-            UI.BuildForm(builder, Model);
-            builder.FormButton(() => BuildAction(builder));
-        });
-    }
-
-    protected override Task<Result> OnSaveAsync(WeixinInfo model)
-    {
-        return Platform.Weixin.SaveWeixinAsync(model);
     }
 }

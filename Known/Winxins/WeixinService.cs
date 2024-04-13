@@ -24,8 +24,8 @@ class WeixinService(Context context) : ServiceBase(context)
         if (info == null || !info.IsWeixinAuth)
             return string.Empty;
 
-        var redirectUri = HttpUtility.UrlEncode(info.RedirectUri);
+        var redirectUri = HttpUtility.UrlEncode(WeixinHelper.RedirectUri);
         state = HttpUtility.UrlEncode(state);
-        return WeixinApi.GetAuthorizeUrl(info.AppId, redirectUri, state);
+        return WeixinApi.GetAuthorizeUrl(WeixinHelper.AppId, redirectUri, state);
     }
 }
