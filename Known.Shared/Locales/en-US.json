@@ -531,6 +531,7 @@
   "NewPwd1": "Confirm Password",
   "UserDefaultPwd": "Default Password",
   "IsLoginCaptcha": "Enable captcha for login form",
+  "IsWeixinAuth": "Enable WeChat authorization",
   "Captcha": "Captcha",
   "PhoneNo": "Phone No.",
   "PhoneCode": "Phone Captcha",

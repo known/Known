@@ -41,21 +41,21 @@ class SysSystemInfo : BaseForm<SystemInfo>
             WrapperSpan = 10,
             Data = Parent.Data
         };
-        Model.AddRow().AddColumn("CompName", $"{Parent.Data.CompNo}-{Parent.Data.CompName}");
-        Model.AddRow().AddColumn("AppName", b =>
+        Model.AddRow().AddColumn(nameof(SystemInfo.CompName), $"{Parent.Data.CompNo}-{Parent.Data.CompName}");
+        Model.AddRow().AddColumn(nameof(SystemInfo.AppName), b =>
         {
             b.Component<KEditInput>()
              .Set(c => c.Value, Parent.Data.AppName)
              .Set(c => c.OnSave, OnSaveAppName)
              .Build();
         });
-        Model.AddRow().AddColumn("AppVersion", Config.Version.AppVersion);
-        Model.AddRow().AddColumn("SoftVersion", Config.Version.SoftVersion);
-        Model.AddRow().AddColumn("FrameVersion", Config.Version.FrameVersion);
+        Model.AddRow().AddColumn(nameof(VersionInfo.AppVersion), Config.Version.AppVersion);
+        Model.AddRow().AddColumn(nameof(VersionInfo.SoftVersion), Config.Version.SoftVersion);
+        Model.AddRow().AddColumn(nameof(VersionInfo.FrameVersion), Config.Version.FrameVersion);
         if (!Config.App.IsPlatform && !string.IsNullOrWhiteSpace(Config.App.ProductId))
         {
-            Model.AddRow().AddColumn("ProductId", Config.App.ProductId);
-            Model.AddRow().AddColumn("ProductKey", b =>
+            Model.AddRow().AddColumn(nameof(SystemInfo.ProductId), Config.App.ProductId);
+            Model.AddRow().AddColumn(nameof(SystemInfo.ProductKey), b =>
             {
                 b.Component<KEditInput>()
                  .Set(c => c.Value, Parent.Data.ProductKey)
@@ -64,9 +64,9 @@ class SysSystemInfo : BaseForm<SystemInfo>
             });
         }
         if (!string.IsNullOrWhiteSpace(Config.App.Copyright))
-            Model.AddRow().AddColumn("Copyright", Config.App.Copyright);
+            Model.AddRow().AddColumn(nameof(AppInfo.Copyright), Config.App.Copyright);
         if (!string.IsNullOrWhiteSpace(Config.App.SoftTerms))
-            Model.AddRow().AddColumn("SoftTerms", Config.App.SoftTerms);
+            Model.AddRow().AddColumn(nameof(AppInfo.SoftTerms), Config.App.SoftTerms);
 
         await base.OnInitFormAsync();
     }
@@ -104,19 +104,27 @@ class SysSystemSafe : BaseForm<SystemInfo>
             WrapperSpan = 10,
             Data = Parent.Data
         };
-        Model.AddRow().AddColumn("UserDefaultPwd", b =>
+        Model.AddRow().AddColumn(nameof(SystemInfo.UserDefaultPwd), b =>
         {
             b.Component<KEditInput>()
              .Set(c => c.Value, Parent.Data.UserDefaultPwd)
              .Set(c => c.OnSave, OnSaveDefaultPwd)
              .Build();
         });
-        Model.AddRow().AddColumn("IsLoginCaptcha", b =>
+        Model.AddRow().AddColumn(nameof(SystemInfo.IsLoginCaptcha), b =>
         {
             UI.BuildSwitch(b, new InputModel<bool>
             {
                 Value = Parent.Data.IsLoginCaptcha,
                 ValueChanged = this.Callback<bool>(OnLoginCaptchaChanged)
+            });
+        });
+        Model.AddRow().AddColumn(nameof(SystemInfo.IsWeixinAuth), b =>
+        {
+            UI.BuildSwitch(b, new InputModel<bool>
+            {
+                Value = Parent.Data.IsWeixinAuth,
+                ValueChanged = this.Callback<bool>(OnLoginWeixinChanged)
             });
         });
 
@@ -134,6 +142,12 @@ class SysSystemSafe : BaseForm<SystemInfo>
     private async void OnLoginCaptchaChanged(bool value)
     {
         Model.Data.IsLoginCaptcha = value;
+        await Platform.System.SaveSystemAsync(Model.Data);
+    }
+
+    private async void OnLoginWeixinChanged(bool value)
+    {
+        Model.Data.IsWeixinAuth = value;
         await Platform.System.SaveSystemAsync(Model.Data);
     }
 }

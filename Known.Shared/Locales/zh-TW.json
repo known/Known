@@ -400,6 +400,7 @@
   "NewPwd1": "確認密碼",
   "UserDefaultPwd": "默認密碼",
   "IsLoginCaptcha": "啟用登入驗證碼",
+  "IsWeixinAuth": "啟用微信授權",
   "Captcha": "驗證碼",
   "PhoneNo": "手機號",
   "PhoneCode": "手機驗證碼",
