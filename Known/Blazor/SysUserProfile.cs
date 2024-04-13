@@ -85,9 +85,8 @@ class SysUserProfileTabs : BaseTabPage
     }
 }
 
-public class UserEditForm : BaseForm<SysUser>
+public class UserEditForm : BaseEditForm<SysUser>
 {
-    private bool isEdit = false;
     [CascadingParameter] private SysUserProfile Parent { get; set; }
 
     protected override async Task OnInitFormAsync()
@@ -115,44 +114,27 @@ public class UserEditForm : BaseForm<SysUser>
         await base.OnInitFormAsync();
     }
 
-    protected override void BuildForm(RenderTreeBuilder builder)
+    protected override void BuildFormContent(RenderTreeBuilder builder)
     {
-        Model.IsView = !isEdit;
         builder.FormPage(() =>
         {
             builder.Div("form-user", () =>
             {
-                base.BuildForm(builder);
-                builder.FormButton(() =>
-                {
-                    if (!isEdit)
-                    {
-                        UI.Button(builder, Language.Edit, this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
-                    }
-                    else
-                    {
-                        UI.Button(builder, Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
-                        UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
-                    }
-                });
+                UI.BuildForm(builder, Model);
+                builder.FormButton(() => BuildAction(builder));
             });
         });
     }
 
-    private async void OnSaveAsync(MouseEventArgs arg)
+    protected override Task<Result> OnSaveAsync(SysUser model)
     {
-        if (!Model.Validate())
-            return;
-
-        var result = await Platform.Auth.UpdateUserAsync(Model.Data);
-        UI.Result(result, () =>
-        {
-            Parent?.UpdateProfileInfo();
-            OnEdit(false);
-        });
+        return Platform.Auth.UpdateUserAsync(model);
     }
 
-    private void OnEdit(bool edit) => isEdit = edit;
+    protected override void OnSuccess()
+    {
+        Parent?.UpdateProfileInfo();
+    }
 }
 
 public class PasswordEditForm : BaseForm<PwdFormInfo>

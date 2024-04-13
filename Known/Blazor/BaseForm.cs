@@ -75,3 +75,54 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
     private async void OnSaveAsync(MouseEventArgs args) => await Model.SaveAsync();
     private async void OnCloseAsync(MouseEventArgs args) => await Model.CloseAsync();
 }
+
+public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
+{
+    private bool isEdit = false;
+
+    protected override void BuildForm(RenderTreeBuilder builder)
+    {
+        Model.IsView = !isEdit;
+        BuildFormContent(builder);
+    }
+
+    protected virtual void BuildFormContent(RenderTreeBuilder builder)
+    {
+        builder.FormPage(() =>
+        {
+            UI.BuildForm(builder, Model);
+            builder.FormPageButton(() => BuildAction(builder));
+        });
+    }
+
+    protected void BuildAction(RenderTreeBuilder builder)
+    {
+        if (!isEdit)
+        {
+            UI.Button(builder, Language.Edit, this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
+        }
+        else
+        {
+            UI.Button(builder, Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+            UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
+        }
+    }
+
+    protected virtual Task<Result> OnSaveAsync(TItem model) => Result.SuccessAsync("");
+    protected virtual void OnSuccess() { }
+
+    private async void OnSaveAsync(MouseEventArgs arg)
+    {
+        if (!Model.Validate())
+            return;
+
+        var result = await OnSaveAsync(Model.Data);
+        UI.Result(result, () =>
+        {
+            OnSuccess();
+            OnEdit(false);
+        });
+    }
+
+    private void OnEdit(bool edit) => isEdit = edit;
+}

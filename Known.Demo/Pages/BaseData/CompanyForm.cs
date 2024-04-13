@@ -1,8 +1,6 @@
 ﻿using Known.Blazor;
 using Known.Demo.Models;
 using Known.Extensions;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace Known.Demo.Pages.BaseData;
 
@@ -23,10 +21,8 @@ class CompanyForm : BaseTabPage
     }
 }
 
-class CompanyBaseInfo : BaseForm<CompanyInfo>
+class CompanyBaseInfo : BaseEditForm<CompanyInfo>
 {
-    private bool isEdit = false;
-
     protected override async Task OnInitFormAsync()
     {
         Model = new FormModel<CompanyInfo>(Context)
@@ -37,38 +33,8 @@ class CompanyBaseInfo : BaseForm<CompanyInfo>
         await base.OnInitFormAsync();
     }
 
-    protected override void BuildForm(RenderTreeBuilder builder)
+    protected override Task<Result> OnSaveAsync(CompanyInfo model)
     {
-        builder.FormPage(() =>
-        {
-            Model.IsView = !isEdit;
-            base.BuildForm(builder);
-            if (HasButton("Edit"))
-            {
-                builder.FormPageButton(() =>
-                {
-                    if (!isEdit)
-                    {
-                        UI.Button(builder, Language.Edit, this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
-                    }
-                    else
-                    {
-                        UI.Button(builder, Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
-                        UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
-                    }
-                });
-            }
-        });
+        return Platform.SaveCompanyAsync(model);
     }
-
-    private async void OnSaveAsync(MouseEventArgs arg)
-    {
-        if (!Model.Validate())
-            return;
-
-        var result = await Platform.SaveCompanyAsync(Model.Data);
-        UI.Result(result, () => OnEdit(false));
-    }
-
-    private void OnEdit(bool edit) => isEdit = edit;
 }
