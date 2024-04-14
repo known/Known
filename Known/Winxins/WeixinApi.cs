@@ -72,7 +72,8 @@ static class WeixinApi
             return null;
         }
 
-        return new SysWinxin
+        var privileges = result.GetValue<List<string>>("privilege");
+        var info = new SysWinxin
         {
             OpenId = result.GetValue<string>("openid"),
             NickName = result.GetValue<string>("nickname"),
@@ -81,9 +82,11 @@ static class WeixinApi
             City = result.GetValue<string>("city"),
             Country = result.GetValue<string>("country"),
             HeadImgUrl = result.GetValue<string>("headimgurl"),
-            Privilege = string.Join(",", result.GetValue<List<string>>("privilege")),
             UnionId = result.GetValue<string>("unionid")
         };
+        if (privileges != null)
+            info.Privilege = string.Join(",", privileges);
+        return info;
     }
 
     //附：检验授权凭证（access_token）是否有效
