@@ -28,4 +28,16 @@ class WeixinService(Context context) : ServiceBase(context)
         state = HttpUtility.UrlEncode(state);
         return WeixinApi.GetAuthorizeUrl(WeixinHelper.AppId, redirectUri, state);
     }
+
+    public async Task<UserInfo> CheckWeixinAsync(UserInfo user)
+    {
+        var weixin = await WeixinRepository.GetWinxinByUserIdAsync(Database, user.Token);
+        if (weixin == null)
+            return null;
+
+        weixin.UserId = user.Id;
+        await Database.SaveAsync(weixin);
+        user.OpenId = weixin.OpenId;
+        return user;
+    }
 }

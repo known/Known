@@ -71,39 +71,19 @@ public class IndexPage : BaseComponent
 
     protected async Task OnLogin(UserInfo user)
     {
-        Context.CurrentUser = user;
-        IsLogin = Context.CurrentUser != null;
-        await SetCurrentUserAsync(user);
+        await SetUserInfoAsync(user);
 
-        var state = GetWeixinAuthState();
+        var state = GetWeixinAuthState(user.Token);
         var uri = await Platform.Weixin.GetAuthorizeUrlAsync(state);
         if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))
         {
             if (IsMobile)
                 Navigation.NavigateTo(uri, true);
             else
-                ShowWeixinQRCode(uri);
+                ShowWeixinQRCode(uri, user);
         }
 
         StateChanged();
-    }
-
-    protected virtual string GetWeixinAuthState()
-    {
-        var url = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host;
-        var type = IsMobile ? "wxlogin" : "wxscan";
-        return $"{url}?type={type}&";
-    }
-
-    protected virtual void ShowWeixinQRCode(string uri)
-    {
-        var option = new { Text = uri, Width = 250, Height = 250 };
-        UI.ShowDialog(new DialogModel
-        {
-            Title = Language.GetString("WeixinQRCodeAuth"),
-            Width = 300,
-            Content = b => b.Component<KQRCode>().Set(c => c.Option, option).Build()
-        });
     }
 
     protected async Task OnLogout()
@@ -112,5 +92,57 @@ public class IndexPage : BaseComponent
         IsLogin = false;
         await SetCurrentUserAsync(null);
         StateChanged();
+    }
+
+    protected virtual string GetWeixinAuthState(string token)
+    {
+        var url = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host;
+        return $"{url}/weixin?token={token}&";
+    }
+
+    protected virtual void ShowWeixinQRCode(string uri, UserInfo user)
+    {
+        var isManualClose = false;
+        var model = GetWeixinDialogModel(uri);
+        model.OnClosed = () => isManualClose = true;
+        UI.ShowDialog(model);
+        Task.Run(async () =>
+        {
+            while (true)
+            {
+                if (isManualClose)
+                {
+                    Logger.Info("[WeixinQRCode] Scanning Manual Closed!");
+                    break;
+                }
+
+                var weixin = await Platform.Weixin.CheckWeixinAsync(user);
+                if (weixin != null)
+                {
+                    await SetUserInfoAsync(weixin);
+                    await model.CloseAsync();
+                    break;
+                }
+                Thread.Sleep(1000);
+            }
+        });
+    }
+
+    private DialogModel GetWeixinDialogModel(string uri)
+    {
+        var option = new { Text = uri, Width = 250, Height = 250 };
+        return new DialogModel
+        {
+            Title = Language.GetString("WeixinQRCodeAuth"),
+            Width = 300,
+            Content = b => b.Component<KQRCode>().Set(c => c.Option, option).Build()
+        };
+    }
+
+    private async Task SetUserInfoAsync(UserInfo user)
+    {
+        Context.CurrentUser = user;
+        IsLogin = Context.CurrentUser != null;
+        await SetCurrentUserAsync(user);
     }
 }
