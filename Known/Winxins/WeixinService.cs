@@ -63,4 +63,10 @@ class WeixinService(Context context) : ServiceBase(context)
         user.OpenId = weixin.OpenId;
         return user;
     }
+
+    public Task<Result> SendTemplateMessageAsync(TemplateInfo info)
+    {
+        var http = new HttpClient();
+        return http.SendTemplateMessageAsync(info);
+    }
 }

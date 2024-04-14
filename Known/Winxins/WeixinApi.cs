@@ -154,7 +154,7 @@ static class WeixinApi
 
     #region 模板消息
     //发送模板消息
-    public static async Task<Result> SendTemplateMessageAsync(this HttpClient http, UserInfo user)
+    public static async Task<Result> SendTemplateMessageAsync(this HttpClient http, TemplateInfo info)
     {
         if (string.IsNullOrWhiteSpace(AccessToken))
             return null;
@@ -162,8 +162,7 @@ static class WeixinApi
         try
         {
             var url = $"https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={AccessToken}";
-            var data = new Dictionary<string, object>();
-            var response = await http.PostAsJsonAsync(url, data);
+            var response = await http.PostAsJsonAsync(url, info);
             var result = await response.Content.ReadFromJsonAsync<Dictionary<string, object>>();
             var errCode = result.GetValue<int>("errcode");
             var errMsg = result.GetValue<string>("errmsg");
@@ -179,24 +178,4 @@ static class WeixinApi
         }
     }
     #endregion
-}
-
-public class AuthorizeToken
-{
-    public string AccessToken { get; set; }
-    public int ExpiresIn { get; set; }
-    public string RefreshToken { get; set; }
-    public string OpenId { get; set; }
-    public string Scope { get; set; }
-    public int IsSnapshotUser { get; set; }
-    public string UnionId { get; set; }
-}
-
-public class AuthorizeRefreshToken
-{
-    public string AccessToken { get; set; }
-    public int ExpiresIn { get; set; }
-    public string RefreshToken { get; set; }
-    public string OpenId { get; set; }
-    public string Scope { get; set; }
 }
