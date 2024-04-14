@@ -97,7 +97,7 @@ public class IndexPage : BaseComponent
         if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))
         {
             if (IsMobile)
-                Navigation.NavigateTo(uri, true);
+                NavigateWeixinAuth(uri, user);
             else
                 ShowWeixinQRCode(uri, user);
         }
@@ -118,8 +118,37 @@ public class IndexPage : BaseComponent
         var url = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host;
         return $"{url}/?token={token}&";
     }
+    protected virtual DialogModel GetWeixinDialogModel(string uri)
+    {
+        var option = new { Text = uri, Width = 250, Height = 250 };
+        return new DialogModel
+        {
+            Title = Language.GetString("WeixinQRCodeAuth"),
+            Width = 300,
+            Content = b => b.Component<KQRCode>().Set(c => c.Option, option).Build()
+        };
+    }
 
-    protected virtual void ShowWeixinQRCode(string uri, UserInfo user)
+    private void NavigateWeixinAuth(string uri, UserInfo user)
+    {
+        Task.Run(async () =>
+        {
+            while (true)
+            {
+                var weixin = await Platform.Weixin.CheckWeixinAsync(user);
+                if (weixin != null)
+                {
+                    await SetUserInfoAsync(weixin);
+                    UI.Toast(Language.Success(Language.Authorize));
+                    break;
+                }
+                Thread.Sleep(1000);
+            }
+        });
+        Navigation.NavigateTo(uri, true);
+    }
+
+    private void ShowWeixinQRCode(string uri, UserInfo user)
     {
         var isManualClose = false;
         var model = GetWeixinDialogModel(uri);
@@ -146,17 +175,6 @@ public class IndexPage : BaseComponent
                 Thread.Sleep(1000);
             }
         });
-    }
-
-    private DialogModel GetWeixinDialogModel(string uri)
-    {
-        var option = new { Text = uri, Width = 250, Height = 250 };
-        return new DialogModel
-        {
-            Title = Language.GetString("WeixinQRCodeAuth"),
-            Width = 300,
-            Content = b => b.Component<KQRCode>().Set(c => c.Option, option).Build()
-        };
     }
 
     private async Task SetUserInfoAsync(UserInfo user)
