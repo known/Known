@@ -57,4 +57,8 @@ public class PlatformService(Context context)
     public Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note) => Flow.AddFlowLogAsync(db, bizId, stepName, result, note);
     public Task<List<SysFlowLog>> GetFlowLogsAsync(string bizId) => Flow.GetFlowLogsAsync(bizId);
     #endregion
+
+    #region Weixin
+    public Task<Result> SendTemplateMessageAsync(TemplateInfo info) => Weixin.SendTemplateMessageAsync(info);
+    #endregion
 }
