@@ -123,12 +123,13 @@ public class UIService(ModalService modalService, MessageService messageService)
         }
     }
 
-    public void Alert(string message)
+    public void Alert(string message, Func<Task> action = null)
     {
         _modal.Info(new ConfirmOptions
         {
             Title = Language?.GetTitle("Prompt"),
-            Content = message
+            Content = message,
+            OnOk = e => action?.Invoke()
         });
     }
 

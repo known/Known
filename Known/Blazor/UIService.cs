@@ -10,7 +10,7 @@ public interface IUIService
     Type GetInputType(Type dataType, FieldType fieldType);
     void AddInputAttributes<TItem>(Dictionary<string, object> attributes, FieldModel<TItem> model) where TItem : class, new();
     void Toast(string message, StyleType style = StyleType.Success);
-    void Alert(string message);
+    void Alert(string message, Func<Task> action = null);
     void Confirm(string message, Func<Task> action);
     void ShowDialog(DialogModel model);
     void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new();

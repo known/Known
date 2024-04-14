@@ -9,12 +9,31 @@ public class IndexPage : BaseComponent
     [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
     [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
 
+    [SupplyParameterFromQuery] public string Token { get; set; }
+    [SupplyParameterFromQuery] public string Code { get; set; }
+
     protected bool IsLogin { get; private set; }
     public string Theme { get; private set; }
     public virtual string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";
 
     protected override async Task OnInitAsync()
     {
+        if (!string.IsNullOrWhiteSpace(Token) && !string.IsNullOrWhiteSpace(Code))
+        {
+            var result = await Platform.Weixin.AuthorizeAsync(Token, Code);
+            var message = result.IsValid 
+                        ? Language.Success(Language.Authorize)
+                        : Language.Failed(Language.Authorize);
+            Logger.Info(result.Message);
+            UI.Language = Language;
+            UI.Alert(message, () =>
+            {
+                Navigation.NavigateTo("/", true);
+                return Task.CompletedTask;
+            });
+            return;
+        }
+
         IsLoaded = false;
         if (Config.App.IsTheme)
             Theme = await JS.GetCurrentThemeAsync();
@@ -97,7 +116,7 @@ public class IndexPage : BaseComponent
     protected virtual string GetWeixinAuthState(string token)
     {
         var url = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host;
-        return $"{url}/weixin?token={token}&";
+        return $"{url}/?token={token}&";
     }
 
     protected virtual void ShowWeixinQRCode(string uri, UserInfo user)
@@ -121,6 +140,7 @@ public class IndexPage : BaseComponent
                 {
                     await SetUserInfoAsync(weixin);
                     await model.CloseAsync();
+                    UI.Toast(Language.Success(Language.Authorize));
                     break;
                 }
                 Thread.Sleep(1000);

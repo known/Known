@@ -63,13 +63,13 @@ class AuthService(Context context) : ServiceBase(context)
 
     internal static ConcurrentDictionary<string, UserInfo> cachedUsers = new();
 
-    //internal static UserInfo GetUserByToken(string token)
-    //{
-    //    if (string.IsNullOrWhiteSpace(token))
-    //        return null;
+    internal static UserInfo GetUserByToken(string token)
+    {
+        if (string.IsNullOrWhiteSpace(token))
+            return null;
 
-    //    return cachedUsers.Values.FirstOrDefault(u => u.Token == token);
-    //}
+        return cachedUsers.Values.FirstOrDefault(u => u.Token == token);
+    }
 
     internal static async Task<UserInfo> GetUserAsync(Database db, string userName)
     {

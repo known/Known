@@ -54,6 +54,7 @@ public class Language
     internal string Copy => this["Button.Copy"];
     internal string Submit => this["Button.Submit"];
     internal string Revoke => this["Button.Revoke"];
+    internal string Authorize => this["Button.Authorize"];
 
     public static ActionInfo GetLanguage(string name)
     {
@@ -116,6 +117,7 @@ public class Language
     public string GetCode(string code) => GetText("Code", code);
     public string Required(string label) => GetString("Valid.Required", label);
     internal string Success(string action) => this["Tip.XXSuccess"].Replace("{action}", action);
+    internal string Failed(string action) => this["Tip.XXFailed"].Replace("{action}", action);
 
     internal string GetText(string prefix, string code, string name = null)
     {

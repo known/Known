@@ -109,7 +109,7 @@ public class UIService(DialogService dialogService, MessageService messageServic
         //}
     }
 
-    public void Alert(string message)
+    public void Alert(string message, Func<Task> action = null)
     {
         //_dialog.Info(new ConfirmOptions
         //{
