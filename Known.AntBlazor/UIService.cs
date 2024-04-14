@@ -154,7 +154,8 @@ public class UIService(ModalService modalService, MessageService messageService)
             Title = model.Title,
             Content = model.Content,
             Maximizable = model.Maximizable,
-            DefaultMaximized = model.DefaultMaximized
+            DefaultMaximized = model.DefaultMaximized,
+            OnCancel = e => model.CloseAsync()
         };
 
         if (model.OnOk != null)
@@ -187,7 +188,8 @@ public class UIService(ModalService modalService, MessageService messageService)
             Title = model.GetFormTitle(),
             OkText = Language?.OK,
             CancelText = Language?.Cancel,
-            OnOk = e => model.SaveAsync()
+            OnOk = e => model.SaveAsync(),
+            OnCancel = e => model.CloseAsync()
         };
 
         var isTabForm = false;

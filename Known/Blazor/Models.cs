@@ -13,15 +13,16 @@ public class DialogModel
     public double? Width { get; set; }
     public Func<Task> OnOk { get; set; }
     public Func<Task> OnClose { get; set; }
+    public Action OnClosed { get; set; }
     public RenderFragment Content { get; set; }
     public RenderFragment Footer { get; set; }
 
-    public Task CloseAsync()
+    public async Task CloseAsync()
     {
-        if (OnClose == null)
-            return Task.CompletedTask;
+        if (OnClose != null)
+            await OnClose.Invoke();
 
-        return OnClose.Invoke();
+        OnClosed?.Invoke();
     }
 }
 
