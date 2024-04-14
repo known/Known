@@ -325,7 +325,7 @@ create table SysFlowLog(
 );
 alter table SysFlowLog add constraint PK_SysFlowLog primary key(Id);
 
-CREATE TABLE SysWinxin(
+CREATE TABLE SysWeixin(
     Id          varchar2(50)   not null,
     CreateBy    varchar2(50)   not null,
     CreateTime  date           not null,
@@ -348,4 +348,4 @@ CREATE TABLE SysWinxin(
     Privilege   varchar2(4000) null,
     Note        varchar2(4000) null
 );
-alter table SysWinxin add constraint PK_SysWinxin primary key(Id);
+alter table SysWeixin add constraint PK_SysWeixin primary key(Id);

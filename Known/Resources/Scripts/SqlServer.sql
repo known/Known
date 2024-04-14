@@ -325,7 +325,7 @@ CREATE TABLE [SysFlowLog] (
     CONSTRAINT [PK_SysFlowLog] PRIMARY KEY ([Id] ASC)
 );
 
-CREATE TABLE [SysWinxin] (
+CREATE TABLE [SysWeixin] (
     [Id]          [varchar](50)    NOT NULL,
     [CreateBy]    [nvarchar](50)   NOT NULL,
     [CreateTime]  [datetime]       NOT NULL,
@@ -347,5 +347,5 @@ CREATE TABLE [SysWinxin] (
     [HeadImgUrl]  [nvarchar](500)  NULL,
     [Privilege]   [ntext]          NULL,
     [Note]        [ntext]          NULL,
-    CONSTRAINT [PK_SysFlowLog] PRIMARY KEY ([Id] ASC)
+    CONSTRAINT [PK_SysWeixin] PRIMARY KEY ([Id] ASC)
 );

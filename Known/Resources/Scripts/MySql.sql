@@ -325,7 +325,7 @@ create table `SysFlowLog` (
     PRIMARY KEY(`Id`)
 );
 
-create table `SysWinxin` (
+create table `SysWeixin` (
     `Id`          varchar(50)   not null,
     `CreateBy`    varchar(50)   not null,
     `CreateTime`  datetime      not null,

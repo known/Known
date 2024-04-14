@@ -1,7 +1,8 @@
 ﻿using System.Web;
+using Known.Entities;
 using Known.Services;
 
-namespace Known.Winxins;
+namespace Known.Weixins;
 
 class WeixinService(Context context) : ServiceBase(context)
 {
@@ -24,15 +25,15 @@ class WeixinService(Context context) : ServiceBase(context)
         if (info == null || !info.IsWeixinAuth)
             return string.Empty;
 
-        var redirectUri = HttpUtility.UrlEncode(WeixinHelper.RedirectUri);
+        var redirectUri = HttpUtility.UrlEncode(WeixinApi.RedirectUri);
         state = HttpUtility.UrlEncode(state);
-        return WeixinApi.GetAuthorizeUrl(WeixinHelper.AppId, redirectUri, state);
+        return WeixinApi.GetAuthorizeUrl(redirectUri, state);
     }
 
     public async Task<Result> AuthorizeAsync(string token, string code)
     {
         var http = new HttpClient();
-        var authToken = await http.GetAuthorizeTokenAsync(WeixinHelper.AppId, WeixinHelper.AppSecret, code);
+        var authToken = await http.GetAuthorizeTokenAsync(code);
         if (authToken == null || string.IsNullOrWhiteSpace(authToken.AccessToken))
             return Result.Error("AccessToken is null.");
 
@@ -42,10 +43,10 @@ class WeixinService(Context context) : ServiceBase(context)
 
         var db = new Database();
         db.User = AuthService.GetUserByToken(token);
-        var weixin = await WeixinRepository.GetWinxinByOpenIdAsync(db, user.OpenId);
+        var weixin = await WeixinRepository.GetWeixinByOpenIdAsync(db, user.OpenId);
         if (weixin == null)
         {
-            user.MPAppId = WeixinHelper.AppId;
+            user.MPAppId = WeixinApi.AppId;
             user.UserId = token;
             await db.InsertAsync(user);
         }
@@ -54,7 +55,7 @@ class WeixinService(Context context) : ServiceBase(context)
 
     public async Task<UserInfo> CheckWeixinAsync(UserInfo user)
     {
-        var weixin = await WeixinRepository.GetWinxinByUserIdAsync(Database, user.Token);
+        var weixin = await WeixinRepository.GetWeixinByUserIdAsync(Database, user.Token);
         if (weixin == null)
             return null;
 
@@ -62,6 +63,11 @@ class WeixinService(Context context) : ServiceBase(context)
         await Database.SaveAsync(weixin);
         user.OpenId = weixin.OpenId;
         return user;
+    }
+
+    public Task<SysWeixin> GetWeixinAsync(Database db, SysUser user)
+    {
+        return WeixinRepository.GetWeixinByUserIdAsync(db, user.Id);
     }
 
     public Task<Result> SendTemplateMessageAsync(TemplateInfo info)

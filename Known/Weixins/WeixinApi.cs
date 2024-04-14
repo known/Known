@@ -1,11 +1,14 @@
 ﻿using System.Net.Http.Json;
 using Known.Extensions;
 
-namespace Known.Winxins;
+namespace Known.Weixins;
 
 static class WeixinApi
 {
     private static string AccessToken = "";
+    internal static string AppId { get; set; }
+    internal static string AppSecret { get; set; }
+    internal static string RedirectUri { get; set; }
 
     #region 初始化接口
     internal static void Initialize()
@@ -14,10 +17,8 @@ static class WeixinApi
         {
             while (true)
             {
-                var appId = WeixinHelper.AppId;
-                var appSecret = WeixinHelper.AppSecret;
-                if (!string.IsNullOrWhiteSpace(appId) && !string.IsNullOrWhiteSpace(appSecret))
-                    AccessToken = await GetAccessTokenAsync(appId, appSecret);
+                if (!string.IsNullOrWhiteSpace(AppId) && !string.IsNullOrWhiteSpace(AppSecret))
+                    AccessToken = await GetAccessTokenAsync(AppId, AppSecret);
                 Thread.Sleep(7000 * 1000);
             }
         });
@@ -34,7 +35,7 @@ static class WeixinApi
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
             return result.GetValue<string>("access_token");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Logger.Exception(ex);
             return null;
@@ -45,17 +46,17 @@ static class WeixinApi
     #region 网页授权
     //1.用户同意授权，获取code
     //  同意返回redirect_uri/?code=CODE&state=STATE
-    public static string GetAuthorizeUrl(string appId, string redirectUri, string state, string scope = "snsapi_userinfo")
+    public static string GetAuthorizeUrl(string redirectUri, string state, string scope = "snsapi_userinfo")
     {
-        return $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={appId}&redirect_uri={redirectUri}&response_type=code&scope={scope}&state={state}#wechat_redirect";
+        return $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={AppId}&redirect_uri={redirectUri}&response_type=code&scope={scope}&state={state}#wechat_redirect";
     }
 
     //2.通过code换取网页授权access_token
-    public static async Task<AuthorizeToken> GetAuthorizeTokenAsync(this HttpClient http, string appId, string secret, string code)
+    public static async Task<AuthorizeToken> GetAuthorizeTokenAsync(this HttpClient http, string code)
     {
         try
         {
-            var url = $"https://api.weixin.qq.com/sns/oauth2/access_token?appid={appId}&secret={secret}&code={code}&grant_type=authorization_code";
+            var url = $"https://api.weixin.qq.com/sns/oauth2/access_token?appid={AppId}&secret={AppSecret}&code={code}&grant_type=authorization_code";
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
             return new AuthorizeToken
             {
@@ -76,11 +77,11 @@ static class WeixinApi
     }
 
     //3.刷新access_token（如果需要）
-    public static async Task<AuthorizeRefreshToken> GetAuthorizeRefreshTokenAsync(this HttpClient http, string appId, string refreshToken)
+    public static async Task<AuthorizeRefreshToken> GetAuthorizeRefreshTokenAsync(this HttpClient http, string refreshToken)
     {
         try
         {
-            var url = $"https://api.weixin.qq.com/sns/oauth2/refresh_token?appid={appId}&grant_type=refresh_token&refresh_token={refreshToken}";
+            var url = $"https://api.weixin.qq.com/sns/oauth2/refresh_token?appid={AppId}&grant_type=refresh_token&refresh_token={refreshToken}";
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
             return new AuthorizeRefreshToken
             {
@@ -99,14 +100,14 @@ static class WeixinApi
     }
 
     //4.拉取用户信息(需scope为 snsapi_userinfo)
-    public static async Task<SysWinxin> GetUserInfoAsync(this HttpClient http, string accessToken, string openId)
+    public static async Task<SysWeixin> GetUserInfoAsync(this HttpClient http, string accessToken, string openId)
     {
         try
         {
             var url = $"https://api.weixin.qq.com/sns/userinfo?access_token={accessToken}&openid={openId}&lang=zh_CN";
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
             var privileges = result.GetValue<List<string>>("privilege");
-            var info = new SysWinxin
+            var info = new SysWeixin
             {
                 OpenId = result.GetValue<string>("openid"),
                 NickName = result.GetValue<string>("nickname"),
@@ -157,13 +158,15 @@ static class WeixinApi
     public static async Task<Result> SendTemplateMessageAsync(this HttpClient http, TemplateInfo info)
     {
         if (string.IsNullOrWhiteSpace(AccessToken))
-            return null;
+            return Result.Error("AccessToken is null.");
 
         try
         {
             var url = $"https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={AccessToken}";
             var response = await http.PostAsJsonAsync(url, info);
-            var result = await response.Content.ReadFromJsonAsync<Dictionary<string, object>>();
+            var json = await response.Content.ReadAsStringAsync();
+            Logger.Error(json);
+            var result = Utils.FromJson<Dictionary<string, object>>(json);
             var errCode = result.GetValue<int>("errcode");
             var errMsg = result.GetValue<string>("errmsg");
             if (errCode != 0)
@@ -174,7 +177,7 @@ static class WeixinApi
         catch (Exception ex)
         {
             Logger.Exception(ex);
-            return null;
+            return Result.Error(ex.Message);
         }
     }
     #endregion

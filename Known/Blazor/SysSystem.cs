@@ -1,5 +1,5 @@
 ﻿using Known.Extensions;
-using Known.Winxins;
+using Known.Weixins;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 

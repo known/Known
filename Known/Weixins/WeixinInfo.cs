@@ -1,4 +1,4 @@
-﻿namespace Known.Winxins;
+﻿namespace Known.Weixins;
 
 public class WeixinInfo
 {

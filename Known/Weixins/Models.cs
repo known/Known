@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Known.Winxins;
+namespace Known.Weixins;
 
 public class AuthorizeToken
 {
@@ -44,4 +44,15 @@ public class MiniProgramInfo
     public string AppId { get; set; }
     [JsonPropertyName("pagepath")]
     public string PagePath { get; set; }
+}
+
+public class TemplateData
+{
+    [JsonPropertyName("value")]
+    public string Value { get; set; }
+
+    public static TemplateData Create(string value)
+    {
+        return new TemplateData { Value = value };
+    }
 }

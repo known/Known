@@ -21,6 +21,7 @@ public class Context
     internal MenuItem Current { get; set; }
     internal SysModule Module { get; set; }
 
+    public string Host { get; set; }
     public IUIService UI { get; set; }
     public InstallInfo Install { get; internal set; }
     public UserInfo CurrentUser { get; internal set; }

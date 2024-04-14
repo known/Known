@@ -5,6 +5,7 @@ using System.Dynamic;
 using System.Reflection;
 using System.Text;
 using Known.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace Known.Extensions;
 
@@ -136,6 +137,13 @@ public static class CommonExtension
             return FieldType.DateTime;
 
         return FieldType.Text;
+    }
+    #endregion
+
+    #region Http
+    public static string GetHostUrl(this HttpContext context)
+    {
+        return context.Request.Scheme + "://" + context.Request.Host;
     }
     #endregion
 }

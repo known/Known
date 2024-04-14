@@ -37,6 +37,7 @@ public class IndexPage : BaseComponent
         IsLoaded = false;
         if (Config.App.IsTheme)
             Theme = await JS.GetCurrentThemeAsync();
+        Context.Host = HttpContext.GetHostUrl();
         Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
         Context.Install = await Platform.System.GetInstallAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
@@ -115,9 +116,10 @@ public class IndexPage : BaseComponent
 
     protected virtual string GetWeixinAuthState(string token)
     {
-        var url = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host;
+        var url = HttpContext.GetHostUrl();
         return $"{url}/?token={token}&";
     }
+
     protected virtual DialogModel GetWeixinDialogModel(string uri)
     {
         var option = new { Text = uri, Width = 250, Height = 250 };

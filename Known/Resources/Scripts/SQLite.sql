@@ -311,7 +311,7 @@ CREATE TABLE [SysFlowLog] (
     [Note]        nvarchar(1000) NULL
 );
 
-CREATE TABLE [SysWinxin] (
+CREATE TABLE [SysWeixin] (
     [Id]         varchar(50)      NOT NULL PRIMARY KEY,
     [CreateBy]   nvarchar(50)     NOT NULL,
     [CreateTime] datetime         NOT NULL,

@@ -3,7 +3,7 @@ using Known.Designers;
 using Known.Entities;
 using Known.Helpers;
 using Known.Repositories;
-using Known.Winxins;
+using Known.Weixins;
 
 namespace Known.Services;
 
@@ -170,7 +170,7 @@ class AuthService(Context context) : ServiceBase(context)
 
     private static async Task SetUserWeixinAsync(Database db, UserInfo user)
     {
-        var weixin = await WeixinRepository.GetWinxinByUserIdAsync(db, user.Id);
+        var weixin = await WeixinRepository.GetWeixinByUserIdAsync(db, user.Id);
         if (weixin == null)
             return;
 

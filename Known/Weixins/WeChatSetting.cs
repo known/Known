@@ -2,7 +2,7 @@
 using Known.Extensions;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace Known.Winxins;
+namespace Known.Weixins;
 
 class WeChatSetting : BaseEditForm<WeixinInfo>
 {

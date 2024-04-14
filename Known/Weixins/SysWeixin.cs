@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Known.Winxins;
+namespace Known.Weixins;
 
 /// <summary>
 /// 系统用户微信信息类。
 /// </summary>
-public class SysWinxin : EntityBase
+public class SysWeixin : EntityBase
 {
     /// <summary>
     /// 取得或设置公众号ID。

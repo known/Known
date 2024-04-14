@@ -1,6 +1,6 @@
 ﻿using Known.Entities;
 using Known.Services;
-using Known.Winxins;
+using Known.Weixins;
 using Known.WorkFlows;
 
 namespace Known;
@@ -19,6 +19,8 @@ public class PlatformService(Context context)
     internal AuthService Auth { get; } = new AuthService(context);
     internal AutoService Auto { get; } = new AutoService(context);
     internal WeixinService Weixin { get; } = new WeixinService(context);
+
+    public Context Context { get; } = context;
 
     #region Setting
     public Task<List<SysSetting>> GetSettingsAsync(string bizType) => Setting.GetSettingsAsync(bizType);
@@ -59,6 +61,7 @@ public class PlatformService(Context context)
     #endregion
 
     #region Weixin
+    public Task<SysWeixin> GetWeixinAsync(Database db, SysUser user) => Weixin.GetWeixinAsync(db, user);
     public Task<Result> SendTemplateMessageAsync(TemplateInfo info) => Weixin.SendTemplateMessageAsync(info);
     #endregion
 }

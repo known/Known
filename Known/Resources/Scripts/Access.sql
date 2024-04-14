@@ -328,7 +328,7 @@ CREATE TABLE `SysFlowLog` (
 )
 GO
 
-CREATE TABLE `SysWinxin` (
+CREATE TABLE `SysWeixin` (
     `Id`          VarChar(50)   NOT NULL PRIMARY KEY,
     `CreateBy`    VarChar(50)   NOT NULL,
     `CreateTime`  DateTime      NOT NULL,
