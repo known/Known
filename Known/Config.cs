@@ -79,7 +79,10 @@ public sealed class Config
 
         var uploadPath = App.UploadPath;
         if (string.IsNullOrEmpty(uploadPath))
-            uploadPath = Path.Combine(App.ContentRoot, "UploadFiles");
+        {
+            uploadPath = Path.Combine(App.ContentRoot, "..\\UploadFiles");
+            uploadPath = Path.GetFullPath(uploadPath);
+        }
 
         if (!Directory.Exists(uploadPath))
             Directory.CreateDirectory(uploadPath);
