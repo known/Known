@@ -55,7 +55,10 @@ class SysSystemInfo : BaseForm<SystemInfo>
         });
         Model.AddRow().AddColumn(nameof(VersionInfo.AppVersion), Config.Version.AppVersion);
         Model.AddRow().AddColumn(nameof(VersionInfo.SoftVersion), Config.Version.SoftVersion);
+        Model.AddRow().AddColumn(nameof(VersionInfo.BuildTime), $"{Config.Version.BuildTime:yyyy-MM-dd HH:mm:ss}");
         Model.AddRow().AddColumn(nameof(VersionInfo.FrameVersion), Config.Version.FrameVersion);
+        var runTime = Utils.Round(Config.RunTime.TotalHours, 2);
+        Model.AddRow().AddColumn(nameof(Config.RunTime), $"{runTime} H");
         if (!Config.App.IsPlatform && !string.IsNullOrWhiteSpace(Config.App.ProductId))
         {
             Model.AddRow().AddColumn(nameof(SystemInfo.ProductId), Config.App.ProductId);

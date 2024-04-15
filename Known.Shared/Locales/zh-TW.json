@@ -390,6 +390,8 @@
   "AppVersion": "系統版本",
   "SoftVersion": "軟體版本",
   "FrameVersion": "框架版本",
+  "BuildTime": "構建時間",
+  "RunTime": "運行時長",
   "Copyright": "版權資訊",
   "SoftTerms": "軟體許可",
   "ProductId": "產品ID",

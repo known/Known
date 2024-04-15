@@ -521,6 +521,8 @@
   "AppVersion": "System Version",
   "SoftVersion": "Soft Version",
   "FrameVersion": "Framework Version",
+  "BuildTime": "Build Time",
+  "RunTime": "Run Time",
   "Copyright": "Copyright",
   "SoftTerms": "Software Terms",
   "ProductId": "Product ID",

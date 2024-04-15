@@ -517,6 +517,8 @@
   "AppVersion": "系统版本",
   "SoftVersion": "软件版本",
   "FrameVersion": "框架版本",
+  "BuildTime": "构建时间",
+  "RunTime": "运行时长",
   "Copyright": "版权信息",
   "SoftTerms": "软件许可",
   "ProductId": "产品ID",

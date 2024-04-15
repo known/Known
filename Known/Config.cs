@@ -16,6 +16,8 @@ public sealed class Config
     public static Action OnExit { get; set; }
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
+    public static TimeSpan RunTime => DateTime.Now - StartTime;
+    internal static DateTime StartTime { get; set; } = DateTime.Now;
     internal static bool IsClearCache { get; set; }
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
@@ -57,13 +59,6 @@ public sealed class Config
         AddModule(typeof(Config).Assembly);
         AddModule(App.Assembly);
     }
-
-    //private static string GetSysVersion(Assembly assembly)
-    //{
-    //    var version = assembly.GetName().Version;
-    //    var date = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
-    //    return $"{Version}.{date:yyMMdd}";
-    //}
 
     internal static string GetUploadPath(bool isWeb = false)
     {
@@ -149,8 +144,9 @@ public class VersionInfo
         if (assembly != null)
         {
             var version = assembly.GetName().Version;
+            BuildTime = new FileInfo(assembly.Location).LastWriteTime;
             AppVersion = $"{Config.App.Id} V{version.Major}.{version.Minor}";
-            SoftVersion = version.ToString();
+            SoftVersion = GetSoftVersion(version, BuildTime);
         }
 
         var version1 = typeof(VersionInfo).Assembly.GetName().Version;
@@ -160,6 +156,14 @@ public class VersionInfo
     public string AppVersion { get; }
     public string SoftVersion { get; }
     public string FrameVersion { get; }
+    public DateTime BuildTime { get; }
+
+    private static string GetSoftVersion(Version version, DateTime date)
+    {
+        //var date = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
+        var count = date.Year - 2000 + date.Month + date.Day;
+        return $"V{version.Major}.{version.Minor}.{version.Build}.{count}";
+    }
 }
 
 public enum AppType { Web, Desktop }
