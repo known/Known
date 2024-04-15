@@ -143,6 +143,9 @@ public static class CommonExtension
     #region Http
     public static string GetHostUrl(this HttpContext context)
     {
+        if (context == null || context.Request == null)
+            return string.Empty;
+
         return context.Request.Scheme + "://" + context.Request.Host;
     }
     #endregion
