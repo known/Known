@@ -7,6 +7,7 @@ class WeixinService(Context context) : ServiceBase(context)
 {
     internal const string KeyWeixin = "WeixinInfo";
 
+    #region Weixin
     public Task<WeixinInfo> GetWeixinAsync()
     {
         return SystemService.GetConfigAsync<WeixinInfo>(Database, KeyWeixin);
@@ -17,6 +18,12 @@ class WeixinService(Context context) : ServiceBase(context)
         await SystemService.SaveConfigAsync(Database, KeyWeixin, model);
         return Result.Success(Language.Success(Language.Save));
     }
+
+    public Task<SysWeixin> GetWeixinAsync(string openId)
+    {
+        return WeixinRepository.GetWeixinByOpenIdAsync(Database, openId);
+    }
+    #endregion
 
     public async Task<string> GetQRCodeUrlAsync(string sceneId)
     {

@@ -11,6 +11,7 @@ namespace Known.Weixins;
 static class WeixinApi
 {
     private static string AccessToken = "";
+    internal static string GZHId { get; set; }
     internal static string AppId { get; set; }
     internal static string AppSecret { get; set; }
     internal static string RedirectUri { get; set; }
@@ -232,6 +233,7 @@ static class WeixinApi
         catch (Exception ex)
         {
             Logger.Exception(ex);
+            Logger.Error(Utils.ToJson(info));
             return Result.Error(ex.Message);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Known.Extensions;
+using Known.Weixins;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
@@ -6,11 +7,15 @@ namespace Known.Blazor;
 
 public class IndexPage : BaseComponent
 {
+    private QueryHandler query;
+
     [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
     [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
 
     [SupplyParameterFromQuery] public string Token { get; set; }
     [SupplyParameterFromQuery] public string Code { get; set; }
+    [SupplyParameterFromQuery(Name = "gzhId")] public string GZHId { get; set; }
+    [SupplyParameterFromQuery(Name = "openId")] public string OpenId { get; set; }
 
     protected bool IsLogin { get; private set; }
     public string Theme { get; private set; }
@@ -18,21 +23,9 @@ public class IndexPage : BaseComponent
 
     protected override async Task OnInitAsync()
     {
-        if (!string.IsNullOrWhiteSpace(Token) && !string.IsNullOrWhiteSpace(Code))
-        {
-            var result = await Platform.Weixin.AuthorizeAsync(Token, Code);
-            var message = result.IsValid 
-                        ? Language.Success(Language.Authorize)
-                        : Language.Failed(Language.Authorize);
-            Logger.Info(result.Message);
-            UI.Language = Language;
-            UI.Alert(message, () =>
-            {
-                Navigation.NavigateTo("/", true);
-                return Task.CompletedTask;
-            });
+        query = new QueryHandler(this);
+        if (await query.HandleAsync())
             return;
-        }
 
         IsLoaded = false;
         if (Config.App.IsTheme)

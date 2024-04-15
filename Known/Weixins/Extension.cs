@@ -7,6 +7,7 @@ public static class Extension
 {
     public static void AddKnownWeixin(this IServiceCollection services, IConfiguration configuration)
     {
+        WeixinApi.GZHId = configuration.GetSection("WxGZHId").Get<string>();
         WeixinApi.AppId = configuration.GetSection("WxAppId").Get<string>();
         WeixinApi.AppSecret = configuration.GetSection("WxAppSecret").Get<string>();
         WeixinApi.RedirectUri = configuration.GetSection("WxRedirectUri").Get<string>();
