@@ -1,5 +1,4 @@
-﻿using System.Web;
-using Known.Entities;
+﻿using Known.Entities;
 using Known.Services;
 
 namespace Known.Weixins;
@@ -19,20 +18,28 @@ class WeixinService(Context context) : ServiceBase(context)
         return Result.Success(Language.Success(Language.Save));
     }
 
+    public async Task<string> GetQRCodeUrlAsync(string sceneId)
+    {
+        using var http = new HttpClient();
+        var ticket = await http.CreateTicketAsync(sceneId);
+        if (ticket == null)
+            return string.Empty;
+
+        return WeixinApi.GetQRCodeUrl(ticket.Ticket);
+    }
+
     public async Task<string> GetAuthorizeUrlAsync(string state)
     {
         var info = await SystemService.GetConfigAsync<WeixinInfo>(Database, KeyWeixin);
         if (info == null || !info.IsWeixinAuth)
             return string.Empty;
 
-        var redirectUri = HttpUtility.UrlEncode(WeixinApi.RedirectUri);
-        state = HttpUtility.UrlEncode(state);
-        return WeixinApi.GetAuthorizeUrl(redirectUri, state);
+        return WeixinApi.GetAuthorizeUrl(state);
     }
 
     public async Task<Result> AuthorizeAsync(string token, string code)
     {
-        var http = new HttpClient();
+        using var http = new HttpClient();
         var authToken = await http.GetAuthorizeTokenAsync(code);
         if (authToken == null || string.IsNullOrWhiteSpace(authToken.AccessToken))
             return Result.Error("AccessToken is null.");
@@ -72,7 +79,7 @@ class WeixinService(Context context) : ServiceBase(context)
 
     public Task<Result> SendTemplateMessageAsync(TemplateInfo info)
     {
-        var http = new HttpClient();
+        using var http = new HttpClient();
         return http.SendTemplateMessageAsync(info);
     }
 }

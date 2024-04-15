@@ -6,9 +6,7 @@
     </TabPane>
     @if (QRCode != null)
     {
-        <TabPane Key="QRCode" Tab="@Language["Login.WithQRCode"]">
-            <div style="text-align:center;"><KQRCode Id="loginQRCode" Option="QRCode" /></div>
-        </TabPane>
+        <TabPane Key="QRCode" Tab="@Language["Login.WithQRCode"]">@QRCode</TabPane>
     }
     @if (OnSendSMS != null)
     {
@@ -20,7 +18,7 @@
 
 @code {
     [Parameter] public LoginFormInfo Model { get; set; }
-    [Parameter] public object QRCode { get; set; }
+    [Parameter] public RenderFragment QRCode { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
     [Parameter] public Func<string, Task<Known.Result>> OnSendSMS { get; set; }
 }

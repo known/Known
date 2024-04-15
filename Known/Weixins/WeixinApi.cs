@@ -1,4 +1,9 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Web;
 using Known.Extensions;
 
 namespace Known.Weixins;
@@ -13,6 +18,7 @@ static class WeixinApi
     #region 初始化接口
     internal static void Initialize()
     {
+        ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidate;
         Task.Run(async () =>
         {
             while (true)
@@ -30,7 +36,7 @@ static class WeixinApi
     {
         try
         {
-            var http = new HttpClient();
+            using var http = new HttpClient();
             var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appId}&secret={appSecret}";
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
             return result.GetValue<string>("access_token");
@@ -41,13 +47,65 @@ static class WeixinApi
             return null;
         }
     }
+
+    private static bool RemoteCertificateValidate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors error)
+    {
+        //为了通过证书验证，总是返回true
+        return true;
+    }
+    #endregion
+
+    #region 账号管理
+    //1.创建二维码ticket
+    public static async Task<TicketInfo> CreateTicketAsync(this HttpClient http, string sceneId)
+    {
+        if (string.IsNullOrWhiteSpace(AccessToken))
+        {
+            Logger.Error("AccessToken is null.");
+            return null;
+        }
+
+        try
+        {
+            var url = $"https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token={AccessToken}";
+            var data = new
+            {
+                action_name = "QR_LIMIT_STR_SCENE",
+                action_info = new { scene = new { scene_str = sceneId } }
+            };
+            var result = await http.PostDataAsync(url, data);
+            if (result == null)
+                return null;
+
+            return new TicketInfo
+            {
+                Ticket = result.GetValue<string>("ticket"),
+                ExpireSeconds = result.GetValue<int>("expire_seconds"),
+                Url = result.GetValue<string>("url")
+            };
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            return null;
+        }
+    }
+
+    //2.通过ticket换取二维码
+    public static string GetQRCodeUrl(string ticket)
+    {
+        ticket = HttpUtility.UrlEncode(ticket);
+        return $"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={ticket}";
+    }
     #endregion
 
     #region 网页授权
     //1.用户同意授权，获取code
     //  同意返回redirect_uri/?code=CODE&state=STATE
-    public static string GetAuthorizeUrl(string redirectUri, string state, string scope = "snsapi_userinfo")
+    public static string GetAuthorizeUrl(string state, string scope = "snsapi_userinfo")
     {
+        var redirectUri = HttpUtility.UrlEncode(RedirectUri);
+        state = HttpUtility.UrlEncode(state);
         return $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={AppId}&redirect_uri={redirectUri}&response_type=code&scope={scope}&state={state}#wechat_redirect";
     }
 
@@ -163,12 +221,9 @@ static class WeixinApi
         try
         {
             var url = $"https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={AccessToken}";
-            var response = await http.PostAsJsonAsync(url, info);
-            var json = await response.Content.ReadAsStringAsync();
-            Logger.Error(json);
-            var result = Utils.FromJson<Dictionary<string, object>>(json);
-            var errCode = result.GetValue<int>("errcode");
-            var errMsg = result.GetValue<string>("errmsg");
+            var result = await http.PostDataAsync(url, info);
+            var errCode = result?.GetValue<int>("errcode");
+            var errMsg = result?.GetValue<string>("errmsg");
             if (errCode != 0)
                 return Result.Error(errMsg);
 
@@ -181,4 +236,17 @@ static class WeixinApi
         }
     }
     #endregion
+
+    private static async Task<Dictionary<string, object>> PostDataAsync(this HttpClient http, string url, object data)
+    {
+        var json = Utils.ToJson(data);
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
+        request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await http.SendAsync(request);
+        var content = await response.Content.ReadAsStringAsync();
+        var result = Utils.FromJson<Dictionary<string, object>>(content);
+        if (result == null)
+            Logger.Error($"PostData={content}");
+        return result;
+    }
 }

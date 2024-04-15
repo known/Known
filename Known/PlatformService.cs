@@ -61,6 +61,7 @@ public class PlatformService(Context context)
     #endregion
 
     #region Weixin
+    public Task<string> GetWeixinQRCodeUrlAsync(string sceneId) => Weixin.GetQRCodeUrlAsync(sceneId);
     public Task<SysWeixin> GetWeixinAsync(Database db, SysUser user) => Weixin.GetWeixinAsync(db, user);
     public Task<Result> SendTemplateMessageAsync(TemplateInfo info) => Weixin.SendTemplateMessageAsync(info);
     #endregion

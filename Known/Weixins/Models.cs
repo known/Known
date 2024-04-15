@@ -2,6 +2,13 @@
 
 namespace Known.Weixins;
 
+public class TicketInfo
+{
+    public string Ticket { get; set; }
+    public int ExpireSeconds { get; set; }
+    public string Url { get; set; }
+}
+
 public class AuthorizeToken
 {
     public string AccessToken { get; set; }
