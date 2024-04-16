@@ -41,6 +41,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     internal TableModel<TItem> Table { get; }
     internal string Action { get; set; }
     public string Title { get; set; }
+    public string Class { get; set; } = "kui-form";
     public string ConfirmText { get; set; }
     public FormOption Option { get; }
     public bool Draggable { get; set; } = true;

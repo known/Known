@@ -64,16 +64,19 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
                 return Utils.ConvertTo<DateTime?>(value);
             }
 
-            return Column.Property?.GetValue(Form.Data);
+            if (Form.Data == null)
+                return null;
+
+            return Property?.GetValue(Form.Data);
         }
         set
         {
-            if (!Equals(Value, value))
+            if (!Equals(Value, value) && Form.Data != null)
             {
                 if (IsDictionary)
                     (Form.Data as Dictionary<string, object>)[Column.Id] = value;
                 else if (Column.Property?.SetMethod is not null)
-                    Column.Property?.SetValue(Form.Data, value);
+                    Property?.SetValue(Form.Data, value);
                 Form.OnFieldChanged?.Invoke(Column.Id);
             }
         }

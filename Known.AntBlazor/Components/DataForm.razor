@@ -1,7 +1,7 @@
 ﻿@inherits BaseForm<TItem>
 @typeparam TItem where TItem : class, new()
 
-<AntForm Form="Model">
+<AntForm Class="@Model.Class" Form="Model">
     @if (Model.Rows != null && Model.Rows.Count > 0)
     {
         foreach (var row in Model.Rows)
