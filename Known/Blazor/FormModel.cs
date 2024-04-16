@@ -159,25 +159,33 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
     private async Task OnSaveAsync(bool isClose)
     {
-        var result = Result.Error("No save action.");
-        if (OnSaveFile != null)
+        try
         {
-            var info = new UploadInfo<TItem>(Data);
-            foreach (var file in Files)
+            var result = Result.Error("No save action.");
+            if (OnSaveFile != null)
             {
-                info.Files[file.Key] = [];
-                foreach (var item in file.Value)
+                var info = new UploadInfo<TItem>(Data);
+                foreach (var file in Files)
                 {
-                    info.Files[file.Key].Add(new BlazorAttachFile(item));
+                    info.Files[file.Key] = [];
+                    foreach (var item in file.Value)
+                    {
+                        info.Files[file.Key].Add(new BlazorAttachFile(item));
+                    }
                 }
+                result = await OnSaveFile.Invoke(info);
             }
-            result = await OnSaveFile.Invoke(info);
+            else if (OnSave != null)
+            {
+                result = await OnSave.Invoke(Data);
+            }
+            HandleResult(result, isClose);
         }
-        else if (OnSave != null)
+        catch (Exception ex)
         {
-            result = await OnSave.Invoke(Data);
+            UI.Error(ex.Message);
+            Logger.Exception(ex);
         }
-        HandleResult(result, isClose);
     }
 
     internal void HandleResult(Result result, bool isClose = false)
