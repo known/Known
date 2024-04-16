@@ -122,9 +122,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             var expression = InputExpression.Create(this);
             attributes["Value"] = Value;
             attributes["ValueChanged"] = expression?.ValueChanged;
-            if (expression?.ValueExpression != null)
-                attributes["ValueExpression"] = expression?.ValueExpression;
-
+            attributes["ValueExpression"] = expression?.ValueExpression;
             return attributes;
         }
     }
@@ -186,7 +184,7 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
 
         var changeHandler = method.Invoke(
             EventCallback.Factory,
-            new object[] { model, changeHandlerLambda.Compile() });
+            [model, changeHandlerLambda.Compile()]);
 
         return new InputExpression(lambda, changeHandler);
     }

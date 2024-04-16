@@ -12,6 +12,7 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         //为false时，Select无法选中
         //ValidateOnChange = true;
         ValidateMode = FormValidateMode.Rules;
+        Class = Form?.Class;
         LabelColSpan = Form?.LabelSpan ?? 0;
         WrapperColSpan = Form?.WrapperSpan ?? 0;
         Model = Form?.Data ?? new();
@@ -21,7 +22,7 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
 
     protected override void OnAfterRender(bool firstRender)
     {
-        if (firstRender)
+        if (firstRender && Form != null)
             Form.OnValidate = Validate;
         base.OnAfterRender(firstRender);
     }
