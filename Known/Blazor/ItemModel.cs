@@ -61,5 +61,16 @@ public class ToolbarModel
     public bool HasItem => Items != null && Items.Count > 0;
 
     public void AddAction(string idOrName) => Items.Add(new ActionInfo(idOrName));
+
+    public void AddAction(string id, string name, string icon)
+    {
+        Items.Add(new ActionInfo
+        {
+            Id = id,
+            Name = name,
+            Icon = icon
+        });
+    }
+
     public void Refresh() => OnRefresh?.Invoke();
 }
