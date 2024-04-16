@@ -22,7 +22,7 @@ public abstract class BasePicker<TItem> : BaseComponent where TItem : class, new
         };
     }
 
-    protected override void BuildRender(RenderTreeBuilder builder) => builder.BuildTablePage(Table);
+    protected override void BuildRender(RenderTreeBuilder builder) => builder.BuildTable(Table);
 }
 
 public class KPicker<TComponent, TItem> : BaseComponent

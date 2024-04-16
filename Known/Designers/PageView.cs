@@ -53,7 +53,7 @@ class PageView : BaseView<PageInfo>
 
     private void BuildView(RenderTreeBuilder builder)
     {
-        builder.Div("view", () => builder.BuildTablePage(table));
+        builder.Div("view", () => builder.BuildTable(table));
         builder.Div("setting", () => UI.BuildTabs(builder, tab));
     }
 

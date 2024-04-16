@@ -15,7 +15,7 @@ public static class UIExtension
     #endregion
 
     #region Page
-    internal static void BuildTablePage<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
+    internal static void BuildTable<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
     {
         builder.Component<TablePage<TItem>>().Set(c => c.Model, model).Build();
     }

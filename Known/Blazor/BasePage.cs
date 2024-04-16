@@ -98,7 +98,6 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 {
     protected TableModel<TItem> Table { get; set; }
-    protected virtual bool IsFormList { get; }
 
     public IEnumerable<TItem> SelectedRows => Table.SelectedRows;
 
@@ -108,15 +107,12 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        if (IsFormList)
-            Table = new TableModel<TItem>(Context) { IsFormList = true };
-        else
-            Table = new TableModel<TItem>(this);
+        Table = new TableModel<TItem>(this);
         Table.OnAction = OnActionClick;
         Table.Toolbar.OnItemClick = OnToolClick;
     }
 
-    protected override void BuildPage(RenderTreeBuilder builder) => builder.BuildTablePage(Table);
+    protected override void BuildPage(RenderTreeBuilder builder) => builder.BuildTable(Table);
 
     protected async void ShowImportForm(string param = null)
     {

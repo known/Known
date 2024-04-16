@@ -48,7 +48,7 @@ class SysUserList : BasePage<SysUser>
     public override Task RefreshAsync() => table.RefreshAsync();
 
     private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
-	private void BuildTable(RenderTreeBuilder builder) => builder.BuildTablePage(table);
+	private void BuildTable(RenderTreeBuilder builder) => builder.BuildTable(table);
 
 	private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
     {

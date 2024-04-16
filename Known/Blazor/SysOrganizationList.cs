@@ -45,7 +45,7 @@ class SysOrganizationList : BasePage<SysOrganization>
 	}
 
 	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
-	private void BuildTable(RenderTreeBuilder builder) => builder.BuildTablePage(table);
+	private void BuildTable(RenderTreeBuilder builder) => builder.BuildTable(table);
 
 	private Task<PagingResult<SysOrganization>> OnQueryOrganizationsAsync(PagingCriteria criteria)
     {
