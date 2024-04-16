@@ -13,6 +13,8 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     {
         await base.OnInitAsync();
         Table = new TableModel<TItem>(Context);
+        Table.OnAction = OnActionClick;
+        Table.Toolbar.OnItemClick = OnToolClick;
     }
 
     protected override void BuildRender(RenderTreeBuilder builder) => builder.BuildTable(Table);

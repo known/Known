@@ -13,7 +13,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
         if (Model == null)
             return;
 
-        if (Model.IsFormList)
+        if (Model.Page == null)
             BuildFormList(builder);
         else
             BuildPageList(builder);
@@ -23,19 +23,24 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
     {
         builder.Div("kui-table form-list", () =>
         {
-            builder.Component<KToolbar>()
-                   .Set(c => c.ChildContent, b =>
-                   {
-                       b.Div(() =>
+            if (!string.IsNullOrWhiteSpace(Model.Name) ||
+                 Model.QueryColumns.Count > 0 ||
+                 (Model.ShowToolbar && Model.Toolbar.HasItem))
+            {
+                builder.Component<KToolbar>()
+                       .Set(c => c.ChildContent, b =>
                        {
-                           b.Component<KTitle>().Set(c => c.Text, Model.Name).Build();
-                           if (Model.QueryColumns.Count > 0)
-                               UI.BuildQuery(b, Model);
-                       });
-                       if (Model.Toolbar.HasItem)
-                           UI.BuildToolbar(b, Model.Toolbar);
-                   })
-                   .Build();
+                           b.Div(() =>
+                           {
+                               b.Component<KTitle>().Set(c => c.Text, Model.Name).Build();
+                               if (Model.QueryColumns.Count > 0)
+                                   UI.BuildQuery(b, Model);
+                           });
+                           if (Model.ShowToolbar && Model.Toolbar.HasItem)
+                               UI.BuildToolbar(b, Model.Toolbar);
+                       })
+                       .Build();
+            }
             UI.BuildTable(builder, Model);
         });
     }
