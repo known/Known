@@ -3,8 +3,9 @@
 @inherits BaseComponent
 @typeparam TItem where TItem : class, new()
 
+ @* ScrollY="@Model.FixedHeight" *@
 <AntTable @ref="table" TItem="TItem" Context="Context" Resizable="Model.Resizable"
-          ScrollX="@Model.FixedWidth" ScrollY="@Model.FixedHeight"
+          ScrollX="@Model.FixedWidth"
           Loading="loading" Criteria="Model.Criteria" Result="Model.Result"
           @bind-SelectedRows="Model.SelectedRows"
           RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick"
