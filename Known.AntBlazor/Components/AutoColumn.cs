@@ -98,8 +98,8 @@ public class AutoColumn<TItem> : BaseComponent where TItem : class, new()
         //TODO:固定列显示混乱问题
         //if (!string.IsNullOrWhiteSpace(item.Fixed))
         //    builder.AddAttribute(1, nameof(Column<TItem>.Fixed), item.Fixed);
-        if (!string.IsNullOrWhiteSpace(item.Width))
-            builder.AddAttribute(1, nameof(Column<TItem>.Width), item.Width);
+        if (item.Width > 0)
+            builder.AddAttribute(1, nameof(Column<TItem>.Width), $"{item.Width}");
         if (!string.IsNullOrWhiteSpace(item.Align))
             builder.AddAttribute(1, nameof(Column<TItem>.Align), GetColumnAlign(item.Align));
         if (!string.IsNullOrWhiteSpace(item.DefaultSort))

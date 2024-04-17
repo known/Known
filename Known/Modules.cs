@@ -47,7 +47,7 @@ public class PageColumnInfo
     public bool IsSort { get; set; }
     public string DefaultSort { get; set; }
     public string Fixed { get; set; }
-    public string Width { get; set; }
+    public int? Width { get; set; }
     public string Align { get; set; }
 }
 

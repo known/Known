@@ -4,12 +4,10 @@
 @typeparam TItem where TItem : class, new()
 
  @* ScrollY="@Model.FixedHeight" *@
-<AntTable @ref="table" TItem="TItem" Context="Context" Resizable="Model.Resizable"
-          ScrollX="@Model.FixedWidth"
+<AntTable @ref="table" TItem="TItem" Context="Context" Resizable="Model.Resizable" ScrollX="@scrollX"
           Loading="loading" Criteria="Model.Criteria" Result="Model.Result"
           @bind-SelectedRows="Model.SelectedRows"
-          RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick"
-          HidePagination="!Model.ShowPager">
+          RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick" HidePagination="!Model.ShowPager">
     @if (Model.SelectType != TableSelectType.None)
     {
         <Selection Type="@Model.SelectType.ToString().ToLower()" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
@@ -21,11 +19,15 @@
 @code {
     private bool loading = false;
     private AntTable<TItem> table;
+    private string scrollX = "";
 
     [Parameter] public TableModel<TItem> Model { get; set; }
 
     protected override void OnInitialized()
     {
+        var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 100).Sum();
+        if (totalWidth > 1000)
+            scrollX = totalWidth.ToString();
         Model.OnRefresh = RefreshAsync;
         base.OnInitialized();
     }

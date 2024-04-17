@@ -197,10 +197,10 @@ class UserPicker : BasePicker<SysUser>
         IsMulti = false;
         await base.OnInitAsync();
         Table.OnQuery = Platform.User.QueryUsersAsync;
-        Table.AddColumn(c => c.UserName).Width("100");
-        Table.AddColumn(c => c.Name, true).Width("100");
-        Table.AddColumn(c => c.Phone).Width("100");
-        Table.AddColumn(c => c.Email).Width("100");
+        Table.AddColumn(c => c.UserName).Width(100);
+        Table.AddColumn(c => c.Name, true).Width(100);
+        Table.AddColumn(c => c.Phone).Width(100);
+        Table.AddColumn(c => c.Email).Width(100);
         Table.AddColumn(c => c.Role);
     }
 }

@@ -61,11 +61,11 @@ class PageProperty : BaseProperty<PageColumnInfo>
             Value = Model.Fixed,
             ValueChanged = this.Callback<string>(value => { Model.Fixed = value; OnChanged?.Invoke(Model); })
         }));
-        BuildPropertyItem(builder, "Width", b => UI.BuildText(b, new InputModel<string>
+        BuildPropertyItem(builder, "Width", b => UI.BuildNumber(b, new InputModel<int?>
         {
             Disabled = IsReadOnly,
             Value = Model.Width,
-            ValueChanged = this.Callback<string>(value => { Model.Width = value; OnChanged?.Invoke(Model); })
+            ValueChanged = this.Callback<int?>(value => { Model.Width = value; OnChanged?.Invoke(Model); })
         }));
         BuildPropertyItem(builder, "Align", b => UI.BuildSelect(b, new InputModel<string>
         {

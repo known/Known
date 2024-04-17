@@ -23,8 +23,8 @@ public class AntColumn<TData> : Column<TData>
         //TODO:固定列显示混乱问题
         //if (!string.IsNullOrWhiteSpace(Info.Fixed))
         //    Fixed = Info.Fixed;
-        if (!string.IsNullOrWhiteSpace(Info.Width))
-            Width = Info.Width;
+        if (Info.Width > 0)
+            Width = $"{Info.Width}";
         if (!string.IsNullOrWhiteSpace(Info.Align))
             Align = GetColumnAlign(Info.Align);
         if (!string.IsNullOrWhiteSpace(Info.DefaultSort))

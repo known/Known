@@ -150,7 +150,7 @@ public class ColumnInfo
     public bool IsQuery { get; set; }
     public bool IsQueryAll { get; set; }
     public string Fixed { get; set; }
-    public string Width { get; set; }
+    public int Width { get; set; }
     public string Align { get; set; }
 
     internal bool IsForm { get; set; }
@@ -189,11 +189,11 @@ public class ColumnInfo
         IsViewLink = info.IsViewLink;
         IsQuery = info.IsQuery;
         IsQueryAll = info.IsQueryAll;
-		IsSum = info.IsSum;
+        IsSum = info.IsSum;
         IsSort = info.IsSort;
         DefaultSort = info.DefaultSort;
         Fixed = info.Fixed;
-        Width = info.Width;
+        Width = info.Width ?? 0;
         Align = info.Align;
     }
 

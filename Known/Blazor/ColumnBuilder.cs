@@ -35,7 +35,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
-    public ColumnBuilder<TItem> Width(string width)
+    public ColumnBuilder<TItem> Width(int width)
     {
         if (column != null)
             column.Width = width;
