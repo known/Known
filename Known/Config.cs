@@ -16,7 +16,6 @@ public sealed class Config
     public static Action OnExit { get; set; }
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
-    public static TimeSpan RunTime => DateTime.Now - StartTime;
     internal static DateTime StartTime { get; set; } = DateTime.Now;
     internal static bool IsClearCache { get; set; }
     internal static bool IsAuth { get; set; } = true;
