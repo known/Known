@@ -81,7 +81,7 @@ class AuthService(Context context) : ServiceBase(context)
         if (user != null)
             return user;
 
-        user = await UserRepository.GetUserAsync(db, userName);
+        user = await UserRepository.GetUserInfoAsync(db, userName);
         await SetUserInfoAsync(db, user);
         return user;
     }

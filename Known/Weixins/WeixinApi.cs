@@ -98,6 +98,36 @@ static class WeixinApi
         ticket = HttpUtility.UrlEncode(ticket);
         return $"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={ticket}";
     }
+
+    public static async Task<SysWeixin> GetUserInfoAsync(this HttpClient http, string openId)
+    {
+        try
+        {
+            var url = $"https://api.weixin.qq.com/cgi-bin/user/info?access_token={AccessToken}&openid={openId}&lang=zh_CN";
+            var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
+            var privileges = result.GetValue<List<string>>("privilege");
+            var info = new SysWeixin
+            {
+                OpenId = result.GetValue<string>("openid"),
+                //NickName = result.GetValue<string>("nickname"),
+                //Sex = result.GetValue<string>("sex"),
+                //Province = result.GetValue<string>("province"),
+                //City = result.GetValue<string>("city"),
+                //Country = result.GetValue<string>("country"),
+                //HeadImgUrl = result.GetValue<string>("headimgurl"),
+                UnionId = result.GetValue<string>("unionid"),
+                Note = result.GetValue<string>("remark")
+            };
+            if (privileges != null)
+                info.Privilege = string.Join(",", privileges);
+            return info;
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            return null;
+        }
+    }
     #endregion
 
     #region 网页授权

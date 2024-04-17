@@ -77,7 +77,13 @@ where a.RoleId in (select RoleId from SysUserRole where UserId=@userId)
         return db.QueryAsync<SysUser>(sql, new { userName });
     }
 
-    internal static Task<UserInfo> GetUserAsync(Database db, string userName)
+    internal static Task<UserInfo> GetUserInfoByIdAsync(Database db, string id)
+    {
+        var sql = "select * from SysUser where Id=@id";
+        return db.QueryAsync<UserInfo>(sql, new { id });
+    }
+
+    internal static Task<UserInfo> GetUserInfoAsync(Database db, string userName)
     {
         var sql = "select * from SysUser where UserName=@userName";
         return db.QueryAsync<UserInfo>(sql, new { userName });

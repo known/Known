@@ -1,4 +1,5 @@
 ﻿using Known.Entities;
+using Known.Repositories;
 using Known.Services;
 
 namespace Known.Weixins;
@@ -23,8 +24,19 @@ class WeixinService(Context context) : ServiceBase(context)
     {
         return WeixinRepository.GetWeixinByOpenIdAsync(Database, openId);
     }
+
+    public Task<SysWeixin> GetWeixinAsync(UserInfo user)
+    {
+        return WeixinRepository.GetWeixinByUserIdAsync(Database, user.Id);
+    }
+
+    public Task<SysWeixin> GetWeixinAsync(Database db, SysUser user)
+    {
+        return WeixinRepository.GetWeixinByUserIdAsync(db, user.Id);
+    }
     #endregion
 
+    #region MP
     public async Task<string> GetQRCodeUrlAsync(string sceneId)
     {
         using var http = new HttpClient();
@@ -44,7 +56,7 @@ class WeixinService(Context context) : ServiceBase(context)
         return WeixinApi.GetAuthorizeUrl(state);
     }
 
-    public async Task<Result> AuthorizeAsync(string token, string code)
+    internal static async Task<Result> AuthorizeAsync(string token, string code)
     {
         using var http = new HttpClient();
         var authToken = await http.GetAuthorizeTokenAsync(code);
@@ -79,9 +91,26 @@ class WeixinService(Context context) : ServiceBase(context)
         return user;
     }
 
-    public Task<SysWeixin> GetWeixinAsync(Database db, SysUser user)
+    internal static async Task<string> SubscribeAsync(string openId, string userId)
     {
-        return WeixinRepository.GetWeixinByUserIdAsync(db, user.Id);
+        var db = new Database();
+        var weixin = await WeixinRepository.GetWeixinByOpenIdAsync(db, openId);
+        weixin ??= new SysWeixin();
+        weixin.MPAppId = WeixinApi.AppId;
+        weixin.OpenId = openId;
+        weixin.UserId = userId;
+
+        using var http = new HttpClient();
+        var user = await http.GetUserInfoAsync(openId);
+        if (user != null)
+        {
+            weixin.UnionId = user.UnionId;
+            weixin.Note = user.Note;
+        }
+
+        db.User = await UserRepository.GetUserInfoByIdAsync(db, userId);
+        await db.SaveAsync(weixin);
+        return db.User?.Name;
     }
 
     public Task<Result> SendTemplateMessageAsync(TemplateInfo info)
@@ -89,4 +118,5 @@ class WeixinService(Context context) : ServiceBase(context)
         using var http = new HttpClient();
         return http.SendTemplateMessageAsync(info);
     }
+    #endregion
 }

@@ -61,7 +61,7 @@ sealed class TaskHelper
     internal static async Task<Result> RunAsync(Database db, SysTask task, Func<Database, SysTask, Task<Result>> action)
     {
         var userName = task.CreateBy;
-        db.User = await UserRepository.GetUserAsync(db, userName);
+        db.User = await UserRepository.GetUserInfoAsync(db, userName);
 
         task.BeginTime = DateTime.Now;
         task.Status = TaskStatus.Running;

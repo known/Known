@@ -1,5 +1,4 @@
 ﻿using Known.Extensions;
-using Known.Weixins;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
@@ -7,15 +6,8 @@ namespace Known.Blazor;
 
 public class IndexPage : BaseComponent
 {
-    private QueryHandler query;
-
     [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
     [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
-
-    [SupplyParameterFromQuery] public string Token { get; set; }
-    [SupplyParameterFromQuery] public string Code { get; set; }
-    [SupplyParameterFromQuery(Name = "gzhId")] public string GZHId { get; set; }
-    [SupplyParameterFromQuery(Name = "openId")] public string OpenId { get; set; }
 
     protected bool IsLogin { get; private set; }
     public string Theme { get; private set; }
@@ -23,10 +15,6 @@ public class IndexPage : BaseComponent
 
     protected override async Task OnInitAsync()
     {
-        query = new QueryHandler(this);
-        if (await query.HandleAsync())
-            return;
-
         IsLoaded = false;
         if (Config.App.IsTheme)
             Theme = await JS.GetCurrentThemeAsync();
@@ -35,6 +23,8 @@ public class IndexPage : BaseComponent
         Context.Install = await Platform.System.GetInstallAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
         IsLogin = Context.CurrentUser != null;
+        if (IsLogin)
+            await ShowNoticeAsync(Context.CurrentUser);
         IsLoaded = true;
     }
 
@@ -85,17 +75,7 @@ public class IndexPage : BaseComponent
     protected async Task OnLogin(UserInfo user)
     {
         await SetUserInfoAsync(user);
-
-        var state = GetWeixinAuthState(user.Token);
-        var uri = await Platform.Weixin.GetAuthorizeUrlAsync(state);
-        if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))
-        {
-            if (IsMobile)
-                NavigateWeixinAuth(uri, user);
-            else
-                ShowWeixinQRCode(uri, user);
-        }
-
+        await ShowNoticeAsync(user);
         StateChanged();
     }
 
@@ -107,70 +87,7 @@ public class IndexPage : BaseComponent
         StateChanged();
     }
 
-    protected virtual string GetWeixinAuthState(string token)
-    {
-        var url = HttpContext.GetHostUrl();
-        return $"{url}/?token={token}&";
-    }
-
-    protected virtual DialogModel GetWeixinDialogModel(string uri)
-    {
-        var option = new { Text = uri, Width = 250, Height = 250 };
-        return new DialogModel
-        {
-            Title = Language.GetString("WeixinQRCodeAuth"),
-            Width = 300,
-            Content = b => b.Component<KQRCode>().Set(c => c.Option, option).Build()
-        };
-    }
-
-    private void NavigateWeixinAuth(string uri, UserInfo user)
-    {
-        Task.Run(async () =>
-        {
-            while (true)
-            {
-                var weixin = await Platform.Weixin.CheckWeixinAsync(user);
-                if (weixin != null)
-                {
-                    await SetUserInfoAsync(weixin);
-                    UI.Toast(Language.Success(Language.Authorize));
-                    break;
-                }
-                Thread.Sleep(1000);
-            }
-        });
-        Navigation.NavigateTo(uri, true);
-    }
-
-    private void ShowWeixinQRCode(string uri, UserInfo user)
-    {
-        var isManualClose = false;
-        var model = GetWeixinDialogModel(uri);
-        model.OnClosed = () => isManualClose = true;
-        UI.ShowDialog(model);
-        Task.Run(async () =>
-        {
-            while (true)
-            {
-                if (isManualClose)
-                {
-                    Logger.Info("[WeixinQRCode] Scanning Manual Closed!");
-                    break;
-                }
-
-                var weixin = await Platform.Weixin.CheckWeixinAsync(user);
-                if (weixin != null)
-                {
-                    await SetUserInfoAsync(weixin);
-                    await model.CloseAsync();
-                    UI.Toast(Language.Success(Language.Authorize));
-                    break;
-                }
-                Thread.Sleep(1000);
-            }
-        });
-    }
+    protected virtual Task ShowNoticeAsync(UserInfo user) => Task.CompletedTask;
 
     private async Task SetUserInfoAsync(UserInfo user)
     {
