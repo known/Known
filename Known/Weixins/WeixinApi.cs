@@ -128,6 +128,19 @@ static class WeixinApi
             return null;
         }
     }
+
+    private static async Task<Dictionary<string, object>> PostDataAsync(this HttpClient http, string url, object data)
+    {
+        var json = Utils.ToJson(data);
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
+        request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await http.SendAsync(request);
+        var content = await response.Content.ReadAsStringAsync();
+        var result = Utils.FromJson<Dictionary<string, object>>(content);
+        if (result == null)
+            Logger.Error($"PostData={content}");
+        return result;
+    }
     #endregion
 
     #region 网页授权
@@ -244,7 +257,7 @@ static class WeixinApi
 
     #region 模板消息
     //发送模板消息
-    public static async Task<Result> SendTemplateMessageAsync(this HttpClient http, TemplateInfo info)
+    public static Result SendTemplateMessage(TemplateInfo info)
     {
         if (string.IsNullOrWhiteSpace(AccessToken))
             return Result.Error("AccessToken is null.");
@@ -252,7 +265,8 @@ static class WeixinApi
         try
         {
             var url = $"https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={AccessToken}";
-            var result = await http.PostDataAsync(url, info);
+            var content = HttpPostData(url, Utils.ToJson(info));
+            var result = Utils.FromJson<Dictionary<string, object>>(content);
             var errCode = result?.GetValue<int>("errcode");
             var errMsg = result?.GetValue<string>("errmsg");
             if (errCode != 0)
@@ -267,18 +281,26 @@ static class WeixinApi
             return Result.Error(ex.Message);
         }
     }
-    #endregion
 
-    private static async Task<Dictionary<string, object>> PostDataAsync(this HttpClient http, string url, object data)
+    private static string HttpPostData(string url, string data)
     {
-        var json = Utils.ToJson(data);
-        var request = new HttpRequestMessage(HttpMethod.Post, url);
-        request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await http.SendAsync(request);
-        var content = await response.Content.ReadAsStringAsync();
-        var result = Utils.FromJson<Dictionary<string, object>>(content);
-        if (result == null)
-            Logger.Error($"PostData={content}");
-        return result;
+        var encoding = Encoding.UTF8;
+        var bytes = encoding.GetBytes(data);
+        var request = WebRequest.Create(url) as HttpWebRequest;
+        var cookieContainer = new CookieContainer();
+        request.CookieContainer = cookieContainer;
+        request.AllowAutoRedirect = true;
+        request.Method = "POST";
+        request.ContentType = "application/x-www-form-urlencoded";
+        request.ContentLength = bytes.Length;
+        var outstream = request.GetRequestStream();
+        outstream.Write(bytes, 0, bytes.Length);
+        outstream.Close();
+        var response = request.GetResponse() as HttpWebResponse;
+        var instream = response.GetResponseStream();
+        var sr = new StreamReader(instream, encoding);
+        var content = sr.ReadToEnd();
+        return content;
     }
+    #endregion
 }

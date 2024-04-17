@@ -144,8 +144,8 @@ class WeixinService(Context context) : ServiceBase(context)
 
     public Task<Result> SendTemplateMessageAsync(TemplateInfo info)
     {
-        using var http = new HttpClient();
-        return http.SendTemplateMessageAsync(info);
+        var result = WeixinApi.SendTemplateMessage(info);
+        return Task.FromResult(result);
     }
     #endregion
 }
