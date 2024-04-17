@@ -109,12 +109,12 @@ static class WeixinApi
             var info = new SysWeixin
             {
                 OpenId = result.GetValue<string>("openid"),
-                //NickName = result.GetValue<string>("nickname"),
-                //Sex = result.GetValue<string>("sex"),
-                //Province = result.GetValue<string>("province"),
-                //City = result.GetValue<string>("city"),
-                //Country = result.GetValue<string>("country"),
-                //HeadImgUrl = result.GetValue<string>("headimgurl"),
+                NickName = result.GetValue<string>("nickname"),
+                Sex = result.GetValue<string>("sex"),
+                Province = result.GetValue<string>("province"),
+                City = result.GetValue<string>("city"),
+                Country = result.GetValue<string>("country"),
+                HeadImgUrl = result.GetValue<string>("headimgurl"),
                 UnionId = result.GetValue<string>("unionid"),
                 Note = result.GetValue<string>("remark")
             };

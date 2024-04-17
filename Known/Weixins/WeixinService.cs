@@ -93,24 +93,53 @@ class WeixinService(Context context) : ServiceBase(context)
 
     internal static async Task<string> SubscribeAsync(string openId, string userId)
     {
-        var db = new Database();
-        var weixin = await WeixinRepository.GetWeixinByOpenIdAsync(db, openId);
-        weixin ??= new SysWeixin();
-        weixin.MPAppId = WeixinApi.AppId;
-        weixin.OpenId = openId;
-        weixin.UserId = userId;
-
-        using var http = new HttpClient();
-        var user = await http.GetUserInfoAsync(openId);
-        if (user != null)
+        try
         {
-            weixin.UnionId = user.UnionId;
-            weixin.Note = user.Note;
-        }
+            var db = new Database();
+            var weixin = await WeixinRepository.GetWeixinByOpenIdAsync(db, openId);
+            weixin ??= new SysWeixin();
+            weixin.MPAppId = WeixinApi.AppId;
+            weixin.OpenId = openId;
+            weixin.UserId = userId;
 
-        db.User = await UserRepository.GetUserInfoByIdAsync(db, userId);
-        await db.SaveAsync(weixin);
-        return db.User?.Name;
+            using var http = new HttpClient();
+            var user = await http.GetUserInfoAsync(openId);
+            if (user != null)
+            {
+                weixin.UnionId = user.UnionId;
+                weixin.Note = user.Note;
+            }
+
+            db.User = await UserRepository.GetUserInfoByIdAsync(db, userId);
+            await db.SaveAsync(weixin);
+            return db.User?.Name;
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            return string.Empty;
+        }
+    }
+
+    internal static async Task<string> UnsubscribeAsync(string openId, string userId)
+    {
+        try
+        {
+            var db = new Database();
+            var weixin = await WeixinRepository.GetWeixinByOpenIdAsync(db, openId);
+            if (weixin == null)
+                return string.Empty;
+
+            weixin.UserId = "";
+            db.User = await UserRepository.GetUserInfoByIdAsync(db, userId);
+            await db.SaveAsync(weixin);
+            return db.User?.Name;
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            return string.Empty;
+        }
     }
 
     public Task<Result> SendTemplateMessageAsync(TemplateInfo info)

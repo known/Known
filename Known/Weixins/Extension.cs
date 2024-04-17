@@ -20,6 +20,7 @@ public static class Extension
     {
         app.MapGet("/weixin/auth", OnAuthorizeAsync);
         app.MapGet("/weixin/subs", OnSubscribeAsync);
+        app.MapGet("/weixin/unsubs", OnUnsubscribeAsync);
     }
 
     private static async Task OnAuthorizeAsync([FromQuery] string token, [FromQuery] string code)
@@ -47,5 +48,16 @@ public static class Extension
             return string.Empty;
 
         return await WeixinService.SubscribeAsync(openId, userId);
+    }
+
+    private static async Task<string> OnUnsubscribeAsync(
+        [FromQuery] string gzhId,
+        [FromQuery] string openId,
+        [FromQuery] string userId)
+    {
+        if (gzhId != WeixinApi.GZHId)
+            return string.Empty;
+
+        return await WeixinService.UnsubscribeAsync(openId, userId);
     }
 }
