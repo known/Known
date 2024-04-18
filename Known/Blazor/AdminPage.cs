@@ -60,9 +60,12 @@ public class AdminPage : BaseComponent
 
         isNavigating = true;
         item.ComType = Config.PageTypes.GetValueOrDefault(item.Code);
-        if (item.ComType == null)
-            item.ComType = typeof(BasePage);
         item.ComParameters = new Dictionary<string, object> { [nameof(BasePage.PageId)] = item.Id };
+        if (item.ComType == null)
+        {
+            //TODO:支持URL参数
+            item.ComType = typeof(BasePage);
+        }
         CurrentMenu = item;
 
         if (Context.UserSetting.MultiTab)
