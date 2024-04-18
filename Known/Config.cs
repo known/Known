@@ -54,7 +54,7 @@ public sealed class Config
     {
         Version = new VersionInfo(App.Assembly);
         AddModule(typeof(Config).Assembly);
-        AddModule(App.Assembly);
+        AddModule(App.Assembly, App.AssemblyAdditional);
     }
 
     internal static string GetUploadPath(bool isWeb = false)
@@ -171,6 +171,7 @@ public class AppInfo
     public string Name { get; set; }
     public AppType Type { get; set; }
     public Assembly Assembly { get; set; }
+    public bool AssemblyAdditional { get; set; }
     public bool IsPlatform { get; set; }
     public bool IsLanguage { get; set; }
     public bool IsTheme { get; set; }
