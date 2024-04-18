@@ -1,6 +1,4 @@
-﻿using Known.Entities;
-
-namespace Known.Repositories;
+﻿namespace Known.Repositories;
 
 class UserRepository
 {

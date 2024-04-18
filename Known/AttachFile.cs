@@ -1,6 +1,4 @@
-﻿using Known.Entities;
-
-namespace Known;
+﻿namespace Known;
 
 public class AttachFile
 {

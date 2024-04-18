@@ -21,9 +21,11 @@
 </CascadingAuthenticationState>
 
 @code {
+    [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
+
     protected override void OnInitialized()
     {
-        Context = new Context();
+        Context = new Context(AntUI);
         base.OnInitialized();
     }
 }

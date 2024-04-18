@@ -1,9 +1,4 @@
-﻿using Known.Blazor;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Designers;
+﻿namespace Known.Designers;
 
 class BaseDesigner<TModel> : BaseComponent
 {

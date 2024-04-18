@@ -1,9 +1,4 @@
-﻿using Known.Entities;
-using Known.Extensions;
-using Known.Helpers;
-using Known.Repositories;
-
-namespace Known.Services;
+﻿namespace Known.Services;
 
 class FileService(Context context) : ServiceBase(context)
 {

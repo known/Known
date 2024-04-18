@@ -1,7 +1,4 @@
-﻿using Known.Entities;
-using Known.Repositories;
-
-namespace Known.Services;
+﻿namespace Known.Services;
 
 class CompanyService(Context context) : ServiceBase(context)
 {

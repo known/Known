@@ -1,7 +1,4 @@
-﻿using Known.Extensions;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Designers;
+﻿namespace Known.Designers;
 
 class PageDesigner : BaseViewDesigner<PageInfo>
 {

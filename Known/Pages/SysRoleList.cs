@@ -1,16 +1,13 @@
-﻿using Known.Entities;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿namespace Known.Pages;
 
-namespace Known.Blazor;
-
-class SysRoleList : BaseTablePage<SysRole>
+[Route("/sys/roles")]
+public class SysRoleList : BaseTablePage<SysRole>
 {
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         Table.OnQuery = Platform.Role.QueryRolesAsync;
-		Table.RowKey = r => r.Id;
+        Table.RowKey = r => r.Id;
     }
 
     public void New() => Table.NewForm(Platform.Role.SaveRoleAsync, new SysRole());

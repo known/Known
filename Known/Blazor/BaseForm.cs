@@ -1,9 +1,4 @@
-﻿using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 public class BaseForm : BaseComponent
 {

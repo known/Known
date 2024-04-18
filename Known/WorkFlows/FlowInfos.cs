@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Known.WorkFlows;
+﻿namespace Known.WorkFlows;
 
 public class FlowFormInfo
 {

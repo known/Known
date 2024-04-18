@@ -1,13 +1,4 @@
-﻿using System.Collections;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Dynamic;
-using System.Reflection;
-using System.Text;
-using Known.Helpers;
-using Microsoft.AspNetCore.Http;
-
-namespace Known.Extensions;
+﻿namespace Known.Extensions;
 
 public static class CommonExtension
 {

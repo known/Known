@@ -1,13 +1,6 @@
-﻿using Known.Designers;
-using Known.Entities;
-using Known.Extensions;
-using Known.WorkFlows;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿namespace Known.Pages;
 
-namespace Known.Blazor;
-
-class SysModuleForm : BaseStepPage
+public class SysModuleForm : BaseStepPage
 {
     private StepForm stepForm;
 

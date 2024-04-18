@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Known.Extensions;
-using Known.Helpers;
-
-namespace Known;
+﻿namespace Known;
 
 public class LoginFormInfo
 {

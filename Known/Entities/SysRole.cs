@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Known.Entities;
+﻿namespace Known.Entities;
 
 /// <summary>
 /// 系统角色实体类。

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Known;
+﻿namespace Known;
 
 public class InstallInfo
 {

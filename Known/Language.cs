@@ -1,8 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Globalization;
-using Known.Entities;
-
-namespace Known;
+﻿namespace Known;
 
 public class Language
 {

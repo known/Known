@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
-
-namespace Known.Extensions;
+﻿namespace Known.Extensions;
 
 public static class HtmlExtension
 {

@@ -1,8 +1,4 @@
-﻿using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Http;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 public class LayoutPage : LayoutComponentBase
 {

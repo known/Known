@@ -1,4 +1,5 @@
-﻿@inherits LoginPage
+﻿@page "/login"
+@inherits LoginPage
 
 <div class="login">
     <div class="login-head">
@@ -29,17 +30,7 @@
         </div>
         <div class="login-form">
             <div class="login-form-body">
-                <Tooltip Title="@Language["Tip.SwitchUIType"]" Style="position:absolute;top:0;right:0;">
-                    <Segmented TValue="string" Value="Index.UIType.ToString()" Labels="uiTypes" OnChange="OnUIChanged" />
-                </Tooltip>
-                @if (Index.UIType == UIType.AntDesign)
-                {
-                    <Known.AntBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
-                }
-                else if (Index.UIType == UIType.Bootstrap)
-                {
-                    <Known.BootBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" />
-                }
+                <Known.AntBlazor.LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
             </div>
         </div>
     </div>
@@ -47,11 +38,6 @@
 </div>
 
 @code {
-    private string[] uiTypes = [
-        UIType.AntDesign.ToString(),
-        UIType.Bootstrap.ToString()
-    ];
-
     [CascadingParameter] private Index Index { get; set; }
 
     protected override async Task OnInitAsync()
@@ -59,12 +45,6 @@
         await base.OnInitAsync();
         Model.UserName = "Admin";
         Model.Password = "888888";
-    }
-
-    private void OnUIChanged(string item)
-    {
-        var type = Utils.ConvertTo<UIType>(item);
-        Index.SetUIType(type);
     }
 
     private Task<Known.Result> OnSendSMS(string phone)

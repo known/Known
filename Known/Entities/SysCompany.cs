@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Known.Entities;
+﻿namespace Known.Entities;
 
 /// <summary>
 /// 企业信息实体类。

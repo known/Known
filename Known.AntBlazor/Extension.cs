@@ -8,12 +8,12 @@ public static class Extension
     {
         //添加AntDesign
         services.AddAntDesign();
+        services.AddScoped<UIService>();
 
         AntConfig.Option = new AntDesignOption();
         action?.Invoke(AntConfig.Option);
 
         Config.AddModule(typeof(Extension).Assembly);
-        services.AddScoped<UIService>();
 
         UIConfig.Icons["AntDesign"] = typeof(IconType.Outline).GetProperties()
             .Select(x => (string)x.GetValue(null))

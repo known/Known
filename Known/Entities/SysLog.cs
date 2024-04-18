@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-
-namespace Known.Entities;
+﻿namespace Known.Entities;
 
 /// <summary>
 /// 系统日志实体类。

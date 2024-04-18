@@ -1,8 +1,4 @@
-﻿using Known.Entities;
-using Known.Repositories;
-using Known.Services;
-
-namespace Known.Weixins;
+﻿namespace Known.Weixins;
 
 class WeixinService(Context context) : ServiceBase(context)
 {

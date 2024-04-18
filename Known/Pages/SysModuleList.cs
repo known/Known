@@ -1,31 +1,28 @@
-﻿using Known.Entities;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿namespace Known.Pages;
 
-namespace Known.Blazor;
-
-class SysModuleList : BasePage<SysModule>
+[Route("/sys/modules")]
+public class SysModuleList : BasePage<SysModule>
 {
     private List<SysModule> modules;
     private MenuItem current;
     private int total;
-	private TreeModel tree;
-	private TableModel<SysModule> table;
+    private TreeModel tree;
+    private TableModel<SysModule> table;
 
-	protected override async Task OnInitPageAsync()
+    protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
 
-		Page.Type = PageType.Column;
-		Page.Spans = "28";
+        Page.Type = PageType.Column;
+        Page.Spans = "28";
         Page.AddItem("kui-card", BuildTree);
         Page.AddItem(BuildTable);
 
-		tree = new TreeModel
-		{
-			ExpandRoot = true,
-			OnNodeClick = OnNodeClick,
-			OnModelChanged = OnTreeModelChanged
+        tree = new TreeModel
+        {
+            ExpandRoot = true,
+            OnNodeClick = OnNodeClick,
+            OnModelChanged = OnTreeModelChanged
         };
         tree.Load();
 
@@ -44,14 +41,14 @@ class SysModuleList : BasePage<SysModule>
         table.Column(c => c.Target).Template(BuildTarget);
     }
 
-	public override async Task RefreshAsync()
-	{
-		await tree.RefreshAsync();
-		await table.RefreshAsync();
-	}
+    public override async Task RefreshAsync()
+    {
+        await tree.RefreshAsync();
+        await table.RefreshAsync();
+    }
 
-	private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
-	private void BuildTable(RenderTreeBuilder builder) => builder.BuildTable(table);
+    private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
+    private void BuildTable(RenderTreeBuilder builder) => builder.BuildTable(table);
 
     private void BuildName(RenderTreeBuilder builder, SysModule row)
     {

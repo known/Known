@@ -1,11 +1,6 @@
-﻿using System.Linq.Expressions;
-using Known.Helpers;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿namespace Known.Blazor;
 
-namespace Known.Blazor;
-
-public class ComponentBuilder<T> where T : IComponent
+public class ComponentBuilder<T> where T : Microsoft.AspNetCore.Components.IComponent
 {
     private readonly RenderTreeBuilder builder;
     private readonly Dictionary<string, object> Parameters = new(StringComparer.Ordinal);

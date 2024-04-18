@@ -1,18 +1,6 @@
-﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Runtime.ExceptionServices;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.RenderTree;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
+﻿namespace Known.Blazor;
 
-namespace Known.Blazor;
-
-public class ComponentRenderer<T> where T : IComponent
+public class ComponentRenderer<T> where T : Microsoft.AspNetCore.Components.IComponent
 {
     private const string ChildContent = nameof(ChildContent);
     private static readonly Type componentType = typeof(T);
@@ -100,7 +88,7 @@ class ComTemplater
             services.Add(serviceProvider);
     }
 
-    public string RenderComponent<TComponent>(IDictionary<string, object> parameters = null) where TComponent : IComponent
+    public string RenderComponent<TComponent>(IDictionary<string, object> parameters = null) where TComponent : Microsoft.AspNetCore.Components.IComponent
     {
         var componentType = typeof(TComponent);
         return RenderComponent(componentType, parameters);
@@ -140,7 +128,7 @@ class ComTemplater
             throw new ArgumentException("Type must implement IComponent", nameof(componentType));
     }
 
-    private static readonly Type _iComponentType = typeof(IComponent);
+    private static readonly Type _iComponentType = typeof(Microsoft.AspNetCore.Components.IComponent);
 
     private static ParameterView GetParameterView(IDictionary<string, object> parameters)
     {
@@ -495,7 +483,7 @@ class ComHtmlizer
     }
 }
 
-class ComRenderedComponent<T> where T : IComponent
+class ComRenderedComponent<T> where T : Microsoft.AspNetCore.Components.IComponent
 {
     private readonly ComHtmlRenderer renderer;
     private readonly ComContainerComponent container;
@@ -522,7 +510,7 @@ class ComRenderedComponent<T> where T : IComponent
 }
 
 [SuppressMessage("Usage", "BL0006:Do not use RenderTree types", Justification = "<Pending>")]
-class ComContainerComponent : IComponent
+class ComContainerComponent : Microsoft.AspNetCore.Components.IComponent
 {
     private readonly ComHtmlRenderer renderer;
     private readonly int componentId;

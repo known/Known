@@ -1,7 +1,4 @@
-﻿using Known.Blazor;
-using Known.Extensions;
-
-namespace Known.Designers;
+﻿namespace Known.Designers;
 
 class DemoPageModel : TableModel<Dictionary<string, object>>
 {

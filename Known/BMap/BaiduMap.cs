@@ -1,11 +1,4 @@
-﻿using Known.Blazor;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.Extensions.Configuration;
-using Microsoft.JSInterop;
-
-namespace Known.BMap;
+﻿namespace Known.BMap;
 
 public class BaiduMap : BaseComponent
 {

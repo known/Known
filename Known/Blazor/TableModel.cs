@@ -1,10 +1,4 @@
-﻿using System.Linq.Expressions;
-using Known.Entities;
-using Known.Extensions;
-using Known.Helpers;
-using Microsoft.AspNetCore.Components;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 public class TableModel<TItem> : BaseModel where TItem : class, new()
 {

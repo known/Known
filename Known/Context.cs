@@ -1,15 +1,14 @@
-﻿using System.Globalization;
-using Known.Blazor;
-using Known.Entities;
-
-namespace Known;
+﻿namespace Known;
 
 public class Context
 {
     private Language language;
     private string currentLanguage;
 
-    public Context() { }
+    public Context(IUIService ui)
+    {
+        UI = ui;
+    }
 
     internal Context(string cultureName)
     {
@@ -21,8 +20,8 @@ public class Context
     internal MenuItem Current { get; set; }
     internal SysModule Module { get; set; }
 
+    public IUIService UI { get; }
     public string Host { get; set; }
-    public IUIService UI { get; set; }
     public InstallInfo Install { get; internal set; }
     public UserInfo CurrentUser { get; internal set; }
     public SettingInfo UserSetting { get; internal set; }

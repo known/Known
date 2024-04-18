@@ -1,7 +1,4 @@
-﻿using Known.Entities;
-using Known.WorkFlows;
-
-namespace Known.Extensions;
+﻿namespace Known.Extensions;
 
 public static class ModelExtension
 {

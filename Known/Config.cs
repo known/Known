@@ -1,9 +1,4 @@
-﻿using System.Reflection;
-using Known.Blazor;
-using Known.WorkFlows;
-using Microsoft.AspNetCore.Components.Web;
-
-namespace Known;
+﻿namespace Known;
 
 public sealed class Config
 {
@@ -27,12 +22,13 @@ public sealed class Config
     internal static Dictionary<string, Type> FormTypes { get; } = [];
     internal static Dictionary<string, Type> PageTypes { get; } = [];
 
-    public static void AddModule(Assembly assembly)
+    public static void AddModule(Assembly assembly, bool isAdditional = true)
     {
         if (assembly == null)
             return;
 
-        Assemblies.Add(assembly);
+        if (isAdditional)
+            Assemblies.Add(assembly);
         AddActions(assembly);
 
         foreach (var item in assembly.GetTypes())
@@ -58,7 +54,7 @@ public sealed class Config
     {
         Version = new VersionInfo(App.Assembly);
         AddModule(typeof(Config).Assembly);
-        AddModule(App.Assembly);
+        AddModule(App.Assembly, false);
     }
 
     internal static string GetUploadPath(bool isWeb = false)

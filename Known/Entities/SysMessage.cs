@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Known.Entities;
+﻿namespace Known.Entities;
 
 /// <summary>
 /// 用户消息实体类。

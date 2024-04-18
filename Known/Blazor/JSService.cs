@@ -1,9 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.JSInterop;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 public class JSService
 {
@@ -92,7 +87,7 @@ public class JSService
     #endregion
 
     #region Print
-    public async Task PrintAsync<T>(Action<ComponentRenderer<T>> action) where T : IComponent
+    public async Task PrintAsync<T>(Action<ComponentRenderer<T>> action) where T : Microsoft.AspNetCore.Components.IComponent
     {
         var services = new ServiceCollection();
         services.AddScoped<IJSRuntime, PrintJSRuntime>();

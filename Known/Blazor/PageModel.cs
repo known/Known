@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 public class PageModel
 {

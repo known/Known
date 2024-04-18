@@ -1,4 +1,5 @@
-﻿using Known.Shared;
+﻿using Known;
+using Known.Shared;
 using Toolbelt.Extensions.DependencyInjection;
 
 #if DEBUG
@@ -35,6 +36,7 @@ app.UseHttpsRedirection();
 app.UseAntiforgery();
 app.UseApp();
 app.MapRazorComponents<Known.Web.App>()
+   .AddAdditionalAssemblies([.. Config.Assemblies])
    .AddInteractiveServerRenderMode();
 app.UseCssLiveReload();
 app.Run();

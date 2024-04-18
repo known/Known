@@ -1,10 +1,4 @@
-﻿using Known.Blazor;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
-
-namespace Known.Designers;
+﻿namespace Known.Designers;
 
 class ColumnPanel<TModel> : BaseComponent
 {

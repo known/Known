@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Known.Entities;
+﻿namespace Known.Entities;
 
 /// <summary>
 /// 组织架构实体类。

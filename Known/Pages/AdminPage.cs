@@ -1,7 +1,4 @@
-﻿using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-
-namespace Known.Blazor;
+﻿namespace Known.Pages;
 
 public class AdminPage : BaseComponent
 {

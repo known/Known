@@ -1,7 +1,4 @@
-﻿using Known.Entities;
-using Known.Repositories;
-
-namespace Known.Services;
+﻿namespace Known.Services;
 
 class ModuleService(Context context) : ServiceBase(context)
 {

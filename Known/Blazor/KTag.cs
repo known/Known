@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 public class KTag : BaseComponent
 {

@@ -1,8 +1,4 @@
-﻿using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
-
-namespace Known.Blazor;
+﻿namespace Known.Pages;
 
 public class IndexPage : BaseComponent
 {

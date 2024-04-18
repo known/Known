@@ -1,11 +1,7 @@
-﻿using Known.Extensions;
-using Known.Weixins;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿namespace Known.Pages;
 
-namespace Known.Blazor;
-
-class SysSystem : BaseTabPage
+[Route("/sys/info")]
+public class SysSystem : BaseTabPage
 {
     private SysSystemInfo info;
     private SysSystemSafe safe;

@@ -1,11 +1,4 @@
-﻿using System.Collections.Concurrent;
-using Known.Designers;
-using Known.Entities;
-using Known.Helpers;
-using Known.Repositories;
-using Known.Weixins;
-
-namespace Known.Services;
+﻿namespace Known.Services;
 
 class AuthService(Context context) : ServiceBase(context)
 {

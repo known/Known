@@ -1,9 +1,4 @@
-﻿using Known.Blazor;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.CompilerServices;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Extensions;
+﻿namespace Known.Extensions;
 
 public static class ComponentExtension
 {
@@ -18,12 +13,12 @@ public static class ComponentExtension
     }
 
     #region Component
-    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder) where T : notnull, IComponent
+    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder) where T : notnull, Microsoft.AspNetCore.Components.IComponent
     {
         return new ComponentBuilder<T>(builder);
     }
 
-    internal static void Component<T>(this RenderTreeBuilder builder, Action<ComponentBuilder<T>> child) where T : notnull, IComponent
+    internal static void Component<T>(this RenderTreeBuilder builder, Action<ComponentBuilder<T>> child) where T : notnull, Microsoft.AspNetCore.Components.IComponent
     {
         var attr = new ComponentBuilder<T>(builder);
         child?.Invoke(attr);

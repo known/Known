@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 class BlazorAttachFile : IAttachFile
 {

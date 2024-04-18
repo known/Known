@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Known.WorkFlows;
+﻿namespace Known.WorkFlows;
 
 /// <summary>
 /// 工作流实体类。

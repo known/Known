@@ -1,7 +1,4 @@
-﻿using System.Text;
-using Known.Extensions;
-
-namespace Known;
+﻿namespace Known;
 
 public interface ICodeGenerator
 {

@@ -1,12 +1,7 @@
-﻿using Known.Entities;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
+﻿namespace Known.Pages;
 
-namespace Known.Blazor;
-
-class SysUserProfile : BasePage<SysUser>
+[Route("/profile")]
+public class SysUserProfile : BasePage<SysUser>
 {
     private SysUserProfileInfo info;
     private SysUserProfileTabs tabs;

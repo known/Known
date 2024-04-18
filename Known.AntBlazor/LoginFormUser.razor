@@ -3,7 +3,7 @@
 <Form @ref="form" Class="@FormStyle" Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateMode="@FormValidateMode.Rules">
     <FormItem Label="" Required Rules="@Context.RuleRequired("UserName")">
         <Input @bind-Value="@context.UserName" Placeholder="@Language["UserName"]">
-            <Prefix><Icon Type="user" /></Prefix>
+        <Prefix><Icon Type="user" /></Prefix>
         </Input>
     </FormItem>
     <FormItem Label="" Required Rules="@Context.RuleRequired("Password")">
@@ -48,7 +48,7 @@
     protected override async Task OnInitAsync()
     {
         if (Stations == null)
-            IsCaptcha = Context.Install.System.IsLoginCaptcha;
+            IsCaptcha = Context.Install != null && Context.Install.System != null && Context.Install.System.IsLoginCaptcha;
         await base.OnInitAsync();
     }
 

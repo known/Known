@@ -1,7 +1,4 @@
-﻿using Known.Entities;
-using Known.Extensions;
-
-namespace Known.Repositories;
+﻿namespace Known.Repositories;
 
 class ModuleRepository
 {

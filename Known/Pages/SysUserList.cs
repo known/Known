@@ -1,56 +1,53 @@
-﻿using Known.Entities;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿namespace Known.Pages;
 
-namespace Known.Blazor;
-
-class SysUserList : BasePage<SysUser>
+[Route("/sys/users")]
+public class SysUserList : BasePage<SysUser>
 {
     private List<SysOrganization> orgs;
     private SysOrganization currentOrg;
-	private TreeModel tree;
-	private TableModel<SysUser> table;
+    private TreeModel tree;
+    private TableModel<SysUser> table;
 
-	protected override async Task OnInitPageAsync()
+    protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
 
-		orgs = await Platform.Company.GetOrganizationsAsync();
-		var hasOrg = orgs != null && orgs.Count > 1;
-		if (hasOrg)
-		{
-			Page.Type = PageType.Column;
-			Page.Spans = "28";
+        orgs = await Platform.Company.GetOrganizationsAsync();
+        var hasOrg = orgs != null && orgs.Count > 1;
+        if (hasOrg)
+        {
+            Page.Type = PageType.Column;
+            Page.Spans = "28";
 
-			currentOrg = orgs[0];
-			tree = new TreeModel
-			{
-				ExpandRoot = true,
-				Data = orgs.ToMenuItems(),
-				OnNodeClick = OnNodeClick,
-				SelectedKeys = [currentOrg.Id]
-			};
+            currentOrg = orgs[0];
+            tree = new TreeModel
+            {
+                ExpandRoot = true,
+                Data = orgs.ToMenuItems(),
+                OnNodeClick = OnNodeClick,
+                SelectedKeys = [currentOrg.Id]
+            };
 
             Page.AddItem("kui-card", BuildTree);
         }
 
-		table = new TableModel<SysUser>(this)
-		{
-			RowKey = r => r.Id,
-			OnQuery = OnQueryUsersAsync,
-			OnAction = OnActionClick
-		};
+        table = new TableModel<SysUser>(this)
+        {
+            RowKey = r => r.Id,
+            OnQuery = OnQueryUsersAsync,
+            OnAction = OnActionClick
+        };
         table.Toolbar.OnItemClick = OnToolClick;
-		table.Column(c => c.Gender).Template(BuildGender);
+        table.Column(c => c.Gender).Template(BuildGender);
         Page.AddItem(BuildTable);
     }
 
     public override Task RefreshAsync() => table.RefreshAsync();
 
     private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
-	private void BuildTable(RenderTreeBuilder builder) => builder.BuildTable(table);
+    private void BuildTable(RenderTreeBuilder builder) => builder.BuildTable(table);
 
-	private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
+    private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
     {
         if (currentOrg != null)
             criteria.Parameters[nameof(SysUser.OrgNo)] = currentOrg?.Id;

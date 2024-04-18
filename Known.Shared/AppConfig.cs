@@ -1,7 +1,6 @@
 ﻿using Coravel;
 using Coravel.Invocable;
 using Known.AntBlazor;
-using Known.BootBlazor;
 using Known.Cells;
 using Known.Demo;
 using Known.Helpers;
@@ -58,8 +57,6 @@ public static class AppConfig
         //3.添加UI扩展库
         //添加KnownAntDesign
         services.AddKnownAntDesign();
-        //添加KnownBootstrap
-        services.AddKnownBootstrap();
 
         //4.添加Demo
         services.AddDemoModule();

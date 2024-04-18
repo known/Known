@@ -1,11 +1,7 @@
-﻿using Known.Entities;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿namespace Known.Pages;
 
-namespace Known.Blazor;
-
-class SysDictionaryList : BaseTablePage<SysDictionary>
+[Route("/sys/dictionaries")]
+public class SysDictionaryList : BaseTablePage<SysDictionary>
 {
     private List<CodeInfo> categories;
     private bool isAddCategory;

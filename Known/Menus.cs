@@ -1,12 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using Known.Entities;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-
-namespace Known;
+﻿namespace Known;
 
 public class MenuInfo
 {
