@@ -16,6 +16,7 @@ public sealed class Config
     public static Action OnExit { get; set; }
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
+    public static List<Assembly> Assemblies { get; set; } = [];
     internal static DateTime StartTime { get; set; } = DateTime.Now;
     internal static bool IsClearCache { get; set; }
     internal static bool IsAuth { get; set; } = true;
@@ -31,6 +32,7 @@ public sealed class Config
         if (assembly == null)
             return;
 
+        Assemblies.Add(assembly);
         AddActions(assembly);
 
         foreach (var item in assembly.GetTypes())

@@ -1,11 +1,12 @@
 ﻿@using AntDesign
+@using Known.AntBlazor
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Routing
 @inherits Known.Blazor.BaseComponent
 
 <CascadingAuthenticationState>
     <CascadingValue Value="Context">
-        <Router AppAssembly="typeof(App).Assembly">
+        <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="@Config.Assemblies">
             <Found Context="routeData">
                 <AuthorizeRouteView RouteData="@routeData">
                     <Authorizing></Authorizing>
