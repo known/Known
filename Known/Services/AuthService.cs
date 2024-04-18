@@ -83,6 +83,9 @@ class AuthService(Context context) : ServiceBase(context)
 
     public async Task<AdminInfo> GetAdminAsync()
     {
+        if (CurrentUser == null)
+            return new AdminInfo();
+
         await Database.OpenAsync();
         await DataHelper.InitializeAsync(Platform.Module);
         var admin = new AdminInfo

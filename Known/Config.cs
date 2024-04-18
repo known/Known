@@ -54,7 +54,7 @@ public sealed class Config
     {
         Version = new VersionInfo(App.Assembly);
         AddModule(typeof(Config).Assembly);
-        AddModule(App.Assembly, false);
+        AddModule(App.Assembly);
     }
 
     internal static string GetUploadPath(bool isWeb = false)

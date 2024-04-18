@@ -1,9 +1,12 @@
-﻿namespace Known.Blazor;
+﻿namespace Known.Pages;
 
 public class LoginPage : BaseComponent
 {
+    [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
+
     protected LoginFormInfo Model = new();
 
+    public virtual string LogoUrl => Context.LogoUrl;
     [Parameter] public Func<UserInfo, Task> OnLogin { get; set; }
 
     protected override async Task OnInitAsync()
@@ -27,6 +30,15 @@ public class LoginPage : BaseComponent
         //    else
         //        ShowWeixinQRCode(uri, user);
         //}
+    }
+
+    protected void SetTheme(string theme)
+    {
+        if (!Config.App.IsTheme)
+            return;
+
+        Context.Theme = theme;
+        StateChanged();
     }
 
     protected virtual void OnSigning() { }
@@ -59,7 +71,16 @@ public class LoginPage : BaseComponent
         else
         {
             var user = result.DataAs<UserInfo>();
-            await OnLogin?.Invoke(user);
+            await SetCurrentUserAsync(user);
+            Navigation.NavigateTo("/", true);
+        }
+    }
+
+    protected virtual async Task SetCurrentUserAsync(UserInfo user)
+    {
+        if (AuthProvider is IAuthStateProvider provider)
+        {
+            await provider.UpdateUserAsync(user);
         }
     }
 

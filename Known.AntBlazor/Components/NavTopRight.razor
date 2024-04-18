@@ -19,7 +19,7 @@
     @if (Config.App.IsTheme)
     {
         <SpaceItem>
-            <AntTheme Theme="@Index.Theme" OnChanged="Index.SetTheme" />
+            <AntTheme Theme="@Context.Theme" OnChanged="Index.SetTheme" />
         </SpaceItem>
     }
     <SpaceItem Class="kui-nav-setting">

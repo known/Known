@@ -1,6 +1,5 @@
 ﻿namespace Known.Pages;
 
-[Route("/install")]
 public class InstallPage : BaseForm<InstallInfo>
 {
     [Parameter] public RenderFragment TopMenu { get; set; }
@@ -8,12 +7,8 @@ public class InstallPage : BaseForm<InstallInfo>
 
     protected override async Task OnInitFormAsync()
     {
-        Model = new FormModel<InstallInfo>(Context)
-        {
-            LabelSpan = 6,
-            Data = Context.Install
-        };
-
+        var data = await Platform.System.GetInstallAsync();
+        Model = new FormModel<InstallInfo>(Context) { LabelSpan = 6, Data = data };
         await base.OnInitFormAsync();
     }
 

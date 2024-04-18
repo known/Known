@@ -41,19 +41,14 @@ class WebAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 
     public async Task UpdateUserAsync(UserInfo user)
     {
-        ClaimsPrincipal principal;
-
-        if (user != null)
-        {
-            await sessionStorage.SetAsync(KeyUser, user);
-            principal = GetPrincipal(user);
-        }
-        else
+        if (user == null)
         {
             await sessionStorage.DeleteAsync(KeyUser);
-            principal = anonymous;
+            return;
         }
 
+        await sessionStorage.SetAsync(KeyUser, user);
+        var principal = GetPrincipal(user);
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
     }
 

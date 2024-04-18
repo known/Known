@@ -1,4 +1,5 @@
-﻿@inherits IndexPage
+﻿@page "/"
+@inherits IndexPage
 @inject INotificationService _notice
 
 <PageTitle>@AppConfig.Branch - @Language["App.SubTitle"]</PageTitle>
@@ -7,25 +8,7 @@
     <CascadingValue Value="this">
         @if (IsLoaded)
         {
-            @if (!Context.Install.IsInstalled)
-            {
-                <InstallPage OnInstall="OnInstall">
-                    <TopMenu>
-                        <ul class="kui-menu">
-                            <li style="text-align:center;"><AntLanguage OnChanged="StateChanged" /></li>
-                            <li style="margin-left:15px;"><AntTheme Theme="@Theme" OnChanged="SetTheme" /></li>
-                        </ul>
-                    </TopMenu>
-                </InstallPage>
-            }
-            else if (!IsLogin)
-            {
-                <Known.Shared.Login OnLogin="OnLogin" />
-            }
-            else
-            {
-                <Known.AntBlazor.Admin OnLogout="OnLogout" />
-            }
+            <Known.AntBlazor.Admin OnLogout="OnLogout" />
         }
     </CascadingValue>
 </KError>

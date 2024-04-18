@@ -1,11 +1,10 @@
 ﻿using Known.Designers;
 using Known.Entities;
 using Known.Extensions;
-using Known.Pages;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace Known.Blazor;
+namespace Known.Pages;
 
 class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 {

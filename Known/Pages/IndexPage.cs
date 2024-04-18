@@ -6,22 +6,34 @@ public class IndexPage : BaseComponent
     [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
 
     protected bool IsLogin { get; private set; }
-    public string Theme { get; private set; }
-    public virtual string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";
+    public virtual string LogoUrl => Context.LogoUrl;
 
     protected override async Task OnInitAsync()
     {
         IsLoaded = false;
         if (Config.App.IsTheme)
-            Theme = await JS.GetCurrentThemeAsync();
+            Context.Theme = await JS.GetCurrentThemeAsync();
         Context.Host = HttpContext.GetHostUrl();
         Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
         Context.Install = await Platform.System.GetInstallAsync();
-        Context.CurrentUser = await GetCurrentUserAsync();
-        IsLogin = Context.CurrentUser != null;
-        if (IsLogin)
-            await ShowNoticeAsync(Context.CurrentUser);
-        IsLoaded = true;
+        if (!Context.Install.IsInstalled)
+        {
+            Navigation.NavigateTo("/install", true);
+        }
+        else
+        {
+            Context.CurrentUser = await GetCurrentUserAsync();
+            IsLogin = Context.CurrentUser != null;
+            if (IsLogin)
+            {
+                await ShowNoticeAsync(Context.CurrentUser);
+                IsLoaded = true;
+            }
+            else
+            {
+                Navigation.NavigateTo("/login", true);
+            }
+        }
     }
 
     public void SetTheme(string theme)
@@ -29,7 +41,7 @@ public class IndexPage : BaseComponent
         if (!Config.App.IsTheme)
             return;
 
-        Theme = theme;
+        Context.Theme = theme;
         StateChanged();
     }
 
@@ -68,27 +80,28 @@ public class IndexPage : BaseComponent
         StateChanged();
     }
 
-    protected async Task OnLogin(UserInfo user)
-    {
-        await SetUserInfoAsync(user);
-        await ShowNoticeAsync(user);
-        StateChanged();
-    }
+    //protected async Task OnLogin(UserInfo user)
+    //{
+    //    await SetUserInfoAsync(user);
+    //    await ShowNoticeAsync(user);
+    //    StateChanged();
+    //}
 
     protected async Task OnLogout()
     {
         Context.CurrentUser = null;
         IsLogin = false;
         await SetCurrentUserAsync(null);
-        StateChanged();
+        //StateChanged();
+        Navigation.NavigateTo("/login", true);
     }
 
     protected virtual Task ShowNoticeAsync(UserInfo user) => Task.CompletedTask;
 
-    private async Task SetUserInfoAsync(UserInfo user)
-    {
-        Context.CurrentUser = user;
-        IsLogin = Context.CurrentUser != null;
-        await SetCurrentUserAsync(user);
-    }
+    //private async Task SetUserInfoAsync(UserInfo user)
+    //{
+    //    Context.CurrentUser = user;
+    //    IsLogin = Context.CurrentUser != null;
+    //    await SetCurrentUserAsync(user);
+    //}
 }

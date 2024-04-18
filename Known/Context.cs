@@ -22,6 +22,8 @@ public class Context
 
     public IUIService UI { get; }
     public string Host { get; set; }
+    public string Theme { get; set; }
+    public string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";
     public InstallInfo Install { get; internal set; }
     public UserInfo CurrentUser { get; internal set; }
     public SettingInfo UserSetting { get; internal set; }
