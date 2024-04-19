@@ -242,6 +242,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     internal void SetPage(BasePage page)
     {
         Page = page;
+        Name = page.PageName;
         Module = page.Context.Module;
         Form.LoadInfo(Module?.Form);
         SetPage(Module?.Page);

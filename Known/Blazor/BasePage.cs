@@ -14,17 +14,18 @@ public class BasePage : BaseComponent
 
     protected override async Task OnInitAsync()
     {
+        InitMenu();
         await base.OnInitAsync();
         await OnInitPageAsync();
         await AddVisitLogAsync();
     }
 
-    protected virtual Task OnInitPageAsync() => InitModuleAsync();
+    protected virtual Task OnInitPageAsync() => Task.CompletedTask;
 
     protected override async Task OnSetParametersAsync()
     {
         await base.OnSetParametersAsync();
-        await InitModuleAsync();
+        InitMenu();
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -48,22 +49,6 @@ public class BasePage : BaseComponent
 
         Id = Menu.Id;
         Name = Menu.Name;
-    }
-
-    private async Task InitModuleAsync()
-    {
-        if (!string.IsNullOrWhiteSpace(PageId))
-        {
-            Context.Module = await Platform.Module.GetModuleAsync(PageId);
-        }
-        else
-        {
-            var baseUrl = Navigation.BaseUri.TrimEnd('/');
-            PageUrl = Navigation.Uri.Replace(baseUrl, "").TrimEnd('/');
-            if (!string.IsNullOrWhiteSpace(PageUrl))
-                Context.Module = await Platform.Module.GetModuleByUrlAsync(PageUrl);
-        }
-        InitMenu();
     }
 }
 

@@ -3,7 +3,7 @@
 class AdvancedSearch : BaseComponent
 {
     private EntityInfo entity;
-    private string SettingKey => $"UserSearch_{Context.Module.Id}";
+    private string SettingKey => $"UserSearch_{Context.Current.Id}";
     private List<QueryInfo> Query { get; } = [];
 
     internal async Task<List<QueryInfo>> SaveQueryAsync()
@@ -15,8 +15,7 @@ class AdvancedSearch : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-
-        entity = DataHelper.GetEntity(Context.Module.EntityData);
+        entity = DataHelper.GetEntity(Context.Module?.EntityData);
         Query.Clear();
         var items = await Platform.Setting.GetUserSettingAsync<List<QueryInfo>>(SettingKey);
         if (items != null && items.Count > 0)

@@ -49,7 +49,8 @@ public class AutoColumn<TItem> : BaseComponent where TItem : class, new()
         var columnType = typeof(Column<>).MakeGenericType(propertyType);
         var value = TypeHelper.GetPropertyValue(Item, item.Id);
         builder.OpenComponent(0, columnType);
-        builder.AddAttribute(1, nameof(Column<TItem>.DataIndex), item.Id);
+        //TODO:设置此属性数据类型转换有问题，不设置排序无效
+        //builder.AddAttribute(1, nameof(Column<TItem>.DataIndex), item.Id);
         AddAttributes(builder, item, value);
         builder.CloseComponent();
     }
@@ -90,6 +91,8 @@ public class AutoColumn<TItem> : BaseComponent where TItem : class, new()
 
     private void AddAttributes(RenderTreeBuilder builder, ColumnInfo item, object value)
     {
+        //暂不支持排序
+        item.IsSort = false;
         var title = Language?.GetString<TItem>(item);
         builder.AddAttribute(1, nameof(Column<TItem>.Ellipsis), true);
         builder.AddAttribute(1, nameof(Column<TItem>.Title), title);
@@ -108,10 +111,6 @@ public class AutoColumn<TItem> : BaseComponent where TItem : class, new()
             builder.AddAttribute(1, nameof(Column<TItem>.DefaultSortOrder), SortDirection.Parse(sortName));
         }
         //builder.AddAttribute(1, nameof(Column<TItem>.Filterable), true);
-        if (item.Type == FieldType.Date)
-            builder.AddAttribute(1, nameof(Column<TItem>.Format), "yyyy-MM-dd");
-        if (item.Type == FieldType.DateTime)
-            builder.AddAttribute(1, nameof(Column<TItem>.Format), "yyyy-MM-dd HH:mm:ss");
 
         RenderFragment<TItem> template = null;
         Table.Templates?.TryGetValue(item.Id, out template);
@@ -135,6 +134,16 @@ public class AutoColumn<TItem> : BaseComponent where TItem : class, new()
             {
                 b.Link($"{value}", this.Callback(() => Table.ViewForm(Item)));
             }));
+        }
+        else
+        {
+            //使用模板解决DataIndex数据类型转换问题
+            var text = $"{value}";
+            if (item.Type == FieldType.Date)
+                text = $"{value:yyyy-MM-dd}";
+            if (item.Type == FieldType.DateTime)
+                text = $"{value:yyyy-MM-dd HH:mm:ss}";
+            builder.AddAttribute(1, nameof(Column<TItem>.ChildContent), this.BuildTree(b => b.Span(text)));
         }
     }
 

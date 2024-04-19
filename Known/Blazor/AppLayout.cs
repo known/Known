@@ -108,13 +108,14 @@ public class AppLayout : LayoutComponentBase
 
     public void NavigateTo(string url) => Navigation.NavigateTo(url);
 
-    public void NavigateTo(MenuItem item)
+    public async void NavigateTo(MenuItem item)
     {
         if (item == null)
             return;
 
         CurrentMenu = item;
         Context.Current = item;
+        Context.Module = await Platform.Module.GetModuleAsync(item.Id);
 
         var url = item.Url;
         if (string.IsNullOrWhiteSpace(url) || item.Target == ModuleType.IFrame.ToString())
