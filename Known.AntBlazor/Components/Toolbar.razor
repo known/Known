@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-@if (Model.HasItem)
+@if (Model != null && Model.HasItem)
 {
     var items = Model.Items.Where(i => i.Visible).ToList();
     <div class="ant-toolbar">
@@ -45,6 +45,9 @@
 
     protected override void OnInitialized()
     {
+        if (Model == null)
+            return;
+
         Model.OnRefresh = StateChanged;
         base.OnInitialized();
     }

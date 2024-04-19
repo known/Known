@@ -58,6 +58,21 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            await base.OnParametersSetAsync();
+            await OnSetParametersAsync();
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            if (Error != null)
+                await Error.HandleAsync(ex);
+        }
+    }
+
     protected override async void BuildRenderTree(RenderTreeBuilder builder)
     {
         try
@@ -73,6 +88,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     }
 
     protected virtual Task OnInitAsync() => Task.CompletedTask;
+    protected virtual Task OnSetParametersAsync() => Task.CompletedTask;
     protected virtual void BuildRender(RenderTreeBuilder builder) { }
     protected virtual ValueTask DisposeAsync(bool disposing) => ValueTask.CompletedTask;
 

@@ -1,0 +1,64 @@
+﻿@inherits BaseComponent
+
+<div class="kui-query">
+    <QueryForm Model="current?.Table" />
+</div>
+
+<div class="kui-table">
+    <Tabs Animated @bind-ActiveKey="@activeKey" OnChange="OnTabChange">
+        <TabBarExtraContentLeft>
+            <KTitle Text="@Name" />
+        </TabBarExtraContentLeft>
+        <ChildContent>
+            @if (Model != null && Model.HasItem)
+            {
+                foreach (var item in Model.Items)
+                {
+                    <TabPane Key="@item.Id" Tab="@Language?.GetTitle(item.Title)">
+                        @if (item.Content != null)
+                        {
+                            @item.Content
+                        }
+                        else if (ChildContent != null)
+                        {
+                            @ChildContent?.Invoke(item)
+                        }
+                    </TabPane>
+                }
+            }
+        </ChildContent>
+        <TabBarExtraContentRight>
+            <Toolbar Model="current?.Table?.Toolbar" />
+        </TabBarExtraContentRight>
+    </Tabs>
+</div>
+
+@code {
+    private ItemModel current;
+    private string activeKey;
+
+    [Parameter] public TabModel Model { get; set; }
+    [Parameter] public Action<ItemModel, ActionInfo> OnToolbarChanged { get; set; }
+    [Parameter] public RenderFragment<ItemModel> ChildContent { get; set; }
+
+    private async void OnTabChange(string tab)
+    {
+        current = Model?.Items?.FirstOrDefault(t => t.Id == tab);
+
+        if (current == null)
+            return;
+
+        if (current.Table != null)
+        {
+            if (current.Table.HasToolbar)
+            {
+                foreach (var item in current.Table.Toolbar.Items)
+                {
+                    OnToolbarChanged?.Invoke(current, item);
+                }
+                current.Table.Toolbar.Refresh();
+            }
+            await current.Table.RefreshAsync();
+        }
+    }
+}

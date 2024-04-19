@@ -1,7 +1,6 @@
 ﻿@inherits BaseComponent
-@typeparam TItem where TItem : class, new()
 
-@if (Model.QueryColumns != null && Model.QueryColumns.Count > 0)
+@if (Model != null && Model.QueryColumns != null && Model.QueryColumns.Count > 0)
 {
     if (Model.QueryColumns.Count > 3)
     {
@@ -16,7 +15,7 @@
                     @for (var i = 0; i < count; i++)
                     {
                         var item = Model.QueryColumns[i];
-                        var itemName = Language.GetString<TItem>(item);
+                        var itemName = Language.GetString(item);
                         <GridCol Span="6">
                             <QueryItem Label="@itemName" Item="item" Data="context" OnSearch="OnSearchAsync" />
                         </GridCol>
@@ -48,7 +47,7 @@
                 @for (var i = 0; i < Model.QueryColumns.Count; i++)
                 {
                     var item = Model.QueryColumns[i];
-                    var itemName = Language.GetString<TItem>(item);
+                    var itemName = Language.GetString(item);
                     <QueryItem IsInline Label="@itemName" Item="item" Data="context" OnSearch="OnSearchAsync" />
                 }
                 <div class="ant-query-btn">
@@ -69,7 +68,7 @@
     private AntDesign.Internal.IForm _form;
     private bool IsAdvSearch => AdvSearch || Model.AdvSearch;
 
-    [Parameter] public TableModel<TItem> Model { get; set; }
+    [Parameter] public TableModel Model { get; set; }
     [Parameter] public bool AdvSearch { get; set; }
 
     private async Task OnSearchAsync()

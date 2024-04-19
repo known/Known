@@ -7,6 +7,7 @@ public class ItemModel(string id, string title)
     public string SubTitle { get; set; }
     public string Description { get; set; }
     public RenderFragment Content { get; set; }
+    public TableModel Table { get; set; }
 }
 
 public class TabModel
@@ -23,6 +24,11 @@ public class TabModel
     public void AddTab(string id, string title)
     {
         Items.Add(new ItemModel(id, title));
+    }
+
+    public void AddTab(string id, string title, TableModel table)
+    {
+        Items.Add(new ItemModel(id, title) { Table = table });
     }
 
     public void AddTab(string id, RenderFragment content) => AddTab(id, id, content);

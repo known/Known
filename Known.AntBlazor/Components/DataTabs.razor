@@ -13,7 +13,7 @@
                 <TabPane Key="@item" Tab="@item" />
             }
         }
-        else
+        else if (Model != null && Model.HasItem)
         {
             foreach (var item in Model.Items)
             {

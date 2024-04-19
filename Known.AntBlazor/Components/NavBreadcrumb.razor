@@ -7,10 +7,16 @@
     </BreadcrumbItem>
     @if (CurrentMenu.Parent != null)
     {
-        var parentName = Language.GetString(CurrentMenu.Parent);
+        if (CurrentMenu.Parent.Parent != null)
+        {
+            <BreadcrumbItem>
+                <Icon Type="@CurrentMenu.Parent.Parent.Icon" />
+                <span>@Language.GetString(CurrentMenu.Parent.Parent)</span>
+            </BreadcrumbItem>
+        }
         <BreadcrumbItem>
             <Icon Type="@CurrentMenu.Parent.Icon" />
-            <span>@parentName</span>
+            <span>@Language.GetString(CurrentMenu.Parent)</span>
         </BreadcrumbItem>
     }
     @if (CurrentMenu.Name != "Home")

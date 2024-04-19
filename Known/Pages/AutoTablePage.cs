@@ -15,9 +15,9 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         await base.RefreshAsync();
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnSetParametersAsync()
     {
-        await base.OnParametersSetAsync();
+        await base.OnSetParametersAsync();
         if (pageId != PageId)
         {
             pageId = PageId;

@@ -241,9 +241,9 @@ public class UIService(ModalService modalService, MessageService messageService)
         builder.Component<Toolbar>().Set(c => c.Model, model).Build();
     }
 
-    public void BuildQuery<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
+    public void BuildQuery(RenderTreeBuilder builder, TableModel model)
     {
-        builder.Component<QueryForm<TItem>>().Set(c => c.Model, model).Build();
+        builder.Component<QueryForm>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTable<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()

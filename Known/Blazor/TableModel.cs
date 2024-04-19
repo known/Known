@@ -1,6 +1,46 @@
 ﻿namespace Known.Blazor;
 
-public class TableModel<TItem> : BaseModel where TItem : class, new()
+public class TableModel : BaseModel
+{
+    public TableModel(Context context) : base(context) { }
+
+    public bool AdvSearch { get; set; }
+    public List<ColumnInfo> QueryColumns { get; } = [];
+    public Dictionary<string, QueryInfo> QueryData { get; } = [];
+    public PagingCriteria Criteria { get; } = new();
+    public Func<Task> OnRefresh { get; set; }
+    public ToolbarModel Toolbar { get; } = new();
+
+    public bool HasToolbar => Toolbar != null && Toolbar.HasItem;
+
+    public Task RefreshAsync()
+    {
+        if (OnRefresh == null)
+            return Task.CompletedTask;
+
+        return OnRefresh.Invoke();
+    }
+
+    public void ShowAdvancedSearch()
+    {
+        AdvancedSearch search = null;
+        var model = new DialogModel
+        {
+            Title = Language.AdvSearch,
+            Width = 700,
+            Content = b => b.Component<AdvancedSearch>().Build(value => search = value)
+        };
+        model.OnOk = async () =>
+        {
+            Criteria.Query = await search?.SaveQueryAsync();
+            await RefreshAsync();
+            await model.CloseAsync();
+        };
+        UI.ShowDialog(model);
+    }
+}
+
+public class TableModel<TItem> : TableModel where TItem : class, new()
 {
     public TableModel(Context context, bool isAuto = false) : base(context)
     {
@@ -29,7 +69,6 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public bool ShowToolbar { get; set; } = true;
     public bool ShowPager { get; set; }
     public bool Resizable { get; set; }
-    public bool AdvSearch { get; set; }
     public TableSelectType SelectType { get; set; }
     public string Name { get; set; }
     public string FixedWidth { get; set; }
@@ -38,11 +77,7 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public Type FormType { get; set; }
     public Func<TItem, string> FormTitle { get; set; }
     public TabModel Tab { get; } = new();
-    public ToolbarModel Toolbar { get; } = new();
     public List<ColumnInfo> Columns { get; } = [];
-    public List<ColumnInfo> QueryColumns { get; } = [];
-    public Dictionary<string, QueryInfo> QueryData { get; } = [];
-    public PagingCriteria Criteria { get; } = new();
     public PagingResult<TItem> Result { get; set; } = new();
     public List<ActionInfo> Actions { get; private set; } = [];
     public IEnumerable<TItem> SelectedRows { get; set; }
@@ -53,7 +88,6 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
     public Func<TItem, Task> OnRowClick { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }
-    public Func<Task> OnRefresh { get; set; }
     public Action OnRefreshed { get; set; }
     public List<TItem> DataSource { get; set; }
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
@@ -100,14 +134,6 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
     }
 
     public void AddAction(string idOrName) => Actions.Add(new ActionInfo(idOrName));
-
-    public Task RefreshAsync()
-    {
-        if (OnRefresh == null)
-            return Task.CompletedTask;
-
-        return OnRefresh.Invoke();
-    }
 
     public void ViewForm(TItem row) => ViewForm(FormViewType.View, row);
 
@@ -211,24 +237,6 @@ public class TableModel<TItem> : BaseModel where TItem : class, new()
                 UI.Result(result, async () => await PageRefreshAsync());
             }
         });
-    }
-
-    public void ShowAdvancedSearch()
-    {
-        AdvancedSearch search = null;
-        var model = new DialogModel
-        {
-            Title = Language.AdvSearch,
-            Width = 700,
-            Content = b => b.Component<AdvancedSearch>().Build(value => search = value)
-        };
-        model.OnOk = async () =>
-        {
-            Criteria.Query = await search?.SaveQueryAsync();
-            await RefreshAsync();
-            await model.CloseAsync();
-        };
-        UI.ShowDialog(model);
     }
 
     internal void SetPage(BasePage page)
