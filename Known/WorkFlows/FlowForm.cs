@@ -1,14 +1,14 @@
 ﻿namespace Known.WorkFlows;
 
-public class BaseFlowForm<TItem> : BaseTabPage where TItem : FlowEntity, new()
+public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
 {
     private readonly StepModel step = new();
 
     [Parameter] public FormModel<TItem> Model { get; set; }
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnInitFormAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnInitFormAsync();
 
         var logs = await Platform.GetFlowLogsAsync(Model.Data.Id);
         Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build());
@@ -21,7 +21,7 @@ public class BaseFlowForm<TItem> : BaseTabPage where TItem : FlowEntity, new()
         step.Current = GetCurrentStep(logs);
     }
 
-    protected override void BuildPage(RenderTreeBuilder builder)
+    protected override void BuildForm(RenderTreeBuilder builder)
     {
         UI.BuildSteps(builder, step);
         UI.BuildTabs(builder, Tab);

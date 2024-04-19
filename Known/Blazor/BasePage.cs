@@ -4,7 +4,7 @@ public class BasePage : BaseComponent
 {
     internal MenuInfo Menu { get; set; }
 
-    [SupplyParameterFromQuery(Name = "id")]
+    [SupplyParameterFromQuery(Name = "pid")]
     public string PageId { get; set; }
     public string PageUrl { get; set; }
 

@@ -24,13 +24,15 @@ class ModuleRepository
 
     internal static Task<SysModule> GetModuleByUrlAsync(Database db, string url)
     {
-        var sql = "select * from SysModule where CompNo=@CompNo and Url=@url";
-        return db.QueryAsync<SysModule>(sql, new { db.User.CompNo, url });
+        var sql = "select * from SysModule where Url=@url";
+        return db.QueryAsync<SysModule>(sql, new { url });
     }
 
     internal static async Task<bool> ExistsChildAsync(Database db, string id)
     {
         var sql = "select count(*) from SysModule where ParentId=@id";
+        if (db.User != null)
+            sql += $" and CompNo='{db.User.CompNo}'";
         return await db.ScalarAsync<int>(sql, new { id }) > 0;
     }
 }

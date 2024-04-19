@@ -3,12 +3,12 @@
 //申请表单，继承流程表单基类
 class ApplyForm : BaseFlowForm<TbApply>
 {
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnInitFormAsync()
     {
         //添加表单信息Tab
         Tab.AddTab("BasicInfo", BuildBaseInfo);
         Tab.AddTab("TableList", BuildBillList);
-        await base.OnInitPageAsync();
+        await base.OnInitFormAsync();
     }
 
     private void BuildBaseInfo(RenderTreeBuilder builder)

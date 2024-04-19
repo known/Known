@@ -110,7 +110,7 @@ public class AppLayout : LayoutComponentBase
 
     public void NavigateTo(MenuItem item)
     {
-        if (item == null || CurrentMenu == item)
+        if (item == null)
             return;
 
         CurrentMenu = item;
@@ -118,7 +118,7 @@ public class AppLayout : LayoutComponentBase
 
         var url = item.Url;
         if (string.IsNullOrWhiteSpace(url) || item.Target == ModuleType.IFrame.ToString())
-            url = $"/page?id={item.Id}";
+            url = $"/page?pid={item.Id}";
         NavigateTo(url);
     }
 

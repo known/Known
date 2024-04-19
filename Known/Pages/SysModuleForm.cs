@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-public class SysModuleForm : BaseStepPage
+public class SysModuleForm : BaseStepForm
 {
     private StepForm stepForm;
 
@@ -25,9 +25,9 @@ public class SysModuleForm : BaseStepPage
     [Parameter] public FormModel<SysModule> Model { get; set; }
     [Parameter] public bool IsPageEdit { get; set; }
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnInitFormAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnInitFormAsync();
 
         Model.OnFieldChanged = OnFieldChanged;
         if (!IsPageEdit)
@@ -43,7 +43,7 @@ public class SysModuleForm : BaseStepPage
         Entity ??= DataHelper.GetEntity(Model.Data.EntityData);
     }
 
-    protected override void BuildPage(RenderTreeBuilder builder)
+    protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.Cascading(this, b =>
         {

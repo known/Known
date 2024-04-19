@@ -121,3 +121,17 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
 
     private void OnEdit(bool edit) => isEdit = edit;
 }
+
+public class BaseTabForm : BaseForm
+{
+    protected TabModel Tab { get; } = new();
+
+    protected override void BuildForm(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
+}
+
+public class BaseStepForm : BaseForm
+{
+    protected StepModel Step { get; } = new();
+
+    protected override void BuildForm(RenderTreeBuilder builder) => UI.BuildSteps(builder, Step);
+}

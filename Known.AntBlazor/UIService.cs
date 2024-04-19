@@ -201,8 +201,8 @@ public class UIService(ModalService modalService, MessageService messageService)
         }
         else
         {
-            isTabForm = model.Type.IsSubclassOf(typeof(BaseTabPage));
-            isStepForm = model.Type.IsSubclassOf(typeof(BaseStepPage));
+            isTabForm = model.Type.IsSubclassOf(typeof(BaseTabForm));
+            isStepForm = model.Type.IsSubclassOf(typeof(BaseStepForm));
             var parameters = new Dictionary<string, object>
             {
                 { nameof(BaseForm<TItem>.Model), model }
