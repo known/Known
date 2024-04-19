@@ -17,7 +17,12 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         Table.Toolbar.OnItemClick = OnToolClick;
     }
 
-    protected override void BuildPage(RenderTreeBuilder builder) => builder.BuildTable(Table);
+    protected override void BuildPage(RenderTreeBuilder builder)
+    {
+        Table.Name = PageName;
+        Table.Module = Context.Module;
+        builder.BuildTable(Table);
+    }
 
     protected async void ShowImportForm(string param = null)
     {

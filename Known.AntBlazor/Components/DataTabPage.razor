@@ -5,7 +5,7 @@
 </div>
 
 <div class="kui-table">
-    <Tabs Animated @bind-ActiveKey="@activeKey" OnChange="OnTabChange">
+    <Tabs Animated @bind-ActiveKey="@ActiveKey" OnChange="OnTabChange">
         <TabBarExtraContentLeft>
             <KTitle Text="@Name" />
         </TabBarExtraContentLeft>
@@ -35,8 +35,8 @@
 
 @code {
     private ItemModel current;
-    private string activeKey;
 
+    [Parameter] public string ActiveKey { get; set; }
     [Parameter] public TabModel Model { get; set; }
     [Parameter] public Action<ItemModel, ActionInfo> OnToolbarChanged { get; set; }
     [Parameter] public RenderFragment<ItemModel> ChildContent { get; set; }
