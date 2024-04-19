@@ -1,12 +1,7 @@
-﻿using Known.Designers;
-using Known.Entities;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
+﻿namespace Known.Pages;
 
-namespace Known.Pages;
-
-class AutoTablePage : BaseTablePage<Dictionary<string, object>>
+[Route("/page")]
+public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 {
     private bool isEditPage;
     private string pageId;
@@ -33,6 +28,19 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
+        if (Context.Module == null)
+        {
+            UI.Build404Page(builder, PageId);
+            return;
+        }
+
+        var type = Utils.ConvertTo<ModuleType>(Context.Module.Target);
+        if (type == ModuleType.IFrame)
+        {
+            builder.IFrame(Context.Module.Url);
+            return;
+        }
+
         base.BuildPage(builder);
         if (CurrentUser != null && CurrentUser.UserName == "admin")
         {

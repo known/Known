@@ -8,6 +8,7 @@ public class Context
     public Context(IUIService ui)
     {
         UI = ui;
+        LogoUrl = Theme == "dark" ? "img/logo.png" : "img/logo1.png";
     }
 
     internal Context(string cultureName)
@@ -15,15 +16,13 @@ public class Context
         language = new Language(cultureName);
     }
 
-    internal Action<MenuItem> OnNavigate { get; set; }
-    internal Action OnRefreshPage { get; set; }
     internal MenuItem Current { get; set; }
     internal SysModule Module { get; set; }
 
     public IUIService UI { get; }
     public string Host { get; set; }
     public string Theme { get; set; }
-    public string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";
+    public string LogoUrl { get; set; }
     public InstallInfo Install { get; internal set; }
     public UserInfo CurrentUser { get; internal set; }
     public SettingInfo UserSetting { get; internal set; }
@@ -52,15 +51,6 @@ public class Context
         }
     }
 
-    public void Back()
-    {
-        if (Current == null || Current.Previous == null)
-            return;
-
-        Current = Current.Previous;
-        OnNavigate?.Invoke(Current);
-    }
-
     public List<MenuItem> GetMenus(List<string> menuIds)
     {
         if (menuIds == null || menuIds.Count == 0)
@@ -74,21 +64,5 @@ public class Context
                 menus.Add(new MenuItem(menu));
         }
         return menus;
-    }
-
-    public void RefreshPage() => OnRefreshPage?.Invoke();
-    public void NavigateToHome() => Navigate(Config.GetHomeMenu());
-    public void NavigateToUserProfile() => Navigate(Config.GetUserProfileMenu());
-
-    public void Navigate(MenuItem menu, Dictionary<string, object> prevParams = null)
-    {
-        if (menu == null)
-            return;
-
-        menu.Previous = Current;
-        if (menu.Previous != null && prevParams != null)
-            menu.Previous.ComParameters = prevParams;
-        Current = menu;
-        OnNavigate?.Invoke(Current);
     }
 }

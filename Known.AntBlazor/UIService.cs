@@ -227,6 +227,12 @@ public class UIService(ModalService modalService, MessageService messageService)
 
     public void BuildForm<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
     {
+        if (model == null || model.Data == null)
+        {
+            Logger.Info($"The data of {typeof(FormModel<TItem>)} cannot be null.");
+            return;
+        }
+
         builder.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
     }
 

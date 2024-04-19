@@ -1,14 +1,8 @@
-﻿using Known.Blazor;
-using Known.Demo.Entities;
-using Known.Demo.Services;
-using Known.Extensions;
-using Known.WorkFlows;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Demo.Pages.BizApply;
+﻿namespace Known.Demo.Pages.BizApply;
 
 //业务申请列表
-class BaApplyList : BaseTablePage<TbApply>
+[Route("/bas/applies")]
+public class BaApplyList : BaseTablePage<TbApply>
 {
     private ApplyService Service => new(Context);
 

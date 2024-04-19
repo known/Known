@@ -1,10 +1,4 @@
-﻿using Known.Demo.Entities;
-using Known.Demo.Repositories;
-using Known.Demo.WorkFlows;
-using Known.Extensions;
-using Known.WorkFlows;
-
-namespace Known.Demo.Services;
+﻿namespace Known.Demo.Services;
 
 //业务申请逻辑服务
 class ApplyService(Context context) : ServiceBase(context)

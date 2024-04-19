@@ -1,4 +1,5 @@
-﻿@inherits AppPage
+﻿@page "/app/mine"
+@inherits AppPage
 
 <div style="padding:50px 30px;text-align:center;">
     <Avatar Size="5rem" Src="@user?.AvatarUrl" />
@@ -11,7 +12,7 @@
                 <Icon Type="@context.Icon" />
                 <span>@context.Name</span>
             </div>
-            @if (context.ComType != null)
+            @if (!string.IsNullOrWhiteSpace(context.Url))
             {
                 <Icon Type="right" />
             }
@@ -37,18 +38,20 @@
             Id = "Profile",
             Name = Language.GetString("Title.MyProfile"),
             Icon = "user",
-            ComType = typeof(UserEditForm)
+            Url = "/profile/user",
+            Previous = App.CurrentMenu
         });
         items.Add(new Known.MenuItem
         {
             Id = "Password",
             Name = Language.GetString("Title.SecuritySetting"),
             Icon = "lock",
-            ComType = typeof(PasswordEditForm)
+            Url = "/profile/password",
+            Previous = App.CurrentMenu
         });
     }
 
-    private void OnItemClick(Known.MenuItem item) => App.Navigate(item);
+    private void OnItemClick(Known.MenuItem item) => App.NavigateTo(item);
 
     private void Logout()
     {
@@ -58,7 +61,7 @@
             var result = await Platform.SignOutAsync(user?.Token);
             if (result.IsValid)
             {
-                await App.LogoutAsync();
+                await App.SignOutAsync();
                 Config.OnExit?.Invoke();
             }
         });

@@ -19,7 +19,7 @@
     @if (Config.App.IsTheme)
     {
         <SpaceItem>
-            <AntTheme Theme="@Context.Theme" OnChanged="Index.SetTheme" />
+            <AntTheme Theme="@Context.Theme" OnChanged="SetTheme" />
         </SpaceItem>
     }
     <SpaceItem Class="kui-nav-setting">
@@ -36,8 +36,6 @@
         new ActionInfo { Id = "logout", Name = Language["Nav.Exit"], Icon = "poweroff" }
     ];
 
-    [CascadingParameter] private IndexPage Index { get; set; }
-
     [Parameter] public Action<string> OnMenuClick { get; set; }
 
     private void OnItemClick(string id) => OnMenuClick?.Invoke(id);
@@ -51,5 +49,14 @@
             await JS.CloseFullScreenAsync();
     }
 
-    private void OnLanguageChanged() => Context.RefreshPage();
+    private void OnLanguageChanged() => App.StateChanged();
+
+    private void SetTheme(string theme)
+    {
+        if (!Config.App.IsTheme)
+            return;
+
+        Context.Theme = theme;
+        StateChanged();
+    }
 }

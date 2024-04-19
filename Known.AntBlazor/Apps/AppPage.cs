@@ -2,5 +2,4 @@
 
 public class AppPage : BaseComponent
 {
-    [CascadingParameter] protected AppIndex App { get; set; }
 }

@@ -69,7 +69,7 @@
                 {
                     foreach (var item in visitMenus)
                     {
-                        <div class="ws-func-menu" @onclick="e => Context.Navigate(item)">
+                        <div class="ws-func-menu" @onclick="e=>App.NavigateTo(item)">
                             <Icon Type="@item.Icon" Theme="outline" />
                             <span class="name">@Language.GetString(item)</span>
                         </div>

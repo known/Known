@@ -1,33 +1,18 @@
 ﻿@page "/"
-@inherits IndexPage
-@inject INotificationService _notice
+@inherits BasePage
 
 <PageTitle>@AppConfig.Branch - @Language["App.SubTitle"]</PageTitle>
 
-<KError OnError="OnError">
-    <CascadingValue Value="this">
-        @if (IsLoaded)
-        {
-            <Known.AntBlazor.Admin OnLogout="OnLogout" />
-        }
-    </CascadingValue>
-</KError>
+@if (IsMobile)
+{
+    <Known.Shared.Apps.AppHome />
+}
+else
+{
+    <Home />
+}
 
 @code {
-    private Task OnError(Exception ex)
-    {
-        var config = new NotificationConfig
-        {
-            Message = Language["Title.Error"],
-            Description = ex.Message,
-            Placement = NotificationPlacement.BottomRight,
-            Duration = null
-        };
-        if (Config.App.IsDevelopment)
-            config.Description = ex.ToString();
-        return _notice.Error(config);
-    }
-
     // //第三方登录设置当前用户
     // protected override async Task OnAfterRenderAsync(bool firstRender)
     // {

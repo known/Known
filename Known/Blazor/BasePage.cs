@@ -2,20 +2,15 @@
 
 public class BasePage : BaseComponent
 {
-    private AutoTablePage page;
     internal MenuInfo Menu { get; set; }
 
-    [Parameter] public string PageId { get; set; }
+    [SupplyParameterFromQuery(Name = "id")]
+    public string PageId { get; set; }
+    public string PageUrl { get; set; }
 
     public string PageName => Language.GetString(Context.Module);
 
     public virtual Task RefreshAsync() => Task.CompletedTask;
-
-    public override void StateChanged()
-    {
-        base.StateChanged();
-        page?.StateChanged();
-    }
 
     protected override async Task OnInitAsync()
     {
@@ -27,7 +22,16 @@ public class BasePage : BaseComponent
     protected virtual async Task OnInitPageAsync()
     {
         if (!string.IsNullOrWhiteSpace(PageId))
+        {
             Context.Module = await Platform.Module.GetModuleAsync(PageId);
+        }
+        else
+        {
+            var baseUrl = Navigation.BaseUri.TrimEnd('/');
+            PageUrl = Navigation.Uri.Replace(baseUrl, "").TrimEnd('/');
+            if (!string.IsNullOrWhiteSpace(PageUrl))
+                Context.Module = await Platform.Module.GetModuleByUrlAsync(PageUrl);
+        }
         InitMenu();
     }
 
@@ -43,22 +47,7 @@ public class BasePage : BaseComponent
         builder.Component<KAuthPanel>().Set(c => c.ChildContent, BuildPage).Build();
     }
 
-    protected virtual void BuildPage(RenderTreeBuilder builder)
-    {
-        if (Context.Module == null)
-        {
-            UI.Build404Page(builder, PageId);
-            return;
-        }
-
-        var type = Utils.ConvertTo<ModuleType>(Context.Module.Target);
-        if (type == ModuleType.Page)
-            builder.Component<AutoTablePage>().Set(c => c.PageId, PageId).Build(value => page = value);
-        else if (type == ModuleType.Custom)
-            UI.Build404Page(builder, PageId);
-        else if (type == ModuleType.IFrame)
-            builder.IFrame(Context.Module.Url);
-    }
+    protected virtual void BuildPage(RenderTreeBuilder builder) { }
 
     protected void OnToolClick(ActionInfo info) => OnAction(info, null);
     protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
@@ -68,7 +57,7 @@ public class BasePage : BaseComponent
         if (Context == null || Context.UserMenus == null)
             return;
 
-        Menu = Context.UserMenus.FirstOrDefault(m => m.Id == PageId);
+        Menu = Context.UserMenus.FirstOrDefault(m => m.Id == PageId || (!string.IsNullOrWhiteSpace(m.Url) && m.Url == PageUrl));
         if (Menu == null)
             return;
 
@@ -149,7 +138,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     {
         try
         {
-            await Admin.ShowSpinAsync();
+            await App.ShowSpinAsync();
             Table.Criteria.ExportMode = mode;
             Table.Criteria.ExportColumns = GetExportColumns();
             var result = await Table.OnQuery?.Invoke(Table.Criteria);
@@ -159,12 +148,12 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 
             var stream = new MemoryStream(bytes);
             await JS.DownloadFileAsync($"{name}.xlsx", stream);
-            Admin.HideSpin();
+            App.HideSpin();
         }
         catch (Exception ex)
         {
             await Error.HandleAsync(ex);
-            Admin.HideSpin();
+            App.HideSpin();
         }
     }
 

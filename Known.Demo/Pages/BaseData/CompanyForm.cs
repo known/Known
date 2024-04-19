@@ -1,10 +1,7 @@
-﻿using Known.Blazor;
-using Known.Demo.Models;
-using Known.Extensions;
+﻿namespace Known.Demo.Pages.BaseData;
 
-namespace Known.Demo.Pages.BaseData;
-
-class CompanyForm : BaseTabPage
+[Route("/bds/company")]
+public class CompanyForm : BaseTabPage
 {
     private CompanyBaseInfo info;
 

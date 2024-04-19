@@ -216,6 +216,7 @@ class SystemService(Context context) : ServiceBase(context)
             Icon = "unordered-list",
             Description = "维护系统所需的下拉框数据源。",
             Target = ModuleType.Page.ToString(),
+            Url = "/sys/dictionaries",
             Sort = 1,
             Enabled = true,
             EntityData = @"数据字典|SysDictionary
@@ -242,6 +243,7 @@ class SystemService(Context context) : ServiceBase(context)
             Icon = "partition",
             Description = "维护企业组织架构信息。",
             Target = ModuleType.Page.ToString(),
+            Url = "/sys/organizations",
             Sort = 2,
             Enabled = true,
             EntityData = @"组织架构|SysOrganization
@@ -265,6 +267,7 @@ class SystemService(Context context) : ServiceBase(context)
             Icon = "info-circle",
             Description = "显示系统版本及产品授权信息。",
             Target = ModuleType.Custom.ToString(),
+            Url = "/sys/info",
             Sort = 1,
             Enabled = true
         };
@@ -280,6 +283,7 @@ class SystemService(Context context) : ServiceBase(context)
             Icon = "team",
             Description = "维护系统用户角色及其菜单权限信息。",
             Target = ModuleType.Page.ToString(),
+            Url = "/sys/roles",
             Sort = 2,
             Enabled = true,
             EntityData = @"系统角色|SysRole
@@ -301,6 +305,7 @@ class SystemService(Context context) : ServiceBase(context)
             Icon = "user",
             Description = "维护系统用户账号及角色信息。",
             Target = ModuleType.Page.ToString(),
+            Url = "/sys/users",
             Sort = 3,
             Enabled = true,
             EntityData = @"系统用户|SysUser
@@ -337,6 +342,7 @@ class SystemService(Context context) : ServiceBase(context)
             Icon = "control",
             Description = "查询系统所有定时任务运行情况。",
             Target = ModuleType.Page.ToString(),
+            Url = "/sys/tasks",
             Sort = 4,
             Enabled = true,
             EntityData = @"系统任务|SysTask
@@ -362,6 +368,7 @@ class SystemService(Context context) : ServiceBase(context)
             Icon = "file",
             Description = "查询系统所有附件信息。",
             Target = ModuleType.Page.ToString(),
+            Url = "/sys/files",
             Sort = 5,
             Enabled = true,
             EntityData = @"系统文件|SysFile
@@ -390,6 +397,7 @@ class SystemService(Context context) : ServiceBase(context)
             Icon = "clock-circle",
             Description = "查询系统用户操作日志信息。",
             Target = ModuleType.Page.ToString(),
+            Url = "/sys/logs",
             Sort = 6,
             Enabled = true,
             EntityData = @"系统日志|SysLog
@@ -410,6 +418,7 @@ class SystemService(Context context) : ServiceBase(context)
             Icon = "appstore-add",
             Description = "维护系统菜单按钮及列表栏位信息。",
             Target = ModuleType.Page.ToString(),
+            Url = "/sys/modules",
             Sort = 7,
             Enabled = true,
             EntityData = @"系统模块|SysModule

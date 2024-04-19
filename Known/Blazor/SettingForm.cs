@@ -31,7 +31,7 @@ public class SettingForm : BaseForm<SettingInfo>
         if (result.IsValid)
         {
             Context.UserSetting = Model.Data;
-            Context.RefreshPage();
+            App.StateChanged();
         }
     }
 
@@ -42,7 +42,7 @@ public class SettingForm : BaseForm<SettingInfo>
         {
             Model.Data = new();
             Context.UserSetting = Model.Data;
-            Context.RefreshPage();
+            App.StateChanged();
         }
     }
 }

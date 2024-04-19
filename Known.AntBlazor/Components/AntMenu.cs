@@ -4,7 +4,6 @@ public class AntMenu : BaseComponent
 {
     [Parameter] public bool Accordion { get; set; }
     [Parameter] public List<MenuItem> Items { get; set; }
-    [Parameter] public Action<MenuItem> OnClick { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
@@ -56,7 +55,7 @@ public class AntMenu : BaseComponent
     {
         builder.Component<AntDesign.MenuItem>()
                .Set(c => c.Key, item.Id)
-               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e => OnClick?.Invoke(item)))
+               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e => App?.NavigateTo(item)))
                .Set(c => c.ChildContent, b => BuildItemName(b, item))
                .Build();
     }

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Known.Demo.Models;
+﻿namespace Known.Demo.Models;
 
 class CompanyInfo
 {

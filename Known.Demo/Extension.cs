@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Known.Demo;
+﻿namespace Known.Demo;
 
 public static class Extension
 {

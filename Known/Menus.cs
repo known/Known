@@ -27,6 +27,7 @@ public class MenuInfo
         ParentId = module.ParentId;
         Code = module.Code;
         Target = module.Target;
+        Url = module.Url;
         Sort = module.Sort;
         Tools = module.Buttons;
         Actions = module.Actions;
@@ -40,6 +41,7 @@ public class MenuInfo
     public string Icon { get; set; }
     public string Description { get; set; }
     public string Target { get; set; }
+    public string Url { get; set; }
     public string Color { get; set; }
     public int Sort { get; set; }
     internal List<string> Tools { get; set; }
@@ -275,6 +277,7 @@ public class MenuItem : MenuInfo
         Icon = model.Icon;
         Description = model.Description;
         Target = model.Target;
+        Url = model.Url;
         Sort = model.Sort;
         Color = model.Color;
         Tools = model.Tools;

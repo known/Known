@@ -26,6 +26,10 @@
 .danger {color:#ed4014;}
 .center {text-align:center;}
 .p10 {padding:10px;}
+.app-name {
+    font-weight:bold;margin-top:1rem;margin-bottom:2.5rem;text-align:center;line-height:1.8rem;
+    -webkit-box-reflect:below 0 -webkit-linear-gradient(transparent,transparent 50%,rgba(0,0,0,.3));
+}
 
 /*Grid*/
 .kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));grid-column-gap:10px;}

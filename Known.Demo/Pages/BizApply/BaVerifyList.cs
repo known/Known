@@ -1,13 +1,8 @@
-﻿using Known.Blazor;
-using Known.Demo.Entities;
-using Known.Demo.Services;
-using Known.WorkFlows;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Known.Demo.Pages.BizApply;
+﻿namespace Known.Demo.Pages.BizApply;
 
 //业务审核列表
-class BaVerifyList : BaseTablePage<TbApply>
+[Route("/bas/verifies")]
+public class BaVerifyList : BaseTablePage<TbApply>
 {
     private ApplyService Service => new(Context);
 

@@ -16,8 +16,15 @@ public static class AppConfig
     public const string Branch = "Known";
     public const string SubTitle = "基于Blazor的企业级快速开发框架";
 
+    private static List<MenuItem> AppMenus =
+    [
+        new MenuItem { Id = "Home", Name = "首页", Icon = "home", Url = "/app" },
+        new MenuItem { Id = "Mine", Name = "我的", Icon = "user", Url = "/app/mine" }
+    ];
+
     public static void AddApp(this IServiceCollection services, Action<AppInfo> action = null)
     {
+        Config.AppTabMenus = AppMenus;
         //1.添加Known框架
         services.AddKnown(info =>
         {

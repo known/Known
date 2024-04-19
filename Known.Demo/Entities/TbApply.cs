@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using Known.WorkFlows;
-
-namespace Known.Demo.Entities;
+﻿namespace Known.Demo.Entities;
 
 /// <summary>
 /// 申请单实体类。

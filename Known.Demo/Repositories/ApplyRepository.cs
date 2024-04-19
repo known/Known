@@ -1,7 +1,4 @@
-﻿using Known.Demo.Entities;
-using Known.WorkFlows;
-
-namespace Known.Demo.Repositories;
+﻿namespace Known.Demo.Repositories;
 
 //业务申请数据访问
 class ApplyRepository
