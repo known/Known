@@ -1,4 +1,6 @@
-﻿<ul class="kui-app-menu">
+﻿@inherits BaseComponent
+
+<ul class="kui-app-menu">
     @if (Items != null && Items.Count > 0)
     {
         foreach (var item in Items)
@@ -29,7 +31,6 @@
 
     [Parameter] public int Count { get; set; } = 2;
     [Parameter] public List<Known.MenuItem> Items { get; set; }
-    [Parameter] public Action<Known.MenuItem> OnClick { get; set; }
 
-    private void OnItemClick(Known.MenuItem item) => OnClick?.Invoke(item);
+    private void OnItemClick(Known.MenuItem item) => App.NavigateTo(item);
 }
