@@ -2,11 +2,11 @@
 
 public class BasePage : BaseComponent
 {
+    private string pageId;
     internal MenuInfo Menu { get; set; }
 
     [SupplyParameterFromQuery(Name = "pid")]
     public string PageId { get; set; }
-    public string PageUrl { get; set; }
 
     public string PageName => Language.GetString(Context.Module);
 
@@ -26,6 +26,11 @@ public class BasePage : BaseComponent
     {
         await base.OnSetParametersAsync();
         InitMenu();
+        if (!string.IsNullOrWhiteSpace(PageId) && pageId != PageId)
+        {
+            pageId = PageId;
+            await OnPageChangedAsync();
+        }
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -34,6 +39,7 @@ public class BasePage : BaseComponent
     }
 
     protected virtual void BuildPage(RenderTreeBuilder builder) { }
+    protected virtual Task OnPageChangedAsync() => Task.CompletedTask;
 
     protected void OnToolClick(ActionInfo info) => OnAction(info, null);
     protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
@@ -43,7 +49,9 @@ public class BasePage : BaseComponent
         if (Context == null || Context.UserMenus == null)
             return;
 
-        Menu = Context.UserMenus.FirstOrDefault(m => m.Id == PageId || (!string.IsNullOrWhiteSpace(m.Url) && m.Url == PageUrl));
+        var baseUrl = Navigation.BaseUri;
+        var url = Navigation.Uri.Replace(baseUrl, "");
+        Menu = Context.UserMenus.FirstOrDefault(m => m.Id == PageId || (!string.IsNullOrWhiteSpace(m.Url) && m.Url == $"/{url}"));
         if (Menu == null)
             return;
 

@@ -56,7 +56,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public TableModel(BasePage page) : base(page.Context)
     {
         AdvSearch = true;
-        SetPage(page);
+        Initialize(page);
     }
 
     internal List<ColumnInfo> AllColumns { get; private set; }
@@ -240,8 +240,9 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         });
     }
 
-    internal void SetPage(BasePage page)
+    public void Initialize(BasePage page)
     {
+        Clear();
         Page = page;
         Name = page.PageName;
         Module = page.Context.Module;

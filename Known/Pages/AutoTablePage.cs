@@ -4,7 +4,6 @@
 public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 {
     private bool isEditPage;
-    private string pageId;
     private string TableName { get; set; }
 
     public override async Task RefreshAsync()
@@ -15,15 +14,11 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         await base.RefreshAsync();
     }
 
-    protected override async Task OnSetParametersAsync()
+    protected override async Task OnPageChangedAsync()
     {
-        await base.OnSetParametersAsync();
-        if (pageId != PageId)
-        {
-            pageId = PageId;
-            InitTable();
-            await Table.RefreshAsync();
-        }
+        await base.OnPageChangedAsync();
+        InitTable();
+        await Table.RefreshAsync();
     }
 
     protected override void BuildPage(RenderTreeBuilder builder)
@@ -60,8 +55,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 
     private void InitTable()
     {
-        InitMenu();
-        Table.SetPage(this);
+        Table.Initialize(this);
         TableName = DataHelper.GetEntity(Context.Module?.EntityData)?.Id;
         Table.OnQuery = c => Platform.Auto.QueryModelsAsync(TableName, c);
         Table.Criteria.Clear();
