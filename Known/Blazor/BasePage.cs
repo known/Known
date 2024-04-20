@@ -2,7 +2,8 @@
 
 public class BasePage : BaseComponent
 {
-    private string pageId;
+    private string orgPageUrl;
+    private string pageUrl;
     internal MenuInfo Menu { get; set; }
 
     [SupplyParameterFromQuery(Name = "pid")]
@@ -14,22 +15,31 @@ public class BasePage : BaseComponent
 
     protected override async Task OnInitAsync()
     {
-        InitMenu();
-        await base.OnInitAsync();
-        await OnInitPageAsync();
         await AddVisitLogAsync();
+        await OnInitPageAsync();
     }
 
     protected virtual Task OnInitPageAsync() => Task.CompletedTask;
 
-    protected override async Task OnSetParametersAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        await base.OnSetParametersAsync();
-        InitMenu();
-        if (!string.IsNullOrWhiteSpace(PageId) && pageId != PageId)
+        try
         {
-            pageId = PageId;
-            await OnPageChangedAsync();
+            var baseUrl = Navigation.BaseUri;
+            pageUrl = Navigation.Uri.Replace(baseUrl, "");
+            if (!string.IsNullOrWhiteSpace(pageUrl) && orgPageUrl != pageUrl)
+            {
+                InitMenu();
+                //Logger.Info($"{Menu.Name},orgPageUrl={orgPageUrl},pageUrl={pageUrl}");
+                orgPageUrl = pageUrl;
+                await OnPageChangedAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            if (Error != null)
+                await Error.HandleAsync(ex);
         }
     }
 
@@ -49,9 +59,7 @@ public class BasePage : BaseComponent
         if (Context == null || Context.UserMenus == null)
             return;
 
-        var baseUrl = Navigation.BaseUri;
-        var url = Navigation.Uri.Replace(baseUrl, "");
-        Menu = Context.UserMenus.FirstOrDefault(m => m.Id == PageId || (!string.IsNullOrWhiteSpace(m.Url) && m.Url == $"/{url}"));
+        Menu = Context.UserMenus.FirstOrDefault(m => m.Id == PageId || (!string.IsNullOrWhiteSpace(m.Url) && m.Url == $"/{pageUrl}"));
         if (Menu == null)
             return;
 
