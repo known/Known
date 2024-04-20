@@ -17,7 +17,7 @@ public class BasePage : BaseComponent
         {
             var baseUrl = Navigation.BaseUri.TrimEnd('/');
             var pageUrl = Navigation.Uri.Replace(baseUrl, "");
-            await Context.SetCurrentMenuAsync(Platform, pageUrl);
+            await Context.SetCurrentMenuAsync(Platform, PageId, pageUrl);
             Logger.Info($"TY={GetType().Name},MN={PageName},PID={PageId},PUL={Context.Url},orgPageUrl={orgPageUrl}");
             if (orgPageUrl != Context.Url)
             {

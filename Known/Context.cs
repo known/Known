@@ -66,14 +66,14 @@ public class Context
         return menus;
     }
 
-    internal async Task SetCurrentMenuAsync(PlatformService platform, string pageUrl)
+    internal async Task SetCurrentMenuAsync(PlatformService platform, string pageId, string pageUrl)
     {
         Url = pageUrl;
         Module = null;
         Current = Config.GetHomeMenu();
         if (UserMenus != null)
         {
-            var info = UserMenus.FirstOrDefault(p => p.Url == pageUrl);
+            var info = UserMenus.FirstOrDefault(p => p.Id == pageId || p.Url == pageUrl);
             if (info != null)
             {
                 Current = new MenuItem(info);
