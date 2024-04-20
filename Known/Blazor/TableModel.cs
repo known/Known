@@ -101,6 +101,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         QueryData.Clear();
         Toolbar.Items?.Clear();
         Actions?.Clear();
+        Criteria.Clear();
     }
 
     public ColumnBuilder<TItem> Column<TValue>(Expression<Func<TItem, TValue>> selector)
