@@ -35,6 +35,8 @@ class FileService(Context context) : ServiceBase(context)
     //File
     public Task<PagingResult<SysFile>> QueryFilesAsync(PagingCriteria criteria)
     {
+        if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
+            criteria.OrderBys = [$"{nameof(SysFile.CreateTime)} desc"];
         return FileRepository.QueryFilesAsync(Database, criteria);
     }
 

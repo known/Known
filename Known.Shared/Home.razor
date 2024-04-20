@@ -1,5 +1,4 @@
-﻿@page "/home"
-@inherits BasePage
+﻿@inherits BaseComponent
 
 <GridRow>
     <GridCol Span="24">
@@ -87,10 +86,8 @@
     private List<Known.MenuItem> visitMenus;
     private ColumnConfig chartConfig;
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitPageAsync();
-
         user = CurrentUser;
         chartConfig = new()
         {

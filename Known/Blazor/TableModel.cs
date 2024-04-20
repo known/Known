@@ -241,12 +241,14 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         });
     }
 
-    public void Initialize(BasePage page)
+    public virtual void Initialize(BasePage page)
     {
         Clear();
         Page = page;
         Name = page.PageName;
         Module = page.Context.Module;
+        OnAction = page.OnActionClick;
+        Toolbar.OnItemClick = page.OnToolClick;
         Form.LoadInfo(Module?.Form);
         SetPage(Module?.Page);
         SetPermission(page);

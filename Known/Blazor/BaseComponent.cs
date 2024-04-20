@@ -4,12 +4,9 @@ namespace Known.Blazor;
 
 public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 {
-    private readonly Type type;
-
     public BaseComponent()
     {
-        type = GetType();
-        Id = type.Name;
+        Id = Utils.GetGuid();
     }
 
     [Parameter] public string Id { get; set; }
@@ -26,6 +23,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter] public AppLayout App { get; set; }
 
     protected bool IsMobile { get; private set; }
+    protected bool IsDisposing { get; private set; }
     protected bool IsLoaded { get; set; }
     public IUIService UI => Context?.UI;
     public Language Language => Context?.Language;
@@ -74,7 +72,11 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
     protected virtual Task OnInitAsync() => Task.CompletedTask;
     protected virtual void BuildRender(RenderTreeBuilder builder) { }
-    protected virtual ValueTask DisposeAsync(bool disposing) => ValueTask.CompletedTask;
+    protected virtual ValueTask DisposeAsync(bool disposing)
+    {
+        IsDisposing = disposing;
+        return ValueTask.CompletedTask;
+    }
 
     public async ValueTask DisposeAsync()
     {
@@ -83,21 +85,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     }
 
     public virtual void StateChanged() => InvokeAsync(StateHasChanged);
-
-    internal async Task AddVisitLogAsync()
-    {
-        if (string.IsNullOrWhiteSpace(Name))
-            return;
-
-        var log = new SysLog { Target = Name, Content = type.FullName };
-        if (Context.UserMenus != null && Context.UserMenus.Exists(p => p.Code == type.Name))
-            log.Type = LogType.Page.ToString();
-
-        if (string.IsNullOrWhiteSpace(log.Type))
-            return;
-
-        await Platform.System.AddLogAsync(log);
-    }
 
     internal async void OnAction(ActionInfo info, object[] parameters)
     {

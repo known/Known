@@ -4,10 +4,7 @@
 public class SysUserProfile : BasePage<SysUser>
 {
     private SysUserProfileInfo info;
-    private SysUserProfileTabs tabs;
     internal SysUser User { get; private set; }
-
-    public override void StateChanged() => tabs?.StateChanged();
 
     protected override async Task OnInitPageAsync()
     {
@@ -24,7 +21,7 @@ public class SysUserProfile : BasePage<SysUser>
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
     private void BuildUserInfo(RenderTreeBuilder builder) => builder.Div("p10", () => builder.Component<SysUserProfileInfo>().Build(value => info = value));
-    private void BuildUserTabs(RenderTreeBuilder builder) => builder.Component<SysUserProfileTabs>().Build(value => tabs = value);
+    private void BuildUserTabs(RenderTreeBuilder builder) => builder.Component<SysUserProfileTabs>().Build();
 
     internal void UpdateProfileInfo() => info?.StateChanged();
 }
@@ -58,24 +55,21 @@ class SysUserProfileInfo : BaseComponent
     }
 }
 
-class SysUserProfileTabs : BaseTabPage
+class SysUserProfileTabs : BaseComponent
 {
-    private UserEditForm info;
-    private PasswordEditForm safe;
+    private TabModel Tab { get; } = new();
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnInitAsync();
         //Tab.AddTab("TodoList", b => b.Component<SysSystemInfo>().Build());
         //Tab.AddTab("MyMessage", b => b.Component<SysSystemSafe>().Build());
-        Tab.AddTab("MyProfile", b => b.Component<UserEditForm>().Build(value => info = value));
-        Tab.AddTab("SecuritySetting", b => b.Component<PasswordEditForm>().Build(value => safe = value));
+        Tab.AddTab("MyProfile", b => b.Component<UserEditForm>().Build());
+        Tab.AddTab("SecuritySetting", b => b.Component<PasswordEditForm>().Build());
     }
 
-    public override void StateChanged()
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
-        info?.StateChanged();
-        safe?.StateChanged();
-        base.StateChanged();
+        builder.Div("kui-card", () => UI.BuildTabs(builder, Tab));
     }
 }

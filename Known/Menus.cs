@@ -292,11 +292,11 @@ public class MenuItem : MenuInfo
         Icon = icon;
     }
 
-    public MenuItem(string name, string icon, Type type, string description = null) : base(type.Name, name, icon, description)
+    public MenuItem(string name, string icon, Type type, string description = null) : base(type?.Name, name, icon, description)
     {
         Closable = true;
-        Code = type.Name;
-        Target = type.FullName;
+        Code = type?.Name;
+        Target = type?.FullName;
         ComType = type;
         Children = [];
     }

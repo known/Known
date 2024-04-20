@@ -497,12 +497,16 @@ URL|Url|Text|200
     //Task
     public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria)
     {
+        if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
+            criteria.OrderBys = [$"{nameof(SysTask.CreateTime)} desc"];
         return SystemRepository.QueryTasksAsync(Database, criteria);
     }
 
     //Log
     public Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria)
     {
+        if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
+            criteria.OrderBys = [$"{nameof(SysLog.CreateTime)} desc"];
         return SystemRepository.QueryLogsAsync(Database, criteria);
     }
 

@@ -13,8 +13,6 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     {
         await base.OnInitPageAsync();
         Table = new TableModel<TItem>(this);
-        Table.OnAction = OnActionClick;
-        Table.Toolbar.OnItemClick = OnToolClick;
     }
 
     protected override void BuildPage(RenderTreeBuilder builder) => builder.BuildTable(Table);

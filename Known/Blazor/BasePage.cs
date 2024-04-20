@@ -11,27 +11,20 @@ public class BasePage : BaseComponent
 
     public string PageName => Language.GetString(Context.Module);
 
-    public virtual Task RefreshAsync() => Task.CompletedTask;
-
-    protected override async Task OnInitAsync()
-    {
-        await AddVisitLogAsync();
-        await OnInitPageAsync();
-    }
-
-    protected virtual Task OnInitPageAsync() => Task.CompletedTask;
+    protected override Task OnInitAsync() => OnInitPageAsync();
 
     protected override async Task OnParametersSetAsync()
     {
         try
         {
-            var baseUrl = Navigation.BaseUri;
+            var baseUrl = Navigation.BaseUri.TrimEnd('/');
             pageUrl = Navigation.Uri.Replace(baseUrl, "");
-            if (!string.IsNullOrWhiteSpace(pageUrl) && orgPageUrl != pageUrl)
+            //Logger.Info($"TY={GetType()},DIP={IsDisposing},MN={Menu?.Name},PID={PageId},PUL={pageUrl}");
+            if (!string.IsNullOrWhiteSpace(pageUrl) && pageUrl != "/" && orgPageUrl != pageUrl)
             {
-                InitMenu();
-                //Logger.Info($"{Menu.Name},orgPageUrl={orgPageUrl},pageUrl={pageUrl}");
+                //Logger.Info($"{Menu?.Name},orgPageUrl={orgPageUrl},pageUrl={pageUrl}");
                 orgPageUrl = pageUrl;
+                await InitMenuAsync();
                 await OnPageChangedAsync();
             }
         }
@@ -49,22 +42,41 @@ public class BasePage : BaseComponent
     }
 
     protected virtual void BuildPage(RenderTreeBuilder builder) { }
+    protected virtual Task OnInitPageAsync() => Task.CompletedTask;
     protected virtual Task OnPageChangedAsync() => Task.CompletedTask;
+    public virtual Task RefreshAsync() => Task.CompletedTask;
+    public void OnToolClick(ActionInfo info) => OnAction(info, null);
+    public void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
-    protected void OnToolClick(ActionInfo info) => OnAction(info, null);
-    protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
-
-    internal void InitMenu()
+    private async Task InitMenuAsync()
     {
         if (Context == null || Context.UserMenus == null)
             return;
 
-        Menu = Context.UserMenus.FirstOrDefault(m => m.Id == PageId || (!string.IsNullOrWhiteSpace(m.Url) && m.Url == $"/{pageUrl}"));
+        Menu = Context.UserMenus.FirstOrDefault(m => m.Id == PageId || (!string.IsNullOrWhiteSpace(m.Url) && m.Url == pageUrl));
         if (Menu == null)
             return;
 
         Id = Menu.Id;
         Name = Menu.Name;
+
+        await AddVisitLogAsync();
+    }
+
+    private async Task AddVisitLogAsync()
+    {
+        if (string.IsNullOrWhiteSpace(pageUrl))
+            return;
+
+        var type = GetType();
+        var log = new SysLog { Target = Name, Content = pageUrl };
+        if (Context.UserMenus != null && Context.UserMenus.Exists(p => p.Url == pageUrl))
+            log.Type = LogType.Page.ToString();
+
+        if (string.IsNullOrWhiteSpace(log.Type))
+            return;
+
+        await Platform.System.AddLogAsync(log);
     }
 }
 

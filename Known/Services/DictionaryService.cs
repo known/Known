@@ -12,6 +12,8 @@ class DictionaryService(Context context) : ServiceBase(context)
 
     public Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
     {
+        if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
+            criteria.OrderBys = [nameof(SysDictionary.Sort)];
         return DictionaryRepository.QueryDictionarysAsync(Database, criteria);
     }
 
