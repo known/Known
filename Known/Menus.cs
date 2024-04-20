@@ -48,6 +48,17 @@ public class MenuInfo
     internal List<string> Actions { get; set; }
     internal List<PageColumnInfo> Columns { get; set; }
 
+    public string RouteUrl
+    {
+        get
+        {
+            var url = Url;
+            if (string.IsNullOrWhiteSpace(url) || Target == ModuleType.IFrame.ToString())
+                url = $"/page?pid={Id}";
+            return url;
+        }
+    }
+
     internal bool HasTool(string id) => Tools != null && Tools.Contains(id);
     internal bool HasAction(string id) => Actions != null && Actions.Contains(id);
     internal bool HasColumn(string id) => Columns != null && Columns.Exists(c => c.Id == id);
@@ -114,6 +125,7 @@ public class ActionInfo
     public string Id { get; set; }
     public string Name { get; set; }
     public string Icon { get; set; }
+    public string Url { get; set; }
     public string Style { get; set; }
     public bool Enabled { get; set; }
     public bool Visible { get; set; }

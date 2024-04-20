@@ -79,10 +79,21 @@ public class AntDropdown : Dropdown
             builder.Component<AntDesign.MenuItem>()
                    .Set(c => c.Key, item.Id)
                    .Set(c => c.Disabled, !item.Enabled)
-                   .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e => OnItemClick?.Invoke(item)))
-                   .Set(c => c.ChildContent, b => BuildItemName(b, item))
+                   .Set(c => c.ChildContent, b => BuildMenuItem(b, item))
                    .Build();
         }
+    }
+
+    private void BuildMenuItem(RenderTreeBuilder builder, ActionInfo item)
+    {
+        if (!string.IsNullOrWhiteSpace(item.Url))
+            builder.Link().Href(item.Url)
+                   .Children(() => BuildItemName(builder, item))
+                   .Close();
+        else
+            builder.Div().OnClick(this.Callback<MouseEventArgs>(e => OnItemClick?.Invoke(item)))
+                   .Children(() => BuildItemName(builder, item))
+                   .Close();
     }
 
     private void BuildItemName(RenderTreeBuilder builder, ActionInfo item)

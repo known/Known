@@ -55,8 +55,7 @@ public class AntMenu : BaseComponent
     {
         builder.Component<AntDesign.MenuItem>()
                .Set(c => c.Key, item.Id)
-               .Set(c => c.RouterLink, item.Url)
-               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e => App?.NavigateTo(item)))
+               .Set(c => c.RouterLink, item.RouteUrl)
                .Set(c => c.ChildContent, b => BuildItemName(b, item))
                .Build();
     }

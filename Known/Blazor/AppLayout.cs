@@ -112,10 +112,7 @@ public class AppLayout : LayoutComponentBase
         if (item == null)
             return;
 
-        var url = item.Url;
-        if (string.IsNullOrWhiteSpace(url) || item.Target == ModuleType.IFrame.ToString())
-            url = $"/page?pid={item.Id}";
-        NavigateTo(url);
+        NavigateTo(item.RouteUrl);
     }
 
     public void Back()

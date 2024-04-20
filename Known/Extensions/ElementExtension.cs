@@ -13,6 +13,7 @@ public static class ElementExtension
     public static RenderTreeBuilder Span(this RenderTreeBuilder builder) => builder.OpenElement("span");
     public static RenderTreeBuilder Ul(this RenderTreeBuilder builder) => builder.OpenElement("ul");
     public static RenderTreeBuilder Li(this RenderTreeBuilder builder) => builder.OpenElement("li");
+    public static RenderTreeBuilder Link(this RenderTreeBuilder builder) => builder.OpenElement("a");
     public static RenderTreeBuilder Image(this RenderTreeBuilder builder) => builder.OpenElement("img");
     public static RenderTreeBuilder Canvas(this RenderTreeBuilder builder) => builder.OpenElement("canvas");
     public static RenderTreeBuilder IFrame(this RenderTreeBuilder builder) => builder.OpenElement("iframe");
@@ -30,6 +31,7 @@ public static class ElementExtension
     public static RenderTreeBuilder Class(this RenderTreeBuilder builder, string className) => builder.Attribute("class", className);
     public static RenderTreeBuilder Title(this RenderTreeBuilder builder, string title) => builder.Attribute("title", title);
     public static RenderTreeBuilder Style(this RenderTreeBuilder builder, string style) => builder.Attribute("style", style);
+    public static RenderTreeBuilder Href(this RenderTreeBuilder builder, string href) => builder.Attribute("href", href);
     public static RenderTreeBuilder Src(this RenderTreeBuilder builder, string src) => builder.Attribute("src", src);
     public static RenderTreeBuilder Role(this RenderTreeBuilder builder, string role) => builder.Attribute("role", role);
     public static RenderTreeBuilder OnClick(this RenderTreeBuilder builder, object onclick) => builder.Attribute("onclick", onclick, true);

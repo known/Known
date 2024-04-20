@@ -15,14 +15,16 @@ public class BasePage : BaseComponent
     {
         try
         {
-            //TODO:此次执行三次问题
+            //TODO:此次执行两三次问题
             var baseUrl = Navigation.BaseUri.TrimEnd('/');
             var pageUrl = Navigation.Uri.Replace(baseUrl, "");
-            var isChanged = orgPageUrl == Context.Url;
-            if (orgPageUrl != Context.Url)
-                orgPageUrl = Context.Url;
-            if (isChanged)
+            //Logger.Info($"TY={GetType().Name},MN={PageName},PID={PageId},PUL={pageUrl},orgPageUrl={orgPageUrl}");
+            //var isChanged = orgPageUrl == Context.Url;
+            //if (orgPageUrl != Context.Url)
+            //    orgPageUrl = Context.Url;
+            if (orgPageUrl != pageUrl)
             {
+                orgPageUrl = pageUrl;
                 await Context.SetCurrentMenuAsync(Platform, PageId, pageUrl);
                 await AddVisitLogAsync();
                 await OnPageChangeAsync();

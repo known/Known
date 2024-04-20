@@ -42,7 +42,7 @@
                         </Sider>
                         <Layout>
                             <Header Class="kui-header">
-                                <NavBreadcrumb CurrentMenu="CurrentMenu" OnHome="OnHome" />
+                                <NavBreadcrumb CurrentMenu="CurrentMenu" />
                                 <NavTopRight OnMenuClick="OnMenuClick" />
                             </Header>
                             <Content Class="@Content">
@@ -99,18 +99,10 @@
     }
 
     //Admin
-    private void OnHome() => OnMenuClick("home");
-
     private void OnMenuClick(string id)
     {
         switch (id)
         {
-            case "home":
-                NavigateTo("/");
-                break;
-            case "profile":
-                NavigateTo("/profile");
-                break;
             case "logout":
                 UI.Confirm(Language["Tip.Exits"], SignOutAsync);
                 break;

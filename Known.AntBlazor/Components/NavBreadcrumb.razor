@@ -1,9 +1,11 @@
 ﻿@inherits BaseComponent
 
 <Breadcrumb Style="margin:16px 0;">
-    <BreadcrumbItem OnClick="OnHome">
-        <Icon Type="home" Style="cursor:pointer;" />
-        <span style="cursor:pointer;">@Language.Home</span>
+    <BreadcrumbItem>
+        <a href="/">
+            <Icon Type="home" Style="cursor:pointer;" />
+            <span style="cursor:pointer;">@Language.Home</span>
+        </a>
     </BreadcrumbItem>
     @if (CurrentMenu != null)
     {
@@ -34,5 +36,4 @@
 
 @code {
     [Parameter] public Known.MenuItem CurrentMenu { get; set; }
-    [Parameter] public Action OnHome { get; set; }
 }

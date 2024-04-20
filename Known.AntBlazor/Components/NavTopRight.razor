@@ -2,7 +2,9 @@
 
 <Space Class="kui-nav" Size="@("24")">
     <SpaceItem>
-        <Tooltip Title="@Language["Nav.HomePage"]"><Icon Type="home" OnClick="@(e=>OnItemClick("home"))" /></Tooltip>
+        <Tooltip Title="@Language["Nav.HomePage"]">
+            <a href="/"><Icon Type="home" /></a>
+        </Tooltip>
     </SpaceItem>
     <SpaceItem Class="kui-nav-full">
         <Tooltip Title="@FullScreenTitle"><Icon Type="@FullScreenIcon" OnClick="OnFullScreen" /></Tooltip>
@@ -32,7 +34,7 @@
     private string FullScreenTitle => isFullScreen ? Language["Nav.ExitScreen"] : Language["Nav.FullScreen"];
     private string FullScreenIcon => isFullScreen ? "fullscreen-exit" : "fullscreen";
     private List<ActionInfo> UserItems => [
-        new ActionInfo { Id = "profile", Name = Language["Nav.Profile"], Icon = "user" },
+        new ActionInfo { Id = "profile", Name = Language["Nav.Profile"], Icon = "user", Url = "/profile" },
         new ActionInfo { Id = "logout", Name = Language["Nav.Exit"], Icon = "poweroff" }
     ];
 
