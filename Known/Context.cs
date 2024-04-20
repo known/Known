@@ -16,16 +16,16 @@ public class Context
         language = new Language(cultureName);
     }
 
-    internal MenuItem Current { get; set; }
+    internal MenuItem Current { get; private set; }
     internal SysModule Module { get; set; }
-
     public IUIService UI { get; }
     public string Host { get; set; }
+    public string Url { get; set; }
     public string Theme { get; set; }
     public string LogoUrl { get; set; }
     public InstallInfo Install { get; internal set; }
     public UserInfo CurrentUser { get; internal set; }
-    public SettingInfo UserSetting { get; internal set; }
+    public SettingInfo UserSetting { get; internal set; } = new();
     public List<MenuInfo> UserMenus { get; internal set; }
 
     public string CurrentLanguage
@@ -64,5 +64,21 @@ public class Context
                 menus.Add(new MenuItem(menu));
         }
         return menus;
+    }
+
+    internal async Task SetCurrentMenuAsync(PlatformService platform, string pageUrl)
+    {
+        Url = pageUrl;
+        Module = null;
+        Current = Config.GetHomeMenu();
+        if (UserMenus != null)
+        {
+            var info = UserMenus.FirstOrDefault(p => p.Url == pageUrl);
+            if (info != null)
+            {
+                Current = new MenuItem(info);
+                Module = await platform.Module.GetModuleAsync(Current.Id);
+            }
+        }
     }
 }

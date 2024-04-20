@@ -3,7 +3,6 @@
 public class BasePage : BaseComponent
 {
     private string orgPageUrl;
-    private string pageUrl;
 
     [SupplyParameterFromQuery(Name = "pid")]
     public string PageId { get; set; }
@@ -17,12 +16,12 @@ public class BasePage : BaseComponent
         try
         {
             var baseUrl = Navigation.BaseUri.TrimEnd('/');
-            pageUrl = Navigation.Uri.Replace(baseUrl, "");
-            //Logger.Info($"TY={GetType()},DIP={IsDisposing},MN={PageName},PID={PageId},PUL={pageUrl}");
-            if (!string.IsNullOrWhiteSpace(pageUrl) && pageUrl != "/" && orgPageUrl != pageUrl)
+            var pageUrl = Navigation.Uri.Replace(baseUrl, "");
+            await Context.SetCurrentMenuAsync(Platform, pageUrl);
+            Logger.Info($"TY={GetType().Name},MN={PageName},PID={PageId},PUL={Context.Url},orgPageUrl={orgPageUrl}");
+            if (orgPageUrl != Context.Url)
             {
-                //Logger.Info($"{Menu?.Name},orgPageUrl={orgPageUrl},pageUrl={pageUrl}");
-                orgPageUrl = pageUrl;
+                orgPageUrl = Context.Url;
                 await AddVisitLogAsync();
                 await OnPageChangedAsync();
             }
@@ -49,17 +48,15 @@ public class BasePage : BaseComponent
 
     private async Task AddVisitLogAsync()
     {
-        if (string.IsNullOrWhiteSpace(pageUrl))
+        if (Context.Module == null)
             return;
 
-        var type = GetType();
-        var log = new SysLog { Target = Name, Content = pageUrl };
-        if (Context.UserMenus != null && Context.UserMenus.Exists(p => p.Url == pageUrl))
-            log.Type = LogType.Page.ToString();
-
-        if (string.IsNullOrWhiteSpace(log.Type))
-            return;
-
+        var log = new SysLog
+        {
+            Target = Context.Module.Name,
+            Content = Context.Url,
+            Type = LogType.Page.ToString()
+        };
         await Platform.System.AddLogAsync(log);
     }
 }

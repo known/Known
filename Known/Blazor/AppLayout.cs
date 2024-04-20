@@ -4,8 +4,8 @@ namespace Known.Blazor;
 
 public class AppLayout : LayoutComponentBase
 {
+    protected bool IsLoaded { get; private set; }
     protected bool IsMobile { get; private set; }
-    protected bool IsLoaded { get; set; }
     protected AdminInfo Info { get; private set; }
     protected List<MenuItem> UserMenus { get; private set; }
     protected bool IsLogin { get; private set; }
@@ -20,7 +20,7 @@ public class AppLayout : LayoutComponentBase
     public Language Language => Context?.Language;
     public IUIService UI => Context?.UI;
     public UserInfo CurrentUser => Context?.CurrentUser;
-    public MenuItem CurrentMenu { get; private set; }
+    public MenuItem CurrentMenu => Context.Current;
 
     private PlatformService platform;
     public PlatformService Platform
@@ -35,8 +35,8 @@ public class AppLayout : LayoutComponentBase
     {
         try
         {
-            IsMobile = CheckMobile(HttpAccessor?.HttpContext?.Request);
             IsLoaded = false;
+            IsMobile = CheckMobile(HttpAccessor?.HttpContext?.Request);
             if (Config.App.IsTheme)
                 Context.Theme = await JS.GetCurrentThemeAsync();
             Context.Host = HttpContext.GetHostUrl();
@@ -58,12 +58,11 @@ public class AppLayout : LayoutComponentBase
                     }
                     else
                     {
-                        CurrentMenu = Config.GetHomeMenu();
                         Info = await Platform.Auth.GetAdminAsync();
                         UserMenus = GetUserMenus(Info?.UserMenus);
                         Context.UserSetting = Info?.UserSetting ?? new();
-                        await ShowNoticeAsync(Context.CurrentUser);
                         IsLoaded = true;
+                        await ShowNoticeAsync(Context.CurrentUser);
                     }
                 }
                 else
@@ -108,14 +107,10 @@ public class AppLayout : LayoutComponentBase
 
     public void NavigateTo(string url) => Navigation.NavigateTo(url);
 
-    public async void NavigateTo(MenuItem item)
+    public void NavigateTo(MenuItem item)
     {
         if (item == null)
             return;
-
-        CurrentMenu = item;
-        Context.Current = item;
-        Context.Module = await Platform.Module.GetModuleAsync(item.Id);
 
         var url = item.Url;
         if (string.IsNullOrWhiteSpace(url) || item.Target == ModuleType.IFrame.ToString())

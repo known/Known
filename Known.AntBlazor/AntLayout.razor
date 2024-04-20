@@ -3,39 +3,39 @@
 
 <KError OnError="OnError">
     <CascadingValue Value="this">
-        @if (IsMobile)
+        @if (IsLoaded)
         {
-            <div class="kui-app">
-                @if (!IsHome)
-                {
-                    <div class="kui-app-nav">
-                        @if (!IsTab)
-                        {
-                            <span class="back" @onclick="e=>Back()">
-                                <Icon Type="left" Theme="outline" />
-                                <span>返回</span>
-                            </span>
-                        }
-                        @CurrentMenu?.Name
-                    </div>
-                }
-                <div class="@PageClass">
-                    <Spin Spinning="showSpin" Tip="@spinTip">
-                        @Body
-                    </Spin>
-                </div>
-                @if (IsTab)
-                {
-                    <AppTab Items="Config.AppTabMenus" />
-                }
-            </div>
-        }
-        else
-        {
-            <Spin Spinning="showSpin" Tip="@spinTip">
-                <Layout Style="min-height:100vh;">
-                    @if (IsLoaded)
+            if (IsMobile)
+            {
+                <div class="kui-app">
+                    @if (!IsHome)
                     {
+                        <div class="kui-app-nav">
+                            @if (!IsTab)
+                            {
+                                <span class="back" @onclick="e=>Back()">
+                                    <Icon Type="left" Theme="outline" />
+                                    <span>返回</span>
+                                </span>
+                            }
+                            @CurrentMenu?.Name
+                        </div>
+                    }
+                    <div class="@PageClass">
+                        <Spin Spinning="showSpin" Tip="@spinTip">
+                            @Body
+                        </Spin>
+                    </div>
+                    @if (IsTab)
+                    {
+                        <AppTab Items="Config.AppTabMenus" />
+                    }
+                </div>
+            }
+            else
+            {
+                <Spin Spinning="showSpin" Tip="@spinTip">
+                    <Layout Style="min-height:100vh;">
                         <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible>
                             <div class="kui-logo"><img src="@Context.LogoUrl" /></div>
                             <AntMenu Accordion="Context.UserSetting.Accordion" Items="UserMenus" />
@@ -59,15 +59,15 @@
                                 <Footer Style="text-align:center"><PageFooter /></Footer>
                             }
                         </Layout>
-                    }
-                </Layout>
-            </Spin>
-        }
-        @if (IsLogin && !IsMobile)
-        {
-            <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="300">
-                <Known.Blazor.SettingForm @ref="setting" />
-            </Drawer>
+                    </Layout>
+                </Spin>
+            }
+            if (IsLogin && !IsMobile)
+            {
+                <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="300">
+                    <Known.Blazor.SettingForm @ref="setting" />
+                </Drawer>
+            }
         }
     </CascadingValue>
 </KError>
@@ -89,13 +89,13 @@
         await base.ShowSpinAsync(text);
         showSpin = true;
         spinTip = text;
-        StateChanged();
+        //StateChanged();
     }
 
     public override void HideSpin()
     {
         showSpin = false;
-        StateChanged();
+        //StateChanged();
     }
 
     //Admin

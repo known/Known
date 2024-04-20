@@ -5,11 +5,6 @@ class ModuleService(Context context) : ServiceBase(context)
     public Task<List<SysModule>> GetModulesAsync() => Database.QueryListAsync<SysModule>();
     public Task<SysModule> GetModuleAsync(string id) => Database.QueryByIdAsync<SysModule>(id);
 
-    public Task<SysModule> GetModuleByUrlAsync(string url)
-    {
-        return ModuleRepository.GetModuleByUrlAsync(Database, url);
-    }
-
     public async Task<Result> DeleteModulesAsync(List<SysModule> models)
     {
         if (models == null || models.Count == 0)

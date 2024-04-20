@@ -15,6 +15,12 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         Table = new TableModel<TItem>(this);
     }
 
+    protected override async Task OnPageChangedAsync()
+    {
+        await base.OnPageChangedAsync();
+        Table.Initialize(this);
+    }
+
     protected override void BuildPage(RenderTreeBuilder builder) => builder.BuildTable(Table);
 
     protected async void ShowImportForm(string param = null)

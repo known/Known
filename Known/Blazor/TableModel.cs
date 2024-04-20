@@ -53,10 +53,9 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         }
     }
 
-    public TableModel(BasePage page) : base(page.Context)
+    public TableModel(BasePage page) : this(page.Context)
     {
         AdvSearch = true;
-        Initialize(page);
     }
 
     internal List<ColumnInfo> AllColumns { get; private set; }

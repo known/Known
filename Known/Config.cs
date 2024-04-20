@@ -94,11 +94,6 @@ public sealed class Config
         return new("Home", "home", PageTypes.GetValueOrDefault("Home")) { Closable = false };
     }
 
-    internal static MenuItem GetUserProfileMenu()
-    {
-        return new("Profile", "user", typeof(SysUserProfile));
-    }
-
     private static void AddActions(Assembly assembly)
     {
         var content = Utils.GetResource(assembly, "actions");
