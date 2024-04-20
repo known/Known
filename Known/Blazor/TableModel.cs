@@ -296,13 +296,17 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
 
     private void SetPermission(BasePage page)
     {
-        if (page == null || page.Menu == null)
+        if (page == null || page.Context == null)
             return;
 
-        Toolbar.Items = Toolbar.Items?.Where(t => page.Menu.HasTool(t.Id)).ToList();
-        Actions = Actions?.Where(a => page.Menu.HasAction(a.Id)).ToList();
+        var menu = page.Context.Current;
+        if (menu == null)
+            return;
 
-        var columns = Columns?.Where(c => page.Menu.HasColumn(c.Id)).ToList();
+        Toolbar.Items = Toolbar.Items?.Where(t => menu.HasTool(t.Id)).ToList();
+        Actions = Actions?.Where(a => menu.HasAction(a.Id)).ToList();
+
+        var columns = Columns?.Where(c => menu.HasColumn(c.Id)).ToList();
         Columns.Clear();
         Columns.AddRange(columns);
         if (Columns != null && Columns.Count > 0)

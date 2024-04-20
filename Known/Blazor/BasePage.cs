@@ -4,7 +4,6 @@ public class BasePage : BaseComponent
 {
     private string orgPageUrl;
     private string pageUrl;
-    internal MenuInfo Menu { get; set; }
 
     [SupplyParameterFromQuery(Name = "pid")]
     public string PageId { get; set; }
@@ -19,12 +18,12 @@ public class BasePage : BaseComponent
         {
             var baseUrl = Navigation.BaseUri.TrimEnd('/');
             pageUrl = Navigation.Uri.Replace(baseUrl, "");
-            //Logger.Info($"TY={GetType()},DIP={IsDisposing},MN={Menu?.Name},PID={PageId},PUL={pageUrl}");
+            //Logger.Info($"TY={GetType()},DIP={IsDisposing},MN={PageName},PID={PageId},PUL={pageUrl}");
             if (!string.IsNullOrWhiteSpace(pageUrl) && pageUrl != "/" && orgPageUrl != pageUrl)
             {
                 //Logger.Info($"{Menu?.Name},orgPageUrl={orgPageUrl},pageUrl={pageUrl}");
                 orgPageUrl = pageUrl;
-                await InitMenuAsync();
+                await AddVisitLogAsync();
                 await OnPageChangedAsync();
             }
         }
@@ -47,21 +46,6 @@ public class BasePage : BaseComponent
     public virtual Task RefreshAsync() => Task.CompletedTask;
     public void OnToolClick(ActionInfo info) => OnAction(info, null);
     public void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
-
-    private async Task InitMenuAsync()
-    {
-        if (Context == null || Context.UserMenus == null)
-            return;
-
-        Menu = Context.UserMenus.FirstOrDefault(m => m.Id == PageId || (!string.IsNullOrWhiteSpace(m.Url) && m.Url == pageUrl));
-        if (Menu == null)
-            return;
-
-        Id = Menu.Id;
-        Name = Menu.Name;
-
-        await AddVisitLogAsync();
-    }
 
     private async Task AddVisitLogAsync()
     {
