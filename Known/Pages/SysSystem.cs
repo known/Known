@@ -8,9 +8,9 @@ public class SysSystem : BaseTabPage
     private WeChatSetting weChat;
     internal SystemInfo Data { get; private set; }
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
         Data = await Platform.System.GetSystemAsync();
 
         Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build(value => info = value));

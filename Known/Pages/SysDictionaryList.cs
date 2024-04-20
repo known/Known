@@ -9,9 +9,9 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     private int total;
     private string searchKey;
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
         await LoadCategoriesAsync();
         Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
         Table.RowKey = r => r.Id;

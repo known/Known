@@ -14,7 +14,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         await base.RefreshAsync();
     }
 
-    protected override async Task OnPageChangedAsync()
+    protected override async Task OnPageChangeAsync()
     {
         InitTable();
         await Table.RefreshAsync();

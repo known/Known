@@ -3,9 +3,9 @@
 [Route("/sys/roles")]
 public class SysRoleList : BaseTablePage<SysRole>
 {
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
         Table.OnQuery = Platform.Role.QueryRolesAsync;
         Table.RowKey = r => r.Id;
     }

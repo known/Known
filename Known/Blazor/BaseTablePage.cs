@@ -9,15 +9,15 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     public override Task RefreshAsync() => Table.RefreshAsync();
     internal override void ViewForm(FormViewType type, TItem row) => Table.ViewForm(type, row);
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
         Table = new TableModel<TItem>(this);
     }
 
-    protected override async Task OnPageChangedAsync()
+    protected override async Task OnPageChangeAsync()
     {
-        await base.OnPageChangedAsync();
+        await base.OnPageChangeAsync();
         Table.Initialize(this);
     }
 

@@ -3,9 +3,9 @@
 [Route("/bds/company")]
 public class CompanyForm : BaseTabPage
 {
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
         Tab.AddTab("BasicInfo", b => b.Component<CompanyBaseInfo>().Build());
     }
 }

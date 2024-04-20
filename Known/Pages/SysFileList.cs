@@ -3,9 +3,9 @@
 [Route("/sys/files")]
 public class SysFileList : BaseTablePage<SysFile>
 {
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
         Table.OnQuery = Platform.File.QueryFilesAsync;
         Table.Column(c => c.Size).Template(BuildFileSize);
     }

@@ -6,9 +6,9 @@ public class BaVerifyList : BaseTablePage<TbApply>
 {
     private ApplyService Service => new(Context);
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
         Table.FormType = typeof(ApplyForm);
         Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Verify, criteria);
 		Table.Column(c => c.BizStatus).Template(BuildBizStatus);

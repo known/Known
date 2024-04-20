@@ -6,9 +6,9 @@ public class SysUserProfile : BasePage<SysUser>
     private SysUserProfileInfo info;
     internal SysUser User { get; private set; }
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
 
         User = await Platform.User.GetUserAsync(CurrentUser.Id);
 

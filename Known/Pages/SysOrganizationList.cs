@@ -7,9 +7,9 @@ public class SysOrganizationList : BasePage<SysOrganization>
     private TreeModel tree;
     private TableModel<SysOrganization> table;
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
 
         Page.Type = PageType.Column;
         Page.Spans = "28";
@@ -33,6 +33,12 @@ public class SysOrganizationList : BasePage<SysOrganization>
             OnAction = OnActionClick
         };
         table.Toolbar.OnItemClick = OnToolClick;
+    }
+
+    protected override async Task OnPageChangeAsync()
+    {
+        table.Initialize(this);
+        await base.OnPageChangeAsync();
     }
 
     public override async Task RefreshAsync()

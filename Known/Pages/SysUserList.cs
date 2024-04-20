@@ -8,9 +8,9 @@ public class SysUserList : BasePage<SysUser>
     private TreeModel tree;
     private TableModel<SysUser> table;
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
 
         orgs = await Platform.Company.GetOrganizationsAsync();
         var hasOrg = orgs != null && orgs.Count > 1;
@@ -40,6 +40,12 @@ public class SysUserList : BasePage<SysUser>
         table.Toolbar.OnItemClick = OnToolClick;
         table.Column(c => c.Gender).Template(BuildGender);
         Page.AddItem(BuildTable);
+    }
+
+    protected override async Task OnPageChangeAsync()
+    {
+        table.Initialize(this);
+        await base.OnPageChangeAsync();
     }
 
     public override Task RefreshAsync() => table.RefreshAsync();

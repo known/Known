@@ -3,9 +3,9 @@
 [Route("/sys/tasks")]
 public class SysTaskList : BaseTablePage<SysTask>
 {
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
         Table.OnQuery = Platform.System.QueryTasksAsync;
         Table.Column(c => c.Status).Template(BuildTaskStatus);
     }

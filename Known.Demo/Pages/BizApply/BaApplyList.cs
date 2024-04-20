@@ -6,9 +6,9 @@ public class BaApplyList : BaseTablePage<TbApply>
 {
     private ApplyService Service => new(Context);
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnPageInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnPageInitAsync();
         //添加列表状态标签
         Table.Tab.AddTab("待审核");
         Table.Tab.AddTab("已审核");
