@@ -99,7 +99,7 @@ public class ActionInfo
         Children = [];
     }
 
-    internal ActionInfo(string idOrName) : this(null, idOrName) { }
+    public ActionInfo(string idOrName) : this(null, idOrName) { }
 
     private ActionInfo(Context context, string idOrName) : this()
     {

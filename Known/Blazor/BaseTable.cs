@@ -19,5 +19,5 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
     protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
-    public Task RefreshAsync() => Table.RefreshAsync();
+    public virtual Task RefreshAsync() => Table.RefreshAsync();
 }
