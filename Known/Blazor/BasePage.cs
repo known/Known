@@ -24,11 +24,14 @@ public class BasePage : BaseComponent
             //    orgPageUrl = Context.Url;
             if (orgPageUrl != pageUrl)
             {
+                //此次执行两次问题
+                var isChange = !string.IsNullOrWhiteSpace(orgPageUrl);
                 orgPageUrl = pageUrl;
-                await Context.SetCurrentMenuAsync(Platform, PageId, pageUrl);
-                await AddVisitLogAsync();
-                await OnPageChangeAsync();
                 //Logger.Info($"TY={GetType().Name},MN={PageName},PID={PageId},PUL={pageUrl},orgPageUrl={orgPageUrl}");
+                await Context.SetCurrentMenuAsync(Platform, PageId, pageUrl);
+                if (isChange)
+                    await AddVisitLogAsync();
+                await OnPageChangeAsync();
             }
         }
         catch (Exception ex)
