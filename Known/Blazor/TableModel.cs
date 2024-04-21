@@ -1,9 +1,7 @@
 ﻿namespace Known.Blazor;
 
-public class TableModel : BaseModel
+public class TableModel(Context context) : BaseModel(context)
 {
-    public TableModel(Context context) : base(context) { }
-
     public bool AdvSearch { get; set; }
     public List<ColumnInfo> QueryColumns { get; } = [];
     public Dictionary<string, QueryInfo> QueryData { get; } = [];
@@ -56,13 +54,16 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public TableModel(BasePage page) : this(page.Context)
     {
         AdvSearch = true;
+        Page = page;
+        OnAction = page.OnActionClick;
+        Toolbar.OnItemClick = page.OnToolClick;
     }
 
     internal List<ColumnInfo> AllColumns { get; private set; }
-    internal BasePage Page { get; private set; }
     internal SysModule Module { get; set; }
     internal string PageName => Page?.PageName;
 
+    public BasePage Page { get; }
     public bool IsDictionary => typeof(TItem) == typeof(Dictionary<string, object>);
     public bool HasAction => Actions != null && Actions.Count > 0;
     public bool HasSum => Columns != null && Columns.Any(c => c.IsSum);
@@ -243,11 +244,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public virtual void Initialize(BasePage page)
     {
         Clear();
-        Page = page;
-        Name = page.PageName;
         Module = page.Context.Module;
-        OnAction = page.OnActionClick;
-        Toolbar.OnItemClick = page.OnToolClick;
         Form.LoadInfo(Module?.Form);
         SetPage(Module?.Page);
         SetPermission(page);

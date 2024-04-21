@@ -51,8 +51,8 @@ public class BasePage : BaseComponent
     protected virtual Task OnPageInitAsync() => Task.CompletedTask;
     protected virtual Task OnPageChangeAsync() => Task.CompletedTask;
     public virtual Task RefreshAsync() => Task.CompletedTask;
-    public void OnToolClick(ActionInfo info) => OnAction(info, null);
-    public void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
+    internal void OnToolClick(ActionInfo info) => OnAction(info, null);
+    internal void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
     private async Task AddVisitLogAsync()
     {
