@@ -7,6 +7,11 @@ public class SysFileList : BaseTablePage<SysFile>
     {
         await base.OnPageInitAsync();
         Table.OnQuery = Platform.File.QueryFilesAsync;
+    }
+
+    protected override async Task OnPageChangeAsync()
+    {
+        await base.OnPageChangeAsync();
         Table.Column(c => c.Size).Template(BuildFileSize);
     }
 

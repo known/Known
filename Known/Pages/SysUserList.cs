@@ -38,7 +38,6 @@ public class SysUserList : BasePage<SysUser>
             OnAction = OnActionClick
         };
         table.Toolbar.OnItemClick = OnToolClick;
-        table.Column(c => c.Gender).Template(BuildGender);
         Page.AddItem(BuildTable);
     }
 
@@ -46,6 +45,7 @@ public class SysUserList : BasePage<SysUser>
     {
         table.Initialize(this);
         await base.OnPageChangeAsync();
+        table.Column(c => c.Gender).Template(BuildGender);
     }
 
     public override Task RefreshAsync() => table.RefreshAsync();

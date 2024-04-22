@@ -36,15 +36,14 @@ public class SysModuleList : BasePage<SysModule>
             FormType = typeof(SysModuleForm)
         };
         table.Toolbar.OnItemClick = OnToolClick;
-
-        table.Column(c => c.Name).Template(BuildName);
-        table.Column(c => c.Target).Template(BuildTarget);
     }
 
     protected override async Task OnPageChangeAsync()
     {
         table.Initialize(this);
         await base.OnPageChangeAsync();
+        table.Column(c => c.Name).Template(BuildName);
+        table.Column(c => c.Target).Template(BuildTarget);
     }
 
     public override async Task RefreshAsync()

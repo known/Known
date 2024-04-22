@@ -8,6 +8,11 @@ public class SysLogList : BaseTablePage<SysLog>
         await base.OnPageInitAsync();
         Table.OnQuery = Platform.System.QueryLogsAsync;
         Table.AddQueryColumn(c => c.CreateTime);
+    }
+
+    protected override async Task OnPageChangeAsync()
+    {
+        await base.OnPageChangeAsync();
         Table.Column(c => c.Type).Template(BuildLogType);
     }
 

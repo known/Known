@@ -16,6 +16,11 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
         Table.RowKey = r => r.Id;
         Table.OnQuery = QueryDictionarysAsync;
+    }
+
+    protected override async Task OnPageChangeAsync()
+    {
+        await base.OnPageChangeAsync();
         Table.Column(c => c.Category).Template(BuildCategory);
     }
 

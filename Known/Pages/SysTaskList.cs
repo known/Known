@@ -7,6 +7,11 @@ public class SysTaskList : BaseTablePage<SysTask>
     {
         await base.OnPageInitAsync();
         Table.OnQuery = Platform.System.QueryTasksAsync;
+    }
+
+    protected override async Task OnPageChangeAsync()
+    {
+        await base.OnPageChangeAsync();
         Table.Column(c => c.Status).Template(BuildTaskStatus);
     }
 
