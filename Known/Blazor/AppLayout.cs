@@ -19,7 +19,7 @@ public class AppLayout : LayoutComponentBase
     public Language Language => Context?.Language;
     public IUIService UI => Context?.UI;
     public UserInfo CurrentUser => Context?.CurrentUser;
-    public MenuInfo CurrentMenu => Context.Current;
+    public MenuInfo CurrentMenu { get; set; }
 
     private PlatformService platform;
     public PlatformService Platform
@@ -111,6 +111,7 @@ public class AppLayout : LayoutComponentBase
         if (item == null)
             return;
 
+        CurrentMenu = item;
         NavigateTo(item.RouteUrl);
     }
 

@@ -13,15 +13,5 @@
 </div>
 
 <div style="padding:20px 30px;">
-    <AppMenu Items="menus" />
+    <AppMenu Items="Config.AppMenus" />
 </div>
-
-@code {
-    private List<Known.MenuItem> menus = [];
-
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        menus.Add(new Known.MenuItem { Id = "Add", Name = "功能待加", Icon = "plus", Color = "#4fa624" });
-    }
-}
