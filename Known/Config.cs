@@ -21,7 +21,6 @@ public sealed class Config
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
-    internal static Dictionary<string, Type> PageTypes { get; } = [];
 
     public static void AddModule(Assembly assembly, bool isAdditional = true)
     {
@@ -38,8 +37,6 @@ public sealed class Config
                 ImportTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseFlow)))
                 FlowTypes[item.Name] = item;
-            else if (item.IsAssignableTo(typeof(BasePage)))
-                PageTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseForm)))
                 FormTypes[item.Name] = item;
             else if (item.IsEnum)
@@ -87,11 +84,6 @@ public sealed class Config
     {
         var path = GetUploadPath(isWeb);
         return Path.Combine(path, filePath);
-    }
-
-    internal static MenuItem GetHomeMenu()
-    {
-        return new("Home", "home", PageTypes.GetValueOrDefault("Home")) { Closable = false };
     }
 
     private static void AddActions(Assembly assembly)

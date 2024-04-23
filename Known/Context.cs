@@ -70,7 +70,7 @@ public class Context
     {
         Url = pageUrl;
         Module = null;
-        Current = Config.GetHomeMenu();
+        Current = null;
         var info = UserMenus?.FirstOrDefault(p => p.Url == pageUrl || p.Id == pageId);
         if (info != null)
         {
