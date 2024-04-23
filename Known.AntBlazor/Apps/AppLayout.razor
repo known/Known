@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 
 <div class="kui-app">
-    @if (!isHome)
+    @if (!IsHome)
     {
         <div class="kui-app-nav">
             @if (!string.IsNullOrWhiteSpace(App.CurrentMenu?.BackUrl))
@@ -17,24 +17,19 @@
     <div class="@pageClass">
         @ChildContent
     </div>
-    @if (isTab)
+    @if (IsTab)
     {
         <AppTab Items="Config.AppMenus" />
     }
 </div>
 
 @code {
-    private bool isHome => Context.Url == "/app";
-    private bool isTab => Context.Current?.Target == "Tab";
-    private string pageClass;
+    private bool IsHome => Context.Url == "/app";
+    private bool IsTab => Context.Current?.Target == "Tab";
+    private string pageClass => CssBuilder.Default("kui-app-page")
+                                          .AddClass("nav", !IsHome)
+                                          .AddClass("tab", IsTab)
+                                          .BuildClass();
 
     [Parameter] public RenderFragment ChildContent { get; set; }
-
-    // protected override async Task OnParameterAsync()
-    // {
-    //     await base.OnParameterAsync();
-    //     isHome = PageUrl == "/app";
-    //     isTab = App.CurrentMenu?.Target == "Tab";
-    //     pageClass = CssBuilder.Default("kui-app-page").AddClass("nav", !isHome).AddClass("tab", isTab).BuildClass();
-    // }
 }
