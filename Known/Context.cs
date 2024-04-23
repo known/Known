@@ -59,26 +59,23 @@ public class Context
         var menus = new List<MenuItem>();
         foreach (var menuId in menuIds)
         {
-            var menu = UserMenus.FirstOrDefault(m => m.Name == menuId);
+            var menu = UserMenus?.FirstOrDefault(m => m.Name == menuId);
             if (menu != null)
                 menus.Add(new MenuItem(menu));
         }
         return menus;
     }
 
-    internal async Task SetCurrentMenuAsync(PlatformService platform, string pageId, string pageUrl)
+    internal async Task SetCurrentMenuAsync(PlatformService platform, string pageUrl, string pageId = "")
     {
         Url = pageUrl;
         Module = null;
         Current = Config.GetHomeMenu();
-        if (UserMenus != null)
+        var info = UserMenus?.FirstOrDefault(p => p.Url == pageUrl || p.Id == pageId);
+        if (info != null)
         {
-            var info = UserMenus.FirstOrDefault(p => p.Id == pageId || p.Url == pageUrl);
-            if (info != null)
-            {
-                Current = new MenuItem(info);
-                Module = await platform.Module.GetModuleAsync(Current.Id);
-            }
+            Current = new MenuItem(info);
+            Module = await platform.Module.GetModuleAsync(Current.Id);
         }
     }
 }

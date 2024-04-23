@@ -1,10 +1,12 @@
 ﻿namespace Known.Pages;
 
-[Route("/page")]
+[Route("/page/{PageId}")]
 public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 {
     private bool isEditPage;
     private string TableName { get; set; }
+
+    [Parameter] public string PageId { get; set; }
 
     public override async Task RefreshAsync()
     {
@@ -13,6 +15,8 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 
         await base.RefreshAsync();
     }
+
+    internal override Task SetCurrentMenuAsync() => Context.SetCurrentMenuAsync(Platform, PageUrl, PageId);
 
     protected override async Task OnPageChangeAsync()
     {

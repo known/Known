@@ -100,7 +100,7 @@ public sealed class Config
         if (string.IsNullOrWhiteSpace(content))
             return;
 
-        var lines = content.Split(Environment.NewLine);
+        var lines = content.Split([.. Environment.NewLine]);
         if (lines == null || lines.Length == 0)
             return;
 

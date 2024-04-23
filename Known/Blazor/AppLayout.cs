@@ -61,9 +61,9 @@ public class AppLayout : LayoutComponentBase
                         Info = await Platform.Auth.GetAdminAsync();
                         UserMenus = GetUserMenus(Info?.UserMenus);
                         Context.UserSetting = Info?.UserSetting ?? new();
-                        IsLoaded = true;
                         await ShowNoticeAsync(Context.CurrentUser);
                     }
+                    IsLoaded = true;
                 }
                 else
                 {

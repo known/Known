@@ -32,5 +32,12 @@
     [Parameter] public int Count { get; set; } = 2;
     [Parameter] public List<Known.MenuItem> Items { get; set; }
 
-    private void OnItemClick(Known.MenuItem item) => App.NavigateTo(item);
+    private void OnItemClick(Known.MenuItem item)
+    {
+        if (string.IsNullOrWhiteSpace(item.Url))
+            return;
+
+        App.NavigateTo(item);
+    }
+
 }

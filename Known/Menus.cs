@@ -54,7 +54,7 @@ public class MenuInfo
         {
             var url = Url;
             if (string.IsNullOrWhiteSpace(url) || Target == ModuleType.IFrame.ToString())
-                url = $"/page?pid={Id}";
+                url = $"/page/{Id}";
             return url;
         }
     }

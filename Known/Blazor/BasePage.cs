@@ -3,10 +3,7 @@
 public class BasePage : BaseComponent
 {
     private string orgPageUrl;
-
-    [SupplyParameterFromQuery(Name = "pid")]
-    public string PageId { get; set; }
-
+    public string PageUrl { get; private set; }
     public string PageName => Language.GetString(Context.Module);
 
     protected override Task OnInitAsync() => OnPageInitAsync();
@@ -17,21 +14,21 @@ public class BasePage : BaseComponent
         {
             //TODO:此次执行两三次问题
             var baseUrl = Navigation.BaseUri.TrimEnd('/');
-            var pageUrl = Navigation.Uri.Replace(baseUrl, "");
-            //Logger.Info($"TY={GetType().Name},MN={PageName},PID={PageId},PUL={pageUrl},orgPageUrl={orgPageUrl}");
+            PageUrl = Navigation.Uri.Replace(baseUrl, "");
+            //Logger.Info($"TY={GetType().Name},MN={PageName},PUL={PageUrl},orgPageUrl={orgPageUrl}");
             //var isChanged = orgPageUrl == Context.Url;
             //if (orgPageUrl != Context.Url)
             //    orgPageUrl = Context.Url;
-            if (orgPageUrl != pageUrl)
+            if (orgPageUrl != PageUrl)
             {
                 //此次执行两次问题
                 var isChange = !string.IsNullOrWhiteSpace(orgPageUrl);
-                orgPageUrl = pageUrl;
-                //Logger.Info($"TY={GetType().Name},MN={PageName},PID={PageId},PUL={pageUrl},orgPageUrl={orgPageUrl}");
-                await Context.SetCurrentMenuAsync(Platform, PageId, pageUrl);
+                await SetCurrentMenuAsync();
+                await OnPageChangeAsync();
                 if (isChange)
                     await AddVisitLogAsync();
-                await OnPageChangeAsync();
+                Logger.Info($"TY={GetType().Name},MN={PageName},PUL={PageUrl},orgPageUrl={orgPageUrl}");
+                orgPageUrl = PageUrl;
             }
         }
         catch (Exception ex)
@@ -53,6 +50,8 @@ public class BasePage : BaseComponent
     public virtual Task RefreshAsync() => Task.CompletedTask;
     internal void OnToolClick(ActionInfo info) => OnAction(info, null);
     internal void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
+
+    internal virtual Task SetCurrentMenuAsync() => Context.SetCurrentMenuAsync(Platform, PageUrl);
 
     private async Task AddVisitLogAsync()
     {
