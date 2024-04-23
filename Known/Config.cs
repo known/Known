@@ -21,6 +21,7 @@ public sealed class Config
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
+    internal static List<MenuInfo> Menus { get; }= [];
 
     public static void AddModule(Assembly assembly, bool isAdditional = true)
     {
@@ -53,6 +54,12 @@ public sealed class Config
         Version = new VersionInfo(App.Assembly);
         AddModule(typeof(Config).Assembly);
         AddModule(App.Assembly, App.AssemblyAdditional);
+    }
+
+    internal static void SetMenu(MenuInfo info)
+    {
+        if (!Menus.Exists(m => m.Url == info.Url))
+            Menus.Add(info);
     }
 
     internal static string GetUploadPath(bool isWeb = false)

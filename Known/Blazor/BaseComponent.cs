@@ -16,25 +16,15 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
     [Inject] public JSService JS { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
-    [CascadingParameter] public Context Context { get; set; }
-    [CascadingParameter] public KError Error { get; set; }
-    [CascadingParameter] public AppLayout App { get; set; }
+    [CascadingParameter] public BaseLayout App { get; set; }
 
     protected bool IsDisposing { get; private set; }
+    public Context Context => App?.Context;
     public IUIService UI => Context?.UI;
-    public Language Language => Context?.Language;
+    public Language Language => App?.Language;
     public UserInfo CurrentUser => Context?.CurrentUser;
     public HttpContext HttpContext => HttpAccessor.HttpContext;
-
-    private PlatformService platform;
-    public PlatformService Platform
-    {
-        get
-        {
-            platform ??= new PlatformService(Context);
-            return platform;
-        }
-    }
+    public PlatformService Platform => App?.Platform;
 
     protected override async Task OnInitializedAsync()
     {
@@ -45,9 +35,20 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
-            if (Error != null)
-                await Error.HandleAsync(ex);
+            await App.OnError(ex);
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            await base.OnParametersSetAsync();
+            await OnParameterAsync();
+        }
+        catch (Exception ex)
+        {
+            await App.OnError(ex);
         }
     }
 
@@ -59,13 +60,12 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
-            if (Error != null)
-                await Error.HandleAsync(ex);
+            await App.OnError(ex);
         }
     }
 
     protected virtual Task OnInitAsync() => Task.CompletedTask;
+    protected virtual Task OnParameterAsync() => Task.CompletedTask;
     protected virtual void BuildRender(RenderTreeBuilder builder) { }
     protected virtual ValueTask DisposeAsync(bool disposing)
     {
@@ -101,9 +101,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
-            if (Error != null)
-                await Error.HandleAsync(ex);
+            await App.OnError(ex);
         }
     }
 }

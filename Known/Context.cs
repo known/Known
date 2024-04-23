@@ -67,13 +67,27 @@ public class Context
         return menus;
     }
 
-    internal async Task SetCurrentMenuAsync(PlatformService platform, string pageUrl, string pageId = "")
+    internal async Task SetCurrentMenuAsync(PlatformService platform, string pageId = "")
     {
         Module = null;
-        Url = pageUrl;
-        var menus = IsMobile ? Config.AppMenus : UserMenus;
-        Current = menus?.FirstOrDefault(p => p.Url == pageUrl || p.Id == pageId);
-        if (Current != null)
-            Module = await platform.Module.GetModuleAsync(Current.Id);
+        Current = Config.Menus.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
+        if (Current == null)
+        {
+            var menus = IsMobile ? Config.AppMenus : UserMenus;
+            Current = menus?.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
+            if (Current != null)
+                Module = await platform.Module.GetModuleAsync(Current.Id);
+        }
+
+        if (Module == null)
+            return;
+
+        var log = new SysLog
+        {
+            Target = Module.Name,
+            Content = Url,
+            Type = LogType.Page.ToString()
+        };
+        await platform.System.AddLogAsync(log);
     }
 }

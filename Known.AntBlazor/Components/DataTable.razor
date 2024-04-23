@@ -47,9 +47,7 @@
         catch (Exception ex)
         {
             loading = false;
-            Logger.Exception(ex);
-            if (Error != null)
-                await Error.HandleAsync(ex);
+            await App.OnError(ex);
         }
     }
 
@@ -85,9 +83,7 @@
         catch (Exception ex)
         {
             loading = false;
-            Logger.Exception(ex);
-            if (Error != null)
-                await Error.HandleAsync(ex);
+            await App.OnError(ex);
         }
     }
 

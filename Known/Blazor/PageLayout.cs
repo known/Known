@@ -2,7 +2,7 @@
 
 namespace Known.Blazor;
 
-public class AppLayout : LayoutComponentBase
+public class PageLayout : BaseLayout
 {
     protected bool IsLoaded { get; private set; }
     protected AdminInfo Info { get; private set; }
@@ -10,35 +10,19 @@ public class AppLayout : LayoutComponentBase
     protected bool IsLogin { get; private set; }
 
     [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
-    [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
     [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
     [Inject] public JSService JS { get; set; }
-    [Inject] public NavigationManager Navigation { get; set; }
-    [CascadingParameter] public Context Context { get; set; }
-    public HttpContext HttpContext => HttpAccessor.HttpContext;
-    public Language Language => Context?.Language;
-    public IUIService UI => Context?.UI;
-    public UserInfo CurrentUser => Context?.CurrentUser;
-    public MenuInfo CurrentMenu { get; set; }
 
-    private PlatformService platform;
-    public PlatformService Platform
-    {
-        get
-        {
-            platform ??= new PlatformService(Context);
-            return platform;
-        }
-    }
     protected override async Task OnInitializedAsync()
     {
         try
         {
             IsLoaded = false;
-            Context.IsMobile = CheckMobile(HttpAccessor?.HttpContext?.Request);
+            var httpContext = HttpAccessor?.HttpContext;
+            Context.IsMobile = CheckMobile(httpContext?.Request);
             if (Config.App.IsTheme)
                 Context.Theme = await JS.GetCurrentThemeAsync();
-            Context.Host = HttpContext.GetHostUrl();
+            Context.Host = httpContext?.GetHostUrl();
             Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
             Context.Install = await Platform.System.GetInstallAsync();
             if (!Context.Install.IsInstalled)
@@ -51,18 +35,14 @@ public class AppLayout : LayoutComponentBase
                 IsLogin = Context.CurrentUser != null;
                 if (IsLogin)
                 {
-                    if (Context.IsMobile)
-                    {
-                        NavigateTo("/app");
-                    }
-                    else
+                    if (!Context.IsMobile)
                     {
                         Info = await Platform.Auth.GetAdminAsync();
                         UserMenus = GetUserMenus(Info?.UserMenus);
                         Context.UserSetting = Info?.UserSetting ?? new();
-                        await ShowNoticeAsync(Context.CurrentUser);
                     }
                     IsLoaded = true;
+                    await ShowNoticeAsync(Context.CurrentUser);
                 }
                 else
                 {
@@ -72,16 +52,29 @@ public class AppLayout : LayoutComponentBase
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
             await OnError(ex);
         }
     }
 
-    public virtual Task ShowSpinAsync(string text = null) => Task.CompletedTask;
-    public virtual void HideSpin() { }
-    public virtual void StateChanged() => InvokeAsync(StateHasChanged);
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            var pageId = "";
+            Context.Url = Navigation.GetPageUrl();
+            if (Context.Url.StartsWith("/page/"))
+                pageId = Context.Url.Split("/")[2];
+            Logger.Info($"Layout={Context.Url}");
+            await base.OnParametersSetAsync();
+            await Context.SetCurrentMenuAsync(Platform, pageId);
+        }
+        catch (Exception ex)
+        {
+            await OnError(ex);
+        }
+    }
+
     protected virtual Task ShowNoticeAsync(UserInfo user) => Task.CompletedTask;
-    protected virtual Task OnError(Exception ex) => Task.CompletedTask;
 
     protected virtual Task<UserInfo> GetThirdUserAsync()
     {
@@ -102,46 +95,6 @@ public class AppLayout : LayoutComponentBase
         }
 
         return await GetThirdUserAsync();
-    }
-
-    public void NavigateTo(string url) => Navigation.NavigateTo(url);
-
-    public void NavigateTo(MenuInfo item)
-    {
-        if (item == null)
-            return;
-
-        CurrentMenu = item;
-        NavigateTo(item.RouteUrl);
-    }
-
-    public void Back()
-    {
-        //if (CurrentMenu.Previous == null)
-        //    return;
-
-        //NavigateTo(CurrentMenu.Previous);
-    }
-
-    public async Task SignOutAsync()
-    {
-        var user = CurrentUser;
-        var result = await Platform.SignOutAsync(user?.Token);
-        if (result.IsValid)
-        {
-            Context.CurrentUser = null;
-            await SetCurrentUserAsync(null);
-            NavigateTo("/login");
-            Config.OnExit?.Invoke();
-        }
-    }
-
-    private async Task SetCurrentUserAsync(UserInfo user)
-    {
-        if (AuthProvider is IAuthStateProvider provider)
-        {
-            await provider.UpdateUserAsync(user);
-        }
     }
 
     private List<MenuItem> GetUserMenus(List<MenuInfo> menus)

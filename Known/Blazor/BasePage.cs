@@ -2,41 +2,16 @@
 
 public class BasePage : BaseComponent
 {
-    private string orgPageUrl;
-    public string PageUrl { get; private set; }
     public string PageName => Language.GetString(Context.Module);
 
     protected override Task OnInitAsync() => OnPageInitAsync();
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnParameterAsync()
     {
-        try
-        {
-            //TODO:此次执行两三次问题
-            var baseUrl = Navigation.BaseUri.TrimEnd('/');
-            PageUrl = Navigation.Uri.Replace(baseUrl, "");
-            //Logger.Info($"TY={GetType().Name},MN={PageName},PUL={PageUrl},orgPageUrl={orgPageUrl}");
-            //var isChanged = orgPageUrl == Context.Url;
-            //if (orgPageUrl != Context.Url)
-            //    orgPageUrl = Context.Url;
-            if (orgPageUrl != PageUrl)
-            {
-                //此次执行两次问题
-                var isChange = !string.IsNullOrWhiteSpace(orgPageUrl);
-                await SetCurrentMenuAsync();
-                await OnPageChangeAsync();
-                if (isChange)
-                    await AddVisitLogAsync();
-                Logger.Info($"TY={GetType().Name},MN={PageName},PUL={PageUrl},orgPageUrl={orgPageUrl}");
-                orgPageUrl = PageUrl;
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.Exception(ex);
-            if (Error != null)
-                await Error.HandleAsync(ex);
-        }
+        await base.OnParameterAsync();
+        //TODO:此次执行两次问题
+        //Logger.Info($"TY={GetType().Name},MN={PageName},PUL={PageUrl},orgPageUrl={orgPageUrl}");
+        await OnPageChangeAsync();
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -50,22 +25,6 @@ public class BasePage : BaseComponent
     public virtual Task RefreshAsync() => Task.CompletedTask;
     internal void OnToolClick(ActionInfo info) => OnAction(info, null);
     internal void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
-
-    internal virtual Task SetCurrentMenuAsync() => Context.SetCurrentMenuAsync(Platform, PageUrl);
-
-    private async Task AddVisitLogAsync()
-    {
-        if (Context.Module == null)
-            return;
-
-        var log = new SysLog
-        {
-            Target = Context.Module.Name,
-            Content = Context.Url,
-            Type = LogType.Page.ToString()
-        };
-        await Platform.System.AddLogAsync(log);
-    }
 }
 
 public class BasePage<TItem> : BasePage where TItem : class, new()

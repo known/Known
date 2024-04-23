@@ -1,4 +1,4 @@
-﻿@inherits AppLayout
+﻿@inherits PageLayout
 @inject INotificationService _notice
 
 <KError OnError="OnError">
@@ -7,18 +7,11 @@
         {
             if (Context.IsMobile)
             {
-                <div class="kui-app">
-                    <AppNav />
-                    <div class="@PageClass">
-                        <Spin Spinning="showSpin" Tip="@spinTip">
-                            @Body
-                        </Spin>
-                    </div>
-                    @if (IsTab)
-                    {
-                        <AppTab Items="Config.AppMenus" />
-                    }
-                </div>
+                <AppLayout>
+                    <Spin Spinning="showSpin" Tip="@spinTip">
+                        @Body
+                    </Spin>
+                </AppLayout>
             }
             else
             {
@@ -63,10 +56,6 @@
 @code {
     private string spinTip = "";
     private bool showSpin = false;
-    //App
-    private bool IsHome => Context.Url == "/app";
-    private bool IsTab => true;
-    private string PageClass => CssBuilder.Default("kui-app-page nav").AddClass("nav", !IsHome).AddClass("tab", IsTab).BuildClass();
     //Admin
     private bool showSetting = false;
     private Known.Blazor.SettingForm setting;
@@ -86,23 +75,9 @@
         StateChanged();
     }
 
-    //Admin
-    private void OnMenuClick(string id)
+    public override Task OnError(Exception ex)
     {
-        switch (id)
-        {
-            case "logout":
-                UI.Confirm(Language["Tip.Exits"], SignOutAsync);
-                break;
-            case "setting":
-                showSetting = true;
-                StateChanged();
-                break;
-        }
-    }
-
-    protected override Task OnError(Exception ex)
-    {
+        Logger.Exception(ex);
         var config = new NotificationConfig
         {
             Message = Language["Title.Error"],
@@ -111,5 +86,20 @@
             Duration = null
         };
         return _notice.Error(config);
+    }
+
+    //Admin
+    private void OnMenuClick(string id)
+    {
+        switch (id)
+        {
+            case "logout":
+                Context?.UI?.Confirm(Language["Tip.Exits"], SignOutAsync);
+                break;
+            case "setting":
+                showSetting = true;
+                StateChanged();
+                break;
+        }
     }
 }

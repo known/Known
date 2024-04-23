@@ -6,7 +6,7 @@ public class LoginPage : BaseComponent
 
     protected LoginFormInfo Model = new();
 
-    public virtual string LogoUrl => Context.LogoUrl;
+    public virtual string LogoUrl => Context?.LogoUrl;
     [Parameter] public Func<UserInfo, Task> OnLogin { get; set; }
 
     protected override async Task OnInitAsync()
@@ -72,7 +72,10 @@ public class LoginPage : BaseComponent
         {
             var user = result.DataAs<UserInfo>();
             await SetCurrentUserAsync(user);
-            Navigation.NavigateTo("/", true);
+            if (Context.IsMobile)
+                Navigation.NavigateTo("/app");
+            else
+                Navigation.NavigateTo("/");
         }
     }
 

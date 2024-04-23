@@ -76,7 +76,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         }
         catch (Exception ex)
         {
-            await Error.HandleAsync(ex);
+            await App.OnError(ex);
             App.HideSpin();
         }
     }

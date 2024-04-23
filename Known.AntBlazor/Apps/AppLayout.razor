@@ -1,0 +1,40 @@
+﻿@inherits BaseComponent
+
+<div class="kui-app">
+    @if (!isHome)
+    {
+        <div class="kui-app-nav">
+            @if (!string.IsNullOrWhiteSpace(App.CurrentMenu?.BackUrl))
+            {
+                <span class="back" @onclick="e=>App.Back()">
+                    <Icon Type="left" Theme="outline" />
+                    <span>返回</span>
+                </span>
+            }
+            @App.CurrentMenu?.Name
+        </div>
+    }
+    <div class="@pageClass">
+        @ChildContent
+    </div>
+    @if (isTab)
+    {
+        <AppTab Items="Config.AppMenus" />
+    }
+</div>
+
+@code {
+    private bool isHome => Context.Url == "/app";
+    private bool isTab => Context.Current?.Target == "Tab";
+    private string pageClass;
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    // protected override async Task OnParameterAsync()
+    // {
+    //     await base.OnParameterAsync();
+    //     isHome = PageUrl == "/app";
+    //     isTab = App.CurrentMenu?.Target == "Tab";
+    //     pageClass = CssBuilder.Default("kui-app-page").AddClass("nav", !isHome).AddClass("tab", isTab).BuildClass();
+    // }
+}

@@ -38,14 +38,16 @@
             Id = "Profile",
             Name = Language.GetString("Title.MyProfile"),
             Icon = "user",
-            Url = "/profile/user"
+            Url = "/profile/user",
+            BackUrl = "/app/mine"
         });
         items.Add(new MenuInfo
         {
             Id = "Password",
             Name = Language.GetString("Title.SecuritySetting"),
             Icon = "lock",
-            Url = "/profile/password"
+            Url = "/profile/password",
+            BackUrl = "/app/mine"
         });
     }
 

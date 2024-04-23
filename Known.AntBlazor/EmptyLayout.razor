@@ -1,0 +1,23 @@
+﻿@inherits BaseLayout
+@inject INotificationService _notice
+
+<KError OnError="OnError">
+    <CascadingValue Value="this">
+        @Body
+    </CascadingValue>
+</KError>
+
+@code {
+    public override Task OnError(Exception ex)
+    {
+        Logger.Exception(ex);
+        var config = new NotificationConfig
+        {
+            Message = Language["Title.Error"],
+            Description = ex.Message,
+            Placement = NotificationPlacement.BottomRight,
+            Duration = null
+        };
+        return _notice.Error(config);
+    }
+}

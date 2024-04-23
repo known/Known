@@ -1,9 +1,10 @@
-﻿@using Microsoft.AspNetCore.Components.Authorization
+﻿@using Known.AntBlazor
+@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Routing
-@inherits BaseComponent
+@inject UIService AntUI
 
 <CascadingAuthenticationState>
-    <CascadingValue Value="Context">
+    <CascadingValue Value="context">
         <Router AppAssembly="typeof(App).Assembly">
             <Found Context="routeData">
                 <AuthorizeRouteView RouteData="@routeData">
@@ -19,11 +20,11 @@
 </CascadingAuthenticationState>
 
 @code {
-    [Inject] private Known.AntBlazor.UIService AntUI { get; set; }
+    private Context context;
 
     protected override void OnInitialized()
     {
-        Context = new Context(AntUI);
+        context = new Context(AntUI);
         base.OnInitialized();
     }
 }

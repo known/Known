@@ -16,8 +16,6 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         await base.RefreshAsync();
     }
 
-    internal override Task SetCurrentMenuAsync() => Context.SetCurrentMenuAsync(Platform, PageUrl, PageId);
-
     protected override async Task OnPageChangeAsync()
     {
         InitTable();

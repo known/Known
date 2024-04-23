@@ -139,5 +139,11 @@ public static class CommonExtension
 
         return context.Request.Scheme + "://" + context.Request.Host;
     }
+
+    public static string GetPageUrl(this NavigationManager navigation)
+    {
+        var baseUrl = navigation.BaseUri.TrimEnd('/');
+        return navigation.Uri.Replace(baseUrl, "");
+    }
     #endregion
 }
