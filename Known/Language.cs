@@ -99,8 +99,7 @@ public class Language
     }
 
     internal string GetString(SysModule module) => GetText("Menu", module?.Code, module?.Name);
-    internal string GetString(MenuInfo info) => GetText("Menu", info.Code, info.Name);
-    public string GetString(MenuItem item) => GetText("Menu", item.Code, item.Name);
+    public string GetString(MenuInfo info) => GetText("Menu", info.Code, info.Name);
     public string GetString(CodeInfo info) => GetText("Code", info.Code, info.Name);
     public string GetString(ActionInfo info) => GetText("Button", info.Id, info.Name);
     public string GetString(ColumnInfo info) => GetText("", info.Id, info.Name);

@@ -25,33 +25,37 @@
 
 @code {
     private UserInfo user;
-    private List<Known.MenuItem> items = [];
+    private List<MenuInfo> items = [];
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
         user = CurrentUser;
-        items.Add(new Known.MenuItem { Id = "Mobile", Name = user?.Mobile, Icon = "mobile" });
-        items.Add(new Known.MenuItem { Id = "Email", Name = user?.Email, Icon = "inbox" });
-        items.Add(new Known.MenuItem
+        items.Add(new MenuInfo { Id = "Mobile", Name = user?.Mobile, Icon = "mobile" });
+        items.Add(new MenuInfo { Id = "Email", Name = user?.Email, Icon = "inbox" });
+        items.Add(new MenuInfo
         {
             Id = "Profile",
             Name = Language.GetString("Title.MyProfile"),
             Icon = "user",
-            Url = "/profile/user",
-            Previous = App.CurrentMenu
+            Url = "/profile/user"
         });
-        items.Add(new Known.MenuItem
+        items.Add(new MenuInfo
         {
             Id = "Password",
             Name = Language.GetString("Title.SecuritySetting"),
             Icon = "lock",
-            Url = "/profile/password",
-            Previous = App.CurrentMenu
+            Url = "/profile/password"
         });
     }
 
-    private void OnItemClick(Known.MenuItem item) => App.NavigateTo(item);
+    private void OnItemClick(MenuInfo item)
+    {
+        if (string.IsNullOrWhiteSpace(item.Url))
+            return;
+
+        App.NavigateTo(item);
+    }
 
     private void Logout()
     {

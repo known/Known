@@ -5,6 +5,9 @@
     {
         foreach (var item in Items)
         {
+            if (item.Target != "Tab")
+                continue;
+
             <li @onclick="e=>OnItemClick(item)" class="@(current == item.Id ? "active" : "")">
                 <Icon Type="@item.Icon" Theme="outline" />
                 <span>@item.Name</span>
@@ -16,7 +19,7 @@
 @code {
     private string current;
 
-    [Parameter] public List<Known.MenuItem> Items { get; set; }
+    [Parameter] public List<MenuInfo> Items { get; set; }
 
     protected override void OnInitialized()
     {
@@ -24,7 +27,7 @@
         current = Items?.FirstOrDefault()?.Id;
     }
 
-    private void OnItemClick(Known.MenuItem item)
+    private void OnItemClick(MenuInfo item)
     {
         current = item.Id;
         App.NavigateTo(item);

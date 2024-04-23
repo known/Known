@@ -1,6 +1,4 @@
-﻿using Microsoft.Net.Http.Headers;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 {
@@ -22,9 +20,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter] public KError Error { get; set; }
     [CascadingParameter] public AppLayout App { get; set; }
 
-    protected bool IsMobile { get; private set; }
     protected bool IsDisposing { get; private set; }
-    protected bool IsLoaded { get; set; }
     public IUIService UI => Context?.UI;
     public Language Language => Context?.Language;
     public UserInfo CurrentUser => Context?.CurrentUser;
@@ -44,7 +40,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         try
         {
-            IsMobile = CheckMobile(HttpAccessor?.HttpContext?.Request);
             await base.OnInitializedAsync();
             await OnInitAsync();
         }
@@ -110,14 +105,5 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
             if (Error != null)
                 await Error.HandleAsync(ex);
         }
-    }
-
-    private static bool CheckMobile(HttpRequest request)
-    {
-        if (request == null)
-            return false;
-
-        var agent = request.Headers[HeaderNames.UserAgent].ToString();
-        return Utils.CheckMobile(agent);
     }
 }

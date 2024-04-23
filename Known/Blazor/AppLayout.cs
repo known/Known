@@ -5,7 +5,6 @@ namespace Known.Blazor;
 public class AppLayout : LayoutComponentBase
 {
     protected bool IsLoaded { get; private set; }
-    protected bool IsMobile { get; private set; }
     protected AdminInfo Info { get; private set; }
     protected List<MenuItem> UserMenus { get; private set; }
     protected bool IsLogin { get; private set; }
@@ -20,7 +19,7 @@ public class AppLayout : LayoutComponentBase
     public Language Language => Context?.Language;
     public IUIService UI => Context?.UI;
     public UserInfo CurrentUser => Context?.CurrentUser;
-    public MenuItem CurrentMenu => Context.Current;
+    public MenuInfo CurrentMenu => Context.Current;
 
     private PlatformService platform;
     public PlatformService Platform
@@ -36,7 +35,7 @@ public class AppLayout : LayoutComponentBase
         try
         {
             IsLoaded = false;
-            IsMobile = CheckMobile(HttpAccessor?.HttpContext?.Request);
+            Context.IsMobile = CheckMobile(HttpAccessor?.HttpContext?.Request);
             if (Config.App.IsTheme)
                 Context.Theme = await JS.GetCurrentThemeAsync();
             Context.Host = HttpContext.GetHostUrl();
@@ -52,7 +51,7 @@ public class AppLayout : LayoutComponentBase
                 IsLogin = Context.CurrentUser != null;
                 if (IsLogin)
                 {
-                    if (IsMobile)
+                    if (Context.IsMobile)
                     {
                         NavigateTo("/app");
                     }
@@ -107,7 +106,7 @@ public class AppLayout : LayoutComponentBase
 
     public void NavigateTo(string url) => Navigation.NavigateTo(url);
 
-    public void NavigateTo(MenuItem item)
+    public void NavigateTo(MenuInfo item)
     {
         if (item == null)
             return;
@@ -117,10 +116,10 @@ public class AppLayout : LayoutComponentBase
 
     public void Back()
     {
-        if (CurrentMenu.Previous == null)
-            return;
+        //if (CurrentMenu.Previous == null)
+        //    return;
 
-        NavigateTo(CurrentMenu.Previous);
+        //NavigateTo(CurrentMenu.Previous);
     }
 
     public async Task SignOutAsync()

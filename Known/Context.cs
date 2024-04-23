@@ -16,9 +16,10 @@ public class Context
         language = new Language(cultureName);
     }
 
-    internal MenuItem Current { get; private set; }
     internal SysModule Module { get; set; }
+    public MenuInfo Current { get; private set; }
     public IUIService UI { get; }
+    public bool IsMobile { get; set; }
     public string Host { get; set; }
     public string Url { get; set; }
     public string Theme { get; set; }
@@ -68,14 +69,11 @@ public class Context
 
     internal async Task SetCurrentMenuAsync(PlatformService platform, string pageUrl, string pageId = "")
     {
-        Url = pageUrl;
         Module = null;
-        Current = null;
-        var info = UserMenus?.FirstOrDefault(p => p.Url == pageUrl || p.Id == pageId);
-        if (info != null)
-        {
-            Current = new MenuItem(info);
+        Url = pageUrl;
+        var menus = IsMobile ? Config.AppMenus : UserMenus;
+        Current = menus?.FirstOrDefault(p => p.Url == pageUrl || p.Id == pageId);
+        if (Current != null)
             Module = await platform.Module.GetModuleAsync(Current.Id);
-        }
     }
 }

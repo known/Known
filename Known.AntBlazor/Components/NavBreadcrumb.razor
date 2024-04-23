@@ -7,9 +7,9 @@
             <span style="cursor:pointer;">@Language.Home</span>
         </a>
     </BreadcrumbItem>
-    @if (CurrentMenu != null)
+    @if (Context.Current != null)
     {
-        if (CurrentMenu.Parent != null)
+        @* if (CurrentMenu.Parent != null)
         {
             if (CurrentMenu.Parent.Parent != null)
             {
@@ -22,18 +22,14 @@
                 <Icon Type="@CurrentMenu.Parent.Icon" />
                 <span>@Language.GetString(CurrentMenu.Parent)</span>
             </BreadcrumbItem>
-        }
-        if (CurrentMenu.Name != "Home")
+        } *@
+        if (Context.Current.Name != "Home")
         {
-            var menuName = Language.GetString(CurrentMenu);
+            var menuName = Language.GetString(Context.Current);
             <BreadcrumbItem>
-                <Icon Type="@CurrentMenu.Icon" />
+                <Icon Type="@Context.Current.Icon" />
                 <span>@menuName</span>
             </BreadcrumbItem>
         }
     }
 </Breadcrumb>
-
-@code {
-    [Parameter] public Known.MenuItem CurrentMenu { get; set; }
-}

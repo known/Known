@@ -5,6 +5,9 @@
     {
         foreach (var item in Items)
         {
+            if (item.Target != "Menu")
+                continue;
+
             <li @onclick="e=>OnItemClick(item)" style="width:@(Width)%">
                 @if (item.Badge > 0)
                 {
@@ -30,9 +33,9 @@
     private double Width => 100 / Count;
 
     [Parameter] public int Count { get; set; } = 2;
-    [Parameter] public List<Known.MenuItem> Items { get; set; }
+    [Parameter] public List<MenuInfo> Items { get; set; }
 
-    private void OnItemClick(Known.MenuItem item)
+    private void OnItemClick(MenuInfo item)
     {
         if (string.IsNullOrWhiteSpace(item.Url))
             return;

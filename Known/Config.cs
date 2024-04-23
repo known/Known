@@ -12,7 +12,7 @@ public sealed class Config
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
     public static List<Assembly> Assemblies { get; set; } = [];
-    public static List<MenuItem> AppTabMenus { get; set; }
+    public static List<MenuInfo> AppMenus { get; set; }
     internal static DateTime StartTime { get; set; } = DateTime.Now;
     internal static bool IsClearCache { get; set; }
     internal static bool IsAuth { get; set; } = true;

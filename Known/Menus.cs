@@ -44,6 +44,7 @@ public class MenuInfo
     public string Url { get; set; }
     public string Color { get; set; }
     public int Sort { get; set; }
+    public int Badge { get; set; }
     internal List<string> Tools { get; set; }
     internal List<string> Actions { get; set; }
     internal List<PageColumnInfo> Columns { get; set; }
@@ -304,22 +305,9 @@ public class MenuItem : MenuInfo
         Icon = icon;
     }
 
-    public MenuItem(string name, string icon, Type type, string description = null) : base(type?.Name, name, icon, description)
-    {
-        Closable = true;
-        Code = type?.Name;
-        Target = type?.FullName;
-        ComType = type;
-        Children = [];
-    }
-
     public bool Enabled { get; set; } = true;
-    public bool Visible { get; set; } = true;
     public bool Closable { get; set; }
     public bool Checked { get; set; }
-    public int Badge { get; set; }
-    public Type ComType { get; set; }
-    public Dictionary<string, object> ComParameters { get; set; }
     public MenuItem Previous { get; set; }
     public MenuItem Parent { get; set; }
     public List<MenuItem> Children { get; set; }

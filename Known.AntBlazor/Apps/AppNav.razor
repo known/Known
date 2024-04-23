@@ -1,0 +1,9 @@
+﻿@inherits BaseComponent
+
+<div class="kui-app-nav">
+    <span class="back" @onclick="e=>App.Back()">
+        <Icon Type="left" Theme="outline" />
+        <span>返回</span>
+    </span>
+    @Context.Current?.Name
+</div>
