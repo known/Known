@@ -103,9 +103,11 @@ public class PageLayout : BaseLayout
     private static bool CheckMobile(HttpRequest request)
     {
         if (request == null)
-            return false;
+            throw new Exception("Server WebSocket not enabled!");
 
         var agent = request.Headers[HeaderNames.UserAgent].ToString();
+        if (string.IsNullOrWhiteSpace(agent))
+            agent = request.Headers["X-Forwarded-For"].ToString();
         return Utils.CheckMobile(agent);
     }
 }
