@@ -60,25 +60,18 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 
     protected async Task ExportDataAsync(string name, ExportMode mode)
     {
-        try
+        await App?.ShowSpinAsync("", async () =>
         {
-            await App?.ShowSpinAsync();
             Table.Criteria.ExportMode = mode;
             Table.Criteria.ExportColumns = GetExportColumns();
             var result = await Table.OnQuery?.Invoke(Table.Criteria);
             var bytes = result.ExportData;
-            if (bytes == null || bytes.Length == 0)
-                return;
-
-            var stream = new MemoryStream(bytes);
-            await JS.DownloadFileAsync($"{name}.xlsx", stream);
-            App?.HideSpin();
-        }
-        catch (Exception ex)
-        {
-            await App?.OnError(ex);
-            App?.HideSpin();
-        }
+            if (bytes != null && bytes.Length > 0)
+            {
+                var stream = new MemoryStream(bytes);
+                await JS.DownloadFileAsync($"{name}.xlsx", stream);
+            }
+        });
     }
 
     private Dictionary<string, string> GetExportColumns()

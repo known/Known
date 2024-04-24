@@ -5,17 +5,13 @@
     <CascadingValue Value="this">
         @if (IsLoaded)
         {
-            if (Context.IsMobile)
-            {
-                <AppLayout>
-                    <Spin Spinning="showSpin" Tip="@spinTip">
-                        @Body
-                    </Spin>
-                </AppLayout>
-            }
-            else
-            {
-                <Spin Spinning="showSpin" Tip="@spinTip">
+            <Spin Spinning="showSpin" Tip="@spinTip">
+                @if (Context.IsMobile)
+                {
+                    <AppLayout>@Body</AppLayout>
+                }
+                else
+                {
                     <Layout Style="min-height:100vh;">
                         <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible>
                             <div class="kui-logo"><img src="@Context.LogoUrl" /></div>
@@ -41,9 +37,9 @@
                             }
                         </Layout>
                     </Layout>
-                </Spin>
-            }
-            if (IsLogin && !Context.IsMobile)
+                }
+            </Spin> 
+            @if (IsLogin && !Context.IsMobile)
             {
                 <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="300">
                     <Known.Blazor.SettingForm @ref="setting" />
@@ -61,16 +57,25 @@
     private Known.Blazor.SettingForm setting;
     private string Content => Context.UserSetting.MultiTab ? "kui-tabs" : "kui-page";
 
-    public override async Task ShowSpinAsync(string text = null)
+    public override async Task ShowSpinAsync(string text, Action action)
     {
-        await base.ShowSpinAsync(text);
+        if (action == null)
+            return;
+
         showSpin = true;
         spinTip = text;
         StateChanged();
-    }
-
-    public override void HideSpin()
-    {
+        await Task.Run(async () =>
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                await OnError(ex);
+            }
+        });
         showSpin = false;
         StateChanged();
     }

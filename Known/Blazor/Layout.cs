@@ -52,8 +52,7 @@ public class BaseLayout : LayoutComponentBase
     }
 
     public virtual Task OnError(Exception ex) => Task.CompletedTask;
-    public virtual Task ShowSpinAsync(string text = null) => Task.CompletedTask;
-    public virtual void HideSpin() { }
+    public virtual Task ShowSpinAsync(string text, Action action) => Task.CompletedTask;
     public virtual void StateChanged() => InvokeAsync(StateHasChanged);
 
     private async Task SetCurrentUserAsync(UserInfo user)
