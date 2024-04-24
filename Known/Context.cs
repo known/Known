@@ -52,17 +52,17 @@ public class Context
         }
     }
 
-    public List<MenuItem> GetMenus(List<string> menuIds)
+    public List<MenuInfo> GetMenus(List<string> menuIds)
     {
         if (menuIds == null || menuIds.Count == 0)
             return [];
 
-        var menus = new List<MenuItem>();
+        var menus = new List<MenuInfo>();
         foreach (var menuId in menuIds)
         {
             var menu = UserMenus?.FirstOrDefault(m => m.Name == menuId);
             if (menu != null)
-                menus.Add(new MenuItem(menu));
+                menus.Add(menu);
         }
         return menus;
     }

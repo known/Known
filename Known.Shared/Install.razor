@@ -1,15 +1,15 @@
 ﻿@page "/install"
 @layout EmptyLayout
-@inherits InstallPage
+@inherits BasePage
 
-<InstallPage>
+<InstallForm OnInstall="OnInstall">
     <TopMenu>
         <ul class="kui-menu">
             <li style="text-align:center;"><AntLanguage OnChanged="StateChanged" /></li>
             <li style="margin-left:15px;"><AntTheme Theme="@Context.Theme" OnChanged="SetTheme" /></li>
         </ul>
     </TopMenu>
-</InstallPage>
+</InstallForm>
 
 @code {
     private void SetTheme(string theme)
@@ -19,5 +19,10 @@
 
         Context.Theme = theme;
         StateChanged();
+    }
+
+    private void OnInstall(InstallInfo info)
+    {
+        App?.NavigateTo("/login");
     }
 }

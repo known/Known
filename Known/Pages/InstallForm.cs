@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-public class InstallPage : BaseForm<InstallInfo>
+public class InstallForm : BaseForm<InstallInfo>
 {
     [Parameter] public RenderFragment TopMenu { get; set; }
     [Parameter] public Action<InstallInfo> OnInstall { get; set; }

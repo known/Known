@@ -8,6 +8,7 @@ public static class Extension
 {
     public static void AddKnown(this IServiceCollection services, Action<AppInfo> action = null)
     {
+        Config.StartTime = DateTime.Now;
         Language.Initialize();
         action?.Invoke(Config.App);
 

@@ -1,0 +1,56 @@
+﻿@inherits BaseComponent
+
+<div class="ws-space">
+    <div class="ws-welcome">
+        <img class="ws-avatar" src="@CurrentUser?.AvatarUrl" />
+        <div class="ws-info">
+            <span class="ws-name">@GetUserGreeting()</span>
+            <span class="ws-tips">@Language["Home.Today"].Replace("{date}", DateTime.Now.ToString("yyyy-MM-dd dddd"))</span>
+        </div>
+    </div>
+    @if (Counts != null && Counts.Count > 0)
+    {
+        <ul class="count">
+            @foreach (var item in Counts)
+            {
+                var type = item.Type;
+                if (string.IsNullOrWhiteSpace(type))
+                    type = Language["Home.Total"];
+
+                <li>
+                    <span class="name">@item.Name<span class="month">@type</span></span>
+                    @if (!string.IsNullOrWhiteSpace(item.Url))
+                    {
+                        <a class="amount">@item.Count</a>
+                    }
+                    else
+                    {
+                        <span class="amount">@item.Count</span>
+                    }
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    [Parameter] public List<StatisticCountInfo> Counts { get; set; }
+
+    private string GetUserGreeting()
+    {
+        var user = CurrentUser;
+        var hour = DateTime.Now.Hour;
+        var greet = GetGreeting("Greeting0", user);
+        if (5 <= hour && hour < 9) greet = GetGreeting("Greeting5", user);
+        else if (9 <= hour && hour < 11) greet = GetGreeting("Greeting9", user);
+        else if (11 <= hour && hour < 13) greet = GetGreeting("Greeting11", user);
+        else if (13 <= hour && hour < 15) greet = GetGreeting("Greeting13", user);
+        else if (15 <= hour && hour < 18) greet = GetGreeting("Greeting15", user);
+        else if (18 <= hour && hour < 22) greet = GetGreeting("Greeting18", user);
+        else if (22 <= hour && hour < 23) greet = GetGreeting("Greeting22", user);
+        else if (23 <= hour || hour < 5) greet = GetGreeting("Greeting23", user);
+        return greet;
+    }
+
+    private string GetGreeting(string id, UserInfo user) => Language[id].Replace("{name}", user?.Name);
+}

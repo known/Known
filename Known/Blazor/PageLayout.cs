@@ -42,7 +42,6 @@ public class PageLayout : BaseLayout
                         Context.UserSetting = Info?.UserSetting ?? new();
                     }
                     IsLoaded = true;
-                    await ShowNoticeAsync(Context.CurrentUser);
                 }
                 else
                 {
@@ -73,8 +72,6 @@ public class PageLayout : BaseLayout
             await OnError(ex);
         }
     }
-
-    protected virtual Task ShowNoticeAsync(UserInfo user) => Task.CompletedTask;
 
     protected virtual Task<UserInfo> GetThirdUserAsync()
     {
