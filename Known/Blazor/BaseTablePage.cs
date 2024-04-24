@@ -62,7 +62,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     {
         try
         {
-            await App.ShowSpinAsync();
+            await App?.ShowSpinAsync();
             Table.Criteria.ExportMode = mode;
             Table.Criteria.ExportColumns = GetExportColumns();
             var result = await Table.OnQuery?.Invoke(Table.Criteria);
@@ -72,12 +72,12 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 
             var stream = new MemoryStream(bytes);
             await JS.DownloadFileAsync($"{name}.xlsx", stream);
-            App.HideSpin();
+            App?.HideSpin();
         }
         catch (Exception ex)
         {
-            await App.OnError(ex);
-            App.HideSpin();
+            await App?.OnError(ex);
+            App?.HideSpin();
         }
     }
 

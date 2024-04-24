@@ -16,15 +16,24 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
     [Inject] public JSService JS { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
+    [CascadingParameter] public Context Context { get; set; }
     [CascadingParameter] public BaseLayout App { get; set; }
 
     protected bool IsDisposing { get; private set; }
-    public Context Context => App?.Context;
     public IUIService UI => Context?.UI;
-    public Language Language => App?.Language;
+    public Language Language => Context?.Language;
     public UserInfo CurrentUser => Context?.CurrentUser;
     public HttpContext HttpContext => HttpAccessor.HttpContext;
-    public PlatformService Platform => App?.Platform;
+
+    private PlatformService platform;
+    public PlatformService Platform
+    {
+        get
+        {
+            platform ??= new PlatformService(Context);
+            return platform;
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -35,7 +44,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await App.OnError(ex);
+            await App?.OnError(ex);
         }
     }
 
@@ -48,7 +57,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await App.OnError(ex);
+            await App?.OnError(ex);
         }
     }
 
@@ -60,7 +69,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await App.OnError(ex);
+            await App?.OnError(ex);
         }
     }
 
@@ -101,7 +110,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await App.OnError(ex);
+            await App?.OnError(ex);
         }
     }
 }

@@ -47,7 +47,7 @@
         catch (Exception ex)
         {
             loading = false;
-            await App.OnError(ex);
+            await App?.OnError(ex);
         }
     }
 
@@ -83,7 +83,7 @@
         catch (Exception ex)
         {
             loading = false;
-            await App.OnError(ex);
+            await App?.OnError(ex);
         }
     }
 

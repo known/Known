@@ -120,7 +120,7 @@ public class LoginPage : BaseComponent
                 Thread.Sleep(1000);
             }
         });
-        Navigation.NavigateTo(uri, true);
+        Navigation.NavigateTo(uri);
     }
 
     private void ShowWeixinQRCode(string uri, UserInfo user)

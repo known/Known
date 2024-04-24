@@ -40,7 +40,7 @@
         if (string.IsNullOrWhiteSpace(item.Url))
             return;
 
-        App.NavigateTo(item);
+        App?.NavigateTo(item);
     }
 
 }

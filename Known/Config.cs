@@ -133,10 +133,10 @@ public class VersionInfo
 {
     internal VersionInfo(Assembly assembly)
     {
+        BuildTime = GetBuildTime();
         if (assembly != null)
         {
             var version = assembly.GetName().Version;
-            BuildTime = new FileInfo(assembly.Location).LastWriteTime;
             AppVersion = $"{Config.App.Id} V{version.Major}.{version.Minor}";
             SoftVersion = GetSoftVersion(version, BuildTime);
         }
@@ -150,9 +150,19 @@ public class VersionInfo
     public string FrameVersion { get; }
     public DateTime BuildTime { get; }
 
+    private static DateTime GetBuildTime()
+    {
+        var path = AppDomain.CurrentDomain.BaseDirectory;
+        var fileName = Directory.GetFiles(path, "*.exe").FirstOrDefault();
+        var file = new FileInfo(fileName);
+        return file.LastWriteTime;
+        //var version = assembly.GetName().Version;
+        //return new DateTime(2000, 1, 1) + TimeSpan.FromDays(version.Revision);
+        //return new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
+    }
+
     private static string GetSoftVersion(Version version, DateTime date)
     {
-        //var date = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
         var count = date.Year - 2000 + date.Month + date.Day;
         return $"V{version.Major}.{version.Minor}.{version.Build}.{count}";
     }

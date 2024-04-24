@@ -56,7 +56,7 @@
         if (string.IsNullOrWhiteSpace(item.Url))
             return;
 
-        App.NavigateTo(item);
+        App?.NavigateTo(item);
     }
 
     private void Logout()
@@ -67,7 +67,7 @@
             var result = await Platform.SignOutAsync(user?.Token);
             if (result.IsValid)
             {
-                await App.SignOutAsync();
+                await App?.SignOutAsync();
                 Config.OnExit?.Invoke();
             }
         });

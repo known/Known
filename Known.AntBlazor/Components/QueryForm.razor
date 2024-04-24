@@ -81,7 +81,7 @@
         }
         catch (Exception ex)
         {
-            await App.OnError(ex);
+            await App?.OnError(ex);
         }
     }
 

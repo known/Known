@@ -51,7 +51,7 @@
             await JS.CloseFullScreenAsync();
     }
 
-    private void OnLanguageChanged() => App.StateChanged();
+    private void OnLanguageChanged() => App?.StateChanged();
 
     private void SetTheme(string theme)
     {

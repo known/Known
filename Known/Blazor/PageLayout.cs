@@ -64,7 +64,7 @@ public class PageLayout : BaseLayout
             Context.Url = Navigation.GetPageUrl();
             if (Context.Url.StartsWith("/page/"))
                 pageId = Context.Url.Split("/")[2];
-            Logger.Info($"Layout={Context.Url}");
+            //Logger.Info($"Layout={Context.Url}");
             await base.OnParametersSetAsync();
             await Context.SetCurrentMenuAsync(Platform, pageId);
         }

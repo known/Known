@@ -83,7 +83,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
         if (result.IsValid)
         {
             CurrentUser.AppName = value;
-            App.StateChanged();
+            App?.StateChanged();
         }
     }
 
