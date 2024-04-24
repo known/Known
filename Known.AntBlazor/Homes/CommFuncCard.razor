@@ -1,14 +1,14 @@
 ﻿@inherits BaseComponent
 
 <div class="ws-func">
-    <Card Title="@Language["Home.CommonFunc"]" Style="height:100%;">
+    <Card Title="@Language?["Home.CommonFunc"]" Style="height:100%;">
         @if (Menus != null && Menus.Count > 0)
         {
             foreach (var item in Menus)
             {
-                <div class="ws-func-menu" @onclick="e=>App.NavigateTo(item)">
+                <div class="ws-func-menu" @onclick="e=>Navigation?.NavigateTo(item.RouteUrl, true)">
                     <Icon Type="@item.Icon" Theme="outline" />
-                    <span class="name">@Language.GetString(item)</span>
+                    <span class="name">@Language?.GetString(item)</span>
                 </div>
             }
         }
