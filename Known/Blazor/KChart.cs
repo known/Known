@@ -2,6 +2,8 @@
 
 public class KChart : BaseComponent
 {
+    [Parameter] public int? Width { get; set; }
+    [Parameter] public int? Height { get; set; }
     [Parameter] public object YAxis { get; set; }
     [Parameter] public object Legend { get; set; }
     [Parameter] public object Tooltip { get; set; }
@@ -25,6 +27,7 @@ public class KChart : BaseComponent
         var option = new
         {
             credits = new { enabled = false },
+            chart = new { width = Width, height = Height },
             title = new { text = title },
             xAxis,
             yAxis = YAxis ?? new { },
@@ -54,7 +57,7 @@ public class KChart : BaseComponent
         var option = new
         {
             credits = new { enabled = false },
-            chart = new { type = "column", backgroundColor = "rgba(0,0,0,0)" },
+            chart = new { type = "column", backgroundColor = "rgba(0,0,0,0)", width = Width, height = Height },
             title = new { text = title },
             xAxis,
             yAxis = YAxis ?? new { },
@@ -82,7 +85,7 @@ public class KChart : BaseComponent
         var option = new
         {
             credits = new { enabled = false },
-            chart = new { type = "pie", backgroundColor = "rgba(0,0,0,0)" },
+            chart = new { type = "pie", backgroundColor = "rgba(0,0,0,0)", width = Width, height = Height },
             title = new { text = title },
             legend = Legend ?? new { },
             tooltip = Tooltip ?? new { pointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>" },
