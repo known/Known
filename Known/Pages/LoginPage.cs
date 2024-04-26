@@ -6,7 +6,6 @@ public class LoginPage : BaseComponent
 
     protected LoginFormInfo Model = new();
 
-    public virtual string LogoUrl => Context?.LogoUrl;
     [Parameter] public Func<UserInfo, Task> OnLogin { get; set; }
 
     protected override async Task OnInitAsync()

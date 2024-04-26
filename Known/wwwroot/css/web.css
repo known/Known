@@ -1,6 +1,12 @@
 @import "font-awesome.css";
 @import "prism.css";
 
+/*::-webkit-scrollbar {width:15px;}
+::-webkit-scrollbar-track {background:transparent;}
+::-webkit-scrollbar-thumb {background:rgba(0,0,0,0.5);border-radius:6px;}*/
+/* ’Î∂‘Firefox */
+/** {scrollbar-width:thin;scrollbar-color:rgba(0,0,0,0.5) transparent;}*/
+
 :root {--kui-form-label-width:120px;}
 :root {--kui-bgcolor:#ffffff;--kui-color:#596172;--kui-border-color:#f0f0f0;}
 :root[theme=dark]  {--kui-bgcolor:#202020;--kui-color:#d8d8d8;--kui-border-color:rgba(253, 253, 253, 0.12);}
