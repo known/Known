@@ -8,7 +8,6 @@ public class Context
     public Context(IUIService ui)
     {
         UI = ui;
-        LogoUrl = Theme == "dark" ? "img/logo.png" : "img/logo1.png";
     }
 
     internal Context(string cultureName)
@@ -23,7 +22,7 @@ public class Context
     public string Host { get; set; }
     public string Url { get; set; }
     public string Theme { get; set; }
-    public string LogoUrl { get; set; }
+    public string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";
     public InstallInfo Install { get; internal set; }
     public UserInfo CurrentUser { get; internal set; }
     public SettingInfo UserSetting { get; internal set; } = new();

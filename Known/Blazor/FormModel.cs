@@ -7,7 +7,6 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
     public FormModel(Context context, bool isAuto = true) : base(context)
     {
-        Option = new FormOption();
         if (isAuto)
         {
             columns = typeof(TItem).GetProperties()
@@ -26,7 +25,6 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     {
         Table = table;
         Page = table.Page;
-        Option = table.Form;
         Type = table.FormType ?? Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
         SetFormInfo(table.Module?.Form);
     }
@@ -37,7 +35,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public string Title { get; set; }
     public string Class { get; set; } = "kui-form";
     public string ConfirmText { get; set; }
-    public FormOption Option { get; }
+    public double? Width { get; set; }
+    public bool Maximizable { get; set; }
+    public bool DefaultMaximized { get; set; }
+    public bool NoFooter { get; set; }
     public bool Draggable { get; set; } = true;
     public bool Resizable { get; set; }
     public bool IsView { get; set; }
@@ -228,7 +229,9 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         if (info == null)
             return;
 
-        Option.LoadInfo(info);
+        Width = info.Width;
+        Maximizable = info.Maximizable;
+        DefaultMaximized = info.DefaultMaximized;
         LabelSpan = info.LabelSpan;
         WrapperSpan = info.WrapperSpan;
         columns = GetFormColumns(info);
@@ -296,24 +299,6 @@ public class FormRow<TItem> where TItem : class, new()
             Fields.Add(new FieldModel<TItem>(Form, item));
         }
         return this;
-    }
-}
-
-public class FormOption
-{
-    public double? Width { get; set; }
-    public bool Maximizable { get; set; }
-    public bool DefaultMaximized { get; set; }
-    public bool NoFooter { get; set; }
-
-    internal void LoadInfo(FormInfo info)
-    {
-        if (info == null)
-            return;
-
-        Width = info.Width;
-        Maximizable = info.Maximizable;
-        DefaultMaximized = info.DefaultMaximized;
     }
 }
 

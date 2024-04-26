@@ -74,7 +74,6 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public string Name { get; set; }
     public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }
-    public FormOption Form { get; } = new();
     public Type FormType { get; set; }
     public Func<TItem, string> FormTitle { get; set; }
     public TabModel Tab { get; } = new();
@@ -245,7 +244,6 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     {
         Clear();
         Module = page.Context.Module;
-        Form.LoadInfo(Module?.Form);
         SetPage(Module?.Page);
         SetPermission(page);
         InitQueryColumns();
@@ -282,12 +280,26 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
 
     private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
     {
-        UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSave = onSave });
+        var model = new FormModel<TItem>(this) { Action = action, Data = row, OnSave = onSave };
+        SetFormModel(model);
+        UI.ShowForm(model);
     }
 
     private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
     {
-        UI.ShowForm(new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave });
+        var model = new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave };
+        SetFormModel(model);
+        UI.ShowForm(model);
+    }
+
+    private void SetFormModel(FormModel<TItem> model)
+    {
+        if (Module == null || Module.Form == null)
+            return;
+
+        model.Width = Module.Form.Width;
+        model.Maximizable = Module.Form.Maximizable;
+        model.DefaultMaximized = Module.Form.DefaultMaximized;
     }
 
     private void SetPermission(BasePage page)

@@ -53,6 +53,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    public ColumnBuilder<TItem> Name(string name)
+    {
+        if (column != null)
+            column.Name = name;
+        return this;
+    }
+
     public ColumnBuilder<TItem> Category(string category)
     {
         if (column != null)
