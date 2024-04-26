@@ -8,24 +8,27 @@
         actions = Table.Actions;
     Table.UpdateRowActions?.Invoke(Item, actions);
     actions = actions.Where(a => a.Visible).ToList();
-    <ActionColumn Title="@Language["Title.Action"]" Align="ColumnAlign.Center" Width="140" Class="kui-table-action">
-        @if (actions.Count > 2)
-        {
-            var first = actions[0];
-            var firstName = Language.GetString(first);
-            var mores = actions.Skip(1).ToList();
-            <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Table.OnAction?.Invoke(first, Item)">@firstName</Tag>
-            <AntDropdown Context="Context" Text="@Language["Button.More"]" Items="mores" OnItemClick="e=>Table.OnAction?.Invoke(e, Item)" />
-        }
-        else
-        {
-            foreach (var item in actions)
+    if (actions.Count > 0)
+    {
+        <ActionColumn Title="@Language["Title.Action"]" Align="ColumnAlign.Center" Width="140" Class="kui-table-action">
+            @if (actions.Count > 2)
             {
-                var itemName = Language.GetString(item);
-                <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Table.OnAction?.Invoke(item, Item)">@itemName</Tag>
+                var first = actions[0];
+                var firstName = Language.GetString(first);
+                var mores = actions.Skip(1).ToList();
+                <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Table.OnAction?.Invoke(first, Item)">@firstName</Tag>
+                <AntDropdown Context="Context" Text="@Language["Button.More"]" Items="mores" OnItemClick="e=>Table.OnAction?.Invoke(e, Item)" />
             }
-        }
-    </ActionColumn>
+            else
+            {
+                foreach (var item in actions)
+                {
+                    var itemName = Language.GetString(item);
+                    <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Table.OnAction?.Invoke(item, Item)">@itemName</Tag>
+                }
+            }
+        </ActionColumn>
+    }
 }
 
 @code {
