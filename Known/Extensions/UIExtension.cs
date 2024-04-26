@@ -20,13 +20,15 @@ public static class UIExtension
         service.BuildResult(builder, "404", $"{service.Language["Tip.Page404"]}PageId={pageId}");
     }
 
-    public static Task ExportDataAsync<TItem>(this BaseLayout app, TableModel<TItem> table, string name, ExportMode mode) where TItem : class, new()
+    public static async Task ExportDataAsync<TItem>(this BaseLayout app, TableModel<TItem> table, string name, ExportMode mode) where TItem : class, new()
     {
-        return app?.ShowSpinAsync("数据导出中...", async () =>
+        await app?.ShowSpinAsync("数据导出中...", async () =>
         {
             table.Criteria.ExportMode = mode;
             table.Criteria.ExportColumns = GetExportColumns(table);
             var result = await table.OnQuery?.Invoke(table.Criteria);
+            table.Criteria.ExportMode = ExportMode.None;
+            table.Criteria.ExportColumns = [];
             var bytes = result.ExportData;
             if (bytes != null && bytes.Length > 0)
             {

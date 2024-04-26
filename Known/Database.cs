@@ -1011,7 +1011,7 @@ public class Database : IDisposable
 
     private static byte[] GetExportData(DataTable dataTable)
     {
-        if (dataTable == null || dataTable.Rows.Count == 0)
+        if (dataTable == null || dataTable.Columns.Count == 0 || dataTable.Rows.Count == 0)
             return null;
 
         var excel = ExcelFactory.Create();
