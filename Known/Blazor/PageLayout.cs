@@ -11,7 +11,6 @@ public class PageLayout : BaseLayout
 
     [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
     [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
-    [Inject] public JSService JS { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

@@ -57,33 +57,5 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     private string ImportTitle => Language["Title.Import"].Replace("{name}", PageName);
 
     protected Task ExportDataAsync(ExportMode mode) => ExportDataAsync(PageName, mode);
-
-    protected async Task ExportDataAsync(string name, ExportMode mode)
-    {
-        await App?.ShowSpinAsync("", async () =>
-        {
-            Table.Criteria.ExportMode = mode;
-            Table.Criteria.ExportColumns = GetExportColumns();
-            var result = await Table.OnQuery?.Invoke(Table.Criteria);
-            var bytes = result.ExportData;
-            if (bytes != null && bytes.Length > 0)
-            {
-                var stream = new MemoryStream(bytes);
-                await JS.DownloadFileAsync($"{name}.xlsx", stream);
-            }
-        });
-    }
-
-    private Dictionary<string, string> GetExportColumns()
-    {
-        var columns = new Dictionary<string, string>();
-        if (Table.Columns == null || Table.Columns.Count == 0)
-            return columns;
-
-        foreach (var item in Table.Columns)
-        {
-            columns.Add(item.Id, item.Name);
-        }
-        return columns;
-    }
+    protected Task ExportDataAsync(string name, ExportMode mode) => App?.ExportDataAsync(Table, name, mode);
 }

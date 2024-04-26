@@ -4,6 +4,7 @@ public class BaseLayout : LayoutComponentBase
 {
     [Inject] protected AuthenticationStateProvider AuthProvider { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
+    [Inject] public JSService JS { get; set; }
     [CascadingParameter] public Context Context { get; set; }
     public Language Language => Context?.Language;
     public MenuInfo CurrentMenu => Context.Current;

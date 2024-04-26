@@ -19,6 +19,35 @@ public static class UIExtension
     {
         service.BuildResult(builder, "404", $"{service.Language["Tip.Page404"]}PageId={pageId}");
     }
+
+    public static Task ExportDataAsync<TItem>(this BaseLayout app, TableModel<TItem> table, string name, ExportMode mode) where TItem : class, new()
+    {
+        return app?.ShowSpinAsync("数据导出中...", async () =>
+        {
+            table.Criteria.ExportMode = mode;
+            table.Criteria.ExportColumns = GetExportColumns(table);
+            var result = await table.OnQuery?.Invoke(table.Criteria);
+            var bytes = result.ExportData;
+            if (bytes != null && bytes.Length > 0)
+            {
+                var stream = new MemoryStream(bytes);
+                await app.JS.DownloadFileAsync($"{name}.xlsx", stream);
+            }
+        });
+    }
+
+    private static Dictionary<string, string> GetExportColumns<TItem>(TableModel<TItem> table) where TItem : class, new()
+    {
+        var columns = new Dictionary<string, string>();
+        if (table.Columns == null || table.Columns.Count == 0)
+            return columns;
+
+        foreach (var item in table.Columns)
+        {
+            columns.Add(item.Id, item.Name);
+        }
+        return columns;
+    }
     #endregion
 
     #region Tag
