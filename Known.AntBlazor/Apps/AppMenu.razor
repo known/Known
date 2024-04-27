@@ -5,7 +5,7 @@
     {
         foreach (var item in Items)
         {
-            if (item.Target != "Menu")
+            if (item.Target != "Menu" || !item.Visible)
                 continue;
 
             <li @onclick="e=>OnItemClick(item)" style="width:@(Width)%">

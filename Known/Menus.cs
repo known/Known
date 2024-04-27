@@ -4,6 +4,7 @@ public class MenuInfo
 {
     public MenuInfo()
     {
+        Visible = true;
         Columns = [];
     }
 
@@ -46,6 +47,7 @@ public class MenuInfo
     public string Color { get; set; }
     public int Sort { get; set; }
     public int Badge { get; set; }
+    public bool Visible { get; set; }
     internal List<string> Tools { get; set; }
     internal List<string> Actions { get; set; }
     internal List<PageColumnInfo> Columns { get; set; }
