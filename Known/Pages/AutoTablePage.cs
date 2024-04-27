@@ -52,7 +52,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     public void Edit(Dictionary<string, object> row) => Table.EditForm(m => Platform.Auto.SaveModelAsync(TableName, m), row);
     public void Delete(Dictionary<string, object> row) => Table.Delete(m => Platform.Auto.DeleteModelsAsync(TableName, m), row);
     public void Import() => ShowImportForm(TableName);
-    public async void Export() => await ExportDataAsync(ExportMode.Query);
+    public async void Export() => await ExportDataAsync();
 
     private void InitTable()
     {

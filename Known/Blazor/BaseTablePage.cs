@@ -56,6 +56,6 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 
     private string ImportTitle => Language["Title.Import"].Replace("{name}", PageName);
 
-    protected Task ExportDataAsync(ExportMode mode) => ExportDataAsync(PageName, mode);
-    protected Task ExportDataAsync(string name, ExportMode mode) => App?.ExportDataAsync(Table, name, mode);
+    protected Task ExportDataAsync(ExportMode mode = ExportMode.Query) => ExportDataAsync(PageName, mode);
+    protected Task ExportDataAsync(string name, ExportMode mode = ExportMode.Query) => App?.ExportDataAsync(Table, name, mode);
 }
