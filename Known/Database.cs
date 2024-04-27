@@ -292,37 +292,23 @@ public class Database : IDisposable
                     pageData.Add((T)obj);
                 }
 
-                if (criteria.ExportMode != ExportMode.None)
+                if (criteria.ExportMode == ExportMode.None)
                 {
-                    var dataTable = new DataTable();
-                    foreach (var item in criteria.ExportColumns)
+                    if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
                     {
-                        dataTable.Columns.Add(item.Value);
+                        var columns = string.Join(",", criteria.SumColumns.Select(c => $"sum({c}) as {c}"));
+                        sql = $"select {columns} from ({sql}) t";
+                        sums = await QueryAsync<Dictionary<string, object>>(sql, criteria.ToParameters(User));
                     }
-
-                    foreach (var data in pageData)
-                    {
-                        var row = dataTable.Rows.Add();
-                        foreach (var item in criteria.ExportColumns)
-                        {
-                            row[item.Value] = TypeHelper.GetPropertyValue(data, item.Key);
-                        }
-                    }
-                    exportData = GetExportData(dataTable);
-                    pageData = [];
-                }
-
-                if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
-                {
-                    var columns = string.Join(",", criteria.SumColumns.Select(c => $"sum({c}) as {c}"));
-                    sql = $"select {columns} from ({sql}) t";
-                    sums = await QueryAsync<Dictionary<string, object>>(sql, criteria.ToParameters(User));
                 }
             }
 
             cmd.Parameters.Clear();
             if (conn.State != ConnectionState.Closed)
                 conn.Close();
+
+            if (criteria.ExportMode != ExportMode.None)
+                exportData = GetExportData(criteria, pageData);
 
             if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
                 pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
@@ -1009,10 +995,25 @@ public class Database : IDisposable
         return text;
     }
 
-    private static byte[] GetExportData(DataTable dataTable)
+    private static byte[] GetExportData<T>(PagingCriteria criteria, List<T> pageData)
     {
-        if (dataTable == null || dataTable.Columns.Count == 0 || dataTable.Rows.Count == 0)
+        if (criteria.ExportColumns == null || criteria.ExportColumns.Count == 0 || pageData.Count == 0)
             return null;
+
+        var dataTable = new DataTable();
+        foreach (var item in criteria.ExportColumns)
+        {
+            dataTable.Columns.Add(item.Value);
+        }
+
+        foreach (var data in pageData)
+        {
+            var row = dataTable.Rows.Add();
+            foreach (var item in criteria.ExportColumns)
+            {
+                row[item.Value] = TypeHelper.GetPropertyValue(data, item.Key);
+            }
+        }
 
         var excel = ExcelFactory.Create();
         var sheet = excel.CreateSheet("Sheet1");

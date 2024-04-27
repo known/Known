@@ -25,10 +25,9 @@ public static class UIExtension
         await app?.ShowSpinAsync("数据导出中...", async () =>
         {
             table.Criteria.ExportMode = mode;
-            table.Criteria.ExportColumns = GetExportColumns(table);
+            table.Criteria.ExportColumns = table.GetExportColumns();
             var result = await table.OnQuery?.Invoke(table.Criteria);
             table.Criteria.ExportMode = ExportMode.None;
-            table.Criteria.ExportColumns = [];
             var bytes = result.ExportData;
             if (bytes != null && bytes.Length > 0)
             {
@@ -38,7 +37,7 @@ public static class UIExtension
         });
     }
 
-    private static Dictionary<string, string> GetExportColumns<TItem>(TableModel<TItem> table) where TItem : class, new()
+    private static Dictionary<string, string> GetExportColumns<TItem>(this TableModel<TItem> table) where TItem : class, new()
     {
         var columns = new Dictionary<string, string>();
         if (table.Columns == null || table.Columns.Count == 0)
