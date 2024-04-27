@@ -30,6 +30,8 @@
 .kui-tips {color:#1890ff;margin-left:10px;}
 .primary {color:#1890ff;}
 .danger {color:#ed4014;}
+.bg-danger, .bg-danger > td {background-color:#ffccc7 !important;}
+.bg-danger:hover, .bg-danger:hover > td {background-color: #ffa39e !important;}
 .center {text-align:center;}
 .p10 {padding:10px;}
 .app-name {

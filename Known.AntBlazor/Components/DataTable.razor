@@ -5,7 +5,7 @@
 
  @* ScrollY="@Model.FixedHeight" *@
 <AntTable @ref="table" TItem="TItem" Context="Context" Resizable="Model.Resizable" ScrollX="@scrollX"
-          Loading="loading" Criteria="Model.Criteria" Result="Model.Result"
+          Loading="loading" Criteria="Model.Criteria" Result="Model.Result" RowClass="Model.RowClass"
           @bind-SelectedRows="Model.SelectedRows" RemoteDataSource
           RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick" HidePagination="!Model.ShowPager">
     @if (Model.SelectType != TableSelectType.None)

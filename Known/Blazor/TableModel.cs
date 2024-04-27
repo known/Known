@@ -94,6 +94,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public List<TItem> DataSource { get; set; }
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
     public RenderFragment ToolbarSlot { get; set; }
+    public Func<TItem, string> RowClass { get; set; }
 
     public void Clear()
     {

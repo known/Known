@@ -9,6 +9,7 @@ public class AntTable<TItem> : Table<TItem>
     [Parameter] public Context Context { get; set; }
     [Parameter] public PagingCriteria Criteria { get; set; }
     [Parameter] public PagingResult<TItem> Result { get; set; }
+    [Parameter] public Func<TItem, string> RowClass { get; set; }
 
     protected override void OnInitialized()
     {
@@ -26,6 +27,8 @@ public class AntTable<TItem> : Table<TItem>
         if (!OnChange.HasDelegate)
             OnChange = this.Callback<QueryModel<TItem>>(OnDataChange);
         PaginationTemplate = this.BuildTree<(int PageSize, int PageIndex, int Total, string PaginationClass, EventCallback<PaginationEventArgs> HandlePageChange)>(BuildPagination);
+        if (RowClass != null)
+            RowClassName = r => RowClass.Invoke(r.Data);
         base.OnInitialized();
     }
 
