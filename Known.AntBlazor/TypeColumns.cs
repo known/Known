@@ -1,5 +1,6 @@
 ﻿namespace Known.AntBlazor;
 
+public class DictionaryColumn : PropertyColumn<Dictionary<string, object>, object> { }
 public class StringColumn : Column<string> { }
 public class BooleanColumn : Column<bool> { }
 public class IntegerColumn : Column<int?> { }
@@ -24,5 +25,3 @@ public class DateTimeColumn : Column<DateTime?>
         Align = ColumnAlign.Center;
     }
 }
-
-public class DictionaryColumn : PropertyColumn<Dictionary<string, object>, object> { }

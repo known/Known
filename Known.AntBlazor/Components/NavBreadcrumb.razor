@@ -7,29 +7,33 @@
             <span style="cursor:pointer;">@Language.Home</span>
         </a>
     </BreadcrumbItem>
-    @if (Context.Current != null)
+    @if (Current != null)
     {
-        @* if (CurrentMenu.Parent != null)
+        @* if (Current.Parent != null)
         {
-            if (CurrentMenu.Parent.Parent != null)
+            if (Current.Parent.Parent != null)
             {
                 <BreadcrumbItem>
-                    <Icon Type="@CurrentMenu.Parent.Parent.Icon" />
-                    <span>@Language.GetString(CurrentMenu.Parent.Parent)</span>
+                    <Icon Type="@Current.Parent.Parent.Icon" />
+                    <span>@Language.GetString(Current.Parent.Parent)</span>
                 </BreadcrumbItem>
             }
             <BreadcrumbItem>
-                <Icon Type="@CurrentMenu.Parent.Icon" />
-                <span>@Language.GetString(CurrentMenu.Parent)</span>
+                <Icon Type="@Current.Parent.Icon" />
+                <span>@Language.GetString(Current.Parent)</span>
             </BreadcrumbItem>
         } *@
-        if (Context.Current.Name != "Home")
+        if (Current.Name != "Home")
         {
-            var menuName = Language.GetString(Context.Current);
+            var menuName = Language.GetString(Current);
             <BreadcrumbItem>
-                <Icon Type="@Context.Current.Icon" />
+                <Icon Type="@Current.Icon" />
                 <span>@menuName</span>
             </BreadcrumbItem>
         }
     }
 </Breadcrumb>
+
+@code {
+    [Parameter] public MenuInfo Current { get; set; }
+}

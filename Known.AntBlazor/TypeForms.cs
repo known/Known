@@ -1,5 +1,7 @@
 ﻿namespace Known.AntBlazor;
 
+public class QueryDataForm : Form<Dictionary<string, QueryInfo>> { }
+
 public class LoginInfoForm : Form<LoginFormInfo>
 {
     public LoginInfoForm()
@@ -8,5 +10,3 @@ public class LoginInfoForm : Form<LoginFormInfo>
         ValidateMode = FormValidateMode.Rules;
     }
 }
-
-public class QueryDataForm : Form<Dictionary<string, QueryInfo>> { }
