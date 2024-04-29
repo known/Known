@@ -9,8 +9,9 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
     protected override void OnInitialized()
     {
         //为true时，AutoComplete无法选中
-        //为false时，Select无法选中
-        //ValidateOnChange = true;
+        //为false时，AntSelect无法选中
+        //此问题解决，需要将DataItemValue设为IsFixed
+        ValidateOnChange = true;
         ValidateMode = FormValidateMode.Rules;
         Class = Form?.Class;
         LabelColSpan = Form?.LabelSpan ?? 0;
