@@ -1,6 +1,6 @@
 ﻿namespace Known.AntBlazor.Components;
 
-public class AntInput<TValue> : Input<TValue>
+public class AntInput : Input<string>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
@@ -10,7 +10,7 @@ public class AntInput<TValue> : Input<TValue>
         if (AntForm != null)
             Disabled = AntForm.IsView;
         if (Item != null)
-            Item.Type = typeof(TValue);
+            Item.Type = typeof(string);
         base.OnInitialized();
     }
 }

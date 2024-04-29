@@ -101,11 +101,11 @@ public static class ComponentExtension
     {
         if (typeof(TValue) == typeof(string))
         {
-            builder.Component<AntRangePicker<TValue>>()
+            builder.Component<AntRangePicker>()
                    .Set(c => c.Disabled, model.Disabled)
                    .Set(c => c.Placeholder, model.Placeholder)
-                   .Set(c => c.RangeValue, model.Value)
-                   .Set(c => c.RangeValueChanged, model.ValueChanged)
+                   .Set(c => c.RangeValue, model.Value?.ToString())
+                   //.Set(c => c.RangeValueChanged, BuildRange)
                    .Build();
         }
         else
@@ -151,7 +151,7 @@ public static class ComponentExtension
 
     public static void AntSelect(this RenderTreeBuilder builder, InputModel<string> model)
     {
-        builder.Component<AntSelect>()
+        builder.Component<AntSelectCode>()
                .Set(c => c.Disabled, model.Disabled)
                .Set(c => c.Placeholder, model.Placeholder)
                .Set(c => c.DataSource, model.Codes)

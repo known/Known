@@ -10,7 +10,7 @@
             count = _expand ? count : showCount;
         var offset = _expand ? (3 - count % 4) * 6 : 0;
         <div class="ant-query-more">
-            <Form @ref="_form" Model="Model.QueryData">
+            <QueryDataForm @ref="_form" Model="Model.QueryData">
                 <GridRow Gutter="24">
                     @for (var i = 0; i < count; i++)
                     {
@@ -37,13 +37,13 @@
                         </FormItem>
                     </GridCol>
                 </GridRow>
-            </Form>
+            </QueryDataForm>
         </div>
     }
     else
     {
         <div class="ant-query">
-            <Form @ref="_form" Model="Model.QueryData" Layout="@FormLayout.Inline">
+            <QueryDataForm @ref="_form" Model="Model.QueryData" Layout="@FormLayout.Inline">
                 @for (var i = 0; i < Model.QueryColumns.Count; i++)
                 {
                     var item = Model.QueryColumns[i];
@@ -58,7 +58,7 @@
                     }
                     <Button Icon="undo" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button>
                 </div>
-            </Form>
+            </QueryDataForm>
         </div>
     } 
 }

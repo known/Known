@@ -1,10 +1,10 @@
 ﻿@inherits BaseComponent
 
-<Form @ref="form" Class="@FormStyle" Model="Model" OnFinish="OnUserLogin" LabelCol="null" ValidateMode="@FormValidateMode.Rules">
+<LoginInfoForm @ref="form" Class="@FormStyle" Model="Model" OnFinish="OnUserLogin">
     <FormItem Label="" Required Rules="@Context.RuleRequired("UserName")">
-        <Input @bind-Value="@context.UserName" Placeholder="@Language["UserName"]">
-        <Prefix><Icon Type="user" /></Prefix>
-        </Input>
+        <AntInput @bind-Value="@context.UserName" Placeholder="@Language["UserName"]">
+            <Prefix><Icon Type="user" /></Prefix>
+        </AntInput>
     </FormItem>
     <FormItem Label="" Required Rules="@Context.RuleRequired("Password")">
         <InputPassword @bind-Value="@context.Password" Placeholder="@Language["Password"]">
@@ -14,9 +14,9 @@
     @if (Stations != null && Stations.Count > 0)
     {
         <FormItem Label="" Required Rules="@Context.RuleRequired("Station")">
-            <Select @bind-Value="@context.Station" DataSource="Stations" Placeholder="@Language["Station"]">
+            <AntSelect @bind-Value="@context.Station" DataSource="Stations" Placeholder="@Language["Station"]">
                 <PrefixIcon><Icon Type="control" Style="padding:0 9px 0 7px;" /></PrefixIcon>
-            </Select>
+            </AntSelect>
         </FormItem>
     }
     else if (IsCaptcha)
@@ -33,7 +33,7 @@
     <FormItem>
         <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Language["Login"]</Button>
     </FormItem>
-</Form>
+</LoginInfoForm>
 
 @code {
     private AntDesign.Internal.IForm form;

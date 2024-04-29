@@ -1,23 +1,23 @@
 ﻿namespace Known.AntBlazor.Components;
 
-public class AntRangePicker<TValue> : RangePicker<DateTime?[]>
+public class AntRangePicker : RangePicker<DateTime?[]>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
-    [Parameter] public TValue RangeValue { get; set; }
-    [Parameter] public EventCallback<TValue> RangeValueChanged { get; set; }
+    [Parameter] public string RangeValue { get; set; }
+    [Parameter] public EventCallback<string> RangeValueChanged { get; set; }
 
     protected override void OnInitialized()
     {
         if (AntForm != null)
             Disabled = AntForm.IsView;
         if (Item != null)
-            Item.Type = typeof(TValue);
+            Item.Type = typeof(string);
         base.OnInitialized();
-        if (RangeValue != null)
+        if (!string.IsNullOrWhiteSpace(RangeValue))
         {
-            var values = RangeValue.ToString().Split('~');
+            var values = RangeValue.Split('~');
             if (values.Length > 0)
                 Value[0] = Utils.ConvertTo<DateTime?>(values[0]);
             if (values.Length > 1)
@@ -28,7 +28,7 @@ public class AntRangePicker<TValue> : RangePicker<DateTime?[]>
 
     private async void OnDateRangeChange(DateRangeChangedEventArgs<DateTime?[]> e)
     {
-        RangeValue = Utils.ConvertTo<TValue>($"{e.Dates[0]:yyyy-MM-dd}~{e.Dates[1]:yyyy-MM-dd}");
+        RangeValue = $"{e.Dates[0]:yyyy-MM-dd}~{e.Dates[1]:yyyy-MM-dd}";
         if (RangeValueChanged.HasDelegate)
             await RangeValueChanged.InvokeAsync(RangeValue);
     }

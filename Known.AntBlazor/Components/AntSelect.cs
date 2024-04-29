@@ -1,6 +1,27 @@
 ﻿namespace Known.AntBlazor.Components;
 
-public class AntSelect : Select<string, CodeInfo>
+public class AntSelect : Select<string, string>
+{
+    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private DataItem Item { get; set; }
+
+    protected override void OnInitialized()
+	{
+        if (AntForm != null)
+            Disabled = AntForm.IsView;
+        var emptyText = "";
+        if (Item != null)
+        {
+            Item.Type = typeof(string);
+            emptyText = Item.Language.GetString("PleaseSelect");
+        }
+        Placeholder = emptyText;
+        EnableSearch = true;
+        base.OnInitialized();
+    }
+}
+
+public class AntSelectCode : Select<string, CodeInfo>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
@@ -8,7 +29,7 @@ public class AntSelect : Select<string, CodeInfo>
     [Parameter] public string Category { get; set; }
 
     protected override void OnInitialized()
-	{
+    {
         if (AntForm != null)
             Disabled = AntForm.IsView;
         var emptyText = "";

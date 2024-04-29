@@ -12,7 +12,7 @@ public class UIService(ModalService modalService, MessageService messageService,
     public Type GetInputType(Type dataType, FieldType fieldType)
     {
         if (fieldType == FieldType.Select)
-            return typeof(AntSelect);
+            return typeof(AntSelectCode);
 
         if (fieldType == FieldType.CheckBox)
             return typeof(Checkbox);
@@ -80,7 +80,8 @@ public class UIService(ModalService modalService, MessageService messageService,
         if (dataType == typeof(DateTimeOffset?))
             return typeof(AntDatePicker<DateTimeOffset?>);
 
-        return typeof(AntInput<>).MakeGenericType(dataType);
+        return typeof(AntInput);
+        //return typeof(AntInput<>).MakeGenericType(dataType);
     }
 
     public void AddInputAttributes<TItem>(Dictionary<string, object> attributes, FieldModel<TItem> model) where TItem : class, new()

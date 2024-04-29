@@ -1,10 +1,10 @@
 ﻿@inherits BaseComponent
 
-<Form @ref="form" Model="Model" OnFinish="OnPhoneLogin" LabelCol="null" ValidateMode="@FormValidateMode.Rules">
+<LoginInfoForm @ref="form" Model="Model" OnFinish="OnPhoneLogin">
     <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneNo")">
-        <Input @bind-Value="@context.PhoneNo" Placeholder="@Language["PhoneNo"]">
+        <AntInput @bind-Value="@context.PhoneNo" Placeholder="@Language["PhoneNo"]">
             <Prefix><Icon Type="phone" /></Prefix>
-        </Input>
+        </AntInput>
     </FormItem>
     <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneCode")">
         <AntCaptcha @bind-Value="@context.PhoneCode" Placeholder="@Language["PhoneCode"]" Option="option">
@@ -22,7 +22,7 @@
     <FormItem>
         <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Language["Login"]</Button>
     </FormItem>
-</Form>
+</LoginInfoForm>
 
 @code {
     private AntDesign.Internal.IForm form;

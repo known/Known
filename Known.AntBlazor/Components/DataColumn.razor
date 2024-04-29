@@ -15,13 +15,13 @@
             var value = GetValue(Item as Dictionary<string, object>, item.Id);
             if (item.IsViewLink)
             {
-                <PropertyColumn Title="@title" Property="(Dictionary<string, object> c) => GetValue(c, item.Id)">
+                <DictionaryColumn Title="@title" Property="c => GetValue(c, item.Id)">
                     <span class="kui-link" @onclick="e=>Table.ViewForm(Item)">@value</span>
-                </PropertyColumn>
+                </DictionaryColumn>
             }
             else
             {
-                <PropertyColumn Title="@title" Property="(Dictionary<string, object> c) => GetValue(c, item.Id)" />
+                <DictionaryColumn Title="@title" Property="c => GetValue(c, item.Id)" />
             }
         }
         else

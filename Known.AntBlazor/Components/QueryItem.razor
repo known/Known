@@ -6,7 +6,7 @@
         if (!string.IsNullOrWhiteSpace(Item.Category))
         {
             var codes = Cache.GetCodes(Item.Category).ToCodes(Item.IsQueryAll ? Language["All"] : "");
-            <AntSelect Style="@SelectStyle" DataSource="codes" @bind-Value="@Data[Item.Id].Value" OnSelectedItemChanged="e=>OnSearch()" />
+            <AntSelectCode Style="@SelectStyle" DataSource="codes" @bind-Value="@Data[Item.Id].Value" OnSelectedItemChanged="e=>OnSearch()" />
         }
         else if (itemType.Contains("DateTime"))
         {
