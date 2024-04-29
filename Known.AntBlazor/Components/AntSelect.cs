@@ -21,7 +21,7 @@ public class AntSelect : Select<string, string>
     }
 }
 
-public class AntSelectCode : Select<string, CodeInfo>
+public class AntCodeSelect : Select<string, CodeInfo>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }

@@ -12,7 +12,7 @@ public class UIService(ModalService modalService, MessageService messageService,
     public Type GetInputType(Type dataType, FieldType fieldType)
     {
         if (fieldType == FieldType.Select)
-            return typeof(AntSelectCode);
+            return typeof(AntCodeSelect);
 
         if (fieldType == FieldType.CheckBox)
             return typeof(Checkbox);
@@ -69,16 +69,16 @@ public class UIService(ModalService modalService, MessageService messageService,
             return typeof(AntNumber<decimal?>);
 
         if (dataType == typeof(DateTime))
-            return typeof(AntDatePicker<DateTime>);
+            return typeof(DatePicker<DateTime>);
 
         if (dataType == typeof(DateTime?))
-            return typeof(AntDatePicker<DateTime?>);
+            return typeof(AntDatePicker);
 
         if (dataType == typeof(DateTimeOffset))
-            return typeof(AntDatePicker<DateTimeOffset>);
+            return typeof(DatePicker<DateTimeOffset>);
 
         if (dataType == typeof(DateTimeOffset?))
-            return typeof(AntDatePicker<DateTimeOffset?>);
+            return typeof(DatePicker<DateTimeOffset?>);
 
         return typeof(AntInput);
         //return typeof(AntInput<>).MakeGenericType(dataType);
