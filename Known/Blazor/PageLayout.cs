@@ -110,3 +110,14 @@ public class PageLayout : BaseLayout
         return Utils.CheckMobile(agent);
     }
 }
+
+public class EmptyLayout : BaseLayout
+{
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Component<KLayout>()
+               .Set(c => c.Layout, this)
+               .Set(c => c.ChildContent, Body)
+               .Build();
+    }
+}

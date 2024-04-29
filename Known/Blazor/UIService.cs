@@ -5,7 +5,8 @@ public interface IUIService
     Language Language { get; set; }
     Type GetInputType(Type dataType, FieldType fieldType);
     void AddInputAttributes<TItem>(Dictionary<string, object> attributes, FieldModel<TItem> model) where TItem : class, new();
-    void Toast(string message, StyleType style = StyleType.Success);
+    Task Toast(string message, StyleType style = StyleType.Success);
+    Task Notice(string message, StyleType style = StyleType.Success);
     void Alert(string message, Func<Task> action = null);
     void Confirm(string message, Func<Task> action);
     void ShowDialog(DialogModel model);

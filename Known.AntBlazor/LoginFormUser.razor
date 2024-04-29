@@ -61,7 +61,7 @@
         {
             if (!captcha.Validate(out string message))
             {
-                UI.Toast(message, StyleType.Error);
+                await UI.Toast(message, StyleType.Error);
                 return;
             }
         }

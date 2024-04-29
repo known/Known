@@ -113,7 +113,7 @@ public class LoginPage : BaseComponent
                 if (weixin != null)
                 {
                     //await SetUserInfoAsync(weixin);
-                    UI.Toast(Language.Success(Language.Authorize));
+                    await UI.Toast(Language.Success(Language.Authorize));
                     break;
                 }
                 Thread.Sleep(1000);
@@ -143,7 +143,7 @@ public class LoginPage : BaseComponent
                 {
                     //await SetUserInfoAsync(weixin);
                     await model.CloseAsync();
-                    UI.Toast(Language.Success(Language.Authorize));
+                    await UI.Toast(Language.Success(Language.Authorize));
                     break;
                 }
                 Thread.Sleep(1000);

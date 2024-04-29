@@ -1,55 +1,52 @@
 ﻿@inherits PageLayout
-@inject INotificationService _notice
 
-<KError OnError="OnError">
-    <CascadingValue Value="this">
-        @if (IsLoaded)
-        {
-            <Spin Spinning="showSpin" Tip="@spinTip">
-                @if (Context.IsMobile)
-                {
-                    <AppLayout>@Body</AppLayout>
-                }
-                else
-                {
-                    <Layout Style="min-height:100vh;">
-                        <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible>
-                            <div class="kui-logo"><img src="@Context.LogoUrl" /></div>
-                            <div class="kui-scroll">
-                                <AntMenu Accordion="Context.UserSetting.Accordion" Items="UserMenus" />
-                            </div>
-                        </Sider>
-                        <Layout>
-                            <Header Class="kui-header">
-                                <NavBreadcrumb />
-                                <NavTopRight OnMenuClick="OnMenuClick" />
-                            </Header>
-                            <Content Class="@Content">
-                                <div style="margin:0 10px;min-height:360px;">
-                                    @Body
-                                </div>
-                            </Content>
-                            @if (AntConfig.Option.Footer != null)
-                            {
-                                <Footer Style="text-align:center">@AntConfig.Option.Footer</Footer>
-                            }
-                            else
-                            {
-                                <Footer Style="text-align:center"><PageFooter /></Footer>
-                            }
-                        </Layout>
-                    </Layout>
-                }
-            </Spin> 
-            @if (IsLogin && !Context.IsMobile)
+<KLayout Layout="this">
+    @if (IsLoaded)
+    {
+        <Spin Spinning="showSpin" Tip="@spinTip">
+            @if (Context.IsMobile)
             {
-                <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="300">
-                    <Known.Blazor.SettingForm @ref="setting" />
-                </Drawer>
+                <AppLayout>@Body</AppLayout>
             }
+            else
+            {
+                <Layout Style="min-height:100vh;">
+                    <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible>
+                        <div class="kui-logo"><img src="@Context.LogoUrl" /></div>
+                        <div class="kui-scroll">
+                            <AntMenu Accordion="Context.UserSetting.Accordion" Items="UserMenus" />
+                        </div>
+                    </Sider>
+                    <Layout>
+                        <Header Class="kui-header">
+                            <NavBreadcrumb />
+                            <NavTopRight OnMenuClick="OnMenuClick" />
+                        </Header>
+                        <Content Class="@Content">
+                            <div style="margin:0 10px;min-height:360px;">
+                                @Body
+                            </div>
+                        </Content>
+                        @if (AntConfig.Option.Footer != null)
+                        {
+                            <Footer Style="text-align:center">@AntConfig.Option.Footer</Footer>
+                        }
+                        else
+                        {
+                            <Footer Style="text-align:center"><PageFooter /></Footer>
+                        }
+                    </Layout>
+                </Layout>
+            }
+        </Spin>
+        @if (IsLogin && !Context.IsMobile)
+        {
+            <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="300">
+                <Known.Blazor.SettingForm @ref="setting" />
+            </Drawer>
         }
-    </CascadingValue>
-</KError>
+    }
+</KLayout>
 
 @code {
     private string spinTip = "";
@@ -80,19 +77,6 @@
         });
         showSpin = false;
         StateChanged();
-    }
-
-    public override Task OnError(Exception ex)
-    {
-        Logger.Exception(ex);
-        var config = new NotificationConfig
-        {
-            Message = Language["Title.Error"],
-            Description = ex.Message,
-            Placement = NotificationPlacement.BottomRight,
-            Duration = null
-        };
-        return _notice.Error(config);
     }
 
     //Admin

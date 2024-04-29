@@ -6,7 +6,7 @@
     <div style="margin-top:10px;">@user?.Name (@user?.UserName)</div>
 </div>
 <div style="padding:20px;">
-    <AntList DataSource="items">
+    <AppMenuList DataSource="items">
         <ListItem OnClick="()=>OnItemClick(context)">
             <div>
                 <Icon Type="@context.Icon" />
@@ -17,7 +17,7 @@
                 <Icon Type="right" />
             }
         </ListItem>
-    </AntList>
+    </AppMenuList>
 </div>
 <div style="padding:20px;">
     <Button Type="@ButtonType.Primary" Danger Block OnClick="e=>Logout()">@Language["Nav.Exit"]</Button>

@@ -50,7 +50,7 @@ public static class UIExtension
                 if (weixin != null)
                 {
                     await model.CloseAsync();
-                    page.UI.Toast("关注成功！");
+                    await page.UI.Toast("关注成功！");
                     break;
                 }
                 Thread.Sleep(1000);

@@ -52,7 +52,12 @@ public class BaseLayout : LayoutComponentBase
         }
     }
 
-    public virtual Task OnError(Exception ex) => Task.CompletedTask;
+    public async Task OnError(Exception ex)
+    {
+        Logger.Exception(ex);
+        await Context.UI.Notice(ex.Message, StyleType.Error);
+    }
+
     public virtual Task ShowSpinAsync(string text, Action action) => Task.CompletedTask;
     public virtual void StateChanged() => InvokeAsync(StateHasChanged);
 

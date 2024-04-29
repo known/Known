@@ -1,9 +1,10 @@
 ﻿namespace Known.AntBlazor;
 
-public class UIService(ModalService modalService, MessageService messageService) : IUIService
+public class UIService(ModalService modalService, MessageService messageService, INotificationService noticeService) : IUIService
 {
     private readonly ModalService _modal = modalService;
     private readonly MessageService _message = messageService;
+    private readonly INotificationService _notice = noticeService;
 
     public static Func<string, string> OnTagColor { get; set; }
     public Language Language { get; set; }
@@ -101,7 +102,7 @@ public class UIService(ModalService modalService, MessageService messageService)
             attributes["disabled"] = OneOf.OneOf<bool, bool[]>.FromT0(model.IsReadOnly);
     }
 
-    public async void Toast(string message, StyleType style = StyleType.Success)
+    public async Task Toast(string message, StyleType style = StyleType.Success)
     {
         switch (style)
         {
@@ -119,6 +120,35 @@ public class UIService(ModalService modalService, MessageService messageService)
                 break;
             default:
                 await _message.Info(message);
+                break;
+        }
+    }
+
+    public async Task Notice(string message, StyleType style = StyleType.Success)
+    {
+        var config = new NotificationConfig
+        {
+            Message = Language?["Title.Error"],
+            Description = message,
+            Placement = NotificationPlacement.BottomRight,
+            Duration = null
+        };
+        switch (style)
+        {
+            case StyleType.Success:
+                await _notice.Success(config);
+                break;
+            case StyleType.Info:
+                await _notice.Info(config);
+                break;
+            case StyleType.Warning:
+                await _notice.Warning(config);
+                break;
+            case StyleType.Error:
+                await _notice.Error(config);
+                break;
+            default:
+                await _notice.Info(config);
                 break;
         }
     }

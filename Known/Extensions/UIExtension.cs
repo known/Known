@@ -104,9 +104,9 @@ public static class UIExtension
     #endregion
 
     #region Toast
-    public static void Info(this IUIService service, string message) => service.Toast(message, StyleType.Info);
-    public static void Warning(this IUIService service, string message) => service.Toast(message, StyleType.Warning);
-    public static void Error(this IUIService service, string message) => service.Toast(message, StyleType.Error);
+    public static async void Info(this IUIService service, string message) => await service.Toast(message, StyleType.Info);
+    public static async void Warning(this IUIService service, string message) => await service.Toast(message, StyleType.Warning);
+    public static async void Error(this IUIService service, string message) => await service.Toast(message, StyleType.Error);
 
     public static void Result(this IUIService service, Result result, Action onSuccess = null)
     {
