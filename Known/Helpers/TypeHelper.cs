@@ -51,6 +51,37 @@ public sealed class TypeHelper
         return columns;
     }
 
+    internal static List<FieldInfo> GetFields(Type entityType, Language language)
+    {
+        var fields = new List<FieldInfo>();
+        var properties = entityType?.GetProperties();
+        if (properties == null || properties.Length == 0)
+            return fields;
+
+        foreach (var item in properties)
+        {
+            if (item.Name == nameof(EntityBase.Id) ||
+                item.Name == nameof(EntityBase.Version) ||
+                item.Name == nameof(EntityBase.Extension) ||
+                item.Name == nameof(EntityBase.AppId) ||
+                item.Name == nameof(EntityBase.CompNo))
+                continue;
+
+            if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
+            {
+                var name = item.DisplayName();
+                var type = item.GetFieldType();
+                fields.Add(new FieldInfo
+                {
+                    Id = item.Name,
+                    Name = language.GetText("", item.Name, name),
+                    Type = type
+                });
+            }
+        }
+        return fields;
+    }
+
     public static object GetPropertyValue(object model, string name)
     {
         if (model == null || string.IsNullOrWhiteSpace(name))

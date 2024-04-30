@@ -20,6 +20,11 @@ public static class UIExtension
         service.BuildResult(builder, "404", $"{service.Language["Tip.Page404"]}PageId={pageId}");
     }
 
+    public static Task QueryDataAsync(this BaseLayout app, Action action)
+    {
+        return app?.ShowSpinAsync("数据查询中...", action);
+    }
+
     public static async Task ExportDataAsync<TItem>(this BaseLayout app, TableModel<TItem> table, string name, ExportMode mode = ExportMode.Query) where TItem : class, new()
     {
         await app?.ShowSpinAsync("数据导出中...", async () =>

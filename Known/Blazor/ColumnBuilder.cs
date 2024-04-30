@@ -67,6 +67,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    public ColumnBuilder<TItem> Fixed(string fixType)
+    {
+        if (column != null)
+            column.Fixed = fixType;
+        return this;
+    }
+
     public ColumnBuilder<TItem> Type(FieldType type)
     {
         if (column != null)

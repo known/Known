@@ -2,9 +2,11 @@
 
 class AdvancedSearch : BaseComponent
 {
-    private EntityInfo entity;
     private string SettingKey => $"UserSearch_{Context.Current.Id}";
+    private List<FieldInfo> fields = [];
     private List<QueryInfo> Query { get; } = [];
+
+    [Parameter] public Type ItemType { get; set; }
 
     internal async Task<List<QueryInfo>> SaveQueryAsync()
     {
@@ -15,7 +17,7 @@ class AdvancedSearch : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        entity = DataHelper.GetEntity(Context.Module?.EntityData);
+        fields = TypeHelper.GetFields(ItemType, Language);
         Query.Clear();
         var items = await Platform.Setting.GetUserSettingAsync<List<QueryInfo>>(SettingKey);
         if (items != null && items.Count > 0)
@@ -32,7 +34,7 @@ class AdvancedSearch : BaseComponent
                 builder.Div("item", () =>
                 {
                     builder.Component<AdvancedSearchItem>()
-                           .Set(c => c.Entity, entity)
+                           .Set(c => c.Fields, fields)
                            .Set(c => c.Item, item)
                            .Build();
                     UI.Button(builder, new ActionInfo("Delete"), this.Callback<MouseEventArgs>(e => OnDelete(item)));
@@ -48,17 +50,10 @@ class AdvancedSearch : BaseComponent
 class AdvancedSearchItem : BaseComponent
 {
     private readonly List<CodeInfo> QueryTypes = TypeHelper.GetEnumCodes(typeof(QueryType));
-    private List<FieldInfo> fields;
     private FieldInfo field;
 
-    [Parameter] public EntityInfo Entity { get; set; }
+    [Parameter] public List<FieldInfo> Fields { get; set; }
     [Parameter] public QueryInfo Item { get; set; }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        fields = Entity.GetFields(Language);
-    }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
@@ -72,12 +67,12 @@ class AdvancedSearchItem : BaseComponent
         UI.BuildSelect(builder, new InputModel<string>
         {
             Placeholder = Language["PleaseSelect"],
-            Codes = fields.Select(f => new CodeInfo(f.Id, f.Name)).ToList(),
+            Codes = Fields?.Select(f => new CodeInfo(f.Id, f.Name)).ToList(),
             Value = item.Id,
             ValueChanged = this.Callback<string>(v =>
             {
                 item.Id = v;
-                field = fields.FirstOrDefault(f => f.Id == item.Id);
+                field = Fields?.FirstOrDefault(f => f.Id == item.Id);
             })
         });
     }
@@ -92,7 +87,7 @@ class AdvancedSearchItem : BaseComponent
             Value = $"{item.Type}",
             ValueChanged = this.Callback<string>(v =>
             {
-                Enum.TryParse<QueryType>(v, true, out QueryType type);
+                Enum.TryParse(v, true, out QueryType type);
                 item.Type = type;
             })
         });

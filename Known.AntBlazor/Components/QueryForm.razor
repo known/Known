@@ -73,17 +73,13 @@
 
     private async Task OnSearchAsync()
     {
-        try
+        await App?.QueryDataAsync(async () =>
         {
             Model.Criteria.IsQuery = true;
             Model.Criteria.Query = Model.QueryData.Select(d => d.Value).ToList();
             await Model.RefreshAsync();
-        }
-        catch (Exception ex)
-        {
-            await App?.OnError(ex);
-        }
+        });
     }
 
-    private void ShowAdvSearch() => Model.ShowAdvancedSearch();
+    private void ShowAdvSearch() => Model.ShowAdvancedSearch(App);
 }

@@ -10,6 +10,7 @@ public class TableModel(Context context) : BaseModel(context)
     public ToolbarModel Toolbar { get; } = new();
 
     public bool HasToolbar => Toolbar != null && Toolbar.HasItem;
+    internal virtual Type ItemType { get; }
 
     public Task RefreshAsync()
     {
@@ -19,19 +20,24 @@ public class TableModel(Context context) : BaseModel(context)
         return OnRefresh.Invoke();
     }
 
-    public void ShowAdvancedSearch()
+    public void ShowAdvancedSearch(BaseLayout app)
     {
         AdvancedSearch search = null;
         var model = new DialogModel
         {
             Title = Language.AdvSearch,
             Width = 700,
-            Content = b => b.Component<AdvancedSearch>().Build(value => search = value)
+            Content = b => b.Component<AdvancedSearch>()
+                            .Set(c => c.ItemType, ItemType)
+                            .Build(value => search = value)
         };
         model.OnOk = async () =>
         {
-            Criteria.Query = await search?.SaveQueryAsync();
-            await RefreshAsync();
+            await app.QueryDataAsync(async () =>
+            {
+                Criteria.Query = await search?.SaveQueryAsync();
+                await RefreshAsync();
+            });
             await model.CloseAsync();
         };
         UI.ShowDialog(model);
@@ -62,6 +68,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal SysModule Module { get; set; }
     internal string PageName => Page?.PageName;
+    internal override Type ItemType => typeof(TItem);
 
     public BasePage Page { get; }
     public bool IsDictionary => typeof(TItem) == typeof(Dictionary<string, object>);
@@ -76,6 +83,8 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }
     public double? FormWidth { get; set; }
+    public bool FormMaximizable { get; set; }
+    public bool FormDefaultMaximized { get; set; }
     public Type FormType { get; set; }
     public Func<TItem, string> FormTitle { get; set; }
     public TabModel Tab { get; } = new();
@@ -301,14 +310,18 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
 
     private void SetFormModel(FormModel<TItem> model)
     {
-        model.Width = FormWidth;
         model.NoFooter = FormNoFooter;
-
         if (Module != null && Module.Form != null)
         {
             model.Width = Module.Form.Width;
             model.Maximizable = Module.Form.Maximizable;
             model.DefaultMaximized = Module.Form.DefaultMaximized;
+        }
+        else
+        {
+            model.Width = FormWidth;
+            model.Maximizable = FormMaximizable;
+            model.DefaultMaximized = FormDefaultMaximized;
         }
     }
 
