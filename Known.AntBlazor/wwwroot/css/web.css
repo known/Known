@@ -231,7 +231,10 @@
 }
 
 /*App*/
-.kui-app {position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;}
+.kui-app {
+    position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;
+    background-color:var(--kui-bgcolor);color:var(--kui-color);
+}
 
 .kui-app-nav {
     position:fixed;top:0;left:0;right:0;padding:0 1rem;font-weight:bold;font-size:1rem;text-align:center;
@@ -260,16 +263,16 @@
 .kui-app-row > label, .kui-app-row > span {padding-top:5px;}
 .kui-app-row > label {padding-right:10px;}
 
-.kui-app-fixed > .ant-tabs-nav {position:fixed;top:40px;left:0;right:0;z-index:101;background-color:var(--kui-bgcolor);}
+.kui-app-fixed > .ant-tabs-nav {position:fixed;top:40px;left:0;right:0;z-index:101;}
 .kui-app-fixed > .ant-tabs-content-holder {padding-top:60px;}
 
 .kui-app-search, .kui-app-search-info {position:absolute;}
-.kui-app-search {left:0;right:0;z-index:101;background:#fff;}
-.kui-app-search-info {left:0;right:0;bottom:0;z-index:101;background:#fff;}
+.kui-app-search {left:0;right:0;z-index:101;}
+.kui-app-search-info {left:0;right:0;bottom:0;z-index:101;}
 .kui-app-search-result {padding:40px 0;}
 .kui-app .kui-app-search {position:fixed;top:40px;padding:20px;}
 .kui-app .kui-app-search-result {padding:60px 20px;}
-.kui-app .kui-app-search-info {position:fixed;position:fixed;padding:10px;}
+.kui-app .kui-app-search-info {position:fixed;padding:10px;}
 
 .kui-app-rc2 {display:flex;justify-content:space-between;align-items:center;}
 
