@@ -14,7 +14,7 @@ class CompanyBaseInfo : BaseEditForm<CompanyInfo>
 {
     protected override async Task OnInitFormAsync()
     {
-        Model = new FormModel<CompanyInfo>(Context)
+        Model = new FormModel<CompanyInfo>(Context, true)
         {
             IsView = true,
             Data = await Platform.GetCompanyAsync<CompanyInfo>()
