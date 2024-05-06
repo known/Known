@@ -309,7 +309,7 @@
 .ws-chart, .ws-func {height:400px;}
 
 .known, .ws-space {display:flex;justify-content:space-between;}
-.known {padding:20px;border-left:5px solid #4188c8;margin-bottom:10px;}
+.known {padding:20px;border-left:5px solid #4188c8;}
 .known-desc {text-align:justify;}
 
 .ws-space {display:flex;justify-content:space-between;margin:0 0 10px 0;padding:20px;}
