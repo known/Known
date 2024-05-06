@@ -31,19 +31,26 @@ class UserHelper
             if (userModules.Exists(m => m.Id == item.Id))
                 continue;
 
-            if (!userModules.Exists(m => m.Id == item.ParentId))
-            {
-                var parent = modules.FirstOrDefault(m => m.Id == item.ParentId);
-                if (parent != null)
-                    userModules.Add(parent);
-            }
-
+            AddParentModule(modules, userModules, item);
             item.Buttons = GetUserButtons(moduleIds, item);
             item.Actions = GetUserActions(moduleIds, item);
             item.Columns = GetUserColumns(moduleIds, item);
             userModules.Add(item);
         }
         return userModules.ToMenus(false);
+    }
+
+    private static void AddParentModule(List<SysModule> modules, List<SysModule> userModules, SysModule item)
+    {
+        if (!userModules.Exists(m => m.Id == item.ParentId))
+        {
+            var parent = modules.FirstOrDefault(m => m.Id == item.ParentId);
+            if (parent != null)
+            {
+                userModules.Add(parent);
+                AddParentModule(modules, userModules, parent);
+            }
+        }
     }
 
     private static List<string> GetUserButtons(List<string> moduleIds, SysModule module)
