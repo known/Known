@@ -12,7 +12,7 @@ class FormView : BaseView<FormInfo>
     {
         base.OnInitialized();
 
-        form = new FormModel<Dictionary<string, object>>(Context, false) { Data = [] };
+        form = new FormModel<Dictionary<string, object>>(Context) { Data = [] };
         SetForm();
 
         Tab.AddTab("Designer.View", BuildView);

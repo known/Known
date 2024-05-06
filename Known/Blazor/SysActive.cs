@@ -8,7 +8,7 @@ class SysActive : BaseComponent
 
     protected override async Task OnInitializedAsync()
     {
-        model = new FormModel<SystemInfo>(Context, false)
+        model = new FormModel<SystemInfo>(Context)
         {
             Data = await Platform.System.GetSystemAsync()
         };

@@ -4,7 +4,7 @@ public class SettingForm : BaseForm<SettingInfo>
 {
     protected override async Task OnInitFormAsync()
     {
-        Model = new FormModel<SettingInfo>(Context)
+        Model = new FormModel<SettingInfo>(Context, true)
         {
             LabelSpan = 12,
             Data = Context.UserSetting

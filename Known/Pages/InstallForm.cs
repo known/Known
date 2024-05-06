@@ -8,7 +8,7 @@ public class InstallForm : BaseForm<InstallInfo>
     protected override async Task OnInitFormAsync()
     {
         var data = await Platform.System.GetInstallAsync();
-        Model = new FormModel<InstallInfo>(Context) { LabelSpan = 6, Data = data };
+        Model = new FormModel<InstallInfo>(Context, true) { LabelSpan = 6, Data = data };
         await base.OnInitFormAsync();
     }
 

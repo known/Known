@@ -7,7 +7,7 @@ public class UserEditForm : BaseEditForm<SysUser>
 
     protected override async Task OnInitFormAsync()
     {
-        Model = new FormModel<SysUser>(Context, false)
+        Model = new FormModel<SysUser>(Context)
         {
             LabelSpan = 4,
             WrapperSpan = 8,

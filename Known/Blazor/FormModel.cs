@@ -5,7 +5,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     private bool isInitColumns = false;
     private List<ColumnInfo> columns = [];
 
-    public FormModel(Context context, bool isAuto = true) : base(context)
+    public FormModel(Context context, bool isAuto = false) : base(context)
     {
         if (isAuto)
         {
@@ -16,12 +16,12 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    internal FormModel(BasePage page) : this(page.Context, false)
+    internal FormModel(BasePage page) : this(page.Context)
     {
         Page = page;
     }
 
-    internal FormModel(TableModel<TItem> table) : this(table.Context, false)
+    internal FormModel(TableModel<TItem> table) : this(table.Context)
     {
         Table = table;
         Page = table.Page;

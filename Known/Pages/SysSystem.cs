@@ -35,7 +35,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
 
     protected override async Task OnInitFormAsync()
     {
-        Model = new FormModel<SystemInfo>(Context, false)
+        Model = new FormModel<SystemInfo>(Context)
         {
             LabelSpan = 4,
             WrapperSpan = 10,
@@ -101,7 +101,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
 
     protected override async Task OnInitFormAsync()
     {
-        Model = new FormModel<SystemInfo>(Context, false)
+        Model = new FormModel<SystemInfo>(Context)
         {
             LabelSpan = 4,
             WrapperSpan = 10,
