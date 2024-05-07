@@ -27,6 +27,7 @@
 .kui-tab-form .ant-modal-body {padding:0 20px 20px 20px;}
 .kui-tab-form .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
 .kui-detail .ant-modal-body {padding:0;}
+.ant-modal {top:50px;}
 .ant-modal-body > .ant-steps {padding:15px 0 10px 0;}
 .kui-nocaptcha {margin-top:20px;}
 
@@ -82,7 +83,7 @@
 @media screen and (max-width:768px) {
     .kui-header .ant-breadcrumb, .kui-nav-full, .kui-nav-setting {display:none;}
     .ant-layout-header {line-height:normal;}
-    .ant-modal {top:0;margin-top:10px;margin-left:8px;}
+    .ant-modal {top:10px;margin-top:10px;margin-left:8px;}
     .ant-row {flex-direction:column;}
     .ant-col-20, .ant-col-18, .ant-col-16, .ant-col-14, .ant-col-12, 
     .ant-col-10, .ant-col-8, .ant-col-6, .ant-col-4 {max-width:100%;}
@@ -105,7 +106,7 @@
 .kui-form-setting .ant-form-item-control {text-align:right;padding-right:10px;}
 
 /*Color*/
-.ant-input[disabled], .ant-input-number-disabled,
+.ant-input[disabled], .ant-input-number-disabled, .ant-picker-input > input[disabled],
 .ant-radio-disabled + span, .ant-checkbox-disabled + span, 
 .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector,
 .ant-tree .ant-tree-treenode-disabled .ant-tree-node-content-wrapper {

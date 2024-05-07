@@ -35,6 +35,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public string Title { get; set; }
     public string Class { get; set; } = "kui-form";
     public string ConfirmText { get; set; }
+    public Func<string> OnConfirmText { get; set; }
     public double? Width { get; set; }
     public bool Maximizable { get; set; }
     public bool DefaultMaximized { get; set; }
@@ -144,13 +145,17 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
                 return;
         }
 
-        if (string.IsNullOrWhiteSpace(ConfirmText))
+        var confirmText = ConfirmText;
+        if (string.IsNullOrWhiteSpace(confirmText))
+            confirmText = OnConfirmText?.Invoke();
+
+        if (string.IsNullOrWhiteSpace(confirmText))
         {
             await OnSaveAsync(isClose);
             return;
         }
 
-        UI.Confirm(ConfirmText, async () => await OnSaveAsync(isClose));
+        UI.Confirm(confirmText, async () => await OnSaveAsync(isClose));
     }
 
     private async Task OnSaveAsync(bool isClose)

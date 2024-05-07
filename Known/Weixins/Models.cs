@@ -60,6 +60,9 @@ public class TemplateData
 
     public static TemplateData Create(string value)
     {
+        if (!string.IsNullOrWhiteSpace(value) && value.Length > 20)
+            value = value.Substring(0, 20);
+
         return new TemplateData { Value = value };
     }
 }
