@@ -52,6 +52,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Type Type { get; set; }
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }
+    public Action OnClosed { get; set; }
     public Action<string> OnFieldChanged { get; set; }
     public Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
     public Func<TItem, Task<Result>> OnSave { get; set; }
@@ -132,7 +133,12 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         return OnValidate.Invoke();
     }
 
-    public Task CloseAsync() => OnClose?.Invoke();
+    public async Task CloseAsync()
+    {
+        if (OnClose != null)
+            await OnClose.Invoke();
+        OnClosed?.Invoke();
+    }
 
     public async Task SaveAsync(bool isClose = false)
     {
