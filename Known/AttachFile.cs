@@ -17,6 +17,7 @@ public class AttachFile
         var filePath = GetFilePath(user.CompNo, bizType);
         var fileId = Utils.GetGuid();
         var fileName = $"{user.UserName}_{fileId}{ExtName}";
+        fileName = fileName.Replace(" ", "");
         if (string.IsNullOrEmpty(bizPath))
             FilePath = Path.Combine(filePath, fileName);
         else
