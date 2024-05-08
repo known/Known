@@ -3,8 +3,8 @@
 @inherits BaseComponent
 @typeparam TItem where TItem : class, new()
 
- @* ScrollY="@Model.FixedHeight" *@
-<AntTable @ref="table" TItem="TItem" Context="Context" Resizable="Model.Resizable" ScrollX="@scrollX"
+<AntTable @ref="table" TItem="TItem" Context="Context" Resizable="Model.Resizable" 
+          ScrollX="@scrollX" ScrollY="365px"
           Loading="loading" Criteria="Model.Criteria" Result="Model.Result" RowClass="Model.RowClass"
           @bind-SelectedRows="Model.SelectedRows" RemoteDataSource
           RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick" HidePagination="!Model.ShowPager">
