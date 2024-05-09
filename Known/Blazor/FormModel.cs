@@ -140,6 +140,12 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         OnClosed?.Invoke();
     }
 
+    public Task SaveAsync(Action<TItem> onSaved)
+    {
+        OnSaved = onSaved;
+        return SaveAsync();
+    }
+
     public async Task SaveAsync(bool isClose = false)
     {
         if (!Validate())

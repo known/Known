@@ -163,6 +163,12 @@
 /*File*/
 .kui-form-files {margin-top:5px;}
 .kui-form-files span {margin-right:5px;}
+.kui-upload {display:flex;}
+.kui-upload .kui-button {
+    border:1px solid var(--kui-border-color);border-radius:3px;padding:0 10px;margin-right:10px;
+    height:30px;line-height:30px;position:relative;
+}
+.kui-upload .kui-button input {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;outline:0;}
 
 /*Setting*/
 .kui-form-setting button {margin:0 5px;}
