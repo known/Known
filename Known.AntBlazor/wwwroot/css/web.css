@@ -78,6 +78,9 @@
 .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {border-right:none;}
 .ant-layout-footer {margin-top:10px;}
 .ant-spin-nested-loading, .ant-spin-nested-loading > div, .ant-spin-container {height:100%;}
+.kui-install-form .ant-spin-nested-loading, 
+.kui-install-form .ant-spin-nested-loading > div, 
+.kui-install-form .ant-spin-container {height:auto;}
 .ant-spin-nested-loading > div > .ant-spin .ant-spin-text {padding-top:20px;}
 
 @media screen and (max-width:768px) {
@@ -310,7 +313,7 @@
 .ws-chart, .ws-func {height:400px;}
 
 .known, .ws-space {display:flex;justify-content:space-between;}
-.known {padding:20px;border-left:5px solid #4188c8;}
+.known {padding:20px;border-left:5px solid #4188c8;margin-bottom:10px;}
 .known-desc {text-align:justify;}
 
 .ws-space {display:flex;justify-content:space-between;margin:0 0 10px 0;padding:20px;}

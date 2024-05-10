@@ -1,14 +1,15 @@
-﻿@using Microsoft.AspNetCore.Components.Routing
+﻿@using Known.Blazor
+@using Microsoft.AspNetCore.Components.Routing
 @inject Known.AntBlazor.UIService AntUI
 
-<CascadingValue Value="context">
+<KContext Value="context">
     <Router AppAssembly="typeof(App).Assembly">
         <Found Context="routeData">
             <RouteView RouteData="@routeData" />
         </Found>
         <NotFound></NotFound>
     </Router>
-</CascadingValue>
+</KContext>
 
 @code {
     private Context context;

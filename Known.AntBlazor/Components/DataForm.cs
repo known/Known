@@ -1,7 +1,9 @@
 ﻿namespace Known.AntBlazor.Components;
 
-public class DataForm<TItem> : BaseForm<TItem> where TItem : class, new()
+public class DataForm<TItem> : BaseForm where TItem : class, new()
 {
+    [Parameter] public FormModel<TItem> Model { get; set; }
+
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.Component<AntForm<TItem>>()

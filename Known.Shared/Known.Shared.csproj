@@ -7,7 +7,6 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="AntDesign.Charts" Version="0.5.1" />
         <PackageReference Include="Coravel" Version="5.0.3" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.3" />
         <!--<PackageReference Include="Npgsql" Version="8.0.2" />

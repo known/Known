@@ -60,10 +60,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
-    public ColumnBuilder<TItem> Category(string category)
+    public ColumnBuilder<TItem> Category(string category, bool isAll = true)
     {
         if (column != null)
+        {
             column.Category = category;
+            column.IsQueryAll = isAll;
+        }
         return this;
     }
 

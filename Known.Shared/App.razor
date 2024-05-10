@@ -4,7 +4,7 @@
 @inject UIService AntUI
 
 <CascadingAuthenticationState>
-    <CascadingValue Value="context">
+    <KContext Value="context">
         <Router AppAssembly="typeof(App).Assembly">
             <Found Context="routeData">
                 <AuthorizeRouteView RouteData="@routeData">
@@ -16,7 +16,7 @@
             </NotFound>
         </Router>
         <AntContainer />
-    </CascadingValue>
+    </KContext>
 </CascadingAuthenticationState>
 
 @code {
