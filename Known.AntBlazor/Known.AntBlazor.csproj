@@ -16,7 +16,7 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="AntDesign" Version="0.18.3" />
+        <PackageReference Include="AntDesign" Version="0.19.0" />
     </ItemGroup>
 
     <ItemGroup>

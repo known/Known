@@ -10,14 +10,14 @@ static class OptionExtension
         return codes.Select(a => new RadioOption<string> { Label = a.Name, Value = a.Code }).ToArray();
     }
 
-    internal static CheckboxOption[] ToCheckboxOptions(this List<CodeInfo> codes, Action<CheckboxOption> action = null)
+    internal static CheckboxOption<string>[] ToCheckboxOptions(this List<CodeInfo> codes, Action<CheckboxOption<string>> action = null)
     {
         if (codes == null || codes.Count == 0)
             return null;
 
         return codes.Select(a =>
         {
-            var option = new CheckboxOption { Label = a.Name, Value = a.Code };
+            var option = new CheckboxOption<string> { Label = a.Name, Value = a.Code };
             action?.Invoke(option);
             return option;
         }).ToArray();

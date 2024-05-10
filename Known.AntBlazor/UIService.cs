@@ -175,7 +175,7 @@ public class UIService(ModalService modalService, MessageService messageService,
         });
     }
 
-    public async void ShowDialog(DialogModel model)
+    public void ShowDialog(DialogModel model)
     {
         var options = new ModalOptions
         {
@@ -206,11 +206,11 @@ public class UIService(ModalService modalService, MessageService messageService,
         if (model.Footer != null)
             options.Footer = model.Footer;
 
-        var modal = await _modal.CreateModalAsync(options);
+        var modal = _modal.CreateModal(options);
         model.OnClose = modal.CloseAsync;
     }
 
-    public async void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
+    public void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
         var option = new ModalOptions
         {
@@ -252,7 +252,7 @@ public class UIService(ModalService modalService, MessageService messageService,
         if (model.IsView || model.NoFooter || isTabForm || isStepForm)
             option.Footer = null;
 
-        var modal = await _modal.CreateModalAsync(option);
+        var modal = _modal.CreateModal(option);
         model.OnClose = modal.CloseAsync;
     }
 

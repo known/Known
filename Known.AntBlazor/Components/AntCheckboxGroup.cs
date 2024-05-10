@@ -1,6 +1,6 @@
 ﻿namespace Known.AntBlazor.Components;
 
-public class AntCheckboxGroup : CheckboxGroup
+public class AntCheckboxGroup : CheckboxGroup<string>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
