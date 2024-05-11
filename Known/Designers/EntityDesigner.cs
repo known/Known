@@ -80,26 +80,30 @@ class EntityDesigner : BaseDesigner<string>
 
     private void BuildNewModel(RenderTreeBuilder builder)
     {
+        ShowTips(builder);
         UI.BuildTextArea(builder, new InputModel<string>
         {
             Disabled = ReadOnly || !IsNew,
-            Rows = 11,
+            Rows = 12,
             Value = Model,
             ValueChanged = this.Callback<string>(OnModelChanged)
         });
     }
 
-    private void ShowTips(RenderTreeBuilder builder)
+    private void ShowTips(RenderTreeBuilder builder, bool showSample = false)
     {
         builder.Markup($@"<pre><b>{Language["Designer.Explanation"]}</b>
 {Language["Designer.Entity"]}{Language["Name"]}|{Language["Code"]}|{Language["Designer.FlowClass"]}
 {Language["Designer.Field"]}{Language["Name"]}|{Language["Code"]}|{Language["Type"]}|{Language["Length"]}|{Language["Required"]}
-{Language["Designer.Type"]}{dataTypes}
-<b>{Language["Designer.Sample"]}</b>
+{Language["Designer.Type"]}{dataTypes}</pre>");
+        if (showSample)
+        {
+            builder.Markup($@"<pre><b>{Language["Designer.Sample"]}</b>
 {Language["Designer.Test"]}|KmTest|Y
 {Language["Designer.Text"]}|Field1|Text|50|Y
 {Language["Designer.Number"]}|Field2|Number|18,5
 {Language["Designer.Date"]}|Field3|Date</pre>");
+        }
     }
 
     private void OnTypeChanged(string type) => addType = type;

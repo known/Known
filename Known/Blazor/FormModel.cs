@@ -118,11 +118,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         if (!string.IsNullOrWhiteSpace(Title))
             return Title;
 
-        var action = Language?[$"Button.{Action}"];
         var title = Language?.GetString(Table.Module);
         if (Table.FormTitle != null)
             title = Table.FormTitle.Invoke(Data);
-        return Language?["Title.FormAction"]?.Replace("{action}", action).Replace("{title}", title);
+        return Language?.GetFormTitle(Action, title);
     }
 
     public bool Validate()

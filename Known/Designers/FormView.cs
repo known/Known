@@ -8,9 +8,9 @@ class FormView : BaseView<FormInfo>
 
     [Parameter] public FlowInfo Flow { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitAsync()
     {
-        base.OnInitialized();
+        await base.OnInitAsync();
 
         form = new FormModel<Dictionary<string, object>>(Context) { Data = [] };
         SetForm();

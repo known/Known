@@ -5,18 +5,12 @@ class PageView : BaseView<PageInfo>
     private readonly TabModel tab = new();
     private TableModel<PageColumnInfo> list;
     private DemoPageModel table;
-    private List<CodeInfo> actions;
 
     [Parameter] public EntityInfo Entity { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitAsync()
     {
-        actions = Config.Actions.Select(a =>
-        {
-            var name = Language.GetString(a);
-            return new CodeInfo(a.Id, name);
-        }).ToList();
-        base.OnInitialized();
+        await base.OnInitAsync();
 
         Tab.AddTab("Designer.View", BuildView);
         Tab.AddTab("Designer.Fields", BuildList);
@@ -34,8 +28,24 @@ class PageView : BaseView<PageInfo>
         };
 
         tab.AddTab("Designer.Property", BuildProperty);
-        tab.AddTab("Designer.Toolbar", BuildToolbar);
-        tab.AddTab("Designer.Action", BuildAction);
+        if (!ReadOnly)
+        {
+            tab.Right = b =>
+            {
+                UI.BuildButton(b, new ActionInfo
+                {
+                    Name = Language["Designer.Toolbar"],
+                    Style = "primary",
+                    OnClick = this.Callback<MouseEventArgs>(OnToolbar)
+                });
+                UI.BuildButton(b, new ActionInfo
+                {
+                    Name = Language["Designer.Action"],
+                    Style = "primary",
+                    OnClick = this.Callback<MouseEventArgs>(OnAction)
+                });
+            };
+        }
     }
 
     internal override async void SetModel(PageInfo model)
@@ -79,27 +89,42 @@ class PageView : BaseView<PageInfo>
         });
     }
 
-    private void BuildToolbar(RenderTreeBuilder builder)
+    private void OnToolbar(MouseEventArgs args)
     {
-        //TODO:按钮位置左右移动
-        UI.BuildCheckList(builder, new InputModel<string[]>
+        ShowActions("Toolbar", Model.Tools, value =>
         {
-            Disabled = ReadOnly,
-            Codes = actions,
-            Value = Model.Tools,
-            ValueChanged = this.Callback<string[]>(value => { Model.Tools = value; OnPropertyChanged(); })
+            Model.Tools = value;
+            OnPropertyChanged();
         });
     }
 
-    private void BuildAction(RenderTreeBuilder builder)
+    private void OnAction(MouseEventArgs args)
     {
-        UI.BuildCheckList(builder, new InputModel<string[]>
+        ShowActions("Action", Model.Actions, value =>
         {
-            Disabled = ReadOnly,
-            Codes = actions,
-            Value = Model.Actions,
-            ValueChanged = this.Callback<string[]>(value => { Model.Actions = value; OnPropertyChanged(); })
+            Model.Actions = value;
+            OnPropertyChanged();
         });
+    }
+
+    private void ShowActions(string type, string[] value, Action<string[]> onChange)
+    {
+        var title = Language[$"Designer.{type}"];
+        ActionTable table = null;
+        var model = new DialogModel
+        {
+            Title = Language?.GetFormTitle("Edit", title),
+            Content = b => b.Component<ActionTable>()
+                            .Set(c => c.Name, title)
+                            .Set(c => c.Value, value)
+                            .Build(value => table = value),
+        };
+        model.OnOk = async () =>
+        {
+            onChange.Invoke(table?.Values);
+            await model.CloseAsync();
+        };
+        UI.ShowDialog(model);
     }
 
     private void OnPropertyChanged()

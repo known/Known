@@ -82,6 +82,8 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public string Name { get; set; }
     public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }
+    public string ActionWidth { get; set; } = "140";
+    public int ActionCount { get; set; } = 2;
     public double? FormWidth { get; set; }
     public bool FormMaximizable { get; set; }
     public bool FormDefaultMaximized { get; set; }
@@ -89,7 +91,6 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public Func<TItem, string> FormTitle { get; set; }
     public TabModel Tab { get; } = new();
     public List<ColumnInfo> Columns { get; } = [];
-    public PagingResult<TItem> Result { get; set; } = new();
     public List<ActionInfo> Actions { get; private set; } = [];
     public IEnumerable<TItem> SelectedRows { get; set; }
     public Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];
@@ -100,10 +101,31 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public Func<TItem, Task> OnRowClick { get; set; }
     public Action<ActionInfo, TItem> OnAction { get; set; }
     public Action OnRefreshed { get; set; }
-    public List<TItem> DataSource { get; set; }
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
     public RenderFragment ToolbarSlot { get; set; }
     public Func<TItem, string> RowClass { get; set; }
+
+    private List<TItem> dataSource = [];
+    public List<TItem> DataSource
+    {
+        get { return dataSource; }
+        set
+        {
+            dataSource = value ?? [];
+            result = new PagingResult<TItem>(dataSource);
+        }
+    }
+
+    private PagingResult<TItem> result = new();
+    public PagingResult<TItem> Result
+    {
+        get { return result; }
+        set
+        {
+            result = value ?? new();
+            dataSource = value?.PageData;
+        }
+    }
 
     public void Clear()
     {

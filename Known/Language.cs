@@ -114,6 +114,12 @@ public class Language
     internal string Success(string action) => this["Tip.XXSuccess"].Replace("{action}", action);
     internal string Failed(string action) => this["Tip.XXFailed"].Replace("{action}", action);
 
+    internal string GetFormTitle(string action, string title)
+    {
+        var actionName = this[$"Button.{action}"];
+        return this["Title.FormAction"]?.Replace("{action}", actionName).Replace("{title}", title);
+    }
+
     internal string GetText(string prefix, string code, string name = null)
     {
         var text = GetString($"{prefix}.{code}");

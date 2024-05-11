@@ -18,7 +18,8 @@ class BaseView<TModel> : BaseComponent
     {
         builder.Div("item", () =>
         {
-            builder.Label(Language[label]);
+            if (!string.IsNullOrWhiteSpace(label))
+                builder.Label(Language[label]);
             builder.Div(() => template?.Invoke(builder));
         });
     }

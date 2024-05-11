@@ -10,12 +10,12 @@
     actions = actions.Where(a => a.Visible).ToList();
     if (actions.Count > 0)
     {
-        <ActionColumn Title="@Language["Title.Action"]" Align="ColumnAlign.Center" Width="140" Class="kui-table-action">
-            @if (actions.Count > 2)
+        <ActionColumn Title="@Language["Title.Action"]" Align="ColumnAlign.Center" Width="@Table.ActionWidth" Class="kui-table-action">
+            @if (actions.Count > Table.ActionCount)
             {
                 var first = actions[0];
                 var firstName = Language.GetString(first);
-                var mores = actions.Skip(1).ToList();
+                var mores = actions.Skip(Table.ActionCount - 1).ToList();
                 <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Table.OnAction?.Invoke(first, Item)">@firstName</Tag>
                 <AntDropdown Context="Context" Text="@Language["Button.More"]" Items="mores" OnItemClick="e=>Table.OnAction?.Invoke(e, Item)" />
             }
