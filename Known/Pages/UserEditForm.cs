@@ -7,17 +7,12 @@ public class UserEditForm : BaseEditForm<SysUser>
 
     protected override async Task OnInitFormAsync()
     {
-        Model = new FormModel<SysUser>(Context)
-        {
-            LabelSpan = 4,
-            WrapperSpan = 8,
-            IsView = true,
-            Data = Parent?.User
-        };
-        if (Model.Data == null)
-        {
-            Model.Data = await Platform.User.GetUserAsync(CurrentUser.Id);
-        }
+        Data = Parent?.User;
+        Data ??= await Platform.User.GetUserAsync(CurrentUser.Id);
+
+        await base.OnInitFormAsync();
+        Model.LabelSpan = 4;
+        Model.WrapperSpan = 8;
         Model.AddRow().AddColumn(c => c.UserName, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.Name);
         Model.AddRow().AddColumn(c => c.EnglishName);
@@ -26,8 +21,6 @@ public class UserEditForm : BaseEditForm<SysUser>
         Model.AddRow().AddColumn(c => c.Mobile);
         Model.AddRow().AddColumn(c => c.Email);
         Model.AddRow().AddColumn(c => c.Note, c => c.Type = FieldType.TextArea);
-
-        await base.OnInitFormAsync();
     }
 
     protected override void BuildFormContent(RenderTreeBuilder builder)

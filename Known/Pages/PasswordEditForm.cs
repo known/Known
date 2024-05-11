@@ -5,14 +5,13 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
 {
     protected override async Task OnInitFormAsync()
     {
+        await base.OnInitFormAsync();
         Model = new FormModel<PwdFormInfo>(Context, true)
         {
             LabelSpan = 4,
             WrapperSpan = 6,
             Data = new PwdFormInfo()
         };
-
-        await base.OnInitFormAsync();
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)
