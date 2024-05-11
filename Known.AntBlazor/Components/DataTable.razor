@@ -4,7 +4,7 @@
 @typeparam TItem where TItem : class, new()
 
 <AntTable @ref="table" TItem="TItem" Context="Context" Resizable="Model.Resizable" 
-          ScrollX="@scrollX" ScrollY="365px"
+          ScrollX="@scrollX" ScrollY="@scrollY"
           Loading="loading" Criteria="Model.Criteria" Result="Model.Result" RowClass="Model.RowClass"
           @bind-SelectedRows="Model.SelectedRows" RemoteDataSource
           RowKey="Model.RowKey" OnChange="OnChange" OnRowClick="OnRowClick" HidePagination="!Model.ShowPager">
@@ -20,6 +20,7 @@
     private bool loading = false;
     private AntTable<TItem> table;
     private string scrollX = "";
+    private string scrollY => Model.FixedHeight ?? "365px";
 
     [Parameter] public TableModel<TItem> Model { get; set; }
 
@@ -37,7 +38,6 @@
         try
         {
             loading = true;
-            //table?.ReloadData();
             if (Model.OnQuery != null)
                 Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
             Model.SelectedRows = [];

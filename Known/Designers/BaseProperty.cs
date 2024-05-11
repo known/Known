@@ -19,7 +19,7 @@ class BaseProperty<TModel> : BaseComponent where TModel : class, new()
         Model ??= new();
     }
 
-    protected override void BuildRender(RenderTreeBuilder builder) => builder.Div("property", () => BuildForm(builder));
+    protected override void BuildRender(RenderTreeBuilder builder) => BuildForm(builder);
     protected virtual void BuildForm(RenderTreeBuilder builder) { }
 
     protected void BuildPropertyItem(RenderTreeBuilder builder, string label, Action<RenderTreeBuilder> template)

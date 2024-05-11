@@ -80,6 +80,17 @@ class EntityDesigner : BaseDesigner<string>
 
     private void BuildNewModel(RenderTreeBuilder builder)
     {
+        UI.BuildTextArea(builder, new InputModel<string>
+        {
+            Disabled = ReadOnly || !IsNew,
+            Rows = 11,
+            Value = Model,
+            ValueChanged = this.Callback<string>(OnModelChanged)
+        });
+    }
+
+    private void ShowTips(RenderTreeBuilder builder)
+    {
         builder.Markup($@"<pre><b>{Language["Designer.Explanation"]}</b>
 {Language["Designer.Entity"]}{Language["Name"]}|{Language["Code"]}|{Language["Designer.FlowClass"]}
 {Language["Designer.Field"]}{Language["Name"]}|{Language["Code"]}|{Language["Type"]}|{Language["Length"]}|{Language["Required"]}
@@ -89,13 +100,6 @@ class EntityDesigner : BaseDesigner<string>
 {Language["Designer.Text"]}|Field1|Text|50|Y
 {Language["Designer.Number"]}|Field2|Number|18,5
 {Language["Designer.Date"]}|Field3|Date</pre>");
-        UI.BuildTextArea(builder, new InputModel<string>
-        {
-            Disabled = ReadOnly || !IsNew,
-            Rows = 11,
-            Value = Model,
-            ValueChanged = this.Callback<string>(OnModelChanged)
-        });
     }
 
     private void OnTypeChanged(string type) => addType = type;

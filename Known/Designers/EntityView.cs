@@ -27,7 +27,7 @@ class EntityView : BaseView<EntityInfo>
         Tab.AddTab("Designer.EntityCode", BuildEntity);
         Tab.AddTab("Designer.TableScript", BuildScript);
 
-        table.FixedHeight = "380px";
+        table.FixedHeight = "330px";
         table.OnQuery = c=>
         {
             var result = new PagingResult<FieldInfo>(Model?.Fields);

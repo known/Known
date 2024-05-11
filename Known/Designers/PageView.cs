@@ -25,7 +25,7 @@ class PageView : BaseView<PageInfo>
 
         list = new(Context, true)
         {
-            FixedHeight = "380px",
+            FixedHeight = "355px",
             OnQuery = c =>
             {
                 var result = new PagingResult<PageColumnInfo>(Model?.Columns);

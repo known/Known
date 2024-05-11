@@ -4,6 +4,7 @@ public class StepForm : BaseComponent
 {
     [Parameter] public StepModel Model { get; set; }
     [Parameter] public bool IsView { get; set; }
+    [Parameter] public bool IsStepSave { get; set; }
     [Parameter] public int? StepCount { get; set; }
     [Parameter] public Func<bool, Task<bool>> OnSave { get; set; }
 
@@ -45,16 +46,22 @@ public class StepForm : BaseComponent
 
     private async void OnPrevClickAsync(MouseEventArgs arg)
     {
-        if (!await SaveAsync())
-            return;
+        if (IsStepSave)
+        {
+            if (!await SaveAsync())
+                return;
+        }
 
         Model.Current--;
     }
 
     private async void OnNextClickAsync(MouseEventArgs arg)
     {
-        if (!await SaveAsync())
-            return;
+        if (IsStepSave)
+        {
+            if (!await SaveAsync())
+                return;
+        }
 
         Model.Current++;
     }

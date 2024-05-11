@@ -28,7 +28,7 @@ public class SysModuleForm : BaseStepForm
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-
+        Model.Class = "kui-small";
         Model.OnFieldChanged = OnFieldChanged;
         if (!IsPageEdit)
         {
