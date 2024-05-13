@@ -23,9 +23,16 @@
                             <NavTopRight OnMenuClick="OnMenuClick" />
                         </Header>
                         <Content Class="@Content">
-                            <div style="margin:0 10px;min-height:360px;">
-                                @Body
-                            </div>
+                            @if (Context.UserSetting.MultiTab)
+                            {
+                                <ReuseTabs Class="top-row px-4" TabPaneClass="content px-4" />
+                            }
+                            else
+                            {
+                                <div style="margin:0 10px;min-height:360px;">
+                                    @Body
+                                </div>
+                            }
                         </Content>
                         @if (AntConfig.Option.Footer != null)
                         {

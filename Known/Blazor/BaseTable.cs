@@ -23,7 +23,7 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     public virtual void MoveUp(TItem row) => MoveRow(row, true);
     public virtual void MoveDown(TItem row) => MoveRow(row, false);
 
-    public virtual void Delete(TItem row)
+    protected void DeleteRow(TItem row)
     {
         if (Table.DataSource == null || Table.DataSource.Count == 0)
             return;

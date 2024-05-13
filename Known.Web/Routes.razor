@@ -8,9 +8,7 @@
     <KContext Value="context">
         <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="@Config.Assemblies">
             <Found Context="routeData">
-                <AuthorizeRouteView RouteData="@routeData" DefaultLayout="typeof(AntLayout)">
-                    <Authorizing></Authorizing>
-                </AuthorizeRouteView>
+                <RouteView RouteData="@routeData" DefaultLayout="typeof(AntLayout)" />
             </Found>
             <NotFound>
                 <Result Status="404" />

@@ -57,4 +57,6 @@ class ActionTable : BaseTable<ActionInfo>
         };
         UI.ShowDialog(model);
     }
+
+    public void Delete(ActionInfo row) => DeleteRow(row);
 }

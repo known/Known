@@ -6,8 +6,6 @@ public class LoginPage : BaseComponent
 
     protected LoginFormInfo Model = new();
 
-    [Parameter] public Func<UserInfo, Task> OnLogin { get; set; }
-
     protected override async Task OnInitAsync()
     {
         var info = await JS.GetLoginInfoAsync<LoginInfo>();
@@ -40,7 +38,14 @@ public class LoginPage : BaseComponent
         StateChanged();
     }
 
-    protected virtual void OnSigning() { }
+    protected virtual void OnLogining() { }
+    protected virtual void OnLogined()
+    {
+        if (Context.IsMobile)
+            Navigation.NavigateTo("/app");
+        else
+            Navigation.NavigateTo("/");
+    }
 
     protected async Task OnUserLogin()
     {
@@ -60,7 +65,7 @@ public class LoginPage : BaseComponent
             });
         }
 
-        OnSigning();
+        OnLogining();
         Model.IPAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString();
         var result = await Platform.Auth.SignInAsync(Model);
         if (!result.IsValid)
@@ -71,10 +76,7 @@ public class LoginPage : BaseComponent
         {
             var user = result.DataAs<UserInfo>();
             await SetCurrentUserAsync(user);
-            if (Context.IsMobile)
-                Navigation.NavigateTo("/app");
-            else
-                Navigation.NavigateTo("/");
+            OnLogined();
         }
     }
 
