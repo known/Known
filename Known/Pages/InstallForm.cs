@@ -18,7 +18,7 @@ public class InstallForm : BaseForm<InstallInfo>
         {
             builder.Div("kui-install-head", () =>
             {
-                builder.Div("", $"{Language["App.Name"]} - {Language["Install"]}");
+                builder.Div("", $"{Config.App.Name} - {Language["Install"]}");
                 builder.Fragment(TopMenu);
             });
             builder.Div("kui-install-body", () =>
