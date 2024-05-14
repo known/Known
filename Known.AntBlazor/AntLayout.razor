@@ -34,13 +34,16 @@
                                 </div>
                             }
                         </Content>
-                        @if (AntConfig.Option.Footer != null)
+                        @if (AntConfig.Option.ShowFooter)
                         {
-                            <Footer Style="text-align:center">@AntConfig.Option.Footer</Footer>
-                        }
-                        else
-                        {
-                            <Footer Style="text-align:center"><PageFooter /></Footer>
+                            if (AntConfig.Option.Footer != null)
+                            {
+                                <Footer Style="text-align:center">@AntConfig.Option.Footer</Footer>
+                            }
+                            else
+                            {
+                                <Footer Style="text-align:center"><PageFooter /></Footer>
+                            }
                         }
                     </Layout>
                 </Layout>

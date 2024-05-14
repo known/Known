@@ -24,6 +24,7 @@ public static class Extension
 
 public class AntDesignOption
 {
+    public bool ShowFooter { get; set; }
     public RenderFragment Footer { get; set; }
 }
 
