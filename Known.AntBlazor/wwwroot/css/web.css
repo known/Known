@@ -18,6 +18,7 @@
 }
 .ant-table-thead > tr > th.kui-table-action {position:sticky;right:0;z-index:101;}
 .ant-table-tbody > tr > td.kui-table-action {position:sticky;right:0;z-index:101;background-color:var(--kui-bgcolor);}
+.ant-table-tbody > tr > td.kui-table-action > div > a {padding:0 5px;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
 .kui-small .ant-form-item-label {width:85px;}
