@@ -76,10 +76,10 @@ public class EntityBase
             var value = pi.GetValue(this, null);
             var valueString = value == null ? "" : value.ToString().Trim();
             var errors = new List<string>();
+            var column = new ColumnAttribute();
+            column.Validate(context, value, pi, errors);
             foreach (var item in attrs)
             {
-                if (item is ColumnAttribute column)
-                    column.Validate(context, value, pi, errors);
                 if (item is RegexAttribute regex)
                     regex.Validate(value, errors);
             }
@@ -92,7 +92,7 @@ public class EntityBase
             var result = Result.Error("", dicError);
             foreach (var item in dicError.Values)
             {
-                item.ForEach(m => result.AddError(m));
+                item.ForEach(result.AddError);
             }
             return result;
         }

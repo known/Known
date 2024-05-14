@@ -26,7 +26,7 @@ public class Result
             if (errors.Count == 0)
                 return message;
 
-            return string.Join(Environment.NewLine, errors.ToArray());
+            return string.Join(Environment.NewLine, [.. errors]);
         }
         internal set { message = value; }
     }

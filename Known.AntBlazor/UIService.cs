@@ -105,22 +105,23 @@ public class UIService(ModalService modalService, MessageService messageService,
 
     public async Task Toast(string message, StyleType style = StyleType.Success)
     {
+        var content = FormatMessage(message);
         switch (style)
         {
             case StyleType.Success:
-                await _message.Success(message);
+                await _message.Success(content);
                 break;
             case StyleType.Info:
-                await _message.Info(message);
+                await _message.Info(content);
                 break;
             case StyleType.Warning:
-                await _message.Warning(message);
+                await _message.Warning(content);
                 break;
             case StyleType.Error:
-                await _message.Error(message);
+                await _message.Error(content);
                 break;
             default:
-                await _message.Info(message);
+                await _message.Info(content);
                 break;
         }
     }
@@ -130,7 +131,7 @@ public class UIService(ModalService modalService, MessageService messageService,
         var config = new NotificationConfig
         {
             Message = Language?["Title.Error"],
-            Description = message,
+            Description = FormatMessage(message),
             Placement = NotificationPlacement.BottomRight,
             Duration = null
         };
@@ -159,7 +160,7 @@ public class UIService(ModalService modalService, MessageService messageService,
         _modal.Info(new ConfirmOptions
         {
             Title = Language?.GetTitle("Prompt"),
-            Content = message,
+            Content = FormatMessage(message),
             OnOk = e => action?.Invoke()
         });
     }
@@ -170,9 +171,19 @@ public class UIService(ModalService modalService, MessageService messageService,
         {
             Title = Language?.GetTitle("Question"),
             Icon = b => b.Component<Icon>().Set(c => c.Type, "question-circle").Set(c => c.Theme, "outline").Build(),
-            Content = message,
+            Content = FormatMessage(message),
             OnOk = e => action?.Invoke()
         });
+    }
+
+    private static RenderFragment FormatMessage(string message)
+    {
+        if (message.Contains(Environment.NewLine))
+        {
+            message = message.Trim([.. Environment.NewLine]).Replace(Environment.NewLine, "<br/>");
+            message = $"<div class=\"message\">{message}</div>";
+        }
+        return b => b.Markup(message);
     }
 
     public void ShowDialog(DialogModel model)

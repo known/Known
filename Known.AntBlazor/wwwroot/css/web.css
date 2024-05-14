@@ -83,6 +83,7 @@
 .kui-install-form .ant-spin-nested-loading > div, 
 .kui-install-form .ant-spin-container {height:auto;}
 .ant-spin-nested-loading > div > .ant-spin .ant-spin-text {padding-top:20px;}
+.ant-message .message {text-align:left;}
 
 @media screen and (max-width:768px) {
     .kui-header .ant-breadcrumb, .kui-nav-full, .kui-nav-setting {display:none;}
