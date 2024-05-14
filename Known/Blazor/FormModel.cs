@@ -56,7 +56,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Action<string> OnFieldChanged { get; set; }
     public Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
     public Func<TItem, Task<Result>> OnSave { get; set; }
-    public Func<bool> OnSaving { get; set; }
+    public Func<TItem, Task<bool>> OnSaving { get; set; }
     public Action<TItem> OnSaved { get; set; }
     public Dictionary<string, List<IBrowserFile>> Files { get; } = [];
 
@@ -152,7 +152,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
         if (OnSaving != null)
         {
-            if (!OnSaving.Invoke())
+            if (!await OnSaving.Invoke(Data))
                 return;
         }
 
