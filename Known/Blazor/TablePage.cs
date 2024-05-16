@@ -9,7 +9,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
         if (Model == null)
             return;
 
-        if (Model.Page == null)
+        if (Model.Page == null && Model.Module == null)
             BuildFormList(builder);
         else
             BuildPageList(builder);

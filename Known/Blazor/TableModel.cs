@@ -67,7 +67,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
 
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal SysModule Module { get; set; }
-    internal string PageName => Page?.PageName;
+    internal string PageName => Page?.PageName ?? Module?.Name;
     internal override Type ItemType => typeof(TItem);
 
     public BasePage Page { get; }
