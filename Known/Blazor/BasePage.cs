@@ -48,8 +48,6 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
     {
         builder.Component<WebPage>().Set(c => c.Model, Page).Build();
     }
-
-    protected void OnActionClick(ActionInfo info, TItem item) => OnAction(info, [item]);
 }
 
 public class BaseTabPage : BasePage

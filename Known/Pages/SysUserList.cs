@@ -34,10 +34,8 @@ public class SysUserList : BasePage<SysUser>
         table = new TableModel<SysUser>(this)
         {
             RowKey = r => r.Id,
-            OnQuery = OnQueryUsersAsync,
-            OnAction = OnActionClick
+            OnQuery = OnQueryUsersAsync
         };
-        table.Toolbar.OnItemClick = OnToolClick;
         Page.AddItem(BuildTable);
     }
 

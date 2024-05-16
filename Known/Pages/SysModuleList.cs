@@ -32,10 +32,8 @@ public class SysModuleList : BasePage<SysModule>
             RowKey = r => r.Id,
             ShowPager = false,
             OnQuery = OnQueryModulesAsync,
-            OnAction = OnActionClick,
             FormType = typeof(SysModuleForm)
         };
-        table.Toolbar.OnItemClick = OnToolClick;
     }
 
     protected override async Task OnPageChangeAsync()

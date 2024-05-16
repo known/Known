@@ -29,10 +29,8 @@ public class SysOrganizationList : BasePage<SysOrganization>
             FormTitle = row => $"{PageName} - {row.ParentName}",
             RowKey = r => r.Id,
             ShowPager = false,
-            OnQuery = OnQueryOrganizationsAsync,
-            OnAction = OnActionClick
+            OnQuery = OnQueryOrganizationsAsync
         };
-        table.Toolbar.OnItemClick = OnToolClick;
     }
 
     protected override async Task OnPageChangeAsync()
