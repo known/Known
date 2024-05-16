@@ -105,7 +105,11 @@ public static class ComponentExtension
                    .Set(c => c.Disabled, model.Disabled)
                    .Set(c => c.Placeholder, model.Placeholder)
                    .Set(c => c.RangeValue, model.Value?.ToString())
-                   //.Set(c => c.RangeValueChanged, BuildRange)
+                   .Set(c => c.RangeValueChanged, v=>
+                   {
+                       var value = Utils.ConvertTo<TValue>(v);
+                       model.ValueChanged.InvokeAsync(value);
+                   })
                    .Build();
         }
         else

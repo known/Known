@@ -6,7 +6,7 @@ public class AntRangePicker : RangePicker<DateTime?[]>
     [CascadingParameter] private DataItem Item { get; set; }
 
     [Parameter] public string RangeValue { get; set; }
-    [Parameter] public EventCallback<string> RangeValueChanged { get; set; }
+    [Parameter] public Action<string> RangeValueChanged { get; set; }
 
     protected override void OnInitialized()
     {
@@ -26,10 +26,9 @@ public class AntRangePicker : RangePicker<DateTime?[]>
         OnChange = this.Callback<DateRangeChangedEventArgs<DateTime?[]>>(OnDateRangeChange);
     }
 
-    private async void OnDateRangeChange(DateRangeChangedEventArgs<DateTime?[]> e)
+    private void OnDateRangeChange(DateRangeChangedEventArgs<DateTime?[]> e)
     {
         RangeValue = $"{e.Dates[0]:yyyy-MM-dd}~{e.Dates[1]:yyyy-MM-dd}";
-        if (RangeValueChanged.HasDelegate)
-            await RangeValueChanged.InvokeAsync(RangeValue);
+        RangeValueChanged?.Invoke(RangeValue);
     }
 }
