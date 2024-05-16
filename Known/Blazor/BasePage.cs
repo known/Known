@@ -19,6 +19,17 @@ public class BasePage : BaseComponent
         builder.Component<KAuthPanel>().Set(c => c.ChildContent, BuildPage).Build();
     }
 
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        await JS.RunVoidAsync(@"
+var body = $('body').height();
+var tabs = $('.kui-table > .ant-tabs').length;
+var table = tabs ? 60 : 48;
+$('.kui-card .ant-tabs-content-holder').css('height', (body-136)+'px');
+$('.ant-table-body').css('height', (body-182-42-table)+'px');");
+    }
+
     protected virtual void BuildPage(RenderTreeBuilder builder) { }
     protected virtual Task OnPageInitAsync() => Task.CompletedTask;
     protected virtual Task OnPageChangeAsync() => Task.CompletedTask;

@@ -33,12 +33,6 @@
         base.OnInitialized();
     }
 
-    protected override async void OnAfterRender(bool firstRender)
-    {
-        base.OnAfterRender(firstRender);
-        await JS.RunVoidAsync("$('.ant-table-body').css('height', ($('body').height()-182-42-60)+'px');");
-    }
-
     public async Task RefreshAsync()
     {
         try

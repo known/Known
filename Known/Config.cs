@@ -14,7 +14,6 @@ public sealed class Config
     public static List<Assembly> Assemblies { get; set; } = [];
     public static List<MenuInfo> AppMenus { get; set; }
     internal static DateTime StartTime { get; set; }
-    internal static bool IsClearCache { get; set; }
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
     internal static List<ActionInfo> Actions { get; set; } = [];
@@ -85,6 +84,20 @@ public sealed class Config
             Directory.CreateDirectory(uploadPath);
 
         return uploadPath;
+    }
+
+    public static string GetStaticFileUrl(string url)
+    {
+        if (string.IsNullOrWhiteSpace(App.WebRoot))
+            return url;
+
+        var fileName = Path.Combine(App.WebRoot, url);
+        if (!File.Exists(fileName))
+            return url;
+
+        var fileInfo = new FileInfo(fileName);
+        var time = fileInfo.LastWriteTime.ToString("yyMMddHHmmss");
+        return $"{url}?v={time}";
     }
 
     public static string GetUploadPath(string filePath, bool isWeb = false)
