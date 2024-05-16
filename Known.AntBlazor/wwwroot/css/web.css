@@ -19,6 +19,8 @@
 .ant-table-thead > tr > th.kui-table-action {position:sticky;right:0;z-index:101;}
 .ant-table-tbody > tr > td.kui-table-action {position:sticky;right:0;z-index:101;background-color:var(--kui-bgcolor);}
 .ant-table-tbody > tr > td.kui-table-action > div > a {padding:0 5px;}
+.ant-table.ant-table-small .ant-table-tbody > tr > td {padding:5px;}
+.ant-table-pagination.ant-pagination {margin:10px 0 0 0;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
 .kui-small .ant-form-item-label {width:85px;}

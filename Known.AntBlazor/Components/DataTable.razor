@@ -20,7 +20,7 @@
     private bool loading = false;
     private AntTable<TItem> table;
     private string scrollX = "";
-    private string scrollY => Model.FixedHeight ?? "450px";
+    private string scrollY => Model.FixedHeight ?? "1000px";
 
     [Parameter] public TableModel<TItem> Model { get; set; }
 
@@ -31,6 +31,12 @@
             scrollX = totalWidth.ToString();
         Model.OnRefresh = RefreshAsync;
         base.OnInitialized();
+    }
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        await JS.RunVoidAsync("$('.ant-table-body').css('height', ($('body').height()-182-42-60)+'px');");
     }
 
     public async Task RefreshAsync()

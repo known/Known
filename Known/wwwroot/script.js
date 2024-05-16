@@ -7,6 +7,12 @@ import "./libs/prism.js";
 
 export class KBlazor {
     //Callback
+    static runScript(script) {
+        return eval(script);
+    }
+    static runScriptVoid(script) {
+        eval(script);
+    }
     static invokeDotNet(id, key, param) {
         return DotNet.invokeMethodAsync('Known', 'CallbackByParamAsync', id, key, param);
     }

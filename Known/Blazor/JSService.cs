@@ -39,6 +39,8 @@ public class JSService
     #endregion
 
     #region Common
+    public Task<object> RunAsync(string script) => InvokeAsync<object>("KBlazor.runScript", script);
+    public Task RunVoidAsync(string script) => InvokeVoidAsync("KBlazor.runScriptVoid", script);
     public Task ClickAsync(string clientId) => InvokeVoidAsync("KBlazor.elemClick", clientId);
     public Task EnabledAsync(string clientId, bool enabled) => InvokeVoidAsync("KBlazor.elemEnabled", clientId, enabled);
     internal Task<string> HighlightAsync(string code, string language) => InvokeAsync<string>("KBlazor.highlight", code, language);
