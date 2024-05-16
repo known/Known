@@ -92,25 +92,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
     internal async void OnAction(ActionInfo info, object[] parameters)
     {
-        var type = GetType();
-        var paramTypes = parameters?.Select(p => p.GetType()).ToArray();
-        var method = paramTypes == null
-                   ? type.GetMethod(info.Id)
-                   : type.GetMethod(info.Id, paramTypes);
-        if (method == null)
-        {
-            var message = Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
-            UI.Error(message);
-            return;
-        }
-
-        try
-        {
-            method.Invoke(this, parameters);
-        }
-        catch (Exception ex)
-        {
-            await App?.OnError(ex);
-        }
+        await TypeHelper.ActionAsync(this, Context, App, info, parameters);
     }
 }

@@ -6,6 +6,30 @@ public sealed class TypeHelper
 {
     private TypeHelper() { }
 
+    internal static async Task ActionAsync(object obj, Context context, BaseLayout app, ActionInfo info, object[] parameters)
+    {
+        var type = obj.GetType();
+        var paramTypes = parameters?.Select(p => p.GetType()).ToArray();
+        var method = paramTypes == null
+                   ? type.GetMethod(info.Id)
+                   : type.GetMethod(info.Id, paramTypes);
+        if (method == null)
+        {
+            var message = context.Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
+            context.UI.Error(message);
+            return;
+        }
+
+        try
+        {
+            method.Invoke(obj, parameters);
+        }
+        catch (Exception ex)
+        {
+            await app?.OnError(ex);
+        }
+    }
+
     internal static List<CodeInfo> GetEnumCodes(Type type)
     {
         var category = type.Name;
