@@ -57,12 +57,20 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         }
     }
 
-    public TableModel(BasePage page) : this(page.Context)
+    public TableModel(BasePage page, bool isAction = false) : this(page.Context)
     {
         AdvSearch = true;
         Page = page;
-        OnAction = page.OnActionClick;
-        Toolbar.OnItemClick = page.OnToolClick;
+        if (isAction)
+        {
+            OnAction = async (info, item) => await TypeHelper.ActionAsync(this, Context, page.App, info, [item]);
+            Toolbar.OnItemClick = async info => await TypeHelper.ActionAsync(this, Context, page.App, info, null);
+        }
+        else
+        {
+            OnAction = page.OnActionClick;
+            Toolbar.OnItemClick = page.OnToolClick;
+        }
     }
 
     internal List<ColumnInfo> AllColumns { get; private set; }
