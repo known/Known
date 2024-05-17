@@ -211,7 +211,7 @@ public class Database : IDisposable
         catch (Exception ex)
         {
             HandleException(ex, sql);
-            throw;
+            return default;
         }
     }
 
@@ -239,7 +239,7 @@ public class Database : IDisposable
         catch (Exception ex)
         {
             HandleException(ex, sql);
-            throw;
+            return [];
         }
     }
 
@@ -318,7 +318,7 @@ public class Database : IDisposable
         catch (Exception ex)
         {
             HandleException(ex, sql);
-            throw;
+            return new PagingResult<T>();
         }
     }
 
@@ -390,7 +390,7 @@ public class Database : IDisposable
         catch (Exception ex)
         {
             HandleException(ex, sql);
-            throw;
+            return new PagingResult<Dictionary<string, object>>();
         }
     }
 
@@ -410,7 +410,7 @@ public class Database : IDisposable
         catch (Exception ex)
         {
             HandleException(ex, sql);
-            throw;
+            return new DataTable();
         }
     }
     #endregion
@@ -824,7 +824,7 @@ public class Database : IDisposable
         catch (Exception ex)
         {
             HandleException(ex, info);
-            throw;
+            return 0;
         }
     }
 
@@ -842,7 +842,7 @@ public class Database : IDisposable
         catch (Exception ex)
         {
             HandleException(ex, info);
-            throw;
+            return null;
         }
     }
 
@@ -865,7 +865,7 @@ public class Database : IDisposable
         catch (Exception ex)
         {
             HandleException(ex, info);
-            throw;
+            return default;
         }
     }
 
@@ -889,7 +889,7 @@ public class Database : IDisposable
         catch (Exception ex)
         {
             HandleException(ex, info);
-            throw;
+            return [];
         }
     }
 
