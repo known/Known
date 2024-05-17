@@ -7,7 +7,7 @@ public class JSService
 
     public JSService(IJSRuntime jsRuntime)
     {
-        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js").AsTask());
+        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js?v=240516").AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
             appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());
     }
