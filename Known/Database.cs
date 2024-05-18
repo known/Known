@@ -266,6 +266,7 @@ public class Database : IDisposable
     {
         try
         {
+            var watch = Stopwatcher.Start<T>();
             SetAutoQuery(ref sql, criteria);
 
             if (conn.State != ConnectionState.Open)
@@ -279,6 +280,7 @@ public class Database : IDisposable
             cmd.CommandText = info.CountSql;
             var value = cmd.ExecuteScalar();
             var total = Utils.ConvertTo<int>(value);
+            watch.Watch("Total");
             if (total > 0)
             {
                 if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
@@ -286,12 +288,13 @@ public class Database : IDisposable
 
                 cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
                 using var reader = cmd.ExecuteReader();
+                watch.Watch("Paging");
                 while (reader.Read())
                 {
                     var obj = ConvertTo<T>(reader);
                     pageData.Add((T)obj);
                 }
-
+                watch.Watch("Convert");
                 if (criteria.ExportMode == ExportMode.None)
                 {
                     if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
@@ -301,6 +304,7 @@ public class Database : IDisposable
                         sums = await QueryAsync<Dictionary<string, object>>(sql, criteria.ToParameters(User));
                     }
                 }
+                watch.Watch("Sum");
             }
 
             cmd.Parameters.Clear();
@@ -308,11 +312,15 @@ public class Database : IDisposable
                 conn.Close();
 
             if (criteria.ExportMode != ExportMode.None)
+            {
                 exportData = GetExportData(criteria, pageData);
+                watch.Watch("Export");
+            }
 
             if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
                 pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
 
+            watch.WriteLog();
             return new PagingResult<T>(total, pageData) { ExportData = exportData, Sums = sums };
         }
         catch (Exception ex)
