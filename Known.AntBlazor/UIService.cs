@@ -287,10 +287,7 @@ public class UIService(ModalService modalService, MessageService messageService,
 
     public void BuildTable<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
     {
-        if (model.TreeChildren != null)
-            builder.Component<TreeTable<TItem>>().Set(c => c.Model, model).Build();
-        else
-            builder.Component<DataTable<TItem>>().Set(c => c.Model, model).Build();
+        builder.Component<DataTable<TItem>>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTree(RenderTreeBuilder builder, TreeModel model)

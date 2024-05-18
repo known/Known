@@ -25,7 +25,7 @@ public class BasePage : BaseComponent
         await JS.RunVoidAsync(@"
 var body = $('body').height();
 var tabs = $('.kui-table > .ant-tabs').length;
-var table = tabs ? 60 : 48;
+var table = tabs ? 60 : 56;
 $('.kui-card .ant-tabs-content-holder').css('height', (body-136)+'px');
 $('.kui-table .ant-table-body').not('.form-list .ant-table-body').css('height', (body-182-42-table)+'px');");
     }

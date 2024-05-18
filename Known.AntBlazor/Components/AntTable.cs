@@ -1,34 +1,33 @@
-﻿using AntDesign.TableModels;
+﻿namespace Known.AntBlazor.Components;
 
-namespace Known.AntBlazor.Components;
-
-public class AntTable<TItem> : Table<TItem>
+public class AntTable<TItem> : Table<TItem> where TItem : class, new()
 {
     [CascadingParameter] public KError Error { get; set; }
 
     [Parameter] public Context Context { get; set; }
-    [Parameter] public PagingCriteria Criteria { get; set; }
-    [Parameter] public PagingResult<TItem> Result { get; set; }
-    [Parameter] public Func<TItem, string> RowClass { get; set; }
+    [Parameter] public TableModel<TItem> Model { get; set; }
 
     protected override void OnInitialized()
     {
         Size = TableSize.Small;
         Responsive = true;
         ScrollBarWidth = "8px";
-        if (Criteria != null)
+        Resizable = Model.Resizable;
+        RowKey = Model.RowKey;
+        HidePagination = !Model.ShowPager;
+        if (Model.TreeChildren != null)
+            TreeChildren = Model.TreeChildren;
+        if (Model.Criteria != null)
         {
-            PageIndex = Criteria.PageIndex;
-            PageIndexChanged = this.Callback<int>(v => Criteria.PageIndex = v);
-            PageSize = Criteria.PageSize;
-            PageSizeChanged = this.Callback<int>(v => Criteria.PageSize = v);
+            PageIndex = Model.Criteria.PageIndex;
+            PageIndexChanged = this.Callback<int>(v => Model.Criteria.PageIndex = v);
+            PageSize = Model.Criteria.PageSize;
+            PageSizeChanged = this.Callback<int>(v => Model.Criteria.PageSize = v);
         }
         PaginationPosition = "bottomRight";
-        if (!OnChange.HasDelegate)
-            OnChange = this.Callback<QueryModel<TItem>>(OnDataChange);
         PaginationTemplate = this.BuildTree<(int PageSize, int PageIndex, int Total, string PaginationClass, EventCallback<PaginationEventArgs> HandlePageChange)>(BuildPagination);
-        if (RowClass != null)
-            RowClassName = r => RowClass.Invoke(r.Data);
+        if (Model.RowClass != null)
+            RowClassName = r => Model.RowClass.Invoke(r.Data);
         base.OnInitialized();
     }
 
@@ -49,25 +48,15 @@ public class AntTable<TItem> : Table<TItem>
 
     protected override void OnParametersSet()
     {
-        if (Result != null)
+        if (Model.Result != null)
         {
-            DataSource = Result.PageData;
-            Total = Result.TotalCount;
+            DataSource = Model.Result.PageData;
+            Total = Model.Result.TotalCount;
+        }
+        else
+        {
+            DataSource = Model.DataSource;
         }
         base.OnParametersSet();
-    }
-
-    private async void OnDataChange(QueryModel<TItem> queryModel)
-    {
-        try
-        {
-            
-        }
-        catch (Exception ex)
-        {
-            Logger.Exception(ex);
-            if (Error != null)
-                await Error.HandleAsync(ex);
-        }
     }
 }
