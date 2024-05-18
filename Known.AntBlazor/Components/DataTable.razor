@@ -5,10 +5,7 @@
 
 <Spin Spinning="showSpin" Tip="数据查询中...">
     <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model" ScrollX="@scrollX" ScrollY="@scrollY"
-              @bind-SelectedRows="Model.SelectedRows" 
-              @bind-PageIndex="Model.Criteria.PageIndex"
-              @bind-PageSize="Model.Criteria.PageSize"
-              OnChange="OnChange" OnRowClick="OnRowClick">
+              @bind-SelectedRows="Model.SelectedRows" OnChange="OnChange" OnRowClick="OnRowClick">
         @if (Model.SelectType != TableSelectType.None)
         {
             <Selection Type="@Model.SelectType.ToString().ToLower()" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
@@ -22,7 +19,7 @@
                     continue;
 
                 var title = Language?.GetString<TItem>(item);
-                var width = item.Width > 0 ? item.Width.ToString() : "100";
+                var width = item.Width > 0 ? item.Width.ToString() : "";
                 if (isDictionary)
                 {
                     var value = GetValue(context as Dictionary<string, object>, item.Id);
@@ -154,9 +151,11 @@
     {
         var watch = Stopwatcher.Start<TItem>();
         watch.Write("Refreshing");
-        Model.Criteria.PageIndex = 1;
         if (Model.OnQuery != null)
+        {
+            Model.Criteria.PageIndex = 1;
             Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
+        }
         Model.SelectedRows = [];
         StateChanged();
         watch.Write("Refreshed");

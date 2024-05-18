@@ -19,9 +19,7 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
             TreeChildren = Model.TreeChildren;
         if (Model.Criteria != null)
         {
-            PageIndex = Model.Criteria.PageIndex;
             PageIndexChanged = this.Callback<int>(v => Model.Criteria.PageIndex = v);
-            PageSize = Model.Criteria.PageSize;
             PageSizeChanged = this.Callback<int>(v => Model.Criteria.PageSize = v);
         }
         PaginationPosition = "bottomRight";
@@ -48,6 +46,12 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
 
     protected override void OnParametersSet()
     {
+        if (Model.ShowPager)
+        {
+            PageIndex = Model.Criteria.PageIndex;
+            PageSize = Model.Criteria.PageSize;
+        }
+
         if (Model.Result != null)
         {
             DataSource = Model.Result.PageData;
