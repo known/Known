@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using System.Text.RegularExpressions;
+
+namespace Known;
 
 public enum DatabaseType
 {
@@ -345,7 +347,8 @@ public class Database : IDisposable
         }
         foreach (var item in querys)
         {
-            if (!sql.Contains($"@{item.Id}"))
+            var pattern = $@"{item.Id}\s";
+            if (!Regex.Match(sql, pattern).Success)
                 SetQuery(ref sql, criteria, item.Type, item.Id);
         }
     }
