@@ -929,7 +929,7 @@ public class Database : IDisposable
             return dic;
 
         var obj = Activator.CreateInstance<T>();
-        var properties = type.GetProperties();
+        var properties = TypeHelper.Properties(type);
         foreach (var item in dic)
         {
             var property = properties.FirstOrDefault(p => p.Name == item.Key);
@@ -1258,7 +1258,7 @@ select t.* from (
     internal static Dictionary<string, object> ToDictionary(object value)
     {
         var dic = new Dictionary<string, object>();
-        var properties = value.GetType().GetProperties();
+        var properties = TypeHelper.Properties(value.GetType());
         foreach (var item in properties)
         {
             if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)

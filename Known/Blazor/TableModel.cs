@@ -51,7 +51,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         AdvSearch = false;
         if (isAuto)
         {
-            AllColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
+            AllColumns = TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p)).ToList();
             Columns = AllColumns;
             InitQueryColumns();
         }
@@ -372,7 +372,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         Columns.AddRange(columns);
         if (Columns != null && Columns.Count > 0)
         {
-            var properties = typeof(TItem).GetProperties();
+            var properties = TypeHelper.Properties(typeof(TItem));
             foreach (var item in Columns)
             {
                 var info = properties.FirstOrDefault(p => p.Name == item.Id);

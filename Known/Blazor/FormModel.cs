@@ -9,10 +9,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     {
         if (isAuto)
         {
-            columns = typeof(TItem).GetProperties()
-                                   .Select(p => new ColumnInfo(p))
-                                   .Where(c => c.IsForm)
-                                   .ToList();
+            columns = TypeHelper.Properties(typeof(TItem))
+                                .Select(p => new ColumnInfo(p))
+                                .Where(c => c.IsForm)
+                                .ToList();
         }
     }
 
@@ -262,7 +262,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         }
         else
         {
-            var allColumns = typeof(TItem).GetProperties().Select(p => new ColumnInfo(p)).ToList();
+            var allColumns = TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p)).ToList();
             foreach (var column in allColumns)
             {
                 var info = form?.Fields?.FirstOrDefault(p => p.Id == column.Id);

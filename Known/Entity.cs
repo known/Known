@@ -47,7 +47,7 @@ public class EntityBase
 
     //public void FillModel(ExpandoObject model)
     //{
-    //    var properties = GetType().GetProperties();
+    //    var properties = TypeHelper.Properties(GetType());
     //    foreach (var pi in model)
     //    {
     //        var name = pi.Key;
@@ -67,7 +67,7 @@ public class EntityBase
     public virtual Result Validate(Context context)
     {
         var type = GetType();
-        var properties = type.GetProperties();
+        var properties = TypeHelper.Properties(type);
         var dicError = new Dictionary<string, List<string>>();
 
         foreach (var pi in properties)

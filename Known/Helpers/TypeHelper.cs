@@ -62,7 +62,7 @@ public sealed class TypeHelper
         if (type == null)
             return columns;
 
-        var properties = type.GetProperties();
+        var properties = Properties(type);
         foreach (var pi in properties)
         {
             var attr = pi.GetCustomAttribute<ColumnAttribute>();
@@ -78,7 +78,7 @@ public sealed class TypeHelper
     internal static List<FieldInfo> GetFields(Type entityType, Language language)
     {
         var fields = new List<FieldInfo>();
-        var properties = entityType?.GetProperties();
+        var properties = Properties(entityType);
         if (properties == null || properties.Length == 0)
             return fields;
 
@@ -111,7 +111,7 @@ public sealed class TypeHelper
         if (model == null || string.IsNullOrWhiteSpace(name))
             return default;
 
-        var property = model.GetType().GetProperty(name);
+        var property = Property(model.GetType(), name);
         if (property == null || !property.CanRead)
             return default;
 
@@ -123,7 +123,7 @@ public sealed class TypeHelper
         if (model == null || string.IsNullOrWhiteSpace(name))
             return default;
 
-        var property = model.GetType().GetProperty(name);
+        var property = Property(model.GetType(), name);
         if (property == null || !property.CanRead)
             return default;
 
@@ -136,7 +136,7 @@ public sealed class TypeHelper
         if (model == null || string.IsNullOrWhiteSpace(name))
             return;
 
-        var property = model.GetType().GetProperty(name);
+        var property = Property(model.GetType(), name);
         if (property != null && property.CanWrite)
         {
             var value1 = Utils.ConvertTo(property.PropertyType, value);
@@ -149,12 +149,25 @@ public sealed class TypeHelper
         if (model == null || string.IsNullOrWhiteSpace(name))
             return;
 
-        var property = typeof(T).GetProperty(name);
+        var property = Property(typeof(T), name);
         if (property != null && property.CanWrite)
         {
             var value1 = Utils.ConvertTo(property.PropertyType, value);
             property.SetValue(model, value1, null);
         }
+    }
+
+    private static readonly ConcurrentDictionary<string, PropertyInfo[]> typeProperties = new();
+    public static PropertyInfo[] Properties(Type type)
+    {
+        return typeProperties.GetOrAdd(type.FullName, type.GetProperties());
+    }
+
+    private static readonly ConcurrentDictionary<string, PropertyInfo> properties = new();
+    public static PropertyInfo Property(Type type, string name)
+    {
+        var key = $"{type.FullName}.{name}";
+        return properties.GetOrAdd(key, type.GetProperty(name));
     }
 
     public static PropertyInfo Property<T, TValue>(Expression<Func<T, TValue>> selector)

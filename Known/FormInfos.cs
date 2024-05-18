@@ -62,7 +62,7 @@ public class ImportFormInfo : FileFormInfo
 
     public static List<string> GetImportColumns(string modelType)
     {
-        var baseProperties = typeof(EntityBase).GetProperties();
+        var baseProperties = TypeHelper.Properties(typeof(EntityBase));
         var attrs = TypeHelper.GetColumnAttributes(modelType);
         return attrs.Where(a => !baseProperties.Any(p => p.Name == a.Property.Name))
                     .Select(a => a.Property.DisplayName())
