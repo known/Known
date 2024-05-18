@@ -5,7 +5,10 @@
 
 <Spin Spinning="showSpin" Tip="数据查询中...">
     <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model" ScrollX="@scrollX" ScrollY="@scrollY"
-              @bind-SelectedRows="Model.SelectedRows" OnChange="OnChange" OnRowClick="OnRowClick">
+              @bind-SelectedRows="Model.SelectedRows" 
+              @bind-PageIndex="Model.Criteria.PageIndex"
+              @bind-PageSize="Model.Criteria.PageSize"
+              OnChange="OnChange" OnRowClick="OnRowClick">
         @if (Model.SelectType != TableSelectType.None)
         {
             <Selection Type="@Model.SelectType.ToString().ToLower()" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
@@ -40,7 +43,7 @@
                     RenderFragment<TItem> template = null;
                     Model.Templates?.TryGetValue(item.Id, out template);
                     <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width" Ellipsis
-                            Align="@GetColumnAlign(item.Align)">
+                            Align="@GetColumnAlign(item.Align)" Fixed="@item.Fixed">
                         @if (template != null)
                         {
                             @template(context)
@@ -123,7 +126,7 @@
                 }
                 if (Model.HasAction)
                 {
-                <SummaryCell />
+                    <SummaryCell />
                 }
             </SummaryRow>
         }
@@ -151,6 +154,7 @@
     {
         var watch = Stopwatcher.Start<TItem>();
         watch.Write("Refreshing");
+        Model.Criteria.PageIndex = 1;
         if (Model.OnQuery != null)
             Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
         Model.SelectedRows = [];
