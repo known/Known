@@ -12,20 +12,23 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
         Size = TableSize.Small;
         Responsive = true;
         ScrollBarWidth = "8px";
-        Resizable = Model.Resizable;
-        RowKey = Model.RowKey;
-        HidePagination = !Model.ShowPager;
-        if (Model.TreeChildren != null)
-            TreeChildren = Model.TreeChildren;
-        if (Model.Criteria != null)
+        if (Model != null)
         {
-            PageIndexChanged = this.Callback<int>(v => Model.Criteria.PageIndex = v);
-            PageSizeChanged = this.Callback<int>(v => Model.Criteria.PageSize = v);
+            Resizable = Model.Resizable;
+            RowKey = Model.RowKey;
+            HidePagination = !Model.ShowPager;
+            if (Model.TreeChildren != null)
+                TreeChildren = Model.TreeChildren;
+            if (Model.Criteria != null)
+            {
+                PageIndexChanged = this.Callback<int>(v => Model.Criteria.PageIndex = v);
+                PageSizeChanged = this.Callback<int>(v => Model.Criteria.PageSize = v);
+            }
+            if (Model.RowClass != null)
+                RowClassName = r => Model.RowClass.Invoke(r.Data);
         }
         PaginationPosition = "bottomRight";
         PaginationTemplate = this.BuildTree<(int PageSize, int PageIndex, int Total, string PaginationClass, EventCallback<PaginationEventArgs> HandlePageChange)>(BuildPagination);
-        if (Model.RowClass != null)
-            RowClassName = r => Model.RowClass.Invoke(r.Data);
         base.OnInitialized();
     }
 
@@ -46,20 +49,23 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
 
     protected override void OnParametersSet()
     {
-        if (Model.ShowPager)
+        if (Model != null)
         {
-            PageIndex = Model.Criteria.PageIndex;
-            PageSize = Model.Criteria.PageSize;
-        }
+            if (Model.ShowPager)
+            {
+                PageIndex = Model.Criteria.PageIndex;
+                PageSize = Model.Criteria.PageSize;
+            }
 
-        if (Model.Result != null)
-        {
-            DataSource = Model.Result.PageData;
-            Total = Model.Result.TotalCount;
-        }
-        else
-        {
-            DataSource = Model.DataSource;
+            if (Model.Result != null)
+            {
+                DataSource = Model.Result.PageData;
+                Total = Model.Result.TotalCount;
+            }
+            else
+            {
+                DataSource = Model.DataSource;
+            }
         }
         base.OnParametersSet();
     }
