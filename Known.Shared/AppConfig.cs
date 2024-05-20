@@ -5,7 +5,10 @@ using Known.Cells;
 using Known.Demo;
 using Known.Helpers;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace Known.Shared;
 
@@ -52,6 +55,18 @@ public static class AppConfig
             action?.Invoke(info);
         });
 
+        if (Config.App.Type == AppType.Web)
+        {
+            services.AddScoped<ProtectedSessionStorage>();
+            services.AddScoped<AuthenticationStateProvider, WebAuthStateProvider>();
+        }
+        else if (Config.App.Type == AppType.Desktop)
+        {
+            services.AddAuthorizationCore();
+            services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
+        }
+        services.AddHttpContextAccessor();
+
         //2.添加KnownExcel实现
         services.AddKnownCells();
 
@@ -77,7 +92,19 @@ public static class AppConfig
         });
 
         //7.使用Known框架静态文件
-        app.UseKnownStaticFiles();
+        app.UseStaticFiles();
+        var webFiles = Config.GetUploadPath(true);
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(webFiles),
+            RequestPath = "/Files"
+        });
+        var upload = Config.GetUploadPath();
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(upload),
+            RequestPath = "/UploadFiles"
+        });
     }
 }
 

@@ -94,7 +94,7 @@ public class JSService
         var services = new ServiceCollection();
         services.AddScoped<IJSRuntime, PrintJSRuntime>();
         services.AddScoped<JSService>();
-        services.AddHttpContextAccessor();
+        //services.AddHttpContextAccessor();
         var provider = services.BuildServiceProvider();
         var component = new ComponentRenderer<T>().AddServiceProvider(provider);
         action?.Invoke(component);

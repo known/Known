@@ -61,7 +61,7 @@ public sealed class Config
             Menus.Add(info);
     }
 
-    internal static string GetUploadPath(bool isWeb = false)
+    public static string GetUploadPath(bool isWeb = false)
     {
         if (isWeb)
         {

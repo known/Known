@@ -6,16 +6,16 @@ using System.Web;
 
 namespace Known.Weixins;
 
-static class WeixinApi
+public static class WeixinApi
 {
     private static string AccessToken = "";
-    internal static string GZHId { get; set; }
-    internal static string AppId { get; set; }
-    internal static string AppSecret { get; set; }
-    internal static string RedirectUri { get; set; }
+    public static string GZHId { get; set; }
+    public static string AppId { get; set; }
+    public static string AppSecret { get; set; }
+    public static string RedirectUri { get; set; }
 
     #region 初始化接口
-    internal static void Initialize()
+    public static void Initialize()
     {
         ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidate;
         Task.Run(async () =>

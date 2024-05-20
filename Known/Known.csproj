@@ -25,7 +25,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+        <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.0" />
     </ItemGroup>
 
     <ItemGroup>

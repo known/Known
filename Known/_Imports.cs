@@ -32,7 +32,6 @@ global using Microsoft.AspNetCore.Components.Rendering;
 global using Microsoft.AspNetCore.Components.RenderTree;
 global using Microsoft.AspNetCore.Components.Web;
 global using Microsoft.AspNetCore.Http;
-global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Logging.Abstractions;

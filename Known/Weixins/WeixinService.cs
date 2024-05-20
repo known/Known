@@ -1,6 +1,6 @@
 ﻿namespace Known.Weixins;
 
-class WeixinService(Context context) : ServiceBase(context)
+public class WeixinService(Context context) : ServiceBase(context)
 {
     internal const string KeyWeixin = "WeixinInfo";
 
@@ -52,7 +52,7 @@ class WeixinService(Context context) : ServiceBase(context)
         return WeixinApi.GetAuthorizeUrl(state);
     }
 
-    internal static async Task<Result> AuthorizeAsync(string token, string code)
+    public static async Task<Result> AuthorizeAsync(string token, string code)
     {
         using var http = new HttpClient();
         var authToken = await http.GetAuthorizeTokenAsync(code);
@@ -87,7 +87,7 @@ class WeixinService(Context context) : ServiceBase(context)
         return user;
     }
 
-    internal static async Task<string> SubscribeAsync(string openId, string userId)
+    public static async Task<string> SubscribeAsync(string openId, string userId)
     {
         try
         {
@@ -117,7 +117,7 @@ class WeixinService(Context context) : ServiceBase(context)
         }
     }
 
-    internal static async Task<string> UnsubscribeAsync(string openId, string userId)
+    public static async Task<string> UnsubscribeAsync(string openId, string userId)
     {
         try
         {
