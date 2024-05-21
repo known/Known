@@ -157,7 +157,8 @@
         watch.Write("Refreshing");
         if (Model.OnQuery != null)
         {
-            Model.Criteria.PageIndex = 1;
+            if (Model.Criteria.IsQuery)
+                Model.Criteria.PageIndex = 1;
             Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
         }
         Model.SelectedRows = [];
