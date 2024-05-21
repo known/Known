@@ -25,22 +25,26 @@
                     var value = GetValue(context as Dictionary<string, object>, item.Id);
                     if (item.IsViewLink)
                     {
-                        <DictionaryColumn Title="@title" Property="c => GetValue(c, item.Id)" Width="@width" Ellipsis
+                        <DictionaryColumn Title="@title" Property="c=>GetValue(c, item.Id)" Width="@width" 
+                                          Ellipsis Sortable
                                           Align="@GetColumnAlign(item.Align)">
                             <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@value</span>
                         </DictionaryColumn>
                     }
                     else
                     {
-                        <DictionaryColumn Title="@title" Property="c => GetValue(c, item.Id)" />
+                        <DictionaryColumn Title="@title" Property="c=>GetValue(c, item.Id)" Width="@width" 
+                                          Ellipsis Sortable
+                                          Align="@GetColumnAlign(item.Align)" />
                     }
                 }
                 else
                 {
                     RenderFragment<TItem> template = null;
                     Model.Templates?.TryGetValue(item.Id, out template);
-                    <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width" Ellipsis
-                            Align="@GetColumnAlign(item.Align)" Fixed="@item.Fixed">
+                    <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width"
+                            Ellipsis Sortable Fixed="@item.Fixed"
+                            Align="@GetColumnAlign(item.Align)">
                         @if (template != null)
                         {
                             @template(context)
