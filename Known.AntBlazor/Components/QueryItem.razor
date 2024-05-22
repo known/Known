@@ -15,7 +15,7 @@
         else
         {
             @* Fixed V0.18.3版本Input组件双向绑定字典问题 *@
-            <AntInput Value="@Data[Item.Id].Value" ValueChanged="this.Callback<string>(v=>Data[Item.Id].Value=v)" />
+            <AntInput Value="@Data[Item.Id].Value" ValueChanged="this.Callback<string>(v=>Data[Item.Id].Value=v)" OnPressEnter="e=>OnSearch()" />
         }
     }
 </FormItem>

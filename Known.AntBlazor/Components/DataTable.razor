@@ -153,17 +153,7 @@
 
     public async Task RefreshAsync()
     {
-        var watch = Stopwatcher.Start<TItem>();
-        watch.Write("Refreshing");
-        if (Model.OnQuery != null)
-        {
-            if (Model.Criteria.IsQuery)
-                Model.Criteria.PageIndex = 1;
-            Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
-        }
-        Model.SelectedRows = [];
-        StateChanged();
-        watch.Write("Refreshed");
+        await InvokeAsync(() => table?.ReloadData());
     }
 
     private async Task OnChange(QueryModel<TItem> queryModel)
@@ -175,7 +165,6 @@
         await Task.Run(async () =>
         {
             var watch = Stopwatcher.Start<TItem>();
-            watch.Write($"Changing{queryModel.PageIndex}");
             //页码
             Model.Criteria.PageIndex = queryModel.PageIndex;
             Model.Criteria.PageSize = queryModel.PageSize;
@@ -185,7 +174,7 @@
             Model.Criteria.SumColumns = Model.Columns.Where(c => c.IsSum).Select(c => c.Id).ToList();
             Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
             Model.SelectedRows = [];
-            watch.Write("Changed");
+            watch.Write($"Changed {queryModel.PageIndex}");
             showSpin = false;
         });
     }
