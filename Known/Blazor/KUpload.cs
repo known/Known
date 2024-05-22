@@ -9,6 +9,7 @@ public class KUpload : BaseComponent
     [Parameter] public bool OpenFile { get; set; }
     [Parameter] public string Value { get; set; }
     [Parameter] public bool MultiFile { get; set; }
+    [Parameter] public bool Directory { get; set; }
     [Parameter] public Action<List<IBrowserFile>> OnFilesChanged { get; set; }
 
     public async Task RefreshAsync()
@@ -58,8 +59,8 @@ public class KUpload : BaseComponent
     private void BuildInputFile(RenderTreeBuilder builder)
     {
         builder.Component<InputFile>()
-               .Add("multiple", MultiFile)
-               .Add("webkitdirectory", MultiFile)
+               .Add("multiple", MultiFile || Directory)
+               .Add("webkitdirectory", Directory)
                .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnInputFileChanged))
                .Build();
     }
@@ -86,7 +87,7 @@ public class KUpload : BaseComponent
 
     private void OnInputFileChanged(InputFileChangeEventArgs e)
     {
-        if (MultiFile)
+        if (MultiFile || Directory)
             files.AddRange(e.GetMultipleFiles());
         else
             files.Add(e.File);
