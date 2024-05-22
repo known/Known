@@ -1,6 +1,4 @@
-﻿using Microsoft.Net.Http.Headers;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 public class PageLayout : BaseLayout
 {
@@ -9,17 +7,13 @@ public class PageLayout : BaseLayout
     protected List<MenuItem> UserMenus { get; private set; }
     protected bool IsLogin { get; private set; }
 
-    [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
-    [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
+    //[CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             IsLoaded = false;
-            var httpContext = HttpAccessor?.HttpContext;
-            Context.IsMobile = CheckMobile(httpContext?.Request);
-            Context.Host = httpContext?.GetHostUrl();
             Context.Install = await Platform.System.GetInstallAsync();
             if (!Context.Install.IsInstalled)
             {
@@ -27,32 +21,22 @@ public class PageLayout : BaseLayout
             }
             else
             {
-                if (httpContext.User.Identity.IsAuthenticated)
+                Context.CurrentUser = await GetCurrentUserAsync();
+                IsLogin = Context.CurrentUser != null;
+                if (IsLogin)
                 {
-                    Context.CurrentUser = await Platform.GetUserAsync(httpContext.User.Identity.Name);
                     if (!Context.IsMobile)
                     {
                         Info = await Platform.Auth.GetAdminAsync();
                         UserMenus = GetUserMenus(Info?.UserMenus);
                         Context.UserSetting = Info?.UserSetting ?? new();
                     }
+                    IsLoaded = true;
                 }
-                //    Context.CurrentUser = await GetCurrentUserAsync();
-                //    IsLogin = Context.CurrentUser != null;
-                //    if (IsLogin)
+                //    else
                 //    {
-                //        if (!Context.IsMobile)
-                //        {
-                //            Info = await Platform.Auth.GetAdminAsync();
-                //            UserMenus = GetUserMenus(Info?.UserMenus);
-                //            Context.UserSetting = Info?.UserSetting ?? new();
-                //        }
-                IsLoaded = true;
-            //    }
-            //    else
-            //    {
-            //        NavigateTo("/login");
-            //    }
+                //        NavigateTo("/login");
+                //    }
             }
         }
         catch (Exception ex)
@@ -99,15 +83,17 @@ public class PageLayout : BaseLayout
 
     protected virtual async Task<UserInfo> GetCurrentUserAsync()
     {
-        if (AuthState == null)
-            return null;
+        if (HttpContext.User.Identity.IsAuthenticated)
+            return await Platform.GetUserAsync(HttpContext.User.Identity.Name);
+        //if (AuthState == null)
+        //    return null;
 
-        var state = await AuthState;
-        if (state != null && state.User != null && state.User.Identity != null && state.User.Identity.IsAuthenticated)
-        {
-            if (AuthProvider is IAuthStateProvider provider)
-                return await provider.GetUserAsync();
-        }
+        //var state = await AuthState;
+        //if (state != null && state.User != null && state.User.Identity != null && state.User.Identity.IsAuthenticated)
+        //{
+        //    if (AuthProvider is IAuthStateProvider provider)
+        //        return await provider.GetUserAsync();
+        //}
 
         return await GetThirdUserAsync();
     }
@@ -116,17 +102,6 @@ public class PageLayout : BaseLayout
     {
         Context.UserMenus = menus;
         return menus.ToMenuItems();
-    }
-
-    private static bool CheckMobile(HttpRequest request)
-    {
-        if (request == null)
-            throw new Exception("Server WebSocket not enabled!");
-
-        var agent = request.Headers[HeaderNames.UserAgent].ToString();
-        if (string.IsNullOrWhiteSpace(agent))
-            agent = request.Headers["X-Forwarded-For"].ToString();
-        return Utils.CheckMobile(agent);
     }
 }
 

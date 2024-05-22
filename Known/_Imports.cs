@@ -26,7 +26,6 @@ global using Known.Weixins;
 global using Known.WorkFlows;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Components;
-global using Microsoft.AspNetCore.Components.Authorization;
 global using Microsoft.AspNetCore.Components.CompilerServices;
 global using Microsoft.AspNetCore.Components.Forms;
 global using Microsoft.AspNetCore.Components.Rendering;

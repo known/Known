@@ -132,6 +132,17 @@ public static class CommonExtension
     #endregion
 
     #region Http
+    public static bool CheckMobile(this HttpRequest request)
+    {
+        if (request == null)
+            throw new Exception("Server WebSocket not enabled!");
+
+        var agent = request.Headers["User-Agent"].ToString();
+        if (string.IsNullOrWhiteSpace(agent))
+            agent = request.Headers["X-Forwarded-For"].ToString();
+        return Utils.CheckMobile(agent);
+    }
+
     public static string GetHostUrl(this HttpContext context)
     {
         if (context == null || context.Request == null)

@@ -4,7 +4,7 @@ namespace Known.Pages;
 
 public class LoginPage : BaseComponent
 {
-    [Inject] private AuthenticationStateProvider AuthProvider { get; set; }
+    //[Inject] private AuthenticationStateProvider AuthProvider { get; set; }
 
     protected LoginFormInfo Model = new();
 
@@ -50,6 +50,7 @@ public class LoginPage : BaseComponent
     protected virtual void OnLogining() { }
     protected virtual void OnLogined()
     {
+        Context.IsMobile = HttpContext.Request.CheckMobile();
         if (Context.IsMobile)
             Navigation.NavigateTo("/app");
         else
@@ -95,13 +96,13 @@ public class LoginPage : BaseComponent
         }
     }
 
-    protected virtual async Task SetCurrentUserAsync(UserInfo user)
-    {
-        if (AuthProvider is IAuthStateProvider provider)
-        {
-            await provider.UpdateUserAsync(user);
-        }
-    }
+    //protected virtual async Task SetCurrentUserAsync(UserInfo user)
+    //{
+    //    if (AuthProvider is IAuthStateProvider provider)
+    //    {
+    //        await provider.UpdateUserAsync(user);
+    //    }
+    //}
 
     protected virtual string GetWeixinAuthState(string token)
     {
