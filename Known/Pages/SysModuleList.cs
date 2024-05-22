@@ -1,5 +1,6 @@
 ﻿namespace Known.Pages;
 
+[Authorize]
 [Route("/sys/modules")]
 public class SysModuleList : BasePage<SysModule>
 {

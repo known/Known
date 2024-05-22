@@ -1,5 +1,6 @@
 ﻿namespace Known.Pages;
 
+[Authorize]
 [Route("/sys/organizations")]
 public class SysOrganizationList : BasePage<SysOrganization>
 {

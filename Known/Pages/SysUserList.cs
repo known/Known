@@ -1,5 +1,6 @@
 ﻿namespace Known.Pages;
 
+[Authorize]
 [Route("/sys/users")]
 public class SysUserList : BasePage<SysUser>
 {

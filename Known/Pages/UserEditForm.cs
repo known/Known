@@ -1,5 +1,6 @@
 ﻿namespace Known.Pages;
 
+[Authorize]
 [Route("/profile/user")]
 public class UserEditForm : BaseEditForm<SysUser>
 {

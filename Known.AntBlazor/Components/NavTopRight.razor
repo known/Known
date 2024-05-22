@@ -16,7 +16,7 @@
         </SpaceItem>
     }
     <SpaceItem>
-        <AntDropdown Context="Context" Text="@CurrentUser.Name" Items="UserItems" OnItemClick="e=>OnItemClick(e.Id)" />
+        <AntDropdown Context="Context" Text="@CurrentUser?.Name" Items="UserItems" OnItemClick="e=>OnItemClick(e.Id)" />
     </SpaceItem>
     @if (Config.App.IsTheme)
     {

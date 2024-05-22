@@ -1,5 +1,6 @@
 ﻿namespace Known.Pages;
 
+[Authorize]
 [Route("/sys/roles")]
 public class SysRoleList : BaseTablePage<SysRole>
 {
