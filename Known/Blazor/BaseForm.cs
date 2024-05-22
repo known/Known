@@ -16,32 +16,6 @@ public class BaseForm : BaseComponent
     }
 
     protected virtual void BuildForm(RenderTreeBuilder builder) { }
-
-    protected bool HasButton(string buttonId)
-    {
-        var user = CurrentUser;
-        if (user == null)
-            return false;
-
-        if (user.IsAdmin)
-            return true;
-
-        return IsInMenu(Id, buttonId);
-    }
-
-    private bool IsInMenu(string pageId, string buttonId)
-    {
-        var menu = Context.UserMenus.FirstOrDefault(m => m.Id == pageId || m.Code == pageId);
-        if (menu == null)
-            return false;
-
-        var hasButton = false;
-        if (menu.Tools != null && menu.Tools.Count > 0)
-            hasButton = menu.Tools.Contains(buttonId);
-        else if (menu.Actions != null && menu.Actions.Count > 0)
-            hasButton = menu.Actions.Contains(buttonId);
-        return hasButton;
-    }
 }
 
 public class BaseForm<TItem> : BaseForm where TItem : class, new()
