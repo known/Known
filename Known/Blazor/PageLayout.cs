@@ -9,8 +9,8 @@ public class PageLayout : BaseLayout
     protected List<MenuItem> UserMenus { get; private set; }
     protected bool IsLogin { get; private set; }
 
-    [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
     [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -27,22 +27,32 @@ public class PageLayout : BaseLayout
             }
             else
             {
-                Context.CurrentUser = await GetCurrentUserAsync();
-                IsLogin = Context.CurrentUser != null;
-                if (IsLogin)
+                if (httpContext.User.Identity.IsAuthenticated)
                 {
+                    Context.CurrentUser = await Platform.GetUserAsync(httpContext.User.Identity.Name);
                     if (!Context.IsMobile)
                     {
                         Info = await Platform.Auth.GetAdminAsync();
                         UserMenus = GetUserMenus(Info?.UserMenus);
                         Context.UserSetting = Info?.UserSetting ?? new();
                     }
-                    IsLoaded = true;
                 }
-                else
-                {
-                    NavigateTo("/login");
-                }
+                //    Context.CurrentUser = await GetCurrentUserAsync();
+                //    IsLogin = Context.CurrentUser != null;
+                //    if (IsLogin)
+                //    {
+                //        if (!Context.IsMobile)
+                //        {
+                //            Info = await Platform.Auth.GetAdminAsync();
+                //            UserMenus = GetUserMenus(Info?.UserMenus);
+                //            Context.UserSetting = Info?.UserSetting ?? new();
+                //        }
+                IsLoaded = true;
+            //    }
+            //    else
+            //    {
+            //        NavigateTo("/login");
+            //    }
             }
         }
         catch (Exception ex)

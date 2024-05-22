@@ -5,6 +5,8 @@ public class Context
     private Language language;
     private string currentLanguage;
 
+    public Context() { }
+
     public Context(IUIService ui)
     {
         UI = ui;

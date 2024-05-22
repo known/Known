@@ -23,6 +23,8 @@ public static class Extension
         //services.AddCascadingAuthenticationState();
         services.AddScoped<JSService>();
         services.AddScoped<ICodeGenerator, CodeGenerator>();
+        services.AddScoped<Context>();
+        services.AddScoped<PlatformService>();
         //services.AddOptions().AddLogging();
 
         var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");

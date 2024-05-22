@@ -1,4 +1,6 @@
-﻿namespace Known.Pages;
+﻿using System.Security.Claims;
+
+namespace Known.Pages;
 
 public class LoginPage : BaseComponent
 {
@@ -82,7 +84,13 @@ public class LoginPage : BaseComponent
         else
         {
             var user = result.DataAs<UserInfo>();
-            await SetCurrentUserAsync(user);
+            //await SetCurrentUserAsync(user);
+            //var identity = new GenericIdentity(user.UserName, "Forms");
+            //var principal = new GenericPrincipal(identity, user.Role.Split(','));
+            var identity = new ClaimsIdentity("Forms");
+            identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+            var principal = new ClaimsPrincipal(identity);
+            HttpContext.User = principal;
             OnLogined();
         }
     }
