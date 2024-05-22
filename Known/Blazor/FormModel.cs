@@ -139,13 +139,13 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         OnClosed?.Invoke();
     }
 
-    public Task SaveAsync(Action<TItem> onSaved)
+    public Task SaveAsync(Action<TItem> onSaved, bool isClose = true)
     {
         OnSaved = onSaved;
-        return SaveAsync();
+        return SaveAsync(isClose);
     }
 
-    public async Task SaveAsync(bool isClose = false)
+    public async Task SaveAsync(bool isClose = true)
     {
         if (!Validate())
             return;
@@ -200,13 +200,13 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    internal void HandleResult(Result result, bool isClose = false)
+    internal void HandleResult(Result result, bool isClose = true)
     {
         UI.Result(result, async () =>
         {
             Data = result.DataAs<TItem>();
             OnSaved?.Invoke(Data);
-            if (result.IsClose || isClose)
+            if (isClose && result.IsClose)
                 await CloseAsync();
             if (Table != null)
                 await Table.PageRefreshAsync();

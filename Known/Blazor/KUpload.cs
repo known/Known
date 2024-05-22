@@ -3,6 +3,7 @@
 public class KUpload : BaseComponent
 {
     private List<SysFile> sysFiles;
+    private readonly List<IBrowserFile> files = [];
 
     [Parameter] public bool IsButton { get; set; }
     [Parameter] public bool OpenFile { get; set; }
@@ -58,6 +59,7 @@ public class KUpload : BaseComponent
     {
         builder.Component<InputFile>()
                .Add("multiple", MultiFile)
+               .Add("webkitdirectory", MultiFile)
                .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnInputFileChanged))
                .Build();
     }
@@ -85,18 +87,30 @@ public class KUpload : BaseComponent
     private void OnInputFileChanged(InputFileChangeEventArgs e)
     {
         if (MultiFile)
-        {
-            var files = e.GetMultipleFiles();
-            OnFilesChanged?.Invoke([.. files]);
-        }
+            files.AddRange(e.GetMultipleFiles());
         else
+            files.Add(e.File);
+
+        foreach (var item in files)
         {
-            OnFilesChanged?.Invoke([e.File]);
+            if (!sysFiles.Exists(f => f.Name == item.Name))
+                sysFiles.Add(new SysFile { Id = "", Name = item.Name });
         }
+
+        OnFilesChanged?.Invoke(files);
     }
 
     private void OnDeleteFile(SysFile item)
     {
+        if (string.IsNullOrWhiteSpace(item.Id))
+        {
+            var file = files.FirstOrDefault(f => f.Name == item.Name);
+            files.Remove(file);
+            sysFiles.Remove(item);
+            OnFilesChanged?.Invoke(files);
+            return;
+        }
+
         var message = Language["Tip.ConfirmDelete"].Replace("{name}", item.Name);
         UI.Confirm(message, async () =>
         {
