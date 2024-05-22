@@ -12,6 +12,14 @@
         {
             <AntRangePicker @bind-RangeValue="@Data[Item.Id].Value" />
         }
+        else if (itemType.Contains("Boolean"))
+        {
+            var codes = new List<CodeInfo>();
+            codes.Add(new CodeInfo("", Language["All"]));
+            codes.Add(new CodeInfo("True", "是"));
+            codes.Add(new CodeInfo("False", "否"));
+            <AntCodeSelect Style="@SelectStyle" DataSource="codes" @bind-Value="@Data[Item.Id].Value" OnSelectedItemChanged="e=>OnSearch()" />
+        }
         else
         {
             @* Fixed V0.18.3版本Input组件双向绑定字典问题 *@
