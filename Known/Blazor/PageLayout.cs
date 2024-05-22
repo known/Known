@@ -19,10 +19,7 @@ public class PageLayout : BaseLayout
             IsLoaded = false;
             var httpContext = HttpAccessor?.HttpContext;
             Context.IsMobile = CheckMobile(httpContext?.Request);
-            if (Config.App.IsTheme)
-                Context.Theme = await JS.GetCurrentThemeAsync();
             Context.Host = httpContext?.GetHostUrl();
-            Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
             Context.Install = await Platform.System.GetInstallAsync();
             if (!Context.Install.IsInstalled)
             {
@@ -51,6 +48,18 @@ public class PageLayout : BaseLayout
         catch (Exception ex)
         {
             await OnError(ex);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            //非Server模式，JS不能在初始化中调用
+            if (Config.App.IsTheme)
+                Context.Theme = await JS.GetCurrentThemeAsync();
+            Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
         }
     }
 

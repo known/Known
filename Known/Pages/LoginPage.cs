@@ -6,27 +6,34 @@ public class LoginPage : BaseComponent
 
     protected LoginFormInfo Model = new();
 
-    protected override async Task OnInitAsync()
-    {
-        var info = await JS.GetLoginInfoAsync<LoginInfo>();
-        if (info != null)
-        {
-            Model.UserName = info.UserName;
-            Model.PhoneNo = info.PhoneNo;
-            Model.Remember = info.Remember;
-            Model.Station = info.Station;
-            Model.TabKey = info.TabKey;
-        }
+    //protected override async Task OnInitAsync()
+    //{
+    //    var state = GetWeixinAuthState(user.Token);
+    //    var uri = await Platform.Weixin.GetAuthorizeUrlAsync(state);
+    //    if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))
+    //    {
+    //        if (IsMobile)
+    //            NavigateWeixinAuth(uri, user);
+    //        else
+    //            ShowWeixinQRCode(uri, user);
+    //    }
+    //}
 
-        //var state = GetWeixinAuthState(user.Token);
-        //var uri = await Platform.Weixin.GetAuthorizeUrlAsync(state);
-        //if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))
-        //{
-        //    if (IsMobile)
-        //        NavigateWeixinAuth(uri, user);
-        //    else
-        //        ShowWeixinQRCode(uri, user);
-        //}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            var info = await JS.GetLoginInfoAsync<LoginInfo>();
+            if (info != null)
+            {
+                Model.UserName = info.UserName;
+                Model.PhoneNo = info.PhoneNo;
+                Model.Remember = info.Remember;
+                Model.Station = info.Station;
+                Model.TabKey = info.TabKey;
+            }
+        }
     }
 
     protected void SetTheme(string theme)
