@@ -1,22 +1,16 @@
-﻿@using AntDesign
-@using Known.AntBlazor
-@using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Components.Routing
-@inject UIService AntUI
+﻿@inject UIService AntUI
 
-<CascadingAuthenticationState>
-    <KContext Value="context">
-        <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="@Config.Assemblies">
-            <Found Context="routeData">
-                <RouteView RouteData="@routeData" DefaultLayout="typeof(AntLayout)" />
-            </Found>
-            <NotFound>
-                <Result Status="404" />
-            </NotFound>
-        </Router>
-        <AntContainer />
-    </KContext>
-</CascadingAuthenticationState>
+<KContext Value="context">
+    <Router AppAssembly="typeof(App).Assembly" AdditionalAssemblies="Config.Assemblies">
+        <Found Context="routeData">
+            <RouteView RouteData="routeData" DefaultLayout="typeof(AntLayout)" />
+        </Found>
+        <NotFound>
+            <Result Status="404" />
+        </NotFound>
+    </Router>
+    <AntContainer />
+</KContext>
 
 @code {
     private Context context;

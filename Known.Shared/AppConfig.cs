@@ -1,14 +1,5 @@
 ﻿using Coravel;
 using Coravel.Invocable;
-using Known.AntBlazor;
-using Known.Cells;
-using Known.Demo;
-using Known.Helpers;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 
 namespace Known.Shared;
 
@@ -21,6 +12,9 @@ public static class AppConfig
 
     public static void AddApp(this IServiceCollection services, Action<AppInfo> action = null)
     {
+        services.AddHttpContextAccessor();
+        services.AddCascadingAuthenticationState();
+
         //1.添加Known框架
         services.AddKnown(info =>
         {
@@ -57,15 +51,19 @@ public static class AppConfig
 
         if (Config.App.Type == AppType.Web)
         {
-            services.AddScoped<ProtectedSessionStorage>();
-            services.AddScoped<AuthenticationStateProvider, WebAuthStateProvider>();
+            services.AddScoped<AuthenticationStateProvider, PersistingStateProvider>();
+            //services.AddScoped<ProtectedSessionStorage>();
+            //services.AddScoped<AuthenticationStateProvider, WebAuthStateProvider>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options => options.LoginPath = new PathString("/login"));
         }
         else if (Config.App.Type == AppType.Desktop)
         {
             services.AddAuthorizationCore();
             services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options => options.LoginPath = new PathString("/login"));
         }
-        services.AddHttpContextAccessor();
 
         //2.添加KnownExcel实现
         services.AddKnownCells();
@@ -84,14 +82,7 @@ public static class AppConfig
 
     public static void UseApp(this WebApplication app)
     {
-        //6.配置定时任务
-        app.Services.UseScheduler(scheduler =>
-        {
-            //每5秒执行一次异步导入
-            scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
-        });
-
-        //7.使用Known框架静态文件
+        //使用Known框架静态文件
         app.UseStaticFiles();
         var webFiles = Config.GetUploadPath(true);
         app.UseStaticFiles(new StaticFileOptions
@@ -104,6 +95,17 @@ public static class AppConfig
         {
             FileProvider = new PhysicalFileProvider(upload),
             RequestPath = "/UploadFiles"
+        });
+
+        //配置认证
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        //配置定时任务
+        app.Services.UseScheduler(scheduler =>
+        {
+            //每5秒执行一次异步导入
+            scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
         });
     }
 }

@@ -35,8 +35,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAntiforgery();
 app.UseApp();
-app.MapRazorComponents<Known.Web.App>()
-   .AddAdditionalAssemblies([.. Config.Assemblies])
-   .AddInteractiveServerRenderMode();
+app.MapRazorComponents<Known.Web.App>()   
+   .AddInteractiveServerRenderMode()
+   .AddAdditionalAssemblies([.. Config.Assemblies]);
 app.UseCssLiveReload();
 app.Run();
