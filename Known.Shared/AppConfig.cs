@@ -1,5 +1,6 @@
 ﻿using Coravel;
 using Coravel.Invocable;
+using Known.Shared.Auths;
 
 namespace Known.Shared;
 
@@ -51,10 +52,10 @@ public static class AppConfig
 
         if (Config.App.Type == AppType.Web)
         {
-            services.AddScoped<IAuthStateProvider, PersistingStateProvider>();
+            //services.AddScoped<IAuthStateProvider, PersistingStateProvider>();
             //services.AddScoped<AuthenticationStateProvider, PersistingStateProvider>();
-            //services.AddScoped<ProtectedSessionStorage>();
-            //services.AddScoped<AuthenticationStateProvider, WebAuthStateProvider>();
+            services.AddScoped<ProtectedSessionStorage>();
+            services.AddScoped<IAuthStateProvider, WebAuthStateProvider>();
         }
         else if (Config.App.Type == AppType.Desktop)
         {

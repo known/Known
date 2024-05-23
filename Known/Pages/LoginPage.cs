@@ -53,7 +53,7 @@ public class LoginPage : BaseComponent
     {
         Context.IsMobile = HttpContext.Request.CheckMobile();
         if (Context.IsMobile)
-            Navigation.NavigateTo(ReturnUrl ?? "/app");
+            Navigation.NavigateTo("/app");
         else
             Navigation.NavigateTo(ReturnUrl ?? "/");
     }
@@ -99,10 +99,10 @@ public class LoginPage : BaseComponent
 
     protected virtual async Task SetCurrentUserAsync(UserInfo user)
     {
-        await AuthProvider?.UpdateUserAsync(user);
+        await AuthProvider?.SetUserAsync(user);
         //if (AuthProvider is IAuthStateProvider provider)
         //{
-        //    await provider.UpdateUserAsync(user);
+        //    await provider.SetUserAsync(user);
         //}
     }
 

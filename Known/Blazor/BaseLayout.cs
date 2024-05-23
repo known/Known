@@ -66,6 +66,6 @@ public class BaseLayout : LayoutComponentBase
     private async Task SetCurrentUserAsync(UserInfo user)
     {
         if (AuthProvider != null)
-            await AuthProvider.UpdateUserAsync(user);
+            await AuthProvider.SetUserAsync(user);
     }
 }

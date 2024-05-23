@@ -3,5 +3,5 @@
 public interface IAuthStateProvider
 {
     Task<UserInfo> GetUserAsync();
-    Task UpdateUserAsync(UserInfo user);
+    Task SetUserAsync(UserInfo user);
 }
