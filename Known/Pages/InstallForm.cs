@@ -45,6 +45,7 @@ public class InstallForm : BaseForm<InstallInfo>
         UI.Result(result, () =>
         {
             var info = result.DataAs<InstallInfo>();
+            Config.Install = info;
             OnInstall?.Invoke(info);
         });
     }

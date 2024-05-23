@@ -14,25 +14,17 @@ public class PageLayout : BaseLayout
         try
         {
             IsLoaded = false;
-            Context.Install = await Platform.System.GetInstallAsync();
-            if (!Context.Install.IsInstalled)
+            Context.CurrentUser = await GetCurrentUserAsync();
+            IsLogin = Context.CurrentUser != null;
+            if (IsLogin)
             {
-                NavigateTo("/install");
-            }
-            else
-            {
-                Context.CurrentUser = await GetCurrentUserAsync();
-                IsLogin = Context.CurrentUser != null;
-                if (IsLogin)
+                if (!Context.IsMobile)
                 {
-                    if (!Context.IsMobile)
-                    {
-                        Info = await Platform.Auth.GetAdminAsync();
-                        UserMenus = GetUserMenus(Info?.UserMenus);
-                        Context.UserSetting = Info?.UserSetting ?? new();
-                    }
-                    IsLoaded = true;
+                    Info = await Platform.Auth.GetAdminAsync();
+                    UserMenus = GetUserMenus(Info?.UserMenus);
+                    Context.UserSetting = Info?.UserSetting ?? new();
                 }
+                IsLoaded = true;
             }
         }
         catch (Exception ex)

@@ -48,7 +48,7 @@
     protected override async Task OnInitAsync()
     {
         if (Stations == null)
-            IsCaptcha = Context.Install != null && Context.Install.System != null && Context.Install.System.IsLoginCaptcha;
+            IsCaptcha = Config.System != null && Config.System.IsLoginCaptcha;
         await base.OnInitAsync();
     }
 

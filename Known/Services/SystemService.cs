@@ -33,8 +33,8 @@ class SystemService(Context context) : ServiceBase(context)
     public async Task<InstallInfo> GetInstallAsync()
     {
         var info = GetInstall();
-        info.System = await GetSystemAsync(Database);
-        info.IsInstalled = info.System != null;
+        Config.System = await GetSystemAsync(Database);
+        info.IsInstalled = Config.System != null;
         await Platform.Dictionary.RefreshCacheAsync();
         await CheckKeyAsync();
         return info;
@@ -139,6 +139,7 @@ class SystemService(Context context) : ServiceBase(context)
             await SaveConfigAsync(Database, KeySystem, info);
         }
 
+        Config.System = info;
         return Result.Success(Language.Success(Language.Save));
     }
 

@@ -1,16 +1,16 @@
 ﻿@inherits BaseComponent
 
 <Tabs Animated>
-    <TabPane Key="Account" Tab="@Language["Login.WithAccount"]">
+    <TabPane Key="Account" Tab="@Language?["Login.WithAccount"]">
         <LoginFormUser Model="Model" OnLogin="OnLogin" />
     </TabPane>
     @if (QRCode != null)
     {
-        <TabPane Key="QRCode" Tab="@Language["Login.WithQRCode"]">@QRCode</TabPane>
+        <TabPane Key="QRCode" Tab="@Language?["Login.WithQRCode"]">@QRCode</TabPane>
     }
     @if (OnSendSMS != null)
     {
-        <TabPane Key="Phone" Tab="@Language["Login.WithPhone"]">
+        <TabPane Key="Phone" Tab="@Language?["Login.WithPhone"]">
             <LoginFormPhone Model="Model" OnSendSMS="OnSendSMS" OnLogin="OnLogin" />
         </TabPane>
     }

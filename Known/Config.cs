@@ -13,6 +13,8 @@ public sealed class Config
     public static VersionInfo Version { get; private set; }
     public static List<Assembly> Assemblies { get; set; } = [];
     public static List<MenuInfo> AppMenus { get; set; }
+    public static SystemInfo System { get; set; }
+    internal static InstallInfo Install { get; set; }
     internal static DateTime StartTime { get; set; }
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
@@ -48,11 +50,14 @@ public sealed class Config
         }
     }
 
-    internal static void AddApp()
+    internal static async void AddApp()
     {
         Version = new VersionInfo(App.Assembly);
         AddModule(typeof(Config).Assembly);
         AddModule(App.Assembly, App.AssemblyAdditional);
+
+        var platform = new PlatformService(new Context());
+        Install = await platform.System.GetInstallAsync();
     }
 
     internal static void SetMenu(MenuInfo info)
