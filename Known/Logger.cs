@@ -67,8 +67,11 @@ class FileLogger : ILogger
 
     static FileLogger()
     {
-        var thread = new Thread(FlushQueue) { IsBackground = true };
-        thread.Start();
+        if (!Config.IsClient)
+        {
+            var thread = new Thread(FlushQueue) { IsBackground = true };
+            thread.Start();
+        }
     }
 
     public void Error(Exception ex) => Logger.Exception(ex);
@@ -95,6 +98,9 @@ class FileLogger : ILogger
 
     private static void FlushLog()
     {
+        if (Config.IsClient)
+            return;
+
         if (!errors.IsEmpty)
             WriteLog("Errors", errors);
 

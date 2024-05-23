@@ -2,6 +2,7 @@
 
 public class LoginPage : BaseComponent
 {
+    [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
     //[Inject] private AuthenticationStateProvider AuthProvider { get; set; }
 
@@ -51,7 +52,7 @@ public class LoginPage : BaseComponent
     protected virtual void OnLogining() { }
     protected virtual void OnLogined()
     {
-        Context.IsMobile = HttpContext.Request.CheckMobile();
+        Context.IsMobile = HttpAccessor?.HttpContext?.Request?.CheckMobile() == true;
         if (Context.IsMobile)
             Navigation.NavigateTo("/app");
         else
@@ -77,7 +78,7 @@ public class LoginPage : BaseComponent
         }
 
         OnLogining();
-        Model.IPAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString();
+        Model.IPAddress = HttpAccessor?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
         var result = await Platform.Auth.SignInAsync(Model);
         if (!result.IsValid)
         {
@@ -108,7 +109,7 @@ public class LoginPage : BaseComponent
 
     protected virtual string GetWeixinAuthState(string token)
     {
-        var url = HttpContext.GetHostUrl();
+        var url = Config.HostUrl;
         return $"{url}/?token={token}&";
     }
 

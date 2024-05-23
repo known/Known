@@ -8,6 +8,8 @@ public sealed class Config
     public const string GiteeUrl = "https://gitee.com/known/Known";
     public const string GithubUrl = "https://github.com/known/Known";
 
+    public static bool IsClient { get; set; }
+    public static string HostUrl { get; set; }
     public static Action OnExit { get; set; }
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
@@ -151,7 +153,8 @@ public class VersionInfo
 {
     internal VersionInfo(Assembly assembly)
     {
-        BuildTime = GetBuildTime();
+        if (!Config.IsClient)
+            BuildTime = GetBuildTime();
         if (assembly != null)
         {
             var version = assembly.GetName().Version;

@@ -13,7 +13,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Parameter] public bool Enabled { get; set; } = true;
     [Parameter] public bool Visible { get; set; } = true;
 
-    [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
     [Inject] public JSService JS { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
     [CascadingParameter] public Context Context { get; set; }
@@ -23,7 +22,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     public IUIService UI => Context?.UI;
     public Language Language => Context?.Language;
     public UserInfo CurrentUser => Context?.CurrentUser;
-    public HttpContext HttpContext => HttpAccessor.HttpContext;
 
     private PlatformService platform;
     public PlatformService Platform

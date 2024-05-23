@@ -2,14 +2,12 @@
 
 public class BaseLayout : LayoutComponentBase
 {
-    [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
     [Inject] protected IAuthStateProvider AuthProvider { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
     [Inject] public JSService JS { get; set; }
     [CascadingParameter] public Context Context { get; set; }
     public Language Language => Context?.Language;
     public MenuInfo CurrentMenu => Context.Current;
-    public HttpContext HttpContext => HttpAccessor?.HttpContext;
 
     private PlatformService platform;
     public PlatformService Platform
