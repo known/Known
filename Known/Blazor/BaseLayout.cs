@@ -47,7 +47,7 @@ public class BaseLayout : LayoutComponentBase
         var result = await Platform.SignOutAsync(user?.Token);
         if (result.IsValid)
         {
-            Context.CurrentUser = null;
+            Context.SignOut();
             await SetCurrentUserAsync(null);
             NavigateTo("/login");
             Config.OnExit?.Invoke();

@@ -93,6 +93,12 @@ public class Context
         return hasButton;
     }
 
+    internal void SignOut()
+    {
+        CurrentUser = null;
+        UserMenus = null;
+    }
+
     internal async Task SetCurrentMenuAsync(PlatformService platform, string pageId = "")
     {
         Module = null;
