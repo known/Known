@@ -2,8 +2,8 @@
 
 public class BaseLayout : LayoutComponentBase
 {
-    //[Inject] protected AuthenticationStateProvider AuthProvider { get; set; }
     [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
+    [Inject] protected IAuthStateProvider AuthProvider { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
     [Inject] public JSService JS { get; set; }
     [CascadingParameter] public Context Context { get; set; }
@@ -63,13 +63,9 @@ public class BaseLayout : LayoutComponentBase
     public virtual Task ShowSpinAsync(string text, Action action) => Task.CompletedTask;
     public virtual void StateChanged() => InvokeAsync(StateHasChanged);
 
-    private Task SetCurrentUserAsync(UserInfo user)
+    private async Task SetCurrentUserAsync(UserInfo user)
     {
-        HttpContext.User = null;
-        return Task.CompletedTask;
-        //if (AuthProvider is IAuthStateProvider provider)
-        //{
-        //    await provider.UpdateUserAsync(user);
-        //}
+        if (AuthProvider != null)
+            await AuthProvider.UpdateUserAsync(user);
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace Known;
 
-internal sealed class PersistingStateProvider : RevalidatingServerAuthenticationStateProvider
+internal sealed class PersistingStateProvider : RevalidatingServerAuthenticationStateProvider, IAuthStateProvider
 {
     private readonly IServiceScopeFactory scopeFactory;
     private readonly PersistentComponentState state;
@@ -31,6 +31,28 @@ internal sealed class PersistingStateProvider : RevalidatingServerAuthentication
 
         AuthenticationStateChanged += OnAuthenticationStateChanged;
         subscription = state.RegisterOnPersisting(OnPersistingAsync, RenderMode.InteractiveWebAssembly);
+    }
+
+    public async Task<UserInfo> GetUserAsync()
+    {
+        if (authenticationStateTask == null)
+            return null;
+
+        var authenticationState = await authenticationStateTask;
+        var principal = authenticationState.User;
+        if (principal.Identity?.IsAuthenticated == false)
+            return null;
+
+        await using var scope = scopeFactory.CreateAsyncScope();
+        var platform = scope.ServiceProvider.GetRequiredService<PlatformService>();
+        return await platform.GetUserAsync(principal.Identity.Name);
+    }
+
+    public Task UpdateUserAsync(UserInfo user)
+    {
+        var principal = GetPrincipal(user);
+        NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
+        return Task.CompletedTask;
     }
 
     protected override TimeSpan RevalidationInterval => TimeSpan.FromMinutes(30);
@@ -87,6 +109,18 @@ internal sealed class PersistingStateProvider : RevalidatingServerAuthentication
         }
     }
 
+    private static ClaimsPrincipal GetPrincipal(UserInfo user)
+    {
+        if (user == null)
+            return new(new ClaimsIdentity());
+
+        return new ClaimsPrincipal(new ClaimsIdentity(
+        [
+            new(ClaimTypes.Name, user.UserName),
+            new(ClaimTypes.Role, user.Role)
+        ], "Known_Auth"));
+    }
+
     protected override void Dispose(bool disposing)
     {
         subscription.Dispose();
@@ -95,16 +129,11 @@ internal sealed class PersistingStateProvider : RevalidatingServerAuthentication
     }
 }
 
-class WebAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
+class WebAuthStateProvider(ProtectedSessionStorage sessionStorage) : AuthenticationStateProvider, IAuthStateProvider
 {
     private const string KeyUser = "Known_User";
-    private readonly ProtectedSessionStorage sessionStorage;
+    private readonly ProtectedSessionStorage sessionStorage = sessionStorage;
     private readonly ClaimsPrincipal anonymous = new(new ClaimsIdentity());
-
-    public WebAuthStateProvider(ProtectedSessionStorage sessionStorage)
-    {
-        this.sessionStorage = sessionStorage;
-    }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {

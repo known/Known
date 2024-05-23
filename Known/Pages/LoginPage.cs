@@ -1,12 +1,13 @@
-﻿using System.Security.Claims;
-
-namespace Known.Pages;
+﻿namespace Known.Pages;
 
 public class LoginPage : BaseComponent
 {
+    [Inject] private IAuthStateProvider AuthProvider { get; set; }
     //[Inject] private AuthenticationStateProvider AuthProvider { get; set; }
 
     protected LoginFormInfo Model = new();
+
+    [SupplyParameterFromQuery] public string ReturnUrl { get; set; }
 
     //protected override async Task OnInitAsync()
     //{
@@ -52,9 +53,9 @@ public class LoginPage : BaseComponent
     {
         Context.IsMobile = HttpContext.Request.CheckMobile();
         if (Context.IsMobile)
-            Navigation.NavigateTo("/app");
+            Navigation.NavigateTo(ReturnUrl ?? "/app");
         else
-            Navigation.NavigateTo("/");
+            Navigation.NavigateTo(ReturnUrl ?? "/");
     }
 
     protected async Task OnUserLogin()
@@ -85,24 +86,25 @@ public class LoginPage : BaseComponent
         else
         {
             var user = result.DataAs<UserInfo>();
-            //await SetCurrentUserAsync(user);
-            //var identity = new GenericIdentity(user.UserName, "Forms");
-            //var principal = new GenericPrincipal(identity, user.Role.Split(','));
-            var identity = new ClaimsIdentity("Forms");
-            identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
-            var principal = new ClaimsPrincipal(identity);
-            HttpContext.User = principal;
+            await SetCurrentUserAsync(user);
+            ////var identity = new GenericIdentity(user.UserName, "Forms");
+            ////var principal = new GenericPrincipal(identity, user.Role.Split(','));
+            //var identity = new ClaimsIdentity("Forms");
+            //identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+            //var principal = new ClaimsPrincipal(identity);
+            //HttpContext.User = principal;
             OnLogined();
         }
     }
 
-    //protected virtual async Task SetCurrentUserAsync(UserInfo user)
-    //{
-    //    if (AuthProvider is IAuthStateProvider provider)
-    //    {
-    //        await provider.UpdateUserAsync(user);
-    //    }
-    //}
+    protected virtual async Task SetCurrentUserAsync(UserInfo user)
+    {
+        await AuthProvider?.UpdateUserAsync(user);
+        //if (AuthProvider is IAuthStateProvider provider)
+        //{
+        //    await provider.UpdateUserAsync(user);
+        //}
+    }
 
     protected virtual string GetWeixinAuthState(string token)
     {

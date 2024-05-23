@@ -33,10 +33,6 @@ public class PageLayout : BaseLayout
                     }
                     IsLoaded = true;
                 }
-                //    else
-                //    {
-                //        NavigateTo("/login");
-                //    }
             }
         }
         catch (Exception ex)
@@ -83,8 +79,13 @@ public class PageLayout : BaseLayout
 
     protected virtual async Task<UserInfo> GetCurrentUserAsync()
     {
-        if (HttpContext.User.Identity.IsAuthenticated)
-            return await Platform.GetUserAsync(HttpContext.User.Identity.Name);
+        if (AuthProvider != null)
+        {
+            var user = await AuthProvider.GetUserAsync();
+            if (user != null)
+                return user;
+        }
+
         //if (AuthState == null)
         //    return null;
 

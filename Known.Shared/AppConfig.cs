@@ -51,19 +51,19 @@ public static class AppConfig
 
         if (Config.App.Type == AppType.Web)
         {
-            services.AddScoped<AuthenticationStateProvider, PersistingStateProvider>();
+            services.AddScoped<IAuthStateProvider, PersistingStateProvider>();
+            //services.AddScoped<AuthenticationStateProvider, PersistingStateProvider>();
             //services.AddScoped<ProtectedSessionStorage>();
             //services.AddScoped<AuthenticationStateProvider, WebAuthStateProvider>();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options => options.LoginPath = new PathString("/login"));
         }
         else if (Config.App.Type == AppType.Desktop)
         {
             services.AddAuthorizationCore();
-            services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options => options.LoginPath = new PathString("/login"));
+            services.AddScoped<IAuthStateProvider, WinAuthStateProvider>();
+            //services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
         }
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => options.LoginPath = new PathString("/login"));
 
         //2.添加KnownExcel实现
         services.AddKnownCells();
