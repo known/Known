@@ -22,6 +22,12 @@ public class AdminInfo
     public List<MenuInfo> UserMenus { get; set; }
 }
 
+public class FileDataInfo
+{
+    public string FileName { get; set; }
+    public byte[] Data { get; set; }
+}
+
 public class FileUrlInfo
 {
     public string FileName { get; set; }

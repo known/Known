@@ -20,6 +20,12 @@ public class Database : IDisposable
     #region Constructors
     public Database() : this("Default") { }
 
+    public Database(Context context) : this()
+    {
+        Context = context;
+        User = context.CurrentUser;
+    }
+
     public Database(string connName, UserInfo user = null)
     {
         var setting = Config.App.GetConnection(connName);
