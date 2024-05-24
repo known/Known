@@ -6,6 +6,9 @@ public class KTag : BaseComponent
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        UI.BuildTag(builder, Text);
+        var text = Language?.GetCode(Text);
+        if (string.IsNullOrWhiteSpace(text))
+            text = Text;
+        UI.BuildTag(builder, text);
     }
 }
