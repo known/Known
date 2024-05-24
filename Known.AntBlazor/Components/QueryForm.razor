@@ -76,6 +76,7 @@
         Model.Criteria.IsQuery = true;
         Model.Criteria.Query = Model.QueryData.Select(d => d.Value).ToList();
         await Model.RefreshAsync();
+        Model.Criteria.IsQuery = false;
     }
 
     private void ShowAdvSearch() => Model.ShowAdvancedSearch(App);

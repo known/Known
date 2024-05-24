@@ -307,9 +307,8 @@ public class UIService(ModalService modalService, MessageService messageService,
 
     public void BuildTag(RenderTreeBuilder builder, string text)
     {
-        var name = Language?.GetCode(text);
         var color = GetTagColor(text);
-        builder.AntTag(name, color);
+        builder.AntTag(text, color);
     }
 
     public void BuildIcon(RenderTreeBuilder builder, string type, EventCallback<MouseEventArgs>? onClick = null) => builder.AntIcon(type, onClick);

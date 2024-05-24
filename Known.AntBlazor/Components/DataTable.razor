@@ -153,7 +153,13 @@
 
     public async Task RefreshAsync()
     {
-        await InvokeAsync(() => table?.ReloadData());
+        await InvokeAsync(() =>
+        {
+            if (Model.Criteria.IsQuery)
+                table?.ReloadData();
+            else
+                table?.ReloadData(Model.Criteria.PageIndex);
+        });
     }
 
     private async Task OnChange(QueryModel<TItem> queryModel)
