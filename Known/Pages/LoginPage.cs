@@ -2,9 +2,7 @@
 
 public class LoginPage : BaseComponent
 {
-    [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
-    //[Inject] private AuthenticationStateProvider AuthProvider { get; set; }
 
     protected LoginFormInfo Model = new();
 
@@ -50,9 +48,8 @@ public class LoginPage : BaseComponent
     }
 
     protected virtual void OnLogining() { }
-    protected virtual void OnLogined()
+    protected virtual void OnLogined(UserInfo user)
     {
-        Context.IsMobile = HttpAccessor?.HttpContext?.Request?.CheckMobile() == true;
         if (Context.IsMobile)
             Navigation.NavigateTo("/app");
         else
@@ -78,7 +75,7 @@ public class LoginPage : BaseComponent
         }
 
         OnLogining();
-        Model.IPAddress = HttpAccessor?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+        Model.IPAddress = Context.IPAddress;
         var result = await Platform.Auth.SignInAsync(Model);
         if (!result.IsValid)
         {
@@ -88,23 +85,13 @@ public class LoginPage : BaseComponent
         {
             var user = result.DataAs<UserInfo>();
             await SetCurrentUserAsync(user);
-            ////var identity = new GenericIdentity(user.UserName, "Forms");
-            ////var principal = new GenericPrincipal(identity, user.Role.Split(','));
-            //var identity = new ClaimsIdentity("Forms");
-            //identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
-            //var principal = new ClaimsPrincipal(identity);
-            //HttpContext.User = principal;
-            OnLogined();
+            OnLogined(user);
         }
     }
 
     protected virtual async Task SetCurrentUserAsync(UserInfo user)
     {
         await AuthProvider?.SetUserAsync(user);
-        //if (AuthProvider is IAuthStateProvider provider)
-        //{
-        //    await provider.SetUserAsync(user);
-        //}
     }
 
     protected virtual string GetWeixinAuthState(string token)

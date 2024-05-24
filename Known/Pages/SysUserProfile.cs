@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Authorize]
+//[Authorize]
 [Route("/profile")]
 public class SysUserProfile : BasePage<SysUser>
 {

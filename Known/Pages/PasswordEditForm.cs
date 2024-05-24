@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Authorize]
+//[Authorize]
 [Route("/profile/password")]
 public class PasswordEditForm : BaseForm<PwdFormInfo>
 {

@@ -7,8 +7,6 @@ public class PageLayout : BaseLayout
     protected List<MenuItem> UserMenus { get; private set; }
     protected bool IsLogin { get; private set; }
 
-    //[CascadingParameter] private Task<AuthenticationState> AuthState { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         try
@@ -25,6 +23,10 @@ public class PageLayout : BaseLayout
                     Context.UserSetting = Info?.UserSetting ?? new();
                 }
                 IsLoaded = true;
+            }
+            else if (!Config.IsClient)
+            {
+                NavigateTo("/login");
             }
         }
         catch (Exception ex)
@@ -77,16 +79,6 @@ public class PageLayout : BaseLayout
             if (user != null)
                 return user;
         }
-
-        //if (AuthState == null)
-        //    return null;
-
-        //var state = await AuthState;
-        //if (state != null && state.User != null && state.User.Identity != null && state.User.Identity.IsAuthenticated)
-        //{
-        //    if (AuthProvider is IAuthStateProvider provider)
-        //        return await provider.GetUserAsync();
-        //}
 
         return await GetThirdUserAsync();
     }

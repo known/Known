@@ -21,6 +21,7 @@ public class Context
     public MenuInfo Current { get; private set; }
     public IUIService UI { get; }
     public bool IsMobile { get; set; }
+    public string IPAddress { get; set; }
     public string Url { get; set; }
     public string Theme { get; set; }
     public string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";

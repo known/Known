@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Authorize]
+//[Authorize]
 [Route("/sys/logs")]
 public class SysLogList : BaseTablePage<SysLog>
 {

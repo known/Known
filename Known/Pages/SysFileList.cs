@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Authorize]
+//[Authorize]
 [Route("/sys/files")]
 public class SysFileList : BaseTablePage<SysFile>
 {

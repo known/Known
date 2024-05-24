@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Authorize]
+//[Authorize]
 [Route("/sys/info")]
 public class SysSystem : BaseTabPage
 {

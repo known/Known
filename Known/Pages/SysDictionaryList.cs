@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Authorize]
+//[Authorize]
 [Route("/sys/dictionaries")]
 public class SysDictionaryList : BaseTablePage<SysDictionary>
 {

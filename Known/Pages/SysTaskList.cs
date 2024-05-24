@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-[Authorize]
+//[Authorize]
 [Route("/sys/tasks")]
 public class SysTaskList : BaseTablePage<SysTask>
 {

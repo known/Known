@@ -47,6 +47,16 @@ public class UserInfo
         return Role.Contains(role);
     }
 
+    public ClaimsPrincipal ToPrincipal(string authType = "Known_Auth")
+    {
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.Name, UserName),
+            new(ClaimTypes.Role, Role)
+        };
+        return new ClaimsPrincipal(new ClaimsIdentity(claims, authType));
+    }
+
     public Task SendMessageAsync(Database db, string toUser, string subject, string content, bool isUrgent = false, string filePath = null, string bizId = null)
     {
         var level = isUrgent ? Constants.UMLUrgent : Constants.UMLGeneral;
