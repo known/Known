@@ -5,12 +5,6 @@ namespace Known;
 [AttributeUsage(AttributeTargets.Class)]
 public class CodeInfoAttribute : Attribute { }
 
-[AttributeUsage(AttributeTargets.Class)]
-public class TableAttribute(string name) : Attribute
-{
-    public string Name { get; } = name;
-}
-
 [AttributeUsage(AttributeTargets.Property)]
 public class FormAttribute() : Attribute
 {

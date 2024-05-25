@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Known;
 
 public enum DatabaseType
 {
