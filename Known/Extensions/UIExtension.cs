@@ -109,11 +109,14 @@ public static class UIExtension
     #endregion
 
     #region Toast
-    public static async void Info(this IUIService service, string message) => await service.Toast(message, StyleType.Info);
-    public static async void Warning(this IUIService service, string message) => await service.Toast(message, StyleType.Warning);
-    public static async void Error(this IUIService service, string message) => await service.Toast(message, StyleType.Error);
+    public static async void Info(this IUIService service, string message) => await service.InfoAsync(message);
+    public static Task InfoAsync(this IUIService service, string message) => service.Toast(message, StyleType.Info);
+    public static async void Warning(this IUIService service, string message) => await service.WarningAsync(message);
+    public static Task WarningAsync(this IUIService service, string message) => service.Toast(message, StyleType.Warning);
+    public static async void Error(this IUIService service, string message) => await service.ErrorAsync(message);
+    public static Task ErrorAsync(this IUIService service, string message) => service.Toast(message, StyleType.Error);
 
-    public static void Result(this IUIService service, Result result, Action onSuccess = null)
+    public static async void Result(this IUIService service, Result result, Action onSuccess = null)
     {
         if (!result.IsValid)
         {
@@ -122,7 +125,7 @@ public static class UIExtension
         }
 
         onSuccess?.Invoke();
-        service.Toast(result.Message);
+        await service.Toast(result.Message);
     }
     #endregion
 }

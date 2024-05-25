@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<GridCol Span="Span">
+<GridCol Span="Span" Class="@Class">
     @if (NoForm)
     {
         <div class="ant-form-item ant-form-item-row ant-row">
@@ -32,6 +32,7 @@
     public Type Type { get; set; } = typeof(string);
 
     [Parameter] public int Span { get; set; }
+    [Parameter] public string Class { get; set; }
     [Parameter] public string Label { get; set; }
     [Parameter] public bool NoForm { get; set; }
     [Parameter] public bool Required { get; set; }

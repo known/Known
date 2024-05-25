@@ -157,23 +157,27 @@ public class UIService(ModalService modalService, MessageService messageService,
 
     public void Alert(string message, Func<Task> action = null)
     {
-        _modal.Info(new ConfirmOptions
+        var options = new ConfirmOptions
         {
             Title = Language?.GetTitle("Prompt"),
-            Content = FormatMessage(message),
-            OnOk = e => action?.Invoke()
-        });
+            Content = FormatMessage(message)
+        };
+        if (action != null)
+            options.OnOk = e => action?.Invoke();
+        _modal.Info(options);
     }
 
     public void Confirm(string message, Func<Task> action)
     {
-        _modal.Confirm(new ConfirmOptions
+        var options = new ConfirmOptions
         {
             Title = Language?.GetTitle("Question"),
             Icon = b => b.Component<Icon>().Set(c => c.Type, "question-circle").Set(c => c.Theme, "outline").Build(),
-            Content = FormatMessage(message),
-            OnOk = e => action?.Invoke()
-        });
+            Content = FormatMessage(message)
+        };
+        if (action != null)
+            options.OnOk = e => action?.Invoke();
+        _modal.Confirm(options);
     }
 
     private static RenderFragment FormatMessage(string message)

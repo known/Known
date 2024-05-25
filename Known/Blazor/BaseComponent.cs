@@ -13,6 +13,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Parameter] public bool Enabled { get; set; } = true;
     [Parameter] public bool Visible { get; set; } = true;
 
+    [Inject] public IJSRuntime JSRuntime { get; set; }
     [Inject] public JSService JS { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
     [CascadingParameter] public Context Context { get; set; }
