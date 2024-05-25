@@ -1,20 +1,39 @@
 ﻿@inherits BaseComponent
 
 <GridCol Span="Span">
-    <FormItem Label="@Label" Required="Required" Rules="rules">
-        <DataItemValue IsFixed Value="this">
-            @ChildContent
-        </DataItemValue>
-    </FormItem>
+    @if (NoForm)
+    {
+        <div class="ant-form-item ant-form-item-row ant-row">
+            <div class="ant-form-item-label">
+                <label>@Label</label>
+            </div>
+            <div class="ant-form-item-control">
+                <div class="ant-form-item-control-input">
+                    <div class="ant-form-item-control-input-content">
+                        @ChildContent
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <FormItem Label="@Label" Required="Required" Rules="rules">
+            <DataItemValue IsFixed Value="this">
+                @ChildContent
+            </DataItemValue>
+        </FormItem>
+    }
 </GridCol>
 
 @code {
     private FormValidationRule[] rules => Rules ?? this.ToRules(Context);
 
     public Type Type { get; set; } = typeof(string);
-    
+
     [Parameter] public int Span { get; set; }
     [Parameter] public string Label { get; set; }
+    [Parameter] public bool NoForm { get; set; }
     [Parameter] public bool Required { get; set; }
     [Parameter] public FormValidationRule[] Rules { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
