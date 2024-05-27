@@ -232,9 +232,12 @@ public class ColumnInfo
         Property = info;
         Id = info.Name;
 
-        var name = info.GetCustomAttribute<DisplayNameAttribute>();
-        if (name != null)
-            Name = name.DisplayName;
+        if (string.IsNullOrWhiteSpace(Name))
+        {
+            var name = info.GetCustomAttribute<DisplayNameAttribute>();
+            if (name != null)
+                Name = name.DisplayName;
+        }
 
         var required = info.GetCustomAttribute<RequiredAttribute>();
         if (required != null)

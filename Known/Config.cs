@@ -24,14 +24,14 @@ public sealed class Config
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
-    internal static List<MenuInfo> Menus { get; }= [];
+    internal static List<MenuInfo> Menus { get; } = [];
 
     public static void AddModule(Assembly assembly, bool isAdditional = true)
     {
         if (assembly == null)
             return;
 
-        if (isAdditional)
+        if (isAdditional && !Assemblies.Exists(a => a.FullName == assembly.FullName))
             Assemblies.Add(assembly);
         AddActions(assembly);
 
