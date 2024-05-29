@@ -4,7 +4,7 @@
     <div class="ant-card ant-card-bordered" style="height:100%;">
         <div class="ant-card-head">
             <div class="ant-card-head-wrapper">
-                <div class="ant-card-head-title">@Option?.Title</div>
+                <div class="ant-card-head-title">@option?.Title</div>
             </div>
         </div>
         <div class="ant-card-body">
@@ -15,14 +15,11 @@
 
 @code {
     private KChart chart;
-    private CardChartInfo info;
+    private ChartCardOption option;
 
-    [Parameter] public ChartCardOption Option { get; set; }
-
-    protected override async Task OnInitAsync()
+    public void SetOption(ChartCardOption option)
     {
-        await base.OnInitAsync();
-        info = Option?.Charts?.FirstOrDefault();
+        this.option = option;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -30,6 +27,7 @@
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
+            var info = option?.Charts?.FirstOrDefault();
             if (info?.Type == "Line")
                 await chart?.ShowLineAsync(info?.Title, info?.Datas);
             else if (info?.Type == "Bar")
