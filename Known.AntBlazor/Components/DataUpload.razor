@@ -33,10 +33,11 @@
 
     public bool HasFile => sysFiles != null && sysFiles.Count > 0 || files.Count > 0;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnInitAsync();
-        sysFiles = await Platform.GetFilesAsync(Value);
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            sysFiles = await Platform.GetFilesAsync(Value);
     }
 
     private async void OnInputFileChanged(InputFileChangeEventArgs e)

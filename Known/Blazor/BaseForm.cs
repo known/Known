@@ -27,11 +27,10 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        if (Model == null)
+        Model ??= new FormModel<TItem>(Context)
         {
-            Model = new FormModel<TItem>(Context);
-            Model.Data = Data ?? new TItem();
-        }
+            Data = Data ?? new TItem()
+        };
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)

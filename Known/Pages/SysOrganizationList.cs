@@ -23,7 +23,6 @@ public class SysOrganizationList : BasePage<SysOrganization>
             OnNodeClick = OnNodeClick,
             OnModelChanged = OnTreeModelChanged
         };
-        tree.Load();
 
         table = new TableModel<SysOrganization>(this)
         {
@@ -38,6 +37,7 @@ public class SysOrganizationList : BasePage<SysOrganization>
     {
         table.Initialize(this);
         await base.OnPageChangeAsync();
+        tree.Load();
     }
 
     public override async Task RefreshAsync()

@@ -119,9 +119,17 @@ class SysUserForm : BaseForm<SysUser>
     {
         await base.OnInitFormAsync();
         Model.Initialize();
-        Model.Data = await Platform.User.GetUserAsync(Model.Data);
-        Model.Codes["Roles"] = Model.Data.Roles;
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
         Model.AddRow().AddColumn(c => c.RoleIds);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            Model.Data = await Platform.User.GetUserAsync(Model.Data);
+            Model.Codes["Roles"] = Model.Data.Roles;
+        }
     }
 }

@@ -46,10 +46,11 @@
     [Parameter] public RenderFragment Search { get; set; }
     [Parameter] public RenderFragment<TItem> ChildContent { get; set; }
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnInitAsync();
-        result = await OnQuery.Invoke(criteria);
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            result = await OnQuery.Invoke(criteria);
     }
 
     public async Task SearchAsync(string key)

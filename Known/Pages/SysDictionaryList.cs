@@ -13,7 +13,6 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        await LoadCategoriesAsync();
         Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
         Table.RowKey = r => r.Id;
         Table.OnQuery = QueryDictionarysAsync;
@@ -23,6 +22,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     {
         await base.OnPageChangeAsync();
         Table.Column(c => c.Category).Template(BuildCategory);
+        await LoadCategoriesAsync();
     }
 
     protected override void BuildPage(RenderTreeBuilder builder)

@@ -25,7 +25,6 @@ public class SysModuleList : BasePage<SysModule>
             OnNodeClick = OnNodeClick,
             OnModelChanged = OnTreeModelChanged
         };
-        tree.Load();
 
         table = new TableModel<SysModule>(this)
         {
@@ -43,6 +42,8 @@ public class SysModuleList : BasePage<SysModule>
         await base.OnPageChangeAsync();
         table.Column(c => c.Name).Template(BuildName);
         table.Column(c => c.Target).Template(BuildTarget);
+
+        tree.Load();
     }
 
     public override async Task RefreshAsync()
