@@ -28,10 +28,6 @@ class WinAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
         if (user == null)
             return new(new ClaimsIdentity());
 
-        return new ClaimsPrincipal(new ClaimsIdentity(
-        [
-            new(ClaimTypes.Name, user.UserName),
-            new(ClaimTypes.Role, user.Role)
-        ], "Known_Auth"));
+        return user.ToPrincipal();
     }
 }

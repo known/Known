@@ -61,10 +61,10 @@ public static class AppConfig
         {
             services.AddAuthorizationCore();
             services.AddScoped<IAuthStateProvider, WinAuthStateProvider>();
-            //services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
+            services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
         }
-        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => options.LoginPath = new PathString("/login"));
+        //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        //        .AddCookie(options => options.LoginPath = new PathString("/login"));
 
         //2.添加KnownExcel实现
         services.AddKnownCells();
@@ -99,8 +99,8 @@ public static class AppConfig
         });
 
         //配置认证
-        app.UseAuthentication();
-        app.UseAuthorization();
+        //app.UseAuthentication();
+        //app.UseAuthorization();
 
         //配置定时任务
         app.Services.UseScheduler(scheduler =>

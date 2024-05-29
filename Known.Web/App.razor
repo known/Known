@@ -32,3 +32,13 @@
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 </html>
+
+@code {
+    [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Config.HostUrl = HttpContext.GetHostUrl();
+    }
+}
