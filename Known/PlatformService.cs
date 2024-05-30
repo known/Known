@@ -51,7 +51,7 @@ public class PlatformService(Context context)
     #region Flow
     public Task CreateFlowAsync(Database db, FlowBizInfo info) => Flow.CreateFlowAsync(db, info);
     public Task DeleteFlowAsync(Database db, string bizId) => Flow.DeleteFlowAsync(db, bizId);
-    public Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note) => Flow.AddFlowLogAsync(db, bizId, stepName, result, note);
+    public Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note, DateTime? time = null) => Flow.AddFlowLogAsync(db, bizId, stepName, result, note, time);
     public Task<List<SysFlowLog>> GetFlowLogsAsync(string bizId) => Flow.GetFlowLogsAsync(bizId);
     #endregion
 

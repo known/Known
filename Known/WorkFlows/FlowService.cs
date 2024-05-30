@@ -294,7 +294,7 @@ class FlowService(Context context) : ServiceBase(context)
         await FlowRepository.DeleteFlowAsync(db, bizId);
     }
 
-    internal Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note)
+    internal Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note, DateTime? time = null)
     {
         return db.SaveAsync(new SysFlowLog
         {
@@ -304,7 +304,7 @@ class FlowService(Context context) : ServiceBase(context)
             BizId = bizId,
             StepName = stepName,
             ExecuteBy = db.User.Name,
-            ExecuteTime = DateTime.Now,
+            ExecuteTime = time ?? DateTime.Now,
             Result = result,
             Note = note
         });
