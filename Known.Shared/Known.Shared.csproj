@@ -17,7 +17,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Known.Cells\Known.Cells.csproj" />
-        <ProjectReference Include="..\Known.AntBlazor\Known.AntBlazor.csproj" />
         <ProjectReference Include="..\Known.Demo\Known.Demo.csproj" />
     </ItemGroup>
 
