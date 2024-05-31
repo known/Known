@@ -7,3 +7,11 @@ public class KContext : CascadingValue<Context>
         IsFixed = true;
     }
 }
+
+public class KRouteData : CascadingValue<RouteData>
+{
+    public KRouteData()
+    {
+        IsFixed = true;
+    }
+}

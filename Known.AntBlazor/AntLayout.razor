@@ -22,16 +22,14 @@
                             <NavBreadcrumb Current="Context.Current" />
                             <NavTopRight OnMenuClick="OnMenuClick" />
                         </Header>
-                        <Content Class="@Content">
+                        <Content Class="kui-page">
                             @if (Context.UserSetting.MultiTab)
                             {
                                 <ReuseTabs Class="top-row px-4" TabPaneClass="content px-4" />
                             }
                             else
                             {
-                                <div style="margin:0 10px 10px 10px;height:98%;">
-                                    @Body
-                                </div>
+                                <div class="kui-page-body">@Body</div>
                             }
                         </Content>
                         @if (AntConfig.Option.ShowFooter)
@@ -64,7 +62,6 @@
     //Admin
     private bool showSetting = false;
     private Known.Blazor.SettingForm setting;
-    private string Content => Context.UserSetting.MultiTab ? "kui-tabs" : "kui-page";
 
     public override async Task ShowSpinAsync(string text, Action action)
     {

@@ -3,7 +3,9 @@
 <KContext Value="context">
     <Router AppAssembly="typeof(App).Assembly" AdditionalAssemblies="Config.Assemblies">
         <Found Context="routeData">
-            <RouteView RouteData="routeData" DefaultLayout="typeof(AntLayout)" />
+            <KRouteData Value="routeData">
+                <RouteView RouteData="routeData" DefaultLayout="typeof(AntLayout)" />
+            </KRouteData>
         </Found>
         <NotFound>
             <Result Status="404" />

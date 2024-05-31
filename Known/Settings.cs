@@ -40,5 +40,5 @@ public class SettingInfo
     }
 
     [Form] public bool Accordion { get; set; }
-    public bool MultiTab { get; set; }
+    [Form] public bool MultiTab { get; set; }
 }

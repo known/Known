@@ -24,10 +24,15 @@ public class BasePage : BaseComponent
         base.OnAfterRender(firstRender);
         await JS.RunVoidAsync(@"
 var body = $('body').height();
-var tabs = $('.kui-table > .ant-tabs').length;
-var table = tabs ? 60 : 56;
-$('.kui-card .ant-tabs-content-holder').css('height', (body-136)+'px');
-$('.kui-table .ant-table-body').not('.form-list .ant-table-body').css('height', (body-182-42-table)+'px');");
+var header = 64;
+var tabs = $('.kui-page > .ant-tabs').length ? 55 : 10;
+var query = 62;
+var toolbar = $('.kui-table > .ant-tabs').length ? 56 : 52;
+var tableHead = 42;
+var cardHeight = body-header-tabs-62;
+var tableHeight = body-header-tabs-query-toolbar-tableHead-50;
+$('.kui-card .ant-tabs-content-holder').css('height', cardHeight+'px');
+$('.kui-table .ant-table-body').not('.form-list .ant-table-body').css('height', tableHeight+'px');");
     }
 
     protected virtual void BuildPage(RenderTreeBuilder builder) { }
