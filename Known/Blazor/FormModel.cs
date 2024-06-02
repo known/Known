@@ -34,10 +34,11 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     internal TableModel<TItem> Table { get; }
     internal string Action { get; set; }
     public string Title { get; set; }
-    public string Class { get; set; } = "kui-form";
+    public string Class { get; set; }
     public string ConfirmText { get; set; }
     public Func<string> OnConfirmText { get; set; }
     public double? Width { get; set; }
+    public bool SmallLabel { get; set; }
     public bool Maximizable { get; set; }
     public bool DefaultMaximized { get; set; }
     public bool NoFooter { get; set; }
@@ -51,6 +52,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Dictionary<string, List<CodeInfo>> Codes { get; } = [];
     public Dictionary<string, FieldModel<TItem>> Fields { get; } = [];
     public Type Type { get; set; }
+    public RenderFragment Footer { get; set; }
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }
     public Action OnClosed { get; set; }
@@ -60,6 +62,17 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Func<TItem, Task<bool>> OnSaving { get; set; }
     public Action<TItem> OnSaved { get; set; }
     public Dictionary<string, List<IBrowserFile>> Files { get; } = [];
+
+    public string ClassName
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(Class))
+                return Class;
+
+            return SmallLabel ? "kui-small" : "kui-form";
+        }
+    }
 
     internal FormViewType FormType { get; set; }
     

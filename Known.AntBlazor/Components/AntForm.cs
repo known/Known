@@ -13,7 +13,7 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         //此问题解决，需要将DataItemValue设为IsFixed
         ValidateOnChange = true;
         ValidateMode = FormValidateMode.Rules;
-        Class = Form?.Class;
+        Class = Form?.ClassName;
         LabelColSpan = Form?.LabelSpan ?? 0;
         WrapperColSpan = Form?.WrapperSpan ?? 0;
         Model = Form?.Data ?? new();

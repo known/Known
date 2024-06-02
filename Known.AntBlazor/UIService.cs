@@ -234,10 +234,17 @@ public class UIService(ModalService modalService, MessageService messageService,
             Resizable = model.Resizable,
             Title = model.GetFormTitle(),
             OkText = Language?.OK,
-            CancelText = Language?.Cancel,
-            OnOk = e => model.SaveAsync(),
-            OnCancel = e => model.CloseAsync()
+            CancelText = Language?.Cancel
         };
+        if (model.Footer != null)
+        {
+            option.Footer = model.Footer;
+        }
+        else
+        {
+            option.OnOk = e => model.SaveAsync();
+            option.OnCancel = e => model.CloseAsync();
+        }
 
         var isTabForm = false;
         var isStepForm = false;

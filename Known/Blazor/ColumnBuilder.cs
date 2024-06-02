@@ -52,6 +52,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
             column.ReadOnly = readOnly;
         return this;
     }
+    
+    public ColumnBuilder<TItem> Sum()
+    {
+        if (column != null)
+            column.IsSum = true;
+        return this;
+    }
 
     public ColumnBuilder<TItem> Name(string name)
     {
