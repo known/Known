@@ -35,14 +35,14 @@ class FlowService(Context context) : ServiceBase(context)
             foreach (var flow in flows)
             {
                 if (flow.CurrBy != user.UserName)
-                    Check.Throw(NotExecuteFlow(flow.CurrBy));
+                    throw new SystemException(NotExecuteFlow(flow.CurrBy));
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
                 var biz = BaseFlow.Create(Context, flow);
                 var result = await biz.OnCommitingAsync(db, info);
                 if (!result.IsValid)
-                    Check.Throw(result.Message);
+                    throw new SystemException(result.Message);
 
                 SetCurrToPrevStep(flow);
                 SetCurrStep(flow, FlowStatus.StepSubmit, next);
@@ -77,14 +77,14 @@ class FlowService(Context context) : ServiceBase(context)
             foreach (var flow in flows)
             {
                 if (flow.PrevBy != user.UserName)
-                    Check.Throw(NotExecuteFlow(flow.CurrBy));
+                    throw new SystemException(NotExecuteFlow(flow.CurrBy));
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
                 var biz = BaseFlow.Create(Context, flow);
                 var result = await biz.OnRevokingAsync(db, info);
                 if (!result.IsValid)
-                    Check.Throw(result.Message);
+                    throw new SystemException(result.Message);
 
                 SetCurrToNextStep(flow);
                 SetPrevToCurrStep(flow);
@@ -113,7 +113,7 @@ class FlowService(Context context) : ServiceBase(context)
             foreach (var flow in flows)
             {
                 if (flow.CurrBy != user.UserName)
-                    Check.Throw(NotExecuteFlow(flow.CurrBy));
+                    throw new SystemException(NotExecuteFlow(flow.CurrBy));
 
                 var stepName = flow.CurrStep;
                 SetCurrToPrevStep(flow);
@@ -154,14 +154,14 @@ class FlowService(Context context) : ServiceBase(context)
             foreach (var flow in flows)
             {
                 if (flow.CurrBy != user.UserName)
-                    Check.Throw(NotExecuteFlow(flow.CurrBy));
+                    throw new SystemException(NotExecuteFlow(flow.CurrBy));
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
                 var biz = BaseFlow.Create(Context, flow);
                 var result = await biz.OnVerifingAsync(db, info);
                 if (!result.IsValid)
-                    Check.Throw(result.Message);
+                    throw new SystemException(result.Message);
 
                 flow.BizStatus = info.BizStatus;
                 flow.VerifyBy = user.UserName;
@@ -223,7 +223,7 @@ class FlowService(Context context) : ServiceBase(context)
                 var biz = BaseFlow.Create(Context, flow);
                 var result = await biz.OnRepeatingAsync(db, info);
                 if (!result.IsValid)
-                    Check.Throw(result.Message);
+                    throw new SystemException(result.Message);
 
                 flow.BizStatus = info.BizStatus ?? FlowStatus.Reapply;
                 flow.FlowStatus = FlowStatus.Open;
@@ -254,7 +254,7 @@ class FlowService(Context context) : ServiceBase(context)
                 var biz = BaseFlow.Create(Context, flow);
                 var result = await biz.OnStoppingAsync(db, info);
                 if (!result.IsValid)
-                    Check.Throw(result.Message);
+                    throw new SystemException(result.Message);
 
                 flow.BizStatus = FlowStatus.Stop;
                 flow.FlowStatus = FlowStatus.Stop;

@@ -295,24 +295,30 @@ public class Database : IDisposable
                     criteria.PageIndex = -1;
 
                 cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
-                using var reader = cmd.ExecuteReader();
                 watch.Watch("Paging");
-                while (reader.Read())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    var obj = ConvertTo<T>(reader);
-                    pageData.Add((T)obj);
+                    while (reader.Read())
+                    {
+                        var obj = ConvertTo<T>(reader);
+                        pageData.Add((T)obj);
+                    }
                 }
                 watch.Watch("Convert");
                 if (criteria.ExportMode == ExportMode.None)
                 {
                     if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
                     {
-                        var columns = string.Join(",", criteria.SumColumns.Select(c => $"sum({c}) as {c}"));
-                        sql = $"select {columns} from ({sql}) t";
-                        sums = await QueryAsync<Dictionary<string, object>>(sql, criteria.ToParameters(User));
+                        cmd.CommandText = info.GetSumSql(criteria);
+                        watch.Watch("Suming");
+                        using (var reader1 = cmd.ExecuteReader())
+                        {
+                            if (reader1 != null && reader1.Read())
+                                sums = GetDictionary(reader1);
+                        }
+                        watch.Watch("Sum");
                     }
                 }
-                watch.Watch("Sum");
             }
 
             cmd.Parameters.Clear();
@@ -362,30 +368,44 @@ public class Database : IDisposable
     {
         try
         {
+            var watch = Stopwatcher.Start<Dictionary<string, object>>();
             if (conn.State != ConnectionState.Open)
                 conn.Open();
 
-            var data = new List<Dictionary<string, object>>();
+            byte[] exportData = null;
+            Dictionary<string, object> sums = null;
+            var pageData = new List<Dictionary<string, object>>();
             var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
             var cmd = await PrepareCommandAsync(conn, trans, info);
             cmd.CommandText = info.CountSql;
             var scalar = cmd.ExecuteScalar();
             var total = Utils.ConvertTo<int>(scalar);
+            watch.Watch("Total");
             if (total > 0)
             {
                 cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
+                watch.Watch("Paging");
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var dic = new Dictionary<string, object>();
-                        for (int i = 0; i < reader.FieldCount; i++)
+                        var dic = GetDictionary(reader);
+                        pageData.Add(dic);
+                    }
+                }
+                watch.Watch("Convert");
+                if (criteria.ExportMode == ExportMode.None)
+                {
+                    if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
+                    {
+                        cmd.CommandText = info.GetSumSql(criteria);
+                        watch.Watch("Suming");
+                        using (var reader1 = cmd.ExecuteReader())
                         {
-                            var name = reader.GetName(i).Replace("_", "");
-                            var value = reader[i];
-                            dic.Add(name, value == DBNull.Value ? null : value);
+                            if (reader1 != null && reader1.Read())
+                                sums = GetDictionary(reader1);
                         }
-                        data.Add(dic);
+                        watch.Watch("Sum");
                     }
                 }
             }
@@ -394,14 +414,17 @@ public class Database : IDisposable
             if (conn.State != ConnectionState.Closed)
                 conn.Close();
 
-            if (data.Count > criteria.PageSize && criteria.PageSize > 0)
+            if (criteria.ExportMode != ExportMode.None)
             {
-                data = data.Skip((criteria.PageIndex - 1) * criteria.PageSize)
-                           .Take(criteria.PageSize)
-                           .ToList();
+                exportData = GetExportData(criteria, pageData);
+                watch.Watch("Export");
             }
 
-            return new PagingResult<Dictionary<string, object>>(total, data);
+            if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
+                pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
+
+            watch.WriteLog();
+            return new PagingResult<Dictionary<string, object>>(total, pageData) { ExportData = exportData, Sums = sums };
         }
         catch (Exception ex)
         {
@@ -552,7 +575,7 @@ public class Database : IDisposable
             return;
 
         if (User == null)
-            Check.Throw("the user is not null.");
+            throw new SystemException("the user is not null.");
 
         if (entity.IsNew)
         {
@@ -924,14 +947,7 @@ public class Database : IDisposable
 
     private static object ConvertTo<T>(DbDataReader reader)
     {
-        var dic = new Dictionary<string, object>();
-        for (int i = 0; i < reader.FieldCount; i++)
-        {
-            var name = reader.GetName(i).Replace("_", "");
-            var value = reader[i];
-            dic.Add(name, value == DBNull.Value ? null : value);
-        }
-
+        var dic = GetDictionary(reader);
         var type = typeof(T);
         if (type == typeof(Dictionary<string, object>))
             return dic;
@@ -952,6 +968,18 @@ public class Database : IDisposable
             (obj as EntityBase).SetOriginal(dic);
         }
         return obj;
+    }
+
+    private static Dictionary<string, object> GetDictionary(DbDataReader reader)
+    {
+        var dic = new Dictionary<string, object>();
+        for (int i = 0; i < reader.FieldCount; i++)
+        {
+            var name = reader.GetName(i).Replace("_", "");
+            var value = reader[i];
+            dic.Add(name, value == DBNull.Value ? null : value);
+        }
+        return dic;
     }
 
     private Task<DbCommand> PrepareCommandAsync(DbConnection conn, DbTransaction trans, CommandInfo info)
@@ -1081,6 +1109,12 @@ class CommandInfo
             }
         }
         return sb.ToString();
+    }
+
+    internal string GetSumSql(PagingCriteria criteria)
+    {
+        var columns = string.Join(",", criteria.SumColumns.Select(c => $"sum({c}) as {c}"));
+        return $"select {columns} from ({Text}) t";
     }
 
     internal string GetPagingSql(DatabaseType type, PagingCriteria criteria)
@@ -1296,15 +1330,5 @@ select t.* from (
             return $"\"{columnName}\"";
 
         return columnName;
-    }
-}
-
-class Check
-{
-    private Check() { }
-
-    public static void Throw(string message)
-    {
-        throw new SystemException(message);
     }
 }

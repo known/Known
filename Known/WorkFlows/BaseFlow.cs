@@ -7,7 +7,7 @@ public abstract class BaseFlow(Context context)
     internal static BaseFlow Create(Context context, SysFlow flow)
     {
         if (!Config.FlowTypes.ContainsKey(flow.FlowCode))
-            Check.Throw(context.Language["Tip.NotRegisterFlow"]);
+            throw new SystemException(context.Language["Tip.NotRegisterFlow"]);
 
         var type = Config.FlowTypes[flow.FlowCode];
         var instance = Activator.CreateInstance(type, context) as BaseFlow;
