@@ -1,6 +1,7 @@
 ﻿namespace Known.Pages;
 
 //[Authorize]
+[StreamRendering]
 [Route("/sys/users")]
 public class SysUserList : BasePage<SysUser>
 {

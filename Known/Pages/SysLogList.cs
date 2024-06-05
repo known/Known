@@ -1,6 +1,7 @@
 ﻿namespace Known.Pages;
 
 //[Authorize]
+[StreamRendering]
 [Route("/sys/logs")]
 public class SysLogList : BaseTablePage<SysLog>
 {

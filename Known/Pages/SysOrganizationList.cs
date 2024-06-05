@@ -1,6 +1,7 @@
 ﻿namespace Known.Pages;
 
 //[Authorize]
+[StreamRendering]
 [Route("/sys/organizations")]
 public class SysOrganizationList : BasePage<SysOrganization>
 {

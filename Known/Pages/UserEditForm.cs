@@ -1,6 +1,7 @@
 ﻿namespace Known.Pages;
 
 //[Authorize]
+[StreamRendering]
 [Route("/profile/user")]
 public class UserEditForm : BaseEditForm<SysUser>
 {

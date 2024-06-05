@@ -1,6 +1,7 @@
 ﻿namespace Known.Pages;
 
 //[Authorize]
+[StreamRendering]
 [Route("/profile/password")]
 public class PasswordEditForm : BaseForm<PwdFormInfo>
 {
