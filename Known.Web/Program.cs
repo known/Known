@@ -1,5 +1,5 @@
 ﻿using Known;
-using Known.Shared;
+using Known.Web;
 using Toolbelt.Extensions.DependencyInjection;
 
 #if DEBUG
@@ -9,6 +9,7 @@ Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
+                .AddInteractiveWebAssemblyComponents()
                 .AddInteractiveServerComponents()
                 .AddHubOptions(options =>
                 {
@@ -25,7 +26,11 @@ builder.Services.AddApp(info =>
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseWebAssemblyDebugging();
+}
+else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -35,8 +40,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAntiforgery();
 app.UseApp();
-app.MapRazorComponents<Known.Web.App>()   
+app.MapRazorComponents<App>()   
    .AddInteractiveServerRenderMode()
+   .AddInteractiveWebAssemblyRenderMode()
    .AddAdditionalAssemblies([.. Config.Assemblies]);
 app.UseCssLiveReload();
 app.Run();

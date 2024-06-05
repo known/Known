@@ -6,11 +6,19 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.5" />
         <PackageReference Include="Toolbelt.AspNetCore.CssLiveReloader" Version="1.1.4" />
-    </ItemGroup>    
+        <PackageReference Include="Coravel" Version="5.0.3" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.5" />
+        <!--<PackageReference Include="Npgsql" Version="8.0.3" />
+        <PackageReference Include="MySqlConnector" Version="2.3.7" />
+	    <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
+        <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />-->
+    </ItemGroup>
     
     <ItemGroup>
-        <ProjectReference Include="..\Known.Shared\Known.Shared.csproj" />
+        <ProjectReference Include="..\Known.Cells\Known.Cells.csproj" />
+        <ProjectReference Include="..\Known.Client\Known.Client.csproj" />
     </ItemGroup>
 
 </Project>

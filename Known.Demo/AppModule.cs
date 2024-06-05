@@ -10,7 +10,7 @@ public static class AppModule
         new MenuInfo { Id = "Add", Name = "功能待加", Icon = "plus", Target = "Menu", Color = "#4fa624" }
     ];
 
-    public static void AddDemoModule(this IServiceCollection services)
+    public static void AddDemo(this IServiceCollection services)
     {
         Config.AppMenus = AppMenus;
         //添加模块

@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Known.Shared.Auths;
+namespace Known.Web.Auths;
 
 class WebAuthStateProvider(ProtectedSessionStorage sessionStorage) : AuthenticationStateProvider, IAuthStateProvider
 {

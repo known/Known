@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Known.Shared.Auths;
+namespace Known.WinForm;
 
 class WinAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 {

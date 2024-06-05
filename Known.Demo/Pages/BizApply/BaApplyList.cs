@@ -2,6 +2,7 @@
 
 //业务申请列表
 [Route("/bas/applies")]
+[AutoRenderMode]
 public class BaApplyList : BaseTablePage<TbApply>
 {
     private ApplyService Service => new(Context);

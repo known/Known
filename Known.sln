@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.WinForm", "Known.WinF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Studio", "Known.Studio\Known.Studio.csproj", "{865B8BAB-189D-4D5F-8F71-3555EDB43848}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Client", "Known.Client\Known.Client.csproj", "{28A3F3A6-2F2B-415D-AB84-050FC4C3AD7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{865B8BAB-189D-4D5F-8F71-3555EDB43848}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{865B8BAB-189D-4D5F-8F71-3555EDB43848}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{865B8BAB-189D-4D5F-8F71-3555EDB43848}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28A3F3A6-2F2B-415D-AB84-050FC4C3AD7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28A3F3A6-2F2B-415D-AB84-050FC4C3AD7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28A3F3A6-2F2B-415D-AB84-050FC4C3AD7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28A3F3A6-2F2B-415D-AB84-050FC4C3AD7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Known.Shared.Auths;
+namespace Known.Web.Auths;
 
 internal sealed class PersistingStateProvider : RevalidatingServerAuthenticationStateProvider, IAuthStateProvider
 {
