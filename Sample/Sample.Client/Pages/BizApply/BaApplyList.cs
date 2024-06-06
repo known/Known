@@ -2,7 +2,6 @@
 
 //业务申请列表
 [Route("/bas/applies")]
-[AutoRenderMode]
 public class BaApplyList : BaseTablePage<TbApply>
 {
     private IApplyService Service => ServiceFactory.Create<IApplyService>(Context);
