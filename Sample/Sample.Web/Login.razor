@@ -1,0 +1,59 @@
+﻿@page "/login"
+@layout EmptyLayout
+@inherits LoginPage
+
+<div class="login">
+    <div class="login-head">
+        <div class="login-logo">
+            <a href="@Config.SiteUrl" target="_blank"><img src="@Context.LogoUrl" /></a>
+            <div>@Language["App.SubTitle"]</div>
+        </div>
+        <ul class="kui-menu">
+            <li><a href="@Config.SiteUrl/doc" target="_blank">@Language["Document"]</a></li>
+            @if (Config.App.IsLanguage)
+            {
+                <li style="text-align:center;"><AntLanguage OnChanged="StateChanged" /></li>
+            }
+            @if (Config.App.IsTheme)
+            {
+                <li style="margin-left:15px;"><AntTheme Theme="@Context.Theme" OnChanged="SetTheme" /></li>
+            }
+        </ul>
+    </div>
+    <div class="login-body" style="background-image:url(img/login.jpg);">
+        <div class="login-left">
+            <ul>
+                <li>@Language["OpenSource"]</li>
+                <li>@Language["LowCode"]</li>
+                <li>@Language["ModernUI"]</li>
+            </ul>
+            <img src="img/login.png" />
+        </div>
+        <div class="login-form">
+            <div class="login-form-body">
+                <LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
+            </div>
+        </div>
+    </div>
+    <div class="login-copyright"><PageFooter /></div>
+</div>
+
+@code {
+    [CascadingParameter] private Index Index { get; set; }
+    [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
+    private HttpContext HttpContext => HttpAccessor?.HttpContext;
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Context.IPAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString();
+        Context.IsMobile = HttpContext?.Request?.CheckMobile() == true;
+        Model.UserName = "Admin";
+        Model.Password = "888888";
+    }
+
+    private Task<Known.Result> OnSendSMS(string phone)
+    {
+        return Known.Result.SuccessAsync($"Send to {phone}");
+    }
+}

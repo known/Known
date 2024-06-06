@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Version>1.0.0</Version>
+        <ApplicationIcon>favicon.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Coravel" Version="5.0.3" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.5" />
+        <!--<PackageReference Include="Npgsql" Version="8.0.3" />
+        <PackageReference Include="MySqlConnector" Version="2.3.7" />
+	    <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
+        <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />-->
+        <PackageReference Include="Costura.Fody" Version="5.7.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.0.40" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Sample.Web\Sample.Web.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Update="wwwroot\index.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,63 @@
+﻿@page "/"
+@inherits BasePage
+@* @attribute [Authorize] *@
+@rendermode RenderMode.InteractiveServer
+
+<PageTitle>@AppConfig.Branch - @Language["App.SubTitle"]</PageTitle>
+
+<GridRow><GridCol Span="24"><KnownCard /></GridCol></GridRow>
+<GridRow><GridCol Span="24"><SpaceCard Counts="counts" /></GridCol></GridRow>
+<GridRow Gutter="10">
+    <GridCol Span="14">
+        <ChartCard @ref="chart" />
+    </GridCol>
+    <GridCol Span="10">
+        <CommFuncCard Menus="visitMenus" />
+    </GridCol>
+</GridRow>
+
+@code {
+    private IHomeService Service => ServiceFactory.Create<IHomeService>(Context);
+    private ChartCard chart;
+    private List<MenuInfo> visitMenus;
+    private List<StatisticCountInfo> counts = [];
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            var info = await Service.GetHomeAsync();
+            counts.Add(new StatisticCountInfo { Name = Language["Home.UserCount"], Count = info?.Statistics?.UserCount });
+            counts.Add(new StatisticCountInfo { Name = Language["Home.LogCount"], Count = info?.Statistics?.LogCount });
+
+            var option = new ChartCardOption { Id = "Order", Title = Language["Home.LogStatistic"] };
+            option.Charts.Add(new CardChartInfo
+            {
+                Type = "Bar",
+                Title = Language["Home.VisitTitle"].Replace("{month}", $"{DateTime.Now:yyyyMM}"),
+                Datas = info?.Statistics?.LogDatas
+            });
+            chart?.SetOption(option);
+
+            visitMenus = Context.GetMenus(info?.VisitMenuIds);
+        }
+    }
+
+    // //第三方登录设置当前用户
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //    if (firstRender)
+    //        await SetCurrentUserAsync(CurrentUser);
+    //    await base.OnAfterRenderAsync(firstRender);
+    // }
+
+    // //第三方登录获取当前用户
+    // protected override async Task<UserInfo> GetThirdUserAsync()
+    // {
+    //    //var third = ThirdApi.GetUser();
+    //    var third = new { UserName = "admin" };
+    //    var user = await Platform.GetUserAsync(third.UserName);
+    //    return user;
+    // }
+}

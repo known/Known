@@ -6,7 +6,7 @@ public class Index : BaseComponent
     private bool isLoaded;
     private static readonly List<MenuItem> menus =
     [
-        new MenuItem("代码生成", "fa fa-code", typeof(DevCode))
+        //new MenuItem("代码生成", "fa fa-code", typeof(DevCode))
     ];
     private MenuItem curItem = menus[0];
 
