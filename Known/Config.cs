@@ -21,6 +21,7 @@ public sealed class Config
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
     internal static List<ActionInfo> Actions { get; set; } = [];
+    internal static Dictionary<string, Type> ServiceTypes { get; } = [];
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
@@ -37,7 +38,12 @@ public sealed class Config
 
         foreach (var item in assembly.GetTypes())
         {
-            if (item.IsAssignableTo(typeof(ImportBase)))
+            if (item.IsInterface || item.IsAbstract)
+                continue;
+
+            if (item.IsAssignableTo(typeof(IService)))
+                ServiceTypes[item.Name] = item;
+            else if (item.IsAssignableTo(typeof(ImportBase)))
                 ImportTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseFlow)))
                 FlowTypes[item.Name] = item;

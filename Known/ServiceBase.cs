@@ -1,6 +1,11 @@
 ﻿namespace Known;
 
-public abstract class ServiceBase(Context context)
+public interface IService
+{
+    Context Context { get; }
+}
+
+public abstract class ServiceBase(Context context) : IService
 {
     public Context Context { get; } = context;
     public UserInfo CurrentUser => Context.CurrentUser;
