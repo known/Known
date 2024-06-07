@@ -13,13 +13,6 @@ public static class Extension
         else
             Logger.Level = LogLevel.Info;
 
-        if (Config.App.Connections != null && Config.App.Connections.Count > 0)
-        {
-            Database.RegisterConnections(Config.App.Connections);
-            Database.Initialize();
-        }
-        Config.AddApp();
-
         //services.AddCascadingAuthenticationState();
         services.AddScoped<JSService>();
         services.AddScoped<ICodeGenerator, CodeGenerator>();
@@ -33,5 +26,16 @@ public static class Extension
             var lines = content.Split([.. Environment.NewLine]);
             UIConfig.Icons["FontAwesome"] = lines.Where(l => !string.IsNullOrWhiteSpace(l)).Select(l => $"fa fa-{l}").ToList();
         }
+    }
+
+    public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
+    {
+        action?.Invoke(Config.App);
+        if (Config.App.Connections != null && Config.App.Connections.Count > 0)
+        {
+            Database.RegisterConnections(Config.App.Connections);
+            Database.Initialize();
+        }
+        Config.AddApp();
     }
 }
