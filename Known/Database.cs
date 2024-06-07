@@ -1058,7 +1058,7 @@ public class Database : IDisposable
         var dataTable = new DataTable();
         foreach (var item in criteria.ExportColumns)
         {
-            dataTable.Columns.Add(item.Value);
+            dataTable.Columns.Add(item.Name);
         }
 
         foreach (var data in pageData)
@@ -1066,7 +1066,16 @@ public class Database : IDisposable
             var row = dataTable.Rows.Add();
             foreach (var item in criteria.ExportColumns)
             {
-                row[item.Value] = TypeHelper.GetPropertyValue(data, item.Key);
+                var value = TypeHelper.GetPropertyValue(data, item.Id);
+                if (item.Type == FieldType.Switch || item.Type == FieldType.CheckBox)
+                    value = Utils.ConvertTo<bool>(value) ? "是" : "否";
+                else if (item.Type == FieldType.Date)
+                    value = Utils.ConvertTo<DateTime?>(value)?.ToString(Config.DateFormat);
+                else if (item.Type == FieldType.DateTime)
+                    value = Utils.ConvertTo<DateTime?>(value)?.ToString(Config.DateTimeFormat);
+                else if (!string.IsNullOrWhiteSpace(item.Category))
+                    value = Cache.GetCodeName(item.Category, value?.ToString());
+                row[item.Name] = value;
             }
         }
 

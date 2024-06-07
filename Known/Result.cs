@@ -140,7 +140,7 @@ public class PagingCriteria
     }
 
     public ExportMode ExportMode { get; set; }
-    public Dictionary<string, string> ExportColumns { get; set; }
+    public List<ExportColumnInfo> ExportColumns { get; set; }
     public Dictionary<string, object> Parameters { get; set; }
     public List<string> SumColumns { get; set; }
 
@@ -271,4 +271,12 @@ public class PagingCriteria
 
         return (T)value;
     }
+}
+
+public class ExportColumnInfo
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string Category { get; set; }
+    public FieldType Type { get; set; }
 }

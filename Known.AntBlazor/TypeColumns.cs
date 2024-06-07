@@ -10,7 +10,7 @@ public class DateColumn : Column<DateTime?>
 {
     public DateColumn()
     {
-        Format = "yyyy-MM-dd";
+        Format = Config.DateFormat;
         Width = "120";
         Align = ColumnAlign.Center;
     }
@@ -20,7 +20,7 @@ public class DateTimeColumn : Column<DateTime?>
 {
     public DateTimeColumn()
     {
-        Format = "yyyy-MM-dd HH:ss";
+        Format = Config.DateTimeFormat;
         Width = "150";
         Align = ColumnAlign.Center;
     }

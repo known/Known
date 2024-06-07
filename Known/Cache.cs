@@ -63,6 +63,16 @@ public sealed class Cache
         return code?.Code;
     }
 
+    public static string GetCodeName(string category, string codeOrName)
+    {
+        if (string.IsNullOrWhiteSpace(codeOrName))
+            return string.Empty;
+
+        var codes = GetCodes(category);
+        var code = codes.FirstOrDefault(c => c.Code == codeOrName || c.Name == codeOrName);
+        return code?.Name ?? code?.Code;
+    }
+
     public static void AttachCodes(List<CodeInfo> codes)
     {
         var datas = new List<CodeInfo>();

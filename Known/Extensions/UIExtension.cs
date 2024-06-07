@@ -42,15 +42,21 @@ public static class UIExtension
         });
     }
 
-    private static Dictionary<string, string> GetExportColumns<TItem>(this TableModel<TItem> table) where TItem : class, new()
+    private static List<ExportColumnInfo> GetExportColumns<TItem>(this TableModel<TItem> table) where TItem : class, new()
     {
-        var columns = new Dictionary<string, string>();
+        var columns = new List<ExportColumnInfo>();
         if (table.Columns == null || table.Columns.Count == 0)
             return columns;
 
         foreach (var item in table.Columns)
         {
-            columns.Add(item.Id, item.Name);
+            columns.Add(new ExportColumnInfo
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Category = item.Category,
+                Type = item.Type
+            });
         }
         return columns;
     }
