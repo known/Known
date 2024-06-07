@@ -1,7 +1,10 @@
-﻿@inject UIService AntUI
+﻿@using AntDesign
+@using Known.Blazor
+@using Microsoft.AspNetCore.Components.Routing
+@inject UIService AntUI
 
 <KContext Value="context">
-    <Router AppAssembly="typeof(App).Assembly" AdditionalAssemblies="Config.Assemblies">
+    <Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="Config.Assemblies">
         <Found Context="routeData">
             <KRouteData Value="routeData">
                 <RouteView RouteData="routeData" DefaultLayout="typeof(AntLayout)" />

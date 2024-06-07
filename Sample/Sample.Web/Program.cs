@@ -15,13 +15,7 @@ builder.Services.AddRazorComponents()
                     options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
                     options.HandshakeTimeout = TimeSpan.FromSeconds(30);
                 });
-builder.Services.AddApp(info =>
-{
-    info.WebRoot = builder.Environment.WebRootPath;
-    info.ContentRoot = builder.Environment.ContentRootPath;
-    info.IsDevelopment = builder.Environment.IsDevelopment();
-    info.Connections[0].ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>();
-});
+builder.AddApp();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Components.Web
+@using Sample.Client
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,7 +8,7 @@
     <meta name="keywords" content="blazor,known,razor,react,vue,组件,dotnet">
     <meta name="description" content="Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开箱即用，一处代码，多处运行。" />
     <base href="/" />
-    <HeadOutlet @rendermode="InteractiveServer" />
+    <HeadOutlet @rendermode="InteractiveMode" />
     <link rel="stylesheet" href="@Config.GetStaticFileUrl("_content/AntDesign/css/ant-design-blazor.css")" />
     <link rel="stylesheet" href="@Config.GetStaticFileUrl("_content/Known.AntBlazor/css/web.css")" />
     <link rel="stylesheet" href="@Config.GetStaticFileUrl("_content/Known/css/web.css")" />
@@ -26,7 +28,7 @@
     </script>
 </head>
 <body>
-    <Routes @rendermode="InteractiveServer" />
+    <Routes @rendermode="InteractiveMode" />
     <script src="@Config.GetStaticFileUrl("_content/AntDesign/js/ant-design-blazor.js")"></script>
     <script src="_framework/blazor.web.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
@@ -35,7 +37,7 @@
 
 @code {
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
-    private InteractiveServerRenderMode InteractiveServer { get; set; } = new(false);
+    private InteractiveServerRenderMode InteractiveMode { get; set; } = new(false);
 
     protected override void OnInitialized()
     {

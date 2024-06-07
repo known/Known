@@ -6,13 +6,19 @@ namespace Sample.Web;
 
 public static class AppWeb
 {
-    public static void AddApp(this IServiceCollection services, Action<AppInfo> action = null)
+    public static void AddApp(this WebApplicationBuilder builder, Action<AppInfo> action = null)
     {
-        services.AddHttpContextAccessor();
-        services.AddCascadingAuthenticationState();
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddCascadingAuthenticationState();
+        //builder.Services.AddScoped<IAuthStateProvider, PersistingStateProvider>();
+        //builder.Services.AddScoped<AuthenticationStateProvider, PersistingStateProvider>();
+        builder.Services.AddScoped<ProtectedSessionStorage>();
+        builder.Services.AddScoped<IAuthStateProvider, WebAuthStateProvider>();
+        //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        //                .AddCookie(options => options.LoginPath = new PathString("/login"));
 
         //1.添加Known框架
-        services.AddKnown(info =>
+        builder.Services.AddKnown(info =>
         {
             //项目ID、名称、类型、程序集
             info.Id = "KIMS";
@@ -24,6 +30,15 @@ public static class AppWeb
             info.IsTheme = true;
             //info.ProductId = "Test";
             //info.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
+            //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
+            info.JsPath = "./script.js";
+            action?.Invoke(info);
+        });
+        builder.Services.AddKnownCore(info =>
+        {
+            info.WebRoot = builder.Environment.WebRootPath;
+            info.ContentRoot = builder.Environment.ContentRootPath;
+            info.IsDevelopment = builder.Environment.IsDevelopment();
             //数据库连接
             info.Connections = [new Known.ConnectionInfo
             {
@@ -38,34 +53,24 @@ public static class AppWeb
                 //ProviderType = typeof(Npgsql.NpgsqlFactory),
                 //DatabaseType = DatabaseType.SqlServer,
                 //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
-                //ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
+                ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
             }];
-            //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
-            info.JsPath = "./script.js";
-            action?.Invoke(info);
         });
 
-        //services.AddScoped<IAuthStateProvider, PersistingStateProvider>();
-        //services.AddScoped<AuthenticationStateProvider, PersistingStateProvider>();
-        services.AddScoped<ProtectedSessionStorage>();
-        services.AddScoped<IAuthStateProvider, WebAuthStateProvider>();
-        //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        //        .AddCookie(options => options.LoginPath = new PathString("/login"));
-
         //2.添加KnownExcel实现
-        services.AddKnownCells();
+        builder.Services.AddKnownCells();
 
         //3.添加UI扩展库
         //添加KnownAntDesign
-        services.AddKnownAntDesign();
+        builder.Services.AddKnownAntDesign();
 
         //4.添加Demo
-        services.AddDemo();
+        builder.Services.AddDemo();
         Config.AddModule(typeof(Client._Imports).Assembly);
 
         //5.添加定时任务
-        services.AddScheduler();
-        services.AddTransient<ImportTaskJob>();
+        builder.Services.AddScheduler();
+        builder.Services.AddTransient<ImportTaskJob>();
     }
 
     public static void UseApp(this WebApplication app)

@@ -1,4 +1,6 @@
-﻿namespace Sample.Client;
+﻿using Known.AntBlazor;
+
+namespace Sample.Client;
 
 public static class AppClient
 {
@@ -12,9 +14,9 @@ public static class AppClient
         services.AddSingleton<AuthenticationStateProvider, PersistentStateProvider>();
 
         //services.AddDemo();
-        //services.AddKnownAntDesign(option =>
-        //{
-        //    //option.Footer = b => b.Component<Foot>().Build();
-        //});
+        services.AddKnownAntDesign(option =>
+        {
+            //option.Footer = b => b.Component<Foot>().Build();
+        });
     }
 }
