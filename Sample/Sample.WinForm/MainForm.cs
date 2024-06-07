@@ -48,21 +48,8 @@ public partial class MainForm : Form
 #if DEBUG
         services.AddBlazorWebViewDeveloperTools();
 #endif
-        services.AddApp(info =>
-        {
-            Config.OnExit = OnClose;
-            info.Type = AppType.Desktop;
-            info.WebRoot = Application.StartupPath;
-            info.ContentRoot = Application.StartupPath;
-#if DEBUG
-            info.IsDevelopment = true;
-#endif
-            info.Connections[0].ConnectionString = "Data Source=..\\Sample.db";
-            //info.Connections[0].ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password={password}";
-            //info.Connections[0].ConnectionString = "Data Source=localhost;port=3306;Initial Catalog=Sample;user id={userId};password={password};Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
-            //info.Connections[0].ConnectionString = "Data Source=localhost;Initial Catalog=Sample;User Id={userId};Password={password};";
-            //info.Connections[0].ConnectionString = "Server=(localdb)\\MSSQLLocalDB;Database=Sample;Trusted_Connection=True";
-        });
+        services.AddApp();
+        Config.OnExit = OnClose;
         blazorWebView.HostPage = "index.html";
         blazorWebView.Services = services.BuildServiceProvider();
         blazorWebView.RootComponents.Add<App>("#app");

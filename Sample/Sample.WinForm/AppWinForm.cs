@@ -5,7 +5,7 @@ namespace Sample.WinForm;
 
 public static class AppWinForm
 {
-    public static void AddApp(this IServiceCollection services, Action<AppInfo> action = null)
+    public static void AddApp(this IServiceCollection services)
     {
         services.AddHttpContextAccessor();
         services.AddCascadingAuthenticationState();
@@ -23,6 +23,17 @@ public static class AppWinForm
             info.IsTheme = true;
             //info.ProductId = "Test";
             //info.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
+            //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
+            info.JsPath = "./script.js";
+        });
+        services.AddKnownCore(info =>
+        {
+            info.Type = AppType.Desktop;
+            info.WebRoot = Application.StartupPath;
+            info.ContentRoot = Application.StartupPath;
+#if DEBUG
+            info.IsDevelopment = true;
+#endif
             //数据库连接
             info.Connections = [new Known.ConnectionInfo
             {
@@ -37,11 +48,13 @@ public static class AppWinForm
                 //ProviderType = typeof(Npgsql.NpgsqlFactory),
                 //DatabaseType = DatabaseType.SqlServer,
                 //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
-                //ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
+                ConnectionString = "Data Source=..\\Sample.db"
             }];
-            //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
-            info.JsPath = "./script.js";
-            action?.Invoke(info);
+            //info.Connections[0].ConnectionString = "Data Source=..\\Sample.db";
+            //info.Connections[0].ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password={password}";
+            //info.Connections[0].ConnectionString = "Data Source=localhost;port=3306;Initial Catalog=Sample;user id={userId};password={password};Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
+            //info.Connections[0].ConnectionString = "Data Source=localhost;Initial Catalog=Sample;User Id={userId};Password={password};";
+            //info.Connections[0].ConnectionString = "Server=(localdb)\\MSSQLLocalDB;Database=Sample;Trusted_Connection=True";
         });
 
         services.AddAuthorizationCore();
@@ -60,7 +73,7 @@ public static class AppWinForm
         //4.添加Demo
         services.AddDemo();
         Config.AddModule(typeof(Client._Imports).Assembly);
-        Config.AddModule(typeof(Web._Imports).Assembly);
+        Config.AddModule(typeof(Web.App).Assembly);
 
         //5.添加定时任务
         services.AddScheduler();
