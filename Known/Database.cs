@@ -596,6 +596,7 @@ public class Database : IDisposable
         entity.ModifyTime = DateTime.Now;
 
         var info = CommandInfo.GetSaveCommand(DatabaseType, entity);
+        info.IsSave = true;
         await ExecuteNonQueryAsync(info);
         entity.IsNew = false;
     }
@@ -1014,18 +1015,28 @@ public class Database : IDisposable
                 {
                     var p = cmd.CreateParameter();
                     p.ParameterName = pName;
-                    if (item.Value == null)
-                        p.Value = DBNull.Value;
-                    else if (item.Value is DateTime time)
-                        p.Value = DatabaseType == DatabaseType.Access ? time.ToString() : time;
-                    else
-                        p.Value = item.Value.ToString();
+                    p.Value = GetParameterValue(item, info.IsSave);
                     cmd.Parameters.Add(p);
                 }
             }
         }
 
         return Task.FromResult(cmd);
+    }
+
+    private object GetParameterValue(KeyValuePair<string, object> item, bool isTrim)
+    {
+        if (item.Value == null)
+            return DBNull.Value;
+
+        if (item.Value is DateTime time)
+            return DatabaseType == DatabaseType.Access ? time.ToString() : time;
+
+        var value = item.Value.ToString();
+        if (isTrim)
+            value = value.Trim('\r', '\n').Trim();
+
+        return value;
     }
 
     private string FormatSQL(string text)
@@ -1090,6 +1101,7 @@ class CommandInfo
             Params = MapToDictionary(param);
     }
 
+    internal bool IsSave { get; set; }
     internal bool IsClose { get; set; }
     internal DatabaseType DatabaseType { get; }
     internal string Prefix { get; }
