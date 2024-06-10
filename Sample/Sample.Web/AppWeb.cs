@@ -56,6 +56,7 @@ public static class AppWeb
                 ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
             }];
         });
+        builder.Services.AddKnownWebApi();
 
         //2.添加KnownExcel实现
         builder.Services.AddKnownCells();

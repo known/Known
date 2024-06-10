@@ -26,7 +26,6 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.5" />
-        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
     </ItemGroup>
 
     <ItemGroup>

@@ -39,15 +39,9 @@
 </div>
 
 @code {
-    [CascadingParameter] private Index Index { get; set; }
-    [Inject] private IHttpContextAccessor HttpAccessor { get; set; }
-    private HttpContext HttpContext => HttpAccessor?.HttpContext;
-
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Context.IPAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString();
-        Context.IsMobile = HttpContext?.Request?.CheckMobile() == true;
         Model.UserName = "Admin";
         Model.Password = "888888";
     }

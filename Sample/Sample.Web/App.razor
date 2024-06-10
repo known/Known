@@ -28,7 +28,7 @@
     </script>
 </head>
 <body>
-    <Routes @rendermode="InteractiveMode" />
+    <Routes @rendermode="InteractiveMode" IPAddress="@ipAddress" IsMobile="isMobile" />
     <script src="@Config.GetStaticFileUrl("_content/AntDesign/js/ant-design-blazor.js")"></script>
     <script src="_framework/blazor.web.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
@@ -38,10 +38,25 @@
 @code {
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
     private InteractiveServerRenderMode InteractiveMode { get; set; } = new(false);
+    private string ipAddress;
+    private bool isMobile;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Config.HostUrl = HttpContext.GetHostUrl();
+        Config.HostUrl = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host;
+        ipAddress = HttpContext.Connection?.RemoteIpAddress?.ToString();
+        isMobile = CheckMobile(HttpContext.Request);
+    }
+
+    private static bool CheckMobile(HttpRequest request)
+    {
+        if (request == null)
+            throw new Exception("Server WebSocket not enabled!");
+
+        var agent = request.Headers["User-Agent"].ToString();
+        if (string.IsNullOrWhiteSpace(agent))
+            agent = request.Headers["X-Forwarded-For"].ToString();
+        return Utils.CheckMobile(agent);
     }
 }

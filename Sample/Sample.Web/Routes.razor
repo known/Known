@@ -20,9 +20,14 @@
 @code {
     private Context context;
 
+    [Parameter] public string IPAddress { get; set; }
+    [Parameter] public bool IsMobile { get; set; }
+
     protected override void OnInitialized()
     {
         context = new Context(AntUI);
+        context.IPAddress = IPAddress;
+        context.IsMobile = IsMobile;
         base.OnInitialized();
     }
 }
