@@ -179,8 +179,6 @@ class AuthService(Context context) : ServiceBase(context)
         if (user == null)
             return;
 
-        user.AvatarUrl = user.Gender == GenderType.Female.ToString()
-                       ? "img/face2.png"
-                       : "img/face1.png";
+        user.AvatarUrl = user.Gender == "Female" ? "img/face2.png" : "img/face1.png";
     }
 }

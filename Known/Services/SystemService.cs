@@ -465,7 +465,7 @@ URL|Url|Text|200
             Password = Utils.ToMd5(info.AdminPassword),
             Name = info.AdminName,
             EnglishName = info.AdminName,
-            Gender = GenderType.Male.ToString(),
+            Gender = "Male",
             Role = "Admin",
             Enabled = true
         };

@@ -23,7 +23,6 @@ public static class AppWeb
             //项目ID、名称、类型、程序集
             info.Id = "KIMS";
             info.Name = "Known信息管理系统";
-            info.Type = AppType.Web;
             info.Assembly = typeof(AppWeb).Assembly;
             //info.AssemblyAdditional = true;
             info.IsLanguage = true;

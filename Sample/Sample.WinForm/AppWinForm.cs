@@ -16,7 +16,6 @@ public static class AppWinForm
             //项目ID、名称、类型、程序集
             info.Id = "KIMS";
             info.Name = "Known信息管理系统";
-            info.Type = AppType.Web;
             info.Assembly = typeof(AppWinForm).Assembly;
             info.AssemblyAdditional = true;
             info.IsLanguage = true;
@@ -28,7 +27,6 @@ public static class AppWinForm
         });
         services.AddKnownCore(info =>
         {
-            info.Type = AppType.Desktop;
             info.WebRoot = Application.StartupPath;
             info.ContentRoot = Application.StartupPath;
 #if DEBUG

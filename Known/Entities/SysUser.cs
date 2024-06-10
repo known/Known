@@ -8,7 +8,7 @@ public class SysUser : EntityBase
     public SysUser()
     {
         Enabled = true;
-        Gender = GenderType.Female.ToString();
+        Gender = "Female";
     }
 
     /// <summary>

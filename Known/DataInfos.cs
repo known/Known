@@ -40,9 +40,3 @@ public class TaskSummaryInfo
     public string Status { get; set; }
     public string Message { get; set; }
 }
-
-public class ConfigInfo
-{
-    public string Key { get; set; }
-    public object Value { get; set; }
-}
