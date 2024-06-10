@@ -129,7 +129,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     }
 }
 
-class FlowFormModel(Context context) : FormModel<FlowFormInfo>(context, true)
+class FlowFormModel(UIContext context) : FormModel<FlowFormInfo>(context, true)
 {
     internal void AddUserColumn(string id, string category)
     {

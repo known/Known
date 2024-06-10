@@ -16,7 +16,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Inject] public IJSRuntime JSRuntime { get; set; }
     [Inject] public JSService JS { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
-    [CascadingParameter] public Context Context { get; set; }
+    [CascadingParameter] public UIContext Context { get; set; }
     [CascadingParameter] public BaseLayout App { get; set; }
 
     protected bool IsDisposing { get; private set; }

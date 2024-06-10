@@ -18,14 +18,14 @@
 </KContext>
 
 @code {
-    private Context context;
+    private UIContext context;
 
     [Parameter] public string IPAddress { get; set; }
     [Parameter] public bool IsMobile { get; set; }
 
     protected override void OnInitialized()
     {
-        context = new Context(AntUI);
+        context = new UIContext(AntUI);
         context.IPAddress = IPAddress;
         context.IsMobile = IsMobile;
         base.OnInitialized();

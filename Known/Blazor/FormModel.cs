@@ -5,7 +5,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     private bool isInitColumns = false;
     private List<ColumnInfo> columns = [];
 
-    public FormModel(Context context, bool isAuto = false) : base(context)
+    public FormModel(UIContext context, bool isAuto = false) : base(context)
     {
         if (isAuto)
         {

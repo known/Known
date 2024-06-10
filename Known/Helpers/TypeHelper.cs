@@ -6,7 +6,7 @@ public sealed class TypeHelper
 {
     private TypeHelper() { }
 
-    internal static async Task ActionAsync(object obj, Context context, BaseLayout app, ActionInfo info, object[] parameters)
+    internal static async Task ActionAsync(object obj, UIContext context, BaseLayout app, ActionInfo info, object[] parameters)
     {
         var type = obj.GetType();
         var paramTypes = parameters?.Select(p => p.GetType()).ToArray();

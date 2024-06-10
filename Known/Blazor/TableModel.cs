@@ -1,6 +1,6 @@
 ﻿namespace Known.Blazor;
 
-public class TableModel(Context context) : BaseModel(context)
+public class TableModel(UIContext context) : BaseModel(context)
 {
     public bool AdvSearch { get; set; }
     public List<ColumnInfo> QueryColumns { get; } = [];
@@ -46,7 +46,7 @@ public class TableModel(Context context) : BaseModel(context)
 
 public class TableModel<TItem> : TableModel where TItem : class, new()
 {
-    public TableModel(Context context, bool isAuto = false) : base(context)
+    public TableModel(UIContext context, bool isAuto = false) : base(context)
     {
         AdvSearch = false;
         if (isAuto)

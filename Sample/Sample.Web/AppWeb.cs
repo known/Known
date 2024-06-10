@@ -101,6 +101,42 @@ public static class AppWeb
             //每5秒执行一次异步导入
             scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
         });
+
+        //Map动态API
+        foreach (var item in Config.ApiMethods)
+        {
+            Console.WriteLine(item.Key);
+            if (item.Value.Name.StartsWith("Get"))
+                app.MapGet(item.Key, ctx => InvokeGetMethod(ctx, item.Value));
+            else
+                app.MapPost(item.Key, ctx => InvokePostMethod(ctx, item.Value));
+        }
+    }
+
+    private static async Task InvokeGetMethod(HttpContext ctx, MethodInfo method)
+    {
+        var target = Activator.CreateInstance(method.DeclaringType);
+        var parameters = new List<object>();
+        foreach (var item in method.GetParameters())
+        {
+            var parameter = ctx.Request.Query[item.Name].ToString();
+            parameters.Add(parameter);
+        }
+        var value = method.Invoke(target, [.. parameters]);
+        await ctx.Response.WriteAsJsonAsync(value);
+    }
+
+    private static async Task InvokePostMethod(HttpContext ctx, MethodInfo method)
+    {
+        var target = Activator.CreateInstance(method.DeclaringType);
+        var parameters = new List<object>();
+        foreach (var item in method.GetParameters())
+        {
+            var parameter = ctx.Request.Form[item.Name].ToString();
+            parameters.Add(parameter);
+        }
+        var value = method.Invoke(target, [.. parameters]);
+        await ctx.Response.WriteAsJsonAsync(value);
     }
 }
 

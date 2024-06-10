@@ -57,10 +57,7 @@ public static class Extension
             if (type.IsInterface || !type.GetInterfaces().Contains(typeof(IService)))
                 continue;
 
-            var controler = type.Name;
-            if (type.IsInterface)
-                controler = controler[1..];
-            controler = controler.Replace("Service", "");
+            var controler = type.Name.Replace("Service", "");
             var methods = type.GetMethods();
             foreach (var method in methods)
             {
@@ -69,10 +66,7 @@ public static class Extension
                     var name = method.Name.Replace("Async", "");
                     var pattern = $"/{controler}/{name}";
                     //Console.WriteLine(pattern);
-                    //if (method.Name.StartsWith("Get"))
-                    //    app.MapGet(pattern, ctx => InvokeGetMethod(ctx, method));
-                    //else
-                    //    app.MapPost(pattern, ctx => InvokeGetMethod(ctx, method));
+                    Config.ApiMethods[pattern] = method;
                 }
             }
         }

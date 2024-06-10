@@ -2,11 +2,13 @@
 
 public interface IService
 {
+    string Token { get; set; }
     Context Context { get; }
 }
 
 public abstract class ServiceBase(Context context) : IService
 {
+    public string Token { get; set; }
     public Context Context { get; } = context;
     public UserInfo CurrentUser => Context.CurrentUser;
     public Language Language => Context.Language;
