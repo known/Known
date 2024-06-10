@@ -68,7 +68,7 @@ public class UIContext : Context
     internal async Task SetCurrentMenuAsync(PlatformService platform, string pageId = "")
     {
         Module = null;
-        Current = Config.Menus.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
+        Current = UIConfig.Menus.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
         if (Current == null)
         {
             var menus = IsMobile ? Config.AppMenus : UserMenus;

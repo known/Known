@@ -27,7 +27,7 @@ public class BaseLayout : LayoutComponentBase
             return;
 
         //缓存APP代码中添加的菜单
-        Config.SetMenu(item);
+        UIConfig.SetMenu(item);
         NavigateTo(item.RouteUrl);
     }
 

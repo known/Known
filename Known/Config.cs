@@ -28,7 +28,6 @@ public sealed class Config
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
-    internal static List<MenuInfo> Menus { get; } = [];
 
     public static void AddModule(Assembly assembly, bool isAdditional = true)
     {
@@ -69,12 +68,6 @@ public sealed class Config
 
         var platform = new PlatformService(new Context());
         Install = await platform.System.GetInstallAsync();
-    }
-
-    internal static void SetMenu(MenuInfo info)
-    {
-        if (!Menus.Exists(m => m.Url == info.Url))
-            Menus.Add(info);
     }
 
     public static string GetUploadPath(bool isWeb = false)
