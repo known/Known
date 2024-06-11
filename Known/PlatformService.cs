@@ -2,6 +2,8 @@
 
 public class PlatformService(Context context)
 {
+    public Context Context { get; } = context;
+
     internal AuthService Auth { get; } = new AuthService(context);
     internal ModuleService Module { get; } = new ModuleService(context);
     internal SystemService System { get; } = new SystemService(context);
@@ -14,8 +16,6 @@ public class PlatformService(Context context)
     internal UserService User { get; } = new UserService(context);
     internal AutoService Auto { get; } = new AutoService(context);
     internal WeixinService Weixin { get; } = new WeixinService(context);
-
-    public Context Context { get; } = context;
 
     #region Setting
     public Task<List<SysSetting>> GetSettingsAsync(string bizType) => Setting.GetSettingsAsync(bizType);
@@ -59,7 +59,7 @@ public class PlatformService(Context context)
     public Task<string> GetWeixinQRCodeUrlAsync(string sceneId) => Weixin.GetQRCodeUrlAsync(sceneId);
     public Task<WeixinInfo> GetWeixinAsync() => Weixin.GetWeixinAsync();
     public Task<SysWeixin> GetWeixinAsync(UserInfo user) => Weixin.GetWeixinAsync(user);
-    public Task<SysWeixin> GetWeixinAsync(Database db, SysUser user) => Weixin.GetWeixinAsync(db, user);
+    public Task<SysWeixin> GetWeixinAsync(Database db, SysUser user) => WeixinRepository.GetWeixinByUserIdAsync(db, user.Id);
     public Task<Result> SendTemplateMessageAsync(TemplateInfo info) => Weixin.SendTemplateMessageAsync(info);
     #endregion
 }
