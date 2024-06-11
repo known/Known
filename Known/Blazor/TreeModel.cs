@@ -7,9 +7,9 @@ public class TreeModel
     public bool ExpandRoot { get; set; }
     public string[] SelectedKeys { get; set; }
     public string[] DefaultCheckedKeys { get; set; }
-    public List<MenuItem> Data { get; set; }
-    public Action<MenuItem> OnNodeClick { get; set; }
-    public Action<MenuItem> OnNodeCheck { get; set; }
+    public List<MenuInfo> Data { get; set; }
+    public Action<MenuInfo> OnNodeClick { get; set; }
+    public Action<MenuInfo> OnNodeCheck { get; set; }
     public Action<TreeModel> OnModelChanged { get; set; }
     public Func<Task> OnRefresh { get; set; }
 

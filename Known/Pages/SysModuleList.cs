@@ -6,7 +6,7 @@
 public class SysModuleList : BasePage<SysModule>
 {
     private List<SysModule> modules;
-    private MenuItem current;
+    private MenuInfo current;
     private int total;
     private TreeModel tree;
     private TableModel<SysModule> table;
@@ -117,7 +117,7 @@ public class SysModuleList : BasePage<SysModule>
         UI.Result(result, async () => await RefreshAsync());
     }
 
-    private async void OnNodeClick(MenuItem item)
+    private async void OnNodeClick(MenuInfo item)
     {
         current = item;
         await table.RefreshAsync();

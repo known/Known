@@ -5,7 +5,7 @@
 [Route("/sys/organizations")]
 public class SysOrganizationList : BasePage<SysOrganization>
 {
-    private MenuItem current;
+    private MenuInfo current;
     private TreeModel tree;
     private TableModel<SysOrganization> table;
 
@@ -72,7 +72,7 @@ public class SysOrganizationList : BasePage<SysOrganization>
     public void Delete(SysOrganization row) => table.Delete(Platform.Company.DeleteOrganizationsAsync, row);
     public void DeleteM() => table.DeleteM(Platform.Company.DeleteOrganizationsAsync);
 
-    private async void OnNodeClick(MenuItem item)
+    private async void OnNodeClick(MenuInfo item)
     {
         current = item;
         await table.RefreshAsync();

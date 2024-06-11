@@ -5,15 +5,10 @@ public class MenuInfo
     public MenuInfo()
     {
         Visible = true;
+        Enabled = true;
+        Closable = true;
+        Children = [];
         Columns = [];
-    }
-
-    internal MenuInfo(string id, string name, string icon = null, string description = null) : this()
-    {
-        Id = id;
-        Name = name;
-        Icon = icon;
-        Description = description;
     }
 
     internal MenuInfo(SysModule module, bool isAdmin = true) : this()
@@ -21,6 +16,7 @@ public class MenuInfo
         if (isAdmin)
             module.LoadData();
 
+        Data = module;
         Id = module.Id;
         Name = module.Name;
         Icon = module.Icon;
@@ -33,6 +29,39 @@ public class MenuInfo
         Tools = module.Buttons;
         Actions = module.Actions;
         Columns = module.Columns;
+    }
+
+    internal MenuInfo(SysOrganization model) : this()
+    {
+        Id = model.Id;
+        ParentId = model.ParentId;
+        Code = model.Code;
+        Name = model.Name;
+        Data = model;
+    }
+
+    internal MenuInfo(MenuInfo model) : this()
+    {
+        Id = model.Id;
+        ParentId = model.ParentId;
+        Code = model.Code;
+        Name = model.Name;
+        Icon = model.Icon;
+        Description = model.Description;
+        Target = model.Target;
+        Url = model.Url;
+        Sort = model.Sort;
+        Color = model.Color;
+        Tools = model.Tools;
+        Actions = model.Actions;
+        Columns = model.Columns;
+    }
+
+    internal MenuInfo(string id, string name, string icon = null) : this()
+    {
+        Id = id;
+        Name = name;
+        Icon = icon;
     }
 
     public string Id { get; set; }
@@ -48,6 +77,12 @@ public class MenuInfo
     public int Sort { get; set; }
     public int Badge { get; set; }
     public bool Visible { get; set; }
+    public bool Enabled { get; set; }
+    public bool Closable { get; set; }
+    public bool Checked { get; set; }
+    public MenuInfo Parent { get; set; }
+    public List<MenuInfo> Children { get; set; }
+    public object Data { get; set; }
     internal List<string> Tools { get; set; }
     internal List<string> Actions { get; set; }
     internal List<PageColumnInfo> Columns { get; set; }
@@ -67,7 +102,7 @@ public class MenuInfo
     internal bool HasAction(string id) => Actions != null && Actions.Contains(id);
     internal bool HasColumn(string id) => Columns != null && Columns.Exists(c => c.Id == id);
 
-    public List<CodeInfo> GetAllActions()
+    internal List<CodeInfo> GetAllActions()
     {
         var codes = new List<CodeInfo>();
         if (Tools != null && Tools.Count > 0)
@@ -77,7 +112,7 @@ public class MenuInfo
         return codes;
     }
 
-    public List<CodeInfo> GetAllColumns()
+    internal List<CodeInfo> GetAllColumns()
     {
         var codes = new List<CodeInfo>();
         if (Columns != null && Columns.Count > 0)
@@ -261,61 +296,4 @@ public class ColumnInfo
             Placeholder = form.Placeholder;
         }
     }
-}
-
-public class MenuItem : MenuInfo
-{
-    public MenuItem()
-    {
-        Closable = true;
-        Children = [];
-    }
-
-    internal MenuItem(SysModule module) : base(module)
-    {
-        Closable = true;
-        Data = module;
-        Children = [];
-    }
-
-    internal MenuItem(SysOrganization model) : this()
-    {
-        Id = model.Id;
-        ParentId = model.ParentId;
-        Code = model.Code;
-        Name = model.Name;
-        Data = model;
-    }
-
-    internal MenuItem(MenuInfo model) : this()
-    {
-        Id = model.Id;
-        ParentId = model.ParentId;
-        Code = model.Code;
-        Name = model.Name;
-        Icon = model.Icon;
-        Description = model.Description;
-        Target = model.Target;
-        Url = model.Url;
-        Sort = model.Sort;
-        Color = model.Color;
-        Tools = model.Tools;
-        Actions = model.Actions;
-        Columns = model.Columns;
-    }
-
-    internal MenuItem(string id, string name, string icon = null) : this()
-    {
-        Id = id;
-        Name = name;
-        Icon = icon;
-    }
-
-    public bool Enabled { get; set; } = true;
-    public bool Closable { get; set; }
-    public bool Checked { get; set; }
-    public MenuItem Previous { get; set; }
-    public MenuItem Parent { get; set; }
-    public List<MenuItem> Children { get; set; }
-    public object Data { get; set; }
 }

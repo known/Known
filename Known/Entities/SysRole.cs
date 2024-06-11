@@ -29,6 +29,6 @@ public class SysRole : EntityBase
     [MaxLength(500)]
     public string Note { get; set; }
 
-    public virtual List<MenuItem> Menus { get; set; }
+    public virtual List<MenuInfo> Menus { get; set; }
     public virtual List<string> MenuIds { get; set; }
 }

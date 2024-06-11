@@ -1,6 +1,6 @@
 ﻿namespace Known.AntBlazor.Components;
 
-public class AntTree : Tree<MenuItem>
+public class AntTree : Tree<MenuInfo>
 {
 	[Parameter] public TreeModel Model { get; set; }
 
@@ -14,8 +14,8 @@ public class AntTree : Tree<MenuItem>
         IconExpression = x => x.DataItem.Icon;
         ChildrenExpression = x => x.DataItem.Children;
         IsLeafExpression = x => x.DataItem.Children?.Count == 0;
-        OnClick = this.Callback<TreeEventArgs<MenuItem>>(OnTreeClick);
-		OnCheck = this.Callback<TreeEventArgs<MenuItem>>(OnTreeCheck);
+        OnClick = this.Callback<TreeEventArgs<MenuInfo>>(OnTreeClick);
+		OnCheck = this.Callback<TreeEventArgs<MenuInfo>>(OnTreeCheck);
         base.OnInitialized();
 	}
 
@@ -41,14 +41,14 @@ public class AntTree : Tree<MenuItem>
         return Task.CompletedTask;
     }
 
-    private void OnTreeClick(TreeEventArgs<MenuItem> e)
+    private void OnTreeClick(TreeEventArgs<MenuInfo> e)
 	{
 		var item = e.Node.DataItem;
         item.Checked = e.Node.Checked;
         Model.OnNodeClick?.Invoke(item);
 	}
 
-	private void OnTreeCheck(TreeEventArgs<MenuItem> e)
+	private void OnTreeCheck(TreeEventArgs<MenuInfo> e)
 	{
 		var item = e.Node.DataItem;
 		item.Checked = e.Node.Checked;

@@ -21,7 +21,7 @@ public class SysRoleList : BaseTablePage<SysRole>
 class SysRoleForm : BaseForm<SysRole>
 {
     private TreeModel tree;
-    private MenuItem current;
+    private MenuInfo current;
     private readonly InputModel<string[]> btnModel = new();
     private readonly InputModel<string[]> colModel = new();
     private bool ChkDisabled => Model.IsView || current == null || !current.Checked;
@@ -67,13 +67,13 @@ class SysRoleForm : BaseForm<SysRole>
         });
     }
 
-    private void OnTreeClick(MenuItem item)
+    private void OnTreeClick(MenuInfo item)
     {
         SelectNode(item);
         StateChanged();
     }
 
-    private void OnTreeCheck(MenuItem item)
+    private void OnTreeCheck(MenuInfo item)
     {
         SelectNode(item);
 
@@ -104,7 +104,7 @@ class SysRoleForm : BaseForm<SysRole>
         colModel.Value = [.. Model.Data.MenuIds];
     }
 
-    private void SelectNode(MenuItem item)
+    private void SelectNode(MenuInfo item)
     {
         current = item;
 

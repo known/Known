@@ -3,7 +3,7 @@
 public class AntMenu : BaseComponent
 {
     [Parameter] public bool Accordion { get; set; }
-    [Parameter] public List<MenuItem> Items { get; set; }
+    [Parameter] public List<MenuInfo> Items { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
@@ -22,7 +22,7 @@ public class AntMenu : BaseComponent
         BuildMenu(builder, Items);
     }
 
-    private void BuildMenu(RenderTreeBuilder builder, List<MenuItem> items)
+    private void BuildMenu(RenderTreeBuilder builder, List<MenuInfo> items)
     {
         foreach (var item in items)
         {
@@ -30,7 +30,7 @@ public class AntMenu : BaseComponent
         }
     }
 
-    private void BuildMenu(RenderTreeBuilder builder, MenuItem item)
+    private void BuildMenu(RenderTreeBuilder builder, MenuInfo item)
     {
         if (item.Children != null && item.Children.Count > 0)
         {
@@ -46,21 +46,21 @@ public class AntMenu : BaseComponent
         }
     }
 
-    private void BuildTitle(RenderTreeBuilder builder, MenuItem item)
+    private void BuildTitle(RenderTreeBuilder builder, MenuInfo item)
     {
         builder.Span().Children(() => BuildItemName(builder, item)).Close();
     }
 
-    private void BuildMenuItem(RenderTreeBuilder builder, MenuItem item)
+    private void BuildMenuItem(RenderTreeBuilder builder, MenuInfo item)
     {
-        builder.Component<AntDesign.MenuItem>()
+        builder.Component<MenuItem>()
                .Set(c => c.Key, item.Id)
                .Set(c => c.RouterLink, item.RouteUrl)
                .Set(c => c.ChildContent, b => BuildItemName(b, item))
                .Build();
     }
 
-    private void BuildItemName(RenderTreeBuilder builder, MenuItem item)
+    private void BuildItemName(RenderTreeBuilder builder, MenuInfo item)
     {
         UI.Icon(builder, item.Icon);
         var itemName = Language.GetString(item);

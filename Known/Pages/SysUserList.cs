@@ -107,7 +107,7 @@ public class SysUserList : BasePage<SysUser>
         UI.ShowDialog(model);
     }
 
-    private async void OnNodeClick(MenuItem item)
+    private async void OnNodeClick(MenuInfo item)
     {
         currentOrg = item.Data as SysOrganization;
         await table.RefreshAsync();

@@ -4,7 +4,7 @@ public class PageLayout : BaseLayout
 {
     protected bool IsLoaded { get; private set; }
     protected AdminInfo Info { get; private set; }
-    protected List<MenuItem> UserMenus { get; private set; }
+    protected List<MenuInfo> UserMenus { get; private set; }
     protected bool IsLogin { get; private set; }
 
     protected override async Task OnInitializedAsync()
@@ -84,7 +84,7 @@ public class PageLayout : BaseLayout
         return await GetThirdUserAsync();
     }
 
-    private List<MenuItem> GetUserMenus(List<MenuInfo> menus)
+    private List<MenuInfo> GetUserMenus(List<MenuInfo> menus)
     {
         Context.UserMenus = menus;
         return menus.ToMenuItems();
