@@ -1,9 +1,10 @@
 ﻿namespace Known.Web;
 
-public static class Extension
+public static class WebExtension
 {
     public static void AddKnownWeb(this IServiceCollection services)
     {
+        services.AddResponseCompression();
         services.AddHttpContextAccessor();
         services.AddCascadingAuthenticationState();
         //services.AddScoped<IAuthStateProvider, PersistingStateProvider>();
