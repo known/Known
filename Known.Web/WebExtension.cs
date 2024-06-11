@@ -13,6 +13,24 @@ public static class WebExtension
         services.AddScoped<IAuthStateProvider, WebAuthStateProvider>();
         //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         //        .AddCookie(options => options.LoginPath = new PathString("/login"));
+
+        //builder.Services.Configure<CookiePolicyOptions>(options =>
+        //{
+        //    options.CheckConsentNeeded = context => true;
+        //    options.MinimumSameSitePolicy = SameSiteMode.None;
+        //});
+        //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        //                .AddCookie(options =>
+        //                {
+        //                    //options.Cookie.Name = "Known_Auth";
+        //                    //options.Cookie.HttpOnly = true;
+        //                    //options.SlidingExpiration = true;
+        //                    //options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        //                    options.LoginPath = new PathString("/login");
+        //                });
+
+        //builder.Services.AddScoped<IAuthStateProvider, AuthStateProvider>();
+        //builder.Services.AddScoped<AuthenticationStateProvider, PersistingStateProvider>();
     }
 
     public static void AddKnownWebApi(this IServiceCollection services)
