@@ -1,5 +1,7 @@
 ﻿namespace Known;
 
+public enum GenderType { Male, Female }
+
 public class UserInfo
 {
     public string Id { get; set; }

@@ -37,7 +37,6 @@ public static class AppWeb
         {
             info.WebRoot = builder.Environment.WebRootPath;
             info.ContentRoot = builder.Environment.ContentRootPath;
-            info.IsDevelopment = builder.Environment.IsDevelopment();
             //数据库连接
             info.Connections = [new Known.ConnectionInfo
             {
@@ -104,7 +103,7 @@ public static class AppWeb
         //Map动态API
         foreach (var item in Config.ApiMethods)
         {
-            Console.WriteLine(item.Key);
+            //Console.WriteLine(item.Key);
             if (item.Value.Name.StartsWith("Get"))
                 app.MapGet(item.Key, ctx => InvokeGetMethod(ctx, item.Value));
             else

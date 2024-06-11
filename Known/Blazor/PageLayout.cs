@@ -12,10 +12,11 @@ public class PageLayout : BaseLayout
         try
         {
             IsLoaded = false;
-            Context.CurrentUser = await GetCurrentUserAsync();
-            IsLogin = Context.CurrentUser != null;
+            var user = await GetCurrentUserAsync();
+            IsLogin = user != null;
             if (IsLogin)
             {
+                Context.CurrentUser = user;
                 if (!Context.IsMobile)
                 {
                     Info = await Platform.Auth.GetAdminAsync();
@@ -24,7 +25,7 @@ public class PageLayout : BaseLayout
                 }
                 IsLoaded = true;
             }
-            else if (!Config.IsClient)
+            else
             {
                 NavigateTo("/login");
             }

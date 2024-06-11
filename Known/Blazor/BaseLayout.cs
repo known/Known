@@ -41,8 +41,8 @@ public class BaseLayout : LayoutComponentBase
 
     public async Task SignOutAsync()
     {
-        var user = Context?.CurrentUser;
-        var result = await Platform.SignOutAsync(user?.Token);
+        var user = await AuthProvider.GetUserAsync();
+        var result = await Platform.Auth.SignOutAsync(user?.Token);
         if (result.IsValid)
         {
             Context.SignOut();

@@ -45,16 +45,17 @@ class AuthService(Context context) : ServiceBase(context)
     {
         var user = CurrentUser;
         if (string.IsNullOrWhiteSpace(token))
-            token = user.Token;
+            token = user?.Token;
 
         if (!string.IsNullOrWhiteSpace(token))
             cachedUsers.TryRemove(token, out UserInfo _);
 
-        await Logger.AddLogAsync(Database, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {token}");
+        if (user != null)
+            await Logger.AddLogAsync(Database, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {token}");
         return Result.Success(Language["Tip.ExitSuccess"]);
     }
 
-    internal static ConcurrentDictionary<string, UserInfo> cachedUsers = new();
+    private static ConcurrentDictionary<string, UserInfo> cachedUsers = new();
 
     internal static UserInfo GetUserByToken(string token)
     {

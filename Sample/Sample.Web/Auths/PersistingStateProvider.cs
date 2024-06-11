@@ -3,7 +3,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Sample.Web.Auths;
@@ -44,8 +43,8 @@ internal sealed class PersistingStateProvider : RevalidatingServerAuthentication
             return null;
 
         await using var scope = scopeFactory.CreateAsyncScope();
-        var platform = scope.ServiceProvider.GetRequiredService<PlatformService>();
-        return await platform.GetUserAsync(principal.Identity.Name);
+        var service = scope.ServiceProvider.GetRequiredService<PlatformService>();
+        return await service.GetUserAsync(principal.Identity.Name);
     }
 
     public Task SetUserAsync(UserInfo user)
@@ -61,13 +60,8 @@ internal sealed class PersistingStateProvider : RevalidatingServerAuthentication
     {
         // Get the user manager from a new scope to ensure it fetches fresh data
         await using var scope = scopeFactory.CreateAsyncScope();
-        var platform = scope.ServiceProvider.GetRequiredService<PlatformService>();
-        return await ValidateSecurityStampAsync(platform, authenticationState.User);
-    }
-
-    private async Task<bool> ValidateSecurityStampAsync(PlatformService platform, ClaimsPrincipal principal)
-    {
-        var user = await platform.GetUserAsync(principal.Identity.Name);
+        var service = scope.ServiceProvider.GetRequiredService<PlatformService>();
+        var user = await service.GetUserAsync(authenticationState.User.Identity.Name);
         if (user is null)
             return false;
 

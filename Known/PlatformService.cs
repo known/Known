@@ -2,6 +2,7 @@
 
 public class PlatformService(Context context)
 {
+    internal AuthService Auth { get; } = new AuthService(context);
     internal ModuleService Module { get; } = new ModuleService(context);
     internal SystemService System { get; } = new SystemService(context);
     internal SettingService Setting { get; } = new SettingService(context);
@@ -11,7 +12,6 @@ public class PlatformService(Context context)
     internal FlowService Flow { get; } = new FlowService(context);
     internal RoleService Role { get; } = new RoleService(context);
     internal UserService User { get; } = new UserService(context);
-    internal AuthService Auth { get; } = new AuthService(context);
     internal AutoService Auto { get; } = new AutoService(context);
     internal WeixinService Weixin { get; } = new WeixinService(context);
 
@@ -34,9 +34,9 @@ public class PlatformService(Context context)
     #endregion
 
     #region User
-    public Task<List<SysUser>> GetUsersByRoleAsync(string roleName) => User.GetUsersByRoleAsync(roleName);
-    public Task<UserInfo> GetUserAsync(string userName) => Auth.GetUserAsync(userName);
     public Task<Result> SignOutAsync(string token) => Auth.SignOutAsync(token);
+    public Task<UserInfo> GetUserAsync(string userName) => Auth.GetUserAsync(userName);
+    public Task<List<SysUser>> GetUsersByRoleAsync(string roleName) => User.GetUsersByRoleAsync(roleName);
     public Task SyncUserAsync(Database db, SysUser user) => User.SyncUserAsync(db, user);
     #endregion
 

@@ -47,8 +47,8 @@ public class SysUser : EntityBase
     /// 取得或设置性别。
     /// </summary>
     [Required]
-    [Category("GenderType")]
     [MaxLength(50)]
+    [Category(nameof(GenderType))]
     public string Gender { get; set; }
 
     /// <summary>
