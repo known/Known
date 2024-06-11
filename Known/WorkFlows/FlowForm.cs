@@ -10,7 +10,7 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
     {
         await base.OnInitFormAsync();
 
-        var logs = await Platform.GetFlowLogsAsync(Model.Data.Id);
+        var logs = await Platform.Flow.GetFlowLogsAsync(Model.Data.Id);
         Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build());
 
         step.Items.Clear();

@@ -220,17 +220,17 @@ public class PagingCriteria
         return parameter;
     }
 
-    public string GetQueryValue(string id)
-    {
-        if (Query == null)
-            return string.Empty;
+    //public string GetQueryValue(string id)
+    //{
+    //    if (Query == null)
+    //        return string.Empty;
 
-        var query = Query.FirstOrDefault(q => q.Id == id);
-        if (query == null)
-            return string.Empty;
+    //    var query = Query.FirstOrDefault(q => q.Id == id);
+    //    if (query == null)
+    //        return string.Empty;
 
-        return query.Value;
-    }
+    //    return query.Value;
+    //}
 
     internal bool HasQuery(string id)
     {
@@ -242,20 +242,6 @@ public class PagingCriteria
             return false;
 
         return !string.IsNullOrEmpty(query.Value);
-    }
-
-    public string GetParameter(string id)
-    {
-        if (Parameters == null)
-            return string.Empty;
-
-        if (!Parameters.TryGetValue(id, out object value))
-            return string.Empty;
-
-        if (value == null)
-            return string.Empty;
-
-        return value.ToString();
     }
 
     public T GetParameter<T>(string id)

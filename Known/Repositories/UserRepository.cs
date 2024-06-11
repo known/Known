@@ -11,7 +11,7 @@ from SysUser a
 left join SysOrganization b on b.Id=a.OrgNo 
 where a.AppId=@AppId and a.CompNo=@CompNo and a.UserName<>'admin'";
         var orgNoId = nameof(SysUser.OrgNo);
-        var orgNo = criteria.GetParameter(orgNoId);
+        var orgNo = criteria.GetParameter<string>(orgNoId);
         if (!string.IsNullOrWhiteSpace(orgNo))
         {
             var org = await db.QueryByIdAsync<SysOrganization>(orgNo);

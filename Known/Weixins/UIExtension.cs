@@ -4,16 +4,16 @@ public static class UIExtension
 {
     public static async Task ShowWeixinQRCodeAsync(this BasePage page, QRCodeOption option)
     {
-        var weixin = await page.Platform.GetWeixinAsync();
+        var weixin = await page.Platform.Weixin.GetWeixinAsync();
         if (weixin == null || !weixin.IsWeixinAuth)
             return;
 
         var user = page.CurrentUser;
-        var wxUser = await page.Platform.GetWeixinAsync(user);
+        var wxUser = await page.Platform.Weixin.GetWeixinAsync(user);
         if (wxUser == null)
         {
             //扫码场景ID：{场景ID}_{用户ID}
-            var qrCodeUrl = await page.Platform.GetWeixinQRCodeUrlAsync($"{option.SceneId}_{user.Id}");
+            var qrCodeUrl = await page.Platform.Weixin.GetQRCodeUrlAsync($"{option.SceneId}_{user.Id}");
             ShowWeixinQRCode(page, option, qrCodeUrl, user);
         }
     }
@@ -46,7 +46,7 @@ public static class UIExtension
                     break;
                 }
 
-                var weixin = await page.Platform.GetWeixinAsync(user);
+                var weixin = await page.Platform.Weixin.GetWeixinAsync(user);
                 if (weixin != null)
                 {
                     await model.CloseAsync();
