@@ -24,7 +24,7 @@ public sealed class Config
     internal static string AuthStatus { get; set; }
     internal static List<ActionInfo> Actions { get; set; } = [];
     public static Dictionary<string, MethodInfo> ApiMethods { get; } = [];
-    internal static Dictionary<string, Type> ServiceTypes { get; } = [];
+    public static Dictionary<string, Type> ServiceTypes { get; } = [];
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];

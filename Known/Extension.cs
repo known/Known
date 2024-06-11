@@ -32,25 +32,4 @@ public static class Extension
         }
         Config.AddApp();
     }
-
-    public static void AddKnownWebApi(this IServiceCollection services)
-    {
-        foreach (var type in Config.ServiceTypes.Values)
-        {
-            if (type.IsInterface || !type.GetInterfaces().Contains(typeof(IService)))
-                continue;
-
-            var controler = type.Name.Replace("Service", "");
-            var methods = type.GetMethods();
-            foreach (var method in methods)
-            {
-                if (method.IsPublic && method.DeclaringType?.Name == type.Name)
-                {
-                    var name = method.Name.Replace("Async", "");
-                    var pattern = $"/{controler}/{name}";
-                    Config.ApiMethods[pattern] = method;
-                }
-            }
-        }
-    }
 }

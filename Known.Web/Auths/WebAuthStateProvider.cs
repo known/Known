@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace Sample.Web.Auths;
+﻿namespace Known.Web.Auths;
 
 class WebAuthStateProvider(ProtectedSessionStorage sessionStorage) : AuthenticationStateProvider, IAuthStateProvider
 {

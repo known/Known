@@ -1,13 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Authors>KnownChen</Authors>
-        <Description>Known.AntBlazor是基于AntDesign Blazor的实现Known框架界面的类库。</Description>
-        <Version>1.0.4</Version>
+        <Description>Known.Web是Known框架Web后端类库。</Description>
+        <Version>1.0.0</Version>
         <PackageIcon>icon.png</PackageIcon>
-        <PackageTags>Known, AntDesign, UI, Blazor</PackageTags>
+        <PackageTags>Known, Web</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
@@ -15,10 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AntDesign" Version="0.19.1" />
-    </ItemGroup>
-
-    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <ProjectReference Include="..\Known\Known.csproj" />
     </ItemGroup>
 

@@ -33,7 +33,7 @@ public class PlatformService(Context context)
 
     //User
     public Task<Result> SignOutAsync(string token) => Auth.SignOutAsync(token);
-    //public Task<UserInfo> GetUserAsync(string userName) => Auth.GetUserAsync(userName);
+    public Task<UserInfo> GetUserAsync(string userName) => Auth.GetUserAsync(userName);
     public Task<List<SysUser>> GetUsersByRoleAsync(string roleName) => User.GetUsersByRoleAsync(roleName);
     public Task SyncUserAsync(Database db, SysUser user) => User.SyncUserAsync(db, user);
 

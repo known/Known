@@ -1,0 +1,13 @@
+﻿global using System.Diagnostics;
+global using System.Reflection;
+global using System.Security.Claims;
+global using Known.Web.Auths;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.AspNetCore.Components;
+global using Microsoft.AspNetCore.Components.Authorization;
+global using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+global using Microsoft.AspNetCore.Components.Web;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Routing;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;

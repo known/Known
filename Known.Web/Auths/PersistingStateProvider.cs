@@ -1,11 +1,8 @@
-﻿using System.Diagnostics;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Components.Server;
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
-namespace Sample.Web.Auths;
+namespace Known.Web.Auths;
 
 internal sealed class PersistingStateProvider : RevalidatingServerAuthenticationStateProvider, IAuthStateProvider
 {

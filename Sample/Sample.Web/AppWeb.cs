@@ -1,6 +1,5 @@
 ﻿using Coravel;
 using Coravel.Invocable;
-using Sample.Web.Auths;
 
 namespace Sample.Web;
 
@@ -8,15 +7,6 @@ public static class AppWeb
 {
     public static void AddApp(this WebApplicationBuilder builder, Action<AppInfo> action = null)
     {
-        builder.Services.AddHttpContextAccessor();
-        builder.Services.AddCascadingAuthenticationState();
-        //builder.Services.AddScoped<IAuthStateProvider, PersistingStateProvider>();
-        //builder.Services.AddScoped<AuthenticationStateProvider, PersistingStateProvider>();
-        builder.Services.AddScoped<ProtectedSessionStorage>();
-        builder.Services.AddScoped<IAuthStateProvider, WebAuthStateProvider>();
-        //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        //                .AddCookie(options => options.LoginPath = new PathString("/login"));
-
         //1.添加Known框架
         builder.Services.AddKnown(info =>
         {
@@ -54,6 +44,7 @@ public static class AppWeb
                 ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
             }];
         });
+        builder.Services.AddKnownWeb();
         builder.Services.AddKnownWebApi();
 
         //2.添加KnownExcel实现
@@ -93,48 +84,14 @@ public static class AppWeb
         //app.UseAuthentication();
         //app.UseAuthorization();
 
+        app.UseKnownWebApi();
+
         //配置定时任务
         app.Services.UseScheduler(scheduler =>
         {
             //每5秒执行一次异步导入
             scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
         });
-
-        //Map动态API
-        foreach (var item in Config.ApiMethods)
-        {
-            //Console.WriteLine(item.Key);
-            if (item.Value.Name.StartsWith("Get"))
-                app.MapGet(item.Key, ctx => InvokeGetMethod(ctx, item.Value));
-            else
-                app.MapPost(item.Key, ctx => InvokePostMethod(ctx, item.Value));
-        }
-    }
-
-    private static async Task InvokeGetMethod(HttpContext ctx, MethodInfo method)
-    {
-        var target = Activator.CreateInstance(method.DeclaringType);
-        var parameters = new List<object>();
-        foreach (var item in method.GetParameters())
-        {
-            var parameter = ctx.Request.Query[item.Name].ToString();
-            parameters.Add(parameter);
-        }
-        var value = method.Invoke(target, [.. parameters]);
-        await ctx.Response.WriteAsJsonAsync(value);
-    }
-
-    private static async Task InvokePostMethod(HttpContext ctx, MethodInfo method)
-    {
-        var target = Activator.CreateInstance(method.DeclaringType);
-        var parameters = new List<object>();
-        foreach (var item in method.GetParameters())
-        {
-            var parameter = ctx.Request.Form[item.Name].ToString();
-            parameters.Add(parameter);
-        }
-        var value = method.Invoke(target, [.. parameters]);
-        await ctx.Response.WriteAsJsonAsync(value);
     }
 }
 
