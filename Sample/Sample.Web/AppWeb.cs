@@ -66,25 +66,12 @@ public static class AppWeb
     public static void UseApp(this WebApplication app)
     {
         //使用Known框架静态文件
-        app.UseStaticFiles();
-        var webFiles = Config.GetUploadPath(true);
-        app.UseStaticFiles(new StaticFileOptions
-        {
-            FileProvider = new PhysicalFileProvider(webFiles),
-            RequestPath = "/Files"
-        });
-        var upload = Config.GetUploadPath();
-        app.UseStaticFiles(new StaticFileOptions
-        {
-            FileProvider = new PhysicalFileProvider(upload),
-            RequestPath = "/UploadFiles"
-        });
+        app.UseKnownStaticFiles();
+        app.UseKnownWebApi();
 
         //配置认证
         //app.UseAuthentication();
         //app.UseAuthorization();
-
-        app.UseKnownWebApi();
 
         //配置定时任务
         app.Services.UseScheduler(scheduler =>

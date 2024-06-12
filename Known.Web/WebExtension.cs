@@ -54,6 +54,23 @@ public static class WebExtension
         }
     }
 
+    public static void UseKnownStaticFiles(this IApplicationBuilder app)
+    {
+        app.UseStaticFiles();
+        var webFiles = Config.GetUploadPath(true);
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(webFiles),
+            RequestPath = "/Files"
+        });
+        var upload = Config.GetUploadPath();
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(upload),
+            RequestPath = "/UploadFiles"
+        });
+    }
+
     public static void UseKnownWebApi(this IEndpointRouteBuilder app)
     {
         //Map动态API
