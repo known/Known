@@ -26,4 +26,10 @@
         <ProjectReference Include="..\Sample.Client\Sample.Client.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Update="_Imports.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
+    </ItemGroup>
+
 </Project>

@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Components.Web
-@using Sample.Client
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -38,25 +36,15 @@
 @code {
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
     private InteractiveServerRenderMode InteractiveMode { get; set; } = new(false);
+    //private InteractiveAutoRenderMode InteractiveMode { get; set; } = new(false);
     private string ipAddress;
     private bool isMobile;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Config.HostUrl = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host;
+        Config.HostUrl = HttpContext.GetHostUrl();
         ipAddress = HttpContext.Connection?.RemoteIpAddress?.ToString();
-        isMobile = CheckMobile(HttpContext.Request);
-    }
-
-    private static bool CheckMobile(HttpRequest request)
-    {
-        if (request == null)
-            throw new Exception("Server WebSocket not enabled!");
-
-        var agent = request.Headers["User-Agent"].ToString();
-        if (string.IsNullOrWhiteSpace(agent))
-            agent = request.Headers["X-Forwarded-For"].ToString();
-        return Utils.CheckMobile(agent);
+        isMobile = HttpContext.CheckMobile();
     }
 }

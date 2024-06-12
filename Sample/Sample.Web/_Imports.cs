@@ -5,8 +5,6 @@ global using Known.Extensions;
 global using Known.Helpers;
 global using Known.Web;
 global using Known.WorkFlows;
-global using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-global using Microsoft.Extensions.FileProviders;
 global using Sample.Entities;
 global using Sample.Models;
 global using Sample.Services;
