@@ -2,6 +2,7 @@
 
 public class KUpload : BaseComponent
 {
+    private IFileService fileService;
     private List<SysFile> sysFiles;
     private readonly List<IBrowserFile> files = [];
 
@@ -14,7 +15,7 @@ public class KUpload : BaseComponent
 
     public async Task RefreshAsync()
     {
-        sysFiles = await Platform.GetFilesAsync(Value);
+        sysFiles = await fileService.GetFilesAsync(Value);
         StateChanged();
     }
 
@@ -27,7 +28,14 @@ public class KUpload : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        sysFiles = await Platform.GetFilesAsync(Value);
+        fileService = await Factory.CreateAsync<IFileService>(Context);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            sysFiles = await fileService.GetFilesAsync(Value);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -115,7 +123,7 @@ public class KUpload : BaseComponent
         var message = Language["Tip.ConfirmDelete"].Replace("{name}", item.Name);
         UI.Confirm(message, async () =>
         {
-            await Platform.File.DeleteFileAsync(item);
+            await fileService.DeleteFileAsync(item);
             sysFiles.Remove(item);
             StateChanged();
         });

@@ -104,7 +104,8 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             AppName = await UserHelper.GetSystemNameAsync(Database),
             MessageCount = await UserRepository.GetMessageCountAsync(Database),
             UserMenus = await UserHelper.GetUserMenusAsync(Database),
-            UserSetting = await Platform.Setting.GetUserSettingAsync<SettingInfo>(Database, SettingInfo.KeyInfo)
+            UserSetting = await Platform.Setting.GetUserSettingAsync<SettingInfo>(Database, SettingInfo.KeyInfo),
+            Codes = await Platform.Dictionary.GetDictionarysAsync(Database)
         };
         await Database.CloseAsync();
         return admin;

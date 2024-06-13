@@ -50,6 +50,13 @@ class DictionaryService(Context context) : ServiceBase(context)
 
     private async Task<Result> RefreshCacheAsync(Database db)
     {
+        var codes = await GetDictionarysAsync(db);
+        Cache.AttachCodes(codes);
+        return Result.Success(Language["Tip.RefreshSuccess"], codes);
+    }
+
+    internal async Task<List<CodeInfo>> GetDictionarysAsync(Database db)
+    {
         var entities = await DictionaryRepository.GetDictionarysAsync(db);
         var codes = entities.Select(e =>
         {
@@ -58,7 +65,6 @@ class DictionaryService(Context context) : ServiceBase(context)
                 code = $"{code}-{e.Name}";
             return new CodeInfo(e.Category, code, code, e);
         }).ToList();
-        Cache.AttachCodes(codes);
-        return Result.Success(Language["Tip.RefreshSuccess"], codes);
+        return codes;
     }
 }

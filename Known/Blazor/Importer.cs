@@ -6,6 +6,7 @@ class Importer : BaseComponent
     private string fileInfo;
     private string error;
     private string message;
+    private IFileService fileService;
     private IAttachFile attach;
 
     private string ErrorMessage => Language["Import.Error"];
@@ -13,12 +14,13 @@ class Importer : BaseComponent
     [Parameter] public ImportFormInfo Model { get; set; }
     [Parameter] public Action OnSuccess { get; set; }
 
-    protected override Task OnInitAsync()
+    protected override async Task OnInitAsync()
     {
+        await base.OnInitAsync();
         isFinished = Model.IsFinished;
         error = Model.Error;
         message = Model.Message;
-        return base.OnInitAsync();
+        fileService = await Factory.CreateAsync<IFileService>(Context);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -96,7 +98,7 @@ class Importer : BaseComponent
 
         var info = new UploadInfo<ImportFormInfo>(Model);
         info.Files["Upload"] = [attach];
-        var result = await Platform.File.UploadFilesAsync(info);
+        var result = await fileService.UploadFilesAsync(info);
         if (!result.IsValid)
         {
             message = result.Message;
@@ -117,7 +119,7 @@ class Importer : BaseComponent
 
     private async Task OnDownloadTemplateAsync()
     {
-        var bytes = await Platform.File.GetImportRuleAsync(Model.BizId);
+        var bytes = await fileService.GetImportRuleAsync(Model.BizId);
         if (bytes != null && bytes.Length > 0)
         {
             var stream = new MemoryStream(bytes);

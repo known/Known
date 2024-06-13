@@ -22,6 +22,7 @@
 </div>
 
 @code {
+    private IFileService fileService;
     private InputFile inputFile;
     private Dictionary<string, ElementReference> imgElems = [];
     private List<SysFile> sysFiles;
@@ -33,11 +34,17 @@
 
     public bool HasFile => sysFiles != null && sysFiles.Count > 0 || files.Count > 0;
 
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        fileService = await Factory.CreateAsync<IFileService>(Context);
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
-            sysFiles = await Platform.GetFilesAsync(Value);
+            sysFiles = await fileService.GetFilesAsync(Value);
     }
 
     private async void OnInputFileChanged(InputFileChangeEventArgs e)

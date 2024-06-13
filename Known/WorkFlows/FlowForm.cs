@@ -42,16 +42,18 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
 
 public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 {
+    private IFlowService flowService;
     private readonly FlowFormInfo info = new();
     private FlowFormModel flow;
 
     [Parameter] public FormModel<TItem> Model { get; set; }
     [Parameter] public Action<RenderTreeBuilder> Content { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitAsync()
     {
-        base.OnInitialized();
+        await base.OnInitAsync();
         InitFlowModel();
+        flowService = await Factory.CreateAsync<IFlowService>(Context);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -92,11 +94,11 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         switch (Model.FormType)
         {
             case FormViewType.Submit:
-                result = await Platform.Flow.SubmitFlowAsync(info);
+                result = await flowService.SubmitFlowAsync(info);
                 Model.HandleResult(result);
                 break;
             case FormViewType.Verify:
-                result = await Platform.Flow.VerifyFlowAsync(info);
+                result = await flowService.VerifyFlowAsync(info);
                 Model.HandleResult(result);
                 break;
             default:
@@ -184,11 +186,14 @@ class FlowFormModel(UIContext context) : FormModel<FlowFormInfo>(context, true)
 
 class UserPicker : BasePicker<SysUser>
 {
+    private IUserService userService;
+
     protected override async Task OnInitAsync()
     {
         IsMulti = false;
         await base.OnInitAsync();
-        Table.OnQuery = Platform.User.QueryUsersAsync;
+        userService = await Factory.CreateAsync<IUserService>(Context);
+        Table.OnQuery = userService.QueryUsersAsync;
         Table.AddColumn(c => c.UserName).Width(100);
         Table.AddColumn(c => c.Name, true).Width(100);
         Table.AddColumn(c => c.Phone).Width(100);

@@ -1,6 +1,13 @@
 ﻿namespace Known.WorkFlows;
 
-class FlowService(Context context) : ServiceBase(context)
+public interface IFlowService : IService
+{
+    Task<List<SysFlowLog>> GetFlowLogsAsync(string bizId);
+    Task<Result> SubmitFlowAsync(FlowFormInfo info);
+    Task<Result> VerifyFlowAsync(FlowFormInfo info);
+}
+
+class FlowService(Context context) : ServiceBase(context), IFlowService
 {
     private string FlowNotCreated => Language["Tip.FlowNotCreate"];
     private string UserNotExists(string user) => Language["Tip.UserNotExists"].Replace("{user}", user);

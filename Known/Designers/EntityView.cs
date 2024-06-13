@@ -55,21 +55,21 @@ class EntityView : BaseView<EntityInfo>
 
     private void BuildScript(RenderTreeBuilder builder)
     {
-        if (!ReadOnly)
-        {
-            builder.Div("kui-code-action", () =>
-            {
-                UI.Button(builder, Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExecuteScript), "primary");
-            });
-        }
+        //if (!ReadOnly)
+        //{
+        //    builder.Div("kui-code-action", () =>
+        //    {
+        //        UI.Button(builder, Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExecuteScript), "primary");
+        //    });
+        //}
         BuildCode(builder, script);
     }
 
-    private async void OnExecuteScript(MouseEventArgs args)
-    {
-        var result = await Platform.Auto.CreateTableAsync(tableName, tableScript);
-        UI.Result(result);
-    }
+    //private async void OnExecuteScript(MouseEventArgs args)
+    //{
+    //    var result = await Platform.Auto.CreateTableAsync(tableName, tableScript);
+    //    UI.Result(result);
+    //}
 
     private void SetViewData(EntityInfo model)
     {

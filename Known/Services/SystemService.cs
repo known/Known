@@ -1,6 +1,12 @@
 ﻿namespace Known.Services;
 
-class SystemService(Context context) : ServiceBase(context)
+public interface ISystemService : IService
+{
+    Task<SystemInfo> GetSystemAsync();
+    Task<Result> SaveKeyAsync(SystemInfo info);
+}
+
+class SystemService(Context context) : ServiceBase(context), ISystemService
 {
     internal const string KeySystem = "SystemInfo";
 
@@ -35,7 +41,7 @@ class SystemService(Context context) : ServiceBase(context)
         var info = GetInstall();
         Config.System = await GetSystemAsync(Database);
         info.IsInstalled = Config.System != null;
-        await Platform.Dictionary.RefreshCacheAsync();
+        //await Platform.Dictionary.RefreshCacheAsync();
         await CheckKeyAsync();
         return info;
     }

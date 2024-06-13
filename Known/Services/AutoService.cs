@@ -1,6 +1,11 @@
 ﻿namespace Known.Services;
 
-class AutoService(Context context) : ServiceBase(context)
+public interface IAutoService : IService
+{
+
+}
+
+class AutoService(Context context) : ServiceBase(context), IAutoService
 {
     public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(string tableName, PagingCriteria criteria)
     {

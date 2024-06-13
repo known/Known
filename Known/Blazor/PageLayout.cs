@@ -22,6 +22,7 @@ public class PageLayout : BaseLayout
                     Info = await Platform.Auth.GetAdminAsync();
                     UserMenus = GetUserMenus(Info?.UserMenus);
                     Context.UserSetting = Info?.UserSetting ?? new();
+                    Cache.AttachCodes(Info?.Codes);
                 }
                 IsLoaded = true;
             }

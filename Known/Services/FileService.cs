@@ -1,6 +1,14 @@
 ﻿namespace Known.Services;
 
-class FileService(Context context) : ServiceBase(context)
+public interface IFileService : IService
+{
+    Task<List<SysFile>> GetFilesAsync(string bizId);
+    Task<byte[]> GetImportRuleAsync(string bizId);
+    Task<Result> DeleteFileAsync(SysFile file);
+    Task<Result> UploadFilesAsync<TModel>(UploadInfo<TModel> info);
+}
+
+class FileService(Context context) : ServiceBase(context), IFileService
 {
     //Public
     internal async Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)

@@ -3,6 +3,7 @@
 class AdvancedSearch : BaseComponent
 {
     private string SettingKey => $"UserSearch_{Context.Current.Id}";
+    private ISettingService settingService;
     private List<FieldInfo> fields = [];
     private List<QueryInfo> Query { get; } = [];
 
@@ -10,7 +11,7 @@ class AdvancedSearch : BaseComponent
 
     internal async Task<List<QueryInfo>> SaveQueryAsync()
     {
-        await Platform.Setting.SaveUserSettingAsync(SettingKey, Query);
+        await settingService.SaveUserSettingAsync(SettingKey, Query);
         return Query;
     }
 
@@ -18,10 +19,19 @@ class AdvancedSearch : BaseComponent
     {
         await base.OnInitAsync();
         fields = TypeHelper.GetFields(ItemType, Language);
-        Query.Clear();
-        var items = await Platform.Setting.GetUserSettingAsync<List<QueryInfo>>(SettingKey);
-        if (items != null && items.Count > 0)
-            Query.AddRange(items);
+        settingService = await Factory.CreateAsync<ISettingService>(Context);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            Query.Clear();
+            var items = await settingService.GetUserSettingAsync<List<QueryInfo>>(SettingKey);
+            if (items != null && items.Count > 0)
+                Query.AddRange(items);
+        }
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)

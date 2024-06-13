@@ -2,6 +2,7 @@
 
 class SysActive : BaseComponent
 {
+    private ISystemService systemService;
     private FormModel<SystemInfo> model;
 
     [Parameter] public Action<bool> OnCheck { get; set; }
@@ -9,6 +10,7 @@ class SysActive : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        systemService = await Factory.CreateAsync<ISystemService>(Context);
         model = new FormModel<SystemInfo>(Context);
         model.AddRow().AddColumn(c => c.ProductId);
         model.AddRow().AddColumn(c => c.ProductKey);
@@ -18,7 +20,7 @@ class SysActive : BaseComponent
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
-            model.Data = await Platform.System.GetSystemAsync();
+            model.Data = await systemService.GetSystemAsync();
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -39,7 +41,7 @@ class SysActive : BaseComponent
         if (!model.Validate())
             return;
 
-        var result = await Platform.System.SaveKeyAsync(model.Data);
+        var result = await systemService.SaveKeyAsync(model.Data);
         UI.Result(result, () => OnCheck?.Invoke(result.IsValid));
     }
 }

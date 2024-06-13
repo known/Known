@@ -1,6 +1,11 @@
 ﻿namespace Known.Weixins;
 
-class WeixinService(Context context) : ServiceBase(context)
+public interface IWeixinService : IService
+{
+    Task<UserInfo> CheckWeixinAsync(UserInfo user);
+}
+
+class WeixinService(Context context) : ServiceBase(context), IWeixinService
 {
     internal const string KeyWeixin = "WeixinInfo";
 

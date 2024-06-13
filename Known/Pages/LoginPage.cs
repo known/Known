@@ -2,24 +2,29 @@
 
 public class LoginPage : BaseComponent
 {
+    private IAuthService authService;
+    private IWeixinService weixinService;
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
 
     protected LoginFormInfo Model = new();
 
     [SupplyParameterFromQuery] public string ReturnUrl { get; set; }
 
-    //protected override async Task OnInitAsync()
-    //{
-    //    var state = GetWeixinAuthState(user.Token);
-    //    var uri = await Platform.Weixin.GetAuthorizeUrlAsync(state);
-    //    if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))
-    //    {
-    //        if (IsMobile)
-    //            NavigateWeixinAuth(uri, user);
-    //        else
-    //            ShowWeixinQRCode(uri, user);
-    //    }
-    //}
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        authService = await Factory.CreateAsync<IAuthService>(Context);
+        weixinService = await Factory.CreateAsync<IWeixinService>(Context);
+        //var state = GetWeixinAuthState(user.Token);
+        //var uri = await Platform.Weixin.GetAuthorizeUrlAsync(state);
+        //if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))
+        //{
+        //    if (IsMobile)
+        //        NavigateWeixinAuth(uri, user);
+        //    else
+        //        ShowWeixinQRCode(uri, user);
+        //}
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -76,7 +81,7 @@ public class LoginPage : BaseComponent
 
         OnLogining();
         Model.IPAddress = Context.IPAddress;
-        var result = await Platform.Auth.SignInAsync(Model);
+        var result = await authService.SignInAsync(Model);
         if (!result.IsValid)
         {
             UI.Error(result.Message);
@@ -117,7 +122,7 @@ public class LoginPage : BaseComponent
         {
             while (true)
             {
-                var weixin = await Platform.Weixin.CheckWeixinAsync(user);
+                var weixin = await weixinService.CheckWeixinAsync(user);
                 if (weixin != null)
                 {
                     //await SetUserInfoAsync(weixin);
@@ -146,7 +151,7 @@ public class LoginPage : BaseComponent
                     break;
                 }
 
-                var weixin = await Platform.Weixin.CheckWeixinAsync(user);
+                var weixin = await weixinService.CheckWeixinAsync(user);
                 if (weixin != null)
                 {
                     //await SetUserInfoAsync(weixin);

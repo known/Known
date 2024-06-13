@@ -5,11 +5,11 @@ class FormProperty : BaseProperty<FormFieldInfo>
     private List<CodeInfo> controlTypes;
     private List<CodeInfo> categories;
 
-    protected override async void OnInitialized()
+    protected override void OnInitialized()
     {
         base.OnInitialized();
         controlTypes = Cache.GetCodes(nameof(FieldType)).Select(c => new CodeInfo(c.Name, c.Name)).ToList();
-        categories = await Platform.Dictionary.GetCategoriesAsync();
+        categories = Cache.GetCodes(Constants.DicCategory);
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)

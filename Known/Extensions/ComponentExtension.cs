@@ -2,6 +2,14 @@
 
 public static class ComponentExtension
 {
+    public static async Task<T> CreateAsync<T>(this IServiceScopeFactory factory, Context context) where T : IService
+    {
+        await using var scope = factory.CreateAsyncScope();
+        var service = scope.ServiceProvider.GetRequiredService<T>();
+        service.Context = context;
+        return service;
+    }
+
     public static void Cascading<T>(this RenderTreeBuilder builder, T value, RenderFragment child)
     {
         builder.Component<CascadingValue<T>>(attr =>

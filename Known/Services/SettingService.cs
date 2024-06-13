@@ -1,6 +1,12 @@
 ﻿namespace Known.Services;
 
-class SettingService(Context context) : ServiceBase(context)
+public interface ISettingService : IService
+{
+    Task<T> GetUserSettingAsync<T>(string bizType);
+    Task<Result> SaveUserSettingAsync(string bizType, object bizData);
+}
+
+class SettingService(Context context) : ServiceBase(context), ISettingService
 {
     //Setting
     internal Task<List<SysSetting>> GetSettingsAsync(string bizType) => SettingRepository.GetSettingsAsync(Database, bizType);
@@ -40,7 +46,7 @@ class SettingService(Context context) : ServiceBase(context)
 
     internal Task<List<SysSetting>> GetUserSettingsAsync(string bizType) => SettingRepository.GetUserSettingsAsync(Database, bizType);
 
-    internal Task<T> GetUserSettingAsync<T>(string bizType) => GetUserSettingAsync<T>(Database, bizType);
+    public Task<T> GetUserSettingAsync<T>(string bizType) => GetUserSettingAsync<T>(Database, bizType);
     internal async Task<T> GetUserSettingAsync<T>(Database db, string bizType)
     {
         var setting = await SettingRepository.GetUserSettingAsync(db, bizType);
@@ -74,7 +80,7 @@ class SettingService(Context context) : ServiceBase(context)
         await db.SaveAsync(setting);
     }
 
-    internal async Task<Result> SaveUserSettingAsync(string bizType, object bizData)
+    public async Task<Result> SaveUserSettingAsync(string bizType, object bizData)
     {
         await SaveUserSettingAsync(Database, bizType, bizData);
         return Result.Success(Language.Success(Language.Save));

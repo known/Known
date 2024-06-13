@@ -1,6 +1,11 @@
 ﻿namespace Known.Services;
 
-class UserService(Context context) : ServiceBase(context)
+public interface IUserService : IService
+{
+    Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria);
+}
+
+class UserService(Context context) : ServiceBase(context), IUserService
 {
     //User
     public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)

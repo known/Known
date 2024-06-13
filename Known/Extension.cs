@@ -33,5 +33,12 @@ public static class Extension
         Config.AddApp();
 
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IAutoService, AutoService>();
+        services.AddScoped<IFileService, FileService>();
+        services.AddScoped<IFlowService, FlowService>();
+        services.AddScoped<ISystemService, SystemService>();
+        services.AddScoped<ISettingService, SettingService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IWeixinService, WeixinService>();
     }
 }

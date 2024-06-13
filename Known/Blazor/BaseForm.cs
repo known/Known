@@ -2,6 +2,16 @@
 
 public class BaseForm : BaseComponent
 {
+    private PlatformService platform;
+    public PlatformService Platform
+    {
+        get
+        {
+            platform ??= new PlatformService(Context);
+            return platform;
+        }
+    }
+
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
