@@ -2,16 +2,6 @@
 
 public class BasePage : BaseComponent
 {
-    private PlatformService platform;
-    public PlatformService Platform
-    {
-        get
-        {
-            platform ??= new PlatformService(Context);
-            return platform;
-        }
-    }
-
     public string PageName => Language.GetString(Context.Module);
 
     protected override Task OnInitAsync() => OnPageInitAsync();

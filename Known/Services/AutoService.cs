@@ -2,7 +2,9 @@
 
 public interface IAutoService : IService
 {
-
+    Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(string tableName, PagingCriteria criteria);
+    Task<Result> DeleteModelsAsync(string tableName, List<Dictionary<string, object>> models);
+    Task<Result> SaveModelAsync(string tableName, UploadInfo<Dictionary<string, object>> info);
 }
 
 class AutoService(Context context) : ServiceBase(context), IAutoService
@@ -71,31 +73,31 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         }, model);
     }
 
-    public async Task<Result> CreateTableAsync(string tableName, string script)
-    {
-        try
-        {
-            try
-            {
-                var sql = $"select count(*) from {tableName}";
-                var count = await Database.ScalarAsync<int>(sql);
-                if (count > 0)
-                    return Result.Error(Language["Tip.TableHasData"]);
+    //public async Task<Result> CreateTableAsync(string tableName, string script)
+    //{
+    //    try
+    //    {
+    //        try
+    //        {
+    //            var sql = $"select count(*) from {tableName}";
+    //            var count = await Database.ScalarAsync<int>(sql);
+    //            if (count > 0)
+    //                return Result.Error(Language["Tip.TableHasData"]);
 
-                sql = $"drop table {tableName}";
-                await Database.ExecuteAsync(sql);
-            }
-            catch
-            {
-            }
+    //            sql = $"drop table {tableName}";
+    //            await Database.ExecuteAsync(sql);
+    //        }
+    //        catch
+    //        {
+    //        }
 
-            await Database.ExecuteAsync(script);
-            return Result.Success(Language["Tip.ExecuteSuccess"]);
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex.ToString());
-            return Result.Error(ex.Message);
-        }
-    }
+    //        await Database.ExecuteAsync(script);
+    //        return Result.Success(Language["Tip.ExecuteSuccess"]);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Logger.Error(ex.ToString());
+    //        return Result.Error(ex.Message);
+    //    }
+    //}
 }

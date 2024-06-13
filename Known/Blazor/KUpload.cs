@@ -28,7 +28,7 @@ public class KUpload : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        fileService = await Factory.CreateAsync<IFileService>(Context);
+        fileService = await CreateServiceAsync<IFileService>();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

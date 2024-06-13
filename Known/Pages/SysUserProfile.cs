@@ -5,14 +5,15 @@
 [Route("/profile")]
 public class SysUserProfile : BasePage<SysUser>
 {
+    private IUserService userService;
     private SysUserProfileInfo info;
     internal SysUser User { get; private set; }
 
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-
-        User = await Platform.User.GetUserAsync(CurrentUser.Id);
+        userService = await CreateServiceAsync<IUserService>();
+        User = await userService.GetUserAsync(CurrentUser.Id);
 
         Page.Type = PageType.Column;
         Page.Spans = "28";

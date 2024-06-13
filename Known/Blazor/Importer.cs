@@ -20,7 +20,7 @@ class Importer : BaseComponent
         isFinished = Model.IsFinished;
         error = Model.Error;
         message = Model.Message;
-        fileService = await Factory.CreateAsync<IFileService>(Context);
+        fileService = await CreateServiceAsync<IFileService>();
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)

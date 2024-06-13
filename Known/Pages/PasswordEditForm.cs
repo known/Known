@@ -10,7 +10,7 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        authService = await Factory.CreateAsync<IAuthService>(Context);
+        authService = await CreateServiceAsync<IAuthService>();
         Model = new FormModel<PwdFormInfo>(Context, true)
         {
             LabelSpan = 4,

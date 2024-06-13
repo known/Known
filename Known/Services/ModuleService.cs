@@ -3,6 +3,11 @@
 public interface IModuleService : IService
 {
     Task<List<SysModule>> GetModulesAsync();
+    Task<Result> DeleteModulesAsync(List<SysModule> models);
+    Task<Result> CopyModulesAsync(List<SysModule> models);
+    Task<Result> MoveModulesAsync(List<SysModule> models);
+    Task<Result> MoveModuleAsync(SysModule model);
+    Task<Result> SaveModuleAsync(SysModule model);
 }
 
 class ModuleService(Context context) : ServiceBase(context), IModuleService

@@ -13,8 +13,8 @@ public class LoginPage : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        authService = await Factory.CreateAsync<IAuthService>(Context);
-        weixinService = await Factory.CreateAsync<IWeixinService>(Context);
+        authService = await CreateServiceAsync<IAuthService>();
+        weixinService = await CreateServiceAsync<IWeixinService>();
         //var state = GetWeixinAuthState(user.Token);
         //var uri = await Platform.Weixin.GetAuthorizeUrlAsync(state);
         //if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))

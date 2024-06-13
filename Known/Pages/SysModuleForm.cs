@@ -29,7 +29,7 @@ public class SysModuleForm : BaseStepForm
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        moduleService = await Factory.CreateAsync<IModuleService>(Context);
+        moduleService = await CreateServiceAsync<IModuleService>();
         Model.SmallLabel = true;
         Model.OnFieldChanged = OnFieldChanged;
         if (!IsPageEdit)

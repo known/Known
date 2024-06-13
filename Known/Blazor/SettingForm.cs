@@ -7,7 +7,7 @@ public class SettingForm : BaseForm<SettingInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        settingService = await Factory.CreateAsync<ISettingService>(Context);
+        settingService = await CreateServiceAsync<ISettingService>();
         Model = new FormModel<SettingInfo>(Context, true)
         {
             LabelSpan = 12,

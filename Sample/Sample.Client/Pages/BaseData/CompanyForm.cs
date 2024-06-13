@@ -17,7 +17,7 @@ class CompanyBaseInfo : BaseEditForm<CompanyInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        companyService = await Factory.CreateAsync<ICompanyService>(Context);
+        companyService = await CreateServiceAsync<ICompanyService>();
 
         Model = new FormModel<CompanyInfo>(Context, true)
         {

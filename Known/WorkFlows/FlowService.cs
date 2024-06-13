@@ -4,7 +4,11 @@ public interface IFlowService : IService
 {
     Task<List<SysFlowLog>> GetFlowLogsAsync(string bizId);
     Task<Result> SubmitFlowAsync(FlowFormInfo info);
+    Task<Result> RevokeFlowAsync(FlowFormInfo info);
+    Task<Result> AssignFlowAsync(FlowFormInfo info);
     Task<Result> VerifyFlowAsync(FlowFormInfo info);
+    Task<Result> RepeatFlowAsync(FlowFormInfo info);
+    Task<Result> StopFlowAsync(FlowFormInfo info);
 }
 
 class FlowService(Context context) : ServiceBase(context), IFlowService

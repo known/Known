@@ -5,6 +5,7 @@
 [Route("/sys/dictionaries")]
 public class SysDictionaryList : BaseTablePage<SysDictionary>
 {
+    private IDictionaryService dictionaryService;
     private List<CodeInfo> categories;
     private bool isAddCategory;
     private CodeInfo category;
@@ -14,6 +15,8 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
+        dictionaryService = await CreateServiceAsync<IDictionaryService>();
+
         Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
         Table.RowKey = r => r.Id;
         Table.OnQuery = QueryDictionarysAsync;
@@ -83,7 +86,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     private async Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
     {
         criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category?.Code);
-        var result = await Platform.Dictionary.QueryDictionarysAsync(criteria);
+        var result = await dictionaryService.QueryDictionarysAsync(criteria);
         total = result.TotalCount;
         return result;
     }
@@ -97,21 +100,21 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     }
 
     public void New() => NewForm(category, total, false);
-    public void Edit(SysDictionary row) => Table.EditForm(Platform.Dictionary.SaveDictionaryAsync, row);
-    public void Delete(SysDictionary row) => Table.Delete(Platform.Dictionary.DeleteDictionarysAsync, row);
-    public void DeleteM() => Table.DeleteM(Platform.Dictionary.DeleteDictionarysAsync);
+    public void Edit(SysDictionary row) => Table.EditForm(dictionaryService.SaveDictionaryAsync, row);
+    public void Delete(SysDictionary row) => Table.Delete(dictionaryService.DeleteDictionarysAsync, row);
+    public void DeleteM() => Table.DeleteM(dictionaryService.DeleteDictionarysAsync);
     public void Import() => ShowImportForm();
 
     private async Task LoadCategoriesAsync()
     {
-        categories = await Platform.Dictionary.GetCategoriesAsync();
+        categories = await dictionaryService.GetCategoriesAsync();
         category ??= categories?.FirstOrDefault();
     }
 
     private void NewForm(CodeInfo info, int sort, bool isCategory)
     {
         isAddCategory = isCategory;
-        Table.NewForm(Platform.Dictionary.SaveDictionaryAsync, new SysDictionary
+        Table.NewForm(dictionaryService.SaveDictionaryAsync, new SysDictionary
         {
             Category = info?.Code,
             CategoryName = info?.Name,

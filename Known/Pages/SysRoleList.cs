@@ -5,17 +5,21 @@
 [Route("/sys/roles")]
 public class SysRoleList : BaseTablePage<SysRole>
 {
+    private IRoleService roleService;
+
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        Table.OnQuery = Platform.Role.QueryRolesAsync;
+        roleService = await CreateServiceAsync<IRoleService>();
+
+        Table.OnQuery = roleService.QueryRolesAsync;
         Table.RowKey = r => r.Id;
     }
 
-    public void New() => Table.NewForm(Platform.Role.SaveRoleAsync, new SysRole());
-    public void Edit(SysRole row) => Table.EditForm(Platform.Role.SaveRoleAsync, row);
-    public void Delete(SysRole row) => Table.Delete(Platform.Role.DeleteRolesAsync, row);
-    public void DeleteM() => Table.DeleteM(Platform.Role.DeleteRolesAsync);
+    public void New() => Table.NewForm(roleService.SaveRoleAsync, new SysRole());
+    public void Edit(SysRole row) => Table.EditForm(roleService.SaveRoleAsync, row);
+    public void Delete(SysRole row) => Table.Delete(roleService.DeleteRolesAsync, row);
+    public void DeleteM() => Table.DeleteM(roleService.DeleteRolesAsync);
 }
 
 class SysRoleForm : BaseForm<SysRole>
@@ -30,7 +34,8 @@ class SysRoleForm : BaseForm<SysRole>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        roleService = await Factory.CreateAsync<IRoleService>(Context);
+        roleService = await CreateServiceAsync<IRoleService>();
+        
         Model.Data = await roleService.GetRoleAsync(Model.Data.Id);
         tree = new TreeModel
         {

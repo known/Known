@@ -10,7 +10,7 @@ class SysActive : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        systemService = await Factory.CreateAsync<ISystemService>(Context);
+        systemService = await CreateServiceAsync<ISystemService>();
         model = new FormModel<SystemInfo>(Context);
         model.AddRow().AddColumn(c => c.ProductId);
         model.AddRow().AddColumn(c => c.ProductKey);

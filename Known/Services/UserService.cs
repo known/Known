@@ -5,7 +5,13 @@ public interface IUserService : IService
     Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria);
     Task<SysUser> GetUserAsync(string id);
     Task<SysUser> GetUserDataAsync(string id);
+    Task<Result> DeleteUsersAsync(List<SysUser> models);
+    Task<Result> ChangeDepartmentAsync(List<SysUser> models);
+    Task<Result> EnableUsersAsync(List<SysUser> models);
+    Task<Result> DisableUsersAsync(List<SysUser> models);
+    Task<Result> SetUserPwdsAsync(List<SysUser> models);
     Task<Result> UpdateUserAsync(SysUser model);
+    Task<Result> SaveUserAsync(SysUser model);
 }
 
 class UserService(Context context) : ServiceBase(context), IUserService

@@ -10,7 +10,7 @@ public class InstallForm : BaseForm<InstallInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        systemService = await Factory.CreateAsync<ISystemService>(Context);
+        systemService = await CreateServiceAsync<ISystemService>();
         Model = new FormModel<InstallInfo>(Context, true) { LabelSpan = 6 };
     }
 

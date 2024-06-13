@@ -31,7 +31,8 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
             id += $"_{param}";
         if (Table.IsDictionary)
             id += $"_{Context.Current.Id}";
-        var info = await Platform.File.GetImportAsync(id);
+        var fileService = await CreateServiceAsync<IFileService>();
+        var info = await fileService.GetImportAsync(id);
         info.Name = PageName;
         info.BizName = ImportTitle;
         ImportForm(info);

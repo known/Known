@@ -5,6 +5,8 @@
 [Route("/sys/users")]
 public class SysUserList : BasePage<SysUser>
 {
+    private ICompanyService companyService;
+    private IUserService userService;
     private List<SysOrganization> orgs;
     private SysOrganization currentOrg;
     private TreeModel tree;
@@ -13,8 +15,10 @@ public class SysUserList : BasePage<SysUser>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
+        companyService = await CreateServiceAsync<ICompanyService>();
+        userService = await CreateServiceAsync<IUserService>();
 
-        orgs = await Platform.Company.GetOrganizationsAsync();
+        orgs = await companyService.GetOrganizationsAsync();
         var hasOrg = orgs != null && orgs.Count > 1;
         if (hasOrg)
         {
@@ -57,17 +61,17 @@ public class SysUserList : BasePage<SysUser>
     {
         if (currentOrg != null)
             criteria.Parameters[nameof(SysUser.OrgNo)] = currentOrg?.Id;
-        return Platform.User.QueryUsersAsync(criteria);
+        return userService.QueryUsersAsync(criteria);
     }
 
-    public void New() => table.NewForm(Platform.User.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
-    public void Edit(SysUser row) => table.EditForm(Platform.User.SaveUserAsync, row);
-    public void Delete(SysUser row) => table.Delete(Platform.User.DeleteUsersAsync, row);
-    public void DeleteM() => table.DeleteM(Platform.User.DeleteUsersAsync);
-    public void ResetPassword() => table.SelectRows(Platform.User.SetUserPwdsAsync, Language.Reset);
+    public void New() => table.NewForm(userService.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
+    public void Edit(SysUser row) => table.EditForm(userService.SaveUserAsync, row);
+    public void Delete(SysUser row) => table.Delete(userService.DeleteUsersAsync, row);
+    public void DeleteM() => table.DeleteM(userService.DeleteUsersAsync);
+    public void ResetPassword() => table.SelectRows(userService.SetUserPwdsAsync, Language.Reset);
     public void ChangeDepartment() => table.SelectRows(OnChangeDepartment);
-    public void Enable() => table.SelectRows(Platform.User.EnableUsersAsync, Language.Enable);
-    public void Disable() => table.SelectRows(Platform.User.DisableUsersAsync, Language.Disable);
+    public void Enable() => table.SelectRows(userService.EnableUsersAsync, Language.Enable);
+    public void Disable() => table.SelectRows(userService.DisableUsersAsync, Language.Disable);
 
     private void BuildGender(RenderTreeBuilder builder, SysUser row) => UI.BuildTag(builder, row.Gender);
 
@@ -96,7 +100,7 @@ public class SysUserList : BasePage<SysUser>
             }
 
             rows.ForEach(m => m.OrgNo = node.Id);
-            var result = await Platform.User.ChangeDepartmentAsync(rows);
+            var result = await userService.ChangeDepartmentAsync(rows);
             UI.Result(result, async () =>
             {
                 //TODO：更换部门后，部门名称未刷新问题
@@ -121,7 +125,8 @@ class SysUserForm : BaseForm<SysUser>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        userService = await Factory.CreateAsync<IUserService>(Context);
+        userService = await CreateServiceAsync<IUserService>();
+        
         Model.Initialize();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
         Model.AddRow().AddColumn(c => c.RoleIds);

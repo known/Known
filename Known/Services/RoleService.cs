@@ -2,7 +2,10 @@
 
 public interface IRoleService : IService
 {
+    Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria);
     Task<SysRole> GetRoleAsync(string roleId);
+    Task<Result> DeleteRolesAsync(List<SysRole> models);
+    Task<Result> SaveRoleAsync(SysRole model);
 }
 
 class RoleService(Context context) : ServiceBase(context), IRoleService

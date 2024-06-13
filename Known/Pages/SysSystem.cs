@@ -5,6 +5,7 @@
 [Route("/sys/info")]
 public class SysSystem : BaseTabPage
 {
+    private ISystemService systemService;
     private SysSystemInfo info;
     private SysSystemSafe safe;
     private WeChatSetting weChat;
@@ -13,7 +14,8 @@ public class SysSystem : BaseTabPage
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        Data = await Platform.System.GetSystemAsync();
+        systemService = await CreateServiceAsync<ISystemService>();
+        Data = await systemService.GetSystemAsync();
 
         Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build(value => info = value));
         Tab.AddTab("SecuritySetting", b => b.Component<SysSystemSafe>().Build(value => safe = value));
@@ -39,7 +41,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        systemService = await Factory.CreateAsync<ISystemService>(Context);
+        systemService = await CreateServiceAsync<ISystemService>();
 
         Model = new FormModel<SystemInfo>(Context)
         {
@@ -107,7 +109,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        systemService = await Factory.CreateAsync<ISystemService>(Context);
+        systemService = await CreateServiceAsync<ISystemService>();
 
         Model = new FormModel<SystemInfo>(Context)
         {

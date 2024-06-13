@@ -19,7 +19,7 @@ class AdvancedSearch : BaseComponent
     {
         await base.OnInitAsync();
         fields = TypeHelper.GetFields(ItemType, Language);
-        settingService = await Factory.CreateAsync<ISettingService>(Context);
+        settingService = await CreateServiceAsync<ISettingService>();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

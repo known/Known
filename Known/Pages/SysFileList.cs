@@ -5,10 +5,13 @@
 [Route("/sys/files")]
 public class SysFileList : BaseTablePage<SysFile>
 {
+    private IFileService fileService;
+
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        Table.OnQuery = Platform.File.QueryFilesAsync;
+        fileService = await CreateServiceAsync<IFileService>();
+        Table.OnQuery = fileService.QueryFilesAsync;
     }
 
     protected override async Task OnPageChangeAsync()

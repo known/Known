@@ -10,7 +10,7 @@ public class FlowLogGrid : BaseTable<SysFlowLog>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        flowService = await Factory.CreateAsync<IFlowService>(Context);
+        flowService = await CreateServiceAsync<IFlowService>();
         Logs ??= await flowService.GetFlowLogsAsync(BizId);
         Table.DataSource = Logs;
         Table.AddColumn(c => c.StepName).Width(100).Template((b, r) => b.Tag(r.StepName));

@@ -2,7 +2,9 @@
 
 public interface IFileService : IService
 {
+    Task<PagingResult<SysFile>> QueryFilesAsync(PagingCriteria criteria);
     Task<List<SysFile>> GetFilesAsync(string bizId);
+    Task<ImportFormInfo> GetImportAsync(string bizId);
     Task<byte[]> GetImportRuleAsync(string bizId);
     Task<Result> DeleteFileAsync(SysFile file);
     Task<Result> UploadFilesAsync<TModel>(UploadInfo<TModel> info);

@@ -5,6 +5,7 @@
 [Route("/sys/organizations")]
 public class SysOrganizationList : BasePage<SysOrganization>
 {
+    private ICompanyService companyService;
     private MenuInfo current;
     private TreeModel tree;
     private TableModel<SysOrganization> table;
@@ -12,6 +13,7 @@ public class SysOrganizationList : BasePage<SysOrganization>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
+        companyService = await CreateServiceAsync<ICompanyService>();
 
         Page.Type = PageType.Column;
         Page.Spans = "28";
@@ -65,12 +67,12 @@ public class SysOrganizationList : BasePage<SysOrganization>
             return;
         }
 
-        table.NewForm(Platform.Company.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
+        table.NewForm(companyService.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
     }
 
-    public void Edit(SysOrganization row) => table.EditForm(Platform.Company.SaveOrganizationAsync, row);
-    public void Delete(SysOrganization row) => table.Delete(Platform.Company.DeleteOrganizationsAsync, row);
-    public void DeleteM() => table.DeleteM(Platform.Company.DeleteOrganizationsAsync);
+    public void Edit(SysOrganization row) => table.EditForm(companyService.SaveOrganizationAsync, row);
+    public void Delete(SysOrganization row) => table.Delete(companyService.DeleteOrganizationsAsync, row);
+    public void DeleteM() => table.DeleteM(companyService.DeleteOrganizationsAsync);
 
     private async void OnNodeClick(MenuInfo item)
     {
@@ -80,7 +82,7 @@ public class SysOrganizationList : BasePage<SysOrganization>
 
     private async void OnTreeModelChanged(TreeModel model)
     {
-        var datas = await Platform.Company.GetOrganizationsAsync();
+        var datas = await companyService.GetOrganizationsAsync();
         if (datas != null && datas.Count > 0)
         {
             tree.Data = datas.ToMenuItems(ref current);

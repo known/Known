@@ -10,7 +10,7 @@ public class UserEditForm : BaseEditForm<SysUser>
 
     protected override async Task OnInitFormAsync()
     {
-        userService = await Factory.CreateAsync<IUserService>(Context);
+        userService = await CreateServiceAsync<IUserService>();
         Data = Parent?.User;
         Data ??= await userService.GetUserAsync(CurrentUser.Id);
 

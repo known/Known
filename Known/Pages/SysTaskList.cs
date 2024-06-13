@@ -5,10 +5,14 @@
 [Route("/sys/tasks")]
 public class SysTaskList : BaseTablePage<SysTask>
 {
+    private ISystemService systemService;
+
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        Table.OnQuery = Platform.System.QueryTasksAsync;
+        systemService = await CreateServiceAsync<ISystemService>();
+
+        Table.OnQuery = systemService.QueryTasksAsync;
     }
 
     protected override async Task OnPageChangeAsync()

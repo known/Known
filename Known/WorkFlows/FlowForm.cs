@@ -10,7 +10,7 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        flowService = await Factory.CreateAsync<IFlowService>(Context);
+        flowService = await CreateServiceAsync<IFlowService>();
         var logs = await flowService.GetFlowLogsAsync(Model.Data.Id);
         Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build());
 
@@ -54,7 +54,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     {
         await base.OnInitAsync();
         InitFlowModel();
-        flowService = await Factory.CreateAsync<IFlowService>(Context);
+        flowService = await CreateServiceAsync<IFlowService>();
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -193,7 +193,7 @@ class UserPicker : BasePicker<SysUser>
     {
         IsMulti = false;
         await base.OnInitAsync();
-        userService = await Factory.CreateAsync<IUserService>(Context);
+        userService = await CreateServiceAsync<IUserService>();
         Table.OnQuery = userService.QueryUsersAsync;
         Table.AddColumn(c => c.UserName).Width(100);
         Table.AddColumn(c => c.Name, true).Width(100);

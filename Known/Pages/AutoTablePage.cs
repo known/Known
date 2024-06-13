@@ -5,6 +5,8 @@
 [Route("/page/{PageId}")]
 public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 {
+    private IAutoService autoService;
+    private IModuleService moduleService;
     private bool isEditPage;
     private string TableName { get; set; }
 
@@ -16,6 +18,13 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
             InitTable();
 
         await base.RefreshAsync();
+    }
+
+    protected override async Task OnPageInitAsync()
+    {
+        await base.OnPageInitAsync();
+        autoService = await CreateServiceAsync<IAutoService>();
+        moduleService = await CreateServiceAsync<IModuleService>();
     }
 
     protected override async Task OnPageChangeAsync()
@@ -49,10 +58,10 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         }
     }
 
-    public void New() => Table.NewForm(m => Platform.Auto.SaveModelAsync(TableName, m), []);
-    public void DeleteM() => Table.DeleteM(m => Platform.Auto.DeleteModelsAsync(TableName, m));
-    public void Edit(Dictionary<string, object> row) => Table.EditForm(m => Platform.Auto.SaveModelAsync(TableName, m), row);
-    public void Delete(Dictionary<string, object> row) => Table.Delete(m => Platform.Auto.DeleteModelsAsync(TableName, m), row);
+    public void New() => Table.NewForm(m => autoService.SaveModelAsync(TableName, m), []);
+    public void DeleteM() => Table.DeleteM(m => autoService.DeleteModelsAsync(TableName, m));
+    public void Edit(Dictionary<string, object> row) => Table.EditForm(m => autoService.SaveModelAsync(TableName, m), row);
+    public void Delete(Dictionary<string, object> row) => Table.Delete(m => autoService.DeleteModelsAsync(TableName, m), row);
     public void Import() => ShowImportForm(TableName);
     public async void Export() => await ExportDataAsync();
 
@@ -60,7 +69,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     {
         Table.Initialize(this);
         TableName = DataHelper.GetEntity(Context.Module?.EntityData)?.Id;
-        Table.OnQuery = c => Platform.Auto.QueryModelsAsync(TableName, c);
+        Table.OnQuery = c => autoService.QueryModelsAsync(TableName, c);
         Table.Criteria.Clear();
     }
 
@@ -70,7 +79,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         var form = new FormModel<SysModule>(this)
         {
             Data = Context.Module,
-            OnSave = Platform.Module.SaveModuleAsync,
+            OnSave = moduleService.SaveModuleAsync,
             OnSaved = data => Context.Module = data
         };
         var model = new DialogModel

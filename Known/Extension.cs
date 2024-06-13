@@ -35,6 +35,7 @@ public static class Extension
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped<ICompanyService, CompanyService>();
+        services.AddScoped<IDictionaryService, DictionaryService>();
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IFlowService, FlowService>();
         services.AddScoped<ISystemService, SystemService>();

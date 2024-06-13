@@ -3,6 +3,8 @@
 public interface IWeixinService : IService
 {
     Task<WeixinInfo> GetWeixinAsync();
+    Task<SysWeixin> GetWeixinByUserIdAsync(string userId);
+    Task<string> GetQRCodeUrlAsync(string sceneId);
     Task<UserInfo> CheckWeixinAsync(UserInfo user);
     Task<Result> SaveWeixinAsync(WeixinInfo model);
 }
@@ -23,14 +25,14 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
         return Result.Success(Language.Success(Language.Save));
     }
 
-    public Task<SysWeixin> GetWeixinAsync(string openId)
+    public Task<SysWeixin> GetWeixinByOpenIdAsync(string openId)
     {
         return WeixinRepository.GetWeixinByOpenIdAsync(Database, openId);
     }
 
-    public Task<SysWeixin> GetWeixinAsync(UserInfo user)
+    public Task<SysWeixin> GetWeixinByUserIdAsync(string userId)
     {
-        return WeixinRepository.GetWeixinByUserIdAsync(Database, user.Id);
+        return WeixinRepository.GetWeixinByUserIdAsync(Database, userId);
     }
     #endregion
 

@@ -5,10 +5,14 @@
 [Route("/sys/logs")]
 public class SysLogList : BaseTablePage<SysLog>
 {
+    private ISystemService systemService;
+
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        Table.OnQuery = Platform.System.QueryLogsAsync;
+        systemService = await CreateServiceAsync<ISystemService>();
+
+        Table.OnQuery = systemService.QueryLogsAsync;
         Table.AddQueryColumn(c => c.CreateTime);
     }
 

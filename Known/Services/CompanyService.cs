@@ -3,7 +3,10 @@
 public interface ICompanyService : IService
 {
     Task<T> GetCompanyAsync<T>();
+    Task<List<SysOrganization>> GetOrganizationsAsync();
+    Task<Result> DeleteOrganizationsAsync(List<SysOrganization> models);
     Task<Result> SaveCompanyAsync(object model);
+    Task<Result> SaveOrganizationAsync(SysOrganization model);
 }
 
 class CompanyService(Context context) : ServiceBase(context), ICompanyService

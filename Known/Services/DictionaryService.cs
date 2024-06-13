@@ -1,6 +1,14 @@
 ﻿namespace Known.Services;
 
-class DictionaryService(Context context) : ServiceBase(context)
+public interface IDictionaryService : IService
+{
+    Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria);
+    Task<List<CodeInfo>> GetCategoriesAsync();
+    Task<Result> DeleteDictionarysAsync(List<SysDictionary> models);
+    Task<Result> SaveDictionaryAsync(SysDictionary model);
+}
+
+class DictionaryService(Context context) : ServiceBase(context), IDictionaryService
 {
     public Task<Result> RefreshCacheAsync() => RefreshCacheAsync(Database);
 

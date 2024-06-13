@@ -7,7 +7,7 @@ class WeChatSetting : BaseEditForm<WeixinInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        weixinService = await Factory.CreateAsync<IWeixinService>(Context);
+        weixinService = await CreateServiceAsync<IWeixinService>();
         Model = new FormModel<WeixinInfo>(Context)
         {
             IsView = true,

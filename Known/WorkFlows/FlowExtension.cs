@@ -30,21 +30,24 @@ public static class FlowExtension
         page.ViewForm(FormViewType.Submit, row);
     }
 
-    public static void SubmitFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async void SubmitFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        page.ShowFlowModal(page.Language["Button.Submit"], rows, page.Platform.Flow.SubmitFlowAsync);
+        var service = await page.CreateServiceAsync<IFlowService>();
+        page.ShowFlowModal(page.Language["Button.Submit"], rows, service.SubmitFlowAsync);
     }
 
     public static void RevokeFlow<TItem>(this BasePage page, TItem row) where TItem : FlowEntity, new() => page.RevokeFlow([row]);
 
-    public static void RevokeFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async void RevokeFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        page.ShowFlowModal(page.Language["Button.Revoke"], rows, page.Platform.Flow.RevokeFlowAsync);
+        var service = await page.CreateServiceAsync<IFlowService>();
+        page.ShowFlowModal(page.Language["Button.Revoke"], rows, service.RevokeFlowAsync);
     }
 
-    public static void AssignFlow<TItem>(this BasePage page, TItem row) where TItem : FlowEntity, new()
+    public static async void AssignFlow<TItem>(this BasePage page, TItem row) where TItem : FlowEntity, new()
     {
-        page.ShowFlowModal(page.Language["Button.Assign"], [row], page.Platform.Flow.AssignFlowAsync);
+        var service = await page.CreateServiceAsync<IFlowService>();
+        page.ShowFlowModal(page.Language["Button.Assign"], [row], service.AssignFlowAsync);
     }
 
     public static void VerifyFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new()
@@ -52,14 +55,16 @@ public static class FlowExtension
         page.ViewForm(FormViewType.Verify, row);
     }
 
-    public static void StopFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async void StopFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        page.ShowFlowModal(page.Language["Button.Stop"], rows, page.Platform.Flow.StopFlowAsync);
+        var service = await page.CreateServiceAsync<IFlowService>();
+        page.ShowFlowModal(page.Language["Button.Stop"], rows, service.StopFlowAsync);
     }
 
-    public static void RepeatFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async void RepeatFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        page.ShowFlowModal(page.Language["Button.Restart"], rows, page.Platform.Flow.RepeatFlowAsync);
+        var service = await page.CreateServiceAsync<IFlowService>();
+        page.ShowFlowModal(page.Language["Button.Restart"], rows, service.RepeatFlowAsync);
     }
 
     private static void ShowFlowModal<TItem>(this BasePage page, string name, List<TItem> rows, Func<FlowFormInfo, Task<Result>> action) where TItem : FlowEntity, new()

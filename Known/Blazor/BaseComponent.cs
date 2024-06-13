@@ -78,6 +78,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         GC.SuppressFinalize(this);
     }
 
+    public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
     public virtual void StateChanged() => InvokeAsync(StateHasChanged);
 
     internal async void OnAction(ActionInfo info, object[] parameters)

@@ -5,6 +5,7 @@
 [Route("/sys/modules")]
 public class SysModuleList : BasePage<SysModule>
 {
+    private IModuleService moduleService; 
     private List<SysModule> modules;
     private MenuInfo current;
     private int total;
@@ -14,6 +15,7 @@ public class SysModuleList : BasePage<SysModule>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
+        moduleService = await CreateServiceAsync<IModuleService>();
 
         Page.Type = PageType.Column;
         Page.Spans = "28";
@@ -80,12 +82,12 @@ public class SysModuleList : BasePage<SysModule>
             return;
         }
 
-        table.NewForm(Platform.Module.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
+        table.NewForm(moduleService.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
     }
 
-    public void Edit(SysModule row) => table.EditForm(Platform.Module.SaveModuleAsync, row);
-    public void Delete(SysModule row) => table.Delete(Platform.Module.DeleteModulesAsync, row);
-    public void DeleteM() => table.DeleteM(Platform.Module.DeleteModulesAsync);
+    public void Edit(SysModule row) => table.EditForm(moduleService.SaveModuleAsync, row);
+    public void Delete(SysModule row) => table.Delete(moduleService.DeleteModulesAsync, row);
+    public void DeleteM() => table.DeleteM(moduleService.DeleteModulesAsync);
 
     public void Copy() => table.SelectRows(OnCopy);
     public void Move() => table.SelectRows(OnMove);
@@ -97,7 +99,7 @@ public class SysModuleList : BasePage<SysModule>
         ShowTreeModal(Language["Title.CopyTo"], node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
-            return Platform.Module.CopyModulesAsync(rows);
+            return moduleService.CopyModulesAsync(rows);
         });
     }
 
@@ -106,14 +108,14 @@ public class SysModuleList : BasePage<SysModule>
         ShowTreeModal(Language["Title.MoveTo"], node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
-            return Platform.Module.MoveModulesAsync(rows);
+            return moduleService.MoveModulesAsync(rows);
         });
     }
 
     private async void OnMove(SysModule row, bool isMoveUp)
     {
         row.IsMoveUp = isMoveUp;
-        var result = await Platform.Module.MoveModuleAsync(row);
+        var result = await moduleService.MoveModuleAsync(row);
         UI.Result(result, async () => await RefreshAsync());
     }
 
@@ -125,7 +127,7 @@ public class SysModuleList : BasePage<SysModule>
 
     private async void OnTreeModelChanged(TreeModel model)
     {
-        modules = await Platform.Module.GetModulesAsync();
+        modules = await moduleService.GetModulesAsync();
         if (modules != null && modules.Count > 0)
         {
             tree.Data = modules.ToMenuItems(ref current);
