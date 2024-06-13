@@ -2,14 +2,17 @@
 
 public class SettingForm : BaseForm<SettingInfo>
 {
+    private ISettingService settingService;
+
     protected override async Task OnInitFormAsync()
     {
+        await base.OnInitFormAsync();
+        settingService = await Factory.CreateAsync<ISettingService>(Context);
         Model = new FormModel<SettingInfo>(Context, true)
         {
             LabelSpan = 12,
             Data = Context.UserSetting
         };
-        await base.OnInitFormAsync();
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -27,7 +30,7 @@ public class SettingForm : BaseForm<SettingInfo>
 
     private async void SaveAsync(MouseEventArgs arg)
     {
-        var result = await Platform.Setting.SaveUserSettingAsync(SettingInfo.KeyInfo, Model.Data);
+        var result = await settingService.SaveUserSettingAsync(SettingInfo.KeyInfo, Model.Data);
         if (result.IsValid)
         {
             Context.UserSetting = Model.Data;
@@ -37,7 +40,7 @@ public class SettingForm : BaseForm<SettingInfo>
 
     private async void ResetAsync(MouseEventArgs arg)
     {
-        var result = await Platform.Setting.DeleteUserSettingAsync(SettingInfo.KeyInfo);
+        var result = await settingService.DeleteUserSettingAsync(SettingInfo.KeyInfo);
         if (result.IsValid)
         {
             Model.Data = new();

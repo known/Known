@@ -5,7 +5,7 @@ class DataHelper
     internal static List<EntityInfo> Models = [];
     internal static List<FlowInfo> Flows = [];
 
-    internal static async Task InitializeAsync(ModuleService service)
+    internal static async Task InitializeAsync(IModuleService service)
     {
         var modules = await service.GetModulesAsync();
         if (modules == null || modules.Count == 0)

@@ -1,6 +1,11 @@
 ﻿namespace Known.Services;
 
-class ModuleService(Context context) : ServiceBase(context)
+public interface IModuleService : IService
+{
+    Task<List<SysModule>> GetModulesAsync();
+}
+
+class ModuleService(Context context) : ServiceBase(context), IModuleService
 {
     public Task<List<SysModule>> GetModulesAsync() => Database.QueryListAsync<SysModule>();
     public Task<SysModule> GetModuleAsync(string id) => Database.QueryByIdAsync<SysModule>(id);

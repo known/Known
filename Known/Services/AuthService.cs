@@ -6,7 +6,6 @@ public interface IAuthService : IService
     Task<Result> SignOutAsync(string token);
     Task<UserInfo> GetUserAsync(string userName);
     Task<AdminInfo> GetAdminAsync();
-    Task<Result> UpdateUserAsync(SysUser model);
     Task<Result> UpdatePasswordAsync(PwdFormInfo info);
 }
 
@@ -109,19 +108,6 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         };
         await Database.CloseAsync();
         return admin;
-    }
-
-    public async Task<Result> UpdateUserAsync(SysUser model)
-    {
-        if (model == null)
-            return Result.Error(Language["Tip.NoUser"]);
-
-        var vr = model.Validate(Context);
-        if (!vr.IsValid)
-            return vr;
-
-        await Database.SaveAsync(model);
-        return Result.Success(Language.Success(Language.Save), model);
     }
 
     public async Task<Result> UpdatePasswordAsync(PwdFormInfo info)

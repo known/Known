@@ -2,19 +2,30 @@
 
 class WeChatSetting : BaseEditForm<WeixinInfo>
 {
+    private IWeixinService weixinService;
+
     protected override async Task OnInitFormAsync()
     {
-        var data = await Platform.Weixin.GetWeixinAsync();
-        data ??= new WeixinInfo();
+        await base.OnInitFormAsync();
+        weixinService = await Factory.CreateAsync<IWeixinService>(Context);
         Model = new FormModel<WeixinInfo>(Context)
         {
             IsView = true,
             LabelSpan = 4,
-            WrapperSpan = 10,
-            Data = data
+            WrapperSpan = 10
         };
         Model.AddRow().AddColumn(c => c.IsWeixinAuth);
-        await base.OnInitFormAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            var data = await weixinService.GetWeixinAsync();
+            data ??= new WeixinInfo();
+            Model.Data = data;
+        }
     }
 
     protected override void BuildFormContent(RenderTreeBuilder builder)
@@ -28,6 +39,6 @@ class WeChatSetting : BaseEditForm<WeixinInfo>
 
     protected override Task<Result> OnSaveAsync(WeixinInfo model)
     {
-        return Platform.Weixin.SaveWeixinAsync(model);
+        return weixinService.SaveWeixinAsync(model);
     }
 }

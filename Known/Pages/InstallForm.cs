@@ -2,14 +2,23 @@
 
 public class InstallForm : BaseForm<InstallInfo>
 {
+    private ISystemService systemService;
+
     [Parameter] public RenderFragment TopMenu { get; set; }
     [Parameter] public Action<InstallInfo> OnInstall { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
-        var data = await Platform.System.GetInstallAsync();
-        Model = new FormModel<InstallInfo>(Context, true) { LabelSpan = 6, Data = data };
         await base.OnInitFormAsync();
+        systemService = await Factory.CreateAsync<ISystemService>(Context);
+        Model = new FormModel<InstallInfo>(Context, true) { LabelSpan = 6 };
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if(firstRender)
+            Model.Data = await systemService.GetInstallAsync();
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)
@@ -41,7 +50,7 @@ public class InstallForm : BaseForm<InstallInfo>
         if (!Model.Validate())
             return;
 
-        var result = await Platform.System.SaveInstallAsync(Model.Data);
+        var result = await systemService.SaveInstallAsync(Model.Data);
         UI.Result(result, () =>
         {
             var info = result.DataAs<InstallInfo>();

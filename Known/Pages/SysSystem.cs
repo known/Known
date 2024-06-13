@@ -33,10 +33,14 @@ public class SysSystem : BaseTabPage
 
 class SysSystemInfo : BaseForm<SystemInfo>
 {
+    private ISystemService systemService;
     [CascadingParameter] private SysSystem Parent { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
+        await base.OnInitFormAsync();
+        systemService = await Factory.CreateAsync<ISystemService>(Context);
+
         Model = new FormModel<SystemInfo>(Context)
         {
             LabelSpan = 4,
@@ -72,8 +76,6 @@ class SysSystemInfo : BaseForm<SystemInfo>
             Model.AddRow().AddColumn(nameof(AppInfo.Copyright), Config.App.Copyright);
         if (!string.IsNullOrWhiteSpace(Config.App.SoftTerms))
             Model.AddRow().AddColumn(nameof(AppInfo.SoftTerms), Config.App.SoftTerms);
-
-        await base.OnInitFormAsync();
     }
 
     protected override void BuildForm(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildForm(builder));
@@ -81,7 +83,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
     private async void OnSaveAppName(string value)
     {
         Model.Data.AppName = value;
-        var result = await Platform.System.SaveSystemAsync(Model.Data);
+        var result = await systemService.SaveSystemAsync(Model.Data);
         if (result.IsValid)
         {
             CurrentUser.AppName = value;
@@ -92,17 +94,21 @@ class SysSystemInfo : BaseForm<SystemInfo>
     private async void OnSaveProductKey(string value)
     {
         Model.Data.ProductKey = value;
-        await Platform.System.SaveKeyAsync(Model.Data);
+        await systemService.SaveKeyAsync(Model.Data);
         StateChanged();
     }
 }
 
 class SysSystemSafe : BaseForm<SystemInfo>
 {
+    private ISystemService systemService;
     [CascadingParameter] private SysSystem Parent { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
+        await base.OnInitFormAsync();
+        systemService = await Factory.CreateAsync<ISystemService>(Context);
+
         Model = new FormModel<SystemInfo>(Context)
         {
             LabelSpan = 4,
@@ -124,8 +130,6 @@ class SysSystemSafe : BaseForm<SystemInfo>
                 ValueChanged = this.Callback<bool>(OnLoginCaptchaChanged)
             });
         });
-
-        await base.OnInitFormAsync();
     }
 
     protected override void BuildForm(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildForm(builder));
@@ -133,12 +137,12 @@ class SysSystemSafe : BaseForm<SystemInfo>
     private async void OnSaveDefaultPwd(string value)
     {
         Model.Data.UserDefaultPwd = value;
-        await Platform.System.SaveSystemAsync(Model.Data);
+        await systemService.SaveSystemAsync(Model.Data);
     }
 
     private async void OnLoginCaptchaChanged(bool value)
     {
         Model.Data.IsLoginCaptcha = value;
-        await Platform.System.SaveSystemAsync(Model.Data);
+        await systemService.SaveSystemAsync(Model.Data);
     }
 }

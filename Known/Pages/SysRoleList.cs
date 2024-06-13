@@ -20,6 +20,7 @@ public class SysRoleList : BaseTablePage<SysRole>
 
 class SysRoleForm : BaseForm<SysRole>
 {
+    private IRoleService roleService;
     private TreeModel tree;
     private MenuInfo current;
     private readonly InputModel<string[]> btnModel = new();
@@ -29,7 +30,8 @@ class SysRoleForm : BaseForm<SysRole>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        Model.Data = await Platform.Role.GetRoleAsync(Model.Data.Id);
+        roleService = await Factory.CreateAsync<IRoleService>(Context);
+        Model.Data = await roleService.GetRoleAsync(Model.Data.Id);
         tree = new TreeModel
         {
             Checkable = true,

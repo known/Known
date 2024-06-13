@@ -2,7 +2,10 @@
 
 public interface ISystemService : IService
 {
+    Task<InstallInfo> GetInstallAsync();
     Task<SystemInfo> GetSystemAsync();
+    Task<Result> SaveInstallAsync(InstallInfo info);
+    Task<Result> SaveSystemAsync(SystemInfo info);
     Task<Result> SaveKeyAsync(SystemInfo info);
 }
 

@@ -12,18 +12,22 @@ public class CompanyForm : BaseTabPage
 
 class CompanyBaseInfo : BaseEditForm<CompanyInfo>
 {
+    private ICompanyService companyService;
+
     protected override async Task OnInitFormAsync()
     {
+        await base.OnInitFormAsync();
+        companyService = await Factory.CreateAsync<ICompanyService>(Context);
+
         Model = new FormModel<CompanyInfo>(Context, true)
         {
             IsView = true,
-            Data = await Platform.GetCompanyAsync<CompanyInfo>()
+            Data = await companyService.GetCompanyAsync<CompanyInfo>()
         };
-        await base.OnInitFormAsync();
     }
 
     protected override Task<Result> OnSaveAsync(CompanyInfo model)
     {
-        return Platform.SaveCompanyAsync(model);
+        return companyService.SaveCompanyAsync(model);
     }
 }

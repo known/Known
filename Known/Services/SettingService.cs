@@ -3,6 +3,7 @@
 public interface ISettingService : IService
 {
     Task<T> GetUserSettingAsync<T>(string bizType);
+    Task<Result> DeleteUserSettingAsync(string bizType);
     Task<Result> SaveUserSettingAsync(string bizType, object bizData);
 }
 
@@ -65,7 +66,7 @@ class SettingService(Context context) : ServiceBase(context), ISettingService
         await db.DeleteAsync(setting);
     }
 
-    internal async Task<Result> DeleteUserSettingAsync(string bizType)
+    public async Task<Result> DeleteUserSettingAsync(string bizType)
     {
         await DeleteUserSettingAsync(Database, bizType);
         return Result.Success(Language.Success(Language.Delete));

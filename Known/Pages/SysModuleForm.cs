@@ -2,6 +2,7 @@
 
 public class SysModuleForm : BaseStepForm
 {
+    private IModuleService moduleService;
     private StepForm stepForm;
 
     private int StepCount
@@ -28,6 +29,7 @@ public class SysModuleForm : BaseStepForm
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
+        moduleService = await Factory.CreateAsync<IModuleService>(Context);
         Model.SmallLabel = true;
         Model.OnFieldChanged = OnFieldChanged;
         if (!IsPageEdit)
@@ -118,7 +120,7 @@ public class SysModuleForm : BaseStepForm
             return false;
 
         await Model.SaveAsync(isClose);
-        await DataHelper.InitializeAsync(Platform.Module);
+        await DataHelper.InitializeAsync(moduleService);
         return true;
     }
 

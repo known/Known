@@ -1,6 +1,12 @@
 ﻿namespace Known.Services;
 
-class CompanyService(Context context) : ServiceBase(context)
+public interface ICompanyService : IService
+{
+    Task<T> GetCompanyAsync<T>();
+    Task<Result> SaveCompanyAsync(object model);
+}
+
+class CompanyService(Context context) : ServiceBase(context), ICompanyService
 {
     private const string KeyCompany = "CompanyInfo";
 

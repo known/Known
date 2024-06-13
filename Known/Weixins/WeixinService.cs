@@ -2,7 +2,9 @@
 
 public interface IWeixinService : IService
 {
+    Task<WeixinInfo> GetWeixinAsync();
     Task<UserInfo> CheckWeixinAsync(UserInfo user);
+    Task<Result> SaveWeixinAsync(WeixinInfo model);
 }
 
 class WeixinService(Context context) : ServiceBase(context), IWeixinService

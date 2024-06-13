@@ -3,6 +3,9 @@
 public interface IUserService : IService
 {
     Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria);
+    Task<SysUser> GetUserAsync(string id);
+    Task<SysUser> GetUserDataAsync(string id);
+    Task<Result> UpdateUserAsync(SysUser model);
 }
 
 class UserService(Context context) : ServiceBase(context), IUserService
@@ -20,8 +23,10 @@ class UserService(Context context) : ServiceBase(context), IUserService
 
     public Task<SysUser> GetUserAsync(string id) => Database.QueryByIdAsync<SysUser>(id);
 
-    public async Task<SysUser> GetUserAsync(SysUser user)
+    public async Task<SysUser> GetUserDataAsync(string id)
     {
+        var user = await Database.QueryByIdAsync<SysUser>(id);
+        user ??= new SysUser();
         var roles = await RoleRepository.GetRolesAsync(Database);
         var roleIds = await UserRepository.GetUserRolesAsync(Database, user.Id);
         //var datas = PlatformHelper.UserDatas?.Invoke(Database);
@@ -107,6 +112,19 @@ class UserService(Context context) : ServiceBase(context), IUserService
                 await db.SaveAsync(item);
             }
         });
+    }
+
+    public async Task<Result> UpdateUserAsync(SysUser model)
+    {
+        if (model == null)
+            return Result.Error(Language["Tip.NoUser"]);
+
+        var vr = model.Validate(Context);
+        if (!vr.IsValid)
+            return vr;
+
+        await Database.SaveAsync(model);
+        return Result.Success(Language.Success(Language.Save), model);
     }
 
     public async Task<Result> SaveUserAsync(SysUser model)

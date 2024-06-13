@@ -116,9 +116,12 @@ public class SysUserList : BasePage<SysUser>
 
 class SysUserForm : BaseForm<SysUser>
 {
+    private IUserService userService;
+
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
+        userService = await Factory.CreateAsync<IUserService>(Context);
         Model.Initialize();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
         Model.AddRow().AddColumn(c => c.RoleIds);
@@ -129,7 +132,9 @@ class SysUserForm : BaseForm<SysUser>
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            Model.Data = await Platform.User.GetUserAsync(Model.Data);
+            var user = await userService.GetUserDataAsync(Model.Data.Id);
+            user.OrgNo = Model.Data.OrgNo;
+            Model.Data = user;
             Model.Codes["Roles"] = Model.Data.Roles;
         }
     }

@@ -5,12 +5,14 @@
 [Route("/profile/user")]
 public class UserEditForm : BaseEditForm<SysUser>
 {
+    private IUserService userService;
     [CascadingParameter] private SysUserProfile Parent { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
+        userService = await Factory.CreateAsync<IUserService>(Context);
         Data = Parent?.User;
-        Data ??= await Platform.User.GetUserAsync(CurrentUser.Id);
+        Data ??= await userService.GetUserAsync(CurrentUser.Id);
 
         await base.OnInitFormAsync();
         Model.LabelSpan = 4;
@@ -39,7 +41,7 @@ public class UserEditForm : BaseEditForm<SysUser>
 
     protected override Task<Result> OnSaveAsync(SysUser model)
     {
-        return Platform.Auth.UpdateUserAsync(model);
+        return userService.UpdateUserAsync(model);
     }
 
     protected override void OnSuccess()

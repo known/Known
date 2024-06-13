@@ -1,6 +1,11 @@
 ﻿namespace Known.Services;
 
-class RoleService(Context context) : ServiceBase(context)
+public interface IRoleService : IService
+{
+    Task<SysRole> GetRoleAsync(string roleId);
+}
+
+class RoleService(Context context) : ServiceBase(context), IRoleService
 {
     public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria)
     {

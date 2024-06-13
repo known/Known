@@ -5,9 +5,12 @@
 [Route("/profile/password")]
 public class PasswordEditForm : BaseForm<PwdFormInfo>
 {
+    private IAuthService authService;
+
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
+        authService = await Factory.CreateAsync<IAuthService>(Context);
         Model = new FormModel<PwdFormInfo>(Context, true)
         {
             LabelSpan = 4,
@@ -36,7 +39,7 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
         if (!Model.Validate())
             return;
 
-        var result = await Platform.Auth.UpdatePasswordAsync(Model.Data);
+        var result = await authService.UpdatePasswordAsync(Model.Data);
         UI.Result(result);
     }
 }
