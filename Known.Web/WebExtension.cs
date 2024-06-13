@@ -2,6 +2,8 @@
 
 public static class WebExtension
 {
+    private static Dictionary<string, MethodInfo> ApiMethods { get; } = [];
+
     public static void AddKnownWeb(this IServiceCollection services)
     {
         services.AddResponseCompression();
@@ -35,20 +37,23 @@ public static class WebExtension
 
     public static void AddKnownWebApi(this IServiceCollection services)
     {
-        foreach (var type in Config.ServiceTypes.Values)
+        foreach (var assembly in Config.Assemblies)
         {
-            if (type.IsInterface || !type.GetInterfaces().Contains(typeof(IService)))
-                continue;
-
-            var controler = type.Name.Replace("Service", "");
-            var methods = type.GetMethods();
-            foreach (var method in methods)
+            foreach (var type in assembly.GetTypes())
             {
-                if (method.IsPublic && method.DeclaringType?.Name == type.Name)
+                if (type.IsInterface || !type.GetInterfaces().Contains(typeof(IService)))
+                    continue;
+
+                var controler = type.Name.Replace("Service", "");
+                var methods = type.GetMethods();
+                foreach (var method in methods)
                 {
-                    var name = method.Name.Replace("Async", "");
-                    var pattern = $"/{controler}/{name}";
-                    Config.ApiMethods[pattern] = method;
+                    if (method.IsPublic && method.DeclaringType?.Name == type.Name)
+                    {
+                        var name = method.Name.Replace("Async", "");
+                        var pattern = $"/{controler}/{name}";
+                        ApiMethods[pattern] = method;
+                    }
                 }
             }
         }
@@ -74,7 +79,7 @@ public static class WebExtension
     public static void UseKnownWebApi(this IEndpointRouteBuilder app)
     {
         //Map动态API
-        foreach (var item in Config.ApiMethods)
+        foreach (var item in ApiMethods)
         {
             //Console.WriteLine(item.Key);
             if (item.Value.Name.StartsWith("Get"))

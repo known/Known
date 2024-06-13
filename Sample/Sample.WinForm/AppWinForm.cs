@@ -69,7 +69,7 @@ public static class AppWinForm
         services.AddKnownAntDesign();
 
         //4.添加Demo
-        services.AddDemo();
+        services.AddSample();
         Config.AddModule(typeof(Client._Imports).Assembly);
         Config.AddModule(typeof(Web.App).Assembly);
 

@@ -13,7 +13,7 @@ public static class AppConfig
     public const string Branch = "Known";
     public const string SubTitle = "基于Blazor的企业级快速开发框架";
 
-    public static void AddDemo(this IServiceCollection services)
+    public static void AddSample(this IServiceCollection services)
     {
         Config.AppMenus = AppMenus;
         //添加模块

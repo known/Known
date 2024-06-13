@@ -54,8 +54,8 @@ public static class AppWeb
         //添加KnownAntDesign
         builder.Services.AddKnownAntDesign();
 
-        //4.添加Demo
-        builder.Services.AddDemo();
+        //4.添加Sample
+        builder.Services.AddSample();
         Config.AddModule(typeof(Client._Imports).Assembly);
 
         //5.添加定时任务
@@ -65,7 +65,7 @@ public static class AppWeb
 
     public static void UseApp(this WebApplication app)
     {
-        //使用Known框架静态文件
+        //使用Known框架
         app.UseKnownStaticFiles();
         app.UseKnownWebApi();
 

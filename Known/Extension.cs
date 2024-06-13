@@ -31,5 +31,7 @@ public static class Extension
             Database.Initialize();
         }
         Config.AddApp();
+
+        services.AddScoped<IAuthService, AuthService>();
     }
 }

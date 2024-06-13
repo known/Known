@@ -1,6 +1,16 @@
 ﻿namespace Known.Services;
 
-class AuthService(Context context) : ServiceBase(context)
+public interface IAuthService : IService
+{
+    Task<Result> SignInAsync(LoginFormInfo info);
+    Task<Result> SignOutAsync(string token);
+    Task<UserInfo> GetUserAsync(string userName);
+    Task<AdminInfo> GetAdminAsync();
+    Task<Result> UpdateUserAsync(SysUser model);
+    Task<Result> UpdatePasswordAsync(PwdFormInfo info);
+}
+
+class AuthService(Context context) : ServiceBase(context), IAuthService
 {
     //Account
     public async Task<Result> SignInAsync(LoginFormInfo info)
