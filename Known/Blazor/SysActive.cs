@@ -6,14 +6,19 @@ class SysActive : BaseComponent
 
     [Parameter] public Action<bool> OnCheck { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        model = new FormModel<SystemInfo>(Context)
-        {
-            Data = await Platform.System.GetSystemAsync()
-        };
+        await base.OnInitAsync();
+        model = new FormModel<SystemInfo>(Context);
         model.AddRow().AddColumn(c => c.ProductId);
         model.AddRow().AddColumn(c => c.ProductKey);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            model.Data = await Platform.System.GetSystemAsync();
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
