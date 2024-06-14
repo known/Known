@@ -22,7 +22,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Known.Cells\Known.Cells.csproj" />
-        <ProjectReference Include="..\..\Known.Web\Known.Web.csproj" />
+        <ProjectReference Include="..\..\Known.Core\Known.Core.csproj" />
         <ProjectReference Include="..\Sample.Client\Sample.Client.csproj" />
     </ItemGroup>
 

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
-namespace Known.Web.Auths;
+namespace Known.Core.Auths;
 
 internal sealed class PersistingStateProvider : RevalidatingServerAuthenticationStateProvider, IAuthStateProvider
 {

@@ -1,4 +1,4 @@
-﻿namespace Known.Web.Extensions;
+﻿namespace Known.Core.Extensions;
 
 public static class HttpContextExtension
 {

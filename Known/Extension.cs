@@ -8,8 +8,8 @@ public static class Extension
         Language.Initialize();
         action?.Invoke(Config.App);
 
-        services.AddScoped<JSService>();
         services.AddScoped<Context>();
+        services.AddScoped<JSService>();
         services.AddScoped<PlatformService>();
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
 

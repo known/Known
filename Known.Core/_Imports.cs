@@ -1,7 +1,7 @@
 ﻿global using System.Diagnostics;
 global using System.Reflection;
 global using System.Security.Claims;
-global using Known.Web.Auths;
+global using Known.Core.Auths;
 global using Known.Weixins;
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.AspNetCore.Components;

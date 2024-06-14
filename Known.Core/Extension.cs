@@ -1,8 +1,20 @@
-﻿namespace Known.Web;
+﻿namespace Known.Core;
 
-public static class WebExtension
+public static class Extension
 {
     private static Dictionary<string, MethodInfo> ApiMethods { get; } = [];
+
+    public static void AddKnownWin(this IServiceCollection services)
+    {
+        services.AddResponseCompression();
+        services.AddHttpContextAccessor();
+        services.AddCascadingAuthenticationState();
+        services.AddAuthorizationCore();
+        services.AddScoped<IAuthStateProvider, WinAuthStateProvider>();
+        services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
+        //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        //        .AddCookie(options => options.LoginPath = new PathString("/login"));
+    }
 
     public static void AddKnownWeb(this IServiceCollection services)
     {

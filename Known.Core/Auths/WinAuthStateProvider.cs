@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace Sample.WinForm;
+﻿namespace Known.Core.Auths;
 
 class WinAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 {

@@ -1,4 +1,4 @@
-﻿namespace Known.Web;
+﻿namespace Known.Core;
 
 public static class WeixinExtension
 {

@@ -1,4 +1,4 @@
-﻿namespace Known.Web.Auths;
+﻿namespace Known.Core.Auths;
 
 class WebAuthStateProvider(ProtectedSessionStorage sessionStorage) : AuthenticationStateProvider, IAuthStateProvider
 {

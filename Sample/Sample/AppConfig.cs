@@ -13,17 +13,26 @@ public static class AppConfig
     public const string Branch = "Known";
     public const string SubTitle = "基于Blazor的企业级快速开发框架";
 
-    public static void AddSample(this IServiceCollection services)
+    public static string AppName { get; set; }
+
+    public static void AddSample(this IServiceCollection services, Action<AppInfo> action = null)
     {
+        Console.WriteLine(AppName);
         Config.AppMenus = AppMenus;
+
+        services.AddKnown(info =>
+        {
+            //项目ID、名称、类型、程序集
+            info.Id = "KIMS";
+            info.Name = AppName;
+            info.IsLanguage = true;
+            info.IsTheme = true;
+            //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
+            info.JsPath = "./script.js";
+            action?.Invoke(info);
+        });
+
         //添加模块
         Config.AddModule(typeof(AppConfig).Assembly);
-
-        //注册待办事项显示流程表单
-        //Config.ShowMyFlow = flow =>
-        //{
-        //    if (flow.Flow.FlowCode == AppFlow.Apply.Code)
-        //        ApplyForm.ShowMyFlow(flow);
-        //};
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Coravel;
 using Coravel.Invocable;
-using Sample.Web.Services;
 
 namespace Sample.Web;
 
@@ -8,26 +7,14 @@ public static class AppWeb
 {
     public static void AddApp(this WebApplicationBuilder builder, Action<AppInfo> action = null)
     {
-        //1.添加Known框架
-        builder.Services.AddKnown(info =>
-        {
-            //项目ID、名称、类型、程序集
-            info.Id = "KIMS";
-            info.Name = "Known信息管理系统";
-            info.Assembly = typeof(AppWeb).Assembly;
-            //info.AssemblyAdditional = true;
-            info.IsLanguage = true;
-            info.IsTheme = true;
-            //info.ProductId = "Test";
-            //info.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
-            //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
-            info.JsPath = "./script.js";
-            action?.Invoke(info);
-        });
-        builder.Services.AddKnownCore(info =>
+        AppConfig.AppName = "Known信息管理系统";
+        builder.Services.AddSample();
+        builder.Services.AddSampleCore(info =>
         {
             info.WebRoot = builder.Environment.WebRootPath;
             info.ContentRoot = builder.Environment.ContentRootPath;
+            info.Assembly = typeof(AppWeb).Assembly;
+
             //数据库连接
             info.Connections = [new Known.ConnectionInfo
             {
@@ -45,25 +32,12 @@ public static class AppWeb
                 ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
             }];
         });
+        builder.Services.AddSampleClient();
 
-        builder.Services.AddScoped<IHomeService, HomeService>();
-        builder.Services.AddScoped<IApplyService, ApplyService>();
-
+        builder.Services.AddKnownCells();
         builder.Services.AddKnownWeb();
         builder.Services.AddKnownWebApi();
 
-        //2.添加KnownExcel实现
-        builder.Services.AddKnownCells();
-
-        //3.添加UI扩展库
-        //添加KnownAntDesign
-        builder.Services.AddKnownAntDesign();
-
-        //4.添加Sample
-        builder.Services.AddSample();
-        Config.AddModule(typeof(Client._Imports).Assembly);
-
-        //5.添加定时任务
         builder.Services.AddScheduler();
         builder.Services.AddTransient<ImportTaskJob>();
     }
