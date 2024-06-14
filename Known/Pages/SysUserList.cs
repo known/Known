@@ -139,9 +139,7 @@ class UserForm : BaseForm<SysUser>
         if (firstRender)
         {
             var user = await userService.GetUserDataAsync(Model.Data.Id);
-            if (user.IsNew)
-                user.OrgNo = Model.Data.OrgNo;
-            Model.Data = user;
+            Model.Data.RoleIds = user.RoleIds;
             Model.Codes["Roles"] = user.Roles;
         }
     }
