@@ -1,5 +1,5 @@
 ﻿using Sample.Web;
-using Toolbelt.Extensions.DependencyInjection;
+//using Toolbelt.Extensions.DependencyInjection;
 
 #if DEBUG
 Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -37,5 +37,5 @@ app.MapRazorComponents<App>()
    .AddInteractiveServerRenderMode()
    .AddInteractiveWebAssemblyRenderMode()
    .AddAdditionalAssemblies([.. Config.Assemblies]);
-app.UseCssLiveReload();
+//app.UseCssLiveReload();
 app.Run();

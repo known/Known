@@ -23,8 +23,8 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
         }
         else
         {
-            var model = await SystemRepository.GetConfigAsync(Database, KeyCompany);
-            if (string.IsNullOrEmpty(model))
+            json = await SystemRepository.GetConfigAsync(Database, KeyCompany);
+            if (string.IsNullOrEmpty(json))
                 json = GetDefaultData(Database.User);
         }
         return Utils.FromJson<T>(json);

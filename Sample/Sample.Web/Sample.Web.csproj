@@ -11,7 +11,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.5" />
-        <PackageReference Include="Toolbelt.AspNetCore.CssLiveReloader" Version="1.1.4" />
+        <!--<PackageReference Include="Toolbelt.AspNetCore.CssLiveReloader" Version="1.1.4" />-->
         <PackageReference Include="Coravel" Version="5.0.3" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.5" />
         <!--<PackageReference Include="Npgsql" Version="8.0.3" />
@@ -24,12 +24,6 @@
         <ProjectReference Include="..\..\Known.Cells\Known.Cells.csproj" />
         <ProjectReference Include="..\..\Known.Core\Known.Core.csproj" />
         <ProjectReference Include="..\Sample.Client\Sample.Client.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Update="_Imports.razor">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      </Content>
     </ItemGroup>
 
 </Project>
