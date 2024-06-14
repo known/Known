@@ -29,13 +29,7 @@ public class KUpload : BaseComponent
     {
         await base.OnInitAsync();
         fileService = await CreateServiceAsync<IFileService>();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-            sysFiles = await fileService.GetFilesAsync(Value);
+        sysFiles = await fileService.GetFilesAsync(Value);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
