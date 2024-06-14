@@ -39,6 +39,7 @@ public class SysUserList : BasePage<SysUser>
 
         table = new TableModel<SysUser>(this)
         {
+            FormType = typeof(UserForm),
             RowKey = r => r.Id,
             OnQuery = OnQueryUsersAsync
         };
@@ -118,7 +119,7 @@ public class SysUserList : BasePage<SysUser>
     }
 }
 
-class SysUserForm : BaseForm<SysUser>
+class UserForm : BaseForm<SysUser>
 {
     private IUserService userService;
 

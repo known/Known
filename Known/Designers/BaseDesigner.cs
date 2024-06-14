@@ -2,7 +2,7 @@
 
 class BaseDesigner<TModel> : BaseComponent
 {
-    [CascadingParameter] internal SysModuleForm Form { get; set; }
+    [CascadingParameter] internal ModuleForm Form { get; set; }
 
     [Parameter] public EntityInfo Entity { get; set; }
     [Parameter] public TModel Model { get; set; }

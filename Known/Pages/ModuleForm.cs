@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-public class SysModuleForm : BaseStepForm
+public class ModuleForm : BaseStepForm
 {
     private IModuleService moduleService;
     private StepForm stepForm;

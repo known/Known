@@ -12,6 +12,7 @@ public class SysRoleList : BaseTablePage<SysRole>
         await base.OnPageInitAsync();
         roleService = await CreateServiceAsync<IRoleService>();
 
+        Table.FormType = typeof(RoleForm);
         Table.OnQuery = roleService.QueryRolesAsync;
         Table.RowKey = r => r.Id;
     }
@@ -22,7 +23,7 @@ public class SysRoleList : BaseTablePage<SysRole>
     public void DeleteM() => Table.DeleteM(roleService.DeleteRolesAsync);
 }
 
-class SysRoleForm : BaseForm<SysRole>
+class RoleForm : BaseForm<SysRole>
 {
     private IRoleService roleService;
     private TreeModel tree;

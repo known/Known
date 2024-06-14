@@ -31,11 +31,11 @@ public class SysModuleList : BasePage<SysModule>
 
         table = new TableModel<SysModule>(this)
         {
+            FormType = typeof(ModuleForm),
             FormTitle = row => $"{PageName} - {row.ParentName} > {row.Name}",
             RowKey = r => r.Id,
             ShowPager = false,
-            OnQuery = OnQueryModulesAsync,
-            FormType = typeof(SysModuleForm)
+            OnQuery = OnQueryModulesAsync
         };
     }
 

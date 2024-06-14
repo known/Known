@@ -88,7 +88,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
             Maximizable = true,
             DefaultMaximized = true,
             Width = 1200,
-            Content = b => b.Component<SysModuleForm>().Set(c => c.Model, form).Set(c => c.IsPageEdit, true).Build()
+            Content = b => b.Component<ModuleForm>().Set(c => c.Model, form).Set(c => c.IsPageEdit, true).Build()
         };
         UI.ShowDialog(model);
         form.OnClose = async () =>
