@@ -66,6 +66,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
             column.Name = name;
         return this;
     }
+    
+    public ColumnBuilder<TItem> Tooltip(string tooltip)
+    {
+        if (column != null)
+            column.Tooltip = tooltip;
+        return this;
+    }
 
     public ColumnBuilder<TItem> Category(string category, bool isAll = true)
     {

@@ -186,6 +186,7 @@ public class ColumnInfo
 
     public string Id { get; set; }
     public string Name { get; set; }
+    public string Tooltip { get; set; }
     public bool IsVisible { get; set; } = true;
 
     public bool IsSum { get; set; }

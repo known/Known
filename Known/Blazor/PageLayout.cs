@@ -16,13 +16,11 @@ public class PageLayout : BaseLayout
         if (IsLogin)
         {
             Context.CurrentUser = user;
+            Info = await AuthService.GetAdminAsync();
+            Context.UserSetting = Info?.UserSetting ?? new();
             if (!Context.IsMobile)
-            {
-                Info = await AuthService.GetAdminAsync();
                 UserMenus = GetUserMenus(Info?.UserMenus);
-                Context.UserSetting = Info?.UserSetting ?? new();
-                Cache.AttachCodes(Info?.Codes);
-            }
+            Cache.AttachCodes(Info?.Codes);
             IsLoaded = true;
         }
         else
