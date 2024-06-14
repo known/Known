@@ -527,21 +527,21 @@ URL|Url|Text|200
         return SystemRepository.QueryLogsAsync(Database, criteria);
     }
 
-    internal async Task<Result> DeleteLogsAsync(string data)
-    {
-        var ids = Utils.FromJson<string[]>(data);
-        var entities = await Database.QueryListByIdAsync<SysLog>(ids);
-        if (entities == null || entities.Count == 0)
-            return Result.Error(Language.SelectOneAtLeast);
+    //internal async Task<Result> DeleteLogsAsync(string data)
+    //{
+    //    var ids = Utils.FromJson<string[]>(data);
+    //    var entities = await Database.QueryListByIdAsync<SysLog>(ids);
+    //    if (entities == null || entities.Count == 0)
+    //        return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Delete, async db =>
-        {
-            foreach (var item in entities)
-            {
-                await db.DeleteAsync(item);
-            }
-        });
-    }
+    //    return await Database.TransactionAsync(Language.Delete, async db =>
+    //    {
+    //        foreach (var item in entities)
+    //        {
+    //            await db.DeleteAsync(item);
+    //        }
+    //    });
+    //}
 
     public Task AddLogAsync(SysLog log) => Database.SaveAsync(log);
 }

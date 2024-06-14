@@ -65,9 +65,9 @@ class SystemRepository
         return db.QueryListAsync<CountInfo>(sql, new { userName, logType });
     }
 
-    internal static Task<List<SysLog>> GetLogsAsync(Database db, string bizId)
-    {
-        var sql = "select * from SysLog where Target=@bizId order by CreateTime";
-        return db.QueryListAsync<SysLog>(sql, new { bizId });
-    }
+    //internal static Task<List<SysLog>> GetLogsAsync(Database db, string bizId)
+    //{
+    //    var sql = "select * from SysLog where Target=@bizId order by CreateTime";
+    //    return db.QueryListAsync<SysLog>(sql, new { bizId });
+    //}
 }

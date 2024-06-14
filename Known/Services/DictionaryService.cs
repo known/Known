@@ -10,7 +10,12 @@ public interface IDictionaryService : IService
 
 class DictionaryService(Context context) : ServiceBase(context), IDictionaryService
 {
-    public Task<Result> RefreshCacheAsync() => RefreshCacheAsync(Database);
+    public async Task<Result> RefreshCacheAsync()
+    {
+        var codes = await GetDictionarysAsync(Database);
+        Cache.AttachCodes(codes);
+        return Result.Success(Language["Tip.RefreshSuccess"], codes);
+    }
 
     public async Task<List<CodeInfo>> GetCategoriesAsync()
     {
@@ -54,13 +59,6 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         await Database.SaveAsync(model);
         await RefreshCacheAsync();
         return Result.Success(Language.Success(Language.Save), model);
-    }
-
-    private async Task<Result> RefreshCacheAsync(Database db)
-    {
-        var codes = await GetDictionarysAsync(db);
-        Cache.AttachCodes(codes);
-        return Result.Success(Language["Tip.RefreshSuccess"], codes);
     }
 
     internal static async Task<List<CodeInfo>> GetDictionarysAsync(Database db)

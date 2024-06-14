@@ -22,11 +22,6 @@ class UserService(Context context) : ServiceBase(context), IUserService
         return UserRepository.QueryUsersAsync(Database, criteria);
     }
 
-    public Task<List<SysUser>> GetUsersByRoleAsync(string roleName)
-    {
-        return UserRepository.GetUsersByRoleAsync(Database, roleName);
-    }
-
     public Task<SysUser> GetUserAsync(string id) => Database.QueryByIdAsync<SysUser>(id);
 
     public async Task<SysUser> GetUserDataAsync(string id)
@@ -238,37 +233,37 @@ class UserService(Context context) : ServiceBase(context), IUserService
     //}
 
     //Message
-    public Task<PagingResult<SysMessage>> QueryMessagesAsync(PagingCriteria criteria)
-    {
-        criteria.SetQuery(nameof(SysMessage.UserId), CurrentUser.UserName);
-        return UserRepository.QueryMessagesAsync(Database, criteria);
-    }
+    //public Task<PagingResult<SysMessage>> QueryMessagesAsync(PagingCriteria criteria)
+    //{
+    //    criteria.SetQuery(nameof(SysMessage.UserId), CurrentUser.UserName);
+    //    return UserRepository.QueryMessagesAsync(Database, criteria);
+    //}
 
-    public async Task<Result> DeleteMessagesAsync(List<SysMessage> entities)
-    {
-        if (entities == null || entities.Count == 0)
-            return Result.Error(Language.SelectOneAtLeast);
+    //public async Task<Result> DeleteMessagesAsync(List<SysMessage> entities)
+    //{
+    //    if (entities == null || entities.Count == 0)
+    //        return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Delete, async db =>
-        {
-            foreach (var item in entities)
-            {
-                await db.DeleteAsync(item);
-            }
-        });
-    }
+    //    return await Database.TransactionAsync(Language.Delete, async db =>
+    //    {
+    //        foreach (var item in entities)
+    //        {
+    //            await db.DeleteAsync(item);
+    //        }
+    //    });
+    //}
 
-    public async Task<Result> SaveMessageAsync(SysMessage model)
-    {
-        var vr = model.Validate(Context);
-        if (!vr.IsValid)
-            return vr;
+    //public async Task<Result> SaveMessageAsync(SysMessage model)
+    //{
+    //    var vr = model.Validate(Context);
+    //    if (!vr.IsValid)
+    //        return vr;
 
-        var result = await Database.TransactionAsync(Language.Save, async db =>
-        {
-            await db.SaveAsync(model);
-        });
-        result.Data = UserRepository.GetMessageCountAsync(Database);
-        return result;
-    }
+    //    var result = await Database.TransactionAsync(Language.Save, async db =>
+    //    {
+    //        await db.SaveAsync(model);
+    //    });
+    //    result.Data = UserRepository.GetMessageCountAsync(Database);
+    //    return result;
+    //}
 }

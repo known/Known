@@ -8,11 +8,11 @@ class FileRepository
         return db.QueryPageAsync<SysFile>(sql, criteria);
     }
 
-    internal static async Task<bool> HasFilesAsync(Database db, string bizId)
-    {
-        var sql = "select count(*) from SysFile where BizId=@bizId";
-        return await db.ScalarAsync<int>(sql, new { bizId }) > 0;
-    }
+    //internal static async Task<bool> HasFilesAsync(Database db, string bizId)
+    //{
+    //    var sql = "select count(*) from SysFile where BizId=@bizId";
+    //    return await db.ScalarAsync<int>(sql, new { bizId }) > 0;
+    //}
 
     internal static Task<List<SysFile>> GetFilesAsync(Database db, string bizId)
     {

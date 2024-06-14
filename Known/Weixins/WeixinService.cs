@@ -25,10 +25,10 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
         return Result.Success(Language.Success(Language.Save));
     }
 
-    public Task<SysWeixin> GetWeixinByOpenIdAsync(string openId)
-    {
-        return WeixinRepository.GetWeixinByOpenIdAsync(Database, openId);
-    }
+    //public Task<SysWeixin> GetWeixinByOpenIdAsync(string openId)
+    //{
+    //    return WeixinRepository.GetWeixinByOpenIdAsync(Database, openId);
+    //}
 
     public Task<SysWeixin> GetWeixinByUserIdAsync(string userId)
     {
@@ -47,14 +47,14 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
         return WeixinApi.GetQRCodeUrl(ticket.Ticket);
     }
 
-    public async Task<string> GetAuthorizeUrlAsync(string state)
-    {
-        var info = await SystemService.GetConfigAsync<WeixinInfo>(Database, KeyWeixin);
-        if (info == null || !info.IsWeixinAuth)
-            return string.Empty;
+    //public async Task<string> GetAuthorizeUrlAsync(string state)
+    //{
+    //    var info = await SystemService.GetConfigAsync<WeixinInfo>(Database, KeyWeixin);
+    //    if (info == null || !info.IsWeixinAuth)
+    //        return string.Empty;
 
-        return WeixinApi.GetAuthorizeUrl(state);
-    }
+    //    return WeixinApi.GetAuthorizeUrl(state);
+    //}
 
     public async Task<UserInfo> CheckWeixinAsync(UserInfo user)
     {

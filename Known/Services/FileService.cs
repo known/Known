@@ -19,14 +19,14 @@ class FileService(Context context) : ServiceBase(context), IFileService
         await DeleteFilesAsync(db, files, oldFiles);
     }
 
-    internal static async Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles)
-    {
-        if (file == null)
-            return null;
+    //internal static async Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles)
+    //{
+    //    if (file == null)
+    //        return null;
 
-        await DeleteFilesAsync(db, bizId, bizType, oldFiles);
-        return await AddFileAsync(db, file, bizId, bizType, "");
-    }
+    //    await DeleteFilesAsync(db, bizId, bizType, oldFiles);
+    //    return await AddFileAsync(db, file, bizId, bizType, "");
+    //}
 
     internal static async Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType)
     {
@@ -153,11 +153,11 @@ class FileService(Context context) : ServiceBase(context), IFileService
     //    return Result.Success("", file.Url);
     //}
 
-    internal static async Task DeleteFilesAsync(Database db, string bizId, string bizType, List<string> oldFiles)
-    {
-        var files = await FileRepository.GetFilesAsync(db, bizId, bizType);
-        await DeleteFilesAsync(db, files, oldFiles);
-    }
+    //internal static async Task DeleteFilesAsync(Database db, string bizId, string bizType, List<string> oldFiles)
+    //{
+    //    var files = await FileRepository.GetFilesAsync(db, bizId, bizType);
+    //    await DeleteFilesAsync(db, files, oldFiles);
+    //}
 
     private static async Task DeleteFilesAsync(Database db, List<SysFile> files, List<string> oldFiles)
     {
@@ -181,8 +181,8 @@ class FileService(Context context) : ServiceBase(context), IFileService
         attach.BizType = bizType;
         var file = new SysFile
         {
-            CompNo = attach.User.CompNo,
-            AppId = attach.User.AppId,
+            CompNo = db.User.CompNo,
+            AppId = db.User.AppId,
             Category1 = attach.Category1 ?? "File",
             Category2 = attach.Category2,
             Type = attach.BizType,

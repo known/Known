@@ -7,7 +7,6 @@ public class AttachFile
     internal AttachFile(IAttachFile file, UserInfo user, string bizType = null, string bizPath = null)
     {
         this.file = file;
-        User = user;
         Size = file.Length;
         var names = file.FileName.Replace(@"\", "/").Split('/');
         SourceName = names.Last();
@@ -24,7 +23,6 @@ public class AttachFile
             FilePath = Path.Combine(filePath, bizPath, fileName);
     }
 
-    internal UserInfo User { get; }
     internal bool IsWeb { get; set; }
     public long Size { get; }
     public string SourceName { get; }

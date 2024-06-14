@@ -36,11 +36,11 @@ where a.AppId=@AppId and a.CompNo=@CompNo and a.UserName<>'admin'";
         return await db.ScalarAsync<int>(sql, new { id, userName }) > 0;
     }
 
-    internal static Task<int> GetUserCountAsync(Database db)
-    {
-        var sql = "select count(*) from SysUser where CompNo=@CompNo";
-        return db.ScalarAsync<int>(sql, new { db.User.CompNo });
-    }
+    //internal static Task<int> GetUserCountAsync(Database db)
+    //{
+    //    var sql = "select count(*) from SysUser where CompNo=@CompNo";
+    //    return db.ScalarAsync<int>(sql, new { db.User.CompNo });
+    //}
 
     internal static Task<List<string>> GetUserRolesAsync(Database db, string userId)
     {
@@ -101,11 +101,11 @@ where a.RoleId in (select RoleId from SysUserRole where UserId=@userId)
     }
 
     //Message
-    internal static Task<PagingResult<SysMessage>> QueryMessagesAsync(Database db, PagingCriteria criteria)
-    {
-        var sql = "select * from SysMessage where CompNo=@CompNo";
-        return db.QueryPageAsync<SysMessage>(sql, criteria);
-    }
+    //internal static Task<PagingResult<SysMessage>> QueryMessagesAsync(Database db, PagingCriteria criteria)
+    //{
+    //    var sql = "select * from SysMessage where CompNo=@CompNo";
+    //    return db.QueryPageAsync<SysMessage>(sql, criteria);
+    //}
 
     internal static Task<int> GetMessageCountAsync(Database db)
     {

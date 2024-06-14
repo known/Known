@@ -64,7 +64,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         return Result.Success(Language["Tip.ExitSuccess"]);
     }
 
-    private static ConcurrentDictionary<string, UserInfo> cachedUsers = new();
+    private static readonly ConcurrentDictionary<string, UserInfo> cachedUsers = new();
 
     internal static UserInfo GetUserByToken(string token)
     {
@@ -140,6 +140,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
     private static async Task SetUserInfoAsync(Database db, UserInfo user)
     {
         var sys = await SystemService.GetConfigAsync<SystemInfo>(db, SystemService.KeySystem);
+        user.AvatarUrl = user.Gender == "Female" ? "img/face2.png" : "img/face1.png";
         user.IsTenant = user.CompNo != sys.CompNo;
         user.AppName = Config.App.Name;
         if (user.IsAdmin)
@@ -157,8 +158,6 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             if (string.IsNullOrEmpty(user.CompName))
                 user.CompName = orgName;
         }
-
-        SetUserAvatar(user);
     }
 
     private static async Task SetUserWeixinAsync(Database db, UserInfo user)
@@ -169,13 +168,5 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
 
         user.OpenId = weixin.OpenId;
         user.AvatarUrl = weixin.HeadImgUrl;
-    }
-
-    private static void SetUserAvatar(UserInfo user)
-    {
-        if (user == null)
-            return;
-
-        user.AvatarUrl = user.Gender == "Female" ? "img/face2.png" : "img/face1.png";
     }
 }

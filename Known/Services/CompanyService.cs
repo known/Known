@@ -14,20 +14,19 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
     private const string KeyCompany = "CompanyInfo";
 
     //Company
-    internal static async Task<string> GetCompanyAsync(Database db)
-    {
-        if (Config.App.IsPlatform)
-            return await GetCompanyDataAsync(db);
-
-        var model = await SystemRepository.GetConfigAsync(db, KeyCompany);
-        if (string.IsNullOrEmpty(model))
-            model = GetDefaultData(db.User);
-        return model;
-    }
-
     public async Task<T> GetCompanyAsync<T>()
     {
-        var json = await GetCompanyAsync(Database);
+        var json = string.Empty;
+        if (Config.App.IsPlatform)
+        {
+            json = await GetCompanyDataAsync(Database);
+        }
+        else
+        {
+            var model = await SystemRepository.GetConfigAsync(Database, KeyCompany);
+            if (string.IsNullOrEmpty(model))
+                json = GetDefaultData(Database.User);
+        }
         return Utils.FromJson<T>(json);
     }
 

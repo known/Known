@@ -17,15 +17,15 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
     private string UserNotExists(string user) => Language["Tip.UserNotExists"].Replace("{user}", user);
     private string NotExecuteFlow(string user) => Language["Tip.NotExecuteFlow"].Replace("{user}", user);
 
-    internal static Task<SysFlow> GetFlowAsync(Database db, string bizId) => FlowRepository.GetFlowAsync(db, bizId);
+    //internal static Task<SysFlow> GetFlowAsync(Database db, string bizId) => FlowRepository.GetFlowAsync(db, bizId);
 
-    internal async Task<UserInfo> GetFlowStepUserAsync(Database db, string flowCode, string stepCode)
-    {
-        var user = CurrentUser;
-        return await FlowRepository.GetFlowStepUserAsync(db, user.CompNo, user.AppId, flowCode, stepCode);
-    }
+    //internal async Task<UserInfo> GetFlowStepUserAsync(Database db, string flowCode, string stepCode)
+    //{
+    //    var user = CurrentUser;
+    //    return await FlowRepository.GetFlowStepUserAsync(db, user.CompNo, user.AppId, flowCode, stepCode);
+    //}
 
-    public Task<List<SysFlow>> GetFlowTodosAsync() => FlowRepository.GetFlowTodosAsync(Database);
+    //public Task<List<SysFlow>> GetFlowTodosAsync() => FlowRepository.GetFlowTodosAsync(Database);
 
     public Task<List<SysFlowLog>> GetFlowLogsAsync(string bizId) => FlowRepository.GetFlowLogsAsync(Database, bizId);
 
