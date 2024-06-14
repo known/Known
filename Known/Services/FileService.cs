@@ -74,21 +74,23 @@ class FileService(Context context) : ServiceBase(context), IFileService
         return await ImportHelper.GetImportRuleAsync(Context, bizId);
     }
 
-    public Task<List<SysFile>> GetFilesAsync(string bizId)
+    public Task<List<SysFile>> GetFilesAsync(string bizId) => GetFilesAsync(Database, bizId);
+
+    internal static Task<List<SysFile>> GetFilesAsync(Database db, string bizId)
     {
         if (string.IsNullOrWhiteSpace(bizId))
             return Task.FromResult(new List<SysFile>());
 
         var bizIds = bizId.Split(';');
         if (bizIds.Length > 1)
-            return FileRepository.GetFilesAsync(Database, bizIds);
+            return FileRepository.GetFilesAsync(db, bizIds);
 
         if (!bizId.Contains('_'))
-            return FileRepository.GetFilesAsync(Database, bizId);
+            return FileRepository.GetFilesAsync(db, bizId);
 
         var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
         var bizType = bizId.Substring(bizId.IndexOf('_') + 1);
-        return FileRepository.GetFilesAsync(Database, bizId1, bizType);
+        return FileRepository.GetFilesAsync(db, bizId1, bizType);
     }
 
     //internal Task<bool> HasFilesAsync(string bizId) => FileRepository.HasFilesAsync(Database, bizId);

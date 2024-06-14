@@ -277,7 +277,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         });
     }
 
-    internal async Task CreateFlowAsync(Database db, FlowBizInfo info)
+    internal static async Task CreateFlowAsync(Database db, FlowBizInfo info)
     {
         var stepName = FlowStatus.StepCreate;
         var flow = new SysFlow
@@ -296,7 +296,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
             CurrBy = db.User.UserName
         };
         await db.SaveAsync(flow);
-        await AddFlowLogAsync(db, info.BizId, stepName, Language["Start"], info.BizName);
+        await AddFlowLogAsync(db, info.BizId, stepName, "Start", info.BizName);
     }
 
     internal static async Task DeleteFlowAsync(Database db, string bizId)

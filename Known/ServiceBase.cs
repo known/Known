@@ -13,16 +13,6 @@ public abstract class ServiceBase(Context context) : IService
     public UserInfo CurrentUser => Context.CurrentUser;
     public Language Language => Context.Language;
 
-    private PlatformService platform;
-    protected PlatformService Platform
-    {
-        get
-        {
-            platform ??= new PlatformService(Context);
-            return platform;
-        }
-    }
-
     private Database database;
     protected virtual Database Database
     {

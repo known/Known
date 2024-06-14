@@ -10,7 +10,6 @@ public static class Extension
 
         services.AddScoped<Context>();
         services.AddScoped<JSService>();
-        services.AddScoped<PlatformService>();
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
 
         var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
