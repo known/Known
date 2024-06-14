@@ -19,5 +19,5 @@ public class Platform
 
     //Weixin
     public static Task<SysWeixin> GetWeixinAsync(Database db, SysUser user) => WeixinRepository.GetWeixinByUserIdAsync(db, user.Id);
-    public static Task<Result> SendTemplateMessageAsync(TemplateInfo info) => WeixinService.SendTemplateMessageAsync(info);
+    public static Task<Result> SendTemplateMessageAsync(TemplateInfo info) => WeixinApi.SendTemplateMessageAsync(info);
 }

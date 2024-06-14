@@ -27,10 +27,7 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        Model ??= new FormModel<TItem>(Context)
-        {
-            Data = Data ?? new TItem()
-        };
+        Model ??= new FormModel<TItem>(Context) { Data = Data ?? new TItem() };
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)
@@ -40,8 +37,8 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
         {
             builder.FormAction(() =>
             {
-                UI.Button(builder, new ActionInfo(Context, "OK", ""), this.Callback<MouseEventArgs>(OnSaveAsync));
-                UI.Button(builder, new ActionInfo(Context, "Cancel", ""), this.Callback<MouseEventArgs>(OnCloseAsync));
+                UI.Button(builder, Language.OK, this.Callback<MouseEventArgs>(OnSaveAsync));
+                UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync));
             });
         }
     }

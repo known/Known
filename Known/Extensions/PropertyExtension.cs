@@ -13,12 +13,15 @@ static class PropertyExtension
         }
 
         var valueString = value == null ? "" : value.ToString().Trim();
+        if (string.IsNullOrEmpty(valueString))
+            return;
+
         var minLength = property.MinLength();
         var maxLength = property.MaxLength();
         var typeName = property.PropertyType.FullName;
         if (typeName.Contains("System.Int32"))
         {
-            if (!int.TryParse(value.ToString(), out int i))
+            if (!int.TryParse(valueString, out int i))
                 errors.Add(language.GetString("Valid.MustInteger", label));
             if (minLength != null && i < minLength.Value)
                 errors.Add(language.GetString("Valid.MustMinLength", label, minLength));
@@ -27,7 +30,7 @@ static class PropertyExtension
         }
         else if (typeName.Contains("System.Decimal"))
         {
-            if (!decimal.TryParse(value.ToString(), out decimal d))
+            if (!decimal.TryParse(valueString, out decimal d))
                 errors.Add(language.GetString("Valid.MustNumber", label));
             if (minLength != null && d < minLength.Value)
                 errors.Add(language.GetString("Valid.MustMinLength", label, minLength));
@@ -38,7 +41,7 @@ static class PropertyExtension
         {
             //if (string.IsNullOrEmpty(DateFormat))
             //{
-            //    if (!DateTime.TryParse(value.ToString(), out _))
+            //    if (!DateTime.TryParse(valueString, out _))
             //        errors.Add(language.GetString("Valid.MustDateTime", label));
             //}
             //else

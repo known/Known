@@ -126,7 +126,7 @@ class SysUserForm : BaseForm<SysUser>
     {
         await base.OnInitFormAsync();
         userService = await CreateServiceAsync<IUserService>();
-        
+
         Model.Initialize();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
         Model.AddRow().AddColumn(c => c.RoleIds);
@@ -138,9 +138,10 @@ class SysUserForm : BaseForm<SysUser>
         if (firstRender)
         {
             var user = await userService.GetUserDataAsync(Model.Data.Id);
-            user.OrgNo = Model.Data.OrgNo;
+            if (user.IsNew)
+                user.OrgNo = Model.Data.OrgNo;
             Model.Data = user;
-            Model.Codes["Roles"] = Model.Data.Roles;
+            Model.Codes["Roles"] = user.Roles;
         }
     }
 }

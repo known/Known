@@ -255,7 +255,7 @@ public static class WeixinApi
 
     #region 模板消息
     //发送模板消息
-    public static Result SendTemplateMessage(TemplateInfo info)
+    public static async Task<Result> SendTemplateMessageAsync(TemplateInfo info)
     {
         if (string.IsNullOrWhiteSpace(AccessToken))
             return Result.Error("AccessToken is null.");
@@ -263,7 +263,7 @@ public static class WeixinApi
         try
         {
             var url = $"https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={AccessToken}";
-            var content = HttpPostData(url, Utils.ToJson(info));
+            var content = await HttpPostDataAsync(url, Utils.ToJson(info));
             var result = Utils.FromJson<Dictionary<string, object>>(content);
             var errCode = result?.GetValue<int>("errcode");
             var errMsg = result?.GetValue<string>("errmsg");
@@ -280,7 +280,7 @@ public static class WeixinApi
         }
     }
 
-    private static string HttpPostData(string url, string data)
+    private static async Task<string> HttpPostDataAsync(string url, string data)
     {
         var encoding = Encoding.UTF8;
         var bytes = encoding.GetBytes(data);
@@ -291,10 +291,10 @@ public static class WeixinApi
         request.Method = "POST";
         request.ContentType = "application/x-www-form-urlencoded";
         request.ContentLength = bytes.Length;
-        var outstream = request.GetRequestStream();
+        var outstream = await request.GetRequestStreamAsync();
         outstream.Write(bytes, 0, bytes.Length);
         outstream.Close();
-        var response = request.GetResponse() as HttpWebResponse;
+        var response = await request.GetResponseAsync() as HttpWebResponse;
         var instream = response.GetResponseStream();
         var sr = new StreamReader(instream, encoding);
         var content = sr.ReadToEnd();
