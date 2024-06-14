@@ -63,7 +63,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         return Result.Success(Language["Tip.RefreshSuccess"], codes);
     }
 
-    internal async Task<List<CodeInfo>> GetDictionarysAsync(Database db)
+    internal static async Task<List<CodeInfo>> GetDictionarysAsync(Database db)
     {
         var entities = await DictionaryRepository.GetDictionarysAsync(db);
         var codes = entities.Select(e =>

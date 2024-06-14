@@ -15,7 +15,7 @@ public static class AppConfig
 
     public static string AppName { get; set; }
 
-    public static void AddSample(this IServiceCollection services, Action<AppInfo> action = null)
+    public static void AddSample(this IServiceCollection services)
     {
         Console.WriteLine(AppName);
         Config.AppMenus = AppMenus;
@@ -29,7 +29,6 @@ public static class AppConfig
             info.IsTheme = true;
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
             info.JsPath = "./script.js";
-            action?.Invoke(info);
         });
 
         //添加模块

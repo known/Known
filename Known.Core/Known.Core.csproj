@@ -4,10 +4,10 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Authors>KnownChen</Authors>
-        <Description>Known.Web是Known框架Web后端类库。</Description>
-        <Version>1.0.0</Version>
+        <Description>Known.Core是Known框架后端类库。</Description>
+        <Version>2.0.4</Version>
         <PackageIcon>icon.png</PackageIcon>
-        <PackageTags>Known, Web</PackageTags>
+        <PackageTags>Known, WinForm, Web</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>

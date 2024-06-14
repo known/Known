@@ -65,7 +65,7 @@ public class UIContext : Context
         UserMenus = null;
     }
 
-    internal async Task SetCurrentMenuAsync(PlatformService platform, string pageId = "")
+    internal async Task SetCurrentMenuAsync(ISystemService service, string pageId = "")
     {
         Module = null;
         Current = UIConfig.Menus.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
@@ -74,7 +74,7 @@ public class UIContext : Context
             var menus = IsMobile ? Config.AppMenus : UserMenus;
             Current = menus?.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
             if (Current != null)
-                Module = await platform.Module.GetModuleAsync(Current.Id);
+                Module = await service.GetModuleAsync(Current.Id);
         }
 
         if (Module == null)
@@ -86,6 +86,6 @@ public class UIContext : Context
             Content = Url,
             Type = LogType.Page.ToString()
         };
-        await platform.System.AddLogAsync(log);
+        await service.AddLogAsync(log);
     }
 }

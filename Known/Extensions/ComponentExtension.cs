@@ -2,6 +2,13 @@
 
 public static class ComponentExtension
 {
+    public static async Task<T> CreateAsync<T>(this IServiceScopeFactory factory)
+    {
+        await using var scope = factory.CreateAsyncScope();
+        var service = scope.ServiceProvider.GetRequiredService<T>();
+        return service;
+    }
+
     public static async Task<T> CreateAsync<T>(this IServiceScopeFactory factory, Context context) where T : IService
     {
         await using var scope = factory.CreateAsyncScope();

@@ -97,14 +97,13 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             return new AdminInfo();
 
         await Database.OpenAsync();
-        await DataHelper.InitializeAsync(Platform.Module);
         var admin = new AdminInfo
         {
             AppName = await UserHelper.GetSystemNameAsync(Database),
             MessageCount = await UserRepository.GetMessageCountAsync(Database),
             UserMenus = await UserHelper.GetUserMenusAsync(Database),
-            UserSetting = await Platform.Setting.GetUserSettingAsync<SettingInfo>(Database, SettingInfo.KeyInfo),
-            Codes = await Platform.Dictionary.GetDictionarysAsync(Database)
+            UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(Database, SettingInfo.KeyInfo),
+            Codes = await DictionaryService.GetDictionarysAsync(Database)
         };
         await Database.CloseAsync();
         return admin;

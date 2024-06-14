@@ -180,7 +180,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
         }, model);
     }
 
-    public async Task SyncUserAsync(Database db, SysUser user)
+    internal static async Task SyncUserAsync(Database db, SysUser user)
     {
         var model = await UserRepository.GetUserByUserNameAsync(db, user.UserName);
         if (model == null)
@@ -197,7 +197,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
                 Enabled = true,
                 Role = user.Role
             };
-            var info = await SystemService.GetSystemAsync(Database);
+            var info = await SystemService.GetSystemAsync(db);
             if (!string.IsNullOrWhiteSpace(user.Password))
                 model.Password = Utils.ToMd5(user.Password);
             else if (info != null)

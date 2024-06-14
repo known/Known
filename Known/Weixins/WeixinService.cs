@@ -68,7 +68,7 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
         return user;
     }
 
-    internal Task<Result> SendTemplateMessageAsync(TemplateInfo info)
+    internal static Task<Result> SendTemplateMessageAsync(TemplateInfo info)
     {
         var result = WeixinApi.SendTemplateMessage(info);
         return Task.FromResult(result);

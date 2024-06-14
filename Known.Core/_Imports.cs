@@ -2,6 +2,8 @@
 global using System.Reflection;
 global using System.Security.Claims;
 global using Known.Core.Auths;
+global using Known.Extensions;
+global using Known.Services;
 global using Known.Weixins;
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.AspNetCore.Components;

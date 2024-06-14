@@ -135,6 +135,7 @@ public class SysModuleList : BasePage<SysModule>
         }
         model.Data = tree.Data;
         model.SelectedKeys = tree.SelectedKeys;
+        DataHelper.Initialize(modules);
     }
 
     private void ShowTreeModal(string title, Func<SysModule, Task<Result>> action)

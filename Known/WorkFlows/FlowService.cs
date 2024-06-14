@@ -299,13 +299,13 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         await AddFlowLogAsync(db, info.BizId, stepName, Language["Start"], info.BizName);
     }
 
-    internal async Task DeleteFlowAsync(Database db, string bizId)
+    internal static async Task DeleteFlowAsync(Database db, string bizId)
     {
         await FlowRepository.DeleteFlowLogsAsync(db, bizId);
         await FlowRepository.DeleteFlowAsync(db, bizId);
     }
 
-    internal Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note, DateTime? time = null)
+    internal static Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note, DateTime? time = null)
     {
         return db.SaveAsync(new SysFlowLog
         {

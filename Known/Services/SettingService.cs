@@ -48,7 +48,7 @@ class SettingService(Context context) : ServiceBase(context), ISettingService
     internal Task<List<SysSetting>> GetUserSettingsAsync(string bizType) => SettingRepository.GetUserSettingsAsync(Database, bizType);
 
     public Task<T> GetUserSettingAsync<T>(string bizType) => GetUserSettingAsync<T>(Database, bizType);
-    internal async Task<T> GetUserSettingAsync<T>(Database db, string bizType)
+    internal static async Task<T> GetUserSettingAsync<T>(Database db, string bizType)
     {
         var setting = await SettingRepository.GetUserSettingAsync(db, bizType);
         if (setting == null)

@@ -4,20 +4,28 @@ public class BaseLayout : LayoutComponentBase
 {
     [Inject] protected IAuthStateProvider AuthProvider { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
+    [Inject] public IServiceScopeFactory Factory { get; set; }
     [Inject] public JSService JS { get; set; }
     [CascadingParameter] public UIContext Context { get; set; }
     public Language Language => Context?.Language;
     public MenuInfo CurrentMenu => Context.Current;
+    protected IAuthService AuthService { get; private set; }
 
-    private PlatformService platform;
-    public PlatformService Platform
+    protected override async Task OnInitializedAsync()
     {
-        get
+        try
         {
-            platform ??= new PlatformService(Context);
-            return platform;
+            await base.OnInitializedAsync();
+            AuthService = await Factory.CreateAsync<IAuthService>(Context);
+            await OnInitAsync();
+        }
+        catch (Exception ex)
+        {
+            await OnError(ex);
         }
     }
+
+    protected virtual Task OnInitAsync() => Task.CompletedTask;
 
     public void NavigateTo(string url) => Navigation.NavigateTo(url);
 
@@ -42,7 +50,7 @@ public class BaseLayout : LayoutComponentBase
     public async Task SignOutAsync()
     {
         var user = await AuthProvider.GetUserAsync();
-        var result = await Platform.Auth.SignOutAsync(user?.Token);
+        var result = await AuthService.SignOutAsync(user?.Token);
         if (result.IsValid)
         {
             Context.SignOut();

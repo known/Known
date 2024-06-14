@@ -39,8 +39,7 @@ internal sealed class PersistingStateProvider : RevalidatingServerAuthentication
         if (principal.Identity?.IsAuthenticated == false)
             return null;
 
-        await using var scope = scopeFactory.CreateAsyncScope();
-        var service = scope.ServiceProvider.GetRequiredService<PlatformService>();
+        var service = await scopeFactory.CreateAsync<IAuthService>();
         return await service.GetUserAsync(principal.Identity.Name);
     }
 
@@ -56,8 +55,7 @@ internal sealed class PersistingStateProvider : RevalidatingServerAuthentication
     protected override async Task<bool> ValidateAuthenticationStateAsync(AuthenticationState authenticationState, CancellationToken cancellationToken)
     {
         // Get the user manager from a new scope to ensure it fetches fresh data
-        await using var scope = scopeFactory.CreateAsyncScope();
-        var service = scope.ServiceProvider.GetRequiredService<PlatformService>();
+        var service = await scopeFactory.CreateAsync<IAuthService>();
         var user = await service.GetUserAsync(authenticationState.User.Identity.Name);
         if (user is null)
             return false;

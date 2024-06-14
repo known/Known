@@ -13,13 +13,13 @@ public interface IFileService : IService
 class FileService(Context context) : ServiceBase(context), IFileService
 {
     //Public
-    internal async Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)
+    internal static async Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)
     {
         var files = await FileRepository.GetFilesAsync(db, bizId);
         await DeleteFilesAsync(db, files, oldFiles);
     }
 
-    internal async Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles)
+    internal static async Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles)
     {
         if (file == null)
             return null;
@@ -28,7 +28,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
         return await AddFileAsync(db, file, bizId, bizType, "");
     }
 
-    internal async Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType)
+    internal static async Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType)
     {
         if (files == null || files.Count == 0)
             return null;

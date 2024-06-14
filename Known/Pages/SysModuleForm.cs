@@ -120,7 +120,6 @@ public class SysModuleForm : BaseStepForm
             return false;
 
         await Model.SaveAsync(isClose);
-        await DataHelper.InitializeAsync(moduleService);
         return true;
     }
 

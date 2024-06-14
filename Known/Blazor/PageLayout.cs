@@ -7,33 +7,27 @@ public class PageLayout : BaseLayout
     protected List<MenuInfo> UserMenus { get; private set; }
     protected bool IsLogin { get; private set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitAsync()
     {
-        try
+        await base.OnInitAsync();
+        IsLoaded = false;
+        var user = await GetCurrentUserAsync();
+        IsLogin = user != null;
+        if (IsLogin)
         {
-            IsLoaded = false;
-            var user = await GetCurrentUserAsync();
-            IsLogin = user != null;
-            if (IsLogin)
+            Context.CurrentUser = user;
+            if (!Context.IsMobile)
             {
-                Context.CurrentUser = user;
-                if (!Context.IsMobile)
-                {
-                    Info = await Platform.Auth.GetAdminAsync();
-                    UserMenus = GetUserMenus(Info?.UserMenus);
-                    Context.UserSetting = Info?.UserSetting ?? new();
-                    Cache.AttachCodes(Info?.Codes);
-                }
-                IsLoaded = true;
+                Info = await AuthService.GetAdminAsync();
+                UserMenus = GetUserMenus(Info?.UserMenus);
+                Context.UserSetting = Info?.UserSetting ?? new();
+                Cache.AttachCodes(Info?.Codes);
             }
-            else
-            {
-                NavigateTo("/login");
-            }
+            IsLoaded = true;
         }
-        catch (Exception ex)
+        else
         {
-            await OnError(ex);
+            NavigateTo("/login");
         }
     }
 
@@ -59,7 +53,8 @@ public class PageLayout : BaseLayout
                 pageId = Context.Url.Split("/")[2];
             //Logger.Info($"Layout={Context.Url}");
             await base.OnParametersSetAsync();
-            await Context.SetCurrentMenuAsync(Platform, pageId);
+            var service = await Factory.CreateAsync<ISystemService>(Context);
+            await Context.SetCurrentMenuAsync(service, pageId);
         }
         catch (Exception ex)
         {

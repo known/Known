@@ -27,13 +27,15 @@ public sealed class Config
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
 
-    public static void AddModule(Assembly assembly, bool isAdditional = true)
+    public static void AddModule(Assembly assembly)
     {
         if (assembly == null)
             return;
 
-        if (isAdditional && !Assemblies.Exists(a => a.FullName == assembly.FullName))
-            Assemblies.Add(assembly);
+        if (Assemblies.Exists(a => a.FullName == assembly.FullName))
+            return;
+
+        Assemblies.Add(assembly);
         AddActions(assembly);
 
         foreach (var item in assembly.GetTypes())
@@ -60,10 +62,9 @@ public sealed class Config
     {
         Version = new VersionInfo(App.Assembly);
         AddModule(typeof(Config).Assembly);
-        AddModule(App.Assembly, App.AssemblyAdditional);
 
-        var platform = new PlatformService(new Context());
-        Install = await platform.System.GetInstallAsync();
+        var service = new SystemService(new Context());
+        Install = await service.GetInstallAsync();
     }
 
     public static string GetUploadPath(bool isWeb = false)
@@ -192,7 +193,6 @@ public class AppInfo
     public string Id { get; set; }
     public string Name { get; set; }
     public Assembly Assembly { get; set; }
-    public bool AssemblyAdditional { get; set; }
     public bool IsPlatform { get; set; }
     public bool IsLanguage { get; set; }
     public bool IsTheme { get; set; }
