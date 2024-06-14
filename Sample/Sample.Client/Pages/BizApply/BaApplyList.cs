@@ -4,11 +4,13 @@
 [Route("/bas/applies")]
 public class BaApplyList : BaseTablePage<TbApply>
 {
-    private IApplyService Service => ServiceFactory.Create<IApplyService>(Context);
+    private IApplyService Service;
 
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
+        Service = await CreateServiceAsync<IApplyService>();
+        
         //添加列表状态标签
         Table.Tab.AddTab("待审核");
         Table.Tab.AddTab("已审核");

@@ -16,17 +16,23 @@
 </GridRow>
 
 @code {
-    private IHomeService Service => ServiceFactory.Create<IHomeService>(Context);
+    private IHomeService homeService;
     private ChartCard chart;
     private List<MenuInfo> visitMenus;
     private List<StatisticCountInfo> counts = [];
+
+    protected override async Task OnPageInitAsync()
+    {
+        await base.OnPageInitAsync();
+        homeService = await CreateServiceAsync<IHomeService>();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            var info = await Service.GetHomeAsync();
+            var info = await homeService.GetHomeAsync();
             counts.Add(new StatisticCountInfo { Name = Language["Home.UserCount"], Count = info?.Statistics?.UserCount });
             counts.Add(new StatisticCountInfo { Name = Language["Home.LogCount"], Count = info?.Statistics?.LogCount });
 

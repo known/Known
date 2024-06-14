@@ -1,5 +1,6 @@
 ﻿using Coravel;
 using Coravel.Invocable;
+using Sample.Web.Services;
 
 namespace Sample.Web;
 
@@ -44,6 +45,10 @@ public static class AppWeb
                 ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
             }];
         });
+
+        builder.Services.AddScoped<IHomeService, HomeService>();
+        builder.Services.AddScoped<IApplyService, ApplyService>();
+
         builder.Services.AddKnownWeb();
         builder.Services.AddKnownWebApi();
 

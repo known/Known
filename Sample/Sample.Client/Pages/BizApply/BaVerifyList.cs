@@ -4,11 +4,13 @@
 [Route("/bas/verifies")]
 public class BaVerifyList : BaseTablePage<TbApply>
 {
-    private IApplyService Service => ServiceFactory.Create<IApplyService>(Context);
+    private IApplyService Service;
 
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
+        Service = await CreateServiceAsync<IApplyService>();
+
         Table.FormType = typeof(ApplyForm);
         Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Verify, criteria);
 		Table.Column(c => c.BizStatus).Template(BuildBizStatus);
