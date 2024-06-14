@@ -46,35 +46,6 @@ public sealed class TypeHelper
         return codes;
     }
 
-    internal static List<ColumnAttribute> GetColumnAttributes(string typeName)
-    {
-        var columns = new List<ColumnAttribute>();
-        if (string.IsNullOrEmpty(typeName))
-            return columns;
-
-        var type = Type.GetType(typeName);
-        return GetColumnAttributes(type);
-    }
-
-    internal static List<ColumnAttribute> GetColumnAttributes(Type type)
-    {
-        var columns = new List<ColumnAttribute>();
-        if (type == null)
-            return columns;
-
-        var properties = Properties(type);
-        foreach (var pi in properties)
-        {
-            var attr = pi.GetCustomAttribute<ColumnAttribute>();
-            if (attr != null)
-            {
-                attr.Property = pi;
-                columns.Add(attr);
-            }
-        }
-        return columns;
-    }
-
     internal static List<FieldInfo> GetFields(Type entityType, Language language)
     {
         var fields = new List<FieldInfo>();

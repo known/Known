@@ -97,6 +97,8 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             return new AdminInfo();
 
         await Database.OpenAsync();
+        var modules = await Database.QueryListAsync<SysModule>();
+        DataHelper.Initialize(modules);
         var admin = new AdminInfo
         {
             AppName = await UserHelper.GetSystemNameAsync(Database),

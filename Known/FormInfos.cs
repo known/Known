@@ -62,10 +62,19 @@ public class ImportFormInfo : FileFormInfo
 
     public static List<string> GetImportColumns(string modelType)
     {
+        var columns = new List<string>();
         var baseProperties = TypeHelper.Properties(typeof(EntityBase));
-        var attrs = TypeHelper.GetColumnAttributes(modelType);
-        return attrs.Where(a => !baseProperties.Any(p => p.Name == a.Property.Name))
-                    .Select(a => a.Property.DisplayName())
-                    .ToList();
+        var type = Type.GetType(modelType);
+        var properties = TypeHelper.Properties(type);
+        foreach (var item in properties)
+        {
+            if (item.GetGetMethod().IsVirtual || baseProperties.Any(p => p.Name == item.Name))
+                continue;
+
+            var name = item.DisplayName();
+            if (!string.IsNullOrWhiteSpace(name))
+                columns.Add(name);
+        }
+        return columns;
     }
 }

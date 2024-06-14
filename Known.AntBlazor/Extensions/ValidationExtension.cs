@@ -46,7 +46,7 @@ static class ValidationExtension
             if (max != null)
                 rules.Add(GetFormRuleMax(context, column, max.Value));
 
-            var regex = property?.GetCustomAttribute<RegexAttribute>();
+            var regex = property?.GetCustomAttribute<RegularExpressionAttribute>();
             if (regex != null)
                 rules.Add(GetFormRuleRegex(regex));
         }
@@ -94,8 +94,8 @@ static class ValidationExtension
         return new FormValidationRule { Type = FormFieldType.String, Max = length, Message = message };
     }
 
-    private static FormValidationRule GetFormRuleRegex(RegexAttribute regex)
+    private static FormValidationRule GetFormRuleRegex(RegularExpressionAttribute regex)
     {
-        return new FormValidationRule { Type = FormFieldType.Regexp, Pattern = regex.Pattern, Message = regex.Message };
+        return new FormValidationRule { Type = FormFieldType.Regexp, Pattern = regex.Pattern, Message = regex.ErrorMessage };
     }
 }

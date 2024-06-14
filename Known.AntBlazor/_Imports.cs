@@ -1,4 +1,4 @@
-﻿global using System.Linq.Expressions;
+﻿global using System.ComponentModel.DataAnnotations;
 global using System.Reflection;
 global using AntDesign;
 global using Known.AntBlazor.Components;

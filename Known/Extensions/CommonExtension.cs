@@ -91,10 +91,10 @@ public static class CommonExtension
     #endregion
 
     #region Property
-    public static bool IsRequired(this PropertyInfo property)
-    {
-        return property?.GetCustomAttribute<RequiredAttribute>() is not null;
-    }
+    //public static bool IsRequired(this PropertyInfo property)
+    //{
+    //    return property?.GetCustomAttribute<RequiredAttribute>() is not null;
+    //}
 
     public static string DisplayName(this PropertyInfo property)
     {
