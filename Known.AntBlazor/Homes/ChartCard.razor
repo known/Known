@@ -4,7 +4,7 @@
     <div class="ant-card ant-card-bordered" style="height:100%;">
         <div class="ant-card-head">
             <div class="ant-card-head-wrapper">
-                <div class="ant-card-head-title">@option?.Title</div>
+                <div class="ant-card-head-title">@Title</div>
             </div>
         </div>
         <div class="ant-card-body">
@@ -16,6 +16,8 @@
 @code {
     private KChart chart;
     private ChartCardOption option;
+
+    [Parameter] public string Title { get; set; }
 
     public void SetOption(ChartCardOption option)
     {
