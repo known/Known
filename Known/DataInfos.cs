@@ -1,5 +1,20 @@
 ﻿namespace Known;
 
+public class AdminInfo
+{
+    public string AppName { get; set; }
+    public int MessageCount { get; set; }
+    public SettingInfo UserSetting { get; set; }
+    public List<MenuInfo> UserMenus { get; set; }
+    public List<CodeInfo> Codes { get; set; }
+}
+
+public class AutoInfo<TData>
+{
+    public string PageId { get; set; }
+    public TData Data { get; set; }
+}
+
 public class CountInfo
 {
     public string Field1 { get; set; }
@@ -12,15 +27,6 @@ public class ChartDataInfo
 {
     public string Name { get; set; }
     public Dictionary<string, object> Series { get; set; }
-}
-
-public class AdminInfo
-{
-    public string AppName { get; set; }
-    public int MessageCount { get; set; }
-    public SettingInfo UserSetting { get; set; }
-    public List<MenuInfo> UserMenus { get; set; }
-    public List<CodeInfo> Codes { get; set; }
 }
 
 public class FileDataInfo

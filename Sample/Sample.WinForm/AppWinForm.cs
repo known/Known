@@ -14,7 +14,6 @@ public static class AppWinForm
             info.WebRoot = Application.StartupPath;
             info.ContentRoot = Application.StartupPath;
             info.Assembly = typeof(AppWinForm).Assembly;
-            info.AssemblyAdditional = true;
 
             //数据库连接
             info.Connections = [new Known.ConnectionInfo

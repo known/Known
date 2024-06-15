@@ -2,15 +2,17 @@
 
 public interface IAutoService : IService
 {
-    Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(string tableName, PagingCriteria criteria);
-    Task<Result> DeleteModelsAsync(string tableName, List<Dictionary<string, object>> models);
-    Task<Result> SaveModelAsync(string tableName, UploadInfo<Dictionary<string, object>> info);
+    Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria);
+    Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info);
+    Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info);
 }
 
 class AutoService(Context context) : ServiceBase(context), IAutoService
 {
-    public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(string tableName, PagingCriteria criteria)
+    public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)
     {
+        var pageId = criteria.GetParameter<string>("PageId");
+        var tableName = DataHelper.GetEntityByModuleId(pageId)?.Id;
         if (string.IsNullOrWhiteSpace(tableName))
             return Task.FromResult(new PagingResult<Dictionary<string, object>>());
 
@@ -18,18 +20,19 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         return Database.QueryPageAsync<Dictionary<string, object>>(sql, criteria);
     }
 
-    public async Task<Result> DeleteModelsAsync(string tableName, List<Dictionary<string, object>> models)
+    public async Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info)
     {
+        var tableName = DataHelper.GetEntityByModuleId(info.PageId)?.Id;
         if (string.IsNullOrWhiteSpace(tableName))
             return Result.Error(Language.Required("tableName"));
 
-        if (models == null || models.Count == 0)
+        if (info.Data == null || info.Data.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         var oldFiles = new List<string>();
         var result = await Database.TransactionAsync(Language.Delete, async db =>
         {
-            foreach (var item in models)
+            foreach (var item in info.Data)
             {
                 var id = item.GetValue<string>("Id");
                 await Platform.DeleteFlowAsync(db, id);
@@ -42,8 +45,9 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         return result;
     }
 
-    public async Task<Result> SaveModelAsync(string tableName, UploadInfo<Dictionary<string, object>> info)
+    public async Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
     {
+        var tableName = DataHelper.GetEntityByModuleId(info.PageId)?.Id;
         if (string.IsNullOrWhiteSpace(tableName))
             return Result.Error(Language.Required("tableName"));
 

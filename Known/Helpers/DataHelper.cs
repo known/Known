@@ -1,7 +1,8 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Helpers;
 
 class DataHelper
 {
+    private static List<SysModule> Modules = [];
     internal static List<EntityInfo> Models = [];
     internal static List<FlowInfo> Flows = [];
 
@@ -10,6 +11,7 @@ class DataHelper
         if (modules == null || modules.Count == 0)
             return;
 
+        Modules = modules;
         Models.Clear();
         var models = modules.Where(m => !string.IsNullOrWhiteSpace(m.EntityData) && m.EntityData.Contains('|')).Select(m => m.EntityData).ToList();
         foreach (var item in models)
@@ -28,6 +30,12 @@ class DataHelper
     }
 
     #region Entity
+    internal static EntityInfo GetEntityByModuleId(string moduleId)
+    {
+        var module = Modules.FirstOrDefault(m => m.Id == moduleId);
+        return GetEntity(module?.EntityData);
+    }
+
     internal static EntityInfo GetEntity(string model)
     {
         var info = new EntityInfo();
@@ -131,7 +139,7 @@ class DataHelper
     #region Validate
     internal static Result Validate(Context context, string tableName, Dictionary<string, object> model)
     {
-        var entity = DataHelper.Models.FirstOrDefault(m => m.Id == tableName);
+        var entity = Models.FirstOrDefault(m => m.Id == tableName);
         if (entity == null)
             return Result.Error(context.Language.Required(tableName));
 

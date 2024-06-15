@@ -58,19 +58,40 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         }
     }
 
-    public void New() => Table.NewForm(m => autoService.SaveModelAsync(TableName, m), []);
-    public void DeleteM() => Table.DeleteM(m => autoService.DeleteModelsAsync(TableName, m));
-    public void Edit(Dictionary<string, object> row) => Table.EditForm(m => autoService.SaveModelAsync(TableName, m), row);
-    public void Delete(Dictionary<string, object> row) => Table.Delete(m => autoService.DeleteModelsAsync(TableName, m), row);
+    public void New() => Table.NewForm(SaveModelAsync, []);
+    public void DeleteM() => Table.DeleteM(DeleteModelsAsync);
+    public void Edit(Dictionary<string, object> row) => Table.EditForm(SaveModelAsync, row);
+    public void Delete(Dictionary<string, object> row) => Table.Delete(DeleteModelsAsync, row);
     public void Import() => ShowImportForm(TableName);
     public async void Export() => await ExportDataAsync();
 
     private void InitTable()
     {
         Table.Initialize(this);
-        TableName = DataHelper.GetEntity(Context.Module?.EntityData)?.Id;
-        Table.OnQuery = c => autoService.QueryModelsAsync(TableName, c);
+        Table.OnQuery = OnQueryModelsAsync;
         Table.Criteria.Clear();
+    }
+
+    private Task<PagingResult<Dictionary<string, object>>> OnQueryModelsAsync(PagingCriteria criteria)
+    {
+        criteria.Parameters[nameof(PageId)] = PageId;
+        return autoService.QueryModelsAsync(criteria);
+    }
+
+    private Task<Result> DeleteModelsAsync(List<Dictionary<string, object>> models)
+    {
+        var info = new AutoInfo<List<Dictionary<string, object>>>
+        {
+            PageId = PageId,
+            Data = models
+        };
+        return autoService.DeleteModelsAsync(info);
+    }
+
+    private Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
+    {
+        info.PageId = PageId;
+        return autoService.SaveModelAsync(info);
     }
 
     private void OnEditPage(MouseEventArgs args)
@@ -86,7 +107,6 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         {
             Title = $"{Language["Designer.EditPage"]} - {PageName}",
             Maximizable = true,
-            DefaultMaximized = true,
             Width = 1200,
             Content = b => b.Component<ModuleForm>().Set(c => c.Model, form).Set(c => c.IsPageEdit, true).Build()
         };

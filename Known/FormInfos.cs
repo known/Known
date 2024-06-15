@@ -28,6 +28,7 @@ public class PwdFormInfo
 
 public class UploadInfo<TModel>(TModel model)
 {
+    public string PageId { get; set; }
     public TModel Model { get; } = model;
     public Dictionary<string, List<IAttachFile>> Files { get; } = [];
 
