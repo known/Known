@@ -6,8 +6,6 @@ public class ImportContext
     internal Database Database { get; set; }
     internal string BizId { get; set; }
     public string BizParam => GetBizIdValue(1);
-    internal string TableName => GetBizIdValue(1);
-    internal string ModuleId => GetBizIdValue(2);
     internal bool IsDictionary => !string.IsNullOrWhiteSpace(BizId) && BizId.StartsWith("Dictionary");
 
     private string GetBizIdValue(int index)
@@ -138,22 +136,23 @@ class DictionaryImport(ImportContext context) : ImportBase(context)
 {
     public override async Task<Result> ExecuteAsync(SysFile file)
     {
-        var tableName = ImportContext.TableName;
-        if (string.IsNullOrWhiteSpace(tableName))
-            return Result.Error(Language.Required("TableName"));
-
-        var module = await Database.QueryByIdAsync<SysModule>(ImportContext.ModuleId);
+        var module = await Database.QueryByIdAsync<SysModule>(ImportContext.BizParam);
         if (module == null)
             return Result.Error(Language.Required("ModuleId"));
 
-        if (module.Form == null || module.Form.Fields == null)
+        var entity = DataHelper.GetEntity(module.EntityData);
+        if (entity == null || string.IsNullOrWhiteSpace(entity.Id))
+            return Result.Error(Language.Required("TableName"));
+
+        var form = module.Form;
+        if (form == null || form.Fields == null)
             return Result.Error(Language.Required("Form.Fields"));
 
         var models = new List<Dictionary<string, object>>();
         var result = ImportHelper.ReadFile<Dictionary<string, object>>(Context, file, item =>
         {
             var model = new Dictionary<string, object>();
-            foreach (var field in module.Form.Fields)
+            foreach (var field in form.Fields)
             {
                 if (field.Type == FieldType.Date || field.Type == FieldType.DateTime)
                     model[field.Id] = item.GetValue<DateTime?>(field.Name);
@@ -170,7 +169,7 @@ class DictionaryImport(ImportContext context) : ImportBase(context)
         {
             foreach (var item in models)
             {
-                await db.SaveAsync(tableName, item);
+                await db.SaveAsync(entity.Id, item);
             }
         });
     }

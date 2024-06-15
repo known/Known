@@ -1061,12 +1061,15 @@ public class Database : IDisposable
             dataTable.Columns.Add(item.Name);
         }
 
+        var isDictionary = typeof(T) == typeof(Dictionary<string, object>);
         foreach (var data in pageData)
         {
             var row = dataTable.Rows.Add();
             foreach (var item in criteria.ExportColumns)
             {
-                var value = TypeHelper.GetPropertyValue(data, item.Id);
+                var value = isDictionary
+                          ? (data as Dictionary<string, object>).GetValue(item.Id)
+                          : TypeHelper.GetPropertyValue(data, item.Id);
                 if (item.Type == FieldType.Switch || item.Type == FieldType.CheckBox)
                     value = Utils.ConvertTo<bool>(value) ? "是" : "否";
                 else if (item.Type == FieldType.Date)

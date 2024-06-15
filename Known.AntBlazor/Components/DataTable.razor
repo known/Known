@@ -22,10 +22,10 @@
                 var width = item.Width > 0 ? item.Width.ToString() : "";
                 if (isDictionary)
                 {
-                    var value = GetValue(context as Dictionary<string, object>, item.Id);
                     if (item.IsViewLink)
                     {
-                        <DictionaryColumn Title="@title" Property="c=>GetValue(c, item.Id)" Width="@width"
+                        var value = (context as Dictionary<string, object>).GetValue(item.Id);
+                        <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
                                           Ellipsis Sortable ShowSorterTooltip="false"
                                           Align="@GetColumnAlign(item.Align)">
                             <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@value</span>
@@ -33,7 +33,7 @@
                     }
                     else
                     {
-                        <DictionaryColumn Title="@title" Property="c=>GetValue(c, item.Id)" Width="@width"
+                        <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
                                           Ellipsis Sortable ShowSorterTooltip="false"
                                           Align="@GetColumnAlign(item.Align)" />
                     }
@@ -219,11 +219,6 @@
         else if (align == "right")
             return ColumnAlign.Right;
         return ColumnAlign.Left;
-    }
-
-    private object GetValue(Dictionary<string, object> dic, string id)
-    {
-        return dic.ContainsKey(id) ? dic[id] : "";
     }
 
     private string GetActionColor(string style) => style == "danger" ? "red-inverse" : "blue-inverse";

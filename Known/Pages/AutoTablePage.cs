@@ -8,7 +8,6 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     private IAutoService autoService;
     private IModuleService moduleService;
     private bool isEditPage;
-    private string TableName { get; set; }
 
     [Parameter] public string PageId { get; set; }
 
@@ -62,7 +61,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     public void DeleteM() => Table.DeleteM(DeleteModelsAsync);
     public void Edit(Dictionary<string, object> row) => Table.EditForm(SaveModelAsync, row);
     public void Delete(Dictionary<string, object> row) => Table.Delete(DeleteModelsAsync, row);
-    public void Import() => ShowImportForm(TableName);
+    public void Import() => ShowImportForm();
     public async void Export() => await ExportDataAsync();
 
     private void InitTable()

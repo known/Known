@@ -27,18 +27,26 @@ public static class CommonExtension
     #endregion
 
     #region Dictionary
-    public static T GetValue<T>(this IDictionary dic, string key)
+    public static object GetValue(this IDictionary dic, string key)
     {
         if (dic == null)
-            return default;
+            return null;
 
         if (string.IsNullOrWhiteSpace(key))
-            return default;
+            return null;
 
         if (!dic.Contains(key))
+            return null;
+
+        return dic[key];
+    }
+
+    public static T GetValue<T>(this IDictionary dic, string key)
+    {
+        var value = dic?.GetValue(key);
+        if (value == null)
             return default;
 
-        var value = dic[key];
         return Utils.ConvertTo<T>(value);
     }
     #endregion

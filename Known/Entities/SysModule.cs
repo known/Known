@@ -94,16 +94,34 @@ public class SysModule : EntityBase
     public virtual string ParentName { get; set; }
     public virtual bool IsMoveUp { get; set; }
 
+    private PageInfo page;
     internal virtual PageInfo Page
     {
-        get { return Utils.FromJson<PageInfo>(PageData) ?? new(); }
-        set { PageData = Utils.ToJson(value); }
+        get
+        {
+            page ??= Utils.FromJson<PageInfo>(PageData) ?? new();
+            return page;
+        }
+        set
+        {
+            page = value;
+            PageData = Utils.ToJson(value);
+        }
     }
 
+    private FormInfo form;
     internal virtual FormInfo Form
     {
-        get { return Utils.FromJson<FormInfo>(FormData) ?? new(); }
-        set { FormData = Utils.ToJson(value); }
+        get
+        {
+            form ??= Utils.FromJson<FormInfo>(FormData) ?? new();
+            return form;
+        }
+        set
+        {
+            form = value;
+            FormData = Utils.ToJson(value);
+        }
     }
 
     internal virtual List<string> Buttons { get; set; }

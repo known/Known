@@ -341,11 +341,12 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     private void SetFormModel(FormModel<TItem> model)
     {
         model.NoFooter = FormNoFooter;
-        if (Module != null && Module.Form != null)
+        if (Module != null)
         {
-            model.Width = Module.Form.Width;
-            model.Maximizable = Module.Form.Maximizable;
-            model.DefaultMaximized = Module.Form.DefaultMaximized;
+            var form = Module.Form;
+            model.Width = form.Width;
+            model.Maximizable = form.Maximizable;
+            model.DefaultMaximized = form.DefaultMaximized;
         }
         else
         {
