@@ -2,8 +2,8 @@
 
 public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 {
+    private string ImportTitle => Language["Title.Import"].Replace("{name}", PageName);
     protected TableModel<TItem> Table { get; set; }
-
     public IEnumerable<TItem> SelectedRows => Table.SelectedRows;
 
     public override Task RefreshAsync() => Table.RefreshAsync();
@@ -35,11 +35,6 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         var info = await fileService.GetImportAsync(id);
         info.Name = PageName;
         info.BizName = ImportTitle;
-        ImportForm(info);
-    }
-
-    private void ImportForm(ImportFormInfo info)
-    {
         var model = new DialogModel { Title = ImportTitle };
         model.Content = builder =>
         {
@@ -54,8 +49,6 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         };
         UI.ShowDialog(model);
     }
-
-    private string ImportTitle => Language["Title.Import"].Replace("{name}", PageName);
 
     protected Task ExportDataAsync(ExportMode mode = ExportMode.Query) => ExportDataAsync(PageName, mode);
     protected Task ExportDataAsync(string name, ExportMode mode = ExportMode.Query) => App?.ExportDataAsync(Table, name, mode);

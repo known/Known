@@ -3,7 +3,7 @@
 public class LoginPage : BaseComponent
 {
     private IAuthService authService;
-    private IWeixinService weixinService;
+    //private IWeixinService weixinService;
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
 
     protected LoginFormInfo Model = new();
@@ -14,7 +14,7 @@ public class LoginPage : BaseComponent
     {
         await base.OnInitAsync();
         authService = await CreateServiceAsync<IAuthService>();
-        weixinService = await CreateServiceAsync<IWeixinService>();
+        //weixinService = await CreateServiceAsync<IWeixinService>();
         //var state = GetWeixinAuthState(user.Token);
         //var uri = await Platform.Weixin.GetAuthorizeUrlAsync(state);
         //if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))
@@ -99,70 +99,70 @@ public class LoginPage : BaseComponent
         await AuthProvider?.SetUserAsync(user);
     }
 
-    protected virtual string GetWeixinAuthState(string token)
-    {
-        var url = Config.HostUrl;
-        return $"{url}/?token={token}&";
-    }
+    //protected virtual string GetWeixinAuthState(string token)
+    //{
+    //    var url = Config.HostUrl;
+    //    return $"{url}/?token={token}&";
+    //}
 
-    protected virtual DialogModel GetWeixinDialogModel(string uri)
-    {
-        var option = new { Text = uri, Width = 250, Height = 250 };
-        return new DialogModel
-        {
-            Title = Language.GetString("WeixinQRCodeAuth"),
-            Width = 300,
-            Content = b => b.Component<KQRCode>().Set(c => c.Option, option).Build()
-        };
-    }
+    //protected virtual DialogModel GetWeixinDialogModel(string uri)
+    //{
+    //    var option = new { Text = uri, Width = 250, Height = 250 };
+    //    return new DialogModel
+    //    {
+    //        Title = Language.GetString("WeixinQRCodeAuth"),
+    //        Width = 300,
+    //        Content = b => b.Component<KQRCode>().Set(c => c.Option, option).Build()
+    //    };
+    //}
 
-    private void NavigateWeixinAuth(string uri, UserInfo user)
-    {
-        Task.Run(async () =>
-        {
-            while (true)
-            {
-                var weixin = await weixinService.CheckWeixinAsync(user);
-                if (weixin != null)
-                {
-                    //await SetUserInfoAsync(weixin);
-                    await UI.Toast(Language.Success(Language.Authorize));
-                    break;
-                }
-                Thread.Sleep(1000);
-            }
-        });
-        Navigation.NavigateTo(uri);
-    }
+    //private void NavigateWeixinAuth(string uri, UserInfo user)
+    //{
+    //    Task.Run(async () =>
+    //    {
+    //        while (true)
+    //        {
+    //            var weixin = await weixinService.CheckWeixinAsync(user);
+    //            if (weixin != null)
+    //            {
+    //                //await SetUserInfoAsync(weixin);
+    //                await UI.Toast(Language.Success(Language.Authorize));
+    //                break;
+    //            }
+    //            Thread.Sleep(1000);
+    //        }
+    //    });
+    //    Navigation.NavigateTo(uri);
+    //}
 
-    private void ShowWeixinQRCode(string uri, UserInfo user)
-    {
-        var isManualClose = false;
-        var model = GetWeixinDialogModel(uri);
-        model.OnClosed = () => isManualClose = true;
-        UI.ShowDialog(model);
-        Task.Run(async () =>
-        {
-            while (true)
-            {
-                if (isManualClose)
-                {
-                    Logger.Info("[WeixinQRCode] Scanning Manual Closed!");
-                    break;
-                }
+    //private void ShowWeixinQRCode(string uri, UserInfo user)
+    //{
+    //    var isManualClose = false;
+    //    var model = GetWeixinDialogModel(uri);
+    //    model.OnClosed = () => isManualClose = true;
+    //    UI.ShowDialog(model);
+    //    Task.Run(async () =>
+    //    {
+    //        while (true)
+    //        {
+    //            if (isManualClose)
+    //            {
+    //                Logger.Info("[WeixinQRCode] Scanning Manual Closed!");
+    //                break;
+    //            }
 
-                var weixin = await weixinService.CheckWeixinAsync(user);
-                if (weixin != null)
-                {
-                    //await SetUserInfoAsync(weixin);
-                    await model.CloseAsync();
-                    await UI.Toast(Language.Success(Language.Authorize));
-                    break;
-                }
-                Thread.Sleep(1000);
-            }
-        });
-    }
+    //            var weixin = await weixinService.CheckWeixinAsync(user);
+    //            if (weixin != null)
+    //            {
+    //                //await SetUserInfoAsync(weixin);
+    //                await model.CloseAsync();
+    //                await UI.Toast(Language.Success(Language.Authorize));
+    //                break;
+    //            }
+    //            Thread.Sleep(1000);
+    //        }
+    //    });
+    //}
 
     class LoginInfo
     {
