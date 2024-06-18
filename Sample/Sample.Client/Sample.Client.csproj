@@ -18,4 +18,10 @@
         <ProjectReference Include="..\Sample\Sample.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Update="Routes.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
+    </ItemGroup>
+
 </Project>

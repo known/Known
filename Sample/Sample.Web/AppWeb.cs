@@ -36,7 +36,6 @@ public static class AppWeb
 
         builder.Services.AddKnownCells();
         builder.Services.AddKnownWeb();
-        builder.Services.AddKnownWebApi();
 
         builder.Services.AddScheduler();
         builder.Services.AddTransient<ImportTaskJob>();
@@ -45,8 +44,7 @@ public static class AppWeb
     public static void UseApp(this WebApplication app)
     {
         //使用Known框架
-        app.UseKnownStaticFiles();
-        app.UseKnownWebApi();
+        app.UseKnown();
 
         //配置认证
         //app.UseAuthentication();

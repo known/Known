@@ -48,8 +48,8 @@ public static class AppWinForm
 
     public static void UseApp(this WebApplication app)
     {
-        //使用Known框架静态文件
-        app.UseKnownStaticFiles();
+        //使用Known框架
+        app.UseKnown();
 
         //配置认证
         //app.UseAuthentication();

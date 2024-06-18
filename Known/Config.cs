@@ -196,6 +196,7 @@ public class AppInfo
     public bool IsPlatform { get; set; }
     public bool IsLanguage { get; set; }
     public bool IsTheme { get; set; }
+    public string BaseUrl { get; set; }
     public string WebRoot { get; set; }
     public string ContentRoot { get; set; }
     public string UploadPath { get; set; }

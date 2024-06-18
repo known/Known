@@ -1,28 +1,28 @@
 ﻿namespace Known;
 
-class Constants
+public class Constants
 {
     private Constants() { }
 
     internal const string DicCategory = "DicCategory";
 
     public const string KeyToken = "Known-Token";
-    public const string KeyClient = "Known-Client";
-    public const string KeyDownload = "Known-Download";
-    public const string SysUserName = "Admin";
+    internal const string KeyClient = "Known-Client";
+    internal const string KeyDownload = "Known-Download";
+    internal const string SysUserName = "Admin";
 
-    //public const string UTOperation = "Operation";
-    public const string UMTypeReceive = "Receive";
-    public const string UMTypeSend = "Send";
-    public const string UMTypeDelete = "Delete";
-    public const string UMLGeneral = "General";
-    public const string UMLUrgent = "Urgent";
-    public const string UMStatusRead = "Read";
-    public const string UMStatusUnread = "Unread";
-    //public const string NSPublished = "Published";
+    //internal const string UTOperation = "Operation";
+    internal const string UMTypeReceive = "Receive";
+    internal const string UMTypeSend = "Send";
+    internal const string UMTypeDelete = "Delete";
+    internal const string UMLGeneral = "General";
+    internal const string UMLUrgent = "Urgent";
+    internal const string UMStatusRead = "Read";
+    internal const string UMStatusUnread = "Unread";
+    //internal const string NSPublished = "Published";
 
-    public const string MimeImage = "image/jpeg,image/png";
-    public const string MimeVideo = "audio/mp4,video/mp4";
+    internal const string MimeImage = "image/jpeg,image/png";
+    internal const string MimeVideo = "audio/mp4,video/mp4";
 }
 
 public class RegexPattern

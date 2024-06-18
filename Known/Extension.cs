@@ -45,8 +45,10 @@ public static class Extension
         services.AddScoped<IWeixinService, WeixinService>();
     }
 
-    public static void AddKnownClient(this IServiceCollection services)
+    public static void AddKnownClient(this IServiceCollection services, Action<AppInfo> action = null)
     {
+        action?.Invoke(Config.App);
+
         services.AddScoped<IAuthService, AuthClient>();
         services.AddScoped<IAutoService, AutoClient>();
         services.AddScoped<ICompanyService, CompanyClient>();
@@ -59,5 +61,10 @@ public static class Extension
         services.AddScoped<IRoleService, RoleClient>();
         services.AddScoped<IUserService, UserClient>();
         services.AddScoped<IWeixinService, WeixinClient>();
+
+        services.AddScoped(http => new HttpClient
+        {
+            BaseAddress = new Uri(Config.App.BaseUrl)
+        });
     }
 }

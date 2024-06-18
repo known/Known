@@ -36,4 +36,11 @@ public class Context
             return language;
         }
     }
+
+    public static Context Create(string token)
+    {
+        var context = new Context();
+        context.CurrentUser = AuthService.GetUserByToken(token);
+        return context;
+    }
 }

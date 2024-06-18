@@ -18,9 +18,17 @@ public static class AppClient
         services.AddCascadingAuthenticationState();
         services.AddSingleton<IAuthStateProvider, ClientAuthStateProvider>();
         services.AddSingleton<AuthenticationStateProvider, PersistentStateProvider>();
-        services.AddKnownClient();
+        services.AddKnownClient(info =>
+        {
+            info.BaseUrl = "http://localhost";
+        });
 
         services.AddScoped<IHomeService, HomeService>();
         services.AddScoped<IApplyService, ApplyService>();
+
+        services.AddKnownAntDesign(option =>
+        {
+            //option.Footer = b => b.Component<Foot>().Build();
+        });
     }
 }
