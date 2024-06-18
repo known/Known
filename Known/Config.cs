@@ -8,6 +8,7 @@ public sealed class Config
     public const string GiteeUrl = "https://gitee.com/known/Known";
     public const string GithubUrl = "https://github.com/known/Known";
 
+    public static bool IsInstalled => System != null;
     public static bool IsClient { get; set; }
     public static string HostUrl { get; set; }
     public static string DateFormat { get; set; } = "yyyy-MM-dd";

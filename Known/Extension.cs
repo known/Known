@@ -20,14 +20,14 @@ public static class Extension
         }
     }
 
-    public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
+    public static async void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
         action?.Invoke(Config.App);
 
         if (Config.App.Connections != null && Config.App.Connections.Count > 0)
         {
             Database.RegisterConnections(Config.App.Connections);
-            Database.Initialize();
+            await Database.InitializeAsync();
         }
         Config.AddApp();
 

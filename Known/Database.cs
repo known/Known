@@ -70,27 +70,21 @@ public class Database : IDisposable
         }
     }
 
-    internal static void Initialize()
+    internal static async Task InitializeAsync()
     {
-        Task.Run(async () =>
+        var db = new Database();
+        var count = await db.ScalarAsync<int?>("select count(*) from SysModule");
+        if (count == null)
         {
-            var db = new Database();
-            try
-            {
-                await db.ScalarAsync<int>("select count(*) from SysModule");
-            }
-            catch
-            {
-                var name = db.DatabaseType == DatabaseType.Npgsql ? "MySql" : db.DatabaseType.ToString();
-                var script = Utils.GetResource(typeof(Database).Assembly, $"{name}.sql");
-                if (string.IsNullOrWhiteSpace(script))
-                    return;
+            var name = db.DatabaseType == DatabaseType.Npgsql ? "MySql" : db.DatabaseType.ToString();
+            var script = Utils.GetResource(typeof(Database).Assembly, $"{name}.sql");
+            if (string.IsNullOrWhiteSpace(script))
+                return;
 
-                Logger.Info("Data table is initializing...");
-                await db.ExecuteAsync(script);
-                Logger.Info("Data table is initialized");
-            }
-        });
+            Console.WriteLine("Data table is initializing...");
+            await db.ExecuteAsync(script);
+            Console.WriteLine("Data table is initialized");
+        }
     }
     #endregion
 

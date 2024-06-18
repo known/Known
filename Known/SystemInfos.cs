@@ -2,8 +2,6 @@
 
 public class InstallInfo
 {
-    public bool IsInstalled { get; set; }
-
     [Form, Required]
     public string CompNo { get; set; }
 

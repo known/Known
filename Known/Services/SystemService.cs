@@ -60,7 +60,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         var info = GetInstall();
         Config.System = await GetSystemAsync(Database);
-        info.IsInstalled = Config.System != null;
         //await Platform.Dictionary.RefreshCacheAsync();
         await CheckKeyAsync();
         return info;

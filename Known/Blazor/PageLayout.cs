@@ -11,21 +11,28 @@ public class PageLayout : BaseLayout
     {
         await base.OnInitAsync();
         IsLoaded = false;
-        var user = await GetCurrentUserAsync();
-        IsLogin = user != null;
-        if (IsLogin)
+        if (!Config.IsInstalled)
         {
-            Context.CurrentUser = user;
-            Info = await AuthService.GetAdminAsync();
-            Context.UserSetting = Info?.UserSetting ?? new();
-            if (!Context.IsMobile)
-                UserMenus = GetUserMenus(Info?.UserMenus);
-            Cache.AttachCodes(Info?.Codes);
-            IsLoaded = true;
+            NavigateTo("/install");
         }
         else
         {
-            NavigateTo("/login");
+            var user = await GetCurrentUserAsync();
+            IsLogin = user != null;
+            if (IsLogin)
+            {
+                Context.CurrentUser = user;
+                Info = await AuthService.GetAdminAsync();
+                Context.UserSetting = Info?.UserSetting ?? new();
+                if (!Context.IsMobile)
+                    UserMenus = GetUserMenus(Info?.UserMenus);
+                Cache.AttachCodes(Info?.Codes);
+                IsLoaded = true;
+            }
+            else
+            {
+                NavigateTo("/login");
+            }
         }
     }
 
