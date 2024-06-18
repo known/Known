@@ -36,6 +36,7 @@ public static class AppWeb
 
         builder.Services.AddKnownCells();
         builder.Services.AddKnownWeb();
+        builder.Services.AddKnownWebApi();
 
         builder.Services.AddScheduler();
         builder.Services.AddTransient<ImportTaskJob>();
