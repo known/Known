@@ -5,9 +5,9 @@ class ApplyService(Context context) : ServiceBase(context), IApplyService
 {
     //Apply
     //列表分页查询
-    public Task<PagingResult<TbApply>> QueryApplysAsync(FlowPageType type, PagingCriteria criteria)
+    public Task<PagingResult<TbApply>> QueryApplysAsync(PagingCriteria criteria)
     {
-        return ApplyRepository.QueryApplysAsync(Database, type, criteria);
+        return ApplyRepository.QueryApplysAsync(Database, criteria);
     }
 
     //获取默认业务申请实体

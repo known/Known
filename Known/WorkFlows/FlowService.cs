@@ -11,6 +11,17 @@ public interface IFlowService : IService
     Task<Result> StopFlowAsync(FlowFormInfo info);
 }
 
+class FlowClient(HttpClient http) : ClientBase(http), IFlowService
+{
+    public Task<List<SysFlowLog>> GetFlowLogsAsync(string bizId) => GetAsync<List<SysFlowLog>>($"Flow/GetFlowLogs?bizId={bizId}");
+    public Task<Result> SubmitFlowAsync(FlowFormInfo info) => PostAsync("Flow/SubmitFlow", info);
+    public Task<Result> RevokeFlowAsync(FlowFormInfo info) => PostAsync("Flow/RevokeFlow", info);
+    public Task<Result> AssignFlowAsync(FlowFormInfo info) => PostAsync("Flow/AssignFlow", info);
+    public Task<Result> VerifyFlowAsync(FlowFormInfo info) => PostAsync("Flow/VerifyFlow", info);
+    public Task<Result> RepeatFlowAsync(FlowFormInfo info) => PostAsync("Flow/RepeatFlow", info);
+    public Task<Result> StopFlowAsync(FlowFormInfo info) => PostAsync("Flow/StopFlow", info);
+}
+
 class FlowService(Context context) : ServiceBase(context), IFlowService
 {
     private string FlowNotCreated => Language["Tip.FlowNotCreate"];

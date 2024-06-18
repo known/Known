@@ -86,7 +86,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     private async Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
     {
         criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category?.Code);
-        var result = await dictionaryService.QueryDictionarysAsync(criteria);
+        var result = await dictionaryService.QueryDictionariesAsync(criteria);
         total = result.TotalCount;
         return result;
     }
@@ -101,8 +101,8 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
 
     public void New() => NewForm(category, total, false);
     public void Edit(SysDictionary row) => Table.EditForm(dictionaryService.SaveDictionaryAsync, row);
-    public void Delete(SysDictionary row) => Table.Delete(dictionaryService.DeleteDictionarysAsync, row);
-    public void DeleteM() => Table.DeleteM(dictionaryService.DeleteDictionarysAsync);
+    public void Delete(SysDictionary row) => Table.Delete(dictionaryService.DeleteDictionariesAsync, row);
+    public void DeleteM() => Table.DeleteM(dictionaryService.DeleteDictionariesAsync);
     public void Import() => ShowImportForm();
 
     private async Task LoadCategoriesAsync()

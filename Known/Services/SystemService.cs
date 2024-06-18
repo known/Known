@@ -10,7 +10,20 @@ public interface ISystemService : IService
     Task<Result> SaveInstallAsync(InstallInfo info);
     Task<Result> SaveSystemAsync(SystemInfo info);
     Task<Result> SaveKeyAsync(SystemInfo info);
-    Task AddLogAsync(SysLog log);
+    Task<Result> AddLogAsync(SysLog log);
+}
+
+class SystemClient(HttpClient http) : ClientBase(http), ISystemService
+{
+    public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria) => QueryAsync<SysTask>("System/QueryTasks", criteria);
+    public Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria) => QueryAsync<SysLog>("System/QueryLogs", criteria);
+    public Task<InstallInfo> GetInstallAsync() => GetAsync<InstallInfo>("System/GetInstall");
+    public Task<SystemInfo> GetSystemAsync() => GetAsync<SystemInfo>("System/GetSystem");
+    public Task<SysModule> GetModuleAsync(string id) => GetAsync<SysModule>($"System/GetModule?id={id}");
+    public Task<Result> SaveInstallAsync(InstallInfo info) => PostAsync("System/SaveInstall", info);
+    public Task<Result> SaveSystemAsync(SystemInfo info) => PostAsync("System/SaveSystem", info);
+    public Task<Result> SaveKeyAsync(SystemInfo info) => PostAsync("System/SaveKey", info);
+    public Task<Result> AddLogAsync(SysLog log) => PostAsync("System/AddLog", log);
 }
 
 class SystemService(Context context) : ServiceBase(context), ISystemService
@@ -283,5 +296,9 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     //    });
     //}
 
-    public Task AddLogAsync(SysLog log) => Database.SaveAsync(log);
+    public async Task<Result> AddLogAsync(SysLog log)
+    {
+        await Database.SaveAsync(log);
+        return Result.Success(Language.Success(Language.Save));
+    }
 }

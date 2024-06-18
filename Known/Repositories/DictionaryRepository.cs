@@ -8,13 +8,13 @@ class DictionaryRepository
         return db.QueryListAsync<SysDictionary>(sql, new { db.User.CompNo });
     }
 
-    internal static Task<PagingResult<SysDictionary>> QueryDictionarysAsync(Database db, PagingCriteria criteria)
+    internal static Task<PagingResult<SysDictionary>> QueryDictionariesAsync(Database db, PagingCriteria criteria)
     {
         var sql = "select * from SysDictionary where CompNo=@CompNo";
         return db.QueryPageAsync<SysDictionary>(sql, criteria);
     }
 
-    internal static Task<List<SysDictionary>> GetDictionarysAsync(Database db)
+    internal static Task<List<SysDictionary>> GetDictionariesAsync(Database db)
     {
         var sql = "select * from SysDictionary where Enabled='True' order by Category,Sort";
         return db.QueryListAsync<SysDictionary>(sql);
@@ -27,7 +27,7 @@ class DictionaryRepository
         return count > 0;
     }
 
-    internal static Task DeleteDictionarysAsync(Database db, string category)
+    internal static Task DeleteDictionariesAsync(Database db, string category)
     {
         var sql = "delete from SysDictionary where CompNo=@CompNo and Category=@category";
         return db.ExecuteAsync(sql, new { db.User.CompNo, category });

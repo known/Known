@@ -2,17 +2,25 @@
 
 public interface IDictionaryService : IService
 {
-    Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria);
+    Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria);
     Task<List<CodeInfo>> GetCategoriesAsync();
-    Task<Result> DeleteDictionarysAsync(List<SysDictionary> models);
+    Task<Result> DeleteDictionariesAsync(List<SysDictionary> models);
     Task<Result> SaveDictionaryAsync(SysDictionary model);
+}
+
+class DictionaryClient(HttpClient http) : ClientBase(http), IDictionaryService
+{
+    public Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria) => QueryAsync<SysDictionary>("Dictionary/QueryDictionaries", criteria);
+    public Task<List<CodeInfo>> GetCategoriesAsync() => GetAsync<List<CodeInfo>>("Dictionary/GetCategories");
+    public Task<Result> DeleteDictionariesAsync(List<SysDictionary> models) => PostAsync("Dictionary/DeleteDictionaries", models);
+    public Task<Result> SaveDictionaryAsync(SysDictionary model) => PostAsync("Dictionary/SaveDictionary", model);
 }
 
 class DictionaryService(Context context) : ServiceBase(context), IDictionaryService
 {
     public async Task<Result> RefreshCacheAsync()
     {
-        var codes = await GetDictionarysAsync(Database);
+        var codes = await GetDictionariesAsync(Database);
         Cache.AttachCodes(codes);
         return Result.Success(Language["Tip.RefreshSuccess"], codes);
     }
@@ -23,14 +31,14 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         return categories?.Select(c => new CodeInfo(c.Category, c.Code, c.Name)).ToList();
     }
 
-    public Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
+    public Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria)
     {
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
             criteria.OrderBys = [nameof(SysDictionary.Sort)];
-        return DictionaryRepository.QueryDictionarysAsync(Database, criteria);
+        return DictionaryRepository.QueryDictionariesAsync(Database, criteria);
     }
 
-    public async Task<Result> DeleteDictionarysAsync(List<SysDictionary> models)
+    public async Task<Result> DeleteDictionariesAsync(List<SysDictionary> models)
     {
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
@@ -39,7 +47,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         {
             foreach (var item in models)
             {
-                await DictionaryRepository.DeleteDictionarysAsync(db, item.Code);
+                await DictionaryRepository.DeleteDictionariesAsync(db, item.Code);
                 await db.DeleteAsync(item);
             }
         });
@@ -61,9 +69,9 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         return Result.Success(Language.Success(Language.Save), model);
     }
 
-    internal static async Task<List<CodeInfo>> GetDictionarysAsync(Database db)
+    internal static async Task<List<CodeInfo>> GetDictionariesAsync(Database db)
     {
-        var entities = await DictionaryRepository.GetDictionarysAsync(db);
+        var entities = await DictionaryRepository.GetDictionariesAsync(db);
         var codes = entities.Select(e =>
         {
             var code = e.Code;

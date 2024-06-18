@@ -7,6 +7,13 @@ public interface IAutoService : IService
     Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info);
 }
 
+class AutoClient(HttpClient http) : ClientBase(http), IAutoService
+{
+    public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria) => QueryAsync<Dictionary<string, object>>("Auto/QueryModels", criteria);
+    public Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info) => PostAsync("Auto/DeleteModels", info);
+    public Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info) => PostAsync("Auto/SaveModel", info);
+}
+
 class AutoService(Context context) : ServiceBase(context), IAutoService
 {
     public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)

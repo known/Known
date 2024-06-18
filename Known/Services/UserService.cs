@@ -14,6 +14,20 @@ public interface IUserService : IService
     Task<Result> SaveUserAsync(SysUser model);
 }
 
+class UserClient(HttpClient http) : ClientBase(http), IUserService
+{
+    public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria) => QueryAsync<SysUser>("User/QueryUsers", criteria);
+    public Task<SysUser> GetUserAsync(string id) => GetAsync<SysUser>($"User/GetUser?id={id}");
+    public Task<SysUser> GetUserDataAsync(string id) => GetAsync<SysUser>($"User/GetUserData?id={id}");
+    public Task<Result> DeleteUsersAsync(List<SysUser> models) => PostAsync("User/DeleteUsers", models);
+    public Task<Result> ChangeDepartmentAsync(List<SysUser> models) => PostAsync("User/ChangeDepartment", models);
+    public Task<Result> EnableUsersAsync(List<SysUser> models) => PostAsync("User/EnableUsers", models);
+    public Task<Result> DisableUsersAsync(List<SysUser> models) => PostAsync("User/DisableUsers", models);
+    public Task<Result> SetUserPwdsAsync(List<SysUser> models) => PostAsync("User/SetUserPwds", models);
+    public Task<Result> UpdateUserAsync(SysUser model) => PostAsync("User/UpdateUser", model);
+    public Task<Result> SaveUserAsync(SysUser model) => PostAsync("User/SaveUser", model);
+}
+
 class UserService(Context context) : ServiceBase(context), IUserService
 {
     //User

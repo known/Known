@@ -12,12 +12,10 @@ public class BaVerifyList : BaseTablePage<TbApply>
         Service = await CreateServiceAsync<IApplyService>();
 
         Table.FormType = typeof(ApplyForm);
-        Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Verify, criteria);
-		Table.Column(c => c.BizStatus).Template(BuildBizStatus);
+        Table.OnQuery = criteria => Service.QueryApplysAsync(criteria);
+		Table.Column(c => c.BizStatus).Template((b, r) => b.Tag(r.BizStatus));
     }
 
 	//审核操作
     public void Verify(TbApply row) => this.VerifyFlow(row);
-
-	private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BuildTag(builder, row.BizStatus);
 }

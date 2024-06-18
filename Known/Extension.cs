@@ -44,4 +44,20 @@ public static class Extension
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IWeixinService, WeixinService>();
     }
+
+    public static void AddKnownClient(this IServiceCollection services)
+    {
+        services.AddScoped<IAuthService, AuthClient>();
+        services.AddScoped<IAutoService, AutoClient>();
+        services.AddScoped<ICompanyService, CompanyClient>();
+        services.AddScoped<IDictionaryService, DictionaryClient>();
+        services.AddScoped<IFileService, FileClient>();
+        services.AddScoped<IFlowService, FlowClient>();
+        services.AddScoped<ISystemService, SystemClient>();
+        services.AddScoped<ISettingService, SettingClient>();
+        services.AddScoped<IModuleService, ModuleClient>();
+        services.AddScoped<IRoleService, RoleClient>();
+        services.AddScoped<IUserService, UserClient>();
+        services.AddScoped<IWeixinService, WeixinClient>();
+    }
 }

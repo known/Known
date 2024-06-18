@@ -9,6 +9,15 @@ public interface IAuthService : IService
     Task<Result> UpdatePasswordAsync(PwdFormInfo info);
 }
 
+class AuthClient(HttpClient http) : ClientBase(http), IAuthService
+{
+    public Task<Result> SignInAsync(LoginFormInfo info) => PostAsync("Auth/SignIn", info);
+    public Task<Result> SignOutAsync(string token) => PostAsync("Auth/SignOut", token);
+    public Task<UserInfo> GetUserAsync(string userName) => GetAsync<UserInfo>($"Auth/GetUser?userName={userName}");
+    public Task<AdminInfo> GetAdminAsync() => GetAsync<AdminInfo>("Auth/GetAdmin");
+    public Task<Result> UpdatePasswordAsync(PwdFormInfo info) => PostAsync("Auth/UpdatePassword", info);
+}
+
 class AuthService(Context context) : ServiceBase(context), IAuthService
 {
     //Account
@@ -105,7 +114,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             MessageCount = await UserRepository.GetMessageCountAsync(Database),
             UserMenus = await UserHelper.GetUserMenusAsync(Database),
             UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(Database, SettingInfo.KeyInfo),
-            Codes = await DictionaryService.GetDictionarysAsync(Database)
+            Codes = await DictionaryService.GetDictionariesAsync(Database)
         };
         await Database.CloseAsync();
         return admin;

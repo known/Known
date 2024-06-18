@@ -32,7 +32,7 @@ public static class AppWeb
                 ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
             }];
         });
-        builder.Services.AddSampleClient();
+        builder.Services.AddSampleRazor();
 
         builder.Services.AddKnownCells();
         builder.Services.AddKnownWeb();

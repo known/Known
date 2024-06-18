@@ -8,6 +8,14 @@ public interface IRoleService : IService
     Task<Result> SaveRoleAsync(SysRole model);
 }
 
+class RoleClient(HttpClient http) : ClientBase(http), IRoleService
+{
+    public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria) => QueryAsync<SysRole>("Role/QueryRoles", criteria);
+    public Task<SysRole> GetRoleAsync(string roleId) => GetAsync<SysRole>($"Role/GetRole?roleId={roleId}");
+    public Task<Result> DeleteRolesAsync(List<SysRole> models) => PostAsync("Role/DeleteRoles", models);
+    public Task<Result> SaveRoleAsync(SysRole model) => PostAsync("Role/SaveRole", model);
+}
+
 class RoleService(Context context) : ServiceBase(context), IRoleService
 {
     public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria)

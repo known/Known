@@ -12,8 +12,8 @@ public class BaQueryList : BaseTablePage<TbApply>
         Service = await CreateServiceAsync<IApplyService>();
 
         Table.FormType = typeof(ApplyForm);
-        Table.OnQuery = criteria => Service.QueryApplysAsync(FlowPageType.Query, criteria);
-        Table.Column(c => c.BizStatus).Template(BuildBizStatus);
+        Table.OnQuery = criteria => Service.QueryApplysAsync(criteria);
+        Table.Column(c => c.BizStatus).Template((b, r) => b.Tag(r.BizStatus));
     }
 
     //重新申请
@@ -22,8 +22,6 @@ public class BaQueryList : BaseTablePage<TbApply>
     public void Export() { }
     //打印
     public async void Print(TbApply row) => await JS.PrintAsync<ApplyPrint>(f => f.Set(c => c.Model, row));
-
-	private void BuildBizStatus(RenderTreeBuilder builder, TbApply row) => UI.BuildTag(builder, row.BizStatus);
 }
 
 class ApplyPrint : ComponentBase

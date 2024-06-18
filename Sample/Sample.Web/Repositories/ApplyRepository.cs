@@ -5,12 +5,13 @@ class ApplyRepository
 {
     //Apply
     //分页查询
-    internal static Task<PagingResult<TbApply>> QueryApplysAsync(Database db, FlowPageType type, PagingCriteria criteria)
+    internal static Task<PagingResult<TbApply>> QueryApplysAsync(Database db, PagingCriteria criteria)
     {
         var sql = @"select a.*,b.BizStatus,b.CurrStep,b.CurrBy,b.ApplyBy,b.ApplyTime,b.VerifyBy,b.VerifyTime,b.VerifyNote 
 from TbApply a,SysFlow b 
 where a.Id=b.BizId and a.CompNo=@CompNo";
 
+        var type = criteria.GetParameter<FlowPageType>("Type");
         switch (type)
         {
             case FlowPageType.Apply:

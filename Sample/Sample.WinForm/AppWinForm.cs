@@ -37,7 +37,7 @@ public static class AppWinForm
             //info.Connections[0].ConnectionString = "Data Source=localhost;Initial Catalog=Sample;User Id={userId};Password={password};";
             //info.Connections[0].ConnectionString = "Server=(localdb)\\MSSQLLocalDB;Database=Sample;Trusted_Connection=True";
         });
-        services.AddSampleClient();
+        services.AddSampleRazor();
 
         services.AddKnownCells();
         services.AddKnownWin();

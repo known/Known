@@ -10,6 +10,16 @@ public interface IModuleService : IService
     Task<Result> SaveModuleAsync(SysModule model);
 }
 
+class ModuleClient(HttpClient http) : ClientBase(http), IModuleService
+{
+    public Task<List<SysModule>> GetModulesAsync() => GetAsync<List<SysModule>>("Module/GetModules");
+    public Task<Result> DeleteModulesAsync(List<SysModule> models) => PostAsync("Module/DeleteModules", models);
+    public Task<Result> CopyModulesAsync(List<SysModule> models) => PostAsync("Module/CopyModules", models);
+    public Task<Result> MoveModulesAsync(List<SysModule> models) => PostAsync("Module/MoveModules", models);
+    public Task<Result> MoveModuleAsync(SysModule model) => PostAsync("Module/MoveModule", model);
+    public Task<Result> SaveModuleAsync(SysModule model) => PostAsync("Module/SaveModule", model);
+}
+
 class ModuleService(Context context) : ServiceBase(context), IModuleService
 {
     public Task<List<SysModule>> GetModulesAsync() => Database.QueryListAsync<SysModule>();

@@ -10,6 +10,7 @@ global using System.Drawing;
 global using System.Dynamic;
 global using System.Globalization;
 global using System.Linq.Expressions;
+global using System.Net.Http.Json;
 global using System.Net.NetworkInformation;
 global using System.Reflection;
 global using System.Runtime.ExceptionServices;

@@ -7,6 +7,13 @@ public interface ISettingService : IService
     Task<Result> SaveUserSettingAsync(string bizType, object bizData);
 }
 
+class SettingClient(HttpClient http) : ClientBase(http), ISettingService
+{
+    public Task<T> GetUserSettingAsync<T>(string bizType) => GetAsync<T>($"Setting/GetUserSetting?bizType={bizType}");
+    public Task<Result> DeleteUserSettingAsync(string bizType) => PostAsync("Setting/DeleteUserSetting", bizType);
+    public Task<Result> SaveUserSettingAsync(string bizType, object bizData) => PostAsync($"Setting/SaveUserSetting?bizType={bizType}", bizData);
+}
+
 class SettingService(Context context) : ServiceBase(context), ISettingService
 {
     //Setting
