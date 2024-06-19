@@ -9,15 +9,6 @@ public interface IWeixinService : IService
     Task<Result> SaveWeixinAsync(WeixinInfo model);
 }
 
-class WeixinClient(HttpClient http) : ClientBase(http), IWeixinService
-{
-    public Task<WeixinInfo> GetWeixinAsync() => GetAsync<WeixinInfo>("Weixin/GetWeixin");
-    public Task<SysWeixin> GetWeixinByUserIdAsync(string userId) => GetAsync<SysWeixin>($"Weixin/GetWeixinByUserId?userId={userId}");
-    public Task<string> GetQRCodeUrlAsync(string sceneId) => GetAsync<string>($"Weixin/GetQRCodeUrl?sceneId={sceneId}");
-    public Task<UserInfo> CheckWeixinAsync(UserInfo user) => PostAsync<UserInfo, UserInfo>("Weixin/CheckWeixin", user);
-    public Task<Result> SaveWeixinAsync(WeixinInfo model) => PostAsync("Weixin/SaveWeixin", model);
-}
-
 class WeixinService(Context context) : ServiceBase(context), IWeixinService
 {
     internal const string KeyWeixin = "WeixinInfo";

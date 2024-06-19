@@ -9,15 +9,6 @@ public interface ICompanyService : IService
     Task<Result> SaveOrganizationAsync(SysOrganization model);
 }
 
-class CompanyClient(HttpClient http) : ClientBase(http), ICompanyService
-{
-    public Task<T> GetCompanyAsync<T>() => GetAsync<T>("Company/GetCompany");
-    public Task<List<SysOrganization>> GetOrganizationsAsync() => GetAsync<List<SysOrganization>>("Company/GetOrganizations");
-    public Task<Result> DeleteOrganizationsAsync(List<SysOrganization> models) => PostAsync("Company/DeleteOrganizations", models);
-    public Task<Result> SaveCompanyAsync(object model) => PostAsync("Company/SaveCompany", model);
-    public Task<Result> SaveOrganizationAsync(SysOrganization model) => PostAsync("Company/SaveOrganization", model);
-}
-
 class CompanyService(Context context) : ServiceBase(context), ICompanyService
 {
     private const string KeyCompany = "CompanyInfo";

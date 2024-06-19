@@ -22,6 +22,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    //app.UseCssLiveReload();
 }
 else
 {
@@ -37,5 +38,4 @@ app.MapRazorComponents<App>()
    .AddInteractiveServerRenderMode()
    .AddInteractiveWebAssemblyRenderMode()
    .AddAdditionalAssemblies([.. Config.Assemblies]);
-//app.UseCssLiveReload();
 app.Run();

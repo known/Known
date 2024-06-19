@@ -15,15 +15,6 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
-    <script>
-        var _hmt = _hmt || [];
-        (function () {
-            var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?a3fd30ec1b2d12adb0aede63ac91c254";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
 </head>
 <body>
     <Routes @rendermode="InteractiveMode" IPAddress="@ipAddress" IsMobile="isMobile" />
@@ -35,8 +26,8 @@
 
 @code {
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
-    private InteractiveServerRenderMode InteractiveMode { get; set; } = new(false);
-    //private InteractiveAutoRenderMode InteractiveMode { get; set; } = new(false);
+    //private InteractiveServerRenderMode InteractiveMode { get; set; } = new(false);
+    private InteractiveAutoRenderMode InteractiveMode { get; set; } = new(false);
     private string ipAddress;
     private bool isMobile;
 

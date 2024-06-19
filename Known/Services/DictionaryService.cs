@@ -8,14 +8,6 @@ public interface IDictionaryService : IService
     Task<Result> SaveDictionaryAsync(SysDictionary model);
 }
 
-class DictionaryClient(HttpClient http) : ClientBase(http), IDictionaryService
-{
-    public Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria) => QueryAsync<SysDictionary>("Dictionary/QueryDictionaries", criteria);
-    public Task<List<CodeInfo>> GetCategoriesAsync() => GetAsync<List<CodeInfo>>("Dictionary/GetCategories");
-    public Task<Result> DeleteDictionariesAsync(List<SysDictionary> models) => PostAsync("Dictionary/DeleteDictionaries", models);
-    public Task<Result> SaveDictionaryAsync(SysDictionary model) => PostAsync("Dictionary/SaveDictionary", model);
-}
-
 class DictionaryService(Context context) : ServiceBase(context), IDictionaryService
 {
     public async Task<Result> RefreshCacheAsync()

@@ -32,10 +32,6 @@ public static class AppClient
                 return Generator.CreateInterfaceProxyWithoutTarget(type, ((IAsyncInterceptor)provider.GetRequiredService(interceptorType)).ToInterceptor());
             };
         });
-
-        services.AddScoped<IHomeService, HomeService>();
-        services.AddScoped<IApplyService, ApplyService>();
-
         services.AddKnownAntDesign(option =>
         {
             //option.Footer = b => b.Component<Foot>().Build();

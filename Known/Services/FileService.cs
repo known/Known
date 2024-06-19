@@ -10,16 +10,6 @@ public interface IFileService : IService
     Task<Result> UploadFilesAsync<TModel>(UploadInfo<TModel> info);
 }
 
-class FileClient(HttpClient http) : ClientBase(http), IFileService
-{
-    public Task<PagingResult<SysFile>> QueryFilesAsync(PagingCriteria criteria) => QueryAsync<SysFile>("File/QueryFiles", criteria);
-    public Task<List<SysFile>> GetFilesAsync(string bizId) => GetAsync<List<SysFile>>($"File/GetFiles?bizId={bizId}");
-    public Task<ImportFormInfo> GetImportAsync(string bizId) => GetAsync<ImportFormInfo>($"File/GetImport?bizId={bizId}");
-    public Task<byte[]> GetImportRuleAsync(string bizId) => GetAsync<byte[]>($"File/GetImportRule?bizId={bizId}");
-    public Task<Result> DeleteFileAsync(SysFile file) => PostAsync("File/DeleteFile", file);
-    public Task<Result> UploadFilesAsync<TModel>(UploadInfo<TModel> info) => PostAsync("File/UploadFiles", info);
-}
-
 class FileService(Context context) : ServiceBase(context), IFileService
 {
     //Public
