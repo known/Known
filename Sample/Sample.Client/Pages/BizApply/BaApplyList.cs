@@ -17,7 +17,7 @@ public class BaApplyList : BaseTablePage<TbApply>
         Table.Tab.OnChange = async t =>
         {
             UI.Info(t);
-            await Table.RefreshAsync();
+            await RefreshAsync();
         };
         Table.FormType = typeof(ApplyForm);
         Table.RowActions = row => Table.GetFlowRowActions(row); //根据数据状态显示操作按钮

@@ -13,11 +13,6 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     {
         await base.OnPageInitAsync();
         Table = new TableModel<TItem>(this);
-    }
-
-    protected override async Task OnPageChangeAsync()
-    {
-        await base.OnPageChangeAsync();
         Table.Initialize(this);
     }
 

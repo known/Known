@@ -43,14 +43,10 @@ public class SysUserList : BasePage<SysUser>
             RowKey = r => r.Id,
             OnQuery = OnQueryUsersAsync
         };
-        Page.AddItem(BuildTable);
-    }
-
-    protected override async Task OnPageChangeAsync()
-    {
         table.Initialize(this);
-        await base.OnPageChangeAsync();
         table.Column(c => c.Gender).Template(BuildGender);
+
+        Page.AddItem(BuildTable);
     }
 
     public override Task RefreshAsync() => table.RefreshAsync();

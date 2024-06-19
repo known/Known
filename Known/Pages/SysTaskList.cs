@@ -11,13 +11,7 @@ public class SysTaskList : BaseTablePage<SysTask>
     {
         await base.OnPageInitAsync();
         systemService = await CreateServiceAsync<ISystemService>();
-
         Table.OnQuery = systemService.QueryTasksAsync;
-    }
-
-    protected override async Task OnPageChangeAsync()
-    {
-        await base.OnPageChangeAsync();
         Table.Column(c => c.Status).Template(BuildTaskStatus);
     }
 

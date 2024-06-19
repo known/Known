@@ -10,7 +10,7 @@ public class BasePage : BaseComponent
     {
         await base.OnParameterAsync();
         //Logger.Info($"TY={GetType().Name},MN={PageName},PUL={Context.Url}");
-        await OnPageChangeAsync();
+        await RefreshAsync();
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -36,7 +36,6 @@ $('.kui-table .ant-table-body').not('.form-list .ant-table-body').css('height', 
 
     protected virtual void BuildPage(RenderTreeBuilder builder) { }
     protected virtual Task OnPageInitAsync() => Task.CompletedTask;
-    protected virtual Task OnPageChangeAsync() => Task.CompletedTask;
     public virtual Task RefreshAsync() => Task.CompletedTask;
     internal void OnToolClick(ActionInfo info) => OnAction(info, null);
     internal void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);

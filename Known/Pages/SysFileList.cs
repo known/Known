@@ -12,11 +12,6 @@ public class SysFileList : BaseTablePage<SysFile>
         await base.OnPageInitAsync();
         fileService = await CreateServiceAsync<IFileService>();
         Table.OnQuery = fileService.QueryFilesAsync;
-    }
-
-    protected override async Task OnPageChangeAsync()
-    {
-        await base.OnPageChangeAsync();
         Table.Column(c => c.Size).Template(BuildFileSize);
     }
 
