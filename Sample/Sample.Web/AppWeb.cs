@@ -14,8 +14,6 @@ public static class AppWeb
         {
             info.WebRoot = builder.Environment.WebRootPath;
             info.ContentRoot = builder.Environment.ContentRootPath;
-            info.Assembly = typeof(AppWeb).Assembly;
-
             //数据库连接
             info.Connections = [new Known.ConnectionInfo
             {

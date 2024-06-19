@@ -27,6 +27,7 @@ public static class AppConfig
             info.Name = AppName;
             info.IsLanguage = true;
             info.IsTheme = true;
+            info.Assembly = typeof(AppConfig).Assembly;
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
             info.JsPath = "./script.js";
         });
