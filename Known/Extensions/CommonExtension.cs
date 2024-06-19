@@ -146,4 +146,13 @@ public static class CommonExtension
         return navigation.Uri.Replace(baseUrl, "");
     }
     #endregion
+
+    #region File
+    public static async Task<IAttachFile> CreateFileAsync(this IBrowserFile item)
+    {
+        var file = new BlazorAttachFile(item);
+        await file.ReadAsync();
+        return file;
+    }
+    #endregion
 }

@@ -26,11 +26,11 @@
     private InputFile inputFile;
     private Dictionary<string, ElementReference> imgElems = [];
     private List<SysFile> sysFiles;
-    private List<IBrowserFile> files = [];
+    private List<IAttachFile> files = [];
     private string ImgId(int i) => $"img-{Id}-{i}";
 
     [Parameter] public string Value { get; set; }
-    [Parameter] public Action<List<IBrowserFile>> OnFilesChanged { get; set; }
+    [Parameter] public Action<List<IAttachFile>> OnFilesChanged { get; set; }
 
     public bool HasFile => sysFiles != null && sysFiles.Count > 0 || files.Count > 0;
 
@@ -52,7 +52,11 @@
         if (e.FileCount == 0)
             return;
 
-        files.Add(e.File);
+        if (files.Exists(f => f.FileName == e.File.Name))
+            return;
+
+        var file = await e.File.CreateFileAsync();
+        files.Add(file);
         OnFilesChanged?.Invoke(files);
         StateChanged();
         await JS.PreviewImageByIdAsync(inputFile.Element, ImgId(files.Count - 1));

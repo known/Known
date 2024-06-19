@@ -61,7 +61,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Func<TItem, Task<Result>> OnSave { get; set; }
     public Func<TItem, Task<bool>> OnSaving { get; set; }
     public Action<TItem> OnSaved { get; set; }
-    public Dictionary<string, List<IBrowserFile>> Files { get; } = [];
+    public Dictionary<string, List<IAttachFile>> Files { get; } = [];
 
     public string ClassName
     {
@@ -89,7 +89,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         if (Files == null)
             return false;
 
-        if (!Files.TryGetValue(key, out List<IBrowserFile> value))
+        if (!Files.TryGetValue(key, out List<IAttachFile> value))
             return false;
 
         return value.Count > 0;
@@ -193,11 +193,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
                 var info = new UploadInfo<TItem>(Data);
                 foreach (var file in Files)
                 {
-                    info.Files[file.Key] = [];
-                    foreach (var item in file.Value)
-                    {
-                        info.Files[file.Key].Add(new BlazorAttachFile(item));
-                    }
+                    info.Files[file.Key] = file.Value;
                 }
                 result = await OnSaveFile.Invoke(info);
             }

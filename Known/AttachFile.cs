@@ -42,11 +42,8 @@ public class AttachFile
         if (!info.Directory.Exists)
             info.Directory.Create();
 
-        var bytes = file.GetBytes();
-        if (bytes == null)
-            await file.SaveAsync(filePath);
-        else
-            await File.WriteAllBytesAsync(filePath, bytes);
+        if (file.Bytes != null)
+            await File.WriteAllBytesAsync(filePath, file.Bytes);
     }
 
     internal static void DeleteFile(SysFile file)
@@ -78,8 +75,6 @@ public interface IAttachFile
 {
     long Length { get; }
     string FileName { get; }
-
-    byte[] GetBytes();
-    Stream GetStream();
-    Task SaveAsync(string path);
+    byte[] Bytes { get; }
+    Task ReadAsync();
 }

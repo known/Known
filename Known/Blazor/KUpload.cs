@@ -4,14 +4,14 @@ public class KUpload : BaseComponent
 {
     private IFileService fileService;
     private List<SysFile> sysFiles;
-    private readonly List<IBrowserFile> files = [];
+    private readonly List<IAttachFile> files = [];
 
     [Parameter] public bool IsButton { get; set; }
     [Parameter] public bool OpenFile { get; set; }
     [Parameter] public string Value { get; set; }
     [Parameter] public bool MultiFile { get; set; }
     [Parameter] public bool Directory { get; set; }
-    [Parameter] public Action<List<IBrowserFile>> OnFilesChanged { get; set; }
+    [Parameter] public Action<List<IAttachFile>> OnFilesChanged { get; set; }
 
     public async Task RefreshAsync()
     {
@@ -87,27 +87,43 @@ public class KUpload : BaseComponent
         }
     }
 
-    private void OnInputFileChanged(InputFileChangeEventArgs e)
+    private async void OnInputFileChanged(InputFileChangeEventArgs e)
     {
         if (MultiFile || Directory)
-            files.AddRange(e.GetMultipleFiles());
+        {
+            foreach (var item in e.GetMultipleFiles())
+            {
+                await OnAddFileAsync(item);
+            }
+        }
         else
-            files.Add(e.File);
+        {
+            await OnAddFileAsync(e.File);
+        }
 
         foreach (var item in files)
         {
-            if (!sysFiles.Exists(f => f.Name == item.Name))
-                sysFiles.Add(new SysFile { Id = "", Name = item.Name });
+            if (!sysFiles.Exists(f => f.Name == item.FileName))
+                sysFiles.Add(new SysFile { Id = "", Name = item.FileName });
         }
-
+        StateChanged();
         OnFilesChanged?.Invoke(files);
+    }
+
+    private async Task OnAddFileAsync(IBrowserFile item)
+    {
+        if (files.Exists(f => f.FileName == item.Name))
+            return;
+
+        var file = await item.CreateFileAsync();
+        files.Add(file);
     }
 
     private void OnDeleteFile(SysFile item)
     {
         if (string.IsNullOrWhiteSpace(item.Id))
         {
-            var file = files.FirstOrDefault(f => f.Name == item.Name);
+            var file = files.FirstOrDefault(f => f.FileName == item.Name);
             files.Remove(file);
             sysFiles.Remove(item);
             OnFilesChanged?.Invoke(files);

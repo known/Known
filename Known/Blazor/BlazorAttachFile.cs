@@ -1,33 +1,18 @@
 ﻿namespace Known.Blazor;
 
-class BlazorAttachFile : IAttachFile
+class BlazorAttachFile(IBrowserFile file) : IAttachFile
 {
-    private readonly IBrowserFile file;
-    private readonly byte[] bytes = null;
+    private readonly IBrowserFile file = file;
+    private byte[] bytes = null;
 
-    internal BlazorAttachFile(IBrowserFile file)
+    public long Length { get; } = file.Size;
+    public string FileName { get; } = file.Name;
+    public byte[] Bytes => bytes;
+
+    public async Task ReadAsync()
     {
-        this.file = file;
-        Length = file.Size;
-        FileName = file.Name;
-    }
-
-    public long Length { get; }
-    public string FileName { get; }
-
-    public byte[] GetBytes() => bytes;
-
-    public Stream GetStream()
-    {
-        if (bytes != null)
-            return new MemoryStream(bytes);
-
-        return file.OpenReadStream(Config.App.UploadMaxSize);
-    }
-
-    public async Task SaveAsync(string path)
-    {
-        await using FileStream fs = new(path, FileMode.Create);
-        await file.OpenReadStream(Config.App.UploadMaxSize).CopyToAsync(fs);
+        using var stream = new MemoryStream();
+        await file.OpenReadStream(Config.App.UploadMaxSize).CopyToAsync(stream);
+        bytes = stream.GetBuffer();
     }
 }
