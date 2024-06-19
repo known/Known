@@ -6,7 +6,7 @@
         if (!string.IsNullOrWhiteSpace(Item.Category))
         {
             var codes = Cache.GetCodes(Item.Category).ToCodes(Item.IsQueryAll ? Language["All"] : "");
-            <AntCodeSelect Style="@SelectStyle" DataSource="codes" @bind-Value="@Data[Item.Id].Value" OnSelectedItemChanged="e=>OnSearch()" />
+            <AntCodeSelect Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChanged(Item.Id,v)" />
         }
         else if (itemType.Contains("DateTime"))
         {
@@ -18,12 +18,12 @@
             codes.Add(new CodeInfo("", Language["All"]));
             codes.Add(new CodeInfo("True", "是"));
             codes.Add(new CodeInfo("False", "否"));
-            <AntCodeSelect Style="@SelectStyle" DataSource="codes" @bind-Value="@Data[Item.Id].Value" OnSelectedItemChanged="e=>OnSearch()" />
+            <AntCodeSelect Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChanged(Item.Id,v)" />
         }
         else
         {
             @* Fixed V0.18.3版本Input组件双向绑定字典问题 *@
-            <AntInput Value="@Data[Item.Id].Value" ValueChanged="this.Callback<string>(v=>Data[Item.Id].Value=v)" OnPressEnter="e=>OnSearch()" />
+            <AntInput Value="@Data[Item.Id].Value" ValueChanged="v=>Data[Item.Id].Value=v" OnPressEnter="e=>OnSearch()" />
         }
     }
 </FormItem>
@@ -43,5 +43,14 @@
         if (Item.Property != null)
             itemType = Item.Property.PropertyType.ToString();
         return base.OnInitAsync();
+    }
+
+    private async void OnSelectChanged(string id, string value)
+    {
+        if (value == Data[id].Value)
+            return;
+
+        Data[id].Value = value;
+        await OnSearch?.Invoke();
     }
 }
