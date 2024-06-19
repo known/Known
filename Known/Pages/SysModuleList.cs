@@ -5,7 +5,7 @@
 [Route("/sys/modules")]
 public class SysModuleList : BasePage<SysModule>
 {
-    private IModuleService moduleService; 
+    private IModuleService moduleService;
     private List<SysModule> modules;
     private MenuInfo current;
     private int total;
@@ -40,7 +40,7 @@ public class SysModuleList : BasePage<SysModule>
         };
         table.Initialize(this);
         table.Column(c => c.Name).Template(BuildName);
-        table.Column(c => c.Target).Template(BuildTarget);
+        table.Column(c => c.Target).Template((b, r) => b.Tag(r.Target));
     }
 
     public override async Task RefreshAsync()
@@ -57,8 +57,6 @@ public class SysModuleList : BasePage<SysModule>
         UI.Icon(builder, row.Icon);
         builder.Span(row.Name);
     }
-
-    private void BuildTarget(RenderTreeBuilder builder, SysModule row) => UI.BuildTag(builder, row.Target);
 
     private Task<PagingResult<SysModule>> OnQueryModulesAsync(PagingCriteria criteria)
     {

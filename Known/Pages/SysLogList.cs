@@ -14,8 +14,6 @@ public class SysLogList : BaseTablePage<SysLog>
 
         Table.OnQuery = systemService.QueryLogsAsync;
         Table.AddQueryColumn(c => c.CreateTime);
-        Table.Column(c => c.Type).Template(BuildLogType);
+        Table.Column(c => c.Type).Template((b, r) => b.Tag(r.Type));
     }
-
-    private void BuildLogType(RenderTreeBuilder builder, SysLog row) => UI.BuildTag(builder, row.Type);
 }

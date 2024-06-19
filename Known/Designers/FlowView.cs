@@ -24,8 +24,8 @@ class FlowView : BaseView<FlowInfo>
                 return Task.FromResult(result);
             }
         };
-        table.Column(c => c.Pass).Template((b, r) => BuildStatus(b, r.Pass));
-        table.Column(c => c.Fail).Template((b, r) => BuildStatus(b, r.Fail));
+        table.Column(c => c.Pass).Template((b, r) => b.Tag(r.Pass));
+        table.Column(c => c.Fail).Template((b, r) => b.Tag(r.Fail));
     }
 
     private void BuildView(RenderTreeBuilder builder)
@@ -33,6 +33,4 @@ class FlowView : BaseView<FlowInfo>
         builder.Div("bold", $"{Model?.Name}（{Model?.Id}）");
         UI.BuildTable(builder, table);
     }
-
-    private void BuildStatus(RenderTreeBuilder builder, string value) => UI.BuildTag(builder, value);
 }

@@ -44,7 +44,7 @@ public class SysUserList : BasePage<SysUser>
             OnQuery = OnQueryUsersAsync
         };
         table.Initialize(this);
-        table.Column(c => c.Gender).Template(BuildGender);
+        table.Column(c => c.Gender).Template((b, r) => b.Tag(r.Gender));
 
         Page.AddItem(BuildTable);
     }
@@ -69,8 +69,6 @@ public class SysUserList : BasePage<SysUser>
     public void ChangeDepartment() => table.SelectRows(OnChangeDepartment);
     public void Enable() => table.SelectRows(userService.EnableUsersAsync, Language.Enable);
     public void Disable() => table.SelectRows(userService.DisableUsersAsync, Language.Disable);
-
-    private void BuildGender(RenderTreeBuilder builder, SysUser row) => UI.BuildTag(builder, row.Gender);
 
     private void OnChangeDepartment(List<SysUser> rows)
     {

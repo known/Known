@@ -6,7 +6,7 @@ public class AntSelect : Select<string, string>
     [CascadingParameter] private DataItem Item { get; set; }
 
     protected override void OnInitialized()
-	{
+    {
         if (AntForm != null)
             Disabled = AntForm.IsView;
         var emptyText = "";

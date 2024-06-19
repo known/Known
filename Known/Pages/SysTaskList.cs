@@ -12,8 +12,6 @@ public class SysTaskList : BaseTablePage<SysTask>
         await base.OnPageInitAsync();
         systemService = await CreateServiceAsync<ISystemService>();
         Table.OnQuery = systemService.QueryTasksAsync;
-        Table.Column(c => c.Status).Template(BuildTaskStatus);
+        Table.Column(c => c.Status).Template((b, r) => b.Tag(r.Status));
     }
-
-    private void BuildTaskStatus(RenderTreeBuilder builder, SysTask row) => UI.BuildTag(builder, row.Status);
 }
