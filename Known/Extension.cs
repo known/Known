@@ -7,6 +7,7 @@ public static class Extension
         Config.StartTime = DateTime.Now;
         Language.Initialize();
         action?.Invoke(Config.App);
+        Config.AddApp();
 
         services.AddScoped<Context>();
         services.AddScoped<JSService>();
@@ -29,7 +30,9 @@ public static class Extension
             Database.RegisterConnections(Config.App.Connections);
             await Database.InitializeAsync();
         }
-        Config.AddApp();
+
+        var service = new SystemService(new Context());
+        Config.Install = await service.GetInstallAsync();
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAutoService, AutoService>();
@@ -45,26 +48,33 @@ public static class Extension
         services.AddScoped<IWeixinService, WeixinService>();
     }
 
-    public static void AddKnownClient(this IServiceCollection services, Action<AppInfo> action = null)
+    public static void AddKnownClient(this IServiceCollection services, Action<ClientInfo> action = null)
     {
-        action?.Invoke(Config.App);
-
-        services.AddScoped<IAuthService, AuthClient>();
-        services.AddScoped<IAutoService, AutoClient>();
-        services.AddScoped<ICompanyService, CompanyClient>();
-        services.AddScoped<IDictionaryService, DictionaryClient>();
-        services.AddScoped<IFileService, FileClient>();
-        services.AddScoped<IFlowService, FlowClient>();
-        services.AddScoped<ISystemService, SystemClient>();
-        services.AddScoped<ISettingService, SettingClient>();
-        services.AddScoped<IModuleService, ModuleClient>();
-        services.AddScoped<IRoleService, RoleClient>();
-        services.AddScoped<IUserService, UserClient>();
-        services.AddScoped<IWeixinService, WeixinClient>();
+        var info = new ClientInfo();
+        action?.Invoke(info);
 
         services.AddScoped(http => new HttpClient
         {
-            BaseAddress = new Uri(Config.App.BaseUrl)
+            BaseAddress = new Uri(info.BaseUrl)
         });
+
+        foreach (var type in Config.ApiTypes)
+        {
+            //Console.WriteLine(type.Name);
+            services.AddScoped(type, provider => info.Provider?.Invoke(provider, type));
+        }
+
+        //services.AddScoped<IAuthService, AuthClient>();
+        //services.AddScoped<IAutoService, AutoClient>();
+        //services.AddScoped<ICompanyService, CompanyClient>();
+        //services.AddScoped<IDictionaryService, DictionaryClient>();
+        //services.AddScoped<IFileService, FileClient>();
+        //services.AddScoped<IFlowService, FlowClient>();
+        //services.AddScoped<ISystemService, SystemClient>();
+        //services.AddScoped<ISettingService, SettingClient>();
+        //services.AddScoped<IModuleService, ModuleClient>();
+        //services.AddScoped<IRoleService, RoleClient>();
+        //services.AddScoped<IUserService, UserClient>();
+        //services.AddScoped<IWeixinService, WeixinClient>();
     }
 }

@@ -52,23 +52,18 @@ public static class Extension
     public static void AddKnownWebApi(this IServiceCollection services)
     {
         IsAddWebApi = true;
-        foreach (var assembly in Config.Assemblies)
+        foreach (var type in Config.ApiTypes)
         {
-            foreach (var type in assembly.GetTypes())
+            //Console.WriteLine($"api/{type.Name}");
+            var controler = type.Name[1..].Replace("Service", "");
+            var methods = type.GetMethods();
+            foreach (var method in methods)
             {
-                if (type.IsInterface || !type.GetInterfaces().Contains(typeof(IService)))
-                    continue;
-
-                var controler = type.Name.Replace("Service", "");
-                var methods = type.GetMethods();
-                foreach (var method in methods)
+                if (method.IsPublic && method.DeclaringType?.Name == type.Name)
                 {
-                    if (method.IsPublic && method.DeclaringType?.Name == type.Name)
-                    {
-                        var name = method.Name.Replace("Async", "");
-                        var pattern = $"/{controler}/{name}";
-                        ApiMethods[pattern] = method;
-                    }
+                    var name = method.Name.Replace("Async", "");
+                    var pattern = $"/{controler}/{name}";
+                    ApiMethods[pattern] = method;
                 }
             }
         }

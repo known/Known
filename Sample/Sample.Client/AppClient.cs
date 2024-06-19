@@ -1,7 +1,11 @@
-﻿namespace Sample.Client;
+﻿using Castle.DynamicProxy;
+
+namespace Sample.Client;
 
 public static class AppClient
 {
+    private static readonly ProxyGenerator Generator = new();
+
     public static void AddSampleRazor(this IServiceCollection services)
     {
         services.AddKnownAntDesign(option =>
@@ -21,6 +25,12 @@ public static class AppClient
         services.AddKnownClient(info =>
         {
             info.BaseUrl = "http://localhost";
+            info.Provider = (provider, type) =>
+            {
+                var interceptorType = typeof(HttpInterceptor<>).MakeGenericType(type);
+                services.AddTransient(interceptorType);
+                return Generator.CreateInterfaceProxyWithoutTarget(type, ((IAsyncInterceptor)provider.GetRequiredService(interceptorType)).ToInterceptor());
+            };
         });
 
         services.AddScoped<IHomeService, HomeService>();

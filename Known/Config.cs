@@ -16,9 +16,10 @@ public sealed class Config
     public static Action OnExit { get; set; }
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
-    public static List<Assembly> Assemblies { get; } = [];
-    public static List<MenuInfo> AppMenus { get; set; }
     public static SystemInfo System { get; set; }
+    public static List<Assembly> Assemblies { get; } = [];
+    public static List<Type> ApiTypes { get; } = [];
+    public static List<MenuInfo> AppMenus { get; set; }
     internal static InstallInfo Install { get; set; }
     internal static DateTime StartTime { get; set; }
     internal static bool IsAuth { get; set; } = true;
@@ -41,10 +42,9 @@ public sealed class Config
 
         foreach (var item in assembly.GetTypes())
         {
-            if (item.IsInterface || item.IsAbstract)
-                continue;
-
-            if (item.IsAssignableTo(typeof(ImportBase)))
+            if (item.IsInterface && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
+                ApiTypes.Add(item);
+            else if (item.IsAssignableTo(typeof(ImportBase)))
                 ImportTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseFlow)))
                 FlowTypes[item.Name] = item;
@@ -59,13 +59,10 @@ public sealed class Config
         }
     }
 
-    internal static async void AddApp()
+    internal static void AddApp()
     {
         Version = new VersionInfo(App.Assembly);
         AddModule(typeof(Config).Assembly);
-
-        var service = new SystemService(new Context());
-        Install = await service.GetInstallAsync();
     }
 
     public static string GetUploadPath(bool isWeb = false)
@@ -197,7 +194,6 @@ public class AppInfo
     public bool IsPlatform { get; set; }
     public bool IsLanguage { get; set; }
     public bool IsTheme { get; set; }
-    public string BaseUrl { get; set; }
     public string WebRoot { get; set; }
     public string ContentRoot { get; set; }
     public string UploadPath { get; set; }
@@ -228,6 +224,12 @@ public class AppInfo
 
         return Connections.FirstOrDefault(c => c.Name == name);
     }
+}
+
+public class ClientInfo
+{
+    public string BaseUrl { get; set; }
+    public Func<IServiceProvider, Type, object> Provider { get; set; }
 }
 
 public class ConnectionInfo
