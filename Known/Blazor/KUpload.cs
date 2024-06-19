@@ -69,54 +69,53 @@ public class KUpload : BaseComponent
 
     private void BuildFiles(RenderTreeBuilder builder)
     {
-        if (sysFiles != null && sysFiles.Count > 0)
+        if (sysFiles == null || sysFiles.Count == 0)
+            return;
+
+        builder.Div("kui-form-files", () =>
         {
-            builder.Div("kui-form-files", () =>
+            foreach (var item in sysFiles)
             {
-                foreach (var item in sysFiles)
+                var url = item.FileUrl;
+                builder.Div(() =>
                 {
-                    var url = item.FileUrl;
-                    builder.Div(() =>
-                    {
-                        if (!ReadOnly)
-                            builder.Span("kui-link danger", Language.Delete, this.Callback<MouseEventArgs>(e => OnDeleteFile(item)));
-                        builder.OpenFile(item.Name, item.FileUrl, !OpenFile);
-                    });
-                }
-            });
-        }
+                    if (!ReadOnly)
+                        builder.Span("kui-link danger", Language.Delete, this.Callback<MouseEventArgs>(e => OnDeleteFile(item)));
+                    builder.OpenFile(item.Name, item.FileUrl, !OpenFile);
+                });
+            }
+        });
     }
 
     private async void OnInputFileChanged(InputFileChangeEventArgs e)
     {
+        var isChange = false;
         if (MultiFile || Directory)
         {
             foreach (var item in e.GetMultipleFiles())
             {
-                await OnAddFileAsync(item);
+                isChange = await OnAddFileAsync(item);
             }
         }
         else
         {
-            await OnAddFileAsync(e.File);
+            isChange = await OnAddFileAsync(e.File);
         }
 
-        foreach (var item in files)
-        {
-            if (!sysFiles.Exists(f => f.Name == item.FileName))
-                sysFiles.Add(new SysFile { Id = "", Name = item.FileName });
-        }
-        StateChanged();
-        OnFilesChanged?.Invoke(files);
+        if (isChange)
+            OnFilesChanged?.Invoke(files);
     }
 
-    private async Task OnAddFileAsync(IBrowserFile item)
+    private async Task<bool> OnAddFileAsync(IBrowserFile item)
     {
         if (files.Exists(f => f.FileName == item.Name))
-            return;
+            return false;
 
         var file = await item.CreateFileAsync();
         files.Add(file);
+        sysFiles.Add(new SysFile { Id = "", Name = item.Name });
+        StateChanged();
+        return true;
     }
 
     private void OnDeleteFile(SysFile item)
