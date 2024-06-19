@@ -6,6 +6,7 @@ namespace Sample.Client;
 public class HttpInterceptor<T>(IServiceProvider provider) : IAsyncInterceptor where T : class
 {
     private readonly IServiceProvider ServiceProvider = provider;
+    private readonly JsonSerializerOptions jsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     public IHttpClientFactory HttpClientFactory => ServiceProvider.GetRequiredService<IHttpClientFactory>();
 
@@ -24,16 +25,16 @@ public class HttpInterceptor<T>(IServiceProvider provider) : IAsyncInterceptor w
         Send(invocation);
     }
 
-    private void Send(IInvocation invocation)
+    private async void Send(IInvocation invocation)
     {
         using var client = CreateClient();
         var request = CreateRequestMessage(invocation);
-        var response = client.Send(request);
+        var response = await client.SendAsync(request);
         response.EnsureSuccessStatusCode();
-        var stream = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
-        if (stream is not null && stream.Length > 0)
+        var stream = await response.Content.ReadAsStreamAsync();
+        if (stream != null && stream.Length > 0)
         {
-            invocation.ReturnValue = JsonSerializer.Deserialize(stream, invocation.Method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            invocation.ReturnValue = JsonSerializer.Deserialize(stream, invocation.Method.ReturnType, jsonOptions);
         }
     }
 
@@ -44,11 +45,10 @@ public class HttpInterceptor<T>(IServiceProvider provider) : IAsyncInterceptor w
         var response = await client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         var stream = await response.Content.ReadAsStreamAsync();
-        if (stream is not null && stream.Length > 0)
-        {
-            return await JsonSerializer.DeserializeAsync(stream, invocation.Method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }).AsTask();
-        }
-        return default;
+        if (stream == null || stream.Length == 0)
+            return default;
+
+        return await JsonSerializer.DeserializeAsync(stream, invocation.Method.ReturnType, jsonOptions).AsTask();
     }
 
     private async Task<TResult> SendAsync<TResult>(IInvocation invocation)
@@ -58,11 +58,10 @@ public class HttpInterceptor<T>(IServiceProvider provider) : IAsyncInterceptor w
         var response = await client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         var stream = await response.Content.ReadAsStreamAsync();
-        if (stream is not null && stream.Length > 0)
-        {
-            return await JsonSerializer.DeserializeAsync<TResult>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }).AsTask();
-        }
-        return default;
+        if (stream == null || stream.Length == 0)
+            return default;
+        
+        return await JsonSerializer.DeserializeAsync<TResult>(stream, jsonOptions).AsTask();
     }
 
     private HttpClient CreateClient()

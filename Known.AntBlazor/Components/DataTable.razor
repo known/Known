@@ -176,7 +176,7 @@
 
     private async Task OnChange(QueryModel<TItem> queryModel)
     {
-        if (Model.OnQuery == null)
+        if (Model.OnQuery == null || showSpin)
             return;
 
         showSpin = true;

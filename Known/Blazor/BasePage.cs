@@ -9,8 +9,7 @@ public class BasePage : BaseComponent
     protected override async Task OnParameterAsync()
     {
         await base.OnParameterAsync();
-        //TODO:此次执行两次问题
-        //Logger.Info($"TY={GetType().Name},MN={PageName},PUL={PageUrl},orgPageUrl={orgPageUrl}");
+        //Logger.Info($"TY={GetType().Name},MN={PageName},PUL={Context.Url}");
         await OnPageChangeAsync();
     }
 
@@ -58,12 +57,25 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 public class BaseTabPage : BasePage
 {
     protected TabModel Tab { get; } = new();
+    protected string CurrentTab {  get; set; }
 
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
         Tab.Left = b => b.Component<KTitle>().Set(c => c.Text, PageName).Build();
     }
+
+    protected async void OnTabChange(string tab)
+    {
+        if (CurrentTab == tab)
+            return;
+
+        CurrentTab = tab;
+        await OnTabChangeAsync();
+        await RefreshAsync();
+    }
+
+    protected virtual Task OnTabChangeAsync() => Task.CompletedTask;
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {

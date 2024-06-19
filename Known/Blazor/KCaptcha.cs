@@ -75,10 +75,10 @@ public class KCaptcha : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    protected override ValueTask DisposeAsync(bool disposing)
+    protected override async Task OnDisposeAsync()
     {
+        await base.OnDisposeAsync();
         timer?.Dispose();
-        return base.DisposeAsync(disposing);
     }
 
     private void BuildSMS(RenderTreeBuilder builder)

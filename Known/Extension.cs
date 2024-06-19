@@ -5,6 +5,7 @@ public static class Extension
     public static void AddKnown(this IServiceCollection services, Action<AppInfo> action = null)
     {
         Config.StartTime = DateTime.Now;
+        Logger.Level = LogLevel.Info;
         Language.Initialize();
         action?.Invoke(Config.App);
         Config.AddApp();

@@ -65,24 +65,25 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
     protected virtual Task OnInitAsync() => Task.CompletedTask;
     protected virtual Task OnParameterAsync() => Task.CompletedTask;
+    protected virtual Task OnDisposeAsync() => Task.CompletedTask;
     protected virtual void BuildRender(RenderTreeBuilder builder) { }
-    protected virtual ValueTask DisposeAsync(bool disposing)
-    {
-        IsDisposing = disposing;
-        return ValueTask.CompletedTask;
-    }
 
+    public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
+    public void StateChanged() => InvokeAsync(StateHasChanged);
     public async ValueTask DisposeAsync()
     {
         await DisposeAsync(true);
         GC.SuppressFinalize(this);
     }
 
-    public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
-    public virtual void StateChanged() => InvokeAsync(StateHasChanged);
-
     internal async void OnAction(ActionInfo info, object[] parameters)
     {
         await TypeHelper.ActionAsync(this, Context, App, info, parameters);
+    }
+
+    private async ValueTask DisposeAsync(bool disposing)
+    {
+        IsDisposing = disposing;
+        await OnDisposeAsync();
     }
 }

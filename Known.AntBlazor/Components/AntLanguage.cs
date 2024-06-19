@@ -4,8 +4,6 @@ public class AntLanguage : BaseComponent
 {
     private ActionInfo current;
 
-    [Parameter] public Action OnChanged { get; set; }
-
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -28,6 +26,6 @@ public class AntLanguage : BaseComponent
         current = info;
         Context.CurrentLanguage = current.Id;
         await JS.SetCurrentLanguageAsync(current.Id);
-        OnChanged?.Invoke();
+        Navigation.Refresh(true);
     }
 }

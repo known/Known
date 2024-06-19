@@ -2,7 +2,6 @@
 
 public class AntTheme : BaseComponent
 {
-    [Parameter] public string Theme { get; set; }
     [Parameter] public Action<string> OnChanged { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -10,15 +9,14 @@ public class AntTheme : BaseComponent
         builder.Component<Switch>()
                .Set(c => c.CheckedChildren, "🌜")
                .Set(c => c.UnCheckedChildren, "🌞")
-               .Set(c => c.Value, Theme == "dark")
+               .Set(c => c.Value, Context.Theme == "dark")
                .Set(c => c.OnChange, this.Callback<bool>(ThemeChanged))
                .Build();
     }
 
     private async void ThemeChanged(bool isDark)
     {
-        Theme = isDark ? "dark" : "light";
-        await JS.SetCurrentThemeAsync(Theme);
-        OnChanged?.Invoke(Theme);
+        Context.Theme = isDark ? "dark" : "light";
+        await JS.SetCurrentThemeAsync(Context.Theme);
     }
 }

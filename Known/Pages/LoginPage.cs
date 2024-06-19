@@ -43,15 +43,6 @@ public class LoginPage : BaseComponent
         }
     }
 
-    protected void SetTheme(string theme)
-    {
-        if (!Config.App.IsTheme)
-            return;
-
-        Context.Theme = theme;
-        StateChanged();
-    }
-
     protected virtual void OnLogining() { }
     protected virtual void OnLogined(UserInfo user)
     {

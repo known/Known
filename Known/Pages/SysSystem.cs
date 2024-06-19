@@ -6,9 +6,6 @@
 public class SysSystem : BaseTabPage
 {
     private ISystemService systemService;
-    private SysSystemInfo info;
-    private SysSystemSafe safe;
-    private WeChatSetting weChat;
     internal SystemInfo Data { get; private set; }
 
     protected override async Task OnPageInitAsync()
@@ -17,20 +14,12 @@ public class SysSystem : BaseTabPage
         systemService = await CreateServiceAsync<ISystemService>();
         Data = await systemService.GetSystemAsync();
 
-        Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build(value => info = value));
-        Tab.AddTab("SecuritySetting", b => b.Component<SysSystemSafe>().Build(value => safe = value));
-        Tab.AddTab("WeChatSetting", b => b.Component<WeChatSetting>().Build(value => weChat = value));
+        Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build());
+        Tab.AddTab("SecuritySetting", b => b.Component<SysSystemSafe>().Build());
+        Tab.AddTab("WeChatSetting", b => b.Component<WeChatSetting>().Build());
     }
 
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
-
-    public override void StateChanged()
-    {
-        info?.StateChanged();
-        safe?.StateChanged();
-        weChat?.StateChanged();
-        base.StateChanged();
-    }
 }
 
 class SysSystemInfo : BaseForm<SystemInfo>
