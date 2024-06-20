@@ -103,7 +103,10 @@ public class KUpload : BaseComponent
         }
 
         if (isChange)
+        {
+            StateChanged();
             OnFilesChanged?.Invoke(files);
+        }
     }
 
     private async Task<bool> OnAddFileAsync(IBrowserFile item)
@@ -114,7 +117,6 @@ public class KUpload : BaseComponent
         var file = await item.CreateFileAsync();
         files.Add(file);
         sysFiles.Add(new SysFile { Id = "", Name = item.Name });
-        StateChanged();
         return true;
     }
 
