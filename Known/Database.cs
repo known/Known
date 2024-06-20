@@ -1145,7 +1145,7 @@ class CommandInfo
             return GetPagingSqlByAccess(criteria, out order);
 
         if (criteria.OrderBys != null)
-            order = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)).ToArray());
+            order = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)));
         if (string.IsNullOrEmpty(order) && Text.Contains("CreateTime"))
             order = "t1.CreateTime";
         if (!string.IsNullOrWhiteSpace(order))
