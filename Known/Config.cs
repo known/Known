@@ -10,6 +10,7 @@ public sealed class Config
 
     public static bool IsInstalled => System != null;
     public static bool IsClient { get; set; }
+    public static string BaseUrl { get; set; }
     public static string HostUrl { get; set; }
     public static string DateFormat { get; set; } = "yyyy-MM-dd";
     public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:ss";

@@ -1,15 +1,15 @@
 ﻿namespace Known;
 
-public abstract class HttpInterceptor<T>(IServiceProvider provider) where T : class
+public abstract class HttpInterceptor<T>(IServiceScopeFactory provider) where T : class
 {
     private readonly JsonSerializerOptions jsonOptions = new() { PropertyNameCaseInsensitive = true };
 
-    protected IServiceProvider ServiceProvider { get; } = provider;
-    protected abstract HttpClient CreateClient();
+    protected IServiceScopeFactory ServiceFactory { get; } = provider;
+    protected abstract Task<HttpClient> CreateClientAsync();
 
     protected async Task<object> SendAsync(MethodInfo method, object[] arguments)
     {
-        using var client = CreateClient();
+        using var client = await CreateClientAsync();
         var request = await CreateRequestMessageAsync(method, arguments);
         var response = await client.SendAsync(request);
         response.EnsureSuccessStatusCode();
@@ -22,7 +22,7 @@ public abstract class HttpInterceptor<T>(IServiceProvider provider) where T : cl
 
     protected async Task<TResult> SendAsync<TResult>(MethodInfo method, object[] arguments)
     {
-        using var client = CreateClient();
+        using var client = await CreateClientAsync();
         var request = await CreateRequestMessageAsync(method, arguments);
         var response = await client.SendAsync(request);
         response.EnsureSuccessStatusCode();
@@ -42,7 +42,7 @@ public abstract class HttpInterceptor<T>(IServiceProvider provider) where T : cl
 
         request.Method = info.HttpMethod;
 
-        var auth = ServiceProvider.GetRequiredService<IAuthStateProvider>();
+        var auth = await ServiceFactory.CreateAsync<IAuthStateProvider>();
         var user = await auth.GetUserAsync();
         request.Headers.Add(Constants.KeyToken, user?.Token);
         
@@ -68,6 +68,7 @@ public abstract class HttpInterceptor<T>(IServiceProvider provider) where T : cl
         if (queries.Count > 0)
             url += $"?{string.Join('&', queries)}";
         request.RequestUri = new(url, UriKind.Relative);
+        Console.WriteLine($"ReqUrl={request.RequestUri}");
         return request;
     }
 }

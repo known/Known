@@ -2,14 +2,15 @@
 
 namespace Sample.Client;
 
-public class HttpClientInterceptor<T>(IServiceProvider provider) : HttpInterceptor<T>(provider), IAsyncInterceptor where T : class
+public class HttpClientInterceptor<T>(IServiceScopeFactory provider) : HttpInterceptor<T>(provider), IAsyncInterceptor where T : class
 {
-    private IHttpClientFactory HttpClientFactory => ServiceProvider.GetRequiredService<IHttpClientFactory>();
-
-    protected override HttpClient CreateClient()
+    protected override async Task<HttpClient> CreateClientAsync()
     {
         var type = typeof(T);
-        return HttpClientFactory.CreateClient(type.Name);
+        var factory = await ServiceFactory.CreateAsync<IHttpClientFactory>();
+        var client = factory.CreateClient(type.Name);
+        client.BaseAddress = new Uri(Config.BaseUrl);
+        return client;
     }
 
     public void InterceptAsynchronous(IInvocation invocation)

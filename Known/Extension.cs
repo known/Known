@@ -54,11 +54,6 @@ public static class Extension
         var info = new ClientInfo();
         action?.Invoke(info);
 
-        services.AddScoped(http => new HttpClient
-        {
-            BaseAddress = new Uri(info.BaseUrl)
-        });
-
         foreach (var type in Config.ApiTypes)
         {
             //Console.WriteLine(type.Name);
