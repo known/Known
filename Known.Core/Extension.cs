@@ -81,47 +81,26 @@ public static class Extension
         {
             //Console.WriteLine(item.Route);
             if (item.HttpMethod == HttpMethod.Get)
-                app.MapGet(item.Route, ctx => InvokeGetMethod(ctx, item.MethodInfo));
+                app.MapGet(item.Route, ctx => InvokeMethod(ctx, item.MethodInfo));
             else
-                app.MapPost(item.Route, ctx => InvokePostMethod(ctx, item.MethodInfo));
+                app.MapPost(item.Route, ctx => InvokeMethod(ctx, item.MethodInfo));
         }
     }
 
-    private static async Task InvokeGetMethod(HttpContext ctx, MethodInfo method)
+    private static async Task InvokeMethod(HttpContext ctx, MethodInfo method)
     {
         try
         {
             var token = ctx.Request.Headers[Constants.KeyToken].ToString();
-            var context = Context.Create(token);
-            var target = Activator.CreateInstance(method.DeclaringType, context);
+            var service = ctx.RequestServices.GetRequiredService(method.DeclaringType) as IService;
+            service.Context = Context.Create(token);
             var parameters = new List<object>();
             foreach (var item in method.GetParameters())
             {
                 var parameter = ctx.Request.Query[item.Name].ToString();
                 parameters.Add(parameter);
             }
-            var value = method.Invoke(target, [.. parameters]);
-            await ctx.Response.WriteAsJsonAsync(value);
-        }
-        catch (Exception ex)
-        {
-            Logger.Exception(ex);
-            await ctx.Response.WriteAsJsonAsync(new { ex.Message });
-        }
-    }
-
-    private static async Task InvokePostMethod(HttpContext ctx, MethodInfo method)
-    {
-        try
-        {
-            var target = Activator.CreateInstance(method.DeclaringType);
-            var parameters = new List<object>();
-            foreach (var item in method.GetParameters())
-            {
-                var parameter = ctx.Request.Form[item.Name].ToString();
-                parameters.Add(parameter);
-            }
-            var value = method.Invoke(target, [.. parameters]);
+            var value = method.Invoke(service, [.. parameters]);
             await ctx.Response.WriteAsJsonAsync(value);
         }
         catch (Exception ex)
