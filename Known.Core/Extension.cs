@@ -3,7 +3,6 @@
 public static class Extension
 {
     private static bool IsAddWebApi { get; set; }
-    private static Dictionary<string, MethodInfo> ApiMethods { get; } = [];
 
     public static void AddKnownWin(this IServiceCollection services)
     {
@@ -52,21 +51,6 @@ public static class Extension
     public static void AddKnownWebApi(this IServiceCollection services)
     {
         IsAddWebApi = true;
-        foreach (var type in Config.ApiTypes)
-        {
-            //Console.WriteLine($"api/{type.Name}");
-            var controler = type.Name[1..].Replace("Service", "");
-            var methods = type.GetMethods();
-            foreach (var method in methods)
-            {
-                if (method.IsPublic && method.DeclaringType?.Name == type.Name)
-                {
-                    var name = method.Name.Replace("Async", "");
-                    var pattern = $"/{controler}/{name}";
-                    ApiMethods[pattern] = method;
-                }
-            }
-        }
     }
 
     public static void UseKnown(this WebApplication app)
@@ -93,13 +77,13 @@ public static class Extension
     private static void UseKnownWebApi(this IEndpointRouteBuilder app)
     {
         //TODO:Map动态API
-        foreach (var item in ApiMethods)
+        foreach (var item in Config.ApiMethods)
         {
-            //Console.WriteLine(item.Key);
-            if (item.Value.Name.StartsWith("Get"))
-                app.MapGet(item.Key, ctx => InvokeGetMethod(ctx, item.Value));
+            //Console.WriteLine(item.Route);
+            if (item.Method == "Get")
+                app.MapGet(item.Route, ctx => InvokeGetMethod(ctx, item.Info));
             else
-                app.MapPost(item.Key, ctx => InvokePostMethod(ctx, item.Value));
+                app.MapPost(item.Route, ctx => InvokePostMethod(ctx, item.Info));
         }
     }
 

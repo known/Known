@@ -1,78 +1,40 @@
-﻿using System.Text.Json;
-using Castle.DynamicProxy;
+﻿namespace Known;
 
-namespace Sample.Client;
-
-public class HttpInterceptor<T>(IServiceProvider provider) : IAsyncInterceptor where T : class
+public abstract class HttpInterceptor<T>(IServiceProvider provider) where T : class
 {
-    private readonly IServiceProvider ServiceProvider = provider;
     private readonly JsonSerializerOptions jsonOptions = new() { PropertyNameCaseInsensitive = true };
 
-    public IHttpClientFactory HttpClientFactory => ServiceProvider.GetRequiredService<IHttpClientFactory>();
+    protected IServiceProvider ServiceProvider { get; } = provider;
+    protected abstract HttpClient CreateClient();
 
-    public void InterceptAsynchronous(IInvocation invocation)
-    {
-        invocation.ReturnValue = SendAsync(invocation);
-    }
-
-    public void InterceptAsynchronous<TResult>(IInvocation invocation)
-    {
-        invocation.ReturnValue = SendAsync<TResult>(invocation);
-    }
-
-    public void InterceptSynchronous(IInvocation invocation)
-    {
-        Send(invocation);
-    }
-
-    private async void Send(IInvocation invocation)
+    protected async Task<object> SendAsync(MethodInfo method)
     {
         using var client = CreateClient();
-        var request = CreateRequestMessage(invocation);
-        var response = await client.SendAsync(request);
-        response.EnsureSuccessStatusCode();
-        var stream = await response.Content.ReadAsStreamAsync();
-        if (stream != null && stream.Length > 0)
-        {
-            invocation.ReturnValue = JsonSerializer.Deserialize(stream, invocation.Method.ReturnType, jsonOptions);
-        }
-    }
-
-    private async Task<object> SendAsync(IInvocation invocation)
-    {
-        using var client = CreateClient();
-        var request = CreateRequestMessage(invocation);
+        var request = CreateRequestMessage(method);
         var response = await client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         var stream = await response.Content.ReadAsStreamAsync();
         if (stream == null || stream.Length == 0)
             return default;
 
-        return await JsonSerializer.DeserializeAsync(stream, invocation.Method.ReturnType, jsonOptions).AsTask();
+        return await JsonSerializer.DeserializeAsync(stream, method.ReturnType, jsonOptions);
     }
 
-    private async Task<TResult> SendAsync<TResult>(IInvocation invocation)
+    protected async Task<TResult> SendAsync<TResult>(MethodInfo method)
     {
         using var client = CreateClient();
-        var request = CreateRequestMessage(invocation);
+        var request = CreateRequestMessage(method);
         var response = await client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         var stream = await response.Content.ReadAsStreamAsync();
         if (stream == null || stream.Length == 0)
             return default;
-        
-        return await JsonSerializer.DeserializeAsync<TResult>(stream, jsonOptions).AsTask();
+
+        return await JsonSerializer.DeserializeAsync<TResult>(stream, jsonOptions);
     }
 
-    private HttpClient CreateClient()
+    private HttpRequestMessage CreateRequestMessage(MethodInfo method)
     {
-        var type = typeof(T);
-        return HttpClientFactory.CreateClient(type.Name);
-    }
-
-    private HttpRequestMessage CreateRequestMessage(IInvocation invocation)
-    {
-        var method = invocation.Method;
         var request = new HttpRequestMessage
         {
             Method = method.Name.StartsWith("Get") ? HttpMethod.Get : HttpMethod.Post

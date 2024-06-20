@@ -27,7 +27,7 @@ public static class AppClient
             info.BaseUrl = "http://localhost";
             info.Provider = (provider, type) =>
             {
-                var interceptorType = typeof(HttpInterceptor<>).MakeGenericType(type);
+                var interceptorType = typeof(HttpClientInterceptor<>).MakeGenericType(type);
                 services.AddTransient(interceptorType);
                 return Generator.CreateInterfaceProxyWithoutTarget(type, ((IAsyncInterceptor)provider.GetRequiredService(interceptorType)).ToInterceptor());
             };

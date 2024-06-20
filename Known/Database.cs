@@ -25,7 +25,7 @@ public class Database : IDisposable
     public Database(Context context) : this()
     {
         Context = context;
-        User = context.CurrentUser;
+        User = context?.CurrentUser;
     }
 
     public Database(string connName, UserInfo user = null)

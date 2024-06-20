@@ -19,6 +19,7 @@ public sealed class Config
     public static SystemInfo System { get; set; }
     public static List<Assembly> Assemblies { get; } = [];
     public static List<Type> ApiTypes { get; } = [];
+    public static List<ApiMethodInfo> ApiMethods { get; } = [];
     public static List<MenuInfo> AppMenus { get; set; }
     internal static InstallInfo Install { get; set; }
     internal static DateTime StartTime { get; set; }
@@ -43,7 +44,7 @@ public sealed class Config
         foreach (var item in assembly.GetTypes())
         {
             if (item.IsInterface && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
-                ApiTypes.Add(item);
+                AddApiMethod(item);
             else if (item.IsAssignableTo(typeof(ImportBase)))
                 ImportTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseFlow)))
@@ -57,12 +58,6 @@ public sealed class Config
             if (attr != null && attr.Any())
                 Cache.AttachCodes(item);
         }
-    }
-
-    internal static void AddApp()
-    {
-        Version = new VersionInfo(App.Assembly);
-        AddModule(typeof(Config).Assembly);
     }
 
     public static string GetUploadPath(bool isWeb = false)
@@ -108,6 +103,29 @@ public sealed class Config
     {
         var path = GetUploadPath(isWeb);
         return Path.Combine(path, filePath);
+    }
+
+    internal static void AddApp()
+    {
+        Version = new VersionInfo(App.Assembly);
+        AddModule(typeof(Config).Assembly);
+    }
+
+    private static void AddApiMethod(Type type)
+    {
+        ApiTypes.Add(type);
+        //Console.WriteLine($"api/{type.Name}");
+        var controler = type.Name[1..].Replace("Service", "");
+        var methods = type.GetMethods();
+        foreach (var method in methods)
+        {
+            if (method.IsPublic && method.DeclaringType?.Name == type.Name)
+            {
+                var name = method.Name.Replace("Async", "");
+                var pattern = $"/{controler}/{name}";
+                //ApiMethods[pattern] = method;
+            }
+        }
     }
 
     private static void AddActions(Assembly assembly)
@@ -224,6 +242,13 @@ public class AppInfo
 
         return Connections.FirstOrDefault(c => c.Name == name);
     }
+}
+
+public class ApiMethodInfo
+{
+    public string Route { get; set; }
+    public string Method { get; set; }
+    public MethodInfo Info { get; set; }
 }
 
 public class ClientInfo
