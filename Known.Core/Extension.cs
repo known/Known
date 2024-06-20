@@ -89,29 +89,45 @@ public static class Extension
 
     private static async Task InvokeGetMethod(HttpContext ctx, MethodInfo method)
     {
-        var token = ctx.Request.Headers[Constants.KeyToken].ToString();
-        var context = Context.Create(token);
-        var target = Activator.CreateInstance(method.DeclaringType, context);
-        var parameters = new List<object>();
-        foreach (var item in method.GetParameters())
+        try
         {
-            var parameter = ctx.Request.Query[item.Name].ToString();
-            parameters.Add(parameter);
+            var token = ctx.Request.Headers[Constants.KeyToken].ToString();
+            var context = Context.Create(token);
+            var target = Activator.CreateInstance(method.DeclaringType, context);
+            var parameters = new List<object>();
+            foreach (var item in method.GetParameters())
+            {
+                var parameter = ctx.Request.Query[item.Name].ToString();
+                parameters.Add(parameter);
+            }
+            var value = method.Invoke(target, [.. parameters]);
+            await ctx.Response.WriteAsJsonAsync(value);
         }
-        var value = method.Invoke(target, [.. parameters]);
-        await ctx.Response.WriteAsJsonAsync(value);
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            await ctx.Response.WriteAsJsonAsync(new { ex.Message });
+        }
     }
 
     private static async Task InvokePostMethod(HttpContext ctx, MethodInfo method)
     {
-        var target = Activator.CreateInstance(method.DeclaringType);
-        var parameters = new List<object>();
-        foreach (var item in method.GetParameters())
+        try
         {
-            var parameter = ctx.Request.Form[item.Name].ToString();
-            parameters.Add(parameter);
+            var target = Activator.CreateInstance(method.DeclaringType);
+            var parameters = new List<object>();
+            foreach (var item in method.GetParameters())
+            {
+                var parameter = ctx.Request.Form[item.Name].ToString();
+                parameters.Add(parameter);
+            }
+            var value = method.Invoke(target, [.. parameters]);
+            await ctx.Response.WriteAsJsonAsync(value);
         }
-        var value = method.Invoke(target, [.. parameters]);
-        await ctx.Response.WriteAsJsonAsync(value);
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            await ctx.Response.WriteAsJsonAsync(new { ex.Message });
+        }
     }
 }

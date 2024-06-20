@@ -150,9 +150,18 @@ public static class CommonExtension
     #region File
     public static async Task<IAttachFile> CreateFileAsync(this IBrowserFile item)
     {
-        var file = new BlazorAttachFile(item);
-        await file.ReadAsync();
-        return file;
+        if (!Utils.CheckImage(item.Name))
+        {
+            var attach = new BlazorAttachFile(item);
+            await attach.ReadAsync();
+            return attach;
+        }
+
+        var format = item.ContentType;
+        var file = await item.RequestImageFileAsync(format, 1920, 1080);
+        var image = new BlazorAttachFile(file);
+        await image.ReadAsync();
+        return image;
     }
     #endregion
 }

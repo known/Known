@@ -60,6 +60,15 @@ public sealed class Utils
         return flag;
     }
 
+    public static bool CheckImage(string fileName)
+    {
+        return fileName.EndsWith(".jpeg")
+            || fileName.EndsWith(".jpg")
+            || fileName.EndsWith(".png")
+            || fileName.EndsWith(".gif")
+            || fileName.EndsWith(".bmp");
+    }
+
     public static string GetMaxFormNo(string prefix, string maxNo)
     {
         var lastNo = maxNo.Replace(prefix, "");
