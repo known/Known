@@ -121,9 +121,14 @@ public sealed class Config
         {
             if (method.IsPublic && method.DeclaringType?.Name == type.Name)
             {
+                var info = new ApiMethodInfo();
                 var name = method.Name.Replace("Async", "");
-                var pattern = $"/{controler}/{name}";
-                //ApiMethods[pattern] = method;
+                info.Id = $"{type.Name}.{method.Name}";
+                info.Route = $"/{controler}/{name}";
+                info.HttpMethod = name.StartsWith("Get") ? HttpMethod.Get : HttpMethod.Post;
+                info.MethodInfo = method;
+                info.Parameters = method.GetParameters();
+                ApiMethods.Add(info);
             }
         }
     }
@@ -246,15 +251,18 @@ public class AppInfo
 
 public class ApiMethodInfo
 {
+    public string Id { get; set; }
     public string Route { get; set; }
-    public string Method { get; set; }
-    public MethodInfo Info { get; set; }
+    public HttpMethod HttpMethod { get; set; }
+    public MethodInfo MethodInfo { get; set; }
+    public ParameterInfo[] Parameters { get; set; }
 }
 
 public class ClientInfo
 {
     public string BaseUrl { get; set; }
-    public Func<IServiceProvider, Type, object> Provider { get; set; }
+    public Func<Type, Type> InterceptorType { get; set; }
+    public Func<Type, object, object> InterceptorProvider { get; set; }
 }
 
 public class ConnectionInfo

@@ -80,10 +80,10 @@ public static class Extension
         foreach (var item in Config.ApiMethods)
         {
             //Console.WriteLine(item.Route);
-            if (item.Method == "Get")
-                app.MapGet(item.Route, ctx => InvokeGetMethod(ctx, item.Info));
+            if (item.HttpMethod == HttpMethod.Get)
+                app.MapGet(item.Route, ctx => InvokeGetMethod(ctx, item.MethodInfo));
             else
-                app.MapPost(item.Route, ctx => InvokePostMethod(ctx, item.Info));
+                app.MapPost(item.Route, ctx => InvokePostMethod(ctx, item.MethodInfo));
         }
     }
 

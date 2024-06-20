@@ -62,7 +62,13 @@ public static class Extension
         foreach (var type in Config.ApiTypes)
         {
             //Console.WriteLine(type.Name);
-            services.AddScoped(type, provider => info.Provider?.Invoke(provider, type));
+            var interceptorType = info.InterceptorType?.Invoke(type);
+            services.AddScoped(interceptorType);
+            services.AddScoped(type, provider =>
+            {
+                var interceptor = provider.GetRequiredService(interceptorType);
+                return info.InterceptorProvider?.Invoke(type, interceptor);
+            });
         }
     }
 }

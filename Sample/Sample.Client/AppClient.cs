@@ -25,11 +25,10 @@ public static class AppClient
         services.AddKnownClient(info =>
         {
             info.BaseUrl = "http://localhost";
-            info.Provider = (provider, type) =>
+            info.InterceptorType = type => typeof(HttpClientInterceptor<>).MakeGenericType(type);
+            info.InterceptorProvider = (type, interceptor) =>
             {
-                var interceptorType = typeof(HttpClientInterceptor<>).MakeGenericType(type);
-                services.AddTransient(interceptorType);
-                return Generator.CreateInterfaceProxyWithoutTarget(type, ((IAsyncInterceptor)provider.GetRequiredService(interceptorType)).ToInterceptor());
+                return Generator.CreateInterfaceProxyWithoutTarget(type, ((IAsyncInterceptor)interceptor).ToInterceptor());
             };
         });
         services.AddSampleRazor();

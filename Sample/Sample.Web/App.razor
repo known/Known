@@ -26,8 +26,8 @@
 
 @code {
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
-    private InteractiveServerRenderMode InteractiveMode { get; set; } = new(false);
-    //private InteractiveAutoRenderMode InteractiveMode { get; set; } = new(false);
+    //private InteractiveServerRenderMode InteractiveMode => new(false);
+    private InteractiveAutoRenderMode InteractiveMode => new(false);
     private string ipAddress;
     private bool isMobile;
 
