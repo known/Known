@@ -8,7 +8,6 @@ public sealed class Config
     public const string GiteeUrl = "https://gitee.com/known/Known";
     public const string GithubUrl = "https://github.com/known/Known";
 
-    public static bool IsInstalled => System != null;
     public static bool IsClient { get; set; }
     public static string HostUrl { get; set; }
     public static string DateFormat { get; set; } = "yyyy-MM-dd";
@@ -21,7 +20,6 @@ public sealed class Config
     public static List<Type> ApiTypes { get; } = [];
     public static List<ApiMethodInfo> ApiMethods { get; } = [];
     public static List<MenuInfo> AppMenus { get; set; }
-    internal static InstallInfo Install { get; set; }
     internal static DateTime StartTime { get; set; }
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }

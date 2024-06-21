@@ -16,7 +16,7 @@ public class BaseLayout : LayoutComponentBase
         try
         {
             await base.OnInitializedAsync();
-            AuthService = await Factory.CreateAsync<IAuthService>(Context);
+            AuthService = await CreateServiceAsync<IAuthService>();
             await OnInitAsync();
         }
         catch (Exception ex)
@@ -27,6 +27,7 @@ public class BaseLayout : LayoutComponentBase
 
     protected virtual Task OnInitAsync() => Task.CompletedTask;
 
+    public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
     public void NavigateTo(string url) => Navigation.NavigateTo(url);
 
     public void NavigateTo(MenuInfo item)

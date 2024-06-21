@@ -31,9 +31,6 @@ public static class Extension
             await Database.InitializeAsync();
         }
 
-        var service = new SystemService(new Context());
-        Config.Install = await service.GetInstallAsync();
-
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped<ICompanyService, CompanyService>();

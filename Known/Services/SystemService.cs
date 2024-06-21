@@ -46,7 +46,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     public async Task<InstallInfo> GetInstallAsync()
     {
         var info = GetInstall();
-        Config.System = await GetSystemAsync(Database);
         //await Platform.Dictionary.RefreshCacheAsync();
         await CheckKeyAsync();
         return info;
@@ -103,12 +102,12 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     public async Task<SystemInfo> GetSystemAsync()
     {
         var info = await GetSystemAsync(Database);
-        if (info != null)
-        {
-            var install = GetInstall();
-            info.ProductId = install.ProductId;
-            info.ProductKey = install.ProductKey;
-        }
+        //if (info != null)
+        //{
+        //    var install = GetInstall();
+        //    info.ProductId = install.ProductId;
+        //    info.ProductKey = install.ProductKey;
+        //}
         return info;
     }
 
