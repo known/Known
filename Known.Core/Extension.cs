@@ -96,8 +96,19 @@ public static class Extension
             var parameters = new List<object>();
             foreach (var item in method.GetParameters())
             {
-                var parameter = ctx.Request.Query[item.Name].ToString();
-                parameters.Add(parameter);
+                if (ctx.Request.Method == "GET")
+                {
+                    var parameter = ctx.Request.Query[item.Name].ToString();
+                    parameters.Add(parameter);
+                }
+                else
+                {
+                    var parameter = await ctx.Request.ReadFromJsonAsync(item.ParameterType);
+                    parameters.Add(parameter);
+                    //ctx.Request.Body.Position = 0;
+                    //using var stream = new StreamReader(ctx.Request.Body);
+                    //var json = stream.ReadToEnd();
+                }
             }
             var value = method.Invoke(service, [.. parameters]);
             var task = Utils.MapTo<TaskInfo>(value);
