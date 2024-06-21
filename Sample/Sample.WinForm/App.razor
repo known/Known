@@ -1,7 +1,6 @@
 ﻿@using AntDesign
 @using Known.Blazor
 @using Microsoft.AspNetCore.Components.Routing
-@inject UIService AntUI
 
 <KContext Value="context">
     <Router AppAssembly="typeof(App).Assembly" AdditionalAssemblies="Config.Assemblies">
@@ -22,7 +21,7 @@
 
     protected override void OnInitialized()
     {
-        context = new UIContext(AntUI);
+        context = new UIContext();
         base.OnInitialized();
     }
 }

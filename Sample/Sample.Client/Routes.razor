@@ -1,6 +1,4 @@
-﻿@inject UIService AntUI
-
-<KContext Value="context">
+﻿<KContext Value="context">
     <Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="Config.Assemblies">
         <Found Context="routeData">
             <KRouteData Value="routeData">
@@ -22,7 +20,7 @@
 
     protected override void OnInitialized()
     {
-        context = new UIContext(AntUI);
+        context = new UIContext();
         context.IPAddress = IPAddress;
         context.IsMobile = IsMobile;
         base.OnInitialized();

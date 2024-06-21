@@ -6,6 +6,7 @@ public class BaseLayout : LayoutComponentBase
     [Inject] public NavigationManager Navigation { get; set; }
     [Inject] public IServiceScopeFactory Factory { get; set; }
     [Inject] public JSService JS { get; set; }
+    [Inject] public IUIService UI { get; set; }
     [CascadingParameter] public UIContext Context { get; set; }
     public Language Language => Context?.Language;
     public MenuInfo CurrentMenu => Context.Current;
@@ -16,6 +17,8 @@ public class BaseLayout : LayoutComponentBase
         try
         {
             await base.OnInitializedAsync();
+            UI.Language = Language;
+            Context.UI = UI;
             AuthService = await CreateServiceAsync<IAuthService>();
             await OnInitAsync();
         }
@@ -64,7 +67,7 @@ public class BaseLayout : LayoutComponentBase
     public async Task OnError(Exception ex)
     {
         Logger.Exception(ex);
-        await Context.UI.Notice(ex.Message, StyleType.Error);
+        await UI.Notice(ex.Message, StyleType.Error);
     }
 
     public virtual Task ShowSpinAsync(string text, Action action) => Task.CompletedTask;

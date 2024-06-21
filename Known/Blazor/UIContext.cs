@@ -2,15 +2,9 @@
 
 public class UIContext : Context
 {
-    public UIContext(IUIService ui)
-    {
-        UI = ui;
-        ui.Language = Language;
-    }
-
     public string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";
     public MenuInfo Current { get; private set; }
-    public IUIService UI { get; }
+    public IUIService UI { get; set; }
     public bool IsMobile { get; set; }
     public string IPAddress { get; set; }
     public string Url { get; set; }

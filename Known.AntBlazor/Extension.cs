@@ -8,7 +8,7 @@ public static class Extension
     {
         //添加AntDesign
         services.AddAntDesign();
-        services.AddScoped<UIService>();
+        services.AddScoped<IUIService, UIService>();
 
         AntConfig.Option = new AntDesignOption();
         action?.Invoke(AntConfig.Option);

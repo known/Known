@@ -7,7 +7,6 @@ public static class AppWinForm
 {
     public static void AddApp(this IServiceCollection services)
     {
-        AppConfig.AppName = "Known信息管理系统";
         services.AddSample();
         services.AddSampleCore(info =>
         {

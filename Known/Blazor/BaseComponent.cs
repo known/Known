@@ -15,13 +15,13 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
     [Inject] public IJSRuntime JSRuntime { get; set; }
     [Inject] public JSService JS { get; set; }
+    [Inject] public IUIService UI { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
     [Inject] public IServiceScopeFactory Factory { get; set; }
     [CascadingParameter] public UIContext Context { get; set; }
     [CascadingParameter] public BaseLayout App { get; set; }
 
     protected bool IsDisposing { get; private set; }
-    public IUIService UI => Context?.UI;
     public Language Language => Context?.Language;
     public UserInfo CurrentUser => Context?.CurrentUser;
 
@@ -30,6 +30,8 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         try
         {
             await base.OnInitializedAsync();
+            UI.Language = Language;
+            Context.UI = UI;
             await OnInitAsync();
         }
         catch (Exception ex)
