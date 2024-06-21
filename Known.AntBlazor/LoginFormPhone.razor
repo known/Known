@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<LoginInfoForm @ref="form" Model="Model" OnFinish="OnPhoneLogin">
+<LoginInfoForm @ref="form" Model="Model">
     <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneNo")">
         <AntInput @bind-Value="@context.PhoneNo" Placeholder="@Language["PhoneNo"]">
             <Prefix><Icon Type="phone" /></Prefix>
@@ -20,7 +20,7 @@
         <Switch @bind-Value="@context.Remember" /> @Language["Login.RememberPhone"]
     </FormItem>
     <FormItem>
-        <Button Type="@ButtonType.Primary" HtmlType="submit" Block>@Language["Login"]</Button>
+        <Button Type="@ButtonType.Primary" Block OnClick="OnPhoneLogin">@Language["Login"]</Button>
     </FormItem>
 </LoginInfoForm>
 

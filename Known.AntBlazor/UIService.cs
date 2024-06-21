@@ -182,10 +182,13 @@ public class UIService(ModalService modalService, MessageService messageService,
 
     private static RenderFragment FormatMessage(string message)
     {
-        if (message.Contains(Environment.NewLine))
+        if (!string.IsNullOrWhiteSpace(message))
         {
-            message = message.Trim([.. Environment.NewLine]).Replace(Environment.NewLine, "<br/>");
-            message = $"<div class=\"message\">{message}</div>";
+            if (message.Contains(Environment.NewLine))
+            {
+                message = message.Trim([.. Environment.NewLine]).Replace(Environment.NewLine, "<br/>");
+                message = $"<div class=\"message\">{message}</div>";
+            }
         }
         return b => b.Markup(message);
     }
