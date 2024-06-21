@@ -18,13 +18,13 @@ public static class AppClient
 
     internal static void AddSampleClient(this IServiceCollection services)
     {
+        services.AddHttpClient();
         services.AddAuthorizationCore();
         services.AddCascadingAuthenticationState();
         services.AddSingleton<IAuthStateProvider, ClientAuthStateProvider>();
         services.AddSingleton<AuthenticationStateProvider, PersistentStateProvider>();
         services.AddKnownClient(info =>
         {
-            info.BaseUrl = "http://localhost";
             info.InterceptorType = type => typeof(HttpClientInterceptor<>).MakeGenericType(type);
             info.InterceptorProvider = (type, interceptor) =>
             {

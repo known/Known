@@ -6,7 +6,6 @@ public static class Extension
     {
         Config.StartTime = DateTime.Now;
         Logger.Level = LogLevel.Info;
-        Language.Initialize();
         action?.Invoke(Config.App);
         Config.AddApp();
 

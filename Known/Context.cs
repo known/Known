@@ -37,10 +37,8 @@ public class Context
         }
     }
 
-    public static Context Create(string token)
+    public static Context Create(string token) => new()
     {
-        var context = new Context();
-        context.CurrentUser = AuthService.GetUserByToken(token);
-        return context;
-    }
+        CurrentUser = AuthService.GetUserByToken(token)
+    };
 }

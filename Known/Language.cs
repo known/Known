@@ -26,7 +26,11 @@ public class Language
         }
     }
 
-    public static List<ActionInfo> Items { get; } = [];
+    public static List<ActionInfo> Items => [
+        new ActionInfo { Id = "zh-CN", Name = "简体中文", Icon = "简" },
+        new ActionInfo { Id = "zh-TW", Name = "繁体中文", Icon = "繁" },
+        new ActionInfo { Id = "en-US", Name = "English", Icon = "EN" }
+    ];
     public string Home => this["Menu.Home"];
 
     internal string SelectOne => this["Tip.SelectOne"];
@@ -62,25 +66,22 @@ public class Language
         return info;
     }
 
-    internal static void Initialize()
+    internal static void Initialize(Assembly assembly)
     {
-        var path = Path.GetFullPath("Locales");
-        if (!Directory.Exists(path))
-            return;
-
-        var files = Directory.GetFiles(path);
-        foreach (var file in files)
+        foreach (var item in Items)
         {
-            var name = new FileInfo(file).Name.Split('.')[0];
-            var json = File.ReadAllText(file);
-            var lang = Utils.FromJson<Dictionary<string, object>>(json);
-            caches[name] = lang;
-            Items.Add(new ActionInfo
+            var content = Utils.GetResource(assembly, $"Locales.{item.Id}");
+            if (string.IsNullOrWhiteSpace(content))
+                continue;
+
+            if (!caches.ContainsKey(item.Id))
+                caches[item.Id] = [];
+            
+            var langs = Utils.FromJson<Dictionary<string, object>>(content);
+            foreach (var lang in langs)
             {
-                Id = name,
-                Name = lang["localeName"].ToString(),
-                Icon = lang["localeIcon"].ToString()
-            });
+                caches[item.Id][lang.Key] = lang.Value;
+            }
         }
     }
 

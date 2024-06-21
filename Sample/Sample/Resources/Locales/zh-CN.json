@@ -1,0 +1,14 @@
+﻿{
+  "Menu.BizApply": "业务申请",
+  "Menu.BaApplyList": "表单申请",
+  "Menu.BaVerifyList": "表单审核",
+  "Menu.BaQueryList": "表单查询",
+
+  "BizApply": "业务申请",
+  "BizVerify": "业务审核",
+  "BizType": "业务类型",
+  "BizNo": "业务单号",
+  "BizTitle": "业务名称",
+  "BizContent": "业务内容",
+  "BizFile": "业务附件"
+}

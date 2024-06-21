@@ -9,12 +9,11 @@ public abstract class HttpInterceptor<T>(IServiceScopeFactory provider) where T 
 
     protected async Task<object> SendAsync(MethodInfo method, object[] arguments)
     {
-        using var client = await CreateClientAsync();
-        var request = await CreateRequestMessageAsync(method, arguments);
-        var response = await client.SendAsync(request);
-        response.EnsureSuccessStatusCode();
-        var stream = await response.Content.ReadAsStreamAsync();
+        var stream = await ReadStreamAsync(method, arguments);
         if (stream == null || stream.Length == 0)
+            return default;
+
+        if (method.ReturnType == typeof(void))
             return default;
 
         return await JsonSerializer.DeserializeAsync(stream, method.ReturnType, jsonOptions);
@@ -22,15 +21,20 @@ public abstract class HttpInterceptor<T>(IServiceScopeFactory provider) where T 
 
     protected async Task<TResult> SendAsync<TResult>(MethodInfo method, object[] arguments)
     {
-        using var client = await CreateClientAsync();
-        var request = await CreateRequestMessageAsync(method, arguments);
-        var response = await client.SendAsync(request);
-        response.EnsureSuccessStatusCode();
-        var stream = await response.Content.ReadAsStreamAsync();
+        var stream = await ReadStreamAsync(method, arguments);
         if (stream == null || stream.Length == 0)
             return default;
 
         return await JsonSerializer.DeserializeAsync<TResult>(stream, jsonOptions);
+    }
+
+    private async Task<Stream> ReadStreamAsync(MethodInfo method, object[] arguments)
+    {
+        using var client = await CreateClientAsync();
+        var request = await CreateRequestMessageAsync(method, arguments);
+        var response = await client.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStreamAsync();
     }
 
     private async Task<HttpRequestMessage> CreateRequestMessageAsync(MethodInfo method, object[] arguments)
@@ -39,8 +43,6 @@ public abstract class HttpInterceptor<T>(IServiceScopeFactory provider) where T 
         var info = Config.ApiMethods.FirstOrDefault(m => m.Id == $"{typeof(T).Name}.{method.Name}");
         if (info == null)
             return request;
-
-        request.Method = info.HttpMethod;
 
         var auth = await ServiceFactory.CreateAsync<IAuthStateProvider>();
         var user = await auth.GetUserAsync();
@@ -68,7 +70,8 @@ public abstract class HttpInterceptor<T>(IServiceScopeFactory provider) where T 
         if (queries.Count > 0)
             url += $"?{string.Join('&', queries)}";
         request.RequestUri = new(url, UriKind.Relative);
-        Console.WriteLine($"ReqUrl={request.RequestUri}");
+        request.Method = info.HttpMethod;
+        //Console.WriteLine($"ReqUrl={request.RequestUri}");
         return request;
     }
 }

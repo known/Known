@@ -9,7 +9,7 @@ public class HttpClientInterceptor<T>(IServiceScopeFactory provider) : HttpInter
         var type = typeof(T);
         var factory = await ServiceFactory.CreateAsync<IHttpClientFactory>();
         var client = factory.CreateClient(type.Name);
-        client.BaseAddress = new Uri(Config.BaseUrl);
+        client.BaseAddress = new Uri(Config.HostUrl);
         return client;
     }
 
@@ -23,8 +23,9 @@ public class HttpClientInterceptor<T>(IServiceScopeFactory provider) : HttpInter
         invocation.ReturnValue = SendAsync<TResult>(invocation.Method, invocation.Arguments);
     }
 
-    public async void InterceptSynchronous(IInvocation invocation)
+    public void InterceptSynchronous(IInvocation invocation)
     {
-        invocation.ReturnValue = await SendAsync(invocation.Method, invocation.Arguments);
+        //Console.WriteLine($"同步={invocation.Method}");
+        //invocation.ReturnValue = await SendAsync(invocation.Method, invocation.Arguments);
     }
 }

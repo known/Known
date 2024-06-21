@@ -2,10 +2,9 @@
 using Sample;
 using Sample.Client;
 
-Config.IsClient = true;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
-Config.BaseUrl = builder.HostEnvironment.BaseAddress;
-builder.Services.AddHttpClient();
+Config.IsClient = true;
+Config.HostUrl = builder.HostEnvironment.BaseAddress;
 builder.Services.AddSample();
 builder.Services.AddSampleClient();
 await builder.Build().RunAsync();

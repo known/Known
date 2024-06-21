@@ -10,7 +10,6 @@ public sealed class Config
 
     public static bool IsInstalled => System != null;
     public static bool IsClient { get; set; }
-    public static string BaseUrl { get; set; }
     public static string HostUrl { get; set; }
     public static string DateFormat { get; set; } = "yyyy-MM-dd";
     public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:ss";
@@ -41,6 +40,7 @@ public sealed class Config
 
         Assemblies.Add(assembly);
         AddActions(assembly);
+        Language.Initialize(assembly);
 
         foreach (var item in assembly.GetTypes())
         {
@@ -261,7 +261,6 @@ public class ApiMethodInfo
 
 public class ClientInfo
 {
-    public string BaseUrl { get; set; }
     public Func<Type, Type> InterceptorType { get; set; }
     public Func<Type, object, object> InterceptorProvider { get; set; }
 }

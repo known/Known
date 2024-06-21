@@ -1,0 +1,14 @@
+﻿{
+  "Menu.BizApply": "Biz Apply",
+  "Menu.BaApplyList": "Apply List",
+  "Menu.BaVerifyList": "Verify List",
+  "Menu.BaQueryList": "Query List",
+
+  "BizApply": "BizApply",
+  "BizVerify": "BizVerify",
+  "BizType": "BizType",
+  "BizNo": "BizNo",
+  "BizTitle": "BizTitle",
+  "BizContent": "Content",
+  "BizFile": "File"
+}

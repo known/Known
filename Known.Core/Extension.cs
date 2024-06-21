@@ -101,12 +101,19 @@ public static class Extension
                 parameters.Add(parameter);
             }
             var value = method.Invoke(service, [.. parameters]);
-            await ctx.Response.WriteAsJsonAsync(value);
+            var task = Utils.MapTo<TaskInfo>(value);
+            await ctx.Response.WriteAsJsonAsync(task.Result);
         }
         catch (Exception ex)
         {
             Logger.Exception(ex);
-            await ctx.Response.WriteAsJsonAsync(new { ex.Message });
+            await ctx.Response.WriteAsJsonAsync(Result.Error(ex.Message));
         }
     }
+}
+
+public class TaskInfo
+{
+    public int Id { get; set; }
+    public object Result { get; set; }
 }

@@ -1,0 +1,14 @@
+﻿{
+  "Menu.BizApply": "業務申請",
+  "Menu.BaApplyList": "表單申請",
+  "Menu.BaVerifyList": "表單稽核",
+  "Menu.BaQueryList": "表單査詢",
+
+  "BizApply": "業務申請",
+  "BizVerify": "業務稽核",
+  "BizType": "業務類型",
+  "BizNo": "業務單號",
+  "BizTitle": "業務名稱",
+  "BizContent": "業務內容",
+  "BizFile": "業務附件"
+}
