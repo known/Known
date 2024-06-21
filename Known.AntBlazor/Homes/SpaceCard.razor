@@ -36,6 +36,12 @@
 @code {
     [Parameter] public List<StatisticCountInfo> Counts { get; set; }
 
+    public void SetCounts(List<StatisticCountInfo> counts)
+    {
+        Counts = counts;
+        StateChanged();
+    }
+
     private string GetUserGreeting()
     {
         var user = CurrentUser;

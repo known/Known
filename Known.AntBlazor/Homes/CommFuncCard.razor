@@ -17,4 +17,10 @@
 
 @code {
     [Parameter] public List<MenuInfo> Menus { get; set; }
+
+    public void SetMenus(List<MenuInfo> menus)
+    {
+        Menus = menus;
+        StateChanged();
+    }
 }

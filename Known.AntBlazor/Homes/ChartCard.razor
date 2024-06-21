@@ -15,27 +15,17 @@
 
 @code {
     private KChart chart;
-    private ChartCardOption option;
 
     [Parameter] public string Title { get; set; }
 
-    public void SetOption(ChartCardOption option)
+    public async Task SetOptionAsync(ChartCardOption option)
     {
-        this.option = option;
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-        {
-            var info = option?.Charts?.FirstOrDefault();
-            if (info?.Type == "Line")
-                await chart?.ShowLineAsync(info?.Title, info?.Datas);
-            else if (info?.Type == "Bar")
-                await chart?.ShowBarAsync(info?.Title, info?.Datas);
-            else if (info?.Type == "Pie")
-                await chart?.ShowPieAsync(info?.Title, info?.Datas);
-        }
+        var info = option?.Charts?.FirstOrDefault();
+        if (info?.Type == "Line")
+            await chart?.ShowLineAsync(info?.Title, info?.Datas);
+        else if (info?.Type == "Bar")
+            await chart?.ShowBarAsync(info?.Title, info?.Datas);
+        else if (info?.Type == "Pie")
+            await chart?.ShowPieAsync(info?.Title, info?.Datas);
     }
 }

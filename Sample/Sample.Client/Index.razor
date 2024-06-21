@@ -5,21 +5,21 @@
 <PageTitle>@AppConfig.Branch - @Language["App.SubTitle"]</PageTitle>
 
 <GridRow><GridCol Span="24"><KnownCard /></GridCol></GridRow>
-<GridRow><GridCol Span="24"><SpaceCard Counts="counts" /></GridCol></GridRow>
+<GridRow><GridCol Span="24"><SpaceCard @ref="space" /></GridCol></GridRow>
 <GridRow Gutter="10">
     <GridCol Span="14">
         <ChartCard @ref="chart" Title="@Language?["Home.LogStatistic"]" />
     </GridCol>
     <GridCol Span="10">
-        <CommFuncCard Menus="visitMenus" />
+        <CommFuncCard @ref="func" />
     </GridCol>
 </GridRow>
 
 @code {
     private IHomeService homeService;
+    private SpaceCard space;
     private ChartCard chart;
-    private List<MenuInfo> visitMenus;
-    private List<StatisticCountInfo> counts = [];
+    private CommFuncCard func;
 
     protected override async Task OnPageInitAsync()
     {
@@ -33,8 +33,10 @@
         if (firstRender)
         {
             var info = await homeService.GetHomeAsync();
+            var counts = new List<StatisticCountInfo>();
             counts.Add(new StatisticCountInfo { Name = Language["Home.UserCount"], Count = info?.Statistics?.UserCount });
             counts.Add(new StatisticCountInfo { Name = Language["Home.LogCount"], Count = info?.Statistics?.LogCount });
+            space?.SetCounts(counts);
 
             var option = new ChartCardOption { Id = "Order", Title = Language["Home.LogStatistic"] };
             option.Charts.Add(new CardChartInfo
@@ -43,9 +45,10 @@
                 Title = Language["Home.VisitTitle"].Replace("{month}", $"{DateTime.Now:yyyyMM}"),
                 Datas = info?.Statistics?.LogDatas
             });
-            chart?.SetOption(option);
+            await chart?.SetOptionAsync(option);
 
-            visitMenus = Context.GetMenus(info?.VisitMenuIds);
+            var visitMenus = Context.GetMenus(info?.VisitMenuIds);
+            func?.SetMenus(visitMenus);
         }
     }
 
