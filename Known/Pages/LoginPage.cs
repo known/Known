@@ -80,8 +80,11 @@ public class LoginPage : BaseComponent
         else
         {
             var user = result.DataAs<UserInfo>();
-            await SetCurrentUserAsync(user);
-            OnLogined(user);
+            if (user != null)
+            {
+                await SetCurrentUserAsync(user);
+                OnLogined(user);
+            }
         }
     }
 

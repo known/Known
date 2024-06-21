@@ -9,7 +9,7 @@ public static class Extension
         services.AddResponseCompression();
         services.AddHttpContextAccessor();
         services.AddCascadingAuthenticationState();
-        services.AddAuthorizationCore();
+        //services.AddAuthorizationCore();
         services.AddScoped<IAuthStateProvider, WinAuthStateProvider>();
         services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
         //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -22,10 +22,9 @@ public static class Extension
         services.AddHttpContextAccessor();
         services.AddCascadingAuthenticationState();
         //services.AddControllers();
-        //services.AddScoped<IAuthStateProvider, PersistingStateProvider>();
-        //services.AddScoped<AuthenticationStateProvider, PersistingStateProvider>();
         services.AddScoped<ProtectedSessionStorage>();
         services.AddScoped<IAuthStateProvider, WebAuthStateProvider>();
+        services.AddScoped<AuthenticationStateProvider, WebAuthStateProvider>();
         //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         //        .AddCookie(options => options.LoginPath = new PathString("/login"));
 

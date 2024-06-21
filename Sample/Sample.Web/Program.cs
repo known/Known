@@ -8,13 +8,8 @@ Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
-                .AddInteractiveWebAssemblyComponents()
                 .AddInteractiveServerComponents()
-                .AddHubOptions(options =>
-                {
-                    options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
-                    options.HandshakeTimeout = TimeSpan.FromSeconds(30);
-                });
+                .AddInteractiveWebAssemblyComponents();
 builder.AddApp();
 
 var app = builder.Build();

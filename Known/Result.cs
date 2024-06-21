@@ -17,7 +17,7 @@ public class Result
     }
 
     public bool IsClose { get; set; } = true;
-    public bool IsValid => errors.Count == 0;
+    public bool IsValid { get; set; } = true;
 
     public string Message
     {
@@ -28,7 +28,7 @@ public class Result
 
             return string.Join(Environment.NewLine, [.. errors]);
         }
-        internal set { message = value; }
+        set { message = value; }
     }
 
     public object Data { get; set; }
@@ -47,6 +47,7 @@ public class Result
 
     public void AddError(string message)
     {
+        IsValid = false;
         errors.Add(message);
     }
 

@@ -2,19 +2,6 @@ using System.Security.Claims;
 
 namespace Sample.Client;
 
-class ClientAuthStateProvider : IAuthStateProvider
-{
-    private static UserInfo userInfo;
-
-    public Task<UserInfo> GetUserAsync() => Task.FromResult(userInfo);
-
-    public Task SetUserAsync(UserInfo user)
-    {
-        userInfo = user;
-        return Task.CompletedTask;
-    }
-}
-
 // This is a client-side AuthenticationStateProvider that determines the user's authentication state by
 // looking for data persisted in the page when it was rendered on the server. This authentication state will
 // be fixed for the lifetime of the WebAssembly application. So, if the user needs to log in or out, a full
@@ -23,14 +10,15 @@ class ClientAuthStateProvider : IAuthStateProvider
 // This only provides a user name and email for display purposes. It does not actually include any tokens
 // that authenticate to the server when making subsequent requests. That works separately using a
 // cookie that will be included on HttpClient requests to the server.
-internal class PersistentStateProvider : AuthenticationStateProvider
+internal class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 {
+    private static UserInfo userInfo;
     private static readonly Task<AuthenticationState> defaultUnauthenticatedTask =
         Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
 
     private readonly Task<AuthenticationState> authenticationStateTask = defaultUnauthenticatedTask;
 
-    public PersistentStateProvider(PersistentComponentState state)
+    public AuthStateProvider(PersistentComponentState state)
     {
         if (!state.TryTakeFromJson<UserInfo>(nameof(UserInfo), out var userInfo) || userInfo is null)
             return;
@@ -42,7 +30,15 @@ internal class PersistentStateProvider : AuthenticationStateProvider
 
         authenticationStateTask = Task.FromResult(
             new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(claims,
-                authenticationType: nameof(PersistentStateProvider)))));
+                authenticationType: nameof(AuthStateProvider)))));
+    }
+
+    public Task<UserInfo> GetUserAsync() => Task.FromResult(userInfo);
+
+    public Task SetUserAsync(UserInfo user)
+    {
+        userInfo = user;
+        return Task.CompletedTask;
     }
 
     public override Task<AuthenticationState> GetAuthenticationStateAsync() => authenticationStateTask;

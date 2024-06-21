@@ -75,6 +75,9 @@ public sealed class Cache
 
     public static void AttachCodes(List<CodeInfo> codes)
     {
+        if (codes == null || codes.Count == 0)
+            return;
+
         var datas = new List<CodeInfo>();
         var items = GetCodes();
         if (items != null && items.Count > 0)
