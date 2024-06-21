@@ -7,7 +7,6 @@ public static class AppWeb
 {
     public static void AddApp(this WebApplicationBuilder builder, Action<AppInfo> action = null)
     {
-        AppConfig.AppName = "Known信息管理系统";
         //Stopwatcher.Enabled = true;
         builder.Services.AddSample();
         builder.Services.AddSampleCore(info =>
