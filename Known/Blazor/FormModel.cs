@@ -27,7 +27,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         Table = table;
         Page = table.Page;
         Type = table.FormType ?? Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
-        SetFormInfo(table.Module?.Form);
+        SetFormInfo(table.Context.Current.Form);
     }
 
     internal BasePage Page { get; }
@@ -132,7 +132,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         if (!string.IsNullOrWhiteSpace(Title))
             return Title;
 
-        var title = Language?.GetString(Table.Module);
+        var title = Language?.GetString(Context.Current);
         if (Table.FormTitle != null)
             title = Table.FormTitle.Invoke(Data);
         return Language?.GetFormTitle(Action, title);

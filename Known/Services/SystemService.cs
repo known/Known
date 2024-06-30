@@ -6,7 +6,6 @@ public interface ISystemService : IService
     Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria);
     Task<InstallInfo> GetInstallAsync();
     Task<SystemInfo> GetSystemAsync();
-    Task<SysModule> GetModuleAsync(string id);
     Task<Result> SaveInstallAsync(InstallInfo info);
     Task<Result> SaveSystemAsync(SystemInfo info);
     Task<Result> SaveKeyAsync(SystemInfo info);
@@ -191,9 +190,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             UserDefaultPwd = "888888"
         };
     }
-
-    //Module
-    public Task<SysModule> GetModuleAsync(string id) => Database.QueryByIdAsync<SysModule>(id);
 
     private static SysCompany GetCompany(InstallInfo info)
     {

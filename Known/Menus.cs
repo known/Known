@@ -26,6 +26,8 @@ public class MenuInfo
         Target = module.Target;
         Url = module.Url;
         Sort = module.Sort;
+        Page = module.Page;
+        Form = module.Form;
         Tools = module.Buttons;
         Actions = module.Actions;
         Columns = module.Columns;
@@ -83,9 +85,11 @@ public class MenuInfo
     public MenuInfo Parent { get; set; }
     public List<MenuInfo> Children { get; set; }
     public object Data { get; set; }
-    internal List<string> Tools { get; set; }
-    internal List<string> Actions { get; set; }
-    internal List<PageColumnInfo> Columns { get; set; }
+    public PageInfo Page { get; set; }
+    public FormInfo Form { get; set; }
+    public List<string> Tools { get; set; }
+    public List<string> Actions { get; set; }
+    public List<PageColumnInfo> Columns { get; set; }
 
     public string RouteUrl
     {

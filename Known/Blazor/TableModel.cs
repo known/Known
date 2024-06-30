@@ -75,7 +75,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
 
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal SysModule Module { get; set; }
-    internal string PageName => Page?.PageName ?? Module?.Name;
+    internal string PageName => Page?.PageName;
     internal override Type ItemType => typeof(TItem);
 
     public BasePage Page { get; }
@@ -289,8 +289,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public virtual void Initialize(BasePage page)
     {
         Clear();
-        Module = page.Context.Module;
-        SetPage(Module?.Page);
+        SetPage(page.Context.Current.Page);
         SetPermission(page);
         InitQueryColumns();
     }
@@ -341,9 +340,9 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     private void SetFormModel(FormModel<TItem> model)
     {
         model.NoFooter = FormNoFooter;
-        if (Module != null)
+        var form = Context.Current.Form;
+        if (form != null)
         {
-            var form = Module.Form;
             model.Width = form.Width;
             model.Maximizable = form.Maximizable;
             model.DefaultMaximized = form.DefaultMaximized;

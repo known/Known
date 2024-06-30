@@ -29,16 +29,16 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        if (Context.Module == null)
+        if (Context.Current == null)
         {
             UI.Build404Page(builder, PageId);
             return;
         }
 
-        var type = Utils.ConvertTo<ModuleType>(Context.Module.Target);
+        var type = Utils.ConvertTo<ModuleType>(Context.Current.Target);
         if (type == ModuleType.IFrame)
         {
-            builder.IFrame(Context.Module.Url);
+            builder.IFrame(Context.Current.Url);
             return;
         }
 
@@ -88,14 +88,14 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         return autoService.SaveModelAsync(info);
     }
 
-    private void OnEditPage(MouseEventArgs args)
+    private async void OnEditPage(MouseEventArgs args)
     {
         isEditPage = true;
         var form = new FormModel<SysModule>(this)
         {
-            Data = Context.Module,
+            Data = await moduleService.GetModuleAsync(Context.Current.Id),
             OnSave = moduleService.SaveModuleAsync,
-            OnSaved = data => Context.Module = data
+            //OnSaved = data => Context.Current = new MenuInfo(data)
         };
         var model = new DialogModel
         {

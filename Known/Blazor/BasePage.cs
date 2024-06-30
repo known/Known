@@ -2,7 +2,7 @@
 
 public class BasePage : BaseComponent
 {
-    public string PageName => Language.GetString(Context.Module);
+    public string PageName => Language.GetString(Context.Current);
 
     protected override Task OnInitAsync() => OnPageInitAsync();
 

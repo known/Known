@@ -12,7 +12,6 @@ public class Context
         language = new Language(cultureName);
     }
 
-    internal SysModule Module { get; set; }
     public UserInfo CurrentUser { get; internal set; }
 
     public string CurrentLanguage

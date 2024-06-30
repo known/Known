@@ -36,7 +36,7 @@ public class UIContext : Context
         if (user.IsAdmin)
             return true;
 
-        return IsInMenu(Module?.Id, buttonId);
+        return IsInMenu(Current?.Id, buttonId);
     }
 
     private bool IsInMenu(string pageId, string buttonId)
@@ -61,22 +61,19 @@ public class UIContext : Context
 
     internal async Task SetCurrentMenuAsync(ISystemService service, string pageId = "")
     {
-        Module = null;
         Current = UIConfig.Menus.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
         if (Current == null)
         {
             var menus = IsMobile ? Config.AppMenus : UserMenus;
             Current = menus?.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
-            if (Current != null)
-                Module = await service.GetModuleAsync(Current.Id);
         }
 
-        if (Module == null)
+        if (Current == null)
             return;
 
         var log = new SysLog
         {
-            Target = Module.Name,
+            Target = Current.Name,
             Content = Url,
             Type = LogType.Page.ToString()
         };

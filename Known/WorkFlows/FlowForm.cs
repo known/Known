@@ -3,6 +3,7 @@
 public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
 {
     private IFlowService flowService;
+    private IModuleService moduleService;
     private readonly StepModel step = new();
 
     [Parameter] public FormModel<TItem> Model { get; set; }
@@ -11,11 +12,13 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
     {
         await base.OnInitFormAsync();
         flowService = await CreateServiceAsync<IFlowService>();
+        moduleService = await CreateServiceAsync<IModuleService>();
         var logs = await flowService.GetFlowLogsAsync(Model.Data.Id);
         Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build());
 
         step.Items.Clear();
-        var flow = DataHelper.GetFlow(Context.Module?.FlowData);
+        var module = await moduleService.GetModuleAsync(Context.Current.Id);
+        var flow = DataHelper.GetFlow(module?.FlowData);
         var steps = flow.GetFlowStepItems();
         if (steps != null && steps.Count > 0)
             step.Items.AddRange(steps);

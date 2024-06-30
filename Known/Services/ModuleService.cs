@@ -3,6 +3,7 @@
 public interface IModuleService : IService
 {
     Task<List<SysModule>> GetModulesAsync();
+    Task<SysModule> GetModuleAsync(string id);
     Task<Result> DeleteModulesAsync(List<SysModule> models);
     Task<Result> CopyModulesAsync(List<SysModule> models);
     Task<Result> MoveModulesAsync(List<SysModule> models);
@@ -13,6 +14,8 @@ public interface IModuleService : IService
 class ModuleService(Context context) : ServiceBase(context), IModuleService
 {
     public Task<List<SysModule>> GetModulesAsync() => Database.QueryListAsync<SysModule>();
+
+    public Task<SysModule> GetModuleAsync(string id) => Database.QueryByIdAsync<SysModule>(id);
 
     public async Task<Result> DeleteModulesAsync(List<SysModule> models)
     {
