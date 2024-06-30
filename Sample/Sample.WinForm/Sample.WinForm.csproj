@@ -11,7 +11,7 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Coravel" Version="5.0.3" />
+        <PackageReference Include="Coravel" Version="5.0.4" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.6" />
         <!--<PackageReference Include="Npgsql" Version="8.0.3" />
         <PackageReference Include="MySqlConnector" Version="2.3.7" />
@@ -21,7 +21,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.0.60" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.0.61" />
     </ItemGroup>
 
     <ItemGroup>
