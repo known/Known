@@ -46,7 +46,7 @@ public class JSService
     internal Task<string> HighlightAsync(string code, string language) => InvokeAsync<string>("KBlazor.highlight", code, language);
     #endregion
 
-    #region LocalStorage
+    #region Storage
     public async Task<T> GetLocalStorageAsync<T>(string key)
     {
         var value = await InvokeAsync<string>("KBlazor.getLocalStorage", key);
@@ -81,6 +81,33 @@ public class JSService
     private readonly string KeyLoginInfo = "Known_LoginInfo";
     internal Task<T> GetLoginInfoAsync<T>() => GetLocalStorageAsync<T>(KeyLoginInfo);
     internal Task SetLoginInfoAsync(object value) => SetLocalStorageAsync(KeyLoginInfo, value);
+
+    public async Task<T> GetSessionStorageAsync<T>(string key)
+    {
+        var value = await InvokeAsync<string>("KBlazor.getSessionStorage", key);
+        return Utils.FromJson<T>(value);
+    }
+
+    public Task SetSessionStorageAsync(string key, object value) => InvokeVoidAsync("KBlazor.setSessionStorage", key, value);
+
+    private readonly string KeyUserInfo = "Known_UserInfo";
+    public async Task<UserInfo> GetUserInfoAsync()
+    {
+        var value = await GetSessionStorageAsync<string>(KeyUserInfo);
+        if (string.IsNullOrWhiteSpace(value))
+            return null;
+
+        var bytes = Convert.FromBase64String(value);
+        var json = Encoding.UTF8.GetString(bytes);
+        return Utils.FromJson<UserInfo>(json);
+    }
+    public async Task SetUserInfoAsync(object data)
+    {
+        var json = Utils.ToJson(data);
+        var bytes = Encoding.UTF8.GetBytes(json);
+        var value = Convert.ToBase64String(bytes);
+        await SetSessionStorageAsync(KeyUserInfo, value);
+    }
     #endregion
 
     #region Screen

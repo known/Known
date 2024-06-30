@@ -39,6 +39,15 @@ export class KBlazor {
         else
             localStorage.removeItem(key);
     }
+    static getSessionStorage(key) {
+        return sessionStorage.getItem(key);
+    }
+    static setSessionStorage(key, value) {
+        if (value)
+            sessionStorage.setItem(key, JSON.stringify(value));
+        else
+            sessionStorage.removeItem(key);
+    }
     //Screen
     static openFullScreen() {
         var el = document.documentElement;

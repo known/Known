@@ -21,8 +21,8 @@ public static class AppClient
         services.AddHttpClient();
         services.AddAuthorizationCore();
         services.AddCascadingAuthenticationState();
-        services.AddSingleton<IAuthStateProvider, AuthStateProvider>();
-        services.AddSingleton<AuthenticationStateProvider, AuthStateProvider>();
+        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
+        services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
         services.AddKnownClient(info =>
         {
             info.InterceptorType = type => typeof(HttpClientInterceptor<>).MakeGenericType(type);

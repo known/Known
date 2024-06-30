@@ -12,14 +12,15 @@ namespace Sample.Client;
 // cookie that will be included on HttpClient requests to the server.
 internal class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 {
-    private static UserInfo userInfo;
     private static readonly Task<AuthenticationState> defaultUnauthenticatedTask =
         Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
 
+    private readonly JSService js;
     private readonly Task<AuthenticationState> authenticationStateTask = defaultUnauthenticatedTask;
 
-    public AuthStateProvider(PersistentComponentState state)
+    public AuthStateProvider(JSService js, PersistentComponentState state)
     {
+        this.js = js;
         if (!state.TryTakeFromJson<UserInfo>(nameof(UserInfo), out var userInfo) || userInfo is null)
             return;
 
@@ -33,13 +34,8 @@ internal class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvid
                 authenticationType: nameof(AuthStateProvider)))));
     }
 
-    public Task<UserInfo> GetUserAsync() => Task.FromResult(userInfo);
-
-    public Task SetUserAsync(UserInfo user)
-    {
-        userInfo = user;
-        return Task.CompletedTask;
-    }
-
     public override Task<AuthenticationState> GetAuthenticationStateAsync() => authenticationStateTask;
+
+    public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
+    public Task SetUserAsync(UserInfo user) => js.SetUserInfoAsync(user);
 }
