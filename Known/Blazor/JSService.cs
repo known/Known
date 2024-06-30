@@ -47,7 +47,7 @@ public class JSService
     #endregion
 
     #region Storage
-    public async Task<T> GetLocalStorageAsync<T>(string key, bool encrypt = true)
+    public async Task<T> GetLocalStorageAsync<T>(string key, bool encrypt = false)
     {
         var value = await InvokeAsync<string>("KBlazor.getLocalStorage", key);
         if (string.IsNullOrWhiteSpace(value))
@@ -60,7 +60,7 @@ public class JSService
         return Utils.FromJson<T>(json);
     }
 
-    public async Task SetLocalStorageAsync(string key, object data, bool encrypt = true)
+    public async Task SetLocalStorageAsync(string key, object data, bool encrypt = false)
     {
         if (!encrypt)
         {
@@ -73,13 +73,13 @@ public class JSService
     }
 
     private readonly string KeyLanguage = "Known_Language";
-    internal Task<string> GetCurrentLanguageAsync() => GetLocalStorageAsync<string>(KeyLanguage, false);
-    public Task SetCurrentLanguageAsync(string language) => SetLocalStorageAsync(KeyLanguage, language, false);
+    internal Task<string> GetCurrentLanguageAsync() => GetLocalStorageAsync<string>(KeyLanguage);
+    public Task SetCurrentLanguageAsync(string language) => SetLocalStorageAsync(KeyLanguage, language);
 
     private readonly string KeyTheme = "Known_Theme";
     public async Task<string> GetCurrentThemeAsync()
     {
-        var theme = await GetLocalStorageAsync<string>(KeyTheme, false);
+        var theme = await GetLocalStorageAsync<string>(KeyTheme);
         if (string.IsNullOrWhiteSpace(theme))
         {
             var hour = DateTime.Now.Hour;
@@ -91,7 +91,7 @@ public class JSService
     public async Task SetCurrentThemeAsync(string theme)
     {
         await SetThemeAsync(theme);
-        await SetLocalStorageAsync(KeyTheme, theme, false);
+        await SetLocalStorageAsync(KeyTheme, theme);
     }
     private Task SetThemeAsync(string theme) => InvokeVoidAsync("KBlazor.setTheme", theme);
 
