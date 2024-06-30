@@ -22,7 +22,6 @@ public static class Extension
         services.AddHttpContextAccessor();
         services.AddCascadingAuthenticationState();
         //services.AddControllers();
-        services.AddScoped<ProtectedSessionStorage>();
         services.AddScoped<IAuthStateProvider, WebAuthStateProvider>();
         services.AddScoped<AuthenticationStateProvider, WebAuthStateProvider>();
         //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

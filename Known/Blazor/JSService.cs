@@ -47,22 +47,39 @@ public class JSService
     #endregion
 
     #region Storage
-    public async Task<T> GetLocalStorageAsync<T>(string key)
+    public async Task<T> GetLocalStorageAsync<T>(string key, bool encrypt = true)
     {
         var value = await InvokeAsync<string>("KBlazor.getLocalStorage", key);
-        return Utils.FromJson<T>(value);
+        if (string.IsNullOrWhiteSpace(value))
+            return default;
+
+        if (!encrypt)
+            return Utils.FromJson<T>(value);
+
+        var json = DecryptString(value);
+        return Utils.FromJson<T>(json);
     }
 
-    public Task SetLocalStorageAsync(string key, object value) => InvokeVoidAsync("KBlazor.setLocalStorage", key, value);
+    public async Task SetLocalStorageAsync(string key, object data, bool encrypt = true)
+    {
+        if (!encrypt)
+        {
+            await InvokeVoidAsync("KBlazor.setLocalStorage", key, data);
+            return;
+        }
+
+        var value = EncryptString(data);
+        await InvokeVoidAsync("KBlazor.setLocalStorage", key, value);
+    }
 
     private readonly string KeyLanguage = "Known_Language";
-    internal Task<string> GetCurrentLanguageAsync() => GetLocalStorageAsync<string>(KeyLanguage);
-    public Task SetCurrentLanguageAsync(string language) => SetLocalStorageAsync(KeyLanguage, language);
+    internal Task<string> GetCurrentLanguageAsync() => GetLocalStorageAsync<string>(KeyLanguage, false);
+    public Task SetCurrentLanguageAsync(string language) => SetLocalStorageAsync(KeyLanguage, language, false);
 
     private readonly string KeyTheme = "Known_Theme";
     public async Task<string> GetCurrentThemeAsync()
     {
-        var theme = await GetLocalStorageAsync<string>(KeyTheme);
+        var theme = await GetLocalStorageAsync<string>(KeyTheme, false);
         if (string.IsNullOrWhiteSpace(theme))
         {
             var hour = DateTime.Now.Hour;
@@ -74,7 +91,7 @@ public class JSService
     public async Task SetCurrentThemeAsync(string theme)
     {
         await SetThemeAsync(theme);
-        await SetLocalStorageAsync(KeyTheme, theme);
+        await SetLocalStorageAsync(KeyTheme, theme, false);
     }
     private Task SetThemeAsync(string theme) => InvokeVoidAsync("KBlazor.setTheme", theme);
 
@@ -85,28 +102,35 @@ public class JSService
     public async Task<T> GetSessionStorageAsync<T>(string key)
     {
         var value = await InvokeAsync<string>("KBlazor.getSessionStorage", key);
-        return Utils.FromJson<T>(value);
-    }
-
-    public Task SetSessionStorageAsync(string key, object value) => InvokeVoidAsync("KBlazor.setSessionStorage", key, value);
-
-    private readonly string KeyUserInfo = "Known_UserInfo";
-    public async Task<UserInfo> GetUserInfoAsync()
-    {
-        var value = await GetSessionStorageAsync<string>(KeyUserInfo);
         if (string.IsNullOrWhiteSpace(value))
-            return null;
+            return default;
 
-        var bytes = Convert.FromBase64String(value);
-        var json = Encoding.UTF8.GetString(bytes);
-        return Utils.FromJson<UserInfo>(json);
+        var json = DecryptString(value);
+        return Utils.FromJson<T>(json);
     }
-    public async Task SetUserInfoAsync(object data)
+
+    public async Task SetSessionStorageAsync(string key, object data)
     {
-        var json = Utils.ToJson(data);
+        var value = EncryptString(data);
+        await InvokeVoidAsync("KBlazor.setSessionStorage", key, value);
+    }
+
+    private readonly string KeyUserInfo = "Known_User";
+    public Task<UserInfo> GetUserInfoAsync() => GetSessionStorageAsync<UserInfo>(KeyUserInfo);
+    public Task SetUserInfoAsync(object data) => SetSessionStorageAsync(KeyUserInfo, data);
+
+    private static string EncryptString(object value)
+    {
+        var json = Utils.ToJson(value);
         var bytes = Encoding.UTF8.GetBytes(json);
-        var value = Convert.ToBase64String(bytes);
-        await SetSessionStorageAsync(KeyUserInfo, value);
+        return Convert.ToBase64String(bytes);
+    }
+
+    private static string DecryptString(string value)
+    {
+        var json = Utils.FromJson<string>(value);
+        var bytes = Convert.FromBase64String(json);
+        return Encoding.UTF8.GetString(bytes);
     }
     #endregion
 

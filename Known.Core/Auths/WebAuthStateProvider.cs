@@ -1,30 +1,21 @@
 ﻿namespace Known.Core.Auths;
 
-class WebAuthStateProvider(ProtectedSessionStorage sessionStorage) : AuthenticationStateProvider, IAuthStateProvider
+class WebAuthStateProvider(JSService js) : AuthenticationStateProvider, IAuthStateProvider
 {
-    private const string KeyUser = "Known_User";
-    private readonly ProtectedSessionStorage sessionStorage = sessionStorage;
+    private readonly JSService js = js;
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var result = await sessionStorage.GetAsync<UserInfo>(KeyUser);
-        var user = result.Success ? result.Value : null;
+        var user = await js.GetUserInfoAsync();
         var principal = GetPrincipal(user);
         return new AuthenticationState(principal);
     }
 
-    public async Task<UserInfo> GetUserAsync()
-    {
-        var result = await sessionStorage.GetAsync<UserInfo>(KeyUser);
-        return result.Value;
-    }
+    public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
 
     public async Task SetUserAsync(UserInfo user)
     {
-        if (user == null)
-            await sessionStorage.DeleteAsync(KeyUser);
-        else
-            await sessionStorage.SetAsync(KeyUser, user);
+        await js.SetUserInfoAsync(user);
         var principal = GetPrincipal(user);
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
     }

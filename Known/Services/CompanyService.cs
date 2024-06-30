@@ -2,7 +2,7 @@
 
 public interface ICompanyService : IService
 {
-    Task<T> GetCompanyAsync<T>();
+    Task<string> GetCompanyAsync();
     Task<List<SysOrganization>> GetOrganizationsAsync();
     Task<Result> DeleteOrganizationsAsync(List<SysOrganization> models);
     Task<Result> SaveCompanyAsync(object model);
@@ -14,20 +14,19 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
     private const string KeyCompany = "CompanyInfo";
 
     //Company
-    public async Task<T> GetCompanyAsync<T>()
+    public async Task<string> GetCompanyAsync()
     {
-        var json = string.Empty;
         if (Config.App.IsPlatform)
         {
-            json = await GetCompanyDataAsync(Database);
+            return await GetCompanyDataAsync(Database);
         }
         else
         {
-            json = await SystemRepository.GetConfigAsync(Database, KeyCompany);
+            var json = await SystemRepository.GetConfigAsync(Database, KeyCompany);
             if (string.IsNullOrEmpty(json))
                 json = GetDefaultData(Database.User);
+            return json;
         }
-        return Utils.FromJson<T>(json);
     }
 
     public async Task<Result> SaveCompanyAsync(object model)

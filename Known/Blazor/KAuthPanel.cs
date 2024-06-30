@@ -9,7 +9,7 @@ public class KAuthPanel : BaseComponent
         if (!Config.IsAuth)
             BuildAuthorize(builder);
         else
-            ChildContent(builder);
+            ChildContent?.Invoke(builder);
     }
 
     private void BuildAuthorize(RenderTreeBuilder builder)
