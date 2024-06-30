@@ -79,6 +79,9 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
 
     private async Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
     {
+        if (category == null)
+            return default;
+
         criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category?.Code);
         var result = await dictionaryService.QueryDictionariesAsync(criteria);
         total = result.TotalCount;

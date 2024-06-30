@@ -94,11 +94,11 @@ public class PagingResult<T>
         Summary = summary;
     }
 
-    public int TotalCount { get; }
-    public List<T> PageData { get; }
-    public Dictionary<string, object> Sums { get; internal set; }
-    public object Summary { get; internal set; }
-    public byte[] ExportData { get; internal set; }
+    public int TotalCount { get; set; }
+    public List<T> PageData { get; set; }
+    public Dictionary<string, object> Sums { get; set; }
+    public object Summary { get; set; }
+    public byte[] ExportData { get; set; }
 
     public TSummary SummaryAs<TSummary>()
     {
