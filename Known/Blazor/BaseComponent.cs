@@ -71,7 +71,8 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     protected virtual void BuildRender(RenderTreeBuilder builder) { }
 
     public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
-    public void StateChanged() => InvokeAsync(StateHasChanged);
+    public void StateChanged() => StateHasChanged();
+    public Task StateChangedAsync() => InvokeAsync(StateHasChanged);
     public async ValueTask DisposeAsync()
     {
         await DisposeAsync(true);

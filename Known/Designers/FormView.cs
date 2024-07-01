@@ -35,7 +35,7 @@ class FormView : BaseView<FormInfo>
     {
         base.SetModel(model);
         SetForm();
-        StateChanged();
+        await StateChangedAsync();
         await list.RefreshAsync();
     }
 

@@ -64,7 +64,7 @@
     {
         criteria.Parameters["Key"] = searchKey;
         result = await OnQuery.Invoke(criteria);
-        StateChanged();
+        await StateChangedAsync();
     }
 
     private void OnListItemClick(TItem item) => OnItemClick?.Invoke(item);
@@ -79,6 +79,6 @@
     private async void OnPageChanged()
     {
         result = await OnQuery.Invoke(criteria);
-        StateChanged();
+        await StateChangedAsync();
     }
 }

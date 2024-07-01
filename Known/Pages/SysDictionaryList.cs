@@ -38,7 +38,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         if (isAddCategory)
         {
             await LoadCategoriesAsync();
-            StateChanged();
+            await StateChangedAsync();
         }
 
         await base.RefreshAsync();

@@ -58,7 +58,7 @@
         var file = await e.File.CreateFileAsync();
         files.Add(file);
         OnFilesChanged?.Invoke(files);
-        StateChanged();
+        await StateChangedAsync();
         await JS.PreviewImageByIdAsync(inputFile.Element, ImgId(files.Count - 1));
     }
 }

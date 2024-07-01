@@ -52,7 +52,7 @@ class PageView : BaseView<PageInfo>
     {
         base.SetModel(model);
         SetTablePage();
-        StateChanged();
+        await StateChangedAsync();
         await list.RefreshAsync();
     }
 

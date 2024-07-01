@@ -16,7 +16,7 @@ public class KUpload : BaseComponent
     public async Task RefreshAsync()
     {
         sysFiles = await fileService.GetFilesAsync(Value);
-        StateChanged();
+        await StateChangedAsync();
     }
 
     public async void SetValue(string value)
@@ -104,7 +104,7 @@ public class KUpload : BaseComponent
 
         if (isChange)
         {
-            StateChanged();
+            await StateChangedAsync();
             OnFilesChanged?.Invoke(files);
         }
     }
@@ -136,7 +136,7 @@ public class KUpload : BaseComponent
         {
             await fileService.DeleteFileAsync(item);
             sysFiles.Remove(item);
-            StateChanged();
+            await StateChangedAsync();
         });
     }
 }

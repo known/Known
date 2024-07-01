@@ -109,7 +109,7 @@ public class KCaptcha : BaseComponent
             timer.Enabled = false;
             smsText = SmsText;
         }
-        StateChanged();
+        StateChangedAsync();
     }
 
     private async void SendSMSCode()

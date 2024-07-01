@@ -70,12 +70,12 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
     {
         if (!isEdit)
         {
-            UI.Button(builder, Language.Edit, this.Callback<MouseEventArgs>(e => OnEdit(true)), "primary");
+            UI.Button(builder, Language.Edit, this.Callback<MouseEventArgs>(e => isEdit = true), "primary");
         }
         else
         {
             UI.Button(builder, Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
-            UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(e => OnEdit(false)), "default");
+            UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(e => isEdit = false), "default");
         }
     }
 
@@ -88,14 +88,13 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
             return;
 
         var result = await OnSaveAsync(Model.Data);
-        UI.Result(result, async () =>
+        UI.Result(result, () =>
         {
             OnSuccess();
-            await OnEdit(false);
+            isEdit = false;
+            return StateChangedAsync();
         });
     }
-
-    private Task OnEdit(bool edit) => InvokeAsync(() => isEdit = edit);
 }
 
 public class BaseTabForm : BaseForm
