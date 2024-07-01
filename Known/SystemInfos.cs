@@ -32,12 +32,15 @@ public class SystemInfo
     public string CompNo { get; set; }
     public string CompName { get; set; }
     public string AppName { get; set; }
-    [Form(ReadOnly = true), Required]
     public string ProductId { get; set; }
-    [Form, Required]
     public string ProductKey { get; set; }
     public string UserDefaultPwd { get; set; }
     public bool IsLoginCaptcha { get; set; }
+}
+
+public class SystemDataInfo
+{
+    public SystemInfo System { get; set; }
     public double RunTime { get; set; }
     public VersionInfo Version { get; set; }
 }

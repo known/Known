@@ -6,6 +6,7 @@ public interface ISystemService : IService
     Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria);
     Task<InstallInfo> GetInstallAsync();
     Task<SystemInfo> GetSystemAsync();
+    Task<SystemDataInfo> GetSystemDataAsync();
     Task<Result> SaveInstallAsync(InstallInfo info);
     Task<Result> SaveSystemAsync(SystemInfo info);
     Task<Result> SaveKeyAsync(SystemInfo info);
@@ -101,15 +102,26 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     public async Task<SystemInfo> GetSystemAsync()
     {
         var info = await GetSystemAsync(Database);
-        info.Version = Config.Version;
-        info.RunTime = Utils.Round((DateTime.Now - Config.StartTime).TotalHours, 2);
-        //if (info != null)
-        //{
-        //    var install = GetInstall();
-        //    info.ProductId = install.ProductId;
-        //    info.ProductKey = install.ProductKey;
-        //}
+        if (info != null)
+        {
+            info.ProductKey = null;
+            info.UserDefaultPwd = null;
+            //var install = GetInstall();
+            //info.ProductId = install.ProductId;
+            //info.ProductKey = install.ProductKey;
+        }
         return info;
+    }
+
+    public async Task<SystemDataInfo> GetSystemDataAsync()
+    {
+        var info = await GetSystemAsync(Database);
+        return new SystemDataInfo
+        {
+            System = info,
+            Version = Config.Version,
+            RunTime = Utils.Round((DateTime.Now - Config.StartTime).TotalHours, 2)
+        };
     }
 
     internal static async Task<SystemInfo> GetSystemAsync(Database db)
