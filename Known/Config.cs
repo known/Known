@@ -170,6 +170,8 @@ public sealed class Config
 
 public class VersionInfo
 {
+    public VersionInfo() { }
+
     internal VersionInfo(Assembly assembly)
     {
         if (!Config.IsClient)
@@ -185,10 +187,10 @@ public class VersionInfo
         FrameVersion = $"Known V{version1.Major}.{version1.Minor}.{version1.Build}";
     }
 
-    public string AppVersion { get; }
-    public string SoftVersion { get; }
-    public string FrameVersion { get; }
-    public DateTime BuildTime { get; }
+    public string AppVersion { get; set; }
+    public string SoftVersion { get; set; }
+    public string FrameVersion { get; set; }
+    public DateTime BuildTime { get; set; }
 
     private static DateTime GetBuildTime()
     {

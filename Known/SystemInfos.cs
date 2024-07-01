@@ -38,4 +38,6 @@ public class SystemInfo
     public string ProductKey { get; set; }
     public string UserDefaultPwd { get; set; }
     public bool IsLoginCaptcha { get; set; }
+    public double RunTime { get; set; }
+    public VersionInfo Version { get; set; }
 }

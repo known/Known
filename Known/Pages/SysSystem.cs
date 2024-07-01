@@ -32,33 +32,28 @@ class SysSystemInfo : BaseForm<SystemInfo>
         await base.OnInitFormAsync();
         systemService = await CreateServiceAsync<ISystemService>();
 
-        Model = new FormModel<SystemInfo>(Context)
-        {
-            LabelSpan = 4,
-            WrapperSpan = 10,
-            Data = Parent.Data
-        };
-        Model.AddRow().AddColumn(nameof(SystemInfo.CompName), $"{Parent.Data.CompNo}-{Parent.Data.CompName}");
+        var data = Parent.Data;
+        Model = new FormModel<SystemInfo>(Context) { LabelSpan = 4, WrapperSpan = 10, Data = data };
+        Model.AddRow().AddColumn(nameof(SystemInfo.CompName), $"{data.CompNo}-{data.CompName}");
         Model.AddRow().AddColumn(nameof(SystemInfo.AppName), b =>
         {
             b.Component<KEditInput>()
-             .Set(c => c.Value, Parent.Data.AppName)
+             .Set(c => c.Value, data.AppName)
              .Set(c => c.OnSave, OnSaveAppName)
              .Build();
         });
-        Model.AddRow().AddColumn(nameof(VersionInfo.AppVersion), Config.Version.AppVersion);
-        Model.AddRow().AddColumn(nameof(VersionInfo.SoftVersion), Config.Version.SoftVersion);
-        Model.AddRow().AddColumn(nameof(VersionInfo.BuildTime), $"{Config.Version.BuildTime:yyyy-MM-dd HH:mm:ss}");
-        Model.AddRow().AddColumn(nameof(VersionInfo.FrameVersion), Config.Version.FrameVersion);
-        var runTime = Utils.Round((DateTime.Now - Config.StartTime).TotalHours, 2);
-        Model.AddRow().AddColumn("RunTime", $"{runTime} H");
-        if (!Config.App.IsPlatform && !string.IsNullOrWhiteSpace(Config.App.ProductId))
+        Model.AddRow().AddColumn(nameof(VersionInfo.AppVersion), data.Version.AppVersion);
+        Model.AddRow().AddColumn(nameof(VersionInfo.SoftVersion), data.Version.SoftVersion);
+        Model.AddRow().AddColumn(nameof(VersionInfo.BuildTime), $"{data.Version.BuildTime:yyyy-MM-dd HH:mm:ss}");
+        Model.AddRow().AddColumn(nameof(VersionInfo.FrameVersion), data.Version.FrameVersion);
+        Model.AddRow().AddColumn(nameof(SystemInfo.RunTime), $"{data.RunTime} H");
+        if (!Config.App.IsPlatform && !string.IsNullOrWhiteSpace(data.ProductId))
         {
-            Model.AddRow().AddColumn(nameof(SystemInfo.ProductId), Config.App.ProductId);
+            Model.AddRow().AddColumn(nameof(SystemInfo.ProductId), data.ProductId);
             Model.AddRow().AddColumn(nameof(SystemInfo.ProductKey), b =>
             {
                 b.Component<KEditInput>()
-                 .Set(c => c.Value, Parent.Data.ProductKey)
+                 .Set(c => c.Value, data.ProductKey)
                  .Set(c => c.OnSave, OnSaveProductKey)
                  .Build();
             });
@@ -100,16 +95,12 @@ class SysSystemSafe : BaseForm<SystemInfo>
         await base.OnInitFormAsync();
         systemService = await CreateServiceAsync<ISystemService>();
 
-        Model = new FormModel<SystemInfo>(Context)
-        {
-            LabelSpan = 4,
-            WrapperSpan = 10,
-            Data = Parent.Data
-        };
+        var data = Parent.Data;
+        Model = new FormModel<SystemInfo>(Context) { LabelSpan = 4, WrapperSpan = 10, Data = data };
         Model.AddRow().AddColumn(nameof(SystemInfo.UserDefaultPwd), b =>
         {
             b.Component<KEditInput>()
-             .Set(c => c.Value, Parent.Data.UserDefaultPwd)
+             .Set(c => c.Value, data.UserDefaultPwd)
              .Set(c => c.OnSave, OnSaveDefaultPwd)
              .Build();
         });
@@ -117,7 +108,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
         {
             UI.BuildSwitch(b, new InputModel<bool>
             {
-                Value = Parent.Data.IsLoginCaptcha,
+                Value = data.IsLoginCaptcha,
                 ValueChanged = this.Callback<bool>(OnLoginCaptchaChanged)
             });
         });

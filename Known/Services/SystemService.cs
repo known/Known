@@ -101,6 +101,8 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     public async Task<SystemInfo> GetSystemAsync()
     {
         var info = await GetSystemAsync(Database);
+        info.Version = Config.Version;
+        info.RunTime = Utils.Round((DateTime.Now - Config.StartTime).TotalHours, 2);
         //if (info != null)
         //{
         //    var install = GetInstall();
