@@ -17,18 +17,8 @@ public class SysRoleList : BaseTablePage<SysRole>
         Table.RowKey = r => r.Id;
     }
 
-    public async void New()
-    {
-        var model = await roleService.GetRoleAsync("");
-        Table.NewForm(roleService.SaveRoleAsync, model);
-    }
-
-    public async void Edit(SysRole row)
-    {
-        var model = await roleService.GetRoleAsync(row.Id);
-        Table.EditForm(roleService.SaveRoleAsync, model);
-    }
-
+    public void New() => Table.NewForm(roleService.SaveRoleAsync, new SysRole());
+    public void Edit(SysRole row) => Table.EditForm(roleService.SaveRoleAsync, row);
     public void Delete(SysRole row) => Table.Delete(roleService.DeleteRolesAsync, row);
     public void DeleteM() => Table.DeleteM(roleService.DeleteRolesAsync);
 }
@@ -44,27 +34,24 @@ class RoleForm : BaseForm<SysRole>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        var modules = Model.Data.Modules;
-        if (modules == null || modules.Count == 0)
-        {
-            var service = await CreateServiceAsync<IRoleService>();
-            var model = await service.GetRoleAsync(Model.Data.Id);
-            modules = model.Modules;
-        }
-
-        var data = modules?.ToMenuItems(false);
         tree = new TreeModel
         {
             Checkable = true,
             IsView = Model.IsView,
-            Data = data ?? [],
-            DefaultCheckedKeys = [.. Model.Data.MenuIds],
             OnNodeClick = OnTreeClick,
-            OnNodeCheck = OnTreeCheck
+            OnNodeCheck = OnTreeCheck,
+            OnModelChanged = OnTreeModelChanged
         };
 
         btnModel.ValueChanged = this.Callback<string[]>(OnButtonChanged);
         colModel.ValueChanged = this.Callback<string[]>(OnColumnChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            await tree.RefreshAsync();
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)
@@ -109,6 +96,16 @@ class RoleForm : BaseForm<SysRole>
         if (item.Checked)
             Model.Data.MenuIds.Add(item.Id);
         StateChanged();
+    }
+
+    private async Task<TreeModel> OnTreeModelChanged()
+    {
+        var service = await CreateServiceAsync<IRoleService>();
+        var model = await service.GetRoleAsync(Model.Data.Id);
+        Model.Data.MenuIds = model.MenuIds;
+        tree.Data = model.Modules?.ToMenuItems(false);
+        tree.CheckedKeys = [.. Model.Data.MenuIds];
+        return tree;
     }
 
     private void OnButtonChanged(string[] items)

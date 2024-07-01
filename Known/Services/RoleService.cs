@@ -36,6 +36,7 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
         var info = string.IsNullOrWhiteSpace(roleId)
                  ? new SysRole()
                  : await Database.QueryByIdAsync<SysRole>(roleId);
+        info ??= new SysRole();
         info.Modules = await ModuleRepository.GetModulesAsync(Database);
         info.MenuIds = await RoleRepository.GetRoleModuleIdsAsync(Database, roleId);
         return info;

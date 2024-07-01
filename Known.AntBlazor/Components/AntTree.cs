@@ -33,7 +33,7 @@ public class AntTree : Tree<MenuInfo>
         if (Model.ExpandRoot)
             DefaultExpandedKeys = [Model.Data?[0]?.Id];
         DefaultSelectedKeys = Model.SelectedKeys;
-        DefaultCheckedKeys = Model.DefaultCheckedKeys;
+        DefaultCheckedKeys = Model.CheckedKeys;
     }
 
     private async Task RefreshAsync()
@@ -41,6 +41,7 @@ public class AntTree : Tree<MenuInfo>
         Model = await Model.OnModelChanged?.Invoke();
         DataSource = Model.Data;
         DefaultSelectedKeys = Model.SelectedKeys;
+        DefaultCheckedKeys = Model.CheckedKeys;
         StateHasChanged();
     }
 

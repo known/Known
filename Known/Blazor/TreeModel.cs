@@ -6,7 +6,7 @@ public class TreeModel
     public bool Checkable { get; set; }
     public bool ExpandRoot { get; set; }
     public string[] SelectedKeys { get; set; }
-    public string[] DefaultCheckedKeys { get; set; }
+    public string[] CheckedKeys { get; set; }
     public List<MenuInfo> Data { get; set; }
     public Action<MenuInfo> OnNodeClick { get; set; }
     public Action<MenuInfo> OnNodeCheck { get; set; }
