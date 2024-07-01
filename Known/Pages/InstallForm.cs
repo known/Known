@@ -55,6 +55,7 @@ public class InstallForm : BaseForm<InstallInfo>
         {
             var info = result.DataAs<InstallInfo>();
             OnInstall?.Invoke(info);
+            return Task.CompletedTask;
         });
     }
 }

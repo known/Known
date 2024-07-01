@@ -88,14 +88,14 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
             return;
 
         var result = await OnSaveAsync(Model.Data);
-        UI.Result(result, () =>
+        UI.Result(result, async () =>
         {
             OnSuccess();
-            OnEdit(false);
+            await OnEdit(false);
         });
     }
 
-    private void OnEdit(bool edit) => InvokeAsync(() => isEdit = edit);
+    private Task OnEdit(bool edit) => InvokeAsync(() => isEdit = edit);
 }
 
 public class BaseTabForm : BaseForm

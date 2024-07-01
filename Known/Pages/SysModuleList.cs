@@ -108,7 +108,7 @@ public class SysModuleList : BasePage<SysModule>
     {
         row.IsMoveUp = isMoveUp;
         var result = await moduleService.MoveModuleAsync(row);
-        UI.Result(result, async () => await RefreshAsync());
+        UI.Result(result, RefreshAsync);
     }
 
     private async void OnNodeClick(MenuInfo item)

@@ -42,6 +42,10 @@ class SysActive : BaseComponent
             return;
 
         var result = await systemService.SaveKeyAsync(model.Data);
-        UI.Result(result, () => OnCheck?.Invoke(result.IsValid));
+        UI.Result(result, () =>
+        {
+            OnCheck?.Invoke(result.IsValid);
+            return Task.CompletedTask;
+        });
     }
 }

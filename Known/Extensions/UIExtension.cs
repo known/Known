@@ -122,7 +122,7 @@ public static class UIExtension
     public static async void Error(this IUIService service, string message) => await service.ErrorAsync(message);
     public static Task ErrorAsync(this IUIService service, string message) => service.Toast(message, StyleType.Error);
 
-    public static async void Result(this IUIService service, Result result, Action onSuccess = null)
+    public static async void Result(this IUIService service, Result result, Func<Task> onSuccess = null)
     {
         if (!result.IsValid)
         {
@@ -130,7 +130,8 @@ public static class UIExtension
             return;
         }
 
-        onSuccess?.Invoke();
+        if (onSuccess != null)
+            await onSuccess.Invoke();
         await service.Toast(result.Message);
     }
     #endregion

@@ -125,6 +125,7 @@ public class KCaptcha : BaseComponent
         {
             smsCount = Option.SMSCount;
             timer.Enabled = true;
+            return Task.CompletedTask;
         });
     }
 

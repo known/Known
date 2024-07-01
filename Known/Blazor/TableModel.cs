@@ -206,7 +206,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         UI.Confirm(Language?["Tip.ConfirmDeleteRecord"], async () =>
         {
             var result = await action?.Invoke([row]);
-            UI.Result(result, async () => await PageRefreshAsync());
+            UI.Result(result, PageRefreshAsync);
         });
     }
 
@@ -237,13 +237,13 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
                 UI.Confirm(GetConfirmText(confirmText), async () =>
                 {
                     var result = await action?.Invoke(row);
-                    UI.Result(result, async () => await PageRefreshAsync());
+                    UI.Result(result, PageRefreshAsync);
                 });
             }
             else
             {
                 var result = await action?.Invoke(row);
-                UI.Result(result, async () => await PageRefreshAsync());
+                UI.Result(result, PageRefreshAsync);
             }
         });
     }
@@ -275,13 +275,13 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
                 UI.Confirm(GetConfirmText(confirmText), async () =>
                 {
                     var result = await action?.Invoke(rows);
-                    UI.Result(result, async () => await PageRefreshAsync());
+                    UI.Result(result, PageRefreshAsync);
                 });
             }
             else
             {
                 var result = await action?.Invoke(rows);
-                UI.Result(result, async () => await PageRefreshAsync());
+                UI.Result(result, PageRefreshAsync);
             }
         });
     }
