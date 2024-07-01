@@ -36,13 +36,14 @@ class RoleForm : BaseForm<SysRole>
     {
         await base.OnInitFormAsync();
         roleService = await CreateServiceAsync<IRoleService>();
-        
+
         Model.Data = await roleService.GetRoleAsync(Model.Data.Id);
+        var data = Model.Data.Modules?.ToMenuItems(false);
         tree = new TreeModel
         {
             Checkable = true,
             IsView = Model.IsView,
-            Data = Model.Data.Menus,
+            Data = data,
             DefaultCheckedKeys = [.. Model.Data.MenuIds],
             OnNodeClick = OnTreeClick,
             OnNodeCheck = OnTreeCheck

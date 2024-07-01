@@ -256,7 +256,7 @@ public class PagingCriteria
         if (value == null)
             return default;
 
-        return (T)value;
+        return Utils.ConvertTo<T>(value);
     }
 }
 

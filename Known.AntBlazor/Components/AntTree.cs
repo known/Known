@@ -6,8 +6,12 @@ public class AntTree : Tree<MenuInfo>
 
 	protected override void OnInitialized()
 	{
+        if (Model == null)
+            return;
+
         Model.OnRefresh = RefreshAsync;
         ShowIcon = true;
+        CheckOnClickNode = false;
         DisabledExpression = x => !x.DataItem.Enabled || Model.IsView;
         KeyExpression = x => x.DataItem.Id;
         TitleExpression = x => x.DataItem.Name;
@@ -21,8 +25,10 @@ public class AntTree : Tree<MenuInfo>
 
     protected override async Task OnParametersSetAsync()
     {
-        await base.OnParametersSetAsync();
+        if (Model == null)
+            return;
 
+        await base.OnParametersSetAsync();
         DataSource = Model.Data;
         Checkable = Model.Checkable;
         //DefaultExpandParent = Model.ExpandRoot;
