@@ -128,6 +128,6 @@ public class SysUser : EntityBase
     public virtual string[] RoleIds { get; set; }
     public virtual string[] DataIds { get; set; }
 
-    internal virtual List<CodeInfo> Roles { get; set; }
-    internal virtual List<CodeInfo> Datas { get; set; }
+    public virtual List<CodeInfo> Roles { get; set; }
+    public virtual List<CodeInfo> Datas { get; set; }
 }

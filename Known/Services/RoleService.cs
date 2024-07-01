@@ -33,11 +33,11 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
 
     public async Task<SysRole> GetRoleAsync(string roleId)
     {
-        var info = await Database.QueryByIdAsync<SysRole>(roleId);
-        info ??= new SysRole();
+        var info = string.IsNullOrWhiteSpace(roleId)
+                 ? new SysRole()
+                 : await Database.QueryByIdAsync<SysRole>(roleId);
         info.Modules = await ModuleRepository.GetModulesAsync(Database);
-        var menuIds = await RoleRepository.GetRoleModuleIdsAsync(Database, roleId);
-        info.MenuIds = menuIds;
+        info.MenuIds = await RoleRepository.GetRoleModuleIdsAsync(Database, roleId);
         return info;
     }
 

@@ -36,7 +36,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await App?.OnError(ex);
+            await HandleExceptionAsync(ex);
         }
     }
 
@@ -49,7 +49,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await App?.OnError(ex);
+            await HandleExceptionAsync(ex);
         }
     }
 
@@ -61,7 +61,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await App?.OnError(ex);
+            await HandleExceptionAsync(ex);
         }
     }
 
@@ -88,5 +88,11 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         IsDisposing = disposing;
         await OnDisposeAsync();
+    }
+
+    private async Task HandleExceptionAsync(Exception ex)
+    {
+        if (App != null)
+            await App.OnError(ex);
     }
 }

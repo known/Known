@@ -17,15 +17,24 @@ public class SysRoleList : BaseTablePage<SysRole>
         Table.RowKey = r => r.Id;
     }
 
-    public void New() => Table.NewForm(roleService.SaveRoleAsync, new SysRole());
-    public void Edit(SysRole row) => Table.EditForm(roleService.SaveRoleAsync, row);
+    public async void New()
+    {
+        var model = await roleService.GetRoleAsync("");
+        Table.NewForm(roleService.SaveRoleAsync, model);
+    }
+
+    public async void Edit(SysRole row)
+    {
+        var model = await roleService.GetRoleAsync(row.Id);
+        Table.EditForm(roleService.SaveRoleAsync, model);
+    }
+
     public void Delete(SysRole row) => Table.Delete(roleService.DeleteRolesAsync, row);
     public void DeleteM() => Table.DeleteM(roleService.DeleteRolesAsync);
 }
 
 class RoleForm : BaseForm<SysRole>
 {
-    private IRoleService roleService;
     private TreeModel tree;
     private MenuInfo current;
     private readonly InputModel<string[]> btnModel = new();
@@ -35,15 +44,20 @@ class RoleForm : BaseForm<SysRole>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        roleService = await CreateServiceAsync<IRoleService>();
+        var modules = Model.Data.Modules;
+        if (modules == null || modules.Count == 0)
+        {
+            var service = await CreateServiceAsync<IRoleService>();
+            var model = await service.GetRoleAsync(Model.Data.Id);
+            modules = model.Modules;
+        }
 
-        Model.Data = await roleService.GetRoleAsync(Model.Data.Id);
-        var data = Model.Data.Modules?.ToMenuItems(false);
+        var data = modules?.ToMenuItems(false);
         tree = new TreeModel
         {
             Checkable = true,
             IsView = Model.IsView,
-            Data = data,
+            Data = data ?? [],
             DefaultCheckedKeys = [.. Model.Data.MenuIds],
             OnNodeClick = OnTreeClick,
             OnNodeCheck = OnTreeCheck

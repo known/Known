@@ -6,10 +6,7 @@ public class AntTree : Tree<MenuInfo>
 
 	protected override void OnInitialized()
 	{
-        if (Model == null)
-            return;
-
-        Model.OnRefresh = RefreshAsync;
+        base.OnInitialized();
         ShowIcon = true;
         CheckOnClickNode = false;
         DisabledExpression = x => !x.DataItem.Enabled || Model.IsView;
@@ -20,8 +17,9 @@ public class AntTree : Tree<MenuInfo>
         IsLeafExpression = x => x.DataItem.Children?.Count == 0;
         OnClick = this.Callback<TreeEventArgs<MenuInfo>>(OnTreeClick);
 		OnCheck = this.Callback<TreeEventArgs<MenuInfo>>(OnTreeCheck);
-        base.OnInitialized();
-	}
+        if (Model != null)
+            Model.OnRefresh = RefreshAsync;
+    }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -42,7 +40,6 @@ public class AntTree : Tree<MenuInfo>
     {
         Model = await Model.OnModelChanged?.Invoke();
         DataSource = Model.Data;
-        Console.WriteLine($"DC={Model.Data.Count}");
         DefaultSelectedKeys = Model.SelectedKeys;
         StateHasChanged();
     }
