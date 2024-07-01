@@ -10,13 +10,11 @@ public class UserEditForm : BaseEditForm<SysUser>
 
     protected override async Task OnInitFormAsync()
     {
-        userService = await CreateServiceAsync<IUserService>();
-        Data = Parent?.User;
-        Data ??= await userService.GetUserAsync(CurrentUser.Id);
-
         await base.OnInitFormAsync();
-        Model.LabelSpan = 4;
-        Model.WrapperSpan = 8;
+        userService = await CreateServiceAsync<IUserService>();
+        var data = Parent?.User;
+        data ??= await userService.GetUserAsync(CurrentUser.Id);
+        Model = new FormModel<SysUser>(Context) { LabelSpan = 4, WrapperSpan = 8, Data = data };
         Model.AddRow().AddColumn(c => c.UserName, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.Name);
         Model.AddRow().AddColumn(c => c.EnglishName);

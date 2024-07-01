@@ -22,7 +22,6 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
 {
     [Parameter] public bool ShowAction { get; set; }
     [Parameter] public FormModel<TItem> Model { get; set; }
-    [Parameter] public TItem Data { get; set; }
 
     protected override void BuildForm(RenderTreeBuilder builder)
     {
