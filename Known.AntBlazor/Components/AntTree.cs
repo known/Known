@@ -32,13 +32,13 @@ public class AntTree : Tree<MenuInfo>
         DefaultCheckedKeys = Model.DefaultCheckedKeys;
     }
 
-    private Task RefreshAsync()
+    private async Task RefreshAsync()
     {
-        Model.OnModelChanged?.Invoke(Model);
+        Model = await Model.OnModelChanged?.Invoke();
         DataSource = Model.Data;
+        Console.WriteLine($"DC={Model.Data.Count}");
         DefaultSelectedKeys = Model.SelectedKeys;
         StateHasChanged();
-        return Task.CompletedTask;
     }
 
     private void OnTreeClick(TreeEventArgs<MenuInfo> e)

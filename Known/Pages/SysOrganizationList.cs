@@ -26,7 +26,6 @@ public class SysOrganizationList : BasePage<SysOrganization>
             OnNodeClick = OnNodeClick,
             OnModelChanged = OnTreeModelChanged
         };
-        tree.Load();
 
         table = new TableModel<SysOrganization>(this)
         {
@@ -36,6 +35,13 @@ public class SysOrganizationList : BasePage<SysOrganization>
             OnQuery = OnQueryOrganizationsAsync
         };
         table.Initialize(this);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            await tree.RefreshAsync();
     }
 
     public override async Task RefreshAsync()
@@ -75,15 +81,15 @@ public class SysOrganizationList : BasePage<SysOrganization>
         await table.RefreshAsync();
     }
 
-    private async void OnTreeModelChanged(TreeModel model)
+    private async Task<TreeModel> OnTreeModelChanged()
     {
         var datas = await companyService.GetOrganizationsAsync();
         if (datas != null && datas.Count > 0)
         {
             tree.Data = datas.ToMenuItems(ref current);
-            tree.SelectedKeys = [current?.Id];
+            tree.SelectedKeys = [current.Id];
+            await table.RefreshAsync();
         }
-        model.Data = tree.Data;
-        model.SelectedKeys = tree.SelectedKeys;
+        return tree;
     }
 }

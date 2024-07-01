@@ -10,10 +10,8 @@ public class TreeModel
     public List<MenuInfo> Data { get; set; }
     public Action<MenuInfo> OnNodeClick { get; set; }
     public Action<MenuInfo> OnNodeCheck { get; set; }
-    public Action<TreeModel> OnModelChanged { get; set; }
+    public Func<Task<TreeModel>> OnModelChanged { get; set; }
     public Func<Task> OnRefresh { get; set; }
-
-    public void Load() => OnModelChanged?.Invoke(this);
 
     public Task RefreshAsync()
     {

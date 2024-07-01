@@ -28,7 +28,6 @@ public class SysModuleList : BasePage<SysModule>
             OnNodeClick = OnNodeClick,
             OnModelChanged = OnTreeModelChanged
         };
-        tree.Load();
 
         table = new TableModel<SysModule>(this)
         {
@@ -41,6 +40,13 @@ public class SysModuleList : BasePage<SysModule>
         table.Initialize(this);
         table.Column(c => c.Name).Template(BuildName);
         table.Column(c => c.Target).Template((b, r) => b.Tag(r.Target));
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            await tree.RefreshAsync();
     }
 
     public override async Task RefreshAsync()
@@ -117,17 +123,17 @@ public class SysModuleList : BasePage<SysModule>
         await table.RefreshAsync();
     }
 
-    private async void OnTreeModelChanged(TreeModel model)
+    private async Task<TreeModel> OnTreeModelChanged()
     {
         modules = await moduleService.GetModulesAsync();
         if (modules != null && modules.Count > 0)
         {
             tree.Data = modules.ToMenuItems(ref current);
-            tree.SelectedKeys = [current?.Id];
+            tree.SelectedKeys = [current.Id];
+            await table.RefreshAsync();
         }
-        model.Data = tree.Data;
-        model.SelectedKeys = tree.SelectedKeys;
         DataHelper.Initialize(modules);
+        return tree;
     }
 
     private void ShowTreeModal(string title, Func<SysModule, Task<Result>> action)
