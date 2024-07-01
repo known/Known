@@ -11,14 +11,8 @@ public class InstallForm : BaseForm<InstallInfo>
     {
         await base.OnInitFormAsync();
         systemService = await CreateServiceAsync<ISystemService>();
-        Model = new FormModel<InstallInfo>(Context, true) { LabelSpan = 6 };
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-            Model.Data = await systemService.GetInstallAsync();
+        var data = await systemService.GetInstallAsync();
+        Model = new FormModel<InstallInfo>(Context, true) { LabelSpan = 6, Data = data };
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)
