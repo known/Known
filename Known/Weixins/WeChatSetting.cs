@@ -8,24 +8,15 @@ class WeChatSetting : BaseEditForm<WeixinInfo>
     {
         await base.OnInitFormAsync();
         weixinService = await CreateServiceAsync<IWeixinService>();
+        var data = await weixinService.GetWeixinAsync();
         Model = new FormModel<WeixinInfo>(Context)
         {
             IsView = true,
             LabelSpan = 4,
-            WrapperSpan = 10
+            WrapperSpan = 10,
+            Data = data ?? new WeixinInfo()
         };
         Model.AddRow().AddColumn(c => c.IsWeixinAuth);
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-        {
-            var data = await weixinService.GetWeixinAsync();
-            data ??= new WeixinInfo();
-            Model.Data = data;
-        }
     }
 
     protected override void BuildFormContent(RenderTreeBuilder builder)

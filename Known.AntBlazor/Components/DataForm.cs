@@ -6,6 +6,9 @@ public class DataForm<TItem> : BaseComponent where TItem : class, new()
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
+        if (Model == null)
+            return;
+
         builder.Component<AntForm<TItem>>()
                .Set(c => c.Class, Model.ClassName)
                .Set(c => c.Form, Model)

@@ -14,7 +14,6 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
                                 .Where(c => c.IsForm)
                                 .ToList();
         }
-        Data = new TItem();
     }
 
     internal FormModel(BasePage page) : this(page.Context)

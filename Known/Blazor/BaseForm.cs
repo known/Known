@@ -24,14 +24,11 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
     [Parameter] public FormModel<TItem> Model { get; set; }
     [Parameter] public TItem Data { get; set; }
 
-    protected override async Task OnInitFormAsync()
-    {
-        await base.OnInitFormAsync();
-        Model ??= new FormModel<TItem>(Context) { Data = Data ?? new TItem() };
-    }
-
     protected override void BuildForm(RenderTreeBuilder builder)
     {
+        if (Model == null)
+            return;
+
         UI.BuildForm(builder, Model);
         if (ShowAction && !Model.IsView)
         {
@@ -53,6 +50,9 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
 
     protected override void BuildForm(RenderTreeBuilder builder)
     {
+        if (Model == null)
+            return;
+
         Model.IsView = !isEdit;
         BuildFormContent(builder);
     }
@@ -95,7 +95,7 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
         });
     }
 
-    private void OnEdit(bool edit) => isEdit = edit;
+    private void OnEdit(bool edit) => InvokeAsync(() => isEdit = edit);
 }
 
 public class BaseTabForm : BaseForm
