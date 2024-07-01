@@ -584,6 +584,10 @@ public class Database : IDisposable
         else
         {
             entity.Version += 1;
+            var tableName = CommandInfo.GetTableName<T>();
+            var sql = $"select * from {tableName} where Id=@Id";
+            var original = await QueryAsync<Dictionary<string, object>>(sql, new { entity.Id });
+            entity.SetOriginal(original);
         }
 
         entity.ModifyBy = User.UserName;

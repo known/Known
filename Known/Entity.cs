@@ -15,7 +15,7 @@ public class EntityBase
         CompNo = "temp";
     }
 
-    public virtual bool IsNew { get; internal set; }
+    public virtual bool IsNew { get; set; }
 
     public string Id { get; set; }
     public string CreateBy { get; set; }
@@ -44,25 +44,6 @@ public class EntityBase
 
         return !orgValue.Equals(value);
     }
-
-    //public void FillModel(ExpandoObject model)
-    //{
-    //    var properties = TypeHelper.Properties(GetType());
-    //    foreach (var pi in model)
-    //    {
-    //        var name = pi.Key;
-    //        if (name == "Id")
-    //            continue;
-
-    //        var value = pi.Value;
-    //        var property = properties.FirstOrDefault(p => p.Name == name);
-    //        if (property != null)
-    //        {
-    //            value = Utils.ConvertTo(property.PropertyType, value);
-    //            property.SetValue(this, value);
-    //        }
-    //    }
-    //}
 
     public virtual Result Validate(Context context)
     {
