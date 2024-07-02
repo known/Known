@@ -13,17 +13,17 @@
 
     [Parameter] public int TotalCount { get; set; }
     [Parameter] public PagingCriteria Criteria { get; set; }
-    [Parameter] public Action OnChanged { get; set; }
+    [Parameter] public Func<Task> OnChanged { get; set; }
 
-    private void OnPrevious()
+    private async void OnPrevious()
     {
         Criteria.PageIndex--;
-        OnChanged?.Invoke();
+        await OnChanged?.Invoke();
     }
 
-    private void OnNext()
+    private async void OnNext()
     {
         Criteria.PageIndex++;
-        OnChanged?.Invoke();
+        await OnChanged?.Invoke();
     }
 }

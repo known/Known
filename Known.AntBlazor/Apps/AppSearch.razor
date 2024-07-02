@@ -76,7 +76,7 @@
         await RefreshAsync();
     }
 
-    private async void OnPageChanged()
+    private async Task OnPageChanged()
     {
         result = await OnQuery.Invoke(criteria);
         await StateChangedAsync();

@@ -256,6 +256,9 @@ public class PagingCriteria
         if (value == null)
             return default;
 
+        if (typeof(T).IsClass)
+            return Utils.FromJson<T>(value.ToString());
+
         return Utils.ConvertTo<T>(value);
     }
 }
