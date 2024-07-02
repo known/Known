@@ -8,7 +8,7 @@ public class AntTree : Tree<MenuInfo>
 	{
         base.OnInitialized();
         ShowIcon = true;
-        CheckOnClickNode = false;
+        //CheckOnClickNode = false;
         DisabledExpression = x => !x.DataItem.Enabled || Model.IsView;
         KeyExpression = x => x.DataItem.Id;
         TitleExpression = x => x.DataItem.Name;
