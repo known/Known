@@ -1053,36 +1053,39 @@ public class Database : IDisposable
         if (criteria.ExportColumns == null || criteria.ExportColumns.Count == 0 || pageData.Count == 0)
             return null;
 
-        var dataTable = new DataTable();
+        var excel = ExcelFactory.Create();
+        var sheet = excel.CreateSheet("Sheet1");
+        var index = 0;
+        var headStyle = new StyleInfo { IsBorder = true, IsBold = true, FontColor = Color.White, BackgroundColor = Utils.FromHtml("#6D87C1") };
         foreach (var item in criteria.ExportColumns)
         {
-            dataTable.Columns.Add(item.Name);
+            sheet.SetCellValue(0, index++, item.Name, headStyle);
         }
 
+        var rowIndex = 0;
         var isDictionary = typeof(T) == typeof(Dictionary<string, object>);
         foreach (var data in pageData)
         {
-            var row = dataTable.Rows.Add();
+            rowIndex++;
+            index = 0;
             foreach (var item in criteria.ExportColumns)
             {
+                var cellStyle = new StyleInfo { IsBorder = true };
                 var value = isDictionary
                           ? (data as Dictionary<string, object>).GetValue(item.Id)
                           : TypeHelper.GetPropertyValue(data, item.Id);
                 if (item.Type == FieldType.Switch || item.Type == FieldType.CheckBox)
                     value = Utils.ConvertTo<bool>(value) ? "是" : "否";
                 else if (item.Type == FieldType.Date)
-                    value = Utils.ConvertTo<DateTime?>(value)?.ToString(Config.DateFormat);
+                    cellStyle.Custom = Config.DateFormat;
                 else if (item.Type == FieldType.DateTime)
-                    value = Utils.ConvertTo<DateTime?>(value)?.ToString(Config.DateTimeFormat);
+                    cellStyle.Custom = Config.DateTimeFormat;
                 else if (!string.IsNullOrWhiteSpace(item.Category))
                     value = Cache.GetCodeName(item.Category, value?.ToString());
-                row[item.Name] = value;
+                sheet.SetCellValue(rowIndex, index++, value, cellStyle);
             }
         }
 
-        var excel = ExcelFactory.Create();
-        var sheet = excel.CreateSheet("Sheet1");
-        sheet.ImportData(dataTable);
         var stream = excel.SaveToStream();
         return stream.ToArray();
     }

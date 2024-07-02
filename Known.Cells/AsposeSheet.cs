@@ -54,7 +54,7 @@ class AsposeSheet : ISheet
     {
         for (int i = 0; i < args.Length; i++)
         {
-            sheet.Cells[rowIndex, startColumn + i].PutValue(FormatValue(args[i]));
+            sheet.Cells[rowIndex, startColumn + i].PutValue(args[i]);
         }
     }
 
@@ -72,7 +72,7 @@ class AsposeSheet : ISheet
     public void SetCellValue(string cellName, object value, StyleInfo info = null)
     {
         var cell = sheet.Cells[cellName];
-        cell.PutValue(FormatValue(value));
+        cell.PutValue(value);
         if (info != null)
         {
             var style = info.CreateStyle(cell);
@@ -83,7 +83,7 @@ class AsposeSheet : ISheet
     public void SetCellValue(int rowIndex, int columnIndex, object value, StyleInfo info = null)
     {
         var cell = sheet.Cells[rowIndex, columnIndex];
-        cell.PutValue(FormatValue(value));
+        cell.PutValue(value);
         if (info != null)
         {
             var style = info.CreateStyle(cell);
@@ -172,23 +172,6 @@ class AsposeSheet : ISheet
         }
     }
     #endregion
-
-    #region Private
-    private string FormatValue(object value)
-    {
-        if (value == null)
-            return string.Empty;
-
-        var type = value.GetType();
-        if (type == typeof(string))
-            return $"{value}";
-
-        if (type.Name.Contains("DateTime"))
-            return Utils.ConvertTo<DateTime>(value).ToString(dateFormat);
-
-        return $"{value}";
-    }
-    #endregion
 }
 
 static class StyleExtension
@@ -221,6 +204,8 @@ static class StyleExtension
             style.Borders[BorderType.BottomBorder].LineStyle = boderStyle;
             style.Borders[BorderType.LeftBorder].LineStyle = boderStyle;
         }
+        if (!string.IsNullOrWhiteSpace(info.Custom))
+            style.Custom = info.Custom;
         return style;
     }
 }
