@@ -7,7 +7,7 @@ public class JSService
 
     public JSService(IJSRuntime jsRuntime)
     {
-        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js?v=240516").AsTask());
+        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js?v=240630").AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
             appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());
     }
@@ -129,6 +129,9 @@ public class JSService
     private static string DecryptString(string value)
     {
         var json = Utils.FromJson<string>(value);
+        if (string.IsNullOrWhiteSpace(json))
+            return null;
+
         var bytes = Convert.FromBase64String(json);
         return Encoding.UTF8.GetString(bytes);
     }
