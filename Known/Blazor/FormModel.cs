@@ -60,7 +60,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Func<TItem, Task<Result>> OnSave { get; set; }
     public Func<TItem, Task<bool>> OnSaving { get; set; }
     public Action<TItem> OnSaved { get; set; }
-    public Dictionary<string, List<IAttachFile>> Files { get; } = [];
+    public Dictionary<string, List<FileDataInfo>> Files { get; } = [];
 
     public string ClassName
     {
@@ -88,7 +88,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         if (Files == null)
             return false;
 
-        if (!Files.TryGetValue(key, out List<IAttachFile> value))
+        if (!Files.TryGetValue(key, out List<FileDataInfo> value))
             return false;
 
         return value.Count > 0;

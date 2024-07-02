@@ -4,14 +4,14 @@ public class KUpload : BaseComponent
 {
     private IFileService fileService;
     private List<SysFile> sysFiles;
-    private readonly List<IAttachFile> files = [];
+    private readonly List<FileDataInfo> files = [];
 
     [Parameter] public bool IsButton { get; set; }
     [Parameter] public bool OpenFile { get; set; }
     [Parameter] public string Value { get; set; }
     [Parameter] public bool MultiFile { get; set; }
     [Parameter] public bool Directory { get; set; }
-    [Parameter] public Action<List<IAttachFile>> OnFilesChanged { get; set; }
+    [Parameter] public Action<List<FileDataInfo>> OnFilesChanged { get; set; }
 
     public async Task RefreshAsync()
     {
@@ -111,7 +111,7 @@ public class KUpload : BaseComponent
 
     private async Task<bool> OnAddFileAsync(IBrowserFile item)
     {
-        if (files.Exists(f => f.FileName == item.Name))
+        if (files.Exists(f => f.Name == item.Name))
             return false;
 
         var file = await item.CreateFileAsync();
@@ -124,7 +124,7 @@ public class KUpload : BaseComponent
     {
         if (string.IsNullOrWhiteSpace(item.Id))
         {
-            var file = files.FirstOrDefault(f => f.FileName == item.Name);
+            var file = files.FirstOrDefault(f => f.Name == item.Name);
             files.Remove(file);
             sysFiles.Remove(item);
             OnFilesChanged?.Invoke(files);

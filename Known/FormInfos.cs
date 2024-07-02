@@ -26,18 +26,26 @@ public class PwdFormInfo
     public string NewPwd1 { get; set; }
 }
 
-public class UploadInfo<TModel>(TModel model)
+public class UploadInfo<TModel>
 {
+    public UploadInfo() { }
+
+    public UploadInfo(TModel model)
+    {
+        Model = model;
+        Files = [];
+    }
+
     public string PageId { get; set; }
-    public TModel Model { get; } = model;
-    public Dictionary<string, List<IAttachFile>> Files { get; } = [];
+    public TModel Model { get; set; }
+    public Dictionary<string, List<FileDataInfo>> Files { get; set; }
 
     public bool HasFile(string key)
     {
         if (Files == null)
             return false;
 
-        if (!Files.TryGetValue(key, out List<IAttachFile> value))
+        if (!Files.TryGetValue(key, out List<FileDataInfo> value))
             return false;
 
         return value.Count > 0;

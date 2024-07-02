@@ -31,8 +31,9 @@ public class ChartDataInfo
 
 public class FileDataInfo
 {
-    public string FileName { get; set; }
-    public byte[] Data { get; set; }
+    public string Name { get; set; }
+    public long Size { get; set; }
+    public byte[] Bytes { get; set; }
 }
 
 public class FileUrlInfo

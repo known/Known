@@ -7,7 +7,7 @@ class Importer : BaseComponent
     private string error;
     private string message;
     private IFileService fileService;
-    private IAttachFile attach;
+    private FileDataInfo file;
 
     private string ErrorMessage => Language["Import.Error"];
 
@@ -73,19 +73,18 @@ class Importer : BaseComponent
         builder.CloseComponent();
     }
 
-    private void OnInputFilesChanged(InputFileChangeEventArgs e)
+    private async void OnInputFilesChanged(InputFileChangeEventArgs e)
     {
-        var file = e.File;
-        if (file == null || file.Size == 0)
+        if (e.File == null || e.File.Size == 0)
             return;
 
-        fileInfo = $"{Language["Import.Size"]}{file.Size / 1024}KB";
-        attach = new BlazorAttachFile(file);
+        fileInfo = $"{Language["Import.Size"]}{e.File.Size / 1024}KB";
+        this.file = await e.File.ReadFileAsync();
     }
 
     private async void OnImportAsync(MouseEventArgs e)
     {
-        if (attach == null)
+        if (file == null)
         {
             UI.Error(Language["Import.SelectFile"]);
             return;
@@ -95,7 +94,7 @@ class Importer : BaseComponent
         isFinished = false;
 
         var info = new UploadInfo<ImportFormInfo>(Model);
-        info.Files["Upload"] = [attach];
+        info.Files["Upload"] = [file];
         var result = await fileService.UploadFilesAsync(info);
         if (!result.IsValid)
         {

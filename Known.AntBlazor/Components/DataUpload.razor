@@ -26,11 +26,11 @@
     private InputFile inputFile;
     private Dictionary<string, ElementReference> imgElems = [];
     private List<SysFile> sysFiles;
-    private List<IAttachFile> files = [];
+    private List<FileDataInfo> files = [];
     private string ImgId(int i) => $"img-{Id}-{i}";
 
     [Parameter] public string Value { get; set; }
-    [Parameter] public Action<List<IAttachFile>> OnFilesChanged { get; set; }
+    [Parameter] public Action<List<FileDataInfo>> OnFilesChanged { get; set; }
 
     public bool HasFile => sysFiles != null && sysFiles.Count > 0 || files.Count > 0;
 
@@ -52,7 +52,7 @@
         if (e.FileCount == 0)
             return;
 
-        if (files.Exists(f => f.FileName == e.File.Name))
+        if (files.Exists(f => f.Name == e.File.Name))
             return;
 
         var file = await e.File.CreateFileAsync();

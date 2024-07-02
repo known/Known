@@ -148,20 +148,27 @@ public static class CommonExtension
     #endregion
 
     #region File
-    public static async Task<IAttachFile> CreateFileAsync(this IBrowserFile item)
+    public static async Task<FileDataInfo> ReadFileAsync(this IBrowserFile file)
     {
-        if (!Utils.CheckImage(item.Name))
+        using var stream = new MemoryStream();
+        await file.OpenReadStream(Config.App.UploadMaxSize).CopyToAsync(stream);
+        var bytes = stream.GetBuffer();
+        return new FileDataInfo
         {
-            var attach = new BlazorAttachFile(item);
-            await attach.ReadAsync();
-            return attach;
-        }
+            Name = file.Name,
+            Size = file.Size,
+            Bytes = bytes
+        };
+    }
 
-        var format = item.ContentType;
-        var file = await item.RequestImageFileAsync(format, 1920, 1080);
-        var image = new BlazorAttachFile(file);
-        await image.ReadAsync();
-        return image;
+    public static async Task<FileDataInfo> CreateFileAsync(this IBrowserFile file)
+    {
+        if (!Utils.CheckImage(file.Name))
+            return await file.ReadFileAsync();
+
+        var format = file.ContentType;
+        var image = await file.RequestImageFileAsync(format, 1920, 1080);
+        return await image.ReadFileAsync();
     }
     #endregion
 }

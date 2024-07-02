@@ -2,13 +2,13 @@
 
 public class AttachFile
 {
-    private readonly IAttachFile file;
+    private readonly FileDataInfo file;
 
-    internal AttachFile(IAttachFile file, UserInfo user, string bizType = null, string bizPath = null)
+    internal AttachFile(FileDataInfo file, UserInfo user, string bizType = null, string bizPath = null)
     {
         this.file = file;
-        Size = file.Length;
-        var names = file.FileName.Replace(@"\", "/").Split('/');
+        Size = file.Size;
+        var names = file.Name.Replace(@"\", "/").Split('/');
         SourceName = names.Last();
         var index = SourceName.LastIndexOf('.');
         ExtName = SourceName.Substring(index);
@@ -69,12 +69,4 @@ public class AttachFile
 
         return filePath;
     }
-}
-
-public interface IAttachFile
-{
-    long Length { get; }
-    string FileName { get; }
-    byte[] Bytes { get; }
-    Task ReadAsync();
 }
