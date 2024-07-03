@@ -28,7 +28,7 @@ public class BaApplyList : BaseTablePage<TbApply>
     //新增按钮事件
     public async void New()
     {
-        var row = await Service.GetDefaultApplyAsync(ApplyType.Test);
+        var row = await Service.GetDefaultApplyAsync(ApplyType.Test.ToString());
         Table.NewForm(Service.SaveApplyAsync, row);
     }
 

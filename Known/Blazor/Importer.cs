@@ -95,7 +95,7 @@ class Importer : BaseComponent
 
         var info = new UploadInfo<ImportFormInfo>(Model);
         info.Files["Upload"] = [file];
-        var result = await fileService.UploadFilesAsync(info);
+        var result = await fileService.ImportFilesAsync(info);
         if (!result.IsValid)
         {
             message = result.Message;

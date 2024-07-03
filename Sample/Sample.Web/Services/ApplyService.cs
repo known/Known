@@ -11,11 +11,11 @@ class ApplyService(Context context) : ServiceBase(context), IApplyService
     }
 
     //获取默认业务申请实体
-    public async Task<TbApply> GetDefaultApplyAsync(ApplyType bizType)
+    public async Task<TbApply> GetDefaultApplyAsync(string bizType)
     {
         return new TbApply
         {
-            BizType = bizType,
+            BizType = bizType.ToString(),
             BizNo = await GetMaxBizNoAsync(Database, bizType),
             BizStatus = FlowStatus.Save,
             ApplyBy = CurrentUser.Name,
@@ -80,7 +80,7 @@ class ApplyService(Context context) : ServiceBase(context), IApplyService
     }
 
     //获取最大业务申请单号
-    private static async Task<string> GetMaxBizNoAsync(Database db, ApplyType bizType)
+    private static async Task<string> GetMaxBizNoAsync(Database db, string bizType)
     {
         var prefix = "T";
         prefix += $"{DateTime.Now:yyyy}";

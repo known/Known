@@ -74,26 +74,24 @@ public static class Extension
 
     private static void UseKnownWebApi(this IEndpointRouteBuilder app)
     {
-        //TODO:Map动态API
         foreach (var item in Config.ApiMethods)
         {
-            //Console.WriteLine(item.Route);
             if (item.HttpMethod == HttpMethod.Get)
-                app.MapGet(item.Route, ctx => InvokeMethod(ctx, item.MethodInfo));
+                app.MapGet(item.Route, ctx => InvokeMethod(ctx, item));
             else
-                app.MapPost(item.Route, ctx => InvokeMethod(ctx, item.MethodInfo));
+                app.MapPost(item.Route, ctx => InvokeMethod(ctx, item));
         }
     }
 
-    private static async Task InvokeMethod(HttpContext ctx, MethodInfo method)
+    private static async Task InvokeMethod(HttpContext ctx, ApiMethodInfo info)
     {
         try
         {
             var token = ctx.Request.Headers[Constants.KeyToken].ToString();
-            var service = ctx.RequestServices.GetRequiredService(method.DeclaringType) as IService;
+            var service = ctx.RequestServices.GetRequiredService(info.MethodInfo.DeclaringType) as IService;
             service.Context = Context.Create(token);
             var parameters = new List<object>();
-            foreach (var item in method.GetParameters())
+            foreach (var item in info.Parameters)
             {
                 if (ctx.Request.Method == "GET")
                 {
@@ -104,14 +102,12 @@ public static class Extension
                 {
                     var parameter = await ctx.Request.ReadFromJsonAsync(item.ParameterType);
                     parameters.Add(parameter);
-                    //ctx.Request.Body.Position = 0;
-                    //using var stream = new StreamReader(ctx.Request.Body);
-                    //var json = stream.ReadToEnd();
                 }
             }
-            var value = method.Invoke(service, [.. parameters]);
-            var task = Utils.MapTo<TaskInfo>(value);
-            await ctx.Response.WriteAsJsonAsync(task.Result);
+            dynamic result = info.MethodInfo.Invoke(service, [.. parameters]);
+            result.Wait();
+            string text = Utils.ToJson(result.Result);
+            await ctx.Response.WriteAsync(text);
         }
         catch (Exception ex)
         {
@@ -119,10 +115,4 @@ public static class Extension
             await ctx.Response.WriteAsJsonAsync(Result.Error(ex.Message));
         }
     }
-}
-
-public class TaskInfo
-{
-    public int Id { get; set; }
-    public object Result { get; set; }
 }

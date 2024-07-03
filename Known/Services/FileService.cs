@@ -7,7 +7,7 @@ public interface IFileService : IService
     Task<ImportFormInfo> GetImportAsync(string bizId);
     Task<byte[]> GetImportRuleAsync(string bizId);
     Task<Result> DeleteFileAsync(SysFile file);
-    Task<Result> UploadFilesAsync<TModel>(UploadInfo<TModel> info);
+    Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info);
 }
 
 class FileService(Context context) : ServiceBase(context), IFileService
@@ -108,9 +108,9 @@ class FileService(Context context) : ServiceBase(context), IFileService
     //    return file.FileUrl;
     //}
 
-    public async Task<Result> UploadFilesAsync<TModel>(UploadInfo<TModel> info)
+    public async Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)
     {
-        var form = info.Model as ImportFormInfo;
+        var form = info.Model;
         SysTask task = null;
         var sysFiles = new List<SysFile>();
         var user = CurrentUser;

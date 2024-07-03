@@ -10,7 +10,7 @@ public class TbApply : FlowEntity
     /// </summary>
     [Category(nameof(ApplyType))]
     [Required]
-    public ApplyType BizType { get; set; }
+    public string BizType { get; set; }
 
     /// <summary>
     /// 取得或设置业务单号。
