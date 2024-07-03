@@ -22,9 +22,6 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.0.61" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Sample.Web\Sample.Web.csproj" />
     </ItemGroup>
 

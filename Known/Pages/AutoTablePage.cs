@@ -1,6 +1,5 @@
 ﻿namespace Known.Pages;
 
-//[Authorize]
 [StreamRendering]
 [Route("/page/{PageId}")]
 public class AutoTablePage : BaseTablePage<Dictionary<string, object>>

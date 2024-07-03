@@ -16,9 +16,6 @@
 
     <ItemGroup>
         <PackageReference Include="Aspose.Cells" Version="18.10.1" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Known\Known.csproj" />
     </ItemGroup>
 

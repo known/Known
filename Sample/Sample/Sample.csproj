@@ -6,13 +6,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\Locales\en-US.json" />
-        <EmbeddedResource Include="Resources\Locales\zh-CN.json" />
-        <EmbeddedResource Include="Resources\Locales\zh-TW.json" />
+        <ProjectReference Include="..\..\Known\Known.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Known\Known.csproj" />
+        <EmbeddedResource Include="Resources\Locales\en-US.json" />
+        <EmbeddedResource Include="Resources\Locales\zh-CN.json" />
+        <EmbeddedResource Include="Resources\Locales\zh-TW.json" />
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,5 @@
 ﻿namespace Known.Pages;
 
-//[Authorize]
 [StreamRendering]
 [Route("/sys/roles")]
 public class SysRoleList : BaseTablePage<SysRole>

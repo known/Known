@@ -6,10 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\actions.txt" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.6" />
         <!--<PackageReference Include="Toolbelt.AspNetCore.CssLiveReloader" Version="1.1.4" />-->
         <PackageReference Include="Coravel" Version="5.0.4" />
@@ -18,12 +14,13 @@
         <PackageReference Include="MySqlConnector" Version="2.3.7" />
 	    <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
         <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />-->
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\..\Known.Cells\Known.Cells.csproj" />
         <ProjectReference Include="..\..\Known.Core\Known.Core.csproj" />
         <ProjectReference Include="..\Sample.Client\Sample.Client.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\actions.txt" />
     </ItemGroup>
 
 </Project>

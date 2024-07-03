@@ -15,6 +15,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.6" />
+    </ItemGroup>
+
+    <ItemGroup>
         <EmbeddedResource Include="Resources\actions.txt" />
         <EmbeddedResource Include="Resources\IconFA.txt" />
         <EmbeddedResource Include="Resources\Locales\en-US.json" />
@@ -25,10 +29,6 @@
         <EmbeddedResource Include="Resources\Scripts\Oracle.sql" />
         <EmbeddedResource Include="Resources\Scripts\SQLite.sql" />
         <EmbeddedResource Include="Resources\Scripts\SqlServer.sql" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.6" />
     </ItemGroup>
 
     <ItemGroup>

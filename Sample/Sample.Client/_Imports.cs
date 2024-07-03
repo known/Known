@@ -1,4 +1,5 @@
-﻿global using Known;
+﻿global using System.Security.Claims;
+global using Known;
 global using Known.AntBlazor;
 global using Known.Blazor;
 global using Known.Extensions;
