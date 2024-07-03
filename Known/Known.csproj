@@ -21,9 +21,9 @@
     <ItemGroup>
         <EmbeddedResource Include="Resources\actions.txt" />
         <EmbeddedResource Include="Resources\IconFA.txt" />
-        <EmbeddedResource Include="Resources\Locales\en-US.json" />
-        <EmbeddedResource Include="Resources\Locales\zh-CN.json" />
-        <EmbeddedResource Include="Resources\Locales\zh-TW.json" />
+        <EmbeddedResource Include="Resources\Locales\en-US.txt" />
+        <EmbeddedResource Include="Resources\Locales\zh-CN.txt" />
+        <EmbeddedResource Include="Resources\Locales\zh-TW.txt" />
         <EmbeddedResource Include="Resources\Scripts\Access.sql" />
         <EmbeddedResource Include="Resources\Scripts\MySql.sql" />
         <EmbeddedResource Include="Resources\Scripts\Oracle.sql" />

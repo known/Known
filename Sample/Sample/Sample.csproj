@@ -10,9 +10,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\Locales\en-US.json" />
-        <EmbeddedResource Include="Resources\Locales\zh-CN.json" />
-        <EmbeddedResource Include="Resources\Locales\zh-TW.json" />
+        <EmbeddedResource Include="Resources\Locales\en-US.txt" />
+        <EmbeddedResource Include="Resources\Locales\zh-CN.txt" />
+        <EmbeddedResource Include="Resources\Locales\zh-TW.txt" />
     </ItemGroup>
 
 </Project>

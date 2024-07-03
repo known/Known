@@ -2,8 +2,6 @@
 
 public class AntTheme : BaseComponent
 {
-    [Parameter] public Action<string> OnChanged { get; set; }
-
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Component<Switch>()
