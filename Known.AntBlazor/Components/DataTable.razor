@@ -168,9 +168,14 @@
         await InvokeAsync(() =>
         {
             if (Model.Criteria.IsQuery)
+            {
                 table?.ReloadData();
+            }
             else
-                table?.ReloadData(Model.Criteria.PageIndex);
+            {
+                var query = table?.GetQueryModel();
+                table?.ReloadData(query);
+            }
         });
     }
 
