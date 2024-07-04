@@ -61,7 +61,7 @@ public class BaseTabPage : BasePage
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        Tab.Left = b => b.Component<KTitle>().Set(c => c.Text, PageName).Build();
+        Tab.Left = b => b.FormTitle(PageName);
     }
 
     protected async void OnTabChange(string tab)

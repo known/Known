@@ -7,6 +7,7 @@ public static class UIExtension
     public static void FormPageButton(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-page-button", child);
     internal static void FormButton(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-button", child);
     public static void FormAction(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-action", child);
+    public static void FormTitle(this RenderTreeBuilder builder, string text) => builder.Component<KTitle>().Set(c => c.Text, text).Build();
     #endregion
 
     #region Page

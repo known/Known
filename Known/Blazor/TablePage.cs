@@ -28,7 +28,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
                        {
                            b.Div(() =>
                            {
-                               b.Component<KTitle>().Set(c => c.Text, Model.Name).Build();
+                               b.FormTitle(Model.Name);
                                if (Model.QueryColumns.Count > 0)
                                    UI.BuildQuery(b, Model);
                            });
@@ -50,7 +50,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
         {
             if (Model.Tab.HasItem)
             {
-                Model.Tab.Left = b => b.Component<KTitle>().Set(c => c.Text, Model.PageName).Build();
+                Model.Tab.Left = b => b.FormTitle(Model.PageName);
                 if (Model.Toolbar.HasItem)
                     Model.Tab.Right = b => UI.BuildToolbar(b, Model.Toolbar);
                 UI.BuildTabs(builder, Model.Tab);
@@ -62,7 +62,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
                        {
                            b.Div(() =>
                            {
-                               b.Component<KTitle>().Set(c => c.Text, Model.PageName).Build();
+                               b.FormTitle(Model.PageName);
                                Model.ToolbarSlot?.Invoke(b);
                            });
                            if (Model.Toolbar.HasItem)
