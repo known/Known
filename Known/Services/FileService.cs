@@ -70,7 +70,8 @@ class FileService(Context context) : ServiceBase(context), IFileService
     {
         if (bizId.StartsWith("Dictionary"))
         {
-            var module = await Database.QueryByIdAsync<SysModule>(bizId);
+            var id = bizId.Split('_')[1];
+            var module = await Database.QueryByIdAsync<SysModule>(id);
             return await ImportHelper.GetDictionaryRuleAsync(Context, module);
         }
 
