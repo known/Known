@@ -70,7 +70,7 @@
 
         showSpin = true;
         spinTip = text;
-        StateChanged();
+        await StateChangedAsync();
         await Task.Run(async () =>
         {
             try
@@ -81,9 +81,9 @@
             {
                 await OnError(ex);
             }
+            showSpin = false;
+            await StateChangedAsync();
         });
-        showSpin = false;
-        StateChanged();
     }
 
     //Admin
@@ -96,7 +96,7 @@
                 break;
             case "setting":
                 showSetting = true;
-                StateChanged();
+                StateHasChanged();
                 break;
         }
     }

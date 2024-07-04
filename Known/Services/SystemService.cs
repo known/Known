@@ -162,8 +162,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         {
             await SaveConfigAsync(Database, KeySystem, info);
         }
-
-        Config.System = info;
         return Result.Success(Language.Success(Language.Save));
     }
 

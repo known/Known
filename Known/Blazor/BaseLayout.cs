@@ -11,15 +11,18 @@ public class BaseLayout : LayoutComponentBase
     public Language Language => Context?.Language;
     public MenuInfo CurrentMenu => Context.Current;
     protected IAuthService AuthService { get; private set; }
+    internal ISystemService SystemService { get; private set; }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             await base.OnInitializedAsync();
+            AuthService = await CreateServiceAsync<IAuthService>();
+            SystemService = await CreateServiceAsync<ISystemService>();
             UI.Language = Language;
             Context.UI = UI;
-            AuthService = await CreateServiceAsync<IAuthService>();
+            Context.System = await SystemService.GetSystemAsync();
             await OnInitAsync();
         }
         catch (Exception ex)
@@ -71,7 +74,7 @@ public class BaseLayout : LayoutComponentBase
     }
 
     public virtual Task ShowSpinAsync(string text, Action action) => Task.CompletedTask;
-    public virtual void StateChanged() => InvokeAsync(StateHasChanged);
+    public virtual Task StateChangedAsync() => InvokeAsync(StateHasChanged);
 
     private async Task SetCurrentUserAsync(UserInfo user)
     {

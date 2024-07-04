@@ -34,7 +34,7 @@ public class SettingForm : BaseForm<SettingInfo>
         if (result.IsValid)
         {
             Context.UserSetting = Model.Data;
-            App?.StateChanged();
+            await App?.StateChangedAsync();
         }
     }
 
@@ -45,7 +45,7 @@ public class SettingForm : BaseForm<SettingInfo>
         {
             Model.Data = new();
             Context.UserSetting = Model.Data;
-            App?.StateChanged();
+            await App?.StateChangedAsync();
         }
     }
 }

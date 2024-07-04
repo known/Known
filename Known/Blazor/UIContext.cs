@@ -9,6 +9,7 @@ public class UIContext : Context
     public string IPAddress { get; set; }
     public string Url { get; set; }
     public string Theme { get; set; }
+    public SystemInfo System { get; set; }
     public SettingInfo UserSetting { get; internal set; } = new();
     public List<MenuInfo> UserMenus { get; internal set; }
 

@@ -15,7 +15,6 @@ public sealed class Config
     public static Action OnExit { get; set; }
     public static AppInfo App { get; } = new();
     public static VersionInfo Version { get; private set; }
-    public static SystemInfo System { get; set; }
     public static List<Assembly> Assemblies { get; } = [];
     public static List<Type> ApiTypes { get; } = [];
     public static List<ApiMethodInfo> ApiMethods { get; } = [];

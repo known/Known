@@ -95,7 +95,8 @@ public static class Extension
             {
                 if (ctx.Request.Method == "GET")
                 {
-                    var parameter = ctx.Request.Query[item.Name].ToString();
+                    var value = ctx.Request.Query[item.Name].ToString();
+                    var parameter = Utils.ConvertTo(item.ParameterType, value, null);
                     parameters.Add(parameter);
                 }
                 else

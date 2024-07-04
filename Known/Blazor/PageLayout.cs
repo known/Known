@@ -2,8 +2,6 @@
 
 public class PageLayout : BaseLayout
 {
-    private ISystemService systemService;
-
     protected bool IsLoaded { get; private set; }
     protected AdminInfo Info { get; private set; }
     protected List<MenuInfo> UserMenus { get; private set; }
@@ -11,11 +9,9 @@ public class PageLayout : BaseLayout
 
     protected override async Task OnInitAsync()
     {
-        await base.OnInitAsync();
-        systemService = await CreateServiceAsync<ISystemService>();
-        Config.System = await systemService.GetSystemAsync();
         IsLoaded = false;
-        if (Config.System == null)
+        await base.OnInitAsync();
+        if (Context.System == null)
         {
             NavigateTo("/install");
         }
@@ -62,7 +58,7 @@ public class PageLayout : BaseLayout
                 pageId = Context.Url.Split("/")[2];
             //Logger.Info($"Layout={Context.Url}");
             await base.OnParametersSetAsync();
-            await Context.SetCurrentMenuAsync(systemService, pageId);
+            await Context.SetCurrentMenuAsync(SystemService, pageId);
         }
         catch (Exception ex)
         {

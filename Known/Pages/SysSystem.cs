@@ -19,18 +19,25 @@ public class SysSystem : BaseTabPage
     }
 
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
+
+    internal async Task<Result> SaveSystemAsync(SystemInfo info)
+    {
+        var result = await systemService.SaveSystemAsync(info);
+        if (result.IsValid)
+            Context.System = info;
+        return result;
+    }
+
+    internal Task<Result> SaveKeyAsync(SystemInfo info) => systemService.SaveKeyAsync(info);
 }
 
 class SysSystemInfo : BaseForm<SystemInfo>
 {
-    private ISystemService systemService;
     [CascadingParameter] private SysSystem Parent { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        systemService = await CreateServiceAsync<ISystemService>();
-
         var data = Parent.Data;
         Model = new FormModel<SystemInfo>(Context) { LabelSpan = 4, WrapperSpan = 10, Data = data.System };
         Model.AddRow().AddColumn(nameof(SystemInfo.CompName), $"{data.System.CompNo}-{data.System.CompName}");
@@ -68,32 +75,29 @@ class SysSystemInfo : BaseForm<SystemInfo>
     private async void OnSaveAppName(string value)
     {
         Model.Data.AppName = value;
-        var result = await systemService.SaveSystemAsync(Model.Data);
+        var result = await Parent.SaveSystemAsync(Model.Data);
         if (result.IsValid)
         {
             CurrentUser.AppName = value;
-            App?.StateChanged();
+            await App?.StateChangedAsync();
         }
     }
 
     private async void OnSaveProductKey(string value)
     {
         Model.Data.ProductKey = value;
-        await systemService.SaveKeyAsync(Model.Data);
+        await Parent.SaveKeyAsync(Model.Data);
         await StateChangedAsync();
     }
 }
 
 class SysSystemSafe : BaseForm<SystemInfo>
 {
-    private ISystemService systemService;
     [CascadingParameter] private SysSystem Parent { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        systemService = await CreateServiceAsync<ISystemService>();
-
         var data = Parent.Data;
         Model = new FormModel<SystemInfo>(Context) { LabelSpan = 4, WrapperSpan = 10, Data = data.System };
         Model.AddRow().AddColumn(nameof(SystemInfo.UserDefaultPwd), b =>
@@ -118,12 +122,12 @@ class SysSystemSafe : BaseForm<SystemInfo>
     private async void OnSaveDefaultPwd(string value)
     {
         Model.Data.UserDefaultPwd = value;
-        await systemService.SaveSystemAsync(Model.Data);
+        await Parent.SaveSystemAsync(Model.Data);
     }
 
     private async void OnLoginCaptchaChanged(bool value)
     {
         Model.Data.IsLoginCaptcha = value;
-        await systemService.SaveSystemAsync(Model.Data);
+        await Parent.SaveSystemAsync(Model.Data);
     }
 }
