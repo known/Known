@@ -1080,6 +1080,8 @@ public class Database : IDisposable
                     cellStyle.Custom = Config.DateFormat;
                 else if (item.Type == FieldType.DateTime)
                     cellStyle.Custom = Config.DateTimeFormat;
+                else if (item.Type == FieldType.Number)
+                    value = GetNumberValue(value);
                 else if (!string.IsNullOrWhiteSpace(item.Category))
                     value = Cache.GetCodeName(item.Category, value?.ToString());
                 sheet.SetCellValue(rowIndex, index++, value, cellStyle);
@@ -1088,6 +1090,14 @@ public class Database : IDisposable
 
         var stream = excel.SaveToStream();
         return stream.ToArray();
+    }
+
+    private static object GetNumberValue(object value)
+    {
+        if (decimal.TryParse(value?.ToString(), out var number))
+            return number;
+
+        return value;
     }
 
     private void Init(DatabaseType databaseType, string connString, UserInfo user = null)
