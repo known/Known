@@ -18,7 +18,8 @@ public class ColumnBuilder<TItem> where TItem : class, new()
 
     public ColumnBuilder<TItem> Template(RenderFragment template)
     {
-        column.Template = template;
+        if (column != null)
+            column.Template = template;
         return this;
     }
 

@@ -10,7 +10,7 @@ public class SettingForm : BaseForm<SettingInfo>
         settingService = await CreateServiceAsync<ISettingService>();
         Model = new FormModel<SettingInfo>(Context, true)
         {
-            LabelSpan = 12,
+            Info = new FormInfo { LabelSpan = 12 },
             Data = Context.UserSetting
         };
     }

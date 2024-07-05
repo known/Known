@@ -12,7 +12,11 @@ public class InstallForm : BaseForm<InstallInfo>
         await base.OnInitFormAsync();
         systemService = await CreateServiceAsync<ISystemService>();
         var data = await systemService.GetInstallAsync();
-        Model = new FormModel<InstallInfo>(Context, true) { LabelSpan = 6, Data = data };
+        Model = new FormModel<InstallInfo>(Context, true)
+        {
+            Info = new FormInfo { LabelSpan = 6 },
+            Data = data
+        };
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)

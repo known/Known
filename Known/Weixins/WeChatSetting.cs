@@ -12,8 +12,7 @@ class WeChatSetting : BaseEditForm<WeixinInfo>
         Model = new FormModel<WeixinInfo>(Context)
         {
             IsView = true,
-            LabelSpan = 4,
-            WrapperSpan = 10,
+            Info = new FormInfo { LabelSpan = 4, WrapperSpan = 10 },
             Data = data ?? new WeixinInfo()
         };
         Model.AddRow().AddColumn(c => c.IsWeixinAuth);

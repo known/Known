@@ -58,6 +58,7 @@ public class FormInfo
     public bool DefaultMaximized { get; set; }
     public int? LabelSpan { get; set; }
     public int? WrapperSpan { get; set; }
+    public bool NoFooter { get; set; }
     public List<FormFieldInfo> Fields { get; set; } = [];
 }
 

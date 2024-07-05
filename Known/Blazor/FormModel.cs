@@ -36,17 +36,12 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public string Class { get; set; }
     public string ConfirmText { get; set; }
     public Func<string> OnConfirmText { get; set; }
-    public double? Width { get; set; }
+    public FormInfo Info { get; set; }
     public bool SmallLabel { get; set; }
-    public bool Maximizable { get; set; }
-    public bool DefaultMaximized { get; set; }
-    public bool NoFooter { get; set; }
     public bool Draggable { get; set; } = true;
     public bool Resizable { get; set; }
     public bool IsView { get; set; }
     public TItem Data { get; set; }
-    public int? LabelSpan { get; set; }
-    public int? WrapperSpan { get; set; }
     public List<FormRow<TItem>> Rows { get; } = [];
     public Dictionary<string, List<CodeInfo>> Codes { get; } = [];
     public Dictionary<string, FieldModel<TItem>> Fields { get; } = [];
@@ -74,7 +69,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     }
 
     internal FormViewType FormType { get; set; }
-    
+
     internal List<CodeInfo> GetCodes(ColumnInfo column)
     {
         if (Codes.TryGetValue(column.Category, out List<CodeInfo> value))
@@ -254,11 +249,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         if (info == null)
             return;
 
-        Width = info.Width;
-        Maximizable = info.Maximizable;
-        DefaultMaximized = info.DefaultMaximized;
-        LabelSpan = info.LabelSpan;
-        WrapperSpan = info.WrapperSpan;
+        Info = info;
         columns = GetFormColumns(info);
     }
 

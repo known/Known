@@ -85,16 +85,13 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public bool ShowToolbar { get; set; } = true;
     public bool ShowPager { get; set; }
     public bool Resizable { get; set; }
-    public bool FormNoFooter { get; set; }
     public TableSelectType SelectType { get; set; }
     public string Name { get; set; }
     public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }
     public string ActionWidth { get; set; } = "140";
     public int ActionCount { get; set; } = 2;
-    public double? FormWidth { get; set; }
-    public bool FormMaximizable { get; set; }
-    public bool FormDefaultMaximized { get; set; }
+    public FormInfo Form { get; set; }
     public Type FormType { get; set; }
     public Func<TItem, string> FormTitle { get; set; }
     public TabModel Tab { get; } = new();
@@ -178,21 +175,16 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
 
     public void AddAction(string idOrName) => Actions.Add(new ActionInfo(idOrName));
     public void ViewForm(TItem row) => ViewForm(FormViewType.View, row);
-    public void ViewForm(TItem row, Action<FormModel<TItem>> action = null) => ViewForm(FormViewType.View, row, action);
 
-    internal void ViewForm(FormViewType type, TItem row, Action<FormModel<TItem>> action = null)
+    internal void ViewForm(FormViewType type, TItem row)
     {
-        var model = new FormModel<TItem>(this)
+        ShowForm(new FormModel<TItem>(this)
         {
             FormType = type,
             IsView = true,
             Action = $"{type}",
-            Data = row,
-            NoFooter = FormNoFooter
-        };
-        SetFormModel(model);
-        action?.Invoke(model);
-        UI.ShowForm(model);
+            Data = row
+        });
     }
 
     public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("New", onSave, row);
@@ -323,36 +315,22 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         OnRefreshed?.Invoke();
     }
 
-    private void ShowForm(string action, Func<TItem, Task<Result>> onSave, TItem row)
+    private void ShowForm(string actionName, Func<TItem, Task<Result>> onSave, TItem row)
     {
-        var model = new FormModel<TItem>(this) { Action = action, Data = row, OnSave = onSave };
-        SetFormModel(model);
-        UI.ShowForm(model);
+        ShowForm(new FormModel<TItem>(this) { Action = actionName, Data = row, OnSave = onSave });
     }
 
-    private void ShowForm(string action, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
+    private void ShowForm(string actionName, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
     {
-        var model = new FormModel<TItem>(this) { Action = action, Data = row, OnSaveFile = onSave };
-        SetFormModel(model);
-        UI.ShowForm(model);
+        ShowForm(new FormModel<TItem>(this) { Action = actionName, Data = row, OnSaveFile = onSave });
     }
 
-    private void SetFormModel(FormModel<TItem> model)
+    private void ShowForm(FormModel<TItem> model)
     {
-        model.NoFooter = FormNoFooter;
-        var form = Context.Current.Form;
-        if (form != null)
-        {
-            model.Width = form.Width;
-            model.Maximizable = form.Maximizable;
-            model.DefaultMaximized = form.DefaultMaximized;
-        }
-        else
-        {
-            model.Width = FormWidth;
-            model.Maximizable = FormMaximizable;
-            model.DefaultMaximized = FormDefaultMaximized;
-        }
+        model.Info = Form;
+        model.Info ??= Context.Current.Form;
+        model.Info ??= new FormInfo();
+        UI.ShowForm(model);
     }
 
     private void SetPermission(BasePage page)

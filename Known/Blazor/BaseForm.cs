@@ -33,7 +33,7 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
         {
             builder.FormAction(() =>
             {
-                UI.Button(builder, Language.OK, this.Callback<MouseEventArgs>(OnSaveAsync));
+                UI.Button(builder, Language.OK, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
                 UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync));
             });
         }

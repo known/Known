@@ -270,11 +270,15 @@ public class UIService(ModalService modalService, MessageService messageService,
             option.WrapClassName = "kui-tab-form";
         else if (isStepForm)
             option.WrapClassName = "kui-step-form";
-        option.Maximizable = model.Maximizable;
-        option.DefaultMaximized = model.DefaultMaximized;
-        if (model.Width != null)
-            option.Width = model.Width.Value;
-        if (model.IsView || model.NoFooter || isTabForm || isStepForm)
+        if (model.Info != null)
+        {
+            option.Maximizable = model.Info.Maximizable;
+            option.DefaultMaximized = model.Info.DefaultMaximized;
+            if (model.Info.Width != null)
+                option.Width = model.Info.Width.Value;
+        }
+        var noFooter = model.Info != null && model.Info.NoFooter;
+        if (model.IsView || noFooter || isTabForm || isStepForm)
             option.Footer = null;
 
         var modal = _modal.CreateModal(option);

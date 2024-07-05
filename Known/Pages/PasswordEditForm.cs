@@ -12,8 +12,7 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
         authService = await CreateServiceAsync<IAuthService>();
         Model = new FormModel<PwdFormInfo>(Context, true)
         {
-            LabelSpan = 4,
-            WrapperSpan = 6,
+            Info = new FormInfo { LabelSpan = 4, WrapperSpan = 6 },
             Data = new PwdFormInfo()
         };
     }

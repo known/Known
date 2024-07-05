@@ -13,7 +13,11 @@ public class UserEditForm : BaseEditForm<SysUser>
         userService = await CreateServiceAsync<IUserService>();
         var data = Parent?.User;
         data ??= await userService.GetUserAsync(CurrentUser.Id);
-        Model = new FormModel<SysUser>(Context) { LabelSpan = 4, WrapperSpan = 8, Data = data };
+        Model = new FormModel<SysUser>(Context)
+        {
+            Info = new FormInfo { LabelSpan = 4, WrapperSpan = 8 },
+            Data = data
+        };
         Model.AddRow().AddColumn(c => c.UserName, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.Name);
         Model.AddRow().AddColumn(c => c.EnglishName);

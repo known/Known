@@ -14,8 +14,8 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         ValidateOnChange = true;
         ValidateMode = FormValidateMode.Rules;
         Class = Form?.ClassName;
-        LabelColSpan = Form?.LabelSpan ?? 0;
-        WrapperColSpan = Form?.WrapperSpan ?? 0;
+        LabelColSpan = Form?.Info?.LabelSpan ?? 0;
+        WrapperColSpan = Form?.Info?.WrapperSpan ?? 0;
         Model = Form?.Data ?? new();
         Form?.Initialize();
         base.OnInitialized();
