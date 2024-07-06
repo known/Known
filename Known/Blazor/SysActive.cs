@@ -31,7 +31,7 @@ class SysActive : BaseComponent
             UI.BuildForm(builder, model);
             builder.FormPageButton(() =>
             {
-                UI.Button(builder, new ActionInfo(Context, "OK", ""), this.Callback<MouseEventArgs>(OnAuthAsync));
+                builder.Button(new ActionInfo(Context, "OK", ""), this.Callback<MouseEventArgs>(OnAuthAsync));
             });
         });
     }

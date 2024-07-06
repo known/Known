@@ -42,7 +42,7 @@ public class KUpload : BaseComponent
                 {
                     builder.Div("kui-button", () =>
                     {
-                        UI.Icon(builder, "upload");
+                        builder.Icon("upload");
                         builder.Text(Language.Upload);
                         BuildInputFile(builder);
                     });

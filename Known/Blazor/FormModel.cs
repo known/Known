@@ -46,6 +46,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Dictionary<string, List<CodeInfo>> Codes { get; } = [];
     public Dictionary<string, FieldModel<TItem>> Fields { get; } = [];
     public Type Type { get; set; }
+    public RenderFragment Header { get; set; }
     public RenderFragment Footer { get; set; }
     public Func<bool> OnValidate { get; set; }
     public Func<Task> OnClose { get; set; }

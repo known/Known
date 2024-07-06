@@ -201,10 +201,10 @@ class IconPicker : BasePicker<IconInfo>
                        .OnClick(this.Callback(() => OnSelectItem(item)))
                        .Children(() =>
                        {
-                           if (key == "FontAwesome")
-                               builder.Span(item.Icon, "");
-                           else
-                               UI.Icon(builder, item.Icon);
+                           //if (key == "FontAwesome")
+                           //    builder.Span(item.Icon, "");
+                           //else
+                               builder.Icon(item.Icon);
                            builder.Span("name", item.Icon);
                        })
                        .Close();
@@ -248,7 +248,7 @@ class SysIconPicker : KPicker<IconPicker, IconInfo>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (!string.IsNullOrWhiteSpace(Value))
-            builder.Div("kui-module-icon", () => UI.Icon(builder, Value));
+            builder.Div("kui-module-icon", () => builder.Icon(Value));
         base.BuildRender(builder);
     }
 }

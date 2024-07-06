@@ -24,7 +24,7 @@ class ActionTable : BaseTable<ActionInfo>
         Table.DataSource = Value?.Select(v => actions.FirstOrDefault(a => a.Id == v)).ToList() ?? [];
         Table.AddColumn(c => c.Name).Template((b, r) =>
         {
-            UI.Icon(b, r.Icon);
+            b.Icon(r.Icon);
             b.Text(r.Name);
         });
         Table.AddAction(nameof(Delete));

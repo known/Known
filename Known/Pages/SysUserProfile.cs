@@ -51,7 +51,7 @@ class SysUserProfileInfo : BaseComponent
     {
         builder.Li(() =>
         {
-            UI.Icon(builder, icon);
+            builder.Icon(icon);
             builder.Span(text);
         });
     }

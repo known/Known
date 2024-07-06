@@ -64,25 +64,25 @@ public static class UIExtension
     #endregion
 
     #region Tag
-    public static void Tag(this RenderTreeBuilder builder, string text)
+    public static void Tag(this RenderTreeBuilder builder, string text, string color = null)
     {
-        builder.Component<KTag>().Set(c => c.Text, text).Build();
+        builder.Component<KTag>()
+               .Set(c => c.Text, text)
+               .Set(c => c.Color, color)
+               .Build();
     }
     #endregion
 
     #region Icon
-    public static void Icon(this IUIService service, RenderTreeBuilder builder, string icon, EventCallback<MouseEventArgs>? onClick = null)
+    public static void Icon(this RenderTreeBuilder builder, string icon, EventCallback<MouseEventArgs>? onClick = null)
     {
         if (string.IsNullOrWhiteSpace(icon))
             return;
 
-        if (icon.StartsWith("fa"))
-        {
-            builder.Span(icon, "", onClick);
-            return;
-        }
-
-        service.BuildIcon(builder, icon, onClick);
+        builder.Component<KIcon>()
+               .Set(c => c.Icon, icon)
+               .Set(c => c.OnClick, onClick)
+               .Build();
     }
     #endregion
 
@@ -98,20 +98,16 @@ public static class UIExtension
     #endregion
 
     #region Button
-    public static void Button(this IUIService service, RenderTreeBuilder builder, ActionInfo action, EventCallback<MouseEventArgs> onClick)
+    public static void Button(this RenderTreeBuilder builder, ActionInfo action, EventCallback<MouseEventArgs> onClick)
     {
         action.OnClick = onClick;
-        service.BuildButton(builder, action);
+        builder.Component<KButton>().Set(c => c.Action, action).Build();
     }
 
-    public static void Button(this IUIService service, RenderTreeBuilder builder, string name, EventCallback<MouseEventArgs> onClick, string style = null)
+    public static void Button(this RenderTreeBuilder builder, string name, EventCallback<MouseEventArgs> onClick, string style = null)
     {
-        service.BuildButton(builder, new ActionInfo
-        {
-            Name = name,
-            OnClick = onClick,
-            Style = style
-        });
+        var action = new ActionInfo { Name = name, OnClick = onClick, Style = style };
+        builder.Component<KButton>().Set(c => c.Action, action).Build();
     }
     #endregion
 

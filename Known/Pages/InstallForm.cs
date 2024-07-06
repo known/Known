@@ -35,7 +35,7 @@ public class InstallForm : BaseForm<InstallInfo>
                     base.BuildForm(builder);
                     builder.Div("button", () =>
                     {
-                        UI.Button(builder, Language["StartUsing"], this.Callback<MouseEventArgs>(OnStartAsync), "primary");
+                        builder.Button(Language["StartUsing"], this.Callback<MouseEventArgs>(OnStartAsync), "primary");
                     });
                 });
             });

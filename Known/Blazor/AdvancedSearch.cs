@@ -38,7 +38,7 @@ class AdvancedSearch : BaseComponent
     {
         builder.Div("kui-advanced-search", () =>
         {
-            UI.Button(builder, new ActionInfo("New"), this.Callback((Action<MouseEventArgs>)(e => OnAdd())));
+            builder.Button(new ActionInfo("New"), this.Callback((Action<MouseEventArgs>)(e => OnAdd())));
             foreach (var item in Query)
             {
                 builder.Div("item", () =>
@@ -47,7 +47,7 @@ class AdvancedSearch : BaseComponent
                            .Set(c => c.Fields, fields)
                            .Set(c => c.Item, item)
                            .Build();
-                    UI.Button(builder, new ActionInfo("Delete"), this.Callback<MouseEventArgs>(e => OnDelete(item)));
+                    builder.Button(new ActionInfo("Delete"), this.Callback<MouseEventArgs>(e => OnDelete(item)));
                 });
             }
         });

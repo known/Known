@@ -73,10 +73,10 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         builder.FormAction(() =>
         {
             if (Model.FormType == FormViewType.Verify)
-                UI.Button(builder, new ActionInfo(Context, "Assign", ""), this.Callback<MouseEventArgs>(OnAssign));
+                builder.Button(new ActionInfo(Context, "Assign", ""), this.Callback<MouseEventArgs>(OnAssign));
 
-            UI.Button(builder, new ActionInfo(Context, "OK", ""), this.Callback<MouseEventArgs>(OnSaveAsync));
-            UI.Button(builder, new ActionInfo(Context, "Cancel", ""), this.Callback<MouseEventArgs>(OnCloseAsync));
+            builder.Button(new ActionInfo(Context, "OK", ""), this.Callback<MouseEventArgs>(OnSaveAsync));
+            builder.Button(new ActionInfo(Context, "Cancel", ""), this.Callback<MouseEventArgs>(OnCloseAsync));
         });
     }
 

@@ -1,8 +1,8 @@
 ﻿namespace Known.AntBlazor.Extensions;
 
-public static class ComponentExtension
+static class ComponentExtension
 {
-    public static void AntTag(this RenderTreeBuilder builder, string text, string color)
+    internal static void AntTag(this RenderTreeBuilder builder, string text, string color)
     {
         builder.Component<Tag>()
                .Set(c => c.Color, color)
@@ -10,7 +10,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntIcon(this RenderTreeBuilder builder, string type, EventCallback<MouseEventArgs>? onClick = null)
+    internal static void AntIcon(this RenderTreeBuilder builder, string type, EventCallback<MouseEventArgs>? onClick = null)
     {
         if (onClick == null)
         {
@@ -25,7 +25,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntResult(this RenderTreeBuilder builder, string status, string message)
+    internal static void AntResult(this RenderTreeBuilder builder, string status, string message)
     {
         builder.Component<AntDesign.Result>()
                .Set(c => c.Status, status)
@@ -34,7 +34,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntButton(this RenderTreeBuilder builder, string name, EventCallback<MouseEventArgs> onClick, string type = ButtonType.Primary)
+    internal static void AntButton(this RenderTreeBuilder builder, string name, EventCallback<MouseEventArgs> onClick, string type = ButtonType.Primary)
     {
         builder.Component<Button>()
                .Set(c => c.Type, type)
@@ -43,7 +43,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntButton(this RenderTreeBuilder builder, string icon, string name, EventCallback<MouseEventArgs> onClick)
+    internal static void AntButton(this RenderTreeBuilder builder, string icon, string name, EventCallback<MouseEventArgs> onClick)
     {
         builder.Component<Button>()
                .Set(c => c.Icon, icon)
@@ -53,7 +53,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntButton(this RenderTreeBuilder builder, ActionInfo info)
+    internal static void AntButton(this RenderTreeBuilder builder, ActionInfo info)
     {
         builder.Component<Button>()
                .Set(c => c.Disabled, !info.Enabled)
@@ -64,7 +64,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntSearch(this RenderTreeBuilder builder, InputModel<string> model)
+    internal static void AntSearch(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<Search>()
                .Set(c => c.Disabled, model.Disabled)
@@ -75,7 +75,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntText(this RenderTreeBuilder builder, InputModel<string> model)
+    internal static void AntText(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<Input<string>>()
                .Set(c => c.Disabled, model.Disabled)
@@ -85,7 +85,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntTextArea(this RenderTreeBuilder builder, InputModel<string> model)
+    internal static void AntTextArea(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<TextArea>()
                .Set(c => c.Disabled, model.Disabled)
@@ -96,7 +96,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntPassword(this RenderTreeBuilder builder, InputModel<string> model)
+    internal static void AntPassword(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<InputPassword>()
                .Set(c => c.Disabled, model.Disabled)
@@ -106,7 +106,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntDatePicker<TValue>(this RenderTreeBuilder builder, InputModel<TValue> model)
+    internal static void AntDatePicker<TValue>(this RenderTreeBuilder builder, InputModel<TValue> model)
     {
         if (typeof(TValue) == typeof(string))
         {
@@ -132,7 +132,7 @@ public static class ComponentExtension
         }
     }
 
-    public static void AntNumber<TValue>(this RenderTreeBuilder builder, InputModel<TValue> model)
+    internal static void AntNumber<TValue>(this RenderTreeBuilder builder, InputModel<TValue> model)
     {
         builder.Component<InputNumber<TValue>>()
                .Set(c => c.Disabled, model.Disabled)
@@ -141,7 +141,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntCheckBox(this RenderTreeBuilder builder, InputModel<bool> model)
+    internal static void AntCheckBox(this RenderTreeBuilder builder, InputModel<bool> model)
     {
         builder.Component<Checkbox>()
                .Set(c => c.Disabled, model.Disabled)
@@ -152,7 +152,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntSwitch(this RenderTreeBuilder builder, InputModel<bool> model)
+    internal static void AntSwitch(this RenderTreeBuilder builder, InputModel<bool> model)
     {
         builder.Component<Switch>()
                .Set(c => c.Disabled, model.Disabled)
@@ -162,7 +162,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntSelect(this RenderTreeBuilder builder, InputModel<string> model)
+    internal static void AntSelect(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<AntCodeSelect>()
                .Set(c => c.Disabled, model.Disabled)
@@ -173,7 +173,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntRadioList(this RenderTreeBuilder builder, InputModel<string> model)
+    internal static void AntRadioList(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<AntRadioGroup>()
                .Set(c => c.Disabled, model.Disabled)
@@ -183,7 +183,7 @@ public static class ComponentExtension
                .Build();
     }
 
-    public static void AntCheckList(this RenderTreeBuilder builder, InputModel<string[]> model)
+    internal static void AntCheckList(this RenderTreeBuilder builder, InputModel<string[]> model)
     {
         builder.Component<AntCheckboxGroup>()
                .Set(c => c.Disabled, model.Disabled)

@@ -59,7 +59,7 @@ public class SysModuleList : BasePage<SysModule>
 
     private void BuildName(RenderTreeBuilder builder, SysModule row)
     {
-        UI.Icon(builder, row.Icon);
+        builder.Icon(row.Icon);
         builder.Span(row.Name);
     }
 

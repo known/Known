@@ -33,8 +33,8 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
         {
             builder.FormAction(() =>
             {
-                UI.Button(builder, Language.OK, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
-                UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync));
+                builder.Button(Language.OK, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+                builder.Button(Language.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync));
             });
         }
     }
@@ -69,12 +69,12 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
     {
         if (!isEdit)
         {
-            UI.Button(builder, Language.Edit, this.Callback<MouseEventArgs>(e => isEdit = true), "primary");
+            builder.Button(Language.Edit, this.Callback<MouseEventArgs>(e => isEdit = true), "primary");
         }
         else
         {
-            UI.Button(builder, Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
-            UI.Button(builder, Language.Cancel, this.Callback<MouseEventArgs>(e => isEdit = false), "default");
+            builder.Button(Language.Save, this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+            builder.Button(Language.Cancel, this.Callback<MouseEventArgs>(e => isEdit = false), "default");
         }
     }
 

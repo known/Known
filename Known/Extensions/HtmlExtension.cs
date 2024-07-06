@@ -16,7 +16,6 @@ public static class HtmlExtension
     public static void Li(this RenderTreeBuilder builder, string className, string text) => builder.Li(className, () => builder.Markup(text));
     public static void Li(this RenderTreeBuilder builder, string className, Action child) => builder.Li().Class(className).Children(child).Close();
 
-    public static void Icon(this RenderTreeBuilder builder, string icon, EventCallback<MouseEventArgs>? onClick = null) => builder.Span(icon, "", onClick);
     public static void Span(this RenderTreeBuilder builder, string text, EventCallback<MouseEventArgs>? onClick = null) => builder.Span("", text, onClick);
     public static void Span(this RenderTreeBuilder builder, string className, string text, EventCallback<MouseEventArgs>? onClick = null)
     {

@@ -39,8 +39,8 @@ public class KPicker<TComponent, TItem> : BaseComponent
         if (!ReadOnly)
         {
             if (AllowClear)
-                builder.Icon("kui-pick-clear fa fa-close", this.Callback<MouseEventArgs>(OnClear));
-            builder.Icon("kui-pick fa fa-ellipsis-h", this.Callback<MouseEventArgs>(ShowModal));
+                builder.Icon("fa fa-close kui-pick-clear", this.Callback<MouseEventArgs>(OnClear));
+            builder.Icon("fa fa-ellipsis-h kui-pick", this.Callback<MouseEventArgs>(ShowModal));
         }
     }
 

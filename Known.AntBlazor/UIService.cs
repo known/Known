@@ -320,9 +320,10 @@ public class UIService(ModalService modalService, MessageService messageService,
         builder.Component<DataTabs>().Set(c => c.Model, model).Build();
     }
 
-    public void BuildTag(RenderTreeBuilder builder, string text)
+    public void BuildTag(RenderTreeBuilder builder, string text, string color = null)
     {
-        var color = GetTagColor(text);
+        if (string.IsNullOrWhiteSpace(color))
+            color = GetTagColor(text);
         builder.AntTag(text, color);
     }
 
