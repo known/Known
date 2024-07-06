@@ -320,6 +320,16 @@ public class UIService(ModalService modalService, MessageService messageService,
         builder.Component<DataTabs>().Set(c => c.Model, model).Build();
     }
 
+    public void BuildAlert(RenderTreeBuilder builder, string text, StyleType type = StyleType.Info)
+    {
+        builder.Component<Alert>()
+               .Set(c => c.ShowIcon, true)
+               .Set(c => c.Style, "margin-bottom:10px;")
+               .Set(c => c.Type, type.ToString().ToLower())
+               .Set(c => c.Message, text)
+               .Build();
+    }
+
     public void BuildTag(RenderTreeBuilder builder, string text, string color = null)
     {
         if (string.IsNullOrWhiteSpace(color))

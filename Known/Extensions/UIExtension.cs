@@ -63,7 +63,15 @@ public static class UIExtension
     }
     #endregion
 
-    #region Tag
+    #region Form
+    public static void Alert(this RenderTreeBuilder builder, string text, StyleType type = StyleType.Info)
+    {
+        builder.Component<KAlert>()
+               .Set(c => c.Text, text)
+               .Set(c => c.Type, type)
+               .Build();
+    }
+
     public static void Tag(this RenderTreeBuilder builder, string text, string color = null)
     {
         builder.Component<KTag>()
@@ -71,9 +79,7 @@ public static class UIExtension
                .Set(c => c.Color, color)
                .Build();
     }
-    #endregion
 
-    #region Icon
     public static void Icon(this RenderTreeBuilder builder, string icon, EventCallback<MouseEventArgs>? onClick = null)
     {
         if (string.IsNullOrWhiteSpace(icon))
@@ -84,9 +90,7 @@ public static class UIExtension
                .Set(c => c.OnClick, onClick)
                .Build();
     }
-    #endregion
 
-    #region Box
     public static void GroupBox(this RenderTreeBuilder builder, string title, Action child)
     {
         builder.Div("kui-group-box", () =>

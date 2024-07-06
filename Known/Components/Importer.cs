@@ -1,4 +1,4 @@
-﻿namespace Known.Blazor;
+﻿namespace Known.Components;
 
 class Importer : BaseComponent
 {

@@ -1,4 +1,4 @@
-﻿namespace Known.Blazor;
+﻿namespace Known.Pages;
 
 class WebPage : BaseComponent
 {

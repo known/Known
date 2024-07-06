@@ -18,6 +18,7 @@ public interface IUIService
     void BuildTree(RenderTreeBuilder builder, TreeModel model);
     void BuildSteps(RenderTreeBuilder builder, StepModel model);
     void BuildTabs(RenderTreeBuilder builder, TabModel model);
+    void BuildAlert(RenderTreeBuilder builder, string text, StyleType type = StyleType.Info);
     void BuildTag(RenderTreeBuilder builder, string text, string color = null);
     void BuildIcon(RenderTreeBuilder builder, string type, EventCallback<MouseEventArgs>? onClick = null);
     void BuildResult(RenderTreeBuilder builder, string status, string message);

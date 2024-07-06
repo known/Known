@@ -50,7 +50,7 @@
         @if (IsLogin && !Context.IsMobile)
         {
             <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="300">
-                <Known.Blazor.SettingForm @ref="setting" />
+                <SettingForm @ref="setting" />
             </Drawer>
         }
     }
@@ -61,7 +61,7 @@
     private bool showSpin = false;
     //Admin
     private bool showSetting = false;
-    private Known.Blazor.SettingForm setting;
+    private SettingForm setting;
 
     public override async Task ShowSpinAsync(string text, Action action)
     {

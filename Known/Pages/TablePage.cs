@@ -1,6 +1,6 @@
-﻿namespace Known.Blazor;
+﻿namespace Known.Pages;
 
-public class TablePage<TItem> : BaseComponent where TItem : class, new()
+class TablePage<TItem> : BaseComponent where TItem : class, new()
 {
     [Parameter] public TableModel<TItem> Model { get; set; }
 
