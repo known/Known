@@ -1,4 +1,4 @@
-﻿namespace Known.Blazor;
+﻿namespace Known.Components;
 
 public class KField<TItem> : BaseComponent where TItem : class, new()
 {

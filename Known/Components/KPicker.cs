@@ -1,4 +1,4 @@
-﻿namespace Known.Blazor;
+﻿namespace Known.Components;
 
 public abstract class BasePicker<TItem> : BaseComponent where TItem : class, new()
 {
