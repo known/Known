@@ -20,6 +20,9 @@ public interface ISheet
     #endregion
 
     #region Cell
+    CellInfo FindCell(object value);
+    T GetCellValue<T>(string cellName);
+    T GetCellValue<T>(int rowIndex, int columnIndex);
     void SetCellStyle(int rowIndex, int columnIndex, StyleInfo info);
     void SetCellValue(string cellName, object value, StyleInfo info = null);
     void SetCellValue(int rowIndex, int columnIndex, object value, StyleInfo info = null);

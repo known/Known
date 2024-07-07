@@ -62,6 +62,32 @@ class AsposeSheet : ISheet
     #endregion
 
     #region Cell
+    public CellInfo FindCell(object value)
+    {
+        var cell = sheet.Cells.Find(value, null, new FindOptions());
+        if (cell == null)
+            return null;
+
+        return new CellInfo
+        {
+            Name = cell.Name,
+            Row = cell.Row,
+            Column = cell.Column
+        };
+    }
+
+    public T GetCellValue<T>(string cellName)
+    {
+        var cell = sheet.Cells[cellName];
+        return Utils.ConvertTo<T>(cell.Value);
+    }
+
+    public T GetCellValue<T>(int rowIndex, int columnIndex)
+    {
+        var cell = sheet.Cells[rowIndex, columnIndex];
+        return Utils.ConvertTo<T>(cell.Value);
+    }
+
     public void SetCellStyle(int rowIndex, int columnIndex, StyleInfo info)
     {
         var cell = sheet.Cells[rowIndex, columnIndex];
