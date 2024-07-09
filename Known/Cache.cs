@@ -152,4 +152,9 @@ public class CodeInfo
         var dataString = Data.ToString();
         return Utils.FromJson<T>(dataString);
     }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

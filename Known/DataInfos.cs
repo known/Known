@@ -34,6 +34,11 @@ public class FileDataInfo
     public string Name { get; set; }
     public long Size { get; set; }
     public byte[] Bytes { get; set; }
+
+    public AttachFile ToAttachFile(UserInfo user, FileFormInfo form)
+    {
+        return new AttachFile(this, user, form.BizType, form.BizPath) { Category2 = form.Category };
+    }
 }
 
 public class FileUrlInfo

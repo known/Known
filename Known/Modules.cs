@@ -10,10 +10,11 @@ public class EntityInfo
 
 public enum FieldType
 {
+    //添加字段类型，只能在最后添加，否则会影响模块表单配置
     Text, TextArea, Date, Number,
     Switch, CheckBox,
     CheckList, RadioList, Select,
-    Password, File, DateTime
+    Password, File, DateTime, AutoComplete
 }
 
 public class FieldInfo

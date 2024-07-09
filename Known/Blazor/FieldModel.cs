@@ -88,6 +88,9 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         if (codes != null)
             return codes.ToCodes(emptyText);
 
+        if (Column.Codes != null)
+            return Column.Codes.ToCodes(emptyText);
+
         codes = Cache.GetCodes(Column.Category);
         foreach (var item in codes)
         {

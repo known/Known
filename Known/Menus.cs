@@ -212,6 +212,7 @@ public class ColumnInfo
     public bool MultiFile { get; set; }
     public bool Required { get; set; }
     public bool ReadOnly { get; set; }
+    public List<CodeInfo> Codes { get; set; }
 
     public RenderFragment Template { get; set; }
     public PropertyInfo Property { get; private set; }

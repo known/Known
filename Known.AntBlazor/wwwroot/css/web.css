@@ -11,7 +11,7 @@
 .ant-query-more .ant-form-item-label {width:100px;text-align:right;}
 .kui-bold .ant-form-item-label, .kui-bold .ant-form-item-control {font-weight:bold;}
 .kui-table .ant-table-wrapper {padding:0 10px 10px 10px;}
-.kui-table.form-list > .ant-table-wrapper {padding:0 0 10px 0;}
+.kui-table.form-list .ant-table-wrapper {padding:0 0 10px 0;}
 .kui-table .ant-tabs-nav {margin:0;margin-bottom:10px;}
 .ant-table-thead > tr > th.kui-table-check {position:sticky;left:0;z-index:101;}
 .ant-table-tbody > tr > td.kui-table-check, .ant-table tfoot > tr > td.kui-table-check {

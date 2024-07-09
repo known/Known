@@ -11,6 +11,9 @@ public class UIService(ModalService modalService, MessageService messageService,
 
     public Type GetInputType(Type dataType, FieldType fieldType)
     {
+        if (fieldType == FieldType.AutoComplete)
+            return typeof(AntAutoComplete);
+        
         if (fieldType == FieldType.Select)
             return typeof(AntCodeSelect);
 
@@ -99,6 +102,9 @@ public class UIService(ModalService modalService, MessageService messageService,
                 attributes[nameof(AntCheckboxGroup.Codes)] = model.GetCodes("");
         }
 
+        if (column.Type == FieldType.AutoComplete)
+            attributes[nameof(AntAutoComplete.Options)] = model.GetCodes("");
+        
         if (column.Type == FieldType.Date || column.Type == FieldType.DateTime)
             attributes["disabled"] = OneOf.OneOf<bool, bool[]>.FromT0(model.IsReadOnly);
     }

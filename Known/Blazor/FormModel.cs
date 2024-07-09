@@ -73,6 +73,12 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
     internal List<CodeInfo> GetCodes(ColumnInfo column)
     {
+        if (column == null || string.IsNullOrWhiteSpace(column.Category))
+            return null;
+
+        if (Codes == null || Codes.Count == 0)
+            return null;
+
         if (Codes.TryGetValue(column.Category, out List<CodeInfo> value))
             return value;
 

@@ -1,6 +1,6 @@
 ﻿namespace Known.AntBlazor.Components;
 
-public class AntAutoComplete : AutoComplete<string>
+public class AntAutoComplete : AutoComplete<CodeInfo>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
@@ -16,6 +16,7 @@ public class AntAutoComplete : AutoComplete<string>
             emptyText = "请选择或输入";//Item.Language.GetString("PleaseSelect");
         }
         Placeholder = emptyText;
+        OptionFormat = item => item.Value.Name;
         base.OnInitialized();
     }
 }

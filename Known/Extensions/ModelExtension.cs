@@ -221,7 +221,7 @@ public static class ModelExtension
         var attaches = new List<AttachFile>();
         foreach (var item in value)
         {
-            var attach = new AttachFile(item, user, form.BizType, form.BizPath) { Category2 = form.Category };
+            var attach = item.ToAttachFile(user, form);
             attaches.Add(attach);
         }
         return attaches;
