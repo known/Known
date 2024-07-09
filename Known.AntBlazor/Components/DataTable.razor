@@ -26,7 +26,8 @@
                     {
                         var value = (context as Dictionary<string, object>).GetValue(item.Id);
                         <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                          Ellipsis Sortable ShowSorterTooltip="false"
+                                          Ellipsis Sortable ShowSorterTooltip="false" Fixed="@item.Fixed"
+                                          DefaultSortOrder="item.ToSortDirection()"
                                           Align="@GetColumnAlign(item.Align)">
                             <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@value</span>
                         </DictionaryColumn>
@@ -34,7 +35,8 @@
                     else
                     {
                         <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                          Ellipsis Sortable ShowSorterTooltip="false"
+                                          Ellipsis Sortable ShowSorterTooltip="false" Fixed="@item.Fixed"
+                                          DefaultSortOrder="item.ToSortDirection()"
                                           Align="@GetColumnAlign(item.Align)" />
                     }
                 }
@@ -44,6 +46,7 @@
                     Model.Templates?.TryGetValue(item.Id, out template);
                     <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width"
                             Ellipsis Sortable ShowSorterTooltip="false" Fixed="@item.Fixed"
+                            DefaultSortOrder="item.ToSortDirection()"
                             Align="@GetColumnAlign(item.Align)">
                             <TitleTemplate>
                                 @if (!string.IsNullOrWhiteSpace(item.Tooltip))

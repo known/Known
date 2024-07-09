@@ -22,4 +22,17 @@ static class OptionExtension
             return option;
         }).ToArray();
     }
+
+    internal static SortDirection ToSortDirection(this ColumnInfo colmun)
+    {
+        if (string.IsNullOrWhiteSpace(colmun.DefaultSort))
+            return SortDirection.None;
+
+        if (colmun.DefaultSort == "asc")
+            return SortDirection.Ascending;
+        else if (colmun.DefaultSort == "desc")
+            return SortDirection.Descending;
+
+        return SortDirection.None;
+    }
 }
