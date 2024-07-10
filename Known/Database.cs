@@ -1130,7 +1130,7 @@ class CommandInfo
     internal string Prefix { get; }
     internal string Text { get; set; }
     internal Dictionary<string, object> Params { get; set; }
-    internal string CountSql => $"select count(*) from ({Text}) t";
+    internal string CountSql => $"select count(*) {Text.Substring(Text.IndexOf("from"))}";
 
     public override string ToString()
     {
