@@ -15,6 +15,9 @@ public class KUpload : BaseComponent
 
     public async Task RefreshAsync()
     {
+        if (string.IsNullOrWhiteSpace(Value))
+            return;
+
         sysFiles = await fileService.GetFilesAsync(Value);
         await StateChangedAsync();
     }
@@ -29,7 +32,8 @@ public class KUpload : BaseComponent
     {
         await base.OnInitAsync();
         fileService = await CreateServiceAsync<IFileService>();
-        sysFiles = await fileService.GetFilesAsync(Value);
+        if (!string.IsNullOrWhiteSpace(Value))
+            sysFiles = await fileService.GetFilesAsync(Value);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)

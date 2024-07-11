@@ -1186,7 +1186,7 @@ select t.* from (
     private string GetPagingSqlByNone(PagingCriteria criteria, ref string order)
     {
         if (criteria.OrderBys != null)
-            order = string.Join(",", criteria.OrderBys.Select(f => f).ToArray());
+            order = string.Join(",", criteria.OrderBys);
 
         if (string.IsNullOrEmpty(order))
             return Text;
