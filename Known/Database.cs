@@ -1162,19 +1162,17 @@ class CommandInfo
             return GetPagingSqlByAccess(criteria, out order);
 
         if (criteria.OrderBys != null)
-            order = string.Join(",", criteria.OrderBys.Select(f => string.Format("t1.{0}", f)));
-        if (string.IsNullOrEmpty(order) && Text.Contains("CreateTime"))
-            order = "t1.CreateTime";
+            order = string.Join(",", criteria.OrderBys);
         if (!string.IsNullOrWhiteSpace(order))
             order = $"order by {order}";
 
         var startNo = criteria.PageSize * (criteria.PageIndex - 1);
         var endNo = startNo + criteria.PageSize;
         if (type == DatabaseType.MySql)
-            return $"select t1.* from ({Text}) t1 {order} limit {startNo}, {criteria.PageSize}";
+            return $"{Text} {order} limit {startNo}, {criteria.PageSize}";
 
         if (type == DatabaseType.SQLite)
-            return $"select t1.* from ({Text}) t1 {order} limit {criteria.PageSize} offset {startNo}";
+            return $"{Text} {order} limit {criteria.PageSize} offset {startNo}";
 
         if (!string.IsNullOrWhiteSpace(order))
             order = $"over ({order})";
