@@ -1077,7 +1077,10 @@ public class Database : IDisposable
                 if (item.Type == FieldType.Switch || item.Type == FieldType.CheckBox)
                     value = Utils.ConvertTo<bool>(value) ? "是" : "否";
                 else if (item.Type == FieldType.Date)
+                {
+                    value = Utils.ConvertTo<DateTime?>(value)?.Date;
                     cellStyle.Custom = Config.DateFormat;
+                }
                 else if (item.Type == FieldType.DateTime)
                     cellStyle.Custom = Config.DateTimeFormat;
                 else if (item.Type == FieldType.Number)
