@@ -19,6 +19,7 @@ public sealed class Config
     public static List<Type> ApiTypes { get; } = [];
     public static List<ApiMethodInfo> ApiMethods { get; } = [];
     public static List<MenuInfo> AppMenus { get; set; }
+    public static List<SysModule> AppModules { get; set; }
     internal static DateTime StartTime { get; set; }
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }

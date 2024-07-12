@@ -9,7 +9,7 @@ public class BaseLayout : LayoutComponentBase
     [Inject] public IUIService UI { get; set; }
     [CascadingParameter] public UIContext Context { get; set; }
     public Language Language => Context?.Language;
-    public MenuInfo CurrentMenu => Context.Current;
+    public MenuInfo CurrentMenu => Context?.Current;
     protected IAuthService AuthService { get; private set; }
     internal ISystemService SystemService { get; private set; }
 
@@ -22,7 +22,8 @@ public class BaseLayout : LayoutComponentBase
             SystemService = await CreateServiceAsync<ISystemService>();
             UI.Language = Language;
             Context.UI = UI;
-            Context.System = await SystemService.GetSystemAsync();
+            if (Context.System == null)
+                Context.System = await SystemService.GetSystemAsync();
             await OnInitAsync();
         }
         catch (Exception ex)

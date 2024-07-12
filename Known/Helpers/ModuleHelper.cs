@@ -20,6 +20,9 @@ class ModuleHelper
         modules.Add(GetSysLog(system.Id));
         modules.Add(GetSysModule(system.Id));
 
+        if (Config.AppModules != null && Config.AppModules.Count > 0)
+            modules.AddRange(Config.AppModules);
+
         return modules;
     }
 
