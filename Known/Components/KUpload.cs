@@ -120,6 +120,7 @@ public class KUpload : BaseComponent
 
         var file = await item.CreateFileAsync();
         files.Add(file);
+        sysFiles ??= [];
         sysFiles.Add(new SysFile { Id = "", Name = item.Name });
         return true;
     }
@@ -130,7 +131,7 @@ public class KUpload : BaseComponent
         {
             var file = files.FirstOrDefault(f => f.Name == item.Name);
             files.Remove(file);
-            sysFiles.Remove(item);
+            sysFiles?.Remove(item);
             OnFilesChanged?.Invoke(files);
             return;
         }
@@ -139,7 +140,7 @@ public class KUpload : BaseComponent
         UI.Confirm(message, async () =>
         {
             await fileService.DeleteFileAsync(item);
-            sysFiles.Remove(item);
+            sysFiles?.Remove(item);
             await StateChangedAsync();
         });
     }
