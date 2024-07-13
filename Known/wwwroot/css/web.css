@@ -246,3 +246,28 @@
 .kui-designer .panel-view .ant-steps {padding:0 30px 10px 30px;}
 .kui-designer .panel-property .item .ant-switch {width:44px;}
 /*----Designer end----*/
+
+#components-reconnect-modal,
+#components-reconnect-modal > .mask {display:none;position:fixed;z-index:2000;top:0;left:0;right:0;bottom:0;}
+#components-reconnect-modal {text-align:center;}
+#components-reconnect-modal > .mask {background-color:#000;opacity:0.75;}
+#components-reconnect-modal > .show,
+#components-reconnect-modal > .failed,
+#components-reconnect-modal > .rejected {
+    display:none;position:absolute;left:50%;top:10%;width:400px;padding:10px;margin-left:-200px;z-index:2001;
+    background-color:#fff;padding:15px;border-radius:5px;font-size:18px;
+}
+#components-reconnect-modal.components-reconnect-show, 
+#components-reconnect-modal.components-reconnect-show > .mask,
+#components-reconnect-modal.components-reconnect-show > .show,
+#components-reconnect-modal.components-reconnect-failed, 
+#components-reconnect-modal.components-reconnect-failed > .mask,
+#components-reconnect-modal.components-reconnect-failed > .failed,
+#components-reconnect-modal.components-reconnect-rejected, 
+#components-reconnect-modal.components-reconnect-rejected > .mask,
+#components-reconnect-modal.components-reconnect-rejected > .rejected {display:block;}
+#components-reconnect-modal span {display:block;}
+#components-reconnect-modal a {margin-top:10px;}
+#components-reconnect-modal .show {color:#1890ff;}
+#components-reconnect-modal .failed {color:#d9363e;}
+#components-reconnect-modal .rejected {color:#52c41a;}
