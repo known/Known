@@ -247,10 +247,11 @@
 .kui-designer .panel-property .item .ant-switch {width:44px;}
 /*----Designer end----*/
 
-#components-reconnect-modal,
-#components-reconnect-modal > .mask {display:none;position:fixed;z-index:2000;top:0;left:0;right:0;bottom:0;}
-#components-reconnect-modal {text-align:center;}
-#components-reconnect-modal > .mask {background-color:#000;opacity:0.75;}
+#components-reconnect-modal, #components-reconnect-modal > .mask,
+#blazor-error-ui, #blazor-error-ui > .mask {display:none;position:fixed;z-index:2000;top:0;left:0;right:0;bottom:0;}
+#components-reconnect-modal, #blazor-error-ui {text-align:center;}
+#components-reconnect-modal > .mask, #blazor-error-ui > .mask {background-color:#000;opacity:0.75;}
+#blazor-error-ui > .error,
 #components-reconnect-modal > .show,
 #components-reconnect-modal > .failed,
 #components-reconnect-modal > .rejected {
@@ -266,8 +267,9 @@
 #components-reconnect-modal.components-reconnect-rejected, 
 #components-reconnect-modal.components-reconnect-rejected > .mask,
 #components-reconnect-modal.components-reconnect-rejected > .rejected {display:block;}
-#components-reconnect-modal span {display:block;}
-#components-reconnect-modal a {margin-top:10px;}
+#components-reconnect-modal span,
+#blazor-error-ui span, #blazor-error-ui > .mask, #blazor-error-ui > .error {display:block;}
+#components-reconnect-modal a, #blazor-error-ui a {margin-top:10px;}
 #components-reconnect-modal .show {color:#1890ff;}
-#components-reconnect-modal .failed {color:#d9363e;}
+#components-reconnect-modal .failed, #blazor-error-ui > .error {color:#d9363e;}
 #components-reconnect-modal .rejected {color:#52c41a;}
