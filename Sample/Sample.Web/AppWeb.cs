@@ -7,6 +7,7 @@ public static class AppWeb
 {
     public static void AddApp(this WebApplicationBuilder builder, Action<AppInfo> action = null)
     {
+        ModuleHelper.InitAppModules();
         //Stopwatcher.Enabled = true;
         builder.Services.AddSample();
         builder.Services.AddSampleCore(info =>
