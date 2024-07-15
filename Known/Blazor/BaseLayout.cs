@@ -74,7 +74,7 @@ public class BaseLayout : LayoutComponentBase
         await UI.Notice(ex.Message, StyleType.Error);
     }
 
-    public virtual Task ShowSpinAsync(string text, Action action) => Task.CompletedTask;
+    public virtual Task ShowSpinAsync(string text, Func<Task> action) => Task.CompletedTask;
     public virtual Task StateChangedAsync() => InvokeAsync(StateHasChanged);
 
     private async Task SetCurrentUserAsync(UserInfo user)

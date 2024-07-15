@@ -21,7 +21,7 @@ public static class UIExtension
         service.BuildResult(builder, "404", $"{service.Language["Tip.Page404"]}PageId={pageId}");
     }
 
-    public static Task QueryDataAsync(this BaseLayout app, Action action)
+    public static Task QueryDataAsync(this BaseLayout app, Func<Task> action)
     {
         return app?.ShowSpinAsync("数据查询中...", action);
     }

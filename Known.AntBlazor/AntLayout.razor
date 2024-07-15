@@ -63,7 +63,7 @@
     private bool showSetting = false;
     private SettingForm setting;
 
-    public override async Task ShowSpinAsync(string text, Action action)
+    public override async Task ShowSpinAsync(string text, Func<Task> action)
     {
         if (action == null)
             return;
@@ -75,7 +75,7 @@
         {
             try
             {
-                action();
+                await action?.Invoke();
             }
             catch (Exception ex)
             {
