@@ -28,5 +28,9 @@ class ApplyForm : BaseFlowForm<TbApply>
 
     private void BuildBillList(RenderTreeBuilder builder)
     {
+        builder.Component<ApplyListTable>()
+               .Set(c => c.ReadOnly, Model.IsView)
+               .Set(c => c.Head, Model.Data)
+               .Build();
     }
 }

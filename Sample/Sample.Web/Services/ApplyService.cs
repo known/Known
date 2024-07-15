@@ -3,7 +3,7 @@
 //业务申请逻辑服务
 class ApplyService(Context context) : ServiceBase(context), IApplyService
 {
-    //Apply
+    #region Apply
     //列表分页查询
     public Task<PagingResult<TbApply>> QueryApplysAsync(PagingCriteria criteria)
     {
@@ -89,4 +89,38 @@ class ApplyService(Context context) : ServiceBase(context), IApplyService
             maxNo = $"{prefix}00000";
         return Utils.GetMaxFormNo(prefix, maxNo);
     }
+    #endregion
+
+    #region ApplyList
+    public Task<PagingResult<TbApplyList>> QueryApplyListsAsync(PagingCriteria criteria)
+    {
+        return ApplyRepository.QueryApplyListsAsync(Database, criteria);
+    }
+
+    public async Task<Result> DeleteApplyListsAsync(List<TbApplyList> models)
+    {
+        if (models == null || models.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return await Database.TransactionAsync(Language.Delete, async db =>
+        {
+            foreach (var item in models)
+            {
+                await db.DeleteAsync(item);
+            }
+        });
+    }
+
+    public async Task<Result> SaveApplyListAsync(TbApplyList model)
+    {
+        var vr = model.Validate(Context);
+        if (!vr.IsValid)
+            return vr;
+
+        return await Database.TransactionAsync(Language.Save, async db =>
+        {
+            await db.SaveAsync(model);
+        }, model);
+    }
+    #endregion
 }
