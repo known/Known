@@ -2,7 +2,7 @@
 
 public interface ISettingService : IService
 {
-    Task<T> GetUserSettingAsync<T>(string bizType);
+    Task<string> GetUserSettingAsync(string bizType);
     Task<Result> DeleteUserSettingAsync(string bizType);
     Task<Result> SaveUserSettingAsync(string bizType, object bizData);
 }
@@ -47,7 +47,14 @@ class SettingService(Context context) : ServiceBase(context), ISettingService
 
     //internal Task<List<SysSetting>> GetUserSettingsAsync(string bizType) => SettingRepository.GetUserSettingsAsync(Database, bizType);
 
-    public Task<T> GetUserSettingAsync<T>(string bizType) => GetUserSettingAsync<T>(Database, bizType);
+    public async Task<string> GetUserSettingAsync(string bizType)
+    {
+        var setting = await SettingRepository.GetUserSettingAsync(Database, bizType);
+        if (setting == null)
+            return default;
+
+        return setting.BizData;
+    }
     
     internal static async Task<T> GetUserSettingAsync<T>(Database db, string bizType)
     {

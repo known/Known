@@ -28,7 +28,8 @@ class AdvancedSearch : BaseComponent
         if (firstRender)
         {
             Query.Clear();
-            var items = await settingService.GetUserSettingAsync<List<QueryInfo>>(SettingKey);
+            var json = await settingService.GetUserSettingAsync(SettingKey);
+            var items = Utils.FromJson<List<QueryInfo>>(json);
             if (items != null && items.Count > 0)
                 Query.AddRange(items);
         }
