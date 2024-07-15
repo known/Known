@@ -99,7 +99,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         await Database.OpenAsync();
         var modules = await Database.QueryListAsync<SysModule>();
         DataHelper.Initialize(modules);
-        var admin = new AdminInfo
+        var info = new AdminInfo
         {
             AppName = await UserHelper.GetSystemNameAsync(Database),
             MessageCount = await UserRepository.GetMessageCountAsync(Database),
@@ -108,7 +108,8 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             Codes = await DictionaryService.GetDictionariesAsync(Database)
         };
         await Database.CloseAsync();
-        return admin;
+        Cache.AttachCodes(info.Codes);
+        return info;
     }
 
     public async Task<Result> UpdatePasswordAsync(PwdFormInfo info)
