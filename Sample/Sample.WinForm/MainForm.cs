@@ -78,6 +78,7 @@ public partial class MainForm : Form
         Config.OnExit = OnClose;
         blazorWebView.HostPage = "index.html";
         blazorWebView.Services = services.BuildServiceProvider();
+        blazorWebView.Services.UseApp();
         blazorWebView.RootComponents.Add<App>("#app");
     }
 

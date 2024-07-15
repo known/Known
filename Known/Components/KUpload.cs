@@ -85,7 +85,10 @@ public class KUpload : BaseComponent
                 {
                     if (!ReadOnly)
                         builder.Span("kui-link danger", Language.Delete, this.Callback<MouseEventArgs>(e => OnDeleteFile(item)));
-                    builder.OpenFile(item.Name, item.FileUrl, !OpenFile);
+                    if (Config.App.Type == AppType.Web)
+                        builder.OpenFile(item.Name, item.FileUrl, !OpenFile);
+                    else
+                        builder.Span("kui-link", item.Name, this.Callback<MouseEventArgs>(e => OnDownloadFile(item)));
                 });
             }
         });
@@ -143,6 +146,20 @@ public class KUpload : BaseComponent
             sysFiles?.Remove(item);
             await StateChangedAsync();
         });
+    }
+
+    private async void OnDownloadFile(SysFile item)
+    {
+        var path = Config.GetUploadPath(item.Path);
+        if (!File.Exists(path))
+            return;
+
+        var bytes = await File.ReadAllBytesAsync(path);
+        if (bytes != null && bytes.Length > 0)
+        {
+            var stream = new MemoryStream(bytes);
+            await JS.DownloadFileAsync(item.Name, stream);
+        }
     }
 }
 

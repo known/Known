@@ -33,9 +33,13 @@ public static class AppWeb
     {
         //使用Known框架
         app.UseKnown();
-
         //配置定时任务
-        app.Services.UseScheduler(scheduler =>
+        app.Services.UseApp();
+    }
+
+    public static void UseApp(this IServiceProvider provider)
+    {
+        provider.UseScheduler(scheduler =>
         {
             //每5秒执行一次异步导入
             scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
