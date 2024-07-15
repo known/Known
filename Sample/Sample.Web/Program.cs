@@ -10,7 +10,27 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents();
-builder.AddApp();
+builder.Services.AddApp(info =>
+{
+    info.WebRoot = builder.Environment.WebRootPath;
+    info.ContentRoot = builder.Environment.ContentRootPath;
+    //数据库连接
+    info.Connections = [new Known.ConnectionInfo
+    {
+        Name = "Default",
+        DatabaseType = DatabaseType.SQLite,
+        ProviderType = typeof(Microsoft.Data.Sqlite.SqliteFactory),
+        //DatabaseType = DatabaseType.Access,
+        //ProviderType = typeof(System.Data.OleDb.OleDbFactory),
+        //DatabaseType = DatabaseType.MySql,
+        //ProviderType = typeof(MySqlConnector.MySqlConnectorFactory),
+        //DatabaseType = DatabaseType.Npgsql,
+        //ProviderType = typeof(Npgsql.NpgsqlFactory),
+        //DatabaseType = DatabaseType.SqlServer,
+        //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
+        ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
+    }];
+});
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

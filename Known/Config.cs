@@ -210,10 +210,13 @@ public class VersionInfo
     }
 }
 
+public enum AppType { Web, Desktop }
+
 public class AppInfo
 {
     public string Id { get; set; }
     public string Name { get; set; }
+    public AppType Type { get; set; } = AppType.Web;
     public Assembly Assembly { get; set; }
     public bool IsPlatform { get; set; }
     public bool IsLanguage { get; set; }
