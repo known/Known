@@ -5,6 +5,9 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
     public async Task<HomeInfo> GetHomeAsync()
     {
         var user = CurrentUser;
+        if (user == null)
+            return new HomeInfo();
+
         return new HomeInfo
         {
             VisitMenuIds = await Logger.GetVisitMenuIdsAsync(Database, user.UserName, 12),
