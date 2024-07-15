@@ -4,8 +4,8 @@ public interface ISystemService : IService
 {
     Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria);
     Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria);
-    Task<InstallInfo> GetInstallAsync();
-    Task<SystemInfo> GetSystemAsync();
+    [AllowAnonymous] Task<InstallInfo> GetInstallAsync();
+    [AllowAnonymous] Task<SystemInfo> GetSystemAsync();
     Task<SystemDataInfo> GetSystemDataAsync();
     Task<Result> SaveInstallAsync(InstallInfo info);
     Task<Result> SaveSystemAsync(SystemInfo info);

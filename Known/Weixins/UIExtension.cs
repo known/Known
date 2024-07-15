@@ -4,14 +4,13 @@ public static class UIExtension
 {
     public static async Task ShowWeixinQRCodeAsync(this BasePage page, QRCodeOption option)
     {
+        var user = page.CurrentUser;
         var service = await page.CreateServiceAsync<IWeixinService>();
-        var weixin = await service.GetWeixinAsync();
+        var weixin = await service.GetWeixinAsync(user.Id);
         if (weixin == null || !weixin.IsWeixinAuth)
             return;
 
-        var user = page.CurrentUser;
-        var wxUser = await service.GetWeixinByUserIdAsync(user.Id);
-        if (wxUser == null)
+        if (weixin.User == null)
         {
             //扫码场景ID：{场景ID}_{用户ID}
             var qrCodeUrl = await service.GetQRCodeUrlAsync($"{option.SceneId}_{user.Id}");

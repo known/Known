@@ -2,7 +2,7 @@
 
 public interface IWeixinService : IService
 {
-    Task<WeixinInfo> GetWeixinAsync();
+    Task<WeixinInfo> GetWeixinAsync(string userId);
     Task<SysWeixin> GetWeixinByUserIdAsync(string userId);
     Task<string> GetQRCodeUrlAsync(string sceneId);
     Task<UserInfo> CheckWeixinAsync(UserInfo user);
@@ -14,9 +14,12 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
     internal const string KeyWeixin = "WeixinInfo";
 
     #region Weixin
-    public Task<WeixinInfo> GetWeixinAsync()
+    public async Task<WeixinInfo> GetWeixinAsync(string userId)
     {
-        return SystemService.GetConfigAsync<WeixinInfo>(Database, KeyWeixin);
+        var info = await SystemService.GetConfigAsync<WeixinInfo>(Database, KeyWeixin);
+        if (info != null && !string.IsNullOrWhiteSpace(userId))
+            info.User = await WeixinRepository.GetWeixinByUserIdAsync(Database, userId);
+        return info;
     }
 
     public async Task<Result> SaveWeixinAsync(WeixinInfo model)
