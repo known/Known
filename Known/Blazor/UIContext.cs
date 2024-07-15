@@ -60,7 +60,7 @@ public class UIContext : Context
         UserMenus = null;
     }
 
-    internal async Task SetCurrentMenuAsync(ISystemService service, string pageId = "")
+    internal void SetCurrentMenu(string pageId = "")
     {
         Current = UIConfig.Menus.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
         if (Current == null)
@@ -68,16 +68,5 @@ public class UIContext : Context
             var menus = IsMobile ? Config.AppMenus : UserMenus;
             Current = menus?.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
         }
-
-        if (Current == null)
-            return;
-
-        var log = new SysLog
-        {
-            Target = Current.Name,
-            Content = Url,
-            Type = LogType.Page.ToString()
-        };
-        await service.AddLogAsync(log);
     }
 }

@@ -58,7 +58,16 @@ public class PageLayout : BaseLayout
                 pageId = Context.Url.Split("/")[2];
             //Logger.Info($"Layout={Context.Url}");
             await base.OnParametersSetAsync();
-            await Context.SetCurrentMenuAsync(SystemService, pageId);
+            Context.SetCurrentMenu(pageId);
+            if (Context.Current != null && !Config.IsClient)
+            {
+                await SystemService.AddLogAsync(new SysLog
+                {
+                    Target = Context.Current.Name,
+                    Content = Context.Url,
+                    Type = LogType.Page.ToString()
+                });
+            }
         }
         catch (Exception ex)
         {

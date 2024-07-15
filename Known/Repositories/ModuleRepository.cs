@@ -22,6 +22,12 @@ class ModuleRepository
         return db.QueryAsync<SysModule>(sql, new { parentId, sort });
     }
 
+    internal static Task<SysModule> GetModuleByUrlAsync(Database db, string url)
+    {
+        var sql = "select * from SysModule where Url=@url";
+        return db.QueryAsync<SysModule>(sql, new { url });
+    }
+
     internal static async Task<bool> ExistsChildAsync(Database db, string id)
     {
         var sql = "select count(*) from SysModule where ParentId=@id";

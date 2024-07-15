@@ -291,6 +291,12 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     public async Task<Result> AddLogAsync(SysLog log)
     {
+        if (log.Type == LogType.Page.ToString() && string.IsNullOrWhiteSpace(log.Target))
+        {
+            var module = await ModuleRepository.GetModuleByUrlAsync(Database, log.Content);
+            log.Target = module?.Name;
+        }
+
         await Database.SaveAsync(log);
         return Result.Success(Language.Success(Language.Save));
     }

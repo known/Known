@@ -139,6 +139,13 @@ public static class CommonExtension
     }
     #endregion
 
+    #region Method
+    public static bool AllowAnonymous(this MethodInfo method)
+    {
+        return method?.GetCustomAttribute<AllowAnonymousAttribute>() is not null;
+    }
+    #endregion
+
     #region Http
     public static string GetPageUrl(this NavigationManager navigation)
     {

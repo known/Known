@@ -2,6 +2,7 @@
 
 public interface IAuthService : IService
 {
+    [AllowAnonymous]
     Task<Result> SignInAsync(LoginFormInfo info);
     Task<Result> SignOutAsync(string token);
     Task<UserInfo> GetUserAsync(string userName);
