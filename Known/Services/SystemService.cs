@@ -7,7 +7,7 @@ public interface ISystemService : IService
     [AllowAnonymous] Task<InstallInfo> GetInstallAsync();
     [AllowAnonymous] Task<SystemInfo> GetSystemAsync();
     Task<SystemDataInfo> GetSystemDataAsync();
-    Task<Result> SaveInstallAsync(InstallInfo info);
+    [AllowAnonymous] Task<Result> SaveInstallAsync(InstallInfo info);
     Task<Result> SaveSystemAsync(SystemInfo info);
     Task<Result> SaveKeyAsync(SystemInfo info);
     Task<Result> AddLogAsync(SysLog log);

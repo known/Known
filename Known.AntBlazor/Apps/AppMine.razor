@@ -59,20 +59,11 @@
         if (string.IsNullOrWhiteSpace(item.Url))
             return;
 
-        App?.NavigateTo(item);
+        App.NavigateTo(item);
     }
 
     private void Logout()
     {
-        UI.Confirm(Language["Tip.Exits"], async () =>
-        {
-            var user = CurrentUser;
-            var result = await authService.SignOutAsync(user?.Token);
-            if (result.IsValid)
-            {
-                await App?.SignOutAsync();
-                Config.OnExit?.Invoke();
-            }
-        });
+        UI.Confirm(Language["Tip.Exits"], App.SignOutAsync);
     }
 }
