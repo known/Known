@@ -23,6 +23,11 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         await base.OnPageInitAsync();
         autoService = await CreateServiceAsync<IAutoService>();
         moduleService = await CreateServiceAsync<IModuleService>();
+    }
+
+    protected override async Task OnParameterAsync()
+    {
+        await base.OnParameterAsync();
         InitTable();
     }
 

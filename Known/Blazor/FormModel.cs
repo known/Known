@@ -215,8 +215,8 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     {
         UI.Result(result, async () =>
         {
-            Data = result.DataAs<TItem>();
-            OnSaved?.Invoke(Data);
+            var data = result.DataAs<TItem>();
+            OnSaved?.Invoke(data);
             if (isClose && result.IsClose)
                 await CloseAsync();
             if (Table != null)

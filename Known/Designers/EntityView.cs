@@ -59,7 +59,7 @@ class EntityView : BaseView<EntityInfo>
         //{
         //    builder.Div("kui-code-action", () =>
         //    {
-        //        UI.Button(builder, Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExecuteScript), "primary");
+        //        builder.Button(Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExecuteScript), "primary");
         //    });
         //}
         BuildCode(builder, script);
@@ -67,7 +67,8 @@ class EntityView : BaseView<EntityInfo>
 
     //private async void OnExecuteScript(MouseEventArgs args)
     //{
-    //    var result = await Platform.Auto.CreateTableAsync(tableName, tableScript);
+    //    var service = new AutoService(Context);
+    //    var result = await service.CreateTableAsync(tableName, tableScript);
     //    UI.Result(result);
     //}
 
