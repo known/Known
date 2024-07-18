@@ -96,13 +96,13 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         return value.Count > 0;
     }
 
-    public void StateChanged()
-    {
-        foreach (var item in Fields)
-        {
-            item.Value.StateChanged();
-        }
-    }
+    //public void StateChanged()
+    //{
+    //    foreach (var item in Fields)
+    //    {
+    //        item.Value.StateChanged();
+    //    }
+    //}
 
     public FormRow<TItem> AddRow(Action<FormRow<TItem>> action = null)
     {

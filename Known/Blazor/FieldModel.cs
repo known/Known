@@ -18,7 +18,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
     internal bool IsDictionary { get; }
     internal TItem Data { get; }
     internal PropertyInfo Property => Column.Property;
-    internal Action OnStateChanged { get; set; }
+    //internal Action OnStateChanged { get; set; }
 
     public Type GetPropertyType()
     {
@@ -77,7 +77,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    public void StateChanged() => OnStateChanged?.Invoke();
+    //public void StateChanged() => OnStateChanged?.Invoke();
 
     public List<CodeInfo> GetCodes(string emptyText = "Please select")
     {
