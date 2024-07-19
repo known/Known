@@ -2,7 +2,6 @@
 
 public class UIContext : Context
 {
-    public string LogoUrl => Theme == "dark" ? "img/logo.png" : "img/logo1.png";
     public MenuInfo Current { get; private set; }
     public IUIService UI { get; set; }
     public bool IsMobile { get; set; }

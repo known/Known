@@ -122,7 +122,7 @@
 }
 
 /*Install*/
-.kui-install {position:absolute;left:0;right:0;}
+.kui-install {position:fixed;top:0;left:0;right:0;bottom:0;overflow:auto;}
 .kui-install .button {text-align:center;}
 .kui-install-head {display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1.5rem;padding:30px 200px;}
 .kui-install-head .kui-menu {margin:0;padding:0;padding-top:13px;}

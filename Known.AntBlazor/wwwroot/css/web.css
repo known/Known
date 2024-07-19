@@ -37,13 +37,14 @@
 
 /*Layout*/
 .ant-layout-header, .kui-page {background-color:#f0f2f5;}
+.kui-logo, .kui-scroll,
 .ant-layout-sider, .ant-layout-sider-trigger, .ant-tabs1 > .ant-tabs-nav {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
 .kui-header, .kui-logo, .ant-layout-tabs > .ant-tabs-nav {position:fixed;z-index:101;transition:all 0.2s;}
 .kui-header {top:0;right:0;left:200px;z-index:102;}
 .kui-header .ant-breadcrumb {padding-top:5px;}
-.kui-logo {top:0;left:0;width:200px;height:64px;background-color:var(--kui-bgcolor);padding-top:5px;padding-left:10px;}
+.kui-logo {top:0;left:0;width:200px;height:64px;padding-top:5px;padding-left:10px;}
 .kui-scroll {position:fixed;top:64px;left:0;bottom:48px;width:200px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;}
 .kui-scroll .ant-menu {width:200px;}
 .kui-page, .kui-page-body, 
@@ -135,6 +136,9 @@
 :root[theme=dark] .ant-layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab {
     color:var(--kui-color);border-color:var(--kui-border-color);
 }
+:root[theme=dark] .ant-menu-item a,
+:root[theme=dark] .ant-breadcrumb a,
+:root[theme=dark] .ant-breadcrumb li:last-child a,
 :root[theme=dark] .ant-layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab > .ant-tabs-tab-remove {
     color:var(--kui-color);
 }
@@ -144,6 +148,7 @@
 }
 
 :root[theme=dark] .ant-segmented-group {background-color:#000;}
+:root[theme=dark] .kui-page,
 :root[theme=dark] .ant-layout,
 :root[theme=dark] .ant-layout-header,
 :root[theme=dark] .ant-layout-footer {
