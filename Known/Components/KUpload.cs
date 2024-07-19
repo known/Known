@@ -2,7 +2,7 @@
 
 public class KUpload : BaseComponent
 {
-    private IFileService fileService;
+    private IFileService Service;
     private List<SysFile> sysFiles;
     private readonly List<FileDataInfo> files = [];
 
@@ -18,7 +18,7 @@ public class KUpload : BaseComponent
         if (string.IsNullOrWhiteSpace(Value))
             return;
 
-        sysFiles = await fileService.GetFilesAsync(Value);
+        sysFiles = await Service.GetFilesAsync(Value);
         await StateChangedAsync();
     }
 
@@ -31,9 +31,20 @@ public class KUpload : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        fileService = await CreateServiceAsync<IFileService>();
-        if (!string.IsNullOrWhiteSpace(Value))
-            sysFiles = await fileService.GetFilesAsync(Value);
+        Service = await CreateServiceAsync<IFileService>();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            if (!string.IsNullOrWhiteSpace(Value))
+            {
+                sysFiles = await Service.GetFilesAsync(Value);
+                await StateChangedAsync();
+            }
+        }
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -142,7 +153,7 @@ public class KUpload : BaseComponent
         var message = Language["Tip.ConfirmDelete"].Replace("{name}", item.Name);
         UI.Confirm(message, async () =>
         {
-            await fileService.DeleteFileAsync(item);
+            await Service.DeleteFileAsync(item);
             sysFiles?.Remove(item);
             await StateChangedAsync();
         });
