@@ -48,14 +48,16 @@ dotnet new known --name=MyApp
 ### 项目结构
 
 ```
-├─Known             -> 框架类库，包含通用后端、内置组件、内置模块。
+├─Known             -> 框架类库，包含通用前后端、内置组件、内置模块。
 ├─Known.AntBlazor   -> 基于AntDesign Blazor的界面库。
 ├─Known.BootBlazor  -> 基于Bootstrap Blazor的界面库。
 ├─Known.Cells       -> 基于Aspose.Cells实现的Excel操作类库。
-├─Known.Demo        -> 框架示例模块。
-├─Known.Shared      -> Web和WinForm共享类库。
-├─Known.Web         -> 框架示例Web App。
-├─Known.WinForm     -> 框架示例WinForm App。
+├─Known.Core        -> 基于AspNetCore的服务端类库。
+├─Sample            -> 示例项目
+  ├─Sample          -> 项目类库，包含配置、常量、枚举、实体、模型、服务接口。
+  ├─Sample.Client   -> 项目前端，包含配置、路由、页面，基于Castle动态代理访问后端WebApi。
+  ├─Sample.Web      -> 项目后端，包含业务逻辑、数据访问，根据服务接口动态生成WebApi。
+  ├─Sample.WinForm  -> 框架示例WinForm App。
 ```
 
 ### 主要功能
