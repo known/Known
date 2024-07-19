@@ -36,7 +36,7 @@
 </LoginInfoForm>
 
 @code {
-    private AntDesign.Internal.IForm form;
+    private LoginInfoForm form;
     private AntCaptcha captcha;
     private bool IsCaptcha => Context.System != null && Context.System.IsLoginCaptcha;
     private string FormStyle => IsCaptcha || Stations != null ? "" : "kui-nocaptcha";

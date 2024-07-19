@@ -4,7 +4,7 @@
 @if (Row != null)
 {
     var colSpan = 24 / Row.Fields.Count;
-    <div class="ant-row">
+    <GridRow>
         @foreach (var field in Row.Fields)
         {
             var label = Language?.GetString<TItem>(field.Column);
@@ -13,7 +13,7 @@
                 <KField Model="field" />
             </DataItem>
         }
-    </div>
+    </GridRow>
 }
 
 @code {

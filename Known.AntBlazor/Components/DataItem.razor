@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<div class="ant-col ant-col-@Span @Class">
+<GridCol Span="Span" Class="@Class">
     @if (NoForm)
     {
         <div class="ant-form-item ant-form-item-row ant-row" style="@Style">
@@ -24,7 +24,7 @@
             </DataItemValue>
         </FormItem>
     }
-</div>
+</GridCol>
 
 @code {
     private FormValidationRule[] rules => Rules ?? this.ToRules(Context);

@@ -10,24 +10,24 @@
             count = _expand ? count : showCount;
         var offset = _expand ? (3 - count % 4) * 6 : 0;
         <div class="ant-query-more">
-            <QueryDataForm @ref="_form" Model="Model.QueryData">
-                <div class="ant-row">
+            <QueryDataForm @ref="form" Model="Model.QueryData">
+                <GridRow>
                     @for (var i = 0; i < count; i++)
                     {
                         var item = Model.QueryColumns[i];
                         var itemName = Language.GetString(item);
-                        <div class="ant-col ant-col-6">
+                        <GridCol Span="6">
                             <QueryItem Label="@itemName" Item="item" Data="context" OnSearch="OnSearchAsync" />
-                        </div>
+                        </GridCol>
                     }
-                    <div class="ant-col ant-col-6 ant-col-offset-@offset" style="text-align:right;">
+                    <GridCol Span="6" Offset="offset" Style="text-align:right;">
                         <FormItem>
                             <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
                             @if (IsAdvSearch)
                             {
                                 <Button Type="primary" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
                             }
-                            <Button Icon="undo" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button>
+                            <Button Icon="undo" OnClick="()=>{form?.Reset();}">@Language.Reset</Button>
                             @if (Model.QueryColumns.Count > showCount)
                             {
                                 <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
@@ -35,15 +35,15 @@
                                 </a>
                             }
                         </FormItem>
-                    </div>
-                </div>
+                    </GridCol>
+                </GridRow>
             </QueryDataForm>
         </div>
     }
     else
     {
         <div class="ant-query">
-            <QueryDataForm @ref="_form" Model="Model.QueryData" Layout="@FormLayout.Inline">
+            <QueryDataForm @ref="form" Model="Model.QueryData" Layout="@FormLayout.Inline">
                 @for (var i = 0; i < Model.QueryColumns.Count; i++)
                 {
                     var item = Model.QueryColumns[i];
@@ -56,7 +56,7 @@
                     {
                         <Button Type="primary" OnClick="e=>ShowAdvSearch()">@Language.AdvSearch</Button>
                     }
-                    <Button Icon="undo" OnClick="()=>{_form?.Reset();}">@Language.Reset</Button>
+                    <Button Icon="undo" OnClick="()=>{form?.Reset();}">@Language.Reset</Button>
                 </div>
             </QueryDataForm>
         </div>
@@ -65,7 +65,7 @@
 
 @code {
     private bool _expand = false;
-    private AntDesign.Internal.IForm _form;
+    private QueryDataForm form;
     private bool IsAdvSearch => AdvSearch || Model.AdvSearch;
 
     [Parameter] public TableModel Model { get; set; }
