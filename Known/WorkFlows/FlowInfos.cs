@@ -29,6 +29,7 @@ public class FlowInfo
     public string Description { get; set; }
     public int? Width { get; set; }
     public int? Height { get; set; }
+    public int Current { get; set; }
     public List<FlowStepInfo> Steps { get; set; } = [];
 }
 

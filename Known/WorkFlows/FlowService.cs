@@ -2,7 +2,8 @@
 
 public interface IFlowService : IService
 {
-    Task<List<SysFlowLog>> GetFlowLogsAsync(string bizId);
+    Task<PagingResult<SysFlowLog>> QueryFlowLogsAsync(PagingCriteria criteria);
+    Task<FlowInfo> GetFlowAsync(string moduleId, string bizId);
     Task<Result> SubmitFlowAsync(FlowFormInfo info);
     Task<Result> RevokeFlowAsync(FlowFormInfo info);
     Task<Result> AssignFlowAsync(FlowFormInfo info);
@@ -17,6 +18,28 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
     private string UserNotExists(string user) => Language["Tip.UserNotExists"].Replace("{user}", user);
     private string NotExecuteFlow(string user) => Language["Tip.NotExecuteFlow"].Replace("{user}", user);
 
+    public Task<PagingResult<SysFlowLog>> QueryFlowLogsAsync(PagingCriteria criteria)
+    {
+        return FlowRepository.QueryFlowLogsAsync(Database, criteria);
+    }
+
+    public async Task<FlowInfo> GetFlowAsync(string moduleId, string bizId)
+    {
+        var module = await Database.QueryByIdAsync<SysModule>(moduleId);
+        var info = DataHelper.GetFlow(module?.FlowData);
+        if (info == null)
+            return new FlowInfo();
+
+        var logs = await FlowRepository.GetFlowLogsAsync(Database, bizId);
+        if (logs != null && logs.Count > 0)
+        {
+            var last = logs.OrderByDescending(l => l.CreateTime).FirstOrDefault();
+            if (last.StepName == FlowStatus.StepEnd && info.Steps.Count > 0)
+                info.Current = info.Steps.Count - 1;
+        }
+        return info;
+    }
+
     //internal static Task<SysFlow> GetFlowAsync(Database db, string bizId) => FlowRepository.GetFlowAsync(db, bizId);
 
     //internal async Task<UserInfo> GetFlowStepUserAsync(Database db, string flowCode, string stepCode)
@@ -26,8 +49,6 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
     //}
 
     //public Task<List<SysFlow>> GetFlowTodosAsync() => FlowRepository.GetFlowTodosAsync(Database);
-
-    public Task<List<SysFlowLog>> GetFlowLogsAsync(string bizId) => FlowRepository.GetFlowLogsAsync(Database, bizId);
 
     public async Task<Result> SubmitFlowAsync(FlowFormInfo info)
     {

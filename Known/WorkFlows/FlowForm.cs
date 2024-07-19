@@ -2,8 +2,7 @@
 
 public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
 {
-    private IFlowService flowService;
-    private IModuleService moduleService;
+    private IFlowService Flow;
     private readonly StepModel step = new();
 
     [Parameter] public FormModel<TItem> Model { get; set; }
@@ -11,18 +10,15 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        flowService = await CreateServiceAsync<IFlowService>();
-        moduleService = await CreateServiceAsync<IModuleService>();
-        var logs = await flowService.GetFlowLogsAsync(Model.Data.Id);
-        Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.Logs, logs).Build());
+        Flow = await CreateServiceAsync<IFlowService>();
+        Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.BizId, Model.Data.Id).Build());
 
         step.Items.Clear();
-        var module = await moduleService.GetModuleAsync(Context.Current.Id);
-        var flow = DataHelper.GetFlow(module?.FlowData);
+        var flow = await Flow.GetFlowAsync(Context.Current.Id, Model.Data.Id);
         var steps = flow.GetFlowStepItems();
         if (steps != null && steps.Count > 0)
             step.Items.AddRange(steps);
-        step.Current = GetCurrentStep(logs);
+        step.Current = flow.Current;
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)
@@ -30,23 +26,11 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
         UI.BuildSteps(builder, step);
         UI.BuildTabs(builder, Tab);
     }
-
-    private int GetCurrentStep(List<SysFlowLog> logs)
-    {
-        if (logs != null && logs.Count > 0)
-        {
-            var last = logs.OrderByDescending(l => l.CreateTime).FirstOrDefault();
-            if (last.StepName == FlowStatus.StepEnd && step.Items.Count > 0)
-                return step.Items.Count - 1;
-        }
-
-        return 0;
-    }
 }
 
 public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 {
-    private IFlowService flowService;
+    private IFlowService Service;
     private readonly FlowFormInfo info = new();
     private FlowFormModel flow;
 
@@ -57,7 +41,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     {
         await base.OnInitAsync();
         InitFlowModel();
-        flowService = await CreateServiceAsync<IFlowService>();
+        Service = await CreateServiceAsync<IFlowService>();
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -98,11 +82,11 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         switch (Model.FormType)
         {
             case FormViewType.Submit:
-                result = await flowService.SubmitFlowAsync(info);
+                result = await Service.SubmitFlowAsync(info);
                 Model.HandleResult(result);
                 break;
             case FormViewType.Verify:
-                result = await flowService.VerifyFlowAsync(info);
+                result = await Service.VerifyFlowAsync(info);
                 Model.HandleResult(result);
                 break;
             default:
@@ -190,14 +174,14 @@ class FlowFormModel(UIContext context) : FormModel<FlowFormInfo>(context, true)
 
 class UserPicker : BasePicker<SysUser>
 {
-    private IUserService userService;
+    private IUserService Service;
 
     protected override async Task OnInitAsync()
     {
         IsMulti = false;
         await base.OnInitAsync();
-        userService = await CreateServiceAsync<IUserService>();
-        Table.OnQuery = userService.QueryUsersAsync;
+        Service = await CreateServiceAsync<IUserService>();
+        Table.OnQuery = Service.QueryUsersAsync;
         Table.AddColumn(c => c.UserName).Width(100);
         Table.AddColumn(c => c.Name, true).Width(100);
         Table.AddColumn(c => c.Phone).Width(100);

@@ -4,8 +4,8 @@
 [Route("/page/{PageId}")]
 public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 {
-    private IAutoService autoService;
-    private IModuleService moduleService;
+    private IAutoService Service;
+    private IModuleService Module;
     private bool isEditPage;
 
     [Parameter] public string PageId { get; set; }
@@ -21,8 +21,8 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        autoService = await CreateServiceAsync<IAutoService>();
-        moduleService = await CreateServiceAsync<IModuleService>();
+        Service = await CreateServiceAsync<IAutoService>();
+        Module = await CreateServiceAsync<IModuleService>();
     }
 
     protected override async Task OnParameterAsync()
@@ -73,7 +73,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     private Task<PagingResult<Dictionary<string, object>>> OnQueryModelsAsync(PagingCriteria criteria)
     {
         criteria.Parameters[nameof(PageId)] = PageId;
-        return autoService.QueryModelsAsync(criteria);
+        return Service.QueryModelsAsync(criteria);
     }
 
     private Task<Result> DeleteModelsAsync(List<Dictionary<string, object>> models)
@@ -83,13 +83,13 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
             PageId = PageId,
             Data = models
         };
-        return autoService.DeleteModelsAsync(info);
+        return Service.DeleteModelsAsync(info);
     }
 
     private Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
     {
         info.PageId = PageId;
-        return autoService.SaveModelAsync(info);
+        return Service.SaveModelAsync(info);
     }
 
     private async void OnEditPage(MouseEventArgs args)
@@ -97,8 +97,8 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         isEditPage = true;
         var form = new FormModel<SysModule>(this)
         {
-            Data = await moduleService.GetModuleAsync(Context.Current.Id),
-            OnSave = moduleService.SaveModuleAsync,
+            Data = await Module.GetModuleAsync(Context.Current.Id),
+            OnSave = Module.SaveModuleAsync,
             //OnSaved = data => Context.Current = new MenuInfo(data)
         };
         var model = new DialogModel

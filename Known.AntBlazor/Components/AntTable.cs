@@ -62,10 +62,6 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
                 DataSource = Model.Result.PageData;
                 Total = Model.Result.TotalCount;
             }
-            else
-            {
-                DataSource = Model.DataSource;
-            }
         }
         base.OnParametersSet();
     }
