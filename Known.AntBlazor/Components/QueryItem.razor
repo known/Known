@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<FormItem Label="@Label">
+<FieldItem Label="@Label">
     @if (Data.ContainsKey(Item.Id))
     {
         if (!string.IsNullOrWhiteSpace(Item.Category))
@@ -22,11 +22,10 @@
         }
         else
         {
-            @* Fixed V0.18.3版本Input组件双向绑定字典问题 *@
             <AntInput Value="@Data[Item.Id].Value" ValueChanged="v=>Data[Item.Id].Value=v" OnPressEnter="e=>OnSearch()" />
         }
     }
-</FormItem>
+</FieldItem>
 
 @code {
     private string itemType = "String";

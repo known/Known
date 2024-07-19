@@ -2,12 +2,12 @@
 
 public class SettingForm : BaseForm<SettingInfo>
 {
-    private ISettingService settingService;
+    private ISettingService Service;
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        settingService = await CreateServiceAsync<ISettingService>();
+        Service = await CreateServiceAsync<ISettingService>();
         Model = new FormModel<SettingInfo>(Context, true)
         {
             Info = new FormInfo { LabelSpan = 12 },
@@ -30,7 +30,7 @@ public class SettingForm : BaseForm<SettingInfo>
 
     private async void SaveAsync(MouseEventArgs arg)
     {
-        var result = await settingService.SaveUserSettingAsync(SettingInfo.KeyInfo, Model.Data);
+        var result = await Service.SaveUserSettingAsync(SettingInfo.KeyInfo, Model.Data);
         if (result.IsValid)
         {
             Context.UserSetting = Model.Data;
@@ -40,7 +40,7 @@ public class SettingForm : BaseForm<SettingInfo>
 
     private async void ResetAsync(MouseEventArgs arg)
     {
-        var result = await settingService.DeleteUserSettingAsync(SettingInfo.KeyInfo);
+        var result = await Service.DeleteUserSettingAsync(SettingInfo.KeyInfo);
         if (result.IsValid)
         {
             Model.Data = new();

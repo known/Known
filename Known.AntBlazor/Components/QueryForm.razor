@@ -11,17 +11,17 @@
         var offset = _expand ? (3 - count % 4) * 6 : 0;
         <div class="ant-query-more">
             <QueryDataForm @ref="form" Model="Model.QueryData">
-                <GridRow>
+                <AntRow>
                     @for (var i = 0; i < count; i++)
                     {
                         var item = Model.QueryColumns[i];
                         var itemName = Language.GetString(item);
-                        <GridCol Span="6">
+                        <AntCol Span="6">
                             <QueryItem Label="@itemName" Item="item" Data="context" OnSearch="OnSearchAsync" />
-                        </GridCol>
+                        </AntCol>
                     }
-                    <GridCol Span="6" Offset="offset" Style="text-align:right;">
-                        <FormItem>
+                    <AntCol Span="6" Offset="offset" Style="text-align:right;">
+                        <div class="ant-form-item">
                             <Button Type="primary" Icon="search" OnClick="e=>OnSearchAsync()">@Language.Search</Button>
                             @if (IsAdvSearch)
                             {
@@ -34,9 +34,9 @@
                                     <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language["Collapse"] : Language["Expand"])
                                 </a>
                             }
-                        </FormItem>
-                    </GridCol>
-                </GridRow>
+                        </div>
+                    </AntCol>
+                </AntRow>
             </QueryDataForm>
         </div>
     }

@@ -1,0 +1,17 @@
+﻿<div class="ant-form-item ant-form-item-row ant-row" style="@Style">
+    <div class="ant-form-item-label">
+        <label class="@LabelClass">@Label</label>
+    </div>
+    <div class="ant-form-item-control">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    private string LabelClass => Required ? "ant-form-item-required" : "";
+
+    [Parameter] public string Style { get; set; }
+    [Parameter] public string Label { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

@@ -4,16 +4,16 @@
 @if (Row != null)
 {
     var colSpan = 24 / Row.Fields.Count;
-    <GridRow>
+    <AntRow>
         @foreach (var field in Row.Fields)
         {
-            var label = Language?.GetString<TItem>(field.Column);
-            var required = field.Column.Required;
-            <DataItem Span="colSpan" Label="@label" Required="required" Rules="field.ToRules(Context)">
+            var column = field.Column;
+            var label = Language?.GetString<TItem>(column);
+            <DataItem Span="colSpan" Label="@label" Required="column.Required" Rules="field.ToRules(Context)">
                 <KField Model="field" />
             </DataItem>
         }
-    </GridRow>
+    </AntRow>
 }
 
 @code {
