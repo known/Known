@@ -12,7 +12,9 @@
 :root[theme=dark]  {--kui-bgcolor:#202020;--kui-color:#d8d8d8;--kui-border-color:rgba(253, 253, 253, 0.12);}
 
 /*Common*/
-.kui-nav, .kui-card, .kui-install-form, .kui-query, .kui-table {background-color:var(--kui-bgcolor);color:var(--kui-color);}
+.kui-nav, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table {
+    background-color:var(--kui-bgcolor);color:var(--kui-color);
+}
 .kui-nav, .kui-card, .kui-query, .kui-table {border-radius:5px;}
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
 .kui-nav {margin:10px 0 10px 10px;padding:10px 20px;}
