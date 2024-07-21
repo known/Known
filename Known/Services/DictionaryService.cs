@@ -67,9 +67,10 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         var codes = entities.Select(e =>
         {
             var code = e.Code;
-            if (!string.IsNullOrWhiteSpace(e.Name))
-                code = $"{code}-{e.Name}";
-            return new CodeInfo(e.Category, code, code, e);
+            var name = string.IsNullOrWhiteSpace(e.Name)
+                     ? e.Code
+                     : $"{e.Code}-{e.Name}";
+            return new CodeInfo(e.Category, code, name, e);
         }).ToList();
         return codes;
     }
