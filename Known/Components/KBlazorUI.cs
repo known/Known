@@ -31,7 +31,7 @@ public class KBlazorUI : ComponentBase
             if (Show != null)
                 builder.Fragment(Show);
             else
-                builder.Span("系统正在更新，请稍候...");
+                builder.Div("text", "系统正在更新，请稍候...");
         });
     }
 
@@ -45,7 +45,7 @@ public class KBlazorUI : ComponentBase
             }
             else
             {
-                builder.Span("系统连接失败，请确认网络，尝试重新连接！");
+                builder.Div("text", "系统连接失败，请确认网络，尝试重新连接！");
                 builder.Markup($"<a href=\"javascript:window.Blazor.reconnect()\" class=\"{ButtonClass}\">重新连接</a>");
             }
         });
@@ -61,7 +61,7 @@ public class KBlazorUI : ComponentBase
             }
             else
             {
-                builder.Span("系统更新成功，请重新加载！");
+                builder.Div("text", "系统更新成功，请重新加载！");
                 builder.Markup($"<a href=\"javascript:location.reload()\" class=\"{ButtonClass}\">重新加载</a>");
             }
         });
@@ -77,7 +77,7 @@ public class KBlazorUI : ComponentBase
             }
             else
             {
-                builder.Span("抱歉，系统出错了，请重新加载！");
+                builder.Div("text", "抱歉，系统出错了，请重新加载！");
                 builder.Markup($"<a href=\"javascript:location.reload()\" class=\"{ButtonClass}\">重新加载</a>");
             }
         });
