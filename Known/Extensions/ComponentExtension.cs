@@ -40,11 +40,13 @@ public static class ComponentExtension
         attr.Build();
     }
 
-    public static void Component(this RenderTreeBuilder builder, Type type, Dictionary<string, object> parameters = null)
+    public static void Component(this RenderTreeBuilder builder, Type type, Dictionary<string, object> parameters = null, Action<object> action = null)
     {
         builder.OpenComponent(0, type);
-        if (parameters.Count > 0)
+        if (parameters != null && parameters.Count > 0)
             builder.AddMultipleAttributes(1, parameters);
+        if (action != null)
+            builder.AddComponentReferenceCapture(2, value => action.Invoke(value));
         builder.CloseComponent();
     }
 
@@ -55,8 +57,10 @@ public static class ComponentExtension
 
         builder.OpenComponent<DynamicComponent>(0);
         builder.AddAttribute(1, "Type", RuntimeHelpers.TypeCheck(type));
-        builder.AddAttribute(1, "Parameters", parameters);
-        builder.AddComponentReferenceCapture(2, value => action?.Invoke((DynamicComponent)value));
+        if (parameters != null && parameters.Count > 0)
+            builder.AddAttribute(2, "Parameters", parameters);
+        if (action != null)
+            builder.AddComponentReferenceCapture(3, value => action.Invoke((DynamicComponent)value));
         builder.CloseComponent();
     }
     #endregion

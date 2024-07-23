@@ -129,7 +129,7 @@ class FlowFormModel(UIContext context) : FormModel<FlowFormInfo>(context, true)
             c.Required = true;
             c.Template = b =>
             {
-                b.Component<KPicker<UserPicker, SysUser>>()
+                b.Component<UserPicker>()
                  .Set(c => c.Width, 800)
                  .Set(c => c.AllowClear, true)
                  .Set(c => c.Title, Language["Title.SelectUser"])
@@ -175,17 +175,27 @@ class FlowFormModel(UIContext context) : FormModel<FlowFormInfo>(context, true)
 class UserPicker : BasePicker<SysUser>
 {
     private IUserService Service;
+    private TableModel<SysUser> Table;
+
+    public override List<SysUser> SelectedItems => Table.SelectedRows?.ToList();
 
     protected override async Task OnInitAsync()
     {
         IsMulti = false;
         await base.OnInitAsync();
         Service = await CreateServiceAsync<IUserService>();
-        Table.OnQuery = Service.QueryUsersAsync;
+        Table = new TableModel<SysUser>(Context)
+        {
+            SelectType = IsMulti ? TableSelectType.Checkbox : TableSelectType.Radio,
+            ShowPager = true,
+            OnQuery = Service.QueryUsersAsync
+        };
         Table.AddColumn(c => c.UserName).Width(100);
         Table.AddColumn(c => c.Name, true).Width(100);
         Table.AddColumn(c => c.Phone).Width(100);
         Table.AddColumn(c => c.Email).Width(100);
         Table.AddColumn(c => c.Role);
     }
+
+    protected override void BuildContent(RenderTreeBuilder builder) => builder.BuildTable(Table);
 }

@@ -62,7 +62,7 @@ public class ModuleForm : BaseStepForm
 
     private void BuildIconField(RenderTreeBuilder builder)
     {
-        builder.Component<SysIconPicker>()
+        builder.Component<IconPicker>()
                .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.AllowClear, true)
                .Set(c => c.Value, Model.Data.Icon)
@@ -141,12 +141,13 @@ class IconPicker : BasePicker<IconInfo>
 {
     private const string KeyCustom = "Custom";
     private readonly TabModel tab = new();
-    private readonly Dictionary<string, List<IconInfo>> icons = [];
-    private readonly List<IconInfo> selectedItems = [];
+    private Dictionary<string, List<IconInfo>> icons = [];
     private string searchKey;
 
-    public IconPicker()
+    protected override async Task OnInitAsync()
     {
+        await base.OnInitAsync();
+        Title = Language["Title.SelectIcon"];
         foreach (var item in UIConfig.Icons)
         {
             tab.AddTab(item.Key, b => BuildContent(b, item.Key));
@@ -155,13 +156,18 @@ class IconPicker : BasePicker<IconInfo>
         icons = UIConfig.Icons.ToDictionary(k => k.Key, v => v.Value.Select(x => new IconInfo { Icon = x }).ToList());
     }
 
-    public override List<IconInfo> SelectedItems => selectedItems;
+    protected override void BuildTextBox(RenderTreeBuilder builder)
+    {
+        if (!string.IsNullOrWhiteSpace(Value))
+            builder.Div("kui-module-icon", () => builder.Icon(Value));
+        base.BuildTextBox(builder);
+    }
 
-    protected override void BuildRender(RenderTreeBuilder builder) => UI.BuildTabs(builder, tab);
+    protected override void BuildContent(RenderTreeBuilder builder) => UI.BuildTabs(builder, tab);
 
     private void BuildContent(RenderTreeBuilder builder, string key)
     {
-        var value = selectedItems.Count == 0 ? "" : selectedItems[0].Icon;
+        var value = SelectedItems.Count == 0 ? "" : SelectedItems[0].Icon;
         builder.Div("kui-icon-picker", () =>
         {
             if (key == KeyCustom)
@@ -171,8 +177,8 @@ class IconPicker : BasePicker<IconInfo>
                     Value = value,
                     ValueChanged = this.Callback<string>(value =>
                     {
-                        selectedItems.Clear();
-                        selectedItems.Add(new IconInfo { Icon = value });
+                        SelectedItems.Clear();
+                        SelectedItems.Add(new IconInfo { Icon = value });
                     })
                 });
             }
@@ -234,21 +240,5 @@ class IconPicker : BasePicker<IconInfo>
         if (!SelectedItems.Remove(item))
             SelectedItems.Add(item);
         StateChanged();
-    }
-}
-
-class SysIconPicker : KPicker<IconPicker, IconInfo>
-{
-    protected override async Task OnInitAsync()
-    {
-        Title = Language["Title.SelectIcon"];
-        await base.OnInitAsync();
-    }
-
-    protected override void BuildRender(RenderTreeBuilder builder)
-    {
-        if (!string.IsNullOrWhiteSpace(Value))
-            builder.Div("kui-module-icon", () => builder.Icon(Value));
-        base.BuildRender(builder);
     }
 }
