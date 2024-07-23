@@ -25,7 +25,7 @@ public class DataForm<TItem> : BaseComponent where TItem : class, new()
 
         foreach (var row in Model.Rows)
         {
-            builder.Component<DataRow<TItem>>().Set(c => c.Row, row).Build();
+            builder.Component<AntFormRow<TItem>>().Set(c => c.Row, row).Build();
         }
     }
 }
