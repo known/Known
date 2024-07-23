@@ -103,7 +103,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
             return;
 
         info.BizId = Model.Data?.Id;
-        flow = new FlowFormModel(Context) { Data = info };
+        flow = new FlowFormModel(this) { Data = info };
 
         switch (Model.FormType)
         {
@@ -119,7 +119,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     }
 }
 
-class FlowFormModel(UIContext context) : FormModel<FlowFormInfo>(context, true)
+class FlowFormModel(BaseComponent component) : FormModel<FlowFormInfo>(component, true)
 {
     internal void AddUserColumn(string id, string category)
     {
@@ -132,9 +132,8 @@ class FlowFormModel(UIContext context) : FormModel<FlowFormInfo>(context, true)
                 b.Component<UserPicker>()
                  .Set(c => c.Width, 800)
                  .Set(c => c.AllowClear, true)
-                 .Set(c => c.Title, Language["Title.SelectUser"])
                  .Set(c => c.Value, Data.User)
-                 .Set(c => c.OnPicked, o => Data.User = o?[0]?.UserName)
+                 .Set(c => c.ValueChanged, v => Data.User = v)
                  .Build();
             };
         });
@@ -172,7 +171,7 @@ class FlowFormModel(UIContext context) : FormModel<FlowFormInfo>(context, true)
     }
 }
 
-class UserPicker : BasePicker<SysUser>
+public class UserPicker : BasePicker<SysUser>
 {
     private IUserService Service;
     private TableModel<SysUser> Table;
@@ -184,7 +183,8 @@ class UserPicker : BasePicker<SysUser>
         IsMulti = false;
         await base.OnInitAsync();
         Service = await CreateServiceAsync<IUserService>();
-        Table = new TableModel<SysUser>(Context)
+        Title = Language["Title.SelectUser"];
+        Table = new TableModel<SysUser>(this)
         {
             SelectType = IsMulti ? TableSelectType.Checkbox : TableSelectType.Radio,
             ShowPager = true,

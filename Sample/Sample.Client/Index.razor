@@ -13,8 +13,15 @@
         <CommFuncCard @ref="func" />
     </GridCol>
 </GridRow>
+<GridRow>
+    <GridCol Span="12">
+        <Known.WorkFlows.UserPicker @bind-Value="test" />
+    </GridCol>
+    <GridCol Span="12">Test: @test</GridCol>
+</GridRow>
 
 @code {
+    private string test;
     private IHomeService homeService;
     private SpaceCard space;
     private ChartCard chart;

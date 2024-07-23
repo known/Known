@@ -39,7 +39,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
     {
         await base.OnInitFormAsync();
         var data = Parent.Data;
-        Model = new FormModel<SystemInfo>(Context)
+        Model = new FormModel<SystemInfo>(this)
         {
             Info = new FormInfo { LabelSpan = 4, WrapperSpan = 10 },
             Data = data.System
@@ -103,7 +103,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
     {
         await base.OnInitFormAsync();
         var data = Parent.Data;
-        Model = new FormModel<SystemInfo>(Context)
+        Model = new FormModel<SystemInfo>(this)
         {
             Info = new FormInfo { LabelSpan = 4, WrapperSpan = 10 },
             Data = data.System

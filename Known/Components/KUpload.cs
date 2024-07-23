@@ -13,7 +13,7 @@ public class KUpload : BaseComponent
     [Parameter] public bool Directory { get; set; }
     [Parameter] public Action<List<FileDataInfo>> OnFilesChanged { get; set; }
 
-    public async Task RefreshAsync()
+    public override async Task RefreshAsync()
     {
         if (string.IsNullOrWhiteSpace(Value))
             return;

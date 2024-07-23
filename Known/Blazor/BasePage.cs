@@ -36,9 +36,6 @@ $('.kui-table .ant-table-body').not('.form-list .ant-table-body').css('height', 
 
     protected virtual void BuildPage(RenderTreeBuilder builder) { }
     protected virtual Task OnPageInitAsync() => Task.CompletedTask;
-    public virtual Task RefreshAsync() => Task.CompletedTask;
-    internal void OnToolClick(ActionInfo info) => OnAction(info, null);
-    internal void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 }
 
 public class BasePage<TItem> : BasePage where TItem : class, new()

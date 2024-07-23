@@ -5,8 +5,9 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     private bool isInitColumns = false;
     private List<ColumnInfo> columns = [];
 
-    public FormModel(UIContext context, bool isAuto = false) : base(context)
+    public FormModel(BaseComponent page, bool isAuto = false) : base(page.Context)
     {
+        Page = page;
         if (isAuto)
         {
             columns = TypeHelper.Properties(typeof(TItem))
@@ -16,20 +17,14 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    internal FormModel(BasePage page) : this(page.Context)
-    {
-        Page = page;
-    }
-
-    internal FormModel(TableModel<TItem> table) : this(table.Context)
+    internal FormModel(TableModel<TItem> table) : this(table.Page)
     {
         Table = table;
-        Page = table.Page;
         Type = table.FormType ?? Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
         SetFormInfo(table.Context.Current.Form);
     }
 
-    internal BasePage Page { get; }
+    internal BaseComponent Page { get; }
     internal TableModel<TItem> Table { get; }
     internal string Action { get; set; }
     public string Title { get; set; }

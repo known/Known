@@ -46,45 +46,36 @@ public class TableModel(UIContext context) : BaseModel(context)
 
 public class TableModel<TItem> : TableModel where TItem : class, new()
 {
-    public TableModel(UIContext context, bool isAuto = false) : base(context)
+    public TableModel(BaseComponent page, bool isAuto = false) : base(page.Context)
     {
-        AdvSearch = false;
+        AdvSearch = true;
+        Page = page;
         if (isAuto)
         {
             AllColumns = TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p)).ToList();
             Columns = AllColumns;
             InitQueryColumns();
         }
-    }
 
-    public TableModel(BasePage page, bool isAction = false) : this(page.Context)
-    {
-        AdvSearch = true;
-        Page = page;
-        if (isAction)
-        {
-            OnAction = async (info, item) => await TypeHelper.ActionAsync(this, Context, page.App, info, [item]);
-            Toolbar.OnItemClick = async info => await TypeHelper.ActionAsync(this, Context, page.App, info, null);
-        }
-        else
-        {
-            OnAction = page.OnActionClick;
-            Toolbar.OnItemClick = page.OnToolClick;
-        }
+        //OnAction = async (info, item) => await TypeHelper.ActionAsync(this, Context, page.App, info, [item]);
+        //Toolbar.OnItemClick = async info => await TypeHelper.ActionAsync(this, Context, page.App, info, null);
+        OnAction = page.OnActionClick;
+        Toolbar.OnItemClick = page.OnToolClick;
     }
 
     internal List<ColumnInfo> AllColumns { get; private set; }
     internal SysModule Module { get; set; }
-    internal string PageName => Page?.PageName;
+    internal string PageName => Language.GetString(Context.Current);
     internal override Type ItemType => typeof(TItem);
 
-    public BasePage Page { get; }
+    public BaseComponent Page { get; }
     public bool IsDictionary => typeof(TItem) == typeof(Dictionary<string, object>);
     public bool HasAction => Actions != null && Actions.Count > 0;
     public bool HasSum => Columns != null && Columns.Any(c => c.IsSum);
     public bool ShowToolbar { get; set; } = true;
     public bool ShowPager { get; set; }
     public bool Resizable { get; set; }
+    public bool IsList { get; set; }
     public TableSelectType SelectType { get; set; }
     public string Name { get; set; }
     public string FixedWidth { get; set; }

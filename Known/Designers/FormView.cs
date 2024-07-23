@@ -12,13 +12,13 @@ class FormView : BaseView<FormInfo>
     {
         await base.OnInitAsync();
 
-        form = new FormModel<Dictionary<string, object>>(Context) { Data = [] };
+        form = new FormModel<Dictionary<string, object>>(this) { Data = [] };
         SetForm();
 
         Tab.AddTab("Designer.View", BuildView);
         Tab.AddTab("Designer.Fields", BuildList);
 
-        list = new(Context, true)
+        list = new(this, true)
         {
             FixedHeight = "355px",
             OnQuery = c =>

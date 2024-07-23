@@ -2,7 +2,7 @@
 
 class DemoPageModel : TableModel<Dictionary<string, object>>
 {
-    internal DemoPageModel(UIContext context) : base(context)
+    internal DemoPageModel(BaseComponent page) : base(page)
     {
         OnQuery = OnQueryDatas;
         OnAction = OnRowAction;

@@ -12,7 +12,7 @@ public class InstallForm : BaseForm<InstallInfo>
         await base.OnInitFormAsync();
         systemService = await CreateServiceAsync<ISystemService>();
         var data = await systemService.GetInstallAsync();
-        Model = new FormModel<InstallInfo>(Context, true)
+        Model = new FormModel<InstallInfo>(this, true)
         {
             Info = new FormInfo { LabelSpan = 6 },
             Data = data

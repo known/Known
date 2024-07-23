@@ -19,7 +19,7 @@ class EntityView : BaseView<EntityInfo>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        table = new(Context, true);
+        table = new(this, true);
         dbType = new Database().DatabaseType;
         SetViewData(Model);
 

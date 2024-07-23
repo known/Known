@@ -11,7 +11,7 @@ class SysActive : BaseComponent
     {
         await base.OnInitAsync();
         systemService = await CreateServiceAsync<ISystemService>();
-        model = new FormModel<SystemInfo>(Context);
+        model = new FormModel<SystemInfo>(this);
         model.AddRow().AddColumn(c => c.ProductId);
         model.AddRow().AddColumn(c => c.ProductKey);
     }

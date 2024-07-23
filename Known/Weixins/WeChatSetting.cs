@@ -9,7 +9,7 @@ class WeChatSetting : BaseEditForm<WeixinInfo>
         await base.OnInitFormAsync();
         weixinService = await CreateServiceAsync<IWeixinService>();
         var data = await weixinService.GetWeixinAsync("");
-        Model = new FormModel<WeixinInfo>(Context)
+        Model = new FormModel<WeixinInfo>(this)
         {
             IsView = true,
             Info = new FormInfo { LabelSpan = 4, WrapperSpan = 10 },

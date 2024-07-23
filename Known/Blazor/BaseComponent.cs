@@ -69,8 +69,9 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     protected virtual Task OnParameterAsync() => Task.CompletedTask;
     protected virtual Task OnDisposeAsync() => Task.CompletedTask;
     protected virtual void BuildRender(RenderTreeBuilder builder) { }
-
+    
     public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
+    public virtual Task RefreshAsync() => Task.CompletedTask;
     public void StateChanged() => StateHasChanged();
     public Task StateChangedAsync() => InvokeAsync(StateHasChanged);
     public async ValueTask DisposeAsync()
@@ -79,6 +80,8 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         GC.SuppressFinalize(this);
     }
 
+    internal void OnToolClick(ActionInfo info) => OnAction(info, null);
+    internal void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
     internal async void OnAction(ActionInfo info, object[] parameters)
     {
         await TypeHelper.ActionAsync(this, Context, App, info, parameters);

@@ -17,7 +17,7 @@ class PageView : BaseView<PageInfo>
 
         SetTablePage();
 
-        list = new(Context, true)
+        list = new(this, true)
         {
             FixedHeight = "355px",
             OnQuery = c =>
@@ -136,7 +136,7 @@ class PageView : BaseView<PageInfo>
 
     private async void SetTablePage()
     {
-        table = new DemoPageModel(Context)
+        table = new DemoPageModel(this)
         {
             Module = Form.Model.Data,
             Entity = Entity

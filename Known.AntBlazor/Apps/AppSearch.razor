@@ -60,7 +60,7 @@
         await RefreshAsync();
     }
 
-    public async Task RefreshAsync()
+    public override async Task RefreshAsync()
     {
         criteria.Parameters["Key"] = searchKey;
         result = await OnQuery.Invoke(criteria);

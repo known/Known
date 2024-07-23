@@ -13,7 +13,7 @@ public class UserEditForm : BaseEditForm<SysUser>
         userService = await CreateServiceAsync<IUserService>();
         var data = Parent?.User;
         data ??= await userService.GetUserAsync(CurrentUser.Id);
-        Model = new FormModel<SysUser>(Context)
+        Model = new FormModel<SysUser>(this)
         {
             Info = new FormInfo { LabelSpan = 4, WrapperSpan = 8 },
             Data = data

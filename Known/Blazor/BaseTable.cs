@@ -9,7 +9,9 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Table = new TableModel<TItem>(Context);
+        Table = new TableModel<TItem>(this);
+        Table.AdvSearch = false;
+        Table.IsList = true;
         Table.OnAction = (info, item) => OnAction(info, [item]);
         Table.Toolbar.OnItemClick = info => OnAction(info, null);
     }
@@ -17,7 +19,7 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     protected override void BuildRender(RenderTreeBuilder builder) => builder.Table(Table);
     //protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
-    public virtual Task RefreshAsync() => Table.RefreshAsync();
+    public override Task RefreshAsync() => Table.RefreshAsync();
     public virtual void MoveUp(TItem row) => MoveRow(row, true);
     public virtual void MoveDown(TItem row) => MoveRow(row, false);
 

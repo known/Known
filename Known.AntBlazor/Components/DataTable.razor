@@ -166,7 +166,7 @@
         base.OnInitialized();
     }
 
-    public async Task RefreshAsync()
+    public override async Task RefreshAsync()
     {
         await InvokeAsync(() =>
         {

@@ -30,24 +30,24 @@ public static class FlowExtension
         page.ViewForm(FormViewType.Submit, row);
     }
 
-    public static async void SubmitFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async void SubmitFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        var service = await page.CreateServiceAsync<IFlowService>();
-        page.ShowFlowModal(page.Language["Button.Submit"], rows, service.SubmitFlowAsync);
+        var service = await component.CreateServiceAsync<IFlowService>();
+        component.ShowFlowModal(component.Language["Button.Submit"], rows, service.SubmitFlowAsync);
     }
 
-    public static void RevokeFlow<TItem>(this BasePage page, TItem row) where TItem : FlowEntity, new() => page.RevokeFlow([row]);
+    public static void RevokeFlow<TItem>(this BaseComponent component, TItem row) where TItem : FlowEntity, new() => component.RevokeFlow([row]);
 
-    public static async void RevokeFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async void RevokeFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        var service = await page.CreateServiceAsync<IFlowService>();
-        page.ShowFlowModal(page.Language["Button.Revoke"], rows, service.RevokeFlowAsync);
+        var service = await component.CreateServiceAsync<IFlowService>();
+        component.ShowFlowModal(component.Language["Button.Revoke"], rows, service.RevokeFlowAsync);
     }
 
-    public static async void AssignFlow<TItem>(this BasePage page, TItem row) where TItem : FlowEntity, new()
+    public static async void AssignFlow<TItem>(this BaseComponent component, TItem row) where TItem : FlowEntity, new()
     {
-        var service = await page.CreateServiceAsync<IFlowService>();
-        page.ShowFlowModal(page.Language["Button.Assign"], [row], service.AssignFlowAsync);
+        var service = await component.CreateServiceAsync<IFlowService>();
+        component.ShowFlowModal(component.Language["Button.Assign"], [row], service.AssignFlowAsync);
     }
 
     public static void VerifyFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new()
@@ -55,23 +55,23 @@ public static class FlowExtension
         page.ViewForm(FormViewType.Verify, row);
     }
 
-    public static async void StopFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async void StopFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        var service = await page.CreateServiceAsync<IFlowService>();
-        page.ShowFlowModal(page.Language["Button.Stop"], rows, service.StopFlowAsync);
+        var service = await component.CreateServiceAsync<IFlowService>();
+        component.ShowFlowModal(component.Language["Button.Stop"], rows, service.StopFlowAsync);
     }
 
-    public static async void RepeatFlow<TItem>(this BasePage page, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async void RepeatFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        var service = await page.CreateServiceAsync<IFlowService>();
-        page.ShowFlowModal(page.Language["Button.Restart"], rows, service.RepeatFlowAsync);
+        var service = await component.CreateServiceAsync<IFlowService>();
+        component.ShowFlowModal(component.Language["Button.Restart"], rows, service.RepeatFlowAsync);
     }
 
-    private static void ShowFlowModal<TItem>(this BasePage page, string name, List<TItem> rows, Func<FlowFormInfo, Task<Result>> action) where TItem : FlowEntity, new()
+    private static void ShowFlowModal<TItem>(this BaseComponent component, string name, List<TItem> rows, Func<FlowFormInfo, Task<Result>> action) where TItem : FlowEntity, new()
     {
-        var flow = new FlowFormModel(page.Context);
+        var flow = new FlowFormModel(component);
         flow.Data = new FlowFormInfo { BizId = string.Join(",", rows.Select(r => r.Id)) };
-        if (name == page.Language["Button.Assign"])
+        if (name == component.Language["Button.Assign"])
         {
             flow.AddUserColumn("AssignTo", "User");
             flow.AddNoteColumn();
@@ -81,11 +81,11 @@ public static class FlowExtension
             flow.AddReasonColumn(name);
         }
 
-        var title = page.Language["Title.FlowAction"].Replace("{action}", name);
+        var title = component.Language["Title.FlowAction"].Replace("{action}", name);
         var model = new DialogModel
         {
             Title = title,
-            Content = builder => page.UI.BuildForm(builder, flow)
+            Content = builder => component.UI.BuildForm(builder, flow)
         };
         model.OnOk = async () =>
         {
@@ -93,13 +93,13 @@ public static class FlowExtension
                 return;
 
             var result = await action?.Invoke(flow.Data);
-            page.UI.Result(result, async () =>
+            component.UI.Result(result, async () =>
             {
                 await model.CloseAsync();
-                await page.RefreshAsync();
+                await component.RefreshAsync();
             });
         };
-        page.UI.ShowDialog(model);
+        component.UI.ShowDialog(model);
     }
     #endregion
 }

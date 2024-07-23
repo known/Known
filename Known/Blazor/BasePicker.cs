@@ -8,30 +8,41 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     }
 
     public virtual List<TItem> SelectedItems { get; }
+    public string Title { get; set; }
+
     [Parameter] public double? Width { get; set; }
+    [Parameter] public bool IsPick { get; set; }
     [Parameter] public bool IsMulti { get; set; }
     [Parameter] public bool AllowClear { get; set; }
     [Parameter] public string Value { get; set; }
-    [Parameter] public string Title { get; set; }
+    [Parameter] public Action<string> ValueChanged { get; set; }
     [Parameter] public Action<List<TItem>> OnPicked { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        if (OnPicked != null)
-        {
-            BuildTextBox(builder);
-            UI.BuildText(builder, new InputModel<string> { Value = Value, Disabled = true });
-
-            if (!ReadOnly)
-            {
-                if (AllowClear)
-                    builder.Icon("fa fa-close kui-pick-clear", this.Callback<MouseEventArgs>(OnClear));
-                builder.Icon("fa fa-ellipsis-h kui-pick", this.Callback<MouseEventArgs>(ShowModal));
-            }
-        }
-        else
+        if (IsPick)
         {
             BuildContent(builder);
+            return;
+        }
+
+        BuildTextBox(builder);
+        UI.BuildText(builder, new InputModel<string>
+        {
+            Value = Value,
+            Disabled = true,
+            ValueChanged = this.Callback<string>(value =>
+            {
+                Value = value;
+                ValueChanged?.Invoke(value);
+            })
+        });
+
+        if (!ReadOnly)
+        {
+            if (AllowClear)
+                builder.Icon("fa fa-close kui-pick-clear", this.Callback<MouseEventArgs>(OnClear));
+            builder.Icon("fa fa-ellipsis-h kui-pick", this.Callback<MouseEventArgs>(ShowModal));
         }
     }
 
@@ -57,7 +68,11 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
         {
             Title = Title,
             Width = Width,
-            Content = b => b.Component(this.GetType(), null, value => picker = (BasePicker<TItem>)value)
+            Content = b =>
+            {
+                var parameters = new Dictionary<string, object> { { nameof(IsPick), true } };
+                b.Component(this.GetType(), parameters, value => picker = (BasePicker<TItem>)value);
+            }
         };
         model.OnOk = async () =>
         {

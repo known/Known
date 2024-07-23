@@ -10,7 +10,7 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
     {
         await base.OnInitFormAsync();
         authService = await CreateServiceAsync<IAuthService>();
-        Model = new FormModel<PwdFormInfo>(Context, true)
+        Model = new FormModel<PwdFormInfo>(this, true)
         {
             Info = new FormInfo { LabelSpan = 4, WrapperSpan = 6 },
             Data = new PwdFormInfo()
