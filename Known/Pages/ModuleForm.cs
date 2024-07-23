@@ -2,7 +2,6 @@
 
 public class ModuleForm : BaseStepForm
 {
-    private IModuleService moduleService;
     private StepForm stepForm;
 
     private int StepCount
@@ -29,7 +28,6 @@ public class ModuleForm : BaseStepForm
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        moduleService = await CreateServiceAsync<IModuleService>();
         Model.SmallLabel = true;
         Model.OnFieldChanged = OnFieldChanged;
         if (!IsPageEdit)
@@ -66,7 +64,7 @@ public class ModuleForm : BaseStepForm
                .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.AllowClear, true)
                .Set(c => c.Value, Model.Data.Icon)
-               .Set(c => c.OnPicked, o => Model.Data.Icon = o?[0]?.Icon)
+               .Set(c => c.ValueChanged, o => Model.Data.Icon = o?[0]?.Icon)
                .Build();
     }
 

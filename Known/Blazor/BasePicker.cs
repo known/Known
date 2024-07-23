@@ -15,8 +15,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     [Parameter] public bool IsMulti { get; set; }
     [Parameter] public bool AllowClear { get; set; }
     [Parameter] public string Value { get; set; }
-    [Parameter] public Action<string> ValueChanged { get; set; }
-    [Parameter] public Action<List<TItem>> OnPicked { get; set; }
+    [Parameter] public Action<List<TItem>> ValueChanged { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
@@ -27,16 +26,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
         }
 
         BuildTextBox(builder);
-        UI.BuildText(builder, new InputModel<string>
-        {
-            Value = Value,
-            Disabled = true,
-            ValueChanged = this.Callback<string>(value =>
-            {
-                Value = value;
-                ValueChanged?.Invoke(value);
-            })
-        });
+        UI.BuildText(builder, new InputModel<string> { Value = Value, Disabled = true });
 
         if (!ReadOnly)
         {
@@ -55,7 +45,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
             return;
 
         Value = string.Empty;
-        OnPicked?.Invoke(null);
+        ValueChanged?.Invoke(null);
     }
 
     private void ShowModal(MouseEventArgs args)
@@ -83,7 +73,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
                 return;
             }
 
-            OnPicked?.Invoke(items);
+            ValueChanged?.Invoke(items);
             await model.CloseAsync();
         };
         UI.ShowDialog(model);

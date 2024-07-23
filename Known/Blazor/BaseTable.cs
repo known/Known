@@ -11,7 +11,7 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
         await base.OnInitAsync();
         Table = new TableModel<TItem>(this);
         Table.AdvSearch = false;
-        Table.IsList = true;
+        Table.IsForm = true;
         Table.OnAction = (info, item) => OnAction(info, [item]);
         Table.Toolbar.OnItemClick = info => OnAction(info, null);
     }

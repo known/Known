@@ -133,7 +133,7 @@ class FlowFormModel(BaseComponent component) : FormModel<FlowFormInfo>(component
                  .Set(c => c.Width, 800)
                  .Set(c => c.AllowClear, true)
                  .Set(c => c.Value, Data.User)
-                 .Set(c => c.ValueChanged, v => Data.User = v)
+                 .Set(c => c.ValueChanged, v => Data.User = v?[0]?.UserName)
                  .Build();
             };
         });
@@ -186,8 +186,10 @@ public class UserPicker : BasePicker<SysUser>
         Title = Language["Title.SelectUser"];
         Table = new TableModel<SysUser>(this)
         {
-            SelectType = IsMulti ? TableSelectType.Checkbox : TableSelectType.Radio,
+            IsForm = true,
+            AdvSearch = false,
             ShowPager = true,
+            SelectType = IsMulti ? TableSelectType.Checkbox : TableSelectType.Radio,
             OnQuery = Service.QueryUsersAsync
         };
         Table.AddColumn(c => c.UserName).Width(100);

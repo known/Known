@@ -75,7 +75,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public bool ShowToolbar { get; set; } = true;
     public bool ShowPager { get; set; }
     public bool Resizable { get; set; }
-    public bool IsList { get; set; }
+    public bool IsForm { get; set; }
     public TableSelectType SelectType { get; set; }
     public string Name { get; set; }
     public string FixedWidth { get; set; }
