@@ -2,6 +2,8 @@
 
 public class AntCol : ComponentBase
 {
+    [CascadingParameter] private AntRow Row { get; set; }
+
     [Parameter] public int Span { get; set; }
     [Parameter] public int Offset { get; set; }
     [Parameter] public string Class { get; set; }
@@ -15,6 +17,14 @@ public class AntCol : ComponentBase
                           .AddClass($"ant-col-offset-{Offset}", Offset > 0)
                           .AddClass(Class)
                           .BuildClass();
-        builder.Div().Class(className).Style(Style).Children(() => builder.Fragment(ChildContent)).Close();
+        var style = CssBuilder.Default().AddStyle(Style);
+        if (Row.Gutter > 0)
+        {
+            style.Add("padding-left", $"{Row.Gutter / 2}px");
+            style.Add("padding-right", $"{Row.Gutter / 2}px");
+        }
+        builder.Div().Class(className).Style(style.BuildStyle())
+               .Children(() => builder.Fragment(ChildContent))
+               .Close();
     }
 }

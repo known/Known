@@ -3,7 +3,8 @@
 public class CssBuilder
 {
     private readonly List<string> classes = [];
-    private readonly Dictionary<string, string> styles = [];
+    private readonly List<string> styles = [];
+    private readonly Dictionary<string, string> dicStyles = [];
 
     protected CssBuilder(string className)
     {
@@ -15,7 +16,15 @@ public class CssBuilder
     public CssBuilder Add(string key, string value)
     {
         if (!string.IsNullOrEmpty(value))
-            styles[key] = value;
+            dicStyles[key] = value;
+
+        return this;
+    }
+
+    public CssBuilder AddStyle(string style)
+    {
+        if (!string.IsNullOrEmpty(style))
+            styles.Add(style);
 
         return this;
     }
@@ -30,5 +39,11 @@ public class CssBuilder
 
     public CssBuilder AddClass(string className, bool when) => when ? AddClass(className) : this;
     public string BuildClass() => classes.Count != 0 ? string.Join(" ", classes) : null;
-    public string BuildStyle() => string.Join(";", styles.Select(s => $"{s.Key}:{s.Value}"));
+
+    public string BuildStyle()
+    {
+        var style = string.Join(";", dicStyles.Select(s => $"{s.Key}:{s.Value}")) + ";";
+        style += string.Join("", styles);
+        return style;
+    }
 }

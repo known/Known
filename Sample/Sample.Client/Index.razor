@@ -3,22 +3,22 @@
 
 <PageTitle>@AppConfig.Branch - @Language["App.SubTitle"]</PageTitle>
 
-<GridRow><GridCol Span="24"><KnownCard /></GridCol></GridRow>
-<GridRow><GridCol Span="24"><SpaceCard @ref="space" /></GridCol></GridRow>
-<GridRow Gutter="10">
-    <GridCol Span="14">
+<AntRow><AntCol Span="24"><KnownCard /></AntCol></AntRow>
+<AntRow><AntCol Span="24"><SpaceCard @ref="space" /></AntCol></AntRow>
+<AntRow Gutter="10">
+    <AntCol Span="14">
         <ChartCard @ref="chart" Title="@Language?["Home.LogStatistic"]" />
-    </GridCol>
-    <GridCol Span="10">
+    </AntCol>
+    <AntCol Span="10">
         <CommFuncCard @ref="func" />
-    </GridCol>
-</GridRow>
-<GridRow>
-    <GridCol Span="12">
+    </AntCol>
+</AntRow>
+<AntRow>
+    <AntCol Span="12">
         <Known.WorkFlows.UserPicker @bind-Value="test" />
-    </GridCol>
-    <GridCol Span="12">Test: @test</GridCol>
-</GridRow>
+    </AntCol>
+    <AntCol Span="12">Test: @test</AntCol>
+</AntRow>
 
 @code {
     private string test;
