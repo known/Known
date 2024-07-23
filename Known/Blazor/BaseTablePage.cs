@@ -16,7 +16,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         Table.Initialize(this);
     }
 
-    protected override void BuildPage(RenderTreeBuilder builder) => builder.BuildTable(Table);
+    protected override void BuildPage(RenderTreeBuilder builder) => builder.Table(Table);
 
     protected async void ShowImportForm(string param = null)
     {

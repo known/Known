@@ -55,7 +55,7 @@ public class SysModuleList : BasePage<SysModule>
     }
 
     private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
-    private void BuildTable(RenderTreeBuilder builder) => builder.BuildTable(table);
+    private void BuildTable(RenderTreeBuilder builder) => builder.Table(table);
 
     private void BuildName(RenderTreeBuilder builder, SysModule row)
     {

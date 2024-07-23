@@ -14,7 +14,7 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
         Table.Toolbar.OnItemClick = info => OnAction(info, null);
     }
 
-    protected override void BuildRender(RenderTreeBuilder builder) => builder.BuildTable(Table);
+    protected override void BuildRender(RenderTreeBuilder builder) => builder.Table(Table);
     //protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
     public virtual Task RefreshAsync() => Table.RefreshAsync();

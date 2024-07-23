@@ -197,5 +197,5 @@ class UserPicker : BasePicker<SysUser>
         Table.AddColumn(c => c.Role);
     }
 
-    protected override void BuildContent(RenderTreeBuilder builder) => builder.BuildTable(Table);
+    protected override void BuildContent(RenderTreeBuilder builder) => builder.Table(Table);
 }
