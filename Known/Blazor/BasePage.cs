@@ -25,7 +25,7 @@ public class BasePage : BaseComponent
 var body = $('body').height();
 var header = 64;
 var tabs = $('.kui-page > .ant-tabs').length ? 55 : 10;
-var query = 62;
+var query = $('.kui-query').length ? 61 : -43;
 var toolbar = $('.kui-table > .ant-tabs').length ? 56 : 52;
 var tableHead = 42;
 var cardHeight = body-header-tabs-62;
