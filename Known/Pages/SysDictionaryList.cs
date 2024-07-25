@@ -20,7 +20,13 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         Table.RowKey = r => r.Id;
         Table.OnQuery = QueryDictionarysAsync;
         Table.Column(c => c.Category).Template((b, r) => b.Text(r.CategoryName));
-        await LoadCategoriesAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            await LoadCategoriesAsync();
     }
 
     protected override void BuildPage(RenderTreeBuilder builder)
@@ -35,10 +41,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     public override async Task RefreshAsync()
     {
         if (isAddCategory)
-        {
             await LoadCategoriesAsync();
-            await StateChangedAsync();
-        }
 
         await base.RefreshAsync();
     }
@@ -105,6 +108,8 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     {
         categories = await dictionaryService.GetCategoriesAsync();
         category ??= categories?.FirstOrDefault();
+        await OnCategoryClick(category);
+        await StateChangedAsync();
     }
 
     private void NewForm(CodeInfo info, int sort, bool isCategory)

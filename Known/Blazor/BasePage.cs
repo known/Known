@@ -6,13 +6,6 @@ public class BasePage : BaseComponent
 
     protected override Task OnInitAsync() => OnPageInitAsync();
 
-    protected override async Task OnParameterAsync()
-    {
-        await base.OnParameterAsync();
-        //Logger.Info($"TY={GetType().Name},MN={PageName},PUL={Context.Url}");
-        await RefreshAsync();
-    }
-
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Component<KAuthPanel>().Set(c => c.ChildContent, BuildPage).Build();
@@ -53,7 +46,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 public class BaseTabPage : BasePage
 {
     protected TabModel Tab { get; } = new();
-    protected string CurrentTab {  get; set; }
+    protected string CurrentTab { get; set; }
 
     protected override async Task OnPageInitAsync()
     {

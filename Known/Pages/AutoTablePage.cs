@@ -29,6 +29,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     {
         await base.OnParameterAsync();
         InitTable();
+        await base.RefreshAsync();
     }
 
     protected override void BuildPage(RenderTreeBuilder builder)
