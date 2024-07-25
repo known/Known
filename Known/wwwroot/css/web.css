@@ -44,7 +44,7 @@
 /*Grid*/
 .kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));grid-column-gap:10px;}
 .kui-row-19, .kui-row-28, .kui-row-37, .kui-row-46, .kui-row-56, .kui-row-64, .kui-row-73, .kui-row-82, .kui-row-91 {
-    display:grid;grid-column-gap:10px;
+    display:grid;grid-column-gap:10px;padding-right:10px;
 }
 .kui-row-19 {grid-template-columns:10% 90%;}
 .kui-row-28 {grid-template-columns:20% 80%;}

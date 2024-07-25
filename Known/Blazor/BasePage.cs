@@ -18,9 +18,9 @@ public class BasePage : BaseComponent
         builder.Component<KAuthPanel>().Set(c => c.ChildContent, BuildPage).Build();
     }
 
-    protected override async void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        base.OnAfterRender(firstRender);
+        await base.OnAfterRenderAsync(firstRender);
         await JS.RunVoidAsync(@"
 var body = $('body').height();
 var header = 64;
