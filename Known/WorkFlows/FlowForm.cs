@@ -170,34 +170,3 @@ class FlowFormModel(BaseComponent component) : FormModel<FlowFormInfo>(component
         });
     }
 }
-
-public class UserPicker : BasePicker<SysUser>
-{
-    private IUserService Service;
-    private TableModel<SysUser> Table;
-
-    public override List<SysUser> SelectedItems => Table.SelectedRows?.ToList();
-
-    protected override async Task OnInitAsync()
-    {
-        IsMulti = false;
-        await base.OnInitAsync();
-        Service = await CreateServiceAsync<IUserService>();
-        Title = Language["Title.SelectUser"];
-        Table = new TableModel<SysUser>(this)
-        {
-            IsForm = true,
-            AdvSearch = false,
-            ShowPager = true,
-            SelectType = IsMulti ? TableSelectType.Checkbox : TableSelectType.Radio,
-            OnQuery = Service.QueryUsersAsync
-        };
-        Table.AddColumn(c => c.UserName).Width(100);
-        Table.AddColumn(c => c.Name, true).Width(100);
-        Table.AddColumn(c => c.Phone).Width(100);
-        Table.AddColumn(c => c.Email).Width(100);
-        Table.AddColumn(c => c.Role);
-    }
-
-    protected override void BuildContent(RenderTreeBuilder builder) => builder.Table(Table);
-}

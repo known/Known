@@ -38,6 +38,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
 
     protected virtual void BuildTextBox(RenderTreeBuilder builder) { }
     protected virtual void BuildContent(RenderTreeBuilder builder) { }
+    protected virtual Dictionary<string, object> GetPickParameters() => new() { { nameof(IsPick), true } };
 
     private void OnClear(MouseEventArgs args)
     {
@@ -60,7 +61,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
             Width = Width,
             Content = b =>
             {
-                var parameters = new Dictionary<string, object> { { nameof(IsPick), true } };
+                var parameters = GetPickParameters();
                 b.Component(this.GetType(), parameters, value => picker = (BasePicker<TItem>)value);
             }
         };
