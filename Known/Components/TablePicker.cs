@@ -15,7 +15,7 @@ public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
             IsForm = true,
             AdvSearch = false,
             ShowPager = true,
-            SelectType = IsMulti ? TableSelectType.Checkbox : TableSelectType.Radio
+            SelectType = TableSelectType.Radio
         };
     }
 
