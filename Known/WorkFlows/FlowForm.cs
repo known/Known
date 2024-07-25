@@ -12,19 +12,26 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
         await base.OnInitFormAsync();
         Flow = await CreateServiceAsync<IFlowService>();
         Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.BizId, Model.Data.Id).Build());
+    }
 
-        step.Items.Clear();
-        var flow = await Flow.GetFlowAsync(Context.Current.Id, Model.Data.Id);
-        var steps = flow.GetFlowStepItems();
-        if (steps != null && steps.Count > 0)
-            step.Items.AddRange(steps);
-        step.Current = flow.Current;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            step.Items.Clear();
+            var flow = await Flow.GetFlowAsync(Context.Current.Id, Model.Data.Id);
+            var steps = flow.GetFlowStepItems();
+            if (steps != null && steps.Count > 0)
+                step.Items.AddRange(steps);
+            step.Current = flow.Current;
+        }
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         UI.BuildSteps(builder, step);
-        UI.BuildTabs(builder, Tab);
+        base.BuildForm(builder);
     }
 }
 

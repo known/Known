@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<Tabs Animated Class="@Class" OnChange="OnTabChange">
+<Tabs Animated Class="@Class" @bind-ActiveKey="@current">
     <TabBarExtraContentLeft>
         @Model.Left
     </TabBarExtraContentLeft>
@@ -36,14 +36,21 @@
 </Tabs>
 
 @code {
+    private string current;
+
     [Parameter] public string Class { get; set; }
     [Parameter] public string Tabs { get; set; }
     [Parameter] public TabModel Model { get; set; }
     [Parameter] public Action<string> OnChange { get; set; }
 
-    private void OnTabChange(string tab)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        OnChange?.Invoke(tab);
-        Model.OnChange?.Invoke(tab);
+        await base.OnAfterRenderAsync(firstRender);
+        if (current != Model.Current)
+        {
+            Model.Current = current;
+            OnChange?.Invoke(current);
+            Model.Change();
+        }
     }
 }

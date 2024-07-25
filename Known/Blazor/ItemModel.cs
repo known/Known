@@ -12,6 +12,7 @@ public class ItemModel(string id, string title)
 
 public class TabModel
 {
+    public string Current { get; set; }
     public RenderFragment Left { get; set; }
     public RenderFragment Right { get; set; }
     public List<ItemModel> Items { get; } = [];
@@ -20,23 +21,11 @@ public class TabModel
     public bool HasItem => Items != null && Items.Count > 0;
 
     public void AddTab(string id) => AddTab(id, id);
-
-    public void AddTab(string id, string title)
-    {
-        Items.Add(new ItemModel(id, title));
-    }
-
-    public void AddTab(string id, string title, TableModel table)
-    {
-        Items.Add(new ItemModel(id, title) { Table = table });
-    }
-
+    public void AddTab(string id, string title) => Items.Add(new ItemModel(id, title));
+    public void AddTab(string id, string title, TableModel table) => Items.Add(new ItemModel(id, title) { Table = table });
     public void AddTab(string id, RenderFragment content) => AddTab(id, id, content);
-
-    public void AddTab(string id, string title, RenderFragment content)
-    {
-        Items.Add(new ItemModel(id, title) { Content = content });
-    }
+    public void AddTab(string id, string title, RenderFragment content) => Items.Add(new ItemModel(id, title) { Content = content });
+    public void Change() => OnChange?.Invoke(Current);
 }
 
 public class StepModel
