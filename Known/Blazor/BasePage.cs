@@ -45,6 +45,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 
 public class BaseTabPage : BasePage
 {
+    protected string Current { get; set; }
     protected TabModel Tab { get; } = new();
 
     protected override async Task OnPageInitAsync()
@@ -56,8 +57,9 @@ public class BaseTabPage : BasePage
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
+        if (Current != Tab.Current)
         {
+            Tab.Current = Current;
             await OnTabChangeAsync();
             await RefreshAsync();
         }
