@@ -1,0 +1,42 @@
+﻿@inherits BaseComponent
+
+<div class="kui-query">
+    @Query
+</div>
+
+<div class="kui-table">
+    <Tabs Animated @bind-ActiveKey="@activeKey">
+        <TabBarExtraContentLeft>
+            <KTitle Text="@PageName" />
+        </TabBarExtraContentLeft>
+        <ChildContent>
+            @TabContent
+        </ChildContent>
+        <TabBarExtraContentRight>
+            @TabRight
+        </TabBarExtraContentRight>
+    </Tabs>
+    @TabBottom
+</div>
+
+@code {
+    private string current;
+    private string activeKey;
+
+    [Parameter] public string PageName { get; set; }
+    [Parameter] public RenderFragment Query { get; set; }
+    [Parameter] public RenderFragment TabContent { get; set; }
+    [Parameter] public RenderFragment TabRight { get; set; }
+    [Parameter] public RenderFragment TabBottom { get; set; }
+    [Parameter] public Action<string> OnChange { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (current != activeKey)
+        {
+            current = activeKey;
+            OnChange?.Invoke(current);
+        }
+    }
+}

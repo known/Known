@@ -45,7 +45,6 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 
 public class BaseTabPage : BasePage
 {
-    protected string Current { get; set; }
     protected TabModel Tab { get; } = new();
 
     protected override async Task OnPageInitAsync()
@@ -53,19 +52,6 @@ public class BaseTabPage : BasePage
         await base.OnPageInitAsync();
         Tab.Left = b => b.FormTitle(PageName);
     }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (Current != Tab.Current)
-        {
-            Tab.Current = Current;
-            await OnTabChangeAsync();
-            await RefreshAsync();
-        }
-    }
-
-    protected virtual Task OnTabChangeAsync() => Task.CompletedTask;
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
