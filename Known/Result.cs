@@ -145,6 +145,7 @@ public class PagingCriteria
     public Dictionary<string, object> Parameters { get; set; }
     public List<string> SumColumns { get; set; }
 
+    public bool IsLoad { get; set; }
     public bool IsQuery { get; set; }
     public int PageIndex { get; set; }
     public int PageSize { get; set; }
@@ -155,6 +156,7 @@ public class PagingCriteria
 
     public void Clear()
     {
+        IsLoad = true;
         IsQuery = false;
         ExportColumns = [];
         Parameters = [];

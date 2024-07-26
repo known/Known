@@ -19,11 +19,6 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
             HidePagination = !Model.ShowPager;
             if (Model.TreeChildren != null)
                 TreeChildren = Model.TreeChildren;
-            if (Model.Criteria != null)
-            {
-                PageIndexChanged = this.Callback<int>(v => Model.Criteria.PageIndex = v);
-                PageSizeChanged = this.Callback<int>(v => Model.Criteria.PageSize = v);
-            }
             if (Model.RowClass != null)
                 RowClassName = r => Model.RowClass.Invoke(r.Data);
         }
@@ -45,24 +40,5 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
                .Set(c => c.ShowQuickJumper, true)
                .Set(c => c.OnChange, tuple.HandlePageChange)
                .Build();
-    }
-
-    protected override void OnParametersSet()
-    {
-        if (Model != null)
-        {
-            if (Model.ShowPager)
-            {
-                PageIndex = Model.Criteria.PageIndex;
-                PageSize = Model.Criteria.PageSize;
-            }
-
-            if (Model.Result != null)
-            {
-                DataSource = Model.Result.PageData;
-                Total = Model.Result.TotalCount;
-            }
-        }
-        base.OnParametersSet();
     }
 }
