@@ -4,14 +4,14 @@ class ModuleHelper
 {
     internal static void InitAppModules()
     {
-        var modules = new List<SysModule>();
-        var bizApply = GetModule("BizApply", "业务申请", "appstore", ModuleType.Menu.ToString(), 2);
-        modules.Add(bizApply);
-        modules.Add(GetBaApplyList(bizApply.Id));
-        modules.Add(GetBaVerifyList(bizApply.Id));
-        modules.Add(GetBaQueryList(bizApply.Id));
-
-        Config.AppModules = modules;
+        Config.OnAddModule = modules =>
+        {
+            var bizApply = GetModule("BizApply", "业务申请", "appstore", ModuleType.Menu.ToString(), 2);
+            modules.Add(bizApply);
+            modules.Add(GetBaApplyList(bizApply.Id));
+            modules.Add(GetBaVerifyList(bizApply.Id));
+            modules.Add(GetBaQueryList(bizApply.Id));
+        };
     }
 
     private static SysModule GetModule(string code, string name, string icon, string target, int sort)

@@ -19,7 +19,7 @@ public sealed class Config
     public static List<Type> ApiTypes { get; } = [];
     public static List<ApiMethodInfo> ApiMethods { get; } = [];
     public static List<MenuInfo> AppMenus { get; set; }
-    public static List<SysModule> AppModules { get; set; }
+    public static Action<List<SysModule>> OnAddModule { get; set; }
     internal static DateTime StartTime { get; set; }
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
@@ -28,7 +28,7 @@ public sealed class Config
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
 
-    public static void AddModule(Assembly assembly)
+    public static void AddModule(Assembly assembly, bool isAdditional = true)
     {
         if (assembly == null)
             return;
@@ -36,7 +36,8 @@ public sealed class Config
         if (Assemblies.Exists(a => a.FullName == assembly.FullName))
             return;
 
-        Assemblies.Add(assembly);
+        if (isAdditional)
+            Assemblies.Add(assembly);
         AddActions(assembly);
         Language.Initialize(assembly);
 

@@ -64,6 +64,9 @@ public static class AppWeb
         //    if (flow.Flow.FlowCode == AppFlow.Apply.Code)
         //        ApplyForm.ShowMyFlow(flow);
         //};
+
+        //添加模块
+        Config.AddModule(typeof(AppWeb).Assembly, false);
     }
 }
 

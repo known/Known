@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Authors>KnownChen</Authors>
         <Description>Known.AntBlazor是基于AntDesign Blazor的实现Known框架界面的类库。</Description>
-        <Version>1.0.5</Version>
+        <Version>1.0.6</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, AntDesign, UI, Blazor</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -22,6 +22,9 @@
 
     <ItemGroup>
         <None Include="..\icon.png" />
+        <Content Update="Components\TabPage.razor">
+          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </Content>
         <None Update="..\icon.png">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>

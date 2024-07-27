@@ -10,7 +10,10 @@ class ModuleHelper
         modules.Add(GetSysDictionary(baseData.Id));
         modules.Add(GetSysOrganization(baseData.Id));
 
-        var system = GetModule("System", "系统管理", "setting", ModuleType.Menu.ToString(), 2);
+        Config.OnAddModule?.Invoke(modules);
+
+        var roots = modules.Count(m => m.ParentId == "0");
+        var system = GetModule("System", "系统管理", "setting", ModuleType.Menu.ToString(), roots + 1);
         modules.Add(system);
         modules.Add(GetSysSystem(system.Id));
         modules.Add(GetSysRole(system.Id));
@@ -19,10 +22,6 @@ class ModuleHelper
         modules.Add(GetSysFile(system.Id));
         modules.Add(GetSysLog(system.Id));
         modules.Add(GetSysModule(system.Id));
-
-        if (Config.AppModules != null && Config.AppModules.Count > 0)
-            modules.AddRange(Config.AppModules);
-
         return modules;
     }
 
