@@ -27,6 +27,25 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
         base.OnInitialized();
     }
 
+    protected override void OnParametersSet()
+    {
+        if (Model != null)
+        {
+            if (Model.ShowPager)
+            {
+                PageIndex = Model.Criteria.PageIndex;
+                PageSize = Model.Criteria.PageSize;
+            }
+
+            if (Model.Result != null)
+            {
+                DataSource = Model.Result.PageData;
+                Total = Model.Result.TotalCount;
+            }
+        }
+        base.OnParametersSet();
+    }
+
     private void BuildPagination(RenderTreeBuilder builder, (int PageSize, int PageIndex, int Total, string PaginationClass, EventCallback<PaginationEventArgs> HandlePageChange) tuple)
     {
         Func<PaginationTotalContext, string> showTotal = ctx => Context?.Language["Page.Total"].Replace("{total}", $"{ctx.Total}");

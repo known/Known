@@ -3,12 +3,9 @@
 @inherits BaseComponent
 @typeparam TItem where TItem : class, new()
 
-<AntTable @ref="table" TItem="TItem" Context="Context" Model="Model" DataSource="dataSource" Total="total"
+<AntTable @ref="table" TItem="TItem" Context="Context" Model="Model"
           ScrollX="@scrollX" ScrollY="@scrollY" Loading="isQuering"
-          @bind-PageIndex="Model.Criteria.PageIndex"
-          @bind-PageSize="Model.Criteria.PageSize"
-          @bind-SelectedRows="Model.SelectedRows" 
-          OnChange="OnChange" OnRowClick="OnRowClick">
+          @bind-SelectedRows="Model.SelectedRows" OnChange="OnChange" OnRowClick="OnRowClick">
     @if (Model.SelectType != TableSelectType.None)
     {
         <Selection Type="@Model.SelectType.ToString().ToLower()" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
@@ -153,9 +150,6 @@
 
 @code {
     private AntTable<TItem> table;
-    private List<TItem> dataSource = [];
-    private int total;
-    private QueryModel<TItem> query;
     private bool isQuering = false;
     private string scrollX = "";
     private string scrollY => Model.FixedHeight ?? "1000px";
@@ -167,24 +161,29 @@
         var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 100).Sum();
         if (totalWidth > 1000)
             scrollX = totalWidth.ToString();
-        Model.OnRefresh = QueryDataAsync;
+        Model.OnRefresh = RefreshTableAsync;
         base.OnInitialized();
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private async Task RefreshTableAsync()
     {
-        //TODO:AntTable的OnChange改到AfterRender执行
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender && Model.Criteria.IsLoad)
+        await InvokeAsync(() =>
         {
-            Model.Criteria.IsLoad = false;
-            await QueryDataAsync();
-        }
+            if (Model.Criteria.IsQuery)
+            {
+                table?.ReloadData();
+            }
+            else
+            {
+                var query = table?.GetQueryModel();
+                table?.ReloadData(query);
+            }
+        });
     }
 
-    private async Task QueryDataAsync()
+    private async void OnChange(QueryModel<TItem> query)
     {
-        if (Model.OnQuery == null || isQuering || Model.Criteria.IsLoad)
+        if (Model.OnQuery == null || isQuering)
             return;
 
         isQuering = true;
@@ -193,26 +192,20 @@
         var watch = Stopwatcher.Start<TItem>();
         if (Model.Criteria.IsQuery)
             Model.Criteria.PageIndex = 1;
-        if (query != null && query.SortModel != null)
+        Model.Criteria.PageIndex = query.PageIndex;
+        Model.Criteria.PageSize = query.PageSize;
+        if (query.SortModel != null)
         {
-            var sorts = query?.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
+            var sorts = query.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
             Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
         }
         Model.Criteria.SumColumns = Model.Columns.Where(c => c.IsSum).Select(c => c.Id).ToList();
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
         Model.SelectedRows = [];
-        dataSource = Model.Result.PageData;
-        total = Model.Result.TotalCount;
         watch.Write($"Changed {Model.Criteria.PageIndex}");
         isQuering = false;
         if (!Config.IsClient)
             await StateChangedAsync();
-    }
-
-    private async void OnChange(QueryModel<TItem> queryModel)
-    {
-        query = queryModel;
-        await QueryDataAsync();
     }
 
     private async void OnRowClick(RowData<TItem> row)
